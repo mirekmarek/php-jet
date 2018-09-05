@@ -38,8 +38,8 @@ $delete_uri = $router->getDeleteImagesURI($gallery->getId());
 							<p>
 								<?php if( $delete_uri ): ?>
 									<input type="checkbox" name="images[]"
-									       value="<?=$image->getIdObject();?>"
-									       id="image_<?=$image->getIdObject();?>">
+									       value="<?=$image->getId();?>"
+									       id="image_<?=$image->getId();?>">
 								<?php endif; ?>
 								<?=$image->getFileName();?>
 							</p>

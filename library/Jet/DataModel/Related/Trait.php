@@ -16,9 +16,9 @@ trait DataModel_Related_Trait
 	use DataModel_Trait;
 
 	/**
-	 * @param DataModel_Id $parent_id
+	 * @param DataModel_IDController $parent_id
 	 */
-	public function actualizeParentId( DataModel_Id $parent_id )
+	public function actualizeParentId( DataModel_IDController $parent_id )
 	{
 		/**
 		 * @var DataModel_Definition_Model_Related $definition
@@ -43,9 +43,9 @@ trait DataModel_Related_Trait
 	}
 
 	/**
-	 * @param DataModel_Id $main_id
+	 * @param DataModel_IDController $main_id
 	 */
-	public function actualizeMainId( DataModel_Id $main_id )
+	public function actualizeMainId( DataModel_IDController $main_id )
 	{
 
 		/**

@@ -10,7 +10,7 @@ namespace Jet;
 /**
  *
  */
-abstract class DataModel_Id extends BaseObject
+abstract class DataModel_IDController extends BaseObject
 {
 
 	/**
@@ -54,7 +54,7 @@ abstract class DataModel_Id extends BaseObject
 	/**
 	 * @param array|string|int $id_data
 	 *
-	 * @throws DataModel_Id_Exception
+	 * @throws DataModel_IDController_Exception
 	 */
 	public function init( $id_data )
 	{
@@ -76,37 +76,11 @@ abstract class DataModel_Id extends BaseObject
 		}
 
 		if( ( $missing_keys = array_diff( array_keys( $this->values ), $given_id_keys ) ) ) {
-			throw new DataModel_Id_Exception( 'ID value missing: '.implode( ', ', $missing_keys ) );
+			throw new DataModel_IDController_Exception( 'ID value missing: '.implode( ', ', $missing_keys ) );
 		}
 
 	}
 
-	/**
-	 * @param array $options
-	 */
-	public function setOptions( array $options )
-	{
-		foreach( $options as $key => $val ) {
-			$this->{$key} = $val;
-		}
-	}
-
-	/**
-	 * @param DataModel_Interface $data_model
-	 */
-	public function joinDataModel( DataModel_Interface $data_model )
-	{
-		$this->_data_model_instance = $data_model;
-	}
-
-	/**
-	 * @param string $name
-	 * @param mixed  &$property
-	 */
-	public function joinObjectProperty( $name, &$property )
-	{
-		$this->values[$name] = &$property;
-	}
 
 	/**
 	 * @return string
@@ -114,6 +88,14 @@ abstract class DataModel_Id extends BaseObject
 	public function getDataModelClassName()
 	{
 		return $this->data_model_class_name;
+	}
+
+	/**
+	 * @return DataModel_Definition_Model_Main|DataModel_Definition_Model_Related_1to1|DataModel_Definition_Model_Related_1toN|DataModel_Definition_Model_Related|DataModel_Definition_Model_Related_MtoN
+	 */
+	public function getDataModelDefinition()
+	{
+		return DataModel_Definition::get( $this->data_model_class_name );
 	}
 
 	/**
@@ -144,33 +126,33 @@ abstract class DataModel_Id extends BaseObject
 
 		return $query;
 	}
+	
 
 	/**
-	 * @return DataModel_Definition_Model_Main|DataModel_Definition_Model_Related_1to1|DataModel_Definition_Model_Related_1toN|DataModel_Definition_Model_Related|DataModel_Definition_Model_Related_MtoN
+	 * @param array $options
 	 */
-	public function getDataModelDefinition()
+	public function setOptions( array $options )
 	{
-		return DataModel_Definition::get( $this->data_model_class_name );
+		foreach( $options as $key => $val ) {
+			$this->{$key} = $val;
+		}
+	}
+	
+	/**
+	 * @param DataModel_Interface $data_model
+	 */
+	public function assocDataModelInstance( DataModel_Interface $data_model )
+	{
+		$this->_data_model_instance = $data_model;
 	}
 
 	/**
-	 * @param string $id
-	 *
-	 * @return DataModel_Id
+	 * @param string $name
+	 * @param mixed  &$property
 	 */
-	public function unserialize( $id )
+	public function assocDataModelInstanceProperty( $name, &$property )
 	{
-		$id = explode( ':', $id );
-		foreach( array_keys( $this->values ) as $k ) {
-			if( !$id ) {
-				break;
-			}
-			$val = array_shift( $id );
-
-			$this->values[$k] = $val;
-		}
-
-		return $this;
+		$this->values[$name] = &$property;
 	}
 
 	/**
@@ -239,7 +221,14 @@ abstract class DataModel_Id extends BaseObject
 	/**
 	 *
 	 */
-	abstract public function generate();
+	public function generate() {
+		$this->beforeSave();
+	}
+
+	/**
+	 *
+	 */
+	abstract public function beforeSave();
 
 	/**
 	 * @param mixed $backend_save_result

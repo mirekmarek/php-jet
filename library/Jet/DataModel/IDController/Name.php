@@ -10,7 +10,7 @@ namespace Jet;
 /**
  *
  */
-class DataModel_Id_Name extends DataModel_Id
+class DataModel_IDController_Name extends DataModel_IDController
 {
 	const MIN_LEN = 3;
 	const MAX_LEN = 50;
@@ -32,12 +32,12 @@ class DataModel_Id_Name extends DataModel_Id
 	 *
 	 * @throws DataModel_Exception
 	 */
-	public function generate()
+	public function beforeSave()
 	{
 
 		if( !array_key_exists( $this->id_property_name, $this->values ) ) {
 			throw new DataModel_Exception(
-				'Class \''.$this->data_model_class_name.'\': Property \''.$this->id_property_name.'\' does not exist. Please configure ID class by @JetDataModel:id_options, or define that property, or create your own ID class.',
+				'Class \''.$this->data_model_class_name.'\': Property \''.$this->id_property_name.'\' does not exist. Please configure ID class by @JetDataModel:id_controller_options, or define that property, or create your own ID class.',
 				DataModel_Exception::CODE_DEFINITION_NONSENSE
 			);
 		}
@@ -54,7 +54,7 @@ class DataModel_Id_Name extends DataModel_Id
 	 * @param string $id_property_name
 	 * @param string $object_name
 	 *
-	 * @throws DataModel_Id_Exception
+	 * @throws DataModel_IDController_Exception
 	 */
 	public function generateNameId( $id_property_name, $object_name )
 	{
@@ -82,9 +82,9 @@ class DataModel_Id_Name extends DataModel_Id
 				}
 			}
 
-			throw new DataModel_Id_Exception(
+			throw new DataModel_IDController_Exception(
 				'ID generate: Reached the maximum numbers of attempts. (Maximum: '.static::MAX_SUFFIX_NO.')',
-				DataModel_Id_Exception::CODE_ID_GENERATE_REACHED_THE_MAXIMUM_NUMBER_OF_ATTEMPTS
+				DataModel_IDController_Exception::CODE_ID_GENERATE_REACHED_THE_MAXIMUM_NUMBER_OF_ATTEMPTS
 			);
 		}
 	}

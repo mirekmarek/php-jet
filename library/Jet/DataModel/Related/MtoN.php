@@ -15,7 +15,7 @@ namespace Jet;
 
 /**
  *
- * @JetDataModel:id_class_name = 'DataModel_Id_Passive'
+ * @JetDataModel:id_controller_class_name = 'DataModel_IDController_Passive'
  */
 abstract class DataModel_Related_MtoN extends BaseObject implements DataModel_Related_MtoN_Interface
 {

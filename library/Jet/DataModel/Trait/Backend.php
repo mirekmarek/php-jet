@@ -78,11 +78,11 @@ trait DataModel_Trait_Backend
 		}
 
 		/**
-		 * @var DataModel_Id $id_object
+		 * @var DataModel_IDController $id_controller
 		 */
-		$id_object = $this->getIdObject();
+		$id_controller = $this->getIDController();
 
-		if( $starter->getIdObject()->toString()!=$id_object->toString() ) {
+		if( $starter->getIDController()->toString()!=$id_controller->toString() ) {
 			return false;
 		}
 

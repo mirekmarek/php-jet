@@ -16,11 +16,11 @@ namespace Jet;
 	 *
 	 * @JetDataModel:database_table_name = 'some_table_name'
 	 *
-	 * @JetDataModel:id_class_name = 'Id_Class_Name'
-	 *      - You can create your ID class or use one of those: DataModel_Id_UniqueString, DataModel_Id_Name, DataModel_Id_AutoIncrement, DataModel_Id_Passive
+	 * @JetDataModel:id_controller_class_name = 'Id_Controller_Class_Name'
+	 *      - You can create your ID class or use one of those: DataModel_IDController_UniqueString, DataModel_IDController_Name, DataModel_IDController_AutoIncrement, DataModel_IDController_Passive
 	 *
-	 * @JetDataModel:id_options = ['option'=>'value', 'next_option'=>123]
-	 *      - A practical example: @JetDataModel:id_options = ['id_property_name'=>'some_id_property_name']
+	 * @JetDataModel:id_controller_options = ['option'=>'value', 'next_option'=>123]
+	 *      - A practical example: @JetDataModel:id_controller_options = ['id_property_name'=>'some_id_property_name']
 	 *
 	 * @JetDataModel:parent_model_class_name = 'Parent_Class_Name'
 	 *      - ONLY FOR RELATED MODELS!

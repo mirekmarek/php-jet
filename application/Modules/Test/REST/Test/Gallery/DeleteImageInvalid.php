@@ -36,9 +36,9 @@ class Test_Gallery_DeleteImageInvalid extends Test_Abstract
 	 */
 	public function test()
 	{
-		$image = $this->data['images'][0];
+		$gallery_id = isset($this->data['images'][0]) ? $this->data['images'][0]['gallery_id'] : 'unknown';
 
-		$this->client->delete('gallery/'.$image['gallery_id'].'/image/unknownunknown');
+		$this->client->delete('gallery/'.$gallery_id.'/image/unknownunknown');
 
 	}
 }

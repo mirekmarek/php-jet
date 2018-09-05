@@ -219,7 +219,7 @@ abstract class Form_Field extends BaseObject implements \JsonSerializable
 
 		$this->default_value = $default_value;
 
-		if( $default_value instanceof DataModel_Id ) {
+		if( $default_value instanceof DataModel_IDController ) {
 			$default_value = $default_value->toString();
 		}
 
@@ -239,7 +239,7 @@ abstract class Form_Field extends BaseObject implements \JsonSerializable
 					/**
 					 * @var DataModel $v
 					 */
-					$v = (string)$v->getIdObject();
+					$v = $v->getIDController()->toString();
 				}
 				if( is_array( $v ) ) {
 					$v = $k;

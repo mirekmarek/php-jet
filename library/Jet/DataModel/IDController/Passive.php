@@ -10,7 +10,7 @@ namespace Jet;
 /**
  *
  */
-class DataModel_Id_Passive extends DataModel_Id
+class DataModel_IDController_Passive extends DataModel_IDController
 {
 
 
@@ -18,7 +18,7 @@ class DataModel_Id_Passive extends DataModel_Id
 	 *
 	 *
 	 */
-	public function generate()
+	public function beforeSave()
 	{
 	}
 

@@ -10,7 +10,7 @@ namespace Jet;
 /**
  *
  */
-class DataModel_Id_UniqueString extends DataModel_Id
+class DataModel_IDController_UniqueString extends DataModel_IDController
 {
 	/**
 	 * @var string
@@ -23,12 +23,12 @@ class DataModel_Id_UniqueString extends DataModel_Id
 	 *
 	 * @throws DataModel_Exception
 	 */
-	public function generate()
+	public function beforeSave()
 	{
 
 		if( !array_key_exists( $this->id_property_name, $this->values ) ) {
 			throw new DataModel_Exception(
-				'Class \''.$this->data_model_class_name.'\': Property \''.$this->id_property_name.'\' does not exist. Please configure ID class by @JetDataModel:id_options, or define that property, or create your own ID class.',
+				'Class \''.$this->data_model_class_name.'\': Property \''.$this->id_property_name.'\' does not exist. Please configure ID class by @JetDataModel:id_controller_options, or define that property, or create your own ID class.',
 				DataModel_Exception::CODE_DEFINITION_NONSENSE
 			);
 		}

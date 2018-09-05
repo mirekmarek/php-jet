@@ -35,9 +35,9 @@ interface DataModel_Interface extends BaseObject_Interface_Serializable_JSON
 //-- Id -----------------------------------------
 
 	/**
-	 * @return DataModel_Id
+	 * @return DataModel_IDController
 	 */
-	public static function getEmptyIdObject();
+	public static function getEmptyIDController();
 
 	/**
 	 * Returns backend instance
@@ -52,9 +52,9 @@ interface DataModel_Interface extends BaseObject_Interface_Serializable_JSON
 
 	/**
 	 *
-	 * @return DataModel_Id
+	 * @return DataModel_IDController
 	 */
-	public function getIdObject();
+	public function getIDController();
 
 	/**
 	 * Initializes new DataModel

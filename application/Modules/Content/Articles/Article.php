@@ -15,7 +15,7 @@ use Jet\Data_DateTime;
 use Jet\Mvc;
 use Jet\DataModel_Fetch_Instances;
 use Jet\Data_Paginator_DataSource;
-use Jet\DataModel_Id_UniqueString;
+use Jet\DataModel_IDController_UniqueString;
 use Jet\Form;
 use Jet\Form_Field_DateTime;
 use JetApplication\Application_Web;
@@ -24,7 +24,7 @@ use JetApplication\Application_Web;
  *
  * @JetDataModel:name = 'article'
  * @JetDataModel:database_table_name = 'articles'
- * @JetDataModel:id_class_name = 'DataModel_Id_UniqueString'
+ * @JetDataModel:id_controller_class_name = 'DataModel_IDController_UniqueString'
  */
 class Article extends DataModel
 {
@@ -156,10 +156,6 @@ class Article extends DataModel
 	 */
 	public function getId()
 	{
-		if(!$this->id) {
-			$this->getIdObject()->generate();
-		}
-
 		return $this->id;
 	}
 

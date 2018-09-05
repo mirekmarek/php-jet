@@ -15,14 +15,14 @@ interface DataModel_Related_Iterator_Interface extends BaseObject_Interface_Arra
 {
 
 	/**
-	 * @param DataModel_Id $parent_id
+	 * @param DataModel_IDController $parent_id
 	 */
-	public function actualizeParentId( DataModel_Id $parent_id );
+	public function actualizeParentId( DataModel_IDController $parent_id );
 
 	/**
-	 * @param DataModel_Id $main_id
+	 * @param DataModel_IDController $main_id
 	 */
-	public function actualizeMainId( DataModel_Id $main_id );
+	public function actualizeMainId( DataModel_IDController $main_id );
 
 
 	/**
@@ -44,6 +44,11 @@ interface DataModel_Related_Iterator_Interface extends BaseObject_Interface_Arra
 	 * @return DataModel_Related_Interface[]
 	 */
 	public function getItems();
+
+	/**
+	 * @param callable $sort_callback
+	 */
+	public function sortItems( callable $sort_callback);
 
 
 	/**

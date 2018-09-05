@@ -3,7 +3,7 @@ namespace JetApplication;
 
 use Jet\Auth_User_Interface;
 use Jet\DataModel;
-use Jet\DataModel_Id_AutoIncrement;
+use Jet\DataModel_IDController_AutoIncrement;
 use Jet\DataModel_Related_MtoN_Iterator;
 use Jet\DataModel_Fetch_Instances;
 use Jet\Form;
@@ -23,8 +23,8 @@ use Jet\Tr;
  *
  * @JetDataModel:name = 'user'
  * @JetDataModel:database_table_name = 'users_visitors'
- * @JetDataModel:id_class_name = 'DataModel_Id_AutoIncrement'
- * @JetDataModel:id_options = ['id_property_name'=>'id']
+ * @JetDataModel:id_controller_class_name = 'DataModel_IDController_AutoIncrement'
+ * @JetDataModel:id_controller_options = ['id_property_name'=>'id']
  */
 class Auth_Visitor_User extends DataModel implements Auth_User_Interface
 {
@@ -367,7 +367,7 @@ class Auth_Visitor_User extends DataModel implements Auth_User_Interface
 	 */
 	public function getId()
 	{
-		return $this->getIdObject()->toString();
+		return $this->id;
 	}
 
 	/**

@@ -130,7 +130,7 @@ class DataModel_Fetch_Instances extends DataModel_Fetch implements Data_Paginato
 				],
 				null,
 				function( DataModel $item ) {
-					return $item->getIdObject()->toString();
+					return $item->getIDController()->toString();
 				},
 				$this->load_filter
 			);

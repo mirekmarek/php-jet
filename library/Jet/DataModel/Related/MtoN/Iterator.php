@@ -57,9 +57,9 @@ class DataModel_Related_MtoN_Iterator extends BaseObject implements DataModel_Re
 
 
 	/**
-	 * @param DataModel_Id $parent_id
+	 * @param DataModel_IDController $parent_id
 	 */
-	public function actualizeParentId( DataModel_Id $parent_id )
+	public function actualizeParentId( DataModel_IDController $parent_id )
 	{
 		foreach( $this->items as $item ) {
 			$item->actualizeParentId( $parent_id );
@@ -67,9 +67,9 @@ class DataModel_Related_MtoN_Iterator extends BaseObject implements DataModel_Re
 	}
 
 	/**
-	 * @param DataModel_Id $main_id
+	 * @param DataModel_IDController $main_id
 	 */
-	public function actualizeMainId( DataModel_Id $main_id )
+	public function actualizeMainId( DataModel_IDController $main_id )
 	{
 
 		foreach( $this->items as $item ) {
@@ -154,7 +154,7 @@ class DataModel_Related_MtoN_Iterator extends BaseObject implements DataModel_Re
 		foreach( $this->items as $i => $item ) {
 			$exists = false;
 			foreach( $N_instances as $N_instance ) {
-				if( $item->getNId()->toString()==$N_instance->getIdObject()->toString() ) {
+				if( $item->getNId()->toString()==$N_instance->getIDController()->toString() ) {
 					$exists = true;
 					break;
 				}
@@ -169,7 +169,7 @@ class DataModel_Related_MtoN_Iterator extends BaseObject implements DataModel_Re
 		foreach( $N_instances as $N_instance ) {
 			$exists = false;
 			foreach( $this->items as $item ) {
-				if( $item->getNId()->toString()==$N_instance->getIdObject()->toString() ) {
+				if( $item->getNId()->toString()==$N_instance->getIDController()->toString() ) {
 					$exists = true;
 					break;
 				}
@@ -275,7 +275,7 @@ class DataModel_Related_MtoN_Iterator extends BaseObject implements DataModel_Re
 	}
 
 	/**
-	 * @return DataModel_Id[]
+	 * @return DataModel_IDController[]
 	 */
 	public function getIds()
 	{
@@ -294,6 +294,15 @@ class DataModel_Related_MtoN_Iterator extends BaseObject implements DataModel_Re
 	public function getItems()
 	{
 		return $this->items;
+	}
+
+
+	/**
+	 * @param callable $sort_callback
+	 */
+	public function sortItems( callable $sort_callback)
+	{
+		uasort( $this->items, $sort_callback );
 	}
 
 	/**

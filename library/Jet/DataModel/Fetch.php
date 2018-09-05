@@ -38,7 +38,7 @@ abstract class DataModel_Fetch extends BaseObject implements BaseObject_Interfac
 
 	/**
 	 *
-	 * @var DataModel_Id
+	 * @var DataModel_IDController
 	 */
 	protected $empty_id_instance;
 
@@ -69,7 +69,7 @@ abstract class DataModel_Fetch extends BaseObject implements BaseObject_Interfac
 
 		$this->query->setSelect( $load_properties );
 
-		$this->empty_id_instance = $this->data_model_definition->getEmptyIdInstance();
+		$this->empty_id_instance = $this->data_model_definition->getIDController();
 	}
 
 	/**
@@ -194,7 +194,7 @@ abstract class DataModel_Fetch extends BaseObject implements BaseObject_Interfac
 	/**
 	 * @param mixed $item
 	 *
-	 * @return DataModel|DataModel_Id
+	 * @return DataModel|DataModel_IDController
 	 */
 	abstract protected function _get( $item );
 

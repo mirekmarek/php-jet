@@ -265,7 +265,6 @@ class DataModel_Definition_Model_Related_MtoN extends DataModel_Definition_Model
 
 
 		if( $this->is_sub_related_model ) {
-			//TODO: napojit i na ostatni
 			DataModel_Relations::add(
 				$this->getParentModelClassName(),
 				new DataModel_Definition_Relation_Internal(
@@ -280,7 +279,6 @@ class DataModel_Definition_Model_Related_MtoN extends DataModel_Definition_Model
 		$N_relations = $this->getNModelDefinition()->getRelations();
 
 		foreach( $N_relations as $_N_relation ) {
-			//TODO: nalepit i na ostatni
 
 			$N_relation = clone $_N_relation;
 

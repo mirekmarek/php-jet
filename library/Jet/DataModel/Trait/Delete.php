@@ -25,18 +25,18 @@ trait DataModel_Trait_Delete
 			throw new DataModel_Exception(
 				'Nothing to delete... Object is not completely loaded. (Class: \''.get_class(
 					$this
-				).'\', Id:\''.$this->getIdObject().'\')', DataModel_Exception::CODE_NOTHING_TO_DELETE
+				).'\', Id:\''.$this->getIDController().'\')', DataModel_Exception::CODE_NOTHING_TO_DELETE
 			);
 		}
 
 		if(
-			!$this->getIdObject() ||
+			!$this->getIDController() ||
 			!$this->getIsSaved()
 		) {
 			throw new DataModel_Exception(
 				'Nothing to delete... Object was not loaded. (Class: \''.get_class(
 					$this
-				).'\', Id:\''.$this->getIdObject().'\')', DataModel_Exception::CODE_NOTHING_TO_DELETE
+				).'\', Id:\''.$this->getIDController().'\')', DataModel_Exception::CODE_NOTHING_TO_DELETE
 			);
 		}
 
@@ -63,11 +63,11 @@ trait DataModel_Trait_Delete
 			}
 
 			/**
-			 * @var DataModel_Id $id_object
+			 * @var DataModel_IDController $id_controller
 			 */
-			$id_object = $this->getIdObject();
+			$id_controller = $this->getIDController();
 
-			$backend->delete( $id_object->getQuery() );
+			$backend->delete( $id_controller->getQuery() );
 		} catch( \Exception $e ) {
 			$this->rollbackBackendTransaction();
 

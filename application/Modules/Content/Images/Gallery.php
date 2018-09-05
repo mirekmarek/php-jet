@@ -10,7 +10,7 @@ namespace JetApplicationModule\Content\Images;
 use Jet\DataModel;
 use Jet\DataModel_Fetch_Instances;
 use Jet\DataModel_Query;
-use Jet\DataModel_Id_UniqueString;
+use Jet\DataModel_IDController_UniqueString;
 use Jet\DataModel_Related_1toN;
 use Jet\DataModel_Related_1toN_Iterator;
 
@@ -33,7 +33,7 @@ use JetApplication\Application_Web;
  *
  * @JetDataModel:name = 'gallery'
  * @JetDataModel:database_table_name = 'image_galleries'
- * @JetDataModel:id_class_name = 'DataModel_Id_UniqueString'
+ * @JetDataModel:id_controller_class_name = 'DataModel_IDController_UniqueString'
  *
  * @JetDataModel:relation = ['Gallery_Image', ['id'=>'gallery_id'], DataModel_Query::JOIN_TYPE_LEFT_OUTER_JOIN ]
  */

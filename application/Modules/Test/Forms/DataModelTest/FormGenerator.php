@@ -19,7 +19,7 @@ use Jet\Form_Field_RegistrationPassword;
  *
  * @JetDataModel:name = 'data_model_test_form_generator'
  * @JetDataModel:database_table_name = 'data_model_test_form_generator'
- * @JetDataModel:id_class_name = 'DataModel_Id_UniqueString'
+ * @JetDataModel:id_controller_class_name = 'DataModel_IDController_UniqueString'
  */
 class DataModelTest_FormGenerator extends DataModel
 {

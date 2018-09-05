@@ -13,13 +13,13 @@ use Jet\IO_File;
 use Jet\IO_Dir;
 use Jet\DataModel;
 use Jet\DataModel_Fetch_Instances;
-use Jet\DataModel_Id_UniqueString;
+use Jet\DataModel_IDController_UniqueString;
 
 /**
  *
  * @JetDataModel:name = 'image'
  * @JetDataModel:database_table_name = 'image_galleries_images'
- * @JetDataModel:id_class_name = 'DataModel_Id_UniqueString'
+ * @JetDataModel:id_controller_class_name = 'DataModel_IDController_UniqueString'
  */
 class Gallery_Image extends DataModel
 {
@@ -135,7 +135,7 @@ class Gallery_Image extends DataModel
 		 * @var Gallery_Image $image
 		 */
 		$image = new static();
-		$image->getIdObject()->generate();
+		$image->getIDController()->generate();
 
 		$image->setGallery( $gallery );
 
@@ -176,9 +176,6 @@ class Gallery_Image extends DataModel
 	 */
 	public function getId()
 	{
-		if(!$this->id) {
-			$this->getIdObject()->generate();
-		}
 		return $this->id;
 	}
 
@@ -208,7 +205,7 @@ class Gallery_Image extends DataModel
 	 */
 	public function setGallery( Gallery $gallery )
 	{
-		$this->gallery_id = $gallery->getIdObject()->toString();
+		$this->gallery_id = $gallery->getId();
 
 		$this->__gallery = $gallery;
 	}
@@ -242,7 +239,7 @@ class Gallery_Image extends DataModel
 	 */
 	public function getDirPath()
 	{
-		return $this->getOffsetDirPath().$this->getIdObject().'/';
+		return $this->getOffsetDirPath().$this->getId().'/';
 	}
 
 	/**
@@ -258,7 +255,7 @@ class Gallery_Image extends DataModel
 	 */
 	public function getBaseURI()
 	{
-		return $this->getGallery()->getBaseURI().$this->getOffset().'/'.$this->getIdObject().'/';
+		return $this->getGallery()->getBaseURI().$this->getOffset().'/'.$this->getId().'/';
 	}
 
 

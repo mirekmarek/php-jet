@@ -8,7 +8,7 @@
 namespace JetApplication;
 
 use Jet\DataModel;
-use Jet\DataModel_Id_UniqueString;
+use Jet\DataModel_IDController_UniqueString;
 
 use Jet\Auth_User_Interface;
 
@@ -18,7 +18,7 @@ use Jet\Http_Request;
 /**
  *
  * @JetDataModel:name = 'Auth_Event'
- * @JetDataModel:id_class_name = 'DataModel_Id_UniqueString'
+ * @JetDataModel:id_controller_class_name = 'DataModel_IDController_UniqueString'
  */
 abstract class Application_Log_Event extends DataModel
 {

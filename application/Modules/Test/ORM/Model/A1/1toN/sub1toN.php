@@ -7,14 +7,14 @@
  */
 namespace JetApplicationModule\Test\ORM;
 
-use Jet\DataModel_Id_UniqueString;
+use Jet\DataModel_IDController_UniqueString;
 use Jet\DataModel_Related_1toN;
 
 /**
  *
  * @JetDataModel:name = 'model_a1_1toN_sub1toN'
  * @JetDataModel:database_table_name = 'model_a1_1toN_sub1toN'
- * @JetDataModel:id_class_name = 'DataModel_Id_UniqueString'
+ * @JetDataModel:id_controller_class_name = 'DataModel_IDController_UniqueString'
  * @JetDataModel:parent_model_class_name = 'Model_A1_1toN';
  */
 class Model_A1_1toN_sub1toN extends DataModel_Related_1toN

@@ -2,7 +2,7 @@
 namespace JetApplication;
 
 use Jet\DataModel;
-use Jet\DataModel_Id_Name;
+use Jet\DataModel_IDController_Name;
 use Jet\DataModel_Related_MtoN_Iterator;
 use Jet\Auth_Role_Interface;
 use Jet\Data_Forest;
@@ -16,7 +16,7 @@ use Jet\Mvc_Page_Interface;
 /**
  *
  * @JetDataModel:name = 'role'
- * @JetDataModel:id_class_name = 'DataModel_Id_Name'
+ * @JetDataModel:id_controller_class_name = 'DataModel_IDController_Name'
  * @JetDataModel:database_table_name = 'roles_visitors'
  */
 class Auth_Visitor_Role extends DataModel implements Auth_Role_Interface
@@ -146,7 +146,7 @@ class Auth_Visitor_Role extends DataModel implements Auth_Role_Interface
 	 */
 	public function getId()
 	{
-		return $this->getIdObject()->toString();
+		return $this->id;
 	}
 
 

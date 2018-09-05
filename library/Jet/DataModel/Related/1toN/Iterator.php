@@ -12,6 +12,7 @@ namespace Jet;
  */
 class DataModel_Related_1toN_Iterator extends BaseObject implements DataModel_Related_1toN_Iterator_Interface, BaseObject_Interface_Serializable_JSON
 {
+	use DataModel_Related_Iterator_Trait;
 
 	/**
 	 * @var DataModel_Definition_Model_Related_1toN
@@ -64,9 +65,18 @@ class DataModel_Related_1toN_Iterator extends BaseObject implements DataModel_Re
 	}
 
 	/**
-	 * @param DataModel_Id $parent_id
+	 * @param callable $sort_callback
 	 */
-	public function actualizeParentId( DataModel_Id $parent_id )
+	public function sortItems( callable $sort_callback)
+	{
+		uasort( $this->items, $sort_callback );
+	}
+
+
+	/**
+	 * @param DataModel_IDController $parent_id
+	 */
+	public function actualizeParentId( DataModel_IDController $parent_id )
 	{
 		foreach( $this->items as $item ) {
 			$item->actualizeParentId( $parent_id );
@@ -74,9 +84,9 @@ class DataModel_Related_1toN_Iterator extends BaseObject implements DataModel_Re
 	}
 
 	/**
-	 * @param DataModel_Id $main_id
+	 * @param DataModel_IDController $main_id
 	 */
-	public function actualizeMainId( DataModel_Id $main_id )
+	public function actualizeMainId( DataModel_IDController $main_id )
 	{
 		foreach( $this->items as $item ) {
 			$item->actualizeMainId( $main_id );

@@ -58,7 +58,7 @@ class DataModel_Fetch_IDs extends DataModel_Fetch implements BaseObject_Interfac
 	/**
 	 * @param mixed $item
 	 *
-	 * @return DataModel_Id
+	 * @return DataModel_IDController
 	 */
 	protected function _get( $item )
 	{

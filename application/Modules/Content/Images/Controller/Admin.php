@@ -195,7 +195,7 @@ class Controller_Admin extends Mvc_Controller_Default
 		$this->view->setVar( 'gallery', $gallery );
 		$this->view->setVar( 'edit_form', $edit_form );
 		$this->view->setVar( 'upload_form', $gallery->getImageUploadForm() );
-		$this->view->setVar( 'selected_id', $gallery->getIdObject() );
+		$this->view->setVar( 'selected_id', $gallery->getId() );
 
 		$this->render( 'admin/edit' );
 	}
@@ -219,7 +219,7 @@ class Controller_Admin extends Mvc_Controller_Default
 
 		$this->view->setVar( 'gallery', $gallery );
 		$this->view->setVar( 'edit_form', $edit_form );
-		$this->view->setVar( 'selected_id', $gallery->getIdObject() );
+		$this->view->setVar( 'selected_id', $gallery->getId() );
 
 		$this->render( 'admin/edit' );
 
@@ -272,7 +272,7 @@ class Controller_Admin extends Mvc_Controller_Default
 			$ids = [];
 			$names = [];
 			foreach( $images as $i ) {
-				$ids[] = $i->getIdObject()->toString();
+				$ids[] = $i->getId();
 				$names[] = $i->getFileName();
 			}
 
@@ -321,7 +321,7 @@ class Controller_Admin extends Mvc_Controller_Default
 					$image->delete();
 
 					$this->logAllowedAction(
-						'Image deleted', $image->getIdObject()->toString(), $image->getFileName(), $image
+						'Image deleted', $image->getId(), $image->getFileName(), $image
 					);
 				}
 			}

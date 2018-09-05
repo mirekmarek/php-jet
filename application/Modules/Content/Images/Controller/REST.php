@@ -354,7 +354,7 @@ class Controller_REST extends Mvc_Controller_REST
 			$ids = [];
 			$names = [];
 			foreach( $images as $i ) {
-				$ids[] = $i->getIdObject()->toString();
+				$ids[] = $i->getId();
 				$names[] = $i->getFileName();
 			}
 
@@ -383,7 +383,7 @@ class Controller_REST extends Mvc_Controller_REST
 
 		$image->delete();
 
-		$this->logAllowedAction( 'Image deleted', $image->getIdObject()->toString(), $image->getFileName(), $image );
+		$this->logAllowedAction( 'Image deleted', $image->getId(), $image->getFileName(), $image );
 
 		$this->responseOK();
 	}

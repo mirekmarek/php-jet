@@ -18,7 +18,7 @@ use Jet\UI_button;
 $gallery = $this->getRaw( 'gallery' );
 $router = $this->getController()->getControllerRouter();
 
-$parent_id = $gallery ? $gallery->getIdObject() : '';
+$parent_id = $gallery ? $gallery->getId() : '';
 
 ?>
 <div class="row toolbar">

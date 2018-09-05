@@ -25,7 +25,7 @@ trait DataModel_Trait_Save
 
 		if( $this->getLoadFilter() ) {
 			throw new DataModel_Exception(
-				'Nothing to save... Object is not completely loaded. (Class: \''.get_class( $this ).'\', ID:\''.$this->getIdObject().'\')'
+				'Nothing to save... Object is not completely loaded. (Class: \''.get_class( $this ).'\', ID:\''.$this->getIDController().'\')'
 			);
 		}
 
@@ -93,11 +93,11 @@ trait DataModel_Trait_Save
 		$record = new DataModel_RecordData( $definition );
 
 		/**
-		 * @var DataModel_Id $id
+		 * @var DataModel_IDController $id_controller
 		 */
-		$id = $this->getIdObject();
+		$id_controller = $this->getIDController();
 
-		$id->generate();
+		$id_controller->beforeSave();
 		foreach( $definition->getProperties() as $property_name => $property_definition ) {
 			if( !$property_definition->getCanBeInInsertRecord() ) {
 				continue;
@@ -113,7 +113,7 @@ trait DataModel_Trait_Save
 
 		$backend_result = $backend->save( $record );
 
-		$id->afterSave( $backend_result );
+		$id_controller->afterSave( $backend_result );
 
 		/**
 		 * @var DataModel_Trait_Save $this
@@ -146,9 +146,9 @@ trait DataModel_Trait_Save
 				($prop instanceof DataModel_Related_Iterator_Interface)
 			) {
 				if( $is_related ) {
-					$prop->actualizeParentId( $this->getIdObject() );
+					$prop->actualizeParentId( $this->getIDController() );
 				} else {
-					$prop->actualizeMainId( $this->getIdObject() );
+					$prop->actualizeMainId( $this->getIDController() );
 				}
 
 				$prop->save();
@@ -183,10 +183,10 @@ trait DataModel_Trait_Save
 
 		if( !$record->getIsEmpty() ) {
 			/**
-			 * @var DataModel_Id $id_object
+			 * @var DataModel_IDController $id_controller
 			 */
-			$id_object = $this->getIdObject();
-			$where_query = $id_object->getQuery();
+			$id_controller = $this->getIDController();
+			$where_query = $id_controller->getQuery();
 			if( $where_query->getWhere()->getIsEmpty() ) {
 				throw  new DataModel_Exception( 'Empty WHERE!' );
 			}

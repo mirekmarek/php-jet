@@ -36,13 +36,13 @@ abstract class DataModel_Definition_Model extends BaseObject
 	 *
 	 * @var string
 	 */
-	protected $id_class_name = '';
+	protected $id_controller_class_name = '';
 
 	/**
 	 *
 	 * @var array
 	 */
-	protected $id_options = [];
+	protected $id_controller_options = [];
 
 	/**
 	 *
@@ -128,7 +128,7 @@ abstract class DataModel_Definition_Model extends BaseObject
 
 		$this->model_name = $this->_getModelNameDefinition( $data_model_class_name );
 
-		$this->_initIdClass();
+		$this->_initIDController();
 		$this->_initDatabaseTableName();
 	}
 
@@ -158,19 +158,19 @@ abstract class DataModel_Definition_Model extends BaseObject
 	/**
 	 * @throws DataModel_Exception
 	 */
-	protected function _initIdClass()
+	protected function _initIDController()
 	{
-		$this->id_class_name = Reflection::get( $this->class_name, 'data_model_id_class_name' );
+		$this->id_controller_class_name = Reflection::get( $this->class_name, 'data_model_id_controller_class_name' );
 
-		if( !$this->id_class_name ) {
+		if( !$this->id_controller_class_name ) {
 			throw new DataModel_Exception(
-				'DataModel \''.$this->class_name.'\' does not have ID class name! Please enter it by @JetDataModel:data_model_id_class_name ',
+				'DataModel \''.$this->class_name.'\' does not have ID controller class name! Please enter it by @JetDataModel:id_controller_class_name ',
 				DataModel_Exception::CODE_DEFINITION_NONSENSE
 			);
 
 		}
 
-		$this->id_options = Reflection::get( $this->class_name, 'id_options', [] );
+		$this->id_controller_options = Reflection::get( $this->class_name, 'id_controller_options', [] );
 
 
 	}
@@ -379,16 +379,16 @@ abstract class DataModel_Definition_Model extends BaseObject
 	}
 
 	/**
-	 * @return DataModel_Id
+	 * @return DataModel_IDController
 	 */
-	public function getEmptyIdInstance()
+	public function getIDController()
 	{
-		$id_class_name = $this->getIdClassName();
+		$id_controller_class_name = $this->getIDControllerClassName();
 
 		/**
-		 * @var DataModel_Id $empty_id
+		 * @var DataModel_IDController $empty_id
 		 */
-		$empty_id = new $id_class_name( $this, $this->getIdOptions() );
+		$empty_id = new $id_controller_class_name( $this, $this->getIDControllerOptions() );
 
 
 		return $empty_id;
@@ -397,17 +397,17 @@ abstract class DataModel_Definition_Model extends BaseObject
 	/**
 	 * @return string
 	 */
-	public function getIdClassName()
+	public function getIDControllerClassName()
 	{
-		return $this->id_class_name;
+		return $this->id_controller_class_name;
 	}
 
 	/**
 	 * @return array
 	 */
-	public function getIdOptions()
+	public function getIDControllerOptions()
 	{
-		return $this->id_options;
+		return $this->id_controller_options;
 	}
 
 

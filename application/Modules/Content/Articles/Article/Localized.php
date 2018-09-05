@@ -9,7 +9,7 @@ namespace JetApplicationModule\Content\Articles;
 
 use Jet\DataModel;
 use Jet\DataModel_Related_1toN;
-use Jet\DataModel_Id_Passive;
+use Jet\DataModel_IDController_Passive;
 
 use Jet\Locale;
 use Jet\Mvc;
@@ -23,7 +23,7 @@ use Jet\Form_Field_DateTime;
  *
  * @JetDataModel:name = 'article_localized'
  * @JetDataModel:database_table_name = 'articles_localized'
- * @JetDataModel:id_class_name = 'DataModel_Id_Passive'
+ * @JetDataModel:id_controller_class_name = 'DataModel_IDController_Passive'
  * @JetDataModel:parent_model_class_name = 'Article'
  */
 class Article_Localized extends DataModel_Related_1toN

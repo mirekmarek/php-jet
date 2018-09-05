@@ -9,7 +9,7 @@ namespace JetApplication;
 
 use Jet\Auth_Role_Privilege_Interface;
 use Jet\DataModel;
-use Jet\DataModel_Id_AutoIncrement;
+use Jet\DataModel_IDController_AutoIncrement;
 use Jet\DataModel_Related_1toN;
 use Jet\Form;
 use Jet\Form_Field;
@@ -19,8 +19,8 @@ use Jet\Form_Field_Select;
  *
  * @JetDataModel:name = 'role_privilege'
  * @JetDataModel:database_table_name = 'roles_administrators_privileges'
- * @JetDataModel:id_class_name = 'DataModel_Id_AutoIncrement'
- * @JetDataModel:id_options = ['id_property_name'=>'id']
+ * @JetDataModel:id_controller_class_name = 'DataModel_IDController_AutoIncrement'
+ * @JetDataModel:id_controller_options = ['id_property_name'=>'id']
  * @JetDataModel:parent_model_class_name = 'Auth_Administrator_Role'
  */
 class Auth_Administrator_Role_Privilege extends DataModel_Related_1toN implements Auth_Role_Privilege_Interface

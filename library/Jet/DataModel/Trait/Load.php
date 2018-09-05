@@ -179,7 +179,7 @@ trait DataModel_Trait_Load
 	/**
 	 * Loads DataModel.
 	 *
-	 * @param array|string|int|DataModel_Id  $id_or_where
+	 * @param array|string|int|DataModel_IDController  $id_or_where
 	 * @param array|DataModel_PropertyFilter $load_filter
 	 *
 	 * @return DataModel
@@ -200,7 +200,7 @@ trait DataModel_Trait_Load
 
 
 
-		if( $id_or_where instanceof DataModel_Id) {
+		if( $id_or_where instanceof DataModel_IDController) {
 			$query = $id_or_where->getQuery();
 		} else {
 			$main_where = [];

@@ -210,8 +210,6 @@ class DataModel_Definition_Model_Related extends DataModel_Definition_Model
 			$parent_model_class_name = $this->getParentModelClassName();
 			$parent_model_definition = $this->getParentModelDefinition();
 
-			//TODO: napojit i na ostatni
-
 
 			foreach( $this->properties as $property ) {
 				if($property->getRelatedToClassName()==$parent_model_class_name) {

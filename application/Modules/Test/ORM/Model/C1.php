@@ -14,7 +14,7 @@ use Jet\DataModel_Query;
  *
  * @JetDataModel:name = 'model_c1'
  * @JetDataModel:database_table_name = 'model_c1'
- * @JetDataModel:id_class_name = 'DataModel_Id_UniqueString'
+ * @JetDataModel:id_controller_class_name = 'DataModel_IDController_UniqueString'
  *
  * @JetDataModel:relation = [ 'Model_A1', [ 'id'=>'id' ], DataModel_Query::JOIN_TYPE_LEFT_OUTER_JOIN ]
  *

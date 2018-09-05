@@ -24,7 +24,7 @@ trait DataModel_Related_MtoN_Trait
 	protected static $_load_related_data_order_by = [];
 
 	/**
-	 * @var DataModel_Id
+	 * @var DataModel_IDController
 	 */
 	private $_N_id;
 	/**
@@ -126,7 +126,7 @@ trait DataModel_Related_MtoN_Trait
 	}
 
 	/**
-	 * @return DataModel_Id
+	 * @return DataModel_IDController
 	 */
 	public function getNId()
 	{
@@ -139,13 +139,14 @@ trait DataModel_Related_MtoN_Trait
 
 			/**
 			 * @var DataModel_Definition_Property[] $n_id_properties
+			 * @var DataModel $n_class_name
 			 */
 			$n_id_properties = $data_model_definition->getNModelRelationIdProperties();
 			$n_class_name = $data_model_definition->getNModelClassName();
 
 
-			/** @noinspection PhpUndefinedMethodInspection */
-			$this->_N_id = $n_class_name::getEmptyIdObject();
+
+			$this->_N_id = $n_class_name::getEmptyIDController();
 
 			foreach( $n_id_properties as $n_id_prop_name => $n_id_prop ) {
 				$this->_N_id->setValue( $n_id_prop->getRelatedToPropertyName(), $this->{$n_id_prop_name});
@@ -220,14 +221,14 @@ trait DataModel_Related_MtoN_Trait
 	public function setNInstance( DataModel_Interface $N_instance )
 	{
 		$this->_N_instance = $N_instance;
-		$this->_N_instance = $N_instance->getIdObject();
+		$this->_N_instance = $N_instance->getIDController();
 
 		/**
 		 * @var DataModel_Definition_Model_Related_MtoN $data_model_definition
 		 */
 		$data_model_definition = static::getDataModelDefinition();
 
-		$n_id = $N_instance->getIdObject();
+		$n_id = $N_instance->getIDController();
 		$n_id_properties = $data_model_definition->getNModelRelationIdProperties();
 
 

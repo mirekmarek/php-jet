@@ -39,7 +39,7 @@ interface DataModel_Related_MtoN_Interface extends DataModel_Related_Interface
 	public function getNInstance( DataModel_PropertyFilter $load_filter = null );
 
 	/**
-	 * @return DataModel_Id
+	 * @return DataModel_IDController
 	 */
 	public function getNId();
 

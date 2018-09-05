@@ -13,7 +13,7 @@ use Jet\DataModel;
  *
  * @JetDataModel:name = 'model_a1'
  * @JetDataModel:database_table_name = 'model_a1'
- * @JetDataModel:id_class_name = 'DataModel_Id_UniqueString'
+ * @JetDataModel:id_controller_class_name = 'DataModel_IDController_UniqueString'
 
  */
 class Model_A1 extends DataModel

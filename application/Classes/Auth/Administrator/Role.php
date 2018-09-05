@@ -4,7 +4,7 @@ namespace JetApplication;
 
 use Jet\Application_Modules;
 use Jet\DataModel;
-use Jet\DataModel_Id_Name;
+use Jet\DataModel_IDController_Name;
 use Jet\DataModel_Related_MtoN_Iterator;
 use Jet\Auth_Role_Interface;
 use Jet\Data_Forest;
@@ -19,7 +19,7 @@ use Jet\DataModel_Fetch_Instances;
 /**
  *
  * @JetDataModel:name = 'role'
- * @JetDataModel:id_class_name = 'DataModel_Id_Name'
+ * @JetDataModel:id_controller_class_name = 'DataModel_IDController_Name'
  * @JetDataModel:database_table_name = 'roles_administrators'
  *
  */
@@ -156,7 +156,7 @@ class Auth_Administrator_Role extends DataModel implements Auth_Role_Interface
 	 */
 	public function getId()
 	{
-		return $this->getIdObject()->toString();
+		return $this->id;
 	}
 
 

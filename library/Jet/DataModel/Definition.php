@@ -207,14 +207,14 @@ class DataModel_Definition extends BaseObject implements Reflection_ParserInterf
 			case 'database_table_name':
 				$data->result_data['database_table_name'] = $data->getValueAsString();
 				break;
-			case 'id_class_name':
-				$data->result_data['data_model_id_class_name'] = $data->getValueAsClassName();
+			case 'id_controller_class_name':
+				$data->result_data['data_model_id_controller_class_name'] = $data->getValueAsClassName();
 				break;
 			case 'iterator_class_name':
 				$data->result_data['iterator_class_name'] = $data->getValueAsClassName();
 				break;
-			case 'id_options':
-				$data->result_data['id_options'] = $data->getValueAsArray();
+			case 'id_controller_options':
+				$data->result_data['id_controller_options'] = $data->getValueAsArray();
 				break;
 			case 'parent_model_class_name':
 				$data->result_data['data_model_parent_model_class_name'] = $data->getValueAsClassName();
