@@ -380,7 +380,7 @@ class Mvc_Router extends BaseObject  implements Mvc_Router_Interface
 			return true;
 		}
 
-		if( Auth::isUserLoggedIn() ) {
+		if( Auth::checkCurrentUser() ) {
 			return true;
 		}
 

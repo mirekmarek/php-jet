@@ -136,7 +136,7 @@ abstract class Mvc_Controller extends BaseObject
 		$module_name = $this->module->getModuleManifest()->getName();
 		$module_action = $this->getModuleAction( $this->content->getControllerAction() );
 
-		Application_Log::success(
+		Application_Logger::success(
 			'allowed_action:'.$module_name.':'.$module_action,
 			$action_message,
 			$context_object_id,

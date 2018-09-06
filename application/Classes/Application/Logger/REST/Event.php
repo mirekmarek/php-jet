@@ -9,8 +9,8 @@ namespace JetApplication;
 
 /**
  *
- * @JetDataModel:database_table_name = 'events_web'
+ * @JetDataModel:database_table_name = 'events_rest'
  */
-class Application_Log_Logger_Web_Event extends Application_Log_Event
+class Application_Logger_REST_Event extends Application_Log_Event
 {
 }

@@ -7,7 +7,7 @@
  */
 namespace JetApplicationModule\Login\Web;
 
-use Jet\Application_Log;
+use Jet\Application_Logger;
 use Jet\Session;
 use Jet\Tr;
 use Jet\Mvc_Controller_Default;
@@ -108,7 +108,7 @@ class Controller_Main extends Mvc_Controller_Default
 				$user->setPasswordIsValidTill( null );
 				$user->save();
 
-				Application_Log::info(
+				Application_Logger::info(
 					'password_changed', 'User password changed', $user->getId(), $user->getUsername(), $user
 				);
 

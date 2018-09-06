@@ -15,7 +15,7 @@ use Jet\Mvc_Factory;
 use Jet\Mvc_Page_Interface;
 
 use Jet\Application_Modules;
-use Jet\Application_Log;
+use Jet\Application_Logger;
 
 use Jet\Session;
 
@@ -46,7 +46,7 @@ class Auth_Controller_Admin extends BaseObject implements Auth_Controller_Interf
 	 *
 	 * @return bool
 	 */
-	public function isUserLoggedIn()
+	public function checkCurrentUser()
 	{
 
 		$user = $this->getCurrentUser();
@@ -159,7 +159,7 @@ class Auth_Controller_Admin extends BaseObject implements Auth_Controller_Interf
 	{
 		$user = $this->getCurrentUser();
 		if( $user ) {
-			Application_Log::info(
+			Application_Logger::info(
 				static::EVENT_LOGOUT, 'User has '.$user->getUsername().' (id:'.$user->getId().') logged off',
 				$user->getId(), $user->getName()
 			);
@@ -183,7 +183,7 @@ class Auth_Controller_Admin extends BaseObject implements Auth_Controller_Interf
 		$user = Administrator::getByIdentity( $username, $password );
 
 		if( !$user ) {
-			Application_Log::warning(
+			Application_Logger::warning(
 				static::EVENT_LOGIN_FAILED,
 				'Login failed. Username: \''.$username.'\'',
 				$username,
@@ -205,7 +205,7 @@ class Auth_Controller_Admin extends BaseObject implements Auth_Controller_Interf
 
 		$this->current_user = $user;
 
-		Application_Log::success(
+		Application_Logger::success(
 			static::EVENT_LOGIN_SUCCESS,
 			'User '.$user->getUsername().' (id:'.$user->getId().') has logged in',
 			$user->getId(),

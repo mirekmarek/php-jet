@@ -15,7 +15,7 @@ use Jet\Debug;
 use Jet\Http_Headers;
 use Jet\Data_DateTime;
 
-use Jet\Application_Log;
+use Jet\Application_Logger;
 
 use JetApplication\Auth_RESTClient_User as RESTClient;
 
@@ -37,7 +37,7 @@ class Auth_Controller_REST extends BaseObject implements Auth_Controller_Interfa
 	 *
 	 * @return bool
 	 */
-	public function isUserLoggedIn()
+	public function checkCurrentUser()
 	{
 
 		$user = $this->getCurrentUser();
@@ -101,7 +101,7 @@ class Auth_Controller_REST extends BaseObject implements Auth_Controller_Interfa
 			$user = RESTClient::getByIdentity( $_SERVER['PHP_AUTH_USER'], $_SERVER['PHP_AUTH_PW'] );
 
 			if( !$user ) {
-				Application_Log::warning(
+				Application_Logger::warning(
 					static::EVENT_LOGIN_FAILED,
 					'Login failed. Username: \''.$_SERVER['PHP_AUTH_USER'].'\'',
 					$_SERVER['PHP_AUTH_USER'],

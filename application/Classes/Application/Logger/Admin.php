@@ -7,14 +7,14 @@
  */
 namespace JetApplication;
 
-use Jet\Application_Log_LoggerInterface;
+use Jet\Application_Logger_Interface;
 use Jet\Auth_User_Interface;
 use Jet\BaseObject;
 
 /**
  *
  */
-class Application_Log_Logger_Web extends BaseObject implements Application_Log_LoggerInterface
+class Application_Logger_Admin extends BaseObject implements Application_Logger_Interface
 {
 
 	/**
@@ -29,7 +29,7 @@ class Application_Log_Logger_Web extends BaseObject implements Application_Log_L
 	 */
 	public function log( $event_class, $event, $event_message, $context_object_id = '', $context_object_name = '', $context_object_data = [], $current_user = null )
 	{
-		Application_Log_Logger_Web_Event::log(
+		Application_Logger_Admin_Event::log(
 			$event_class,
 			$event,
 			$event_message,

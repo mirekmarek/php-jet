@@ -41,8 +41,8 @@ class Auth extends BaseObject
 	 *
 	 * @return bool
 	 */
-	public static function isUserLoggedIn() {
-		return static::getController()->isUserLoggedIn();
+	public static function checkCurrentUser() {
+		return static::getController()->checkCurrentUser();
 	}
 
 	/**

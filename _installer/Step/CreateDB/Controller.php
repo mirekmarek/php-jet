@@ -53,9 +53,9 @@ class Installer_Step_CreateDB_Controller extends Installer_Step_Controller
 			__NAMESPACE__.'\Auth_RESTClient_User',
 			__NAMESPACE__.'\Auth_RESTClient_User_Roles',
 
-			__NAMESPACE__.'\Application_Log_Logger_Admin_Event',
-			__NAMESPACE__.'\Application_Log_Logger_Web_Event',
-			__NAMESPACE__.'\Application_Log_Logger_REST_Event',
+			__NAMESPACE__.'\Application_Logger_Admin_Event',
+			__NAMESPACE__.'\Application_Logger_Web_Event',
+			__NAMESPACE__.'\Application_Logger_REST_Event',
 		];
 
 		$result = [];

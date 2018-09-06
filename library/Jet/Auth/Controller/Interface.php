@@ -15,9 +15,8 @@ interface Auth_Controller_Interface
 
 	/**
 	 *
-	 * @return bool
 	 */
-	public function isUserLoggedIn();
+	public function handleLogin();
 
 	/**
 	 *
@@ -37,14 +36,15 @@ interface Auth_Controller_Interface
 
 	/**
 	 *
-	 * @return Auth_User_Interface|null
+	 * @return bool
 	 */
-	public function getCurrentUser();
+	public function checkCurrentUser();
 
 	/**
 	 *
+	 * @return Auth_User_Interface|null
 	 */
-	public function handleLogin();
+	public function getCurrentUser();
 
 	/**
 	 *
