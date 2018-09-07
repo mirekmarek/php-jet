@@ -1,7 +1,7 @@
 <?php
 /**
  *
- * @copyright Copyright (c) 2011-2017 Miroslav Marek <mirek.marek.2m@gmail.com>
+ * @copyright Copyright (c) 2011-2018 Miroslav Marek <mirek.marek.2m@gmail.com>
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
@@ -58,6 +58,11 @@ class Http_Request extends BaseObject
 	 */
 	protected static $headers = null;
 
+	/**
+	 * @var bool
+	 */
+	protected static $post_max_size_exceeded = false;
+
 
 	/**
 	 *
@@ -75,6 +80,15 @@ class Http_Request extends BaseObject
 		static::$_GET = $_GET;
 		static::$is_initialized = true;
 
+		if(
+			isset($_SERVER['REQUEST_METHOD']) &&
+			strtolower($_SERVER['REQUEST_METHOD']) == 'post' &&
+			empty($_FILES) &&
+			empty($_POST)) {
+
+			static::$post_max_size_exceeded = true;
+		}
+
 		if( $hide_PHP_request_data ) {
 			Http_Request::hidePHPRequestData();
 		}
@@ -89,6 +103,15 @@ class Http_Request extends BaseObject
 		$_POST = new Http_Request_Trap();
 		$_REQUEST = new Http_Request_Trap();
 	}
+
+	/**
+	 * @return bool
+	 */
+	public static function postMaxSizeExceeded()
+	{
+		return self::$post_max_size_exceeded;
+	}
+
 
 
 	/**

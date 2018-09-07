@@ -1,7 +1,7 @@
 <?php
 /**
  *
- * @copyright Copyright (c) 2011-2017 Miroslav Marek <mirek.marek.2m@gmail.com>
+ * @copyright Copyright (c) 2011-2018 Miroslav Marek <mirek.marek.2m@gmail.com>
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
@@ -125,10 +125,6 @@ class Debug_ErrorHandler
 	 */
 	public static function handleError( $code, $message, $file, $line, $context )
 	{
-		if( $code==E_DEPRECATED ) {
-			return;
-		}
-
 		$error = Debug_ErrorHandler_Error::newError( $code, $message, $file, $line, $context );
 
 		static::$last_error = $error;
@@ -187,6 +183,13 @@ class Debug_ErrorHandler
 	 */
 	protected static function _handleError( Debug_ErrorHandler_Error $error )
 	{
+		if(
+			substr($error->getMessage(),0, 23)=='POST Content-Length of ' ||
+			$error->getMessage()=='Maximum number of allowable file uploads has been exceeded'
+		) {
+			return;
+		}
+
 
 		$error_displayed = false;
 

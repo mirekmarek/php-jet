@@ -1,7 +1,7 @@
 <?php
 /**
  *
- * @copyright Copyright (c) 2011-2017 Miroslav Marek <mirek.marek.2m@gmail.com>
+ * @copyright Copyright (c) 2011-2018 Miroslav Marek <mirek.marek.2m@gmail.com>
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
@@ -511,6 +511,7 @@ class Gallery extends DataModel
 			$image_field->setErrorMessages(
 				[
 					Form_Field_FileImage::ERROR_CODE_EMPTY                => 'Please select image',
+					Form_Field_FileImage::ERROR_CODE_FILE_IS_TOO_LARGE    => 'File is too large',
 					Form_Field_FileImage::ERROR_CODE_DISALLOWED_FILE_TYPE => 'Uploaded file is not supported image',
 				]
 			);

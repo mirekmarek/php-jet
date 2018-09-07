@@ -1,7 +1,7 @@
 <?php
 /**
  *
- * @copyright Copyright (c) 2011-2017 Miroslav Marek <mirek.marek.2m@gmail.com>
+ * @copyright Copyright (c) 2011-2018 Miroslav Marek <mirek.marek.2m@gmail.com>
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
@@ -57,6 +57,7 @@ class Form_Field_File extends Form_Field
 	protected static $default_input_renderer = 'Field/input/File';
 
 
+
 	/**
 	 * @var string
 	 */
@@ -100,6 +101,11 @@ class Form_Field_File extends Form_Field
 	 * @var bool
 	 */
 	protected $allow_multiple_upload = false;
+
+	/**
+	 * @var array
+	 */
+	protected $multiple_upload_errors = [];
 
 	/**
 	 * set form instance
@@ -193,6 +199,27 @@ class Form_Field_File extends Form_Field
 	}
 
 
+	/**
+	 * @return array
+	 */
+	public function getMultipleUploadErrors()
+	{
+		return $this->multiple_upload_errors;
+	}
+
+	/**
+	 * @param string $file_name
+	 * @param string $error_code
+	 */
+	public function addMultipleUploadError( $file_name, $error_code )
+	{
+		if(!isset($this->multiple_upload_errors[$file_name])) {
+			$this->multiple_upload_errors[$file_name] = [];
+		}
+
+		$this->multiple_upload_errors[$file_name][$error_code] = $this->getErrorMessage( $error_code );
+
+	}
 
 	/**
 	 * @return string|array
@@ -214,22 +241,8 @@ class Form_Field_File extends Form_Field
 		if(array_key_exists($this->_name, $_FILES)) {
 			$file_data = $_FILES[$this->_name];
 
-			if(isset($file_data['tmp_name'])) {
-				$tmp_name = $file_data['tmp_name'];
-
-				if(is_array($tmp_name)) {
-					foreach( $tmp_name as $tn ) {
-						if($tn) {
-							$this->_has_value = true;
-						}
-
-						break;
-					}
-				} else {
-					if($tmp_name) {
-						$this->_has_value = true;
-					}
-				}
+			if(array_key_exists('tmp_name', $file_data)) {
+				$this->_has_value = true;
 			}
 
 		}
@@ -326,24 +339,40 @@ class Form_Field_File extends Form_Field
 			return true;
 		}
 
-		$check_file_size = function( $path ) {
+		$check_file_size = function( $path, $file_name ) {
+			$res = true;
 
-			if( $this->maximal_file_size ) {
-				$file_size = IO_File::getSize( $path );
-				if( $file_size>$this->maximal_file_size ) {
-					return false;
+			if(!$path) {
+				$res = false;
+			} else {
+				if( $this->maximal_file_size ) {
+					$file_size = IO_File::getSize( $path );
+					if( $file_size>$this->maximal_file_size ) {
+						$res = false;
+					}
 				}
 			}
 
-			return true;
+			if(
+				!$res &&
+				$this->allow_multiple_upload
+			) {
+				$this->addMultipleUploadError( $file_name, static::ERROR_CODE_FILE_IS_TOO_LARGE );
+			}
+
+			return $res;
 		};
 
-		$check_mime_type = function( $path ) {
+		$check_mime_type = function( $path, $file_name ) {
 			if( $this->allowed_mime_types ) {
 				if( !in_array(
 					IO_File::getMimeType( $path ), $this->allowed_mime_types
 				)
 				) {
+					if( $this->allow_multiple_upload ) {
+						$this->addMultipleUploadError( $file_name, static::ERROR_CODE_DISALLOWED_FILE_TYPE );
+					}
+
 					return false;
 				}
 			}
@@ -352,13 +381,15 @@ class Form_Field_File extends Form_Field
 		};
 
 		if(!is_array($this->_value)) {
-			if( !$check_file_size( $this->_value ) ) {
+			if(
+				!$check_file_size( $this->_value, $this->file_name )
+			) {
 				$this->setError( self::ERROR_CODE_FILE_IS_TOO_LARGE );
 
 				return false;
 			}
 
-			if( !$check_mime_type( $this->_value ) ) {
+			if( !$check_mime_type( $this->_value, $this->file_name ) ) {
 				$this->setError( self::ERROR_CODE_DISALLOWED_FILE_TYPE );
 
 				return false;
@@ -370,8 +401,8 @@ class Form_Field_File extends Form_Field
 		} else {
 			foreach( $this->_value as $i=>$path ) {
 				if(
-					!$check_file_size( $path ) ||
-					!$check_mime_type( $path )
+					!$check_file_size( $path, $this->file_name[$i] ) ||
+					!$check_mime_type( $path, $this->file_name[$i] )
 				) {
 					$this->unsetFile( $i );
 				}
@@ -413,13 +444,10 @@ class Form_Field_File extends Form_Field
 	public function getRequiredErrorCodes()
 	{
 		$codes = [];
+		$codes[] = self::ERROR_CODE_FILE_IS_TOO_LARGE;
 
 		if( $this->is_required ) {
 			$codes[] = self::ERROR_CODE_EMPTY;
-		}
-
-		if( $this->maximal_file_size ) {
-			$codes[] = self::ERROR_CODE_FILE_IS_TOO_LARGE;
 		}
 
 		if( $this->allowed_mime_types ) {
@@ -452,4 +480,5 @@ class Form_Field_File extends Form_Field
 
 		return $name;
 	}
+
 }

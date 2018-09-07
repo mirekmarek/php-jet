@@ -19,4 +19,8 @@ return [
 	'Image %FILE_NAME% uploaded ....' => '',
 	'Select image' => '',
 	'Dialog - Select image' => '',
+	'File is too large' => '',
+	'File <b>%file_name%</b>: %error_message%' => '',
+	'<br/>The maximum size of one uploaded file is: <b>%max_upload_size%</b>' => '',
+	'You are uploading too large files<br/><br/>The maximum size of one uploaded file is: <b>%max_upload_size%</b><br/>The maximum number of uploaded files is: <b>%max_file_uploads%</b><br/>' => '',
 ];

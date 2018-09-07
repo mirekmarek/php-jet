@@ -1,14 +1,19 @@
 <?php
 namespace JetApplicationModule\Content\Images;
 
+use Jet\Form_Field_FileImage;
 use Jet\UI;
 use Jet\Tr;
 use Jet\Mvc_View;
+use Jet\UI_messages;
+use Jet\Locale;
+use Jet\IO_File;
 
 /**
  * @var Mvc_View                     $this
  * @var Gallery                      $gallery
  * @var Controller_Admin_Router $router
+ * @var Form_Field_FileImage $files_field
  */
 $gallery = $this->getRaw( 'gallery' );
 $images = $gallery->getImages();
@@ -17,12 +22,35 @@ $router = $this->getController()->getControllerRouter();
 
 $delete_uri = $router->getDeleteImagesURI($gallery->getId());
 
-?>
+$files_field = $gallery->getImageUploadForm()->field('file');
+
+foreach( $files_field->getMultipleUploadErrors() as $file_name=>$errors ):
+
+	foreach( $errors as $code=>$message ):
+
+		$message = Tr::_(
+			'File <b>%file_name%</b>: %error_message%',
+			[
+				'file_name'=>$file_name,
+				'error_message'=>$message
+			]
+		);
+
+		if( $code==Form_Field_FileImage::ERROR_CODE_FILE_IS_TOO_LARGE ) {
+
+			$message .= Tr::_(
+				'<br/>The maximum size of one uploaded file is: <b>%max_upload_size%</b>',
+				['max_upload_size'=>Locale::getCurrentLocale()->formatSize(IO_File::getMaxUploadSize())]
+			);
+
+		}
+
+		echo UI_messages::createDanger($message);
+	endforeach;
+endforeach;
 
 
-
-
-<?php if( count( $images ) ): ?>
+if( count( $images ) ): ?>
 	<form action="<?=$delete_uri?>" method="post">
 		<div class="row">
 			<?php foreach( $images as $image ): ?>
@@ -53,4 +81,4 @@ $delete_uri = $router->getDeleteImagesURI($gallery->getId());
 			<?=UI::button_delete( Tr::_( 'Delete selected images' ) )->setType( 'submit' )?>
 		<?php endif; ?>
 	</form>
-<?php endif; ?>
+<?php endif;

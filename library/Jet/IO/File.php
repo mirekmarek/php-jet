@@ -1,7 +1,7 @@
 <?php
 /**
  *
- * @copyright Copyright (c) 2011-2017 Miroslav Marek <mirek.marek.2m@gmail.com>
+ * @copyright Copyright (c) 2011-2018 Miroslav Marek <mirek.marek.2m@gmail.com>
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
@@ -425,6 +425,39 @@ class IO_File
 
 		return min( $max_upload, $max_post );
 	}
+
+
+	/**
+	 *
+	 * @return int
+	 */
+	public static function getMaxFileUploads()
+	{
+		$units = [ '' => 1, 'K' => 1024, 'M' => 1024*1024, 'G' => 1024*1024*1024 ];
+
+		$max_file_uploads = (int)ini_get( 'max_file_uploads' );
+		$max_upload = ini_get( 'upload_max_filesize' );
+		$max_post = ini_get( 'post_max_size' );
+
+
+		$max_post_unit = substr( $max_post, -1 );
+		$max_upload_unit = substr( $max_upload, -1 );
+
+
+		$max_post = $max_post*$units[$max_post_unit];
+		$max_upload = $max_upload*$units[$max_upload_unit];
+
+		if($max_upload>$max_post) {
+			$max_upload = $max_post;
+		}
+
+		if( $max_upload*$max_file_uploads>$max_post ) {
+			$max_file_uploads = floor($max_post/$max_upload);
+		}
+
+		return (int)$max_file_uploads;
+	}
+
 
 	/**
 	 *

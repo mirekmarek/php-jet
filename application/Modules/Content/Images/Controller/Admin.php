@@ -1,7 +1,7 @@
 <?php
 /**
  *
- * @copyright Copyright (c) 2011-2017 Miroslav Marek <mirek.marek.2m@gmail.com>
+ * @copyright Copyright (c) 2011-2018 Miroslav Marek <mirek.marek.2m@gmail.com>
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
@@ -16,6 +16,8 @@ use Jet\Navigation_Breadcrumb;
 use Jet\UI;
 use Jet\UI_messages;
 use Jet\UI_searchForm;
+use Jet\Locale;
+use Jet\IO_File;
 
 use JetApplicationModule\UI\Admin\Main as UI_module;
 
@@ -286,7 +288,17 @@ class Controller_Admin extends Mvc_Controller_Default
 
 			$ok = true;
 		} else {
-			$upload_form->setCommonMessage( UI_messages::createDanger( $upload_form->getField('file')->getLastErrorMessage() ) );
+			if(Http_Request::postMaxSizeExceeded()) {
+				$error_message = 'You are uploading too large files<br/>'
+								.'<br/>'
+								.'The maximum size of one uploaded file is: <b>%max_upload_size%</b><br/>'
+								.'The maximum number of uploaded files is: <b>%max_file_uploads%</b><br/>';
+
+				$upload_form->setCommonMessage( UI_messages::createDanger( Tr::_($error_message, [
+					'max_upload_size' => Locale::getCurrentLocale()->formatSize(IO_File::getMaxUploadSize()),
+					'max_file_uploads' => Locale::getCurrentLocale()->formatInt(IO_File::getMaxFileUploads())
+				]) ) );
+			}
 		}
 
 

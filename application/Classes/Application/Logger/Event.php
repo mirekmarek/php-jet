@@ -1,7 +1,7 @@
 <?php
 /**
  *
- * @copyright Copyright (c) 2011-2017 Miroslav Marek <mirek.marek.2m@gmail.com>
+ * @copyright Copyright (c) 2011-2018 Miroslav Marek <mirek.marek.2m@gmail.com>
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
@@ -20,7 +20,7 @@ use Jet\Http_Request;
  * @JetDataModel:name = 'Auth_Event'
  * @JetDataModel:id_controller_class_name = 'DataModel_IDController_UniqueString'
  */
-abstract class Application_Log_Event extends DataModel
+abstract class Application_Logger_Event extends DataModel
 {
 
 	/**
