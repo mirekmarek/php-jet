@@ -1,7 +1,7 @@
 <?php
 /**
  *
- * @copyright Copyright (c) 2011-2018 Miroslav Marek <mirek.marek.2m@gmail.com>
+ * @copyright Copyright (c) 2011-2017 Miroslav Marek <mirek.marek.2m@gmail.com>
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
@@ -338,6 +338,8 @@ interface Mvc_Page_Interface
 	 */
 	public function getURL( array $path_fragments = [], array $GET_params = [] );
 
+
+	//TODO: prejmenovat na getURLPath
 	/**
 	 * @param array $path_fragments
 	 *

@@ -1,7 +1,7 @@
 <?php
 /**
  *
- * @copyright Copyright (c) 2011-2018 Miroslav Marek <mirek.marek.2m@gmail.com>
+ * @copyright Copyright (c) 2011-2017 Miroslav Marek <mirek.marek.2m@gmail.com>
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
@@ -235,28 +235,48 @@ class Form_Field_File extends Form_Field
 	 */
 	public function catchInput( Data_Array $data )
 	{
+
 		$this->_value = null;
 		$this->_has_value = false;
 
 		if(array_key_exists($this->_name, $_FILES)) {
 			$file_data = $_FILES[$this->_name];
 
-			if(array_key_exists('tmp_name', $file_data)) {
-				$this->_has_value = true;
+			if(
+				array_key_exists('tmp_name', $file_data) &&
+				array_key_exists('name', $file_data)
+			) {
+				if(!is_array($file_data['name'])) {
+
+					if(
+						!empty( $file_data['name'] )
+					) {
+						$this->_has_value = true;
+					}
+				} else {
+					if(
+						count($file_data['name'])>0 &&
+						!empty( $file_data['name'][0] )
+					) {
+						$this->_has_value = true;
+					}
+
+				}
 			}
-
 		}
 
 
-		if(
-			$this->getAllowMultipleUpload() &&
-			$this->_has_value &&
-			is_array($_FILES[$this->_name]['tmp_name'])
-		) {
-			$this->catchInput_multiple();
-		} else {
-			$this->catchInput_single();
+		if($this->_has_value) {
+			if(
+				$this->getAllowMultipleUpload() &&
+				is_array($_FILES[$this->_name]['tmp_name'])
+			) {
+				$this->catchInput_multiple();
+			} else {
+				$this->catchInput_single();
+			}
 		}
+
 	}
 
 	/**

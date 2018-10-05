@@ -1,7 +1,7 @@
 <?php
 /**
  *
- * @copyright Copyright (c) 2011-2018 Miroslav Marek <mirek.marek.2m@gmail.com>
+ * @copyright Copyright (c) 2011-2017 Miroslav Marek <mirek.marek.2m@gmail.com>
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
@@ -40,14 +40,24 @@ interface DataModel_Interface extends BaseObject_Interface_Serializable_JSON
 	public static function getEmptyIDController();
 
 	/**
+	 * Returns backend instance
+	 *
+	 * @return DataModel_Backend
+	 */
+	public static function getBackendInstance();
+
+//-- InternalState ------------------------------
+
+
+
+	/**
 	 *
 	 * @return DataModel_IDController
 	 */
 	public function getIDController();
 
-//-- InternalState ------------------------------
-
 	/**
+	 * Initializes new DataModel
 	 *
 	 */
 	public function initNewObject();
@@ -64,6 +74,8 @@ interface DataModel_Interface extends BaseObject_Interface_Serializable_JSON
 	 */
 	public function setIsNew();
 
+//-- Backend ------------------------------------
+
 	/**
 	 * @return bool
 	 */
@@ -73,16 +85,6 @@ interface DataModel_Interface extends BaseObject_Interface_Serializable_JSON
 	 *
 	 */
 	public function setIsSaved();
-
-//-- Backend ------------------------------------
-
-	/**
-	 * Returns backend instance
-	 *
-	 * @return DataModel_Backend
-	 */
-	public static function getBackendInstance();
-
 
 	/**
 	 * @return bool
@@ -110,6 +112,11 @@ interface DataModel_Interface extends BaseObject_Interface_Serializable_JSON
 	public function rollbackBackendTransaction();
 
 //-- Load ---------------------------------------
+
+	/**
+	 * @return DataModel_PropertyFilter
+	 */
+	public function getLoadFilter();
 
 	/**
 	 * @param array $where
@@ -179,13 +186,6 @@ interface DataModel_Interface extends BaseObject_Interface_Serializable_JSON
 	 * @return DataModel_Fetch_IDs
 	 */
 	public static function fetchIDs( array $where = [] );
-
-
-	/**
-	 * @return DataModel_PropertyFilter
-	 */
-	public function getLoadFilter();
-
 
 //-- Save ---------------------------------------
 

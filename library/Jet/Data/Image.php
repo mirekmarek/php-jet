@@ -1,7 +1,7 @@
 <?php
 /**
  *
- * @copyright Copyright (c) 2011-2018 Miroslav Marek <mirek.marek.2m@gmail.com>
+ * @copyright Copyright (c) 2011-2017 Miroslav Marek <mirek.marek.2m@gmail.com>
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
@@ -261,7 +261,7 @@ class Data_Image extends BaseObject
 
 		imagecopyresampled( $new_image, $image, 0, 0, 0, 0, $new_width, $new_height, $this->width, $this->height );
 
-		switch( $this->img_type ) {
+		switch( $target_img_type ) {
 			case self::TYPE_JPG:
 				imagejpeg( $new_image, $target_path, $this->image_quality );
 				break;
