@@ -357,6 +357,15 @@ class Data_Tree_Node extends BaseObject implements BaseObject_Interface_Iterator
 		return array_reverse( $this->getPathToRoot() );
 	}
 
+	/**
+	 *
+	 * @return Data_Tree_Node[]
+	 */
+	public function getPath()
+	{
+		return array_reverse( $this->getPathToRoot() );
+	}
+
 
 	/**
 	 * @param int|null $max_depth

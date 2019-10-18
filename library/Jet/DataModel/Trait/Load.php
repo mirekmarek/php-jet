@@ -463,17 +463,15 @@ trait DataModel_Trait_Load
 	}
 
 
-
-
 	/**
 	 * @param array $select
 	 * @param array $where
+	 * @param null|string|array $order_by
 	 * @param string $fetch_method
 	 *
 	 * @return mixed
-	 *
 	 */
-	public static function fetchData( array $select, array $where, $fetch_method='fetchAll' )
+	public static function fetchData( array $select, array $where, $order_by=null, $fetch_method='fetchAll' )
 	{
 		/**
 		 * @var DataModel_Query $query
@@ -481,6 +479,9 @@ trait DataModel_Trait_Load
 		$query = static::createQuery( $where );
 
 		$query->setSelect( $select );
+		if($order_by) {
+			$query->setOrderBy( $order_by );
+		}
 
 		/**
 		 * @var DataModel_Backend $backend
