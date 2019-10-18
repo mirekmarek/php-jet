@@ -365,11 +365,11 @@ class Mvc_Page extends BaseObject implements Mvc_Page_Interface, BaseObject_Cach
 	}
 
 	/**
-	 * @param Mvc_Site_Interface $site_id
+	 * @param Mvc_Site_Interface $site
 	 */
-	public function setSite( Mvc_Site_Interface $site_id )
+	public function setSite( Mvc_Site_Interface $site )
 	{
-		$this->site_id = $site_id->getId();
+		$this->site_id = $site->getId();
 	}
 
 	/**
