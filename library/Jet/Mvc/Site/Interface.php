@@ -24,6 +24,13 @@ interface Mvc_Site_Interface
 	public static function loadSites();
 
 	/**
+	 *
+	 * @param Mvc_Site[] $sites
+	 */
+	public static function setSites( $sites );
+
+
+	/**
 	 * @param array  $data
 	 *
 	 * @return Mvc_Site_Interface
@@ -131,9 +138,12 @@ interface Mvc_Site_Interface
 	 */
 	public function getInitializer();
 
+	/**
+	 * @param string $path
+	 */
+	public function setBasePath( $path );
 
 	/**
-	 * Returns root directory path
 	 *
 	 * @return string
 	 */
@@ -145,6 +155,11 @@ interface Mvc_Site_Interface
 	 * @return string
 	 */
 	public function getPagesDataPath( Locale $locale = null );
+
+	/**
+	 * @param string $path
+	 */
+	public function setLayoutsPath( $path );
 
 	/**
 	 * @return string
