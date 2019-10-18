@@ -191,6 +191,8 @@ class Http_Request extends BaseObject
 		}
 
 		if($force_SSL) {
+			$_SERVER['SERVER_PORT'] = '443';
+
 			return static::baseSSLURL().$request_URI;
 		} else {
 			return static::baseURL().$request_URI;

@@ -152,9 +152,9 @@ class Debug_ErrorHandler
 	/**
 	 * Exception handler
 	 *
-	 * @param \Exception $exception
+	 * @param \Exception|\Error $exception
 	 */
-	public static function handleException( \Exception $exception )
+	public static function handleException( $exception )
 	{
 		$error = Debug_ErrorHandler_Error::newException( $exception );
 		static::_handleError( $error );

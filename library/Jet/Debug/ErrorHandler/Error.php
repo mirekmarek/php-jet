@@ -163,11 +163,11 @@ class Debug_ErrorHandler_Error
 	}
 
 	/**
-	 * @param \Exception $exception
+	 * @param \Exception|\Error $exception
 	 *
 	 * @return Debug_ErrorHandler_Error
 	 */
-	public static function newException( \Exception $exception )
+	public static function newException( $exception )
 	{
 		$e = new static();
 
