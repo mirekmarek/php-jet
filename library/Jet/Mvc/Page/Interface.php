@@ -338,8 +338,6 @@ interface Mvc_Page_Interface
 	 */
 	public function getURL( array $path_fragments = [], array $GET_params = [] );
 
-
-	//TODO: prejmenovat na getURLPath
 	/**
 	 * @param array $path_fragments
 	 *
