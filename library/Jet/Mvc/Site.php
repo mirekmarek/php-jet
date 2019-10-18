@@ -56,6 +56,16 @@ class Mvc_Site extends BaseObject implements Mvc_Site_Interface, BaseObject_Cach
 	protected $name = '';
 
 	/**
+	 * @var string
+	 */
+	protected $base_path;
+
+	/**
+	 * @var string
+	 */
+	protected $layouts_path;
+
+	/**
 	 * @var bool
 	 */
 	protected $is_secret = false;
@@ -173,6 +183,20 @@ class Mvc_Site extends BaseObject implements Mvc_Site_Interface, BaseObject_Cach
 
 		return static::$sites;
 	}
+
+	/**
+	 *
+	 * @param Mvc_Site[] $sites
+	 */
+	public static function setSites( $sites )
+	{
+		static::$sites = [];
+
+		foreach($sites as $site) {
+			static::$sites[$site->getId()] = $site;
+		}
+	}
+
 
 	/**
 	 * @param array  $data
@@ -402,11 +426,31 @@ class Mvc_Site extends BaseObject implements Mvc_Site_Interface, BaseObject_Cach
 
 
 	/**
+	 * @param string $path
+	 */
+	public function setLayoutsPath( $path )
+	{
+		$this->layouts_path = $path;
+	}
+
+	/**
 	 * @return string
 	 */
 	public function getLayoutsPath()
 	{
+		if($this->layouts_path!==null) {
+			return $this->layouts_path;
+		}
+
 		return $this->getBasePath().static::$layouts_dir.'/';
+	}
+
+	/**
+	 * @param string $path
+	 */
+	public function setBasePath( $path )
+	{
+		$this->base_path = $path;
 	}
 
 	/**
@@ -416,6 +460,10 @@ class Mvc_Site extends BaseObject implements Mvc_Site_Interface, BaseObject_Cach
 	 */
 	public function getBasePath()
 	{
+		if($this->base_path!==null) {
+			return $this->base_path;
+		}
+
 		return JET_PATH_SITES.$this->id.'/';
 	}
 
