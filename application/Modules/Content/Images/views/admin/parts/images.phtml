@@ -10,9 +10,8 @@ use Jet\Locale;
 use Jet\IO_File;
 
 /**
- * @var Mvc_View                     $this
- * @var Gallery                      $gallery
- * @var Controller_Admin_Router $router
+ * @var Mvc_View             $this
+ * @var Gallery              $gallery
  * @var Form_Field_FileImage $files_field
  */
 $gallery = $this->getRaw( 'gallery' );
@@ -20,7 +19,8 @@ $images = $gallery->getImages();
 
 $router = $this->getController()->getControllerRouter();
 
-$delete_uri = $router->getDeleteImagesURI($gallery->getId());
+$delete_uri = $router->action('image_delete')->URI($gallery->getId());
+
 
 $files_field = $gallery->getImageUploadForm()->field('file');
 

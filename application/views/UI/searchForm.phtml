@@ -13,7 +13,7 @@ $f = $this->getRaw( 'element' );
 <form method="post" name="search_form_<?=$f->getName()?>" id="search_form_<?=$f->getName()?>" action="<?=$f->getAction()?>">
 <div class="input-group">
 	<span class="input-group-btn">
-		<button class="btn btn-default" type="button" onclick="this.form.<?=$f->getSearchKey()?>.value='';this.form.submit();">
+		<button class="btn btn-light" type="button" onclick="this.form.<?=$f->getSearchKey()?>.value='';this.form.submit();">
 			<?=UI::icon( 'times' )?>
 		</button>
 	</span>
@@ -21,7 +21,7 @@ $f = $this->getRaw( 'element' );
 	<input type="text" class="form-control" placeholder="<?=$f->getPlaceholder()?>" name="<?=$f->getSearchKey()?>" value="<?=$f->getValue()?>">
 
 	<span class="input-group-btn">
-		<button class="btn btn-default" type="submit">
+		<button class="btn btn-light" type="submit">
 			<?=UI::icon( 'search' )?>
 		</button>
 	</span>

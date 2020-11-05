@@ -11,10 +11,9 @@ use Jet\Mvc_View;
 Mvc_Layout::getCurrentLayout()->requireJavascriptFile(JET_AJAX_FORM_JS_URL);
 
 /**
- * @var Mvc_View                     $this
- * @var Form                         $upload_form
- * @var Gallery                      $gallery
- * @var Controller_Admin_Router $router
+ * @var Mvc_View  $this
+ * @var Form      $upload_form
+ * @var Gallery   $gallery
  */
 $upload_form = $this->getRaw( 'upload_form' );
 $gallery = $this->getRaw( 'gallery' );
@@ -25,7 +24,7 @@ if(!$upload_form || $upload_form->getIsReadonly()) {
 
 $router = $this->getController()->getControllerRouter();
 
-$upload_form->setAction( $router->getUploadImageURI( $gallery->getId() ) );
+$upload_form->setAction( $router->action('image_upload')->URI( $gallery->getId() ) );
 
 $file_field = $upload_form->field( 'file' );
 

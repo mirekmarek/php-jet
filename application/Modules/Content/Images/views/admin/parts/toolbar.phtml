@@ -9,11 +9,10 @@ use Jet\Mvc_View;
 use Jet\UI_button;
 
 /**
- * @var Mvc_View                     $this
- * @var Gallery                      $gallery
- * @var Form                         $upload_form
- * @var Form                         $edit_form
- * @var Controller_Admin_Router $router
+ * @var Mvc_View $this
+ * @var Gallery  $gallery
+ * @var Form     $upload_form
+ * @var Form     $edit_form
  */
 $gallery = $this->getRaw( 'gallery' );
 $router = $this->getController()->getControllerRouter();
@@ -26,13 +25,13 @@ $parent_id = $gallery ? $gallery->getId() : '';
 		<?=$this->getRaw( 'search_form' ) ?>
 	</div>
 	<div class="col-xs-12 col-md-9">
-		<?php if( ( $add_uri = $router->getAddURI( $parent_id ) ) && ( !$gallery || !$gallery->getIsNew() ) ):
+		<?php if( ( $add_uri = $router->action('add')->URI( $parent_id ) ) && ( !$gallery || !$gallery->getIsNew() ) ):
 			echo UI::button_create( Tr::_( 'Create a new gallery' ) )->setUrl( $add_uri );
 		endif;
 
 		echo '&nbsp;';
 
-		if( $gallery && !$gallery->getIsNew() && ($delete_uri = $router->getDeleteURI( $gallery->getId() )) ):
+		if( $gallery && !$gallery->getIsNew() && ($delete_uri = $router->action('delete')->URI( $gallery->getId() )) ):
 			echo UI::button_delete( Tr::_('Delete this gallery') )->setUrl( $delete_uri )->setSize(UI_button::SIZE_EXTRA_SMALL);
 		endif; ?>
 	</div>

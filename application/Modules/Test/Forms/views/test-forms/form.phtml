@@ -50,9 +50,9 @@ $form = $this->getRaw( 'form' );
 	<?php if( !$form->getIsReadonly() ):?>
 		<div class="row">
 			<div class="col-md-offset-4">
-				<input type="submit" class="btn btn-default" value="<?=Tr::_( 'Submit' )?>"/>
+				<input type="submit" class="btn btn-light" value="<?=Tr::_( 'Submit' )?>"/>
 
-				<input type="button" class="btn btn-default" value="<?=Tr::_( 'Submit (AJAX)' )?>" onclick="testSendForm.submit('<?=$form->getId()?>')"/>
+				<input type="button" class="btn btn-light" value="<?=Tr::_( 'Submit (AJAX)' )?>" onclick="testSendForm.submit('<?=$form->getId()?>')"/>
 			</div>
 		</div>
 	<?php endif; ?>

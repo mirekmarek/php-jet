@@ -17,27 +17,21 @@ use Jet\Navigation_Breadcrumb;
 class Controller_Web extends Mvc_Controller_Default
 {
 	/**
-	 * @var array
-	 */
-	const ACL_ACTIONS_MAP = [
-		'default' => false,
-	];
-	/**
 	 *
 	 * @var Main
 	 */
 	protected $module = null;
 
 	/**
+	 * @var Gallery
+	 */
+	protected $gallery;
+	/**
 	 *
 	 */
 	public function default_Action()
 	{
-
-		/**
-		 * @var Gallery $gallery
-		 */
-		$gallery = $this->getParameter( 'gallery' );
+		$gallery = $this->gallery;
 
 		if(!$gallery) {
 			$this->view->setVar( 'galleries', Gallery::getRootGalleries() );
@@ -58,20 +52,23 @@ class Controller_Web extends Mvc_Controller_Default
 
 	/**
 	 *
-	 * @param string $path
 	 *
 	 * @return bool
 	 */
-	public function resolve( $path )
+	public function resolve()
 	{
+		$path = Mvc::getRouter()->getPath();
 
-		$gallery = Gallery::resolveGalleryByURL( $path, Mvc::getCurrentLocale() );
+		if($path) {
+			$gallery = Gallery::resolveGalleryByURL( $path, Mvc::getCurrentLocale() );
+			if(!$gallery) {
+				return false;
+			}
 
-		if(!$gallery) {
-			return false;
+			$this->gallery = $gallery;
+			Mvc::getRouter()->setUsedPath( $path );
 		}
 
-		$this->content->setParameter('gallery', $gallery );
 
 		return true;
 	}

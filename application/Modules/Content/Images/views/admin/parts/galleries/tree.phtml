@@ -9,9 +9,8 @@ use Jet\Mvc;
 use Jet\Mvc_View;
 
 /**
- * @var Mvc_View                     $this
- * @var Data_Tree                    $galleries
- * @var Controller_Admin_Router $router
+ * @var Mvc_View  $this
+ * @var Data_Tree $galleries
  */
 $galleries = $this->getRaw( 'galleries' );
 $router = $this->getController()->getControllerRouter();
@@ -24,7 +23,7 @@ $tree->setSelectedId( $this->getRaw( 'selected_id' ) );
 $tree->setRendererOpened(
 	function( Data_Tree_Node $node ) use ( $router ) {
 		?>
-		<a href="<?=$router->getEditOrViewURI( $node->getId() );?>"><?=$node->getLabel();?></a>
+		<a href="<?=$router->action('edit')->URI( $node->getId() );?>"><?=$node->getLabel();?></a>
 		<?php
 	}
 );
@@ -46,7 +45,7 @@ $tree->setRendererNormal(
 			<?php
 		else:
 			?>
-			<a href="<?=$router->getEditOrViewURI( $node->getId() );?>" style="font-style: italic;"><?=$node->getLabel();?></a>
+			<a href="<?=$router->action('edit')->URI( $node->getId() );?>" style="font-style: italic;"><?=$node->getLabel();?></a>
 			<?php
 		endif;
 	}

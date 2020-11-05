@@ -27,7 +27,7 @@ $paginator = $this->getRaw( 'paginator' );
 <div style="background-color: #eeeeee;padding: 10px;">
 	<div style="display: inline-block;width: 30px;">
 		<?php if( ( $p_URL = $paginator->getPrevPageURL() ) ): ?>
-			<a href="<?=$p_URL;?>" class="btn btn-default">&lt;</a>
+			<a href="<?=$p_URL;?>" class="btn btn-light">&lt;</a>
 		<?php endif ?>
 	</div>
 	<div style="display: inline-block;width: 400px;text-align: center">
@@ -35,14 +35,14 @@ $paginator = $this->getRaw( 'paginator' );
 			<?php if( $p_no==$paginator->getCurrentPageNo() ): ?>
 				<strong class="btn btn-info"><?php echo $p_no; ?></strong>
 			<?php else: ?>
-				<a href="<?=$p_URL;?>" class="btn btn-default btn-sm"><?=$p_no;?></a>
+				<a href="<?=$p_URL;?>" class="btn btn-light btn-sm"><?=$p_no;?></a>
 			<?php endif; ?>
 		<?php endforeach; ?>
 
 	</div>
 	<div style="display: inline-block;width: 30px;">
 		<?php if( ( $p_URL = $paginator->getNextPageURL() ) ): ?>
-			<a href="<?=$p_URL;?>" class="btn btn-default">&gt;</a>
+			<a href="<?=$p_URL;?>" class="btn btn-light">&gt;</a>
 		<?php endif ?>
 	</div>
 

@@ -30,43 +30,33 @@ $form->setDefaultFieldWidth( [ Form::LJ_SIZE_MEDIUM => 9 ] );
 
 </script>
 
-<div class="row">
-	<div class="col-md-12" style="padding: 0px">
+<?=$form->start();?>
 
+<div class="row toolbar" id="main-toolbar">
+	<div class="col-md-12">
+	<?=UI::button_goBack()->setUrl( Mvc::getCurrentPage()->getURI() )?>
 
-		<?=$form->start();?>
-
-		<div class="toolbar" id="main-toolbar">
-			<?=UI::button_goBack()->setUrl( Mvc::getCurrentPage()->getURI() )?>
-
-			<?php if( !$form->getIsReadonly() ): ?>
-				<?=UI::button_save()?>
-			<?php endif; ?>
-		</div>
-
-		<div class="container-fluid">
-			<div class="row main-row">
-				<div class="col-md-12 main-col">
-
-					<?=$form->field( 'date_time' )?>
-
-
-					<?php foreach( Application_Web::getSite()->getLocales() as $locale ):
-
-						$form->field( '/localized/'.$locale.'/text' )->input()->addCustomCssStyle('height:400px');
-						?>
-						<legend><?=UI::flag($locale)?>&nbsp;<?=$locale->getName()?></legend>
-						<?=$form->field( '/localized/'.$locale.'/title' )?>
-						<?=$form->field( '/localized/'.$locale.'/annotation' )?>
-						<?=$form->field( '/localized/'.$locale.'/text' )?>
-
-					<?php endforeach;?>
-
-				</div>
-			</div>
-		</div>
-
-		<?=$form->end();?>
-
+	<?php if( !$form->getIsReadonly() ): ?>
+		<?=UI::button_save()?>
+	<?php endif; ?>
 	</div>
 </div>
+
+<div class="row">
+	<div class="col-md-12" id="main-col">
+
+		<?=$form->field( 'date_time' )?>
+
+		<?php foreach( Application_Web::getSite()->getLocales() as $locale ):
+
+			$form->field( '/localized/'.$locale.'/text' )->input()->addCustomCssStyle('height:400px');
+			?>
+			<legend><?=UI::flag($locale)?>&nbsp;<?=$locale->getName()?></legend>
+			<?=$form->field( '/localized/'.$locale.'/title' )?>
+			<?=$form->field( '/localized/'.$locale.'/annotation' )?>
+			<?=$form->field( '/localized/'.$locale.'/text' )?>
+
+		<?php endforeach;?>
+	</div>
+</div>
+<?=$form->end();?>
