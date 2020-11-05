@@ -8,7 +8,6 @@
 
 namespace JetApplicationModule\Test\Locale;
 
-
 use Jet\Mvc_Controller_Default;
 
 /**
@@ -16,12 +15,6 @@ use Jet\Mvc_Controller_Default;
  */
 class Controller_Main extends Mvc_Controller_Default
 {
-	/**
-	 * @var array
-	 */
-	const ACL_ACTIONS_MAP = [
-	    'test_locale'  => false
-	];
 
 	/**
 	 *
@@ -29,15 +22,11 @@ class Controller_Main extends Mvc_Controller_Default
 	 */
 	protected $module = null;
 
-
-
 	/**
 	 *
 	 */
 	public function test_locale_Action()
 	{
 		$this->render( 'test-locale' );
-
 	}
-
 }

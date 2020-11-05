@@ -69,6 +69,11 @@ class Mvc_Page_Content extends BaseObject implements Mvc_Page_Content_Interface
 	protected $output_position_order = 0;
 
 	/**
+	 * @var bool
+	 */
+	protected $_skip_dispatch = false;
+
+	/**
 	 * @var Application_Module
 	 */
 	protected $__module_instance;
@@ -361,12 +366,22 @@ class Mvc_Page_Content extends BaseObject implements Mvc_Page_Content_Interface
 		return $this->__controller_instance;
 	}
 
+	/**
+	 *
+	 */
+	public function skipDispatch()
+	{
+		$this->_skip_dispatch = true;
+	}
 
 	/**
 	 *
 	 */
 	public function dispatch()
 	{
+		if($this->_skip_dispatch) {
+			return;
+		}
 
 		if( ($output=$this->getOutput()) ) {
 			if(is_callable($output)) {
@@ -406,10 +421,7 @@ class Mvc_Page_Content extends BaseObject implements Mvc_Page_Content_Interface
 			$translator_namespace = Translator::getCurrentNamespace();
 			Translator::setCurrentNamespace( $module_name );
 
-			if( $controller->actionIsAllowed()) {
-				$controller->dispatch();
-			}
-
+			$controller->dispatch();
 
 			Translator::setCurrentNamespace( $translator_namespace );
 		}

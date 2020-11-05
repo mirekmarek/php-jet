@@ -25,16 +25,15 @@ class DataModel_RecordData implements BaseObject_Interface_IteratorCountable
 
 	/**
 	 *
-	 * @param DataModel_Interface $data_model
-	 * @param array               $properties_and_values ( array(property_name => value) )
+	 * @param string  $data_model_class_name
+	 * @param array   $properties_and_values ( array(property_name => value) )
 	 *
 	 * @throws DataModel_Exception
 	 * @return DataModel_RecordData
 	 */
-	public static function createRecordData( DataModel_Interface $data_model, array $properties_and_values )
+	public static function createRecordData( $data_model_class_name, array $properties_and_values )
 	{
-		/** @noinspection PhpStaticAsDynamicMethodCallInspection */
-		$definition = $data_model->getDataModelDefinition();
+		$definition = DataModel::getDataModelDefinition( $data_model_class_name );
 		$result = new self( $definition );
 		$properties = $definition->getProperties();
 

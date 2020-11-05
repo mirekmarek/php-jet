@@ -10,8 +10,6 @@ namespace JetApplicationModule\Content\Articles;
 use Jet\Mvc_Controller_Default;
 use Jet\Mvc_Page;
 
-use Jet\UI;
-use Jet\UI_dataGrid;
 use Jet\UI_messages;
 
 use Jet\Data_DateTime;
@@ -19,6 +17,7 @@ use Jet\Tr;
 use Jet\Http_Headers;
 use Jet\Http_Request;
 use Jet\Navigation_Breadcrumb;
+use Jet\Mvc_Controller_Router_AddEditDelete;
 
 use JetApplicationModule\UI\Admin\Main as UI_module;
 
@@ -27,16 +26,7 @@ use JetApplicationModule\UI\Admin\Main as UI_module;
  */
 class Controller_Admin extends Mvc_Controller_Default
 {
-	/**
-	 * @var array
-	 */
-	const ACL_ACTIONS_MAP = [
-		'default' => Main::ACTION_GET_ARTICLE,
-		'add'     => Main::ACTION_ADD_ARTICLE,
-		'edit'    => Main::ACTION_UPDATE_ARTICLE,
-		'view'    => Main::ACTION_GET_ARTICLE,
-		'delete'  => Main::ACTION_DELETE_ARTICLE,
-	];
+
 	/**
 	 *
 	 * @var Main
@@ -44,19 +34,43 @@ class Controller_Admin extends Mvc_Controller_Default
 	protected $module = null;
 
 	/**
-	 * @var Controller_Admin_Router;
+	 * @var Mvc_Controller_Router_AddEditDelete
 	 */
 	protected $router;
 
+	/**
+	 * @var Article
+	 */
+	protected $article;
 
 	/**
 	 *
-	 * @return Controller_Admin_Router
+	 * @return Mvc_Controller_Router_AddEditDelete
 	 */
 	public function getControllerRouter()
 	{
 		if( !$this->router ) {
-			$this->router = new Controller_Admin_Router( $this );
+			$this->router = new Mvc_Controller_Router_AddEditDelete(
+				$this,
+				function($id) {
+					return (bool)($this->article = Article::get($id));
+				},
+				[
+					'listing'=> Main::ACTION_GET_ARTICLE,
+					'view'   => Main::ACTION_GET_ARTICLE,
+					'add'    => Main::ACTION_ADD_ARTICLE,
+					'edit'   => Main::ACTION_UPDATE_ARTICLE,
+					'delete' => Main::ACTION_DELETE_ARTICLE,
+				]
+			);
+
+			$this->router->action('delete')
+				->setResolver(function() {
+					return Http_Request::GET()->getString('action')=='delete';
+				})
+				->setURICreator( function() {
+					return Http_Request::currentURI(['action'=>'delete']);
+				});
 		}
 
 		return $this->router;
@@ -77,28 +91,15 @@ class Controller_Admin extends Mvc_Controller_Default
 	/**
 	 *
 	 */
-	public function default_Action()
+	public function listing_Action()
 	{
-
 		$this->_setBreadcrumbNavigation();
 
-		$search_form = UI::searchForm( 'article' );
-		$this->view->setVar( 'search_form', $search_form );
+		$listing = new Article_AdminListing();
+		$listing->handle();
 
-		$grid = new UI_dataGrid();
-
-		$grid->setIsPersistent( 'admin_content_articles_list_grid' );
-
-		$grid->addColumn( '_edit_', '' )->setAllowSort( false );
-		$grid->addColumn( 'title', Tr::_( 'Title' ) )->setAllowSort( false );
-		$grid->addColumn( 'date_time', Tr::_( 'Date and time' ) );
-
-
-		$list = Article::getList( $search_form->getValue() );
-
-		$grid->setData( $list );
-
-		$this->view->setVar( 'grid', $grid );
+		$this->view->setVar( 'filter_form', $listing->filter_getForm());
+		$this->view->setVar( 'grid', $listing->getGrid() );
 
 		$this->render( 'admin/list' );
 	}
@@ -125,7 +126,7 @@ class Controller_Admin extends Mvc_Controller_Default
 				Tr::_( 'Article <b>%TITLE%</b> has been created', [ 'TITLE' => $article->getTitle() ] )
 			);
 
-			Http_Headers::movedTemporary( $this->getControllerRouter()->getEditURI( $article->getId() ) );
+			Http_Headers::reload( ['id'=>$article->getId()], ['action'] );
 		}
 
 
@@ -139,11 +140,7 @@ class Controller_Admin extends Mvc_Controller_Default
 	 */
 	public function edit_Action()
 	{
-
-		/**
-		 * @var Article $article
-		 */
-		$article = $this->getParameter( 'article' );
+		$article = $this->article;
 
 		$this->_setBreadcrumbNavigation( Tr::_( 'Edit article <b>%TITLE%</b>', [ 'TITLE' => $article->getTitle() ] ) );
 
@@ -159,7 +156,7 @@ class Controller_Admin extends Mvc_Controller_Default
 				Tr::_( 'Article <b>%TITLE%</b> has been updated', [ 'TITLE' => $article->getTitle() ] )
 			);
 
-			Http_Headers::movedTemporary( $this->getControllerRouter()->getEditURI( $article->getId() ) );
+			Http_Headers::reload();
 		}
 
 
@@ -173,11 +170,7 @@ class Controller_Admin extends Mvc_Controller_Default
 	 */
 	public function view_Action()
 	{
-
-		/**
-		 * @var Article $article
-		 */
-		$article = $this->getParameter( 'article' );
+		$article = $this->article;
 
 		$this->_setBreadcrumbNavigation(
 			Tr::_( 'Article detail <b>%TITLE%</b>', [ 'TITLE' => $article->getTitle() ] )

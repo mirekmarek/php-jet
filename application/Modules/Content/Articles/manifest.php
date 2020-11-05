@@ -18,7 +18,7 @@ return [
 			'articles' => [
 				'title'                  => 'Articles',
 				'relative_path_fragment' => 'articles',
-				'icon'                   => 'file-text',
+				'icon'                   => 'file-alt',
 				'contents' => [
 					[
 						'controller_name' => 'Admin',

@@ -18,10 +18,10 @@ $grid = $this->getRaw( 'grid' );
 
 				<?php if( $column->getAllowSort() ): ?>
 					<?php if( $column->isSortByAsc() ): ?>
-						<?=UI::icon( 'sort-amount-asc' )->setSize( 11 )?>
+						<?=UI::icon( 'sort-amount-down-alt' )->setSize( 11 )?>
 					<?php else: ?>
 						<a href="<?=$grid->getSortURL( $column->getName() );?>">
-							<?=UI::icon( 'sort-amount-asc' )->setSize( 11 )?>
+							<?=UI::icon( 'sort-amount-down-alt' )->setSize( 11 )?>
 						</a>
 					<?php endif; ?>
 				<?php endif; ?>
@@ -29,10 +29,10 @@ $grid = $this->getRaw( 'grid' );
 
 				<?php if( $column->getAllowSort() ): ?>
 					<?php if( $column->isSortByDesc() ): ?>
-						<?=UI::icon( 'sort-amount-desc' )->setSize( 11 )?>
+						<?=UI::icon( 'sort-amount-down' )->setSize( 11 )?>
 					<?php else: ?>
 						<a href="<?=$grid->getSortURL( $column->getName(), true );?>">
-							<?=UI::icon( 'sort-amount-desc' )->setSize( 11 )?>
+							<?=UI::icon( 'sort-amount-down' )->setSize( 11 )?>
 						</a>
 					<?php endif; ?>
 				<?php endif; ?>

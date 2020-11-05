@@ -1,44 +1,46 @@
 <?php
 namespace JetApplicationModule\ManageAccess\RESTClients\Users;
 
-use JetApplication\Auth_RESTClient_User;
+use JetApplication\Auth_RESTClient_User as User;
 
-use Jet\UI_dataGrid;
 use Jet\UI;
+use Jet\UI_dataGrid;
 use Jet\UI_button;
 
 use Jet\Tr;
 use Jet\Mvc_View;
+use Jet\Form;
 
 /**
- * @var Mvc_View               $this
- * @var UI_dataGrid            $grid
- * @var Controller_Main_Router $router
+ * @var Mvc_View     $this
+ * @var UI_dataGrid  $grid
+ * @var Form         $filter_form
  */
 $grid = $this->getRaw( 'grid' );
+$filter_form = $this->getRaw( 'filter_form' );
 $router = $this->getController()->getControllerRouter();
 
 
 $c_edit = $grid->getColumn( '_edit_' );
 $c_edit->setRenderer(
-	function( Auth_RESTClient_User $item ) use ( $router ) {
-		if( ( $edit_uri = $router->getEditURI( $item->getId() ) ) ):
+	function( User $item ) use ( $router ) {
+		if( ( $edit_uri = $router->action('edit')->URI( $item->getId() ) ) ):
 			echo UI::button_edit()->setUrl( $edit_uri )->setSize( UI_button::SIZE_EXTRA_SMALL);
 		endif;
 		echo '&nbsp;';
-		if( ( $delete_uri = $router->getDeleteURI( $item->getId() ) ) ):
+		if( ( $delete_uri = $router->action('delete')->URI( $item->getId() ) ) ):
 			echo UI::button_delete()->setUrl( $delete_uri )->setSize( UI_button::SIZE_EXTRA_SMALL);
 		endif;
 
 	}
 );
-$c_edit->setCssStyle( 'width:180px;' );
+$c_edit->setCssStyle( 'width:200px;' );
 
 $grid->getColumn( 'id' )->setCssStyle( 'width:120px;' );
 
 $grid->getColumn( 'username' )->setRenderer(
-	function( Auth_RESTClient_User $item ) use ( $router ) {
-		$edit_uri = $router->getEditOrViewURI( $item->getId() );
+	function( User $item ) use ( $router ) {
+		$edit_uri = $router->action('edit')->URI( $item->getId() );
 		?>
 		<a href="<?=$edit_uri;?>"><?=$item->getUsername();?></a>
 		<?php
@@ -46,32 +48,43 @@ $grid->getColumn( 'username' )->setRenderer(
 );
 
 $grid->getColumn( 'id' )->setRenderer(
-	function( Auth_RESTClient_User $item ) use ( $router ) {
-		$edit_uri = $router->getEditOrViewURI( $item->getId() );
+	function( User $item ) use ( $router ) {
+		$edit_uri = $router->action('edit')->URI( $item->getId() );
 		?>
 		<a href="<?=$edit_uri;?>"><?=$item->getId();?></a>
 		<?php
 	}
 );
 
-?>
-<div class="row">
-	<div class="col-md-12" style="padding: 0px">
-		<div class="toolbar" id="main-toolbar">
-			<div class="col-xs-7 col-md-3">
-				<?=$this->getRaw( 'search_form' ) ?>
-			</div>
-			<div class="col-xs-5 col-md-3">
-				<?php if( ( $add_uri = $router->getAddURI() ) ): ?>
-					<?=UI::button_create( Tr::_( 'Create a new User' ) )->setUrl( $add_uri )?>
-				<?php endif; ?>
-			</div>
-		</div>
-	</div>
-</div>
 
-<div class="row main-row">
-	<div class="col-md-12 main-col">
-		<?=$grid->render()?>
+?>
+
+<?=$filter_form->start()?>
+<div class="row toolbar">
+	<?php if( ( $add_uri = $router->action('add')->URI() ) ): ?>
+		<div class="col-md-2 col-sm-12">
+			<?=UI::button_create( Tr::_( 'Create a new User' ) )->setUrl( $add_uri )?>
+		</div>
+	<?php endif; ?>
+
+	<div class="col-md-3 col-sm-12">
+		<?=UI::searchField( 'search', $filter_form->field('search')->getValue() )?>
+	</div>
+	<div class="col-md-4 col-sm-12">
+		<table>
+			<tr>
+				<td><?=$filter_form->field('role')->label()?></td>
+				<td><?=$filter_form->field('role')->input()->addJsAction('onchange', 'this.form.submit()')?></td>
+			</tr>
+		</table>
+
+	</div>
+
+</div>
+<?=$filter_form->end()?>
+
+<div class="row">
+	<div class="col-md-12">
+		<?=$grid->render();?>
 	</div>
 </div>

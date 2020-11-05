@@ -1,15 +1,15 @@
 <?php
-const BOOTSTRAP_CSS_URL = '//netdna.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css';
-const FONT_AWESOME_CSS_URL = '//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css';
+const BOOTSTRAP_CSS_URL = '//stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css';
+const FONT_AWESOME_CSS_URL = 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css';
 const FLAGS_CSS_URL = JET_URI_PUBLIC.'styles/flags.css';
 
-const BOOTSTRAP_JS_URL = '//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js';
+const BOOTSTRAP_JS_URL = '//maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js';
 const JQUERY_JS_URL = '//ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js';
 
 const JET_AJAX_FORM_JS_URL = JET_URI_PUBLIC.'scripts/JetAjaxForm.js?v=1';
+const JET_MULTI_UPLOADER_JS_URL = JET_URI_PUBLIC.'scripts/JetMultiUploader.js?v=1';
 
-
-
+/*
 const WYSIWYG_DEFAULT_EDITOR_CSS_FILES = [
 	'' => [
 		'//cdnjs.cloudflare.com/ajax/libs/summernote/0.8.9/summernote.css'
@@ -28,10 +28,10 @@ $GLOBALS['WYSIWYG_DEFAULT_INITIALIZER_GENERATOR'] = function( \Jet\Form_Field_WY
 		.'$("#'.$field->getId().'").summernote('.json_encode($editor_config).');'
 		.'</script>'.JET_EOL;
 };
+*/
 
 
 
-/*
 const WYSIWYG_DEFAULT_EDITOR_CSS_FILES = [
 	'' => [
 		'//cdn.tinymce.com/4/skins/lightgray/skin.min.css'
@@ -76,4 +76,3 @@ $GLOBALS['WYSIWYG_DEFAULT_INITIALIZER_GENERATOR'] = function( \Jet\Form_Field_WY
 		.'</script>'.JET_EOL;
 
 };
-*/

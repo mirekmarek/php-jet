@@ -9,4 +9,4 @@ use Jet\Mvc_View;
 $t = $this->getRaw( 'element' );
 
 ?>
-<li<?=( $t->getIsSelected() ? ' class="active"' : '' )?>><a href="<?=$t->getUrl();?>" <?=$t->getJsActions()?>><?=$t->getTitle()?></a></li>
+<li class="nav-item"><a href="<?=$t->getUrl();?>" class="nav-link <?=( $t->getIsSelected() ? 'active' : '' )?>" <?=$t->getJsActions()?>><?=$t->getTitle()?></a></li>

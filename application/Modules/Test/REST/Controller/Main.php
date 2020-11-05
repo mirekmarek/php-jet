@@ -22,13 +22,6 @@ use Jet\Tr;
 class Controller_Main extends Mvc_Controller_Default
 {
 	/**
-	 * @var array
-	 */
-	const ACL_ACTIONS_MAP = [
-		'test_rest' => false,
-	];
-
-	/**
 	 *
 	 * @var Main
 	 */
@@ -234,5 +227,4 @@ class Controller_Main extends Mvc_Controller_Default
 		$this->render( 'tests' );
 
 	}
-
 }

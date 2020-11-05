@@ -100,4 +100,14 @@ interface Mvc_Router_Interface
 	public function getPath();
 
 
+	/**
+	 * @return string
+	 */
+	public function getUsedPath();
+
+	/**
+	 * @param string $used_path
+	 */
+	public function setUsedPath( $used_path );
+
 }

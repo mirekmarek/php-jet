@@ -111,7 +111,7 @@ class Data_Paginator extends BaseObject implements BaseObject_Interface_Serializ
 
 	/**
 	 *
-	 * @param int    $current_page_no (no 1 is first)
+	 * @param int    $current_page_no
 	 * @param int    $items_per_page
 	 * @param callable $URL_creator
 	 *

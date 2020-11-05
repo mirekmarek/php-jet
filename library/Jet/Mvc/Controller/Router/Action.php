@@ -21,11 +21,6 @@ class Mvc_Controller_Router_Action extends BaseObject
 	/**
 	 * @var string
 	 */
-	protected $regexp = '';
-
-	/**
-	 * @var string
-	 */
 	protected $controller_action = '';
 
 	/**
@@ -41,24 +36,17 @@ class Mvc_Controller_Router_Action extends BaseObject
 	/**
 	 * @var callable
 	 */
-	protected $validator;
-
-	/**
-	 * @var callable
-	 */
 	protected $URI_creator;
 
 	/**
 	 * @param Mvc_Controller_Router $router
 	 * @param string                $controller_action
-	 * @param string                $regexp
 	 * @param string                $module_action
 	 */
-	public function __construct( Mvc_Controller_Router $router, $controller_action, $regexp, $module_action )
+	public function __construct( Mvc_Controller_Router $router, $controller_action, $module_action )
 	{
 		$this->router = $router;
 		$this->controller_action = $controller_action;
-		$this->regexp = $regexp;
 		$this->module_action = $module_action;
 	}
 
@@ -116,30 +104,11 @@ class Mvc_Controller_Router_Action extends BaseObject
 		$this->module_action = $module_action;
 	}
 
-	/**
-	 * @return string
-	 */
-	public function getRegexp()
-	{
-		return $this->regexp;
-	}
-
-	/**
-	 * @param string $regexp
-	 *
-	 * @return Mvc_Controller_Router_Action
-	 */
-	public function setRegexp( $regexp )
-	{
-		$this->regexp = $regexp;
-
-		return $this;
-	}
 
 	/**
 	 * Callback prototype:
 	 *
-	 * someCallback( $path, Mvc_Controller_Router_Action $action )
+	 * someCallback( Mvc_Controller_Router_Action $action )
 	 *
 	 * Callback return value: bool, true if resolved
 	 *
@@ -166,54 +135,20 @@ class Mvc_Controller_Router_Action extends BaseObject
 		return $this;
 	}
 
-	/**
-	 * @param callable $validator
-	 *
-	 * @return Mvc_Controller_Router_Action
-	 */
-	public function setValidator( callable $validator )
-	{
-		$this->validator = $validator;
-
-		return $this;
-	}
 
 	/**
-	 * Returns true if resolved
-	 *
-	 * @param string $path
 	 *
 	 * @return bool
 	 */
-	public function resolve( $path )
+	public function resolve()
 	{
-		if( !$path ) {
+		if(!$this->resolver) {
 			return false;
 		}
 
-		if( $this->resolver ) {
-			$resolver = $this->resolver;
+		$resolver = $this->resolver;
 
-			return $resolver( $path, $this );
-		}
-
-
-		$matches = [];
-		if( !preg_match( $this->regexp, $path, $matches ) ) {
-			return false;
-		}
-
-		array_shift( $matches );
-
-		if( $this->validator ) {
-			$validator = $this->validator;
-
-			if( !$validator( $matches, $this ) ) {
-				return false;
-			}
-		}
-
-		return true;
+		return $resolver();
 	}
 
 
@@ -225,7 +160,7 @@ class Mvc_Controller_Router_Action extends BaseObject
 	 */
 	public function URI( ...$arguments )
 	{
-		if(!$this->accessAllowed()) {
+		if(!$this->isAccessAllowed()) {
 			return false;
 		}
 
@@ -236,7 +171,7 @@ class Mvc_Controller_Router_Action extends BaseObject
 	 *
 	 * @return bool
 	 */
-	public function accessAllowed()
+	public function isAccessAllowed()
 	{
 
 		$module_action = $this->getModuleAction();

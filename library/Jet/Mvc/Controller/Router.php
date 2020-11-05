@@ -25,6 +25,11 @@ class Mvc_Controller_Router extends BaseObject
 	protected $actions = [];
 
 	/**
+	 * @var Mvc_Controller_Router_Action
+	 */
+	protected $default_action;
+
+	/**
 	 * @param Mvc_Controller $controller
 	 */
 	public function __construct( Mvc_Controller $controller )
@@ -34,17 +39,30 @@ class Mvc_Controller_Router extends BaseObject
 
 	/**
 	 * @param string $controller_action_name
-	 * @param string $regexp
+	 * @param string $module_action_name
 	 *
 	 * @return Mvc_Controller_Router_Action
 	 */
-	public function addAction( $controller_action_name, $regexp='' )
+	public function addAction( $controller_action_name, $module_action_name='' )
 	{
-		$module_action = $this->controller->getModuleAction($controller_action_name);
-
-		$action = new Mvc_Controller_Router_Action( $this, $controller_action_name, $regexp, $module_action );
+		$action = new Mvc_Controller_Router_Action( $this, $controller_action_name, $module_action_name );
 
 		$this->actions[$controller_action_name] = $action;
+
+		return $action;
+	}
+
+	/**
+	 * @param string $controller_action_name
+	 * @param string $module_action_name
+	 *
+	 * @return Mvc_Controller_Router_Action
+	 */
+	public function setDefaultAction( $controller_action_name, $module_action_name='' )
+	{
+		$action = $this->addAction($controller_action_name, $module_action_name);
+
+		$this->default_action = $action;
 
 		return $action;
 	}
@@ -68,6 +86,16 @@ class Mvc_Controller_Router extends BaseObject
 	}
 
 	/**
+	 * @param string $action_name
+	 *
+	 * @return Mvc_Controller_Router_Action
+	 */
+	public function action( $action_name )
+	{
+		return $this->actions[$action_name];
+	}
+
+	/**
 	 * @param string $controller_action_name
 	 *
 	 * @return Mvc_Controller_Router_Action
@@ -77,28 +105,54 @@ class Mvc_Controller_Router extends BaseObject
 		return $this->actions[$controller_action_name];
 	}
 
+	/**
+	 * @return Mvc_Controller_Router_Action
+	 */
+	public function getDefaultAction(): Mvc_Controller_Router_Action
+	{
+		return $this->default_action;
+	}
+
 
 	/**
-	 * @param string $path
 	 *
-	 * @return bool
+	 * @return bool|string
 	 */
-	public function resolve( $path )
+	public function resolve()
 	{
+		$access_denied = false;
 		foreach( $this->actions as $action ) {
 
-			if( !$action->resolve( $path ) ) {
+			if( !$action->resolve() ) {
 				continue;
 			}
 
-			$this->controller->getContent()->setControllerAction( $action->getControllerAction() );
+			if(!$action->isAccessAllowed()) {
+				$access_denied = true;
+				continue;
+			}
 
-			return true;
+			return $action->getControllerAction();
 		}
 
+		if(
+			$this->default_action
+		) {
+			$action = $this->default_action;
+
+			if(!$action->isAccessAllowed()) {
+				$access_denied = true;
+			} else {
+				return $action->getControllerAction();
+
+			}
+		}
+
+		if($access_denied) {
+			$this->controller->responseAccessDenied();
+		}
 
 		return false;
-
 	}
 
 }

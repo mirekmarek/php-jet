@@ -19,34 +19,17 @@ trait Mvc_Page_Trait_Handlers
 	 *
 	 * @return bool
 	 */
-	public function resolvePath()
+	public function resolve()
 	{
 		/**
 		 * @var Mvc_Page_Trait_Handlers|Mvc_Page $this
 		 */
 		$path = Mvc::getRouter()->getPath();
 
-		if(!$path) {
-			foreach( $this->getContent() as $content ) {
-				/**
-				 * @var Mvc_Page_Content $content
-				 */
-
-				if(
-					$content->getOutput() ||
-					!($controller = $content->getControllerInstance())
-				) {
-					continue;
-				}
-
-				$controller->resolve( '' );
-			}
-
-			return true;
-		}
-
-
-		if( strpos( $path, '..' )==false ) {
+		if(
+			$path &&
+			strpos( $path, '..' )==false
+		) {
 			if($path==static::getPageDataFileName()) {
 				return false;
 			}
@@ -58,10 +41,7 @@ trait Mvc_Page_Trait_Handlers
 
 				return true;
 			}
-
 		}
-
-		$path_resolved = false;
 
 		foreach( $this->getContent() as $content ) {
 			/**
@@ -76,12 +56,16 @@ trait Mvc_Page_Trait_Handlers
 				continue;
 			}
 
-			if( $controller->resolve( $path ) ) {
-				$path_resolved = true;
+			if( ($action=$controller->resolve()) ) {
+				if($action!==true) {
+					$controller->getContent()->setControllerAction( $action );
+				}
+			} else {
+				$content->skipDispatch();
 			}
 		}
 
-		return $path_resolved;
+		return true;
 	}
 
 	/**

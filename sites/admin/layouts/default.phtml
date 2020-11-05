@@ -16,62 +16,30 @@ require_once 'parts/init_libs.php';
 <body>
 <script type="text/javascript">
 	$(document).ready(function () {
-
-
-		var toolbar = $('#main-toolbar');
-
-		if(!toolbar.offset()) {
+		var main_toolbar = document.getElementById("main-toolbar");
+		if(!main_toolbar) {
 			return;
 		}
+		var main_col = document.getElementById("main-col");
+		var main_toolbar_initial_offset = main_toolbar.offsetTop;
+		var main_toolbar_height = main_toolbar.offsetHeight;
+		var main_col_initial_padding_top = main_col.style.paddingTop;
 
-		var toolbar_offset = toolbar.offset().top;
-		var main_menu_h = 51;
-		var scroll_limit = toolbar_offset-main_menu_h;
-
-		$(window).scroll( function( event ) {
-
-			var w_s = $(this).scrollTop();
-
-			if(w_s>=scroll_limit) {
-				toolbar.css({
-					position: 'fixed',
-					top: (main_menu_h)+'px'
-				});
-
-				$('.main-col').css({
-					'margin-top': (main_menu_h)+'px'
-				});
+		window.onscroll = function() {
+			if (window.pageYOffset > main_toolbar_initial_offset) {
+				main_toolbar.classList.add("main-toolbar-sticky");
+				main_col.style.paddingTop = main_toolbar_height+'px';
 			} else {
-				toolbar.css({
-					position: 'relative',
-					width: '100%',
-					top: 'auto'
-				});
-				$('.main-col').css({
-					'margin-top': '0px'
-				});
-
+				main_toolbar.classList.remove("main-toolbar-sticky");
+				main_col.style.paddingTop = main_col_initial_padding_top;
 			}
-		} );
+		};
 	});
-
-
 </script>
-<div class="container" id="container" style="width: 100%;min-height: 100%;height: 100%;">
-	<div class="row" style="height: 50px;">
-		<nav class="navbar navbar-inverse navbar-fixed-top">
-			<div class="container-fluid">
-				<jet_module module="UI.Admin" action="main_menu"/>
-			</div>
-		</nav>
-	</div>
+<jet_module module="UI.Admin" action="main_menu"/>
+<jet_module module="UI.Admin" action="breadcrumb_navigation"/>
 
-	<div class="row">
-		<div class="col-md-12 breadcrumb_navigation">
-			<jet_module module="UI.Admin" action="breadcrumb_navigation"/>
-		</div>
-	</div>
-
+<div class="container-fluid">
 	<div class="row">
 		<div class="col-md-12" id="system-messages-area">
 			<jet_module module="UI.Admin" action="messages"/>
@@ -80,6 +48,7 @@ require_once 'parts/init_libs.php';
 
 	<jet_layout_main_position/>
 </div>
+
 
 
 <div id="__progress__">

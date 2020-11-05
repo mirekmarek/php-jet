@@ -32,7 +32,7 @@ trait Form_Field_Trait_Validation
 	 *
 	 * @var string
 	 */
-	protected $validation_regexp;
+	protected $validation_regexp = '';
 
 	/**
 	 *
@@ -183,7 +183,10 @@ trait Form_Field_Trait_Validation
 
 		$regexp = $this->validation_regexp;
 
-		if( $regexp[0]=='/' ) {
+		if(
+			isset($regexp[0]) &&
+			$regexp[0]=='/'
+		) {
 			$regexp = substr( $regexp, 1 );
 			$regexp = substr( $regexp, 0, strrpos( $regexp, '/' ) );
 		}

@@ -5,7 +5,7 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
-namespace JetApplicationModule\ManageAccess\Administrators\Users;
+namespace JetApplicationModule\ManageAccess\Visitors\Users;
 
 use Jet\Data_Listing;
 use Jet\DataModel_Fetch_Instances;
@@ -14,8 +14,8 @@ use Jet\Form_Field_Search;
 use Jet\Form_Field_Select;
 use Jet\Http_Request;
 use Jet\Tr;
-use JetApplication\Auth_Administrator_User as User;
-use JetApplication\Auth_Administrator_Role as Role;
+use JetApplication\Auth_Visitor_User as User;
+use JetApplication\Auth_Visitor_Role as Role;
 
 /**
  *
@@ -103,10 +103,6 @@ class Listing extends Data_Listing {
 		$search = '%'.$this->search.'%';
 		$this->filter_addWhere([
 			'username *'   => $search,
-			'OR',
-			'first_name *' => $search,
-			'OR',
-			'surname *'    => $search,
 			'OR',
 			'email *'      => $search,
 		]);

@@ -15,13 +15,15 @@ if(!$r->getBaseCssClasses()) {
 $field = $r->getField();
 ?>
 	<div class="<?=$r->getCssClasses()?>">
-		<label><input type="checkbox" name="<?=$field->getTagNameValue()?>" id="<?=$field->getId()?>" value="1" <?php
+		<input type="checkbox" name="<?=$field->getTagNameValue()?>" id="<?=$field->getId()?>" value="1" <?php
 
-			if( $r->getCssStyles() ) echo ' style ="'.$r->getCssStyles().'"';
-			if( $r->getJsActions() ) echo $r->getJsActions();
+		if( $r->getCssStyles() ) echo ' style ="'.$r->getCssStyles().'"';
+		if( $r->getJsActions() ) echo $r->getJsActions();
 
-			if( $field->getIsReadonly() ) echo ' disabled="disabled"';
-			if( $field->getValue() ) echo ' checked="checked"';
+		if( $field->getIsReadonly() ) echo ' disabled="disabled"';
+		if( $field->getValue() ) echo ' checked="checked"';
 
-			?>/><?=$r->getField()->getLabel()?></label>
+		?>/>
+
+		<label class="form-check-label" for="<?=$field->getId()?>"><?=$r->getField()->getLabel()?></label>
 	</div>

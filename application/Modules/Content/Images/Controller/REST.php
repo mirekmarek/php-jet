@@ -8,6 +8,7 @@
 namespace JetApplicationModule\Content\Images;
 
 use Jet\Http_Request;
+use Jet\Mvc;
 use Jet\Mvc_Controller_REST;
 use Jet\REST;
 
@@ -41,12 +42,12 @@ class Controller_REST extends Mvc_Controller_REST
 	protected $module = null;
 
 	/**
-	 * @param string $path
 	 *
 	 * @return bool
 	 */
-	public function resolve( $path )
+	public function resolve()
 	{
+		$path = Mvc::getRouter()->getPath();
 
 		$gallery = null;
 		$image = null;
@@ -325,7 +326,7 @@ class Controller_REST extends Mvc_Controller_REST
 			($thb=Http_Request::GET()->getString('thumbnail')) &&
 			preg_match('/^([0-9]{1,})x([0-9]{1,})$/', $thb)
 		) {
-			list( $max_w, $max_h ) = explode('x', $thb);
+			[ $max_w, $max_h ] = explode('x', $thb);
 
 			$thb = $image->getThumbnail($max_w, $max_h);
 

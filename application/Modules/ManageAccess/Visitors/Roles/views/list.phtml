@@ -1,8 +1,9 @@
 <?php
 namespace JetApplicationModule\ManageAccess\Visitors\Roles;
 
-use JetApplication\Auth_Visitor_Role;
+use JetApplication\Auth_Visitor_Role as Role;
 
+use Jet\Form;
 use Jet\UI_dataGrid;
 use Jet\UI;
 use Jet\UI_button;
@@ -11,23 +12,23 @@ use Jet\Tr;
 use Jet\Mvc_View;
 
 /**
- * @var Mvc_View               $this
- * @var Controller_Main_Router $router
- * @var UI_dataGrid            $grid
+ * @var Mvc_View     $this
+ * @var UI_dataGrid  $grid
+ * @var Form         $filter_form
  */
 $router = $this->getController()->getControllerRouter();
 $grid = $this->getRaw( 'grid' );
-
+$filter_form = $this->getRaw( 'filter_form' );
 
 $c_edit = $grid->getColumn( '_edit_' );
 $c_edit->setRenderer(
-	function( Auth_Visitor_Role $item ) use ( $router ) {
+	function( Role $item ) use ( $router ) {
 
-		if( ( $edit_uri = $router->getEditURI( $item->getId() ) ) ):
+		if( ( $edit_uri = $router->action('edit')->URI( $item->getId() ) ) ):
 			echo UI::button_edit()->setUrl( $edit_uri )->setSize( UI_button::SIZE_EXTRA_SMALL);
 		endif;
 		echo '&nbsp;';
-		if( ( $delete_uri = $router->getDeleteURI( $item->getId() ) ) ):
+		if( ( $delete_uri = $router->action('delete')->URI( $item->getId() ) ) ):
 			echo UI::button_delete()->setUrl( $delete_uri )->setSize( UI_button::SIZE_EXTRA_SMALL);
 		endif;
 	}
@@ -37,44 +38,42 @@ $grid->getColumn( 'id' )->setCssStyle( 'width:120px;' );
 
 
 $grid->getColumn( 'id' )->setRenderer(
-	function( Auth_Visitor_Role $item ) use ( $router ) {
-		$edit_uri = $router->getEditOrViewURI( $item->getId() );
+	function( Role $item ) use ( $router ) {
+		$edit_uri = $router->action('edit')->URI( $item->getId() );
 
 		?><a href="<?=$edit_uri?>"><?=$item->getId();?></a><?php
 	}
 );
 
 $grid->getColumn( 'name' )->setRenderer(
-	function( Auth_Visitor_Role $item ) use ( $router ) {
-		$edit_uri = $router->getEditOrViewURI( $item->getId() );
+	function( Role $item ) use ( $router ) {
+		$edit_uri = $router->action('edit')->URI( $item->getId() );
 
 		?><a href="<?=$edit_uri?>"><?=$item->getName();?></a><?php
 	}
 );
 $grid->getColumn( 'description' )->setRenderer(
-	function( Auth_Visitor_Role $item ) {
+	function( Role $item ) {
 		echo $item->getDescription();
 	}
 );
 ?>
+
+<?=$filter_form->start()?>
+<div class="row toolbar">
+	<div class="col-xs-5 col-md-2">
+		<?php if( ( $add_uri = $router->action('add')->URI() ) ): ?>
+			<?=UI::button_create( Tr::_( 'Create a new Role' ) )->setUrl( $add_uri )?>
+		<?php endif; ?>
+	</div>
+	<div class="col-xs-7 col-md-3">
+		<?=UI::searchField( 'search', $filter_form->field('search')->getValue() )?>
+	</div>
+</div>
+<?=$filter_form->end()?>
+
 <div class="row">
-	<div class="col-md-12" style="padding: 0px">
-		<div class="toolbar" id="main-toolbar">
-			<div class="col-xs-7 col-md-3">
-				<?=$this->getRaw( 'search_form' ) ?>
-			</div>
-			<div class="col-xs-5 col-md-3">
-				<?php if( ( $add_uri = $router->getAddURI() ) ): ?>
-					<?=UI::button_create( Tr::_( 'Create a new Role' ) )->setUrl( $add_uri )?>
-				<?php endif; ?>
-			</div>
-		</div>
+	<div class="col-md-12">
+		<?=$grid->render();?>
 	</div>
 </div>
-
-<div class="row main-row">
-	<div class="col-md-12 main-col">
-		<?=$grid->render()?>
-	</div>
-</div>
-

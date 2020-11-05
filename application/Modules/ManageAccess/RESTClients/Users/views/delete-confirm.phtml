@@ -1,37 +1,34 @@
 <?php
 namespace JetApplicationModule\ManageAccess\RESTClients\Users;
 
+use JetApplication\Auth_RESTClient_User as User;
+
+use Jet\Http_Request;
 use Jet\UI;
-use JetApplication\Auth_RESTClient_User;
-use Jet\Mvc;
 use Jet\Mvc_View;
 use Jet\Tr;
 
 /**
- * @var Mvc_View             $this
- * @var Auth_RESTClient_User $user
+ * @var Mvc_View   $this
+ * @var User       $user
  */
 $user = $this->getRaw( 'user' );
-
-/**
- * @var Controller_Main_Router $router
- */
 $router = $this->getController()->getControllerRouter();
 
 ?>
 
 <div class="row">
-	<div class="col-md-12 main-col">
+	<div class="col-md-12" id="main-col">
 
-		<?=UI::button_goBack()->setUrl( Mvc::getCurrentPage()->getURI() )?>
+		<?=UI::button_goBack()?>
 		<p>
 			<?=Tr::_( 'Do you really want to delete this user?' );?>
 			<br/>
-			<a href="<?=$router->getViewURI( $user->getId() );?>"
-			   style="font-weight: bolder;font-size: 20px;"><?=$user->getName();?> (<?=$user->getUsername();?>)</a>
+			<a href="<?=$router->action('edit')->URI( $user->getId() );?>"
+			   style="font-weight: bolder;font-size: 20px;"><?=$user->getUsername();?></a>
 		</p>
 
-		<form action="?delete=<?=rawurlencode( $user->getId() );?>" method="post">
+		<form action="<?=Http_Request::currentURI()?>" method="post">
 			<input type="hidden" name="delete" value="yes">
 			<?=UI::button_delete()->setType( 'submit' )?>
 		</form>

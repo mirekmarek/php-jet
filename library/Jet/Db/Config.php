@@ -76,7 +76,7 @@ class Db_Config extends Config
 	 *
 	 * @param string $connection_name
 	 *
-	 * @return Db_Backend_Config
+	 * @return
 	 */
 	public function getConnection( $connection_name )
 	{

@@ -13,28 +13,6 @@ namespace Jet;
 abstract class Mvc_Controller extends BaseObject
 {
 	/**
-	 * Format:
-	 *
-	 * controller_action => module_action_name | false
-	 *
-	 *
-	 *
-	 * Example:
-	 *
-	 * <code>
-	 * const ACL_ACTIONS_MAP = [
-	 *      'default' => Main::ACTION_GET,
-	 *      'add'     => Main::ACTION_ADD,
-	 *      'edit'    => Main::ACTION_UPDATE,
-	 *      'view'    => Main::ACTION_GET,
-	 *      'delete'  => Main::ACTION_DELETE,
-	 * ];
-	 *
-	 * @var array
-	 */
-	const ACL_ACTIONS_MAP = [];
-
-	/**
 	 * @var Mvc_Page_Content_Interface
 	 */
 	protected $content;
@@ -89,7 +67,6 @@ abstract class Mvc_Controller extends BaseObject
 		return $this->module;
 	}
 
-
 	/**
 	 *
 	 *
@@ -98,25 +75,6 @@ abstract class Mvc_Controller extends BaseObject
 	public function getControllerRouter()
 	{
 		return null;
-	}
-
-	/**
-	 * @param string $controller_action
-	 *
-	 * @return string|bool
-	 *
-	 * @throws Mvc_Controller_Exception
-	 */
-	public function getModuleAction( $controller_action )
-	{
-		if( !array_key_exists( $controller_action, static::ACL_ACTIONS_MAP ) ) {
-			throw new Mvc_Controller_Exception(
-				'Action \''.$controller_action.'\' is not specified in ACL check map! Please enter the ACL rules. Add '.get_called_class().'::ACL_ACTIONS_MAP['.$controller_action.'] entry.',
-				Mvc_Controller_Exception::CODE_UNKNOWN_ACL_ACTION
-			);
-		}
-
-		return static::ACL_ACTIONS_MAP[$controller_action];
 	}
 
 	/**
@@ -134,7 +92,7 @@ abstract class Mvc_Controller extends BaseObject
 	{
 
 		$module_name = $this->module->getModuleManifest()->getName();
-		$module_action = $this->getModuleAction( $this->content->getControllerAction() );
+		$module_action = $this->content->getControllerAction();
 
 		Application_Logger::success(
 			'allowed_action:'.$module_name.':'.$module_action,
@@ -179,50 +137,21 @@ abstract class Mvc_Controller extends BaseObject
 
 
 	/**
-	 * @param string $path
 	 *
-	 * @return bool
+	 * @return bool|string
 	 */
-	public function resolve( $path )
+	public function resolve()
 	{
-		if(!$path) {
-			return false;
-		}
-
 		$router = $this->getControllerRouter();
 		if( !$router ) {
-			return false;
-		}
-
-
-		return $router->resolve( $path );
-	}
-
-
-
-	/**
-	 *
-	 * @throws Mvc_Controller_Exception
-	 *
-	 * @return bool
-	 */
-	public function actionIsAllowed()
-	{
-
-		$module_action = $this->getModuleAction( $this->content->getControllerAction() );
-
-		if( $module_action===false ) {
 			return true;
 		}
 
-		if( !$this->module->actionIsAllowed( $module_action ) ) {
-			$this->responseAccessDenied();
-
-			return false;
-		}
-
-		return true;
+		return $router->resolve();
 	}
+
+
+
 
 	/**
 	 *
@@ -231,9 +160,7 @@ abstract class Mvc_Controller extends BaseObject
 	 */
 	public function dispatch()
 	{
-
 		$method = $this->content->getControllerAction().'_Action';
-
 
 		if( !method_exists( $this, $method ) ) {
 			throw new Exception(
@@ -242,15 +169,14 @@ abstract class Mvc_Controller extends BaseObject
 		}
 
 		$this->{$method}();
-
 	}
 
 	/**
 	 * Renders the output and adds it into the default layout.
 	 *
 	 * @param string $script
-	 * @param string $position (optional, default: by current dispatcher queue item)
-	 * @param int    $position_order (optional, default: by current dispatcher queue item)
+	 * @param string|null $position (optional, default: by current dispatcher queue item)
+	 * @param int|null    $position_order (optional, default: by current dispatcher queue item)
 	 */
 	protected function render( $script, $position = null, $position_order = null )
 	{
@@ -277,9 +203,6 @@ abstract class Mvc_Controller extends BaseObject
 			$position_order
 		);
 
-
-		return;
 	}
-
 
 }

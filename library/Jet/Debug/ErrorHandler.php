@@ -125,6 +125,10 @@ class Debug_ErrorHandler
 	 */
 	public static function handleError( $code, $message, $file, $line, $context )
 	{
+		if(strpos($message,'should not be abstract')!==false) {
+			return;
+		}
+
 		$error = Debug_ErrorHandler_Error::newError( $code, $message, $file, $line, $context );
 
 		static::$last_error = $error;

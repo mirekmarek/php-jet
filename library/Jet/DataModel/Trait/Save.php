@@ -57,7 +57,7 @@ trait DataModel_Trait_Save
 	 * @param array $data
 	 * @param array $where
 	 */
-	public function updateData( array $data, array $where )
+	public static function updateData( array $data, array $where )
 	{
 		/**
 		 * @var DataModel         $this
@@ -69,7 +69,8 @@ trait DataModel_Trait_Save
 		/** @noinspection PhpParamsInspection */
 		$backend->update(
 			DataModel_RecordData::createRecordData(
-				$this, $data
+				get_called_class(),
+				$data
 			),
 			static::createQuery(
 				$where

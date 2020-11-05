@@ -24,7 +24,6 @@ $value = $field->getValue();
 		?>
 
 		<div class="<?=$class?>">
-		<label>
 			<input type="radio" name="<?=$field->getTagNameValue()?>" value="<?=Data_Text::htmlSpecialChars($key)?>"
 				<?php
 				if( $field->getValue()==$key ) { ?> checked="checked"<?php }
@@ -36,7 +35,6 @@ $value = $field->getValue();
 				if( $field->getIsRequired() ) { ?> required="required"<?php }
 				?>
 			/>
-			<?=$option?>
-		</label>
+			<label class="form-check-label" for="<?=$field->getId()?>"><?=$option?></label>
 		</div>
 	<?php endforeach; ?>

@@ -22,16 +22,6 @@ use Jet\Mvc_Page;
 class Controller_Main extends Mvc_Controller_Default
 {
 	/**
-	 * @var array
-	 */
-	const ACL_ACTIONS_MAP = [
-		'logout'                => false,
-		'default'               => false,
-		'breadcrumb_navigation' => false,
-		'messages'              => false,
-		'main_menu'             => false,
-	];
-	/**
 	 *
 	 * @var Main
 	 */

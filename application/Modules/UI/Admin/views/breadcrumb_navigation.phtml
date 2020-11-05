@@ -3,12 +3,26 @@ use Jet\Navigation_Breadcrumb;
 
 $items = Navigation_Breadcrumb::getItems();
 ?>
-<ol class="breadcrumb" style="margin-bottom: 0;">
-	<?php foreach( $items as $item ): ?>
-		<?php if( $item->getIsActive() ): ?>
-		<li class="active"><?php else: ?><li><?php endif; ?>
-		<?php if( !$item->getIsLast() ): ?><a href="<?=$item->getURL();?>"><?=$item->getTitle();?></a>
-	<?php else: ?><?=$item->getTitle();?><?php endif; ?>
-		</li>
-	<?php endforeach; ?>
-</ol>
+<nav aria-label="breadcrumb">
+	<ol class="breadcrumb" style="margin-bottom: 0;">
+		<?php foreach( $items as $item ): ?>
+			<?php if( $item->getIsActive() ): ?>
+				<li class="breadcrumb-item active">
+					<?php if( !$item->getIsLast() ): ?>
+						<a href="<?=$item->getURL();?>"><?=$item->getTitle();?></a>
+					<?php else: ?>
+						<?=$item->getTitle();?>
+					<?php endif; ?>
+				</li>
+			<?php else: ?>
+				<li class="breadcrumb-item">
+					<?php if( !$item->getIsLast() ): ?>
+						<a href="<?=$item->getURL();?>"><?=$item->getTitle();?></a>
+					<?php else: ?>
+						<?=$item->getTitle();?>
+					<?php endif; ?>
+				</li>
+			<?php endif; ?>
+		<?php endforeach; ?>
+	</ol>
+</nav>

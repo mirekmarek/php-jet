@@ -1,13 +1,15 @@
 <?php
 use Jet\Mvc_View;
 use Jet\Form_Renderer;
-
+use Jet\Form;
 /**
  * @var Mvc_View $this
  * @var Form_Renderer $r
  */
 $r = $this->getRaw( 'element' );
 $form = $r->getForm();
+
+//$form->setNovalidate(true);
 
 if(!$r->getBaseCssClasses()) {
 	$r->setBaseCssClass('form-horizontal');

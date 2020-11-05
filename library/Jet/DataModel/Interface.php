@@ -200,7 +200,7 @@ interface DataModel_Interface extends BaseObject_Interface_Serializable_JSON
 	 * @param array $data
 	 * @param array $where
 	 */
-	public function updateData( array $data, array $where );
+	public static function updateData( array $data, array $where );
 
 //-- Delete -------------------------------------
 	/**

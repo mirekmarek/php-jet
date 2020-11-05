@@ -18,19 +18,12 @@ use Jet\Mvc_Controller_Default;
  */
 class Controller_Main extends Mvc_Controller_Default
 {
-	/**
-	 * @var array
-	 */
-	const ACL_ACTIONS_MAP = [
-	    'test_orm'        => false
-	];
 
 	/**
 	 *
 	 * @var Main
 	 */
 	protected $module = null;
-
 
 	/**
 	 *
@@ -68,7 +61,5 @@ class Controller_Main extends Mvc_Controller_Default
 
 
 		$this->render('tests');
-
 	}
-
 }

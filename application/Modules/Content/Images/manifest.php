@@ -22,7 +22,7 @@ return [
 			'images' => [
 				'title'                  => 'Images',
 				'relative_path_fragment' => 'images',
-				'icon'                   => 'picture-o',
+				'icon'                   => 'images',
 				'contents' => [
 					[
 						'controller_name' => 'Admin',
@@ -34,7 +34,7 @@ return [
 				'name'                   => 'Dialog - Select image',
 				'title'                  => 'Select image',
 				'relative_path_fragment' => 'select-image',
-				'icon'                   => 'picture-o',
+				'icon'                   => 'images',
 				'contents' => [
 					[
 						'controller_name' => 'Admin_Dialogs',
@@ -67,6 +67,4 @@ return [
 			],
 		],
 	],
-
-
 ];

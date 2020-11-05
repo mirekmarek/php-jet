@@ -2,6 +2,7 @@
 use Jet\UI_button;
 use Jet\UI;
 use Jet\Mvc_View;
+use Jet\Http_Request;
 
 /**
  * @var Mvc_View  $this
@@ -18,15 +19,15 @@ if(!$b->getIcon()) {
 }
 
 if(!$b->getClass()) {
-	$b->setClass('default');
+	$b->setClass('light');
 }
 
-if($b->getUrl()):
-	?><a href="<?=$b->getUrl()?>" class="btn btn-<?=$b->getClass()?> btn-<?=$b->getSize()?>" <?=$b->getJsActions()?>><?php
-	if( $b->getIcon() ) echo UI::icon($b->getIcon());
-	?>&nbsp;<?=$b->getLabel()?></a><?php
-else:
-	?><button type="<?=$b->getType()?>" class="btn btn-<?=$b->getClass()?> btn-<?=$b->getSize()?>" <?=$b->getJsActions()?>><?php
-	if( $b->getIcon() ) echo UI::icon($b->getIcon());
-	?>&nbsp;<?=$b->getLabel()?></button><?php
-endif;
+$URL = $b->getUrl();
+
+if(!$URL) {
+	$URL = Http_Request::currentURI([], ['id', 'action']);
+}
+
+?><a href="<?=$URL?>" class="btn btn-<?=$b->getClass()?> btn-<?=$b->getSize()?>" <?=$b->getJsActions()?>><?php
+if( $b->getIcon() ) echo UI::icon($b->getIcon());
+?>&nbsp;<?=$b->getLabel()?></a>

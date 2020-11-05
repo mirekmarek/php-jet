@@ -14,20 +14,12 @@ use Jet\Mvc_Controller_Default;
  */
 class Controller_Admin_Dialogs extends Mvc_Controller_Default
 {
-	/**
-	 * @var array
-	 */
-	const ACL_ACTIONS_MAP = [
-		'select_image' => Main::ACTION_GET_GALLERY,
 
-
-	];
 	/**
 	 *
 	 * @var Main
 	 */
 	protected $module = null;
-
 
 	/**
 	 *
@@ -36,6 +28,4 @@ class Controller_Admin_Dialogs extends Mvc_Controller_Default
 	{
 
 	}
-
-
 }

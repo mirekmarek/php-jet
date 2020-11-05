@@ -7,9 +7,9 @@
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
 
-namespace JetApplicationModule\ManageAccess\Administrators\Roles;
+namespace JetApplicationModule\ManageAccess\Visitors\Roles;
 
-use JetApplication\Auth_Administrator_Role as Role;
+use JetApplication\Auth_Visitor_Role as Role;
 
 use Jet\Data_Listing;
 use Jet\DataModel_Fetch_Instances;

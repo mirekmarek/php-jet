@@ -105,6 +105,11 @@ class Data_Tree_Node extends BaseObject implements BaseObject_Interface_Iterator
 	protected $select_option_css_class = '';
 
 	/**
+	 * @var array
+	 */
+	protected $_all_children_ids;
+
+	/**
 	 *
 	 * @param Data_Tree $tree
 	 * @param mixed     $data
@@ -303,6 +308,23 @@ class Data_Tree_Node extends BaseObject implements BaseObject_Interface_Iterator
 	public function getChildren()
 	{
 		return $this->_children;
+	}
+
+	/**
+	 * @return array
+	 */
+	public function getAllChildrenIds()
+	{
+		if($this->_all_children_ids===null) {
+			$this->_all_children_ids = [];
+
+			foreach($this->_children as $ch) {
+				$this->_all_children_ids[] = $ch->getId();
+				$this->_all_children_ids = array_merge($this->_all_children_ids, $ch->getAllChildrenIds());
+			}
+		}
+
+		return $this->_all_children_ids;
 	}
 
 	/**

@@ -206,12 +206,26 @@ class UI
 	}
 
 	/**
-	 * @param string $name
+	 * @param string      $id
+	 * @param array       $tabs
+	 * @param string|null $selected_tab_id
 	 *
-	 * @return UI_searchForm
+	 * @return UI_tabsJS
 	 */
-	public static function searchForm( $name )
+	public static function tabsJS( $id, array $tabs, $selected_tab_id=null )
 	{
-		return new UI_searchForm( $name );
+		return new UI_tabsJS( $id, $tabs, $selected_tab_id );
+	}
+
+
+	/**
+	 * @param string $name
+	 * @param string $value
+	 *
+	 * @return UI_searchField
+	 */
+	public static function searchField( $name, $value )
+	{
+		return new UI_searchField( $name, $value );
 	}
 }

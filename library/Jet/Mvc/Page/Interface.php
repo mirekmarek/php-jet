@@ -460,7 +460,7 @@ interface Mvc_Page_Interface
 	 *
 	 * @return bool
 	 */
-	public function resolvePath();
+	public function resolve();
 
 	/**
 	 * @param string $file_path

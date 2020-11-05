@@ -68,8 +68,8 @@ class Controller_Admin extends Mvc_Controller_Default
 
 
 	/**
+	 * @param Gallery|null $gallery
 	 * @param string  $current_label
-	 * @param Gallery $gallery
 	 */
 	protected function _setBreadcrumbNavigation( $gallery = null, $current_label = '' )
 	{

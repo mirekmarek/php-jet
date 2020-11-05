@@ -1,7 +1,7 @@
 <?php
 /**
  *
- * @copyright Copyright (c) 2011-2018 Miroslav Marek <mirek.marek.2m@gmail.com>
+ * @copyright Copyright (c) 2011-2020 Miroslav Marek <mirek.marek.2m@gmail.com>
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
@@ -11,6 +11,7 @@ use Jet\Http_Headers;
 use Jet\Mvc_Controller_Default;
 use Jet\Mvc;
 use Jet\Data_Paginator;
+use Jet\Mvc_Controller_Router;
 use Jet\Navigation_Breadcrumb;
 
 /**
@@ -18,67 +19,80 @@ use Jet\Navigation_Breadcrumb;
  */
 class Controller_Web extends Mvc_Controller_Default
 {
-	const ACL_ACTIONS_MAP = [
-		'default' => false,
-		'list'    => false,
-		'detail'  => false,
-	];
 	/**
 	 *
 	 * @var Main
 	 */
 	protected $module = null;
+
+	/**
+	 * @var Mvc_Controller_Router
+	 */
+	protected $router;
+
 	/**
 	 * @var int
 	 */
 	protected $public_list_items_per_page = 20;
 
 	/**
-	 *
-	 * @param string $path
-	 *
-	 * @return bool
+	 * @var int
 	 */
-	public function resolve( $path )
-	{
-
-		if( preg_match('/^page:([0-9]{1,})$/', $path, $matches) ) {
-
-			$this->content->setControllerAction( 'list' );
-			$this->content->setParameter('page_no', $matches[1]);
-
-			return true;
-		} else {
-			$current_article = Article::resolveArticleByURL( $path, Mvc::getCurrentLocale() );
-
-			if( $current_article ) {
-				$this->content->setControllerAction( 'detail' );
-				$this->content->setParameter( 'article', $current_article );
-
-				return true;
-			}
-
-		}
-
-		return false;
-	}
-
+	protected $page_no = 1;
 
 	/**
-	 *
+	 * @var Article
 	 */
-	public function default_Action()
+	protected $article;
+
+	/**
+	 * @return Mvc_Controller_Router|null
+	 */
+	public function getControllerRouter()
 	{
-		$this->list_Action();
+		if(!$this->router) {
+			$this->router = new Mvc_Controller_Router($this);
+
+			$path = Mvc::getRouter()->getPath();
+
+			$this->router->addAction('list')
+				->setResolver(function() use ($path) {
+					if($path=='') {
+						return true;
+					}
+					if( preg_match( '/^page:([0-9]+)$/', $path, $matches) ) {
+						$this->page_no = $matches[1];
+						Mvc::getRouter()->setUsedPath( $path );
+						return true;
+					}
+
+					return false;
+				});
+			$this->router->addAction('detail')
+				->setResolver(function() use ($path) {
+					$current_article = Article::resolveArticleByURL( $path, Mvc::getCurrentLocale() );
+
+					if( !$current_article ) {
+						return false;
+					}
+					$this->article = $current_article;
+					Mvc::getRouter()->setUsedPath( $path );
+
+					return true;
+
+				});
+		}
+
+		return $this->router;
 	}
+
 
 	/**
 	 *
 	 */
 	public function list_Action()
 	{
-
-		$page_no = (int)$this->getParameter('page_no');
+		$page_no = $this->page_no;
 
 		$paginator = new Data_Paginator(
 			$page_no,
@@ -117,10 +131,7 @@ class Controller_Web extends Mvc_Controller_Default
 	 */
 	public function detail_Action()
 	{
-		/**
-		 * @var Article $article
-		 */
-		$article = $this->getParameter( 'article' );
+		$article = $this->article;
 
 		Navigation_Breadcrumb::addURL( $article->getTitle() );
 

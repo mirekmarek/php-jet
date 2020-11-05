@@ -1,7 +1,7 @@
 <?php
 /**
  *
- * @copyright Copyright (c) 2011-2018 Miroslav Marek <mirek.marek.2m@gmail.com>
+ * @copyright Copyright (c) 2011-2020 Miroslav Marek <mirek.marek.2m@gmail.com>
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
@@ -9,18 +9,12 @@ namespace JetApplicationModule\ManageAccess\RESTClients\Users;
 
 use JetApplication\Auth_RESTClient_User as User;
 
-use Jet\UI;
-use Jet\UI_dataGrid;
+use Jet\Mvc_Controller_Router_AddEditDelete;
 use Jet\UI_messages;
-
-
-use Jet\Mvc;
 use Jet\Mvc_Controller_Default;
-
 use Jet\Http_Headers;
 use Jet\Http_Request;
 use Jet\Tr;
-use Jet\Form;
 use Jet\Navigation_Breadcrumb;
 
 use JetApplicationModule\UI\Admin\Main as UI_module;
@@ -30,37 +24,53 @@ use JetApplicationModule\UI\Admin\Main as UI_module;
  */
 class Controller_Main extends Mvc_Controller_Default
 {
-
-	/**
-	 * @var array
-	 */
-	const ACL_ACTIONS_MAP = [
-		'default' => Main::ACTION_GET_USER,
-		'add'     => Main::ACTION_ADD_USER,
-		'edit'    => Main::ACTION_UPDATE_USER,
-		'view'    => Main::ACTION_GET_USER,
-		'delete'  => Main::ACTION_DELETE_USER,
-	];
 	/**
 	 *
 	 * @var Main
 	 */
 	protected $module = null;
 
-
 	/**
-	 * @var Controller_Main_Router
+	 * @var Mvc_Controller_Router_AddEditDelete
 	 */
 	protected $router;
 
 	/**
+	 * @var User
+	 */
+	protected $user;
+
+	/**
 	 *
-	 * @return Controller_Main_Router
+	 * @return Mvc_Controller_Router_AddEditDelete
 	 */
 	public function getControllerRouter()
 	{
 		if( !$this->router ) {
-			$this->router = new Controller_Main_Router( $this );
+			$this->router = new Mvc_Controller_Router_AddEditDelete(
+				$this,
+				function($id) {
+					return (bool)($this->user = User::get($id));
+				},
+				[
+					'listing'=> Main::ACTION_GET_USER,
+					'view'   => Main::ACTION_GET_USER,
+					'add'    => Main::ACTION_ADD_USER,
+					'edit'   => Main::ACTION_UPDATE_USER,
+					'delete' => Main::ACTION_DELETE_USER,
+				]
+			);
+
+			$this->router->addAction('reset_password', Main::ACTION_UPDATE_USER)
+				->setResolver( function() {
+					return (
+						Http_Request::GET()->getString('action')=='reset_password' &&
+						($this->user = User::get(Http_Request::GET()->getInt('id')))
+					);
+				} )
+				->setURICreator( function($id) {
+					return Http_Request::currentURI(['id'=>$id, 'action'=>'reset_password']);
+				});
 		}
 
 		return $this->router;
@@ -77,34 +87,22 @@ class Controller_Main extends Mvc_Controller_Default
 			Navigation_Breadcrumb::addURL( $current_label );
 		}
 	}
+
 	/**
 	 *
 	 */
-	public function default_Action()
+	public function listing_Action()
 	{
-
 		$this->_setBreadcrumbNavigation();
 
-		$search_form = UI::searchForm( 'user' );
-		$this->view->setVar( 'search_form', $search_form );
+		$listing = new Listing();
+		$listing->handle();
 
-		$grid = new UI_dataGrid();
-
-		$grid->setDefaultSort( 'username' );
-		$grid->setIsPersistent( 'admin_users_list_grid' );
-
-		$grid->addColumn( '_edit_', '' )->setAllowSort( false );
-		$grid->addColumn( 'id', Tr::_( 'ID' ) );
-		$grid->addColumn( 'username', Tr::_( 'Username' ) );
-
-		$grid->setData( User::getList( null, $search_form->getValue() ) );
-
-		$this->view->setVar( 'grid', $grid );
+		$this->view->setVar( 'filter_form', $listing->filter_getForm());
+		$this->view->setVar( 'grid', $listing->getGrid() );
 
 		$this->render( 'list' );
-
 	}
-
 
 	/**
 	 *
@@ -131,7 +129,7 @@ class Controller_Main extends Mvc_Controller_Default
 				Tr::_( 'User <b>%USERNAME%</b> has been created', [ 'USERNAME' => $user->getUsername() ] )
 			);
 
-			Http_Headers::movedTemporary( $this->getControllerRouter()->getEditURI( $user->getId() ) );
+			Http_Headers::reload( ['id'=>$user->getId()], ['action'] );
 		}
 
 		$this->view->setVar( 'form', $form );
@@ -144,31 +142,25 @@ class Controller_Main extends Mvc_Controller_Default
 	/**
 	 *
 	 */
+	public function reset_password_Action()
+	{
+		$user = $this->user;
+
+		$user->resetPassword();
+		UI_messages::success( Tr::_( 'Password has been re-generated', [ 'USERNAME' => $user->getUsername() ] ) );
+		Http_Headers::reload( [], ['action'] );
+
+	}
+
+	/**
+	 *
+	 */
 	public function edit_Action()
 	{
-
-		/**
-		 * @var User $user
-		 */
-		$user = $this->getParameter( 'user' );
-
-		$GET = Http_Request::GET();
-		if( ( $action = $GET->getString( 'a' ) ) ) {
-
-			if( $action=='reset_password' ) {
-				$user->resetPassword();
-				UI_messages::success( Tr::_( 'Password has been re-generated', [ 'USERNAME' => $user->getUsername() ] ) );
-			}
-
-			Http_Headers::movedTemporary( $this->getControllerRouter()->getEditURI( $user->getId() ) );
-		}
-
+		$user = $this->user;
 
 		$this->_setBreadcrumbNavigation( Tr::_( 'Edit user account <b>%USERNAME%</b>', [ 'USERNAME' => $user->getUsername() ] ) );
 
-		/**
-		 * @var Form $form
-		 */
 		$form = $user->getEditForm();
 
 		if( $user->catchEditForm() ) {
@@ -180,7 +172,7 @@ class Controller_Main extends Mvc_Controller_Default
 				Tr::_( 'User <b>%USERNAME%</b> has been updated', [ 'USERNAME' => $user->getUsername() ] )
 			);
 
-			Http_Headers::movedTemporary( $this->getControllerRouter()->getEditURI( $user->getId() ) );
+			Http_Headers::reload();
 		}
 
 		$this->view->setVar( 'form', $form );
@@ -195,11 +187,7 @@ class Controller_Main extends Mvc_Controller_Default
 	 */
 	public function view_Action()
 	{
-
-		/**
-		 * @var User $user
-		 */
-		$user = $this->getParameter( 'user' );
+		$user = $this->user;
 
 		$this->_setBreadcrumbNavigation(
 			Tr::_( 'User account detail <b>%USERNAME%</b>', [ 'USERNAME' => $user->getUsername() ] )
@@ -221,11 +209,7 @@ class Controller_Main extends Mvc_Controller_Default
 	 */
 	public function delete_Action()
 	{
-
-		/**
-		 * @var User $user
-		 */
-		$user = $this->getParameter( 'user' );
+		$user = $this->user;
 
 		$this->_setBreadcrumbNavigation(
 			Tr::_( 'Delete user account <b>%USERNAME%</b>', [ 'USERNAME' => $user->getUsername() ] )
@@ -239,7 +223,7 @@ class Controller_Main extends Mvc_Controller_Default
 				Tr::_( 'User <b>%USERNAME%</b> has been deleted', [ 'USERNAME' => $user->getUsername() ] )
 			);
 
-			Http_Headers::movedTemporary( Mvc::getCurrentPage()->getURI() );
+			Http_Headers::reload([], ['action', 'id']);
 		}
 
 

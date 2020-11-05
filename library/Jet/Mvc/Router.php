@@ -46,6 +46,12 @@ class Mvc_Router extends BaseObject  implements Mvc_Router_Interface
 	 */
 	protected $path = '';
 
+	//------------------------------------------------------------------
+
+	/**
+	 * @var string
+	 */
+	protected $used_path = '';
 
 	//------------------------------------------------------------------
 
@@ -103,7 +109,7 @@ class Mvc_Router extends BaseObject  implements Mvc_Router_Interface
 	/**
 	 *
 	 *
-	 * @param string $request_URL
+	 * @param string|null $request_URL
 	 *
 	 * @throws Mvc_Page_Exception
 	 */
@@ -129,8 +135,9 @@ class Mvc_Router extends BaseObject  implements Mvc_Router_Interface
 
 
 		if( $this->resolveSiteAndLocale() ) {
-			if( $this->resolvePage() ) {
-				$this->resolveAuthentication();
+			$this->resolvePage();
+			if($this->resolveAuthentication()) {
+				$this->resolvePathAndControllers();
 			}
 		}
 
@@ -148,9 +155,6 @@ class Mvc_Router extends BaseObject  implements Mvc_Router_Interface
 
 		Debug_Profiler::blockStart('Resolve site and locale');
 
-		/**
-		 * @var Mvc_Site_Interface $site_class_name
-		 */
 		$site_class_name = Mvc_Factory::getSiteInstance();
 
 		Debug_Profiler::blockStart('Load sites');
@@ -256,12 +260,11 @@ class Mvc_Router extends BaseObject  implements Mvc_Router_Interface
 	}
 
 	/**
-	 * @return bool
 	 *
 	 */
 	protected function resolvePage()
 	{
-		Debug_Profiler::blockStart('Resolve page');
+		Debug_Profiler::blockStart('Seeking for page');
 
 		/**
 		 * @var Mvc_Page_Interface $page_class_name
@@ -274,7 +277,6 @@ class Mvc_Router extends BaseObject  implements Mvc_Router_Interface
 		Debug_Profiler::blockEnd('Load pages');
 
 
-		Debug_Profiler::blockStart('Seeking for page');
 		$relative_URIs = [];
 
 		if($this->path) {
@@ -314,20 +316,38 @@ class Mvc_Router extends BaseObject  implements Mvc_Router_Interface
 
 		Debug_Profiler::blockEnd('Seeking for page');
 
+	}
+
+	/**
+	 *
+	 */
+	protected function resolvePathAndControllers()
+	{
+		Debug_Profiler::blockStart('Resolve page');
 
 		$this->decodePath();
 
-		Debug_Profiler::blockStart('Resolving path');
-		$OK = $this->getPage()->resolvePath();
-		Debug_Profiler::blockEnd('Resolving path');
+		Debug_Profiler::blockStart('Resolving page request');
+		$OK = $this->getPage()->resolve();
+		Debug_Profiler::blockEnd('Resolving page request');
+
+		if(
+			$OK &&
+			$this->path!=$this->used_path
+		) {
+			$redirect_to = $this->getPage()->getURL();
+			if($this->used_path) {
+				$redirect_to .= '/'.$this->used_path;
+			}
+
+			$this->setIsRedirect( $redirect_to );
+		}
 
 		if( !$OK ) {
 			$this->setIs404();
 		}
 
-
 		Debug_Profiler::blockEnd('Resolve page');
-		return $OK;
 
 	}
 
@@ -380,13 +400,16 @@ class Mvc_Router extends BaseObject  implements Mvc_Router_Interface
 			return true;
 		}
 
-		if( Auth::checkCurrentUser() ) {
-			return true;
+		if( !Auth::checkCurrentUser() ) {
+			$this->login_required = true;
+			return false;
 		}
 
-		$this->login_required = true;
+		if(!$this->getPage()->accessAllowed()) {
+			return false;
+		}
 
-		return false;
+		return true;
 
 	}
 
@@ -487,7 +510,7 @@ class Mvc_Router extends BaseObject  implements Mvc_Router_Interface
 	/**
 	 *
 	 * @param string $target_URL
-	 * @param string $http_code (optional), options: temporary, permanent, default: Http_Headers::CODE_302_MOVED_TEMPORARY
+	 * @param string|null $http_code (optional), options: temporary, permanent, default: Http_Headers::CODE_302_MOVED_TEMPORARY
 	 */
 	protected function setIsRedirect( $target_URL, $http_code = null )
 	{
@@ -547,6 +570,22 @@ class Mvc_Router extends BaseObject  implements Mvc_Router_Interface
 	public function getPath()
 	{
 		return $this->path;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getUsedPath()
+	{
+		return $this->used_path;
+	}
+
+	/**
+	 * @param string $used_path
+	 */
+	public function setUsedPath( $used_path )
+	{
+		$this->used_path = $used_path;
 	}
 
 

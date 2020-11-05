@@ -33,7 +33,7 @@ if( $e_index>count( $pages ) ) {
 
 	<tr>
 		<td colspan="<?=count( $grid->getColumns() );?>">
-			<div style="float: right">
+			<div style="float: right; padding: 5px;">
 				<?=UI::_(
 					'%FROM% - %TO% / total count: %COUNT%',
 					[
@@ -44,15 +44,15 @@ if( $e_index>count( $pages ) ) {
 
 			<nav>
 
-				<ul class="pagination pagination-sm">
+				<ul class="pagination">
 					<?php if( ( $p_URL = $paginator->getPrevPageURL() ) ): ?>
-						<li>
-							<a href="<?=$paginator->getFirstPageURL()?>" aria-label="<?=UI::_( 'Firts' )?>">
+						<li class="page-item">
+							<a class="page-link" href="<?=$paginator->getFirstPageURL()?>" aria-label="<?=UI::_( 'Firts' )?>">
 								<?=UI::icon( 'backward' )?>
 							</a>
 						</li>
-						<li>
-							<a href="<?=$p_URL?>" aria-label="<?=UI::_( 'Previous' )?>">
+						<li class="page-item">
+							<a class="page-link" href="<?=$p_URL?>" aria-label="<?=UI::_( 'Previous' )?>">
 								<?=UI::icon( 'chevron-left' )?>
 							</a>
 						</li>
@@ -65,21 +65,21 @@ if( $e_index>count( $pages ) ) {
 
 						?>
 						<?php if( $p_no==$paginator->getCurrentPageNo() ): ?>
-						<li class="active"><a href="<?=$p_URL?>"><?=$p_no?></a></li>
+						<li class="page-item active"><a class="page-link" href="<?=$p_URL?>"><?=$p_no?></a></li>
 					<?php else: ?>
-						<li><a href="<?=$p_URL?>"><?=$p_no?></a></li>
+						<li class="page-item"><a class="page-link" href="<?=$p_URL?>"><?=$p_no?></a></li>
 					<?php endif; ?>
 					<?php endfor; ?>
 
 
 					<?php if( ( $p_URL = $paginator->getNextPageURL() ) ): ?>
-						<li>
-							<a href="<?=$p_URL?>" aria-label="<?=UI::_( 'Next' )?>">
+						<li class="page-item">
+							<a class="page-link" href="<?=$p_URL?>" aria-label="<?=UI::_( 'Next' )?>">
 								<?=UI::icon( 'chevron-right' )?>
 							</a>
 						</li>
-						<li>
-							<a href="<?=$paginator->getLastPageURL()?>" aria-label="<?=UI::_( 'Last' )?>">
+						<li class="page-item">
+							<a class="page-link" href="<?=$paginator->getLastPageURL()?>" aria-label="<?=UI::_( 'Last' )?>">
 								<?=UI::icon( 'forward' )?>
 							</a>
 						</li>

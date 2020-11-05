@@ -281,7 +281,7 @@ class DataModel_Backend_MySQL extends DataModel_Backend
 			case DataModel::TYPE_STRING:
 				$max_len = (int)$column->getMaxLen();
 
-				if( $max_len<=255 ) {
+				if( $max_len<=512 ) {
 					if( $column->getIsId() ) {
 						return 'varchar('.( (int)$max_len ).') COLLATE utf8_bin NOT NULL  DEFAULT \'\'';
 					} else {

@@ -61,13 +61,6 @@ use Jet\AJAX;
  */
 class Controller_Main extends Mvc_Controller_Default
 {
-	/**
-	 * @var array
-	 */
-	const ACL_ACTIONS_MAP = [
-		'test_forms'            => false,
-	    'test_forms_data_model' => false,
-	];
 
 	/**
 	 *
@@ -585,6 +578,4 @@ class Controller_Main extends Mvc_Controller_Default
 
 		$this->render( 'test-forms-data-model' );
 	}
-
-
 }
