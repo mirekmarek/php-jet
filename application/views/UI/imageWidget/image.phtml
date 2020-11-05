@@ -1,0 +1,45 @@
+<?php
+namespace JetShop;
+
+use Jet\Mvc_View;
+use Jet\UI;
+use Jet\UI_messages;
+use Jet\Form;
+
+/**
+ * @var Mvc_View   $this
+ * @var Form $upload_form
+ * @var Images_ShopDataInterface $shop_data
+ */
+$image_class = $this->getString('image_class');
+$shop_id = $this->getString('shop_id');
+$shop_data = $this->getRaw('shop_data');
+
+
+$entity = $shop_data->getImageEntity();
+
+$delete_form = $shop_data->getImageDeleteForm( $image_class );
+$upload_form = $shop_data->getImageUploadForm( $image_class );
+
+
+$image_path = $shop_data->getImage( $image_class );
+
+$image_thb_url = $shop_data->getImageThumbnailUrl( $image_class, 190, 190 )
+?>
+<?php if($image_path):?>
+	<div class="image-thumbnail"  id="image_<?=$entity?>_<?=$image_class?>_<?=$shop_id?>_image" data-url="<?=$image_thb_url?>" style="width:200px;height:200px;background-image: url(<?=$image_thb_url?>);">
+		<?php if( $delete_form && !$delete_form->getIsReadonly() ): ?>
+		<?=$delete_form->start()?>
+		<?=UI::button_delete(' ')->setOnclick("Images.deleteImage(this.form.id, '{$entity}', '{$image_class}', '{$shop_id}')")?>
+		<?=$delete_form->end()?>
+		<?php endif; ?>
+	</div>
+
+	<?php if(
+		$upload_form &&
+		$upload_form->getAllErrors()
+	):?>
+		<?=UI_messages::createDanger( $upload_form->field('image')->getLastErrorMessage() );?>
+	<?php endif; ?>
+<?php endif; ?>
+
