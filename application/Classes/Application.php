@@ -11,8 +11,6 @@ use Jet\Application as Jet_Application;
 
 use Jet\Mvc_Router;
 
-use Jet\Form_Field_WYSIWYG;
-
 use Jet\ErrorPages;
 
 /**
@@ -35,23 +33,6 @@ class Application extends Jet_Application
 			)
 		);
 
-	}
-
-	/**
-	 * @param Mvc_Router $router
-	 */
-	public static function initWYSIWYG( Mvc_Router $router )
-	{
-		/*
-		$current_locale = $router->getLocale();
-
-		if( $current_locale->getLanguage()!='en' ) {
-			Form_Field_WYSIWYG::setDefaultEditorConfigValue(
-				'language_url',
-				JET_URI_PUBLIC.'scripts/tinymce/language/'.$current_locale->toString().'.js'
-			);
-		}
-		*/
 	}
 
 }

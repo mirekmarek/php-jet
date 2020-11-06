@@ -7,13 +7,15 @@
  */
 namespace JetApplication;
 
-if( version_compare( PHP_VERSION, '7.4.1', '<' ) ) {
+/*
+if( version_compare( PHP_VERSION, '7.2.0', '<' ) ) {
 	if( !headers_sent() ) {
 		header( 'HTTP/1.1 500 Internal Server Error' );
 	}
-	trigger_error( 'PHP 7.4.1 or above is required', E_USER_ERROR );
+	trigger_error( 'PHP 7.2.0 or above is required', E_USER_ERROR );
 	die();
 }
+*/
 
 require 'init.php';
 
