@@ -17,7 +17,7 @@ $galleries = $this->getRaw( 'galleries' );
 	<?php foreach( $galleries as $gallery ): ?>
 		<a href="<?=$gallery->getLocalized()->getURL()?>" class="img-thumbnail"
 		   style="width: 120px;height: 120px;text-align: center;overflow: hidden;margin: 3px;border:none">
-			<?=UI::icon( 'folder-o' )->setSize( 80 )?>
+			<?=UI::icon( 'folder' )->setSize( 80 )?>
 			<br/>
 			<?=$gallery->getTitle();?>
 		</a>
