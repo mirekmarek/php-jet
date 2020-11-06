@@ -1,7 +1,7 @@
 <?php
 /**
  *
- * @copyright Copyright (c) 2011-2018 Miroslav Marek <mirek.marek.2m@gmail.com>
+ * @copyright Copyright (c) 2011-2020 Miroslav Marek <mirek.marek.2m@gmail.com>
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
@@ -11,7 +11,6 @@ use Jet\Application_Logger;
 use Jet\Session;
 use Jet\Tr;
 use Jet\Mvc_Controller_Default;
-use Jet\Form;
 use Jet\Http_Headers;
 use Jet\Auth;
 use Jet\Navigation_Breadcrumb;
@@ -26,29 +25,15 @@ use JetApplication\Auth_Administrator_User as User;
 class Controller_Main extends Mvc_Controller_Default
 {
 	/**
-	 *
 	 * @var Main
 	 */
 	protected $module = null;
 
 	/**
 	 *
-	 * @return bool
-	 */
-	public function actionIsAllowed()
-	{
-		return true;
-	}
-
-
-	/**
-	 *
 	 */
 	public function login_Action()
 	{
-		/**
-		 * @var Form $form
-		 */
 		$form = $this->module->getLoginForm();
 
 		if( $form->catchInput() ) {
@@ -92,9 +77,6 @@ class Controller_Main extends Mvc_Controller_Default
 	 */
 	public function must_change_password_Action()
 	{
-		/**
-		 * @var Form $form
-		 */
 		$form = $this->module->getMustChangePasswordForm();
 
 		if( $form->catchInput()&&$form->validate() ) {
@@ -130,9 +112,6 @@ class Controller_Main extends Mvc_Controller_Default
 	 */
 	public function change_password_Action()
 	{
-		/**
-		 * @var Form $form
-		 */
 		$form = $this->module->getChangePasswordForm();
 
 		Navigation_Breadcrumb::reset();

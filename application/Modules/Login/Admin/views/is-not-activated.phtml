@@ -4,11 +4,12 @@ use Jet\UI;
 ?>
 
 <div class="card">
-	<div class="card-body">
+	<h5 class="card-header">
+		<?=Tr::_( 'Account is not activated' )?>
 		<?php require '_language_select.phtml'; ?>
+	</h5>
 
-		<div class="card-title"><h5><?=Tr::_( 'Account is not activated' )?></h5></div>
-
+	<div class="card-body">
 		<table>
 			<tr>
 				<td style="padding: 5px;">
@@ -19,7 +20,6 @@ use Jet\UI;
 				</td>
 			</tr>
 		</table>
-
 
 		<div style="padding-top: 10px">
 			<a href="?logout" class="btn btn-light"><?=Tr::_( 'Logout' );?></a>

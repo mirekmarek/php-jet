@@ -21,7 +21,7 @@ $form = $this->getRaw( 'form' );
 
 	<?php if( $form->getIsValid() ): ?>
 	<div class="row">
-		<div class="col-md-offset-4">
+		<div class="offset-md-4">
 			<hr>
 			<?=Tr::_( 'Form sent:' )?>
 
@@ -49,7 +49,7 @@ $form = $this->getRaw( 'form' );
 
 	<?php if( !$form->getIsReadonly() ):?>
 		<div class="row">
-			<div class="col-md-offset-4">
+			<div class="offset-md-4">
 				<input type="submit" class="btn btn-light" value="<?=Tr::_( 'Submit' )?>"/>
 
 				<input type="button" class="btn btn-light" value="<?=Tr::_( 'Submit (AJAX)' )?>" onclick="testSendForm.submit('<?=$form->getId()?>')"/>

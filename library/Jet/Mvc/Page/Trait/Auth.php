@@ -26,9 +26,7 @@ trait Mvc_Page_Trait_Auth
 			return true;
 		}
 
-		/** @noinspection PhpParamsInspection */
 		return Auth::checkPageAccess( $this );
-
 	}
 
 }

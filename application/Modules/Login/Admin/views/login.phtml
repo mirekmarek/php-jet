@@ -14,14 +14,14 @@ $form->field( 'username' )->setPlaceholder( 'username' );
 $form->field( 'password' )->setPlaceholder( 'password' );
 
 ?>
-
-
 <div class="card">
-	<div class="card-body">
+	<h5 class="card-header">
+		<?=Tr::_( 'Sign In' )?>
 		<?php require '_language_select.phtml'; ?>
+	</h5>
 
-		<div class="card-title"><h5><?=Tr::_( 'Sign In' )?></h5></div>
-		<?=$form->start()?>
+	<?=$form->start()?>
+	<div class="card-body">
 		<?php if( $form->getCommonMessage() ): ?>
 			<div id="login-alert" class="alert alert-danger">
 				<?=$form->getCommonMessage()?>
@@ -42,17 +42,10 @@ $form->field( 'password' )->setPlaceholder( 'password' );
 			<?=$form->field( 'password' )->input()?>
 		</div>
 
-
-		<div style="margin-top:10px" class="form-group">
-			<div class="col-sm-12 controls">
-				<div style="float: right">
-					<input type="submit" class="btn btn-primary" value="<?=Tr::_( 'Sign In' )?>"/>
-				</div>
-			</div>
+		<div class="text-right">
+			<input type="submit" class="btn btn-primary" value="<?=Tr::_( 'Sign In' )?>"/>
 		</div>
-
-		<?=$form->end()?>
-
 	</div>
+	<?=$form->end()?>
 </div>
 

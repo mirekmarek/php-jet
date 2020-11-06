@@ -1,7 +1,7 @@
 <?php
 /**
  *
- * @copyright Copyright (c) 2011-2018 Miroslav Marek <mirek.marek.2m@gmail.com>
+ * @copyright Copyright (c) 2011-2020 Miroslav Marek <mirek.marek.2m@gmail.com>
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
@@ -258,7 +258,7 @@ class Auth_Controller_Web extends BaseObject implements Auth_Controller_Interfac
 	 */
 	public function checkPageAccess( Mvc_Page_Interface $page )
 	{
-		return $this->getCurrentUserHasPrivilege( Auth_Visitor_Role::PRIVILEGE_VISIT_PAGE, $page->getId() );
+		return $this->getCurrentUserHasPrivilege( Auth_Visitor_Role::PRIVILEGE_VISIT_PAGE, $page->getKey() );
 	}
 
 

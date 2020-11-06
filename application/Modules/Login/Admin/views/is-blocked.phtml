@@ -1,15 +1,14 @@
 <?php
 use Jet\Tr;
 use Jet\UI;
-use Jet\Mvc;
-use Jet\Mvc_Page;
-
 ?>
 
 <div class="card">
-	<div class="card-body">
+	<h5 class="card-header">
+		<?=Tr::_( 'Account is blocked' )?>
 		<?php require '_language_select.phtml'; ?>
-		<div class="card-title"><h5><?=Tr::_( 'Account is blocked' )?></h5></div>
+	</h5>
+	<div class="card-body">
 
 		<table>
 			<tr>
