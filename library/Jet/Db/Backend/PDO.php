@@ -221,7 +221,7 @@ class Db_Backend_PDO extends PDO implements Db_Backend_Interface
 	 *
 	 * @param string $query
 	 * @param array  $query_data (optional)
-	 * @param string $key_column (optional)
+	 * @param string|null $key_column (optional)
 	 *
 	 * @return array
 	 */
@@ -252,7 +252,7 @@ class Db_Backend_PDO extends PDO implements Db_Backend_Interface
 	 *
 	 * @param string $query
 	 * @param array  $query_data (optional)
-	 * @param string $column (optional, default: 1st column)
+	 * @param string|null $column (optional, default: 1st column)
 	 *
 	 * @return array
 	 */
@@ -279,8 +279,8 @@ class Db_Backend_PDO extends PDO implements Db_Backend_Interface
 	 *
 	 * @param string $query
 	 * @param array  $query_data (optional)
-	 * @param string $key_column (optional, default: 1st column)
-	 * @param string $value_column (optional, default: 2nd column)
+	 * @param string|null $key_column (optional, default: 1st column)
+	 * @param string|null $value_column (optional, default: 2nd column)
 	 *
 	 * @return array
 	 */
@@ -310,7 +310,7 @@ class Db_Backend_PDO extends PDO implements Db_Backend_Interface
 	 *
 	 * @param string $query
 	 * @param array  $query_data (optional)
-	 * @param string $column (optional, default:1st column)
+	 * @param string|null $column (optional, default:1st column)
 	 *
 	 * @return mixed
 	 */

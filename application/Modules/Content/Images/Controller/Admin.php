@@ -32,7 +32,7 @@ class Controller_Admin extends Mvc_Controller_Default
 	protected $module = null;
 
 	/**
-	 * @var Controller_Admin_Router
+	 * @var Mvc_Controller_Router_AddEditDelete
 	 */
 	protected $router;
 

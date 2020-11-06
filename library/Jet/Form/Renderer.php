@@ -53,7 +53,7 @@ abstract class Form_Renderer extends BaseObject
 	 * Form_RendererTag constructor.
 	 *
 	 * @param Form       $form
-	 * @param Form_Field $field
+	 * @param Form_Field|null $field
 	 */
 	public function __construct( Form $form, Form_Field $field=null )
 	{
@@ -217,7 +217,7 @@ abstract class Form_Renderer extends BaseObject
 	/**
 	 * @param bool $as_string
 	 *
-	 * @return array
+	 * @return array|string
 	 */
 	public function getCssClasses( $as_string=true )
 	{
@@ -249,7 +249,7 @@ abstract class Form_Renderer extends BaseObject
 	/**
 	 * @param bool $as_string
 	 *
-	 * @return array
+	 * @return array|string
 	 */
 	public function getCssStyles( $as_string=true )
 	{

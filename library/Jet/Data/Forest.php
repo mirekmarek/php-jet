@@ -138,7 +138,7 @@ class Data_Forest extends BaseObject implements BaseObject_Interface_IteratorCou
 
 	/**
 	 *
-	 * @param int $max_depth (optional)
+	 * @param int|null $max_depth (optional)
 	 *
 	 * @return array
 	 */

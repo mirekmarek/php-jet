@@ -126,7 +126,7 @@ abstract class Config extends BaseObject
 
 
 	/**
-	 * @param array $data
+	 * @param array|null $data
 	 */
 	public function __construct( array $data=null )
 	{
@@ -196,9 +196,6 @@ abstract class Config extends BaseObject
 		$definition = $this->getDefinition()->getPropertiesDefinition();
 
 		foreach( $definition as $property ) {
-			/**
-			 * @var Config_Definition_Property $property
-			 */
 			$property->setConfiguration( $this );
 		}
 
@@ -303,7 +300,7 @@ abstract class Config extends BaseObject
 	/**
 	 * @param Form  $form
 	 *
-	 * @param array $data
+	 * @param array|null $data
 	 * @param bool  $force_catch
 	 *
 	 * @return bool;

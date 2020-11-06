@@ -389,9 +389,6 @@ class Data_Array extends BaseObject implements BaseObject_Interface_Serializable
 				$class_name = get_class( $value );
 
 				if( is_subclass_of( $value, '\JsonSerializable' ) ) {
-					/**
-					 * @var \JsonSerializable $value
-					 */
 					$object_values = $value->jsonSerialize();
 				} else {
 					$object_values = get_object_vars( $value );
@@ -453,9 +450,6 @@ class Data_Array extends BaseObject implements BaseObject_Interface_Serializable
 			}
 
 			if( is_subclass_of( $val, '\JsonSerializable' ) ) {
-				/**
-				 * @var \JsonSerializable $val
-				 */
 				$data[$key] = $val->jsonSerialize();
 				continue;
 			}

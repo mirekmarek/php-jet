@@ -183,6 +183,7 @@ class Reflection_ParserData
 			);
 		}
 
+		/** @noinspection PhpExpressionAlwaysNullInspection */
 		return $value;
 
 	}

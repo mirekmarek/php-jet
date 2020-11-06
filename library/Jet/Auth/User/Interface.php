@@ -22,7 +22,7 @@ interface Auth_User_Interface
 
 	/**
 	 *
-	 * @param string|int $role_id (optional)
+	 * @param string|int|null $role_id (optional)
 	 *
 	 * @return Auth_User_Interface[]
 	 */

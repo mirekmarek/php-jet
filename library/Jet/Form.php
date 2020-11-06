@@ -634,7 +634,7 @@ class Form extends BaseObject
 	 * catch values from input ($_POST is default)
 	 * and return true if form sent ...
 	 *
-	 * @param array $input_data
+	 * @param array|null $input_data
 	 * @param bool  $force_catch
 	 *
 	 * @return bool

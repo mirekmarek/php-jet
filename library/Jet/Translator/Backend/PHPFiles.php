@@ -44,7 +44,7 @@ class Translator_Backend_PHPFiles extends Translator_Backend
 	 *
 	 * @param string $namespace
 	 * @param Locale $locale
-	 * @param string $file_path (optional, default: by configuration)
+	 * @param string|null $file_path (optional, default: by configuration)
 	 *
 	 * @return Translator_Dictionary
 	 */
@@ -94,7 +94,7 @@ class Translator_Backend_PHPFiles extends Translator_Backend
 	/**
 	 *
 	 * @param Translator_Dictionary $dictionary
-	 * @param string                $file_path (optional, default: by configuration)
+	 * @param string|null           $file_path (optional, default: by configuration)
 	 */
 	public function saveDictionary( Translator_Dictionary $dictionary, $file_path = null )
 	{

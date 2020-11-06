@@ -13,6 +13,7 @@ use Jet\Mvc;
 use Jet\Mvc_Page;
 use JetApplication\Application_REST;
 
+use \CURLFile;
 
 /**
  *
@@ -149,7 +150,7 @@ class Client
 
 				if($upload_file_path) {
 					$this->request_body = [
-						'file' => new \CURLFile($upload_file_path)
+						'file' => new CURLFile($upload_file_path)
 					];
 
 				} else {

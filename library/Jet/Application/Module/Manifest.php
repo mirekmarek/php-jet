@@ -120,7 +120,7 @@ class Application_Module_Manifest extends BaseObject
 
 
 	/**
-	 * @param string $module_name (optional)
+	 * @param string|null $module_name (optional)
 	 *
 	 * @throws Application_Modules_Exception
 	 */
@@ -338,9 +338,6 @@ class Application_Module_Manifest extends BaseObject
 			return true;
 		}
 
-		/**
-		 * @var callable $checker
-		 */
 		$checker = static::$compatibility_checker;
 
 		return $checker( $this );

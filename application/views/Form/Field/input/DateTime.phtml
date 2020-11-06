@@ -18,7 +18,7 @@ $field = $r->getField();
 $value = '';
 
 if( $field->getValue() ) {
-	$date = new \DateTime( $field->getValue() );
+	$date = new DateTime( $field->getValue() );
 
 	if( $date ) {
 		$value = $date->format( 'Y-m-d\TH:i' );

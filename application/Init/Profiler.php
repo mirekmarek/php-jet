@@ -6,7 +6,6 @@ use Jet\Debug_Profiler_Run;
 
 if( JET_DEBUG_PROFILER_ENABLED ) {
 
-	/** @noinspection PhpIncludeInspection */
 	require JET_PATH_LIBRARY.'Jet/Debug/Profiler.php';
 
 	$profiler_save_dir = JET_PATH_TMP.'_profiler/';
@@ -34,10 +33,8 @@ if( JET_DEBUG_PROFILER_ENABLED ) {
 
 		if($run) {
 			if( isset( $_GET['callgraph'] ) ) {
-				/** @noinspection PhpIncludeInspection */
 				require JET_PATH_BASE."_profiler/result_callgraph.php";
 			} else {
-				/** @noinspection PhpIncludeInspection */
 				require JET_PATH_BASE."_profiler/result.phtml";
 			}
 			die();

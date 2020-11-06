@@ -311,9 +311,6 @@ class DataModel_Related_1toN_Iterator extends BaseObject implements DataModel_Re
 		}
 
 		if( is_null( $offset ) ) {
-			/**
-			 * @var DataModel_Related_1toN $value
-			 */
 			$offset = $value->getArrayKeyValue();
 			if( is_object( $offset ) ) {
 				$offset = (string)$offset;

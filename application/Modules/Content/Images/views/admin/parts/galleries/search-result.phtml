@@ -7,8 +7,7 @@ use Jet\Mvc_View;
  * @var Mvc_View                     $this
  * @var Gallery[]                    $galleries
  * @var Gallery                      $gallery
- * @var Controller_Admin_Router $router
- */
+  */
 $galleries = $this->getRaw( 'galleries' );
 $current_gallery = $this->getRaw( 'gallery' );
 $router = $this->getController()->getControllerRouter();
@@ -21,7 +20,7 @@ $router = $this->getController()->getControllerRouter();
 			<?php if($current_gallery && $current_gallery->getId()==$gallery->getId()): ?>
 				<strong><?=$gallery->getTitle()?></strong>
 			<?php else: ?>
-				<a href="<?=$router->getEditOrViewURI( $gallery->getId() );?>"><?=$gallery->getTitle()?></a>
+				<a href="<?=$router->action('edit')->URI( $gallery->getId() );?>"><?=$gallery->getTitle()?></a>
 			<?php endif; ?>
 		</li>
 	<?php endforeach; ?>

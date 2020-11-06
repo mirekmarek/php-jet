@@ -11,17 +11,12 @@ use Jet\Debug_ErrorHandler;
 
 //Debug_Profiler::blockStart('INIT - ErrorHandler');
 
-/** @noinspection PhpIncludeInspection */
 require JET_PATH_LIBRARY.'Jet/Debug.php';
-/** @noinspection PhpIncludeInspection */
 require JET_PATH_LIBRARY.'Jet/Debug/ErrorHandler.php';
 
 
-/** @noinspection PhpIncludeInspection */
 require JET_PATH_APPLICATION.'ErrorHandlers/Log.php';
-/** @noinspection PhpIncludeInspection */
 require JET_PATH_APPLICATION.'ErrorHandlers/Display.php';
-/** @noinspection PhpIncludeInspection */
 require JET_PATH_APPLICATION.'ErrorHandlers/ErrorPage.php';
 
 

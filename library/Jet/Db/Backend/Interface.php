@@ -83,7 +83,7 @@ interface Db_Backend_Interface
 	 *
 	 * @param string $query
 	 * @param array  $query_data (optional)
-	 * @param string $key_column (optional)
+	 * @param string|null $key_column (optional)
 	 *
 	 * @return array
 	 */
@@ -93,7 +93,7 @@ interface Db_Backend_Interface
 	 *
 	 * @param string $query
 	 * @param array  $query_data (optional)
-	 * @param string $column (optional, default: 1st column)
+	 * @param string|null $column (optional, default: 1st column)
 	 *
 	 * @return array
 	 */
@@ -103,8 +103,8 @@ interface Db_Backend_Interface
 	 *
 	 * @param string $query
 	 * @param array  $query_data (optional)
-	 * @param string $key_column (optional, default: 1st column)
-	 * @param string $value_column (optional, default: 2nd column)
+	 * @param string|null $key_column (optional, default: 1st column)
+	 * @param string|null $value_column (optional, default: 2nd column)
 	 *
 	 * @return array
 	 */
@@ -114,7 +114,7 @@ interface Db_Backend_Interface
 	 *
 	 * @param string $query
 	 * @param array  $query_data (optional)
-	 * @param string $column (optional, default:1st column)
+	 * @param string|null $column (optional, default:1st column)
 	 *
 	 * @return mixed
 	 */
@@ -148,7 +148,7 @@ interface Db_Backend_Interface
 	public function quote( $string );
 
 	/**
-	 * @param string $name
+	 * @param string|null $name
 	 *
 	 * @return mixed
 	 */

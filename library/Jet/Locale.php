@@ -273,7 +273,7 @@ class Locale extends BaseObject
 
 	/**
 	 *
-	 * @param string $locale
+	 * @param string|null $locale
 	 */
 	public function __construct( $locale = null )
 	{
@@ -542,7 +542,7 @@ class Locale extends BaseObject
 	 *
 	 * @see PHP_Locale::getDisplayName
 	 *
-	 * @param string|Locale $in_locale (optional, default: current locale)
+	 * @param string|Locale|null $in_locale (optional, default: current locale)
 	 *
 	 * @return string
 	 */
@@ -562,7 +562,7 @@ class Locale extends BaseObject
 	 *
 	 * @see PHP_Locale::getDisplayLanguage
 	 *
-	 * @param string|Locale $in_locale (optional, default: current locale)
+	 * @param string|Locale|null $in_locale (optional, default: current locale)
 	 *
 	 * @return string
 	 */
@@ -582,7 +582,7 @@ class Locale extends BaseObject
 	 *
 	 * @see PHP_Locale::getDisplayRegion
 	 *
-	 * @param string|Locale $in_locale (optional, default: current locale)
+	 * @param string|Locale|null $in_locale (optional, default: current locale)
 	 *
 	 * @return string
 	 */

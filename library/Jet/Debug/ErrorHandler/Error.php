@@ -131,7 +131,7 @@ class Debug_ErrorHandler_Error
 		} else {
 			if(
 				!isset( $_SERVER['HTTP_HOST'] ) ||
-				!isset( $_SERVER['HTTP_HOST'] )
+				!isset( $_SERVER['REQUEST_URI'] )
 			) {
 				return 'unknown';
 			}

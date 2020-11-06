@@ -32,7 +32,6 @@ trait DataModel_Trait_IDController
 		if( !$this->_id_controller ) {
 			$this->_id_controller = static::getEmptyIDController();
 
-			/** @noinspection PhpParamsInspection */
 			$this->_id_controller->assocDataModelInstance( $this );
 
 			foreach( $this->_id_controller->getPropertyNames() as $property_name ) {
@@ -51,7 +50,6 @@ trait DataModel_Trait_IDController
 	 */
 	public static function getEmptyIDController()
 	{
-		/** @noinspection PhpUndefinedMethodInspection */
 		return static::getDataModelDefinition()->getIDController();
 	}
 

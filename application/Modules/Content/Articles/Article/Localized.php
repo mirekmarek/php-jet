@@ -103,8 +103,8 @@ class Article_Localized extends DataModel_Related_1toN
 
 	/**
 	 *
-	 * @param string $article_id
-	 * @param Locale $locale
+	 * @param string|null $article_id
+	 * @param Locale|null $locale
 	 */
 	public function __construct( $article_id=null, Locale $locale=null )
 	{

@@ -49,7 +49,7 @@ class Application_Logger extends BaseObject
 	 * @param string              $context_object_id (optional)
 	 * @param string              $context_object_name (optional)
 	 * @param mixed               $context_object_data (optional)
-	 * @param Auth_User_Interface $current_user (optional; default: null = current user)
+	 * @param Auth_User_Interface|null $current_user (optional; default: null = current user)
 	 */
 	public static function common( $event_class, $event, $event_message, $context_object_id = '', $context_object_name = '', $context_object_data = [], $current_user = null )
 	{
@@ -85,7 +85,7 @@ class Application_Logger extends BaseObject
 	 * @param string              $context_object_id (optional)
 	 * @param string              $context_object_name (optional)
 	 * @param mixed               $context_object_data (optional)
-	 * @param Auth_User_Interface $current_user (optional; default: null = current user)
+	 * @param Auth_User_Interface|null $current_user (optional; default: null = current user)
 	 */
 	public static function success( $event, $event_message, $context_object_id = '', $context_object_name = '', $context_object_data = [], $current_user = null )
 	{
@@ -107,7 +107,7 @@ class Application_Logger extends BaseObject
 	 * @param string              $context_object_id (optional)
 	 * @param string              $context_object_name (optional)
 	 * @param mixed               $context_object_data (optional)
-	 * @param Auth_User_Interface $current_user (optional; default: null = current user)
+	 * @param Auth_User_Interface|null $current_user (optional; default: null = current user)
 	 */
 	public static function info( $event, $event_message, $context_object_id = '', $context_object_name = '', $context_object_data = [], $current_user = null )
 	{
@@ -129,7 +129,7 @@ class Application_Logger extends BaseObject
 	 * @param string              $context_object_id (optional)
 	 * @param string              $context_object_name (optional)
 	 * @param mixed               $context_object_data (optional)
-	 * @param Auth_User_Interface $current_user (optional; default: null = current user)
+	 * @param Auth_User_Interface|null $current_user (optional; default: null = current user)
 	 */
 	public static function warning( $event, $event_message, $context_object_id = '', $context_object_name = '', $context_object_data = [], $current_user = null )
 	{
@@ -151,7 +151,7 @@ class Application_Logger extends BaseObject
 	 * @param string              $context_object_id (optional)
 	 * @param string              $context_object_name (optional)
 	 * @param mixed               $context_object_data (optional)
-	 * @param Auth_User_Interface $current_user (optional; default: null = current user)
+	 * @param Auth_User_Interface|null $current_user (optional; default: null = current user)
 	 */
 	public static function danger( $event, $event_message, $context_object_id = '', $context_object_name = '', $context_object_data = [], $current_user = null )
 	{
@@ -173,7 +173,7 @@ class Application_Logger extends BaseObject
 	 * @param string              $context_object_id (optional)
 	 * @param string              $context_object_name (optional)
 	 * @param mixed               $context_object_data (optional)
-	 * @param Auth_User_Interface $current_user (optional; default: null = current user)
+	 * @param Auth_User_Interface|null $current_user (optional; default: null = current user)
 	 */
 	public static function fault( $event, $event_message, $context_object_id = '', $context_object_name = '', $context_object_data = [], $current_user = null )
 	{

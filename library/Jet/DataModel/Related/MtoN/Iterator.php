@@ -238,9 +238,6 @@ class DataModel_Related_MtoN_Iterator extends BaseObject implements DataModel_Re
 			);
 		}
 
-		/**
-		 * @var DataModel $value
-		 */
 		if( !$value->getIsSaved() ) {
 			throw new DataModel_Exception(
 				'Object instance must be saved '
@@ -308,7 +305,7 @@ class DataModel_Related_MtoN_Iterator extends BaseObject implements DataModel_Re
 	/**
 	 *
 	 * @param DataModel_Definition_Property $parent_property_definition
-	 * @param DataModel_PropertyFilter      $property_filter
+	 * @param DataModel_PropertyFilter|null $property_filter
 	 *
 	 * @return Form_Field[]
 	 */

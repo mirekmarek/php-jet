@@ -131,9 +131,6 @@ class Gallery_Image extends DataModel
 	public static function getNewImage( Gallery $gallery, $source_file_path, $source_file_name = null, $do_not_save_immediately = false )
 	{
 
-		/**
-		 * @var Gallery_Image $image
-		 */
 		$image = new static();
 		$image->getIDController()->generate();
 
@@ -298,7 +295,6 @@ class Gallery_Image extends DataModel
 			$where['gallery_id'] = $gallery_id;
 		}
 
-		/** @noinspection PhpIncompatibleReturnTypeInspection */
 		return static::fetchInstances( $where );
 	}
 

@@ -81,7 +81,7 @@ class DataModel_Query_Select extends BaseObject implements BaseObject_Interface_
 	/**
 	 *
 	 *
-	 * @param DataModel_Query_Select_Item|DataModel_Query_Select_Item $item
+	 * @param DataModel_Query_Select_Item $item
 	 *
 	 * @throws DataModel_Query_Exception
 	 *

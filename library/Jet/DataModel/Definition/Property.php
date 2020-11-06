@@ -100,7 +100,7 @@ abstract class DataModel_Definition_Property extends BaseObject implements Form_
 	/**
 	 * @param string $data_model_class_name
 	 * @param string $name
-	 * @param array  $definition_data (optional)
+	 * @param array|null  $definition_data (optional)
 	 */
 	public function __construct( $data_model_class_name, $name, $definition_data = null )
 	{

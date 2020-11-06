@@ -117,7 +117,7 @@ trait DataModel_Trait_Forms
 	/**
 	 * @param Form  $form
 	 *
-	 * @param array $data
+	 * @param array|null $data
 	 * @param bool  $force_catch
 	 *
 	 * @return bool;

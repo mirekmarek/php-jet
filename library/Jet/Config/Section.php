@@ -26,7 +26,7 @@ class Config_Section extends Config
 
 	/** @noinspection PhpMissingParentConstructorInspection */
 	/**
-	 * @param array $data
+	 * @param array|null $data
 	 */
 	public function __construct( array $data = null )
 	{

@@ -573,7 +573,7 @@ class Mvc_Site extends BaseObject implements Mvc_Site_Interface, BaseObject_Cach
 	}
 
 	/**
-	 * @param Locale $locale (optional)
+	 * @param Locale|null $locale (optional)
 	 *
 	 * @return string
 	 */
@@ -623,7 +623,7 @@ class Mvc_Site extends BaseObject implements Mvc_Site_Interface, BaseObject_Cach
 	}
 
 	/**
-	 * @param Locale $locale (optional)
+	 * @param Locale|null $locale (optional)
 	 *
 	 * @return Mvc_Page_Interface
 	 */

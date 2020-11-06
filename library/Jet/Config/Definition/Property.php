@@ -80,15 +80,12 @@ abstract class Config_Definition_Property extends BaseObject implements Form_Fie
 	 *
 	 * @param string|Config $configuration_class_name
 	 * @param string        $name
-	 * @param array         $definition_data (optional)
+	 * @param array|null    $definition_data (optional)
 	 *
 	 */
 	public function __construct( $configuration_class_name, $name, array $definition_data = null )
 	{
 		if( is_object( $configuration_class_name ) ) {
-			/**
-			 * @var Config $configuration_class_name
-			 */
 			$this->setConfiguration( $configuration_class_name );
 		} else {
 			$this->_configuration_class = $configuration_class_name;

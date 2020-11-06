@@ -3,6 +3,7 @@ use Jet\Mvc_View;
 use Jet\Form_Renderer;
 use Jet\Data_Text;
 
+
 /**
  * @var Mvc_View      $this
  * @var Form_Renderer $r
@@ -18,7 +19,7 @@ $field = $r->getField();
 $value = '';
 
 if( $field->getValue() ) {
-	$date = new \DateTime( $field->getValue() );
+	$date = new DateTime( $field->getValue() );
 
 	if( $date ) {
 		$value = $date->format( 'Y-m-d' );

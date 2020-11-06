@@ -23,7 +23,7 @@ trait Mvc_Page_Trait_Initialization
 	protected $data_file_path = '';
 
 	/**
-	 * @var Mvc_Page_Interface[][]
+	 * @var Mvc_Page_Interface[][][]
 	 */
 	protected static $pages = [];
 
@@ -115,10 +115,8 @@ trait Mvc_Page_Trait_Initialization
 			!array_key_exists( $locale_str, static::$pages[$site_id] )
 		) {
 
-			/** @noinspection PhpUndefinedMethodInspection */
 			if( static::getCacheLoadEnabled() ) {
 
-				/** @noinspection PhpUndefinedFieldInspection */
 				$loader = static::$cache_loader;
 				/**
 				 * @var Mvc_Page_Interface[] $pages
@@ -152,10 +150,8 @@ trait Mvc_Page_Trait_Initialization
 			static::loadModulePages( $site, $locale );
 
 
-			/** @noinspection PhpUndefinedMethodInspection */
 			if( static::getCacheSaveEnabled() ) {
 
-				/** @noinspection PhpUndefinedFieldInspection */
 				$saver = static::$cache_saver;
 				$saver( $site_id, $locale_str, static::$pages[$site_id][$locale_str] );
 			}
@@ -204,7 +200,7 @@ trait Mvc_Page_Trait_Initialization
 	 * @param string $site_id
 	 * @param string $locale_str
 	 * @param string $source_dir_path
-	 * @param array  $parent_page_data (optional)
+	 * @param array|null  $parent_page_data (optional)
 	 *
 	 * @throws Mvc_Page_Exception
 	 */
@@ -275,7 +271,7 @@ trait Mvc_Page_Trait_Initialization
 	/**
 	 * @param string $data_file_path
 	 *
-	 * @param array  $parent_page_data
+	 * @param array|null  $parent_page_data
 	 *
 	 * @param string $dir_name
 	 *
@@ -347,7 +343,6 @@ trait Mvc_Page_Trait_Initialization
 		$page->setData( $data );
 
 
-		/** @noinspection PhpIncompatibleReturnTypeInspection */
 		return $page;
 	}
 
@@ -363,7 +358,6 @@ trait Mvc_Page_Trait_Initialization
 		if( isset( $data['meta_tags'] ) ) {
 
 			foreach( $data['meta_tags'] as $i => $m_dat ) {
-				/** @noinspection PhpParamsInspection */
 				$this->meta_tags[] = Mvc_Page_MetaTag::createByData( $this, $m_dat );
 			}
 
@@ -373,7 +367,6 @@ trait Mvc_Page_Trait_Initialization
 		if( isset( $data['contents'] ) ) {
 
 			foreach( $data['contents'] as $i => $c_dat ) {
-				/** @noinspection PhpParamsInspection */
 				$this->content[] = Mvc_Page_Content::createByData( $this, $c_dat );
 			}
 

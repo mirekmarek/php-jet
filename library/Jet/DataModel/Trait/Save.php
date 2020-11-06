@@ -66,7 +66,6 @@ trait DataModel_Trait_Save
 
 		$backend = static::getBackendInstance();
 
-		/** @noinspection PhpParamsInspection */
 		$backend->update(
 			DataModel_RecordData::createRecordData(
 				get_called_class(),
@@ -116,9 +115,6 @@ trait DataModel_Trait_Save
 
 		$id_controller->afterSave( $backend_result );
 
-		/**
-		 * @var DataModel_Trait_Save $this
-		 */
 		$this->_saveRelatedObjects();
 
 	}
@@ -200,9 +196,6 @@ trait DataModel_Trait_Save
 			$backend->update( $record, $where_query );
 		}
 
-		/**
-		 * @var DataModel_Trait_Save $this
-		 */
 		$this->_saveRelatedObjects();
 
 	}

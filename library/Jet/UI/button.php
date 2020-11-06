@@ -150,9 +150,6 @@ class UI_button extends UI_BaseElement
 	 */
 	public function setIcon( $icon )
 	{
-		/**
-		 * @var UI_button $this
-		 */
 		$this->icon = $icon;
 
 		return $this;

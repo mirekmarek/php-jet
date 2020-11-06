@@ -223,7 +223,7 @@ class IO_File
 	/**
 	 *
 	 * @param string $file_path
-	 * @param int    $chmod_mask (optional, default: by application configuration)
+	 * @param int|null    $chmod_mask (optional, default: by application configuration)
 	 *
 	 * @throws IO_File_Exception
 	 */
@@ -462,9 +462,9 @@ class IO_File
 	/**
 	 *
 	 * @param string $file_path
-	 * @param string $file_name (optional, custom file name header value; default: autodetect)
-	 * @param string $file_mime (optional, mime type header value; default: autodetect )
-	 * @param int    $file_size (optional, file size header value; default: autodetect )
+	 * @param string|null $file_name (optional, custom file name header value; default: autodetect)
+	 * @param string|null $file_mime (optional, mime type header value; default: autodetect )
+	 * @param int|null    $file_size (optional, file size header value; default: autodetect )
 	 * @param bool   $force_download (optional, force download header, default: false)
 	 *
 	 * @throws IO_File_Exception

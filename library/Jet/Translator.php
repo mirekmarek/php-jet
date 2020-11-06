@@ -147,8 +147,8 @@ class Translator extends BaseObject
 	 *
 	 * @param string $text
 	 * @param array  $data (optional) - data that replace parts of text; input array('KEY1'=>'value1') replaces %KEY1% in text for value1
-	 * @param string $namespace (optional)
-	 * @param string $locale (optional) - target locale
+	 * @param string|null $namespace (optional)
+	 * @param string|null $locale (optional) - target locale
 	 *
 	 * @return string
 	 */
@@ -163,8 +163,8 @@ class Translator extends BaseObject
 	 *
 	 * @param string        $phrase
 	 * @param array         $data (optional) - data that replace parts of text; input array('KEY1'=>'value1') replaces %KEY1% in text for value1
-	 * @param string        $namespace (optional)
-	 * @param string|Locale $locale (optional) - target locale
+	 * @param string|null        $namespace (optional)
+	 * @param string|Locale|null $locale (optional) - target locale
 	 *
 	 * @return string
 	 */

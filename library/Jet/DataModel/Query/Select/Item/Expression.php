@@ -75,7 +75,7 @@ class DataModel_Query_Select_Item_Expression extends BaseObject
 
 	/**
 	 *
-	 * @param callable $property_name_to_backend_column_name_callback
+	 * @param callable|null $property_name_to_backend_column_name_callback
 	 *
 	 * @return string
 	 */

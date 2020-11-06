@@ -271,7 +271,6 @@ class Form_Field_RegistrationPassword extends Form_Field
 			$this->_tag_field_confirmation = $this->confirmation_input->input();
 		}
 
-		/** @noinspection PhpIncompatibleReturnTypeInspection */
 		return $this->_tag_field_confirmation;
 	}
 }

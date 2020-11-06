@@ -194,7 +194,6 @@ class DataModel_Definition extends BaseObject implements Reflection_ParserInterf
 				];
 
 				return;
-				break;
 			case 'name':
 				if( !empty( $data->result_data['data_model_name'] ) ) {
 					throw new Reflection_Exception(

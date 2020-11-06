@@ -150,7 +150,7 @@ interface Mvc_Site_Interface
 	public function getBasePath();
 
 	/**
-	 * @param Locale $locale (optional)
+	 * @param Locale|null $locale (optional)
 	 *
 	 * @return string
 	 */
@@ -220,11 +220,11 @@ interface Mvc_Site_Interface
 	public function removeLocale( Locale $locale );
 
 	/**
-	 * @param Locale $locale
+	 * @param Locale|null $locale
 	 *
 	 * @return Mvc_Page_Interface
 	 */
-	public function getHomepage( Locale $locale );
+	public function getHomepage( Locale $locale=null );
 
 	/**
 	 *

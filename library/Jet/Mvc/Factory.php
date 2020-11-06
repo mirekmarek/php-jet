@@ -214,7 +214,7 @@ class Mvc_Factory
 
 	/**
 	 *
-	 * @param Locale $locale
+	 * @param Locale|null $locale
 	 *
 	 * @return Mvc_Site_LocalizedData_Interface
 	 */

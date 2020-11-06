@@ -140,7 +140,7 @@ interface DataModel_Interface extends BaseObject_Interface_Serializable_JSON
 	 * Loads DataModel.
 	 *
 	 * @param array|string|int               $id_or_where
-	 * @param array|DataModel_PropertyFilter $load_filter
+	 * @param array|DataModel_PropertyFilter|null $load_filter
 	 *
 	 * @return DataModel
 	 */
@@ -151,7 +151,7 @@ interface DataModel_Interface extends BaseObject_Interface_Serializable_JSON
 	 * @param array $where_per_model
 	 * @param array|string|null $order_by
 	 * @param callable|null $item_key_generator
-	 * @param array|DataModel_PropertyFilter $load_filter
+	 * @param array|DataModel_PropertyFilter|null $load_filter
 	 *
 	 * @return DataModel[]
 	 */
@@ -232,7 +232,7 @@ interface DataModel_Interface extends BaseObject_Interface_Serializable_JSON
 	/**
 	 * @param Form  $form
 	 *
-	 * @param array $data
+	 * @param array|null $data
 	 * @param bool  $force_catch
 	 *
 	 * @return bool;

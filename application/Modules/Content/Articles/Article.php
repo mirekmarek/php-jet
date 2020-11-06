@@ -136,9 +136,6 @@ class Article extends DataModel
 			];
 		}
 
-		/**
-		 * @var DataModel_Fetch_Instances $list
-		 */
 		$list = static::fetchInstances(
 			$where,
 			[

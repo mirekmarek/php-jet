@@ -434,9 +434,7 @@ class Data_Tree_Node extends BaseObject implements BaseObject_Interface_Iterator
 		return $output;
 	}
 
-	/**  @noinspection PhpMissingParentCallMagicInspection
-	 *
-	 * Don't serialize bound tree
+	/**
 	 *
 	 * @return array
 	 */

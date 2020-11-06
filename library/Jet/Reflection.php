@@ -87,7 +87,7 @@ class Reflection implements BaseObject_Cacheable_Interface
 	/**
 	 * @param string $class
 	 * @param string $key
-	 * @param string $default_value
+	 * @param string|null $default_value
 	 *
 	 * @return mixed
 	 */
@@ -130,9 +130,6 @@ class Reflection implements BaseObject_Cacheable_Interface
 			$pd->setCurrentHierarchyClassReflection( $current_class_reflection );
 			$pd->setCurrentPropertyReflection( null );
 
-			/**
-			 * @var \ReflectionClass $current_class_reflection
-			 */
 			$doc_comment = $current_class_reflection->getDocComment();
 
 			$matches = [];

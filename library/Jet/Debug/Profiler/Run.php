@@ -69,7 +69,7 @@ class Debug_Profiler_Run
 		} else {
 			if( 
 				!isset( $_SERVER['HTTP_HOST'] ) ||
-				!isset( $_SERVER['HTTP_HOST'] ) 
+				!isset( $_SERVER['REQUEST_URI'] )
 			) {
 				$this->request_URL = 'unknown';
 			}
@@ -100,8 +100,6 @@ class Debug_Profiler_Run
 
 
 		if( extension_loaded( 'xhprof' ) ) {
-			/** @noinspection PhpUndefinedConstantInspection */
-			/** @noinspection PhpUndefinedFunctionInspection */
 			xhprof_enable(
 				XHPROF_FLAGS_CPU+XHPROF_FLAGS_MEMORY,
 				[
@@ -269,7 +267,6 @@ class Debug_Profiler_Run
 
 
 		if( extension_loaded( 'xhprof' ) ) {
-			/** @noinspection PhpUndefinedFunctionInspection */
 			$this->XHP_data = xhprof_disable();
 		}
 

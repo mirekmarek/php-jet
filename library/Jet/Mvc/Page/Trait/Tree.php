@@ -54,7 +54,6 @@ trait Mvc_Page_Trait_Tree
 		}
 
 		if(!$this->__parent) {
-			/** @noinspection PhpUndefinedMethodInspection */
 			$this->__parent = static::get( $this->parent_id, $this->getLocale(), $this->getSite()->getId() );
 		}
 
@@ -95,7 +94,6 @@ trait Mvc_Page_Trait_Tree
 
 		}
 
-		/** @noinspection PhpParamsInspection */
 		$parent->appendChild( $this );
 	}
 
@@ -138,7 +136,6 @@ trait Mvc_Page_Trait_Tree
 			$this->__children = [];
 
 			foreach( $this->children as $id ) {
-				/** @noinspection PhpUndefinedMethodInspection */
 				$ch = static::get( $id, $this->getLocale(), $this->getSite()->getId() );
 
 				if($ch) {

@@ -161,9 +161,6 @@ trait DataModel_Related_1toN_Trait
 	public function getRelatedFormFields( /** @noinspection PhpUnusedParameterInspection */
 		DataModel_Definition_Property $parent_property_definition, DataModel_PropertyFilter $property_filter = null )
 	{
-		/**
-		 * @var Form $related_form
-		 */
 		$related_form = $this->getForm( '', $property_filter );
 
 		return $related_form->getFields();

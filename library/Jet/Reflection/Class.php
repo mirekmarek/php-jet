@@ -48,7 +48,7 @@ class Reflection_Class extends \ReflectionClass
 
 		$script = file_get_contents( $this->getFileName() );
 
-		if( preg_match_all( '/use [0-9a-zA-Z_\\\\ ]{1,};/', $script, $matches, PREG_SET_ORDER ) ) {
+		if( preg_match_all( '/use [0-9a-zA-Z_\\\\ ]+;/', $script, $matches, PREG_SET_ORDER ) ) {
 			foreach( $matches as $m ) {
 				$m = $m[0];
 				if( strpos( $m, '\\' )===false ) {

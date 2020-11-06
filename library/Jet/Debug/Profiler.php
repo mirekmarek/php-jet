@@ -58,8 +58,8 @@ class Debug_Profiler
 
 
 	/**
-	 * @param callable $saver
-	 * @param callable $displayer
+	 * @param callable|null $saver
+	 * @param callable|null $displayer
 	 * @param bool     $log_SQL_queries
 	 */
 	public static function enable(

@@ -353,9 +353,6 @@ class Data_Tree extends BaseObject implements BaseObject_Interface_IteratorCount
 		$path[] = $target_node->getId();
 
 		while( ( $parent = $target_node->getParent() ) ) {
-			/**
-			 * @var Data_Tree_Node $parent
-			 */
 			if( $parent->getId()===null ) {
 				break;
 			}

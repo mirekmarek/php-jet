@@ -34,7 +34,7 @@ class Translator_Dictionary extends BaseObject
 
 	/**
 	 * @param string $namespace
-	 * @param Locale $locale
+	 * @param Locale|null $locale
 	 */
 	public function __construct( $namespace = '', Locale $locale = null )
 	{

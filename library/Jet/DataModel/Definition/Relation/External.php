@@ -16,7 +16,7 @@ class DataModel_Definition_Relation_External extends DataModel_Definition_Relati
 
 	/**
 	 * @param string $this_model_class_name
-	 * @param array  $definition_data (optional)
+	 * @param array|null  $definition_data (optional)
 	 *
 	 */
 	public function __construct( $this_model_class_name='', $definition_data = null )

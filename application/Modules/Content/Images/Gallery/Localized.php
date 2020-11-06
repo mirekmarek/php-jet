@@ -83,8 +83,8 @@ class Gallery_Localized extends DataModel_Related_1toN
 
 	/**
 	 *
-	 * @param string $gallery_id
-	 * @param Locale $locale
+	 * @param string|null $gallery_id
+	 * @param Locale|null $locale
 	 */
 	public function __construct( $gallery_id=null, Locale $locale=null )
 	{

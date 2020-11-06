@@ -247,7 +247,7 @@ trait DataModel_Related_MtoN_Trait
 	/**
 	 *
 	 * @param DataModel_Definition_Property $parent_property_definition
-	 * @param DataModel_PropertyFilter      $property_filter
+	 * @param DataModel_PropertyFilter|null      $property_filter
 	 *
 	 * @return Form_Field[]
 	 */

@@ -267,7 +267,6 @@ class DataModel_Backend_MySQL extends DataModel_Backend
 		switch( $column->getType() ) {
 			case DataModel::TYPE_ID:
 				return 'varchar(64) COLLATE utf8_bin NOT NULL DEFAULT \'\'';
-				break;
 			case DataModel::TYPE_ID_AUTOINCREMENT:
 				if( $column->getRelatedToPropertyName() ) {
 					return 'bigint UNSIGNED';
@@ -276,7 +275,6 @@ class DataModel_Backend_MySQL extends DataModel_Backend
 					return 'bigint UNSIGNED auto_increment';
 				}
 
-				break;
 
 			case DataModel::TYPE_STRING:
 				$max_len = (int)$column->getMaxLen();
@@ -294,34 +292,25 @@ class DataModel_Backend_MySQL extends DataModel_Backend
 				}
 
 				return 'longtext';
-				break;
 			case DataModel::TYPE_BOOL:
 				return 'tinyint(1) DEFAULT '.( $default_value ? 1 : 0 );
-				break;
 			case DataModel::TYPE_INT:
 				return 'int DEFAULT '.(int)$default_value;
-				break;
 			case DataModel::TYPE_FLOAT:
 				return 'float DEFAULT '.(float)$default_value;
-				break;
 			case DataModel::TYPE_LOCALE:
 				return 'varchar(20) COLLATE utf8_bin NOT NULL';
-				break;
 			case DataModel::TYPE_DATE:
 				return 'date DEFAULT NULL';
-				break;
 			case DataModel::TYPE_DATE_TIME:
 				return 'datetime DEFAULT NULL';
-				break;
 			case DataModel::TYPE_CUSTOM_DATA:
 				return 'longtext';
-				break;
 			default:
 				throw new DataModel_Exception(
 					'Unknown column type \''.$column->getType().'\'! Column \''.$name.'\' ',
 					DataModel_Exception::CODE_DEFINITION_NONSENSE
 				);
-				break;
 
 		}
 	}
@@ -439,9 +428,6 @@ class DataModel_Backend_MySQL extends DataModel_Backend
 		$properties = $definition->getProperties();
 		$actual_cols = [];
 		foreach( $properties as $property ) {
-			/**
-			 * @var DataModel_Definition_Property $property
-			 */
 			if( !$property->getCanBeTableField() ) {
 				continue;
 			}
@@ -507,9 +493,6 @@ class DataModel_Backend_MySQL extends DataModel_Backend
 		$_record = [];
 
 		foreach( $record as $item ) {
-			/**
-			 * @var DataModel_RecordData_Item $item
-			 */
 
 			$value = $item->getValue();
 			if($item->getPropertyDefinition()->getMustBeSerializedBeforeStore()) {
@@ -615,7 +598,7 @@ class DataModel_Backend_MySQL extends DataModel_Backend
 	}
 
 	/**
-	 * @param DataModel_Query_Where $query
+	 * @param DataModel_Query_Where|null $query
 	 *
 	 * @param int                   $level (optional)
 	 *
@@ -655,9 +638,6 @@ class DataModel_Backend_MySQL extends DataModel_Backend
 			 * @var DataModel_Query_Where_Expression $qp
 			 */
 
-			/**
-			 * @var DataModel_Definition_Property $prop
-			 */
 			$prop = $qp->getProperty();
 
 
@@ -689,9 +669,6 @@ class DataModel_Backend_MySQL extends DataModel_Backend
 
 			$sq = [];
 
-			/**
-			 * @var array $value
-			 */
 			foreach( $value as $v ) {
 
 				$sq[] = JET_TAB.JET_TAB.$item.$this->_getSQLQueryWherePart_handleOperator( $operator, $v );
@@ -858,7 +835,6 @@ class DataModel_Backend_MySQL extends DataModel_Backend
 						'MySQL backend: unknown join type \''.$relation->getJoinType().'\'',
 						DataModel_Backend_Exception::CODE_BACKEND_ERROR
 					);
-					break;
 			}
 
 			$j = [];
@@ -890,7 +866,7 @@ class DataModel_Backend_MySQL extends DataModel_Backend
 	}
 
 	/**
-	 * @param DataModel_Query_Having $query
+	 * @param DataModel_Query_Having|null $query
 	 *
 	 * @param int                    $level (optional)
 	 *
@@ -1015,9 +991,6 @@ class DataModel_Backend_MySQL extends DataModel_Backend
 		};
 
 		foreach( $query->getSelect() as $item ) {
-			/**
-			 * @var DataModel_Query_Select_Item $item
-			 */
 			$property = $item->getItem();
 			$select_as = $item->getSelectAs();
 
@@ -1048,7 +1021,7 @@ class DataModel_Backend_MySQL extends DataModel_Backend
 	}
 
 	/**
-	 * @param DataModel_Query $query
+	 * @param DataModel_Query|null $query
 	 *
 	 * @return string
 	 */

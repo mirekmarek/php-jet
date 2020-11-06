@@ -28,7 +28,7 @@ class Config_Definition_Property_Sections extends Config_Definition_Property
 	protected $default_value = [];
 
 	/**
-	 * @param array $definition_data
+	 * @param array|null $definition_data
 	 *
 	 */
 	public function setUp( array $definition_data = null )

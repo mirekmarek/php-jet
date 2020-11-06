@@ -46,7 +46,7 @@ interface Mvc_Page_Interface
 
 	/**
 	 *
-	 * @param string             $page_id (optional, null = current)
+	 * @param string|null        $page_id (optional, null = current)
 	 * @param string|Locale|null $locale (optional, null = current)
 	 * @param string|null        $site_id (optional, null = current)
 	 *

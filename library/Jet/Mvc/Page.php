@@ -152,7 +152,7 @@ class Mvc_Page extends BaseObject implements Mvc_Page_Interface, BaseObject_Cach
 
 	/**
 	 *
-	 * @param string             $page_id (optional, null = current)
+	 * @param string|null        $page_id (optional, null = current)
 	 * @param string|Locale|null $locale (optional, null = current)
 	 * @param string|null        $site_id (optional, null = current)
 	 *

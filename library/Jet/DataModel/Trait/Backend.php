@@ -32,7 +32,6 @@ trait DataModel_Trait_Backend
 		 * @var DataModel $this
 		 */
 		if( !$this->getBackendTransactionStarted() ) {
-			/** @noinspection PhpParamsInspection */
 			static::getBackendInstance()->setTransactionStarter( $this );
 			static::getBackendInstance()->transactionStart();
 		}

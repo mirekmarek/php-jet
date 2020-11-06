@@ -26,13 +26,9 @@ class Autoloader_ApplicationModules extends Autoloader_Loader
 	 */
 	public function getScriptPath( $root_namespace, $namespace, $class_name )
 	{
-		$root_namespace = Application_Modules::getModuleRootNamespace();
-
-		if( $root_namespace!=$root_namespace ) {
+		if( $root_namespace!=Application_Modules::getModuleRootNamespace() ) {
 			return false;
 		}
-
-
 
 		$module_name = str_replace( '\\', '.', substr( $namespace, strlen($root_namespace)+1 ) );
 

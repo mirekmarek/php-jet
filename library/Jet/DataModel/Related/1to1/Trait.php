@@ -73,7 +73,7 @@ trait DataModel_Related_1to1_Trait
 	/**
 	 *
 	 * @param DataModel_Definition_Property $parent_property_definition
-	 * @param DataModel_PropertyFilter      $property_filter
+	 * @param DataModel_PropertyFilter|null      $property_filter
 	 *
 	 * @return Form_Field[]
 	 */
@@ -82,9 +82,6 @@ trait DataModel_Related_1to1_Trait
 
 		$fields = [];
 
-		/**
-		 * @var Form $related_form
-		 */
 		$related_form = $this->getForm( '', $property_filter );
 
 		foreach( $related_form->getFields() as $field ) {

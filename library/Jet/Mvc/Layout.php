@@ -137,8 +137,8 @@ class Mvc_Layout extends Mvc_View_Abstract
 	 * Adds output to specified position
 	 *
 	 * @param string $output
-	 * @param string $position (optional, default: main position)
-	 * @param int    $position_order (optional, default:null)
+	 * @param string|null $position (optional, default: main position)
+	 * @param int|null    $position_order (optional, default:null)
 	 *
 	 */
 	public function addOutputPart( $output, $position = null, $position_order = null )
@@ -324,7 +324,7 @@ class Mvc_Layout extends Mvc_View_Abstract
 	{
 
 		$matches = [];
-		if( !preg_match_all( '/<'.static::TAG_MODULE.'([^>]*)\>/i', $result, $matches, PREG_SET_ORDER ) ) {
+		if( !preg_match_all( '/<'.static::TAG_MODULE.'([^>]*)>/i', $result, $matches, PREG_SET_ORDER ) ) {
 			return [];
 		}
 
@@ -431,7 +431,7 @@ class Mvc_Layout extends Mvc_View_Abstract
 		$matches = [];
 
 		if( preg_match_all(
-			'/<'.static::TAG_POSITION.'[ ]{1,}name="([a-zA-Z0-9\-_ ]*)"[^\/]*\/>/i',
+			'/<'.static::TAG_POSITION. '[ ]+name="([a-zA-Z0-9\-_ ]*)"[^\/]*\/>/i',
 			$result,
 			$matches,
 			PREG_SET_ORDER

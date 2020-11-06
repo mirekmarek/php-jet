@@ -131,9 +131,6 @@ class Navigation_Menu extends BaseObject
 	public static function initModuleMenuItems( $menu_namespace )
 	{
 		foreach( Application_Modules::activatedModulesList() as $manifest ) {
-			/**
-			 * @var Application_Module_Manifest $manifest
-			 */
 			foreach( $manifest->getMenuItems( $menu_namespace ) as $menu_item ) {
 
 				$menu = Navigation_Menu::getMenu( $menu_item->getMenuId() );
@@ -383,9 +380,6 @@ class Navigation_Menu extends BaseObject
 	 */
 	public function addItem( Navigation_Menu_Item $item )
 	{
-		/**
-		 * @var Navigation_Menu $this
-		 */
 		$item->setMenu( $this );
 
 		$id = $item->getId();
@@ -407,9 +401,6 @@ class Navigation_Menu extends BaseObject
 	 */
 	public function addMenu( Navigation_Menu $menu )
 	{
-		/**
-		 * @var Navigation_Menu $this
-		 */
 		$menu->setParentMenu( $this );
 
 		$id = $menu->getId();

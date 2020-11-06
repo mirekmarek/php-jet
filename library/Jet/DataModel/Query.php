@@ -252,7 +252,7 @@ class DataModel_Query extends BaseObject
 	 * Sets limit (and offset)
 	 *
 	 * @param int $limit
-	 * @param int $offset (optional)
+	 * @param int|null $offset (optional)
 	 *
 	 * @return DataModel_Query
 	 */
@@ -355,9 +355,6 @@ class DataModel_Query extends BaseObject
 			list($related_data_model_name, $property_name) = $property_name_parts;
 
 
-			/**
-			 * @var DataModel_Definition_Relation  $relevant_relation
-			 */
 			$relevant_relation = clone $this->data_model_definition->getRelation( $related_data_model_name );
 
 			if( ( $required_relations = $relevant_relation->getRequiredRelations() ) ) {

@@ -102,7 +102,7 @@ class Debug_Profiler_Run_Block
 	/**
 	 * @param string                   $label
 	 * @param int                      $level
-	 * @param Debug_Profiler_Run_Block $parent_block
+	 * @param Debug_Profiler_Run_Block|null $parent_block
 	 */
 	public function __construct( $label, $level, Debug_Profiler_Run_Block $parent_block = null )
 	{
@@ -132,7 +132,7 @@ class Debug_Profiler_Run_Block
 	}
 
 	/**
-	 * @param float $timestamp_end (optional, default: current)
+	 * @param float|null $timestamp_end (optional, default: current)
 	 */
 	public function setEnd( $timestamp_end = null )
 	{

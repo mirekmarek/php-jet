@@ -1,36 +1,17 @@
 <?php
-const BOOTSTRAP_CSS_URL = '//stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css';
+use Jet\Form_Field_WYSIWYG;
+
+const JQUERY_JS_URL = 'https://code.jquery.com/jquery-3.5.1.js';
+
+const BOOTSTRAP_CSS_URL = 'https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css';
+const BOOTSTRAP_JS_URL  = 'https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js';
+
 const FONT_AWESOME_CSS_URL = 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css';
+
 const FLAGS_CSS_URL = JET_URI_PUBLIC.'styles/flags.css';
-
-const BOOTSTRAP_JS_URL = '//maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js';
-
-const JQUERY_JS_URL = '//code.jquery.com/jquery-3.5.1.js';
 
 const JET_AJAX_FORM_JS_URL = JET_URI_PUBLIC.'scripts/JetAjaxForm.js?v=1';
 const JET_MULTI_UPLOADER_JS_URL = JET_URI_PUBLIC.'scripts/JetMultiUploader.js?v=1';
-
-/*
-const WYSIWYG_DEFAULT_EDITOR_CSS_FILES = [
-	'' => [
-		'//cdnjs.cloudflare.com/ajax/libs/summernote/0.8.9/summernote.css'
-	],
-];
-const WYSIWYG_DEFAULT_EDITOR_JAVASCRIPT_FILES = [
-	BOOTSTRAP_JS_URL,
-	'//cdnjs.cloudflare.com/ajax/libs/summernote/0.8.9/summernote.js'
-];
-const WYSIWYG_DEFAULT_EDITOR_CONFIG = [
-	'height' => 500,
-];
-
-$GLOBALS['WYSIWYG_DEFAULT_INITIALIZER_GENERATOR'] = function( \Jet\Form_Field_WYSIWYG $field, $editor_config ) {
-	return '<script type="text/javascript">'
-		.'$("#'.$field->getId().'").summernote('.json_encode($editor_config).');'
-		.'</script>'.JET_EOL;
-};
-*/
-
 
 
 const WYSIWYG_DEFAULT_EDITOR_CSS_FILES = [
@@ -64,7 +45,7 @@ const WYSIWYG_DEFAULT_EDITOR_CONFIG = [
 	'content_css' => JET_URI_PUBLIC.'styles/wysiwyg.css',
 ];
 
-$GLOBALS['WYSIWYG_DEFAULT_INITIALIZER_GENERATOR'] = function( \Jet\Form_Field_WYSIWYG $field, $editor_config ) {
+$GLOBALS['WYSIWYG_DEFAULT_INITIALIZER_GENERATOR'] = function( Form_Field_WYSIWYG $field, $editor_config ) {
 
 	$editor_config['selector'] = '#'.$field->getId();
 
@@ -77,3 +58,25 @@ $GLOBALS['WYSIWYG_DEFAULT_INITIALIZER_GENERATOR'] = function( \Jet\Form_Field_WY
 		.'</script>'.JET_EOL;
 
 };
+
+
+/*
+const WYSIWYG_DEFAULT_EDITOR_CSS_FILES = [
+	'' => [
+		'//cdnjs.cloudflare.com/ajax/libs/summernote/0.8.9/summernote.css'
+	],
+];
+const WYSIWYG_DEFAULT_EDITOR_JAVASCRIPT_FILES = [
+	BOOTSTRAP_JS_URL,
+	'//cdnjs.cloudflare.com/ajax/libs/summernote/0.8.9/summernote.js'
+];
+const WYSIWYG_DEFAULT_EDITOR_CONFIG = [
+	'height' => 500,
+];
+
+$GLOBALS['WYSIWYG_DEFAULT_INITIALIZER_GENERATOR'] = function( \Jet\Form_Field_WYSIWYG $field, $editor_config ) {
+	return '<script type="text/javascript">'
+		.'$("#'.$field->getId().'").summernote('.json_encode($editor_config).');'
+		.'</script>'.JET_EOL;
+};
+*/

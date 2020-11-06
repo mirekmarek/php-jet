@@ -27,18 +27,15 @@ trait DataModel_Query_Where_Trait
 	protected function _determineLogicalOperatorOrSubExpressions( $val )
 	{
 		if( is_array( $val ) ) {
-			/** @noinspection PhpUndefinedMethodInspection */
 			/** @noinspection PhpParamsInspection */
 			/** @noinspection PhpMethodParametersCountMismatchInspection */
 			$this->addSubExpressions( new self( $this->query, $val ) );
 		} else {
 			switch( strtoupper( $val ) ) {
 				case DataModel_Query::L_O_AND:
-					/** @noinspection PhpUndefinedMethodInspection */
 					$this->addAND();
 					break;
 				case DataModel_Query::L_O_OR:
-					/** @noinspection PhpUndefinedMethodInspection */
 					$this->addOR();
 					break;
 				default:
@@ -46,7 +43,6 @@ trait DataModel_Query_Where_Trait
 						'Unknown logical operator \''.strtoupper( $val ).'\'. Available operators: AND, OR',
 						DataModel_Query_Exception::CODE_QUERY_PARSE_ERROR
 					);
-					break;
 			}
 
 		}

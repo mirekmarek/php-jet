@@ -180,7 +180,7 @@ trait DataModel_Trait_Load
 	 * Loads DataModel.
 	 *
 	 * @param array|string|int|DataModel_IDController  $id_or_where
-	 * @param array|DataModel_PropertyFilter $load_filter
+	 * @param array|DataModel_PropertyFilter|null $load_filter
 	 *
 	 * @return DataModel
 	 */
@@ -214,9 +214,6 @@ trait DataModel_Trait_Load
 				$main_where = $id_or_where;
 			}
 
-			/**
-			 * @var DataModel_Query $query
-			 */
 			$query = static::createQuery( $main_where );
 
 		}
@@ -315,7 +312,7 @@ trait DataModel_Trait_Load
 	 * @param array $where_per_model
 	 * @param array|string|null $order_by
 	 * @param callable|null $item_key_generator
-	 * @param array|DataModel_PropertyFilter $load_filter
+	 * @param array|DataModel_PropertyFilter|null $load_filter
 	 *
 	 * @return DataModel[]
 	 */
@@ -334,9 +331,6 @@ trait DataModel_Trait_Load
 		}
 
 
-		/**
-		 * @var DataModel_Query $query
-		 */
 		$query = static::createQuery();
 
 		$main_select = DataModel_PropertyFilter::getQuerySelect( $this_definition, $load_filter );
@@ -473,9 +467,6 @@ trait DataModel_Trait_Load
 	 */
 	public static function fetchData( array $select, array $where, $order_by=null, $fetch_method='fetchAll' )
 	{
-		/**
-		 * @var DataModel_Query $query
-		 */
 		$query = static::createQuery( $where );
 
 		$query->setSelect( $select );
