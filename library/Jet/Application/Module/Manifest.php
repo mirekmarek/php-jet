@@ -25,11 +25,6 @@ class Application_Module_Manifest extends BaseObject
 	protected $_name = '';
 
 	//--------------------------------------------------------------------------
-	/**
-	 *
-	 * @var int
-	 */
-	protected $API_version = 201701;
 
 	/**
 	 * @var string
@@ -185,22 +180,12 @@ class Application_Module_Manifest extends BaseObject
 			);
 		}
 
-		if( empty( $manifest_data['API_version'] ) ) {
-			throw new Application_Modules_Exception(
-				'Required API version not set! (\'API_version\' array key does not exist, or is empty) (Module: \''.$this->_name.'\')',
-				Application_Modules_Exception::CODE_MANIFEST_NONSENSE
-			);
-		}
-
 		if( empty( $manifest_data['label'] ) ) {
 			throw new Application_Modules_Exception(
 				'Module label not set! (\'label\' array key does not exist, or is empty) (Module: \''.$this->_name.'\')',
 				Application_Modules_Exception::CODE_MANIFEST_NONSENSE
 			);
 		}
-
-
-
 	}
 
 	/**
@@ -315,19 +300,6 @@ class Application_Module_Manifest extends BaseObject
 	{
 		return array_key_exists( $action, $this->ACL_actions );
 	}
-	
-	
-
-	/**
-	 * Returns required API version
-	 *
-	 * @return int
-	 */
-	public function getAPIVersion()
-	{
-		return $this->API_version;
-	}
-
 
 	/**
 	 * @return bool
