@@ -15,7 +15,7 @@ Mvc_Layout::getCurrentLayout()->requireJavascriptFile(JET_AJAX_FORM_JS_URL);
 
 ?>
 <script type="text/javascript">
-	var testSendForm = {
+	const testSendForm = {
 		submit: function( id ) {
 			JetAjaxForm.submit(id, {
 				showProgressIndicator: function( form ) {

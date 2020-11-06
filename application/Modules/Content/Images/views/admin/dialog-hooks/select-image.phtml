@@ -13,7 +13,7 @@ use Jet\Mvc_Page;
 $dialog = UI::dialog('dialog_select_image', Tr::_('Select image'), 1100);
 ?>
 <script type="text/javascript">
-	var dialog_select_image = {
+	const dialog_select_image = {
 		open: function( on_response ) {
 			dialog_select_image.on_response = on_response;
 		},
