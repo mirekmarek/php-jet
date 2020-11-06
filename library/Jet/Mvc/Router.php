@@ -134,10 +134,15 @@ class Mvc_Router extends BaseObject  implements Mvc_Router_Interface
 		$this->request_URL = $request_URL;
 
 
-		if( $this->resolveSiteAndLocale() ) {
-			$this->resolvePage();
-			if($this->resolveAuthentication()) {
-				$this->resolvePathAndControllers();
+		if( $this->resolve_seekSiteAndLocale() ) {
+			$this->resolve_seekPage();
+
+			if($this->resolve_handleAuthentication()) {
+				$this->resolve_decodePath();
+
+				if($this->resolve_pageResolve()) {
+					$this->resolve_checkPathUsed();
+				}
 			}
 		}
 
@@ -150,7 +155,7 @@ class Mvc_Router extends BaseObject  implements Mvc_Router_Interface
 	 *
 	 * @throws Mvc_Page_Exception
 	 */
-	protected function resolveSiteAndLocale()
+	protected function resolve_seekSiteAndLocale()
 	{
 
 		Debug_Profiler::blockStart('Resolve site and locale');
@@ -262,7 +267,7 @@ class Mvc_Router extends BaseObject  implements Mvc_Router_Interface
 	/**
 	 *
 	 */
-	protected function resolvePage()
+	protected function resolve_seekPage()
 	{
 		Debug_Profiler::blockStart('Seeking for page');
 
@@ -319,22 +324,46 @@ class Mvc_Router extends BaseObject  implements Mvc_Router_Interface
 	}
 
 	/**
-	 *
+	 * @return bool
 	 */
-	protected function resolvePathAndControllers()
+	protected function resolve_pageResolve()
 	{
 		Debug_Profiler::blockStart('Resolve page');
 
-		$this->decodePath();
-
-		Debug_Profiler::blockStart('Resolving page request');
 		$OK = $this->getPage()->resolve();
-		Debug_Profiler::blockEnd('Resolving page request');
+		if( !$OK ) {
+			$this->setIs404();
+		}
 
-		if(
-			$OK &&
-			$this->path!=$this->used_path
-		) {
+		Debug_Profiler::blockEnd('Resolve page');
+
+		return $OK;
+	}
+
+	/**
+	 *
+	 */
+	protected function resolve_decodePath()
+	{
+		$path = [];
+		if($this->path) {
+			$_path = explode('/', $this->path);
+			foreach( $_path as $i=>$p ) {
+				if($p) {
+					$path[$i] = rawurldecode($p);
+				}
+			}
+			$this->path = implode('/', $path);
+		}
+
+	}
+
+	/**
+	 *
+	 */
+	protected function resolve_checkPathUsed()
+	{
+		if( $this->path!=$this->used_path ) {
 			$redirect_to = $this->getPage()->getURL();
 			if($this->used_path) {
 				$redirect_to .= '/'.$this->used_path;
@@ -342,59 +371,13 @@ class Mvc_Router extends BaseObject  implements Mvc_Router_Interface
 
 			$this->setIsRedirect( $redirect_to );
 		}
-
-		if( !$OK ) {
-			$this->setIs404();
-		}
-
-		Debug_Profiler::blockEnd('Resolve page');
-
-	}
-
-	/**
-	 *
-	 */
-	protected function decodePath()
-	{
-
-		$path = [];
-		if($this->path) {
-			$_path = explode('/', $this->path);
-			foreach( $_path as $i=>$p ) {
-				if(!$p) {
-					continue;
-				}
-				$path[$i] = rawurldecode($p);
-			}
-
-			$this->path = implode('/', $path);
-
-		}
-
-	}
-
-	/**
-	 * @return bool
-	 */
-	public function checkUrl()
-	{
-		$correct_page_url = $this->page->getURL( $this->path ? explode('/', $this->path) : [] );
-
-		if($correct_page_url!=Http_Request::URL( false)) {
-
-			$this->setIsRedirect( $correct_page_url );
-
-			return false;
-		}
-
-		return true;
 	}
 
 	/**
 	 *
 	 * @return bool
 	 */
-	protected function resolveAuthentication()
+	protected function resolve_handleAuthentication()
 	{
 		if( !$this->getPage()->getIsSecret() ) {
 			return true;

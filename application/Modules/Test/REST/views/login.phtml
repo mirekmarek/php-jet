@@ -16,77 +16,78 @@ use Jet\Tr;
 $form = $this->getRaw('form');
 $client = $this->getRaw('client');
 ?>
-	<style>
-        h1 {
-            background: #101010;
-	        color: #aaaaaa;
-            padding: 4px;
-            margin-top: 5px;
-            margin-bottom: 5px;
-        }
-        h3 {
-            background: #b9b9b9;
-            padding: 4px;
-            margin-top: 5px;
-            margin-bottom: 5px;
-        }
-        h4 {
-            background: #e9e9e9;
-            padding: 4px;
-            margin-top: 5px;
-            margin-bottom: 5px;
-        }
-	</style>
+<style>
+    h1 {
+        background: #101010;
+        color: #aaaaaa;
+        padding: 4px;
+        margin-top: 5px;
+        margin-bottom: 5px;
+    }
+    h3 {
+        background: #b9b9b9;
+        padding: 4px;
+        margin-top: 5px;
+        margin-bottom: 5px;
+    }
+    h4 {
+        background: #e9e9e9;
+        padding: 4px;
+        margin-top: 5px;
+        margin-bottom: 5px;
+    }
+</style>
+<div class="container-fluid">
+	<h1 style="margin-top: 0px;"><?=Tr::_('REST API Tests - client login')?></h1>
+	<div class="row">
+		<div class="col-md-6 offset-md-3 col-sm-8 offset-sm-2">
+			<div class="card" style="margin-top: 20px;margin-bottom: 20px;">
+				<h5 class="card-header">
+					<?=Tr::_( 'Sign In' )?>
+				</h5>
 
-<h1><?=Tr::_('REST API Tests - client login')?></h1>
-<div class="row">
-	<div class="col-md-6 offset-md-3 col-sm-8 offset-sm-2">
-		<div class="card" style="margin-top: 20px;margin-bottom: 20px;">
-			<h5 class="card-header">
-				<?=Tr::_( 'Sign In' )?>
-			</h5>
+				<div class="card-body">
+					<?php
+					echo $form->start();
+					echo $form->getField('username');
+					echo $form->getField('password');
+					?>
+					<div class="text-right">
+						<?=UI::button(Tr::_('Sign In'))->setType('submit')->setClass('primary');?>
+					</div>
 
-			<div class="card-body">
-				<?php
-				echo $form->start();
-				echo $form->getField('username');
-				echo $form->getField('password');
-				?>
-				<div class="text-right">
-					<?=UI::button(Tr::_('Sign In'))->setType('submit')->setClass('primary');?>
+					<?php
+					echo $form->end();
+					?>
+
 				</div>
-
-				<?php
-				echo $form->end();
-				?>
-
 			</div>
 		</div>
 	</div>
+	<?php if($client): ?>
+		<div class="row">
+			<div class="col-md-12">
+				<h3><?=Tr::_('Request')?></h3>
+				<h4><?=Tr::_('Header')?></h4>
+				<pre><?=$client->request()?></pre>
+				<?php if($client->requestBody()): ?>
+					<h4><?=Tr::_('Body')?></h4>
+					<pre><?=is_string($client->requestBody()) ? $client->requestBody(): var_dump($client->requestBody())?></pre>
+					<h4><?=Tr::_('Data')?></h4>
+					<pre><?=var_export( $client->requestData(), true )?></pre>
+				<?php endif; ?>
+
+
+				<h3><?=Tr::_('Response')?></h3>
+				<h4><?=Tr::_('Header')?></h4>
+				<pre><?=$client->responseHeader()?></pre>
+				<h4><?=Tr::_('Body')?></h4>
+				<pre><?=$client->responseBody()?></pre>
+				<h4><?=Tr::_('Data')?></h4>
+				<pre><?=var_export($client->responseData(), true)?></pre>
+			</div>
+		</div>
+	<?php endif;?>
 </div>
 
 
-<?php if($client): ?>
-<div class="row">
-	<div class="col-md-12">
-		<h3><?=Tr::_('Request')?></h3>
-		<h4><?=Tr::_('Header')?></h4>
-		<pre><?=$client->request()?></pre>
-		<?php if($client->requestBody()): ?>
-			<h4><?=Tr::_('Body')?></h4>
-			<pre><?=is_string($client->requestBody()) ? $client->requestBody(): var_dump($client->requestBody())?></pre>
-			<h4><?=Tr::_('Data')?></h4>
-			<pre><?=var_export( $client->requestData(), true )?></pre>
-		<?php endif; ?>
-
-
-		<h3><?=Tr::_('Response')?></h3>
-		<h4><?=Tr::_('Header')?></h4>
-		<pre><?=$client->responseHeader()?></pre>
-		<h4><?=Tr::_('Body')?></h4>
-		<pre><?=$client->responseBody()?></pre>
-		<h4><?=Tr::_('Data')?></h4>
-		<pre><?=var_export($client->responseData(), true)?></pre>
-	</div>
-</div>
-<?php endif;?>
