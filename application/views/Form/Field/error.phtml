@@ -18,15 +18,6 @@ if(!$r->getBaseCssClasses()) {
 	$r->setBaseCssClass('error');
 }
 ?>
-<div class="form-group row has-error has-feedback">
-	<div class="<?=$field->label()->getWidthCssClasses( function($size, $width) {return 'col-'.$size.'-'.$width;} )?>"/></div>
-	<div class="<?=$field->input()->getWidthCssClasses( function($size, $width) {return 'col-'.$size.'-'.$width;} )?>">
-		<div<?php
-			if($r->getCssClasses()) echo ' class="'.$r->getCssClasses().'"';
-			if($r->getCssStyles()) echo ' style="'.$r->getCssStyles().'"';
-			if($r->getJsActions()) echo $r->getJsActions();
-		?>>
-		<?=$field->getLastErrorMessage();?>
-		</div>
-	</div>
+<div class="invalid-feedback">
+	<?=$field->getLastErrorMessage();?>
 </div>
