@@ -8,9 +8,8 @@
 namespace JetApplicationModule\Content\Images;
 
 use Jet\Http_Request;
-use Jet\Mvc;
 use Jet\Mvc_Controller_REST;
-use Jet\REST;
+use Jet\Mvc_Controller_REST_Router;
 
 /**
  *
@@ -19,164 +18,159 @@ class Controller_REST extends Mvc_Controller_REST
 {
 
 	/**
-	 * @var array
-	 */
-	const ACL_ACTIONS_MAP = [
-		'get_galleries'    => Main::ACTION_GET_GALLERY,
-		'get_gallery'      => Main::ACTION_GET_GALLERY,
-		'add_gallery'      => Main::ACTION_ADD_GALLERY,
-		'update_gallery'   => Main::ACTION_UPDATE_GALLERY,
-		'delete_gallery'   => Main::ACTION_DELETE_GALLERY,
-
-		'get_images'       => Main::ACTION_GET_GALLERY,
-		'get_image'        => Main::ACTION_GET_GALLERY,
-		'add_image'        => Main::ACTION_ADD_IMAGE,
-		'delete_image'     => Main::ACTION_DELETE_IMAGE,
-
-	];
-
-	/**
 	 *
 	 * @var Main
 	 */
 	protected $module = null;
 
 	/**
-	 *
-	 * @return bool
+	 * @var Gallery
 	 */
-	public function resolve()
+	protected $gallery;
+
+	/**
+	 * @var string
+	 */
+	protected $sub_object = '';
+
+	/**
+	 * @var Gallery_Image
+	 */
+	protected $image;
+
+	/**
+	 * @return Mvc_Controller_REST_Router
+	 */
+	public function getControllerRouter()
 	{
-		$path = Mvc::getRouter()->getPath();
+		$router = new Mvc_Controller_REST_Router(
+			$this,
+			[
+				'get_galleries'    => Main::ACTION_GET_GALLERY,
+				'get_gallery'      => Main::ACTION_GET_GALLERY,
+				'add_gallery'      => Main::ACTION_ADD_GALLERY,
+				'update_gallery'   => Main::ACTION_UPDATE_GALLERY,
+				'delete_gallery'   => Main::ACTION_DELETE_GALLERY,
 
-		$gallery = null;
-		$image = null;
-		$sub_object = null;
+				'get_images'       => Main::ACTION_GET_GALLERY,
+				'get_image'        => Main::ACTION_GET_GALLERY,
+				'add_image'        => Main::ACTION_ADD_IMAGE,
+				'delete_image'     => Main::ACTION_DELETE_IMAGE,
+			]
+		);
 
-		if( $path ) {
-			$path_fragments = explode('/', $path);
+		$router
+			->setPreparer( function($path) {
+				if( !$path ) {
+					return true;
+				}
 
-			$gallery_id = array_shift($path_fragments);
-			$gallery = Gallery::get($gallery_id);
+				$path_fragments = explode('/', $path);
 
-			if(!$gallery) {
-				$this->responseUnknownItem($gallery_id);
-				return false;
-			}
+				$gallery_id = array_shift($path_fragments);
+				$this->gallery = Gallery::get($gallery_id);
 
-			$this->getContent()->setParameter('gallery', $gallery);
-
-			if($path_fragments) {
-				$sub_object = array_shift($path_fragments);
-				if($sub_object!='image') {
+				if(!$this->gallery) {
+					$this->responseUnknownItem($gallery_id);
 					return false;
 				}
 
+				if(!$path_fragments) {
+					return true;
+				}
+
+				$this->sub_object = array_shift($path_fragments);
+				if($this->sub_object!='image') {
+					return false;
+				}
+
+				if(!$path_fragments) {
+					return true;
+				}
+
+				$image_id = array_shift($path_fragments);
 				if($path_fragments) {
-					$image_id = array_shift($path_fragments);
-					if($path_fragments) {
-						return false;
-					}
-
-					$image = Gallery_Image::get($image_id);
-					if(!$image) {
-						$this->responseUnknownItem($image_id);
-
-						return false;
-					}
-
-					if($image->getGalleryId()!=$gallery->getId()) {
-						$this->responseUnknownItem($image_id);
-
-						return false;
-					}
-
+					return false;
 				}
-			}
-		}
+
+				$this->image = Gallery_Image::get($image_id);
+				if(!$this->image) {
+					$this->responseUnknownItem($image_id);
+
+					return false;
+				}
+
+				if($this->image->getGalleryId()!=$this->gallery->getId()) {
+					$this->responseUnknownItem($image_id);
+
+					return false;
+				}
 
 
-
-		switch( $this->getRequestMethod() ) {
-			case REST::REQUEST_METHOD_GET:
-
+				return true;
+			} )
+			->setResolverGet(function() {
 				$controller_action = 'get_galleries';
-				if($gallery) {
+				if($this->gallery) {
 					$controller_action = 'get_gallery';
-					$this->getContent()->setParameter('gallery', $gallery);
 				}
 
-				if($sub_object) {
+				if($this->sub_object) {
 					$controller_action = 'get_images';
-					if($image) {
+					if($this->image) {
 						$controller_action = 'get_image';
-						$this->getContent()->setParameter('image', $image);
 					}
 				}
-			break;
-			case REST::REQUEST_METHOD_POST:
+
+				return $controller_action;
+			})
+			->setResolverPost(function() {
 				$controller_action = 'add_gallery';
 
-				if($gallery) {
-					if(!$sub_object) {
+				if($this->gallery) {
+					if(!$this->sub_object) {
 						return false;
 					}
 
-					if($image) {
+					if($this->image) {
 						return false;
 					}
-
-					$this->getContent()->setParameter('gallery', $gallery);
 
 					$controller_action = 'add_image';
 				}
-			break;
-			case REST::REQUEST_METHOD_PUT:
-				if(!$gallery) {
+
+				return $controller_action;
+			})
+			->setResolverPut(function() {
+				if(!$this->gallery) {
 					return false;
 				}
 
-				if($sub_object) {
+				if($this->sub_object) {
 					return false;
 				}
-				$this->getContent()->setParameter('gallery', $gallery);
 
-				$controller_action = 'update_gallery';
-
-			break;
-			case REST::REQUEST_METHOD_DELETE:
-				if(!$gallery) {
+				return 'update_gallery';
+			})
+			->setResolverDelete(function() {
+				if(!$this->gallery) {
 					return false;
 				}
 				$controller_action = 'delete_gallery';
-				$this->getContent()->setParameter('gallery', $gallery);
 
 
-				if($sub_object) {
-					if(!$image) {
+				if($this->sub_object) {
+					if(!$this->image) {
 						return false;
 					}
 
 					$controller_action = 'delete_image';
-					$this->getContent()->setParameter('image', $image);
 				}
+				return $controller_action;
+			});
 
-
-				break;
-			default:
-				return false;
-		}
-
-		$this->getContent()->setControllerAction( $controller_action );
-
-		return true;
+		return $router;
 	}
-
-
-
-
-
-
 
 
 	/**
@@ -206,11 +200,7 @@ class Controller_REST extends Mvc_Controller_REST
 	 */
 	public function get_gallery_Action( )
 	{
-		/**
-		 * @var Gallery $gallery
-		 */
-		$gallery = $this->getParameter('gallery');
-		$this->responseData( $gallery );
+		$this->responseData( $this->gallery);
 	}
 
 	/**
@@ -243,10 +233,7 @@ class Controller_REST extends Mvc_Controller_REST
 	 */
 	public function update_gallery_Action()
 	{
-		/**
-		 * @var Gallery $gallery
-		 */
-		$gallery = $this->getParameter('gallery');
+		$gallery = $this->gallery;
 
 		$form = $gallery->getEditForm();
 		$form->catchInput( $this->getRequestData(), true );
@@ -269,10 +256,7 @@ class Controller_REST extends Mvc_Controller_REST
 	 */
 	public function delete_gallery_Action()
 	{
-		/**
-		 * @var Gallery $gallery
-		 */
-		$gallery = $this->getParameter('gallery');
+		$gallery = $this->gallery;
 
 		$this->logAllowedAction( 'Gallery deleted', $gallery->getId(), $gallery->getTitle(), $gallery );
 
@@ -290,10 +274,7 @@ class Controller_REST extends Mvc_Controller_REST
 	 */
 	public function get_images_Action()
 	{
-		/**
-		 * @var Gallery $gallery
-		 */
-		$gallery = $this->getParameter('gallery');
+		$gallery = $this->gallery;
 
 		$list = Gallery_Image::getList( $gallery->getId() );
 
@@ -317,14 +298,11 @@ class Controller_REST extends Mvc_Controller_REST
 	 */
 	public function get_image_Action()
 	{
-		/**
-		 * @var Gallery_Image $image
-		 */
-		$image = $this->getParameter('image');
+		$image = $this->image;
 
 		if(
 			($thb=Http_Request::GET()->getString('thumbnail')) &&
-			preg_match('/^([0-9]{1,})x([0-9]{1,})$/', $thb)
+			preg_match( '/^([0-9]+)x([0-9]+)$/', $thb)
 		) {
 			[ $max_w, $max_h ] = explode('x', $thb);
 
@@ -342,11 +320,7 @@ class Controller_REST extends Mvc_Controller_REST
 	 */
 	public function add_image_Action()
 	{
-
-		/**
-		 * @var Gallery $gallery
-		 */
-		$gallery = $this->getParameter('gallery');
+		$gallery = $this->gallery;
 
 		$upload_form = $gallery->getImageUploadForm();
 
@@ -377,10 +351,7 @@ class Controller_REST extends Mvc_Controller_REST
 	 */
 	public function delete_image_Action()
 	{
-		/**
-		 * @var Gallery_Image $image
-		 */
-		$image = $this->getParameter('image');
+		$image = $this->image;
 
 		$image->delete();
 

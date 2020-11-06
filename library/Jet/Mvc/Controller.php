@@ -70,7 +70,7 @@ abstract class Mvc_Controller extends BaseObject
 	/**
 	 *
 	 *
-	 * @return Mvc_Controller_Router|null
+	 * @return Mvc_Controller_Router|Mvc_Controller_Router_Interface|null
 	 */
 	public function getControllerRouter()
 	{

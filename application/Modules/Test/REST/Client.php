@@ -148,8 +148,6 @@ class Client
 				curl_setopt( $curl_handle, CURLOPT_POST, true );
 
 				if($upload_file_path) {
-					curl_setopt($curl_handle, CURLOPT_SAFE_UPLOAD, false);
-
 					$this->request_body = [
 						'file' => new \CURLFile($upload_file_path)
 					];

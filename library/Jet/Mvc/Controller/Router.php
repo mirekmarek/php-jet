@@ -1,7 +1,7 @@
 <?php
 /**
  *
- * @copyright Copyright (c) 2011-2017 Miroslav Marek <mirek.marek.2m@gmail.com>
+ * @copyright Copyright (c) 2011-2020 Miroslav Marek <mirek.marek.2m@gmail.com>
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
@@ -10,7 +10,7 @@ namespace Jet;
 /**
  *
  */
-class Mvc_Controller_Router extends BaseObject
+class Mvc_Controller_Router extends BaseObject implements Mvc_Controller_Router_Interface
 {
 
 	/**
@@ -108,7 +108,7 @@ class Mvc_Controller_Router extends BaseObject
 	/**
 	 * @return Mvc_Controller_Router_Action
 	 */
-	public function getDefaultAction(): Mvc_Controller_Router_Action
+	public function getDefaultAction()
 	{
 		return $this->default_action;
 	}

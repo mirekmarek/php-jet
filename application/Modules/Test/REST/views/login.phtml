@@ -16,27 +16,44 @@ use Jet\Tr;
 $form = $this->getRaw('form');
 $client = $this->getRaw('client');
 ?>
+	<style>
+        h1 {
+            background: #101010;
+	        color: #aaaaaa;
+            padding: 4px;
+            margin-top: 5px;
+            margin-bottom: 5px;
+        }
+        h3 {
+            background: #b9b9b9;
+            padding: 4px;
+            margin-top: 5px;
+            margin-bottom: 5px;
+        }
+        h4 {
+            background: #e9e9e9;
+            padding: 4px;
+            margin-top: 5px;
+            margin-bottom: 5px;
+        }
+	</style>
+
 <h1><?=Tr::_('REST API Tests - client login')?></h1>
 <div class="row">
 	<div class="col-md-6 offset-md-3 col-sm-8 offset-sm-2">
-		<div class="panel panel-default">
-			<div class="panel-heading">
-				<div class="panel-title"><?=Tr::_( 'Sign In' )?></div>
-			</div>
+		<div class="card" style="margin-top: 20px;margin-bottom: 20px;">
+			<h5 class="card-header">
+				<?=Tr::_( 'Sign In' )?>
+			</h5>
 
-			<div class="panel-body">
+			<div class="card-body">
 				<?php
 				echo $form->start();
 				echo $form->getField('username');
 				echo $form->getField('password');
-
 				?>
-				<div style="margin-top:10px" class="form-group">
-					<div class="col-sm-12 controls">
-						<div style="float: right">
-							<?=UI::button()->setLabel( Tr::_('Sign In') )->setType('submit');?>
-						</div>
-					</div>
+				<div class="text-right">
+					<?=UI::button(Tr::_('Sign In'))->setType('submit')->setClass('primary');?>
 				</div>
 
 				<?php

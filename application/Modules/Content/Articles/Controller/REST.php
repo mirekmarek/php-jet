@@ -1,14 +1,14 @@
 <?php
 /**
  *
- * @copyright Copyright (c) 2011-2018 Miroslav Marek <mirek.marek.2m@gmail.com>
+ * @copyright Copyright (c) 2011-2020 Miroslav Marek <mirek.marek.2m@gmail.com>
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
 namespace JetApplicationModule\Content\Articles;
 
 use Jet\Mvc_Controller_REST;
-use Jet\REST;
+use Jet\Mvc_Controller_REST_Router;
 
 /**
  *
@@ -16,86 +16,75 @@ use Jet\REST;
 class Controller_REST extends Mvc_Controller_REST
 {
 	/**
-	 * @var array
-	 */
-	const ACL_ACTIONS_MAP = [
-		'get'    => Main::ACTION_GET_ARTICLE,
-		'list'   => Main::ACTION_GET_ARTICLE,
-		'add'    => Main::ACTION_ADD_ARTICLE,
-		'update' => Main::ACTION_UPDATE_ARTICLE,
-		'delete' => Main::ACTION_DELETE_ARTICLE,
-	];
-
-	/**
 	 *
 	 * @var Main
 	 */
 	protected $module = null;
 
 	/**
-	 * @param string $path
-	 *
-	 * @return bool
+	 * @var Article
 	 */
-	public function resolve( $path )
+	protected $article;
+
+	/**
+	 * @return Mvc_Controller_REST_Router
+	 */
+	public function getControllerRouter()
 	{
-		$article = null;
-		if( ($id = $path) ) {
-			$article = Article::get( $id );
-			if(!$article) {
-				$this->responseUnknownItem($id);
-				return false;
-			}
-		}
+		$router = new Mvc_Controller_REST_Router(
+			$this,
+			[
+				'get'    => Main::ACTION_GET_ARTICLE,
+				'list'   => Main::ACTION_GET_ARTICLE,
+				'add'    => Main::ACTION_ADD_ARTICLE,
+				'update' => Main::ACTION_UPDATE_ARTICLE,
+				'delete' => Main::ACTION_DELETE_ARTICLE,
+			]
+		);
 
-
-		switch( $this->getRequestMethod() ) {
-			case REST::REQUEST_METHOD_GET:
-				$controller_action = $article ? 'get' : 'list';
-				break;
-			case REST::REQUEST_METHOD_POST:
-				if($article) {
+		$router
+			->setPreparer( function($path) {
+				if(
+					($id = $path) &&
+					!($this->article = Article::get( $id ))
+				) {
+					$this->responseUnknownItem($id);
 					return false;
 				}
-				$controller_action = 'add';
-				break;
-			case REST::REQUEST_METHOD_PUT:
-				if(!$article) {
+
+				return true;
+			} )
+			->setResolverGet(function() {
+				return $this->article ? 'get' : 'list';
+			})
+			->setResolverPost(function() {
+				if($this->article) {
 					return false;
 				}
-				$controller_action = 'update';
-				break;
-			case REST::REQUEST_METHOD_DELETE:
-				if(!$article) {
+				return 'add';
+			})
+			->setResolverPut(function() {
+				if(!$this->article) {
 					return false;
 				}
-				$controller_action = 'delete';
-				break;
-			default:
-				return false;
-		}
+				return 'update';
+			})
+			->setResolverDelete(function() {
+				if(!$this->article) {
+					return false;
+				}
+				return 'delete';
+			});
 
-
-		$this->getContent()->setControllerAction( $controller_action );
-		$this->getContent()->setParameter( 'article', $article );
-
-
-		return true;
-
+		return $router;
 	}
-
 
 	/**
 	 *
 	 */
 	public function get_Action( )
 	{
-		/**
-		 * @var Article $article
-		 */
-		$article = $this->getParameter('article');
-		$this->responseData( $article );
-
+		$this->responseData( $this->article );
 	}
 
 	/**
@@ -148,10 +137,7 @@ class Controller_REST extends Mvc_Controller_REST
 	 */
 	public function update_Action()
 	{
-		/**
-		 * @var Article $article
-		 */
-		$article = $this->getParameter('article');
+		$article = $this->article;
 
 		$form = $article->getEditForm();
 
@@ -176,10 +162,7 @@ class Controller_REST extends Mvc_Controller_REST
 	 */
 	public function delete_Action()
 	{
-		/**
-		 * @var Article $article
-		 */
-		$article = $this->getParameter('article');
+		$article = $this->article;
 
 		$article->delete();
 		$this->logAllowedAction( 'Article deleted', $article->getId(), $article->getTitle(), $article );
@@ -187,5 +170,4 @@ class Controller_REST extends Mvc_Controller_REST
 		$this->responseOK();
 
 	}
-
 }

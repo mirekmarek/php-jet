@@ -25,20 +25,6 @@ abstract class Mvc_Controller_REST extends Mvc_Controller
 	}
 
 	/**
-	 *
-	 * @return bool
-	 *
-	 * @throws Exception
-	 */
-	public function resolve()
-	{
-		throw new Exception('You have to implement resolver: '.get_called_class().'::resolve() ');
-
-		/** @noinspection PhpUnreachableStatementInspection */
-		return false;
-	}
-
-	/**
 	 * @return string
 	 */
 	public function getRequestMethod() {
