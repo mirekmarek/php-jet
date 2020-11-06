@@ -7,10 +7,12 @@
  */
 namespace Jet;
 
+use ReflectionClass;
+
 /**
  *
  */
-class Reflection_Class extends \ReflectionClass
+class Reflection_Class extends ReflectionClass
 {
 
 	/**

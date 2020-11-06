@@ -483,11 +483,11 @@ class Locale extends BaseObject
 	 *
 	 * @param string $currency_code
 	 *
-	 * @return \NumberFormatter
+	 * @return PHP_NumberFormatter
 	 */
 	public function getCurrencyFormatter( $currency_code ) {
 		if(!isset($this->_currency_formatter[$currency_code])) {
-			$this->_currency_formatter[$currency_code] = new \NumberFormatter( $this.'@currency='.$currency_code, \NumberFormatter::CURRENCY );
+			$this->_currency_formatter[$currency_code] = new PHP_NumberFormatter( $this.'@currency='.$currency_code, PHP_NumberFormatter::CURRENCY );
 		}
 		return $this->_currency_formatter[$currency_code];
 	}

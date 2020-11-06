@@ -7,6 +7,8 @@
  */
 namespace Jet;
 
+use Error;
+
 require_once 'ErrorHandler/Error.php';
 require_once 'ErrorHandler/Handler.php';
 
@@ -156,7 +158,7 @@ class Debug_ErrorHandler
 	/**
 	 * Exception handler
 	 *
-	 * @param \Exception|\Error $exception
+	 * @param \Exception|Error $exception
 	 */
 	public static function handleException( $exception )
 	{

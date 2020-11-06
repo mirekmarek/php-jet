@@ -7,6 +7,8 @@
  */
 namespace Jet;
 
+use DateTime;
+
 /**
  *
  */
@@ -82,7 +84,7 @@ class Form_Field_Month extends Form_Field_Input
 		}
 
 
-		$check = \DateTime::createFromFormat( 'Y-m-d', $this->_value.'-01' );
+		$check = DateTime::createFromFormat( 'Y-m-d', $this->_value.'-01' );
 
 		if( !$check ) {
 			$this->setError( self::ERROR_CODE_INVALID_FORMAT );

@@ -551,7 +551,7 @@ abstract class Data_Listing extends BaseObject {
 	{
 
 		if(!$this->grid) {
-			$this->grid = new UI_dataGrid();;
+			$this->grid = new UI_dataGrid();
 
 			$this->getGrid_createColumns();
 

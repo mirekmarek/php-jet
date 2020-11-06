@@ -7,6 +7,8 @@
  */
 namespace Jet;
 
+use ReflectionProperty;
+
 /**
  *
  */
@@ -34,7 +36,7 @@ class Reflection_ParserData
 	 */
 	protected $current_namespace_use_str = '';
 	/**
-	 * @var \ReflectionProperty|null
+	 * @var ReflectionProperty|null
 	 */
 	protected $current_property_reflection;
 	/**
@@ -79,7 +81,7 @@ class Reflection_ParserData
 
 
 			$parent_class_reflection = $parent_class_reflection->getParentClass();
-		};
+		}
 
 		$this->class_reflection_hierarchy = [];
 
@@ -361,7 +363,7 @@ class Reflection_ParserData
 	}
 
 	/**
-	 * @return null|\ReflectionProperty
+	 * @return null|ReflectionProperty
 	 */
 	public function getCurrentPropertyReflection()
 	{
@@ -369,9 +371,9 @@ class Reflection_ParserData
 	}
 
 	/**
-	 * @param null|\ReflectionProperty $current_property_reflection
+	 * @param null|ReflectionProperty $current_property_reflection
 	 */
-	public function setCurrentPropertyReflection( \ReflectionProperty $current_property_reflection = null )
+	public function setCurrentPropertyReflection( ReflectionProperty $current_property_reflection = null )
 	{
 		$this->current_property_reflection = $current_property_reflection;
 	}

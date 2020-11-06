@@ -42,7 +42,7 @@ trait Mvc_Page_Trait_Tree
 
 	/**
 	 *
-	 * @return Mvc_Page
+	 * @return Mvc_Page_Interface|Mvc_Page
 	 */
 	public function getParent()
 	{

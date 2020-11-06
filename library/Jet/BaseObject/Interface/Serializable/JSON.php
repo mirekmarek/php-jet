@@ -7,10 +7,12 @@
  */
 namespace Jet;
 
+use JsonSerializable;
+
 /**
  *
  */
-interface BaseObject_Interface_Serializable_JSON extends \JsonSerializable
+interface BaseObject_Interface_Serializable_JSON extends JsonSerializable
 {
 	/**
 	 * @return string

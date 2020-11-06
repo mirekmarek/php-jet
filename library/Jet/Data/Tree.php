@@ -7,6 +7,8 @@
  */
 namespace Jet;
 
+use Iterator;
+
 /**
  *
  */
@@ -393,7 +395,7 @@ class Data_Tree extends BaseObject implements BaseObject_Interface_IteratorCount
 
 	/**
 	 *
-	 * @param array|\Iterator $items
+	 * @param array|Iterator $items
 	 *
 	 * @throws Data_Tree_Exception
 	 */
@@ -644,7 +646,7 @@ class Data_Tree extends BaseObject implements BaseObject_Interface_IteratorCount
 
 	/**
 	 *
-	 * @param \Iterator|array $data
+	 * @param Iterator|array $data
 	 */
 	public function setDataSource( $data )
 	{

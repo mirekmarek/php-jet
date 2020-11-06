@@ -7,6 +7,8 @@
  */
 namespace Jet;
 
+use DateTime;
+
 /**
  *
  */
@@ -82,8 +84,8 @@ class Form_Field_Time extends Form_Field_Input
 		}
 
 
-		$check = \DateTime::createFromFormat( 'Y-m-d H:i', '2011-01-01 '.$this->_value );
-		$check_c = \DateTime::createFromFormat( 'Y-m-d H:i:s', '2011-01-01 '.$this->_value );
+		$check = DateTime::createFromFormat( 'Y-m-d H:i', '2011-01-01 '.$this->_value );
+		$check_c = DateTime::createFromFormat( 'Y-m-d H:i:s', '2011-01-01 '.$this->_value );
 
 		if( !$check && !$check_c ) {
 			$this->setError( self::ERROR_CODE_INVALID_FORMAT );

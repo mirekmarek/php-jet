@@ -7,6 +7,8 @@
  */
 namespace Jet;
 
+use finfo;
+
 require_once 'File/Exception.php';
 
 /**
@@ -148,7 +150,7 @@ class IO_File
 		}
 
 		if( !$mime_type ) {
-			$file_info = new \finfo( FILEINFO_MIME );
+			$file_info = new finfo( FILEINFO_MIME );
 			$mime_type = $file_info->file( $file_path );
 			unset( $file_info );
 		}

@@ -7,10 +7,13 @@
  */
 namespace Jet;
 
+use Iterator;
+use JsonSerializable;
+
 /**
  *
  */
-abstract class Form_Field extends BaseObject implements \JsonSerializable
+abstract class Form_Field extends BaseObject implements JsonSerializable
 {
 
 	use Form_Field_Trait_Validation;
@@ -227,7 +230,7 @@ abstract class Form_Field extends BaseObject implements \JsonSerializable
 			is_array( $default_value ) ||
 			(
 				is_object( $default_value ) &&
-				$default_value instanceof \Iterator
+				$default_value instanceof Iterator
 			)
 		) {
 			$this->_value = [];
@@ -345,7 +348,7 @@ abstract class Form_Field extends BaseObject implements \JsonSerializable
 	/**
 	 * Options for Select, MultiSelect and so on ...
 	 *
-	 * @param array|\Iterator $options
+	 * @param array|Iterator $options
 	 */
 	public function setSelectOptions( $options )
 	{

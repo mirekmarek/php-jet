@@ -81,7 +81,7 @@ class DataModel_Definition_Relation_External extends DataModel_Definition_Relati
 					'Unknown property '.$definition_data['related_to_class_name'].'::'.$related_property_name.' ',
 					DataModel_Exception::CODE_DEFINITION_NONSENSE
 				);
-			};
+			}
 
 
 			$this->join_by[] = new DataModel_Definition_Relation_Join_Item(

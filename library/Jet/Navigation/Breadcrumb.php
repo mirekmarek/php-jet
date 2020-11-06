@@ -140,7 +140,7 @@ class Navigation_Breadcrumb extends BaseObject
 
 		static::$items = [];
 
-		$item = new Navigation_Breadcrumb_Item();;
+		$item = new Navigation_Breadcrumb_Item();
 		$item->setPage( $page );
 
 		static::$items[] = $item;

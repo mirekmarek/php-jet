@@ -7,10 +7,12 @@
  */
 namespace Jet;
 
+use DateTime;
+
 /**
  *
  */
-class Data_DateTime extends \DateTime
+class Data_DateTime extends DateTime
 {
 
 	/**

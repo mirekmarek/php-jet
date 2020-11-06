@@ -7,6 +7,8 @@
  */
 namespace Jet;
 
+use SQLite3;
+
 /**
  * 
  */
@@ -453,7 +455,7 @@ class DataModel_Backend_SQLite extends DataModel_Backend
 			$value = (string)$value;
 		}
 
-		return "'".\SQLite3::escapeString( $value )."'";
+		return "'". SQLite3::escapeString( $value )."'";
 	}
 
 	/**

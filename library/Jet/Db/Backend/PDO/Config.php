@@ -7,6 +7,8 @@
  */
 namespace Jet;
 
+use PDO;
+
 /**
  *
  */
@@ -64,7 +66,7 @@ class Db_Backend_PDO_Config extends Db_Backend_Config
 	 */
 	public static function getDrivers()
 	{
-		$drivers = \PDO::getAvailableDrivers();
+		$drivers = PDO::getAvailableDrivers();
 
 		return array_combine( $drivers, $drivers );
 	}

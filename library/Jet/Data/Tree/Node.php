@@ -8,6 +8,8 @@
 namespace Jet;
 
 
+use JsonSerializable;
+
 /**
  *
  */
@@ -629,7 +631,7 @@ class Data_Tree_Node extends BaseObject implements BaseObject_Interface_Iterator
 
 		$item = $this->data;
 		if( is_object( $item ) ) {
-			if( $item instanceof \JsonSerializable ) {
+			if( $item instanceof JsonSerializable ) {
 				$item = $item->jsonSerialize();
 			} else {
 				$item = [];

@@ -7,6 +7,8 @@
  */
 namespace Jet;
 
+use Error;
+
 require_once 'Error/BacktraceItem.php';
 
 /**
@@ -163,7 +165,7 @@ class Debug_ErrorHandler_Error
 	}
 
 	/**
-	 * @param \Exception|\Error $exception
+	 * @param \Exception|Error $exception
 	 *
 	 * @return Debug_ErrorHandler_Error
 	 */
