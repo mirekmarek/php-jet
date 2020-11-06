@@ -95,6 +95,10 @@ class Application extends BaseObject
 			return;
 		}
 
+		if($router->getHasUnusedPath()) {
+			Http_Headers::movedPermanently( $router->getValidUrl() );
+		}
+
 		if( $router->getIsFile() ) {
 			$page->handleFile( $router->getFilePath() );
 

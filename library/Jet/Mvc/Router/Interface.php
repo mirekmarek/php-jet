@@ -110,4 +110,14 @@ interface Mvc_Router_Interface
 	 */
 	public function setUsedPath( $used_path );
 
+	/**
+	 * @return bool
+	 */
+	public function getHasUnusedPath();
+
+	/**
+	 * @return string
+	 */
+	public function getValidUrl();
+
 }

@@ -98,6 +98,18 @@ class Mvc_Router extends BaseObject  implements Mvc_Router_Interface
 	 */
 	protected $login_required = false;
 
+	//-----------------------------------------------------------------
+
+	/**
+	 * @var bool
+	 */
+	protected $has_unused_path = '';
+
+	/**
+	 * @var string
+	 */
+	protected $valid_url = '';
+
 	/**
 	 * @return bool
 	 */
@@ -364,12 +376,12 @@ class Mvc_Router extends BaseObject  implements Mvc_Router_Interface
 	protected function resolve_checkPathUsed()
 	{
 		if( $this->path!=$this->used_path ) {
-			$redirect_to = $this->getPage()->getURL();
-			if($this->used_path) {
-				$redirect_to .= '/'.$this->used_path;
-			}
+			$this->has_unused_path = true;
 
-			$this->setIsRedirect( $redirect_to );
+			$this->valid_url = $this->getPage()->getURL();
+			if($this->used_path) {
+				$this->valid_url .= '/'.$this->used_path;
+			}
 		}
 	}
 
@@ -545,6 +557,7 @@ class Mvc_Router extends BaseObject  implements Mvc_Router_Interface
 	}
 
 
+
 	/**
 	 *
 	 * /**
@@ -571,5 +584,20 @@ class Mvc_Router extends BaseObject  implements Mvc_Router_Interface
 		$this->used_path = $used_path;
 	}
 
+	/**
+	 * @return bool
+	 */
+	public function getHasUnusedPath()
+	{
+		return $this->has_unused_path;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getValidUrl()
+	{
+		return $this->valid_url;
+	}
 
 }
