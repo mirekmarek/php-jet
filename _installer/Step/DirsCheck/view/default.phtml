@@ -20,10 +20,10 @@ use Jet\Tr;
 
 			if( !$dir_data['is_writeable'] ) {
 				if( $dir_data['is_required'] ) {
-					$icon = UI::icon( 'frown-o' );
+					$icon = UI::icon( 'frown-open' );
 					$css_class = 'danger';
 				} else {
-					$icon = UI::icon( 'meh-o' );
+					$icon = UI::icon( 'meh' );
 					$css_class = 'warning';
 
 					$comment = '<br/><br/>'.Tr::_( $dir_data['comment'] );

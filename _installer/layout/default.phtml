@@ -34,30 +34,17 @@ $this->requireCssFile(FLAGS_CSS_URL);
 		header {
 			background-color: #000000;
 			color: #ffffff;
-			font-size: 18px;
+			font-size: 16px;
 			font-weight: bolder;
 			padding: 10px;
-			height: 50px;
+			margin-left: -15px;
+            margin-right: -15px;
+			margin-bottom: 20px;
 		}
-
-		#container {
-			display:table;
-			width: 100%;
-			margin-top: -50px;
-			padding: 50px 0 0 0;
-			box-sizing: border-box;
-			background-color: #000000;
-		}
-
-		.row-full {
-			height: 100%;
-			display: table-row;
-		}
-
 
 
 		.progress-area {
-			height: 100%;
+            background-color: #5c5c5c;
 		}
 
 		.step {
@@ -72,14 +59,15 @@ $this->requireCssFile(FLAGS_CSS_URL);
 		}
 
 		.step-current {
-			background-color: #efefef;
+			background-color: #0f0f0f;
+			color: #c9c9c9;
 			padding: 5px;
 			font-weight: bolder;
 			border-radius: 5px;
 		}
 
 		.step-next {
-			color: #666666;
+			color: #999999;
 		}
 
 		.step-sub {
@@ -94,16 +82,16 @@ $this->requireCssFile(FLAGS_CSS_URL);
 	</style>
 
 </head>
-<body style="margin: 0;padding: 0;background-color: #e9e9e9;">
+<body>
 
-<header>
-	<?=Tr::_( 'PHP Jet - Example Project Installer' );?>
-</header>
 
-<div class="container" id="container">
-
-	<div class="row-full">
+<div class="container-fluid">
+	<div class="row h-100">
 		<div class="col-md-2 progress-area">
+			<header>
+				<?=Tr::_( 'PHP Jet - Example Project Installer' );?>
+			</header>
+
 			<?php foreach( $steps as $step ):
 				$class = '';
 				if( $step->getIsSubStep() ) {

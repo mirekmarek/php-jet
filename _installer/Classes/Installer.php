@@ -133,7 +133,7 @@ class Installer
 	 */
 	public static function getSession()
 	{
-		return new Session( '_installer' );
+		return new Session( '_installer_' );
 	}
 
 	/**

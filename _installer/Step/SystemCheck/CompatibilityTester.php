@@ -156,7 +156,7 @@ class Installer_CompatibilityTester
 	 */
 	public function test_PHPVersion()
 	{
-		$required_version = '5.6.4';
+		$required_version = '7.4.1';
 
 		$this->test(
 			Tr::_('PHP version'),
@@ -358,6 +358,7 @@ class Installer_CompatibilityTester
 		$val = trim($val);
 
 		$last = strtoupper($val[strlen($val)-1]);
+		$val = substr($val, 0, -1);
 
 		switch($last) {
 			/** @noinspection PhpMissingBreakStatementInspection */

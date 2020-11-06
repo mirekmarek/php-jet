@@ -41,7 +41,7 @@ class Installer_Step_SystemCheck_Controller extends Installer_Step_Controller
 			[
 				'test_PHPVersion',
 				'test_PDOExtension',
-				'test_RequestUriVar',
+				//'test_RequestUriVar',
 				'test_INTLExtension',
 
 				'check_GDExtension',
