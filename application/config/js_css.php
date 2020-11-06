@@ -4,7 +4,8 @@ const FONT_AWESOME_CSS_URL = 'https://cdnjs.cloudflare.com/ajax/libs/font-awesom
 const FLAGS_CSS_URL = JET_URI_PUBLIC.'styles/flags.css';
 
 const BOOTSTRAP_JS_URL = '//maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js';
-const JQUERY_JS_URL = '//ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js';
+
+const JQUERY_JS_URL = '//code.jquery.com/jquery-3.5.1.js';
 
 const JET_AJAX_FORM_JS_URL = JET_URI_PUBLIC.'scripts/JetAjaxForm.js?v=1';
 const JET_MULTI_UPLOADER_JS_URL = JET_URI_PUBLIC.'scripts/JetMultiUploader.js?v=1';
