@@ -388,6 +388,11 @@ class Controller_Admin extends Mvc_Controller_Default
 				if( $image ) {
 					$image->delete();
 
+					UI_messages::warning(
+						Tr::_( 'Image <b>%TITLE%</b> has been deleted', [ 'TITLE' => $image->getFileName() ] )
+					);
+
+
 					$this->logAllowedAction(
 						'Image deleted', $image->getId(), $image->getFileName(), $image
 					);
