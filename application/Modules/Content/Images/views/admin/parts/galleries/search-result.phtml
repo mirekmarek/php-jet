@@ -13,17 +13,17 @@ $current_gallery = $this->getRaw( 'gallery' );
 $router = $this->getController()->getControllerRouter();
 
 ?>
-<div class="col-md-2">
-	<ul>
+
+<table class="table table-striped">
 	<?php foreach( $galleries as $gallery ): ?>
-		<li>
+		<tr>
+			<td>
 			<?php if($current_gallery && $current_gallery->getId()==$gallery->getId()): ?>
 				<strong><?=$gallery->getTitle()?></strong>
 			<?php else: ?>
 				<a href="<?=$router->action('edit')->URI( $gallery->getId() );?>"><?=$gallery->getTitle()?></a>
 			<?php endif; ?>
-		</li>
+			</td>
+		</tr>
 	<?php endforeach; ?>
-	</ul>
-</div>
-
+</table>

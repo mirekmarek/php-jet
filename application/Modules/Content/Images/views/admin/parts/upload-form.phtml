@@ -36,12 +36,10 @@ $file_field->input()
 
 <?=$upload_form->start()?>
 
-<?=$file_field->row()->start()?>
-	<div class="btn btn-primary" style=" position: relative;overflow: hidden;margin: 10px;">
+	<div class="btn btn-primary" style=" position: relative;overflow: hidden;margin: 0px;">
 		<?=UI::icon('upload')?>&nbsp;<span><?=$file_field->getLabel()?></span>
 		<?=$file_field->input()?>
 	</div>
-<?=$file_field->row()->end()?>
 
 <?=$upload_form->end()?>
 

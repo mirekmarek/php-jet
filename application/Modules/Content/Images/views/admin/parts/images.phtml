@@ -22,34 +22,6 @@ $router = $this->getController()->getControllerRouter();
 $delete_uri = $router->action('image_delete')->URI($gallery->getId());
 
 
-$files_field = $gallery->getImageUploadForm()->field('file');
-
-foreach( $files_field->getMultipleUploadErrors() as $file_name=>$errors ):
-
-	foreach( $errors as $code=>$message ):
-
-		$message = Tr::_(
-			'File <b>%file_name%</b>: %error_message%',
-			[
-				'file_name'=>$file_name,
-				'error_message'=>$message
-			]
-		);
-
-		if( $code==Form_Field_FileImage::ERROR_CODE_FILE_IS_TOO_LARGE ) {
-
-			$message .= Tr::_(
-				'<br/>The maximum size of one uploaded file is: <b>%max_upload_size%</b>',
-				['max_upload_size'=>Locale::getCurrentLocale()->formatSize(IO_File::getMaxUploadSize())]
-			);
-
-		}
-
-		echo UI_messages::createDanger($message);
-	endforeach;
-endforeach;
-
-
 if( count( $images ) ): ?>
 	<form action="<?=$delete_uri?>" method="post">
 		<div class="row">

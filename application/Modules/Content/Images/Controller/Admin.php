@@ -8,6 +8,7 @@
 namespace JetApplicationModule\Content\Images;
 
 use Jet\AJAX;
+use Jet\Form_Field_FileImage;
 use Jet\Mvc_Controller_Default;
 use Jet\Http_Headers;
 use Jet\Http_Request;
@@ -135,23 +136,21 @@ class Controller_Admin extends Mvc_Controller_Default
 	/**
 	 *
 	 */
-	public function _initGalleries() {
-		/*
-		$search_form = UI::searchForm( 'images' );
+	public function _initGalleries()
+	{
 
-		$this->view->setVar( 'search_form', $search_form );
-		*/
+		$search = Http_Request::GET()->getString('search');
 
-		/*
-		if($search_form->getValue()) {
-			$this->view->setVar( 'galleries', Gallery::search($search_form->getValue()) );
+		if($search) {
+			$this->view->setVar( 'galleries', Gallery::search($search) );
 
 		} else {
-		*/
 			$this->view->setVar( 'galleries', Gallery::getTree() );
-		//}
+		}
 
-		//return $search_form;
+		$this->view->setVar('search', $search);
+
+		return $search;
 	}
 
 	/**
@@ -293,11 +292,9 @@ class Controller_Admin extends Mvc_Controller_Default
 
 		$upload_form = $gallery->getImageUploadForm();
 
-
-		$this->view->setVar( 'gallery', $gallery );
-		$this->view->setVar( 'upload_form', $upload_form );
-
 		$ok = false;
+
+		$result_message = '';
 
 		if( ( $images = $gallery->catchImageUploadForm() ) ) {
 
@@ -308,7 +305,7 @@ class Controller_Admin extends Mvc_Controller_Default
 				$names[] = $i->getFileName();
 			}
 
-			$upload_form->setCommonMessage( UI_messages::createSuccess( Tr::_('Image %FILE_NAME% uploaded ....', ['FILE_NAME'=>implode(', ', $names)]) ) );
+			$result_message .= UI_messages::createSuccess( Tr::_('Image %FILE_NAME% uploaded ....', ['FILE_NAME'=>implode(', ', $names)]) );
 
 			$this->logAllowedAction(
 				'image_uploaded',
@@ -324,19 +321,51 @@ class Controller_Admin extends Mvc_Controller_Default
 								.'The maximum size of one uploaded file is: <b>%max_upload_size%</b><br/>'
 								.'The maximum number of uploaded files is: <b>%max_file_uploads%</b><br/>';
 
-				$upload_form->setCommonMessage( UI_messages::createDanger( Tr::_($error_message, [
+				$result_message .= UI_messages::createDanger( Tr::_($error_message, [
 					'max_upload_size' => Locale::getCurrentLocale()->formatSize(IO_File::getMaxUploadSize()),
 					'max_file_uploads' => Locale::getCurrentLocale()->formatInt(IO_File::getMaxFileUploads())
-				]) ) );
+				]) );
 			}
 		}
 
+
+		/**
+		 * @var Form_Field_FileImage $files_field
+		 */
+		$files_field = $upload_form->field('file');
+
+		foreach( $files_field->getMultipleUploadErrors() as $file_name=>$errors ):
+
+			foreach( $errors as $code=>$error_message ):
+
+				$error_message = Tr::_(
+					'File <b>%file_name%</b>: %error_message%',
+					[
+						'file_name'=>$file_name,
+						'error_message'=>$error_message
+					]
+				);
+
+				if( $code==Form_Field_FileImage::ERROR_CODE_FILE_IS_TOO_LARGE ) {
+					$error_message .= Tr::_(
+						'<br/>The maximum size of one uploaded file is: <b>%max_upload_size%</b>',
+						['max_upload_size'=>Locale::getCurrentLocale()->formatSize(IO_File::getMaxUploadSize())]
+					);
+
+				}
+
+				$result_message .= UI_messages::createDanger( $error_message );
+			endforeach;
+		endforeach;
+
+		$this->view->setVar( 'gallery', $gallery );
+		$this->view->setVar( 'upload_form', $upload_form );
 
 		AJAX::formResponse(
 			$ok,
 			[
 				'images_area' => $this->view->render('admin/parts/images'),
-				'upload_form_area' => $this->view->render('admin/parts/upload-form')
+				'system-messages-area' => (string)$result_message
 			]);
 
 	}

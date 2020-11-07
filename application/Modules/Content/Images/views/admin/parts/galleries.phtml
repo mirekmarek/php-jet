@@ -1,19 +1,15 @@
 <?php
 namespace JetApplicationModule\Content\Images;
 
-
 use Jet\Mvc_View;
 
 /**
  * @var Mvc_View      $this
  */
 
-/*
-$search_form = $this->getRaw( 'search_form' );
-if($search_form->getValue()) {
+$search = $this->getRaw( 'search' );
+
+if($search)
 	require 'galleries/search-result.phtml';
-} else*/ {
+else
 	require 'galleries/tree.phtml';
-}
-
-

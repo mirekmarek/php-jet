@@ -16,36 +16,24 @@ $edit_form = $this->getRaw( 'edit_form' );
 
 $edit_form->setDefaultLabelWidth( [ Form::LJ_SIZE_MEDIUM => 1 ] );
 $edit_form->setDefaultFieldWidth( [ Form::LJ_SIZE_MEDIUM => 5 ] );
-?>
 
+echo $edit_form->start();
 
-	<?=$edit_form->start()?>
-
-
-<?php foreach( Application_Web::getSite()->getLocales() as $locale ):
+foreach( Application_Web::getSite()->getLocales() as $locale ):
 	$field = $edit_form->field( '/localized/'.$locale.'/title' );
 
 	echo $field->row()->start();
-		echo $field->error();
 		?>
-			<label for="<?=$field->getId()?>" class="col-md-1 control-label"><?=$locale->getLanguageName()?> <?=UI::flag($locale)?></label>
+		<label for="<?=$field->getId()?>" class="col-md-1 col-form-label"><?=UI::flag($locale)?> <?=$locale->getLanguageName()?></label>
 		<?php
 
 		echo $field->container()->start();
 			echo $field->input();
+			echo $field->error();
 		echo $field->container()->end();
 
 	echo $field->row()->end();
 
-endforeach;?>
+endforeach;
 
-
-	<div class="form-group row">
-		<div class="col-md-1"></div>
-		<div class="col-md-5">
-			<?php if( !$edit_form->getIsReadonly() ):
-				echo UI::button_save();
-			endif; ?>
-		</div>
-	</div>
-	<?=$edit_form->end()?>
+echo $edit_form->end();
