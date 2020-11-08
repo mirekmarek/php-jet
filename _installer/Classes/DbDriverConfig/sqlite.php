@@ -16,6 +16,7 @@ use Jet\Db_Backend_Config;
 use Jet\Db_Backend_PDO_Config;
 use Jet\DataModel_Config;
 use Jet\DataModel_Backend_SQLite_Config;
+use Jet\PATH;
 
 /**
  *
@@ -36,7 +37,7 @@ class Installer_DbDriverConfig_sqlite extends Installer_DbDriverConfig
 		$connection_config->setDriver( Db::DRIVER_SQLITE );
 		$connection_config->setUsername( '' );
 		$connection_config->setPassword( '' );
-		$connection_config->setDSN( JET_PATH_DATA.'database.sq3' );
+		$connection_config->setDSN( PATH::DATA().'database.sq3' );
 
 		$db_config->addConnection( 'default', $connection_config );
 

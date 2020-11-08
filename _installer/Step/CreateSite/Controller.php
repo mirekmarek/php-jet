@@ -17,6 +17,7 @@ use Jet\Form_Field_Input;
 use Jet\Mvc_Site_LocalizedData_MetaTag;
 use Jet\Tr;
 use Jet\UI_messages;
+use Jet\URI;
 
 /**
  *
@@ -58,7 +59,7 @@ class Installer_Step_CreateSite_Controller extends Installer_Step_Controller
 		if( !$session->getValueExists( 'sites' ) )
 		{
 
-			$URL = $_SERVER['HTTP_HOST'].JET_URI_BASE;
+			$URL = $_SERVER['HTTP_HOST'].URI::BASE();
 
 			$web = Mvc_Factory::getSiteInstance();
 			$web->setName( 'Example Web' );

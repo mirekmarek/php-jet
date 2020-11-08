@@ -2,6 +2,7 @@
 namespace JetApplication;
 
 use Jet\Tr;
+use Jet\URI;
 
 ?>
 
@@ -13,6 +14,6 @@ use Jet\Tr;
 	<?=Tr::_( 'Enjoy!! :-)' );?>
 </p>
 
-<form action="<?=JET_URI_BASE?>" method="get">
+<form action="<?=URI::BASE()?>" method="get">
 	<?=Installer::buttonNext();?>
 </form>

@@ -9,6 +9,7 @@ namespace JetApplication;
 
 use Jet\Data_DateTime;
 use Jet\IO_File;
+use Jet\PATH;
 use Jet\UI_messages;
 use Jet\Tr;
 
@@ -34,7 +35,7 @@ class Installer_Step_Final_Controller extends Installer_Step_Controller
 
 		$OK = true;
 
-		$install_symptom_file_path = JET_PATH_DATA.'installed.txt';
+		$install_symptom_file_path = PATH::DATA().'installed.txt';
 
 
 

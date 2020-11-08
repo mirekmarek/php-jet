@@ -8,6 +8,7 @@
 namespace JetApplication;
 
 use Jet\IO_Dir;
+use Jet\PATH;
 
 /**
  *
@@ -36,39 +37,39 @@ class Installer_Step_DirsCheck_Controller extends Installer_Step_Controller
 		$this->catchContinue();
 
 		$dirs = [
-			JET_PATH_DATA                              => [
+			PATH::DATA()                              => [
 				'is_required'  => true,
 				'is_writeable' => false,
 			],
-			JET_PATH_TMP                               => [
+			PATH::TMP()                               => [
 				'is_required'  => true,
 				'is_writeable' => false,
 			],
-			JET_PATH_CACHE                             => [
+			PATH::CACHE()                             => [
 				'is_required'  => true,
 				'is_writeable' => false,
 			],
-			JET_PATH_LOGS                              => [
+			PATH::LOGS()                              => [
 				'is_required'  => true,
 				'is_writeable' => false,
 			],
-			JET_PATH_SITES.Application_Admin::getSiteId().'/' => [
+			PATH::SITES().Application_Admin::getSiteId().'/' => [
 				'is_required'  => true,
 				'is_writeable' => false,
 			],
-			JET_PATH_SITES.Application_Web::getSiteId().'/' => [
+			PATH::SITES().Application_Web::getSiteId().'/' => [
 				'is_required'  => true,
 				'is_writeable' => false,
 			],
-			JET_PATH_SITES.Application_REST::getSiteId().'/' => [
+			PATH::SITES().Application_REST::getSiteId().'/' => [
 				'is_required'  => true,
 				'is_writeable' => false,
 			],
-			JET_PATH_DICTIONARIES => [
+			PATH::DICTIONARIES() => [
 				'is_required'  => true,
 				'is_writeable' => false,
 			],
-			JET_PATH_CONFIG       => [
+			PATH::CONFIG()       => [
 				'is_required'  => false,
 				'is_writeable' => false,
 				'comment'      => 'Never mind. In fact, it is better that the directory is not writeable. But you have to complete the installation manually.',

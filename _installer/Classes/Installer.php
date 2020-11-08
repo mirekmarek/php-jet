@@ -13,6 +13,7 @@ use Jet\Http_Headers;
 use Jet\Mvc_Factory;
 use Jet\Mvc_Layout;
 use Jet\Locale;
+use Jet\PATH;
 use Jet\Session;
 use Jet\Translator;
 use Jet\Translator_Backend_PHPFiles;
@@ -175,7 +176,7 @@ class Installer
 	{
 		Http_Request::initialize( true );
 
-		Config::setConfigDirPath( JET_PATH_CONFIG );
+		Config::setConfigDirPath( PATH::CONFIG() );
 
 		static::initStepControllers();
 
