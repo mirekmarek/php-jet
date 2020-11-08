@@ -69,7 +69,7 @@ class Form extends BaseObject
 	/**
 	 * @var string
 	 */
-	protected static $default_views_dir = JET_PATH_APPLICATION.'views/Form/';
+	protected static $default_views_dir;
 
 	/**
 	 * @var string
@@ -210,6 +210,10 @@ class Form extends BaseObject
 	 */
 	public static function getDefaultViewsDir()
 	{
+		if(!static::$default_views_dir) {
+			static::$default_views_dir = PATH::APPLICATION().'views/Form/';
+		}
+
 		return static::$default_views_dir;
 	}
 

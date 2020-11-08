@@ -17,7 +17,7 @@ class UI
 	/**
 	 * @var string
 	 */
-	protected static $views_dir = JET_PATH_APPLICATION.'views/UI/';
+	protected static $views_dir;
 
 	/**
 	 * @var string
@@ -30,6 +30,9 @@ class UI
 	 */
 	public static function getViewsDir()
 	{
+		if(!static::$views_dir) {
+			static::$views_dir = PATH::APPLICATION().'views/UI/';
+		}
 		return static::$views_dir;
 	}
 

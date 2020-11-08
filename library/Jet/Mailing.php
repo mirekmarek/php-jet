@@ -25,7 +25,7 @@ class Mailing extends BaseObject
 	/**
 	 * @var string
 	 */
-	protected static $base_view_dir = JET_PATH_APPLICATION.'views/email_templates/';
+	protected static $base_view_dir;
 
 
 	/**
@@ -33,6 +33,10 @@ class Mailing extends BaseObject
 	 */
 	public static function getBaseViewDir()
 	{
+		if(!static::$base_view_dir) {
+			static::$base_view_dir = PATH::APPLICATION().'views/email_templates/';
+		}
+
 		return static::$base_view_dir;
 	}
 

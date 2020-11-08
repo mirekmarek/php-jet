@@ -94,7 +94,7 @@ abstract class Config extends BaseObject
 	public static function getConfigDirPath()
 	{
 		if( !static::$config_dir_path ) {
-			static::$config_dir_path = JET_PATH_CONFIG;
+			static::$config_dir_path = PATH::CONFIG();
 		}
 
 		return static::$config_dir_path;

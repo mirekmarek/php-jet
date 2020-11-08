@@ -106,7 +106,7 @@ class Mvc_Site extends BaseObject implements Mvc_Site_Interface, BaseObject_Cach
 		Debug_Profiler::blockStart('Load sites data');
 		$sites = [];
 
-		$dirs = IO_Dir::getSubdirectoriesList( JET_PATH_SITES );
+		$dirs = IO_Dir::getSubdirectoriesList( PATH::SITES() );
 
 		foreach( $dirs as $id ) {
 
@@ -310,7 +310,7 @@ class Mvc_Site extends BaseObject implements Mvc_Site_Interface, BaseObject_Cach
 	 */
 	protected static function getSiteDataFilePath( $id )
 	{
-		return JET_PATH_SITES.$id.'/'.static::$site_data_file_name;
+		return PATH::SITES().$id.'/'.static::$site_data_file_name;
 	}
 
 
@@ -464,7 +464,7 @@ class Mvc_Site extends BaseObject implements Mvc_Site_Interface, BaseObject_Cach
 			return $this->base_path;
 		}
 
-		return JET_PATH_SITES.$this->id.'/';
+		return PATH::SITES().$this->id.'/';
 	}
 
 

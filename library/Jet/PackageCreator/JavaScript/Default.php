@@ -92,7 +92,7 @@ class PackageCreator_JavaScript_Default extends PackageCreator_JavaScript
 	 */
 	public function getPackagePath()
 	{
-		return JET_PATH_PUBLIC.$this->getPackageRelativeFileName();
+		return PATH::PUBLIC().$this->getPackageRelativeFileName();
 	}
 
 	/**
@@ -100,7 +100,7 @@ class PackageCreator_JavaScript_Default extends PackageCreator_JavaScript
 	 */
 	public function getPackageURI()
 	{
-		return JET_URI_PUBLIC.$this->getPackageRelativeFileName();
+		return URI::PUBLIC().$this->getPackageRelativeFileName();
 	}
 
 }

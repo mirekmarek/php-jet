@@ -21,11 +21,11 @@ class Application_Modules_Handler_Default extends Application_Modules_Handler
 	/**
 	 * @var string
 	 */
-	protected $installed_modules_list_file_path = JET_PATH_DATA.'installed_modules_list.php';
+	protected $installed_modules_list_file_path;
 	/**
 	 * @var string
 	 */
-	protected $activated_modules_list_file_path = JET_PATH_DATA.'activated_modules_list.php';
+	protected $activated_modules_list_file_path;
 
 	/**
 	 *
@@ -86,6 +86,9 @@ class Application_Modules_Handler_Default extends Application_Modules_Handler
 	 */
 	public function getInstalledModulesListFilePath()
 	{
+		if(!$this->installed_modules_list_file_path) {
+			$this->installed_modules_list_file_path = PATH::DATA().'installed_modules_list.php';
+		}
 		return $this->installed_modules_list_file_path;
 	}
 
@@ -102,6 +105,9 @@ class Application_Modules_Handler_Default extends Application_Modules_Handler
 	 */
 	public function getActivatedModulesListFilePath()
 	{
+		if(!$this->activated_modules_list_file_path) {
+			$this->activated_modules_list_file_path = PATH::DATA().'activated_modules_list.php';
+		}
 		return $this->activated_modules_list_file_path;
 	}
 
@@ -526,8 +532,8 @@ class Application_Modules_Handler_Default extends Application_Modules_Handler
 		if( $this->activated_modules_list===null ) {
 			$this->activated_modules_list = [];
 
-			if(IO_File::exists($this->activated_modules_list_file_path)) {
-				$this->activated_modules_list = require $this->activated_modules_list_file_path;
+			if(IO_File::exists($this->getActivatedModulesListFilePath())) {
+				$this->activated_modules_list = require $this->getActivatedModulesListFilePath();
 			}
 		}
 
@@ -542,8 +548,8 @@ class Application_Modules_Handler_Default extends Application_Modules_Handler
 		if( $this->installed_modules_list===null ) {
 			$this->installed_modules_list = [];
 
-			if(IO_File::exists($this->installed_modules_list_file_path)) {
-				$this->installed_modules_list = require $this->installed_modules_list_file_path;
+			if(IO_File::exists($this->getInstalledModulesListFilePath())) {
+				$this->installed_modules_list = require $this->getInstalledModulesListFilePath();
 			}
 		}
 	}

@@ -16,7 +16,7 @@ class Translator_Backend_PHPFiles extends Translator_Backend
 	/**
 	 * @var string
 	 */
-	protected $dictionaries_base_path = JET_PATH_DICTIONARIES;
+	protected $dictionaries_base_path;
 
 	/**
 	 * @var string
@@ -28,6 +28,10 @@ class Translator_Backend_PHPFiles extends Translator_Backend
 	 */
 	public function getDictionariesBasePath()
 	{
+		if(!$this->dictionaries_base_path) {
+			$this->dictionaries_base_path = PATH::DICTIONARIES();
+		}
+
 		return $this->dictionaries_base_path;
 	}
 
@@ -86,7 +90,7 @@ class Translator_Backend_PHPFiles extends Translator_Backend
 
 		$namespace = str_replace( '/', '.', $namespace );
 
-		$file = $this->dictionaries_base_path.$locale.'/'.$namespace.'.php';
+		$file = $this->getDictionariesBasePath().$locale.'/'.$namespace.'.php';
 
 		return $file;
 	}

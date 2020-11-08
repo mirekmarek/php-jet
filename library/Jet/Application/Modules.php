@@ -16,7 +16,7 @@ class Application_Modules extends BaseObject
 	/**
 	 * @var string
 	 */
-	protected static $base_path = JET_PATH_APPLICATION.'Modules/';
+	protected static $base_path;
 
 	/**
 	 * @var string
@@ -85,6 +85,9 @@ class Application_Modules extends BaseObject
 	 */
 	public static function getBasePath()
 	{
+		if(!static::$base_path) {
+			static::$base_path = PATH::APPLICATION().'Modules/';
+		}
 		return static::$base_path;
 	}
 
