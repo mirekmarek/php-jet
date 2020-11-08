@@ -249,7 +249,7 @@ abstract class DataModel_Backend extends BaseObject
 	 *
 	 * @return string
 	 */
-	abstract function createUpdateQuery( DataModel_RecordData $record, DataModel_Query $where );
+	abstract public function createUpdateQuery( DataModel_RecordData $record, DataModel_Query $where );
 
 	/**
 	 * @param DataModel_Query $where

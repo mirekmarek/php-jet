@@ -304,7 +304,7 @@ class Mvc_Layout extends Mvc_View_Abstract
 	/**
 	 * @param string $result
 	 */
-	protected function handleContent( &$result )
+	protected function handleContent( $result )
 	{
 
 		$content = $this->parseContent( $result );
@@ -320,7 +320,7 @@ class Mvc_Layout extends Mvc_View_Abstract
 	 *
 	 * @return Mvc_Page_Content_Interface[]
 	 */
-	public function parseContent( &$result )
+	public function parseContent( $result )
 	{
 
 		$matches = [];

@@ -1,4 +1,4 @@
-<?php
+<?php /** @noinspection PhpUnusedAliasInspection */
 /**
  *
  * @copyright Copyright (c) 2011-2020 Miroslav Marek <mirek.marek.2m@gmail.com>
