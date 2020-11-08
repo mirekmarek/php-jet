@@ -11,6 +11,7 @@ use Jet\BaseObject;
 use Jet\IO_File;
 use Jet\Mvc_Page_Content_Interface;
 use Jet\Mvc_Page_Interface;
+use Jet\PATH;
 
 /**
  *
@@ -26,7 +27,7 @@ class PageStaticContent extends BaseObject
 	public static function get( Mvc_Page_Interface $page, Mvc_Page_Content_Interface $page_content=null )
 	{
 
-		$root_dir = JET_PATH_APPLICATION.'texts/staticContent/';
+		$root_dir = PATH::APPLICATION().'texts/staticContent/';
 
 		if(
 			$page_content &&

@@ -8,16 +8,17 @@
 namespace JetApplication;
 
 use Jet\Debug_ErrorHandler;
+use Jet\PATH;
 
 //Debug_Profiler::blockStart('INIT - ErrorHandler');
 
-require JET_PATH_LIBRARY.'Jet/Debug.php';
-require JET_PATH_LIBRARY.'Jet/Debug/ErrorHandler.php';
+require PATH::LIBRARY().'Jet/Debug.php';
+require PATH::LIBRARY().'Jet/Debug/ErrorHandler.php';
 
 
-require JET_PATH_APPLICATION.'ErrorHandlers/Log.php';
-require JET_PATH_APPLICATION.'ErrorHandlers/Display.php';
-require JET_PATH_APPLICATION.'ErrorHandlers/ErrorPage.php';
+require PATH::APPLICATION().'ErrorHandlers/Log.php';
+require PATH::APPLICATION().'ErrorHandlers/Display.php';
+require PATH::APPLICATION().'ErrorHandlers/ErrorPage.php';
 
 
 

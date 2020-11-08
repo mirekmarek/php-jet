@@ -8,24 +8,26 @@
 namespace JetApplication;
 
 use Jet\Autoloader;
+use Jet\PATH;
+
 //use Jet\Debug_Profiler;
 
 //Debug_Profiler::blockStart('INIT - Autoloader');
 
-require JET_PATH_LIBRARY.'Jet/Autoloader.php';
+require PATH::LIBRARY().'Jet/Autoloader.php';
 
 
 Autoloader::initialize();
 
 
-require JET_PATH_APPLICATION.'Autoloaders/Jet.php';
+require PATH::APPLICATION().'Autoloaders/Jet.php';
 Autoloader_Jet::register();
 
-require JET_PATH_APPLICATION.'Autoloaders/ApplicationClasses.php';
+require PATH::APPLICATION().'Autoloaders/ApplicationClasses.php';
 Autoloader_ApplicationClasses::register();
 
 
-require JET_PATH_APPLICATION.'Autoloaders/ApplicationModules.php';
+require PATH::APPLICATION().'Autoloaders/ApplicationModules.php';
 Autoloader_ApplicationModules::register();
 
 

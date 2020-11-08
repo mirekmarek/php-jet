@@ -3,6 +3,7 @@ use Jet\Form;
 use Jet\Tr;
 use Jet\Form_Field_FileImage;
 use Jet\Mvc_View;
+use Jet\URI;
 
 /**
  * @var Mvc_View $this
@@ -31,7 +32,7 @@ $form = $this->getRaw( 'form' );
 				 * @var Form_Field_FileImage $image_field
 				 */
 				?>
-				<img src="<?=JET_URI_PUBLIC?>test_uploads/<?=$image_field->getFileName()?>">
+				<img src="<?=URI::PUBLIC()?>test_uploads/<?=$image_field->getFileName()?>">
 			<?php else: ?>
 				<table class="table table-bordered">
 					<?php foreach( $form->getValues() as $k => $v ): ?>

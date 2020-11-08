@@ -1,8 +1,12 @@
 <?php
+use Jet\PATH;
+use Jet\URI;
+
+require_once PATH::LIBRARY().'Jet/URI.php';
 
 $base_URI = '/';
 
-//- It is better to hardcode constant on the production system
+//- It is better to hardcode value on the production system
 $request_URI = isset( $_SERVER['REQUEST_URI'] ) ? $_SERVER['REQUEST_URI'] : '/';
 if( ($pos=strpos($request_URI, '?'))!==false ) {
 	$request_URI = substr($request_URI, 0, $pos-1);
@@ -24,6 +28,5 @@ if($request_URI) {
 }
 //----------------------------------------------------------------
 
-define( 'JET_URI_BASE', $base_URI );
-
-define( 'JET_URI_PUBLIC', JET_URI_BASE.'public/' );
+URI::setBASE($base_URI);
+URI::setPUBLIC($base_URI.'public/');

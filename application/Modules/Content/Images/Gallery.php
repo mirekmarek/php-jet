@@ -18,6 +18,7 @@ use Jet\Form;
 use Jet\Form_Field_FileImage;
 use Jet\Form_Field_Hidden;
 
+use Jet\PATH;
 use Jet\Tr;
 use Jet\Data_Tree;
 use Jet\IO_Dir;
@@ -27,6 +28,7 @@ use Jet\Locale;
 use Jet\Mvc;
 
 use Jet\Mvc_Page_Interface;
+use Jet\URI;
 use JetApplication\Application_Web;
 
 /**
@@ -411,7 +413,7 @@ class Gallery extends DataModel
 	 */
 	public function getBaseDirPath()
 	{
-		$base_dir = JET_PATH_PUBLIC.'imagegallery/';
+		$base_dir = PATH::PUBLIC().'imagegallery/';
 		if( !IO_Dir::exists( $base_dir ) ) {
 			IO_Dir::create( $base_dir );
 		}
@@ -424,7 +426,7 @@ class Gallery extends DataModel
 	 */
 	public function getBaseURI()
 	{
-		return JET_URI_PUBLIC.'imagegallery/';
+		return URI::PUBLIC().'imagegallery/';
 	}
 
 
