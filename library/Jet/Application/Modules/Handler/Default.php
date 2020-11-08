@@ -158,13 +158,6 @@ class Application_Modules_Handler_Default extends Application_Modules_Handler
 	{
 		$this->_readInstalledModulesList();
 
-		$res = [];
-
-		foreach( $this->installed_modules_list as $module_name ) {
-			$res[$module_name] = $this->moduleManifest( $module_name );
-
-		}
-
 		return $this->installed_modules_list;
 	}
 

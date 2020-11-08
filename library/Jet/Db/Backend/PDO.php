@@ -83,14 +83,11 @@ class Db_Backend_PDO extends PDO implements Db_Backend_Interface
 	 *
 	 * @return PDOStatement
 	 */
-	public function query( $statement )
+	public function doQuery( $statement )
 	{
-		$args = func_get_args();
-
 		Debug_Profiler::SQLQueryStart( $statement );
 
-		$res = call_user_func_array( ['parent', 'query'], $args );
-
+		$res = $this->query( $statement );
 		Debug_Profiler::SQLQueryDone();
 
 		return $res;
@@ -187,7 +184,7 @@ class Db_Backend_PDO extends PDO implements Db_Backend_Interface
 		$q = $this->prepareQuery( $query, $query_data );
 
 		Debug_Profiler::SQLQueryStart( $q, $query_data );
-		$stn = parent::query( $q );
+		$stn = $this->query( $q );
 		Debug_Profiler::SQLQueryDone();
 
 		foreach( $stn as $row ) {
@@ -209,7 +206,7 @@ class Db_Backend_PDO extends PDO implements Db_Backend_Interface
 		$q = $this->prepareQuery( $query, $query_data );
 
 		Debug_Profiler::SQLQueryStart( $q, $query_data );
-		$stn = parent::query( $q );
+		$stn = $this->query( $q );
 		$res = $stn->fetchAll( PDO::FETCH_ASSOC );
 
 		Debug_Profiler::SQLQueryDone( count( $res ) );
@@ -230,7 +227,7 @@ class Db_Backend_PDO extends PDO implements Db_Backend_Interface
 		$q = $this->prepareQuery( $query, $query_data );
 
 		Debug_Profiler::SQLQueryStart( $q, $query_data );
-		$stn = parent::query( $q );
+		$stn = $this->query( $q );
 
 		$result = [];
 
@@ -261,7 +258,7 @@ class Db_Backend_PDO extends PDO implements Db_Backend_Interface
 		$q = $this->prepareQuery( $query, $query_data );
 
 		Debug_Profiler::SQLQueryStart( $q, $query_data );
-		$stn = parent::query( $q );
+		$stn = $this->query( $q );
 
 		$result = [];
 		foreach( $stn as $row ) {
@@ -289,7 +286,7 @@ class Db_Backend_PDO extends PDO implements Db_Backend_Interface
 		$q = $this->prepareQuery( $query, $query_data );
 
 		Debug_Profiler::SQLQueryStart( $q, $query_data );
-		$stn = parent::query( $q );
+		$stn = $this->query( $q );
 
 		$result = [];
 
@@ -319,7 +316,7 @@ class Db_Backend_PDO extends PDO implements Db_Backend_Interface
 		$q = $this->prepareQuery( $query, $query_data );
 
 		Debug_Profiler::SQLQueryStart( $q, $query_data );
-		$stn = parent::query( $q );
+		$stn = $this->query( $q );
 		Debug_Profiler::SQLQueryDone();
 
 		foreach( $stn as $row ) {

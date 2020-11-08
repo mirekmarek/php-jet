@@ -58,7 +58,7 @@ interface Db_Backend_Interface
 	 *
 	 * @return object
 	 */
-	public function query( $statement );
+	public function doQuery( $statement );
 
 
 	/**

@@ -253,10 +253,6 @@ trait DataModel_Trait_Load
 
 		$related_properties = $this_definition->getAllRelatedPropertyDefinitions();
 
-		/**
-		 * @var DataModel_Definition_Model_Related_1toN[]|DataModel_Definition_Model_Related_1to1[]|DataModel_Definition_Model_Related_MtoN[] $related_definitions
-		 */
-		$related_definitions = [];
 
 		$related_data = [];
 		foreach( $related_properties as $related_model_name => $related_property ) {
@@ -273,8 +269,6 @@ trait DataModel_Trait_Load
 			 */
 			$class_name = $related_property->getValueDataModelClass();
 			$related_dm_definition = DataModel_Definition::get( $class_name );
-
-			$related_definitions[$related_dm_definition->getModelName()] = $related_dm_definition;
 
 			$related_where = [];
 
@@ -387,11 +381,6 @@ trait DataModel_Trait_Load
 
 		$related_properties = $this_definition->getAllRelatedPropertyDefinitions();
 
-		/**
-		 * @var DataModel_Definition_Model_Related_1toN[]|DataModel_Definition_Model_Related_1to1[]|DataModel_Definition_Model_Related_MtoN[] $related_definitions
-		 */
-		$related_definitions = [];
-
 		$related_data = [];
 		foreach( $related_properties as $related_model_name => $related_property ) {
 
@@ -407,8 +396,6 @@ trait DataModel_Trait_Load
 			 */
 			$class_name = $related_property->getValueDataModelClass();
 			$related_dm_definition = DataModel_Definition::get( $class_name );
-
-			$related_definitions[$related_dm_definition->getModelName()] = $related_dm_definition;
 
 			$related_where = [];
 			if(isset($where_per_model[$related_dm_definition->getModelName()])) {
