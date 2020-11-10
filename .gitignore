@@ -14,3 +14,5 @@ public/**
 !public/styles/wysiwyg.css
 !public/images/flags.png
 !public/email_images/email_header.jpg
+_tools/studio/public/css_packages/**
+_tools/studio/public/js_packages/**
