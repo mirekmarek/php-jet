@@ -9,5 +9,8 @@ use Jet\Form_Renderer;
 $r = $this->getRaw( 'element' );
 
 $field = $r->getField();
+if($field->getLastErrorCode()) {
+	$r->addCustomCssClass('is-invalid');
+}
 ?>
 <input type="hidden" name="<?=$field->getTagNameValue()?>" id="<?=$field->getId()?>" value="<?=$field->getValue()?>" <?php if( $r->getJsActions() ) echo $r->getJsActions() ?>/>

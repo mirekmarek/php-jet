@@ -36,4 +36,6 @@ return [
 	'Password:' => '',
 	'Current REST API client user: %USERNAME%' => '',
 	'Logout' => '',
+	'REST API Tests - client login' => '',
+	'Sign In' => '',
 ];

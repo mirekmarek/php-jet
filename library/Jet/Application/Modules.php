@@ -86,7 +86,7 @@ class Application_Modules extends BaseObject
 	public static function getBasePath()
 	{
 		if(!static::$base_path) {
-			static::$base_path = PATH::APPLICATION().'Modules/';
+			static::$base_path = SysConf_PATH::APPLICATION().'Modules/';
 		}
 		return static::$base_path;
 	}

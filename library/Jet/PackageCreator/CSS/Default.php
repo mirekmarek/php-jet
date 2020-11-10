@@ -155,7 +155,7 @@ class PackageCreator_CSS_Default extends PackageCreator_CSS
 	 */
 	public function getPackagePath()
 	{
-		return PATH::PUBLIC().$this->getPackageRelativeFileName();
+		return SysConf_PATH::PUBLIC().$this->getPackageRelativeFileName();
 	}
 
 
@@ -173,7 +173,7 @@ class PackageCreator_CSS_Default extends PackageCreator_CSS
 	 */
 	public function getPackageURI()
 	{
-		return URI::PUBLIC().$this->getPackageRelativeFileName();
+		return SysConf_URI::PUBLIC().$this->getPackageRelativeFileName();
 	}
 
 

@@ -9,10 +9,6 @@ use Jet\Form;
 $r = $this->getRaw( 'element' );
 $form = $r->getForm();
 
-if( $form->getAllErrors() ) {
-	$r->addCustomCssClass('was-validated');
-}
-
 
 if(!$r->getBaseCssClasses()) {
 	$r->setBaseCssClass('form-horizontal');

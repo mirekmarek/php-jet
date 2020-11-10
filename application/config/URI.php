@@ -1,8 +1,8 @@
 <?php
-use Jet\PATH;
-use Jet\URI;
+use Jet\SysConf_PATH;
+use Jet\SysConf_URI;
 
-require_once PATH::LIBRARY().'Jet/URI.php';
+require_once SysConf_PATH::LIBRARY().'Jet/SysConf/URI.php';
 
 $base_URI = '/';
 
@@ -28,5 +28,5 @@ if($request_URI) {
 }
 //----------------------------------------------------------------
 
-URI::setBASE($base_URI);
-URI::setPUBLIC($base_URI.'public/');
+SysConf_URI::setBASE($base_URI);
+SysConf_URI::setPUBLIC($base_URI.'public/');

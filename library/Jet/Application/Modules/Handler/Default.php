@@ -87,7 +87,7 @@ class Application_Modules_Handler_Default extends Application_Modules_Handler
 	public function getInstalledModulesListFilePath()
 	{
 		if(!$this->installed_modules_list_file_path) {
-			$this->installed_modules_list_file_path = PATH::DATA().'installed_modules_list.php';
+			$this->installed_modules_list_file_path = SysConf_PATH::DATA().'installed_modules_list.php';
 		}
 		return $this->installed_modules_list_file_path;
 	}
@@ -106,7 +106,7 @@ class Application_Modules_Handler_Default extends Application_Modules_Handler
 	public function getActivatedModulesListFilePath()
 	{
 		if(!$this->activated_modules_list_file_path) {
-			$this->activated_modules_list_file_path = PATH::DATA().'activated_modules_list.php';
+			$this->activated_modules_list_file_path = SysConf_PATH::DATA().'activated_modules_list.php';
 		}
 		return $this->activated_modules_list_file_path;
 	}

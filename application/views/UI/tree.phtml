@@ -39,7 +39,7 @@ $icon_size = 16;
 		$padding = ( $node->getDepth() )*$icon_width;
 		?>
 		<div class="tree-row-container">
-			<div class="tree-row">
+			<div class="tree-row<?=$tree->getSelectedId()==$node->getId()?' selected':''?>">
 				<div class="tree-row-icon-container"
 				     style="padding-left: <?=$padding;?>px;"><?=UI::icon( $icon )->setSize( $icon_size )->setTag(
 						'div'

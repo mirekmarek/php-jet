@@ -15,6 +15,9 @@ if(!$r->getBaseCssClasses()) {
 }
 
 $field = $r->getField();
+if($field->getLastErrorCode()) {
+	$r->addCustomCssClass('is-invalid');
+}
 
 $value = '';
 

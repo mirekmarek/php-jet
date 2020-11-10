@@ -18,6 +18,9 @@ if(!$r->getBaseCssClasses()) {
  * @var Form_Field_File $field
  */
 $field = $r->getField();
+if($field->getLastErrorCode()) {
+	$r->addCustomCssClass('is-invalid');
+}
 
 ?>
 	<input type="file" name="<?=$field->getTagNameValue()?>" id="<?=$field->getId()?>" <?php

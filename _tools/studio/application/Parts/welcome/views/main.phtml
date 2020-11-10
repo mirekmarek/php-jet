@@ -1,0 +1,9 @@
+<?php
+namespace JetStudio;
+?>
+
+<ul>
+<?php foreach( Application::getParts() as $part=>$p ): ?>
+	<li><a href="<?=$part?>.php"><?=$p['label']?></a></li>
+<?php endforeach; ?>
+</ul>

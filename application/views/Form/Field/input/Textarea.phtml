@@ -14,6 +14,9 @@ if(!$r->getBaseCssClasses()) {
 }
 
 $field = $r->getField();
+if($field->getLastErrorCode()) {
+	$r->addCustomCssClass('is-invalid');
+}
 ?>
 	<textarea name="<?=$field->getTagNameValue()?>" id="<?=$field->getId()?>" <?php
 

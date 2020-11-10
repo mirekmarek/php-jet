@@ -10,7 +10,7 @@ namespace JetApplicationModule\Test\Forms;
 use Jet\Mvc_Controller_Default;
 
 use Jet\Http_Request;
-use Jet\PATH;
+use Jet\SysConf_PATH;
 use Jet\Tr;
 
 use Jet\Form;
@@ -358,7 +358,7 @@ class Controller_Main extends Mvc_Controller_Default
 		$upload_image_field->setCatcher(
 			function( $tmp_file ) use ( $upload_image_field ) {
 
-				$target_dir = PATH::PUBLIC().'test_uploads/';
+				$target_dir = SysConf_PATH::PUBLIC().'test_uploads/';
 
 				IO_Dir::create( $target_dir );
 

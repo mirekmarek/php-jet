@@ -2,7 +2,7 @@
 namespace JetApplication;
 
 use Jet\Mvc_View;
-use Jet\URI;
+use Jet\SysConf_URI;
 
 /**
  * @var Mvc_View $this
@@ -11,7 +11,7 @@ use Jet\URI;
 
 $user = $this->getRaw('user');
 ?>
-<img src="<?=URI::PUBLIC()?>email_imges/email_header.jpg"/>
+<img src="<?=SysConf_URI::PUBLIC()?>email_imges/email_header.jpg"/>
 
 <h1>Your admin password has been reset</h1>
 

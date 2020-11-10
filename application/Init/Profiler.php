@@ -3,11 +3,11 @@
 use Jet\Debug;
 use Jet\Debug_Profiler;
 use Jet\Debug_Profiler_Run;
-use Jet\PATH;
+use Jet\SysConf_PATH;
 
 if( JET_DEBUG_PROFILER_ENABLED ) {
 
-	require PATH::LIBRARY().'Jet/Debug/Profiler.php';
+	require SysConf_PATH::LIBRARY().'Jet/Debug/Profiler.php';
 
 	$profiler_save_dir = JET_PATH_TMP.'_profiler/';
 

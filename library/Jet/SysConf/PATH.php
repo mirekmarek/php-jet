@@ -10,7 +10,7 @@ namespace Jet;
 /**
  * 
  */
-class PATH {
+class SysConf_PATH {
 	/**
 	 * @var string
 	 */
@@ -47,10 +47,6 @@ class PATH {
 	/**
 	 * @var string
 	 */
-	protected static $INIT =         '';
-	/**
-	 * @var string
-	 */
 	protected static $CONFIG =       '';
 	/**
 	 * @var string
@@ -63,12 +59,12 @@ class PATH {
 
 	/**
 	 * @param string $what
-	 * @throws PATH_Exception
+	 * @throws SysConf_PATH_Exception
 	 */
 	protected static function _check( $what )
 	{
 		if(!static::$$what) {
-			throw new PATH_Exception('PATH '.$what.' is not set');
+			throw new SysConf_PATH_Exception('PATH '.$what.' is not set');
 		}
 	}
 
@@ -206,23 +202,6 @@ class PATH {
 	public static function setAPPLICATION( $APPLICATION )
 	{
 		static::$APPLICATION = $APPLICATION;
-	}
-
-	/**
-	 * @return string
-	 */
-	public static function INIT()
-	{
-		static::_check('INIT');
-		return static::$INIT;
-	}
-
-	/**
-	 * @param string $INIT
-	 */
-	public static function setINIT( $INIT )
-	{
-		static::$INIT = $INIT;
 	}
 
 	/**

@@ -125,6 +125,16 @@ class UI_tabsJS extends UI_BaseElement
 	}
 
 	/**
+	 * @param string $id
+	 *
+	 * @return UI_tabsJS_tab
+	 */
+	public function tab( $id )
+	{
+		return $this->getTabs()[$id];
+	}
+
+	/**
 	 * @return string
 	 */
 	public function getSelectedTabId()

@@ -13,6 +13,9 @@ if(!$r->getBaseCssClasses()) {
 }
 
 $field = $r->getField();
+if($field->getLastErrorCode()) {
+	$r->addCustomCssClass('is-invalid');
+}
 ?>
 	<div class="<?=$r->getCssClasses()?>">
 		<input type="checkbox" name="<?=$field->getTagNameValue()?>" id="<?=$field->getId()?>" value="1" <?php

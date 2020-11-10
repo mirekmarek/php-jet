@@ -18,6 +18,9 @@ if(!$r->getBaseCssClasses()) {
  * @var Form_Field_Float $field
  */
 $field = $r->getField();
+if($field->getLastErrorCode()) {
+	$r->addCustomCssClass('is-invalid');
+}
 ?>
 	<input type="number" name="<?=$field->getTagNameValue()?>" id="<?=$field->getId()?>" <?php
 

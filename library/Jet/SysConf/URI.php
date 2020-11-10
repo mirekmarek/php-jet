@@ -10,7 +10,7 @@ namespace Jet;
 /**
  *
  */
-class URI
+class SysConf_URI
 {
 	/**
 	 * @var 
@@ -26,12 +26,12 @@ class URI
 
 	/**
 	 * @param string $what
-	 * @throws URI_Exception
+	 * @throws SysConf_URI_Exception
 	 */
 	protected static function _check( $what )
 	{
 		if(!static::$$what) {
-			throw new URI_Exception('PATH '.$what.' is not set');
+			throw new SysConf_URI_Exception('URI '.$what.' is not set');
 		}
 	}
 

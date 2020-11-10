@@ -1,6 +1,6 @@
 <?php
 use Jet\Form_Field_WYSIWYG;
-use Jet\URI;
+use Jet\SysConf_URI;
 
 const JQUERY_JS_URL = 'https://code.jquery.com/jquery-3.5.1.js';
 
@@ -9,10 +9,10 @@ const BOOTSTRAP_JS_URL  = 'https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js
 
 const FONT_AWESOME_CSS_URL = 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css';
 
-define('FLAGS_CSS_URL', URI::PUBLIC().'styles/flags.css');
+define('FLAGS_CSS_URL', SysConf_URI::PUBLIC().'styles/flags.css');
 
-define('JET_AJAX_FORM_JS_URL', URI::PUBLIC().'scripts/JetAjaxForm.js?v=1');
-define('JET_MULTI_UPLOADER_JS_URL', URI::PUBLIC().'scripts/JetMultiUploader.js?v=1');
+define('JET_AJAX_FORM_JS_URL', SysConf_URI::PUBLIC().'scripts/JetAjaxForm.js?v=1');
+define('JET_MULTI_UPLOADER_JS_URL', SysConf_URI::PUBLIC().'scripts/JetMultiUploader.js?v=1');
 
 
 const WYSIWYG_DEFAULT_EDITOR_CSS_FILES = [

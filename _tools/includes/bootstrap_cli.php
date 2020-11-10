@@ -14,7 +14,7 @@ require_once($application_dir . 'config/PATH.php');
 require_once($application_dir . 'config/jet.php');
 
 
-$init_dir = PATH::APPLICATION().'Init/';
+$init_dir = SysConf_PATH::APPLICATION().'Init/';
 require( $init_dir.'Autoloader.php');
 require( $init_dir.'ClassNames.php' );
 

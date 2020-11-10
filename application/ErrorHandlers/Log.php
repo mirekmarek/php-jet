@@ -9,7 +9,7 @@ namespace JetApplication;
 
 use Jet\Debug_ErrorHandler_Handler;
 use Jet\Debug_ErrorHandler_Error;
-use Jet\PATH;
+use Jet\SysConf_PATH;
 
 /**
  *
@@ -80,7 +80,7 @@ class ErrorHandler_Log extends Debug_ErrorHandler_Handler
 	protected function getLogDir()
 	{
 		if(!$this->log_dir) {
-			$this->log_dir = PATH::LOGS();
+			$this->log_dir = SysConf_PATH::LOGS();
 		}
 
 		return $this->log_dir;

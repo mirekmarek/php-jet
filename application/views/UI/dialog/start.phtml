@@ -7,9 +7,25 @@ use Jet\Mvc_View;
  * @var UI_dialog $d
  */
 $d = $this->getRaw( 'element' );
+
+$size_class = '';
+$w = $d->getWidth();
+
+if($w<=300) {
+	$size_class = 'modal-sm';
+}
+
+if($w>=500) {
+	$size_class = 'modal-lg';
+}
+
+if($w>=800) {
+	$size_class = 'modal-xl';
+}
+
 ?>
 <div class="modal fade" id="<?=$d->getId()?>" role="dialog">
-	<div class="modal-dialog" style="width: <?=$d->getWidth()?>px;">
+	<div class="modal-dialog <?=$size_class?>">
 
 		<div class="modal-content">
 			<div class="modal-header">

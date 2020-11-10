@@ -14,6 +14,9 @@ $r = $this->getRaw( 'element' );
 
 $field = $r->getField();
 $value = $field->getValue();
+if($field->getLastErrorCode()) {
+	$r->addCustomCssClass('is-invalid');
+}
 
 ?>
 	<?php foreach( $field->getSelectOptions() as $key => $option ):

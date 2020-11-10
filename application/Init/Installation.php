@@ -8,11 +8,11 @@
 namespace JetApplication;
 
 use Jet\IO_File;
-use Jet\PATH;
+use Jet\SysConf_PATH;
 
 
-$installer_path = PATH::BASE().'_installer/install.php';
-$install_symptom_file = PATH::DATA().'installed.txt';
+$installer_path = SysConf_PATH::BASE().'_installer/install.php';
+$install_symptom_file = SysConf_PATH::DATA().'installed.txt';
 if(
 	IO_File::exists( $installer_path ) &&
 	!IO_File::exists( $install_symptom_file )

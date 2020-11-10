@@ -8,7 +8,7 @@
 namespace JetApplication;
 
 use Jet\IO_Dir;
-use Jet\PATH;
+use Jet\SysConf_PATH;
 
 /**
  *
@@ -37,39 +37,39 @@ class Installer_Step_DirsCheck_Controller extends Installer_Step_Controller
 		$this->catchContinue();
 
 		$dirs = [
-			PATH::DATA()                              => [
+			SysConf_PATH::DATA()                                     => [
 				'is_required'  => true,
 				'is_writeable' => false,
 			],
-			PATH::TMP()                               => [
+			SysConf_PATH::TMP()                                      => [
 				'is_required'  => true,
 				'is_writeable' => false,
 			],
-			PATH::CACHE()                             => [
+			SysConf_PATH::CACHE()                                    => [
 				'is_required'  => true,
 				'is_writeable' => false,
 			],
-			PATH::LOGS()                              => [
+			SysConf_PATH::LOGS()                                     => [
 				'is_required'  => true,
 				'is_writeable' => false,
 			],
-			PATH::SITES().Application_Admin::getSiteId().'/' => [
+			SysConf_PATH::SITES().Application_Admin::getSiteId().'/' => [
 				'is_required'  => true,
 				'is_writeable' => false,
 			],
-			PATH::SITES().Application_Web::getSiteId().'/' => [
+			SysConf_PATH::SITES().Application_Web::getSiteId().'/'   => [
 				'is_required'  => true,
 				'is_writeable' => false,
 			],
-			PATH::SITES().Application_REST::getSiteId().'/' => [
+			SysConf_PATH::SITES().Application_REST::getSiteId().'/'  => [
 				'is_required'  => true,
 				'is_writeable' => false,
 			],
-			PATH::DICTIONARIES() => [
+			SysConf_PATH::DICTIONARIES()                             => [
 				'is_required'  => true,
 				'is_writeable' => false,
 			],
-			PATH::CONFIG()       => [
+			SysConf_PATH::CONFIG()                                   => [
 				'is_required'  => false,
 				'is_writeable' => false,
 				'comment'      => 'Never mind. In fact, it is better that the directory is not writeable. But you have to complete the installation manually.',

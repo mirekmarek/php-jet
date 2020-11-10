@@ -29,7 +29,7 @@ class Translator_Backend_PHPFiles extends Translator_Backend
 	public function getDictionariesBasePath()
 	{
 		if(!$this->dictionaries_base_path) {
-			$this->dictionaries_base_path = PATH::DICTIONARIES();
+			$this->dictionaries_base_path = SysConf_PATH::DICTIONARIES();
 		}
 
 		return $this->dictionaries_base_path;

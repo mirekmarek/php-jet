@@ -21,6 +21,10 @@ $field = $r->getField();
 $value = $field->getValue();
 
 //var_dump($value);die();
+if($field->getLastErrorCode()) {
+	$r->addCustomCssClass('is-invalid');
+}
+
 ?>
 	<select name="<?=$field->getTagNameValue()?>[]" id="<?=$field->getId()?>" multiple="multiple"<?php
 
