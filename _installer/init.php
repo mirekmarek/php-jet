@@ -8,8 +8,9 @@
 namespace JetApplication;
 
 use Jet\Config;
+use Jet\SysConf_PATH;
 
-define( 'JET_APP_INSTALLER_PATH', JET_PATH_BASE.'_installer/' );
+define( 'JET_APP_INSTALLER_PATH', SysConf_PATH::BASE().'_installer/' );
 
 require 'Classes/Installer.php';
 

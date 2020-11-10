@@ -62,9 +62,9 @@ class ClassParser_Namespace extends ClassParser_Element{
 
 		echo 'Namespace: '.$this->namespace;
 
-		echo JET_EOL.' Code: '.$parser->getTokenText( $this->start_token, $this->end_token );
-		echo JET_EOL.' Tokens: '.$this->start_token->index.' - '.$this->end_token->index;
-		echo JET_EOL.JET_EOL;
+		echo SysConf_Jet::EOL().' Code: '.$parser->getTokenText( $this->start_token, $this->end_token );
+		echo SysConf_Jet::EOL().' Tokens: '.$this->start_token->index.' - '.$this->end_token->index;
+		echo SysConf_Jet::EOL().SysConf_Jet::EOL();
 	}
 
 }

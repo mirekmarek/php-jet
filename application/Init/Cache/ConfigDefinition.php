@@ -8,14 +8,15 @@
 namespace JetApplication;
 
 use Jet\Config_Definition;
+use Jet\SysConf_Jet;
 
-if(JET_CACHE_CONFIG_DEFINITION_LOAD) {
+if(SysConf_Jet::CACHE_CONFIG_DEFINITION_LOAD()) {
 	Config_Definition::enableCacheLoad( function( $class ) {
 		return Cache_ConfigDefinition::load( $class );
 	} );
 }
 
-if(JET_CACHE_CONFIG_DEFINITION_SAVE) {
+if(SysConf_Jet::CACHE_CONFIG_DEFINITION_SAVE()) {
 	Config_Definition::enableCacheSave( function( $class, $data ) {
 		Cache_ConfigDefinition::save( $class, $data );
 	} );

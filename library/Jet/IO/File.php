@@ -40,7 +40,7 @@ class IO_File
 	public static function getDefaultChmodMask()
 	{
 		if( static::$default_chmod_mask===null ) {
-			static::$default_chmod_mask = JET_IO_CHMOD_MASK_FILE;
+			static::$default_chmod_mask = SysConf_Jet::IO_CHMOD_MASK_FILE();
 		}
 
 		return static::$default_chmod_mask;

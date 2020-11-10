@@ -7,6 +7,9 @@
  */
 namespace JetApplication;
 
+use Jet\SysConf_PATH;
+use Jet\SysConf_Jet;
+
 /**
  *
  */
@@ -17,7 +20,7 @@ class Cache_Autoloader {
 	 */
 	public static function getPath()
 	{
-		return JET_PATH_CACHE.'autoloader_class_map.php';
+		return SysConf_PATH::CACHE().'autoloader_class_map.php';
 	}
 
 	/**
@@ -51,7 +54,7 @@ class Cache_Autoloader {
 			'<?php return '.var_export( $data, true ).';'
 		);
 		/** @noinspection PhpUsageOfSilenceOperatorInspection */
-		@chmod( $file_path, JET_IO_CHMOD_MASK_FILE);
+		@chmod( $file_path, SysConf_Jet::IO_CHMOD_MASK_FILE());
 
 	}
 

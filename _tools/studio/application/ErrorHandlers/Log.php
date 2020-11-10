@@ -38,21 +38,13 @@ class ErrorHandler_Log extends Debug_ErrorHandler_Handler
 
 		$dir = $this->getLogDir();
 
-		if( !$dir ) {
-			echo 'Warning! JET_PATH_LOGS is not defined!';
-			echo $message;
-
-			return;
-		}
-
-
 		/** @noinspection PhpUsageOfSilenceOperatorInspection */
 		$log_fn = $dir.'/'.@date( 'Y-m-d' ).'.log';
 
 		/** @noinspection PhpUsageOfSilenceOperatorInspection */
 		if( !@file_put_contents(
 			$log_fn,
-			$message.'_________________________________________________________________________________________'.JET_EOL.JET_EOL.JET_EOL,
+			$message.'_________________________________________________________________________________________'.SysConf_Jet::EOL().SysConf_Jet::EOL().SysConf_Jet::EOL(),
 			FILE_APPEND
 		)
 		) {

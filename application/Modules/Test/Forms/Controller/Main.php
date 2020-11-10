@@ -385,7 +385,7 @@ class Controller_Main extends Mvc_Controller_Default
 			function( $tmp_file ) use ( $upload_file_field ) {
 
 				/*
-				$target_dir = JET_PATH_PUBLIC.'test_uploads/';
+				$target_dir = SysConf_PATH::BASE().'test_uploads/';
 
 				IO_Dir::create($target_dir);
 

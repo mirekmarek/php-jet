@@ -19,7 +19,7 @@ $updated = false;
 $ok = true;
 try {
 	if($backend->helper_tableExists( $current )) {
-		//echo implode(JET_EOL.JET_EOL, $backend->helper_getUpdateCommand( $current ));
+		//echo implode(SysConf_Jet::EOL().SysConf_Jet::EOL(), $backend->helper_getUpdateCommand( $current ));
 		$backend->helper_update( $current );
 		$updated = true;
 	} else {

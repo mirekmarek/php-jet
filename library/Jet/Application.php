@@ -141,13 +141,4 @@ class Application extends BaseObject
 		static::$do_not_end = true;
 	}
 
-	/**
-	 *
-	 * @return bool
-	 */
-	public static function getIsInDevelMode()
-	{
-		return defined( 'JET_DEVEL_MODE' )&&JET_DEVEL_MODE;
-	}
-
 }

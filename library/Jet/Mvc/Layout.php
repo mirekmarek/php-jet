@@ -99,8 +99,8 @@ class Mvc_Layout extends Mvc_View_Abstract
 		$this->setScriptsDir( $scripts_dir );
 		$this->setScriptName( $script_name );
 
-		$this->JS_packager_enabled = JET_LAYOUT_JS_PACKAGER_ENABLED;
-		$this->CSS_packager_enabled = JET_LAYOUT_CSS_PACKAGER_ENABLED;
+		$this->JS_packager_enabled = SysConf_Jet::LAYOUT_JS_PACKAGER_ENABLED();
+		$this->CSS_packager_enabled = SysConf_Jet::LAYOUT_CSS_PACKAGER_ENABLED();
 
 		$this->_data = new Data_Array();
 	}
@@ -497,7 +497,7 @@ class Mvc_Layout extends Mvc_View_Abstract
 		if( ( $page = Mvc::getCurrentPage() ) ) {
 
 			foreach( $page->getMetaTags() as $mt ) {
-				$dat[static::TAG_META_TAGS] .= JET_EOL.JET_TAB.$mt;
+				$dat[static::TAG_META_TAGS] .= SysConf_Jet::EOL().SysConf_Jet::TAB().$mt;
 			}
 
 		}
@@ -574,7 +574,7 @@ class Mvc_Layout extends Mvc_View_Abstract
 		$snippet = '';
 
 		foreach( $JS_files as $URI ) {
-			$snippet .= JET_TAB.'<script type="text/javascript" src="'.$URI.'"></script>'.JET_EOL;
+			$snippet .= SysConf_Jet::TAB().'<script type="text/javascript" src="'.$URI.'"></script>'.SysConf_Jet::EOL();
 		}
 
 		$result = $this->_replaceTagByValue( $result, static::TAG_JAVASCRIPT, $snippet );
@@ -641,9 +641,9 @@ class Mvc_Layout extends Mvc_View_Abstract
 			foreach( $URIs as $URI ) {
 
 				if( $media ) {
-					$snippet .= JET_TAB.'<link rel="stylesheet" type="text/css" href="'.$URI.'" media="'.$media.'"/>'.JET_EOL;
+					$snippet .= SysConf_Jet::TAB().'<link rel="stylesheet" type="text/css" href="'.$URI.'" media="'.$media.'"/>'.SysConf_Jet::EOL();
 				} else {
-					$snippet .= JET_TAB.'<link rel="stylesheet" type="text/css" href="'.$URI.'"/>'.JET_EOL;
+					$snippet .= SysConf_Jet::TAB().'<link rel="stylesheet" type="text/css" href="'.$URI.'"/>'.SysConf_Jet::EOL();
 				}
 
 			}

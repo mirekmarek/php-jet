@@ -110,7 +110,7 @@ class DataModel_Backend_SQLite extends DataModel_Backend
 				continue;
 			}
 
-			$_columns[] = JET_TAB.$this->_getColumnName( $property, true, false ).' '.$this->_getSQLType( $property );
+			$_columns[] = SysConf_Jet::TAB().$this->_getColumnName( $property, true, false ).' '.$this->_getSQLType( $property );
 		}
 
 		$table_name = $force_table_name ? $force_table_name : $this->_getTableName( $definition );
@@ -139,28 +139,28 @@ class DataModel_Backend_SQLite extends DataModel_Backend
 			switch( $key->getType() ) {
 				case DataModel::KEY_TYPE_PRIMARY:
 					if( !$has_ai ) {
-						$keys[] = JET_EOL.JET_TAB.',PRIMARY KEY ('.$key_columns.')';
+						$keys[] = SysConf_Jet::EOL().SysConf_Jet::TAB().',PRIMARY KEY ('.$key_columns.')';
 					}
 					break;
 				case DataModel::KEY_TYPE_INDEX:
-					$create_index_query[] = JET_EOL.'CREATE INDEX IF NOT EXISTS '.$this->_quoteName(
+					$create_index_query[] = SysConf_Jet::EOL().'CREATE INDEX IF NOT EXISTS '.$this->_quoteName(
 							'_k_'.$key_name
 						).' ON '.$table_name.' ('.$key_columns.');';
 					break;
 				default:
-					$create_index_query[] = JET_EOL.'CREATE '.$key->getType().' INDEX IF NOT EXISTS '.$this->_quoteName(
+					$create_index_query[] = SysConf_Jet::EOL().'CREATE '.$key->getType().' INDEX IF NOT EXISTS '.$this->_quoteName(
 							'_k_'.$key_name
 						).' ON '.$table_name.' ('.$key_columns.');';
 					break;
 			}
 		}
 
-		$create_index_query = implode( JET_EOL, $create_index_query );
+		$create_index_query = implode( SysConf_Jet::EOL(), $create_index_query );
 
-		$q = 'CREATE TABLE IF NOT EXISTS '.$table_name.' ('.JET_EOL;
-		$q .= implode( ','.JET_EOL, $_columns );
+		$q = 'CREATE TABLE IF NOT EXISTS '.$table_name.' ('.SysConf_Jet::EOL();
+		$q .= implode( ','.SysConf_Jet::EOL(), $_columns );
 		$q .= implode( '', $keys );
-		$q .= JET_EOL.') '.$_options.';'.$create_index_query.JET_EOL.JET_EOL;
+		$q .= SysConf_Jet::EOL().') '.$_options.';'.$create_index_query.SysConf_Jet::EOL().SysConf_Jet::EOL();
 
 		return $q;
 	}
@@ -371,11 +371,11 @@ class DataModel_Backend_SQLite extends DataModel_Backend
 			foreach( $new_cols as $c => $v ) {
 				$_new_cols[] = $c.'='.$v;
 			}
-			$update_default_values = 'UPDATE '.$updated_table_name.' SET '.implode( ','.JET_EOL, $_new_cols );
+			$update_default_values = 'UPDATE '.$updated_table_name.' SET '.implode( ','.SysConf_Jet::EOL(), $_new_cols );
 		}
 
 
-		$rename_command1 = 'ALTER TABLE '.$table_name.' RENAME TO '.$backup_table_name.' ;'.JET_EOL;
+		$rename_command1 = 'ALTER TABLE '.$table_name.' RENAME TO '.$backup_table_name.' ;'.SysConf_Jet::EOL();
 		$rename_command2 = 'ALTER TABLE '.$updated_table_name.' RENAME TO  '.$table_name.'; ';
 
 		$update_command = [];
@@ -526,8 +526,8 @@ class DataModel_Backend_SQLite extends DataModel_Backend
 
 		}
 
-		$columns = implode( ','.JET_EOL, $columns );
-		$values = implode( ','.JET_EOL, $values );
+		$columns = implode( ','.SysConf_Jet::EOL(), $columns );
+		$values = implode( ','.SysConf_Jet::EOL(), $values );
 
 		return 'INSERT INTO '.$table_name.' ('.$columns.') VALUES ('.$values.')';
 
@@ -561,11 +561,11 @@ class DataModel_Backend_SQLite extends DataModel_Backend
 			$set[] = $k.'='.$v;
 		}
 
-		$set = implode( ','.JET_EOL, $set );
+		$set = implode( ','.SysConf_Jet::EOL(), $set );
 
 		$where = $this->_getSqlQueryWherePart( $where->getWhere() );
 
-		return 'UPDATE '.$table_name.' SET '.JET_EOL.$set.$where;
+		return 'UPDATE '.$table_name.' SET '.SysConf_Jet::EOL().$set.$where;
 
 	}
 
@@ -584,14 +584,14 @@ class DataModel_Backend_SQLite extends DataModel_Backend
 		$res = '';
 
 		$next_level = $level+1;
-		$tab = str_repeat( JET_TAB, $next_level );
+		$tab = str_repeat( SysConf_Jet::TAB(), $next_level );
 
 		foreach( $query as $qp ) {
 			if( $qp instanceof DataModel_Query_Where ) {
 				/**
 				 * @var DataModel_Query_Where $qp
 				 */
-				$res .= $tab.'('.JET_EOL.$this->_getSqlQueryWherePart( $qp, $next_level ).' '.JET_EOL.JET_TAB.')';
+				$res .= $tab.'('.SysConf_Jet::EOL().$this->_getSqlQueryWherePart( $qp, $next_level ).' '.SysConf_Jet::EOL().SysConf_Jet::TAB().')';
 				continue;
 			}
 
@@ -602,7 +602,7 @@ class DataModel_Backend_SQLite extends DataModel_Backend
 				/**
 				 * @var string $qp
 				 */
-				$res .= JET_EOL.$tab.$qp.' '.JET_EOL;
+				$res .= SysConf_Jet::EOL().$tab.$qp.' '.SysConf_Jet::EOL();
 				continue;
 			}
 
@@ -620,7 +620,7 @@ class DataModel_Backend_SQLite extends DataModel_Backend
 		}
 
 		if( $res && !$level ) {
-			$res = JET_EOL.'WHERE'.JET_EOL.$res.JET_EOL;
+			$res = SysConf_Jet::EOL().'WHERE'.SysConf_Jet::EOL().$res.SysConf_Jet::EOL();
 		}
 
 		return $res;
@@ -642,10 +642,10 @@ class DataModel_Backend_SQLite extends DataModel_Backend
 
 			foreach( $value as $v ) {
 
-				$sq[] = JET_TAB.JET_TAB.$item.$this->_getSQLQueryWherePart_handleOperator( $operator, $v );
+				$sq[] = SysConf_Jet::TAB().SysConf_Jet::TAB().$item.$this->_getSQLQueryWherePart_handleOperator( $operator, $v );
 			}
 
-			$res .= '('.JET_EOL.implode( ' OR'.JET_EOL, $sq ).JET_EOL.JET_TAB.') ';
+			$res .= '('.SysConf_Jet::EOL().implode( ' OR'.SysConf_Jet::EOL(), $sq ).SysConf_Jet::EOL().SysConf_Jet::TAB().') ';
 		} else {
 			$res .= $item.$this->_getSQLQueryWherePart_handleOperator( $operator, $value );
 
@@ -795,10 +795,10 @@ class DataModel_Backend_SQLite extends DataModel_Backend
 
 			switch( $relation->getJoinType() ) {
 				case DataModel_Query::JOIN_TYPE_LEFT_JOIN:
-					$join_qp .= JET_EOL.JET_TAB.JET_TAB.'JOIN '.$r_table_name.' ON'.JET_EOL;
+					$join_qp .= SysConf_Jet::EOL().SysConf_Jet::TAB().SysConf_Jet::TAB().'JOIN '.$r_table_name.' ON'.SysConf_Jet::EOL();
 					break;
 				case DataModel_Query::JOIN_TYPE_LEFT_OUTER_JOIN:
-					$join_qp .= JET_EOL.JET_TAB.JET_TAB.'LEFT OUTER JOIN '.$r_table_name.' ON'.JET_EOL;
+					$join_qp .= SysConf_Jet::EOL().SysConf_Jet::TAB().SysConf_Jet::TAB().'LEFT OUTER JOIN '.$r_table_name.' ON'.SysConf_Jet::EOL();
 					break;
 				default:
 					throw new DataModel_Backend_Exception(
@@ -811,7 +811,7 @@ class DataModel_Backend_SQLite extends DataModel_Backend
 			foreach( $relation->getJoinBy() as $join_by ) {
 
 				if($join_by instanceof DataModel_Definition_Relation_Join_Item) {
-					$j[] = JET_TAB.JET_TAB.JET_TAB.$this->_getColumnName( $join_by->getRelatedProperty() ).' = '.$this->_getColumnName( $join_by->getThisProperty() );
+					$j[] = SysConf_Jet::TAB().SysConf_Jet::TAB().SysConf_Jet::TAB().$this->_getColumnName( $join_by->getRelatedProperty() ).' = '.$this->_getColumnName( $join_by->getThisProperty() );
 				}
 
 				if($join_by instanceof DataModel_Definition_Relation_Join_Condition) {
@@ -819,13 +819,13 @@ class DataModel_Backend_SQLite extends DataModel_Backend
 					$value = $this->_getValue($join_by->getValue());
 					$operator = $this->_getSQLQueryWherePart_handleOperator( $join_by->getOperator(), $value );
 
-					$j[] = JET_TAB.JET_TAB.JET_TAB.$this->_getColumnName( $join_by->getRelatedProperty() ).$operator.$value;
+					$j[] = SysConf_Jet::TAB().SysConf_Jet::TAB().SysConf_Jet::TAB().$this->_getColumnName( $join_by->getRelatedProperty() ).$operator.$value;
 
 				}
 			}
 
 
-			$join_qp .= implode( ' AND '.JET_EOL, $j );
+			$join_qp .= implode( ' AND '.SysConf_Jet::EOL(), $j );
 		}
 
 		return $join_qp;
@@ -861,7 +861,7 @@ class DataModel_Backend_SQLite extends DataModel_Backend
 			$group_by_qp[] = $val;
 		}
 
-		$group_by_qp = JET_EOL.'GROUP BY'.JET_EOL.JET_TAB.implode( ','.JET_EOL.JET_TAB, $group_by_qp ).JET_EOL;
+		$group_by_qp = SysConf_Jet::EOL().'GROUP BY'.SysConf_Jet::EOL().SysConf_Jet::TAB().implode( ','.SysConf_Jet::EOL().SysConf_Jet::TAB(), $group_by_qp ).SysConf_Jet::EOL();
 
 		return $group_by_qp;
 	}
@@ -881,14 +881,14 @@ class DataModel_Backend_SQLite extends DataModel_Backend
 		$res = '';
 
 		$next_level = $level+1;
-		$tab = str_repeat( JET_TAB, $next_level );
+		$tab = str_repeat( SysConf_Jet::TAB(), $next_level );
 
 		foreach( $query as $qp ) {
 			if( $qp instanceof DataModel_Query_Having ) {
 				/**
 				 * @var DataModel_Query_Having $qp
 				 */
-				$res .= $tab.'('.JET_EOL.$this->_getSqlQueryHavingPart( $qp, $next_level ).' '.JET_EOL.JET_TAB.')';
+				$res .= $tab.'('.SysConf_Jet::EOL().$this->_getSqlQueryHavingPart( $qp, $next_level ).' '.SysConf_Jet::EOL().SysConf_Jet::TAB().')';
 				continue;
 			}
 
@@ -899,7 +899,7 @@ class DataModel_Backend_SQLite extends DataModel_Backend
 				/**
 				 * @var string $qp
 				 */
-				$res .= JET_EOL.$tab.$qp.JET_EOL.' ';
+				$res .= SysConf_Jet::EOL().$tab.$qp.SysConf_Jet::EOL().' ';
 				continue;
 			}
 
@@ -919,7 +919,7 @@ class DataModel_Backend_SQLite extends DataModel_Backend
 		}
 
 		if( $res && !$level ) {
-			$res = JET_EOL.'HAVING'.JET_EOL.$res.JET_EOL;
+			$res = SysConf_Jet::EOL().'HAVING'.SysConf_Jet::EOL().$res.SysConf_Jet::EOL();
 		}
 
 		return $res;
@@ -963,10 +963,10 @@ class DataModel_Backend_SQLite extends DataModel_Backend
 	public function createSelectQuery( DataModel_Query $query )
 	{
 
-		return 'SELECT'.JET_EOL
-				.JET_TAB.$this->_getSQLQuerySelectPart( $query ).JET_EOL
-			.'FROM'.JET_EOL
-				.JET_TAB.$this->_getSQLQueryTableName( $query )
+		return 'SELECT'.SysConf_Jet::EOL()
+				.SysConf_Jet::TAB().$this->_getSQLQuerySelectPart( $query ).SysConf_Jet::EOL()
+			.'FROM'.SysConf_Jet::EOL()
+				.SysConf_Jet::TAB().$this->_getSQLQueryTableName( $query )
 					.$this->_getSQLQueryJoinPart( $query )
 
 			.$this->_getSqlQueryWherePart( $query->getWhere() )
@@ -1019,7 +1019,7 @@ class DataModel_Backend_SQLite extends DataModel_Backend
 
 		}
 
-		return implode( ','.JET_EOL.JET_TAB, $columns_qp );
+		return implode( ','.SysConf_Jet::EOL().SysConf_Jet::TAB(), $columns_qp );
 	}
 
 	/**
@@ -1064,7 +1064,7 @@ class DataModel_Backend_SQLite extends DataModel_Backend
 			return '';
 		}
 
-		return JET_EOL.'ORDER BY'.JET_EOL.JET_TAB.implode( ','.JET_EOL.JET_TAB, $order_qp ).JET_EOL;
+		return SysConf_Jet::EOL().'ORDER BY'.SysConf_Jet::EOL().SysConf_Jet::TAB().implode( ','.SysConf_Jet::EOL().SysConf_Jet::TAB(), $order_qp ).SysConf_Jet::EOL();
 
 	}
 
@@ -1082,9 +1082,9 @@ class DataModel_Backend_SQLite extends DataModel_Backend
 
 		if( $limit ) {
 			if( $offset ) {
-				$limit_qp = JET_EOL.'LIMIT '.$offset.','.$limit.JET_EOL;
+				$limit_qp = SysConf_Jet::EOL().'LIMIT '.$offset.','.$limit.SysConf_Jet::EOL();
 			} else {
-				$limit_qp = JET_EOL.'LIMIT '.$limit.JET_EOL;
+				$limit_qp = SysConf_Jet::EOL().'LIMIT '.$limit.SysConf_Jet::EOL();
 			}
 		}
 

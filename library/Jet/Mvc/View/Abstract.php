@@ -19,7 +19,6 @@ abstract class Mvc_View_Abstract extends BaseObject
 
 	/**
 	 *
-	 * If the constant JET_DEBUG_MODE is true
 	 * view path information (<!-- VIEW START: /view/dir/view.phtml -->, <!-- VIEW START: /view/dir/view.phtml -->)
 	 *
 	 * @var bool

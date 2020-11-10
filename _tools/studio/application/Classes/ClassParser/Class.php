@@ -318,35 +318,35 @@ class ClassParser_Class extends ClassParser_Element
 		}
 		echo 'Class: '.$this->name;
 
-		//echo JET_EOL.' Code: '.$parser->getTokenText( $this->start_token, $this->end_token );
-		echo JET_EOL.' Tokens: '.$this->start_token->index.' - '.$this->end_token->index;
-		echo JET_EOL.'_________________________________________________________'.JET_EOL;
+		//echo SysConf_Jet::EOL().' Code: '.$parser->getTokenText( $this->start_token, $this->end_token );
+		echo SysConf_Jet::EOL().' Tokens: '.$this->start_token->index.' - '.$this->end_token->index;
+		echo SysConf_Jet::EOL().'_________________________________________________________'.SysConf_Jet::EOL();
 		if($this->doc_comment) {
-			echo JET_EOL.' Doc Comment: (token: '.$this->doc_comment->index.') '.$this->doc_comment->text;
-			echo JET_EOL.'_________________________________________________________'.JET_EOL;
+			echo SysConf_Jet::EOL().' Doc Comment: (token: '.$this->doc_comment->index.') '.$this->doc_comment->text;
+			echo SysConf_Jet::EOL().'_________________________________________________________'.SysConf_Jet::EOL();
 		}
 
-		echo JET_EOL.' Declaration: '.$parser->getTokenText( $this->declaration_start, $this->declaration_end );
+		echo SysConf_Jet::EOL().' Declaration: '.$parser->getTokenText( $this->declaration_start, $this->declaration_end );
 		echo ' Tokens: '.$this->declaration_start->index.' - '.$this->declaration_end->index;
-		echo JET_EOL.'_________________________________________________________'.JET_EOL;
+		echo SysConf_Jet::EOL().'_________________________________________________________'.SysConf_Jet::EOL();
 
 
 		foreach( $this->constants as $constant ) {
 			$constant->debug_showResult();
-			echo JET_EOL.'_________________________________________________________'.JET_EOL;
+			echo SysConf_Jet::EOL().'_________________________________________________________'.SysConf_Jet::EOL();
 		}
 
 		foreach( $this->properties as $property ) {
 			$property->debug_showResult();
-			echo JET_EOL.'_________________________________________________________'.JET_EOL;
+			echo SysConf_Jet::EOL().'_________________________________________________________'.SysConf_Jet::EOL();
 		}
 
 		foreach( $this->methods as $method ) {
 			$method->debug_showResult();
-			echo JET_EOL.'_________________________________________________________'.JET_EOL;
+			echo SysConf_Jet::EOL().'_________________________________________________________'.SysConf_Jet::EOL();
 		}
 
-		echo JET_EOL.JET_EOL;
+		echo SysConf_Jet::EOL().SysConf_Jet::EOL();
 	}
 
 	/**

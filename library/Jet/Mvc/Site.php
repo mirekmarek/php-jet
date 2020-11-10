@@ -650,7 +650,7 @@ class Mvc_Site extends BaseObject implements Mvc_Site_Interface, BaseObject_Cach
 
 		IO_File::write(
 			$this->getBasePath().static::$site_data_file_name,
-			'<?php'.JET_EOL.'return '.(new Data_Array( $data ))->export()
+			'<?php'.SysConf_Jet::EOL().'return '.(new Data_Array( $data ))->export()
 		);
 
 

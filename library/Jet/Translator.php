@@ -74,11 +74,7 @@ class Translator extends BaseObject
 	public static function getAutoAppendUnknownPhrase()
 	{
 		if(static::$auto_append_unknown_phrase===null) {
-			if(defined('JET_TRANSLATOR_AUTO_APPEND_UNKNOWN_PHRASE')) {
-				static::$auto_append_unknown_phrase = JET_TRANSLATOR_AUTO_APPEND_UNKNOWN_PHRASE;
-			} else {
-				static::$auto_append_unknown_phrase = false;
-			}
+			static::$auto_append_unknown_phrase = SysConf_Jet::TRANSLATOR_AUTO_APPEND_UNKNOWN_PHRASE();
 		}
 
 		return static::$auto_append_unknown_phrase;

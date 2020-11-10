@@ -9,6 +9,7 @@ namespace JetApplication;
 
 use Jet\IO_File;
 use Jet\IO_Dir;
+use Jet\SysConf_PATH;
 
 /**
  *
@@ -20,7 +21,7 @@ class Cache_MVC {
 	 */
 	public static function getDir()
 	{
-		return JET_PATH_CACHE.'mvc/';
+		return SysConf_PATH::CACHE().'mvc/';
 	}
 
 	/**

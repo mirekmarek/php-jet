@@ -61,7 +61,7 @@ class PackageCreator_CSS_Default extends PackageCreator_CSS
 	 */
 	public function createPackage()
 	{
-		$CSS = '@charset "utf-8";'.JET_EOL.JET_EOL;
+		$CSS = '@charset "utf-8";'.SysConf_Jet::EOL().SysConf_Jet::EOL();
 
 		foreach( $this->URIs as $URI ) {
 
@@ -69,9 +69,9 @@ class PackageCreator_CSS_Default extends PackageCreator_CSS
 
 			$CSS_file_data = $this->changeUrls( $CSS_file_data, $URI );
 
-			$CSS .= '/* URI: '.$URI.' */'.JET_EOL;
-			$CSS .= $CSS_file_data.JET_EOL;
-			$CSS .= '/* ------------------------ */ '.JET_EOL;
+			$CSS .= '/* URI: '.$URI.' */'.SysConf_Jet::EOL();
+			$CSS .= $CSS_file_data.SysConf_Jet::EOL();
+			$CSS .= '/* ------------------------ */ '.SysConf_Jet::EOL();
 		}
 
 		return $CSS;

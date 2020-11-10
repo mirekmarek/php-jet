@@ -4,6 +4,7 @@ use Jet\Form_Renderer;
 use Jet\Form_Field_Select;
 use Jet\Form_Field_Select_Option_Interface;
 use Jet\Data_Text;
+use Jet\SysConf_Jet;
 
 /**
  * @var Mvc_View          $this
@@ -66,9 +67,9 @@ if($field->getLastErrorCode()) {
 			}
 
 			if( $selected ) {
-				echo '<option value="'.Data_Text::htmlSpecialChars( $val ).'" '.$css.' selected="selected">'.Data_Text::htmlSpecialChars( $label ).'</option>'.JET_EOL;
+				echo '<option value="'.Data_Text::htmlSpecialChars( $val ).'" '.$css.' selected="selected">'.Data_Text::htmlSpecialChars( $label ).'</option>'.SysConf_Jet::EOL();
 			} else {
-				echo '<option value="'.Data_Text::htmlSpecialChars( $val ).'" '.$css.'>'.Data_Text::htmlSpecialChars( $label ).'</option>'.JET_EOL;
+				echo '<option value="'.Data_Text::htmlSpecialChars( $val ).'" '.$css.'>'.Data_Text::htmlSpecialChars( $label ).'</option>'.SysConf_Jet::EOL();
 			}
 		endforeach; ?>
 	</select>

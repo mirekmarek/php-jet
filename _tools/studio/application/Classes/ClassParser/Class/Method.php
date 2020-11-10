@@ -239,22 +239,22 @@ class ClassParser_Class_Method extends ClassParser_Class_Element
 			echo 'Static ';
 		}
 		echo ucfirst($this->visibility).' Method: '.$this->name;
-		echo JET_EOL.'_________________________________________________________'.JET_EOL;
+		echo SysConf_Jet::EOL().'_________________________________________________________'.SysConf_Jet::EOL();
 		if($this->doc_comment) {
-			echo JET_EOL.' Doc Comment: (token: '.$this->doc_comment->index.') '.$this->doc_comment->text;
-			echo JET_EOL.'_________________________________________________________'.JET_EOL;
+			echo SysConf_Jet::EOL().' Doc Comment: (token: '.$this->doc_comment->index.') '.$this->doc_comment->text;
+			echo SysConf_Jet::EOL().'_________________________________________________________'.SysConf_Jet::EOL();
 		}
-		echo JET_EOL.' Declaration: '.$parser->getTokenText( $this->declaration_start, $this->declaration_end );
+		echo SysConf_Jet::EOL().' Declaration: '.$parser->getTokenText( $this->declaration_start, $this->declaration_end );
 		echo ' Tokens: '.$this->declaration_start->index.' - '.$this->declaration_end->index;
-		echo JET_EOL.'_________________________________________________________'.JET_EOL;
+		echo SysConf_Jet::EOL().'_________________________________________________________'.SysConf_Jet::EOL();
 
-		echo JET_EOL.' Body: '.$parser->getTokenText( $this->body_start, $this->body_end );
+		echo SysConf_Jet::EOL().' Body: '.$parser->getTokenText( $this->body_start, $this->body_end );
 		echo ' Tokens: '.$this->body_start->index.' - '.$this->body_end->index;
-		echo JET_EOL.'_________________________________________________________'.JET_EOL;
+		echo SysConf_Jet::EOL().'_________________________________________________________'.SysConf_Jet::EOL();
 
 		echo $parser->getTokenText( $this->start_token, $this->end_token );
 
-		echo JET_EOL.' Tokens: '.$this->start_token->index.' - '.$this->end_token->index;
+		echo SysConf_Jet::EOL().' Tokens: '.$this->start_token->index.' - '.$this->end_token->index;
 	}
 
 }

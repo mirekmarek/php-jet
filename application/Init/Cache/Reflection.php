@@ -8,14 +8,15 @@
 namespace JetApplication;
 
 use Jet\Reflection;
+use Jet\SysConf_Jet;
 
-if(JET_CACHE_REFLECTION_LOAD) {
+if(SysConf_Jet::CACHE_REFLECTION_LOAD()) {
 	Reflection::enableCacheLoad( function( $class ) {
 		return Cache_Reflection::load( $class );
 	} );
 }
 
-if(JET_CACHE_REFLECTION_SAVE) {
+if(SysConf_Jet::CACHE_REFLECTION_SAVE()) {
 	Reflection::enableCacheSave( function( $class, $data ) {
 		Cache_Reflection::save( $class, $data );
 	} );

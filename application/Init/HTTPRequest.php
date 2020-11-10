@@ -8,5 +8,6 @@
 namespace JetApplication;
 
 use Jet\Http_Request;
+use Jet\SysConf_Jet;
 
-Http_Request::initialize( JET_HIDE_HTTP_REQUEST );
+Http_Request::initialize( SysConf_Jet::HIDE_HTTP_REQUEST() );

@@ -59,7 +59,7 @@ $GLOBALS['WYSIWYG_DEFAULT_INITIALIZER_GENERATOR'] = function( Form_Field_WYSIWYG
 
 	return '<script type="text/javascript">'
 		.'tinymce.init('.json_encode( $editor_config ).');'
-		.'</script>'.JET_EOL;
+		.'</script>'.SysConf_Jet::EOL();
 
 };
 
@@ -81,6 +81,6 @@ const WYSIWYG_DEFAULT_EDITOR_CONFIG = [
 $GLOBALS['WYSIWYG_DEFAULT_INITIALIZER_GENERATOR'] = function( \Jet\Form_Field_WYSIWYG $field, $editor_config ) {
 	return '<script type="text/javascript">'
 		.'$("#'.$field->getId().'").summernote('.json_encode($editor_config).');'
-		.'</script>'.JET_EOL;
+		.'</script>'.SysConf_Jet::EOL();
 };
 */

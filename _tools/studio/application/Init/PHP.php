@@ -3,6 +3,7 @@
 //Debug_Profiler::blockStart('INIT - PHP');
 
 use Jet\SysConf_PATH;
+use Jet\SysConf_Jet;
 
 error_reporting( E_ALL|E_STRICT );
 
@@ -10,9 +11,9 @@ set_include_path(
 	SysConf_PATH::LIBRARY().PATH_SEPARATOR.get_include_path()
 );
 
-date_default_timezone_set( JET_TIMEZONE );
+date_default_timezone_set( SysConf_Jet::TIMEZONE() );
 
-ini_set( 'default_charset', JET_CHARSET );
+ini_set( 'default_charset', SysConf_Jet::CHARSET() );
 
 if( function_exists( 'ini_set' ) ) {
 	/** @noinspection PhpUsageOfSilenceOperatorInspection */

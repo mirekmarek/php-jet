@@ -224,7 +224,7 @@ class DataModels_Parser {
 
 		foreach( $files as $path=>$name ) {
 
-			//echo $path.JET_EOL;
+			//echo $path.SysConf_Jet::EOL();
 
 			$parser = new ClassParser( IO_File::read( $path ) );
 

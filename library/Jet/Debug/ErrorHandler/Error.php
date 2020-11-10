@@ -405,42 +405,42 @@ class Debug_ErrorHandler_Error
 
 		$output = '';
 
-		$output .=$this->getTxt().JET_EOL;
-		$output .=$this->getMessage().JET_EOL;
-		$output .=''.JET_EOL;
-		$output .='script: '.$this->getFile().JET_EOL;
-		$output .='line: '.$this->getLine().JET_EOL;
-		$output .='time: '.$this->getDate().' '.$this->getTime().JET_EOL;
-		$output .='URL: '.$this->getRequestURL().JET_EOL;
-		$output .=''.JET_EOL;
+		$output .=$this->getTxt().SysConf_Jet::EOL();
+		$output .=$this->getMessage().SysConf_Jet::EOL();
+		$output .=''.SysConf_Jet::EOL();
+		$output .='script: '.$this->getFile().SysConf_Jet::EOL();
+		$output .='line: '.$this->getLine().SysConf_Jet::EOL();
+		$output .='time: '.$this->getDate().' '.$this->getTime().SysConf_Jet::EOL();
+		$output .='URL: '.$this->getRequestURL().SysConf_Jet::EOL();
+		$output .=''.SysConf_Jet::EOL();
 
 
 		if( $this->getContext() ) {
-			$output .='Error context:'.JET_EOL;
-			$output .=''.JET_EOL;
+			$output .='Error context:'.SysConf_Jet::EOL();
+			$output .=''.SysConf_Jet::EOL();
 
 			foreach( $this->getContext() as $var_name => $var_value ) {
-				$output .=JET_TAB.'$'.$var_name.' = '.static::formatVariable($var_value).JET_EOL;
+				$output .=SysConf_Jet::TAB().'$'.$var_name.' = '.static::formatVariable($var_value).SysConf_Jet::EOL();
 			}
-			$output .=''.JET_EOL;
+			$output .=''.SysConf_Jet::EOL();
 		}
 
 
 		if( $this->getBacktrace() ) {
-			$output .='Debug backtrace:'.JET_EOL;
-			$output .=''.JET_EOL;
+			$output .='Debug backtrace:'.SysConf_Jet::EOL();
+			$output .=''.SysConf_Jet::EOL();
 
 
 			foreach( $this->getBacktrace() as $d ) {
 				$output .=$d->getFile();
-				$output .=JET_TAB.'Line: '.$d->getLine().JET_EOL;
-				$output .=JET_TAB.'Call: '.$d->getCall().JET_EOL;
-				$output .=''.JET_EOL;
+				$output .=SysConf_Jet::TAB().'Line: '.$d->getLine().SysConf_Jet::EOL();
+				$output .=SysConf_Jet::TAB().'Call: '.$d->getCall().SysConf_Jet::EOL();
+				$output .=''.SysConf_Jet::EOL();
 			}
-			$output .=''.JET_EOL;
+			$output .=''.SysConf_Jet::EOL();
 		}
 
-		$output .=''.JET_EOL;
+		$output .=''.SysConf_Jet::EOL();
 
 		return $output;
 

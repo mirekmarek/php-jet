@@ -4,12 +4,13 @@ use Jet\Debug;
 use Jet\Debug_Profiler;
 use Jet\Debug_Profiler_Run;
 use Jet\SysConf_PATH;
+use Jet\SysConf_Jet;
 
-if( JET_DEBUG_PROFILER_ENABLED ) {
+if( SysConf_Jet::DEBUG_PROFILER_ENABLED() ) {
 
 	require SysConf_PATH::LIBRARY().'Jet/Debug/Profiler.php';
 
-	$profiler_save_dir = JET_PATH_TMP.'_profiler/';
+	$profiler_save_dir = SysConf_PATH::TMP().'_profiler/';
 
 	if( !empty( $_GET['JPR'] ) ) {
 		$run_id = $_GET['JPR'];
@@ -34,9 +35,9 @@ if( JET_DEBUG_PROFILER_ENABLED ) {
 
 		if($run) {
 			if( isset( $_GET['callgraph'] ) ) {
-				require JET_PATH_BASE."_profiler/result_callgraph.php";
+				require SysConf_PATH::BASE()."_profiler/result_callgraph.php";
 			} else {
-				require JET_PATH_BASE."_profiler/result.phtml";
+				require SysConf_PATH::BASE()."_profiler/result.phtml";
 			}
 			die();
 
@@ -56,11 +57,11 @@ if( JET_DEBUG_PROFILER_ENABLED ) {
 
 			if( !file_exists( $dir ) ) {
 				mkdir( $dir );
-				chmod( $dir, JET_IO_CHMOD_MASK_DIR );
+				chmod( $dir, SysConf_Jet::IO_CHMOD_MASK_DIR() );
 			}
 
 			file_put_contents( $file_path, serialize( $run ) );
-			chmod( $file_path, JET_IO_CHMOD_MASK_FILE );
+			chmod( $file_path, SysConf_Jet::IO_CHMOD_MASK_DIR() );
 
 		},
 		function( Debug_Profiler_Run $run ) {
@@ -76,8 +77,11 @@ if( JET_DEBUG_PROFILER_ENABLED ) {
 				$memory = $root_block->getMemoryUsageDiff()/1024;
 
 				$show_cache_state = function( $title, $cache_name ) {
-					$load = constant('JET_CACHE_'.$cache_name.'_LOAD');
-					$save = constant('JET_CACHE_'.$cache_name.'_SAVE');
+					$getter_name = 'CACHE_'.$cache_name.'_LOAD';
+					$load = SysConf_Jet::$getter_name();
+
+					$getter_name = 'CACHE_'.$cache_name.'_SAVE';
+					$save = SysConf_Jet::$getter_name();
 					?>
 					<tr>
 						<td colspan="2" style="font-weight: bolder"><?=$title?></td>

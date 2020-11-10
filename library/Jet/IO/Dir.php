@@ -28,7 +28,7 @@ class IO_Dir
 	public static function getDefaultChmodMask()
 	{
 		if( static::$default_chmod_mask===null ) {
-			static::$default_chmod_mask = JET_IO_CHMOD_MASK_DIR;
+			static::$default_chmod_mask = SysConf_Jet::IO_CHMOD_MASK_DIR();
 		}
 
 		return static::$default_chmod_mask;

@@ -8,14 +8,15 @@
 namespace JetApplication;
 
 use Jet\Autoloader;
+use Jet\SysConf_Jet;
 
-if(JET_CACHE_AUTOLOADER_SAVE) {
+if(SysConf_Jet::CACHE_AUTOLOADER_SAVE()) {
 	Autoloader::enableCacheSave( function( $data ) {
 		Cache_Autoloader::save( $data );
 	});
 }
 
-if(JET_CACHE_AUTOLOADER_LOAD) {
+if(SysConf_Jet::CACHE_AUTOLOADER_LOAD()) {
 	Autoloader::enableCacheLoad( function() {
 		return Cache_Autoloader::load();
 	} );

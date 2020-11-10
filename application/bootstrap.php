@@ -8,8 +8,8 @@
 namespace JetApplication;
 
 
-require __DIR__.'/config/jet.php';
 require __DIR__.'/config/PATH.php';
+require __DIR__.'/config/Jet.php';
 require __DIR__.'/config/URI.php';
 require __DIR__.'/config/js_css.php';
 

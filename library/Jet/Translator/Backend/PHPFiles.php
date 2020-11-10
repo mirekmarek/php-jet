@@ -118,7 +118,7 @@ class Translator_Backend_PHPFiles extends Translator_Backend
 			}
 		}
 
-		$data = '<?php'.JET_EOL.'return '.( new Data_Array( $data ) )->export();
+		$data = '<?php'.SysConf_Jet::EOL().'return '.( new Data_Array( $data ) )->export();
 
 		IO_File::write( $file_path, $data );
 	}

@@ -669,17 +669,17 @@ class ClassParser {
 	{
 		if($this->namespace) {
 			$this->namespace->debug_showResult();
-			echo '=========================================================='.JET_EOL.JET_EOL;
+			echo '=========================================================='.SysConf_Jet::EOL().SysConf_Jet::EOL();
 		}
 
 		foreach( $this->use_classes as $use_class ) {
 			$use_class->debug_showResult();
-			echo '=========================================================='.JET_EOL.JET_EOL;
+			echo '=========================================================='.SysConf_Jet::EOL().SysConf_Jet::EOL();
 		}
 
 		foreach( $this->classes as $class ) {
 			$class->debug_showResult();
-			echo '=========================================================='.JET_EOL.JET_EOL;
+			echo '=========================================================='.SysConf_Jet::EOL().SysConf_Jet::EOL();
 		}
 
 	}

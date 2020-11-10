@@ -167,11 +167,11 @@ class ClassParser_Class_Property extends ClassParser_Class_Element
 		}
 		echo ucfirst($this->visibility).' Property: '.$this->name.' = '.$this->value;
 		if($this->doc_comment) {
-			echo JET_EOL.' Doc Comment: (token: '.$this->doc_comment->index.') '.$this->doc_comment->text;
+			echo SysConf_Jet::EOL().' Doc Comment: (token: '.$this->doc_comment->index.') '.$this->doc_comment->text;
 		}
-		echo JET_EOL.' Code: '.$parser->getTokenText( $this->declaration_start, $this->declaration_end );
+		echo SysConf_Jet::EOL().' Code: '.$parser->getTokenText( $this->declaration_start, $this->declaration_end );
 
-		echo JET_EOL.' Tokens: '.$this->start_token->index.' - '.$this->end_token->index;
+		echo SysConf_Jet::EOL().' Tokens: '.$this->start_token->index.' - '.$this->end_token->index;
 	}
 
 

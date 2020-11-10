@@ -11,17 +11,17 @@ use Jet\Application_Factory;
 use Jet\Config;
 use Jet\Http_Request;
 use Jet\Locale;
+use Jet\SysConf_Jet;
 use Jet\Translator;
 use Jet\Mvc_Factory;
-use Jet\SysConf_PATH;
 use Jet\Application_Modules;
 
 const JET_PROJECT_APPLICATION_NAMESPACE = 'JetApplication';
 
 require __DIR__.'/config/PATH.php';
 require __DIR__.'/config/URI.php';
+require __DIR__.'/config/Jet.php';
 
-require __DIR__.'/config/jet.php';
 require __DIR__.'/config/js_css.php';
 
 require __DIR__.'/Init/PHP.php';
@@ -42,7 +42,7 @@ Application_Factory::setModuleManifestClassName(__NAMESPACE__.'\Modules_Manifest
 Application_Modules::setBasePath( ProjectConf_PATH::APPLICATION().'Modules/' );
 
 
-Http_Request::initialize( JET_HIDE_HTTP_REQUEST );
+Http_Request::initialize( SysConf_Jet::HIDE_HTTP_REQUEST() );
 
 Locale::setCurrentLocale( Application::getCurrentLocale() );
 Translator::setCurrentLocale( Application::getCurrentLocale() );

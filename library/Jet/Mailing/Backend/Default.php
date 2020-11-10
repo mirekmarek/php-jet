@@ -30,7 +30,7 @@ class Mailing_Backend_Default extends Mailing_Backend_Abstract{
 		$boundary_2 = $boundary_1.'SP1';
 		$boundary_3 = $boundary_1.'SP2';
 
-		$eol = JET_EOL;
+		$eol = SysConf_Jet::EOL();
 
 		$headers['From'] = $sender->getName()."<".$sender->getEmail().">";
 		$headers['Subject'] = $subject;
