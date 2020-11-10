@@ -106,13 +106,6 @@ class Application extends BaseObject
 		}
 
 
-		if( $page->getIsSubApp() ) {
-			$page->handleHttpHeaders();
-			$page->handleSubApp();
-
-			return;
-		}
-
 		$result = $page->render();
 
 		$page->handleHttpHeaders();

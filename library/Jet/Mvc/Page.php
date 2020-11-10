@@ -104,23 +104,6 @@ class Mvc_Page extends BaseObject implements Mvc_Page_Interface, BaseObject_Cach
 
 	/**
 	 *
-	 * @var bool
-	 */
-	protected $is_sub_app = false;
-
-	/**
-	 *
-	 * @var string
-	 */
-	protected $sub_app_index_file_name = 'index.php';
-
-	/**
-	 * @var array
-	 */
-	protected $sub_app_php_file_extensions = [ 'php', 'phtml', 'php3', 'php4', 'php5', 'php6', 'php7' ];
-
-	/**
-	 *
 	 * @var array
 	 */
 	protected $http_headers = [];
@@ -597,41 +580,6 @@ class Mvc_Page extends BaseObject implements Mvc_Page_Interface, BaseObject_Cach
 	}
 
 
-
-	/**
-	 * @return bool
-	 */
-	public function getIsSubApp()
-	{
-		return $this->is_sub_app;
-	}
-
-	/**
-	 * @param bool $is_sub_app
-	 */
-	public function setIsSubApp( $is_sub_app )
-	{
-		$this->is_sub_app = $is_sub_app;
-	}
-
-
-	/**
-	 * @return string
-	 */
-	public function getSubAppIndexFileName()
-	{
-		return $this->sub_app_index_file_name;
-	}
-
-	/**
-	 * @param string $index_file_name
-	 */
-	public function setSubAppIndexFileName( $index_file_name )
-	{
-		$this->sub_app_index_file_name = $index_file_name;
-	}
-
-
 	/**
 	 * @return array
 	 */
@@ -668,23 +616,6 @@ class Mvc_Page extends BaseObject implements Mvc_Page_Interface, BaseObject_Cach
 	public function getOutput()
 	{
 		return $this->output;
-	}
-
-
-	/**
-	 * @return array
-	 */
-	public function getSubAppPhpFileExtensions()
-	{
-		return $this->sub_app_php_file_extensions;
-	}
-
-	/**
-	 * @param array $php_file_extensions
-	 */
-	public function setSubAppPhpFileExtensions( array $php_file_extensions )
-	{
-		$this->sub_app_php_file_extensions = $php_file_extensions;
 	}
 
 	/**
@@ -910,13 +841,9 @@ class Mvc_Page extends BaseObject implements Mvc_Page_Interface, BaseObject_Cach
 		}
 
 		if(
-			!$this->getOutput() &&
-			!$this->getIsSubApp()
+			!$this->getOutput()
 		) {
 			unset($data['output']);
-			unset($data['is_sub_app']);
-			unset($data['sub_app_index_file_name']);
-			unset($data['sub_app_php_file_extensions']);
 
 			$data['contents'] = [];
 			foreach( $this->content as $content ) {
@@ -924,14 +851,6 @@ class Mvc_Page extends BaseObject implements Mvc_Page_Interface, BaseObject_Cach
 			}
 		} else {
 			unset($data['layout_script_name']);
-
-			if( $this->getIsSubApp()) {
-				unset($data['output']);
-			} else {
-				unset($data['is_sub_app']);
-				unset($data['sub_app_index_file_name']);
-				unset($data['sub_app_php_file_extensions']);
-			}
 		}
 
 

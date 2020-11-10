@@ -226,37 +226,6 @@ interface Mvc_Page_Interface
 	public function getIsSecret();
 
 	/**
-	 * @return bool
-	 */
-	public function getIsSubApp();
-
-	/**
-	 * @param bool $is_sub_app
-	 */
-	public function setIsSubApp( $is_sub_app );
-
-	/**
-	 * @return string
-	 */
-	public function getSubAppIndexFileName();
-
-	/**
-	 * @param string $index_file_name
-	 */
-	public function setSubAppIndexFileName( $index_file_name );
-
-	/**
-	 * @return array
-	 */
-	public function getSubAppPhpFileExtensions();
-
-	/**
-	 * @param array $php_file_extensions
-	 */
-	public function setSubAppPhpFileExtensions( array $php_file_extensions );
-
-
-	/**
 	 * @return int
 	 */
 	public function getOrder();
@@ -466,11 +435,6 @@ interface Mvc_Page_Interface
 	 * @param string $file_path
 	 */
 	public function handleFile( $file_path );
-
-	/**
-	 *
-	 */
-	public function handleSubApp();
 
 	/**
 	 *

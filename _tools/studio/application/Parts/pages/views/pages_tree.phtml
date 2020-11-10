@@ -30,10 +30,6 @@ $renderer = function( Data_Tree_Node $node ) {
 
 	if($page->getOutput()):
 		echo '&nbsp;&nbsp;'.UI::icon('file')->setTitle(Tr::_('Is static page'));
-	else:
-		if($page->getIsSubApp()):
-			echo '&nbsp;&nbsp;'.UI::icon('cogs')->setTitle(Tr::_('Is Sub Application'));
-		endif;
 	endif;
 	?>
 	</span>

@@ -141,9 +141,9 @@ $showSaveButton_c = function() use ($save_button) {
 
 
 <?php if($pd['known']): ?>
-	<h4><?=Tr::_('Position: %position%', ['position'=>$pd['label']])?></h4>
+	<h5><?=Tr::_('Position: %position%', ['position'=>$pd['label']])?></h5>
 <?php else: ?>
-	<h4 style="color: #ff0000"><?=Tr::_('! Unknown position: %position%', ['position' => $pd['label']])?></h4>
+	<h5 style="color: #ff0000"><?=Tr::_('! Unknown position: %position%', ['position' => $pd['label']])?></h5>
 <?php endif; ?>
 
 	<?php foreach( $pd['content'] as $i=>$content ):

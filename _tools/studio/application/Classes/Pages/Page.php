@@ -396,27 +396,6 @@ class Pages_Page extends Mvc_Page
 
 
 
-			$is_sub_app_field = new Form_Field_Checkbox('is_sub_app', 'Is Sub Application', $page->getIsSubApp() );
-			$is_sub_app_field->setCatcher( function( $value ) use ($page) {
-				$page->setIsSubApp( $value );
-			} );
-
-			$sub_app_index_file_name_field = new Form_Field_Input('sub_app_index_file_name', 'Index file name:', $page->getSubAppIndexFileName());
-			$sub_app_index_file_name_field->setCatcher( function( $value ) use ($page) {
-				$page->setSubAppIndexFileName( $value );
-			} );
-
-			$sub_app_php_file_extensions_field = new Form_Field_Input('sub_app_php_file_extensions', 'PHP file extensions:', implode(', ',$page->getSubAppPhpFileExtensions()));
-			$sub_app_php_file_extensions_field->setCatcher( function( $value ) use ($page) {
-				$value = explode(',', $value);
-
-				foreach( $value as $i=>$v ) {
-					$value[$i] = trim($v);
-				}
-
-				$page->setSubAppPhpFileExtensions( $value );
-			} );
-
 
 			$fields = [
 				$name_field,
@@ -434,11 +413,7 @@ class Pages_Page extends Mvc_Page
 
 				$output_field,
 
-				$layout_script_name_field,
-
-				$is_sub_app_field,
-				$sub_app_index_file_name_field,
-				$sub_app_php_file_extensions_field,
+				$layout_script_name_field
 
 			];
 

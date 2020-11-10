@@ -5,6 +5,7 @@ use Jet\Tr;
 use Jet\Form;
 use Jet\Mvc_View;
 use Jet\UI;
+use Jet\UI_button;
 
 /**
  * @var Mvc_View $this
@@ -40,19 +41,14 @@ $form->setDefaultFieldWidth([
 ]);
 
 
-$page_selected_tab = 'tab_mvc';
+$page_selected_tab = 'tab_content';
 
 if($page->getOutput()) {
 	if(is_array($page->getOutput())) {
 		$page_selected_tab = 'tab_callback';
 	} else {
-		$page_selected_tab = 'tab_static';
+		$page_selected_tab = 'tab_static_content';
 	}
-} else {
-	if($page->getIsSubApp()) {
-		$page_selected_tab = 'tab_sub_app';
-	}
-
 }
 
 $site_id = $page->getSiteId();
@@ -218,10 +214,9 @@ $showSaveButton = function() use ($save_button) {
 $tabs = UI::tabsJS(
 	'',
 	[
-		'tab_mvc' => Tr::_('MVC Content'),
-		'tab_static' => Tr::_('Static content'),
-		'tab_callback' => Tr::_('Callback'),
-		'tab_sub_app' => Tr::_('Sub Application'),
+		'tab_content' => Tr::_('Content'),
+		'tab_static_content' => Tr::_('Static content'),
+		'tab_callback' => Tr::_('Callback')
 	],
 	$page_selected_tab
 );
@@ -230,24 +225,20 @@ $tabs = UI::tabsJS(
 <?=$tabs?>
 
 <?=$tabs->contentStart()?>
-	<?=$tabs->getTab('tab_mvc')->contentStart()?>
+	<?=$tabs->getTab('tab_content')->contentStart()?>
 		<div style="min-height: 600px;margin-bottom: 40px;">
 			<?=$form->field($p_f_prefix.'layout_script_name')?>
 			<div>
-				<legend><?=Tr::_('Content')?></legend>
-
-				<div class="toolbar">
-					<?=UI::button_create(Tr::_('Add content'))->setOnclick($add_content_handler)?>
-				</div>
+				<legend><?=Tr::_('Content')?> <?=UI::button_create(Tr::_('Add content'))->setOnclick($add_content_handler)->setSize(UI_button::SIZE_SMALL)?></legend>
 
 				<div id="content_list_area_<?=$page->getSiteId()?>_<?=$page->getId()?>">
 					<?php require 'content_list.phtml'; ?>
 				</div>
 			</div>
 		</div>
-	<?=$tabs->getTab('tab_mvc')->contentEnd()?>
+	<?=$tabs->getTab('tab_content')->contentEnd()?>
 
-	<?=$tabs->getTab('tab_static')->contentStart()?>
+	<?=$tabs->getTab('tab_static_content')->contentStart()?>
 		<div style="min-height: 600px;margin-bottom: 40px;">
 			<?php
 			$form->field($p_f_prefix.'output')->input()->addCustomCssStyle('height: 400px');
@@ -256,7 +247,7 @@ $tabs = UI::tabsJS(
 
 			<?php $showSaveButton() ?>
 		</div>
-	<?=$tabs->getTab('tab_static')->contentEnd()?>
+	<?=$tabs->getTab('tab_static_content')->contentEnd()?>
 
 	<?=$tabs->getTab('tab_callback')->contentStart()?>
 		<div style="min-height: 600px;margin-bottom: 40px;">
@@ -280,16 +271,5 @@ $tabs = UI::tabsJS(
 			<?php $showSaveButton() ?>
 		</div>
 	<?=$tabs->getTab('tab_callback')->contentEnd()?>
-
-
-	<?=$tabs->getTab('tab_sub_app')->contentStart()?>
-		<div style="min-height: 600px;margin-bottom: 40px;">
-			<?=$form->field($p_f_prefix.'is_sub_app')?>
-			<?=$form->field($p_f_prefix.'sub_app_index_file_name')?>
-			<?=$form->field($p_f_prefix.'sub_app_php_file_extensions')?>
-
-			<?php $showSaveButton() ?>
-		</div>
-	<?=$tabs->getTab('tab_sub_app')->contentEnd()?>
 <?=$tabs->contentEnd()?>
 

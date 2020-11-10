@@ -92,24 +92,6 @@ trait Mvc_Page_Trait_Handlers
 
 	}
 
-	/**
-	 *
-	 */
-	public function handleSubApp()
-	{
-		/**
-		 * @var Mvc_Page_Trait_Handlers|Mvc_Page $this
-		 */
-
-		$file_path = dirname( $this->getDataFilePath() ).'/'.$this->getSubAppIndexFileName();
-
-		if( !IO_File::exists( $file_path ) ) {
-			throw new Mvc_Page_Exception( 'Direct output file '.$file_path.' does not exist' );
-		}
-
-		/** @noinspection PhpIncludeInspection */
-		require $file_path;
-	}
 
 	/**
 	 * @param string $file_path
@@ -120,18 +102,9 @@ trait Mvc_Page_Trait_Handlers
 		 * @var Mvc_Page_Trait_Handlers|Mvc_Page $this
 		 */
 
-		$ext = strtolower( pathinfo( $file_path, PATHINFO_EXTENSION ) );
-
-		if( in_array( $ext, $this->getSubAppPhpFileExtensions() ) ) {
-
-			/** @noinspection PhpIncludeInspection */
-			require $file_path;
-		} else {
-			IO_File::send( $file_path );
-		}
+		IO_File::send( $file_path );
 
 		Application::end();
-
 	}
 
 	/**
