@@ -55,9 +55,9 @@ class PackageCreator_JavaScript_Default extends PackageCreator_JavaScript
 		$JS = '';
 
 		foreach( $this->URIs as $URI ) {
-			$JS .= '/* URI: '.$URI.' */'.SysConf_Jet::EOL();
-			$JS .= $this->getFileContent( $URI ).SysConf_Jet::EOL();
-			$JS .= '/* ------------------------ */ '.SysConf_Jet::EOL();
+			$JS .= '/* URI: '.$URI.' */'.PHP_EOL;
+			$JS .= $this->getFileContent( $URI ).PHP_EOL;
+			$JS .= '/* ------------------------ */ '.PHP_EOL;
 		}
 
 		return $JS;

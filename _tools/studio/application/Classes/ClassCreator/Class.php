@@ -552,7 +552,7 @@ class ClassCreator_Class extends BaseObject {
 		if(IO_File::exists($path)) {
 			$this->actualize( $path );
 		} else {
-			IO_File::write( $path, '<?php '.SysConf_Jet::EOL().$this->toString() );
+			IO_File::write( $path, '<?php '.PHP_EOL.$this->toString() );
 		}
 
 	}

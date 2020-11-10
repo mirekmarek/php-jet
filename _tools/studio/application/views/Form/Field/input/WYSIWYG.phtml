@@ -70,7 +70,7 @@ if(!$init_generator) {
 
 		return '<script type="text/javascript">'
 			.'tinymce.init('.json_encode( $editor_config ).');'
-			.'</script>'.SysConf_Jet::EOL();
+			.'</script>'.PHP_EOL;
 
 	};
 }
@@ -101,7 +101,7 @@ if(!$init_generator) {
 	$init_generator = function( \Jet\Form_Field_WYSIWYG $field, $editor_config ) {
 		return '<script type="text/javascript">'
 			.'$("#'.$field->getId().'").summernote('.json_encode($editor_config).');'
-			.'</script>'.SysConf_Jet::EOL();
+			.'</script>'.PHP_EOL;
 	};
 }
 */

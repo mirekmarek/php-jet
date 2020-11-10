@@ -336,7 +336,7 @@ class Data_Array extends BaseObject implements BaseObject_Interface_Serializable
 	{
 		$result = $this->_export( '', $this->data, 0, $comments );
 
-		$result .= ';'.SysConf_Jet::EOL();
+		$result .= ';'.PHP_EOL;
 
 		return $result;
 	}
@@ -354,16 +354,16 @@ class Data_Array extends BaseObject implements BaseObject_Interface_Serializable
 		$result = '';
 		$next_level = $level+1;
 
-		$indent = str_pad( '', $level, SysConf_Jet::TAB() );
+		$indent = str_pad( '', $level, "\t" );
 
 
 		$comment = '';
 		if( isset( $comments[$path] ) ) {
-			$comment .= SysConf_Jet::TAB().'/* '.$comments[$path].' */';
+			$comment .= "\t".'/* '.$comments[$path].' */';
 		}
 
 
-		$result .= '['.$comment.SysConf_Jet::EOL();
+		$result .= '['.$comment.PHP_EOL;
 
 		$my_root_path = $path.static::PATH_DELIMITER;
 
@@ -373,14 +373,14 @@ class Data_Array extends BaseObject implements BaseObject_Interface_Serializable
 
 			$comment = '';
 			if( isset( $comments[$my_path] ) ) {
-				$comment .= SysConf_Jet::TAB().'/* '.$comments[$my_path].' */';
+				$comment .= "\t".'/* '.$comments[$my_path].' */';
 			}
 
 			if( is_int( $key ) ) {
-				$result .= $indent.SysConf_Jet::TAB();
+				$result .= $indent."\t";
 
 			} else {
-				$result .= $indent.SysConf_Jet::TAB().'\''.str_replace( "'", "\\'", $key ).'\' => ';
+				$result .= $indent."\t".'\''.str_replace( "'", "\\'", $key ).'\' => ';
 			}
 
 			if( is_array( $value ) ) {
@@ -402,7 +402,7 @@ class Data_Array extends BaseObject implements BaseObject_Interface_Serializable
 				$result .= var_export( $value, true ).$comment;
 			}
 
-			$result .= ','.SysConf_Jet::EOL();
+			$result .= ','.PHP_EOL;
 
 		}
 		$result .= $indent.']';

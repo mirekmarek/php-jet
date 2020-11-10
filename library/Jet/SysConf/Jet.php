@@ -11,32 +11,32 @@ namespace Jet;
  * 
  */
 class SysConf_Jet {
-	protected static $DEVEL_MODE = true;
+	protected static $DEVEL_MODE = false;
 
 	protected static $DEBUG_PROFILER_ENABLED = false;
 
-	protected static $LAYOUT_CSS_PACKAGER_ENABLED = false;
-	protected static $LAYOUT_JS_PACKAGER_ENABLED = false;
+	protected static $LAYOUT_CSS_PACKAGER_ENABLED = true;
+	protected static $LAYOUT_JS_PACKAGER_ENABLED = true;
 
 	protected static $TRANSLATOR_AUTO_APPEND_UNKNOWN_PHRASE = true;
 
-	protected static $CACHE_REFLECTION_LOAD = false;
-	protected static $CACHE_REFLECTION_SAVE = false;
+	protected static $CACHE_REFLECTION_LOAD = true;
+	protected static $CACHE_REFLECTION_SAVE = true;
 
-	protected static $CACHE_DATAMODEL_DEFINITION_LOAD = false;
-	protected static $CACHE_DATAMODEL_DEFINITION_SAVE = false;
+	protected static $CACHE_DATAMODEL_DEFINITION_LOAD = true;
+	protected static $CACHE_DATAMODEL_DEFINITION_SAVE = true;
 
-	protected static $CACHE_CONFIG_DEFINITION_LOAD = false;
-	protected static $CACHE_CONFIG_DEFINITION_SAVE = false;
+	protected static $CACHE_CONFIG_DEFINITION_LOAD = true;
+	protected static $CACHE_CONFIG_DEFINITION_SAVE = true;
 
-	protected static $CACHE_AUTOLOADER_LOAD = false;
-	protected static $CACHE_AUTOLOADER_SAVE = false;
+	protected static $CACHE_AUTOLOADER_LOAD = true;
+	protected static $CACHE_AUTOLOADER_SAVE = true;
 
-	protected static $CACHE_MVC_SITE_LOAD = false;
-	protected static $CACHE_MVC_SITE_SAVE = false;
+	protected static $CACHE_MVC_SITE_LOAD = true;
+	protected static $CACHE_MVC_SITE_SAVE = true;
 
-	protected static $CACHE_MVC_PAGE_LOAD = false;
-	protected static $CACHE_MVC_PAGE_SAVE = false;
+	protected static $CACHE_MVC_PAGE_LOAD = true;
+	protected static $CACHE_MVC_PAGE_SAVE = true;
 
 
 	protected static $IO_CHMOD_MASK_DIR = 0777;
@@ -47,9 +47,6 @@ class SysConf_Jet {
 	protected static $CHARSET = 'UTF-8';
 
 	protected static $TIMEZONE = 'Europe/Prague';
-
-	protected static $TAB = "\t";
-	protected static $EOL = PHP_EOL;
 
 	/**
 	 * @return bool
@@ -429,38 +426,5 @@ class SysConf_Jet {
 	{
 		self::$TIMEZONE = $TIMEZONE;
 	}
-
-	/**
-	 * @return string
-	 */
-	public static function TAB()
-	{
-		return self::$TAB;
-	}
-
-	/**
-	 * @param string $val
-	 */
-	public static function setTAB( string $val )
-	{
-		self::$TAB = $val;
-	}
-
-	/**
-	 * @return string
-	 */
-	public static function EOL()
-	{
-		return self::$EOL;
-	}
-
-	/**
-	 * @param string $val
-	 */
-	public static function setEOL( $val )
-	{
-		self::$EOL = $val;
-	}
-
 
 }

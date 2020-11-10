@@ -562,7 +562,7 @@ class Application_Modules_Handler_Default extends Application_Modules_Handler
 	{
 		IO_File::write(
 			$this->getInstalledModulesListFilePath(),
-			'<?php'.SysConf_Jet::EOL().' return '.var_export( $this->installed_modules_list, true ).';'.SysConf_Jet::EOL()
+			'<?php'.PHP_EOL.' return '.var_export( $this->installed_modules_list, true ).';'.PHP_EOL
 		);
 	}
 
@@ -573,7 +573,7 @@ class Application_Modules_Handler_Default extends Application_Modules_Handler
 	{
 		IO_File::write(
 			$this->getActivatedModulesListFilePath(),
-			'<?php'.SysConf_Jet::EOL().' return '.var_export( $this->activated_modules_list, true ).';'.SysConf_Jet::EOL()
+			'<?php'.PHP_EOL.' return '.var_export( $this->activated_modules_list, true ).';'.PHP_EOL
 		);
 	}
 

@@ -174,7 +174,7 @@ class Reflection_ParserData
 
 		if( !$eval_res ) {
 			if($error_message) {
-				$error_message = SysConf_Jet::EOL().SysConf_Jet::EOL().$error_message;
+				$error_message = PHP_EOL.PHP_EOL.$error_message;
 			}
 
 			throw new Reflection_Exception(
@@ -277,8 +277,8 @@ class Reflection_ParserData
 
 		if( !is_array( $this->value ) ) {
 			throw new Reflection_Exception(
-				'Value parse error! '.SysConf_Jet::EOL().'Class:\''.$this->getRelevantClassReflection()->getName(
-				).'\''.SysConf_Jet::EOL().'Definition: \''.$this->definition.'\''.SysConf_Jet::EOL().'Error: value is not array'
+				'Value parse error! '.PHP_EOL.'Class:\''.$this->getRelevantClassReflection()->getName(
+				).'\''.PHP_EOL.'Definition: \''.$this->definition.'\''.PHP_EOL.'Error: value is not array'
 			);
 		}
 

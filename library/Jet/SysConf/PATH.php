@@ -26,6 +26,10 @@ class SysConf_PATH {
 	/**
 	 * @var string
 	 */
+	protected static $MENUS  =  '';
+	/**
+	 * @var string
+	 */
 	protected static $PUBLIC =  '';
 	/**
 	 * @var string
@@ -118,6 +122,25 @@ class SysConf_PATH {
 	{
 		static::$SITES = $SITES;
 	}
+
+
+	/**
+	 * @return string
+	 */
+	public static function MENUS()
+	{
+		static::_check('MENUS');
+		return static::$MENUS;
+	}
+
+	/**
+	 * @param string $MENUS
+	 */
+	public static function setMENUS( $MENUS )
+	{
+		static::$MENUS = $MENUS;
+	}
+
 
 	/**
 	 * @return string

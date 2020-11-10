@@ -435,7 +435,7 @@ abstract class Config extends BaseObject
 
 		$config_data = $this->toArray();
 
-		$config_data = '<?php'.SysConf_Jet::EOL().'return '.(new Data_Array( $config_data ))->export();
+		$config_data = '<?php'.PHP_EOL.'return '.(new Data_Array( $config_data ))->export();
 
 		IO_File::write( $config_file_path, $config_data );
 

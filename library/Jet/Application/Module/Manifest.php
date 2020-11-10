@@ -401,15 +401,15 @@ class Application_Module_Manifest extends BaseObject
 
 	/**
 	 *
-	 * @param string $menu_namespace
+	 * @param string $menu
 	 * @param null|string $translator_namespace
 	 *
 	 * @return Navigation_Menu_Item[]
 	 */
-	public function getMenuItems( $menu_namespace, $translator_namespace=null )
+	public function getMenuItems( $menu, $translator_namespace=null )
 	{
 
-		if(!isset($this->menu_items[$menu_namespace])) {
+		if(!isset( $this->menu_items[$menu])) {
 			return [];
 		}
 
@@ -418,7 +418,7 @@ class Application_Module_Manifest extends BaseObject
 		}
 
 		$res = [];
-		foreach( $this->menu_items[$menu_namespace] as $menu_id=>$menu_items_data ) {
+		foreach( $this->menu_items[$menu] as $menu_id=> $menu_items_data ) {
 			foreach( $menu_items_data as $item_id=>$menu_item_data ) {
 				$label = '';
 

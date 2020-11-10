@@ -99,8 +99,8 @@ class ClassParser_Class_Constant extends ClassParser_Class_Element
 
 		echo 'Constant: '.$this->name.' = '.$this->value;
 
-		echo SysConf_Jet::EOL().' Code: '.$parser->getTokenText( $this->start_token, $this->end_token );
-		echo SysConf_Jet::EOL().' Tokens: '.$this->start_token->index.' - '.$this->end_token->index;
+		echo PHP_EOL.' Code: '.$parser->getTokenText( $this->start_token, $this->end_token );
+		echo PHP_EOL.' Tokens: '.$this->start_token->index.' - '.$this->end_token->index;
 	}
 
 

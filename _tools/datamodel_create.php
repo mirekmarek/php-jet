@@ -10,21 +10,21 @@ namespace Jet;
 require 'includes/bootstrap_cli.php';
 
 if (!isset($argv[1])) {
-	die('Usage: ' . $argv[0] . ' \'Namespace\ClassName\'' . SysConf_Jet::EOL());
+	die('Usage: ' . $argv[0] . ' \'Namespace\ClassName\'' . PHP_EOL);
 }
 
 
 $class = $argv[1];
 
-echo SysConf_Jet::EOL() . 'Create for class \'' . $class . '\'' . SysConf_Jet::EOL();
+echo PHP_EOL . 'Create for class \'' . $class . '\'' . PHP_EOL;
 
 try {
 	class_exists($class);
 } catch (\Exception $e) {
-	echo SysConf_Jet::EOL() . 'ERROR: ' . $e->getMessage() . SysConf_Jet::EOL() . SysConf_Jet::EOL();
+	echo PHP_EOL . 'ERROR: ' . $e->getMessage() . PHP_EOL . PHP_EOL;
 	die();
 }
 
 echo DataModel_Helper::getCreateCommand($class);
 DataModel_Helper::create($class);
-echo SysConf_Jet::EOL() . SysConf_Jet::EOL();;
+echo PHP_EOL . PHP_EOL;;

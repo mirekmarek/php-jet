@@ -104,12 +104,12 @@ class Modules extends BaseObject implements Application_Part
 
 			IO_File::write(
 				$handler->getInstalledModulesListFilePath(),
-				'<?php'.SysConf_Jet::EOL().' return '.var_export( $installed, true ).';'.SysConf_Jet::EOL()
+				'<?php'.PHP_EOL.' return '.var_export( $installed, true ).';'.PHP_EOL
 			);
 
 			IO_File::write(
 				$handler->getActivatedModulesListFilePath(),
-				'<?php'.SysConf_Jet::EOL().' return '.var_export( $activated, true ).';'.SysConf_Jet::EOL()
+				'<?php'.PHP_EOL.' return '.var_export( $activated, true ).';'.PHP_EOL
 			);
 
 

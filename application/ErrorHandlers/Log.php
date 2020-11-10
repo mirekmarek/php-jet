@@ -46,7 +46,7 @@ class ErrorHandler_Log extends Debug_ErrorHandler_Handler
 		/** @noinspection PhpUsageOfSilenceOperatorInspection */
 		if( !@file_put_contents(
 			$log_fn,
-			$message.'_________________________________________________________________________________________'.SysConf_Jet::EOL().SysConf_Jet::EOL().SysConf_Jet::EOL(),
+			$message.'_________________________________________________________________________________________'.PHP_EOL.PHP_EOL.PHP_EOL,
 			FILE_APPEND
 		)
 		) {

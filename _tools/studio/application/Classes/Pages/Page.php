@@ -874,7 +874,7 @@ class Pages_Page extends Mvc_Page
 
 		IO_File::write(
 			$data_file_path,
-			'<?php'.SysConf_Jet::EOL().'return '.(new Data_Array( $data ))->export()
+			'<?php'.PHP_EOL.'return '.(new Data_Array( $data ))->export()
 		);
 
 		if(function_exists('opcache_reset')) {

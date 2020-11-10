@@ -110,7 +110,7 @@ class DataModel_Backend_SQLite extends DataModel_Backend
 				continue;
 			}
 
-			$_columns[] = SysConf_Jet::TAB().$this->_getColumnName( $property, true, false ).' '.$this->_getSQLType( $property );
+			$_columns[] = "\t".$this->_getColumnName( $property, true, false ).' '.$this->_getSQLType( $property );
 		}
 
 		$table_name = $force_table_name ? $force_table_name : $this->_getTableName( $definition );
@@ -139,28 +139,28 @@ class DataModel_Backend_SQLite extends DataModel_Backend
 			switch( $key->getType() ) {
 				case DataModel::KEY_TYPE_PRIMARY:
 					if( !$has_ai ) {
-						$keys[] = SysConf_Jet::EOL().SysConf_Jet::TAB().',PRIMARY KEY ('.$key_columns.')';
+						$keys[] = PHP_EOL."\t".',PRIMARY KEY ('.$key_columns.')';
 					}
 					break;
 				case DataModel::KEY_TYPE_INDEX:
-					$create_index_query[] = SysConf_Jet::EOL().'CREATE INDEX IF NOT EXISTS '.$this->_quoteName(
+					$create_index_query[] = PHP_EOL.'CREATE INDEX IF NOT EXISTS '.$this->_quoteName(
 							'_k_'.$key_name
 						).' ON '.$table_name.' ('.$key_columns.');';
 					break;
 				default:
-					$create_index_query[] = SysConf_Jet::EOL().'CREATE '.$key->getType().' INDEX IF NOT EXISTS '.$this->_quoteName(
+					$create_index_query[] = PHP_EOL.'CREATE '.$key->getType().' INDEX IF NOT EXISTS '.$this->_quoteName(
 							'_k_'.$key_name
 						).' ON '.$table_name.' ('.$key_columns.');';
 					break;
 			}
 		}
 
-		$create_index_query = implode( SysConf_Jet::EOL(), $create_index_query );
+		$create_index_query = implode( PHP_EOL, $create_index_query );
 
-		$q = 'CREATE TABLE IF NOT EXISTS '.$table_name.' ('.SysConf_Jet::EOL();
-		$q .= implode( ','.SysConf_Jet::EOL(), $_columns );
+		$q = 'CREATE TABLE IF NOT EXISTS '.$table_name.' ('.PHP_EOL;
+		$q .= implode( ','.PHP_EOL, $_columns );
 		$q .= implode( '', $keys );
-		$q .= SysConf_Jet::EOL().') '.$_options.';'.$create_index_query.SysConf_Jet::EOL().SysConf_Jet::EOL();
+		$q .= PHP_EOL.') '.$_options.';'.$create_index_query.PHP_EOL.PHP_EOL;
 
 		return $q;
 	}
@@ -371,11 +371,11 @@ class DataModel_Backend_SQLite extends DataModel_Backend
 			foreach( $new_cols as $c => $v ) {
 				$_new_cols[] = $c.'='.$v;
 			}
-			$update_default_values = 'UPDATE '.$updated_table_name.' SET '.implode( ','.SysConf_Jet::EOL(), $_new_cols );
+			$update_default_values = 'UPDATE '.$updated_table_name.' SET '.implode( ','.PHP_EOL, $_new_cols );
 		}
 
 
-		$rename_command1 = 'ALTER TABLE '.$table_name.' RENAME TO '.$backup_table_name.' ;'.SysConf_Jet::EOL();
+		$rename_command1 = 'ALTER TABLE '.$table_name.' RENAME TO '.$backup_table_name.' ;'.PHP_EOL;
 		$rename_command2 = 'ALTER TABLE '.$updated_table_name.' RENAME TO  '.$table_name.'; ';
 
 		$update_command = [];
@@ -526,8 +526,8 @@ class DataModel_Backend_SQLite extends DataModel_Backend
 
 		}
 
-		$columns = implode( ','.SysConf_Jet::EOL(), $columns );
-		$values = implode( ','.SysConf_Jet::EOL(), $values );
+		$columns = implode( ','.PHP_EOL, $columns );
+		$values = implode( ','.PHP_EOL, $values );
 
 		return 'INSERT INTO '.$table_name.' ('.$columns.') VALUES ('.$values.')';
 
@@ -561,11 +561,11 @@ class DataModel_Backend_SQLite extends DataModel_Backend
 			$set[] = $k.'='.$v;
 		}
 
-		$set = implode( ','.SysConf_Jet::EOL(), $set );
+		$set = implode( ','.PHP_EOL, $set );
 
 		$where = $this->_getSqlQueryWherePart( $where->getWhere() );
 
-		return 'UPDATE '.$table_name.' SET '.SysConf_Jet::EOL().$set.$where;
+		return 'UPDATE '.$table_name.' SET '.PHP_EOL.$set.$where;
 
 	}
 
@@ -584,14 +584,14 @@ class DataModel_Backend_SQLite extends DataModel_Backend
 		$res = '';
 
 		$next_level = $level+1;
-		$tab = str_repeat( SysConf_Jet::TAB(), $next_level );
+		$tab = str_repeat( "\t", $next_level );
 
 		foreach( $query as $qp ) {
 			if( $qp instanceof DataModel_Query_Where ) {
 				/**
 				 * @var DataModel_Query_Where $qp
 				 */
-				$res .= $tab.'('.SysConf_Jet::EOL().$this->_getSqlQueryWherePart( $qp, $next_level ).' '.SysConf_Jet::EOL().SysConf_Jet::TAB().')';
+				$res .= $tab.'('.PHP_EOL.$this->_getSqlQueryWherePart( $qp, $next_level ).' '.PHP_EOL."\t".')';
 				continue;
 			}
 
@@ -602,7 +602,7 @@ class DataModel_Backend_SQLite extends DataModel_Backend
 				/**
 				 * @var string $qp
 				 */
-				$res .= SysConf_Jet::EOL().$tab.$qp.' '.SysConf_Jet::EOL();
+				$res .= PHP_EOL.$tab.$qp.' '.PHP_EOL;
 				continue;
 			}
 
@@ -620,7 +620,7 @@ class DataModel_Backend_SQLite extends DataModel_Backend
 		}
 
 		if( $res && !$level ) {
-			$res = SysConf_Jet::EOL().'WHERE'.SysConf_Jet::EOL().$res.SysConf_Jet::EOL();
+			$res = PHP_EOL.'WHERE'.PHP_EOL.$res.PHP_EOL;
 		}
 
 		return $res;
@@ -642,10 +642,10 @@ class DataModel_Backend_SQLite extends DataModel_Backend
 
 			foreach( $value as $v ) {
 
-				$sq[] = SysConf_Jet::TAB().SysConf_Jet::TAB().$item.$this->_getSQLQueryWherePart_handleOperator( $operator, $v );
+				$sq[] = "\t\t".$item.$this->_getSQLQueryWherePart_handleOperator( $operator, $v );
 			}
 
-			$res .= '('.SysConf_Jet::EOL().implode( ' OR'.SysConf_Jet::EOL(), $sq ).SysConf_Jet::EOL().SysConf_Jet::TAB().') ';
+			$res .= '('.PHP_EOL.implode( ' OR'.PHP_EOL, $sq ).PHP_EOL."\t".') ';
 		} else {
 			$res .= $item.$this->_getSQLQueryWherePart_handleOperator( $operator, $value );
 
@@ -795,10 +795,10 @@ class DataModel_Backend_SQLite extends DataModel_Backend
 
 			switch( $relation->getJoinType() ) {
 				case DataModel_Query::JOIN_TYPE_LEFT_JOIN:
-					$join_qp .= SysConf_Jet::EOL().SysConf_Jet::TAB().SysConf_Jet::TAB().'JOIN '.$r_table_name.' ON'.SysConf_Jet::EOL();
+					$join_qp .= PHP_EOL."\t\t".'JOIN '.$r_table_name.' ON'.PHP_EOL;
 					break;
 				case DataModel_Query::JOIN_TYPE_LEFT_OUTER_JOIN:
-					$join_qp .= SysConf_Jet::EOL().SysConf_Jet::TAB().SysConf_Jet::TAB().'LEFT OUTER JOIN '.$r_table_name.' ON'.SysConf_Jet::EOL();
+					$join_qp .= PHP_EOL."\t\t".'LEFT OUTER JOIN '.$r_table_name.' ON'.PHP_EOL;
 					break;
 				default:
 					throw new DataModel_Backend_Exception(
@@ -811,7 +811,7 @@ class DataModel_Backend_SQLite extends DataModel_Backend
 			foreach( $relation->getJoinBy() as $join_by ) {
 
 				if($join_by instanceof DataModel_Definition_Relation_Join_Item) {
-					$j[] = SysConf_Jet::TAB().SysConf_Jet::TAB().SysConf_Jet::TAB().$this->_getColumnName( $join_by->getRelatedProperty() ).' = '.$this->_getColumnName( $join_by->getThisProperty() );
+					$j[] = "\t\t\t".$this->_getColumnName( $join_by->getRelatedProperty() ).' = '.$this->_getColumnName( $join_by->getThisProperty() );
 				}
 
 				if($join_by instanceof DataModel_Definition_Relation_Join_Condition) {
@@ -819,13 +819,13 @@ class DataModel_Backend_SQLite extends DataModel_Backend
 					$value = $this->_getValue($join_by->getValue());
 					$operator = $this->_getSQLQueryWherePart_handleOperator( $join_by->getOperator(), $value );
 
-					$j[] = SysConf_Jet::TAB().SysConf_Jet::TAB().SysConf_Jet::TAB().$this->_getColumnName( $join_by->getRelatedProperty() ).$operator.$value;
+					$j[] = "\t\t\t".$this->_getColumnName( $join_by->getRelatedProperty() ).$operator.$value;
 
 				}
 			}
 
 
-			$join_qp .= implode( ' AND '.SysConf_Jet::EOL(), $j );
+			$join_qp .= implode( ' AND '.PHP_EOL, $j );
 		}
 
 		return $join_qp;
@@ -861,7 +861,7 @@ class DataModel_Backend_SQLite extends DataModel_Backend
 			$group_by_qp[] = $val;
 		}
 
-		$group_by_qp = SysConf_Jet::EOL().'GROUP BY'.SysConf_Jet::EOL().SysConf_Jet::TAB().implode( ','.SysConf_Jet::EOL().SysConf_Jet::TAB(), $group_by_qp ).SysConf_Jet::EOL();
+		$group_by_qp = PHP_EOL.'GROUP BY'.PHP_EOL."\t".implode( ','.PHP_EOL."\t", $group_by_qp ).PHP_EOL;
 
 		return $group_by_qp;
 	}
@@ -881,14 +881,14 @@ class DataModel_Backend_SQLite extends DataModel_Backend
 		$res = '';
 
 		$next_level = $level+1;
-		$tab = str_repeat( SysConf_Jet::TAB(), $next_level );
+		$tab = str_repeat( "\t", $next_level );
 
 		foreach( $query as $qp ) {
 			if( $qp instanceof DataModel_Query_Having ) {
 				/**
 				 * @var DataModel_Query_Having $qp
 				 */
-				$res .= $tab.'('.SysConf_Jet::EOL().$this->_getSqlQueryHavingPart( $qp, $next_level ).' '.SysConf_Jet::EOL().SysConf_Jet::TAB().')';
+				$res .= $tab.'('.PHP_EOL.$this->_getSqlQueryHavingPart( $qp, $next_level ).' '.PHP_EOL."\t".')';
 				continue;
 			}
 
@@ -899,7 +899,7 @@ class DataModel_Backend_SQLite extends DataModel_Backend
 				/**
 				 * @var string $qp
 				 */
-				$res .= SysConf_Jet::EOL().$tab.$qp.SysConf_Jet::EOL().' ';
+				$res .= PHP_EOL.$tab.$qp.PHP_EOL.' ';
 				continue;
 			}
 
@@ -919,7 +919,7 @@ class DataModel_Backend_SQLite extends DataModel_Backend
 		}
 
 		if( $res && !$level ) {
-			$res = SysConf_Jet::EOL().'HAVING'.SysConf_Jet::EOL().$res.SysConf_Jet::EOL();
+			$res = PHP_EOL.'HAVING'.PHP_EOL.$res.PHP_EOL;
 		}
 
 		return $res;
@@ -963,10 +963,10 @@ class DataModel_Backend_SQLite extends DataModel_Backend
 	public function createSelectQuery( DataModel_Query $query )
 	{
 
-		return 'SELECT'.SysConf_Jet::EOL()
-				.SysConf_Jet::TAB().$this->_getSQLQuerySelectPart( $query ).SysConf_Jet::EOL()
-			.'FROM'.SysConf_Jet::EOL()
-				.SysConf_Jet::TAB().$this->_getSQLQueryTableName( $query )
+		return 'SELECT'.PHP_EOL
+				."\t".$this->_getSQLQuerySelectPart( $query ).PHP_EOL
+			.'FROM'.PHP_EOL
+				."\t".$this->_getSQLQueryTableName( $query )
 					.$this->_getSQLQueryJoinPart( $query )
 
 			.$this->_getSqlQueryWherePart( $query->getWhere() )
@@ -1019,7 +1019,7 @@ class DataModel_Backend_SQLite extends DataModel_Backend
 
 		}
 
-		return implode( ','.SysConf_Jet::EOL().SysConf_Jet::TAB(), $columns_qp );
+		return implode( ','.PHP_EOL."\t", $columns_qp );
 	}
 
 	/**
@@ -1064,7 +1064,7 @@ class DataModel_Backend_SQLite extends DataModel_Backend
 			return '';
 		}
 
-		return SysConf_Jet::EOL().'ORDER BY'.SysConf_Jet::EOL().SysConf_Jet::TAB().implode( ','.SysConf_Jet::EOL().SysConf_Jet::TAB(), $order_qp ).SysConf_Jet::EOL();
+		return PHP_EOL.'ORDER BY'.PHP_EOL."\t".implode( ','.PHP_EOL."\t", $order_qp ).PHP_EOL;
 
 	}
 
@@ -1082,9 +1082,9 @@ class DataModel_Backend_SQLite extends DataModel_Backend
 
 		if( $limit ) {
 			if( $offset ) {
-				$limit_qp = SysConf_Jet::EOL().'LIMIT '.$offset.','.$limit.SysConf_Jet::EOL();
+				$limit_qp = PHP_EOL.'LIMIT '.$offset.','.$limit.PHP_EOL;
 			} else {
-				$limit_qp = SysConf_Jet::EOL().'LIMIT '.$limit.SysConf_Jet::EOL();
+				$limit_qp = PHP_EOL.'LIMIT '.$limit.PHP_EOL;
 			}
 		}
 

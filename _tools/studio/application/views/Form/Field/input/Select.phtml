@@ -46,9 +46,9 @@ if($field->getLastErrorCode()) {
 			}
 
 			if( ( (string)$val )==( (string)$value ) ) {
-				echo '<option value="'.Data_Text::htmlSpecialChars( $val ).'" '.$css.' selected="selected">'.Data_Text::htmlSpecialChars( $label ).'</option>'.SysConf_Jet::EOL();
+				echo '<option value="'.Data_Text::htmlSpecialChars( $val ).'" '.$css.' selected="selected">'.Data_Text::htmlSpecialChars( $label ).'</option>'.PHP_EOL;
 			} else {
-				echo '<option value="'.Data_Text::htmlSpecialChars( $val ).'" '.$css.'>'.Data_Text::htmlSpecialChars( $label ).'</option>'.SysConf_Jet::EOL();
+				echo '<option value="'.Data_Text::htmlSpecialChars( $val ).'" '.$css.'>'.Data_Text::htmlSpecialChars( $label ).'</option>'.PHP_EOL;
 			}
 		endforeach; ?>
 	</select>

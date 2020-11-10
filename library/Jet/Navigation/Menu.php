@@ -15,7 +15,7 @@ class Navigation_Menu extends BaseObject
 	/**
 	 * @var string
 	 */
-	protected static $menu_config_file_name = 'menus.php';
+	protected static $menus_dir_path;
 
 	/**
 	 * @var Navigation_Menu[]|array
@@ -65,18 +65,23 @@ class Navigation_Menu extends BaseObject
 	/**
 	 * @return string
 	 */
-	public static function getMenuConfigFileName()
+	public static function getMenusDirPath()
 	{
-		return self::$menu_config_file_name;
+		if(!self::$menus_dir_path) {
+			self::$menus_dir_path = SysConf_PATH::MENUS();
+		}
+
+		return self::$menus_dir_path;
 	}
 
 	/**
-	 * @param string $menu_config_file_name
+	 * @param string $menus_path
 	 */
-	public static function setMenuConfigFileName( $menu_config_file_name )
+	public static function setMenusDirPath( $menus_path )
 	{
-		self::$menu_config_file_name = $menu_config_file_name;
+		self::$menus_dir_path = $menus_path;
 	}
+
 
 
 	/**
@@ -109,34 +114,32 @@ class Navigation_Menu extends BaseObject
 	}
 
 	/**
-	 * @param string $menu_namespace
+	 * @param string $menu
 	 * @param string|null $translator_namespace
 	 */
-	public static function initMenu( $menu_namespace, $translator_namespace=null )
+	public static function initMenu( $menu, $translator_namespace=null )
 	{
-		$path = Config::getConfigDirPath().static::getMenuConfigFileName();
+		$path = static::getMenusDirPath().$menu.'.php';
 
 		$menu_data = require $path;
 
-		if(isset($menu_data[$menu_namespace])) {
-			static::initMenuByData( $menu_data[$menu_namespace], $translator_namespace );
-		}
+		static::initMenuByData( $menu_data, $translator_namespace );
 
-		static::initModuleMenuItems( $menu_namespace );
+		static::initModuleMenuItems( $menu );
 	}
 
 	/**
-	 * @param string $menu_namespace
+	 * @param string $menu
 	 */
-	public static function initModuleMenuItems( $menu_namespace )
+	public static function initModuleMenuItems( $menu )
 	{
 		foreach( Application_Modules::activatedModulesList() as $manifest ) {
-			foreach( $manifest->getMenuItems( $menu_namespace ) as $menu_item ) {
+			foreach( $manifest->getMenuItems( $menu ) as $menu_item ) {
 
-				$menu = Navigation_Menu::getMenu( $menu_item->getMenuId() );
+				$m = Navigation_Menu::getMenu( $menu_item->getMenuId() );
 
-				if( $menu ) {
-					$menu->addItem( $menu_item );
+				if( $m ) {
+					$m->addItem( $menu_item );
 				}
 			}
 

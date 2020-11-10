@@ -497,7 +497,7 @@ class Mvc_Layout extends Mvc_View_Abstract
 		if( ( $page = Mvc::getCurrentPage() ) ) {
 
 			foreach( $page->getMetaTags() as $mt ) {
-				$dat[static::TAG_META_TAGS] .= SysConf_Jet::EOL().SysConf_Jet::TAB().$mt;
+				$dat[static::TAG_META_TAGS] .= PHP_EOL."\t".$mt;
 			}
 
 		}
@@ -574,7 +574,7 @@ class Mvc_Layout extends Mvc_View_Abstract
 		$snippet = '';
 
 		foreach( $JS_files as $URI ) {
-			$snippet .= SysConf_Jet::TAB().'<script type="text/javascript" src="'.$URI.'"></script>'.SysConf_Jet::EOL();
+			$snippet .= "\t".'<script type="text/javascript" src="'.$URI.'"></script>'.PHP_EOL;
 		}
 
 		$result = $this->_replaceTagByValue( $result, static::TAG_JAVASCRIPT, $snippet );
@@ -641,9 +641,9 @@ class Mvc_Layout extends Mvc_View_Abstract
 			foreach( $URIs as $URI ) {
 
 				if( $media ) {
-					$snippet .= SysConf_Jet::TAB().'<link rel="stylesheet" type="text/css" href="'.$URI.'" media="'.$media.'"/>'.SysConf_Jet::EOL();
+					$snippet .= "\t".'<link rel="stylesheet" type="text/css" href="'.$URI.'" media="'.$media.'"/>'.PHP_EOL;
 				} else {
-					$snippet .= SysConf_Jet::TAB().'<link rel="stylesheet" type="text/css" href="'.$URI.'"/>'.SysConf_Jet::EOL();
+					$snippet .= "\t".'<link rel="stylesheet" type="text/css" href="'.$URI.'"/>'.PHP_EOL;
 				}
 
 			}
