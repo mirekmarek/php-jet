@@ -1,0 +1,134 @@
+<?php
+namespace JetStudio;
+
+use Jet\Tr;
+?>
+
+<script type="text/javascript">
+	if(!window['JetStudio']) {
+		var JetStudio = {};
+	}
+
+	JetStudio.Sites = {
+		createSite: {
+			openDialog: function() {
+				$('#dialog_create_new_site').modal('show');
+			},
+			createSend: function() {
+				JetAjaxForm.submit(
+					'<?=Sites::getCreateForm()->getId()?>',
+					{
+						onSuccess: function( form, response_data ) {
+							location = '?site='+encodeURIComponent(response_data['new_site_id'])
+						}
+					}
+				);
+			},
+			generateId: function( name ) {
+				$.ajax({
+					url: '<?=Sites::getActionUrl('generate_id', [], false)?>&name='+encodeURIComponent(name),
+					success: function(result) {
+						$('#site_create_form__id').val( result.id );
+					}
+				});
+			},
+			addLocale: {
+				openDialog: function() {
+					JetStudio.Dialog.SelectLocale.open( function( locale_data ) {
+
+						var selected_locale = locale_data.locale;
+
+						var locales_field = $('#site_create_form__locales');
+
+						if(!locales_field.val()) {
+							selected_locales = selected_locale;
+						} else {
+							var selected_locales = locales_field.val().split(',');
+
+							if( selected_locales.indexOf(selected_locale)<0 ) {
+								selected_locales.push(selected_locale);
+							}
+
+							selected_locales = selected_locales.join(',');
+						}
+
+
+						locales_field.val( selected_locales );
+
+						JetStudio.Sites.createSite.addLocale._actualize();
+					} );
+				},
+
+				unSelect: function( locale ) {
+					var locales_field = $('#site_create_form__locales');
+
+					var selected_locales = locales_field.val().split(',');
+
+					var new_selected_locales = new Array();
+					for(var i=0;i<selected_locales.length;i++) {
+
+						if( selected_locales[i]!=locale ) {
+							new_selected_locales.push( selected_locales[i] );
+						}
+
+					}
+
+					new_selected_locales = new_selected_locales.join(',');
+					locales_field.val( new_selected_locales );
+					JetStudio.Sites.createSite.addLocale._actualize();
+				},
+
+				_actualize: function() {
+					var selected_locales = $('#site_create_form__locales').val().split(',');
+
+					$('.selected-locale-row').each( function (index, row) {
+						row = $(row);
+						var locale = row.data('locale');
+
+						if( selected_locales.indexOf(locale)>-1 ) {
+							row.show();
+						} else {
+							row.hide();
+						}
+
+					} );
+
+				}
+			}
+		},
+		editSite: {
+			addLocale: function() {
+				JetStudio.Dialog.SelectLocale.open( function( locale_data ) {
+
+					$('#add_locale_form__locale').val(locale_data.locale);
+					$('#add_locale_form').submit();
+
+				} );
+			},
+
+			sortLocales: function() {
+				$('#locales_sort_dialog').modal('show');
+
+
+				setTimeout(function () {
+					$('#locales_sort_area').sortable({
+						stop: function() {
+							var locales = new Array();
+
+							$('#locales_sort_area').find('.locale-sort-item').each( function(i, item) {
+								var id = $(item).data('locale');
+
+								locales.push(id);
+							});
+
+							$('#sort_locales_form__locales').val(locales.join(','));
+						}
+
+					});
+
+				}, 1000 )
+
+			}
+		}
+	}
+</script>

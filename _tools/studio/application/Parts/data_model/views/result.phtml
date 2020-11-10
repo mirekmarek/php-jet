@@ -1,0 +1,36 @@
+<?php
+namespace JetStudio;
+
+use Jet\UI_messages;
+
+$current = DataModels::getCurrentModel();
+
+if(!$current) {
+	return;
+}
+
+$class = $current->createClass();
+
+
+if($class) {
+	if(
+		$class->getWarnings() ||
+		$class->getErrors()
+	) {
+		foreach( $class->getWarnings() as $warning ) {
+			echo '<div style="padding: 5px">'.UI_messages::createWarning( $warning ).'</div>';
+		}
+
+		foreach( $class->getErrors() as $error ) {
+			echo '<div style="padding: 5px">'.UI_messages::createDanger( $error ).'</div>';
+		}
+
+	}
+
+	$class_str = $class->toString();
+
+	if($class_str) {
+		echo '<pre>'.$class.'</pre>';
+	}
+
+}

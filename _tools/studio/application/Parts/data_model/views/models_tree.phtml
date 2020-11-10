@@ -1,0 +1,61 @@
+<?php
+namespace JetStudio;
+
+use Jet\Data_Tree_Node;
+use Jet\Tr;
+use Jet\UI;
+use Jet\UI_tree;
+
+$type_icons = [
+	DataModels_Model::MODEL_TYPE_MAIN => '<span style="font-size: 10px;">'.UI::icon('database').'</span>',
+	DataModels_Model::MODEL_TYPE_RELATED_1TO1 => '<span style="font-size: 10px;">'.UI::icon('sign-in').' 1:1</span>',
+	DataModels_Model::MODEL_TYPE_RELATED_1TON => '<span style="font-size: 10px;">'.UI::icon('sign-in').' 1:N</span>',
+	DataModels_Model::MODEL_TYPE_RELATED_MTON => '<span style="font-size: 10px;">'.UI::icon('sign-in').' M:N</span>',
+];
+
+$model_tree = DataModels::getModelsTree();
+$model_tree->getRootNode()->setLabel( Tr::_('DataModels') );
+
+
+$selected_id = DataModels::getCurrentModelId();
+if(!$selected_id) {
+	$selected_id = Project::getCurrentNamespaceId();
+}
+
+$model_tree->setRootNode( $model_tree->getNode( Project::getCurrentNamespaceId() ) );
+
+
+$ui_tree = new UI_tree();
+
+$tree_renderer = function( Data_Tree_Node $node ) use ($type_icons) {
+
+	if($node->getData()['type']=='namespace') {
+		echo '<a href="'.DataModels::getActionUrl('', [], '', $node->getId()).'">'.$node->getLabel().'</a>';
+
+		return;
+	}
+
+	echo '<a href="'.DataModels::getActionUrl('', [], $node->getId(), $node->getData()['namespace']).'">'.$node->getLabel().' '. $type_icons[$node->getData()['type']].'</a>';
+};
+
+$ui_tree->setRendererNormal($tree_renderer);
+$ui_tree->setRendererOpened($tree_renderer);
+
+$ui_tree->setRendererSelected(function( Data_Tree_Node $node ) use ($type_icons) {
+	if(
+		$node->getIsRoot() ||
+		$node->getData()['type']=='namespace'
+	) {
+		echo '<strong class="selected">'.$node->getLabel().'</strong>';
+		return;
+	}
+
+	echo '<strong class="selected">'.$node->getLabel().' '.$type_icons[$node->getData()['type']].'</strong>';
+});
+
+$ui_tree->setSelectedId( $selected_id );
+$ui_tree->setData( $model_tree );
+$ui_tree->setShowAll(true);
+
+
+echo $ui_tree->render();

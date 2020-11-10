@@ -1,0 +1,28 @@
+<?php
+namespace JetStudio;
+
+use Jet\Tr;
+use Jet\UI;
+
+?>
+
+<?=Application::getView()->getGeneralView('messages');?>
+
+<h2><?=Tr::_('Please select namespace')?></h2>
+
+
+<table class="table table-striped">
+<?php foreach( Project::getNamespaces() as $namespace ):
+	if($namespace->isInternal()) {
+		continue;
+	}
+	?>
+	<tr>
+		<td>
+			<a href="<?=DataModels::getActionUrl('', [], false, $namespace->getId())?>"><?=$namespace->getLabel()?></a>
+		</td>
+	</tr>
+
+<?php endforeach; ?>
+
+</table>

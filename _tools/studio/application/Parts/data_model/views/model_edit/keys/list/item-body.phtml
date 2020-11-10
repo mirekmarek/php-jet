@@ -1,0 +1,34 @@
+<?php
+namespace JetStudio;
+
+use Jet\UI;
+use Jet\Mvc_View;
+use Jet\UI_button;
+
+/**
+ * @var Mvc_View $this;
+ * @var DataModels_Key $key
+ */
+
+$key = $this->getRaw('key');
+
+$form = $key->getEditForm();
+
+echo $form->start();
+
+echo $form->field('name');
+echo $form->field('type');
+echo $form->field('properties');
+
+echo '<div style="text-align: right">';
+echo UI::button_save()->setType('button')->setOnclick('JetStudio.DataModel.key.edit.save(\''.$key->getInternalId().'\')');
+echo '</div>';
+
+echo $form->end();
+
+
+
+echo UI::button_delete()
+	->setOnclick('JetStudio.DataModel.key.delete.openDialog(\''.$key->getInternalId().'\')')
+	->setSize(UI_button::SIZE_EXTRA_SMALL);
+echo $this->render('data_model/delete_key/dialog');

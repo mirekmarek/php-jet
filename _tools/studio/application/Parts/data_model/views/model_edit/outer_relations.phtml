@@ -1,0 +1,20 @@
+<?php
+namespace JetStudio;
+
+use Jet\UI;
+use Jet\Tr;
+use Jet\UI_button;
+
+$current = DataModels::getCurrentModel();
+
+if(!$current) {
+	return;
+}
+?>
+<legend>
+	<?=Tr::_('Outer relations')?>
+</legend>
+
+<div id="relations_list_area">
+	<?php require 'relations/list.phtml' ?>
+</div>

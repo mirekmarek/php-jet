@@ -1,0 +1,103 @@
+<?php
+namespace JetStudioModuleWizard;
+
+use Jet\Form;
+use Jet\Http_Request;
+use Jet\Tr;
+use Jet\UI;
+use JetStudio\Modules_Wizard;
+
+/**
+* @var BasicAdminDataHandler $wizard
+ */
+$wizard = Modules_Wizard::getCurrentWizard();
+
+$select_data_form = $wizard->getSelectDataModelForm();
+
+$setup_form = $wizard->getSetupForm();
+
+
+
+$setup_form->setDefaultLabelWidth([
+	Form::LJ_SIZE_MEDIUM => 3
+]);
+$setup_form->setDefaultFieldWidth([
+	Form::LJ_SIZE_MEDIUM => 9
+]);
+
+$select_data_form->setDefaultLabelWidth([
+	Form::LJ_SIZE_MEDIUM => 3
+]);
+$select_data_form->setDefaultFieldWidth([
+	Form::LJ_SIZE_MEDIUM => 9
+]);
+
+$select_data_form->field('data_model')->input()->addJsAction('onchange', 'this.form.submit()');
+
+$setup_form->field('page_name')->input()->addJsAction('onkeyup', 'generatePageId(this.value);');
+?>
+<script type="text/javascript">
+	function generatePageId( name ) {
+		if(name) {
+			$.ajax({
+				url: '<?=Http_Request::currentURI(['setup_action'=>'page_generate_id'])?>&name='+encodeURIComponent(name),
+				success: function(result) {
+					$('#module_wizard_setup_form__page_id').val(result.id);
+					$('#module_wizard_setup_form__page_relative_path_fragment').val(result.id);
+					$('#module_wizard_setup_form__page_title').val(name);
+				}
+			});
+		}
+	}
+
+</script>
+
+<legend><?=Tr::_('DataModel')?></legend>
+<?=$select_data_form->start()?>
+	<?=$select_data_form->field('data_model')?>
+<?=$select_data_form->end()?>
+
+
+<?php if($wizard->getDataModelId()):?>
+	<?=$setup_form->start()?>
+
+	<?=$setup_form->field('entity_name')?>
+	<?=$setup_form->field('id_property')?>
+	<?=$setup_form->field('name_property')?>
+	<?=$setup_form->field('grid_properties')?>
+
+	<legend><?=Tr::_('Page')?></legend>
+		<?=$setup_form->field('page_site_id')?>
+		<?=$setup_form->field('page_name')?>
+		<?=$setup_form->field('page_id')?>
+		<?=$setup_form->field('page_title')?>
+		<?=$setup_form->field('page_icon')?>
+		<?=$setup_form->field('page_relative_path_fragment')?>
+
+
+	<legend><?=Tr::_('Menu item')?></legend>
+		<?=$setup_form->field('menu_item_target_menu_id')?>
+		<?=$setup_form->field('menu_item_id')?>
+		<?=$setup_form->field('menu_item_title')?>
+		<?=$setup_form->field('menu_item_icon')?>
+		<?=$setup_form->field('menu_item_index')?>
+
+	<legend><?=Tr::_('Texts')?></legend>
+		<?=$setup_form->field('text_item_created')?>
+		<?=$setup_form->field('text_edit_item')?>
+		<?=$setup_form->field('text_item_updated')?>
+		<?=$setup_form->field('text_item_detail')?>
+		<?=$setup_form->field('text_item_deleted')?>
+		<?=$setup_form->field('text_crete_bt_label')?>
+		<?=$setup_form->field('text_delete_bt_label')?>
+	<legend><?=Tr::_('Module setting')?></legend>
+		<?=$setup_form->field('controller_name')?>
+		<?=$setup_form->field('list_view')?>
+		<?=$setup_form->field('edit_view')?>
+
+	<div align="right">
+		<?=UI::button_save(Tr::_('Create'))->setClass('primary')->setIcon('magic')?>
+	</div>
+	<?=$setup_form->end()?>
+<?php endif; ?>
+<br/><br/>

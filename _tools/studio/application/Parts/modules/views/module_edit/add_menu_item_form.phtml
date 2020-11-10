@@ -1,0 +1,80 @@
+<?php
+namespace JetStudio;
+
+use Jet\Tr;
+
+$form = Modules_Manifest::getCreateMenuItemForm();
+
+$form->getField('label')->input()->addJsAction('onkeyup', 'JetStudio.Modules.editModule.addMenuItem.generateId(this.value);');
+
+echo $form->start();
+
+echo $form->field('target_menu');
+
+echo $form->field('label');
+echo $form->field('id');
+echo $form->field('icon');
+echo $form->field('index');
+
+echo $form->field('separator_before');
+echo $form->field('separator_after');
+
+?>
+	<ul class="nav nav-tabs">
+		<li class="active">
+			<a data-toggle="tab" href="#tab_direct_mvc"><?=Tr::_('MVC link')?></a>
+		</li>
+		<li>
+			<a data-toggle="tab" href="#tab_direct_link"><?=Tr::_('Direct link')?></a>
+		</li>
+	</ul>
+
+	<div class="tab-content">
+		<div id="tab_direct_mvc" class="tab-pane fade in active" style="padding-top: 10px;min-height: 600px;">
+			<?=$form->field('page_id')?>
+			<?=$form->field('site_id')?>
+			<?=$form->field('locale')?>
+
+			<div class="form-group row">
+				<label class="col-md-4 control-label"><?=Tr::_('Custom URL parts:')?></label>
+				<div class="col-md-8">
+					<?php for( $c=0; $c<Menus_MenuNamespace_Menu_Item::URL_PARTS_COUNT; $c++):
+						$field = $form->getField('/URL_parts/'.$c);
+						?>
+						<div class="input-group">
+							<span class="input-group-addon" style="font-weight: bolder">/</span>
+							<?=$field->input()?>
+							<span class="input-group-addon" style="font-weight: bolder">/</span>
+						</div>
+					<?php endfor; ?>
+				</div>
+			</div>
+
+
+			<div class="form-group row">
+				<label class="col-md-4 control-label"><?=Tr::_('GET parameter:')?></label>
+				<div class="col-md-8">
+					<?php for( $c=0; $c<Menus_MenuNamespace_Menu_Item::GET_PARAMS_COUNT; $c++):
+						$field_key = $form->getField('/GET_params/'.$c.'/key');
+						$field_value = $form->getField('/GET_params/'.$c.'/value');
+						?>
+						<div class="input-group">
+							<span class="input-group-addon" style="font-weight: bolder"> </span>
+							<?=$field_key->input()?>
+							<span class="input-group-addon" style="font-weight: bolder">=</span>
+							<?=$field_value->input()?>
+							<span class="input-group-addon" style="font-weight: bolder"> </span>
+						</div>
+					<?php endfor; ?>
+				</div>
+			</div>
+
+		</div>
+		<div id="tab_direct_link" class="tab-pane fade" style="padding-top: 10px;min-height: 600px;">
+			<?=$form->field('URL')?>
+		</div>
+	</div>
+
+	<?php
+echo $form->end();
+

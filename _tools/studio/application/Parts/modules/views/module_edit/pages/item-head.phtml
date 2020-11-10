@@ -1,0 +1,34 @@
+<?php
+namespace JetStudio;
+
+use Jet\Tr;
+use Jet\UI;
+use Jet\Mvc_View;
+use Jet\UI_button;
+
+/**
+ * @var Mvc_View $this
+ * @var Pages_Page $page
+ */
+
+
+
+$page = $this->getRaw('page');
+$page_id = $page->getId();
+$site_id = $page->getSiteId();
+
+$delete_dialog_id = 'page_delete_dialog_'.$site_id.'_'.$page_id;
+?>
+<table style="width: 100%">
+	<tr>
+		<td>
+			<b style="font-size: 16px"><?=$page->getName()?></b>
+			<span style="font-size: 10px"><?=$page_id?></span>
+		</td>
+		<td align="right">
+			<?=UI::button_delete(Tr::_('Delete this page'))->setOnclick("$('#".$delete_dialog_id."').modal('show');")->setSize(UI_button::SIZE_EXTRA_SMALL)?>
+		</td>
+	</tr>
+</table>
+
+

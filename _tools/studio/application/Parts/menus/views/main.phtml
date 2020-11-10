@@ -1,0 +1,46 @@
+<?php
+namespace JetStudio;
+
+use Jet\UI;
+use Jet\Tr;
+?>
+<?=Application::getView()->render('js');?>
+
+<div class="row">
+<?php if(Menus::getCurrentMenuNamespace()): ?>
+	<div class="col-md-3" style="padding: 0px;">
+		<div class="toolbar">
+			<?=UI::button_create(Tr::_('Create menu namespace'))->setOnclick("JetStudio.Menus.createNamespace.openDialog();");?>
+		</div>
+		<?=Application::getView()->render('tree');?>
+	</div>
+	<div class="col-md-9" style="padding: 0px;">
+		<?php
+		if( Menus::getCurrentMenu() ):
+			if( Menus::getCurrentMenuItem() ):
+				require 'edit_menu_item.phtml';
+			else:
+				require 'edit_menu.phtml';
+			endif;
+		else:
+			require 'edit_namespace.phtml';
+		endif;
+		?>
+
+	</div>
+<?php else: ?>
+	<div class="col-md-12" style="padding: 0px;">
+		<div class="toolbar">
+			<?=UI::button_create(Tr::_('Create menu namespace'))->setOnclick("JetStudio.Menus.createNamespace.openDialog();");?>
+		</div>
+		<div style="padding: 10px;">
+			<?=Application::getGeneralView()->render('messages');?>
+
+			<?=Application::getView()->render('tree');?>
+		</div>
+	</div>
+<?php endif; ?>
+</div>
+
+
+<?=Application::getView()->render('create_namespace/dialog');?>

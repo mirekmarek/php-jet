@@ -1,0 +1,13 @@
+<?php
+namespace JetStudio;
+
+$form = Sites::getCreateForm();
+
+$form->getField('name')->input()->addJsAction('onkeyup', 'JetStudio.Sites.createSite.generateId(this.value);');
+
+echo $form->start();
+echo $form->field('name');
+echo $form->field('id');
+echo $form->field('locales');
+
+echo $form->end();

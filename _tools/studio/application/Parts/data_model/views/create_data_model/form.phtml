@@ -1,0 +1,17 @@
+<?php
+namespace JetStudio;
+
+$form = DataModels_Model::getCreateForm();
+
+$form->field('model_name')->input()->addJsAction('onkeydown', "JetStudio.DataModel.generateClassName(this.value, '".$form->field('class_name')->getId()."')");
+
+echo $form->start();
+echo $form->field('model_name');
+echo $form->field('class_name');
+
+if($form->fieldExists('type')) {
+	echo $form->field('type');
+}
+
+echo $form->end();
+

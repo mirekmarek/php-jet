@@ -1,0 +1,59 @@
+<?php
+namespace JetStudio;
+
+use Jet\Application_Modules;
+use Jet\Tr;
+use Jet\UI;
+use Jet\Form;
+use Jet\Mvc_View;
+use Jet\UI_button;
+
+/**
+ * @var Mvc_View $this
+ * @var Pages_Page $page
+ */
+
+$current = Modules::getCurrentModule();
+
+if(
+	!$current ||
+	!$current->getPagesList()
+) {
+	return;
+}
+
+
+
+$page = $this->getRaw('page');
+$page_id = $page->getId();
+$site_id = $page->getSiteId();
+$site = Sites::getSite($site_id);
+
+$page->setLocale( $site->getDefaultLocale() );
+
+$this->setVar( 'site',  $site);
+
+$form = $page->getEditForm();
+
+$form->setName('module_page_edit_form_'.$site_id.'_'.$page_id);
+$form->setAction( Modules::getActionUrl('page/edit', [
+	'site' => $site_id,
+	'page' => $page_id
+]) );
+
+$this->setVar('save_button', UI::button_save()->setOnclick("JetStudio.Modules.editModule.editPage.send('".$form->getId()."')")->setType('button') );
+
+
+$this->setVar('delete_content_action_creator', function( $i ) use ($page) {
+	return "JetStudio.Modules.editModule.editPage.removeContent('{$page->getSiteId()}', '{$page->getId()}', $i);";
+});
+
+
+$add_content_dialog_id = 'dialog_create_new_page_content_'.$site_id.'_'.$page_id;
+
+$this->setVar('add_content_handler', "$('#$add_content_dialog_id').modal('show')");
+$this->setVar( 'form', $form );
+
+echo $form->start();
+echo $this->render( 'pages/page_edit/form' );
+echo $form->end();

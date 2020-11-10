@@ -1,0 +1,175 @@
+<?php
+namespace JetStudio;
+?>
+
+<script type="text/javascript">
+    if(!window['JetStudio']) {
+    	var JetStudio = {};
+    }
+
+	JetStudio.Modules = {
+		createModule: {
+			openDialog: function() {
+				$('#dialog_create_new_module').modal('show');
+			},
+			createSend: function() {
+				JetAjaxForm.submit(
+					'<?=Modules_Manifest::getCreateForm()->getId()?>',
+					{
+						onSuccess: function( form, response_data ) {
+							location = '?module='+encodeURIComponent(response_data['new_module_id'])
+						}
+					}
+				);
+			}
+		},
+		editModule: {
+			addPage: {
+				openDialog: function() {
+					JetStudio.Modules.editModule.addPage.toggleFields( $('#add_page_form__site_id').val() );
+					$('#add_page_dialog').modal('show');
+				},
+
+				generateId: function( name ) {
+					var site_id = $('#add_page_form__site_id').val();
+
+					$.ajax({
+						url: '<?=Modules::getActionUrl('page/generate_id', [], false)?>&name='+encodeURIComponent(name)+'&site_id='+encodeURIComponent(site_id),
+						success: function(result) {
+							$('#add_page_form__page_id').val( result.id );
+						}
+					});
+				},
+
+				toggleFields: function( site_id ) {
+					if( site_id ) {
+						$('#add_page_form__page_id').attr('readonly', false);
+						$('#add_page_form__page_name').attr('readonly', false);
+					} else {
+						$('#add_page_form__page_id').attr('readonly', true);
+						$('#add_page_form__page_name').attr('readonly', true);
+					}
+				},
+
+				send: function() {
+					JetAjaxForm.submit(
+						'add_page_form',
+						{
+							onSuccess: function( form, response_data ) {
+								location.reload( true );
+							},
+
+							onError: function() {
+							}
+						}
+					);
+
+				}
+			},
+			editPage: {
+				addContent: function( form_id ) {
+					JetAjaxForm.submit(
+						form_id,
+						{
+							onSuccess: function( form, response_data ) {
+							}
+						}
+					);
+				},
+				removeContent: function( site_id, page_id, index )  {
+					var form = $('#delete_content_form')[0]
+					form.site.value = site_id;
+					form.page.value = page_id;
+					form.index.value = index;
+
+					$('#delete_content').modal('show');
+				},
+
+				send: function( form ) {
+					JetAjaxForm.submit(
+						form,
+						{}
+					);
+				}
+
+
+			},
+			addController: {
+				openDialog: function() {
+					$('#add_controller_dialog').modal('show');
+				},
+
+				send: function() {
+					JetAjaxForm.submit(
+						'add_controller_form',
+						{
+							onSuccess: function( form, response_data ) {
+								location.reload( true );
+							},
+
+							onError: function() {
+							}
+						}
+					);
+
+				}
+			},
+			editController: {
+				send: function( form ) {
+					JetAjaxForm.submit(
+						form,
+						{}
+					);
+				}
+			},
+
+			addMenuItem: {
+				openDialog: function() {
+					$('#add_menu_item_dialog').modal('show');
+				},
+
+				send: function() {
+					JetAjaxForm.submit(
+						'create_menu_item_form',
+						{}
+					);
+				},
+				generateId: function( name ) {
+					$.ajax({
+						url: '<?=Modules::getActionUrl('menu_item/generate_id')?>&name='+encodeURIComponent(name),
+						success: function(result) {
+							$('#create_menu_item_form__id').val( result.id );
+						}
+					});
+				}
+			},
+
+			editMenuItem: {
+				send: function( form ) {
+					JetAjaxForm.submit(
+						form,
+						{}
+					);
+				}
+			}
+
+		},
+
+
+		Wizard: {
+			select: function( wizard ) {
+				$('#module_wizard_select_dialog').modal('hide');
+
+				$('#module_wizard_setup_dialog').modal('show');
+
+				$('#module_wizard_setup_form_area')[0].src= '<?=Modules::getActionUrl('module_wizard/setup')?>&wizard='+encodeURIComponent(wizard) ;
+
+			}
+		},
+		deleteModule: {
+			openDialog: function() {
+				$('#delete_module').modal('show');
+            }
+        }
+	}
+</script>

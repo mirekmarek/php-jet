@@ -1,0 +1,45 @@
+<?php
+namespace JetStudio;
+
+?>
+<table class="table table-striped">
+	<?php use Jet\Tr;
+	use Jet\UI;
+
+	foreach( Modules::getModules() as $module ): ?>
+		<tr>
+			<td style="width: 80px;">
+				<?php if($module->isMandatory()): ?>
+					<?=UI::icon('exclamation-triangle')->setTitle(Tr::_('Is mandatory'))?>
+				<?php endif; ?>
+
+				<?php if($module->getIsInstalled()): ?>
+					<?=UI::icon('check')->setTitle(Tr::_('Is installed'))?>
+				<?php else: ?>
+					<?=UI::icon('times')->setTitle(Tr::_('Is not installed'))?>
+				<?php endif; ?>
+
+				<?php if($module->getIsActive()): ?>
+					<?=UI::icon('check')->setTitle(Tr::_('Is activated'))?>
+				<?php else: ?>
+					<?=UI::icon('times')->setTitle(Tr::_('Is not activated'))?>
+				<?php endif; ?>
+			</td>
+			<td>
+				<?php if($module->getName()==Modules::getCurrentModuleName()): ?>
+					<strong><?=$module->getName()?></strong>
+				<?php else: ?>
+					<a href="<?=Modules::getActionUrl('', [], $module->getName())?>"><?=$module->getName()?></a>
+				<?php endif; ?>
+			</td>
+			<td>
+				<?php if($module->getName()==Modules::getCurrentModuleName()): ?>
+					<strong><?=$module->getLabel()?></strong>
+				<?php else: ?>
+					<a href="<?=Modules::getActionUrl('', [], $module->getName())?>"><?=$module->getLabel()?></a>
+				<?php endif; ?>
+			</td>
+		</tr>
+	<?php endforeach; ?>
+</table>
+<?php

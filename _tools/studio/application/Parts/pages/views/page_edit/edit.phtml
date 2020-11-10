@@ -1,0 +1,30 @@
+<?php
+namespace JetStudio;
+
+use Jet\Tr;
+use Jet\UI;
+
+$page = Pages::getCurrentPage();
+
+if(!$page) {
+	return;
+}
+
+$form = $page->getEditForm();
+?>
+<?=$form->start()?>
+
+<div class="container-fluid main-col">
+	<legend style="margin-top: 10px"><?=Tr::_('Page')?> <span style="font-weight: bolder"><?=$page->getName()?></span> <span style="color: #aaaaaa;font-size: 12px;"><?=$page->getId()?></span></legend>
+
+	<?=Application::getGeneralView()->render('messages');?>
+
+	<?php require 'form.phtml'; ?>
+</div>
+
+
+<?=$form->end()?>
+
+<?=Application::getView()->render('add_content/dialog');?>
+<?=Application::getView()->render('delete_content/dialog');?>
+

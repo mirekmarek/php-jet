@@ -1,0 +1,16 @@
+<?php
+namespace JetStudio;
+
+use Jet\Mvc_View;
+use Jet\UI;
+
+/**
+ * @var Mvc_View $this;
+ * @var DataModels_OuterRelation $relation
+ */
+
+$relation = $this->getRaw('relation');
+?>
+<div style="display: inline-block;width: 130px;">
+</div>
+<?=$relation->getName()?>

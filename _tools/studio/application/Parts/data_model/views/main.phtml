@@ -1,0 +1,78 @@
+<?php
+namespace JetStudio;
+
+use Jet\UI;
+use Jet\Tr;
+
+
+?>
+<?=Application::getView()->render('data_model/js');?>
+
+<?php if(Project::getCurrentNamespace()): ?>
+<div class="row">
+	<div class="col-md-3" style="padding: 0px;">
+		<div class="toolbar">
+
+			<div class="dropdown" style="display: inline-block">
+				<a class="dropdown-toggle" data-toggle="dropdown" href="#">
+					<span style="font-weight: bolder;font-size: 16px;"><?=Project::getCurrentNamespace()->getLabel()?></span>
+
+					<span class="caret"></span>
+				</a>
+				<div class="dropdown-menu" style="padding: 10px;">
+					<?php foreach( Project::getNamespaces() as $namespace ):
+						if($namespace->isInternal()) {
+							continue;
+						}
+
+						?>
+						<div style="padding-bottom: 5px;width: 300px;">
+							<a href="<?=DataModels::getActionUrl('', [], false, $namespace->getId())?>"><?=$namespace->getLabel()?></a>
+						</div>
+					<?php endforeach; ?>
+				</div>
+			</div>
+
+
+			<?php if(
+				Project::getCurrentNamespaceId()
+				&&
+				(
+					!DataModels::getCurrentModel() ||
+					DataModels::getCurrentModel()->canHaveRelated()
+				)
+			): ?>
+				<?=UI::button_create(Tr::_('Create new DataModel'))->setOnclick('JetStudio.DataModel.create.openDialog()')?>
+			<?php endif; ?>
+		</div>
+		<div id="models_tree_area">
+			<?=Application::getView()->render('data_model/models_tree');?>
+		</div>
+	</div>
+	<div class="col-md-9" style="padding: 0px">
+		<?php if(DataModels::getCurrentModel()):?>
+			<?=Application::getView()->render('data_model/model_edit/edit');?>
+		<?php else: ?>
+			<div style="padding-top: 10px;">
+				<?=Application::getGeneralView()->render('messages');?>
+			</div>
+		<?php endif; ?>
+	</div>
+</div>
+
+
+<?=Application::getView()->render('data_model/create_data_model/dialog');?>
+<?=Application::getView()->render('data_model/delete_data_model/dialog');?>
+<?=Application::getView()->render('data_model/create_property/dialog');?>
+<?=Application::getView()->render('data_model/create_key/dialog');?>
+<?=Application::getView()->render('data_model/create_relation/dialog');?>
+
+<?php else: ?>
+	<div class="row">
+		<div class="col-md-12">
+			<?=Application::getView()->render('data_model/model_edit/dashboard');?>
+		</div>
+	</div>
+<?php endif?>
+
+

@@ -1,0 +1,54 @@
+<?php
+namespace JetStudio;
+
+use Jet\UI;
+use Jet\Tr;
+use Jet\UI_button;
+use Jet\Mvc_View;
+use Jet\Form;
+
+$current = DataModels::getCurrentModel();
+
+if(!$current) {
+	return;
+}
+
+/**
+ * @var Mvc_View $this
+ * @var Form $form
+ * @var array $order_by_options
+ */
+$form = $this->getRaw('form');
+$order_by_options = $this->getRaw('order_by_options');
+?>
+<?=$form->field('default_order_by')?>
+
+<div class="form-group row">
+	<label class="col-md-2 control-label"><?=Tr::_('Default order by:')?></label>
+	<div class="col-md-10">
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-md-2">
+	</div>
+	<div class="col-md-5 list-group" id="order_by_options_source" style="padding: 10px;">
+		<span><?=Tr::_('Available')?></span>
+		<?php foreach( $order_by_options as $id=>$label ): ?>
+			<div class="list-group-item order_by_options_item"
+			     data-id="<?=$id?>"
+			     data-label="<?=$label?>"
+			     onclick="JetStudio.DataModel.edit.defaultOrderBy.selectItem('<?=$id?>')"
+			>
+				<?=UI::icon('plus')?>
+				<?=$label?>
+			</div>
+		<?php endforeach; ?>
+	</div>
+	<div class="col-md-5">
+		<span><?=Tr::_('Selected')?></span>
+		<div id="order_by_options_selected" class="list-group" style="padding: 10px;">
+
+		</div>
+	</div>
+</div>

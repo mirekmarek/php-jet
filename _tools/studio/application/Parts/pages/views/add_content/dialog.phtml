@@ -1,0 +1,20 @@
+<?php
+namespace JetStudio;
+
+use Jet\Tr;
+use Jet\UI;
+
+$dialog = UI::dialog('dialog_create_new_page_content', Tr::_('Add content'), 1000);
+
+echo $dialog->start();
+?>
+	<div id="<?=Pages_Page_Content::getCreateForm( Pages::getCurrentPage() )->getId()?>_form_area">
+		<?php
+		require 'form.phtml';
+		?>
+	</div>
+	<?php
+echo $dialog->footer();
+echo UI::button_save(Tr::_('Add'))->setOnclick('JetStudio.Pages.editPage.content.createSend()');
+echo $dialog->end();
+

@@ -1,0 +1,67 @@
+<?php
+namespace JetStudio;
+
+use Jet\UI;
+use Jet\Tr;
+?>
+<?=Application::getView()->render('js');?>
+
+<?php if(Pages::getCurrentLocale()): ?>
+<div class="row" id="main-toolbar">
+	<div class="col-md-3" style="padding: 0px;">
+		<div class="toolbar">
+
+			<div class="dropdown" style="display: inline-block">
+				<button class="btn btn-light dropdown-toggle" type="button"  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+					<?=UI::flag( Pages::getCurrentLocale() )?>
+					<span style="font-weight: bolder;font-size: 16px;"><?=Pages::getCurrentSite()->getName()?></span>
+				</button>
+				<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+					<?php foreach( Sites::getSites() as $site ): ?>
+						<div class="dropdown-item" style="padding-bottom: 10px;">
+						<strong><?=$site->getName()?></strong>
+						<?php foreach( $site->getLocales() as $locale ):
+							$link = Pages::getActionUrl('', [], Pages_Page::HOMEPAGE_ID, $locale, $site->getId());
+							?>
+						<div style="width: 300px;padding: 10px;">
+							<a href="<?=$link?>"><?=UI::flag($locale)?></a>
+							<a href="<?=$link?>"><?=$locale->getName()?></a>
+						</div>
+						<?php endforeach; ?>
+						</div>
+					<?php endforeach; ?>
+				</div>
+			</div>
+
+			<?=UI::button_create(Tr::_('Create new page'))->setOnclick('JetStudio.Pages.createPage.openDialog()')?>
+		</div>
+	</div>
+	<div class="col-md-9" style="padding: 0px;">
+		<?=Application::getView()->render('page_edit/toolbar');?>
+	</div>
+</div>
+
+
+
+<div class="row" id="main-col">
+	<div class="col-md-3" style="padding: 0px;">
+		<div style="padding: 10px;">
+			<?=Application::getView()->render('pages_tree');?>
+		</div>
+	</div>
+	<div class="col-md-9" style="padding: 0px;">
+		<?=Application::getView()->render('page_edit/edit');?>
+	</div>
+</div>
+
+
+<?php else: ?>
+<div class="row">
+	<div class="col-md-12">
+		<?=Application::getView()->render('page_edit/dashboard');?>
+	</div>
+</div>
+<?php endif; ?>
+
+
+<?=Application::getView()->render('create_page/dialog');?>

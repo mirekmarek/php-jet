@@ -1,0 +1,65 @@
+<?php
+namespace JetStudio;
+
+use Jet\Application_Modules;
+use Jet\Tr;
+use Jet\UI;
+use Jet\Form;
+use Jet\Mvc_View;
+use Jet\UI_button;
+
+/**
+ * @var Mvc_View $this
+ */
+
+$current = Modules::getCurrentModule();
+
+if(
+	!$current ||
+	!$current->getControllers()
+) {
+	return;
+}
+
+
+$controllers = $current->getControllers();
+
+?>
+
+
+<legend><?=Tr::_('Controllers')?></legend>
+<div style="padding-bottom: 40px">
+
+	<?php foreach( $controllers as $controller ):
+		$this->setVar('controller', $controller);
+		?>
+		<div class="card panel-info">
+			<div class="card-header" data-toggle="collapse" data-target="#controller_<?=$controller->getInternalId()?>" id="controller_<?=$controller->getInternalId()?>_head">
+				<?php require 'item-head.phtml'; ?>
+			</div>
+			<div class="card-body collapse" id="controller_<?=$controller->getInternalId()?>">
+				<?php require 'item-body.phtml'; ?>
+			</div>
+		</div>
+
+	<?php endforeach; ?>
+</div>
+
+
+
+<?php
+foreach( $controllers as $controller ):
+	$delete_dialog_id = 'delete_controller_dialog_'.$controller->getInternalId();
+	$delete_dialog = UI::dialog($delete_dialog_id, Tr::_('Delete controller?'), 600);
+
+	echo $delete_dialog->start();
+	echo Tr::_('Do you really want to delete controller <b>%controller%</b> ?', [
+		'controller' => $controller->getName()
+	]);
+	echo $delete_dialog->footer();
+	echo UI::button_delete()->setUrl( Modules::getActionUrl('controller/delete', [
+		'controller' => $controller->getInternalId(),
+	]) );
+	echo $delete_dialog->end();
+endforeach;
+?>

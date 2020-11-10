@@ -1,0 +1,295 @@
+<?php
+namespace JetStudio;
+
+use Jet\Tr;
+use Jet\Form;
+use Jet\Mvc_View;
+use Jet\UI;
+
+/**
+ * @var Mvc_View $this
+ */
+
+$page = $this->getRaw('page');
+
+if(!$page) {
+	$page = Pages::getCurrentPage();
+}
+
+if(!$page) {
+	return;
+}
+
+$p_f_prefix = $this->getString('form_field_prefix', '');
+$p_f_prefix_a = '';
+if($p_f_prefix) {
+	$p_f_prefix_a = substr($p_f_prefix, 0, -1);
+}
+
+$form = $this->getRaw('form', null);
+
+if(!$form) {
+	$form = $page->getEditForm();
+}
+
+$form->setDefaultLabelWidth([
+	Form::LJ_SIZE_MEDIUM => 2
+]);
+$form->setDefaultFieldWidth([
+	Form::LJ_SIZE_MEDIUM => 6
+]);
+
+
+$page_selected_tab = 'tab_mvc';
+
+if($page->getOutput()) {
+	if(is_array($page->getOutput())) {
+		$page_selected_tab = 'tab_callback';
+	} else {
+		$page_selected_tab = 'tab_static';
+	}
+} else {
+	if($page->getIsSubApp()) {
+		$page_selected_tab = 'tab_sub_app';
+	}
+
+}
+
+$site_id = $page->getSiteId();
+$page_id = $page->getId();
+
+$add_content_handler = $this->getRaw('add_content_handler', 'JetStudio.Pages.editPage.content.addContent()');
+
+$save_button = $this->getRaw('save_button');
+$showSaveButton = function() use ($save_button) {
+	if(!$save_button) {
+		return;
+	}
+	?>
+	<div class="row" style="margin-bottom: 20px;">
+		<div class="col-md-2">
+		</div>
+		<div class="col-md-6" align="right">
+			<?=$this->getRaw('save_button')?>
+		</div>
+	</div>
+	<?php
+}
+
+?>
+
+<fieldset style="margin-bottom: 40px;">
+	<?=$form->field($p_f_prefix.'name')?>
+
+	<?=$form->field($p_f_prefix.'is_secret')?>
+	<?=$form->field($p_f_prefix.'is_active')?>
+	<?=$form->field($p_f_prefix.'SSL_required')?>
+
+	<?=$form->field($p_f_prefix.'title')?>
+	<?=$form->field($p_f_prefix.'menu_title')?>
+	<?=$form->field($p_f_prefix.'breadcrumb_title')?>
+	<?=$form->field($p_f_prefix.'icon')?>
+
+	<?php if($form->fieldExists($p_f_prefix.'relative_path_fragment')):
+		$field = $form->field($p_f_prefix.'relative_path_fragment');
+
+		$parent = $page->getParent();
+		if($parent) {
+			$parent_URL = $parent->getURL();
+		} else {
+			$parent_URL = $page->getSite()->getHomepage( $page->getLocale() )->getURL();
+		}
+		?>
+		<?=$field->row()->start()?>
+		<?=$field->label()?>
+
+		<?=$field->container()->start()?>
+		<div class="input-group">
+			<span class="input-group-prepend" style="font-weight: bolder"><span class="input-group-text"><?=rtrim($parent_URL,'/')?>/</span></span>
+			<?=$field->input()?>
+			<?=$field->error()?>
+		</div>
+		<?=$field->container()->end()?>
+
+		<?=$field->row()->end()?>
+	<?php else: ?>
+		<div class="row">
+			<label class="col-md-2 control-label">URL:</label>
+			<div class="col-md-5">
+				<div class="input-group">
+					<span class="input-group-prepend" style=""><span class="input-group-text"> </span></span>
+					<span class="input-group-prepend" style="bolder;border-left: none;border-right: none;"><span class="input-group-text"><?=$page->getURL()?></span></span>
+					<span class="input-group-append" style=""><span class="input-group-text"></span></span>
+				</div>
+			</div>
+
+		</div>
+	<?php endif; ?>
+	<?php $showSaveButton() ?>
+
+
+</fieldset>
+
+<div class="form-group row">
+	<div class="col-md-2">
+	</div>
+	<div class="col-md-5">
+		<label class="control-label"><?=Tr::_('Meta Tags:');?></label>
+	</div>
+</div>
+
+<div class="row" style="margin-bottom: 40px;">
+	<div class="col-md-2"></div>
+	<div class="col-md-10">
+		<table>
+			<?php for( $m=0;$m<Pages_Page::MAX_META_TAGS_COUNT;$m++ ):
+				if(!$form->fieldExists($p_f_prefix_a.'/meta_tag/'.$m.'/attribute')) {
+					break;
+				}
+
+				?>
+				<tr><td style="padding: 6px;padding-left: 15px;">
+						<div class="input-group">
+							<span class="input-group-prepend"><span class="input-group-text">&lt;meta&nbsp;</span></span>
+							<?=$form->field($p_f_prefix_a.'/meta_tag/'.$m.'/attribute')->input()?>
+							<span class="input-group-prepend"><span class="input-group-text">="</span></span>
+							<?=$form->field($p_f_prefix_a.'/meta_tag/'.$m.'/attribute_value')->input()?>
+							<span class="input-group-prepend"><span class="input-group-text">&nbsp;&nbsp;content="</span></span>
+							<?=$form->field($p_f_prefix_a.'/meta_tag/'.$m.'/content')->input()?>
+							<span class="input-group-append"><span class="input-group-text">"/&gt;</span></span>
+						</div>
+					</td></tr>
+			<?php endfor; ?>
+		</table>
+
+	</div>
+</div>
+<?php $showSaveButton() ?>
+
+
+
+<div class="form-group row">
+	<div class="col-md-2">
+	</div>
+	<div class="col-md-5">
+		<label class="control-label"><?=Tr::_('HTTP headers:');?></label>
+	</div>
+</div>
+
+
+<div class="row" style="margin-bottom: 40px;">
+	<div class="col-md-2"></div>
+	<div class="col-md-10">
+		<table>
+			<?php for( $u=0;$u<Pages_Page::MAX_HTT_HEADERS_COUNT;$u++ ):
+				if(!$form->fieldExists($p_f_prefix_a.'/http_headers/'.$u)) {
+					break;
+				}
+
+				$field= $form->field($p_f_prefix_a.'/http_headers/'.$u);
+				$field->input()->addCustomCssStyle('width: 400px');
+				?>
+				<tr>
+					<td></td>
+					<td style="padding-left: 15px;">
+							<?=$field->row()->start()?>
+							<?=$field->error()?>
+							<div class="input-group">
+									<span class="input-group-prepend">
+										<span class="input-group-text"></span>
+									</span>
+								<?=$field->input()?>
+									<span class="input-group-append">
+										<span class="input-group-text"></span>
+									</span>
+							</div>
+							<?=$field->row()->end()?>
+					</td>
+				</tr>
+			<?php endfor; ?>
+
+		</table>
+	</div>
+</div>
+<?php $showSaveButton() ?>
+
+
+<?php
+$tabs = UI::tabsJS(
+	'',
+	[
+		'tab_mvc' => Tr::_('MVC Content'),
+		'tab_static' => Tr::_('Static content'),
+		'tab_callback' => Tr::_('Callback'),
+		'tab_sub_app' => Tr::_('Sub Application'),
+	],
+	$page_selected_tab
+);
+?>
+
+<?=$tabs?>
+
+<?=$tabs->contentStart()?>
+	<?=$tabs->getTab('tab_mvc')->contentStart()?>
+		<div style="min-height: 600px;margin-bottom: 40px;">
+			<?=$form->field($p_f_prefix.'layout_script_name')?>
+			<div>
+				<legend><?=Tr::_('Content')?></legend>
+
+				<div class="toolbar">
+					<?=UI::button_create(Tr::_('Add content'))->setOnclick($add_content_handler)?>
+				</div>
+
+				<div id="content_list_area_<?=$page->getSiteId()?>_<?=$page->getId()?>">
+					<?php require 'content_list.phtml'; ?>
+				</div>
+			</div>
+		</div>
+	<?=$tabs->getTab('tab_mvc')->contentEnd()?>
+
+	<?=$tabs->getTab('tab_static')->contentStart()?>
+		<div style="min-height: 600px;margin-bottom: 40px;">
+			<?php
+			$form->field($p_f_prefix.'output')->input()->addCustomCssStyle('height: 400px');
+			?>
+			<?=$form->field($p_f_prefix.'output')->input()?>
+
+			<?php $showSaveButton() ?>
+		</div>
+	<?=$tabs->getTab('tab_static')->contentEnd()?>
+
+	<?=$tabs->getTab('tab_callback')->contentStart()?>
+		<div style="min-height: 600px;margin-bottom: 40px;">
+			<div style="width: 900px;margin-left: 50px;">
+				<?php
+				$class_field = $form->field($p_f_prefix.'output_callback_class');
+				$method_field = $form->field($p_f_prefix.'output_callback_method');
+				?>
+				<?=$class_field->row()->start()?>
+				<?=$class_field->error()?>
+				<div class="input-group" style="padding-left: 15px;margin-right: 15px;">
+					<span class="input-group-prepend"><span class="input-group-text"></span></span>
+					<?=$class_field->input()?>
+					<span class="input-group-prepend"><span class="input-group-text">::</span></span>
+					<?=$method_field->input()?>
+					<span class="input-group-append"><span class="input-group-text">( Jet\Mvc_Page $page )</span></span>
+				</div>
+				<?=$class_field->row()->end()?>
+			</div>
+
+			<?php $showSaveButton() ?>
+		</div>
+	<?=$tabs->getTab('tab_callback')->contentEnd()?>
+
+
+	<?=$tabs->getTab('tab_sub_app')->contentStart()?>
+		<div style="min-height: 600px;margin-bottom: 40px;">
+			<?=$form->field($p_f_prefix.'is_sub_app')?>
+			<?=$form->field($p_f_prefix.'sub_app_index_file_name')?>
+			<?=$form->field($p_f_prefix.'sub_app_php_file_extensions')?>
+
+			<?php $showSaveButton() ?>
+		</div>
+	<?=$tabs->getTab('tab_sub_app')->contentEnd()?>
+<?=$tabs->contentEnd()?>
+

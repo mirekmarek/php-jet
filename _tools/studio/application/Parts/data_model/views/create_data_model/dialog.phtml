@@ -1,0 +1,18 @@
+<?php
+namespace JetStudio;
+
+use Jet\UI;
+use Jet\Tr;
+
+$dialog = UI::dialog('dialog_create_new_data_model', Tr::_('Create new DataModel'), 600);
+
+echo $dialog->start();
+	?>
+	<div id="<?=DataModels_Model::getCreateForm()->getId()?>_form_area">
+		<?php require 'form.phtml'; ?>
+	</div>
+	<?php
+echo $dialog->footer();
+	echo UI::button_save(Tr::_('Create'))->setOnclick('JetStudio.DataModel.create.createSend()');
+echo $dialog->end();
+

@@ -1,0 +1,12 @@
+<?php
+namespace JetStudio;
+
+$form = Modules_Manifest::getCreateForm();
+
+echo $form->start();
+echo $form->field('module_name');
+echo $form->field('module_label');
+
+
+echo $form->end();
+

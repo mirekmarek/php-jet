@@ -1,0 +1,30 @@
+<?php
+namespace JetStudio;
+
+use Jet\Mvc_View;
+use Jet\Form;
+
+/**
+ * @var Mvc_View $this
+ * @var DataModels_Model $related
+ * @var Form $form
+ */
+
+$form = $this->getRaw('form');
+$related = $this->getRaw('related');
+
+echo $form->start();
+
+echo $form->field('related_model_id');
+echo $form->field('join_type');
+
+$form->setDoNotTranslateTexts(true);
+foreach( $related->getProperties() as $property ) {
+	if(!$property->getIsId()) {
+		continue;
+	}
+
+	echo $form->field('glue_'.$property->getInternalId());
+}
+
+echo $form->end();

@@ -1,0 +1,86 @@
+<?php
+namespace JetStudio;
+
+use Jet\Form;
+use Jet\Tr;
+use Jet\UI;
+
+$form = Menus_MenuNamespace_Menu_Item::getCreateForm();
+
+$form->getField('label')->input()->addJsAction('onkeyup', 'JetStudio.Menus.createMenuItem.generateId(this.value);');
+
+$form->setDefaultLabelWidth( [ Form::LJ_SIZE_MEDIUM => 3 ] );
+$form->setDefaultFieldWidth( [ Form::LJ_SIZE_MEDIUM => 9 ] );
+
+echo $form->start();
+
+echo $form->field('label');
+echo $form->field('id');
+echo $form->field('icon');
+echo $form->field('index');
+
+echo $form->field('separator_before');
+echo $form->field('separator_after');
+
+$tabs = UI::tabsJS('create_menu_item_target_tabs', [
+	'tab_direct_mvc' => Tr::_('MVC link'),
+	'tab_direct_link' => Tr::_('Direct link'),
+]);
+?>
+	<?=$tabs?>
+
+	<?=$tabs->contentStart()?>
+		<?=$tabs->tab('tab_direct_mvc')->contentStart()?>
+			<div style="padding-top: 10px;min-height: 600px;">
+				<?=$form->field('page_id')?>
+				<?=$form->field('site_id')?>
+				<?=$form->field('locale')?>
+
+				<div class="form-group row">
+					<label class="col-md-3 control-label"><?=Tr::_('Custom URL parts:')?></label>
+					<div class="col-md-9">
+						<?php for( $c=0; $c<Menus_MenuNamespace_Menu_Item::URL_PARTS_COUNT; $c++):
+							$field = $form->getField('/URL_parts/'.$c);
+							?>
+							<div class="input-group">
+								<span class="input-group-prepend" style="font-weight: bolder"><span class="input-group-text">/</span></span>
+								<?=$field->input()?>
+								<span class="input-group-append" style="font-weight: bolder"><span class="input-group-text">/</span></span>
+							</div>
+						<?php endfor; ?>
+					</div>
+				</div>
+
+
+				<div class="form-group row">
+					<label class="col-md-3 control-label"><?=Tr::_('GET parameter:')?></label>
+					<div class="col-md-9">
+						<?php for( $c=0; $c<Menus_MenuNamespace_Menu_Item::GET_PARAMS_COUNT; $c++):
+							$field_key = $form->getField('/GET_params/'.$c.'/key');
+							$field_value = $form->getField('/GET_params/'.$c.'/value');
+							?>
+							<div class="input-group">
+								<span class="input-group-prepend" style="font-weight: bolder"><span class="input-group-text"> </span></span>
+								<?=$field_key->input()?>
+								<span class="input-group-prepend" style="font-weight: bolder"><span class="input-group-text">=</span></span>
+								<?=$field_value->input()?>
+								<span class="input-group-append" style="font-weight: bolder"><span class="input-group-text"> </span></span>
+							</div>
+						<?php endfor; ?>
+					</div>
+				</div>
+
+			</div>
+
+		<?=$tabs->tab('tab_direct_mvc')->contentEnd()?>
+
+		<?=$tabs->tab('tab_direct_link')->contentStart()?>
+			<div style="padding-top: 10px;min-height: 600px;">
+				<?=$form->field('URL')?>
+			</div>
+		<?=$tabs->tab('tab_direct_link')->contentEnd()?>
+	<?=$tabs->contentEnd()?>
+
+<?php
+echo $form->end();
+

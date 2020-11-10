@@ -1,0 +1,73 @@
+<?php
+namespace JetStudio;
+
+use Jet\Tr;
+?>
+
+<script type="text/javascript">
+	if(!window['JetStudio']) {
+		var JetStudio = {};
+	}
+
+	JetStudio.Pages = {
+		createPage: {
+			openDialog: function() {
+				$('#dialog_create_new_page').modal('show');
+			},
+			createSend: function() {
+				JetAjaxForm.submit(
+					'<?=Pages_Page::getCreateForm()->getId()?>',
+					{
+						onSuccess: function( form, response_data ) {
+							location = '?site=<?=Pages::getCurrentSiteId()?>&locale=<?=Pages::getCurrentLocale()?>&page='+encodeURIComponent(response_data['new_page_id'])
+						}
+					}
+				);
+			},
+			generateId: function( name ) {
+				$.ajax({
+					url: '<?=Pages::getActionUrl('generate_id', [], false)?>&name='+encodeURIComponent(name),
+					success: function(result) {
+						$('#page_create_form__id').val( result.id );
+					}
+				});
+			}
+		},
+		editPage: {
+			content: {
+				addContent: function() {
+					$('#dialog_create_new_page_content').modal('show');
+				},
+
+				createSend: function () {
+
+					<?php if(Pages::getCurrentPage()): ?>
+					JetAjaxForm.submit(
+						'<?=Pages_Page_Content::getCreateForm(Pages::getCurrentPage())->getId()?>',
+						{
+							onSuccess: function( form, response_data ) {
+							}
+						}
+					);
+					<?php endif; ?>
+				},
+
+				deleteContent: function( index ) {
+					$('#delete_content_form__index').val( index );
+					$('#delete_content').modal('show');
+				},
+
+				deleteContentSend: function() {
+					$('#delete_content_form').submit();
+				}
+			}
+		},
+
+		deletePage: {
+			openDialog: function() {
+				$('#delete_page').modal('show');
+			}
+		}
+
+	}
+</script>

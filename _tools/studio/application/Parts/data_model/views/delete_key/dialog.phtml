@@ -1,0 +1,30 @@
+<?php
+namespace JetStudio;
+
+use Jet\Mvc_View;
+use Jet\UI;
+use Jet\Tr;
+
+/**
+ * @var Mvc_View $this
+ * @var DataModels_Key $key
+ */
+
+if(!DataModels::getCurrentModel()) {
+    return;
+}
+
+$key = $this->getRaw('key');
+
+$dialog = UI::dialog('delete_key_'.$key->getInternalId(), Tr::_('Delete key'), 600);
+
+echo $dialog->start();
+	?>
+    <?=Tr::_('Do You really want to delete key <strong>%key%</strong> ?', [
+    	'key' => $key->getName()
+	]);?>
+	<?php
+echo $dialog->footer();
+	echo UI::button_delete()->setUrl( DataModels::getActionUrl('key/delete', ['key' =>$key->getInternalId()]) );
+echo $dialog->end();
+

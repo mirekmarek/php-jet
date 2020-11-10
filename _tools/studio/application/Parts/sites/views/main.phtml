@@ -1,0 +1,42 @@
+<?php
+namespace JetStudio;
+
+use Jet\UI;
+use Jet\Tr;
+
+?>
+<?=Application::getView()->render('js');?>
+
+<?php if(Sites::getCurrentSite()): ?>
+<div class="row" id="main-toolbar">
+	<div class="col-md-3" style="padding: 0px;">
+		<div class="toolbar">
+
+			<?=UI::button_create(Tr::_('Create new site'))->setOnclick('JetStudio.Sites.createSite.openDialog()')?>
+		</div>
+	</div>
+	<div class="col-md-9" style="padding: 0px;">
+		<?=Application::getView()->render('site_edit/toolbar');?>
+	</div>
+</div>
+
+<div class="row" id="main-col">
+	<div class="col-md-3">
+		<div style="padding: 10px;">
+			<?=Application::getView()->render('sites_list');?>
+		</div>
+	</div>
+	<div class="col-md-9" style="padding: 0px;">
+		<?=Application::getView()->render('site_edit/edit');?>
+	</div>
+</div>
+
+<?php else: ?>
+<div class="row">
+	<div class="col-md-12">
+		<?=Application::getView()->render('site_edit/dashboard');?>
+	</div>
+</div>
+<?php endif; ?>
+
+<?=Application::getView()->render('create_site/dialog');?>

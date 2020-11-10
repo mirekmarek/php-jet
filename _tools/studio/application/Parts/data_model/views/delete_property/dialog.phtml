@@ -1,0 +1,30 @@
+<?php
+namespace JetStudio;
+
+use Jet\Mvc_View;
+use Jet\UI;
+use Jet\Tr;
+
+/**
+ * @var Mvc_View $this
+ * @var DataModels_Property_Interface $property
+ */
+
+if(!DataModels::getCurrentModel()) {
+    return;
+}
+
+$property = $this->getRaw('property');
+
+$dialog = UI::dialog('delete_property_'.$property->getInternalId(), Tr::_('Delete property'), 600);
+
+echo $dialog->start();
+	?>
+    <?=Tr::_('Do You really want to delete property <strong>%property%</strong> ?', [
+    	'property' => $property->getName()
+	]);?>
+	<?php
+echo $dialog->footer();
+	echo UI::button_delete()->setUrl( DataModels::getActionUrl('property/delete', ['property' =>$property->getInternalId()]) );
+echo $dialog->end();
+

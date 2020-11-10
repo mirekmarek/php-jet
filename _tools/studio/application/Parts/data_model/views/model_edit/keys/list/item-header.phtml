@@ -1,0 +1,16 @@
+<?php
+namespace JetStudio;
+
+use Jet\Mvc_View;
+use Jet\UI;
+
+/**
+ * @var Mvc_View $this;
+ * @var DataModels_Key $key
+ */
+
+$key = $this->getRaw('key');
+?>
+<div style="display: inline-block;width: 130px;">
+</div>
+<?=$key->getName()?>

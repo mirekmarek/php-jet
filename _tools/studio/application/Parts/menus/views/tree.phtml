@@ -1,0 +1,66 @@
+<?php
+namespace JetStudio;
+
+use Jet\UI;
+
+$namespaces = Menus::getMenuNamespaces();
+
+$namespace_icon = 'folder';
+$menu_icon = 'sitemap';
+?>
+<table class="table table-striped">
+	<?php foreach( $namespaces as $namespace ): ?>
+		<?php if( $namespace->getName()==Menus::getCurrentMenuNamespaceName() ): ?>
+			<tr>
+				<td>
+					<?php if(Menus::getCurrentMenuId()): ?>
+						<a href="<?=Menus::getActionUrl('', [], $namespace->getName(), false, false)?>"><b><?=UI::icon($namespace_icon)?> <?=$namespace->getName()?></b></a>
+					<?php else: ?>
+						<b><?=UI::icon($namespace_icon)?> <?=$namespace->getName()?></b>
+					<?php endif; ?>
+				</td>
+			</tr>
+			<?php foreach( $namespace->getMenus() as $menu ):
+				/**
+				 * @var Menus_MenuNamespace_Menu $menu
+				 */
+				?>
+				<?php if($menu->getId()==Menus::getCurrentMenuId()): ?>
+					<tr>
+						<td style="padding-left: 30px;">
+							<?php if(Menus::getCurrentMenuItemId()): ?>
+								<a href="<?=Menus::getActionUrl('', [], $namespace->getName(), $menu->getId(), false)?>"><b><?=UI::icon($menu_icon)?> <?=$menu->getLabel()?></b></a>
+							<?php else: ?>
+								<b><?=UI::icon($menu_icon)?> <?=$menu->getLabel()?></b>
+							<?php endif; ?>
+						</td>
+					</tr>
+					<?php foreach( $menu->getMenuItems() as $item ):
+						$label = $item->getLabel().' ('.$item->getId().')';
+					?>
+					<tr>
+						<td style="padding-left: 60px;">
+							<?php if($item->getId()==Menus::getCurrentMenuItemId()): ?>
+								<b><?=$label?></b>
+							<?php else: ?>
+								<a href="<?=Menus::getActionUrl('', [], $namespace->getName(), $menu->getId(), $item->getId())?>"><?=$label?></a>
+							<?php endif; ?>
+						</td>
+					</tr>
+					<?php endforeach; ?>
+				<?php else: ?>
+					<tr>
+						<td style="padding-left: 30px;"><a href="<?=Menus::getActionUrl('', [], $namespace->getName(), $menu->getId(), false)?>"><?=UI::icon($menu_icon)?> <?=$menu->getLabel()?></a></td>
+					</tr>
+				<?php endif; ?>
+			<?php endforeach; ?>
+
+		<?php else: ?>
+			<tr>
+				<td>
+					<a href="<?=Menus::getActionUrl('', [], $namespace->getName(), false, false)?>"><?=UI::icon($namespace_icon)?> <?=$namespace->getName()?></a>
+				</td>
+			</tr>
+		<?php endif; ?>
+	<?php endforeach; ?>
+</table>

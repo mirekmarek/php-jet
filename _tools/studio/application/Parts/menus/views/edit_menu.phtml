@@ -1,0 +1,81 @@
+<?php
+namespace JetStudio;
+
+use Jet\Tr;
+use Jet\UI;
+use Jet\Form;
+
+
+$menu = Menus::getCurrentMenu();
+$form = $menu->getEditForm();
+
+
+$form->setDefaultLabelWidth([
+	Form::LJ_SIZE_MEDIUM => 2
+]);
+$form->setDefaultFieldWidth([
+	Form::LJ_SIZE_MEDIUM => 6
+]);
+
+$delete_menu_dialog = UI::dialog('delete_menu_dialog', Tr::_('Delete menu'), 600);
+
+?>
+
+<?=$form->start()?>
+<div class="toolbar" id="main-toolbar">
+	<?=UI::button_save()?>
+	<?=UI::button_create(Tr::_('Create new menu item'))->setOnclick("JetStudio.Menus.createMenuItem.openDialog();")?>
+	<?=UI::button_delete(Tr::_('Delete this menu'))->setOnclick("$('#delete_menu_dialog').modal('show')") ?>
+</div>
+
+<div class="container-fluid" id="main-edit-area">
+	<?=Application::getGeneralView()->render('messages');?>
+
+	<?=$form->field('id')?>
+	<?=$form->field('label')?>
+	<?=$form->field('icon')?>
+	<?=$form->field('index')?>
+
+	<?php if($menu->getMenuItems()): ?>
+	<div class="row">
+		<label class="col-md-2 control-label"><?=Tr::_('Items:')?></label>
+		<div class="col-md-6">
+			<div id="items_sort_area">
+				<?php foreach( $menu->getMenuItems() as $item ): ?>
+					<div class="list-group-item menu-item-sort-item" data-id="<?=$item->getId()?>">
+						<input type="hidden" name="items_sort[]" value="<?=$item->getId()?>">
+						<table>
+							<tr>
+								<td><span class="fa fa-arrows-v" style="font-size:16px;padding-right: 5px"></span></td>
+
+								<td>
+									<a href="<?=Menus::getActionUrl('', [], null, null, $item->getId())?>"><?=$item->getLabel()?></a>
+								</td>
+							</tr>
+						</table>
+					</div>
+				<?php endforeach; ?>
+			</div>
+		</div>
+	</div>
+	<?php endif; ?>
+
+</div>
+
+<?=$form->end()?>
+
+<?php
+echo $delete_menu_dialog->start();
+	echo Tr::_('Do you really want to delete this menu?');
+echo $delete_menu_dialog->footer();
+	echo UI::button_delete()->setUrl( Menus::getActionUrl('menu/delete') );
+echo $delete_menu_dialog->end();
+?>
+
+<?=Application::getView()->render('create_menu_item/dialog');?>
+
+<script type="text/javascript">
+	$(document).ready( function() {
+		JetStudio.Menus.initSort();
+	} );
+</script>

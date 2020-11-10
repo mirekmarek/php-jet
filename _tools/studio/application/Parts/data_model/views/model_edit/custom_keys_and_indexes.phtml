@@ -1,0 +1,20 @@
+<?php
+namespace JetStudio;
+
+use Jet\UI;
+use Jet\Tr;
+use Jet\UI_button;
+
+$current = DataModels::getCurrentModel();
+
+if(!$current) {
+	return;
+}
+?>
+<legend>
+	<?=Tr::_('Custom keys and indexes')?>
+</legend>
+
+<div id="keys_list_area">
+	<?php require 'keys/list.phtml' ?>
+</div>

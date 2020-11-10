@@ -1,0 +1,12 @@
+<?php
+namespace JetStudio;
+
+$form = Pages_Page::getCreateForm();
+
+$form->getField('name')->input()->addJsAction('onkeyup', 'JetStudio.Pages.createPage.generateId(this.value);');
+
+echo $form->start();
+echo $form->field('name');
+echo $form->field('id');
+
+echo $form->end();

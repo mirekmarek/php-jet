@@ -1,0 +1,27 @@
+<?php
+namespace JetStudio;
+
+use Jet\UI;
+use Jet\Tr;
+use Jet\UI_button;
+
+$current = DataModels::getCurrentModel();
+
+if(!$current) {
+	return;
+}
+?>
+
+<div class="row">
+	<div class="col-md-12">
+		<legend>
+			<?=Tr::_('Properties')?>
+		</legend>
+
+
+		<div id="properties_list_area">
+			<?php require 'properties/list.phtml' ?>
+		</div>
+
+	</div>
+</div>

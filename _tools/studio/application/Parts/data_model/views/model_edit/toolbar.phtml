@@ -1,0 +1,58 @@
+<?php
+namespace JetStudio;
+
+use Jet\Tr;use Jet\UI;
+use Jet\UI_messages;
+
+$class = DataModels::getCurrentModel()->createClass();
+
+$errors = [];
+$warnings = [];
+
+if( $class ) {
+	$errors = $class->getErrors();
+	$warnings = $class->getWarnings();
+}
+?>
+
+<?=UI::button_save()
+	->setOnclick("$('#edit_model_form').submit()")
+?>
+<?php if($class && !$errors): ?>
+	<div class="dropdown" style="display: inline-block">
+		<a class="dropdown-toggle" data-toggle="dropdown" href="#">
+		<span class="btn btn-primary">
+			<?=Tr::_('Generate')?>
+			<span class="caret"></span>
+		</span>
+		</a>
+		<div class="dropdown-menu" style="padding: 10px;">
+			<div class="btn-group-vertical">
+				<?=UI::button(Tr::_('Class and Database table'))->setClass('primary')->setUrl(DataModels::getActionUrl('generate/class_and_database_table'))?>
+				<?=UI::button(Tr::_('Class'))->setClass('primary')->setUrl(DataModels::getActionUrl('generate/class'))?>
+				<?=UI::button(Tr::_('Database table'))->setClass('primary')->setUrl(DataModels::getActionUrl('generate/database_table'))?>
+				<?=UI::button(Tr::_('Show class source code'))->setOnclick("JetStudio.DataModel.edit.showClassSource()")?>
+				<?=UI::button(Tr::_('Show SQL - create'))->setOnclick("JetStudio.DataModel.edit.showSQLCreate()")?>
+				<?=UI::button(Tr::_('Show SQL - update'))->setOnclick("JetStudio.DataModel.edit.showSQLUpdate()")?>
+			</div>
+		</div>
+	</div>
+<?php endif; ?>
+
+
+<?=UI::button_create(Tr::_('Create property'))
+	->setOnclick('JetStudio.DataModel.property.create.openDialog()')
+?>
+
+<?=UI::button_create(Tr::_('Create outer relation'))
+	->setOnclick('JetStudio.DataModel.relation.create.openDialog()')
+?>
+
+<?=UI::button_create(Tr::_('Create key'))
+	->setOnclick('JetStudio.DataModel.key.create.openDialog()')
+?>
+
+<?=UI::button_delete(Tr::_('Delete this DataModel'))
+	->setOnclick('JetStudio.DataModel.delete.openDialog()')
+?>
+

@@ -1,0 +1,14 @@
+<?php
+namespace JetStudio;
+
+$form = DataModels_Key::getCreateForm();
+
+$form->field('properties')->input()->addCustomCssStyle('height:200px');
+
+echo $form->start();
+echo $form->field('name');
+echo $form->field('type');
+echo $form->field('properties');
+
+echo $form->end();
+

@@ -1,0 +1,16 @@
+<?php
+namespace JetStudio;
+
+use Jet\Tr;
+use Jet\UI_messages;
+
+$wizard = Modules_Wizard::getCurrentWizard();
+
+?>
+<div class="container-fluid">
+	<h4><?=$wizard->getTitle()?></h4>
+	<p><?=$wizard->getDescription()?></p>
+	<hr/>
+	<?=UI_messages::createSuccess( Tr::_('Module has been created') );?>
+</div>
+

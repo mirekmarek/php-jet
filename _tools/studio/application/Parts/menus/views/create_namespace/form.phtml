@@ -1,0 +1,10 @@
+<?php
+namespace JetStudio;
+
+$form = Menus_MenuNamespace::getCreateForm();
+
+echo $form->start();
+echo $form->field('menu_namespace_name');
+
+echo $form->end();
+

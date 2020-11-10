@@ -1,0 +1,32 @@
+<?php
+namespace JetStudio;
+
+use Jet\UI;
+use Jet\Tr;
+
+$current = DataModels::getCurrentModel();
+
+if(!$current) {
+	return;
+}
+?>
+
+<div>
+	<?php foreach($current->getKeys() as $key):
+		$this->setVar('key', $key);
+
+ 	?>
+        <div>
+            <div class="card" id="key_panel_<?=$key->getInternalId()?>">
+                <div class="card-header" id="key_header_area_<?=$key->getInternalId()?>" data-toggle="collapse" data-target="#key_detail_area_<?=$key->getInternalId()?>">
+					<?php require 'list/item-header.phtml';  ?>
+                </div>
+
+                <div class="card-body collapse" id="key_detail_area_<?=$key->getInternalId()?>">
+                    <?php require 'list/item-body.phtml';  ?>
+                </div>
+            </div>
+
+        </div>
+	<?php endforeach; ?>
+</div>

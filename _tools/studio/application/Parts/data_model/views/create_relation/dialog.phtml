@@ -1,0 +1,32 @@
+<?php
+namespace JetStudio;
+
+use Jet\UI;
+use Jet\Tr;
+
+$current_model = DataModels::getCurrentModel();
+if(!$current_model) {
+    return;
+}
+
+$dialog = UI::dialog('dialog_create_new_relation', Tr::_('Create a Outer Relation'), 600);
+
+$select_related_form = DataModels_OuterRelation::getSelectRelatedModelForm();
+$select_related_form->field('related_model')->input()->addJsAction('onchange', 'JetStudio.DataModel.relation.create.selectModel(this.options[this.selectedIndex].value)');
+
+echo $dialog->start();
+
+	echo $select_related_form->start();
+	echo $select_related_form->field('related_model');
+	echo $select_related_form->end();
+
+    ?>
+    <div id="create_relation_form_area">
+
+    </div>
+	<?php
+
+echo $dialog->footer();
+echo UI::button_save(Tr::_('Create'))->setOnclick('JetStudio.DataModel.relation.create.createSend()');
+echo $dialog->end();
+

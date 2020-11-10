@@ -1,0 +1,25 @@
+<?php
+namespace JetStudio;
+
+use Jet\UI;
+use Jet\Tr;
+
+$current_model = DataModels::getCurrentModel();
+if(!$current_model) {
+    return;
+}
+
+$dialog = UI::dialog('dialog_create_new_property', Tr::_('Create new Property'), 600);
+
+
+echo $dialog->start();
+    ?>
+    <div id="<?=DataModels_Property::getCreateForm()->getId()?>_form_area">
+		<?php require 'form.phtml'; ?>
+    </div>
+	<?php
+
+echo $dialog->footer();
+echo UI::button_save(Tr::_('Create'))->setOnclick('JetStudio.DataModel.property.create.createSend()');
+echo $dialog->end();
+

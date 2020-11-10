@@ -1,0 +1,39 @@
+<?php
+namespace JetStudio;
+
+use Jet\Mvc_View;
+use Jet\UI;
+use Jet\UI_button;
+use Jet\Tr;
+
+/**
+ * @var Mvc_View $this;
+ * @var DataModels_Property_Interface $property
+ */
+
+$property = $this->getRaw('property');
+?>
+<table style="width: 100%">
+	<tr>
+		<td style="width: 180px">
+			<i class="property-option-move" style="cursor: ns-resize" onmousedown="$('#property_detail_area_<?=$property->getInternalId()?>').collapse('hide')">
+				<?=UI::icon('arrows-v')->setSize(20)?>
+			</i>
+			<?=$property->getIcons()?>
+		</td>
+		<td>
+			<?=$property->getName()?>
+		</td>
+		<td align="right">
+			<?php
+			if($property->canBeDeleted()) {
+
+				echo UI::button_delete(Tr::_('Delete this property'))
+					->setOnclick('JetStudio.DataModel.property.delete.openDialog(\''.$property->getInternalId().'\');')
+					->setSize(UI_button::SIZE_EXTRA_SMALL);
+			}
+			?>
+		</td>
+	</tr>
+</table>
+
