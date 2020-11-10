@@ -1,0 +1,12 @@
+<?php
+namespace JetStudio;
+
+use Jet\UI_messages;
+?>
+<div id="system-messages-area">
+	<?php
+	foreach( UI_messages::get() as $msg ):
+		echo $msg;
+	endforeach;
+	?>
+</div>

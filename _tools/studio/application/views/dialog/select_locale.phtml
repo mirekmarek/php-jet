@@ -1,0 +1,139 @@
+<?php
+namespace JetStudio;
+
+use Jet\UI;
+use Jet\Locale;
+use Jet\Tr;
+?>
+<script type="text/javascript">
+	if(!window['JetStudio']) {
+		var JetStudio = {};
+	}
+
+	if(!window['JetStudio']['Dialog']) {
+		JetStudio.Dialog = {};
+	}
+
+	JetStudio.Dialog.SelectLocale = {
+		open: function( callback ) {
+			JetStudio.Dialog.SelectLocale.responseCallback = callback;
+
+			JetStudio.Dialog.SelectLocale.resetSearch();
+
+			$('#dialog_select_locale').modal('show');
+		},
+
+		responseCallback: function( locale_data ) {
+			console.debug( 'Selected:', locale_data );
+		},
+
+		search: function() {
+			var value = $('#search_locale_value').val();
+
+			if(!value) {
+				JetStudio.Dialog.SelectLocale.resetSearch();
+				return;
+			}
+
+			value = value.toLowerCase();
+
+			$('.locale-row').each( function (index, row) {
+				row = $(row);
+
+				var name = row.data('name').toLowerCase();
+				var name_local = row.data('nameLocal').toLowerCase();
+				var locale = row.data('locale').toLowerCase();
+
+				if(
+					name.includes( value ) ||
+					name_local.includes( value ) ||
+					locale.includes( value )
+				) {
+					row.show();
+				} else {
+					row.hide();
+				}
+
+			} );
+
+		},
+
+		resetSearch: function() {
+			$('#search_locale_value').val('');
+
+			$('.locale-row').show();
+		},
+
+		select: function( locale ) {
+			var locale_row = $('#locale_'+locale);
+
+			var locale_data = {
+				locale: locale,
+				name: locale_row.data('name'),
+				name_local: locale_row.data('nameLocal')
+			};
+
+			JetStudio.Dialog.SelectLocale.responseCallback( locale_data );
+
+			$('#dialog_select_locale').modal('hide');
+		}
+
+	};
+
+</script>
+
+<?php
+$dialog = UI::dialog('dialog_select_locale', Tr::_('Select locale'), 600);
+
+echo $dialog->start();
+?>
+	<div class="input-group" style="margin-bottom: 5px;">
+		<span class="input-group-btn">
+			<button class="btn btn-default" type="button" onclick="JetStudio.Dialog.SelectLocale.resetSearch();">
+				<?=UI::icon( 'times' )?>
+			</button>
+		</span>
+		<input
+				type="text"
+				class="form-control"
+				placeholder="<?=Tr::_('Search for locale ...')?>"
+				id="search_locale_value"
+				onkeyup="JetStudio.Dialog.SelectLocale.search();"
+		>
+		<span class="input-group-btn">
+			<button class="btn btn-default" type="submit" onclick="JetStudio.Dialog.SelectLocale.search();">
+				<?=UI::icon( 'search' )?>
+			</button>
+		</span>
+	</div>
+
+
+	<div style="height: 400px;overflow: auto">
+		<table style="width: 100%">
+		<?php
+		$current_locale = Locale::getCurrentLocale();
+		foreach( Locale::getAllLocalesList() as $l=>$name ):
+			$l = new Locale($l);
+			?>
+			<tr
+				class="locale-row"
+				id="locale_<?=$l?>"
+				data-name="<?=$l->getName($current_locale)?>"
+				data-name-local="<?=$l->getName($l)?>"
+				data-locale="<?=$l?>"
+				style="cursor: pointer;"
+				onclick="JetStudio.Dialog.SelectLocale.select('<?=$l?>');"
+			>
+				<td style="padding: 5px;"><?=UI::flag($l)?></td>
+
+				<td><?=$l?></td>
+				<td><?=$l->getName($current_locale)?></td>
+				<td><?=$l->getName($l)?></td>
+
+			</tr>
+		<?php endforeach; ?>
+		</table>
+	</div>
+	<?php
+echo $dialog->end();
+

@@ -1,0 +1,40 @@
+<?php
+use Jet\Mvc_View;
+use Jet\Form_Renderer;
+use Jet\Form_Field_Int;
+use Jet\Data_Text;
+
+/**
+ * @var Mvc_View      $this
+ * @var Form_Renderer $r
+ */
+$r = $this->getRaw( 'element' );
+
+if(!$r->getBaseCssClasses()) {
+	$r->setBaseCssClass('form-control');
+}
+
+/**
+ * @var Form_Field_Int $field
+ */
+$field = $r->getField();
+if($field->getLastErrorCode()) {
+	$r->addCustomCssClass('is-invalid');
+}
+?>
+
+	<input type="range" name="<?=$field->getTagNameValue()?>" id="<?=$field->getId()?>" <?php
+
+	if( $r->getCssClasses() ) echo ' class ="'.$r->getCssClasses().'"';
+	if( $r->getCssStyles() ) echo ' style ="'.$r->getCssStyles().'"';
+	if( $r->getJsActions() ) echo $r->getJsActions();
+
+	if( $field->getPlaceholder() ) echo ' placeholder="'.Data_Text::htmlSpecialChars($field->getPlaceholder()).'"';
+	if( $field->getIsReadonly() ) echo ' readonly="readonly"';
+	if( $field->getIsRequired() ) echo ' required="required"';
+
+	if( $field->getMinValue()!==null ) echo ' min="'.$field->getMinValue().'"';
+	if( $field->getMaxValue()!==null ) echo ' max="'.$field->getMaxValue().'"';
+	if( $field->getStep()!==null ) echo ' step="'.$field->getStep().'"';
+
+	?> value="<?=$field->getValue()?>"/>
