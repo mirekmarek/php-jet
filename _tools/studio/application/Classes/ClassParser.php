@@ -8,6 +8,7 @@
 namespace JetStudio;
 
 use Jet\Debug;
+use Jet\SysConf_Jet;
 
 class ClassParser {
 

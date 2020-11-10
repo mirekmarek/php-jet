@@ -54,22 +54,6 @@ class Form_Field_WYSIWYG extends Form_Field
 
 
 	/**
-	 * @var array
-	 */
-	protected static $default_editor_CSS_files = WYSIWYG_DEFAULT_EDITOR_CSS_FILES;
-
-	/**
-	 * @var array
-	 */
-	protected static $default_editor_JavaScript_files = WYSIWYG_DEFAULT_EDITOR_JAVASCRIPT_FILES;
-
-	/**
-	 * @var array
-	 */
-	protected static $default_editor_config = WYSIWYG_DEFAULT_EDITOR_CONFIG;
-
-
-	/**
 	 * @var callable
 	 */
 	protected static $default_initialize_code_generator;
@@ -87,12 +71,12 @@ class Form_Field_WYSIWYG extends Form_Field
 	/**
 	 * @var array
 	 */
-	protected $editor_CSS_files;
+	protected $editor_CSS_files = [];
 
 	/**
 	 * @var array
 	 */
-	protected $editor_JavaScript_files;
+	protected $editor_JavaScript_files = [];
 
 	/**
 	 * @var array
@@ -105,87 +89,6 @@ class Form_Field_WYSIWYG extends Form_Field
 	protected $editor_initialize_code_generator;
 
 
-	/**
-	 * @return array
-	 */
-	public static function getDefaultEditorJavaScriptFiles()
-	{
-		return static::$default_editor_JavaScript_files;
-	}
-
-	/**
-	 * @param array $default_editor_JavaScript_files
-	 */
-	public static function setDefaultEditorJavaScriptFiles( $default_editor_JavaScript_files )
-	{
-		static::$default_editor_JavaScript_files = $default_editor_JavaScript_files;
-	}
-
-
-	/**
-	 * @return array
-	 */
-	public static function getDefaultEditorCSSFiles()
-	{
-		return static::$default_editor_CSS_files;
-	}
-
-	/**
-	 * @param array $default_editor_CSS_files
-	 */
-	public static function setDefaultEditorCSSFiles( $default_editor_CSS_files )
-	{
-		static::$default_editor_CSS_files = $default_editor_CSS_files;
-	}
-
-	/**
-	 * @return array
-	 */
-	public static function getDefaultEditorConfig()
-	{
-		return static::$default_editor_config;
-	}
-
-	/**
-	 * @param array $default_editor_config
-	 */
-	public static function setDefaultEditorConfig( $default_editor_config )
-	{
-		static::$default_editor_config = $default_editor_config;
-	}
-
-	/**
-	 * @param string $key
-	 * @param mixed  $value
-	 */
-	public static function setDefaultEditorConfigValue( $key, $value )
-	{
-		static::$default_editor_config[$key] = $value;
-	}
-
-	/**
-	 * @return callable
-	 */
-	public static function getDefaultInitializeCodeGenerator()
-	{
-		if(!self::$default_initialize_code_generator) {
-			return $GLOBALS['WYSIWYG_DEFAULT_INITIALIZER_GENERATOR'];
-		}
-
-		return self::$default_initialize_code_generator;
-	}
-
-	/**
-	 * @param callable $default_initialize_code_generator
-	 */
-	public static function setDefaultInitializeCodeGenerator( callable $default_initialize_code_generator )
-	{
-		self::$default_initialize_code_generator = $default_initialize_code_generator;
-	}
-
-
-
-
 
 
 	/**
@@ -194,8 +97,6 @@ class Form_Field_WYSIWYG extends Form_Field
 	 */
 	public function appendWYSIWYGEditorCSSFile( $URI, $media = 'screen' )
 	{
-		$this->getEditorCSSFiles();
-
 		if( !isset( $this->editor_CSS_files[$media] ) ) {
 			$this->editor_CSS_files[$media] = [];
 		}
@@ -208,10 +109,6 @@ class Form_Field_WYSIWYG extends Form_Field
 	 */
 	public function getEditorCSSFiles()
 	{
-		if( !$this->editor_CSS_files ) {
-			$this->editor_CSS_files = static::getDefaultEditorCSSFiles();
-		}
-
 		return $this->editor_CSS_files;
 	}
 
@@ -228,8 +125,6 @@ class Form_Field_WYSIWYG extends Form_Field
 	 */
 	public function appendEditorJavaScriptFile( $URI )
 	{
-		$this->getEditorJavaScriptFiles();
-
 		$this->editor_JavaScript_files[] = $URI;
 	}
 
@@ -238,10 +133,6 @@ class Form_Field_WYSIWYG extends Form_Field
 	 */
 	public function getEditorJavaScriptFiles()
 	{
-		if( !$this->editor_JavaScript_files ) {
-			$this->editor_JavaScript_files = static::getDefaultEditorJavaScriptFiles();
-		}
-
 		return $this->editor_JavaScript_files;
 	}
 
@@ -258,10 +149,6 @@ class Form_Field_WYSIWYG extends Form_Field
 	 */
 	public function getEditorConfig()
 	{
-		if( !$this->editor_config ) {
-			$this->editor_config = static::getDefaultEditorConfig();
-		}
-
 		return $this->editor_config;
 	}
 
@@ -275,25 +162,10 @@ class Form_Field_WYSIWYG extends Form_Field
 
 
 	/**
-	 * @param string $key
-	 * @param mixed  $value
-	 */
-	public function setEditorConfigValue( $key, $value )
-	{
-		$this->getEditorConfig();
-		$this->editor_config[$key] = $value;
-	}
-
-
-	/**
 	 * @return callable
 	 */
 	public function getEditorInitializeCodeGenerator()
 	{
-		if( !$this->editor_initialize_code_generator ) {
-			$this->editor_initialize_code_generator = static::getDefaultInitializeCodeGenerator();
-		}
-
 		return $this->editor_initialize_code_generator;
 	}
 
@@ -303,28 +175,6 @@ class Form_Field_WYSIWYG extends Form_Field
 	public function setEditorInitializeCodeGenerator( callable $editor_initialize_code_generator )
 	{
 		$this->editor_initialize_code_generator = $editor_initialize_code_generator;
-	}
-
-
-	/**
-	 * @return string
-	 */
-	public function generateJavascriptInitializationCode()
-	{
-		foreach( $this->getEditorCSSFiles() as $media => $CSS_files ) {
-			foreach( $CSS_files as $URI ) {
-				Mvc_Layout::getCurrentLayout()->requireCssFile( $URI, $media );
-			}
-		}
-
-		foreach( $this->getEditorJavaScriptFiles() as $URI ) {
-			Mvc_Layout::getCurrentLayout()->requireJavascriptFile( $URI );
-		}
-
-		$callback = $this->getEditorInitializeCodeGenerator();
-
-		return $callback( $this, $this->getEditorConfig() );
-
 	}
 
 

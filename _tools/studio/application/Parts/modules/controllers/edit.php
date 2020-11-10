@@ -20,7 +20,7 @@ if(
 			$ok = true;
 			try {
 				$current->generate();
-			} catch( Exception $e ) {
+			} catch( \Exception $e ) {
 				$ok = false;
 				Application::handleError( $e );
 			}

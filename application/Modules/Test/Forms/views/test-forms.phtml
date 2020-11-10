@@ -1,5 +1,6 @@
 <?php
 use Jet\Form;
+use Jet\SysConf_URI;
 use Jet\Tr;
 use Jet\Mvc_View;
 use Jet\Mvc_Layout;
@@ -11,7 +12,7 @@ use Jet\Mvc_Layout;
 
 $forms = $this->getRaw( 'forms' );
 
-Mvc_Layout::getCurrentLayout()->requireJavascriptFile(JET_AJAX_FORM_JS_URL);
+Mvc_Layout::getCurrentLayout()->requireJavascriptFile( SysConf_URI::PUBLIC().'scripts/JetAjaxForm.js?v=1' );
 
 ?>
 <script type="text/javascript">

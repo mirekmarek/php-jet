@@ -17,6 +17,7 @@ use Jet\Exception;
 use Jet\IO_Dir;
 use Jet\IO_File;
 use Jet\SysConf_URI;
+use Jet\SysConf_Jet;
 
 class Modules extends BaseObject implements Application_Part
 {

@@ -7,6 +7,8 @@
  */
 namespace JetStudio;
 
+use Jet\SysConf_Jet;
+
 class ClassParser_Class_Method extends ClassParser_Class_Element
 {
 	/**

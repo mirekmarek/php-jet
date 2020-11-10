@@ -3,12 +3,12 @@ namespace JetApplicationModule\Content\Images;
 
 use Jet\Mvc_Layout;
 use Jet\UI;
-
+use Jet\SysConf_URI;
 
 use Jet\Form;
 use Jet\Mvc_View;
 
-Mvc_Layout::getCurrentLayout()->requireJavascriptFile(JET_AJAX_FORM_JS_URL);
+Mvc_Layout::getCurrentLayout()->requireJavascriptFile( SysConf_URI::PUBLIC().'scripts/JetAjaxForm.js?v=1' );
 
 /**
  * @var Mvc_View  $this

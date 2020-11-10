@@ -7,6 +7,8 @@
  */
 namespace JetStudio;
 
+use Jet\SysConf_Jet;
+
 class ClassParser_Namespace extends ClassParser_Element{
 	/**
 	 * @var string

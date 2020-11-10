@@ -22,8 +22,6 @@ require __DIR__.'/config/PATH.php';
 require __DIR__.'/config/URI.php';
 require __DIR__.'/config/Jet.php';
 
-require __DIR__.'/config/js_css.php';
-
 require __DIR__.'/Init/PHP.php';
 require __DIR__.'/Init/ErrorHandler.php';
 require __DIR__.'/Init/Autoloader.php';

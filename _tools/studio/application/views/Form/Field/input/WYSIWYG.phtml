@@ -1,8 +1,11 @@
 <?php
+
+use Jet\Mvc_Layout;
 use Jet\Mvc_View;
 use Jet\Data_Text;
 use Jet\Form_Renderer;
 use Jet\Form_Field_WYSIWYG;
+use Jet\SysConf_Jet;
 
 /**
  * @var Mvc_View           $this
@@ -12,17 +15,117 @@ use Jet\Form_Field_WYSIWYG;
 $r = $this->getRaw( 'element' );
 $field = $r->getField();
 
-$field = $r->getField();
+
+$CSS = $field->getEditorCSSFiles();
+$JS = $field->getEditorJavaScriptFiles();
+$editor_config = $field->getEditorConfig();
+$init_generator = $field->getEditorInitializeCodeGenerator();
+
+
+if(!$CSS) {
+	$CSS = [
+		'' => [
+			'//cdn.tinymce.com/4/skins/lightgray/skin.min.css'
+		],
+	];
+}
+
+if(!$JS) {
+	$JS = [
+		'//cdn.tinymce.com/4/tinymce.min.js',
+	];
+}
+
+if(!$editor_config) {
+	$editor_config = [
+		'mode'                    => 'exact',
+		'theme'                   => 'modern',
+		'skin'                    => false,
+		'apply_source_formatting' => true,
+		'remove_linebreaks'       => false,
+		'entity_encoding'         => 'raw',
+		'convert_urls'            => false,
+		'verify_html'             => true,
+
+		'force_br_newlines' => false,
+		'force_p_newlines'  => false,
+		'forced_root_block' => '',
+
+
+		'plugins'       => 'advlist autolink lists link image charmap print preview hr anchor pagebreak searchreplace wordcount visualblocks visualchars code fullscreen insertdatetime media nonbreaking save table contextmenu directionality template paste textcolor colorpicker textpattern imagetools',
+		'paste_as_text' => true,
+
+		'content_css' => '/public/styles/wysiwyg.css',
+	];
+}
+
+if(!$init_generator) {
+	$init_generator = function( Form_Field_WYSIWYG $field, $editor_config ) {
+
+		$editor_config['selector'] = '#'.$field->getId();
+
+		if( $field->getIsReadonly() ) {
+			$editor_config['readonly'] = 1;
+		}
+
+		return '<script type="text/javascript">'
+			.'tinymce.init('.json_encode( $editor_config ).');'
+			.'</script>'.SysConf_Jet::EOL();
+
+	};
+}
+
+
+/*
+if(!$CSS) {
+	$CSS = [
+		'' => [
+			'//cdnjs.cloudflare.com/ajax/libs/summernote/0.8.9/summernote.css'
+		]
+	];
+}
+
+if(!$JS) {
+	$JS = [
+		'//cdnjs.cloudflare.com/ajax/libs/summernote/0.8.9/summernote.js'
+	];
+}
+
+if(!$editor_config) {
+	$editor_config = [
+		'height' => 500,
+	];
+}
+
+if(!$init_generator) {
+	$init_generator = function( \Jet\Form_Field_WYSIWYG $field, $editor_config ) {
+		return '<script type="text/javascript">'
+			.'$("#'.$field->getId().'").summernote('.json_encode($editor_config).');'
+			.'</script>'.SysConf_Jet::EOL();
+	};
+}
+*/
+
+
+foreach($CSS  as $media => $files ) {
+	foreach( $files as $URI ) {
+		Mvc_Layout::getCurrentLayout()->requireCssFile( $URI, $media );
+	}
+}
+foreach($JS  as $URI ) {
+	Mvc_Layout::getCurrentLayout()->requireJavascriptFile( $URI );
+}
+
 ?>
-	<textarea name="<?=$field->getTagNameValue()?>" id="<?=$field->getId()?>" <?php
+<textarea name="<?=$field->getTagNameValue()?>" id="<?=$field->getId()?>" <?php
 
-	if( $r->getJsActions() ) echo $r->getJsActions();
-	if( $r->getCssStyles() ) echo ' style ="'.$r->getCssStyles().'"';
+if( $r->getJsActions() ) echo $r->getJsActions();
+if( $r->getCssStyles() ) echo ' style ="'.$r->getCssStyles().'"';
 
-	if( $field->getPlaceholder() ) echo ' placeholder="'.Data_Text::htmlSpecialChars($field->getPlaceholder()).'"';
-	if( $field->getIsReadonly() ) echo ' readonly="readonly"';
-	if( $field->getIsRequired() ) echo ' required="required"';
+if( $field->getPlaceholder() ) echo ' placeholder="'.Data_Text::htmlSpecialChars($field->getPlaceholder()).'"';
+if( $field->getIsReadonly() ) echo ' readonly="readonly"';
+if( $field->getIsRequired() ) echo ' required="required"';
 
-	?>><?=$field->getValueRaw()?></textarea>
+?>><?=$field->getValueRaw()?></textarea>
 
-	<?=$field->generateJavascriptInitializationCode();?>
+<?=$init_generator( $field, $editor_config );?>

@@ -11,6 +11,7 @@ use Jet\BaseObject;
 use Jet\BaseObject_Exception;
 use Jet\Exception;
 use Jet\IO_File;
+use Jet\SysConf_Jet;
 
 class ClassCreator_Class extends BaseObject {
 	const VISIBILITY_PUBLIC = 'public';

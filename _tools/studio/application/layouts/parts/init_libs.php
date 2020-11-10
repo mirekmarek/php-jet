@@ -7,17 +7,17 @@ use Jet\SysConf_URI;
  */
 
 
-$this->requireMainCssFile( BOOTSTRAP_CSS_URL );
-$this->requireMainCssFile( FONT_AWESOME_CSS_URL );
-$this->requireMainCssFile( FLAGS_CSS_URL );
-$this->requireMainCssFile( JQUERY_UI_CSS_URL );
+$this->requireMainCssFile( 'https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css' );
+$this->requireMainCssFile( 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css' );
+$this->requireMainCssFile( 'https://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css' );
+$this->requireMainCssFile( SysConf_URI::PUBLIC().'styles/flags.css' );
 $this->requireMainCssFile( SysConf_URI::PUBLIC().'styles/main.css?v=8' );
 
-$this->requireMainJavascriptFile( JQUERY_JS_URL );
-$this->requireMainJavascriptFile( JQUERY_UI_JS_URL );
+$this->requireMainJavascriptFile( 'https://code.jquery.com/jquery-3.5.1.js' );
+$this->requireMainJavascriptFile( 'https://code.jquery.com/ui/1.11.4/jquery-ui.js' );
 $this->requireMainJavascriptFile( 'https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js' );
-$this->requireMainJavascriptFile( BOOTSTRAP_JS_URL );
-$this->requireMainJavascriptFile( JET_AJAX_FORM_JS_URL );
+$this->requireMainJavascriptFile( 'https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js' );
+$this->requireMainJavascriptFile( SysConf_URI::PUBLIC().'scripts/JetAjaxForm.js?v=1' );
 
 
 
