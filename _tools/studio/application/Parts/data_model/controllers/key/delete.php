@@ -10,13 +10,13 @@ use Jet\Tr;
 $current = DataModels::getCurrentModel();
 
 /**
- * @var DataModels_Key $key
+ * @var DataModel_Definition_Key $key
  */
 if(
 	$current &&
 	($key = $current->getKey( Http_Request::GET()->getString('key') ))
 ) {
-	$current->deleteKey( $key->getInternalId() );
+	$current->deleteKey( $key->getName() );
 
 	if(DataModels::save()) {
 		UI_messages::info(

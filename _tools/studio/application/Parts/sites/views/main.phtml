@@ -22,7 +22,7 @@ use Jet\Tr;
 
 <div class="row" id="main-col">
 	<div class="col-md-3">
-		<div style="padding: 10px;">
+		<div style="padding: 0px;">
 			<?=Application::getView()->render('sites_list');?>
 		</div>
 	</div>
@@ -32,11 +32,7 @@ use Jet\Tr;
 </div>
 
 <?php else: ?>
-<div class="row">
-	<div class="col-md-12">
-		<?=Application::getView()->render('site_edit/dashboard');?>
-	</div>
-</div>
+	<?=Application::getView()->render('site_edit/dashboard');?>
 <?php endif; ?>
 
 <?=Application::getView()->render('create_site/dialog');?>

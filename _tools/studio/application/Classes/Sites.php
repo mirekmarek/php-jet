@@ -13,7 +13,6 @@ use Jet\Form_Field_Hidden;
 use Jet\Form_Field_Input;
 use Jet\Http_Request;
 use Jet\Locale;
-use Jet\Mvc_Site_LocalizedData_Interface;
 use Jet\Tr;
 use Jet\UI_messages;
 use Jet\SysConf_URI;
@@ -32,6 +31,43 @@ class Sites extends BaseObject implements Application_Part
 	 * @var Form
 	 */
 	protected static $create_form;
+
+
+	/**
+	 * @param $action
+	 * @param array $custom_get_params
+	 * @param string|null $custom_site_id
+	 *
+	 * @return string $url
+	 */
+	public static function getActionUrl( $action, array $custom_get_params=[], $custom_site_id=null )
+	{
+
+		$get_params = [];
+
+		if(Sites::getCurrentSiteId()) {
+			$get_params['site'] = Sites::getCurrentSiteId();
+		}
+
+		if($custom_site_id!==null) {
+			$get_params['site'] = $custom_site_id;
+			if(!$custom_site_id) {
+				unset( $get_params['site'] );
+			}
+		}
+
+		if($action) {
+			$get_params['action'] = $action;
+		}
+
+		if($custom_get_params) {
+			foreach( $custom_get_params as $k=>$v ) {
+				$get_params[$k] = $v;
+			}
+		}
+
+		return SysConf_URI::BASE().'sites.php?'.http_build_query($get_params);
+	}
 
 
 	/**
@@ -78,20 +114,6 @@ class Sites extends BaseObject implements Application_Part
 
 		return $sites[$id];
 	}
-
-	/**
-	 * @param Sites_Site $site
-	 */
-	public static function addSite( Sites_Site $site )
-	{
-		//TODO:
-		/*
-		static::load();
-
-		static::$sites[$site->getId()] = $site;
-		*/
-	}
-
 
 
 	/**
@@ -182,14 +204,69 @@ class Sites extends BaseObject implements Application_Part
 
 			$locales_field = new Form_Field_Hidden('locales', '', implode(',', Project::getDefaultLocales(true)));
 
+			$base_url_field = new Form_Field_Input('base_url', 'Base URL:');
+			$base_url_field->setIsRequired( true );
+			$base_url_field->setErrorMessages([
+				Form_Field_Input::ERROR_CODE_EMPTY => 'Please enter base URL',
+				Form_Field_Input::ERROR_CODE_INVALID_FORMAT => 'Invalid URL format',
+			]);
+
+			$base_url_field->setValidator( function( Form_Field_Input $field ) {
+				$base_url = $field->getValue();
+
+				if(!$base_url)	{
+					$field->setError( Form_Field_Input::ERROR_CODE_EMPTY );
+					return false;
+				}
+
+				if(
+					!preg_match('/^[a-z0-9\-\/.]{2,}$/i', $base_url)
+				) {
+					$field->setError(Form_Field_Input::ERROR_CODE_INVALID_FORMAT);
+
+					return false;
+				}
+
+				$sites = Sites::getSites();
+
+				foreach($sites as $e_site) {
+					foreach($e_site->getLocales() as $locale) {
+						$e_ld = $e_site->getLocalizedData($locale);
+
+						if( in_array($base_url, $e_ld->getURLs()) ) {
+							$field->setCustomError(
+								Tr::_(
+									'URL conflicts with site <b>%site_name%</b> <b>%locale%</b>',
+									[
+										'site_name' => $e_site->getName(),
+										'locale' => $locale->getName()
+									]
+								),
+								'url_is_not_unique'
+							);
+
+							return false;
+						}
+					}
+				}
+
+				return true;
+
+			} );
+
+
 			$form = new Form(
 				'site_create_form',
 				[
 					$name_field,
 					$id_field,
+					$base_url_field,
 					$locales_field
 				]
 			);
+
+
+
 
 			$form->setAction( Sites::getActionUrl('add') );
 
@@ -233,51 +310,34 @@ class Sites extends BaseObject implements Application_Part
 			return false;
 		}
 
-		$new_site = static::createSite(
-			$form->field('id')->getValue(),
-			$form->field('name')->getValue(),
-			$locales
-		);
 
-		return $new_site;
-	}
+		$site = new Sites_Site();
+		$site->setId( $form->field('id')->getValue() );
+		$site->setName( $form->field('name')->getValue() );
+		$site->setIsActive( true );
 
+		$base_url = trim($form->field('base_url')->getValue(), '/');
 
-	/**
-	 * @param $action
-	 * @param array $custom_get_params
-	 * @param string|null $custom_site_id
-	 *
-	 * @return string $url
-	 */
-	public static function getActionUrl( $action, array $custom_get_params=[], $custom_site_id=null )
-	{
+		$default_added = false;
+		foreach( $locales as $i=>$locale ) {
+			$ld = $site->addLocale( $locale );
+			$ld->setIsActive( true );
 
-		$get_params = [];
-
-		if(Sites::getCurrentSiteId()) {
-			$get_params['site'] = Sites::getCurrentSiteId();
-		}
-
-		if($custom_site_id!==null) {
-			$get_params['site'] = $custom_site_id;
-			if(!$custom_site_id) {
-				unset( $get_params['site'] );
+			if($default_added) {
+				$ld->setURLs([
+					$base_url.'/'.$locale->getLanguage()
+				]);
+			} else {
+				$default_added = true;
+				$ld->setURLs([
+					$base_url
+				]);
 			}
 		}
 
-		if($action) {
-			$get_params['action'] = $action;
-		}
-
-		if($custom_get_params) {
-			foreach( $custom_get_params as $k=>$v ) {
-				$get_params[$k] = $v;
-			}
-		}
-
-		return SysConf_URI::BASE().'sites.php?'.http_build_query($get_params);
+		return $site;
 	}
+
 
 	/**
 	 * @param string $site_id
@@ -294,99 +354,4 @@ class Sites extends BaseObject implements Application_Part
 
 		return false;
 	}
-
-
-	/**
-	 * @param string $id
-	 * @param string $name
-	 * @param Locale[] $locales
-	 *
-	 * @return Sites_Site
-	 */
-	public static function createSite( $id, $name, $locales )
-	{
-		$site = new Sites_Site();
-		$site->setId( $id );
-		$site->setName( $name );
-		$site->setIsActive( true );
-
-		foreach( $locales as $locale ) {
-			$site->addLocale( $locale );
-		}
-
-		static::addSite( $site );
-
-		return $site;
-	}
-
-
-	/**
-	 * @return Form
-	 */
-	public static function getEditForm()
-	{
-		return static::getCurrentSite()->getEditForm();
-	}
-
-	/**
-	 * @return bool
-	 */
-	public static function catchEditForm()
-	{
-		return static::getCurrentSite()->catchEditForm();
-	}
-
-	/**
-	 * @return Form
-	 */
-	public static function getAddLocaleForm()
-	{
-		return static::getCurrentSite()->getAddLocaleForm();
-	}
-
-	/**
-	 * @return Mvc_Site_LocalizedData_Interface|bool
-	 */
-	public static function catchAddLocaleForm()
-	{
-		return static::getCurrentSite()->catchAddLocaleForm();
-	}
-
-
-
-
-	/**
-	 * @return Form
-	 */
-	public static function getSortLocalesForm()
-	{
-		return static::getCurrentSite()->getSortLocalesForm();
-	}
-
-	/**
-	 * @return bool
-	 */
-	public static function catchSortLocalesForm()
-	{
-		return static::getCurrentSite()->catchSortLocalesForm();
-	}
-
-
-	/**
-	 *
-	 * @return Project_Namespace[]
-	 */
-	public static function getNamespaces()
-	{
-		return [];
-	}
-
-
-	/**
-	 *
-	 */
-	public static function synchronize()
-	{
-	}
-
 }

@@ -1,22 +1,16 @@
 <?php
 namespace JetStudio;
 
-use Jet\Form;
 use Jet\Tr;
-use Jet\UI;
 
 $page = Pages::getCurrentPage();
 
 if(!$page) {
 	return;
 }
-$form = $page->getEditForm();
-
 ?>
+	<?php require 'toolbar/'.Pages::whatToEdit().'.phtml'; ?>
 
-<div class="toolbar">
-	<?=UI::button_save()->setOnclick("$('#{$form->getId()}').submit()")?>
-	<?php /*<?=UI::button_create(Tr::_('Add content'))->setOnclick('JetStudio.Pages.editPage.content.addContent()')?>*/ ?>
-</div>
+	<?=Tr::_('Page')?> <span style="font-weight: bolder"><?=$page->getName()?></span> <span style="color: #aaaaaa;font-size: 12px;"><?=$page->getId()?></span>
 
 

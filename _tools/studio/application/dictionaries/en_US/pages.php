@@ -66,4 +66,5 @@ return [
 	'Please enter controller name' => '',
 	'Please enter controller action' => '',
 	'Is not active' => '',
+	'Main settings' => '',
 ];

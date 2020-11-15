@@ -33,7 +33,7 @@ $page->setLocale( $site->getDefaultLocale() );
 
 $this->setVar( 'site',  $site);
 
-$form = $page->getEditForm();
+$form = $page->getEditForm_main();
 
 $form->setName('module_page_edit_form_'.$site_id.'_'.$page_id);
 $form->setAction( Modules::getActionUrl('page/edit', [

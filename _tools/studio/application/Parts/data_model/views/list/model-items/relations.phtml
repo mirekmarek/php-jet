@@ -1,0 +1,32 @@
+<?php
+namespace JetStudio;
+
+use Jet\Http_Request;
+use Jet\Tr;
+
+$current = DataModels::getCurrentModel();
+
+if(!$current->getExternalRelations()) {
+	return;
+}
+
+$current_relation_id = DataModels::getCurrentRelationId();
+
+?>
+<table style="width: 100%">
+	<tr>
+		<td><b><?=Tr::_('External relations')?></b></td>
+	</tr>
+
+<?php foreach( $current->getExternalRelations() as $relation): ?>
+	<tr>
+		<td>
+			<?php if($current_relation_id==$relation->getInternalId()): ?>
+				<b class="badge badge-success"><?=$relation->getName()?></b>
+			<?php else: ?>
+				<a href="<?=Http_Request::currentURI(['relation'=>$relation->getName()], ['property', 'key'])?>"><?=$relation->getName()?></a>
+			<?php endif; ?>
+		</td>
+	</tr>
+<?php endforeach; ?>
+</table>

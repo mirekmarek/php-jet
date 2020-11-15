@@ -8,127 +8,144 @@
 namespace JetStudio;
 
 use Jet\BaseObject;
-use Jet\Data_Tree;
-use Jet\DataModel;
-use Jet\DataModel_Definition_Relation_Join_Item;
+use Jet\Form_Field_Input;
 use Jet\Http_Request;
-use Jet\Form;
-use Jet\Exception;
-use Jet\IO_Dir;
-use Jet\IO_File;
 use Jet\SysConf_URI;
+use Jet\Tr;
 
 //TODO: v aktualizacnim SQL chybi strednik za jednim SQL prikazem
 
+/**
+ *
+ */
 class DataModels extends BaseObject implements Application_Part
 {
+	const ID_C_CLASS_AUTOINCREMENT = 'Jet\DataModel_IDController_AutoIncrement';
+	const ID_C_CLASS_UNIQUE_STRING = 'Jet\DataModel_IDController_UniqueString';
+	const ID_C_CLASS_NAME = 'Jet\DataModel_IDController_Name';
+	const ID_C_CLASS_PASSIVE = 'Jet\DataModel_IDController_Passive';
 
 	/**
-	 * @var null|DataModels_Model|DataModels_Model_Related_1to1|DataModels_Model_Related_1toN|DataModels_Model_Related_MtoN
+	 * @var array
 	 */
-	protected static $__current_model;
+	protected static $id_controllers = [
+		self::ID_C_CLASS_AUTOINCREMENT => 'AutoIncrement',
+		self::ID_C_CLASS_UNIQUE_STRING => 'UniqueString',
+		self::ID_C_CLASS_NAME          => 'Name',
+		self::ID_C_CLASS_PASSIVE       => 'Passive',
+	];
+
+	const MODEL_TYPE_MAIN = 'Main';
+
+	const MODEL_TYPE_RELATED_1TON = 'Related_1toN';
+	const MODEL_TYPE_RELATED_1TO1 = 'Related_1to1';
+	const MODEL_TYPE_RELATED_MTON = 'Related_MtoN';
+
 
 	/**
-	 * @var Project_Namespace|bool
+	 * @var array
 	 */
-	protected static $__current_namespace;
+	protected static $types = [
+		self::MODEL_TYPE_RELATED_1TON => 'Related DataModel 1toN',
+		self::MODEL_TYPE_RELATED_1TO1 => 'Related DataModel 1to1',
+		self::MODEL_TYPE_RELATED_MTON => 'Related DataModel MtoN',
+
+	];
 
 
 	/**
-	 * @var DataModels_Model[]|DataModels_Model_Related_1to1[]|DataModels_Model_Related_1toN[]|DataModels_Model_Related_MtoN[]
+	 * @var DataModel_Class|null
 	 */
-	protected static $models;
+	protected static $current_class;
 
+	/**
+	 * @var DataModel_Definition_Property_Interface|\Jet\DataModel_Definition_Property|null
+	 */
+	protected static $current_property;
 
+	/**
+	 * @var DataModel_Definition_Key
+	 */
+	protected static $current_key;
+
+	/**
+	 * @var DataModel_Definition_Relation_External
+	 */
+	protected static $current_relation;
 
 
 	/**
-	 * @return DataModels_Model[]|DataModels_Model_Related_1to1[]|DataModels_Model_Related_1toN[]|DataModels_Model_Related_MtoN[]
+	 * @var DataModel_Class[]
+	 */
+	protected static $classes;
+
+
+	/**
+	 * @return array
+	 */
+	public static function load_getDirs()
+	{
+		$dirs = [
+			ProjectConf_PATH::APPLICATION_CLASSES(),
+			ProjectConf_PATH::APPLICATION_MODULES()
+		];
+
+
+		return $dirs;
+	}
+
+
+	/**
+	 * @return DataModel_Class[]
 	 */
 	public static function load()
 	{
-		if(static::$models===null) {
-			static::$models = [];
+		if(static::$classes===null) {
+			static::$classes = [];
 
-			$models = Project::readProjectEntity( 'data_models' );
-			if(!is_array($models)) {
-				$models = [];
-			}
+			$finder = new DataModels_ClassFinder(
+				static::load_getDirs()
+			);
 
-			static::$models = $models;
+			$finder->find();
+
+			static::$classes = $finder->getClasses();
 		}
 
-		return static::$models;
-	}
-
-	/**
-	 * @param Form $form
-	 *
-	 * @return bool
-	 */
-	public static function save( Form $form=null )
-	{
-		static::load();
-
-		$ok = true;
-		try {
-			foreach( static::$models as $id=>$model ) {
-				Project::writeProjectEntity('data_models', $id, $model );
-			}
-
-		} catch( Exception $e ) {
-			$ok = false;
-
-			Application::handleError( $e, $form );
-		}
-
-		return $ok;
+		return static::$classes;
 	}
 
 
-	/**
-	 * @return DataModels_Model[]|DataModels_Model_Related_1to1[]|DataModels_Model_Related_1toN[]|DataModels_Model_Related_MtoN[]
-	 */
-	public static function getModels()
-	{
-		static::load();
 
-		return static::$models;
+
+	/**
+	 * @return DataModel_Class[]
+	 */
+	public static function getClasses()
+	{
+		return static::load();
 	}
 
 
 	/**
 	 * @param $action
 	 * @param array $custom_get_params
-	 * @param string $custom_model_id
-	 * @param string $custom_namespace_id]
+	 * @param string|null $custom_class
 	 *
 	 * @return string $url
 	 */
-	public static function getActionUrl( $action, array $custom_get_params=[], $custom_model_id=null, $custom_namespace_id=null )
+	public static function getActionUrl( $action, array $custom_get_params=[], $custom_class=null )
 	{
 
 		$get_params = [];
 
-
-		if(Project::getCurrentNamespaceId()) {
-			$get_params['namespace'] = Project::getCurrentNamespaceId();
+		if(static::getCurrentClassName()) {
+			$get_params['class'] = static::getCurrentClassName();
 		}
 
-		if($custom_namespace_id!==null) {
-			$get_params['namespace'] = $custom_namespace_id;
-			if(!$custom_namespace_id) {
-				unset( $get_params['namespace'] );
-			}
-		}
-
-		if(static::getCurrentModelId()) {
-			$get_params['model'] = static::getCurrentModelId();
-		}
-
-		if($custom_model_id!==null) {
-			$get_params['model'] = $custom_model_id;
-			if(!$custom_model_id) {
+		if($custom_class!==null) {
+			$get_params['class'] = $custom_class;
+			if(!$custom_class) {
 				unset( $get_params['model'] );
 			}
 		}
@@ -148,570 +165,482 @@ class DataModels extends BaseObject implements Application_Part
 
 
 	/**
-	 * @return Data_Tree
-	 */
-	public static function getModelsTree()
-	{
-		$tree_data = [];
-
-
-		$getChildren = function(DataModels_Model_Interface $model ) use (&$tree_data, &$getChildren) {
-			$parent_id = $model->getNamespaceId();
-
-			if( $model instanceof DataModels_Model_Related_Interface) {
-				$parent_id = $model->getInternalParentModelId();
-				if(!$parent_id) {
-					$parent_id = $model->getInternalMainModelId();
-				}
-			}
-
-			$tree_data[] = [
-				'id' => $model->getInternalId(),
-				'parent_id' => $parent_id,
-				'label' => $model->getClassName().' ('.$model->getModelName().')',
-				'type' => $model->getInternalType(),
-				'namespace' => $model->getNamespaceId()
-			];
-
-			foreach( $model->getChildren() as $ch ) {
-				if($ch) {
-					$getChildren( $ch );
-				}
-			}
-		};
-
-		foreach( Project::getNamespaces() as $ns ) {
-			if($ns->isInternal()) {
-				continue;
-			}
-
-			/**
-			 * @var Project_Namespace $ns
-			 */
-			$tree_data[] = [
-				'id' => $ns->getId(),
-				'parent_id' => '',
-				'label' => $ns->getLabel(),
-				'type' => 'namespace'
-			];
-
-		}
-
-		foreach( static::getModels() as $model ) {
-			if( !$model instanceof DataModels_Model) {
-				continue;
-			}
-
-			$getChildren( $model );
-		}
-
-
-		$tree = new Data_Tree();
-		$tree->setIdKey('id');
-		$tree->setParentIdKey('parent_id');
-		$tree->setLabelKey('label');
-
-		$tree->setData( $tree_data );
-
-		return $tree;
-	}
-
-
-	/**
-	 * @param string $id
+	 * @param string $name
 	 *
-	 * @return null|DataModels_Model|DataModels_Model_Related_1to1|DataModels_Model_Related_1toN|DataModels_Model_Related_MtoN
+	 * @return DataModel_Class|null
 	 */
-	public static function getModel( $id )
+	public static function getClass( $name )
 	{
 		static::load();
 
-		if(!isset(static::$models[$id])) {
+		if(!isset( static::$classes[$name])) {
 			return null;
 		}
 
-		return static::$models[$id];
+		return static::$classes[$name];
 	}
 
 	/**
-	 * @param string $full_class_name
-	 * @return null|string
+	 * @return DataModel_Class|null
 	 */
-	public static function getModelInternalId( $full_class_name )
+	public static function getCurrentClass()
 	{
-		foreach( static::getModels() as $model ) {
-			if($model->getFullClassName()==$full_class_name) {
-				return $model->getInternalId();
+		if(static::$current_class===null) {
+			$id = Http_Request::GET()->getString('class');
+
+			static::$current_class = false;
+
+			if(
+				$id &&
+				($item=static::getClass($id))
+			) {
+				static::$current_class = $item;
 			}
 		}
 
-		return null;
+		return static::$current_class;
 	}
 
-	/**
-	 * @param DataModels_Model_Interface $model
-	 */
-	public static function addModel(DataModels_Model_Interface $model )
-	{
-		static::load();
-
-		static::$models[$model->getInternalId()] = $model;
-	}
-
-
-	/**
-	 * @param $model_id
-	 *
-	 * @return bool
-	 */
-	public static function deleteModel( $model_id )
-	{
-		static::load();
-
-		unset( static::$models[$model_id] );
-
-		Project::deleteProjectEntity('data_models', $model_id );
-
-		static::check();
-
-		return true;
-		
-	}
-	
-	
 	/**
 	 * @return string|bool
 	 */
-	public static function getCurrentModelId()
+	public static function getCurrentClassName()
 	{
-		if(static::getCurrentModel()) {
-			return static::getCurrentModel()->getInternalId();
+		if(static::getCurrentClass()) {
+			return static::getCurrentClass()->getFullClassName();
 		}
 
 		return false;
 	}
 
 	/**
-	 * @return null|DataModels_Model|DataModels_Model_Related_1to1|DataModels_Model_Related_1toN|DataModels_Model_Related_MtoN
+	 * @return DataModel_Definition_Model_Main|DataModel_Definition_Model_Related_1to1|DataModel_Definition_Model_Related_1toN|DataModel_Definition_Model_Related_MtoN|null
 	 */
 	public static function getCurrentModel()
 	{
-		if(static::$__current_model===null) {
-			$id = Http_Request::GET()->getString('model');
+		$class = static::getCurrentClass();
+		if(!$class) {
+			return null;
+		}
 
-			static::$__current_model = false;
+		return $class->getDefinition();
+	}
 
-			if(
-				$id &&
-				($model=static::getModel($id))
-			) {
-				static::$__current_model = $model;
+	/**
+	 * @return DataModel_Definition_Property_Interface|\Jet\DataModel_Definition_Property|null
+	 */
+	public static function getCurrentProperty()
+	{
+		if(static::$current_property===null) {
+			static::$current_property = false;
+
+			if(($model=static::getCurrentModel())) {
+				$name = Http_Request::GET()->getString('property');
+
+				if(
+					$name &&
+					($item=$model->getProperty($name))
+				) {
+					static::$current_property = $item;
+				}
+
 			}
 		}
 
-		return static::$__current_model;
+		return static::$current_property;
 	}
 
 	/**
-	 * @param string $model_name
-	 * @param string $class_name
-	 *
-	 * @return DataModels_Model
+	 * @return string|null
 	 */
-	public static function createModel( $model_name, $class_name )
+	public static function getCurrentPropertyName()
 	{
-		$model = new DataModels_Model();
-		$model->setNamespaceId( Project::getCurrentNamespaceId() );
-		$model->setModelName( $model_name );
-		$model->setClassName( $class_name );
-		$model->checkIdProperties();
+		$current = static::getCurrentProperty();
 
-		static::addModel( $model );
-
-		return $model;
-	}
-
-	/**
-	 * @param string $model_name
-	 * @param string $class_name
-	 * @param DataModels_Model_Interface $parent
-	 *
-	 * @return DataModels_Model_Related_1to1
-	 */
-	public static function createModel_Related_1to1($model_name, $class_name, DataModels_Model_Interface $parent )
-	{
-		$model = new DataModels_Model_Related_1to1();
-		$model->setNamespaceId( Project::getCurrentNamespaceId() );
-		$model->setModelName( $model_name );
-		$model->setClassName( $class_name );
-		$model->setInternalParentModel( $parent );
-		$model->checkIdProperties();
-
-		static::addModel( $model );
-
-		return $model;
-	}
-
-	/**
-	 * @param string $model_name
-	 * @param string $class_name
-	 * @param DataModels_Model_Interface $parent
-	 *
-	 * @return DataModels_Model_Related_1toN
-	 */
-	public static function createModel_Related_1toN($model_name, $class_name, DataModels_Model_Interface $parent )
-	{
-		$model = new DataModels_Model_Related_1toN();
-		$model->setNamespaceId( Project::getCurrentNamespaceId() );
-		$model->setModelName( $model_name );
-		$model->setClassName( $class_name );
-		$model->setInternalParentModel( $parent );
-		$model->checkIdProperties();
-
-		static::addModel( $model );
-
-		return $model;
-	}
-
-	/**
-	 * @param string $model_name
-	 * @param string $class_name
-	 * @param DataModels_Model_Interface $parent
-	 *
-	 * @return DataModels_Model_Related_MtoN
-	 */
-	public static function createModel_Related_MtoN($model_name, $class_name, DataModels_Model_Interface $parent )
-	{
-		$model = new DataModels_Model_Related_MtoN();
-		$model->setNamespaceId( Project::getCurrentNamespaceId() );
-		$model->setModelName( $model_name );
-		$model->setClassName( $class_name );
-		$model->setInternalParentModel( $parent );
-		$model->checkIdProperties();
-
-		static::addModel( $model );
-
-		return $model;
-	}
-
-	/**
-	 *
-	 */
-	public static function check()
-	{
-		foreach( static::getModels() as $model ) {
-			$model->checkIdProperties();
-			$model->checkOuterRelations();
-
-			//TODO: kontrola indexu
-			//TODO: kontrola DataModel vlastnposti nenavazanych / navazanych
-			$model->checkSortOfProperties();
+		if(!$current) {
+			return null;
 		}
 
+		return $current->getName();
 	}
 
+
 	/**
-	 *
-	 * @return Project_Namespace[]
+	 * @return DataModel_Definition_Key
 	 */
-	public static function getNamespaces()
+	public static function getCurrentKey()
 	{
-		return [];
+		if(static::$current_key===null) {
+			static::$current_key = false;
+
+			if(($model=static::getCurrentModel())) {
+				$name = Http_Request::GET()->getString('key');
+
+				if(
+					$name &&
+					($item=$model->getKey($name))
+				) {
+					static::$current_key = $item;
+				}
+
+			}
+		}
+
+		return static::$current_key;
 	}
 
 	/**
-	 *
+	 * @return string|null
 	 */
-	public static function synchronize()
+	public static function getCurrentKeyName()
+	{
+		$current = static::getCurrentKey();
+
+		if(!$current) {
+			return null;
+		}
+
+		return $current->getName();
+	}
+
+
+
+
+	/**
+	 * @return DataModel_Definition_Relation_External
+	 */
+	public static function getCurrentExternalRelation()
+	{
+		if(static::$current_relation===null) {
+			static::$current_relation = false;
+
+			if(($model=static::getCurrentModel())) {
+				$id = Http_Request::GET()->getString('relation');
+
+				if(
+					$id &&
+					($item=$model->getExternalRelation($id))
+				) {
+					static::$current_relation = $item;
+				}
+
+			}
+		}
+
+		return static::$current_relation;
+	}
+
+	/**
+	 * @return string|null
+	 */
+	public static function getCurrentExternalRelationId()
+	{
+		$current = static::getCurrentExternalRelation();
+
+		if(!$current) {
+			return null;
+		}
+
+		return $current->getInternalId();
+	}
+
+
+	/**
+	 * @return DataModel_Definition_Relation_External
+	 */
+	public static function getCurrentRelation()
+	{
+		if(static::$current_relation===null) {
+			static::$current_relation = false;
+
+			if(($model=static::getCurrentModel())) {
+				$id = Http_Request::GET()->getString('relation');
+
+				if(
+					$id &&
+					($item=$model->getExternalRelation($id))
+				) {
+					static::$current_relation = $item;
+				}
+
+			}
+		}
+
+		return static::$current_relation;
+	}
+
+	/**
+	 * @return string|null
+	 */
+	public static function getCurrentRelationId()
+	{
+		$current = static::getCurrentRelation();
+
+		if(!$current) {
+			return null;
+		}
+
+		return $current->getInternalId();
+	}
+
+	/**
+	 * @return string|null
+	 */
+	public static function getCurrentWhatToEdit()
+	{
+		if(!static::getCurrentModel()) {
+			return null;
+		}
+		if(static::getCurrentKey()):
+			return 'key';
+		elseif(static::getCurrentRelation()):
+			return 'relation';
+		elseif(static::getCurrentProperty()):
+			return 'property';
+		else:
+			return 'main';
+		endif;
+	}
+
+	/**
+	 * @return array
+	 */
+	public static function getIDControllers()
+	{
+		$id_controllers = [];
+
+		foreach( static::$id_controllers as $class=> $label ) {
+			$id_controllers[$class] = Tr::_($label);
+		}
+
+		return $id_controllers;
+
+	}
+
+	/**
+	 * @return array
+	 */
+	public static function getDataModelTypes()
+	{
+		$types = [];
+
+		foreach( static::$types as $type=>$label ) {
+			$types[$type] = Tr::_($label);
+		}
+
+		return $types;
+	}
+
+	/**
+	 * @param Form_Field_Input $field
+	 * @param DataModel_Definition_Model_Interface|null $model
+	 *
+	 * @return bool
+	 */
+	public static function checkModelName( Form_Field_Input $field, DataModel_Definition_Model_Interface $model=null )
+	{
+		$name = $field->getValue();
+
+		if(!$name)	{
+			$field->setError( Form_Field_Input::ERROR_CODE_EMPTY );
+			return false;
+		}
+
+		if(
+		!preg_match('/^[a-z0-9_]{2,}$/i', $name)
+		) {
+			$field->setError(Form_Field_Input::ERROR_CODE_INVALID_FORMAT);
+
+			return false;
+		}
+
+		return true;
+
+	}
+
+
+	/**
+	 * @param Form_Field_Input $field
+	 * @param DataModel_Definition_Model_Interface|null $model
+	 *
+	 * @return bool
+	 */
+	public static function checkClassName( Form_Field_Input $field, DataModel_Definition_Model_Interface $model=null )
+	{
+		$name = $field->getValue();
+
+		if(!$name)	{
+			$field->setError( Form_Field_Input::ERROR_CODE_EMPTY );
+			return false;
+		}
+
+		if(
+			!preg_match('/^[a-z0-9_]{2,}$/i', $name) ||
+			strpos($name, '__')!==false
+		) {
+			$field->setError(Form_Field_Input::ERROR_CODE_INVALID_FORMAT);
+
+			return false;
+		}
+
+		foreach( DataModels::getClasses() as $class ) {
+
+			if($class->getFullClassName()==$name) {
+				$field->setCustomError(
+					Tr::_('DataModel with the same class name already exists'),
+					'data_model_class_is_not_unique'
+				);
+
+				return false;
+			}
+		}
+
+		return true;
+
+	}
+
+
+
+	/**
+	 * @param Form_Field_Input $field
+	 * @param DataModel_Definition_Model_Interface|null $model
+	 *
+	 * @return bool
+	 */
+	public static function checkTableName( Form_Field_Input $field, DataModel_Definition_Model_Interface $model=null )
+	{
+		$name = $field->getValue();
+
+		if(!$name)	{
+			return true;
+		}
+
+
+		if(
+			!preg_match('/^[a-z0-9_]{2,}$/i', $name) ||
+			strpos($name, '__')!==false
+		) {
+			$field->setError(Form_Field_Input::ERROR_CODE_INVALID_FORMAT);
+
+			return false;
+		}
+
+		$exists = false;
+
+		foreach( DataModels::getClasses() as $class ) {
+			$m = $class->getDefinition();
+
+			if(
+				$m->getDatabaseTableName()==$name ||
+				$m->getModelName()==$name
+			) {
+				$exists = true;
+				break;
+			}
+		}
+
+		if(
+		$exists
+		) {
+			$field->setCustomError(
+				Tr::_('DataModel with the same custom table name already exists'),
+				'data_model_table_is_not_unique'
+			);
+
+			return false;
+		}
+
+		return true;
+
+	}
+
+
+	/**
+	 * @param DataModel_Definition_Model_Interface $model
+	 */
+	public static function addModel(DataModel_Definition_Model_Interface $model )
 	{
 		static::load();
 
-		$parser = new DataModels_Parser();
-		$parser->parse();
-
-
-		/**
-		 * @var DataModels_Parser_Class[] $classes
-		 */
-		$classes = [];
-		$imported_classes = [];
-		$imported_models = [];
-		$updated = false;
-
-		foreach( $parser->getClasses() as $class ) {
-			if(
-				$parser->getClassNamespace( $class->getFullClassName() )->isInternal()
-			) {
-				continue;
-			}
-
-
-			$classes[$class->getFullClassName()] = $class;
-		}
-
-		$import = function( DataModels_Parser_Class $class ) use ( &$classes, &$imported_classes, &$updated, &$imported_models, &$parser ) {
-			$class_name = $class->getFullClassName();
-
-			$model = null;
-
-
-			$exists = false;
-			foreach( static::getModels() as $e_m ) {
-				if( $e_m->getFullClassName()==$class->getFullClassName() ) {
-					$exists = true;
-					break;
-				}
-			}
-
-			if($exists) {
-				$imported_classes[] = $class_name;
-			} else {
-				switch($class->getBaseClass()) {
-					case 'Jet\DataModel':
-						$model = DataModels_Model::createByParser( $class );
-						break;
-					case 'Jet\DataModel_Related_1toN':
-						$model = DataModels_Model_Related_1toN::createByParser( $class );
-						break;
-					case 'Jet\DataModel_Related_1to1':
-						$model = DataModels_Model_Related_1to1::createByParser( $class );
-						break;
-					case 'Jet\DataModel_Related_MtoN':
-						$model = DataModels_Model_Related_MtoN::createByParser( $class );
-						break;
-				}
-
-				if($class->getExtends()) {
-					$model->setExtends( $class->getExtends(), false );
-				}
-
-				if($class->getImplements()) {
-					$model->setImplements( $class->getImplements() );
-				}
-
-				$model->setIsAbstract( $class->isAbstract() );
-
-				if($model) {
-					$updated = true;
-					DataModels::addModel( $model );
-
-					$imported_models[] = $model;
-
-					$imported_classes[] = $class_name;
-				}
-			}
-
-
-			unset($classes[$class_name]);
-		};
-
-
-		foreach( $classes as $class_name=>$class ) {
-			if(
-				!$class->isMainDataModel()
-				||
-				(
-					$class->getExtends() &&
-					!$parser->getClassNamespace( $class->getExtends() )->isInternal()
-				)
-			) {
-				continue;
-			}
-
-			$import( $class );
-		}
-
-
-		foreach( $classes as $class_name=>$class ) {
-			if( !$class->isMainDataModel() ) {
-				continue;
-			}
-
-
-			$import( $class );
-		}
-
-
-		do {
-			$something_imported = false;
-			foreach( $classes as $class_name=>$class ) {
-
-				if(!in_array($class->getParentClass(), $imported_classes)) {
-					continue;
-				}
-
-				$import( $class );
-
-				$something_imported = true;
-			}
-
-			if(!$classes) {
-				break;
-			}
-		} while( $something_imported );
-
-
-
-		/**
-		 * @var DataModels_Model_Interface[] $imported_models
-		 */
-		foreach( $imported_models as $model ) {
-			if($model->getExtends()) {
-				$internal_id = DataModels::getModelInternalId( $model->getExtends() );
-				if($internal_id) {
-					$model->setExtends( $internal_id, false );
-				}
-			}
-
-			if(
-				$model instanceof DataModels_Model_Related_Interface
-			) {
-				$model->findInternalMainModel();
-			}
-		}
-
-		foreach( $imported_models as $parent ) {
-			$ch_ids = [];
-
-			foreach( $imported_models as $ch ) {
-				if(
-					$ch instanceof DataModels_Model_Related_Interface &&
-					$ch->getInternalParentModelId()==$parent->getInternalId()
-				) {
-					$ch_ids[] = $ch->getInternalId();
-				}
-			}
-
-			$parent->setInternalChildrenIds( $ch_ids );
-		}
-
-		/**
-		 * @var DataModels_Model_Interface[] $imported_models
-		 */
-		foreach( $imported_models as $model ) {
-
-			foreach( $model->getKeys() as $key ) {
-				$property_names = [];
-
-				foreach( $key->getPropertyNames() as $name ) {
-					$id = $name;
-					foreach($model->getProperties() as $property) {
-						if($property->getName()==$name) {
-							$id = $property->getInternalId();
-							break;
-						}
-					}
-
-					$property_names[] = $id;
-				}
-
-				$key->setPropertyNames( $property_names );
-
-			}
-
-
-
-			foreach( $model->getOuterRelations() as $relation ) {
-
-				$relation->setRelatedToClass( DataModels::getModelInternalId( $relation->getRelatedDataModelClassName() ) );
-
-				$related_class_name = $relation->getRelatedDataModelClassName();
-
-				$this_definition = $model;
-				$related_definition = DataModels::getModel( $related_class_name );
-				if(!$related_definition) {
-					continue;
-				}
-
-
-				$join = [];
-				foreach( $relation->getJoinBy() as $j_b ) {
-					$this_property_name = $j_b->getThisPropertyName();
-					$related_property_name = $j_b->getRelatedPropertyName();
-
-					foreach( $this_definition->getProperties() as $t_p ) {
-						if($t_p->getName()==$this_property_name) {
-							$this_property_name = $t_p->getInternalId();
-							break;
-						}
-					}
-
-					foreach( $related_definition->getProperties() as $r_p ) {
-						if($r_p->getName()==$related_property_name) {
-							$related_property_name = $r_p->getInternalId();
-							break;
-						}
-					}
-
-					$join[$this_property_name] = $related_property_name;
-				}
-
-				$relation->setJoinBy( $join );
-			}
-
-
-
-			foreach( $model->getProperties() as $property ) {
-
-				if($property->isInherited()) {
-					$ih_model = DataModels::getModel( DataModels::getModelInternalId( $property->getInheritedModelId() ) );
-					if( $ih_model ) {
-						$property->setInheritedModelId( $ih_model->getInternalId() );
-
-						foreach( $ih_model->getProperties() as $ih_property ) {
-							if($ih_property->getName()==$property->getInheritedPropertyId()) {
-								$property->setInheritedPropertyId( $ih_property->getInternalId() );
-
-								break;
-							}
-						}
-					}
-				}
-
-				if( $property instanceof DataModels_Property_DataModel ) {
-					$property->setDataModelClassName( DataModels::getModelInternalId( $property->getDataModelClass() ) );
-				}
-
-				if(
-					$model instanceof DataModels_Model_Related_Interface &&
-					$property instanceof DataModels_Property_RelatedTmp
-				) {
-
-					[$related_to_model, $related_to_property] = $model->parseRelatedTo( $property->getRelatedTo() );
-
-					if(!$related_to_property || !$related_to_model) {
-						$model->removeProperty( $property->getInternalId() );
-					} else {
-						/**
-						 * @var DataModels_Model $related_to_model
-						 * @var DataModels_Property $related_to_property
-						 * @var DataModels_Property $new_property
-						 */
-						$new_property = clone $related_to_property;
-
-						$new_property->setRelatedToClassName( $related_to_model->getInternalId() );
-						$new_property->setRelatedToPropertyName( $related_to_property->getInternalId() );
-
-						$new_property->setName( $property->getName() );
-						$new_property->setInternalPriority( $property->getInternalPriority() );
-						$new_property->setInternalId( $property->getInternalId() );
-
-						$new_property->setIsInherited( $property->isInherited() );
-						$new_property->setInheritedModelId( $property->getInheritedModelId() );
-						$new_property->setInheritedPropertyId( $property->getInheritedPropertyId() );
-						$new_property->setOverload( $property->isOverload() );
-
-						$model->replaceProperty( $new_property );
-					}
-
-				}
-			}
-		}
-
-		if($updated) {
-			static::check();
-			static::save();
-		}
+		static::$classes[$model->getClassName()] = $model;
+	}
+
+	/**
+	 * @param string $model_name
+	 * @param string $class_name
+	 *
+	 * @return DataModel_Definition_Model_Main
+	 */
+	public static function createModel( $model_name, $class_name )
+	{
+		$model = new DataModel_Definition_Model_Main();
+		$model->setModelName( $model_name );
+		$model->setClassName( $class_name );
+		$model->checkIdProperties();
+
+		static::addModel( $model );
+
+		return $model;
+	}
+
+	/**
+	 * @param string $model_name
+	 * @param string $class_name
+	 * @param DataModel_Definition_Model_Interface $parent
+	 *
+	 * @return DataModel_Definition_Model_Related_1to1
+	 */
+	public static function createModel_Related_1to1($model_name, $class_name, DataModel_Definition_Model_Interface $parent )
+	{
+		$model = new DataModel_Definition_Model_Related_1to1();
+		$model->setModelName( $model_name );
+		$model->setClassName( $class_name );
+		$model->setParentModel( $parent );
+		$model->checkIdProperties();
+
+		static::addModel( $model );
+
+		return $model;
+	}
+
+	/**
+	 * @param string $model_name
+	 * @param string $class_name
+	 * @param DataModel_Definition_Model_Interface $parent
+	 *
+	 * @return DataModel_Definition_Model_Related_1toN
+	 */
+	public static function createModel_Related_1toN($model_name, $class_name, DataModel_Definition_Model_Interface $parent )
+	{
+		$model = new DataModel_Definition_Model_Related_1toN();
+		$model->setModelName( $model_name );
+		$model->setClassName( $class_name );
+		$model->setParentModel( $parent );
+		$model->checkIdProperties();
+
+		static::addModel( $model );
+
+		return $model;
+	}
+
+	/**
+	 * @param string $model_name
+	 * @param string $class_name
+	 * @param DataModel_Definition_Model_Interface $parent
+	 *
+	 * @return DataModel_Definition_Model_Related_MtoN
+	 */
+	public static function createModel_Related_MtoN($model_name, $class_name, DataModel_Definition_Model_Interface $parent )
+	{
+		$model = new DataModel_Definition_Model_Related_MtoN();
+		$model->setModelName( $model_name );
+		$model->setClassName( $class_name );
+		$model->setParentModel( $parent );
+		$model->checkIdProperties();
+
+		static::addModel( $model );
+
+		return $model;
 	}
 
 }

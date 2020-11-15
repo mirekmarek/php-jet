@@ -26,7 +26,6 @@ use Jet\IO_File;
 use Jet\Data_Array;
 use Jet\Mvc_Page_Content_Interface;
 use Jet\Mvc_Page_MetaTag;
-use Jet\SysConf_Jet;
 
 /**
  *
@@ -39,7 +38,23 @@ class Pages_Page extends Mvc_Page
 	/**
 	 * @var Form
 	 */
-	protected $__edit_form;
+	protected $__edit_form_main;
+
+	/**
+	 * @var Form
+	 */
+	protected $__edit_form_content;
+
+	/**
+	 * @var Form
+	 */
+	protected $__edit_form_static_content;
+
+	/**
+	 * @var Form
+	 */
+	protected $__edit_form_callback;
+
 
 	/**
 	 * @var Form
@@ -134,12 +149,10 @@ class Pages_Page extends Mvc_Page
 
 
 	/**
-	 * @param null|string $site_id
-	 * @param null|string|Locale $locale
 	 *
 	 * @return Form
 	 */
-	public static function getCreateForm( $site_id=null, $locale=null )
+	public static function getCreateForm()
 	{
 		if(!static::$create_form) {
 
@@ -204,13 +217,10 @@ class Pages_Page extends Mvc_Page
 	}
 
 	/**
-	 * @param string $site_id
-	 * @param Locale|string $locale
-	 * @param Pages_Page|null $parent
 	 *
 	 * @return bool|Pages_Page
 	 */
-	public static function catchCreateForm( $site_id, $locale, Pages_Page $parent=null )
+	public static function catchCreateForm()
 	{
 		$form = static::getCreateForm();
 		if(
@@ -221,11 +231,11 @@ class Pages_Page extends Mvc_Page
 		}
 
 		$new_page = static::createPage(
-			$site_id,
-			$locale,
+			Pages::getCurrentSiteId(),
+			Pages::getCurrentLocale(),
 			$form->field('id')->getValue(),
 			$form->field('name')->getValue(),
-			$parent
+			Pages::getCurrentPage()
 		);
 
 		return $new_page;
@@ -271,16 +281,11 @@ class Pages_Page extends Mvc_Page
 	/**
 	 * @return Form
 	 */
-	public function getEditForm()
+	public function getEditForm_main()
 	{
-		if(!$this->__edit_form) {
+		if(!$this->__edit_form_main) {
 
 			$page = $this;
-			/**
-			 * @var Sites_Site $site
-			 */
-			$site = $this->getSite();
-
 
 			$name_field = new Form_Field_Input('name', 'Name:', $page->getName());
 			$name_field->setIsRequired( true );
@@ -355,48 +360,6 @@ class Pages_Page extends Mvc_Page
 				$SSL_required_field->setDefaultValue(true);
 			}
 
-			$output = $this->getOutput();
-
-			$output_callback_class_field = new Form_Field_Input('output_callback_class', 'Output callback class:',is_array($output) && isset($output[0]) ? $output[0] : '');
-			$output_callback_method_field = new Form_Field_Input('output_callback_method', 'Output callback method:',is_array($output) && isset($output[1]) ? $output[1] : '');
-			$output_callback_method_field->setCatcher( function( $value ) use ($output_callback_class_field, $output_callback_method_field) {
-
-				$class = $output_callback_class_field->getValue();
-				$method = $output_callback_method_field->getValue();
-
-				if( $class && $method ) {
-					$this->setOutput( [$class, $method] );
-				} else {
-					$this->setOutput( '' );
-				}
-			} );
-
-
-			$output_field = new Form_Field_Textarea('output', 'Static page content:', is_string($output) ? $output : '');
-			$output_field->setCatcher( function( $value ) use ($page, $output_field) {
-				$value = $output_field->getValueRaw();
-
-				if(!is_array($this->getOutput())) {
-					$page->setOutput( $value );
-				}
-			} );
-
-
-
-			$layout_script_name_field = new Form_Field_Select('layout_script_name', 'Layout script name:', $page->getLayoutScriptName());
-			$layout_script_name_field->setErrorMessages([
-				Form_Field_Select::ERROR_CODE_INVALID_VALUE => 'Invalid value'
-			]);
-			$layout_script_name_field->setCatcher( function( $value ) use ($page) {
-				$page->setLayoutScriptName( $value );
-			} );
-			$layout_script_name_field->setSelectOptions( $site->getLayoutsList() );
-
-
-
-
-
-
 			$fields = [
 				$name_field,
 				$title_field,
@@ -406,15 +369,7 @@ class Pages_Page extends Mvc_Page
 
 				$is_secret_field,
 				$is_active_field,
-				$SSL_required_field,
-
-				$output_callback_class_field,
-				$output_callback_method_field,
-
-				$output_field,
-
-				$layout_script_name_field
-
+				$SSL_required_field
 			];
 
 			if($this->getId()!=static::HOMEPAGE_ID) {
@@ -529,72 +484,34 @@ class Pages_Page extends Mvc_Page
 				$u++;
 			}
 
-
-
 			$form = new Form(
-				'page_edit_form',
+				'page_edit_form_main',
 				$fields
 			);
 
-			$i = 0;
-			foreach( $this->content as $content ) {
-				$content_form = $content->getEditForm( $this );
-
-				foreach( $content_form->getFields() as $field ) {
-					if(substr($field->getName(), 0, 9)!='/content/') {
-						if($field->getName()[0]!='/') {
-							$field->setName( '/content/'.$i.'/'.$field->getName() );
-						} else {
-							$field->setName( '/content/'.$i.$field->getName() );
-						}
-					}
-
-
-					$form->addField( $field );
-				}
-
-				$i++;
-			}
-
 			$form->setAction( Pages::getActionUrl('edit') );
 
-			$this->__edit_form = $form;
+			$this->__edit_form_main = $form;
 		}
 
-		return $this->__edit_form;
+		return $this->__edit_form_main;
 	}
 
 	/**
 	 * @return bool
 	 */
-	public function catchEditForm()
+	public function catchEditForm_main()
 	{
-		$form = $this->getEditForm();
+		$form = $this->getEditForm_main();
 
 		if(
 			$form->catchInput() &&
 			$form->validate()
 		) {
-
-
 			$form->catchData();
 
 			$this->catchEditForm_metaTags( $form );
 			$this->catchEditForm_httpHeaders( $form );
-
-			foreach($this->content as $i=>$content) {
-				$content->setParameters(
-					Pages_Page_Content::catchParams( $form, '/content/'.$i )
-				);
-			}
-
-			$this->sortContent();
-
-			$form_name = $form->getName();
-
-			$this->__edit_form = null;
-			$this->getEditForm();
-			$this->__edit_form->setName($form_name);
 
 			return true;
 		}
@@ -663,8 +580,99 @@ class Pages_Page extends Mvc_Page
 		}
 
 		$this->setHttpHeaders($http_headers);
-
 	}
+
+
+	/**
+	 * @return Form
+	 */
+	public function getEditForm_content()
+	{
+		if(!$this->__edit_form_content) {
+
+			$page = $this;
+			/**
+			 * @var Sites_Site $site
+			 */
+			$site = $this->getSite();
+
+			$layout_script_name_field = new Form_Field_Select('layout_script_name', 'Layout script name:', $page->getLayoutScriptName());
+			$layout_script_name_field->setErrorMessages([
+				Form_Field_Select::ERROR_CODE_INVALID_VALUE => 'Invalid value'
+			]);
+			$layout_script_name_field->setCatcher( function( $value ) use ($page) {
+				$page->setLayoutScriptName( $value );
+			} );
+			$layout_script_name_field->setSelectOptions( $site->getLayoutsList() );
+
+			$fields = [
+				$layout_script_name_field
+			];
+
+			$form = new Form(
+				'page_edit_form_content',
+				$fields
+			);
+
+			$i = 0;
+			foreach( $this->content as $content ) {
+				$content_form = $content->getEditForm( $this );
+
+				foreach( $content_form->getFields() as $field ) {
+					if(substr($field->getName(), 0, 9)!='/content/') {
+						if($field->getName()[0]!='/') {
+							$field->setName( '/content/'.$i.'/'.$field->getName() );
+						} else {
+							$field->setName( '/content/'.$i.$field->getName() );
+						}
+					}
+
+
+					$form->addField( $field );
+				}
+
+				$i++;
+			}
+
+			$form->setAction( Pages::getActionUrl('edit') );
+
+			$this->__edit_form_content = $form;
+
+		}
+
+		return $this->__edit_form_content;
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function catchEditForm_content()
+	{
+		$form = $this->getEditForm_content();
+
+		if(
+			$form->catchInput() &&
+			$form->validate()
+		) {
+
+			$form->catchData();
+
+			$this->output = '';
+
+			foreach($this->content as $i=>$content) {
+				$content->setParameters(
+					Pages_Page_Content::catchParams( $form, '/content/'.$i )
+				);
+			}
+
+			$this->sortContent();
+
+			return true;
+		}
+
+		return false;
+	}
+
 
 	/**
 	 *
@@ -718,38 +726,7 @@ class Pages_Page extends Mvc_Page
 
 	}
 
-	/**
-	 * @param string $id
-	 */
-	public function removeChild( $id )
-	{
-		$children = [];
 
-		foreach( $this->children as $ch_id ) {
-			if( $ch_id!=$id ) {
-				$children[] = $ch_id;
-			}
-		}
-
-
-		$this->children = $children;
-	}
-
-	/**
-	 *
-	 */
-	public function delete()
-	{
-		/**
-		 * @var Pages_Page $parent
-		 */
-		$parent = $this->getParent();
-
-		if($parent) {
-			$parent->removeChild( $this->getId() );
-		}
-
-	}
 
 
 
@@ -799,6 +776,124 @@ class Pages_Page extends Mvc_Page
 
 		return $old_content;
 	}
+
+
+
+	/**
+	 * @return Form
+	 */
+	public function getEditForm_static_content()
+	{
+		if(!$this->__edit_form_static_content) {
+
+			$output = $this->getOutput();
+
+			$output_field = new Form_Field_Textarea('output', 'Static page content:', is_string($output) ? $output : '');
+			$output_field->setCatcher( function( $value ) use ( $output_field) {
+				$value = $output_field->getValueRaw();
+
+				$this->content = [];
+				$this->output = $value;
+			} );
+
+			$form = new Form(
+				'page_edit_form_main',
+				[
+					$output_field
+				]
+			);
+
+			$form->setAction( Pages::getActionUrl('edit') );
+
+			$this->__edit_form_static_content = $form;
+
+		}
+
+		return $this->__edit_form_static_content;
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function catchEditForm_static_content()
+	{
+		$form = $this->getEditForm_static_content();
+
+		if(
+			$form->catchInput() &&
+			$form->validate()
+		) {
+			$form->catchData();
+
+			return true;
+		}
+
+		return false;
+	}
+
+
+
+	/**
+	 * @return Form
+	 */
+	public function getEditForm_callback()
+	{
+		if(!$this->__edit_form_callback) {
+
+			$output = $this->getOutput();
+
+			$output_callback_class_field = new Form_Field_Input('output_callback_class', 'Output callback class:',is_array($output) && isset($output[0]) ? $output[0] : '');
+			$output_callback_method_field = new Form_Field_Input('output_callback_method', 'Output callback method:',is_array($output) && isset($output[1]) ? $output[1] : '');
+			$output_callback_method_field->setCatcher( function( $value ) use ($output_callback_class_field, $output_callback_method_field) {
+
+				$this->content = [];
+
+				$class = $output_callback_class_field->getValue();
+				$method = $output_callback_method_field->getValue();
+
+				if( $class && $method ) {
+					$this->setOutput( [$class, $method] );
+				} else {
+					$this->setOutput( '' );
+				}
+			} );
+
+			$form = new Form(
+				'page_edit_form_callback',
+				[
+					$output_callback_class_field,
+					$output_callback_method_field
+				]
+			);
+
+			$form->setAction( Pages::getActionUrl('edit') );
+
+			$this->__edit_form_callback = $form;
+
+		}
+
+		return $this->__edit_form_callback;
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function catchEditForm_callback()
+	{
+		$form = $this->getEditForm_callback();
+
+		if(
+			$form->catchInput() &&
+			$form->validate()
+		) {
+			$form->catchData();
+
+			return true;
+		}
+
+		return false;
+	}
+
 
 	/**
 	 * @return string
@@ -862,8 +957,6 @@ class Pages_Page extends Mvc_Page
 	 */
 	public function save()
 	{
-		//TODO: handle path fragment change
-
 		$ok = true;
 		try {
 			$this->saveDataFile();

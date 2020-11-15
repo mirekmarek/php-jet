@@ -12,10 +12,4 @@ namespace JetStudio;
  */
 interface Application_Part {
 
-	/**
-	 *
-	 * @return Project_Namespace[]
-	 */
-	public static function getNamespaces();
-
 }

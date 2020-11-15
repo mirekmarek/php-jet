@@ -1,6 +1,7 @@
 <?php
 namespace JetStudio;
 
+use Exception;
 use Jet\DataModel_Backend;
 use Jet\Http_Headers;
 use Jet\UI_messages;
@@ -26,7 +27,7 @@ try {
 		//echo $backend->helper_getCreateCommand( $current );
 		$backend->helper_create( $current );
 	}
-} catch( \Exception $e ) {
+} catch( Exception $e ) {
 	$ok = false;
 
 	Application::handleError( $e );

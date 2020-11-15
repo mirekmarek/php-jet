@@ -1,0 +1,39 @@
+<?php
+namespace JetStudio;
+
+use Jet\Form;
+use Jet\UI;
+use Jet\Mvc_View;
+
+/**
+ * @var Mvc_View $this;
+ * @var DataModel_Definition_Relation_External $relation
+ */
+
+$relation = $this->getRaw('relation');
+
+$form = $relation->getEditForm();
+$form->setDefaultLabelWidth([
+	Form::LJ_SIZE_MEDIUM => 2
+]);
+$form->setDefaultFieldWidth([
+	Form::LJ_SIZE_MEDIUM => 10
+]);
+
+
+echo $form->start();
+
+echo $form->field('join_type');
+
+$form->setDoNotTranslateTexts(true);
+foreach( $relation->getRelatedDataModel()->getProperties() as $property ) {
+	if(!$property->getIsId()) {
+		continue;
+	}
+
+	echo $form->field('glue_'.$property->getInternalId());
+}
+$form->setDoNotTranslateTexts(false);
+
+echo $form->end();
+

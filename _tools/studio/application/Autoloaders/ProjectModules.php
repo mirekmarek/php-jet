@@ -30,18 +30,14 @@ class Autoloader_ProjectModules extends Autoloader_Loader
 			return false;
 		}
 
-		$module_name = str_replace( '\\', '.', substr( $namespace, strlen($root_namespace)+1 ) );
+		$namespace = substr($namespace, strlen($root_namespace)+1);
 
-		if( !Application_Modules::moduleIsActivated( $module_name) ) {
-			return false;
-		}
+		$module_path = ProjectConf_PATH::APPLICATION_MODULES().$namespace.'/';
 
-		//TODO: tohle nebude fungovat ...
-		$module_path = Application_Modules::getModuleDir( $module_name );
+		$module_path = str_replace('\\', '/', $module_path);
+		$class_name = str_replace( '_', '/', $class_name );
 
-		$class_name = str_replace( '_', DIRECTORY_SEPARATOR, $class_name );
 		$path = $module_path.$class_name.'.php';
-
 
 		return $path;
 	}

@@ -40,6 +40,17 @@ class ProjectConf_PATH {
 	 * @var string
 	 */
 	protected static $APPLICATION =  '';
+	
+	/**
+	 * @var string
+	 */
+	protected static $APPLICATION_CLASSES =  '';
+
+	/**
+	 * @var string
+	 */
+	protected static $APPLICATION_MODULES =  '';
+	
 	/**
 	 * @var string
 	 */
@@ -52,6 +63,11 @@ class ProjectConf_PATH {
 	 * @var string
 	 */
 	protected static $DICTIONARIES = '';
+
+	/**
+	 * @var string 
+	 */
+	protected static $TEMPLATES = '';
 
 	/**
 	 * @param string $what
@@ -186,6 +202,41 @@ class ProjectConf_PATH {
 	/**
 	 * @return string
 	 */
+	public static function APPLICATION_CLASSES()
+	{
+		static::_check('APPLICATION_CLASSES');
+		return static::$APPLICATION_CLASSES;
+	}
+
+	/**
+	 * @param string $APPLICATION_CLASSES
+	 */
+	public static function setAPPLICATION_CLASSES( $APPLICATION_CLASSES )
+	{
+		static::$APPLICATION_CLASSES = $APPLICATION_CLASSES;
+	}
+
+
+	/**
+	 * @return string
+	 */
+	public static function APPLICATION_MODULES()
+	{
+		static::_check('APPLICATION_MODULES');
+		return static::$APPLICATION_MODULES;
+	}
+
+	/**
+	 * @param string $APPLICATION_MODULES
+	 */
+	public static function setAPPLICATION_MODULES( $APPLICATION_MODULES )
+	{
+		static::$APPLICATION_MODULES = $APPLICATION_MODULES;
+	}
+
+	/**
+	 * @return string
+	 */
 	public static function CONFIG()
 	{
 		static::_check('CONFIG');
@@ -234,6 +285,22 @@ class ProjectConf_PATH {
 		static::$DICTIONARIES = $DICTIONARIES;
 	}
 
+	/**
+	 * @return string
+	 */
+	public static function TEMPLATES()
+	{
+		static::_check('TEMPLATES');
+		return static::$TEMPLATES;
+	}
+
+	/**
+	 * @param string $TEMPLATES
+	 */
+	public static function setTEMPLATES( $TEMPLATES )
+	{
+		static::$TEMPLATES = $TEMPLATES;
+	}
 
 
 }

@@ -14,7 +14,7 @@ $dialog = UI::dialog('dialog_create_new_key', Tr::_('Create new Key'), 600);
 
 echo $dialog->start();
     ?>
-    <div id="<?=DataModels_Key::getCreateForm()->getId()?>_form_area">
+    <div id="<?=DataModel_Definition_Key::getCreateForm()->getId()?>_form_area">
 		<?php require 'form.phtml'; ?>
     </div>
 	<?php

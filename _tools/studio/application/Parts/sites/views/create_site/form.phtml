@@ -1,13 +1,40 @@
 <?php
 namespace JetStudio;
 
+use Jet\Form;
+
 $form = Sites::getCreateForm();
+
+$form->setDefaultLabelWidth([
+	Form::LJ_SIZE_MEDIUM => 2
+]);
+$form->setDefaultFieldWidth([
+	Form::LJ_SIZE_MEDIUM => 10
+]);
+
 
 $form->getField('name')->input()->addJsAction('onkeyup', 'JetStudio.Sites.createSite.generateId(this.value);');
 
 echo $form->start();
 echo $form->field('name');
 echo $form->field('id');
+
+$base_url=$form->field('base_url');
+?>
+		<?=$base_url->row()->start()?>
+		<?=$base_url->label()?>
+
+		<?=$base_url->container()->start()?>
+		<div class="input-group">
+			<span class="input-group-prepend" style="font-weight: bolder"><span class="input-group-text">https://</span></span>
+			<?=$base_url->input()?>
+			<?=$base_url->error()?>
+		</div>
+		<?=$base_url->container()->end()?>
+
+		<?=$base_url->row()->end()?>
+<?php
+
 echo $form->field('locales');
 
 echo $form->end();

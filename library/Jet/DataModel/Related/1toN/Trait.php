@@ -26,7 +26,9 @@ trait DataModel_Related_1toN_Trait
 	 */
 	public static function dataModelDefinitionFactory( $data_model_class_name )
 	{
-		return new DataModel_Definition_Model_Related_1toN( $data_model_class_name );
+		$class_name = DataModel_Factory::getModelDefinitionClassNamePrefix().'Related_1toN';
+
+		return new $class_name( $data_model_class_name );
 	}
 
 

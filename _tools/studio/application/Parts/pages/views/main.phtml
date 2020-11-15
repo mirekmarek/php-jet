@@ -7,10 +7,8 @@ use Jet\Tr;
 <?=Application::getView()->render('js');?>
 
 <?php if(Pages::getCurrentLocale()): ?>
-<div class="row" id="main-toolbar">
-	<div class="col-md-3" style="padding: 0px;">
-		<div class="toolbar">
-
+<div class="row toolbar" id="main-toolbar" style="margin-bottom:0px;padding: 5px;">
+	<div class="col-md-3">
 			<div class="dropdown" style="display: inline-block">
 				<button class="btn btn-light dropdown-toggle" type="button"  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 					<?=UI::flag( Pages::getCurrentLocale() )?>
@@ -32,11 +30,9 @@ use Jet\Tr;
 					<?php endforeach; ?>
 				</div>
 			</div>
-
-			<?=UI::button_create(Tr::_('Create new page'))->setOnclick('JetStudio.Pages.createPage.openDialog()')?>
-		</div>
 	</div>
 	<div class="col-md-9" style="padding: 0px;">
+		<?=UI::button_create(Tr::_('Create new page'))->setOnclick('JetStudio.Pages.createPage.openDialog()')?>
 		<?=Application::getView()->render('page_edit/toolbar');?>
 	</div>
 </div>
@@ -45,9 +41,7 @@ use Jet\Tr;
 
 <div class="row" id="main-col">
 	<div class="col-md-3" style="padding: 0px;">
-		<div style="padding: 10px;">
-			<?=Application::getView()->render('pages_tree');?>
-		</div>
+		<?=Application::getView()->render('pages_tree');?>
 	</div>
 	<div class="col-md-9" style="padding: 0px;">
 		<?=Application::getView()->render('page_edit/edit');?>

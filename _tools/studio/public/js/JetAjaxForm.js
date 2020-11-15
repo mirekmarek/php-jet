@@ -1,4 +1,4 @@
-var JetAjaxForm = {
+let JetAjaxForm = {
 	xhr: null,
 
 	submit: function( form_id, handlers, form_data ) {

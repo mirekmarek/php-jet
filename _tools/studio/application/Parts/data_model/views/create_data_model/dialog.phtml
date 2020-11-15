@@ -8,7 +8,7 @@ $dialog = UI::dialog('dialog_create_new_data_model', Tr::_('Create new DataModel
 
 echo $dialog->start();
 	?>
-	<div id="<?=DataModels_Model::getCreateForm()->getId()?>_form_area">
+	<div id="<?=DataModel_Definition_Model_Main::getCreateForm()->getId()?>_form_area">
 		<?php require 'form.phtml'; ?>
 	</div>
 	<?php

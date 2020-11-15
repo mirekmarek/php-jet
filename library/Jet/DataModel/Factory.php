@@ -21,7 +21,31 @@ class DataModel_Factory
 	/**
 	 * @var string
 	 */
+	protected static $model_definition_class_name_prefix = __NAMESPACE__.'\DataModel_Definition_Model_';
+
+
+	/**
+	 * @var string
+	 */
 	protected static $property_definition_class_name_prefix = __NAMESPACE__.'\DataModel_Definition_Property_';
+
+	/**
+	 * @return string
+	 */
+	public static function getModelDefinitionClassNamePrefix()
+	{
+		return self::$model_definition_class_name_prefix;
+	}
+
+	/**
+	 * @param string $model_definition_class_name_prefix
+	 */
+	public static function setModelDefinitionClassNamePrefix( $model_definition_class_name_prefix )
+	{
+		self::$model_definition_class_name_prefix = $model_definition_class_name_prefix;
+	}
+
+
 
 	/**
 	 * @return string

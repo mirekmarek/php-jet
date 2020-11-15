@@ -7,9 +7,9 @@
  */
 namespace JetStudio;
 
-use Jet\Debug;
-use Jet\SysConf_Jet;
-
+/**
+ *
+ */
 class ClassParser {
 
 	/**
@@ -111,7 +111,7 @@ class ClassParser {
 				$text = $token;
 
 			} else {
-				list($id, $text) = $token;
+				[$id, $text] = $token;
 
 			}
 

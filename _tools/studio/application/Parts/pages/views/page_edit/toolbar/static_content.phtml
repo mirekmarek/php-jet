@@ -1,0 +1,12 @@
+<?php
+namespace JetStudio;
+
+use Jet\UI;
+
+$page = Pages::getCurrentPage();
+$form = $page->getEditForm_static_content();
+
+?>
+<?=UI::button_save()->setOnclick("$('#{$form->getId()}').submit()")?>
+
+

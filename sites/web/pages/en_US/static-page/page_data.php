@@ -1,14 +1,18 @@
 <?php
 return [
-    'id' => 'static_page',
-    'order' => 5,
-    'name' => 'Static page',
-    'title' => 'Static page',
+	'id' => 'static_page',
+	'name' => 'Static page',
+	'is_active' => true,
+	'SSL_required' => false,
+	'title' => 'Static page',
+	'icon' => '',
+	'menu_title' => 'Static page',
+	'breadcrumb_title' => 'Static page',
+	'is_secret' => false,
 	'http_headers' => [
-		'testHeader1' => 'test value 1'
+		'test value 1',
 	],
-    'output' =>
-'<html>
+	'output' => '<html>
 <head>
 
 </head>
@@ -24,5 +28,12 @@ return [
 
 	<p>Duis at odio vel diam porttitor consectetur. Mauris fermentum auctor tellus, a pharetra elit vehicula a. Interdum et malesuada fames ac ante ipsum primis in faucibus. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Curabitur dictum purus id libero eleifend, nec accumsan leo sodales. Quisque convallis justo sit amet fermentum commodo. Suspendisse sollicitudin lorem sapien, eget dapibus nisl tincidunt quis. Vivamus non metus eu sapien elementum fermentum et in arcu. Vivamus in ullamcorper justo. Ut egestas id eros ut commodo.</p>
 </body>
-</html>'
+</html>',
+	'meta_tags' => [
+		[
+			'attribute' => 'attribute',
+			'attribute_value' => 'example',
+			'content' => 'Example tag',
+		],
+	],
 ];

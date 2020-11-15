@@ -36,7 +36,9 @@ trait DataModel_Trait_Definition
 	 */
 	public static function dataModelDefinitionFactory( $data_model_class_name )
 	{
-		return new DataModel_Definition_Model_Main( $data_model_class_name );
+		$class_name = DataModel_Factory::getModelDefinitionClassNamePrefix().'Main';
+
+		return new $class_name( $data_model_class_name );
 	}
 
 }

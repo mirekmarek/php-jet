@@ -1,0 +1,332 @@
+<?php
+/**
+ *
+ * @copyright Copyright (c) 2011-2020 Miroslav Marek <mirek.marek.2m@gmail.com>
+ * @license http://www.php-jet.net/license/license.txt
+ * @author Miroslav Marek <mirek.marek.2m@gmail.com>
+ */
+namespace JetStudio;
+
+use Jet\DataModel;
+use Jet\DataModel_Definition_Model_Related_MtoN as Jet_DataModel_Definition_Model_Related_MtoN;
+use Jet\Form;
+use Jet\Form_Field_Checkbox;
+use Jet\Form_Field_Hidden;
+use Jet\Form_Field_Input;
+use Jet\Form_Field_Select;
+use Jet\Form_Field_Textarea;
+use Jet\Tr;
+
+/**
+ */
+class DataModel_Definition_Model_Related_MtoN extends Jet_DataModel_Definition_Model_Related_MtoN implements DataModel_Definition_Model_Related_Interface {
+
+	use DataModel_Definition_Model_Related_Trait;
+
+
+	/**
+	 * @return bool
+	 */
+	public function canHaveRelated()
+	{
+		return false;
+	}
+
+	/**
+	 * @var string
+	 */
+	protected $internal_type = DataModels::MODEL_TYPE_RELATED_MTON;
+
+
+	/**
+	 * @return Form
+	 */
+	public function getEditForm()
+	{
+
+		if(!$this->__edit_form) {
+
+			$model_name_field = new Form_Field_Input('model_name', 'Model name:', $this->model_name);
+			$model_name_field->setIsRequired(true);
+			$model_name_field->setErrorMessages([
+				Form_Field_Input::ERROR_CODE_EMPTY => 'Please enter DataModel name'
+			]);
+			$model_name_field->setCatcher( function( $value ) {
+				$this->model_name =  $value;
+			} );
+
+
+
+
+
+			$database_table_name_field = new Form_Field_Input('database_table_name', 'Table name:', $this->database_table_name);
+			$database_table_name_field->setCatcher( function( $value ) {
+				$this->setDatabaseTableName( $value );
+			} );
+
+			$n_model_field = new Form_Field_Select('N_model_class_name', 'N DataModel:', $this->N_model_class_name );
+			$n_model_field->setErrorMessages([
+				Form_Field_Select::ERROR_CODE_INVALID_VALUE => 'Please select N DataModel'
+			]);
+
+			$n_classes = [
+				'' => ''
+			];
+			foreach( DataModels::getClasses() as $class ) {
+				$model = $class->getDefinition();
+				if(
+					!$model instanceof DataModel_Definition_Model_Main ||
+					$model->getClassName()==$this->getRelevantParentModel()->getClassName()
+				) {
+					continue;
+				}
+
+				$n_classes[$model->getClassName()] = $model->getModelName().' ('.$model->getClassName().')';
+			}
+			$n_model_field->setSelectOptions( $n_classes );
+			$n_model_field->setCatcher( function( $value ) {
+				$this->setNModel( $value );
+			} );
+
+			$default_order_by_field = new Form_Field_Hidden( 'default_order_by', '', implode('|', $this->getDefaultOrderBy()) );
+			$default_order_by_field->setCatcher( function( $value ) {
+				if(!$value) {
+					$value = [];
+				} else {
+					$value = explode('|', $value);
+				}
+				$this->setDefaultOrderBy( $value );
+			} );
+
+
+			$fields = [
+				$model_name_field,
+				$database_table_name_field,
+				$n_model_field,
+				$default_order_by_field
+			];
+
+			$this->__edit_form = new Form('edit_model_form', $fields );
+			$this->__edit_form->setAction( DataModels::getActionUrl('edit') );
+
+		}
+
+		return $this->__edit_form;
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function catchEditForm()
+	{
+		$form = $this->getEditForm();
+
+		if(
+			!$form->catchInput() ||
+			!$form->validate()
+		) {
+			return false;
+		}
+
+		$form->catchData();
+
+		return true;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getNModelClassName()
+	{
+		return $this->N_model_class_name;
+	}
+
+	/**
+	 * @param string $N_model_class_name
+	 */
+	public function setNModelClassName( $N_model_class_name )
+	{
+		$this->N_model_class_name = $N_model_class_name;
+	}
+
+	/**
+	 *
+	 * @param string $n_model_id
+	 */
+	public function setNModel( $n_model_id )
+	{
+		$this->N_model_class_name = $n_model_id;
+	}
+
+	/**
+	 * @return DataModel_Definition_Model_Main|DataModel_Definition_Model_Related_1to1|DataModel_Definition_Model_Related_1toN|DataModel_Definition_Model_Related_MtoN|null
+	 */
+	public function getNModel()
+	{
+		if(!$this->N_model_class_name) {
+			return null;
+		}
+
+		return DataModels::getClass($this->N_model_class_name)->getDefinition();
+	}
+
+	/**
+	 * @return array
+	 */
+	public function getOrderByOptions()
+	{
+		$res = [];
+
+		foreach( $this->getProperties() as $property ) {
+			if(
+				$property->getRelatedToClassName() ||
+				$property->getType()==DataModel::TYPE_CUSTOM_DATA
+			) {
+				continue;
+			}
+
+			$res[$this->getClassName().'.'.$property->getName()] = $this->getModelName().'.'.$property->getName();
+		}
+
+		$n = $this->getNModel();
+		if($n) {
+			foreach( $n->getProperties() as $property ) {
+				if(
+					$property->getDataModelClassName() ||
+					$property->getType()==DataModel::TYPE_CUSTOM_DATA
+				) {
+					continue;
+				}
+
+				$res[$n->getClassName().'.'.$property->getName()] = $n->getModelName().'.'.$property->getName();
+			}
+		}
+
+
+		return $res;
+	}
+
+
+	/**
+	 * @return ClassCreator_Class
+	 */
+	public function createClass_initClass()
+	{
+
+		$class = new ClassCreator_Class();
+
+		$class->setName( $this->getClassName() );
+
+		$class->addUse( new ClassCreator_UseClass('Jet', 'DataModel') );
+		$class->addUse( new ClassCreator_UseClass('Jet', 'DataModel_Related_MtoN') );
+
+		$class->setExtends( $this->createClass_getExtends($class, 'DataModel_Related_MtoN') );
+
+		if($this->_implements) {
+			foreach( $this->_implements as $i ) {
+				$use = ClassCreator_UseClass::createByClassName($i);
+				$class->addUse( $use );
+
+				$class->addImplements( $use->getClass() );
+			}
+		}
+
+		return $class;
+	}
+
+	/**
+	 * @param ClassCreator_Class $class
+	 */
+	public function createClass_main( ClassCreator_Class $class )
+	{
+
+		$class->addAnnotation(
+			(new ClassCreator_Annotation('JetDataModel', 'name', var_export($this->getModelName(), true)) )
+		);
+
+		if($this->getDatabaseTableName()) {
+			$class->addAnnotation(
+				(new ClassCreator_Annotation('JetDataModel', 'database_table_name', var_export($this->getDatabaseTableName(), true)) )
+			);
+		} else {
+			$class->addAnnotation(
+				(new ClassCreator_Annotation('JetDataModel', 'database_table_name', var_export($this->getModelName(), true)) )
+			);
+		}
+
+		$parent_id = $this->getParentModelClassName();
+		if(!$parent_id) {
+			$parent_id = $this->getMainModelClassName();
+		}
+
+		$parent_class = DataModels::getClass( $parent_id );
+		if(!$parent_class) {
+			$class->addError( Tr::_('Fatal: unknown parent class!') );
+
+			return;
+		}
+
+		$class->addAnnotation(
+			(new ClassCreator_Annotation('JetDataModel', 'parent_model_class_name', var_export($parent_class->getClassName(), true) ))
+		);
+
+
+		$N_model_id = $this->getNModelClassName();
+		$N_model = DataModels::getClass( $N_model_id );
+		if(!$N_model) {
+			$class->addError('Unable to get N DataModel definition (N model ID: '.$N_model_id.')');
+			return;
+		}
+
+		$N_model_class_name = $N_model->getClassName();
+
+		/*
+		if($N_model->getNamespaceId()!=Project::getCurrentNamespaceId()) {
+
+			$ns = Project::getNamespace($N_model->getNamespaceId());
+
+			$class->addUse(
+				new ClassCreator_UseClass($ns->getNamespace(), $N_model_class_name)
+			);
+		}
+		*/
+
+
+		$class->addAnnotation(
+			(new ClassCreator_Annotation('JetDataModel', 'N_model_class_name', var_export($N_model_class_name, true)) )
+		);
+
+
+		$order_by = [];
+		foreach( $this->getDefaultOrderBy() as $ob ) {
+			$direction = $ob[0];
+			$ob = substr( $ob, 1 );
+
+			[ $s_model_id, $s_property_id ] = explode('.', $ob);
+
+			$s_model = DataModels::getClass( $s_model_id )->getDefinition();
+			$s_property = $s_model->getProperty( $s_property_id );
+
+
+			if($s_model->getModelName()!=$this->getModelName()) {
+				$order_by[] = var_export($direction.$s_model->getModelName().'.'.$s_property->getName(), true);
+			}
+		}
+
+		if($order_by) {
+			$class->addAnnotation(
+				(new ClassCreator_Annotation('JetDataModel', 'default_order_by', $order_by))
+			);
+		}
+
+	}
+
+
+	/**
+	 * @param ClassCreator_Class $class
+	 */
+	public function createClass_ID( ClassCreator_Class $class )
+	{
+	}
+
+}

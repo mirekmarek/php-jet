@@ -1,0 +1,44 @@
+<?php
+namespace JetStudio;
+
+
+use Jet\Http_Request;
+use Jet\Tr;
+use Jet\UI;
+
+$current = DataModels::getCurrentModel();
+
+if(!$current) {
+	return;
+}
+
+$current_property_name = DataModels::getCurrentPropertyName();
+?>
+
+<table style="width: 100%">
+	<tr>
+		<td colspan="3"><b><?=Tr::_('Properties')?></b></td>
+	</tr>
+<?php foreach($current->getProperties() as $property): ?>
+	<tr class="<?=$property->getHeadCssClass()?>">
+		<td>
+			<?php if($current_property_name==$property->getName()): ?>
+				<b class="badge badge-success"><?=$property->getName()?></b>
+			<?php else: ?>
+				<a href="<?=Http_Request::currentURI(['property'=>$property->getName()], ['key', 'relation'])?>"><?=$property->getName()?></a>
+			<?php endif; ?>
+		</td>
+
+		<td style="width: 200px;font-size: 11px;">
+			<div style="padding-top: 4px;">
+				<?=$property->getTypeDescription()?>
+			</div>
+
+		</td>
+		<td style="width: 150px">
+			<?=$property->getIcons()?>
+		</td>
+	</tr>
+
+<?php endforeach; ?>
+</table>

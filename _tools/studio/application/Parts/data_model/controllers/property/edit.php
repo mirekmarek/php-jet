@@ -11,9 +11,6 @@ $current = DataModels::getCurrentModel();
 
 $property = $current->getProperty( Http_Request::GET()->getString('property') );
 
-/**
- * @var DataModels_Property_Interface $property
- */
 if(!$property) {
 	Application::end();
 }
@@ -27,7 +24,6 @@ if( ($new_property = $property->catchEditForm()) ) {
 	$property = $new_property;
 
 	DataModels::check();
-	$current->checkSortOfProperties();
 
 	$current->propertyUpdated( $property );
 
@@ -41,8 +37,8 @@ if( ($new_property = $property->catchEditForm()) ) {
 		$data['head_css_class'] = $property->getHeadCssClass();
 		$data['id_controller_class'] = $current->getIDControllerClassName();
 
-		$snippets['main-toolbar'] = Application::getView()->render('data_model/model_edit/toolbar');
-		$snippets['main_parameters'] = Application::getView()->render('data_model/model_edit/main_parameters');
+		$snippets['main-toolbar'] = Application::getView()->render('model_edit/toolbar');
+		$snippets['main_parameters'] = Application::getView()->render('model_edit/main_parameters');
 	}
 
 }
@@ -52,8 +48,8 @@ if( ($new_property = $property->catchEditForm()) ) {
 $view = Application::getView();
 $view->setVar('property', $property);
 
-$snippets['property_detail_area_'.$property->getInternalId()] = $view->render('data_model/model_edit/properties/list/item-body');
-$snippets['property_header_area_'.$property->getInternalId()] = $view->render('data_model/model_edit/properties/list/item-header');
+$snippets['property_detail_area_'.$property->getName()] = $view->render('model_edit/properties/list/item-body');
+$snippets['property_header_area_'.$property->getName()] = $view->render('model_edit/properties/list/item-header');
 
 AJAX::formResponse(
 	$ok,

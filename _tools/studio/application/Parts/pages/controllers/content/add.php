@@ -31,7 +31,7 @@ if(
 
 		$data = [];
 
-		$snippets['content_list_area_'.$page->getSiteId().'_'.$page->getId()] = Application::getView()->render('page_edit/content_list');
+		$snippets['content_list_area'] = Application::getView()->render('page_edit/edit/content/list');
 
 	}
 

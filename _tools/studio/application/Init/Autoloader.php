@@ -30,7 +30,7 @@ require SysConf_PATH::APPLICATION().'Autoloaders/ModuleWizards.php';
 Autoloader_ModuleWizards::register();
 
 require SysConf_PATH::APPLICATION().'Autoloaders/ProjectClasses.php';
-Autoloader_StudioClasses::register();
+Autoloader_ProjectClasses::register();
 
 require SysConf_PATH::APPLICATION().'Autoloaders/ProjectModules.php';
 Autoloader_ProjectModules::register();

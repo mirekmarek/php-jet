@@ -1,8 +1,8 @@
 <?php
 namespace JetStudio;
 
-use Jet\Exception;
 use Jet\Http_Headers;
+use Jet\Locale;
 use Jet\UI_messages;
 use Jet\Tr;
 
@@ -10,11 +10,13 @@ $current = Sites::getCurrentSite();
 
 if(
 	$current &&
-	($new_ld=Sites::catchAddLocaleForm())
+	($new_ld=$current->catchAddLocaleForm())
 ) {
-	if( Sites::save() ) {
+	if( $current->save() ) {
+		$locale = new Locale($current->getAddLocaleForm()->getField('locale')->getValue());
+
 		UI_messages::success( Tr::_('Locale <b>%locale%</b> has been added', [
-			'locale' => $new_ld->getLocale()->getName()
+			'locale' => $locale->getName()
 		]) );
 
 		Http_Headers::reload([], ['action']);

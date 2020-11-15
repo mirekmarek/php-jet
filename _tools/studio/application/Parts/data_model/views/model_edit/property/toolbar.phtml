@@ -1,0 +1,11 @@
+<?php
+namespace JetStudio;
+
+use Jet\UI;
+
+$form = DataModels::getCurrentProperty()->getEditForm();
+?>
+
+<?=UI::button_save()
+	->setOnclick("$('#".$form->getId()."').submit()")
+?>

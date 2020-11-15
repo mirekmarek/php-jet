@@ -93,6 +93,8 @@ class Pages extends BaseObject implements Application_Part
 		}
 		if(static::getCurrentPageId()) {
 			$get_params['page'] = (string)static::getCurrentPageId();
+
+			$get_params['what'] = static::whatToEdit();
 		}
 
 		if($custom_site_id!==null) {
@@ -190,29 +192,6 @@ class Pages extends BaseObject implements Application_Part
 
 		return static::$pages[$site_id][$locale][$page_id];
 	}
-
-	/**
-	 * @param Pages_Page $page
-	 */
-	public static function addPage( Pages_Page $page )
-	{
-		static::load();
-
-		$site_id = $page->getSiteId();
-		$locale = (string)$page->getLocale();
-		$page_id = $page->getId();
-
-		if(!isset(static::$pages[$site_id])) {
-			static::$pages[$site_id] = [];
-		}
-
-		if(!isset(static::$pages[$site_id][$locale])) {
-			static::$pages[$site_id][$locale] = [];
-		}
-
-		static::$pages[$site_id][$locale][$page_id] = $page;
-	}
-
 
 	/**
 	 * @return string|bool
@@ -352,6 +331,10 @@ class Pages extends BaseObject implements Application_Part
 		$root->setId( $homepage->getId() );
 		$root->setLabel( $homepage->getName() );
 
+		uasort($tree_data, function( array $a, array $b) {
+			return strcmp( $a['name'], $b['name'] );
+		});
+
 		$tree->setData( $tree_data );
 
 
@@ -391,21 +374,13 @@ class Pages extends BaseObject implements Application_Part
 	}
 
 	/**
-	 *
-	 * @return Project_Namespace[]
+	 * @return string
 	 */
-	public static function getNamespaces()
+	public static function whatToEdit()
 	{
-		return [];
+		if(!static::getCurrentPageId()) {
+			return '';
+		}
+		return Http_Request::GET()->getString('what', 'main', [ 'main', 'content', 'static_content', 'callback' ]);
 	}
-
-
-
-	/**
-	 *
-	 */
-	public static function synchronize()
-	{
-	}
-
 }

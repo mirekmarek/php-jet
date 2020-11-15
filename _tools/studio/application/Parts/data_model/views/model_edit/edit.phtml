@@ -1,57 +1,34 @@
 <?php
 namespace JetStudio;
 
-use Jet\Tr;use Jet\UI;
 use Jet\UI_messages;
 
+if(!DataModels::getCurrentModel()) {
+	return;
+}
+$class = DataModels::getCurrentModel()->createClass();
 
+$errors = [];
+$warnings = [];
+
+if( $class ) {
+	$errors = $class->getErrors();
+	$warnings = $class->getWarnings();
+}
+
+
+echo Application::getGeneralView()->render('messages');
+
+foreach( $warnings as $warning ) {
+	echo '<div style="padding: 5px">'.UI_messages::createWarning( $warning ).'</div>';
+}
+
+foreach( $errors as $error ) {
+	echo '<div style="padding: 5px">'.UI_messages::createDanger( $error ).'</div>';
+}
+
+$what_to_edit = DataModels::getCurrentWhatToEdit();
 ?>
-<div class="toolbar" id="main-toolbar">
-	<?php require 'toolbar.phtml'; ?>
+<div class="container-fluid">
+	<?php require $what_to_edit.'/form.phtml'; ?>
 </div>
-<div class="container-fluid" id="main-edit-area">
-	<div id="main_parameters">
-		<?php require 'main_parameters.phtml'; ?>
-	</div>
-
-	<div id="properties">
-		<?php require 'properties.phtml'; ?>
-	</div>
-
-	<div id="outer_relations">
-		<?php require 'outer_relations.phtml'; ?>
-	</div>
-
-	<div id="custom_keys_and_indexes">
-		<?php require 'custom_keys_and_indexes.phtml'; ?>
-	</div>
-</div>
-
-
-<?php
-$dialog_SQL_create = UI::dialog('dialog_SQL_create', Tr::_('SQL - create'), 800);
-
-echo $dialog_SQL_create->start();
-?>
-<textarea id="SQL_create_result" style="width: 770px;height: 400px;"></textarea>
-<?php
-echo $dialog_SQL_create->end();
-
-
-$dialog_SQL_update = UI::dialog('dialog_SQL_update', Tr::_('SQL - update'), 800);
-
-echo $dialog_SQL_update->start();
-?>
-<textarea id="SQL_update_result" style="width: 770px;height: 400px;"></textarea>
-<?php
-echo $dialog_SQL_update->end();
-
-
-
-$dialog_class_source = UI::dialog('dialog_class_source', Tr::_('Class soruce code'), 800);
-
-echo $dialog_class_source->start();
-?>
-<textarea id="class_source_result" style="width: 770px;height: 400px;"></textarea>
-<?php
-echo $dialog_class_source->end();

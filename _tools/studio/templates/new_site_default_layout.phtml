@@ -1,0 +1,22 @@
+<?php
+use Jet\Tr;
+use Jet\Mvc_Layout;
+
+/**
+ * @var Mvc_Layout $this
+ */
+?>
+<!DOCTYPE html>
+<html>
+<head>
+	<title><?=$this->getString( 'page_title', 'Default title' )?></title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+
+	<jet_layout_meta_tags/>
+	<jet_layout_css/>
+	<jet_layout_javascripts/>
+</head>
+<body>
+	<jet_layout_main_position/>
+</body>
+</html>

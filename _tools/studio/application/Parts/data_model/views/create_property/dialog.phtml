@@ -14,7 +14,7 @@ $dialog = UI::dialog('dialog_create_new_property', Tr::_('Create new Property'),
 
 echo $dialog->start();
     ?>
-    <div id="<?=DataModels_Property::getCreateForm()->getId()?>_form_area">
+    <div id="<?=DataModel_Definition_Property::getCreateForm()->getId()?>_form_area">
 		<?php require 'form.phtml'; ?>
     </div>
 	<?php

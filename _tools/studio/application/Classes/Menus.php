@@ -361,16 +361,6 @@ class Menus extends BaseObject implements Application_Part
 	}
 
 
-	
-	/**
-	 *
-	 * @return Project_Namespace[]
-	 */
-	public static function getNamespaces()
-	{
-		return [];
-	}
-
 	/**
 	 * @param $id
 	 *

@@ -9,10 +9,10 @@ use Jet\AJAX;
 
 $current = DataModels::getCurrentModel();
 
-$relation = $current->getOuterRelation( Http_Request::GET()->getString('relation') );
+$relation = $current->getExternalRelation( Http_Request::GET()->getString('relation') );
 
 /**
- * @var DataModels_OuterRelation $relation
+ * @var DataModel_Definition_Relation_External $relation
  */
 if(!$relation) {
 	Application::end();
@@ -39,8 +39,8 @@ if( $relation->catchEditForm() ) {
 $view = Application::getView();
 $view->setVar('relation', $relation);
 
-$snippets['relation_detail_area_'.$relation->getInternalId()] = $view->render('data_model/model_edit/relations/list/item-body');
-$snippets['relation_header_area_'.$relation->getInternalId()] = $view->render('data_model/model_edit/relations/list/item-header');
+$snippets['relation_detail_area_'.$relation->getInternalId()] = $view->render('model_edit/relations/list/item-body');
+$snippets['relation_header_area_'.$relation->getInternalId()] = $view->render('model_edit/relations/list/item-header');
 
 AJAX::formResponse(
 	$ok,

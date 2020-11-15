@@ -1,7 +1,7 @@
 <?php
 namespace JetStudio;
 
-$form = DataModels_Model::getCreateForm();
+$form = DataModel_Definition_Model_Main::getCreateForm();
 
 $form->field('model_name')->input()->addJsAction('onkeydown', "JetStudio.DataModel.generateClassName(this.value, '".$form->field('class_name')->getId()."')");
 

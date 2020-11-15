@@ -8,6 +8,7 @@
 namespace JetApplicationModule\Test\ORM;
 
 use Jet\DataModel;
+use Jet\DataModel_IDController_UniqueString;
 
 /**
  *

@@ -1,0 +1,26 @@
+<?php
+namespace JetStudio;
+
+$list = DataModels::getClasses();
+
+?>
+<table class="table table-striped">
+	<?php foreach($list as $item): ?>
+	<tr>
+		<?php if($item->getFullClassName()==DataModels::getCurrentClassName()): ?>
+			<td>
+				<?php require 'list/model-items.phtml'; ?>
+			</td>
+		<?php endif;?>
+	</tr>
+	<?php endforeach; ?>
+
+	<?php foreach($list as $item): ?>
+		<tr>
+			<?php if($item->getFullClassName()!=DataModels::getCurrentClassName()): ?>
+				<td><a href="<?=DataModels::getActionUrl('', [], $item->getFullClassName())?>"><?=$item->getFullClassName()?></a></td>
+			<?php endif;?>
+		</tr>
+	<?php endforeach; ?>
+
+</table>

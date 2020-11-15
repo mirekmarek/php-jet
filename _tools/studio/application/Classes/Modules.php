@@ -284,28 +284,6 @@ class Modules extends BaseObject implements Application_Part
 		return $module;
 	}
 
-
-	/**
-	 *
-	 * @return Project_Namespace[]
-	 */
-	public static function getNamespaces()
-	{
-		$namespaces = [];
-
-
-		foreach( Modules::getModules() as $module ) {
-			$ns = new Project_Namespace( Project_Namespace::MODULE_NS_PREFIX.$module->getName(), 'Module '.$module->getName() );
-			$ns->setNamespace( Project::getApplicationModuleNamespace().'\\'.str_replace('.', '\\', $module->getName()) );
-			$ns->setRootDirPath( $module->getModuleDir() );
-
-			$namespaces[$ns->getId()] = $ns;
-		}
-
-		return $namespaces;
-
-	}
-
 	/**
 	 * @param Menus_MenuNamespace $namespace
 	 */

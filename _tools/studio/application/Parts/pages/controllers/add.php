@@ -9,9 +9,7 @@ $form = Pages_Page::getCreateForm();
 $ok = false;
 $data = [];
 
-if( ($new_page=Pages_Page::catchCreateForm( Pages::getCurrentSiteId(), Pages::getCurrentLocale(), Pages::getCurrentPage() ) ) ) {
-
-	Pages::addPage( $new_page );
+if( ($new_page=Pages_Page::catchCreateForm() ) ) {
 
 	if( $new_page->save() ) {
 		$ok = true;

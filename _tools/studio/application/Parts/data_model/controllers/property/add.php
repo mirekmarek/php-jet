@@ -10,9 +10,9 @@ $ok = false;
 $data = [];
 $snippets = [];
 
-if( ($new_property=DataModels_Property::catchCreateForm()) ) {
+if( ($new_property=DataModel_Definition_Property::catchCreateForm()) ) {
 
-	$form = DataModels_Property::getCreateForm();
+	$form = DataModel_Definition_Property::getCreateForm();
 	$form->getField('type')->setDefaultValue( $new_property->getType() );
 
 	if(DataModels::save($form)) {
@@ -26,9 +26,9 @@ if( ($new_property=DataModels_Property::catchCreateForm()) ) {
 			)
 		);
 
-		$snippets['properties_list_area'] = Application::getView()->render('data_model/model_edit/properties/list');
-		$snippets['main-toolbar'] = Application::getView()->render('data_model/model_edit/toolbar');
-		$snippets['main_parameters'] = Application::getView()->render('data_model/model_edit/main_parameters');
+		$snippets['properties_list_area'] = Application::getView()->render('model_edit/properties/list');
+		$snippets['main-toolbar'] = Application::getView()->render('model_edit/toolbar');
+		$snippets['main_parameters'] = Application::getView()->render('model_edit/main_parameters');
 
 		//$data['id_controller_class'] = DataModels::getCurrentModel()->getIDControllerClassName();
 	}
@@ -36,7 +36,7 @@ if( ($new_property=DataModels_Property::catchCreateForm()) ) {
 
 }
 
-$snippets[DataModels_Property::getCreateForm()->getId().'_form_area'] = Application::getView()->render('data_model/create_property/form');
+$snippets[DataModel_Definition_Property::getCreateForm()->getId().'_form_area'] = Application::getView()->render('create_property/form');
 
 AJAX::formResponse(
 	$ok,

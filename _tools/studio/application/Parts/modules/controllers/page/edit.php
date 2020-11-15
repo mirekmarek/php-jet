@@ -11,6 +11,7 @@ $current = Modules::getCurrentModule();
 $GET = Http_Request::GET();
 $ok = false;
 
+/*
 if(
 	$current &&
 	($site_id=$GET->getString('site')) &&
@@ -18,12 +19,14 @@ if(
 	( $page=$current->getPage( $site_id, $page_id ) )
 ) {
 
-	$form = $page->getEditForm();
+	$what = Pages::whatToEdit();
+
+	$form = $page->{"getEditForm_$what"}();
 
 	$form->setName( 'module_page_edit_form_'.$site_id.'_'.$page_id );
 
-	if($page->catchEditForm()) {
-		$form = $page->getEditForm();
+	if($page->{"catchEditForm_{$what}"}()) {
+		$form = $page->getEditForm_main();
 
 		if( Modules::save( $form ) ) {
 			$ok = true;
@@ -47,3 +50,4 @@ if(
 
 
 }
+*/

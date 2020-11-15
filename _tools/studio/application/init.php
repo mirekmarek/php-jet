@@ -9,6 +9,7 @@ namespace JetStudio;
 
 use Jet\Application_Factory;
 use Jet\Config;
+use Jet\DataModel_Factory;
 use Jet\Http_Request;
 use Jet\Locale;
 use Jet\SysConf_Jet;
@@ -28,6 +29,10 @@ require __DIR__.'/Init/Autoloader.php';
 
 
 
+
+
+DataModel_Factory::setPropertyDefinitionClassNamePrefix(__NAMESPACE__.'\DataModel_Definition_Property_');
+DataModel_Factory::setModelDefinitionClassNamePrefix(__NAMESPACE__.'\DataModel_Definition_Model_');
 
 
 Mvc_Factory::setSiteClassName('JetStudio\\Sites_Site');

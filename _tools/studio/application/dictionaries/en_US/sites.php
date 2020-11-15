@@ -34,4 +34,13 @@ return [
 	'Please enter site identifier' => '',
 	'Saved ...' => '',
 	'Is not active' => '',
+	'Site <strong>%key%</strong> has been created' => '',
+	'Please enter at least one URL' => '',
+	'There are some problems ... Please check the form.' => '',
+	'Base URL:' => '',
+	'Please enter base URL' => '',
+	'Invalid URL format' => '',
+	'Locale requires SSL' => '',
+	'Locale is not active' => '',
+	'Locale <b>%locale%</b> has been added' => '',
 ];

@@ -1,0 +1,54 @@
+<?php
+namespace JetStudio;
+
+use Jet\Tr;
+use Jet\UI;
+
+if(!DataModels::getCurrentModel()) {
+	return;
+}
+
+$class = DataModels::getCurrentModel()->createClass();
+
+$errors = [];
+
+if( $class ) {
+	$errors = $class->getErrors();
+}
+
+$form = DataModels::getCurrentModel()->getEditForm();
+?>
+
+<?=UI::button_save()
+	->setOnclick("$('#".$form->getId()."').submit()")
+?>
+<?php if($class && !$errors): ?>
+	<div class="dropdown" style="display: inline-block">
+		<a class="dropdown-toggle" data-toggle="dropdown" href="#">
+		<span class="btn btn-light">
+			<?=Tr::_('Generate')?>
+			<span class="caret"></span>
+		</span>
+		</a>
+		<div class="dropdown-menu" style="padding: 10px;">
+			<div class="btn-group-vertical" style="width: 320px">
+				<?=UI::button(Tr::_('Database table'))->setUrl(DataModels::getActionUrl('generate/database_table'))?>
+				<?=UI::button(Tr::_('Show SQL - create'))->setOnclick("JetStudio.DataModel.edit.showSQLCreate()")?>
+				<?=UI::button(Tr::_('Show SQL - update'))->setOnclick("JetStudio.DataModel.edit.showSQLUpdate()")?>
+			</div>
+		</div>
+	</div>
+<?php endif; ?>
+
+
+<?=UI::button_create(Tr::_('Create property'))
+	->setOnclick('JetStudio.DataModel.property.create.openDialog()')
+?>
+
+<?=UI::button_create(Tr::_('Create external relation'))
+	->setOnclick('JetStudio.DataModel.relation.create.openDialog()')
+?>
+
+<?=UI::button_create(Tr::_('Create key'))
+	->setOnclick('JetStudio.DataModel.key.create.openDialog()')
+?>

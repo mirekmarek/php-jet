@@ -7,24 +7,21 @@ use Jet\Tr;
 
 /**
  * @var Mvc_View $this
- * @var DataModels_OuterRelation $relation
+ * @var DataModel_Definition_Relation_External $relation
  */
 
 if(!DataModels::getCurrentModel()) {
     return;
 }
 
-$relation = $this->getRaw('relation');
 
-$dialog = UI::dialog('delete_relation_'.$relation->getInternalId(), Tr::_('Delete relation'), 600);
+$dialog = UI::dialog('delete_relation', Tr::_('Delete relation'), 600);
 
 echo $dialog->start();
 	?>
-    <?=Tr::_('Do You really want to delete relation <strong>%relation%</strong> ?', [
-    	'relation' => $relation->getName()
-	]);?>
+    <?=Tr::_('Do You really want to delete relation?', []);?>
 	<?php
 echo $dialog->footer();
-	echo UI::button_delete()->setUrl( DataModels::getActionUrl('relation/delete', ['relation' =>$relation->getInternalId()]) );
+	echo UI::button_delete()->setUrl( DataModels::getActionUrl('relation/delete', ['relation' =>'']) );
 echo $dialog->end();
 

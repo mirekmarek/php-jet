@@ -12,7 +12,7 @@ if(!$site) {
 	return;
 }
 
-$form = Sites::getEditForm();
+$form = $site->getEditForm();
 
 $form->setDefaultLabelWidth([
 	Form::LJ_SIZE_MEDIUM => 1
@@ -22,8 +22,8 @@ $form->setDefaultFieldWidth([
 ]);
 
 
-$add_locale_form = Sites::getAddLocaleForm();
-$sort_locales_form = Sites::getSortLocalesForm();
+$add_locale_form = $site->getAddLocaleForm();
+$sort_locales_form = $site->getSortLocalesForm();
 
 $sort_dialog = UI::dialog('locales_sort_dialog', Tr::_('Sort locales'), 600);
 ?>

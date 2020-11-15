@@ -7,15 +7,15 @@ use Jet\Exception;
 use Jet\UI_messages;
 use Jet\Tr;
 
-$related = DataModels::getModel( Http_Request::GET()->getString('related_model') );
-$form = DataModels_OuterRelation::getCreateForm( $related );
+$related = DataModels::getClass( Http_Request::GET()->getString('related_model') );
+$form = DataModel_Definition_Relation_External::getCreateForm( $related );
 
 
 $ok = false;
 $data = [];
 $snippets = [];
 
-if( ($new_relation=DataModels_OuterRelation::catchCreateForm( $related, $form )) ) {
+if( ($new_relation=DataModel_Definition_Relation_External::catchCreateForm( $related, $form )) ) {
 
 	if(DataModels::save($form)) {
 		$ok = true;
@@ -32,7 +32,7 @@ if( ($new_relation=DataModels_OuterRelation::catchCreateForm( $related, $form ))
 			'new_relation_id' => $new_relation->getInternalId()
 		];
 
-		$snippets['relations_list_area'] = Application::getView()->render('data_model/model_edit/relations/list');
+		$snippets['relations_list_area'] = Application::getView()->render('model_edit/relations/list');
 	}
 
 
@@ -44,7 +44,7 @@ $view = Application::getView();
 $view->setVar( 'related', $related );
 $view->setVar( 'form', $form);
 
-$snippets['create_relation_form_area'] = $view->render('data_model/create_relation/form');
+$snippets['create_relation_form_area'] = $view->render('create_relation/form');
 
 AJAX::formResponse(
 	$ok,

@@ -37,4 +37,6 @@ return [
 	'Site <b>%site%</b> has been removed' => '',
 	'Please enter site identifier' => '',
 	'Is not active' => '',
+	'Please enter base URL' => '',
+	'Base URL:' => '',
 ];

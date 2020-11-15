@@ -12,7 +12,7 @@ if(!$site) {
 	return;
 }
 
-$form = Sites::getEditForm();
+$form = $site->getEditForm();
 ?>
 <div class="toolbar" id="main-toolbar">
 	<?=UI::button_save()->setOnclick("$('#{$form->getId()}').submit()")?>

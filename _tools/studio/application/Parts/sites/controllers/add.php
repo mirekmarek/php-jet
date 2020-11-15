@@ -11,7 +11,7 @@ $data = [];
 
 if( ($new_site=Sites::catchCreateForm()) ) {
 
-	if( Sites::save() ) {
+	if( $new_site->create() ) {
 		$ok = true;
 
 		UI_messages::success(

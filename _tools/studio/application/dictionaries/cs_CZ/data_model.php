@@ -147,4 +147,11 @@ return [
 	'DataModel with the same class name already exists' => '',
 	'Please enter name getter' => '',
 	'Name getter:' => '',
+	'Table name:' => '',
+	'Class source code' => '',
+	'Create external relation' => '',
+	'External relations' => '',
+	'Create a External Relation' => '',
+	'Do You really want to delete key?' => '',
+	'Do You really want to delete relation?' => '',
 ];

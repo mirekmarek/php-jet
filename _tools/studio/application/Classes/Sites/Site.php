@@ -14,7 +14,6 @@ use Jet\Mvc_Site;
 use Jet\Form;
 use Jet\Form_Field_Input;
 use Jet\Form_Field_Checkbox;
-use Jet\Form_Field_Textarea;
 use Jet\Form_Field_Hidden;
 use Jet\Tr;
 use Jet\Mvc_Factory;
@@ -22,9 +21,10 @@ use Jet\Locale;
 use Jet\Mvc_Page;
 use Jet\Mvc_Site_LocalizedData_Interface;
 use Jet\IO_File;
-use Jet\Data_Array;
-use Jet\UI_messages;
 
+/**
+ *
+ */
 class Sites_Site extends Mvc_Site
 {
 
@@ -38,12 +38,6 @@ class Sites_Site extends Mvc_Site
 	 * @var Form
 	 */
 	protected $__add_locale_form;
-
-
-	/**
-	 * @var Form
-	 */
-	protected $__remove_locale_form;
 
 	/**
 	 * @var Form
@@ -193,7 +187,7 @@ class Sites_Site extends Mvc_Site
 									Tr::_(
 										'URL conflicts with site <b>%site_name%</b> <b>%locale%</b>',
 										[
-											'site_name' => $this->getName(),
+											'site_name' => $e_site->getName(),
 											'locale' => $locale->getName()
 										]
 									),
@@ -463,9 +457,7 @@ class Sites_Site extends Mvc_Site
 			if($locale) {
 				$locale = new Locale($locale);
 
-				$ld = $this->addLocale( $locale );
-
-				return $ld;
+				return $this->createLocale( $locale );
 			}
 		}
 
@@ -476,112 +468,73 @@ class Sites_Site extends Mvc_Site
 	/**
 	 * @param Locale $locale
 	 *
-	 * @return Mvc_Site_LocalizedData_Interface
+	 * @return bool
 	 */
-	public function addLocale( Locale $locale )
+	public function createLocale( Locale $locale )
 	{
-		$base_url = '';
+		$ok = true;
+		try {
+			$pages_dir = $this->getPagesDataPath( $locale );
+			if(!IO_Dir::exists($pages_dir)) {
+				IO_Dir::create( $pages_dir );
+			}
 
-		foreach( $this->getLocales() as $default_locale ) {
-			$default_ld = $this->getLocalizedData( $default_locale );
 
-			foreach( $default_ld->getURLs() as $URL ) {
-				$base_url = $URL;
+			$base_url = '';
+
+			foreach( $this->getLocales() as $default_locale ) {
+				$default_ld = $this->getLocalizedData( $default_locale );
+
+				foreach( $default_ld->getURLs() as $URL ) {
+					$base_url = $URL;
+					break;
+				}
+
 				break;
 			}
 
-			break;
-		}
-
-		$base_url = trim($base_url, '/');
-		if(!$base_url) {
-
-			$base_url = Project::getDefaultBaseURL();
 			$base_url = trim($base_url, '/');
-
-			if(count(Sites::getSites())) {
-				$base_url .= '/'.$this->getId();
+			if(!$base_url) {
+				$base_url = $this->getId();
 			}
 
-		}
+			$ld = $this->addLocale( $locale );
+			$ld->setIsActive( true );
+			if($base_url) {
 
-		$ld = parent::addLocale( $locale );
-		$ld->setIsActive( true );
-		if($base_url) {
+				if(count($this->localized_data)>1) {
+					$ld->setURLs([
+						$base_url.'/'.$locale->getLanguage()
+					]);
+				} else {
+					$ld->setURLs([
+						$base_url
+					]);
 
-			if(count($this->localized_data)>1) {
-				$ld->setURLs([
-					$base_url.'/'.$locale->getLanguage()
-				]);
-			} else {
-				$ld->setURLs([
-					$base_url
-				]);
-
-			}
-		}
-
-		$homepage = Pages_Page::createPage(
-			$this->getId(),
-			$locale,
-			Mvc_Page::HOMEPAGE_ID,
-			'Homepage'
-		);
-
-		Pages::addPage( $homepage );
-
-		return $ld;
-	}
-
-
-	/**
-	 * @return Form
-	 */
-	public function getRemoveLocaleForm()
-	{
-		if(!$this->__remove_locale_form) {
-			$locale_field = new Form_Field_Hidden('locale');
-
-			$form = new Form('remove_locale_form', [$locale_field]);
-			$form->setAction( Sites::getActionUrl('locale/delete') );
-
-			$this->__remove_locale_form = $form;
-		}
-
-		return $this->__remove_locale_form;
-	}
-
-	/**
-	 * @return Mvc_Site_LocalizedData_Interface|bool
-	 */
-	public function catchRemoveLocaleForm()
-	{
-		$form = $this->getRemoveLocaleForm();
-
-		if(
-			$form->catchInput() &&
-			$form->validate()
-		) {
-			$locale = $form->getField('locale')->getValue();
-
-			if($locale) {
-				$locale = new Locale($locale);
-
-				if($this->getHasLocale($locale)) {
-					$ld = $this->getLocalizedData( $locale );
-					$this->removeLocale( $locale );
-
-					Pages::deletePage( $this->getId(), $locale );
-
-					return $ld;
 				}
 			}
+
+			$this->save();
+
+			$homepage = Pages_Page::createPage(
+				$this->getId(),
+				$locale,
+				Mvc_Page::HOMEPAGE_ID,
+				'Homepage'
+			);
+
+			$homepage->save();
+
+			$this->create_applyTemplate_errorPages( $homepage );
+
+		} catch( Exception $e ) {
+			$ok = false;
+			Application::handleError( $e );
 		}
 
-		return false;
+		return $ok;
+
 	}
-
-
 
 
 	/**
@@ -622,55 +575,102 @@ class Sites_Site extends Mvc_Site
 		return false;
 	}
 
+	/**
+	 * @return bool
+	 */
+	public function save()
+	{
+		$ok = true;
+		try {
+			$this->saveDataFile();
+		} catch( Exception $e ) {
+			$ok = false;
+			Application::handleError( $e );
+		}
+
+		return $ok;
+	}
+
 
 	/**
 	 *
 	 */
-	public function save()
+	public function create()
 	{
-		$this->saveDataFile();
+		$ok = true;
+		$templates_path = ProjectConf_PATH::TEMPLATES().'/';
 
-		/*
-		$templates_path = Projects::getCurrentProject()->getTemplateDir().Projects_Project::PROJECT_TEMPLATES_DIR_NAME.'/';
+		try {
+			$dir = $this->getBasePath();
 
-		$layouts_dir = $this->getLayoutsPath();
-		if(!IO_Dir::exists($layouts_dir)) {
+			if(!IO_Dir::exists($dir)) {
+				IO_Dir::create( $dir, false );
+			}
+			$this->saveDataFile();
 
-			IO_Dir::create( $layouts_dir );
+			static::$sites = null;
+			Sites::load();
 
-			IO_File::copy(
-				$templates_path.'layouts/default.phtml',
-				$layouts_dir.'default.phtml'
-			);
-		}
+			$layouts_dir = $this->getLayoutsPath();
+			if(!IO_Dir::exists($layouts_dir)) {
 
-		foreach( $this->getLocales() as $locale ) {
+				IO_Dir::create( $layouts_dir );
 
-			$pages_dir = $this->getPagesDataPath( $locale );
-			if(!IO_Dir::exists($pages_dir)) {
-				IO_Dir::create( $pages_dir );
 			}
 
-			$homepage = Pages_Page::get( Pages_Page::HOMEPAGE_ID, $locale, $this->getId() );
-			$homepage->generate();
+			if(!IO_File::exists($layouts_dir.'default.phtml')) {
+				IO_File::copy(
+					$templates_path.'new_site_default_layout.phtml',
+					$layouts_dir.'default.phtml'
+				);
+			}
 
+			foreach( $this->getLocales() as $locale ) {
+
+				$pages_dir = $this->getPagesDataPath( $locale );
+				if(!IO_Dir::exists($pages_dir)) {
+					IO_Dir::create( $pages_dir );
+				}
+
+				$homepage = Pages_Page::createPage(
+					$this->id,
+					$locale,
+					Pages_Page::HOMEPAGE_ID,
+					'Homepage'
+				);
+
+				$homepage->save();
+
+				$this->create_applyTemplate_errorPages( $homepage );
+			}
+
+
+		} catch( Exception $e ) {
+			$ok = false;
+			Application::handleError( $e );
+		}
+
+		return $ok;
+	}
+
+	/**
+	 * @param Pages_Page $homepage
+	 */
+	public function create_applyTemplate_errorPages( Pages_Page $homepage )
+	{
+		$templates_path = ProjectConf_PATH::TEMPLATES().'/';
+
+		$error_pages_source = $templates_path.'error_pages/';
+
+		if( IO_Dir::exists($error_pages_source) ) {
 			$error_pages_target = $homepage->getDataDirPath();
 
-			$error_pages_source = $templates_path.'error_pages/';
-			if(
-				IO_Dir::exists($error_pages_source)
-			) {
-				$list = IO_Dir::getList($error_pages_source, '*.phtml', false, true);
+			$list = IO_Dir::getList($error_pages_source, '*.phtml', false, true);
 
-				foreach( $list as $path=>$name ) {
-					IO_File::copy( $path, $error_pages_target.$name );
-				}
+			foreach( $list as $path=>$name ) {
+				IO_File::copy( $path, $error_pages_target.$name );
 			}
 		}
-		*/
-
-		//TODO: ??? return Pages::save( $form );
-
 
 	}
 

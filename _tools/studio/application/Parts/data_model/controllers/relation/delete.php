@@ -10,13 +10,13 @@ use Jet\Tr;
 $current = DataModels::getCurrentModel();
 
 /**
- * @var DataModels_OuterRelation $relation
+ * @var DataModel_Definition_Relation_External $relation
  */
 if(
 	$current &&
-	($relation = $current->getOuterRelation( Http_Request::GET()->getString('relation') ))
+	($relation = $current->getExternalRelation( Http_Request::GET()->getString('relation') ))
 ) {
-	$current->deleteOuterRelation( $relation->getInternalId() );
+	$current->deleteExternalRelation( $relation->getInternalId() );
 
 	if(DataModels::save()) {
 		UI_messages::info(

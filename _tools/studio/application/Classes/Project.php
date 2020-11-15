@@ -21,10 +21,6 @@ use Jet\SysConf_URI;
  */
 class Project extends BaseObject implements Application_Part {
 
-	/**
-	 * @var Project_Namespace|bool
-	 */
-	protected static $__current_namespace;
 
 
 	/**
@@ -50,119 +46,9 @@ class Project extends BaseObject implements Application_Part {
 	/**
 	 * @return string
 	 */
-	public static function getDefaultBaseURL()
-	{
-		return SysConf_URI::BASE();
-	}
-
-
-	/**
-	 * @return string
-	 */
 	public static function getApplicationNamespace()
 	{
 		return JET_PROJECT_APPLICATION_NAMESPACE;
-	}
-
-
-
-
-
-
-
-	/**
-	 * @return string|bool
-	 */
-	public static function getCurrentNamespaceId()
-	{
-		if(static::getCurrentNamespace()) {
-			return static::getCurrentNamespace()->getId();
-		}
-
-		return false;
-	}
-
-	/**
-	 * @return Project_Namespace|bool
-	 */
-	public static function getCurrentNamespace()
-	{
-		if(static::$__current_namespace===null) {
-			$id = Http_Request::GET()->getString('namespace');
-
-			static::$__current_namespace = false;
-
-			if(
-				$id &&
-				($ns=static::getNamespace( $id ))
-			) {
-				static::$__current_namespace = $ns;
-			}
-		}
-
-		return static::$__current_namespace;
-
-	}
-
-
-	/**
-	 *
-	 * @return Project_Namespace[]
-	 */
-	public static function getNamespaces()
-	{
-		$namespaces = [];
-		//TODO:
-		/*
-		$project = static::getCurrentProject();
-
-
-		$jet_ns = new Projects_Namespace( 'jet', 'Jet' );
-		$jet_ns->setNamespace( 'Jet' );
-		$jet_ns->setRootDirPath( Projects::getCurrentProject()->getLibraryPath().'Jet/' );
-		$jet_ns->setIsInternal( true );
-		$namespaces[ $jet_ns->getId() ] = $jet_ns;
-
-
-		$app_ns = new Projects_Namespace( Projects_Namespace::APPLICATION_NS_ID, 'Application' );
-		$app_ns->setNamespace( Projects::getApplicationNamespace() );
-		$app_ns->setRootDirPath( $project->getApplicationPath().'Classes/' );
-
-		$namespaces[$app_ns->getId()] = $app_ns;
-
-		foreach( Application::getParts() as $p_n=>$p ) {
-			if($p_n=='project') {
-				continue;
-			}
-
-			**
-			 * @var Application_Part $class_name
-			 *
-			$class_name = __NAMESPACE__.'\\'.$p['class'];
-
-			foreach( $class_name::getNamespaces() as $ns ) {
-				$namespaces[$ns->getId()] = $ns;
-			}
-		}
-		*/
-
-		return $namespaces;
-	}
-
-	/**
-	 * @param string $id
-	 *
-	 * @return Project_Namespace|null
-	 */
-	public static function getNamespace( $id )
-	{
-		$namespaces = static::getNamespaces();
-
-		if(!isset($namespaces[$id])) {
-			return null;
-		}
-
-		return $namespaces[$id];
 	}
 
 

@@ -1,0 +1,18 @@
+<?php
+
+namespace JetStudio;
+
+use Jet\Form;
+
+$current = DataModels::getCurrentProperty();
+
+$form = $current->getEditForm();
+$form->setDefaultLabelWidth([
+	Form::LJ_SIZE_MEDIUM => 2
+]);
+$form->setDefaultFieldWidth([
+	Form::LJ_SIZE_MEDIUM => 10
+]);
+
+
+$current->showEditForm();

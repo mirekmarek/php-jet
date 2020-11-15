@@ -38,8 +38,12 @@ SysConf_PATH::setDICTIONARIES( $studio_application . 'dictionaries/' );
 SysConf_PATH::setSITES( $project_base . 'sites/' );
 
 ProjectConf_PATH::setBASE( $project_base );
-ProjectConf_PATH::setSITES( $project_base . 'sites/' );
+
 ProjectConf_PATH::setAPPLICATION( $project_application );
+ProjectConf_PATH::setAPPLICATION_CLASSES( $project_application.'Classes/' );
+ProjectConf_PATH::setAPPLICATION_MODULES( $project_application.'Modules/' );
+
+ProjectConf_PATH::setSITES( $project_base . 'sites/' );
 ProjectConf_PATH::setCONFIG( $project_application . 'config/' );
 
 ProjectConf_PATH::setPUBLIC( $project_application . 'public/' );
@@ -50,3 +54,5 @@ ProjectConf_PATH::setCACHE( $project_application . 'cache/' );
 
 ProjectConf_PATH::setDATA( $project_application . 'data/' );
 ProjectConf_PATH::setDICTIONARIES( $project_application . 'dictionaries/' );
+
+ProjectConf_PATH::setTEMPLATES( $studio_base . 'templates/' );

@@ -32,7 +32,6 @@ Tr::setCurrentNamespace('project');
 			return;
 		}
 		var main_col = document.getElementById("main-col");
-		console.debug(main_toolbar, main_col);
 		var main_toolbar_initial_offset = main_toolbar.offsetTop;
 		var main_toolbar_height = main_toolbar.offsetHeight;
 		var main_col_initial_padding_top = main_col.style.paddingTop;
@@ -91,16 +90,14 @@ Tr::setCurrentNamespace('project');
 						<span><?=UI::flag( Locale::getCurrentLocale() )?></span>
 						<span class="caret"></span>
 					</a>
-					<ul class="dropdown-menu">
+					<div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
 						<?php foreach( Application::getLocales() as $locale ): ?>
-							<li>
-								<a href="<?=Http_Request::currentURI(['locale'=>$locale->toString()])?>">
+								<a class="dropdown-item" href="<?=Http_Request::currentURI(['locale'=>$locale->toString()])?>">
 									<?=UI::flag( $locale )?>
 									<?=$locale->getName( $locale )?>
 								</a>
-							</li>
 						<?php endforeach; ?>
-					</ul>
+					</div>
 				</li>
 
 

@@ -10,9 +10,9 @@ $ok = false;
 $data = [];
 $snippets = [];
 
-if( ($new_key=DataModels_Key::catchCreateForm()) ) {
+if( ($new_key=DataModel_Definition_Key::catchCreateForm()) ) {
 
-	$form = DataModels_Key::getCreateForm();
+	$form = DataModel_Definition_Key::getCreateForm();
 
 	if(DataModels::save($form)) {
 		$ok = true;
@@ -24,13 +24,13 @@ if( ($new_key=DataModels_Key::catchCreateForm()) ) {
 				])
 			)
 		);
-		$snippets['keys_list_area'] = Application::getView()->render('data_model/model_edit/keys/list');
+		$snippets['keys_list_area'] = Application::getView()->render('model_edit/keys/list');
 
 	}
 
 }
 
-$snippets[DataModels_Key::getCreateForm()->getId().'_form_area'] = Application::getView()->render('data_model/create_key/form');
+$snippets[DataModel_Definition_Key::getCreateForm()->getId().'_form_area'] = Application::getView()->render('create_key/form');
 
 AJAX::formResponse(
 	$ok,

@@ -12,7 +12,7 @@ $current = DataModels::getCurrentModel();
 $key = $current->getKey( Http_Request::GET()->getString('key') );
 
 /**
- * @var DataModels_Key $key
+ * @var DataModel_Definition_Key $key
  */
 if(!$key) {
 	Application::end();
@@ -40,8 +40,8 @@ if( $key->catchEditForm() ) {
 $view = Application::getView();
 $view->setVar('key', $key);
 
-$snippets['key_detail_area_'.$key->getInternalId()] = $view->render('data_model/model_edit/keys/list/item-body');
-$snippets['key_header_area_'.$key->getInternalId()] = $view->render('data_model/model_edit/keys/list/item-header');
+$snippets['key_detail_area_'.$key->getName()] = $view->render('model_edit/keys/list/item-body');
+$snippets['key_header_area_'.$key->getName()] = $view->render('model_edit/keys/list/item-header');
 
 AJAX::formResponse(
 	$ok,

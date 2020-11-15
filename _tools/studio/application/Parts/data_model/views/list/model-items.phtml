@@ -1,0 +1,28 @@
+<?php
+namespace JetStudio;
+?>
+<?php use Jet\Http_Request;if(DataModels::getCurrentWhatToEdit()=='main'): ?>
+	<b class="badge badge-success" style="font-size: 20px;"><?=DataModels::getCurrentClass()->getFullClassName()?></b>
+<?php else: ?>
+	<a href="<?=Http_Request::currentURI([],['key','property', 'relation'])?>" style="font-weight: bolder;font-size: 20px;"><?=DataModels::getCurrentClass()->getFullClassName()?></a>
+<?php endif; ?>
+<br/>
+<table style="width: 100%;margin-top: 5px;">
+	<tr style="background: transparent">
+		<td style="border:none">
+			<?php require 'model-items/properties.phtml' ?>
+		</td>
+	</tr>
+	<tr style="background: transparent">
+		<td style="border:none">
+			<?php require 'model-items/relations.phtml' ?>
+		</td>
+	</tr>
+	<tr style="background: transparent">
+		<td style="border:none">
+			<?php require 'model-items/keys.phtml' ?>
+		</td>
+	</tr>
+</table>
+
+

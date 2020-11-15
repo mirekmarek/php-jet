@@ -1,0 +1,92 @@
+<?php
+namespace JetStudio;
+
+use Jet\Form;
+use Jet\Tr;
+use Jet\UI;
+
+$current = DataModels::getCurrentModel();
+
+$form = $current->getEditForm();
+
+$form->setDefaultLabelWidth([
+	Form::LJ_SIZE_MEDIUM => 2
+]);
+$form->setDefaultFieldWidth([
+	Form::LJ_SIZE_MEDIUM => 10
+]);
+
+
+echo $form->start();
+
+echo $form->field('model_name');
+echo $form->field('database_table_name');
+
+if( $current instanceof DataModel_Definition_Model_Related_MtoN):
+	echo $form->field('N_model_class_name');
+
+else:
+
+	echo $form->field('id_controller_class');
+
+	if(
+		$current->getIDControllerDefinition() &&
+		($id_controller_options = $current->getIDControllerDefinition()->getOptionsList())
+	):
+		?>
+		<legend><?=Tr::_('ID controller options')?></legend>
+		<?php
+		foreach( $id_controller_options as $id_option ) {
+			echo $form->field('/id_controller_options/'.$id_option);
+		}
+	endif;
+
+	if($form->fieldExists('iterator_class_name')):
+		echo $form->field('iterator_class_name');
+	endif;
+
+endif;
+
+
+if($form->fieldExists('default_order_by')):
+
+	$order_by_options = $current->getOrderByOptions();
+
+	if($order_by_options): ?>
+		<div class="form-group row">
+			<label class="col-md-2 control-label"><?=Tr::_('Default order by:')?></label>
+			<div class="col-md-10">
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-md-2">
+			</div>
+			<div class="col-md-5 list-group" id="order_by_options_source" style="padding: 10px;">
+				<span><?=Tr::_('Available')?></span>
+				<?php foreach( $order_by_options as $id=>$label ): ?>
+					<div class="list-group-item order_by_options_item"
+					     data-id="<?=$id?>"
+					     data-label="<?=$label?>"
+					     onclick="JetStudio.DataModel.edit.defaultOrderBy.selectItem('<?=$id?>')"
+					>
+						<?=UI::icon('plus')?>
+						<?=$label?>
+					</div>
+				<?php endforeach; ?>
+			</div>
+			<div class="col-md-5">
+				<span><?=Tr::_('Selected')?></span>
+				<div id="order_by_options_selected" class="list-group" style="padding: 10px;">
+
+				</div>
+			</div>
+		</div>
+		<?php
+	endif;
+
+endif;
+
+
+echo $form->end();
+
