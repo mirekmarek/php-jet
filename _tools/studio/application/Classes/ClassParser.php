@@ -7,6 +7,8 @@
  */
 namespace JetStudio;
 
+use Exception;
+
 /**
  *
  */
@@ -456,7 +458,7 @@ class ClassParser {
 	protected function _actualizeClass( ClassCreator_Class $definition )
 	{
 		if( !isset($this->classes[$definition->getName()]) ) {
-			throw new \Exception('There is not class '.$definition->getName().' in the script');
+			throw new Exception('There is not class '.$definition->getName().' in the script');
 		}
 
 

@@ -8,6 +8,7 @@
 namespace JetStudio;
 
 use Jet\BaseObject;
+use Jet\BaseObject_Exception;
 use Jet\Form;
 use Jet\Form_Field;
 use Jet\Form_Field_Input;
@@ -302,7 +303,7 @@ class Modules_Module_Controller extends BaseObject {
 
 				if($value) {
 					if(
-						!preg_match('/^([a-zA-Z1-9\_]{3,})$/', $value) ||
+						!preg_match('/^([a-zA-Z1-9_]{3,})$/', $value) ||
 						strpos( $value, '__' )!==false
 					) {
 						$field->setError( Form_Field::ERROR_CODE_INVALID_FORMAT );
@@ -427,7 +428,7 @@ class Modules_Module_Controller extends BaseObject {
 		$class->setNamespace( rtrim($module->getNamespace(), '\\') );
 		$class->setName( $class_name );
 
-		list($extends_ns, $extends_class) = explode('\\', $this->getExtendsClass());
+		[$extends_ns, $extends_class] = explode('\\', $this->getExtendsClass());
 
 
 		$class->addUse( new ClassCreator_UseClass($extends_ns, $extends_class) );
@@ -471,7 +472,7 @@ class Modules_Module_Controller extends BaseObject {
 	 * @param Modules_Manifest $module
 	 *
 	 * @return string
-	 * @throws \Jet\BaseObject_Exception
+	 * @throws BaseObject_Exception
 	 */
 	public function toString( Modules_Manifest $module )
 	{

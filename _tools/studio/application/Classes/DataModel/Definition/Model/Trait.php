@@ -263,7 +263,7 @@ trait DataModel_Definition_Model_Trait {
 					$property->doc_comment &&
 					strpos($property->doc_comment->text, '@JetDataModel:')
 				) {
-					$method_name = DataModels_Property::generateSetterGetterMethodName( $property->name );
+					$method_name = DataModel_Definition_Property_Trait::generateSetterGetterMethodName( $property->name );
 
 					$remove_getters[] = 'get'.$method_name;
 					$remove_setters[] = 'set'.$method_name;

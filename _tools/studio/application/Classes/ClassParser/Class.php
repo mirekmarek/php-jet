@@ -296,7 +296,6 @@ class ClassParser_Class extends ClassParser_Element
 					$class->end_token = $token;
 					$parser->classes[$class->name] = $class;
 					return;
-					break;
 				default:
 					//echo $token->debug_getInfo();
 					break;

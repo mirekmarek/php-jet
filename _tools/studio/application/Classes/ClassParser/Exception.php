@@ -7,7 +7,9 @@
  */
 namespace JetStudio;
 
-class ClassParser_Exception extends \Exception{
+use Exception;
+
+class ClassParser_Exception extends Exception{
 
 	/**
 	 * @var string

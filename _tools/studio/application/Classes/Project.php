@@ -145,7 +145,7 @@ class Project extends BaseObject implements Application_Part {
 		}
 
 		if(
-			!preg_match('/^([a-zA-Z1-9\_]{3,})$/', $method_name) ||
+			!preg_match('/^([a-zA-Z1-9_]{3,})$/', $method_name) ||
 			strpos( $method_name, '__' )!==false
 		) {
 			$field->setError( Form_Field::ERROR_CODE_INVALID_FORMAT );
@@ -183,7 +183,7 @@ class Project extends BaseObject implements Application_Part {
 		}
 
 		if(
-			!preg_match('/^([a-zA-Z1-9\_]{3,})$/', $controller_name) ||
+			!preg_match('/^([a-zA-Z1-9_]{3,})$/', $controller_name) ||
 			strpos( $controller_name, '__' )!==false
 		) {
 			$field->setError( Form_Field::ERROR_CODE_INVALID_FORMAT );

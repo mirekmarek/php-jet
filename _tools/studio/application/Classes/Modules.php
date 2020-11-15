@@ -47,7 +47,7 @@ class Modules extends BaseObject implements Application_Part
 	}
 
 	/**
-	 * @param Form $form
+	 * @param Form|null $form
 	 *
 	 * @return bool
 	 */
@@ -174,7 +174,7 @@ class Modules extends BaseObject implements Application_Part
 	/**
 	 * @param $action
 	 * @param array $custom_get_params
-	 * @param string $custom_module_id
+	 * @param string|null $custom_module_id
 	 *
 	 * @return string $url
 	 */

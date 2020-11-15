@@ -588,6 +588,7 @@ trait DataModel_Definition_Property_Trait
 	 */
 	public function getHeadCssClass()
 	{
+		/*
 		$class = 'bg-default';
 
 		if($this->getIsId()) {
@@ -599,6 +600,8 @@ trait DataModel_Definition_Property_Trait
 		}
 
 		return $class;
+		*/
+		return '';
 	}
 
 	/**
