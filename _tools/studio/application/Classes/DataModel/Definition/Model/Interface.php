@@ -145,24 +145,24 @@ interface DataModel_Definition_Model_Interface
 	/**
 	 * @param DataModel_Definition_Key $key
 	 */
-	public function addNewKey( DataModel_Definition_Key $key );
+	public function addCustomNewKey( DataModel_Definition_Key $key );
 
 	/**
 	 * @param string $key_name
 	 *
 	 * @return DataModel_Definition_Key|null
 	 */
-	public function getKey( $key_name );
+	public function getCustomKey( $key_name );
 
 	/**
 	 * @return DataModel_Definition_Key[]
 	 */
-	public function getKeys();
+	public function getCustomKeys();
 
 	/**
 	 * @param string $key_name
 	 */
-	public function deleteKey( $key_name );
+	public function deleteCustomKey( $key_name );
 
 
 	/**
@@ -183,4 +183,8 @@ interface DataModel_Definition_Model_Interface
 	 */
 	public function deleteExternalRelation( $relation_id );
 
+	/**
+	 * @return bool
+	 */
+	public function save();
 }

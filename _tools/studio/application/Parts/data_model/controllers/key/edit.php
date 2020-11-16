@@ -9,7 +9,7 @@ use Jet\AJAX;
 
 $current = DataModels::getCurrentModel();
 
-$key = $current->getKey( Http_Request::GET()->getString('key') );
+$key = $current->getCustomKey( Http_Request::GET()->getString('key') );
 
 /**
  * @var DataModel_Definition_Key $key

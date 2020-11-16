@@ -19,8 +19,8 @@ class DataModel_Definition_Id_AutoIncrement extends DataModel_Definition_Id_Abst
 	/**
 	 * @param ClassCreator_Class $class
 	 */
-	public function createClassIdDefinition( ClassCreator_Class $class ) {
-		parent::createClassIdDefinition( $class );
+	public function createClass_IdDefinition( ClassCreator_Class $class ) {
+		parent::createClass_IdDefinition( $class );
 
 		$id_property_name = $this->getSelectedIdPropertyName( DataModel::TYPE_ID_AUTOINCREMENT );
 		

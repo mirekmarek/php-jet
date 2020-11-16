@@ -14,9 +14,9 @@ $current = DataModels::getCurrentModel();
  */
 if(
 	$current &&
-	($key = $current->getKey( Http_Request::GET()->getString('key') ))
+	($key = $current->getCustomKey( Http_Request::GET()->getString('key') ))
 ) {
-	$current->deleteKey( $key->getName() );
+	$current->deleteCustomKey( $key->getName() );
 
 	if(DataModels::save()) {
 		UI_messages::info(

@@ -18,7 +18,7 @@ $list = DataModels::getClasses();
 	<?php foreach($list as $item): ?>
 		<tr>
 			<?php if($item->getFullClassName()!=DataModels::getCurrentClassName()): ?>
-				<td><a href="<?=DataModels::getActionUrl('', [], $item->getFullClassName())?>"><?=$item->getFullClassName()?></a></td>
+				<td><a href="?class=<?=$item->getFullClassName()?>"><?=$item->getFullClassName()?></a></td>
 			<?php endif;?>
 		</tr>
 	<?php endforeach; ?>

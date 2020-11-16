@@ -9,10 +9,10 @@ namespace JetStudio;
 
 use Jet\BaseObject;
 use Jet\BaseObject_Exception;
-use Jet\Exception;
-use Jet\IO_File;
-use Jet\SysConf_Jet;
 
+/**
+ *
+ */
 class ClassCreator_Class extends BaseObject {
 	const VISIBILITY_PUBLIC = 'public';
 	const VISIBILITY_PROTECTED = 'protected';
@@ -80,11 +80,6 @@ class ClassCreator_Class extends BaseObject {
 	 * @var array
 	 */
 	protected $warnings = [];
-
-	/**
-	 * @var ClassCreator_ActualizeDecisionMaker
-	 */
-	protected $actualize_decision_maker;
 
 	/**
 	 * @return bool
@@ -522,69 +517,6 @@ class ClassCreator_Class extends BaseObject {
 	public function addWarning( $warning )
 	{
 		$this->warnings[] = $warning;
-	}
-
-	/**
-	 * @return ClassCreator_ActualizeDecisionMaker
-	 */
-	public function getActualizeDecisionMaker()
-	{
-		return $this->actualize_decision_maker;
-	}
-
-	/**
-	 * @param ClassCreator_ActualizeDecisionMaker $actualize_decision_maker
-	 */
-	public function setActualizeDecisionMaker( ClassCreator_ActualizeDecisionMaker $actualize_decision_maker )
-	{
-		$this->actualize_decision_maker = $actualize_decision_maker;
-	}
-
-
-
-	/**
-	 * @param string $path
-	 * 
-	 */
-	public function write( $path )
-	{
-
-		if(IO_File::exists($path)) {
-			$this->actualize( $path );
-		} else {
-			IO_File::write( $path, '<?php '.PHP_EOL.$this->toString() );
-		}
-
-	}
-
-	/**
-	 * @param string $path
-	 */
-	public function backup( $path )
-	{
-		$dir = dirname( $path );
-		$file_name = 'backup_'.date('YmdHis').'_'.basename($path);
-
-		IO_File::copy( $path, $dir.'/'.$file_name );
-	}
-
-	/**
-	 * @param $path
-	 */
-	public function actualize( $path )
-	{
-		$old_script = IO_File::read( $path );
-
-		$parser = new ClassParser( $old_script );
-
-		$parser->actualizeClass( $this );
-
-		$new_script = $parser->toString();
-
-		if($old_script!=$new_script) {
-			$this->backup( $path );
-			IO_File::write( $path, $new_script );
-		}
 	}
 
 }

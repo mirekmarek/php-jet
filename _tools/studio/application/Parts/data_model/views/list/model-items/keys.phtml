@@ -6,7 +6,7 @@ use Jet\Tr;
 
 $current = DataModels::getCurrentModel();
 
-if(!$current->getKeys()) {
+if(!$current->getCustomKeys()) {
 	return;
 }
 
@@ -16,11 +16,11 @@ $current_key_name = DataModels::getCurrentKeyName();
 	<tr>
 		<td><b><?=Tr::_('Custom keys and indexes')?></b></td>
 	</tr>
-<?php foreach($current->getKeys() as $key): ?>
+<?php foreach($current->getCustomKeys() as $key): ?>
 	<tr>
 		<td>
 			<?php if($current_key_name==$key->getName()): ?>
-				<b class="badge badge-success"><?=$key->getName()?></b>
+				<b class="badge badge-info"><?=$key->getName()?></b>
 			<?php else: ?>
 				<a href="<?=Http_Request::currentURI(['key'=>$key->getName()], ['property', 'relation'])?>"><?=$key->getName()?></a>
 			<?php endif; ?>

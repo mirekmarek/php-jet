@@ -143,4 +143,11 @@ return [
 	'Do You really want to delete relation?' => '',
 	'Create a External Relation' => '',
 	'Create external relation' => '',
+	'- none -' => '',
+	'Related model:' => '',
+	'Please select relation type' => '',
+	'Please select related property' => '',
+	'Relation type: ' => '',
+	'There are some problems ... Please check the form.' => '',
+	'Unknown relation property %property%' => '',
 ];

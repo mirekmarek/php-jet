@@ -175,18 +175,18 @@ class DataModel_Definition extends BaseObject implements Reflection_ParserInterf
 				}
 
 
-				if( !isset( $data->result_data['data_model_outer_relations_definition'] ) ) {
-					$data->result_data['data_model_outer_relations_definition'] = [];
+				if( !isset( $data->result_data['data_model_external_relations_definition'] ) ) {
+					$data->result_data['data_model_external_relations_definition'] = [];
 				}
 
-				if( isset( $data->result_data['data_model_outer_relations_definition'][$value[0]] ) ) {
+				if( isset( $data->result_data['data_model_external_relations_definition'][$value[0]] ) ) {
 					throw new Reflection_Exception(
 						'Duplicate relation! Class: \''.$current_class_reflection->getName().'\', definition: \''.$definition.'\''
 					);
 
 				}
 
-				$data->result_data['data_model_outer_relations_definition'][$value[0]] = [
+				$data->result_data['data_model_external_relations_definition'][$value[0]] = [
 					'related_to_class_name' => $data->getRealClassName( $value[0] ),
 					'join_by_properties'    => $value[1],
 					'join_type'             => $value[2],

@@ -20,8 +20,8 @@ class DataModel_Definition_Id_Name extends DataModel_Definition_Id_Abstract {
 	/**
 	 * @param ClassCreator_Class $class
 	 */
-	public function createClassIdDefinition( ClassCreator_Class $class ) {
-		parent::createClassIdDefinition( $class );
+	public function createClass_IdDefinition( ClassCreator_Class $class ) {
+		parent::createClass_IdDefinition( $class );
 
 		$id_property_name = $this->getSelectedIdPropertyName( DataModel::TYPE_ID );
 		$get_name_method_name = $this->model->getIDControllerOption('get_name_method_name', 'getName');

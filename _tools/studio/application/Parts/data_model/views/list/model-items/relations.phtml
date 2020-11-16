@@ -22,9 +22,9 @@ $current_relation_id = DataModels::getCurrentRelationId();
 	<tr>
 		<td>
 			<?php if($current_relation_id==$relation->getInternalId()): ?>
-				<b class="badge badge-success"><?=$relation->getName()?></b>
+				<b class="badge badge-info"><?=$relation->getName()?></b>
 			<?php else: ?>
-				<a href="<?=Http_Request::currentURI(['relation'=>$relation->getName()], ['property', 'key'])?>"><?=$relation->getName()?></a>
+				<a href="<?=Http_Request::currentURI(['relation'=>$relation->getInternalId()], ['property', 'key'])?>"><?=$relation->getName()?></a>
 			<?php endif; ?>
 		</td>
 	</tr>

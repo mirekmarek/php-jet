@@ -22,6 +22,6 @@ echo $dialog->start();
     <?=Tr::_('Do You really want to delete relation?', []);?>
 	<?php
 echo $dialog->footer();
-	echo UI::button_delete()->setUrl( DataModels::getActionUrl('relation/delete', ['relation' =>'']) );
+	echo UI::button_delete()->setUrl( DataModels::getActionUrl('relation/delete') );
 echo $dialog->end();
 

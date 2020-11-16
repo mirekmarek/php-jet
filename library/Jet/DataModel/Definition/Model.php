@@ -330,7 +330,7 @@ abstract class DataModel_Definition_Model extends BaseObject
 
 		$class = $this->class_name;
 
-		$relations_definitions_data = Reflection::get( $class, 'data_model_outer_relations_definition', [] );
+		$relations_definitions_data = Reflection::get( $class, 'data_model_external_relations_definition', [] );
 
 		foreach( $relations_definitions_data as $definition_data ) {
 			$relation = new DataModel_Definition_Relation_External( $this->getClassName(), $definition_data );

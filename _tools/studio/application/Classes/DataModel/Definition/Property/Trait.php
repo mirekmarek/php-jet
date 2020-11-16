@@ -174,7 +174,7 @@ trait DataModel_Definition_Property_Trait
 
 			$form = new Form( 'property_edit_form_'.$this->getName(), $fields );
 
-			$form->setAction( DataModels::getActionUrl('property/edit', ['property' =>$this->getName()]) );
+			$form->setAction( DataModels::getActionUrl('property/edit') );
 
 			if(
 				$this->getRelatedToClassName() &&
@@ -200,6 +200,8 @@ trait DataModel_Definition_Property_Trait
 				$form->addField( $overload_field );
 
 			}
+
+			$form->setAction( DataModels::getActionUrl('property/edit') );
 
 			$this->__edit_form = $form;
 		}

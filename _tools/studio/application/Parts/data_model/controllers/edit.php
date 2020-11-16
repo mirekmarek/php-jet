@@ -2,7 +2,6 @@
 namespace JetStudio;
 
 use Jet\Http_Headers;
-use Jet\Exception;
 use Jet\UI_messages;
 use Jet\Tr;
 
@@ -13,11 +12,15 @@ if(
 	$current->catchEditForm()
 ) {
 
-	if(DataModels::save()) {
+	if($current->save()) {
 		UI_messages::success( Tr::_('Saved ...') );
 
-		Http_Headers::reload([], ['action']);
 	}
 
+	Http_Headers::reload([], ['action']);
 
+} else {
+	UI_messages::danger(
+		Tr::_('There are some problems ... Please check the form.')
+	);
 }

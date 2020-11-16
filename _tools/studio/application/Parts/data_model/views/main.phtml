@@ -8,7 +8,7 @@ use Jet\Tr;
 ?>
 <?=Application::getView()->render('js');?>
 
-<div class="row toolbar" id="main-toolbar">
+<div class="row toolbar" id="main-toolbar" style="height: 50px;">
 	<div class="col-md-4" style="padding: 0px;">
 			<?php if(
 				(
@@ -28,8 +28,7 @@ use Jet\Tr;
 	<div class="col-md-4" style="padding: 0px;">
 		<?=Application::getView()->render('list');?>
 	</div>
-	<div class="col-md-8" style="padding: 0px">
-		<?=Application::getGeneralView()->render('messages');?>
+	<div class="col-md-8" style="padding: 10px">
 		<?=Application::getView()->render('model_edit/edit');?>
 	</div>
 </div>

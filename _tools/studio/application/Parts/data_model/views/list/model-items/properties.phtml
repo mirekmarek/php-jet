@@ -23,7 +23,7 @@ $current_property_name = DataModels::getCurrentPropertyName();
 	<tr class="<?=$property->getHeadCssClass()?>">
 		<td>
 			<?php if($current_property_name==$property->getName()): ?>
-				<b class="badge badge-success"><?=$property->getName()?></b>
+				<b class="badge badge-info"><?=$property->getName()?></b>
 			<?php else: ?>
 				<a href="<?=Http_Request::currentURI(['property'=>$property->getName()], ['key', 'relation'])?>"><?=$property->getName()?></a>
 			<?php endif; ?>

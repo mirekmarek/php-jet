@@ -32,10 +32,6 @@ class DataModel_Definition_Key extends Jet_DataModel_Definition_Key
 		DataModel::KEY_TYPE_UNIQUE => DataModel::KEY_TYPE_UNIQUE
 	];
 
-	/**
-	 * @var string
-	 */
-	protected $internal_id = '';
 
 	/**
 	 * @var Form
@@ -323,7 +319,7 @@ class DataModel_Definition_Key extends Jet_DataModel_Definition_Key
 
 			$this->__edit_form = new Form('key_edit_form_'.$this->getName(), $fields);
 
-			$this->__edit_form->setAction( DataModels::getActionUrl('key/edit',['key' =>$this->getName()]) );
+			$this->__edit_form->setAction( DataModels::getActionUrl('key/edit') );
 
 		}
 
@@ -355,7 +351,7 @@ class DataModel_Definition_Key extends Jet_DataModel_Definition_Key
 	 *
 	 * @return ClassCreator_Annotation
 	 */
-	public function getAsAnnotation( ClassCreator_Class $class )
+	public function createClass_getAsAnnotation( ClassCreator_Class $class )
 	{
 
 		$properties = [];

@@ -453,18 +453,6 @@ class Modules_Module_Controller extends BaseObject {
 
 		$class->createConstant( 'ACL_ACTIONS_MAP', $ACL_ACTIONS_MAP );
 
-		$dm = new ClassCreator_ActualizeDecisionMaker();
-
-		$dm->update_constant = function( ClassCreator_Class_Constant $new_constant, ClassParser_Class_Constant $current_constant ) {
-			return ( $current_constant->name=='ACL_ACTIONS_MAP' );
-		};
-
-		$dm->remove_method = function( ClassParser_Class_Method $current_method ) {
-			return ( substr($current_method->name, -7)=='_Action' );
-		};
-
-		$class->setActualizeDecisionMaker( $dm );
-
 		return $class;
 	}
 

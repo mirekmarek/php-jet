@@ -192,7 +192,7 @@ class ClassCreator_Class_Method extends BaseObject
 		$res .= $ident.'/**'.$nl;
 		$res .= $ident.' *'.$nl;
 		foreach( $this->parameters as $param ) {
-			$res .= $ident.' * '.$param->getAsAnnotation().$nl;
+			$res .= $ident.' * '.$param->createClass_getAsAnnotation().$nl;
 		}
 		if( $this->getReturnType() ) {
 			$res .= $ident.' *'.$nl;

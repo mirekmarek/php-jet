@@ -180,7 +180,7 @@ class ClassCreator_Class_Method_Parameter extends BaseObject
 	/**
 	 * @return string
 	 */
-	public function getAsAnnotation()
+	public function createClass_getAsAnnotation()
 	{
 		$res = '@param '.$this->getType().' $'.$this->getName();
 

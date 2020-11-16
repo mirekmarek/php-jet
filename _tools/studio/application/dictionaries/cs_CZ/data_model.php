@@ -154,4 +154,8 @@ return [
 	'Create a External Relation' => '',
 	'Do You really want to delete key?' => '',
 	'Do You really want to delete relation?' => '',
+	'DataModel with the same custom table name already exists' => '',
+	'There are some problems ... Please check the form.' => '',
+	'- none -' => '',
+	'Related model:' => '',
 ];

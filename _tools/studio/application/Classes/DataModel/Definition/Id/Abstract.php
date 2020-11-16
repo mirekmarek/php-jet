@@ -34,7 +34,7 @@ abstract class DataModel_Definition_Id_Abstract {
 	/**
 	 * @param ClassCreator_Class $class
 	 */
-	public function createClassIdDefinition( ClassCreator_Class $class )
+	public function createClass_IdDefinition( ClassCreator_Class $class )
 	{
 
 		$id_controller_class_name = $this->model->getIDControllerClassName();

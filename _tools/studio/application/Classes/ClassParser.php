@@ -433,61 +433,40 @@ class ClassParser {
 	}
 
 	/**
-	 * @param ClassCreator_Class $definition
+	 * @param string $class_name
+	 * @param string $class_annotation
+	 *
+	 * @return string
 	 */
-	public function actualizeClass( ClassCreator_Class $definition )
+	public function actualize_setClassAnnotation( $class_name, $class_annotation )
 	{
+		$class = $this->classes[$class_name];
 
-		//$c = 0;
-		while( ($res=$this->_actualizeClass( $definition )) ) {
-			/*
-			var_dump($res);
-			$c++;
-			if($c>=1000) {
-				break;
+		$_class_annotation = trim($class_annotation);
+
+		if( $class->doc_comment ) {
+			if( $_class_annotation!=$class->doc_comment->text ) {
+				$class->doc_comment->text = $_class_annotation;
+
+				return 'Class annotation updated';
 			}
-			*/
+		} else {
+			$this->insertBefore( $class->start_token, $class_annotation );
+
+			return 'Class annotation added';
 		}
+
+		return '';
 	}
 
 	/**
-	 * @param ClassCreator_Class $definition
-	 *
-	 * @return bool|string
+	 * @param ClassCreator_UseClass[] $uses
 	 */
-	protected function _actualizeClass( ClassCreator_Class $definition )
+	public function actualize_setUse( array $uses )
 	{
-		if( !isset($this->classes[$definition->getName()]) ) {
-			throw new Exception('There is not class '.$definition->getName().' in the script');
-		}
-
-
-		$ident = ClassCreator_Class::getIndentation();
 		$nl = ClassCreator_Class::getNl();
 
-		$decision_maker = $definition->getActualizeDecisionMaker();
-
-		$decide = function( $dm_name, array $dm_params ) use ($decision_maker) {
-			if(
-				!$decision_maker ||
-				!$decision_maker->{$dm_name}
-			) {
-				return false;
-			}
-
-			/**
-			 * @var callable $dm
-			 */
-			$dm = $decision_maker->{$dm_name};
-
-			return call_user_func_array( $dm, $dm_params );
-		};
-
-
-		$class = $this->classes[$definition->getName()];
-
-
-		foreach( $definition->getUse() as $use ) {
+		foreach( $uses as $use ) {
 			$use_class = $use->getNamespace().'\\'.$use->getClass();
 
 			foreach( $this->use_classes as $c_use_class ) {
@@ -498,160 +477,41 @@ class ClassParser {
 			}
 
 			$this->addUseClass( $nl.$use->toString() );
-
-			return $use->toString().' added';
-
 		}
-
-
-		$class_annotation = trim($definition->generateClassAnnotation());
-
-		if( $class->doc_comment ) {
-			if(
-				$class_annotation!=$class->doc_comment->text &&
-				$decide('update_class_annotation', [$this, $class])
-			) {
-				$class->doc_comment->text = $class_annotation;
-
-				return 'Class annotation updated';
-			}
-		} else {
-			$this->insertBefore( $class->start_token, $definition->generateClassAnnotation() );
-
-			return 'Class annotation added';
-		}
-
-		foreach( $definition->getConstants() as $constant ) {
-
-			if(!isset($class->constants[$constant->getName()])) {
-				$class->addConstant( $nl.$nl.$constant );
-
-				return 'Constant '.$constant->getName().' added';
-			} else {
-				$constant_str = trim((string)$constant);
-				$new_constant = $constant;
-				$current_constant = $class->constants[$new_constant->getName()];
-
-				if(
-					$constant_str!=$current_constant->toString() &&
-					$decide( 'update_constant', [$new_constant, $current_constant])
-				) {
-					$current_constant->replace( $constant_str );
-
-					return 'Constant '.$constant->getName().' updated';
-				}
-
-			}
-		}
-
-		foreach( $definition->getProperties() as $property ) {
-
-			if(!isset($class->properties[$property->getName()])) {
-				$class->addProperty( $nl.$nl.$property );
-
-				return 'Property '.$property->getName().' added';
-			} else {
-				$property_str = trim((string)$property);
-				$new_property = $property;
-				$current_property = $class->properties[$new_property->getName()];
-
-				if(
-					$property_str!=$current_property->toString() &&
-					$decide( 'update_property', [$new_property, $current_property])
-				) {
-					$current_property->replace( $property_str );
-
-					return 'Property '.$property->getName().' updated';
-				}
-
-			}
-		}
-
-
-		foreach( $definition->getMethods() as $method ) {
-
-
-			if(!isset($class->methods[$method->getName()])) {
-				$method_str = $method->toString( $ident, $nl );
-				$class->addMethod( $nl.$nl.$method_str );
-
-				return 'Method '.$method->getName().' added';
-			} else {
-				$method_str = trim($method->toString( $ident, $nl ));
-				$new_method = $method;
-				$current_method = $class->methods[$new_method->getName()];
-
-				if(
-					$method_str!=$current_method->toString() &&
-					$decide( 'update_method', [$new_method, $current_method])
-				) {
-					$current_method->replace( $method_str );
-
-					return 'Method '.$method->getName().' updated';
-				}
-			}
-		}
-
-		if($decision_maker) {
-
-			if( $decision_maker->remove_constant ) {
-				/**
-				 * @var callable
-				 */
-				$dm = $decision_maker->remove_constant;
-
-				foreach( $class->constants as $current_constant ) {
-					if(
-						!$definition->hasConstant($current_constant->name) &&
-						$dm($current_constant)
-					) {
-						$current_constant->remove();
-
-						return 'Constant '.$current_constant->name.' removed';
-					}
-				}
-			}
-
-			if( $decision_maker->remove_property ) {
-				/**
-				 * @var callable
-				 */
-				$dm = $decision_maker->remove_property;
-
-				foreach( $class->properties as $current_property ) {
-					if(
-						!$definition->hasProperty($current_property->name) &&
-						$dm($current_property)
-					) {
-						$current_property->remove();
-
-						return 'Property '.$current_property->name.' removed';
-					}
-				}
-			}
-
-			if( $decision_maker->remove_method ) {
-				/**
-				 * @var callable
-				 */
-				$dm = $decision_maker->remove_method;
-
-				foreach( $class->methods as $current_method ) {
-					if(
-						!$definition->hasMethod($current_method->name) &&
-						$dm($current_method)
-					) {
-						$current_method->remove();
-
-						return 'Method '.$current_method->name.' removed';
-					}
-				}
-			}
-		}
-
-
-		return false;
 	}
+
+	/**
+	 * @param $class_name
+	 * @param ClassCreator_Class_Property $property
+	 *
+	 * @return string
+	 */
+	public function actualize_setProperty( $class_name, ClassCreator_Class_Property $property )
+	{
+		$nl = ClassCreator_Class::getNl();
+		$class = $this->classes[$class_name];
+
+		if(!isset($class->properties[$property->getName()])) {
+			$class->addProperty( $nl.$nl.$property );
+
+			return 'Property '.$property->getName().' added';
+		} else {
+			$property_str = trim((string)$property);
+			$new_property = $property;
+			$current_property = $class->properties[$new_property->getName()];
+
+			if( $property_str!=$current_property->toString() ) {
+				$current_property->replace( $property_str );
+
+				return 'Property '.$property->getName().' updated';
+			}
+
+		}
+
+		return '';
+	}
+
+
 
 
 

@@ -9,12 +9,14 @@ namespace JetStudio;
 
 use Jet\DataModel;
 use Jet\DataModel_Relations;
+use Jet\Exception;
 use Jet\Form;
 use Jet\Form_Field_Checkbox;
 use Jet\Form_Field_Hidden;
 use Jet\Form_Field_Input;
 use Jet\Form_Field_Select;
 use Jet\Form_Field_Textarea;
+use Jet\IO_File;
 use Jet\Reflection;
 use Jet\Tr;
 use Jet\DataModel_Exception;
@@ -43,6 +45,17 @@ trait DataModel_Definition_Model_Trait {
 	 * @var array
 	 */
 	protected $_implements = [];
+
+	/**
+	 *
+	 * @var DataModel_Definition_Relation_External[]
+	 */
+	protected $external_relations;
+
+	/**
+	 * @param DataModel_Definition_Key $key
+	 */
+	protected $custom_keys;
 
 	/**
 	 * @var ClassCreator_Class
@@ -91,27 +104,6 @@ trait DataModel_Definition_Model_Trait {
 	protected function _initDatabaseTableName()
 	{
 		$this->database_table_name = Reflection::get( $this->class_name, 'database_table_name', '' );
-	}
-
-	/**
-	 *
-	 */
-	public function _initExternalRelations()
-	{
-
-		$class = $this->class_name;
-
-		$relations_definitions_data = Reflection::get( $class, 'data_model_external_relations_definition', [] );
-
-		foreach( $relations_definitions_data as $definition_data ) {
-			$relation = new DataModel_Definition_Relation_External( $class, $definition_data );
-
-			DataModel_Relations::add(
-				$class,
-				$relation
-			);
-		}
-
 	}
 
 
@@ -179,37 +171,23 @@ trait DataModel_Definition_Model_Trait {
 
 
 	/**
-	 * @param string $name
-	 * @param string $type
-	 * @param array  $key_properties
 	 *
-	 * @throws DataModel_Exception
 	 */
-	public function addKey( $name, $type, array $key_properties )
+	protected function _initKeys()
 	{
+		parent::_initKeys();
 
-		if( isset( $this->keys[$name] ) ) {
-			throw new DataModel_Exception(
-				'Class \''.$this->getClassName().'\': duplicate key \''.$name.'\' ',
-				DataModel_Exception::CODE_DEFINITION_NONSENSE
+		$keys_definition_data = Reflection::get( $this->class_name, 'data_model_keys_definition', [] );
+
+		foreach( $keys_definition_data as $kd ) {
+			$key = new DataModel_Definition_Key(
+				$kd['name'], $kd['type'], $kd['property_names'], true
 			);
+			$this->custom_keys[$key->getName()] = $key;
+
 		}
 
-		$my_properties = $this->getProperties();
-
-		foreach( $key_properties as $property_name ) {
-			if( !isset( $my_properties[$property_name] ) ) {
-				throw new DataModel_Exception(
-					'Unknown key property \''.$property_name.'\'. Class: \''.$this->class_name.'\' Key: \''.$name.'\' ',
-					DataModel_Exception::CODE_DEFINITION_NONSENSE
-				);
-
-			}
-		}
-
-		$this->keys[$name] = new DataModel_Definition_Key( $name, $type, $key_properties );
 	}
-
 
 	/**
 	 * @return DataModel_Definition_Id_Abstract|null
@@ -242,50 +220,6 @@ trait DataModel_Definition_Model_Trait {
 			$this->createClass_externalRelations( $class );
 			$this->createClass_properties( $class );
 			$this->createClass_methods( $class );
-
-
-			$dm = new ClassCreator_ActualizeDecisionMaker();
-
-			$remove_getters = [];
-			$remove_setters = [];
-
-			$dm->update_class_annotation = function() {
-				return true;
-			};
-
-			$dm->update_property = function( ClassCreator_Class_Property $new_property, ClassParser_Class_Property $current_property ) {
-				return true;
-			};
-
-			$dm->remove_property = function( ClassParser_Class_Property $property ) use (&$remove_getters, &$remove_setters) {
-
-				if(
-					$property->doc_comment &&
-					strpos($property->doc_comment->text, '@JetDataModel:')
-				) {
-					$method_name = DataModel_Definition_Property_Trait::generateSetterGetterMethodName( $property->name );
-
-					$remove_getters[] = 'get'.$method_name;
-					$remove_setters[] = 'set'.$method_name;
-
-					return true;
-				}
-
-				return false;
-			};
-
-			$dm->remove_method = function( ClassParser_Class_Method $method ) use (&$remove_getters, &$remove_setters) {
-				if(
-					in_array(  $method->name, $remove_setters) ||
-					in_array(  $method->name, $remove_getters)
-				) {
-					return true;
-				}
-
-				return false;
-			};
-
-			$class->setActualizeDecisionMaker( $dm );
 
 			$this->__class = $class;
 		}
@@ -331,19 +265,11 @@ trait DataModel_Definition_Model_Trait {
 
 		$class = new ClassCreator_Class();
 
-		$class->setName( $this->getClassName() );
+		$class->setNamespace( $this->_class->getNamespace() );
+		$class->setName( $this->_class->getClassName() );
 
 		$class->addUse( new ClassCreator_UseClass('Jet', 'DataModel') );
 		$this->_extends = $this->createClass_getExtends($class, 'DataModel');
-
-		if($this->_implements) {
-			foreach( $this->_implements as $i ) {
-				$use = ClassCreator_UseClass::createByClassName($i);
-				$class->addUse( $use );
-
-				$class->addImplements( $use->getClass() );
-			}
-		}
 
 		return $class;
 	}
@@ -375,7 +301,7 @@ trait DataModel_Definition_Model_Trait {
 	public function createClass_ID( ClassCreator_Class $class )
 	{
 		if($this->getIDControllerDefinition()) {
-			$this->getIDControllerDefinition()->createClassIdDefinition( $class );
+			$this->getIDControllerDefinition()->createClass_IdDefinition( $class );
 		}
 	}
 
@@ -384,7 +310,7 @@ trait DataModel_Definition_Model_Trait {
 	 */
 	public function createClass_customKeys( ClassCreator_Class $class )
 	{
-		foreach( $this->getKeys() as $key ) {
+		foreach( $this->getCustomKeys() as $key ) {
 			$class->addAnnotation( $key->getAsAnnotation( $class ) );
 		}
 
@@ -397,7 +323,7 @@ trait DataModel_Definition_Model_Trait {
 	public function createClass_externalRelations( ClassCreator_Class $class )
 	{
 		foreach( $this->getExternalRelations() as $relation ) {
-			$class->addAnnotation( $relation->getAsAnnotation( $class ) );
+			$class->addAnnotation( $relation->createClass_getAsAnnotation( $class ) );
 		}
 
 	}
@@ -723,14 +649,21 @@ trait DataModel_Definition_Model_Trait {
 	 */
 	public function getExternalRelations()
 	{
-		$res = [];
-		foreach($this->relations as $relation) {
-			if($relation instanceof DataModel_Definition_Relation_External) {
-				$res[$relation->getInternalId()] = $relation;
+		if($this->external_relations===null) {
+			$this->external_relations = [];
+			$class = $this->class_name;
+
+			$relations_definitions_data = Reflection::get( $class, 'data_model_external_relations_definition', [] );
+
+			foreach( $relations_definitions_data as $definition_data ) {
+				$relation = new DataModel_Definition_Relation_External( $class, $definition_data );
+
+				$this->external_relations[$relation->getInternalId()] = $relation;
 			}
+
 		}
 
-		return $res;
+		return $this->external_relations;
 	}
 
 
@@ -837,9 +770,9 @@ trait DataModel_Definition_Model_Trait {
 	/**
 	 * @param DataModel_Definition_Key $key
 	 */
-	public function addNewKey( DataModel_Definition_Key $key )
+	public function addCustomNewKey( DataModel_Definition_Key $key )
 	{
-		$this->keys[ $key->getName() ] = $key;
+		$this->custom_keys[ $key->getName() ] = $key;
 	}
 
 	/**
@@ -847,36 +780,58 @@ trait DataModel_Definition_Model_Trait {
 	 *
 	 * @return DataModel_Definition_Key|null
 	 */
-	public function getKey( $key_name )
+	public function getCustomKey( $key_name )
 	{
-		foreach($this->keys as $key) {
-			/**
-			 * @var DataModel_Definition_Key $key
-			 */
-			if($key->getName()==$key_name) {
-				return $key;
-			}
+		if(!isset($this->custom_keys[$key_name])) {
+			return null;
 		}
 
-		return null;
+		return $this->custom_keys[$key_name];
 	}
 
 	/**
 	 * @return DataModel_Definition_Key[]
 	 */
-	public function getKeys()
+	public function getCustomKeys()
 	{
-		return $this->keys;
+		if($this->custom_keys===null) {
+			$this->custom_keys = [];
+
+			$keys_definition_data = Reflection::get( $this->class_name, 'data_model_keys_definition', [] );
+
+			foreach( $keys_definition_data as $kd ) {
+				$this->custom_keys[$kd['name']] = new DataModel_Definition_Key( $kd['name'], $kd['type'], $kd['property_names'] );
+			}
+
+		}
+
+		return $this->custom_keys;
+	}
+
+	/**
+	 * @return DataModel_Definition_Key[]
+	 */
+	public function getCustomCustomKeys()
+	{
+		$keys = [];
+
+		foreach($this->custom_keys as $key) {
+			if($key->isCustom()) {
+				$keys[] = $key;
+			}
+		}
+
+		return $keys;
 	}
 
 	/**
 	 * @param string $key_name
 	 */
-	public function deleteKey( $key_name )
+	public function deleteCustomKey( $key_name )
 	{
 		$_keys = [];
 
-		foreach($this->keys as $key) {
+		foreach($this->custom_keys as $key) {
 			/**
 			 * @var DataModel_Definition_Key $key
 			 */
@@ -887,7 +842,7 @@ trait DataModel_Definition_Model_Trait {
 			$_keys[] = $key;
 		}
 
-		$this->keys = $_keys;
+		$this->custom_keys = $_keys;
 	}
 
 
@@ -896,7 +851,9 @@ trait DataModel_Definition_Model_Trait {
 	 */
 	public function addExternalRelation( DataModel_Definition_Relation_External $relation )
 	{
-		$this->relations[] = $relation;
+		$this->getExternalRelations();
+
+		$this->external_relations[$relation->getInternalId()] = $relation;
 	}
 
 	/**
@@ -906,16 +863,12 @@ trait DataModel_Definition_Model_Trait {
 	 */
 	public function getExternalRelation( $relation_id )
 	{
-		foreach($this->relations as $relation) {
-			if(
-				$relation instanceof DataModel_Definition_Relation_External &&
-				$relation->getInternalId()==$relation_id
-			) {
-				return $relation;
-			}
+		$this->getExternalRelations();
+		if(!isset($this->external_relations[$relation_id])) {
+			return null;
 		}
 
-		return null;
+		return $this->external_relations[$relation_id];
 	}
 
 
@@ -924,19 +877,9 @@ trait DataModel_Definition_Model_Trait {
 	 */
 	public function deleteExternalRelation( $relation_id )
 	{
-		$_relations = [];
-		foreach($this->relations as $relation) {
-			if(
-				$relation instanceof DataModel_Definition_Relation_External &&
-				$relation->getInternalId()==$relation_id
-			) {
-				continue;
-			}
+		$this->getExternalRelations();
 
-			$_relations[] = $relation;
-		}
-
-		$this->relations = $_relations;
+		unset($this->external_relations[$relation_id]);
 	}
 
 
@@ -954,6 +897,39 @@ trait DataModel_Definition_Model_Trait {
 		return $this->_class->getScriptPath();
 	}
 
+	/**
+	 * @return bool
+	 */
+	public function save()
+	{
+		$ok = true;
+		try {
+			$class = $this->createClass();
+
+			if($class->getErrors()) {
+				return false;
+			}
+
+			$script  = IO_File::read($this->_class->getScriptPath());
+
+			$parser = new ClassParser( $script );
+
+			$parser->actualize_setUse( $class->getUse() );
+			$parser->actualize_setClassAnnotation( $class->getName(), $class->generateClassAnnotation() );
+
+			IO_File::write(
+				$this->_class->getScriptPath(),
+				$parser->toString()
+			);
+
+		} catch( Exception $e ) {
+			$ok = false;
+			Application::handleError( $e );
+		}
+
+		return $ok;
+
+	}
 
 
 }

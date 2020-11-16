@@ -129,12 +129,10 @@ class DataModels extends BaseObject implements Application_Part
 
 	/**
 	 * @param $action
-	 * @param array $custom_get_params
-	 * @param string|null $custom_class
 	 *
 	 * @return string $url
 	 */
-	public static function getActionUrl( $action, array $custom_get_params=[], $custom_class=null )
+	public static function getActionUrl( $action )
 	{
 
 		$get_params = [];
@@ -143,22 +141,19 @@ class DataModels extends BaseObject implements Application_Part
 			$get_params['class'] = static::getCurrentClassName();
 		}
 
-		if($custom_class!==null) {
-			$get_params['class'] = $custom_class;
-			if(!$custom_class) {
-				unset( $get_params['model'] );
-			}
+		if(static::getCurrentPropertyName()) {
+			$get_params['property'] = static::getCurrentPropertyName();
 		}
 
-		if($action) {
-			$get_params['action'] = $action;
+		if(static::getCurrentKeyName()) {
+			$get_params['key'] = static::getCurrentKeyName();
 		}
 
-		if($custom_get_params) {
-			foreach( $custom_get_params as $k=>$v ) {
-				$get_params[$k] = $v;
-			}
+		if(static::getCurrentRelationId()) {
+			$get_params['relation'] = static::getCurrentRelationId();
 		}
+
+		$get_params['action'] = $action;
 
 		return SysConf_URI::BASE().'data_model.php?'.http_build_query($get_params);
 	}
@@ -278,7 +273,7 @@ class DataModels extends BaseObject implements Application_Part
 
 				if(
 					$name &&
-					($item=$model->getKey($name))
+					($item=$model->getCustomKey($name))
 				) {
 					static::$current_key = $item;
 				}
@@ -446,9 +441,7 @@ class DataModels extends BaseObject implements Application_Part
 			return false;
 		}
 
-		if(
-		!preg_match('/^[a-z0-9_]{2,}$/i', $name)
-		) {
+		if( !preg_match('/^[a-z0-9_]{2,}$/i', $name) ) {
 			$field->setError(Form_Field_Input::ERROR_CODE_INVALID_FORMAT);
 
 			return false;
@@ -527,21 +520,37 @@ class DataModels extends BaseObject implements Application_Part
 
 		$exists = false;
 
-		foreach( DataModels::getClasses() as $class ) {
-			$m = $class->getDefinition();
+		if($model) {
+			foreach( DataModels::getClasses() as $class ) {
+				$m = $class->getDefinition();
 
-			if(
-				$m->getDatabaseTableName()==$name ||
-				$m->getModelName()==$name
-			) {
-				$exists = true;
-				break;
+				if(
+					$class->getFullClassName()!=$model->getClassName() &&
+					(
+						$m->getDatabaseTableName()==$name ||
+						$m->getModelName()==$name
+					)
+				) {
+					$exists = true;
+					break;
+				}
 			}
+		} else {
+			foreach( DataModels::getClasses() as $class ) {
+				$m = $class->getDefinition();
+
+				if(
+					$m->getDatabaseTableName()==$name ||
+					$m->getModelName()==$name
+				) {
+					$exists = true;
+					break;
+				}
+			}
+
 		}
 
-		if(
-		$exists
-		) {
+		if( $exists ) {
 			$field->setCustomError(
 				Tr::_('DataModel with the same custom table name already exists'),
 				'data_model_table_is_not_unique'

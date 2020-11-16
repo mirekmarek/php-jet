@@ -13,7 +13,7 @@ use Jet\Form_Field_Hidden;
 use Jet\Form_Field_Select;
 use Jet\DataModel_Query;
 use Jet\Tr;
-use Jet\DataModel_Definition_Relation as Jet_DataModel_Definition_Relation_External;
+use Jet\DataModel_Definition_Relation_External as Jet_DataModel_Definition_Relation_External;
 
 /**
  *
@@ -146,9 +146,7 @@ class DataModel_Definition_Relation_External extends Jet_DataModel_Definition_Re
 
 		$form = new Form('create_external_relation_form', $fields);
 
-		$form->setAction( DataModels::getActionUrl('relation/add', [
-			'related_model' => $related_model->getClassName()
-		]) );
+		$form->setAction( DataModels::getActionUrl('relation/add') );
 
 		return $form;
 	}
@@ -217,33 +215,37 @@ class DataModel_Definition_Relation_External extends Jet_DataModel_Definition_Re
 
 			$fields[] = $relation_type;
 
-			foreach( $related_model->getProperties() as $property ) {
-				if(!$property->getIsId()) {
+			foreach( $related_model->getProperties() as $related_property ) {
+				$options = [
+					'' => Tr::_('- none -')
+				];
+				foreach( $model->getProperties() as $cm_property ) {
+					if($cm_property->getType()!=$related_property->getType()) {
+						continue;
+					}
+					$options[$cm_property->getName()] = $model->getModelName().'.'.$cm_property->getName();
+				}
+
+				if(count($options)<2) {
 					continue;
 				}
 
 				$selected_property = '';
 
 				foreach( $this->getJoinBy() as $j_i ) {
-					if($j_i->getRelatedPropertyName()==$property->getInternalId()) {
+
+					if($j_i->getRelatedPropertyName()==$related_property->getName()) {
 						$selected_property = $j_i->getThisPropertyName();
 						break;
 					}
 				}
 
-				$glue = new Form_Field_Select('glue_'.$property->getInternalId(), $related_model->getModelName().'.'.$property->getName().' < - > ', $selected_property, true);
+				$glue = new Form_Field_Select('glue_'.$related_property->getName(), $related_model->getModelName().'.'.$related_property->getName().' < - > ', $selected_property);
 				$glue->setErrorMessages([
 					Form_Field_Select::ERROR_CODE_EMPTY => 'Please select related property',
 					Form_Field_Select::ERROR_CODE_INVALID_VALUE => 'Please select related property'
 				]);
 
-				$options = [];
-				foreach( $model->getProperties() as $cm_property ) {
-					if($cm_property->getType()!=$property->getType()) {
-						continue;
-					}
-					$options[$cm_property->getInternalId()] = $model->getModelName().'.'.$cm_property->getName();
-				}
 
 				$glue->setSelectOptions( $options );
 
@@ -251,11 +253,9 @@ class DataModel_Definition_Relation_External extends Jet_DataModel_Definition_Re
 
 			}
 
-			$form = new Form('edit_external_relation_form_'.$this->getInternalId(), $fields);
+			$form = new Form('edit_external_relation_form_'.$this->getName(), $fields);
 
-			$form->setAction( DataModels::getActionUrl('relation/edit', [
-				'relation' => $this->getInternalId()
-			]) );
+			$form->setAction( DataModels::getActionUrl('relation/edit') );
 
 			$this->_edit_form = $form;
 		}
@@ -284,13 +284,18 @@ class DataModel_Definition_Relation_External extends Jet_DataModel_Definition_Re
 		$this->setJoinType( $form->getField('join_type')->getValue() );
 
 		$join_by = [];
-		foreach( $related_model->getProperties() as $property ) {
-			if(!$property->getIsId()) {
+		foreach( $related_model->getProperties() as $related_property ) {
+			$field_name = 'glue_'.$related_property->getName();
+			if(!$form->fieldExists($field_name)) {
 				continue;
 			}
 
+			$this_property_name = $form->field($field_name)->getValue();
+			if(!$this_property_name) {
+				continue;
+			}
 
-			$join_by[$form->field('glue_'.$property->getInternalId())->getValue()] = $property->getInternalId();
+			$join_by[$this_property_name] = $related_property->getName();
 		}
 
 		$this->setJoinBy( $join_by );
@@ -304,7 +309,7 @@ class DataModel_Definition_Relation_External extends Jet_DataModel_Definition_Re
 	 *
 	 * @return ClassCreator_Annotation
 	 */
-	public function getAsAnnotation( ClassCreator_Class $class )
+	public function createClass_getAsAnnotation( ClassCreator_Class $class )
 	{
 
 		$class->addUse( new ClassCreator_UseClass('Jet', 'DataModel_Query') );
@@ -351,18 +356,18 @@ class DataModel_Definition_Relation_External extends Jet_DataModel_Definition_Re
 
 
 
-		$class_name = $this->getRelatedDataModel()->getClassName();
+		$related_class = $this->getRelatedDataModel()->getClass();
 
-		/*
-		if( $this->getRelatedDataModel()->getNamespaceId()!=Project::getCurrentNamespaceId() ) {
-			$ns = Project::getNamespace( $this->getRelatedDataModel()->getNamespaceId() );
 
-			$class->addUse( new ClassCreator_UseClass($ns->getNamespace(), $class_name) );
+		if( $related_class->getNamespace()!=DataModels::getCurrentClass()->getNamespace() ) {
+			$ns = DataModels::getCurrentClass()->getNamespace();
+
+			$class->addUse( new ClassCreator_UseClass($ns, $related_class->getClassName()) );
 		}
-		*/
+
 
 		$r_data = [
-			var_export($class_name, true),
+			var_export($related_class->getClassName(), true),
 			$glue,
 			$type
 		];
