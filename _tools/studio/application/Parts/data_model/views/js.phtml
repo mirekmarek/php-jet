@@ -256,28 +256,17 @@ namespace JetStudio;
 						'create_external_relation_form',
 						{
 							onSuccess: function( form, response_data ) {
+								location.reload();
 							}
 						}
 					);
 				}
+
 			},
 
 			delete: {
-				openDialog: function( relation_id ) {
-					$('#delete_relation_'+relation_id).modal('show');
-				}
-			},
-
-			edit: {
-				save: function( relation_id ) {
-					JetAjaxForm.submit(
-						'edit_external_relation_form_'+relation_id,
-						{
-							onSuccess: function( form, response_data ) {
-							}
-						}
-					);
-
+				openDialog: function() {
+					$('#delete_relation').modal('show');
 				}
 			}
 		},

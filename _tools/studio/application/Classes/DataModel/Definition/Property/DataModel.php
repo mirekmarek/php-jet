@@ -49,13 +49,13 @@ class DataModel_Definition_Property_DataModel extends Jet_DataModel_Definition_P
 	public function showEditFormFields()
 	{
 
-		$related_class = DataModels::getClass( $this->getDataModelClassName() );
+		$related_class = DataModels::getClass( $this->getDataModelClass() );
 		$related_model = $related_class->getDefinition();
 
 		if( $related_model ) {
 			echo '<label>'.Tr::_('Related DataModel:').'&nbsp;&nbsp;</label>';
 			echo
-				'<a href="'.DataModels::getActionUrl('', [], $related_class->getFullClassName()).'">'
+				'<a href="?class='.$related_class->getFullClassName().'">'
 				.$related_model->getModelName().' ('.$related_model->getClassName().')'
 				.'</a>';
 		}
@@ -70,13 +70,13 @@ class DataModel_Definition_Property_DataModel extends Jet_DataModel_Definition_P
 	 */
 	public function createClassProperty( ClassCreator_Class $class )
 	{
-		$related_dm = DataModels::getClass( $this->getDataModelClassName() )->getDefinition();
+		$related_dm = DataModels::getClass( $this->getDataModelClass() )->getDefinition();
 		$annotations = [];
 
 		$property_type = '';
 
 		if(!$related_dm) {
-			$class->addError('Unable to get related DataModel definition (related model ID: '.$this->getDataModelClassName().')');
+			$class->addError('Unable to get related DataModel definition (related model ID: '.$this->getDataModelClass().')');
 		} else {
 			$annotations[] = new ClassCreator_Annotation('JetDataModel', 'data_model_class',  var_export($related_dm->getClassName(), true) );
 

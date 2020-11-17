@@ -10,7 +10,7 @@ if(!$current->getExternalRelations()) {
 	return;
 }
 
-$current_relation_id = DataModels::getCurrentRelationId();
+$current_relation_name = DataModels::getCurrentRelationName();
 
 ?>
 <table style="width: 100%">
@@ -21,10 +21,10 @@ $current_relation_id = DataModels::getCurrentRelationId();
 <?php foreach( $current->getExternalRelations() as $relation): ?>
 	<tr>
 		<td>
-			<?php if($current_relation_id==$relation->getInternalId()): ?>
+			<?php if($current_relation_name==$relation->getName()): ?>
 				<b class="badge badge-info"><?=$relation->getName()?></b>
 			<?php else: ?>
-				<a href="<?=Http_Request::currentURI(['relation'=>$relation->getInternalId()], ['property', 'key'])?>"><?=$relation->getName()?></a>
+				<a href="<?=Http_Request::currentURI(['relation'=>$relation->getName()], ['property', 'key'])?>"><?=$relation->getName()?></a>
 			<?php endif; ?>
 		</td>
 	</tr>

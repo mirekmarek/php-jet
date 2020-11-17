@@ -7,6 +7,7 @@
  */
 namespace JetStudio;
 
+use Jet\DataModel;
 use Jet\Form;
 use Jet\Form_Field_Checkbox;
 use Jet\Form_Field_Input;
@@ -437,9 +438,9 @@ trait DataModel_Definition_Property_Trait
 		$form = $this->getEditForm();
 
 
-		if($this->getDataModelClassName()) {
+		if($this->getType()==DataModel::TYPE_DATA_MODEL) {
 
-			$related_model = DataModels::getClass( $this->getDataModelClassName() );
+			$related_model = DataModels::getClass( $this->getDataModelClass() );
 
 			if(
 				$related_model &&
@@ -683,22 +684,6 @@ trait DataModel_Definition_Property_Trait
 
 
 
-
-	/**
-	 * @return string
-	 */
-	public function getDataModelClassName()
-	{
-		return $this->data_model_class_name;
-	}
-
-	/**
-	 * @param string $data_model_class_name
-	 */
-	public function setDataModelClassName($data_model_class_name)
-	{
-		$this->data_model_class_name = $data_model_class_name;
-	}
 
 	/**
 	 * @return string

@@ -3,9 +3,8 @@ namespace JetStudio;
 
 use Jet\Http_Request;
 
-$current = DataModels::getCurrentModel();
-$related = DataModels::getClass( Http_Request::GET()->getString('related_model') );
-$form = DataModel_Definition_Relation_External::getCreateForm( $current );
+$related = DataModels::getClass( Http_Request::GET()->getString('related_model') )->getDefinition();
+$form = DataModel_Definition_Relation_External::getCreateForm( $related );
 
 $view = Application::getView();
 

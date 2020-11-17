@@ -150,4 +150,7 @@ return [
 	'Relation type: ' => '',
 	'There are some problems ... Please check the form.' => '',
 	'Unknown relation property %property%' => '',
+	'Relation to <strong>%relation%</strong> has been created' => '',
+	'Relation <strong>%relation%</strong> has been deleted' => '',
+	'It is necessary to specify at least one relation' => '',
 ];

@@ -3,6 +3,8 @@ namespace JetStudio;
 
 use Jet\Mvc_View;
 use Jet\Form;
+use Jet\Tr;
+use Jet\UI;
 
 /**
  * @var Mvc_View $this
@@ -15,16 +17,23 @@ $related = $this->getRaw('related');
 
 echo $form->start();
 
-echo $form->field('related_model_id');
+echo $form->getCommonMessage();
+
+echo $form->field('related_model_class_name');
 echo $form->field('join_type');
 
 $form->setDoNotTranslateTexts(true);
 foreach( $related->getProperties() as $property ) {
-	if(!$property->getIsId()) {
+	if(!$form->fieldExists('glue_'.$property->getName())) {
 		continue;
 	}
 
 	echo $form->field('glue_'.$property->getName());
 }
 
+echo UI::dialog('', '', 600)->footer();
 echo $form->end();
+
+echo UI::button_save(Tr::_('Create'))->setOnclick('JetStudio.DataModel.relation.create.createSend();return false;');
+
+

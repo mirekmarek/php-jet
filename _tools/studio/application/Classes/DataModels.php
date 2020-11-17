@@ -149,8 +149,8 @@ class DataModels extends BaseObject implements Application_Part
 			$get_params['key'] = static::getCurrentKeyName();
 		}
 
-		if(static::getCurrentRelationId()) {
-			$get_params['relation'] = static::getCurrentRelationId();
+		if(static::getCurrentRelationName()) {
+			$get_params['relation'] = static::getCurrentRelationName();
 		}
 
 		$get_params['action'] = $action;
@@ -299,44 +299,18 @@ class DataModels extends BaseObject implements Application_Part
 	}
 
 
-
-
-	/**
-	 * @return DataModel_Definition_Relation_External
-	 */
-	public static function getCurrentExternalRelation()
-	{
-		if(static::$current_relation===null) {
-			static::$current_relation = false;
-
-			if(($model=static::getCurrentModel())) {
-				$id = Http_Request::GET()->getString('relation');
-
-				if(
-					$id &&
-					($item=$model->getExternalRelation($id))
-				) {
-					static::$current_relation = $item;
-				}
-
-			}
-		}
-
-		return static::$current_relation;
-	}
-
 	/**
 	 * @return string|null
 	 */
-	public static function getCurrentExternalRelationId()
+	public static function getCurrentRelationName()
 	{
-		$current = static::getCurrentExternalRelation();
+		$current = static::getCurrentRelation();
 
 		if(!$current) {
 			return null;
 		}
 
-		return $current->getInternalId();
+		return $current->getName();
 	}
 
 
@@ -364,19 +338,6 @@ class DataModels extends BaseObject implements Application_Part
 		return static::$current_relation;
 	}
 
-	/**
-	 * @return string|null
-	 */
-	public static function getCurrentRelationId()
-	{
-		$current = static::getCurrentRelation();
-
-		if(!$current) {
-			return null;
-		}
-
-		return $current->getInternalId();
-	}
 
 	/**
 	 * @return string|null

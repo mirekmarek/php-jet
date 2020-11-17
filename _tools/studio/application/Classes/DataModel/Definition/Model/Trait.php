@@ -658,7 +658,7 @@ trait DataModel_Definition_Model_Trait {
 			foreach( $relations_definitions_data as $definition_data ) {
 				$relation = new DataModel_Definition_Relation_External( $class, $definition_data );
 
-				$this->external_relations[$relation->getInternalId()] = $relation;
+				$this->external_relations[$relation->getName()] = $relation;
 			}
 
 		}
@@ -853,33 +853,33 @@ trait DataModel_Definition_Model_Trait {
 	{
 		$this->getExternalRelations();
 
-		$this->external_relations[$relation->getInternalId()] = $relation;
+		$this->external_relations[$relation->getName()] = $relation;
 	}
 
 	/**
-	 * @param string $relation_id
+	 * @param string $relation_name
 	 *
 	 * @return DataModel_Definition_Relation_External|null
 	 */
-	public function getExternalRelation( $relation_id )
+	public function getExternalRelation( $relation_name )
 	{
 		$this->getExternalRelations();
-		if(!isset($this->external_relations[$relation_id])) {
+		if(!isset($this->external_relations[$relation_name])) {
 			return null;
 		}
 
-		return $this->external_relations[$relation_id];
+		return $this->external_relations[$relation_name];
 	}
 
 
 	/**
-	 * @param string $relation_id
+	 * @param string $relation_name
 	 */
-	public function deleteExternalRelation( $relation_id )
+	public function deleteExternalRelation( $relation_name )
 	{
 		$this->getExternalRelations();
 
-		unset($this->external_relations[$relation_id]);
+		unset($this->external_relations[$relation_name]);
 	}
 
 
@@ -915,12 +915,17 @@ trait DataModel_Definition_Model_Trait {
 			$parser = new ClassParser( $script );
 
 			$parser->actualize_setUse( $class->getUse() );
-			$parser->actualize_setClassAnnotation( $class->getName(), $class->generateClassAnnotation() );
+			$parser->actualize_setClassAnnotation( $this->_class->getClassName(), $class->generateClassAnnotation() );
 
 			IO_File::write(
 				$this->_class->getScriptPath(),
 				$parser->toString()
 			);
+
+			if(function_exists('opcache_reset')) {
+				opcache_reset();
+			}
+
 
 		} catch( Exception $e ) {
 			$ok = false;
