@@ -211,9 +211,10 @@ namespace JetStudio;
 				},
 				createSend: function() {
 					JetAjaxForm.submit(
-						'<?=DataModel_Definition_Key::getCreateForm()->getId()?>',
+						'key_add_form',
 						{
 							onSuccess: function( form, response_data ) {
+								location.reload();
 							}
 						}
 					);
@@ -221,21 +222,8 @@ namespace JetStudio;
 			},
 
 			delete: {
-				openDialog: function( key_id ) {
-					$('#delete_key_'+key_id).modal('show');
-				}
-			},
-
-			edit: {
-				save: function( key_id ) {
-					JetAjaxForm.submit(
-						'key_edit_form_'+key_id,
-						{
-							onSuccess: function( form, response_data ) {
-							}
-						}
-					);
-
+				openDialog: function() {
+					$('#delete_key').modal('show');
 				}
 			}
 		},

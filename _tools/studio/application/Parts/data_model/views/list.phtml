@@ -9,7 +9,7 @@ $list = DataModels::getClasses();
 	<tr>
 		<?php if($item->getFullClassName()==DataModels::getCurrentClassName()): ?>
 			<td>
-				<?php require 'list/model-items.phtml'; ?>
+				<?php require 'list/item.phtml'; ?>
 			</td>
 		<?php endif;?>
 	</tr>

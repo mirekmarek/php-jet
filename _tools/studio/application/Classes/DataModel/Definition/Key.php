@@ -12,6 +12,7 @@ use Jet\DataModel;
 use Jet\DataModel_Definition_Key as Jet_DataModel_Definition_Key;
 use Jet\DataModel_Definition_Property_CustomData;
 use Jet\DataModel_Definition_Property_DataModel;
+use Jet\DataModel_Exception;
 use Jet\Form;
 use Jet\Form_Field_Input;
 use Jet\Form_Field_MultiSelect;
@@ -42,6 +43,21 @@ class DataModel_Definition_Key extends Jet_DataModel_Definition_Key
 	 * @var Form
 	 */
 	protected static $create_form;
+
+	/**
+	 * @param string $name
+	 * @param string $type
+	 * @param array  $property_names
+	 *
+	 * @throws DataModel_Exception
+	 */
+	public function __construct( $name='', $type = DataModel::KEY_TYPE_INDEX, array $property_names = [] )
+	{
+		$this->name = $name;
+		$this->property_names = $property_names;
+		$this->type = $type;
+	}
+
 
 	/**
 	 * @return array
@@ -243,7 +259,7 @@ class DataModel_Definition_Key extends Jet_DataModel_Definition_Key
 			return false;
 		}
 
-		$new_key = new static();
+		$new_key = new DataModel_Definition_Key();
 
 		$new_key->setName( $form->field('name')->getValue() );
 		$new_key->setType( $form->field('type')->getValue() );
@@ -251,7 +267,7 @@ class DataModel_Definition_Key extends Jet_DataModel_Definition_Key
 
 		static::$create_form = null;
 
-		DataModels::getCurrentModel()->addNewKey( $new_key );
+		DataModels::getCurrentModel()->addCustomNewKey( $new_key );
 
 		return $new_key;
 
@@ -370,8 +386,8 @@ class DataModel_Definition_Key extends Jet_DataModel_Definition_Key
 
 		$k_data = [
 			var_export( $this->getName(), true ),
-			$type,
 			$properties,
+			$type,
 		];
 
 		$an = new ClassCreator_Annotation('JetDataModel', 'key', $k_data);

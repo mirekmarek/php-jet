@@ -3,7 +3,6 @@ namespace JetStudio;
 
 use Jet\Http_Headers;
 use Jet\Http_Request;
-use Jet\Exception;
 use Jet\UI_messages;
 use Jet\Tr;
 
@@ -18,13 +17,13 @@ if(
 ) {
 	$current->deleteCustomKey( $key->getName() );
 
-	if(DataModels::save()) {
+	if($current->save()) {
 		UI_messages::info(
 			Tr::_('Key <strong>%key%</strong> has been deleted', ['key'=>$key->getName()])
 		);
 
-		Http_Headers::reload([], ['action','key']);
 	}
-
 }
+
+Http_Headers::reload([], ['action','key']);
 

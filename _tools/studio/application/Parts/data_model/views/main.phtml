@@ -3,7 +3,18 @@ namespace JetStudio;
 
 use Jet\UI;
 use Jet\Tr;
+use Jet\UI_messages;
 
+$what_to_edit = DataModels::getCurrentWhatToEdit();
+$class = DataModels::getCurrentModel()->createClass();
+
+$errors = [];
+$warnings = [];
+
+if( $class ) {
+	$errors = $class->getErrors();
+	$warnings = $class->getWarnings();
+}
 
 ?>
 <?=Application::getView()->render('js');?>
@@ -20,7 +31,9 @@ use Jet\Tr;
 			<?php endif; ?>
 	</div>
 	<div class="col-md-8" style="padding: 0px">
-		<?=Application::getView()->render('model_edit/toolbar');?>
+		<?php if($what_to_edit): ?>
+		<?=Application::getView()->render($what_to_edit.'/edit/toolbar');?>
+		<?php endif; ?>
 	</div>
 </div>
 
@@ -29,7 +42,25 @@ use Jet\Tr;
 		<?=Application::getView()->render('list');?>
 	</div>
 	<div class="col-md-8" style="padding: 10px">
-		<?=Application::getView()->render('model_edit/edit');?>
+		<?php
+		if($class):
+			echo Application::getGeneralView()->render('messages');
+
+			foreach( $warnings as $warning ) {
+				echo '<div style="padding: 5px">'.UI_messages::createWarning( $warning ).'</div>';
+			}
+
+			foreach( $errors as $error ) {
+				echo '<div style="padding: 5px">'.UI_messages::createDanger( $error ).'</div>';
+			}
+
+			$what_to_edit = DataModels::getCurrentWhatToEdit();
+			?>
+			<div class="container-fluid">
+				<?php require $what_to_edit.'/edit/form.phtml'; ?>
+			</div>
+			<?php
+		endif; ?>
 	</div>
 </div>
 
@@ -37,39 +68,27 @@ use Jet\Tr;
 
 
 
-<?=Application::getView()->render('create_data_model/dialog');?>
-<?=Application::getView()->render('create_property/dialog');?>
-<?=Application::getView()->render('create_key/dialog');?>
-<?=Application::getView()->render('create_relation/dialog');?>
+<?=Application::getView()->render('model/create/dialog');?>
+<?=Application::getView()->render('property/create/dialog');?>
+<?=Application::getView()->render('key/create/dialog');?>
+<?=Application::getView()->render('relation/create/dialog');?>
 
 <?php
 $dialog_SQL_create = UI::dialog('dialog_SQL_create', Tr::_('SQL - create'), 800);
-
 echo $dialog_SQL_create->start();
-?>
-	<textarea id="SQL_create_result" style="width: 770px;height: 400px;"></textarea>
-	<?php
+	?><textarea id="SQL_create_result" style="width: 770px;height: 400px;"></textarea><?php
 echo $dialog_SQL_create->end();
 
 
 $dialog_SQL_update = UI::dialog('dialog_SQL_update', Tr::_('SQL - update'), 800);
-
 echo $dialog_SQL_update->start();
-?>
-	<textarea id="SQL_update_result" style="width: 770px;height: 400px;"></textarea>
-	<?php
+	?><textarea id="SQL_update_result" style="width: 770px;height: 400px;"></textarea><?php
 echo $dialog_SQL_update->end();
 
-
-
 $dialog_class_source = UI::dialog('dialog_class_source', Tr::_('Class source code'), 800);
-
 echo $dialog_class_source->start();
-?>
-	<textarea id="class_source_result" style="width: 770px;height: 400px;"></textarea>
-	<?php
+	?><textarea id="class_source_result" style="width: 770px;height: 400px;"></textarea><?php
 echo $dialog_class_source->end();
 
-echo $this->render('delete_key/dialog');
-
-echo $this->render('delete_relation/dialog');
+echo $this->render('key/delete/dialog');
+echo $this->render('relation/delete/dialog');

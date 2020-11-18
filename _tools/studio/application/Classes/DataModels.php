@@ -354,7 +354,7 @@ class DataModels extends BaseObject implements Application_Part
 		elseif(static::getCurrentProperty()):
 			return 'property';
 		else:
-			return 'main';
+			return 'model';
 		endif;
 	}
 

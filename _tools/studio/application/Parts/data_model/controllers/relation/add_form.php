@@ -11,6 +11,6 @@ $view = Application::getView();
 $view->setVar( 'related', $related );
 $view->setVar( 'form', $form);
 
-echo $view->render('create_relation/form');
+echo $view->render('relation/create/form');
 
 Application::end();

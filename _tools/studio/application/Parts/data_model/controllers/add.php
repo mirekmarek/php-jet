@@ -22,7 +22,7 @@ if( ($new_model=DataModel_Definition_Model_Main::catchCreateForm()) ) {
 AJAX::formResponse(
 	$ok,
 	[
-		$form->getId().'_form_area' => Application::getView()->render('create_data_model/form')
+		$form->getId().'_form_area' => Application::getView()->render('model/create/form')
 	],
 	$data
 );

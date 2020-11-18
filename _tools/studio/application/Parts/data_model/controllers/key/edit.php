@@ -1,11 +1,10 @@
 <?php
 namespace JetStudio;
 
+use Jet\Http_Headers;
 use Jet\Http_Request;
 use Jet\Tr;
 use Jet\UI_messages;
-use Jet\Exception;
-use Jet\AJAX;
 
 $current = DataModels::getCurrentModel();
 
@@ -18,33 +17,13 @@ if(!$key) {
 	Application::end();
 }
 
-$ok = false;
-$data = [];
-$snippets = [];
-
-
 if( $key->catchEditForm() ) {
-
-	$form = $key->getEditForm();
-
-	if(DataModels::save($form)) {
-		$ok = true;
-
-		$form->setCommonMessage( UI_messages::createSuccess(Tr::_('Saved ...')) );
+	if($current->save()) {
+		UI_messages::success( Tr::_('Saved ...') );
 	}
-
+	Http_Headers::reload([], ['action']);
+} else {
+	UI_messages::danger(
+		Tr::_('There are some problems ... Please check the form.')
+	);
 }
-
-
-
-$view = Application::getView();
-$view->setVar('key', $key);
-
-$snippets['key_detail_area_'.$key->getName()] = $view->render('model_edit/keys/list/item-body');
-$snippets['key_header_area_'.$key->getName()] = $view->render('model_edit/keys/list/item-header');
-
-AJAX::formResponse(
-	$ok,
-	$snippets,
-	$data
-);

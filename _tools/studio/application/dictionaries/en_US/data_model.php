@@ -153,4 +153,6 @@ return [
 	'Relation to <strong>%relation%</strong> has been created' => '',
 	'Relation <strong>%relation%</strong> has been deleted' => '',
 	'It is necessary to specify at least one relation' => '',
+	'Key <strong>%key%</strong> has been created' => '',
+	'Key <strong>%key%</strong> has been deleted' => '',
 ];

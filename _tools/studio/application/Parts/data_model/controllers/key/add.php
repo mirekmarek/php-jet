@@ -1,10 +1,11 @@
 <?php
 namespace JetStudio;
 
-use Jet\Exception;
 use Jet\UI_messages;
 use Jet\Tr;
 use Jet\AJAX;
+
+$current = DataModels::getCurrentModel();
 
 $ok = false;
 $data = [];
@@ -14,23 +15,22 @@ if( ($new_key=DataModel_Definition_Key::catchCreateForm()) ) {
 
 	$form = DataModel_Definition_Key::getCreateForm();
 
-	if(DataModels::save($form)) {
+	if($current->save()) {
 		$ok = true;
 
-		$form->setCommonMessage(
-			UI_messages::createSuccess(
-				Tr::_('Key <strong>%key%</strong> has been created',[
-					'key' => $new_key->getName()
-				])
-			)
+		UI_messages::success(
+			Tr::_('Key <strong>%key%</strong> has been created',[
+				'key' => $new_key->getName()
+			])
 		);
-		$snippets['keys_list_area'] = Application::getView()->render('model_edit/keys/list');
+	} else {
+		$message = implode('', UI_messages::get());
 
+		$form->setCommonMessage( $message );
 	}
-
 }
 
-$snippets[DataModel_Definition_Key::getCreateForm()->getId().'_form_area'] = Application::getView()->render('create_key/form');
+$snippets['key_add_form_area'] = Application::getView()->render('key/create/form');
 
 AJAX::formResponse(
 	$ok,

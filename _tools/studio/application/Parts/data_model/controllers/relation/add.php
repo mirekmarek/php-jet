@@ -38,7 +38,7 @@ $view->setVar( 'related', $related );
 $view->setVar( 'form', $form);
 
 
-$snippets['create_relation_form_area'] = $view->render('create_relation/form');
+$snippets['create_relation_form_area'] = $view->render('relation/create/form');
 
 AJAX::formResponse(
 	$ok,

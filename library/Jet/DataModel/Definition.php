@@ -126,7 +126,7 @@ class DataModel_Definition extends BaseObject implements Reflection_ParserInterf
 				}
 
 				$data->result_data['data_model_keys_definition'][$value[0]] = [
-					'name' => $value[0], 'type' => $value[1], 'property_names' => $value[2],
+					'name' => $value[0], 'property_names' => $value[1], 'type' => $value[2],
 				];
 
 

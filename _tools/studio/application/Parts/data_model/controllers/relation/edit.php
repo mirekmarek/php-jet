@@ -17,7 +17,6 @@ if(!$relation) {
 	Application::end();
 }
 
-
 if( $relation->catchEditForm() ) {
 	if($current->save()) {
 		UI_messages::success( Tr::_('Saved ...') );

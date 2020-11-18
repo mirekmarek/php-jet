@@ -311,7 +311,7 @@ trait DataModel_Definition_Model_Trait {
 	public function createClass_customKeys( ClassCreator_Class $class )
 	{
 		foreach( $this->getCustomKeys() as $key ) {
-			$class->addAnnotation( $key->getAsAnnotation( $class ) );
+			$class->addAnnotation( $key->createClass_getAsAnnotation( $class ) );
 		}
 
 	}
