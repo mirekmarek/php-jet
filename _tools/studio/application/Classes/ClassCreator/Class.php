@@ -432,8 +432,6 @@ class ClassCreator_Class extends BaseObject {
 
 		$res .= '/**'.$nl;
 		$res .= ' * '.$nl;
-		//TODO: $res .= ' * @author: '.Projects::getCurrentProject()->getAuthor().$nl;
-		//TODO: $res .= ' * @license: '.Projects::getCurrentProject()->getLicense().$nl;
 		$res .= ' */'.$nl;
 
 		$res .= $nl;

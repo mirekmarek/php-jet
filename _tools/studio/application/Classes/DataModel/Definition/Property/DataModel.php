@@ -150,8 +150,6 @@ class DataModel_Definition_Property_DataModel extends Jet_DataModel_Definition_P
 		$setter = $class->createMethod('set'.$s_g_method_name);
 		$setter->line( 1, '//TODO: implement ...' );
 
-
-		//TODO: getter bude vracet bud ->getItems() pro 1toN a MtoN, nebo instanci
 		$getter = $class->createMethod('get'.$s_g_method_name);
 		$getter->line( 1, '//TODO: implement ...');
 	}

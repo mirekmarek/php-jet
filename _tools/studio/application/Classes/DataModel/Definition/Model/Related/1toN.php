@@ -9,6 +9,9 @@ namespace JetStudio;
 
 use Jet\DataModel;
 use Jet\DataModel_Definition_Model_Related_1toN as Jet_DataModel_Definition_Model_Related_1toN;
+use Jet\Form;
+use Jet\Form_Field_Input;
+use Jet\Form_Field_Select;
 use Jet\Tr;
 
 /**
@@ -21,6 +24,79 @@ class DataModel_Definition_Model_Related_1toN extends Jet_DataModel_Definition_M
 	 * @var string
 	 */
 	protected $internal_type = DataModels::MODEL_TYPE_RELATED_1TON;
+
+
+	/**
+	 * @var Form
+	 */
+	protected static $create_form;
+
+	/**
+	 * @return Form
+	 */
+	public static function getCreateForm()
+	{
+		if(!static::$create_form) {
+			$fields = DataModel_Definition_Model_Trait::getCreateForm_mainFields();
+
+			$current_class = DataModels::getCurrentClass();
+			$current_model = DataModels::getCurrentModel();
+
+			if( $current_class ) {
+				$fields['model_name']->setDefaultValue( $current_model->getModelName().'_' );
+				$fields['class_name']->setDefaultValue( $current_class->getClassName().'_' );
+			}
+
+			static::$create_form = new Form('create_data_model_form_1toN', $fields );
+
+
+			static::$create_form->setAction( DataModels::getActionUrl('model/add/1toN') );
+		}
+
+		return static::$create_form;
+	}
+
+	/**
+	 * @return bool|DataModel_Definition_Model_Interface
+	 */
+	public static function catchCreateForm()
+	{
+		$form = static::getCreateForm();
+		if(
+			!$form->catchInput() ||
+			!$form->validate()
+		) {
+			return false;
+		}
+
+
+
+		$model_name = $form->field('model_name')->getValue();
+		$class_name = $form->field('class_name')->getValue();
+
+		if( ($current_model=DataModels::getCurrentModel()) ) {
+			$type = $form->field('type')->getValue();
+
+			$creator = 'createModel_'.$type;
+
+			$new_model = DataModels::{$creator}(
+				$model_name,
+				$class_name,
+				$current_model
+			);
+
+
+		} else {
+			$new_model = DataModels::createModel(
+				$model_name,
+				$class_name
+			);
+
+		}
+
+		return $new_model;
+	}
+
 
 
 	/**
@@ -55,7 +131,7 @@ class DataModel_Definition_Model_Related_1toN extends Jet_DataModel_Definition_M
 				continue;
 			}
 
-			$res[$this->getClassName().'.'.$property->getName()] = $this->getModelName().'.'.$property->getName();
+			$res[$property->getName()] = $property->getName();
 		}
 
 
@@ -77,15 +153,6 @@ class DataModel_Definition_Model_Related_1toN extends Jet_DataModel_Definition_M
 		$class->addUse( new ClassCreator_UseClass('Jet', 'DataModel_Related_1toN') );
 
 		$class->setExtends( $this->createClass_getExtends($class, 'DataModel_Related_1toN') );
-
-		if($this->_implements) {
-			foreach( $this->_implements as $i ) {
-				$use = ClassCreator_UseClass::createByClassName($i);
-				$class->addUse( $use );
-
-				$class->addImplements( $use->getClass() );
-			}
-		}
 
 		return $class;
 	}
@@ -130,29 +197,24 @@ class DataModel_Definition_Model_Related_1toN extends Jet_DataModel_Definition_M
 
 		$iterator_class_name = $this->getIteratorClassName();
 
-		if(substr( $iterator_class_name, 0, 4 )=='Jet\\') {
-			$iterator_class_name = substr( $iterator_class_name, 4 );
 
-			$class->addUse( new ClassCreator_UseClass('Jet', $iterator_class_name) );
+		if($iterator_class_name!='Jet\\DataModel_Related_1toN_Iterator') {
+
+			if(substr( $iterator_class_name, 0, 4 )=='Jet\\') {
+				$iterator_class_name = substr( $iterator_class_name, 4 );
+
+				$class->addUse( new ClassCreator_UseClass('Jet', $iterator_class_name) );
+			}
+
+			$class->addAnnotation(
+				(new ClassCreator_Annotation('JetDataModel', 'iterator_class_name', var_export($iterator_class_name, true) ))
+			);
 		}
-
-		$class->addAnnotation(
-			(new ClassCreator_Annotation('JetDataModel', 'iterator_class_name', var_export($iterator_class_name, true) ))
-		);
 
 
 		$order_by = [];
 		foreach( $this->getDefaultOrderBy() as $ob ) {
-			$direction = $ob[0];
-			$ob = substr( $ob, 1 );
-
-			[ $s_model_id, $s_property_id ] = explode('.', $ob);
-
-			$s_model = DataModels::getClass( $s_model_id )->getDefinition();
-			$s_property = $s_model->getProperty( $s_property_id );
-
-
-			$order_by[] = var_export($direction.$s_property->getName(), true);
+			$order_by[] = var_export($ob, true);
 		}
 
 		if($order_by) {

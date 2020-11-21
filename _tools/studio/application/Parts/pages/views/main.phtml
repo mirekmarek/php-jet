@@ -32,7 +32,7 @@ use Jet\Tr;
 			</div>
 	</div>
 	<div class="col-md-9" style="padding: 0px;">
-		<?=UI::button_create(Tr::_('Create new page'))->setOnclick('JetStudio.Pages.createPage.openDialog()')?>
+		<?=UI::button_create(Tr::_('Create a new page'))->setOnclick('Pages.createPage.openDialog()')?>
 		<?=Application::getView()->render('page_edit/toolbar');?>
 	</div>
 </div>

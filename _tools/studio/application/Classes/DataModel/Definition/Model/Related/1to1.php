@@ -8,6 +8,9 @@
 namespace JetStudio;
 
 use Jet\DataModel_Definition_Model_Related_1to1 as Jet_DataModel_Definition_Model_Related_1to1;
+use Jet\Form;
+use Jet\Form_Field_Input;
+use Jet\Form_Field_Select;
 use Jet\Tr;
 
 /**
@@ -20,6 +23,79 @@ class DataModel_Definition_Model_Related_1to1 extends Jet_DataModel_Definition_M
 	 * @var string
 	 */
 	protected $internal_type = DataModels::MODEL_TYPE_RELATED_1TO1;
+
+	/**
+	 * @var Form
+	 */
+	protected static $create_form;
+
+	/**
+	 * @return Form
+	 */
+	public static function getCreateForm()
+	{
+		if(!static::$create_form) {
+			$fields = DataModel_Definition_Model_Trait::getCreateForm_mainFields();
+
+			$current_class = DataModels::getCurrentClass();
+			$current_model = DataModels::getCurrentModel();
+
+			if( $current_class ) {
+				$fields['model_name']->setDefaultValue( $current_model->getModelName().'_' );
+				$fields['class_name']->setDefaultValue( $current_class->getClassName().'_' );
+			}
+
+			static::$create_form = new Form('create_data_model_form_1to1', $fields );
+
+
+			static::$create_form->setAction( DataModels::getActionUrl('model/add/1to1') );
+
+		}
+
+		return static::$create_form;
+	}
+
+	/**
+	 * @return bool|DataModel_Definition_Model_Interface
+	 */
+	public static function catchCreateForm()
+	{
+		$form = static::getCreateForm();
+		if(
+			!$form->catchInput() ||
+			!$form->validate()
+		) {
+			return false;
+		}
+
+
+
+		$model_name = $form->field('model_name')->getValue();
+		$class_name = $form->field('class_name')->getValue();
+
+		if( ($current_model=DataModels::getCurrentModel()) ) {
+			$type = $form->field('type')->getValue();
+
+			$creator = 'createModel_'.$type;
+
+			$new_model = DataModels::{$creator}(
+				$model_name,
+				$class_name,
+				$current_model
+			);
+
+
+		} else {
+			$new_model = DataModels::createModel(
+				$model_name,
+				$class_name
+			);
+
+		}
+
+		return $new_model;
+	}
+
 
 
 	/**
@@ -36,15 +112,6 @@ class DataModel_Definition_Model_Related_1to1 extends Jet_DataModel_Definition_M
 		$class->addUse( new ClassCreator_UseClass('Jet', 'DataModel_Related_1to1') );
 
 		$class->setExtends( $this->createClass_getExtends($class, 'DataModel_Related_1to1') );
-
-		if($this->_implements) {
-			foreach( $this->_implements as $i ) {
-				$use = ClassCreator_UseClass::createByClassName($i);
-				$class->addUse( $use );
-
-				$class->addImplements( $use->getClass() );
-			}
-		}
 
 		return $class;
 	}

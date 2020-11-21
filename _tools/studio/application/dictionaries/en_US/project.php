@@ -43,7 +43,7 @@ return [
 	'Open / Create project' => '',
 	'Open / Create project - select directory' => '',
 	'Continue' => '',
-	'Create new project' => '',
+	'Create a new project' => '',
 	'Create' => '',
 	'Select locale' => '',
 	'Select directory' => '',

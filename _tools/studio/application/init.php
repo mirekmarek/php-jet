@@ -17,7 +17,6 @@ use Jet\Translator;
 use Jet\Mvc_Factory;
 use Jet\Application_Modules;
 
-const JET_PROJECT_APPLICATION_NAMESPACE = 'JetApplication';
 
 require __DIR__.'/config/PATH.php';
 require __DIR__.'/config/URI.php';
@@ -30,6 +29,7 @@ require __DIR__.'/Init/Autoloader.php';
 
 
 
+Project::setApplicationNamespace('JetApplication');
 
 DataModel_Factory::setPropertyDefinitionClassNamePrefix(__NAMESPACE__.'\DataModel_Definition_Property_');
 DataModel_Factory::setModelDefinitionClassNamePrefix(__NAMESPACE__.'\DataModel_Definition_Model_');
@@ -39,8 +39,9 @@ Mvc_Factory::setSiteClassName('JetStudio\\Sites_Site');
 Mvc_Factory::setPageClassName('JetStudio\\Pages_Page');
 Mvc_Factory::setPageContentClassName('JetStudio\\Pages_Page_Content');
 
-//Config::setBeTolerant( true );
-//Config::setConfigDirPath( ProjectConf_PATH::CONFIG() );
+Config::setBeTolerant( true );
+Config::setConfigDirPath( ProjectConf_PATH::CONFIG() );
+
 Application_Factory::setModuleManifestClassName(__NAMESPACE__.'\Modules_Manifest');
 Application_Modules::setBasePath( ProjectConf_PATH::APPLICATION().'Modules/' );
 

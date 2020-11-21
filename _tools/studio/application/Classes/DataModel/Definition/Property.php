@@ -647,9 +647,11 @@ class DataModel_Definition_Property {
 	}
 
 	/**
+	 * @param DataModel_Class $class
+	 *
 	 * @return bool|DataModel_Definition_Property_Interface
 	 */
-	public static function catchCreateForm()
+	public static function catchCreateForm( DataModel_Class $class )
 	{
 		$form = static::getCreateForm();
 		if(
@@ -665,15 +667,14 @@ class DataModel_Definition_Property {
 		$type = $form->field('type')->getValue();
 
 
-		$class_name = __NAMESPACE__.'\\DataModels_Property_'.$type;
+		$class_name = __NAMESPACE__.'\\DataModel_Definition_Property_'.$type;
 
 		/**
 		 * @var DataModel_Definition_Property_Interface $new_property;
 		 */
-		$new_property = new $class_name();
-		$new_property->setName( $property_name );
+		$new_property = new $class_name( $class->getFullClassName(), $property_name );
 
-		DataModels::getCurrentModel()->addProperty( $new_property );
+		$class->getDefinition()->addProperty( $new_property );
 
 		static::$create_form = null;
 

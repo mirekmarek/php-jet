@@ -11,7 +11,7 @@ if($site) {
 }
 ?>
 <div class="toolbar" id="main-toolbar">
-	<?=UI::button_create(Tr::_('Create new module'))->setOnclick('JetStudio.Modules.createModule.openDialog()')?>
+	<?=UI::button_create(Tr::_('Create a new module'))->setOnclick('JetStudio.Modules.createModule.openDialog()')?>
 </div>
 <div class="container-fluid" id="main-edit-area">
 	<?=Application::getGeneralView()->render('messages');?>

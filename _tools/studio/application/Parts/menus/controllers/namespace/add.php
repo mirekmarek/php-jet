@@ -13,7 +13,6 @@ $data = [];
 if( ($new_namespace=Menus_MenuNamespace::catchCreateForm()) ) {
 
 	Menus::addMenuNamespace($new_namespace);
-	//TODO: Menus::generate();
 	if( Menus::save( $form ) ) {
 		$ok = true;
 

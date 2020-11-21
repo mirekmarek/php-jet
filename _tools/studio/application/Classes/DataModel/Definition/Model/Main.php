@@ -46,58 +46,12 @@ class DataModel_Definition_Model_Main extends Jet_DataModel_Definition_Model_Mai
 	public static function getCreateForm()
 	{
 		if(!static::$create_form) {
-			$current_model = DataModels::getCurrentModel();
+			$fields = DataModel_Definition_Model_Trait::getCreateForm_mainFields();
 
-			$model_name = new Form_Field_Input('model_name', 'Model name:', '');
-			$model_name->setErrorMessages([
-				Form_Field_Input::ERROR_CODE_EMPTY => 'Please enter DataModel name',
-				Form_Field_Input::ERROR_CODE_INVALID_FORMAT => 'Invalid DataModel name format'
-			]);
-			$model_name->setIsRequired(true);
-			$model_name->setValidator( function( Form_Field_Input $field ) {
-				return DataModels::checkModelName( $field );
-			} );
+			static::$create_form = new Form('create_data_model_form_Main', $fields );
 
 
-
-			$class_name = new Form_Field_Input('class_name', 'Class name:', '');
-			$class_name->setIsRequired(true);
-			$class_name->setErrorMessages([
-				Form_Field_Input::ERROR_CODE_EMPTY => 'Please enter DataModel class name',
-				Form_Field_Input::ERROR_CODE_INVALID_FORMAT => 'Invalid DataModel class name format'
-			]);
-			$class_name->setValidator( function( Form_Field_Input $field ) {
-				return DataModels::checkClassName( $field );
-			} );
-
-
-			$fields = [
-				$model_name,
-				$class_name,
-			];
-
-			if( $current_model ) {
-				$model_name->setDefaultValue( $current_model->getModelName().'_' );
-				$class_name->setDefaultValue( $current_model->getClassName().'_' );
-
-
-				$types = DataModels::getDataModelTypes();
-
-				$type = new Form_Field_Select('type', 'Type:', '');
-				$type->setSelectOptions( $types );
-				$type->setIsRequired( true );
-				$type->setErrorMessages([
-					Form_Field_Input::ERROR_CODE_EMPTY => 'Please select DataModel type',
-					Form_Field_Select::ERROR_CODE_INVALID_VALUE => 'Please select DataModel type'
-				]);
-
-				$fields[] = $type;
-			}
-
-			static::$create_form = new Form('create_data_model_form', $fields );
-
-
-			static::$create_form->setAction( DataModels::getActionUrl('add') );
+			static::$create_form->setAction( DataModels::getActionUrl('model/add/Main') );
 
 		}
 

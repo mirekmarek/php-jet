@@ -11,6 +11,7 @@ use Jet\DataModel;
 use Jet\DataModel_Relations;
 use Jet\Exception;
 use Jet\Form;
+use Jet\Form_Field;
 use Jet\Form_Field_Checkbox;
 use Jet\Form_Field_Hidden;
 use Jet\Form_Field_Input;
@@ -556,7 +557,7 @@ trait DataModel_Definition_Model_Trait {
 
 
 			$this->__edit_form = new Form('edit_model_form', $fields );
-			$this->__edit_form->setAction( DataModels::getActionUrl('edit') );
+			$this->__edit_form->setAction( DataModels::getActionUrl('model/edit') );
 
 		}
 
@@ -597,13 +598,6 @@ trait DataModel_Definition_Model_Trait {
 			if( $class->isDescendantOf( $this->_class ) ) {
 
 				$new_property = clone $property;
-
-				/*
-				//TODO:
-				$new_property->setIsInherited( true );
-				$new_property->setInheritedPropertyId( $property->getName() );
-				$new_property->setInheritedModelId( $this->getInternalId() );
-				*/
 
 				$this->addProperty( $new_property );
 			}
@@ -936,5 +930,79 @@ trait DataModel_Definition_Model_Trait {
 
 	}
 
+	/**
+	 * @return Form_Field[]
+	 */
+	public static function getCreateForm_mainFields()
+	{
+		$current_class = DataModels::getCurrentClass();
+
+		$namespace = new Form_Field_Select('namespace', 'Namespace:', '');
+		$namespace->setIsRequired(true);
+		$namespace->setErrorMessages([
+			Form_Field_Select::ERROR_CODE_EMPTY => 'Please select namespace',
+			Form_Field_Select::ERROR_CODE_INVALID_VALUE => 'Please select namespace'
+		]);
+		$namespace->setSelectOptions( DataModels::getNamespaces() );
+
+
+		$class_name = new Form_Field_Input('class_name', 'Class name:', '');
+		$class_name->setIsRequired(true);
+		$class_name->setErrorMessages([
+			Form_Field_Input::ERROR_CODE_EMPTY => 'Please enter DataModel class name',
+			Form_Field_Input::ERROR_CODE_INVALID_FORMAT => 'Invalid DataModel class name format'
+		]);
+		$class_name->setValidator( function( Form_Field_Input $field ) {
+			return DataModels::checkClassName( $field );
+		} );
+
+
+		$model_name = new Form_Field_Input('model_name', 'Model name:', '');
+		$model_name->setErrorMessages([
+			Form_Field_Input::ERROR_CODE_EMPTY => 'Please enter DataModel name',
+			Form_Field_Input::ERROR_CODE_INVALID_FORMAT => 'Invalid DataModel name format'
+		]);
+		$model_name->setIsRequired(true);
+		$model_name->setValidator( function( Form_Field_Input $field ) {
+			return DataModels::checkModelName( $field );
+		} );
+
+
+		$script_path = new Form_Field_Input('script_path', 'Script path:', '');
+		$script_path->setErrorMessages([
+			Form_Field_Input::ERROR_CODE_EMPTY => 'Please enter valid script path',
+			Form_Field_Input::ERROR_CODE_INVALID_FORMAT => 'Please enter valid script path'
+		]);
+		$script_path->setIsRequired(true);
+		$script_path->setValidator( function( Form_Field_Input $field ) {
+			//TODO:
+		} );
+
+		if( $current_class ) {
+			$namespace->setDefaultValue($current_class->getNamespace());
+		}
+
+		$id_controller_class = new Form_Field_Select('id_controller_class', 'ID controller class: ', '' );
+		$id_controller_class->setErrorMessages([
+			Form_Field_Select::ERROR_CODE_INVALID_VALUE => 'Please select ID controller class'
+		]);
+		$id_controller_class->setCatcher( function( $value ) {
+			$this->setIDControllerClassName( $value );
+		} );
+		$id_controller_class->setSelectOptions(
+			DataModels::getIDControllers()
+		);
+
+
+		$fields = [
+			'namespace' => $namespace,
+			'class_name' => $class_name,
+			'model_name' => $model_name,
+			'script_path' => $script_path,
+			'id_controller_class' => $id_controller_class
+		];
+
+		return $fields;
+	}
 
 }

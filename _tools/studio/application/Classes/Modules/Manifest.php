@@ -13,10 +13,16 @@ use Jet\Form;
 use Jet\Form_Field_Checkbox;
 use Jet\Form_Field_Input;
 use Jet\Form_Field_Select;
+use Jet\IO_Dir;
 use Jet\IO_File;
 use Jet\Mvc_Layout;
 use Jet\Tr;
+use \ReflectionClass;
+use \ReflectionMethod;
 
+/**
+ *
+ */
 class Modules_Manifest extends Application_Module_Manifest
 {
 	const MAX_ACL_ACTION_COUNT = 100;
@@ -258,7 +264,6 @@ class Modules_Manifest extends Application_Module_Manifest
 			$form->field('module_name')->getValue(),
 			$form->field('module_label')->getValue()
 		);
-		//TODO: $new_module->setVendor( Projects::getCurrentProject()->getAuthor() );
 
 		return $new_module;
 	}
@@ -655,46 +660,81 @@ class Modules_Manifest extends Application_Module_Manifest
 	 */
 	public function getControllers()
 	{
-		return $this->controllers;
+		$controllers = [];
+
+		/**
+		 * @param string $dir
+		 */
+		$readDir = function ( $dir  ) use (&$readDir, &$controllers)
+		{
+			$dirs = IO_Dir::getList( $dir, '*', true, false );
+			$files = IO_Dir::getList( $dir, '*.php', false, true );
+
+			foreach( $files as $path=>$name ) {
+				$file_data = IO_File::read($path);
+
+				$parser = new ClassParser($file_data);
+
+				foreach($parser->classes as $class ) {
+					$full_name = $parser->namespace->namespace.'\\'.$class->name;
+
+					$_class = new ReflectionClass( $full_name );
+
+					$parents = [];
+
+					while( ($parent = $_class->getParentClass()) ) {
+						$parents[] = $parent->getName();
+						$_class = $parent;
+					}
+
+					if(!in_array('Jet\Mvc_Controller', $parents)) {
+						continue;
+					}
+
+					$c_n = substr($class->name, 11);
+
+					$controllers[$c_n] = $c_n;
+				}
+
+			}
+
+			foreach( $dirs as $path=>$name ) {
+				$readDir( $path );
+			}
+		};
+
+		$readDir($this->getModuleDir().'Controller/');
+
+		return $controllers;
 	}
 
 	/**
-	 * @param string $internal_id
-	 * @return Modules_Module_Controller|null
-	 */
-	public function getController( $internal_id )
-	{
-		if(!isset($this->controllers[$internal_id])) {
-			return null;
-		}
-
-		return $this->controllers[$internal_id];
-	}
-
-	/**
-	 * @param Modules_Module_Controller $controller
-	 */
-	public function addController( Modules_Module_Controller $controller )
-	{
-		$this->controllers[$controller->getInternalId()] = $controller;
-	}
-
-	/**
-	 * @param string $controller_id
+	 * @param string $controller_name
 	 *
-	 * @return Modules_Module_Controller|null
+	 * @return array
 	 */
-	public function deleteController( $controller_id )
+	public function getControllerAction( $controller_name )
 	{
-		if(!isset($this->controllers[$controller_id])) {
-			return null;
+		$class_name = $this->getNamespace().'Controller_'.$controller_name;
+
+		$reflection = new ReflectionClass( $class_name );
+
+		$methods = $reflection->getMethods( ReflectionMethod::IS_PUBLIC );
+
+		$actions = [];
+
+		foreach($methods as $method) {
+			$name = $method->getName();
+			if(substr($name, -7)!='_Action') {
+				continue;
+			}
+
+			$name = substr($name, 0, -7);
+
+			$actions[$name] = $name;
 		}
 
-		$old_controller = $this->controllers[$controller_id];
-
-		unset( $this->controllers[$controller_id] );
-
-		return $old_controller;
+		return $actions;
 	}
 
 

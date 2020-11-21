@@ -1,10 +1,10 @@
 <?php
 return [
-	'Create new module' => 'Vytvořit nový modul',
+	'Create a new module' => 'Vytvořit nový modul',
 	'Is mandatory' => 'Je mandatorní',
 	'Is installed' => 'Je nainstalovaný',
 	'Is activated' => 'Je aktivovaný',
-	'Create new Module' => 'Vytvořit nový modul',
+	'Create a new Module' => 'Vytvořit nový modul',
 	'Please enter module name' => 'Prosím zadejte název modulu',
 	'Please enter module label' => 'Prosím zadejte popisek modulu',
 	'Name:' => 'Název:',

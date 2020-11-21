@@ -11,7 +11,7 @@ use Jet\Tr;
 <div class="row">
 	<div class="col-md-3" style="padding: 0px;">
 		<div class="toolbar">
-			<?=UI::button_create(Tr::_('Create new module'))->setOnclick('JetStudio.Modules.createModule.openDialog()')?>
+			<?=UI::button_create(Tr::_('Create a new module'))->setOnclick('JetStudio.Modules.createModule.openDialog()')?>
 		</div>
 		<div class="container-fluid">
 			<?=Application::getView()->render('modules/models_list');?>

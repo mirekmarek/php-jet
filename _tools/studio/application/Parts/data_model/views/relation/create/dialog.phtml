@@ -12,7 +12,7 @@ if(!$current_model) {
 $dialog = UI::dialog('dialog_create_new_relation', Tr::_('Create a External Relation'), 600);
 
 $select_related_form = DataModel_Definition_Relation_External::getSelectRelatedModelForm();
-$select_related_form->field('related_model')->input()->addJsAction('onchange', 'JetStudio.DataModel.relation.create.selectModel(this.options[this.selectedIndex].value)');
+$select_related_form->field('related_model')->input()->addJsAction('onchange', 'DataModel.relation.create.selectModel(this.options[this.selectedIndex].value)');
 
 echo $dialog->start();
 

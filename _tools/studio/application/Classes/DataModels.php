@@ -13,8 +13,6 @@ use Jet\Http_Request;
 use Jet\SysConf_URI;
 use Jet\Tr;
 
-//TODO: v aktualizacnim SQL chybi strednik za jednim SQL prikazem
-
 /**
  *
  */
@@ -79,6 +77,11 @@ class DataModels extends BaseObject implements Application_Part
 	 */
 	protected static $classes;
 
+	/**
+	 * @var DataModel_Namespace[]
+	 */
+	protected static $namespaces;
+
 
 	/**
 	 * @return array
@@ -115,6 +118,33 @@ class DataModels extends BaseObject implements Application_Part
 		return static::$classes;
 	}
 
+	/**
+	 * @return DataModel_Namespace[]
+	 */
+	public static function getNamespaces()
+	{
+
+		if( static::$namespaces===null ) {
+			static::$namespaces = [];
+			$app_ns = new DataModel_Namespace(
+				Project::getApplicationNamespace(),
+				ProjectConf_PATH::APPLICATION_CLASSES()
+			);
+
+			static::$namespaces[$app_ns->getNamespace()] = $app_ns;
+
+			foreach(Modules::getModules() as $module) {
+				$ns = new DataModel_Namespace(
+					rtrim($module->getNamespace(), '\\'),
+					$module->getModuleDir()
+				);
+
+				static::$namespaces[$ns->getNamespace()] = $ns;
+			}
+		}
+
+		return static::$namespaces;
+	}
 
 
 
@@ -523,6 +553,39 @@ class DataModels extends BaseObject implements Application_Part
 		return true;
 
 	}
+
+
+	/**
+	 * @param string $namespace
+	 * @param string $class_name
+	 *
+	 * @return string
+	 */
+	public static function generateScriptPath( $namespace, $class_name )
+	{
+		if(!isset(static::getNamespaces()[$namespace])) {
+			return '';
+		}
+
+		$namespace  = static::getNamespaces()[$namespace];
+
+		$class_name = str_replace('__', '_', $class_name);
+		$class_name = str_replace('\\', DIRECTORY_SEPARATOR, $class_name);
+		$class_name = str_replace('_', DIRECTORY_SEPARATOR, $class_name);
+
+		return $namespace->getRootDir().$class_name.'.php';
+	}
+
+
+
+
+
+
+
+
+
+
+
 
 
 	/**

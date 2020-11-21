@@ -3,7 +3,7 @@ namespace JetStudio;
 
 $form = Pages_Page::getCreateForm();
 
-$form->getField('name')->input()->addJsAction('onkeyup', 'JetStudio.Pages.createPage.generateId(this.value);');
+$form->getField('name')->input()->addJsAction('onkeyup', 'Pages.createPage.generateId(this.value);');
 
 echo $form->start();
 echo $form->field('name');

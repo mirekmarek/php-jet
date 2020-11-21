@@ -1,14 +1,14 @@
 <?php
 return [
 	'Please select site and locale' => 'Prosím vyberte web a lokalizaci',
-	'Create new Page' => 'Vytvořit novou stránku',
+	'Create a new Page' => 'Vytvořit novou stránku',
 	'Please enter page name' => 'Prosím zadejte název stránky',
 	'Invalid page identifier format' => 'Nesprávní formát identifikátoru stránky',
 	'Name:' => 'Název:',
 	'Identifier:' => 'Identifikátor:',
 	'Create' => 'Vytvořit',
 	'Main position' => 'Hlavní pozice',
-	'Create new page' => 'Vytvořit novou stránku',
+	'Create a new page' => 'Vytvořit novou stránku',
 	'Is secret' => 'Je tajná',
 	'Please enter page title' => 'Prosím zadejte titulek stránky',
 	'Invalid value' => 'Neplatná hodnota',

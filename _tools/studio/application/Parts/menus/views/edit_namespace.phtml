@@ -24,7 +24,7 @@ $delete_namespace_dialog = UI::dialog('delete_namespace_dialog', Tr::_('Delete m
 <?=$form->start()?>
 <div class="toolbar" id="main-toolbar">
 	<?=UI::button_save()?>
-	<?=UI::button_create(Tr::_('Create new menu'))->setOnclick("JetStudio.Menus.createMenu.openDialog();")?>
+	<?=UI::button_create(Tr::_('Create a new menu'))->setOnclick("JetStudio.Menus.createMenu.openDialog();")?>
 	<?=UI::button_delete(Tr::_('Delete this menu namespace'))->setOnclick("$('#delete_namespace_dialog').modal('show')") ?>
 </div>
 

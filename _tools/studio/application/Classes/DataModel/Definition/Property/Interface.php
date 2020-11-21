@@ -198,4 +198,19 @@ interface DataModel_Definition_Property_Interface {
 	 */
 	public function prepare();
 
+	/**
+	 * @param DataModel_Class $class
+	 *
+	 * @return bool
+	 */
+	public function update( DataModel_Class $class );
+
+
+	/**
+	 * @param DataModel_Class $class
+	 *
+	 * @return bool
+	 */
+	public function add( DataModel_Class $class );
+
 }

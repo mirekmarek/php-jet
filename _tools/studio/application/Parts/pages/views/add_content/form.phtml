@@ -81,6 +81,17 @@ $form_id = $form->getId();
 	<div class="tab-content">
 		<div id="tab_content_module<?=$tabs_suffix?>" class="tab-pane fade<?=$selected_content_kind==Pages_Page_Content::CONTENT_KIND_MODULE?' show active':''?>" style="padding-top: 10px;min-height: 400px;">
 				<?php
+				$ids = [
+					'module_mame' => $form->field('module_name')->getId(),
+					'controller_name' => $form->field('controller_name')->getId(),
+					'controller_action' => $form->field('controller_action')->getId(),
+				];
+
+				$ids=str_replace('"', "'", json_encode($ids));
+
+				$form->field('module_name')->input()->addJsAction('onchange', 'Pages.editPage.content.moduleSelected(this.value,'.$ids.')');
+				$form->field('controller_name')->input()->addJsAction('onchange', 'Pages.editPage.content.controllerSelected(this.value,'.$ids.')');
+				
 				echo $form->field('module_name');
 				echo $form->field('controller_name');
 				echo $form->field('controller_action');

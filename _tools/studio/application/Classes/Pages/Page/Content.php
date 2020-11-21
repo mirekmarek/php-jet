@@ -125,20 +125,28 @@ class Pages_Page_Content extends Mvc_Page_Content
 
 	/**
 	 * @param string $default_value
+	 * @param string $module_name
 	 *
-	 * @return Form_Field_Input
+	 * @return Form_Field_Select
 	 */
-	protected static function getField__controller_name( $default_value )
+	protected static function getField__controller_name( $default_value, $module_name='' )
 	{
-		//TODO: najit kontrolery a ty nabydnout jako select
-		$controller_name = new Form_Field_Input('controller_name', 'Controller name:', $default_value);
+		$controller_name = new Form_Field_Select('controller_name', 'Controller name:', $default_value, true);
 		$controller_name->setErrorMessages([
-			Form_Field_Input::ERROR_CODE_EMPTY => 'Please enter controller name',
-			Form_Field_Input::ERROR_CODE_INVALID_FORMAT => 'Invalid controller name format'
+			Form_Field_Select::ERROR_CODE_EMPTY => 'Please select controller',
+			Form_Field_Select::ERROR_CODE_INVALID_VALUE => 'Invalid controller name format'
 		]);
-		$controller_name->setValidator( function( Form_Field $filed ) {
-			return Project::validateControllerName( $filed );
-		} );
+
+		$select_options = [];
+
+		if($module_name && Modules::exists($module_name)) {
+			$module = Modules::getModule($module_name);
+
+			$select_options = $module->getControllers();
+		}
+
+		$controller_name->setSelectOptions( $select_options );
+
 
 		return $controller_name;
 	}
@@ -146,19 +154,35 @@ class Pages_Page_Content extends Mvc_Page_Content
 
 	/**
 	 * @param string $default_value
+	 * @param string $module_name
+	 * @param string $controller
 	 *
-	 * @return Form_Field_Input
+	 * @return Form_Field_Select
 	 */
-	protected static function getField__controller_action( $default_value )
+	protected static function getField__controller_action( $default_value, $module_name='', $controller='' )
 	{
-		$controller_action = new Form_Field_Input('controller_action', 'Controller action:', $default_value);
+		$controller_action = new Form_Field_Select('controller_action', 'Controller action:', $default_value);
 		$controller_action->setErrorMessages([
-			Form_Field_Input::ERROR_CODE_EMPTY => 'Please enter controller action',
-			Form_Field_Input::ERROR_CODE_INVALID_FORMAT => 'Invalid action name format'
+			Form_Field_Select::ERROR_CODE_EMPTY => 'Please select controller action',
+			Form_Field_Select::ERROR_CODE_INVALID_VALUE => 'Please select controller action'
 		]);
-		$controller_action->setValidator( function( Form_Field $filed ) {
-			return Project::validateMethodName( $filed );
-		} );
+
+		$select_options = [];
+
+		if(
+			$module_name &&
+			Modules::exists($module_name)
+		) {
+			$module = Modules::getModule($module_name);
+
+			$controllers = $module->getControllers();
+			if(isset($controllers[$controller])) {
+				$select_options = $module->getControllerAction( $controller );
+			}
+		}
+
+		$controller_action->setSelectOptions( $select_options );
+
 
 		return $controller_action;
 
@@ -487,11 +511,11 @@ class Pages_Page_Content extends Mvc_Page_Content
 					$module_name->setCatcher( function($value) { $this->setModuleName( $value ); } );
 					$fields[] = $module_name;
 
-					$controller_name = static::getField__controller_name( $this->getControllerName() );
+					$controller_name = static::getField__controller_name( $this->getControllerName(), $this->getModuleName() );
 					$controller_name->setCatcher( function($value) { $this->setControllerName( $value ); } );
 					$fields[] = $controller_name;
 
-					$controller_action = static::getField__controller_action( $this->getControllerAction() );
+					$controller_action = static::getField__controller_action( $this->getControllerAction(), $this->getModuleName(), $this->getControllerName() );
 					$controller_action->setCatcher( function($value) { $this->setControllerAction( $value ); } );
 					$fields[] = $controller_action;
 

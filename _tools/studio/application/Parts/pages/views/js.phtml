@@ -1,15 +1,9 @@
 <?php
 namespace JetStudio;
-
-use Jet\Tr;
 ?>
 
 <script type="text/javascript">
-	if(!window['JetStudio']) {
-		var JetStudio = {};
-	}
-
-	JetStudio.Pages = {
+	const Pages = {
 		createPage: {
 			openDialog: function() {
 				$('#dialog_create_new_page').modal('show');
@@ -35,6 +29,47 @@ use Jet\Tr;
 		},
 		editPage: {
 			content: {
+				moduleSelected: function( module_name, ids ) {
+					let controllers = $('#'+ids['controller_name']);
+					let controller_action = $('#'+ids['controller_action']);
+
+					controllers.empty();
+					controller_action.empty();
+
+					$.ajax({
+						url: '<?=Pages::getActionUrl('get_module_controllers', [], false)?>&module='+encodeURIComponent(module_name),
+						success: function(result) {
+							$.each(result.controllers, function(name) {
+								controllers.append($('<option></option>').attr('value', name).text(name));
+							});
+
+							controllers.val( result.default_controller );
+
+							$.each(result.actions, function(name) {
+								controller_action.append($('<option></option>').attr('value', name).text(name));
+							});
+						}
+					});
+				},
+				controllerSelected: function( controller, ids ) {
+					let module_name = $('#'+ids['module_mame']);
+					let controller_action = $('#'+ids['controller_action']);
+
+					controller_action.empty();
+
+					$.ajax({
+						url: '<?=Pages::getActionUrl('get_module_controller_actions', [], false)?>&module='+encodeURIComponent(module_name.val())+'&controller='+encodeURIComponent(controller),
+						success: function(result) {
+
+							$.each(result.actions, function(name) {
+								controller_action.append($('<option></option>').attr('value', name).text(name));
+							});
+						}
+					});
+
+					console.debug( module_name, ids );
+				},
+
 				addContent: function() {
 					$('#dialog_create_new_page_content').modal('show');
 				},

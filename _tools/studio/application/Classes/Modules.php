@@ -143,19 +143,19 @@ class Modules extends BaseObject implements Application_Part
 
 
 	/**
-	 * @param string $id
+	 * @param string $name
 	 *
 	 * @return null|Modules_Manifest
 	 */
-	public static function getModule( $id )
+	public static function getModule( $name )
 	{
 		static::load();
 
-		if(!isset(static::$modules[$id])) {
+		if(!isset( static::$modules[$name])) {
 			return null;
 		}
 
-		return static::$modules[$id];
+		return static::$modules[$name];
 	}
 
 	/**

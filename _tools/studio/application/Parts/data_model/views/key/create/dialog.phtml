@@ -9,7 +9,7 @@ if(!$current_model) {
     return;
 }
 
-$dialog = UI::dialog('dialog_create_new_key', Tr::_('Create new Key'), 600);
+$dialog = UI::dialog('dialog_create_new_key', Tr::_('Create a new Key'), 600);
 
 
 echo $dialog->start();
@@ -20,6 +20,6 @@ echo $dialog->start();
 	<?php
 
 echo $dialog->footer();
-echo UI::button_save(Tr::_('Create'))->setOnclick('JetStudio.DataModel.key.create.createSend()');
+echo UI::button_save(Tr::_('Create'))->setOnclick('DataModel.key.create.createSend()');
 echo $dialog->end();
 

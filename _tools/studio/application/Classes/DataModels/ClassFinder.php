@@ -58,8 +58,8 @@ class DataModels_ClassFinder {
 	{
 		do {
 			$this->_new_founded = false;
-			foreach( $this->dirs as $namespace ) {
-				$this->readDir($namespace);
+			foreach( $this->dirs as $dir ) {
+				$this->readDir($dir);
 			}
 		} while($this->_new_founded);
 

@@ -21,7 +21,6 @@ if(!$page) {
 if(!$page) {
 	return;
 }
-
 $p_f_prefix = $this->getString('form_field_prefix', '');
 $p_f_prefix_a = '';
 if($p_f_prefix) {
@@ -114,7 +113,7 @@ $delete_content_action_creator = $this->getRaw('delete_content_action_creator');
 
 if(!$delete_content_action_creator) {
 	$delete_content_action_creator = function( $i ) {
-		return "JetStudio.Pages.editPage.content.deleteContent($i);";
+		return "Pages.editPage.content.deleteContent($i);";
 	};
 }
 
@@ -269,6 +268,18 @@ $showSaveButton_c = function() use ($save_button) {
 
 					<?php switch($content->getContentKind()) {
 						case Pages_Page_Content::CONTENT_KIND_MODULE:
+							$ids = [
+								'module_mame' => $form->field($p_f_prefix_a.$f_prefix.'module_name')->getId(),
+								'controller_name' => $form->field($p_f_prefix_a.$f_prefix.'controller_name')->getId(),
+								'controller_action' => $form->field($p_f_prefix_a.$f_prefix.'controller_action')->getId(),
+							];
+
+							$ids=str_replace('"', "'", json_encode($ids));
+
+							$form->field($p_f_prefix_a.$f_prefix.'module_name')->input()->addJsAction('onchange', 'Pages.editPage.content.moduleSelected(this.value,'.$ids.')');
+							$form->field($p_f_prefix_a.$f_prefix.'controller_name')->input()->addJsAction('onchange', 'Pages.editPage.content.controllerSelected(this.value,'.$ids.')');
+
+
 							echo $form->field($p_f_prefix_a.$f_prefix.'module_name');
 							echo $form->field($p_f_prefix_a.$f_prefix.'controller_name');
 							echo $form->field($p_f_prefix_a.$f_prefix.'controller_action');

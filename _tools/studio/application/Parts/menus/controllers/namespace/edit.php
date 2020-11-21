@@ -11,7 +11,6 @@ if(
 	$current &&
 	$current->catchEditForm()
 ) {
-	//TODO: Menus::generate();
 	if( Menus::save() ) {
 		UI_messages::success( Tr::_('Saved ...') );
 

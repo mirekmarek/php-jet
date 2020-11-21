@@ -15,7 +15,7 @@ echo $dialog->start();
 <?=Tr::_('Do You really want to delete this content item ?');?>
 	<?php
 echo $dialog->footer();
-echo UI::button_delete()->setOnclick( "JetStudio.Pages.editPage.content.deleteContentSend();" );
+echo UI::button_delete()->setOnclick( "Pages.editPage.content.deleteContentSend();" );
 echo $dialog->end();
 
 $form = Pages::getCurrentPage()->getDeleteContentForm();

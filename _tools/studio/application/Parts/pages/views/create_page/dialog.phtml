@@ -5,7 +5,7 @@ use Jet\Tr;
 use Jet\UI;
 use Jet\Locale;
 
-$dialog = UI::dialog('dialog_create_new_page', Tr::_('Create new Page'), 600);
+$dialog = UI::dialog('dialog_create_new_page', Tr::_('Create a new Page'), 600);
 
 echo $dialog->start();
 	?>
@@ -16,6 +16,6 @@ echo $dialog->start();
 	</div>
 	<?php
 echo $dialog->footer();
-	echo UI::button_save(Tr::_('Create'))->setOnclick('JetStudio.Pages.createPage.createSend()');
+	echo UI::button_save(Tr::_('Create'))->setOnclick('Pages.createPage.createSend()');
 echo $dialog->end();
 

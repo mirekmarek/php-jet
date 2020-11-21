@@ -486,31 +486,47 @@ class ClassParser {
 	 *
 	 * @return string
 	 */
-	public function actualize_setProperty( $class_name, ClassCreator_Class_Property $property )
+	public function actualize_addProperty( $class_name, ClassCreator_Class_Property $property )
 	{
 		$nl = ClassCreator_Class::getNl();
 		$class = $this->classes[$class_name];
 
+		if(isset($class->properties[$property->getName()])) {
+			return '';
+		}
+
+		$class->addProperty( $nl.$nl.$property );
+
+		return 'Property '.$property->getName().' added';
+	}
+
+	/**
+	 * @param $class_name
+	 * @param ClassCreator_Class_Property $property
+	 *
+	 * @return string
+	 */
+	public function actualize_updateProperty( $class_name, ClassCreator_Class_Property $property )
+	{
+		$class = $this->classes[$class_name];
+
 		if(!isset($class->properties[$property->getName()])) {
-			$class->addProperty( $nl.$nl.$property );
+			return '';
+		}
 
-			return 'Property '.$property->getName().' added';
-		} else {
-			$property_str = trim((string)$property);
-			$new_property = $property;
-			$current_property = $class->properties[$new_property->getName()];
+		$property_str = trim((string)$property);
+		$new_property = $property;
+		$current_property = $class->properties[$new_property->getName()];
 
-			if( $property_str!=$current_property->toString() ) {
-				$current_property->replace( $property_str );
+		//TODO: hmmm ... not sure ... maybe it is better to change only annotation and keep declaration as it is ...
+		if( $property_str!=$current_property->toString() ) {
+			$current_property->replace( $property_str );
 
-				return 'Property '.$property->getName().' updated';
-			}
-
+			return 'Property '.$property->getName().' updated';
 		}
 
 		return '';
 	}
-
 
 
 

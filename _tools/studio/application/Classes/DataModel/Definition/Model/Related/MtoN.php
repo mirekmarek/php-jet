@@ -37,6 +37,36 @@ class DataModel_Definition_Model_Related_MtoN extends Jet_DataModel_Definition_M
 	 */
 	protected $internal_type = DataModels::MODEL_TYPE_RELATED_MTON;
 
+	/**
+	 * @var Form
+	 */
+	protected static $create_form;
+
+	/**
+	 * @return Form
+	 */
+	public static function getCreateForm()
+	{
+		if(!static::$create_form) {
+			$fields = DataModel_Definition_Model_Trait::getCreateForm_mainFields();
+
+			$current_class = DataModels::getCurrentClass();
+			$current_model = DataModels::getCurrentModel();
+
+			if( $current_class ) {
+				$fields['model_name']->setDefaultValue( $current_model->getModelName().'_' );
+				$fields['class_name']->setDefaultValue( $current_class->getClassName().'_' );
+			}
+
+			static::$create_form = new Form('create_data_model_form_MtoN', $fields );
+
+
+			static::$create_form->setAction( DataModels::getActionUrl('model/add/MtoN') );
+		}
+
+		return static::$create_form;
+	}
+
 
 	/**
 	 * @return Form
@@ -107,7 +137,7 @@ class DataModel_Definition_Model_Related_MtoN extends Jet_DataModel_Definition_M
 			];
 
 			$this->__edit_form = new Form('edit_model_form', $fields );
-			$this->__edit_form->setAction( DataModels::getActionUrl('edit') );
+			$this->__edit_form->setAction( DataModels::getActionUrl('model/edit') );
 
 		}
 
@@ -222,15 +252,6 @@ class DataModel_Definition_Model_Related_MtoN extends Jet_DataModel_Definition_M
 
 		$class->setExtends( $this->createClass_getExtends($class, 'DataModel_Related_MtoN') );
 
-		if($this->_implements) {
-			foreach( $this->_implements as $i ) {
-				$use = ClassCreator_UseClass::createByClassName($i);
-				$class->addUse( $use );
-
-				$class->addImplements( $use->getClass() );
-			}
-		}
-
 		return $class;
 	}
 
@@ -280,16 +301,12 @@ class DataModel_Definition_Model_Related_MtoN extends Jet_DataModel_Definition_M
 
 		$N_model_class_name = $N_model->getClassName();
 
-		/*
-		if($N_model->getNamespaceId()!=Project::getCurrentNamespaceId()) {
 
-			$ns = Project::getNamespace($N_model->getNamespaceId());
-
+		if($N_model->getNamespace()!=DataModels::getCurrentClass()->getNamespace()) {
 			$class->addUse(
-				new ClassCreator_UseClass($ns->getNamespace(), $N_model_class_name)
+				new ClassCreator_UseClass($N_model->getNamespace(), $N_model->getClassName())
 			);
 		}
-		*/
 
 
 		$class->addAnnotation(
@@ -299,18 +316,7 @@ class DataModel_Definition_Model_Related_MtoN extends Jet_DataModel_Definition_M
 
 		$order_by = [];
 		foreach( $this->getDefaultOrderBy() as $ob ) {
-			$direction = $ob[0];
-			$ob = substr( $ob, 1 );
-
-			[ $s_model_id, $s_property_id ] = explode('.', $ob);
-
-			$s_model = DataModels::getClass( $s_model_id )->getDefinition();
-			$s_property = $s_model->getProperty( $s_property_id );
-
-
-			if($s_model->getModelName()!=$this->getModelName()) {
-				$order_by[] = var_export($direction.$s_model->getModelName().'.'.$s_property->getName(), true);
-			}
+			$order_by[] = var_export($ob, true);
 		}
 
 		if($order_by) {

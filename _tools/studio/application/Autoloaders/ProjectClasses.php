@@ -25,7 +25,7 @@ class Autoloader_ProjectClasses extends Autoloader_Loader
 	 */
 	public function getScriptPath( $root_namespace, $namespace, $class_name )
 	{
-		if( $root_namespace!=JET_PROJECT_APPLICATION_NAMESPACE ) {
+		if( $root_namespace!=Project::getApplicationNamespace() ) {
 			return false;
 		}
 

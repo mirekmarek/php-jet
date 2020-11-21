@@ -12,5 +12,5 @@ $form = DataModels::getCurrentRelation()->getEditForm();
 
 <?php if(DataModels::getCurrentRelation()): ?>
 <?=UI::button_delete()
-->setOnclick('JetStudio.DataModel.relation.delete.openDialog()')?>
+->setOnclick('DataModel.relation.delete.openDialog()')?>
 <?php endif; ?>

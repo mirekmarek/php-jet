@@ -8,10 +8,12 @@
 namespace JetStudio;
 
 use Jet\DataModel;
+use Jet\Exception;
 use Jet\Form;
 use Jet\Form_Field_Checkbox;
 use Jet\Form_Field_Input;
 use Jet\Form_Field_Select;
+use Jet\IO_File;
 use Jet\Tr;
 use Jet\UI;
 
@@ -188,17 +190,22 @@ trait DataModel_Definition_Property_Trait
 				$this->isInherited()
 			) {
 				if(!$this->isOverload()) {
+					/*
 					foreach( $form->getFields() as $field ) {
 						$field->setIsReadonly( true );
 					}
+					*/
+					$form->setIsReadonly();
 				}
 
+				/*
 				$overload_field = new Form_Field_Checkbox('overload', 'Overload this property', $this->isOverload());
 				$overload_field->setCatcher( function($value) {
 					$this->setOverload( $value );
 				} );
 
 				$form->addField( $overload_field );
+				*/
 
 			}
 
@@ -353,8 +360,6 @@ trait DataModel_Definition_Property_Trait
 			return false;
 		}
 
-		$was_id = $this->getIsId();
-
 		$result = $this;
 
 		if(
@@ -396,7 +401,7 @@ trait DataModel_Definition_Property_Trait
 		echo $form->start();
 
 		$default_fields = [
-			'overload',
+			//'overload',
 
 			'type',
 			'name',
@@ -536,7 +541,7 @@ trait DataModel_Definition_Property_Trait
 			if(
 				$f=='form_field_type'
 			) {
-				$field->input()->addJsAction('onchange', "JetStudio.DataModel.property.edit.selectFormFieldType('".$this->getName()."', this.value)");
+				$field->input()->addJsAction('onchange', "DataModel.property.edit.selectFormFieldType('".$this->getName()."', this.value)");
 			} else {
 				$field->row()
 					->addCustomCssClass('ffd-property-'.$this->getName())
@@ -1095,6 +1100,95 @@ trait DataModel_Definition_Property_Trait
 		if(!$this->database_column_name) {
 			$this->database_column_name = $this->getName();
 		}
+	}
+
+
+	/**
+	 * @param DataModel_Class $class
+	 *
+	 * @return bool
+	 */
+	public function update( DataModel_Class $class )
+	{
+		$ok = true;
+		try {
+			$model = $class->getDefinition();
+
+			$created_class = $model->createClass();
+
+			if($created_class->getErrors()) {
+				return false;
+			}
+
+			$script  = IO_File::read($class->getScriptPath());
+
+			$parser = new ClassParser( $script );
+
+			$parser->actualize_updateProperty(
+					$class->getClassName(),
+					$this->createClassProperty( $created_class )
+			);
+
+			IO_File::write(
+				$class->getScriptPath(),
+				$parser->toString()
+			);
+
+			if(function_exists('opcache_reset')) {
+				opcache_reset();
+			}
+
+
+		} catch( Exception $e ) {
+			$ok = false;
+			Application::handleError( $e );
+		}
+
+		return $ok;
+	}
+
+	/**
+	 * @param DataModel_Class $class
+	 *
+	 * @return bool
+	 */
+	public function add( DataModel_Class $class )
+	{
+		$ok = true;
+		try {
+			$model = $class->getDefinition();
+
+			$created_class = $model->createClass();
+
+			if($created_class->getErrors()) {
+				return false;
+			}
+
+			$script  = IO_File::read($class->getScriptPath());
+
+			$parser = new ClassParser( $script );
+
+			$parser->actualize_addProperty(
+				$class->getClassName(),
+				$this->createClassProperty( $created_class )
+			);
+
+			IO_File::write(
+				$class->getScriptPath(),
+				$parser->toString()
+			);
+
+			if(function_exists('opcache_reset')) {
+				opcache_reset();
+			}
+
+
+		} catch( Exception $e ) {
+			$ok = false;
+			Application::handleError( $e );
+		}
+
+		return $ok;
 	}
 
 }

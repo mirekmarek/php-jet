@@ -12,8 +12,6 @@ if(
 ) {
 
 	if( Menus::deleteMenuNamespace( $current->getName() ) ) {
-		//TODO: Menus::generate();
-
 		UI_messages::info( Tr::_('Menu namespace <b>%namespace%</b> has been deleted', [
 			'namespace' => $current->getName()
 		]) );

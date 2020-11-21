@@ -40,7 +40,7 @@ return [
 	'remove this locale' => 'odstranit tuto lokalizaci',
 	'Open / Create project' => 'Otevřít / Vytvořit projekt',
 	'Continue' => 'Pokračovat',
-	'Create new project' => 'Vytvořit nový projekt',
+	'Create a new project' => 'Vytvořit nový projekt',
 	'Select' => 'Vybrat',
 	'Delete locale' => 'Odstranit lokalizaci',
 	'Open / Create project - select directory' => 'Otevřít / Vytvořit projekt - výběr adresáře',

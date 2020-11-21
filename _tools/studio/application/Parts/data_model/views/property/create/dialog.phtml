@@ -9,17 +9,17 @@ if(!$current_model) {
     return;
 }
 
-$dialog = UI::dialog('dialog_create_new_property', Tr::_('Create new Property'), 600);
+$dialog = UI::dialog('dialog_create_new_property', Tr::_('Create a new Property'), 600);
 
 
 echo $dialog->start();
     ?>
-    <div id="<?=DataModel_Definition_Property::getCreateForm()->getId()?>_form_area">
+    <div id="property_add_form_area">
 		<?php require 'form.phtml'; ?>
     </div>
 	<?php
 
 echo $dialog->footer();
-echo UI::button_save(Tr::_('Create'))->setOnclick('JetStudio.DataModel.property.create.createSend()');
+echo UI::button_save(Tr::_('Create'))->setOnclick('DataModel.property.create.createSend()');
 echo $dialog->end();
 

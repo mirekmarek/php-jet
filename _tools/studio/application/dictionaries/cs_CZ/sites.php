@@ -1,11 +1,11 @@
 <?php
 return [
-	'Create new site' => 'Vytvořit nový web',
+	'Create a new site' => 'Vytvořit nový web',
 	'Is active' => 'Je aktivní',
 	'Is secret' => 'Je tajný',
 	'Locale is active' => 'Lokalizace je aktivní',
 	'default' => 'výchozí',
-	'Create new Site' => 'Vyvořit nový web',
+	'Create a new Site' => 'Vyvořit nový web',
 	'Please enter site name' => 'Prosím zadejte jméno webu',
 	'Invalid identifier format' => 'Nesprávný formát identifikátoru',
 	'Name:' => 'Název:',

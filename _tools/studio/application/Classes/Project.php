@@ -22,6 +22,10 @@ use Jet\SysConf_URI;
 class Project extends BaseObject implements Application_Part {
 
 
+	/**
+	 * @var string
+	 */
+	protected static $application_namespace = 'JetApplication';
 
 	/**
 	 * @param bool $as_string
@@ -44,11 +48,21 @@ class Project extends BaseObject implements Application_Part {
 	}
 
 	/**
+	 * @param string $application_namespace
+	 */
+	public static function setApplicationNamespace( $application_namespace )
+	{
+		self::$application_namespace = $application_namespace;
+	}
+
+
+
+	/**
 	 * @return string
 	 */
 	public static function getApplicationNamespace()
 	{
-		return JET_PROJECT_APPLICATION_NAMESPACE;
+		return static::$application_namespace;
 	}
 
 

@@ -34,6 +34,6 @@ foreach( $related->getProperties() as $property ) {
 echo UI::dialog('', '', 600)->footer();
 echo $form->end();
 
-echo UI::button_save(Tr::_('Create'))->setOnclick('JetStudio.DataModel.relation.create.createSend();return false;');
+echo UI::button_save(Tr::_('Create'))->setOnclick('DataModel.relation.create.createSend();return false;');
 
 

@@ -1,36 +1,51 @@
 <?php
 namespace JetStudio;
-
-
 ?>
 
 <script type="text/javascript">
-    if(!window['JetStudio']) {
-    	var JetStudio = {};
-    }
-
-	JetStudio.DataModel = {
+	const DataModel = {
 		create: {
-			openDialog: function() {
-				$('#dialog_create_new_data_model').modal('show');
+			openDialog: function( type ) {
+				$('#dialog_create_new_data_model_'+type).modal('show');
 			},
-			createSend: function() {
+			createSend: function(type) {
 				JetAjaxForm.submit(
-					'<?=DataModel_Definition_Model_Main::getCreateForm()->getId()?>',
+					'create_data_model_form_'+type,
 					{
 						onSuccess: function( form, response_data ) {
-							location = '?'
-                                +'&model='+encodeURIComponent(response_data['new_model_id'])
+							location = '?model='+encodeURIComponent(response_data['new_model_id'])
 						}
 					}
 				);
+			},
+
+			generateScriptPath: function( form ) {
+				let namespace = form.namespace.value;
+				let class_name = form.class_name.value;
+				class_name = class_name.replace(' ', '_');
+				form.class_name.value=class_name;
+
+				$.ajax(
+					'<?=DataModels::getActionUrl('model/generate/script_path')?>&namespace='+encodeURIComponent(namespace)+'&class_name='+class_name
+				).done( function( data ) {
+					form.script_path.value = data.path;
+				} );
+
+			},
+
+			generateModelName: function( form ) {
+				let class_name = form.class_name.value;
+				let model_name = class_name.toLowerCase();
+				model_name = model_name.replace('\\', '_');
+
+				form.model_name.value = model_name;
 			}
 		},
 
         edit: {
 	        showSQLCreate: function(){
 	        	$.ajax(
-					'<?=DataModels::getActionUrl('generate/SQL_create')?>'
+					'<?=DataModels::getActionUrl('model/generate/SQL_create')?>'
 		        ).done( function( data ) {
 		        	$('#SQL_create_result').val(data);
 			        $('#dialog_SQL_create').modal('show');
@@ -39,27 +54,17 @@ namespace JetStudio;
 
 	        showSQLUpdate: function(){
 		        $.ajax(
-			        '<?=DataModels::getActionUrl('generate/SQL_update')?>'
+			        '<?=DataModels::getActionUrl('model/generate/SQL_update')?>'
 		        ).done( function( data ) {
 			        $('#SQL_update_result').val(data);
 			        $('#dialog_SQL_update').modal('show');
 		        } );
 	        },
 
-	        showClassSource: function(){
-		        $.ajax(
-			        '<?=DataModels::getActionUrl('generate/class_source')?>'
-		        ).done( function( data ) {
-			        $('#class_source_result').val(data);
-			        $('#dialog_class_source').modal('show');
-		        } );
-	        },
-
-
 		    defaultOrderBy: {
 		    	selectItem: function( id ) {
-		    		var values_field = $('#edit_model_form__default_order_by');
-                    var values = values_field.val();
+		    		let values_field = $('#edit_model_form__default_order_by');
+				    let values = values_field.val();
 
                     if(values.length) {
 	                    values = values.split('|');
@@ -74,20 +79,20 @@ namespace JetStudio;
 
 				    values_field.val( values );
 
-				    JetStudio.DataModel.edit.defaultOrderBy.actualizeSelected();
+				    DataModel.edit.defaultOrderBy.actualizeSelected();
                 },
 
 			    unSelectItem: function( id ) {
 				    $('.order_by_options_item[data-id="'+id+'"]').show();
-				    var values_field = $('#edit_model_form__default_order_by');
+				    let values_field = $('#edit_model_form__default_order_by');
 
-				    var values = values_field.val().split('|');
+				    let values = values_field.val().split('|');
 
-				    var val = '';
-				    var e_id = '';
-				    var new_values = new Array();
+				    let val = '';
+				    let e_id = '';
+				    let new_values = new Array();
 
-				    for(var i=0;i<values.length;i++) {
+				    for(let i=0;i<values.length;i++) {
 				    	val = values[i];
 					    e_id = val.substr(1);
 
@@ -100,21 +105,21 @@ namespace JetStudio;
 
 				    $('#edit_model_form__default_order_by').val( new_values );
 
-				    JetStudio.DataModel.edit.defaultOrderBy.actualizeSelected();
+				    DataModel.edit.defaultOrderBy.actualizeSelected();
                 },
 
 
 			    setSort: function( id, sort ) {
-				    var values_field = $('#edit_model_form__default_order_by');
+				    let values_field = $('#edit_model_form__default_order_by');
 
-				    var values = values_field.val().split('|');
+				    let values = values_field.val().split('|');
 
-				    var val = '';
-				    var e_id = '';
-				    var o_sort = '';
-				    var new_values = new Array();
+				    let val = '';
+				    let e_id = '';
+				    let o_sort = '';
+				    let new_values = new Array();
 
-				    for(var i=0;i<values.length;i++) {
+				    for(let i=0;i<values.length;i++) {
 					    val = values[i];
 					    o_sort = val.substr(0, 1);
 					    e_id = val.substr(1);
@@ -132,26 +137,26 @@ namespace JetStudio;
 
 				    $('.order_by_options_item_selected[data-id="'+id+'"]').data('sort', sort);
 
-				    JetStudio.DataModel.edit.defaultOrderBy.actualizeSelected();
+				    DataModel.edit.defaultOrderBy.actualizeSelected();
 			    },
 
 
                 actualizeSelected: function() {
-	                var values_field = $('#edit_model_form__default_order_by');
+	                let values_field = $('#edit_model_form__default_order_by');
 	                if(!values_field.length) {
 	                	return;
                     }
 
-	                var values = values_field.val().split('|');
-		    		var selected_area = $('#order_by_options_selected');
+	                let values = values_field.val().split('|');
+		    		let selected_area = $('#order_by_options_selected');
 
-		    		var html = '';
-		    		var id = '';
-		    		var label = '';
-		    		var sort = '';
+		    		let html = '';
+		    		let id = '';
+		    		let label = '';
+		    		let sort = '';
 
 		    		if(values_field.val()) {
-					    for(var i=0;i<values.length;i++) {
+					    for(let i=0;i<values.length;i++) {
 						    id = values[i];
 						    sort = id.substr(0,1);
 						    id = id.substr(1);
@@ -167,12 +172,12 @@ namespace JetStudio;
 
 					        html += '<i class="property-option-move ui-sortable-handle" style="cursor: ns-resize"><span class="fa fa-arrows-v" style="font-size:16px;padding-right: 5px"></span></i>';
 
-						    html += '<span class="fa fa-minus" style="font-size:16px;padding-right: 5px" onclick="JetStudio.DataModel.edit.defaultOrderBy.unSelectItem(\''+id+'\')"></span>';
+						    html += '<span class="fa fa-minus" style="font-size:16px;padding-right: 5px" onclick="DataModel.edit.defaultOrderBy.unSelectItem(\''+id+'\')"></span>';
 
 						    if(sort=='-') {
-						        html += '<span class="fa fa-sort-alpha-desc" style="font-size:16px;padding-right: 5px" onclick="JetStudio.DataModel.edit.defaultOrderBy.setSort(\''+id+'\',\'+\')"></span>';
+						        html += '<span class="fa fa-sort-alpha-up" style="font-size:16px;padding-right: 5px" onclick="DataModel.edit.defaultOrderBy.setSort(\''+id+'\',\'+\')"></span>';
                             } else {
-							    html += '<span class="fa fa-sort-alpha-asc" style="font-size:16px;padding-right: 5px" onclick="JetStudio.DataModel.edit.defaultOrderBy.setSort(\''+id+'\',\'-\')"></span>';
+							    html += '<span class="fa fa-sort-alpha-down" style="font-size:16px;padding-right: 5px" onclick="DataModel.edit.defaultOrderBy.setSort(\''+id+'\',\'-\')"></span>';
                             }
 						    html += label;
 						    html += '</div>';
@@ -185,11 +190,11 @@ namespace JetStudio;
 		                handle: 'i.property-option-move',
 		                stop: function() {
 
-		                	var new_values = new Array();
+		                	let new_values = new Array();
 
 			                selected_area.find('.order_by_options_item_selected').each( function(i, item) {
-				                var id = $(item).data('id');
-				                var sort = $(item).data('sort');
+				                let id = $(item).data('id');
+				                let sort = $(item).data('sort');
 
 				                new_values.push(sort+id);
 			                });
@@ -269,12 +274,7 @@ namespace JetStudio;
 						'<?=DataModel_Definition_Property::getCreateForm()->getId()?>',
 						{
 							onSuccess: function( form, response_data ) {
-								JetStudio.DataModel.property.initPropertiesSort();
-
-								var id_controller_field = $('#edit_model_form__id_controller_class');
-								if(id_controller_field.length) {
-									id_controller_field.val( response_data['id_controller_class'] );
-								}
+								location = response_data.location;
 							}
 						}
 					);
@@ -288,21 +288,21 @@ namespace JetStudio;
 					$('.ffd-property-'+property_id).hide();
 					$('.ffd-em-property-'+property_id).hide();
 
-					if(!JetStudio.DataModel.property.edit.form_field_types[selected_type]) {
+					if(!DataModel.property.edit.form_field_types[selected_type]) {
 						return;
 					}
 
-					var d = JetStudio.DataModel.property.edit.form_field_types[selected_type];
+					let d = DataModel.property.edit.form_field_types[selected_type];
 
-					var i;
-					var required_option;
+					let i;
+					let required_option;
 					for( i in  d.required_options) {
 						required_option = d.required_options[i];
 
 						$('.ffd-property-'+property_id+'.ffd-option-'+required_option).show();
 					}
 
-					var required_em;
+					let required_em;
 					for( i in  d.required_error_messages) {
 						required_em = d.required_error_messages[i];
 
@@ -317,12 +317,12 @@ namespace JetStudio;
 						'property_edit_form_'+property_id,
 						{
 							onSuccess: function( form, response_data ) {
-								var id_controller_field = $('#edit_model_form__id_controller_class');
+								let id_controller_field = $('#edit_model_form__id_controller_class');
 								if(id_controller_field.length) {
 									id_controller_field.val( response_data['id_controller_class'] );
 								}
 
-								var header = $('#property_panel_'+property_id);
+								let header = $('#property_panel_'+property_id);
 								header.removeClass('panel-default');
 								header.removeClass('panel-primary');
 								header.removeClass('panel-success');
@@ -336,60 +336,12 @@ namespace JetStudio;
 					);
 
 				}
-			},
-
-			initPropertiesSort: function() {
-				var sort_area = $('#property_sort_area');
-
-				sort_area.sortable({
-					handle: 'i.property-option-move',
-					stop: function() {
-
-						sort_area.find('.property-sort-item').each( function(i, item) {
-							var id = $(item).data('property-id');
-
-							$('#sort_properties_form__p_'+id).val(i);
-						});
-
-
-
-						JetAjaxForm.submit(
-							'sort_properties_form',
-							{
-								onSuccess: function() {
-									JetStudio.DataModel.property.initPropertiesSort();
-								}
-							}
-						);
-					}
-
-				});
-
 			}
 
-		},
-
-
-        generateClassName: function( model_name, class_name_field_id ) {
-			var class_name = model_name.toLowerCase();
-
-	        class_name = class_name.split('_');
-
-	        var part = '';
-	        for( var i in class_name ) {
-	        	part = class_name[i];
-
-		        class_name[i] = part.charAt(0).toUpperCase() + part.slice(1);
-            }
-
-            class_name = class_name.join('_');
-
-	        $( '#'+class_name_field_id ).val(class_name);
-        }
+		}
 	};
 
 	$(document).ready(function() {
-		JetStudio.DataModel.property.initPropertiesSort();
-		JetStudio.DataModel.edit.defaultOrderBy.actualizeSelected()
+		DataModel.edit.defaultOrderBy.actualizeSelected()
     });
 </script>
