@@ -153,6 +153,13 @@ class Mvc_Router extends BaseObject  implements Mvc_Router_Interface
 				$this->resolve_decodePath();
 
 				if($this->resolve_pageResolve()) {
+					if(
+						$this->getIsFile() ||
+						$this->getIsRedirect()
+					) {
+						return;
+					}
+
 					$this->resolve_checkPathUsed();
 				}
 			}
@@ -375,6 +382,7 @@ class Mvc_Router extends BaseObject  implements Mvc_Router_Interface
 	 */
 	protected function resolve_checkPathUsed()
 	{
+
 		if( $this->path!=$this->used_path ) {
 			$this->has_unused_path = true;
 
