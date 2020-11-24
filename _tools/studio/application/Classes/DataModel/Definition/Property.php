@@ -568,10 +568,12 @@ class DataModel_Definition_Property {
 
 		$exists = false;
 
-		foreach( DataModels::getCurrentModel()->getProperties() as $p ) {
-			if($p->getName()==$name) {
-				$exists = true;
-				break;
+		if(DataModels::getCurrentModel()) {
+			foreach( DataModels::getCurrentModel()->getProperties() as $p ) {
+				if($p->getName()==$name) {
+					$exists = true;
+					break;
+				}
 			}
 		}
 

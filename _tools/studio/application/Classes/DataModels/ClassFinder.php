@@ -118,9 +118,9 @@ class DataModels_ClassFinder {
 
 				$cl = new DataModel_Class(
 					$path,
-					$reflection,
 					$parser->namespace->namespace,
-					$class->name
+					$class->name,
+					$reflection
 				);
 
 				$this->classes[$cl->getFullClassName()] = $cl;

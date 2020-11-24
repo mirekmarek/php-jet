@@ -9,6 +9,7 @@ namespace JetStudio;
 
 use Jet\DataModel;
 use Jet\DataModel_Definition_Model_Related_MtoN as Jet_DataModel_Definition_Model_Related_MtoN;
+use Jet\DataModel_Exception;
 use Jet\Form;
 use Jet\Form_Field_Checkbox;
 use Jet\Form_Field_Hidden;
@@ -48,7 +49,7 @@ class DataModel_Definition_Model_Related_MtoN extends Jet_DataModel_Definition_M
 	public static function getCreateForm()
 	{
 		if(!static::$create_form) {
-			$fields = DataModel_Definition_Model_Trait::getCreateForm_mainFields();
+			$fields = DataModel_Definition_Model_Trait::getCreateForm_mainFields( 'MtoN' );
 
 			$current_class = DataModels::getCurrentClass();
 			$current_model = DataModels::getCurrentModel();
@@ -58,10 +59,10 @@ class DataModel_Definition_Model_Related_MtoN extends Jet_DataModel_Definition_M
 				$fields['class_name']->setDefaultValue( $current_class->getClassName().'_' );
 			}
 
-			static::$create_form = new Form('create_data_model_form_MtoN', $fields );
+			static::$create_form = new Form('create_data_model_form', $fields );
 
 
-			static::$create_form->setAction( DataModels::getActionUrl('model/add/MtoN') );
+			static::$create_form->setAction( DataModels::getActionUrl('model/add') );
 		}
 
 		return static::$create_form;
@@ -333,6 +334,78 @@ class DataModel_Definition_Model_Related_MtoN extends Jet_DataModel_Definition_M
 	 */
 	public function createClass_ID( ClassCreator_Class $class )
 	{
+	}
+
+
+
+
+	/**
+	 * @return bool|DataModel_Definition_Model_Interface
+	 */
+	public static function catchCreateForm()
+	{
+		$form = static::getCreateForm();
+
+		if(
+			!$form->catchInput() ||
+			!$form->validate()
+		) {
+			return false;
+		}
+
+
+		$namespace = $form->field('namespace')->getValue();
+		$class_name = $form->field('class_name')->getValue();
+		$script_path = $form->field('script_path')->getValue();
+		$model_name = $form->field('model_name')->getValue();
+		$id_controller_class = $form->field('id_controller_class')->getValue();
+		$id_property_name = $form->field('id_property_name')->getValue();
+
+		$class = new DataModel_Class(
+			$script_path,
+			$namespace,
+			$class_name
+		);
+
+		$class->setIsNew( true );
+
+		$model = new DataModel_Definition_Model_Related_1toN();
+		$model->setClass( $class );
+
+		$model->setModelName( $model_name );
+		$model->setIDControllerClassName(  $id_controller_class);
+
+
+		switch($id_controller_class) {
+			case 'Jet\DataModel_IDController_AutoIncrement':
+				$id_property = new DataModel_Definition_Property_IdAutoIncrement( $class->getFullClassName(), $id_property_name);
+				$id_controller_option = 'id_property_name';
+				break;
+			case 'Jet\DataModel_IDController_UniqueString':
+			case 'Jet\DataModel_IDController_Name':
+				$id_property = new DataModel_Definition_Property_Id( $class->getFullClassName(), $id_property_name);
+				$id_controller_option = 'id_property_name';
+				break;
+			case 'Jet\DataModel_IDController_Passive':
+				$id_property = new DataModel_Definition_Property_Id( $class->getFullClassName(), $id_property_name);
+				$id_controller_option = '';
+				break;
+			default:
+				throw new DataModel_Exception('Unknown ID controller class '.$id_controller_class);
+		}
+
+		$id_property->setIsId(true);
+		$model->addProperty($id_property);
+
+		if($id_controller_option) {
+			$model->getIDController()->setOptions([
+				$id_controller_option => $id_property_name
+			]);
+		}
+
+		//TODO:
+
+		return $model;
 	}
 
 }

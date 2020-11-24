@@ -13,6 +13,8 @@ $form->field('class_name')->input()->addJsAction('onkeyup', "DataModel.create.ge
 
 
 echo $form->start();
+echo $form->getCommonMessage();
+echo $form->field('type');
 echo $form->field('namespace');
 echo $form->field('class_name');
 echo $form->field('model_name');

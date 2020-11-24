@@ -8,19 +8,14 @@
 namespace JetStudio;
 
 use Jet\DataModel;
-use Jet\DataModel_Relations;
 use Jet\Exception;
 use Jet\Form;
 use Jet\Form_Field;
-use Jet\Form_Field_Checkbox;
 use Jet\Form_Field_Hidden;
 use Jet\Form_Field_Input;
 use Jet\Form_Field_Select;
-use Jet\Form_Field_Textarea;
 use Jet\IO_File;
 use Jet\Reflection;
-use Jet\Tr;
-use Jet\DataModel_Exception;
 
 /**
  */
@@ -94,6 +89,8 @@ trait DataModel_Definition_Model_Trait {
 		$this->_is_abstract = $_class->isAbstract();
 		$this->_extends = $_class->getExtends();
 		$this->_implements = $_class->getImplements();
+
+		$this->class_name = $_class->getFullClassName();
 
 		foreach($this->properties as $property) {
 			$property->setClass( $_class );
@@ -270,7 +267,7 @@ trait DataModel_Definition_Model_Trait {
 		$class->setName( $this->_class->getClassName() );
 
 		$class->addUse( new ClassCreator_UseClass('Jet', 'DataModel') );
-		$this->_extends = $this->createClass_getExtends($class, 'DataModel');
+		$class->setExtends( $this->createClass_getExtends($class, 'DataModel') );
 
 		return $class;
 	}
@@ -645,14 +642,17 @@ trait DataModel_Definition_Model_Trait {
 	{
 		if($this->external_relations===null) {
 			$this->external_relations = [];
-			$class = $this->class_name;
 
-			$relations_definitions_data = Reflection::get( $class, 'data_model_external_relations_definition', [] );
+			if(!$this->_class->isIsNew()) {
+				$class = $this->class_name;
 
-			foreach( $relations_definitions_data as $definition_data ) {
-				$relation = new DataModel_Definition_Relation_External( $class, $definition_data );
+				$relations_definitions_data = Reflection::get( $class, 'data_model_external_relations_definition', [] );
 
-				$this->external_relations[$relation->getName()] = $relation;
+				foreach( $relations_definitions_data as $definition_data ) {
+					$relation = new DataModel_Definition_Relation_External( $class, $definition_data );
+
+					$this->external_relations[$relation->getName()] = $relation;
+				}
 			}
 
 		}
@@ -791,10 +791,12 @@ trait DataModel_Definition_Model_Trait {
 		if($this->custom_keys===null) {
 			$this->custom_keys = [];
 
-			$keys_definition_data = Reflection::get( $this->class_name, 'data_model_keys_definition', [] );
+			if(!$this->_class->isIsNew()) {
+				$keys_definition_data = Reflection::get( $this->class_name, 'data_model_keys_definition', [] );
 
-			foreach( $keys_definition_data as $kd ) {
-				$this->custom_keys[$kd['name']] = new DataModel_Definition_Key( $kd['name'], $kd['type'], $kd['property_names'] );
+				foreach( $keys_definition_data as $kd ) {
+					$this->custom_keys[$kd['name']] = new DataModel_Definition_Key( $kd['name'], $kd['type'], $kd['property_names'] );
+				}
 			}
 
 		}
@@ -916,9 +918,7 @@ trait DataModel_Definition_Model_Trait {
 				$parser->toString()
 			);
 
-			if(function_exists('opcache_reset')) {
-				opcache_reset();
-			}
+			Application::resetOPCache();
 
 
 		} catch( Exception $e ) {
@@ -931,11 +931,39 @@ trait DataModel_Definition_Model_Trait {
 	}
 
 	/**
+	 * @return bool
+	 */
+	public function create()
+	{
+		$ok = true;
+		try {
+			$class = $this->createClass();
+
+			IO_File::write(
+				$this->_class->getScriptPath(),
+				'<?php'.PHP_EOL.$class->toString()
+			);
+
+			Application::resetOPCache();
+
+		} catch( Exception $e ) {
+			$ok = false;
+			Application::handleError( $e );
+		}
+
+		return $ok;
+	}
+
+	/**
+	 * @param string $type
+	 *
 	 * @return Form_Field[]
 	 */
-	public static function getCreateForm_mainFields()
+	public static function getCreateForm_mainFields( $type )
 	{
 		$current_class = DataModels::getCurrentClass();
+
+		$type = new Form_Field_Hidden('type', '', $type);
 
 		$namespace = new Form_Field_Select('namespace', 'Namespace:', '');
 		$namespace->setIsRequired(true);
@@ -975,7 +1003,7 @@ trait DataModel_Definition_Model_Trait {
 		]);
 		$script_path->setIsRequired(true);
 		$script_path->setValidator( function( Form_Field_Input $field ) {
-			//TODO:
+			return true;
 		} );
 
 		if( $current_class ) {
@@ -995,6 +1023,7 @@ trait DataModel_Definition_Model_Trait {
 
 
 		$fields = [
+			'type' => $type,
 			'namespace' => $namespace,
 			'class_name' => $class_name,
 			'model_name' => $model_name,

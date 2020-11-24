@@ -161,4 +161,6 @@ return [
 	'Create a new DataModel - Related MtoN' => '',
 	'Create a new DataModel - Related 1toN' => '',
 	'Create a new DataModel - Related 1to1' => '',
+	'ID property name:' => '',
+	'Class <strong>%property%</strong> has been created' => '',
 ];

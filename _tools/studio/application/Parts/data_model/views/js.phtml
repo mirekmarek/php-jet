@@ -8,12 +8,12 @@ namespace JetStudio;
 			openDialog: function( type ) {
 				$('#dialog_create_new_data_model_'+type).modal('show');
 			},
-			createSend: function(type) {
+			createSend: function() {
 				JetAjaxForm.submit(
-					'create_data_model_form_'+type,
+					'create_data_model_form',
 					{
 						onSuccess: function( form, response_data ) {
-							location = '?model='+encodeURIComponent(response_data['new_model_id'])
+							location = '?class='+encodeURIComponent(response_data['new_class_name'])
 						}
 					}
 				);

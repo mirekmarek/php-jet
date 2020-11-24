@@ -598,23 +598,6 @@ class DataModels extends BaseObject implements Application_Part
 		static::$classes[$model->getClassName()] = $model;
 	}
 
-	/**
-	 * @param string $model_name
-	 * @param string $class_name
-	 *
-	 * @return DataModel_Definition_Model_Main
-	 */
-	public static function createModel( $model_name, $class_name )
-	{
-		$model = new DataModel_Definition_Model_Main();
-		$model->setModelName( $model_name );
-		$model->setClassName( $class_name );
-		$model->checkIdProperties();
-
-		static::addModel( $model );
-
-		return $model;
-	}
 
 	/**
 	 * @param string $model_name

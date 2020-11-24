@@ -187,4 +187,10 @@ interface DataModel_Definition_Model_Interface
 	 * @return bool
 	 */
 	public function save();
+
+	/**
+	 * @return bool
+	 */
+	public function create();
+
 }

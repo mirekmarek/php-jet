@@ -1134,9 +1134,7 @@ trait DataModel_Definition_Property_Trait
 				$parser->toString()
 			);
 
-			if(function_exists('opcache_reset')) {
-				opcache_reset();
-			}
+			Application::resetOPCache();
 
 
 		} catch( Exception $e ) {
@@ -1178,9 +1176,7 @@ trait DataModel_Definition_Property_Trait
 				$parser->toString()
 			);
 
-			if(function_exists('opcache_reset')) {
-				opcache_reset();
-			}
+			Application::resetOPCache();
 
 
 		} catch( Exception $e ) {

@@ -30,11 +30,11 @@ if( DataModels::getCurrentModel() ) {
 			</button>
 			<div class="dropdown-menu" style="padding: 10px;">
 				<a class="dropdown-item" href="#" onclick="DataModel.create.openDialog('Main');">Main</a>
-				<a class="dropdown-item" href="#" onclick="DataModel.create.openDialog('MtoN');">MtoN</a>
 				<?php if(
 					DataModels::getCurrentModel() &&
 					DataModels::getCurrentModel()->canHaveRelated()
 				): ?>
+					<a class="dropdown-item" href="#" onclick="DataModel.create.openDialog('MtoN');">MtoN</a>
 					<a class="dropdown-item" href="#" onclick="DataModel.create.openDialog('1toN');">1toN</a>
 					<a class="dropdown-item" href="#" onclick="DataModel.create.openDialog('1to1');">1to1</a>
 				<?php endif; ?>

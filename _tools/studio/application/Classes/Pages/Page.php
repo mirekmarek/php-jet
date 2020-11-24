@@ -947,9 +947,7 @@ class Pages_Page extends Mvc_Page
 			'<?php'.PHP_EOL.'return '.(new Data_Array( $data ))->export()
 		);
 
-		if(function_exists('opcache_reset')) {
-			opcache_reset();
-		}
+		Application::resetOPCache();
 	}
 
 	/**

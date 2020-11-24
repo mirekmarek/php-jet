@@ -50,18 +50,41 @@ class DataModel_Class {
 	protected $error = '';
 
 	/**
+	 * @var bool
+	 */
+	protected $is_new = false;
+
+	/**
 	 * @param string $script_path
-	 * @param ReflectionClass $reflection
 	 * @param string $namespace
 	 * @param string $class_name
+	 * @param ReflectionClass|null $reflection
 	 */
-	public function __construct( $script_path, ReflectionClass $reflection, $namespace, $class_name )
+	public function __construct( $script_path, $namespace, $class_name, ReflectionClass $reflection=null )
 	{
 		$this->script_path = $script_path;
 		$this->reflection = $reflection;
 		$this->namespace = $namespace;
 		$this->class_name = $class_name;
 	}
+
+	/**
+	 * @return bool
+	 */
+	public function isIsNew()
+	{
+		return $this->is_new;
+	}
+
+	/**
+	 * @param bool $is_new
+	 */
+	public function setIsNew( $is_new )
+	{
+		$this->is_new = $is_new;
+	}
+
+
 
 	/**
 	 * @return string
@@ -144,6 +167,9 @@ class DataModel_Class {
 	 */
 	public function getImplements()
 	{
+		if(!$this->reflection) {
+			return [];
+		}
 		return $this->reflection->getInterfaceNames();
 	}
 
@@ -152,6 +178,10 @@ class DataModel_Class {
 	 */
 	public function isAbstract()
 	{
+		if(!$this->reflection) {
+			return false;
+		}
+
 		return $this->reflection->isAbstract();
 	}
 
@@ -160,6 +190,10 @@ class DataModel_Class {
 	 */
 	public function getExtends()
 	{
+		if(!$this->reflection) {
+			return '';
+		}
+
 		return $this->reflection->getParentClass()->getName();
 	}
 
