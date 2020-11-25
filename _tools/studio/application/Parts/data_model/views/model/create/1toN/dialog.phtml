@@ -8,11 +8,11 @@ $dialog = UI::dialog('dialog_create_new_data_model_1toN', Tr::_('Create a new Da
 
 echo $dialog->start();
 	?>
-	<div id="create_model_form_area">
+	<div id="create_model_form_area_1toN">
 		<?php require 'form.phtml'; ?>
 	</div>
 	<?php
 echo $dialog->footer();
-	echo UI::button_save(Tr::_('Create'))->setOnclick('DataModel.create.createSend()');
+echo UI::button_save(Tr::_('Create'))->setOnclick("DataModel.create.createSend('1toN')");
 echo $dialog->end();
 

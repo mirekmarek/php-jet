@@ -14,10 +14,11 @@ if(!$type) {
 }
 
 if($type!='Main') {
-	$type = 'Related_'.$type;
+	$class_name = __NAMESPACE__.'\\DataModel_Definition_Model_Related_'.$type;
+} else {
+	$class_name = __NAMESPACE__.'\\DataModel_Definition_Model_Main';
 }
 
-$class_name = __NAMESPACE__.'\\DataModel_Definition_Model_'.$type;
 
 /**
  * @var DataModel_Definition_Model_Interface $class_name
@@ -29,11 +30,13 @@ $ok = false;
 $data = [];
 
 if( ($new_model=$class_name::catchCreateForm()) ) {
-
+	/**
+	 * @var DataModel_Definition_Model_Interface $new_model
+	 */
 	if($new_model->create()) {
 
 		UI_messages::success(
-			Tr::_('Class <strong>%property%</strong> has been created',[
+			Tr::_('Class <strong>%class%</strong> has been created',[
 				'property' => $new_model->getClassName()
 			])
 		);
@@ -51,7 +54,7 @@ if( ($new_model=$class_name::catchCreateForm()) ) {
 AJAX::formResponse(
 	$ok,
 	[
-		'create_model_form_area' => Application::getView()->render('model/create/'.$type.'/form')
+		'create_model_form_area_'.$type => Application::getView()->render('model/create/'.$type.'/form')
 	],
 	$data
 );

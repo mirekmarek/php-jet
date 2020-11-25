@@ -27,6 +27,15 @@ trait DataModel_Related_1to1_Trait
 	}
 
 	/**
+	 * @return DataModel_Related_Interface
+	 */
+	public function createNewRelatedDataModelInstance()
+	{
+		return null;
+	}
+
+
+	/**
 	 *
 	 * @param array                  $where
 	 * @param DataModel_PropertyFilter|null $load_filter

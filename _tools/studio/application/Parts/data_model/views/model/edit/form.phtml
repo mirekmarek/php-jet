@@ -22,11 +22,7 @@ echo $form->start();
 echo $form->field('model_name');
 echo $form->field('database_table_name');
 
-if( $current instanceof DataModel_Definition_Model_Related_MtoN):
-	echo $form->field('N_model_class_name');
-
-else:
-
+if( !($current instanceof DataModel_Definition_Model_Related_MtoN)):
 	echo $form->field('id_controller_class');
 
 	if(

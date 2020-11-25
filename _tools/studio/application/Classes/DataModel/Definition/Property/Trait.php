@@ -955,6 +955,7 @@ trait DataModel_Definition_Property_Trait
 		$property = new ClassCreator_Class_Property( $this->getName(), $property_type );
 
 		if($this->getRelatedToClassName()) {
+
 			if(strpos($this->getRelatedToClassName(), ':')===false) {
 				$to_scope = 'main';
 				$to_model_class_name = $this->getRelatedToClassName();

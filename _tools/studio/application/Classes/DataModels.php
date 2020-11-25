@@ -119,6 +119,24 @@ class DataModels extends BaseObject implements Application_Part
 	}
 
 	/**
+	 * @return DataModel_Class[]
+	 */
+	public static function getProblematicClasses()
+	{
+		static::load();
+
+		$problems = [];
+
+		foreach(static::$classes as $class) {
+			if($class->getError()) {
+				$problems[] = $class;
+			}
+		}
+
+		return $problems;
+	}
+
+	/**
 	 * @return DataModel_Namespace[]
 	 */
 	public static function getNamespaces()

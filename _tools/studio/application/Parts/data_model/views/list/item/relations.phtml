@@ -6,7 +6,10 @@ use Jet\Tr;
 
 $current = DataModels::getCurrentModel();
 
-if(!$current->getExternalRelations()) {
+if(
+	!$current ||
+	!$current->getExternalRelations()
+) {
 	return;
 }
 

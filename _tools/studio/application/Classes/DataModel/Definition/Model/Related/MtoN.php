@@ -7,6 +7,7 @@
  */
 namespace JetStudio;
 
+use http\Exception\BadQueryStringException;
 use Jet\DataModel;
 use Jet\DataModel_Definition_Model_Related_MtoN as Jet_DataModel_Definition_Model_Related_MtoN;
 use Jet\DataModel_Exception;
@@ -24,6 +25,10 @@ class DataModel_Definition_Model_Related_MtoN extends Jet_DataModel_Definition_M
 
 	use DataModel_Definition_Model_Related_Trait;
 
+	/**
+	 * @var Form
+	 */
+	protected static $select_N_form;
 
 	/**
 	 * @return bool
@@ -43,30 +48,6 @@ class DataModel_Definition_Model_Related_MtoN extends Jet_DataModel_Definition_M
 	 */
 	protected static $create_form;
 
-	/**
-	 * @return Form
-	 */
-	public static function getCreateForm()
-	{
-		if(!static::$create_form) {
-			$fields = DataModel_Definition_Model_Trait::getCreateForm_mainFields( 'MtoN' );
-
-			$current_class = DataModels::getCurrentClass();
-			$current_model = DataModels::getCurrentModel();
-
-			if( $current_class ) {
-				$fields['model_name']->setDefaultValue( $current_model->getModelName().'_' );
-				$fields['class_name']->setDefaultValue( $current_class->getClassName().'_' );
-			}
-
-			static::$create_form = new Form('create_data_model_form', $fields );
-
-
-			static::$create_form->setAction( DataModels::getActionUrl('model/add') );
-		}
-
-		return static::$create_form;
-	}
 
 
 	/**
@@ -95,29 +76,6 @@ class DataModel_Definition_Model_Related_MtoN extends Jet_DataModel_Definition_M
 				$this->setDatabaseTableName( $value );
 			} );
 
-			$n_model_field = new Form_Field_Select('N_model_class_name', 'N DataModel:', $this->N_model_class_name );
-			$n_model_field->setErrorMessages([
-				Form_Field_Select::ERROR_CODE_INVALID_VALUE => 'Please select N DataModel'
-			]);
-
-			$n_classes = [
-				'' => ''
-			];
-			foreach( DataModels::getClasses() as $class ) {
-				$model = $class->getDefinition();
-				if(
-					!$model instanceof DataModel_Definition_Model_Main ||
-					$model->getClassName()==$this->getRelevantParentModel()->getClassName()
-				) {
-					continue;
-				}
-
-				$n_classes[$model->getClassName()] = $model->getModelName().' ('.$model->getClassName().')';
-			}
-			$n_model_field->setSelectOptions( $n_classes );
-			$n_model_field->setCatcher( function( $value ) {
-				$this->setNModel( $value );
-			} );
 
 			$default_order_by_field = new Form_Field_Hidden( 'default_order_by', '', implode('|', $this->getDefaultOrderBy()) );
 			$default_order_by_field->setCatcher( function( $value ) {
@@ -133,7 +91,6 @@ class DataModel_Definition_Model_Related_MtoN extends Jet_DataModel_Definition_M
 			$fields = [
 				$model_name_field,
 				$database_table_name_field,
-				$n_model_field,
 				$default_order_by_field
 			];
 
@@ -180,14 +137,6 @@ class DataModel_Definition_Model_Related_MtoN extends Jet_DataModel_Definition_M
 		$this->N_model_class_name = $N_model_class_name;
 	}
 
-	/**
-	 *
-	 * @param string $n_model_id
-	 */
-	public function setNModel( $n_model_id )
-	{
-		$this->N_model_class_name = $n_model_id;
-	}
 
 	/**
 	 * @return DataModel_Definition_Model_Main|DataModel_Definition_Model_Related_1to1|DataModel_Definition_Model_Related_1toN|DataModel_Definition_Model_Related_MtoN|null
@@ -246,7 +195,8 @@ class DataModel_Definition_Model_Related_MtoN extends Jet_DataModel_Definition_M
 
 		$class = new ClassCreator_Class();
 
-		$class->setName( $this->getClassName() );
+		$class->setNamespace( $this->_class->getNamespace() );
+		$class->setName( $this->_class->getClassName() );
 
 		$class->addUse( new ClassCreator_UseClass('Jet', 'DataModel') );
 		$class->addUse( new ClassCreator_UseClass('Jet', 'DataModel_Related_MtoN') );
@@ -293,25 +243,25 @@ class DataModel_Definition_Model_Related_MtoN extends Jet_DataModel_Definition_M
 		);
 
 
-		$N_model_id = $this->getNModelClassName();
-		$N_model = DataModels::getClass( $N_model_id );
-		if(!$N_model) {
-			$class->addError('Unable to get N DataModel definition (N model ID: '.$N_model_id.')');
+		$N_model_class_name = $this->getNModelClassName();
+
+		$N_class = DataModels::getClass( $N_model_class_name );
+		if(!$N_class) {
+			$class->addError('Unable to get N DataModel definition (N model class: '.$N_model_class_name.')');
 			return;
 		}
 
-		$N_model_class_name = $N_model->getClassName();
 
 
-		if($N_model->getNamespace()!=DataModels::getCurrentClass()->getNamespace()) {
+		if($N_class->getNamespace()!=DataModels::getCurrentClass()->getNamespace()) {
 			$class->addUse(
-				new ClassCreator_UseClass($N_model->getNamespace(), $N_model->getClassName())
+				new ClassCreator_UseClass($N_class->getNamespace(), $N_class->getClassName())
 			);
 		}
 
 
 		$class->addAnnotation(
-			(new ClassCreator_Annotation('JetDataModel', 'N_model_class_name', var_export($N_model_class_name, true)) )
+			(new ClassCreator_Annotation('JetDataModel', 'N_model_class_name', var_export($N_class->getClassName(), true)) )
 		);
 
 
@@ -336,15 +286,54 @@ class DataModel_Definition_Model_Related_MtoN extends Jet_DataModel_Definition_M
 	{
 	}
 
+	/**
+	 * @return Form
+	 */
+	public static function getSelectNForm()
+	{
+		if(!static::$select_N_form) {
+			$cc = DataModels::getCurrentClass();
 
+			$list = [
+				'' => ''
+			];
 
+			foreach(DataModels::getClasses() as $class ) {
+				if(
+					$class->getFullClassName()==$cc->getFullClassName() ||
+					$class->isDescendantOf($cc) ||
+					$class->getDefinition() instanceof DataModel_Definition_Model_Related_MtoN
+				) {
+					continue;
+				}
+
+				$list[$class->getFullClassName()] = $class->getFullClassName();
+			}
+
+			$N_models = new Form_Field_Select('N_model', Tr::_('N model:'), '' );
+			$N_models->setErrorMessages([
+				Form_Field_Select::ERROR_CODE_INVALID_VALUE => Tr::_('Please select N model'),
+				Form_Field_Select::ERROR_CODE_EMPTY => Tr::_('Please select N model')
+			]);
+
+			$N_models->setSelectOptions($list);
+
+			static::$select_N_form = new Form('select_N_form', [
+				$N_models
+			] );
+			static::$select_N_form->setDoNotTranslateTexts(true);
+			static::$select_N_form->setAction(DataModels::getActionUrl('model/add/MtoN_generate_form'));
+		}
+
+		return static::$select_N_form;
+	}
 
 	/**
-	 * @return bool|DataModel_Definition_Model_Interface
+	 * @return false|string
 	 */
-	public static function catchCreateForm()
+	public static function catchSelectNForm()
 	{
-		$form = static::getCreateForm();
+		$form = static::getSelectNForm();
 
 		if(
 			!$form->catchInput() ||
@@ -353,59 +342,151 @@ class DataModel_Definition_Model_Related_MtoN extends Jet_DataModel_Definition_M
 			return false;
 		}
 
+		return $form->field('N_model')->getValue();
+	}
 
-		$namespace = $form->field('namespace')->getValue();
-		$class_name = $form->field('class_name')->getValue();
-		$script_path = $form->field('script_path')->getValue();
-		$model_name = $form->field('model_name')->getValue();
-		$id_controller_class = $form->field('id_controller_class')->getValue();
-		$id_property_name = $form->field('id_property_name')->getValue();
+	/**
+	 * @param string $N_class_name
+	 *
+	 * @return Form
+	 */
+	public static function getCreateForm( $N_class_name )
+	{
+		if(!static::$create_form) {
+			$fields = DataModel_Definition_Model_Trait::getCreateForm_mainFields();
 
-		$class = new DataModel_Class(
-			$script_path,
-			$namespace,
-			$class_name
-		);
+			unset($fields['id_controller_class']);
+			unset($fields['id_property_name']);
 
-		$class->setIsNew( true );
+			$current_class = DataModels::getCurrentClass();
+			$current_model = DataModels::getCurrentModel();
 
-		$model = new DataModel_Definition_Model_Related_1toN();
+			if( $current_class ) {
+				$fields['model_name']->setDefaultValue( $current_model->getModelName().'_' );
+				$fields['class_name']->setDefaultValue( $current_class->getClassName().'_' );
+			}
+
+			$fields['N_class_name'] = new Form_Field_Hidden('N_class_name', '', $N_class_name);
+
+			$M_model = DataModels::getCurrentModel();
+			$N_model = DataModels::getClass($N_class_name)->getDefinition();
+
+
+			$related_fields = [];
+
+			foreach($M_model->getIdProperties() as $id_property) {
+				$name = 'related_M_'.$id_property->getName();
+				$label = Tr::_('Relation %name% property name:', ['name'=>$M_model->getModelName().'.'.$id_property->getName()]);
+				$default_value = $M_model->getModelName().'_'.$id_property->getName();
+
+				$fields[$name] = new Form_Field_Input( $name, $label, $default_value );
+				$related_fields[] = $name;
+			}
+
+			foreach($N_model->getIdProperties() as $id_property) {
+				$name = 'related_N_'.$id_property->getName();
+				$label = Tr::_('Relation %name% property name:', ['name'=>$N_model->getModelName().'.'.$id_property->getName()]);
+				$default_value = $N_model->getModelName().'_'.$id_property->getName();
+
+				$fields[$name] = new Form_Field_Input( $name, $label, $default_value );
+				$related_fields[] = $name;
+			}
+
+
+			foreach($related_fields as $name) {
+				$field = $fields[$name];
+
+				$field->setIsRequired(true);
+				$field->setErrorMessages([
+					Form_Field_Input::ERROR_CODE_EMPTY => Tr::_('Please enter property name'),
+					Form_Field_Input::ERROR_CODE_INVALID_FORMAT => Tr::_('Invalid property name format')
+				]);
+				$field->setValidator( function( Form_Field_Input $field ) {
+					return DataModel_Definition_Property::checkPropertyNameFormat( $field );
+				} );
+
+			}
+
+
+			static::$create_form = new Form('create_data_model_form_MtoN', $fields );
+			static::$create_form->setDoNotTranslateTexts(true);
+			static::$create_form->setAction( DataModels::getActionUrl('model/add/MtoN') );
+		}
+
+		return static::$create_form;
+	}
+
+
+
+	/**
+	 * @param string $N_class_name
+	 *
+	 * @return bool|DataModel_Definition_Model_Related_MtoN
+	 */
+	public static function catchCreateForm( $N_class_name )
+	{
+		$form = static::getCreateForm( $N_class_name );
+
+		if(
+			!$form->catchInput() ||
+			!$form->validate()
+		) {
+			return false;
+		}
+
+		$class = DataModel_Definition_Model_Trait::catchCreateForm_createClass($form);
+
+		$model = new DataModel_Definition_Model_Related_MtoN();
 		$model->setClass( $class );
 
+		$model_name = $form->field('model_name')->getValue();
+
 		$model->setModelName( $model_name );
-		$model->setIDControllerClassName(  $id_controller_class);
 
 
-		switch($id_controller_class) {
-			case 'Jet\DataModel_IDController_AutoIncrement':
-				$id_property = new DataModel_Definition_Property_IdAutoIncrement( $class->getFullClassName(), $id_property_name);
-				$id_controller_option = 'id_property_name';
-				break;
-			case 'Jet\DataModel_IDController_UniqueString':
-			case 'Jet\DataModel_IDController_Name':
-				$id_property = new DataModel_Definition_Property_Id( $class->getFullClassName(), $id_property_name);
-				$id_controller_option = 'id_property_name';
-				break;
-			case 'Jet\DataModel_IDController_Passive':
-				$id_property = new DataModel_Definition_Property_Id( $class->getFullClassName(), $id_property_name);
-				$id_controller_option = '';
-				break;
-			default:
-				throw new DataModel_Exception('Unknown ID controller class '.$id_controller_class);
+		$M_model = DataModels::getCurrentModel();
+		$N_model = DataModels::getClass($N_class_name)->getDefinition();
+
+		$model->setParentModel( $M_model );
+		$model->setNModelClassName( $N_class_name );
+
+		foreach($M_model->getIdProperties() as $id_property) {
+			$relation_property_name = $form->field('related_M_'.$id_property->getName())->getValue();
+
+			$class_name = get_class($id_property);
+
+			/**
+			* @var DataModel_Definition_Property|DataModel_Definition_Property_Interface $relation_property
+			*/
+			$relation_property = new $class_name( $model->getClassName(), $relation_property_name );
+
+			$relation_property->setIsKey(true);
+			$relation_property->setRelatedToClassName( 'main:'.$M_model->getClassName() );
+			$relation_property->setRelatedToPropertyName( $id_property->getName() );
+			$model->addProperty($relation_property);
+
 		}
 
-		$id_property->setIsId(true);
-		$model->addProperty($id_property);
+		foreach($N_model->getIdProperties() as $id_property) {
 
-		if($id_controller_option) {
-			$model->getIDController()->setOptions([
-				$id_controller_option => $id_property_name
-			]);
+			$relation_property_name = $form->field('related_N_'.$id_property->getName())->getValue();
+
+			$class_name = get_class($id_property);
+
+			/**
+			 * @var DataModel_Definition_Property|DataModel_Definition_Property_Interface $relation_property
+			 */
+			$relation_property = new $class_name( $model->getClassName(), $relation_property_name );
+
+			$relation_property->setIsKey(true);
+			$relation_property->setRelatedToClassName( $N_model->getModelName().':'.$N_model->getClassName() );
+			$relation_property->setRelatedToPropertyName( $id_property->getName() );
+			$model->addProperty($relation_property);
 		}
 
-		//TODO:
 
 		return $model;
+
 	}
 
 }

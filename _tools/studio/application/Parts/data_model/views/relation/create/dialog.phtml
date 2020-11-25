@@ -5,7 +5,9 @@ use Jet\UI;
 use Jet\Tr;
 
 $current_model = DataModels::getCurrentModel();
-if(!$current_model) {
+if(
+	!$current_model
+) {
     return;
 }
 

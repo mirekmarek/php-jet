@@ -1,18 +1,29 @@
 <?php
 namespace JetStudio;
 
+use Jet\Form;
 use Jet\UI;
 use Jet\Tr;
 
 $dialog = UI::dialog('dialog_create_new_data_model_MtoN', Tr::_('Create a new DataModel - Related MtoN'), 3400);
 
+$select_form = DataModel_Definition_Model_Related_MtoN::getSelectNForm();
+
+$select_form->setDefaultLabelWidth( [ Form::LJ_SIZE_MEDIUM => 2 ] );
+$select_form->setDefaultFieldWidth( [ Form::LJ_SIZE_MEDIUM => 10 ] );
+
+$select_form->field('N_model')->input()->addJsAction('onchange', 'DataModel.create.MtoN.selected(this.value)');
+
 echo $dialog->start();
+	echo $select_form->start();
+		echo $select_form->field('N_model');
+	echo $select_form->end();
 	?>
-	<div id="create_model_form_area">
-		<?php require 'form.phtml'; ?>
+	<div id="create_MtoN_model">
+		<?php
+		//require 'form.phtml';
+		?>
 	</div>
 	<?php
-echo $dialog->footer();
-	echo UI::button_save(Tr::_('Create'))->setOnclick('DataModel.create.createSend()');
 echo $dialog->end();
 

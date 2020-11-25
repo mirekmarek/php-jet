@@ -44,8 +44,6 @@ class DataModel_Definition_Property {
 	 * @var array
 	 */
 	protected static $types = [
-		DataModel::TYPE_ID               => 'ID - string (max 64 chars)',
-		DataModel::TYPE_ID_AUTOINCREMENT => 'ID - int, autoincrement',
 		DataModel::TYPE_STRING           => 'String',
 		DataModel::TYPE_INT              => 'Integer',
 		DataModel::TYPE_FLOAT            => 'Float',
@@ -54,7 +52,9 @@ class DataModel_Definition_Property {
 		DataModel::TYPE_DATE_TIME        => 'Date and time',
 		DataModel::TYPE_LOCALE           => 'Locale (language and country) identifier',
 		DataModel::TYPE_DATA_MODEL       => 'Related DataModel',
-		DataModel::TYPE_CUSTOM_DATA      => 'Custom data (serialized)'
+		DataModel::TYPE_CUSTOM_DATA      => 'Custom data (serialized)',
+		DataModel::TYPE_ID               => 'ID - string (max 64 chars)',
+		DataModel::TYPE_ID_AUTOINCREMENT => 'ID - int, autoincrement',
 	];
 
 	/**
@@ -541,7 +541,28 @@ class DataModel_Definition_Property {
 		return static::$form_field_types;
 	}
 
+	/**
+	 * @param Form_Field_Input $field
+	 *
+	 * @return bool
+	 */
+	public static function checkPropertyNameFormat( Form_Field_Input $field )
+	{
+		$name = $field->getValue();
 
+		if( !$name ) {
+			$field->setError( Form_Field_Input::ERROR_CODE_EMPTY );
+			return false;
+		}
+
+		if( !preg_match( '/^[a-z0-9_]{2,}$/i', $name ) ) {
+			$field->setError( Form_Field_Input::ERROR_CODE_INVALID_FORMAT );
+
+			return false;
+		}
+
+		return true;
+	}
 
 	/**
 	 * @param Form_Field_Input $field
@@ -551,20 +572,10 @@ class DataModel_Definition_Property {
 	 */
 	public static function checkPropertyName( Form_Field_Input $field, $old_name='' )
 	{
+		if(!static::checkPropertyNameFormat($field)) {
+			return false;
+		}
 		$name = $field->getValue();
-
-		if(!$name)	{
-			$field->setError( Form_Field_Input::ERROR_CODE_EMPTY );
-			return false;
-		}
-
-		if(
-			!preg_match('/^[a-z0-9_]{2,}$/i', $name)
-		) {
-			$field->setError(Form_Field_Input::ERROR_CODE_INVALID_FORMAT);
-
-			return false;
-		}
 
 		$exists = false;
 

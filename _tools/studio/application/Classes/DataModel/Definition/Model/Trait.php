@@ -8,6 +8,8 @@
 namespace JetStudio;
 
 use Jet\DataModel;
+use Jet\DataModel_Definition_Model;
+use Jet\DataModel_Exception;
 use Jet\Exception;
 use Jet\Form;
 use Jet\Form_Field;
@@ -16,6 +18,7 @@ use Jet\Form_Field_Input;
 use Jet\Form_Field_Select;
 use Jet\IO_File;
 use Jet\Reflection;
+use Jet\Tr;
 
 /**
  */
@@ -255,22 +258,6 @@ trait DataModel_Definition_Model_Trait {
 	}
 
 
-	/**
-	 * @return ClassCreator_Class
-	 */
-	public function createClass_initClass()
-	{
-
-		$class = new ClassCreator_Class();
-
-		$class->setNamespace( $this->_class->getNamespace() );
-		$class->setName( $this->_class->getClassName() );
-
-		$class->addUse( new ClassCreator_UseClass('Jet', 'DataModel') );
-		$class->setExtends( $this->createClass_getExtends($class, 'DataModel') );
-
-		return $class;
-	}
 
 
 	/**
@@ -939,6 +926,10 @@ trait DataModel_Definition_Model_Trait {
 		try {
 			$class = $this->createClass();
 
+			if($class->getErrors()) {
+				throw new DataModel_Exception(implode('', $class->getErrors()));
+			}
+
 			IO_File::write(
 				$this->_class->getScriptPath(),
 				'<?php'.PHP_EOL.$class->toString()
@@ -955,40 +946,39 @@ trait DataModel_Definition_Model_Trait {
 	}
 
 	/**
-	 * @param string $type
 	 *
 	 * @return Form_Field[]
 	 */
-	public static function getCreateForm_mainFields( $type )
+	public static function getCreateForm_mainFields()
 	{
 		$current_class = DataModels::getCurrentClass();
 
-		$type = new Form_Field_Hidden('type', '', $type);
+		$type = new Form_Field_Hidden('type', '');
 
-		$namespace = new Form_Field_Select('namespace', 'Namespace:', '');
+		$namespace = new Form_Field_Select('namespace', Tr::_('Namespace:'), '');
 		$namespace->setIsRequired(true);
 		$namespace->setErrorMessages([
-			Form_Field_Select::ERROR_CODE_EMPTY => 'Please select namespace',
-			Form_Field_Select::ERROR_CODE_INVALID_VALUE => 'Please select namespace'
+			Form_Field_Select::ERROR_CODE_EMPTY => Tr::_('Please select namespace'),
+			Form_Field_Select::ERROR_CODE_INVALID_VALUE => Tr::_('Please select namespace')
 		]);
 		$namespace->setSelectOptions( DataModels::getNamespaces() );
 
 
-		$class_name = new Form_Field_Input('class_name', 'Class name:', '');
+		$class_name = new Form_Field_Input('class_name', Tr::_('Class name:'), '');
 		$class_name->setIsRequired(true);
 		$class_name->setErrorMessages([
-			Form_Field_Input::ERROR_CODE_EMPTY => 'Please enter DataModel class name',
-			Form_Field_Input::ERROR_CODE_INVALID_FORMAT => 'Invalid DataModel class name format'
+			Form_Field_Input::ERROR_CODE_EMPTY => Tr::_('Please enter DataModel class name'),
+			Form_Field_Input::ERROR_CODE_INVALID_FORMAT => Tr::_('Invalid DataModel class name format')
 		]);
 		$class_name->setValidator( function( Form_Field_Input $field ) {
 			return DataModels::checkClassName( $field );
 		} );
 
 
-		$model_name = new Form_Field_Input('model_name', 'Model name:', '');
+		$model_name = new Form_Field_Input('model_name', Tr::_('Model name:'), '');
 		$model_name->setErrorMessages([
-			Form_Field_Input::ERROR_CODE_EMPTY => 'Please enter DataModel name',
-			Form_Field_Input::ERROR_CODE_INVALID_FORMAT => 'Invalid DataModel name format'
+			Form_Field_Input::ERROR_CODE_EMPTY => Tr::_('Please enter DataModel name'),
+			Form_Field_Input::ERROR_CODE_INVALID_FORMAT => Tr::_('Invalid DataModel name format')
 		]);
 		$model_name->setIsRequired(true);
 		$model_name->setValidator( function( Form_Field_Input $field ) {
@@ -996,23 +986,21 @@ trait DataModel_Definition_Model_Trait {
 		} );
 
 
-		$script_path = new Form_Field_Input('script_path', 'Script path:', '');
+		$script_path = new Form_Field_Input('script_path', Tr::_('Script path:'), '');
 		$script_path->setErrorMessages([
-			Form_Field_Input::ERROR_CODE_EMPTY => 'Please enter valid script path',
-			Form_Field_Input::ERROR_CODE_INVALID_FORMAT => 'Please enter valid script path'
+			Form_Field_Input::ERROR_CODE_EMPTY => Tr::_('Please enter valid script path'),
+			Form_Field_Input::ERROR_CODE_INVALID_FORMAT => Tr::_('Please enter valid script path')
 		]);
 		$script_path->setIsRequired(true);
-		$script_path->setValidator( function( Form_Field_Input $field ) {
-			return true;
-		} );
+
 
 		if( $current_class ) {
 			$namespace->setDefaultValue($current_class->getNamespace());
 		}
 
-		$id_controller_class = new Form_Field_Select('id_controller_class', 'ID controller class: ', '' );
+		$id_controller_class = new Form_Field_Select('id_controller_class', Tr::_('ID controller class: '), '' );
 		$id_controller_class->setErrorMessages([
-			Form_Field_Select::ERROR_CODE_INVALID_VALUE => 'Please select ID controller class'
+			Form_Field_Select::ERROR_CODE_INVALID_VALUE => Tr::_('Please select ID controller class')
 		]);
 		$id_controller_class->setCatcher( function( $value ) {
 			$this->setIDControllerClassName( $value );
@@ -1021,6 +1009,17 @@ trait DataModel_Definition_Model_Trait {
 			DataModels::getIDControllers()
 		);
 
+		$id_property_name = new Form_Field_Input('id_property_name', 'ID property name:', 'id');
+		$id_property_name->setIsRequired(true);
+		$id_property_name->setErrorMessages([
+			Form_Field_Input::ERROR_CODE_EMPTY => 'Please enter property name',
+			Form_Field_Input::ERROR_CODE_INVALID_FORMAT => 'Invalid property name format'
+		]);
+		$id_property_name->setValidator( function( Form_Field_Input $field ) {
+			return DataModel_Definition_Property::checkPropertyNameFormat( $field );
+		} );
+
+
 
 		$fields = [
 			'type' => $type,
@@ -1028,10 +1027,237 @@ trait DataModel_Definition_Model_Trait {
 			'class_name' => $class_name,
 			'model_name' => $model_name,
 			'script_path' => $script_path,
-			'id_controller_class' => $id_controller_class
+			'id_controller_class' => $id_controller_class,
+			'id_property_name' => $id_property_name
 		];
 
 		return $fields;
 	}
 
+	/**
+	 * @return Form
+	 */
+	public static function getCreateForm_Main()
+	{
+		$fields = static::getCreateForm_mainFields();
+
+		$create_form = new Form('create_data_model_form_Main', $fields );
+		$create_form->setDoNotTranslateTexts(true);
+		$create_form->setAction( DataModels::getActionUrl('model/add') );
+
+		$create_form->field('type')->setDefaultValue('Main');
+
+		return $create_form;
+	}
+
+	/**
+	 * @param string $type
+	 *
+	 * @return Form
+	 */
+	public static function getCreateForm_Related( $type )
+	{
+		$fields = static::getCreateForm_mainFields();
+
+		$current_class = DataModels::getCurrentClass();
+		$current_model = DataModels::getCurrentModel();
+
+		$fields['model_name']->setDefaultValue( $current_model->getModelName().'_' );
+		$fields['class_name']->setDefaultValue( $current_class->getClassName().'_' );
+
+		$related_fields = [];
+
+		if($current_model instanceof DataModel_Definition_Model_Main) {
+			foreach($current_model->getIdProperties() as $id_property) {
+				$name = 'related_main_'.$id_property->getName();
+				$label = Tr::_('Relation %name% property name:', ['name'=>$current_model->getModelName().'.'.$id_property->getName()]);
+				$default_value = $current_model->getModelName().'_'.$id_property->getName();
+
+				$fields[$name] = new Form_Field_Input( $name, $label, $default_value );
+				$related_fields[] = $name;
+			}
+
+		} else {
+			$main_definition = $current_model->getMainModelDefinition();
+			foreach($main_definition->getIdProperties() as $id_property ) {
+				$name = 'related_main_'.$id_property->getName();
+				$label = Tr::_('Relation %name% property name:', ['name'=>$main_definition->getModelName().'.'.$id_property->getName()]);
+				$default_value = $main_definition->getModelName().'_'.$id_property->getName();
+
+				$fields[$name] = new Form_Field_Input( $name, $label, $default_value );
+				$related_fields[] = $name;
+			}
+
+			foreach($current_model->getIdProperties() as $id_property) {
+				if($id_property->getRelatedToClassName()==$main_definition->getClassName()) {
+					continue;
+				}
+
+				$name = 'related_parent_'.$id_property->getName();
+				$label = Tr::_('Relation %name% property name:', ['name'=>$current_model->getModelName().'.'.$id_property->getName()]);
+				$default_value = $current_model->getModelName().'_'.$id_property->getName();
+
+				$fields[$name] = new Form_Field_Input( $name, $label, $default_value );
+				$related_fields[] = $name;
+			}
+		}
+
+		foreach($related_fields as $name) {
+			$field = $fields[$name];
+
+			$field->setIsRequired(true);
+			$field->setErrorMessages([
+				Form_Field_Input::ERROR_CODE_EMPTY => Tr::_('Please enter property name'),
+				Form_Field_Input::ERROR_CODE_INVALID_FORMAT => Tr::_('Invalid property name format')
+			]);
+			$field->setValidator( function( Form_Field_Input $field ) {
+				return DataModel_Definition_Property::checkPropertyNameFormat( $field );
+			} );
+
+		}
+
+
+		$create_form = new Form('create_data_model_form_'.$type, $fields );
+		$create_form->setDoNotTranslateTexts(true);
+		$create_form->setAction( DataModels::getActionUrl('model/add') );
+
+		$create_form->field('type')->setDefaultValue($type);
+
+		return $create_form;
+	}
+
+	/**
+	 * @param Form $form
+	 *
+	 * @return DataModel_Class
+	 */
+	public static function catchCreateForm_createClass( Form $form )
+	{
+		$namespace = $form->field('namespace')->getValue();
+		$class_name = $form->field('class_name')->getValue();
+		$script_path = $form->field('script_path')->getValue();
+
+		$class = new DataModel_Class(
+			$script_path,
+			$namespace,
+			$class_name
+		);
+
+		$class->setIsNew( true );
+
+		return $class;
+	}
+
+	/**
+	 * @param Form $form
+	 * @param DataModel_Definition_Model_Main|DataModel_Definition_Model_Related_1to1|DataModel_Definition_Model_Related_1toN $model
+	 */
+	public static function catchCreateForm_modelMainSetup( Form $form, $model )
+	{
+
+
+		$model_name = $form->field('model_name')->getValue();
+		$id_controller_class = $form->field('id_controller_class')->getValue();
+		$id_property_name = $form->field('id_property_name')->getValue();
+
+
+		$model->setModelName( $model_name );
+		$model->setIDControllerClassName(  $id_controller_class);
+
+
+		switch($id_controller_class) {
+			case 'Jet\DataModel_IDController_AutoIncrement':
+				$id_property = new DataModel_Definition_Property_IdAutoIncrement( $model->getClassName(), $id_property_name);
+				$id_controller_option = 'id_property_name';
+				break;
+			case 'Jet\DataModel_IDController_UniqueString':
+			case 'Jet\DataModel_IDController_Name':
+				$id_property = new DataModel_Definition_Property_Id( $model->getClassName(), $id_property_name);
+				$id_controller_option = 'id_property_name';
+				break;
+			case 'Jet\DataModel_IDController_Passive':
+				$id_property = new DataModel_Definition_Property_Id( $model->getClassName(), $id_property_name);
+				$id_controller_option = '';
+				break;
+			default:
+				throw new DataModel_Exception('Unknown ID controller class '.$id_controller_class);
+		}
+
+		$id_property->setIsId(true);
+		$model->addProperty($id_property);
+
+		if($id_controller_option) {
+			$model->getIDController()->setOptions([
+				$id_controller_option => $id_property_name
+			]);
+		}
+
+	}
+
+	/**
+	 * @param Form $form
+	 * @param DataModel_Definition_Model_Related_1to1|DataModel_Definition_Model_Related_1toN $model
+	 */
+	public static function catchCreateForm_relatedModelSetup( Form $form, $model )
+	{
+		$current_model = DataModels::getCurrentModel();
+		$model->setParentModel( $current_model );
+
+		if($current_model instanceof DataModel_Definition_Model_Main) {
+			foreach($current_model->getIdProperties() as $id_property) {
+				$relation_property_name = $form->field('related_main_'.$id_property->getName())->getValue();
+
+				$class_name = get_class($id_property);
+
+				/**
+				 * @var DataModel_Definition_Property|DataModel_Definition_Property_Interface $relation_property
+				 */
+				$relation_property = new $class_name( $model->getClassName(), $relation_property_name );
+
+				$relation_property->setIsKey(true);
+				$relation_property->setRelatedToClassName( 'main:'.$current_model->getClassName() );
+				$relation_property->setRelatedToPropertyName( $id_property->getName() );
+				$model->addProperty($relation_property);
+			}
+
+		} else {
+			$main_definition = $current_model->getMainModelDefinition();
+			foreach($main_definition->getIdProperties() as $id_property ) {
+				$relation_property_name = $form->field('related_main_'.$id_property->getName())->getValue();
+
+				$class_name = get_class($id_property);
+
+				/**
+				 * @var DataModel_Definition_Property|DataModel_Definition_Property_Interface $relation_property
+				 */
+				$relation_property = new $class_name( $model->getClassName(), $relation_property_name );
+
+				$relation_property->setIsKey(true);
+				$relation_property->setRelatedToClassName( 'main:'.$main_definition->getClassName() );
+				$relation_property->setRelatedToPropertyName( $id_property->getName() );
+				$model->addProperty($relation_property);
+			}
+
+			foreach($current_model->getIdProperties() as $id_property) {
+				if($id_property->getRelatedToClassName()==$main_definition->getClassName()) {
+					continue;
+				}
+
+				$relation_property_name = $form->field('related_parent_'.$id_property->getName())->getValue();
+
+				$class_name = get_class($id_property);
+
+				/**
+				 * @var DataModel_Definition_Property|DataModel_Definition_Property_Interface $relation_property
+				 */
+				$relation_property = new $class_name( $model->getClassName(), $relation_property_name );
+
+				$relation_property->setIsKey(true);
+				$relation_property->setRelatedToClassName( 'parent:'.$current_model->getClassName() );
+				$relation_property->setRelatedToPropertyName( $id_property->getName() );
+				$model->addProperty($relation_property);
+			}
+		}
+
+	}
 }

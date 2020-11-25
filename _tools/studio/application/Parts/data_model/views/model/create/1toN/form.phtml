@@ -5,8 +5,8 @@ use Jet\Form;
 
 $form = DataModel_Definition_Model_Related_1toN::getCreateForm();
 
-$form->setDefaultLabelWidth( [ Form::LJ_SIZE_MEDIUM => 2 ] );
-$form->setDefaultFieldWidth( [ Form::LJ_SIZE_MEDIUM => 10 ] );
+$form->setDefaultLabelWidth( [ Form::LJ_SIZE_MEDIUM => 4 ] );
+$form->setDefaultFieldWidth( [ Form::LJ_SIZE_MEDIUM => 8 ] );
 
 $form->field('namespace')->input()->addJsAction('onchange', "DataModel.create.generateScriptPath(this.form)");
 $form->field('class_name')->input()->addJsAction('onkeyup', "DataModel.create.generateScriptPath(this.form);DataModel.create.generateModelName(this.form);");
@@ -20,6 +20,15 @@ echo $form->field('model_name');
 echo $form->field('script_path');
 
 echo $form->field('id_controller_class');
+echo $form->field('id_property_name');
+
+foreach($form->getFields() as $field) {
+	if(substr($field->getName(),0, 8)!='related_') {
+		continue;
+	}
+
+	echo $field;
+}
 
 echo $form->end();
 

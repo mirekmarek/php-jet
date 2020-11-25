@@ -6,7 +6,10 @@ use Jet\Tr;
 
 $current = DataModels::getCurrentModel();
 
-if(!$current->getCustomKeys()) {
+if(
+	!$current ||
+	!$current->getCustomKeys()
+) {
 	return;
 }
 
