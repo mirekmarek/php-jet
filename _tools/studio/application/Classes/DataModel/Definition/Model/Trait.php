@@ -473,6 +473,7 @@ trait DataModel_Definition_Model_Trait {
 
 
 			$id_controller_class_field = new Form_Field_Select('id_controller_class', 'ID controller class: ', $this->getIDControllerClassName() );
+			$id_controller_class_field->setIsReadonly(true);
 			$id_controller_class_field->setErrorMessages([
 				Form_Field_Select::ERROR_CODE_INVALID_VALUE => 'Please select ID controller class'
 			]);

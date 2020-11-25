@@ -110,7 +110,7 @@ Tr::setCurrentNamespace('project');
 	<?php if(Application::getCurrentPart()!='welcome'):
 		$parts = [];
 		foreach( Application::getParts() as $part=>$p ) {
-			$parts[$part] = $p['label'];
+			$parts[$part] = UI::icon($p['icon']).' '.$p['label'];
 		}
 
 		echo UI::tabs( $parts, function($part) {return $part.'.php';}, Application::getCurrentPart() );

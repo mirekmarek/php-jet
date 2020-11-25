@@ -1,9 +1,15 @@
 <?php
 namespace JetStudio;
+
+use Jet\UI;
 ?>
 
-<ul>
+
+<div align="center" style="margin-top: 50px;">
 <?php foreach( Application::getParts() as $part=>$p ): ?>
-	<li><a href="<?=$part?>.php"><?=$p['label']?></a></li>
+<div class="card" style="width: 200px; padding: 10px;margin: 20px;display: inline-block;">
+	<div style="margin: 10px;"><?=UI::icon($p['icon'])->setSize(40)?></div>
+	<a href="<?=$part?>.php"><?=$p['label']?></a>
+</div>
 <?php endforeach; ?>
-</ul>
+</div>

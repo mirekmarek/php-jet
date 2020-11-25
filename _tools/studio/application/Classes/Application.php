@@ -108,22 +108,27 @@ class Application extends Jet_Application {
 		return [
 			'sites'      => [
 					'label' => Tr::_('Sites',[], Tr::COMMON_NAMESPACE),
+					'icon'  => 'compass',
 					'class' => 'Sites',
 				],
 			'pages'      => [
 					'label' => Tr::_('Pages',[], Tr::COMMON_NAMESPACE),
+					'icon'  => 'file-code',
 					'class' => 'Pages',
 				],
 			'data_model' => [
 				'label' => Tr::_('DataModel', [], Tr::COMMON_NAMESPACE),
+				'icon'  => 'database',
 				'class' => 'DataModels',
 			],
 			'menus'      => [
 					'label' => Tr::_('Menus', [], Tr::COMMON_NAMESPACE),
+					'icon'  => 'sitemap',
 					'class' => 'Menus',
 				],
 			'modules'    => [
 					'label' => Tr::_('Modules', [], Tr::COMMON_NAMESPACE),
+					'icon'  => 'boxes',
 					'class' => 'Modules',
 				]
 		];

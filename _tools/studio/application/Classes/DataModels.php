@@ -561,7 +561,7 @@ class DataModels extends BaseObject implements Application_Part
 
 		if( $exists ) {
 			$field->setCustomError(
-				Tr::_('DataModel with the same custom table name already exists'),
+				Tr::_('DataModel with the same table name already exists'),
 				'data_model_table_is_not_unique'
 			);
 
