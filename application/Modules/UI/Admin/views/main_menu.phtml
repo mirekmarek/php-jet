@@ -1,7 +1,7 @@
 <?php
 use Jet\Mvc_Page;
 use Jet\UI;
-use Jet\Navigation_Menu;
+use Jet\Navigation_MenuSet;
 use Jet\Auth;
 use Jet\Tr;
 use Jet\Locale;
@@ -18,7 +18,7 @@ use Jet\Mvc;
 
 	<div class="collapse navbar-collapse" id="mainNavBar">
 		<ul class="nav navbar-nav">
-			<?php foreach( Navigation_Menu::getRootMenus() as $menu ): ?>
+			<?php foreach( Navigation_MenuSet::get('admin')->getMenus() as $menu ): ?>
 				<li class="nav-item dropdown">
 					<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 						<?=$menu->getLabel()?> <span class="caret"></span>

@@ -22,11 +22,6 @@ class Main extends Application_Module
 {
 
 	/**
-	 * @var bool
-	 */
-	protected static $menu_init_done;
-
-	/**
 	 *
 	 */
 	public static function initBreadcrumb()
@@ -44,20 +39,4 @@ class Main extends Application_Module
 		);
 
 	}
-
-	/**
-	 *
-	 */
-	public static function initMenuItems()
-	{
-		if( static::$menu_init_done ) {
-			return;
-		}
-
-		Navigation_Menu::initMenu( 'admin' );
-
-		static::$menu_init_done = true;
-
-	}
-
 }

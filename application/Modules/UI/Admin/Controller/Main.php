@@ -35,8 +35,6 @@ class Controller_Main extends Mvc_Controller_Default
 	{
 		parent::__construct( $content );
 
-		Main::initMenuItems();
-
 
 
 		$GET = Http_Request::GET();

@@ -12,25 +12,6 @@ namespace Jet;
  */
 class Navigation_Menu extends BaseObject
 {
-	/**
-	 * @var string
-	 */
-	protected static $menus_dir_path;
-
-	/**
-	 * @var Navigation_Menu[]|array
-	 */
-	protected static $root_menus = [];
-
-	/**
-	 * @var Navigation_Menu[]|array
-	 */
-	protected static $all_menus = [];
-
-	/**
-	 * @var Navigation_Menu_Item[]|array
-	 */
-	protected static $all_menu_items;
 
 	/**
 	 * @var string
@@ -61,212 +42,6 @@ class Navigation_Menu extends BaseObject
 	 * @var Navigation_Menu_Item[]|Navigation_Menu[]
 	 */
 	protected $items = [];
-
-	/**
-	 * @return string
-	 */
-	public static function getMenusDirPath()
-	{
-		if(!self::$menus_dir_path) {
-			self::$menus_dir_path = SysConf_PATH::MENUS();
-		}
-
-		return self::$menus_dir_path;
-	}
-
-	/**
-	 * @param string $menus_path
-	 */
-	public static function setMenusDirPath( $menus_path )
-	{
-		self::$menus_dir_path = $menus_path;
-	}
-
-
-
-	/**
-	 * @param string   $id
-	 *
-	 * @param string   $label
-	 * @param string   $icon
-	 * @param int|null $index
-	 *
-	 * @throws Navigation_Menu_Exception
-	 *
-	 * @return Navigation_Menu
-	 */
-	public static function addRootMenu( $id, $label, $icon = '', $index = null  )
-	{
-		if( isset( static::$root_menus[$id] ) ) {
-			throw new Navigation_Menu_Exception( 'Menu ID conflict: '.$id );
-		}
-
-		if( $index===null ) {
-			$index = count( static::$root_menus )+1;
-		}
-
-		$menu = new static( $id, $label, $index, $icon );
-
-		static::$root_menus[$id] = $menu;
-		static::$all_menus[$id] = $menu;
-
-		return $menu;
-	}
-
-	/**
-	 * @param string $menu
-	 * @param string|null $translator_namespace
-	 */
-	public static function initMenu( $menu, $translator_namespace=null )
-	{
-		$path = static::getMenusDirPath().$menu.'.php';
-
-		$menu_data = require $path;
-
-		static::initMenuByData( $menu_data, $translator_namespace );
-
-		static::initModuleMenuItems( $menu );
-	}
-
-	/**
-	 * @param string $menu
-	 */
-	public static function initModuleMenuItems( $menu )
-	{
-		foreach( Application_Modules::activatedModulesList() as $manifest ) {
-			foreach( $manifest->getMenuItems( $menu ) as $menu_item ) {
-
-				$m = Navigation_Menu::getMenu( $menu_item->getMenuId() );
-
-				if( $m ) {
-					$m->addItem( $menu_item );
-				}
-			}
-
-		}
-	}
-
-	/**
-	 * @param array $data
-	 * @param null|string $translator_namespace
-	 */
-	public static function initMenuByData( array $data, $translator_namespace = null )
-	{
-
-		foreach( $data as $id=>$item_data ) {
-			if(empty($item_data['icon'])) {
-				$item_data['icon'] = '';
-			}
-
-			$root_menu = Navigation_Menu::addRootMenu(
-				$id,
-				Tr::_($item_data['label'], [], $translator_namespace),
-				$item_data['icon']
-			);
-
-			if( isset($item_data['items']) ) {
-				foreach( $item_data['items'] as $menu_item_id=>$menu_item_data ) {
-					$label = Tr::_($menu_item_data['label'], [], $translator_namespace);
-					$menu_item = new Navigation_Menu_Item( $menu_item_id, $label );
-					$menu_item->setData( $menu_item_data );
-
-					$root_menu->addItem( $menu_item );
-				}
-
-			}
-
-		}
-
-	}
-
-	/**
-	 * @param string $id
-	 *
-	 * @return Navigation_Menu|null
-	 */
-	public static function getMenu( $id )
-	{
-		if( !isset( static::$all_menus[$id] ) ) {
-			return null;
-		}
-
-		return static::$all_menus[$id];
-	}
-
-	/**
-	 * @param string $id
-	 *
-	 * @return Navigation_Menu_Item|null
-	 */
-	public static function getMenuItem( $id )
-	{
-		if( !isset( static::$all_menu_items[$id] ) ) {
-			return null;
-		}
-
-		return static::$all_menu_items[$id];
-	}
-
-	/**
-	 * @param bool $check_access
-	 *
-	 * @return Navigation_Menu[]
-	 */
-	public static function getRootMenus( $check_access=true )
-	{
-		$menus = [];
-
-		foreach( static::$root_menus as $menu_id => $menu ) {
-
-			if(
-				$check_access &&
-				!$menu->getAccessAllowed()
-			) {
-				continue;
-			}
-
-			$menus[] = $menu;
-		}
-
-		static::sortMenuItems($menus);
-
-		return $menus;
-	}
-
-
-	/**
-	 * @param Navigation_Menu[]|Navigation_Menu_Item[] $items
-	 */
-	public static function sortMenuItems( array &$items )
-	{
-		uasort(
-			$items,
-			function( $a, $b ) {
-				/**
-				 * @var Navigation_Menu|Navigation_Menu_Item $a
-				 * @var Navigation_Menu|Navigation_Menu_Item $b
-				 */
-				return strcmp( $a->getLabel(), $b->getLabel() );
-			}
-		);
-
-		uasort(
-			$items,
-			function( $a, $b ) {
-				/**
-				 * @var Navigation_Menu|Navigation_Menu_Item $a
-				 * @var Navigation_Menu|Navigation_Menu_Item $b
-				 */
-
-				if( $a->getIndex()==$b->getIndex() ) {
-					return 0;
-				}
-
-				return ( $a->getIndex()<$b->getIndex() ) ? -1 : 1;
-			}
-		);
-
-	}
 
 
 	/**
@@ -386,15 +161,11 @@ class Navigation_Menu extends BaseObject
 		$item->setMenu( $this );
 
 		$id = $item->getId();
-		if(
-			isset(static::$all_menu_items[$id]) ||
-			isset(static::$all_menus[$id])
-		) {
+		if( isset($this->items[$id]) ) {
 			throw new Navigation_Menu_Exception( 'Duplicate menu element: '.$id);
 		}
 
 		$this->items[$id] = $item;
-		static::$all_menu_items[$id] = $item;
 	}
 
 	/**
@@ -407,15 +178,11 @@ class Navigation_Menu extends BaseObject
 		$menu->setParentMenu( $this );
 
 		$id = $menu->getId();
-		if(
-			isset(static::$all_menu_items[$id]) ||
-			isset(static::$all_menus[$id])
-		) {
+		if( isset($this->items[$id]) ) {
 			throw new Navigation_Menu_Exception( 'Duplicate menu element: '.$id);
 		}
 
 		$this->items[$id] = $menu;
-		static::$all_menus[$id] = $menu;
 	}
 
 	/**
@@ -467,6 +234,42 @@ class Navigation_Menu extends BaseObject
 				$this->addMenu( $item );
 			}
 		}
+	}
+
+
+
+	/**
+	 * @param Navigation_Menu[]|Navigation_Menu_Item[] $items
+	 */
+	public static function sortMenuItems( array &$items )
+	{
+		uasort(
+			$items,
+			function( $a, $b ) {
+				/**
+				 * @var Navigation_Menu|Navigation_Menu_Item $a
+				 * @var Navigation_Menu|Navigation_Menu_Item $b
+				 */
+				return strcmp( $a->getLabel(), $b->getLabel() );
+			}
+		);
+
+		uasort(
+			$items,
+			function( $a, $b ) {
+				/**
+				 * @var Navigation_Menu|Navigation_Menu_Item $a
+				 * @var Navigation_Menu|Navigation_Menu_Item $b
+				 */
+
+				if( $a->getIndex()==$b->getIndex() ) {
+					return 0;
+				}
+
+				return ( $a->getIndex()<$b->getIndex() ) ? -1 : 1;
+			}
+		);
+
 	}
 
 }
