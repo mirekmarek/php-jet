@@ -23,7 +23,7 @@ if(
 $sites = Sites::getSites();
 $pages = $current->getPagesList();
 
-
+/*
 ?>
 <legend><?=Tr::_('Pages')?></legend>
 
@@ -38,9 +38,6 @@ $pages = $current->getPagesList();
 
 	<div style="padding-bottom: 40px">
 		<?php foreach($pages[$site_id] as $page_id=>$page):
-			/**
-			 * @var Pages_Page $page
-			 */
 			$this->setVar( 'page', $page );
 			?>
 
@@ -66,9 +63,6 @@ foreach( $sites as $site_id=>$site ):
 	}
 
 	foreach($pages[$site_id] as $page_id=>$page):
-		/**
-		 * @var Pages_Page $page
-		 */
 		$this->setVar( 'page', $page );
 
 		$form = Modules_Manifest::getPageContentCreateForm( $page );
@@ -107,3 +101,4 @@ foreach( $sites as $site_id=>$site ):
 
 	endforeach;
 endforeach;
+*/

@@ -49,8 +49,6 @@ $module_wizard_setup_dialog = UI::dialog('module_wizard_setup_dialog', Tr::_('Se
 
 <div class="toolbar" id="main-toolbar">
 	<?=UI::button_save()?>
-	<?=UI::button_save(Tr::_('Save and generate'))->setOnclick("this.form.generate.value=1;this.form.submit()")?>
-	<?=UI::button(Tr::_('Wizard'))->setOnclick("$('#module_wizard_select_dialog').modal('show');")->setClass('success')->setIcon('magic')?>
 
 	<?php if($current->getIsInstalled()):
 		if(!$current->isMandatory()):
@@ -73,10 +71,8 @@ $module_wizard_setup_dialog = UI::dialog('module_wizard_setup_dialog', Tr::_('Se
 		<?=UI::button(Tr::_('Install and activate'))->setUrl(Modules::getActionUrl('install_activate'))->setClass('success')?>
 	<?php endif; ?>
 
-	<?=UI::button_create(Tr::_('Add controller'))->setOnclick('JetStudio.Modules.editModule.addController.openDialog()')?>
 	<?=UI::button_create(Tr::_('Add page'))->setOnclick('JetStudio.Modules.editModule.addPage.openDialog()')?>
 	<?=UI::button_create(Tr::_('Add menu item'))->setOnclick('JetStudio.Modules.editModule.addMenuItem.openDialog()')?>
-	<?=UI::button_delete(Tr::_('Delete this module'))->setOnclick('JetStudio.Modules.deleteModule.openDialog()')?>
 
 </div>
 <div class="container-fluid" id="main-edit-area">
@@ -137,9 +133,6 @@ $module_wizard_setup_dialog = UI::dialog('module_wizard_setup_dialog', Tr::_('Se
 </div>
 <?=$form->end()?>
 
-<div id="controllers_list_area">
-	<?php require 'controllers/list.phtml'; ?>
-</div>
 
 <div id="module_pages_list_area">
 	<?php require 'pages/list.phtml'; ?>
@@ -201,6 +194,7 @@ $module_wizard_setup_dialog = UI::dialog('module_wizard_setup_dialog', Tr::_('Se
 
 
 <?php
+/*
 echo $module_wizard_select_dialog->start();
 	foreach( Modules_Wizard::getList() as $wizard ):
 		?>
@@ -218,3 +212,4 @@ echo $module_wizard_select_dialog->end();
 <?=$module_wizard_setup_dialog->start()?>
 	<iframe id="module_wizard_setup_form_area" style="width: 1000px;height: 500px;border: 1px inset #c9c9c9"></iframe>
 <?=$module_wizard_setup_dialog->end()?>
+*/
