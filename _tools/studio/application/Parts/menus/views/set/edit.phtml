@@ -1,0 +1,60 @@
+<?php
+namespace JetStudio;
+
+use Jet\Tr;
+use Jet\UI;
+use Jet\Form;
+
+$set = Menus::getCurrentMenuSet();
+
+$form = $set->getEditForm();
+
+
+$form->setDefaultLabelWidth([
+	Form::LJ_SIZE_MEDIUM => 2
+]);
+$form->setDefaultFieldWidth([
+	Form::LJ_SIZE_MEDIUM => 6
+]);
+
+
+?>
+
+<?=$form->start()?>
+<?=$form->getCommonMessage();?>
+	<?=$form->field('menu_set_name')?>
+
+	<div class="row">
+		<label class="col-md-2 control-label"><?=Tr::_('Menus:')?></label>
+		<div class="col-md-6">
+			<div id="items_sort_area">
+				<?php foreach( $set->getMenus() as $item ): ?>
+					<div class="list-group-item menu-item-sort-item" data-id="<?=$item->getId()?>">
+						<input type="hidden" name="items_sort[]" value="<?=$item->getId()?>">
+						<table>
+							<tr>
+								<td><span class="fa fa-arrows-v" style="font-size:16px;padding-right: 5px"></span></td>
+
+								<td>
+									<a href="<?=Menus::getActionUrl('', [], null, $item->getId())?>"><?=UI::icon('sitemap')?> <?=$item->getLabel()?></a>
+								</td>
+							</tr>
+						</table>
+					</div>
+				<?php endforeach; ?>
+			</div>
+		</div>
+
+	</div>
+
+<?=$form->end()?>
+
+
+<?=Application::getView()->render('menu/create/dialog');?>
+
+<script type="text/javascript">
+	$(document).ready( function() {
+		JetStudio.Menus.initSort();
+	} );
+</script>
+
