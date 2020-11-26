@@ -744,10 +744,10 @@ class Modules_Manifest extends Application_Module_Manifest
 	public static function getCreateMenuItemForm()
 	{
 		if(!static::$menu_item_create_form) {
-			$form = Menus_MenuNamespace_Menu_Item::getCreateForm();
+			$form = Menus_Menu_Item::getCreateForm();
 
 			$target_menus = [''=>''];
-			foreach( Menus::getMenuNamespaces() as $menu_namespace ) {
+			foreach( Menus::getSets() as $menu_namespace ) {
 				foreach( $menu_namespace->getMenus() as $menu ) {
 
 					$key = $menu_namespace->getInternalId().':'.$menu->getId();
@@ -777,7 +777,7 @@ class Modules_Manifest extends Application_Module_Manifest
 	}
 
 	/**
-	 * @return bool|Menus_MenuNamespace_Menu_Item
+	 * @return bool|Menus_Menu_Item
 	 */
 	public static function catchCreateMenuItemForm()
 	{
@@ -793,7 +793,7 @@ class Modules_Manifest extends Application_Module_Manifest
 
 		[$namespace_id, $menu_id] = explode(':', $target_menu);
 
-		$menu_item = new Menus_MenuNamespace_Menu_Item(
+		$menu_item = new Menus_Menu_Item(
 			$form->field('id')->getValue(),
 			$form->field('label')->getValue()
 		);
@@ -814,16 +814,16 @@ class Modules_Manifest extends Application_Module_Manifest
 		$menu_item->setSiteId( $form->field('site_id')->getValue() );
 		$menu_item->setLocale( $form->field('locale')->getValue() );
 
-		$menu_item->setUrlParts( Menus_MenuNamespace_Menu_Item::catchURLParts( $form ) );
-		$menu_item->setGetParams( Menus_MenuNamespace_Menu_Item::catchGETparams( $form ) );
+		$menu_item->setUrlParts( Menus_Menu_Item::catchURLParts( $form ) );
+		$menu_item->setGetParams( Menus_Menu_Item::catchGETparams( $form ) );
 
 		return $menu_item;
 	}
 
 	/**
-	 * @param Menus_MenuNamespace_Menu_Item $menu_item
+	 * @param Menus_Menu_Item $menu_item
 	 */
-	public function addMenuItem( Menus_MenuNamespace_Menu_Item $menu_item )
+	public function addMenuItem( Menus_Menu_Item $menu_item )
 	{
 		$namespace_id = $menu_item->getNamespaceId();
 		$menu_id = $menu_item->getMenuId();
@@ -846,7 +846,7 @@ class Modules_Manifest extends Application_Module_Manifest
 	 * @param string $namespace_id
 	 * @param string $menu_id
 	 *
-	 * @return Menus_MenuNamespace_Menu_Item[]
+	 * @return Menus_Menu_Item[]
 	 */
 	public function getMenuItemsList( $namespace_id='', $menu_id='' )
 	{
@@ -875,7 +875,7 @@ class Modules_Manifest extends Application_Module_Manifest
 	 * @param string $menu_id
 	 * @param string $item_id
 	 *
-	 * @return Menus_MenuNamespace_Menu_Item|null
+	 * @return Menus_Menu_Item|null
 	 */
 	public function getMenuItem( $namespace_id, $menu_id, $item_id )
 	{
@@ -892,7 +892,7 @@ class Modules_Manifest extends Application_Module_Manifest
 	 * @param string $menu_id
 	 * @param string $item_id
 	 *
-	 * @return Menus_MenuNamespace_Menu_Item|null
+	 * @return Menus_Menu_Item|null
 	 */
 	public function deleteMenuItem( $namespace_id, $menu_id, $item_id )
 	{
@@ -957,7 +957,7 @@ class Modules_Manifest extends Application_Module_Manifest
 		}
 
 		foreach( $this->menu_items as $namespace_id=>$menus ) {
-			$namespace = Menus::getMenuNamespace( $namespace_id );
+			$namespace = Menus::getSet( $namespace_id );
 			if(!$namespace) {
 				continue;
 			}
@@ -980,7 +980,7 @@ class Modules_Manifest extends Application_Module_Manifest
 
 				foreach( $items as $item_id=>$item ) {
 					/**
-					 * @var Menus_MenuNamespace_Menu_Item $item;
+					 * @var Menus_Menu_Item $item;
 					 */
 					$item = $item->toArray();
 
@@ -1059,40 +1059,6 @@ class Modules_Manifest extends Application_Module_Manifest
 		$class->write( $this->getModuleDir().'Main.php');
 
 
-	}
-
-	/**
-	 * @param Menus_MenuNamespace $namespace
-	 *
-	 * @return bool
-	 */
-	public function event_menuNamespaceDeleted( Menus_MenuNamespace $namespace )
-	{
-		if(isset($this->menu_items[$namespace->getInternalId()])) {
-			unset($this->menu_items[$namespace->getInternalId()]);
-
-			return true;
-		}
-
-
-		return false;
-	}
-
-	/**
-	 * @param Menus_MenuNamespace_Menu $menu
-	 *
-	 * @return bool
-	 */
-	public function event_menuDeleted( Menus_MenuNamespace_Menu $menu )
-	{
-		if(isset($this->menu_items[$menu->getNamespaceName()][$menu->getId()])) {
-			unset($this->menu_items[$menu->getNamespaceName()][$menu->getId()]);
-
-			return true;
-		}
-
-
-		return false;
 	}
 
 }

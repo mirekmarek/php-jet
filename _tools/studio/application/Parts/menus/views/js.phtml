@@ -8,16 +8,16 @@ namespace JetStudio;
 	}
 
 	JetStudio.Menus = {
-		createNamespace: {
+		createSet: {
 			openDialog: function() {
-				$('#dialog_create_new_menu_namespace').modal('show');
+				$('#dialog_create_new_menu_set').modal('show');
 			},
 			createSend: function() {
 				JetAjaxForm.submit(
-					'<?=Menus_MenuNamespace::getCreateForm()->getId()?>',
+					'<?=Menus_MenuSet::getCreateForm()->getId()?>',
 					{
 						onSuccess: function( form, response_data ) {
-							location = '?namespace='+encodeURIComponent(response_data['new_namespace_id'])
+							location = '?set='+encodeURIComponent(response_data['new_set'])
 						}
 					}
 				);
@@ -29,10 +29,10 @@ namespace JetStudio;
 			},
 			createSend: function() {
 				JetAjaxForm.submit(
-					'<?=Menus_MenuNamespace_Menu::getCreateForm()->getId()?>',
+					'<?=Menus_Menu::getCreateForm()->getId()?>',
 					{
 						onSuccess: function( form, response_data ) {
-							location = '?namespace=<?=Menus::getCurrentMenuNamespaceName()?>&menu='+encodeURIComponent(response_data['new_menu_id'])
+							location = '?set=<?=Menus::getCurrentMenuSetName()?>&menu='+encodeURIComponent(response_data['new_menu_id'])
 						}
 					}
 				);
@@ -53,17 +53,17 @@ namespace JetStudio;
 			},
 			createSend: function() {
 				JetAjaxForm.submit(
-					'<?=Menus_MenuNamespace_Menu_Item::getCreateForm()->getId()?>',
+					'<?=Menus_Menu_Item::getCreateForm()->getId()?>',
 					{
 						onSuccess: function( form, response_data ) {
-							location = '?namespace=<?=Menus::getCurrentMenuNamespaceName()?>&menu=<?=Menus::getCurrentMenuId()?>&item='+encodeURIComponent(response_data['new_menu_item_id'])
+							location = '?set=<?=Menus::getCurrentMenuSetName()?>&menu=<?=Menus::getCurrentMenuId()?>&item='+encodeURIComponent(response_data['new_menu_item_id'])
 						}
 					}
 				);
 			},
 			generateId: function( name ) {
 				$.ajax({
-					url: '<?=Menus::getActionUrl('menu_item/generate_id', [], false)?>&name='+encodeURIComponent(name),
+					url: '<?=Menus::getActionUrl('item/generate_id', [], false)?>&name='+encodeURIComponent(name),
 					success: function(result) {
 						$('#create_menu_item_form__id').val( result.id );
 					}

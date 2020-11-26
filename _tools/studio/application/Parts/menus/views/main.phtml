@@ -6,32 +6,44 @@ use Jet\Tr;
 ?>
 <?=Application::getView()->render('js');?>
 
-<div class="row">
-<?php if(Menus::getCurrentMenuNamespace()): ?>
-	<div class="col-md-3" style="padding: 0px;">
-		<div class="toolbar">
-			<?=UI::button_create(Tr::_('Create menu namespace'))->setOnclick("JetStudio.Menus.createNamespace.openDialog();");?>
-		</div>
-		<?=Application::getView()->render('tree');?>
-	</div>
-	<div class="col-md-9" style="padding: 0px;">
-		<?php
-		if( Menus::getCurrentMenu() ):
-			if( Menus::getCurrentMenuItem() ):
-				require 'edit_menu_item.phtml';
-			else:
-				require 'edit_menu.phtml';
-			endif;
-		else:
-			require 'edit_namespace.phtml';
-		endif;
-		?>
+<?php if(Menus::getCurrentMenuSet()):
 
+	$what = '';
+	if( Menus::getCurrentMenu() ):
+		if( Menus::getCurrentMenuItem() ):
+			$what = 'item';
+		else:
+			$what = 'menu';
+		endif;
+	else:
+		$what = 'set';
+	endif;
+	?>
+	<div class="row toolbar" id="main-toolbar">
+		<div class="col-md-3">
+			<?=UI::button_create(Tr::_('Create a new menu set'))->setOnclick("JetStudio.Menus.createSet.openDialog();");?>
+		</div>
+		<div class="col-md-9">
+			<?php require $what.'/toolbar.phtml'; ?>
+		</div>
+	</div>
+
+	<div class="row" id="main-col">
+		<div class="col-md-3" style="padding: 0px;">
+			<?=Application::getView()->render('tree');?>
+		</div>
+		<div class="col-md-9" style="padding: 0px;">
+			<div class="container-fluid">
+				<?=Application::getGeneralView()->render('messages');?>
+				<?php require $what.'/edit.phtml'; ?>
+			</div>
+		</div>
 	</div>
 <?php else: ?>
+<div class="row">
 	<div class="col-md-12" style="padding: 0px;">
 		<div class="toolbar">
-			<?=UI::button_create(Tr::_('Create menu namespace'))->setOnclick("JetStudio.Menus.createNamespace.openDialog();");?>
+			<?=UI::button_create(Tr::_('Create a new menu set'))->setOnclick("JetStudio.Menus.createSet.openDialog();");?>
 		</div>
 		<div style="padding: 10px;">
 			<?=Application::getGeneralView()->render('messages');?>
@@ -39,8 +51,8 @@ use Jet\Tr;
 			<?=Application::getView()->render('tree');?>
 		</div>
 	</div>
-<?php endif; ?>
 </div>
+<?php endif; ?>
 
 
-<?=Application::getView()->render('create_namespace/dialog');?>
+<?=Application::getView()->render('set/create/dialog');?>

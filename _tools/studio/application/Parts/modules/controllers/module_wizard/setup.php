@@ -38,7 +38,7 @@ if( $wizard->catchSetupForm() ) {
 		}
 
 		if($ok) {
-			Application::output( $view->render('modules/module_wizard/done') );
+			Application::output( $view->render('module_wizard/done') );
 
 			Application::renderLayout();
 
@@ -47,7 +47,7 @@ if( $wizard->catchSetupForm() ) {
 	}
 }
 
-Application::output( $view->render('modules/module_wizard/setup_form') );
+Application::output( $view->render('module_wizard/setup_form') );
 
 
 Application::renderLayout();

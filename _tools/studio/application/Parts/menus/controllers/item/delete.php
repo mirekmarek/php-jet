@@ -5,23 +5,21 @@ use Jet\UI_messages;
 use Jet\Tr;
 use Jet\Http_Headers;
 
+$set = Menus::getCurrentMenuSet();
 $menu = Menus::getCurrentMenu();
-$current = Menus::getCurrentMenuItem();
+$item = Menus::getCurrentMenuItem();
 
-if(
-	$menu &&
-	$current
-) {
-	$menu_item = $menu->deleteMenuItem( $current->getId() );
-	$menu->sortItems();
+if(!$set || !$menu || !$item) {
+	die();
+}
 
+	$menu->deleteMenuItem( $item->getId() );
 
-	if( Menus::save() ) {
+	if( $set->save() ) {
 		UI_messages::info( Tr::_('Menu item <b>%name%</b> has been deleted', [
-			'name' => $menu_item->getLabel()
+			'name' => $item->getLabel()
 		]) );
 
 		Http_Headers::reload([], ['action', 'item']);
 	}
 
-}

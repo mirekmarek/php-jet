@@ -209,24 +209,5 @@ class Project extends BaseObject implements Application_Part {
 
 	}
 
-	/**
-	 * @param $event
-	 * @param mixed ...$params
-	 */
-	public static function event( $event, ...$params )
-	{
-		$method_name = 'event_'.$event;
-
-		foreach( Application::getParts() as $part ) {
-			$class = __NAMESPACE__.'\\'.$part['class'];
-
-			if(!method_exists( $class, $method_name )) {
-				continue;
-			}
-
-			call_user_func_array( [$class, $method_name], $params );
-		}
-	}
-
 
 }

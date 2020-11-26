@@ -22,15 +22,7 @@ $delete_menu_dialog = UI::dialog('delete_menu_dialog', Tr::_('Delete menu'), 600
 ?>
 
 <?=$form->start()?>
-<div class="toolbar" id="main-toolbar">
-	<?=UI::button_save()?>
-	<?=UI::button_create(Tr::_('Create a new menu item'))->setOnclick("JetStudio.Menus.createMenuItem.openDialog();")?>
-	<?=UI::button_delete(Tr::_('Delete this menu'))->setOnclick("$('#delete_menu_dialog').modal('show')") ?>
-</div>
-
-<div class="container-fluid" id="main-edit-area">
-	<?=Application::getGeneralView()->render('messages');?>
-
+	<?=$form->getCommonMessage();?>
 	<?=$form->field('id')?>
 	<?=$form->field('label')?>
 	<?=$form->field('icon')?>
@@ -60,8 +52,6 @@ $delete_menu_dialog = UI::dialog('delete_menu_dialog', Tr::_('Delete menu'), 600
 	</div>
 	<?php endif; ?>
 
-</div>
-
 <?=$form->end()?>
 
 <?php
@@ -72,7 +62,7 @@ echo $delete_menu_dialog->footer();
 echo $delete_menu_dialog->end();
 ?>
 
-<?=Application::getView()->render('create_menu_item/dialog');?>
+<?=Application::getView()->render('item/create/dialog');?>
 
 <script type="text/javascript">
 	$(document).ready( function() {

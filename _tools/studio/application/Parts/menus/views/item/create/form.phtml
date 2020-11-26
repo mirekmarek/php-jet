@@ -5,7 +5,7 @@ use Jet\Form;
 use Jet\Tr;
 use Jet\UI;
 
-$form = Menus_MenuNamespace_Menu_Item::getCreateForm();
+$form = Menus_Menu_Item::getCreateForm();
 
 $form->getField('label')->input()->addJsAction('onkeyup', 'JetStudio.Menus.createMenuItem.generateId(this.value);');
 
@@ -13,6 +13,7 @@ $form->setDefaultLabelWidth( [ Form::LJ_SIZE_MEDIUM => 3 ] );
 $form->setDefaultFieldWidth( [ Form::LJ_SIZE_MEDIUM => 9 ] );
 
 echo $form->start();
+echo $form->getCommonMessage();
 
 echo $form->field('label');
 echo $form->field('id');
@@ -39,7 +40,7 @@ $tabs = UI::tabsJS('create_menu_item_target_tabs', [
 				<div class="form-group row">
 					<label class="col-md-3 control-label"><?=Tr::_('Custom URL parts:')?></label>
 					<div class="col-md-9">
-						<?php for( $c=0; $c<Menus_MenuNamespace_Menu_Item::URL_PARTS_COUNT; $c++):
+						<?php for( $c=0; $c<Menus_Menu_Item::URL_PARTS_COUNT; $c++):
 							$field = $form->getField('/URL_parts/'.$c);
 							?>
 							<div class="input-group">
@@ -55,7 +56,7 @@ $tabs = UI::tabsJS('create_menu_item_target_tabs', [
 				<div class="form-group row">
 					<label class="col-md-3 control-label"><?=Tr::_('GET parameter:')?></label>
 					<div class="col-md-9">
-						<?php for( $c=0; $c<Menus_MenuNamespace_Menu_Item::GET_PARAMS_COUNT; $c++):
+						<?php for( $c=0; $c<Menus_Menu_Item::GET_PARAMS_COUNT; $c++):
 							$field_key = $form->getField('/GET_params/'.$c.'/key');
 							$field_value = $form->getField('/GET_params/'.$c.'/value');
 							?>

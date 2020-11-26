@@ -38,7 +38,7 @@ echo $form->field('separator_after');
 			<div class="form-group row">
 				<label class="col-md-4 control-label"><?=Tr::_('Custom URL parts:')?></label>
 				<div class="col-md-8">
-					<?php for( $c=0; $c<Menus_MenuNamespace_Menu_Item::URL_PARTS_COUNT; $c++):
+					<?php for( $c=0; $c<Menus_Menu_Item::URL_PARTS_COUNT; $c++):
 						$field = $form->getField('/URL_parts/'.$c);
 						?>
 						<div class="input-group">
@@ -54,7 +54,7 @@ echo $form->field('separator_after');
 			<div class="form-group row">
 				<label class="col-md-4 control-label"><?=Tr::_('GET parameter:')?></label>
 				<div class="col-md-8">
-					<?php for( $c=0; $c<Menus_MenuNamespace_Menu_Item::GET_PARAMS_COUNT; $c++):
+					<?php for( $c=0; $c<Menus_Menu_Item::GET_PARAMS_COUNT; $c++):
 						$field_key = $form->getField('/GET_params/'.$c.'/key');
 						$field_value = $form->getField('/GET_params/'.$c.'/value');
 						?>

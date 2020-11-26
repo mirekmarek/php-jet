@@ -28,7 +28,7 @@ $view = Application::getView();
 $data = [];
 
 $snippets = [
-	'add_controller_form_area' => $view->render('modules/module_edit/add_controller_form')
+	'add_controller_form_area' => $view->render('module_edit/add_controller_form')
 ];
 
 

@@ -35,8 +35,8 @@ if(
 	AJAX::formResponse(
 		$ok,
 		[
-			'controller_'.$controller->getInternalId().'_head' => $view->render('modules/module_edit/controllers/item-head'),
-			'controller_'.$controller->getInternalId() => $view->render('modules/module_edit/controllers/item-body')
+			'controller_'.$controller->getInternalId().'_head' => $view->render('module_edit/controllers/item-head'),
+			'controller_'.$controller->getInternalId() => $view->render('module_edit/controllers/item-body')
 		]
 	);
 

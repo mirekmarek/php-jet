@@ -5,7 +5,7 @@ use Jet\UI;
 use Jet\Tr;
 
 ?>
-<?=Application::getView()->render('modules/js');?>
+<?=Application::getView()->render('js');?>
 
 <?php if(Modules::getCurrentModule()): ?>
 <div class="row">
@@ -14,22 +14,22 @@ use Jet\Tr;
 			<?=UI::button_create(Tr::_('Create a new module'))->setOnclick('JetStudio.Modules.createModule.openDialog()')?>
 		</div>
 		<div class="container-fluid">
-			<?=Application::getView()->render('modules/models_list');?>
+			<?=Application::getView()->render('models_list');?>
 		</div>
 	</div>
 	<div class="col-md-9" style="padding: 0px">
-		<?=Application::getView()->render('modules/module_edit/edit');?>
+		<?=Application::getView()->render('module_edit/edit');?>
 	</div>
 </div>
 <?php else: ?>
 <div class="row">
 	<div class="col-md-12">
-		<?=Application::getView()->render('modules/module_edit/dashboard');?>
+		<?=Application::getView()->render('module_edit/dashboard');?>
 
 	</div>
 </div>
 <?php endif; ?>
 
 
-<?=Application::getView()->render('modules/create_module/dialog');?>
-<?=Application::getView()->render('modules/delete_module/dialog');?>
+<?=Application::getView()->render('create_module/dialog');?>
+<?=Application::getView()->render('delete_module/dialog');?>

@@ -4,6 +4,7 @@ namespace JetStudio;
 use Jet\Tr;
 use Jet\Form;
 use Jet\Mvc_View;
+use Jet\UI;
 
 /**
  * @var Mvc_View $this
@@ -32,23 +33,14 @@ $form->setDefaultFieldWidth([
 	Form::LJ_SIZE_MEDIUM => 6
 ]);
 
-$save_button = $this->getRaw('save_button');
-$showSaveButton = function() use ($save_button) {
-	if(!$save_button) {
-		return;
-	}
-	?>
-	<div class="row" style="margin-bottom: 20px;">
-		<div class="col-md-2">
-		</div>
-		<div class="col-md-6" align="right">
-			<?=$this->getRaw('save_button')?>
-		</div>
-	</div>
-	<?php
-}
-?>
+$tabs = UI::tabsJS('create_menu_item_target_tabs', [
+	$tabs_prefix.'tab_direct_mvc' => Tr::_('MVC link'),
+	$tabs_prefix.'tab_direct_link' => Tr::_('Direct link'),
+]);
 
+
+?>
+	<?=$form->getCommonMessage();?>
 	<?=$form->field($field_prefix_a.'id')?>
 	<?=$form->field($field_prefix_a.'label')?>
 	<?=$form->field($field_prefix_a.'icon')?>
@@ -56,65 +48,52 @@ $showSaveButton = function() use ($save_button) {
 
 	<?=$form->field($field_prefix_a.'separator_before')?>
 	<?=$form->field($field_prefix_a.'separator_after')?>
-	<?php $showSaveButton() ?>
 
-	<ul class="nav nav-tabs">
-		<li class="active">
-			<a data-toggle="tab" href="#<?=$tabs_prefix?>tab_direct_mvc"><?=Tr::_('MVC link')?></a>
-		</li>
-		<li>
-			<a data-toggle="tab" href="#<?=$tabs_prefix?>tab_direct_link"><?=Tr::_('Direct link')?></a>
-		</li>
-	</ul>
+	<?=$tabs?>
 
-	<div class="tab-content">
-		<div id="<?=$tabs_prefix?>tab_direct_mvc" class="tab-pane fade in active" style="padding-top: 10px;min-height: 600px;">
+	<?=$tabs->contentStart()?>
+
+		<?=$tabs->tab($tabs_prefix.'tab_direct_mvc')->contentStart()?>
 			<?=$form->field($field_prefix_a.'page_id')?>
 			<?=$form->field($field_prefix_a.'site_id')?>
 			<?=$form->field($field_prefix_a.'locale')?>
-			<?php $showSaveButton() ?>
 
 			<div class="form-group row">
 				<label class="col-md-2 control-label"><?=Tr::_('Custom URL parts:')?></label>
 				<div class="col-md-6">
-					<?php for( $c=0; $c<Menus_MenuNamespace_Menu_Item::URL_PARTS_COUNT; $c++):
+					<?php for( $c=0; $c<Menus_Menu_Item::URL_PARTS_COUNT; $c++):
 						$field = $form->getField($field_prefix.'/URL_parts/'.$c);
 						?>
 						<div class="input-group">
-							<span class="input-group-addon" style="font-weight: bolder">/</span>
+							<span class="input-group-prepend" style="font-weight: bolder"><span class="input-group-text">/</span></span>
 							<?=$field->input()?>
-							<span class="input-group-addon" style="font-weight: bolder">/</span>
+							<span class="input-group-append" style="font-weight: bolder"><span class="input-group-text">/</span></span>
 						</div>
 					<?php endfor; ?>
 				</div>
 			</div>
-			<?php $showSaveButton() ?>
 
 			<div class="form-group row">
 				<label class="col-md-2 control-label"><?=Tr::_('GET parameter:')?></label>
 				<div class="col-md-6">
-					<?php for( $c=0; $c<Menus_MenuNamespace_Menu_Item::GET_PARAMS_COUNT; $c++):
+					<?php for( $c=0; $c<Menus_Menu_Item::GET_PARAMS_COUNT; $c++):
 						$field_key = $form->getField($field_prefix.'/GET_params/'.$c.'/key');
 						$field_value = $form->getField($field_prefix.'/GET_params/'.$c.'/value');
 						?>
 						<div class="input-group">
-							<span class="input-group-addon" style="font-weight: bolder"> </span>
+							<span class="input-group-prepend" style="font-weight: bolder"><span class="input-group-text"> </span></span>
 							<?=$field_key->input()?>
-							<span class="input-group-addon" style="font-weight: bolder">=</span>
+							<span class="input-group-prepend" style="font-weight: bolder"><span class="input-group-text">=</span></span>
 							<?=$field_value->input()?>
-							<span class="input-group-addon" style="font-weight: bolder"> </span>
+							<span class="input-group-append" style="font-weight: bolder"><span class="input-group-text"> </span></span>
 						</div>
 					<?php endfor; ?>
 				</div>
 			</div>
 
-			<?php $showSaveButton() ?>
-
-		</div>
-		<div id="<?=$tabs_prefix?>tab_direct_link" class="tab-pane fade" style="padding-top: 10px;min-height: 600px;">
+		<?=$tabs->tab($tabs_prefix.'tab_direct_mvc')->contentEnd()?>
+		<?=$tabs->tab($tabs_prefix.'tab_direct_link')->contentStart()?>
 			<?=$form->field($field_prefix_a.'URL')?>
-
-			<?php $showSaveButton() ?>
-		</div>
-	</div>
+		<?=$tabs->tab($tabs_prefix.'tab_direct_link')->contentEnd()?>
+	<?=$tabs->contentEnd()?>
 

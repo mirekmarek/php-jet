@@ -31,7 +31,7 @@ if( ($new_module=Modules_Manifest::catchCreateForm()) ) {
 AJAX::formResponse(
 	$ok,
 	[
-		$form->getId().'_form_area' => Application::getView()->render('modules/create_module/form')
+		$form->getId().'_form_area' => Application::getView()->render('create_module/form')
 	],
 	$data
 );

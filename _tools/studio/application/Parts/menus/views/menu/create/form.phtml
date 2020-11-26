@@ -1,13 +1,13 @@
 <?php
 namespace JetStudio;
 
-$form = Menus_MenuNamespace_Menu::getCreateForm();
+$form = Menus_Menu::getCreateForm();
 
 $form->getField('label')->input()->addJsAction('onkeyup', 'JetStudio.Menus.createMenu.generateId(this.value);');
 
 
 echo $form->start();
-
+echo $form->getCommonMessage();
 echo $form->field('label');
 echo $form->field('id');
 echo $form->field('icon');

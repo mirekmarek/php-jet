@@ -43,8 +43,8 @@ if(
 	AJAX::formResponse(
 		$ok,
 		[
-			'page_'.$site_id.'_'.$page_id.'_head' => $view->render('modules/module_edit/pages/item-head'),
-			'page_'.$site_id.'_'.$page_id => $view->render('modules/module_edit/pages/item-body')
+			'page_'.$site_id.'_'.$page_id.'_head' => $view->render('module_edit/pages/item-head'),
+			'page_'.$site_id.'_'.$page_id => $view->render('module_edit/pages/item-body')
 		]
 	);
 

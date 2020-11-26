@@ -5,18 +5,17 @@ use Jet\UI_messages;
 use Jet\Tr;
 use Jet\Http_Headers;
 
-$namespace = Menus::getCurrentMenuNamespace();
+$set = Menus::getCurrentMenuSet();
 $current = Menus::getCurrentMenu();
 
 if(
-	$namespace &&
+	$set &&
 	$current
 ) {
-	$menu = $namespace->deleteMenu( $current->getId() );
-	$namespace->sortMenus();
+	$menu = $set->deleteMenu( $current->getId() );
 
 
-	if( Menus::save() ) {
+	if( $menu && $set->save() ) {
 		UI_messages::info( Tr::_('Menu <b>%name%</b> has been deleted', [
 			'name' => $menu->getLabel()
 		]) );

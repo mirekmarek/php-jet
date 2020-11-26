@@ -40,8 +40,8 @@ if(
 	AJAX::formResponse(
 		$ok,
 		[
-			'menu_item_'.$namespace_id.'_'.$menu_id.'_'.$item_id.'_head' => $view->render('modules/module_edit/menu_items/item-head'),
-			'menu_item_'.$namespace_id.'_'.$menu_id.'_'.$item_id.'_form_area' => $view->render('modules/module_edit/menu_items/item-body')
+			'menu_item_'.$namespace_id.'_'.$menu_id.'_'.$item_id.'_head' => $view->render('module_edit/menu_items/item-head'),
+			'menu_item_'.$namespace_id.'_'.$menu_id.'_'.$item_id.'_form_area' => $view->render('module_edit/menu_items/item-body')
 		]
 	);
 

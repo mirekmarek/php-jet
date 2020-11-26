@@ -1,11 +1,10 @@
 <?php
 return [
-	'Please enter menu namespace name' => '',
-	'Menu namespace:' => '',
+	'Please enter menu set name' => '',
+	'Menu set name:' => '',
 	'Locales' => '',
 	'Search for locale ...' => '',
-	'Create menu namespace' => '',
-	'Create a new Menu namespace' => '',
+	'Create a new menu set' => '',
 	'Create' => '',
 	'Generate' => '',
 	'Delete menu namespace' => '',

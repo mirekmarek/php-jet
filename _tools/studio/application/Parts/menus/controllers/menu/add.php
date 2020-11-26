@@ -6,20 +6,23 @@ use Jet\Tr;
 use Jet\AJAX;
 
 
-$form = Menus_MenuNamespace_Menu::getCreateForm();
+$form = Menus_Menu::getCreateForm();
+
+$set = Menus::getCurrentMenuSet();
+if(!$set) {
+	die();
+}
+
 $ok = false;
 $data = [];
 
 if(
-	Menus::getCurrentMenuNamespace() &&
-	($new_menu=Menus_MenuNamespace_Menu::catchCreateForm())
+	($new_menu=Menus_Menu::catchCreateForm())
 ) {
 
-	$new_menu->setNamespaceName( Menus::getCurrentMenuNamespaceName() );
+	$set->appendMenu( $new_menu );
 
-	Menus::getCurrentMenuNamespace()->addMenu( $new_menu );
-
-	if( Menus::save( $form ) ) {
+	if( $set->save() ) {
 		$ok = true;
 
 		UI_messages::success(
@@ -31,6 +34,10 @@ if(
 		$data = [
 			'new_menu_id' => $new_menu->getId()
 		];
+	} else {
+		$message = implode('', UI_messages::get());
+
+		$form->setCommonMessage( $message );
 	}
 
 }
@@ -38,7 +45,7 @@ if(
 AJAX::formResponse(
 	$ok,
 	[
-		$form->getId().'_form_area' => Application::getView()->render('create_menu/form')
+		$form->getId().'_form_area' => Application::getView()->render('menu/create/form')
 	],
 	$data
 );

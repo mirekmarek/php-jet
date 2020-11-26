@@ -5,18 +5,18 @@ use Jet\UI_messages;
 use Jet\Tr;
 use Jet\Http_Headers;
 
-$namespace = Menus::getCurrentMenuNamespace();
+$set = Menus::getCurrentMenuSet();
 
-if($namespace) {
+if($set) {
 	$current = Menus::getCurrentMenu();
 
 	if(
 		$current &&
 		$current->catchEditForm()
 	) {
-		$namespace->sortMenus();
+		$set->sortMenus();
 
-		if( Menus::save() ) {
+		if( $set->save() ) {
 			UI_messages::success( Tr::_('Saved ...') );
 
 			Http_Headers::reload([], ['action']);

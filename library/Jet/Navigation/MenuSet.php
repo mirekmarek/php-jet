@@ -71,7 +71,7 @@ class Navigation_MenuSet extends BaseObject
 
 	/**
 	 * @param string $name
-	 * @param string|null $translator_namespace
+	 * @param string|null|false $translator_namespace
 	 *
 	 * @return Navigation_MenuSet
 	 */
@@ -84,17 +84,61 @@ class Navigation_MenuSet extends BaseObject
 		return static::$_sets[$name];
 	}
 
+	/**
+	 * @return Navigation_MenuSet[]
+	 */
+	public static function getList()
+	{
+		$files = IO_Dir::getList(static::getMenusDirPath(), '*.php', false, true);
+
+		foreach($files as $path=>$name) {
+			$name = pathinfo($name)['filename'];
+			static::get($name);
+		}
+
+		return static::$_sets;
+	}
+
 
 	/**
 	 * @param string $name
-	 * @param string|null $translator_namespace
+	 * @param string|null|false $translator_namespace
 	 */
 	public function __construct( $name, $translator_namespace=null )
 	{
-		$this->name = $name;
-		$this->config_file_path = static::getMenusDirPath().$name.'.php';
+		$this->setName($name);
 		$this->translator_namespace = $translator_namespace;
 		$this->init();
+	}
+
+	/**
+	 * @param string $name
+	 */
+	public function setName( $name )
+	{
+		$this->name = $name;
+		$this->config_file_path = static::getMenusDirPath().$name.'.php';
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getName()
+	{
+		return $this->name;
+	}
+
+	/**
+	 * @param string $text
+	 * @return string
+	 */
+	protected function _( $text )
+	{
+		if($this->translator_namespace===false) {
+			return $text;
+		}
+
+		return Tr::_($text, [], $this->translator_namespace);
 	}
 
 	/**
@@ -111,13 +155,13 @@ class Navigation_MenuSet extends BaseObject
 
 			$root_menu = $this->addMenu(
 				$id,
-				Tr::_($item_data['label'], [], $this->translator_namespace),
+				$this->_($item_data['label']),
 				$item_data['icon']
 			);
 
 			if( isset($item_data['items']) ) {
 				foreach( $item_data['items'] as $menu_item_id=>$menu_item_data ) {
-					$label = Tr::_($menu_item_data['label'], [], $this->translator_namespace);
+					$label = $this->_($menu_item_data['label']);
 					$menu_item = new Navigation_Menu_Item( $menu_item_id, $label );
 					$menu_item->setData( $menu_item_data );
 

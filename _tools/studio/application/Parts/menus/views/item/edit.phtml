@@ -9,18 +9,8 @@ $form = Menus::getCurrentMenuItem()->getEditForm();
 ?>
 
 <?=$form->start()?>
-<div class="toolbar" id="main-toolbar">
-	<?=UI::button_save()?>
-	<?=UI::button_delete(Tr::_('Delete this menu item'))->setOnclick("$('#delete_menu_item_dialog').modal('show')") ?>
-</div>
 
-<div class="container-fluid" id="main-edit-area">
-	<?=Application::getGeneralView()->render('messages');?>
-
-	<?php require 'edit_menu_item/form.phtml'; ?>
-
-
-</div>
+<?php require 'edit/form.phtml'; ?>
 
 <?=$form->end()?>
 
@@ -29,6 +19,6 @@ $delete_menu_item_dialog = UI::dialog('delete_menu_item_dialog', Tr::_('Delete m
 echo $delete_menu_item_dialog->start();
 	echo Tr::_('Do you really want to delete this menu item?');
 echo $delete_menu_item_dialog->footer();
-	echo UI::button_delete()->setUrl( Menus::getActionUrl('menu_item/delete') );
+	echo UI::button_delete()->setUrl( Menus::getActionUrl('item/delete') );
 echo $delete_menu_item_dialog->end();
 ?>

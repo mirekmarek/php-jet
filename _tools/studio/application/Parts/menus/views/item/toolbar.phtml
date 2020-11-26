@@ -1,0 +1,11 @@
+<?php
+namespace JetStudio;
+
+use Jet\Tr;
+use Jet\UI;
+
+$form = Menus::getCurrentMenuItem()->getEditForm();
+?>
+<?=UI::button_save()->setOnclick("$('#".$form->getId()."').submit()")?>
+
+<?=UI::button_delete(Tr::_('Delete this menu item'))->setOnclick("$('#delete_menu_item_dialog').modal('show')") ?>

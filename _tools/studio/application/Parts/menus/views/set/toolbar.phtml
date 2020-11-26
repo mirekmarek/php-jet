@@ -1,0 +1,13 @@
+<?php
+namespace JetStudio;
+
+use Jet\Tr;
+use Jet\UI;
+
+$set = Menus::getCurrentMenuSet();
+
+$form = $set->getEditForm();
+?>
+<?=UI::button_save()->setOnclick("$('#".$form->getId()."').submit()")?>
+
+<?=UI::button_create(Tr::_('Create a new menu'))->setOnclick("JetStudio.Menus.createMenu.openDialog();")?>

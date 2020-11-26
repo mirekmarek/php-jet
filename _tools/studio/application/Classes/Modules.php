@@ -285,40 +285,6 @@ class Modules extends BaseObject implements Application_Part
 	}
 
 	/**
-	 * @param Menus_MenuNamespace $namespace
-	 */
-	public static function event_menuNamespaceDeleted( Menus_MenuNamespace $namespace )
-	{
-		$updated = false;
-		foreach( static::getModules() as $module ) {
-			if( $module->event_menuNamespaceDeleted( $namespace ) ) {
-				$updated = true;
-			}
-		}
-
-		if( $updated ) {
-			Modules::save();
-		}
-	}
-
-	/**
-	 * @param Menus_MenuNamespace_Menu $menu
-	 */
-	public static function event_menuDeleted( Menus_MenuNamespace_Menu $menu )
-	{
-		$updated = false;
-		foreach( static::getModules() as $module ) {
-			if( $module->event_menuDeleted( $menu ) ) {
-				$updated = true;
-			}
-		}
-
-		if( $updated ) {
-			Modules::save();
-		}
-	}
-
-	/**
 	 *
 	 */
 	public static function installAllModules()
@@ -460,7 +426,7 @@ class Modules extends BaseObject implements Application_Part
 	/**
 	 * @param Application_Module_Manifest $c_module
 	 *
-	 * @return Menus_MenuNamespace_Menu_Item[]
+	 * @return Menus_Menu_Item[]
 	 */
 	protected static function readMenuItemsFromExistingModule( Application_Module_Manifest $c_module )
 	{
@@ -468,7 +434,7 @@ class Modules extends BaseObject implements Application_Part
 		foreach( $c_module->getMenuItemsRaw() as $namespace_name=>$menu_data ) {
 
 			$namespace = null;
-			foreach( Menus::getMenuNamespaces() as $ns ) {
+			foreach( Menus::getSets() as $ns ) {
 				if($ns->getName()==$namespace_name) {
 					$namespace = $ns;
 
@@ -482,7 +448,7 @@ class Modules extends BaseObject implements Application_Part
 
 			foreach( $menu_data as $menu_id=>$items ) {
 				foreach( $items as $item_id=>$item ) {
-					$i = Menus_MenuNamespace_Menu_Item::fromArray( $item_id, $item );
+					$i = Menus_Menu_Item::fromArray( $item_id, $item );
 					$i->setNamespaceId( $namespace->getInternalId() );
 					$i->setMenuId( $menu_id );
 

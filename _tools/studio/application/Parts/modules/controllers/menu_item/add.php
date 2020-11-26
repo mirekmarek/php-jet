@@ -27,14 +27,14 @@ if(
 			])
 		) );
 
-		$snippets['module_menu_items_list_area'] = Application::getView()->render('modules/module_edit/menu_items/list');
+		$snippets['module_menu_items_list_area'] = Application::getView()->render('module_edit/menu_items/list');
 	}
 
 }
 
 $form = Modules_Manifest::getCreateMenuItemForm();
 
-$snippets[$form->getId().'_form_area'] = Application::getView()->render('modules/module_edit/add_menu_item_form');
+$snippets[$form->getId().'_form_area'] = Application::getView()->render('module_edit/add_menu_item_form');
 
 AJAX::formResponse(
 	$ok,

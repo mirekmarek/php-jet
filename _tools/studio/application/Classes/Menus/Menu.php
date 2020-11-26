@@ -18,7 +18,7 @@ use Jet\Navigation_Menu_Item;
 /**
  *
  */
-class Menus_MenuNamespace_Menu extends Navigation_Menu
+class Menus_Menu extends Navigation_Menu
 {
 
 
@@ -32,31 +32,12 @@ class Menus_MenuNamespace_Menu extends Navigation_Menu
 	 */
 	protected $__edit_form;
 
-	/**
-	 * @var string
-	 */
-	protected $namespace_name = '';
 
 	/**
-	 * @var Menus_MenuNamespace_Menu_Item[]
+	 * @var Menus_Menu_Item[]
 	 */
 	protected $items = [];
 
-	/**
-	 * @return string
-	 */
-	public function getNamespaceName()
-	{
-		return $this->namespace_name;
-	}
-
-	/**
-	 * @param string $namespace_name
-	 */
-	public function setNamespaceName( $namespace_name )
-	{
-		$this->namespace_name = $namespace_name;
-	}
 
 
 	/**
@@ -115,7 +96,7 @@ class Menus_MenuNamespace_Menu extends Navigation_Menu
 	}
 
 	/**
-	 * @return bool|Menus_MenuNamespace_Menu
+	 * @return bool|Menus_Menu
 	 */
 	public static function catchCreateForm()
 	{
@@ -127,7 +108,7 @@ class Menus_MenuNamespace_Menu extends Navigation_Menu
 			return false;
 		}
 
-		$menu_item = new Menus_MenuNamespace_Menu(
+		$menu_item = new Menus_Menu(
 			$form->field('id')->getValue(),
 			$form->field('label')->getValue(),
 			$form->field('index')->getValue(),
@@ -243,8 +224,6 @@ class Menus_MenuNamespace_Menu extends Navigation_Menu
 
 	/**
 	 * @param string $id
-	 *
-	 * @return Navigation_Menu_Item|null
 	 */
 	public function deleteMenuItem( $id )
 	{
@@ -252,13 +231,9 @@ class Menus_MenuNamespace_Menu extends Navigation_Menu
 			return null;
 		}
 
-		$menu = $this->items[$id];
-
 		unset( $this->items[$id] );
 
 		$this->sortItems();
-
-		return $menu;
 	}
 
 	/**
@@ -266,7 +241,8 @@ class Menus_MenuNamespace_Menu extends Navigation_Menu
 	 */
 	public function sortItems()
 	{
-		uasort( $this->items, function( Menus_MenuNamespace_Menu_Item $a, Menus_MenuNamespace_Menu_Item $b ) {
+
+		uasort( $this->items, function( Menus_Menu_Item $a, Menus_Menu_Item $b ) {
 			if($a->getIndex()==$b->getIndex()) {
 				return 0;
 			}
@@ -299,30 +275,15 @@ class Menus_MenuNamespace_Menu extends Navigation_Menu
 		$this->sortItems();
 	}
 
+
 	/**
-	 * @param string $menu_id
-	 * @param array $data
+	 * @param bool $check_access
 	 *
-	 * @return Menus_MenuNamespace_Menu
+	 * @return Navigation_Menu[]|Navigation_Menu_Item[]|Menus_Menu_Item[]
 	 */
-	public static function fromArray( $menu_id, array $data )
+	public function getItems( $check_access=true )
 	{
-		$label = $data['label'];
-		$index = isset($data['index']) ? $data['index'] : 0;
-
-		$menu = new Menus_MenuNamespace_Menu( $menu_id, $label, $index );
-
-		if( isset($data['icon']) ) {
-			$menu->setIcon( $data['icon'] );
-		}
-
-		if( isset($data['items']) ) {
-			foreach( $data['items'] as $item_id=>$item_data ) {
-				$menu->items[$item_id] = Menus_MenuNamespace_Menu_Item::fromArray( $item_id, $item_data );
-			}
-		}
-
-		return $menu;
+		return $this->items;
 	}
 
 	/**
@@ -337,13 +298,10 @@ class Menus_MenuNamespace_Menu extends Navigation_Menu
 			'index' => $this->getIndex()
 		];
 
-		if($this->getItems()) {
+		if($this->items) {
 			$menu['items'] = [];
 
-			foreach($this->getItems() as $item) {
-				/**
-				 * @var Menus_MenuNamespace_Menu_Item $item
-				 */
+			foreach($this->items as $item) {
 				$item_id = $item->getId();
 
 				$menu_item = $item->toArray();

@@ -9,12 +9,6 @@ namespace JetStudio;
 
 use Jet\BaseObject;
 use Jet\Http_Request;
-use Jet\Form;
-use Jet\Exception;
-use Jet\Data_Array;
-use Jet\Navigation_Menu;
-use Jet\IO_File;
-use Jet\SysConf_PATH;
 use Jet\SysConf_URI;
 
 /**
@@ -23,24 +17,20 @@ use Jet\SysConf_URI;
 class Menus extends BaseObject implements Application_Part
 {
 
+
 	/**
-	 * @var Menus_MenuNamespace[]
+	 * @var Menus_MenuSet
 	 */
-	protected static $menu_namespaces;
-
-	/**
-	 * @var Menus_MenuNamespace
-	 */
-	protected static $__current_menu_namespace;
+	protected static $__current_menu_set;
 
 
 	/**
-	 * @var Menus_MenuNamespace_Menu
+	 * @var Menus_Menu
 	 */
 	protected static $__current_menu;
 
 	/**
-	 * @var Menus_MenuNamespace_Menu_Item
+	 * @var Menus_Menu_Item
 	 */
 	protected static $__current_menu_item;
 
@@ -48,7 +38,7 @@ class Menus extends BaseObject implements Application_Part
 	/**
 	 * @param $action
 	 * @param array $custom_get_params
-	 * @param string|null $custom_menu_namespace_id
+	 * @param string|null $custom_menu_set
 	 * @param string|null $custom_menu_id
 	 * @param string|null $custom_menu_item_id
 	 *
@@ -57,7 +47,7 @@ class Menus extends BaseObject implements Application_Part
 	public static function getActionUrl(
 		$action,
 		array $custom_get_params=[],
-		$custom_menu_namespace_id=null,
+		$custom_menu_set=null,
 		$custom_menu_id=null,
 		$custom_menu_item_id=null
 	)
@@ -65,8 +55,8 @@ class Menus extends BaseObject implements Application_Part
 
 		$get_params = [];
 
-		if(static::getCurrentMenuNamespaceName()) {
-			$get_params['namespace'] = static::getCurrentMenuNamespaceName();
+		if(static::getCurrentMenuSetName()) {
+			$get_params['set'] = static::getCurrentMenuSetName();
 
 			if(static::getCurrentMenuId()) {
 				$get_params['menu'] = static::getCurrentMenuId();
@@ -77,10 +67,10 @@ class Menus extends BaseObject implements Application_Part
 			}
 		}
 
-		if($custom_menu_namespace_id!==null) {
-			$get_params['namespace'] = $custom_menu_namespace_id;
-			if(!$custom_menu_namespace_id) {
-				unset( $get_params['namespace'] );
+		if($custom_menu_set!==null) {
+			$get_params['set'] = $custom_menu_set;
+			if(!$custom_menu_set) {
+				unset( $get_params['set'] );
 			}
 		}
 
@@ -118,10 +108,10 @@ class Menus extends BaseObject implements Application_Part
 	/**
 	 * @return string|bool
 	 */
-	public static function getCurrentMenuNamespaceName()
+	public static function getCurrentMenuSetName()
 	{
-		if(static::getCurrentMenuNamespace()) {
-			return static::getCurrentMenuNamespace()->getName();
+		if(static::getCurrentMenuSet()) {
+			return static::getCurrentMenuSet()->getName();
 		}
 
 		return false;
@@ -129,24 +119,24 @@ class Menus extends BaseObject implements Application_Part
 
 
 	/**
-	 * @return null|Menus_MenuNamespace
+	 * @return null|Menus_MenuSet
 	 */
-	public static function getCurrentMenuNamespace()
+	public static function getCurrentMenuSet()
 	{
-		if(static::$__current_menu_namespace===null) {
-			$id = Http_Request::GET()->getString('namespace');
+		if(static::$__current_menu_set===null) {
+			$id = Http_Request::GET()->getString('set');
 
-			static::$__current_menu_namespace = false;
+			static::$__current_menu_set = false;
 
 			if(
 				$id &&
-				($namespace=static::getMenuNamespace($id))
+				($set=static::getSet($id))
 			) {
-				static::$__current_menu_namespace = $namespace;
+				static::$__current_menu_set = $set;
 			}
 		}
 
-		return static::$__current_menu_namespace;
+		return static::$__current_menu_set;
 	}
 
 
@@ -164,11 +154,11 @@ class Menus extends BaseObject implements Application_Part
 
 
 	/**
-	 * @return Menus_MenuNamespace_Menu|null
+	 * @return Menus_Menu|null
 	 */
 	public static function getCurrentMenu()
 	{
-		if(!($namespace = static::getCurrentMenuNamespace())) {
+		if(!($set = static::getCurrentMenuSet())) {
 			return null;
 		}
 
@@ -181,7 +171,7 @@ class Menus extends BaseObject implements Application_Part
 
 			if(
 				$id &&
-				($menu=$namespace->getMenu($id))
+				($menu=$set->getMenu($id))
 			) {
 				static::$__current_menu = $menu;
 			}
@@ -206,7 +196,7 @@ class Menus extends BaseObject implements Application_Part
 
 
 	/**
-	 * @return Menus_MenuNamespace_Menu_Item|null
+	 * @return Menus_Menu_Item|null
 	 */
 	public static function getCurrentMenuItem()
 	{
@@ -232,132 +222,24 @@ class Menus extends BaseObject implements Application_Part
 		return static::$__current_menu_item;
 	}
 
-	
-	/**
-	 * @return Menus_MenuNamespace[]
-	 */
-	public static function load()
-	{
-		if(static::$menu_namespaces===null) {
-			static::$menu_namespaces = [];
 
-
-			$target_path = ProjectConf_PATH::CONFIG().Navigation_Menu::getMenuConfigFileName();
-
-			if( IO_File::isReadable($target_path) ) {
-				static::load();
-
-				/** @noinspection PhpIncludeInspection */
-				$data = require $target_path;
-
-				foreach( $data as $ns_name=>$menus ) {
-
-					$namespace = new Menus_MenuNamespace();
-					$namespace->setName( $ns_name );
-
-					static::addMenuNamespace( $namespace );
-
-
-					foreach( $menus as $menu_id=>$menu_data ) {
-						$menu = Menus_MenuNamespace_Menu::fromArray( $menu_id, $menu_data );
-
-						$namespace->addMenu( $menu );
-					}
-
-				}
-			}
-		}
-
-		return static::$menu_namespaces;
-	}
 
 	/**
-	 * @param Form|null $form
+	 * @param string $name
 	 *
-	 * @return bool
+	 * @return Menus_MenuSet|null
 	 */
-	public static function save( Form $form=null )
+	public static function getSet( $name )
 	{
-		static::load();
-
-		$ok = true;
-		try {
-
-			foreach( static::$menu_namespaces as $id=>$namespace ) {
-				Project::writeProjectEntity('menus', $id, $namespace );
-			}
-
-		} catch( Exception $e ) {
-			$ok = false;
-
-			Application::handleError( $e, $form );
-		}
-
-		return $ok;
+		return Menus_MenuSet::get($name);
 	}
 
 	/**
-	 * @param Menus_MenuNamespace $namespace
+	 * @return Menus_MenuSet[]
 	 */
-	public static function addMenuNamespace( Menus_MenuNamespace $namespace )
+	public static function getSets()
 	{
-		static::load();
-		static::$menu_namespaces[$namespace->getName()] = $namespace;
-	}
-
-	/**
-	 * @param string $id
-	 *
-	 * @return Menus_MenuNamespace|bool
-	 */
-	public static function deleteMenuNamespace( $id )
-	{
-		static::load();
-		if( !isset(static::$menu_namespaces[$id]) ) {
-			return false;
-		}
-
-		$namespace = static::$menu_namespaces[$id];
-
-		try {
-
-			Project::deleteProjectEntity('menus', $id );
-
-		} catch( Exception $e ) {
-			Application::handleError( $e );
-
-			return false;
-		}
-
-		unset( static::$menu_namespaces[$id] );
-
-		Project::event('menuNamespaceDeleted', $namespace);
-
-		return $namespace;
-	}
-
-	/**
-	 * @param string $id
-	 *
-	 * @return Menus_MenuNamespace|null
-	 */
-	public static function getMenuNamespace( $id )
-	{
-		static::load();
-		if( !isset(static::$menu_namespaces[$id]) ) {
-			return null;
-		}
-
-		return static::$menu_namespaces[$id];
-	}
-
-	/**
-	 * @return Menus_MenuNamespace[]
-	 */
-	public static function getMenuNamespaces()
-	{
-		static::load();
-		return static::$menu_namespaces;
+		return Menus_MenuSet::getList();
 	}
 
 
@@ -368,12 +250,12 @@ class Menus extends BaseObject implements Application_Part
 	 */
 	public static function menuExists( $id )
 	{
-		$namespace = static::getCurrentMenuNamespace();
-		if(!$namespace) {
+		$set = static::getCurrentMenuSet();
+		if(!$set) {
 			return false;
 		}
 
-		$menu = $namespace->getMenu( $id );
+		$menu = $set->getMenu( $id );
 
 		if(!$menu) {
 			return false;
@@ -404,38 +286,6 @@ class Menus extends BaseObject implements Application_Part
 		return true;
 	}
 
-	/**
-	 *
-	 */
-	public static function generate()
-	{
-		$namespaces = Menus::getMenuNamespaces();
-
-		$res = [];
-
-		foreach( $namespaces as $ns ) {
-			$ns_name = $ns->getName();
-			$res[$ns_name] = [];
-
-			foreach( $ns->getMenus() as $menu ) {
-				$menu_id = $menu->getId();
-				/**
-				 * @var Menus_MenuNamespace_Menu $menu
-				 */
-
-				$res[$ns_name][$menu_id] = $menu->toArray();
-
-			}
-		}
-
-		$res = new Data_Array($res);
-
-
-		$target_path = SysConf_PATH::APPLICATION().Navigation_Menu::getMenuConfigFileName();
-
-		IO_File::write( $target_path, '<?php return '.$res->export() );
-
-	}
 
 
 

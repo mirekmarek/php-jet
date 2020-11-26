@@ -17,21 +17,12 @@ use Jet\Navigation_Menu_Item;
 /**
  *
  */
-class Menus_MenuNamespace_Menu_Item extends Navigation_Menu_Item
+class Menus_Menu_Item extends Navigation_Menu_Item
 {
 
 	const URL_PARTS_COUNT = 5;
 	const GET_PARAMS_COUNT = 5;
 
-	/**
-	 * @var string
-	 */
-	protected $namespace_id = '';
-
-	/**
-	 * @var string
-	 */
-	protected $menu_id = '';
 
 
 	/**
@@ -44,61 +35,6 @@ class Menus_MenuNamespace_Menu_Item extends Navigation_Menu_Item
 	 */
 	protected $__edit_form;
 
-	/**
-	 * @return string
-	 */
-	public function getNamespaceId()
-	{
-		return $this->namespace_id;
-	}
-
-	/**
-	 * @param string $namespace_id
-	 */
-	public function setNamespaceId( $namespace_id )
-	{
-		$this->namespace_id = $namespace_id;
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getMenuId()
-	{
-		return $this->menu_id;
-	}
-
-	/**
-	 * @param string $menu_id
-	 */
-	public function setMenuId( $menu_id )
-	{
-		$this->menu_id = $menu_id;
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getUrl()
-	{
-		return $this->URL;
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getLabel()
-	{
-		return $this->label;
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getIcon()
-	{
-		return $this->icon;
-	}
 
 
 
@@ -184,7 +120,7 @@ class Menus_MenuNamespace_Menu_Item extends Navigation_Menu_Item
 			$form = new Form('create_menu_item_form', $fields );
 
 
-			$form->setAction( Menus::getActionUrl('menu_item/add') );
+			$form->setAction( Menus::getActionUrl('item/add') );
 
 			static::$create_form = $form;
 		}
@@ -193,7 +129,7 @@ class Menus_MenuNamespace_Menu_Item extends Navigation_Menu_Item
 	}
 
 	/**
-	 * @return bool|Menus_MenuNamespace_Menu_Item
+	 * @return bool|Menus_Menu_Item
 	 */
 	public static function catchCreateForm()
 	{
@@ -205,7 +141,7 @@ class Menus_MenuNamespace_Menu_Item extends Navigation_Menu_Item
 			return false;
 		}
 
-		$menu_item = new Menus_MenuNamespace_Menu_Item(
+		$menu_item = new Menus_Menu_Item(
 			$form->field('id')->getValue(),
 			$form->field('label')->getValue()
 		);
@@ -335,7 +271,7 @@ class Menus_MenuNamespace_Menu_Item extends Navigation_Menu_Item
 
 
 			$form = new Form('menu_item_edit_form', $fields);
-			$form->setAction( Menus::getActionUrl('menu_item/edit') );
+			$form->setAction( Menus::getActionUrl('item/edit') );
 			$this->__edit_form = $form;
 		}
 
@@ -425,59 +361,6 @@ class Menus_MenuNamespace_Menu_Item extends Navigation_Menu_Item
 		return $GET_params;
 	}
 
-	/**
-	 * @param string $item_id
-	 * @param array $data
-	 *
-	 * @return Menus_MenuNamespace_Menu_Item
-	 */
-	public static function fromArray( $item_id, array $data )
-	{
-		$label = isset($data['label']) ? $data['label'] : '';
-		$item = new Menus_MenuNamespace_Menu_Item( $item_id, $label );
-
-		if( isset($data['icon']) ) {
-			$item->setIcon( $data['icon'] );
-		}
-
-		if( isset($data['index']) ) {
-			$item->setIndex( $data['index'] );
-		}
-
-		if( array_key_exists('separator_before', $data) ) {
-			$item->setSeparatorBefore( $data['separator_before'] );
-		}
-
-		if( array_key_exists('separator_after', $data) ) {
-			$item->setSeparatorAfter( $data['separator_after'] );
-		}
-
-		if( isset($data['URL']) ) {
-			$item->setURL( $data['URL'] );
-		}
-
-		if( isset($data['page_id']) ) {
-			$item->setPageId( $data['page_id'] );
-		}
-
-		if( isset($data['site_id']) ) {
-			$item->setSiteId( $data['site_id'] );
-		}
-
-		if( isset($data['locale']) ) {
-			$item->setLocale( $data['locale'] );
-		}
-
-		if( isset($data['url_parts']) ) {
-			$item->setUrlParts( $data['url_parts'] );
-		}
-
-		if( isset($data['get_params']) ) {
-			$item->setGetParams( $data['get_params'] );
-		}
-
-		return $item;
-	}
 
 
 	/**
