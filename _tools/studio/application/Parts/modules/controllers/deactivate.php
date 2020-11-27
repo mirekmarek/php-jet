@@ -1,6 +1,8 @@
 <?php
 namespace JetStudio;
 
+use Jet\Application_Modules;
+use Jet\Exception;
 use Jet\Http_Headers;
 use Jet\Tr;
 use Jet\UI_messages;
@@ -11,16 +13,21 @@ if(!$current) {
 	die();
 }
 
-if($current->getIsInstalled()) {
-	$current->setIsActive(false);
+if($current->isInstalled()) {
 
+	$ok = true;
+	try {
+		Application_Modules::deactivateModule( $current->getName() );
+		Application::resetOPCache();
+	} catch( Exception $e ) {
+		$ok = false;
+		UI_messages::danger( $e->getMessage() );
+	}
 
-	if(Modules::save()) {
-		if(Modules::setInstalledAndActivatedList()) {
-			UI_messages::info( Tr::_('Module <b>%module%</b> has been deactivated', [
-				'module' => $current->getName()
-			]) );
-		}
+	if($ok) {
+		UI_messages::info( Tr::_('Module <b>%module%</b> has been deactivated', [
+			'module' => $current->getName()
+		]) );
 	}
 
 }

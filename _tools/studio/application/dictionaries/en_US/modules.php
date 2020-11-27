@@ -83,7 +83,7 @@ return [
 	'Custom controller class:' => '',
 	'Do you really want to delete page <b>%site% : %page%</b> ?' => '',
 	'Menu items' => '',
-	'Menu namespace: <b>%namespace%</b>' => '',
+	'Menu set: <b>%set%</b>' => '',
 	'Menu: <b>%menu%</b>' => '',
 	'Delete this menu item' => '',
 	'Menu item identifier:' => '',

@@ -17,13 +17,25 @@ use Jet\Exception;
 use Jet\IO_Dir;
 use Jet\IO_File;
 use Jet\SysConf_URI;
-use Jet\SysConf_Jet;
 
+/**
+ *
+ */
 class Modules extends BaseObject implements Application_Part
 {
 
 	/**
-	 * @var null|Modules_Manifest
+	 * @var null|false|Menus_Menu_Item
+	 */
+	protected static $__current_menu_item;
+
+	/**
+	 * @var null|false|Pages_Page
+	 */
+	protected static $__current_page;
+
+	/**
+	 * @var null|false|Modules_Manifest
 	 */
 	protected static $__current_module;
 
@@ -174,11 +186,10 @@ class Modules extends BaseObject implements Application_Part
 	/**
 	 * @param $action
 	 * @param array $custom_get_params
-	 * @param string|null $custom_module_id
 	 *
 	 * @return string $url
 	 */
-	public static function getActionUrl( $action, array $custom_get_params=[], $custom_module_id=null )
+	public static function getActionUrl( $action, array $custom_get_params=[] )
 	{
 
 		$get_params = [];
@@ -187,11 +198,12 @@ class Modules extends BaseObject implements Application_Part
 			$get_params['module'] = Modules::getCurrentModuleName();
 		}
 
-		if($custom_module_id!==null) {
-			$get_params['module'] = $custom_module_id;
-			if(!$custom_module_id) {
-				unset( $get_params['module'] );
-			}
+		if(Modules::getCurrentPage()) {
+			$get_params['page'] = Modules::getCurrentPage()->getFullId();
+		}
+
+		if(Modules::getCurrentMenuItem()) {
+			$get_params['menu_item'] = Modules::getCurrentMenuItem()->getFullId();
 		}
 
 		if($action) {
@@ -241,6 +253,76 @@ class Modules extends BaseObject implements Application_Part
 
 		return static::$__current_module;
 	}
+
+	/**
+	 * @return false|Menus_Menu_Item
+	 */
+	public static function getCurrentMenuItem()
+	{
+		if(static::$__current_menu_item===null) {
+			static::$__current_menu_item = false;
+
+
+			if(
+				($module = static::getCurrentModule()) &&
+				($id = Http_Request::GET()->getString('menu_item'))
+			) {
+				$id = explode('.', $id);
+
+				$item = $module->getMenuItem( $id[0], $id[1], $id[2] );
+
+				if($item) {
+					static::$__current_menu_item = $item;
+				}
+			}
+
+		}
+
+		return static::$__current_menu_item;
+
+	}
+
+
+	/**
+	 * @return false|Pages_Page
+	 */
+	public static function getCurrentPage()
+	{
+		if(static::$__current_page===null) {
+			static::$__current_page = false;
+
+
+			if(
+				($module = static::getCurrentModule()) &&
+				($id = Http_Request::GET()->getString('page'))
+			) {
+				$id = explode('.', $id);
+
+				$item = $module->getPage( $id[0], $id[1] );
+
+				if($item) {
+					static::$__current_page = $item;
+				}
+			}
+
+		}
+
+		return static::$__current_page;
+
+	}
+
+	/**
+	 * @return string
+	 */
+	public static function getCurrentPage_whatToEdit()
+	{
+		if(!static::getCurrentPage()) {
+			return '';
+		}
+		return Http_Request::GET()->getString('what', 'main', [ 'main', 'content', 'static_content', 'callback' ]);
+	}
+
+
 
 	/**
 	 * @param string $module_name
@@ -601,6 +683,23 @@ class Modules extends BaseObject implements Application_Part
 		}
 
 		return $controllers;
+	}
+
+	/**
+	 * @return string|null
+	 */
+	public static function getCurrentWhatToEdit()
+	{
+		if(!static::getCurrentModule()) {
+			return null;
+		}
+		if(static::getCurrentMenuItem()):
+			return 'menu_item';
+		elseif(static::getCurrentPage()):
+			return 'page';
+		else:
+			return 'module';
+		endif;
 	}
 
 }

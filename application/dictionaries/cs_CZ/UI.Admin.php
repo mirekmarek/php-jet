@@ -2,6 +2,6 @@
 return [
 	'Change password' => 'Změnit heslo',
 	'Logout' => 'Odhlásit se',
-	'Content' => '',
-	'System' => '',
+	'Content' => 'Obsah',
+	'System' => 'Systém',
 ];

@@ -52,7 +52,7 @@ if(
 		$view->setVar( 'site', $page->getSite() );
 		$view->setVar( 'page', $page );
 		$view->setVar('delete_content_action_creator', function( $i ) use ($page) {
-			return "JetStudio.Modules.editModule.editPage.removeContent('{$page->getSiteId()}', '{$page->getId()}', $i);";
+			return "Modules.editModule.editPage.removeContent('{$page->getSiteId()}', '{$page->getId()}', $i);";
 		});
 
 

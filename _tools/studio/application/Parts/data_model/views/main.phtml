@@ -58,30 +58,33 @@ $allow_to_create_related = (
 </div>
 
 <div class="row" id="main-col">
+<?php  if($class): ?>
 	<div class="col-md-4" style="padding: 0px;">
 		<?=Application::getView()->render('list');?>
 	</div>
 	<div class="col-md-8" style="padding: 10px">
 		<?php
-		if($class):
-			echo Application::getGeneralView()->render('messages');
+		echo Application::getGeneralView()->render('messages');
 
-			foreach( $warnings as $warning ) {
-				echo '<div style="padding: 5px">'.UI_messages::createWarning( $warning ).'</div>';
-			}
+		foreach( $warnings as $warning ) {
+			echo '<div style="padding: 5px">'.UI_messages::createWarning( $warning ).'</div>';
+		}
 
-			foreach( $errors as $error ) {
-				echo '<div style="padding: 5px">'.UI_messages::createDanger( $error ).'</div>';
-			}
+		foreach( $errors as $error ) {
+			echo '<div style="padding: 5px">'.UI_messages::createDanger( $error ).'</div>';
+		}
 
-			$what_to_edit = DataModels::getCurrentWhatToEdit();
-			?>
-			<div class="container-fluid">
-				<?php require $what_to_edit.'/edit/form.phtml'; ?>
-			</div>
-			<?php
-		endif; ?>
+		$what_to_edit = DataModels::getCurrentWhatToEdit();
+		?>
+		<div class="container-fluid">
+			<?php require $what_to_edit.'/edit/form.phtml'; ?>
+		</div>
 	</div>
+<?php else: ?>
+	<div class="col-md-12">
+		<?=Application::getView()->render('list');?>
+	</div>
+<?php endif; ?>
 </div>
 
 

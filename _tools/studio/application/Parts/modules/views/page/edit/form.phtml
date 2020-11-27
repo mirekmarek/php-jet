@@ -1,0 +1,23 @@
+<?php
+namespace JetStudio;
+
+use Jet\Mvc_View;
+
+/**
+ * @var Mvc_View $this
+ */
+
+$page = Modules::getCurrentPage();
+$what = Modules::getCurrentPage_whatToEdit();
+
+$app_part = Application::getCurrentPart();
+Application::setCurrentPart('pages');
+
+$view = Application::getView();
+
+$view->setVar('page', $page);
+$view->setVar('what', $what);
+
+echo $view->render('page/edit');
+
+Application::setCurrentPart($app_part);

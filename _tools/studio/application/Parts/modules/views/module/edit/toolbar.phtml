@@ -1,0 +1,47 @@
+<?php
+namespace JetStudio;
+
+use Jet\Tr;
+use Jet\UI;
+use Jet\Mvc_View;
+
+/**
+ * @var Mvc_View $this
+ */
+
+$current = Modules::getCurrentModule();
+
+if(!$current) {
+	return;
+}
+
+$form = $current->getEditForm();
+
+?>
+
+	<?=UI::button_save()->setOnclick("$('#".$form->getId()."').submit()")?>
+
+	<?php if($current->isInstalled()):
+		if(!$current->isMandatory()):
+			if($current->isActivated()):
+				?>
+				<?=UI::button(Tr::_('Deactivate'))->setUrl(Modules::getActionUrl('deactivate'))->setClass('danger')?>
+				<?php
+			else:
+				?>
+				<?=UI::button(Tr::_('Activate'))->setUrl(Modules::getActionUrl('activate'))->setClass('success')?>
+				<?php
+			endif;
+			?>
+			<?=UI::button(Tr::_('Uninstall'))->setUrl(Modules::getActionUrl('uninstall'))->setClass('danger')?>
+			<?php
+		endif;
+	else:
+		?>
+		<?=UI::button(Tr::_('Install'))->setUrl(Modules::getActionUrl('install'))->setClass('info')?>
+		<?=UI::button(Tr::_('Install and activate'))->setUrl(Modules::getActionUrl('install_activate'))->setClass('success')?>
+	<?php endif; ?>
+
+	<?=UI::button_create(Tr::_('Add page'))->setOnclick('Modules.editModule.addPage.openDialog()')?>
+	<?=UI::button_create(Tr::_('Add menu item'))->setOnclick('Modules.editModule.addMenuItem.openDialog()')?>
+

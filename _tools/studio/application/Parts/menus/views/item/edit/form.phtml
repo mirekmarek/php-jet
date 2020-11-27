@@ -8,23 +8,13 @@ use Jet\UI;
 
 /**
  * @var Mvc_View $this
+ * @var Menus_Menu_Item $item
  */
 
-$form = $this->getRaw('form');
+$item = $this->getRaw('item');
 
-if(!$form) {
-	$form = Menus::getCurrentMenuItem()->getEditForm();
-}
+$form = $item->getEditForm();
 
-$field_prefix = $this->getRaw('form_field_prefix', '');
-
-if($field_prefix) {
-	$field_prefix_a = $field_prefix.'/';
-} else {
-	$field_prefix_a = '';
-}
-
-$tabs_prefix = $this->getRaw('tabs_prefix', '');
 
 $form->setDefaultLabelWidth([
 	Form::LJ_SIZE_MEDIUM => 2
@@ -34,35 +24,37 @@ $form->setDefaultFieldWidth([
 ]);
 
 $tabs = UI::tabsJS('create_menu_item_target_tabs', [
-	$tabs_prefix.'tab_direct_mvc' => Tr::_('MVC link'),
-	$tabs_prefix.'tab_direct_link' => Tr::_('Direct link'),
+	'tab_direct_mvc' => Tr::_('MVC link'),
+	'tab_direct_link' => Tr::_('Direct link'),
 ]);
 
 
 ?>
-	<?=$form->getCommonMessage();?>
-	<?=$form->field($field_prefix_a.'id')?>
-	<?=$form->field($field_prefix_a.'label')?>
-	<?=$form->field($field_prefix_a.'icon')?>
-	<?=$form->field($field_prefix_a.'index')?>
+<?=$form->start()?>
 
-	<?=$form->field($field_prefix_a.'separator_before')?>
-	<?=$form->field($field_prefix_a.'separator_after')?>
+	<?=$form->getCommonMessage();?>
+	<?=$form->field('id')?>
+	<?=$form->field('label')?>
+	<?=$form->field('icon')?>
+	<?=$form->field('index')?>
+
+	<?=$form->field('separator_before')?>
+	<?=$form->field('separator_after')?>
 
 	<?=$tabs?>
 
 	<?=$tabs->contentStart()?>
 
-		<?=$tabs->tab($tabs_prefix.'tab_direct_mvc')->contentStart()?>
-			<?=$form->field($field_prefix_a.'page_id')?>
-			<?=$form->field($field_prefix_a.'site_id')?>
-			<?=$form->field($field_prefix_a.'locale')?>
+		<?=$tabs->tab('tab_direct_mvc')->contentStart()?>
+			<?=$form->field('page_id')?>
+			<?=$form->field('site_id')?>
+			<?=$form->field('locale')?>
 
 			<div class="form-group row">
 				<label class="col-md-2 control-label"><?=Tr::_('Custom URL parts:')?></label>
 				<div class="col-md-6">
 					<?php for( $c=0; $c<Menus_Menu_Item::URL_PARTS_COUNT; $c++):
-						$field = $form->getField($field_prefix.'/URL_parts/'.$c);
+						$field = $form->getField('/URL_parts/'.$c);
 						?>
 						<div class="input-group">
 							<span class="input-group-prepend" style="font-weight: bolder"><span class="input-group-text">/</span></span>
@@ -77,8 +69,8 @@ $tabs = UI::tabsJS('create_menu_item_target_tabs', [
 				<label class="col-md-2 control-label"><?=Tr::_('GET parameter:')?></label>
 				<div class="col-md-6">
 					<?php for( $c=0; $c<Menus_Menu_Item::GET_PARAMS_COUNT; $c++):
-						$field_key = $form->getField($field_prefix.'/GET_params/'.$c.'/key');
-						$field_value = $form->getField($field_prefix.'/GET_params/'.$c.'/value');
+						$field_key = $form->getField('/GET_params/'.$c.'/key');
+						$field_value = $form->getField('/GET_params/'.$c.'/value');
 						?>
 						<div class="input-group">
 							<span class="input-group-prepend" style="font-weight: bolder"><span class="input-group-text"> </span></span>
@@ -91,9 +83,10 @@ $tabs = UI::tabsJS('create_menu_item_target_tabs', [
 				</div>
 			</div>
 
-		<?=$tabs->tab($tabs_prefix.'tab_direct_mvc')->contentEnd()?>
-		<?=$tabs->tab($tabs_prefix.'tab_direct_link')->contentStart()?>
-			<?=$form->field($field_prefix_a.'URL')?>
-		<?=$tabs->tab($tabs_prefix.'tab_direct_link')->contentEnd()?>
+		<?=$tabs->tab('tab_direct_mvc')->contentEnd()?>
+		<?=$tabs->tab('tab_direct_link')->contentStart()?>
+			<?=$form->field('URL')?>
+		<?=$tabs->tab('tab_direct_link')->contentEnd()?>
 	<?=$tabs->contentEnd()?>
 
+<?=$form->end()?>

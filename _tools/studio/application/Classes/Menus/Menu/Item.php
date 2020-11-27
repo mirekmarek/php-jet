@@ -24,6 +24,11 @@ class Menus_Menu_Item extends Navigation_Menu_Item
 	const GET_PARAMS_COUNT = 5;
 
 
+	/**
+	 * @var string
+	 */
+	protected $set_id = '';
+
 
 	/**
 	 * @var Form
@@ -35,6 +40,30 @@ class Menus_Menu_Item extends Navigation_Menu_Item
 	 */
 	protected $__edit_form;
 
+	/**
+	 * @return string
+	 */
+	public function getSetId()
+	{
+		return $this->set_id;
+	}
+
+	/**
+	 * @param string $set_id
+	 */
+	public function setSetId( $set_id )
+	{
+		$this->set_id = $set_id;
+	}
+
+
+	/**
+	 * @return string
+	 */
+	public function getFullId()
+	{
+		return $this->getSetId().'.'.$this->getMenuId().'.'.$this->getId();
+	}
 
 
 

@@ -8,6 +8,7 @@
 namespace JetStudio;
 
 use Jet\Application_Factory;
+use Jet\Application_Modules_Handler_Default;
 use Jet\Config;
 use Jet\DataModel_Factory;
 use Jet\Http_Request;
@@ -41,6 +42,13 @@ Mvc_Factory::setPageContentClassName('JetStudio\\Pages_Page_Content');
 
 Config::setBeTolerant( true );
 Config::setConfigDirPath( ProjectConf_PATH::CONFIG() );
+
+/**
+ * @var Application_Modules_Handler_Default $modules_handler
+ */
+$modules_handler = Application_Modules::getHandler();
+$modules_handler->setActivatedModulesListFilePath( ProjectConf_PATH::DATA().'activated_modules_list.php' );
+$modules_handler->setInstalledModulesListFilePath( ProjectConf_PATH::DATA().'installed_modules_list.php' );
 
 Application_Factory::setModuleManifestClassName(__NAMESPACE__.'\Modules_Manifest');
 Application_Modules::setBasePath( ProjectConf_PATH::APPLICATION().'Modules/' );

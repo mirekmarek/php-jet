@@ -9,6 +9,7 @@ namespace JetStudio;
 
 use Jet\Application_Module_Manifest;
 use Jet\Data_Array;
+use Jet\Exception;
 use Jet\Form;
 use Jet\Form_Field_Checkbox;
 use Jet\Form_Field_Input;
@@ -43,17 +44,6 @@ class Modules_Manifest extends Application_Module_Manifest
 	 */
 	protected $pages = [];
 
-	/**
-	 * @var bool
-	 */
-	protected $is_active = false;
-
-	/**
-	 * @var bool
-	 */
-	protected $is_installed = false;
-
-
 
 	/**
 	 * @var Form
@@ -72,13 +62,63 @@ class Modules_Manifest extends Application_Module_Manifest
 
 
 	/**
-	 *
+	 * @return bool
 	 */
 	public function save()
 	{
-		//TODO:
+		$ok = true;
+		try {
+			$this->create_saveManifest();
+			Application::resetOPCache();
+		} catch( Exception $e ) {
+			$ok = false;
+			Application::handleError( $e );
+		}
+
+		return $ok;
 	}
 
+	/**
+	 * @param array $manifest_data
+	 */
+	public function setupProperties( array $manifest_data )
+	{
+		parent::setupProperties( $manifest_data );
+
+		foreach($this->menu_items as $set_id=>$menus) {
+			foreach($menus as $menu_id=>$items) {
+				foreach($items as $item_id=>$item_data) {
+					$item = new Menus_Menu_Item( $item_id, $item_data['label']??'' );
+					$item->setData($item_data);
+					$item->setSetId( $set_id );
+					$item->setMenuId($menu_id);
+
+					$this->menu_items[$set_id][$menu_id][$item_id] = $item;
+				}
+			}
+		}
+
+		foreach($this->pages as $site_id=>$pages ) {
+			$site = Sites::getSite($site_id);
+			if(!$site) {
+				unset($this->pages[$site_id]);
+				continue;
+			}
+
+			$locale = $site->getDefaultLocale();
+
+			foreach($pages as $page_id=>$page_data) {
+				/**
+				 * @var array $page_data
+				 */
+				$page_data['id'] = $page_id;
+
+				$page = Pages_Page::createByData( $site, $locale, $page_data );
+
+				$this->pages[$site_id][$page_id] = $page;
+			}
+		}
+	}
 
 	/**
 	 * @param string $name
@@ -126,38 +166,6 @@ class Modules_Manifest extends Application_Module_Manifest
 	public function setIsMandatory($is_mandatory)
 	{
 		$this->is_mandatory = $is_mandatory;
-	}
-
-	/**
-	 * @return bool
-	 */
-	public function getIsActive()
-	{
-		return $this->is_active;
-	}
-
-	/**
-	 * @param bool $is_active
-	 */
-	public function setIsActive( $is_active )
-	{
-		$this->is_active = $is_active;
-	}
-
-	/**
-	 * @return bool
-	 */
-	public function getIsInstalled()
-	{
-		return $this->is_installed;
-	}
-
-	/**
-	 * @param bool $is_installed
-	 */
-	public function setIsInstalled( $is_installed )
-	{
-		$this->is_installed = $is_installed;
 	}
 
 	/**
@@ -325,10 +333,10 @@ class Modules_Manifest extends Application_Module_Manifest
 				$this->setIsMandatory( $value );
 			} );
 
-			$is_active = new Form_Field_Checkbox('is_active', 'Is active', $this->getIsActive() );
+			$is_active = new Form_Field_Checkbox('is_active', 'Is active', $this->isActivated() );
 			$is_active->setIsReadonly(true);
 
-			$is_installed = new Form_Field_Checkbox('is_installed', 'Is installed', $this->getIsInstalled() );
+			$is_installed = new Form_Field_Checkbox('is_installed', 'Is installed', $this->isInstalled() );
 			$is_installed->setIsReadonly(true);
 
 
@@ -747,12 +755,12 @@ class Modules_Manifest extends Application_Module_Manifest
 			$form = Menus_Menu_Item::getCreateForm();
 
 			$target_menus = [''=>''];
-			foreach( Menus::getSets() as $menu_namespace ) {
-				foreach( $menu_namespace->getMenus() as $menu ) {
+			foreach( Menus::getSets() as $set ) {
+				foreach( $set->getMenus() as $menu ) {
 
-					$key = $menu_namespace->getInternalId().':'.$menu->getId();
+					$key = $set->getName().':'.$menu->getId();
 
-					$target_menus[$key] = $menu_namespace->getName().' / '.$menu->getLabel().' ('.$menu->getId().')';
+					$target_menus[$key] = $set->getName().' / '.$menu->getLabel().' ('.$menu->getId().')';
 				}
 			}
 
@@ -791,14 +799,14 @@ class Modules_Manifest extends Application_Module_Manifest
 
 		$target_menu = $form->field('target_menu')->getValue();
 
-		[$namespace_id, $menu_id] = explode(':', $target_menu);
+		[$set_name, $menu_id] = explode(':', $target_menu);
 
 		$menu_item = new Menus_Menu_Item(
 			$form->field('id')->getValue(),
 			$form->field('label')->getValue()
 		);
 
-		$menu_item->setNamespaceId( $namespace_id );
+		$menu_item->setSetId( $set_name );
 		$menu_item->setMenuId( $menu_id );
 
 		$menu_item->setIndex( $form->field('index')->getValue() );
@@ -821,108 +829,111 @@ class Modules_Manifest extends Application_Module_Manifest
 	}
 
 	/**
+	 *
 	 * @param Menus_Menu_Item $menu_item
 	 */
 	public function addMenuItem( Menus_Menu_Item $menu_item )
 	{
-		$namespace_id = $menu_item->getNamespaceId();
+		$menu_set = $menu_item->getSetId();
 		$menu_id = $menu_item->getMenuId();
 		$item_id = $menu_item->getId();
 
-		if(!isset($this->menu_items[$namespace_id])) {
-			$this->menu_items[$namespace_id] = [];
+		if(!isset($this->menu_items[$menu_set])) {
+			$this->menu_items[$menu_set] = [];
 		}
 
-		if(!isset($this->menu_items[$namespace_id][$menu_id])) {
-			$this->menu_items[$namespace_id][$menu_id] = [];
+		if(!isset($this->menu_items[$menu_set][$menu_id])) {
+			$this->menu_items[$menu_set][$menu_id] = [];
 		}
 
-		$this->menu_items[$namespace_id][$menu_id][$item_id] = $menu_item;
+		$this->menu_items[$menu_set][$menu_id][$item_id] = $menu_item;
 
 		static::$menu_item_create_form = null;
 	}
 
 	/**
-	 * @param string $namespace_id
+	 * @param string $menu_set
 	 * @param string $menu_id
 	 *
 	 * @return Menus_Menu_Item[]
 	 */
-	public function getMenuItemsList( $namespace_id='', $menu_id='' )
+	public function getMenuItemsList( $menu_set='', $menu_id='' )
 	{
-		if(!$namespace_id) {
+		if(!$menu_set) {
 			return $this->menu_items;
 		}
 
-		if(!isset($this->menu_items[$namespace_id])) {
+		if(!isset( $this->menu_items[$menu_set])) {
 			return [];
 		}
 
 		if(!$menu_id) {
-			return $this->menu_items[$namespace_id];
+			return $this->menu_items[$menu_set];
 		}
 
-		if( !isset($this->menu_items[$namespace_id][$menu_id]) ) {
+		if( !isset( $this->menu_items[$menu_set][$menu_id]) ) {
 			return [];
 		}
 
 
-		return $this->menu_items[$namespace_id][$menu_id];
+		return $this->menu_items[$menu_set][$menu_id];
 	}
 
 	/**
-	 * @param string $namespace_id
+	 * @param string $menu_set
 	 * @param string $menu_id
 	 * @param string $item_id
 	 *
 	 * @return Menus_Menu_Item|null
 	 */
-	public function getMenuItem( $namespace_id, $menu_id, $item_id )
+	public function getMenuItem( $menu_set, $menu_id, $item_id )
 	{
-		if(!isset($this->menu_items[$namespace_id][$menu_id][$item_id])) {
+		if(!isset( $this->menu_items[$menu_set][$menu_id][$item_id])) {
 			return null;
 		}
 
-		return $this->menu_items[$namespace_id][$menu_id][$item_id];
+		return $this->menu_items[$menu_set][$menu_id][$item_id];
 	}
 
 	/**
 	 *
-	 * @param string $namespace_id
+	 * @param string $menu_set
 	 * @param string $menu_id
 	 * @param string $item_id
 	 *
 	 * @return Menus_Menu_Item|null
 	 */
-	public function deleteMenuItem( $namespace_id, $menu_id, $item_id )
+	public function deleteMenuItem( $menu_set, $menu_id, $item_id )
 	{
 		if(
-			!isset($this->menu_items[$namespace_id]) ||
-			!isset($this->menu_items[$namespace_id][$menu_id]) ||
-			!isset($this->menu_items[$namespace_id][$menu_id][$item_id])
+			!isset( $this->menu_items[$menu_set]) ||
+			!isset( $this->menu_items[$menu_set][$menu_id]) ||
+			!isset( $this->menu_items[$menu_set][$menu_id][$item_id])
 		) {
 			return null;
 		}
 
-		$old_item = $this->menu_items[$namespace_id][$menu_id][$item_id];
+		$old_item = $this->menu_items[$menu_set][$menu_id][$item_id];
 
-		unset( $this->menu_items[$namespace_id][$menu_id][$item_id] );
+		unset( $this->menu_items[$menu_set][$menu_id][$item_id] );
 
-		if(!count($this->menu_items[$namespace_id][$menu_id])) {
-			unset( $this->menu_items[$namespace_id][$menu_id] );
+		if(!count( $this->menu_items[$menu_set][$menu_id])) {
+			unset( $this->menu_items[$menu_set][$menu_id] );
 		}
 
-		if(!count($this->menu_items[$namespace_id])) {
-			unset( $this->menu_items[$namespace_id] );
+		if(!count( $this->menu_items[$menu_set])) {
+			unset( $this->menu_items[$menu_set] );
 		}
 
 		return $old_item;
 	}
 
+	/**
+	 * @return array
+	 */
 	public function toArray()
 	{
 		$res = [
-			'API_version'  => $this->getAPIVersion(),
 			'vendor'       => $this->getVendor(),
 			'version'      => $this->getVersion(),
 			'label'        => $this->getLabel(),
@@ -997,17 +1008,25 @@ class Modules_Manifest extends Application_Module_Manifest
 	/**
 	 *
 	 */
-	public function generate()
+	public function create()
 	{
-		$this->generate_manifest();
-		$this->generate_controllers();
-		$this->generate_mainClass();
+		$ok = true;
+		try {
+			$this->create_saveManifest();
+			$this->create_mainClass();
+			Application::resetOPCache();
+		} catch( Exception $e ) {
+			$ok = false;
+			Application::handleError( $e );
+		}
+
+		return $ok;
 	}
 
 	/**
 	 *
 	 */
-	public function generate_manifest()
+	public function create_saveManifest()
 	{
 		$module_dir = $this->getModuleDir();
 
@@ -1017,30 +1036,11 @@ class Modules_Manifest extends Application_Module_Manifest
 
 	}
 
-	/**
-	 *
-	 */
-	public function generate_controllers()
-	{
-		foreach( $this->getControllers() as $controller ) {
-			$this->generate_controller( $controller );
-		}
-	}
-
-	/**
-	 * @param Modules_Module_Controller $controller
-	 */
-	public function generate_controller( Modules_Module_Controller $controller )
-	{
-		$class = $controller->createClass( $this );
-
-		$class->write( $this->getModuleDir().$controller->getScriptName() );
-	}
 
 	/**
 	 *
 	 */
-	public function generate_mainClass()
+	public function create_mainClass()
 	{
 		$class_name = 'Main';
 

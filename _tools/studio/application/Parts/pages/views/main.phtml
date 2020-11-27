@@ -3,8 +3,12 @@ namespace JetStudio;
 
 use Jet\UI;
 use Jet\Tr;
+
+$this->setVar('what', Pages::whatToEdit());
+$this->setVar('page', Pages::getCurrentPage());
+
 ?>
-<?=Application::getView()->render('js');?>
+<?=$this->render('js');?>
 
 <?php if(Pages::getCurrentLocale()): ?>
 <div class="row toolbar" id="main-toolbar">
@@ -33,7 +37,7 @@ use Jet\Tr;
 	</div>
 	<div class="col-md-9" style="padding: 0px;">
 		<?=UI::button_create(Tr::_('Create a new page'))->setOnclick('Pages.createPage.openDialog()')?>
-		<?=Application::getView()->render('page_edit/toolbar');?>
+		<?=$this->render('page/toolbar');?>
 	</div>
 </div>
 
@@ -41,10 +45,10 @@ use Jet\Tr;
 
 <div class="row" id="main-col">
 	<div class="col-md-3" style="padding: 0px;">
-		<?=Application::getView()->render('pages_tree');?>
+		<?=$this->render('pages_tree');?>
 	</div>
 	<div class="col-md-9" style="padding: 0px;">
-		<?=Application::getView()->render('page_edit/edit');?>
+		<?=$this->render('page/edit');?>
 	</div>
 </div>
 
@@ -52,10 +56,10 @@ use Jet\Tr;
 <?php else: ?>
 <div class="row">
 	<div class="col-md-12">
-		<?=Application::getView()->render('page_edit/dashboard');?>
+		<?=$this->render('dashboard');?>
 	</div>
 </div>
 <?php endif; ?>
 
 
-<?=Application::getView()->render('create_page/dialog');?>
+<?=$this->render('page/create/dialog');?>

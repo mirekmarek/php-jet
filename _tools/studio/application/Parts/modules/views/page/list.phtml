@@ -1,0 +1,131 @@
+<?php
+namespace JetStudio;
+
+use Jet\Http_Request;
+use Jet\Mvc_View;
+use Jet\Tr;
+
+/**
+ * @var Mvc_View $this
+ */
+
+$current = Modules::getCurrentModule();
+
+if(
+	!$current ||
+	!$current->getPagesList()
+) {
+	return;
+}
+
+
+$sites = Sites::getSites();
+$pages = $current->getPagesList();
+
+$current_page = Modules::getCurrentPage();
+?>
+<table class="table table-striped">
+	<tr><td><b><?=Tr::_('Pages')?></b></td></tr>
+	<?php foreach( $sites as $site_id=>$site ):
+
+		if(empty($pages[$site_id])) {
+			continue;
+		}
+		?>
+		<tr>
+			<td style="font-size: 10px;padding-left: 20px;"><b><?=Sites::getSite($site_id)->getName()?></b></td>
+		</tr>
+		<?php foreach($pages[$site_id] as $page): ?>
+		<tr>
+			<td style="padding-left: 50px;">
+				<?php if($current_page && $current_page->getFullId()==$page->getFullId()): ?>
+					<b class="badge badge-info"><?=$page->getName()?></b>
+				<?php else: ?>
+					<a href="<?=Http_Request::currentURI(['page'=>$page->getFullId()], ['menu_item'])?>"><?=$page->getName()?></a>
+				<?php endif; ?>
+			</td>
+		</tr>
+		<?php endforeach; ?>
+	<?php endforeach; ?>
+</table>
+<?php
+/*
+
+?>
+
+
+<?php foreach( $sites as $site_id=>$site ):
+
+	if(empty($pages[$site_id])) {
+		continue;
+	}
+
+	?>
+	<h4><?=Tr::_('Site: <b>%site%</b>', ['site'=>$site->getName()])?></h4>
+
+	<div style="padding-bottom: 40px">
+		<?php foreach($pages[$site_id] as $page_id=>$page):
+			$this->setVar( 'page', $page );
+			?>
+
+			<div class="card panel-info">
+				<div class="card-header" data-toggle="collapse" data-target="#page_<?=$site_id?>_<?=$page_id?>" id="page_<?=$site_id?>_<?=$page_id?>_head">
+					<?php require 'item-head.phtml';?>
+				</div>
+				<div class="card-body collapse" id="page_<?=$site_id?>_<?=$page_id?>">
+					<?php require 'item-body.phtml';?>
+				</div>
+			</div>
+		<?php endforeach; ?>
+	</div>
+
+<?php endforeach;
+
+
+
+
+foreach( $sites as $site_id=>$site ):
+	if(empty($pages[$site_id])) {
+		continue;
+	}
+
+	foreach($pages[$site_id] as $page_id=>$page):
+		$this->setVar( 'page', $page );
+
+		$form = Modules_Manifest::getPageContentCreateForm( $page );
+
+		$add_content_dialog_id = 'dialog_create_new_page_content_'.$site_id.'_'.$page_id;
+		$add_content_dialog = UI::dialog($add_content_dialog_id, Tr::_('Add content'), 1000);
+		echo $add_content_dialog->start();
+
+		?>
+		<div id="<?=Pages_Page_Content::getCreateForm( $page )->getId()?>_form_area">
+			<?=$this->render( 'pages/add_content/form' );?>
+		</div>
+		<?php
+		echo $add_content_dialog->footer();
+		echo UI::button_save(Tr::_('Create'))->setOnclick("Modules.editModule.editPage.addContent('{$form->getId()}')");
+		echo $add_content_dialog->end();
+
+
+
+
+
+		$delete_dialog_id = 'page_delete_dialog_'.$site_id.'_'.$page_id;
+		$delete_dialog = UI::dialog($delete_dialog_id, 'Delete page?', 600);
+
+		echo $delete_dialog->start();
+		echo Tr::_('Do you really want to delete page <b>%site% : %page%</b> ?', [
+			'site' => $site->getName(),
+			'page' => $page->getName()
+		]);
+		echo $delete_dialog->footer();
+		echo UI::button_delete()->setUrl( Modules::getActionUrl('page/delete', [
+			'site' => $site_id,
+			'page' => $page_id
+		]) );
+		echo $delete_dialog->end();
+
+	endforeach;
+endforeach;
+*/

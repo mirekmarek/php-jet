@@ -1,29 +1,28 @@
 <?php
 namespace JetStudio;
 
-use Jet\Http_Request;
+use Jet\Http_Headers;
 use Jet\UI_messages;
 use Jet\Tr;
-use Jet\Http_Headers;
 
-$current = Modules::getCurrentModule();
-
-$GET = Http_Request::GET();
+$module = Modules::getCurrentModule();
+$menu_item = Modules::getCurrentMenuItem();
 
 if(
-	$current &&
-	($namespace_id=$GET->getString('namespace')) &&
-	($menu_id=$GET->getString('menu')) &&
-	($item_id=$GET->getString('item')) &&
-	( $old_item=$current->deleteMenuItem( $namespace_id, $menu_id, $item_id ) )
+	$module &&
+	$menu_item
 ) {
+	$module->deleteMenuItem( $menu_item->getSetId(), $menu_item->getMenuId(), $menu_item->getId() );
 
-	if( Modules::save() ) {
-		UI_messages::info( Tr::_('Menu item <b>%menu_item%</b> has been deleted', [
-			'menu_item' => $old_item->getLabel().' ('.$old_item->getId().')'
+	if( $module->save() ) {
+		Tr::setCurrentNamespace('pages');
+
+		UI_messages::info( Tr::_('Menu item <b>%name%</b> has been deleted', [
+			'name' => $menu_item->getLabel()
 		]) );
 
-		Http_Headers::reload([], ['action']);
+
+		Http_Headers::reload([], ['action', 'menu']);
 	}
 
 }

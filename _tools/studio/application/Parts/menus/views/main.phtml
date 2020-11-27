@@ -1,8 +1,13 @@
 <?php
 namespace JetStudio;
 
+use Jet\Mvc_View;
 use Jet\UI;
 use Jet\Tr;
+
+/**
+ * @var Mvc_View $this
+ */
 ?>
 <?=Application::getView()->render('js');?>
 
@@ -12,6 +17,7 @@ use Jet\Tr;
 	if( Menus::getCurrentMenu() ):
 		if( Menus::getCurrentMenuItem() ):
 			$what = 'item';
+			$this->setVar('item', Menus::getCurrentMenuItem());
 		else:
 			$what = 'menu';
 		endif;

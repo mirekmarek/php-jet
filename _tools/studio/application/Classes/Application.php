@@ -162,11 +162,16 @@ class Application extends Jet_Application {
 	}
 
 	/**
+	 * @param string|null $part
+	 *
 	 * @return Mvc_View
 	 */
-	public static function getView()
+	public static function getView( $part=null )
 	{
-		$view = new Mvc_View( SysConf_PATH::APPLICATION().'Parts/'.static::$current_part.'/views/' );
+		if(!$part) {
+			$part = static::getCurrentPart();
+		}
+		$view = new Mvc_View( SysConf_PATH::APPLICATION().'Parts/'.$part.'/views/' );
 
 		return $view;
 	}

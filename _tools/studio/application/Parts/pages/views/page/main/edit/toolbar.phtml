@@ -1,0 +1,18 @@
+<?php
+namespace JetStudio;
+
+use Jet\UI;
+use Jet\Mvc_View;
+
+/**
+ * @var Mvc_View $this
+ * @var Pages_Page $page
+ */
+
+$page = $this->getRaw('page');
+
+$form = $page->getEditForm_main();
+?>
+<?=UI::button_save()->setOnclick("$('#{$form->getId()}').submit()")?>
+
+

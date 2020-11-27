@@ -1,0 +1,26 @@
+<?php
+namespace JetStudio;
+
+use Jet\Http_Request;
+use Jet\Tr;
+use Jet\Mvc_View;
+
+/**
+ * @var Mvc_View $this
+ */
+/**
+ * @var Mvc_View $this
+ */
+
+$menu_item = Modules::getCurrentMenuItem();
+
+$app_part = Application::getCurrentPart();
+Application::setCurrentPart('menus');
+
+$view = Application::getView();
+
+$view->setVar('item', $menu_item);
+
+echo $view->render('item/toolbar');
+
+Application::setCurrentPart($app_part);

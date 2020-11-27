@@ -107,7 +107,7 @@ return [
 	'Install and activate' => 'Nainstalovat a aktivovat',
 	'Activate' => 'Aktivovat',
 	'Position: %position%' => 'Pozice: %position%',
-	'Menu namespace: <b>%namespace%</b>' => 'Jmenný prostor menu: <b>%namespace%</b>',
+	'Menu set: <b>%set%</b>' => 'Sada menu: <b>%set%</b>',
 	'Menu: <b>%menu%</b>' => 'Menu: <b>%menu%</b>',
 	'Module <b>%module%</b> has been installed and activated' => 'Modul <b>%module%</b> byl nainstalován a aktivován',
 	'Module <b>%module%</b> has been activated' => 'Modul <b>%module%</b> byl aktivován',
@@ -125,4 +125,5 @@ return [
 	'Module <strong>%module%</strong> has been created' => '',
 	'Modules <b>%module%</b> has been deleted' => '',
 	'Controller <b>%controller%</b> has been deleted' => '',
+	'There are some problems ... Please check the form.' => '',
 ];

@@ -1,10 +1,18 @@
 <?php
 namespace JetStudio;
 
+use Jet\Mvc_View;
 use Jet\Tr;
 use Jet\UI;
 
-$form = Menus::getCurrentMenuItem()->getEditForm();
+/**
+ * @var Mvc_View $this
+ * @var Menus_Menu_Item $item
+ */
+
+$item = $this->getRaw('item');
+
+$form = $item->getEditForm();
 ?>
 <?=UI::button_save()->setOnclick("$('#".$form->getId()."').submit()")?>
 

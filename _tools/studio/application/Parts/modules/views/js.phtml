@@ -3,11 +3,8 @@ namespace JetStudio;
 ?>
 
 <script type="text/javascript">
-    if(!window['JetStudio']) {
-    	var JetStudio = {};
-    }
 
-	JetStudio.Modules = {
+	const Modules = {
 		createModule: {
 			openDialog: function() {
 				$('#dialog_create_new_module').modal('show');
@@ -26,7 +23,7 @@ namespace JetStudio;
 		editModule: {
 			addPage: {
 				openDialog: function() {
-					JetStudio.Modules.editModule.addPage.toggleFields( $('#add_page_form__site_id').val() );
+					Modules.editModule.addPage.toggleFields( $('#add_page_form__site_id').val() );
 					$('#add_page_dialog').modal('show');
 				},
 
@@ -93,34 +90,6 @@ namespace JetStudio;
 				}
 
 
-			},
-			addController: {
-				openDialog: function() {
-					$('#add_controller_dialog').modal('show');
-				},
-
-				send: function() {
-					JetAjaxForm.submit(
-						'add_controller_form',
-						{
-							onSuccess: function( form, response_data ) {
-								location.reload( true );
-							},
-
-							onError: function() {
-							}
-						}
-					);
-
-				}
-			},
-			editController: {
-				send: function( form ) {
-					JetAjaxForm.submit(
-						form,
-						{}
-					);
-				}
 			},
 
 			addMenuItem: {

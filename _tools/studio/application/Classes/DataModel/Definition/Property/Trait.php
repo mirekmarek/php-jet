@@ -126,7 +126,7 @@ trait DataModel_Definition_Property_Trait
 				Form_Field_Select::ERROR_CODE_INVALID_VALUE => 'Please select property type'
 			]);
 
-			$database_column_name_field = new Form_Field_Input('database_column_name', 'Custom column name:', $this->getDatabaseColumnName());
+			$database_column_name_field = new Form_Field_Input('database_column_name', 'Custom column name:', $this->database_column_name );
 			$database_column_name_field->setCatcher( function( $value ) {
 				$this->database_column_name = $value;
 			} );
@@ -521,11 +521,11 @@ trait DataModel_Definition_Property_Trait
 				<?=$field_class_name->label()?>
 				<?=$field_class_name->error()?>
 				<div class="input-group" style="padding-left: 15px;margin-right: 15px;">
-					<span class="input-group-addon"></span>
+					<span class="input-group-prepend"><span class="input-group-text"> </span></span>
 					<?=$field_class_name->input()?>
-					<span class="input-group-addon">::</span>
+					<span class="input-group-prepend"><span class="input-group-text">::</span></span>
 					<?=$field_method->input()?>
-					<span class="input-group-addon">()</span>
+					<span class="input-group-append"><span class="input-group-text">()</span></span>
 				</div>
 				<?=$field_class_name->row()->end()?>
 				<?php
@@ -744,14 +744,6 @@ trait DataModel_Definition_Property_Trait
 	public function setRelatedToPropertyName($related_to_property_name)
 	{
 		$this->related_to_property_name = $related_to_property_name;
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getDatabaseColumnName()
-	{
-		return $this->database_column_name;
 	}
 
 	/**

@@ -108,7 +108,6 @@ class Pages_Page extends Mvc_Page
 		return $page;
 	}
 
-
 	/**
 	 *
 	 * @param string|null        $page_id (optional, null = current)
@@ -275,8 +274,13 @@ class Pages_Page extends Mvc_Page
 		return $page;
 	}
 
-
-
+	/**
+	 * @return string
+	 */
+	public function getFullId()
+	{
+		return $this->site_id.'.'.$this->id;
+	}
 
 	/**
 	 * @return Form
@@ -919,6 +923,17 @@ class Pages_Page extends Mvc_Page
 		}
 	}
 
+	/**
+	 * @return array
+	 */
+	public function toArray()
+	{
+		$res =  parent::toArray();
+		unset( $res['relative_path_fragment'] );
+		unset( $res['original_relative_path_fragment'] );
+
+		return $res;
+	}
 
 	/**
 	 *
@@ -935,8 +950,6 @@ class Pages_Page extends Mvc_Page
 		}
 
 		$data = $this->toArray();
-		unset( $data['relative_path_fragment'] );
-		unset( $data['original_relative_path_fragment'] );
 
 		$page_dir = $this->getDataDirPath();
 

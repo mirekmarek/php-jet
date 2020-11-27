@@ -73,4 +73,7 @@ return [
 	'There are some problems ... Please check the form.' => 'Něco je špatně ... Prosím překontrolujte formulář.',
 	'Main settings' => 'Základní nastavení',
 	'Is not active' => 'Není aktivní',
+	'Invalid controller name format' => '',
+	'Please select controller' => '',
+	'Please select controller action' => '',
 ];

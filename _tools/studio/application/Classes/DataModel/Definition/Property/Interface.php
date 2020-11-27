@@ -117,11 +117,6 @@ interface DataModel_Definition_Property_Interface {
 	public function setRelatedToPropertyName($related_to_property_name);
 
 	/**
-	 * @return string
-	 */
-	public function getDatabaseColumnName();
-
-	/**
 	 * @param string $database_column_name
 	 */
 	public function setDatabaseColumnName($database_column_name);

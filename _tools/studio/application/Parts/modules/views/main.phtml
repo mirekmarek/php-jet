@@ -4,33 +4,69 @@ namespace JetStudio;
 use Jet\UI;
 use Jet\Tr;
 
+$what_to_edit = Modules::getCurrentWhatToEdit();
+
 ?>
 <?=Application::getView()->render('js');?>
 
+<div class="row toolbar" id="main-toolbar">
+	<div class="col-md-3">
+		<?=UI::button_create(Tr::_('Create a new module'))->setOnclick('Modules.createModule.openDialog()')?>
+		<?=UI::button(Tr::_('Wizard'))->setOnclick("$('#module_wizard_select_dialog').modal('show');")->setIcon('magic')?>
+	</div>
+	<div class="col-md-9">
+		<?php if($what_to_edit): ?>
+			<?=Application::getView()->render($what_to_edit.'/edit/toolbar');?>
+		<?php endif; ?>
+	</div>
+</div>
+
+
 <?php if(Modules::getCurrentModule()): ?>
-<div class="row">
+<div class="row" id="main-col">
 	<div class="col-md-3" style="padding: 0px;">
-		<div class="toolbar">
-			<?=UI::button_create(Tr::_('Create a new module'))->setOnclick('JetStudio.Modules.createModule.openDialog()')?>
-			<?=UI::button(Tr::_('Wizard'))->setOnclick("$('#module_wizard_select_dialog').modal('show');")->setIcon('magic')?>
-		</div>
-		<div class="container-fluid">
-			<?=Application::getView()->render('models_list');?>
-		</div>
+		<?=Application::getView()->render('models_list');?>
 	</div>
 	<div class="col-md-9" style="padding: 0px">
-		<?=Application::getView()->render('module_edit/edit');?>
+		<div class="container-fluid">
+			<?=Application::getView()->render($what_to_edit.'/edit/form');?>
+		</div>
 	</div>
 </div>
 <?php else: ?>
-<div class="row">
+<div class="row" id="main-col">
 	<div class="col-md-12">
-		<?=Application::getView()->render('module_edit/dashboard');?>
-
+		<?=Application::getGeneralView()->render('messages');?>
+		<?=Application::getView()->render('models_list');?>
 	</div>
 </div>
 <?php endif; ?>
 
 
-<?=Application::getView()->render('create_module/dialog');?>
-<?=Application::getView()->render('delete_module/dialog');?>
+
+<?=Application::getView()->render('module/create/dialog');?>
+
+<?php
+/*
+$module_wizard_select_dialog = UI::dialog('module_wizard_select_dialog', Tr::_('Please select module wizard'), 800);
+
+$module_wizard_setup_dialog = UI::dialog('module_wizard_setup_dialog', Tr::_('Setup module wizard'), 1040);
+
+echo $module_wizard_select_dialog->start();
+	foreach( Modules_Wizard::getList() as $wizard ):
+		?>
+		<b><?=$wizard->getTitle()?></b>
+		<p><?=$wizard->getDescription()?></p>
+		<div align="right">
+			<?=UI::button(Tr::_('Create'))->setClass('info')->setOnclick("Modules.Wizard.select('".$wizard->getName()."')")?>
+		</div>
+		<hr/>
+		<?php
+	endforeach;
+echo $module_wizard_select_dialog->end();
+?>
+
+<?=$module_wizard_setup_dialog->start()?>
+	<iframe id="module_wizard_setup_form_area" style="width: 1000px;height: 500px;border: 1px inset #c9c9c9"></iframe>
+<?=$module_wizard_setup_dialog->end()?>
+*/
