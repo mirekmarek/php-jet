@@ -39,4 +39,5 @@ return [
 	'Is not active' => '',
 	'Please enter base URL' => '',
 	'Base URL:' => '',
+	'Site <strong>%key%</strong> has been created' => '',
 ];

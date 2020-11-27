@@ -9,13 +9,11 @@ use Jet\UI;
  * @var Pages_Page $page
  */
 
-$page = $this->getRaw('page');
-
 $dialog = UI::dialog('dialog_create_new_page_content', Tr::_('Add content'), 1000);
 
 echo $dialog->start();
 ?>
-	<div id="<?=Pages_Page_Content::getCreateForm( $page )->getId()?>_form_area">
+	<div id="content_create_form_area">
 		<?php
 		require 'form.phtml';
 		?>

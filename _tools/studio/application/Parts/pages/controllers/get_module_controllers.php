@@ -6,26 +6,16 @@ use Jet\Http_Request;
 
 $GET = Http_Request::GET();
 
-$controllers = [];
 $default_controller = '';
 $actions = [];
-
-
 $module_name = $GET->getString('module');
 
-if(Modules::exists($module_name)) {
-	$module = Modules::getModule($module_name);
-	$controllers = $module->getControllers();
+$controllers = Pages_Page::getModuleControllers( $module_name );
 
-	foreach($controllers as $default_controller) {
-		break;
-	}
-
-	if($default_controller) {
-		$actions = $module->getControllerAction($default_controller);
-	}
+foreach($controllers as $default_controller) {
+	$actions = Pages_Page::getModuleControllerActions($module_name, $default_controller);
+	break;
 }
-
 
 AJAX::response(
 	[

@@ -9,14 +9,15 @@ namespace JetStudio;
 
 use Jet\Form;
 use Jet\Form_Field;
-use Jet\Form_Field_Hidden;
 use Jet\Form_Field_Input;
 use Jet\Form_Field_Int;
 use Jet\Form_Field_Select;
 use Jet\Form_Field_Textarea;
 use Jet\Mvc_Page_Content;
-use Jet\Mvc_Layout;
 
+/**
+ *
+ */
 class Pages_Page_Content extends Mvc_Page_Content
 {
 	const CONTENT_KIND_MODULE = 'module';
@@ -29,11 +30,6 @@ class Pages_Page_Content extends Mvc_Page_Content
 	 * @var Form
 	 */
 	protected $__edit_form;
-
-	/**
-	 * @var Form[]
-	 */
-	protected static $create_form = [];
 
 	/**
 	 * @return string
@@ -64,7 +60,7 @@ class Pages_Page_Content extends Mvc_Page_Content
 	 * @return Form_Field_Select
 	 *
 	 */
-	protected static function getField__output_position( $default_value, Pages_Page $page )
+	public static function getField__output_position( $default_value, Pages_Page $page )
 	{
 		/**
 		 * @var Sites_Site $site
@@ -88,7 +84,7 @@ class Pages_Page_Content extends Mvc_Page_Content
 	 *
 	 * @return Form_Field_Int
 	 */
-	protected static function getField__output_position_order( $default_value )
+	public static function getField__output_position_order( $default_value )
 	{
 		$output_position_order = new Form_Field_Int('output_position_order', 'Output position order:', $default_value);
 
@@ -100,7 +96,7 @@ class Pages_Page_Content extends Mvc_Page_Content
 	 *
 	 * @return Form_Field_Select
 	 */
-	protected static function getField__module_name( $default_value )
+	public static function getField__module_name( $default_value )
 	{
 		$modules = [
 			'' => ''
@@ -129,7 +125,7 @@ class Pages_Page_Content extends Mvc_Page_Content
 	 *
 	 * @return Form_Field_Select
 	 */
-	protected static function getField__controller_name( $default_value, $module_name='' )
+	public static function getField__controller_name( $default_value, $module_name='' )
 	{
 		$controller_name = new Form_Field_Select('controller_name', 'Controller name:', $default_value, true);
 		$controller_name->setErrorMessages([
@@ -159,7 +155,7 @@ class Pages_Page_Content extends Mvc_Page_Content
 	 *
 	 * @return Form_Field_Select
 	 */
-	protected static function getField__controller_action( $default_value, $module_name='', $controller='' )
+	public static function getField__controller_action( $default_value, $module_name='', $controller='' )
 	{
 		$controller_action = new Form_Field_Select('controller_action', 'Controller action:', $default_value);
 		$controller_action->setErrorMessages([
@@ -194,7 +190,7 @@ class Pages_Page_Content extends Mvc_Page_Content
 	 *
 	 * @return Form_Field_Input
 	 */
-	protected static function getField__controller_class( $default_value )
+	public static function getField__controller_class( $default_value )
 	{
 		$controller_class = new Form_Field_Input('controller_class', 'Custom controller class:', $default_value);
 		$controller_class->setErrorMessages([
@@ -213,7 +209,7 @@ class Pages_Page_Content extends Mvc_Page_Content
 	 *
 	 * @return Form_Field_Input
 	 */
-	protected static function getField__controller_class_action( $default_value )
+	public static function getField__controller_class_action( $default_value )
 	{
 		$controller_class_action = new Form_Field_Input('controller_class_action', 'Controller action:', $default_value);
 		$controller_class_action->setErrorMessages([
@@ -233,7 +229,7 @@ class Pages_Page_Content extends Mvc_Page_Content
 	 *
 	 * @return Form_Field_Textarea
 	 */
-	protected static function getField__output( $default_value )
+	public static function getField__output( $default_value )
 	{
 		$output = new Form_Field_Textarea('output', 'Static output:', $default_value);
 		$output->setValidator( function( Form_Field_Textarea $field ) {
@@ -256,7 +252,7 @@ class Pages_Page_Content extends Mvc_Page_Content
 	 *
 	 * @return Form_Field_Input
 	 */
-	protected static function getField__output_callback_class( $default_value )
+	public static function getField__output_callback_class( $default_value )
 	{
 		$output_callback_class = new Form_Field_Input('output_callback_class', 'Output callback class:', $default_value);
 		$output_callback_class->setErrorMessages([
@@ -276,7 +272,7 @@ class Pages_Page_Content extends Mvc_Page_Content
 	 *
 	 * @return Form_Field_Input
 	 */
-	protected static function getField__output_callback_method( Form_Field_Input $output_callback_class_field, $default_value )
+	public static function getField__output_callback_method( Form_Field_Input $output_callback_class_field, $default_value )
 	{
 		$output_callback_method = new Form_Field_Input('output_callback_method', 'Output callback method:', $default_value);
 		$output_callback_method->setErrorMessages([
@@ -291,175 +287,6 @@ class Pages_Page_Content extends Mvc_Page_Content
 	}
 
 
-	/**
-	 * @param Pages_Page $page
-	 *
-	 * @return Form
-	 */
-	public static function getCreateForm( Pages_Page $page )
-	{
-		$key = $page->getSiteId().':'.$page->getId();
-
-		if( !isset(static::$create_form[$key]) ) {
-
-			$content_kind = new Form_Field_Hidden('content_kind', '', static::CONTENT_KIND_MODULE );
-
-
-			$output_position = static::getField__output_position( Mvc_Layout::DEFAULT_OUTPUT_POSITION, $page );
-			$output_position_order = static::getField__output_position_order( 0 );
-
-			$module_name =  static::getField__module_name('');
-			$controller_name = static::getField__controller_name('Main');
-			$controller_action = static::getField__controller_action('default');
-
-
-			$controller_class = static::getField__controller_class( '' );
-			$controller_class_action = static::getField__controller_class_action( 'default' );
-
-
-			$output = static::getField__output('');
-
-
-			$output_callback_class= static::getField__output_callback_class( '' );
-			$output_callback_method = static::getField__output_callback_method( $output_callback_class, '' );
-
-			$fields = [
-				$content_kind,
-
-				$output_position,
-				$output_position_order,
-
-				$module_name,
-				$controller_name,
-				$controller_action,
-
-				$controller_class,
-				$controller_class_action,
-
-				$output,
-
-				$output_callback_class,
-				$output_callback_method
-			];
-
-
-			for( $c=0; $c<static::PARAMS_COUNT; $c++) {
-
-				$param_key = new Form_Field_Input('/params/'.$c.'/key', '', '');
-				$fields[] = $param_key;
-
-				$param_value = new Form_Field_Input('/params/'.$c.'/value', '', '');
-				$fields[] = $param_value;
-			}
-			
-			
-
-			
-
-			$form = new Form('create_page_content_form_'.$page->getSiteId().'_'.$page->getId(), $fields);
-
-			$form->setAction( Pages::getActionUrl('content/add' ) );
-
-			static::$create_form[$key] = $form;
-		}
-
-		return static::$create_form[$key];
-	}
-
-	/**
-	 * @param Pages_Page $page
-	 * @return bool|Pages_Page_Content
-	 */
-	public static function catchCreateForm( Pages_Page $page )
-	{
-		$form = static::getCreateForm( $page );
-
-		if( !$form->catchInput() ) {
-			return false;
-		}
-
-
-		switch( $form->field('content_kind')->getValue() ) {
-			case static::CONTENT_KIND_MODULE:
-				$form->field('module_name')->setIsRequired(true);
-				$form->field('controller_name')->setIsRequired(true);
-				$form->field('controller_action')->setIsRequired(true);
-
-				break;
-			case static::CONTENT_KIND_CLASS:
-				$form->field('controller_class')->setIsRequired(true);
-				$form->field('controller_class_action')->setIsRequired(true);
-				break;
-			case static::CONTENT_KIND_STATIC:
-				$form->field('output')->setIsRequired(true);
-				break;
-			case static::CONTENT_KIND_CALLBACK:
-				$form->field('output_callback_class')->setIsRequired(true);
-				$form->field('output_callback_method')->setIsRequired(true);
-				break;
-
-		}
-
-		if( !$form->validate() ) {
-			return false;
-		}
-
-		$content = new Pages_Page_Content();
-
-		$output_position = $form->field('output_position')->getValue();
-		$output_order = $form->field('output_position_order')->getValue();
-
-		if($output_order<1) {
-			$output_order = 0;
-
-			foreach( $page->getContent() as $e_c ) {
-				if( $e_c->getOutputPosition()!=$output_position ) {
-					continue;
-				}
-
-				if( $e_c->getOutputPositionOrder()>$output_order ) {
-					$output_order = $e_c->getOutputPositionOrder();
-				}
-
-			}
-
-			$output_order++;
-		}
-
-		$content->setOutputPosition( $output_position );
-		$content->setOutputPositionOrder( $output_order );
-
-
-		switch( $form->field('content_kind')->getValue() ) {
-			case static::CONTENT_KIND_MODULE:
-				$content->setModuleName( $form->field('module_name')->getValue() );
-				$content->setControllerName( $form->field('controller_name')->getValue() );
-				$content->setControllerAction( $form->field('controller_action')->getValue() );
-
-				break;
-			case static::CONTENT_KIND_CLASS:
-				$content->setControllerClass( $form->field('controller_class')->getValue() );
-				$content->setControllerAction( $form->field('controller_class_action')->getValue() );
-				break;
-			case static::CONTENT_KIND_STATIC:
-				$content->setOutput( $form->field('output')->getValue() );
-				break;
-			case static::CONTENT_KIND_CALLBACK:
-				$class = $form->field('output_callback_class')->getValue();
-				$method = $form->field('output_callback_method')->getValue();
-				$content->setOutput( [$class, $method] );
-				break;
-
-		}
-
-		$content->parameters = static::catchParams( $form );
-
-		$key = $page->getSiteId().':'.$page->getId();
-		unset(static::$create_form[$key]);
-
-
-		return $content;
-	}
 
 	/**
 	 * @param Pages_Page $page

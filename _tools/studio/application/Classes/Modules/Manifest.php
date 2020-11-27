@@ -664,7 +664,7 @@ class Modules_Manifest extends Application_Module_Manifest
 	}
 
 	/**
-	 * @return Modules_Module_Controller[]
+	 * @return array
 	 */
 	public function getControllers()
 	{

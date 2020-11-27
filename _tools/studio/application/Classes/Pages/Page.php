@@ -13,6 +13,7 @@ use Jet\Form_Field_Select;
 use Jet\Form_Field_Textarea;
 use Jet\Form_Field_Hidden;
 use Jet\IO_Dir;
+use Jet\Mvc_Layout;
 use Jet\Mvc_Page;
 use Jet\Form;
 use Jet\Form_Field_Input;
@@ -61,6 +62,10 @@ class Pages_Page extends Mvc_Page
 	 */
 	protected $__delete_content_form;
 
+	/**
+	 * @var Form
+	 */
+	protected $__create_content_form;
 
 	/**
 	 *
@@ -1055,6 +1060,221 @@ class Pages_Page extends Mvc_Page
 
 
 		return $page;
+	}
+
+
+	/**
+	 *
+	 * @return Form
+	 */
+	public function getContentCreateForm()
+	{
+
+
+		if( !$this->__create_content_form ) {
+
+			$content_kind = new Form_Field_Hidden('content_kind', '', Pages_Page_Content::CONTENT_KIND_MODULE );
+
+
+			$output_position = Pages_Page_Content::getField__output_position( Mvc_Layout::DEFAULT_OUTPUT_POSITION, $this );
+			$output_position_order = Pages_Page_Content::getField__output_position_order( 0 );
+
+			$module_name =  Pages_Page_Content::getField__module_name('');
+			$controller_name = Pages_Page_Content::getField__controller_name('Main');
+			$controller_action = Pages_Page_Content::getField__controller_action('default');
+
+
+			$controller_class = Pages_Page_Content::getField__controller_class( '' );
+			$controller_class_action = Pages_Page_Content::getField__controller_class_action( 'default' );
+
+
+			$output = Pages_Page_Content::getField__output('');
+
+
+			$output_callback_class= Pages_Page_Content::getField__output_callback_class( '' );
+			$output_callback_method = Pages_Page_Content::getField__output_callback_method( $output_callback_class, '' );
+
+			$fields = [
+				$content_kind,
+
+				$output_position,
+				$output_position_order,
+
+				$module_name,
+				$controller_name,
+				$controller_action,
+
+				$controller_class,
+				$controller_class_action,
+
+				$output,
+
+				$output_callback_class,
+				$output_callback_method
+			];
+
+
+			for( $c=0; $c<Pages_Page_Content::PARAMS_COUNT; $c++) {
+
+				$param_key = new Form_Field_Input('/params/'.$c.'/key', '', '');
+				$fields[] = $param_key;
+
+				$param_value = new Form_Field_Input('/params/'.$c.'/value', '', '');
+				$fields[] = $param_value;
+			}
+
+
+			$form = new Form('create_page_content_form', $fields);
+
+			$form->setAction( Pages::getActionUrl('content/add' ) );
+
+			$this->__create_content_form = $form;
+		}
+
+		return $this->__create_content_form;
+	}
+
+	/**
+	 * @param string $module_name
+	 * @param string $controller
+	 * @return array
+	 */
+	public static function getModuleControllerActions( $module_name, $controller )
+	{
+		if(Modules::exists($module_name)) {
+			$module = Modules::getModule($module_name);
+			$controllers = $module->getControllers();
+
+			if(isset($controllers[$controller])) {
+				return $module->getControllerAction($controller);
+			}
+		}
+
+		return [];
+	}
+
+	/**
+	 * @param string $module_name
+	 * @return array
+	 */
+	public static function getModuleControllers( $module_name )
+	{
+		if(Modules::exists($module_name)) {
+			$module = Modules::getModule($module_name);
+			return $module->getControllers();
+		}
+
+		return [];
+	}
+
+	/**
+	 *
+	 */
+	public function catchContentCreateForm()
+	{
+		$form = $this->getContentCreateForm();
+
+		if( !$form->catchInput() ) {
+			return false;
+		}
+
+
+		switch( $form->field('content_kind')->getValue() ) {
+			case Pages_Page_Content::CONTENT_KIND_MODULE:
+				$form->field('module_name')->setIsRequired(true);
+				$form->field('controller_name')->setIsRequired(true);
+				$form->field('controller_action')->setIsRequired(true);
+
+				$selected_module = $form->field('module_name')->getValue();
+				$selected_controller = $form->field('controller_name')->getValue();
+
+				$form->field('controller_name')->setSelectOptions( static::getModuleControllers($selected_module) );
+				$form->field('controller_action')->setSelectOptions( static::getModuleControllerActions($selected_module, $selected_controller) );
+
+				break;
+			case Pages_Page_Content::CONTENT_KIND_CLASS:
+				$form->removeField('module_name');
+				$form->removeField('controller_name');
+				$form->removeField('controller_action');
+
+				$form->field('controller_class')->setIsRequired(true);
+				$form->field('controller_class_action')->setIsRequired(true);
+				break;
+			case Pages_Page_Content::CONTENT_KIND_STATIC:
+				$form->removeField('module_name');
+				$form->removeField('controller_name');
+				$form->removeField('controller_action');
+
+				$form->field('output')->setIsRequired(true);
+				break;
+			case Pages_Page_Content::CONTENT_KIND_CALLBACK:
+				$form->removeField('module_name');
+				$form->removeField('controller_name');
+				$form->removeField('controller_action');
+
+				$form->field('output_callback_class')->setIsRequired(true);
+				$form->field('output_callback_method')->setIsRequired(true);
+				break;
+
+		}
+
+		if( !$form->validate() ) {
+			return false;
+		}
+
+		$content = new Pages_Page_Content();
+
+		$output_position = $form->field('output_position')->getValue();
+		$output_order = $form->field('output_position_order')->getValue();
+
+		if($output_order<1) {
+			$output_order = 0;
+
+			foreach( $this->getContent() as $e_c ) {
+				if( $e_c->getOutputPosition()!=$output_position ) {
+					continue;
+				}
+
+				if( $e_c->getOutputPositionOrder()>$output_order ) {
+					$output_order = $e_c->getOutputPositionOrder();
+				}
+
+			}
+
+			$output_order++;
+		}
+
+		$content->setOutputPosition( $output_position );
+		$content->setOutputPositionOrder( $output_order );
+
+
+		switch( $form->field('content_kind')->getValue() ) {
+			case Pages_Page_Content::CONTENT_KIND_MODULE:
+				$content->setModuleName( $form->field('module_name')->getValue() );
+				$content->setControllerName( $form->field('controller_name')->getValue() );
+				$content->setControllerAction( $form->field('controller_action')->getValue() );
+
+				break;
+			case Pages_Page_Content::CONTENT_KIND_CLASS:
+				$content->setControllerClass( $form->field('controller_class')->getValue() );
+				$content->setControllerAction( $form->field('controller_class_action')->getValue() );
+				break;
+			case Pages_Page_Content::CONTENT_KIND_STATIC:
+				$content->setOutput( $form->field('output')->getValue() );
+				break;
+			case Pages_Page_Content::CONTENT_KIND_CALLBACK:
+				$class = $form->field('output_callback_class')->getValue();
+				$method = $form->field('output_callback_method')->getValue();
+				$content->setOutput( [$class, $method] );
+				break;
+
+		}
+
+		$content->setParameters( Pages_Page_Content::catchParams( $form ) );
+
+		$this->__create_content_form = null;
+
+		return $content;
 	}
 
 }

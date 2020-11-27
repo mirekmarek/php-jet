@@ -77,4 +77,7 @@ return [
 	'Please select controller' => '',
 	'Please select controller action' => '',
 	'Menu item <b>%name%</b> has been deleted' => '',
+	'Page with the identifier already exists' => '',
+	'Please enter controller class' => '',
+	'Please enter controller class action name' => '',
 ];

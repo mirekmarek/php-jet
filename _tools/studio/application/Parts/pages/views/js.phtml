@@ -36,6 +36,9 @@ namespace JetStudio;
 					controllers.empty();
 					controller_action.empty();
 
+					$('#create_page_content_form__controller_name').removeClass('is-invalid');
+					$('#create_page_content_form__controller_action').removeClass('is-invalid');
+
 					$.ajax({
 						url: '<?=Pages::getActionUrl('get_module_controllers', [], false)?>&module='+encodeURIComponent(module_name),
 						success: function(result) {
@@ -78,7 +81,7 @@ namespace JetStudio;
 
 					<?php if(Pages::getCurrentPage()): ?>
 					JetAjaxForm.submit(
-						'<?=Pages_Page_Content::getCreateForm(Pages::getCurrentPage())->getId()?>',
+						'create_page_content_form',
 						{
 							onSuccess: function( form, response_data ) {
 							}

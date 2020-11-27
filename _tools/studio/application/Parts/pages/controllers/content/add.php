@@ -7,7 +7,9 @@ use Jet\AJAX;
 
 $page = Pages::getCurrentPage();
 
-$form = Pages_Page_Content::getCreateForm( $page );
+$view = Application::getView();
+
+$view->setVar( 'page', $page );
 
 $ok = false;
 $data = [];
@@ -15,13 +17,13 @@ $snippets = [];
 
 if(
 	$page &&
-	($new_content=Pages_Page_Content::catchCreateForm( $page ))
+	($new_content=$page->catchContentCreateForm())
 ) {
 	$page->addContent( $new_content );
+	$form = $page->getContentCreateForm();
 
 	if( $page->save() ) {
 		$ok = true;
-		$form = Pages_Page_Content::getCreateForm( $page );
 
 		$form->setCommonMessage(
 			UI_messages::createSuccess(
@@ -31,8 +33,9 @@ if(
 
 		$data = [];
 
-		$snippets['content_list_area'] = Application::getView()->render('page_edit/edit/content/list');
-
+		$snippets['content_list_area'] = $view->render('page/content/edit/form/list');
+	} else {
+		$form->setCommonMessage(implode('', UI_messages::get()));
 	}
 
 
@@ -40,11 +43,8 @@ if(
 
 
 
-$view = Application::getView();
 
-$view->setVar( 'form', $form);
-
-$snippets[$form->getId().'_form_area'] = $view->render('add_content/form');
+$snippets['content_create_form_area'] = $view->render('page/content/create/form');
 
 AJAX::formResponse(
 	$ok,

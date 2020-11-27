@@ -12,7 +12,7 @@ use Jet\Mvc_View;
 
 $page = $this->getRaw('page');
 
-$form = Pages_Page_Content::getCreateForm( $page );
+$form = $page->getContentCreateForm();
 
 $form->setDefaultLabelWidth([
 	Form::LJ_SIZE_MEDIUM => 3
@@ -25,6 +25,7 @@ $form->setDefaultFieldWidth([
 $selected_content_kind = $form->field('content_kind')->getValue();
 
 echo $form->start();
+echo $form->getCommonMessage();
 echo $form->field('content_kind');
 
 echo $form->field('output_position');
