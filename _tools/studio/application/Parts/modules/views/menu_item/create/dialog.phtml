@@ -15,8 +15,8 @@ $add_menu_item_dialog = UI::dialog('add_menu_item_dialog', Tr::_('Add menu item'
 
 
 <?=$add_menu_item_dialog->start()?>
-	<div id="create_menu_item_form_form_area">
-		<?php $this->render('menu_item/create/form') ?>
+	<div id="create_menu_item_form_area">
+		<?=$this->render('menu_item/create/form') ?>
 	</div>
 <?=$add_menu_item_dialog->footer()?>
 	<?=UI::button_save(Tr::_('Add menu item'))->setOnclick('Modules.editModule.addMenuItem.send()')?>

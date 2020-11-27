@@ -76,4 +76,5 @@ return [
 	'Invalid controller name format' => '',
 	'Please select controller' => '',
 	'Please select controller action' => '',
+	'Menu item <b>%name%</b> has been deleted' => '',
 ];

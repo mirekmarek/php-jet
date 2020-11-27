@@ -1,7 +1,7 @@
 <?php
 namespace JetStudio;
 
-$form = Modules_Manifest::getPageCreateForm();
+$form = Modules::getCurrentModule()->getPageCreateForm();
 
 
 $form->field('page_name')->input()->addJsAction('onkeyup', 'Modules.editModule.addPage.generateId(this.value);');

@@ -1,6 +1,6 @@
 <?php
 namespace JetStudio;
-?>
+use Jet\Http_Request;?>
 
 <script type="text/javascript">
 
@@ -53,10 +53,7 @@ namespace JetStudio;
 						'add_page_form',
 						{
 							onSuccess: function( form, response_data ) {
-								location.reload( true );
-							},
-
-							onError: function() {
+								location = '<?=Http_Request::currentURI()?>&page='+response_data.id;
 							}
 						}
 					);
@@ -80,15 +77,7 @@ namespace JetStudio;
 					form.index.value = index;
 
 					$('#delete_content').modal('show');
-				},
-
-				send: function( form ) {
-					JetAjaxForm.submit(
-						form,
-						{}
-					);
 				}
-
 
 			},
 
@@ -100,7 +89,11 @@ namespace JetStudio;
 				send: function() {
 					JetAjaxForm.submit(
 						'create_menu_item_form',
-						{}
+						{
+							onSuccess: function( form, response_data ) {
+								location = '<?=Http_Request::currentURI()?>&menu_item='+response_data.id;
+							}
+						}
 					);
 				},
 				generateId: function( name ) {
@@ -111,16 +104,8 @@ namespace JetStudio;
 						}
 					});
 				}
-			},
-
-			editMenuItem: {
-				send: function( form ) {
-					JetAjaxForm.submit(
-						form,
-						{}
-					);
-				}
 			}
+
 
 		},
 

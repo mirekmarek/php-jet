@@ -53,12 +53,12 @@ class Modules_Manifest extends Application_Module_Manifest
 	/**
 	 * @var Form
 	 */
-	protected static $page_create_form;
+	protected $page_create_form;
 
 	/**
 	 * @var Form
 	 */
-	protected static $menu_item_create_form;
+	protected $menu_item_create_form;
 
 
 	/**
@@ -512,9 +512,9 @@ class Modules_Manifest extends Application_Module_Manifest
 	/**
 	 * @return Form
 	 */
-	public static function getPageCreateForm()
+	public function getPageCreateForm()
 	{
-		if(!static::$page_create_form) {
+		if(!$this->page_create_form) {
 			$sites = [''=>''];
 			foreach( Sites::getSites() as $site ) {
 				$sites[$site->getId()] = $site->getName();
@@ -550,10 +550,10 @@ class Modules_Manifest extends Application_Module_Manifest
 			$form->setAction( Modules::getActionUrl('page/add') );
 
 
-			static::$page_create_form = $form;
+			$this->page_create_form = $form;
 		}
 
-		return static::$page_create_form;
+		return $this->page_create_form;
 	}
 
 	/**
@@ -562,7 +562,7 @@ class Modules_Manifest extends Application_Module_Manifest
 	 */
 	public function catchCratePageForm()
 	{
-		$form = static::getPageCreateForm();
+		$form = $this->getPageCreateForm();
 
 		if(
 			!$form->catchInput() ||
@@ -749,10 +749,12 @@ class Modules_Manifest extends Application_Module_Manifest
 	/**
 	 * @return Form
 	 */
-	public static function getCreateMenuItemForm()
+	public function getCreateMenuItemForm()
 	{
-		if(!static::$menu_item_create_form) {
+		if(!$this->menu_item_create_form) {
+
 			$form = Menus_Menu_Item::getCreateForm();
+			$form->setCustomTranslatorNamespace('menus');
 
 			$target_menus = [''=>''];
 			foreach( Menus::getSets() as $set ) {
@@ -778,18 +780,18 @@ class Modules_Manifest extends Application_Module_Manifest
 
 			$form->setAction( Modules::getActionUrl('menu_item/add') );
 
-			static::$menu_item_create_form = $form;
+			$this->menu_item_create_form = $form;
 		}
 
-		return static::$menu_item_create_form;
+		return $this->menu_item_create_form;
 	}
 
 	/**
 	 * @return bool|Menus_Menu_Item
 	 */
-	public static function catchCreateMenuItemForm()
+	public function catchCreateMenuItemForm()
 	{
-		$form = static::getCreateMenuItemForm();
+		$form = $this->getCreateMenuItemForm();
 		if(
 			!$form->catchInput() ||
 			!$form->validate()
@@ -848,7 +850,7 @@ class Modules_Manifest extends Application_Module_Manifest
 
 		$this->menu_items[$menu_set][$menu_id][$item_id] = $menu_item;
 
-		static::$menu_item_create_form = null;
+		$this->menu_item_create_form = null;
 	}
 
 	/**
@@ -949,6 +951,24 @@ class Modules_Manifest extends Application_Module_Manifest
 			$res['ACL_actions'][$action] = $description;
 		}
 
+		$cleanupArray = function( $data ) use (&$cleanupArray) {
+			foreach($data as $k=>$v) {
+				if(!$v) {
+					unset($data[$k]);
+					continue;
+				}
+
+				if(is_array($v)) {
+					$data[$k] = $cleanupArray($v);
+					if(!$data[$k]) {
+						unset($data[$k]);
+					}
+				}
+			}
+
+			return $data;
+		};
+
 		foreach( $this->pages as $site_id=>$pages ) {
 			if(!isset($res['pages'])) {
 				$res['pages'] = [];
@@ -959,10 +979,13 @@ class Modules_Manifest extends Application_Module_Manifest
 			}
 
 			foreach( $pages as $page_id=>$page ) {
-				$page = $page->toArray();
-				unset($page['id']);
+				$page_data = $page->toArray();
+				unset($page_data['id']);
+				$page_data['relative_path_fragment'] = $page->getRelativePathFragment();
 
-				$res['pages'][$site_id][$page_id] = $page;
+				$page_data = $cleanupArray($page_data);
+
+				$res['pages'][$site_id][$page_id] = $page_data;
 			}
 
 		}
@@ -994,6 +1017,7 @@ class Modules_Manifest extends Application_Module_Manifest
 					 * @var Menus_Menu_Item $item;
 					 */
 					$item = $item->toArray();
+					$item = $cleanupArray($item);
 
 					$res['menu_items'][$namespace][$menu_id][$item_id] = $item;
 

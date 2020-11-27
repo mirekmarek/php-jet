@@ -14,7 +14,7 @@ $add_page_dialog = UI::dialog('add_page_dialog', Tr::_('Add page'), 600);
 
 <?=$add_page_dialog->start()?>
 	<div id="add_page_form_area">
-		<?php $this->render('page/create/form') ?>
+		<?=$this->render('page/create/form') ?>
 	</div>
 <?=$add_page_dialog->footer()?>
 	<?=UI::button_save(Tr::_('Add page'))->setOnclick('Modules.editModule.addPage.send()')?>

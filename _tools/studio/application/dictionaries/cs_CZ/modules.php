@@ -126,4 +126,6 @@ return [
 	'Modules <b>%module%</b> has been deleted' => '',
 	'Controller <b>%controller%</b> has been deleted' => '',
 	'There are some problems ... Please check the form.' => '',
+	'Menu item <strong>%item%</strong> has been created' => '',
+	'Page <b>%page%</b> has been added' => '',
 ];

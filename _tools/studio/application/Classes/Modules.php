@@ -58,30 +58,6 @@ class Modules extends BaseObject implements Application_Part
 		return static::$modules;
 	}
 
-	/**
-	 * @param Form|null $form
-	 *
-	 * @return bool
-	 */
-	public static function save( Form $form=null )
-	{
-		static::load();
-
-		$ok = true;
-		try {
-
-			foreach( static::$modules as $id=>$module ) {
-				$module->save();
-			}
-
-		} catch( Exception $e ) {
-			$ok = false;
-
-			Application::handleError( $e, $form );
-		}
-
-		return $ok;
-	}
 
 
 	/**

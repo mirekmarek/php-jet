@@ -3,33 +3,31 @@ namespace JetStudio;
 
 use Jet\UI_messages;
 use Jet\Tr;
-use Jet\Http_Headers;
 use Jet\AJAX;
 
 $current = Modules::getCurrentModule();
 
-$form = Modules_Manifest::getPageCreateForm();
 $ok = false;
+$data = [];
 
 if(
 	$current &&
 	($new_page=$current->catchCratePageForm())
 ) {
-	if( Modules::save() ) {
+	$form = $current->getPageCreateForm();
+
+	if( $current->save() ) {
 		$ok = true;
 		UI_messages::success( Tr::_('Page <b>%page%</b> has been added', ['page'=>$new_page->getName()]) );
-
+		$data['id'] = $new_page->getFullId();
+	} else {
+		$form->setCommonMessage( implode('', UI_messages::get()) );
 	}
 }
 
-$view = Application::getView();
-
-$data = [];
-
 $snippets = [
-	'add_page_form_area' => $view->render('module_edit/add_page_form')
+	'add_page_form_area' => Application::getView()->render('page/create/form')
 ];
-
 
 AJAX::formResponse(
 	$ok,

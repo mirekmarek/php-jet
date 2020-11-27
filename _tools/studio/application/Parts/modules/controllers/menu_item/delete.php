@@ -18,11 +18,11 @@ if(
 		Tr::setCurrentNamespace('pages');
 
 		UI_messages::info( Tr::_('Menu item <b>%name%</b> has been deleted', [
-			'name' => $menu_item->getLabel()
+			'name' => $menu_item->getId()
 		]) );
 
 
-		Http_Headers::reload([], ['action', 'menu']);
+		Http_Headers::reload([], ['action', 'menu_item']);
 	}
 
 }

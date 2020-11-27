@@ -10,31 +10,34 @@ $ok = false;
 $data = [];
 $snippets = [];
 
+$module = Modules::getCurrentModule();
+
 if(
-	Modules::getCurrentModule() &&
-	($new_item=Modules_Manifest::catchCreateMenuItemForm())
+	$module &&
+	($new_item=$module->catchCreateMenuItemForm())
 ) {
 	Modules::getCurrentModule()->addMenuItem( $new_item );
 
-	$form = Modules_Manifest::getCreateMenuItemForm();
+	$form = $module->getCreateMenuItemForm();
 
-	if( Modules::save( $form ) ) {
+	if( $module->save() ) {
 		$ok = true;
 
-		$form->setCommonMessage( UI_messages::createSuccess(
+		UI_messages::success(
 			Tr::_('Menu item <strong>%item%</strong> has been created',[
 				'item' => $new_item->getLabel()
 			])
-		) );
+		);
 
-		$snippets['module_menu_items_list_area'] = Application::getView()->render('module_edit/menu_items/list');
+		$data['id'] = $new_item->getFullId();
+
+	} else {
+		$form->setCommonMessage( implode('', UI_messages::get()) );
 	}
 
 }
 
-$form = Modules_Manifest::getCreateMenuItemForm();
-
-$snippets[$form->getId().'_form_area'] = Application::getView()->render('module_edit/add_menu_item_form');
+$snippets['create_menu_item_form_area'] = Application::getView()->render('menu_item/create/form');
 
 AJAX::formResponse(
 	$ok,

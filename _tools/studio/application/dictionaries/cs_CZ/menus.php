@@ -43,4 +43,6 @@ return [
 	'Please enter menu set name' => '',
 	'Menu <b>%name%</b> has been deleted' => '',
 	'Menu item <b>%name%</b> has been deleted' => '',
+	'Please select target menu' => '',
+	'Menu' => '',
 ];
