@@ -86,7 +86,7 @@ class Application extends Jet_Application {
 
 			$GET = Http_Request::GET();
 			if(
-				($set_locale=$GET->getString('locale')) &&
+				($set_locale=$GET->getString('std_locale')) &&
 				isset($locales[$set_locale])
 			) {
 				static::$current_locale = $locales[$set_locale];

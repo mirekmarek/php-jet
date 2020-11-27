@@ -162,4 +162,6 @@ return [
 	'Create a new DataModel - Related 1toN' => '',
 	'Create a new DataModel - Related 1to1' => '',
 	'ID property name:' => '',
+	'Invalid DataModel class name format' => '',
+	'Invalid DataModel name format' => '',
 ];
