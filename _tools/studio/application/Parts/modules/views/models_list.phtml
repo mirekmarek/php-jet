@@ -40,7 +40,7 @@ $showIcons = function( Modules_Manifest $module) {
 				<?php if(!Modules::getCurrentMenuItem() && !Modules::getCurrentPage()): ?>
 					<b class="badge badge-info" style="font-size: 20px;"><?=$module->getName()?></b>
 				<?php else: ?>
-					<a href="<?=Http_Request::currentURI([],['menu_item','page'])?>" style="font-weight: bolder;font-size: 20px;"><?=$module->getName()?></a>
+					<a href="<?=Http_Request::currentURI([],['menu_item','page', 'action'])?>" style="font-weight: bolder;font-size: 20px;"><?=$module->getName()?></a>
 				<?php endif; ?>
 				<br/>
 				<span style="font-size: 12px;"><?=$module->getLabel()?></span>
@@ -62,7 +62,7 @@ $showIcons = function( Modules_Manifest $module) {
 				<?php $showIcons($module); ?>
 			</td>
 			<td>
-				<a href="<?=Http_Request::currentURI(['module'=>$module->getName()], ['menu_item', 'page'])?>"><?=$module->getName()?></a><br/>
+				<a href="<?=Http_Request::currentURI(['module'=>$module->getName()], ['menu_item', 'page', 'action'])?>"><?=$module->getName()?></a><br/>
 				<span style="font-size: 12px;"><?=$module->getLabel()?></span>
 			</td>
 		</tr>

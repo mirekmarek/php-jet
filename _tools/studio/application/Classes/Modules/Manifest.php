@@ -647,23 +647,6 @@ class Modules_Manifest extends Application_Module_Manifest
 	}
 
 	/**
-	 * @param Pages_Page $page
-	 *
-	 * @return Form
-	 */
-	public static function getPageContentCreateForm( Pages_Page $page )
-	{
-		$form = Pages_Page_Content::getCreateForm( $page );
-
-		$form->setAction( Modules::getActionUrl('page/content/add', [
-			'site' => $page->getSiteId(),
-			'page' => $page->getId()
-		]) );
-
-		return $form;
-	}
-
-	/**
 	 * @return array
 	 */
 	public function getControllers()

@@ -20,7 +20,7 @@ $tabs = UI::tabs(
 		'callback' => Tr::_('Callback')
 	],
 	function( $tab_id ) {
-		return Http_Request::currentURI(['what'=>$tab_id]);
+		return Http_Request::currentURI(['what'=>$tab_id], ['action']);
 	},
 	$what
 );

@@ -1,29 +1,25 @@
 <?php
 namespace JetStudio;
 
-use Jet\Http_Request;
 use Jet\UI_messages;
 use Jet\Tr;
 use Jet\Http_Headers;
 
-$current = Modules::getCurrentModule();
+$module = Modules::getCurrentModule();
+$page = Modules::getCurrentPage();
 
-$GET = Http_Request::GET();
 
-if(
-	$current &&
-	($site_id=$GET->getString('site')) &&
-	($page_id=$GET->getString('page')) &&
-	( $old_page=$current->deletePage( $site_id, $page_id ) )
-) {
+if( $page ) {
 
-	if( Modules::save() ) {
+	$module->deletePage( $page->getSiteId(), $page->getId() );
+
+	if( $module->save() ) {
 		UI_messages::info( Tr::_('Page <b>%site% : %page%</b> has been deleted', [
-			'site' => $old_page->getSite()->getName(),
-			'page' => $old_page->getName()
+			'site' => $page->getSite()->getName(),
+			'page' => $page->getName()
 		]) );
 
-		Http_Headers::reload([], ['action']);
+		Http_Headers::reload([], ['action', 'page']);
 	}
 
 }

@@ -9,6 +9,8 @@ $form->field('site_id')->input()->addJsAction('onchange', 'Modules.editModule.ad
 
 echo $form->start();
 
+echo $form->getCommonMessage();
+
 echo $form->field('site_id');
 echo $form->field('page_name');
 echo $form->field('page_id');

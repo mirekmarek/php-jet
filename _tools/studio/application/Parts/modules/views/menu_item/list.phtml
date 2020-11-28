@@ -45,7 +45,7 @@ $current_menu_item = Modules::getCurrentMenuItem();
 						<?php if($current_menu_item && $current_menu_item->getFullId()==$item->getFullId()): ?>
 							<b class="badge badge-info"><?=$item->getId()?></b>
 						<?php else: ?>
-							<a href="<?=Http_Request::currentURI(['menu_item'=>$item->getFullId()], ['page'])?>"><?=$item->getId()?></a>
+							<a href="<?=Http_Request::currentURI(['menu_item'=>$item->getFullId()], ['page', 'action'])?>"><?=$item->getId()?></a>
 						<?php endif; ?>
 					</td>
 				</tr>

@@ -274,16 +274,32 @@ class Modules extends BaseObject implements Application_Part
 			) {
 				$id = explode('.', $id);
 
-				$item = $module->getPage( $id[0], $id[1] );
+				$page = $module->getPage( $id[0], $id[1] );
 
-				if($item) {
-					static::$__current_page = $item;
+				if($page) {
+					static::$__current_page = $page;
 				}
 			}
 
 		}
 
 		return static::$__current_page;
+	}
+
+	/**
+	 *
+	 */
+	public static function setupPageForms()
+	{
+		$page = static::getCurrentPage();
+
+		$page->getEditForm_main()->setAction( Modules::getActionUrl('page/edit', ['what'=>'main']) );
+		$page->getEditForm_content()->setAction( Modules::getActionUrl('page/edit', ['what'=>'content']) );
+		$page->getEditForm_callback()->setAction( Modules::getActionUrl('page/edit', ['what'=>'callback']) );
+		$page->getEditForm_static_content()->setAction( Modules::getActionUrl('page/edit', ['what'=>'static_content']) );
+
+		$page->getContentCreateForm()->setAction( Modules::getActionUrl('page/content/add', ['what'=>'content']) );
+		$page->getDeleteContentForm()->setAction(Modules::getActionUrl('page/content/delete', ['what'=>'content']));
 
 	}
 

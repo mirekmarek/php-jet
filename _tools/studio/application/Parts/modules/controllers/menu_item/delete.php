@@ -15,7 +15,7 @@ if(
 	$module->deleteMenuItem( $menu_item->getSetId(), $menu_item->getMenuId(), $menu_item->getId() );
 
 	if( $module->save() ) {
-		Tr::setCurrentNamespace('pages');
+		Tr::setCurrentNamespace('menus');
 
 		UI_messages::info( Tr::_('Menu item <b>%name%</b> has been deleted', [
 			'name' => $menu_item->getId()

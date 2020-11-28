@@ -14,6 +14,7 @@ $app_part = Application::getCurrentPart();
 Application::setCurrentPart('pages');
 
 $view = Application::getView();
+Modules::setupPageForms();
 
 $view->setVar('page', $page);
 $view->setVar('what', $what);

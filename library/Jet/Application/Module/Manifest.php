@@ -368,7 +368,7 @@ class Application_Module_Manifest extends BaseObject
 
 			if(isset($page_data['contents'])) {
 				foreach( $page_data['contents'] as $i=>$content ) {
-					if( !isset($content['module_name']) ) {
+					if( empty($content['module_name']) ) {
 						$page_data['contents'][$i]['module_name'] = $this->getName();
 					}
 				}

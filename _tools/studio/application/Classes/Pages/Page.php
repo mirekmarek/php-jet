@@ -612,7 +612,12 @@ class Pages_Page extends Mvc_Page
 			$layout_script_name_field->setCatcher( function( $value ) use ($page) {
 				$page->setLayoutScriptName( $value );
 			} );
-			$layout_script_name_field->setSelectOptions( $site->getLayoutsList() );
+			$layouts = $site->getLayoutsList();
+			if(!$layouts) {
+				$layouts = [''=>''];
+			}
+
+			$layout_script_name_field->setSelectOptions( $layouts );
 
 			$fields = [
 				$layout_script_name_field
@@ -659,27 +664,39 @@ class Pages_Page extends Mvc_Page
 	{
 		$form = $this->getEditForm_content();
 
-		if(
-			$form->catchInput() &&
-			$form->validate()
-		) {
-
-			$form->catchData();
-
-			$this->output = '';
-
-			foreach($this->content as $i=>$content) {
-				$content->setParameters(
-					Pages_Page_Content::catchParams( $form, '/content/'.$i )
-				);
-			}
-
-			$this->sortContent();
-
-			return true;
+		if(!$form->catchInput()) {
+			return false;
 		}
 
-		return false;
+		$i = 0;
+		foreach( $this->content as $content ) {
+
+			$selected_module = $form->field('/content/'.$i.'/module_name')->getValue();
+			$selected_controller = $form->field('/content/'.$i.'/controller_name')->getValue();
+
+			$form->field('/content/'.$i.'/controller_name')->setSelectOptions( static::getModuleControllers($selected_module) );
+			$form->field('/content/'.$i.'/controller_action')->setSelectOptions( static::getModuleControllerActions($selected_module, $selected_controller) );
+
+			$i++;
+		}
+
+		if(!$form->validate()) {
+			return false;
+		}
+
+		$form->catchData();
+
+		$this->output = '';
+
+		foreach($this->content as $i=>$content) {
+			$content->setParameters(
+				Pages_Page_Content::catchParams( $form, '/content/'.$i )
+			);
+		}
+
+		$this->sortContent();
+
+		return true;
 	}
 
 
@@ -852,7 +869,19 @@ class Pages_Page extends Mvc_Page
 			$output = $this->getOutput();
 
 			$output_callback_class_field = new Form_Field_Input('output_callback_class', 'Output callback class:',is_array($output) && isset($output[0]) ? $output[0] : '');
+			$output_callback_class_field->setIsRequired(true);
+			$output_callback_class_field->setErrorMessages([
+				Form_Field_Input::ERROR_CODE_EMPTY => 'Please enter class name',
+				Form_Field_Input::ERROR_CODE_INVALID_FORMAT => 'Please enter valid class name'
+			]);
+
 			$output_callback_method_field = new Form_Field_Input('output_callback_method', 'Output callback method:',is_array($output) && isset($output[1]) ? $output[1] : '');
+			$output_callback_method_field->setIsRequired(true);
+			$output_callback_method_field->setErrorMessages([
+				Form_Field_Input::ERROR_CODE_EMPTY => 'Please enter method name',
+				Form_Field_Input::ERROR_CODE_INVALID_FORMAT => 'Please enter valid method name'
+			]);
+
 			$output_callback_method_field->setCatcher( function( $value ) use ($output_callback_class_field, $output_callback_method_field) {
 
 				$this->content = [];
@@ -1177,7 +1206,6 @@ class Pages_Page extends Mvc_Page
 		if( !$form->catchInput() ) {
 			return false;
 		}
-
 
 		switch( $form->field('content_kind')->getValue() ) {
 			case Pages_Page_Content::CONTENT_KIND_MODULE:

@@ -21,7 +21,7 @@ if(
 ) {
 	$page->addContent( $new_content );
 	$form = $page->getContentCreateForm();
-
+die('????');
 	if( $page->save() ) {
 		$ok = true;
 

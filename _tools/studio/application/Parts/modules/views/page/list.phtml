@@ -41,7 +41,7 @@ $current_page = Modules::getCurrentPage();
 				<?php if($current_page && $current_page->getFullId()==$page->getFullId()): ?>
 					<b class="badge badge-info"><?=$page->getName()?></b>
 				<?php else: ?>
-					<a href="<?=Http_Request::currentURI(['page'=>$page->getFullId()], ['menu_item'])?>"><?=$page->getName()?></a>
+					<a href="<?=Http_Request::currentURI(['page'=>$page->getFullId()], ['menu_item', 'action'])?>"><?=$page->getName()?></a>
 				<?php endif; ?>
 			</td>
 		</tr>

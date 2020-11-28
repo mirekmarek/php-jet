@@ -608,6 +608,7 @@ class Mvc_Page extends BaseObject implements Mvc_Page_Interface, BaseObject_Cach
 	public function setOutput( $output )
 	{
 		$this->output = $output;
+		$this->content = [];
 	}
 
 	/**
@@ -729,6 +730,8 @@ class Mvc_Page extends BaseObject implements Mvc_Page_Interface, BaseObject_Cach
 	 */
 	public function addContent( Mvc_Page_Content_Interface $content )
 	{
+		$this->output = '';
+
 		$content->setPage( $this );
 
 		$this->content[] = $content;

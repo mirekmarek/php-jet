@@ -1,0 +1,40 @@
+<?php
+namespace JetStudio;
+
+use Jet\Http_Request;
+use Jet\Tr;
+use Jet\Mvc_View;
+use Jet\UI;
+
+/**
+ * @var Mvc_View $this
+ */
+/**
+ * @var Mvc_View $this
+ */
+
+$page = Modules::getCurrentPage();
+$what = Modules::getCurrentPage_whatToEdit();
+
+$app_part = Application::getCurrentPart();
+Application::setCurrentPart('pages');
+
+$view = Application::getView();
+Modules::setupPageForms();
+
+$view->setVar('page', $page);
+$view->setVar('what', $what);
+
+echo $view->render('page/toolbar');
+
+Application::setCurrentPart($app_part);
+
+echo UI::button_delete(Tr::_('Delete this page'))->setOnclick("$('#page_delete_dialog').modal('show')");
+
+$delete_dialog = UI::dialog('page_delete_dialog', Tr::_('Delete this page?'), 500);
+
+echo $delete_dialog->start();
+	echo Tr::_('Do you really want to delete this page?');
+echo $delete_dialog->footer();
+	echo UI::button_delete()->setUrl( Modules::getActionUrl('page/delete') );
+echo $delete_dialog->end();

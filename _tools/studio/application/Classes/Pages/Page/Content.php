@@ -335,25 +335,30 @@ class Pages_Page_Content extends Mvc_Page_Content
 			switch( $this->getContentKind() ) {
 				case static::CONTENT_KIND_MODULE:
 					$module_name =  static::getField__module_name($this->getModuleName());
+					$module_name->setIsRequired(true);
 					$module_name->setCatcher( function($value) { $this->setModuleName( $value ); } );
 					$fields[] = $module_name;
 
 					$controller_name = static::getField__controller_name( $this->getControllerName(), $this->getModuleName() );
+					$controller_name->setIsRequired(true);
 					$controller_name->setCatcher( function($value) { $this->setControllerName( $value ); } );
 					$fields[] = $controller_name;
 
 					$controller_action = static::getField__controller_action( $this->getControllerAction(), $this->getModuleName(), $this->getControllerName() );
+					$controller_action->setIsRequired(true);
 					$controller_action->setCatcher( function($value) { $this->setControllerAction( $value ); } );
 					$fields[] = $controller_action;
 
 					break;
 				case static::CONTENT_KIND_CLASS:
 					$controller_class = static::getField__controller_class( $this->getControllerClass() );
+					$controller_class->setIsRequired(true);
 					$controller_class->setCatcher( function($value) { $this->setControllerClass( $value ); } );
 					$fields[] = $controller_class;
 
 
 					$controller_class_action = static::getField__controller_class_action( $this->getControllerAction() );
+					$controller_class_action->setIsRequired(true);
 					$controller_class_action->setCatcher( function($value) { $this->setControllerAction( $value ); } );
 					$fields[] = $controller_class_action;
 
@@ -368,7 +373,9 @@ class Pages_Page_Content extends Mvc_Page_Content
 					$callback = $this->getOutput();
 
 					$output_callback_class= static::getField__output_callback_class( $callback[0] );
+					$output_callback_class->setIsRequired(true);
 					$output_callback_method = static::getField__output_callback_method( $output_callback_class, $callback[1] );
+					$output_callback_class->setIsRequired(true);
 
 					$output_callback_method->setCatcher( function() use ($output_callback_class, $output_callback_method) {
 

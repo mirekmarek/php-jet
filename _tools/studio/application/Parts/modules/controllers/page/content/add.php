@@ -1,41 +1,39 @@
 <?php
 namespace JetStudio;
 
-use Jet\Http_Request;
 use Jet\UI_messages;
 use Jet\Tr;
 use Jet\AJAX;
 
 $module = Modules::getCurrentModule();
+$page = Modules::getCurrentPage();
 
-if(!$module) {
-	return;
+if(
+	!$module ||
+	!$page
+) {
+	die();
 }
-
-$GET = Http_Request::GET();
-
-$page = $module->getPage( $GET->getString('site'), $GET->getString('page') );
-if(!$page) {
-	return;
-}
-
-$form = Modules_Manifest::getPageContentCreateForm( $page );
+Application::setCurrentPart('pages');
 
 $ok = false;
 $data = [];
 $snippets = [];
+
 $view = Application::getView();
+$view->setVar( 'page', $page);
 
 if(
-	$page &&
-	($new_content=Pages_Page_Content::catchCreateForm( $page ))
+	($new_content=$page->catchContentCreateForm())
 ) {
+	$form = $page->getContentCreateForm();
+
 	$page->addContent( $new_content );
 
-	if( Modules::save( $form ) ) {
+	if( $module->save() ) {
 		$ok = true;
 
-		$form = Modules_Manifest::getPageContentCreateForm( $page );
+		$form = $page->getContentCreateForm();
 
 		$form->setCommonMessage(
 			UI_messages::createSuccess(
@@ -45,28 +43,14 @@ if(
 
 		$data = [];
 
-		$field_prefix = '/pages/'.$page->getSiteId().'/'.$page->getId().'/';
-
-		$view->setVar( 'form_field_prefix', $field_prefix);
-		$view->setVar( 'form', $module->getEditForm() );
-		$view->setVar( 'site', $page->getSite() );
-		$view->setVar( 'page', $page );
-		$view->setVar('delete_content_action_creator', function( $i ) use ($page) {
-			return "Modules.editModule.editPage.removeContent('{$page->getSiteId()}', '{$page->getId()}', $i);";
-		});
-
-
-		$snippets['content_list_area_'.$page->getSiteId().'_'.$page->getId()] = $view->render('pages/page_edit/content_list');
+		$snippets['content_list_area'] = $view->render('page/content/edit/form/list');
+	} else {
+		$form->setCommonMessage( implode('', UI_messages::get()) );
 	}
 }
+Modules::setupPageForms();
 
-
-
-
-$view->setVar( 'page', $page);
-$view->setVar( 'form', $form);
-
-$snippets[$form->getId().'_form_area'] = $view->render('pages/add_content/form');
+$snippets['content_create_form_area'] = $view->render('page/content/create/form');
 
 AJAX::formResponse(
 	$ok,
