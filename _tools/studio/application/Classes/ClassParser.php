@@ -518,7 +518,6 @@ class ClassParser {
 		$new_property = $property;
 		$current_property = $class->properties[$new_property->getName()];
 
-		//TODO: hmmm ... not sure ... maybe it is better to change only annotation and keep declaration as it is ...
 		if( $property_str!=$current_property->toString() ) {
 			$current_property->replace( $property_str );
 
