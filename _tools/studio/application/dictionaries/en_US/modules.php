@@ -8,7 +8,6 @@ return [
 	'Name:' => '',
 	'Label:' => '',
 	'Locales' => '',
-	'Search for locale ...' => '',
 	'Create a new module' => '',
 	'Create a new Module' => '',
 	'Create' => '',

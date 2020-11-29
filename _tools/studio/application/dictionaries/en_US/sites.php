@@ -20,7 +20,6 @@ return [
 	'Invalid identifier format' => '',
 	'Identifier:' => '',
 	'Locales' => '',
-	'Search for locale ...' => '',
 	'Create a new site' => '',
 	'Create a new Site' => '',
 	'Add locale' => '',

@@ -1,7 +1,7 @@
 <?php
 /**
  *
- * @copyright Copyright (c) 2011-2017 Miroslav Marek <mirek.marek.2m@gmail.com>
+ * @copyright Copyright (c) 2011-2020 Miroslav Marek <mirek.marek.2m@gmail.com>
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
@@ -27,7 +27,7 @@ require __DIR__.'/Init/PHP.php';
 require __DIR__.'/Init/ErrorHandler.php';
 require __DIR__.'/Init/Autoloader.php';
 
-
+//TODO: key check
 
 
 Project::setApplicationNamespace('JetApplication');

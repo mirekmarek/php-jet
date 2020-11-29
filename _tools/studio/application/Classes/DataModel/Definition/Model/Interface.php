@@ -79,11 +79,6 @@ interface DataModel_Definition_Model_Interface
 	 */
 	public function getInternalType();
 
-	/**
-	 * @return string
-	 */
-	public function getInternalId();
-
 
 	/**
 	 * @return string

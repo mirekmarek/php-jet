@@ -20,7 +20,6 @@ return [
 	'Password' => '',
 	'Do you really want to delete connection <b>%connection%</b>?' => '',
 	'Locales' => '',
-	'Search for locale ...' => '',
 	'Add connection' => '',
 	'Edit connection' => '',
 	'Delete connection' => '',

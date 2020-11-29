@@ -130,7 +130,12 @@ class Application extends Jet_Application {
 					'label' => Tr::_('Modules', [], Tr::COMMON_NAMESPACE),
 					'icon'  => 'boxes',
 					'class' => 'Modules',
-				]
+				],
+			'module_wizard'    => [
+				'label' => Tr::_('Module wizard', [], Tr::COMMON_NAMESPACE),
+				'icon'  => 'magic',
+				'class' => 'ModuleWizards',
+			],
 		];
 	}
 

@@ -6,7 +6,6 @@ return [
 	'Name:' => '',
 	'Identifier:' => '',
 	'Locales' => '',
-	'Search for locale ...' => '',
 	'Create a new Page' => '',
 	'Create' => '',
 	'Please enter page identifier' => '',

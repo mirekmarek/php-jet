@@ -5,10 +5,11 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
-namespace JetApplication;
+namespace JetStudio\ModuleWizard\BasicAdminDataHandler;
 
-//TODO: _studio key generator
+/**
+ * @var Wizard $this
+ */
 
-require 'init.php';
+$this->catchSetupForm();
 
-Installer::main();

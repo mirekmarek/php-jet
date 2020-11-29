@@ -1,0 +1,41 @@
+<?php
+namespace JetStudio;
+
+use Jet\Http_Request;
+use Jet\Tr;
+use Jet\UI;
+
+$wizard = ModuleWizards::getCurrentWizard();
+?>
+<div class="container-fluid">
+
+<?php if($wizard): ?>
+	<br/><br/>
+	<h4><?=$wizard->getTitle()?></h4>
+	<p><?=$wizard->getDescription()?></p>
+	<hr/>
+	<?=$wizard->getView()->render('main');?>
+<?php else: ?>
+	<br/><br/><br/>
+	<div class="row">
+		<div class="col-md-3">
+
+		</div>
+		<div class="col-md-6">
+			<table class="table table-striped">
+				<?php foreach( ModuleWizards::getList() as $wizard ): ?>
+					<tr>
+						<td>
+							<b><?=$wizard->getTitle()?></b>
+							<p><?=$wizard->getDescription()?></p>
+							<div align="right">
+								<?=UI::button(Tr::_('Create'))->setClass('info')->setUrl(Http_Request::currentURI(['wizard'=>$wizard->getName()]))?>
+							</div>
+						</td>
+					</tr>
+				<?php endforeach; ?>
+			</table>
+		</div>
+	</div>
+<?php endif; ?>
+</div>

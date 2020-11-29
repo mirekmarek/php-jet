@@ -13,7 +13,6 @@ return [
 	'Custom data (serialized)' => '',
 	'Please select namespace' => '',
 	'Locales' => '',
-	'Search for locale ...' => '',
 	'DataModels' => '',
 	'Please enter DataModel name' => '',
 	'Please enter DataModel class name' => '',

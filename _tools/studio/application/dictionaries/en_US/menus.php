@@ -3,7 +3,6 @@ return [
 	'Please enter menu set name' => '',
 	'Menu set name:' => '',
 	'Locales' => '',
-	'Search for locale ...' => '',
 	'Create a new menu set' => '',
 	'Create' => '',
 	'Generate' => '',

@@ -153,7 +153,7 @@ trait DataModel_Definition_Model_Trait {
 
 
 	/**
-	 * @return DataModel_Definition_Property_Interface|\Jet\DataModel_Definition_Property
+	 * @return DataModel_Definition_Property_Interface[]|\Jet\DataModel_Definition_Property[]
 	 */
 	public function getProperties()
 	{
@@ -670,14 +670,6 @@ trait DataModel_Definition_Model_Trait {
 	public function getInternalType()
 	{
 		return $this->internal_type;
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getInternalId()
-	{
-		return $this->class_name;
 	}
 
 	/**

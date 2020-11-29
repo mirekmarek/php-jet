@@ -5,21 +5,6 @@ use Jet\Http_Request;?>
 <script type="text/javascript">
 
 	const Modules = {
-		createModule: {
-			openDialog: function() {
-				$('#dialog_create_new_module').modal('show');
-			},
-			createSend: function() {
-				JetAjaxForm.submit(
-					'<?=Modules_Manifest::getCreateForm()->getId()?>',
-					{
-						onSuccess: function( form, response_data ) {
-							location = '?module='+encodeURIComponent(response_data['new_module_id'])
-						}
-					}
-				);
-			}
-		},
 		editModule: {
 			addPage: {
 				openDialog: function() {
