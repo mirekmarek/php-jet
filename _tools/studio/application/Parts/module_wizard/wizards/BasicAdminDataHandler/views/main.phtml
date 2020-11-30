@@ -17,25 +17,25 @@ $select_data_form = $wizard->getSelectDataModelForm();
 
 $setup_form = $wizard->getSetupForm();
 
-
-
-$setup_form->setDefaultLabelWidth([
-	Form::LJ_SIZE_MEDIUM => 2
-]);
-$setup_form->setDefaultFieldWidth([
-	Form::LJ_SIZE_MEDIUM => 10
-]);
-
 $select_data_form->setDefaultLabelWidth([
-	Form::LJ_SIZE_MEDIUM => 2
+	Form::LJ_SIZE_MEDIUM => 3
 ]);
 $select_data_form->setDefaultFieldWidth([
 	Form::LJ_SIZE_MEDIUM => 10
 ]);
 
+
+$setup_form->setDefaultLabelWidth([
+	Form::LJ_SIZE_MEDIUM => 4
+]);
+$setup_form->setDefaultFieldWidth([
+	Form::LJ_SIZE_MEDIUM => 8
+]);
+
+
 $select_data_form->field('data_model')->input()->addJsAction('onchange', 'this.form.submit()');
 
-$setup_form->field('page_name')->input()->addJsAction('onkeyup', 'generatePageId(this.value);');
+//TODO: $setup_form->field('page_name')->input()->addJsAction('onkeyup', 'generatePageId(this.value);');
 ?>
 <script type="text/javascript">
 	function generatePageId( name ) {
@@ -53,8 +53,6 @@ $setup_form->field('page_name')->input()->addJsAction('onkeyup', 'generatePageId
 
 </script>
 
-<div class="row">
-	<div class="offset-md-3 col-md-6">
 		<legend><?=Tr::_('DataModel')?></legend>
 		<?=$select_data_form->start()?>
 		<?=$select_data_form->field('data_model')?>
@@ -63,40 +61,78 @@ $setup_form->field('page_name')->input()->addJsAction('onkeyup', 'generatePageId
 
 		<?php if($wizard->getDataModelClassname()):?>
 			<?=$setup_form->start()?>
+			<legend><?=Tr::_('Main module parameters')?></legend>
 
-			<?=$setup_form->field('entity_name')?>
-			<?=$setup_form->field('id_property')?>
-			<?=$setup_form->field('name_property')?>
-			<?=$setup_form->field('grid_properties')?>
+			<?=$setup_form->field('NAME')?>
 
-			<legend><?=Tr::_('Page')?></legend>
-			<?=$setup_form->field('page_site_id')?>
-			<?=$setup_form->field('page_name')?>
-			<?=$setup_form->field('page_id')?>
-			<?=$setup_form->field('page_title')?>
-			<?=$setup_form->field('page_icon')?>
-			<?=$setup_form->field('page_relative_path_fragment')?>
+			<?=$setup_form->field('LABEL')?>
+			<?=$setup_form->field('DESCRIPTION')?>
+			<?=$setup_form->field('AUTHOR')?>
+			<?=$setup_form->field('LICENSE')?>
+			<?=$setup_form->field('COPYRIGHT')?>
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+			<legend><?=Tr::_('DataModel parameters')?></legend>
+			<?=$setup_form->field('DATA_MODEL_CLASS_NAME')?>
+			<?=$setup_form->field('DATA_MODEL_CLASS_ALIAS')?>
+
+			<?=$setup_form->field('ITEM_VAR_NAME')?>
+
+			<?=$setup_form->field('ID_PROPERTY')?>
+			<?=$setup_form->field('ITEM_ID_GETTER')?>
+
+			<?=$setup_form->field('NAME_PROPERTY')?>
+			<?=$setup_form->field('ITEM_NAME_GETTER')?>
 
 			<legend><?=Tr::_('Menu item')?></legend>
-			<?=$setup_form->field('menu_item_target_menu_id')?>
-			<?=$setup_form->field('menu_item_id')?>
-			<?=$setup_form->field('menu_item_title')?>
-			<?=$setup_form->field('menu_item_icon')?>
-			<?=$setup_form->field('menu_item_index')?>
+			<?=$setup_form->field('TARGET_MENU')?>
+			<?=$setup_form->field('MENU_ITEM_ID')?>
+
+			<legend><?=Tr::_('Page')?></legend>
+			<?=$setup_form->field('PAGE_SITE_ID')?>
+			<?=$setup_form->field('PAGE_ID')?>
+			<?=$setup_form->field('PAGE_TITLE')?>
+			<?=$setup_form->field('PAGE_ICON')?>
+			<?=$setup_form->field('PAGE_PATH_FRAGMENT')?>
 
 			<legend><?=Tr::_('Texts')?></legend>
-			<?=$setup_form->field('text_item_created')?>
-			<?=$setup_form->field('text_edit_item')?>
-			<?=$setup_form->field('text_item_updated')?>
-			<?=$setup_form->field('text_item_detail')?>
-			<?=$setup_form->field('text_item_deleted')?>
-			<?=$setup_form->field('text_crete_bt_label')?>
-			<?=$setup_form->field('text_delete_bt_label')?>
-			<legend><?=Tr::_('Module setting')?></legend>
-			<?=$setup_form->field('controller_name')?>
-			<?=$setup_form->field('list_view')?>
-			<?=$setup_form->field('edit_view')?>
+			<?=$setup_form->field('TXT_MSG_CREATED')?>
+			<?=$setup_form->field('TXT_MSG_UPDATED')?>
+			<?=$setup_form->field('TXT_MSG_DELETED')?>
+			<?=$setup_form->field('TXT_BN_DETAIL')?>
+			<?=$setup_form->field('TXT_BN_EDIT')?>
+			<?=$setup_form->field('TXT_BN_DELETE')?>
+			<?=$setup_form->field('TXT_LISTING_TITLE_ID')?>
+			<?=$setup_form->field('TXT_LISTING_TITLE_NAME')?>
+			<?=$setup_form->field('TXT_DELETE_CONFIRM_QUESTION')?>
+			<?=$setup_form->field('TXT_BTN_NEW')?>
+
+			<legend><?=Tr::_('Logger')?></legend>
+			<?=$setup_form->field('LOG_EVENT_CREATED')?>
+			<?=$setup_form->field('LOG_EVENT_CREATED')?>
+			<?=$setup_form->field('LOG_EVENT_DELETED')?>
+
+			<legend><?=Tr::_('ACL')?></legend>
+			<?=$setup_form->field('ACL_ENTITY_NAME')?>
+			<?=$setup_form->field('ACL_ENTITY_CONST_NAME')?>
 
 			<div align="right">
 				<?=UI::button_save(Tr::_('Create'))->setClass('primary')->setIcon('magic')?>
@@ -104,9 +140,4 @@ $setup_form->field('page_name')->input()->addJsAction('onkeyup', 'generatePageId
 			<?=$setup_form->end()?>
 		<?php endif; ?>
 		<br/><br/>
-
-	</div>
-
-</div>
-
 

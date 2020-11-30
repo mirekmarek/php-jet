@@ -10,18 +10,23 @@ $wizard = ModuleWizards::getCurrentWizard();
 <div class="container-fluid">
 
 <?php if($wizard): ?>
-	<br/><br/>
-	<h4><?=$wizard->getTitle()?></h4>
-	<p><?=$wizard->getDescription()?></p>
-	<hr/>
-	<?=$wizard->getView()->render('main');?>
+	<div class="row">
+		<div class="offset-md-2 col-md-8">
+			<br/><br/>
+			<h4><?=$wizard->getTitle()?></h4>
+			<p><?=$wizard->getDescription()?></p>
+			<hr/>
+		</div>
+	</div>
+	<div class="row">
+		<div class="offset-md-3 col-md-6">
+			<?=$wizard->getView()->render('main');?>
+		</div>
+	</div>
 <?php else: ?>
 	<br/><br/><br/>
 	<div class="row">
-		<div class="col-md-3">
-
-		</div>
-		<div class="col-md-6">
+		<div class="offset-md-3 col-md-6">
 			<table class="table table-striped">
 				<?php foreach( ModuleWizards::getList() as $wizard ): ?>
 					<tr>

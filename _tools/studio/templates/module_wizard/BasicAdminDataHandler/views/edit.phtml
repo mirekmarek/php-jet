@@ -1,0 +1,47 @@
+<?php
+namespace %NAMESPACE%;
+
+use %DATA_MODEL_CLASS_NAME% as %DATA_MODEL_CLASS_ALIAS%;
+
+use Jet\UI;
+use Jet\Mvc_View;
+use Jet\Form;
+use Jet\Tr;
+
+/**
+ * @var Mvc_View $this
+ * @var Form     $form
+ * @var %DATA_MODEL_CLASS_ALIAS%     $%ITEM_VAR_NAME%
+ */
+$form = $this->getRaw( 'form' );
+
+$form->setAutocomplete( false );
+$form->setDefaultLabelWidth( [ Form::LJ_SIZE_MEDIUM => 2 ] );
+$form->setDefaultFieldWidth( [ Form::LJ_SIZE_MEDIUM => 4 ] );
+
+$%ITEM_VAR_NAME% = $this->getRaw( '%ITEM_VAR_NAME%' );
+$router = $this->getController()->getControllerRouter();
+?>
+
+
+<?=$form->start()?>
+
+<div class="row toolbar" id="main-toolbar">
+	<div class="col-md-12">
+		<?=UI::button_goBack()?>
+
+		<?php if( !$form->getIsReadonly() ): ?>
+			<?=UI::button_save()?>
+		<?php endif; ?>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-md-12" id="main-col">
+
+		<?=$form->field( '%NAME_PROPERTY%' )?>
+
+	</div>
+</div>
+
+<?=$form->end()?>

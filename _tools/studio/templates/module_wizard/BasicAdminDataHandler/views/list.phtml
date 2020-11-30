@@ -1,0 +1,82 @@
+<?php
+namespace %NAMESPACE%;
+
+use %DATA_MODEL_CLASS_NAME% as %DATA_MODEL_CLASS_ALIAS%;
+
+use Jet\UI;
+use Jet\UI_dataGrid;
+use Jet\UI_button;
+
+use Jet\Tr;
+use Jet\Mvc_View;
+use Jet\Form;
+
+/**
+ * @var Mvc_View     $this
+ * @var UI_dataGrid  $grid
+ * @var Form         $filter_form
+ */
+$grid = $this->getRaw( 'grid' );
+$filter_form = $this->getRaw( 'filter_form' );
+$router = $this->getController()->getControllerRouter();
+
+
+$c_edit = $grid->getColumn( '_edit_' );
+$c_edit->setRenderer(
+	function( %DATA_MODEL_CLASS_ALIAS% $item ) use ( $router ) {
+		if( ( $edit_uri = $router->action('edit')->URI( $item->%ITEM_ID_GETTER%() ) ) ):
+			echo UI::button_edit()->setUrl( $edit_uri )->setSize( UI_button::SIZE_EXTRA_SMALL);
+		endif;
+		echo '&nbsp;';
+		if( ( $delete_uri = $router->action('delete')->URI( $item->%ITEM_ID_GETTER%() ) ) ):
+			echo UI::button_delete()->setUrl( $delete_uri )->setSize( UI_button::SIZE_EXTRA_SMALL);
+		endif;
+
+	}
+);
+$c_edit->setCssStyle( 'width:200px;' );
+
+$grid->getColumn( '%ID_PROPERTY%' )->setCssStyle( 'width:120px;' );
+
+$grid->getColumn( '%NAME_PROPERTY%' )->setRenderer(
+	function( %DATA_MODEL_CLASS_ALIAS% $item ) use ( $router ) {
+		$edit_uri = $router->action('edit')->URI( $item->%ITEM_ID_GETTER%() );
+		?>
+		<a href="<?=$edit_uri;?>"><?=$item->%ITEM_NAME_GETTER%();?></a>
+		<?php
+	}
+);
+
+$grid->getColumn( '%ID_PROPERTY%' )->setRenderer(
+	function( %DATA_MODEL_CLASS_ALIAS% $item ) use ( $router ) {
+		$edit_uri = $router->action('edit')->URI( $item->%ITEM_ID_GETTER%() );
+		?>
+		<a href="<?=$edit_uri;?>"><?=$item->%ITEM_ID_GETTER%();?></a>
+		<?php
+	}
+);
+
+?>
+
+<?=$filter_form->start()?>
+<div class="row toolbar">
+	<?php if( ( $add_uri = $router->action('add')->URI() ) ): ?>
+		<div class="col-md-2 col-sm-12">
+			<?=UI::button_create( Tr::_( '%TXT_BTN_NEW%' ) )->setUrl( $add_uri )?>
+		</div>
+	<?php endif; ?>
+
+	<div class="col-md-3 col-sm-12">
+		<?=UI::searchField( 'search', $filter_form->field('search')->getValue() )?>
+	</div>
+	<div class="col-md-4 col-sm-12">
+	</div>
+
+</div>
+<?=$filter_form->end()?>
+
+<div class="row">
+	<div class="col-md-12">
+		<?=$grid->render();?>
+	</div>
+</div>

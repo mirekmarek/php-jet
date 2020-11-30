@@ -11,22 +11,15 @@ namespace JetStudio\ModuleWizard\BasicAdminDataHandler;
 use Jet\DataModel;
 use Jet\Form;
 use Jet\Form_Field_Input;
-use Jet\Form_Field_Int;
-use Jet\Form_Field_MultiSelect;
 use Jet\Form_Field_Select;
 use Jet\Http_Headers;
 use Jet\Http_Request;
-use Jet\Mvc_Layout;
 
 use JetStudio\DataModel_Definition_Model_Main;
 use JetStudio\DataModels;
 use JetStudio\Menus;
-use JetStudio\Menus_Menu_Item;
-use JetStudio\Modules;
 use JetStudio\ModuleWizard;
 use JetStudio\ModuleWizards;
-use JetStudio\Pages_Page;
-use JetStudio\Pages_Page_Content;
 use JetStudio\Sites;
 
 /**
@@ -55,146 +48,6 @@ class Wizard extends ModuleWizard {
 	protected $data_model_class_name = '';
 
 	/**
-	 * @var string
-	 */
-	protected $id_property = '';
-
-	/**
-	 * @var string
-	 */
-	protected $name_property = '';
-
-	/**
-	 * @var array
-	 */
-	protected $grid_properties = [];
-
-	/**
-	 * @var string 
-	 */
-	protected $entity_name = '';
-
-
-
-
-	/**
-	 * @var string
-	 */
-	protected $controller_name = 'Main';
-
-
-	/**
-	 * @var string
-	 */
-	protected $edit_view = 'edit';
-
-	/**
-	 * @var string
-	 */
-	protected $list_view = 'list';
-
-
-	/**
-	 * @var string
-	 */
-	protected $page_site_id = 'admin';
-
-	/**
-	 * @var string
-	 */
-	protected $page_name = '';
-
-	/**
-	 * @var string
-	 */
-	protected $page_id = '';
-
-	/**
-	 * @var string
-	 */
-	protected $page_title = '';
-
-	/**
-	 * @var string
-	 */
-	protected $page_icon = '';
-
-	/**
-	 * @var string
-	 */
-	protected $page_relative_path_fragment = '';
-
-
-
-
-
-
-	/**
-	 * @var string
-	 */
-	protected $menu_item_target_menu_id = '';
-
-	/**
-	 * @var string
-	 */
-	protected $menu_item_id = '';
-
-	/**
-	 * @var string
-	 */
-	protected $menu_item_title = '';
-
-	/**
-	 * @var string
-	 */
-	protected $menu_item_icon = '';
-
-	/**
-	 * @var int
-	 */
-	protected $menu_item_index = 0;
-
-
-
-
-	/**
-	 * @var string
-	 */
-	protected $text_item_created = 'Item <b>%NAME%</b> has been created';
-
-	/**
-	 * @var string
-	 */
-	protected $text_edit_item = 'Edit item <b>%NAME%</b>';
-
-	/**
-	 * @var string
-	 */
-	protected $text_item_updated = 'Item <b>%NAME%</b> has been updated';
-
-	/**
-	 * @var string
-	 */
-	protected $text_item_detail = 'Item detail <b>%NAME%</b>';
-
-	/**
-	 * @var string
-	 */
-	protected $text_item_deleted = 'Item <b>%NAME%</b> has been deleted';
-
-	/**
-	 * @var string
-	 */
-	protected $text_crete_bt_label = 'Create new item';
-
-	/**
-	 * @var string
-	 */
-	protected $text_delete_bt_label = 'Delete selected items';
-
-
-
-	/**
 	 * @var Form
 	 */
 	protected $select_data_model_form;
@@ -218,6 +71,78 @@ class Wizard extends ModuleWizard {
 		}
 
 		$this->data_model_class_name = Http_Request::GET()->getString('data_model', '', $data_model_list);
+
+		if(!$this->data_model_class_name) {
+			return;
+		}
+
+		$class = DataModels::getClass($this->data_model_class_name);
+		$model = $class->getDefinition();
+
+		$model_name= $model->getModelName();
+
+		$def_name = explode('_', $model_name);
+		foreach($def_name as $i=>$n) {
+			$def_name[$i] = ucfirst(strtolower($n));
+		}
+
+		$var_name = strtolower($model_name);
+
+		$class_alias = implode('', $def_name);
+		$def_name = implode(' ', $def_name);
+
+
+		$page_id = str_replace('_', '-',  $model_name);
+
+		$this->values = [
+			//'NAMESPACE' => '',
+			'COPYRIGHT'   => '',
+			'LICENSE'     => '',
+			'AUTHOR'      => '',
+			'LABEL'       => '',
+			'DESCRIPTION' => '',
+
+			'DATA_MODEL_CLASS_NAME'  => $this->data_model_class_name,
+			'DATA_MODEL_CLASS_ALIAS' => $class_alias,
+
+			'ACL_ENTITY_NAME'       => $var_name,
+			'ACL_ENTITY_CONST_NAME' => strtoupper($var_name),
+
+			'ITEM_VAR_NAME'    => $var_name,
+
+			'NAME_PROPERTY'    => '',
+			'ITEM_NAME_GETTER' => '',
+
+			'ID_PROPERTY'      => 'id',
+			'ITEM_ID_GETTER'        => 'getId',
+
+			'TXT_BTN_NEW'                 => 'Create a new '.$def_name,
+			'TXT_DELETE_CONFIRM_QUESTION' => 'Do you really want to delete this '.strtolower($def_name).'?',
+			'TXT_MSG_CREATED'             => $def_name.' <b>%ITEM_NAME%</b> has been created',
+			'TXT_MSG_UPDATED'             => $def_name.' <b>%ITEM_NAME%</b> has been updated',
+			'TXT_MSG_DELETED'             => $def_name.' <b>%ITEM_NAME%</b> has been deleted',
+			'TXT_BN_DETAIL'               => $def_name.' detail <b>%ITEM_NAME%</b>',
+			'TXT_BN_EDIT'                 => 'Edit '.strtolower($def_name).' <b>%ITEM_NAME%</b>',
+			'TXT_BN_DELETE'               => 'Delete '.strtolower($def_name).'  <b>%ITEM_NAME%</b>',
+
+			'TXT_LISTING_TITLE_ID'   => 'ID',
+			'TXT_LISTING_TITLE_NAME' => $def_name,
+
+			'LOG_EVENT_CREATED' => $def_name.' created',
+			'LOG_EVENT_UPDATED' => $def_name.' updated',
+			'LOG_EVENT_DELETED' => $def_name.' deleted',
+
+			'PAGE_SITE_ID'       => 'admin',
+			'PAGE_ID'            => $page_id,
+			'PAGE_TITLE'         => $def_name.' administration',
+			'PAGE_ICON'          => '',
+			'PAGE_PATH_FRAGMENT' => $page_id,
+
+			'MENU_ITEM_ID'       => $page_id,
+			'TARGET_MENU_SET_ID' => '',
+			'TARGET_MENU_ID'     => ''
+
+		];
 
 	}
 
@@ -282,7 +207,7 @@ class Wizard extends ModuleWizard {
 	}
 
 	/**
-	 *
+	 * @return bool
 	 */
 	public function catchSetupForm()
 	{
@@ -293,6 +218,17 @@ class Wizard extends ModuleWizard {
 
 			Http_Headers::reload(['data_model'=>$data_model_id]);
 		}
+
+		$form = $this->getSetupForm();
+		if(
+			$form->catchInput() &&
+			$form->validate()
+		) {
+			return true;
+		}
+
+
+		return false;
 	}
 
 	/**
@@ -311,26 +247,94 @@ class Wizard extends ModuleWizard {
 		return $this->setup_form;
 	}
 
-
 	/**
 	 * @return Form
 	 */
 	public function generateSetupForm()
 	{
-
 		$fields = [];
 
+		$this->generateSetupForm_mainFields( $fields );
 
 		$this->generateSetupForm_dataModel( $fields );
-		$this->generateSetupForm_page( $fields );
 		$this->generateSetupForm_menuItem( $fields );
+		$this->generateSetupForm_page( $fields );
 		$this->generateSetupForm_texts( $fields );
-		$this->generateSetupForm_module( $fields );
+
+		$this->generateSetupForm_logger( $fields );
+		$this->generateSetupForm_ACL( $fields );
 
 
 		$form = new Form('module_wizard_setup_form', $fields);
 
+		foreach($this->values as $k=>$v) {
+			if($form->fieldExists($k)) {
+				$form->field($k)->setDefaultValue( $v );
+			}
+		}
+
 		return $form;
+	}
+
+	/**
+	 * @param array $fields
+	 */
+	public function generateSetupForm_logger( array &$fields )
+	{
+
+		$scope = [
+			'LOG_EVENT_CREATED'             => 'Create event:',
+			'LOG_EVENT_UPDATED'             => 'Update event:',
+			'LOG_EVENT_DELETED'             => 'Delete event:',
+		];
+
+		foreach( $scope as $f=>$title ) {
+
+			$field = new Form_Field_Input($f, $title);
+			$field->setIsRequired(true);
+			$field->setCatcher( function($value) use ($f) {
+				$this->values[$f] = $value;
+			} );
+			$field->setErrorMessages([
+				Form_Field_Select::ERROR_CODE_EMPTY => 'Please enter event name',
+			]);
+			$fields[] = $field;
+
+		}
+
+	}
+
+
+	/**
+	 * @param array $fields
+	 */
+	public function generateSetupForm_ACL( array &$fields )
+	{
+		$acl_entity_name =new Form_Field_Input('ACL_ENTITY_NAME', 'ACL entity name:' );
+		$acl_entity_name->setIsRequired(true);
+		$acl_entity_name->setValidationRegexp('/^[a-z0-9\_]{2,}$/i');
+		$acl_entity_name->setErrorMessages([
+			Form_Field_Input::ERROR_CODE_EMPTY => 'Please enter valid entity name',
+			Form_Field_Input::ERROR_CODE_INVALID_FORMAT => 'Please enter valid entity name',
+		]);
+
+		$acl_entity_name->setCatcher(function($value) {
+			$this->values['ACL_ENTITY_NAME'] = $value;
+		});
+		$fields[] = $acl_entity_name;
+
+		$acl_constant_name =new Form_Field_Input('ACL_ENTITY_CONST_NAME', 'ACL constant name:' );
+		$acl_constant_name->setIsRequired(true);
+		$acl_constant_name->setValidationRegexp('/^[a-z0-9\_]{2,}$/i');
+		$acl_constant_name->setErrorMessages([
+			Form_Field_Input::ERROR_CODE_EMPTY => 'Please enter valid constant name',
+			Form_Field_Input::ERROR_CODE_INVALID_FORMAT => 'Please enter valid constant name',
+		]);
+		$acl_constant_name->setCatcher(function($value) {
+			$this->values['ACL_ENTITY_CONST_NAME'] = $value;
+		});
+		$fields[] = $acl_constant_name;
+
 	}
 
 	/**
@@ -352,7 +356,7 @@ class Wizard extends ModuleWizard {
 
 		$id_properties = [];
 		$name_properties = [];
-		$grid_properties = [];
+		//$grid_properties = [];
 
 		foreach( $data_model->getProperties() as $property ) {
 			if($property->getIsId()) {
@@ -366,35 +370,35 @@ class Wizard extends ModuleWizard {
 				}
 			}
 
+			/*
 			if(
 				$property->getType()!=DataModel::TYPE_DATA_MODEL &&
 				$property->getType()!=DataModel::TYPE_CUSTOM_DATA
 			) {
 				$grid_properties[$property->getName()] = $property->getName();
 			}
-
-		}
-
-		if(!$this->entity_name) {
-			$this->entity_name = $data_model->getModelName();
+			*/
 		}
 
 
-		$entity_name_field = new Form_Field_Input('entity_name', 'Entity name:', $this->entity_name);
-		$entity_name_field->setIsRequired(true);
-		$entity_name_field->setCatcher( function($value) {
-			$this->entity_name = $value;
-		} );
-		$entity_name_field->setErrorMessages([
-			Form_Field_Select::ERROR_CODE_EMPTY => 'Please enter entity name',
+		$item_var_name =new Form_Field_Input('ITEM_VAR_NAME', 'Item variable name:' );
+		$item_var_name->setIsRequired(true);
+		$item_var_name->setCatcher(function($value) {
+			$this->values['ITEM_VAR_NAME'] = $value;
+		});
+		$item_var_name->setValidationRegexp('/^[a-z0-9\_]{2,}$/i');
+		$item_var_name->setErrorMessages([
+			Form_Field_Input::ERROR_CODE_EMPTY => 'Please variable name',
+			Form_Field_Input::ERROR_CODE_INVALID_FORMAT => 'Please variable name',
 		]);
-		$fields[] = $entity_name_field;
+		$fields[] = $item_var_name;
+		
 		
 		
 
-		$id_property_field = new Form_Field_Select('id_property', 'ID property:', $this->id_property);
+		$id_property_field = new Form_Field_Select('ID_PROPERTY', 'ID property:');
 		$id_property_field->setCatcher( function($value) {
-			$this->id_property = $value;
+			$this->values['ID_PROPERTY'] = $value;
 		} );
 		$id_property_field->setIsRequired(true);
 		$id_property_field->setErrorMessages([
@@ -404,13 +408,23 @@ class Wizard extends ModuleWizard {
 		$id_property_field->setSelectOptions( $id_properties );
 		$fields[] = $id_property_field;
 
+		$item_id_getter =new Form_Field_Input('ITEM_ID_GETTER', 'ID getter:' );
+		$item_id_getter->setIsRequired(true);
+		$item_id_getter->setCatcher(function($value) {
+			$this->values['ITEM_ID_GETTER'] = $value;
+		});
+		$item_id_getter->setValidationRegexp('/^[a-z0-9\_]{2,}$/i');
+		$item_id_getter->setErrorMessages([
+			Form_Field_Input::ERROR_CODE_EMPTY => 'Please getter method name',
+			Form_Field_Input::ERROR_CODE_INVALID_FORMAT => 'Please getter method name',
+		]);
+		$fields[] = $item_id_getter;
+		
+		
 
-
-
-
-		$name_property_field = new Form_Field_Select('name_property', 'Name property:', $this->name_property);
+		$name_property_field = new Form_Field_Select('NAME_PROPERTY', 'Name property:');
 		$name_property_field->setCatcher( function($value) {
-			$this->name_property = $value;
+			$this->values['NAME_PROPERTY'] = $value;
 		} );
 		$name_property_field->setIsRequired(true);
 		$name_property_field->setErrorMessages([
@@ -421,23 +435,51 @@ class Wizard extends ModuleWizard {
 		$fields[] = $name_property_field;
 
 
-
-		if(!$this->grid_properties) {
-			$this->grid_properties = array_keys($grid_properties);
-		}
-		
-		$grid_properties_field = new Form_Field_MultiSelect('grid_properties', 'Grid properties:', $this->grid_properties);
-		$grid_properties_field->setCatcher( function($value) {
-			$this->grid_properties = $value;
-		} );
-		$grid_properties_field->setIsRequired(true);
-		$grid_properties_field->setErrorMessages([
-			Form_Field_Select::ERROR_CODE_EMPTY => 'Please select name property',
-			Form_Field_Select::ERROR_CODE_INVALID_VALUE => 'Please select name property',
+		$item_name_getter =new Form_Field_Input('ITEM_NAME_GETTER', 'Name getter:' );
+		$item_name_getter->setIsRequired(true);
+		$item_name_getter->setCatcher(function($value) {
+			$this->values['ITEM_NAME_GETTER'] = $value;
+		});
+		$item_name_getter->setValidationRegexp('/^[a-z0-9\_]{2,}$/i');
+		$item_name_getter->setErrorMessages([
+			Form_Field_Input::ERROR_CODE_EMPTY => 'Please getter method name',
+			Form_Field_Input::ERROR_CODE_INVALID_FORMAT => 'Please getter method name',
 		]);
-		$grid_properties_field->setSelectOptions( $grid_properties );
-		$fields[] = $grid_properties_field;
+		$fields[] = $item_name_getter;
+
+
+
+		$data_model_class_name =new Form_Field_Input('DATA_MODEL_CLASS_NAME', 'DataModel class name:' );
+		$data_model_class_name->setIsReadonly(true);
+		$fields[] = $data_model_class_name;
+
+		$data_model_class_alias =new Form_Field_Input('DATA_MODEL_CLASS_ALIAS', 'DataModel class alias:' );
+		$data_model_class_alias->setIsRequired(true);
+		$data_model_class_alias->setCatcher(function($value) {
+			$this->values['DATA_MODEL_CLASS_ALIAS'] = $value;
+		});
+		$data_model_class_alias->setValidationRegexp('/^[a-z0-9\_]{2,}$/i');
+		$data_model_class_alias->setErrorMessages([
+			Form_Field_Input::ERROR_CODE_EMPTY => 'Please enter class alias',
+			Form_Field_Input::ERROR_CODE_INVALID_FORMAT => 'Please enter class alias',
+		]);
+		$fields[] = $data_model_class_alias;
+
+
+		$data_model_class_alias =new Form_Field_Input('DATA_MODEL_CLASS_ALIAS', 'DataModel class alias:' );
+		$data_model_class_alias->setIsRequired(true);
+		$data_model_class_alias->setCatcher(function($value) {
+			$this->values['DATA_MODEL_CLASS_ALIAS'] = $value;
+		});
+		$data_model_class_alias->setValidationRegexp('/^[a-z0-9\_]{2,}$/i');
+		$data_model_class_alias->setErrorMessages([
+			Form_Field_Input::ERROR_CODE_EMPTY => 'Please enter class alias',
+			Form_Field_Input::ERROR_CODE_INVALID_FORMAT => 'Please enter class alias',
+		]);
+		$fields[] = $data_model_class_alias;
+
 		
+
 	}
 
 	/**
@@ -445,15 +487,16 @@ class Wizard extends ModuleWizard {
 	 */
 	public function generateSetupForm_page( array &$fields )
 	{
+
 		$sites_list = [''=>''];
 
 		foreach( Sites::getSites() as $site ) {
 			$sites_list[$site->getId()] = $site->getName();
 		}
 
-		$page_site_id_field = new Form_Field_Select('page_site_id', 'Site:', $this->page_site_id);
+		$page_site_id_field = new Form_Field_Select('PAGE_SITE_ID', 'Site:');
 		$page_site_id_field->setCatcher( function($value) {
-			$this->page_site_id = $value;
+			$this->values['PAGE_SITE_ID'] = $value;
 		} );
 		$page_site_id_field->setIsRequired(true);
 		$page_site_id_field->setErrorMessages([
@@ -465,7 +508,8 @@ class Wizard extends ModuleWizard {
 
 
 		
-		
+
+		/*
 		$page_name_field = new Form_Field_Input('page_name', 'Name:', $this->page_name);
 		$page_name_field->setIsRequired(true);
 		$page_name_field->setCatcher( function($value) {
@@ -475,13 +519,13 @@ class Wizard extends ModuleWizard {
 			Form_Field_Select::ERROR_CODE_EMPTY => 'Please enter page name',
 		]);
 		$fields[] = $page_name_field;
-
+		*/
 		
 		
-		$page_id_field = new Form_Field_Input('page_id', 'ID:', $this->page_id);
+		$page_id_field = new Form_Field_Input('PAGE_ID', 'ID:');
 		$page_id_field->setIsRequired(true);
 		$page_id_field->setCatcher( function($value) {
-			$this->page_id = $value;
+			$this->values['PAGE_ID'] = $value;
 		} );
 		$page_id_field->setErrorMessages([
 			Form_Field_Select::ERROR_CODE_EMPTY => 'Please enter page ID',
@@ -491,10 +535,10 @@ class Wizard extends ModuleWizard {
 
 
 
-		$page_title_field = new Form_Field_Input('page_title', 'Title:', $this->page_title);
+		$page_title_field = new Form_Field_Input('PAGE_TITLE', 'Title:');
 		$page_title_field->setIsRequired(true);
 		$page_title_field->setCatcher( function($value) {
-			$this->page_title = $value;
+			$this->values['PAGE_TITLE'] = $value;
 		} );
 		$page_title_field->setErrorMessages([
 			Form_Field_Select::ERROR_CODE_EMPTY => 'Please enter page title',
@@ -504,18 +548,18 @@ class Wizard extends ModuleWizard {
 
 
 
-		$page_icon_field = new Form_Field_Input('page_icon', 'Icon:', $this->page_icon);
+		$page_icon_field = new Form_Field_Input('PAGE_ICON', 'Icon:');
 		$page_icon_field->setCatcher( function($value) {
-			$this->page_icon = $value;
+			$this->values['PAGE_ICON'] = $value;
 		} );
 		$fields[] = $page_icon_field;
 
 
 
-		$page_relative_path_fragment_field = new Form_Field_Input('page_relative_path_fragment', 'URL:', $this->page_relative_path_fragment);
+		$page_relative_path_fragment_field = new Form_Field_Input('PAGE_PATH_FRAGMENT', 'URL:');
 		$page_relative_path_fragment_field->setIsRequired(true);
 		$page_relative_path_fragment_field->setCatcher( function($value) {
-			$this->page_relative_path_fragment = $value;
+			$this->values['PAGE_PATH_FRAGMENT'] = $value;
 		} );
 		$page_relative_path_fragment_field->setErrorMessages([
 			Form_Field_Select::ERROR_CODE_EMPTY => 'Please enter page URL',
@@ -539,9 +583,9 @@ class Wizard extends ModuleWizard {
 			}
 		}
 
-		$menu_item_target_menu_id_field = new Form_Field_Select('menu_item_target_menu_id', 'Target menu:', $this->menu_item_target_menu_id);
+		$menu_item_target_menu_id_field = new Form_Field_Select('TARGET_MENU', 'Target menu:' );
 		$menu_item_target_menu_id_field->setCatcher( function($value) {
-			$this->menu_item_target_menu_id = $value;
+			[$this->values['TARGET_MENU_SET_ID'], $this->values['TARGET_MENU_ID']] = explode('/', $value);
 		} );
 		$menu_item_target_menu_id_field->setIsRequired(true);
 		$menu_item_target_menu_id_field->setErrorMessages([
@@ -551,10 +595,10 @@ class Wizard extends ModuleWizard {
 		$menu_item_target_menu_id_field->setSelectOptions( $menus_list );
 		$fields[] = $menu_item_target_menu_id_field;
 
-		$menu_item_id_field = new Form_Field_Input('menu_item_id', 'ID:', $this->menu_item_id);
+		$menu_item_id_field = new Form_Field_Input('MENU_ITEM_ID', 'ID:');
 		$menu_item_id_field->setIsRequired(true);
 		$menu_item_id_field->setCatcher( function($value) {
-			$this->menu_item_id = $value;
+			$this->values['MENU_ITEM_ID'] = $value;
 		} );
 		$menu_item_id_field->setErrorMessages([
 			Form_Field_Select::ERROR_CODE_EMPTY => 'Please enter menu item ID',
@@ -562,32 +606,6 @@ class Wizard extends ModuleWizard {
 		$fields[] = $menu_item_id_field;
 		
 
-		$menu_item_title_field = new Form_Field_Input('menu_item_title', 'Title:', $this->menu_item_title);
-		$menu_item_title_field->setIsRequired(true);
-		$menu_item_title_field->setCatcher( function($value) {
-			$this->menu_item_title = $value;
-		} );
-		$menu_item_title_field->setErrorMessages([
-			Form_Field_Select::ERROR_CODE_EMPTY => 'Please enter menu item title',
-		]);
-		$fields[] = $menu_item_title_field;
-
-
-
-		$menu_item_icon_field = new Form_Field_Input('menu_item_icon', 'Icon:', $this->menu_item_icon);
-		$menu_item_icon_field->setCatcher( function($value) {
-			$this->menu_item_icon = $value;
-		} );
-		$fields[] = $menu_item_icon_field;
-
-
-
-		$menu_item_index_field = new Form_Field_Int('menu_item_index', 'Index:', $this->menu_item_index);
-		$menu_item_index_field->setCatcher( function($value) {
-			$this->menu_item_index = $value;
-		} );
-		$fields[] = $menu_item_index_field;
-		
 	}
 
 
@@ -598,23 +616,28 @@ class Wizard extends ModuleWizard {
 	{
 
 		$scope = [
-			'text_item_created' => 'Item created:',
-			'text_edit_item' => 'Edit item:',
-			'text_item_updated' => 'Item updated:',
-			'text_item_detail' => 'Item detail:',
-			'text_item_deleted' => 'Item deleted:',
+			'TXT_MSG_CREATED'             => 'Info message - item has been created:',
+			'TXT_MSG_UPDATED'             => 'Info message - item has been updated:',
+			'TXT_MSG_DELETED'             => 'Info message - item has been deleted:',
 
-			'text_crete_bt_label' => 'Button - create',
-			'text_delete_bt_label' => 'Button - delete',
+			'TXT_BN_DETAIL'               => 'Breadcrumb navigation - detail:',
+			'TXT_BN_EDIT'                 => 'Breadcrumb navigation - edit:',
+			'TXT_BN_DELETE'               => 'Breadcrumb navigation - delete confirmation:',
 
+			'TXT_LISTING_TITLE_ID'        => 'Listing - column title - ID:',
+			'TXT_LISTING_TITLE_NAME'      => 'Listing - column title - name:',
+
+			'TXT_DELETE_CONFIRM_QUESTION' => 'Delete - confirmation message:',
+
+			'TXT_BTN_NEW'                 => 'Button - create',
 		];
 
 		foreach( $scope as $f=>$title ) {
 
-			$field = new Form_Field_Input($f, $title, $this->{$f});
+			$field = new Form_Field_Input($f, $title);
 			$field->setIsRequired(true);
 			$field->setCatcher( function($value) use ($f) {
-				$this->{$f} = $value;
+				$this->values[$f] = $value;
 			} );
 			$field->setErrorMessages([
 				Form_Field_Select::ERROR_CODE_EMPTY => 'Please enter text',
@@ -624,172 +647,5 @@ class Wizard extends ModuleWizard {
 		}
 
 	}
-
-	/**
-	 * @param array $fields
-	 */
-	public function generateSetupForm_module( array &$fields )
-	{
-		$controller_name_field = new Form_Field_Input('controller_name', 'Controller name:', $this->controller_name);
-		$controller_name_field->setCatcher( function($value) {
-			$this->controller_name = $value;
-		} );
-		$controller_name_field->setIsRequired(true);
-		$controller_name_field->setErrorMessages([
-			Form_Field_Input::ERROR_CODE_EMPTY => 'Please enter controller name',
-		]);
-		$fields[] = $controller_name_field;
-
-
-
-
-		$list_view_field = new Form_Field_Input('list_view', 'View - list:', $this->list_view);
-		$list_view_field->setCatcher( function($value) {
-			$this->list_view = $value;
-		} );
-		$list_view_field->setIsRequired(true);
-		$list_view_field->setErrorMessages([
-			Form_Field_Input::ERROR_CODE_EMPTY => 'Please enter list view name',
-		]);
-		$fields[] = $list_view_field;
-
-
-
-
-		$edit_view_field = new Form_Field_Input('edit_view', 'View - edit:', $this->edit_view);
-		$edit_view_field->setCatcher( function($value) {
-			$this->edit_view = $value;
-		} );
-		$edit_view_field->setIsRequired(true);
-		$edit_view_field->setErrorMessages([
-			Form_Field_Input::ERROR_CODE_EMPTY => 'Please enter edit view name',
-		]);
-		$fields[] = $edit_view_field;
-	}
-	
-
-	/**
-	 * @return bool
-	 */
-	public function create()
-	{
-		$this->create_ACLActions();
-		$this->create_page();
-		$this->create_menuItem();
-
-		$this->create_generate();
-
-		return false;
-	}
-
-	/**
-	 *
-	 */
-	public function create_ACLActions()
-	{
-		$module = Modules::getCurrentModule();
-
-		$add_actions = [
-			'get' => 'Get '.$this->entity_name,
-			'add' => 'Add '.$this->entity_name,
-			'update' => 'Update '.$this->entity_name,
-			'delete' => 'Delete '.$this->entity_name,
-		];
-
-		$actions = $module->getACLActions( false );
-
-		foreach( $add_actions as $action=>$action_title ) {
-			if(!isset($actions[$action])) {
-				$actions[$action] = $action_title;
-			}
-		}
-
-		$module->setACLActions( $actions );
-
-		$module->save();
-	}
-
-
-
-	/**
-	 *
-	 */
-	public function create_page()
-	{
-		$module = Modules::getCurrentModule();
-
-		if($module->getPage( $this->page_site_id, $this->page_id )) {
-			return;
-		}
-
-		$page = new Pages_Page();
-
-		$page->setSiteId( $this->page_site_id );
-		$page->setId( $this->page_id );
-
-		$page->setName( $this->page_name );
-		$page->setTitle( $this->page_title );
-		$page->setIcon( $this->page_icon );
-		$page->setRelativePathFragment( $this->page_relative_path_fragment );
-
-		$content = new Pages_Page_Content();
-		$content->setModuleName( $module->getName() );
-		$content->setControllerName('Main');
-		$content->setControllerAction('default');
-		$content->setOutputPosition( Mvc_Layout::DEFAULT_OUTPUT_POSITION );
-
-		$page->addContent( $content );
-
-
-		$module->addPage( $this->page_site_id, $page );
-
-		$module->save();
-	}
-
-	/**
-	 *
-	 */
-	public function create_menuItem()
-	{
-
-		$module = Modules::getCurrentModule();
-
-		[$set_id, $menu_id] = explode('/', $this->menu_item_target_menu_id);
-
-		if(isset($module->getMenuItemsList($set_id, $menu_id)[$this->menu_item_id])) {
-			return;
-		}
-
-
-		$menu_item = new Menus_Menu_Item(
-			$this->menu_item_id,
-			$this->menu_item_title
-		);
-
-		$menu_item->setSetId( $set_id );
-		$menu_item->setMenuId( $menu_id );
-
-		$menu_item->setIcon( $this->menu_item_icon );
-		$menu_item->setIndex( $this->menu_item_index );
-		$menu_item->setPageId( $this->page_id );
-
-		$module->addMenuItem( $menu_item );
-
-		$module->save();
-	}
-
-	/**
-	 *
-	 */
-	public function create_generate()
-	{
-		$module = Modules::getCurrentModule();
-
-		//TODO:
-
-		die();
-	}
-
-
 
 }

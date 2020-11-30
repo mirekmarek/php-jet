@@ -9,6 +9,7 @@ namespace JetStudio;
 
 use Jet\BaseObject;
 use Jet\Form;
+use Jet\Form_Field_Input;
 use Jet\Http_Request;
 use Jet\IO_File;
 use Jet\Mvc_View;
@@ -38,6 +39,16 @@ abstract class ModuleWizard extends BaseObject {
 	 * @var Form
 	 */
 	protected $setup_form;
+
+	/**
+	 * @var string
+	 */
+	protected $module_name = '';
+
+	/**
+	 * @var array
+	 */
+	protected $values = [];
 
 
 
@@ -95,6 +106,70 @@ abstract class ModuleWizard extends BaseObject {
 	abstract public function generateSetupForm();
 
 	/**
+	 * @param array $fields
+	 */
+	public function generateSetupForm_mainFields( array &$fields )
+	{
+		$module_name = new Form_Field_Input('NAME', 'Name:', '' );
+		$module_name->setCatcher(function($value) {
+			$this->module_name = $value;
+		});
+
+		$module_name->setIsRequired(true);
+		$module_name->setErrorMessages([
+			Form_Field_Input::ERROR_CODE_EMPTY => 'Please enter module name',
+			Form_Field_Input::ERROR_CODE_INVALID_FORMAT => 'Invalid module name format'
+		]);
+		$module_name->setValidator( function( Form_Field_Input $field ) {
+			$name = $field->getValue();
+
+			return Modules_Manifest::checkModuleName( $field, $name );
+		} );
+
+		$fields[] = $module_name;
+
+		$module_label = new Form_Field_Input('LABEL', 'Label:' );
+		$module_label->setCatcher(function($value) {
+			$this->values['LABEL'] = $value;
+		});
+		$module_label->setIsRequired(true);
+		$module_label->setErrorMessages([
+			Form_Field_Input::ERROR_CODE_EMPTY => 'Please enter module label'
+		]);
+		$fields[] = $module_label;
+
+
+
+		$description = new Form_Field_Input('DESCRIPTION', 'Description:' );
+		$description->setCatcher(function($value) {
+			$this->values['DESCRIPTION']  =$value;
+		});
+		$fields[] = $description;
+
+
+		$author = new Form_Field_Input('AUTHOR', 'Author:' );
+		$author->setCatcher(function($value) {
+			$this->values['AUTHOR'] = $value;
+		});
+		$fields[] = $author;
+
+		$license = new Form_Field_Input('LICENSE', 'License:' );
+		$license->setCatcher(function($value) {
+			$this->values['LICENSE'] = $value;
+		});
+		$fields[] = $license;
+
+
+		$copyright =new Form_Field_Input('COPYRIGHT', 'Copyright:' );
+		$copyright->setCatcher(function($value) {
+			$this->values['COPYRIGHT'] = $value;
+		});
+		$fields[] = $copyright;
+
+
+	}
+
+	/**
 	 * @return Form
 	 */
 	public function getSetupForm()
@@ -108,6 +183,8 @@ abstract class ModuleWizard extends BaseObject {
 
 		return $this->setup_form;
 	}
+
+
 
 	/**
 	 * @return bool
@@ -170,5 +247,9 @@ abstract class ModuleWizard extends BaseObject {
 	/**
 	 * @return bool
 	 */
-	abstract public function create();
+	public function create() {
+		//TODO:
+
+		return false;
+	}
 }
