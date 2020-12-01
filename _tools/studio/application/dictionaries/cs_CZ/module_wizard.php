@@ -12,4 +12,5 @@ return [
 	'DataModel parameters' => '',
 	'Logger' => '',
 	'ACL' => '',
+	'Module <b>%NAME%</b> has been created' => '',
 ];

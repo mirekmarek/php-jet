@@ -35,41 +35,24 @@ $setup_form->setDefaultFieldWidth([
 
 $select_data_form->field('data_model')->input()->addJsAction('onchange', 'this.form.submit()');
 
-//TODO: $setup_form->field('page_name')->input()->addJsAction('onkeyup', 'generatePageId(this.value);');
 ?>
-<script type="text/javascript">
-	function generatePageId( name ) {
-		if(name) {
-			$.ajax({
-				url: '<?=Http_Request::currentURI(['setup_action'=>'page_generate_id'])?>&name='+encodeURIComponent(name),
-				success: function(result) {
-					$('#module_wizard_setup_form__page_id').val(result.id);
-					$('#module_wizard_setup_form__page_relative_path_fragment').val(result.id);
-					$('#module_wizard_setup_form__page_title').val(name);
-				}
-			});
-		}
-	}
-
-</script>
-
-		<legend><?=Tr::_('DataModel')?></legend>
-		<?=$select_data_form->start()?>
-		<?=$select_data_form->field('data_model')?>
-		<?=$select_data_form->end()?>
+<legend><?=Tr::_('DataModel')?></legend>
+<?=$select_data_form->start()?>
+<?=$select_data_form->field('data_model')?>
+<?=$select_data_form->end()?>
 
 
-		<?php if($wizard->getDataModelClassname()):?>
-			<?=$setup_form->start()?>
-			<legend><?=Tr::_('Main module parameters')?></legend>
+<?php if($wizard->getDataModelClassname()):?>
+	<?=$setup_form->start()?>
+	<legend><?=Tr::_('Main module parameters')?></legend>
 
-			<?=$setup_form->field('NAME')?>
+	<?=$setup_form->field('NAME')?>
 
-			<?=$setup_form->field('LABEL')?>
-			<?=$setup_form->field('DESCRIPTION')?>
-			<?=$setup_form->field('AUTHOR')?>
-			<?=$setup_form->field('LICENSE')?>
-			<?=$setup_form->field('COPYRIGHT')?>
+	<?=$setup_form->field('LABEL')?>
+	<?=$setup_form->field('DESCRIPTION')?>
+	<?=$setup_form->field('AUTHOR')?>
+	<?=$setup_form->field('LICENSE')?>
+	<?=$setup_form->field('COPYRIGHT')?>
 
 
 
@@ -90,54 +73,54 @@ $select_data_form->field('data_model')->input()->addJsAction('onchange', 'this.f
 
 
 
-			<legend><?=Tr::_('DataModel parameters')?></legend>
-			<?=$setup_form->field('DATA_MODEL_CLASS_NAME')?>
-			<?=$setup_form->field('DATA_MODEL_CLASS_ALIAS')?>
+	<legend><?=Tr::_('DataModel parameters')?></legend>
+	<?=$setup_form->field('DATA_MODEL_CLASS_NAME')?>
+	<?=$setup_form->field('DATA_MODEL_CLASS_ALIAS')?>
 
-			<?=$setup_form->field('ITEM_VAR_NAME')?>
+	<?=$setup_form->field('ITEM_VAR_NAME')?>
 
-			<?=$setup_form->field('ID_PROPERTY')?>
-			<?=$setup_form->field('ITEM_ID_GETTER')?>
+	<?=$setup_form->field('ID_PROPERTY')?>
+	<?=$setup_form->field('ITEM_ID_GETTER')?>
 
-			<?=$setup_form->field('NAME_PROPERTY')?>
-			<?=$setup_form->field('ITEM_NAME_GETTER')?>
+	<?=$setup_form->field('NAME_PROPERTY')?>
+	<?=$setup_form->field('ITEM_NAME_GETTER')?>
 
-			<legend><?=Tr::_('Menu item')?></legend>
-			<?=$setup_form->field('TARGET_MENU')?>
-			<?=$setup_form->field('MENU_ITEM_ID')?>
+	<legend><?=Tr::_('Menu item')?></legend>
+	<?=$setup_form->field('TARGET_MENU')?>
+	<?=$setup_form->field('MENU_ITEM_ID')?>
 
-			<legend><?=Tr::_('Page')?></legend>
-			<?=$setup_form->field('PAGE_SITE_ID')?>
-			<?=$setup_form->field('PAGE_ID')?>
-			<?=$setup_form->field('PAGE_TITLE')?>
-			<?=$setup_form->field('PAGE_ICON')?>
-			<?=$setup_form->field('PAGE_PATH_FRAGMENT')?>
+	<legend><?=Tr::_('Page')?></legend>
+	<?=$setup_form->field('PAGE_SITE_ID')?>
+	<?=$setup_form->field('PAGE_ID')?>
+	<?=$setup_form->field('PAGE_TITLE')?>
+	<?=$setup_form->field('PAGE_ICON')?>
+	<?=$setup_form->field('PAGE_PATH_FRAGMENT')?>
 
-			<legend><?=Tr::_('Texts')?></legend>
-			<?=$setup_form->field('TXT_MSG_CREATED')?>
-			<?=$setup_form->field('TXT_MSG_UPDATED')?>
-			<?=$setup_form->field('TXT_MSG_DELETED')?>
-			<?=$setup_form->field('TXT_BN_DETAIL')?>
-			<?=$setup_form->field('TXT_BN_EDIT')?>
-			<?=$setup_form->field('TXT_BN_DELETE')?>
-			<?=$setup_form->field('TXT_LISTING_TITLE_ID')?>
-			<?=$setup_form->field('TXT_LISTING_TITLE_NAME')?>
-			<?=$setup_form->field('TXT_DELETE_CONFIRM_QUESTION')?>
-			<?=$setup_form->field('TXT_BTN_NEW')?>
+	<legend><?=Tr::_('Texts')?></legend>
+	<?=$setup_form->field('TXT_MSG_CREATED')?>
+	<?=$setup_form->field('TXT_MSG_UPDATED')?>
+	<?=$setup_form->field('TXT_MSG_DELETED')?>
+	<?=$setup_form->field('TXT_BN_DETAIL')?>
+	<?=$setup_form->field('TXT_BN_EDIT')?>
+	<?=$setup_form->field('TXT_BN_DELETE')?>
+	<?=$setup_form->field('TXT_LISTING_TITLE_ID')?>
+	<?=$setup_form->field('TXT_LISTING_TITLE_NAME')?>
+	<?=$setup_form->field('TXT_DELETE_CONFIRM_QUESTION')?>
+	<?=$setup_form->field('TXT_BTN_NEW')?>
 
-			<legend><?=Tr::_('Logger')?></legend>
-			<?=$setup_form->field('LOG_EVENT_CREATED')?>
-			<?=$setup_form->field('LOG_EVENT_CREATED')?>
-			<?=$setup_form->field('LOG_EVENT_DELETED')?>
+	<legend><?=Tr::_('Logger')?></legend>
+	<?=$setup_form->field('LOG_EVENT_CREATED')?>
+	<?=$setup_form->field('LOG_EVENT_CREATED')?>
+	<?=$setup_form->field('LOG_EVENT_DELETED')?>
 
-			<legend><?=Tr::_('ACL')?></legend>
-			<?=$setup_form->field('ACL_ENTITY_NAME')?>
-			<?=$setup_form->field('ACL_ENTITY_CONST_NAME')?>
+	<legend><?=Tr::_('ACL')?></legend>
+	<?=$setup_form->field('ACL_ENTITY_NAME')?>
+	<?=$setup_form->field('ACL_ENTITY_CONST_NAME')?>
 
-			<div align="right">
-				<?=UI::button_save(Tr::_('Create'))->setClass('primary')->setIcon('magic')?>
-			</div>
-			<?=$setup_form->end()?>
-		<?php endif; ?>
-		<br/><br/>
+	<div align="right">
+		<?=UI::button_save(Tr::_('Create'))->setClass('primary')->setIcon('magic')?>
+	</div>
+	<?=$setup_form->end()?>
+<?php endif; ?>
+<br/><br/>
 

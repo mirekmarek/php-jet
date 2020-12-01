@@ -11,5 +11,5 @@ namespace JetStudio\ModuleWizard\BasicAdminDataHandler;
  * @var Wizard $this
  */
 
-$this->catchSetupForm();
+$this->catchSelectModelForm();
 

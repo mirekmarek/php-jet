@@ -3,8 +3,8 @@ namespace JetStudio;
 
 require 'application/init.php';
 
-//TODO: wizard!
-//TODO: alespoň 3 šablony pro něj
+//TODO: jeste alespon 2 sablony
+//TODO: texty a preklady
 
 Application::setCurrentPart( 'module_wizard' );
 Application::handleAction();

@@ -38,11 +38,6 @@ class Wizard extends ModuleWizard {
 	protected $description = 'Create basic module which allows to create, edit and delete data entity';
 
 	/**
-	 * @var bool
-	 */
-	protected $is_ready = false;
-
-	/**
 	 * @var string
 	 */
 	protected $data_model_class_name = '';
@@ -154,83 +149,6 @@ class Wizard extends ModuleWizard {
 		return $this->data_model_class_name;
 	}
 
-
-	/**
-	 * @return bool
-	 */
-	public function isReady() {
-		return $this->is_ready;
-	}
-
-	/**
-	 * @return Form
-	 */
-	public function getSelectDataModelForm()
-	{
-
-		if(!$this->select_data_model_form) {
-			$data_model_list = ['' => ''];
-
-			foreach( DataModels::getClasses() as $class ) {
-				$model = $class->getDefinition();
-				if(!$model instanceof DataModel_Definition_Model_Main) {
-					continue;
-				}
-
-				$label = $model->getModelName().' / '.$model->getClassName();
-
-				$data_model_list[$model->getClassName()] = $label;
-			}
-
-			$data_model_field = new Form_Field_Select('data_model', 'Select DataModel:', $this->data_model_class_name );
-			$data_model_field->setCatcher( function($value) {
-				$this->data_model_class_name = $value;
-			} );
-			$data_model_field->setIsRequired(true);
-			$data_model_field->setErrorMessages([
-				Form_Field_Select::ERROR_CODE_EMPTY => 'Please select DataModel',
-				Form_Field_Select::ERROR_CODE_INVALID_VALUE => 'Please select DataModel',
-			]);
-			$data_model_field->setSelectOptions( $data_model_list );
-			$fields[] = $data_model_field;
-
-			$form = new Form('select_data_model_form', $fields);
-
-			$form->setAction( ModuleWizards::getActionUrl('select_data_model') );
-
-			$this->select_data_model_form = $form;
-		}
-
-
-		return $this->select_data_model_form;
-
-	}
-
-	/**
-	 * @return bool
-	 */
-	public function catchSetupForm()
-	{
-		$form = $this->getSelectDataModelForm();
-
-		if($form->catchInput() && $form->validate()) {
-			$data_model_id = $form->field('data_model')->getValue();
-
-			Http_Headers::reload(['data_model'=>$data_model_id]);
-		}
-
-		$form = $this->getSetupForm();
-		if(
-			$form->catchInput() &&
-			$form->validate()
-		) {
-			return true;
-		}
-
-
-		return false;
-	}
-
 	/**
 	 * @return Form
 	 */
@@ -240,7 +158,7 @@ class Wizard extends ModuleWizard {
 
 
 		if($this->data_model_class_name) {
-			$this->setup_form->setAction( ModuleWizards::getActionUrl('setup') );
+			$this->setup_form->setAction( ModuleWizards::getActionUrl('create', ['data_model'=>$this->data_model_class_name]) );
 
 		}
 
@@ -636,8 +554,8 @@ class Wizard extends ModuleWizard {
 
 			$field = new Form_Field_Input($f, $title);
 			$field->setIsRequired(true);
-			$field->setCatcher( function($value) use ($f) {
-				$this->values[$f] = $value;
+			$field->setCatcher( function($value) use ($f, $field) {
+				$this->values[$f] = $field->getValueRaw();
 			} );
 			$field->setErrorMessages([
 				Form_Field_Select::ERROR_CODE_EMPTY => 'Please enter text',
@@ -645,7 +563,66 @@ class Wizard extends ModuleWizard {
 			$fields[] = $field;
 
 		}
+	}
+
+
+	/**
+	 * @return Form
+	 */
+	public function getSelectDataModelForm()
+	{
+
+		if(!$this->select_data_model_form) {
+			$data_model_list = ['' => ''];
+
+			foreach( DataModels::getClasses() as $class ) {
+				$model = $class->getDefinition();
+				if(!$model instanceof DataModel_Definition_Model_Main) {
+					continue;
+				}
+
+				$label = $model->getModelName().' / '.$model->getClassName();
+
+				$data_model_list[$model->getClassName()] = $label;
+			}
+
+			$data_model_field = new Form_Field_Select('data_model', 'Select DataModel:', $this->data_model_class_name );
+			$data_model_field->setCatcher( function($value) {
+				$this->data_model_class_name = $value;
+			} );
+			$data_model_field->setIsRequired(true);
+			$data_model_field->setErrorMessages([
+				Form_Field_Select::ERROR_CODE_EMPTY => 'Please select DataModel',
+				Form_Field_Select::ERROR_CODE_INVALID_VALUE => 'Please select DataModel',
+			]);
+			$data_model_field->setSelectOptions( $data_model_list );
+			$fields[] = $data_model_field;
+
+			$form = new Form('select_data_model_form', $fields);
+
+			$form->setAction( ModuleWizards::getActionUrl('select_data_model') );
+
+			$this->select_data_model_form = $form;
+		}
+
+
+		return $this->select_data_model_form;
 
 	}
+
+	/**
+	 *
+	 */
+	public function catchSelectModelForm()
+	{
+		$form = $this->getSelectDataModelForm();
+		if($form->catchInput() && $form->validate()) {
+			$data_model_id = $form->field('data_model')->getValue();
+
+			Http_Headers::reload(['data_model'=>$data_model_id]);
+		}
+	}
+
+
 
 }

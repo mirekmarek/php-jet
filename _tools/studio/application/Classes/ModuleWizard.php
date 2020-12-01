@@ -7,10 +7,14 @@
  */
 namespace JetStudio;
 
+use Jet\Application_Modules;
 use Jet\BaseObject;
+use Jet\Data_Text;
+use Jet\Exception;
 use Jet\Form;
 use Jet\Form_Field_Input;
 use Jet\Http_Request;
+use Jet\IO_Dir;
 use Jet\IO_File;
 use Jet\Mvc_View;
 use Jet\Tr;
@@ -245,11 +249,63 @@ abstract class ModuleWizard extends BaseObject {
 	abstract public function init();
 
 	/**
+	 * @return string
+	 */
+	public function getModuleNamespace()
+	{
+		return Application_Modules::getModuleRootNamespace().'\\'.str_replace('.', '\\', $this->module_name);
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getModuleTemplateDir()
+	{
+		return ProjectConf_PATH::TEMPLATES().'module_wizard/'.$this->getName();
+	}
+
+	/**
 	 * @return bool
 	 */
 	public function create() {
-		//TODO:
 
-		return false;
+		$this->values['NAMESPACE'] = $this->getModuleNamespace();
+
+		try {
+			$source_dir = $this->getModuleTemplateDir();
+			$target_dir = Application_Modules::getBasePath().str_replace('.', DIRECTORY_SEPARATOR, $this->module_name);
+
+
+			IO_Dir::copy($source_dir, $target_dir);
+
+			$this->create_applyValues( $target_dir );
+		} catch( Exception $e ) {
+			Application::handleError($e);
+			return false;
+		}
+
+		return true;
+	}
+
+	/**
+	 * @param string $dir
+	 */
+	protected function create_applyValues( $dir )
+	{
+		$list = IO_Dir::getFilesList($dir);
+
+		foreach($list as $path=>$name) {
+			$script = IO_File::read($path);
+
+			$script = Data_Text::replaceData( $script, $this->values );
+
+			IO_File::write($path, $script);
+		}
+
+		$list = IO_Dir::getSubdirectoriesList($dir);
+		foreach($list as $path=>$name) {
+			$this->create_applyValues( $path );
+		}
+
 	}
 }
