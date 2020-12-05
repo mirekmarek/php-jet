@@ -5,8 +5,9 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
-namespace JetApplication;
+namespace JetApplication\Installer;
 
+use Exception;
 use Jet\Mailing_Config_Sender;
 use Jet\Mvc_Site;
 use Jet\UI_messages;
@@ -69,8 +70,8 @@ class Installer_Step_Mailing_Controller extends Installer_Step_Controller
 
 			try {
 				$config->writeConfigFile();
-			} catch( \Exception $e ) {
-				UI_messages::danger( Tr::_('Something went wrong: %error%', ['error'=>$e->getMessage()]) );
+			} catch( Exception $e ) {
+				UI_messages::danger( Tr::_('Something went wrong: %error%', ['error'=>$e->getMessage()], Tr::COMMON_NAMESPACE) );
 				Http_Headers::reload();
 			}
 

@@ -5,8 +5,9 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
-namespace JetApplication;
+namespace JetApplication\Installer;
 
+use Exception;
 use Jet\DataModel_Helper;
 
 /**
@@ -36,26 +37,27 @@ class Installer_Step_CreateDB_Controller extends Installer_Step_Controller
 	{
 		$this->catchContinue();
 
+		$namespace = Installer::getApplicationNamespace();
 
 		$classes = [
-			__NAMESPACE__.'\Auth_Administrator_Role',
-			__NAMESPACE__.'\Auth_Administrator_Role_Privilege',
-			__NAMESPACE__.'\Auth_Administrator_User',
-			__NAMESPACE__.'\Auth_Administrator_User_Roles',
+			$namespace.'\Auth_Administrator_Role',
+			$namespace.'\Auth_Administrator_Role_Privilege',
+			$namespace.'\Auth_Administrator_User',
+			$namespace.'\Auth_Administrator_User_Roles',
 
-			__NAMESPACE__.'\Auth_Visitor_Role',
-			__NAMESPACE__.'\Auth_Visitor_Role_Privilege',
-			__NAMESPACE__.'\Auth_Visitor_User',
-			__NAMESPACE__.'\Auth_Visitor_User_Roles',
+			$namespace.'\Auth_Visitor_Role',
+			$namespace.'\Auth_Visitor_Role_Privilege',
+			$namespace.'\Auth_Visitor_User',
+			$namespace.'\Auth_Visitor_User_Roles',
 
-			__NAMESPACE__.'\Auth_RESTClient_Role',
-			__NAMESPACE__.'\Auth_RESTClient_Role_Privilege',
-			__NAMESPACE__.'\Auth_RESTClient_User',
-			__NAMESPACE__.'\Auth_RESTClient_User_Roles',
+			$namespace.'\Auth_RESTClient_Role',
+			$namespace.'\Auth_RESTClient_Role_Privilege',
+			$namespace.'\Auth_RESTClient_User',
+			$namespace.'\Auth_RESTClient_User_Roles',
 
-			__NAMESPACE__.'\Application_Logger_Admin_Event',
-			__NAMESPACE__.'\Application_Logger_Web_Event',
-			__NAMESPACE__.'\Application_Logger_REST_Event',
+			$namespace.'\Application_Logger_Admin_Event',
+			$namespace.'\Application_Logger_Web_Event',
+			$namespace.'\Application_Logger_REST_Event',
 		];
 
 		$result = [];
@@ -65,7 +67,7 @@ class Installer_Step_CreateDB_Controller extends Installer_Step_Controller
 			$result[$class] = true;
 			try {
 				DataModel_Helper::create( $class );
-			} catch( \Exception $e ) {
+			} catch( Exception $e ) {
 				$result[$class] = $e->getMessage();
 				$OK = false;
 			}

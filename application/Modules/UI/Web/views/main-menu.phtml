@@ -2,9 +2,9 @@
 use Jet\Mvc;
 use Jet\Mvc_View;
 use Jet\Mvc_Page;
+use Jet\SysConf_URI;
 use Jet\UI;
 
-//TODO: studio link
 /**
  * @var Mvc_View   $this
  * @var Mvc_Page[] $pages
@@ -73,16 +73,18 @@ $tabs = UI::tabs(
 <div class="panel panel-default panel-body" style="border-top: none;border-radius: 0px;box-shadow: 2px 2px 2px #aaaaaa;">
 <?php $show_menu( $pages ); ?>
 
-<?php
-$secret_area_page = Mvc_Page::get( 'secret_area' );
+	<?php
+	$secret_area_page = Mvc_Page::get( 'secret_area' );
 
-if( $secret_area_page ): ?>
-	<a href="<?=$secret_area_page->getURL()?>" rel="nofollow"><?=$secret_area_page->getMenuTitle()?></a><br/>
-<?php endif;
+	if( $secret_area_page ): ?>
+		<a href="<?=$secret_area_page->getURL()?>" rel="nofollow"><?=$secret_area_page->getMenuTitle()?></a><br/>
+	<?php endif;
 
-$admin_page = Mvc_Page::get( '_homepage_', null, 'admin' );
+	$admin_page = Mvc_Page::get( '_homepage_', null, 'admin' );
 
-if( $admin_page ): ?>
-	<a href="<?=$admin_page->getURL()?>" rel="nofollow"><?=$admin_page->getMenuTitle()?></a><br/>
-<?php endif; ?>
+	if( $admin_page ): ?>
+		<a href="<?=$admin_page->getURL()?>" rel="nofollow"><?=$admin_page->getMenuTitle()?></a><br/>
+	<?php endif; ?>
+
+		<a href="<?=SysConf_URI::BASE()?>_tools/studio/" rel="nofollow" target="_blank">Jet Studio</a><br/>
 </div>

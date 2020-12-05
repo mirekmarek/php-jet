@@ -5,7 +5,7 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
-namespace JetApplication;
+namespace JetApplication\Installer;
 
 use Jet\Config;
 use Jet\Http_Request;
@@ -13,14 +13,15 @@ use Jet\Http_Headers;
 use Jet\Mvc_Factory;
 use Jet\Mvc_Layout;
 use Jet\Locale;
+use Jet\Mvc_View;
 use Jet\SysConf_PATH;
 use Jet\Session;
 use Jet\Translator;
 use Jet\Translator_Backend_PHPFiles;
 use Jet\Tr;
 
-/** @noinspection PhpIncludeInspection */
-require JET_APP_INSTALLER_PATH.'Classes/Step/Controller.php';
+
+require 'Step/Controller.php';
 
 /**
  *
@@ -58,6 +59,15 @@ class Installer
 	 */
 	protected static $current_step_name;
 
+	/**
+	 * @var string
+	 */
+	protected static $base_path = '';
+
+	/**
+	 * @var string
+	 */
+	protected static $application_namespace = '';
 
 	/**
 	 * @var Mvc_Layout
@@ -228,7 +238,7 @@ class Installer
 		while( $steps ) {
 			$step_name = array_shift( $steps );
 
-			$step_base_path = JET_APP_INSTALLER_PATH.'Step/'.$step_name.'/';
+			$step_base_path = static::getBasePath().'Step/'.$step_name.'/';
 
 			/** @noinspection PhpIncludeInspection */
 			require_once $step_base_path.'Controller.php';
@@ -363,7 +373,7 @@ class Installer
 		 * @var Translator_Backend_PHPFiles $backend
 		 */
 		$backend = Translator::getBackend();
-		$backend->setDictionariesBasePath( JET_APP_INSTALLER_PATH.'dictionaries/' );
+		$backend->setDictionariesBasePath( static::getBasePath().'dictionaries/' );
 
 		Locale::setCurrentLocale( static::getCurrentLocale() );
 		Translator::setCurrentLocale( static::getCurrentLocale() );
@@ -400,7 +410,7 @@ class Installer
 	{
 
 		if( !static::$layout ) {
-			static::$layout = Mvc_Factory::getLayoutInstance( JET_APP_INSTALLER_PATH.'layout/', 'default' );
+			static::$layout = Mvc_Factory::getLayoutInstance( static::getBasePath().'layout/', 'default' );
 			static::$layout->setCSSPackagerEnabled(false);
 			static::$layout->setJSPackagerEnabled(false);
 
@@ -455,19 +465,59 @@ class Installer
 	}
 
 	/**
+	 * @return Mvc_View
+	 */
+	public static function getView()
+	{
+		$view = new Mvc_View(static::getBasePath().'views');
+
+		return $view;
+	}
+
+
+	/**
 	 * @return string
 	 */
 	public static function buttonBack()
 	{
-		?>
-		<a href="?">
-			<button type="submit" class="btn btn-warning">
-				<i class="glyphicon glyphicon-chevron-left"></i>
-				<?=Tr::_( 'Go Back', [], Tr::COMMON_NAMESPACE );?>
-			</button>
-		</a>
-		<?php
-		return '';
+		$ns = Tr::getCurrentNamespace();
+
+		Tr::setCurrentNamespace( Tr::COMMON_NAMESPACE );
+		$view = static::getView();
+
+		echo $view->render( 'button/back' );
+
+		Tr::setCurrentNamespace($ns);
+	}
+
+	/**
+	 * @return string
+	 */
+	public static function buttonNext()
+	{
+		$ns = Tr::getCurrentNamespace();
+
+		Tr::setCurrentNamespace( Tr::COMMON_NAMESPACE );
+		$view = static::getView();
+
+		echo $view->render( 'button/next' );
+
+		Tr::setCurrentNamespace($ns);
+	}
+
+	/**
+	 * @return string
+	 */
+	public static function buttonNextSkipIt()
+	{
+		$ns = Tr::getCurrentNamespace();
+
+		Tr::setCurrentNamespace( Tr::COMMON_NAMESPACE );
+		$view = static::getView();
+
+		echo $view->render( 'button/skip' );
+
+		Tr::setCurrentNamespace($ns);
 	}
 
 	/**
@@ -476,39 +526,48 @@ class Installer
 	 */
 	public static function continueForm()
 	{
-		?>
-		<form method="post">
-		<input type="hidden" name="go" value="1">
-		<?php static::buttonNext();?>
-		</form>
-		<?php
-		return '';
+		$ns = Tr::getCurrentNamespace();
+
+		Tr::setCurrentNamespace( Tr::COMMON_NAMESPACE );
+		$view = static::getView();
+
+		echo $view->render( 'continue' );
+
+		Tr::setCurrentNamespace($ns);
 	}
 
 	/**
 	 * @return string
 	 */
-	public static function buttonNext()
+	public static function getBasePath()
 	{
-		?>
-		<button type="submit" class="btn btn-primary">
-			<?=Tr::_( 'Continue', [], Tr::COMMON_NAMESPACE );?><i class="glyphicon glyphicon-chevron-right"></i>
-		</button>
-		<?php
-		return '';
+		return static::$base_path;
+	}
+
+	/**
+	 * @param string $base_path
+	 */
+	public static function setBasePath( $base_path )
+	{
+		static::$base_path = $base_path;
 	}
 
 	/**
 	 * @return string
 	 */
-	public static function buttonNextSkipIt()
+	public static function getApplicationNamespace()
 	{
-		?>
-		<button type="submit" class="btn btn-info">
-			<?=Tr::_( 'Skip this step', [], Tr::COMMON_NAMESPACE );?><i class="glyphicon glyphicon-chevron-right"></i>
-		</button>
-		<?php
-		return '';
+		return static::$application_namespace;
 	}
+
+	/**
+	 * @param string $application_namespace
+	 */
+	public static function setApplicationNamespace( $application_namespace )
+	{
+		static::$application_namespace = $application_namespace;
+	}
+
+
 
 }

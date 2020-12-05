@@ -5,10 +5,14 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
-namespace JetApplication;
+namespace JetApplication\Installer;
 
 use Jet\IO_Dir;
 use Jet\SysConf_PATH;
+
+use JetApplication\Application_Admin;
+use JetApplication\Application_Web;
+use JetApplication\Application_REST;
 
 /**
  *

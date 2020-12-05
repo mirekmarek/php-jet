@@ -5,8 +5,9 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
-namespace JetApplication;
+namespace JetApplication\Installer;
 
+use Exception;
 use Jet\Form;
 use Jet\Form_Field_Select;
 use Jet\Db_Config;
@@ -70,8 +71,8 @@ class Installer_Step_SelectDbType_Controller extends Installer_Step_Controller
 			$data_model_config = new DataModel_Config();
 			$db_config = new Db_Config();
 
-			require JET_APP_INSTALLER_PATH.'Classes/DbDriverConfig.php';
-			require JET_APP_INSTALLER_PATH.'Classes/DbDriverConfig/'.$driver.'.php';
+			require Installer::getBasePath().'Classes/DbDriverConfig.php';
+			require Installer::getBasePath().'Classes/DbDriverConfig/'.$driver.'.php';
 
 			$class_name = __NAMESPACE__.'\\Installer_DbDriverConfig_'.$driver;
 
@@ -84,8 +85,8 @@ class Installer_Step_SelectDbType_Controller extends Installer_Step_Controller
 			try {
 				$db_config->writeConfigFile();
 				$data_model_config->writeConfigFile();
-			} catch( \Exception $e ) {
-				UI_messages::danger( Tr::_('Something went wrong: %error%', ['error'=>$e->getMessage()]) );
+			} catch( Exception $e ) {
+				UI_messages::danger( Tr::_('Something went wrong: %error%', ['error'=>$e->getMessage()], Tr::COMMON_NAMESPACE) );
 				Http_Headers::reload();
 			}
 
@@ -111,7 +112,7 @@ class Installer_Step_SelectDbType_Controller extends Installer_Step_Controller
 		$types = DataModel_Backend::getBackendTypes();
 
 		if( !$session->getValueExists( 'backend_type' ) ) {
-			list( $default ) = array_keys( $types );
+			[ $default ] = array_keys( $types );
 
 			$session->setValue( 'backend_type', $default );
 		}

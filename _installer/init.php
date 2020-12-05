@@ -5,16 +5,19 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
-namespace JetApplication;
+namespace JetApplication\Installer;
 
 use Jet\Config;
 use Jet\SysConf_PATH;
 
-define( 'JET_APP_INSTALLER_PATH', SysConf_PATH::BASE().'_installer/' );
+Config::setBeTolerant( true );
+
 
 require 'Classes/Installer.php';
 
-Config::setBeTolerant( true );
+
+Installer::setApplicationNamespace('JetApplication');
+Installer::setBasePath( SysConf_PATH::BASE().'_installer/' );
 
 Installer::setSteps(
 	[
@@ -28,6 +31,7 @@ Installer::setSteps(
 		'Mailing',
 		'InstallModules',
 		'CreateAdministrator',
+		'ConfigureStudio',
 		'Final',
 	]
 );

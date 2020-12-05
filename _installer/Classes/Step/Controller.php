@@ -5,7 +5,7 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
-namespace JetApplication;
+namespace JetApplication\Installer;
 
 use Jet\Mvc_Layout;
 use Jet\Mvc_View;
@@ -91,7 +91,7 @@ abstract class Installer_Step_Controller
 	/**
 	 *
 	 */
-	abstract function main();
+	abstract public function main();
 
 	/**
 	 * @param string $name

@@ -1,6 +1,7 @@
 <?php
 return [
-	'Continue'                            => 'Pokračovat',
+	'Continue' => 'Pokračovat',
 	'PHP Jet - Example Project Installer' => 'PHP Jet - Instalátor ukázkového projektu',
-	'Go Back'                             => 'Zpět',
+	'Go Back' => 'Zpět',
+	'Something went wrong: %error%' => '',
 ];

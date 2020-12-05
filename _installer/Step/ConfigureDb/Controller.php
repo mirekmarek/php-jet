@@ -5,8 +5,9 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
-namespace JetApplication;
+namespace JetApplication\Installer;
 
+use Exception;
 use Jet\Db;
 use Jet\Db_Config;
 use Jet\Db_Backend_PDO_Config;
@@ -75,8 +76,8 @@ class Installer_Step_ConfigureDb_Controller extends Installer_Step_Controller
 	{
 		$driver = $connection_config->getDriver();
 
-		require JET_APP_INSTALLER_PATH.'Classes/DbDriverConfig.php';
-		require JET_APP_INSTALLER_PATH.'Classes/DbDriverConfig/'.$driver.'.php';
+		require Installer::getBasePath().'Classes/DbDriverConfig.php';
+		require Installer::getBasePath().'Classes/DbDriverConfig/'.$driver.'.php';
 
 		$class_name = __NAMESPACE__.'\\Installer_DbDriverConfig_'.$driver;
 
@@ -93,9 +94,9 @@ class Installer_Step_ConfigureDb_Controller extends Installer_Step_Controller
 
 			try {
 				$this->main_config->writeConfigFile();
-			} catch( \Exception $e ) {
+			} catch( Exception $e ) {
 				$ok = false;
-				UI_messages::danger( Tr::_('Something went wrong: %error%', ['error'=>$e->getMessage()]) );
+				UI_messages::danger( Tr::_('Something went wrong: %error%', ['error'=>$e->getMessage()], Tr::COMMON_NAMESPACE) );
 			}
 
 			if($ok) {
@@ -119,7 +120,7 @@ class Installer_Step_ConfigureDb_Controller extends Installer_Step_Controller
 		$error_message = '';
 		try {
 			Db::get( $connection_config->getName() );
-		} catch( \Exception $e ) {
+		} catch( Exception $e ) {
 			$error_message = $e->getMessage();
 			$OK = false;
 		}

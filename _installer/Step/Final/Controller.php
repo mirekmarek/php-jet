@@ -5,8 +5,9 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
-namespace JetApplication;
+namespace JetApplication\Installer;
 
+use Exception;
 use Jet\Data_DateTime;
 use Jet\IO_File;
 use Jet\SysConf_PATH;
@@ -45,8 +46,8 @@ class Installer_Step_Final_Controller extends Installer_Step_Controller
 		) {
 			try {
 				IO_File::write( $install_symptom_file_path, Data_DateTime::now()->toString() );
-			} catch( \Exception $e ) {
-				UI_messages::danger( Tr::_('Something went wrong: %error%', ['error'=>$e->getMessage()]) );
+			} catch( Exception $e ) {
+				UI_messages::danger( Tr::_('Something went wrong: %error%', ['error'=>$e->getMessage()], Tr::COMMON_NAMESPACE) );
 				$OK = false;
 			}
 		}

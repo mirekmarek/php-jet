@@ -5,7 +5,10 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
-namespace JetApplication;
+namespace JetApplication\Installer;
+
+use JetApplication\Auth_Administrator_User;
+use JetApplication\Auth_RESTClient_User;
 
 /**
  *

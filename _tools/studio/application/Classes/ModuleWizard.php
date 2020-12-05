@@ -13,11 +13,13 @@ use Jet\Data_Text;
 use Jet\Exception;
 use Jet\Form;
 use Jet\Form_Field_Input;
+use Jet\Http_Headers;
 use Jet\Http_Request;
 use Jet\IO_Dir;
 use Jet\IO_File;
 use Jet\Mvc_View;
 use Jet\Tr;
+use Jet\UI_messages;
 
 /**
  *
@@ -284,6 +286,8 @@ abstract class ModuleWizard extends BaseObject {
 			return false;
 		}
 
+		UI_messages::success( Tr::_('Module <b>%NAME%</b> has been created', ['NAME'=>$this->module_name], 'module_wizard') );
+
 		return true;
 	}
 
@@ -307,5 +311,14 @@ abstract class ModuleWizard extends BaseObject {
 			$this->create_applyValues( $path );
 		}
 
+	}
+
+	/**
+	 *
+	 */
+	public function redirectToModuleEditing()
+	{
+		Http_Headers::movedTemporary('modules.php?module='.urlencode($this->module_name));
+		Application::end();
 	}
 }

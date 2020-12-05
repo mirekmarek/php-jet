@@ -5,8 +5,9 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
-namespace JetApplication;
+namespace JetApplication\Installer;
 
+use Exception;
 use Jet\Http_Request;
 use Jet\Http_Headers;
 use Jet\Mvc_Site;
@@ -18,6 +19,10 @@ use Jet\Mvc_Site_LocalizedData_MetaTag;
 use Jet\Tr;
 use Jet\UI_messages;
 use Jet\SysConf_URI;
+
+use JetApplication\Application_Admin;
+use JetApplication\Application_Web;
+use JetApplication\Application_REST;
 
 /**
  *
@@ -87,7 +92,7 @@ class Installer_Step_CreateSite_Controller extends Installer_Step_Controller
 			}
 			$web->setIsDefault( true );
 			$web->setIsActive( true );
-			$web->setInitializer(['JetApplication\Application_Web','init']);
+			$web->setInitializer([Installer::getApplicationNamespace().'\Application_Web','init']);
 
 
 
@@ -111,7 +116,7 @@ class Installer_Step_CreateSite_Controller extends Installer_Step_Controller
 				$ld->setURLs( [$URL.'admin/'.$locale->getLanguage().'/'] );
 			}
 			$admin->setIsActive( true );
-			$admin->setInitializer(['JetApplication\Application_Admin','init']);
+			$admin->setInitializer([Installer::getApplicationNamespace().'\Application_Admin','init']);
 
 
 
@@ -133,7 +138,7 @@ class Installer_Step_CreateSite_Controller extends Installer_Step_Controller
 				$ld->setURLs( [$URL.'rest/'.$locale->getLanguage().'/'] );
 			}
 			$rest->setIsActive( true );
-			$rest->setInitializer(['JetApplication\Application_REST','init']);
+			$rest->setInitializer([Installer::getApplicationNamespace().'\Application_REST','init']);
 
 
 
@@ -168,21 +173,21 @@ class Installer_Step_CreateSite_Controller extends Installer_Step_Controller
 				/**
 				 * @var Mvc_Site[] $sites
 				 */
-				$sites[Application_REST::getSiteId()]->setInitializer(['JetApplication\Application_REST','init']);
+				$sites[Application_REST::getSiteId()]->setInitializer([Installer::getApplicationNamespace().'\Application_REST','init']);
 				$sites[Application_REST::getSiteId()]->setIsSecret(true);
 
-				$sites[Application_Admin::getSiteId()]->setInitializer(['JetApplication\Application_Admin','init']);
+				$sites[Application_Admin::getSiteId()]->setInitializer([Installer::getApplicationNamespace().'\Application_Admin','init']);
 				$sites[Application_Admin::getSiteId()]->setIsSecret(true);
 
-				$sites[Application_Web::getSiteId()]->setInitializer(['JetApplication\Application_Web','init']);
+				$sites[Application_Web::getSiteId()]->setInitializer([Installer::getApplicationNamespace().'\Application_Web','init']);
 
 				try {
 					foreach( $sites as $site ) {
 						$site->saveDataFile();
 					}
 
-				} catch( \Exception $e ) {
-					UI_messages::danger( Tr::_('Something went wrong: %error%', ['error'=>$e->getMessage()]) );
+				} catch( Exception $e ) {
+					UI_messages::danger( Tr::_('Something went wrong: %error%', ['error'=>$e->getMessage()], Tr::COMMON_NAMESPACE) );
 				}
 
 
