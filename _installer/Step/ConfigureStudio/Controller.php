@@ -38,10 +38,10 @@ class Installer_Step_ConfigureStudio_Controller extends Installer_Step_Controlle
 		]);
 
 		$password = new Form_Field_RegistrationPassword('password', 'Password:');
-		$password->setPasswordConfirmationLabel( 'Confirm new password:' );
+		$password->setPasswordConfirmationLabel( 'Confirm password:' );
 		$password->setErrorMessages([
-			Form_Field_RegistrationPassword::ERROR_CODE_EMPTY           => 'Please enter new password',
-			Form_Field_RegistrationPassword::ERROR_CODE_CHECK_EMPTY     => 'Please confirm new password',
+			Form_Field_RegistrationPassword::ERROR_CODE_EMPTY           => 'Please enter password',
+			Form_Field_RegistrationPassword::ERROR_CODE_CHECK_EMPTY     => 'Please confirm password',
 			Form_Field_RegistrationPassword::ERROR_CODE_CHECK_NOT_MATCH => 'Password confirmation do not match',
 			Form_Field_RegistrationPassword::ERROR_CODE_WEAK_PASSWORD   => 'Password is not strong enough',
 		]);

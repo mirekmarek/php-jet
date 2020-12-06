@@ -1,12 +1,11 @@
 <?php
 return [
-	'Configure Jet Studio' => '',
-	'Please enter username' => '',
-	'Please enter new password' => '',
-	'Please confirm new password' => '',
-	'Password confirmation do not match' => '',
-	'Username:' => '',
-	'Password' => '',
-	'Password:' => '',
-	'Confirm new password:' => '',
+	'Configure Jet Studio' => 'Nastavení Jet Studia',
+	'Please enter username' => 'Prosím zadejte uživatelské jméno',
+	'Please enter password' => 'Prosím zadejte heslo',
+	'Password confirmation do not match' => 'Potvrzení hesla nesouhlasí',
+	'Username:' => 'Uživatelské jméno',
+	'Password:' => 'Heslo:',
+	'Please confirm password' => 'Prosím potvrďte heslo',
+	'Confirm password:' => 'Potvrďte heslo:',
 ];

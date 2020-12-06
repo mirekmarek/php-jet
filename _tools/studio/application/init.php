@@ -27,8 +27,16 @@ require __DIR__.'/Init/PHP.php';
 require __DIR__.'/Init/ErrorHandler.php';
 require __DIR__.'/Init/Autoloader.php';
 
-//TODO: key check
 
+
+Http_Request::initialize( SysConf_Jet::HIDE_HTTP_REQUEST() );
+
+Locale::setCurrentLocale( Application::getCurrentLocale() );
+Translator::setCurrentLocale( Application::getCurrentLocale() );
+
+AccessControl::handle();
+
+Config::setBeTolerant(true);
 
 Project::setApplicationNamespace('JetApplication');
 
@@ -52,11 +60,3 @@ $modules_handler->setInstalledModulesListFilePath( ProjectConf_PATH::DATA().'ins
 
 Application_Factory::setModuleManifestClassName(__NAMESPACE__.'\Modules_Manifest');
 Application_Modules::setBasePath( ProjectConf_PATH::APPLICATION().'Modules/' );
-
-
-Http_Request::initialize( SysConf_Jet::HIDE_HTTP_REQUEST() );
-
-Locale::setCurrentLocale( Application::getCurrentLocale() );
-Translator::setCurrentLocale( Application::getCurrentLocale() );
-
-Config::setBeTolerant(true);

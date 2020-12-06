@@ -12,7 +12,7 @@ return [
 	'Delete' => 'Smazat',
 	'Edit' => 'Upravit',
 	'Something went wrong!<br/><br/>%error%' => 'Něco se nepovedlo!<br/><br/>%error%',
-	'Module wizard' => '',
-	'Select locale' => '',
-	'Search for locale ...' => '',
+	'Search for locale ...' => 'Najít lokalizaci ...',
+	'Select locale' => 'Vyberte lokalizaci',
+	'Module wizard' => 'Tvůrce modulů',
 ];
