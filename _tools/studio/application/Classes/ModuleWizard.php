@@ -184,7 +184,7 @@ abstract class ModuleWizard extends BaseObject {
 			$this->setup_form = $this->generateSetupForm();
 			$this->setup_form->setCustomTranslatorNamespace( $this->getTrNamespace() );
 
-			$this->setup_form->setAction( Modules::getActionUrl('module_wizard/setup', [ 'wizard'=>$this->getName() ]) );
+			$this->setup_form->setAction( ModuleWizards::getActionUrl('create') );
 		}
 
 		return $this->setup_form;
@@ -301,7 +301,13 @@ abstract class ModuleWizard extends BaseObject {
 		foreach($list as $path=>$name) {
 			$script = IO_File::read($path);
 
-			$script = Data_Text::replaceData( $script, $this->values );
+			$values = [];
+
+			foreach($this->values as $k=>$v) {
+				$values['<'.$k.'>'] = $v;
+			}
+
+			$script = Data_Text::replaceData( $script, $values );
 
 			IO_File::write($path, $script);
 		}

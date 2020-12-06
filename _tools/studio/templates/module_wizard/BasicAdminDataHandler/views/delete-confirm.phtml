@@ -1,7 +1,7 @@
 <?php
-namespace %NAMESPACE%;
+namespace %<NAMESPACE>%;
 
-use %DATA_MODEL_CLASS_NAME% as %DATA_MODEL_CLASS_ALIAS%;
+use %<DATA_MODEL_CLASS_NAME>% as %<DATA_MODEL_CLASS_ALIAS>%;
 
 use Jet\Http_Request;
 use Jet\UI;
@@ -10,9 +10,9 @@ use Jet\Tr;
 
 /**
  * @var Mvc_View   $this
- * @var %DATA_MODEL_CLASS_ALIAS%       $%ITEM_VAR_NAME%
+ * @var %<DATA_MODEL_CLASS_ALIAS>%       $%<ITEM_VAR_NAME>%
  */
-$%ITEM_VAR_NAME% = $this->getRaw( '%ITEM_VAR_NAME%' );
+$%<ITEM_VAR_NAME>% = $this->getRaw( '%<ITEM_VAR_NAME>%' );
 $router = $this->getController()->getControllerRouter();
 
 ?>
@@ -22,10 +22,10 @@ $router = $this->getController()->getControllerRouter();
 
 		<?=UI::button_goBack()?>
 		<p>
-			<?=Tr::_( '%TXT_DELETE_CONFIRM_QUESTION%' );?>
+			<?=Tr::_( '%<TXT_DELETE_CONFIRM_QUESTION>%' );?>
 			<br/>
-			<a href="<?=$router->action('edit')->URI( $%ITEM_VAR_NAME%->%ITEM_ID_GETTER%() );?>"
-			   style="font-weight: bolder;font-size: 20px;"><?=$%ITEM_VAR_NAME%->getName();?> (<?=$%ITEM_VAR_NAME%->%ITEM_NAME_GETTER%();?>)</a>
+			<a href="<?=$router->action('edit')->URI( $%<ITEM_VAR_NAME>%->%<ITEM_ID_GETTER>%() );?>"
+			   style="font-weight: bolder;font-size: 20px;"><?=$%<ITEM_VAR_NAME>%->getName();?> (<?=$%<ITEM_VAR_NAME>%->%<ITEM_NAME_GETTER>%();?>)</a>
 		</p>
 
 		<form action="<?=Http_Request::currentURI()?>" method="post">
