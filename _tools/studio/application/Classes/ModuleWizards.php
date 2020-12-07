@@ -12,6 +12,7 @@ use Jet\Http_Request;
 use Jet\IO_Dir;
 use Jet\SysConf_PATH;
 use Jet\SysConf_URI;
+use Jet\Tr;
 
 /**
  *
@@ -147,6 +148,7 @@ class ModuleWizards extends BaseObject implements Application_Part
 		$wizard = ModuleWizards::getCurrentWizard();
 
 		if($wizard) {
+			Tr::setCurrentNamespace( $wizard->getTrNamespace() );
 			$wizard->init();
 
 			$wizard->handleAction();

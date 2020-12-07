@@ -3,8 +3,6 @@ namespace JetStudio;
 
 require 'application/init.php';
 
-//TODO: texty a preklady
-
 Application::setCurrentPart( 'module_wizard' );
 Application::handleAction();
 
