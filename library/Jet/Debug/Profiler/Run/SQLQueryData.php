@@ -84,8 +84,8 @@ class Debug_Profiler_Run_SQLQueryData
 		$this->backtrace = Debug_Profiler::getBacktrace( 5 );
 
 		$this->timestamp_start = microtime( true );
-		$this->memory_start = memory_get_usage( true );
-		$this->memory_peak_start = memory_get_peak_usage( true );
+		$this->memory_start = memory_get_usage();
+		$this->memory_peak_start = memory_get_peak_usage();
 	}
 
 	/**
@@ -94,8 +94,8 @@ class Debug_Profiler_Run_SQLQueryData
 	public function setDone( $rows_count )
 	{
 		$this->timestamp_end = microtime( true );
-		$this->memory_end = memory_get_usage( true );
-		$this->memory_peak_end = memory_get_peak_usage( true );
+		$this->memory_end = memory_get_usage();
+		$this->memory_peak_end = memory_get_peak_usage();
 		$this->rows_count = $rows_count;
 	}
 

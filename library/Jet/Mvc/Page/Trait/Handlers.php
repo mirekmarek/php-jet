@@ -56,6 +56,9 @@ trait Mvc_Page_Trait_Handlers
 				continue;
 			}
 
+			$profiler_block = 'Resolve controller '.$content->getModuleName().':'.$content->getControllerName();
+			Debug_Profiler::blockStart($profiler_block);
+
 			if( ($action=$controller->resolve()) ) {
 				if($action!==true) {
 					$controller->getContent()->setControllerAction( $action );
@@ -63,6 +66,7 @@ trait Mvc_Page_Trait_Handlers
 			} else {
 				$content->skipDispatch();
 			}
+			Debug_Profiler::blockEnd($profiler_block);
 		}
 
 		return true;
