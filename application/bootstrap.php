@@ -7,9 +7,6 @@
  */
 namespace JetApplication;
 
-//TODO: testy, testy, testy, testy, testy všeho
-
-
 require __DIR__.'/config/PATH.php';
 require __DIR__.'/config/Jet.php';
 require __DIR__.'/config/URI.php';

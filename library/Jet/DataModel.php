@@ -8,8 +8,9 @@
 
 namespace Jet;
 
+use Attribute;
 	/**
-	 * Available annotation:
+	 * Available attributes:
 	 *
 	 * @JetDataModel:name = 'some_model_name'
 	 *      - Internal model name. It is not name of database table! The name is used mainly in queries.
@@ -99,6 +100,7 @@ namespace Jet;
 /**
  *
  */
+#[Attribute(Attribute::TARGET_CLASS|Attribute::TARGET_PROPERTY|Attribute::IS_REPEATABLE)]
 abstract class DataModel extends BaseObject implements DataModel_Interface
 {
 

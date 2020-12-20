@@ -125,7 +125,7 @@ class Debug_ErrorHandler
 	 * @param int    $line
 	 * @param array  $context
 	 */
-	public static function handleError( $code, $message, $file, $line, $context )
+	public static function handleError( $code, $message, $file='', $line=0, $context=[] )
 	{
 		if(strpos($message,'should not be abstract')!==false) {
 			return;

@@ -7,8 +7,9 @@
  */
 namespace Jet;
 
+use Attribute;
 	/**
-	 * Available annotation:
+	 * Available attributes:
 	 *      Config:
 	 * @JetConfig:name = 'configuration_name'
 	 *
@@ -41,6 +42,7 @@ namespace Jet;
 /**
  *
  */
+#[Attribute(Attribute::TARGET_CLASS|Attribute::TARGET_PROPERTY|Attribute::IS_REPEATABLE)]
 abstract class Config extends BaseObject
 {
 
