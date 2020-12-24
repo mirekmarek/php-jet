@@ -17,7 +17,7 @@ trait BaseObject_Trait
 	 *
 	 * @return bool
 	 */
-	public function objectHasProperty( $property_name )
+	public function objectHasProperty( string $property_name ) : bool
 	{
 		if(
 			$property_name[0]=='_' ||
@@ -34,7 +34,7 @@ trait BaseObject_Trait
 	 *
 	 * @return string
 	 */
-	public function objectSetterMethodName( $property_name )
+	public function objectSetterMethodName( string $property_name ) : string
 	{
 		$setter_method_name = 'set'.str_replace( '_', '', $property_name );
 
@@ -46,7 +46,7 @@ trait BaseObject_Trait
 	 *
 	 * @return string
 	 */
-	public function objectGetterMethodName( $property_name )
+	public function objectGetterMethodName( string $property_name ) : string
 	{
 		$setter_method_name = 'get'.str_replace( '_', '', $property_name );
 
@@ -59,7 +59,7 @@ trait BaseObject_Trait
 	 *
 	 * @return array
 	 */
-	public function __sleep()
+	public function __sleep() : array
 	{
 		$vars = get_object_vars( $this );
 		foreach( $vars as $k => $v ) {
@@ -78,7 +78,7 @@ trait BaseObject_Trait
 	 * @throws BaseObject_Exception
 	 *
 	 */
-	public function __get( $key )
+	public function __get( string $key ) : void
 	{
 
 		if( !property_exists( $this, $key ) ) {
@@ -101,7 +101,7 @@ trait BaseObject_Trait
 	 * @throws BaseObject_Exception
 	 *
 	 */
-	public function __set( $key, $value )
+	public function __set( string $key, mixed $value ) : void
 	{
 
 		if( !property_exists( $this, $key ) ) {
@@ -119,7 +119,7 @@ trait BaseObject_Trait
 	/**
 	 *
 	 */
-	public function __clone()
+	public function __clone() : void
 	{
 		//debug_print_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
 
@@ -134,7 +134,7 @@ trait BaseObject_Trait
 	/**
 	 * @return array
 	 */
-	public function __debugInfo()
+	public function __debugInfo() : array
 	{
 		$vars = get_object_vars( $this );
 

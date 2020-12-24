@@ -23,12 +23,12 @@ class DataModel_Definition_Model_Related_1to1 extends Jet_DataModel_Definition_M
 	/**
 	 * @var string
 	 */
-	protected $internal_type = DataModels::MODEL_TYPE_RELATED_1TO1;
+	protected string $internal_type = DataModels::MODEL_TYPE_RELATED_1TO1;
 
 	/**
 	 * @var Form
 	 */
-	protected static $create_form;
+	protected static Form $create_form;
 
 	/**
 	 * @return Form
@@ -110,7 +110,7 @@ class DataModel_Definition_Model_Related_1to1 extends Jet_DataModel_Definition_M
 		}
 
 
-		$parent_class = $this->parent_model_class_name;
+		$parent_class = $this->parent_model_class;
 		if(!$parent_class) {
 			$parent_class = $this->main_model_class_name;
 		}
@@ -123,7 +123,7 @@ class DataModel_Definition_Model_Related_1to1 extends Jet_DataModel_Definition_M
 		}
 
 		$class->addAnnotation(
-			(new ClassCreator_Annotation('JetDataModel', 'parent_model_class_name', var_export($parent_class->getClassName(), true) ))
+			(new ClassCreator_Annotation('JetDataModel', 'parent_model_class', var_export($parent_class->getClassName(), true) ))
 		);
 
 	}

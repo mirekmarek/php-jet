@@ -13,19 +13,19 @@ namespace Jet;
 class Form_Renderer_Pair extends Form_Renderer
 {
 	/**
-	 * @var string
+	 * @var ?string
 	 */
-	protected $view_script_start;
+	protected ?string $view_script_start = null;
 
 	/**
-	 * @var string
+	 * @var ?string
 	 */
-	protected $view_script_end;
+	protected ?string $view_script_end = null;
 
 	/**
 	 * @return string
 	 */
-	public function getViewScriptStart()
+	public function getViewScriptStart() : string
 	{
 		return $this->view_script_start;
 	}
@@ -35,7 +35,7 @@ class Form_Renderer_Pair extends Form_Renderer
 	 *
 	 * @return $this
 	 */
-	public function setViewScriptStart( $view_script_start )
+	public function setViewScriptStart( string $view_script_start ) : static
 	{
 		$this->view_script_start = $view_script_start;
 
@@ -45,7 +45,7 @@ class Form_Renderer_Pair extends Form_Renderer
 	/**
 	 * @return string
 	 */
-	public function getViewScriptEnd()
+	public function getViewScriptEnd() : string
 	{
 		return $this->view_script_end;
 	}
@@ -55,7 +55,7 @@ class Form_Renderer_Pair extends Form_Renderer
 	 *
 	 * @return $this
 	 */
-	public function setViewScriptEnd( $view_script_end )
+	public function setViewScriptEnd( string $view_script_end ) : static
 	{
 		$this->view_script_end = $view_script_end;
 
@@ -66,7 +66,8 @@ class Form_Renderer_Pair extends Form_Renderer
 	/**
 	 * @return string
 	 */
-	public function start() {
+	public function start() : string
+	{
 		try {
 			return $this->getView()->render($this->getViewScriptStart());
 		} catch( \Exception $e ) {
@@ -79,7 +80,8 @@ class Form_Renderer_Pair extends Form_Renderer
 	/**
 	 * @return string
 	 */
-	public function end() {
+	public function end() : string
+	{
 		try {
 			return $this->getView()->render($this->getViewScriptEnd());
 		} catch( \Exception $e ) {

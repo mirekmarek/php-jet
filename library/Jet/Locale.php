@@ -58,14 +58,14 @@ class Locale extends BaseObject
 
 
 	/**
-	 * @var Locale
+	 * @var ?Locale
 	 */
-	protected static $current_locale;
+	protected static ?Locale $current_locale = null;
 
 	/**
 	 * @var string[]
 	 */
-	protected static $all_locales = [
+	protected static array $all_locales = [
 		'af_ZA', 'am_ET', 'ar_AE', 'ar_BH', 'ar_DZ', 'ar_EG', 'ar_IQ', 'ar_JO', 'ar_KW', 'ar_LB', 'ar_LY', 'ar_MA',
 		'arn_CL', 'ar_OM', 'ar_QA', 'ar_SA', 'ar_SY', 'ar_TN', 'ar_YE', 'as_IN', 'az_Cyrl_AZ', 'az_Latn_AZ', 'ba_RU',
 		'be_BY', 'bg_BG', 'bn_BD', 'bn_IN', 'bo_CN', 'br_FR', 'bs_Cyrl_BA', 'bs_Latn_BA', 'ca_ES', 'co_FR', 'cs_CZ',
@@ -91,21 +91,21 @@ class Locale extends BaseObject
 	 * Example en_US, cs_CZ and so on
 	 * @var string
 	 */
-	protected $locale = '';
+	protected string $locale = '';
 
 	/**
 	 * Example: CZ, US, ...
 	 *
 	 * @var string
 	 */
-	protected $region = '';
+	protected string $region = '';
 
 	/**
 	 * Example: en, cs, sk, ...
 	 *
 	 * @var string
 	 */
-	protected $language = '';
+	protected string $language = '';
 
 	/**
 	 *
@@ -115,18 +115,18 @@ class Locale extends BaseObject
 	 *
 	 * @var string
 	 */
-	protected $_timezone;
+	protected string $_timezone = '';
 
 	/**
 	 *
 	 * @var int
 	 */
-	protected $_calendar;
+	protected int $_calendar = 0;
 
 	/**
 	 * @var array
 	 */
-	protected $_currency_formatter = [];
+	protected array $_currency_formatter = [];
 
 	/**
 	 *
@@ -134,7 +134,7 @@ class Locale extends BaseObject
 	 *
 	 * @return array
 	 */
-	public static function getAllLocalesList( $in_locale = null )
+	public static function getAllLocalesList( null|string|Locale $in_locale = null )
 	{
 		if( !$in_locale ) {
 			$in_locale = static::getCurrentLocale();
@@ -154,7 +154,7 @@ class Locale extends BaseObject
 	/**
 	 * @return Locale
 	 */
-	public static function getCurrentLocale()
+	public static function getCurrentLocale() : Locale
 	{
 		return static::$current_locale;
 	}
@@ -162,7 +162,7 @@ class Locale extends BaseObject
 	/**
 	 * @param Locale $current_locale
 	 */
-	public static function setCurrentLocale( Locale $current_locale )
+	public static function setCurrentLocale( Locale $current_locale ) : void
 	{
 		static::$current_locale = $current_locale;
 	}
@@ -176,7 +176,7 @@ class Locale extends BaseObject
 	 *
 	 * @return string
 	 */
-	public static function date( Data_DateTime $date_and_time, $format = self::DATE_TIME_FORMAT_MEDIUM )
+	public static function date( Data_DateTime $date_and_time, int $format = self::DATE_TIME_FORMAT_MEDIUM ) : string
 	{
 		return static::getCurrentLocale()->formatDate( $date_and_time, $format );
 	}
@@ -191,7 +191,9 @@ class Locale extends BaseObject
 	 *
 	 * @return string
 	 */
-	public static function dateAndTime( Data_DateTime $date_and_time, $date_format = self::DATE_TIME_FORMAT_MEDIUM, $time_format = self::DATE_TIME_FORMAT_SHORT )
+	public static function dateAndTime( Data_DateTime $date_and_time,
+	                                    int $date_format = self::DATE_TIME_FORMAT_MEDIUM,
+	                                    int $time_format = self::DATE_TIME_FORMAT_SHORT ) : string
 	{
 		return static::getCurrentLocale()->formatDateAndTime( $date_and_time, $date_format, $time_format );
 	}
@@ -206,7 +208,7 @@ class Locale extends BaseObject
 	 *
 	 * @return string
 	 */
-	public static function time( Data_DateTime $date_and_time, $time_format = self::DATE_TIME_FORMAT_SHORT )
+	public static function time( Data_DateTime $date_and_time, int $time_format = self::DATE_TIME_FORMAT_SHORT ) : string
 	{
 		return static::getCurrentLocale()->formatTime( $date_and_time, $time_format );
 	}
@@ -220,7 +222,7 @@ class Locale extends BaseObject
 	 *
 	 * @return string
 	 */
-	public static function int( $number )
+	public static function int( int $number ) : string
 	{
 		return static::getCurrentLocale()->formatInt( $number );
 	}
@@ -235,7 +237,7 @@ class Locale extends BaseObject
 	 *
 	 * @return string
 	 */
-	public static function float( $number, $min_fraction_digits = 0, $max_fraction_digits = 2 )
+	public static function float( float $number, int $min_fraction_digits = 0, int $max_fraction_digits = 2 ) : string
 	{
 		return static::getCurrentLocale()->formatFloat( $number, $min_fraction_digits, $max_fraction_digits );
 	}
@@ -253,19 +255,19 @@ class Locale extends BaseObject
 	 *
 	 * @return string
 	 */
-	public static function size( $bytes, $unit = 'iB', $max_places = 2, $glue = ' ' )
+	public static function size( int $bytes, string $unit = 'iB', int $max_places = 2, string $glue = ' ' ) : string
 	{
 		return static::getCurrentLocale()->formatSize( $bytes, $unit, $max_places, $glue );
 	}
 
 	/**
 	 *
-	 * @param float  $value
+	 * @param float|int  $value
 	 * @param string $currency
 	 *
 	 * @return string
 	 */
-	public static function currency( $value ,$currency )
+	public static function currency( float|int $value , string $currency ) : string
 	{
 		return static::getCurrentLocale()->formatCurrency( $value ,$currency );
 
@@ -275,7 +277,7 @@ class Locale extends BaseObject
 	 *
 	 * @param string|null $locale
 	 */
-	public function __construct( $locale = null )
+	public function __construct( string|null $locale = null )
 	{
 		if( $locale ) {
 			$this->_setLocale( $locale );
@@ -285,7 +287,7 @@ class Locale extends BaseObject
 	/**
 	 * @return string
 	 */
-	public function getTimeZone()
+	public function getTimeZone() : string
 	{
 		if( !$this->_timezone ) {
 			$this->_timezone = date_default_timezone_get();
@@ -298,7 +300,7 @@ class Locale extends BaseObject
 	 *
 	 * @param string $time_zone
 	 */
-	public function setTimeZone( $time_zone )
+	public function setTimeZone( string $time_zone ) : void
 	{
 		$this->_timezone = $time_zone;
 	}
@@ -306,7 +308,7 @@ class Locale extends BaseObject
 	/**
 	 * @return int
 	 */
-	public function getCalendar()
+	public function getCalendar() : int
 	{
 		if( $this->_calendar===null ) {
 			$this->_calendar = self::CALENDAR_GREGORIAN;
@@ -318,7 +320,7 @@ class Locale extends BaseObject
 	/**
 	 * @param int $calendar
 	 */
-	public function setCalendar( $calendar )
+	public function setCalendar( int $calendar ) : void
 	{
 		$this->_calendar = $calendar;
 	}
@@ -331,7 +333,7 @@ class Locale extends BaseObject
 	 *
 	 * @return string
 	 */
-	public function formatDate( Data_DateTime $date_and_time, $format = self::DATE_TIME_FORMAT_MEDIUM )
+	public function formatDate( Data_DateTime $date_and_time, int $format = self::DATE_TIME_FORMAT_MEDIUM ) : string
 	{
 		if( !$date_and_time ) {
 			return '';
@@ -352,7 +354,9 @@ class Locale extends BaseObject
 	 *
 	 * @return string
 	 */
-	public function formatDateAndTime( Data_DateTime $date_and_time, $date_format = self::DATE_TIME_FORMAT_MEDIUM, $time_format=self::DATE_TIME_FORMAT_SHORT )
+	public function formatDateAndTime( Data_DateTime $date_and_time,
+	                                   int $date_format = self::DATE_TIME_FORMAT_MEDIUM,
+	                                   int $time_format=self::DATE_TIME_FORMAT_SHORT ) : string
 	{
 		if( !$date_and_time ) {
 			return '';
@@ -374,7 +378,7 @@ class Locale extends BaseObject
 	 *
 	 * @return string
 	 */
-	public function formatTime( Data_DateTime $date_and_time, $time_format=self::DATE_TIME_FORMAT_SHORT )
+	public function formatTime( Data_DateTime $date_and_time, int $time_format=self::DATE_TIME_FORMAT_SHORT ) : string
 	{
 		if( !$date_and_time ) {
 			return '';
@@ -395,7 +399,7 @@ class Locale extends BaseObject
 	 *
 	 * @return string
 	 */
-	public function formatInt( $number )
+	public function formatInt( int $number ) : string
 	{
 
 		$f = new PHP_NumberFormatter( $this->locale, PHP_NumberFormatter::DECIMAL );
@@ -414,7 +418,7 @@ class Locale extends BaseObject
 	 *
 	 * @return string
 	 */
-	public function formatFloat( $number, $min_fraction_digits = 0, $max_fraction_digits = 2 )
+	public function formatFloat( float $number, int $min_fraction_digits = 0, int $max_fraction_digits = 2 ) : string
 	{
 
 		$f = new PHP_NumberFormatter( $this->locale, PHP_NumberFormatter::DECIMAL );
@@ -439,7 +443,7 @@ class Locale extends BaseObject
 	 *
 	 * @return string
 	 */
-	public function formatSize( $bytes, $unit = 'B', $max_places = 2, $glue = ' ' )
+	public function formatSize( int $bytes, string $unit = 'B', int $max_places = 2, string $glue = ' ' ) : string
 	{
 
 		$units = [
@@ -467,12 +471,12 @@ class Locale extends BaseObject
 	}
 
 	/**
-	 * @param float $value
+	 * @param float|int $value
 	 * @param string $currency
 	 *
 	 * @return string
 	 */
-	public function formatCurrency( $value ,$currency )
+	public function formatCurrency( float|int $value , string $currency )
 	{
 		$f = new PHP_NumberFormatter( $this->locale, PHP_NumberFormatter::CURRENCY );
 		return $f->formatCurrency($value, $currency);
@@ -485,7 +489,8 @@ class Locale extends BaseObject
 	 *
 	 * @return PHP_NumberFormatter
 	 */
-	public function getCurrencyFormatter( $currency_code ) {
+	public function getCurrencyFormatter( string $currency_code ) : PHP_NumberFormatter
+	{
 		if(!isset($this->_currency_formatter[$currency_code])) {
 			$this->_currency_formatter[$currency_code] = new PHP_NumberFormatter( $this.'@currency='.$currency_code, PHP_NumberFormatter::CURRENCY );
 		}
@@ -495,7 +500,7 @@ class Locale extends BaseObject
 	/**
 	 * @return string
 	 */
-	public function getLocale()
+	public function getLocale() : string
 	{
 		return $this->locale;
 	}
@@ -503,7 +508,7 @@ class Locale extends BaseObject
 	/**
 	 * @param string $locale
 	 */
-	protected function _setLocale( $locale )
+	protected function _setLocale( string $locale ) : void
 	{
 
 		$data = PHP_Locale::parseLocale( $locale );
@@ -522,7 +527,7 @@ class Locale extends BaseObject
 	/**
 	 * @return string
 	 */
-	public function getRegion()
+	public function getRegion() : string
 	{
 		return $this->region;
 	}
@@ -530,7 +535,7 @@ class Locale extends BaseObject
 	/**
 	 * @return string
 	 */
-	public function getLanguage()
+	public function getLanguage() : string
 	{
 		return $this->language;
 	}
@@ -546,7 +551,7 @@ class Locale extends BaseObject
 	 *
 	 * @return string
 	 */
-	public function getName( $in_locale = null )
+	public function getName( string|Locale|null $in_locale = null ) : string
 	{
 		if( !$in_locale ) {
 			$in_locale = static::getCurrentLocale();
@@ -566,7 +571,7 @@ class Locale extends BaseObject
 	 *
 	 * @return string
 	 */
-	public function getLanguageName( $in_locale = null )
+	public function getLanguageName( string|Locale|null $in_locale = null ) : string
 	{
 		if( !$in_locale ) {
 			$in_locale = static::getCurrentLocale();
@@ -586,7 +591,7 @@ class Locale extends BaseObject
 	 *
 	 * @return string
 	 */
-	public function getRegionName( $in_locale = null )
+	public function getRegionName( string|Locale|null $in_locale = null ) : string
 	{
 		if( !$in_locale ) {
 			$in_locale = static::getCurrentLocale();
@@ -598,17 +603,17 @@ class Locale extends BaseObject
 
 
 	/**
-	 * @return mixed
+	 * @return string
 	 */
-	public function __toString()
+	public function __toString() : string
 	{
 		return $this->toString();
 	}
 
 	/**
-	 * @return mixed
+	 * @return string
 	 */
-	public function toString()
+	public function toString() : string
 	{
 		return $this->locale;
 	}

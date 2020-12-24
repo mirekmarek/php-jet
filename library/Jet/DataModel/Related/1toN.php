@@ -7,11 +7,11 @@
  */
 namespace Jet;
 
-	/**
-	 * Available annotation:
-	 *
-	 * @JetDataModel:default_order_by = ['property_name','-next_property_name', '+some_property_name']
-	 */
+/**
+ * Available attributes:
+ *
+ * #[DataModel_Definition(default_order_by: ['property_name','-next_property_name', '+some_property_name'])]
+ */
 
 /**
  * Class DataModel_Related_1toN
@@ -24,7 +24,7 @@ abstract class DataModel_Related_1toN extends BaseObject implements DataModel_Re
 	/**
 	 *
 	 */
-	public function beforeSave()
+	public function beforeSave() : void
 	{
 
 	}
@@ -32,7 +32,7 @@ abstract class DataModel_Related_1toN extends BaseObject implements DataModel_Re
 	/**
 	 *
 	 */
-	public function afterLoad()
+	public function afterLoad() : void
 	{
 
 	}
@@ -40,7 +40,7 @@ abstract class DataModel_Related_1toN extends BaseObject implements DataModel_Re
 	/**
 	 *
 	 */
-	public function afterAdd()
+	public function afterAdd() : void
 	{
 
 	}
@@ -48,7 +48,7 @@ abstract class DataModel_Related_1toN extends BaseObject implements DataModel_Re
 	/**
 	 *
 	 */
-	public function afterUpdate()
+	public function afterUpdate() : void
 	{
 
 	}
@@ -56,7 +56,7 @@ abstract class DataModel_Related_1toN extends BaseObject implements DataModel_Re
 	/**
 	 *
 	 */
-	public function afterDelete()
+	public function afterDelete() : void
 	{
 
 	}

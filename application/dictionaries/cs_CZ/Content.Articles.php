@@ -20,4 +20,5 @@ return [
 	'Delete article' => 'Smazat článek',
 	'Select image' => '',
 	'' => '',
+	'Invalid date format' => '',
 ];

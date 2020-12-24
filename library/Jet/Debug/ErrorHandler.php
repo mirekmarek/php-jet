@@ -7,7 +7,7 @@
  */
 namespace Jet;
 
-use Error;
+use Throwable;
 
 require_once 'ErrorHandler/Error.php';
 require_once 'ErrorHandler/Handler.php';
@@ -22,24 +22,24 @@ class Debug_ErrorHandler
 	/**
 	 * @var Debug_ErrorHandler_Handler[]
 	 */
-	protected static $handlers = [];
+	protected static array $handlers = [];
 
 	/**
 	 * @var Debug_ErrorHandler_Error|null
 	 */
-	protected static $last_error;
+	protected static Debug_ErrorHandler_Error|null $last_error = null;
 
 	/**
 	 * @var array
 	 */
-	protected static $ignore_non_fatal_errors_paths = [
+	protected static array $ignore_non_fatal_errors_paths = [
 		'/'.__NAMESPACE__.'/IO/'
 	];
 
 	/**
 	 * @param string $path
 	 */
-	public static function addIgnoreNonFatalErrorsPath( $path )
+	public static function addIgnoreNonFatalErrorsPath( string $path ) : void
 	{
 		$path = str_replace('\\', '/', $path);
 
@@ -49,7 +49,7 @@ class Debug_ErrorHandler
 	/**
 	 * @return array
 	 */
-	public static function getIgnoreNonFatalErrorsPaths()
+	public static function getIgnoreNonFatalErrorsPaths() : array
 	{
 		return self::$ignore_non_fatal_errors_paths;
 	}
@@ -57,7 +57,7 @@ class Debug_ErrorHandler
 	/**
 	 *
 	 */
-	public static function initialize()
+	public static function initialize() : void
 	{
 
 		Debug::setOutputIsHTML( php_sapi_name()!='cli' );
@@ -76,7 +76,7 @@ class Debug_ErrorHandler
 	 *
 	 * @return Debug_ErrorHandler_Handler
 	 */
-	public static function registerHandler( Debug_ErrorHandler_Handler $handler )
+	public static function registerHandler( Debug_ErrorHandler_Handler $handler ) : Debug_ErrorHandler_Handler
 	{
 
 		static::$handlers[$handler->getName()] = $handler;
@@ -87,7 +87,7 @@ class Debug_ErrorHandler
 	/**
 	 * @param string $name
 	 */
-	public static function unRegisterHandler( $name )
+	public static function unRegisterHandler( string $name ) : void
 	{
 		if(isset(static::$handlers[$name])) {
 			unset( static::$handlers[$name] );
@@ -99,7 +99,7 @@ class Debug_ErrorHandler
 	 *
 	 * @return Debug_ErrorHandler_Handler|null
 	 */
-	public static function getHandler( $name )
+	public static function getHandler( string $name ) : Debug_ErrorHandler_Handler|null
 	{
 		if(isset(static::$handlers[$name])) {
 			return static::$handlers[$name];
@@ -112,7 +112,7 @@ class Debug_ErrorHandler
 	 *
 	 * @return Debug_ErrorHandler_Handler[]
 	 */
-	public static function getRegisteredHandlers()
+	public static function getRegisteredHandlers() : array
 	{
 		return static::$handlers;
 	}
@@ -125,9 +125,9 @@ class Debug_ErrorHandler
 	 * @param int    $line
 	 * @param array  $context
 	 */
-	public static function handleError( $code, $message, $file='', $line=0, $context=[] )
+	public static function handleError( int $code, string $message, string $file='', int $line=0, array $context=[] ) : void
 	{
-		if(strpos($message,'should not be abstract')!==false) {
+		if( str_contains( $message, 'should not be abstract' ) ) {
 			return;
 		}
 
@@ -144,8 +144,8 @@ class Debug_ErrorHandler
 				$win_path_part = str_replace('/', '\\', $path_part);
 
 				if(
-					strpos( $file, $path_part )!==false ||
-					strpos( $file, $win_path_part )!==false
+					str_contains( $file, $path_part ) ||
+					str_contains( $file, $win_path_part )
 				) {
 					return;
 				}
@@ -158,9 +158,9 @@ class Debug_ErrorHandler
 	/**
 	 * Exception handler
 	 *
-	 * @param \Exception|Error $exception
+	 * @param Throwable $exception
 	 */
-	public static function handleException( $exception )
+	public static function handleException( Throwable $exception ) : void
 	{
 		$error = Debug_ErrorHandler_Error::newException( $exception );
 		static::_handleError( $error );
@@ -170,7 +170,7 @@ class Debug_ErrorHandler
 	 *
 	 * PHP Fatal errors detection
 	 */
-	public static function handleShutdown()
+	public static function handleShutdown() : void
 	{
 		$error = error_get_last();
 		if(
@@ -187,7 +187,7 @@ class Debug_ErrorHandler
 	 *
 	 * @param Debug_ErrorHandler_Error $error
 	 */
-	protected static function _handleError( Debug_ErrorHandler_Error $error )
+	protected static function _handleError( Debug_ErrorHandler_Error $error ) : void
 	{
 		if(
 			substr($error->getMessage(),0, 23)=='POST Content-Length of ' ||
@@ -231,7 +231,7 @@ class Debug_ErrorHandler
 	/**
 	 * @return Debug_ErrorHandler_Error|null
 	 */
-	public static function getLastError()
+	public static function getLastError() : Debug_ErrorHandler_Error|null
 	{
 		$last_error = static::$last_error;
 

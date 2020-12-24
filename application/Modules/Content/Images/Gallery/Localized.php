@@ -8,6 +8,7 @@
 namespace JetApplicationModule\Content\Images;
 
 use Jet\DataModel;
+use Jet\DataModel_Definition;
 use Jet\DataModel_Related_1toN;
 use Jet\DataModel_IDController_Passive;
 
@@ -15,70 +16,59 @@ use Jet\Locale;
 use Jet\Mvc;
 use Jet\Mvc_Page_Interface;
 use Jet\Data_Text;
-use Jet\Form;
 use Jet\Form_Field_Input;
-use Jet\Form_Field_Select;
-use Jet\Form_Field_DateTime;
 
 /**
  *
- * @JetDataModel:name = 'gallery_localized'
- * @JetDataModel:database_table_name = 'image_galleries_localized'
- * @JetDataModel:id_controller_class_name = 'DataModel_IDController_Passive'
- * @JetDataModel:parent_model_class_name = 'Gallery'
  */
+#[DataModel_Definition(name: 'gallery_localized')]
+#[DataModel_Definition(database_table_name: 'image_galleries_localized')]
+#[DataModel_Definition(id_controller_class: DataModel_IDController_Passive::class)]
+#[DataModel_Definition(parent_model_class: Gallery::class)]
 class Gallery_Localized extends DataModel_Related_1toN
 {
 	/**
-	 * @var Gallery
+	 * @var ?Gallery
 	 */
-	protected $_gallery;
+	protected ?Gallery $_gallery = null;
 
 	/**
-	 *
-	 * @JetDataModel:type = DataModel::TYPE_ID
-	 * @JetDataModel:is_id = true
-	 * @JetDataModel:form_field_type = false
-	 * @JetDataModel:related_to = 'main.id'
-	 *
 	 * @var string
 	 */
-	protected $gallery_id = '';
+	#[DataModel_Definition(type: DataModel::TYPE_ID)]
+	#[DataModel_Definition(is_id: true)]
+	#[DataModel_Definition(form_field_type: false)]
+	#[DataModel_Definition(related_to: 'main.id')]
+	protected string $gallery_id = '';
 
 	/**
-	 *
-	 * @JetDataModel:type = DataModel::TYPE_LOCALE
-	 * @JetDataModel:is_id = true
-	 * @JetDataModel:form_field_type = false
-	 * @JetDataModel:do_not_export = true
-	 *
-	 * @var Locale
+	 * @var ?Locale
 	 */
-	protected $locale;
+	#[DataModel_Definition(type: DataModel::TYPE_LOCALE)]
+	#[DataModel_Definition(is_id: true)]
+	#[DataModel_Definition(form_field_type: false)]
+	#[DataModel_Definition(do_not_export: true)]
+	protected ?Locale $locale = null;
 
 	/**
-	 *
-	 * @JetDataModel:type = DataModel::TYPE_STRING
-	 * @JetDataModel:max_len = 255
-	 * @JetDataModel:form_field_is_required = true
-	 * @JetDataModel:form_field_type = false
-	 * @JetDataModel:is_key = true
-	 *
 	 * @var string
 	 */
-	protected $URI_fragment = '';
+	#[DataModel_Definition(type: DataModel::TYPE_STRING)]
+	#[DataModel_Definition(max_len: 255)]
+	#[DataModel_Definition(form_field_is_required: true)]
+	#[DataModel_Definition(form_field_type: false)]
+	#[DataModel_Definition(is_key: true)]
+	protected string $URI_fragment = '';
 
 	/**
-	 *
-	 * @JetDataModel:type = DataModel::TYPE_STRING
-	 * @JetDataModel:max_len = 100
-	 * @JetDataModel:form_field_is_required = true
-	 * @JetDataModel:form_field_label = 'Title'
-	 * @JetDataModel:form_field_error_messages = [Form_Field_Input::ERROR_CODE_EMPTY => 'Please enter title']
-	 *
 	 * @var string
 	 */
-	protected $title = '';
+	#[DataModel_Definition(type: DataModel::TYPE_STRING)]
+	#[DataModel_Definition(max_len: 100)]
+	#[DataModel_Definition(form_field_is_required: true)]
+	#[DataModel_Definition(form_field_label: 'Title')]
+	#[DataModel_Definition(form_field_error_messages: [Form_Field_Input::ERROR_CODE_EMPTY => 'Please enter title'])]
+	protected string $title = '';
 
 
 	/**
@@ -86,11 +76,13 @@ class Gallery_Localized extends DataModel_Related_1toN
 	 * @param string|null $gallery_id
 	 * @param Locale|null $locale
 	 */
-	public function __construct( $gallery_id=null, Locale $locale=null )
+	public function __construct( string|null $gallery_id=null, Locale $locale=null )
 	{
 		parent::__construct();
-		$this->gallery_id = $gallery_id;
-		$this->locale = $locale;
+		if($gallery_id) {
+			$this->gallery_id = $gallery_id;
+			$this->locale = $locale;
+		}
 	}
 
 	/**
@@ -111,9 +103,9 @@ class Gallery_Localized extends DataModel_Related_1toN
 
 
 	/**
-	 * @return string
+	 * @return string|int|null
 	 */
-	public function getArrayKeyValue()
+	public function getArrayKeyValue(): null|string|int
 	{
 		return $this->locale->toString();
 	}
@@ -121,7 +113,7 @@ class Gallery_Localized extends DataModel_Related_1toN
 	/**
 	 * @return string
 	 */
-	public function getGalleryId()
+	public function getGalleryId() : string
 	{
 		return $this->gallery_id;
 	}
@@ -129,7 +121,7 @@ class Gallery_Localized extends DataModel_Related_1toN
 	/**
 	 * @param string $gallery_id
 	 */
-	public function setGalleryId( $gallery_id )
+	public function setGalleryId( string $gallery_id ) : void
 	{
 		$this->gallery_id = $gallery_id;
 	}
@@ -146,7 +138,7 @@ class Gallery_Localized extends DataModel_Related_1toN
 	/**
 	 * @param Locale|string $locale
 	 */
-	public function setLocale( $locale )
+	public function setLocale( Locale|string $locale ) : void
 	{
 		if( !( $locale instanceof Locale ) ) {
 			$locale = new Locale( $locale );
@@ -188,7 +180,7 @@ class Gallery_Localized extends DataModel_Related_1toN
 	/**
 	 * @param string $title
 	 */
-	public function setTitle( $title )
+	public function setTitle( string $title ) : void
 	{
 		$this->title = $title;
 
@@ -207,7 +199,7 @@ class Gallery_Localized extends DataModel_Related_1toN
 	 *
 	 * @return bool
 	 */
-	public function getUriFragmentExists( $URI_fragment )
+	public function getUriFragmentExists( string $URI_fragment ) : bool
 	{
 		$q = [
 			'URI_fragment' => $URI_fragment,
@@ -235,7 +227,10 @@ class Gallery_Localized extends DataModel_Related_1toN
 	 *
 	 * @return string
 	 */
-	public function generateUrlFragment( $URI_fragment, callable $exists_check, $suffix = '', $remove_accents = true )
+	public function generateUrlFragment( string $URI_fragment,
+	                                     callable $exists_check,
+	                                     string $suffix = '',
+	                                     bool $remove_accents = true )
 	{
 
 		if( $remove_accents ) {

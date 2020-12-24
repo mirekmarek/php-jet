@@ -29,15 +29,15 @@ class Auth_Controller_REST extends BaseObject implements Auth_Controller_Interfa
 
 	/**
 	 *
-	 * @var RESTClient
+	 * @var ?Auth_RESTClient_User
 	 */
-	protected $current_user = false;
+	protected ?Auth_RESTClient_User $current_user = null;
 
 	/**
 	 *
 	 * @return bool
 	 */
-	public function checkCurrentUser()
+	public function checkCurrentUser() : bool
 	{
 
 		$user = $this->getCurrentUser();
@@ -67,9 +67,9 @@ class Auth_Controller_REST extends BaseObject implements Auth_Controller_Interfa
 
 	/**
 	 *
-	 * @return RESTClient|null
+	 * @return RESTClient|bool
 	 */
-	public function getCurrentUser()
+	public function getCurrentUser() : RESTClient|bool
 	{
 
 		if( $this->current_user!==false ) {
@@ -84,10 +84,10 @@ class Auth_Controller_REST extends BaseObject implements Auth_Controller_Interfa
 			)
 		) {
 
-			list(
+			[
 				$_SERVER['PHP_AUTH_USER'],
 				$_SERVER['PHP_AUTH_PW']
-			)
+			]
 				= explode(':' , base64_decode( substr($_SERVER['HTTP_AUTHORIZATION'], 6)));
 
 		}
@@ -112,26 +112,30 @@ class Auth_Controller_REST extends BaseObject implements Auth_Controller_Interfa
 
 				$this->responseNotAuthorized('Invalid username or password');
 			}
+
+			/**
+			 * @var Auth_RESTClient_User $user
+			 */
 			$this->current_user = $user;
 
 			return $this->current_user;
 		}
 
-		return null;
+		return false;
 	}
 
 
 	/**
 	 *
 	 */
-	public function handleLogin()
+	public function handleLogin() : void
 	{
 	}
 
 	/**
 	 * Logout current user
 	 */
-	public function logout()
+	public function logout() : void
 	{
 		$this->current_user = null;
 	}
@@ -143,7 +147,7 @@ class Auth_Controller_REST extends BaseObject implements Auth_Controller_Interfa
 	 *
 	 * @return bool
 	 */
-	public function login( $username, $password )
+	public function login( string $username, string $password ) : bool
 	{
 
 		$user = RESTClient::getByIdentity( $username, $password );
@@ -161,7 +165,7 @@ class Auth_Controller_REST extends BaseObject implements Auth_Controller_Interfa
 	/**
 	 * @param string $message
 	 */
-	protected function responseNotAuthorized( $message )
+	protected function responseNotAuthorized( string $message ) : void
 	{
 		Debug::setOutputIsJSON( true );
 
@@ -183,11 +187,11 @@ class Auth_Controller_REST extends BaseObject implements Auth_Controller_Interfa
 	/**
 	 *
 	 * @param string $privilege
-	 * @param mixed  $value
+	 * @param mixed $value
 	 *
 	 * @return bool
 	 */
-	public function getCurrentUserHasPrivilege( $privilege, $value )
+	public function getCurrentUserHasPrivilege( string $privilege, mixed $value ) : bool
 	{
 		$current_user = $this->getCurrentUser();
 
@@ -208,7 +212,7 @@ class Auth_Controller_REST extends BaseObject implements Auth_Controller_Interfa
 	 *
 	 * @return bool
 	 */
-	public function checkModuleActionAccess( $module_name, $action )
+	public function checkModuleActionAccess( string $module_name, string $action ) : bool
 	{
 		return $this->getCurrentUserHasPrivilege( Auth_RESTClient_Role::PRIVILEGE_MODULE_ACTION, $module_name.':'.$action );
 	}
@@ -219,7 +223,7 @@ class Auth_Controller_REST extends BaseObject implements Auth_Controller_Interfa
 	 *
 	 * @return bool
 	 */
-	public function checkPageAccess( Mvc_Page_Interface $page )
+	public function checkPageAccess( Mvc_Page_Interface $page ) : bool
 	{
 
 		$current_user = $this->getCurrentUser();

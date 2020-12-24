@@ -13,46 +13,46 @@ namespace Jet;
 class Navigation_MenuSet extends BaseObject
 {
 	/**
-	 * @var string
+	 * @var string|null
 	 */
-	protected static $menus_dir_path;
+	protected static string|null $menus_dir_path = null;
 
 	/**
 	 * @var string
 	 */
-	protected $name = '';
+	protected string $name = '';
 
 	/**
 	 * @var string
 	 */
-	protected $config_file_path = '';
+	protected string $config_file_path = '';
 
 	/**
 	 * @var string|null
 	 */
-	protected $translator_namespace = '';
+	protected string|null $translator_namespace = '';
 
 	/**
 	 * @var Navigation_Menu[]
 	 */
-	protected $menus = [];
+	protected array $menus = [];
 
 	/**
 	 * @var Navigation_Menu_Item[]
 	 */
-	protected $all_menu_items;
+	protected array $all_menu_items;
 
 
 	/**
 	 * @var Navigation_MenuSet[]
 	 */
-	protected static $_sets = [];
+	protected static array $_sets = [];
 
 
 	/**
 	 * @return string
 	 */
-	public static function getMenusDirPath()
+	public static function getMenusDirPath() : string
 	{
 		if(!self::$menus_dir_path) {
 			self::$menus_dir_path = SysConf_PATH::MENUS();
@@ -64,18 +64,18 @@ class Navigation_MenuSet extends BaseObject
 	/**
 	 * @param string $menus_path
 	 */
-	public static function setMenusDirPath( $menus_path )
+	public static function setMenusDirPath( string $menus_path ) : void
 	{
 		self::$menus_dir_path = $menus_path;
 	}
 
 	/**
 	 * @param string $name
-	 * @param string|null|false $translator_namespace
+	 * @param string|null|bool $translator_namespace
 	 *
 	 * @return Navigation_MenuSet
 	 */
-	public static function get($name, $translator_namespace=null)
+	public static function get(string $name, string|null|bool $translator_namespace=null) : Navigation_MenuSet
 	{
 		if(!isset(static::$_sets[$name])) {
 			static::$_sets[$name] = new static($name, $translator_namespace);
@@ -87,9 +87,9 @@ class Navigation_MenuSet extends BaseObject
 	/**
 	 * @return Navigation_MenuSet[]
 	 */
-	public static function getList()
+	public static function getList() : iterable
 	{
-		$files = IO_Dir::getList(static::getMenusDirPath(), '*.php', false, true);
+		$files = IO_Dir::getList(static::getMenusDirPath(), '*.php', false );
 
 		foreach($files as $path=>$name) {
 			$name = pathinfo($name)['filename'];
@@ -102,9 +102,9 @@ class Navigation_MenuSet extends BaseObject
 
 	/**
 	 * @param string $name
-	 * @param string|null|false $translator_namespace
+	 * @param string|null|bool $translator_namespace
 	 */
-	public function __construct( $name, $translator_namespace=null )
+	public function __construct( string $name, string|null|bool $translator_namespace=null )
 	{
 		$this->setName($name);
 		$this->translator_namespace = $translator_namespace;
@@ -114,7 +114,7 @@ class Navigation_MenuSet extends BaseObject
 	/**
 	 * @param string $name
 	 */
-	public function setName( $name )
+	public function setName( string $name ) : void
 	{
 		$this->name = $name;
 		$this->config_file_path = static::getMenusDirPath().$name.'.php';
@@ -123,7 +123,7 @@ class Navigation_MenuSet extends BaseObject
 	/**
 	 * @return string
 	 */
-	public function getName()
+	public function getName() : string
 	{
 		return $this->name;
 	}
@@ -132,7 +132,7 @@ class Navigation_MenuSet extends BaseObject
 	 * @param string $text
 	 * @return string
 	 */
-	protected function _( $text )
+	protected function _( string $text ) : string
 	{
 		if($this->translator_namespace===false) {
 			return $text;
@@ -144,7 +144,7 @@ class Navigation_MenuSet extends BaseObject
 	/**
 	 *
 	 */
-	protected function init()
+	protected function init() : void
 	{
 		$menu_data = require $this->config_file_path;
 
@@ -179,7 +179,7 @@ class Navigation_MenuSet extends BaseObject
 	/**
 	 *
 	 */
-	protected function initModuleMenuItems()
+	protected function initModuleMenuItems() : void
 	{
 		foreach( Application_Modules::activatedModulesList() as $manifest ) {
 			foreach( $manifest->getMenuItems( $this->name ) as $menu_item ) {
@@ -210,7 +210,7 @@ class Navigation_MenuSet extends BaseObject
 	 *
 	 * @return Navigation_Menu
 	 */
-	public function addMenu( $id, $label, $icon = '', $index = null  )
+	public function addMenu( string $id, string $label, string $icon = '', int|null $index = null  ) : Navigation_Menu
 	{
 		if( isset( $this->menus[$id] ) ) {
 			throw new Navigation_Menu_Exception( 'Menu ID conflict: '.$id.' Menu set:'.$this->name );
@@ -235,7 +235,7 @@ class Navigation_MenuSet extends BaseObject
 	 *
 	 * @return Navigation_Menu|null
 	 */
-	public function getMenu( $id )
+	public function getMenu( string $id ) : Navigation_Menu|null
 	{
 		if( !isset( $this->menus[$id] ) ) {
 			return null;
@@ -247,7 +247,7 @@ class Navigation_MenuSet extends BaseObject
 	/**
 	 * @return Navigation_Menu[]
 	 */
-	public function getMenus()
+	public function getMenus() : array
 	{
 		return $this->menus;
 	}

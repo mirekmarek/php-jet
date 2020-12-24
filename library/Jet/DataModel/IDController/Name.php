@@ -20,24 +20,24 @@ class DataModel_IDController_Name extends DataModel_IDController
 	/**
 	 * @var string
 	 */
-	protected $id_property_name = 'id';
+	protected string $id_property_name = 'id';
 
 	/**
 	 * @var string
 	 */
-	protected $get_name_method_name = 'getName';
+	protected string $get_name_method_name = 'getName';
 
 	/**
 	 *
 	 *
 	 * @throws DataModel_Exception
 	 */
-	public function beforeSave()
+	public function beforeSave() : void
 	{
 
 		if( !array_key_exists( $this->id_property_name, $this->values ) ) {
 			throw new DataModel_Exception(
-				'Class \''.$this->data_model_class_name.'\': Property \''.$this->id_property_name.'\' does not exist. Please configure ID class by @JetDataModel:id_controller_options, or define that property, or create your own ID class.',
+				'Class \''.$this->data_model_class_name.'\': Property \''.$this->id_property_name.'\' does not exist. Please configure ID class by #[DataModel_Definition(id_controller_options:[ \'id_property_name\' => \'some_property_name\' ])], or define that property, or create your own ID class.',
 				DataModel_Exception::CODE_DEFINITION_NONSENSE
 			);
 		}
@@ -56,7 +56,7 @@ class DataModel_IDController_Name extends DataModel_IDController
 	 *
 	 * @throws DataModel_IDController_Exception
 	 */
-	public function generateNameId( $id_property_name, $object_name )
+	public function generateNameId( string $id_property_name, string $object_name ) : void
 	{
 
 		$object_name = trim( $object_name );
@@ -93,7 +93,7 @@ class DataModel_IDController_Name extends DataModel_IDController
 	 *
 	 * @return bool
 	 */
-	public function getExists()
+	public function getExists() : bool
 	{
 		$query = $this->getQuery();
 
@@ -104,7 +104,7 @@ class DataModel_IDController_Name extends DataModel_IDController
 	 * @param mixed $backend_save_result
 	 *
 	 */
-	public function afterSave( $backend_save_result )
+	public function afterSave( mixed $backend_save_result ) : void
 	{
 	}
 

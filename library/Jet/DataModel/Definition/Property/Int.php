@@ -15,7 +15,7 @@ class DataModel_Definition_Property_Int extends DataModel_Definition_Property
 	/**
 	 * @var string
 	 */
-	protected $type = DataModel::TYPE_INT;
+	protected string $type = DataModel::TYPE_INT;
 
 	/**
 	 * @var int
@@ -25,13 +25,13 @@ class DataModel_Definition_Property_Int extends DataModel_Definition_Property
 	/**
 	 * @var string
 	 */
-	protected $form_field_type = Form::TYPE_INT;
+	protected string $form_field_type = Form::TYPE_INT;
 
 	/**
 	 * @param array $definition_data
 	 *
 	 */
-	public function setUp( $definition_data )
+	public function setUp( array $definition_data ) : void
 	{
 
 		if( !$definition_data ) {
@@ -50,9 +50,9 @@ class DataModel_Definition_Property_Int extends DataModel_Definition_Property
 	}
 
 	/**
-	 * @param mixed $value
+	 * @param mixed &$value
 	 */
-	public function checkValueType( &$value )
+	public function checkValueType( mixed &$value ) : void
 	{
 		$value = (int)$value;
 	}

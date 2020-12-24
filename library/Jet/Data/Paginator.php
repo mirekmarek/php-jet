@@ -16,64 +16,62 @@ class Data_Paginator extends BaseObject implements BaseObject_Interface_Serializ
 	/**
 	 * @var int
 	 */
-	protected static $max_items_per_page = 500;
+	protected static int $max_items_per_page = 500;
 
 
 	/**
 	 * @var int
 	 */
-	protected $items_per_page;
+	protected int $items_per_page = 20;
 
 	/**
-	 * @var array|DataModel_Fetch_Instances
+	 * @var array|Data_Paginator_DataSource|null
 	 */
-	protected $data;
+	protected array|Data_Paginator_DataSource|null $data = null;
 
 	/**
 	 * @var int
 	 */
-	protected $data_items_count = 0;
+	protected int $data_items_count = 0;
 
 	/**
 	 * @var int
 	 */
-	protected $pages_count = 0;
+	protected int $pages_count = 0;
 
 	/**
 	 * @var int
 	 */
-	protected $current_page_no = 0;
+	protected int $current_page_no = 0;
 
 	/**
-	 * Can be null if current page is the first page
 	 *
 	 * @var int|null
 	 */
-	protected $prev_page_no = 0;
+	protected int|null $prev_page_no = 0;
 
 	/**
-	 * Can be null if current page is the last page
 	 *
 	 * @var int|null
 	 */
-	protected $next_page_no = 0;
+	protected int|null $next_page_no = 0;
 
 	/**
 	 *
 	 * @var int
 	 */
-	protected $data_index_start = 0;
+	protected int $data_index_start = 0;
 
 	/**
 	 *
 	 * @var int
 	 */
-	protected $data_index_end = 0;
+	protected int $data_index_end = 0;
 
 	/**
 	 * @var bool
 	 */
-	protected $current_page_no_is_in_range = false;
+	protected bool $current_page_no_is_in_range = false;
 
 	/**
 	 * @var callable
@@ -81,33 +79,31 @@ class Data_Paginator extends BaseObject implements BaseObject_Interface_Serializ
 	protected $URL_creator;
 
 	/**
-	 * Can be null if current page is the first page
 	 *
 	 * @var string|null
 	 */
-	protected $prev_page_URL = null;
+	protected string|null $prev_page_URL = null;
 
 	/**
-	 * Can be null if current page is the last page
 	 *
 	 * @var string|null
 	 */
-	protected $next_page_URL = null;
+	protected string|null $next_page_URL = null;
 
 	/**
 	 * @var string|null
 	 */
-	protected $first_page_URL = null;
+	protected string|null $first_page_URL = null;
 
 	/**
 	 * @var string|null
 	 */
-	protected $last_page_URL = null;
+	protected string|null $last_page_URL = null;
 
 	/**
 	 * @var array
 	 */
-	protected $pages_URL = [];
+	protected array $pages_URL = [];
 
 	/**
 	 *
@@ -116,7 +112,7 @@ class Data_Paginator extends BaseObject implements BaseObject_Interface_Serializ
 	 * @param callable $URL_creator
 	 *
 	 */
-	public function __construct( $current_page_no, $items_per_page, callable $URL_creator )
+	public function __construct( int $current_page_no, int $items_per_page, callable $URL_creator )
 	{
 
 		$this->current_page_no_is_in_range = true;
@@ -144,15 +140,15 @@ class Data_Paginator extends BaseObject implements BaseObject_Interface_Serializ
 	/**
 	 * @param callable $URL_creator
 	 */
-	public function setURLCreator( callable $URL_creator )
+	public function setURLCreator( callable $URL_creator ) : void
 	{
 		$this->URL_creator = $URL_creator;
 	}
 
 	/**
-	 * Calculates pagination properties
+	 *
 	 */
-	protected function _calculate()
+	protected function _calculate() : void
 	{
 
 		$this->pages_count = (int)ceil( $this->data_items_count/$this->items_per_page );
@@ -211,11 +207,10 @@ class Data_Paginator extends BaseObject implements BaseObject_Interface_Serializ
 
 
 	/**
-	 * Sets paginated data source
 	 *
 	 * @param Data_Paginator_DataSource $data
 	 */
-	public function setDataSource( Data_Paginator_DataSource $data )
+	public function setDataSource( Data_Paginator_DataSource $data ) : void
 	{
 		$this->data = $data;
 
@@ -226,12 +221,16 @@ class Data_Paginator extends BaseObject implements BaseObject_Interface_Serializ
 	}
 
 	/**
-	 * Sets paginated data
 	 *
-	 * @param array $data
+	 * @param array|Data_Paginator_DataSource $data
 	 */
-	public function setData( array $data )
+	public function setData( array|Data_Paginator_DataSource $data ) : void
 	{
+		if($data instanceof Data_Paginator_DataSource) {
+			$this->setDataSource( $data );
+			return;
+		}
+
 		$this->data = $data;
 		$this->data_items_count = count( $data );
 		$this->_calculate();
@@ -239,12 +238,12 @@ class Data_Paginator extends BaseObject implements BaseObject_Interface_Serializ
 
 
 	/**
-	 * Returns current page data
 	 *
 	 * @throws Data_Paginator_Exception
-	 * @return array|DataModel_Fetch_Instances
+	 *
+	 * @return iterable
 	 */
-	public function getData()
+	public function getData():iterable
 	{
 		if( $this->data===null ) {
 			throw new Data_Paginator_Exception(
@@ -276,7 +275,7 @@ class Data_Paginator extends BaseObject implements BaseObject_Interface_Serializ
 	 *
 	 * @return int
 	 */
-	public function getDataItemsCount()
+	public function getDataItemsCount() : int
 	{
 		return $this->data_items_count;
 	}
@@ -285,7 +284,7 @@ class Data_Paginator extends BaseObject implements BaseObject_Interface_Serializ
 	 *
 	 * @return int
 	 */
-	public function getPagesCount()
+	public function getPagesCount() : int
 	{
 		return $this->pages_count;
 	}
@@ -293,27 +292,25 @@ class Data_Paginator extends BaseObject implements BaseObject_Interface_Serializ
 	/**
 	 * @return int
 	 */
-	public function getCurrentPageNo()
+	public function getCurrentPageNo() : int
 	{
 		return $this->current_page_no;
 	}
 
 	/**
-	 * Can be null if current page is the first page
 	 *
 	 * @return int|null
 	 */
-	public function getPrevPageNo()
+	public function getPrevPageNo() : int|null
 	{
 		return $this->prev_page_no;
 	}
 
 	/**
-	 * Can be null if current page is the last page
 	 *
 	 * @return int|null
 	 */
-	public function getNextPageNo()
+	public function getNextPageNo() : int|null
 	{
 		return $this->next_page_no;
 	}
@@ -322,7 +319,7 @@ class Data_Paginator extends BaseObject implements BaseObject_Interface_Serializ
 	 *
 	 * @return int
 	 */
-	public function getDataIndexStart()
+	public function getDataIndexStart() : int
 	{
 		return $this->data_index_start;
 	}
@@ -331,7 +328,7 @@ class Data_Paginator extends BaseObject implements BaseObject_Interface_Serializ
 	 *
 	 * @return int
 	 */
-	public function getDataIndexEnd()
+	public function getDataIndexEnd() : int
 	{
 		return $this->data_index_end;
 	}
@@ -339,7 +336,7 @@ class Data_Paginator extends BaseObject implements BaseObject_Interface_Serializ
 	/**
 	 * @return int
 	 */
-	public function getShowFrom()
+	public function getShowFrom() : int
 	{
 		if( $this->data_items_count ) {
 			return $this->data_index_start+1;
@@ -351,7 +348,7 @@ class Data_Paginator extends BaseObject implements BaseObject_Interface_Serializ
 	/**
 	 * @return int
 	 */
-	public function getShowTo()
+	public function getShowTo() : int
 	{
 		if( $this->data_items_count ) {
 			$show = $this->data_index_end+1;
@@ -369,27 +366,25 @@ class Data_Paginator extends BaseObject implements BaseObject_Interface_Serializ
 	 *
 	 * @return bool
 	 */
-	public function getCurrentPageNoIsInRange()
+	public function getCurrentPageNoIsInRange() : bool
 	{
 		return $this->current_page_no_is_in_range;
 	}
 
 	/**
-	 * Can be null if current page is the first page
 	 *
 	 * @return null|string
 	 */
-	public function getPrevPageURL()
+	public function getPrevPageURL() : null|string
 	{
 		return $this->prev_page_URL;
 	}
 
 	/**
-	 * Can be null if current page is the last page
 	 *
 	 * @return null|string
 	 */
-	public function getNextPageURL()
+	public function getNextPageURL() : null|string
 	{
 		return $this->next_page_URL;
 	}
@@ -397,7 +392,7 @@ class Data_Paginator extends BaseObject implements BaseObject_Interface_Serializ
 	/**
 	 * @return null|string
 	 */
-	public function getLastPageURL()
+	public function getLastPageURL() : null|string
 	{
 		return $this->last_page_URL;
 	}
@@ -405,7 +400,7 @@ class Data_Paginator extends BaseObject implements BaseObject_Interface_Serializ
 	/**
 	 * @return null|string
 	 */
-	public function getFirstPageURL()
+	public function getFirstPageURL() : null|string
 	{
 		return $this->first_page_URL;
 	}
@@ -414,7 +409,7 @@ class Data_Paginator extends BaseObject implements BaseObject_Interface_Serializ
 	/**
 	 * @return array
 	 */
-	public function getPagesURL()
+	public function getPagesURL() : array
 	{
 		return $this->pages_URL;
 	}
@@ -422,7 +417,7 @@ class Data_Paginator extends BaseObject implements BaseObject_Interface_Serializ
 	/**
 	 * @return string
 	 */
-	public function toJSON()
+	public function toJSON() : string
 	{
 		return json_encode($this->jsonSerialize());
 	}
@@ -431,7 +426,7 @@ class Data_Paginator extends BaseObject implements BaseObject_Interface_Serializ
 	 * 
 	 * @return array
 	 */
-	public function jsonSerialize()
+	public function jsonSerialize() : array
 	{
 
 		$items = $this->getData();

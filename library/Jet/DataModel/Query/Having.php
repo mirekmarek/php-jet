@@ -15,9 +15,9 @@ class DataModel_Query_Having extends BaseObject implements BaseObject_Interface_
 	use DataModel_Query_Where_Trait;
 
 	/**
-	 * @var DataModel_Query_Having_Expression[]
+	 * @var DataModel_Query_Having_Expression[]|string[]
 	 */
-	protected $expressions = [];
+	protected array $expressions = [];
 
 	/**
 	 *
@@ -62,7 +62,7 @@ class DataModel_Query_Having extends BaseObject implements BaseObject_Interface_
 	 *
 	 * @throws DataModel_Query_Exception
 	 */
-	public function addExpression( DataModel_Query_Select_Item $property_definition, $operator, $value )
+	public function addExpression( DataModel_Query_Select_Item $property_definition, string $operator, mixed $value ) : void
 	{
 		if( $this->expressions ) {
 			$previous = $this->expressions[count( $this->expressions )-1];
@@ -85,7 +85,7 @@ class DataModel_Query_Having extends BaseObject implements BaseObject_Interface_
 	/**
 	 * @return string
 	 */
-	public function toString()
+	public function toString() : string
 	{
 		$result = [];
 
@@ -103,7 +103,7 @@ class DataModel_Query_Having extends BaseObject implements BaseObject_Interface_
 	/**
 	 * @return bool
 	 */
-	public function getIsEmpty()
+	public function getIsEmpty() : bool
 	{
 		return ( count( $this->expressions )==0 );
 	}
@@ -113,7 +113,7 @@ class DataModel_Query_Having extends BaseObject implements BaseObject_Interface_
 	 *
 	 * @throws DataModel_Query_Exception
 	 */
-	public function addAND()
+	public function addAND() : void
 	{
 		//for easier implementation of the query ... (often is associated with multiple conditions in the cycle)
 		if( !$this->expressions ) {
@@ -140,7 +140,7 @@ class DataModel_Query_Having extends BaseObject implements BaseObject_Interface_
 	 *
 	 * @throws DataModel_Query_Exception
 	 */
-	public function addOR()
+	public function addOR() : void
 	{
 		//for easier implementation of the query ... (often is associated with multiple conditions in the cycle)
 		if( !$this->expressions ) {
@@ -167,7 +167,7 @@ class DataModel_Query_Having extends BaseObject implements BaseObject_Interface_
 	 *
 	 * @throws DataModel_Query_Exception
 	 */
-	public function addSubExpressions( DataModel_Query_Having $sub_expressions )
+	public function addSubExpressions( DataModel_Query_Having $sub_expressions ) : void
 	{
 		if( $this->expressions ) {
 			$previous = $this->expressions[count( $this->expressions )-1];
@@ -189,7 +189,7 @@ class DataModel_Query_Having extends BaseObject implements BaseObject_Interface_
 	/**
 	 * @param DataModel_Query_Having $part
 	 */
-	public function attach( DataModel_Query_Having $part )
+	public function attach( DataModel_Query_Having $part ) : void
 	{
 		if( $this->expressions ) {
 			$this->expressions[] = DataModel_Query::L_O_AND;
@@ -211,9 +211,9 @@ class DataModel_Query_Having extends BaseObject implements BaseObject_Interface_
 	/**
 	 * @see \Iterator
 	 *
-	 * @return DataModel_Query_Having_Expression
+	 * @return DataModel_Query_Having_Expression|string
 	 */
-	public function current()
+	public function current() : DataModel_Query_Having_Expression|string
 	{
 		return current( $this->expressions );
 	}
@@ -222,7 +222,7 @@ class DataModel_Query_Having extends BaseObject implements BaseObject_Interface_
 	 * @see \Iterator
 	 * @return string
 	 */
-	public function key()
+	public function key() : string
 	{
 		return key( $this->expressions );
 	}
@@ -230,7 +230,7 @@ class DataModel_Query_Having extends BaseObject implements BaseObject_Interface_
 	/**
 	 * @see \Iterator
 	 */
-	public function next()
+	public function next() : DataModel_Query_Having_Expression|string|bool
 	{
 		return next( $this->expressions );
 	}
@@ -238,7 +238,7 @@ class DataModel_Query_Having extends BaseObject implements BaseObject_Interface_
 	/**
 	 * @see \Iterator
 	 */
-	public function rewind()
+	public function rewind() : void
 	{
 		reset( $this->expressions );
 	}
@@ -246,7 +246,7 @@ class DataModel_Query_Having extends BaseObject implements BaseObject_Interface_
 	 * @see \Iterator
 	 * @return bool
 	 */
-	public function valid()
+	public function valid() : bool
 	{
 		return key( $this->expressions )!==null;
 	}
@@ -257,7 +257,7 @@ class DataModel_Query_Having extends BaseObject implements BaseObject_Interface_
 	 *
 	 * @return int
 	 */
-	public function count()
+	public function count() : int
 	{
 		return count($this->expressions);
 	}

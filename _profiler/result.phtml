@@ -122,10 +122,12 @@ function showRunBlock(Debug_Profiler_Run_Block $block, $level=0)
 			<a href="javascript:toggleDisplay('run_block_details_messages_<?= $id; ?>');">Messages</a>
 			<div class="run_block_details_backtrace" id="run_block_details_messages_<?= $id; ?>" style="display: none">
 				<ul>
-					<?php foreach ($block->getMessages() as $msg): ?>
+					<?php foreach ($block->getMessages() as $msg):
+						$backtrace = $msg->getBacktrace();
+						?>
 						<li>
 							<?= $msg->getText(); ?>
-							<span style="font-size: 10px;"><br/>( <?= /** @noinspection PhpUsageOfSilenceOperatorInspection */ @array_shift($msg->getBacktrace()); ?> )</span>
+							<span style="font-size: 10px;"><br/>( <?=array_shift($backtrace); ?> )</span>
 						</li>
 					<?php endforeach; ?>
 				</ul>

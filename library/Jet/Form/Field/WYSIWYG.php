@@ -15,42 +15,42 @@ class Form_Field_WYSIWYG extends Form_Field
 	/**
 	 * @var string
 	 */
-	protected static $default_renderer_script = 'field';
+	protected static string $default_renderer_script = 'field';
 
 	/**
 	 * @var string
 	 */
-	protected static $default_row_start_renderer_script = 'Field/row/start';
+	protected static string $default_row_start_renderer_script = 'Field/row/start';
 
 	/**
 	 * @var string
 	 */
-	protected static $default_row_end_renderer_script = 'Field/row/end';
+	protected static string $default_row_end_renderer_script = 'Field/row/end';
 
 	/**
 	 * @var string
 	 */
-	protected static $default_input_container_start_renderer_script = 'Field/input/container/start';
+	protected static string $default_input_container_start_renderer_script = 'Field/input/container/start';
 
 	/**
 	 * @var string
 	 */
-	protected static $default_input_container_end_renderer_script = 'Field/input/container/end';
+	protected static string $default_input_container_end_renderer_script = 'Field/input/container/end';
 
 	/**
 	 * @var string
 	 */
-	protected static $default_error_renderer = 'Field/error';
+	protected static string $default_error_renderer = 'Field/error';
 
 	/**
 	 * @var string
 	 */
-	protected static $default_label_renderer = 'Field/label';
+	protected static string $default_label_renderer = 'Field/label';
 
 	/**
 	 * @var string string
 	 */
-	protected static $default_input_renderer = 'Field/input/WYSIWYG';
+	protected static string $default_input_renderer = 'Field/input/WYSIWYG';
 
 
 	/**
@@ -61,32 +61,32 @@ class Form_Field_WYSIWYG extends Form_Field
 	/**
 	 * @var string
 	 */
-	protected $_type = Form::TYPE_WYSIWYG;
+	protected string $_type = Form::TYPE_WYSIWYG;
 	/**
 	 * @var array
 	 */
-	protected $error_messages = [
+	protected array $error_messages = [
 		self::ERROR_CODE_EMPTY => ''
 	];
 	/**
 	 * @var array
 	 */
-	protected $editor_CSS_files = [];
+	protected array $editor_CSS_files = [];
 
 	/**
 	 * @var array
 	 */
-	protected $editor_JavaScript_files = [];
+	protected array $editor_JavaScript_files = [];
 
 	/**
-	 * @var array
+	 * @var array|null
 	 */
-	protected $editor_config;
+	protected array|null $editor_config = null;
 
 	/**
-	 * @var callable
+	 * @var callable|null
 	 */
-	protected $editor_initialize_code_generator;
+	protected $editor_initialize_code_generator = null;
 
 
 
@@ -95,7 +95,7 @@ class Form_Field_WYSIWYG extends Form_Field
 	 * @param string $URI
 	 * @param string $media
 	 */
-	public function appendWYSIWYGEditorCSSFile( $URI, $media = 'screen' )
+	public function appendWYSIWYGEditorCSSFile( string $URI, string $media = 'screen' ) : void
 	{
 		if( !isset( $this->editor_CSS_files[$media] ) ) {
 			$this->editor_CSS_files[$media] = [];
@@ -107,7 +107,7 @@ class Form_Field_WYSIWYG extends Form_Field
 	/**
 	 * @return array
 	 */
-	public function getEditorCSSFiles()
+	public function getEditorCSSFiles() : array
 	{
 		return $this->editor_CSS_files;
 	}
@@ -115,7 +115,7 @@ class Form_Field_WYSIWYG extends Form_Field
 	/**
 	 * @param array $editor_CSS_files
 	 */
-	public function setEditorCSSFiles( array $editor_CSS_files )
+	public function setEditorCSSFiles( array $editor_CSS_files ) : void
 	{
 		$this->editor_CSS_files = $editor_CSS_files;
 	}
@@ -123,7 +123,7 @@ class Form_Field_WYSIWYG extends Form_Field
 	/**
 	 * @param string $URI
 	 */
-	public function appendEditorJavaScriptFile( $URI )
+	public function appendEditorJavaScriptFile( string $URI ) : void
 	{
 		$this->editor_JavaScript_files[] = $URI;
 	}
@@ -131,7 +131,7 @@ class Form_Field_WYSIWYG extends Form_Field
 	/**
 	 * @return array
 	 */
-	public function getEditorJavaScriptFiles()
+	public function getEditorJavaScriptFiles() : array
 	{
 		return $this->editor_JavaScript_files;
 	}
@@ -139,15 +139,15 @@ class Form_Field_WYSIWYG extends Form_Field
 	/**
 	 * @param array $editor_JavaScript_files
 	 */
-	public function setEditorJavaScriptFiles( array $editor_JavaScript_files )
+	public function setEditorJavaScriptFiles( array $editor_JavaScript_files ) : void
 	{
 		$this->editor_JavaScript_files = $editor_JavaScript_files;
 	}
 
 	/**
-	 * @return array
+	 * @return array|null
 	 */
-	public function getEditorConfig()
+	public function getEditorConfig() : array|null
 	{
 		return $this->editor_config;
 	}
@@ -155,16 +155,16 @@ class Form_Field_WYSIWYG extends Form_Field
 	/**
 	 * @param array $editor_config
 	 */
-	public function setEditorConfig( array $editor_config )
+	public function setEditorConfig( array $editor_config ) : void
 	{
 		$this->editor_config = $editor_config;
 	}
 
 
 	/**
-	 * @return callable
+	 * @return callable|null
 	 */
-	public function getEditorInitializeCodeGenerator()
+	public function getEditorInitializeCodeGenerator() : callable|null
 	{
 		return $this->editor_initialize_code_generator;
 	}
@@ -172,7 +172,7 @@ class Form_Field_WYSIWYG extends Form_Field
 	/**
 	 * @param callable $editor_initialize_code_generator
 	 */
-	public function setEditorInitializeCodeGenerator( callable $editor_initialize_code_generator )
+	public function setEditorInitializeCodeGenerator( callable $editor_initialize_code_generator ) : void
 	{
 		$this->editor_initialize_code_generator = $editor_initialize_code_generator;
 	}
@@ -182,7 +182,7 @@ class Form_Field_WYSIWYG extends Form_Field
 	 *
 	 * @param Data_Array $data
 	 */
-	public function catchInput( Data_Array $data )
+	public function catchInput( Data_Array $data ) : void
 	{
 		$this->_value = null;
 		$this->_has_value = $data->exists( $this->_name );
@@ -199,7 +199,7 @@ class Form_Field_WYSIWYG extends Form_Field
 	/**
 	 * @return array
 	 */
-	public function getRequiredErrorCodes()
+	public function getRequiredErrorCodes() : array
 	{
 		$codes = [];
 

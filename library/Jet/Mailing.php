@@ -13,25 +13,25 @@ namespace Jet;
 class Mailing extends BaseObject
 {
 	/**
-	 * @var Mailing_Config
+	 * @var ?Mailing_Config
 	 */
-	protected static $config = null;
+	protected static ?Mailing_Config $config = null;
 
 	/**
-	 * @var Mailing_Backend_Abstract
+	 * @var ?Mailing_Backend_Abstract
 	 */
-	protected static $backend;
+	protected static ?Mailing_Backend_Abstract $backend = null;
 
 	/**
-	 * @var string
+	 * @var ?string
 	 */
-	protected static $base_view_dir;
+	protected static ?string $base_view_dir = null;
 
 
 	/**
 	 * @return string
 	 */
-	public static function getBaseViewDir()
+	public static function getBaseViewDir() : string
 	{
 		if(!static::$base_view_dir) {
 			static::$base_view_dir = SysConf_PATH::APPLICATION().'views/email_templates/';
@@ -43,7 +43,7 @@ class Mailing extends BaseObject
 	/**
 	 * @param string $dir
 	 */
-	public static function setBaseViewDir( $dir )
+	public static function setBaseViewDir( string $dir ) : void
 	{
 		static::$base_view_dir = $dir;
 	}
@@ -52,7 +52,7 @@ class Mailing extends BaseObject
 	 *
 	 * @return Mailing_Config
 	 */
-	public static function getConfig()
+	public static function getConfig() : Mailing_Config
 	{
 		if( !static::$config ) {
 			static::$config = new Mailing_Config();
@@ -64,7 +64,7 @@ class Mailing extends BaseObject
 	/**
 	 * @return Mailing_Backend_Abstract
 	 */
-	public static function getBackend()
+	public static function getBackend() : Mailing_Backend_Abstract
 	{
 		if( !static::$backend ) {
 			static::$backend = new Mailing_Backend_Default();
@@ -76,7 +76,7 @@ class Mailing extends BaseObject
 	/**
 	 * @param Mailing_Backend_Abstract $backend
 	 */
-	public static function setBackend( Mailing_Backend_Abstract $backend )
+	public static function setBackend( Mailing_Backend_Abstract $backend ) : void
 	{
 		static::$backend = $backend;
 	}
@@ -90,7 +90,7 @@ class Mailing extends BaseObject
 	 *
 	 * @return bool
 	 */
-	public static function sendEmail( Mailing_Email $email, $to, array $headers=[] )
+	public static function sendEmail( Mailing_Email $email, string $to, array $headers=[] ) : bool
 	{
 		return static::getBackend()->sendEmail( $email, $to, $headers );
 	}

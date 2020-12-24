@@ -17,12 +17,11 @@ interface Data_Paginator_DataSource extends BaseObject_Interface_Serializable_JS
 	 * @param int $limit
 	 * @param int $offset
 	 */
-	public function setPagination( $limit, $offset );
+	public function setPagination( int $limit, int $offset ) : void;
 
 
 	/**
-	 * Returns total items count
 	 * @return int
 	 */
-	public function getCount();
+	public function getCount() : int;
 }

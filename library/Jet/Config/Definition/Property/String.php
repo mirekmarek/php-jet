@@ -15,7 +15,7 @@ class Config_Definition_Property_String extends Config_Definition_Property
 	/**
 	 * @var string
 	 */
-	protected $_type = Config::TYPE_STRING;
+	protected string $_type = Config::TYPE_STRING;
 
 	/**
 	 * @var string
@@ -23,16 +23,16 @@ class Config_Definition_Property_String extends Config_Definition_Property
 	protected $default_value = '';
 
 	/**
-	 * @var string
+	 * @var string|null
 	 */
-	protected $validation_regexp = null;
+	protected string|null $validation_regexp = null;
 
 	/**
-	 * @param array|null $definition_data
+	 * @param ?array $definition_data
 	 *
 	 * @throws Config_Exception
 	 */
-	public function setUp( array $definition_data = null )
+	public function setUp( ?array $definition_data = null ) : void
 	{
 		parent::setUp( $definition_data );
 
@@ -49,7 +49,7 @@ class Config_Definition_Property_String extends Config_Definition_Property
 	/**
 	 * @param mixed &$value
 	 */
-	public function checkValueType( &$value )
+	protected function checkValueType( mixed &$value ) : void
 	{
 		$value = (string)$value;
 	}
@@ -60,7 +60,7 @@ class Config_Definition_Property_String extends Config_Definition_Property
 	 *
 	 * @throws Config_Exception
 	 */
-	protected function checkValue( $value )
+	protected function checkValue( mixed $value ) : void
 	{
 		if(
 			$this->validation_regexp &&
@@ -75,9 +75,9 @@ class Config_Definition_Property_String extends Config_Definition_Property
 	}
 
 	/**
-	 * @return string
+	 * @return string|null
 	 */
-	public function getValidationRegexp()
+	public function getValidationRegexp() : string|null
 	{
 		return $this->validation_regexp;
 	}
@@ -85,7 +85,7 @@ class Config_Definition_Property_String extends Config_Definition_Property
 	/**
 	 * @param string $validation_regexp
 	 */
-	public function setValidationRegexp( $validation_regexp )
+	public function setValidationRegexp( string $validation_regexp ) : void
 	{
 		$this->validation_regexp = $validation_regexp;
 		$this->form_field_validation_regexp = $validation_regexp;

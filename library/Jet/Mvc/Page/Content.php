@@ -17,38 +17,38 @@ class Mvc_Page_Content extends BaseObject implements Mvc_Page_Content_Interface
 	const DEFAULT_CONTROLLER_ACTION = 'default';
 
 	/**
-	 * @var Mvc_Page
+	 * @var ?Mvc_Page_Interface
 	 */
-	protected $__page;
+	protected ?Mvc_Page_Interface $__page = null;
 
 	/**
 	 *
 	 * @var string
 	 */
-	protected $module_name = '';
+	protected string $module_name = '';
 
 	/**
 	 *
 	 * @var string
 	 */
-	protected $controller_name = 'Main';
+	protected string $controller_name = 'Main';
 
 	/**
 	 * @var string
 	 */
-	protected $controller_class = '';
+	protected string $controller_class = '';
 
 	/**
 	 *
 	 * @var string
 	 */
-	protected $controller_action = '';
+	protected string $controller_action = '';
 
 	/**
 	 *
 	 * @var array
 	 */
-	protected $parameters = [];
+	protected array $parameters = [];
 
 	/**
 	 *
@@ -60,29 +60,29 @@ class Mvc_Page_Content extends BaseObject implements Mvc_Page_Content_Interface
 	 *
 	 * @var string
 	 */
-	protected $output_position = '';
+	protected string $output_position = '';
 
 	/**
 	 *
 	 * @var int
 	 */
-	protected $output_position_order = 0;
+	protected int $output_position_order = 0;
 
 	/**
 	 * @var bool
 	 */
-	protected $_skip_dispatch = false;
+	protected bool $_skip_dispatch = false;
 
 	/**
-	 * @var Application_Module
+	 * @var Application_Module|bool|null
 	 */
-	protected $__module_instance;
+	protected Application_Module|bool|null $__module_instance = null;
 
 	/**
 	 *
-	 * @var Mvc_Controller
+	 * @var ?Mvc_Controller
 	 */
-	protected $__controller_instance;
+	protected ?Mvc_Controller $__controller_instance = null;
 
 
 	/**
@@ -91,7 +91,7 @@ class Mvc_Page_Content extends BaseObject implements Mvc_Page_Content_Interface
 	 *
 	 * @return Mvc_Page_Content_Interface
 	 */
-	public static function createByData( Mvc_Page_Interface $page, array $data )
+	public static function createByData( Mvc_Page_Interface $page, array $data ) : Mvc_Page_Content_Interface
 	{
 		/**
 		 * @var Mvc_Page_Content $content;
@@ -108,7 +108,7 @@ class Mvc_Page_Content extends BaseObject implements Mvc_Page_Content_Interface
 	/**
 	 * @param array $data
 	 */
-	protected function setData( array $data )
+	protected function setData( array $data ) : void
 	{
 		foreach( $data as $key => $val ) {
 			$this->{$key} = $val;
@@ -118,7 +118,7 @@ class Mvc_Page_Content extends BaseObject implements Mvc_Page_Content_Interface
 	/**
 	 * @return string
 	 */
-	public function getControllerName()
+	public function getControllerName() : string
 	{
 		return $this->controller_name;
 	}
@@ -126,7 +126,7 @@ class Mvc_Page_Content extends BaseObject implements Mvc_Page_Content_Interface
 	/**
 	 * @param string $controller_name
 	 */
-	public function setControllerName( $controller_name )
+	public function setControllerName( string $controller_name ) : void
 	{
 		$this->controller_name = $controller_name;
 	}
@@ -134,7 +134,7 @@ class Mvc_Page_Content extends BaseObject implements Mvc_Page_Content_Interface
 	/**
 	 * @return string
 	 */
-	public function getControllerClass()
+	public function getControllerClass() : string
 	{
 		return $this->controller_class;
 	}
@@ -142,7 +142,7 @@ class Mvc_Page_Content extends BaseObject implements Mvc_Page_Content_Interface
 	/**
 	 * @param string $controller_class
 	 */
-	public function setControllerClass( $controller_class )
+	public function setControllerClass( string $controller_class ) : void
 	{
 		$this->controller_class = $controller_class;
 	}
@@ -152,7 +152,7 @@ class Mvc_Page_Content extends BaseObject implements Mvc_Page_Content_Interface
 	/**
 	 * @return string
 	 */
-	public function getOutputPosition()
+	public function getOutputPosition() : string
 	{
 		return $this->output_position;
 	}
@@ -160,7 +160,7 @@ class Mvc_Page_Content extends BaseObject implements Mvc_Page_Content_Interface
 	/**
 	 * @param string $output_position
 	 */
-	public function setOutputPosition( $output_position )
+	public function setOutputPosition( string $output_position ) : void
 	{
 		$this->output_position = $output_position;
 	}
@@ -169,7 +169,7 @@ class Mvc_Page_Content extends BaseObject implements Mvc_Page_Content_Interface
 	/**
 	 * @return int
 	 */
-	public function getOutputPositionOrder()
+	public function getOutputPositionOrder() : int
 	{
 		return $this->output_position_order;
 	}
@@ -177,7 +177,7 @@ class Mvc_Page_Content extends BaseObject implements Mvc_Page_Content_Interface
 	/**
 	 * @param int $output_position_order
 	 */
-	public function setOutputPositionOrder( $output_position_order )
+	public function setOutputPositionOrder( int $output_position_order ) : void
 	{
 		$this->output_position_order = (int)$output_position_order;
 	}
@@ -185,7 +185,7 @@ class Mvc_Page_Content extends BaseObject implements Mvc_Page_Content_Interface
 	/**
 	 * @return string|callable
 	 */
-	public function getOutput()
+	public function getOutput() : string|callable
 	{
 		return $this->output;
 	}
@@ -193,7 +193,7 @@ class Mvc_Page_Content extends BaseObject implements Mvc_Page_Content_Interface
 	/**
 	 * @param string|callable $output
 	 */
-	public function setOutput( $output )
+	public function setOutput( string|callable $output ) : void
 	{
 		$this->output = $output;
 	}
@@ -202,7 +202,7 @@ class Mvc_Page_Content extends BaseObject implements Mvc_Page_Content_Interface
 	/**
 	 * @return Mvc_Page_Interface
 	 */
-	public function getPage()
+	public function getPage() : Mvc_Page_Interface
 	{
 		if( !$this->__page ) {
 			return Mvc::getCurrentPage();
@@ -212,17 +212,17 @@ class Mvc_Page_Content extends BaseObject implements Mvc_Page_Content_Interface
 	}
 
 	/**
-	 * @param Mvc_Page_Interface $__page
+	 * @param Mvc_Page_Interface $page
 	 */
-	public function setPage( Mvc_Page_Interface $__page )
+	public function setPage( Mvc_Page_Interface $page ) : void
 	{
-		$this->__page = $__page;
+		$this->__page = $page;
 	}
 
 	/**
 	 * @return string
 	 */
-	public function getModuleName()
+	public function getModuleName() : string
 	{
 		return $this->module_name;
 	}
@@ -230,7 +230,7 @@ class Mvc_Page_Content extends BaseObject implements Mvc_Page_Content_Interface
 	/**
 	 * @param string $module_name
 	 */
-	public function setModuleName( $module_name )
+	public function setModuleName( string $module_name ) : void
 	{
 		$this->module_name = $module_name;
 	}
@@ -238,7 +238,7 @@ class Mvc_Page_Content extends BaseObject implements Mvc_Page_Content_Interface
 	/**
 	 * @return Application_Module|bool
 	 */
-	public function getModuleInstance()
+	public function getModuleInstance() : Application_Module|bool
 	{
 		if( $this->__module_instance!==null ) {
 			return $this->__module_instance;
@@ -268,7 +268,7 @@ class Mvc_Page_Content extends BaseObject implements Mvc_Page_Content_Interface
 	/**
 	 * @return string
 	 */
-	public function getControllerAction()
+	public function getControllerAction() : string
 	{
 		if($this->controller_action===false) {
 			return false;
@@ -280,7 +280,7 @@ class Mvc_Page_Content extends BaseObject implements Mvc_Page_Content_Interface
 	/**
 	 * @param string $controller_action
 	 */
-	public function setControllerAction( $controller_action )
+	public function setControllerAction( string $controller_action ) : void
 	{
 		$this->controller_action = $controller_action;
 	}
@@ -290,7 +290,7 @@ class Mvc_Page_Content extends BaseObject implements Mvc_Page_Content_Interface
 	/**
 	 * @return array
 	 */
-	public function getParameters()
+	public function getParameters() : array
 	{
 		return $this->parameters;
 	}
@@ -298,7 +298,7 @@ class Mvc_Page_Content extends BaseObject implements Mvc_Page_Content_Interface
 	/**
 	 * @param array $parameters
 	 */
-	public function setParameters( array $parameters )
+	public function setParameters( array $parameters ) : void
 	{
 		$this->parameters = $parameters;
 	}
@@ -309,7 +309,7 @@ class Mvc_Page_Content extends BaseObject implements Mvc_Page_Content_Interface
 	 *
 	 * @return mixed
 	 */
-	public function getParameter( $key, $default_value = null )
+	public function getParameter( string $key, mixed $default_value = null ) : mixed
 	{
 		if( !array_key_exists( $key, $this->parameters ) ) {
 			return $default_value;
@@ -322,7 +322,7 @@ class Mvc_Page_Content extends BaseObject implements Mvc_Page_Content_Interface
 	 * @param string $key
 	 * @param mixed  $value
 	 */
-	public function setParameter( $key, $value )
+	public function setParameter( string $key, mixed $value ) : void
 	{
 		$this->parameters[$key] = $value;
 	}
@@ -332,7 +332,7 @@ class Mvc_Page_Content extends BaseObject implements Mvc_Page_Content_Interface
 	 *
 	 * @return bool
 	 */
-	public function parameterExists( $key )
+	public function parameterExists( string $key ) : bool
 	{
 		return array_key_exists( $key, $this->parameters );
 	}
@@ -342,7 +342,7 @@ class Mvc_Page_Content extends BaseObject implements Mvc_Page_Content_Interface
 	 *
 	 * @return Mvc_Controller|bool
 	 */
-	public function getControllerInstance()
+	public function getControllerInstance() : Mvc_Controller|bool
 	{
 		if( $this->__controller_instance!==null ) {
 			return $this->__controller_instance;
@@ -369,7 +369,7 @@ class Mvc_Page_Content extends BaseObject implements Mvc_Page_Content_Interface
 	/**
 	 *
 	 */
-	public function skipDispatch()
+	public function skipDispatch() : void
 	{
 		$this->_skip_dispatch = true;
 	}
@@ -377,7 +377,7 @@ class Mvc_Page_Content extends BaseObject implements Mvc_Page_Content_Interface
 	/**
 	 *
 	 */
-	public function dispatch()
+	public function dispatch() : void
 	{
 		if($this->_skip_dispatch) {
 			return;
@@ -435,7 +435,7 @@ class Mvc_Page_Content extends BaseObject implements Mvc_Page_Content_Interface
 	/**
 	 * @return array
 	 */
-	public function toArray()
+	public function toArray() : array
 	{
 		$data = get_object_vars( $this );
 		foreach( $data as $k => $v ) {

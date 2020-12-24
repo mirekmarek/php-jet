@@ -15,42 +15,42 @@ class UI_tabsJS extends UI_BaseElement
 	/**
 	 * @var string
 	 */
-	protected static $default_renderer_script = 'tabsJS';
+	protected static string $default_renderer_script = 'tabsJS';
 
 	/**
 	 * @var string
 	 */
-	protected static $default_content_start_renderer_script = 'tabsJS/content_start';
+	protected static string $default_content_start_renderer_script = 'tabsJS/content_start';
 
 	/**
 	 * @var string
 	 */
-	protected static $default_content_end_renderer_script = 'tabsJS/content_end';
+	protected static string $default_content_end_renderer_script = 'tabsJS/content_end';
 
 	/**
 	 * @var string
 	 */
-	protected $id = '';
+	protected string $id = '';
 
 	/**
 	 * @var UI_tabsJS_tab[]
 	 */
-	protected $tabs = [];
+	protected array $tabs = [];
 
 	/**
 	 * @var string
 	 */
-	protected $selected_tab_id;
+	protected string $selected_tab_id;
 
 	/**
 	 * @var string
 	 */
-	protected $content_start_renderer_script = '';
+	protected string $content_start_renderer_script = '';
 
 	/**
 	 * @var string
 	 */
-	protected $content_end_renderer_script = '';
+	protected string $content_end_renderer_script = '';
 
 	/**
 	 * @return string
@@ -86,11 +86,11 @@ class UI_tabsJS extends UI_BaseElement
 
 
 	/**
-	 * @param string      $id
-	 * @param array       $tabs
+	 * @param string $id
+	 * @param array $tabs
 	 * @param string|null $selected_tab_id
 	 */
-	public function __construct( $id, array $tabs, $selected_tab_id=null)
+	public function __construct( string $id, array $tabs, ?string $selected_tab_id=null )
 	{
 		$this->id = $id;
 
@@ -119,7 +119,7 @@ class UI_tabsJS extends UI_BaseElement
 	 *
 	 * @return UI_tabsJS_tab
 	 */
-	public function getTab( $id )
+	public function getTab( string $id ) : UI_tabsJS_tab
 	{
 		return $this->getTabs()[$id];
 	}
@@ -129,7 +129,7 @@ class UI_tabsJS extends UI_BaseElement
 	 *
 	 * @return UI_tabsJS_tab
 	 */
-	public function tab( $id )
+	public function tab( string $id ) : UI_tabsJS_tab
 	{
 		return $this->getTabs()[$id];
 	}
@@ -137,7 +137,7 @@ class UI_tabsJS extends UI_BaseElement
 	/**
 	 * @return string
 	 */
-	public function getSelectedTabId()
+	public function getSelectedTabId() : string
 	{
 		return $this->selected_tab_id;
 	}
@@ -145,7 +145,7 @@ class UI_tabsJS extends UI_BaseElement
 	/**
 	 * @return UI_tabsJS_tab[]
 	 */
-	public function getTabs()
+	public function getTabs() : array
 	{
 		return $this->tabs;
 	}
@@ -153,7 +153,7 @@ class UI_tabsJS extends UI_BaseElement
 	/**
 	 * @return string
 	 */
-	public function getContentStartRendererScript()
+	public function getContentStartRendererScript() : string
 	{
 		if(!$this->content_start_renderer_script) {
 			$this->content_start_renderer_script = static::getDefaultContentStartRendererScript();
@@ -165,7 +165,7 @@ class UI_tabsJS extends UI_BaseElement
 	/**
 	 * @param string $script
 	 */
-	public function setContentStartRendererScript( $script )
+	public function setContentStartRendererScript( string $script ) : void
 	{
 		$this->content_start_renderer_script = $script;
 	}
@@ -174,7 +174,7 @@ class UI_tabsJS extends UI_BaseElement
 	/**
 	 * @return string
 	 */
-	public function getContentEndRendererScript()
+	public function getContentEndRendererScript() : string
 	{
 		if(!$this->content_end_renderer_script) {
 			$this->content_end_renderer_script = static::getDefaultContentEndRendererScript();
@@ -186,7 +186,7 @@ class UI_tabsJS extends UI_BaseElement
 	/**
 	 * @param string $script
 	 */
-	public function setContentEndRendererScript( $script )
+	public function setContentEndRendererScript( string $script ) : void
 	{
 		$this->content_end_renderer_script = $script;
 	}
@@ -194,7 +194,7 @@ class UI_tabsJS extends UI_BaseElement
 	/**
 	 * @return string
 	 */
-	public function contentStart()
+	public function contentStart() : string
 	{
 		return $this->getView()->render($this->getContentStartRendererScript());
 	}
@@ -202,7 +202,7 @@ class UI_tabsJS extends UI_BaseElement
 	/**
 	 * @return string
 	 */
-	public function contentEnd()
+	public function contentEnd() : string
 	{
 		return $this->getView()->render($this->getContentEndRendererScript());
 	}

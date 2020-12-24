@@ -16,22 +16,22 @@ interface Form_Field_Select_Option_Interface
 	/**
 	 * @param string $css_style
 	 */
-	public function setSelectOptionCssStyle( $css_style );
+	public function setSelectOptionCssStyle( string $css_style ) : void;
 
 	/**
 	 * @return string
 	 */
-	public function getSelectOptionCssStyle();
+	public function getSelectOptionCssStyle() : string;
 
 
 	/**
 	 * @param string $css_class
 	 */
-	public function setSelectOptionCssClass( $css_class );
+	public function setSelectOptionCssClass( string $css_class ) :void;
 
 	/**
 	 * @return string
 	 */
-	public function getSelectOptionCssClass();
+	public function getSelectOptionCssClass() : string;
 
 }

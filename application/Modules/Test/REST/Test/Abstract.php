@@ -16,32 +16,32 @@ use Jet\Tr;
 abstract class Test_Abstract
 {
 	/**
-	 * @var
+	 * @var string
 	 */
-	protected $id = '';
+	protected string $id = '';
 
 	/**
-	 * @var Client
+	 * @var ?Client
 	 */
-	protected $client;
+	protected ?Client $client = null;
 
 	/**
-	 * @var array
+	 * @var array|null
 	 */
-	protected $data;
+	protected array|null $data = null;
 
 	/**
 	 * @var bool
 	 */
-	protected $is_selected = false;
+	protected bool $is_selected = false;
 
 	/**
 	 * Test_Abstract constructor.
 	 *
 	 * @param string $id
-	 * @param array  $data
+	 * @param array $data
 	 */
-	public function __construct( $id, $data )
+	public function __construct( string $id, array $data )
 	{
 		$this->id = $id;
 
@@ -51,9 +51,9 @@ abstract class Test_Abstract
 	}
 
 	/**
-	 * @return mixed
+	 * @return string
 	 */
-	public function getId()
+	public function getId() : string
 	{
 		return $this->id;
 	}
@@ -61,7 +61,7 @@ abstract class Test_Abstract
 	/**
 	 * @return bool
 	 */
-	public function isSelected()
+	public function isSelected() : bool
 	{
 		return $this->is_selected;
 	}
@@ -69,7 +69,7 @@ abstract class Test_Abstract
 	/**
 	 * @param bool $is_selected
 	 */
-	public function setIsSelected( $is_selected )
+	public function setIsSelected( bool $is_selected ) : void
 	{
 		$this->is_selected = $is_selected;
 	}
@@ -77,7 +77,7 @@ abstract class Test_Abstract
 	/**
 	 * @return Client
 	 */
-	public function getClient()
+	public function getClient() : Client
 	{
 		return $this->client;
 	}
@@ -85,7 +85,7 @@ abstract class Test_Abstract
 	/**
 	 * @return bool
 	 */
-	public function isEnabled()
+	public function isEnabled() : bool
 	{
 		return true;
 	}
@@ -94,7 +94,7 @@ abstract class Test_Abstract
 	/**
 	 * @return string
 	 */
-	public function getTitle()
+	public function getTitle() : string
 	{
 		return Tr::_( $this->_getTitle() );
 	}
@@ -102,17 +102,17 @@ abstract class Test_Abstract
 	/**
 	 * @return string
 	 */
-	abstract protected function _getTitle();
+	abstract protected function _getTitle() : string;
 
 	/**
 	 *
 	 */
-	abstract public function test();
+	abstract public function test() : void;
 
 	/**
 	 *
 	 */
-	public function showResult()
+	public function showResult() : void
 	{
 		?>
 		<h3><?=Tr::_('Request')?></h3>
@@ -120,7 +120,7 @@ abstract class Test_Abstract
 		<pre><?=$this->client->request()?></pre>
 		<?php if($this->client->requestBody()): ?>
 		<h4><?=Tr::_('Body')?></h4>
-		<pre><?=is_string($this->client->requestBody()) ? $this->client->requestBody(): var_dump($this->client->requestBody())?></pre>
+		<pre><?=is_string($this->client->requestBody()) ? $this->client->requestBody(): print_r($this->client->requestBody(), true)?></pre>
 		<h4><?=Tr::_('Data')?></h4>
 		<pre><?=var_export( $this->client->requestData(), true )?></pre>
 		<?php endif; ?>

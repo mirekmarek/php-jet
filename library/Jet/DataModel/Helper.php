@@ -18,7 +18,7 @@ class DataModel_Helper
 	 *
 	 * @return string
 	 */
-	public static function getCreateCommand( $class )
+	public static function getCreateCommand( string $class )
 	{
 		/**
 		 * @var DataModel_Interface $class
@@ -31,15 +31,14 @@ class DataModel_Helper
 	 *
 	 * @param string $class
 	 *
-	 * @return bool
 	 */
-	public static function create( $class )
+	public static function create( string $class ) : void
 	{
 		/**
 		 * @var DataModel_Interface $class
 		 */
 
-		return $class::getBackendInstance()->helper_create( $class::getDataModelDefinition() );
+		$class::getBackendInstance()->helper_create( $class::getDataModelDefinition() );
 	}
 
 
@@ -50,7 +49,7 @@ class DataModel_Helper
 	 *
 	 * @return array
 	 */
-	public static function getUpdateCommand( $class )
+	public static function getUpdateCommand( string $class ) : array
 	{
 		/**
 		 * @var DataModel_Interface $class
@@ -64,7 +63,7 @@ class DataModel_Helper
 	 *
 	 * @param string $class
 	 */
-	public static function update( $class )
+	public static function update( string $class ) : void
 	{
 		/**
 		 * @var DataModel_Interface $class
@@ -79,12 +78,11 @@ class DataModel_Helper
 	 *
 	 * @param string $class
 	 */
-	public static function drop( $class )
+	public static function drop( string $class ) : void
 	{
 		/**
 		 * @var DataModel_Interface $class
 		 */
-
 		$class::getBackendInstance()->helper_drop( $class::getDataModelDefinition() );
 	}
 

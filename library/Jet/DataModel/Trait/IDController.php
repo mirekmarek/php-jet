@@ -14,16 +14,16 @@ trait DataModel_Trait_IDController
 {
 
 	/**
-	 * @var DataModel_IDController
+	 * @var ?DataModel_IDController
 	 */
-	private $_id_controller;
+	private ?DataModel_IDController $_id_controller = null;
 
 	/**
 	 * Returns ID
 	 *
 	 * @return DataModel_IDController
 	 */
-	public function getIDController()
+	public function getIDController() : DataModel_IDController
 	{
 		/**
 		 * @var DataModel $this
@@ -48,7 +48,7 @@ trait DataModel_Trait_IDController
 	/**
 	 * @return DataModel_IDController
 	 */
-	public static function getEmptyIDController()
+	public static function getEmptyIDController() : DataModel_IDController
 	{
 		return static::getDataModelDefinition()->getIDController();
 	}

@@ -19,7 +19,7 @@ class Cache_MVC {
 	/**
 	 * @return string
 	 */
-	public static function getDir()
+	public static function getDir() : string
 	{
 		return SysConf_PATH::CACHE().'mvc/';
 	}
@@ -28,7 +28,7 @@ class Cache_MVC {
 	 *
 	 * @return string
 	 */
-	public static function getPathSites()
+	public static function getPathSites() : string
 	{
 		return static::getDir().'sites.dat';
 	}
@@ -39,7 +39,7 @@ class Cache_MVC {
 	 *
 	 * @return string
 	 */
-	public static function getPathPages( $site_id, $locale_str )
+	public static function getPathPages( string $site_id, string $locale_str ) : string
 	{
 		return static::getDir().'pages_'.$site_id.'_'.$locale_str.'.dat';
 	}
@@ -47,9 +47,9 @@ class Cache_MVC {
 
 	/**
 	 *
-	 * @return bool|mixed
+	 * @return mixed
 	 */
-	public static function loadSites()
+	public static function loadSites() : mixed
 	{
 		$file_path = static::getPathSites();
 
@@ -67,7 +67,7 @@ class Cache_MVC {
 	/**
 	 * @param array  $data
 	 */
-	public static function saveSites( $data )
+	public static function saveSites( array $data ) : void
 	{
 		$file_path = static::getPathSites();
 
@@ -79,9 +79,9 @@ class Cache_MVC {
 	 * @param string $site_id
 	 * @param string $locale_str
 	 *
-	 * @return bool|mixed
+	 * @return mixed
 	 */
-	public static function loadPages( $site_id, $locale_str )
+	public static function loadPages( string $site_id, string $locale_str ) : mixed
 	{
 		$file_path = static::getPathPages( $site_id, $locale_str );
 
@@ -103,7 +103,7 @@ class Cache_MVC {
 	 *
 	 * @param array  $data
 	 */
-	public static function savePages( $site_id, $locale_str, $data )
+	public static function savePages( string $site_id, string $locale_str, array $data ) : void
 	{
 		$file_path = static::getPathPages( $site_id, $locale_str );
 
@@ -114,7 +114,7 @@ class Cache_MVC {
 	/**
 	 * 
 	 */
-	public static function invalidate()
+	public static function invalidate() : void
 	{
 		$dir_path = static::getDir();
 

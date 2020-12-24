@@ -16,95 +16,95 @@ class Debug_Profiler_Run_Block
 	/**
 	 * @var string
 	 */
-	protected $id = "";
+	protected string $id = "";
 
 	/**
 	 * @var bool
 	 */
-	protected $is_anonymous = false;
+	protected bool $is_anonymous = false;
 
 	/**
 	 * @var string
 	 */
-	protected $label = "";
+	protected string $label = "";
 
 	/**
 	 * @var float
 	 */
-	protected $timestamp_start = 0.0;
+	protected float $timestamp_start = 0.0;
 
 	/**
 	 * @var float
 	 */
-	protected $timestamp_end = 0.0;
+	protected float $timestamp_end = 0.0;
 
 	/**
 	 * @var int
 	 */
-	protected $memory_start = 0;
+	protected int $memory_start = 0;
 
 	/**
 	 * @var int
 	 */
-	protected $memory_end = 0;
+	protected int $memory_end = 0;
 
 	/**
 	 * @var int
 	 */
-	protected $memory_peak_start = 0;
+	protected int $memory_peak_start = 0;
 
 	/**
 	 * @var int
 	 */
-	protected $memory_peak_end = 0;
+	protected int $memory_peak_end = 0;
 
 	/**
 	 * @var array
 	 */
-	protected $backtrace_start = [];
+	protected array $backtrace_start = [];
 
 	/**
 	 * @var array
 	 */
-	protected $backtrace_end = [];
+	protected array $backtrace_end = [];
 
 	/**
 	 * @var Debug_Profiler_Run_SQLQueryData[]
 	 */
-	protected $SQL_queries = [];
+	protected array $SQL_queries = [];
 
 	/**
 	 * @var Debug_Profiler_Run_Block_Message[]
 	 */
-	protected $messages = [];
+	protected array $messages = [];
 
 	/**
 	 * @var int
 	 */
-	protected $level = 0;
+	protected int $level = 0;
 
 	/**
-	 * @var Debug_Profiler_Run_Block
+	 * @var ?Debug_Profiler_Run_Block
 	 */
-	protected $parent_block;
+	protected ?Debug_Profiler_Run_Block $parent_block = null;
 
 	/**
 	 * @var Debug_Profiler_Run_Block[]
 	 */
-	protected $children = [];
+	protected array $children = [];
 
 	/**
 	 * @var null|Debug_Profiler_Run_SQLQueryData
 	 */
-	protected $__current_query;
+	protected ?Debug_Profiler_Run_SQLQueryData $__current_query = null;
 
 
 	/**
-	 * @param string                   $label
-	 * @param int                      $level
-	 * @param Debug_Profiler_Run_Block|null $parent_block
+	 * @param string $label
+	 * @param int $level
+	 * @param ?Debug_Profiler_Run_Block $parent_block
 	 */
-	public function __construct( $label, $level, Debug_Profiler_Run_Block $parent_block = null )
+	public function __construct( string $label, int $level, ?Debug_Profiler_Run_Block $parent_block = null )
 	{
 		$this->label = $label;
 		$this->level = (int)$level;
@@ -126,7 +126,7 @@ class Debug_Profiler_Run_Block
 	/**
 	 * @param Debug_Profiler_Run_Block $child
 	 */
-	protected function addChild( Debug_Profiler_Run_Block $child )
+	protected function addChild( Debug_Profiler_Run_Block $child ) : void
 	{
 		$this->children[] = $child;
 	}
@@ -134,7 +134,7 @@ class Debug_Profiler_Run_Block
 	/**
 	 * @param float|null $timestamp_end (optional, default: current)
 	 */
-	public function setEnd( $timestamp_end = null )
+	public function setEnd( ?float $timestamp_end = null ) : void
 	{
 		if( $this->timestamp_end ) {
 			return;
@@ -149,7 +149,7 @@ class Debug_Profiler_Run_Block
 	/**
 	 * @return bool
 	 */
-	public function getIsRoot()
+	public function getIsRoot() : bool
 	{
 		return ( $this->level==0 );
 	}
@@ -157,7 +157,7 @@ class Debug_Profiler_Run_Block
 	/**
 	 * @return string
 	 */
-	public function getId()
+	public function getId() : string
 	{
 		return $this->id;
 	}
@@ -165,7 +165,7 @@ class Debug_Profiler_Run_Block
 	/**
 	 * @return bool
 	 */
-	public function getIsAnonymous()
+	public function getIsAnonymous() : bool
 	{
 		return $this->is_anonymous;
 	}
@@ -173,7 +173,7 @@ class Debug_Profiler_Run_Block
 	/**
 	 * @return array
 	 */
-	public function getBacktraceEnd()
+	public function getBacktraceEnd() : array
 	{
 		return $this->backtrace_end;
 	}
@@ -181,7 +181,7 @@ class Debug_Profiler_Run_Block
 	/**
 	 * @return array
 	 */
-	public function getBacktraceStart()
+	public function getBacktraceStart() : array
 	{
 		return $this->backtrace_start;
 	}
@@ -189,15 +189,15 @@ class Debug_Profiler_Run_Block
 	/**
 	 * @return string
 	 */
-	public function getLabel()
+	public function getLabel() : string
 	{
 		return $this->label;
 	}
 
 	/**
-	 * @return array|Debug_Profiler_Run_Block[]
+	 * @return Debug_Profiler_Run_Block[]
 	 */
-	public function getChildren()
+	public function getChildren() : array
 	{
 		return $this->children;
 	}
@@ -206,7 +206,7 @@ class Debug_Profiler_Run_Block
 	/**
 	 * @return int
 	 */
-	public function getLevel()
+	public function getLevel() : int
 	{
 		return $this->level;
 	}
@@ -214,7 +214,7 @@ class Debug_Profiler_Run_Block
 	/**
 	 * @return int
 	 */
-	public function getMemoryEnd()
+	public function getMemoryEnd() : int
 	{
 		return $this->memory_end;
 	}
@@ -222,7 +222,7 @@ class Debug_Profiler_Run_Block
 	/**
 	 * @return int
 	 */
-	public function getMemoryStart()
+	public function getMemoryStart() : int
 	{
 		return $this->memory_start;
 	}
@@ -230,7 +230,7 @@ class Debug_Profiler_Run_Block
 	/**
 	 * @return int
 	 */
-	public function getMemoryPeakEnd()
+	public function getMemoryPeakEnd() : int
 	{
 		return $this->memory_peak_end;
 	}
@@ -238,7 +238,7 @@ class Debug_Profiler_Run_Block
 	/**
 	 * @return int
 	 */
-	public function getMemoryPeakStart()
+	public function getMemoryPeakStart() : int
 	{
 		return $this->memory_peak_start;
 	}
@@ -246,7 +246,7 @@ class Debug_Profiler_Run_Block
 	/**
 	 * @return Debug_Profiler_Run_Block
 	 */
-	public function getParentBlock()
+	public function getParentBlock() : Debug_Profiler_Run_Block
 	{
 		return $this->parent_block;
 	}
@@ -255,7 +255,7 @@ class Debug_Profiler_Run_Block
 	/**
 	 * @return float
 	 */
-	public function getTimestampStart()
+	public function getTimestampStart() : float
 	{
 		return $this->timestamp_start;
 	}
@@ -263,7 +263,7 @@ class Debug_Profiler_Run_Block
 	/**
 	 * @return float
 	 */
-	public function getTimestampEnd()
+	public function getTimestampEnd() : float
 	{
 		return $this->timestamp_end;
 	}
@@ -271,7 +271,7 @@ class Debug_Profiler_Run_Block
 	/**
 	 * @return float
 	 */
-	public function getDuration()
+	public function getDuration() : float
 	{
 		return $this->timestamp_end-$this->timestamp_start;
 	}
@@ -279,7 +279,7 @@ class Debug_Profiler_Run_Block
 	/**
 	 * @return int
 	 */
-	public function getMemoryUsageDiff()
+	public function getMemoryUsageDiff() : int
 	{
 		return $this->memory_end-$this->memory_start;
 	}
@@ -287,7 +287,7 @@ class Debug_Profiler_Run_Block
 	/**
 	 * @return int
 	 */
-	public function getMemoryPeakDiff()
+	public function getMemoryPeakDiff() : int
 	{
 		return $this->memory_peak_end-$this->memory_peak_start;
 	}
@@ -296,7 +296,7 @@ class Debug_Profiler_Run_Block
 	/**
 	 * @return Debug_Profiler_Run_SQLQueryData[]
 	 */
-	public function getSQLQueries()
+	public function getSQLQueries() : array
 	{
 		return $this->SQL_queries;
 	}
@@ -304,11 +304,11 @@ class Debug_Profiler_Run_Block
 
 	/**
 	 * @param string $query
-	 * @param array  $query_data
+	 * @param array $query_data
 	 *
 	 * @return Debug_Profiler_Run_SQLQueryData
 	 */
-	public function SQLQueryStart( $query, $query_data )
+	public function SQLQueryStart( string $query, array $query_data ) : Debug_Profiler_Run_SQLQueryData
 	{
 		$q = new Debug_Profiler_Run_SQLqueryData( $this->id, $query, $query_data );
 
@@ -322,7 +322,7 @@ class Debug_Profiler_Run_Block
 	/**
 	 * @param int $rows_count
 	 */
-	public function SQLQueryDone( $rows_count )
+	public function SQLQueryDone( int $rows_count ) : void
 	{
 		$this->__current_query->setDone( $rows_count );
 	}
@@ -331,7 +331,7 @@ class Debug_Profiler_Run_Block
 	/**
 	 * @param string $text
 	 */
-	public function message( $text )
+	public function message( string $text ) : void
 	{
 		$this->messages[] = new Debug_Profiler_Run_Block_Message( $text );
 	}
@@ -339,18 +339,17 @@ class Debug_Profiler_Run_Block
 	/**
 	 * @return Debug_Profiler_Run_Block_Message[]
 	 */
-	public function getMessages()
+	public function getMessages() : array
 	{
 		return $this->messages;
 	}
 
 
 	/**
-	 * Default serialize rules (don't serialize __* properties)
 	 *
 	 * @return array
 	 */
-	public function __sleep()
+	public function __sleep() : array
 	{
 		$vars = get_object_vars( $this );
 		foreach( $vars as $k => $v ) {

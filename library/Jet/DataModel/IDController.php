@@ -14,15 +14,15 @@ abstract class DataModel_IDController extends BaseObject
 {
 
 	/**
-	 * @var DataModel
+	 * @var ?DataModel_Interface
 	 */
-	protected $_data_model_instance;
+	protected ?DataModel_Interface $_data_model_instance = null;
 
 	/**
 	 *
 	 * @var string
 	 */
-	protected $data_model_class_name;
+	protected string $data_model_class_name = '';
 
 	/**
 	 * array key: ID property name
@@ -30,14 +30,14 @@ abstract class DataModel_IDController extends BaseObject
 	 *
 	 * @var array
 	 */
-	protected $values = [];
+	protected array $values = [];
 
 
 	/**
 	 * @param DataModel_Definition_Model $data_model_definition
 	 * @param array                      $options
 	 */
-	public function __construct( DataModel_Definition_Model $data_model_definition, $options )
+	public function __construct( DataModel_Definition_Model $data_model_definition, array $options )
 	{
 		$this->data_model_class_name = $data_model_definition->getClassName();
 
@@ -56,7 +56,7 @@ abstract class DataModel_IDController extends BaseObject
 	 *
 	 * @throws DataModel_IDController_Exception
 	 */
-	public function init( $id_data )
+	public function init( array|string|int $id_data ) : void
 	{
 
 		$given_id_keys = [];
@@ -85,7 +85,7 @@ abstract class DataModel_IDController extends BaseObject
 	/**
 	 * @return string
 	 */
-	public function getDataModelClassName()
+	public function getDataModelClassName() : string
 	{
 		return $this->data_model_class_name;
 	}
@@ -93,7 +93,7 @@ abstract class DataModel_IDController extends BaseObject
 	/**
 	 * @return DataModel_Definition_Model_Main|DataModel_Definition_Model_Related_1to1|DataModel_Definition_Model_Related_1toN|DataModel_Definition_Model_Related|DataModel_Definition_Model_Related_MtoN
 	 */
-	public function getDataModelDefinition()
+	public function getDataModelDefinition() : DataModel_Definition_Model_Main|DataModel_Definition_Model_Related_1to1|DataModel_Definition_Model_Related_1toN|DataModel_Definition_Model_Related|DataModel_Definition_Model_Related_MtoN
 	{
 		return DataModel_Definition::get( $this->data_model_class_name );
 	}
@@ -103,7 +103,7 @@ abstract class DataModel_IDController extends BaseObject
 	 *
 	 * @return DataModel_Query
 	 */
-	public function getQuery()
+	public function getQuery() : DataModel_Query
 	{
 		$data_model_definition = $this->getDataModelDefinition();
 
@@ -131,7 +131,7 @@ abstract class DataModel_IDController extends BaseObject
 	/**
 	 * @param array $options
 	 */
-	public function setOptions( array $options )
+	public function setOptions( array $options ) : void
 	{
 		foreach( $options as $key => $val ) {
 			$this->{$key} = $val;
@@ -141,7 +141,7 @@ abstract class DataModel_IDController extends BaseObject
 	/**
 	 * @param DataModel_Interface $data_model
 	 */
-	public function assocDataModelInstance( DataModel_Interface $data_model )
+	public function assocDataModelInstance( DataModel_Interface $data_model ) : void
 	{
 		$this->_data_model_instance = $data_model;
 	}
@@ -150,7 +150,7 @@ abstract class DataModel_IDController extends BaseObject
 	 * @param string $name
 	 * @param mixed  &$property
 	 */
-	public function assocDataModelInstanceProperty( $name, &$property )
+	public function assocDataModelInstanceProperty( string $name, mixed &$property ) : void
 	{
 		$this->values[$name] = &$property;
 	}
@@ -158,7 +158,7 @@ abstract class DataModel_IDController extends BaseObject
 	/**
 	 * @return string
 	 */
-	public function __toString()
+	public function __toString() : string
 	{
 		return $this->toString();
 	}
@@ -166,7 +166,7 @@ abstract class DataModel_IDController extends BaseObject
 	/**
 	 * @return string
 	 */
-	public function toString()
+	public function toString() : string
 	{
 		return implode( ':', $this->values );
 	}
@@ -178,7 +178,7 @@ abstract class DataModel_IDController extends BaseObject
 	 *
 	 * @throws DataModel_Exception
 	 */
-	public function getValue( $property_name )
+	public function getValue( string $property_name ) : mixed
 	{
 		if( !array_key_exists( $property_name, $this->values ) ) {
 			throw new DataModel_Exception(
@@ -197,7 +197,7 @@ abstract class DataModel_IDController extends BaseObject
 	 *
 	 * @throws DataModel_Exception
 	 */
-	public function setValue( $property_name, $value )
+	public function setValue( string $property_name, mixed $value ) : void
 	{
 		if( !array_key_exists( $property_name, $this->values ) ) {
 			throw new DataModel_Exception(
@@ -212,7 +212,7 @@ abstract class DataModel_IDController extends BaseObject
 	/**
 	 * @return array
 	 */
-	public function getPropertyNames()
+	public function getPropertyNames() : array
 	{
 		return array_keys( $this->values );
 	}
@@ -221,19 +221,20 @@ abstract class DataModel_IDController extends BaseObject
 	/**
 	 *
 	 */
-	public function generate() {
+	public function generate() : void
+	{
 		$this->beforeSave();
 	}
 
 	/**
 	 *
 	 */
-	abstract public function beforeSave();
+	abstract public function beforeSave() : void;
 
 	/**
 	 * @param mixed $backend_save_result
 	 *
 	 */
-	abstract public function afterSave( $backend_save_result );
+	abstract public function afterSave( mixed $backend_save_result ) : void;
 
 }

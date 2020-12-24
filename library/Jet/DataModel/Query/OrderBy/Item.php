@@ -14,16 +14,15 @@ class DataModel_Query_OrderBy_Item extends BaseObject
 {
 
 	/**
-	 * Property instance
 	 *
-	 * @var DataModel_Query_Select_Item|DataModel_Definition_Property
+	 * @var DataModel_Query_Select_Item|DataModel_Definition_Property|null
 	 */
-	protected $item;
+	protected DataModel_Query_Select_Item|DataModel_Definition_Property|null $item = null;
 
 	/**
 	 * @var bool
 	 */
-	protected $desc = false;
+	protected bool $desc = false;
 
 
 	/**
@@ -32,7 +31,7 @@ class DataModel_Query_OrderBy_Item extends BaseObject
 	 *
 	 * @throws Exception
 	 */
-	public function __construct( $item, $desc = false )
+	public function __construct( DataModel_Definition_Property|DataModel_Query_Select_Item $item, bool $desc = false )
 	{
 		if(
 			!( $item instanceof DataModel_Definition_Property ) &&
@@ -50,7 +49,7 @@ class DataModel_Query_OrderBy_Item extends BaseObject
 	/**
 	 * @return DataModel_Definition_Property|DataModel_Query_Select_Item
 	 */
-	public function getItem()
+	public function getItem(): DataModel_Definition_Property|DataModel_Query_Select_Item
 	{
 		return $this->item;
 	}
@@ -58,7 +57,7 @@ class DataModel_Query_OrderBy_Item extends BaseObject
 	/**
 	 * @return bool
 	 */
-	public function getDesc()
+	public function getDesc() : bool
 	{
 		return $this->desc;
 	}
@@ -66,7 +65,7 @@ class DataModel_Query_OrderBy_Item extends BaseObject
 	/**
 	 * @param bool $desc
 	 */
-	public function setDesc( $desc )
+	public function setDesc( bool $desc ) : void
 	{
 		$this->desc = (bool)$desc;
 	}

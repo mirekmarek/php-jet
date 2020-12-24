@@ -16,12 +16,12 @@ trait DataModel_Trait_InternalState
 	/**
 	 * @var bool
 	 */
-	private $_data_model_saved = false;
+	private bool $_data_model_saved = false;
 
 	/**
 	 *
 	 */
-	public function initNewObject()
+	public function initNewObject() : void
 	{
 		$this->setIsNew();
 
@@ -42,17 +42,16 @@ trait DataModel_Trait_InternalState
 	/**
 	 *
 	 */
-	public function setIsNew()
+	public function setIsNew() : void
 	{
 		$this->_data_model_saved = false;
 	}
 
 	/**
-	 * Returns true if the model instance is new (was not saved yet)
 	 *
 	 * @return bool
 	 */
-	public function getIsNew()
+	public function getIsNew() : bool
 	{
 		return !$this->_data_model_saved;
 	}
@@ -60,7 +59,7 @@ trait DataModel_Trait_InternalState
 	/**
 	 * @return bool
 	 */
-	public function getIsSaved()
+	public function getIsSaved() : bool
 	{
 		return $this->_data_model_saved;
 	}
@@ -68,7 +67,7 @@ trait DataModel_Trait_InternalState
 	/**
 	 *
 	 */
-	public function setIsSaved()
+	public function setIsSaved() : void
 	{
 		$this->_data_model_saved = true;
 	}

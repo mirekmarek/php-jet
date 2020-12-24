@@ -37,21 +37,21 @@ class Controller_Main extends Mvc_Controller_Default
 	protected $module = null;
 
 	/**
-	 * @var Mvc_Controller_Router_AddEditDelete
+	 * @var ?Mvc_Controller_Router_AddEditDelete
 	 */
-	protected $router;
+	protected ?Mvc_Controller_Router_AddEditDelete $router = null;
 
 	/**
-	 * @var Role
+	 * @var ?Role
 	 */
-	protected $role;
+	protected ?Role $role = null;
 
 
 	/**
 	 *
 	 * @return Mvc_Controller_Router_AddEditDelete
 	 */
-	public function getControllerRouter()
+	public function getControllerRouter() : Mvc_Controller_Router_AddEditDelete
 	{
 		if( !$this->router ) {
 			$this->router = new Mvc_Controller_Router_AddEditDelete(
@@ -76,7 +76,7 @@ class Controller_Main extends Mvc_Controller_Default
 	/**
 	 * @param string $current_label
 	 */
-	protected function _setBreadcrumbNavigation( $current_label = '' )
+	protected function _setBreadcrumbNavigation( $current_label = '' ) : void
 	{
 		UI_module::initBreadcrumb();
 
@@ -88,7 +88,7 @@ class Controller_Main extends Mvc_Controller_Default
 	/**
 	 *
 	 */
-	public function listing_Action()
+	public function listing_Action() : void
 	{
 		$this->_setBreadcrumbNavigation();
 
@@ -105,7 +105,7 @@ class Controller_Main extends Mvc_Controller_Default
 	/**
 	 *
 	 */
-	public function add_Action()
+	public function add_Action() : void
 	{
 		$this->_setBreadcrumbNavigation( Tr::_( 'Create a new Role' ) );
 
@@ -134,7 +134,7 @@ class Controller_Main extends Mvc_Controller_Default
 
 	/**
 	 */
-	public function edit_Action()
+	public function edit_Action() : void
 	{
 		$role = $this->role;
 
@@ -163,7 +163,7 @@ class Controller_Main extends Mvc_Controller_Default
 	/**
 	 *
 	 */
-	public function view_Action()
+	public function view_Action() : void
 	{
 		$role = $this->role;
 
@@ -187,7 +187,7 @@ class Controller_Main extends Mvc_Controller_Default
 	/**
 	 *
 	 */
-	public function delete_action()
+	public function delete_action() : void
 	{
 		$role = $this->role;
 

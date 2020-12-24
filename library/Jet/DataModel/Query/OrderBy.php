@@ -14,9 +14,9 @@ class DataModel_Query_OrderBy extends BaseObject implements BaseObject_Interface
 {
 
 	/**
-	 * @var DataModel_Query_Where_Expression[]
+	 * @var DataModel_Query_OrderBy_Item[]
 	 */
-	protected $items = [];
+	protected array $items = [];
 
 
 	/**
@@ -26,7 +26,7 @@ class DataModel_Query_OrderBy extends BaseObject implements BaseObject_Interface
 	 *
 	 * @throws DataModel_Query_Exception
 	 */
-	public function __construct( DataModel_Query $query, $order_by )
+	public function __construct( DataModel_Query $query, array|string $order_by )
 	{
 		if( !is_array( $order_by ) ) {
 			$order_by = [ $order_by ];
@@ -92,7 +92,7 @@ class DataModel_Query_OrderBy extends BaseObject implements BaseObject_Interface
 	/**
 	 * @return bool
 	 */
-	public function getIsEmpty()
+	public function getIsEmpty() : bool
 	{
 		return ( count( $this->items )==0 );
 	}
@@ -108,7 +108,7 @@ class DataModel_Query_OrderBy extends BaseObject implements BaseObject_Interface
 	/**
 	 * @see \Iterator
 	 */
-	public function current()
+	public function current() : DataModel_Query_OrderBy_Item
 	{
 		return current( $this->items );
 	}
@@ -117,7 +117,7 @@ class DataModel_Query_OrderBy extends BaseObject implements BaseObject_Interface
 	 * @see \Iterator
 	 * @return string
 	 */
-	public function key()
+	public function key() : string
 	{
 		return key( $this->items );
 	}
@@ -125,7 +125,7 @@ class DataModel_Query_OrderBy extends BaseObject implements BaseObject_Interface
 	/**
 	 * @see \Iterator
 	 */
-	public function next()
+	public function next() : DataModel_Query_OrderBy_Item|bool
 	{
 		return next( $this->items );
 	}
@@ -133,7 +133,7 @@ class DataModel_Query_OrderBy extends BaseObject implements BaseObject_Interface
 	/**
 	 * @see \Iterator
 	 */
-	public function rewind()
+	public function rewind() : void
 	{
 		reset( $this->items );
 	}
@@ -142,7 +142,7 @@ class DataModel_Query_OrderBy extends BaseObject implements BaseObject_Interface
 	 * @see \Iterator
 	 * @return bool
 	 */
-	public function valid()
+	public function valid() : bool
 	{
 		return key( $this->items )!==null;
 	}
@@ -153,7 +153,7 @@ class DataModel_Query_OrderBy extends BaseObject implements BaseObject_Interface
 	 *
 	 * @return int
 	 */
-	public function count()
+	public function count() : int
 	{
 		return count($this->items);
 	}

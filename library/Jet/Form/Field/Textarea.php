@@ -15,53 +15,53 @@ class Form_Field_Textarea extends Form_Field
 	/**
 	 * @var string
 	 */
-	protected $_type = Form::TYPE_TEXTAREA;
+	protected string $_type = Form::TYPE_TEXTAREA;
 
 	/**
 	 * @var string
 	 */
-	protected static $default_renderer_script = 'field';
+	protected static string $default_renderer_script = 'field';
 
 	/**
 	 * @var string
 	 */
-	protected static $default_row_start_renderer_script = 'Field/row/start';
+	protected static string $default_row_start_renderer_script = 'Field/row/start';
 
 	/**
 	 * @var string
 	 */
-	protected static $default_row_end_renderer_script = 'Field/row/end';
+	protected static string $default_row_end_renderer_script = 'Field/row/end';
 
 	/**
 	 * @var string
 	 */
-	protected static $default_input_container_start_renderer_script = 'Field/input/container/start';
+	protected static string $default_input_container_start_renderer_script = 'Field/input/container/start';
 
 	/**
 	 * @var string
 	 */
-	protected static $default_input_container_end_renderer_script = 'Field/input/container/end';
+	protected static string $default_input_container_end_renderer_script = 'Field/input/container/end';
 
 	/**
 	 * @var string
 	 */
-	protected static $default_error_renderer = 'Field/error';
+	protected static string $default_error_renderer = 'Field/error';
 
 	/**
 	 * @var string
 	 */
-	protected static $default_label_renderer = 'Field/label';
+	protected static string $default_label_renderer = 'Field/label';
 
 	/**
 	 * @var string string
 	 */
-	protected static $default_input_renderer = 'Field/input/Textarea';
+	protected static string $default_input_renderer = 'Field/input/Textarea';
 
 
 	/**
 	 * @var array
 	 */
-	protected $error_messages = [
+	protected array $error_messages = [
 		self::ERROR_CODE_EMPTY          => '',
 		self::ERROR_CODE_INVALID_FORMAT => '',
 	];
@@ -69,7 +69,7 @@ class Form_Field_Textarea extends Form_Field
 	/**
 	 * @return array
 	 */
-	public function getRequiredErrorCodes()
+	public function getRequiredErrorCodes() : array
 	{
 		$codes = [];
 

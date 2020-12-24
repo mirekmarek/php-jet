@@ -16,22 +16,22 @@ abstract class UI_BaseElement extends BaseObject
 	/**
 	 * @var string
 	 */
-	protected static $default_renderer_script = '';
+	protected static string $default_renderer_script = '';
 
 	/**
-	 * @var string
+	 * @var ?string
 	 */
-	protected $renderer_script;
+	protected ?string $renderer_script = null;
 
 	/**
 	 * @var array
 	 */
-	protected $js_actions = [];
+	protected array $js_actions = [];
 
 	/**
 	 * @return string
 	 */
-	public static function getDefaultRendererScript()
+	public static function getDefaultRendererScript() : string
 	{
 		return static::$default_renderer_script;
 	}
@@ -39,7 +39,7 @@ abstract class UI_BaseElement extends BaseObject
 	/**
 	 * @param string $default_renderer_script
 	 */
-	public static function setDefaultRendererScript( $default_renderer_script )
+	public static function setDefaultRendererScript( string $default_renderer_script ) : void
 	{
 		static::$default_renderer_script = $default_renderer_script;
 	}
@@ -47,7 +47,7 @@ abstract class UI_BaseElement extends BaseObject
 	/**
 	 * @return string
 	 */
-	public function getRendererScript()
+	public function getRendererScript() : string
 	{
 		if(!$this->renderer_script) {
 			$this->renderer_script = static::getDefaultRendererScript();
@@ -61,7 +61,7 @@ abstract class UI_BaseElement extends BaseObject
 	 *
 	 * @return $this
 	 */
-	public function setRendererScript( $renderer_script )
+	public function setRendererScript( string $renderer_script ) : static
 	{
 		$this->renderer_script = $renderer_script;
 
@@ -76,7 +76,7 @@ abstract class UI_BaseElement extends BaseObject
 	 *
 	 * @return $this
 	 */
-	public function setJsAction( $event, $handler_code )
+	public function setJsAction( string $event, string $handler_code ) : static
 	{
 		/**
 		 * @var UI_icon $this
@@ -99,7 +99,7 @@ abstract class UI_BaseElement extends BaseObject
 	 *
 	 * @return array|string
 	 */
-	public function getJsActions( $as_string=true )
+	public function getJsActions( bool $as_string=true ) : array|string
 	{
 		if($as_string) {
 			$js_actions = [];
@@ -117,7 +117,8 @@ abstract class UI_BaseElement extends BaseObject
 	/**
 	 * @return Mvc_View
 	 */
-	public function getView() {
+	public function getView() : Mvc_View
+	{
 
 		$view = UI::getView();
 		$view->setVar( 'element', $this );
@@ -128,7 +129,7 @@ abstract class UI_BaseElement extends BaseObject
 	/**
 	 * @return string
 	 */
-	public function __toString()
+	public function __toString() : string
 	{
 		return $this->toString();
 	}
@@ -136,7 +137,7 @@ abstract class UI_BaseElement extends BaseObject
 	/**
 	 * @return string
 	 */
-	public function toString()
+	public function toString() : string
 	{
 		return $this->getView()->render($this->getRendererScript());
 	}

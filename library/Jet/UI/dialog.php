@@ -16,53 +16,53 @@ class UI_dialog extends BaseObject
 	/**
 	 * @var string
 	 */
-	protected static $default_renderer_script_start = 'dialog/start';
+	protected static string $default_renderer_script_start = 'dialog/start';
 
 	/**
 	 * @var string
 	 */
-	protected static $default_renderer_script_footer = 'dialog/footer';
+	protected static string $default_renderer_script_footer = 'dialog/footer';
 
 	/**
 	 * @var string
 	 */
-	protected static $default_renderer_script_end = 'dialog/end';
+	protected static string $default_renderer_script_end = 'dialog/end';
 
 	/**
 	 * @var string
 	 */
-	protected $id = '';
+	protected string $id = '';
 
 	/**
 	 * @var string
 	 */
-	protected $title = '';
+	protected string $title = '';
 
 	/**
 	 * @var int
 	 */
-	protected $width = 0;
+	protected int $width = 0;
 
 	/**
 	 * @var string
 	 */
-	protected $renderer_script_start = 'dialog/start';
+	protected string $renderer_script_start = 'dialog/start';
 
 	/**
 	 * @var string
 	 */
-	protected $renderer_script_footer = 'dialog/footer';
+	protected string $renderer_script_footer = 'dialog/footer';
 
 	/**
 	 * @var string
 	 */
-	protected $renderer_script_end = 'dialog/end';
+	protected string $renderer_script_end = 'dialog/end';
 
 
 	/**
 	 * @return string
 	 */
-	public static function getDefaultRendererScriptStart()
+	public static function getDefaultRendererScriptStart() : string
 	{
 		return static::$default_renderer_script_start;
 	}
@@ -70,7 +70,7 @@ class UI_dialog extends BaseObject
 	/**
 	 * @param string $default_renderer_script_start
 	 */
-	public static function setDefaultRendererScriptStart( $default_renderer_script_start )
+	public static function setDefaultRendererScriptStart( string $default_renderer_script_start ) : void
 	{
 		static::$default_renderer_script_start = $default_renderer_script_start;
 	}
@@ -78,7 +78,7 @@ class UI_dialog extends BaseObject
 	/**
 	 * @return string
 	 */
-	public static function getDefaultRendererScriptFooter()
+	public static function getDefaultRendererScriptFooter() : string
 	{
 		return static::$default_renderer_script_footer;
 	}
@@ -86,7 +86,7 @@ class UI_dialog extends BaseObject
 	/**
 	 * @param string $default_renderer_script_footer
 	 */
-	public static function setDefaultRendererScriptFooter( $default_renderer_script_footer )
+	public static function setDefaultRendererScriptFooter( string $default_renderer_script_footer ) : void
 	{
 		static::$default_renderer_script_footer = $default_renderer_script_footer;
 	}
@@ -94,7 +94,7 @@ class UI_dialog extends BaseObject
 	/**
 	 * @return string
 	 */
-	public static function getDefaultRendererScriptEnd()
+	public static function getDefaultRendererScriptEnd() : string
 	{
 		return static::$default_renderer_script_end;
 	}
@@ -102,7 +102,7 @@ class UI_dialog extends BaseObject
 	/**
 	 * @param string $default_renderer_script_end
 	 */
-	public static function setDefaultRendererScriptEnd( $default_renderer_script_end )
+	public static function setDefaultRendererScriptEnd( string $default_renderer_script_end ) : void
 	{
 		static::$default_renderer_script_end = $default_renderer_script_end;
 	}
@@ -111,9 +111,9 @@ class UI_dialog extends BaseObject
 	 *
 	 * @param string $id
 	 * @param string $title
-	 * @param int    $width
+	 * @param int $width
 	 */
-	public function __construct( $id, $title, $width )
+	public function __construct( string $id, string $title, int $width )
 	{
 		$this->id = $id;
 		$this->title = $title;
@@ -123,7 +123,7 @@ class UI_dialog extends BaseObject
 	/**
 	 * @return string
 	 */
-	public function getRendererScriptStart()
+	public function getRendererScriptStart() : string
 	{
 		if(!$this->renderer_script_start) {
 			$this->renderer_script_start = static::getDefaultRendererScriptStart();
@@ -135,7 +135,7 @@ class UI_dialog extends BaseObject
 	/**
 	 * @param string $renderer_script_start
 	 */
-	public function setRendererScriptStart( $renderer_script_start )
+	public function setRendererScriptStart( string $renderer_script_start ) : void
 	{
 		$this->renderer_script_start = $renderer_script_start;
 	}
@@ -143,7 +143,7 @@ class UI_dialog extends BaseObject
 	/**
 	 * @return string
 	 */
-	public function getRendererScriptFooter()
+	public function getRendererScriptFooter() : string
 	{
 		if(!$this->renderer_script_footer) {
 			$this->renderer_script_footer = static::getDefaultRendererScriptFooter();
@@ -155,7 +155,7 @@ class UI_dialog extends BaseObject
 	/**
 	 * @param string $renderer_script_footer
 	 */
-	public function setRendererScriptFooter( $renderer_script_footer )
+	public function setRendererScriptFooter( string $renderer_script_footer ) : void
 	{
 		$this->renderer_script_footer = $renderer_script_footer;
 	}
@@ -163,7 +163,7 @@ class UI_dialog extends BaseObject
 	/**
 	 * @return string
 	 */
-	public function getRendererScriptEnd()
+	public function getRendererScriptEnd() : string
 	{
 		if(!$this->renderer_script_end) {
 			$this->renderer_script_end = static::getDefaultRendererScriptEnd();
@@ -175,7 +175,7 @@ class UI_dialog extends BaseObject
 	/**
 	 * @param string $renderer_script_end
 	 */
-	public function setRendererScriptEnd( $renderer_script_end )
+	public function setRendererScriptEnd( string $renderer_script_end ) : void
 	{
 		$this->renderer_script_end = $renderer_script_end;
 	}
@@ -183,7 +183,7 @@ class UI_dialog extends BaseObject
 	/**
 	 * @return string
 	 */
-	public function getId()
+	public function getId() : string
 	{
 		return $this->id;
 	}
@@ -191,7 +191,7 @@ class UI_dialog extends BaseObject
 	/**
 	 * @return string
 	 */
-	public function getTitle()
+	public function getTitle() : string
 	{
 		return $this->title;
 	}
@@ -199,7 +199,7 @@ class UI_dialog extends BaseObject
 	/**
 	 * @return int
 	 */
-	public function getWidth()
+	public function getWidth() : int
 	{
 		return $this->width;
 	}
@@ -208,7 +208,8 @@ class UI_dialog extends BaseObject
 	/**
 	 * @return Mvc_View
 	 */
-	public function getView() {
+	public function getView() : Mvc_View
+	{
 
 		$view = UI::getView();
 		$view->setVar( 'element', $this );
@@ -221,7 +222,7 @@ class UI_dialog extends BaseObject
 	/**
 	 * @return string
 	 */
-	public function start()
+	public function start() : string
 	{
 		return $this->getView()->render( $this->getRendererScriptStart() );
 	}
@@ -229,7 +230,7 @@ class UI_dialog extends BaseObject
 	/**
 	 * @return string
 	 */
-	public function footer()
+	public function footer() : string
 	{
 		return $this->getView()->render( $this->getRendererScriptFooter() );
 	}
@@ -237,7 +238,7 @@ class UI_dialog extends BaseObject
 	/**
 	 * @return string
 	 */
-	public function end()
+	public function end() : string
 	{
 		return $this->getView()->render( $this->getRendererScriptEnd() );
 	}

@@ -19,54 +19,54 @@ class Form_Field_File extends Form_Field
 	/**
 	 * @var string
 	 */
-	protected static $default_renderer_script = 'field';
+	protected static string $default_renderer_script = 'field';
 
 	/**
 	 * @var string
 	 */
-	protected static $default_row_start_renderer_script = 'Field/row/start';
+	protected static string $default_row_start_renderer_script = 'Field/row/start';
 
 	/**
 	 * @var string
 	 */
-	protected static $default_row_end_renderer_script = 'Field/row/end';
+	protected static string $default_row_end_renderer_script = 'Field/row/end';
 
 	/**
 	 * @var string
 	 */
-	protected static $default_input_container_start_renderer_script = 'Field/input/container/start';
+	protected static string $default_input_container_start_renderer_script = 'Field/input/container/start';
 
 	/**
 	 * @var string
 	 */
-	protected static $default_input_container_end_renderer_script = 'Field/input/container/end';
+	protected static string $default_input_container_end_renderer_script = 'Field/input/container/end';
 
 	/**
 	 * @var string
 	 */
-	protected static $default_error_renderer = 'Field/error';
+	protected static string $default_error_renderer = 'Field/error';
 
 	/**
 	 * @var string
 	 */
-	protected static $default_label_renderer = 'Field/label';
+	protected static string $default_label_renderer = 'Field/label';
 
 	/**
 	 * @var string string
 	 */
-	protected static $default_input_renderer = 'Field/input/File';
+	protected static string $default_input_renderer = 'Field/input/File';
 
 
 
 	/**
 	 * @var string
 	 */
-	protected $_type = Form::TYPE_FILE;
+	protected string $_type = Form::TYPE_FILE;
 
 	/**
 	 * @var array
 	 */
-	protected $error_messages = [
+	protected array $error_messages = [
 		self::ERROR_CODE_EMPTY                => '',
 		self::ERROR_CODE_FILE_IS_TOO_LARGE    => '',
 		self::ERROR_CODE_DISALLOWED_FILE_TYPE => '',
@@ -75,44 +75,44 @@ class Form_Field_File extends Form_Field
 	/**
 	 * @var array
 	 */
-	protected $allowed_mime_types = [];
+	protected array $allowed_mime_types = [];
 
 	/**
 	 * @var null|int
 	 */
-	protected $maximal_file_size = null;
+	protected null|int $maximal_file_size = null;
 
 	/**
-	 * @var string
+	 * @var string|array|null
 	 */
-	protected $tmp_file_path;
+	protected string|array|null $tmp_file_path = null;
 
 	/**
-	 * @var string
+	 * @var string|array|null
 	 */
-	protected $file_name;
+	protected string|array|null $file_name = null;
 
 	/**
-	 * @var string
+	 * @var string|array|null
 	 */
-	protected $uploaded_file_path;
+	protected string|array|null $uploaded_file_path = null;
 
 	/**
 	 * @var bool
 	 */
-	protected $allow_multiple_upload = false;
+	protected bool $allow_multiple_upload = false;
 
 	/**
 	 * @var array
 	 */
-	protected $multiple_upload_errors = [];
+	protected array $multiple_upload_errors = [];
 
 	/**
 	 * set form instance
 	 *
 	 * @param Form $form
 	 */
-	public function setForm( Form $form )
+	public function setForm( Form $form ) : void
 	{
 		parent::setForm( $form );
 
@@ -125,7 +125,7 @@ class Form_Field_File extends Form_Field
 	/**
 	 * @return int|null
 	 */
-	public function getMaximalFileSize()
+	public function getMaximalFileSize() : int|null
 	{
 		return $this->maximal_file_size;
 	}
@@ -133,7 +133,7 @@ class Form_Field_File extends Form_Field
 	/**
 	 * @param int|null $maximal_file_size
 	 */
-	public function setMaximalFileSize( $maximal_file_size )
+	public function setMaximalFileSize( int|null $maximal_file_size ) : void
 	{
 		$this->maximal_file_size = $maximal_file_size;
 	}
@@ -141,7 +141,7 @@ class Form_Field_File extends Form_Field
 	/**
 	 * @return array
 	 */
-	public function getAllowedMimeTypes()
+	public function getAllowedMimeTypes() : array
 	{
 		return $this->allowed_mime_types;
 	}
@@ -149,7 +149,7 @@ class Form_Field_File extends Form_Field
 	/**
 	 * @param array $allowed_mime_types
 	 */
-	public function setAllowedMimeTypes( array $allowed_mime_types )
+	public function setAllowedMimeTypes( array $allowed_mime_types ) : void
 	{
 		$this->allowed_mime_types = $allowed_mime_types;
 	}
@@ -157,15 +157,15 @@ class Form_Field_File extends Form_Field
 	/**
 	 * @return string|array
 	 */
-	public function getFileName()
+	public function getFileName() : string|array
 	{
 		return $this->file_name;
 	}
 
 	/**
-	 * @return string
+	 * @return string|array
 	 */
-	public function getUploadedFilePath()
+	public function getUploadedFilePath() : string|array
 	{
 		if( !$this->uploaded_file_path ) {
 			return $this->getTmpFilePath();
@@ -177,7 +177,7 @@ class Form_Field_File extends Form_Field
 	/**
 	 * @param string $uploaded_file_path
 	 */
-	public function setUploadedFilePath( $uploaded_file_path )
+	public function setUploadedFilePath( string $uploaded_file_path ) : void
 	{
 		$this->uploaded_file_path = $uploaded_file_path;
 	}
@@ -185,7 +185,7 @@ class Form_Field_File extends Form_Field
 	/**
 	 * @return bool
 	 */
-	public function getAllowMultipleUpload()
+	public function getAllowMultipleUpload() : bool
 	{
 		return $this->allow_multiple_upload;
 	}
@@ -193,7 +193,7 @@ class Form_Field_File extends Form_Field
 	/**
 	 * @param bool $allow_multiple_upload
 	 */
-	public function setAllowMultipleUpload( $allow_multiple_upload )
+	public function setAllowMultipleUpload( bool $allow_multiple_upload ) : void
 	{
 		$this->allow_multiple_upload = $allow_multiple_upload;
 	}
@@ -202,7 +202,7 @@ class Form_Field_File extends Form_Field
 	/**
 	 * @return array
 	 */
-	public function getMultipleUploadErrors()
+	public function getMultipleUploadErrors() : array
 	{
 		return $this->multiple_upload_errors;
 	}
@@ -211,7 +211,7 @@ class Form_Field_File extends Form_Field
 	 * @param string $file_name
 	 * @param string $error_code
 	 */
-	public function addMultipleUploadError( $file_name, $error_code )
+	public function addMultipleUploadError( string $file_name, string $error_code ) : void
 	{
 		if(!isset($this->multiple_upload_errors[$file_name])) {
 			$this->multiple_upload_errors[$file_name] = [];
@@ -224,7 +224,7 @@ class Form_Field_File extends Form_Field
 	/**
 	 * @return string|array
 	 */
-	public function getTmpFilePath()
+	public function getTmpFilePath() : string|array
 	{
 		return $this->tmp_file_path;
 	}
@@ -233,7 +233,7 @@ class Form_Field_File extends Form_Field
 	 *
 	 * @param Data_Array $data
 	 */
-	public function catchInput( Data_Array $data )
+	public function catchInput( Data_Array $data ) : void
 	{
 
 		$this->_value = null;
@@ -282,7 +282,7 @@ class Form_Field_File extends Form_Field
 	/**
 	 *
 	 */
-	protected function catchInput_multiple()
+	protected function catchInput_multiple() : void
 	{
 
 		if( $this->_has_value ) {
@@ -321,7 +321,7 @@ class Form_Field_File extends Form_Field
 	/**
 	 *
 	 */
-	protected function catchInput_single()
+	protected function catchInput_single() : void
 	{
 
 		if( $this->_has_value ) {
@@ -347,7 +347,7 @@ class Form_Field_File extends Form_Field
 	 *
 	 * @return bool
 	 */
-	public function validate()
+	public function validate() : bool
 	{
 		if( !$this->_has_value ) {
 			if( $this->is_required ) {
@@ -437,7 +437,7 @@ class Form_Field_File extends Form_Field
 	/**
 	 * @param int $index
 	 */
-	protected function unsetFile( $index )
+	protected function unsetFile( int $index ) : void
 	{
 		unset( $this->_value_raw[$index] );
 		unset( $this->_value[$index] );
@@ -449,7 +449,7 @@ class Form_Field_File extends Form_Field
 	/**
 	 * @return string
 	 */
-	public function render()
+	public function render() : string
 	{
 		if( $this->getIsReadonly() ) {
 			return '';
@@ -461,7 +461,7 @@ class Form_Field_File extends Form_Field
 	/**
 	 * @return array
 	 */
-	public function getRequiredErrorCodes()
+	public function getRequiredErrorCodes() : array
 	{
 		$codes = [];
 		$codes[] = self::ERROR_CODE_FILE_IS_TOO_LARGE;
@@ -490,7 +490,7 @@ class Form_Field_File extends Form_Field
 	 *
 	 * @return string
 	 */
-	public function getTagNameValue( $name = null )
+	public function getTagNameValue( string|null $name = null ) : string
 	{
 		$name = parent::getTagNameValue( $name );
 

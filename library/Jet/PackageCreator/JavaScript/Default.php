@@ -14,9 +14,9 @@ class PackageCreator_JavaScript_Default extends PackageCreator_JavaScript
 {
 
 	/**
-	 * @var string
+	 * @var string|null
 	 */
-	protected $key = null;
+	protected string|null $key = null;
 
 	/**
 	 *
@@ -30,7 +30,7 @@ class PackageCreator_JavaScript_Default extends PackageCreator_JavaScript
 	/**
 	 *
 	 */
-	public function generate()
+	public function generate() : void
 	{
 
 		$package_path = $this->getPackagePath();
@@ -50,7 +50,7 @@ class PackageCreator_JavaScript_Default extends PackageCreator_JavaScript
 	 *
 	 * @return string
 	 */
-	public function createPackage()
+	public function createPackage() : string
 	{
 		$JS = '';
 
@@ -68,7 +68,7 @@ class PackageCreator_JavaScript_Default extends PackageCreator_JavaScript
 	 *
 	 * @return string
 	 */
-	public function getKey()
+	public function getKey() : string
 	{
 		if( !$this->key ) {
 			$this->key = md5( implode( '', $this->URIs ) );
@@ -81,7 +81,7 @@ class PackageCreator_JavaScript_Default extends PackageCreator_JavaScript
 	/**
 	 * @return string
 	 */
-	public function getPackageRelativeFileName()
+	public function getPackageRelativeFileName() : string
 	{
 
 		return static::getPackagesDirName().'/'.$this->getKey().'.js';
@@ -90,7 +90,7 @@ class PackageCreator_JavaScript_Default extends PackageCreator_JavaScript
 	/**
 	 * @return string
 	 */
-	public function getPackagePath()
+	public function getPackagePath() : string
 	{
 		return SysConf_PATH::PUBLIC().$this->getPackageRelativeFileName();
 	}
@@ -98,7 +98,7 @@ class PackageCreator_JavaScript_Default extends PackageCreator_JavaScript
 	/**
 	 * @return string
 	 */
-	public function getPackageURI()
+	public function getPackageURI() : string
 	{
 		return SysConf_URI::PUBLIC().$this->getPackageRelativeFileName();
 	}

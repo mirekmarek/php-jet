@@ -16,22 +16,22 @@ class Debug_Profiler_Run_Block_Message
 	/**
 	 * @var string
 	 */
-	protected $text = "";
+	protected string $text = "";
 
 	/**
 	 * @var float
 	 */
-	protected $timestamp = 0.0;
+	protected float $timestamp = 0.0;
 
 	/**
 	 * @var array
 	 */
-	protected $backtrace = [];
+	protected array $backtrace = [];
 
 	/**
 	 * @param string $text
 	 */
-	public function __construct( $text )
+	public function __construct( string $text )
 	{
 		$this->text = $text;
 
@@ -43,7 +43,7 @@ class Debug_Profiler_Run_Block_Message
 	/**
 	 * @return array
 	 */
-	public function getBacktrace()
+	public function getBacktrace() : array
 	{
 		return $this->backtrace;
 	}
@@ -51,7 +51,7 @@ class Debug_Profiler_Run_Block_Message
 	/**
 	 * @return string
 	 */
-	public function getText()
+	public function getText() : string
 	{
 		return $this->text;
 	}
@@ -59,7 +59,7 @@ class Debug_Profiler_Run_Block_Message
 	/**
 	 * @return float
 	 */
-	public function getTimestamp()
+	public function getTimestamp() : float
 	{
 		return $this->timestamp;
 	}

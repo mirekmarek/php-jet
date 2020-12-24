@@ -15,27 +15,27 @@ trait Mvc_Page_Trait_Initialization
 	/**
 	 * @var string
 	 */
-	protected static $page_data_file_name = 'page_data.php';
+	protected static string $page_data_file_name = 'page_data.php';
 
 	/**
 	 * @var string
 	 */
-	protected $data_file_path = '';
+	protected string $data_file_path = '';
 
 	/**
-	 * @var Mvc_Page_Interface[][][]
+	 * @var Mvc_Page[][][]
 	 */
-	protected static $pages = [];
+	protected static array $pages = [];
 
 	/**
-	 * @var Mvc_Page_Interface[]
+	 * @var Mvc_Page[]
 	 */
-	protected static $path_map = [];
+	protected static array $path_map = [];
 
 	/**
 	 * @return string
 	 */
-	public static function getPageDataFileName()
+	public static function getPageDataFileName() : string
 	{
 		return static::$page_data_file_name;
 	}
@@ -43,18 +43,18 @@ trait Mvc_Page_Trait_Initialization
 	/**
 	 * @param string $page_data_file_name
 	 */
-	public static function setPageDataFileName( $page_data_file_name )
+	public static function setPageDataFileName( string $page_data_file_name ) : void
 	{
 		static::$page_data_file_name = $page_data_file_name;
 	}
 
 
 	/**
-	 * @param Mvc_Page_Interface|Mvc_Page $page
+	 * @param Mvc_Page_Interface $page
 	 *
 	 * @throws Mvc_Page_Exception
 	 */
-	public static function appendPage( Mvc_Page_Interface $page )
+	public static function appendPage( Mvc_Page_Interface $page ) : void
 	{
 
 		$site_id = $page->getSite()->getId();
@@ -81,7 +81,7 @@ trait Mvc_Page_Trait_Initialization
 	 *
 	 * @return array
 	 */
-	public static function loadPagesData( Mvc_Site_Interface $site, Locale $locale )
+	public static function loadPagesData( Mvc_Site_Interface $site, Locale $locale ) : array
 	{
 		$site_id = $site->getId();
 		$locale_str = $locale->toString();
@@ -105,7 +105,7 @@ trait Mvc_Page_Trait_Initialization
 	 *
 	 * @return Mvc_Page_Interface[]
 	 */
-	public static function loadPages( Mvc_Site_Interface $site, Locale $locale )
+	public static function loadPages( Mvc_Site_Interface $site, Locale $locale ) : array
 	{
 		$site_id = $site->getId();
 		$locale_str = $locale->toString();
@@ -143,6 +143,9 @@ trait Mvc_Page_Trait_Initialization
 			Debug_Profiler::message('site: '.$site_id.' locale: '.$locale_str);
 
 			foreach( $data as $id=>$page_data ) {
+				/**
+				 * @var Mvc_Page_Interface $page
+				 */
 				$page = static::createByData( $site, $locale, $page_data );
 				static::appendPage( $page );
 			}
@@ -169,7 +172,7 @@ trait Mvc_Page_Trait_Initialization
 	 * @param Mvc_Site_Interface $site
 	 * @param Locale $locale
 	 */
-	public static function loadModulePages( Mvc_Site_Interface $site, Locale $locale )
+	public static function loadModulePages( Mvc_Site_Interface $site, Locale $locale ) : void
 	{
 		$site_id = $site->getId();
 		$locale_str = $locale->toString();
@@ -196,15 +199,15 @@ trait Mvc_Page_Trait_Initialization
 	}
 
 	/**
-	 * @param array  $pages
+	 * @param array $pages
 	 * @param string $site_id
 	 * @param string $locale_str
 	 * @param string $source_dir_path
-	 * @param array|null  $parent_page_data (optional)
+	 * @param array|null $parent_page_data (optional)
 	 *
 	 * @throws Mvc_Page_Exception
 	 */
-	protected static function _loadPagesData_readDir( array &$pages, $site_id, $locale_str, $source_dir_path, array $parent_page_data = null )
+	protected static function _loadPagesData_readDir( array &$pages, string $site_id, string $locale_str, string $source_dir_path, array $parent_page_data = null ) : void
 	{
 		/**
 		 * @var Mvc_Page|Mvc_Page_Trait_Auth $this
@@ -271,13 +274,13 @@ trait Mvc_Page_Trait_Initialization
 	/**
 	 * @param string $data_file_path
 	 *
-	 * @param array|null  $parent_page_data
+	 * @param array|null $parent_page_data
 	 *
 	 * @param string $dir_name
 	 *
 	 * @return array|null
 	 */
-	public static function _loadPagesData_readPageDataFile( $data_file_path, array $parent_page_data = null, $dir_name='' )
+	public static function _loadPagesData_readPageDataFile( string $data_file_path, array $parent_page_data = null, $dir_name='' ) : array|null
 	{
 
 		if( !IO_File::isReadable( $data_file_path ) ) {
@@ -320,9 +323,9 @@ trait Mvc_Page_Trait_Initialization
 	 * @param array                   $data
 	 * @param Mvc_Page_Interface|null $parent_page
 	 *
-	 * @return Mvc_Page_Interface
+	 * @return static
 	 */
-	public static function createByData( Mvc_Site_Interface $site, Locale $locale, array $data, Mvc_Page_Interface $parent_page = null )
+	public static function createByData( Mvc_Site_Interface $site, Locale $locale, array $data, Mvc_Page_Interface $parent_page = null ) : static
 	{
 		/**
 		 * @var Mvc_Page $page
@@ -349,7 +352,7 @@ trait Mvc_Page_Trait_Initialization
 	/**
 	 * @param array $data
 	 */
-	protected function setData( array $data )
+	protected function setData( array $data ) : void
 	{
 		/**
 		 * @var Mvc_Page $this
@@ -410,7 +413,7 @@ trait Mvc_Page_Trait_Initialization
 	/**
 	 * @return string
 	 */
-	public function getDataDirPath()
+	public function getDataDirPath() : string
 	{
 		return dirname( $this->getDataFilePath() ).'/';
 	}
@@ -418,7 +421,7 @@ trait Mvc_Page_Trait_Initialization
 	/**
 	 * @return string
 	 */
-	public function getDataFilePath()
+	public function getDataFilePath() : string
 	{
 		return $this->data_file_path;
 	}
@@ -426,7 +429,7 @@ trait Mvc_Page_Trait_Initialization
 	/**
 	 * @param string $data_file_path
 	 */
-	public function setDataFilePath( $data_file_path )
+	public function setDataFilePath( string $data_file_path ) : void
 	{
 		$this->data_file_path = $data_file_path;
 	}

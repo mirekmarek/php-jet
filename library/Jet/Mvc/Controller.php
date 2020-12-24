@@ -13,19 +13,19 @@ namespace Jet;
 abstract class Mvc_Controller extends BaseObject
 {
 	/**
-	 * @var Mvc_Page_Content_Interface
+	 * @var Mvc_Page_Content_Interface|null
 	 */
-	protected $content;
+	protected Mvc_Page_Content_Interface|null $content = null;
 	/**
 	 *
-	 * @var Application_Module
+	 * @var Application_Module|null
 	 */
-	protected $module;
+	protected $module = null;
 
 	/**
-	 * @var Mvc_View
+	 * @var Mvc_View|null
 	 */
-	protected $view;
+	protected Mvc_View|null $view = null;
 
 	/**
 	 *
@@ -40,11 +40,10 @@ abstract class Mvc_Controller extends BaseObject
 	}
 
 	/**
-	 * Creates default view instance
 	 *
 	 * @see Mvc_View
 	 */
-	protected function initializeDefaultView()
+	protected function initializeDefaultView() : void
 	{
 		$this->view = Mvc_Factory::getViewInstance( $this->module->getViewsDir() );
 		$this->view->setController($this);
@@ -52,17 +51,17 @@ abstract class Mvc_Controller extends BaseObject
 
 
 	/**
-	 * @return Mvc_Page_Content_Interface
+	 * @return Mvc_Page_Content_Interface|null
 	 */
-	public function getContent()
+	public function getContent() : Mvc_Page_Content_Interface|null
 	{
 		return $this->content;
 	}
 
 	/**
-	 * @return Application_Module
+	 * @return Application_Module|null
 	 */
-	public function getModule()
+	public function getModule() : Application_Module|null
 	{
 		return $this->module;
 	}
@@ -70,9 +69,9 @@ abstract class Mvc_Controller extends BaseObject
 	/**
 	 *
 	 *
-	 * @return Mvc_Controller_Router|Mvc_Controller_Router_Interface|null
+	 * @return Mvc_Controller_Router_Interface|Mvc_Controller_Router|null
 	 */
-	public function getControllerRouter()
+	public function getControllerRouter() : Mvc_Controller_Router_Interface|Mvc_Controller_Router|null
 	{
 		return null;
 	}
@@ -80,15 +79,18 @@ abstract class Mvc_Controller extends BaseObject
 	/**
 	 *
 	 */
-	abstract public function responseAccessDenied();
+	abstract public function responseAccessDenied() : void;
 
 	/**
 	 * @param string $action_message
 	 * @param string $context_object_id
 	 * @param string $context_object_name
-	 * @param array  $context_object_data
+	 * @param mixed  $context_object_data
 	 */
-	public function logAllowedAction( $action_message, $context_object_id = '', $context_object_name = '', $context_object_data = [] )
+	public function logAllowedAction( string $action_message,
+	                                  string $context_object_id = '',
+	                                  string $context_object_name = '',
+	                                  mixed $context_object_data = [] )
 	{
 
 		$module_name = $this->module->getModuleManifest()->getName();
@@ -108,7 +110,7 @@ abstract class Mvc_Controller extends BaseObject
 	/**
 	 * @return array
 	 */
-	public function getParameters()
+	public function getParameters() : array
 	{
 		return $this->content->getParameters();
 	}
@@ -119,7 +121,7 @@ abstract class Mvc_Controller extends BaseObject
 	 *
 	 * @return mixed
 	 */
-	public function getParameter( $key, $default_value = null )
+	public function getParameter( string $key, mixed $default_value = null )
 	{
 		return $this->content->getParameter( $key, $default_value );
 	}
@@ -129,7 +131,7 @@ abstract class Mvc_Controller extends BaseObject
 	 *
 	 * @return bool
 	 */
-	public function parameterExists( $key )
+	public function parameterExists( string $key ) : bool
 	{
 		return $this->content->parameterExists( $key );
 	}
@@ -140,7 +142,7 @@ abstract class Mvc_Controller extends BaseObject
 	 *
 	 * @return bool|string
 	 */
-	public function resolve()
+	public function resolve() : bool|string
 	{
 		$router = $this->getControllerRouter();
 		if( !$router ) {
@@ -158,7 +160,7 @@ abstract class Mvc_Controller extends BaseObject
 	 *
 	 * @throws Exception
 	 */
-	public function dispatch()
+	public function dispatch() : void
 	{
 		$method = $this->content->getControllerAction().'_Action';
 
@@ -178,7 +180,7 @@ abstract class Mvc_Controller extends BaseObject
 	 * @param string|null $position (optional, default: by current dispatcher queue item)
 	 * @param int|null    $position_order (optional, default: by current dispatcher queue item)
 	 */
-	protected function render( $script, $position = null, $position_order = null )
+	protected function render( string $script, string|null $position = null, int|null $position_order = null ) : void
 	{
 
 

@@ -7,6 +7,9 @@
  */
 namespace JetStudio;
 
+/**
+ *
+ */
 class ClassParser_Token {
 
 	/**
@@ -42,8 +45,7 @@ class ClassParser_Token {
 		} else {
 			if(
 				$this->id==T_OPEN_TAG ||
-				$this->id==T_WHITESPACE ||
-				$this->id==T_COMMENT
+				$this->id==T_WHITESPACE
 			) {
 				return true;
 			}

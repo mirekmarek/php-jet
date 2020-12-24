@@ -33,7 +33,7 @@ class Installer_Step_CreateSite_Controller extends Installer_Step_Controller
 	/**
 	 * @var string
 	 */
-	protected $label = 'Create site';
+	protected string $label = 'Create site';
 
 	/**
 	 * @return bool
@@ -46,7 +46,7 @@ class Installer_Step_CreateSite_Controller extends Installer_Step_Controller
 	/**
 	 *
 	 */
-	public function main()
+	public function main() : void
 	{
 
 		if( static::sitesCreated() ) {

@@ -24,24 +24,24 @@ class Controller_REST extends Mvc_Controller_REST
 	protected $module = null;
 
 	/**
-	 * @var Gallery
+	 * @var ?Gallery
 	 */
-	protected $gallery;
+	protected ?Gallery $gallery = null;
 
 	/**
 	 * @var string
 	 */
-	protected $sub_object = '';
+	protected string $sub_object = '';
 
 	/**
-	 * @var Gallery_Image
+	 * @var ?Gallery_Image
 	 */
-	protected $image;
+	protected ?Gallery_Image $image = null;
 
 	/**
 	 * @return Mvc_Controller_REST_Router
 	 */
-	public function getControllerRouter()
+	public function getControllerRouter() : Mvc_Controller_REST_Router
 	{
 		$router = new Mvc_Controller_REST_Router(
 			$this,
@@ -181,6 +181,7 @@ class Controller_REST extends Mvc_Controller_REST
 		if(Http_Request::GET()->exists('tree')) {
 			$this->responseData( Gallery::getTree() );
 		} else {
+			/** @noinspection PhpParamsInspection */
 			$this->responseData(
 				$this->handleDataPagination(
 					$this->handleOrderBy(
@@ -278,6 +279,7 @@ class Controller_REST extends Mvc_Controller_REST
 
 		$list = Gallery_Image::getList( $gallery->getId() );
 
+		/** @noinspection PhpParamsInspection */
 		$this->responseData(
 			$this->handleDataPagination(
 				$this->handleOrderBy(

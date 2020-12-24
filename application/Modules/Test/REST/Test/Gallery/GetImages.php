@@ -18,7 +18,7 @@ class Test_Gallery_GetImages extends Test_Abstract
 	/**
 	 * @return bool
 	 */
-	public function isEnabled()
+	public function isEnabled() : bool
 	{
 		return count($this->data['galleries'])>0;
 	}
@@ -26,7 +26,7 @@ class Test_Gallery_GetImages extends Test_Abstract
 	/**
 	 * @return string
 	 */
-	protected function _getTitle()
+	protected function _getTitle() : string
 	{
 		return 'Get images';
 	}
@@ -34,7 +34,7 @@ class Test_Gallery_GetImages extends Test_Abstract
 	/**
 	 *
 	 */
-	public function test()
+	public function test() : void
 	{
 
 		$ids = [];

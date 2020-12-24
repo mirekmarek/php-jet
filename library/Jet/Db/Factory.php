@@ -16,12 +16,12 @@ class Db_Factory
 	/**
 	 * @var string
 	 */
-	protected static $default_backend = __NAMESPACE__.'\\Db_Backend_PDO';
+	protected static string $default_backend = Db_Backend_PDO::class;
 
 	/**
 	 * @return string
 	 */
-	public static function getDefaultBackend()
+	public static function getDefaultBackend() : string
 	{
 		return static::$default_backend;
 	}
@@ -29,7 +29,7 @@ class Db_Factory
 	/**
 	 * @param string $default_backend
 	 */
-	public static function setDefaultBackend( $default_backend )
+	public static function setDefaultBackend( string $default_backend )
 	{
 		static::$default_backend = $default_backend;
 	}
@@ -42,7 +42,7 @@ class Db_Factory
 	 *
 	 * @return Db_Backend_Config|Db_Backend_PDO_Config
 	 */
-	public static function getBackendConfigInstance( array $config_data = [] )
+	public static function getBackendConfigInstance( array $config_data = [] ) : Db_Backend_Config|Db_Backend_PDO_Config
 	{
 		$config_class = static::$default_backend.'_Config';
 
@@ -55,10 +55,9 @@ class Db_Factory
 	 *
 	 * @return Db_Backend_Interface
 	 */
-	public static function getBackendInstance( Db_Backend_Config $connection_config )
+	public static function getBackendInstance( Db_Backend_Config $connection_config ) : Db_Backend_Interface
 	{
 		$adapter_class = static::$default_backend;
-
 
 		return new $adapter_class( $connection_config );
 	}

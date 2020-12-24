@@ -15,20 +15,20 @@ class UI
 {
 
 	/**
-	 * @var string
+	 * @var ?string
 	 */
-	protected static $views_dir;
+	protected static ?string $views_dir = null;
 
 	/**
 	 * @var string
 	 */
-	protected static $translator_namespace = Tr::COMMON_NAMESPACE;
+	protected static string $translator_namespace = Tr::COMMON_NAMESPACE;
 
 
 	/**
 	 * @return string
 	 */
-	public static function getViewsDir()
+	public static function getViewsDir() : string
 	{
 		if(!static::$views_dir) {
 			static::$views_dir = SysConf_PATH::APPLICATION().'views/UI/';
@@ -39,7 +39,7 @@ class UI
 	/**
 	 * @param string $views_dir
 	 */
-	public static function setViewsDir( $views_dir )
+	public static function setViewsDir( string $views_dir ) : void
 	{
 		static::$views_dir = $views_dir;
 	}
@@ -47,7 +47,7 @@ class UI
 	/**
 	 * @return Mvc_View
 	 */
-	public static function getView()
+	public static function getView() : Mvc_View
 	{
 		$view = Mvc_Factory::getViewInstance( static::getViewsDir() );
 
@@ -58,7 +58,7 @@ class UI
 	/**
 	 * @return string
 	 */
-	public static function getTranslatorNamespace()
+	public static function getTranslatorNamespace() : string
 	{
 		return static::$translator_namespace;
 	}
@@ -66,7 +66,7 @@ class UI
 	/**
 	 * @param string $translator_namespace
 	 */
-	public static function setTranslatorNamespace( $translator_namespace )
+	public static function setTranslatorNamespace( string $translator_namespace ) : void
 	{
 		static::$translator_namespace = $translator_namespace;
 	}
@@ -77,7 +77,8 @@ class UI
 	 *
 	 * @return string
 	 */
-	public static function _( $text, $data = [] ) {
+	public static function _( string $text, array $data = [] ) : string
+	{
 		return Tr::_( $text, $data, static::getTranslatorNamespace() );
 	}
 
@@ -86,7 +87,7 @@ class UI
 	 *
 	 * @return UI_button
 	 */
-	public static function button( $label = '' )
+	public static function button( string $label = '' ) : UI_button
 	{
 		return new UI_button( $label );
 	}
@@ -96,7 +97,7 @@ class UI
 	 *
 	 * @return UI_button_save
 	 */
-	public static function button_save( $label = '' )
+	public static function button_save( string $label = '' ) : UI_button_save
 	{
 		return new UI_button_save( $label );
 	}
@@ -106,7 +107,7 @@ class UI
 	 *
 	 * @return UI_button_goBack
 	 */
-	public static function button_goBack( $label = '' )
+	public static function button_goBack( string $label = '' ) : UI_button_goBack
 	{
 		return new UI_button_goBack( $label );
 	}
@@ -116,7 +117,7 @@ class UI
 	 *
 	 * @return UI_button_edit
 	 */
-	public static function button_edit( $label = '' )
+	public static function button_edit( string $label = '' ) : UI_button_edit
 	{
 		return new UI_button_edit( $label );
 	}
@@ -126,7 +127,7 @@ class UI
 	 *
 	 * @return UI_button_delete
 	 */
-	public static function button_delete( $label = '' )
+	public static function button_delete( string $label = '' ) : UI_button_delete
 	{
 		return new UI_button_delete( $label );
 	}
@@ -137,7 +138,7 @@ class UI
 	 *
 	 * @return UI_button_create
 	 */
-	public static function button_create( $label )
+	public static function button_create( string $label ) : UI_button_create
 	{
 		return new UI_button_create( $label );
 	}
@@ -147,7 +148,7 @@ class UI
 	 *
 	 * @return UI_icon
 	 */
-	public static function icon( $icon )
+	public static function icon( string $icon ) : UI_icon
 	{
 		return new UI_icon( $icon );
 	}
@@ -155,11 +156,11 @@ class UI
 	/**
 	 * @param string $id
 	 * @param string $title
-	 * @param int    $width
+	 * @param int $width
 	 *
 	 * @return UI_dialog
 	 */
-	public static function dialog( $id, $title, $width )
+	public static function dialog( string $id, string $title, int $width ) : UI_dialog
 	{
 		return new UI_dialog( $id, $title, $width );
 	}
@@ -169,7 +170,7 @@ class UI
 	 *
 	 * @return UI_localeLabel
 	 */
-	public static function localeLabel( Locale $locale )
+	public static function localeLabel( Locale $locale ) : UI_localeLabel
 	{
 		return new UI_localeLabel( $locale);
 	}
@@ -179,7 +180,7 @@ class UI
 	 *
 	 * @return UI_flag
 	 */
-	public static function flag( Locale $locale )
+	public static function flag( Locale $locale ) : UI_flag
 	{
 		return new UI_flag( $locale );
 	}
@@ -190,7 +191,7 @@ class UI
 	 *
 	 * @return UI_locale
 	 */
-	public static function locale( Locale $locale )
+	public static function locale( Locale $locale ) : UI_locale
 	{
 		return new UI_locale( $locale );
 	}
@@ -203,19 +204,21 @@ class UI
 	 *
 	 * @return UI_tabs
 	 */
-	public static function tabs( array $tabs, callable $tab_url_creator, $selected_tab_id=null )
+	public static function tabs( array $tabs,
+	                             callable $tab_url_creator,
+	                             string|null $selected_tab_id=null ) : UI_tabs
 	{
 		return new UI_tabs( $tabs, $tab_url_creator, $selected_tab_id );
 	}
 
 	/**
-	 * @param string      $id
-	 * @param array       $tabs
+	 * @param string $id
+	 * @param array $tabs
 	 * @param string|null $selected_tab_id
 	 *
 	 * @return UI_tabsJS
 	 */
-	public static function tabsJS( $id, array $tabs, $selected_tab_id=null )
+	public static function tabsJS( string $id, array $tabs, string|null $selected_tab_id=null ) : UI_tabsJS
 	{
 		return new UI_tabsJS( $id, $tabs, $selected_tab_id );
 	}
@@ -227,7 +230,7 @@ class UI
 	 *
 	 * @return UI_searchField
 	 */
-	public static function searchField( $name, $value )
+	public static function searchField( string $name, string $value ) : UI_searchField
 	{
 		return new UI_searchField( $name, $value );
 	}

@@ -25,17 +25,17 @@ class Installer_Step_ConfigureDb_Controller extends Installer_Step_Controller
 	/**
 	 * @var string
 	 */
-	protected $label = 'Database configuration';
+	protected string $label = 'Database configuration';
 
 	/**
-	 * @var Db_Config
+	 * @var ?Db_Config
 	 */
-	protected $main_config;
+	protected ?Db_Config $main_config = null;
 
 	/**
 	 * @return bool
 	 */
-	public function getIsAvailable()
+	public function getIsAvailable() : bool
 	{
 		return !Installer_Step_CreateSite_Controller::sitesCreated();
 	}
@@ -43,7 +43,7 @@ class Installer_Step_ConfigureDb_Controller extends Installer_Step_Controller
 	/**
 	 *
 	 */
-	public function main()
+	public function main() : void
 	{
 
 		$this->main_config = new Db_Config();
@@ -112,7 +112,7 @@ class Installer_Step_ConfigureDb_Controller extends Installer_Step_Controller
 	/**
 	 * @param $connection_config
 	 */
-	protected function test( Db_Backend_PDO_Config $connection_config )
+	protected function test( Db_Backend_PDO_Config $connection_config ) : void
 	{
 
 

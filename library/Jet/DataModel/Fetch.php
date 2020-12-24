@@ -14,44 +14,43 @@ abstract class DataModel_Fetch extends BaseObject implements BaseObject_Interfac
 {
 
 	/**
-	 * @var DataModel_Definition_Model
+	 * @var ?DataModel_Definition_Model
 	 */
-	protected $data_model_definition;
+	protected ?DataModel_Definition_Model $data_model_definition = null;
 
 	/**
-	 * Query
 	 *
-	 * @var DataModel_Query
+	 * @var ?DataModel_Query
 	 */
-	protected $query;
+	protected ?DataModel_Query $query = null;
 
 	/**
-	 * @var int
+	 * @var int|null
 	 */
-	protected $count = null;
+	protected int|null $count = null;
 
 	/**
 	 * @var bool
 	 */
-	protected $pagination_enabled = false;
+	protected bool $pagination_enabled = false;
 
 
 	/**
 	 *
-	 * @var DataModel_IDController
+	 * @var ?DataModel_IDController
 	 */
-	protected $empty_id_instance;
+	protected ?DataModel_IDController $empty_id_instance = null;
 
 	/**
 	 *
-	 * @var array
+	 * @var ?array
 	 */
-	protected $data;
+	protected ?array $data = null;
 
 
 	/**
 	 *
-	 * @param array|DataModel_Query $query
+	 * @param DataModel_Query $query
 	 *
 	 */
 	final public function __construct( DataModel_Query $query )
@@ -76,7 +75,7 @@ abstract class DataModel_Fetch extends BaseObject implements BaseObject_Interfac
 	 * @param int $limit
 	 * @param int $offset
 	 */
-	public function setPagination( $limit, $offset )
+	public function setPagination( int $limit, int $offset ) : void
 	{
 		$this->pagination_enabled = true;
 
@@ -86,7 +85,7 @@ abstract class DataModel_Fetch extends BaseObject implements BaseObject_Interfac
 	/**
 	 * @return DataModel_Query
 	 */
-	public function getQuery()
+	public function getQuery() : DataModel_Query
 	{
 		return $this->query;
 	}
@@ -96,7 +95,7 @@ abstract class DataModel_Fetch extends BaseObject implements BaseObject_Interfac
 	 *
 	 * @return int
 	 */
-	public function getCount()
+	public function getCount() : int
 	{
 		if( $this->count===null ) {
 			$this->count = DataModel_Backend::get($this->data_model_definition)->getCount( $this->query );
@@ -108,13 +107,13 @@ abstract class DataModel_Fetch extends BaseObject implements BaseObject_Interfac
 	/**
 	 *
 	 */
-	abstract protected function _fetch();
+	abstract protected function _fetch() : void;
 
 
 	/**
 	 * @return string
 	 */
-	public function toJSON()
+	public function toJSON() : string
 	{
 		return json_encode( $this->jsonSerialize() );
 	}
@@ -122,7 +121,7 @@ abstract class DataModel_Fetch extends BaseObject implements BaseObject_Interfac
 	/**
 	 * @return array
 	 */
-	public function jsonSerialize()
+	public function jsonSerialize() : array
 	{
 		$result = [];
 
@@ -139,14 +138,14 @@ abstract class DataModel_Fetch extends BaseObject implements BaseObject_Interfac
 	/**
 	 * @return array
 	 */
-	abstract public function toArray();
+	abstract public function toArray() : array;
 
 	/**
 	 * @see Countable
 	 *
 	 * @return int
 	 */
-	public function count()
+	public function count() : int
 	{
 		return $this->getCount();
 	}
@@ -154,11 +153,11 @@ abstract class DataModel_Fetch extends BaseObject implements BaseObject_Interfac
 	/**
 	 * @see ArrayAccess
 	 *
-	 * @param int $offset
+	 * @param mixed $offset
 	 *
 	 * @return bool
 	 */
-	public function offsetExists( $offset )
+	public function offsetExists( mixed $offset ) : bool
 	{
 		$this->_fetch();
 
@@ -170,21 +169,21 @@ abstract class DataModel_Fetch extends BaseObject implements BaseObject_Interfac
 	 *
 	 * @see ArrayAccess
 	 *
-	 * @param int   $offset
+	 * @param mixed $offset
 	 * @param mixed $value
 	 */
-	public function offsetSet( $offset, $value )
+	public function offsetSet( mixed $offset, mixed $value ) : void
 	{
 	}
 
 	/**
 	 * @see ArrayAccess
 	 *
-	 * @param int $offset
+	 * @param mixed $offset
 	 *
 	 * @return DataModel
 	 */
-	public function offsetGet( $offset )
+	public function offsetGet( mixed $offset ) : DataModel
 	{
 		$this->_fetch();
 
@@ -196,14 +195,14 @@ abstract class DataModel_Fetch extends BaseObject implements BaseObject_Interfac
 	 *
 	 * @return DataModel|DataModel_IDController
 	 */
-	abstract protected function _get( $item );
+	abstract protected function _get( mixed $item ) : DataModel|DataModel_IDController;
 
 	/**
 	 * @see ArrayAccess
 	 *
 	 * @param int $offset
 	 */
-	public function offsetUnset( $offset )
+	public function offsetUnset( mixed $offset ) : void
 	{
 		$this->_fetch();
 		unset( $this->data[$offset] );
@@ -214,7 +213,7 @@ abstract class DataModel_Fetch extends BaseObject implements BaseObject_Interfac
 	 *
 	 * @return DataModel
 	 */
-	public function current()
+	public function current() : DataModel
 	{
 		$this->_fetch();
 
@@ -225,7 +224,7 @@ abstract class DataModel_Fetch extends BaseObject implements BaseObject_Interfac
 	 * @see Iterator
 	 * @return string
 	 */
-	public function key()
+	public function key() : string
 	{
 		$this->_fetch();
 
@@ -235,7 +234,7 @@ abstract class DataModel_Fetch extends BaseObject implements BaseObject_Interfac
 	/**
 	 * @see Iterator
 	 */
-	public function next()
+	public function next() : void
 	{
 		$this->_fetch();
 		next( $this->data );
@@ -244,7 +243,7 @@ abstract class DataModel_Fetch extends BaseObject implements BaseObject_Interfac
 	/**
 	 * @see Iterator
 	 */
-	public function rewind()
+	public function rewind() : void
 	{
 		$this->_fetch();
 		reset( $this->data );
@@ -254,7 +253,7 @@ abstract class DataModel_Fetch extends BaseObject implements BaseObject_Interfac
 	 * @see Iterator
 	 * @return bool
 	 */
-	public function valid()
+	public function valid() : bool
 	{
 		$this->_fetch();
 

@@ -30,24 +30,24 @@ class Controller_Admin extends Mvc_Controller_Default
 	 *
 	 * @var Main
 	 */
-	protected $module = null;
+	protected $module;
 
 	/**
-	 * @var Mvc_Controller_Router_AddEditDelete
+	 * @var ?Mvc_Controller_Router_AddEditDelete
 	 */
-	protected $router;
+	protected ?Mvc_Controller_Router_AddEditDelete $router = null;
 
 	/**
-	 * @var Gallery
+	 * @var ?Gallery
 	 */
-	protected $gallery;
+	protected ?Gallery $gallery = null;
 
 
 	/**
 	 *
 	 * @return Mvc_Controller_Router_AddEditDelete
 	 */
-	public function getControllerRouter()
+	public function getControllerRouter() : Mvc_Controller_Router_AddEditDelete
 	{
 		if( !$this->router ) {
 			$this->router = new Mvc_Controller_Router_AddEditDelete(

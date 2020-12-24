@@ -17,7 +17,7 @@ trait Mvc_Page_Trait_Auth
 	/**
 	 * @return bool
 	 */
-	public function accessAllowed()
+	public function accessAllowed() : bool
 	{
 		/**
 		 * @var Mvc_Page|Mvc_Page_Trait_Auth $this

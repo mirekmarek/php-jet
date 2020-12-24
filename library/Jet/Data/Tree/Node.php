@@ -18,38 +18,37 @@ class Data_Tree_Node extends BaseObject implements BaseObject_Interface_Iterator
 
 	/**
 	 *
-	 * @var Data_Tree
+	 * @var ?Data_Tree
 	 */
-	protected $_tree;
+	protected ?Data_Tree $_tree = null;
 
 	/**
 	 *
 	 * @var string
 	 */
-	protected $id;
+	protected string $id = '';
 
 	/**
 	 *
-	 * @var string
+	 * @var ?string
 	 */
-	protected $parent_id = null;
+	protected ?string $parent_id = null;
 	/**
 	 *
-	 * @var string
+	 * @var ?string
 	 */
-	protected $real_parent_id = null;
+	protected ?string $real_parent_id = null;
 
 	/**
-	 * Parent node
 	 *
-	 * @var Data_Tree_Node
+	 * @var ?Data_Tree_Node
 	 */
-	protected $_parent;
+	protected ?Data_Tree_Node $_parent = null;
 
 	/**
-	 * @var string|null
+	 * @var ?string
 	 */
-	protected $label;
+	protected ?string $label = null;
 
 	/**
 	 * Node data
@@ -60,63 +59,60 @@ class Data_Tree_Node extends BaseObject implements BaseObject_Interface_Iterator
 
 
 	/**
-	 * Children
 	 *
 	 * @var Data_Tree_Node[]
 	 */
-	protected $_children = [];
+	protected array $_children = [];
 
 	/**
-	 * Range from root
 	 *
 	 * @var int
 	 */
-	protected $depth = 0;
+	protected int $depth = 0;
 
 	/**
-	 * Is node root?
 	 *
 	 * @var bool
 	 */
-	protected $is_root = false;
+	protected bool $is_root = false;
 
 	/**
 	 * @var bool
 	 */
-	protected $is_orphan = false;
+	protected bool $is_orphan = false;
 
 	/**
 	 *
 	 * @var Data_Tree_Node[]
 	 */
-	protected $_iterator_map = [];
+	protected array $_iterator_map = [];
 
 	/**
-	 * @var int
+	 * @var ?int
 	 */
-	protected $_max_depth;
-
-	/**
-	 * @var string
-	 */
-	protected $select_option_css_style = '';
+	protected ?int $_max_depth = null;
 
 	/**
 	 * @var string
 	 */
-	protected $select_option_css_class = '';
+	protected string $select_option_css_style = '';
 
 	/**
-	 * @var array
+	 * @var string
 	 */
-	protected $_all_children_ids;
+	protected string $select_option_css_class = '';
+
+	/**
+	 * @var ?array
+	 */
+	protected ?array $_all_children_ids = null;
 
 	/**
 	 *
 	 * @param Data_Tree $tree
 	 * @param mixed     $data
 	 */
-	public function __construct( Data_Tree $tree, $data )
+	public function __construct( Data_Tree $tree, mixed $data )
 	{
 		$this->_tree = $tree;
 		$this->data = $data;
@@ -129,7 +125,7 @@ class Data_Tree_Node extends BaseObject implements BaseObject_Interface_Iterator
 	 * @throws Data_Tree_Exception
 	 *
 	 */
-	public function appendChild( Data_Tree_Node $node )
+	public function appendChild( Data_Tree_Node $node ) : void
 	{
 
 		$id = $node->getId();
@@ -144,11 +140,10 @@ class Data_Tree_Node extends BaseObject implements BaseObject_Interface_Iterator
 	}
 
 	/**
-	 * Node ID
 	 *
 	 * @return string
 	 */
-	public function getId()
+	public function getId() : string
 	{
 		return $this->id;
 	}
@@ -156,7 +151,7 @@ class Data_Tree_Node extends BaseObject implements BaseObject_Interface_Iterator
 	/**
 	 * @param string $id
 	 */
-	public function setId( $id )
+	public function setId( string $id )
 	{
 		$this->id = $id;
 	}
@@ -165,7 +160,7 @@ class Data_Tree_Node extends BaseObject implements BaseObject_Interface_Iterator
 	 *
 	 * @return Data_Tree
 	 */
-	public function getTree()
+	public function getTree() : Data_Tree
 	{
 		return $this->_tree;
 	}
@@ -174,7 +169,7 @@ class Data_Tree_Node extends BaseObject implements BaseObject_Interface_Iterator
 	 *
 	 * @return string
 	 */
-	public function getParentId()
+	public function getParentId() : string
 	{
 		return $this->parent_id;
 	}
@@ -182,7 +177,7 @@ class Data_Tree_Node extends BaseObject implements BaseObject_Interface_Iterator
 	/**
 	 * @param string $parent_id
 	 */
-	public function setParentId( $parent_id )
+	public function setParentId( string $parent_id ) : void
 	{
 		$this->real_parent_id = $parent_id;
 		$this->parent_id = $parent_id;
@@ -191,7 +186,7 @@ class Data_Tree_Node extends BaseObject implements BaseObject_Interface_Iterator
 	/**
 	 * @return string
 	 */
-	public function getRealParentId()
+	public function getRealParentId() : string
 	{
 		return $this->real_parent_id;
 	}
@@ -199,16 +194,16 @@ class Data_Tree_Node extends BaseObject implements BaseObject_Interface_Iterator
 	/**
 	 * @param string $real_parent_id
 	 */
-	public function setRealParentId( $real_parent_id )
+	public function setRealParentId( string $real_parent_id ) : void
 	{
 		$this->real_parent_id = $real_parent_id;
 	}
 
 	/**
 	 *
-	 * @return Data_Tree_Node
+	 * @return Data_Tree_Node|null
 	 */
-	public function getParent()
+	public function getParent() : Data_Tree_Node|null
 	{
 		return $this->_parent;
 	}
@@ -216,7 +211,7 @@ class Data_Tree_Node extends BaseObject implements BaseObject_Interface_Iterator
 	/**
 	 * @param Data_Tree_Node $_parent
 	 */
-	public function setParent( Data_Tree_Node $_parent )
+	public function setParent( Data_Tree_Node $_parent ) : void
 	{
 		$this->_parent = $_parent;
 		$this->parent_id = $_parent->getId();
@@ -231,7 +226,7 @@ class Data_Tree_Node extends BaseObject implements BaseObject_Interface_Iterator
 	 *
 	 * @return int
 	 */
-	public function getDepth()
+	public function getDepth() : int
 	{
 		return $this->depth;
 	}
@@ -240,7 +235,7 @@ class Data_Tree_Node extends BaseObject implements BaseObject_Interface_Iterator
 	 *
 	 * @return bool
 	 */
-	public function getIsRoot()
+	public function getIsRoot() : bool
 	{
 		return $this->is_root;
 	}
@@ -248,7 +243,7 @@ class Data_Tree_Node extends BaseObject implements BaseObject_Interface_Iterator
 	/**
 	 * @param bool $is_root
 	 */
-	public function setIsRoot( $is_root )
+	public function setIsRoot( bool $is_root ) : void
 	{
 		$this->is_root = (bool)$is_root;
 	}
@@ -256,7 +251,7 @@ class Data_Tree_Node extends BaseObject implements BaseObject_Interface_Iterator
 	/**
 	 * @return bool
 	 */
-	public function getIsOrphan()
+	public function getIsOrphan() : bool
 	{
 		return $this->is_orphan;
 	}
@@ -264,7 +259,7 @@ class Data_Tree_Node extends BaseObject implements BaseObject_Interface_Iterator
 	/**
 	 * @param bool $is_orphan
 	 */
-	public function setIsOrphan( $is_orphan )
+	public function setIsOrphan( bool $is_orphan ) : void
 	{
 		$this->is_orphan = $is_orphan;
 	}
@@ -273,7 +268,7 @@ class Data_Tree_Node extends BaseObject implements BaseObject_Interface_Iterator
 	 *
 	 * @return mixed
 	 */
-	public function getData()
+	public function getData() : mixed
 	{
 		return $this->data;
 	}
@@ -281,7 +276,7 @@ class Data_Tree_Node extends BaseObject implements BaseObject_Interface_Iterator
 	/**
 	 * @param mixed $data
 	 */
-	public function setData( $data )
+	public function setData( mixed $data )
 	{
 		$this->data = $data;
 	}
@@ -290,24 +285,16 @@ class Data_Tree_Node extends BaseObject implements BaseObject_Interface_Iterator
 	 *
 	 * @return bool
 	 */
-	public function getHasChildren()
+	public function getHasChildren() : bool
 	{
 		return (bool)$this->_children;
 	}
 
 	/**
 	 *
-	 */
-	public function setHasChildren()
-	{
-		$this->_children = true;
-	}
-
-	/**
-	 *
 	 * @return Data_Tree_Node[]
 	 */
-	public function getChildren()
+	public function getChildren() : array
 	{
 		return $this->_children;
 	}
@@ -315,7 +302,7 @@ class Data_Tree_Node extends BaseObject implements BaseObject_Interface_Iterator
 	/**
 	 * @return array
 	 */
-	public function getAllChildrenIds()
+	public function getAllChildrenIds() : array
 	{
 		if($this->_all_children_ids===null) {
 			$this->_all_children_ids = [];
@@ -335,7 +322,7 @@ class Data_Tree_Node extends BaseObject implements BaseObject_Interface_Iterator
 	 *
 	 * @return bool
 	 */
-	public function getChildExists( $id )
+	public function getChildExists( string $id ) : bool
 	{
 		return isset( $this->_children[$id] );
 	}
@@ -347,7 +334,7 @@ class Data_Tree_Node extends BaseObject implements BaseObject_Interface_Iterator
 	 *
 	 * @return Data_Tree_Node
 	 */
-	public function getChild( $child_id )
+	public function getChild( string $child_id ) : Data_Tree_Node
 	{
 		return $this->_children[$child_id];
 	}
@@ -357,7 +344,7 @@ class Data_Tree_Node extends BaseObject implements BaseObject_Interface_Iterator
 	 *
 	 * @return Data_Tree_Node[]
 	 */
-	public function getPathToRoot()
+	public function getPathToRoot() : array
 	{
 		$result = [];
 
@@ -376,7 +363,7 @@ class Data_Tree_Node extends BaseObject implements BaseObject_Interface_Iterator
 	 *
 	 * @return Data_Tree_Node[]
 	 */
-	public function getPathFromRoot()
+	public function getPathFromRoot() : array
 	{
 		return array_reverse( $this->getPathToRoot() );
 	}
@@ -385,7 +372,7 @@ class Data_Tree_Node extends BaseObject implements BaseObject_Interface_Iterator
 	 *
 	 * @return Data_Tree_Node[]
 	 */
-	public function getPath()
+	public function getPath() : array
 	{
 		return array_reverse( $this->getPathToRoot() );
 	}
@@ -394,7 +381,7 @@ class Data_Tree_Node extends BaseObject implements BaseObject_Interface_Iterator
 	/**
 	 * @param int|null $max_depth
 	 */
-	public function setMaxDepth( $max_depth )
+	public function setMaxDepth( int|null $max_depth ) : void
 	{
 		$this->_max_depth = $max_depth;
 		$this->resetIteratorMap();
@@ -403,7 +390,7 @@ class Data_Tree_Node extends BaseObject implements BaseObject_Interface_Iterator
 	/**
 	 *
 	 */
-	public function resetIteratorMap()
+	public function resetIteratorMap() : void
 	{
 		$this->_iterator_map = [];
 	}
@@ -411,7 +398,7 @@ class Data_Tree_Node extends BaseObject implements BaseObject_Interface_Iterator
 	/**
 	 * @return string
 	 */
-	public function toJSON()
+	public function toJSON() : string
 	{
 		return json_encode($this);
 	}
@@ -420,7 +407,7 @@ class Data_Tree_Node extends BaseObject implements BaseObject_Interface_Iterator
 	 *
 	 * @return array
 	 */
-	public function jsonSerialize()
+	public function jsonSerialize() : array
 	{
 
 		$props = [
@@ -440,7 +427,7 @@ class Data_Tree_Node extends BaseObject implements BaseObject_Interface_Iterator
 	 *
 	 * @return array
 	 */
-	public function __sleep()
+	public function __sleep() : array
 	{
 		return [
 			'id', 'data', 'parent', 'children', 'depth', 'is_root',
@@ -450,7 +437,7 @@ class Data_Tree_Node extends BaseObject implements BaseObject_Interface_Iterator
 	/**
 	 * @return string
 	 */
-	public function __toString()
+	public function __toString() : string
 	{
 		return $this->getLabel();
 	}
@@ -458,7 +445,7 @@ class Data_Tree_Node extends BaseObject implements BaseObject_Interface_Iterator
 	/**
 	 * @return string
 	 */
-	public function getLabel()
+	public function getLabel() : string
 	{
 		return $this->label;
 	}
@@ -466,7 +453,7 @@ class Data_Tree_Node extends BaseObject implements BaseObject_Interface_Iterator
 	/**
 	 * @param string $label
 	 */
-	public function setLabel( $label )
+	public function setLabel( string $label ) : void
 	{
 		$this->label = $label;
 	}
@@ -474,7 +461,7 @@ class Data_Tree_Node extends BaseObject implements BaseObject_Interface_Iterator
 	/**
 	 * @return string
 	 */
-	public function toString()
+	public function toString() : string
 	{
 		return $this->getLabel();
 	}
@@ -482,7 +469,7 @@ class Data_Tree_Node extends BaseObject implements BaseObject_Interface_Iterator
 	/**
 	 *
 	 */
-	public function rewind()
+	public function rewind() : void
 	{
 		if( !$this->_iterator_map ) {
 			$this->getIteratorMap();
@@ -491,15 +478,13 @@ class Data_Tree_Node extends BaseObject implements BaseObject_Interface_Iterator
 	}
 
 	/**
-	 *
+	 * @return Data_Tree_Node[]
 	 */
-	public function getIteratorMap()
+	public function getIteratorMap() : array
 	{
-		if( $this->_iterator_map ) {
-			return $this->_iterator_map;
+		if( !$this->_iterator_map ) {
+			$this->_prepareIteratorMap( $this->_iterator_map, $this->_max_depth, $this->depth );
 		}
-
-		$this->_prepareIteratorMap( $this->_iterator_map, $this->_max_depth, $this->depth );
 
 		return $this->_iterator_map;
 	}
@@ -509,7 +494,7 @@ class Data_Tree_Node extends BaseObject implements BaseObject_Interface_Iterator
 	 * @param int|null $max_depth
 	 * @param int|null $root_depth
 	 */
-	protected function _prepareIteratorMap( &$result, $max_depth, $root_depth )
+	protected function _prepareIteratorMap( array &$result, int|null $max_depth, int|null $root_depth ) : void
 	{
 
 		$result[(string)$this->id] = $this;
@@ -529,7 +514,7 @@ class Data_Tree_Node extends BaseObject implements BaseObject_Interface_Iterator
 	/**
 	 * @return Data_Tree_Node
 	 */
-	public function current()
+	public function current() : Data_Tree_Node
 	{
 		if( !$this->_iterator_map ) {
 			$this->getIteratorMap();
@@ -547,9 +532,9 @@ class Data_Tree_Node extends BaseObject implements BaseObject_Interface_Iterator
 	//- Iterator ----------------------------------------------------------------------------------
 
 	/**
-	 * @return mixed
+	 * @return int|string|null
 	 */
-	public function key()
+	public function key() : int|string|null
 	{
 		if( !$this->_iterator_map ) {
 			$this->getIteratorMap();
@@ -561,7 +546,7 @@ class Data_Tree_Node extends BaseObject implements BaseObject_Interface_Iterator
 	/**
 	 *
 	 */
-	public function next()
+	public function next() : void
 	{
 		if( !$this->_iterator_map ) {
 			$this->getIteratorMap();
@@ -572,7 +557,7 @@ class Data_Tree_Node extends BaseObject implements BaseObject_Interface_Iterator
 	/**
 	 * @return bool
 	 */
-	public function valid()
+	public function valid() : bool
 	{
 		if( !$this->_iterator_map ) {
 			$this->getIteratorMap();
@@ -584,7 +569,7 @@ class Data_Tree_Node extends BaseObject implements BaseObject_Interface_Iterator
 	/**
 	 * @return int
 	 */
-	public function count()
+	public function count() : int
 	{
 		return count( $this->toArray() );
 	}
@@ -594,7 +579,7 @@ class Data_Tree_Node extends BaseObject implements BaseObject_Interface_Iterator
 	 *
 	 * @return array
 	 */
-	public function toArray()
+	public function toArray() : array
 	{
 
 		$result = [];
@@ -613,7 +598,7 @@ class Data_Tree_Node extends BaseObject implements BaseObject_Interface_Iterator
 	 * @param int   $max_depth
 	 * @param int   $root_depth
 	 */
-	public function _toArray( &$_result, $max_depth, $root_depth )
+	public function _toArray( array &$_result, int $max_depth, int $root_depth ) : void
 	{
 
 		$id_key = $this->_tree->getIdKey();
@@ -675,7 +660,7 @@ class Data_Tree_Node extends BaseObject implements BaseObject_Interface_Iterator
 	/**
 	 * @return string
 	 */
-	public function getSelectOptionCssStyle()
+	public function getSelectOptionCssStyle() : string
 	{
 		return $this->select_option_css_style;
 	}
@@ -683,7 +668,7 @@ class Data_Tree_Node extends BaseObject implements BaseObject_Interface_Iterator
 	/**
 	 * @param string $css_style
 	 */
-	public function setSelectOptionCssStyle( $css_style )
+	public function setSelectOptionCssStyle( string $css_style ) : void
 	{
 		$this->select_option_css_style = $css_style;
 	}
@@ -691,7 +676,7 @@ class Data_Tree_Node extends BaseObject implements BaseObject_Interface_Iterator
 	/**
 	 * @return string
 	 */
-	public function getSelectOptionCssClass()
+	public function getSelectOptionCssClass() : string
 	{
 		return $this->select_option_css_class;
 	}
@@ -699,7 +684,7 @@ class Data_Tree_Node extends BaseObject implements BaseObject_Interface_Iterator
 	/**
 	 * @param string $css_class
 	 */
-	public function setSelectOptionCssClass( $css_class )
+	public function setSelectOptionCssClass( string $css_class ) : void
 	{
 		$this->select_option_css_class = $css_class;
 	}

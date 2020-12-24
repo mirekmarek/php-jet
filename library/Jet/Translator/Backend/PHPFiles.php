@@ -14,19 +14,19 @@ class Translator_Backend_PHPFiles extends Translator_Backend
 {
 
 	/**
-	 * @var string
+	 * @var ?string
 	 */
-	protected $dictionaries_base_path;
+	protected ?string $dictionaries_base_path = null;
 
 	/**
-	 * @var string
+	 * @var ?string
 	 */
-	protected $_current_file;
+	protected ?string $_current_file = null;
 
 	/**
 	 * @return string
 	 */
-	public function getDictionariesBasePath()
+	public function getDictionariesBasePath() : string
 	{
 		if(!$this->dictionaries_base_path) {
 			$this->dictionaries_base_path = SysConf_PATH::DICTIONARIES();
@@ -38,7 +38,7 @@ class Translator_Backend_PHPFiles extends Translator_Backend
 	/**
 	 * @param string $dictionaries_base_path
 	 */
-	public function setDictionariesBasePath( $dictionaries_base_path )
+	public function setDictionariesBasePath( string $dictionaries_base_path ) : void
 	{
 		$this->dictionaries_base_path = $dictionaries_base_path;
 	}
@@ -48,11 +48,11 @@ class Translator_Backend_PHPFiles extends Translator_Backend
 	 *
 	 * @param string $namespace
 	 * @param Locale $locale
-	 * @param string|null $file_path (optional, default: by configuration)
+	 * @param ?string $file_path (optional, default: by configuration)
 	 *
 	 * @return Translator_Dictionary
 	 */
-	public function loadDictionary( $namespace, Locale $locale, $file_path = null )
+	public function loadDictionary( string $namespace, Locale $locale, ?string $file_path = null ) : Translator_Dictionary
 	{
 		if( !$file_path ) {
 			$file_path = $this->_getFilePath( $namespace, $locale );
@@ -85,7 +85,7 @@ class Translator_Backend_PHPFiles extends Translator_Backend
 	 *
 	 * @return string
 	 */
-	protected function _getFilePath( $namespace, Locale $locale )
+	protected function _getFilePath( string $namespace, Locale $locale ) : string
 	{
 
 		$namespace = str_replace( '/', '.', $namespace );
@@ -98,9 +98,9 @@ class Translator_Backend_PHPFiles extends Translator_Backend
 	/**
 	 *
 	 * @param Translator_Dictionary $dictionary
-	 * @param string|null           $file_path (optional, default: by configuration)
+	 * @param ?string           $file_path (optional, default: by configuration)
 	 */
-	public function saveDictionary( Translator_Dictionary $dictionary, $file_path = null )
+	public function saveDictionary( Translator_Dictionary $dictionary, ?string $file_path = null ) : void
 	{
 		if( !$file_path ) {
 			$file_path = $this->_getFilePath(

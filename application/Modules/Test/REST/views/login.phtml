@@ -72,7 +72,7 @@ $client = $this->getRaw('client');
 				<pre><?=$client->request()?></pre>
 				<?php if($client->requestBody()): ?>
 					<h4><?=Tr::_('Body')?></h4>
-					<pre><?=is_string($client->requestBody()) ? $client->requestBody(): var_dump($client->requestBody())?></pre>
+					<pre><?=is_string($client->requestBody()) ? $client->requestBody(): print_r($client->requestBody(), true)?></pre>
 					<h4><?=Tr::_('Data')?></h4>
 					<pre><?=var_export( $client->requestData(), true )?></pre>
 				<?php endif; ?>

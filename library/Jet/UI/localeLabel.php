@@ -15,13 +15,13 @@ class UI_localeLabel extends UI_BaseElement
 	/**
 	 * @var string
 	 */
-	protected static $default_renderer_script = 'localeLabel';
+	protected static string $default_renderer_script = 'localeLabel';
 
 
 	/**
-	 * @var Locale
+	 * @var ?Locale
 	 */
-	protected $locale;
+	protected ?Locale $locale = null;
 
 
 	/**
@@ -35,7 +35,7 @@ class UI_localeLabel extends UI_BaseElement
 	/**
 	 * @return Locale
 	 */
-	public function getLocale()
+	public function getLocale() : Locale
 	{
 		return $this->locale;
 	}

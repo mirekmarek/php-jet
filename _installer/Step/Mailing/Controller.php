@@ -25,12 +25,12 @@ class Installer_Step_Mailing_Controller extends Installer_Step_Controller
 	/**
 	 * @var string
 	 */
-	protected $label = 'Mailing configuration';
+	protected string $label = 'Mailing configuration';
 
 	/**
 	 *
 	 */
-	public function main()
+	public function main() : void
 	{
 		$config = new Mailing_Config();
 

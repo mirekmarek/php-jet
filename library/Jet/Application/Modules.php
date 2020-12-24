@@ -14,26 +14,26 @@ class Application_Modules extends BaseObject
 {
 
 	/**
-	 * @var string
+	 * @var ?string
 	 */
-	protected static $base_path;
+	protected static ?string $base_path = null;
 
 	/**
 	 * @var string
 	 */
-	protected static $module_root_namespace = 'JetApplicationModule';
+	protected static string $module_root_namespace = 'JetApplicationModule';
 
 
 	/**
-	 * @var Application_Modules_Handler
+	 * @var ?Application_Modules_Handler
 	 */
-	protected static $handler;
+	protected static ?Application_Modules_Handler $handler = null;
 
 
 	/**
 	 * @return string
 	 */
-	public static function getModuleRootNamespace()
+	public static function getModuleRootNamespace() : string
 	{
 		return static::$module_root_namespace;
 	}
@@ -41,7 +41,7 @@ class Application_Modules extends BaseObject
 	/**
 	 * @param string $module_root_namespace
 	 */
-	public static function setModuleRootNamespace( $module_root_namespace )
+	public static function setModuleRootNamespace( string $module_root_namespace ) : void
 	{
 		static::$module_root_namespace = $module_root_namespace;
 	}
@@ -51,7 +51,7 @@ class Application_Modules extends BaseObject
 	 *
 	 * @return string
 	 */
-	public static function getModuleDir( $module_name )
+	public static function getModuleDir( string $module_name ) : string
 	{
 		return static::getBasePath().str_replace( '.', '/', $module_name).'/';
 	}
@@ -60,7 +60,7 @@ class Application_Modules extends BaseObject
 	/**
 	 * @return Application_Modules_Handler
 	 */
-	public static function getHandler()
+	public static function getHandler() : Application_Modules_Handler
 	{
 		if( !static::$handler ) {
 
@@ -83,7 +83,7 @@ class Application_Modules extends BaseObject
 	/**
 	 * @return string
 	 */
-	public static function getBasePath()
+	public static function getBasePath() : string
 	{
 		if(!static::$base_path) {
 			static::$base_path = SysConf_PATH::APPLICATION().'Modules/';
@@ -94,7 +94,7 @@ class Application_Modules extends BaseObject
 	/**
 	 * @param string $base_path
 	 */
-	public static function setBasePath( $base_path )
+	public static function setBasePath( string $base_path ) : void
 	{
 		static::$base_path = $base_path;
 	}
@@ -105,7 +105,7 @@ class Application_Modules extends BaseObject
 	 * @throws Application_Modules_Exception
 	 * @return Application_Module_Manifest[]
 	 */
-	public static function installedModulesList()
+	public static function installedModulesList() : array
 	{
 		return static::getHandler()->installedModulesList();
 	}
@@ -117,7 +117,7 @@ class Application_Modules extends BaseObject
 	 *
 	 * @return Application_Module_Manifest[]
 	 */
-	public static function allModulesList()
+	public static function allModulesList() : array
 	{
 		return static::getHandler()->allModulesList();
 	}
@@ -126,7 +126,7 @@ class Application_Modules extends BaseObject
 	 *
 	 * @return Application_Module_Manifest[]
 	 */
-	public static function activatedModulesList()
+	public static function activatedModulesList() : array
 	{
 		return static::getHandler()->activatedModulesList();
 	}
@@ -137,7 +137,7 @@ class Application_Modules extends BaseObject
 	 *
 	 * @return bool
 	 */
-	public static function moduleExists( $module_name )
+	public static function moduleExists( string $module_name ) : bool
 	{
 		return static::getHandler()->moduleExists( $module_name );
 	}
@@ -148,7 +148,7 @@ class Application_Modules extends BaseObject
 	 *
 	 * @return bool
 	 */
-	public static function moduleIsInstalled( $module_name )
+	public static function moduleIsInstalled( string $module_name ) : bool
 	{
 		return static::getHandler()->moduleIsInstalled( $module_name );
 	}
@@ -159,7 +159,7 @@ class Application_Modules extends BaseObject
 	 *
 	 * @return bool
 	 */
-	public static function moduleIsActivated( $module_name )
+	public static function moduleIsActivated( string $module_name ) : bool
 	{
 		return static::getHandler()->moduleIsActivated( $module_name );
 	}
@@ -171,7 +171,7 @@ class Application_Modules extends BaseObject
 	 *
 	 * @return Application_Module_Manifest
 	 */
-	public static function moduleManifest( $module_name )
+	public static function moduleManifest( string $module_name ) : Application_Module_Manifest
 	{
 		return static::getHandler()->moduleManifest( $module_name );
 	}
@@ -182,7 +182,7 @@ class Application_Modules extends BaseObject
 	 *
 	 * @throws Application_Modules_Exception
 	 */
-	public static function installModule( $module_name )
+	public static function installModule( string $module_name ) : void
 	{
 		static::getHandler()->installModule( $module_name );
 	}
@@ -193,7 +193,7 @@ class Application_Modules extends BaseObject
 	 *
 	 * @throws Application_Modules_Exception
 	 */
-	public static function uninstallModule( $module_name )
+	public static function uninstallModule( string $module_name ) : void
 	{
 		static::getHandler()->uninstallModule( $module_name );
 	}
@@ -204,7 +204,7 @@ class Application_Modules extends BaseObject
 	 *
 	 * @throws Application_Modules_Exception
 	 */
-	public static function activateModule( $module_name )
+	public static function activateModule( string $module_name ) : void
 	{
 		static::getHandler()->activateModule( $module_name );
 	}
@@ -215,7 +215,7 @@ class Application_Modules extends BaseObject
 	 *
 	 * @throws Application_Modules_Exception
 	 */
-	public static function deactivateModule( $module_name )
+	public static function deactivateModule( string $module_name ) : void
 	{
 		static::getHandler()->deactivateModule( $module_name );
 	}
@@ -226,7 +226,7 @@ class Application_Modules extends BaseObject
 	 *
 	 * @return Application_Module
 	 */
-	public static function moduleInstance( $module_name )
+	public static function moduleInstance( string $module_name ) : Application_Module
 	{
 		return static::getHandler()->moduleInstance( $module_name );
 	}

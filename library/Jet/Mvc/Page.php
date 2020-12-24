@@ -34,79 +34,79 @@ class Mvc_Page extends BaseObject implements Mvc_Page_Interface, BaseObject_Cach
 
 	/**
 	 *
-	 * @var string
+	 * @var ?string
 	 */
-	protected $site_id;
+	protected ?string $site_id = null;
 	/**
 	 *
-	 * @var Locale
+	 * @var ?Locale
 	 */
-	protected $locale;
-	/**
-	 *
-	 * @var string
-	 */
-	protected $id = '';
+	protected ?Locale $locale = null;
 	/**
 	 *
 	 * @var string
 	 */
-	protected $name = '';
-	/**
-	 *
-	 * @var bool
-	 */
-	protected $is_active = true;
-
-	/**
-	 * @var bool
-	 */
-	protected $SSL_required = false;
-
+	protected string $id = '';
 	/**
 	 *
 	 * @var string
 	 */
-	protected $title = '';
-
-	/**
-	 * @var string
-	 */
-	protected $icon = '';
-
-	/**
-	 *
-	 * @var string
-	 */
-	protected $menu_title = '';
-
-	/**
-	 *
-	 * @var string
-	 */
-	protected $breadcrumb_title = '';
-
-	/**
-	 * @var string
-	 */
-	protected $relative_path_fragment = '';
-
-	/**
-	 * @var string
-	 */
-	protected $relative_path = '';
-
+	protected string $name = '';
 	/**
 	 *
 	 * @var bool
 	 */
-	protected $is_secret = false;
+	protected bool $is_active = true;
+
+	/**
+	 * @var bool
+	 */
+	protected bool $SSL_required = false;
+
+	/**
+	 *
+	 * @var string
+	 */
+	protected string $title = '';
+
+	/**
+	 * @var string
+	 */
+	protected string $icon = '';
+
+	/**
+	 *
+	 * @var string
+	 */
+	protected string $menu_title = '';
+
+	/**
+	 *
+	 * @var string
+	 */
+	protected string $breadcrumb_title = '';
+
+	/**
+	 * @var string
+	 */
+	protected string $relative_path_fragment = '';
+
+	/**
+	 * @var string
+	 */
+	protected string $relative_path = '';
+
+	/**
+	 *
+	 * @var bool
+	 */
+	protected bool $is_secret = false;
 
 	/**
 	 *
 	 * @var array
 	 */
-	protected $http_headers = [];
+	protected array $http_headers = [];
 
 	/**
 	 *
@@ -118,19 +118,19 @@ class Mvc_Page extends BaseObject implements Mvc_Page_Interface, BaseObject_Cach
 	 *
 	 * @var string
 	 */
-	protected $layout_script_name = '';
+	protected string $layout_script_name = '';
 
 	/**
 	 *
 	 * @var Mvc_Page_Content_Interface[]
 	 */
-	protected $content = [];
+	protected array $content = [];
 
 	/**
 	 *
 	 * @var Mvc_Page_MetaTag[]
 	 */
-	protected $meta_tags = [];
+	protected array $meta_tags = [];
 
 
 	/**
@@ -139,9 +139,9 @@ class Mvc_Page extends BaseObject implements Mvc_Page_Interface, BaseObject_Cach
 	 * @param string|Locale|null $locale (optional, null = current)
 	 * @param string|null        $site_id (optional, null = current)
 	 *
-	 * @return Mvc_Page_Interface
+	 * @return static|null
 	 */
-	public static function get( $page_id = null, $locale = null, $site_id = null )
+	public static function get( string|null $page_id = null, string|Locale|null $locale = null, string|null $site_id = null ) : static|null
 	{
 		if(
 			!$page_id &&
@@ -202,9 +202,9 @@ class Mvc_Page extends BaseObject implements Mvc_Page_Interface, BaseObject_Cach
 	 * @param Locale             $locale
 	 * @param string             $relative_path
 	 *
-	 * @return Mvc_Page_Interface|null
+	 * @return static|null
 	 */
-	static public function getByRelativePath( Mvc_Site_Interface $site, Locale $locale, $relative_path )
+	static public function getByRelativePath( Mvc_Site_Interface $site, Locale $locale, string $relative_path )  : static|null
 	{
 
 		static::loadPages( $site, $locale );
@@ -223,9 +223,9 @@ class Mvc_Page extends BaseObject implements Mvc_Page_Interface, BaseObject_Cach
 	 * @param string $site_id
 	 * @param Locale $locale
 	 *
-	 * @return Mvc_Page_Interface[]
+	 * @return static[]
 	 */
-	public static function getList( $site_id, Locale $locale )
+	public static function getList( string $site_id, Locale $locale ) : array
 	{
 		$site_class_name = Mvc_Factory::getSiteClassName();
 
@@ -268,7 +268,7 @@ class Mvc_Page extends BaseObject implements Mvc_Page_Interface, BaseObject_Cach
 	/**
 	 * @return string
 	 */
-	public function getKey()
+	public function getKey() : string
 	{
 		return $this->getSite()->getId().':'.$this->getLocale().':'.$this->getId();
 	}
@@ -276,7 +276,7 @@ class Mvc_Page extends BaseObject implements Mvc_Page_Interface, BaseObject_Cach
 	/**
 	 * @return bool
 	 */
-	public function isCurrent()
+	public function isCurrent() : bool
 	{
 		$current_page = Mvc::getCurrentPage();
 
@@ -295,13 +295,9 @@ class Mvc_Page extends BaseObject implements Mvc_Page_Interface, BaseObject_Cach
 	/**
 	 * @return bool
 	 */
-	public function isInCurrentPath()
+	public function isInCurrentPath() : bool
 	{
 		$current_page = Mvc::getCurrentPage();
-
-		if(!$current_page) {
-			return false;
-		}
 
 		if(
 			!$current_page ||
@@ -321,7 +317,7 @@ class Mvc_Page extends BaseObject implements Mvc_Page_Interface, BaseObject_Cach
 	/**
 	 * @return string
 	 */
-	public function getSiteId()
+	public function getSiteId() : string
 	{
 		return $this->site_id;
 	}
@@ -329,7 +325,7 @@ class Mvc_Page extends BaseObject implements Mvc_Page_Interface, BaseObject_Cach
 	/**
 	 * @param string $site_id
 	 */
-	public function setSiteId( $site_id )
+	public function setSiteId( string $site_id ) : void
 	{
 		$this->site_id = $site_id;
 	}
@@ -337,7 +333,7 @@ class Mvc_Page extends BaseObject implements Mvc_Page_Interface, BaseObject_Cach
 	/**
 	 * @return Mvc_Site_Interface
 	 */
-	public function getSite()
+	public function getSite() : Mvc_Site_Interface
 	{
 		$site_class_name = Mvc_Factory::getSiteClassName();
 
@@ -350,7 +346,7 @@ class Mvc_Page extends BaseObject implements Mvc_Page_Interface, BaseObject_Cach
 	/**
 	 * @param Mvc_Site_Interface $site
 	 */
-	public function setSite( Mvc_Site_Interface $site )
+	public function setSite( Mvc_Site_Interface $site ) : void
 	{
 		$this->site_id = $site->getId();
 	}
@@ -359,7 +355,7 @@ class Mvc_Page extends BaseObject implements Mvc_Page_Interface, BaseObject_Cach
 	 *
 	 * @return Locale
 	 */
-	public function getLocale()
+	public function getLocale() : Locale
 	{
 		return $this->locale;
 	}
@@ -368,7 +364,7 @@ class Mvc_Page extends BaseObject implements Mvc_Page_Interface, BaseObject_Cach
 	 * @param Locale $locale
 	 *
 	 */
-	public function setLocale( Locale $locale )
+	public function setLocale( Locale $locale ) : void
 	{
 		$this->locale = $locale;
 	}
@@ -376,7 +372,7 @@ class Mvc_Page extends BaseObject implements Mvc_Page_Interface, BaseObject_Cach
 	/**
 	 * @return string
 	 */
-	public function getId()
+	public function getId() : string
 	{
 		return $this->id;
 	}
@@ -384,7 +380,7 @@ class Mvc_Page extends BaseObject implements Mvc_Page_Interface, BaseObject_Cach
 	/**
 	 * @param string $id
 	 */
-	public function setId( $id )
+	public function setId( string $id ) : void
 	{
 		$this->id = $id;
 	}
@@ -392,7 +388,7 @@ class Mvc_Page extends BaseObject implements Mvc_Page_Interface, BaseObject_Cach
 	/**
 	 * @return string
 	 */
-	public function getName()
+	public function getName() : string
 	{
 		return $this->name;
 	}
@@ -400,7 +396,7 @@ class Mvc_Page extends BaseObject implements Mvc_Page_Interface, BaseObject_Cach
 	/**
 	 * @param string $name
 	 */
-	public function setName( $name )
+	public function setName( string $name ) : void
 	{
 		$this->name = $name;
 	}
@@ -408,7 +404,7 @@ class Mvc_Page extends BaseObject implements Mvc_Page_Interface, BaseObject_Cach
 	/**
 	 * @return bool
 	 */
-	public function getIsDeactivatedByDefault()
+	public function getIsDeactivatedByDefault() : bool
 	{
 		if(
 			$this->getParent() &&
@@ -423,7 +419,7 @@ class Mvc_Page extends BaseObject implements Mvc_Page_Interface, BaseObject_Cach
 	/**
 	 * @return bool
 	 */
-	public function getIsActive()
+	public function getIsActive() : bool
 	{
 		if( $this->getIsDeactivatedByDefault() ) {
 			return false;
@@ -435,7 +431,7 @@ class Mvc_Page extends BaseObject implements Mvc_Page_Interface, BaseObject_Cach
 	/**
 	 * @param bool $is_active
 	 */
-	public function setIsActive( $is_active )
+	public function setIsActive( bool $is_active ) : void
 	{
 		$this->is_active = $is_active;
 	}
@@ -443,7 +439,7 @@ class Mvc_Page extends BaseObject implements Mvc_Page_Interface, BaseObject_Cach
 	/**
 	 * @param string $relative_path_fragment
 	 */
-	public function setRelativePathFragment( $relative_path_fragment )
+	public function setRelativePathFragment( string $relative_path_fragment ) : void
 	{
 		$this->relative_path_fragment = $relative_path_fragment;
 	}
@@ -451,7 +447,7 @@ class Mvc_Page extends BaseObject implements Mvc_Page_Interface, BaseObject_Cach
 	/**
 	 * @return string
 	 */
-	public function getRelativePathFragment()
+	public function getRelativePathFragment() : string
 	{
 		return $this->relative_path_fragment;
 	}
@@ -460,7 +456,7 @@ class Mvc_Page extends BaseObject implements Mvc_Page_Interface, BaseObject_Cach
 	/**
 	 * @return string
 	 */
-	public function getRelativePath()
+	public function getRelativePath() : string
 	{
 		return $this->relative_path;
 	}
@@ -469,7 +465,7 @@ class Mvc_Page extends BaseObject implements Mvc_Page_Interface, BaseObject_Cach
 	/**
 	 * @param string $relative_path
 	 */
-	public function setRelativePath( $relative_path )
+	public function setRelativePath( string $relative_path ) : void
 	{
 		$this->relative_path = $relative_path;
 	}
@@ -477,7 +473,7 @@ class Mvc_Page extends BaseObject implements Mvc_Page_Interface, BaseObject_Cach
 	/**
 	 * @return bool
 	 */
-	public function isSSLRequiredByDefault()
+	public function isSSLRequiredByDefault() : bool
 	{
 		if(
 			$this->getParent() &&
@@ -496,7 +492,7 @@ class Mvc_Page extends BaseObject implements Mvc_Page_Interface, BaseObject_Cach
 	/**
 	 * @return bool
 	 */
-	public function getSSLRequired()
+	public function getSSLRequired() : bool
 	{
 		if( $this->isSSLRequiredByDefault() ) {
 			return true;
@@ -508,7 +504,7 @@ class Mvc_Page extends BaseObject implements Mvc_Page_Interface, BaseObject_Cach
 	/**
 	 * @param bool $SSL_required
 	 */
-	public function setSSLRequired( $SSL_required )
+	public function setSSLRequired( bool $SSL_required ) : void
 	{
 		$this->SSL_required = $SSL_required;
 	}
@@ -517,7 +513,7 @@ class Mvc_Page extends BaseObject implements Mvc_Page_Interface, BaseObject_Cach
 	/**
 	 * @return string
 	 */
-	public function getTitle()
+	public function getTitle() : string
 	{
 		return $this->title;
 	}
@@ -525,7 +521,7 @@ class Mvc_Page extends BaseObject implements Mvc_Page_Interface, BaseObject_Cach
 	/**
 	 * @param string $title
 	 */
-	public function setTitle( $title )
+	public function setTitle( string $title ) : void
 	{
 		$this->title = $title;
 	}
@@ -533,7 +529,7 @@ class Mvc_Page extends BaseObject implements Mvc_Page_Interface, BaseObject_Cach
 	/**
 	 * @return string
 	 */
-	public function getIcon()
+	public function getIcon() : string
 	{
 		return $this->icon;
 	}
@@ -541,7 +537,7 @@ class Mvc_Page extends BaseObject implements Mvc_Page_Interface, BaseObject_Cach
 	/**
 	 * @param string $icon
 	 */
-	public function setIcon( $icon )
+	public function setIcon( string $icon ) : void
 	{
 		$this->icon = $icon;
 	}
@@ -549,7 +545,7 @@ class Mvc_Page extends BaseObject implements Mvc_Page_Interface, BaseObject_Cach
 	/**
 	 * @return string
 	 */
-	public function getMenuTitle()
+	public function getMenuTitle() : string
 	{
 		return $this->menu_title;
 	}
@@ -557,7 +553,7 @@ class Mvc_Page extends BaseObject implements Mvc_Page_Interface, BaseObject_Cach
 	/**
 	 * @param string $menu_title
 	 */
-	public function setMenuTitle( $menu_title )
+	public function setMenuTitle( string $menu_title ) : void
 	{
 		$this->menu_title = $menu_title;
 	}
@@ -566,7 +562,7 @@ class Mvc_Page extends BaseObject implements Mvc_Page_Interface, BaseObject_Cach
 	/**
 	 * @return string
 	 */
-	public function getBreadcrumbTitle()
+	public function getBreadcrumbTitle() : string
 	{
 		return $this->breadcrumb_title;
 	}
@@ -574,7 +570,7 @@ class Mvc_Page extends BaseObject implements Mvc_Page_Interface, BaseObject_Cach
 	/**
 	 * @param string $breadcrumb_title
 	 */
-	public function setBreadcrumbTitle( $breadcrumb_title )
+	public function setBreadcrumbTitle( string $breadcrumb_title ) : void
 	{
 		$this->breadcrumb_title = $breadcrumb_title;
 	}
@@ -583,7 +579,7 @@ class Mvc_Page extends BaseObject implements Mvc_Page_Interface, BaseObject_Cach
 	/**
 	 * @return array
 	 */
-	public function getHttpHeaders()
+	public function getHttpHeaders() : array
 	{
 		if(
 			!$this->http_headers &&
@@ -597,7 +593,7 @@ class Mvc_Page extends BaseObject implements Mvc_Page_Interface, BaseObject_Cach
 	/**
 	 * @param array $http_headers
 	 */
-	public function setHttpHeaders( array $http_headers )
+	public function setHttpHeaders( array $http_headers ) : void
 	{
 		$this->http_headers = $http_headers;
 	}
@@ -605,7 +601,7 @@ class Mvc_Page extends BaseObject implements Mvc_Page_Interface, BaseObject_Cach
 	/**
 	 * @param string|callable $output
 	 */
-	public function setOutput( $output )
+	public function setOutput( string|callable $output ) : void
 	{
 		$this->output = $output;
 		$this->content = [];
@@ -614,7 +610,7 @@ class Mvc_Page extends BaseObject implements Mvc_Page_Interface, BaseObject_Cach
 	/**
 	 * @return string|callable|null
 	 */
-	public function getOutput()
+	public function getOutput() : string|callable|null
 	{
 		return $this->output;
 	}
@@ -622,15 +618,15 @@ class Mvc_Page extends BaseObject implements Mvc_Page_Interface, BaseObject_Cach
 	/**
 	 * @param bool $is_secret
 	 */
-	public function setIsSecret( $is_secret )
+	public function setIsSecret( bool $is_secret ) : void
 	{
-		$this->is_secret = (bool)$is_secret;
+		$this->is_secret = $is_secret;
 	}
 
 	/**
 	 * @return bool
 	 */
-	public function isSecretByDefault()
+	public function isSecretByDefault() : bool
 	{
 		if($this->getSite()->getIsSecret()) {
 			return true;
@@ -648,7 +644,7 @@ class Mvc_Page extends BaseObject implements Mvc_Page_Interface, BaseObject_Cach
 	/**
 	 * @return bool
 	 */
-	public function getIsSecret()
+	public function getIsSecret() : bool
 	{
 		if( $this->isSecretByDefault() ) {
 			return true;
@@ -660,7 +656,7 @@ class Mvc_Page extends BaseObject implements Mvc_Page_Interface, BaseObject_Cach
 	/**
 	 * @return string
 	 */
-	public function getLayoutScriptName()
+	public function getLayoutScriptName() : string
 	{
 
 		if(
@@ -676,7 +672,7 @@ class Mvc_Page extends BaseObject implements Mvc_Page_Interface, BaseObject_Cach
 	/**
 	 * @param string $layout_script_name
 	 */
-	public function setLayoutScriptName( $layout_script_name )
+	public function setLayoutScriptName( string $layout_script_name ) : void
 	{
 		$this->layout_script_name = $layout_script_name;
 	}
@@ -684,7 +680,7 @@ class Mvc_Page extends BaseObject implements Mvc_Page_Interface, BaseObject_Cach
 	/**
 	 * @return string
 	 */
-	public function getLayoutsPath()
+	public function getLayoutsPath() : string
 	{
 		return $this->getSite()->getLayoutsPath();
 	}
@@ -692,7 +688,7 @@ class Mvc_Page extends BaseObject implements Mvc_Page_Interface, BaseObject_Cach
 	/**
 	 *
 	 */
-	public function initializeLayout()
+	public function initializeLayout() : void
 	{
 		Mvc_Layout::setCurrentLayout(
 			Mvc_Factory::getLayoutInstance(
@@ -708,19 +704,19 @@ class Mvc_Page extends BaseObject implements Mvc_Page_Interface, BaseObject_Cach
 	 *
 	 * @return Mvc_Page_Content_Interface[]
 	 */
-	public function getContent()
+	public function getContent() : array
 	{
 		return $this->content;
 	}
 
 	/**
-	 * @param Mvc_Page_Content_Interface[] $content
+	 * @param Mvc_Page_Content_Interface[] $contents
 	 */
-	public function setContent( $content )
+	public function setContent( array $contents ) : void
 	{
 		$this->content = [];
 
-		foreach( $content as $c ) {
+		foreach( $contents as $c ) {
 			$this->addContent( $c );
 		}
 	}
@@ -728,7 +724,7 @@ class Mvc_Page extends BaseObject implements Mvc_Page_Interface, BaseObject_Cach
 	/**
 	 * @param Mvc_Page_Content_Interface $content
 	 */
-	public function addContent( Mvc_Page_Content_Interface $content )
+	public function addContent( Mvc_Page_Content_Interface $content ) : void
 	{
 		$this->output = '';
 
@@ -740,7 +736,7 @@ class Mvc_Page extends BaseObject implements Mvc_Page_Interface, BaseObject_Cach
 	/**
 	 * @param int $index
 	 */
-	public function removeContent( $index )
+	public function removeContent( int $index ) : void
 	{
 		unset( $this->content[$index] );
 
@@ -752,7 +748,7 @@ class Mvc_Page extends BaseObject implements Mvc_Page_Interface, BaseObject_Cach
 	 *
 	 * @return Mvc_Page_MetaTag_Interface[]
 	 */
-	public function getMetaTags()
+	public function getMetaTags() : array
 	{
 		$meta_tags = [];
 
@@ -778,7 +774,7 @@ class Mvc_Page extends BaseObject implements Mvc_Page_Interface, BaseObject_Cach
 	/**
 	 * @param Mvc_Page_MetaTag_Interface[] $meta_tags
 	 */
-	public function setMetaTags( $meta_tags )
+	public function setMetaTags( array $meta_tags ) : void
 	{
 		$this->meta_tags = [];
 
@@ -790,7 +786,7 @@ class Mvc_Page extends BaseObject implements Mvc_Page_Interface, BaseObject_Cach
 	/**
 	 * @param Mvc_Page_MetaTag_Interface $meta_tag
 	 */
-	public function addMetaTag( Mvc_Page_MetaTag_Interface $meta_tag )
+	public function addMetaTag( Mvc_Page_MetaTag_Interface $meta_tag ) : void
 	{
 
 		$meta_tag->setPage( $this );
@@ -814,7 +810,7 @@ class Mvc_Page extends BaseObject implements Mvc_Page_Interface, BaseObject_Cach
 	/**
 	 * @return array
 	 */
-	public function toArray()
+	public function toArray() : array
 	{
 
 		$data = get_object_vars( $this );

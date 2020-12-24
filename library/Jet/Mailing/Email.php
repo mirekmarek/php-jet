@@ -21,42 +21,42 @@ class Mailing_Email extends BaseObject
 	/**
 	 * @var string
 	 */
-	protected $name = '';
+	protected string $name = '';
 
 	/**
-	 * @var Locale
+	 * @var ?Locale
 	 */
-	protected $locale;
+	protected ?Locale $locale = null;
+
+	/**
+	 * @var ?string
+	 */
+	protected ?string $site_id = '';
 
 	/**
 	 * @var string
 	 */
-	protected $site_id = '';
-
-	/**
-	 * @var string
-	 */
-	protected $specification = '';
-
-	/**
-	 * @var mixed
-	 */
-	protected $data = [];
+	protected string $specification = '';
 
 	/**
 	 * @var array
 	 */
-	protected $attachments = [];
+	protected array $data = [];
 
 	/**
 	 * @var array
 	 */
-	protected $images = [];
+	protected array $attachments = [];
 
 	/**
-	 * @var Mvc_View
+	 * @var array
 	 */
-	protected $__view;
+	protected array $images = [];
+
+	/**
+	 * @var ?Mvc_View
+	 */
+	protected ?Mvc_View $__view = null;
 
 
 	/**
@@ -66,7 +66,7 @@ class Mailing_Email extends BaseObject
 	 * @param string|null $site_id
 	 * @param string $specification
 	 */
-	public function __construct( $name, $locale=null, $site_id=null, $specification='' )
+	public function __construct( string $name, string|Locale|null $locale=null, ?string $site_id=null, string $specification='' )
 	{
 		if($locale===null) {
 			$locale = Locale::getCurrentLocale();
@@ -94,7 +94,7 @@ class Mailing_Email extends BaseObject
 	/**
 	 * @return Mvc_View
 	 */
-	public function getView()
+	public function getView() : Mvc_View
 	{
 		if(!$this->__view) {
 			$path = Mailing::getBaseViewDir();
@@ -119,7 +119,7 @@ class Mailing_Email extends BaseObject
 	/**
 	 * @return string
 	 */
-	public function getName()
+	public function getName() : string
 	{
 		return $this->name;
 	}
@@ -127,7 +127,7 @@ class Mailing_Email extends BaseObject
 	/**
 	 * @return Locale
 	 */
-	public function getLocale()
+	public function getLocale() : Locale
 	{
 		return $this->locale;
 	}
@@ -135,7 +135,7 @@ class Mailing_Email extends BaseObject
 	/**
 	 * @return string
 	 */
-	public function getSiteId()
+	public function getSiteId() : string
 	{
 		return $this->site_id;
 	}
@@ -143,7 +143,7 @@ class Mailing_Email extends BaseObject
 	/**
 	 * @return string
 	 */
-	public function getSpecification()
+	public function getSpecification() : string
 	{
 		return $this->specification;
 	}
@@ -151,7 +151,7 @@ class Mailing_Email extends BaseObject
 	/**
 	 * @return Mailing_Config_Sender
 	 */
-	public function getSender()
+	public function getSender() : Mailing_Config_Sender
 	{
 		return Mailing::getConfig()->getSender( $this->locale, $this->site_id, $this->specification );
 	}
@@ -161,7 +161,7 @@ class Mailing_Email extends BaseObject
 	 * @param string $key
 	 * @param mixed $value
 	 */
-	public function setVar( $key, $value )
+	public function setVar(string  $key, mixed $value ) : void
 	{
 		$this->data[$key] = $value;
 		$this->getView()->setVar($key, $value);
@@ -170,7 +170,7 @@ class Mailing_Email extends BaseObject
 	/**
 	 * @return string
 	 */
-	public function getSubject()
+	public function getSubject() : string
 	{
 		return trim($this->getView()->render(static::SUBJECT_VIEW));
 	}
@@ -180,7 +180,7 @@ class Mailing_Email extends BaseObject
 	 *
 	 * @return string
 	 */
-	public function getBodyHtml( $parse_images=true )
+	public function getBodyHtml( bool $parse_images=true ) : string
 	{
 		$html =  $this->getView()->render(static::BODY_HTML_VIEW);
 
@@ -211,7 +211,7 @@ class Mailing_Email extends BaseObject
 	/**
 	 * @return string
 	 */
-	public function getBodyTxt()
+	public function getBodyTxt() : string
 	{
 		return $this->getView()->render(static::BODY_TXT_VIEW);
 	}
@@ -220,7 +220,7 @@ class Mailing_Email extends BaseObject
 	 * @param string $file_path
 	 * @param string $file_name
 	 */
-	public function addAttachments( $file_path, $file_name='' )
+	public function addAttachments( string $file_path, string $file_name='' ) : void
 	{
 
 		if(!$file_name) {
@@ -233,7 +233,7 @@ class Mailing_Email extends BaseObject
 	/**
 	 * @return array
 	 */
-	public function getAttachments()
+	public function getAttachments() : array
 	{
 		return $this->attachments;
 	}
@@ -244,7 +244,7 @@ class Mailing_Email extends BaseObject
 	 * @param string $cid
 	 * @param string $path
 	 */
-	public function addImage( $cid, $path )
+	public function addImage( string $cid, string $path ) : void
 	{
 		$this->images[$cid] = $path;
 	}
@@ -252,7 +252,7 @@ class Mailing_Email extends BaseObject
 	/**
 	 * @return array
 	 */
-	public function getImages()
+	public function getImages() : array
 	{
 		return $this->images;
 	}
@@ -264,7 +264,7 @@ class Mailing_Email extends BaseObject
 	 *
 	 * @return bool
 	 */
-	public function send( $to, array $extra_headers=[] )
+	public function send( string $to, array $extra_headers=[] ) : bool
 	{
 
 		return Mailing::sendEmail( $this, $to, $extra_headers );

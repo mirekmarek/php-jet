@@ -16,17 +16,17 @@ interface Auth_Role_Privilege_Interface
 	/**
 	 * @return string
 	 */
-	public function getPrivilege();
+	public function getPrivilege() : string;
 
 	/**
 	 * @param string $privilege
 	 */
-	public function setPrivilege( $privilege );
+	public function setPrivilege( string $privilege ) : void;
 
 	/**
-	 * @return mixed[]
+	 * @return array
 	 */
-	public function getValues();
+	public function getValues() : array;
 
 	/**
 	 * @param array $values
@@ -38,6 +38,6 @@ interface Auth_Role_Privilege_Interface
 	 *
 	 * @return bool
 	 */
-	public function hasValue( $value );
+	public function hasValue( mixed $value ) : bool;
 
 }

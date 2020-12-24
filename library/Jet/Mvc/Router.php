@@ -17,54 +17,54 @@ class Mvc_Router extends BaseObject  implements Mvc_Router_Interface
 	/**
 	 * @var bool
 	 */
-	protected $set_mvc_state = true;
+	protected bool $set_mvc_state = true;
 
 	/**
 	 *
 	 * @var string
 	 */
-	protected $request_URL = '';
+	protected string $request_URL = '';
 
 	/**
-	 * @var Mvc_Site_Interface
+	 * @var ?Mvc_Site_Interface
 	 */
-	protected $site;
+	protected ?Mvc_Site_Interface $site = null;
 
 	/**
-	 * @var Locale
+	 * @var ?Locale
 	 */
-	protected $locale;
+	protected ?Locale $locale = null;
 
 	/**
-	 * @var Mvc_Page
+	 * @var ?Mvc_Page_Interface
 	 */
-	protected $page;
+	protected ?Mvc_Page_Interface $page = null;
 
 	/**
 	 *
 	 * @var string
 	 */
-	protected $path = '';
+	protected string $path = '';
 
 	//------------------------------------------------------------------
 
 	/**
 	 * @var string
 	 */
-	protected $used_path = '';
+	protected string $used_path = '';
 
 	//------------------------------------------------------------------
 
 	/**
 	 * @var string
 	 */
-	protected $file_path = '';
+	protected string $file_path = '';
 
 	//------------------------------------------------------------------
 	/**
 	 * @var bool
 	 */
-	protected $is_404 = false;
+	protected bool $is_404 = false;
 
 	//------------------------------------------------------------------
 
@@ -73,22 +73,22 @@ class Mvc_Router extends BaseObject  implements Mvc_Router_Interface
 	 *
 	 * @var bool
 	 */
-	protected $is_redirect = false;
+	protected bool $is_redirect = false;
 
 	/**
 	 * @see Mvc_Router_RoutingData::setRedirect()
 	 *
 	 * @var string
 	 */
-	protected $redirect_target_URL = '';
+	protected string $redirect_target_URL = '';
 
 	/**
 	 * @see Mvc_Router_RoutingData::setRedirect()
 	 * Options: Mvc_Router::REDIRECT_TYPE_TEMPORARY, Mvc_Router::REDIRECT_TYPE_PERMANENTLY
 	 *
-	 * @var string
+	 * @var string|int
 	 */
-	protected $redirect_type = '';
+	protected string|int $redirect_type = '';
 
 
 	//-----------------------------------------------------------------
@@ -96,24 +96,24 @@ class Mvc_Router extends BaseObject  implements Mvc_Router_Interface
 	/**
 	 * @var bool
 	 */
-	protected $login_required = false;
+	protected bool $login_required = false;
 
 	//-----------------------------------------------------------------
 
 	/**
 	 * @var bool
 	 */
-	protected $has_unused_path = '';
+	protected bool $has_unused_path = false;
 
 	/**
 	 * @var string
 	 */
-	protected $valid_url = '';
+	protected string $valid_url = '';
 
 	/**
 	 * @return bool
 	 */
-	public function getIsSSLRequest()
+	public function getIsSSLRequest() : bool
 	{
 		return Http_Request::isHttps();
 	}
@@ -125,7 +125,7 @@ class Mvc_Router extends BaseObject  implements Mvc_Router_Interface
 	 *
 	 * @throws Mvc_Page_Exception
 	 */
-	public function resolve( $request_URL=null )
+	public function resolve( string|null $request_URL=null ) : void
 	{
 
 		if( !$request_URL ) {
@@ -143,7 +143,7 @@ class Mvc_Router extends BaseObject  implements Mvc_Router_Interface
 			$request_URL = substr($request_URL, 8);
 		}
 
-		$this->request_URL = $request_URL;
+		$this->request_URL = (string)$request_URL;
 
 
 		if( $this->resolve_seekSiteAndLocale() ) {
@@ -174,7 +174,7 @@ class Mvc_Router extends BaseObject  implements Mvc_Router_Interface
 	 *
 	 * @throws Mvc_Page_Exception
 	 */
-	protected function resolve_seekSiteAndLocale()
+	protected function resolve_seekSiteAndLocale() : bool
 	{
 
 		Debug_Profiler::blockStart('Resolve site and locale');
@@ -286,7 +286,7 @@ class Mvc_Router extends BaseObject  implements Mvc_Router_Interface
 	/**
 	 *
 	 */
-	protected function resolve_seekPage()
+	protected function resolve_seekPage() : void
 	{
 		Debug_Profiler::blockStart('Seeking for page');
 
@@ -345,7 +345,7 @@ class Mvc_Router extends BaseObject  implements Mvc_Router_Interface
 	/**
 	 * @return bool
 	 */
-	protected function resolve_pageResolve()
+	protected function resolve_pageResolve() : bool
 	{
 		Debug_Profiler::blockStart('Resolve page');
 
@@ -362,7 +362,7 @@ class Mvc_Router extends BaseObject  implements Mvc_Router_Interface
 	/**
 	 *
 	 */
-	protected function resolve_decodePath()
+	protected function resolve_decodePath() : void
 	{
 		$path = [];
 		if($this->path) {
@@ -380,7 +380,7 @@ class Mvc_Router extends BaseObject  implements Mvc_Router_Interface
 	/**
 	 *
 	 */
-	protected function resolve_checkPathUsed()
+	protected function resolve_checkPathUsed() : void
 	{
 
 		if( $this->path!=$this->used_path ) {
@@ -397,7 +397,7 @@ class Mvc_Router extends BaseObject  implements Mvc_Router_Interface
 	 *
 	 * @return bool
 	 */
-	protected function resolve_handleAuthentication()
+	protected function resolve_handleAuthentication() : bool
 	{
 		if( !$this->getPage()->getIsSecret() ) {
 			return true;
@@ -419,7 +419,7 @@ class Mvc_Router extends BaseObject  implements Mvc_Router_Interface
 	/**
 	 * @return bool
 	 */
-	public function getSetMvcState()
+	public function getSetMvcState() : bool
 	{
 		return $this->set_mvc_state;
 	}
@@ -427,7 +427,7 @@ class Mvc_Router extends BaseObject  implements Mvc_Router_Interface
 	/**
 	 * @param bool $set_mvc_state
 	 */
-	public function setSetMvcState( $set_mvc_state )
+	public function setSetMvcState( bool $set_mvc_state ) : void
 	{
 		$this->set_mvc_state = $set_mvc_state;
 	}
@@ -436,7 +436,7 @@ class Mvc_Router extends BaseObject  implements Mvc_Router_Interface
 	 *
 	 * @return Mvc_Site_Interface
 	 */
-	public function getSite()
+	public function getSite() : Mvc_Site_Interface
 	{
 		return $this->site;
 	}
@@ -444,7 +444,7 @@ class Mvc_Router extends BaseObject  implements Mvc_Router_Interface
 	/**
 	 * @return Locale
 	 */
-	public function getLocale()
+	public function getLocale() : Locale
 	{
 		return $this->locale;
 	}
@@ -453,7 +453,7 @@ class Mvc_Router extends BaseObject  implements Mvc_Router_Interface
 	 *
 	 * @return Mvc_Page_Interface
 	 */
-	public function getPage()
+	public function getPage() : Mvc_Page_Interface
 	{
 		return $this->page;
 	}
@@ -461,7 +461,7 @@ class Mvc_Router extends BaseObject  implements Mvc_Router_Interface
 	/**
 	 * @param string $file_path
 	 */
-	public function setIsFile( $file_path )
+	public function setIsFile( string $file_path ) : void
 	{
 		$this->file_path = $file_path;
 	}
@@ -470,7 +470,7 @@ class Mvc_Router extends BaseObject  implements Mvc_Router_Interface
 	 *
 	 * @return bool
 	 */
-	public function getIsFile()
+	public function getIsFile() : bool
 	{
 		return (bool)$this->file_path;
 	}
@@ -478,26 +478,24 @@ class Mvc_Router extends BaseObject  implements Mvc_Router_Interface
 	/**
 	 * @return string
 	 */
-	public function getFilePath()
+	public function getFilePath() : string
 	{
 		return $this->file_path;
 	}
 
 	/**
-	 * Returns true is request is unknown page
 	 *
 	 * @return bool
 	 */
-	public function getIs404()
+	public function getIs404() : bool
 	{
 		return $this->is_404;
 	}
 
 	/**
-	 * Sets the request is unknown page
 	 *
 	 */
-	protected function setIs404()
+	protected function setIs404() : void
 	{
 		$this->is_404 = true;
 	}
@@ -505,7 +503,7 @@ class Mvc_Router extends BaseObject  implements Mvc_Router_Interface
 	/**
 	 * @return bool
 	 */
-	public function getIsRedirect()
+	public function getIsRedirect() : bool
 	{
 		return $this->is_redirect;
 	}
@@ -513,9 +511,9 @@ class Mvc_Router extends BaseObject  implements Mvc_Router_Interface
 	/**
 	 *
 	 * @param string $target_URL
-	 * @param string|null $http_code (optional), options: temporary, permanent, default: Http_Headers::CODE_302_MOVED_TEMPORARY
+	 * @param string|int|null $http_code (optional), options: temporary, permanent, default: Http_Headers::CODE_302_MOVED_TEMPORARY
 	 */
-	protected function setIsRedirect( $target_URL, $http_code = null )
+	protected function setIsRedirect( string $target_URL, string|int|null $http_code = null ) : void
 	{
 
 		if($_SERVER['QUERY_STRING']) {
@@ -528,13 +526,13 @@ class Mvc_Router extends BaseObject  implements Mvc_Router_Interface
 
 		$this->is_redirect = true;
 		$this->redirect_target_URL = $target_URL;
-		$this->redirect_type = $http_code;
+		$this->redirect_type = (string)$http_code;
 	}
 
 	/**
 	 * @return string
 	 */
-	public function getRedirectTargetURL()
+	public function getRedirectTargetURL() : string
 	{
 		return $this->redirect_target_URL;
 	}
@@ -542,7 +540,7 @@ class Mvc_Router extends BaseObject  implements Mvc_Router_Interface
 	/**
 	 * @return string
 	 */
-	public function getRedirectType()
+	public function getRedirectType() : string
 	{
 		return $this->redirect_type;
 	}
@@ -551,7 +549,7 @@ class Mvc_Router extends BaseObject  implements Mvc_Router_Interface
 	/**
 	 * @return bool
 	 */
-	public function getLoginRequired()
+	public function getLoginRequired() : bool
 	{
 		return $this->login_required;
 	}
@@ -559,7 +557,7 @@ class Mvc_Router extends BaseObject  implements Mvc_Router_Interface
 	/**
 	 * @param bool $login_required
 	 */
-	protected function setLoginRequired( $login_required )
+	protected function setLoginRequired( bool $login_required ) : void
 	{
 		$this->login_required = $login_required;
 	}
@@ -571,7 +569,7 @@ class Mvc_Router extends BaseObject  implements Mvc_Router_Interface
 	 * /**
 	 * @return string
 	 */
-	public function getPath()
+	public function getPath() : string
 	{
 		return $this->path;
 	}
@@ -579,7 +577,7 @@ class Mvc_Router extends BaseObject  implements Mvc_Router_Interface
 	/**
 	 * @return string
 	 */
-	public function getUsedPath()
+	public function getUsedPath() : string
 	{
 		return $this->used_path;
 	}
@@ -587,7 +585,7 @@ class Mvc_Router extends BaseObject  implements Mvc_Router_Interface
 	/**
 	 * @param string $used_path
 	 */
-	public function setUsedPath( $used_path )
+	public function setUsedPath( string $used_path ) : void
 	{
 		$this->used_path = $used_path;
 	}
@@ -595,7 +593,7 @@ class Mvc_Router extends BaseObject  implements Mvc_Router_Interface
 	/**
 	 * @return bool
 	 */
-	public function getHasUnusedPath()
+	public function getHasUnusedPath() : bool
 	{
 		return $this->has_unused_path;
 	}
@@ -603,7 +601,7 @@ class Mvc_Router extends BaseObject  implements Mvc_Router_Interface
 	/**
 	 * @return string
 	 */
-	public function getValidUrl()
+	public function getValidUrl() : string
 	{
 		return $this->valid_url;
 	}

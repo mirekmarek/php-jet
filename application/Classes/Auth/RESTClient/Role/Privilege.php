@@ -9,58 +9,52 @@ namespace JetApplication;
 
 use Jet\Auth_Role_Privilege_Interface;
 use Jet\DataModel;
+use Jet\DataModel_Definition;
 use Jet\DataModel_IDController_AutoIncrement;
 use Jet\DataModel_Related_1toN;
 use Jet\Form;
-use Jet\Form_Field;
 use Jet\Form_Field_Select;
 
 /**
  *
- * @JetDataModel:name = 'role_privilege'
- * @JetDataModel:database_table_name = 'roles_rest_clients_privileges'
- * @JetDataModel:id_controller_class_name = 'DataModel_IDController_AutoIncrement'
- * @JetDataModel:id_controller_options = ['id_property_name'=>'id']
- * @JetDataModel:parent_model_class_name = 'Auth_RESTClient_Role'
  */
+#[DataModel_Definition(name: 'role_privilege')]
+#[DataModel_Definition(database_table_name: 'roles_rest_clients_privileges')]
+#[DataModel_Definition(id_controller_class: DataModel_IDController_AutoIncrement::class)]
+#[DataModel_Definition(id_controller_options: ['id_property_name'=>'id'])]
+#[DataModel_Definition(parent_model_class: Auth_RESTClient_Role::class)]
 class Auth_RESTClient_Role_Privilege extends DataModel_Related_1toN implements Auth_Role_Privilege_Interface
 {
 	/**
-	 * @JetDataModel:related_to = 'main.id'
-	 * @JetDataModel:form_field_type = false
 	 */
-	protected $role_id = 0;
+	#[DataModel_Definition(related_to: 'main.id')]
+	#[DataModel_Definition(form_field_type: false)]
+	protected string $role_id = '';
 
 	/**
-	 *
-	 * @JetDataModel:type = DataModel::TYPE_ID_AUTOINCREMENT
-	 * @JetDataModel:is_id = true
-	 * @JetDataModel:form_field_type = false
-	 *
+	 * @var int
+	 */
+	#[DataModel_Definition(type: DataModel::TYPE_ID_AUTOINCREMENT)]
+	#[DataModel_Definition(is_id: true)]
+	#[DataModel_Definition(form_field_type: false)]
+	protected int $id = 0;
+
+	/**
 	 * @var string
 	 */
-	protected $id = 0;
+	#[DataModel_Definition(type: DataModel::TYPE_STRING)]
+	#[DataModel_Definition(max_len: 100)]
+	#[DataModel_Definition(form_field_is_required: true)]
+	#[DataModel_Definition(form_field_type: false)]
+	protected string $privilege = '';
 
 	/**
-	 *
-	 * @JetDataModel:type = DataModel::TYPE_STRING
-	 * @JetDataModel:max_len = 100
-	 * @JetDataModel:form_field_is_required = true
-	 * @JetDataModel:form_field_type = false
-	 *
-	 * @var string
-	 */
-	protected $privilege = '';
-
-	/**
-	 *
-	 * @JetDataModel:type = DataModel::TYPE_CUSTOM_DATA
-	 * @JetDataModel:form_field_type = Form::TYPE_MULTI_SELECT
-	 * @JetDataModel:form_field_error_messages = [Form_Field_Select::ERROR_CODE_INVALID_VALUE => 'Invalid value']
-	 *
 	 * @var array
 	 */
-	protected $values = [];
+	#[DataModel_Definition(type: DataModel::TYPE_CUSTOM_DATA)]
+	#[DataModel_Definition(form_field_type: Form::TYPE_MULTI_SELECT)]
+	#[DataModel_Definition(form_field_error_messages: [Form_Field_Select::ERROR_CODE_INVALID_VALUE => 'Invalid value'])]
+	protected array $values = [];
 
 
 	/**
@@ -81,7 +75,7 @@ class Auth_RESTClient_Role_Privilege extends DataModel_Related_1toN implements A
 	/**
 	 * @return string
 	 */
-	public function getPrivilege()
+	public function getPrivilege() : string
 	{
 		return $this->privilege;
 	}
@@ -89,7 +83,7 @@ class Auth_RESTClient_Role_Privilege extends DataModel_Related_1toN implements A
 	/**
 	 * @param string $privilege
 	 */
-	public function setPrivilege( $privilege )
+	public function setPrivilege( string $privilege ) : void
 	{
 		$this->privilege = $privilege;
 	}
@@ -99,7 +93,7 @@ class Auth_RESTClient_Role_Privilege extends DataModel_Related_1toN implements A
 	 *
 	 * @return bool
 	 */
-	public function hasValue( $value )
+	public function hasValue( mixed $value ) : bool
 	{
 		if( is_array( $value ) ) {
 			foreach( $value as $v ) {
@@ -115,9 +109,9 @@ class Auth_RESTClient_Role_Privilege extends DataModel_Related_1toN implements A
 	}
 
 	/**
-	 * @return mixed[]
+	 * @return array
 	 */
-	public function getValues()
+	public function getValues() : array
 	{
 		return $this->values;
 	}
@@ -125,17 +119,16 @@ class Auth_RESTClient_Role_Privilege extends DataModel_Related_1toN implements A
 	/**
 	 * @param array $values
 	 */
-	public function setValues( array $values )
+	public function setValues( array $values ) : void
 	{
 		$this->values = $values;
 	}
 
 	/**
-	 * DataModel method
 	 *
-	 * @return string
+	 * @return null|string|int
 	 */
-	public function getArrayKeyValue()
+	public function getArrayKeyValue(): null|string|int
 	{
 		return $this->privilege;
 	}

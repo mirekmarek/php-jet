@@ -18,53 +18,53 @@ class Form_Field_FileImage extends Form_Field_File
 	/**
 	 * @var string
 	 */
-	protected static $default_renderer_script = 'field';
+	protected static string $default_renderer_script = 'field';
 
 	/**
 	 * @var string
 	 */
-	protected static $default_row_start_renderer_script = 'Field/row/start';
+	protected static string $default_row_start_renderer_script = 'Field/row/start';
 
 	/**
 	 * @var string
 	 */
-	protected static $default_row_end_renderer_script = 'Field/row/end';
+	protected static string $default_row_end_renderer_script = 'Field/row/end';
 
 	/**
 	 * @var string
 	 */
-	protected static $default_input_container_start_renderer_script = 'Field/input/container/start';
+	protected static string $default_input_container_start_renderer_script = 'Field/input/container/start';
 
 	/**
 	 * @var string
 	 */
-	protected static $default_input_container_end_renderer_script = 'Field/input/container/end';
+	protected static string $default_input_container_end_renderer_script = 'Field/input/container/end';
 
 	/**
 	 * @var string
 	 */
-	protected static $default_error_renderer = 'Field/error';
+	protected static string $default_error_renderer = 'Field/error';
 
 	/**
 	 * @var string
 	 */
-	protected static $default_label_renderer = 'Field/label';
+	protected static string $default_label_renderer = 'Field/label';
 
 	/**
 	 * @var string string
 	 */
-	protected static $default_input_renderer = 'Field/input/FileImage';
+	protected static string $default_input_renderer = 'Field/input/FileImage';
 
 
 	/**
 	 * @var string
 	 */
-	protected $_type = Form::TYPE_FILE_IMAGE;
+	protected string $_type = Form::TYPE_FILE_IMAGE;
 
 	/**
 	 * @var array
 	 */
-	protected $error_messages = [
+	protected array $error_messages = [
 		self::ERROR_CODE_EMPTY                => '',
 		self::ERROR_CODE_FILE_IS_TOO_LARGE    => '',
 		self::ERROR_CODE_DISALLOWED_FILE_TYPE => '',
@@ -73,34 +73,34 @@ class Form_Field_FileImage extends Form_Field_File
 	/**
 	 * @var array
 	 */
-	protected $allowed_mime_types = [
+	protected array $allowed_mime_types = [
 		'image/pjpeg', 'image/jpeg', 'image/jpg', 'image/gif', 'image/png',
 	];
 
 	/**
 	 * @var null|int
 	 */
-	protected $maximal_width = null;
+	protected int|null $maximal_width = null;
 
 	/**
 	 * @var null|int
 	 */
-	protected $maximal_height = null;
+	protected int|null $maximal_height = null;
 
 	/**
 	 * @param int $maximal_width
 	 * @param int $maximal_height
 	 */
-	public function setMaximalSize( $maximal_width, $maximal_height )
+	public function setMaximalSize( int $maximal_width, int $maximal_height )
 	{
-		$this->maximal_width = (int)$maximal_width;
-		$this->maximal_height = (int)$maximal_height;
+		$this->maximal_width = $maximal_width;
+		$this->maximal_height = $maximal_height;
 	}
 
 	/**
 	 * @return int|null
 	 */
-	public function getMaximalHeight()
+	public function getMaximalHeight() : int|null
 	{
 		return $this->maximal_height;
 	}
@@ -108,7 +108,7 @@ class Form_Field_FileImage extends Form_Field_File
 	/**
 	 * @return int|null
 	 */
-	public function getMaximalWidth()
+	public function getMaximalWidth() : int|null
 	{
 		return $this->maximal_width;
 	}
@@ -119,7 +119,7 @@ class Form_Field_FileImage extends Form_Field_File
 	 *
 	 * @return bool
 	 */
-	public function validate()
+	public function validate() : bool
 	{
 		if( !parent::validate() ) {
 			return false;
@@ -167,7 +167,7 @@ class Form_Field_FileImage extends Form_Field_File
 	/**
 	 * @return array
 	 */
-	public function getRequiredErrorCodes()
+	public function getRequiredErrorCodes() : array
 	{
 		$codes = [];
 

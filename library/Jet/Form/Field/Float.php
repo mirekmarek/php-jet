@@ -17,53 +17,53 @@ class Form_Field_Float extends Form_Field_Input
 	/**
 	 * @var string
 	 */
-	protected static $default_renderer_script = 'field';
+	protected static string $default_renderer_script = 'field';
 
 	/**
 	 * @var string
 	 */
-	protected static $default_row_start_renderer_script = 'Field/row/start';
+	protected static string $default_row_start_renderer_script = 'Field/row/start';
 
 	/**
 	 * @var string
 	 */
-	protected static $default_row_end_renderer_script = 'Field/row/end';
+	protected static string $default_row_end_renderer_script = 'Field/row/end';
 
 	/**
 	 * @var string
 	 */
-	protected static $default_input_container_start_renderer_script = 'Field/input/container/start';
+	protected static string $default_input_container_start_renderer_script = 'Field/input/container/start';
 
 	/**
 	 * @var string
 	 */
-	protected static $default_input_container_end_renderer_script = 'Field/input/container/end';
+	protected static string $default_input_container_end_renderer_script = 'Field/input/container/end';
 
 	/**
 	 * @var string
 	 */
-	protected static $default_error_renderer = 'Field/error';
+	protected static string $default_error_renderer = 'Field/error';
 
 	/**
 	 * @var string
 	 */
-	protected static $default_label_renderer = 'Field/label';
+	protected static string $default_label_renderer = 'Field/label';
 
 	/**
 	 * @var string string
 	 */
-	protected static $default_input_renderer = 'Field/input/Float';
+	protected static string $default_input_renderer = 'Field/input/Float';
 
 
 	/**
 	 * @var string
 	 */
-	protected $_type = Form::TYPE_FLOAT;
+	protected string $_type = Form::TYPE_FLOAT;
 
 	/**
 	 * @var array
 	 */
-	protected $error_messages = [
+	protected array $error_messages = [
 		self::ERROR_CODE_EMPTY        => '',
 		self::ERROR_CODE_OUT_OF_RANGE => '',
 	];
@@ -71,26 +71,27 @@ class Form_Field_Float extends Form_Field_Input
 	/**
 	 * @var null|float
 	 */
-	protected $min_value = null;
+	protected null|float $min_value = null;
+
 	/**
 	 * @var null|float
 	 */
-	protected $max_value = null;
+	protected null|float $max_value = null;
 
 	/**
 	 * @var float
 	 */
-	protected $step = 0.01;
+	protected float $step = 0.01;
 
 	/**
 	 * @var null|int
 	 */
-	protected $places = null;
+	protected null|int $places = null;
 
 	/**
 	 * @return float|null
 	 */
-	public function getMinValue()
+	public function getMinValue() : float|null
 	{
 		return $this->min_value;
 	}
@@ -98,15 +99,15 @@ class Form_Field_Float extends Form_Field_Input
 	/**
 	 * @param float $min
 	 */
-	public function setMinValue( $min )
+	public function setMinValue( float $min )
 	{
-		$this->min_value = (float)$min;
+		$this->min_value = $min;
 	}
 
 	/**
 	 * @return float|null
 	 */
-	public function getMaxValue()
+	public function getMaxValue() : float|null
 	{
 		return $this->max_value;
 	}
@@ -114,15 +115,15 @@ class Form_Field_Float extends Form_Field_Input
 	/**
 	 * @param float $max
 	 */
-	public function setMaxValue( $max )
+	public function setMaxValue( float $max )
 	{
-		$this->max_value = (float)$max;
+		$this->max_value = $max;
 	}
 
 	/**
 	 * @return float
 	 */
-	public function getStep()
+	public function getStep() : float
 	{
 		return $this->step;
 	}
@@ -130,7 +131,7 @@ class Form_Field_Float extends Form_Field_Input
 	/**
 	 * @param float $step
 	 */
-	public function setStep( $step )
+	public function setStep( float $step )
 	{
 		$this->step = $step;
 	}
@@ -139,7 +140,7 @@ class Form_Field_Float extends Form_Field_Input
 	/**
 	 * @return int|null
 	 */
-	public function getPlaces()
+	public function getPlaces() : int|null
 	{
 		return $this->places;
 	}
@@ -147,16 +148,16 @@ class Form_Field_Float extends Form_Field_Input
 	/**
 	 * @param int $places
 	 */
-	public function setPlaces( $places )
+	public function setPlaces( int $places )
 	{
-		$this->places = (int)$places;
+		$this->places = $places;
 	}
 
 
 	/**
 	 * @return bool
 	 */
-	public function validate()
+	public function validate() : bool
 	{
 
 		if(
@@ -199,7 +200,7 @@ class Form_Field_Float extends Form_Field_Input
 	/**
 	 * @return array
 	 */
-	public function getRequiredErrorCodes()
+	public function getRequiredErrorCodes() : array
 	{
 		$codes = [];
 

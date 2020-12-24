@@ -16,42 +16,42 @@ class Mvc
 	/**
 	 * @var bool
 	 */
-	protected static $force_slash_on_URL_end = false;
+	protected static bool $force_slash_on_URL_end = false;
 
 	/**
 	 *
-	 * @var Mvc_Router_Interface
+	 * @var ?Mvc_Router_Interface
 	 */
-	protected static $router;
+	protected static ?Mvc_Router_Interface $router = null;
 
 	/**
-	 * @var Mvc_Site_Interface
+	 * @var ?Mvc_Site_Interface
 	 */
-	protected static $current_site;
+	protected static ?Mvc_Site_Interface $current_site = null;
 
 	/**
-	 * @var Locale
+	 * @var ?Locale
 	 */
-	protected static $current_locale;
+	protected static ?Locale $current_locale = null;
 
 	/**
-	 * @var Mvc_Page_Interface
+	 * @var ?Mvc_Page_Interface
 	 */
-	protected static $current_page;
+	protected static ?Mvc_Page_Interface $current_page = null;
 
 
 	/**
-	 * @return boolean
+	 * @return bool
 	 */
-	public static function getForceSlashOnURLEnd()
+	public static function getForceSlashOnURLEnd() : bool
 	{
 		return self::$force_slash_on_URL_end;
 	}
 
 	/**
-	 * @param boolean $force_slash_on_URL_end
+	 * @param bool $force_slash_on_URL_end
 	 */
-	public static function setForceSlashOnURLEnd( $force_slash_on_URL_end )
+	public static function setForceSlashOnURLEnd( bool $force_slash_on_URL_end ) : void
 	{
 		self::$force_slash_on_URL_end = $force_slash_on_URL_end;
 	}
@@ -59,7 +59,7 @@ class Mvc
 	/**
 	 * @return Mvc_Router_Interface
 	 */
-	public static function getRouter()
+	public static function getRouter() : Mvc_Router_Interface
 	{
 		if( !static::$router ) {
 			static::$router = Mvc_Factory::getRouterInstance();
@@ -71,7 +71,7 @@ class Mvc
 	/**
 	 * @param Mvc_Router_Interface $router
 	 */
-	public static function setRouter( Mvc_Router_Interface $router )
+	public static function setRouter( Mvc_Router_Interface $router ) : void
 	{
 		static::$router = $router;
 	}
@@ -80,7 +80,7 @@ class Mvc
 	 *
 	 * @return Mvc_Site_Interface
 	 */
-	public static function getCurrentSite()
+	public static function getCurrentSite() : Mvc_Site_Interface
 	{
 		return static::$current_site;
 	}
@@ -88,7 +88,7 @@ class Mvc
 	/**
 	 * @param Mvc_Site_Interface $current_site
 	 */
-	public static function setCurrentSite( Mvc_Site_Interface $current_site )
+	public static function setCurrentSite( Mvc_Site_Interface $current_site ) : void
 	{
 		static::$current_site = $current_site;
 	}
@@ -97,7 +97,7 @@ class Mvc
 	 *
 	 * @return Locale
 	 */
-	public static function getCurrentLocale()
+	public static function getCurrentLocale() : Locale
 	{
 		return static::$current_locale;
 	}
@@ -107,7 +107,9 @@ class Mvc
 	 * @param bool   $set_system_locale (optional, default: true)
 	 * @param bool   $set_translator_locale (optional, default: true)
 	 */
-	public static function setCurrentLocale( Locale $current_locale, $set_system_locale=true, $set_translator_locale=true )
+	public static function setCurrentLocale( Locale $current_locale,
+	                                         bool $set_system_locale=true,
+	                                         bool $set_translator_locale=true ) : void
 	{
 		if($set_system_locale) {
 			Locale::setCurrentLocale( $current_locale );
@@ -123,7 +125,7 @@ class Mvc
 	/**
 	 *
 	 */
-	public static function unsetCurrentPage()
+	public static function unsetCurrentPage() : void
 	{
 		static::$current_page = null;
 	}
@@ -132,7 +134,7 @@ class Mvc
 	 *
 	 * @return Mvc_Page_Interface
 	 */
-	public static function getCurrentPage()
+	public static function getCurrentPage() : Mvc_Page_Interface
 	{
 		return static::$current_page;
 	}
@@ -140,7 +142,7 @@ class Mvc
 	/**
 	 * @param Mvc_Page_Interface $current_page
 	 */
-	public static function setCurrentPage( Mvc_Page_Interface $current_page )
+	public static function setCurrentPage( Mvc_Page_Interface $current_page ) : void
 	{
 		static::$current_page = $current_page;
 	}

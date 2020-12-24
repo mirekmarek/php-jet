@@ -20,6 +20,6 @@ abstract class Mailing_Backend_Abstract {
 	 *
 	 * @return bool
 	 */
-	abstract public function sendEmail( Mailing_Email $email, $to, array $headers=[] );
+	abstract public function sendEmail( Mailing_Email $email, string $to, array $headers=[] ) : bool;
 
 }

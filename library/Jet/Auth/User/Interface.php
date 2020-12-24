@@ -16,26 +16,26 @@ interface Auth_User_Interface
 	/**
 	 * @param string|int $id
 	 *
-	 * @return Auth_User_Interface
+	 * @return static|null
 	 */
-	public static function get( $id );
+	public static function get( string|int $id ) : static|null;
 
 	/**
 	 *
-	 * @param string|int|null $role_id (optional)
+	 * @param string|null $role_id (optional)
 	 *
 	 * @return Auth_User_Interface[]
 	 */
-	public static function getList( $role_id = null );
+	public static function getList( string|null $role_id = null ) : iterable;
 
 	/**
 	 *
 	 * @param string $username
 	 * @param string $password
 	 *
-	 * @return Auth_User_Interface|null
+	 * @return static|null
 	 */
-	public static function getByIdentity( $username, $password );
+	public static function getByIdentity( string $username, string $password ) : static|null;
 
 	/**
 	 *
@@ -43,67 +43,67 @@ interface Auth_User_Interface
 	 *
 	 * @return Auth_User_Interface|null
 	 */
-	public static function getGetByUsername( $username );
+	public static function getGetByUsername( string $username ) : Auth_User_Interface|null;
 
 	/**
 	 * @return string|int
 	 */
-	public function getId();
+	public function getId() : string|int;
 
 
 	/**
 	 * @return string
 	 */
-	public function getUsername();
+	public function getUsername() : string;
 
 	/**
 	 * @param string $username
 	 */
-	public function setUsername( $username );
+	public function setUsername( string $username ) : void;
 
 	/**
 	 * @param string $username
 	 *
 	 * @return bool
 	 */
-	public function usernameExists( $username );
+	public function usernameExists( string $username ) : bool;
 
 	/**
 	 * @param string $password
 	 */
-	public function setPassword( $password );
+	public function setPassword( string $password ) : void;
 
 	/**
 	 * @param string $password
 	 *
 	 * @return string
 	 */
-	public function encryptPassword( $password );
+	public function encryptPassword( string $password ) : string;
 
 	/**
 	 * @param string $plain_password
 	 *
 	 * @return bool
 	 */
-	public function verifyPassword( $plain_password );
+	public function verifyPassword( string $plain_password ) : bool;
 
 	/**
 	 *
 	 * @return string
 	 */
-	public function getName();
+	public function getName() : string;
 
 	/**
 	 *
 	 * @param string[] $role_ids
 	 */
-	public function setRoles( array $role_ids );
+	public function setRoles( array $role_ids ) : void;
 
 	/**
 	 *
 	 * @return Auth_Role_Interface[]
 	 */
-	public function getRoles();
+	public function getRoles() : array;
 
 	/**
 	 *
@@ -111,7 +111,7 @@ interface Auth_User_Interface
 	 *
 	 * @return bool
 	 */
-	public function hasRole( $role_id );
+	public function hasRole( string $role_id ) : bool;
 
 	/**
 	 *
@@ -120,14 +120,14 @@ interface Auth_User_Interface
 	 *
 	 * @return bool
 	 */
-	public function hasPrivilege( $privilege, $value );
+	public function hasPrivilege( string $privilege, mixed $value ) : bool;
 
 	/**
 	 * @param string $privilege
 	 *
 	 * @return array
 	 */
-	public function getPrivilegeValues( $privilege );
+	public function getPrivilegeValues( string $privilege ) : array;
 
 
 }

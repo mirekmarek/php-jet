@@ -16,7 +16,7 @@ class Session extends BaseObject
 	/**
 	 * @var bool
 	 */
-	protected static $session_started = false;
+	protected static bool $session_started = false;
 	/**
 	 * @var callable
 	 */
@@ -24,12 +24,12 @@ class Session extends BaseObject
 	/**
 	 * @var string
 	 */
-	protected $namespace;
+	protected string $namespace = '';
 
 	/**
 	 * @param string $namespace
 	 */
-	public function __construct( $namespace )
+	public function __construct( string $namespace )
 	{
 
 		$this->namespace = (string)$namespace;
@@ -40,7 +40,7 @@ class Session extends BaseObject
 	/**
 	 *
 	 */
-	protected function sessionStart()
+	protected function sessionStart() : void
 	{
 		if( !static::$session_started ) {
 			/** @noinspection PhpUsageOfSilenceOperatorInspection */
@@ -63,7 +63,7 @@ class Session extends BaseObject
 	/**
 	 * @return callable
 	 */
-	public static function getSessionValidator()
+	public static function getSessionValidator() : callable
 	{
 		return static::$session_validator;
 	}
@@ -71,7 +71,7 @@ class Session extends BaseObject
 	/**
 	 * @param callable $session_validator
 	 */
-	public static function setSessionValidator( callable $session_validator )
+	public static function setSessionValidator( callable $session_validator ) : void
 	{
 		static::$session_validator = $session_validator;
 	}
@@ -79,7 +79,7 @@ class Session extends BaseObject
 	/**
 	 *
 	 */
-	public static function regenerateId()
+	public static function regenerateId() : void
 	{
 		session_regenerate_id();
 	}
@@ -87,7 +87,7 @@ class Session extends BaseObject
 	/**
 	 *
 	 */
-	public static function destroy()
+	public static function destroy() : void
 	{
 		session_destroy();
 		$_SESSION = [];
@@ -96,16 +96,16 @@ class Session extends BaseObject
 	/**
 	 * @return null|string
 	 */
-	public function getNamespace()
+	public function getNamespace() : null|string
 	{
 		return $this->namespace;
 	}
 
 	/**
 	 * @param string $key
-	 * @param mixed  $value
+	 * @param mixed $value
 	 */
-	public function setValue( $key, $value )
+	public function setValue( string $key, mixed $value ) : void
 	{
 		$this->checkKey( $key );
 
@@ -117,7 +117,7 @@ class Session extends BaseObject
 	 *
 	 * @throws Session_Exception
 	 */
-	protected function checkKey( &$key )
+	protected function checkKey( string &$key ) : void
 	{
 		$key = (string)$key;
 
@@ -132,7 +132,7 @@ class Session extends BaseObject
 	 *
 	 * @param string $key
 	 */
-	public function unsetValue( $key )
+	public function unsetValue( string $key ) : void
 	{
 		$this->checkKey( $key );
 
@@ -146,7 +146,7 @@ class Session extends BaseObject
 	 *
 	 * @return bool
 	 */
-	public function getValueExists( $key )
+	public function getValueExists( string $key ) : bool
 	{
 		$this->checkKey( $key );
 
@@ -159,7 +159,7 @@ class Session extends BaseObject
 	 *
 	 * @return mixed
 	 */
-	public function getValue( $key, $default_value = null )
+	public function getValue( string $key, mixed $default_value = null ) : mixed
 	{
 		$this->checkKey( $key );
 
@@ -173,7 +173,7 @@ class Session extends BaseObject
 	/**
 	 *
 	 */
-	public function reset()
+	public function reset() : void
 	{
 		$_SESSION[$this->namespace] = [];
 	}
@@ -181,7 +181,7 @@ class Session extends BaseObject
 	/**
 	 * @return string
 	 */
-	public function getSessionId()
+	public function getSessionId() : string
 	{
 		return session_id();
 	}

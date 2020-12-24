@@ -16,22 +16,22 @@ abstract class PackageCreator extends BaseObject
 	/**
 	 * @var string
 	 */
-	protected static $CSS_class_name = __NAMESPACE__.'\\PackageCreator_CSS_Default';
+	protected static string $CSS_class_name = PackageCreator_CSS_Default::class;
 
 	/**
 	 * @var string
 	 */
-	protected static $JavaScript_class_name = __NAMESPACE__.'\\PackageCreator_JavaScript_Default';
+	protected static string $JavaScript_class_name = PackageCreator_JavaScript_Default::class;
 
 	/**
-	 * @var Locale
+	 * @var Locale|null
 	 */
-	protected $locale;
+	protected Locale|null $locale = null;
 
 	/**
 	 * @var array
 	 */
-	protected $URIs = [];
+	protected array $URIs = [];
 
 	/**
 	 * @return string
@@ -44,7 +44,7 @@ abstract class PackageCreator extends BaseObject
 	/**
 	 * @param string $CSS_class_name
 	 */
-	public static function setCSSClassName( $CSS_class_name )
+	public static function setCSSClassName( string $CSS_class_name ) : void
 	{
 		static::$CSS_class_name = $CSS_class_name;
 	}
@@ -56,7 +56,7 @@ abstract class PackageCreator extends BaseObject
 	 *
 	 * @return PackageCreator_CSS
 	 */
-	public static function CSS( $media, array $URIs )
+	public static function CSS( string $media, array $URIs ) : PackageCreator_CSS
 	{
 		$class_name = static::getCSSClassName();
 		return new $class_name( $media, $URIs );
@@ -65,7 +65,7 @@ abstract class PackageCreator extends BaseObject
 	/**
 	 * @return string
 	 */
-	public static function getJavaScriptClassName()
+	public static function getJavaScriptClassName() : string
 	{
 		return static::$JavaScript_class_name;
 	}
@@ -73,7 +73,7 @@ abstract class PackageCreator extends BaseObject
 	/**
 	 * @param string $JavaScript_class_name
 	 */
-	public static function setJavaScriptClassName( $JavaScript_class_name )
+	public static function setJavaScriptClassName( string $JavaScript_class_name ) : void
 	{
 		static::$JavaScript_class_name = $JavaScript_class_name;
 	}
@@ -84,7 +84,7 @@ abstract class PackageCreator extends BaseObject
 	 *
 	 * @return PackageCreator_JavaScript
 	 */
-	public static function JavaScript( array $URIs )
+	public static function JavaScript( array $URIs ) : PackageCreator_JavaScript
 	{
 		$class_name = static::getJavaScriptClassName();
 		return new $class_name( $URIs );
@@ -96,7 +96,7 @@ abstract class PackageCreator extends BaseObject
 	 *
 	 * @return string|null
 	 */
-	protected function getFileContent( $URI )
+	protected function getFileContent( string $URI ) : string|null
 	{
 
 		$_URI = $this->normalizePath( $URI );
@@ -112,12 +112,12 @@ abstract class PackageCreator extends BaseObject
 	 *
 	 * @return string
 	 */
-	protected function normalizePath( $URI )
+	protected function normalizePath( string $URI ) : string
 	{
 
 		$o_URI = $URI;
 
-		if(strpos($URI, '?')!==false) {
+		if( str_contains( $URI, '?' ) ) {
 			$URI = strstr($URI, '?', true);
 		}
 
@@ -139,7 +139,7 @@ abstract class PackageCreator extends BaseObject
 	 *
 	 * @return string
 	 */
-	protected function normalizeURI( $URI )
+	protected function normalizeURI( string $URI ) : string
 	{
 		return $URI;
 	}

@@ -19,16 +19,16 @@ class Installer_Step_CreateAdministrator_Controller extends Installer_Step_Contr
 	/**
 	 * @var string
 	 */
-	protected $label = 'Create administrator account';
+	protected string $label = 'Create administrator account';
 
 	/**
 	 *
 	 */
-	public function main()
+	public function main() : void
 	{
 		$this->catchContinue();
 
-		if( Auth_Administrator_User::getList()->getCount()>0 ) {
+		if( count(Auth_Administrator_User::getList())>0 ) {
 
 			$this->render( 'created' );
 		} else {

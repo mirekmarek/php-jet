@@ -9,40 +9,40 @@ namespace Jet;
 
 /**
  *
- * @JetConfig:name = 'data_model'
  */
+#[Config_Definition(name: 'data_model')]
 class DataModel_Config extends Config
 {
 
 	/**
-	 * @JetConfig:type = Config::TYPE_STRING
-	 * @JetConfig:is_required = true
-	 * @JetConfig:default_value = 'MySQL'
-	 * @JetConfig:form_field_type = Form::TYPE_SELECT
-	 * @JetConfig:form_field_get_select_options_callback = ['DataModel_Config', 'getBackendTypesList']
-	 * @JetConfig:form_field_label = 'Default backend type: '
-	 * @JetConfig:form_field_error_messages = [Form_Field::ERROR_CODE_EMPTY=>'Please select backend type', Form_Field_MultiSelect::ERROR_CODE_INVALID_VALUE=>'Please select backend type']
 	 *
 	 * @var string
 	 */
-	protected $backend_type;
+	#[Config_Definition(type: Config::TYPE_STRING)]
+	#[Config_Definition(is_required : true)]
+	#[Config_Definition(default_value : 'MySQL')]
+	#[Config_Definition(form_field_type : Form::TYPE_SELECT)]
+	#[Config_Definition(form_field_get_select_options_callback : ['DataModel_Config', 'getBackendTypesList'])]
+	#[Config_Definition(form_field_label : 'Default backend type: ')]
+	#[Config_Definition(form_field_error_messages : [Form_Field::ERROR_CODE_EMPTY=>'Please select backend type', Form_Field_MultiSelect::ERROR_CODE_INVALID_VALUE=>'Please select backend type'])]
+	protected string $backend_type;
 
 
 	/**
-	 * @JetConfig:type = Config::TYPE_SECTION
-	 * @JetConfig:is_required = true
-	 * @JetConfig:section_creator_method_name = 'createBackendConfigInstance'
 	 *
 	 * @var DataModel_Backend_Config
 	 */
-	protected $backend_config;
+	#[Config_Definition(type : Config::TYPE_SECTION)]
+	#[Config_Definition(is_required : true)]
+	#[Config_Definition(section_creator_method_name : 'createBackendConfigInstance')]
+	protected DataModel_Backend_Config $backend_config;
 
 
 
 	/**
 	 * @return array
 	 */
-	public static function getBackendTypesList()
+	public static function getBackendTypesList() : array
 	{
 		return static::getAvailableHandlersList( __DIR__.'/Backend/' );
 	}
@@ -53,9 +53,9 @@ class DataModel_Config extends Config
 	 *
 	 * @return array
 	 */
-	public static function getAvailableHandlersList( $base_directory )
+	public static function getAvailableHandlersList( string $base_directory ) : array
 	{
-		$res = IO_Dir::getSubdirectoriesList( $base_directory, '*' );
+		$res = IO_Dir::getSubdirectoriesList( $base_directory );
 		foreach( $res as $path => $dir ) {
 			if( $dir=='Config' ) {
 				unset( $res[$path] );
@@ -69,7 +69,7 @@ class DataModel_Config extends Config
 	/**
 	 * @return string
 	 */
-	public function getBackendType()
+	public function getBackendType() : string
 	{
 		return $this->backend_type;
 	}
@@ -77,7 +77,7 @@ class DataModel_Config extends Config
 	/**
 	 * @param string $backend_type
 	 */
-	public function setBackendType( $backend_type )
+	public function setBackendType( string $backend_type ) : void
 	{
 		$this->backend_type = $backend_type;
 		$this->backend_config = $this->createBackendConfigInstance([]);
@@ -86,7 +86,7 @@ class DataModel_Config extends Config
 	/**
 	 * @return DataModel_Backend_Config
 	 */
-	public function getBackendConfig()
+	public function getBackendConfig() : DataModel_Backend_Config
 	{
 		return $this->backend_config;
 	}
@@ -97,7 +97,7 @@ class DataModel_Config extends Config
 	 *
 	 * @return DataModel_Backend_Config
 	 */
-	public function createBackendConfigInstance( array $data )
+	public function createBackendConfigInstance( array $data ) : DataModel_Backend_Config
 	{
 		return DataModel_Factory::getBackendConfigInstance(
 			$this->getBackendType(),

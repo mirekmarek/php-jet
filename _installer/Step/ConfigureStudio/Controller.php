@@ -25,9 +25,9 @@ class Installer_Step_ConfigureStudio_Controller extends Installer_Step_Controlle
 	/**
 	 * @var string
 	 */
-	protected $label = 'Configure Jet Studio';
+	protected string $label = 'Configure Jet Studio';
 
-	public function main()
+	public function main() : void
 	{
 		$this->catchContinue();
 

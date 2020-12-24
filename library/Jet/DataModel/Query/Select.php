@@ -16,7 +16,7 @@ class DataModel_Query_Select extends BaseObject implements BaseObject_Interface_
 	/**
 	 * @var DataModel_Query_Select_Item[]
 	 */
-	protected $items = [];
+	protected array $items = [];
 
 
 	/**
@@ -86,7 +86,7 @@ class DataModel_Query_Select extends BaseObject implements BaseObject_Interface_
 	 * @throws DataModel_Query_Exception
 	 *
 	 */
-	public function addItem( DataModel_Query_Select_Item $item )
+	public function addItem( DataModel_Query_Select_Item $item ) : void
 	{
 		$select_as = $item->getSelectAs();
 
@@ -103,7 +103,7 @@ class DataModel_Query_Select extends BaseObject implements BaseObject_Interface_
 	/**
 	 * @return bool
 	 */
-	public function getIsEmpty()
+	public function getIsEmpty() : bool
 	{
 		return ( count( $this->items )==0 );
 	}
@@ -113,7 +113,7 @@ class DataModel_Query_Select extends BaseObject implements BaseObject_Interface_
 	 *
 	 * @return DataModel_Query_Select_Item
 	 */
-	public function getItem( $select_as )
+	public function getItem( string $select_as ) : DataModel_Query_Select_Item
 	{
 		return $this->items[$select_as];
 	}
@@ -123,7 +123,7 @@ class DataModel_Query_Select extends BaseObject implements BaseObject_Interface_
 	 *
 	 * @return bool
 	 */
-	public function hasItem( $select_as )
+	public function hasItem( string $select_as ) : bool
 	{
 		return array_key_exists( $select_as, $this->items );
 	}
@@ -142,7 +142,7 @@ class DataModel_Query_Select extends BaseObject implements BaseObject_Interface_
 	 *
 	 * @return DataModel_Query_Select_Item
 	 */
-	public function current()
+	public function current() : DataModel_Query_Select_Item
 	{
 		return current( $this->items );
 	}
@@ -151,7 +151,7 @@ class DataModel_Query_Select extends BaseObject implements BaseObject_Interface_
 	 * @see \Iterator
 	 * @return string
 	 */
-	public function key()
+	public function key() : string
 	{
 		return key( $this->items );
 	}
@@ -159,7 +159,7 @@ class DataModel_Query_Select extends BaseObject implements BaseObject_Interface_
 	/**
 	 * @see \Iterator
 	 */
-	public function next()
+	public function next() : DataModel_Query_Select_Item|bool
 	{
 		return next( $this->items );
 	}
@@ -167,7 +167,7 @@ class DataModel_Query_Select extends BaseObject implements BaseObject_Interface_
 	/**
 	 * @see \Iterator
 	 */
-	public function rewind()
+	public function rewind() : void
 	{
 		reset( $this->items );
 	}
@@ -176,7 +176,7 @@ class DataModel_Query_Select extends BaseObject implements BaseObject_Interface_
 	 * @see \Iterator
 	 * @return bool
 	 */
-	public function valid()
+	public function valid() : bool
 	{
 		return key( $this->items )!==null;
 	}
@@ -187,7 +187,7 @@ class DataModel_Query_Select extends BaseObject implements BaseObject_Interface_
 	 *
 	 * @return int
 	 */
-	public function count()
+	public function count() : int
 	{
 		return count($this->items);
 	}

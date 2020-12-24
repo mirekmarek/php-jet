@@ -13,7 +13,6 @@ use JetApplication\Auth_RESTClient_Role as Role;
 
 use Jet\Data_Listing;
 use Jet\Data_Listing_Filter_search;
-use Jet\DataModel_Fetch_Instances;
 
 /**
  *
@@ -25,7 +24,7 @@ class Listing extends Data_Listing {
 	/**
 	 * @var array
 	 */
-	protected $grid_columns = [
+	protected array $grid_columns = [
 		'_edit_'     => [
 			'title'         => '',
 			'disallow_sort' => true
@@ -36,16 +35,16 @@ class Listing extends Data_Listing {
 	];
 
 	/**
-	 * @var string[]
+	 * @var array
 	 */
-	protected $filters = [
+	protected array $filters = [
 		'search'
 	];
 
 	/**
-	 * @return DataModel_Fetch_Instances
+	 * @return Role[]
 	 */
-	protected function getList()
+	protected function getList() : iterable
 	{
 		return Role::getList();
 	}
@@ -53,7 +52,7 @@ class Listing extends Data_Listing {
 	/**
 	 *
 	 */
-	protected function filter_search_getWhere()
+	protected function filter_search_getWhere() : void
 	{
 		if(!$this->search) {
 			return;

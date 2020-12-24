@@ -17,14 +17,14 @@ trait DataModel_Related_1toN_Trait
 	/**
 	 * @var array
 	 */
-	protected static $load_related_data_order_by = [];
+	protected static array $load_related_data_order_by = [];
 
 	/**
 	 * @param string $data_model_class_name
 	 *
-	 * @return DataModel_Definition_Model_Related
+	 * @return DataModel_Definition_Model_Related_1toN
 	 */
-	public static function dataModelDefinitionFactory( $data_model_class_name )
+	public static function dataModelDefinitionFactory( string $data_model_class_name ) : DataModel_Definition_Model_Related_1toN
 	{
 		$class_name = DataModel_Factory::getModelDefinitionClassNamePrefix().'Related_1toN';
 
@@ -39,7 +39,7 @@ trait DataModel_Related_1toN_Trait
 	 *
 	 * @return array
 	 */
-	public static function fetchRelatedData( array $where, DataModel_PropertyFilter $load_filter = null )
+	public static function fetchRelatedData( array $where, DataModel_PropertyFilter $load_filter = null ) : array
 	{
 		/**
 		 * @var DataModel_Definition_Model_Related_1toN $definition
@@ -73,7 +73,7 @@ trait DataModel_Related_1toN_Trait
 	/**
 	 * @return array
 	 */
-	public static function getLoadRelatedDataOrderBy()
+	public static function getLoadRelatedDataOrderBy() : array
 	{
 		/**
 		 * @var DataModel_Definition_Model_Related_1toN $definition
@@ -87,7 +87,7 @@ trait DataModel_Related_1toN_Trait
 	/**
 	 * @param array $order_by
 	 */
-	public static function setLoadRelatedDataOrderBy( array $order_by )
+	public static function setLoadRelatedDataOrderBy( array $order_by ) : void
 	{
 		static::$load_related_data_order_by = $order_by;
 	}
@@ -99,9 +99,11 @@ trait DataModel_Related_1toN_Trait
 	 * @param array  &$related_data
 	 * @param DataModel_PropertyFilter|null $load_filter
 	 *
-	 * @return mixed
+	 * @return DataModel_Related_1toN_Iterator
 	 */
-	public static function initRelatedByData( $this_data, array &$related_data, DataModel_PropertyFilter $load_filter = null )
+	public static function initRelatedByData( array $this_data,
+	                                          array &$related_data,
+	                                          DataModel_PropertyFilter $load_filter = null ) : DataModel_Related_1toN_Iterator
 	{
 
 		/**
@@ -120,34 +122,34 @@ trait DataModel_Related_1toN_Trait
 		 * @var DataModel_Related_1toN_Iterator $iterator
 		 */
 
-		$iterator_class_name = $data_model_definition->getIteratorClassName();
+		$iterator_class = $data_model_definition->getIteratorClassName();
 
-		$iterator = new $iterator_class_name( $data_model_definition, $items );
+		$iterator = new $iterator_class( $data_model_definition, $items );
 
 		return $iterator;
 	}
 
 	/**
-	 * @return mixed|null
+	 * @return null|string|int
 	 */
-	public function getArrayKeyValue()
+	public function getArrayKeyValue() : null|string|int
 	{
 		return null;
 	}
 
 	/**
-	 * @return DataModel_Related_Interface
+	 * @return DataModel_Related_Interface|DataModel_Related_1toN_Iterator|null
 	 */
-	public function createNewRelatedDataModelInstance()
+	public function createNewRelatedDataModelInstance() : DataModel_Related_Interface|DataModel_Related_1toN_Iterator|null
 	{
 		/**
 		 * @var DataModel_Definition_Model_Related_1toN $data_model_definition
 		 */
 		$data_model_definition = static::getDataModelDefinition();
 
-		$iterator_class_name = $data_model_definition->getIteratorClassName();
+		$iterator_class = $data_model_definition->getIteratorClassName();
 
-		$i = new $iterator_class_name( $data_model_definition );
+		$i = new $iterator_class( $data_model_definition );
 
 		return $i;
 	}
@@ -160,8 +162,8 @@ trait DataModel_Related_1toN_Trait
 	 * @return Form_Field[]
 	 *
 	 */
-	public function getRelatedFormFields( /** @noinspection PhpUnusedParameterInspection */
-		DataModel_Definition_Property $parent_property_definition, DataModel_PropertyFilter $property_filter = null )
+	public function getRelatedFormFields( DataModel_Definition_Property $parent_property_definition,
+	                                      DataModel_PropertyFilter $property_filter = null ) : array
 	{
 		$related_form = $this->getForm( '', $property_filter );
 

@@ -16,21 +16,21 @@ interface BaseObject_Cacheable_Interface
 	/**
 	 * @return bool
 	 */
-	public static function getCacheSaveEnabled();
+	public static function getCacheSaveEnabled() : bool;
 
 	/**
 	 * @return bool
 	 */
-	public static function getCacheLoadEnabled();
+	public static function getCacheLoadEnabled() : bool;
 
 
 	/**
 	 * @param callable $cache_loader
 	 */
-	public static function enableCacheLoad( callable $cache_loader );
+	public static function enableCacheLoad( callable $cache_loader ) : void;
 
 	/**
 	 * @param callable $cache_saver
 	 */
-	public static function enableCacheSave( callable $cache_saver );
+	public static function enableCacheSave( callable $cache_saver ) : void;
 }

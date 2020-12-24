@@ -14,20 +14,20 @@ class Mvc_Controller_Router extends BaseObject implements Mvc_Controller_Router_
 {
 
 	/**
-	 * @var Mvc_Controller
+	 * @var ?Mvc_Controller
 	 */
-	protected $controller;
+	protected ?Mvc_Controller $controller = null;
 
 
 	/**
 	 * @var Mvc_Controller_Router_Action[]
 	 */
-	protected $actions = [];
+	protected array $actions = [];
 
 	/**
-	 * @var Mvc_Controller_Router_Action
+	 * @var ?Mvc_Controller_Router_Action
 	 */
-	protected $default_action;
+	protected ?Mvc_Controller_Router_Action $default_action = null;
 
 	/**
 	 * @param Mvc_Controller $controller
@@ -43,7 +43,7 @@ class Mvc_Controller_Router extends BaseObject implements Mvc_Controller_Router_
 	 *
 	 * @return Mvc_Controller_Router_Action
 	 */
-	public function addAction( $controller_action_name, $module_action_name='' )
+	public function addAction( string $controller_action_name, string $module_action_name='' ) : Mvc_Controller_Router_Action
 	{
 		$action = new Mvc_Controller_Router_Action( $this, $controller_action_name, $module_action_name );
 
@@ -58,7 +58,7 @@ class Mvc_Controller_Router extends BaseObject implements Mvc_Controller_Router_
 	 *
 	 * @return Mvc_Controller_Router_Action
 	 */
-	public function setDefaultAction( $controller_action_name, $module_action_name='' )
+	public function setDefaultAction( string $controller_action_name, string $module_action_name='' ) : Mvc_Controller_Router_Action
 	{
 		$action = $this->addAction($controller_action_name, $module_action_name);
 
@@ -71,7 +71,7 @@ class Mvc_Controller_Router extends BaseObject implements Mvc_Controller_Router_
 	/**
 	 * @return Mvc_Controller
 	 */
-	public function getController()
+	public function getController() : Mvc_Controller
 	{
 		return $this->controller;
 	}
@@ -80,7 +80,7 @@ class Mvc_Controller_Router extends BaseObject implements Mvc_Controller_Router_
 	/**
 	 * @return Mvc_Controller_Router_Action[]
 	 */
-	public function getActions()
+	public function getActions() : array
 	{
 		return $this->actions;
 	}
@@ -90,7 +90,7 @@ class Mvc_Controller_Router extends BaseObject implements Mvc_Controller_Router_
 	 *
 	 * @return Mvc_Controller_Router_Action
 	 */
-	public function action( $action_name )
+	public function action( string $action_name ) : Mvc_Controller_Router_Action
 	{
 		return $this->actions[$action_name];
 	}
@@ -100,7 +100,7 @@ class Mvc_Controller_Router extends BaseObject implements Mvc_Controller_Router_
 	 *
 	 * @return Mvc_Controller_Router_Action
 	 */
-	public function getAction( $controller_action_name )
+	public function getAction( string $controller_action_name ) : Mvc_Controller_Router_Action
 	{
 		return $this->actions[$controller_action_name];
 	}
@@ -108,7 +108,7 @@ class Mvc_Controller_Router extends BaseObject implements Mvc_Controller_Router_
 	/**
 	 * @return Mvc_Controller_Router_Action
 	 */
-	public function getDefaultAction()
+	public function getDefaultAction() : Mvc_Controller_Router_Action
 	{
 		return $this->default_action;
 	}
@@ -118,7 +118,7 @@ class Mvc_Controller_Router extends BaseObject implements Mvc_Controller_Router_
 	 *
 	 * @return bool|string
 	 */
-	public function resolve()
+	public function resolve() : bool|string
 	{
 		$access_denied = false;
 		foreach( $this->actions as $action ) {

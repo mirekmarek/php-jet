@@ -15,7 +15,7 @@ class DataModel_Definition_Property_DateTime extends DataModel_Definition_Proper
 	/**
 	 * @var string
 	 */
-	protected $type = DataModel::TYPE_DATE_TIME;
+	protected string $type = DataModel::TYPE_DATE_TIME;
 
 	/**
 	 * @var null
@@ -25,12 +25,12 @@ class DataModel_Definition_Property_DateTime extends DataModel_Definition_Proper
 	/**
 	 * @var string
 	 */
-	protected $form_field_type = Form::TYPE_DATE_TIME;
+	protected string $form_field_type = Form::TYPE_DATE_TIME;
 
 	/**
-	 * @param Data_DateTime $value
+	 * @param mixed &$value
 	 */
-	public function checkValueType( &$value )
+	public function checkValueType( mixed &$value ) : void
 	{
 		if( $value==='' ) {
 			$value = null;
@@ -52,13 +52,11 @@ class DataModel_Definition_Property_DateTime extends DataModel_Definition_Proper
 
 	/**
 	 *
-	 * Example: Locale to string
-	 *
 	 * @param mixed               &$property
 	 *
 	 * @return mixed
 	 */
-	public function getJsonSerializeValue( &$property )
+	public function getJsonSerializeValue( mixed &$property ) : mixed
 	{
 		if( !$property ) {
 			return $property;

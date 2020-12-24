@@ -16,32 +16,32 @@ class Navigation_Menu extends BaseObject
 	/**
 	 * @var string
 	 */
-	protected $id = '';
+	protected string $id = '';
 
 	/**
-	 * @var Navigation_Menu
+	 * @var Navigation_Menu|null
 	 */
-	protected $parent_menu;
-
-	/**
-	 * @var string
-	 */
-	protected $label = '';
+	protected Navigation_Menu|null $parent_menu = null;
 
 	/**
 	 * @var string
 	 */
-	protected $icon = '';
+	protected string $label = '';
+
+	/**
+	 * @var string
+	 */
+	protected string $icon = '';
 
 	/**
 	 * @var int
 	 */
-	protected $index = 0;
+	protected int $index = 0;
 
 	/**
 	 * @var Navigation_Menu_Item[]|Navigation_Menu[]
 	 */
-	protected $items = [];
+	protected array $items = [];
 
 
 	/**
@@ -53,7 +53,7 @@ class Navigation_Menu extends BaseObject
 	 * @param string $icon
 	 *
 	 */
-	public function __construct( $id, $label, $index, $icon = '' )
+	public function __construct( string $id, string $label, int $index, string $icon = '' )
 	{
 
 		$this->id = $id;
@@ -68,7 +68,7 @@ class Navigation_Menu extends BaseObject
 	/**
 	 * @return Navigation_Menu|null
 	 */
-	public function getParentMenu()
+	public function getParentMenu() : Navigation_Menu|null
 	{
 		return $this->parent_menu;
 	}
@@ -76,7 +76,7 @@ class Navigation_Menu extends BaseObject
 	/**
 	 * @param Navigation_Menu $parent_menu
 	 */
-	public function setParentMenu( Navigation_Menu $parent_menu )
+	public function setParentMenu( Navigation_Menu $parent_menu ) : void
 	{
 		$this->parent_menu = $parent_menu;
 	}
@@ -86,7 +86,7 @@ class Navigation_Menu extends BaseObject
 	 *
 	 * @return string
 	 */
-	public function getId( $absolute=true )
+	public function getId( bool $absolute=true ) : string
 	{
 		if($this->parent_menu && $absolute) {
 			return $this->getParentMenu()->getId().'/'.$this->id;
@@ -97,7 +97,7 @@ class Navigation_Menu extends BaseObject
 	/**
 	 * @param string $id
 	 */
-	public function setId( $id )
+	public function setId( string $id ) : void
 	{
 		$this->id = $id;
 	}
@@ -105,7 +105,7 @@ class Navigation_Menu extends BaseObject
 	/**
 	 * @return string
 	 */
-	public function getLabel()
+	public function getLabel() : string
 	{
 		return $this->label;
 	}
@@ -113,7 +113,7 @@ class Navigation_Menu extends BaseObject
 	/**
 	 * @param string $label
 	 */
-	public function setLabel( $label )
+	public function setLabel( string $label ) : void
 	{
 		$this->label = $label;
 	}
@@ -121,7 +121,7 @@ class Navigation_Menu extends BaseObject
 	/**
 	 * @return int
 	 */
-	public function getIndex()
+	public function getIndex() : int
 	{
 		return $this->index;
 	}
@@ -129,7 +129,7 @@ class Navigation_Menu extends BaseObject
 	/**
 	 * @param int $index
 	 */
-	public function setIndex( $index )
+	public function setIndex( int $index ) : void
 	{
 		$this->index = $index;
 	}
@@ -137,7 +137,7 @@ class Navigation_Menu extends BaseObject
 	/**
 	 * @return string
 	 */
-	public function getIcon()
+	public function getIcon() : string
 	{
 		return $this->icon;
 	}
@@ -145,7 +145,7 @@ class Navigation_Menu extends BaseObject
 	/**
 	 * @param string $icon
 	 */
-	public function setIcon( $icon )
+	public function setIcon( string $icon ) : void
 	{
 		$this->icon = $icon;
 	}
@@ -156,7 +156,7 @@ class Navigation_Menu extends BaseObject
 	 *
 	 * @throws Navigation_Menu_Exception
 	 */
-	public function addItem( Navigation_Menu_Item $item )
+	public function addItem( Navigation_Menu_Item $item ) : void
 	{
 		$item->setMenu( $this );
 
@@ -173,7 +173,7 @@ class Navigation_Menu extends BaseObject
 	 *
 	 * @throws Navigation_Menu_Exception
 	 */
-	public function addMenu( Navigation_Menu $menu )
+	public function addMenu( Navigation_Menu $menu ) : void
 	{
 		$menu->setParentMenu( $this );
 
@@ -188,7 +188,7 @@ class Navigation_Menu extends BaseObject
 	/**
 	 * @return bool
 	 */
-	public function getAccessAllowed()
+	public function getAccessAllowed() : bool
 	{
 		return (count($this->getItems())>0);
 	}
@@ -198,7 +198,7 @@ class Navigation_Menu extends BaseObject
 	 *
 	 * @return Navigation_Menu[]|Navigation_Menu_Item[]
 	 */
-	public function getItems( $check_access=true )
+	public function getItems( $check_access=true ) : array
 	{
 		$items = [];
 
@@ -221,7 +221,7 @@ class Navigation_Menu extends BaseObject
 	/**
 	 * @param Navigation_Menu_Item[]|Navigation_Menu[] $items
 	 */
-	public function setItems( $items )
+	public function setItems( array $items ) : void
 	{
 		$this->items = [];
 
@@ -241,7 +241,7 @@ class Navigation_Menu extends BaseObject
 	/**
 	 * @param Navigation_Menu[]|Navigation_Menu_Item[] $items
 	 */
-	public static function sortMenuItems( array &$items )
+	public static function sortMenuItems( array &$items ) : void
 	{
 		uasort(
 			$items,

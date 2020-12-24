@@ -16,32 +16,32 @@ abstract class Application_Module extends BaseObject
 	/**
 	 * @var string
 	 */
-	protected static $default_install_directory = '_install';
+	protected static string $default_install_directory = '_install';
 	/**
 	 * @var string
 	 */
-	protected static $default_install_script = 'install.php';
+	protected static string $default_install_script = 'install.php';
 	/**
 	 * @var string
 	 */
-	protected static $default_uninstall_script = 'uninstall.php';
+	protected static string $default_uninstall_script = 'uninstall.php';
 
 	/**
 	 * @var string
 	 */
-	protected static $default_views_dir = 'views';
+	protected static string $default_views_dir = 'views';
 	
 	/**
 	 *
 	 * @var Application_Module_Manifest
 	 */
-	protected $module_manifest;
+	protected Application_Module_Manifest $module_manifest;
 	
 	
 	/**
 	 * @return string
 	 */
-	public static function getDefaultInstallDirectory()
+	public static function getDefaultInstallDirectory() : string
 	{
 		return static::$default_install_directory;
 	}
@@ -49,7 +49,7 @@ abstract class Application_Module extends BaseObject
 	/**
 	 * @param string $default_install_directory
 	 */
-	public static function setDefaultInstallDirectory( $default_install_directory )
+	public static function setDefaultInstallDirectory( string $default_install_directory ) : void
 	{
 		static::$default_install_directory = $default_install_directory;
 	}
@@ -57,7 +57,7 @@ abstract class Application_Module extends BaseObject
 	/**
 	 * @return string
 	 */
-	public static function getDefaultInstallScript()
+	public static function getDefaultInstallScript() : string
 	{
 		return static::$default_install_script;
 	}
@@ -65,7 +65,7 @@ abstract class Application_Module extends BaseObject
 	/**
 	 * @param string $default_install_script
 	 */
-	public static function setDefaultInstallScript( $default_install_script )
+	public static function setDefaultInstallScript( string $default_install_script ) : void
 	{
 		static::$default_install_script = $default_install_script;
 	}
@@ -73,7 +73,7 @@ abstract class Application_Module extends BaseObject
 	/**
 	 * @return string
 	 */
-	public static function getDefaultUninstallScript()
+	public static function getDefaultUninstallScript() : string
 	{
 		return static::$default_uninstall_script;
 	}
@@ -81,7 +81,7 @@ abstract class Application_Module extends BaseObject
 	/**
 	 * @param string $default_uninstall_script
 	 */
-	public static function setDefaultUninstallScript( $default_uninstall_script )
+	public static function setDefaultUninstallScript( string $default_uninstall_script ) : void
 	{
 		static::$default_uninstall_script = $default_uninstall_script;
 	}
@@ -89,7 +89,7 @@ abstract class Application_Module extends BaseObject
 	/**
 	 * @return string
 	 */
-	public static function getDefaultViewsDir()
+	public static function getDefaultViewsDir() : string
 	{
 		return static::$default_views_dir;
 	}
@@ -97,7 +97,7 @@ abstract class Application_Module extends BaseObject
 	/**
 	 * @param string $default_views_dir
 	 */
-	public static function setDefaultViewsDir( $default_views_dir )
+	public static function setDefaultViewsDir( string $default_views_dir ) : void
 	{
 		static::$default_views_dir = $default_views_dir;
 	}
@@ -115,7 +115,7 @@ abstract class Application_Module extends BaseObject
 	/**
 	 * @return Application_Module_Manifest
 	 */
-	public function getModuleManifest()
+	public function getModuleManifest() : Application_Module_Manifest
 	{
 		return $this->module_manifest;
 	}
@@ -123,7 +123,7 @@ abstract class Application_Module extends BaseObject
 	/**
 	 * @throws Application_Modules_Exception
 	 */
-	public function install()
+	public function install() : void
 	{
 		$module_dir = $this->module_manifest->getModuleDir();
 		$install_script = $module_dir.static::getDefaultInstallDirectory().'/'.static::getDefaultInstallScript();
@@ -152,7 +152,7 @@ abstract class Application_Module extends BaseObject
 	/**
 	 * @throws Application_Modules_Exception
 	 */
-	public function uninstall()
+	public function uninstall() : void
 	{
 		$module_dir = $this->module_manifest->getModuleDir();
 
@@ -183,7 +183,7 @@ abstract class Application_Module extends BaseObject
 	 *
 	 * @return string
 	 */
-	public function getViewsDir()
+	public function getViewsDir() : string
 	{
 		return $this->module_manifest->getModuleDir().static::getDefaultViewsDir().'/';
 	}
@@ -196,7 +196,7 @@ abstract class Application_Module extends BaseObject
 	 *
 	 * @return bool
 	 */
-	public function actionIsAllowed( $action )
+	public function actionIsAllowed( string $action ) : bool
 	{
 		$module_name = $this->module_manifest->getName();
 

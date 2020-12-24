@@ -16,12 +16,12 @@ class Navigation_Breadcrumb extends BaseObject
 	/**
 	 * @var Navigation_Breadcrumb_Item[] $items
 	 */
-	protected static $items;
+	protected static array|null $items = null;
 
 	/**
 	 *
 	 */
-	public static function reset()
+	public static function reset() : void
 	{
 		static::$items = [];
 	}
@@ -30,7 +30,7 @@ class Navigation_Breadcrumb extends BaseObject
 	 * @param Navigation_Breadcrumb_Item[] $items
 	 *
 	 */
-	public static function set( array $items=[] )
+	public static function set( array $items=[] ) : void
 	{
 		static::$items = [];
 
@@ -42,7 +42,7 @@ class Navigation_Breadcrumb extends BaseObject
 	/**
 	 * @param Navigation_Breadcrumb_Item $item
 	 */
-	public static function addItem( Navigation_Breadcrumb_Item $item )
+	public static function addItem( Navigation_Breadcrumb_Item $item ) : void
 	{
 		if(static::$items===null) {
 			static::setByPage();
@@ -58,7 +58,7 @@ class Navigation_Breadcrumb extends BaseObject
 	 *
 	 * @return Navigation_Breadcrumb_Item
 	 */
-	public static function addURL( $title, $URL = '' )
+	public static function addURL( string $title, string $URL = '' ) : Navigation_Breadcrumb_Item
 	{
 		if(static::$items===null) {
 			static::setByPage();
@@ -82,7 +82,7 @@ class Navigation_Breadcrumb extends BaseObject
 	 *
 	 * @return Navigation_Breadcrumb_Item
 	 */
-	public static function addPage( Mvc_Page_Interface $page )
+	public static function addPage( Mvc_Page_Interface $page ) : Navigation_Breadcrumb_Item
 	{
 		if(static::$items===null) {
 			static::setByPage();
@@ -99,7 +99,7 @@ class Navigation_Breadcrumb extends BaseObject
 	/**
 	 * @return Navigation_Breadcrumb_Item[]
 	 */
-	public static function getItems()
+	public static function getItems() : array
 	{
 		if(static::$items===null) {
 			static::setByPage();
@@ -119,7 +119,7 @@ class Navigation_Breadcrumb extends BaseObject
 	/**
 	 * @return Navigation_Breadcrumb_Item
 	 */
-	public static function getCurrentLastItem()
+	public static function getCurrentLastItem() : Navigation_Breadcrumb_Item
 	{
 		if(static::$items===null) {
 			static::setByPage();
@@ -132,7 +132,7 @@ class Navigation_Breadcrumb extends BaseObject
 	/**
 	 * @param Mvc_Page_Interface|null $page (optional)
 	 */
-	public static function setByPage( Mvc_Page_Interface $page=null )
+	public static function setByPage( Mvc_Page_Interface $page=null ) : void
 	{
 		if(!$page) {
 			$page = Mvc::getCurrentPage();
@@ -159,7 +159,7 @@ class Navigation_Breadcrumb extends BaseObject
 	 *
 	 * @param int $shift_count
 	 */
-	public static function shift( $shift_count )
+	public static function shift( int $shift_count ) : void
 	{
 
 		if( $shift_count<0 ) {

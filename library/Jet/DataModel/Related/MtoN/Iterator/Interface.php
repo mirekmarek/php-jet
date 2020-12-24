@@ -24,19 +24,18 @@ interface DataModel_Related_MtoN_Iterator_Interface extends DataModel_Related_It
 	 *
 	 * @throws DataModel_Exception
 	 */
-	public function addItems( $N_instances );
+	public function addItems( array $N_instances ) : void;
 
 	/**
 	 * @param DataModel[] $N_instances
-	 *$this->_items
 	 *
 	 * @throws DataModel_Exception
 	 */
-	public function setItems( $N_instances );
+	public function setItems( array $N_instances ) : void;
 
 	/**
 	 * @return DataModel_IDController[]
 	 */
-	public function getIds();
+	public function getIds() : array;
 
 }

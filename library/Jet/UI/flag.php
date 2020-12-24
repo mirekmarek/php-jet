@@ -16,12 +16,12 @@ class UI_flag extends UI_BaseElement
 	/**
 	 * @var string
 	 */
-	protected static $default_renderer_script = 'flag';
+	protected static string $default_renderer_script = 'flag';
 
 	/**
-	 * @var UI_localeLabel
+	 * @var ?Locale
 	 */
-	protected $locale;
+	protected ?Locale $locale = null;
 
 
 	/**
@@ -35,7 +35,7 @@ class UI_flag extends UI_BaseElement
 	/**
 	 * @return Locale
 	 */
-	public function getLocale()
+	public function getLocale() : Locale
 	{
 		return $this->locale;
 	}

@@ -8,26 +8,27 @@
 namespace JetApplication;
 
 use Jet\DataModel_Related_MtoN;
+use Jet\DataModel_Definition;
 
 /**
  *
- *
- * @JetDataModel:name = 'roles_users'
- * @JetDataModel:database_table_name = 'users_administrators_roles'
- *
- * @JetDataModel:parent_model_class_name = 'Auth_Administrator_Role'
- * @JetDataModel:N_model_class_name = 'Auth_Administrator_User'
  */
+#[DataModel_Definition(name: 'roles_users')]
+#[DataModel_Definition(database_table_name: 'users_administrators_roles')]
+#[DataModel_Definition(parent_model_class: Auth_Administrator_Role::class)]
+#[DataModel_Definition(N_model_class: Auth_Administrator_User::class)]
 class Auth_Administrator_Role_Users extends DataModel_Related_MtoN
 {
 	/**
-	 * @JetDataModel:related_to = 'user.id'
+	 * 
 	 */
-	protected $user_id = '';
+	#[DataModel_Definition(related_to: 'user.id')]
+	protected int $user_id = 0;
 
 	/**
-	 * @JetDataModel:related_to = 'main.id'
+	 * 
 	 */
-	protected $role_id = '';
+	#[DataModel_Definition(related_to: 'main.id')]
+	protected string $role_id = '';
 
 }

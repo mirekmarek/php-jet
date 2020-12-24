@@ -22,7 +22,7 @@ class Test_Article_Post extends Test_Abstract
 	/**
 	 * @return string
 	 */
-	protected function _getTitle()
+	protected function _getTitle() : string
 	{
 		return 'Add (POST) - valid';
 	}
@@ -30,7 +30,7 @@ class Test_Article_Post extends Test_Abstract
 	/**
 	 *
 	 */
-	public function test()
+	public function test() : void
 	{
 
 		$data = [

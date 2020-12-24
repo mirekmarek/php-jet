@@ -16,10 +16,10 @@ class DataModel_Definition_Relation_External extends DataModel_Definition_Relati
 
 	/**
 	 * @param string $this_model_class_name
-	 * @param array|null  $definition_data (optional)
+	 * @param ?array $definition_data
 	 *
 	 */
-	public function __construct( $this_model_class_name='', $definition_data = null )
+	public function __construct( string $this_model_class_name='', ?array $definition_data = null )
 	{
 
 		if( $definition_data ) {
@@ -33,7 +33,7 @@ class DataModel_Definition_Relation_External extends DataModel_Definition_Relati
 	 *
 	 * @throws DataModel_Exception
 	 */
-	public function setUp( $this_model_class_name, array $definition_data )
+	public function setUp( string $this_model_class_name, array $definition_data ) : void
 	{
 
 		if( !isset( $definition_data['related_to_class_name'] ) ) {
@@ -58,10 +58,7 @@ class DataModel_Definition_Relation_External extends DataModel_Definition_Relati
 		}
 
 		if( !array_key_exists( 'required_relations', $definition_data ) ) {
-			throw new DataModel_Exception(
-				'Outer relation definition: required_relations is not defined  ',
-				DataModel_Exception::CODE_DEFINITION_NONSENSE
-			);
+			$definition_data['required_relations'] = [];
 		}
 
 

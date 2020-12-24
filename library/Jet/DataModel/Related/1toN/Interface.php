@@ -18,10 +18,10 @@ interface DataModel_Related_1toN_Interface extends DataModel_Related_Interface
 	 *
 	 * @return DataModel_Definition_Model_Related_1toN
 	 */
-	public static function dataModelDefinitionFactory( $data_model_class_name );
+	public static function dataModelDefinitionFactory( string $data_model_class_name ) : DataModel_Definition_Model_Related_1toN;
 
 	/**
-	 * @return null
+	 * @return null|string|int
 	 */
-	public function getArrayKeyValue();
+	public function getArrayKeyValue() : null|string|int;
 }

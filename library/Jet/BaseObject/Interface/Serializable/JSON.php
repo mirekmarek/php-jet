@@ -17,5 +17,5 @@ interface BaseObject_Interface_Serializable_JSON extends JsonSerializable
 	/**
 	 * @return string
 	 */
-	public function toJSON();
+	public function toJSON() : string;
 }

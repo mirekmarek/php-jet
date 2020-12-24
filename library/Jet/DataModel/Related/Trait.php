@@ -18,7 +18,7 @@ trait DataModel_Related_Trait
 	/**
 	 * @param DataModel_IDController $parent_id
 	 */
-	public function actualizeParentId( DataModel_IDController $parent_id )
+	public function actualizeParentId( DataModel_IDController $parent_id ) : void
 	{
 		/**
 		 * @var DataModel_Definition_Model_Related $definition
@@ -45,7 +45,7 @@ trait DataModel_Related_Trait
 	/**
 	 * @param DataModel_IDController $main_id
 	 */
-	public function actualizeMainId( DataModel_IDController $main_id )
+	public function actualizeMainId( DataModel_IDController $main_id ) : void
 	{
 
 		/**

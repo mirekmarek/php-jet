@@ -18,7 +18,7 @@ class Data_Text
 	/**
 	 * @var array
 	 */
-	protected static $_defined_constants = [];
+	protected static array $_defined_constants = [];
 
 	/**
 	 *
@@ -26,7 +26,7 @@ class Data_Text
 	 *
 	 * @return string
 	 */
-	public static function removeAccents( $text )
+	public static function removeAccents( string $text ) : string
 	{
 
 		if( !class_exists( '\Transliterator', false ) ) {
@@ -46,7 +46,7 @@ class Data_Text
 	 * Replace data in text by given values
 	 *
 	 * Example:
-	 * $text = array('PARAM1' => 'value 1', 'PARAM2' => 'value 2')
+	 * $text = ['PARAM1' => 'value 1', 'PARAM2' => 'value 2']
 	 * replaces %PARAM1% for value 1 and %PARAM2% for value 2
 	 *
 	 * @param string $text
@@ -54,7 +54,7 @@ class Data_Text
 	 *
 	 * @return string
 	 */
-	public static function replaceData( $text, array $data )
+	public static function replaceData( string $text, array $data ) : string
 	{
 
 		$replace_keys = array_keys( $data );
@@ -72,7 +72,7 @@ class Data_Text
 	 *
 	 * @return string
 	 */
-	public static function htmlSpecialChars( $input, $encode_quotes=false )
+	public static function htmlSpecialChars( string $input, bool $encode_quotes=false ) : string
 	{
 		$flag = $encode_quotes ? ENT_QUOTES : ENT_COMPAT;
 

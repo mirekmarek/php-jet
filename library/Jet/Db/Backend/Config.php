@@ -9,41 +9,41 @@ namespace Jet;
 
 /**
  *
- * @JetConfig:name = 'db'
  */
+#[Config_Definition(name: 'db')]
 abstract class Db_Backend_Config extends Config_Section
 {
 	/**
-	 * @JetConfig:type = Config::TYPE_STRING
-	 * @JetConfig:description = 'PDO driver'
-	 * @JetConfig:default_value = 'mysql'
-	 * @JetConfig:is_required = true
-	 * @JetConfig:form_field_type = Form::TYPE_SELECT
-	 * @JetConfig:form_field_get_select_options_callback = ['this', 'getDrivers']
-	 * @JetConfig:form_field_label = 'Driver'
-	 * @JetConfig:form_field_error_messages = [Form_Field::ERROR_CODE_EMPTY=>'Please select driver', Form_Field_MultiSelect::ERROR_CODE_INVALID_VALUE=>'Please select driver']
 	 *
 	 * @var string
 	 */
-	protected $driver;
+	#[Config_Definition(type : Config::TYPE_STRING)]
+	#[Config_Definition(description : 'PDO driver')]
+	#[Config_Definition(default_value : 'mysql')]
+	#[Config_Definition(is_required : true)]
+	#[Config_Definition(form_field_type : Form::TYPE_SELECT)]
+	#[Config_Definition(form_field_get_select_options_callback : [self::class, 'getDrivers'])]
+	#[Config_Definition(form_field_label : 'Driver')]
+	#[Config_Definition(form_field_error_messages : [Form_Field::ERROR_CODE_EMPTY=>'Please select driver', Form_Field_MultiSelect::ERROR_CODE_INVALID_VALUE=>'Please select driver'])]
+	protected string $driver = '';
 
 
 	/**
-	 * @JetConfig:type = Config::TYPE_STRING
-	 * @JetConfig:default_value = 'default'
-	 * @JetConfig:is_required = true
-	 * @JetConfig:form_field_label = 'Connection name'
-	 * @JetConfig:form_field_error_messages = [Form_Field::ERROR_CODE_EMPTY=>'Please enter connection name']
 	 *
 	 * @var string
 	 */
-	protected $name;
+	#[Config_Definition(type : Config::TYPE_STRING)]
+	#[Config_Definition(default_value : 'default')]
+	#[Config_Definition(is_required : true)]
+	#[Config_Definition(form_field_label : 'Connection name')]
+	#[Config_Definition(form_field_error_messages : [Form_Field::ERROR_CODE_EMPTY=>'Please enter connection name'])]
+	protected string $name = '';
 
 
 	/**
 	 * @return string
 	 */
-	public function getName()
+	public function getName() : string
 	{
 		return $this->name;
 	}
@@ -51,7 +51,7 @@ abstract class Db_Backend_Config extends Config_Section
 	/**
 	 * @param string $name
 	 */
-	public function setName( $name )
+	public function setName( string $name ) : void
 	{
 		$this->name = $name;
 	}
@@ -59,7 +59,7 @@ abstract class Db_Backend_Config extends Config_Section
 	/**
 	 * @return array
 	 */
-	public static function getDrivers()
+	public static function getDrivers() : array
 	{
 		return [];
 	}
@@ -67,7 +67,7 @@ abstract class Db_Backend_Config extends Config_Section
 	/**
 	 * @param string $driver
 	 */
-	public function setDriver( $driver )
+	public function setDriver( string $driver ) : void
 	{
 		$this->driver = $driver;
 	}
@@ -76,7 +76,7 @@ abstract class Db_Backend_Config extends Config_Section
 	/**
 	 * @return string
 	 */
-	public function getDriver()
+	public function getDriver() : string
 	{
 		return $this->driver;
 	}

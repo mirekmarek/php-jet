@@ -14,14 +14,14 @@ trait BaseObject_Cacheable_Trait
 {
 
 	/**
-	 * @var bool
+	 * @var bool|null
 	 */
-	protected static $cache_save_enabled;
+	protected static ?bool $cache_save_enabled = null;
 
 	/**
-	 * @var bool
+	 * @var bool|null
 	 */
-	protected static $cache_load_enabled;
+	protected static ?bool $cache_load_enabled = null;
 
 	/**
 	 * @var callable
@@ -36,7 +36,7 @@ trait BaseObject_Cacheable_Trait
 	/**
 	 * @return bool
 	 */
-	public static function getCacheSaveEnabled()
+	public static function getCacheSaveEnabled() : bool
 	{
 		return static::$cache_save_enabled && static::$cache_saver;
 	}
@@ -44,7 +44,7 @@ trait BaseObject_Cacheable_Trait
 	/**
 	 * @return bool
 	 */
-	public static function getCacheLoadEnabled()
+	public static function getCacheLoadEnabled() : bool
 	{
 		return static::$cache_load_enabled && static::$cache_loader;
 	}
@@ -54,7 +54,7 @@ trait BaseObject_Cacheable_Trait
 	/**
 	 * @param callable $cache_loader
 	 */
-	public static function enableCacheLoad( callable $cache_loader )
+	public static function enableCacheLoad( callable $cache_loader ) : void
 	{
 		static::$cache_load_enabled = true;
 		static::$cache_loader = $cache_loader;
@@ -63,7 +63,7 @@ trait BaseObject_Cacheable_Trait
 	/**
 	 * @param callable $cache_saver
 	 */
-	public static function enableCacheSave( callable $cache_saver )
+	public static function enableCacheSave( callable $cache_saver ) : void
 	{
 		static::$cache_save_enabled = true;
 		static::$cache_saver = $cache_saver;

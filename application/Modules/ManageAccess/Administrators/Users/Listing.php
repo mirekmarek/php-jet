@@ -12,7 +12,6 @@ use JetApplication\Auth_Administrator_Role as Role;
 
 use Jet\Data_Listing;
 use Jet\Data_Listing_Filter_search;
-use Jet\DataModel_Fetch_Instances;
 use Jet\Form;
 use Jet\Form_Field_Select;
 use Jet\Http_Request;
@@ -28,7 +27,7 @@ class Listing extends Data_Listing {
 	/**
 	 * @var array
 	 */
-	protected $grid_columns = [
+	protected array $grid_columns = [
 		'_edit_'     => [
 			'title'         => '',
 			'disallow_sort' => true
@@ -40,22 +39,22 @@ class Listing extends Data_Listing {
 	];
 
 	/**
-	 * @var string[]
+	 * @var array
 	 */
-	protected $filters = [
+	protected array $filters = [
 		'search',
 		'role'
 	];
 
 	/**
-	 * @var int
+	 * @var string
 	 */
-	protected $role = 0;
+	protected string $role = '';
 
 	/**
-	 * @return DataModel_Fetch_Instances
+	 * @return User[]
 	 */
-	protected function getList()
+	protected function getList() : iterable
 	{
 		return User::getList();
 	}
@@ -63,7 +62,7 @@ class Listing extends Data_Listing {
 	/**
 	 *
 	 */
-	protected function filter_search_getWhere()
+	protected function filter_search_getWhere() : void
 	{
 		if(!$this->search) {
 			return;
@@ -88,7 +87,7 @@ class Listing extends Data_Listing {
 	/**
 	 *
 	 */
-	protected function filter_role_catchGetParams()
+	protected function filter_role_catchGetParams() : void
 	{
 		$this->role = Http_Request::GET()->getString('role');
 		$this->setGetParam('role', $this->role);
@@ -97,7 +96,7 @@ class Listing extends Data_Listing {
 	/**
 	 * @param Form $form
 	 */
-	public function filter_role_catchForm( Form $form )
+	public function filter_role_catchForm( Form $form ) : void
 	{
 		$value = $form->field('role')->getValue();
 
@@ -108,7 +107,7 @@ class Listing extends Data_Listing {
 	/**
 	 * @param Form $form
 	 */
-	protected function filter_role_getForm( Form $form )
+	protected function filter_role_getForm( Form $form ) : void
 	{
 		$field = new Form_Field_Select('role', 'Role:', $this->role);
 		$field->setErrorMessages([
@@ -128,7 +127,7 @@ class Listing extends Data_Listing {
 	/**
 	 *
 	 */
-	protected function filter_role_getWhere()
+	protected function filter_role_getWhere() : void
 	{
 		if($this->role) {
 			$this->filter_addWhere([

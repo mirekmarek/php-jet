@@ -19,7 +19,7 @@ class Data_Image extends BaseObject
 	/**
 	 * @var string
 	 */
-	protected $path = '';
+	protected string $path = '';
 
 	/**
 	 *
@@ -27,36 +27,36 @@ class Data_Image extends BaseObject
 	 *
 	 * @var int
 	 */
-	protected $img_type = 0;
+	protected int $img_type = 0;
 
 	/**
 	 * @var int
 	 */
-	protected $width = 0;
+	protected int $width = 0;
 
 	/**
 	 * @var int
 	 */
-	protected $height = 0;
+	protected int $height = 0;
 
 	/**
 	 * @var string
 	 */
-	protected $mime_type = '';
+	protected string $mime_type = '';
 
 	/**
 	 * @see imagejpeg
 	 *
 	 * @var int
 	 */
-	protected $image_quality = 85;
+	protected int $image_quality = 85;
 
 	/**
 	 * @param string $path
 	 *
 	 * @throws Data_Image_Exception
 	 */
-	public function __construct( $path )
+	public function __construct( string $path )
 	{
 		$this->path = (string)$path;
 
@@ -92,7 +92,7 @@ class Data_Image extends BaseObject
 	/**
 	 * @return string
 	 */
-	public function getPath()
+	public function getPath() : string
 	{
 		return $this->path;
 	}
@@ -100,7 +100,7 @@ class Data_Image extends BaseObject
 	/**
 	 * @return string
 	 */
-	public function getDirectory()
+	public function getDirectory() : string
 	{
 		return dirname( $this->path ).'/';
 	}
@@ -108,7 +108,7 @@ class Data_Image extends BaseObject
 	/**
 	 * @return string
 	 */
-	public function getFileName()
+	public function getFileName() : string
 	{
 		return basename( $this->path );
 	}
@@ -116,7 +116,7 @@ class Data_Image extends BaseObject
 	/**
 	 * @return int
 	 */
-	public function getWidth()
+	public function getWidth() : int
 	{
 		return $this->width;
 	}
@@ -124,7 +124,7 @@ class Data_Image extends BaseObject
 	/**
 	 * @return int
 	 */
-	public function getHeight()
+	public function getHeight() : int
 	{
 		return $this->height;
 	}
@@ -132,7 +132,7 @@ class Data_Image extends BaseObject
 	/**
 	 * @return int
 	 */
-	public function getImgType()
+	public function getImgType() : int
 	{
 		return $this->img_type;
 	}
@@ -140,7 +140,7 @@ class Data_Image extends BaseObject
 	/**
 	 * @return string
 	 */
-	public function getMimeType()
+	public function getMimeType() : string
 	{
 		return $this->mime_type;
 	}
@@ -148,7 +148,7 @@ class Data_Image extends BaseObject
 	/**
 	 * @return int
 	 */
-	public function getImageQuality()
+	public function getImageQuality() : int
 	{
 		return $this->image_quality;
 	}
@@ -156,22 +156,22 @@ class Data_Image extends BaseObject
 	/**
 	 * @param int $image_quality
 	 */
-	public function setImageQuality( $image_quality )
+	public function setImageQuality( int $image_quality ) : void
 	{
-		$this->image_quality = (int)$image_quality;
+		$this->image_quality = $image_quality;
 	}
 
 	/**
 	 * @param string   $target_path
 	 * @param int      $maximal_width
 	 * @param int      $maximal_height
-	 * @param int|null $target_img_type (optional)
+	 * @param int|null $target_img_type
 	 *
 	 * @return Data_Image
 	 *
 	 * @throws Data_Image_Exception
 	 */
-	public function createThumbnail( $target_path, $maximal_width, $maximal_height, $target_img_type = null )
+	public function createThumbnail( string $target_path, int $maximal_width, int $maximal_height, ?int $target_img_type = null ) : Data_Image
 	{
 
 		if( $this->width>=$this->height ) {
@@ -210,7 +210,7 @@ class Data_Image extends BaseObject
 	 *
 	 * @throws Data_Image_Exception
 	 */
-	public function saveAs( $target_path, $new_width = null, $new_height = null, $target_img_type = null )
+	public function saveAs( string $target_path, ?int $new_width = null, ?int $new_height = null, ?int $target_img_type = null ) : Data_Image
 	{
 		if( !$target_img_type ) {
 			$target_img_type = $this->img_type;
@@ -226,17 +226,11 @@ class Data_Image extends BaseObject
 
 
 		$image = null;
-		switch( $this->img_type ) {
-			case self::TYPE_JPG:
-				$image = imagecreatefromjpeg( $this->path );
-				break;
-			case self::TYPE_GIF:
-				$image = imagecreatefromgif( $this->path );
-				break;
-			case self::TYPE_PNG:
-				$image = imagecreatefrompng( $this->path );
-				break;
-		}
+		$image = match ($this->img_type) {
+			self::TYPE_JPG => imagecreatefromjpeg( $this->path ),
+			self::TYPE_GIF => imagecreatefromgif( $this->path ),
+			self::TYPE_PNG => imagecreatefrompng( $this->path ),
+		};
 
 		if( !$image ) {
 			throw new Data_Image_Exception(

@@ -20,24 +20,24 @@ class IO_File
 	/**
 	 * Chmod mask for new file
 	 *
-	 * @var int
+	 * @var ?int
 	 */
-	protected static $default_chmod_mask;
+	protected static ?int $default_chmod_mask = null;
 
 	/**
-	 * @var array
+	 * @var ?array
 	 */
-	protected static $http_response_header;
+	protected static ?array $http_response_header = null;
 
 	/**
-	 * @var array
+	 * @var ?array
 	 */
-	protected static $extensions_mimes_map;
+	protected static ?array $extensions_mimes_map = null;
 
 	/**
 	 * @return int
 	 */
-	public static function getDefaultChmodMask()
+	public static function getDefaultChmodMask() : int
 	{
 		if( static::$default_chmod_mask===null ) {
 			static::$default_chmod_mask = SysConf_Jet::IO_CHMOD_MASK_FILE();
@@ -49,7 +49,7 @@ class IO_File
 	/**
 	 * @param int $default_chmod_mask
 	 */
-	public static function setDefaultChmodMask( $default_chmod_mask )
+	public static function setDefaultChmodMask( int $default_chmod_mask ) : void
 	{
 		static::$default_chmod_mask = $default_chmod_mask;
 	}
@@ -57,7 +57,7 @@ class IO_File
 	/**
 	 * @return array
 	 */
-	public static function getExtensionsMimesMap()
+	public static function getExtensionsMimesMap() : array
 	{
 		return static::$extensions_mimes_map;
 	}
@@ -65,7 +65,7 @@ class IO_File
 	/**
 	 * @param array $extensions_mimes_map
 	 */
-	public static function setExtensionsMimesMap( array $extensions_mimes_map )
+	public static function setExtensionsMimesMap( array $extensions_mimes_map ) : void
 	{
 		static::$extensions_mimes_map = $extensions_mimes_map;
 	}
@@ -76,7 +76,7 @@ class IO_File
 	 *
 	 * @return bool
 	 */
-	public static function exists( $file_path )
+	public static function exists( string $file_path ) : bool
 	{
 		return is_file( $file_path );
 	}
@@ -87,7 +87,7 @@ class IO_File
 	 *
 	 * @return bool
 	 */
-	public static function isWritable( $file_path )
+	public static function isWritable( string $file_path ) : bool
 	{
 		return ( is_file( $file_path )&&is_writable( $file_path ) );
 	}
@@ -98,7 +98,7 @@ class IO_File
 	 *
 	 * @return bool
 	 */
-	public static function isReadable( $file_path )
+	public static function isReadable( string $file_path ) : bool
 	{
 		return ( is_file( $file_path ) && is_readable( $file_path ) );
 	}
@@ -113,7 +113,7 @@ class IO_File
 	 * @return int
 	 *
 	 */
-	public static function getSize( $file_path )
+	public static function getSize( string $file_path ) : int
 	{
 
 		$size = filesize( $file_path );
@@ -136,7 +136,7 @@ class IO_File
 	 *
 	 * @return string
 	 */
-	public static function getMimeType( $file_path, $without_charset = true )
+	public static function getMimeType( string $file_path, bool $without_charset = true ) : string
 	{
 
 		$mime_type = null;
@@ -175,7 +175,7 @@ class IO_File
 	 * @throws IO_File_Exception
 	 *
 	 */
-	public static function write( $file_path, $data )
+	public static function write( string $file_path, string $data ) : void
 	{
 		static::_write( $file_path, $data, false );
 	}
@@ -184,12 +184,12 @@ class IO_File
 	 * Writes data to file including file locking
 	 *
 	 * @param string $file_path
-	 * @param string $data
+	 * @param mixed $data
 	 * @param bool   $append
 	 *
 	 * @throws IO_File_Exception
 	 */
-	protected static function _write( $file_path, $data, $append )
+	protected static function _write( string $file_path, mixed $data, bool $append ) : void
 	{
 
 		$is_new = false;
@@ -229,7 +229,7 @@ class IO_File
 	 *
 	 * @throws IO_File_Exception
 	 */
-	public static function chmod( $file_path, $chmod_mask = null )
+	public static function chmod( string $file_path, ?int $chmod_mask = null ) : void
 	{
 		$chmod_mask = ( $chmod_mask===null ) ? static::getDefaultChmodMask() : $chmod_mask;
 
@@ -253,7 +253,7 @@ class IO_File
 	 * @throws IO_File_Exception
 	 *
 	 */
-	public static function append( $file_path, $data )
+	public static function append( string $file_path, mixed $data ) : void
 	{
 		static::_write( $file_path, $data, true );
 	}
@@ -267,7 +267,7 @@ class IO_File
 	 *
 	 * @return string
 	 */
-	public static function read( $file_path )
+	public static function read( string $file_path ) : string
 	{
 		static::$http_response_header = null;
 		$data = file_get_contents( $file_path );
@@ -300,7 +300,7 @@ class IO_File
 	/**
 	 * @return array
 	 */
-	public static function getHttpResponseHeader()
+	public static function getHttpResponseHeader() : array
 	{
 		return static::$http_response_header;
 	}
@@ -314,7 +314,9 @@ class IO_File
 	 *
 	 * @throws IO_File_Exception
 	 */
-	public static function moveUploadedFile( $source_path, $target_path, $overwrite_if_exists = true )
+	public static function moveUploadedFile( string $source_path,
+	                                         string $target_path,
+	                                         bool $overwrite_if_exists = true ) : void
 	{
 
 		if( !is_uploaded_file( $source_path ) ) {
@@ -335,7 +337,7 @@ class IO_File
 	 * @throws IO_File_Exception
 	 *
 	 */
-	public static function move( $source_path, $target_path, $overwrite_if_exists = true )
+	public static function move( string $source_path, string $target_path, bool $overwrite_if_exists = true ) : void
 	{
 		static::rename( $source_path, $target_path, $overwrite_if_exists );
 	}
@@ -349,7 +351,7 @@ class IO_File
 	 * @throws IO_File_Exception
 	 *
 	 */
-	public static function rename( $source_path, $target_path, $overwrite_if_exists = true )
+	public static function rename( string $source_path, string $target_path, bool $overwrite_if_exists = true ) : void
 	{
 		static::copy( $source_path, $target_path, $overwrite_if_exists );
 		static::delete( $source_path );
@@ -363,7 +365,7 @@ class IO_File
 	 *
 	 * @throws IO_File_Exception
 	 */
-	public static function copy( $source_path, $target_path, $overwrite_if_exists = true )
+	public static function copy( string $source_path, string $target_path, bool $overwrite_if_exists = true ) : void
 	{
 
 		if( file_exists( $target_path ) ) {
@@ -395,7 +397,7 @@ class IO_File
 	 *
 	 * @throws IO_File_Exception
 	 */
-	public static function delete( $file_path )
+	public static function delete( string $file_path ) : void
 	{
 		if( !unlink( $file_path ) ) {
 			$error = static::_getLastError();
@@ -410,7 +412,7 @@ class IO_File
 	 *
 	 * @return int
 	 */
-	public static function getMaxUploadSize()
+	public static function getMaxUploadSize() : int
 	{
 
 		$max_upload = ini_get( 'upload_max_filesize' );
@@ -433,7 +435,7 @@ class IO_File
 	 *
 	 * @return int
 	 */
-	public static function getMaxFileUploads()
+	public static function getMaxFileUploads() : int
 	{
 		$units = [ '' => 1, 'K' => 1024, 'M' => 1024*1024, 'G' => 1024*1024*1024 ];
 
@@ -471,7 +473,11 @@ class IO_File
 	 *
 	 * @throws IO_File_Exception
 	 */
-	public static function send( $file_path, $file_name = null, $file_mime = null, $file_size = null, $force_download = false )
+	public static function send( string $file_path,
+	                             ?string $file_name = null,
+	                             ?string $file_mime = null,
+	                             ?int $file_size = null,
+	                             bool $force_download = false ) : void
 	{
 
 		if( !static::isReadable( $file_path ) ) {
@@ -505,9 +511,9 @@ class IO_File
 
 
 	/**
-	 * @return array
+	 * @return array|null
 	 */
-	protected static function _getLastError()
+	protected static function _getLastError() : array|null
 	{
 		if( class_exists( __NAMESPACE__.'\Debug_ErrorHandler', false ) ) {
 			$e = Debug_ErrorHandler::getLastError();

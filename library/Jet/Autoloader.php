@@ -19,12 +19,12 @@ class Autoloader
 	/**
 	 * @var bool
 	 */
-	protected static $cache_save_enabled = false;
+	protected static bool $cache_save_enabled = false;
 
 	/**
 	 * @var bool
 	 */
-	protected static $cache_load_enabled = false;
+	protected static bool $cache_load_enabled = false;
 
 	/**
 	 * @var callable
@@ -40,29 +40,29 @@ class Autoloader
 	 *
 	 * @var bool
 	 */
-	protected static $is_initialized = false;
+	protected static bool $is_initialized = false;
 
 	/**
 	 * @var Autoloader_Loader[]
 	 */
-	protected static $loaders = [];
+	protected static array $loaders = [];
 
 	/**
 	 *
 	 * @var array
 	 */
-	protected static $classes_paths_map = [];
+	protected static array $classes_paths_map = [];
 
 	/**
 	 *
-	 * @var array
+	 * @var bool
 	 */
-	protected static $classes_paths_map_updated = false;
+	protected static bool $classes_paths_map_updated = false;
 
 	/**
 	 * @return bool
 	 */
-	public static function getCacheSaveEnabled()
+	public static function getCacheSaveEnabled() : bool
 	{
 		return static::$cache_save_enabled && static::$cache_saver;
 	}
@@ -70,7 +70,7 @@ class Autoloader
 	/**
 	 * @return bool
 	 */
-	public static function getCacheLoadEnabled()
+	public static function getCacheLoadEnabled() : bool
 	{
 		return static::$cache_load_enabled && static::$cache_loader;
 	}
@@ -78,7 +78,7 @@ class Autoloader
 	/**
 	 * @param callable $cache_loader
 	 */
-	public static function enableCacheLoad( callable $cache_loader )
+	public static function enableCacheLoad( callable $cache_loader ) : void
 	{
 		static::$cache_load_enabled = true;
 		static::$cache_loader = $cache_loader;
@@ -87,7 +87,7 @@ class Autoloader
 	/**
 	 * @param callable $cache_saver
 	 */
-	public static function enableCacheSave( callable $cache_saver )
+	public static function enableCacheSave( callable $cache_saver ) : void
 	{
 		static::$cache_save_enabled = true;
 		static::$cache_saver = $cache_saver;
@@ -95,9 +95,9 @@ class Autoloader
 
 
 	/**
-	 * Initialize autoloader
+	 *
 	 */
-	public static function initialize()
+	public static function initialize() : void
 	{
 
 		if( static::$is_initialized ) {
@@ -147,7 +147,7 @@ class Autoloader
 	 *
 	 * @return bool
 	 */
-	public static function getIsInitialized()
+	public static function getIsInitialized() : bool
 	{
 		return static::$is_initialized;
 	}
@@ -159,7 +159,7 @@ class Autoloader
 	 *
 	 * @throws Autoloader_Exception
 	 */
-	public static function load( $class_name )
+	public static function load( string $class_name ) : void
 	{
 
 		$path = false;
@@ -227,7 +227,7 @@ class Autoloader
 	/**
 	 * @param Autoloader_Loader $loader
 	 */
-	public static function register( Autoloader_Loader $loader )
+	public static function register( Autoloader_Loader $loader ) : void
 	{
 		static::$loaders[get_class( $loader )] = $loader;
 	}

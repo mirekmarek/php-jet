@@ -15,12 +15,12 @@ abstract class PackageCreator_CSS extends PackageCreator
 	/**
 	 * @var string
 	 */
-	protected static $packages_dir_name = 'css_packages';
+	protected static string $packages_dir_name = 'css_packages';
 
 	/**
 	 * @return string
 	 */
-	public static function getPackagesDirName()
+	public static function getPackagesDirName() : string
 	{
 		return static::$packages_dir_name;
 	}
@@ -28,7 +28,7 @@ abstract class PackageCreator_CSS extends PackageCreator
 	/**
 	 * @param string $packages_dir_name
 	 */
-	public static function setPackagesDirName( $packages_dir_name )
+	public static function setPackagesDirName( string $packages_dir_name ) : void
 	{
 		static::$packages_dir_name = $packages_dir_name;
 	}
@@ -39,37 +39,37 @@ abstract class PackageCreator_CSS extends PackageCreator
 	 * @param string $media
 	 * @param array  $URIs
 	 */
-	abstract public function __construct( $media, array $URIs );
+	abstract public function __construct( string $media, array $URIs );
 
 	/**
 	 *
 	 */
-	abstract public function generate();
+	abstract public function generate() : void;
 
 	/**
 	 * @return string
 	 */
-	abstract public function createPackage();
+	abstract public function createPackage() : string;
 
 	/**
 	 *
 	 * @return string
 	 */
-	abstract public function getKey();
+	abstract public function getKey() : string;
 
 	/**
 	 * @return string
 	 */
-	abstract public function getPackagePath();
+	abstract public function getPackagePath() : string;
 
 	/**
 	 * @return string
 	 */
-	abstract public function getPackageRelativeFileName();
+	abstract public function getPackageRelativeFileName() : string;
 
 	/**
 	 * @return string
 	 */
-	abstract public function getPackageURI();
+	abstract public function getPackageURI() : string;
 
 }

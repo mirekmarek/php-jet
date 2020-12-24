@@ -21,13 +21,13 @@ class DataModel_Definition_Model_Related_1toN extends Jet_DataModel_Definition_M
 	/**
 	 * @var string
 	 */
-	protected $internal_type = DataModels::MODEL_TYPE_RELATED_1TON;
+	protected string $internal_type = DataModels::MODEL_TYPE_RELATED_1TON;
 
 
 	/**
 	 * @var Form
 	 */
-	protected static $create_form;
+	protected static Form $create_form;
 
 	/**
 	 * @return Form
@@ -120,22 +120,22 @@ class DataModel_Definition_Model_Related_1toN extends Jet_DataModel_Definition_M
 		}
 
 		$class->addAnnotation(
-			(new ClassCreator_Annotation('JetDataModel', 'parent_model_class_name', var_export($parent_class->getClassName(), true) ))
+			(new ClassCreator_Annotation('JetDataModel', 'parent_model_class', var_export($parent_class->getClassName(), true) ))
 		);
 
-		$iterator_class_name = $this->getIteratorClassName();
+		$iterator_class = $this->getIteratorClassName();
 
 
-		if($iterator_class_name!='Jet\\DataModel_Related_1toN_Iterator') {
+		if($iterator_class!='Jet\\DataModel_Related_1toN_Iterator') {
 
-			if(substr( $iterator_class_name, 0, 4 )=='Jet\\') {
-				$iterator_class_name = substr( $iterator_class_name, 4 );
+			if(substr( $iterator_class, 0, 4 )=='Jet\\') {
+				$iterator_class = substr( $iterator_class, 4 );
 
-				$class->addUse( new ClassCreator_UseClass('Jet', $iterator_class_name) );
+				$class->addUse( new ClassCreator_UseClass('Jet', $iterator_class) );
 			}
 
 			$class->addAnnotation(
-				(new ClassCreator_Annotation('JetDataModel', 'iterator_class_name', var_export($iterator_class_name, true) ))
+				(new ClassCreator_Annotation('JetDataModel', 'iterator_class', var_export($iterator_class, true) ))
 			);
 		}
 
@@ -156,17 +156,17 @@ class DataModel_Definition_Model_Related_1toN extends Jet_DataModel_Definition_M
 
 
 	/**
-	 * @param string $iterator_class_name
+	 * @param string $iterator_class
 	 */
-	public function setIteratorClassName($iterator_class_name)
+	public function setIteratorClass( string $iterator_class) : void
 	{
-		$this->iterator_class_name = $iterator_class_name;
+		$this->iterator_class = $iterator_class;
 	}
 
 	/**
 	 * @param array $default_order_by
 	 */
-	public function setDefaultOrderBy($default_order_by)
+	public function setDefaultOrderBy( array $default_order_by ) : void
 	{
 		$this->default_order_by = $default_order_by;
 	}

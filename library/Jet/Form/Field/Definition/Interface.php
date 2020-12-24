@@ -16,137 +16,135 @@ interface Form_Field_Definition_Interface
 	/**
 	 * @return string
 	 */
-	public function getFormFieldType();
+	public function getFormFieldType() : string;
 
 	/**
 	 * @param string $type
 	 */
-	public function setFormFieldType( $type );
+	public function setFormFieldType( string $type ) : void;
 
 	/**
 	 * @return string
 	 */
-	public function getFormFieldName();
+	public function getFormFieldName() : string;
 
 	/**
 	 * @return string
 	 */
-	public function getFormFieldContextClassName();
+	public function getFormFieldContextClassName() : string;
 
 	/**
 	 * @return string
 	 */
-	public function getFormFieldContextPropertyName();
+	public function getFormFieldContextPropertyName() : string;
 
 	/**
 	 * @param string $form_field_creator_method_name
 	 */
-	public function setFormFieldCreatorMethodName( $form_field_creator_method_name );
+	public function setFormFieldCreatorMethodName( string $form_field_creator_method_name ) : void;
 
 	/**
 	 * @return string
 	 */
-	public function getFormFieldCreatorMethodName();
+	public function getFormFieldCreatorMethodName() : string;
 
 	/**
 	 * @param callable $form_field_get_select_options_callback
 	 */
-	public function setFormFieldGetSelectOptionsCallback( $form_field_get_select_options_callback );
+	public function setFormFieldGetSelectOptionsCallback( callable $form_field_get_select_options_callback ) : void;
 
 	/**
 	 * @return callable
 	 */
-	public function getFormFieldGetSelectOptionsCallback();
+	public function getFormFieldGetSelectOptionsCallback() : callable;
 
 	/**
 	 * @param string $setter_name
 	 */
-	public function setFormSetterName( $setter_name );
+	public function setFormSetterName( string $setter_name ) : void;
 
 	/**
 	 * @return string
 	 */
-	public function getFormSetterName();
+	public function getFormSetterName() : string;
 
 
 	/**
 	 * @return bool
 	 */
-	public function getFormFieldIsRequired();
+	public function getFormFieldIsRequired() : bool;
 
 
 	/**
 	 * @return string|null
 	 */
-	public function getFormFieldValidationRegexp();
+	public function getFormFieldValidationRegexp() : string|null;
 
 
 	/**
 	 * @return int|float|null
 	 */
-	public function getFormFieldMinValue();
+	public function getFormFieldMinValue() : int|float|null;
 
 	/**
 	 * @return int|float|null
 	 */
-	public function getFormFieldMaxValue();
+	public function getFormFieldMaxValue() : int|float|null;
 
 	/**
 	 * @param array $options
-	 *
-	 * @return mixed
 	 */
-	public function setFormFieldOptions( array $options );
+	public function setFormFieldOptions( array $options ) : void;
 
 	/**
 	 * @return array
 	 */
-	public function getFormFieldOptions();
+	public function getFormFieldOptions() : array;
 
 
 	/**
 	 * @param string $label
 	 *
 	 */
-	public function setFormFieldLabel( $label );
+	public function setFormFieldLabel( string $label ) : void;
 
 	/**
 	 * @return string
 	 */
-	public function getFormFieldLabel();
+	public function getFormFieldLabel() : string;
 
 	/**
 	 * @param array $messages
 	 *
 	 */
-	public function setFormFieldErrorMessages( array $messages );
+	public function setFormFieldErrorMessages( array $messages ) : void;
 
 	/**
 	 * @return array
 	 */
-	public function getFormFieldErrorMessages();
+	public function getFormFieldErrorMessages() : array;
 
 	/**
 	 * @return array|null
 	 *
 	 * @throws DataModel_Exception
 	 */
-	public function getFormFieldSelectOptions();
+	public function getFormFieldSelectOptions() : array|null;
 
 	/**
 	 *
 	 * @param mixed $property_value
 	 *
 	 * @throws DataModel_Exception
-	 * @return Form_Field|Form_Field[]
+	 * @return Form_Field|null|Form_Field[]
 	 */
-	public function createFormField( $property_value );
+	public function createFormField( mixed $property_value ) : Form_Field|null|array;
 
 	/**
-	 * @param object $object_instance
-	 * @param mixed &$property
-	 * @param mixed $value
+	 * @param BaseObject $object_instance
+	 * @param mixed      &$property
+	 * @param mixed      $value
 	 */
-	public function catchFormField( $object_instance, &$property, $value );
+	public function catchFormField( BaseObject $object_instance, mixed &$property, mixed $value ) : void;
 
 }

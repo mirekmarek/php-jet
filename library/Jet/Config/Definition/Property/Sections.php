@@ -15,12 +15,12 @@ class Config_Definition_Property_Sections extends Config_Definition_Property
 	/**
 	 * @var string
 	 */
-	protected $_type = Config::TYPE_SECTIONS;
+	protected string $_type = Config::TYPE_SECTIONS;
 
 	/**
 	 * @var string
 	 */
-	protected $section_creator_method_name = '';
+	protected string $section_creator_method_name = '';
 
 	/**
 	 * @var array
@@ -28,10 +28,10 @@ class Config_Definition_Property_Sections extends Config_Definition_Property
 	protected $default_value = [];
 
 	/**
-	 * @param array|null $definition_data
+	 * @param ?array $definition_data
 	 *
 	 */
-	public function setUp( array $definition_data = null )
+	public function setUp( ?array $definition_data = null ) : void
 	{
 		parent::setUp( $definition_data );
 
@@ -56,7 +56,7 @@ class Config_Definition_Property_Sections extends Config_Definition_Property
 	 * @return Config_Definition_Property_Section[]
 	 *
 	 */
-	public function prepareValue( $value, Config $config )
+	public function prepareValue( mixed $value, Config $config ) : array
 	{
 
 		$sections = [];
@@ -69,20 +69,18 @@ class Config_Definition_Property_Sections extends Config_Definition_Property
 	}
 
 	/**
-	 * Do nothing
 	 *
-	 * @param mixed $value
+	 * @param mixed &$value
 	 */
-	public function checkValueType( &$value )
+	protected function checkValueType( mixed &$value ) : void
 	{
 	}
 
 	/**
 	 *
-	 * @param mixed &$value
-	 *
+	 * @param mixed $value
 	 */
-	protected function checkValue( $value )
+	protected function checkValue( mixed $value ) : void
 	{
 	}
 
@@ -92,7 +90,7 @@ class Config_Definition_Property_Sections extends Config_Definition_Property
 	 *
 	 * @return Form_Field|null|Form_Field[]
 	 */
-	public function createFormField( $property_value )
+	public function createFormField( mixed $property_value ) : Form_Field|null|array
 	{
 		if( $this->getFormFieldType()===false ) {
 			return null;

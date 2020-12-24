@@ -15,19 +15,19 @@ class PackageCreator_CSS_Default extends PackageCreator_CSS
 	/**
 	 * @var string
 	 */
-	protected $media;
+	protected string $media = '';
 
 	/**
-	 * @var string
+	 * @var string|null
 	 */
-	protected $key = null;
+	protected string|null $key = null;
 
 	/**
 	 *
 	 * @param string $media
 	 * @param array  $URIs
 	 */
-	public function __construct( $media, array $URIs )
+	public function __construct( string $media, array $URIs )
 	{
 
 		$this->media = $media;
@@ -37,7 +37,7 @@ class PackageCreator_CSS_Default extends PackageCreator_CSS
 	/**
 	 *
 	 */
-	public function generate()
+	public function generate() : void
 	{
 
 		$package_path = $this->getPackagePath();
@@ -59,7 +59,7 @@ class PackageCreator_CSS_Default extends PackageCreator_CSS
 	 *
 	 * @return string
 	 */
-	public function createPackage()
+	public function createPackage() : string
 	{
 		$CSS = '@charset "utf-8";'.PHP_EOL.PHP_EOL;
 
@@ -83,7 +83,7 @@ class PackageCreator_CSS_Default extends PackageCreator_CSS
 	 *
 	 * @return string
 	 */
-	public function changeUrls( $CSS_file_data, $URI )
+	public function changeUrls( string $CSS_file_data, string $URI ) : string
 	{
 		$base_URI = dirname( $this->normalizeURI( $URI ) ).'/';
 
@@ -141,7 +141,7 @@ class PackageCreator_CSS_Default extends PackageCreator_CSS
 	 *
 	 * @return string
 	 */
-	public function getKey()
+	public function getKey() : string
 	{
 		if( !$this->key ) {
 			$this->key = $this->media.'_'.md5( implode( '', $this->URIs ) );
@@ -153,7 +153,7 @@ class PackageCreator_CSS_Default extends PackageCreator_CSS
 	/**
 	 * @return string
 	 */
-	public function getPackagePath()
+	public function getPackagePath() : string
 	{
 		return SysConf_PATH::PUBLIC().$this->getPackageRelativeFileName();
 	}
@@ -162,16 +162,15 @@ class PackageCreator_CSS_Default extends PackageCreator_CSS
 	/**
 	 * @return string
 	 */
-	public function getPackageRelativeFileName()
+	public function getPackageRelativeFileName() : string
 	{
-
 		return static::getPackagesDirName().'/'.$this->getKey().'.css';
 	}
 
 	/**
 	 * @return string
 	 */
-	public function getPackageURI()
+	public function getPackageURI() : string
 	{
 		return SysConf_URI::PUBLIC().$this->getPackageRelativeFileName();
 	}

@@ -15,13 +15,13 @@ class DataModel_Definition_Property_String extends DataModel_Definition_Property
 	/**
 	 * @var string
 	 */
-	protected $type = DataModel::TYPE_STRING;
+	protected string $type = DataModel::TYPE_STRING;
 
 
 	/**
 	 * @var int
 	 */
-	protected $max_len = 255;
+	protected int $max_len = 255;
 
 	/**
 	 * @var string
@@ -31,12 +31,14 @@ class DataModel_Definition_Property_String extends DataModel_Definition_Property
 	/**
 	 * @var string
 	 */
-	protected $form_field_type = Form::TYPE_INPUT;
+	protected string $form_field_type = Form::TYPE_INPUT;
 
 	/**
 	 * @param array $definition_data
+	 *
+	 * @throws DataModel_Exception
 	 */
-	public function setUp( $definition_data )
+	public function setUp( array $definition_data ) : void
 	{
 		if( $definition_data ) {
 			parent::setUp( $definition_data );
@@ -50,7 +52,7 @@ class DataModel_Definition_Property_String extends DataModel_Definition_Property
 	 * @param mixed &$value
 	 *
 	 */
-	public function checkValueType( &$value )
+	public function checkValueType( mixed &$value ) : void
 	{
 		$value = (string)$value;
 	}
@@ -58,7 +60,7 @@ class DataModel_Definition_Property_String extends DataModel_Definition_Property
 	/**
 	 * @return int|null
 	 */
-	public function getMaxLen()
+	public function getMaxLen() : int|null
 	{
 		return $this->max_len;
 	}
@@ -66,7 +68,7 @@ class DataModel_Definition_Property_String extends DataModel_Definition_Property
 	/**
 	 * @return string
 	 */
-	public function getFormFieldType()
+	public function getFormFieldType() : string
 	{
 
 		if( $this->form_field_type!=Form::TYPE_INPUT ) {

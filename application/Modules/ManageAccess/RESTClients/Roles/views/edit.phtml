@@ -25,7 +25,7 @@ $form->setDefaultFieldWidth( [ Form::LJ_SIZE_MEDIUM => 4 ] );
 <div class="row">
 	<div class="col-md-12" style="padding: 0px">
 		<div class="toolbar" id="main-toolbar">
-			<?=UI::button_goBack()->setUrl( Mvc::getCurrentPage()->getURI() )?>
+			<?=UI::button_goBack()->setUrl( Mvc::getCurrentPage()->getURLPath() )?>
 
 			<?php if( !$form->getIsReadonly() ): ?>
 				<?=UI::button_save()?>

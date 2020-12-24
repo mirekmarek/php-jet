@@ -22,43 +22,43 @@ class UI_button extends UI_BaseElement
 	/**
 	 * @var string
 	 */
-	protected static $default_renderer_script = 'button';
+	protected static string $default_renderer_script = 'button';
 
 	/**
 	 * @var string
 	 */
-	protected $type = 'button';
+	protected string $type = 'button';
 
 	/**
 	 * @var string
 	 */
-	protected $label = '';
+	protected string $label = '';
 
 	/**
 	 * @var string
 	 */
-	protected $class = '';
+	protected string $class = '';
 
 	/**
 	 * @var string
 	 */
-	protected $size = self::SIZE_NORMAL;
+	protected string $size = self::SIZE_NORMAL;
 
 	/**
 	 * @var string
 	 */
-	protected $icon = '';
+	protected string $icon = '';
 
 
 	/**
 	 * @var string
 	 */
-	protected $url = '';
+	protected string $url = '';
 
 	/**
 	 * @param string $label
 	 */
-	public function __construct( $label )
+	public function __construct( string $label )
 	{
 		$this->label = $label;
 	}
@@ -68,7 +68,7 @@ class UI_button extends UI_BaseElement
 	 *
 	 * @return $this
 	 */
-	public function setLabel( $label )
+	public function setLabel( string $label ) : static
 	{
 		$this->label = $label;
 
@@ -78,7 +78,7 @@ class UI_button extends UI_BaseElement
 	/**
 	 * @return string
 	 */
-	public function getLabel()
+	public function getLabel() : string
 	{
 		return $this->label;
 	}
@@ -88,7 +88,7 @@ class UI_button extends UI_BaseElement
 	 *
 	 * @return $this
 	 */
-	public function setType( $type )
+	public function setType( string $type ) : static
 	{
 		$this->type = $type;
 
@@ -98,7 +98,7 @@ class UI_button extends UI_BaseElement
 	/**
 	 * @return string
 	 */
-	public function getType()
+	public function getType() : string
 	{
 		return $this->type;
 	}
@@ -108,7 +108,7 @@ class UI_button extends UI_BaseElement
 	 *
 	 * @return $this
 	 */
-	public function setClass( $class )
+	public function setClass( string $class ) : static
 	{
 		$this->class = $class;
 
@@ -118,7 +118,7 @@ class UI_button extends UI_BaseElement
 	/**
 	 * @return string
 	 */
-	public function getClass()
+	public function getClass() : string
 	{
 		return $this->class;
 	}
@@ -126,9 +126,9 @@ class UI_button extends UI_BaseElement
 	/**
 	 * @param string $size
 	 *
-	 * @return UI_button
+	 * @return $this
 	 */
-	public function setSize( $size )
+	public function setSize( string $size ) : static
 	{
 		$this->size = $size;
 
@@ -138,7 +138,7 @@ class UI_button extends UI_BaseElement
 	/**
 	 * @return string
 	 */
-	public function getSize()
+	public function getSize() : string
 	{
 		return $this->size;
 	}
@@ -148,7 +148,7 @@ class UI_button extends UI_BaseElement
 	 *
 	 * @return $this
 	 */
-	public function setIcon( $icon )
+	public function setIcon( string $icon ) : static
 	{
 		$this->icon = $icon;
 
@@ -158,7 +158,7 @@ class UI_button extends UI_BaseElement
 	/**
 	 * @return string
 	 */
-	public function getIcon()
+	public function getIcon() : string
 	{
 		return $this->icon;
 	}
@@ -168,7 +168,7 @@ class UI_button extends UI_BaseElement
 	 *
 	 * @return $this
 	 */
-	public function setOnclick( $onclick )
+	public function setOnclick( string $onclick ) : static
 	{
 		$this->setJsAction('onclick', $onclick);
 
@@ -181,7 +181,7 @@ class UI_button extends UI_BaseElement
 	 *
 	 * @return $this
 	 */
-	public function setUrl( $url )
+	public function setUrl( string $url ) : static
 	{
 		$this->url = $url;
 
@@ -191,7 +191,7 @@ class UI_button extends UI_BaseElement
 	/**
 	 * @return string
 	 */
-	public function getUrl()
+	public function getUrl() : string
 	{
 		return $this->url;
 	}

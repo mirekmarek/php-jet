@@ -18,7 +18,7 @@ class Test_Gallery_DeleteInvalid extends Test_Abstract
 	/**
 	 * @return string
 	 */
-	protected function _getTitle()
+	protected function _getTitle() : string
 	{
 		return 'Delete - invalid (error simulation)';
 	}
@@ -26,7 +26,7 @@ class Test_Gallery_DeleteInvalid extends Test_Abstract
 	/**
 	 *
 	 */
-	public function test()
+	public function test() : void
 	{
 		$id = 'unknown-unknown';
 

@@ -16,7 +16,7 @@ trait DataModel_Trait_MagicMethods
 	/**
 	 *
 	 */
-	public function __wakeup()
+	public function __wakeup() : void
 	{
 		/**
 		 * @var DataModel $this
@@ -27,7 +27,7 @@ trait DataModel_Trait_MagicMethods
 	/**
 	 * @return array
 	 */
-	public function __debugInfo()
+	public function __debugInfo() : array
 	{
 		/** @noinspection PhpUndefinedClassInspection */
 		/** @noinspection PhpUndefinedMethodInspection */
@@ -45,7 +45,7 @@ trait DataModel_Trait_MagicMethods
 	/**
 	 *
 	 */
-	public function __clone()
+	public function __clone() : void
 	{
 		/**
 		 * @var DataModel $this

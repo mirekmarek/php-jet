@@ -20,7 +20,7 @@ trait Mvc_Page_Trait_URL
 	 *
 	 * @return string
 	 */
-	protected function _createURL( $schema, array $path_fragments, array $GET_params )
+	protected function _createURL( string|null|bool $schema, array $path_fragments, array $GET_params ) : string
 	{
 		/**
 		 * @var Mvc_Page|Mvc_Page_Trait_URL $this
@@ -70,7 +70,7 @@ trait Mvc_Page_Trait_URL
 			$do_not_add_slash = false;
 
 
-			if(strpos($p, '.')!==false) {
+			if( str_contains( $p, '.' ) ) {
 				$do_not_add_slash = true;
 			}
 
@@ -123,7 +123,7 @@ trait Mvc_Page_Trait_URL
 	 *
 	 * @return string
 	 */
-	public function getURL( array $path_fragments = [], array $GET_params = [] )
+	public function getURL( array $path_fragments = [], array $GET_params = [] ) : string
 	{
 		return $this->_createURL( null, $path_fragments, $GET_params );
 	}
@@ -135,7 +135,7 @@ trait Mvc_Page_Trait_URL
 	 *
 	 * @return string
 	 */
-	public function getURI( array $path_fragments = [], array $GET_params = [] )
+	public function getURLPath( array $path_fragments = [], array $GET_params = [] ) : string
 	{
 		return $this->_createURL( false, $path_fragments, $GET_params );
 	}
@@ -148,7 +148,7 @@ trait Mvc_Page_Trait_URL
 	 *
 	 * @return string
 	 */
-	public function getNonSchemaURL( array $path_fragments = [], array $GET_params = [] )
+	public function getNonSchemaURL( array $path_fragments = [], array $GET_params = [] ) : string
 	{
 		/**
 		 * @var Mvc_Page|Mvc_Page_Trait_URL $this
@@ -164,7 +164,7 @@ trait Mvc_Page_Trait_URL
 	 *
 	 * @return string
 	 */
-	public function getNonSslURL( array $path_fragments = [], array $GET_params = [] )
+	public function getNonSslURL( array $path_fragments = [], array $GET_params = [] ) : string
 	{
 		return $this->_createURL( 'http', $path_fragments, $GET_params );
 	}
@@ -176,7 +176,7 @@ trait Mvc_Page_Trait_URL
 	 *
 	 * @return string
 	 */
-	public function getSslURL( array $path_fragments = [], array $GET_params = [] )
+	public function getSslURL( array $path_fragments = [], array $GET_params = [] ) : string
 	{
 		return $this->_createURL( 'https', $path_fragments, $GET_params );
 	}

@@ -12,7 +12,7 @@ use Jet\Application_Module_Manifest;
 use Jet\Application_Modules;
 use Jet\BaseObject;
 use Jet\Http_Request;
-use Jet\Form;
+use Jet\ClassParser;
 use Jet\Exception;
 use Jet\IO_Dir;
 use Jet\IO_File;
@@ -373,128 +373,6 @@ class Modules extends BaseObject implements Application_Part
 	}
 
 
-	/**
-	 *
-	 */
-	public static function synchronize()
-	{
-		static::load();
-
-		$all_modules = Application_Modules::getHandler()->allModulesList();
-
-		$updated = false;
-
-		foreach( $all_modules as $c_module ) {
-			$module = null;
-
-			foreach( static::$modules as $e_module ) {
-				if($c_module->getName()==$e_module->getName()) {
-					$module = $e_module;
-					break;
-				}
-			}
-
-			if( !$module ) {
-				$module = new Modules_Manifest();
-
-				$module->setName( $c_module->getName() );
-				$module->setAPIVersion( $c_module->getAPIVersion() );
-				$module->setLabel( $c_module->getLabel() );
-				$module->setVendor( $c_module->getVendor() );
-				$module->setVersion( $c_module->getVersion() );
-				$module->setDescription( $c_module->getDescription() );
-				$module->setACLActions( $c_module->getACLActions( false ) );
-				$module->setIsMandatory( $c_module->isMandatory() );
-
-				static::addModule( $module );
-
-				$main_constants = static::getMainClassConstants( $module );
-
-				foreach( static::readPagesFromExistingModule( $c_module ) as $page ) {
-					$module->addPage( $page->getSiteId(), $page );
-				}
-
-				foreach( static::getControllerList( $module->getModuleDir(), $main_constants ) as $controller) {
-					$module->addController( $controller );
-				}
-
-				foreach( static::readMenuItemsFromExistingModule( $c_module ) as $menu ) {
-					$module->addMenuItem( $menu );
-				}
-
-
-				$updated = true;
-			} else {
-
-				$main_constants = static::getMainClassConstants( $module );
-
-				foreach( static::readPagesFromExistingModule( $c_module ) as $page ) {
-					if( !$module->getPage( $page->getSiteId(), $page->getId() ) ) {
-						$module->addPage( $page->getSiteId(), $page );
-						$updated = true;
-					}
-				}
-
-				foreach( static::getControllerList( $module->getModuleDir(), $main_constants ) as $controller) {
-					$e_controller = null;
-
-					foreach( $module->getControllers() as $c ) {
-						if($c->getName()==$controller->getName()) {
-							$e_controller = $c;
-
-							break;
-						}
-					}
-
-					if(!$e_controller) {
-						$module->addController( $controller );
-
-						$updated = true;
-					} else {
-						foreach( $controller->getActions() as $action ) {
-							$e_action = null;
-
-							foreach( $e_controller->getActions() as $e_a ) {
-								if($e_a->getControllerAction()==$action->getControllerAction()) {
-									$e_action = $action;
-									break;
-								}
-							}
-
-							if(!$e_action) {
-								$e_controller->addAction( $action );
-
-								$updated = true;
-							}
-						}
-					}
-				}
-
-				foreach( static::readMenuItemsFromExistingModule( $c_module ) as $menu_item ) {
-					$exist = null;
-
-					foreach( $module->getMenuItemsList( $menu_item->getNamespaceId(), $menu_item->getMenuId() ) as $i ) {
-						if($i->getId()==$menu_item->getId()) {
-							$exist = $i;
-							break;
-						}
-
-					}
-
-					if(!$exist) {
-						$module->addMenuItem( $menu_item );
-
-						$updated = true;
-					}
-				}
-
-			}
-		}
-
-		if($updated) {
-			static::save();
-		}
-	}
 
 
 	/**
@@ -568,29 +446,6 @@ class Modules extends BaseObject implements Application_Part
 
 	}
 
-	/**
-	 * @param Modules_Manifest $module
-	 *
-	 * @return array
-	 */
-	protected static function getMainClassConstants( Modules_Manifest $module )
-	{
-		$main_constants = [];
-
-		$main_script_path = $module->getModuleDir().'Main.php';
-		if( IO_File::exists($main_script_path) ) {
-			$parser = new ClassParser( IO_File::read($main_script_path) );
-			if($parser->classes['Main']) {
-				$main_class = $parser->classes['Main'];
-
-				foreach( $main_class->constants as $constant ) {
-					$main_constants[ $constant->name ] = eval('return '.$constant->value);
-				}
-			}
-		}
-
-		return $main_constants;
-	}
 
 	/**
 	 * @param $dir
@@ -620,8 +475,8 @@ class Modules extends BaseObject implements Application_Part
 
 				if(
 					substr($class->name, 0, 11) != 'Controller_' ||
-					strpos($class->extends, 'Controller')===false ||
-					strpos($class->extends, 'Controller_Router')!==false
+					!str_contains( $class->extends, 'Controller' ) ||
+					str_contains( $class->extends, 'Controller_Router' )
 				) {
 					continue;
 				}
@@ -629,17 +484,6 @@ class Modules extends BaseObject implements Application_Part
 				$ACL_ACTIONS_MAP = [];
 
 
-				if(isset($class->constants['ACL_ACTIONS_MAP'])) {
-
-					$value = $class->constants['ACL_ACTIONS_MAP']->value;
-
-					foreach( $main_constants as $c_n=>$c_v ) {
-						$value = str_replace( 'Main::'.$c_n, var_export( $c_v, true ), $value );
-					}
-
-					$ACL_ACTIONS_MAP = eval( 'return '.$value );
-
-				}
 
 				$controller = new Modules_Module_Controller();
 				$controller->setName( substr($class->name, 11) );

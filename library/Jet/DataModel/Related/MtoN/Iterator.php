@@ -14,24 +14,24 @@ class DataModel_Related_MtoN_Iterator extends BaseObject implements DataModel_Re
 {
 
 	/**
-	 * @var DataModel_Definition_Model_Related_MtoN
+	 * @var ?DataModel_Definition_Model_Related_MtoN
 	 */
-	protected $_item_definition;
+	protected ?DataModel_Definition_Model_Related_MtoN $_item_definition = null;
 
 	/**
 	 * @var DataModel_Related_MtoN[]
 	 */
-	protected $items = [];
+	protected array $items = [];
 
 	/**
 	 * @var DataModel_PropertyFilter|null
 	 */
-	private $_load_filter;
+	private DataModel_PropertyFilter|null $_load_filter = null;
 
 	/**
 	 * @var DataModel_Related_MtoN[]
 	 */
-	private $_deleted_items = [];
+	private array $_deleted_items = [];
 
 	/**
 	 * @param DataModel_Definition_Model_Related_MtoN $item_definition
@@ -59,7 +59,7 @@ class DataModel_Related_MtoN_Iterator extends BaseObject implements DataModel_Re
 	/**
 	 * @param DataModel_IDController $parent_id
 	 */
-	public function actualizeParentId( DataModel_IDController $parent_id )
+	public function actualizeParentId( DataModel_IDController $parent_id ) : void
 	{
 		foreach( $this->items as $item ) {
 			$item->actualizeParentId( $parent_id );
@@ -69,7 +69,7 @@ class DataModel_Related_MtoN_Iterator extends BaseObject implements DataModel_Re
 	/**
 	 * @param DataModel_IDController $main_id
 	 */
-	public function actualizeMainId( DataModel_IDController $main_id )
+	public function actualizeMainId( DataModel_IDController $main_id ) : void
 	{
 
 		foreach( $this->items as $item ) {
@@ -82,7 +82,7 @@ class DataModel_Related_MtoN_Iterator extends BaseObject implements DataModel_Re
 	 * @throws Exception
 	 * @throws DataModel_Exception
 	 */
-	public function save()
+	public function save() : void
 	{
 
 
@@ -110,7 +110,7 @@ class DataModel_Related_MtoN_Iterator extends BaseObject implements DataModel_Re
 	 *
 	 * @throws DataModel_Exception
 	 */
-	public function delete()
+	public function delete() : void
 	{
 
 		foreach( $this->_deleted_items as $item ) {
@@ -132,7 +132,7 @@ class DataModel_Related_MtoN_Iterator extends BaseObject implements DataModel_Re
 	/**
 	 *
 	 */
-	public function removeAllItems()
+	public function removeAllItems() : void
 	{
 		if( $this->items ) {
 			$this->_deleted_items = $this->items;
@@ -142,11 +142,10 @@ class DataModel_Related_MtoN_Iterator extends BaseObject implements DataModel_Re
 
 	/**
 	 * @param DataModel[] $N_instances
-	 *$this->_items
 	 *
 	 * @throws DataModel_Exception
 	 */
-	public function setItems( $N_instances )
+	public function setItems( array $N_instances ) : void
 	{
 
 		$add_items = [];
@@ -191,7 +190,7 @@ class DataModel_Related_MtoN_Iterator extends BaseObject implements DataModel_Re
 	 *
 	 * @param mixed $offset
 	 */
-	public function offsetUnset( $offset )
+	public function offsetUnset( mixed $offset ) : void
 	{
 
 		$this->_deleted_items[] = $this->items[$offset];
@@ -204,7 +203,7 @@ class DataModel_Related_MtoN_Iterator extends BaseObject implements DataModel_Re
 	 *
 	 * @throws DataModel_Exception
 	 */
-	public function addItems( $N_instances )
+	public function addItems( array $N_instances ) : void
 	{
 		foreach( $N_instances as $N_instance ) {
 			$this->offsetSet( null, $N_instance );
@@ -220,7 +219,7 @@ class DataModel_Related_MtoN_Iterator extends BaseObject implements DataModel_Re
 	 *
 	 * @throws DataModel_Exception
 	 */
-	public function offsetSet( $offset, $value )
+	public function offsetSet( mixed $offset, mixed $value ) : void
 	{
 
 		$valid_class_name = $this->_item_definition->getNModelClassName();
@@ -274,7 +273,7 @@ class DataModel_Related_MtoN_Iterator extends BaseObject implements DataModel_Re
 	/**
 	 * @return DataModel_IDController[]
 	 */
-	public function getIds()
+	public function getIds() : array
 	{
 		$ids = [];
 
@@ -288,7 +287,7 @@ class DataModel_Related_MtoN_Iterator extends BaseObject implements DataModel_Re
 	/**
 	 * @return DataModel_Related_MtoN[]
 	 */
-	public function getItems()
+	public function getItems() : array
 	{
 		return $this->items;
 	}
@@ -297,7 +296,7 @@ class DataModel_Related_MtoN_Iterator extends BaseObject implements DataModel_Re
 	/**
 	 * @param callable $sort_callback
 	 */
-	public function sortItems( callable $sort_callback)
+	public function sortItems( callable $sort_callback) : void
 	{
 		uasort( $this->items, $sort_callback );
 	}
@@ -309,7 +308,8 @@ class DataModel_Related_MtoN_Iterator extends BaseObject implements DataModel_Re
 	 *
 	 * @return Form_Field[]
 	 */
-	public function getRelatedFormFields( DataModel_Definition_Property $parent_property_definition, DataModel_PropertyFilter $property_filter = null )
+	public function getRelatedFormFields( DataModel_Definition_Property $parent_property_definition,
+	                                      DataModel_PropertyFilter $property_filter = null ) : array
 	{
 		return [];
 	}
@@ -335,7 +335,7 @@ class DataModel_Related_MtoN_Iterator extends BaseObject implements DataModel_Re
 	/**
 	 * @return string
 	 */
-	public function toJSON()
+	public function toJSON() : string
 	{
 		$data = $this->jsonSerialize();
 
@@ -345,7 +345,7 @@ class DataModel_Related_MtoN_Iterator extends BaseObject implements DataModel_Re
 	/**
 	 * @return array
 	 */
-	public function jsonSerialize()
+	public function jsonSerialize() : array
 	{
 
 		$res = [];
@@ -367,7 +367,7 @@ class DataModel_Related_MtoN_Iterator extends BaseObject implements DataModel_Re
 	 *
 	 * @return DataModel_Related_MtoN|null
 	 */
-	public function getRelationItem( $key )
+	public function getRelationItem( string $key ) : DataModel_Related_MtoN|null
 	{
 		if( !isset( $this->items[$key] ) ) {
 			return null;
@@ -381,7 +381,7 @@ class DataModel_Related_MtoN_Iterator extends BaseObject implements DataModel_Re
 	 *
 	 * @return int
 	 */
-	public function count()
+	public function count() : int
 	{
 		return count( $this->items );
 	}
@@ -393,7 +393,7 @@ class DataModel_Related_MtoN_Iterator extends BaseObject implements DataModel_Re
 	 *
 	 * @return bool
 	 */
-	public function offsetExists( $offset )
+	public function offsetExists( mixed $offset ) : bool
 	{
 		return isset( $this->items[$offset] );
 	}
@@ -405,7 +405,7 @@ class DataModel_Related_MtoN_Iterator extends BaseObject implements DataModel_Re
 	 *
 	 * @return DataModel|DataModel_Related_MtoN
 	 */
-	public function offsetGet( $offset )
+	public function offsetGet( mixed $offset ) : DataModel|DataModel_Related_MtoN
 	{
 		return $this->_getCurrentItem( $this->items[$offset] );
 	}
@@ -413,9 +413,9 @@ class DataModel_Related_MtoN_Iterator extends BaseObject implements DataModel_Re
 	/**
 	 * @param DataModel_Related_MtoN $item
 	 *
-	 * @return DataModel
+	 * @return DataModel|DataModel_Related_MtoN
 	 */
-	protected function _getCurrentItem( DataModel_Related_MtoN $item )
+	protected function _getCurrentItem( DataModel_Related_MtoN $item ) : DataModel|DataModel_Related_MtoN
 	{
 		return $item->getNInstance( $this->_load_filter );
 	}
@@ -423,9 +423,9 @@ class DataModel_Related_MtoN_Iterator extends BaseObject implements DataModel_Re
 	/**
 	 * @see \Iterator
 	 *
-	 * @return DataModel|DataModel_Related_MtoN
+	 * @return DataModel|DataModel_Related_MtoN|null
 	 */
-	public function current()
+	public function current() : DataModel|DataModel_Related_MtoN|null
 	{
 		if( $this->items===null ) {
 			return null;
@@ -438,9 +438,9 @@ class DataModel_Related_MtoN_Iterator extends BaseObject implements DataModel_Re
 	/**
 	 * @see \Iterator
 	 *
-	 * @return string
+	 * @return string|null
 	 */
-	public function key()
+	public function key() : string|null
 	{
 		if( $this->items===null ) {
 			return null;
@@ -452,7 +452,7 @@ class DataModel_Related_MtoN_Iterator extends BaseObject implements DataModel_Re
 	/**
 	 * @see \Iterator
 	 */
-	public function next()
+	public function next() : null|bool|DataModel|DataModel_Related_MtoN
 	{
 		if( $this->items===null ) {
 			return null;
@@ -464,7 +464,7 @@ class DataModel_Related_MtoN_Iterator extends BaseObject implements DataModel_Re
 	/**
 	 * @see \Iterator
 	 */
-	public function rewind()
+	public function rewind() : void
 	{
 		if( $this->items!==null ) {
 			reset( $this->items );
@@ -475,7 +475,7 @@ class DataModel_Related_MtoN_Iterator extends BaseObject implements DataModel_Re
 	 * @see \Iterator
 	 * @return bool
 	 */
-	public function valid()
+	public function valid() : bool
 	{
 		if( $this->items===null ) {
 			return false;

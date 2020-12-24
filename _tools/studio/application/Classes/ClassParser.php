@@ -7,12 +7,14 @@
  */
 namespace JetStudio;
 
-use Exception;
-
 /**
  *
  */
 class ClassParser {
+	const VISIBILITY_PUBLIC = 'public';
+	const VISIBILITY_PROTECTED = 'protected';
+	const VISIBILITY_PRIVATE = 'private';
+
 
 	/**
 	 * @var string
@@ -148,6 +150,15 @@ class ClassParser {
 
 			switch( $token->id ) {
 
+				case T_COMMENT:
+					if(
+						$token->text[0]=='#' &&
+						$token->text[1]=='['
+					) {
+						ClassParser_Attribute::parse( $this );
+					}
+
+					break;
 				case T_DOC_COMMENT:
 					$this->_last_doc_comment_token = $token;
 
@@ -464,7 +475,7 @@ class ClassParser {
 	 */
 	public function actualize_setUse( array $uses )
 	{
-		$nl = ClassCreator_Class::getNl();
+		$nl = ClassParser::getNl();
 
 		foreach( $uses as $use ) {
 			$use_class = $use->getNamespace().'\\'.$use->getClass();
@@ -488,7 +499,7 @@ class ClassParser {
 	 */
 	public function actualize_addProperty( $class_name, ClassCreator_Class_Property $property )
 	{
-		$nl = ClassCreator_Class::getNl();
+		$nl = ClassParser::getNl();
 		$class = $this->classes[$class_name];
 
 		if(isset($class->properties[$property->getName()])) {

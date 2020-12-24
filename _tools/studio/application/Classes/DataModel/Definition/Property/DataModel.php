@@ -93,15 +93,15 @@ class DataModel_Definition_Property_DataModel extends Jet_DataModel_Definition_P
 
 					$class->addUse( new ClassCreator_UseClass('Jet', 'DataModel_Related_1toN') );
 
-					$iterator_class_name = $related_dm->getIteratorClassName();
+					$iterator_class = $related_dm->getIteratorClassName();
 
-					if( substr($iterator_class_name, 0, 4)=='Jet\\' ) {
-						$iterator_class_name = substr( $iterator_class_name, 4 );
+					if( substr($iterator_class, 0, 4)=='Jet\\' ) {
+						$iterator_class = substr( $iterator_class, 4 );
 
-						$class->addUse( new ClassCreator_UseClass('Jet', $iterator_class_name) );
+						$class->addUse( new ClassCreator_UseClass('Jet', $iterator_class) );
 					}
 
-					$property_type .= '[]|DataModel_Related_1toN|'.$iterator_class_name;
+					$property_type .= '[]|DataModel_Related_1toN|'.$iterator_class;
 					break;
 				case DataModels::MODEL_TYPE_RELATED_MTON:
 					$N_model = $related_dm->getNModel();

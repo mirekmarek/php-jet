@@ -16,23 +16,23 @@ class DataModel_Factory
 	/**
 	 * @var string
 	 */
-	protected static $backend_class_name_prefix = __NAMESPACE__.'\DataModel_Backend_';
+	protected static string $backend_class_name_prefix = __NAMESPACE__.'\DataModel_Backend_';
 
 	/**
 	 * @var string
 	 */
-	protected static $model_definition_class_name_prefix = __NAMESPACE__.'\DataModel_Definition_Model_';
+	protected static string $model_definition_class_name_prefix = __NAMESPACE__.'\DataModel_Definition_Model_';
 
 
 	/**
 	 * @var string
 	 */
-	protected static $property_definition_class_name_prefix = __NAMESPACE__.'\DataModel_Definition_Property_';
+	protected static string $property_definition_class_name_prefix = __NAMESPACE__.'\DataModel_Definition_Property_';
 
 	/**
 	 * @return string
 	 */
-	public static function getModelDefinitionClassNamePrefix()
+	public static function getModelDefinitionClassNamePrefix() : string
 	{
 		return self::$model_definition_class_name_prefix;
 	}
@@ -40,7 +40,7 @@ class DataModel_Factory
 	/**
 	 * @param string $model_definition_class_name_prefix
 	 */
-	public static function setModelDefinitionClassNamePrefix( $model_definition_class_name_prefix )
+	public static function setModelDefinitionClassNamePrefix( string $model_definition_class_name_prefix )
 	{
 		self::$model_definition_class_name_prefix = $model_definition_class_name_prefix;
 	}
@@ -50,7 +50,7 @@ class DataModel_Factory
 	/**
 	 * @return string
 	 */
-	public static function getPropertyDefinitionClassNamePrefix()
+	public static function getPropertyDefinitionClassNamePrefix() : string
 	{
 		return static::$property_definition_class_name_prefix;
 	}
@@ -58,7 +58,7 @@ class DataModel_Factory
 	/**
 	 * @param string $property_definition_class_name_prefix
 	 */
-	public static function setPropertyDefinitionClassNamePrefix( $property_definition_class_name_prefix )
+	public static function setPropertyDefinitionClassNamePrefix( string $property_definition_class_name_prefix )
 	{
 		static::$property_definition_class_name_prefix = $property_definition_class_name_prefix;
 	}
@@ -73,7 +73,9 @@ class DataModel_Factory
 	 * @throws DataModel_Exception
 	 * @return DataModel_Definition_Property
 	 */
-	public static function getPropertyDefinitionInstance( $data_model_class_name, $name, $definition_data )
+	public static function getPropertyDefinitionInstance( string $data_model_class_name,
+	                                                      string $name,
+	                                                      array $definition_data ) : DataModel_Definition_Property
 	{
 		if(
 			!isset( $definition_data['type'] ) ||
@@ -94,7 +96,7 @@ class DataModel_Factory
 	/**
 	 * @return string
 	 */
-	public static function getBackendClassNamePrefix()
+	public static function getBackendClassNamePrefix() : string
 	{
 		return static::$backend_class_name_prefix;
 	}
@@ -102,7 +104,7 @@ class DataModel_Factory
 	/**
 	 * @param string $backend_class_name_prefix
 	 */
-	public static function setBackendClassNamePrefix( $backend_class_name_prefix )
+	public static function setBackendClassNamePrefix( string $backend_class_name_prefix ) : void
 	{
 		static::$backend_class_name_prefix = $backend_class_name_prefix;
 	}
@@ -114,7 +116,7 @@ class DataModel_Factory
 	 *
 	 * @return DataModel_Backend_Config
 	 */
-	public static function getBackendConfigInstance( $type, array $data=[] )
+	public static function getBackendConfigInstance( string $type, array $data=[] ) : DataModel_Backend_Config
 	{
 		$class_name = static::getBackendClassNamePrefix().$type.'_Config';
 
@@ -129,7 +131,7 @@ class DataModel_Factory
 	 *
 	 * @return DataModel_Backend
 	 */
-	public static function getBackendInstance( $type, DataModel_Backend_Config $backend_config )
+	public static function getBackendInstance( string $type, DataModel_Backend_Config $backend_config ) : DataModel_Backend
 	{
 		$class_name = static::getBackendClassNamePrefix().$type;
 

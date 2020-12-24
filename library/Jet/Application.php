@@ -17,14 +17,14 @@ class Application extends BaseObject
 	/**
 	 * @var bool
 	 */
-	protected static $do_not_end = false;
+	protected static bool $do_not_end = false;
 
 	/**
 	 *
-	 * @param string|null $URL (optional; URL to dispatch; default: null = current URL)
+	 * @param ?string $URL (optional; URL to dispatch; default: null = current URL)
 	 *
 	 */
-	public static function runMvc( $URL = null )
+	public static function runMvc( ?string $URL = null ) : void
 	{
 		Debug_Profiler::blockStart( 'MVC router - Init and resolve' );
 
@@ -117,7 +117,7 @@ class Application extends BaseObject
 	/**
 	 *
 	 */
-	public static function end()
+	public static function end() : void
 	{
 
 		if( !static::$do_not_end ) {
@@ -129,7 +129,7 @@ class Application extends BaseObject
 	 * Useful for tests
 	 *
 	 */
-	public static function doNotEnd()
+	public static function doNotEnd() : void
 	{
 		static::$do_not_end = true;
 	}

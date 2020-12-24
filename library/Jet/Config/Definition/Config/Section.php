@@ -7,30 +7,63 @@
  */
 namespace Jet;
 
+use \ReflectionClass;
+
 /**
  *
  */
 class Config_Definition_Config_Section extends Config_Definition_Config
 {
 
-	/** @noinspection PhpMissingParentConstructorInspection */
 	/**
 	 * @param string $class_name
 	 *
 	 * @throws Config_Exception
 	 */
-	public function __construct( $class_name = '' )
+	public function __construct( string $class_name = '' )
 	{
 		if( !$class_name ) {
 			return;
 		}
 
 		$this->class_name = $class_name;
+		$this->class_reflection = new ReflectionClass( $class_name );
 
-		$propertied_definition_data = Reflection::get( $class_name, 'config_properties_definition', [] );
+		$properties_definition_data = [];
+
+		foreach( $this->class_reflection->getProperties() as $property) {
+
+			$attributes = $property->getAttributes('Jet\Config_Definition');
+
+			if(!$attributes) {
+				continue;
+			}
+
+			$attrs = [];
+
+			foreach($attributes as $attr) {
+				foreach($attr->getArguments() as $k=>$v) {
+					$attrs[$k] = $v;
+				}
+			}
+
+			$properties_definition_data[$property->getName()] = $attrs;
+		}
+
+		if(
+			!is_array( $properties_definition_data ) ||
+			!$properties_definition_data
+		) {
+			throw new Config_Exception(
+				'Configuration \''.$this->class_name.'\' does not have any properties defined!',
+				Config_Exception::CODE_DEFINITION_NONSENSE
+			);
+		}
+
+
 
 		$this->properties_definition = [];
-		foreach( $propertied_definition_data as $property_name => $definition_data ) {
+		foreach( $properties_definition_data as $property_name => $definition_data ) {
 			if(
 				!isset( $definition_data['type'] ) ||
 				!$definition_data['type']

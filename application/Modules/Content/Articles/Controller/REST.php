@@ -22,14 +22,14 @@ class Controller_REST extends Mvc_Controller_REST
 	protected $module = null;
 
 	/**
-	 * @var Article
+	 * @var ?Article
 	 */
-	protected $article;
+	protected ?Article $article = null;
 
 	/**
 	 * @return Mvc_Controller_REST_Router
 	 */
-	public function getControllerRouter()
+	public function getControllerRouter() : Mvc_Controller_REST_Router
 	{
 		$router = new Mvc_Controller_REST_Router(
 			$this,
@@ -93,6 +93,7 @@ class Controller_REST extends Mvc_Controller_REST
 	public function list_Action( )
 	{
 
+		/** @noinspection PhpParamsInspection */
 		$this->responseData(
 			$this->handleDataPagination(
 				$this->handleOrderBy(

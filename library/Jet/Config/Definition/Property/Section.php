@@ -15,24 +15,24 @@ class Config_Definition_Property_Section extends Config_Definition_Property
 	/**
 	 * @var string
 	 */
-	protected $_type = Config::TYPE_SECTION;
+	protected string $_type = Config::TYPE_SECTION;
 
 	/**
-	 * @var array
+	 * @var array|null
 	 */
 	protected $default_value = null;
 
 	/**
 	 * @var string
 	 */
-	protected $section_creator_method_name = '';
+	protected string $section_creator_method_name = '';
 
 	/**
-	 * @param array|null $definition_data
+	 * @param ?array $definition_data
 	 *
 	 * @throws Config_Exception
 	 */
-	public function setUp( array $definition_data = null )
+	public function setUp( ?array $definition_data = null ) : void
 	{
 		parent::setUp( $definition_data );
 
@@ -52,9 +52,9 @@ class Config_Definition_Property_Section extends Config_Definition_Property
 	/**
 	 * @param Config $config
 	 *
-	 * @return Config_Section|mixed
+	 * @return Config_Section
 	 */
-	public function getDefaultValue( Config $config )
+	public function getDefaultValue( Config $config ) : Config_Section
 	{
 		/**
 		 * @var Config_Section $section
@@ -75,7 +75,7 @@ class Config_Definition_Property_Section extends Config_Definition_Property
 	 * @return Config_Section
 	 *
 	 */
-	public function prepareValue( $value, Config $config )
+	public function prepareValue( mixed $value, Config $config ) : Config_Section
 	{
 		/**
 		 * @var Config_Section $section
@@ -91,7 +91,7 @@ class Config_Definition_Property_Section extends Config_Definition_Property
 	 *
 	 * @param mixed &$value
 	 */
-	public function checkValueType( &$value )
+	protected function checkValueType( mixed &$value ) : void
 	{
 	}
 
@@ -100,7 +100,7 @@ class Config_Definition_Property_Section extends Config_Definition_Property
 	 * @param mixed &$value
 	 *
 	 */
-	protected function checkValue( $value )
+	protected function checkValue( mixed $value ) : void
 	{
 	}
 
@@ -111,7 +111,7 @@ class Config_Definition_Property_Section extends Config_Definition_Property
 	 *
 	 * @return Form_Field|null|Form_Field[]
 	 */
-	public function createFormField( $property_value )
+	public function createFormField( mixed $property_value ) : Form_Field|null|array
 	{
 		if(
 			$this->getFormFieldType()===false ||

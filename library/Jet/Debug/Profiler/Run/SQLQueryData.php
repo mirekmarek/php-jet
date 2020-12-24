@@ -16,65 +16,65 @@ class Debug_Profiler_Run_SQLQueryData
 	/**
 	 * @var string
 	 */
-	protected $block_id = "";
+	protected string $block_id = "";
 
 	/**
 	 * @var string
 	 */
-	protected $query = "";
+	protected string $query = "";
 
 	/**
 	 * @var array
 	 */
-	protected $query_data = [];
+	protected array $query_data = [];
 
 	/**
 	 * @var array
 	 */
-	protected $backtrace = [];
+	protected array $backtrace = [];
 
 	/**
 	 * @var float
 	 */
-	protected $timestamp_start = 0.0;
+	protected float $timestamp_start = 0.0;
 
 	/**
 	 * @var float
 	 */
-	protected $timestamp_end = 0.0;
+	protected float $timestamp_end = 0.0;
 
 	/**
 	 * @var int
 	 */
-	protected $memory_start = 0;
+	protected int $memory_start = 0;
 
 	/**
 	 * @var int
 	 */
-	protected $memory_end = 0;
+	protected int $memory_end = 0;
 
 	/**
 	 * @var int
 	 */
-	protected $memory_peak_start = 0;
+	protected int $memory_peak_start = 0;
 
 	/**
 	 * @var int
 	 */
-	protected $memory_peak_end = 0;
+	protected int $memory_peak_end = 0;
 
 
 	/**
 	 * @var int
 	 */
-	protected $rows_count = 0;
+	protected int $rows_count = 0;
 
 	/**
 	 * @param string $block_id
 	 * @param string $query
 	 * @param array  $query_data
 	 */
-	public function __construct( $block_id, $query, $query_data )
+	public function __construct( string $block_id, string $query, array $query_data )
 	{
 		$this->block_id = $block_id;
 
@@ -91,7 +91,7 @@ class Debug_Profiler_Run_SQLQueryData
 	/**
 	 * @param int $rows_count
 	 */
-	public function setDone( $rows_count )
+	public function setDone( int $rows_count ) : void
 	{
 		$this->timestamp_end = microtime( true );
 		$this->memory_end = memory_get_usage();
@@ -102,7 +102,7 @@ class Debug_Profiler_Run_SQLQueryData
 	/**
 	 * @return string
 	 */
-	public function getBlockId()
+	public function getBlockId() : string
 	{
 		return $this->block_id;
 	}
@@ -110,7 +110,7 @@ class Debug_Profiler_Run_SQLQueryData
 	/**
 	 * @return array
 	 */
-	public function getBacktrace()
+	public function getBacktrace() : array
 	{
 		return $this->backtrace;
 	}
@@ -118,7 +118,7 @@ class Debug_Profiler_Run_SQLQueryData
 	/**
 	 * @return int
 	 */
-	public function getMemoryEnd()
+	public function getMemoryEnd() : int
 	{
 		return $this->memory_end;
 	}
@@ -126,7 +126,7 @@ class Debug_Profiler_Run_SQLQueryData
 	/**
 	 * @return int
 	 */
-	public function getMemoryStart()
+	public function getMemoryStart() : int
 	{
 		return $this->memory_start;
 	}
@@ -134,7 +134,7 @@ class Debug_Profiler_Run_SQLQueryData
 	/**
 	 * @return int
 	 */
-	public function getMemoryPeakEnd()
+	public function getMemoryPeakEnd() : int
 	{
 		return $this->memory_peak_end;
 	}
@@ -142,7 +142,7 @@ class Debug_Profiler_Run_SQLQueryData
 	/**
 	 * @return int
 	 */
-	public function getMemoryPeakStart()
+	public function getMemoryPeakStart() : int
 	{
 		return $this->memory_peak_start;
 	}
@@ -151,7 +151,7 @@ class Debug_Profiler_Run_SQLQueryData
 	/**
 	 * @return string
 	 */
-	public function getQuery()
+	public function getQuery() : string
 	{
 		return $this->query;
 	}
@@ -159,7 +159,7 @@ class Debug_Profiler_Run_SQLQueryData
 	/**
 	 * @return array
 	 */
-	public function getQueryData()
+	public function getQueryData() : array
 	{
 		return $this->query_data;
 	}
@@ -167,7 +167,7 @@ class Debug_Profiler_Run_SQLQueryData
 	/**
 	 * @return int
 	 */
-	public function getRowsCount()
+	public function getRowsCount() : int
 	{
 		return $this->rows_count;
 	}
@@ -175,7 +175,7 @@ class Debug_Profiler_Run_SQLQueryData
 	/**
 	 * @return float
 	 */
-	public function getTimestampStart()
+	public function getTimestampStart() : float
 	{
 		return $this->timestamp_start;
 	}
@@ -183,7 +183,7 @@ class Debug_Profiler_Run_SQLQueryData
 	/**
 	 * @return float
 	 */
-	public function getTimestampEnd()
+	public function getTimestampEnd() : float
 	{
 		return $this->timestamp_end;
 	}
@@ -191,7 +191,7 @@ class Debug_Profiler_Run_SQLQueryData
 	/**
 	 * @return float
 	 */
-	public function getDuration()
+	public function getDuration() : float
 	{
 		return $this->timestamp_end-$this->timestamp_start;
 	}
@@ -199,7 +199,7 @@ class Debug_Profiler_Run_SQLQueryData
 	/**
 	 * @return int
 	 */
-	public function getMemoryUsageDiff()
+	public function getMemoryUsageDiff() : int
 	{
 		return $this->memory_end-$this->memory_start;
 	}
@@ -207,7 +207,7 @@ class Debug_Profiler_Run_SQLQueryData
 	/**
 	 * @return int
 	 */
-	public function getMemoryPeakDiff()
+	public function getMemoryPeakDiff() : int
 	{
 		return $this->memory_peak_end-$this->memory_peak_start;
 	}

@@ -19,7 +19,7 @@ trait Mvc_Page_Trait_Handlers
 	 *
 	 * @return bool
 	 */
-	public function resolve()
+	public function resolve() : bool
 	{
 		/**
 		 * @var Mvc_Page_Trait_Handlers|Mvc_Page $this
@@ -75,7 +75,7 @@ trait Mvc_Page_Trait_Handlers
 	/**
 	 *
 	 */
-	public function handleHttpHeaders()
+	public function handleHttpHeaders() : void
 	{
 		/**
 		 * @var Mvc_Page_Trait_Handlers|Mvc_Page $this
@@ -100,7 +100,7 @@ trait Mvc_Page_Trait_Handlers
 	/**
 	 * @param string $file_path
 	 */
-	public function handleFile( $file_path )
+	public function handleFile( string $file_path ) : void
 	{
 		/**
 		 * @var Mvc_Page_Trait_Handlers|Mvc_Page $this
@@ -114,7 +114,7 @@ trait Mvc_Page_Trait_Handlers
 	/**
 	 * @return string
 	 */
-	public function render()
+	public function render() : string
 	{
 		/**
 		 * @var Mvc_Page_Trait_Handlers|Mvc_Page $this

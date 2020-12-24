@@ -7,6 +7,8 @@
  */
 namespace Jet;
 
+use \ReflectionClass;
+
 
 /**
  *
@@ -18,55 +20,65 @@ abstract class DataModel_Definition_Model extends BaseObject
 	 *
 	 * @var string
 	 */
-	protected $model_name = '';
+	protected string $model_name = '';
 
 	/**
 	 *
 	 * @var string
 	 */
-	protected $database_table_name = '';
+	protected string $database_table_name = '';
 
 	/**
 	 *
 	 * @var string
 	 */
-	protected $class_name = '';
+	protected string $class_name = '';
+
+	/**
+	 * @var ReflectionClass
+	 */
+	protected ReflectionClass $class_reflection;
+
+	/**
+	 * @var array
+	 */
+	protected array $class_arguments = [];
 
 	/**
 	 *
 	 * @var string
 	 */
-	protected $id_controller_class_name = '';
+	protected string $id_controller_class = '';
 
 	/**
 	 *
 	 * @var array
 	 */
-	protected $id_controller_options = [];
+	protected array $id_controller_options = [];
 
 	/**
 	 *
 	 * @var array
 	 */
-	protected $id_properties = [];
+	protected array $id_properties = [];
 
 	/**
 	 *
 	 * @var DataModel_Definition_Property[]
 	 */
-	protected $properties = [];
+	protected array $properties = [];
 
 	/**
 	 *
 	 * @var DataModel_Definition_Key[]
 	 */
-	protected $keys = [];
+	protected array $keys = [];
 
 	/**
 	 *
 	 * @var DataModel_Definition_Relation[]
 	 */
-	protected $relations = [];
+	protected array $relations = [];
 
 
 
@@ -75,7 +87,7 @@ abstract class DataModel_Definition_Model extends BaseObject
 	 *
 	 * @return static
 	 */
-	public static function __set_state( $data )
+	public static function __set_state( array $data ) : static
 	{
 		$i = new static();
 
@@ -92,7 +104,7 @@ abstract class DataModel_Definition_Model extends BaseObject
 	 *
 	 * @throws DataModel_Exception
 	 */
-	public function __construct( $data_model_class_name = '' )
+	public function __construct( string $data_model_class_name = '' )
 	{
 
 		if( $data_model_class_name ) {
@@ -103,7 +115,7 @@ abstract class DataModel_Definition_Model extends BaseObject
 	/**
 	 * @throws DataModel_Exception
 	 */
-	public function init()
+	public function init() : void
 	{
 		$this->_initProperties();
 		$this->_initKeys();
@@ -121,33 +133,85 @@ abstract class DataModel_Definition_Model extends BaseObject
 	 *
 	 * @throws DataModel_Exception
 	 */
-	protected function _mainInit( $data_model_class_name )
+	protected function _mainInit( string $data_model_class_name ) : void
 	{
 
 		$this->class_name = (string)$data_model_class_name;
+		$this->class_reflection = new ReflectionClass( $data_model_class_name );
 
-		$this->model_name = $this->_getModelNameDefinition( $data_model_class_name );
+
+		$classes = [$this->class_reflection->getName() => $this->class_reflection];
+
+		if( ($parent = $this->class_reflection->getParentClass()) ) {
+			do {
+				$classes[$parent->getName()] = $parent;
+			} while( ($parent=$parent->getParentClass()) );
+		}
+
+		$classes = array_reverse( $classes );
+
+		foreach($classes as $class) {
+			/**
+			 * @var ReflectionClass $class
+			 */
+			foreach( $class->getAttributes('Jet\DataModel_Definition') as $attribute ) {
+				foreach($attribute->getArguments() as $k=>$v) {
+					if($k=='relation') {
+						if(!isset($this->class_arguments['external_relations'])) {
+							$this->class_arguments['external_relations'] = [];
+						}
+						$this->class_arguments['external_relations'][] = $v;
+						continue;
+					}
+
+					if($k=='key') {
+						if(!isset($this->class_arguments['keys'])) {
+							$this->class_arguments['keys'] = [];
+						}
+						$this->class_arguments['keys'][] = $v;
+						continue;
+					}
+
+					$this->class_arguments[$k] = $v;
+				}
+			}
+
+		}
+
+
+
+		$this->model_name = $this->_getModelNameDefinition();
 
 		$this->_initIDController();
 		$this->_initDatabaseTableName();
 	}
 
 	/**
-	 * @param string $class_name
+	 * @param string $argument
+	 * @param mixed|string $default_value
+	 *
+	 * @return mixed
+	 */
+	protected function getClassArgument( string $argument, mixed $default_value='' ) : mixed
+	{
+		return $this->class_arguments[$argument] ?? $default_value;
+	}
+
+	/**
 	 *
 	 * @return string
 	 * @throws DataModel_Exception
 	 */
-	protected function _getModelNameDefinition( $class_name )
+	protected function _getModelNameDefinition() : string
 	{
-		$model_name = Reflection::get( $class_name, 'data_model_name', '' );
+		$model_name = $this->getClassArgument( 'name' );
 
 		if(
 			!is_string( $model_name ) ||
 			!$model_name
 		) {
 			throw new DataModel_Exception(
-				'DataModel \''.$class_name.'\' does not have model name! Please enter it by @JetDataModel:name ',
+				'DataModel \''.$this->class_name.'\' does not have model name! Please define attribute #[DataModel_Definition(name: \'SOME_NAME\')] ',
 				DataModel_Exception::CODE_DEFINITION_NONSENSE
 			);
 		}
@@ -158,19 +222,23 @@ abstract class DataModel_Definition_Model extends BaseObject
 	/**
 	 * @throws DataModel_Exception
 	 */
-	protected function _initIDController()
+	protected function _initIDController() : void
 	{
-		$this->id_controller_class_name = Reflection::get( $this->class_name, 'data_model_id_controller_class_name' );
+		$this->id_controller_class = $this->getClassArgument( 'id_controller_class' );
 
-		if( !$this->id_controller_class_name ) {
+		if( !$this->id_controller_class ) {
+			if($this->class_reflection->isSubclassOf( DataModel_Related_MtoN::class )) {
+				$this->id_controller_class = DataModel_IDController_Passive::class;
+
+				return;
+			}
+
 			throw new DataModel_Exception(
-				'DataModel \''.$this->class_name.'\' does not have ID controller class name! Please enter it by @JetDataModel:id_controller_class_name ',
+				'DataModel \''.$this->class_name.'\' does not have ID controller class name! Please define attribute #[DataModel_Definition(id_controller_class: SomeClass:class)] ',
 				DataModel_Exception::CODE_DEFINITION_NONSENSE
 			);
 
 		}
-
-		$this->id_controller_options = Reflection::get( $this->class_name, 'id_controller_options', [] );
 
 
 	}
@@ -178,16 +246,16 @@ abstract class DataModel_Definition_Model extends BaseObject
 	/**
 	 * @throws DataModel_Exception
 	 */
-	protected function _initDatabaseTableName()
+	protected function _initDatabaseTableName() : void
 	{
-		$this->database_table_name = Reflection::get( $this->class_name, 'database_table_name', '' );
+		$this->database_table_name = $this->getClassArgument( 'database_table_name' );
 
 		if(
 			!is_string( $this->database_table_name ) ||
 			!$this->database_table_name
 		) {
 			throw new DataModel_Exception(
-				'DataModel \''.$this->class_name.'\' does not have database table name! Please enter it by @JetDataModel:database_table_name ',
+				'DataModel \''.$this->class_name.'\' does not have database table name! Please define attribute #[DataModel_Definition(database_table_name:\'some_table_name\')] ',
 				DataModel_Exception::CODE_DEFINITION_NONSENSE
 			);
 		}
@@ -197,12 +265,10 @@ abstract class DataModel_Definition_Model extends BaseObject
 	/**
 	 *
 	 */
-	protected function _initProperties()
+	protected function _initProperties() : void
 	{
 
-		$class_name = $this->class_name;
-
-		$properties_definition_data = $this->_getPropertiesDefinitionData( $class_name );
+		$properties_definition_data = $this->_getPropertiesDefinitionData();
 
 		$this->properties = [];
 
@@ -235,21 +301,42 @@ abstract class DataModel_Definition_Model extends BaseObject
 	}
 
 	/**
-	 * @param string $class_name
+	 * @param ?string $class_name
 	 *
 	 * @return array
 	 * @throws DataModel_Exception
 	 */
-	protected function _getPropertiesDefinitionData( $class_name )
+	protected function _getPropertiesDefinitionData( ?string $class_name=null ) : array
 	{
-		$properties_definition_data = Reflection::get( $class_name, 'data_model_properties_definition', false );
+
+		$reflection = $class_name ? new ReflectionClass($class_name) : $this->class_reflection;
+
+		$properties_definition_data = [];
+		foreach( $reflection->getProperties() as $property) {
+
+			$attributes = $property->getAttributes('Jet\DataModel_Definition');
+
+			if(!$attributes) {
+				continue;
+			}
+
+			$attrs = [];
+
+			foreach($attributes as $attr) {
+				foreach($attr->getArguments() as $k=>$v) {
+					$attrs[$k] = $v;
+				}
+			}
+
+			$properties_definition_data[$property->getName()] = $attrs;
+		}
 
 		if(
 			!is_array( $properties_definition_data ) ||
 			!$properties_definition_data
 		) {
 			throw new DataModel_Exception(
-				'DataModel \''.$class_name.'\' does not have any properties defined!',
+				'DataModel \''.$this->class_name.'\' does not have any properties defined!',
 				DataModel_Exception::CODE_DEFINITION_NONSENSE
 			);
 		}
@@ -264,12 +351,12 @@ abstract class DataModel_Definition_Model extends BaseObject
 	 *
 	 * @throws DataModel_Exception
 	 *
-	 * @return DataModel_Definition_Property
+	 * @return DataModel_Definition_Property|null
 	 *
 	 */
-	protected function _initRelationProperty( $property_name, /** @noinspection PhpUnusedParameterInspection */
-	                                          $related_to, /** @noinspection PhpUnusedParameterInspection */
-	                                          $property_definition_data )
+	protected function _initRelationProperty( string $property_name, /** @noinspection PhpUnusedParameterInspection */
+	                                          string $related_to, /** @noinspection PhpUnusedParameterInspection */
+	                                          array $property_definition_data ) : DataModel_Definition_Property|null
 	{
 		throw new DataModel_Exception(
 			'It is not possible to define related property in Main DataModel  (\''.$this->class_name.'\'::'.$property_name.') ',
@@ -283,7 +370,7 @@ abstract class DataModel_Definition_Model extends BaseObject
 	/**
 	 *
 	 */
-	protected function _initKeys()
+	protected function _initKeys() : void
 	{
 		foreach( $this->properties as $property_name => $property_definition ) {
 			if( $property_definition->getIsKey() ) {
@@ -299,7 +386,7 @@ abstract class DataModel_Definition_Model extends BaseObject
 			$this->addKey( $this->model_name.'_pk', DataModel::KEY_TYPE_PRIMARY, $this->id_properties );
 		}
 
-		$keys_definition_data = Reflection::get( $this->class_name, 'data_model_keys_definition', [] );
+		$keys_definition_data = $this->getClassArgument( 'keys', [] );
 
 		foreach( $keys_definition_data as $kd ) {
 			$this->addKey( $kd['name'], $kd['type'], $kd['property_names'] );
@@ -311,7 +398,7 @@ abstract class DataModel_Definition_Model extends BaseObject
 	/**
 	 *
 	 */
-	public function initRelations()
+	public function initRelations() : void
 	{
 		$this->_initExternalRelations();
 
@@ -325,12 +412,12 @@ abstract class DataModel_Definition_Model extends BaseObject
 	/**
 	 *
 	 */
-	public function _initExternalRelations()
+	public function _initExternalRelations() : void
 	{
 
 		$class = $this->class_name;
 
-		$relations_definitions_data = Reflection::get( $class, 'data_model_external_relations_definition', [] );
+		$relations_definitions_data = $this->getClassArgument( 'external_relations', [] );
 
 		foreach( $relations_definitions_data as $definition_data ) {
 			$relation = new DataModel_Definition_Relation_External( $this->getClassName(), $definition_data );
@@ -345,11 +432,10 @@ abstract class DataModel_Definition_Model extends BaseObject
 
 
 	/**
-	 * Returns DataModel class name
 	 *
 	 * @return string
 	 */
-	public function getClassName()
+	public function getClassName() : string
 	{
 		return $this->class_name;
 	}
@@ -357,7 +443,7 @@ abstract class DataModel_Definition_Model extends BaseObject
 	/**
 	 * @return string
 	 */
-	public function getModelName()
+	public function getModelName() : string
 	{
 		return $this->model_name;
 	}
@@ -365,7 +451,7 @@ abstract class DataModel_Definition_Model extends BaseObject
 	/**
 	 * @return string
 	 */
-	public function getDatabaseTableName()
+	public function getDatabaseTableName() : string
 	{
 		return $this->database_table_name;
 	}
@@ -373,7 +459,7 @@ abstract class DataModel_Definition_Model extends BaseObject
 	/**
 	 * @param string $database_table_name
 	 */
-	public function setDatabaseTableName( $database_table_name )
+	public function setDatabaseTableName( string $database_table_name ) : void
 	{
 		$this->database_table_name = $database_table_name;
 	}
@@ -381,14 +467,14 @@ abstract class DataModel_Definition_Model extends BaseObject
 	/**
 	 * @return DataModel_IDController
 	 */
-	public function getIDController()
+	public function getIDController() : DataModel_IDController
 	{
-		$id_controller_class_name = $this->getIDControllerClassName();
+		$id_controller_class = $this->getIDControllerClassName();
 
 		/**
 		 * @var DataModel_IDController $empty_id
 		 */
-		$empty_id = new $id_controller_class_name( $this, $this->getIDControllerOptions() );
+		$empty_id = new $id_controller_class( $this, $this->getIDControllerOptions() );
 
 
 		return $empty_id;
@@ -397,15 +483,15 @@ abstract class DataModel_Definition_Model extends BaseObject
 	/**
 	 * @return string
 	 */
-	public function getIDControllerClassName()
+	public function getIDControllerClassName() : string
 	{
-		return $this->id_controller_class_name;
+		return $this->id_controller_class;
 	}
 
 	/**
 	 * @return array
 	 */
-	public function getIDControllerOptions()
+	public function getIDControllerOptions() : array
 	{
 		return $this->id_controller_options;
 	}
@@ -415,7 +501,7 @@ abstract class DataModel_Definition_Model extends BaseObject
 	 *
 	 * @return DataModel_Definition_Property[]
 	 */
-	public function getProperties()
+	public function getProperties() : array
 	{
 		return $this->properties;
 	}
@@ -424,7 +510,7 @@ abstract class DataModel_Definition_Model extends BaseObject
 	 *
 	 * @return DataModel_Definition_Property[]
 	 */
-	public function getIdProperties()
+	public function getIdProperties() : array
 	{
 		$res = [];
 
@@ -440,7 +526,7 @@ abstract class DataModel_Definition_Model extends BaseObject
 	 *
 	 * @return bool
 	 */
-	public function hasProperty( $property_name )
+	public function hasProperty( string $property_name ) : bool
 	{
 		return isset( $this->properties[$property_name] );
 	}
@@ -450,16 +536,16 @@ abstract class DataModel_Definition_Model extends BaseObject
 	 *
 	 * @return DataModel_Definition_Property
 	 */
-	public function getProperty( $property_name )
+	public function getProperty( string $property_name ) : DataModel_Definition_Property
 	{
 		return $this->properties[$property_name];
 	}
 
 	/**
 	 *
-	 * @return array|DataModel_Definition_Property_DataModel[]
+	 * @return DataModel_Definition_Property_DataModel[]
 	 */
-	public function getAllRelatedPropertyDefinitions()
+	public function getAllRelatedPropertyDefinitions() : array
 	{
 
 		/**
@@ -482,7 +568,7 @@ abstract class DataModel_Definition_Model extends BaseObject
 	 *
 	 * @throws DataModel_Exception
 	 */
-	public function addKey( $name, $type, array $key_properties )
+	public function addKey( string $name, string $type, array $key_properties ) : void
 	{
 
 		if( isset( $this->keys[$name] ) ) {
@@ -510,7 +596,7 @@ abstract class DataModel_Definition_Model extends BaseObject
 	/**
 	 * @return DataModel_Definition_Key[]
 	 */
-	public function getKeys()
+	public function getKeys() : array
 	{
 		return $this->keys;
 	}
@@ -523,7 +609,7 @@ abstract class DataModel_Definition_Model extends BaseObject
 	 *
 	 * @throws DataModel_Exception
 	 */
-	public function getRelation( $related_model_name )
+	public function getRelation( string $related_model_name ) : DataModel_Definition_Relation
 	{
 
 		$relations = $this->getRelations();
@@ -543,7 +629,7 @@ abstract class DataModel_Definition_Model extends BaseObject
 	 *
 	 * @return DataModel_Definition_Relation[]
 	 */
-	public function getRelations()
+	public function getRelations() : array
 	{
 		return DataModel_Relations::get( $this->class_name );
 	}

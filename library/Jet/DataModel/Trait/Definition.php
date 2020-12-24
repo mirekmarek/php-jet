@@ -19,7 +19,7 @@ trait DataModel_Trait_Definition
 	 *
 	 * @return DataModel_Definition_Model
 	 */
-	public static function getDataModelDefinition( $class_name = '' )
+	public static function getDataModelDefinition( string $class_name = '' ) : DataModel_Definition_Model
 	{
 		if( !$class_name ) {
 			$class_name = get_called_class();
@@ -34,7 +34,7 @@ trait DataModel_Trait_Definition
 	 *
 	 * @return DataModel_Definition_Model_Main
 	 */
-	public static function dataModelDefinitionFactory( $data_model_class_name )
+	public static function dataModelDefinitionFactory( string $data_model_class_name ) : DataModel_Definition_Model_Main
 	{
 		$class_name = DataModel_Factory::getModelDefinitionClassNamePrefix().'Main';
 

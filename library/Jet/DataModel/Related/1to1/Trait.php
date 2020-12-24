@@ -19,7 +19,7 @@ trait DataModel_Related_1to1_Trait
 	 *
 	 * @return DataModel_Definition_Model_Related_1to1
 	 */
-	public static function dataModelDefinitionFactory( $data_model_class_name )
+	public static function dataModelDefinitionFactory( string $data_model_class_name ) : DataModel_Definition_Model_Related_1to1
 	{
 		$class_name = DataModel_Factory::getModelDefinitionClassNamePrefix().'Related_1to1';
 
@@ -27,9 +27,9 @@ trait DataModel_Related_1to1_Trait
 	}
 
 	/**
-	 * @return DataModel_Related_Interface
+	 * @return DataModel_Related_Interface|null
 	 */
-	public function createNewRelatedDataModelInstance()
+	public function createNewRelatedDataModelInstance() : DataModel_Related_Interface|null
 	{
 		return null;
 	}
@@ -38,11 +38,12 @@ trait DataModel_Related_1to1_Trait
 	/**
 	 *
 	 * @param array                  $where
-	 * @param DataModel_PropertyFilter|null $load_filter
+	 * @param ?DataModel_PropertyFilter $load_filter
 	 *
 	 * @return array
 	 */
-	public static function fetchRelatedData( array $where, DataModel_PropertyFilter $load_filter = null )
+	public static function fetchRelatedData( array $where,
+	                                         ?DataModel_PropertyFilter $load_filter = null ) : array
 	{
 		/**
 		 * @var DataModel_Definition_Model_Related_1toN $definition
@@ -73,9 +74,11 @@ trait DataModel_Related_1to1_Trait
 	 * @param array  &$related_data
 	 * @param DataModel_PropertyFilter|null $load_filter
 	 *
-	 * @return mixed
+	 * @return static
 	 */
-	public static function initRelatedByData( $this_data, array &$related_data, DataModel_PropertyFilter $load_filter = null )
+	public static function initRelatedByData( array $this_data,
+	                                          array &$related_data,
+	                                          DataModel_PropertyFilter $load_filter = null ) : static
 	{
 		return static::initByData( $this_data, $related_data, $load_filter );
 	}
@@ -88,7 +91,8 @@ trait DataModel_Related_1to1_Trait
 	 *
 	 * @return Form_Field[]
 	 */
-	public function getRelatedFormFields( DataModel_Definition_Property $parent_property_definition, DataModel_PropertyFilter $property_filter = null )
+	public function getRelatedFormFields( DataModel_Definition_Property $parent_property_definition,
+	                                      DataModel_PropertyFilter $property_filter = null ) : array
 	{
 
 		$fields = [];

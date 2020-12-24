@@ -8,61 +8,60 @@
 namespace Jet;
 
 /**
- * @JetConfig:name = 'mailing'
  *
  */
+#[Config_Definition(name: 'mailing')]
 class Mailing_Config_Sender extends Config_Section
 {
 
 	/**
-	 * @JetConfig:type = Config::TYPE_STRING
-	 * @JetConfig:is_required = true
-	 *
-	 * @JetConfig:form_field_label = 'E-mail:'
-	 * @JetConfig:form_field_type = Form::TYPE_EMAIL
-	 * @JetConfig:form_field_error_messages = [Form_Field_Email::ERROR_CODE_EMPTY => 'Please enter valid email address',Form_Field_Email::ERROR_CODE_INVALID_FORMAT => 'Please enter valid email address']
 	 *
 	 * @var string
 	 */
-	protected $email;
+	#[Config_Definition(type: Config::TYPE_STRING)]
+	#[Config_Definition(is_required: true)]
+	#[Config_Definition(form_field_label: 'E-mail:')]
+	#[Config_Definition(form_field_type: Form::TYPE_EMAIL)]
+	#[Config_Definition(form_field_error_messages: [Form_Field_Email::ERROR_CODE_EMPTY => 'Please enter valid email address',Form_Field_Email::ERROR_CODE_INVALID_FORMAT => 'Please enter valid email address'])]
+	protected string $email = '';
 
 	/**
-	 * @JetConfig:form_field_label = 'Name:'
-	 * @JetConfig:type = Config::TYPE_STRING
-	 * @JetConfig:is_required = false
 	 *
 	 * @var string
 	 */
-	protected $name;
+	#[Config_Definition(form_field_label: 'Name:')]
+	#[Config_Definition(type: Config::TYPE_STRING)]
+	#[Config_Definition(is_required: false)]
+	protected string $name = '';
 
 	/**
-	 * @return mixed
+	 * @return string
 	 */
-	public function getEmail()
+	public function getEmail() : string
 	{
 		return $this->email;
 	}
 
 	/**
-	 * @param mixed $email
+	 * @param string $email
 	 */
-	public function setEmail( $email )
+	public function setEmail( string $email ) : void
 	{
 		$this->email = $email;
 	}
 
 	/**
-	 * @return mixed
+	 * @return string
 	 */
-	public function getName()
+	public function getName() : string
 	{
 		return $this->name;
 	}
 
 	/**
-	 * @param mixed $name
+	 * @param string $name
 	 */
-	public function setName( $name )
+	public function setName( string $name ) : void
 	{
 		$this->name = $name;
 	}

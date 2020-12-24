@@ -16,35 +16,35 @@ abstract class DataModel_Definition_Relation extends BaseObject
 	/**
 	 * @var string
 	 */
-	protected $this_data_model_class_name;
+	protected string $this_data_model_class_name;
 	
 	/**
 	 * @var string
 	 */
-	protected $related_data_model_class_name;
+	protected string $related_data_model_class_name;
 
 
 	/**
 	 * @var DataModel_Definition_Relation_Join_Item[]|DataModel_Definition_Relation_Join_Condition[]
 	 */
-	protected $join_by = [];
+	protected array $join_by = [];
 
 	/**
 	 * @var string
 	 */
-	protected $join_type = DataModel_Query::JOIN_TYPE_LEFT_JOIN;
+	protected string $join_type = DataModel_Query::JOIN_TYPE_LEFT_JOIN;
 
 	/**
 	 * @var array
 	 */
-	protected $required_relations = [];
+	protected array $required_relations = [];
 
 
 
 	/**
 	 * @param string $this_to_class_name
 	 */
-	public function setThisToClass( $this_to_class_name )
+	public function setThisToClass( string $this_to_class_name ) : void
 	{
 		$this->this_data_model_class_name = $this_to_class_name;
 	}
@@ -52,7 +52,7 @@ abstract class DataModel_Definition_Relation extends BaseObject
 	/**
 	 * @return string
 	 */
-	public function getThisDataModelClassName()
+	public function getThisDataModelClassName() : string
 	{
 		return $this->this_data_model_class_name;
 	}
@@ -60,7 +60,7 @@ abstract class DataModel_Definition_Relation extends BaseObject
 	/**
 	 * @return string
 	 */
-	public function getThisDataModelName()
+	public function getThisDataModelName() : string
 	{
 		return $this->getThisDataModelDefinition()->getModelName();
 	}
@@ -68,7 +68,7 @@ abstract class DataModel_Definition_Relation extends BaseObject
 	/**
 	 * @return DataModel_Definition_Model
 	 */
-	public function getThisDataModelDefinition()
+	public function getThisDataModelDefinition() : DataModel_Definition_Model
 	{
 		return DataModel::getDataModelDefinition( $this->this_data_model_class_name );
 	}
@@ -77,7 +77,7 @@ abstract class DataModel_Definition_Relation extends BaseObject
 	/**
 	 * @param string $related_to_class_name
 	 */
-	public function setRelatedToClass( $related_to_class_name )
+	public function setRelatedToClass( string $related_to_class_name )
 	{
 		$this->related_data_model_class_name = $related_to_class_name;
 	}
@@ -85,7 +85,7 @@ abstract class DataModel_Definition_Relation extends BaseObject
 	/**
 	 * @return string
 	 */
-	public function getRelatedDataModelClassName()
+	public function getRelatedDataModelClassName() : string
 	{
 		return $this->related_data_model_class_name;
 	}
@@ -93,7 +93,7 @@ abstract class DataModel_Definition_Relation extends BaseObject
 	/**
 	 * @return string
 	 */
-	public function getRelatedDataModelName()
+	public function getRelatedDataModelName() : string
 	{
 		return $this->getRelatedDataModelDefinition()->getModelName();
 	}
@@ -101,7 +101,7 @@ abstract class DataModel_Definition_Relation extends BaseObject
 	/**
 	 * @return DataModel_Definition_Model
 	 */
-	public function getRelatedDataModelDefinition()
+	public function getRelatedDataModelDefinition() : DataModel_Definition_Model
 	{
 		return DataModel::getDataModelDefinition( $this->related_data_model_class_name );
 	}
@@ -109,7 +109,7 @@ abstract class DataModel_Definition_Relation extends BaseObject
 	/**
 	 * @return string
 	 */
-	public function getJoinType()
+	public function getJoinType() : string
 	{
 		return $this->join_type;
 	}
@@ -117,13 +117,13 @@ abstract class DataModel_Definition_Relation extends BaseObject
 	/**
 	 * @param string $join_type
 	 */
-	public function setJoinType( $join_type )
+	public function setJoinType( string $join_type ) : void
 	{
 		$this->join_type = $join_type;
 	}
 
 	/**
-	 * @return DataModel_Definition_Relation_Join_Item[]|DataModel_Definition_Relation_Join_Condition[]
+	 * @return DataModel_Definition_Relation_Join_Condition[]|DataModel_Definition_Relation_Join_Item[]
 	 */
 	public function getJoinBy()
 	{
@@ -133,7 +133,7 @@ abstract class DataModel_Definition_Relation extends BaseObject
 	/**
 	 * @param array $items
 	 */
-	public function setJoinBy( array $items )
+	public function setJoinBy( array $items ) : void
 	{
 		$this->join_by = [];
 
@@ -147,7 +147,7 @@ abstract class DataModel_Definition_Relation extends BaseObject
 	/**
 	 * @param DataModel_Definition_Relation_Join_Item $item
 	 */
-	public function addJoinBy( DataModel_Definition_Relation_Join_Item $item )
+	public function addJoinBy( DataModel_Definition_Relation_Join_Item $item ) : void
 	{
 		$this->join_by[] = $item;
 	}
@@ -155,7 +155,7 @@ abstract class DataModel_Definition_Relation extends BaseObject
 	/**
 	 * @param DataModel_Definition_Relation_Join_Condition $condition
 	 */
-	public function addJoinCondition( DataModel_Definition_Relation_Join_Condition $condition )
+	public function addJoinCondition( DataModel_Definition_Relation_Join_Condition $condition ) : void
 	{
 		$this->join_by[] = $condition;
 
@@ -164,7 +164,7 @@ abstract class DataModel_Definition_Relation extends BaseObject
 	/**
 	 * @return array
 	 */
-	public function getRequiredRelations()
+	public function getRequiredRelations() : array
 	{
 		return $this->required_relations;
 	}
@@ -172,7 +172,7 @@ abstract class DataModel_Definition_Relation extends BaseObject
 	/**
 	 * @param array $required_relations
 	 */
-	public function setRequiredRelations( array $required_relations )
+	public function setRequiredRelations( array $required_relations ) : void
 	{
 		$this->required_relations = $required_relations;
 	}

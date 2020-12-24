@@ -19,7 +19,7 @@ class Test_Gallery_GetImagesUnknown extends Test_Abstract
 	/**
 	 * @return string
 	 */
-	protected function _getTitle()
+	protected function _getTitle() : string
 	{
 		return 'Get images - uknown gallery (error simulation)';
 	}
@@ -27,7 +27,7 @@ class Test_Gallery_GetImagesUnknown extends Test_Abstract
 	/**
 	 *
 	 */
-	public function test()
+	public function test() : void
 	{
 
 		$this->client->get('gallery/unknownunknown/image');

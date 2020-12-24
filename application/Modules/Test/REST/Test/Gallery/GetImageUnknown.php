@@ -17,7 +17,7 @@ class Test_Gallery_GetImageUnknown extends Test_Abstract
 	/**
 	 * @return bool
 	 */
-	public function isEnabled()
+	public function isEnabled() : bool
 	{
 		return count($this->data['images'])>0;
 	}
@@ -25,7 +25,7 @@ class Test_Gallery_GetImageUnknown extends Test_Abstract
 	/**
 	 * @return string
 	 */
-	protected function _getTitle()
+	protected function _getTitle() : string
 	{
 		return 'Get image - unknown (error simulation)';
 	}
@@ -33,7 +33,7 @@ class Test_Gallery_GetImageUnknown extends Test_Abstract
 	/**
 	 *
 	 */
-	public function test()
+	public function test() : void
 	{
 		$image = $this->data['images'][0];
 

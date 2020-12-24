@@ -16,30 +16,33 @@ class DataModel_Backend_MySQL extends DataModel_Backend
 	/**
 	 * @var array
 	 */
-	protected static $valid_key_types = [
+	protected static array $valid_key_types = [
 		DataModel::KEY_TYPE_PRIMARY,
 		DataModel::KEY_TYPE_INDEX,
 		DataModel::KEY_TYPE_UNIQUE,
 	];
+
 	/**
-	 * @var DataModel_Backend_MySQL_Config
+	 * @var ?DataModel_Backend_MySQL_Config
 	 */
-	protected $config;
-	/**
-	 *
-	 * @var Db_Backend_Interface
-	 */
-	private $_db_read = null;
+	protected $config = null;
+
 	/**
 	 *
-	 * @var Db_Backend_Interface
+	 * @var ?Db_Backend_Interface
 	 */
-	private $_db_write = null;
+	private ?Db_Backend_Interface $_db_read = null;
+
+	/**
+	 *
+	 * @var ?Db_Backend_Interface
+	 */
+	private ?Db_Backend_Interface $_db_write = null;
 
 	/**
 	 * @return Db_Backend_Interface
 	 */
-	public function getDbRead()
+	public function getDbRead() : Db_Backend_Interface
 	{
 		if(!$this->_db_read) {
 			$this->_db_read = Db::get( $this->config->getConnectionRead() );
@@ -50,7 +53,7 @@ class DataModel_Backend_MySQL extends DataModel_Backend
 	/**
 	 * @param Db_Backend_Interface $db_read
 	 */
-	public function setDbRead( Db_Backend_Interface $db_read )
+	public function setDbRead( Db_Backend_Interface $db_read ) : void
 	{
 		$this->_db_read = $db_read;
 	}
@@ -58,7 +61,7 @@ class DataModel_Backend_MySQL extends DataModel_Backend
 	/**
 	 * @return Db_Backend_Interface
 	 */
-	public function getDbWrite()
+	public function getDbWrite() : Db_Backend_Interface
 	{
 		if(!$this->_db_write) {
 			$this->_db_write = Db::get( $this->config->getConnectionWrite() );
@@ -70,7 +73,7 @@ class DataModel_Backend_MySQL extends DataModel_Backend
 	/**
 	 * @param Db_Backend_Interface $db_write
 	 */
-	public function setDbWrite( Db_Backend_Interface $db_write )
+	public function setDbWrite( Db_Backend_Interface $db_write ) : void
 	{
 		$this->_db_write = $db_write;
 	}
@@ -82,7 +85,7 @@ class DataModel_Backend_MySQL extends DataModel_Backend
 	 *
 	 * @return bool
 	 */
-	public function helper_tableExists( DataModel_Definition_Model $definition )
+	public function helper_tableExists( DataModel_Definition_Model $definition ) : bool
 	{
 		$table_name = $this->_getTableName( $definition, false );
 
@@ -103,18 +106,18 @@ class DataModel_Backend_MySQL extends DataModel_Backend
 	/**
 	 * @param DataModel_Definition_Model $definition
 	 */
-	public function helper_create( DataModel_Definition_Model $definition )
+	public function helper_create( DataModel_Definition_Model $definition ) : void
 	{
 		$this->getDbWrite()->execCommand( $this->helper_getCreateCommand( $definition ) );
 	}
 
 	/**
 	 * @param DataModel_Definition_Model $definition
-	 * @param string|null                $force_table_name (optional)
+	 * @param ?string                $force_table_name (optional)
 	 *
 	 * @return string
 	 */
-	public function helper_getCreateCommand( DataModel_Definition_Model $definition, $force_table_name = null )
+	public function helper_getCreateCommand( DataModel_Definition_Model $definition, ?string $force_table_name = null ) : string
 	{
 
 		$options = [];
@@ -197,7 +200,7 @@ class DataModel_Backend_MySQL extends DataModel_Backend
 	 *
 	 * @return string
 	 */
-	protected function _getColumnName( DataModel_Definition_Property $property_definition, $quote = true, $add_table_name = true )
+	protected function _getColumnName( DataModel_Definition_Property $property_definition, bool $quote = true, bool $add_table_name = true ) : string
 	{
 		$column_name = $property_definition->getDatabaseColumnName();
 
@@ -211,7 +214,7 @@ class DataModel_Backend_MySQL extends DataModel_Backend
 			return $column_name;
 		}
 
-		$table_name = $this->_getTableName( $property_definition->getDataModelDefinition(), true );
+		$table_name = $this->_getTableName( $property_definition->getDataModelDefinition() );
 
 		return $table_name.'.'.$column_name;
 	}
@@ -221,7 +224,7 @@ class DataModel_Backend_MySQL extends DataModel_Backend
 	 *
 	 * @return string
 	 */
-	protected function _quoteName( $name )
+	protected function _quoteName( string $name ) : string
 	{
 		return '`'.substr( $name, 0, 64 ).'`';
 	}
@@ -232,7 +235,7 @@ class DataModel_Backend_MySQL extends DataModel_Backend
 	 *
 	 * @return string
 	 */
-	protected function _getTableName( DataModel_Definition_Model $model_definition, $quote = true )
+	protected function _getTableName( DataModel_Definition_Model $model_definition, bool $quote = true ) : string
 	{
 		$table_name = strtolower( $model_definition->getDatabaseTableName() );
 
@@ -249,7 +252,7 @@ class DataModel_Backend_MySQL extends DataModel_Backend
 	 * @throws DataModel_Exception
 	 * @return string
 	 */
-	protected function _getSQLType( DataModel_Definition_Property $column )
+	protected function _getSQLType( DataModel_Definition_Property $column ) : string
 	{
 		$backend_options = $column->getBackendOptions( 'MySQL' );
 
@@ -318,9 +321,9 @@ class DataModel_Backend_MySQL extends DataModel_Backend
 	/**
 	 * @param mixed $value
 	 *
-	 * @return mixed
+	 * @return float|int|string
 	 */
-	protected function _getValue( $value )
+	protected function _getValue( mixed $value ) : float|int|string
 	{
 		if( $value instanceof DataModel_Definition_Property ) {
 			return $this->_getColumnName( $value );
@@ -363,7 +366,7 @@ class DataModel_Backend_MySQL extends DataModel_Backend
 	/**
 	 * @param DataModel_Definition_Model $definition
 	 */
-	public function helper_drop( DataModel_Definition_Model $definition )
+	public function helper_drop( DataModel_Definition_Model $definition ) : void
 	{
 		$this->getDbWrite()->execCommand( $this->helper_getDropCommand( $definition ) );
 	}
@@ -373,7 +376,7 @@ class DataModel_Backend_MySQL extends DataModel_Backend
 	 *
 	 * @return string
 	 */
-	public function helper_getDropCommand( DataModel_Definition_Model $definition )
+	public function helper_getDropCommand( DataModel_Definition_Model $definition ) : string
 	{
 		$table_name = $this->_getTableName( $definition, false );
 		$ui_prefix = '_d'.date( 'YmdHis' );
@@ -386,7 +389,7 @@ class DataModel_Backend_MySQL extends DataModel_Backend
 	 *
 	 * @throws \Exception|Exception
 	 */
-	public function helper_update( DataModel_Definition_Model $definition )
+	public function helper_update( DataModel_Definition_Model $definition ) : void
 	{
 		$this->transactionStart();
 		try {
@@ -403,7 +406,7 @@ class DataModel_Backend_MySQL extends DataModel_Backend
 	/**
 	 *
 	 */
-	public function transactionStart()
+	public function transactionStart() : void
 	{
 		$this->getDbWrite()->beginTransaction();
 	}
@@ -413,7 +416,7 @@ class DataModel_Backend_MySQL extends DataModel_Backend
 	 *
 	 * @return array
 	 */
-	public function helper_getUpdateCommand( DataModel_Definition_Model $definition )
+	public function helper_getUpdateCommand( DataModel_Definition_Model $definition ) : array
 	{
 		$table_name = $this->_getTableName( $definition );
 
@@ -488,7 +491,7 @@ class DataModel_Backend_MySQL extends DataModel_Backend
 	 *
 	 * @return array
 	 */
-	protected function _getRecord( DataModel_RecordData $record, $quote = true, $add_table_name = false )
+	protected function _getRecord( DataModel_RecordData $record, $quote = true, $add_table_name = false ) : array
 	{
 		$_record = [];
 
@@ -510,7 +513,7 @@ class DataModel_Backend_MySQL extends DataModel_Backend
 	/**
 	 *
 	 */
-	public function transactionRollback()
+	public function transactionRollback() : void
 	{
 		$this->getDbWrite()->rollBack();
 	}
@@ -518,7 +521,7 @@ class DataModel_Backend_MySQL extends DataModel_Backend
 	/**
 	 *
 	 */
-	public function transactionCommit()
+	public function transactionCommit() : void
 	{
 		$this->getDbWrite()->commit();
 	}
@@ -526,9 +529,9 @@ class DataModel_Backend_MySQL extends DataModel_Backend
 	/**
 	 * @param DataModel_RecordData $record
 	 *
-	 * @return mixed
+	 * @return int
 	 */
-	public function save( DataModel_RecordData $record )
+	public function save( DataModel_RecordData $record ) : int
 	{
 		$this->getDbWrite()->execCommand( $this->createInsertQuery( $record ) );
 
@@ -541,7 +544,7 @@ class DataModel_Backend_MySQL extends DataModel_Backend
 	 *
 	 * @return string
 	 */
-	public function createInsertQuery( DataModel_RecordData $record )
+	public function createInsertQuery( DataModel_RecordData $record ) : string
 	{
 
 		$data_model_definition = $record->getDataModelDefinition();
@@ -566,7 +569,7 @@ class DataModel_Backend_MySQL extends DataModel_Backend
 	 *
 	 * @return int
 	 */
-	public function update( DataModel_RecordData $record, DataModel_Query $where )
+	public function update( DataModel_RecordData $record, DataModel_Query $where ) : int
 	{
 
 		return $this->getDbWrite()->execCommand( $this->createUpdateQuery( $record, $where ) );
@@ -578,7 +581,7 @@ class DataModel_Backend_MySQL extends DataModel_Backend
 	 *
 	 * @return string
 	 */
-	public function createUpdateQuery( DataModel_RecordData $record, DataModel_Query $where )
+	public function createUpdateQuery( DataModel_RecordData $record, DataModel_Query $where ) : string
 	{
 		$data_model_definition = $record->getDataModelDefinition();
 		$table_name = $this->_getTableName( $data_model_definition );
@@ -604,7 +607,7 @@ class DataModel_Backend_MySQL extends DataModel_Backend
 	 *
 	 * @return string
 	 */
-	protected function _getSqlQueryWherePart( DataModel_Query_Where $query = null, $level = 0 )
+	protected function _getSqlQueryWherePart( DataModel_Query_Where $query = null, int $level = 0 ) : string
 	{
 		if( !$query ) {
 			return '';
@@ -616,9 +619,6 @@ class DataModel_Backend_MySQL extends DataModel_Backend
 
 		foreach( $query as $qp ) {
 			if( $qp instanceof DataModel_Query_Where ) {
-				/**
-				 * @var DataModel_Query_Where $qp
-				 */
 				$res .= $tab.'('.PHP_EOL.$this->_getSqlQueryWherePart( $qp, $next_level ).PHP_EOL.$tab.')';
 				continue;
 			}
@@ -661,7 +661,7 @@ class DataModel_Backend_MySQL extends DataModel_Backend
 	 *
 	 * @return string
 	 */
-	protected function _getSQLQueryWherePart_handleExpression( $item, $operator, $value )
+	protected function _getSQLQueryWherePart_handleExpression( string $item, string $operator, mixed $value ) : string
 	{
 		$res = '';
 
@@ -691,7 +691,7 @@ class DataModel_Backend_MySQL extends DataModel_Backend
 	 * @throws DataModel_Backend_Exception
 	 * @return string
 	 */
-	protected function _getSQLQueryWherePart_handleOperator( $operator, $value )
+	protected function _getSQLQueryWherePart_handleOperator( string $operator, mixed $value ) : string
 	{
 
 		$value = $this->_getValue( $value );
@@ -748,7 +748,7 @@ class DataModel_Backend_MySQL extends DataModel_Backend
 	 *
 	 * @return int
 	 */
-	public function delete( DataModel_Query $where )
+	public function delete( DataModel_Query $where ) : int
 	{
 		return $this->getDbWrite()->execCommand( $this->createDeleteQuery( $where ) );
 	}
@@ -758,11 +758,11 @@ class DataModel_Backend_MySQL extends DataModel_Backend
 	 *
 	 * @return string
 	 */
-	public function createDeleteQuery( DataModel_Query $where )
+	public function createDeleteQuery( DataModel_Query $where ) : string
 	{
 		$table_name = $this->_getTableName( $where->getDataModelDefinition() );
 
-		return 'DELETE FROM '.$table_name.''.$this->_getSqlQueryWherePart( $where->getWhere() );
+		return 'DELETE FROM '.$table_name.$this->_getSqlQueryWherePart( $where->getWhere() );
 	}
 
 	/**
@@ -770,7 +770,7 @@ class DataModel_Backend_MySQL extends DataModel_Backend
 	 *
 	 * @return int
 	 */
-	public function getCount( DataModel_Query $query )
+	public function getCount( DataModel_Query $query ) : int
 	{
 		return (int)$this->getDbRead()->fetchOne( $this->createCountQuery( $query ) );
 	}
@@ -780,7 +780,7 @@ class DataModel_Backend_MySQL extends DataModel_Backend
 	 *
 	 * @return string
 	 */
-	public function createCountQuery( DataModel_Query $query )
+	public function createCountQuery( DataModel_Query $query ) : string
 	{
 
 		$id_properties = [];
@@ -801,7 +801,7 @@ class DataModel_Backend_MySQL extends DataModel_Backend
 	 *
 	 * @return string
 	 */
-	protected function _getSQLQueryTableName( DataModel_Query $query )
+	protected function _getSQLQueryTableName( DataModel_Query $query ) : string
 	{
 		return $this->_getTableName( $query->getDataModelDefinition() );
 
@@ -813,7 +813,7 @@ class DataModel_Backend_MySQL extends DataModel_Backend
 	 * @throws DataModel_Backend_Exception
 	 * @return string
 	 */
-	protected function _getSQLQueryJoinPart( DataModel_Query $query )
+	protected function _getSQLQueryJoinPart( DataModel_Query $query ) : string
 	{
 		$join_qp = '';
 
@@ -872,7 +872,7 @@ class DataModel_Backend_MySQL extends DataModel_Backend
 	 *
 	 * @return string
 	 */
-	protected function _getSqlQueryHavingPart( DataModel_Query_Having $query = null, $level = 0 )
+	protected function _getSqlQueryHavingPart( DataModel_Query_Having $query = null, int $level = 0 ) : string
 	{
 		if( !$query ) {
 			return '';
@@ -884,9 +884,6 @@ class DataModel_Backend_MySQL extends DataModel_Backend
 
 		foreach( $query as $qp ) {
 			if( $qp instanceof DataModel_Query_Having ) {
-				/**
-				 * @var DataModel_Query_Having $qp
-				 */
 				$res .= $tab.'('.PHP_EOL.$this->_getSqlQueryHavingPart( $qp, $next_level ).PHP_EOL."\t".')';
 				continue;
 			}
@@ -929,7 +926,7 @@ class DataModel_Backend_MySQL extends DataModel_Backend
 	 *
 	 * @return mixed
 	 */
-	public function fetchAll( DataModel_Query $query )
+	public function fetchAll( DataModel_Query $query ) : mixed
 	{
 		return $this->_fetch( $query, 'fetchAll' );
 	}
@@ -940,7 +937,7 @@ class DataModel_Backend_MySQL extends DataModel_Backend
 	 *
 	 * @return mixed
 	 */
-	protected function _fetch( DataModel_Query $query, $fetch_method )
+	protected function _fetch( DataModel_Query $query, string $fetch_method ) : mixed
 	{
 
 		$data = $this->getDbRead()->$fetch_method(
@@ -959,7 +956,7 @@ class DataModel_Backend_MySQL extends DataModel_Backend
 	 *
 	 * @return string
 	 */
-	public function createSelectQuery( DataModel_Query $query )
+	public function createSelectQuery( DataModel_Query $query ) : string
 	{
 
 		return 'SELECT'.PHP_EOL
@@ -981,7 +978,7 @@ class DataModel_Backend_MySQL extends DataModel_Backend
 	 *
 	 * @return string
 	 */
-	protected function _getSQLQuerySelectPart( DataModel_Query $query )
+	protected function _getSQLQuerySelectPart( DataModel_Query $query ) : string
 	{
 		$columns_qp = [];
 
@@ -995,20 +992,12 @@ class DataModel_Backend_MySQL extends DataModel_Backend
 			$select_as = $item->getSelectAs();
 
 			if( $property instanceof DataModel_Definition_Property ) {
-				/**
-				 * @var DataModel_Definition_Property $property
-				 */
 				$columns_qp[] = $this->_getColumnName( $property ).' AS '.$this->_quoteName( $select_as ).'';
 
 				continue;
 			}
 
 			if( $property instanceof DataModel_Query_Select_Item_Expression ) {
-
-				/**
-				 * @var DataModel_Query_Select_Item_Expression $property
-				 */
-
 				$backend_function_call = $property->toString( $mapper );
 
 				$columns_qp[] = $backend_function_call.' AS '.$this->_quoteName( $select_as ).'';
@@ -1025,7 +1014,7 @@ class DataModel_Backend_MySQL extends DataModel_Backend
 	 *
 	 * @return string
 	 */
-	protected function _getSqlQueryGroupPart( DataModel_Query $query = null )
+	protected function _getSqlQueryGroupPart( DataModel_Query $query = null ) : string
 	{
 		$group_by = $query->getGroupBy();
 		if( !$group_by ) {
@@ -1060,7 +1049,7 @@ class DataModel_Backend_MySQL extends DataModel_Backend
 	 *
 	 * @return string
 	 */
-	protected function _getSqlQueryOrderByPart( DataModel_Query $query )
+	protected function _getSqlQueryOrderByPart( DataModel_Query $query ) : string
 	{
 		$order_by = $query->getOrderBy();
 
@@ -1104,7 +1093,7 @@ class DataModel_Backend_MySQL extends DataModel_Backend
 	 *
 	 * @return string
 	 */
-	protected function _getSqlQueryLimitPart( DataModel_Query $query )
+	protected function _getSqlQueryLimitPart( DataModel_Query $query ) : string
 	{
 		$limit_qp = '';
 
@@ -1127,7 +1116,7 @@ class DataModel_Backend_MySQL extends DataModel_Backend
 	 *
 	 * @return mixed
 	 */
-	public function fetchAssoc( DataModel_Query $query )
+	public function fetchAssoc( DataModel_Query $query ) : mixed
 	{
 		return $this->_fetch( $query, 'fetchAssoc' );
 	}
@@ -1137,7 +1126,7 @@ class DataModel_Backend_MySQL extends DataModel_Backend
 	 *
 	 * @return mixed
 	 */
-	public function fetchPairs( DataModel_Query $query )
+	public function fetchPairs( DataModel_Query $query ) : mixed
 	{
 		return $this->_fetch( $query, 'fetchPairs' );
 	}
@@ -1147,7 +1136,7 @@ class DataModel_Backend_MySQL extends DataModel_Backend
 	 *
 	 * @return mixed
 	 */
-	public function fetchRow( DataModel_Query $query )
+	public function fetchRow( DataModel_Query $query ) : mixed
 	{
 		return $this->_fetch( $query, 'fetchRow' );
 	}
@@ -1157,7 +1146,7 @@ class DataModel_Backend_MySQL extends DataModel_Backend
 	 *
 	 * @return mixed
 	 */
-	public function fetchOne( DataModel_Query $query )
+	public function fetchOne( DataModel_Query $query ) : mixed
 	{
 		return $this->_fetch( $query, 'fetchOne' );
 	}
@@ -1167,7 +1156,7 @@ class DataModel_Backend_MySQL extends DataModel_Backend
 	 *
 	 * @return mixed
 	 */
-	public function fetchCol( DataModel_Query $query )
+	public function fetchCol( DataModel_Query $query ) : array
 	{
 		$data = $this->getDbRead()->fetchCol(
 			$this->createSelectQuery( $query )

@@ -15,28 +15,29 @@ class Config_Definition_Property_Int extends Config_Definition_Property
 	/**
 	 * @var string
 	 */
-	protected $_type = Config::TYPE_INT;
+	protected string $_type = Config::TYPE_INT;
+
 	/**
 	 * @var int
 	 */
 	protected $default_value = 0;
 
 	/**
-	 * @var int
+	 * @var int|null
 	 */
-	protected $min_value = null;
+	protected int|null $min_value = null;
 	/**
-	 * @var int
+	 * @var int|null
 	 */
-	protected $max_value = null;
+	protected int|null $max_value = null;
 
 
 	/**
-	 * @param array|null $definition_data
+	 * @param ?array $definition_data
 	 *
 	 * @throws Config_Exception
 	 */
-	public function setUp( array $definition_data = null )
+	public function setUp( ?array $definition_data = null ) : void
 	{
 		parent::setUp( $definition_data );
 
@@ -56,7 +57,7 @@ class Config_Definition_Property_Int extends Config_Definition_Property
 	/**
 	 * @return int|null
 	 */
-	public function getMinValue()
+	public function getMinValue() : int|null
 	{
 		return $this->min_value;
 	}
@@ -64,16 +65,16 @@ class Config_Definition_Property_Int extends Config_Definition_Property
 	/**
 	 * @param int $min_value
 	 */
-	public function setMinValue( $min_value )
+	public function setMinValue( int $min_value ) : void
 	{
-		$this->min_value = (int)$min_value;
+		$this->min_value = $min_value;
 		$this->form_field_min_value = $this->min_value;
 	}
 
 	/**
 	 * @return int|null
 	 */
-	public function getMaxValue()
+	public function getMaxValue() : int|null
 	{
 		return $this->max_value;
 	}
@@ -81,16 +82,16 @@ class Config_Definition_Property_Int extends Config_Definition_Property
 	/**
 	 * @param int $max_value
 	 */
-	public function setMaxValue( $max_value )
+	public function setMaxValue( int $max_value ) : void
 	{
-		$this->max_value = (int)$max_value;
+		$this->max_value = $max_value;
 		$this->form_field_max_value = $this->max_value;
 	}
 
 	/**
 	 * @param mixed &$value
 	 */
-	public function checkValueType( &$value )
+	protected function checkValueType( mixed &$value ) : void
 	{
 		$value = (int)$value;
 	}
@@ -102,7 +103,7 @@ class Config_Definition_Property_Int extends Config_Definition_Property
 	 *
 	 * @throws Config_Exception
 	 */
-	protected function checkValue( $value )
+	protected function checkValue( mixed $value ) : void
 	{
 		if(
 			$this->min_value!==null &&

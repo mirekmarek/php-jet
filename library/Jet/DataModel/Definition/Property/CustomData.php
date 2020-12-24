@@ -15,7 +15,7 @@ class DataModel_Definition_Property_CustomData extends DataModel_Definition_Prop
 	/**
 	 * @var string
 	 */
-	protected $type = DataModel::TYPE_CUSTOM_DATA;
+	protected string $type = DataModel::TYPE_CUSTOM_DATA;
 
 	/**
 	 * @var array
@@ -25,14 +25,14 @@ class DataModel_Definition_Property_CustomData extends DataModel_Definition_Prop
 	/**
 	 * @var string
 	 */
-	protected $form_field_type = Form::TYPE_MULTI_SELECT;
+	protected string $form_field_type = Form::TYPE_MULTI_SELECT;
 
 	/**
 	 * @param array $definition_data
 	 *
 	 * @throws DataModel_Exception
 	 */
-	public function setUp( $definition_data )
+	public function setUp( array $definition_data ) : void
 	{
 		if( !$definition_data ) {
 			return;
@@ -52,7 +52,7 @@ class DataModel_Definition_Property_CustomData extends DataModel_Definition_Prop
 	/**
 	 * @return bool
 	 */
-	public function getMustBeSerializedBeforeStore()
+	public function getMustBeSerializedBeforeStore() : bool
 	{
 		return true;
 	}
@@ -61,7 +61,7 @@ class DataModel_Definition_Property_CustomData extends DataModel_Definition_Prop
 	/**
 	 * @param mixed $value
 	 */
-	public function checkValueType( &$value )
+	public function checkValueType( mixed &$value ) : void
 	{
 		if( !is_array( $value ) ) {
 			$value = [ $value ];

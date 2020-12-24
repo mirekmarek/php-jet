@@ -14,24 +14,24 @@ class Mvc_Controller_Router_Action extends BaseObject
 {
 
 	/**
-	 * @var Mvc_Controller_Router
+	 * @var ?Mvc_Controller_Router
 	 */
-	protected $router;
+	protected ?Mvc_Controller_Router $router = null;
 
 	/**
 	 * @var string
 	 */
-	protected $controller_action = '';
+	protected string $controller_action = '';
 
 	/**
 	 * @var string
 	 */
-	protected $module_action = '';
+	protected string $module_action = '';
 
 	/**
-	 * @var callable
+	 * @var callable|null
 	 */
-	protected $resolver;
+	protected $resolver = null;
 
 	/**
 	 * @var callable
@@ -40,10 +40,10 @@ class Mvc_Controller_Router_Action extends BaseObject
 
 	/**
 	 * @param Mvc_Controller_Router $router
-	 * @param string                $controller_action
-	 * @param string                $module_action
+	 * @param string $controller_action
+	 * @param string $module_action
 	 */
-	public function __construct( Mvc_Controller_Router $router, $controller_action, $module_action )
+	public function __construct( Mvc_Controller_Router $router, string $controller_action, string $module_action )
 	{
 		$this->router = $router;
 		$this->controller_action = $controller_action;
@@ -53,7 +53,7 @@ class Mvc_Controller_Router_Action extends BaseObject
 	/**
 	 * @return Mvc_Controller_Router
 	 */
-	public function router()
+	public function router() : Mvc_Controller_Router
 	{
 		return $this->router;
 	}
@@ -61,7 +61,7 @@ class Mvc_Controller_Router_Action extends BaseObject
 	/**
 	 * @return Mvc_Controller
 	 */
-	public function controller()
+	public function controller() : Mvc_Controller
 	{
 		return $this->router()->getController();
 	}
@@ -70,7 +70,7 @@ class Mvc_Controller_Router_Action extends BaseObject
 	/**
 	 * @return string
 	 */
-	public function getControllerAction()
+	public function getControllerAction() : string
 	{
 		return $this->controller_action;
 	}
@@ -78,9 +78,9 @@ class Mvc_Controller_Router_Action extends BaseObject
 	/**
 	 * @param string $controller_action
 	 *
-	 * @return Mvc_Controller_Router_Action
+	 * @return $this
 	 */
-	public function setControllerAction( $controller_action )
+	public function setControllerAction( string $controller_action ) : static
 	{
 		$this->controller_action = $controller_action;
 
@@ -91,17 +91,21 @@ class Mvc_Controller_Router_Action extends BaseObject
 	/**
 	 * @return string
 	 */
-	public function getModuleAction()
+	public function getModuleAction() : string
 	{
 		return $this->module_action;
 	}
 
 	/**
 	 * @param string $module_action
+	 *
+	 * @return $this
 	 */
-	public function setModuleAction( $module_action )
+	public function setModuleAction( string $module_action ) : static
 	{
 		$this->module_action = $module_action;
+
+		return $this;
 	}
 
 
@@ -114,9 +118,9 @@ class Mvc_Controller_Router_Action extends BaseObject
 	 *
 	 * @param callable $resolver
 	 *
-	 * @return Mvc_Controller_Router_Action
+	 * @return $this
 	 */
-	public function setResolver( callable $resolver )
+	public function setResolver( callable $resolver ) : static
 	{
 		$this->resolver = $resolver;
 
@@ -126,9 +130,9 @@ class Mvc_Controller_Router_Action extends BaseObject
 	/**
 	 * @param callable $URI_creator
 	 *
-	 * @return Mvc_Controller_Router_Action
+	 * @return $this
 	 */
-	public function setURICreator( callable $URI_creator )
+	public function setURICreator( callable $URI_creator ) : static
 	{
 		$this->URI_creator = $URI_creator;
 
@@ -138,9 +142,9 @@ class Mvc_Controller_Router_Action extends BaseObject
 
 	/**
 	 *
-	 * @return bool
+	 * @return bool|string
 	 */
-	public function resolve()
+	public function resolve() : bool|string
 	{
 		if(!$this->resolver) {
 			return false;
@@ -158,7 +162,7 @@ class Mvc_Controller_Router_Action extends BaseObject
 	 *
 	 * @return string|bool
 	 */
-	public function URI( ...$arguments )
+	public function URI( ...$arguments ) : string|bool
 	{
 		if(!$this->isAccessAllowed()) {
 			return false;
@@ -171,7 +175,7 @@ class Mvc_Controller_Router_Action extends BaseObject
 	 *
 	 * @return bool
 	 */
-	public function isAccessAllowed()
+	public function isAccessAllowed() : bool
 	{
 
 		$module_action = $this->getModuleAction();

@@ -17,27 +17,28 @@ trait DataModel_Related_MtoN_Trait
 	/**
 	 * @var array
 	 */
-	protected static $_load_related_data_where_query_part = [];
+	protected static array $_load_related_data_where_query_part = [];
 	/**
 	 * @var array
 	 */
-	protected static $_load_related_data_order_by = [];
+	protected static array $_load_related_data_order_by = [];
 
 	/**
-	 * @var DataModel_IDController
+	 * @var ?DataModel_IDController
 	 */
-	private $_N_id;
+	private ?DataModel_IDController $_N_id = null;
+
 	/**
-	 * @var DataModel
+	 * @var ?DataModel_Interface
 	 */
-	private $_N_instance;
+	private ?DataModel_Interface $_N_instance = null;
 
 	/**
 	 * @param string $data_model_class_name
 	 *
 	 * @return DataModel_Definition_Model_Related_MtoN
 	 */
-	public static function dataModelDefinitionFactory( $data_model_class_name )
+	public static function dataModelDefinitionFactory( string $data_model_class_name ) : DataModel_Definition_Model_Related_MtoN
 	{
 		$class_name = DataModel_Factory::getModelDefinitionClassNamePrefix().'Related_MtoN';
 
@@ -52,7 +53,7 @@ trait DataModel_Related_MtoN_Trait
 	 *
 	 * @return array
 	 */
-	public static function fetchRelatedData( array $where, DataModel_PropertyFilter $load_filter = null )
+	public static function fetchRelatedData( array $where, DataModel_PropertyFilter $load_filter = null ) : array
 	{
 		/**
 		 * @var DataModel_Definition_Model_Related_MtoN $definition
@@ -86,7 +87,7 @@ trait DataModel_Related_MtoN_Trait
 	/**
 	 * @return array
 	 */
-	public static function getLoadRelatedDataOrderBy()
+	public static function getLoadRelatedDataOrderBy() : array
 	{
 		/**
 		 * @var DataModel_Definition_Model_Related_MtoN $definition
@@ -103,9 +104,9 @@ trait DataModel_Related_MtoN_Trait
 	 * @param array  &$related_data
 	 * @param DataModel_PropertyFilter|null $load_filter
 	 *
-	 * @return mixed
+	 * @return DataModel_Related_MtoN_Iterator
 	 */
-	public static function initRelatedByData( $this_data, array &$related_data, DataModel_PropertyFilter $load_filter = null )
+	public static function initRelatedByData( array $this_data, array &$related_data, DataModel_PropertyFilter $load_filter = null ) : DataModel_Related_MtoN_Iterator
 	{
 		$items = [];
 
@@ -119,9 +120,9 @@ trait DataModel_Related_MtoN_Trait
 		 */
 		$data_model_definition = static::getDataModelDefinition();
 
-		$iterator_class_name = $data_model_definition->getIteratorClassName();
+		$iterator_class = $data_model_definition->getIteratorClassName();
 
-		$iterator = new $iterator_class_name( $data_model_definition, $items );
+		$iterator = new $iterator_class( $data_model_definition, $items );
 
 		return $iterator;
 
@@ -130,7 +131,7 @@ trait DataModel_Related_MtoN_Trait
 	/**
 	 * @return DataModel_IDController
 	 */
-	public function getNId()
+	public function getNId(): DataModel_IDController
 	{
 
 		if( !$this->_N_id ) {
@@ -160,26 +161,26 @@ trait DataModel_Related_MtoN_Trait
 	}
 
 	/**
-	 * @return null
+	 * @return null|string|int
 	 */
-	public function getArrayKeyValue()
+	public function getArrayKeyValue() : null|string|int
 	{
 		return $this->getNId()->toString();
 	}
 
 	/**
-	 * @return DataModel_Related_Interface
+	 * @return DataModel_Related_Interface|DataModel_Related_MtoN_Iterator|null
 	 */
-	public function createNewRelatedDataModelInstance()
+	public function createNewRelatedDataModelInstance() : DataModel_Related_Interface|DataModel_Related_MtoN_Iterator|null
 	{
 		/**
 		 * @var DataModel_Definition_Model_Related_MtoN $data_model_definition
 		 */
 		$data_model_definition = static::getDataModelDefinition();
 
-		$iterator_class_name = $data_model_definition->getIteratorClassName();
+		$iterator_class = $data_model_definition->getIteratorClassName();
 
-		$i = new $iterator_class_name( $data_model_definition );
+		$i = new $iterator_class( $data_model_definition );
 
 		return $i;
 	}
@@ -187,17 +188,17 @@ trait DataModel_Related_MtoN_Trait
 	/**
 	 * @param array $order_by
 	 */
-	public function setLoadRelatedDataOrderBy( array $order_by )
+	public function setLoadRelatedDataOrderBy( array $order_by ) : void
 	{
 		static::$_load_related_data_order_by = $order_by;
 	}
 
 	/**
-	 * @param DataModel_PropertyFilter|null $load_filter
+	 * @param ?DataModel_PropertyFilter $load_filter
 	 *
 	 * @return DataModel|null
 	 */
-	public function getNInstance( DataModel_PropertyFilter $load_filter = null )
+	public function getNInstance( DataModel_PropertyFilter $load_filter = null ) : DataModel|null
 	{
 
 		if( !$this->_N_instance ) {
@@ -220,10 +221,10 @@ trait DataModel_Related_MtoN_Trait
 	/**
 	 * @param DataModel_Interface $N_instance
 	 */
-	public function setNInstance( DataModel_Interface $N_instance )
+	public function setNInstance( DataModel_Interface $N_instance ) : void
 	{
 		$this->_N_instance = $N_instance;
-		$this->_N_instance = $N_instance->getIDController();
+		$this->_N_id = $N_instance->getIDController();
 
 		/**
 		 * @var DataModel_Definition_Model_Related_MtoN $data_model_definition
@@ -249,12 +250,11 @@ trait DataModel_Related_MtoN_Trait
 	/**
 	 *
 	 * @param DataModel_Definition_Property $parent_property_definition
-	 * @param DataModel_PropertyFilter|null      $property_filter
+	 * @param DataModel_PropertyFilter|null $property_filter
 	 *
 	 * @return Form_Field[]
 	 */
-	public function getRelatedFormFields( /** @noinspection PhpUnusedParameterInspection */
-		DataModel_Definition_Property $parent_property_definition, DataModel_PropertyFilter $property_filter = null )
+	public function getRelatedFormFields( DataModel_Definition_Property $parent_property_definition, DataModel_PropertyFilter $property_filter = null ) : array
 	{
 		return [];
 	}

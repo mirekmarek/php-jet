@@ -15,22 +15,17 @@ class DataModel_Definition_Property_Locale extends DataModel_Definition_Property
 	/**
 	 * @var string
 	 */
-	protected $type = DataModel::TYPE_LOCALE;
-
-	/**
-	 * @var null
-	 */
-	protected $default_value = null;
+	protected string $type = DataModel::TYPE_LOCALE;
 
 	/**
 	 * @var string
 	 */
-	protected $form_field_type = Form::TYPE_SELECT;
+	protected string $form_field_type = Form::TYPE_SELECT;
 
 	/**
 	 * @param mixed $value
 	 */
-	public function checkValueType( &$value )
+	public function checkValueType( mixed &$value ) : void
 	{
 		if( !is_object( $value ) ) {
 			$value = new Locale( $value );
@@ -43,11 +38,11 @@ class DataModel_Definition_Property_Locale extends DataModel_Definition_Property
 
 	/**
 	 *
-	 * @param mixed               &$property
+	 * @param mixed &$property
 	 *
 	 * @return mixed
 	 */
-	public function getJsonSerializeValue( &$property )
+	public function getJsonSerializeValue( mixed &$property ) : mixed
 	{
 		if( !$property ) {
 			return $property;

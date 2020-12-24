@@ -10,7 +10,7 @@ namespace JetApplicationModule\Test\REST;
 
 use Jet\Mvc;
 
-use Jet\Mvc_Page;
+use Jet\Mvc_Page_Interface;
 use JetApplication\Application_REST;
 
 use \CURLFile;
@@ -30,57 +30,57 @@ class Client
 	/**
 	 * @var string
 	 */
-	protected $username = '';
+	protected string $username = '';
 
 	/**
 	 * @var string
 	 */
-	protected $password = '';
+	protected string $password = '';
 
 	/**
-	 * @var Mvc_Page
+	 * @var ?Mvc_Page_Interface
 	 */
-	protected $root_page;
-
-	/**
-	 * @var string
-	 */
-	protected $error_message = '';
+	protected ?Mvc_Page_Interface $root_page = null;
 
 	/**
 	 * @var string
 	 */
-	protected $request = '';
-
-	/**
-	 * @var array
-	 */
-	protected $request_data;
+	protected string $error_message = '';
 
 	/**
 	 * @var string
 	 */
-	protected $request_body = '';
+	protected string $request = '';
+
+	/**
+	 * @var ?array
+	 */
+	protected ?array $request_data = null;
+
+	/**
+	 * @var string|array
+	 */
+	protected string|array $request_body = '';
 
 	/**
 	 * @var int
 	 */
-	protected $response_status = 0;
+	protected int $response_status = 0;
 
 	/**
 	 * @var string
 	 */
-	protected $response_header = '';
+	protected string $response_header = '';
 
 	/**
 	 * @var string
 	 */
-	protected $response_body = '';
+	protected string $response_body = '';
 
 	/**
-	 * @var array
+	 * @var array|null
 	 */
-	protected $response_data = null;
+	protected array|null$response_data = null;
 
 
 	/**
@@ -89,7 +89,7 @@ class Client
 	 * @param string $username
 	 * @param string $password
 	 */
-	public function __construct( $username='', $password='' )
+	public function __construct( string $username='', string $password='' )
 	{
 		if(!$username) {
 			$session = Main::getSession();
@@ -116,7 +116,11 @@ class Client
 	 *
 	 * @return bool
 	 */
-	public function exec( $method, $object, array $data = [], $get_params=[], $upload_file_path='' )
+	public function exec( string $method,
+	                      string $object,
+	                      array $data = [],
+	                      array $get_params=[],
+	                      string $upload_file_path='' ) : bool
 	{
 		$headers = [];
 
@@ -239,7 +243,8 @@ class Client
 	 *
 	 * @return bool
 	 */
-	public function get( $object, $get_params=[] ) {
+	public function get( string $object, array $get_params=[] ) : bool
+	{
 		return $this->exec( static::METHOD_GET, $object, [], $get_params );
 	}
 
@@ -248,7 +253,8 @@ class Client
 	 *
 	 * @return bool
 	 */
-	public function delete( $object ) {
+	public function delete( string $object ) : bool
+	{
 		return $this->exec( static::METHOD_DELETE, $object, [], [] );
 	}
 
@@ -260,7 +266,8 @@ class Client
 	 *
 	 * @return bool
 	 */
-	public function post( $object, array $data, $upload_file_path=''  ) {
+	public function post( string $object, array $data, string $upload_file_path=''  ) : bool
+	{
 		return $this->exec( static::METHOD_POST, $object, $data, [], $upload_file_path );
 	}
 
@@ -270,7 +277,8 @@ class Client
 	 *
 	 * @return bool
 	 */
-	public function put( $object, array $data  ) {
+	public function put( string $object, array $data  ) : bool
+	{
 		return $this->exec( static::METHOD_PUT, $object, $data );
 	}
 
@@ -278,7 +286,7 @@ class Client
 	/**
 	 * @return string
 	 */
-	public function request()
+	public function request() : string
 	{
 		return $this->request;
 	}
@@ -286,7 +294,7 @@ class Client
 	/**
 	 * @return string
 	 */
-	public function requestBody()
+	public function requestBody() : string
 	{
 		return $this->request_body;
 	}
@@ -294,7 +302,7 @@ class Client
 	/**
 	 * @return array
 	 */
-	public function requestData()
+	public function requestData() : array
 	{
 		return $this->request_data;
 	}
@@ -302,7 +310,7 @@ class Client
 	/**
 	 * @return string
 	 */
-	public function errorMessage()
+	public function errorMessage() : string
 	{
 		return $this->error_message;
 	}
@@ -310,7 +318,7 @@ class Client
 	/**
 	 * @return int
 	 */
-	public function responseStatus()
+	public function responseStatus() : int
 	{
 		return $this->response_status;
 	}
@@ -318,7 +326,7 @@ class Client
 	/**
 	 * @return string
 	 */
-	public function responseHeader()
+	public function responseHeader() : string
 	{
 		return $this->response_header;
 	}
@@ -326,15 +334,15 @@ class Client
 	/**
 	 * @return string
 	 */
-	public function responseBody()
+	public function responseBody() : string
 	{
 		return $this->response_body;
 	}
 
 	/**
-	 * @return array
+	 * @return array|null
 	 */
-	public function responseData()
+	public function responseData() : array|null
 	{
 		return $this->response_data;
 	}

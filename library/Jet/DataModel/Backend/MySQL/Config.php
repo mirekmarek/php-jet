@@ -14,66 +14,66 @@ class DataModel_Backend_MySQL_Config extends DataModel_Backend_Config
 {
 
 	/**
-	 * @JetConfig:type = Config::TYPE_STRING
-	 * @JetConfig:is_required = true
-	 * @JetConfig:form_field_type = Form::TYPE_SELECT
-	 * @JetConfig:form_field_get_select_options_callback = ['DataModel_Backend_MySQL_Config', 'getDbConnectionsList']
-	 * @JetConfig:form_field_label = 'Connection - read: '
-	 * @JetConfig:form_field_error_messages = [Form_Field::ERROR_CODE_EMPTY=>'Please select database connection', Form_Field_MultiSelect::ERROR_CODE_INVALID_VALUE=>'Please select database connection']
 	 *
 	 * @var string
 	 */
-	protected $connection_read = '';
+	#[Config_Definition(type : Config::TYPE_STRING)]
+	#[Config_Definition(is_required : true)]
+	#[Config_Definition(form_field_type : Form::TYPE_SELECT)]
+	#[Config_Definition(form_field_get_select_options_callback : [DataModel_Backend_MySQL_Config::class, 'getDbConnectionsList'])]
+	#[Config_Definition(form_field_label : 'Connection - read: ')]
+	#[Config_Definition(form_field_error_messages : [Form_Field::ERROR_CODE_EMPTY=>'Please select database connection', Form_Field_MultiSelect::ERROR_CODE_INVALID_VALUE=>'Please select database connection'])]
+	protected string $connection_read = '';
 
 	/**
-	 * @JetConfig:type = Config::TYPE_STRING
-	 * @JetConfig:is_required = true
-	 * @JetConfig:form_field_type = Form::TYPE_SELECT
-	 * @JetConfig:form_field_get_select_options_callback = ['DataModel_Backend_MySQL_Config', 'getDbConnectionsList']
-	 * @JetConfig:form_field_label = 'Connection - write: '
-	 * @JetConfig:form_field_error_messages = [Form_Field::ERROR_CODE_EMPTY=>'Please select database connection', Form_Field_MultiSelect::ERROR_CODE_INVALID_VALUE=>'Please select database connection']
 	 *
 	 * @var string
 	 */
-	protected $connection_write = '';
+	#[Config_Definition(type : Config::TYPE_STRING)]
+	#[Config_Definition(is_required : true)]
+	#[Config_Definition(form_field_type : Form::TYPE_SELECT)]
+	#[Config_Definition(form_field_get_select_options_callback : [DataModel_Backend_MySQL_Config::class, 'getDbConnectionsList'])]
+	#[Config_Definition(form_field_label : 'Connection - write: ')]
+	#[Config_Definition(form_field_error_messages : [Form_Field::ERROR_CODE_EMPTY=>'Please select database connection', Form_Field_MultiSelect::ERROR_CODE_INVALID_VALUE=>'Please select database connection'])]
+	protected string $connection_write = '';
 
 	/**
-	 * @JetConfig:type = Config::TYPE_STRING
-	 * @JetConfig:is_required = true
-	 * @JetConfig:default_value = 'InnoDB'
-	 * @JetConfig:form_field_label = 'Engine: '
-	 * @JetConfig:form_field_error_messages = [Form_Field::ERROR_CODE_EMPTY=>'Please enter table engine']
 	 *
 	 * @var string
 	 */
-	protected $engine = '';
+	#[Config_Definition(type : Config::TYPE_STRING)]
+	#[Config_Definition(is_required : true)]
+	#[Config_Definition(default_value : 'InnoDB')]
+	#[Config_Definition(form_field_label : 'Engine: ')]
+	#[Config_Definition(form_field_error_messages : [Form_Field::ERROR_CODE_EMPTY=>'Please enter table engine'])]
+	protected string $engine = '';
 
 	/**
-	 * @JetConfig:type = Config::TYPE_STRING
-	 * @JetConfig:is_required = true
-	 * @JetConfig:default_value = 'utf8'
-	 * @JetConfig:form_field_label = 'Default charset: '
-	 * @JetConfig:form_field_error_messages = [Form_Field::ERROR_CODE_EMPTY=>'Please enter charset']
 	 *
 	 * @var string
 	 */
-	protected $default_charset = '';
+	#[Config_Definition(type : Config::TYPE_STRING)]
+	#[Config_Definition(is_required : true)]
+	#[Config_Definition(default_value : 'utf8')]
+	#[Config_Definition(form_field_label : 'Default charset: ')]
+	#[Config_Definition(form_field_error_messages : [Form_Field::ERROR_CODE_EMPTY=>'Please enter charset'])]
+	protected string $default_charset = '';
 
 	/**
-	 * @JetConfig:type = Config::TYPE_STRING
-	 * @JetConfig:is_required = true
-	 * @JetConfig:default_value = 'utf8_general_ci'
-	 * @JetConfig:form_field_label = 'Default collate: '
-	 * @JetConfig:form_field_error_messages = [Form_Field::ERROR_CODE_EMPTY=>'Please enter default collate']
 	 *
 	 * @var string
 	 */
-	protected $collate = '';
+	#[Config_Definition(type : Config::TYPE_STRING)]
+	#[Config_Definition(is_required : true)]
+	#[Config_Definition(default_value : 'utf8_general_ci')]
+	#[Config_Definition(form_field_label : 'Default collate: ')]
+	#[Config_Definition(form_field_error_messages : [Form_Field::ERROR_CODE_EMPTY=>'Please enter default collate'])]
+	protected string $collate = '';
 
 	/**
 	 * @return array
 	 */
-	public static function getDbConnectionsList()
+	public static function getDbConnectionsList() : array
 	{
 		return Db_Config::getConnectionsList( Db::DRIVER_MYSQL );
 	}
@@ -81,7 +81,7 @@ class DataModel_Backend_MySQL_Config extends DataModel_Backend_Config
 	/**
 	 * @return string
 	 */
-	public function getCollate()
+	public function getCollate() : string
 	{
 		return $this->collate;
 	}
@@ -89,7 +89,7 @@ class DataModel_Backend_MySQL_Config extends DataModel_Backend_Config
 	/**
 	 * @param string $collate
 	 */
-	public function setCollate( $collate )
+	public function setCollate( string $collate ) : void
 	{
 		$this->collate = $collate;
 	}
@@ -97,7 +97,7 @@ class DataModel_Backend_MySQL_Config extends DataModel_Backend_Config
 	/**
 	 * @return string
 	 */
-	public function getConnectionRead()
+	public function getConnectionRead() : string
 	{
 		return $this->connection_read;
 	}
@@ -105,7 +105,7 @@ class DataModel_Backend_MySQL_Config extends DataModel_Backend_Config
 	/**
 	 * @param string $connection_read
 	 */
-	public function setConnectionRead( $connection_read )
+	public function setConnectionRead( string $connection_read ) : void
 	{
 		$this->connection_read = $connection_read;
 	}
@@ -113,7 +113,7 @@ class DataModel_Backend_MySQL_Config extends DataModel_Backend_Config
 	/**
 	 * @return string
 	 */
-	public function getConnectionWrite()
+	public function getConnectionWrite() : string
 	{
 		return $this->connection_write;
 	}
@@ -121,7 +121,7 @@ class DataModel_Backend_MySQL_Config extends DataModel_Backend_Config
 	/**
 	 * @param string $connection_write
 	 */
-	public function setConnectionWrite( $connection_write )
+	public function setConnectionWrite( string $connection_write ) : void
 	{
 		$this->connection_write = $connection_write;
 	}
@@ -129,7 +129,7 @@ class DataModel_Backend_MySQL_Config extends DataModel_Backend_Config
 	/**
 	 * @return string
 	 */
-	public function getDefaultCharset()
+	public function getDefaultCharset() : string
 	{
 		return $this->default_charset;
 	}
@@ -137,7 +137,7 @@ class DataModel_Backend_MySQL_Config extends DataModel_Backend_Config
 	/**
 	 * @param string $default_charset
 	 */
-	public function setDefaultCharset( $default_charset )
+	public function setDefaultCharset( string $default_charset ) : void
 	{
 		$this->default_charset = $default_charset;
 	}
@@ -145,7 +145,7 @@ class DataModel_Backend_MySQL_Config extends DataModel_Backend_Config
 	/**
 	 * @return string
 	 */
-	public function getEngine()
+	public function getEngine() : string
 	{
 		return $this->engine;
 	}
@@ -153,7 +153,7 @@ class DataModel_Backend_MySQL_Config extends DataModel_Backend_Config
 	/**
 	 * @param string $engine
 	 */
-	public function setEngine( $engine )
+	public function setEngine( string $engine ) : void
 	{
 		$this->engine = $engine;
 	}

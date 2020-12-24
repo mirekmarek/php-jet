@@ -18,15 +18,15 @@ interface Mvc_Page_Interface
 	 *
 	 * @return array
 	 */
-	public static function loadPagesData( Mvc_Site_Interface $site, Locale $locale );
+	public static function loadPagesData( Mvc_Site_Interface $site, Locale $locale ) : array;
 
 	/**
 	 * @param Mvc_Site_Interface $site
 	 * @param Locale             $locale
 	 *
-	 * @return Mvc_Page_Interface[]
+	 * @return static[]
 	 */
-	public static function loadPages( Mvc_Site_Interface $site, Locale $locale );
+	public static function loadPages( Mvc_Site_Interface $site, Locale $locale ) : array;
 
 	/**
 	 * @param Mvc_Site_Interface      $site
@@ -34,15 +34,15 @@ interface Mvc_Page_Interface
 	 * @param array                   $data
 	 * @param Mvc_Page_Interface|null $parent_page
 	 *
-	 * @return Mvc_Page_Interface
+	 * @return static
 	 */
-	public static function createByData( Mvc_Site_Interface $site, Locale $locale, array $data, Mvc_Page_Interface $parent_page = null );
+	public static function createByData( Mvc_Site_Interface $site, Locale $locale, array $data, Mvc_Page_Interface $parent_page = null ) : static;
 
 	/**
 	 * @param Mvc_Page_Interface $page
 	 *
 	 */
-	public static function appendPage( Mvc_Page_Interface $page );
+	public static function appendPage( Mvc_Page_Interface $page ) : void;
 
 	/**
 	 *
@@ -50,18 +50,18 @@ interface Mvc_Page_Interface
 	 * @param string|Locale|null $locale (optional, null = current)
 	 * @param string|null        $site_id (optional, null = current)
 	 *
-	 * @return Mvc_Page_Interface
+	 * @return static|null
 	 */
-	public static function get( $page_id = null, $locale = null, $site_id = null );
+	public static function get( string|null $page_id = null, string|Locale|null $locale = null, string|null $site_id = null ) : static|null;
 
 	/**
 	 *
 	 * @param string $site_id
 	 * @param Locale $locale
 	 *
-	 * @return Mvc_Page_Interface[]
+	 * @return static[]
 	 */
-	public static function getList( $site_id, Locale $locale );
+	public static function getList( string $site_id, Locale $locale ) : array;
 
 
 	/**
@@ -69,234 +69,234 @@ interface Mvc_Page_Interface
 	 * @param Locale             $locale
 	 * @param string             $relative_path
 	 *
-	 * @return Mvc_Page_Interface|null
+	 * @return static|null
 	 */
-	public static function getByRelativePath( Mvc_Site_Interface $site, Locale $locale, $relative_path );
+	public static function getByRelativePath( Mvc_Site_Interface $site, Locale $locale, string $relative_path ) : static|null;
 
 
 	/**
 	 * @return string
 	 */
-	public function getSiteId();
+	public function getSiteId() : string;
 
 	/**
 	 * @param string $site_id
 	 */
-	public function setSiteId( $site_id );
+	public function setSiteId( string $site_id ) : void;
 
 	/**
 	 * @param Mvc_Site_Interface $site
 	 */
-	public function setSite( Mvc_Site_Interface $site );
+	public function setSite( Mvc_Site_Interface $site ) : void;
 
 	/**
 	 * @return Mvc_Site_Interface
 	 */
-	public function getSite();
+	public function getSite() : Mvc_Site_Interface;
 
 	/**
 	 * @param Locale $locale
 	 *
 	 */
-	public function setLocale( Locale $locale );
+	public function setLocale( Locale $locale ) : void;
 
 	/**
 	 *
 	 * @return Locale
 	 */
-	public function getLocale();
+	public function getLocale() : Locale;
 
 	/**
 	 * @param string $id
 	 */
-	public function setId( $id );
+	public function setId( string $id );
 
 	/**
 	 * @return string
 	 */
-	public function getId();
+	public function getId() : string;
 
 	/**
 	 * @return string
 	 */
-	public function getKey();
+	public function getKey() : string;
 
 	/**
 	 * @param Mvc_Page_Interface $parent
 	 */
-	public function setParent( Mvc_Page_Interface $parent );
+	public function setParent( Mvc_Page_Interface $parent ) : void;
 
 	/**
 	 * @return bool
 	 */
-	public function isCurrent();
+	public function isCurrent() : bool;
 
 	/**
 	 * @return bool
 	 */
-	public function isInCurrentPath();
+	public function isInCurrentPath() : bool;
 
 	/**
 	 *
-	 * @return Mvc_Page_Interface
+	 * @return static|null
 	 */
-	public function getParent();
+	public function getParent() : static|null;
 
 	/**
 	 * @return array
 	 */
-	public function getPath();
+	public function getPath(): array;
 
 	/**
-	 * @return string
+	 * @return array
 	 */
-	public function getChildrenIds();
+	public function getChildrenIds() : array;
 
 	/**
-	 * @return string
+	 * @return array
 	 */
-	public function getChildrenKeys();
+	public function getChildrenKeys() : array;
 
 	/**
-	 * @return Mvc_Page_Interface[]
+	 * @return static[]
 	 */
-	public function getChildren();
+	public function getChildren() : array;
 
 	/**
 	 * @param Mvc_Page_Interface $child
 	 */
-	public function appendChild( Mvc_Page_Interface $child );
+	public function appendChild( Mvc_Page_Interface $child ) : void;
 
 	/**
 	 * @return string
 	 */
-	public function getName();
+	public function getName() : string;
 
 	/**
 	 * @param string $name
 	 */
-	public function setName( $name );
+	public function setName( string $name ) : void;
 
 	/**
 	 * @return bool
 	 */
-	public function getIsDeactivatedByDefault();
+	public function getIsDeactivatedByDefault() : bool;
 
 	/**
 	 * @return bool
 	 */
-	public function getIsActive();
+	public function getIsActive() : bool;
 
 	/**
 	 * @return bool
 	 */
-	public function isSSLRequiredByDefault();
+	public function isSSLRequiredByDefault() : bool;
 
 
 	/**
 	 * @return bool
 	 */
-	public function getSSLRequired();
+	public function getSSLRequired() : bool;
 
 	/**
 	 * @param bool $SSL_required
 	 */
-	public function setSSLRequired( $SSL_required );
+	public function setSSLRequired( bool $SSL_required ) : void;
 
 
 	/**
 	 * @param bool $is_active
 	 */
-	public function setIsActive( $is_active );
+	public function setIsActive( bool $is_active ) : void;
 
 
 	/**
 	 * @param bool $is_secret
 	 */
-	public function setIsSecret( $is_secret );
+	public function setIsSecret( bool $is_secret ) : void;
 
 	/**
 	 * @return bool
 	 */
-	public function isSecretByDefault();
+	public function isSecretByDefault() : bool;
 
 	/**
 	 * @return bool
 	 */
-	public function getIsSecret();
+	public function getIsSecret() : bool;
 
 	/**
 	 * @return int
 	 */
-	public function getOrder();
+	public function getOrder() : int;
 
 	/**
 	 * @param int $order
 	 *
 	 */
-	public function setOrder( $order );
+	public function setOrder( int $order ) : void;
 
 	/**
 	 * @param string $relative_path_fragment
 	 */
-	public function setRelativePathFragment( $relative_path_fragment );
+	public function setRelativePathFragment( string $relative_path_fragment ) : void;
 
 	/**
 	 * @return string
 	 */
-	public function getRelativePathFragment();
+	public function getRelativePathFragment() : string;
 
 
 	/**
 	 * @return string
 	 */
-	public function getRelativePath();
+	public function getRelativePath() : string;
 
 
 	/**
 	 * @param string $relative_path
 	 */
-	public function setRelativePath( $relative_path );
+	public function setRelativePath( string $relative_path ) : void;
 
 	/**
 	 * @return string
 	 */
-	public function getTitle();
+	public function getTitle() : string;
 
 	/**
 	 * @param string $title
 	 */
-	public function setTitle( $title );
+	public function setTitle( string $title ) : void;
 
 	/**
 	 * @return string
 	 */
-	public function getIcon();
+	public function getIcon() : string;
 
 	/**
 	 * @param string $icon
 	 */
-	public function setIcon( $icon );
+	public function setIcon( string $icon ) : void;
 
 	/**
 	 * @return string
 	 */
-	public function getMenuTitle();
+	public function getMenuTitle() : string;
 
 	/**
 	 * @param string $menu_title
 	 */
-	public function setMenuTitle( $menu_title );
+	public function setMenuTitle( string $menu_title ) : void;
 
 	/**
 	 * @return string
 	 */
-	public function getBreadcrumbTitle();
+	public function getBreadcrumbTitle() : string;
 
 	/**
 	 * @param string $breadcrumb_title
 	 */
-	public function setBreadcrumbTitle( $breadcrumb_title );
+	public function setBreadcrumbTitle( string $breadcrumb_title ) : void;
 
 	/**
 	 * @param array $path_fragments
@@ -305,7 +305,7 @@ interface Mvc_Page_Interface
 	 *
 	 * @return string
 	 */
-	public function getURL( array $path_fragments = [], array $GET_params = [] );
+	public function getURL( array $path_fragments = [], array $GET_params = [] ) : string;
 
 	/**
 	 * @param array $path_fragments
@@ -314,17 +314,7 @@ interface Mvc_Page_Interface
 	 *
 	 * @return string
 	 */
-	public function getURI( array $path_fragments = [], array $GET_params = [] );
-
-	/**
-	 *
-	 * @param array $path_fragments
-	 *
-	 * @param array $GET_params
-	 *
-	 * @return string
-	 */
-	public function getNonSchemaURL( array $path_fragments = [], array $GET_params = [] );
+	public function getURLPath( array $path_fragments = [], array $GET_params = [] ) : string;
 
 	/**
 	 *
@@ -334,7 +324,7 @@ interface Mvc_Page_Interface
 	 *
 	 * @return string
 	 */
-	public function getNonSslURL( array $path_fragments = [], array $GET_params = [] );
+	public function getNonSchemaURL( array $path_fragments = [], array $GET_params = [] ) : string;
 
 	/**
 	 *
@@ -344,111 +334,121 @@ interface Mvc_Page_Interface
 	 *
 	 * @return string
 	 */
-	public function getSslURL( array $path_fragments = [], array $GET_params = [] );
+	public function getNonSslURL( array $path_fragments = [], array $GET_params = [] ) : string;
+
+	/**
+	 *
+	 * @param array $path_fragments
+	 *
+	 * @param array $GET_params
+	 *
+	 * @return string
+	 */
+	public function getSslURL( array $path_fragments = [], array $GET_params = [] ) : string;
 
 	/**
 	 * @return string
 	 */
-	public function getLayoutsPath();
+	public function getLayoutsPath() : string;
 
 	/**
 	 * @return string
 	 */
-	public function getLayoutScriptName();
+	public function getLayoutScriptName() : string;
 
 	/**
-	 * @param string $layout
+	 * @param string $layout_script_name
 	 */
-	public function setLayoutScriptName( $layout );
+	public function setLayoutScriptName( string $layout_script_name ) : void;
 
 	/**
 	 *
 	 * @throws Exception
 	 *
 	 */
-	public function initializeLayout();
+	public function initializeLayout() : void;
 
 	/**
 	 * @return array
 	 */
-	public function getHttpHeaders();
+	public function getHttpHeaders() : array;
 
 	/**
 	 * @param array $http_headers
 	 */
-	public function setHttpHeaders( array $http_headers );
+	public function setHttpHeaders( array $http_headers ) : void;
 
 	/**
 	 *
 	 * @return Mvc_Page_MetaTag_Interface[]
 	 */
-	public function getMetaTags();
+	public function getMetaTags() : array;
 
 	/**
 	 * @param Mvc_Page_MetaTag_Interface $meta_tag
 	 */
-	public function addMetaTag( Mvc_Page_MetaTag_Interface $meta_tag );
+	public function addMetaTag( Mvc_Page_MetaTag_Interface $meta_tag ) : void;
 
 	/**
 	 * @param Mvc_Page_MetaTag_Interface[] $meta_tags
 	 */
-	public function setMetaTags( $meta_tags );
+	public function setMetaTags( array $meta_tags ) : void;
 
 	/**
 	 * @param string|callable $output
 	 */
-	public function setOutput( $output );
+	public function setOutput( string|callable $output )  :void;
 
 	/**
 	 * @return string|callable|null
 	 */
-	public function getOutput();
+	public function getOutput() : string|callable|null;
 
 	/**
 	 *
 	 * @return Mvc_Page_Content_Interface[]
 	 */
-	public function getContent();
+	public function getContent() : array;
 
 	/**
 	 * @param Mvc_Page_Content_Interface $content
 	 */
-	public function addContent( Mvc_Page_Content_Interface $content );
+	public function addContent( Mvc_Page_Content_Interface $content ) : void;
 
 	/**
 	 * @param int $index
 	 */
-	public function removeContent( $index );
+	public function removeContent( int $index ) : void;
 
 	/**
 	 * @param Mvc_Page_Content_Interface[] $contents
 	 */
-	public function setContent( $contents );
+	public function setContent( array $contents ) : void;
 
 	/**
 	 *
 	 * @return bool
 	 */
-	public function resolve();
+	public function resolve() : bool;
 
 	/**
 	 * @param string $file_path
 	 */
-	public function handleFile( $file_path );
+	public function handleFile( string $file_path ) : void;
 
 	/**
 	 *
 	 */
-	public function handleHttpHeaders();
+	public function handleHttpHeaders() : void;
 
 	/**
 	 * @return bool
 	 */
-	public function accessAllowed();
+	public function accessAllowed() : bool;
 
 	/**
 	 * @return string
 	 */
-	public function render();
+	public function render() : string;
 
 }

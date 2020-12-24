@@ -16,60 +16,60 @@ class Http_Request extends BaseObject
 	/**
 	 * PHP super global $_POST original value
 	 *
-	 * @var array
+	 * @var ?array
 	 */
-	protected static $_POST;
+	protected static ?array $_POST = null;
 
 
 	/**
 	 * PHP super global $_GET original value
 	 *
-	 * @var array
+	 * @var ?array
 	 */
-	protected static $_GET;
+	protected static ?array $_GET = null;
 
 
 	/**
 	 * @var bool
 	 */
-	protected static $is_initialized = false;
+	protected static bool $is_initialized = false;
 
 
 	/**
 	 *
-	 * @var Data_Array
+	 * @var ?Data_Array
 	 */
-	protected static $GET = null;
+	protected static ?Data_Array $GET = null;
 
 	/**
 	 *
-	 * @var Data_Array
+	 * @var ?Data_Array
 	 */
-	protected static $POST = null;
+	protected static ?Data_Array $POST = null;
 
 
 	/**
-	 * @var string
+	 * @var ?string|null
 	 */
-	protected static $raw_post_data = null;
+	protected static ?string $raw_post_data = null;
 
 	/**
-	 * @var array
+	 * @var ?array
 	 */
-	protected static $headers = null;
+	protected static ?array $headers = null;
 
 	/**
 	 * @var bool
 	 */
-	protected static $post_max_size_exceeded = false;
+	protected static bool $post_max_size_exceeded = false;
 
 
 	/**
 	 *
-	 * @param bool|null $hide_PHP_request_data (optional, default: false)
+	 * @param bool $hide_PHP_request_data
 	 *
 	 */
-	public static function initialize( $hide_PHP_request_data = false )
+	public static function initialize( bool $hide_PHP_request_data = false ) : void
 	{
 
 		if( static::$is_initialized ) {
@@ -97,7 +97,7 @@ class Http_Request extends BaseObject
 	/**
 	 *
 	 */
-	public static function hidePHPRequestData()
+	public static function hidePHPRequestData() : void
 	{
 		$_GET = new Http_Request_Trap();
 		$_POST = new Http_Request_Trap();
@@ -107,7 +107,7 @@ class Http_Request extends BaseObject
 	/**
 	 * @return bool
 	 */
-	public static function postMaxSizeExceeded()
+	public static function postMaxSizeExceeded() : bool
 	{
 		return self::$post_max_size_exceeded;
 	}
@@ -122,7 +122,9 @@ class Http_Request extends BaseObject
 	 *
 	 * @return string
 	 */
-	public static function currentURI( array $set_GET_params = [], array $unset_GET_params = [], $set_anchor = null )
+	public static function currentURI( array $set_GET_params = [],
+	                                   array $unset_GET_params = [],
+	                                   ?string $set_anchor = null ) : string
 	{
 		if(
 			$set_GET_params ||
@@ -163,13 +165,15 @@ class Http_Request extends BaseObject
 
 	/**
 	 *
-	 * @param array       $set_GET_params (optional)
-	 * @param array       $unset_GET_params (optional)
-	 * @param null|string $set_anchor (optional, default: do not change current state)
+	 * @param array    $set_GET_params (optional)
+	 * @param array    $unset_GET_params (optional)
+	 * @param ?string  $set_anchor (optional, default: do not change current state)
 	 *
 	 * @return string
 	 */
-	public static function currentURL( array $set_GET_params = [], array $unset_GET_params = [], $set_anchor = null )
+	public static function currentURL( array $set_GET_params = [],
+	                                   array $unset_GET_params = [],
+	                                   ?string $set_anchor = null ) : string
 	{
 		return static::baseURL() . static::currentURI( $set_GET_params, $unset_GET_params, $set_anchor );
 	}
@@ -182,7 +186,7 @@ class Http_Request extends BaseObject
 	 *
 	 * @return string
 	 */
-	public static function URL( $include_query_string = true, $force_SSL=false )
+	public static function URL( bool $include_query_string = true, bool $force_SSL=false ) : string
 	{
 		$request_URI = $_SERVER['REQUEST_URI'];
 
@@ -204,7 +208,7 @@ class Http_Request extends BaseObject
 	 *
 	 * @return string
 	 */
-	public static function baseURL( )
+	public static function baseURL( ) : string
 	{
 		$scheme = 'http';
 		$host = $_SERVER['HTTP_HOST'];
@@ -229,7 +233,7 @@ class Http_Request extends BaseObject
 	 *
 	 * @return string
 	 */
-	public static function baseSSLURL( )
+	public static function baseSSLURL( ) : string
 	{
 		$host = $_SERVER['HTTP_HOST'];
 		$port = '';
@@ -247,7 +251,7 @@ class Http_Request extends BaseObject
 	/**
 	 * @return string
 	 */
-	public static function schema()
+	public static function schema() : string
 	{
 		return static::isHttps() ? 'https' : 'http';
 	}
@@ -257,7 +261,7 @@ class Http_Request extends BaseObject
 	 *
 	 * @return Data_Array
 	 */
-	public static function GET()
+	public static function GET() : Data_Array
 	{
 		if( !static::$GET ) {
 			static::$GET = new Data_Array( static::$_GET );
@@ -270,7 +274,7 @@ class Http_Request extends BaseObject
 	 *
 	 * @return Data_Array
 	 */
-	public static function POST()
+	public static function POST() : Data_Array
 	{
 		if( !static::$POST ) {
 			static::$POST = new Data_Array( static::$_POST );
@@ -285,7 +289,7 @@ class Http_Request extends BaseObject
 	 *
 	 * @return string
 	 */
-	public static function rawPostData()
+	public static function rawPostData() : string
 	{
 		if( static::$raw_post_data===null ) {
 			static::$raw_post_data = file_get_contents( 'php://input' );
@@ -299,28 +303,26 @@ class Http_Request extends BaseObject
 	 *
 	 * @return string
 	 */
-	public static function requestMethod()
+	public static function requestMethod() : string
 	{
 		return isset( $_SERVER['REQUEST_METHOD'] ) ? strtoupper( $_SERVER['REQUEST_METHOD'] ) : 'GET';
 	}
 
 
 	/**
-	 * Is HTTP?
 	 *
 	 * @return bool
 	 */
-	public static function isHttp()
+	public static function isHttp() : bool
 	{
 		return !static::isHttps();
 	}
 
 	/**
-	 * Is HTTPS?
 	 *
 	 * @return bool
 	 */
-	public static function isHttps()
+	public static function isHttps() : bool
 	{
 		return (
 			isset( $_SERVER['HTTPS'] ) &&
@@ -332,11 +334,10 @@ class Http_Request extends BaseObject
 	}
 
 	/**
-	 * Get client's IP address
 	 *
 	 * @return string
 	 */
-	public static function clientIP()
+	public static function clientIP() : string
 	{
 
 		if( isset($_SERVER['HTTP_X_FORWARDED_FOR']) ) {
@@ -355,11 +356,10 @@ class Http_Request extends BaseObject
 	}
 
 	/**
-	 * Get client's user agent
 	 *
 	 * @return string
 	 */
-	public static function clientUserAgent()
+	public static function clientUserAgent() : string
 	{
 		if(isset($_SERVER['HTTP_USER_AGENT'])) {
 			return $_SERVER['HTTP_USER_AGENT'];
@@ -374,7 +374,7 @@ class Http_Request extends BaseObject
 	 *
 	 * @return array
 	 */
-	public static function headers()
+	public static function headers() : array
 	{
 		if( static::$headers!==null ) {
 			return static::$headers;

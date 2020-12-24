@@ -6,8 +6,10 @@
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
 namespace JetStudio;
-use Jet\SysConf_Jet;
 
+/**
+ *
+ */
 class ClassParser_Class extends ClassParser_Element
 {
 

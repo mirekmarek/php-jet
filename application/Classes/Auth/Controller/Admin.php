@@ -38,15 +38,15 @@ class Auth_Controller_Admin extends BaseObject implements Auth_Controller_Interf
 
 	/**
 	 *
-	 * @var Administrator
+	 * @var Administrator|bool|null
 	 */
-	protected $current_user = false;
+	protected Administrator|bool|null $current_user = false;
 
 	/**
 	 *
 	 * @return bool
 	 */
-	public function checkCurrentUser()
+	public function checkCurrentUser() : bool
 	{
 
 		$user = $this->getCurrentUser();
@@ -80,9 +80,9 @@ class Auth_Controller_Admin extends BaseObject implements Auth_Controller_Interf
 
 	/**
 	 *
-	 * @return Administrator|null
+	 * @return Administrator|bool
 	 */
-	public function getCurrentUser()
+	public function getCurrentUser() : Administrator|bool
 	{
 		if( $this->current_user!==false ) {
 			return $this->current_user;
@@ -90,7 +90,7 @@ class Auth_Controller_Admin extends BaseObject implements Auth_Controller_Interf
 
 		$session = $this->getSession();
 
-		$user_id = $session->getValue( 'user_id', null );
+		$user_id = $session->getValue( 'user_id' );
 
 		if( !$user_id ) {
 			$this->current_user = false;
@@ -104,7 +104,7 @@ class Auth_Controller_Admin extends BaseObject implements Auth_Controller_Interf
 	/**
 	 * @return Session
 	 */
-	protected function getSession()
+	protected function getSession() : Session
 	{
 		return new Session( 'auth_admin' );
 	}
@@ -113,7 +113,7 @@ class Auth_Controller_Admin extends BaseObject implements Auth_Controller_Interf
 	/**
 	 *
 	 */
-	public function handleLogin()
+	public function handleLogin() : void
 	{
 
 		$page = Mvc::getCurrentPage();
@@ -153,9 +153,9 @@ class Auth_Controller_Admin extends BaseObject implements Auth_Controller_Interf
 	}
 
 	/**
-	 * Logout current user
+	 *
 	 */
-	public function logout()
+	public function logout() : void
 	{
 		$user = $this->getCurrentUser();
 		if( $user ) {
@@ -170,26 +170,23 @@ class Auth_Controller_Admin extends BaseObject implements Auth_Controller_Interf
 	}
 
 	/**
-	 * Authenticates given user and returns TRUE if given credentials are valid, otherwise returns FALSE
 	 *
 	 * @param string $username
 	 * @param string $password
 	 *
 	 * @return bool
 	 */
-	public function login( $username, $password )
+	public function login( string $username, string $password ) : bool
 	{
 
 		$user = Administrator::getByIdentity( $username, $password );
 
 		if( !$user ) {
 			Application_Logger::warning(
-				static::EVENT_LOGIN_FAILED,
-				'Login failed. Username: \''.$username.'\'',
-				$username,
-				'',
-				[],
-				false
+				event: static::EVENT_LOGIN_FAILED,
+				event_message: 'Login failed. Username: \''.$username.'\'',
+				context_object_id: $username,
+				current_user: false
 			);
 
 			return false;
@@ -219,11 +216,11 @@ class Auth_Controller_Admin extends BaseObject implements Auth_Controller_Interf
 	/**
 	 *
 	 * @param string $privilege
-	 * @param mixed  $value
+	 * @param mixed $value
 	 *
 	 * @return bool
 	 */
-	public function getCurrentUserHasPrivilege( $privilege, $value )
+	public function getCurrentUserHasPrivilege( string $privilege, mixed $value ) : bool
 	{
 		$current_user = $this->getCurrentUser();
 
@@ -244,7 +241,7 @@ class Auth_Controller_Admin extends BaseObject implements Auth_Controller_Interf
 	 *
 	 * @return bool
 	 */
-	public function checkModuleActionAccess( $module_name, $action )
+	public function checkModuleActionAccess( string $module_name, string $action ) : bool
 	{
 		return $this->getCurrentUserHasPrivilege( Auth_Administrator_Role::PRIVILEGE_MODULE_ACTION, $module_name.':'.$action );
 	}
@@ -255,7 +252,7 @@ class Auth_Controller_Admin extends BaseObject implements Auth_Controller_Interf
 	 *
 	 * @return bool
 	 */
-	public function checkPageAccess( Mvc_Page_Interface $page )
+	public function checkPageAccess( Mvc_Page_Interface $page ) : bool
 	{
 		return $this->getCurrentUserHasPrivilege( Auth_Administrator_Role::PRIVILEGE_VISIT_PAGE, $page->getId() );
 	}

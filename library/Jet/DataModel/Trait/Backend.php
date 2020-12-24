@@ -18,7 +18,7 @@ trait DataModel_Trait_Backend
 	 *
 	 * @return DataModel_Backend
 	 */
-	public static function getBackendInstance()
+	public static function getBackendInstance() : DataModel_Backend
 	{
 		return DataModel_Backend::get( static::getDataModelDefinition() );
 	}
@@ -26,7 +26,7 @@ trait DataModel_Trait_Backend
 	/**
 	 *
 	 */
-	public function startBackendTransaction()
+	public function startBackendTransaction() : void
 	{
 		/**
 		 * @var DataModel $this
@@ -40,7 +40,7 @@ trait DataModel_Trait_Backend
 	/**
 	 * @return bool
 	 */
-	public function getBackendTransactionStarted()
+	public function getBackendTransactionStarted() : bool
 	{
 		return static::getBackendInstance()->getTransactionStarted();
 	}
@@ -48,7 +48,7 @@ trait DataModel_Trait_Backend
 	/**
 	 *
 	 */
-	public function commitBackendTransaction()
+	public function commitBackendTransaction() : void
 	{
 		/**
 		 * @var DataModel $this
@@ -62,7 +62,7 @@ trait DataModel_Trait_Backend
 	/**
 	 * @return bool
 	 */
-	public function getBackendTransactionStartedByThisInstance()
+	public function getBackendTransactionStartedByThisInstance() : bool
 	{
 		/**
 		 * @var DataModel $this
@@ -91,7 +91,7 @@ trait DataModel_Trait_Backend
 	/**
 	 *
 	 */
-	public function rollbackBackendTransaction()
+	public function rollbackBackendTransaction() : void
 	{
 		static::getBackendInstance()->transactionRollback();
 	}

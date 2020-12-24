@@ -14,58 +14,58 @@ class SysConf_PATH {
 	/**
 	 * @var string
 	 */
-	protected static $BASE =    '';
+	protected static string $BASE =    '';
 	/**
 	 * @var string
 	 */
-	protected static $LIBRARY = '';
+	protected static string $LIBRARY = '';
 	/**
 	 * @var string
 	 */
-	protected static $SITES  =  '';
+	protected static string $SITES  =  '';
 	/**
 	 * @var string
 	 */
-	protected static $MENUS  =  '';
+	protected static string $MENUS  =  '';
 	/**
 	 * @var string
 	 */
-	protected static $PUBLIC =  '';
+	protected static string $PUBLIC =  '';
 	/**
 	 * @var string
 	 */
-	protected static $LOGS =    '';
+	protected static string $LOGS =    '';
 	/**
 	 * @var string
 	 */
-	protected static $TMP =     '';
+	protected static string $TMP =     '';
 	/**
 	 * @var string
 	 */
-	protected static $CACHE =   '';
+	protected static string $CACHE =   '';
 
 	/**
 	 * @var string
 	 */
-	protected static $APPLICATION =  '';
+	protected static string $APPLICATION =  '';
 	/**
 	 * @var string
 	 */
-	protected static $CONFIG =       '';
+	protected static string $CONFIG =       '';
 	/**
 	 * @var string
 	 */
-	protected static $DATA =         '';
+	protected static string $DATA =         '';
 	/**
 	 * @var string
 	 */
-	protected static $DICTIONARIES = '';
+	protected static string $DICTIONARIES = '';
 
 	/**
 	 * @param string $what
 	 * @throws SysConf_PATH_Exception
 	 */
-	protected static function _check( $what )
+	protected static function _check( string $what ) : void
 	{
 		if(!static::$$what) {
 			throw new SysConf_PATH_Exception('PATH '.$what.' is not set');
@@ -75,7 +75,7 @@ class SysConf_PATH {
 	/**
 	 * @return string
 	 */
-	public static function BASE()
+	public static function BASE() : string
 	{
 		static::_check('BASE');
 		return static::$BASE;
@@ -84,7 +84,7 @@ class SysConf_PATH {
 	/**
 	 * @param string $BASE
 	 */
-	public static function setBASE( $BASE )
+	public static function setBASE( string $BASE ) : void
 	{
 		static::$BASE = $BASE;
 	}
@@ -92,7 +92,7 @@ class SysConf_PATH {
 	/**
 	 * @return string
 	 */
-	public static function LIBRARY()
+	public static function LIBRARY() : string
 	{
 		static::_check('LIBRARY');
 		return static::$LIBRARY;
@@ -101,7 +101,7 @@ class SysConf_PATH {
 	/**
 	 * @param string $LIBRARY
 	 */
-	public static function setLIBRARY( $LIBRARY )
+	public static function setLIBRARY( string $LIBRARY ) : void
 	{
 		static::$LIBRARY = $LIBRARY;
 	}
@@ -109,7 +109,7 @@ class SysConf_PATH {
 	/**
 	 * @return string
 	 */
-	public static function SITES()
+	public static function SITES() : string
 	{
 		static::_check('SITES');
 		return static::$SITES;
@@ -118,7 +118,7 @@ class SysConf_PATH {
 	/**
 	 * @param string $SITES
 	 */
-	public static function setSITES( $SITES )
+	public static function setSITES( string $SITES ) : void
 	{
 		static::$SITES = $SITES;
 	}
@@ -127,7 +127,7 @@ class SysConf_PATH {
 	/**
 	 * @return string
 	 */
-	public static function MENUS()
+	public static function MENUS() : string
 	{
 		static::_check('MENUS');
 		return static::$MENUS;
@@ -136,7 +136,7 @@ class SysConf_PATH {
 	/**
 	 * @param string $MENUS
 	 */
-	public static function setMENUS( $MENUS )
+	public static function setMENUS( string $MENUS ) : void
 	{
 		static::$MENUS = $MENUS;
 	}
@@ -145,7 +145,7 @@ class SysConf_PATH {
 	/**
 	 * @return string
 	 */
-	public static function PUBLIC()
+	public static function PUBLIC() : string
 	{
 		static::_check('PUBLIC');
 		return static::$PUBLIC;
@@ -154,7 +154,7 @@ class SysConf_PATH {
 	/**
 	 * @param string $PUBLIC
 	 */
-	public static function setPUBLIC( $PUBLIC )
+	public static function setPUBLIC( string $PUBLIC ) : void
 	{
 		static::$PUBLIC = $PUBLIC;
 	}
@@ -162,7 +162,7 @@ class SysConf_PATH {
 	/**
 	 * @return string
 	 */
-	public static function LOGS()
+	public static function LOGS() : string
 	{
 		static::_check('LOGS');
 		return static::$LOGS;
@@ -171,7 +171,7 @@ class SysConf_PATH {
 	/**
 	 * @param string $LOGS
 	 */
-	public static function setLOGS( $LOGS )
+	public static function setLOGS( string $LOGS ) : void
 	{
 		static::$LOGS = $LOGS;
 	}
@@ -179,7 +179,7 @@ class SysConf_PATH {
 	/**
 	 * @return string
 	 */
-	public static function TMP()
+	public static function TMP() : string
 	{
 		static::_check('TMP');
 		return static::$TMP;
@@ -188,7 +188,7 @@ class SysConf_PATH {
 	/**
 	 * @param string $TMP
 	 */
-	public static function setTMP( $TMP )
+	public static function setTMP( string $TMP ) : void
 	{
 		static::$TMP = $TMP;
 	}
@@ -196,7 +196,7 @@ class SysConf_PATH {
 	/**
 	 * @return string
 	 */
-	public static function CACHE()
+	public static function CACHE() : string
 	{
 		static::_check('CACHE');
 		return static::$CACHE;
@@ -205,7 +205,7 @@ class SysConf_PATH {
 	/**
 	 * @param string $CACHE
 	 */
-	public static function setCACHE( $CACHE )
+	public static function setCACHE( string $CACHE ) : void
 	{
 		static::$CACHE = $CACHE;
 	}
@@ -213,7 +213,7 @@ class SysConf_PATH {
 	/**
 	 * @return string
 	 */
-	public static function APPLICATION()
+	public static function APPLICATION() : string
 	{
 		static::_check('APPLICATION');
 		return static::$APPLICATION;
@@ -222,7 +222,7 @@ class SysConf_PATH {
 	/**
 	 * @param string $APPLICATION
 	 */
-	public static function setAPPLICATION( $APPLICATION )
+	public static function setAPPLICATION( string $APPLICATION ) : void
 	{
 		static::$APPLICATION = $APPLICATION;
 	}
@@ -230,7 +230,7 @@ class SysConf_PATH {
 	/**
 	 * @return string
 	 */
-	public static function CONFIG()
+	public static function CONFIG() : string
 	{
 		static::_check('CONFIG');
 		return static::$CONFIG;
@@ -239,7 +239,7 @@ class SysConf_PATH {
 	/**
 	 * @param string $CONFIG
 	 */
-	public static function setCONFIG( $CONFIG )
+	public static function setCONFIG( string $CONFIG ) : void
 	{
 		static::$CONFIG = $CONFIG;
 	}
@@ -247,7 +247,7 @@ class SysConf_PATH {
 	/**
 	 * @return string
 	 */
-	public static function DATA()
+	public static function DATA() : string
 	{
 		static::_check('DATA');
 		return static::$DATA;
@@ -256,7 +256,7 @@ class SysConf_PATH {
 	/**
 	 * @param string $DATA
 	 */
-	public static function setDATA( $DATA )
+	public static function setDATA( string $DATA ) : void
 	{
 		static::$DATA = $DATA;
 	}
@@ -264,7 +264,7 @@ class SysConf_PATH {
 	/**
 	 * @return string
 	 */
-	public static function DICTIONARIES()
+	public static function DICTIONARIES() : string
 	{
 		static::_check('DICTIONARIES');
 		return static::$DICTIONARIES;
@@ -273,7 +273,7 @@ class SysConf_PATH {
 	/**
 	 * @param string $DICTIONARIES
 	 */
-	public static function setDICTIONARIES( $DICTIONARIES )
+	public static function setDICTIONARIES( string $DICTIONARIES ) : void
 	{
 		static::$DICTIONARIES = $DICTIONARIES;
 	}

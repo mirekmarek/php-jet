@@ -21,7 +21,7 @@ class Test_Article_PostInvalid extends Test_Abstract
 	/**
 	 * @return string
 	 */
-	protected function _getTitle()
+	protected function _getTitle() : string
 	{
 		return 'Add (POST) - invalid (error simulation)';
 	}
@@ -29,7 +29,7 @@ class Test_Article_PostInvalid extends Test_Abstract
 	/**
 	 *
 	 */
-	public function test()
+	public function test() : void
 	{
 		$data = [
 			'date_time' => 'xxxxx',

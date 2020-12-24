@@ -34,20 +34,20 @@ class Controller_Admin extends Mvc_Controller_Default
 	protected $module = null;
 
 	/**
-	 * @var Mvc_Controller_Router_AddEditDelete
+	 * @var ?Mvc_Controller_Router_AddEditDelete
 	 */
-	protected $router;
+	protected ?Mvc_Controller_Router_AddEditDelete $router = null;
 
 	/**
-	 * @var Article
+	 * @var ?Article
 	 */
-	protected $article;
+	protected ?Article $article = null;
 
 	/**
 	 *
 	 * @return Mvc_Controller_Router_AddEditDelete
 	 */
-	public function getControllerRouter()
+	public function getControllerRouter() : Mvc_Controller_Router_AddEditDelete
 	{
 		if( !$this->router ) {
 			$this->router = new Mvc_Controller_Router_AddEditDelete(
@@ -212,7 +212,7 @@ class Controller_Admin extends Mvc_Controller_Default
 			}
 		}
 
-		Http_Headers::movedTemporary( Mvc_Page::get( Main::ADMIN_MAIN_PAGE )->getURI() );
+		Http_Headers::movedTemporary( Mvc_Page::get( Main::ADMIN_MAIN_PAGE )->getURLPath() );
 	}
 
 

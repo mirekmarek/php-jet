@@ -15,6 +15,6 @@ class UI_button_delete extends UI_button
 	/**
 	 * @var string
 	 */
-	protected static $default_renderer_script = 'button/delete';
+	protected static string $default_renderer_script = 'button/delete';
 
 }

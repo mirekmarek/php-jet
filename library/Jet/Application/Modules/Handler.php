@@ -19,20 +19,20 @@ abstract class Application_Modules_Handler extends BaseObject
 	 *
 	 * @return Application_Module_Manifest[]
 	 */
-	abstract public function allModulesList();
+	abstract public function allModulesList() : array;
 
 	/**
 	 *
 	 * @throws Application_Modules_Exception
 	 * @return Application_Module_Manifest[]
 	 */
-	abstract public function installedModulesList();
+	abstract public function installedModulesList() : array;
 
 	/**
 	 *
 	 * @return Application_Module_Manifest[]
 	 */
-	abstract public function activatedModulesList();
+	abstract public function activatedModulesList() : array;
 
 	/**
 	 *
@@ -40,7 +40,7 @@ abstract class Application_Modules_Handler extends BaseObject
 	 *
 	 * @return bool
 	 */
-	abstract public function moduleExists( $module_name );
+	abstract public function moduleExists( string $module_name ) : bool;
 
 	/**
 	 *
@@ -48,7 +48,7 @@ abstract class Application_Modules_Handler extends BaseObject
 	 *
 	 * @return bool
 	 */
-	abstract public function moduleIsInstalled( $module_name );
+	abstract public function moduleIsInstalled( string $module_name ) : bool;
 
 	/**
 	 *
@@ -56,7 +56,7 @@ abstract class Application_Modules_Handler extends BaseObject
 	 *
 	 * @return bool
 	 */
-	abstract public function moduleIsActivated( $module_name );
+	abstract public function moduleIsActivated( string $module_name ) : bool;
 
 	/**
 	 *
@@ -64,7 +64,7 @@ abstract class Application_Modules_Handler extends BaseObject
 	 *
 	 * @throws Application_Modules_Exception
 	 */
-	abstract public function installModule( $module_name );
+	abstract public function installModule( string $module_name ) : void;
 
 	/**
 	 *
@@ -72,7 +72,7 @@ abstract class Application_Modules_Handler extends BaseObject
 	 *
 	 * @throws Application_Modules_Exception
 	 */
-	abstract public function uninstallModule( $module_name );
+	abstract public function uninstallModule( string $module_name ) : void;
 
 	/**
 	 *
@@ -80,7 +80,7 @@ abstract class Application_Modules_Handler extends BaseObject
 	 *
 	 * @throws Application_Modules_Exception
 	 */
-	abstract public function activateModule( $module_name );
+	abstract public function activateModule( string $module_name ) : void;
 
 	/**
 	 *
@@ -88,7 +88,7 @@ abstract class Application_Modules_Handler extends BaseObject
 	 *
 	 * @throws Application_Modules_Exception
 	 */
-	abstract public function deactivateModule( $module_name );
+	abstract public function deactivateModule( string $module_name ) : void;
 
 
 	/**
@@ -97,7 +97,7 @@ abstract class Application_Modules_Handler extends BaseObject
 	 *
 	 * @return Application_Module_Manifest
 	 */
-	abstract public function moduleManifest( $module_name );
+	abstract public function moduleManifest( string $module_name ) : Application_Module_Manifest;
 
 	/**
 	 *
@@ -107,6 +107,6 @@ abstract class Application_Modules_Handler extends BaseObject
 	 *
 	 * @return Application_Module
 	 */
-	abstract public function moduleInstance( $module_name );
+	abstract public function moduleInstance( string $module_name ) : Application_Module;
 
 }

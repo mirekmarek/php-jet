@@ -14,70 +14,71 @@ abstract class DataModel_Definition_Property extends BaseObject implements Form_
 {
 	use Form_Field_Definition_Trait;
 
-	/**
-	 * @var string
-	 */
-	protected $data_model_class_name = '';
 
 	/**
 	 * @var string
 	 */
-	protected $type = null;
+	protected string $data_model_class_name = '';
+
+	/**
+	 * @var string
+	 */
+	protected string $type = '';
 
 
 	/**
 	 * @var string
 	 */
-	protected $name = '';
+	protected string $name = '';
 
 	/**
 	 *
-	 * @var string|null
+	 * @var ?string
 	 */
-	protected $related_to_class_name = null;
+	protected ?string $related_to_class_name = null;
 
 	/**
 	 *
-	 * @var string|null
+	 * @var ?string
 	 */
-	protected $related_to_property_name = null;
-
-	/**
-	 *
-	 * @var string
-	 */
-	protected $database_column_name = '';
-
-	/**
-	 * @var bool
-	 */
-	protected $is_id = false;
-
-	/**
-	 * @var bool
-	 */
-	protected $is_key = false;
-
-	/**
-	 * @var bool
-	 */
-	protected $is_unique = false;
-
-	/**
-	 * @var bool
-	 */
-	protected $do_not_export = false;
+	protected ?string $related_to_property_name = null;
 
 	/**
 	 *
 	 * @var string
 	 */
-	protected $default_value = '';
+	protected string $database_column_name = '';
+
+	/**
+	 * @var bool
+	 */
+	protected bool $is_id = false;
+
+	/**
+	 * @var bool
+	 */
+	protected bool $is_key = false;
+
+	/**
+	 * @var bool
+	 */
+	protected bool $is_unique = false;
+
+	/**
+	 * @var bool
+	 */
+	protected bool $do_not_export = false;
+
+	/**
+	 *
+	 * @var mixed
+	 */
+	protected $default_value = null;
 
 	/**
 	 * @var array
 	 */
-	protected $backend_options = '';
+	protected array $backend_options = [];
 
 
 	/**
@@ -85,7 +86,7 @@ abstract class DataModel_Definition_Property extends BaseObject implements Form_
 	 *
 	 * @return static
 	 */
-	public static function __set_state( array $data )
+	public static function __set_state( array $data ) : static
 	{
 
 		$i = new static( $data['data_model_class_name'], $data['name'] );
@@ -100,9 +101,9 @@ abstract class DataModel_Definition_Property extends BaseObject implements Form_
 	/**
 	 * @param string $data_model_class_name
 	 * @param string $name
-	 * @param array|null  $definition_data (optional)
+	 * @param ?array $definition_data (optional)
 	 */
-	public function __construct( $data_model_class_name, $name, $definition_data = null )
+	public function __construct( string $data_model_class_name, string $name, ?array $definition_data = null )
 	{
 		$this->data_model_class_name = (string)$data_model_class_name;
 		$this->name = $name;
@@ -116,7 +117,7 @@ abstract class DataModel_Definition_Property extends BaseObject implements Form_
 	 *
 	 * @throws DataModel_Exception
 	 */
-	public function setUp( $definition_data )
+	public function setUp( array $definition_data ) : void
 	{
 		if( $definition_data ) {
 			unset( $definition_data['type'] );
@@ -153,7 +154,7 @@ abstract class DataModel_Definition_Property extends BaseObject implements Form_
 	 * @param string $related_to_property_name
 	 *
 	 */
-	public function setUpRelation( $related_to_class_name, $related_to_property_name )
+	public function setUpRelation( string $related_to_class_name, string $related_to_property_name ) : void
 	{
 		$this->related_to_class_name = $related_to_class_name;
 		$this->related_to_property_name = $related_to_property_name;
@@ -162,7 +163,7 @@ abstract class DataModel_Definition_Property extends BaseObject implements Form_
 	/**
 	 * @return string
 	 */
-	public function getDataModelClassName()
+	public function getDataModelClassName() : string
 	{
 		return $this->data_model_class_name;
 	}
@@ -171,7 +172,7 @@ abstract class DataModel_Definition_Property extends BaseObject implements Form_
 	 *
 	 * @return DataModel_Definition_Model|DataModel_Definition_Model_Related
 	 */
-	public function getDataModelDefinition()
+	public function getDataModelDefinition() : DataModel_Definition_Model|DataModel_Definition_Model_Related
 	{
 		return DataModel_Definition::get( $this->data_model_class_name );
 	}
@@ -179,7 +180,7 @@ abstract class DataModel_Definition_Property extends BaseObject implements Form_
 	/**
 	 * @return null|string
 	 */
-	public function getRelatedToClassName()
+	public function getRelatedToClassName() : null|string
 	{
 		return $this->related_to_class_name;
 	}
@@ -187,7 +188,7 @@ abstract class DataModel_Definition_Property extends BaseObject implements Form_
 	/**
 	 * @return string
 	 */
-	public function getRelatedToPropertyName()
+	public function getRelatedToPropertyName() : string
 	{
 		return $this->related_to_property_name;
 	}
@@ -195,7 +196,7 @@ abstract class DataModel_Definition_Property extends BaseObject implements Form_
 	/**
 	 * @return string
 	 */
-	public function getName()
+	public function getName() : string
 	{
 		return $this->name;
 	}
@@ -203,7 +204,7 @@ abstract class DataModel_Definition_Property extends BaseObject implements Form_
 	/**
 	 * @return string
 	 */
-	public function getDatabaseColumnName()
+	public function getDatabaseColumnName() : string
 	{
 		if( !$this->database_column_name ) {
 			return $this->getName();
@@ -215,7 +216,7 @@ abstract class DataModel_Definition_Property extends BaseObject implements Form_
 	/**
 	 * @return bool
 	 */
-	public function getIsKey()
+	public function getIsKey() : bool
 	{
 		return $this->is_key;
 	}
@@ -223,7 +224,7 @@ abstract class DataModel_Definition_Property extends BaseObject implements Form_
 	/**
 	 * @return bool
 	 */
-	public function getIsUnique()
+	public function getIsUnique() : bool
 	{
 		return $this->is_unique;
 	}
@@ -232,7 +233,7 @@ abstract class DataModel_Definition_Property extends BaseObject implements Form_
 	/**
 	 * @return bool
 	 */
-	public function doNotExport()
+	public function doNotExport() : bool
 	{
 		if($this->is_id && $this->related_to_class_name) {
 			return true;
@@ -244,7 +245,7 @@ abstract class DataModel_Definition_Property extends BaseObject implements Form_
 	/**
 	 * @return bool
 	 */
-	public function getMustBeSerializedBeforeStore()
+	public function getMustBeSerializedBeforeStore() : bool
 	{
 		return false;
 	}
@@ -252,7 +253,7 @@ abstract class DataModel_Definition_Property extends BaseObject implements Form_
 	/**
 	 * @return bool
 	 */
-	public function getCanBeTableField()
+	public function getCanBeTableField() : bool
 	{
 		return true;
 	}
@@ -260,7 +261,7 @@ abstract class DataModel_Definition_Property extends BaseObject implements Form_
 	/**
 	 * @return bool
 	 */
-	public function getCanBeInSelectPartOfQuery()
+	public function getCanBeInSelectPartOfQuery() : bool
 	{
 		return true;
 	}
@@ -268,7 +269,7 @@ abstract class DataModel_Definition_Property extends BaseObject implements Form_
 	/**
 	 * @return bool
 	 */
-	public function getCanBeInInsertRecord()
+	public function getCanBeInInsertRecord() : bool
 	{
 		return true;
 	}
@@ -276,7 +277,7 @@ abstract class DataModel_Definition_Property extends BaseObject implements Form_
 	/**
 	 * @return bool
 	 */
-	public function getCanBeInUpdateRecord()
+	public function getCanBeInUpdateRecord() : bool
 	{
 		if( $this->getIsId() ) {
 			return false;
@@ -288,7 +289,7 @@ abstract class DataModel_Definition_Property extends BaseObject implements Form_
 	/**
 	 * @return bool
 	 */
-	public function getIsId()
+	public function getIsId() : bool
 	{
 		return $this->is_id;
 	}
@@ -296,7 +297,7 @@ abstract class DataModel_Definition_Property extends BaseObject implements Form_
 	/**
 	 * @return bool
 	 */
-	public function getCanBeFormField()
+	public function getCanBeFormField() : bool
 	{
 		return true;
 	}
@@ -305,7 +306,7 @@ abstract class DataModel_Definition_Property extends BaseObject implements Form_
 	/**
 	 * @return int|null
 	 */
-	public function getMaxLen()
+	public function getMaxLen() : int|null
 	{
 		return null;
 	}
@@ -313,7 +314,7 @@ abstract class DataModel_Definition_Property extends BaseObject implements Form_
 	/**
 	 * @param mixed &$property
 	 */
-	public function initPropertyDefaultValue( &$property )
+	public function initPropertyDefaultValue( mixed &$property ) : void
 	{
 		if( $property===null ) {
 			$property = $this->getDefaultValue();
@@ -326,24 +327,23 @@ abstract class DataModel_Definition_Property extends BaseObject implements Form_
 	 *
 	 * @return mixed
 	 */
-	public function getDefaultValue()
+	public function getDefaultValue() : mixed
 	{
 		return $this->default_value;
 	}
 
 	/**
-	 * Check data type by definition (retype)
 	 *
 	 * @param mixed &$value
 	 */
-	abstract public function checkValueType( &$value );
+	abstract public function checkValueType( mixed &$value ) : void;
 
 	/**
 	 * @param string $backend_type
 	 *
 	 * @return array
 	 */
-	public function getBackendOptions( $backend_type )
+	public function getBackendOptions( string $backend_type ) : array
 	{
 		if( !isset( $this->backend_options[$backend_type] ) ) {
 			return [];
@@ -357,7 +357,7 @@ abstract class DataModel_Definition_Property extends BaseObject implements Form_
 	 * @param mixed $data
 	 *
 	 */
-	public function loadPropertyValue( &$property, array $data )
+	public function loadPropertyValue( mixed &$property, array $data ) : void
 	{
 		if( !array_key_exists( $this->getName(), $data ) ) {
 			return;
@@ -371,7 +371,7 @@ abstract class DataModel_Definition_Property extends BaseObject implements Form_
 	/**
 	 * @return string
 	 */
-	public function getFormFieldName()
+	public function getFormFieldName() : string
 	{
 		return $this->name;
 	}
@@ -379,7 +379,7 @@ abstract class DataModel_Definition_Property extends BaseObject implements Form_
 	/**
 	 * @return string
 	 */
-	public function getFormFieldContextClassName()
+	public function getFormFieldContextClassName() : string
 	{
 		return $this->data_model_class_name;
 	}
@@ -387,7 +387,7 @@ abstract class DataModel_Definition_Property extends BaseObject implements Form_
 	/**
 	 * @return string
 	 */
-	public function getFormFieldContextPropertyName()
+	public function getFormFieldContextPropertyName() : string
 	{
 		return $this->name;
 	}
@@ -395,20 +395,19 @@ abstract class DataModel_Definition_Property extends BaseObject implements Form_
 	/**
 	 * @return string
 	 */
-	public function getType()
+	public function getType() : string
 	{
 		return $this->type;
 	}
 
 	/**
 	 *
-	 * Example: Locale to string
 	 *
-	 * @param mixed               &$property
+	 * @param mixed &$property
 	 *
 	 * @return mixed
 	 */
-	public function getJsonSerializeValue( &$property )
+	public function getJsonSerializeValue( mixed &$property ) : mixed
 	{
 		return $property;
 	}
@@ -419,7 +418,7 @@ abstract class DataModel_Definition_Property extends BaseObject implements Form_
 	 * @param array|DataModel_Definition_Property_DataModel[] &$related_definitions
 	 *
 	 */
-	public function getAllRelatedPropertyDefinitions( array &$related_definitions )
+	public function getAllRelatedPropertyDefinitions( array &$related_definitions ) : void
 	{
 	}
 

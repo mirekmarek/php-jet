@@ -17,64 +17,64 @@ class Form_Field_RegistrationEmail extends Form_Field_Email
 	/**
 	 * @var string
 	 */
-	protected static $default_renderer_script = 'field';
+	protected static string $default_renderer_script = 'field';
 
 	/**
 	 * @var string
 	 */
-	protected static $default_row_start_renderer_script = 'Field/row/start';
+	protected static string $default_row_start_renderer_script = 'Field/row/start';
 
 	/**
 	 * @var string
 	 */
-	protected static $default_row_end_renderer_script = 'Field/row/end';
+	protected static string $default_row_end_renderer_script = 'Field/row/end';
 
 	/**
 	 * @var string
 	 */
-	protected static $default_input_container_start_renderer_script = 'Field/input/container/start';
+	protected static string $default_input_container_start_renderer_script = 'Field/input/container/start';
 
 	/**
 	 * @var string
 	 */
-	protected static $default_input_container_end_renderer_script = 'Field/input/container/end';
+	protected static string $default_input_container_end_renderer_script = 'Field/input/container/end';
 
 	/**
 	 * @var string
 	 */
-	protected static $default_error_renderer = 'Field/error';
+	protected static string $default_error_renderer = 'Field/error';
 
 	/**
 	 * @var string
 	 */
-	protected static $default_label_renderer = 'Field/label';
+	protected static string $default_label_renderer = 'Field/label';
 
 	/**
 	 * @var string string
 	 */
-	protected static $default_input_renderer = 'Field/input/RegistrationEmail';
+	protected static string $default_input_renderer = 'Field/input/RegistrationEmail';
 
 
 	/**
 	 * @var string
 	 */
-	protected $_type = Form::TYPE_REGISTRATION_EMAIL;
+	protected string $_type = Form::TYPE_REGISTRATION_EMAIL;
 
 	/**
 	 * @var bool
 	 */
-	protected $is_required = true;
+	protected bool $is_required = true;
 
 
 	/**
-	 * @var callable
+	 * @var callable|null
 	 */
-	protected $user_exists_check_callback;
+	protected $user_exists_check_callback = null;
 
 	/**
 	 * @var array
 	 */
-	protected $error_messages = [
+	protected array $error_messages = [
 		self::ERROR_CODE_EMPTY               => '',
 		self::ERROR_CODE_INVALID_FORMAT      => '',
 		self::ERROR_CODE_USER_ALREADY_EXISTS => '',
@@ -85,7 +85,7 @@ class Form_Field_RegistrationEmail extends Form_Field_Email
 	 *
 	 * @return bool
 	 */
-	public function validate()
+	public function validate() : bool
 	{
 
 		if( !$this->_value ) {
@@ -114,9 +114,9 @@ class Form_Field_RegistrationEmail extends Form_Field_Email
 	}
 
 	/**
-	 * @return callable
+	 * @return callable|null
 	 */
-	public function getUserExistsCheckCallback()
+	public function getUserExistsCheckCallback() : callable|null
 	{
 		return $this->user_exists_check_callback;
 	}
@@ -124,7 +124,7 @@ class Form_Field_RegistrationEmail extends Form_Field_Email
 	/**
 	 * @param callable $user_exists_check_callback
 	 */
-	public function setUserExistsCheckCallback( callable $user_exists_check_callback )
+	public function setUserExistsCheckCallback( callable $user_exists_check_callback ) : void
 	{
 		$this->user_exists_check_callback = $user_exists_check_callback;
 	}
@@ -132,7 +132,7 @@ class Form_Field_RegistrationEmail extends Form_Field_Email
 	/**
 	 * @return array
 	 */
-	public function getRequiredErrorCodes()
+	public function getRequiredErrorCodes(): array
 	{
 		$codes = [];
 

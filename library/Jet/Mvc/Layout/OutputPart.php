@@ -17,26 +17,26 @@ class Mvc_Layout_OutputPart extends BaseObject
 	 *
 	 * @var string
 	 */
-	protected $output = '';
+	protected string $output = '';
 
 	/**
 	 *
 	 * @var string
 	 */
-	protected $position = '';
+	protected string $position = '';
 
 	/**
 	 *
 	 * @var int
 	 */
-	protected $position_order = 0;
+	protected int $position_order = 0;
 
 	/**
 	 * @param string $output
 	 * @param string $position
 	 * @param int    $position_order
 	 */
-	public function __construct( $output, $position, $position_order )
+	public function __construct( string $output, string $position, int $position_order )
 	{
 		$this->output = $output;
 		$this->position = $position;
@@ -46,7 +46,7 @@ class Mvc_Layout_OutputPart extends BaseObject
 	/**
 	 * @return string
 	 */
-	public function getOutput()
+	public function getOutput() : string
 	{
 		return $this->output;
 	}
@@ -54,7 +54,7 @@ class Mvc_Layout_OutputPart extends BaseObject
 	/**
 	 * @param string $output
 	 */
-	public function setOutput( $output )
+	public function setOutput( string $output ) : void
 	{
 		$this->output = $output;
 	}
@@ -62,7 +62,7 @@ class Mvc_Layout_OutputPart extends BaseObject
 	/**
 	 * @return string
 	 */
-	public function getPosition()
+	public function getPosition() : string
 	{
 		return $this->position;
 	}
@@ -70,7 +70,7 @@ class Mvc_Layout_OutputPart extends BaseObject
 	/**
 	 * @param string $position
 	 */
-	public function setPosition( $position )
+	public function setPosition( string $position ) : void
 	{
 		$this->position = $position;
 	}
@@ -78,7 +78,7 @@ class Mvc_Layout_OutputPart extends BaseObject
 	/**
 	 * @return int
 	 */
-	public function getPositionOrder()
+	public function getPositionOrder() : int
 	{
 		return $this->position_order;
 	}
@@ -86,9 +86,9 @@ class Mvc_Layout_OutputPart extends BaseObject
 	/**
 	 * @param int $position_order
 	 */
-	public function setPositionOrder( $position_order )
+	public function setPositionOrder( int $position_order ) : void
 	{
-		$this->position_order = (int)$position_order;
+		$this->position_order = $position_order;
 	}
 
 }

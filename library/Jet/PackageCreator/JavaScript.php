@@ -16,12 +16,12 @@ abstract class PackageCreator_JavaScript extends PackageCreator
 	/**
 	 * @var string
 	 */
-	protected static $packages_dir_name = 'js_packages';
+	protected static string $packages_dir_name = 'js_packages';
 
 	/**
 	 * @return string
 	 */
-	public static function getPackagesDirName()
+	public static function getPackagesDirName() : string
 	{
 		return static::$packages_dir_name;
 	}
@@ -29,7 +29,7 @@ abstract class PackageCreator_JavaScript extends PackageCreator
 	/**
 	 * @param string $packages_dir_name
 	 */
-	public static function setPackagesDirName( $packages_dir_name )
+	public static function setPackagesDirName( string $packages_dir_name ) : void
 	{
 		static::$packages_dir_name = $packages_dir_name;
 	}
@@ -43,32 +43,32 @@ abstract class PackageCreator_JavaScript extends PackageCreator
 	/**
 	 *
 	 */
-	abstract public function generate();
+	abstract public function generate() : void;
 
 	/**
 	 * @return string
 	 */
-	abstract public function createPackage();
+	abstract public function createPackage() : string;
 
 	/**
 	 *
 	 * @return string
 	 */
-	abstract public function getKey();
+	abstract public function getKey() : string;
 
 	/**
 	 * @return string
 	 */
-	abstract public function getPackagePath();
+	abstract public function getPackagePath() : string;
 
 	/**
 	 * @return string
 	 */
-	abstract public function getPackageRelativeFileName();
+	abstract public function getPackageRelativeFileName() : string;
 
 	/**
 	 * @return string
 	 */
-	abstract public function getPackageURI();
+	abstract public function getPackageURI() : string;
 
 }

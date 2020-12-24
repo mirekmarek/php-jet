@@ -126,15 +126,15 @@ class DataModel_Definition_Model_Related_MtoN extends Jet_DataModel_Definition_M
 	 */
 	public function getNModelClassName()
 	{
-		return $this->N_model_class_name;
+		return $this->N_model_class;
 	}
 
 	/**
-	 * @param string $N_model_class_name
+	 * @param string $N_model_class
 	 */
-	public function setNModelClassName( $N_model_class_name )
+	public function setNModelClassName( $N_model_class )
 	{
-		$this->N_model_class_name = $N_model_class_name;
+		$this->N_model_class = $N_model_class;
 	}
 
 
@@ -143,11 +143,11 @@ class DataModel_Definition_Model_Related_MtoN extends Jet_DataModel_Definition_M
 	 */
 	public function getNModel()
 	{
-		if(!$this->N_model_class_name) {
+		if(!$this->N_model_class) {
 			return null;
 		}
 
-		return DataModels::getClass($this->N_model_class_name)->getDefinition();
+		return DataModels::getClass($this->N_model_class)->getDefinition();
 	}
 
 	/**
@@ -239,15 +239,15 @@ class DataModel_Definition_Model_Related_MtoN extends Jet_DataModel_Definition_M
 		}
 
 		$class->addAnnotation(
-			(new ClassCreator_Annotation('JetDataModel', 'parent_model_class_name', var_export($parent_class->getClassName(), true) ))
+			(new ClassCreator_Annotation('JetDataModel', 'parent_model_class', var_export($parent_class->getClassName(), true) ))
 		);
 
 
-		$N_model_class_name = $this->getNModelClassName();
+		$N_model_class = $this->getNModelClassName();
 
-		$N_class = DataModels::getClass( $N_model_class_name );
+		$N_class = DataModels::getClass( $N_model_class );
 		if(!$N_class) {
-			$class->addError('Unable to get N DataModel definition (N model class: '.$N_model_class_name.')');
+			$class->addError('Unable to get N DataModel definition (N model class: '.$N_model_class.')');
 			return;
 		}
 
@@ -261,7 +261,7 @@ class DataModel_Definition_Model_Related_MtoN extends Jet_DataModel_Definition_M
 
 
 		$class->addAnnotation(
-			(new ClassCreator_Annotation('JetDataModel', 'N_model_class_name', var_export($N_class->getClassName(), true)) )
+			(new ClassCreator_Annotation('JetDataModel', 'N_model_class', var_export($N_class->getClassName(), true)) )
 		);
 
 

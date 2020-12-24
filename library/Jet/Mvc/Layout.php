@@ -26,57 +26,57 @@ class Mvc_Layout extends Mvc_View_Abstract
 	const DEFAULT_OUTPUT_POSITION = '__main__';
 
 	/**
-	 * @var Mvc_Layout
+	 * @var Mvc_Layout|null
 	 */
-	protected static $current_layout;
+	protected static Mvc_Layout|null $current_layout = null;
 
 	/**
 	 * Data of the output that will be placed into the layout
 	 *
 	 * @var Mvc_Layout_OutputPart[]
 	 */
-	protected $output_parts = [];
+	protected array $output_parts = [];
 
 	/**
 	 * @var array
 	 */
-	protected $virtual_positions = [];
+	protected array $virtual_positions = [];
 
 
 	/**
 	 * @var array
 	 */
-	protected $required_main_javascript_files = [];
+	protected array $required_main_javascript_files = [];
 
 	/**
 	 * @var array
 	 */
-	protected $required_javascript_files = [];
+	protected array $required_javascript_files = [];
 
 	/**
 	 * @var string[][]
 	 */
-	protected $required_main_css_files = [];
+	protected array $required_main_css_files = [];
 
 	/**
 	 * @var string[][]
 	 */
-	protected $required_css_files = [];
+	protected array $required_css_files = [];
 
 	/**
 	 * @var bool
 	 */
-	protected $JS_packager_enabled = true;
+	protected bool $JS_packager_enabled = true;
 
 	/**
 	 * @var bool
 	 */
-	protected $CSS_packager_enabled = true;
+	protected bool $CSS_packager_enabled = true;
 
 	/**
-	 * @return Mvc_Layout
+	 * @return Mvc_Layout|null
 	 */
-	public static function getCurrentLayout()
+	public static function getCurrentLayout() : Mvc_Layout|null
 	{
 		return static::$current_layout;
 	}
@@ -84,7 +84,7 @@ class Mvc_Layout extends Mvc_View_Abstract
 	/**
 	 * @param Mvc_Layout $current_layout
 	 */
-	public static function setCurrentLayout( Mvc_Layout $current_layout )
+	public static function setCurrentLayout( Mvc_Layout $current_layout ) : void
 	{
 		static::$current_layout = $current_layout;
 	}
@@ -94,7 +94,7 @@ class Mvc_Layout extends Mvc_View_Abstract
 	 * @param string $scripts_dir
 	 * @param string $script_name
 	 */
-	public function __construct( $scripts_dir, $script_name )
+	public function __construct( string $scripts_dir, string $script_name )
 	{
 		$this->setScriptsDir( $scripts_dir );
 		$this->setScriptName( $script_name );
@@ -110,7 +110,7 @@ class Mvc_Layout extends Mvc_View_Abstract
 	 * @return string
 	 *
 	 */
-	protected function _render()
+	protected function _render() : string
 	{
 		if( $this->_script_name===false ) {
 			$result = '<'.static::TAG_MAIN_POSITION.'/>';
@@ -138,10 +138,9 @@ class Mvc_Layout extends Mvc_View_Abstract
 	 *
 	 * @param string $output
 	 * @param string|null $position (optional, default: main position)
-	 * @param int|null    $position_order (optional, default:null)
-	 *
+	 * @param int|null $position_order (optional, default:null)
 	 */
-	public function addOutputPart( $output, $position = null, $position_order = null )
+	public function addOutputPart( string $output, string|null $position = null, int|null $position_order = null ) : void
 	{
 		if( !$position ) {
 			$position = static::DEFAULT_OUTPUT_POSITION;
@@ -189,7 +188,7 @@ class Mvc_Layout extends Mvc_View_Abstract
 	/**
 	 * @return bool
 	 */
-	public function getJSPackagerEnabled()
+	public function getJSPackagerEnabled() : bool
 	{
 		return $this->JS_packager_enabled;
 	}
@@ -197,7 +196,7 @@ class Mvc_Layout extends Mvc_View_Abstract
 	/**
 	 * @param bool $JS_packager_enabled
 	 */
-	public function setJSPackagerEnabled( $JS_packager_enabled )
+	public function setJSPackagerEnabled( bool $JS_packager_enabled ) : void
 	{
 		$this->JS_packager_enabled = (bool)$JS_packager_enabled;
 	}
@@ -205,7 +204,7 @@ class Mvc_Layout extends Mvc_View_Abstract
 	/**
 	 * @param string $URI
 	 */
-	public function requireJavascriptFile( $URI )
+	public function requireJavascriptFile( string $URI ) : void
 	{
 		if( !in_array( $URI, $this->required_javascript_files ) ) {
 			$this->required_javascript_files[] = $URI;
@@ -215,7 +214,7 @@ class Mvc_Layout extends Mvc_View_Abstract
 	/**
 	 * @param string $URI
 	 */
-	public function requireMainJavascriptFile( $URI )
+	public function requireMainJavascriptFile( string $URI ) : void
 	{
 		if( !in_array( $URI, $this->required_main_javascript_files ) ) {
 			$this->required_main_javascript_files[] = $URI;
@@ -227,7 +226,7 @@ class Mvc_Layout extends Mvc_View_Abstract
 	/**
 	 * @return bool
 	 */
-	public function getCSSPackagerEnabled()
+	public function getCSSPackagerEnabled() : bool
 	{
 		return $this->CSS_packager_enabled;
 	}
@@ -235,7 +234,7 @@ class Mvc_Layout extends Mvc_View_Abstract
 	/**
 	 * @param bool $CSS_packager_enabled
 	 */
-	public function setCSSPackagerEnabled( $CSS_packager_enabled )
+	public function setCSSPackagerEnabled( bool $CSS_packager_enabled ) : void
 	{
 		$this->CSS_packager_enabled = (bool)$CSS_packager_enabled;
 	}
@@ -244,7 +243,7 @@ class Mvc_Layout extends Mvc_View_Abstract
 	 * @param string $URI
 	 * @param string $media (optional)
 	 */
-	public function requireCssFile( $URI, $media = '' )
+	public function requireCssFile( string $URI, string $media = '' ) : void
 	{
 
 		if( !isset( $this->required_css_files[$media] ) ) {
@@ -261,7 +260,7 @@ class Mvc_Layout extends Mvc_View_Abstract
 	 * @param string $URI
 	 * @param string $media (optional)
 	 */
-	public function requireMainCssFile( $URI, $media = '' )
+	public function requireMainCssFile( string $URI, string $media = '' ) : void
 	{
 
 		if( !isset( $this->required_main_css_files[$media] ) ) {
@@ -279,7 +278,7 @@ class Mvc_Layout extends Mvc_View_Abstract
 	 *
 	 * @return string
 	 */
-	public function render()
+	public function render() : string
 	{
 
 		$result = $this->_render();
@@ -304,7 +303,7 @@ class Mvc_Layout extends Mvc_View_Abstract
 	/**
 	 * @param string $result
 	 */
-	protected function handleContent( $result )
+	protected function handleContent( string $result ) : void
 	{
 
 		$content = $this->parseContent( $result );
@@ -320,7 +319,7 @@ class Mvc_Layout extends Mvc_View_Abstract
 	 *
 	 * @return Mvc_Page_Content_Interface[]
 	 */
-	public function parseContent( $result )
+	public function parseContent( string $result ) : array
 	{
 
 		$matches = [];
@@ -342,7 +341,7 @@ class Mvc_Layout extends Mvc_View_Abstract
 
 
 			foreach( $_properties as $property ) {
-				if( !$property||strpos( $property, '=' )===false ) {
+				if( !$property|| !str_contains( $property, '=' ) ) {
 					continue;
 				}
 
@@ -395,7 +394,7 @@ class Mvc_Layout extends Mvc_View_Abstract
 	/**
 	 * @param string &$result
 	 */
-	protected function handlePositions( &$result )
+	protected function handlePositions( string &$result ) : void
 	{
 		foreach( $this->virtual_positions as $original_string => $position ) {
 			$result = str_replace( $original_string, '<'.static::TAG_POSITION.' name="'.$position.'" />', $result );
@@ -420,11 +419,11 @@ class Mvc_Layout extends Mvc_View_Abstract
 	 * Place the output to an adequate position
 	 *
 	 * @param string &$result
-	 * @param bool   $handle_main_position
+	 * @param bool $handle_main_position
 	 *
 	 * @return int
 	 */
-	protected function _handlePositions( &$result, $handle_main_position )
+	protected function _handlePositions( string &$result, bool $handle_main_position ) : int
 	{
 
 		$matches_count = 0;
@@ -489,7 +488,7 @@ class Mvc_Layout extends Mvc_View_Abstract
 	/**
 	 * @param string &$result
 	 */
-	protected function handleMetaTags( &$result )
+	protected function handleMetaTags( string &$result ) : void
 	{
 		$dat = [];
 		$dat[static::TAG_META_TAGS] = '';
@@ -513,9 +512,9 @@ class Mvc_Layout extends Mvc_View_Abstract
 	 * @param string $tag
 	 * @param string $snippet
 	 *
-	 * @return mixed
+	 * @return string
 	 */
-	protected function _replaceTagByValue( $output, $tag, $snippet )
+	protected function _replaceTagByValue( string $output, string $tag, string $snippet ) : string
 	{
 		$matches = [];
 
@@ -541,7 +540,7 @@ class Mvc_Layout extends Mvc_View_Abstract
 	 *
 	 * @param string &$result
 	 */
-	protected function handleJavascripts( &$result )
+	protected function handleJavascripts( string &$result ) : void
 	{
 
 		if( !strpos( $result, static::TAG_JAVASCRIPT ) ) {
@@ -584,11 +583,11 @@ class Mvc_Layout extends Mvc_View_Abstract
 	/**
 	 * Handle the CSS tag  ( <jet_layout_css/> )
 	 *
+	 * @param string &$result
 	 * @see Mvc_Layout::requireCssFile();
 	 *
-	 * @param string &$result
 	 */
-	protected function handleCss( &$result )
+	protected function handleCss( string &$result ) : void
 	{
 
 		if( !strpos( $result, static::TAG_CSS ) ) {

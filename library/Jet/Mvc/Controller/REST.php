@@ -27,14 +27,15 @@ abstract class Mvc_Controller_REST extends Mvc_Controller
 	/**
 	 * @return string
 	 */
-	public function getRequestMethod() {
+	public function getRequestMethod() : string
+	{
 		return REST::getRequestMethod();
 	}
 
 	/**
-	 * @return bool|mixed
+	 * @return array
 	 */
-	public function getRequestData()
+	public function getRequestData() : array
 	{
 		return REST::getRequestData();
 	}
@@ -43,7 +44,7 @@ abstract class Mvc_Controller_REST extends Mvc_Controller
 	/**
 	 * @param string $message
 	 */
-	public function responseOK( $message='' )
+	public function responseOK( string $message='' ) : void
 	{
 		REST::responseOK( $message );
 	}
@@ -51,7 +52,7 @@ abstract class Mvc_Controller_REST extends Mvc_Controller
 	/**
 	 * @param mixed $data
 	 */
-	public function responseData(  $data )
+	public function responseData( mixed $data ) : void
 	{
 		REST::responseData( $data );
 	}
@@ -63,7 +64,7 @@ abstract class Mvc_Controller_REST extends Mvc_Controller
 	 *
 	 * @throws Mvc_Controller_Exception
 	 */
-	public function responseError( $code, $data = null )
+	public function responseError( string|int $code, mixed $data = null ) : void
 	{
 		REST::responseError( $code, $data );
 	}
@@ -71,7 +72,7 @@ abstract class Mvc_Controller_REST extends Mvc_Controller
 	/**
 	 *
 	 */
-	public function responseAccessDenied()
+	public function responseAccessDenied() : void
 	{
 		REST::responseAccessDenied();
 	}
@@ -79,7 +80,7 @@ abstract class Mvc_Controller_REST extends Mvc_Controller
 	/**
 	 * @param array $errors
 	 */
-	public function responseValidationError( array $errors )
+	public function responseValidationError( array $errors ) : void
 	{
 		REST::responseValidationError( $errors );
 	}
@@ -88,7 +89,7 @@ abstract class Mvc_Controller_REST extends Mvc_Controller
 	/**
 	 * @param string|array $id
 	 */
-	public function responseUnknownItem( $id )
+	public function responseUnknownItem( string|array $id ) : void
 	{
 		REST::responseUnknownItem( $id );
 	}
@@ -96,7 +97,7 @@ abstract class Mvc_Controller_REST extends Mvc_Controller
 	/**
 	 *
 	 */
-	public function responseBadRequest()
+	public function responseBadRequest() : void
 	{
 		REST::responseBadRequest();
 	}
@@ -108,7 +109,7 @@ abstract class Mvc_Controller_REST extends Mvc_Controller
 	 *
 	 * @return Data_Paginator
 	 */
-	protected function handleDataPagination( DataModel_Fetch_Instances $data )
+	protected function handleDataPagination( DataModel_Fetch_Instances $data ) : Data_Paginator
 	{
 		return REST::handleDataPagination( $data );
 	}
@@ -120,7 +121,7 @@ abstract class Mvc_Controller_REST extends Mvc_Controller
 	 *
 	 * @return DataModel_Fetch_Instances
 	 */
-	protected function handleOrderBy( DataModel_Fetch_Instances $data, array $sort_items_map )
+	protected function handleOrderBy( DataModel_Fetch_Instances $data, array $sort_items_map ) : DataModel_Fetch_Instances
 	{
 		return REST::handleOrderBy( $data, $sort_items_map );
 	}

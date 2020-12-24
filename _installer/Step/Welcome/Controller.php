@@ -20,12 +20,12 @@ class Installer_Step_Welcome_Controller extends Installer_Step_Controller
 	/**
 	 * @var string
 	 */
-	protected $label = 'Welcome';
+	protected string $label = 'Welcome';
 
 	/**
 	 * @return bool
 	 */
-	public function getIsAvailable()
+	public function getIsAvailable() : bool
 	{
 		return !Installer_Step_CreateSite_Controller::sitesCreated();
 	}
@@ -33,7 +33,7 @@ class Installer_Step_Welcome_Controller extends Installer_Step_Controller
 	/**
 	 *
 	 */
-	public function main()
+	public function main() : void
 	{
 		$this->catchContinue();
 

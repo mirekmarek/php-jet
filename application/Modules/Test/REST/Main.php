@@ -17,16 +17,16 @@ class Main extends Application_Module
 {
 
 	/**
-	 * @var Session
+	 * @var ?Session
 	 */
-	protected static $session;
+	protected static ?Session $session = null;
 
 	/**
 	 * @return Session
 	 */
-	public static function getSession() {
+	public static function getSession() : Session {
 		if(!static::$session) {
-			static::$session = new Session('rest_rest');
+			static::$session = new Session('REST_test');
 		}
 
 		return static::$session;

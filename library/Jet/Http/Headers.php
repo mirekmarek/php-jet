@@ -71,7 +71,7 @@ class Http_Headers
 	 *
 	 * @var array
 	 */
-	protected static $response_messages = [
+	protected static array $response_messages = [
 		200 => 'OK',
 		201 => 'Created',
 		202 => 'Accepted',
@@ -130,18 +130,18 @@ class Http_Headers
 	/**
 	 * @var string
 	 */
-	protected static $header_function_name = '\header';
+	protected static string $header_function_name = '\header';
 
 	/**
 	 *
 	 * @var string
 	 */
-	protected static $http_version = '1.1';
+	protected static string $http_version = '1.1';
 
 	/**
 	 * @return string
 	 */
-	public static function getHeaderFunctionName()
+	public static function getHeaderFunctionName() : string
 	{
 		return static::$header_function_name;
 	}
@@ -149,7 +149,7 @@ class Http_Headers
 	/**
 	 * @param string $header_function_name
 	 */
-	public static function setHeaderFunctionName( $header_function_name )
+	public static function setHeaderFunctionName( string $header_function_name ) : void
 	{
 		static::$header_function_name = $header_function_name;
 	}
@@ -157,7 +157,7 @@ class Http_Headers
 	/**
 	 * @return string
 	 */
-	public static function getHttpVersion()
+	public static function getHttpVersion() : string
 	{
 		return static::$http_version;
 	}
@@ -165,7 +165,7 @@ class Http_Headers
 	/**
 	 * @param string $http_version
 	 */
-	public static function setHttpVersion( $http_version )
+	public static function setHttpVersion( string $http_version ) : void
 	{
 		static::$http_version = $http_version;
 	}
@@ -174,7 +174,7 @@ class Http_Headers
 	 *
 	 * @return array
 	 */
-	public static function getResponseCodes()
+	public static function getResponseCodes() : array
 	{
 		return static::$response_messages;
 	}
@@ -183,7 +183,7 @@ class Http_Headers
 	 *
 	 * @param array $headers (optional)
 	 */
-	public static function responseOK( array $headers = [] )
+	public static function responseOK( array $headers = [] ) : void
 	{
 		static::response( static::CODE_200_OK, $headers );
 	}
@@ -195,7 +195,7 @@ class Http_Headers
 	 *
 	 * @return bool
 	 */
-	public static function response( $code, array $headers = [] )
+	public static function response( int $code, array $headers = [] ) : bool
 	{
 
 
@@ -230,7 +230,7 @@ class Http_Headers
 	 *
 	 * @return string|bool
 	 */
-	public static function getResponseHeader( $http_code )
+	public static function getResponseHeader( int $http_code ) : string|bool
 	{
 		$message = static::getResponseMessage( $http_code );
 		if( !$message ) {
@@ -247,7 +247,7 @@ class Http_Headers
 	 *
 	 * @return string|bool
 	 */
-	public static function getResponseMessage( $http_code )
+	public static function getResponseMessage( int $http_code ) : string|bool
 	{
 		if( !isset( static::$response_messages[$http_code] ) ) {
 			return false;
@@ -265,7 +265,7 @@ class Http_Headers
 	 * @param int    $http_response_code
 	 *
 	 */
-	public static function sendHeader( $header, $replace = true, $http_response_code = 0 )
+	public static function sendHeader( string $header, bool $replace = true, int $http_response_code = 0 ) : void
 	{
 		$f_name = static::$header_function_name;
 
@@ -278,7 +278,7 @@ class Http_Headers
 	 * @param array  $headers
 	 * @param bool   $application_end
 	 */
-	public static function redirect( $http_code, $target_URL, array $headers = [], $application_end = true )
+	public static function redirect( int $http_code, string $target_URL, array $headers = [], bool $application_end = true ) : void
 	{
 		$headers['Location'] = $target_URL;
 		static::response(
@@ -298,7 +298,7 @@ class Http_Headers
 	 * @param array  $headers (optional, default: none)
 	 * @param bool   $application_end (optional, default: true)
 	 */
-	public static function movedPermanently( $target_URL, array $headers = [], $application_end = true )
+	public static function movedPermanently( string $target_URL, array $headers = [], bool $application_end = true ) : void
 	{
 		static::redirect(
 			static::CODE_301_MOVED_PERMANENTLY,
@@ -315,7 +315,7 @@ class Http_Headers
 	 * @param array  $headers (optional, default: none)
 	 * @param bool   $application_end (optional, default: true)
 	 */
-	public static function movedTemporary( $target_URL, array $headers = [], $application_end = true )
+	public static function movedTemporary( string $target_URL, array $headers = [], bool $application_end = true ) : void
 	{
 		static::redirect(
 			static::CODE_302_MOVED_TEMPORARY,
@@ -333,7 +333,7 @@ class Http_Headers
 	 * @param array  $headers (optional, default: none)
 	 * @param bool   $application_end (optional, default: true)
 	 */
-	public static function seeOther( $target_URL, array $headers = [], $application_end = true )
+	public static function seeOther( string $target_URL, array $headers = [], bool $application_end = true ) : void
 	{
 		static::redirect(
 			static::CODE_303_SEE_OTHER,
@@ -349,7 +349,7 @@ class Http_Headers
 	 *
 	 * @param array $headers (optional, default: none)
 	 */
-	public static function notFound( array $headers = [] )
+	public static function notFound( array $headers = [] ) : void
 	{
 		static::response( static::CODE_404_NOT_FOUND, $headers );
 	}
@@ -359,7 +359,7 @@ class Http_Headers
 	 *
 	 * @param array $headers (optional, default: none)
 	 */
-	public static function notModified( array $headers = [] )
+	public static function notModified( array $headers = [] ) : void
 	{
 		static::response( static::CODE_304_NOT_MODIFIED, $headers );
 	}
@@ -370,7 +370,7 @@ class Http_Headers
 	 *
 	 * @param array $headers (optional, default: none)
 	 */
-	public static function authorizationRequired( array $headers = [] )
+	public static function authorizationRequired( array $headers = [] ) : void
 	{
 		static::response( static::CODE_401_UNAUTHORIZED, $headers );
 	}
@@ -380,7 +380,7 @@ class Http_Headers
 	 *
 	 * @param array $headers (optional, default: none)
 	 */
-	public static function badRequest( array $headers = [] )
+	public static function badRequest( array $headers = [] ) : void
 	{
 		static::response( static::CODE_400_BAD_REQUEST, $headers );
 	}
@@ -390,7 +390,7 @@ class Http_Headers
 	 *
 	 * @param array $headers (optional, default: none)
 	 */
-	public static function forbidden( array $headers = [] )
+	public static function forbidden( array $headers = [] ) : void
 	{
 		static::response( static::CODE_403_FORBIDDEN, $headers );
 	}
@@ -400,28 +400,11 @@ class Http_Headers
 	 *
 	 * @param array $headers (optional)
 	 */
-	public static function internalServerError( array $headers = [] )
+	public static function internalServerError( array $headers = [] ) : void
 	{
 		static::response( static::CODE_500_INTERNAL_SERVER_ERROR, $headers );
 	}
 
-
-	/**
-	 *
-	 * @param Form  $form
-	 * @param array $set_GET_params (optional)
-	 * @param array $unset_GET_params (optional)
-	 * @param bool  $application_end (optional, default: true)
-	 */
-	public static function formSent( Form $form, array $set_GET_params = [], array $unset_GET_params = [], $application_end = true )
-	{
-		static::sendHeader(
-			'Location: '.Http_Request::currentURI( $set_GET_params, $unset_GET_params, $form->getName() )
-		);
-		if( $application_end ) {
-			Application::end();
-		}
-	}
 
 	/**
 	 * Reload current page
@@ -432,7 +415,7 @@ class Http_Headers
 	 *
 	 * @param bool        $application_end (optional, default: true)
 	 */
-	public static function reload( array $set_GET_params = [], array $unset_GET_params = [], $set_anchor = null, $application_end = true )
+	public static function reload( array $set_GET_params = [], array $unset_GET_params = [], ?string $set_anchor = null, bool $application_end = true ) : void
 	{
 		static::sendHeader(
 			'Location: '.Http_Request::currentURI( $set_GET_params, $unset_GET_params, $set_anchor )
@@ -448,11 +431,10 @@ class Http_Headers
 	 *
 	 * @param string $file_name
 	 * @param string $file_mime
-	 * @param int    $file_size
-	 * @param bool   $force_download (optional, force download header, default: false)
-	 *
+	 * @param int $file_size
+	 * @param bool $force_download (optional, force download header, default: false)
 	 */
-	public static function sendDownloadFileHeaders( $file_name, $file_mime, $file_size, $force_download = false )
+	public static function sendDownloadFileHeaders( string $file_name, string $file_mime, int $file_size, bool $force_download = false ) : void
 	{
 
 		$date = gmdate( 'D, d M Y H:i:s' );

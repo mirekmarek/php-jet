@@ -31,20 +31,20 @@ class Controller_Main extends Mvc_Controller_Default
 	protected $module = null;
 
 	/**
-	 * @var Mvc_Controller_Router_AddEditDelete
+	 * @var ?Mvc_Controller_Router_AddEditDelete
 	 */
-	protected $router;
+	protected ?Mvc_Controller_Router_AddEditDelete $router = null;
 
 	/**
-	 * @var User
+	 * @var ?User
 	 */
-	protected $user;
+	protected ?User $user = null;
 
 	/**
 	 *
 	 * @return Mvc_Controller_Router_AddEditDelete
 	 */
-	public function getControllerRouter()
+	public function getControllerRouter() : Mvc_Controller_Router_AddEditDelete
 	{
 		if( !$this->router ) {
 			$this->router = new Mvc_Controller_Router_AddEditDelete(

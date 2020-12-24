@@ -8,52 +8,45 @@
 namespace JetApplicationModule\Test\ORM;
 
 use Jet\DataModel;
+use Jet\DataModel_Definition;
 use Jet\DataModel_IDController_UniqueString;
 use Jet\DataModel_Related_1toN;
 
 /**
  *
- * @JetDataModel:name = 'model_a1_1toN_sub1toN'
- * @JetDataModel:database_table_name = 'model_a1_1toN_sub1toN'
- * @JetDataModel:id_controller_class_name = 'DataModel_IDController_UniqueString'
- * @JetDataModel:parent_model_class_name = 'Model_A1_1toN';
  */
+#[DataModel_Definition(name: 'model_a1_1toN_sub1toN')]
+#[DataModel_Definition(database_table_name: 'model_a1_1toN_sub1toN')]
+#[DataModel_Definition(id_controller_class: DataModel_IDController_UniqueString::class)]
+#[DataModel_Definition(parent_model_class: Model_A1_1toN::class)]
 class Model_A1_1toN_sub1toN extends DataModel_Related_1toN
 {
 
 	/**
-	 *
-	 * @JetDataModel:related_to = 'main.id'
-	 *
-	 * @var
-	 */
-	protected $main_id;
-
-	/**
-	 *
-	 * @JetDataModel:related_to = 'parent.id'
-	 *
-	 * @var
-	 */
-	protected $parent_id;
-
-	/**
-	 *
-	 * @JetDataModel:type = DataModel::TYPE_ID
-	 * @JetDataModel:is_id = true
-	 *
 	 * @var string
 	 */
-	protected $id = '';
+	#[DataModel_Definition(related_to: 'main.id')]
+	protected string $main_id = '';
+
+	/**
+	 * @var string
+	 */
+	#[DataModel_Definition(related_to: 'parent.id')]
+	protected string $parent_id = '';
+
+	/**
+	 * @var string
+	 */
+	#[DataModel_Definition(type: DataModel::TYPE_ID)]
+	#[DataModel_Definition(is_id: true)]
+	protected string $id = '';
 
 
 	/**
-	 *
-	 * @JetDataModel:type = DataModel::TYPE_STRING
-	 * @JetDataModel:max_len = 255
-	 *
 	 * @var string
 	 */
-	protected $text = '';
+	#[DataModel_Definition(type: DataModel::TYPE_STRING)]
+	#[DataModel_Definition(max_len: 255)]
+	protected string $text = '';
 
 }

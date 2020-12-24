@@ -15,26 +15,26 @@ class Data_Forest extends BaseObject implements BaseObject_Interface_IteratorCou
 
 	/**
 	 *
-	 * @var string
+	 * @var string|null
 	 */
-	protected $label_key;
+	protected string|null $label_key = null;
 
 	/**
 	 *
-	 * @var string
+	 * @var string|null
 	 */
-	protected $id_key;
+	protected string|null $id_key = null;
 
 	/**
 	 *
 	 * @var Data_Tree[]
 	 */
-	protected $trees = [];
+	protected array $trees = [];
 
 	/**
 	 * @return string
 	 */
-	public function getLabelKey()
+	public function getLabelKey() : string
 	{
 		return $this->label_key;
 	}
@@ -42,17 +42,16 @@ class Data_Forest extends BaseObject implements BaseObject_Interface_IteratorCou
 	/**
 	 * @param string $label_key
 	 */
-	public function setLabelKey( $label_key )
+	public function setLabelKey( string $label_key ) : void
 	{
 		$this->label_key = $label_key;
 	}
 
 	/**
-	 * Key in data item representing id
 	 *
 	 * @return string
 	 */
-	public function getIdKey()
+	public function getIdKey() : string
 	{
 		return $this->id_key;
 	}
@@ -61,7 +60,7 @@ class Data_Forest extends BaseObject implements BaseObject_Interface_IteratorCou
 	 *
 	 * @param string $id_key
 	 */
-	public function setIdKey( $id_key )
+	public function setIdKey( string $id_key ) : void
 	{
 		$this->id_key = $id_key;
 	}
@@ -73,7 +72,7 @@ class Data_Forest extends BaseObject implements BaseObject_Interface_IteratorCou
 	 *
 	 * @throws Data_Tree_Exception
 	 */
-	public function appendTree( Data_Tree $tree )
+	public function appendTree( Data_Tree $tree ) : void
 	{
 		$tree_id = $tree->getRootNode()->getId();
 
@@ -96,7 +95,7 @@ class Data_Forest extends BaseObject implements BaseObject_Interface_IteratorCou
 	 *
 	 * @return Data_Tree[]
 	 */
-	public function getTrees()
+	public function getTrees() : array
 	{
 		return $this->trees;
 	}
@@ -107,7 +106,7 @@ class Data_Forest extends BaseObject implements BaseObject_Interface_IteratorCou
 	 *
 	 * @return Data_Tree
 	 */
-	public function getTree( $tree_id )
+	public function getTree( string $tree_id ) : Data_Tree
 	{
 		return $this->trees[$tree_id];
 	}
@@ -116,7 +115,7 @@ class Data_Forest extends BaseObject implements BaseObject_Interface_IteratorCou
 	 *
 	 * @param string $tree_id
 	 */
-	public function removeTree( $tree_id )
+	public function removeTree( string $tree_id ) : void
 	{
 		if( !isset( $this->trees[$tree_id] ) ) {
 			return;
@@ -130,7 +129,7 @@ class Data_Forest extends BaseObject implements BaseObject_Interface_IteratorCou
 	 *
 	 * @return bool
 	 */
-	public function getTreeExists( $tree_id )
+	public function getTreeExists( string $tree_id ) : bool
 	{
 		return isset( $this->trees[$tree_id] );
 	}
@@ -142,7 +141,7 @@ class Data_Forest extends BaseObject implements BaseObject_Interface_IteratorCou
 	 *
 	 * @return array
 	 */
-	public function toArray( $max_depth = null )
+	public function toArray( int|null $max_depth = null ) : array
 	{
 
 		$output = [];
@@ -161,7 +160,7 @@ class Data_Forest extends BaseObject implements BaseObject_Interface_IteratorCou
 	/**
 	 * @return string
 	 */
-	public function toJSON()
+	public function toJSON() : string
 	{
 
 		$data = $this->jsonSerialize();
@@ -172,7 +171,7 @@ class Data_Forest extends BaseObject implements BaseObject_Interface_IteratorCou
 	/**
 	 * @return array
 	 */
-	public function jsonSerialize()
+	public function jsonSerialize() : array
 	{
 		$data = [];
 
@@ -194,7 +193,7 @@ class Data_Forest extends BaseObject implements BaseObject_Interface_IteratorCou
 	/**
 	 * @return Data_Tree_Node
 	 */
-	public function current()
+	public function current() : Data_Tree_Node
 	{
 		$current_tree_id = key( $this->trees );
 
@@ -205,7 +204,7 @@ class Data_Forest extends BaseObject implements BaseObject_Interface_IteratorCou
 	 *
 	 * @return Data_Tree_Node|bool
 	 */
-	public function next()
+	public function next() : Data_Tree_Node|bool
 	{
 		$current_tree_id = key( $this->trees );
 
@@ -230,7 +229,7 @@ class Data_Forest extends BaseObject implements BaseObject_Interface_IteratorCou
 	 *
 	 * @return string
 	 */
-	public function key()
+	public function key() : string
 	{
 		$current_tree_id = key( $this->trees );
 
@@ -241,7 +240,7 @@ class Data_Forest extends BaseObject implements BaseObject_Interface_IteratorCou
 	 *
 	 * @return bool
 	 */
-	public function valid()
+	public function valid() : bool
 	{
 		if( !key( $this->trees ) ) {
 			return false;
@@ -254,7 +253,7 @@ class Data_Forest extends BaseObject implements BaseObject_Interface_IteratorCou
 	/**
 	 *
 	 */
-	public function rewind()
+	public function rewind() : void
 	{
 		foreach( $this->trees as $tree ) {
 			$tree->rewind();
@@ -269,7 +268,7 @@ class Data_Forest extends BaseObject implements BaseObject_Interface_IteratorCou
 	/**
 	 * @return int
 	 */
-	public function count()
+	public function count() : int
 	{
 		$result = 0;
 

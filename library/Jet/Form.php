@@ -67,148 +67,155 @@ class Form extends BaseObject
 
 
 	/**
-	 * @var string
+	 * @var ?string
 	 */
-	protected static $default_views_dir;
+	protected static ?string $default_views_dir = null;
 
 	/**
 	 * @var string
 	 */
-	protected static $default_renderer_start_script = 'start';
+	protected static string $default_renderer_start_script = 'start';
 
 	/**
 	 * @var string
 	 */
-	protected static $default_renderer_end_script = 'end';
+	protected static string $default_renderer_end_script = 'end';
 
 	/**
 	 * @var string
 	 */
-	protected $renderer_start_script = 'start';
+	protected string $renderer_start_script = 'start';
 
 	/**
 	 * @var string
 	 */
-	protected $renderer_end_script = 'end';
+	protected string $renderer_end_script = 'end';
 
 	/**
 	 *
 	 * @var string $name
 	 */
-	protected $name = '';
+	protected string $name = '';
 
 	/**
 	 * @var string
 	 */
-	protected $sent_key = '_jet_form_sent_';
+	protected string $sent_key = '_jet_form_sent_';
 
 	/**
 	 * @var string $name
 	 */
-	protected $id = '';
+	protected string $id = '';
 	/**
 	 * POST (default) or GET
 	 *
 	 * @var string
 	 */
-	protected $method = self::METHOD_POST;
+	protected string $method = self::METHOD_POST;
 	/**
 	 * @var string
 	 */
-	protected $enctype = '';
+	protected string $enctype = '';
 	/**
 	 * @var string
 	 */
-	protected $action = '';
+	protected string $action = '';
 	/**
 	 * @var string
 	 */
-	protected $target = '';
+	protected string $target = '';
 	/**
 	 * @var string
 	 */
-	protected $accept_charset = '';
+	protected string $accept_charset = '';
 	/**
 	 * @var bool
 	 */
-	protected $novalidate = false;
+	protected bool $novalidate = false;
 	/**
 	 * @var bool
 	 */
-	protected $autocomplete = true;
+	protected bool $autocomplete = true;
+
 	/**
 	 * Form fields
 	 *
 	 * @var Form_Field[]
 	 */
-	protected $fields = [];
-	/**
-	 * @var bool
-	 */
-	protected $is_valid = false;
+	protected array $fields = [];
 
 	/**
 	 * @var bool
 	 */
-	protected $post_size_exceeded = false;
+	protected bool $is_valid = false;
 
 	/**
-	 * @var Data_Array
+	 * @var bool
 	 */
-	protected $raw_data;
+	protected bool $post_size_exceeded = false;
+
+	/**
+	 * @var ?Data_Array
+	 */
+	protected ?Data_Array $raw_data = null;
+
 	/**
 	 * Common error message (without field context)
 	 *
 	 * @var string
 	 */
-	protected $common_message = '';
+	protected string $common_message = '';
+
 	/**
 	 * @var bool
 	 */
-	protected $do_not_translate_texts = false;
+	protected bool $do_not_translate_texts = false;
+
 	/**
 	 * @var string|null
 	 */
-	protected $custom_translator_namespace = null;
+	protected string|null $custom_translator_namespace = null;
+
 	/**
 	 * @var Locale|null
 	 */
-	protected $custom_translator_locale = null;
+	protected Locale|null $custom_translator_locale = null;
+
 	/**
 	 * @var bool
 	 */
-	protected $is_readonly = false;
+	protected bool $is_readonly = false;
 
 	/**
-	 * @var string
+	 * @var ?string
 	 */
-	protected $views_dir;
-
-	/**
-	 * @var array
-	 */
-	protected $default_label_width = [self::LJ_SIZE_MEDIUM => 4];
+	protected string|null $views_dir = null;
 
 	/**
 	 * @var array
 	 */
-	protected $default_field_width = [self::LJ_SIZE_MEDIUM => 8];
+	protected array $default_label_width = [self::LJ_SIZE_MEDIUM => 4];
 
 	/**
-	 * @var Form_Renderer_Pair
+	 * @var array
 	 */
-	protected $_form_tag;
+	protected array $default_field_width = [self::LJ_SIZE_MEDIUM => 8];
 
 	/**
-	 * @var Form_Renderer_Single
+	 * @var ?Form_Renderer_Pair
 	 */
-	protected $_message_tag;
+	protected ?Form_Renderer_Pair $_form_tag = null;
+
+	/**
+	 * @var ?Form_Renderer_Single
+	 */
+	protected ?Form_Renderer_Single $_message_tag = null;
 
 
 	/**
 	 * @return string
 	 */
-	public static function getDefaultViewsDir()
+	public static function getDefaultViewsDir() : string
 	{
 		if(!static::$default_views_dir) {
 			static::$default_views_dir = SysConf_PATH::APPLICATION().'views/Form/';
@@ -220,7 +227,7 @@ class Form extends BaseObject
 	/**
 	 * @param string $default_views_dir
 	 */
-	public static function setDefaultViewsDir( $default_views_dir )
+	public static function setDefaultViewsDir( string $default_views_dir ) : void
 	{
 		static::$default_views_dir = $default_views_dir;
 	}
@@ -228,7 +235,7 @@ class Form extends BaseObject
 	/**
 	 * @return string
 	 */
-	public static function getDefaultRendererStartScript()
+	public static function getDefaultRendererStartScript() : string
 	{
 		return static::$default_renderer_start_script;
 	}
@@ -236,7 +243,7 @@ class Form extends BaseObject
 	/**
 	 * @param string $default_renderer_start_script
 	 */
-	public static function setDefaultRendererStartScript( $default_renderer_start_script )
+	public static function setDefaultRendererStartScript( string $default_renderer_start_script ) : void
 	{
 		static::$default_renderer_start_script = $default_renderer_start_script;
 	}
@@ -244,7 +251,7 @@ class Form extends BaseObject
 	/**
 	 * @return string
 	 */
-	public static function getDefaultRendererEndScript()
+	public static function getDefaultRendererEndScript() : string
 	{
 		return static::$default_renderer_end_script;
 	}
@@ -252,7 +259,7 @@ class Form extends BaseObject
 	/**
 	 * @param string $default_renderer_end_script
 	 */
-	public static function setDefaultRendererEndScript( $default_renderer_end_script )
+	public static function setDefaultRendererEndScript( string $default_renderer_end_script ) : void
 	{
 		static::$default_renderer_end_script = $default_renderer_end_script;
 	}
@@ -260,7 +267,7 @@ class Form extends BaseObject
 	/**
 	 * @return string
 	 */
-	public function getRendererStartScript()
+	public function getRendererStartScript() : string
 	{
 		if(!$this->renderer_start_script) {
 			$this->renderer_start_script = static::getRendererStartScript();
@@ -271,7 +278,7 @@ class Form extends BaseObject
 	/**
 	 * @param string $renderer_start_script
 	 */
-	public function setRendererStartScript( $renderer_start_script )
+	public function setRendererStartScript( string $renderer_start_script ) : void
 	{
 		$this->renderer_start_script = $renderer_start_script;
 	}
@@ -279,7 +286,7 @@ class Form extends BaseObject
 	/**
 	 * @return string
 	 */
-	public function getRendererEndScript()
+	public function getRendererEndScript() : string
 	{
 		if(!$this->renderer_end_script) {
 			$this->renderer_end_script = static::getRendererEndScript();
@@ -291,21 +298,20 @@ class Form extends BaseObject
 	/**
 	 * @param string $renderer_end_script
 	 */
-	public function setRendererEndScript( $renderer_end_script )
+	public function setRendererEndScript( string $renderer_end_script ) : void
 	{
 		$this->renderer_end_script = $renderer_end_script;
 	}
 
 
-
 	/**
 	 * constructor
 	 *
-	 * @param string       $name
+	 * @param string $name
 	 * @param Form_Field[] $fields
-	 * @param string       $method - POST or GET (optional, default: POST)
+	 * @param string $method - POST or GET (optional, default: POST)
 	 */
-	public function __construct( $name, array $fields, $method = self::METHOD_POST )
+	public function __construct( string $name, array $fields, string $method = self::METHOD_POST )
 	{
 		$this->name = $name;
 		$this->method = $method;
@@ -315,7 +321,7 @@ class Form extends BaseObject
 	/**
 	 * @return bool
 	 */
-	public function getIsReadonly()
+	public function getIsReadonly() : bool
 	{
 		return $this->is_readonly;
 	}
@@ -323,7 +329,7 @@ class Form extends BaseObject
 	/**
 	 *
 	 */
-	public function setIsReadonly()
+	public function setIsReadonly() : void
 	{
 		$this->is_readonly = true;
 
@@ -339,7 +345,7 @@ class Form extends BaseObject
 	 *
 	 * @return Form_Field[]
 	 */
-	public function getFields( $as_multidimensional_array = false )
+	public function getFields( bool $as_multidimensional_array = false ) : array
 	{
 		if( $as_multidimensional_array ) {
 			$fields = new Data_Array();
@@ -361,7 +367,7 @@ class Form extends BaseObject
 	 * @param Form_Field[] $fields
 	 *
 	 */
-	public function setFields( array $fields )
+	public function setFields( array $fields ) : void
 	{
 		$this->fields = [];
 
@@ -373,7 +379,7 @@ class Form extends BaseObject
 	/**
 	 * @return string
 	 */
-	public function getMethod()
+	public function getMethod() : string
 	{
 		return $this->method;
 	}
@@ -381,7 +387,7 @@ class Form extends BaseObject
 	/**
 	 * @param string $method
 	 */
-	public function setMethod( $method )
+	public function setMethod( string $method ) : void
 	{
 		$this->method = $method;
 	}
@@ -389,7 +395,7 @@ class Form extends BaseObject
 	/**
 	 * @return string
 	 */
-	public function getEnctype()
+	public function getEnctype() : string
 	{
 		return $this->enctype;
 	}
@@ -397,7 +403,7 @@ class Form extends BaseObject
 	/**
 	 * @param string $enctype
 	 */
-	public function setEnctype( $enctype )
+	public function setEnctype( string $enctype ) : void
 	{
 		$this->enctype = $enctype;
 	}
@@ -405,7 +411,7 @@ class Form extends BaseObject
 	/**
 	 * @return string
 	 */
-	public function getAction()
+	public function getAction() : string
 	{
 		return $this->action;
 	}
@@ -413,7 +419,7 @@ class Form extends BaseObject
 	/**
 	 * @param string $action
 	 */
-	public function setAction( $action )
+	public function setAction( string $action ) : void
 	{
 		$this->action = $action;
 	}
@@ -421,7 +427,7 @@ class Form extends BaseObject
 	/**
 	 * @return string
 	 */
-	public function getTarget()
+	public function getTarget() : string
 	{
 		return $this->target;
 	}
@@ -429,7 +435,7 @@ class Form extends BaseObject
 	/**
 	 * @param string $target
 	 */
-	public function setTarget( $target )
+	public function setTarget( string $target ) : void
 	{
 		$this->target = $target;
 	}
@@ -437,7 +443,7 @@ class Form extends BaseObject
 	/**
 	 * @return string
 	 */
-	public function getAcceptCharset()
+	public function getAcceptCharset() : string
 	{
 		return $this->accept_charset;
 	}
@@ -445,7 +451,7 @@ class Form extends BaseObject
 	/**
 	 * @param string $accept_charset
 	 */
-	public function setAcceptCharset( $accept_charset )
+	public function setAcceptCharset( string $accept_charset ) : void
 	{
 		$this->accept_charset = $accept_charset;
 	}
@@ -453,7 +459,7 @@ class Form extends BaseObject
 	/**
 	 * @return bool|null
 	 */
-	public function getNovalidate()
+	public function getNovalidate() : bool|null
 	{
 		return $this->novalidate;
 	}
@@ -461,7 +467,7 @@ class Form extends BaseObject
 	/**
 	 * @param bool $novalidate
 	 */
-	public function setNovalidate( $novalidate )
+	public function setNovalidate( bool $novalidate ) : void
 	{
 		$this->novalidate = (bool)$novalidate;
 	}
@@ -469,7 +475,7 @@ class Form extends BaseObject
 	/**
 	 * @return bool
 	 */
-	public function getAutocomplete()
+	public function getAutocomplete() : bool
 	{
 		return $this->autocomplete;
 	}
@@ -477,7 +483,7 @@ class Form extends BaseObject
 	/**
 	 * @param bool $autocomplete
 	 */
-	public function setAutocomplete( $autocomplete )
+	public function setAutocomplete( bool $autocomplete ) : void
 	{
 		$this->autocomplete = $autocomplete;
 	}
@@ -486,7 +492,7 @@ class Form extends BaseObject
 	 * Get form name
 	 * @return string
 	 */
-	public function getName()
+	public function getName() : string
 	{
 		return $this->name;
 	}
@@ -494,7 +500,7 @@ class Form extends BaseObject
 	/**
 	 * @param string $name
 	 */
-	public function setName( $name )
+	public function setName( string $name ) : void
 	{
 		$this->name = $name;
 	}
@@ -503,7 +509,7 @@ class Form extends BaseObject
 	/**
 	 * @return string
 	 */
-	public function getSentKey()
+	public function getSentKey() : string
 	{
 		return $this->sent_key;
 	}
@@ -511,7 +517,7 @@ class Form extends BaseObject
 	/**
 	 * @param string $sent_key
 	 */
-	public function setSentKey( $sent_key )
+	public function setSentKey( string $sent_key ) : void
 	{
 		$this->sent_key = $sent_key;
 	}
@@ -521,7 +527,7 @@ class Form extends BaseObject
 	 *
 	 * @return string
 	 */
-	public function getId()
+	public function getId() : string
 	{
 		return $this->name;
 	}
@@ -529,7 +535,7 @@ class Form extends BaseObject
 	/**
 	 * @return array
 	 */
-	public function getDefaultLabelWidth()
+	public function getDefaultLabelWidth() : array
 	{
 		return $this->default_label_width;
 	}
@@ -537,7 +543,7 @@ class Form extends BaseObject
 	/**
 	 * @param array $default_label_width
 	 */
-	public function setDefaultLabelWidth( array $default_label_width )
+	public function setDefaultLabelWidth( array $default_label_width ) : void
 	{
 		$this->default_label_width = $default_label_width;
 	}
@@ -545,7 +551,7 @@ class Form extends BaseObject
 	/**
 	 * @return array
 	 */
-	public function getDefaultFieldWidth()
+	public function getDefaultFieldWidth() : array
 	{
 		return $this->default_field_width;
 	}
@@ -553,7 +559,7 @@ class Form extends BaseObject
 	/**
 	 * @param array $default_field_width
 	 */
-	public function setDefaultFieldWidth( array $default_field_width )
+	public function setDefaultFieldWidth( array $default_field_width ) : void
 	{
 		$this->default_field_width = $default_field_width;
 	}
@@ -562,7 +568,7 @@ class Form extends BaseObject
 	/**
 	 * @param Form_Field $field
 	 */
-	public function addField( Form_Field $field )
+	public function addField( Form_Field $field ) : void
 	{
 		$field->setForm( $this );
 
@@ -581,7 +587,7 @@ class Form extends BaseObject
 	 * @throws Form_Exception
 	 * @return Form_Field
 	 */
-	public function field( $name )
+	public function field( string $name ) : Form_Field
 	{
 		return $this->getField( $name );
 	}
@@ -593,7 +599,7 @@ class Form extends BaseObject
 	 * @throws Form_Exception
 	 * @return Form_Field
 	 */
-	public function getField( $name )
+	public function getField( string $name ) : Form_Field
 	{
 		if( !isset( $this->fields[$name] ) ) {
 			throw new Form_Exception(
@@ -607,7 +613,7 @@ class Form extends BaseObject
 	/**
 	 * @param string $field_name
 	 */
-	public function removeField( $field_name )
+	public function removeField( string $field_name ) : void
 	{
 		if( isset( $this->fields[$field_name] ) ) {
 			unset( $this->fields[$field_name] );
@@ -618,7 +624,7 @@ class Form extends BaseObject
 	 * @param string     $name
 	 * @param Form_Field $field
 	 */
-	public function setField( $name, Form_Field $field )
+	public function setField( string $name, Form_Field $field ) : void
 	{
 		$this->fields[$name] = $field;
 		$field->setForm( $this );
@@ -629,7 +635,7 @@ class Form extends BaseObject
 	 *
 	 * @return bool
 	 */
-	public function fieldExists( $name )
+	public function fieldExists( string $name ) : bool
 	{
 		return isset( $this->fields[$name] );
 	}
@@ -643,7 +649,7 @@ class Form extends BaseObject
 	 *
 	 * @return bool
 	 */
-	public function catchInput( $input_data = null, $force_catch = false )
+	public function catchInput( array|null $input_data = null, bool $force_catch = false ) : bool
 	{
 
 		$this->is_valid = false;
@@ -684,7 +690,7 @@ class Form extends BaseObject
 	 *
 	 * @return bool
 	 */
-	public function validate()
+	public function validate() : bool
 	{
 		$this->checkFieldsHasErrorMessages();
 
@@ -723,7 +729,7 @@ class Form extends BaseObject
 	/**
 	 * @throws Form_Exception
 	 */
-	protected function checkFieldsHasErrorMessages()
+	protected function checkFieldsHasErrorMessages() : void
 	{
 		foreach( $this->fields as $field ) {
 			$required_error_codes = $field->getRequiredErrorCodes();
@@ -742,7 +748,7 @@ class Form extends BaseObject
 	/**
 	 *
 	 */
-	public function setIsNotValid()
+	public function setIsNotValid() : void
 	{
 		$this->is_valid = false;
 	}
@@ -751,7 +757,7 @@ class Form extends BaseObject
 	 *
 	 * @return bool
 	 */
-	public function getIsValid()
+	public function getIsValid() : bool
 	{
 		return $this->is_valid;
 	}
@@ -760,7 +766,7 @@ class Form extends BaseObject
 	 *
 	 * @return string
 	 */
-	public function getCommonMessage()
+	public function getCommonMessage() : string
 	{
 		return $this->common_message;
 	}
@@ -768,7 +774,7 @@ class Form extends BaseObject
 	/**
 	 * @param string $message
 	 */
-	public function setCommonMessage( $message )
+	public function setCommonMessage( string $message ) : void
 	{
 		$this->common_message = $message;
 	}
@@ -778,7 +784,7 @@ class Form extends BaseObject
 	 *
 	 * @return array
 	 */
-	public function getAllErrors()
+	public function getAllErrors() : array
 	{
 		$result = [];
 
@@ -796,7 +802,7 @@ class Form extends BaseObject
 	/**
 	 * @return Data_Array
 	 */
-	public function getRawData()
+	public function getRawData() : Data_Array
 	{
 		return $this->raw_data;
 	}
@@ -809,7 +815,8 @@ class Form extends BaseObject
 	 *
 	 * @return array|bool
 	 */
-	public function getValues( $escape_values = false, $force_skip_is_valid = false )
+	public function getValues( bool $escape_values = false,
+	                           bool $force_skip_is_valid = false ) : array|bool
 	{
 		if(
 			!$this->is_valid &&
@@ -850,7 +857,7 @@ class Form extends BaseObject
 	 *
 	 * @return Data_Array|null
 	 */
-	public function getData( $force_skip_is_valid = false )
+	public function getData( bool $force_skip_is_valid = false ) : Data_Array|null
 	{
 		if(
 			!$this->is_valid &&
@@ -881,7 +888,7 @@ class Form extends BaseObject
 	 *
 	 * @return bool
 	 */
-	public function catchData()
+	public function catchData() : bool
 	{
 		if( !$this->is_valid ) {
 			return false;
@@ -903,7 +910,7 @@ class Form extends BaseObject
 	 *
 	 * @return string
 	 */
-	public function _( $phrase, $data = [] )
+	public function _( string $phrase, array $data = [] ) : string
 	{
 		if( !$phrase ) {
 			return $phrase;
@@ -918,7 +925,7 @@ class Form extends BaseObject
 	/**
 	 * @return bool
 	 */
-	public function getDoNotTranslateTexts()
+	public function getDoNotTranslateTexts() : bool
 	{
 		return $this->do_not_translate_texts;
 	}
@@ -926,7 +933,7 @@ class Form extends BaseObject
 	/**
 	 * @param bool $do_not_translate_texts
 	 */
-	public function setDoNotTranslateTexts( $do_not_translate_texts )
+	public function setDoNotTranslateTexts( bool $do_not_translate_texts ) : void
 	{
 		$this->do_not_translate_texts = $do_not_translate_texts;
 	}
@@ -934,7 +941,7 @@ class Form extends BaseObject
 	/**
 	 * @return null|string
 	 */
-	public function getCustomTranslatorNamespace()
+	public function getCustomTranslatorNamespace() : null|string
 	{
 		return $this->custom_translator_namespace;
 	}
@@ -942,7 +949,7 @@ class Form extends BaseObject
 	/**
 	 * @param null|string $custom_translator_namespace
 	 */
-	public function setCustomTranslatorNamespace( $custom_translator_namespace )
+	public function setCustomTranslatorNamespace( null|string $custom_translator_namespace ) : void
 	{
 		$this->custom_translator_namespace = $custom_translator_namespace;
 	}
@@ -950,7 +957,7 @@ class Form extends BaseObject
 	/**
 	 * @return null|Locale
 	 */
-	public function getCustomTranslatorLocale()
+	public function getCustomTranslatorLocale() : null|Locale
 	{
 		return $this->custom_translator_locale;
 	}
@@ -958,7 +965,7 @@ class Form extends BaseObject
 	/**
 	 * @param null|Locale $custom_translator_locale
 	 */
-	public function setCustomTranslatorLocale( Locale $custom_translator_locale )
+	public function setCustomTranslatorLocale( Locale|null $custom_translator_locale ) : void
 	{
 		$this->custom_translator_locale = $custom_translator_locale;
 	}
@@ -966,7 +973,7 @@ class Form extends BaseObject
 	/**
 	 *
 	 */
-	public function __wakeup()
+	public function __wakeup() : void
 	{
 		foreach( $this->fields as $field ) {
 			$field->setForm( $this );
@@ -976,7 +983,7 @@ class Form extends BaseObject
 	/**
 	 * @return string
 	 */
-	public function getViewsDir()
+	public function getViewsDir() : string
 	{
 		if(!$this->views_dir) {
 			$this->views_dir = static::getDefaultViewsDir();
@@ -988,7 +995,7 @@ class Form extends BaseObject
 	/**
 	 * @param string $views_dir
 	 */
-	public function setViewsDir( $views_dir )
+	public function setViewsDir( string $views_dir ) : void
 	{
 		$this->views_dir = $views_dir;
 	}
@@ -996,8 +1003,8 @@ class Form extends BaseObject
 	/**
 	 * @return Mvc_View
 	 */
-	public function getView() {
-
+	public function getView() : Mvc_View
+	{
 		return Mvc_Factory::getViewInstance($this->getViewsDir());
 	}
 
@@ -1005,7 +1012,8 @@ class Form extends BaseObject
 	/**
 	 * @return Form_Renderer_Pair
 	 */
-	public function tag() {
+	public function tag() : Form_Renderer_Pair
+	{
 		if( !$this->_form_tag ) {
 			$this->checkFieldsHasErrorMessages();
 
@@ -1021,7 +1029,7 @@ class Form extends BaseObject
 	/**
 	 * @return string
 	 */
-	public function start()
+	public function start() : string
 	{
 		return $this->tag()->start();
 	}
@@ -1029,7 +1037,7 @@ class Form extends BaseObject
 	/**
 	 * @return string
 	 */
-	public function end()
+	public function end() : string
 	{
 		return $this->_form_tag->end();
 	}
@@ -1038,7 +1046,7 @@ class Form extends BaseObject
 	 *
 	 * @return Form_Renderer_Single
 	 */
-	public function message()
+	public function message() : Form_Renderer_Single
 	{
 		if(!$this->_message_tag) {
 			$this->_message_tag = Form_Factory::gerRendererSingleInstance( $this );

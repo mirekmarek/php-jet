@@ -17,7 +17,7 @@ trait DataModel_Trait_Save
 	 * @throws Exception
 	 * @throws DataModel_Exception
 	 */
-	public function save()
+	public function save() : void
 	{
 		/**
 		 * @var DataModel $this
@@ -57,7 +57,7 @@ trait DataModel_Trait_Save
 	 * @param array $data
 	 * @param array $where
 	 */
-	public static function updateData( array $data, array $where )
+	public static function updateData( array $data, array $where ) : void
 	{
 		/**
 		 * @var DataModel         $this
@@ -81,7 +81,7 @@ trait DataModel_Trait_Save
 	/**
 	 *
 	 */
-	protected function _save()
+	protected function _save() : void
 	{
 
 		/**
@@ -122,7 +122,7 @@ trait DataModel_Trait_Save
 	/**
 	 *
 	 */
-	protected function _saveRelatedObjects()
+	protected function _saveRelatedObjects() : void
 	{
 
 		/**
@@ -159,7 +159,7 @@ trait DataModel_Trait_Save
 	 *
 	 * @throws DataModel_Exception
 	 */
-	protected function _update()
+	protected function _update() : void
 	{
 		/**
 		 * @var DataModel                  $this

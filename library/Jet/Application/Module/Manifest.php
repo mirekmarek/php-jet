@@ -16,48 +16,48 @@ class Application_Module_Manifest extends BaseObject
 	/**
 	 * @var string
 	 */
-	protected static $manifest_file_name = 'manifest.php';
+	protected static string $manifest_file_name = 'manifest.php';
 
 	/**
 	 *
 	 * @var string
 	 */
-	protected $_name = '';
+	protected string $_name = '';
 
 	//--------------------------------------------------------------------------
 
 	/**
 	 * @var string
 	 */
-	protected $vendor = '';
+	protected string $vendor = '';
 
 	/**
 	 * @var string
 	 */
-	protected $version = '';
+	protected string $version = '';
 
-
-	/**
-	 *
-	 * @var string
-	 */
-	protected $label = '';
 
 	/**
 	 *
 	 * @var string
 	 */
-	protected $description = '';
+	protected string $label = '';
+
+	/**
+	 *
+	 * @var string
+	 */
+	protected string $description = '';
 
 	/**
 	 * @var array 
 	 */
-	protected $ACL_actions = [];
+	protected array $ACL_actions = [];
 
 	/**
 	 * @var bool
 	 */
-	protected $is_mandatory = false;
+	protected bool $is_mandatory = false;
 
 	//--------------------------------------------------------------------------
 
@@ -65,12 +65,12 @@ class Application_Module_Manifest extends BaseObject
 	/**
 	 * @var array
 	 */
-	protected $pages = [];
+	protected array $pages = [];
 
 	/**
 	 * @var array
 	 */
-	protected $menu_items = [];
+	protected array $menu_items = [];
 
 	//--------------------------------------------------------------------------
 
@@ -82,7 +82,7 @@ class Application_Module_Manifest extends BaseObject
 	/**
 	 * @return callable
 	 */
-	public static function getCompatibilityChecker()
+	public static function getCompatibilityChecker() : callable
 	{
 		return static::$compatibility_checker;
 	}
@@ -100,7 +100,7 @@ class Application_Module_Manifest extends BaseObject
 	/**
 	 * @return string
 	 */
-	public static function getManifestFileName()
+	public static function getManifestFileName() : string
 	{
 		return static::$manifest_file_name;
 	}
@@ -108,18 +108,18 @@ class Application_Module_Manifest extends BaseObject
 	/**
 	 * @param string $manifest_file_name
 	 */
-	public static function setManifestFileName( $manifest_file_name )
+	public static function setManifestFileName( string $manifest_file_name )
 	{
 		static::$manifest_file_name = $manifest_file_name;
 	}
 
 
 	/**
-	 * @param string|null $module_name (optional)
+	 * @param ?string $module_name
 	 *
 	 * @throws Application_Modules_Exception
 	 */
-	public function __construct( $module_name = null )
+	public function __construct( ?string $module_name = null )
 	{
 		if( !$module_name ) {
 			return;
@@ -139,7 +139,7 @@ class Application_Module_Manifest extends BaseObject
 	 *
 	 * @throws Application_Modules_Exception
 	 */
-	protected function readManifestData()
+	protected function readManifestData() : array
 	{
 		$module_dir = $this->getModuleDir();
 
@@ -171,7 +171,7 @@ class Application_Module_Manifest extends BaseObject
 	 *
 	 * @throws Application_Modules_Exception
 	 */
-	protected function checkManifestData( $manifest_data )
+	protected function checkManifestData( array $manifest_data )
 	{
 		if( !is_array( $manifest_data ) ) {
 			throw new Application_Modules_Exception(
@@ -189,7 +189,6 @@ class Application_Module_Manifest extends BaseObject
 	}
 
 	/**
-	 * Sets the values ​​according to the manifest data
 	 *
 	 * @param array $manifest_data
 	 *
@@ -213,11 +212,10 @@ class Application_Module_Manifest extends BaseObject
 
 
 	/**
-	 * Returns module root directory
 	 *
 	 * @return string
 	 */
-	public function getModuleDir()
+	public function getModuleDir() : string
 	{
 		return Application_Modules::getModuleDir( $this->_name );
 	}
@@ -225,7 +223,7 @@ class Application_Module_Manifest extends BaseObject
 	/**
 	 * @return string
 	 */
-	public function getName()
+	public function getName() : string
 	{
 		return $this->_name;
 	}
@@ -233,7 +231,7 @@ class Application_Module_Manifest extends BaseObject
 	/**
 	 * @return string
 	 */
-	public function getNamespace()
+	public function getNamespace() : string
 	{
 		return Application_Modules::getModuleRootNamespace().'\\'.str_replace( '.', '\\', $this->_name ).'\\';
 	}
@@ -241,7 +239,7 @@ class Application_Module_Manifest extends BaseObject
 	/**
 	 * @return string
 	 */
-	public function getVendor()
+	public function getVendor() : string
 	{
 		return $this->vendor;
 	}
@@ -249,7 +247,7 @@ class Application_Module_Manifest extends BaseObject
 	/**
 	 * @return string
 	 */
-	public function getVersion()
+	public function getVersion() : string
 	{
 		return $this->version;
 	}
@@ -257,7 +255,7 @@ class Application_Module_Manifest extends BaseObject
 	/**
 	 * @return string
 	 */
-	public function getLabel()
+	public function getLabel() : string
 	{
 		return $this->label;
 	}
@@ -265,18 +263,18 @@ class Application_Module_Manifest extends BaseObject
 	/**
 	 * @return string
 	 */
-	public function getDescription()
+	public function getDescription() : string
 	{
 		return $this->description;
 	}
 
 	/**
 	 * @param bool $translate_description
-	 * @param Locale|null $translate_locale
+	 * @param ?Locale $translate_locale
 	 * 
 	 * @return array
 	 */
-	public function getACLActions( $translate_description=true, Locale $translate_locale=null )
+	public function getACLActions( bool $translate_description=true, ?Locale $translate_locale=null ) : array
 	{
 		if(!$translate_description) {
 			return $this->ACL_actions;
@@ -296,7 +294,7 @@ class Application_Module_Manifest extends BaseObject
 	 * 
 	 * @return bool
 	 */
-	public function hasACLAction( $action )
+	public function hasACLAction( string $action ) : bool
 	{
 		return array_key_exists( $action, $this->ACL_actions );
 	}
@@ -304,7 +302,7 @@ class Application_Module_Manifest extends BaseObject
 	/**
 	 * @return bool
 	 */
-	public function isCompatible()
+	public function isCompatible() : bool
 	{
 		if(!static::$compatibility_checker) {
 			return true;
@@ -318,7 +316,7 @@ class Application_Module_Manifest extends BaseObject
 	/**
 	 * @return bool
 	 */
-	public function isMandatory()
+	public function isMandatory() : bool
 	{
 		return $this->is_mandatory;
 	}
@@ -328,7 +326,7 @@ class Application_Module_Manifest extends BaseObject
 	 *
 	 * @return array
 	 */
-	public function getPagesRaw()
+	public function getPagesRaw() : array
 	{
 		return $this->pages;
 	}
@@ -340,7 +338,7 @@ class Application_Module_Manifest extends BaseObject
 	 *
 	 * @return Mvc_Page[]
 	 */
-	public function getPages( Mvc_Site_Interface $site, Locale $locale, $translator_namespace=null )
+	public function getPages( Mvc_Site_Interface $site, Locale $locale, null|string|bool $translator_namespace=null ) : array
 	{
 
 		if($translator_namespace===null) {
@@ -394,7 +392,7 @@ class Application_Module_Manifest extends BaseObject
 	/**
 	 * @return array
 	 */
-	public function getMenuItemsRaw()
+	public function getMenuItemsRaw() : array
 	{
 		return $this->menu_items;
 	}
@@ -402,11 +400,11 @@ class Application_Module_Manifest extends BaseObject
 	/**
 	 *
 	 * @param string $menu_set_name
-	 * @param null|string $translator_namespace
+	 * @param ?string $translator_namespace
 	 *
 	 * @return Navigation_Menu_Item[]
 	 */
-	public function getMenuItems( $menu_set_name, $translator_namespace=null )
+	public function getMenuItems( string $menu_set_name, ?string $translator_namespace=null ) : array
 	{
 
 		if(!isset( $this->menu_items[$menu_set_name])) {
@@ -445,7 +443,7 @@ class Application_Module_Manifest extends BaseObject
 	/**
 	 * @return bool
 	 */
-	public function isInstalled()
+	public function isInstalled() : bool
 	{
 		return Application_Modules::moduleIsInstalled( $this->_name );
 	}
@@ -453,7 +451,7 @@ class Application_Module_Manifest extends BaseObject
 	/**
 	 * @return bool
 	 */
-	public function isActivated()
+	public function isActivated() : bool
 	{
 		return Application_Modules::moduleIsActivated( $this->_name );
 	}

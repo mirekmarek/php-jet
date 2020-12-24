@@ -8,52 +8,45 @@
 namespace JetApplicationModule\Test\ORM;
 
 use Jet\DataModel;
+use Jet\DataModel_Definition;
 use Jet\DataModel_IDController_UniqueString;
 
 /**
  *
- * @JetDataModel:name = 'model_a1'
- * @JetDataModel:database_table_name = 'model_a1'
- * @JetDataModel:id_controller_class_name = 'DataModel_IDController_UniqueString'
-
  */
+#[DataModel_Definition(name: 'model_a1')]
+#[DataModel_Definition(database_table_name: 'model_a1')]
+#[DataModel_Definition(id_controller_class: DataModel_IDController_UniqueString::class)]
 class Model_A1 extends DataModel
 {
 
 	/**
-	 *
-	 * @JetDataModel:type = DataModel::TYPE_ID
-	 * @JetDataModel:is_id = true
-	 *
 	 * @var string
 	 */
-	protected $id = '';
+	#[DataModel_Definition(type: DataModel::TYPE_ID)]
+	#[DataModel_Definition(is_id: true)]
+	protected string $id = '';
 
 
 	/**
-	 *
-	 * @JetDataModel:type = DataModel::TYPE_STRING
-	 * @JetDataModel:max_len = 255
-	 *
 	 * @var string
 	 */
-	protected $text = '';
+	#[DataModel_Definition(type: DataModel::TYPE_STRING)]
+	#[DataModel_Definition(max_len: 255)]
+	protected string $text = '';
 
 	/**
-	 * @JetDataModel:type = DataModel::TYPE_DATA_MODEL
-	 * @JetDataModel:data_model_class = 'Model_A1_1toN'
-	 *
 	 * @var Model_A1_1toN[]
 	 */
+	#[DataModel_Definition(type: DataModel::TYPE_DATA_MODEL)]
+	#[DataModel_Definition(data_model_class: Model_A1_1toN::class)]
 	protected $related_1toN;
 
 	/**
-	 * @JetDataModel:type = DataModel::TYPE_DATA_MODEL
-	 * @JetDataModel:data_model_class = 'Model_MtoN'
-	 *
 	 * @var Model_MtoN[]|Model_B1[]
 	 */
+	#[DataModel_Definition(type: DataModel::TYPE_DATA_MODEL)]
+	#[DataModel_Definition(data_model_class: Model_MtoN::class)]
 	protected $related_MtoN;
-
 
 }

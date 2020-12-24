@@ -6,8 +6,10 @@
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
 namespace JetStudio;
-use Jet\SysConf_Jet;
 
+/**
+ *
+ */
 class ClassParser_Class_Property extends ClassParser_Class_Element
 {
 
@@ -35,7 +37,7 @@ class ClassParser_Class_Property extends ClassParser_Class_Element
 	/**
 	 * @var string
 	 */
-	public $visibility = ClassCreator_Class::VISIBILITY_PUBLIC;
+	public $visibility = ClassParser::VISIBILITY_PUBLIC;
 
 	/**
 	 * @var ClassParser_Token
@@ -72,21 +74,21 @@ class ClassParser_Class_Property extends ClassParser_Class_Element
 				$property->start_token = $class->_public_token;
 			}
 
-			$property->visibility = ClassCreator_Class::VISIBILITY_PUBLIC;
+			$property->visibility = ClassParser::VISIBILITY_PUBLIC;
 		}
 
 		if($class->_private_token) {
 			if( $class->_private_token->index < $property->start_token->index ) {
 				$property->start_token = $class->_private_token;
 			}
-			$property->visibility = ClassCreator_Class::VISIBILITY_PRIVATE;
+			$property->visibility = ClassParser::VISIBILITY_PRIVATE;
 		}
 
 		if($class->_protected_token) {
 			if( $class->_protected_token->index < $property->start_token->index ) {
 				$property->start_token = $class->_protected_token;
 			}
-			$property->visibility = ClassCreator_Class::VISIBILITY_PROTECTED;
+			$property->visibility = ClassParser::VISIBILITY_PROTECTED;
 		}
 
 		$property->declaration_start = $property->start_token;

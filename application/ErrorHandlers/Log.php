@@ -10,7 +10,6 @@ namespace JetApplication;
 use Jet\Debug_ErrorHandler_Handler;
 use Jet\Debug_ErrorHandler_Error;
 use Jet\SysConf_PATH;
-use Jet\SysConf_Jet;
 
 /**
  *
@@ -21,19 +20,20 @@ class ErrorHandler_Log extends Debug_ErrorHandler_Handler
 	/**
 	 * @return string
 	 */
-	public function getName() {
+	public function getName() : string
+	{
 		return 'Display';
 	}
 
 	/**
 	 * @var null|string
 	 */
-	protected $log_dir = null;
+	protected ?string $log_dir = null;
 
 	/**
 	 * @param Debug_ErrorHandler_Error $error
 	 */
-	public function handle( Debug_ErrorHandler_Error $error )
+	public function handle( Debug_ErrorHandler_Error $error ) : void
 	{
 		$message = $error->toString();
 
@@ -63,7 +63,7 @@ class ErrorHandler_Log extends Debug_ErrorHandler_Handler
 	/**
 	 * @param string $log_dir
 	 */
-	public function setLogDir( $log_dir )
+	public function setLogDir( string $log_dir ) : void
 	{
 		$this->log_dir = $log_dir;
 	}
@@ -71,7 +71,7 @@ class ErrorHandler_Log extends Debug_ErrorHandler_Handler
 	/**
 	 * @return bool|null|string
 	 */
-	protected function getLogDir()
+	protected function getLogDir() : bool|null|string
 	{
 		if(!$this->log_dir) {
 			$this->log_dir = SysConf_PATH::LOGS();
@@ -84,7 +84,7 @@ class ErrorHandler_Log extends Debug_ErrorHandler_Handler
 	/**
 	 * @return bool
 	 */
-	public function errorDisplayed()
+	public function errorDisplayed() : bool
 	{
 		return false;
 	}

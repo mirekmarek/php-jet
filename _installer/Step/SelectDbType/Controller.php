@@ -27,12 +27,12 @@ class Installer_Step_SelectDbType_Controller extends Installer_Step_Controller
 	/**
 	 * @var string
 	 */
-	protected $label = 'Select Database type';
+	protected string $label = 'Select Database type';
 
 	/**
 	 * @return bool
 	 */
-	public function getIsAvailable()
+	public function getIsAvailable() : bool
 	{
 		return !Installer_Step_CreateSite_Controller::sitesCreated();
 	}
@@ -40,7 +40,7 @@ class Installer_Step_SelectDbType_Controller extends Installer_Step_Controller
 	/**
 	 *
 	 */
-	public function main()
+	public function main() : void
 	{
 
 		$db_type_field = new Form_Field_Select( 'type', 'Please database type: ' );
@@ -105,7 +105,7 @@ class Installer_Step_SelectDbType_Controller extends Installer_Step_Controller
 	/**
 	 * @return array
 	 */
-	public static function getSelectedBackendType()
+	public static function getSelectedBackendType() : array
 	{
 		$session = Installer::getSession();
 
@@ -123,7 +123,7 @@ class Installer_Step_SelectDbType_Controller extends Installer_Step_Controller
 	/**
 	 * @param string $type
 	 */
-	public static function setSelectedDbType( $type )
+	public static function setSelectedDbType( string $type ) : void
 	{
 
 		if( !isset( DataModel_Backend::getBackendTypes()[$type] ) ) {
@@ -137,7 +137,7 @@ class Installer_Step_SelectDbType_Controller extends Installer_Step_Controller
 	/**
 	 * @return array|bool
 	 */
-	public function getStepsAfter()
+	public function getStepsAfter() : array|bool
 	{
 		return [ 'ConfigureDb' ];
 

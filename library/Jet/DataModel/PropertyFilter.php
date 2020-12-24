@@ -16,7 +16,7 @@ class DataModel_PropertyFilter extends BaseObject
 	/**
 	 * @var array
 	 */
-	protected $only_properties = [];
+	protected array $only_properties = [];
 
 	/**
 	 *
@@ -31,7 +31,7 @@ class DataModel_PropertyFilter extends BaseObject
 		foreach( $only_properties as $lp ) {
 			$property_name = null;
 
-			if( strpos( $lp, '.' )===false ) {
+			if( !str_contains( $lp, '.' ) ) {
 				$model_name = $model_definition->getModelName();
 				$property_name = $lp;
 				if(!$model_definition->hasProperty($property_name)) {
@@ -39,7 +39,7 @@ class DataModel_PropertyFilter extends BaseObject
 				}
 
 			} else {
-				list( $model_name, $property_name ) = explode( '.', $lp );
+				[ $model_name, $property_name ] = explode( '.', $lp );
 				if($model_name!=$model_definition->getModelName()) {
 					$relation = $model_definition->getRelation($model_name);
 
@@ -67,7 +67,7 @@ class DataModel_PropertyFilter extends BaseObject
 	 *
 	 * @return bool
 	 */
-	public function getPropertyDefinitionAllowed( DataModel_Definition_Property $property )
+	public function getPropertyDefinitionAllowed( DataModel_Definition_Property $property ) : bool
 	{
 		if($property instanceof DataModel_Definition_Property_DataModel) {
 			if(!$this->getModelAllowed( $property->getValueDataModelDefinition()->getModelName() ) ) {
@@ -88,7 +88,7 @@ class DataModel_PropertyFilter extends BaseObject
 	 *
 	 * @return bool
 	 */
-	public function getPropertyAllowed( $model_name, $property_name )
+	public function getPropertyAllowed( string $model_name, string $property_name ) : bool
 	{
 		if( !array_key_exists( $model_name, $this->only_properties ) ) {
 			return false;
@@ -102,7 +102,7 @@ class DataModel_PropertyFilter extends BaseObject
 	 *
 	 * @return bool
 	 */
-	public function getModelAllowed( $model_name )
+	public function getModelAllowed( string $model_name ) : bool
 	{
 		return array_key_exists( $model_name, $this->only_properties );
 	}
@@ -112,7 +112,7 @@ class DataModel_PropertyFilter extends BaseObject
 	 *
 	 * @return array
 	 */
-	public function getPropertyNames( $model_name )
+	public function getPropertyNames( string $model_name ) : array
 	{
 		if( !array_key_exists( $model_name, $this->only_properties ) ) {
 			return [];
@@ -124,11 +124,12 @@ class DataModel_PropertyFilter extends BaseObject
 
 	/**
 	 * @param DataModel_Definition_Model    $model_definition
-	 * @param DataModel_PropertyFilter|null $load_filter
+	 * @param ?DataModel_PropertyFilter $load_filter
 	 *
-	 * @return array|DataModel_Definition_Property[]
+	 * @return DataModel_Definition_Property[]
 	 */
-	public static function getQuerySelect( DataModel_Definition_Model $model_definition, DataModel_PropertyFilter $load_filter = null )
+	public static function getQuerySelect( DataModel_Definition_Model $model_definition,
+	                                       ?DataModel_PropertyFilter $load_filter = null ) : array
 	{
 
 		if( !$load_filter ) {

@@ -8,7 +8,6 @@
 namespace JetApplicationModule\UI\Admin;
 
 use Jet\Application_Module;
-use Jet\Navigation_Menu;
 use Jet\Navigation_Breadcrumb;
 use Jet\Mvc;
 use Jet\Mvc_Page;

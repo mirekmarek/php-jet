@@ -14,75 +14,74 @@ interface Auth_Role_Interface
 {
 
 	/**
-	 * @param string|int $id
+	 * @param string $id
 	 *
-	 * @return Auth_Role_Interface
+	 * @return static|null
 	 */
-	public static function get( $id );
+	public static function get( string $id ) : static|null;
 
 	/**
 	 * @return Auth_Role_Interface[]
 	 */
-	public static function getList();
+	public static function getList() : iterable;
 
 
 	/**
 	 * @return string
 	 */
-	public function getId();
+	public function getId() : string;
 
 	/**
 	 * @return string
 	 */
-	public function getName();
+	public function getName() : string;
 
 	/**
 	 * @param string $name
 	 */
-	public function setName( $name );
+	public function setName( string $name ) : void;
 
 	/**
 	 * @return string
 	 */
-	public function getDescription();
+	public function getDescription() : string;
 
 	/**
 	 * @param string $description
 	 */
-	public function setDescription( $description );
+	public function setDescription( string $description ) : void;
 
 	/**
 	 * @return Auth_User_Interface[]
 	 */
-	public function getUsers();
+	public function getUsers() : iterable;
 
 
 	/**
 	 * @return Auth_Role_Privilege_Interface[]
 	 */
-	public function getPrivileges();
+	public function getPrivileges() : array;
 
 	/**
-	 * Returns privilege values or empty array if the role does not have the privilege
 	 *
 	 * @param string $privilege
 	 *
 	 * @return array
 	 */
-	public function getPrivilegeValues( $privilege );
+	public function getPrivilegeValues( string $privilege ) : array;
 
 	/**
 	 * Data format:
 	 *
 	 * <code>
-	 * array(
+	 * [
 	 *      'privilege' => ['value1', 'value2']
-	 * )
+	 * ]
 	 * </code>
 	 *
 	 * @param array $privileges
 	 */
-	public function setPrivileges( array $privileges );
+	public function setPrivileges( array $privileges ) : void;
 
 	/**
 	 * Example:
@@ -94,7 +93,7 @@ interface Auth_Role_Interface
 	 * @param string $privilege
 	 * @param array  $values
 	 */
-	public function setPrivilege( $privilege, array $values );
+	public function setPrivilege( string $privilege, array $values );
 
 	/**
 	 * Example:
@@ -103,7 +102,7 @@ interface Auth_Role_Interface
 	 *
 	 * @param string $privilege
 	 */
-	public function removePrivilege( $privilege );
+	public function removePrivilege( string $privilege ) : void;
 
 	/**
 	 * Example:
@@ -116,6 +115,6 @@ interface Auth_Role_Interface
 	 *
 	 * @return bool
 	 */
-	public function hasPrivilege( $privilege, $value );
+	public function hasPrivilege( string $privilege, mixed $value ) : bool;
 
 }

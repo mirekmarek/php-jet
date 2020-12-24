@@ -16,22 +16,22 @@ class Form_Factory
 	/**
 	 * @var string
 	 */
-	protected static $field_class_name_prefix = __NAMESPACE__.'\Form_Field_';
+	protected static string $field_class_name_prefix = __NAMESPACE__.'\Form_Field_';
 
 	/**
 	 * @var string
 	 */
-	protected static $renderer_pair_class_name = __NAMESPACE__.'\Form_Renderer_Pair';
+	protected static string $renderer_pair_class_name = Form_Renderer_Pair::class;
 
 	/**
 	 * @var string
 	 */
-	protected static $renderer_single_class_name = __NAMESPACE__.'\Form_Renderer_Single';
+	protected static string $renderer_single_class_name = Form_Renderer_Single::class;
 
 	/**
 	 * @return string
 	 */
-	public static function getFieldClassNamePrefix()
+	public static function getFieldClassNamePrefix() : string
 	{
 		return static::$field_class_name_prefix;
 	}
@@ -39,7 +39,7 @@ class Form_Factory
 	/**
 	 * @param string $field_class_name_prefix
 	 */
-	public static function setFieldClassNamePrefix( $field_class_name_prefix )
+	public static function setFieldClassNamePrefix( string $field_class_name_prefix ) : void
 	{
 		static::$field_class_name_prefix = $field_class_name_prefix;
 	}
@@ -49,14 +49,18 @@ class Form_Factory
 	 * @param string $type
 	 * @param string $name
 	 * @param string $label
-	 * @param string $default_value
+	 * @param mixed $default_value
 	 * @param bool   $is_required
 	 *
 	 * @throws Form_Exception
 	 *
 	 * @return Form_Field
 	 */
-	public static function getFieldInstance( $type, $name, $label = '', $default_value = '', $is_required = false )
+	public static function getFieldInstance( string $type,
+	                                         string $name,
+	                                         string $label = '',
+	                                         mixed $default_value = '',
+	                                         bool $is_required = false ) : Form_Field
 	{
 
 		if( !$type ) {
@@ -75,7 +79,7 @@ class Form_Factory
 	/**
 	 * @return string
 	 */
-	public static function getRendererPairClassName()
+	public static function getRendererPairClassName() : string
 	{
 		return static::$renderer_pair_class_name;
 	}
@@ -83,7 +87,7 @@ class Form_Factory
 	/**
 	 * @param string $renderer_pair_class_name
 	 */
-	public static function setRendererPairClassName( $renderer_pair_class_name )
+	public static function setRendererPairClassName( string $renderer_pair_class_name ) : void
 	{
 		static::$renderer_pair_class_name = $renderer_pair_class_name;
 	}
@@ -94,7 +98,7 @@ class Form_Factory
 	 *
 	 * @return Form_Renderer_Pair
 	 */
-	public static function gerRendererPairInstance(  Form $form, Form_Field $field=null  )
+	public static function gerRendererPairInstance(  Form $form, Form_Field $field=null  ) : Form_Renderer_Pair
 	{
 		$class_name = static::getRendererPairClassName();
 
@@ -104,7 +108,7 @@ class Form_Factory
 	/**
 	 * @return string
 	 */
-	public static function getRendererSingleClassName()
+	public static function getRendererSingleClassName() : string
 	{
 		return static::$renderer_single_class_name;
 	}
@@ -112,7 +116,7 @@ class Form_Factory
 	/**
 	 * @param string $renderer_single_class_name
 	 */
-	public static function setRendererSingleClassName( $renderer_single_class_name )
+	public static function setRendererSingleClassName( string $renderer_single_class_name ) : void
 	{
 		static::$renderer_single_class_name = $renderer_single_class_name;
 	}
@@ -124,7 +128,7 @@ class Form_Factory
 	 *
 	 * @return Form_Renderer_Single
 	 */
-	public static function gerRendererSingleInstance(  Form $form, Form_Field $field=null  )
+	public static function gerRendererSingleInstance(  Form $form, Form_Field $field=null  ) : Form_Renderer_Single
 	{
 		$class_name = static::getRendererSingleClassName();
 

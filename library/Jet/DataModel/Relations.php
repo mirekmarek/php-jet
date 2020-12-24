@@ -15,14 +15,16 @@ class DataModel_Relations extends BaseObject {
 	/**
 	 * @var DataModel_Definition_Relation[][]
 	 */
-	protected static $relations = [];
+	protected static array $relations = [];
 
 	/**
 	 * @param string $data_model_class_name
 	 * @param DataModel_Definition_Relation $relation
 	 * @param bool $ignore_if_exists
 	 */
-	public static function add( $data_model_class_name, DataModel_Definition_Relation $relation, $ignore_if_exists=false )
+	public static function add( string $data_model_class_name,
+	                            DataModel_Definition_Relation $relation,
+	                            bool $ignore_if_exists=false ) : void
 	{
 		if( !isset(static::$relations[$data_model_class_name]) ) {
 			static::$relations[$data_model_class_name] = [];
@@ -50,7 +52,7 @@ class DataModel_Relations extends BaseObject {
 	 *
 	 * @return DataModel_Definition_Relation[]
 	 */
-	public static function get( $data_model_class_name )
+	public static function get( string $data_model_class_name ) : array
 	{
 		if( !array_key_exists($data_model_class_name, static::$relations) ) {
 			static::$relations[$data_model_class_name] = [];

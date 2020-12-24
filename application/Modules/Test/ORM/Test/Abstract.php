@@ -16,24 +16,24 @@ use Jet\Tr;
 abstract class Test_Abstract
 {
 	/**
-	 * @var
+	 * @var string
 	 */
-	protected $id = '';
+	protected string $id = '';
 
 	/**
 	 *
 	 * @param string $id
 	 */
-	public function __construct( $id )
+	public function __construct( string $id )
 	{
 		$this->id = $id;
 
 	}
 
 	/**
-	 * @return mixed
+	 * @return string
 	 */
-	public function getId()
+	public function getId() : string
 	{
 		return $this->id;
 	}

@@ -20,22 +20,22 @@ class Installer_CompatibilityTester
 	/**
 	 * @var string
 	 */
-	protected $PHP_info = '';
+	protected string $PHP_info = '';
 
 	/**
 	 * @var Installer_CompatibilityTester_TestResult[]
 	 */
-	protected $test_results = [];
+	protected array $test_results = [];
 
 	/**
-	 * @var bool
+	 * @var bool|null
 	 */
-	protected $is_compatible;
+	protected bool|null $is_compatible = null;
 
 	/**
-	 * @var bool
+	 * @var bool|null
 	 */
-	protected $has_warnings;
+	protected bool|null $has_warnings = null;
 
 	/**
 	 *
@@ -70,7 +70,7 @@ class Installer_CompatibilityTester
 	 *
 	 * @return bool
 	 */
-	public function testSystem( array $tests )
+	public function testSystem( array $tests ) : bool
 	{
 
 		foreach( $tests as $test ) {
@@ -96,7 +96,7 @@ class Installer_CompatibilityTester
 	/**
 	 * @return Installer_CompatibilityTester_TestResult[]
 	 */
-	public function getTestResults()
+	public function getTestResults() : array
 	{
 		return $this->test_results;
 	}
@@ -104,7 +104,7 @@ class Installer_CompatibilityTester
 	/**
 	 * @return bool
 	 */
-	public function isCompatible()
+	public function isCompatible() : bool
 	{
 		return $this->is_compatible;
 	}
@@ -112,20 +112,20 @@ class Installer_CompatibilityTester
 	/**
 	 * @return bool
 	 */
-	public function hasWarnings()
+	public function hasWarnings() : bool
 	{
 		return $this->has_warnings;
 	}
 
 
 	/**
-	 * @param string   $title
-	 * @param string   $description
+	 * @param string $title
+	 * @param string $description
 	 * @param callable $test
 	 *
 	 * @return bool
 	 */
-	public function test( $title, $description, callable $test )
+	public function test( string $title, string $description, callable $test ) : bool
 	{
 		$test_result = new Installer_CompatibilityTester_TestResult( true, $title, $description );
 		$test_result->setPassed( $test( $test_result ) );
@@ -135,13 +135,13 @@ class Installer_CompatibilityTester
 	}
 
 	/**
-	 * @param string   $title
-	 * @param string   $description
+	 * @param string $title
+	 * @param string $description
 	 * @param callable $test
 	 *
 	 * @return bool
 	 */
-	public function check( $title, $description, callable $test )
+	public function check( string $title, string $description, callable $test ) : bool
 	{
 		$test_result = new Installer_CompatibilityTester_TestResult( false, $title, $description );
 		$test_result->setPassed( $test( $test_result ) );
@@ -154,7 +154,7 @@ class Installer_CompatibilityTester
 	/**
 	 *
 	 */
-	public function test_PHPVersion()
+	public function test_PHPVersion() : void
 	{
 		$required_version = '7.2.1';
 
@@ -173,7 +173,7 @@ class Installer_CompatibilityTester
 	/**
 	 *
 	 */
-	public function test_PDOExtension()
+	public function test_PDOExtension() : void
 	{
 		$this->test(
 			Tr::_('PDO extension'),
@@ -187,7 +187,7 @@ class Installer_CompatibilityTester
 	/**
 	 *
 	 */
-	public function test_INTLExtension()
+	public function test_INTLExtension() : void
 	{
 		$this->test(
 			Tr::_('INTL extension'),
@@ -201,7 +201,7 @@ class Installer_CompatibilityTester
 	/**
 	 *
 	 */
-	public function test_RequestUriVar()
+	public function test_RequestUriVar() : void
 	{
 		$this->test(
 			Tr::_('$_SERVER["REQUEST_URI"] value'),
@@ -217,7 +217,7 @@ class Installer_CompatibilityTester
 	/**
 	 *
 	 */
-	public function check_GDExtension()
+	public function check_GDExtension() : void
 	{
 		if( $this->check(
 			Tr::_('GD extension'),
@@ -269,7 +269,7 @@ class Installer_CompatibilityTester
 	/**
 	 *
 	 */
-	public function check_FileInfoExtension()
+	public function check_FileInfoExtension() : void
 	{
 		$this->check(
 			Tr::_('FileInfo extension'),
@@ -283,7 +283,7 @@ class Installer_CompatibilityTester
 	/**
 	 *
 	 */
-	public function check_MaxUploadFileSize()
+	public function check_MaxUploadFileSize() : void
 	{
 		$this->check(
 			Tr::_('PHP configuration: Max upload file size'),
@@ -354,7 +354,8 @@ class Installer_CompatibilityTester
 	 *
 	 * @return int
 	 */
-	public function getAsBytes( $val ) {
+	public function getAsBytes( $val ) : int
+	{
 		$val = trim($val);
 
 		$last = strtoupper($val[strlen($val)-1]);

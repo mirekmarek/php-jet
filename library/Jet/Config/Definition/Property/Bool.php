@@ -15,7 +15,7 @@ class Config_Definition_Property_Bool extends Config_Definition_Property
 	/**
 	 * @var string
 	 */
-	protected $_type = Config::TYPE_BOOL;
+	protected string $_type = Config::TYPE_BOOL;
 
 	/**
 	 * @var bool
@@ -24,11 +24,11 @@ class Config_Definition_Property_Bool extends Config_Definition_Property
 
 
 	/**
-	 * @param array|null $definition_data
+	 * @param ?array $definition_data
 	 *
 	 * @throws Config_Exception
 	 */
-	public function setUp( array $definition_data = null )
+	public function setUp( ?array $definition_data = null ) : void
 	{
 		parent::setUp( $definition_data );
 
@@ -38,19 +38,19 @@ class Config_Definition_Property_Bool extends Config_Definition_Property
 	}
 
 	/**
-	 * @param mixed $value
+	 * @param mixed &$value
 	 */
-	public function checkValueType( &$value )
+	protected function checkValueType( mixed &$value ) : void
 	{
 		$value = (bool)$value;
 	}
 
 	/**
 	 *
-	 * @param mixed &$value
+	 * @param mixed $value
 	 *
 	 */
-	protected function checkValue( $value )
+	protected function checkValue( mixed $value ) : void
 	{
 	}
 }

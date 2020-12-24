@@ -16,43 +16,43 @@ class UI_icon extends UI_BaseElement
 	/**
 	 * @var string
 	 */
-	protected static $default_renderer_script = 'icon';
+	protected static string $default_renderer_script = 'icon';
 
 	/**
 	 * @var string
 	 */
-	protected $tag = 'span';
+	protected string $tag = 'span';
 
 	/**
 	 * @var string
 	 */
-	protected $icon;
+	protected string $icon = '';
 
 	/**
 	 * @var int
 	 */
-	protected $size;
+	protected int $size = 0;
 
 	/**
 	 * @var int
 	 */
-	protected $width;
+	protected int $width = 0;
 
 	/**
 	 * @var string
 	 */
-	protected $color;
+	protected string $color = '';
 
 	/**
 	 * @var string
 	 */
-	protected $title = '';
+	protected string $title = '';
 
 
 	/**
 	 * @param string $icon
 	 */
-	public function __construct( $icon )
+	public function __construct( string $icon )
 	{
 		$this->icon = $icon;
 	}
@@ -60,7 +60,7 @@ class UI_icon extends UI_BaseElement
 	/**
 	 * @return string
 	 */
-	public function getIcon()
+	public function getIcon() : string
 	{
 		return $this->icon;
 	}
@@ -69,9 +69,9 @@ class UI_icon extends UI_BaseElement
 	/**
 	 * @param int $size
 	 *
-	 * @return UI_icon
+	 * @return static
 	 */
-	public function setSize( $size )
+	public function setSize( int $size ) : static
 	{
 		$this->size = (int)$size;
 
@@ -81,7 +81,7 @@ class UI_icon extends UI_BaseElement
 	/**
 	 * @return int
 	 */
-	public function getSize()
+	public function getSize() : int
 	{
 		return $this->size;
 	}
@@ -89,9 +89,9 @@ class UI_icon extends UI_BaseElement
 	/**
 	 * @param int $width
 	 *
-	 * @return UI_icon
+	 * @return static
 	 */
-	public function setWidth( $width )
+	public function setWidth( int $width ) : static
 	{
 		$this->width = (int)$width;
 
@@ -101,7 +101,7 @@ class UI_icon extends UI_BaseElement
 	/**
 	 * @return int
 	 */
-	public function getWidth()
+	public function getWidth() : int
 	{
 		return $this->width;
 	}
@@ -109,9 +109,9 @@ class UI_icon extends UI_BaseElement
 	/**
 	 * @param string $color
 	 *
-	 * @return UI_icon
+	 * @return static
 	 */
-	public function setColor( $color )
+	public function setColor( string $color ) : static
 	{
 		$this->color = $color;
 
@@ -121,7 +121,7 @@ class UI_icon extends UI_BaseElement
 	/**
 	 * @return string
 	 */
-	public function getColor()
+	public function getColor() : string
 	{
 		return $this->color;
 	}
@@ -129,9 +129,9 @@ class UI_icon extends UI_BaseElement
 	/**
 	 * @param string $tag
 	 *
-	 * @return UI_icon
+	 * @return static
 	 */
-	public function setTag( $tag )
+	public function setTag( string $tag ) : static
 	{
 		$this->tag = $tag;
 
@@ -141,7 +141,7 @@ class UI_icon extends UI_BaseElement
 	/**
 	 * @return string
 	 */
-	public function getTag()
+	public function getTag() : string
 	{
 		return $this->tag;
 	}
@@ -149,7 +149,7 @@ class UI_icon extends UI_BaseElement
 	/**
 	 * @return string
 	 */
-	public function getTitle()
+	public function getTitle() : string
 	{
 		return $this->title;
 	}
@@ -157,9 +157,9 @@ class UI_icon extends UI_BaseElement
 	/**
 	 * @param string $title
 	 *
-	 * @return $this
+	 * @return static
 	 */
-	public function setTitle($title)
+	public function setTitle( string $title ) : static
 	{
 		$this->title = $title;
 

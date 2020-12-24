@@ -17,7 +17,7 @@ trait DataModel_Trait_Exports
 	/**
 	 * @return string
 	 */
-	public function toJSON()
+	public function toJSON() : string
 	{
 		$data = $this->jsonSerialize();
 
@@ -27,7 +27,7 @@ trait DataModel_Trait_Exports
 	/**
 	 * @return array
 	 */
-	public function jsonSerialize()
+	public function jsonSerialize() : array
 	{
 		/**
 		 * @var DataModel                  $this

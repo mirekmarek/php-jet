@@ -12,124 +12,85 @@ namespace Jet;
  */
 trait Form_Field_Trait_Render
 {
-	/**
-	 * @var string
-	 */
-	protected static $default_renderer_script = 'field';
 
 	/**
-	 * @var string
+	 * @var ?string
 	 */
-	protected static $default_row_start_renderer_script = 'Field/row/start';
-
-	/**
-	 * @var string
-	 */
-	protected static $default_row_end_renderer_script = 'Field/row/end';
-
-	/**
-	 * @var string
-	 */
-	protected static $default_input_container_start_renderer_script = 'Field/input/container/start';
-
-	/**
-	 * @var string
-	 */
-	protected static $default_input_container_end_renderer_script = 'Field/input/container/end';
-
-	/**
-	 * @var string
-	 */
-	protected static $default_error_renderer = 'Field/error';
-
-	/**
-	 * @var string
-	 */
-	protected static $default_label_renderer = 'Field/label';
-
-	/**
-	 * @var string string
-	 */
-	protected static $default_input_renderer = 'Field/input/';
-
-	/**
-	 * @var string
-	 */
-	protected $custom_views_dir;
+	protected ?string $custom_views_dir = null;
 
 
 	/**
-	 * @var string
+	 * @var ?string
 	 */
-	protected $renderer_script;
+	protected ?string $renderer_script = null;
 
 	/**
-	 * @var string
+	 * @var ?string
 	 */
-	protected $row_start_renderer_script;
+	protected ?string $row_start_renderer_script = null;
 
 	/**
-	 * @var string
+	 * @var ?string
 	 */
-	protected $row_end_renderer_script;
+	protected ?string $row_end_renderer_script = null;
 
 	/**
-	 * @var string
+	 * @var ?string
 	 */
-	protected $input_container_start_renderer_script;
+	protected ?string $input_container_start_renderer_script = null;
 
 	/**
-	 * @var string
+	 * @var ?string
 	 */
-	protected $input_container_end_renderer_script;
+	protected ?string $input_container_end_renderer_script = null;
 
 	/**
-	 * @var string
+	 * @var ?string
 	 */
-	protected $error_renderer;
+	protected ?string $error_renderer = null;
 
 	/**
-	 * @var string
+	 * @var ?string
 	 */
-	protected $label_renderer;
+	protected ?string $label_renderer = null;
 
 	/**
 	 * @var string string
 	 */
-	protected $input_renderer = '';
+	protected string $input_renderer = '';
 
 
 	/**
-	 * @return Form_Renderer_Pair
+	 * @return ?Form_Renderer_Pair
 	 */
-	protected $_tag_row;
+	protected ?Form_Renderer_Pair $_tag_row = null;
 
 	/**
-	 * @return Form_Renderer_Single
+	 * @return ?Form_Renderer_Single
 	 */
-	protected $_tag_label;
+	protected ?Form_Renderer_Single $_tag_label = null;
 
 	/**
-	 * @return Form_Renderer_Single
+	 * @return ?Form_Renderer_Single
 	 */
-	protected $_tag_error;
+	protected ?Form_Renderer_Single $_tag_error = null;
 
 	/**
-	 * @return Form_Renderer_Pair
+	 * @return ?Form_Renderer_Pair
 	 */
-	protected $_tag_container;
+	protected ?Form_Renderer_Pair $_tag_container = null;
 
 	/**
-	 * @return Form_Renderer_Single
+	 * @return ?Form_Renderer_Single
 	 */
-	protected $_tag_input;
+	protected ?Form_Renderer_Single $_tag_input = null;
 
 
 
 	/**
 	 * @return string
 	 */
-	public function getCustomViewsDir()
+	public function getCustomViewsDir() : string
 	{
 		return $this->custom_views_dir;
 	}
@@ -137,7 +98,7 @@ trait Form_Field_Trait_Render
 	/**
 	 * @param string $custom_views_dir
 	 */
-	public function setCustomViewsDir( $custom_views_dir )
+	public function setCustomViewsDir( string $custom_views_dir ) : void
 	{
 		$this->custom_views_dir = $custom_views_dir;
 	}
@@ -145,7 +106,7 @@ trait Form_Field_Trait_Render
 	/**
 	 * @return string
 	 */
-	public function getViewsDir()
+	public function getViewsDir() : string
 	{
 		/**
 		 * @var Form_Field $this
@@ -163,7 +124,8 @@ trait Form_Field_Trait_Render
 	/**
 	 * @return Mvc_View
 	 */
-	public function getView() {
+	public function getView() : Mvc_View
+	{
 
 		return Mvc_Factory::getViewInstance($this->getViewsDir());
 	}
@@ -174,7 +136,7 @@ trait Form_Field_Trait_Render
 	/**
 	 * @return string
 	 */
-	public static function getDefaultRendererScript()
+	public static function getDefaultRendererScript() : string
 	{
 		return static::$default_renderer_script;
 	}
@@ -182,7 +144,7 @@ trait Form_Field_Trait_Render
 	/**
 	 * @param string $default_renderer_script
 	 */
-	public static function setDefaultRendererScript( $default_renderer_script )
+	public static function setDefaultRendererScript( string $default_renderer_script ) : void
 	{
 		static::$default_renderer_script = $default_renderer_script;
 	}
@@ -190,7 +152,7 @@ trait Form_Field_Trait_Render
 	/**
 	 * @return string
 	 */
-	public static function getDefaultRowStartRendererScript()
+	public static function getDefaultRowStartRendererScript() : string
 	{
 		return static::$default_row_start_renderer_script;
 	}
@@ -198,7 +160,7 @@ trait Form_Field_Trait_Render
 	/**
 	 * @param string $default_row_start_renderer_script
 	 */
-	public static function setDefaultRowStartRendererScript( $default_row_start_renderer_script )
+	public static function setDefaultRowStartRendererScript( string $default_row_start_renderer_script ) : void
 	{
 		static::$default_row_start_renderer_script = $default_row_start_renderer_script;
 	}
@@ -206,7 +168,7 @@ trait Form_Field_Trait_Render
 	/**
 	 * @return string
 	 */
-	public static function getDefaultRowEndRendererScript()
+	public static function getDefaultRowEndRendererScript() : string
 	{
 		return static::$default_row_end_renderer_script;
 	}
@@ -214,7 +176,7 @@ trait Form_Field_Trait_Render
 	/**
 	 * @param string $default_row_end_renderer_script
 	 */
-	public static function setDefaultRowEndRendererScript( $default_row_end_renderer_script )
+	public static function setDefaultRowEndRendererScript( string $default_row_end_renderer_script ) : void
 	{
 		static::$default_row_end_renderer_script = $default_row_end_renderer_script;
 	}
@@ -222,7 +184,7 @@ trait Form_Field_Trait_Render
 	/**
 	 * @return string
 	 */
-	public static function getDefaultInputContainerStartRendererScript()
+	public static function getDefaultInputContainerStartRendererScript() : string
 	{
 		return static::$default_input_container_start_renderer_script;
 	}
@@ -230,7 +192,7 @@ trait Form_Field_Trait_Render
 	/**
 	 * @param string $default_input_container_start_renderer_script
 	 */
-	public static function setDefaultInputContainerStartRendererScript( $default_input_container_start_renderer_script )
+	public static function setDefaultInputContainerStartRendererScript( string $default_input_container_start_renderer_script ) : void
 	{
 		static::$default_input_container_start_renderer_script = $default_input_container_start_renderer_script;
 	}
@@ -238,7 +200,7 @@ trait Form_Field_Trait_Render
 	/**
 	 * @return string
 	 */
-	public static function getDefaultInputContainerEndRendererScript()
+	public static function getDefaultInputContainerEndRendererScript() : string
 	{
 		return static::$default_input_container_end_renderer_script;
 	}
@@ -246,7 +208,7 @@ trait Form_Field_Trait_Render
 	/**
 	 * @param string $default_input_container_end_renderer_script
 	 */
-	public static function setDefaultInputContainerEndRendererScript( $default_input_container_end_renderer_script )
+	public static function setDefaultInputContainerEndRendererScript( string $default_input_container_end_renderer_script ) : void
 	{
 		static::$default_input_container_end_renderer_script = $default_input_container_end_renderer_script;
 	}
@@ -254,7 +216,7 @@ trait Form_Field_Trait_Render
 	/**
 	 * @return string
 	 */
-	public static function getDefaultErrorRenderer()
+	public static function getDefaultErrorRenderer() : string
 	{
 		return static::$default_error_renderer;
 	}
@@ -262,7 +224,7 @@ trait Form_Field_Trait_Render
 	/**
 	 * @param string $default_error_renderer
 	 */
-	public static function setDefaultErrorRenderer( $default_error_renderer )
+	public static function setDefaultErrorRenderer( string $default_error_renderer ) : void
 	{
 		static::$default_error_renderer = $default_error_renderer;
 	}
@@ -270,7 +232,7 @@ trait Form_Field_Trait_Render
 	/**
 	 * @return string
 	 */
-	public static function getDefaultLabelRenderer()
+	public static function getDefaultLabelRenderer() : string
 	{
 		return static::$default_label_renderer;
 	}
@@ -278,7 +240,7 @@ trait Form_Field_Trait_Render
 	/**
 	 * @param string $default_label_renderer
 	 */
-	public static function setDefaultLabelRenderer( $default_label_renderer )
+	public static function setDefaultLabelRenderer( string $default_label_renderer ) : void
 	{
 		static::$default_label_renderer = $default_label_renderer;
 	}
@@ -286,7 +248,7 @@ trait Form_Field_Trait_Render
 	/**
 	 * @return string
 	 */
-	public static function getDefaultInputRenderer()
+	public static function getDefaultInputRenderer() : string
 	{
 		return static::$default_input_renderer;
 	}
@@ -294,7 +256,7 @@ trait Form_Field_Trait_Render
 	/**
 	 * @param string $default_input_renderer
 	 */
-	public static function setDefaultInputRenderer( $default_input_renderer )
+	public static function setDefaultInputRenderer( string $default_input_renderer ) : void
 	{
 		static::$default_input_renderer = $default_input_renderer;
 	}
@@ -302,7 +264,7 @@ trait Form_Field_Trait_Render
 	/**
 	 * @return string
 	 */
-	public function getRendererScript()
+	public function getRendererScript() : string
 	{
 		if(!$this->renderer_script) {
 			$this->renderer_script = static::getDefaultRendererScript();
@@ -314,7 +276,7 @@ trait Form_Field_Trait_Render
 	/**
 	 * @param string $renderer_script
 	 */
-	public function setRendererScript( $renderer_script )
+	public function setRendererScript( string $renderer_script ) : void
 	{
 		$this->renderer_script = $renderer_script;
 	}
@@ -322,7 +284,7 @@ trait Form_Field_Trait_Render
 	/**
 	 * @return string
 	 */
-	public function getRowStartRendererScript()
+	public function getRowStartRendererScript() : string
 	{
 		if(!$this->row_start_renderer_script) {
 			$this->row_start_renderer_script = static::getDefaultRowStartRendererScript();
@@ -334,7 +296,7 @@ trait Form_Field_Trait_Render
 	/**
 	 * @param string $row_start_renderer_script
 	 */
-	public function setRowStartRendererScript( $row_start_renderer_script )
+	public function setRowStartRendererScript( string $row_start_renderer_script ) : void
 	{
 		$this->row_start_renderer_script = $row_start_renderer_script;
 	}
@@ -342,7 +304,7 @@ trait Form_Field_Trait_Render
 	/**
 	 * @return string
 	 */
-	public function getRowEndRendererScript()
+	public function getRowEndRendererScript() : string
 	{
 		if(!$this->row_end_renderer_script) {
 			$this->row_end_renderer_script = static::getDefaultRowEndRendererScript();
@@ -354,7 +316,7 @@ trait Form_Field_Trait_Render
 	/**
 	 * @param string $row_end_renderer_script
 	 */
-	public function setRowEndRendererScript( $row_end_renderer_script )
+	public function setRowEndRendererScript( string $row_end_renderer_script ) : void
 	{
 		$this->row_end_renderer_script = $row_end_renderer_script;
 	}
@@ -362,7 +324,7 @@ trait Form_Field_Trait_Render
 	/**
 	 * @return string
 	 */
-	public function getInputContainerStartRendererScript()
+	public function getInputContainerStartRendererScript() : string
 	{
 		if(!$this->input_container_start_renderer_script) {
 			$this->input_container_start_renderer_script = static::getDefaultInputContainerStartRendererScript();
@@ -374,7 +336,7 @@ trait Form_Field_Trait_Render
 	/**
 	 * @param string $input_container_start_renderer_script
 	 */
-	public function setInputContainerStartRendererScript( $input_container_start_renderer_script )
+	public function setInputContainerStartRendererScript( string $input_container_start_renderer_script ) : void
 	{
 		$this->input_container_start_renderer_script = $input_container_start_renderer_script;
 	}
@@ -382,7 +344,7 @@ trait Form_Field_Trait_Render
 	/**
 	 * @return string
 	 */
-	public function getInputContainerEndRendererScript()
+	public function getInputContainerEndRendererScript() : string
 	{
 		if(!$this->input_container_end_renderer_script) {
 			$this->input_container_end_renderer_script = static::getDefaultInputContainerEndRendererScript();
@@ -394,7 +356,7 @@ trait Form_Field_Trait_Render
 	/**
 	 * @param string $input_container_end_renderer_script
 	 */
-	public function setInputContainerEndRendererScript( $input_container_end_renderer_script )
+	public function setInputContainerEndRendererScript( string $input_container_end_renderer_script ) : void
 	{
 		$this->input_container_end_renderer_script = $input_container_end_renderer_script;
 	}
@@ -402,7 +364,7 @@ trait Form_Field_Trait_Render
 	/**
 	 * @return string
 	 */
-	public function getErrorRenderer()
+	public function getErrorRenderer() : string
 	{
 		if(!$this->error_renderer) {
 			$this->error_renderer = static::getDefaultErrorRenderer();
@@ -414,7 +376,7 @@ trait Form_Field_Trait_Render
 	/**
 	 * @param string $error_renderer
 	 */
-	public function setErrorRenderer( $error_renderer )
+	public function setErrorRenderer( string $error_renderer ) : void
 	{
 		$this->error_renderer = $error_renderer;
 	}
@@ -422,7 +384,7 @@ trait Form_Field_Trait_Render
 	/**
 	 * @return string
 	 */
-	public function getLabelRenderer()
+	public function getLabelRenderer() : string
 	{
 		if(!$this->label_renderer ) {
 			$this->label_renderer = static::getDefaultLabelRenderer();
@@ -434,7 +396,7 @@ trait Form_Field_Trait_Render
 	/**
 	 * @param string $label_renderer
 	 */
-	public function setLabelRenderer( $label_renderer )
+	public function setLabelRenderer( string $label_renderer ) : void
 	{
 		$this->label_renderer = $label_renderer;
 	}
@@ -442,7 +404,7 @@ trait Form_Field_Trait_Render
 	/**
 	 * @return string
 	 */
-	public function getInputRenderer()
+	public function getInputRenderer() : string
 	{
 		if(!$this->input_renderer ) {
 			$this->input_renderer = static::getDefaultInputRenderer();
@@ -454,7 +416,7 @@ trait Form_Field_Trait_Render
 	/**
 	 * @param string $input_renderer
 	 */
-	public function setInputRenderer( $input_renderer )
+	public function setInputRenderer( string $input_renderer ) : void
 	{
 		$this->input_renderer = $input_renderer;
 	}
@@ -464,7 +426,7 @@ trait Form_Field_Trait_Render
 	/**
 	 * @return string
 	 */
-	public function __toString()
+	public function __toString() : string
 	{
 		return $this->render();
 	}
@@ -472,7 +434,7 @@ trait Form_Field_Trait_Render
 	/**
 	 * @return string
 	 */
-	public function render()
+	public function render() : string
 	{
 		$view = $this->getView();
 		$view->setVar('field', $this);
@@ -483,7 +445,7 @@ trait Form_Field_Trait_Render
 	/**
 	 * @return Form_Renderer_Pair
 	 */
-	public function row()
+	public function row() : Form_Renderer_Pair
 	{
 		/**
 		 * @var Form_Field $this
@@ -501,7 +463,7 @@ trait Form_Field_Trait_Render
 	/**
 	 * @return Form_Renderer_Pair
 	 */
-	public function container()
+	public function container() : Form_Renderer_Pair
 	{
 		/**
 		 * @var Form_Field_Trait_Render|Form_Field $this
@@ -528,7 +490,7 @@ trait Form_Field_Trait_Render
 	/**
 	 * @return Form_Renderer_Single
 	 */
-	public function error()
+	public function error() : Form_Renderer_Single
 	{
 		/**
 		 * @var Form_Field $this
@@ -544,7 +506,7 @@ trait Form_Field_Trait_Render
 	/**
 	 * @return Form_Renderer_Single
 	 */
-	public function label()
+	public function label() : Form_Renderer_Single
 	{
 		/**
 		 * @var Form_Field_Trait_Render|Form_Field $this
@@ -567,7 +529,7 @@ trait Form_Field_Trait_Render
 	/**
 	 * @return Form_Renderer_Single
 	 */
-	public function input()
+	public function input() : Form_Renderer_Single
 	{
 		/**
 		 * @var Form_Field_Trait_Render|Form_Field $this

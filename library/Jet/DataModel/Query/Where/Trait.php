@@ -14,9 +14,9 @@ trait DataModel_Query_Where_Trait
 {
 
 	/**
-	 * @var DataModel_Query
+	 * @var ?DataModel_Query
 	 */
-	protected $query;
+	protected ?DataModel_Query $query = null;
 
 
 	/**
@@ -24,7 +24,7 @@ trait DataModel_Query_Where_Trait
 	 *
 	 * @throws DataModel_Query_Exception
 	 */
-	protected function _determineLogicalOperatorOrSubExpressions( $val )
+	protected function _determineLogicalOperatorOrSubExpressions( string|array $val )
 	{
 		if( is_array( $val ) ) {
 			/** @noinspection PhpParamsInspection */
@@ -54,7 +54,7 @@ trait DataModel_Query_Where_Trait
 	 *
 	 * @return string
 	 */
-	protected function _determineOperator( &$key )
+	protected function _determineOperator( string &$key ) : string
 	{
 		$operator = DataModel_Query::O_EQUAL;
 		$key = trim( $key );

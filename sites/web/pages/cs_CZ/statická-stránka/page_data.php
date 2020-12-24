@@ -2,7 +2,7 @@
 return [
     'id' => 'static_page',
     'order' => 5,
-    'name' => 'Staticka stranka',
+    'name' => 'Staticka stránka',
     'title' => 'Statická stránka',
 	'http_headers' => [
 		'testHeader1' => 'test value 1'

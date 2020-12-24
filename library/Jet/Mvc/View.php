@@ -14,15 +14,15 @@ class Mvc_View extends Mvc_View_Abstract
 {
 
 	/**
-	 * @var Mvc_Controller
+	 * @var ?Mvc_Controller
 	 */
-	protected $controller;
+	protected ?Mvc_Controller $controller = null;
 
 	/**
 	 *
 	 * @param string $scripts_dir
 	 */
-	public function __construct( $scripts_dir )
+	public function __construct( string $scripts_dir )
 	{
 		$this->setScriptsDir( $scripts_dir );
 
@@ -31,9 +31,9 @@ class Mvc_View extends Mvc_View_Abstract
 	}
 
 	/**
-	 * @return Mvc_Controller
+	 * @return Mvc_Controller|null
 	 */
-	public function getController()
+	public function getController() : Mvc_Controller|null
 	{
 		return $this->controller;
 	}
@@ -41,7 +41,7 @@ class Mvc_View extends Mvc_View_Abstract
 	/**
 	 * @param Mvc_Controller $controller
 	 */
-	public function setController( $controller )
+	public function setController( Mvc_Controller $controller )
 	{
 		$this->controller = $controller;
 	}
@@ -57,7 +57,7 @@ class Mvc_View extends Mvc_View_Abstract
 	 *
 	 * @return string
 	 */
-	public function render( $script_name )
+	public function render( string $script_name ) : string
 	{
 		$this->setScriptName( $script_name );
 		$this->getScriptPath();

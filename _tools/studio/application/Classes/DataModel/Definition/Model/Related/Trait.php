@@ -18,7 +18,7 @@ trait DataModel_Definition_Model_Related_Trait
 	 */
 	public function getRelevantParentModel()
 	{
-		$parent_class = $this->parent_model_class_name;
+		$parent_class = $this->parent_model_class;
 		if(!$parent_class) {
 			$parent_class = $this->main_model_class_name;
 		}
@@ -35,7 +35,7 @@ trait DataModel_Definition_Model_Related_Trait
 	public function setParentModel( DataModel_Definition_Model_Interface $parent )
 	{
 		if($parent instanceof DataModel_Definition_Model_Related_Interface) {
-			$this->parent_model_class_name = $parent->getClassName();
+			$this->parent_model_class = $parent->getClassName();
 		} else {
 			$this->main_model_class_name = $parent->getClassName();
 		}
@@ -47,7 +47,7 @@ trait DataModel_Definition_Model_Related_Trait
 	 */
 	public function getParentModelClassName()
 	{
-		return $this->parent_model_class_name;
+		return $this->parent_model_class;
 	}
 
 	/**
@@ -55,7 +55,7 @@ trait DataModel_Definition_Model_Related_Trait
 	 */
 	public function getParentModel()
 	{
-		return DataModels::getClass($this->parent_model_class_name)->getDefinition();
+		return DataModels::getClass($this->parent_model_class)->getDefinition();
 	}
 
 

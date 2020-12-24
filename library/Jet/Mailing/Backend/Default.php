@@ -20,7 +20,7 @@ class Mailing_Backend_Default extends Mailing_Backend_Abstract{
 	 *
 	 * @return bool
 	 */
-	public function sendEmail( Mailing_Email $email, $to, array $headers=[] )
+	public function sendEmail( Mailing_Email $email, string $to, array $headers=[] ) : bool
 	{
 
 		$sender = $email->getSender();

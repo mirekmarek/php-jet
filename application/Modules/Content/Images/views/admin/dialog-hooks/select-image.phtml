@@ -33,7 +33,7 @@ $dialog = UI::dialog('dialog_select_image', Tr::_('Select image'), 1100);
 <?=$dialog->start()?>
 	<div style="display: inline-block;height: 500px">
 		<iframe
-			src="<?=Mvc_Page::get('dialog-select-image')->getURI()?>"
+			src="<?=Mvc_Page::get('dialog-select-image')->getURLPath()?>"
 			id="dialog_select_image_frame"
 			frameborder="none"
 			style="width: 750px;height: 500px;"

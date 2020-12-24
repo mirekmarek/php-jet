@@ -17,23 +17,23 @@ class Db extends BaseObject
 	const DRIVER_OCI = 'oci';
 
 	/**
-	 * @var Db_Config
+	 * @var ?Db_Config
 	 */
-	protected static $config = null;
+	protected static ?Db_Config $config = null;
 
 	/**
 	 * @var Db_Backend_Interface[]
 	 */
-	protected static $connections = [];
+	protected static array $connections = [];
 
 	/**
 	 *
-	 * @param string|null $connection_name (optional)
+	 * @param ?string $connection_name (optional)
 	 *
 	 * @return Db_Backend_Interface
 	 * @throws Db_Exception
 	 */
-	public static function get( $connection_name = null )
+	public static function get( ?string $connection_name = null ) : Db_Backend_Interface
 	{
 		if( !$connection_name ) {
 			$connection_name = static::getConfig()->getDefaultConnectionName();
@@ -60,11 +60,10 @@ class Db extends BaseObject
 	}
 
 	/**
-	 * Get DB config instance
 	 *
 	 * @return Db_Config
 	 */
-	public static function getConfig()
+	public static function getConfig() : Db_Config
 	{
 		if( !static::$config ) {
 			static::$config = new Db_Config();
@@ -76,7 +75,7 @@ class Db extends BaseObject
 	/**
 	 * @param Db_Config $config
 	 */
-	public static function setConfig( Db_Config $config )
+	public static function setConfig( Db_Config $config ) : void
 	{
 		static::$config = $config;
 	}
@@ -87,7 +86,7 @@ class Db extends BaseObject
 	 *
 	 * @return Db_Backend_Interface
 	 */
-	public static function create( $connection_name, array $connection_config_data )
+	public static function create( string $connection_name, array $connection_config_data ) : Db_Backend_Interface
 	{
 		if( isset( static::$connections[$connection_name] ) ) {
 			return static::$connections[$connection_name];

@@ -16,7 +16,7 @@ if( SysConf_Jet::DEBUG_PROFILER_ENABLED() ) {
 		$run_id = $_GET['JPR'];
 		$run = null;
 
-		if( strpos( $run_id, '.' )===false ) {
+		if( !str_contains( $run_id, '.' ) ) {
 			$file_path = $profiler_save_dir.$run_id.'.jpd';
 
 			if( file_exists( $file_path ) ) {

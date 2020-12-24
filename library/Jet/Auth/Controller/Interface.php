@@ -16,7 +16,7 @@ interface Auth_Controller_Interface
 	/**
 	 *
 	 */
-	public function handleLogin();
+	public function handleLogin() : void;
 
 	/**
 	 *
@@ -25,35 +25,32 @@ interface Auth_Controller_Interface
 	 *
 	 * @return bool
 	 */
-	public function login( $username, $password );
+	public function login( string $username, string $password ) : bool;
 
 	/**
-	 * Logout current user
 	 *
-	 * @return mixed
 	 */
-	public function logout();
+	public function logout() : void;
 
 	/**
-	 *
 	 * @return bool
 	 */
-	public function checkCurrentUser();
+	public function checkCurrentUser() : bool;
 
 	/**
 	 *
-	 * @return Auth_User_Interface|null
+	 * @return Auth_User_Interface|bool
 	 */
-	public function getCurrentUser();
+	public function getCurrentUser() : Auth_User_Interface|bool;
 
 	/**
 	 *
 	 * @param string $privilege
-	 * @param mixed  $value
+	 * @param mixed $value
 	 *
 	 * @return bool
 	 */
-	public function getCurrentUserHasPrivilege( $privilege, $value );
+	public function getCurrentUserHasPrivilege( string $privilege, mixed $value ) : bool;
 
 	/**
 	 * @param string $module_name
@@ -61,7 +58,7 @@ interface Auth_Controller_Interface
 	 *
 	 * @return bool
 	 */
-	public function checkModuleActionAccess( $module_name, $action );
+	public function checkModuleActionAccess( string $module_name, string $action ) : bool;
 
 
 	/**
@@ -69,6 +66,6 @@ interface Auth_Controller_Interface
 	 *
 	 * @return bool
 	 */
-	public function checkPageAccess( Mvc_Page_Interface $page );
+	public function checkPageAccess( Mvc_Page_Interface $page ) : bool;
 
 }

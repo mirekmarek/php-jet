@@ -19,14 +19,14 @@ interface BaseObject_Interface
 	 *
 	 * @return bool
 	 */
-	public function objectHasProperty( $property_name );
+	public function objectHasProperty( string $property_name ) : bool;
 
 	/**
 	 * @param string $property_name
 	 *
 	 * @return string
 	 */
-	public function objectSetterMethodName( $property_name );
+	public function objectSetterMethodName( string $property_name ) : string;
 
 
 	/**
@@ -34,6 +34,6 @@ interface BaseObject_Interface
 	 *
 	 * @return string
 	 */
-	public function objectGetterMethodName( $property_name );
+	public function objectGetterMethodName( string $property_name ) : string;
 
 }

@@ -19,7 +19,7 @@ class Db_Backend_PDO extends PDO implements Db_Backend_Interface
 	 *
 	 * @var Db_Backend_PDO_Config
 	 */
-	protected $config = null;
+	protected Db_Backend_PDO_Config $config;
 
 	/**
 	 * @param Db_Backend_Config $config
@@ -32,8 +32,7 @@ class Db_Backend_PDO extends PDO implements Db_Backend_Interface
 
 		$this->config = $config;
 
-		/** @noinspection PhpUsageOfSilenceOperatorInspection */
-		@parent::__construct( $config->getDsn(), $config->getUsername(), $config->getPassword() );
+		parent::__construct( $config->getDsn(), $config->getUsername(), $config->getPassword() );
 
 		$this->setAttribute( static::ATTR_ERRMODE, static::ERRMODE_EXCEPTION );
 
@@ -54,18 +53,18 @@ class Db_Backend_PDO extends PDO implements Db_Backend_Interface
 	 *
 	 * @return Db_Backend_PDO_Config
 	 */
-	public function getConfig()
+	public function getConfig() : Db_Backend_PDO_Config
 	{
 		return $this->config;
 	}
 
 
 	/**
-	 * Executes query and return affected rows
 	 *
-	 * @param string $statement
+	 * @param mixed $statement
 	 *
-	 * @return int
+	 * @return int|false
+	 * @noinspection PhpMissingParamTypeInspection
 	 */
 	public function exec( $statement )
 	{
@@ -83,7 +82,7 @@ class Db_Backend_PDO extends PDO implements Db_Backend_Interface
 	 *
 	 * @return PDOStatement
 	 */
-	public function doQuery( $statement )
+	public function doQuery( string $statement ) : PDOStatement
 	{
 		Debug_Profiler::SQLQueryStart( $statement );
 
@@ -101,7 +100,7 @@ class Db_Backend_PDO extends PDO implements Db_Backend_Interface
 	 *
 	 * @return int
 	 */
-	public function execCommand( $query, array $query_data = [] )
+	public function execCommand( string $query, array $query_data = [] ) : int
 	{
 		Debug_Profiler::SQLQueryStart( $query, $query_data );
 
@@ -137,7 +136,7 @@ class Db_Backend_PDO extends PDO implements Db_Backend_Interface
 	 *
 	 * @return string
 	 */
-	public function prepareQuery( $query, array $query_data = [] )
+	public function prepareQuery( string $query, array $query_data = [] ) : string
 	{
 
 		if( !$query_data ) {
@@ -179,7 +178,7 @@ class Db_Backend_PDO extends PDO implements Db_Backend_Interface
 	 *
 	 * @return array|bool
 	 */
-	public function fetchRow( $query, array $query_data = [] )
+	public function fetchRow( string $query, array $query_data = [] ) : array|bool
 	{
 		$q = $this->prepareQuery( $query, $query_data );
 
@@ -201,7 +200,7 @@ class Db_Backend_PDO extends PDO implements Db_Backend_Interface
 	 *
 	 * @return array
 	 */
-	public function fetchAll( $query, array $query_data = [] )
+	public function fetchAll( string $query, array $query_data = [] ) : array
 	{
 		$q = $this->prepareQuery( $query, $query_data );
 
@@ -222,7 +221,7 @@ class Db_Backend_PDO extends PDO implements Db_Backend_Interface
 	 *
 	 * @return array
 	 */
-	public function fetchAssoc( $query, array $query_data = [], $key_column = null )
+	public function fetchAssoc( string $query, array $query_data = [], ?string $key_column = null ) : array
 	{
 		$q = $this->prepareQuery( $query, $query_data );
 
@@ -233,7 +232,7 @@ class Db_Backend_PDO extends PDO implements Db_Backend_Interface
 
 		foreach( $stn as $row ) {
 			if( $key_column===null ) {
-				list( $key_column ) = array_keys( $row );
+				[ $key_column ] = array_keys( $row );
 			}
 			$key = $row[$key_column];
 
@@ -253,7 +252,7 @@ class Db_Backend_PDO extends PDO implements Db_Backend_Interface
 	 *
 	 * @return array
 	 */
-	public function fetchCol( $query, array $query_data = [], $column = null )
+	public function fetchCol( string $query, array $query_data = [], ?string $column = null ) : array
 	{
 		$q = $this->prepareQuery( $query, $query_data );
 
@@ -263,7 +262,7 @@ class Db_Backend_PDO extends PDO implements Db_Backend_Interface
 		$result = [];
 		foreach( $stn as $row ) {
 			if( $column===null ) {
-				list( $column ) = array_keys( $row );
+				[ $column ] = array_keys( $row );
 			}
 			$result[] = $row[$column];
 		}
@@ -281,7 +280,7 @@ class Db_Backend_PDO extends PDO implements Db_Backend_Interface
 	 *
 	 * @return array
 	 */
-	public function fetchPairs( $query, array $query_data = [], $key_column = null, $value_column = null )
+	public function fetchPairs( string $query, array $query_data = [], ?string $key_column = null, ?string $value_column = null ) : array
 	{
 		$q = $this->prepareQuery( $query, $query_data );
 
@@ -292,7 +291,7 @@ class Db_Backend_PDO extends PDO implements Db_Backend_Interface
 
 		foreach( $stn as $row ) {
 			if( $key_column===null ) {
-				list( $key_column, $value_column ) = array_keys( $row );
+				[ $key_column, $value_column ] = array_keys( $row );
 			}
 			$key = $row[$key_column];
 
@@ -311,7 +310,7 @@ class Db_Backend_PDO extends PDO implements Db_Backend_Interface
 	 *
 	 * @return mixed
 	 */
-	public function fetchOne( $query, array $query_data = [], $column = null )
+	public function fetchOne( string $query, array $query_data = [], ?string $column = null ) : mixed
 	{
 		$q = $this->prepareQuery( $query, $query_data );
 
@@ -321,7 +320,7 @@ class Db_Backend_PDO extends PDO implements Db_Backend_Interface
 
 		foreach( $stn as $row ) {
 			if( $column===null ) {
-				list( $column ) = array_keys( $row );
+				[ $column ] = array_keys( $row );
 			}
 
 			return $row[$column];
@@ -334,8 +333,16 @@ class Db_Backend_PDO extends PDO implements Db_Backend_Interface
 	/**
 	 *
 	 */
-	public function disconnect()
+	public function disconnect() : void
 	{
 	}
 
+	/**
+	 * @param string $string
+	 * @return string
+	 */
+	public function quoteString( string $string ): string
+	{
+		return $this->quote( $string, PDO::PARAM_STR );
+	}
 }

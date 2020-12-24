@@ -37,12 +37,12 @@ abstract class DataModel_Definition_Id_Abstract {
 	public function createClass_IdDefinition( ClassCreator_Class $class )
 	{
 
-		$id_controller_class_name = $this->model->getIDControllerClassName();
-		$id_controller_class_name = str_replace('Jet\\', '', $id_controller_class_name);
-		$class->addUse( new ClassCreator_UseClass('Jet', $id_controller_class_name) );
+		$id_controller_class = $this->model->getIDControllerClassName();
+		$id_controller_class = str_replace('Jet\\', '', $id_controller_class);
+		$class->addUse( new ClassCreator_UseClass('Jet', $id_controller_class) );
 
 		$class->addAnnotation(
-			(new ClassCreator_Annotation('JetDataModel', 'id_controller_class_name', var_export($id_controller_class_name, true)) )
+			(new ClassCreator_Annotation('JetDataModel', 'id_controller_class', var_export($id_controller_class, true)) )
 		);
 	}
 
@@ -51,7 +51,7 @@ abstract class DataModel_Definition_Id_Abstract {
 	 *
 	 * @return array
 	 */
-	protected function getIdProperties( $type )
+	protected function getIdProperties( string $type )
 	{
 		$id_properties = [];
 
@@ -122,7 +122,7 @@ abstract class DataModel_Definition_Id_Abstract {
 	 *
 	 * @return Form_Field_Select
 	 */
-	protected function getOptionsFormField_idProperty( $type ) {
+	protected function getOptionsFormField_idProperty( string $type ) {
 		$id_properties = $this->getIdProperties( $type );
 
 		$default_id_property = '';

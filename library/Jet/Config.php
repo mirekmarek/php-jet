@@ -7,34 +7,29 @@
  */
 namespace Jet;
 
-use Attribute;
 	/**
 	 * Available attributes:
 	 *      Config:
-	 * @JetConfig:name = 'configuration_name'
+	 * #[Config_Definition(name: 'some_name')]
 	 *
 	 *
 	 *      Config Property Definition:
-	 *          /**
-	 *           * @JetConfig:type = Config::TYPE_*,
-	 *           *
-	 *           * @JetConfig:description = 'Some description ...',
-	 *           * @JetConfig:is_required = true
-	 *           * @JetConfig:default_value = 'some default value'
-	 *           *
-	 *           *
-	 *           * @JetConfig:form_field_type = Form::TYPE_*
-	 *           *     - (optional, default: autodetect)
-	 *           * @JetConfig:form_field_label = 'Some form filed label:'
-	 *           * @JetConfig:form_field_options = ['option1' => 'Option 1', 'option2' => 'Option 1', 'option3'=>'Option 3' ]
-	 *           *      - optional
-	 *           * @JetConfig:form_field_error_messages = ['error_code' => 'Message' ]
-	 *           * @JetConfig:form_field_get_select_options_callback = callable
-	 *           *     - optional
-	 *           *
-	 *           * @var string          //some PHP type ...
-	 *           * /
-	 *          protected $some_property;
+	 *           #[Config_Definition(type: Config::TYPE_*)]
+	 *           
+	 *           #[Config_Definition(description: 'Some description ...')]
+	 *           #[Config_Definition(is_required: true)]
+	 *           #[Config_Definition(default_value: 'some default value')]
+	 *           
+	 *           
+	 *           #[Config_Definition(form_field_type: Form::TYPE_*)]
+	 *               - (optional, default: autodetect)
+	 *           #[Config_Definition(form_field_label: 'Some form filed label:')]
+	 *           #[Config_Definition(form_field_options: ['option1' => 'Option 1', 'option2' => 'Option 1', 'option3'=>'Option 3' ])]
+	 *                - optional
+	 *           #[Config_Definition(form_field_error_messages: ['error_code' => 'Message' ])]
+	 *           #[Config_Definition(form_field_get_select_options_callback: callable)]
+	 *               - optional
+	 *          
 	 *
 	 */
 
@@ -42,7 +37,6 @@ use Attribute;
 /**
  *
  */
-#[Attribute(Attribute::TARGET_CLASS|Attribute::TARGET_PROPERTY|Attribute::IS_REPEATABLE)]
 abstract class Config extends BaseObject
 {
 
@@ -56,44 +50,43 @@ abstract class Config extends BaseObject
 
 
 	/**
-	 * Ignore non-existent config file and non-existent config section. Usable for installer or setup.
 	 *
-	 * @var string
+	 * @var string|null
 	 */
-	protected static $config_dir_path;
+	protected static string|null $config_dir_path = null;
 
 	/**
 	 * @var bool
 	 */
-	protected static $be_tolerant = false;
+	protected static bool $be_tolerant = false;
 
 	/**
 	 *
 	 * @var array
 	 */
-	protected static $_config_file_data = [];
+	protected static array $_config_file_data = [];
 
 	/**
 	 *
 	 * @var string
 	 */
-	protected $_config_file_path = '';
+	protected string $_config_file_path = '';
 
 	/**
-	 * @var Config_Definition_Config
+	 * @var Config_Definition_Config|null
 	 */
-	private $definition;
+	private Config_Definition_Config|null $definition = null;
 
 	/**
 	 * @var Config_Definition_Property[]
 	 */
-	private $properties_definition;
+	private array|null $properties_definition = null;
 
 
 	/**
 	 * @return string
 	 */
-	public static function getConfigDirPath()
+	public static function getConfigDirPath() : string
 	{
 		if( !static::$config_dir_path ) {
 			static::$config_dir_path = SysConf_PATH::CONFIG();
@@ -105,7 +98,7 @@ abstract class Config extends BaseObject
 	/**
 	 * @param string $path
 	 */
-	public static function setConfigDirPath( $path )
+	public static function setConfigDirPath( string $path ) : void
 	{
 		static::$config_dir_path = $path;
 	}
@@ -113,7 +106,7 @@ abstract class Config extends BaseObject
 	/**
 	 * @return bool
 	 */
-	public static function beTolerant()
+	public static function beTolerant() : bool
 	{
 		return self::$be_tolerant;
 	}
@@ -121,16 +114,16 @@ abstract class Config extends BaseObject
 	/**
 	 * @param bool $be_tolerant
 	 */
-	public static function setBeTolerant( $be_tolerant )
+	public static function setBeTolerant( bool $be_tolerant ) : void
 	{
 		self::$be_tolerant = $be_tolerant;
 	}
 
 
 	/**
-	 * @param array|null $data
+	 * @param ?array $data
 	 */
-	public function __construct( array $data=null )
+	public function __construct( ?array $data=null )
 	{
 		if($data===null) {
 			$data = $this->readConfigFileData();
@@ -146,7 +139,7 @@ abstract class Config extends BaseObject
 	 *
 	 * @throws Config_Exception
 	 */
-	public function setData( array $data )
+	public function setData( array $data ) : void
 	{
 
 		foreach( $this->getPropertiesDefinition() as $property_name => $property_definition ) {
@@ -176,7 +169,7 @@ abstract class Config extends BaseObject
 	/**
 	 * @return Config_Definition_Config
 	 */
-	public function getDefinition()
+	public function getDefinition() : Config_Definition_Config
 	{
 		if( !$this->definition ) {
 			$this->definition = Config_Definition::getMainConfigDefinition( get_called_class() );
@@ -189,7 +182,7 @@ abstract class Config extends BaseObject
 	 *
 	 * @return Config_Definition_Property[]
 	 */
-	public function getPropertiesDefinition()
+	public function getPropertiesDefinition() : array
 	{
 		if( $this->properties_definition!==null ) {
 			return $this->properties_definition;
@@ -212,7 +205,7 @@ abstract class Config extends BaseObject
 	 *
 	 * @return Form
 	 */
-	public function getCommonForm( $form_name = '' )
+	public function getCommonForm( string $form_name = '' ) : Form
 	{
 		$properties_list = $this->getCommonFormPropertiesList();
 
@@ -226,7 +219,7 @@ abstract class Config extends BaseObject
 	/**
 	 * @return array
 	 */
-	public function getCommonFormPropertiesList()
+	public function getCommonFormPropertiesList() : array
 	{
 		$definition = $this->getPropertiesDefinition();
 		$properties_list = [];
@@ -251,7 +244,7 @@ abstract class Config extends BaseObject
 	 * @throws DataModel_Exception
 	 * @return Form
 	 */
-	protected function getForm( $form_name, array $properties_list )
+	protected function getForm( string $form_name, array $properties_list ) : Form
 	{
 		$properties_definition = $this->getPropertiesDefinition();
 
@@ -307,7 +300,7 @@ abstract class Config extends BaseObject
 	 *
 	 * @return bool;
 	 */
-	public function catchForm( Form $form, $data = null, $force_catch = false )
+	public function catchForm( Form $form, ?array $data = null, bool $force_catch = false ) : bool
 	{
 
 		if(
@@ -325,7 +318,7 @@ abstract class Config extends BaseObject
 	 *
 	 * @return array
 	 */
-	public function toArray()
+	public function toArray() : array
 	{
 		$definition = $this->getPropertiesDefinition();
 
@@ -367,7 +360,7 @@ abstract class Config extends BaseObject
 	/**
 	 * @return string
 	 */
-	public function getConfigFilePath()
+	public function getConfigFilePath() : string
 	{
 		if(!$this->_config_file_path) {
 			$this->_config_file_path = static::getConfigDirPath().$this->getDefinition()->getName().'.php';
@@ -379,7 +372,7 @@ abstract class Config extends BaseObject
 	/**
 	 * @param string $config_file_path
 	 */
-	public function setConfigFilePath( $config_file_path )
+	public function setConfigFilePath( string $config_file_path ) : void
 	{
 		$this->_config_file_path = $config_file_path;
 	}
@@ -391,7 +384,7 @@ abstract class Config extends BaseObject
 	 *
 	 * @return array
 	 */
-	public function readConfigFileData()
+	public function readConfigFileData() : array
 	{
 		$config_file_path = $this->getConfigFilePath();
 
@@ -431,7 +424,7 @@ abstract class Config extends BaseObject
 	/**
 	 *
 	 */
-	public function writeConfigFile()
+	public function writeConfigFile() : void
 	{
 		$config_file_path = $this->getConfigFilePath();
 

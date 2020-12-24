@@ -16,23 +16,23 @@ class Form_Field_Select_Option extends BaseObject
 	/**
 	 * @var string
 	 */
-	protected $option = '';
+	protected string $option = '';
 
 	/**
 	 * @var string
 	 */
-	protected $class = '';
+	protected string $class = '';
 
 	/**
 	 * @var string
 	 */
-	protected $style = '';
+	protected string $style = '';
 
 	/**
 	 *
 	 * @param string $option
 	 */
-	public function __construct( $option )
+	public function __construct( string $option )
 	{
 		$this->option = $option;
 	}
@@ -41,7 +41,7 @@ class Form_Field_Select_Option extends BaseObject
 	/**
 	 * @param string $css_style
 	 */
-	public function setSelectOptionCssStyle( $css_style )
+	public function setSelectOptionCssStyle( string $css_style )
 	{
 		$this->style = $css_style;
 	}
@@ -49,7 +49,7 @@ class Form_Field_Select_Option extends BaseObject
 	/**
 	 * @return string
 	 */
-	public function getSelectOptionCssStyle()
+	public function getSelectOptionCssStyle() : string
 	{
 		return $this->style;
 	}
@@ -58,7 +58,7 @@ class Form_Field_Select_Option extends BaseObject
 	/**
 	 * @param string $css_class
 	 */
-	public function setSelectOptionCssClass( $css_class )
+	public function setSelectOptionCssClass( string $css_class )
 	{
 		$this->class = $css_class;
 	}
@@ -66,7 +66,7 @@ class Form_Field_Select_Option extends BaseObject
 	/**
 	 * @return string
 	 */
-	public function getSelectOptionCssClass()
+	public function getSelectOptionCssClass() : string
 	{
 		return $this->class;
 	}
@@ -74,7 +74,7 @@ class Form_Field_Select_Option extends BaseObject
 	/**
 	 * @return string
 	 */
-	public function __toString()
+	public function __toString() : string
 	{
 		return $this->option;
 	}

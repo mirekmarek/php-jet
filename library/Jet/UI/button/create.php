@@ -16,6 +16,6 @@ class UI_button_create extends UI_button
 	/**
 	 * @var string
 	 */
-	protected static $default_renderer_script = 'button/create';
+	protected static string $default_renderer_script = 'button/create';
 
 }

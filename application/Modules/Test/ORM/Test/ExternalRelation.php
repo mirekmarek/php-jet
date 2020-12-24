@@ -8,7 +8,6 @@
 
 namespace JetApplicationModule\Test\ORM;
 
-use Jet\DataModel_Query;
 use Jet\DataModel_Query_Select_Item_Expression;
 
 /**

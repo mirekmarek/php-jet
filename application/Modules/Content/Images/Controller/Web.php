@@ -23,9 +23,9 @@ class Controller_Web extends Mvc_Controller_Default
 	protected $module = null;
 
 	/**
-	 * @var Gallery
+	 * @var ?Gallery
 	 */
-	protected $gallery;
+	protected ?Gallery $gallery = null;
 	/**
 	 *
 	 */
@@ -53,9 +53,9 @@ class Controller_Web extends Mvc_Controller_Default
 	/**
 	 *
 	 *
-	 * @return bool
+	 * @return bool|string
 	 */
-	public function resolve()
+	public function resolve() : bool|string
 	{
 		$path = Mvc::getRouter()->getPath();
 

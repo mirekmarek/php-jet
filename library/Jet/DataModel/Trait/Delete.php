@@ -16,7 +16,7 @@ trait DataModel_Trait_Delete
 	 *
 	 * @throws DataModel_Exception
 	 */
-	public function delete()
+	public function delete() : void
 	{
 		/**
 		 * @var DataModel $this

@@ -7,6 +7,9 @@
  */
 namespace JetStudio;
 
+/**
+ *
+ */
 abstract class ClassParser_Class_Element extends ClassParser_Element {
 
 	/**

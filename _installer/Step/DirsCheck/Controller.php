@@ -23,12 +23,12 @@ class Installer_Step_DirsCheck_Controller extends Installer_Step_Controller
 	/**
 	 * @var string
 	 */
-	protected $label = 'Check directories permissions';
+	protected string $label = 'Check directories permissions';
 
 	/**
 	 * @return bool
 	 */
-	public function getIsAvailable()
+	public function getIsAvailable() : bool
 	{
 		return !Installer_Step_CreateSite_Controller::sitesCreated();
 	}
@@ -36,7 +36,7 @@ class Installer_Step_DirsCheck_Controller extends Installer_Step_Controller
 	/**
 	 *
 	 */
-	public function main()
+	public function main() : void
 	{
 		$this->catchContinue();
 

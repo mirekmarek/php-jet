@@ -43,56 +43,55 @@ class DataModel_Query extends BaseObject
 	];
 
 	/**
-	 * @var DataModel_Definition_Model_Main
+	 * @var ?DataModel_Definition_Model
 	 */
-	protected $data_model_definition;
+	protected ?DataModel_Definition_Model $data_model_definition = null;
 
 	/**
-	 * The array key is related data model name
 	 *
 	 * @var DataModel_Definition_Relation[]
 	 */
-	protected $relations = [];
+	protected array $relations = [];
 
 
 	/**
-	 * @var DataModel_Query_Select
+	 * @var ?DataModel_Query_Select
 	 */
-	protected $select;
+	protected ?DataModel_Query_Select $select = null;
 
 	/**
-	 * @var DataModel_Query_Where
+	 * @var ?DataModel_Query_Where
 	 */
-	protected $where;
+	protected ?DataModel_Query_Where $where = null;
 
 	/**
-	 * @var DataModel_Query_Having
+	 * @var ?DataModel_Query_Having
 	 */
-	protected $having;
-
-	/**
-	 *
-	 * @var DataModel_Query_OrderBy|DataModel_Query_OrderBy_Item[]
-	 */
-	protected $order_by;
+	protected ?DataModel_Query_Having $having = null;
 
 	/**
 	 *
-	 * @var DataModel_Query_GroupBy
+	 * @var DataModel_Query_OrderBy|DataModel_Query_OrderBy_Item[]|null
 	 */
-	protected $group_by;
+	protected DataModel_Query_OrderBy|array|null $order_by = null;
 
 	/**
 	 *
-	 * @var int
+	 * @var ?DataModel_Query_GroupBy
 	 */
-	protected $offset = null;
+	protected ?DataModel_Query_GroupBy $group_by = null;
 
 	/**
 	 *
-	 * @var int
+	 * @var int|null
 	 */
-	protected $limit = null;
+	protected int|null $offset = null;
+
+	/**
+	 *
+	 * @var int|null
+	 */
+	protected int|null $limit = null;
 
 	/**
 	 *
@@ -101,7 +100,7 @@ class DataModel_Query extends BaseObject
 	 *
 	 * @return DataModel_Query
 	 */
-	public static function createQuery( DataModel_Definition_Model $main_data_model_definition, array $where = [] )
+	public static function createQuery( DataModel_Definition_Model $main_data_model_definition, array $where = [] ) : DataModel_Query
 	{
 
 		$result = new static( $main_data_model_definition );
@@ -127,7 +126,7 @@ class DataModel_Query extends BaseObject
 	/**
 	 * @return DataModel_Definition_Model
 	 */
-	public function getDataModelDefinition()
+	public function getDataModelDefinition() : DataModel_Definition_Model
 	{
 		return $this->data_model_definition;
 	}
@@ -135,7 +134,7 @@ class DataModel_Query extends BaseObject
 	/**
 	 * @return DataModel_Query_Select
 	 */
-	public function getSelect()
+	public function getSelect() : DataModel_Query_Select
 	{
 		return $this->select;
 	}
@@ -144,10 +143,10 @@ class DataModel_Query extends BaseObject
 	 *
 	 * @param array $items
 	 *
-	 * @return DataModel_Query
+	 * @return DataModel_Query|null
 	 *
 	 */
-	public function setSelect( array $items )
+	public function setSelect( array $items ) : DataModel_Query|null
 	{
 		$this->select = new DataModel_Query_Select( $this, $items );
 
@@ -155,9 +154,9 @@ class DataModel_Query extends BaseObject
 	}
 
 	/**
-	 * @return DataModel_Query_Where
+	 * @return DataModel_Query_Where|null
 	 */
-	public function getWhere()
+	public function getWhere() : DataModel_Query_Where|null
 	{
 		return $this->where;
 	}
@@ -167,7 +166,7 @@ class DataModel_Query extends BaseObject
 	 *
 	 * @return DataModel_Query
 	 */
-	public function setWhere( array $where )
+	public function setWhere( array $where ) : DataModel_Query
 	{
 		$this->where = new DataModel_Query_Where( $this, $where );
 
@@ -175,9 +174,9 @@ class DataModel_Query extends BaseObject
 	}
 
 	/**
-	 * @return DataModel_Query_Having
+	 * @return DataModel_Query_Having|null
 	 */
-	public function getHaving()
+	public function getHaving() : DataModel_Query_Having|null
 	{
 		return $this->having;
 	}
@@ -187,7 +186,7 @@ class DataModel_Query extends BaseObject
 	 *
 	 * @return DataModel_Query
 	 */
-	public function setHaving( array $having )
+	public function setHaving( array $having ) : DataModel_Query
 	{
 		$this->having = new DataModel_Query_Having( $this, $having );
 
@@ -195,9 +194,9 @@ class DataModel_Query extends BaseObject
 	}
 
 	/**
-	 * @return DataModel_Query_GroupBy
+	 * @return DataModel_Query_GroupBy|null
 	 */
-	public function getGroupBy()
+	public function getGroupBy() : DataModel_Query_GroupBy|null
 	{
 		return $this->group_by;
 	}
@@ -210,7 +209,7 @@ class DataModel_Query extends BaseObject
 	 * @return DataModel_Query
 	 *
 	 */
-	public function setGroupBy( $group_by )
+	public function setGroupBy( array|string $group_by ) : DataModel_Query
 	{
 		$this->group_by = new DataModel_Query_GroupBy( $this, $group_by );
 
@@ -218,9 +217,9 @@ class DataModel_Query extends BaseObject
 	}
 
 	/**
-	 * @return DataModel_Query_OrderBy|DataModel_Query_OrderBy_Item[]
+	 * @return DataModel_Query_OrderBy|DataModel_Query_OrderBy_Item[]|null
 	 */
-	public function getOrderBy()
+	public function getOrderBy() : DataModel_Query_OrderBy|array|null
 	{
 		return $this->order_by;
 	}
@@ -233,7 +232,7 @@ class DataModel_Query extends BaseObject
 	 * @return DataModel_Query
 	 *
 	 */
-	public function setOrderBy( $order_by )
+	public function setOrderBy( array|string $order_by ) : DataModel_Query
 	{
 		$this->order_by = new DataModel_Query_OrderBy( $this, $order_by );
 
@@ -243,20 +242,19 @@ class DataModel_Query extends BaseObject
 	/**
 	 * @return int|null
 	 */
-	public function getLimit()
+	public function getLimit() : int|null
 	{
 		return $this->limit;
 	}
 
 	/**
-	 * Sets limit (and offset)
 	 *
 	 * @param int $limit
 	 * @param int|null $offset (optional)
 	 *
 	 * @return DataModel_Query
 	 */
-	public function setLimit( $limit, $offset = null )
+	public function setLimit( int $limit, ?int $offset = null ) : DataModel_Query
 	{
 		$this->limit = (int)$limit;
 		$this->offset = $offset===null ? null : (int)$offset;
@@ -267,7 +265,7 @@ class DataModel_Query extends BaseObject
 	/**
 	 * @return int|null
 	 */
-	public function getOffset()
+	public function getOffset() : int|null
 	{
 		return $this->offset;
 	}
@@ -276,7 +274,7 @@ class DataModel_Query extends BaseObject
 	/**
 	 * @return DataModel_Definition_Relation[]
 	 */
-	public function getRelations()
+	public function getRelations() : array
 	{
 		return $this->relations;
 	}
@@ -285,7 +283,7 @@ class DataModel_Query extends BaseObject
 	 * @param string                        $name
 	 * @param DataModel_Definition_Relation $relation
 	 */
-	public function addRelation( $name, DataModel_Definition_Relation $relation )
+	public function addRelation( string $name, DataModel_Definition_Relation $relation ) : void
 	{
 		$this->relations[$name] = $relation;
 	}
@@ -298,7 +296,7 @@ class DataModel_Query extends BaseObject
 	 *
 	 * @return DataModel_Query
 	 */
-	public function setRelationJoinType( $related_data_model_name, $join_type )
+	public function setRelationJoinType( string $related_data_model_name, string $join_type ) : DataModel_Query
 	{
 		$this->getRelation( $related_data_model_name )->setJoinType( $join_type );
 
@@ -312,7 +310,7 @@ class DataModel_Query extends BaseObject
 	 *
 	 * @return DataModel_Definition_Relation
 	 */
-	public function getRelation( $related_data_model_name )
+	public function getRelation( string $related_data_model_name ) : DataModel_Definition_Relation
 	{
 		if( !isset( $this->relations[$related_data_model_name] ) ) {
 			throw new DataModel_Query_Exception(
@@ -338,10 +336,10 @@ class DataModel_Query extends BaseObject
 	 *
 	 * @return DataModel_Definition_Property
 	 */
-	public function getPropertyAndSetRelation( $property_name )
+	public function getPropertyAndSetRelation( string $property_name ) : DataModel_Definition_Property
 	{
 
-		if(strpos($property_name, '.')!==false) {
+		if( str_contains( $property_name, '.' ) ) {
 			$property_name_parts = explode( '.', $property_name );
 
 			if( count( $property_name_parts )!=2 ) {
@@ -352,7 +350,7 @@ class DataModel_Query extends BaseObject
 
 			}
 
-			list($related_data_model_name, $property_name) = $property_name_parts;
+			[$related_data_model_name, $property_name] = $property_name_parts;
 
 
 			$relevant_relation = clone $this->data_model_definition->getRelation( $related_data_model_name );
@@ -392,7 +390,7 @@ class DataModel_Query extends BaseObject
 	/**
 	 * @return string
 	 */
-	public function toString()
+	public function toString() : string
 	{
 		return DataModel_Backend::get($this->data_model_definition)->createSelectQuery( $this );
 	}
@@ -400,7 +398,7 @@ class DataModel_Query extends BaseObject
 	/**
 	 * @return string
 	 */
-	public function __toString()
+	public function __toString() : string
 	{
 		return $this->toString();
 	}

@@ -14,12 +14,12 @@ class AJAX
 {
 
 	/**
-	 * @param mixed  $response_data (will be encoded by json_encode)
-	 * @param array  $http_headers
-	 * @param int    $http_code
+	 * @param mixed $response_data (will be encoded by json_encode)
+	 * @param array $http_headers
+	 * @param int $http_code
 	 * @param string $http_message
 	 */
-	public static function response( $response_data, array $http_headers = [], $http_code = 200, $http_message = 'OK' )
+	public static function response( mixed $response_data, array $http_headers = [], int $http_code = 200, string $http_message = 'OK' ) : void
 	{
 		Debug::setOutputIsJSON( true );
 
@@ -36,11 +36,11 @@ class AJAX
 	}
 
 	/**
-	 * @param bool  $success
+	 * @param bool $success
 	 * @param array $snippets
 	 * @param array $data
 	 */
-	public static function formResponse( $success, array $snippets = [], $data = [] )
+	public static function formResponse( bool $success, array $snippets = [], array $data = [] ) : void
 	{
 
 		$response = [

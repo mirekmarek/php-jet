@@ -18,16 +18,16 @@ class Cache_Autoloader {
 	/**
 	 * @return string
 	 */
-	public static function getPath()
+	public static function getPath() : string
 	{
 		return SysConf_PATH::CACHE().'autoloader_class_map.php';
 	}
 
 	/**
 	 *
-	 * @return bool|mixed
+	 * @return mixed
 	 */
-	public static function load()
+	public static function load() : mixed
 	{
 		$file_path = static::getPath();
 
@@ -45,7 +45,7 @@ class Cache_Autoloader {
 	/**
 	 * @param array $data
 	 */
-	public static function save( $data )
+	public static function save( array $data ) : void
 	{
 		$file_path = static::getPath();
 
@@ -61,7 +61,7 @@ class Cache_Autoloader {
 	/**
 	 *
 	 */
-	public static function invalidate()
+	public static function invalidate() : void
 	{
 		$file_path = static::getPath();
 

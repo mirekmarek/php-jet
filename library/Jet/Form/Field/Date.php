@@ -17,52 +17,52 @@ class Form_Field_Date extends Form_Field_Input
 	/**
 	 * @var string
 	 */
-	protected static $default_renderer_script = 'field';
+	protected static string $default_renderer_script = 'field';
 
 	/**
 	 * @var string
 	 */
-	protected static $default_row_start_renderer_script = 'Field/row/start';
+	protected static string $default_row_start_renderer_script = 'Field/row/start';
 
 	/**
 	 * @var string
 	 */
-	protected static $default_row_end_renderer_script = 'Field/row/end';
+	protected static string $default_row_end_renderer_script = 'Field/row/end';
 
 	/**
 	 * @var string
 	 */
-	protected static $default_input_container_start_renderer_script = 'Field/input/container/start';
+	protected static string $default_input_container_start_renderer_script = 'Field/input/container/start';
 
 	/**
 	 * @var string
 	 */
-	protected static $default_input_container_end_renderer_script = 'Field/input/container/end';
+	protected static string $default_input_container_end_renderer_script = 'Field/input/container/end';
 
 	/**
 	 * @var string
 	 */
-	protected static $default_error_renderer = 'Field/error';
+	protected static string $default_error_renderer = 'Field/error';
 
 	/**
 	 * @var string
 	 */
-	protected static $default_label_renderer = 'Field/label';
+	protected static string $default_label_renderer = 'Field/label';
 
 	/**
 	 * @var string string
 	 */
-	protected static $default_input_renderer = 'Field/input/Date';
+	protected static string $default_input_renderer = 'Field/input/Date';
 
 	/**
 	 * @var string
 	 */
-	protected $_type = Form::TYPE_DATE;
+	protected string $_type = Form::TYPE_DATE;
 
 	/**
 	 * @var array
 	 */
-	protected $error_messages = [
+	protected array $error_messages = [
 		self::ERROR_CODE_EMPTY          => '',
 		self::ERROR_CODE_INVALID_FORMAT => '',
 	];
@@ -71,7 +71,7 @@ class Form_Field_Date extends Form_Field_Input
 	/**
 	 * @param Data_Array $data
 	 */
-	public function catchInput( Data_Array $data )
+	public function catchInput( Data_Array $data ) : void
 	{
 		parent::catchInput( $data );
 
@@ -87,7 +87,7 @@ class Form_Field_Date extends Form_Field_Input
 	 *
 	 * @return bool
 	 */
-	public function validate()
+	public function validate() : bool
 	{
 
 		if( $this->_value ) {
@@ -113,7 +113,7 @@ class Form_Field_Date extends Form_Field_Input
 	/**
 	 * @return array
 	 */
-	public function getRequiredErrorCodes()
+	public function getRequiredErrorCodes() : array
 	{
 		$codes = [];
 
@@ -124,6 +124,7 @@ class Form_Field_Date extends Form_Field_Input
 
 		return $codes;
 	}
+
 
 
 }

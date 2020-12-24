@@ -8,7 +8,6 @@
 namespace JetApplicationModule\Content\Articles;
 
 use Jet\Data_Listing;
-use Jet\DataModel_Fetch_Instances;
 use Jet\Data_Listing_Filter_search;
 
 /**
@@ -21,7 +20,7 @@ class Article_AdminListing extends Data_Listing {
 	/**
 	 * @var array
 	 */
-	protected $grid_columns = [
+	protected array $grid_columns = [
 		'_edit_'     => [
 			'title'         => '',
 			'disallow_sort' => true
@@ -36,14 +35,14 @@ class Article_AdminListing extends Data_Listing {
 	/**
 	 * @var string[]
 	 */
-	protected $filters = [
+	protected array $filters = [
 		'search'
 	];
 
 	/**
-	 * @return DataModel_Fetch_Instances
+	 * @return Article[]
 	 */
-	protected function getList()
+	protected function getList() : iterable
 	{
 		return Article::getList();
 	}
@@ -52,7 +51,7 @@ class Article_AdminListing extends Data_Listing {
 	/**
 	 *
 	 */
-	protected function filter_search_getWhere()
+	protected function filter_search_getWhere() : void
 	{
 		if(!$this->search) {
 			return;

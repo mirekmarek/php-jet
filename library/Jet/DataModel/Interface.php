@@ -15,21 +15,20 @@ interface DataModel_Interface extends BaseObject_Interface_Serializable_JSON
 //-- Definition ---------------------------------
 
 	/**
-	 * Returns model definition
 	 *
-	 * @param string $class_name (optional)
+	 * @param string $class_name
 	 *
 	 * @return DataModel_Definition_Model
 	 */
-	public static function getDataModelDefinition( $class_name = '' );
+	public static function getDataModelDefinition( string $class_name = '' ) : DataModel_Definition_Model;
 
 
 	/**
 	 * @param string $data_model_class_name
 	 *
-	 * @return DataModel_Definition_Model_Main
+	 * @return DataModel_Definition_Model_Main|DataModel_Definition_Model_Related_1to1|DataModel_Definition_Model_Related_1toN|DataModel_Definition_Model_Related_MtoN
 	 */
-	public static function dataModelDefinitionFactory( $data_model_class_name );
+	public static function dataModelDefinitionFactory( string $data_model_class_name ) : DataModel_Definition_Model_Main|DataModel_Definition_Model_Related_1to1|DataModel_Definition_Model_Related_1toN|DataModel_Definition_Model_Related_MtoN;
 
 
 //-- Id -----------------------------------------
@@ -37,93 +36,89 @@ interface DataModel_Interface extends BaseObject_Interface_Serializable_JSON
 	/**
 	 * @return DataModel_IDController
 	 */
-	public static function getEmptyIDController();
-
-	/**
-	 * Returns backend instance
-	 *
-	 * @return DataModel_Backend
-	 */
-	public static function getBackendInstance();
-
-//-- InternalState ------------------------------
-
+	public static function getEmptyIDController() : DataModel_IDController;
 
 
 	/**
 	 *
 	 * @return DataModel_IDController
 	 */
-	public function getIDController();
+	public function getIDController() : DataModel_IDController;
+
+//-- InternalState ------------------------------
 
 	/**
-	 * Initializes new DataModel
 	 *
 	 */
-	public function initNewObject();
+	public function initNewObject() : void;
 
 	/**
-	 * Returns true if the model instance is new (was not saved yet)
 	 *
 	 * @return bool
 	 */
-	public function getIsNew();
+	public function getIsNew() : bool;
 
 	/**
 	 *
 	 */
-	public function setIsNew();
+	public function setIsNew() : void;
+
+	/**
+	 * @return bool
+	 */
+	public function getIsSaved() : bool;
+
+	/**
+	 *
+	 */
+	public function setIsSaved() : void;
+
 
 //-- Backend ------------------------------------
+	/**
+	 *
+	 * @return DataModel_Backend
+	 */
+	public static function getBackendInstance() : DataModel_Backend;
 
 	/**
 	 * @return bool
 	 */
-	public function getIsSaved();
-
-	/**
-	 *
-	 */
-	public function setIsSaved();
+	public function getBackendTransactionStarted() : bool;
 
 	/**
 	 * @return bool
 	 */
-	public function getBackendTransactionStarted();
-
-	/**
-	 * @return bool
-	 */
-	public function getBackendTransactionStartedByThisInstance();
+	public function getBackendTransactionStartedByThisInstance() : bool;
 
 	/**
 	 *
 	 */
-	public function startBackendTransaction();
+	public function startBackendTransaction() : void;
 
 	/**
 	 *
 	 */
-	public function commitBackendTransaction();
+	public function commitBackendTransaction() : void;
 
 	/**
 	 *
 	 */
-	public function rollbackBackendTransaction();
+	public function rollbackBackendTransaction() : void;
 
 //-- Load ---------------------------------------
 
 	/**
-	 * @return DataModel_PropertyFilter
+	 * @return DataModel_PropertyFilter|null
 	 */
-	public function getLoadFilter();
+	public function getLoadFilter() : DataModel_PropertyFilter|null;
 
 	/**
 	 * @param array $where
 	 *
 	 * @return DataModel_Query
 	 */
-	public static function createQuery( array $where = [] );
+	public static function createQuery( array $where = [] ) : DataModel_Query;
 
 
 	/**
@@ -131,20 +126,21 @@ interface DataModel_Interface extends BaseObject_Interface_Serializable_JSON
 	 * @param array $related_data
 	 * @param DataModel_PropertyFilter|null $load_filter
 	 *
-	 * @return DataModel
+	 * @return DataModel_Interface
 	 */
-	public static function initByData( array $this_data, $related_data = [], DataModel_PropertyFilter $load_filter=null );
+	public static function initByData( array $this_data, array $related_data = [], DataModel_PropertyFilter $load_filter=null ) : DataModel_Interface;
 
 
 	/**
 	 * Loads DataModel.
 	 *
-	 * @param array|string|int               $id_or_where
+	 * @param array|string|int|DataModel_IDController $id_or_where
 	 * @param array|DataModel_PropertyFilter|null $load_filter
 	 *
-	 * @return DataModel
+	 * @return static|null
 	 */
-	public static function load( $id_or_where, $load_filter = null );
+	public static function load( array|string|int|DataModel_IDController $id_or_where,
+	                             array|DataModel_PropertyFilter|null $load_filter = null ) : static|null;
 
 
 	/**
@@ -155,7 +151,10 @@ interface DataModel_Interface extends BaseObject_Interface_Serializable_JSON
 	 *
 	 * @return DataModel[]
 	 */
-	public static function fetch( array $where_per_model=[], $order_by=null, callable $item_key_generator = null, $load_filter=null );
+	public static function fetch( array $where_per_model=[],
+	                              array|string|null $order_by=null,
+	                              callable|null $item_key_generator = null,
+	                              array|DataModel_PropertyFilter|null $load_filter=null ) : array;
 
 
 	/**
@@ -167,7 +166,7 @@ interface DataModel_Interface extends BaseObject_Interface_Serializable_JSON
 	 *
 	 * @throws DataModel_Query_Exception
 	 */
-	public static function fetchData( array $select, array $where, $fetch_method='fetchAll' );
+	public static function fetchData( array $select, array $where, string $fetch_method='fetchAll' ) : mixed;
 
 
 	/**
@@ -177,7 +176,7 @@ interface DataModel_Interface extends BaseObject_Interface_Serializable_JSON
 	 *
 	 * @return DataModel_Fetch_Instances
 	 */
-	public static function fetchInstances( array $where = [], array $load_filter = [] );
+	public static function fetchInstances( array $where = [], array $load_filter = [] ) : DataModel_Fetch_Instances;
 
 	/**
 	 *
@@ -185,7 +184,7 @@ interface DataModel_Interface extends BaseObject_Interface_Serializable_JSON
 	 *
 	 * @return DataModel_Fetch_IDs
 	 */
-	public static function fetchIDs( array $where = [] );
+	public static function fetchIDs( array $where = [] ) : DataModel_Fetch_IDs;
 
 //-- Save ---------------------------------------
 
@@ -194,20 +193,20 @@ interface DataModel_Interface extends BaseObject_Interface_Serializable_JSON
 	 * @throws Exception
 	 * @throws DataModel_Exception
 	 */
-	public function save();
+	public function save() : void;
 
 	/**
 	 * @param array $data
 	 * @param array $where
 	 */
-	public static function updateData( array $data, array $where );
+	public static function updateData( array $data, array $where ) : void;
 
 //-- Delete -------------------------------------
 	/**
 	 *
 	 * @throws DataModel_Exception
 	 */
-	public function delete();
+	public function delete() : void;
 
 
 //-- Forms --------------------------------------
@@ -220,14 +219,14 @@ interface DataModel_Interface extends BaseObject_Interface_Serializable_JSON
 	 *
 	 * @return Form
 	 */
-	public function getForm( $form_name, $property_filter = null );
+	public function getForm( string $form_name, array|DataModel_PropertyFilter|null $property_filter = null ) : Form;
 
 	/**
 	 * @param string $form_name
 	 *
 	 * @return Form
 	 */
-	public function getCommonForm( $form_name = '' );
+	public function getCommonForm( string $form_name = '' ) : Form;
 
 	/**
 	 * @param Form  $form
@@ -237,34 +236,34 @@ interface DataModel_Interface extends BaseObject_Interface_Serializable_JSON
 	 *
 	 * @return bool;
 	 */
-	public function catchForm( Form $form, $data = null, $force_catch = false );
+	public function catchForm( Form $form, array|null $data = null, bool $force_catch = false ) : bool;
 
 
 //-- Events -------------------------------------
 	/**
 	 *
 	 */
-	public function afterLoad();
+	public function afterLoad() : void;
 
 
 	/**
 	 *
 	 */
-	public function beforeSave();
+	public function beforeSave() : void;
 
 	/**
 	 *
 	 */
-	public function afterAdd();
+	public function afterAdd() : void;
 
 	/**
 	 *
 	 */
-	public function afterUpdate();
+	public function afterUpdate() : void;
 
 	/**
 	 *
 	 */
-	public function afterDelete();
+	public function afterDelete() : void;
 
 }

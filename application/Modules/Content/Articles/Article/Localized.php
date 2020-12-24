@@ -8,6 +8,7 @@
 namespace JetApplicationModule\Content\Articles;
 
 use Jet\DataModel;
+use Jet\DataModel_Definition;
 use Jet\DataModel_Related_1toN;
 use Jet\DataModel_IDController_Passive;
 
@@ -16,97 +17,88 @@ use Jet\Mvc;
 use Jet\Data_Text;
 use Jet\Form;
 use Jet\Form_Field_Input;
-use Jet\Form_Field_Select;
-use Jet\Form_Field_DateTime;
 
 /**
  *
- * @JetDataModel:name = 'article_localized'
- * @JetDataModel:database_table_name = 'articles_localized'
- * @JetDataModel:id_controller_class_name = 'DataModel_IDController_Passive'
- * @JetDataModel:parent_model_class_name = 'Article'
  */
+#[DataModel_Definition(name: 'article_localized')]
+#[DataModel_Definition(database_table_name: 'articles_localized')]
+#[DataModel_Definition(id_controller_class: DataModel_IDController_Passive::class)]
+#[DataModel_Definition(parent_model_class: Article::class)]
 class Article_Localized extends DataModel_Related_1toN
 {
 	/**
 	 * @var Article
 	 */
-	protected $_article;
+	protected Article $_article;
 
 	/**
 	 *
-	 * @JetDataModel:type = DataModel::TYPE_ID
-	 * @JetDataModel:is_id = true
-	 * @JetDataModel:form_field_type = false
-	 * @JetDataModel:related_to = 'main.id'
-	 * @JetDataModel:do_not_export = true
+	 * @var string|null
+	 */
+	#[DataModel_Definition(type: DataModel::TYPE_ID)]
+	#[DataModel_Definition(is_id: true)]
+	#[DataModel_Definition(form_field_type: false)]
+	#[DataModel_Definition(related_to: 'main.id')]
+	#[DataModel_Definition(do_not_export: true)]
+	protected string|null $article_id = '';
+
+	/**
+	 * @var Locale|null
+	 */
+	#[DataModel_Definition(type: DataModel::TYPE_LOCALE)]
+	#[DataModel_Definition(is_id: true)]
+	#[DataModel_Definition(form_field_type: false)]
+	#[DataModel_Definition(do_not_export: true)]
+	protected Locale|null $locale;
+
+	/**
 	 *
 	 * @var string
 	 */
-	protected $article_id = '';
+	#[DataModel_Definition(type: DataModel::TYPE_STRING)]
+	#[DataModel_Definition(max_len: 255)]
+	#[DataModel_Definition(form_field_is_required: true)]
+	#[DataModel_Definition(form_field_type: false)]
+	#[DataModel_Definition(is_key: true)]
+	protected string $URI_fragment = '';
 
 	/**
-	 *
-	 * @JetDataModel:type = DataModel::TYPE_LOCALE
-	 * @JetDataModel:is_id = true
-	 * @JetDataModel:form_field_type = false
-	 * @JetDataModel:do_not_export = true
-	 *
-	 * @var Locale
-	 */
-	protected $locale;
-
-	/**
-	 *
-	 * @JetDataModel:type = DataModel::TYPE_STRING
-	 * @JetDataModel:max_len = 255
-	 * @JetDataModel:form_field_is_required = true
-	 * @JetDataModel:form_field_type = false
-	 * @JetDataModel:is_key = true
 	 *
 	 * @var string
 	 */
-	protected $URI_fragment = '';
+	#[DataModel_Definition(type: DataModel::TYPE_STRING)]
+	#[DataModel_Definition(max_len: 100)]
+	#[DataModel_Definition(form_field_is_required: true)]
+	#[DataModel_Definition(form_field_label: 'Title')]
+	#[DataModel_Definition(form_field_error_messages: [Form_Field_Input::ERROR_CODE_EMPTY => 'Please enter title'])]
+	protected string $title = '';
 
 	/**
 	 *
-	 * @JetDataModel:type = DataModel::TYPE_STRING
-	 * @JetDataModel:max_len = 100
-	 * @JetDataModel:form_field_is_required = true
-	 * @JetDataModel:form_field_label = 'Title'
-	 * @JetDataModel:form_field_error_messages = [Form_Field_Input::ERROR_CODE_EMPTY => 'Please enter title']
-	 *
 	 * @var string
 	 */
-	protected $title = '';
+	#[DataModel_Definition(type: DataModel::TYPE_STRING)]
+	#[DataModel_Definition(max_len: 65536)]
+	#[DataModel_Definition(form_field_label: 'Annotation')]
+	protected string $annotation = '';
 
 	/**
 	 *
-	 * @JetDataModel:type = DataModel::TYPE_STRING
-	 * @JetDataModel:max_len = 65536
-	 * @JetDataModel:form_field_label = 'Annotation'
-	 *
 	 * @var string
 	 */
-	protected $annotation = '';
-
-	/**
-	 *
-	 * @JetDataModel:type = DataModel::TYPE_STRING
-	 * @JetDataModel:max_len = 655360
-	 * @JetDataModel:form_field_label = 'Text'
-	 * @JetDataModel:form_field_type = Form::TYPE_WYSIWYG
-	 *
-	 * @var string
-	 */
-	protected $text = '';
+	#[DataModel_Definition(type: DataModel::TYPE_STRING)]
+	#[DataModel_Definition(max_len: 655360)]
+	#[DataModel_Definition(form_field_label: 'Text')]
+	#[DataModel_Definition(form_field_type: Form::TYPE_WYSIWYG)]
+	protected string $text = '';
 
 	/**
 	 *
 	 * @param string|null $article_id
 	 * @param Locale|null $locale
 	 */
-	public function __construct( $article_id=null, Locale $locale=null )
+	public function __construct( ?string $article_id=null, ?Locale $locale=null )
 	{
 		parent::__construct();
 		$this->article_id = $article_id;
@@ -116,7 +108,7 @@ class Article_Localized extends DataModel_Related_1toN
 	/**
 	 * @return Article
 	 */
-	public function getArticle()
+	public function getArticle() : Article
 	{
 		return $this->_article;
 	}
@@ -124,16 +116,16 @@ class Article_Localized extends DataModel_Related_1toN
 	/**
 	 * @param Article $article
 	 */
-	public function setArticle( Article $article )
+	public function setArticle( Article $article ) : void
 	{
 		$this->_article = $article;
 	}
 
 
 	/**
-	 * @return string
+	 * @return string|int|null
 	 */
-	public function getArrayKeyValue()
+	public function getArrayKeyValue(): null|string|int
 	{
 		return $this->locale->toString();
 	}
@@ -141,7 +133,7 @@ class Article_Localized extends DataModel_Related_1toN
 	/**
 	 * @return string
 	 */
-	public function getArticleId()
+	public function getArticleId() : string
 	{
 		return $this->article_id;
 	}
@@ -149,7 +141,7 @@ class Article_Localized extends DataModel_Related_1toN
 	/**
 	 * @param string $article_id
 	 */
-	public function setArticleId( $article_id )
+	public function setArticleId( string $article_id ) : void
 	{
 		$this->article_id = $article_id;
 	}
@@ -158,7 +150,7 @@ class Article_Localized extends DataModel_Related_1toN
 	/**
 	 * @return Locale
 	 */
-	public function getLocale()
+	public function getLocale() : Locale
 	{
 		return $this->locale;
 	}
@@ -166,7 +158,7 @@ class Article_Localized extends DataModel_Related_1toN
 	/**
 	 * @param Locale|string $locale
 	 */
-	public function setLocale( $locale )
+	public function setLocale( Locale|string $locale ) : void
 	{
 		if( !( $locale instanceof Locale ) ) {
 			$locale = new Locale( $locale );
@@ -178,7 +170,7 @@ class Article_Localized extends DataModel_Related_1toN
 	/**
 	 * @return string
 	 */
-	public function getURL()
+	public function getURL() : string
 	{
 		return Mvc::getCurrentPage()->getURL( [ $this->getURIFragment() ], [] );
 	}
@@ -186,7 +178,7 @@ class Article_Localized extends DataModel_Related_1toN
 	/**
 	 * @return string
 	 */
-	public function getURIFragment()
+	public function getURIFragment() : string
 	{
 		return $this->URI_fragment;
 	}
@@ -194,7 +186,7 @@ class Article_Localized extends DataModel_Related_1toN
 	/**
 	 * @return string
 	 */
-	public function getTitle()
+	public function getTitle() : string
 	{
 		return $this->title;
 	}
@@ -202,7 +194,7 @@ class Article_Localized extends DataModel_Related_1toN
 	/**
 	 * @param string $title
 	 */
-	public function setTitle( $title )
+	public function setTitle( string $title ) : void
 	{
 		$this->title = $title;
 
@@ -221,7 +213,7 @@ class Article_Localized extends DataModel_Related_1toN
 	 *
 	 * @return bool
 	 */
-	public function getUriFragmentExists( $URI_fragment )
+	public function getUriFragmentExists( string $URI_fragment ) : bool
 	{
 		$q = [
 			'URI_fragment' => $URI_fragment,
@@ -245,11 +237,14 @@ class Article_Localized extends DataModel_Related_1toN
 	 *
 	 * @param callable $exists_checker
 	 * @param string   $suffix (optional) example: .html
-	 * @param bool     $remove_accents (optional, default: true)
+	 * @param bool     $remove_accents (optional, Default: true)
 	 *
 	 * @return string
 	 */
-	public function generateUrlFragment( $URI_fragment, callable $exists_checker, $suffix = '', $remove_accents = true )
+	public function generateUrlFragment( string $URI_fragment,
+	                                     callable $exists_checker,
+	                                     string $suffix = '',
+	                                     bool $remove_accents = true ) : string
 	{
 
 		if( $remove_accents ) {
@@ -288,7 +283,7 @@ class Article_Localized extends DataModel_Related_1toN
 	/**
 	 * @return string
 	 */
-	public function getAnnotation()
+	public function getAnnotation() : string
 	{
 		return $this->annotation;
 	}
@@ -296,7 +291,7 @@ class Article_Localized extends DataModel_Related_1toN
 	/**
 	 * @param string $annotation
 	 */
-	public function setAnnotation( $annotation )
+	public function setAnnotation( string $annotation ) : void
 	{
 		$this->annotation = $annotation;
 	}
@@ -304,7 +299,7 @@ class Article_Localized extends DataModel_Related_1toN
 	/**
 	 * @return string
 	 */
-	public function getText()
+	public function getText() : string
 	{
 		return $this->text;
 	}
@@ -312,7 +307,7 @@ class Article_Localized extends DataModel_Related_1toN
 	/**
 	 * @param string $text
 	 */
-	public function setText( $text )
+	public function setText( string $text ) : void
 	{
 		$this->text = $text;
 	}

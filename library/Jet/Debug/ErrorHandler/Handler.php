@@ -15,7 +15,7 @@ abstract class Debug_ErrorHandler_Handler
 	/**
 	 * @return static
 	 */
-	public static function register()
+	public static function register() : static
 	{
 		$loader = new static();
 
@@ -28,18 +28,17 @@ abstract class Debug_ErrorHandler_Handler
 	/**
 	 * @return string
 	 */
-	abstract public function getName();
+	abstract public function getName() : string;
 
 	/**
 	 * @param Debug_ErrorHandler_Error $error
-	 *
 	 */
-	abstract public function handle( Debug_ErrorHandler_Error $error );
+	abstract public function handle( Debug_ErrorHandler_Error $error ) : void;
 
 	/**
 	 *
 	 * @return bool
 	 */
-	abstract public function errorDisplayed();
+	abstract public function errorDisplayed() : bool;
 
 }

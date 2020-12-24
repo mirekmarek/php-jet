@@ -10,18 +10,18 @@ namespace Jet;
 
 /**
  *
- * @JetConfig:name = 'mailing'
  */
+#[Config_Definition(name: 'mailing')]
 class Mailing_Config extends Config
 {
 
 	/**
-	 * @JetConfig:type = Config::TYPE_SECTIONS
-	 * @JetConfig:section_creator_method_name = 'createSenderConfigInstance'
 	 *
 	 * @var Mailing_Config_Sender[]
 	 */
-	protected $senders;
+	#[Config_Definition(type: Config::TYPE_SECTIONS)]
+	#[Config_Definition(section_creator_method_name: 'createSenderConfigInstance')]
+	protected array|null $senders = null;
 
 
 	/**
@@ -30,10 +30,10 @@ class Mailing_Config extends Config
 	 * @param string $site_id
 	 * @param string $specification
 	 *
-	 * @return Mailing_Config_Sender
+	 * @return Mailing_Config_Sender|null
 	 *
 	 */
-	public function getSender( $locale, $site_id, $specification )
+	public function getSender( string|Locale $locale, string $site_id, string $specification ) : Mailing_Config_Sender|null
 	{
 
 		$key = $this->getSenderKey( $locale, $site_id, $specification );
@@ -46,9 +46,9 @@ class Mailing_Config extends Config
 	}
 
 	/**
-	 * @return Mailing_Config_Sender[]
+	 * @return Mailing_Config_Sender[]|null
 	 */
-	public function getSenders()
+	public function getSenders() : array|null
 	{
 		return $this->senders;
 	}
@@ -60,7 +60,7 @@ class Mailing_Config extends Config
 	 * @param string $specification
 	 *
 	 */
-	public function addSender( Mailing_Config_Sender $sender_configuration, $locale, $site_id, $specification )
+	public function addSender( Mailing_Config_Sender $sender_configuration, string|Locale $locale, string $site_id, string $specification )
 	{
 		$this->senders[ $this->getSenderKey( $locale, $site_id, $specification ) ] = $sender_configuration;
 	}
@@ -68,7 +68,7 @@ class Mailing_Config extends Config
 	/**
 	 * @param string $key
 	 */
-	public function deleteSender( $key )
+	public function deleteSender( string $key )
 	{
 		if(isset($this->senders[$key])) {
 			unset( $this->senders[$key] );
@@ -82,7 +82,7 @@ class Mailing_Config extends Config
 	 *
 	 * @return string
 	 */
-	public function getSenderKey( $locale, $site_id, $specification )
+	public function getSenderKey( string|Locale $locale, string $site_id, string $specification ) : string
 	{
 		$key = (string)$locale;
 
@@ -105,7 +105,7 @@ class Mailing_Config extends Config
 	 *
 	 * @return Mailing_Config_Sender
 	 */
-	public function createSenderConfigInstance( array $data )
+	public function createSenderConfigInstance( array $data ) : Mailing_Config_Sender
 	{
 		return new Mailing_Config_Sender($data);
 	}

@@ -16,7 +16,7 @@ abstract class Mvc_Controller_Default extends Mvc_Controller
 	 *
 	 *
 	 */
-	public function responseAccessDenied()
+	public function responseAccessDenied() : void
 	{
 		ErrorPages::handleUnauthorized();
 		Application::end();

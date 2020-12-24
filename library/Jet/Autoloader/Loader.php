@@ -14,9 +14,9 @@ abstract class Autoloader_Loader
 {
 
 	/**
-	 * @return self
+	 * @return static
 	 */
-	public static function register()
+	public static function register() : static
 	{
 		$loader = new static();
 
@@ -33,5 +33,5 @@ abstract class Autoloader_Loader
 	 *
 	 * @return bool|string
 	 */
-	abstract public function getScriptPath( $root_namespace, $namespace, $class_name );
+	abstract public function getScriptPath( string $root_namespace, string $namespace, string $class_name ) : bool|string;
 }

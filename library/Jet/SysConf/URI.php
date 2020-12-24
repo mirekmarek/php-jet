@@ -13,22 +13,23 @@ namespace Jet;
 class SysConf_URI
 {
 	/**
-	 * @var 
+	 * @var string
 	 */
-	protected static $BASE;
+	protected static string $BASE = '';
 
 	/**
-	 * @var 
+	 * @var string
 	 */
-	protected static $PUBLIC;
+	protected static string $PUBLIC = '';
 
 
 
 	/**
 	 * @param string $what
+	 *
 	 * @throws SysConf_URI_Exception
 	 */
-	protected static function _check( $what )
+	protected static function _check( string $what ) : void
 	{
 		if(!static::$$what) {
 			throw new SysConf_URI_Exception('URI '.$what.' is not set');
@@ -38,7 +39,7 @@ class SysConf_URI
 	/**
 	 * @return string
 	 */
-	public static function BASE()
+	public static function BASE() : string
 	{
 		static::_check('BASE');
 		return static::$BASE;
@@ -47,7 +48,7 @@ class SysConf_URI
 	/**
 	 * @param string $BASE
 	 */
-	public static function setBASE( $BASE )
+	public static function setBASE( string $BASE ) : void
 	{
 		static::$BASE = $BASE;
 	}
@@ -55,16 +56,17 @@ class SysConf_URI
 	/**
 	 * @return string
 	 */
-	public static function PUBLIC()
+	public static function PUBLIC() : string
 	{
 		static::_check('PUBLIC');
+
 		return static::$PUBLIC;
 	}
 
 	/**
 	 * @param string $PUBLIC
 	 */
-	public static function setPUBLIC( $PUBLIC )
+	public static function setPUBLIC( string $PUBLIC ) : void
 	{
 		static::$PUBLIC = $PUBLIC;
 	}

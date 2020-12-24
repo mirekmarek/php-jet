@@ -8,6 +8,7 @@
 namespace JetStudio;
 
 use Jet\DataModel;
+use Jet\ClassParser;
 use Jet\DataModel_Exception;
 use Jet\IO_File;
 use Jet\IO_Dir;

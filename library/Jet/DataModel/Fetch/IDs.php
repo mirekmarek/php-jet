@@ -17,7 +17,7 @@ class DataModel_Fetch_IDs extends DataModel_Fetch implements BaseObject_Interfac
 	 *
 	 * @return array
 	 */
-	public function toArray()
+	public function toArray() : array
 	{
 		$this->_fetch();
 
@@ -34,7 +34,7 @@ class DataModel_Fetch_IDs extends DataModel_Fetch implements BaseObject_Interfac
 	/**
 	 *
 	 */
-	public function _fetch()
+	protected function _fetch() : void
 	{
 		if( $this->data!==null ) {
 			return;
@@ -60,7 +60,7 @@ class DataModel_Fetch_IDs extends DataModel_Fetch implements BaseObject_Interfac
 	 *
 	 * @return DataModel_IDController
 	 */
-	protected function _get( $item )
+	protected function _get( mixed $item ) : DataModel_IDController
 	{
 		return $item;
 	}

@@ -14,39 +14,39 @@ abstract class Form_Renderer extends BaseObject
 {
 
 	/**
-	 * @var Form
+	 * @var ?Form
 	 */
-	protected $form;
+	protected ?Form $form = null;
 
 	/**
-	 * @var Form_Field
+	 * @var ?Form_Field
 	 */
-	protected $field;
+	protected ?Form_Field $field = null;
 
 	/**
 	 * @var array
 	 */
-	protected $js_actions = [];
+	protected array $js_actions = [];
 
 	/**
 	 * @var string
 	 */
-	protected $base_css_class = '';
+	protected string $base_css_class = '';
 
 	/**
 	 * @var array
 	 */
-	protected $custom_css_classes = [];
+	protected array $custom_css_classes = [];
 
 	/**
 	 * @var array
 	 */
-	protected $custom_css_styles = [];
+	protected array $custom_css_styles = [];
 
 	/**
-	 * @var array
+	 * @var array|null
 	 */
-	protected $width;
+	protected array|null $width = null;
 
 
 	/**
@@ -62,9 +62,9 @@ abstract class Form_Renderer extends BaseObject
 	}
 
 	/**
-	 * @return array
+	 * @return array|null
 	 */
-	public function getWidth()
+	public function getWidth() : array|null
 	{
 		return $this->width;
 	}
@@ -72,7 +72,7 @@ abstract class Form_Renderer extends BaseObject
 	/**
 	 * @param array $width
 	 */
-	public function setWidth( array $width )
+	public function setWidth( array $width ) : void
 	{
 		$this->width = $width;
 	}
@@ -80,7 +80,7 @@ abstract class Form_Renderer extends BaseObject
 	/**
 	 * @return Form
 	 */
-	public function getForm()
+	public function getForm() : Form
 	{
 		return $this->form;
 	}
@@ -88,7 +88,7 @@ abstract class Form_Renderer extends BaseObject
 	/**
 	 * @return Form_Field
 	 */
-	public function getField()
+	public function getField() : Form_Field
 	{
 		return $this->field;
 	}
@@ -101,7 +101,7 @@ abstract class Form_Renderer extends BaseObject
 	 *
 	 * @return $this
 	 */
-	public function addJsAction( $event, $handler_code )
+	public function addJsAction( string $event, string $handler_code ) : static
 	{
 		$event = strtolower( $event );
 
@@ -121,7 +121,7 @@ abstract class Form_Renderer extends BaseObject
 	 *
 	 * @return array|string
 	 */
-	public function getJsActions( $as_string=true )
+	public function getJsActions( bool $as_string=true ) : array|string
 	{
 		if( $as_string ) {
 			$js_actions = [];
@@ -142,7 +142,7 @@ abstract class Form_Renderer extends BaseObject
 	 *
 	 * @return $this
 	 */
-	public function setBaseCssClass( $base_css_class )
+	public function setBaseCssClass( string $base_css_class ) : static
 	{
 		$this->base_css_class = $base_css_class;
 
@@ -154,7 +154,7 @@ abstract class Form_Renderer extends BaseObject
 	 *
 	 * @return $this
 	 */
-	public function addCustomCssClass( $class )
+	public function addCustomCssClass( string $class ) : static
 	{
 		$this->custom_css_classes[] = $class;
 
@@ -166,7 +166,7 @@ abstract class Form_Renderer extends BaseObject
 	 *
 	 * @return array|string
 	 */
-	public function getBaseCssClasses( $as_string=true )
+	public function getBaseCssClasses( bool $as_string=true ) : array|string
 	{
 		if($as_string) {
 			return $this->base_css_class;
@@ -180,7 +180,7 @@ abstract class Form_Renderer extends BaseObject
 	 *
 	 * @return array|string
 	 */
-	public function getCustomCssClasses( $as_string=true )
+	public function getCustomCssClasses( bool $as_string=true ) : array|string
 	{
 		if($as_string) {
 			return implode(' ', $this->custom_css_classes);
@@ -195,7 +195,7 @@ abstract class Form_Renderer extends BaseObject
 	 *
 	 * @return array|string
 	 */
-	public function getWidthCssClasses( callable $class_creator, $as_string = true )
+	public function getWidthCssClasses( callable $class_creator, bool $as_string = true ) : array|string
 	{
 		$css_classes = [];
 
@@ -219,7 +219,7 @@ abstract class Form_Renderer extends BaseObject
 	 *
 	 * @return array|string
 	 */
-	public function getCssClasses( $as_string=true )
+	public function getCssClasses( bool $as_string=true ) : array|string
 	{
 		$css_classes = array_merge(
 			$this->getBaseCssClasses(false),
@@ -239,7 +239,7 @@ abstract class Form_Renderer extends BaseObject
 	 *
 	 * @return $this
 	 */
-	public function addCustomCssStyle( $style )
+	public function addCustomCssStyle( string $style ) : static
 	{
 		$this->custom_css_styles[] = $style;
 
@@ -251,7 +251,7 @@ abstract class Form_Renderer extends BaseObject
 	 *
 	 * @return array|string
 	 */
-	public function getCssStyles( $as_string=true )
+	public function getCssStyles( bool $as_string=true ) : array|string
 	{
 		if($as_string) {
 			return implode(';', $this->custom_css_styles);
@@ -263,7 +263,8 @@ abstract class Form_Renderer extends BaseObject
 	/**
 	 * @return Mvc_View
 	 */
-	public function getView() {
+	public function getView() : Mvc_View
+	{
 
 		$view = $this->field ?
 					$this->field->getView()

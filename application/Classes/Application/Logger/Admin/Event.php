@@ -7,10 +7,12 @@
  */
 namespace JetApplication;
 
+use Jet\DataModel_Definition;
+
 /**
  *
- * @JetDataModel:database_table_name = 'events_administration'
  */
+#[DataModel_Definition(database_table_name: 'events_administration')]
 class Application_Logger_Admin_Event extends Application_Logger_Event
 {
 }

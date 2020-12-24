@@ -21,76 +21,76 @@ class Mvc_Site extends BaseObject implements Mvc_Site_Interface, BaseObject_Cach
 	/**
 	 * @var string
 	 */
-	protected static $site_data_file_name = 'site_data.php';
+	protected static string $site_data_file_name = 'site_data.php';
 
 	/**
 	 * @var string
 	 */
-	protected static $pages_dir = 'pages';
+	protected static string $pages_dir = 'pages';
 
 	/**
 	 * @var string
 	 */
-	protected static $layouts_dir = 'layouts';
+	protected static string $layouts_dir = 'layouts';
 
 	/**
-	 * @var array|Mvc_Site[]
+	 * @var Mvc_Site[]|null
 	 */
-	protected static $sites;
+	protected static array|null $sites = null;
 
 	/**
 	 * @var Mvc_Site_LocalizedData_Interface[]
 	 */
-	protected static $URL_map;
+	protected static array|null $URL_map = null;
 
 	/**
 	 *
 	 *
 	 * @var string
 	 */
-	protected $id = '';
+	protected string $id = '';
 	/**
 	 *
 	 * @var string
 	 */
-	protected $name = '';
+	protected string $name = '';
 
 	/**
-	 * @var string
+	 * @var string|null
 	 */
-	protected $base_path;
+	protected string|null $base_path = null;
 
 	/**
-	 * @var string
+	 * @var string|null
 	 */
-	protected $layouts_path;
+	protected string|null $layouts_path = null;
 
 	/**
 	 * @var bool
 	 */
-	protected $is_secret = false;
+	protected bool $is_secret = false;
 
 	/**
 	 *
 	 * @var bool
 	 */
-	protected $is_default = false;
+	protected bool $is_default = false;
 	/**
 	 *
 	 * @var bool
 	 */
-	protected $is_active = false;
+	protected bool $is_active = false;
 
 	/**
 	 * @var bool
 	 */
-	protected $SSL_required = false;
+	protected bool $SSL_required = false;
 
 	/**
 	 *
 	 * @var Mvc_Site_LocalizedData[]
 	 */
-	protected $localized_data = [];
+	protected array $localized_data = [];
 
 	/**
 	 * @var callable|null
@@ -101,7 +101,8 @@ class Mvc_Site extends BaseObject implements Mvc_Site_Interface, BaseObject_Cach
 	/**
 	 * @return array
 	 */
-	public static function loadSitesData() {
+	public static function loadSitesData() : array
+	{
 
 		Debug_Profiler::blockStart('Load sites data');
 		$sites = [];
@@ -133,7 +134,7 @@ class Mvc_Site extends BaseObject implements Mvc_Site_Interface, BaseObject_Cach
 	 *
 	 * @throws Mvc_Page_Exception
 	 */
-	public static function loadSites()
+	public static function loadSites() : array
 	{
 
 		if(static::$sites===null) {
@@ -188,7 +189,7 @@ class Mvc_Site extends BaseObject implements Mvc_Site_Interface, BaseObject_Cach
 	 *
 	 * @param Mvc_Site[] $sites
 	 */
-	public static function setSites( $sites )
+	public static function setSites( array $sites ) : void
 	{
 		static::$sites = [];
 
@@ -201,9 +202,9 @@ class Mvc_Site extends BaseObject implements Mvc_Site_Interface, BaseObject_Cach
 	/**
 	 * @param array  $data
 	 *
-	 * @return Mvc_Site_Interface
+	 * @return static
 	 */
-	public static function createByData( array $data )
+	public static function createByData( array $data ) : static
 	{
 
 		/**
@@ -221,7 +222,7 @@ class Mvc_Site extends BaseObject implements Mvc_Site_Interface, BaseObject_Cach
 	/**
 	 * @param array $data
 	 */
-	protected function setData( array $data )
+	protected function setData( array $data ) : void
 	{
 		foreach( $data['localized_data'] as $locale_str => $localized_data ) {
 			$locale = new Locale( $locale_str );
@@ -243,7 +244,7 @@ class Mvc_Site extends BaseObject implements Mvc_Site_Interface, BaseObject_Cach
 	/**
 	 * @return Mvc_Site_LocalizedData_Interface[]
 	 */
-	public static function getUrlMap()
+	public static function getUrlMap() : array
 	{
 		if(static::$URL_map!==null) {
 			return static::$URL_map;
@@ -270,9 +271,9 @@ class Mvc_Site extends BaseObject implements Mvc_Site_Interface, BaseObject_Cach
 	 *
 	 * @param string $id
 	 *
-	 * @return Mvc_Site|null
+	 * @return static|null
 	 */
-	public static function get( $id )
+	public static function get( string $id ) : static|null
 	{
 		static::loadSites();
 
@@ -288,7 +289,7 @@ class Mvc_Site extends BaseObject implements Mvc_Site_Interface, BaseObject_Cach
 	 *
 	 * @param callable $initializer
 	 */
-	public function setInitializer( $initializer )
+	public function setInitializer( callable $initializer ) : void
 	{
 		$this->initializer = $initializer;
 	}
@@ -297,7 +298,7 @@ class Mvc_Site extends BaseObject implements Mvc_Site_Interface, BaseObject_Cach
 	 *
 	 * @return callable|null
 	 */
-	public function getInitializer()
+	public function getInitializer() : callable|null
 	{
 		return $this->initializer;
 	}
@@ -308,7 +309,7 @@ class Mvc_Site extends BaseObject implements Mvc_Site_Interface, BaseObject_Cach
 	 *
 	 * @return string
 	 */
-	protected static function getSiteDataFilePath( $id )
+	protected static function getSiteDataFilePath( string $id ) : string
 	{
 		return SysConf_PATH::SITES().$id.'/'.static::$site_data_file_name;
 	}
@@ -320,7 +321,7 @@ class Mvc_Site extends BaseObject implements Mvc_Site_Interface, BaseObject_Cach
 	 *
 	 * @return Mvc_Site_LocalizedData_Interface
 	 */
-	public function addLocale( Locale $locale )
+	public function addLocale( Locale $locale ) : Mvc_Site_LocalizedData_Interface
 	{
 		if( isset( $this->localized_data[(string)$locale] ) ) {
 			return $this->localized_data[(string)$locale];
@@ -342,7 +343,7 @@ class Mvc_Site extends BaseObject implements Mvc_Site_Interface, BaseObject_Cach
 	 *
 	 * @return Locale[]
 	 */
-	public function getLocales( $get_as_string = false )
+	public function getLocales( bool $get_as_string = false ) : array
 	{
 
 		$result = [];
@@ -361,7 +362,7 @@ class Mvc_Site extends BaseObject implements Mvc_Site_Interface, BaseObject_Cach
 	/**
 	 * @param array $order
 	 */
-	public function sortLocales( array $order )
+	public function sortLocales( array $order ) : void
 	{
 		$e_locales = $this->getLocales( true );
 
@@ -392,7 +393,7 @@ class Mvc_Site extends BaseObject implements Mvc_Site_Interface, BaseObject_Cach
 	/**
 	 * @return string
 	 */
-	public function getId()
+	public function getId() : string
 	{
 		return $this->id;
 	}
@@ -401,17 +402,16 @@ class Mvc_Site extends BaseObject implements Mvc_Site_Interface, BaseObject_Cach
 	 * @param string $id
 	 *
 	 */
-	public function setId( $id )
+	public function setId( string $id ) : void
 	{
 		$this->id = $id;
 	}
 
 	/**
-	 * Returns site name
 	 *
 	 * @return string
 	 */
-	public function getName()
+	public function getName() : string
 	{
 		return $this->name;
 	}
@@ -419,7 +419,7 @@ class Mvc_Site extends BaseObject implements Mvc_Site_Interface, BaseObject_Cach
 	/**
 	 * @param string $name
 	 */
-	public function setName( $name )
+	public function setName( string $name ) : void
 	{
 		$this->name = $name;
 	}
@@ -428,7 +428,7 @@ class Mvc_Site extends BaseObject implements Mvc_Site_Interface, BaseObject_Cach
 	/**
 	 * @param string $path
 	 */
-	public function setLayoutsPath( $path )
+	public function setLayoutsPath( string $path ) : void
 	{
 		$this->layouts_path = $path;
 	}
@@ -436,7 +436,7 @@ class Mvc_Site extends BaseObject implements Mvc_Site_Interface, BaseObject_Cach
 	/**
 	 * @return string
 	 */
-	public function getLayoutsPath()
+	public function getLayoutsPath() : string
 	{
 		if($this->layouts_path!==null) {
 			return $this->layouts_path;
@@ -448,7 +448,7 @@ class Mvc_Site extends BaseObject implements Mvc_Site_Interface, BaseObject_Cach
 	/**
 	 * @param string $path
 	 */
-	public function setBasePath( $path )
+	public function setBasePath( string $path ) : void
 	{
 		$this->base_path = $path;
 	}
@@ -458,7 +458,7 @@ class Mvc_Site extends BaseObject implements Mvc_Site_Interface, BaseObject_Cach
 	 *
 	 * @return string
 	 */
-	public function getBasePath()
+	public function getBasePath() : string
 	{
 		if($this->base_path!==null) {
 			return $this->base_path;
@@ -471,15 +471,15 @@ class Mvc_Site extends BaseObject implements Mvc_Site_Interface, BaseObject_Cach
 	/**
 	 * @param bool $is_secret
 	 */
-	public function setIsSecret( $is_secret )
+	public function setIsSecret( bool $is_secret ) : void
 	{
-		$this->is_secret  = (bool)$is_secret;
+		$this->is_secret  = $is_secret;
 	}
 
 	/**
 	 * @return bool
 	 */
-	public function getIsSecret()
+	public function getIsSecret() : bool
 	{
 		return $this->is_secret;
 	}
@@ -487,7 +487,7 @@ class Mvc_Site extends BaseObject implements Mvc_Site_Interface, BaseObject_Cach
 	/**
 	 * @return bool
 	 */
-	public function getSSLRequired()
+	public function getSSLRequired() : bool
 	{
 		return $this->SSL_required;
 	}
@@ -495,18 +495,17 @@ class Mvc_Site extends BaseObject implements Mvc_Site_Interface, BaseObject_Cach
 	/**
 	 * @param bool $SSL_required
 	 */
-	public function setSSLRequired( $SSL_required )
+	public function setSSLRequired( bool $SSL_required ) : void
 	{
 		$this->SSL_required = $SSL_required;
 	}
 
 
 	/**
-	 * Returns default locale
 	 *
-	 * @return Locale
+	 * @return Locale|null
 	 */
-	public function getDefaultLocale()
+	public function getDefaultLocale() : Locale|null
 	{
 		foreach( $this->localized_data as $ld ) {
 			return $ld->getLocale();
@@ -520,7 +519,7 @@ class Mvc_Site extends BaseObject implements Mvc_Site_Interface, BaseObject_Cach
 	 *
 	 * @return bool
 	 */
-	public function getHasLocale( Locale $locale )
+	public function getHasLocale( Locale $locale ) : bool
 	{
 		return isset( $this->localized_data[$locale->toString()] );
 	}
@@ -530,7 +529,7 @@ class Mvc_Site extends BaseObject implements Mvc_Site_Interface, BaseObject_Cach
 	 *
 	 * @return Mvc_Site_LocalizedData_Interface
 	 */
-	public function getLocalizedData( Locale $locale )
+	public function getLocalizedData( Locale $locale ) : Mvc_Site_LocalizedData_Interface
 	{
 		return $this->localized_data[$locale->toString()];
 	}
@@ -539,7 +538,7 @@ class Mvc_Site extends BaseObject implements Mvc_Site_Interface, BaseObject_Cach
 	 *
 	 * @param Locale $locale
 	 */
-	public function removeLocale( Locale $locale )
+	public function removeLocale( Locale $locale ) : void
 	{
 		if( !isset( $this->localized_data[(string)$locale] ) ) {
 			return;
@@ -559,7 +558,7 @@ class Mvc_Site extends BaseObject implements Mvc_Site_Interface, BaseObject_Cach
 	/**
 	 * @return bool
 	 */
-	public function getIsActive()
+	public function getIsActive() : bool
 	{
 		return $this->is_active;
 	}
@@ -567,7 +566,7 @@ class Mvc_Site extends BaseObject implements Mvc_Site_Interface, BaseObject_Cach
 	/**
 	 * @param bool $is_active
 	 */
-	public function setIsActive( $is_active )
+	public function setIsActive( bool $is_active ) : void
 	{
 		$this->is_active = (bool)$is_active;
 	}
@@ -577,7 +576,7 @@ class Mvc_Site extends BaseObject implements Mvc_Site_Interface, BaseObject_Cach
 	 *
 	 * @return string
 	 */
-	public function getPagesDataPath( Locale $locale = null )
+	public function getPagesDataPath( Locale|null $locale = null ) : string
 	{
 		$path = $this->getBasePath().static::$pages_dir.'/';
 
@@ -591,9 +590,9 @@ class Mvc_Site extends BaseObject implements Mvc_Site_Interface, BaseObject_Cach
 
 	/**
 	 *
-	 * @return Mvc_Site_Interface
+	 * @return static|null
 	 */
-	public static function getDefaultSite()
+	public static function getDefaultSite() : static|null
 	{
 		$sites = static::loadSites();
 
@@ -609,7 +608,7 @@ class Mvc_Site extends BaseObject implements Mvc_Site_Interface, BaseObject_Cach
 	/**
 	 * @return bool
 	 */
-	public function getIsDefault()
+	public function getIsDefault() : bool
 	{
 		return $this->is_default;
 	}
@@ -617,7 +616,7 @@ class Mvc_Site extends BaseObject implements Mvc_Site_Interface, BaseObject_Cach
 	/**
 	 * @param bool $is_default
 	 */
-	public function setIsDefault( $is_default )
+	public function setIsDefault( bool $is_default ) : void
 	{
 		$this->is_default = (bool)$is_default;
 	}
@@ -627,7 +626,7 @@ class Mvc_Site extends BaseObject implements Mvc_Site_Interface, BaseObject_Cach
 	 *
 	 * @return Mvc_Page_Interface
 	 */
-	public function getHomepage( Locale $locale=null )
+	public function getHomepage( Locale|null $locale=null ) : Mvc_Page_Interface
 	{
 		if(!$locale) {
 			$locale = Mvc::getCurrentLocale();
@@ -642,9 +641,9 @@ class Mvc_Site extends BaseObject implements Mvc_Site_Interface, BaseObject_Cach
 	}
 
 	/**
-	 *
+	 * @throws IO_File_Exception
 	 */
-	public function saveDataFile()
+	public function saveDataFile() : void
 	{
 		$data = $this->toArray();
 
@@ -662,7 +661,7 @@ class Mvc_Site extends BaseObject implements Mvc_Site_Interface, BaseObject_Cach
 	/**
 	 * @return array
 	 */
-	public function toArray()
+	public function toArray() : array
 	{
 
 		$data = get_object_vars( $this );

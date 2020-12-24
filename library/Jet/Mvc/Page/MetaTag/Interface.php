@@ -17,58 +17,58 @@ interface Mvc_Page_MetaTag_Interface
 	 * @param Mvc_Page_Interface $page
 	 * @param array              $data
 	 *
-	 * @return Mvc_Page_MetaTag_Interface
+	 * @return static
 	 */
-	public static function createByData( Mvc_Page_Interface $page, array $data );
+	public static function createByData( Mvc_Page_Interface $page, array $data ) : static;
 
 	/**
 	 * @param Mvc_Page_Interface $page
 	 */
-	public function setPage( Mvc_Page_Interface $page );
+	public function setPage( Mvc_Page_Interface $page ) : void;
 
 	/**
 	 * @return Mvc_Page_Interface
 	 */
-	public function getPage();
+	public function getPage() : Mvc_Page_Interface;
 
 
 	/**
 	 * @return string
 	 */
-	public function __toString();
+	public function __toString() : string;
 
 	/**
 	 * @return string
 	 */
-	public function toString();
+	public function toString() : string;
 
 	/**
 	 * @return string
 	 */
-	public function getAttribute();
+	public function getAttribute() : string;
 
 	/**
 	 * @param string $attribute
 	 */
-	public function setAttribute( $attribute );
+	public function setAttribute( string $attribute ) : void;
 
 	/**
 	 * @return string
 	 */
-	public function getAttributeValue();
+	public function getAttributeValue() : string;
 
 	/**
 	 * @param string $attribute_value
 	 */
-	public function setAttributeValue( $attribute_value );
+	public function setAttributeValue( string $attribute_value ) : void;
 
 	/**
 	 * @return string
 	 */
-	public function getContent();
+	public function getContent() : string;
 
 	/**
 	 * @param string $content
 	 */
-	public function setContent( $content );
+	public function setContent( string $content ) : void;
 }

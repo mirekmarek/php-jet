@@ -16,35 +16,35 @@ class DataModel_Definition_Model_Related_1toN extends DataModel_Definition_Model
 	/**
 	 * @var string
 	 */
-	protected $iterator_class_name = __NAMESPACE__.'\DataModel_Related_1toN_Iterator';
+	protected string $iterator_class = DataModel_Related_1toN_Iterator::class;
 
 	/**
 	 * @return string
 	 */
-	public function getIteratorClassName()
+	public function getIteratorClassName() : string
 	{
-		return $this->iterator_class_name;
+		return $this->iterator_class;
 	}
 
 	/**
-	 * @param string $iterator_class_name
+	 * @param string $iterator_class
 	 */
-	public function setIteratorClassName( $iterator_class_name )
+	public function setIteratorClass( string $iterator_class ) : void
 	{
-		$this->iterator_class_name = $iterator_class_name;
+		$this->iterator_class = $iterator_class;
 	}
 
 
 	/**
 	 * @throws DataModel_Exception
 	 */
-	protected function _initParents()
+	protected function _initParents() : void
 	{
 		parent::_initParents();
 
-
-		if( ( $iterator_class_name = Reflection::get( $this->class_name, 'iterator_class_name', null ) ) ) {
-			$this->iterator_class_name = $iterator_class_name;
+		$iterator_class = $this->getClassArgument('iterator_class', null);
+		if( $iterator_class ) {
+			$this->iterator_class = $iterator_class;
 		}
 	}
 }

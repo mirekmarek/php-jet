@@ -3,12 +3,7 @@ namespace JetApplicationModule\Content\Images;
 
 use Jet\DataModel_Helper;
 
-$gallery = new Gallery();
-$gallery_localized = new Gallery_Localized();
-$gallery_image = new Gallery_Image();
-
-
-DataModel_Helper::create( get_class( $gallery ) );
-DataModel_Helper::create( get_class( $gallery_localized ) );
-DataModel_Helper::create( get_class( $gallery_image ) );
+DataModel_Helper::create( Gallery::class );
+DataModel_Helper::create( Gallery_Localized::class );
+DataModel_Helper::create( Gallery_Image::class );
 

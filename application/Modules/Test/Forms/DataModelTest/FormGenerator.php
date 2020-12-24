@@ -8,6 +8,7 @@
 namespace JetApplicationModule\Test\Forms;
 
 use Jet\DataModel;
+use Jet\DataModel_Definition;
 use Jet\Data_DateTime;
 use Jet\Form;
 use Jet\Form_Field;
@@ -18,170 +19,142 @@ use Jet\DataModel_IDController_UniqueString;
 
 /**
  *
- * @JetDataModel:name = 'data_model_test_form_generator'
- * @JetDataModel:database_table_name = 'data_model_test_form_generator'
- * @JetDataModel:id_controller_class_name = 'DataModel_IDController_UniqueString'
  */
+#[DataModel_Definition(name: 'data_model_test_form_generator')]
+#[DataModel_Definition(database_table_name: 'data_model_test_form_generator')]
+#[DataModel_Definition(id_controller_class: DataModel_IDController_UniqueString::class)]
 class DataModelTest_FormGenerator extends DataModel
 {
 
 	/**
-	 *
-	 * @JetDataModel:type = DataModel::TYPE_ID
-	 * @JetDataModel:is_id = true
-	 *
 	 * @var string
 	 */
-	protected $id = '';
+	#[DataModel_Definition(type: DataModel::TYPE_ID)]
+	#[DataModel_Definition(is_id: true)]
+	protected string $id = '';
 
 	/**
-	 *
-	 * @JetDataModel:type = DataModel::TYPE_BOOL
-	 * @JetDataModel:form_field_label = 'Checkbox'
-	 *
 	 * @var bool
 	 */
-	protected $checkbox = false;
+	#[DataModel_Definition(type: DataModel::TYPE_BOOL)]
+	#[DataModel_Definition(form_field_label: 'Checkbox')]
+	protected bool $checkbox = false;
 
 	/**
-	 *
-	 * @JetDataModel:type = DataModel::TYPE_DATE
-	 * @JetDataModel:form_field_label = 'Date: '
-	 * @JetDataModel:form_field_error_messages = [Form_Field::ERROR_CODE_INVALID_FORMAT=>'Invalid date format']
-	 *
-	 * @var Data_DateTime
+	 * @var ?Data_DateTime
 	 */
-	protected $date;
+	#[DataModel_Definition(type: DataModel::TYPE_DATE)]
+	#[DataModel_Definition(form_field_label: 'Date: ')]
+	#[DataModel_Definition(form_field_error_messages: [Form_Field::ERROR_CODE_INVALID_FORMAT=>'Invalid date format'])]
+	protected ?Data_DateTime $date = null;
 
 	/**
-	 *
-	 * @JetDataModel:type = DataModel::TYPE_DATE_TIME
-	 * @JetDataModel:form_field_label = 'Date and time: '
-	 * @JetDataModel:form_field_error_messages = [Form_Field::ERROR_CODE_INVALID_FORMAT=>'Invalid date format']
-	 *
-	 * @var Data_DateTime
+	 * @var ?Data_DateTime
 	 */
-	protected $date_time;
+	#[DataModel_Definition(type: DataModel::TYPE_DATE_TIME)]
+	#[DataModel_Definition(form_field_label: 'Date and time: ')]
+	#[DataModel_Definition(form_field_error_messages: [Form_Field::ERROR_CODE_INVALID_FORMAT=>'Invalid date format'])]
+	protected ?Data_DateTime $date_time = null;
 
 	/**
-	 *
-	 * @JetDataModel:type = DataModel::TYPE_FLOAT
-	 * @JetDataModel:form_field_label = 'Float: '
-	 * @JetDataModel:form_field_min_value = 0
-	 * @JetDataModel:form_field_max_value = 999
-	 * @JetDataModel:form_field_error_messages = [Form_Field_Float::ERROR_CODE_OUT_OF_RANGE=>'Number is out of range (0-999)']
-	 *
 	 * @var float
 	 */
-	protected $float = 0;
+	#[DataModel_Definition(type: DataModel::TYPE_FLOAT)]
+	#[DataModel_Definition(form_field_label: 'Float: ')]
+	#[DataModel_Definition(form_field_min_value: 0)]
+	#[DataModel_Definition(form_field_max_value: 999)]
+	#[DataModel_Definition(form_field_error_messages: [Form_Field_Float::ERROR_CODE_OUT_OF_RANGE=>'Number is out of range (0-999)'])]
+	protected float $float = 0;
 
 	/**
-	 *
-	 * @JetDataModel:type = DataModel::TYPE_INT
-	 * @JetDataModel:form_field_label = 'Int: '
-	 * @JetDataModel:form_field_min_value = 0
-	 * @JetDataModel:form_field_max_value = 999
-	 * @JetDataModel:form_field_error_messages = [Form_Field_Float::ERROR_CODE_OUT_OF_RANGE=>'Number is out of range (0-999)']
-	 *
 	 * @var int
 	 */
-	protected $int = 0;
+	#[DataModel_Definition(type: DataModel::TYPE_INT)]
+	#[DataModel_Definition(form_field_label: 'Int: ')]
+	#[DataModel_Definition(form_field_min_value: 0)]
+	#[DataModel_Definition(form_field_max_value: 999)]
+	#[DataModel_Definition(form_field_error_messages: [Form_Field_Float::ERROR_CODE_OUT_OF_RANGE=>'Number is out of range (0-999)'])]
+	protected int $int = 0;
 
 	/**
-	 *
-	 * @JetDataModel:type = DataModel::TYPE_STRING
-	 * @JetDataModel:max_len = 255
-	 * @JetDataModel:form_field_label = 'Text: '
-	 *
 	 * @var string
 	 */
-	protected $text = '';
+	#[DataModel_Definition(type: DataModel::TYPE_STRING)]
+	#[DataModel_Definition(max_len: 255)]
+	#[DataModel_Definition(form_field_label: 'Text: ')]
+	protected string $text = '';
 
 	/**
-	 *
-	 * @JetDataModel:type = DataModel::TYPE_STRING
-	 * @JetDataModel:max_len = 65536
-	 * @JetDataModel:form_field_label = 'Long text:'
-	 *
 	 * @var string
 	 */
-	protected $long_text = '';
+	#[DataModel_Definition(type: DataModel::TYPE_STRING)]
+	#[DataModel_Definition(max_len: 65536)]
+	#[DataModel_Definition(form_field_label: 'Long text:')]
+	protected string $long_text = '';
 
 	/**
-	 *
-	 * @JetDataModel:type = DataModel::TYPE_STRING
-	 * @JetDataModel:max_len = 655360
-	 * @JetDataModel:form_field_label = 'WYSIWYG:'
-	 * @JetDataModel:form_field_type = Form::TYPE_WYSIWYG
-	 *
 	 * @var string
 	 */
-	protected $HTML = '';
+	#[DataModel_Definition(type: DataModel::TYPE_STRING)]
+	#[DataModel_Definition(max_len: 655360)]
+	#[DataModel_Definition(form_field_label: 'WYSIWYG:')]
+	#[DataModel_Definition(form_field_type: Form::TYPE_WYSIWYG)]
+	protected string $HTML = '';
 
 	/**
-	 *
-	 * @JetDataModel:type = DataModel::TYPE_STRING
-	 * @JetDataModel:form_field_label = 'Select: '
-	 * @JetDataModel:form_field_type = Form::TYPE_SELECT
-	 * @JetDataModel:form_field_get_select_options_callback = ['this', 'getSelectOptions']
-	 * @JetDataModel:form_field_error_messages = [Form_Field_MultiSelect::ERROR_CODE_INVALID_VALUE=>'Invalid value']
-	 *
 	 * @var string
 	 */
-	protected $select = '';
+	#[DataModel_Definition(type: DataModel::TYPE_STRING)]
+	#[DataModel_Definition(form_field_label: 'Select: ')]
+	#[DataModel_Definition(form_field_type: Form::TYPE_SELECT)]
+	#[DataModel_Definition(form_field_get_select_options_callback: [self::class, 'getSelectOptions'])]
+	#[DataModel_Definition(form_field_error_messages: [Form_Field_MultiSelect::ERROR_CODE_INVALID_VALUE=>'Invalid value'])]
+	protected string $select = '';
 
 	/**
-	 *
-	 * @JetDataModel:type = DataModel::TYPE_CUSTOM_DATA
-	 * @JetDataModel:form_field_label = 'Multi Select: '
-	 * @JetDataModel:form_field_type = Form::TYPE_MULTI_SELECT
-	 * @JetDataModel:form_field_get_select_options_callback = ['this', 'getSelectOptions']
-	 * @JetDataModel:form_field_error_messages = [Form_Field_MultiSelect::ERROR_CODE_INVALID_VALUE=>'Invalid value']
-	 *
 	 * @var array
 	 */
-	protected $multi_select = [];
+	#[DataModel_Definition(type: DataModel::TYPE_CUSTOM_DATA)]
+	#[DataModel_Definition(form_field_label: 'Multi Select: ')]
+	#[DataModel_Definition(form_field_type: Form::TYPE_MULTI_SELECT)]
+	#[DataModel_Definition(form_field_get_select_options_callback: [self::class, 'getSelectOptions'])]
+	#[DataModel_Definition(form_field_error_messages: [Form_Field_MultiSelect::ERROR_CODE_INVALID_VALUE=>'Invalid value'])]
+	protected array $multi_select = [];
 
 	/**
-	 *
-	 * @JetDataModel:type = DataModel::TYPE_CUSTOM_DATA
-	 * @JetDataModel:form_field_label = 'Radio Button: '
-	 * @JetDataModel:form_field_type = Form::TYPE_RADIO_BUTTON
-	 * @JetDataModel:form_field_get_select_options_callback = ['this', 'getSelectOptions']
-	 * @JetDataModel:form_field_error_messages = [Form_Field_MultiSelect::ERROR_CODE_INVALID_VALUE=>'Invalid value']
-	 *
 	 * @var array
 	 */
-	protected $radio_button = [];
+	#[DataModel_Definition(type: DataModel::TYPE_CUSTOM_DATA)]
+	#[DataModel_Definition(form_field_label: 'Radio Button: ')]
+	#[DataModel_Definition(form_field_type: Form::TYPE_RADIO_BUTTON)]
+	#[DataModel_Definition(form_field_get_select_options_callback: [self::class, 'getSelectOptions'])]
+	#[DataModel_Definition(form_field_error_messages: [Form_Field_MultiSelect::ERROR_CODE_INVALID_VALUE=>'Invalid value'])]
+	protected array $radio_button = [];
 
 	/**
-	 *
-	 * @JetDataModel:type = DataModel::TYPE_STRING
-	 * @JetDataModel:max_len = 255
-	 * @JetDataModel:form_field_label = 'Password (user registration): '
-	 * @JetDataModel:form_field_type = Form::TYPE_REGISTRATION_PASSWORD
-	 * @JetDataModel:form_field_options = []
-	 * @JetDataModel:form_field_error_messages = [Form_Field_RegistrationPassword::ERROR_CODE_EMPTY=>'Please enter password', Form_Field_RegistrationPassword::ERROR_CODE_CHECK_EMPTY=>'Please enter confirm password', Form_Field_RegistrationPassword::ERROR_CODE_CHECK_NOT_MATCH=>'Passwords do not match']
-	 *
 	 * @var string
 	 */
-	protected $password = '';
+	#[DataModel_Definition(type: DataModel::TYPE_STRING)]
+	#[DataModel_Definition(max_len: 255)]
+	#[DataModel_Definition(form_field_label: 'Password (user registration): ')]
+	#[DataModel_Definition(form_field_type: Form::TYPE_REGISTRATION_PASSWORD)]
+	#[DataModel_Definition(form_field_options: [])]
+	#[DataModel_Definition(form_field_error_messages: [Form_Field_RegistrationPassword::ERROR_CODE_EMPTY=>'Please enter password', Form_Field_RegistrationPassword::ERROR_CODE_CHECK_EMPTY=>'Please enter confirm password', Form_Field_RegistrationPassword::ERROR_CODE_CHECK_NOT_MATCH=>'Passwords do not match'])]
+	protected string $password = '';
 
 	/**
-	 *
-	 * @JetDataModel:type = DataModel::TYPE_STRING
-	 * @JetDataModel:max_len = 255
-	 * @JetDataModel:form_field_label = 'Password: '
-	 * @JetDataModel:form_field_type = Form::TYPE_PASSWORD
-	 *
 	 * @var string
 	 */
-	protected $password_nc = '';
+	#[DataModel_Definition(type: DataModel::TYPE_STRING)]
+	#[DataModel_Definition(max_len: 255)]
+	#[DataModel_Definition(form_field_label: 'Password: ')]
+	#[DataModel_Definition(form_field_type: Form::TYPE_PASSWORD)]
+	protected string $password_nc = '';
 
 	/**
 	 * @return array
 	 */
-	public static function getSelectOptions()
+	public static function getSelectOptions() : array
 	{
 		return [
 			'value1' => 'Option 1',
@@ -195,7 +168,7 @@ class DataModelTest_FormGenerator extends DataModel
 	/**
 	 * @return string
 	 */
-	public function getLongText()
+	public function getLongText() : string
 	{
 		return $this->long_text;
 	}
@@ -203,7 +176,7 @@ class DataModelTest_FormGenerator extends DataModel
 	/**
 	 * @param string $long_text
 	 */
-	public function setLongText( $long_text )
+	public function setLongText( string $long_text ) : void
 	{
 		$this->long_text = $long_text;
 	}
@@ -211,7 +184,7 @@ class DataModelTest_FormGenerator extends DataModel
 	/**
 	 * @return string
 	 */
-	public function getText()
+	public function getText() : string
 	{
 		return $this->text;
 	}
@@ -219,39 +192,39 @@ class DataModelTest_FormGenerator extends DataModel
 	/**
 	 * @param string $text
 	 */
-	public function setText( $text )
+	public function setText( string $text ) : void
 	{
 		$this->text = $text;
 	}
 
 	/**
-	 * @return Data_DateTime
+	 * @return Data_DateTime|null
 	 */
-	public function getDate()
+	public function getDate() : Data_DateTime|null
 	{
 		return $this->date;
 	}
 
 	/**
-	 * @param Data_DateTime $date
+	 * @param ?Data_DateTime $date
 	 */
-	public function setDate( $date )
+	public function setDate( ?Data_DateTime $date )
 	{
 		$this->date = $date;
 	}
 
 	/**
-	 * @return Data_DateTime
+	 * @return Data_DateTime|null
 	 */
-	public function getDateTime()
+	public function getDateTime() : Data_DateTime|null
 	{
 		return $this->date_time;
 	}
 
 	/**
-	 * @param Data_DateTime $date_time
+	 * @param ?Data_DateTime $date_time
 	 */
-	public function setDateTime( $date_time )
+	public function setDateTime( ?Data_DateTime $date_time ) : void
 	{
 		$this->date_time = $date_time;
 	}
@@ -259,7 +232,7 @@ class DataModelTest_FormGenerator extends DataModel
 	/**
 	 * @return string
 	 */
-	public function getHTML()
+	public function getHTML() : string
 	{
 		return $this->HTML;
 	}
@@ -267,7 +240,7 @@ class DataModelTest_FormGenerator extends DataModel
 	/**$HTM
 	 * @param string $HTML
 	 */
-	public function setHTML( $HTML )
+	public function setHTML( string $HTML ) : void
 	{
 		$this->HTML = $HTML;
 	}
@@ -275,7 +248,7 @@ class DataModelTest_FormGenerator extends DataModel
 	/**
 	 * @return bool
 	 */
-	public function getCheckbox()
+	public function getCheckbox() : bool
 	{
 		return $this->checkbox;
 	}
@@ -283,7 +256,7 @@ class DataModelTest_FormGenerator extends DataModel
 	/**
 	 * @param bool $checkbox
 	 */
-	public function setCheckbox( $checkbox )
+	public function setCheckbox( bool $checkbox ) : void
 	{
 		$this->checkbox = $checkbox;
 	}
@@ -291,7 +264,7 @@ class DataModelTest_FormGenerator extends DataModel
 	/**
 	 * @return float
 	 */
-	public function getFloat()
+	public function getFloat() : float
 	{
 		return $this->float;
 	}
@@ -299,7 +272,7 @@ class DataModelTest_FormGenerator extends DataModel
 	/**
 	 * @param float $float
 	 */
-	public function setFloat( $float )
+	public function setFloat( float $float ) : void
 	{
 		$this->float = $float;
 	}
@@ -307,7 +280,7 @@ class DataModelTest_FormGenerator extends DataModel
 	/**
 	 * @return int
 	 */
-	public function getInt()
+	public function getInt() : int
 	{
 		return $this->int;
 	}
@@ -315,7 +288,7 @@ class DataModelTest_FormGenerator extends DataModel
 	/**
 	 * @param int $int
 	 */
-	public function setInt( $int )
+	public function setInt( int $int ) : void
 	{
 		$this->int = $int;
 	}
@@ -323,7 +296,7 @@ class DataModelTest_FormGenerator extends DataModel
 	/**
 	 * @return string
 	 */
-	public function getSelect()
+	public function getSelect() : string
 	{
 		return $this->select;
 	}
@@ -331,7 +304,7 @@ class DataModelTest_FormGenerator extends DataModel
 	/**
 	 * @param string $select
 	 */
-	public function setSelect( $select )
+	public function setSelect( string $select ) : void
 	{
 		$this->select = $select;
 	}
@@ -339,7 +312,7 @@ class DataModelTest_FormGenerator extends DataModel
 	/**
 	 * @return array
 	 */
-	public function getMultiSelect()
+	public function getMultiSelect() : array
 	{
 		return $this->multi_select;
 	}
@@ -347,7 +320,7 @@ class DataModelTest_FormGenerator extends DataModel
 	/**
 	 * @param array $multi_select
 	 */
-	public function setMultiSelect( $multi_select )
+	public function setMultiSelect( array $multi_select ) : void
 	{
 		$this->multi_select = $multi_select;
 	}
@@ -355,7 +328,7 @@ class DataModelTest_FormGenerator extends DataModel
 	/**
 	 * @return array
 	 */
-	public function getRadioButton()
+	public function getRadioButton() : array
 	{
 		return $this->radio_button;
 	}
@@ -363,7 +336,7 @@ class DataModelTest_FormGenerator extends DataModel
 	/**
 	 * @param array $radio_button
 	 */
-	public function setRadioButton( $radio_button )
+	public function setRadioButton( array $radio_button ) : void
 	{
 		$this->radio_button = $radio_button;
 	}
@@ -371,7 +344,7 @@ class DataModelTest_FormGenerator extends DataModel
 	/**
 	 * @return string
 	 */
-	public function getPassword()
+	public function getPassword() : string
 	{
 		return $this->password;
 	}
@@ -379,7 +352,7 @@ class DataModelTest_FormGenerator extends DataModel
 	/**
 	 * @param string $password
 	 */
-	public function setPassword( $password )
+	public function setPassword( string $password ) : void
 	{
 		$this->password = $password;
 	}
@@ -387,7 +360,7 @@ class DataModelTest_FormGenerator extends DataModel
 	/**
 	 * @return string
 	 */
-	public function getPasswordNc()
+	public function getPasswordNc() : string
 	{
 		return $this->password_nc;
 	}
@@ -395,7 +368,7 @@ class DataModelTest_FormGenerator extends DataModel
 	/**
 	 * @param string $password_nc
 	 */
-	public function setPasswordNc( $password_nc )
+	public function setPasswordNc( string $password_nc ) : void
 	{
 		$this->password_nc = $password_nc;
 	}

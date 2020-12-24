@@ -18,7 +18,7 @@ class DataModel_IDController_Passive extends DataModel_IDController
 	 *
 	 *
 	 */
-	public function beforeSave()
+	public function beforeSave() : void
 	{
 	}
 
@@ -26,7 +26,7 @@ class DataModel_IDController_Passive extends DataModel_IDController
 	 * @param mixed $backend_save_result
 	 *
 	 */
-	public function afterSave( $backend_save_result )
+	public function afterSave( mixed $backend_save_result ) : void
 	{
 	}
 

@@ -15,38 +15,38 @@ class Debug_ErrorHandler_Error_BacktraceItem
 	/**
 	 * @var string
 	 */
-	protected $file     = '';
+	protected string $file     = '';
 	/**
-	 * @var int
+	 * @var int|string
 	 */
-	protected $line     = 0;
-	/**
-	 * @var string
-	 */
-	protected $class    = '';
+	protected int|string $line     = 0;
 	/**
 	 * @var string
 	 */
-	protected $type     = '';
+	protected string $class    = '';
 	/**
 	 * @var string
 	 */
-	protected $function = '';
+	protected string $type     = '';
+	/**
+	 * @var string
+	 */
+	protected string $function = '';
 	/**
 	 * @var array
 	 */
-	protected $args     = [];
+	protected array $args     = [];
 	/**
 	 * @var string
 	 */
-	protected $call     = '';
+	protected string $call     = '';
 	
 
 	/**
 	 *
 	 * @param array $d
 	 */
-	public function __construct( $d )
+	public function __construct( array $d )
 	{
 
 		$class = isset( $d['class'] ) ? $d['class'] : '';
@@ -77,15 +77,15 @@ class Debug_ErrorHandler_Error_BacktraceItem
 	/**
 	 * @return string
 	 */
-	public function getFile()
+	public function getFile() : string
 	{
 		return $this->file;
 	}
 
 	/**
-	 * @return int
+	 * @return int|string
 	 */
-	public function getLine()
+	public function getLine() : int|string
 	{
 		return $this->line;
 	}
@@ -93,7 +93,7 @@ class Debug_ErrorHandler_Error_BacktraceItem
 	/**
 	 * @return string
 	 */
-	public function getClass()
+	public function getClass() : string
 	{
 		return $this->class;
 	}
@@ -101,7 +101,7 @@ class Debug_ErrorHandler_Error_BacktraceItem
 	/**
 	 * @return string
 	 */
-	public function getType()
+	public function getType() : string
 	{
 		return $this->type;
 	}
@@ -109,7 +109,7 @@ class Debug_ErrorHandler_Error_BacktraceItem
 	/**
 	 * @return string
 	 */
-	public function getFunction()
+	public function getFunction() : string
 	{
 		return $this->function;
 	}
@@ -117,7 +117,7 @@ class Debug_ErrorHandler_Error_BacktraceItem
 	/**
 	 * @return array
 	 */
-	public function getArgs()
+	public function getArgs() : array
 	{
 		return $this->args;
 	}
@@ -125,7 +125,7 @@ class Debug_ErrorHandler_Error_BacktraceItem
 	/**
 	 * @return string
 	 */
-	public function getCall()
+	public function getCall() : string
 	{
 		return $this->call;
 	}

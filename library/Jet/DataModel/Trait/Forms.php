@@ -17,7 +17,7 @@ trait DataModel_Trait_Forms
 	 *
 	 * @return Form
 	 */
-	public function getCommonForm( $form_name = '' )
+	public function getCommonForm( $form_name = '' ) : Form
 	{
 		/**
 		 * @var DataModel                  $this
@@ -41,7 +41,7 @@ trait DataModel_Trait_Forms
 	 *
 	 * @return Form
 	 */
-	public function getForm( $form_name, $property_filter = null )
+	public function getForm( string $form_name, array|DataModel_PropertyFilter|null $property_filter = null ) : Form
 	{
 		/**
 		 * @var DataModel                  $this
@@ -122,7 +122,7 @@ trait DataModel_Trait_Forms
 	 *
 	 * @return bool;
 	 */
-	public function catchForm( Form $form, $data = null, $force_catch = false )
+	public function catchForm( Form $form, ?array $data = null, bool $force_catch = false ) : bool
 	{
 
 		if(

@@ -17,53 +17,53 @@ class Form_Field_MultiSelect extends Form_Field
 	/**
 	 * @var string
 	 */
-	protected static $default_renderer_script = 'field';
+	protected static string $default_renderer_script = 'field';
 
 	/**
 	 * @var string
 	 */
-	protected static $default_row_start_renderer_script = 'Field/row/start';
+	protected static string $default_row_start_renderer_script = 'Field/row/start';
 
 	/**
 	 * @var string
 	 */
-	protected static $default_row_end_renderer_script = 'Field/row/end';
+	protected static string $default_row_end_renderer_script = 'Field/row/end';
 
 	/**
 	 * @var string
 	 */
-	protected static $default_input_container_start_renderer_script = 'Field/input/container/start';
+	protected static string $default_input_container_start_renderer_script = 'Field/input/container/start';
 
 	/**
 	 * @var string
 	 */
-	protected static $default_input_container_end_renderer_script = 'Field/input/container/end';
+	protected static string $default_input_container_end_renderer_script = 'Field/input/container/end';
 
 	/**
 	 * @var string
 	 */
-	protected static $default_error_renderer = 'Field/error';
+	protected static string $default_error_renderer = 'Field/error';
 
 	/**
 	 * @var string
 	 */
-	protected static $default_label_renderer = 'Field/label';
+	protected static string $default_label_renderer = 'Field/label';
 
 	/**
 	 * @var string string
 	 */
-	protected static $default_input_renderer = 'Field/input/MultiSelect';
+	protected static string $default_input_renderer = 'Field/input/MultiSelect';
 
 
 	/**
 	 * @var string
 	 */
-	protected $_type = Form::TYPE_MULTI_SELECT;
+	protected string $_type = Form::TYPE_MULTI_SELECT;
 
 	/**
 	 * @var array
 	 */
-	protected $error_messages = [
+	protected array $error_messages = [
 		self::ERROR_CODE_EMPTY         => '',
 		self::ERROR_CODE_INVALID_VALUE => '',
 	];
@@ -73,7 +73,7 @@ class Form_Field_MultiSelect extends Form_Field
 	 *
 	 * @return bool
 	 */
-	public function validate()
+	public function validate() : bool
 	{
 		$options = $this->select_options;
 		if( !$this->_value ) {
@@ -100,11 +100,10 @@ class Form_Field_MultiSelect extends Form_Field
 
 
 	/**
-	 * returns false if value is required and is empty
 	 *
 	 * @return bool
 	 */
-	public function checkValueIsNotEmpty()
+	public function checkValueIsNotEmpty() : bool
 	{
 		if(
 			!$this->_value &&
@@ -123,7 +122,7 @@ class Form_Field_MultiSelect extends Form_Field
 	 *
 	 * @param Data_Array $data
 	 */
-	public function catchInput( Data_Array $data )
+	public function catchInput( Data_Array $data ) : void
 	{
 		$this->_value = null;
 		$this->_has_value = true;
@@ -151,7 +150,7 @@ class Form_Field_MultiSelect extends Form_Field
 	/**
 	 * @return array
 	 */
-	public function getRequiredErrorCodes()
+	public function getRequiredErrorCodes() : array
 	{
 		$codes = [];
 

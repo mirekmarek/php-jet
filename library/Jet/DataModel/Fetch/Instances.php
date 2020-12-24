@@ -15,24 +15,24 @@ class DataModel_Fetch_Instances extends DataModel_Fetch implements Data_Paginato
 {
 
 	/**
-	 * @var array|DataModel_PropertyFilter
+	 * @var array|DataModel_PropertyFilter|null
 	 */
-	protected $load_filter;
+	protected array|DataModel_PropertyFilter|null $load_filter = null;
 
 	/**
-	 * @var DataModel[]
+	 * @var array|null|DataModel[]
 	 */
-	protected $_instances;
+	protected ?array $_instances = null;
 
 	/**
 	 * @var array
 	 */
-	protected $_where = [];
+	protected array $_where = [];
 
 	/**
 	 * @return array|DataModel_PropertyFilter
 	 */
-	public function getLoadFilter()
+	public function getLoadFilter() : array|DataModel_PropertyFilter
 	{
 		return $this->load_filter;
 	}
@@ -40,7 +40,7 @@ class DataModel_Fetch_Instances extends DataModel_Fetch implements Data_Paginato
 	/**
 	 * @param array|DataModel_PropertyFilter $load_filter
 	 */
-	public function setLoadFilter( $load_filter )
+	public function setLoadFilter( array|DataModel_PropertyFilter $load_filter ) : void
 	{
 		if( $load_filter ) {
 
@@ -62,7 +62,7 @@ class DataModel_Fetch_Instances extends DataModel_Fetch implements Data_Paginato
 	/**
 	 *
 	 */
-	public function _fetch()
+	protected function _fetch() : void
 	{
 		if( $this->data!==null ) {
 			return;
@@ -94,14 +94,11 @@ class DataModel_Fetch_Instances extends DataModel_Fetch implements Data_Paginato
 	/**
 	 * @return array
 	 */
-	public function toArray()
+	public function toArray() : array
 	{
 		$result = [];
 
 		foreach( $this as $key => $val ) {
-			/**
-			 * @var DataModel $val
-			 */
 			$result[$key] = $val->jsonSerialize();
 		}
 
@@ -109,11 +106,11 @@ class DataModel_Fetch_Instances extends DataModel_Fetch implements Data_Paginato
 	}
 
 	/**
-	 * @param string $item
+	 * @param mixed $item
 	 *
 	 * @return DataModel
 	 */
-	protected function _get( $item )
+	protected function _get( mixed $item ) : DataModel
 	{
 
 		if( $this->_instances===null ) {

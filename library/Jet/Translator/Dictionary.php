@@ -13,39 +13,39 @@ namespace Jet;
 class Translator_Dictionary extends BaseObject
 {
 	/**
-	 * @var Locale
+	 * @var Locale|null
 	 */
-	protected $locale;
+	protected Locale|null $locale = null;
 
 	/**
 	 * @var string
 	 */
-	protected $namespace;
+	protected string $namespace = '';
 
 	/**
 	 * @var Translator_Dictionary_Phrase[]
 	 */
-	protected $phrases = [];
+	protected array $phrases = [];
 
 	/**
 	 * @var bool
 	 */
-	protected $save_required = false;
+	protected bool $save_required = false;
 
 	/**
 	 * @param string $namespace
 	 * @param Locale|null $locale
 	 */
-	public function __construct( $namespace = '', Locale $locale = null )
+	public function __construct( string $namespace = '', Locale $locale = null )
 	{
 		$this->namespace = $namespace;
 		$this->locale = $locale;
 	}
 
 	/**
-	 * @return Locale
+	 * @return Locale|null
 	 */
-	public function getLocale()
+	public function getLocale() : Locale|null
 	{
 		return $this->locale;
 	}
@@ -53,7 +53,7 @@ class Translator_Dictionary extends BaseObject
 	/**
 	 * @return string
 	 */
-	public function getNamespace()
+	public function getNamespace() : string
 	{
 		return $this->namespace;
 	}
@@ -61,7 +61,7 @@ class Translator_Dictionary extends BaseObject
 	/**
 	 * @return Translator_Dictionary_Phrase[]
 	 */
-	public function getPhrases()
+	public function getPhrases() : array
 	{
 		return $this->phrases;
 	}
@@ -72,7 +72,7 @@ class Translator_Dictionary extends BaseObject
 	 *
 	 * @return string
 	 */
-	public function getTranslation( $phrase_txt, $auto_append_unknown_phrase = true )
+	public function getTranslation( string $phrase_txt, bool $auto_append_unknown_phrase = true ) : string
 	{
 		$hash = Translator_Dictionary_Phrase::generateHash( $phrase_txt );
 		if( isset( $this->phrases[$hash] ) ) {
@@ -92,7 +92,7 @@ class Translator_Dictionary extends BaseObject
 	 * @param bool                         $save_required
 	 *
 	 */
-	public function addPhrase( Translator_Dictionary_Phrase $phrase, $save_required = true )
+	public function addPhrase( Translator_Dictionary_Phrase $phrase, bool $save_required = true ) : void
 	{
 		$this->phrases[$phrase->getHash()] = $phrase;
 		if( $save_required ) {
@@ -103,7 +103,7 @@ class Translator_Dictionary extends BaseObject
 	/**
 	 * @return bool
 	 */
-	public function saveRequired()
+	public function saveRequired() : bool
 	{
 		return $this->save_required;
 	}

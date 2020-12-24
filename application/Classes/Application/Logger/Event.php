@@ -7,8 +7,10 @@
  */
 namespace JetApplication;
 
+use Jet\Auth;
 use Jet\DataModel;
-use Jet\DataModel_IDController_UniqueString;
+use Jet\DataModel_Definition;
+use Jet\DataModel_IDController_AutoIncrement;
 
 use Jet\Auth_User_Interface;
 
@@ -17,137 +19,120 @@ use Jet\Http_Request;
 
 /**
  *
- * @JetDataModel:name = 'Auth_Event'
- * @JetDataModel:id_controller_class_name = 'DataModel_IDController_UniqueString'
  */
+#[DataModel_Definition(name: 'Auth_Event')]
+#[DataModel_Definition(id_controller_class: DataModel_IDController_AutoIncrement::class)]
+#[DataModel_Definition(id_controller_options: ['id_property_name'=>'id'])]
 abstract class Application_Logger_Event extends DataModel
 {
 
 	/**
-	 *
-	 * @JetDataModel:type = DataModel::TYPE_ID
-	 * @JetDataModel:is_id = true
-	 *
+	 * @var int
+	 */
+	#[DataModel_Definition(type: DataModel::TYPE_ID_AUTOINCREMENT)]
+	#[DataModel_Definition(is_id: true)]
+	protected int $id = 0;
+
+	/**
+	 * @var ?Data_DateTime
+	 */
+	#[DataModel_Definition(type: DataModel::TYPE_DATE_TIME)]
+	protected ?Data_DateTime $date_time = null;
+
+	/**
 	 * @var string
 	 */
-	protected $id = '';
+	#[DataModel_Definition(type: DataModel::TYPE_STRING)]
+	#[DataModel_Definition(max_len: 255)]
+	#[DataModel_Definition(is_key: true)]
+	protected string $event_class = '';
 
 	/**
-	 *
-	 * @JetDataModel:type = DataModel::TYPE_DATE_TIME
-	 *
-	 * @var Data_DateTime
-	 */
-	protected $date_time;
-
-	/**
-	 *
-	 * @JetDataModel:type = DataModel::TYPE_STRING
-	 * @JetDataModel:max_len = 255
-	 * @JetDataModel:is_key = true
-	 *
 	 * @var string
 	 */
-	protected $event_class = '';
+	#[DataModel_Definition(type: DataModel::TYPE_STRING)]
+	#[DataModel_Definition(max_len: 255)]
+	#[DataModel_Definition(is_key: true)]
+	protected string $event = '';
 
 	/**
-	 *
-	 * @JetDataModel:type = DataModel::TYPE_STRING
-	 * @JetDataModel:max_len = 255
-	 * @JetDataModel:is_key = true
-	 *
 	 * @var string
 	 */
-	protected $event = '';
+	#[DataModel_Definition(type: DataModel::TYPE_STRING)]
+	#[DataModel_Definition(max_len: 1024)]
+	protected string $event_message = '';
 
 	/**
-	 *
-	 * @JetDataModel:type = DataModel::TYPE_STRING
-	 * @JetDataModel:max_len = 1024
-	 *
 	 * @var string
 	 */
-	protected $event_message = '';
+	#[DataModel_Definition(type: DataModel::TYPE_STRING)]
+	#[DataModel_Definition(max_len: 255)]
+	#[DataModel_Definition(is_key: true)]
+	protected string $context_object_id = '';
 
 	/**
-	 *
-	 * @JetDataModel:type = DataModel::TYPE_STRING
-	 * @JetDataModel:max_len = 255
-	 * @JetDataModel:is_key = true
-	 *
 	 * @var string
 	 */
-	protected $context_object_id = '';
+	#[DataModel_Definition(type: DataModel::TYPE_STRING)]
+	#[DataModel_Definition(max_len: 255)]
+	protected string $context_object_name = '';
 
 	/**
-	 *
-	 * @JetDataModel:type = DataModel::TYPE_STRING
-	 * @JetDataModel:max_len = 255
-	 *
 	 * @var string
 	 */
-	protected $context_object_name = '';
+	#[DataModel_Definition(type: DataModel::TYPE_STRING)]
+	#[DataModel_Definition(max_len: 134217728)]
+	protected string $context_object_data = '';
+
 
 	/**
-	 *
-	 * @JetDataModel:type = DataModel::TYPE_STRING
-	 * @JetDataModel:max_len = 134217728
-	 *
+	 * @var string|int
+	 */
+	#[DataModel_Definition(type: DataModel::TYPE_STRING)]
+	#[DataModel_Definition(is_key: true)]
+	protected string|int $user_id = 0;
+
+	/**
 	 * @var string
 	 */
-	protected $context_object_data = '';
-
+	#[DataModel_Definition(type: DataModel::TYPE_STRING)]
+	#[DataModel_Definition(max_len: 255)]
+	#[DataModel_Definition(is_key: true)]
+	protected string $user_username = '';
 
 	/**
-	 *
-	 * @JetDataModel:type = DataModel::TYPE_INT
-	 * @JetDataModel:is_key = true
-	 *
 	 * @var string
 	 */
-	protected $user_id = 0;
+	#[DataModel_Definition(type: DataModel::TYPE_STRING)]
+	#[DataModel_Definition(max_len: 65536)]
+	protected string $request_URL = '';
 
 	/**
-	 *
-	 * @JetDataModel:type = DataModel::TYPE_STRING
-	 * @JetDataModel:max_len = 255
-	 * @JetDataModel:is_key = true
-	 *
 	 * @var string
 	 */
-	protected $user_username = '';
+	#[DataModel_Definition(type: DataModel::TYPE_STRING)]
+	#[DataModel_Definition(max_len: 45)]
+	protected string $remote_IP = '';
 
 	/**
 	 *
-	 * @JetDataModel:type = DataModel::TYPE_STRING
-	 * @JetDataModel:max_len = 65536
-	 *
-	 * @var string
-	 */
-	protected $request_URL = '';
-
-	/**
-	 *
-	 * @JetDataModel:type = DataModel::TYPE_STRING
-	 * @JetDataModel:max_len = 45
-	 *
-	 * @var string
-	 */
-	protected $remote_IP = '';
-
-	/**
-	 *
-	 * @param string                   $event_class
-	 * @param string                   $event
-	 * @param string                   $event_message
-	 * @param string                   $context_object_id
-	 * @param string                   $context_object_name
-	 * @param mixed                    $context_object_data
-	 * @param Auth_User_Interface|null $current_user
+	 * @param string $event_class
+	 * @param string $event
+	 * @param string $event_message
+	 * @param string $context_object_id
+	 * @param string $context_object_name
+	 * @param mixed $context_object_data
+	 * @param Auth_User_Interface|null|bool $current_user
 	 *
 	 * @return static
 	 */
-	public static function log( $event_class, $event, $event_message, $context_object_id, $context_object_name, $context_object_data, $current_user = null )
+	public static function log( string $event_class,
+	                     string $event,
+	                     string $event_message,
+	                     string $context_object_id = '',
+	                     string $context_object_name = '',
+	                     mixed $context_object_data = [],
+                         Auth_User_Interface|null|bool $current_user = null ) : static
 	{
 
 
@@ -165,6 +150,10 @@ abstract class Application_Logger_Event extends DataModel
 		$event_i->context_object_name = $context_object_name;
 		$event_i->context_object_data = json_encode( $context_object_data );
 
+		if($current_user===null) {
+			$current_user = Auth::getCurrentUser();
+		}
+
 		if( $current_user instanceof Auth_User_Interface ) {
 			$event_i->user_id = $current_user->getId();
 			$event_i->user_username = $current_user->getUsername();
@@ -177,9 +166,9 @@ abstract class Application_Logger_Event extends DataModel
 	}
 
 	/**
-	 * @return string
+	 * @return int
 	 */
-	public function getId()
+	public function getId() : int
 	{
 		return $this->id;
 	}
@@ -187,15 +176,15 @@ abstract class Application_Logger_Event extends DataModel
 	/**
 	 * @return Data_DateTime
 	 */
-	public function getDateTime()
+	public function getDateTime() : Data_DateTime
 	{
 		return $this->date_time;
 	}
 
 	/**
-	 * @return mixed
+	 * @return string
 	 */
-	public function getEventClass()
+	public function getEventClass() : string
 	{
 		return $this->event_class;
 	}
@@ -203,7 +192,7 @@ abstract class Application_Logger_Event extends DataModel
 	/**
 	 * @return string
 	 */
-	public function getEvent()
+	public function getEvent() : string
 	{
 		return $this->event;
 	}
@@ -211,31 +200,31 @@ abstract class Application_Logger_Event extends DataModel
 	/**
 	 * @return string
 	 */
-	public function getEventMessage()
+	public function getEventMessage() : string
 	{
 		return $this->event_message;
 	}
 
 	/**
-	 * @return mixed
+	 * @return string
 	 */
-	public function getContextObjectId()
+	public function getContextObjectId() : string
 	{
 		return $this->context_object_id;
 	}
 
 	/**
-	 * @return mixed
+	 * @return string
 	 */
-	public function getContextObjectName()
+	public function getContextObjectName() : string
 	{
 		return $this->context_object_name;
 	}
 
 	/**
-	 * @return mixed
+	 * @return string
 	 */
-	public function getContextObjectData()
+	public function getContextObjectData() : string
 	{
 		return $this->context_object_data;
 	}
@@ -243,7 +232,7 @@ abstract class Application_Logger_Event extends DataModel
 	/**
 	 * @return string
 	 */
-	public function getRemoteIP()
+	public function getRemoteIP() : string
 	{
 		return $this->remote_IP;
 	}
@@ -251,7 +240,7 @@ abstract class Application_Logger_Event extends DataModel
 	/**
 	 * @return string
 	 */
-	public function getRequestURL()
+	public function getRequestURL() : string
 	{
 		return $this->request_URL;
 	}
@@ -259,7 +248,7 @@ abstract class Application_Logger_Event extends DataModel
 	/**
 	 * @return string
 	 */
-	public function getUserId()
+	public function getUserId() : string
 	{
 		return $this->user_id;
 	}
@@ -267,7 +256,7 @@ abstract class Application_Logger_Event extends DataModel
 	/**
 	 * @return string
 	 */
-	public function getUserUsername()
+	public function getUserUsername() : string
 	{
 		return $this->user_username;
 	}

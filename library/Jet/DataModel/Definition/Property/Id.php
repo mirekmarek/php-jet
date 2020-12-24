@@ -15,7 +15,7 @@ class DataModel_Definition_Property_Id extends DataModel_Definition_Property
 	/**
 	 * @var string
 	 */
-	protected $type = DataModel::TYPE_ID;
+	protected string $type = DataModel::TYPE_ID;
 
 	/**
 	 * @var null
@@ -25,19 +25,18 @@ class DataModel_Definition_Property_Id extends DataModel_Definition_Property
 	/**
 	 * @var bool
 	 */
-	protected $is_id = false;
+	protected bool $is_id = false;
 
 	/**
 	 * @var string
 	 */
-	protected $form_field_type = Form::TYPE_HIDDEN;
+	protected string $form_field_type = Form::TYPE_HIDDEN;
 
 	/**
-	 * Do nothing
 	 *
 	 * @param mixed $value
 	 */
-	public function checkValueType( &$value )
+	public function checkValueType( mixed &$value ) : void
 	{
 	}
 }

@@ -26,9 +26,9 @@ abstract class Installer_DbDriverConfig extends BaseObject
 
 
 	/**
-	 * @var Form
+	 * @var ?Form
 	 */
-	protected $_form;
+	protected ?Form $_form = null;
 
 	/**
 	 *

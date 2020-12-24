@@ -16,58 +16,58 @@ class UI_dataGrid extends BaseObject
 	/**
 	 * @var string
 	 */
-	protected static $default_renderer_script = 'dataGrid';
+	protected static string $default_renderer_script = 'dataGrid';
 	/**
 	 * @var string
 	 */
-	protected static $default_renderer_script_header = 'dataGrid/header';
+	protected static string $default_renderer_script_header = 'dataGrid/header';
 	/**
 	 * @var string
 	 */
-	protected static $default_renderer_script_body = 'dataGrid/body';
+	protected static string $default_renderer_script_body = 'dataGrid/body';
 	/**
 	 * @var string
 	 */
-	protected static $default_renderer_script_paginator = 'dataGrid/paginator';
+	protected static string $default_renderer_script_paginator = 'dataGrid/paginator';
 
 
 	/**
 	 * @var UI_dataGrid_column[]
 	 */
-	protected $columns = [];
+	protected array $columns = [];
 
 	/**
-	 * @var Data_Paginator
+	 * @var ?Data_Paginator
 	 */
-	protected $paginator;
+	protected ?Data_Paginator $paginator = null;
 
 	/**
 	 * @var array
 	 */
-	protected $data = [];
+	protected array $data = [];
 
 	/**
 	 * @var string
 	 */
-	protected $sort_by = '';
+	protected string $sort_by = '';
 
 
 	/**
 	 * @var string
 	 */
-	protected $renderer_script;
+	protected string $renderer_script = '';
 	/**
 	 * @var string
 	 */
-	protected $renderer_script_header;
+	protected string $renderer_script_header = '';
 	/**
 	 * @var string
 	 */
-	protected $renderer_script_body;
+	protected string $renderer_script_body = '';
 	/**
 	 * @var string
 	 */
-	protected $renderer_script_paginator;
+	protected string $renderer_script_paginator = '';
 
 	/**
 	 * @var callable
@@ -77,18 +77,18 @@ class UI_dataGrid extends BaseObject
 	/**
 	 * @var string
 	 */
-	protected $custom_header;
+	protected string $custom_header = '';
 
 	/**
 	 * @var string
 	 */
-	protected $custom_footer;
+	protected string $custom_footer = '';
 
 
 	/**
 	 * @return string
 	 */
-	public static function getDefaultRendererScript()
+	public static function getDefaultRendererScript() : string
 	{
 		return static::$default_renderer_script;
 	}
@@ -96,7 +96,7 @@ class UI_dataGrid extends BaseObject
 	/**
 	 * @param string $default_renderer_script
 	 */
-	public static function setDefaultRendererScript( $default_renderer_script )
+	public static function setDefaultRendererScript( string $default_renderer_script ) : void
 	{
 		static::$default_renderer_script = $default_renderer_script;
 	}
@@ -104,7 +104,7 @@ class UI_dataGrid extends BaseObject
 	/**
 	 * @return string
 	 */
-	public static function getDefaultRendererScriptHeader()
+	public static function getDefaultRendererScriptHeader() : string
 	{
 		return static::$default_renderer_script_header;
 	}
@@ -112,7 +112,7 @@ class UI_dataGrid extends BaseObject
 	/**
 	 * @param string $default_renderer_script_header
 	 */
-	public static function setDefaultRendererScriptHeader( $default_renderer_script_header )
+	public static function setDefaultRendererScriptHeader( string $default_renderer_script_header ) : void
 	{
 		static::$default_renderer_script_header = $default_renderer_script_header;
 	}
@@ -120,7 +120,7 @@ class UI_dataGrid extends BaseObject
 	/**
 	 * @return string
 	 */
-	public static function getDefaultRendererScriptBody()
+	public static function getDefaultRendererScriptBody() : string
 	{
 		return static::$default_renderer_script_body;
 	}
@@ -128,7 +128,7 @@ class UI_dataGrid extends BaseObject
 	/**
 	 * @param string $default_renderer_script_body
 	 */
-	public static function setDefaultRendererScriptBody( $default_renderer_script_body )
+	public static function setDefaultRendererScriptBody( string $default_renderer_script_body ) : void
 	{
 		static::$default_renderer_script_body = $default_renderer_script_body;
 	}
@@ -136,7 +136,7 @@ class UI_dataGrid extends BaseObject
 	/**
 	 * @return string
 	 */
-	public static function getDefaultRendererScriptPaginator()
+	public static function getDefaultRendererScriptPaginator() : string
 	{
 		return static::$default_renderer_script_paginator;
 	}
@@ -144,7 +144,7 @@ class UI_dataGrid extends BaseObject
 	/**
 	 * @param string $default_renderer_script_paginator
 	 */
-	public static function setDefaultRendererScriptPaginator( $default_renderer_script_paginator )
+	public static function setDefaultRendererScriptPaginator( string $default_renderer_script_paginator ) : void
 	{
 		static::$default_renderer_script_paginator = $default_renderer_script_paginator;
 	}
@@ -155,7 +155,7 @@ class UI_dataGrid extends BaseObject
 	 *
 	 * @return UI_dataGrid_column
 	 */
-	public function addColumn( $name, $title )
+	public function addColumn( string $name, string $title ) : UI_dataGrid_column
 	{
 		$this->columns[$name] = new UI_dataGrid_column( $name, $title );
 		$this->columns[$name]->setGrid( $this );
@@ -167,7 +167,7 @@ class UI_dataGrid extends BaseObject
 	 *
 	 * @return UI_dataGrid_column[]
 	 */
-	public function getColumns()
+	public function getColumns() : array
 	{
 		return $this->columns;
 	}
@@ -177,7 +177,7 @@ class UI_dataGrid extends BaseObject
 	/**
 	 * @return Data_Paginator|null
 	 */
-	public function getPaginator()
+	public function getPaginator() : Data_Paginator|null
 	{
 		return $this->paginator;
 	}
@@ -188,7 +188,7 @@ class UI_dataGrid extends BaseObject
 	 *
 	 * @return $this
 	 */
-	public function setPaginator( Data_Paginator $paginator )
+	public function setPaginator( Data_Paginator $paginator ) : static
 	{
 		$this->paginator = $paginator;
 
@@ -196,9 +196,9 @@ class UI_dataGrid extends BaseObject
 	}
 
 	/**
-	 * @return array
+	 * @return iterable
 	 */
-	public function getData()
+	public function getData() : iterable
 	{
 		if( $this->paginator ) {
 			return $this->paginator->getData();
@@ -210,7 +210,7 @@ class UI_dataGrid extends BaseObject
 	/**
 	 * @param array|DataModel_Fetch_Instances $data
 	 */
-	public function setData( $data )
+	public function setData( DataModel_Fetch_Instances|array $data ) : void
 	{
 		if( $this->paginator ) {
 			if( is_array( $data ) ) {
@@ -229,11 +229,11 @@ class UI_dataGrid extends BaseObject
 
 	/**
 	 * @param string $column_name
-	 * @param bool   $desc
+	 * @param bool $desc
 	 *
 	 * @return string
 	 */
-	public function getSortURL( $column_name, $desc = false )
+	public function getSortURL( string $column_name, bool $desc = false ) : string
 	{
 		$column = $this->getColumn( $column_name );
 		if(
@@ -253,7 +253,7 @@ class UI_dataGrid extends BaseObject
 	 *
 	 * @return UI_dataGrid_column
 	 */
-	public function getColumn( $name )
+	public function getColumn( string $name ) : UI_dataGrid_column
 	{
 		return $this->columns[$name];
 
@@ -263,7 +263,7 @@ class UI_dataGrid extends BaseObject
 	/**
 	 * @return callable
 	 */
-	public function getSortUrlCreator()
+	public function getSortUrlCreator() : callable
 	{
 		return $this->sort_url_creator;
 	}
@@ -273,7 +273,7 @@ class UI_dataGrid extends BaseObject
 	 *
 	 * @return $this
 	 */
-	public function setSortUrlCreator( callable $sort_url_creator )
+	public function setSortUrlCreator( callable $sort_url_creator ) : static
 	{
 		$this->sort_url_creator = $sort_url_creator;
 
@@ -283,7 +283,7 @@ class UI_dataGrid extends BaseObject
 	/**
 	 * @return string
 	 */
-	public function getSortBy()
+	public function getSortBy() : string
 	{
 		return $this->sort_by;
 	}
@@ -293,7 +293,7 @@ class UI_dataGrid extends BaseObject
 	 *
 	 * @return $this
 	 */
-	public function setSortBy( $sort_by )
+	public function setSortBy( string $sort_by ) : static
 	{
 		$this->sort_by = $sort_by;
 
@@ -304,7 +304,7 @@ class UI_dataGrid extends BaseObject
 	/**
 	 * @return string
 	 */
-	public function __toString()
+	public function __toString() : string
 	{
 		return $this->toString();
 	}
@@ -312,7 +312,7 @@ class UI_dataGrid extends BaseObject
 	/**
 	 * @return string
 	 */
-	public function toString()
+	public function toString() : string
 	{
 		return $this->render();
 	}
@@ -321,7 +321,7 @@ class UI_dataGrid extends BaseObject
 	/**
 	 * @return Mvc_View
 	 */
-	protected function getView()
+	protected function getView() : Mvc_View
 	{
 		$view = UI::getView();
 		$view->setVar( 'grid', $this );
@@ -332,7 +332,7 @@ class UI_dataGrid extends BaseObject
 	/**
 	 * @return string
 	 */
-	public function getRendererScript()
+	public function getRendererScript() : string
 	{
 		if(!$this->renderer_script) {
 			$this->renderer_script = static::getDefaultRendererScript();
@@ -346,7 +346,7 @@ class UI_dataGrid extends BaseObject
 	 *
 	 * @return $this
 	 */
-	public function setRendererScript( $renderer_script )
+	public function setRendererScript( string $renderer_script ) : static
 	{
 		$this->renderer_script = $renderer_script;
 
@@ -356,7 +356,7 @@ class UI_dataGrid extends BaseObject
 	/**
 	 * @return string
 	 */
-	public function getRendererScriptHeader()
+	public function getRendererScriptHeader() : string
 	{
 		if(!$this->renderer_script_header) {
 			$this->renderer_script_header = static::getDefaultRendererScriptHeader();
@@ -370,7 +370,7 @@ class UI_dataGrid extends BaseObject
 	 *
 	 * @return $this
 	 */
-	public function setRendererScriptHeader( $renderer_script_header )
+	public function setRendererScriptHeader( string $renderer_script_header ) : static
 	{
 		$this->renderer_script_header = $renderer_script_header;
 
@@ -380,7 +380,7 @@ class UI_dataGrid extends BaseObject
 	/**
 	 * @return string
 	 */
-	public function getRendererScriptBody()
+	public function getRendererScriptBody() : string
 	{
 		if(!$this->renderer_script_body) {
 			$this->renderer_script_body = static::getDefaultRendererScriptBody();
@@ -394,7 +394,7 @@ class UI_dataGrid extends BaseObject
 	 *
 	 * @return $this
 	 */
-	public function setRendererScriptBody( $renderer_script_body )
+	public function setRendererScriptBody( string $renderer_script_body ) : static
 	{
 		$this->renderer_script_body = $renderer_script_body;
 
@@ -404,7 +404,7 @@ class UI_dataGrid extends BaseObject
 	/**
 	 * @return string
 	 */
-	public function getRendererScriptPaginator()
+	public function getRendererScriptPaginator() : string
 	{
 		if(!$this->renderer_script_paginator) {
 			$this->renderer_script_paginator = static::getDefaultRendererScriptPaginator();
@@ -418,7 +418,7 @@ class UI_dataGrid extends BaseObject
 	 *
 	 * @return $this
 	 */
-	public function setRendererScriptPaginator( $renderer_script_paginator )
+	public function setRendererScriptPaginator( string $renderer_script_paginator ) : static
 	{
 		$this->renderer_script_paginator = $renderer_script_paginator;
 
@@ -428,7 +428,7 @@ class UI_dataGrid extends BaseObject
 	/**
 	 * @return string
 	 */
-	public function getCustomHeader()
+	public function getCustomHeader() : string
 	{
 		return $this->custom_header;
 	}
@@ -438,7 +438,7 @@ class UI_dataGrid extends BaseObject
 	 *
 	 * @return $this
 	 */
-	public function setCustomHeader( $custom_header )
+	public function setCustomHeader( string $custom_header ) : static
 	{
 		$this->custom_header = $custom_header;
 
@@ -448,7 +448,7 @@ class UI_dataGrid extends BaseObject
 	/**
 	 * @return string
 	 */
-	public function getCustomFooter()
+	public function getCustomFooter() : string
 	{
 		return $this->custom_footer;
 	}
@@ -458,7 +458,7 @@ class UI_dataGrid extends BaseObject
 	 *
 	 * @return $this
 	 */
-	public function setCustomFooter( $custom_footer )
+	public function setCustomFooter( string $custom_footer ) : static
 	{
 		$this->custom_footer = $custom_footer;
 
@@ -469,7 +469,7 @@ class UI_dataGrid extends BaseObject
 	/**
 	 * @return string
 	 */
-	public function render()
+	public function render() : string
 	{
 		return $this->getView()->render( $this->getRendererScript() );
 	}
@@ -478,7 +478,7 @@ class UI_dataGrid extends BaseObject
 	 *
 	 * @return string
 	 */
-	public function renderHeader()
+	public function renderHeader() : string
 	{
 		return $this->getView()->render( $this->getRendererScriptHeader() );
 	}
@@ -487,7 +487,7 @@ class UI_dataGrid extends BaseObject
 	 *
 	 * @return string
 	 */
-	public function renderBody()
+	public function renderBody() : string
 	{
 		return $this->getView()->render( $this->getRendererScriptBody() );
 	}
@@ -496,7 +496,7 @@ class UI_dataGrid extends BaseObject
 	 *
 	 * @return string
 	 */
-	public function renderPaginator()
+	public function renderPaginator() : string
 	{
 		if( !$this->paginator ) {
 			return '';

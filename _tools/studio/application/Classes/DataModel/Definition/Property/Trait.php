@@ -8,6 +8,7 @@
 namespace JetStudio;
 
 use Jet\DataModel;
+use Jet\ClassParser;
 use Jet\Exception;
 use Jet\Form;
 use Jet\Form_Field_Checkbox;

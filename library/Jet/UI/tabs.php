@@ -15,17 +15,17 @@ class UI_tabs extends UI_BaseElement
 	/**
 	 * @var string
 	 */
-	protected static $default_renderer_script = 'tabs';
+	protected static string $default_renderer_script = 'tabs';
 
 	/**
 	 * @var UI_tabs_tab[]
 	 */
-	protected $tabs = [];
+	protected array $tabs = [];
 
 	/**
-	 * @var string
+	 * @var ?string
 	 */
-	protected $selected_tab_id;
+	protected ?string $selected_tab_id = null;
 
 
 	/**
@@ -33,7 +33,7 @@ class UI_tabs extends UI_BaseElement
 	 * @param callable    $tab_url_creator
 	 * @param string|null $selected_tab_id
 	 */
-	public function __construct( array $tabs, callable $tab_url_creator, $selected_tab_id=null)
+	public function __construct( array $tabs, callable $tab_url_creator, ?string $selected_tab_id=null)
 	{
 		foreach( $tabs as $id => $title ) {
 			$this->tabs[$id] = new UI_tabs_tab( $id, $title, $tab_url_creator );
@@ -60,7 +60,7 @@ class UI_tabs extends UI_BaseElement
 	 *
 	 * @return UI_tabs_tab
 	 */
-	public function getTab( $id )
+	public function getTab( string $id ) : UI_tabs_tab
 	{
 		return $this->getTabs()[$id];
 	}
@@ -68,7 +68,7 @@ class UI_tabs extends UI_BaseElement
 	/**
 	 * @return string
 	 */
-	public function getSelectedTabId()
+	public function getSelectedTabId() : string
 	{
 		return $this->selected_tab_id;
 	}
@@ -76,7 +76,7 @@ class UI_tabs extends UI_BaseElement
 	/**
 	 * @return UI_tabs_tab[]
 	 */
-	public function getTabs()
+	public function getTabs() : array
 	{
 		return $this->tabs;
 	}

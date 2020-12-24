@@ -24,14 +24,14 @@ class Installer_Step_Final_Controller extends Installer_Step_Controller
 	/**
 	 * @var string
 	 */
-	protected $label = 'Installation finish';
+	protected string $label = 'Installation finish';
 
 
 
 	/**
 	 *
 	 */
-	public function main()
+	public function main() : void
 	{
 
 		$OK = true;

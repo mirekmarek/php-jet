@@ -10,43 +10,43 @@ namespace Jet;
 /**
  *
  */
-class Mvc_Controller_REST_Router extends BaseObject
+class Mvc_Controller_REST_Router extends BaseObject implements Mvc_Controller_Router_Interface
 {
 
 	/**
-	 * @var Mvc_Controller
+	 * @var ?Mvc_Controller
 	 */
-	protected $controller;
+	protected ?Mvc_Controller $controller = null;
 
 	/**
-	 * @var array
+	 * @var ?array
 	 */
-	protected $actions_map;
+	protected ?array $actions_map = null;
 
 	/**
-	 * @var callable
+	 * @var callable|null
 	 */
-	protected $preparer;
+	protected $preparer = null;
 
 	/**
-	 * @var callable
+	 * @var callable|null
 	 */
-	protected $resolver_get;
+	protected $resolver_get = null;
 
 	/**
-	 * @var callable
+	 * @var callable|null
 	 */
-	protected $resolver_post;
+	protected $resolver_post = null;
 
 	/**
-	 * @var callable
+	 * @var callable|null
 	 */
-	protected $resolver_put;
+	protected $resolver_put = null;
 
 	/**
-	 * @var callable
+	 * @var callable|null
 	 */
-	protected $resolver_delete;
+	protected $resolver_delete = null;
 
 
 	/**
@@ -63,7 +63,7 @@ class Mvc_Controller_REST_Router extends BaseObject
 	/**
 	 * @return Mvc_Controller
 	 */
-	public function getController()
+	public function getController() : Mvc_Controller
 	{
 		return $this->controller;
 	}
@@ -71,7 +71,7 @@ class Mvc_Controller_REST_Router extends BaseObject
 	/**
 	 * @return callable
 	 */
-	public function getPreparer()
+	public function getPreparer() : callable
 	{
 		return $this->preparer;
 	}
@@ -81,7 +81,7 @@ class Mvc_Controller_REST_Router extends BaseObject
 	 *
 	 * @return $this
 	 */
-	public function setPreparer( callable $preparer )
+	public function setPreparer( callable $preparer ) : static
 	{
 		$this->preparer = $preparer;
 
@@ -89,9 +89,9 @@ class Mvc_Controller_REST_Router extends BaseObject
 	}
 
 	/**
-	 * @return callable
+	 * @return callable|null
 	 */
-	public function getResolverGet()
+	public function getResolverGet() : callable|null
 	{
 		return $this->resolver_get;
 	}
@@ -101,7 +101,7 @@ class Mvc_Controller_REST_Router extends BaseObject
 	 *
 	 * @return $this
 	 */
-	public function setResolverGet( callable $resolver_get )
+	public function setResolverGet( callable $resolver_get ) : static
 	{
 		$this->resolver_get = $resolver_get;
 
@@ -109,9 +109,9 @@ class Mvc_Controller_REST_Router extends BaseObject
 	}
 
 	/**
-	 * @return callable
+	 * @return callable|null
 	 */
-	public function getResolverPost()
+	public function getResolverPost() : callable|null
 	{
 		return $this->resolver_post;
 	}
@@ -121,7 +121,7 @@ class Mvc_Controller_REST_Router extends BaseObject
 	 *
 	 * @return $this
 	 */
-	public function setResolverPost( callable $resolver_post )
+	public function setResolverPost( callable $resolver_post ) : static
 	{
 		$this->resolver_post = $resolver_post;
 
@@ -129,9 +129,9 @@ class Mvc_Controller_REST_Router extends BaseObject
 	}
 
 	/**
-	 * @return callable
+	 * @return callable|null
 	 */
-	public function getResolverPut()
+	public function getResolverPut() : callable|null
 	{
 		return $this->resolver_put;
 	}
@@ -141,7 +141,7 @@ class Mvc_Controller_REST_Router extends BaseObject
 	 *
 	 * @return $this
 	 */
-	public function setResolverPut( callable $resolver_put )
+	public function setResolverPut( callable $resolver_put ) : static
 	{
 		$this->resolver_put = $resolver_put;
 
@@ -149,9 +149,9 @@ class Mvc_Controller_REST_Router extends BaseObject
 	}
 
 	/**
-	 * @return callable
+	 * @return callable|null
 	 */
-	public function getResolverDelete()
+	public function getResolverDelete() : callable|null
 	{
 		return $this->resolver_delete;
 	}
@@ -161,7 +161,7 @@ class Mvc_Controller_REST_Router extends BaseObject
 	 *
 	 * @return $this
 	 */
-	public function setResolverDelete( callable $resolver_delete )
+	public function setResolverDelete( callable $resolver_delete ) : static
 	{
 		$this->resolver_delete = $resolver_delete;
 
@@ -173,7 +173,7 @@ class Mvc_Controller_REST_Router extends BaseObject
 	 *
 	 * @return bool|string
 	 */
-	public function resolve()
+	public function resolve() : bool|string
 	{
 		$path = Mvc::getRouter()->getPath();
 

@@ -20,7 +20,7 @@ class Data_Array extends BaseObject implements BaseObject_Interface_Serializable
 	 *
 	 * @var array
 	 */
-	protected $data = [];
+	protected array $data = [];
 
 
 	/**
@@ -37,7 +37,7 @@ class Data_Array extends BaseObject implements BaseObject_Interface_Serializable
 	 *
 	 * @return array
 	 */
-	public function getRawData()
+	public function getRawData() : array
 	{
 		return $this->data;
 	}
@@ -46,7 +46,7 @@ class Data_Array extends BaseObject implements BaseObject_Interface_Serializable
 	 *
 	 * @param array $data
 	 */
-	public function appendData( array $data )
+	public function appendData( array $data ) : void
 	{
 		$this->data = array_merge( $this->data, $data );
 	}
@@ -55,7 +55,7 @@ class Data_Array extends BaseObject implements BaseObject_Interface_Serializable
 	 *
 	 * @param array $data
 	 */
-	public function setData( array $data )
+	public function setData( array $data ) : void
 	{
 		$this->data = $data;
 	}
@@ -63,19 +63,18 @@ class Data_Array extends BaseObject implements BaseObject_Interface_Serializable
 	/**
 	 *
 	 */
-	public function clearData()
+	public function clearData() : void
 	{
 		$this->data = [];
 	}
 
 	/**
-	 * Is data/path value set?
 	 *
 	 * @param string $key
 	 *
 	 * @return bool
 	 */
-	public function exists( $key )
+	public function exists( string $key ) : bool
 	{
 		if( !$key ) {
 			return false;
@@ -120,13 +119,11 @@ class Data_Array extends BaseObject implements BaseObject_Interface_Serializable
 
 
 	/**
-	 * Set data value by given key/path
 	 *
 	 * @param string $key
-	 * @param mixed  $value
-	 *
+	 * @param mixed $value
 	 */
-	public function set( $key, $value )
+	public function set( string $key, mixed $value ) : void
 	{
 
 		if( !$key ) {
@@ -168,11 +165,10 @@ class Data_Array extends BaseObject implements BaseObject_Interface_Serializable
 
 
 	/**
-	 * Unset value from data/path
 	 *
 	 * @param string $key
 	 */
-	public function remove( $key )
+	public function remove( string $key ) : void
 	{
 		if( !$key ) {
 			return;
@@ -217,11 +213,11 @@ class Data_Array extends BaseObject implements BaseObject_Interface_Serializable
 	/**
 	 *
 	 * @param string $key
-	 * @param int    $default_value (optional, default = 0)
+	 * @param int $default_value
 	 *
 	 * @return int
 	 */
-	public function getInt( $key, $default_value = 0 )
+	public function getInt( string $key, int $default_value = 0 ) : int
 	{
 		return (int)$this->getRaw( $key, $default_value );
 	}
@@ -229,11 +225,11 @@ class Data_Array extends BaseObject implements BaseObject_Interface_Serializable
 	/**
 	 *
 	 * @param string $key
-	 * @param mixed  $default_value (optional; default: null)
+	 * @param mixed $default_value
 	 *
 	 * @return mixed
 	 */
-	public function getRaw( $key, $default_value = null )
+	public function getRaw( string $key, mixed $default_value = null ) : mixed
 	{
 		if( !$key ) {
 			return $default_value;
@@ -279,11 +275,11 @@ class Data_Array extends BaseObject implements BaseObject_Interface_Serializable
 	/**
 	 *
 	 * @param string $key
-	 * @param float  $default_value (optional, default = 0.0)
+	 * @param float $default_value (optional, default = 0.0)
 	 *
 	 * @return float
 	 */
-	public function getFloat( $key, $default_value = 0.0 )
+	public function getFloat( string $key, float $default_value = 0.0 ) : float
 	{
 		return (float)$this->getRaw( $key, $default_value );
 	}
@@ -291,11 +287,11 @@ class Data_Array extends BaseObject implements BaseObject_Interface_Serializable
 	/**
 	 *
 	 * @param string $key
-	 * @param bool   $default_value (optional, default = false)
+	 * @param bool $default_value (optional, default = false)
 	 *
 	 * @return bool
 	 */
-	public function getBool( $key, $default_value = false )
+	public function getBool( string $key, bool $default_value = false ) : bool
 	{
 		return (bool)$this->getRaw( $key, $default_value );
 	}
@@ -304,11 +300,11 @@ class Data_Array extends BaseObject implements BaseObject_Interface_Serializable
 	 *
 	 * @param string $key
 	 * @param string $default_value (optional, default = '')
-	 * @param array  $valid_values (optional)
+	 * @param array $valid_values (optional)
 	 *
 	 * @return string
 	 */
-	public function getString( $key, $default_value = '', array $valid_values = [] )
+	public function getString( string $key, string $default_value = '', array $valid_values = [] ) : string
 	{
 
 		$value = $this->getRaw( $key, $default_value );
@@ -332,7 +328,7 @@ class Data_Array extends BaseObject implements BaseObject_Interface_Serializable
 	 *
 	 * @return string
 	 */
-	public function export( array $comments = [] )
+	public function export( array $comments = [] ) : string
 	{
 		$result = $this->_export( '', $this->data, 0, $comments );
 
@@ -343,13 +339,13 @@ class Data_Array extends BaseObject implements BaseObject_Interface_Serializable
 
 	/**
 	 * @param string $path
-	 * @param array  $data
-	 * @param int    $level
-	 * @param array  $comments
+	 * @param array $data
+	 * @param int $level
+	 * @param array $comments
 	 *
 	 * @return string
 	 */
-	protected function _export( $path, array $data, $level, array $comments )
+	protected function _export( string $path, array $data, int $level, array $comments ) : string
 	{
 		$result = '';
 		$next_level = $level+1;
@@ -414,7 +410,7 @@ class Data_Array extends BaseObject implements BaseObject_Interface_Serializable
 	/**
 	 * @return string
 	 */
-	public function toJSON()
+	public function toJSON() : string
 	{
 		$data = $this->jsonSerialize();
 
@@ -424,7 +420,7 @@ class Data_Array extends BaseObject implements BaseObject_Interface_Serializable
 	/**
 	 *
 	 */
-	public function jsonSerialize()
+	public function jsonSerialize() : array
 	{
 		$data = $this->data;
 
@@ -434,9 +430,9 @@ class Data_Array extends BaseObject implements BaseObject_Interface_Serializable
 	/**
 	 * @param array $data
 	 *
-	 * @return mixed
+	 * @return array
 	 */
-	protected function _jsonSerializeTraverse( array $data )
+	protected function _jsonSerializeTraverse( array $data ) : array
 	{
 		foreach( $data as $key => $val ) {
 

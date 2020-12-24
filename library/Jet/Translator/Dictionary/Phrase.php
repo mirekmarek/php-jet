@@ -15,30 +15,30 @@ class Translator_Dictionary_Phrase extends BaseObject
 	/**
 	 * @var string
 	 */
-	protected $phrase = '';
+	protected string $phrase = '';
 
 	/**
 	 * @var string
 	 */
-	protected $hash = '';
+	protected string $hash = '';
 
 	/**
 	 * @var bool
 	 */
-	protected $is_translated = false;
+	protected bool $is_translated = false;
 
 	/**
 	 * @var string
 	 */
-	protected $translation = '';
+	protected string $translation = '';
 
 	/**
 	 * @param string $phrase
 	 * @param string $translation (optional)
 	 * @param bool   $is_translated (optional)
-	 * @param null   $hash (optional)
+	 * @param string|null   $hash (optional)
 	 */
-	public function __construct( $phrase, $translation = '', $is_translated = false, $hash = null )
+	public function __construct( string $phrase, string $translation = '', bool $is_translated = false, string|null $hash = null )
 	{
 		$this->phrase = $phrase;
 		$this->translation = $translation;
@@ -46,7 +46,8 @@ class Translator_Dictionary_Phrase extends BaseObject
 		if( !$hash ) {
 			$hash = static::generateHash( $phrase );
 		}
-		$this->hash = $hash;
+
+		$this->hash = (string)$hash;
 	}
 
 	/**
@@ -55,7 +56,7 @@ class Translator_Dictionary_Phrase extends BaseObject
 	 *
 	 * @return string
 	 */
-	public static function generateHash( $phrase )
+	public static function generateHash( string $phrase ) : string
 	{
 		if( strlen( $phrase )<255 ) {
 			return $phrase;
@@ -67,7 +68,7 @@ class Translator_Dictionary_Phrase extends BaseObject
 	/**
 	 * @return string
 	 */
-	public function getPhrase()
+	public function getPhrase() : string
 	{
 		return $this->phrase;
 	}
@@ -75,7 +76,7 @@ class Translator_Dictionary_Phrase extends BaseObject
 	/**
 	 * @return string
 	 */
-	public function getHash()
+	public function getHash() : string
 	{
 		return $this->hash;
 	}
@@ -83,7 +84,7 @@ class Translator_Dictionary_Phrase extends BaseObject
 	/**
 	 * @return bool
 	 */
-	public function getIsTranslated()
+	public function getIsTranslated() : bool
 	{
 		return $this->is_translated;
 	}
@@ -91,7 +92,7 @@ class Translator_Dictionary_Phrase extends BaseObject
 	/**
 	 * @param bool $is_translated
 	 */
-	public function setIsTranslated( $is_translated )
+	public function setIsTranslated( bool $is_translated ) : void
 	{
 		$this->is_translated = $is_translated;
 	}
@@ -100,7 +101,7 @@ class Translator_Dictionary_Phrase extends BaseObject
 	 *
 	 * @return string
 	 */
-	public function getTranslation()
+	public function getTranslation() : string
 	{
 		if( !$this->is_translated ) {
 			return $this->phrase;
@@ -112,7 +113,7 @@ class Translator_Dictionary_Phrase extends BaseObject
 	/**
 	 * @param string $translation
 	 */
-	public function setTranslation( $translation )
+	public function setTranslation( string $translation ) : void
 	{
 		$this->translation = $translation;
 	}
@@ -120,7 +121,7 @@ class Translator_Dictionary_Phrase extends BaseObject
 	/**
 	 * @return string
 	 */
-	public function getTranslationRaw()
+	public function getTranslationRaw() : string
 	{
 		return $this->translation;
 	}

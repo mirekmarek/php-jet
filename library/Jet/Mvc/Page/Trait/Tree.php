@@ -14,37 +14,37 @@ trait Mvc_Page_Trait_Tree
 {
 
 	/**
-	 * @var string
+	 * @var string|null
 	 */
-	protected $parent_id;
+	protected string|null $parent_id = null;
 
 	/**
-	 * @var Mvc_Page_Interface
+	 * @var ?Mvc_Page_Interface
 	 */
-	protected $__parent;
+	protected ?Mvc_Page_Interface $__parent = null;
 
 
 	/**
 	 * @var array
 	 */
-	protected $children = [];
+	protected array $children = [];
 
 	/**
-	 * @var Mvc_Page[]
+	 * @var Mvc_Page[]|null
 	 */
-	protected $__children;
+	protected array|null $__children = null;
 
 	/**
 	 *
 	 * @var int
 	 */
-	protected $order = 0;
+	protected int $order = 0;
 
 	/**
 	 *
-	 * @return Mvc_Page_Interface|Mvc_Page
+	 * @return static|null
 	 */
-	public function getParent()
+	public function getParent() : static|null
 	{
 		/**
 		 * @var Mvc_Page_Interface|Mvc_Page_Trait_Tree $this
@@ -63,7 +63,7 @@ trait Mvc_Page_Trait_Tree
 	/**
 	 * @return array
 	 */
-	public function getPath()
+	public function getPath() : array
 	{
 		$path = [$this->getId()];
 
@@ -79,7 +79,7 @@ trait Mvc_Page_Trait_Tree
 	/**
 	 * @param Mvc_Page_Interface $parent
 	 */
-	public function setParent( Mvc_Page_Interface $parent )
+	public function setParent( Mvc_Page_Interface $parent ) : void
 	{
 		/**
 		 * @var Mvc_Page_Trait_Tree|Mvc_Page $this
@@ -100,7 +100,7 @@ trait Mvc_Page_Trait_Tree
 	/**
 	 * @param Mvc_Page_Interface $child
 	 */
-	public function appendChild( Mvc_Page_Interface $child )
+	public function appendChild( Mvc_Page_Interface $child ) : void
 	{
 		/**
 		 * @var Mvc_Page_Trait_Tree|Mvc_Page $this
@@ -118,7 +118,7 @@ trait Mvc_Page_Trait_Tree
 	/**
 	 * @return array
 	 */
-	public function getChildrenIds()
+	public function getChildrenIds() : array
 	{
 		return $this->children;
 	}
@@ -126,7 +126,7 @@ trait Mvc_Page_Trait_Tree
 	/**
 	 * @return Mvc_Page_Interface[]
 	 */
-	public function getChildren()
+	public function getChildren() : array
 	{
 		/**
 		 * @var Mvc_Page_Interface|Mvc_Page_Trait_Tree $this
@@ -165,7 +165,7 @@ trait Mvc_Page_Trait_Tree
 	/**
 	 * @return int
 	 */
-	public function getOrder()
+	public function getOrder() : int
 	{
 		return $this->order;
 	}
@@ -174,7 +174,7 @@ trait Mvc_Page_Trait_Tree
 	 * @param int $order
 	 *
 	 */
-	public function setOrder( $order )
+	public function setOrder( int $order ) : void
 	{
 		$this->order = (int)$order;
 	}
@@ -182,7 +182,7 @@ trait Mvc_Page_Trait_Tree
 	/**
 	 * @return array
 	 */
-	public function getChildrenKeys()
+	public function getChildrenKeys() : array
 	{
 		$result = [];
 

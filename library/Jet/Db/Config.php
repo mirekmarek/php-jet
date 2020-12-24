@@ -9,34 +9,34 @@ namespace Jet;
 
 /**
  *
- * @JetConfig:name = 'db'
  */
+#[Config_Definition(name: 'db')]
 class Db_Config extends Config
 {
 
 
 	/**
-	 * @JetConfig:form_field_label = 'Default connection:'
-	 * @JetConfig:type = Config::TYPE_STRING
-	 * @JetConfig:description = 'Connection name default value for Db::get() / Db::getConnection()'
-	 * @JetConfig:is_required = true
-	 * @JetConfig:default_value = 'default'
-	 * @JetConfig:form_field_type = Form::TYPE_SELECT
-	 * @JetConfig:form_field_get_select_options_callback = ['Db_Config', 'getConnectionsList']
-	 * @JetConfig:form_field_error_messages = [Form_Field::ERROR_CODE_EMPTY=>'Please select default connection', Form_Field_MultiSelect::ERROR_CODE_INVALID_VALUE=>'Please select default connection']
 	 *
 	 * @var string
 	 */
-	protected $default_connection_name = 'default';
+	#[Config_Definition(form_field_label : 'Default connection:')]
+	#[Config_Definition(type : Config::TYPE_STRING)]
+	#[Config_Definition(description : 'Connection name default value for Db::get() / Db::getConnection()')]
+	#[Config_Definition(is_required : true)]
+	#[Config_Definition(default_value : 'default')]
+	#[Config_Definition(form_field_type : Form::TYPE_SELECT)]
+	#[Config_Definition(form_field_get_select_options_callback : ['Db_Config', 'getConnectionsList'])]
+	#[Config_Definition(form_field_error_messages : [Form_Field::ERROR_CODE_EMPTY=>'Please select default connection', Form_Field_MultiSelect::ERROR_CODE_INVALID_VALUE=>'Please select default connection'])]
+	protected string $default_connection_name = 'default';
 
 
 	/**
-	 * @JetConfig:type = Config::TYPE_SECTIONS
-	 * @JetConfig:section_creator_method_name = 'connectionConfigCreator'
 	 *
-	 * @var Db_Backend_Config[]
+	 * @var Db_Backend_Config[]|null
 	 */
-	protected $connections;
+	#[Config_Definition(type : Config::TYPE_SECTIONS)]
+	#[Config_Definition(section_creator_method_name : 'connectionConfigCreator')]
+	protected ?array $connections = null;
 
 	/**
 	 *
@@ -44,7 +44,7 @@ class Db_Config extends Config
 	 *
 	 * @return array
 	 */
-	public static function getConnectionsList( $driver_type_filter = '' )
+	public static function getConnectionsList( string $driver_type_filter = '' ) : array
 	{
 		$i = new self();
 
@@ -67,7 +67,7 @@ class Db_Config extends Config
 	/**
 	 * @return Db_Backend_Config[]
 	 */
-	public function getConnections()
+	public function getConnections() : array
 	{
 		return $this->connections;
 	}
@@ -78,7 +78,7 @@ class Db_Config extends Config
 	 *
 	 * @return Db_Backend_Config|null
 	 */
-	public function getConnection( $connection_name )
+	public function getConnection( string $connection_name ) : Db_Backend_Config|null
 	{
 		if(!isset($this->connections[$connection_name])) {
 			return null;
@@ -91,7 +91,7 @@ class Db_Config extends Config
 	 *
 	 * @return string
 	 */
-	public function getDefaultConnectionName()
+	public function getDefaultConnectionName() : string
 	{
 		return $this->default_connection_name;
 	}
@@ -99,7 +99,7 @@ class Db_Config extends Config
 	/**
 	 * @param string $default_connection_name
 	 */
-	public function setDefaultConnectionName( $default_connection_name )
+	public function setDefaultConnectionName( string $default_connection_name ) : void
 	{
 		$this->default_connection_name = $default_connection_name;
 	}
@@ -107,11 +107,11 @@ class Db_Config extends Config
 
 
 	/**
-	 * @param string               $connection_name
+	 * @param string            $connection_name
 	 * @param Db_Backend_Config $connection_configuration
 	 *
 	 */
-	public function addConnection( $connection_name, Db_Backend_Config $connection_configuration )
+	public function addConnection( string $connection_name, Db_Backend_Config $connection_configuration ) : void
 	{
 		$this->connections[$connection_name] = $connection_configuration;
 	}
@@ -120,7 +120,7 @@ class Db_Config extends Config
 	 * @param string $connection_name
 	 *
 	 */
-	public function deleteConnection( $connection_name )
+	public function deleteConnection( string $connection_name ) : void
 	{
 		if(isset($this->connections[$connection_name])) {
 			unset($this->connections[$connection_name]);
@@ -132,7 +132,7 @@ class Db_Config extends Config
 	 *
 	 * @return Db_Backend_Config|Db_Backend_PDO_Config
 	 */
-	public function connectionConfigCreator( array $data )
+	public function connectionConfigCreator( array $data ) : Db_Backend_Config|Db_Backend_PDO_Config
 	{
 		return Db_Factory::getBackendConfigInstance( $data );
 	}

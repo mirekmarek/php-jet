@@ -19,12 +19,12 @@ trait Data_Listing_Filter_search {
 	/**
 	 * @var string
 	 */
-	protected $search = '';
+	protected string $search = '';
 
 	/**
 	 *
 	 */
-	protected function filter_search_catchGetParams()
+	protected function filter_search_catchGetParams() : void
 	{
 		$this->search = Http_Request::GET()->getString('search');
 		$this->setGetParam('search', $this->search);
@@ -33,7 +33,7 @@ trait Data_Listing_Filter_search {
 	/**
 	 * @param Form $form
 	 */
-	public function filter_search_catchForm( Form $form )
+	public function filter_search_catchForm( Form $form ) : void
 	{
 		$value = $form->field('search')->getValue();
 
@@ -44,7 +44,7 @@ trait Data_Listing_Filter_search {
 	/**
 	 * @param Form $form
 	 */
-	protected function filter_search_getForm( Form $form )
+	protected function filter_search_getForm( Form $form ) : void
 	{
 		$search = new Form_Field_Search('search', '', $this->search);
 		$form->addField($search);

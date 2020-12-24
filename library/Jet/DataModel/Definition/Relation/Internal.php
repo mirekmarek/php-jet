@@ -20,7 +20,7 @@ class DataModel_Definition_Relation_Internal extends DataModel_Definition_Relati
 	 * @param array    $join_by
 	 * @param array    $required_relations
 	 */
-	public function __construct( $this_data_model_class_name, $related_data_model_class_name, array $join_by, array $required_relations=[] )
+	public function __construct( string $this_data_model_class_name, string $related_data_model_class_name, array $join_by, array $required_relations=[] )
 	{
 
 		$this->this_data_model_class_name = $this_data_model_class_name;

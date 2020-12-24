@@ -8,6 +8,7 @@
 namespace JetApplicationModule\Content\Images;
 
 use Jet\DataModel;
+use Jet\DataModel_Definition;
 use Jet\DataModel_Fetch_Instances;
 use Jet\DataModel_Query;
 use Jet\DataModel_IDController_UniqueString;
@@ -33,85 +34,92 @@ use JetApplication\Application_Web;
 
 /**
  *
- * @JetDataModel:name = 'gallery'
- * @JetDataModel:database_table_name = 'image_galleries'
- * @JetDataModel:id_controller_class_name = 'DataModel_IDController_UniqueString'
- *
- * @JetDataModel:relation = ['Gallery_Image', ['id'=>'gallery_id'], DataModel_Query::JOIN_TYPE_LEFT_OUTER_JOIN ]
  */
+#[DataModel_Definition(name: 'gallery')]
+#[DataModel_Definition(database_table_name: 'image_galleries')]
+#[DataModel_Definition(id_controller_class: DataModel_IDController_UniqueString::class )]
+#[DataModel_Definition(relation: [
+	'related_to_class_name'=>Gallery_Image::class,
+	'join_by_properties'=>['id'=>'gallery_id'],
+	'join_type'=>DataModel_Query::JOIN_TYPE_LEFT_OUTER_JOIN
+])]
 class Gallery extends DataModel
 {
 
 	/**
-	 * @var Data_Tree;
+	 * @var ?Data_Tree;
 	 */
-	protected static $_tree;
-	/**
-	 * @var Gallery
-	 */
-	protected static $__galleries = [];
-
-	/**
-	 *
-	 * @JetDataModel:type = DataModel::TYPE_ID
-	 *
-	 * @var string
-	 */
-	protected $parent_id = '';
-	/**
-	 *
-	 * @JetDataModel:type = DataModel::TYPE_ID
-	 * @JetDataModel:is_id = true
-	 *
-	 * @var string
-	 */
-	protected $id = '';
-
-	/**
-	 * @JetDataModel:type = DataModel::TYPE_DATA_MODEL
-	 * @JetDataModel:data_model_class = 'Gallery_Localized'
-	 *
-	 * @var Gallery_Localized[]|DataModel_Related_1toN|DataModel_Related_1toN_Iterator
-	 */
-	protected $localized;
-
-
-	/**
-	 * @var Gallery_Image[]
-	 */
-	protected $_images;
+	protected static ?Data_Tree $_tree = null;
 
 	/**
 	 * @var Gallery[]
 	 */
-	protected $_children;
+	protected static array $__galleries = [];
+
+	/**
+	 * @var string
+	 */
+	#[DataModel_Definition(type: DataModel::TYPE_ID)]
+	protected string $parent_id = '';
+	
+	/**
+	 * @var string
+	 */
+	#[DataModel_Definition(type: DataModel::TYPE_ID)]
+	#[DataModel_Definition(is_id: true)]
+	protected string $id = '';
+
+	/**
+	 * @var Gallery_Localized[]|DataModel_Related_1toN|DataModel_Related_1toN_Iterator
+	 */
+	#[DataModel_Definition(type: DataModel::TYPE_DATA_MODEL)]
+	#[DataModel_Definition(data_model_class: Gallery_Localized::class )]
+	protected $localized = null;
 
 
 	/**
-	 * @var Form
+	 * @var iterable|null
 	 */
-	protected $_form_add;
+	protected ?iterable $_images = null;
+
 	/**
-	 * @var Form
+	 * @var ?DataModel_Fetch_Instances
 	 */
-	protected $_form_edit;
+	protected ?DataModel_Fetch_Instances $_children = null;
+
+
 	/**
-	 * @var Form
+	 * @var ?Form
 	 */
-	protected $_form_image_upload;
+	protected ?Form $_form_add = null;
+
 	/**
-	 * @var Form
+	 * @var ?Form
 	 */
-	protected $_form_image_delete;
+	protected ?Form $_form_edit = null;
+
+	/**
+	 * @var ?Form
+	 */
+	protected ?Form $_form_image_upload = null;
+
+	/**
+	 * @var ?Form
+	 */
+	protected ?Form $_form_image_delete = null;
 
 	/**
 	 *
 	 * @param string $id
 	 *
-	 * @return Gallery
+	 * @return static|null
 	 */
-	public static function get( $id )
+	public static function get( string $id ) : static|null
 	{
+		if(!$id) {
+			return null;
+		}
+
 		if( !isset( static::$__galleries[$id] ) ) {
 			$s_id = $id;
 
@@ -133,31 +141,30 @@ class Gallery extends DataModel
 
 	/**
 	 *
-	 * @return DataModel_Fetch_Instances|Gallery[]
+	 * @return Gallery[]
 	 */
-	public static function getList()
+	public static function getList() : iterable
 	{
 		return static::fetchInstances();
 	}
 
 	/**
 	 *
-	 * @return DataModel_Fetch_Instances|Gallery[]
+	 * @return Gallery[]
 	 */
-	public static function getRootGalleries()
+	public static function getRootGalleries() : iterable
 	{
 		return static::fetchInstances(['parent_id'=>'']);
 	}
 
 
-
 	/**
-	 * @param string        $path
+	 * @param string $path
 	 * @param string|Locale $locale
 	 *
 	 * @return Gallery|null
 	 */
-	public static function resolveGalleryByURL( $path, $locale )
+	public static function resolveGalleryByURL( string $path, Locale|string $locale ) : Gallery|null
 	{
 
 		$gallery = static::load(
@@ -181,7 +188,7 @@ class Gallery extends DataModel
 	 *
 	 * @return Gallery[]
 	 */
-	public static function search( $search )
+	public static function search( string $search ) : iterable
 	{
 
 		$search = '%'.$search.'%';
@@ -204,7 +211,7 @@ class Gallery extends DataModel
 	/**
 	 * @return Data_Tree
 	 */
-	public static function getTree()
+	public static function getTree() : Data_Tree
 	{
 		if( !static::$_tree ) {
 			$data = static::fetchInstances();
@@ -232,7 +239,7 @@ class Gallery extends DataModel
 	/**
 	 *
 	 */
-	public function afterLoad()
+	public function afterLoad() : void
 	{
 
 		foreach( Application_Web::getSite()->getLocales() as $lc_str => $locale) {
@@ -251,7 +258,7 @@ class Gallery extends DataModel
 	/**
 	 * @return string
 	 */
-	public function getId()
+	public function getId() : string
 	{
 		return $this->id;
 	}
@@ -259,9 +266,9 @@ class Gallery extends DataModel
 
 	/**
 	 *
-	 * @return DataModel_Fetch_Instances|Gallery[]
+	 * @return Gallery[]
 	 */
-	public function getChildren()
+	public function getChildren() : iterable
 	{
 		if($this->_children===null) {
 			$this->_children = static::fetchInstances( [ 'parent_id' => $this->id ] );
@@ -275,7 +282,7 @@ class Gallery extends DataModel
 	 *
 	 * @return Gallery_Localized
 	 */
-	public function getLocalized( Locale $locale=null )
+	public function getLocalized( Locale $locale=null ) : Gallery_Localized
 	{
 		if(!$locale) {
 			$locale = Mvc::getCurrentLocale();
@@ -286,7 +293,7 @@ class Gallery extends DataModel
 	/**
 	 * @return string
 	 */
-	public function getTitle()
+	public function getTitle() : string
 	{
 		return $this->getLocalized()->getTitle();
 	}
@@ -296,7 +303,7 @@ class Gallery extends DataModel
 	 *
 	 * @return string
 	 */
-	public function getURL( Mvc_Page_Interface $base_page=null )
+	public function getURL( ?Mvc_Page_Interface $base_page=null ) : string
 	{
 		return $this->getLocalized()->getURL( $base_page );
 	}
@@ -305,7 +312,7 @@ class Gallery extends DataModel
 	/**
 	 * @return string
 	 */
-	public function getParentId()
+	public function getParentId()  :string
 	{
 		return $this->parent_id;
 	}
@@ -313,7 +320,7 @@ class Gallery extends DataModel
 	/**
 	 * @param string $parent_id
 	 */
-	public function setParentId( $parent_id )
+	public function setParentId( string $parent_id ) : void
 	{
 		$this->parent_id = (string)$parent_id;
 	}
@@ -321,7 +328,7 @@ class Gallery extends DataModel
 	/**
 	 * @return Gallery|null
 	 */
-	public function getParent()
+	public function getParent() : Gallery|null
 	{
 		if(!$this->parent_id) {
 			return null;
@@ -333,7 +340,7 @@ class Gallery extends DataModel
 	/**
 	 * @return Gallery[]
 	 */
-	public function getPath()
+	public function getPath() : array
 	{
 		$parent = $this;
 
@@ -352,7 +359,7 @@ class Gallery extends DataModel
 	 *
 	 * @return bool|Gallery_Image
 	 */
-	public function getImageExists( $file_name )
+	public function getImageExists( string $file_name ) : bool|Gallery_Image
 	{
 
 		foreach( $this->getImages() as $existing_image ) {
@@ -367,7 +374,7 @@ class Gallery extends DataModel
 	/**
 	 * @return Gallery_Image[]
 	 */
-	public function getImages()
+	public function getImages() : iterable
 	{
 		if( $this->_images===null ) {
 			$this->_images = Gallery_Image::getList( $this->id );
@@ -377,13 +384,13 @@ class Gallery extends DataModel
 	}
 
 	/**
-	 * @param             $source_file_path
+	 * @param string $source_file_path
 	 * @param null|string $source_file_name
 	 *
 	 * @throws Exception
 	 * @return Gallery_Image
 	 */
-	public function addImage( $source_file_path, $source_file_name = null  )
+	public function addImage( string $source_file_path, ?string $source_file_name = null  ) : Gallery_Image
 	{
 
 		if( !$source_file_name ) {
@@ -411,7 +418,7 @@ class Gallery extends DataModel
 	/**
 	 * @return string
 	 */
-	public function getBaseDirPath()
+	public function getBaseDirPath() : string
 	{
 		$base_dir = SysConf_PATH::PUBLIC().'imagegallery/';
 		if( !IO_Dir::exists( $base_dir ) ) {
@@ -424,7 +431,7 @@ class Gallery extends DataModel
 	/**
 	 * @return string
 	 */
-	public function getBaseURI()
+	public function getBaseURI() : string
 	{
 		return SysConf_URI::PUBLIC().'imagegallery/';
 	}
@@ -433,7 +440,7 @@ class Gallery extends DataModel
 	/**
 	 * @return Form
 	 */
-	public function getEditForm()
+	public function getEditForm() : Form
 	{
 		if(!$this->_form_edit) {
 			$this->_form_edit = $this->getCommonForm();
@@ -461,7 +468,7 @@ class Gallery extends DataModel
 	/**
 	 * @return bool
 	 */
-	public function catchEditForm()
+	public function catchEditForm() : bool
 	{
 		return $this->catchForm( $this->getEditForm() );
 	}
@@ -470,7 +477,7 @@ class Gallery extends DataModel
 	/**
 	 * @return Form
 	 */
-	public function getAddForm()
+	public function getAddForm() : Form
 	{
 		if(!$this->_form_add) {
 
@@ -497,7 +504,7 @@ class Gallery extends DataModel
 	/**
 	 * @return bool
 	 */
-	public function catchAddForm()
+	public function catchAddForm() : bool
 	{
 		return $this->catchForm( $this->getAddForm() );
 	}
@@ -505,7 +512,7 @@ class Gallery extends DataModel
 	/**
 	 * @return Form
 	 */
-	public function getImageUploadForm()
+	public function getImageUploadForm() : Form
 	{
 		if(!$this->_form_image_upload) {
 			$image_field = new Form_Field_FileImage( 'file', 'Upload image' );
@@ -539,7 +546,7 @@ class Gallery extends DataModel
 	 *
 	 * @return bool|Gallery_Image[]
 	 */
-	public function catchImageUploadForm( $force_catch = false )
+	public function catchImageUploadForm( bool $force_catch = false ) : bool|array
 	{
 
 		$form = $this->getImageUploadForm();
@@ -594,7 +601,7 @@ class Gallery extends DataModel
 	/**
 	 *
 	 */
-	public function delete()
+	public function delete() : void
 	{
 		foreach( $this->getImages() as $image ) {
 			$image->delete();

@@ -16,22 +16,22 @@ class Debug
 	/**
 	 * @var bool
 	 */
-	protected static $output_is_HTML = false;
+	protected static bool $output_is_HTML = false;
 
 	/**
 	 * @var bool
 	 */
-	protected static $output_is_XML = false;
+	protected static bool $output_is_XML = false;
 
 	/**
 	 * @var bool
 	 */
-	protected static $output_is_JSON = false;
+	protected static bool $output_is_JSON = false;
 
 	/**
 	 * @param bool $output_is_HTML
 	 */
-	public static function setOutputIsHTML( $output_is_HTML )
+	public static function setOutputIsHTML( bool $output_is_HTML ) : void
 	{
 		static::$output_is_HTML = $output_is_HTML;
 	}
@@ -40,7 +40,7 @@ class Debug
 	 *
 	 * @return bool
 	 */
-	public static function getOutputIsHTML()
+	public static function getOutputIsHTML() : bool
 	{
 		return static::$output_is_HTML;
 	}
@@ -49,7 +49,7 @@ class Debug
 	/**
 	 * @param bool $output_is_JSON
 	 */
-	public static function setOutputIsJSON( $output_is_JSON )
+	public static function setOutputIsJSON( bool $output_is_JSON ) : void
 	{
 		static::$output_is_HTML = false;
 		static::$output_is_JSON = $output_is_JSON;
@@ -58,7 +58,7 @@ class Debug
 	/**
 	 * @return bool
 	 */
-	public static function getOutputIsJSON()
+	public static function getOutputIsJSON() : bool
 	{
 		return static::$output_is_JSON;
 	}
@@ -66,7 +66,7 @@ class Debug
 	/**
 	 * @param bool $output_is_XML
 	 */
-	public static function setOutputIsXML( $output_is_XML )
+	public static function setOutputIsXML( bool $output_is_XML ) : void
 	{
 		static::$output_is_XML = $output_is_XML;
 	}
@@ -74,7 +74,7 @@ class Debug
 	/**
 	 * @return bool
 	 */
-	public static function getOutputIsXML()
+	public static function getOutputIsXML() : bool
 	{
 		return static::$output_is_XML;
 	}

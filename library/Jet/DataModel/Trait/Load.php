@@ -15,22 +15,22 @@ trait DataModel_Trait_Load
 {
 
 	/**
-	 * @var DataModel_PropertyFilter
+	 * @var ?DataModel_PropertyFilter
 	 */
-	protected $_load_filter;
+	protected ?DataModel_PropertyFilter $_load_filter = null;
 
 	/**
-	 * @return DataModel_PropertyFilter
+	 * @return DataModel_PropertyFilter|null
 	 */
-	public function getLoadFilter()
+	public function getLoadFilter() : DataModel_PropertyFilter|null
 	{
 		return $this->_load_filter;
 	}
 
 	/**
-	 * @param DataModel_PropertyFilter|null $_load_filter
+	 * @param ?DataModel_PropertyFilter $_load_filter
 	 */
-	protected function setLoadFilter( DataModel_PropertyFilter $_load_filter=null )
+	protected function setLoadFilter( ?DataModel_PropertyFilter $_load_filter=null )
 	{
 		$this->_load_filter = $_load_filter;
 	}
@@ -41,7 +41,7 @@ trait DataModel_Trait_Load
 	 *
 	 * @return DataModel_Query
 	 */
-	public static function createQuery( array $where = [] )
+	public static function createQuery( array $where = [] ) : DataModel_Query
 	{
 
 		/**
@@ -59,9 +59,9 @@ trait DataModel_Trait_Load
 	 * @param array $related_data
 	 * @param DataModel_PropertyFilter|null $load_filter
 	 *
-	 * @return DataModel
+	 * @return static
 	 */
-	public static function initByData( array $this_data, $related_data = [], DataModel_PropertyFilter $load_filter=null )
+	public static function initByData( array $this_data, array $related_data = [], DataModel_PropertyFilter $load_filter=null ) : static
 	{
 		/**
 		 * @var DataModel $_this
@@ -182,9 +182,10 @@ trait DataModel_Trait_Load
 	 * @param array|string|int|DataModel_IDController  $id_or_where
 	 * @param array|DataModel_PropertyFilter|null $load_filter
 	 *
-	 * @return DataModel
+	 * @return static|null
 	 */
-	public static function load( $id_or_where, $load_filter = null )
+	public static function load( array|string|int|DataModel_IDController $id_or_where,
+	                             array|DataModel_PropertyFilter|null $load_filter = null ) : static|null
 	{
 		/**
 		 * @var DataModel_Definition_Model $this_definition
@@ -310,7 +311,10 @@ trait DataModel_Trait_Load
 	 *
 	 * @return DataModel[]
 	 */
-	public static function fetch( array $where_per_model=[], $order_by=null, callable $item_key_generator = null, $load_filter=null )
+	public static function fetch( array $where_per_model=[],
+	                              array|string|null $order_by=null,
+	                              ?callable $item_key_generator = null,
+	                              array|DataModel_PropertyFilter|null $load_filter=null ) : array
 	{
 		/**
 		 * @var DataModel_Definition_Model $this_definition
@@ -452,7 +456,10 @@ trait DataModel_Trait_Load
 	 *
 	 * @return mixed
 	 */
-	public static function fetchData( array $select, array $where, $order_by=null, $fetch_method='fetchAll' )
+	public static function fetchData( array $select,
+	                                  array $where,
+	                                  null|string|array $order_by=null,
+	                                  string $fetch_method='fetchAll' ) : mixed
 	{
 		$query = static::createQuery( $where );
 
@@ -478,7 +485,7 @@ trait DataModel_Trait_Load
 	 *
 	 * @return DataModel_Fetch_Instances
 	 */
-	public static function fetchInstances( array $where = [], array $load_filter = [] )
+	public static function fetchInstances( array $where = [], array $load_filter = [] ) : DataModel_Fetch_Instances
 	{
 
 		$fetch = new DataModel_Fetch_Instances( static::createQuery( $where ) );
@@ -495,7 +502,7 @@ trait DataModel_Trait_Load
 	 *
 	 * @return DataModel_Fetch_IDs
 	 */
-	public static function fetchIDs( array $where = [] )
+	public static function fetchIDs( array $where = [] ) : DataModel_Fetch_IDs
 	{
 		return new DataModel_Fetch_IDs( static::createQuery( $where ) );
 	}

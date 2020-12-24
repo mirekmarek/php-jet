@@ -3,15 +3,13 @@ namespace JetApplication;
 
 use Jet\Auth_User_Interface;
 use Jet\DataModel;
+use Jet\DataModel_Definition;
 use Jet\DataModel_IDController_AutoIncrement;
 use Jet\DataModel_Related_MtoN_Iterator;
-use Jet\DataModel_Fetch_Instances;
 use Jet\Form;
-use Jet\Form_Field_Email;
 use Jet\Form_Field_Input;
 use Jet\Form_Field_MultiSelect;
 use Jet\Form_Field_RegistrationPassword;
-use Jet\Form_Field_DateTime;
 use Jet\Form_Field_Select;
 use Jet\Data_DateTime;
 use Jet\Locale;
@@ -21,192 +19,159 @@ use Jet\Tr;
 
 /**
  *
- * @JetDataModel:name = 'user'
- * @JetDataModel:database_table_name = 'users_visitors'
- * @JetDataModel:id_controller_class_name = 'DataModel_IDController_AutoIncrement'
- * @JetDataModel:id_controller_options = ['id_property_name'=>'id']
  */
+#[DataModel_Definition(name: 'user')]
+#[DataModel_Definition(database_table_name: 'users_visitors')]
+#[DataModel_Definition(id_controller_class: DataModel_IDController_AutoIncrement::class)]
+#[DataModel_Definition(id_controller_options: ['id_property_name'=>'id'])]
 class Auth_Visitor_User extends DataModel implements Auth_User_Interface
 {
 
 	/**
-	 *
-	 * @JetDataModel:type = DataModel::TYPE_ID_AUTOINCREMENT
-	 * @JetDataModel:is_id = true
-	 * @JetDataModel:form_field_type = false
-	 *
+	 * @var int
+	 */
+	#[DataModel_Definition(type: DataModel::TYPE_ID_AUTOINCREMENT)]
+	#[DataModel_Definition(is_id: true)]
+	#[DataModel_Definition(form_field_type: false)]
+	protected int $id = 0;
+
+	/**
 	 * @var string
 	 */
-	protected $id = '';
+	#[DataModel_Definition(type: DataModel::TYPE_STRING)]
+	#[DataModel_Definition(max_len: 100)]
+	#[DataModel_Definition(form_field_is_required: true)]
+	#[DataModel_Definition(is_key: true)]
+	#[DataModel_Definition(is_unique: true)]
+	#[DataModel_Definition(form_field_label: 'Username')]
+	#[DataModel_Definition(form_field_error_messages: [Form_Field_Input::ERROR_CODE_EMPTY=>'Please enter username'])]
+	protected string $username = '';
 
 	/**
-	 *
-	 * @JetDataModel:type = DataModel::TYPE_STRING
-	 * @JetDataModel:max_len = 100
-	 * @JetDataModel:form_field_is_required = true
-	 * @JetDataModel:is_key = true
-	 * @JetDataModel:is_unique = true
-	 * @JetDataModel:form_field_label = 'Username'
-	 * @JetDataModel:form_field_error_messages = [Form_Field_Input::ERROR_CODE_EMPTY=>'Please enter username']
-	 *
 	 * @var string
 	 */
-	protected $username = '';
+	#[DataModel_Definition(type: DataModel::TYPE_STRING)]
+	#[DataModel_Definition(do_not_export: true)]
+	#[DataModel_Definition(max_len: 255)]
+	#[DataModel_Definition(form_field_type: false)]
+	protected string $password = '';
 
 	/**
-	 *
-	 * @JetDataModel:type = DataModel::TYPE_STRING
-	 * @JetDataModel:do_not_export = true
-	 * @JetDataModel:max_len = 255
-	 * @JetDataModel:form_field_type = false
-	 *
 	 * @var string
 	 */
-	protected $password = '';
+	#[DataModel_Definition(type: DataModel::TYPE_STRING)]
+	#[DataModel_Definition(max_len: 255)]
+	#[DataModel_Definition(form_field_label: 'E-mail')]
+	#[DataModel_Definition(form_field_is_required: true)]
+	#[DataModel_Definition(form_field_error_messages: [Form_Field_Input::ERROR_CODE_EMPTY => 'Please enter e-mail address',Form_Field_Input::ERROR_CODE_INVALID_FORMAT => 'Please enter e-mail address'])]
+	protected string $email = '';
 
 	/**
-	 *
-	 * @JetDataModel:type = DataModel::TYPE_STRING
-	 * @JetDataModel:max_len = 255
-	 * @JetDataModel:form_field_label = 'E-mail'
-	 * @JetDataModel:form_field_is_required = true
-	 * @JetDataModel:form_field_error_messages = [Form_Field_Input::ERROR_CODE_EMPTY => 'Please enter e-mail address',Form_Field_Input::ERROR_CODE_INVALID_FORMAT => 'Please enter e-mail address']
-	 *
+	 * @var ?Locale
+	 */
+	#[DataModel_Definition(type: DataModel::TYPE_LOCALE)]
+	#[DataModel_Definition(form_field_label: 'Locale')]
+	#[DataModel_Definition(form_field_is_required: true)]
+	#[DataModel_Definition(form_field_error_messages: [Form_Field_Select::ERROR_CODE_INVALID_VALUE => 'Please select locale',Form_Field_Select::ERROR_CODE_EMPTY => 'Please select locale'])]
+	#[DataModel_Definition(form_field_get_select_options_callback: [self::class, 'getLocales'])]
+	protected ?Locale $locale = null;
+
+	/**
 	 * @var string
 	 */
-	protected $email = '';
+	#[DataModel_Definition(type: DataModel::TYPE_STRING)]
+	#[DataModel_Definition(max_len: 100)]
+	#[DataModel_Definition(form_field_label: 'First name')]
+	protected string $first_name = '';
 
 	/**
-	 *
-	 * @JetDataModel:type = DataModel::TYPE_LOCALE
-	 * @JetDataModel:form_field_label = 'Locale'
-	 * @JetDataModel:form_field_is_required = true
-	 * @JetDataModel:form_field_error_messages = [Form_Field_Select::ERROR_CODE_INVALID_VALUE => 'Please select locale',Form_Field_Select::ERROR_CODE_EMPTY => 'Please select locale']
-	 * @JetDataModel:form_field_get_select_options_callback = ['this', 'getLocales']
-	 *
-	 * @var Locale
-	 */
-	protected $locale;
-
-	/**
-	 *
-	 * @JetDataModel:type = DataModel::TYPE_STRING
-	 * @JetDataModel:max_len = 100
-	 * @JetDataModel:form_field_label = 'First name'
-	 *
 	 * @var string
 	 */
-	protected $first_name = '';
+	#[DataModel_Definition(type: DataModel::TYPE_STRING)]
+	#[DataModel_Definition(max_len: 100)]
+	#[DataModel_Definition(form_field_label: 'Surname')]
+	protected string $surname = '';
 
 	/**
-	 *
-	 * @JetDataModel:type = DataModel::TYPE_STRING
-	 * @JetDataModel:max_len = 100
-	 * @JetDataModel:form_field_label = 'Surname'
-	 *
 	 * @var string
 	 */
-	protected $surname = '';
+	#[DataModel_Definition(type: DataModel::TYPE_STRING)]
+	#[DataModel_Definition(max_len: 65536)]
+	#[DataModel_Definition(form_field_label: 'Description')]
+	protected string $description = '';
 
 	/**
-	 *
-	 * @JetDataModel:type = DataModel::TYPE_STRING
-	 * @JetDataModel:max_len = 65536
-	 * @JetDataModel:form_field_label = 'Description'
-	 *
-	 * @var string
-	 */
-	protected $description = '';
-
-	/**
-	 *
-	 * @JetDataModel:type = DataModel::TYPE_BOOL
-	 * @JetDataModel:default_value = true
-	 * @JetDataModel:form_field_label = 'Password is valid'
-	 *
 	 * @var bool
 	 */
-	protected $password_is_valid = true;
+	#[DataModel_Definition(type: DataModel::TYPE_BOOL)]
+	#[DataModel_Definition(default_value: true)]
+	#[DataModel_Definition(form_field_label: 'Password is valid')]
+	protected bool $password_is_valid = true;
 
 	/**
-	 *
-	 * @JetDataModel:type = DataModel::TYPE_DATE_TIME
-	 * @JetDataModel:default_value = null
-	 * @JetDataModel:form_field_label = 'Password is valid till'
-	 * @JetDataModel:form_field_error_messages = [Form_Field_Input::ERROR_CODE_INVALID_FORMAT => 'Invalid date format']
-	 *
-	 * @var Data_DateTime
+	 * @var Data_DateTime|null
 	 */
-	protected $password_is_valid_till;
+	#[DataModel_Definition(type: DataModel::TYPE_DATE_TIME)]
+	#[DataModel_Definition(default_value: null)]
+	#[DataModel_Definition(form_field_label: 'Password is valid till')]
+	#[DataModel_Definition(form_field_error_messages: [Form_Field_Input::ERROR_CODE_INVALID_FORMAT => 'Invalid date format'])]
+	protected ?Data_DateTime $password_is_valid_till = null;
 
 	/**
-	 *
-	 * @JetDataModel:type = DataModel::TYPE_BOOL
-	 * @JetDataModel:default_value = false
-	 * @JetDataModel:form_field_label = 'User is blocked'
-	 *
 	 * @var bool
 	 */
-	protected $user_is_blocked = false;
+	#[DataModel_Definition(type: DataModel::TYPE_BOOL)]
+	#[DataModel_Definition(default_value: false)]
+	#[DataModel_Definition(form_field_label: 'User is blocked')]
+	protected bool $user_is_blocked = false;
 
 	/**
-	 *
-	 * @JetDataModel:type = DataModel::TYPE_DATE_TIME
-	 * @JetDataModel:default_value = null
-	 * @JetDataModel:form_field_label = 'User is blocked till'
-	 * @JetDataModel:form_field_error_messages = [Form_Field_Input::ERROR_CODE_INVALID_FORMAT => 'Invalid date format']
-	 *
-	 * @var Data_DateTime
+	 * @var ?Data_DateTime
 	 */
-	protected $user_is_blocked_till;
+	#[DataModel_Definition(type: DataModel::TYPE_DATE_TIME)]
+	#[DataModel_Definition(default_value: null)]
+	#[DataModel_Definition(form_field_label: 'User is blocked till')]
+	#[DataModel_Definition(form_field_error_messages: [Form_Field_Input::ERROR_CODE_INVALID_FORMAT => 'Invalid date format'])]
+	protected ?Data_DateTime $user_is_blocked_till = null;
 
 	/**
-	 *
-	 * @JetDataModel:type = DataModel::TYPE_BOOL
-	 * @JetDataModel:default_value = true
-	 * @JetDataModel:form_field_label = 'User is activated'
-	 *
 	 * @var bool
 	 */
-	protected $user_is_activated = true;
+	#[DataModel_Definition(type: DataModel::TYPE_BOOL)]
+	#[DataModel_Definition(default_value: true)]
+	#[DataModel_Definition(form_field_label: 'User is activated')]
+	protected bool $user_is_activated = true;
 
 	/**
-	 *
-	 * @JetDataModel:type = DataModel::TYPE_STRING
-	 * @JetDataModel:default_value = ''
-	 * @JetDataModel:form_field_type = false
-	 *
 	 * @var string
 	 */
-	protected $user_activation_key = '';
+	#[DataModel_Definition(type: DataModel::TYPE_STRING)]
+	#[DataModel_Definition(default_value: '')]
+	#[DataModel_Definition(form_field_type: false)]
+	protected string $user_activation_key = '';
 
 	/**
-	 *
-	 * @JetDataModel:type = DataModel::TYPE_DATA_MODEL
-	 * @JetDataModel:data_model_class = 'Auth_Visitor_User_Roles'
-	 *
 	 * @var Auth_Visitor_User_Roles|DataModel_Related_MtoN_Iterator|Auth_Visitor_Role[]
-	 *
 	 */
+	#[DataModel_Definition(type: DataModel::TYPE_DATA_MODEL)]
+	#[DataModel_Definition(data_model_class: Auth_Visitor_User_Roles::class)]
 	protected $roles;
 
-
+	/**
+	 * @var ?Form
+	 */
+	protected ?Form $_form_add = null;
 
 	/**
-	 * @var Form
+	 * @var ?Form
 	 */
-	protected $_form_add;
-	/**
-	 * @var Form
-	 */
-	protected $_form_edit;
-
+	protected ?Form $_form_edit = null;
 
 	/**
 	 * @param string|null $username
 	 * @param string|null $password
 	 */
-	public function __construct( $username = null, $password = null )
+	public function __construct( ?string $username = null, ?string $password = null )
 	{
 
 		if( $username!==null ) {
@@ -222,7 +187,7 @@ class Auth_Visitor_User extends DataModel implements Auth_User_Interface
 	/**
 	 * @param string $password
 	 */
-	public function setPassword( $password )
+	public function setPassword( string $password ) : void
 	{
 		if( $password ) {
 			$this->password = $this->encryptPassword( $password );
@@ -234,33 +199,28 @@ class Auth_Visitor_User extends DataModel implements Auth_User_Interface
 	 *
 	 * @return string
 	 */
-	public function encryptPassword( $password )
+	public function encryptPassword( string $password ) : string
 	{
 		return password_hash( $password, PASSWORD_DEFAULT );
 	}
 
 	/**
-	 * @param string $id
+	 * @param string|int $id
 	 *
-	 * @return Auth_Visitor_User
+	 * @return static|null
 	 */
-	public static function get( $id )
+	public static function get( string|int $id ) : static|null
 	{
-		/**
-		 * @var Auth_Visitor_User $user
-		 */
-		$user = static::load( $id );
-
-		return $user;
+		return static::load( $id );
 	}
 
 	/**
 	 * @param string|null $role_id (optional)
 	 * @param string      $search
 	 *
-	 * @return Auth_Visitor_User[]|DataModel_Fetch_Instances
+	 * @return Auth_Visitor_User[]
 	 */
-	public static function getList( $role_id = null, $search = '' )
+	public static function getList( string|null $role_id = null, string $search='' ) : iterable
 	{
 		$where = [];
 
@@ -308,14 +268,10 @@ class Auth_Visitor_User extends DataModel implements Auth_User_Interface
 	 * @param string $username
 	 * @param string $password
 	 *
-	 * @return Auth_Visitor_User|bool
+	 * @return static|null
 	 */
-	public static function getByIdentity( $username, $password )
+	public static function getByIdentity( string $username, string $password ) : static|null
 	{
-
-		/**
-		 * @var Auth_Visitor_User $user
-		 */
 		$user = static::load(
 			[
 				'username' => $username,
@@ -323,11 +279,11 @@ class Auth_Visitor_User extends DataModel implements Auth_User_Interface
 		);
 
 		if( !$user ) {
-			return false;
+			return null;
 		}
 
 		if( !$user->verifyPassword( $password ) ) {
-			return false;
+			return null;
 		}
 
 		return $user;
@@ -338,7 +294,7 @@ class Auth_Visitor_User extends DataModel implements Auth_User_Interface
 	 *
 	 * @return bool
 	 */
-	public function verifyPassword( $plain_password )
+	public function verifyPassword( string $plain_password ) : bool
 	{
 		return password_verify( $plain_password, $this->password );
 	}
@@ -346,26 +302,21 @@ class Auth_Visitor_User extends DataModel implements Auth_User_Interface
 	/**
 	 * @param string $username
 	 *
-	 * @return Auth_Visitor_User|bool
+	 * @return static|null
 	 */
-	public static function getGetByUsername( $username )
+	public static function getGetByUsername( string $username ) : static|null
 	{
-		/**
-		 * @var Auth_Visitor_User $user
-		 */
-		$user = static::load(
+		return static::load(
 			[
 				'username' => $username,
 			]
 		);
-
-		return $user;
 	}
 
 	/**
 	 * @return int
 	 */
-	public function getId()
+	public function getId() : int
 	{
 		return $this->id;
 	}
@@ -373,7 +324,7 @@ class Auth_Visitor_User extends DataModel implements Auth_User_Interface
 	/**
 	 * @return string
 	 */
-	public function getUsername()
+	public function getUsername() : string
 	{
 		return $this->username;
 	}
@@ -381,7 +332,7 @@ class Auth_Visitor_User extends DataModel implements Auth_User_Interface
 	/**
 	 * @param string $username
 	 */
-	public function setUsername( $username )
+	public function setUsername( string $username ) : void
 	{
 		$this->username = $username;
 	}
@@ -389,7 +340,7 @@ class Auth_Visitor_User extends DataModel implements Auth_User_Interface
 	/**
 	 * @return string
 	 */
-	public function getEmail()
+	public function getEmail() : string
 	{
 		return $this->email;
 	}
@@ -397,7 +348,7 @@ class Auth_Visitor_User extends DataModel implements Auth_User_Interface
 	/**
 	 * @param string $email
 	 */
-	public function setEmail( $email )
+	public function setEmail( string $email ) : void
 	{
 		$this->email = $email;
 	}
@@ -405,7 +356,7 @@ class Auth_Visitor_User extends DataModel implements Auth_User_Interface
 	/**
 	 * @return Locale
 	 */
-	public function getLocale()
+	public function getLocale() : Locale
 	{
 		return $this->locale;
 	}
@@ -413,7 +364,7 @@ class Auth_Visitor_User extends DataModel implements Auth_User_Interface
 	/**
 	 * @param string|Locale $locale
 	 */
-	public function setLocale( $locale )
+	public function setLocale( string|Locale $locale ) : void
 	{
 		if( !( $locale instanceof Locale ) ) {
 			$locale = new Locale( $locale );
@@ -424,7 +375,7 @@ class Auth_Visitor_User extends DataModel implements Auth_User_Interface
 	/**
 	 * @return string
 	 */
-	public function getFirstName()
+	public function getFirstName() : string
 	{
 		return $this->first_name;
 	}
@@ -432,7 +383,7 @@ class Auth_Visitor_User extends DataModel implements Auth_User_Interface
 	/**
 	 * @param string $first_name
 	 */
-	public function setFirstName( $first_name )
+	public function setFirstName( string $first_name ) : void
 	{
 		$this->first_name = $first_name;
 	}
@@ -440,7 +391,7 @@ class Auth_Visitor_User extends DataModel implements Auth_User_Interface
 	/**
 	 * @return string
 	 */
-	public function getSurname()
+	public function getSurname() : string
 	{
 		return $this->surname;
 	}
@@ -448,7 +399,7 @@ class Auth_Visitor_User extends DataModel implements Auth_User_Interface
 	/**
 	 * @param string $surname
 	 */
-	public function setSurname( $surname )
+	public function setSurname( string $surname ) : void
 	{
 		$this->surname = $surname;
 	}
@@ -456,7 +407,7 @@ class Auth_Visitor_User extends DataModel implements Auth_User_Interface
 	/**
 	 * @return string
 	 */
-	public function getName()
+	public function getName() : string
 	{
 		return $this->first_name.' '.$this->surname;
 	}
@@ -464,7 +415,7 @@ class Auth_Visitor_User extends DataModel implements Auth_User_Interface
 	/**
 	 * @return string
 	 */
-	public function getDescription()
+	public function getDescription() : string
 	{
 		return $this->description;
 	}
@@ -472,7 +423,7 @@ class Auth_Visitor_User extends DataModel implements Auth_User_Interface
 	/**
 	 * @param string $description
 	 */
-	public function setDescription( $description )
+	public function setDescription( string $description ) : void
 	{
 		$this->description = $description;
 	}
@@ -480,7 +431,7 @@ class Auth_Visitor_User extends DataModel implements Auth_User_Interface
 	/**
 	 * @return bool
 	 */
-	public function getPasswordIsValid()
+	public function getPasswordIsValid() : bool
 	{
 		return $this->password_is_valid;
 	}
@@ -488,37 +439,41 @@ class Auth_Visitor_User extends DataModel implements Auth_User_Interface
 	/**
 	 * @param bool $password_is_valid
 	 */
-	public function setPasswordIsValid( $password_is_valid )
+	public function setPasswordIsValid( bool $password_is_valid ) : void
 	{
-		$this->password_is_valid = (bool)$password_is_valid;
+		$this->password_is_valid = $password_is_valid;
 	}
 
 	/**
 	 *
-	 * @return Data_DateTime
+	 * @return Data_DateTime|null
 	 */
-	public function getPasswordIsValidTill()
+	public function getPasswordIsValidTill() : Data_DateTime|null
 	{
 		return $this->password_is_valid_till;
 	}
 
 	/**
-	 * @param Data_DateTime|string $password_is_valid_till
+	 * @param Data_DateTime|string|null $password_is_valid_till
 	 *
 	 */
-	public function setPasswordIsValidTill( $password_is_valid_till )
+	public function setPasswordIsValidTill( Data_DateTime|string|null $password_is_valid_till ) : void
 	{
 		if( !$password_is_valid_till ) {
 			$this->password_is_valid_till = null;
 		} else {
-			$this->password_is_valid_till = new Data_DateTime( $password_is_valid_till );
+			if($password_is_valid_till instanceof Data_DateTime) {
+				$this->password_is_valid_till = $password_is_valid_till;
+			} else {
+				$this->password_is_valid_till = new Data_DateTime( $password_is_valid_till );
+			}
 		}
 	}
 
 	/**
 	 * @return bool
 	 */
-	public function isBlocked()
+	public function isBlocked() : bool
 	{
 		return $this->user_is_blocked;
 	}
@@ -526,7 +481,7 @@ class Auth_Visitor_User extends DataModel implements Auth_User_Interface
 	/**
 	 * @return null|Data_DateTime
 	 */
-	public function isBlockedTill()
+	public function isBlockedTill() : null|Data_DateTime
 	{
 		return $this->user_is_blocked_till;
 	}
@@ -534,20 +489,24 @@ class Auth_Visitor_User extends DataModel implements Auth_User_Interface
 	/**
 	 * @param string|Data_DateTime|null $till
 	 */
-	public function block( $till = null )
+	public function block( string|Data_DateTime|null $till = null ) : void
 	{
 		$this->user_is_blocked = true;
 		if( !$till ) {
 			$this->user_is_blocked_till = null;
 		} else {
-			$this->user_is_blocked_till = new Data_DateTime( $till );
+			if($till instanceof Data_DateTime) {
+				$this->user_is_blocked_till = $till;
+			} else {
+				$this->user_is_blocked_till = new Data_DateTime( $till );
+			}
 		}
 	}
 
 	/**
 	 *
 	 */
-	public function unBlock()
+	public function unBlock() : void
 	{
 		$this->user_is_blocked = false;
 		$this->user_is_blocked_till = null;
@@ -556,21 +515,21 @@ class Auth_Visitor_User extends DataModel implements Auth_User_Interface
 	/**
 	 * @return bool
 	 */
-	public function isActivated()
+	public function isActivated() : bool
 	{
 		return $this->user_is_activated;
 	}
 
 	/**
-	 * @param string|null $user_activation_hash (optional)
+	 * @param string|null $user_activation_key (optional)
 	 *
 	 * @return bool
 	 */
-	public function activate( $user_activation_hash = null )
+	public function activate( string|null $user_activation_key = null ) : bool
 	{
 		if(
-			$user_activation_hash &&
-			$this->user_activation_key!=$user_activation_hash
+			$user_activation_key &&
+			$this->user_activation_key!=$user_activation_key
 		) {
 			return false;
 		}
@@ -582,24 +541,24 @@ class Auth_Visitor_User extends DataModel implements Auth_User_Interface
 	/**
 	 * @return string
 	 */
-	public function getActivationKey()
+	public function getActivationKey() : string
 	{
 		return $this->user_activation_key;
 	}
 
 	/**
-	 * @param string $user_activation_hash
+	 * @param string $user_activation_key
 	 */
-	public function setActivationKey( $user_activation_hash )
+	public function setActivationKey( string $user_activation_key ) : void
 	{
-		$this->user_activation_key = $user_activation_hash;
+		$this->user_activation_key = $user_activation_key;
 	}
 
 
 	/**
 	 * @return Auth_Visitor_Role[]
 	 */
-	public function getRoles()
+	public function getRoles() : array
 	{
 		return $this->roles;
 	}
@@ -607,7 +566,7 @@ class Auth_Visitor_User extends DataModel implements Auth_User_Interface
 	/**
 	 * @param array $role_ids
 	 */
-	public function setRoles( array $role_ids )
+	public function setRoles( array $role_ids ) : void
 	{
 		$roles = [];
 
@@ -625,11 +584,11 @@ class Auth_Visitor_User extends DataModel implements Auth_User_Interface
 	}
 
 	/**
-	 * @param string $role_id
+	 * @param int|string $role_id
 	 *
 	 * @return bool
 	 */
-	public function hasRole( $role_id )
+	public function hasRole( int|string $role_id ) : bool
 	{
 		foreach( $this->roles as $role ) {
 			if( $role->getId()==$role_id ) {
@@ -646,7 +605,7 @@ class Auth_Visitor_User extends DataModel implements Auth_User_Interface
 	 *
 	 * @return bool
 	 */
-	public function hasPrivilege( $privilege, $value )
+	public function hasPrivilege( string $privilege, mixed $value ) : bool
 	{
 
 		foreach( $this->roles as $role ) {
@@ -663,7 +622,7 @@ class Auth_Visitor_User extends DataModel implements Auth_User_Interface
 	 *
 	 * @return array
 	 */
-	public function getPrivilegeValues( $privilege )
+	public function getPrivilegeValues( string $privilege ) : array
 	{
 		$result = [];
 		foreach( $this->roles as $role ) {
@@ -683,7 +642,7 @@ class Auth_Visitor_User extends DataModel implements Auth_User_Interface
 	 *
 	 * @return bool
 	 */
-	public function usernameExists( $username )
+	public function usernameExists( string $username ) : bool
 	{
 		if( $this->getIsNew() ) {
 			$q = [
@@ -705,7 +664,7 @@ class Auth_Visitor_User extends DataModel implements Auth_User_Interface
 	/**
 	 *
 	 */
-	public function resetPassword()
+	public function resetPassword() : void
 	{
 
 		$password = static::generatePassword();
@@ -730,7 +689,7 @@ class Auth_Visitor_User extends DataModel implements Auth_User_Interface
 	/**
 	 * @return string
 	 */
-	public static function generatePassword()
+	public static function generatePassword() : string
 	{
 		srand();
 		$password = '';
@@ -754,7 +713,7 @@ class Auth_Visitor_User extends DataModel implements Auth_User_Interface
 	 *
 	 * @return bool
 	 */
-	public function verifyPasswordStrength( $password )
+	public function verifyPasswordStrength( string $password ) : bool
 	{
 		if( strlen( $password )<5 ) {
 			return false;
@@ -769,7 +728,7 @@ class Auth_Visitor_User extends DataModel implements Auth_User_Interface
 	 *
 	 * @return Form
 	 */
-	public function _getForm()
+	public function _getForm() : Form
 	{
 
 		$form = $this->getCommonForm();
@@ -811,7 +770,7 @@ class Auth_Visitor_User extends DataModel implements Auth_User_Interface
 	 *
 	 * @return Form
 	 */
-	public function getRegistrationForm()
+	public function getRegistrationForm() : Form
 	{
 		$form = $this->_getForm();
 		$form->setName('register_user');
@@ -838,7 +797,7 @@ class Auth_Visitor_User extends DataModel implements Auth_User_Interface
 	 *
 	 * @return Form
 	 */
-	public function getEditForm()
+	public function getEditForm() : Form
 	{
 		if(!$this->_form_edit) {
 			$form = $this->_getForm();
@@ -859,7 +818,7 @@ class Auth_Visitor_User extends DataModel implements Auth_User_Interface
 	/**
 	 * @return bool
 	 */
-	public function catchEditForm()
+	public function catchEditForm() : bool
 	{
 		return $this->catchForm( $this->getEditForm() );
 	}
@@ -868,7 +827,7 @@ class Auth_Visitor_User extends DataModel implements Auth_User_Interface
 	/**
 	 * @return Form
 	 */
-	public function getAddForm()
+	public function getAddForm() : Form
 	{
 		if(!$this->_form_add) {
 
@@ -891,7 +850,7 @@ class Auth_Visitor_User extends DataModel implements Auth_User_Interface
 	/**
 	 * @return bool
 	 */
-	public function catchAddForm()
+	public function catchAddForm() : bool
 	{
 		return $this->catchForm( $this->getAddForm() );
 	}
@@ -900,7 +859,7 @@ class Auth_Visitor_User extends DataModel implements Auth_User_Interface
 	/**
 	 * @return array
 	 */
-	public static function getLocales()
+	public static function getLocales() : array
 	{
 		$locales = [];
 
@@ -913,9 +872,9 @@ class Auth_Visitor_User extends DataModel implements Auth_User_Interface
 
 
 	/**
-	 * @param string $password
+	 *
 	 */
-	public function sendWelcomeEmail( $password )
+	public function sendWelcomeEmail() : void
 	{
 		$email = new Mailing_Email(
 			'user_welcome',
@@ -924,7 +883,6 @@ class Auth_Visitor_User extends DataModel implements Auth_User_Interface
 		);
 
 		$email->setVar('user', $this);
-		$email->setVar('password', $password);
 
 		$email->send( $this->getEmail() );
 	}

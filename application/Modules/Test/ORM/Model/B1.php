@@ -8,34 +8,31 @@
 namespace JetApplicationModule\Test\ORM;
 
 use Jet\DataModel;
+use Jet\DataModel_Definition;
 use Jet\DataModel_IDController_UniqueString;
 
 /**
  *
- * @JetDataModel:name = 'model_b1'
- * @JetDataModel:database_table_name = 'model_b1'
- * @JetDataModel:id_controller_class_name = 'DataModel_IDController_UniqueString'
  */
+#[DataModel_Definition(name: 'model_b1')]
+#[DataModel_Definition(database_table_name: 'model_b1')]
+#[DataModel_Definition(id_controller_class: DataModel_IDController_UniqueString::class )]
 class Model_B1 extends DataModel
 {
 
 	/**
-	 *
-	 * @JetDataModel:type = DataModel::TYPE_ID
-	 * @JetDataModel:is_id = true
-	 *
 	 * @var string
 	 */
-	protected $id = '';
+	#[DataModel_Definition(type: DataModel::TYPE_ID)]
+	#[DataModel_Definition(is_id: true)]
+	protected string $id = '';
 
 
 	/**
-	 *
-	 * @JetDataModel:type = DataModel::TYPE_STRING
-	 * @JetDataModel:max_len = 255
-	 *
 	 * @var string
 	 */
-	protected $text = '';
+	#[DataModel_Definition(type: DataModel::TYPE_STRING)]
+	#[DataModel_Definition(max_len: 255)]
+	protected string $text = '';
 
 }

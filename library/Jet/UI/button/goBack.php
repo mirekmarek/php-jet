@@ -16,6 +16,6 @@ class UI_button_goBack extends UI_button
 	/**
 	 * @var string
 	 */
-	protected static $default_renderer_script = 'button/goBack';
+	protected static string $default_renderer_script = 'button/goBack';
 
 }

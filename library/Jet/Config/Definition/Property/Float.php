@@ -15,28 +15,28 @@ class Config_Definition_Property_Float extends Config_Definition_Property
 	/**
 	 * @var string
 	 */
-	protected $_type = Config::TYPE_FLOAT;
+	protected string $_type = Config::TYPE_FLOAT;
 	/**
 	 * @var float
 	 */
 	protected $default_value = 0.0;
 
 	/**
-	 * @var float
+	 * @var float|null
 	 */
-	protected $min_value = null;
+	protected float|null $min_value = null;
 
 	/**
-	 * @var float
+	 * @var float|null
 	 */
-	protected $max_value = null;
+	protected float|null $max_value = null;
 
 	/**
 	 * @param array|null $definition_data
 	 *
 	 * @throws Config_Exception
 	 */
-	public function setUp( array $definition_data = null )
+	public function setUp( array $definition_data = null ) : void
 	{
 		parent::setUp( $definition_data );
 
@@ -56,7 +56,7 @@ class Config_Definition_Property_Float extends Config_Definition_Property
 	/**
 	 * @return float|null
 	 */
-	public function getMinValue()
+	public function getMinValue() : float|null
 	{
 		return $this->min_value;
 	}
@@ -64,16 +64,16 @@ class Config_Definition_Property_Float extends Config_Definition_Property
 	/**
 	 * @param float $min_value
 	 */
-	public function setMinValue( $min_value )
+	public function setMinValue( float $min_value )
 	{
-		$this->min_value = (float)$min_value;
+		$this->min_value = $min_value;
 		$this->form_field_min_value = $this->min_value;
 	}
 
 	/**
 	 * @return float|null
 	 */
-	public function getMaxValue()
+	public function getMaxValue() : float|null
 	{
 		return $this->max_value;
 	}
@@ -81,29 +81,28 @@ class Config_Definition_Property_Float extends Config_Definition_Property
 	/**
 	 * @param float $max_value
 	 */
-	public function setMaxValue( $max_value )
+	public function setMaxValue( float $max_value )
 	{
-		$this->max_value = (float)$max_value;
+		$this->max_value = $max_value;
 		$this->form_field_max_value = $this->max_value;
 	}
 
 	/**
 	 * @param mixed &$value
 	 */
-	public function checkValueType( &$value )
+	protected function checkValueType( mixed &$value ) : void
 	{
 		$value = (float)$value;
 	}
 
 
 	/**
-	 * Column value test - checks range
 	 *
 	 * @param mixed $value
 	 *
 	 * @throws Config_Exception
 	 */
-	protected function checkValue( $value )
+	protected function checkValue( mixed $value ) : void
 	{
 
 		if(

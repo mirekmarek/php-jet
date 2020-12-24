@@ -26,13 +26,13 @@ interface Db_Backend_Interface
 	/**
 	 *
 	 */
-	public function disconnect();
+	public function disconnect() : void;
 
 	/**
 	 *
 	 * @return Db_Backend_Config
 	 */
-	public function getConfig();
+	public function getConfig() : Db_Backend_Config;
 
 	/**
 	 *
@@ -41,7 +41,7 @@ interface Db_Backend_Interface
 	 *
 	 * @return string
 	 */
-	public function prepareQuery( $query, array $query_data = [] );
+	public function prepareQuery( string $query, array $query_data = [] ) : string;
 
 	/**
 	 * Executes command (INSERT, UPDATE, DELETE or CREATE, ...) and return affected rows
@@ -51,14 +51,14 @@ interface Db_Backend_Interface
 	 *
 	 * @return int
 	 */
-	public function execCommand( $query, array $query_data = [] );
+	public function execCommand( string $query, array $query_data = [] ) : int;
 
 	/**
 	 * @param string $statement
 	 *
 	 * @return object
 	 */
-	public function doQuery( $statement );
+	public function doQuery( string $statement ) : object;
 
 
 	/**
@@ -68,7 +68,7 @@ interface Db_Backend_Interface
 	 *
 	 * @return array
 	 */
-	public function fetchAll( $query, array $query_data = [] );
+	public function fetchAll( string $query, array $query_data = [] ) : array;
 
 	/**
 	 *
@@ -77,7 +77,7 @@ interface Db_Backend_Interface
 	 *
 	 * @return array|bool
 	 */
-	public function fetchRow( $query, array $query_data = [] );
+	public function fetchRow( string $query, array $query_data = [] ) : array|bool;
 
 	/**
 	 *
@@ -87,7 +87,7 @@ interface Db_Backend_Interface
 	 *
 	 * @return array
 	 */
-	public function fetchAssoc( $query, array $query_data = [], $key_column = null );
+	public function fetchAssoc( string $query, array $query_data = [], ?string $key_column = null ) : array;
 
 	/**
 	 *
@@ -97,7 +97,7 @@ interface Db_Backend_Interface
 	 *
 	 * @return array
 	 */
-	public function fetchCol( $query, array $query_data = [], $column = null );
+	public function fetchCol( string $query, array $query_data = [], ?string $column = null ) : array;
 
 	/**
 	 *
@@ -108,7 +108,7 @@ interface Db_Backend_Interface
 	 *
 	 * @return array
 	 */
-	public function fetchPairs( $query, array $query_data = [], $key_column = null, $value_column = null );
+	public function fetchPairs( string $query, array $query_data = [], ?string $key_column = null, ?string $value_column = null ) : array;
 
 	/**
 	 *
@@ -118,7 +118,7 @@ interface Db_Backend_Interface
 	 *
 	 * @return mixed
 	 */
-	public function fetchOne( $query, array $query_data = [], $column = null );
+	public function fetchOne( string $query, array $query_data = [], ?string $column = null ) : mixed;
 
 	/**
 	 * @return bool
@@ -143,15 +143,15 @@ interface Db_Backend_Interface
 	/**
 	 * @param string $string
 	 *
-	 * @return mixed
+	 * @return string
 	 */
-	public function quote( $string );
+	public function quoteString( string $string ) : string;
 
 	/**
 	 * @param string|null $name
 	 *
-	 * @return mixed
+	 * @return string
 	 */
-	public function lastInsertId ($name = null);
+	public function lastInsertId ( string $name = null);
 
 }

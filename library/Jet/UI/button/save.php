@@ -16,11 +16,11 @@ class UI_button_save extends UI_button
 	/**
 	 * @var string
 	 */
-	protected $type = 'submit';
+	protected string $type = 'submit';
 
 	/**
 	 * @var string
 	 */
-	protected static $default_renderer_script = 'button/save';
+	protected static string $default_renderer_script = 'button/save';
 
 }

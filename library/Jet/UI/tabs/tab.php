@@ -15,23 +15,23 @@ class UI_tabs_tab extends UI_BaseElement
 	/**
 	 * @var string
 	 */
-	protected static $default_renderer_script = 'tabs/tab';
+	protected static string $default_renderer_script = 'tabs/tab';
 
 
 	/**
 	 * @var string
 	 */
-	protected $id = '';
+	protected string $id = '';
 
 	/**
 	 * @var string
 	 */
-	protected $title = '';
+	protected string $title = '';
 
 	/**
 	 * @var bool
 	 */
-	protected $is_selected = false;
+	protected bool $is_selected = false;
 
 	/**
 	 * @var callable
@@ -40,11 +40,11 @@ class UI_tabs_tab extends UI_BaseElement
 
 	/**
 	 *
-	 * @param string   $id
-	 * @param string   $title
+	 * @param string $id
+	 * @param string $title
 	 * @param callable $tab_url_creator
 	 */
-	public function __construct( $id, $title, callable $tab_url_creator)
+	public function __construct( string $id, string $title, callable $tab_url_creator )
 	{
 		$this->id = $id;
 		$this->title = $title;
@@ -55,7 +55,7 @@ class UI_tabs_tab extends UI_BaseElement
 	/**
 	 * @return bool
 	 */
-	public function getIsSelected()
+	public function getIsSelected() : bool
 	{
 		return $this->is_selected;
 	}
@@ -63,7 +63,7 @@ class UI_tabs_tab extends UI_BaseElement
 	/**
 	 * @param bool $is_selected
 	 */
-	public function setIsSelected( $is_selected )
+	public function setIsSelected( bool $is_selected ) : void
 	{
 		$this->is_selected = $is_selected;
 	}
@@ -71,7 +71,7 @@ class UI_tabs_tab extends UI_BaseElement
 	/**
 	 * @return string
 	 */
-	public function getId()
+	public function getId() : string
 	{
 		return $this->id;
 	}
@@ -79,7 +79,7 @@ class UI_tabs_tab extends UI_BaseElement
 	/**
 	 * @param string $id
 	 */
-	public function setId( $id )
+	public function setId( string $id ) : void
 	{
 		$this->id = $id;
 	}
@@ -87,7 +87,7 @@ class UI_tabs_tab extends UI_BaseElement
 	/**
 	 * @return string
 	 */
-	public function getTitle()
+	public function getTitle() : string
 	{
 		return $this->title;
 	}
@@ -95,7 +95,7 @@ class UI_tabs_tab extends UI_BaseElement
 	/**
 	 * @param string $title
 	 */
-	public function setTitle( $title )
+	public function setTitle( string $title ) : void
 	{
 		$this->title = $title;
 	}
@@ -103,7 +103,8 @@ class UI_tabs_tab extends UI_BaseElement
 	/**
 	 * @return string
 	 */
-	public function getUrl() {
+	public function getUrl() : string
+	{
 		$creator = $this->tab_url_creator;
 
 		return $creator( $this->id );

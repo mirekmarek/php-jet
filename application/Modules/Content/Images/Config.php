@@ -17,18 +17,18 @@ class Config
 	 *
 	 * @var int
 	 */
-	protected static $default_max_w = 800;
+	protected static int $default_max_w = 800;
 
 	/**
 	 *
 	 * @var int
 	 */
-	protected static $default_max_h = 600;
+	protected static int $default_max_h = 600;
 
 	/**
 	 * @return int
 	 */
-	public static function getDefaultMaxH()
+	public static function getDefaultMaxH() : int
 	{
 		return static::$default_max_h;
 	}
@@ -36,7 +36,7 @@ class Config
 	/**
 	 * @return int
 	 */
-	public static function getDefaultMaxW()
+	public static function getDefaultMaxW() : int
 	{
 		return static::$default_max_w;
 	}

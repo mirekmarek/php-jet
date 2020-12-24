@@ -22,21 +22,23 @@ class Application_Admin
 	/**
 	 * @return string
 	 */
-	public static function getSiteId() {
+	public static function getSiteId() : string
+	{
 		return 'admin';
 	}
 
 	/**
 	 * @return Mvc_Site
 	 */
-	public static function getSite() {
+	public static function getSite() : Mvc_Site
+	{
 		return Mvc_Site::get( static::getSiteId() );
 	}
 
 	/**
 	 * @param Mvc_Router $router
 	 */
-	public static function init( Mvc_Router $router )
+	public static function init( Mvc_Router $router ) : void
 	{
 		Application::initErrorPages( $router );
 		Application_Logger::setLogger( new Application_Logger_Admin() );
@@ -50,7 +52,8 @@ class Application_Admin
 	 *
 	 * @return null|string
 	 */
-	public static function requireDialog( $dialog_id, array $options=[] ) {
+	public static function requireDialog( string $dialog_id, array $options=[] ) : null|string
+	{
 
 		$page = Mvc_Page::get('dialog-'.$dialog_id);
 

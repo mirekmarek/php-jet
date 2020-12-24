@@ -7,8 +7,11 @@
  */
 namespace JetStudio;
 
-use Exception;
+use Jet\Exception;
 
+/**
+ *
+ */
 class ClassParser_Exception extends Exception{
 
 	/**

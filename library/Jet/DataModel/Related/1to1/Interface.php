@@ -18,7 +18,7 @@ interface DataModel_Related_1to1_Interface extends DataModel_Related_Interface
 	 *
 	 * @return DataModel_Definition_Model_Related_1to1
 	 */
-	public static function dataModelDefinitionFactory( $data_model_class_name );
+	public static function dataModelDefinitionFactory( string $data_model_class_name ) : DataModel_Definition_Model_Related_1to1;
 
 
 }

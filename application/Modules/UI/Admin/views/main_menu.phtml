@@ -10,7 +10,7 @@ use Jet\Mvc;
 ?>
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-	<a class="navbar-brand" href="<?=Mvc_Page::get( Mvc_Page::HOMEPAGE_ID )->getURI()?>">JetApplication</a>
+	<a class="navbar-brand" href="<?=Mvc_Page::get( Mvc_Page::HOMEPAGE_ID )->getURLPath()?>">JetApplication</a>
 
 	<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#mainNavBar" aria-controls="mainNavBar" aria-expanded="false" aria-label="">
 		<span class="navbar-toggler-icon"></span>
@@ -47,7 +47,7 @@ use Jet\Mvc;
 				</a>
 				<div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
 					<?php foreach( Mvc::getCurrentSite()->getLocales() as $locale ): ?>
-						<a class="dropdown-item" href="<?=Mvc::getCurrentSite()->getHomepage()->getURI([], ['locale'=>$locale->toString()])?>">
+						<a class="dropdown-item" href="<?=Mvc::getCurrentSite()->getHomepage()->getURLPath([], ['locale' =>$locale->toString()])?>">
 							<?=UI::flag( $locale )?>
 							<?=$locale->getName( $locale )?>
 						</a>
@@ -77,7 +77,7 @@ use Jet\Mvc;
 							<?=UI::icon( 'sign-out-alt' )?>
 							<?=Tr::_( 'Logout' )?>
 					</a>
-				</ul>
+				</div>
 			</li>
 
 		</ul>

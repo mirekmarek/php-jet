@@ -16,19 +16,19 @@ class DataModel_Definition_Key extends BaseObject
 	/**
 	 * @var string
 	 */
-	protected $name = '';
+	protected string $name = '';
 
 	/**
 	 * @see DataModel::KEY_TYPE_*
 	 *
 	 * @var string
 	 */
-	protected $type = '';
+	protected string $type = '';
 
 	/**
 	 * @var array
 	 */
-	protected $property_names = [];
+	protected array $property_names = [];
 
 
 	/**
@@ -36,7 +36,7 @@ class DataModel_Definition_Key extends BaseObject
 	 *
 	 * @return static
 	 */
-	public static function __set_state( array $data )
+	public static function __set_state( array $data ) : static
 	{
 		return new static( $data['name'], $data['type'], $data['property_names'] );
 
@@ -49,7 +49,7 @@ class DataModel_Definition_Key extends BaseObject
 	 *
 	 * @throws DataModel_Exception
 	 */
-	public function __construct( $name, $type = DataModel::KEY_TYPE_INDEX, array $property_names = [] )
+	public function __construct( string $name, string $type = DataModel::KEY_TYPE_INDEX, array $property_names = [] )
 	{
 		if( !$property_names ) {
 			$property_names[] = $name;
@@ -75,7 +75,7 @@ class DataModel_Definition_Key extends BaseObject
 	/**
 	 * @return string
 	 */
-	public function getName()
+	public function getName() : string
 	{
 		return $this->name;
 	}
@@ -83,7 +83,7 @@ class DataModel_Definition_Key extends BaseObject
 	/**
 	 * @return array
 	 */
-	public function getPropertyNames()
+	public function getPropertyNames() : array
 	{
 		return $this->property_names;
 	}
@@ -91,7 +91,7 @@ class DataModel_Definition_Key extends BaseObject
 	/**
 	 * @return string
 	 */
-	public function getType()
+	public function getType() : string
 	{
 		return $this->type;
 	}

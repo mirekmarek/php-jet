@@ -6,7 +6,7 @@ require_once SysConf_PATH::LIBRARY().'Jet/SysConf/Jet.php';
 
 //Dev configuration:
 SysConf_Jet::setDEVEL_MODE( true );
-SysConf_Jet::setDEBUG_PROFILER_ENABLED( true );
+SysConf_Jet::setDEBUG_PROFILER_ENABLED( false );
 
 SysConf_Jet::setLAYOUT_CSS_PACKAGER_ENABLED( false );
 SysConf_Jet::setLAYOUT_JS_PACKAGER_ENABLED( false );

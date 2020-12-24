@@ -17,53 +17,53 @@ class Form_Field_Range extends Form_Field_Input
 	/**
 	 * @var string
 	 */
-	protected static $default_renderer_script = 'field';
+	protected static string $default_renderer_script = 'field';
 
 	/**
 	 * @var string
 	 */
-	protected static $default_row_start_renderer_script = 'Field/row/start';
+	protected static string $default_row_start_renderer_script = 'Field/row/start';
 
 	/**
 	 * @var string
 	 */
-	protected static $default_row_end_renderer_script = 'Field/row/end';
+	protected static string $default_row_end_renderer_script = 'Field/row/end';
 
 	/**
 	 * @var string
 	 */
-	protected static $default_input_container_start_renderer_script = 'Field/input/container/start';
+	protected static string $default_input_container_start_renderer_script = 'Field/input/container/start';
 
 	/**
 	 * @var string
 	 */
-	protected static $default_input_container_end_renderer_script = 'Field/input/container/end';
+	protected static string $default_input_container_end_renderer_script = 'Field/input/container/end';
 
 	/**
 	 * @var string
 	 */
-	protected static $default_error_renderer = 'Field/error';
+	protected static string $default_error_renderer = 'Field/error';
 
 	/**
 	 * @var string
 	 */
-	protected static $default_label_renderer = 'Field/label';
+	protected static string $default_label_renderer = 'Field/label';
 
 	/**
 	 * @var string string
 	 */
-	protected static $default_input_renderer = 'Field/input/Range';
+	protected static string $default_input_renderer = 'Field/input/Range';
 
 
 	/**
 	 * @var string
 	 */
-	protected $_type = Form::TYPE_RANGE;
+	protected string $_type = Form::TYPE_RANGE;
 
 	/**
 	 * @var array
 	 */
-	protected $error_messages = [
+	protected array $error_messages = [
 		self::ERROR_CODE_EMPTY        => '',
 		self::ERROR_CODE_OUT_OF_RANGE => '',
 	];
@@ -71,22 +71,22 @@ class Form_Field_Range extends Form_Field_Input
 	/**
 	 * @var null|int
 	 */
-	protected $min_value = null;
+	protected null|int $min_value = null;
 	/**
 	 * @var null|int
 	 */
-	protected $max_value = null;
+	protected null|int $max_value = null;
 
 	/**
-	 * @var int
+	 * @var int|null
 	 */
-	protected $step = null;
+	protected null|int $step = null;
 
 
 	/**
 	 * @return int|null
 	 */
-	public function getMinValue()
+	public function getMinValue() : int|null
 	{
 		return $this->min_value;
 	}
@@ -94,7 +94,7 @@ class Form_Field_Range extends Form_Field_Input
 	/**
 	 * @param int $min
 	 */
-	public function setMinValue( $min )
+	public function setMinValue( int $min ) : void
 	{
 		$this->min_value = (int)$min;
 	}
@@ -102,15 +102,15 @@ class Form_Field_Range extends Form_Field_Input
 	/**
 	 * @return int|null
 	 */
-	public function getMaxValue()
+	public function getMaxValue() : int|null
 	{
 		return $this->max_value;
 	}
 
 	/**
-	 * @param int $max
+	 * @param int|null $max
 	 */
-	public function setMaxValue( $max )
+	public function setMaxValue( int|null $max ) : void
 	{
 		$this->max_value = (int)$max;
 	}
@@ -118,7 +118,7 @@ class Form_Field_Range extends Form_Field_Input
 	/**
 	 * @return int
 	 */
-	public function getStep()
+	public function getStep() : int
 	{
 		return $this->step;
 	}
@@ -126,7 +126,7 @@ class Form_Field_Range extends Form_Field_Input
 	/**
 	 * @param int $step
 	 */
-	public function setStep( $step )
+	public function setStep( int $step ) : void
 	{
 		$this->step = $step;
 	}
@@ -134,7 +134,7 @@ class Form_Field_Range extends Form_Field_Input
 	/**
 	 * @return bool
 	 */
-	public function validate()
+	public function validate() : bool
 	{
 
 		if(
@@ -176,7 +176,7 @@ class Form_Field_Range extends Form_Field_Input
 	/**
 	 * @return array
 	 */
-	public function getRequiredErrorCodes()
+	public function getRequiredErrorCodes() : array
 	{
 		$codes = [];
 

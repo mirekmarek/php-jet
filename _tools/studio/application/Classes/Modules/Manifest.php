@@ -7,6 +7,7 @@
  */
 namespace JetStudio;
 
+use Jet\ClassParser;
 use Jet\Application_Module_Manifest;
 use Jet\Data_Array;
 use Jet\Exception;
@@ -81,7 +82,7 @@ class Modules_Manifest extends Application_Module_Manifest
 	/**
 	 * @param array $manifest_data
 	 */
-	public function setupProperties( array $manifest_data )
+	protected function setupProperties( array $manifest_data )
 	{
 		parent::setupProperties( $manifest_data );
 

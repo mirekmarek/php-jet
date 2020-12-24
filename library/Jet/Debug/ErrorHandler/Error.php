@@ -7,7 +7,7 @@
  */
 namespace Jet;
 
-use Error;
+use Throwable;
 
 require_once 'Error/BacktraceItem.php';
 
@@ -20,7 +20,7 @@ class Debug_ErrorHandler_Error
 	 *
 	 * @var array
 	 */
-	protected static $PHP_errors_txt = [
+	protected static array $PHP_errors_txt = [
 		E_ERROR             => 'PHP Error', E_WARNING => 'PHP Warning', E_PARSE => 'PHP Parsing Error',
 		E_NOTICE            => 'PHP Notice', E_CORE_ERROR => 'PHP Core Error', E_CORE_WARNING => 'PHP Core Warning',
 		E_COMPILE_ERROR     => 'PHP Compile Error', E_COMPILE_WARNING => 'PHP Compile Warning',
@@ -33,7 +33,7 @@ class Debug_ErrorHandler_Error
 	 *
 	 * @var array
 	 */
-	protected static $PHP_fatal_errors = [
+	protected static array $PHP_fatal_errors = [
 		E_ERROR,
 		E_PARSE,
 		E_CORE_ERROR,
@@ -47,52 +47,62 @@ class Debug_ErrorHandler_Error
 	/**
 	 * @var string
 	 */
-	protected $request_URL = '';
+	protected string $request_URL = '';
 
 	/**
 	 * @var int
 	 */
-	protected $code = 0;
+	protected int $code = 0;
+
 	/**
 	 * @var string
 	 */
-	protected $txt = '';
+	protected string $txt = '';
+
 	/**
 	 * @var string
 	 */
-	protected $message = '';
+	protected string $message = '';
+
 	/**
 	 * @var string
 	 */
-	protected $date = '';
+	protected string $date = '';
+
 	/**
 	 * @var string
 	 */
-	protected $time = '';
+	protected string $time = '';
+
 	/**
 	 * @var string
 	 */
-	protected $file = '';
+	protected string $file = '';
+
 	/**
 	 * @var int
 	 */
-	protected $line = 0;
+	protected int $line = 0;
+
 	/**
-	 * @var null|\Exception
+	 * @var null|Throwable
 	 */
-	protected $exception = null;
+	protected null|Throwable $exception = null;
+
 	/**
 	 * @var Debug_ErrorHandler_Error_BacktraceItem[]
 	 */
-	protected $backtrace = [];
+	protected array $backtrace = [];
+
 	/**
 	 * @var array
 	 */
-	protected $context = [];
+	protected array $context = [];
+
 	/**
 	 * @var bool
 	 */
-	protected $is_fatal = false;
+	protected bool $is_fatal = false;
 
 	/**
 	 * @var callable
@@ -102,7 +112,7 @@ class Debug_ErrorHandler_Error
 	/**
 	 * @param callable $formatter
 	 */
-	public static function setFormatter( callable $formatter )
+	public static function setFormatter( callable $formatter ) : void
 	{
 		self::$formatter = $formatter;
 	}
@@ -114,7 +124,7 @@ class Debug_ErrorHandler_Error
 	 *
 	 * @return string
 	 */
-	protected static function getPHPErrorText( $error_number )
+	protected static function getPHPErrorText( int $error_number ) : string
 	{
 		return isset( static::$PHP_errors_txt[$error_number] ) ?
 			static::$PHP_errors_txt[$error_number]
@@ -126,7 +136,7 @@ class Debug_ErrorHandler_Error
 	 *
 	 * @return string
 	 */
-	protected function getCurrentURL()
+	protected function getCurrentURL() : string
 	{
 		if( php_sapi_name()=='cli' ) {
 			return isset( $_SERVER['SCRIPT_FILENAME'] ) ? $_SERVER['SCRIPT_FILENAME'] : 'CLI';
@@ -149,7 +159,7 @@ class Debug_ErrorHandler_Error
 	 *
 	 * @return string
 	 */
-	public static function formatVariable( $var )
+	public static function formatVariable( mixed $var ) : string
 	{
 
 		if( is_object( $var ) ) {
@@ -165,11 +175,11 @@ class Debug_ErrorHandler_Error
 	}
 
 	/**
-	 * @param \Exception|Error $exception
+	 * @param Throwable $exception
 	 *
 	 * @return Debug_ErrorHandler_Error
 	 */
-	public static function newException( $exception )
+	public static function newException( Throwable $exception ) : Debug_ErrorHandler_Error
 	{
 		$e = new static();
 
@@ -190,15 +200,15 @@ class Debug_ErrorHandler_Error
 
 
 	/**
-	 * @param int    $code
+	 * @param int $code
 	 * @param string $message
 	 * @param string $file
-	 * @param int    $line
-	 * @param array  $context
+	 * @param int $line
+	 * @param array $context
 	 *
 	 * @return Debug_ErrorHandler_Error
 	 */
-	public static function newError( $code, $message, $file, $line, $context )
+	public static function newError( int $code, string $message, string $file, int $line, array $context ) : Debug_ErrorHandler_Error
 	{
 
 		$e = new static();
@@ -226,7 +236,7 @@ class Debug_ErrorHandler_Error
 	 *
 	 * @return Debug_ErrorHandler_Error
 	 */
-	public static function newShutdownError( $error )
+	public static function newShutdownError( array $error ) : Debug_ErrorHandler_Error
 	{
 		$e = new static();
 
@@ -262,7 +272,7 @@ class Debug_ErrorHandler_Error
 	 * @param array $error_context
 	 *
 	 */
-	protected function setContext( array $error_context )
+	protected function setContext( array $error_context ) : void
 	{
 		$this->context = [];
 
@@ -278,7 +288,7 @@ class Debug_ErrorHandler_Error
 	 *
 	 *
 	 */
-	protected function setBacktrace( array $debug_backtrace )
+	protected function setBacktrace( array $debug_backtrace ) : void
 	{
 		$this->backtrace = [];
 		foreach( $debug_backtrace as $d ) {
@@ -290,7 +300,7 @@ class Debug_ErrorHandler_Error
 	/**
 	 * @return string
 	 */
-	public function getRequestURL()
+	public function getRequestURL() : string
 	{
 		return $this->request_URL;
 	}
@@ -298,7 +308,7 @@ class Debug_ErrorHandler_Error
 	/**
 	 * @return string
 	 */
-	public function getDate()
+	public function getDate() : string
 	{
 		return $this->date;
 	}
@@ -306,7 +316,7 @@ class Debug_ErrorHandler_Error
 	/**
 	 * @return string
 	 */
-	public function getTime()
+	public function getTime() : string
 	{
 		return $this->time;
 	}
@@ -314,7 +324,7 @@ class Debug_ErrorHandler_Error
 	/**
 	 * @return int
 	 */
-	public function getCode()
+	public function getCode() : int
 	{
 		return $this->code;
 	}
@@ -322,7 +332,7 @@ class Debug_ErrorHandler_Error
 	/**
 	 * @return string
 	 */
-	public function getTxt()
+	public function getTxt() : string
 	{
 		return $this->txt;
 	}
@@ -330,7 +340,7 @@ class Debug_ErrorHandler_Error
 	/**
 	 * @return string
 	 */
-	public function getMessage()
+	public function getMessage() : string
 	{
 		return $this->message;
 	}
@@ -338,7 +348,7 @@ class Debug_ErrorHandler_Error
 	/**
 	 * @return string
 	 */
-	public function getFile()
+	public function getFile() : string
 	{
 		return $this->file;
 	}
@@ -346,15 +356,15 @@ class Debug_ErrorHandler_Error
 	/**
 	 * @return int
 	 */
-	public function getLine()
+	public function getLine() : int
 	{
 		return $this->line;
 	}
 
 	/**
-	 * @return \Exception|null
+	 * @return Throwable|null
 	 */
-	public function getException()
+	public function getException() : Throwable|null
 	{
 		return $this->exception;
 	}
@@ -362,7 +372,7 @@ class Debug_ErrorHandler_Error
 	/**
 	 * @return Debug_ErrorHandler_Error_BacktraceItem[]
 	 */
-	public function getBacktrace()
+	public function getBacktrace() : array
 	{
 		return $this->backtrace;
 	}
@@ -370,7 +380,7 @@ class Debug_ErrorHandler_Error
 	/**
 	 * @return array
 	 */
-	public function getContext()
+	public function getContext() : array
 	{
 		return $this->context;
 	}
@@ -378,7 +388,7 @@ class Debug_ErrorHandler_Error
 	/**
 	 * @return bool
 	 */
-	public function isFatal()
+	public function isFatal() : bool
 	{
 		return $this->is_fatal;
 	}
@@ -387,7 +397,7 @@ class Debug_ErrorHandler_Error
 	 *
 	 * @return string
 	 */
-	public function __toString()
+	public function __toString() : string
 	{
 		return $this->toString();
 	}
@@ -395,7 +405,8 @@ class Debug_ErrorHandler_Error
 	/**
 	 * @return string
 	 */
-	public function toString() {
+	public function toString() : string
+	{
 
 		if(static::$formatter) {
 			$formatter = static::$formatter;

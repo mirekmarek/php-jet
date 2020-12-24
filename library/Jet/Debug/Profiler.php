@@ -22,28 +22,28 @@ class Debug_Profiler
 	/**
 	 * @var bool
 	 */
-	protected static $enabled = false;
+	protected static bool $enabled = false;
 
 	/**
 	 * @var bool
 	 */
-	protected static $log_SQL_queries = false;
+	protected static bool $log_SQL_queries = false;
 
 	/**
-	 * @var Debug_Profiler_Run
+	 * @var Debug_Profiler_Run|null
 	 */
-	protected static $run;
+	protected static Debug_Profiler_Run|null $run = null;
 
 	/**
-	 * @var string
+	 * @var string|null
 	 */
-	protected static $run_save_directory_path;
+	protected static string|null $run_save_directory_path = null;
 
 
 	/**
 	 * @return string
 	 */
-	public static function getRunSaveDirectoryPath()
+	public static function getRunSaveDirectoryPath() : string
 	{
 		return static::$run_save_directory_path;
 	}
@@ -51,7 +51,7 @@ class Debug_Profiler
 	/**
 	 * @param string $run_save_directory_path
 	 */
-	public static function setRunSaveDirectoryPath( $run_save_directory_path )
+	public static function setRunSaveDirectoryPath( string $run_save_directory_path ) : void
 	{
 		static::$run_save_directory_path = $run_save_directory_path;
 	}
@@ -63,10 +63,10 @@ class Debug_Profiler
 	 * @param bool     $log_SQL_queries
 	 */
 	public static function enable(
-		callable $saver = null,
-		callable $displayer = null,
+		?callable $saver = null,
+		?callable $displayer = null,
 		$log_SQL_queries = true
-	)
+	) : void
 	{
 		static::$run = new Debug_Profiler_Run();
 
@@ -96,7 +96,7 @@ class Debug_Profiler
 	/**
 	 * @return bool
 	 */
-	public static function enabled()
+	public static function enabled() : bool
 	{
 		return static::$enabled;
 	}
@@ -104,15 +104,15 @@ class Debug_Profiler
 	/**
 	 * @return bool
 	 */
-	public static function getLogSQLQueries()
+	public static function getLogSQLQueries() : bool
 	{
 		return static::$log_SQL_queries;
 	}
 
 	/**
-	 * @return Debug_Profiler_Run
+	 * @return Debug_Profiler_Run|null
 	 */
-	public static function getRun()
+	public static function getRun() : Debug_Profiler_Run|null
 	{
 		return static::$run;
 	}
@@ -121,7 +121,7 @@ class Debug_Profiler
 	 * @param string $query
 	 * @param array  $query_data
 	 */
-	public static function SQLQueryStart( $query, $query_data = [] )
+	public static function SQLQueryStart( string $query, $query_data = [] ) : void
 	{
 		if(
 			!static::$enabled||
@@ -136,7 +136,7 @@ class Debug_Profiler
 	/**
 	 * @param int $rows_count
 	 */
-	public static function SQLQueryDone( $rows_count = 0 )
+	public static function SQLQueryDone( int $rows_count = 0 ) : void
 	{
 		if(
 			!static::$enabled||
@@ -151,7 +151,7 @@ class Debug_Profiler
 	/**
 	 * @param string $text
 	 */
-	public static function message( $text )
+	public static function message( string $text ) : void
 	{
 		if( !static::$enabled ) {
 			return;
@@ -163,7 +163,7 @@ class Debug_Profiler
 	/**
 	 * @param string $label
 	 */
-	public static function blockStart( $label )
+	public static function blockStart( string $label ) : void
 	{
 		if( !static::$enabled ) {
 			return;
@@ -177,7 +177,7 @@ class Debug_Profiler
 	 * @param string $label
 	 *
 	 */
-	public static function blockEnd( $label )
+	public static function blockEnd( string $label ) : void
 	{
 		if( !static::$enabled ) {
 			return;
@@ -193,7 +193,7 @@ class Debug_Profiler
 	 *
 	 * @return array
 	 */
-	public static function getBacktrace( $shift = 0 )
+	public static function getBacktrace( int $shift = 0 ) : array
 	{
 		$_backtrace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
 

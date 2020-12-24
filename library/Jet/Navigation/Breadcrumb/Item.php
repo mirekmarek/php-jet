@@ -17,41 +17,41 @@ class Navigation_Breadcrumb_Item extends BaseObject
 	 *
 	 * @var string
 	 */
-	protected $title = '';
+	protected string $title = '';
 
 	/**
 	 *
 	 * @var string
 	 */
-	protected $URL = '';
+	protected string $URL = '';
 
 	/**
 	 *
-	 * @var Mvc_Page_Interface
+	 * @var ?Mvc_Page_Interface
 	 */
-	protected $page = null;
+	protected ?Mvc_Page_Interface $page = null;
 
 	/**
 	 * @var int
 	 */
-	protected $index = 0;
+	protected int $index = 0;
 
 	/**
 	 * @var bool
 	 */
-	protected $is_active = false;
+	protected bool $is_active = false;
 
 	/**
 	 *
 	 * @var bool
 	 */
-	protected $is_last = false;
+	protected bool $is_last = false;
 
 	/**
 	 *
 	 * @return Mvc_Page_Interface|null
 	 */
-	public function getPage()
+	public function getPage() : Mvc_Page_Interface|null
 	{
 		return $this->page;
 	}
@@ -59,7 +59,7 @@ class Navigation_Breadcrumb_Item extends BaseObject
 	/**
 	 * @param Mvc_Page_Interface $page
 	 */
-	public function setPage( Mvc_Page_Interface $page )
+	public function setPage( Mvc_Page_Interface $page ) : void
 	{
 		$this->page = $page;
 		$this->URL = $page->getURL();
@@ -70,7 +70,7 @@ class Navigation_Breadcrumb_Item extends BaseObject
 	 *
 	 * @return string
 	 */
-	public function getTitle()
+	public function getTitle() : string
 	{
 		return $this->title;
 	}
@@ -79,7 +79,7 @@ class Navigation_Breadcrumb_Item extends BaseObject
 	 *
 	 * @param string $title
 	 */
-	public function setTitle( $title )
+	public function setTitle( string $title ) : void
 	{
 		$this->title = $title;
 	}
@@ -88,7 +88,7 @@ class Navigation_Breadcrumb_Item extends BaseObject
 	 *
 	 * @return string
 	 */
-	public function getURL()
+	public function getURL() : string
 	{
 		return $this->URL;
 	}
@@ -97,7 +97,7 @@ class Navigation_Breadcrumb_Item extends BaseObject
 	 *
 	 * @param string $URL
 	 */
-	public function setURL( $URL )
+	public function setURL( string $URL )
 	{
 		$this->URL = $URL;
 	}
@@ -106,7 +106,7 @@ class Navigation_Breadcrumb_Item extends BaseObject
 	 *
 	 * @return bool
 	 */
-	public function getIsLast()
+	public function getIsLast() : bool
 	{
 		return $this->is_last;
 	}
@@ -115,7 +115,7 @@ class Navigation_Breadcrumb_Item extends BaseObject
 	 *
 	 * @param bool $is_last
 	 */
-	public function setIsLast( $is_last )
+	public function setIsLast( bool $is_last ) : void
 	{
 		$this->is_last = (bool)$is_last;
 	}
@@ -123,7 +123,7 @@ class Navigation_Breadcrumb_Item extends BaseObject
 	/**
 	 * @return int
 	 */
-	public function getIndex()
+	public function getIndex() : int
 	{
 		return $this->index;
 	}
@@ -131,7 +131,7 @@ class Navigation_Breadcrumb_Item extends BaseObject
 	/**
 	 * @param int $index
 	 */
-	public function setIndex( $index )
+	public function setIndex( int $index ) : void
 	{
 		$this->index = $index;
 	}
@@ -139,7 +139,7 @@ class Navigation_Breadcrumb_Item extends BaseObject
 	/**
 	 * @return bool
 	 */
-	public function getIsActive()
+	public function getIsActive() : bool
 	{
 		return $this->is_active || $this->is_last;
 	}
@@ -147,7 +147,7 @@ class Navigation_Breadcrumb_Item extends BaseObject
 	/**
 	 * @param bool $is_active
 	 */
-	public function setIsActive( $is_active )
+	public function setIsActive( bool $is_active ) : void
 	{
 		$this->is_active = $is_active;
 	}

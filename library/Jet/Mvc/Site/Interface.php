@@ -15,48 +15,48 @@ interface Mvc_Site_Interface
 	/**
 	 * @return array
 	 */
-	public static function loadSitesData();
+	public static function loadSitesData() : array;
 
 	/**
 	 *
-	 * @return Mvc_Site[]
+	 * @return static[]
 	 */
-	public static function loadSites();
+	public static function loadSites() : array;
 
 	/**
 	 *
-	 * @param Mvc_Site[] $sites
+	 * @param static[] $sites
 	 */
-	public static function setSites( $sites );
+	public static function setSites( array $sites ) : void;
 
 
 	/**
 	 * @param array  $data
 	 *
-	 * @return Mvc_Site_Interface
+	 * @return static
 	 */
-	public static function createByData( array $data );
+	public static function createByData( array $data ) : static;
 
 
 	/**
 	 * @return Mvc_Site_LocalizedData_Interface[]
 	 */
-	public static function getUrlMap();
+	public static function getUrlMap() : array;
 
 
 	/**
 	 *
 	 * @param string $id
 	 *
-	 * @return Mvc_Site_Interface|bool
+	 * @return static|null
 	 */
-	public static function get( $id );
+	public static function get( string $id ) : static|null;
 
 	/**
 	 *
-	 * @return Mvc_Site_Interface
+	 * @return static|null
 	 */
-	public static function getDefaultSite();
+	public static function getDefaultSite() : static|null;
 
 
 
@@ -65,127 +65,126 @@ interface Mvc_Site_Interface
 	 * @param string $id
 	 *
 	 */
-	public function setId( $id );
+	public function setId( string $id ) : void;
 
 	/**
 	 * @return string
 	 */
-	public function getId();
+	public function getId() : string;
 
 	/**
-	 * Returns site name
 	 *
 	 * @return string
 	 */
-	public function getName();
+	public function getName() : string;
 
 	/**
 	 * @param string $name
 	 */
-	public function setName( $name );
+	public function setName( string $name ) : void;
 
 
 	/**
 	 * @param bool $is_secret
 	 */
-	public function setIsSecret( $is_secret );
+	public function setIsSecret( bool $is_secret ) : void;
 
 	/**
 	 * @return bool
 	 */
-	public function getIsSecret();
+	public function getIsSecret() : bool;
 
 
 	/**
 	 * @return bool
 	 */
-	public function getSSLRequired();
+	public function getSSLRequired() : bool;
 
 	/**
 	 * @param bool $SSL_required
 	 */
-	public function setSSLRequired( $SSL_required );
+	public function setSSLRequired( bool $SSL_required ) : void;
 
 	/**
 	 * @return bool
 	 */
-	public function getIsDefault();
+	public function getIsDefault() : bool;
 
 	/**
 	 * @param bool $is_default
 	 */
-	public function setIsDefault( $is_default );
+	public function setIsDefault( bool $is_default ) : void;
 
 	/**
 	 * @return bool
 	 */
-	public function getIsActive();
+	public function getIsActive() : bool;
 
 	/**
 	 * @param bool $is_active
 	 */
-	public function setIsActive( $is_active );
+	public function setIsActive( bool $is_active ) : void;
 
 	/**
 	 *
 	 * @param callable $initializer
 	 */
-	public function setInitializer( $initializer );
+	public function setInitializer( callable $initializer ) : void;
 
 	/**
 	 *
 	 * @return callable|null
 	 */
-	public function getInitializer();
+	public function getInitializer() : callable|null;
 
 	/**
 	 * @param string $path
 	 */
-	public function setBasePath( $path );
+	public function setBasePath( string $path ) : void;
 
 	/**
 	 *
 	 * @return string
 	 */
-	public function getBasePath();
+	public function getBasePath() : string;
 
 	/**
-	 * @param Locale|null $locale (optional)
+	 * @param ?Locale $locale (optional)
 	 *
 	 * @return string
 	 */
-	public function getPagesDataPath( Locale $locale = null );
+	public function getPagesDataPath( ?Locale $locale = null ) : string;
 
 	/**
 	 * @param string $path
 	 */
-	public function setLayoutsPath( $path );
+	public function setLayoutsPath( string $path ) : void;
 
 	/**
 	 * @return string
 	 */
-	public function getLayoutsPath();
+	public function getLayoutsPath() : string;
 
 	/**
 	 * Returns default locale
 	 *
-	 * @return Locale
+	 * @return Locale|null
 	 */
-	public function getDefaultLocale();
+	public function getDefaultLocale() : Locale|null;
 
 	/**
 	 * @param Locale $locale
 	 *
 	 * @return bool
 	 */
-	public function getHasLocale( Locale $locale );
+	public function getHasLocale( Locale $locale ) : bool;
 
 	/**
 	 * @param Locale $locale
 	 *
 	 * @return Mvc_Site_LocalizedData_Interface
 	 */
-	public function getLocalizedData( Locale $locale );
+	public function getLocalizedData( Locale $locale ) : Mvc_Site_LocalizedData_Interface;
 
 
 	/**
@@ -195,13 +194,13 @@ interface Mvc_Site_Interface
 	 *
 	 * @return Locale[]
 	 */
-	public function getLocales( $get_as_string = false );
+	public function getLocales( bool $get_as_string = false ) : array;
 
 
 	/**
 	 * @param array $order
 	 */
-	public function sortLocales( array $order );
+	public function sortLocales( array $order ) : void;
 
 
 	/**
@@ -210,30 +209,30 @@ interface Mvc_Site_Interface
 	 *
 	 * @return Mvc_Site_LocalizedData_Interface
 	 */
-	public function addLocale( Locale $locale );
+	public function addLocale( Locale $locale ) : Mvc_Site_LocalizedData_Interface;
 
 	/**
 	 * Remove locale. If the locale was default, then set as the default first possible locale
 	 *
 	 * @param Locale $locale
 	 */
-	public function removeLocale( Locale $locale );
+	public function removeLocale( Locale $locale ) : void;
 
 	/**
-	 * @param Locale|null $locale
+	 * @param ?Locale $locale
 	 *
 	 * @return Mvc_Page_Interface
 	 */
-	public function getHomepage( Locale $locale=null );
+	public function getHomepage( ?Locale $locale=null ) : Mvc_Page_Interface;
 
 	/**
 	 *
 	 */
-	public function saveDataFile();
+	public function saveDataFile() : void;
 
 	/**
 	 * @return array
 	 */
-	public function toArray();
+	public function toArray() : array;
 
 }

@@ -15,7 +15,7 @@ class DataModel_Definition_Property_Float extends DataModel_Definition_Property
 	/***
 	 * @var string
 	 */
-	protected $type = DataModel::TYPE_FLOAT;
+	protected string $type = DataModel::TYPE_FLOAT;
 
 	/**
 	 * @var float
@@ -25,13 +25,14 @@ class DataModel_Definition_Property_Float extends DataModel_Definition_Property
 	/**
 	 * @var string
 	 */
-	protected $form_field_type = Form::TYPE_FLOAT;
+	protected string $form_field_type = Form::TYPE_FLOAT;
 
 	/**
 	 * @param array $definition_data
 	 *
+	 * @throws DataModel_Exception
 	 */
-	public function setUp( $definition_data )
+	public function setUp( array $definition_data ) : void
 	{
 		if( !$definition_data ) {
 			return;
@@ -49,9 +50,9 @@ class DataModel_Definition_Property_Float extends DataModel_Definition_Property
 	}
 
 	/**
-	 * @param float &$value
+	 * @param mixed &$value
 	 */
-	public function checkValueType( &$value )
+	public function checkValueType( mixed &$value ) : void
 	{
 		$value = (float)$value;
 	}

@@ -19,12 +19,12 @@ class Installer_Step_CreateDB_Controller extends Installer_Step_Controller
 	/**
 	 * @var string
 	 */
-	protected $label = 'Create database';
+	protected string $label = 'Create database';
 
 	/**
 	 * @return bool
 	 */
-	public function getIsAvailable()
+	public function getIsAvailable() : bool
 	{
 		return !Installer_Step_CreateSite_Controller::sitesCreated();
 	}
@@ -33,7 +33,7 @@ class Installer_Step_CreateDB_Controller extends Installer_Step_Controller
 	/**
 	 *
 	 */
-	public function main()
+	public function main() : void
 	{
 		$this->catchContinue();
 

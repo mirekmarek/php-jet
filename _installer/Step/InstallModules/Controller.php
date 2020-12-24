@@ -22,19 +22,19 @@ class Installer_Step_InstallModules_Controller extends Installer_Step_Controller
 	/**
 	 * @var string
 	 */
-	protected $label = 'Modules installation';
+	protected string $label = 'Modules installation';
 
 	/**
-	 * @var Application_Module_Manifest[]
+	 * @var Application_Module_Manifest[]|null
 	 */
-	protected $all_modules;
+	protected array|null $all_modules = null;
 
 	/**
-	 * @var string[]
+	 * @var array
 	 */
-	protected $selected_modules = [];
+	protected array $selected_modules = [];
 
-	public function main()
+	public function main() : void
 	{
 		$this->all_modules = Application_Modules::allModulesList();
 

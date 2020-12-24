@@ -17,32 +17,32 @@ class UI_messages_message extends UI_BaseElement
 	/**
 	 * @var string
 	 */
-	protected static $default_renderer_script = 'messages/message';
+	protected static string $default_renderer_script = 'messages/message';
 
 	/**
 	 * @var string
 	 */
-	protected $class = '';
+	protected string $class = '';
 
 	/**
 	 * @var string
 	 */
-	protected $message = '';
+	protected string $message = '';
 
 	/**
 	 * @var string
 	 */
-	protected $context = '';
+	protected string $context = '';
 
 	/**
 	 * @var string
 	 */
-	protected $icon = '';
+	protected string $icon = '';
 
 	/**
 	 * @var bool
 	 */
-	protected $closeable = true;
+	protected bool $closeable = true;
 
 
 	/**
@@ -51,7 +51,7 @@ class UI_messages_message extends UI_BaseElement
 	 * @param string $message
 	 * @param string $context
 	 */
-	public function __construct( $class, $message, $context='' )
+	public function __construct( string $class, string $message, string $context='' )
 	{
 		$this->class = $class;
 		$this->message = $message;
@@ -61,7 +61,7 @@ class UI_messages_message extends UI_BaseElement
 	/**
 	 * @return string
 	 */
-	public function getIcon()
+	public function getIcon() : string
 	{
 		return $this->icon;
 	}
@@ -71,7 +71,7 @@ class UI_messages_message extends UI_BaseElement
 	 *
 	 * @return $this
 	 */
-	public function setIcon( $icon )
+	public function setIcon( string $icon ) : static
 	{
 		$this->icon = $icon;
 
@@ -81,7 +81,7 @@ class UI_messages_message extends UI_BaseElement
 	/**
 	 * @return string
 	 */
-	public function getClass()
+	public function getClass() : string
 	{
 		return $this->class;
 	}
@@ -91,7 +91,7 @@ class UI_messages_message extends UI_BaseElement
 	 *
 	 * @return $this
 	 */
-	public function setClass( $class )
+	public function setClass( string $class ) : static
 	{
 		$this->class = $class;
 
@@ -101,7 +101,7 @@ class UI_messages_message extends UI_BaseElement
 	/**
 	 * @return string
 	 */
-	public function getMessage()
+	public function getMessage() : string
 	{
 		return $this->message;
 	}
@@ -111,7 +111,7 @@ class UI_messages_message extends UI_BaseElement
 	 *
 	 * @return $this
 	 */
-	public function setMessage( $message )
+	public function setMessage( string $message ) : static
 	{
 		$this->message = $message;
 
@@ -121,7 +121,7 @@ class UI_messages_message extends UI_BaseElement
 	/**
 	 * @return string
 	 */
-	public function getContext()
+	public function getContext() : string
 	{
 		return $this->context;
 	}
@@ -131,7 +131,7 @@ class UI_messages_message extends UI_BaseElement
 	 *
 	 * @return $this
 	 */
-	public function setContext( $context )
+	public function setContext( string $context ) : static
 	{
 		$this->context = $context;
 
@@ -143,7 +143,7 @@ class UI_messages_message extends UI_BaseElement
 	/**
 	 * @return bool
 	 */
-	public function getIsCloseable()
+	public function getIsCloseable() : bool
 	{
 		return $this->closeable;
 	}
@@ -153,7 +153,7 @@ class UI_messages_message extends UI_BaseElement
 	 *
 	 * @return $this
 	 */
-	public function setCloseable( $closeable )
+	public function setCloseable( bool $closeable ) : static
 	{
 		$this->closeable = $closeable;
 

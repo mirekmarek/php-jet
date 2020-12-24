@@ -16,7 +16,7 @@ class Http_Request_Trap implements BaseObject_Interface_ArrayEmulator
 	/**
 	 * @throws Http_Request_Exception
 	 */
-	protected function trap()
+	protected function trap() : void
 	{
 		throw new Http_Request_Exception(
 			'Direct access to PHP request data ($_GET, $_POST and $_REQUEST) forbidden.',
@@ -27,11 +27,15 @@ class Http_Request_Trap implements BaseObject_Interface_ArrayEmulator
 	/**
 	 * @param string $name
 	 *
+	 * @return mixed
+	 *
 	 * @throws Http_Request_Exception
 	 */
-	public function __get( $name )
+	public function __get( string $name ) : mixed
 	{
 		$this->trap();
+
+		return null;
 	}
 
 	/**
@@ -40,7 +44,7 @@ class Http_Request_Trap implements BaseObject_Interface_ArrayEmulator
 	 *
 	 * @throws Http_Request_Exception
 	 */
-	public function __set( $name, $value )
+	public function __set( string $name, mixed $value ) : void
 	{
 		$this->trap();
 	}
@@ -50,7 +54,7 @@ class Http_Request_Trap implements BaseObject_Interface_ArrayEmulator
 	 *
 	 * @throws Http_Request_Exception
 	 */
-	public function __unset( $name )
+	public function __unset( string $name ) : void
 	{
 		$this->trap();
 	}
@@ -58,9 +62,21 @@ class Http_Request_Trap implements BaseObject_Interface_ArrayEmulator
 	/**
 	 * @param string $name
 	 *
+	 * @return bool
+	 *
 	 * @throws Http_Request_Exception
 	 */
-	public function __isset( $name )
+	public function __isset( string $name ) : bool
+	{
+		$this->trap();
+
+		return false;
+	}
+
+	/**
+	 * @throws Http_Request_Exception
+	 */
+	public function rewind() : void
 	{
 		$this->trap();
 	}
@@ -68,41 +84,41 @@ class Http_Request_Trap implements BaseObject_Interface_ArrayEmulator
 	/**
 	 * @throws Http_Request_Exception
 	 */
-	public function rewind()
+	public function current() : mixed
 	{
 		$this->trap();
+
+		return null;
 	}
 
 	/**
 	 * @throws Http_Request_Exception
 	 */
-	public function current()
+	public function key() : string
 	{
 		$this->trap();
+
+		return '';
 	}
 
 	/**
 	 * @throws Http_Request_Exception
 	 */
-	public function key()
+	public function next() : mixed
 	{
 		$this->trap();
+
+		return null;
 	}
 
 	/**
 	 * @throws Http_Request_Exception
 	 */
-	public function next()
+	public function valid() : bool
 	{
 		$this->trap();
-	}
 
-	/**
-	 * @throws Http_Request_Exception
-	 */
-	public function valid()
-	{
-		$this->trap();
+		return false;
 	}
 
 	/**
@@ -111,7 +127,7 @@ class Http_Request_Trap implements BaseObject_Interface_ArrayEmulator
 	 *
 	 * @throws Http_Request_Exception
 	 */
-	public function offsetSet( $offset, $value )
+	public function offsetSet( mixed $offset, mixed $value ) : void
 	{
 		$this->trap();
 	}
@@ -123,7 +139,7 @@ class Http_Request_Trap implements BaseObject_Interface_ArrayEmulator
 	 *
 	 * @throws Http_Request_Exception
 	 */
-	public function offsetExists( $offset )
+	public function offsetExists( mixed $offset ) : bool
 	{
 		$this->trap();
 
@@ -135,7 +151,7 @@ class Http_Request_Trap implements BaseObject_Interface_ArrayEmulator
 	 *
 	 * @throws Http_Request_Exception
 	 */
-	public function offsetUnset( $offset )
+	public function offsetUnset( mixed $offset )  :void
 	{
 		$this->trap();
 	}
@@ -147,7 +163,7 @@ class Http_Request_Trap implements BaseObject_Interface_ArrayEmulator
 	 *
 	 * @throws Http_Request_Exception
 	 */
-	public function offsetGet( $offset )
+	public function offsetGet( mixed $offset ) : mixed
 	{
 		$this->trap();
 
@@ -157,8 +173,10 @@ class Http_Request_Trap implements BaseObject_Interface_ArrayEmulator
 	/**
 	 * @throws Http_Request_Exception
 	 */
-	public function count()
+	public function count() : int
 	{
 		$this->trap();
+
+		return 0;
 	}
 }

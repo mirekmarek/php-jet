@@ -16,7 +16,7 @@ class DataModel_Query_GroupBy extends BaseObject implements BaseObject_Interface
 	/**
 	 * @var DataModel_Query_Select_Item[]|DataModel_Definition_Property[]
 	 */
-	protected $items = [];
+	protected array $items = [];
 
 
 	/**
@@ -26,7 +26,7 @@ class DataModel_Query_GroupBy extends BaseObject implements BaseObject_Interface
 	 *
 	 * @throws DataModel_Query_Exception
 	 */
-	public function __construct( DataModel_Query $query, $group_by )
+	public function __construct( DataModel_Query $query, array|string $group_by )
 	{
 		if( !is_array( $group_by ) ) {
 			$group_by = [ $group_by ];
@@ -65,7 +65,7 @@ class DataModel_Query_GroupBy extends BaseObject implements BaseObject_Interface
 	/**
 	 * @return bool
 	 */
-	public function getIsEmpty()
+	public function getIsEmpty() : bool
 	{
 		return ( count( $this->items )==0 );
 	}
@@ -81,7 +81,7 @@ class DataModel_Query_GroupBy extends BaseObject implements BaseObject_Interface
 	 * @see \Iterator
 	 * @return DataModel_Query_Select_Item|DataModel_Definition_Property
 	 */
-	public function current()
+	public function current() : DataModel_Query_Select_Item|DataModel_Definition_Property
 	{
 		return current( $this->items );
 	}
@@ -90,7 +90,7 @@ class DataModel_Query_GroupBy extends BaseObject implements BaseObject_Interface
 	 * @see \Iterator
 	 * @return string
 	 */
-	public function key()
+	public function key() : string
 	{
 		return key( $this->items );
 	}
@@ -98,7 +98,7 @@ class DataModel_Query_GroupBy extends BaseObject implements BaseObject_Interface
 	/**
 	 * @see \Iterator
 	 */
-	public function next()
+	public function next() : mixed
 	{
 		return next( $this->items );
 	}
@@ -106,7 +106,7 @@ class DataModel_Query_GroupBy extends BaseObject implements BaseObject_Interface
 	/**
 	 * @see \Iterator
 	 */
-	public function rewind()
+	public function rewind() : void
 	{
 		reset( $this->items );
 	}
@@ -115,7 +115,7 @@ class DataModel_Query_GroupBy extends BaseObject implements BaseObject_Interface
 	 * @see \Iterator
 	 * @return bool
 	 */
-	public function valid()
+	public function valid() : bool
 	{
 		return key( $this->items )!==null;
 	}
@@ -126,7 +126,7 @@ class DataModel_Query_GroupBy extends BaseObject implements BaseObject_Interface
 	 *
 	 * @return int
 	 */
-	public function count()
+	public function count() : int
 	{
 		return count( $this->items );
 	}

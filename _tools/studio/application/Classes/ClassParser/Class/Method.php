@@ -7,8 +7,9 @@
  */
 namespace JetStudio;
 
-use Jet\SysConf_Jet;
-
+/**
+ *
+ */
 class ClassParser_Class_Method extends ClassParser_Class_Element
 {
 	/**
@@ -39,7 +40,7 @@ class ClassParser_Class_Method extends ClassParser_Class_Element
 	/**
 	 * @var string
 	 */
-	public $visibility = ClassCreator_Class::VISIBILITY_PUBLIC;
+	public $visibility = ClassParser::VISIBILITY_PUBLIC;
 
 	/**
 	 * @var ClassParser_Token
@@ -85,21 +86,21 @@ class ClassParser_Class_Method extends ClassParser_Class_Element
 				$method->start_token = $class->_public_token;
 			}
 
-			$method->visibility = ClassCreator_Class::VISIBILITY_PUBLIC;
+			$method->visibility = ClassParser::VISIBILITY_PUBLIC;
 		}
 
 		if($class->_private_token) {
 			if( $class->_private_token->index < $method->start_token->index ) {
 				$method->start_token = $class->_private_token;
 			}
-			$method->visibility = ClassCreator_Class::VISIBILITY_PRIVATE;
+			$method->visibility = ClassParser::VISIBILITY_PRIVATE;
 		}
 
 		if($class->_protected_token) {
 			if( $class->_protected_token->index < $method->start_token->index ) {
 				$method->start_token = $class->_protected_token;
 			}
-			$method->visibility = ClassCreator_Class::VISIBILITY_PROTECTED;
+			$method->visibility = ClassParser::VISIBILITY_PROTECTED;
 		}
 
 		$method->declaration_start = $method->start_token;

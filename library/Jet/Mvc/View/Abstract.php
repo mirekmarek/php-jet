@@ -15,7 +15,7 @@ abstract class Mvc_View_Abstract extends BaseObject
 	/**
 	 * @var string
 	 */
-	protected static $script_file_suffix = 'phtml';
+	protected static string $script_file_suffix = 'phtml';
 
 	/**
 	 *
@@ -23,25 +23,28 @@ abstract class Mvc_View_Abstract extends BaseObject
 	 *
 	 * @var bool
 	 */
-	protected static $add_script_path_info = false;
+	protected static bool $add_script_path_info = false;
 
 	/**
 	 * View dir
 	 *
 	 * @var string
 	 */
-	protected $_scripts_dir = '';
+	protected string $_scripts_dir = '';
+
 	/**
 	 * Full view file path (/some/dir/view-file.phtml)
 	 * Set by Mvc_View::render()
 	 *
 	 * @var string
 	 */
-	protected $_script_name = '';
+	protected string $_script_name = '';
+
 	/**
 	 * @var string
 	 */
-	protected $_script_path = '';
+	protected string $_script_path = '';
+
 	/**
 	 * View or layout script variables.
 	 *
@@ -50,25 +53,25 @@ abstract class Mvc_View_Abstract extends BaseObject
 	 *    $layout->setVar('test_variable', 'Hello world!');
 	 *
 	 *   Layout script example:
-	 *    <p><?=$this->test_variable; ?></p>
+	 *    <p><?=$this->getString('test_variable'); ?></p>
 	 *
 	 *   Output:
 	 *     <p>Hello world!</p>
 	 *
 	 *
-	 * @var Data_Array
+	 * @var Data_Array|null
 	 */
-	protected $_data;
+	protected Data_Array|null $_data = null;
 
 	/**
 	 * @var callable[]
 	 */
-	protected $_postprocessors = [];
+	protected array $_postprocessors = [];
 
 	/**
 	 * @return string
 	 */
-	public static function getScriptFileSuffix()
+	public static function getScriptFileSuffix() : string
 	{
 		return static::$script_file_suffix;
 	}
@@ -76,7 +79,7 @@ abstract class Mvc_View_Abstract extends BaseObject
 	/**
 	 * @param string $script_file_suffix
 	 */
-	public static function setScriptFileSuffix( $script_file_suffix )
+	public static function setScriptFileSuffix( string $script_file_suffix ) : void
 	{
 		static::$script_file_suffix = $script_file_suffix;
 	}
@@ -87,7 +90,7 @@ abstract class Mvc_View_Abstract extends BaseObject
 	 *
 	 * @return bool
 	 */
-	public static function getAddScriptPathInfoEnabled()
+	public static function getAddScriptPathInfoEnabled() : bool
 	{
 		return static::$add_script_path_info;
 	}
@@ -97,7 +100,7 @@ abstract class Mvc_View_Abstract extends BaseObject
 	 * @param bool $enabled
 	 *
 	 */
-	public static function setAddScriptPathInfoEnabled( $enabled = true )
+	public static function setAddScriptPathInfoEnabled( $enabled = true ) : void
 	{
 		static::$add_script_path_info = (bool)$enabled;
 	}
@@ -105,7 +108,7 @@ abstract class Mvc_View_Abstract extends BaseObject
 	/**
 	 * @return string
 	 */
-	public function getScriptsDir()
+	public function getScriptsDir() : string
 	{
 		return $this->_scripts_dir;
 	}
@@ -113,7 +116,7 @@ abstract class Mvc_View_Abstract extends BaseObject
 	/**
 	 * @param string $scripts_dir
 	 */
-	public function setScriptsDir( $scripts_dir )
+	public function setScriptsDir( string $scripts_dir ) : void
 	{
 		if( $scripts_dir[strlen( $scripts_dir )-1]!='/' ) {
 			$scripts_dir .= '/';
@@ -126,7 +129,7 @@ abstract class Mvc_View_Abstract extends BaseObject
 	 *
 	 * @return string
 	 */
-	public function getScriptName()
+	public function getScriptName() : string
 	{
 		return $this->_script_name;
 	}
@@ -136,9 +139,8 @@ abstract class Mvc_View_Abstract extends BaseObject
 	 * @param string $script_name
 	 *
 	 * @throws Mvc_View_Exception
-	 *
 	 */
-	public function setScriptName( $script_name )
+	public function setScriptName( string $script_name ) : void
 	{
 		if( $script_name===false ) {
 			$this->_script_name = false;
@@ -146,7 +148,7 @@ abstract class Mvc_View_Abstract extends BaseObject
 			return;
 		}
 
-		if( strpos( '.', $script_name )!==false ) {
+		if( str_contains( '.', $script_name ) ) {
 			throw new Mvc_View_Exception( 'Illegal script file name', Mvc_View_Exception::CODE_INVALID_VIEW_NAME );
 		}
 
@@ -158,26 +160,9 @@ abstract class Mvc_View_Abstract extends BaseObject
 	 *
 	 * @return string
 	 */
-	public function getScriptPath()
+	public function getScriptPath() : string
 	{
 		$file = $this->_scripts_dir.$this->_script_name.'.'.static::getScriptFileSuffix();
-
-
-		/*
-		if( !IO_File::exists( $file ) ) {
-			throw new Mvc_View_Exception(
-				'File \''.$file.'\' does not exist',
-				Mvc_View_Exception::CODE_FILE_DOES_NOT_EXIST
-			);
-		}
-
-		if( !IO_File::isReadable( $file ) ) {
-			throw new Mvc_View_Exception(
-				'File \''.$file.'\' is not readable',
-				Mvc_View_Exception::CODE_FILE_IS_NOT_READABLE
-			);
-		}
-		*/
 
 		$this->_script_path = $file;
 
@@ -191,7 +176,7 @@ abstract class Mvc_View_Abstract extends BaseObject
 	 *
 	 * @return bool
 	 */
-	public function varExists( $key )
+	public function varExists( string $key ) : bool
 	{
 		return $this->_data->exists( $key );
 	}
@@ -199,10 +184,9 @@ abstract class Mvc_View_Abstract extends BaseObject
 	/**
 	 *
 	 * @param string $key
-	 * @param mixed  $val
-	 *
+	 * @param mixed $val
 	 */
-	public function setVar( $key, $val )
+	public function setVar( string $key, mixed $val ) : void
 	{
 		$this->_data->set( $key, $val );
 	}
@@ -211,7 +195,7 @@ abstract class Mvc_View_Abstract extends BaseObject
 	 *
 	 * @param string $key
 	 */
-	public function unsetVar( $key )
+	public function unsetVar( string $key ) : void
 	{
 		$this->_data->remove( $key );
 	}
@@ -220,11 +204,11 @@ abstract class Mvc_View_Abstract extends BaseObject
 	/**
 	 *
 	 * @param string $key
-	 * @param mixed  $default_value (optional; default: null)
+	 * @param mixed $default_value (optional; default: null)
 	 *
 	 * @return mixed
 	 */
-	public function getRaw( $key, $default_value = null )
+	public function getRaw( string $key, mixed $default_value = null ) : mixed
 	{
 		return $this->_data->getRaw( $key, $default_value );
 	}
@@ -232,11 +216,11 @@ abstract class Mvc_View_Abstract extends BaseObject
 	/**
 	 *
 	 * @param string $key
-	 * @param int    $default_value (optional - default: 0)
+	 * @param int $default_value (optional - default: 0)
 	 *
 	 * @return int
 	 */
-	public function getInt( $key, $default_value = 0 )
+	public function getInt( string $key, int $default_value = 0 ) : int
 	{
 		return $this->_data->getInt( $key, $default_value );
 	}
@@ -244,11 +228,11 @@ abstract class Mvc_View_Abstract extends BaseObject
 	/**
 	 *
 	 * @param string $key
-	 * @param float  $default_value (optional - default: 0)
+	 * @param float $default_value (optional - default: 0)
 	 *
 	 * @return float
 	 */
-	public function getFloat( $key, $default_value = 0.0 )
+	public function getFloat( string $key, float $default_value = 0.0 ) : float
 	{
 		return $this->_data->getFloat( $key, $default_value );
 	}
@@ -256,11 +240,11 @@ abstract class Mvc_View_Abstract extends BaseObject
 	/**
 	 *
 	 * @param string $key
-	 * @param bool   $default_value (optional - default: false)
+	 * @param bool $default_value (optional - default: false)
 	 *
 	 * @return bool
 	 */
-	public function getBool( $key, $default_value = false )
+	public function getBool( string $key, bool $default_value = false ) : bool
 	{
 		return $this->_data->getBool( $key, $default_value );
 	}
@@ -272,7 +256,7 @@ abstract class Mvc_View_Abstract extends BaseObject
 	 *
 	 * @return string
 	 */
-	public function getString( $key, $default_value = '' )
+	public function getString( string $key, string $default_value = '' )  :string
 	{
 		return $this->_data->getString( $key, $default_value );
 	}
@@ -289,7 +273,7 @@ abstract class Mvc_View_Abstract extends BaseObject
 	/**
 	 * @param string &$result
 	 */
-	protected function handlePostprocessors( &$result )
+	protected function handlePostprocessors( string &$result )
 	{
 		foreach( $this->_postprocessors as $pp ) {
 			$pp( $result, $this );

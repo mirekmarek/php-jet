@@ -20,43 +20,43 @@ use Jet\IO_Dir;
 class Gallery_Image_Thumbnail extends BaseObject implements BaseObject_Interface_Serializable_JSON
 {
 	/**
-	 * @var Gallery_Image
+	 * @var ?Gallery_Image
 	 */
-	protected $image;
+	protected ?Gallery_Image $image = null;
 
 	/**
 	 * @var int
 	 */
-	protected $maximal_size_w = 0;
+	protected int $maximal_size_w = 0;
 	/**
 	 * @var int
 	 */
-	protected $maximal_size_h = 0;
+	protected int $maximal_size_h = 0;
 
 	/**
 	 * @var string
 	 */
-	protected $dir_path = '';
+	protected string $dir_path = '';
 
 	/**
 	 * @var string
 	 */
-	protected $path = '';
+	protected string $path = '';
 
 	/**
 	 * @var string
 	 */
-	protected $URI;
+	protected string $URI = '';
 
 	/**
 	 * @var bool
 	 */
-	protected $generated = false;
+	protected bool $generated = false;
 
 	/**
-	 * @var Data_Image
+	 * @var ?Data_Image
 	 */
-	protected $real_image;
+	protected ?Data_Image $real_image = null;
 
 	/**
 	 * Gallery_Image_Thumbnail constructor.
@@ -65,12 +65,9 @@ class Gallery_Image_Thumbnail extends BaseObject implements BaseObject_Interface
 	 * @param int $maximal_size_w
 	 * @param int $maximal_size_h
 	 */
-	public function __construct( Gallery_Image $image, $maximal_size_w, $maximal_size_h ) {
+	public function __construct( Gallery_Image $image, int $maximal_size_w , int $maximal_size_h ) {
 
 		$this->image = $image;
-		$this->maximal_size_w = (int)$maximal_size_w;
-		$this->maximal_size_h = (int)$maximal_size_h;
-
 
 		$key = $maximal_size_w.'x'.$maximal_size_h;
 
@@ -172,7 +169,7 @@ class Gallery_Image_Thumbnail extends BaseObject implements BaseObject_Interface
 	/**
 	 *
 	 */
-	public function delete()
+	public function delete() : void
 	{
 		if(IO_File::exists($this->path)) {
 			IO_File::delete($this->path);
@@ -235,7 +232,7 @@ class Gallery_Image_Thumbnail extends BaseObject implements BaseObject_Interface
 	/**
 	 *
 	 */
-	public function jsonSerialize()
+	public function jsonSerialize() : array
 	{
 
 		$data = [
@@ -253,7 +250,7 @@ class Gallery_Image_Thumbnail extends BaseObject implements BaseObject_Interface
 	/**
 	 * @return string
 	 */
-	public function toJSON()
+	public function toJSON() : string
 	{
 		return json_encode($this->jsonSerialize());
 	}

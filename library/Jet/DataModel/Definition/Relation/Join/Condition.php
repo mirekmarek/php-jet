@@ -14,24 +14,24 @@ class DataModel_Definition_Relation_Join_Condition extends BaseObject
 {
 
 	/**
-	 * @var DataModel_Definition_Relation
+	 * @var ?DataModel_Definition_Relation
 	 */
-	protected $relation;
+	protected ?DataModel_Definition_Relation $relation = null;
 
 	/**
 	 * @var string
 	 */
-	protected $related_property_name = '';
+	protected string $related_property_name = '';
 
 	/**
 	 * @var string
 	 */
-	protected $operator;
+	protected string $operator = '';
 
 	/**
-	 * @var string
+	 * @var mixed
 	 */
-	protected $value;
+	protected mixed $value = '';
 
 
 	/**
@@ -45,9 +45,9 @@ class DataModel_Definition_Relation_Join_Condition extends BaseObject
 	 */
 	public function __construct(
 				DataModel_Definition_Relation $relation,
-				$related_to_property_name,
-				$operator,
-				$value
+				string $related_to_property_name,
+				string $operator,
+				mixed $value
 	) {
 
 
@@ -64,7 +64,7 @@ class DataModel_Definition_Relation_Join_Condition extends BaseObject
 	/**
 	 * @return DataModel_Definition_Property
 	 */
-	public function getRelatedProperty()
+	public function getRelatedProperty() : DataModel_Definition_Property
 	{
 		return $this->relation->getRelatedDataModelDefinition()->getProperty( $this->related_property_name );
 	}
@@ -72,7 +72,7 @@ class DataModel_Definition_Relation_Join_Condition extends BaseObject
 	/**
 	 * @return string
 	 */
-	public function getOperator()
+	public function getOperator() : string
 	{
 		return $this->operator;
 	}
@@ -80,7 +80,7 @@ class DataModel_Definition_Relation_Join_Condition extends BaseObject
 	/**
 	 * @return string
 	 */
-	public function getValue()
+	public function getValue() : string
 	{
 		return $this->value;
 	}
@@ -89,7 +89,7 @@ class DataModel_Definition_Relation_Join_Condition extends BaseObject
 	/**
 	 * @return string
 	 */
-	public function __toString()
+	public function __toString() : string
 	{
 		return $this->toString();
 	}
@@ -97,7 +97,7 @@ class DataModel_Definition_Relation_Join_Condition extends BaseObject
 	/**
 	 * @return string
 	 */
-	public function toString()
+	public function toString() : string
 	{
 		return $this->relation->getRelatedDataModelClassName().'.'.$this->related_property_name.' '.$this->operator.' '.$this->value;
 	}

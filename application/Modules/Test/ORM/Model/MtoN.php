@@ -8,34 +8,29 @@
 namespace JetApplicationModule\Test\ORM;
 
 use Jet\DataModel_Related_MtoN;
+use Jet\DataModel_Definition;
 
 /**
  *
- * @JetDataModel:name = 'a1_m2n_b1'
- *
- * @JetDataModel:database_table_name = 'a1_m2n_b1'
- *
- * @JetDataModel:parent_model_class_name = 'Model_A1'
- * @JetDataModel:N_model_class_name = 'Model_B1'
  */
+#[DataModel_Definition(name: 'a1_m2n_b1')]
+#[DataModel_Definition(database_table_name: 'a1_m2n_b1')]
+#[DataModel_Definition(parent_model_class: Model_A1::class )]
+#[DataModel_Definition(N_model_class: Model_B1::class )]
 class Model_MtoN extends DataModel_Related_MtoN
 {
 
 	/**
-	 *
-	 * @JetDataModel:related_to = 'main.id'
-	 *
 	 * @var string
 	 */
-	protected $a1_id = '';
+	#[DataModel_Definition(related_to: 'main.id')]
+	protected string $a1_id = '';
 
 	/**
-	 *
-	 * @JetDataModel:related_to = 'model_b1.id'
-	 *
 	 * @var string
 	 */
-	protected $b1_id = '';
+	#[DataModel_Definition(related_to: 'model_b1.id')]
+	protected string $b1_id = '';
 
 
 }

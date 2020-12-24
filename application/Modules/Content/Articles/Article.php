@@ -8,67 +8,64 @@
 namespace JetApplicationModule\Content\Articles;
 
 use Jet\DataModel;
+use Jet\DataModel_Definition;
 use Jet\DataModel_Related_1toN;
 use Jet\DataModel_Related_1toN_Iterator;
+use Jet\Form_Field_DateTime;
 use Jet\Locale;
 use Jet\Data_DateTime;
 use Jet\Mvc;
-use Jet\DataModel_Fetch_Instances;
 use Jet\Data_Paginator_DataSource;
 use Jet\DataModel_IDController_UniqueString;
 use Jet\Form;
-use Jet\Form_Field_DateTime;
 use JetApplication\Application_Web;
 
 /**
  *
- * @JetDataModel:name = 'article'
- * @JetDataModel:database_table_name = 'articles'
- * @JetDataModel:id_controller_class_name = 'DataModel_IDController_UniqueString'
  */
+#[DataModel_Definition(name: 'article')]
+#[DataModel_Definition(database_table_name: 'articles')]
+#[DataModel_Definition(id_controller_class: DataModel_IDController_UniqueString::class)]
 class Article extends DataModel
 {
 
 
 	/**
-	 *
-	 * @JetDataModel:type = DataModel::TYPE_ID
-	 * @JetDataModel:is_id = true
-	 *
 	 * @var string
 	 */
-	protected $id = '';
+	#[DataModel_Definition(type: DataModel::TYPE_ID)]
+	#[DataModel_Definition(is_id: true)]
+	protected string $id = '';
 
 	/**
-	 *
-	 * @JetDataModel:type = DataModel::TYPE_DATE_TIME
-	 * @JetDataModel:form_field_label = 'Date and time'
-	 * @JetDataModel:form_field_error_messages = [Form_Field_DateTime::ERROR_CODE_INVALID_FORMAT => 'Invalid date and time format']
-	 *
-	 * @var Data_DateTime
+	 * @var Data_DateTime|null
 	 */
-	protected $date_time;
+	#[DataModel_Definition(type: DataModel::TYPE_DATE_TIME)]
+	#[DataModel_Definition(form_field_error_messages: [Form_Field_DateTime::ERROR_CODE_INVALID_FORMAT => 'Invalid date format'])]
+	protected Data_DateTime|null $date_time;
 
 	/**
-	 * @JetDataModel:type = DataModel::TYPE_DATA_MODEL
-	 * @JetDataModel:data_model_class = 'Article_Localized'
 	 *
 	 * @var Article_Localized[]|DataModel_Related_1toN|DataModel_Related_1toN_Iterator
 	 */
-	protected $localized;
+	#[DataModel_Definition(type: DataModel::TYPE_DATA_MODEL)]
+	#[DataModel_Definition(data_model_class: Article_Localized::class)]
+	protected array|DataModel_Related_1toN_Iterator|DataModel_Related_1toN|null $localized;
 
 	/**
-	 * @var Form
+	 * @var ?Form
 	 */
-	protected $_form_add;
+	protected ?Form $_form_add = null;
+
 	/**
-	 * @var Form
+	 * @var ?Form
 	 */
-	protected $_form_edit;
+	protected ?Form $_form_edit = null;
+
 	/**
-	 * @var Form
+	 * @var ?Form
 	 */
-	protected $_form_delete;
+	protected ?Form $_form_delete = null;
 
 
 	/**
@@ -83,7 +80,7 @@ class Article extends DataModel
 	/**
 	 *
 	 */
-	public function afterLoad()
+	public function afterLoad() : void
 	{
 
 		foreach( Application_Web::getSite()->getLocales() as $lc_str => $locale) {
@@ -99,17 +96,14 @@ class Article extends DataModel
 	}
 
 
-
 	/**
 	 *
 	 * @param string $id
 	 *
-	 * @return Article
+	 * @return static|null
 	 */
-	public static function get( $id )
+	public static function get( string $id ) : static|null
 	{
-
-		/** @noinspection PhpIncompatibleReturnTypeInspection */
 		return static::load( $id );
 	}
 
@@ -117,9 +111,10 @@ class Article extends DataModel
 	 *
 	 * @param string $search
 	 *
-	 * @return Article[]|DataModel_Fetch_Instances
+	 * @return Article[]
 	 */
-	public static function getList( $search = '' )
+	public static function getList( $search = '' ) : iterable
+
 	{
 
 		$where = [];
@@ -151,7 +146,7 @@ class Article extends DataModel
 	/**
 	 * @return string
 	 */
-	public function getId()
+	public function getId() : string
 	{
 		return $this->id;
 	}
@@ -161,7 +156,7 @@ class Article extends DataModel
 	/**
 	 * @return Data_DateTime
 	 */
-	public function getDateTime()
+	public function getDateTime() : Data_DateTime
 	{
 		return $this->date_time;
 	}
@@ -171,7 +166,7 @@ class Article extends DataModel
 	 *
 	 * @return Article_Localized
 	 */
-	public function getLocalized( Locale $locale=null )
+	public function getLocalized( Locale $locale=null ) : Article_Localized
 	{
 		if(!$locale) {
 			$locale = Mvc::getCurrentLocale();
@@ -182,7 +177,7 @@ class Article extends DataModel
 	/**
 	 * @param Data_DateTime|string $date_time
 	 */
-	public function setDateTime( $date_time )
+	public function setDateTime( Data_DateTime|string $date_time ) : void
 	{
 		if( !( $date_time instanceof Data_DateTime ) ) {
 			$date_time = new Data_DateTime( $date_time );
@@ -193,7 +188,7 @@ class Article extends DataModel
 	/**
 	 * @return Article[]|Data_Paginator_DataSource
 	 */
-	public static function getListForCurrentLocale()
+	public static function getListForCurrentLocale() : array|Data_Paginator_DataSource
 	{
 		$list = static::fetchInstances(
 			[
@@ -206,12 +201,12 @@ class Article extends DataModel
 	}
 
 	/**
-	 * @param string        $path
+	 * @param string $path
 	 * @param string|Locale $locale
 	 *
 	 * @return Article|null
 	 */
-	public static function resolveArticleByURL( $path, $locale )
+	public static function resolveArticleByURL( string $path, Locale|string $locale ) : Article|null
 	{
 		$current_article = null;
 		if( substr( $path, -5 )=='.html' ) {
@@ -235,7 +230,7 @@ class Article extends DataModel
 	/**
 	 * @return string
 	 */
-	public function getUrl()
+	public function getUrl() : string
 	{
 		return $this->getLocalized()->getURL();
 	}
@@ -243,7 +238,7 @@ class Article extends DataModel
 	/**
 	 * @return string
 	 */
-	public function getTitle()
+	public function getTitle() : string
 	{
 		return $this->getLocalized()->getTitle();
 	}
@@ -253,7 +248,7 @@ class Article extends DataModel
 	/**
 	 * @return string
 	 */
-	public function getAnnotation()
+	public function getAnnotation() : string
 	{
 		return $this->getLocalized()->getAnnotation();
 	}
@@ -262,7 +257,7 @@ class Article extends DataModel
 	/**
 	 * @return string
 	 */
-	public function getText()
+	public function getText() : string
 	{
 		return $this->getLocalized()->getText();
 	}
@@ -270,9 +265,9 @@ class Article extends DataModel
 	/**
 	 * @return Form
 	 */
-	public function getEditForm()
+	public function getEditForm() : Form
 	{
-		if(!$this->_form_edit) {
+		if($this->_form_edit===null) {
 			$this->_form_edit = $this->getCommonForm();
 		}
 
@@ -282,7 +277,7 @@ class Article extends DataModel
 	/**
 	 * @return bool
 	 */
-	public function catchEditForm()
+	public function catchEditForm() : bool
 	{
 		return $this->catchForm( $this->getEditForm() );
 	}
@@ -291,7 +286,7 @@ class Article extends DataModel
 	/**
 	 * @return Form
 	 */
-	public function getAddForm()
+	public function getAddForm() : Form
 	{
 		if(!$this->_form_add) {
 			$this->_form_add = $this->getCommonForm();
@@ -303,7 +298,7 @@ class Article extends DataModel
 	/**
 	 * @return bool
 	 */
-	public function catchAddForm()
+	public function catchAddForm() : bool
 	{
 		return $this->catchForm( $this->getAddForm() );
 	}

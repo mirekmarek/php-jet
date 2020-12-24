@@ -15,14 +15,14 @@ class DataModel_Query_Select_Item extends BaseObject
 
 	/**
 	 *
-	 * @var DataModel_Definition_Property|DataModel_Query_Select_Item_Expression
+	 * @var DataModel_Definition_Property|DataModel_Query_Select_Item_Expression|null
 	 */
-	protected $item;
+	protected DataModel_Definition_Property|DataModel_Query_Select_Item_Expression|null $item = null;
 
 	/**
 	 * @var string
 	 */
-	protected $select_as = '';
+	protected string $select_as = '';
 
 
 	/**
@@ -31,7 +31,7 @@ class DataModel_Query_Select_Item extends BaseObject
 	 *
 	 * @throws DataModel_Query_Exception
 	 */
-	public function __construct( $item, $select_as )
+	public function __construct( DataModel_Definition_Property|DataModel_Query_Select_Item_Expression $item, string $select_as )
 	{
 		if(
 			!( $item instanceof DataModel_Definition_Property ) &&
@@ -60,7 +60,7 @@ class DataModel_Query_Select_Item extends BaseObject
 	/**
 	 * @return DataModel_Definition_Property|DataModel_Query_Select_Item_Expression
 	 */
-	public function getItem()
+	public function getItem() : DataModel_Definition_Property|DataModel_Query_Select_Item_Expression
 	{
 		return $this->item;
 	}
@@ -68,7 +68,7 @@ class DataModel_Query_Select_Item extends BaseObject
 	/**
 	 * @return string
 	 */
-	public function getSelectAs()
+	public function getSelectAs() : string
 	{
 		return $this->select_as;
 	}

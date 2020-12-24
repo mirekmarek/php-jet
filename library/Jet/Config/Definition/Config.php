@@ -7,6 +7,8 @@
  */
 namespace Jet;
 
+use \ReflectionClass;
+
 /**
  * 
  */
@@ -20,25 +22,34 @@ class Config_Definition_Config extends BaseObject
 	/**
 	 * @var string
 	 */
-	protected $class_name = '';
+	protected string $class_name = '';
 
+	/**
+	 * @var ReflectionClass
+	 */
+	protected ReflectionClass $class_reflection;
+
+	/**
+	 * @var array
+	 */
+	protected array $class_arguments = [];
 
 	/**
 	 * @var string
 	 */
-	protected $name = '';
+	protected string $name = '';
 
 	/**
 	 * @var Config_Definition_Property[]
 	 */
-	protected $properties_definition = [];
+	protected array $properties_definition = [];
 
 	/**
 	 * @param array $data
 	 *
 	 * @return static
 	 */
-	public static function __set_state( array $data )
+	public static function __set_state( array $data ) : static
 	{
 		$i = new static();
 
@@ -54,7 +65,7 @@ class Config_Definition_Config extends BaseObject
 	 *
 	 * @throws Config_Exception
 	 */
-	public function __construct( $class_name = '' )
+	public function __construct( string $class_name = '' )
 	{
 		if( !$class_name ) {
 			return;
@@ -62,18 +73,55 @@ class Config_Definition_Config extends BaseObject
 
 		$this->class_name = $class_name;
 
-		$this->name = Reflection::get( $class_name, 'name', '' );
+		$this->class_reflection = new ReflectionClass( $class_name );
+
+		foreach( $this->class_reflection->getAttributes('Jet\Config_Definition') as $attribute ) {
+			foreach($attribute->getArguments() as $k=>$v) {
+				$this->class_arguments[$k] = $v;
+			}
+		}
+
+
+		$this->name = $this->getClassArgument( 'name' );
 		if(!$this->name) {
 			throw new DataModel_Exception(
-				'Config Class \''.$this->class_name.'\' does not have name! Please enter it by @JetConfig:name ',
+				'Config Class \''.$this->class_name.'\' does not have name! Please define attribute #[Config_Definition(name: \'some_name\')] ',
 				DataModel_Exception::CODE_DEFINITION_NONSENSE
 			);
 		}
 
-		$propertied_definition_data = Reflection::get( $class_name, 'config_properties_definition', [] );
+		$properties_definition_data = [];
 
-		$this->properties_definition = [];
-		foreach( $propertied_definition_data as $property_name => $definition_data ) {
+		foreach( $this->class_reflection->getProperties() as $property) {
+
+			$attributes = $property->getAttributes('Jet\Config_Definition');
+
+			if(!$attributes) {
+				continue;
+			}
+
+			$attrs = [];
+
+			foreach($attributes as $attr) {
+				foreach($attr->getArguments() as $k=>$v) {
+					$attrs[$k] = $v;
+				}
+			}
+
+			$properties_definition_data[$property->getName()] = $attrs;
+		}
+
+		if(
+			!is_array( $properties_definition_data ) ||
+			!$properties_definition_data
+		) {
+			throw new Config_Exception(
+				'Configuration \''.$this->class_name.'\' does not have any properties defined!',
+				Config_Exception::CODE_DEFINITION_NONSENSE
+			);
+		}
+
+		foreach( $properties_definition_data as $property_name => $definition_data ) {
 			if(
 				!isset( $definition_data['type'] ) ||
 				!$definition_data['type']
@@ -92,16 +140,27 @@ class Config_Definition_Config extends BaseObject
 			$property = new $class_name( $class_name, $property_name, $definition_data );
 
 			$this->properties_definition[$property_name] = $property;
-
 		}
 
-
 	}
+
+
+	/**
+	 * @param string $argument
+	 * @param mixed|string $default_value
+	 *
+	 * @return mixed
+	 */
+	protected function getClassArgument( string $argument, mixed $default_value='' ) : mixed
+	{
+		return $this->class_arguments[$argument] ?? $default_value;
+	}
+
 
 	/**
 	 * @return string
 	 */
-	public function getClassName()
+	public function getClassName() : string
 	{
 		return $this->class_name;
 	}
@@ -109,7 +168,7 @@ class Config_Definition_Config extends BaseObject
 	/**
 	 * @return string
 	 */
-	public function getName()
+	public function getName() : string
 	{
 		return $this->name;
 	}
@@ -118,7 +177,7 @@ class Config_Definition_Config extends BaseObject
 	/**
 	 * @return Config_Definition_Property[]
 	 */
-	public function getPropertiesDefinition()
+	public function getPropertiesDefinition() : array
 	{
 		return $this->properties_definition;
 	}

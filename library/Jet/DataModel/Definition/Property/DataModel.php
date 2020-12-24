@@ -15,24 +15,19 @@ class DataModel_Definition_Property_DataModel extends DataModel_Definition_Prope
 	/**
 	 * @var string
 	 */
-	protected $type = DataModel::TYPE_DATA_MODEL;
+	protected string $type = DataModel::TYPE_DATA_MODEL;
 
 	/**
-	 * @var string
+	 * @var ?string
 	 */
-	protected $data_model_class = null;
-
-	/**
-	 * @var DataModel
-	 */
-	protected $default_value = null;
+	protected ?string $data_model_class = null;
 
 	/**
 	 * @param array $definition_data
 	 *
 	 * @throws DataModel_Exception
 	 */
-	public function setUp( $definition_data )
+	public function setUp( array $definition_data ) : void
 	{
 
 		if( $definition_data ) {
@@ -60,7 +55,7 @@ class DataModel_Definition_Property_DataModel extends DataModel_Definition_Prope
 	/**
 	 * @param mixed &$property
 	 */
-	public function initPropertyDefaultValue( &$property )
+	public function initPropertyDefaultValue( mixed &$property ) : void
 	{
 		$property = $this->getDefaultValue();
 	}
@@ -68,8 +63,9 @@ class DataModel_Definition_Property_DataModel extends DataModel_Definition_Prope
 	/**
 	 *
 	 * @return mixed
+	 * @noinspection PhpMixedReturnTypeCanBeReducedInspection
 	 */
-	public function getDefaultValue()
+	public function getDefaultValue() : mixed
 	{
 		$class_name = $this->getValueDataModelClass();
 
@@ -93,13 +89,11 @@ class DataModel_Definition_Property_DataModel extends DataModel_Definition_Prope
 
 	/**
 	 *
-	 * Example: Locale to string
-	 *
 	 * @param mixed               &$property
 	 *
-	 * @return mixed
+	 * @return array|null
 	 */
-	public function getJsonSerializeValue(  &$property )
+	public function getJsonSerializeValue(  mixed &$property ) : ?array
 	{
 		if( !$property ) {
 			return null;
@@ -114,7 +108,7 @@ class DataModel_Definition_Property_DataModel extends DataModel_Definition_Prope
 	/**
 	 * @return bool
 	 */
-	public function getCanBeTableField()
+	public function getCanBeTableField() : bool
 	{
 		return false;
 	}
@@ -122,7 +116,7 @@ class DataModel_Definition_Property_DataModel extends DataModel_Definition_Prope
 	/**
 	 * @return bool
 	 */
-	public function getCanBeInSelectPartOfQuery()
+	public function getCanBeInSelectPartOfQuery() : bool
 	{
 		return false;
 	}
@@ -130,7 +124,7 @@ class DataModel_Definition_Property_DataModel extends DataModel_Definition_Prope
 	/**
 	 * @return bool
 	 */
-	public function getCanBeInInsertRecord()
+	public function getCanBeInInsertRecord() : bool
 	{
 		return false;
 	}
@@ -138,17 +132,17 @@ class DataModel_Definition_Property_DataModel extends DataModel_Definition_Prope
 	/**
 	 * @return bool
 	 */
-	public function getCanBeInUpdateRecord()
+	public function getCanBeInUpdateRecord() : bool
 	{
 		return false;
 	}
 
 	/**
-	 * @param DataModel_Related_Interface &$property
-	 * @param array                       $data
+	 * @param mixed &$property
+	 * @param array $data
 	 *
 	 */
-	public function loadPropertyValue( &$property, array $data )
+	public function loadPropertyValue( mixed &$property, array $data ) : void
 	{
 	}
 
@@ -157,7 +151,7 @@ class DataModel_Definition_Property_DataModel extends DataModel_Definition_Prope
 	 *
 	 * @throws DataModel_Exception
 	 */
-	public function checkValueType( &$value )
+	public function checkValueType( mixed &$value ) : void
 	{
 		throw new DataModel_Exception(
 			'You can not use checkValueType for the property that is DataObject (property: '.$this->name.')'
@@ -165,11 +159,11 @@ class DataModel_Definition_Property_DataModel extends DataModel_Definition_Prope
 	}
 
 	/**
-	 * @param object $object_instance
+	 * @param BaseObject $object_instance
 	 * @param mixed &$property
 	 * @param mixed $value
 	 */
-	public function catchFormField( $object_instance, &$property, $value )
+	public function catchFormField( BaseObject $object_instance,mixed &$property, mixed $value ) : void
 	{
 
 		if( ( $method_name = $this->getFormSetterName() ) ) {
@@ -185,7 +179,7 @@ class DataModel_Definition_Property_DataModel extends DataModel_Definition_Prope
 	 * @throws DataModel_Exception
 	 *
 	 */
-	public function getAllRelatedPropertyDefinitions( array &$related_definitions )
+	public function getAllRelatedPropertyDefinitions( array &$related_definitions ) : void
 	{
 		/**
 		 * @var DataModel_Definition_Property_DataModel[] $related_definitions

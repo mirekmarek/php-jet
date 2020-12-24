@@ -32,52 +32,52 @@ class Installer
 	/**
 	 * @var array
 	 */
-	protected static $steps = [];
+	protected static array $steps = [];
 
 	/**
 	 * @var Installer_Step_Controller[]
 	 */
-	protected static $step_controllers = [];
+	protected static array $step_controllers = [];
 
 	/**
 	 * @var Locale[]
 	 */
-	protected static $available_locales = [];
+	protected static array $available_locales = [];
 
 	/**
 	 * @var array
 	 */
-	protected static $selected_locales = [];
+	protected static array $selected_locales = [];
 
 	/**
-	 * @var Locale
+	 * @var ?Locale
 	 */
-	protected static $current_locale;
-
-	/**
-	 * @var string
-	 */
-	protected static $current_step_name;
+	protected static ?Locale $current_locale = null;
 
 	/**
 	 * @var string
 	 */
-	protected static $base_path = '';
+	protected static string $current_step_name = '';
 
 	/**
 	 * @var string
 	 */
-	protected static $application_namespace = '';
+	protected static string $base_path = '';
 
 	/**
-	 * @var Mvc_Layout
+	 * @var string
 	 */
-	protected static $layout;
+	protected static string $application_namespace = '';
+
+	/**
+	 * @var ?Mvc_Layout
+	 */
+	protected static ?Mvc_Layout $layout = null;
 
 	/**
 	 * @param array $steps
 	 */
-	public static function setSteps( array $steps )
+	public static function setSteps( array $steps ) : void
 	{
 		static::$steps = $steps;
 		static::$step_controllers = [];
@@ -352,7 +352,7 @@ class Installer
 	/**
 	 * @param string $current_step_name
 	 */
-	public static function setCurrentStepName( $current_step_name )
+	public static function setCurrentStepName( string $current_step_name ) : void
 	{
 
 		static::$current_step_name = $current_step_name;
@@ -478,62 +478,70 @@ class Installer
 	/**
 	 * @return string
 	 */
-	public static function buttonBack()
+	public static function buttonBack() : string
 	{
 		$ns = Tr::getCurrentNamespace();
 
 		Tr::setCurrentNamespace( Tr::COMMON_NAMESPACE );
 		$view = static::getView();
 
-		echo $view->render( 'button/back' );
+		$res = $view->render( 'button/back' );
 
 		Tr::setCurrentNamespace($ns);
+
+		return $res;
 	}
 
 	/**
 	 * @return string
 	 */
-	public static function buttonNext()
+	public static function buttonNext() : string
 	{
 		$ns = Tr::getCurrentNamespace();
 
 		Tr::setCurrentNamespace( Tr::COMMON_NAMESPACE );
 		$view = static::getView();
 
-		echo $view->render( 'button/next' );
+		$res = $view->render( 'button/next' );
 
 		Tr::setCurrentNamespace($ns);
+
+		return $res;
 	}
 
 	/**
 	 * @return string
 	 */
-	public static function buttonNextSkipIt()
+	public static function buttonNextSkipIt() : string
 	{
 		$ns = Tr::getCurrentNamespace();
 
 		Tr::setCurrentNamespace( Tr::COMMON_NAMESPACE );
 		$view = static::getView();
 
-		echo $view->render( 'button/skip' );
+		$res = $view->render( 'button/skip' );
 
 		Tr::setCurrentNamespace($ns);
+
+		return $res;
 	}
 
 	/**
 	 *
 	 * @return string
 	 */
-	public static function continueForm()
+	public static function continueForm() : string
 	{
 		$ns = Tr::getCurrentNamespace();
 
 		Tr::setCurrentNamespace( Tr::COMMON_NAMESPACE );
 		$view = static::getView();
 
-		echo $view->render( 'continue' );
+		$res = $view->render( 'continue' );
 
 		Tr::setCurrentNamespace($ns);
+
+		return $res;
 	}
 
 	/**
@@ -547,7 +555,7 @@ class Installer
 	/**
 	 * @param string $base_path
 	 */
-	public static function setBasePath( $base_path )
+	public static function setBasePath( string $base_path ) : void
 	{
 		static::$base_path = $base_path;
 	}
@@ -563,7 +571,7 @@ class Installer
 	/**
 	 * @param string $application_namespace
 	 */
-	public static function setApplicationNamespace( $application_namespace )
+	public static function setApplicationNamespace( string $application_namespace ) : void
 	{
 		static::$application_namespace = $application_namespace;
 	}

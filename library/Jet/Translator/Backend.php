@@ -24,19 +24,19 @@ abstract class Translator_Backend extends BaseObject
 	 *
 	 * @param string $namespace
 	 * @param Locale $locale
-	 * @param string|null $file_path (optional, default: by configuration)
+	 * @param ?string $file_path (optional, default: by configuration)
 	 *
 	 * @return Translator_Dictionary
 	 */
-	abstract public function loadDictionary( $namespace, Locale $locale, $file_path = null );
+	abstract public function loadDictionary( string $namespace, Locale $locale, ?string $file_path = null ) : Translator_Dictionary;
 
 	/**
 	 *
 	 * @param Translator_Dictionary $dictionary
-	 * @param string|null           $file_path (optional, default: by configuration)
+	 * @param ?string           $file_path (optional, default: by configuration)
 	 *
 	 */
-	abstract public function saveDictionary( Translator_Dictionary $dictionary, $file_path = null );
+	abstract public function saveDictionary( Translator_Dictionary $dictionary, ?string $file_path = null ) : void;
 
 
 }

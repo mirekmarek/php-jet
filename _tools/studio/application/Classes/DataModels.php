@@ -12,25 +12,25 @@ use Jet\Form_Field_Input;
 use Jet\Http_Request;
 use Jet\SysConf_URI;
 use Jet\Tr;
+use Jet\DataModel_IDController_AutoIncrement;
+use Jet\DataModel_IDController_UniqueString;
+use Jet\DataModel_IDController_Name;
+use Jet\DataModel_IDController_Passive;
 
 /**
  *
  */
 class DataModels extends BaseObject implements Application_Part
 {
-	const ID_C_CLASS_AUTOINCREMENT = 'Jet\DataModel_IDController_AutoIncrement';
-	const ID_C_CLASS_UNIQUE_STRING = 'Jet\DataModel_IDController_UniqueString';
-	const ID_C_CLASS_NAME = 'Jet\DataModel_IDController_Name';
-	const ID_C_CLASS_PASSIVE = 'Jet\DataModel_IDController_Passive';
 
 	/**
 	 * @var array
 	 */
 	protected static $id_controllers = [
-		self::ID_C_CLASS_AUTOINCREMENT => 'AutoIncrement',
-		self::ID_C_CLASS_UNIQUE_STRING => 'UniqueString',
-		self::ID_C_CLASS_NAME          => 'Name',
-		self::ID_C_CLASS_PASSIVE       => 'Passive',
+		DataModel_IDController_AutoIncrement::class => 'AutoIncrement',
+		DataModel_IDController_UniqueString::class  => 'UniqueString',
+		DataModel_IDController_Name::class          => 'Name',
+		DataModel_IDController_Passive::class       => 'Passive',
 	];
 
 	const MODEL_TYPE_MAIN = 'Main';

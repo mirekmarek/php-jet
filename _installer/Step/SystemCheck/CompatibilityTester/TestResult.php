@@ -16,24 +16,25 @@ class Installer_CompatibilityTester_TestResult
 	/**
 	 * @var bool
 	 */
-	protected $required = true;
+	protected bool $required = true;
 	/**
 	 * @var string
 	 */
-	protected $title = '';
+	protected string $title = '';
 	/**
 	 * @var string
 	 */
-	protected $description = '';
+	protected string $description = '';
 
 	/**
 	 * @var bool
 	 */
-	protected $passed = false;
+	protected bool $passed = false;
+
 	/**
 	 * @var string
 	 */
-	protected $result_message = '';
+	protected string $result_message = '';
 
 	/**
 	 *
@@ -41,7 +42,7 @@ class Installer_CompatibilityTester_TestResult
 	 * @param string $title
 	 * @param string $description
 	 */
-	public function __construct( $required, $title, $description )
+	public function __construct( bool $required, string $title, string $description )
 	{
 		$this->required = (bool)$required;
 		$this->title = (string)$title;
@@ -51,7 +52,7 @@ class Installer_CompatibilityTester_TestResult
 	/**
 	 * @return string
 	 */
-	public function getDescription()
+	public function getDescription() : string
 	{
 		return $this->description;
 	}
@@ -59,7 +60,7 @@ class Installer_CompatibilityTester_TestResult
 	/**
 	 * @param string $description
 	 */
-	public function setDescription( $description )
+	public function setDescription( string $description ) : void
 	{
 		$this->description = (string)$description;
 	}
@@ -67,7 +68,7 @@ class Installer_CompatibilityTester_TestResult
 	/**
 	 * @return bool
 	 */
-	public function getPassed()
+	public function getPassed() : bool
 	{
 		return $this->passed;
 	}
@@ -75,7 +76,7 @@ class Installer_CompatibilityTester_TestResult
 	/**
 	 * @param bool $passed
 	 */
-	public function setPassed( $passed )
+	public function setPassed( bool $passed ) : void
 	{
 		$this->passed = (bool)$passed;
 	}
@@ -83,7 +84,7 @@ class Installer_CompatibilityTester_TestResult
 	/**
 	 * @return bool
 	 */
-	public function getRequired()
+	public function getRequired() : bool
 	{
 		return $this->required;
 	}
@@ -91,7 +92,7 @@ class Installer_CompatibilityTester_TestResult
 	/**
 	 * @param bool $required
 	 */
-	public function setRequired( $required )
+	public function setRequired( bool $required ) : void
 	{
 		$this->required = (bool)$required;
 	}
@@ -99,7 +100,7 @@ class Installer_CompatibilityTester_TestResult
 	/**
 	 * @return string
 	 */
-	public function getResultMessage()
+	public function getResultMessage() : string
 	{
 		return $this->result_message;
 	}
@@ -107,7 +108,7 @@ class Installer_CompatibilityTester_TestResult
 	/**
 	 * @param string $result_message
 	 */
-	public function setResultMessage( $result_message )
+	public function setResultMessage( string $result_message ) : void
 	{
 		$this->result_message = (string)$result_message;
 	}
@@ -115,7 +116,7 @@ class Installer_CompatibilityTester_TestResult
 	/**
 	 * @return string
 	 */
-	public function getTitle()
+	public function getTitle() : string
 	{
 		return $this->title;
 	}
@@ -123,7 +124,7 @@ class Installer_CompatibilityTester_TestResult
 	/**
 	 * @param string $title
 	 */
-	public function setTitle( $title )
+	public function setTitle( string $title ) : void
 	{
 		$this->title = (string)$title;
 	}
@@ -131,7 +132,7 @@ class Installer_CompatibilityTester_TestResult
 	/**
 	 * @return bool
 	 */
-	public function getIsError()
+	public function getIsError() : bool
 	{
 		return ( $this->required && !$this->passed );
 	}
@@ -139,7 +140,7 @@ class Installer_CompatibilityTester_TestResult
 	/**
 	 * @return bool
 	 */
-	public function getIsWarning()
+	public function getIsWarning() : bool
 	{
 		return ( !$this->required && !$this->passed );
 	}

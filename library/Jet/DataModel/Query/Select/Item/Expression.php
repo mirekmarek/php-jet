@@ -19,27 +19,27 @@ class DataModel_Query_Select_Item_Expression extends BaseObject
 	 *
 	 * @var string
 	 */
-	protected $expression = '';
+	protected string $expression = '';
 
 	/**
 	 *
 	 * @var DataModel_Definition_Property[]
 	 */
-	protected $properties = [];
+	protected array $properties = [];
 
 
 	/**
 	 * @var string
 	 */
-	protected $value = '';
+	protected string $value = '';
 
 
 	/**
-	 * @param array  $properties
 	 * @param string $expression
+	 * @param array  $properties
 	 *
 	 */
-	public function __construct( $expression, array $properties=[] )
+	public function __construct( string $expression, array $properties=[] )
 	{
 		$this->properties = $properties;
 		$this->expression = $expression;
@@ -48,7 +48,7 @@ class DataModel_Query_Select_Item_Expression extends BaseObject
 	/**
 	 * @param DataModel_Definition_Property[] $properties
 	 */
-	public function setProperties( array $properties )
+	public function setProperties( array $properties ) : void
 	{
 		$this->properties = $properties;
 	}
@@ -56,7 +56,7 @@ class DataModel_Query_Select_Item_Expression extends BaseObject
 	/**
 	 * @return DataModel_Definition_Property[]
 	 */
-	public function getProperties()
+	public function getProperties() : array
 	{
 		return $this->properties;
 	}
@@ -68,7 +68,7 @@ class DataModel_Query_Select_Item_Expression extends BaseObject
 	 *
 	 * @return string
 	 */
-	public function getExpression()
+	public function getExpression() : string
 	{
 		return $this->expression;
 	}
@@ -79,7 +79,7 @@ class DataModel_Query_Select_Item_Expression extends BaseObject
 	 *
 	 * @return string
 	 */
-	public function toString( callable $property_name_to_backend_column_name_callback = null )
+	public function toString( callable $property_name_to_backend_column_name_callback = null ) : string
 	{
 		if( !$property_name_to_backend_column_name_callback ) {
 			$property_name_to_backend_column_name_callback = function( DataModel_Definition_Property $property ) {

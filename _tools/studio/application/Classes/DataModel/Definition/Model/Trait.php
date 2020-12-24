@@ -8,7 +8,6 @@
 namespace JetStudio;
 
 use Jet\DataModel;
-use Jet\DataModel_Definition_Model;
 use Jet\DataModel_Exception;
 use Jet\Exception;
 use Jet\Form;
@@ -27,50 +26,50 @@ trait DataModel_Definition_Model_Trait {
 	/**
 	 * @var DataModel_Class
 	 */
-	protected $_class;
+	protected DataModel_Class $_class;
 
 	/**
 	 * @var bool
 	 */
-	protected $_is_abstract = false;
+	protected bool $_is_abstract = false;
 
 	/**
 	 * @var string
 	 */
-	protected $_extends = '';
+	protected string $_extends = '';
 
 
 	/**
 	 * @var array
 	 */
-	protected $_implements = [];
+	protected array $_implements = [];
 
 	/**
 	 *
 	 * @var DataModel_Definition_Relation_External[]
 	 */
-	protected $external_relations;
+	protected array $external_relations;
 
 	/**
 	 * @param DataModel_Definition_Key $key
 	 */
-	protected $custom_keys;
+	protected DataModel_Definition_Key $custom_keys;
 
 	/**
 	 * @var ClassCreator_Class
 	 */
-	protected $__class;
+	protected ClassCreator_Class $__class;
 
 
 	/**
 	 * @var Form
 	 */
-	protected $__edit_form;
+	protected Form $__edit_form;
 
 	/**
 	 * @var Form
 	 */
-	protected $__sort_properties_form;
+	protected Form $__sort_properties_form;
 
 
 
@@ -506,18 +505,18 @@ trait DataModel_Definition_Model_Trait {
 				$this instanceof DataModel_Definition_Model_Related_MtoN
 			)  {
 
-				$iterator_class_name_field = new Form_Field_Input('iterator_class_name', 'Iterator class:', $this->getIteratorClassName());
-				$iterator_class_name_field->setCatcher( function( $value ) {
-					$this->setIteratorClassName( $value );
+				$iterator_class_field = new Form_Field_Input('iterator_class', 'Iterator class:', $this->getIteratorClassName());
+				$iterator_class_field->setCatcher( function( $value ) {
+					$this->setIteratorClass( $value );
 				} );
-				$iterator_class_name_field->setIsRequired( true );
-				$iterator_class_name_field->setValidationRegexp( '/^[a-z0-9\\\\\_]{2,}$/i' );
-				$iterator_class_name_field->setErrorMessages([
+				$iterator_class_field->setIsRequired( true );
+				$iterator_class_field->setValidationRegexp( '/^[a-z0-9\\\\\_]{2,}$/i' );
+				$iterator_class_field->setErrorMessages([
 					Form_Field_Input::ERROR_CODE_EMPTY => 'Please enter iterator class name',
 					Form_Field_Input::ERROR_CODE_INVALID_FORMAT => 'Invalid iterator class name name format'
 				]);
 
-				$fields[$iterator_class_name_field->getName()] = $iterator_class_name_field;
+				$fields[$iterator_class_field->getName()] = $iterator_class_field;
 			}
 
 
@@ -725,11 +724,11 @@ trait DataModel_Definition_Model_Trait {
 	}
 
 	/**
-	 * @param string $id_controller_class_name
+	 * @param string $id_controller_class
 	 */
-	public function setIDControllerClassName( $id_controller_class_name )
+	public function setIDControllerClassName( $id_controller_class )
 	{
-		$this->id_controller_class_name = $id_controller_class_name;
+		$this->id_controller_class = $id_controller_class;
 	}
 
 	/**

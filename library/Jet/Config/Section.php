@@ -16,12 +16,12 @@ class Config_Section extends Config
 	/**
 	 * @var Config
 	 */
-	protected $_config;
+	protected Config $_config;
 
 	/**
-	 * @var Config_Definition_Config_Section
+	 * @var ?Config_Definition_Config_Section
 	 */
-	protected $definition;
+	protected ?Config_Definition_Config_Section $definition = null;
 
 
 	/** @noinspection PhpMissingParentConstructorInspection */
@@ -38,7 +38,7 @@ class Config_Section extends Config
 	/**
 	 * @return Config_Definition_Config
 	 */
-	public function getDefinition()
+	public function getDefinition() : Config_Definition_Config
 	{
 		if( !$this->definition ) {
 			$this->definition = Config_Definition::getSectionConfigDefinition( get_called_class() );
@@ -51,7 +51,7 @@ class Config_Section extends Config
 	/**
 	 * @return Config
 	 */
-	public function getConfig()
+	public function getConfig() : Config
 	{
 		return $this->_config;
 	}
@@ -59,7 +59,7 @@ class Config_Section extends Config
 	/**
 	 * @param Config $config
 	 */
-	public function setConfig( Config $config )
+	public function setConfig( Config $config ) : void
 	{
 		$this->_config = $config;
 	}
@@ -67,7 +67,7 @@ class Config_Section extends Config
 	/**
 	 * @return string
 	 */
-	public function getConfigFilePath()
+	public function getConfigFilePath() : string
 	{
 		return $this->getConfig()->getConfigFilePath();
 	}
@@ -75,7 +75,7 @@ class Config_Section extends Config
 	/**
 	 * @param string $config_file_path
 	 */
-	public function setConfigFilePath( $config_file_path )
+	public function setConfigFilePath( string $config_file_path ) : void
 	{
 		$this->getConfig()->setConfigFilePath( $config_file_path );
 	}
@@ -87,7 +87,7 @@ class Config_Section extends Config
 	 *
 	 * @return array
 	 */
-	public function readConfigFileData()
+	public function readConfigFileData() : array
 	{
 		return $this->getConfig()->readConfigFileData();
 	}
@@ -96,7 +96,7 @@ class Config_Section extends Config
 	/**
 	 *
 	 */
-	public function writeConfigFile()
+	public function writeConfigFile() : void
 	{
 		$this->getConfig()->writeConfigFile();
 	}

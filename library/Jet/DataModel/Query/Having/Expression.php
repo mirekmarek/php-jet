@@ -13,14 +13,8 @@ namespace Jet;
 class DataModel_Query_Having_Expression extends DataModel_Query_Where_Expression
 {
 
+
 	/**
-	 *
-	 * @var DataModel_Query_Select_Item
-	 */
-	protected $property;
-
-
-	/** @noinspection PhpMissingParentConstructorInspection
 	 *
 	 * @param DataModel_Query_Select_Item $property
 	 * @param string                      $operator
@@ -28,7 +22,7 @@ class DataModel_Query_Having_Expression extends DataModel_Query_Where_Expression
 	 *
 	 * @throws DataModel_Query_Exception
 	 */
-	public function __construct( DataModel_Query_Select_Item $property, $operator, $value )
+	public function __construct( DataModel_Query_Select_Item $property, string $operator, mixed $value )
 	{
 
 		$this->property = $property;
@@ -37,18 +31,10 @@ class DataModel_Query_Having_Expression extends DataModel_Query_Where_Expression
 	}
 
 	/**
-	 * @return DataModel_Query_Select_Item
-	 */
-	public function getProperty()
-	{
-		return $this->property;
-	}
-
-	/**
 	 *
 	 * @return string
 	 */
-	public function toString()
+	public function toString() : string
 	{
 		if( $this->property->getItem() instanceof DataModel_Query_Select_Item_Expression ) {
 			return $this->property->getItem()->toString().' '.$this->operator.' \''.$this->value.'\'';

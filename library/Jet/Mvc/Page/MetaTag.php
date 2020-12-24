@@ -16,35 +16,35 @@ class Mvc_Page_MetaTag extends BaseObject implements Mvc_Page_MetaTag_Interface
 {
 
 	/**
-	 * @var Mvc_Page
+	 * @var ?Mvc_Page_Interface
 	 */
-	protected $__page;
+	protected ?Mvc_Page_Interface $__page = null;
 
 	/**
 	 *
 	 * @var string
 	 */
-	protected $attribute = '';
+	protected string $attribute = '';
 
 	/**
 	 *
 	 * @var string
 	 */
-	protected $attribute_value = '';
+	protected string $attribute_value = '';
 
 	/**
 	 *
 	 * @var string
 	 */
-	protected $content = '';
+	protected string $content = '';
 
 	/**
 	 * @param Mvc_Page_Interface $page
 	 * @param array              $data
 	 *
-	 * @return Mvc_Page_MetaTag_Interface
+	 * @return static
 	 */
-	public static function createByData( Mvc_Page_Interface $page, array $data )
+	public static function createByData( Mvc_Page_Interface $page, array $data ) : static
 	{
 		/**
 		 * @var Mvc_Page_MetaTag $meta_tag
@@ -61,7 +61,7 @@ class Mvc_Page_MetaTag extends BaseObject implements Mvc_Page_MetaTag_Interface
 	/**
 	 * @param array $data
 	 */
-	protected function setData( array $data )
+	protected function setData( array $data ) : void
 	{
 		foreach( $data as $key => $val ) {
 			$this->{$key} = $val;
@@ -71,7 +71,7 @@ class Mvc_Page_MetaTag extends BaseObject implements Mvc_Page_MetaTag_Interface
 	/**
 	 * @return Mvc_Page_Interface
 	 */
-	public function getPage()
+	public function getPage() : Mvc_Page_Interface
 	{
 		if( !$this->__page ) {
 			return Mvc::getCurrentPage();
@@ -81,17 +81,17 @@ class Mvc_Page_MetaTag extends BaseObject implements Mvc_Page_MetaTag_Interface
 	}
 
 	/**
-	 * @param Mvc_Page_Interface $__page
+	 * @param Mvc_Page_Interface $page
 	 */
-	public function setPage( Mvc_Page_Interface $__page )
+	public function setPage( Mvc_Page_Interface $page ) : void
 	{
-		$this->__page = $__page;
+		$this->__page = $page;
 	}
 
 	/**
 	 * @return string
 	 */
-	public function __toString()
+	public function __toString() : string
 	{
 		return $this->toString();
 	}
@@ -99,7 +99,7 @@ class Mvc_Page_MetaTag extends BaseObject implements Mvc_Page_MetaTag_Interface
 	/**
 	 * @return string
 	 */
-	public function toString()
+	public function toString() : string
 	{
 		if( $this->attribute ) {
 			return '<meta '.$this->attribute.'="'.Data_Text::htmlSpecialChars(
@@ -113,7 +113,7 @@ class Mvc_Page_MetaTag extends BaseObject implements Mvc_Page_MetaTag_Interface
 	/**
 	 * @return string
 	 */
-	public function getAttribute()
+	public function getAttribute() : string
 	{
 		return $this->attribute;
 	}
@@ -121,7 +121,7 @@ class Mvc_Page_MetaTag extends BaseObject implements Mvc_Page_MetaTag_Interface
 	/**
 	 * @param string $attribute
 	 */
-	public function setAttribute( $attribute )
+	public function setAttribute( string $attribute ) : void
 	{
 		$this->attribute = $attribute;
 	}
@@ -129,7 +129,7 @@ class Mvc_Page_MetaTag extends BaseObject implements Mvc_Page_MetaTag_Interface
 	/**
 	 * @return string
 	 */
-	public function getAttributeValue()
+	public function getAttributeValue() : string
 	{
 		return $this->attribute_value;
 	}
@@ -137,7 +137,7 @@ class Mvc_Page_MetaTag extends BaseObject implements Mvc_Page_MetaTag_Interface
 	/**
 	 * @param string $attribute_value
 	 */
-	public function setAttributeValue( $attribute_value )
+	public function setAttributeValue( string $attribute_value ) : void
 	{
 		$this->attribute_value = $attribute_value;
 	}
@@ -145,7 +145,7 @@ class Mvc_Page_MetaTag extends BaseObject implements Mvc_Page_MetaTag_Interface
 	/**
 	 * @return string
 	 */
-	public function getContent()
+	public function getContent() : string
 	{
 		return $this->content;
 	}
@@ -153,7 +153,7 @@ class Mvc_Page_MetaTag extends BaseObject implements Mvc_Page_MetaTag_Interface
 	/**
 	 * @param string $content
 	 */
-	public function setContent( $content )
+	public function setContent( string $content ) : void
 	{
 		$this->content = $content;
 	}
@@ -162,7 +162,7 @@ class Mvc_Page_MetaTag extends BaseObject implements Mvc_Page_MetaTag_Interface
 	/**
 	 * @return array
 	 */
-	public function toArray()
+	public function toArray() : array
 	{
 		$data = get_object_vars( $this );
 		foreach( $data as $k => $v ) {

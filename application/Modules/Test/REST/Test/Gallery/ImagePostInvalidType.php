@@ -19,7 +19,7 @@ class Test_Gallery_ImagePostInvalidType extends Test_Abstract
 	/**
 	 * @return bool
 	 */
-	public function isEnabled()
+	public function isEnabled() : bool
 	{
 		return count($this->data['galleries'])>0;
 	}
@@ -27,7 +27,7 @@ class Test_Gallery_ImagePostInvalidType extends Test_Abstract
 	/**
 	 * @return string
 	 */
-	protected function _getTitle()
+	protected function _getTitle() : string
 	{
 		return 'Upload image (POST) - invalid file type (error simulation)';
 	}
@@ -35,7 +35,7 @@ class Test_Gallery_ImagePostInvalidType extends Test_Abstract
 	/**
 	 *
 	 */
-	public function test()
+	public function test() : void
 	{
 		$gallery = $this->data['galleries'][0];
 		$id = $gallery['id'];

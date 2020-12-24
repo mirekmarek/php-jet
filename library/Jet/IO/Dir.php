@@ -18,14 +18,14 @@ class IO_Dir
 	/**
 	 * Chmod mask for new directory
 	 *
-	 * @var int
+	 * @var ?int
 	 */
-	protected static $default_chmod_mask;
+	protected static ?int $default_chmod_mask = null;
 
 	/**
 	 * @return int
 	 */
-	public static function getDefaultChmodMask()
+	public static function getDefaultChmodMask() : int
 	{
 		if( static::$default_chmod_mask===null ) {
 			static::$default_chmod_mask = SysConf_Jet::IO_CHMOD_MASK_DIR();
@@ -37,7 +37,7 @@ class IO_Dir
 	/**
 	 * @param int $default_chmod_mask
 	 */
-	public static function setDefaultChmodMask( $default_chmod_mask )
+	public static function setDefaultChmodMask( int $default_chmod_mask )
 	{
 		static::$default_chmod_mask = $default_chmod_mask;
 	}
@@ -49,7 +49,7 @@ class IO_Dir
 	 *
 	 * @return bool
 	 */
-	public static function exists( $dir_path )
+	public static function exists( string $dir_path ) : bool
 	{
 		return is_dir( $dir_path );
 	}
@@ -60,7 +60,7 @@ class IO_Dir
 	 *
 	 * @return bool
 	 */
-	public static function isReadable( $dir_path )
+	public static function isReadable( string $dir_path ) : bool
 	{
 		return is_dir( $dir_path )&&is_readable( $dir_path );
 	}
@@ -71,7 +71,7 @@ class IO_Dir
 	 *
 	 * @return bool
 	 */
-	public static function isWritable( $dir_path )
+	public static function isWritable( string $dir_path ) : bool
 	{
 		return is_dir( $dir_path )&&is_writable( $dir_path );
 	}
@@ -85,7 +85,7 @@ class IO_Dir
 	 *
 	 * @throws IO_Dir_Exception
 	 */
-	public static function move( $source_path, $target_path, $overwrite_if_exists = true )
+	public static function move( string $source_path, string $target_path, bool $overwrite_if_exists = true ) : void
 	{
 		self::rename( $source_path, $target_path, $overwrite_if_exists );
 	}
@@ -99,7 +99,7 @@ class IO_Dir
 	 *
 	 * @throws IO_Dir_Exception
 	 */
-	public static function rename( $source_path, $target_path, $overwrite_if_exists = true )
+	public static function rename( string $source_path, string $target_path, bool $overwrite_if_exists = true ) : void
 	{
 		static::copy( $source_path, $target_path, $overwrite_if_exists );
 		static::remove( $source_path );
@@ -110,11 +110,11 @@ class IO_Dir
 	 *
 	 * @param string $source_path
 	 * @param string $target_path
-	 * @param bool   $overwrite_if_exists (optional, default: true)
+	 * @param bool $overwrite_if_exists (optional, default: true)
 	 *
 	 * @throws IO_Dir_Exception
 	 */
-	public static function copy( $source_path, $target_path, $overwrite_if_exists = true )
+	public static function copy( string $source_path, string $target_path, bool $overwrite_if_exists = true ) : void
 	{
 
 		if( !self::exists( $source_path ) ) {
@@ -167,11 +167,11 @@ class IO_Dir
 	 * Creates directory.
 	 *
 	 * @param string $dir_path
-	 * @param bool   $overwrite_if_exists (optional; default: false)
+	 * @param bool $overwrite_if_exists (optional; default: false)
 	 *
 	 * @throws IO_Dir_Exception
 	 */
-	public static function create( $dir_path, $overwrite_if_exists = false )
+	public static function create( string $dir_path, bool $overwrite_if_exists = false ) : void
 	{
 
 		if( static::exists( $dir_path ) ) {
@@ -217,7 +217,7 @@ class IO_Dir
 	 *
 	 * @throws IO_Dir_Exception
 	 */
-	public static function remove( $dir_path )
+	public static function remove( string $dir_path ) : void
 	{
 
 		$e = null;
@@ -267,12 +267,12 @@ class IO_Dir
 	 * @param string $dir_path
 	 * @param string $mask (optional, default: '*', @see glob)
 	 *
-	 * @throws IO_Dir_Exception
 	 * @return array
+	 * @throws IO_Dir_Exception
 	 */
-	public static function getFilesList( $dir_path, $mask = '*' )
+	public static function getFilesList( string $dir_path, string $mask = '*' ) : array
 	{
-		return static::getList( $dir_path, $mask, false, true );
+		return static::getList( $dir_path, $mask, false );
 	}
 
 	/**
@@ -284,13 +284,16 @@ class IO_Dir
 	 *
 	 * @param string $dir_path
 	 * @param string $mask (optional, default: '*', @see glob)
-	 * @param bool   $get_dirs (optional, default: true)
-	 * @param bool   $get_files (optional, default: true)
+	 * @param bool $get_dirs (optional, default: true)
+	 * @param bool $get_files (optional, default: true)
 	 *
-	 * @throws IO_Dir_Exception
 	 * @return array
+	 * @throws IO_Dir_Exception
 	 */
-	public static function getList( $dir_path, $mask = '*', $get_dirs = true, $get_files = true )
+	public static function getList( string $dir_path,
+	                                string $mask = '*',
+	                                bool $get_dirs = true,
+	                                bool $get_files = true ) : array
 	{
 		$last_char = substr( $dir_path, -1 );
 
@@ -372,19 +375,19 @@ class IO_Dir
 	 * @param string $dir_path
 	 * @param string $mask (optional, default: '*', @see glob)
 	 *
-	 * @throws IO_Dir_Exception
 	 * @return array
+	 * @throws IO_Dir_Exception
 	 */
-	public static function getSubdirectoriesList( $dir_path, $mask = '*' )
+	public static function getSubdirectoriesList( string $dir_path, string $mask = '*' ) : array
 	{
 		return static::getList( $dir_path, $mask, true, false );
 	}
 
 
 	/**
-	 * @return array
+	 * @return array|null
 	 */
-	protected static function _getLastError()
+	protected static function _getLastError() : array|null
 	{
 		if( class_exists( __NAMESPACE__.'\\Debug_ErrorHandler', false ) ) {
 			$e = Debug_ErrorHandler::getLastError();

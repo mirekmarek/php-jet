@@ -16,7 +16,7 @@ $paginator = $this->getRaw( 'paginator' );
 
 <?php foreach( $articles_list as $article ): ?>
 	<div>
-		<a href="<?=$article->getURL();?>" style="font-size: 25px;"><?=$article->getTitle();?></a>
+		<a href="<?=$article->getUrl();?>" style="font-size: 25px;"><?=$article->getTitle();?></a>
 		<br/>
 		<span style="font-size: 10px;"><?=Locale::dateAndTime( $article->getDateTime() );?></span>
 		<p><?=$article->getAnnotation();?></p>

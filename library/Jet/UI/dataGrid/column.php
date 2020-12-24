@@ -16,11 +16,11 @@ class UI_dataGrid_column extends BaseObject
 	/**
 	 * @var string
 	 */
-	protected $name = '';
+	protected string $name = '';
 	/**
 	 * @var string
 	 */
-	protected $title = '';
+	protected string $title = '';
 	/**
 	 * @var callable
 	 */
@@ -28,25 +28,25 @@ class UI_dataGrid_column extends BaseObject
 	/**
 	 * @var bool
 	 */
-	protected $allow_sort = true;
+	protected bool $allow_sort = true;
 	/**
 	 * @var string
 	 */
-	protected $css_style = '';
+	protected string $css_style = '';
 	/**
 	 * @var string
 	 */
-	protected $css_class = '';
+	protected string $css_class = '';
 	/**
-	 * @var UI_dataGrid
+	 * @var ?UI_dataGrid
 	 */
-	private $grid;
+	private ?UI_dataGrid $grid = null;
 
 	/**
 	 * @param string $name
 	 * @param string $title
 	 */
-	public function __construct( $name, $title )
+	public function __construct( string $name, string $title )
 	{
 		$this->name = $name;
 		$this->title = $title;
@@ -55,7 +55,7 @@ class UI_dataGrid_column extends BaseObject
 	/**
 	 * @return UI_dataGrid
 	 */
-	public function getGrid()
+	public function getGrid() : UI_dataGrid
 	{
 		return $this->grid;
 	}
@@ -63,7 +63,7 @@ class UI_dataGrid_column extends BaseObject
 	/**
 	 * @param UI_dataGrid $grid
 	 */
-	public function setGrid( UI_dataGrid $grid )
+	public function setGrid( UI_dataGrid $grid ) : void
 	{
 		$this->grid = $grid;
 	}
@@ -71,7 +71,7 @@ class UI_dataGrid_column extends BaseObject
 	/**
 	 * @return string
 	 */
-	public function getName()
+	public function getName() : string
 	{
 		return $this->name;
 	}
@@ -80,7 +80,7 @@ class UI_dataGrid_column extends BaseObject
 	/**
 	 * @return callable
 	 */
-	public function getRenderer()
+	public function getRenderer() : callable
 	{
 		return $this->renderer;
 	}
@@ -90,7 +90,7 @@ class UI_dataGrid_column extends BaseObject
 	 *
 	 * @return $this
 	 */
-	public function setRenderer( callable $renderer )
+	public function setRenderer( callable $renderer ) : static
 	{
 		$this->renderer = $renderer;
 
@@ -102,7 +102,7 @@ class UI_dataGrid_column extends BaseObject
 	/**
 	 * @return string
 	 */
-	public function getTitle()
+	public function getTitle() : string
 	{
 		return $this->title;
 	}
@@ -112,7 +112,7 @@ class UI_dataGrid_column extends BaseObject
 	 *
 	 * @return $this
 	 */
-	public function setTitle( $title )
+	public function setTitle( string $title ) : static
 	{
 		$this->title = $title;
 
@@ -122,7 +122,7 @@ class UI_dataGrid_column extends BaseObject
 	/**
 	 * @return string
 	 */
-	public function getCssClass()
+	public function getCssClass() : string
 	{
 		return $this->css_class;
 	}
@@ -132,7 +132,7 @@ class UI_dataGrid_column extends BaseObject
 	 *
 	 * @return $this
 	 */
-	public function setCssClass( $css_class )
+	public function setCssClass( string $css_class ) : static
 	{
 		$this->css_class = $css_class;
 
@@ -142,7 +142,7 @@ class UI_dataGrid_column extends BaseObject
 	/**
 	 * @return string
 	 */
-	public function getCssStyle()
+	public function getCssStyle() : string
 	{
 		return $this->css_style;
 	}
@@ -152,7 +152,7 @@ class UI_dataGrid_column extends BaseObject
 	 *
 	 * @return $this
 	 */
-	public function setCssStyle( $css_style )
+	public function setCssStyle( string $css_style ) : static
 	{
 		$this->css_style = $css_style;
 
@@ -173,7 +173,7 @@ class UI_dataGrid_column extends BaseObject
 	 *
 	 * @return $this
 	 */
-	public function setAllowSort( $allow_order_by )
+	public function setAllowSort( bool $allow_order_by ) : static
 	{
 		$this->allow_sort = (bool)$allow_order_by;
 
@@ -183,7 +183,7 @@ class UI_dataGrid_column extends BaseObject
 	/**
 	 * @return bool
 	 */
-	public function isSortByAsc()
+	public function isSortByAsc() : bool
 	{
 		return $this->getGrid()->getSortBy()==$this->name;
 	}
@@ -191,7 +191,7 @@ class UI_dataGrid_column extends BaseObject
 	/**
 	 * @return bool
 	 */
-	public function isSortByDesc()
+	public function isSortByDesc() : bool
 	{
 		return $this->getGrid()->getSortBy()=='-'.$this->name;
 	}

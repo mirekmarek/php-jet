@@ -16,14 +16,14 @@ class Debug_Profiler_Run_Block_Anonymous extends Debug_Profiler_Run_Block
 	/**
 	 * @var bool
 	 */
-	protected $is_anonymous = true;
+	protected bool $is_anonymous = true;
 
 	/** @noinspection PhpMissingParentConstructorInspection */
 	/**
-	 * @param int                      $level
-	 * @param Debug_Profiler_Run_Block|null $parent_block
+	 * @param int $level
+	 * @param ?Debug_Profiler_Run_Block|null $parent_block
 	 */
-	public function __construct( $level, Debug_Profiler_Run_Block $parent_block = null )
+	public function __construct( int $level, ?Debug_Profiler_Run_Block $parent_block = null )
 	{
 		$this->label = '?';
 		$this->level = (int)$level;
@@ -45,7 +45,7 @@ class Debug_Profiler_Run_Block_Anonymous extends Debug_Profiler_Run_Block
 	/**
 	 * @param float|null $timestamp_end (optional, default: current)
 	 */
-	public function setEnd( $timestamp_end = null )
+	public function setEnd( float|null $timestamp_end = null ) : void
 	{
 		if( $this->timestamp_end ) {
 			return;

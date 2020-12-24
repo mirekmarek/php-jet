@@ -18,7 +18,7 @@ class Data_DateTime extends DateTime
 	/**
 	 * @return Data_DateTime
 	 */
-	public static function now()
+	public static function now() : Data_DateTime
 	{
 		$date = new static( date( 'Y-m-d\TH:i:s' ) );
 
@@ -28,7 +28,7 @@ class Data_DateTime extends DateTime
 	/**
 	 * @return string
 	 */
-	public function toString()
+	public function toString() : string
 	{
 		return $this->__toString();
 	}
@@ -36,7 +36,7 @@ class Data_DateTime extends DateTime
 	/**
 	 * @return string
 	 */
-	public function __toString()
+	public function __toString() : string
 	{
 		return (string)$this->format( 'Y-m-d\TH:i:s' );
 	}

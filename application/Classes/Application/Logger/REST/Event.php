@@ -7,10 +7,12 @@
  */
 namespace JetApplication;
 
+use Jet\DataModel_Definition;
+
 /**
  *
- * @JetDataModel:database_table_name = 'events_rest'
  */
+#[DataModel_Definition(database_table_name: 'events_rest')]
 class Application_Logger_REST_Event extends Application_Logger_Event
 {
 }

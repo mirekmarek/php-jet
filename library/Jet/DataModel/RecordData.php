@@ -16,12 +16,12 @@ class DataModel_RecordData implements BaseObject_Interface_IteratorCountable
 	/**
 	 * @var DataModel_RecordData_Item[]
 	 */
-	protected $items = [];
+	protected array $items = [];
 
 	/**
-	 * @var DataModel_Definition_Model
+	 * @var ?DataModel_Definition_Model
 	 */
-	protected $data_model_definition;
+	protected ?DataModel_Definition_Model $data_model_definition = null;
 
 	/**
 	 *
@@ -31,7 +31,7 @@ class DataModel_RecordData implements BaseObject_Interface_IteratorCountable
 	 * @throws DataModel_Exception
 	 * @return DataModel_RecordData
 	 */
-	public static function createRecordData( $data_model_class_name, array $properties_and_values )
+	public static function createRecordData( string $data_model_class_name, array $properties_and_values ) : DataModel_RecordData
 	{
 		$definition = DataModel::getDataModelDefinition( $data_model_class_name );
 		$result = new self( $definition );
@@ -64,15 +64,15 @@ class DataModel_RecordData implements BaseObject_Interface_IteratorCountable
 	 * @param DataModel_Definition_Property $property_definition
 	 * @param mixed                         $value
 	 */
-	public function addItem( DataModel_Definition_Property $property_definition, $value )
+	public function addItem( DataModel_Definition_Property $property_definition, mixed $value ) : void
 	{
 		$this->items[] = new DataModel_RecordData_Item( $property_definition, $value );
 	}
 
 	/**
-	 * @return DataModel_Definition_Model
+	 * @return DataModel_Definition_Model|null
 	 */
-	public function getDataModelDefinition()
+	public function getDataModelDefinition() : DataModel_Definition_Model|null
 	{
 		return $this->data_model_definition;
 	}
@@ -81,7 +81,7 @@ class DataModel_RecordData implements BaseObject_Interface_IteratorCountable
 	 * @see \Iterator
 	 * @return DataModel_RecordData_Item
 	 */
-	public function current()
+	public function current() : DataModel_RecordData_Item
 	{
 		return current( $this->items );
 	}
@@ -90,7 +90,7 @@ class DataModel_RecordData implements BaseObject_Interface_IteratorCountable
 	 * @see \Iterator
 	 * @return string
 	 */
-	public function key()
+	public function key() : string
 	{
 		return key( $this->items );
 	}
@@ -98,7 +98,7 @@ class DataModel_RecordData implements BaseObject_Interface_IteratorCountable
 	/**
 	 * @see \Iterator
 	 */
-	public function next()
+	public function next() : DataModel_RecordData_Item|bool
 	{
 		return next( $this->items );
 	}
@@ -106,7 +106,7 @@ class DataModel_RecordData implements BaseObject_Interface_IteratorCountable
 	/**
 	 * @see \Iterator
 	 */
-	public function rewind()
+	public function rewind() : void
 	{
 		reset( $this->items );
 	}
@@ -115,7 +115,7 @@ class DataModel_RecordData implements BaseObject_Interface_IteratorCountable
 	 * @see \Iterator
 	 * @return bool
 	 */
-	public function valid()
+	public function valid() : bool
 	{
 		return key( $this->items )!==null;
 	}
@@ -126,7 +126,7 @@ class DataModel_RecordData implements BaseObject_Interface_IteratorCountable
 	 *
 	 * @return int
 	 */
-	public function count()
+	public function count() : int
 	{
 		return count($this->items );
 	}
@@ -135,7 +135,7 @@ class DataModel_RecordData implements BaseObject_Interface_IteratorCountable
 	/**
 	 * @return bool
 	 */
-	public function getIsEmpty()
+	public function getIsEmpty() : bool
 	{
 		return !(bool)count( $this->items );
 	}

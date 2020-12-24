@@ -26,29 +26,29 @@ class Controller_Web extends Mvc_Controller_Default
 	protected $module = null;
 
 	/**
-	 * @var Mvc_Controller_Router
+	 * @var ?Mvc_Controller_Router
 	 */
-	protected $router;
+	protected ?Mvc_Controller_Router $router = null;
 
 	/**
 	 * @var int
 	 */
-	protected $public_list_items_per_page = 20;
+	protected int $public_list_items_per_page = 20;
 
 	/**
 	 * @var int
 	 */
-	protected $page_no = 1;
+	protected int $page_no = 1;
 
 	/**
-	 * @var Article
+	 * @var ?Article
 	 */
-	protected $article;
+	protected ?Article $article = null;
 
 	/**
-	 * @return Mvc_Controller_Router|null
+	 * @return Mvc_Controller_Router
 	 */
-	public function getControllerRouter()
+	public function getControllerRouter() : Mvc_Controller_Router
 	{
 		if(!$this->router) {
 			$this->router = new Mvc_Controller_Router($this);
@@ -98,7 +98,7 @@ class Controller_Web extends Mvc_Controller_Default
 			$page_no,
 			$this->public_list_items_per_page,
 			function( $page_no ) {
-				return Mvc::getCurrentPage()->getURI(['page:'.$page_no]);
+				return Mvc::getCurrentPage()->getURLPath(['page:'.$page_no]);
 			}
 		);
 

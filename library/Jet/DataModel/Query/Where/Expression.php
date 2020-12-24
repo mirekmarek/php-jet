@@ -14,21 +14,20 @@ class DataModel_Query_Where_Expression extends BaseObject
 {
 
 	/**
-	 * Property instance
 	 *
-	 * @var DataModel_Definition_Property
+	 * @var DataModel_Definition_Property|DataModel_Query_Select_Item|null
 	 */
-	protected $property;
+	protected DataModel_Definition_Property|DataModel_Query_Select_Item|null $property = null;
 
 	/**
 	 * @var string
 	 */
-	protected $operator = '';
+	protected string $operator = '';
 
 	/**
 	 * @var mixed
 	 */
-	protected $value = '';
+	protected mixed $value = '';
 
 
 	/**
@@ -38,7 +37,7 @@ class DataModel_Query_Where_Expression extends BaseObject
 	 *
 	 * @throws DataModel_Query_Exception
 	 */
-	public function __construct( DataModel_Definition_Property $property, $operator, $value )
+	public function __construct( DataModel_Definition_Property $property, string $operator, mixed $value )
 	{
 
 		$this->property = $property;
@@ -47,9 +46,9 @@ class DataModel_Query_Where_Expression extends BaseObject
 	}
 
 	/**
-	 * @return DataModel_Definition_Property
+	 * @return DataModel_Definition_Property|DataModel_Query_Select_Item
 	 */
-	public function getProperty()
+	public function getProperty() : DataModel_Definition_Property|DataModel_Query_Select_Item
 	{
 		return $this->property;
 	}
@@ -57,7 +56,7 @@ class DataModel_Query_Where_Expression extends BaseObject
 	/**
 	 * @return string
 	 */
-	public function getOperator()
+	public function getOperator() : string
 	{
 		return $this->operator;
 	}
@@ -67,7 +66,7 @@ class DataModel_Query_Where_Expression extends BaseObject
 	 *
 	 * @throws DataModel_Query_Exception
 	 */
-	protected function _setOperator( $operator )
+	protected function _setOperator( string $operator ) : void
 	{
 
 		if( !in_array( $operator, DataModel_Query::AVAILABLE_OPERATORS ) ) {
@@ -85,7 +84,7 @@ class DataModel_Query_Where_Expression extends BaseObject
 	/**
 	 * @return mixed
 	 */
-	public function getValue()
+	public function getValue() : mixed
 	{
 		return $this->value;
 	}
@@ -94,7 +93,7 @@ class DataModel_Query_Where_Expression extends BaseObject
 	 *
 	 * @return string
 	 */
-	public function __toString()
+	public function __toString() : string
 	{
 		return $this->toString();
 	}
@@ -103,7 +102,7 @@ class DataModel_Query_Where_Expression extends BaseObject
 	 *
 	 * @return string
 	 */
-	public function toString()
+	public function toString() : string
 	{
 		$value = $this->value;
 

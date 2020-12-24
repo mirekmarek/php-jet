@@ -15,7 +15,7 @@ class DataModel_Definition_Property_Bool extends DataModel_Definition_Property
 	/**
 	 * @var string
 	 */
-	protected $type = DataModel::TYPE_BOOL;
+	protected string $type = DataModel::TYPE_BOOL;
 
 	/**
 	 * @var bool
@@ -25,12 +25,12 @@ class DataModel_Definition_Property_Bool extends DataModel_Definition_Property
 	/**
 	 * @var string
 	 */
-	protected $form_field_type = Form::TYPE_CHECKBOX;
+	protected string $form_field_type = Form::TYPE_CHECKBOX;
 
 	/**
-	 * @param mixed $value
+	 * @param mixed &$value
 	 */
-	public function checkValueType( &$value )
+	public function checkValueType( mixed &$value ) : void
 	{
 		$value = (bool)$value;
 	}
