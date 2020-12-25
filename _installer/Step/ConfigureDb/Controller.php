@@ -130,6 +130,7 @@ class Installer_Step_ConfigureDb_Controller extends Installer_Step_Controller
 		}
 		$form = $connection_config->getCommonForm();
 
+
 		$this->view->setVar( 'form', $form );
 		$this->view->setVar( 'connection_name', $connection_config->getName() );
 		$this->view->setVar( 'config', $connection_config );

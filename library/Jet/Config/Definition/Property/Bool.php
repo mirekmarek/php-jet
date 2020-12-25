@@ -22,6 +22,10 @@ class Config_Definition_Property_Bool extends Config_Definition_Property
 	 */
 	protected $default_value = false;
 
+	/**
+	 * @var string|bool
+	 */
+	protected string|bool $form_field_type = Form::TYPE_CHECKBOX;
 
 	/**
 	 * @param ?array $definition_data

@@ -186,9 +186,9 @@ abstract class DataModel_Definition_Property extends BaseObject implements Form_
 	}
 
 	/**
-	 * @return string
+	 * @return string|null
 	 */
-	public function getRelatedToPropertyName() : string
+	public function getRelatedToPropertyName() : string|null
 	{
 		return $this->related_to_property_name;
 	}

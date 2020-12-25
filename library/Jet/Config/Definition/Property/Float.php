@@ -32,6 +32,11 @@ class Config_Definition_Property_Float extends Config_Definition_Property
 	protected float|null $max_value = null;
 
 	/**
+	 * @var string|bool
+	 */
+	protected string|bool $form_field_type = Form::TYPE_FLOAT;
+
+	/**
 	 * @param array|null $definition_data
 	 *
 	 * @throws Config_Exception

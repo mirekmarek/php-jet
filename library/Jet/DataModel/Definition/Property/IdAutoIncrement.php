@@ -28,9 +28,9 @@ class DataModel_Definition_Property_IdAutoIncrement extends DataModel_Definition
 	protected bool $is_id = false;
 
 	/**
-	 * @var string
+	 * @var string|bool
 	 */
-	protected string $form_field_type = Form::TYPE_HIDDEN;
+	protected string|bool $form_field_type = Form::TYPE_HIDDEN;
 
 	/**
 	 *

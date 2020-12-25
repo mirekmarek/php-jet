@@ -20,9 +20,9 @@ trait Form_Field_Definition_Trait
 
 	/**
 	 *
-	 * @var string
+	 * @var string|bool
 	 */
-	protected string $form_field_type = '';
+	protected string|bool $form_field_type = '';
 
 	/**
 	 * @var bool
@@ -75,18 +75,18 @@ trait Form_Field_Definition_Trait
 
 
 	/**
-	 * @return string
+	 * @return string|bool
 	 */
-	public function getFormFieldType() : string
+	public function getFormFieldType() : string|bool
 	{
 		return $this->form_field_type;
 	}
 
 
 	/**
-	 * @param string $type
+	 * @param string|bool $type
 	 */
-	public function setFormFieldType( string $type ) : void
+	public function setFormFieldType( string|bool $type ) : void
 	{
 		$this->form_field_type = $type;
 	}

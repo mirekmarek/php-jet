@@ -51,9 +51,7 @@ $OK = $this->getBool( 'OK' );
 </table>
 
 <?php if( $OK ):
-	Installer::continueForm();
-endif; ?>
-
-<?php if( !$OK ): ?>
-	<?=Installer::buttonBack()?>
-<?php endif; ?>
+	echo Installer::continueForm();
+else:
+	echo Installer::buttonBack();
+endif;

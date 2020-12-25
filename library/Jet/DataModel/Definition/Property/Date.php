@@ -23,9 +23,9 @@ class DataModel_Definition_Property_Date extends DataModel_Definition_Property
 	protected $default_value = null;
 
 	/**
-	 * @var string
+	 * @var string|bool
 	 */
-	protected string $form_field_type = Form::TYPE_DATE;
+	protected string|bool $form_field_type = Form::TYPE_DATE;
 
 	/**
 	 * @param mixed $value

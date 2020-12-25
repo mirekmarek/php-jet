@@ -6,20 +6,21 @@ use Jet\Form;
 use Jet\Tr;
 
 use Jet\UI_messages;
+use Jet\Db_Backend_PDO_Config;
 
 /**
  * @var Mvc_View $this
- * @var Form     $form
+ * @var Db_Backend_PDO_Config $config
  */
-$form = $this->getRaw( 'form' );
+$config = $this->getRaw( 'config' );
 
-$form->setIsReadonly();
-$form->setDefaultLabelWidth( [ Form::LJ_SIZE_MEDIUM => 2 ] );
 ?>
 
 <?=Installer::buttonBack()?>
 
 <h3><?=Tr::_( 'Connection \'%CONNECTION%\' Test', [ 'CONNECTION' => $this->getString( 'connection_name' ) ] );?></h3>
+
+<?=$config->getDsn()?>: <?=$config->getName()?>
 
 <?php if( $this->getBool( 'OK' ) ): ?>
 	<?=UI_messages::createSuccess( Tr::_( 'OK! Database connection works correctly.' ) )?>
@@ -28,15 +29,6 @@ $form->setDefaultLabelWidth( [ Form::LJ_SIZE_MEDIUM => 2 ] );
 <?php endif; ?>
 
 
-<?=$form->start()?>
-<?=$form->message()?>
-
-<?=$form->field( 'DSN' )?>
-<?=$form->field( 'username' )?>
-
-<?=$form->end()?>
-
-
 <?php if( $this->getBool( 'OK' ) ):
-	Installer::continueForm();
+	echo Installer::continueForm();
 endif; ?>

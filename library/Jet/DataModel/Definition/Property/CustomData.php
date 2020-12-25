@@ -23,9 +23,9 @@ class DataModel_Definition_Property_CustomData extends DataModel_Definition_Prop
 	protected $default_value = [];
 
 	/**
-	 * @var string
+	 * @var string|bool
 	 */
-	protected string $form_field_type = Form::TYPE_MULTI_SELECT;
+	protected string|bool $form_field_type = Form::TYPE_MULTI_SELECT;
 
 	/**
 	 * @param array $definition_data

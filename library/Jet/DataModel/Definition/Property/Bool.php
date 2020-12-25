@@ -23,9 +23,9 @@ class DataModel_Definition_Property_Bool extends DataModel_Definition_Property
 	protected $default_value = false;
 
 	/**
-	 * @var string
+	 * @var string|bool
 	 */
-	protected string $form_field_type = Form::TYPE_CHECKBOX;
+	protected string|bool $form_field_type = Form::TYPE_CHECKBOX;
 
 	/**
 	 * @param mixed &$value

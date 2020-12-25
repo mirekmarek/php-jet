@@ -78,9 +78,9 @@ class Mvc
 
 	/**
 	 *
-	 * @return Mvc_Site_Interface
+	 * @return Mvc_Site_Interface|null
 	 */
-	public static function getCurrentSite() : Mvc_Site_Interface
+	public static function getCurrentSite() : Mvc_Site_Interface|null
 	{
 		return static::$current_site;
 	}
@@ -95,9 +95,9 @@ class Mvc
 
 	/**
 	 *
-	 * @return Locale
+	 * @return Locale|null
 	 */
-	public static function getCurrentLocale() : Locale
+	public static function getCurrentLocale() : Locale|null
 	{
 		return static::$current_locale;
 	}
@@ -132,9 +132,9 @@ class Mvc
 
 	/**
 	 *
-	 * @return Mvc_Page_Interface
+	 * @return Mvc_Page_Interface|null
 	 */
-	public static function getCurrentPage() : Mvc_Page_Interface
+	public static function getCurrentPage() : Mvc_Page_Interface|null
 	{
 		return static::$current_page;
 	}

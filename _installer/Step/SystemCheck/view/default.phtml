@@ -48,7 +48,7 @@ $tester = $this->getRaw( 'tester' );
 		echo UI_messages::createWarning( Tr::_( 'The system is compatible. Please take care about warnings!' ) )->setCloseable(false);
 	endif;
 
-	Installer::continueForm();
+	echo Installer::continueForm();
 
 else:
 	echo UI_messages::createDanger( Tr::_( 'Sorry, but the system is not compatible!' ) )->setCloseable(false);

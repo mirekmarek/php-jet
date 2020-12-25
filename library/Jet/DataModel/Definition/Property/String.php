@@ -29,9 +29,9 @@ class DataModel_Definition_Property_String extends DataModel_Definition_Property
 	protected $default_value = '';
 
 	/**
-	 * @var string
+	 * @var string|bool
 	 */
-	protected string $form_field_type = Form::TYPE_INPUT;
+	protected string|bool $form_field_type = Form::TYPE_INPUT;
 
 	/**
 	 * @param array $definition_data

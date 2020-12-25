@@ -34,7 +34,6 @@ class Db_Backend_PDO_Config extends Db_Backend_Config
 	 * @var string
 	 */
 	#[Config_Definition(type : Config::TYPE_STRING)]
-	#[Config_Definition(default_value : '')]
 	#[Config_Definition(is_required : true)]
 	#[Config_Definition(form_field_label : 'DSN')]
 	#[Config_Definition(form_field_error_messages : [Form_Field::ERROR_CODE_EMPTY=>'Please enter connection DSN'])]
@@ -46,7 +45,6 @@ class Db_Backend_PDO_Config extends Db_Backend_Config
 	 */
 	#[Config_Definition(form_field_label : 'Username')]
 	#[Config_Definition(type : Config::TYPE_STRING)]
-	#[Config_Definition(default_value : null)]
 	#[Config_Definition(is_required : false)]
 	protected string $username = '';
 
@@ -57,7 +55,6 @@ class Db_Backend_PDO_Config extends Db_Backend_Config
 	#[Config_Definition(form_field_type : Form::TYPE_PASSWORD)]
 	#[Config_Definition(form_field_label : 'Password')]
 	#[Config_Definition(type : Config::TYPE_STRING)]
-	#[Config_Definition(default_value : null)]
 	#[Config_Definition(is_required : false)]
 	protected string $password  ='';
 

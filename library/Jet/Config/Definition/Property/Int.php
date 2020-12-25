@@ -31,7 +31,10 @@ class Config_Definition_Property_Int extends Config_Definition_Property
 	 */
 	protected int|null $max_value = null;
 
-
+	/**
+	 * @var string|bool
+	 */
+	protected string|bool $form_field_type = Form::TYPE_INT;
 	/**
 	 * @param ?array $definition_data
 	 *

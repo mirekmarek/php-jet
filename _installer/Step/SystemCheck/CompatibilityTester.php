@@ -156,7 +156,7 @@ class Installer_CompatibilityTester
 	 */
 	public function test_PHPVersion() : void
 	{
-		$required_version = '7.2.1';
+		$required_version = '8.0';
 
 		$this->test(
 			Tr::_('PHP version'),
@@ -316,7 +316,7 @@ class Installer_CompatibilityTester
 					return false;
 				}
 
-				$limit = 1024*1024*10;
+				$limit = 1024*1024*2;
 
 				if( $upload_max_filesize<$limit ) {
 					$test_result->setResultMessage(

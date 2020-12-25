@@ -18,9 +18,9 @@ class DataModel_Definition_Property_Locale extends DataModel_Definition_Property
 	protected string $type = DataModel::TYPE_LOCALE;
 
 	/**
-	 * @var string
+	 * @var string|bool
 	 */
-	protected string $form_field_type = Form::TYPE_SELECT;
+	protected string|bool $form_field_type = Form::TYPE_SELECT;
 
 	/**
 	 * @param mixed $value

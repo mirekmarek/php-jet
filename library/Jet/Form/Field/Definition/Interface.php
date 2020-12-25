@@ -14,14 +14,14 @@ interface Form_Field_Definition_Interface
 {
 
 	/**
-	 * @return string
+	 * @return string|bool
 	 */
-	public function getFormFieldType() : string;
+	public function getFormFieldType() : string|bool;
 
 	/**
-	 * @param string $type
+	 * @param string|bool $type
 	 */
-	public function setFormFieldType( string $type ) : void;
+	public function setFormFieldType( string|bool $type ) : void;
 
 	/**
 	 * @return string
