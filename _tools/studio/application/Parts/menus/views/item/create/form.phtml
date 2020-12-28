@@ -7,7 +7,7 @@ use Jet\UI;
 
 $form = Menus_Menu_Item::getCreateForm();
 
-$form->getField('label')->input()->addJsAction('onkeyup', 'JetStudio.Menus.createMenuItem.generateId(this.value);');
+$form->getField('label')->input()->addJsAction('onkeyup', 'Menus.createMenuItem.generateId(this.value);');
 
 $form->setDefaultLabelWidth( [ Form::LJ_SIZE_MEDIUM => 3 ] );
 $form->setDefaultFieldWidth( [ Form::LJ_SIZE_MEDIUM => 9 ] );

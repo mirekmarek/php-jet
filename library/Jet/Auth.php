@@ -67,9 +67,9 @@ class Auth extends BaseObject
 
 	/**
 	 *
-	 * @return Auth_User_Interface|null
+	 * @return Auth_User_Interface|bool
 	 */
-	public static function getCurrentUser() : Auth_User_Interface|null
+	public static function getCurrentUser() : Auth_User_Interface|bool
 	{
 		return static::getController()->getCurrentUser();
 	}

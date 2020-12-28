@@ -7,7 +7,6 @@
  */
 namespace JetStudio;
 
-use Jet\Auth;
 use Jet\Form;
 use Jet\Form_Field_Input;
 use Jet\Form_Field_Password;
@@ -23,14 +22,14 @@ use Jet\UI_messages;
 class AccessControl {
 
 	/**
-	 * @var Session
+	 * @var ?Session
 	 */
-	protected static $session;
+	protected static ?Session $session = null;
 
 	/**
 	 *
 	 */
-	public static function handle()
+	public static function handle() : void
 	{
 		Application::setCurrentPart( 'login' );
 
@@ -50,7 +49,7 @@ class AccessControl {
 	/**
 	 *
 	 */
-	protected static function handle_keyFileProblem()
+	protected static function handle_keyFileProblem() : void
 	{
 		Application::getLayout( 'login' );
 		Application::output( Application::getView()->render('error') );
@@ -62,7 +61,7 @@ class AccessControl {
 	/**
 	 *
 	 */
-	protected static function handle_login()
+	protected static function handle_login() : void
 	{
 		$form = static::getLoginForm();
 
@@ -95,7 +94,7 @@ class AccessControl {
 	/**
 	 *
 	 */
-	public static function logout()
+	public static function logout() : void
 	{
 		static::getSession()->unsetValue('username');
 	}
@@ -104,7 +103,7 @@ class AccessControl {
 	/**
 	 * @return Form
 	 */
-	public static function getLoginForm()
+	public static function getLoginForm() : Form
 	{
 		$username_field = new Form_Field_Input( 'username', 'Username: ' );
 		$username_field->setErrorMessages(
@@ -139,7 +138,7 @@ class AccessControl {
 	/**
 	 * @return Session
 	 */
-	protected static function getSession()
+	protected static function getSession() : Session
 	{
 		if(!static::$session) {
 			static::$session = new Session('_jet_studio_sess');
@@ -149,9 +148,9 @@ class AccessControl {
 	}
 
 	/**
-	 * @return false|array
+	 * @return bool|array
 	 */
-	protected static function readKey()
+	protected static function readKey() : bool|array
 	{
 		$path  = ProjectConf_PATH::DATA().'_jet_studio_access.php';
 
@@ -183,7 +182,7 @@ class AccessControl {
 	 * @param string $password
 	 * @return bool
 	 */
-	protected static function checkKey( $username, $password )
+	protected static function checkKey( string $username, string $password ) : bool
 	{
 
 		$key = static::readKey();

@@ -25,14 +25,14 @@ class DataModel_Definition_Model_Related_1toN extends Jet_DataModel_Definition_M
 
 
 	/**
-	 * @var Form
+	 * @var ?Form
 	 */
-	protected static Form $create_form;
+	protected static ?Form $create_form = null;
 
 	/**
 	 * @return Form
 	 */
-	public static function getCreateForm()
+	public static function getCreateForm() : Form
 	{
 		if(!static::$create_form) {
 			static::$create_form = DataModel_Definition_Model_Trait::getCreateForm_Related('1toN');
@@ -44,7 +44,7 @@ class DataModel_Definition_Model_Related_1toN extends Jet_DataModel_Definition_M
 	/**
 	 * @return bool|DataModel_Definition_Model_Related_1toN
 	 */
-	public static function catchCreateForm()
+	public static function catchCreateForm() : bool|DataModel_Definition_Model_Related_1toN
 	{
 		$form = static::getCreateForm();
 
@@ -70,7 +70,7 @@ class DataModel_Definition_Model_Related_1toN extends Jet_DataModel_Definition_M
 	/**
 	 * @return ClassCreator_Class
 	 */
-	public function createClass_initClass()
+	public function createClass_initClass() : ClassCreator_Class
 	{
 		$class = new ClassCreator_Class();
 
@@ -89,7 +89,7 @@ class DataModel_Definition_Model_Related_1toN extends Jet_DataModel_Definition_M
 	/**
 	 * @param ClassCreator_Class $class
 	 */
-	public function createClass_main( ClassCreator_Class $class )
+	public function createClass_main( ClassCreator_Class $class ) : void
 	{
 		$class->addAnnotation(
 			(new ClassCreator_Annotation('JetDataModel', 'name', var_export($this->getModelName(), true)) )
@@ -175,7 +175,7 @@ class DataModel_Definition_Model_Related_1toN extends Jet_DataModel_Definition_M
 	/**
 	 * @return array
 	 */
-	public function getOrderByOptions()
+	public function getOrderByOptions() : array
 	{
 		$res = [];
 

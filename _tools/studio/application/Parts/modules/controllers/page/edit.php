@@ -11,12 +11,12 @@ $page = Modules::getCurrentPage();
 
 $res = false;
 if($page) {
-	switch(Modules::getCurrentPage_whatToEdit()) {
-		case 'main': $res = $page->catchEditForm_main(); break;
-		case 'content': $res = $page->catchEditForm_content(); break;
-		case 'static_content': $res = $page->catchEditForm_static_content(); break;
-		case 'callback': $res = $page->catchEditForm_callback(); break;
-	}
+	$res = match (Modules::getCurrentPage_whatToEdit()) {
+		'main' => $page->catchEditForm_main(),
+		'content' => $page->catchEditForm_content(),
+		'static_content' => $page->catchEditForm_static_content(),
+		'callback' => $page->catchEditForm_callback(),
+	};
 }
 
 if($res) {

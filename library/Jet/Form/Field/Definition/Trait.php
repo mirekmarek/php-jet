@@ -108,9 +108,9 @@ trait Form_Field_Definition_Trait
 	}
 
 	/**
-	 * @return callable
+	 * @return callable|null
 	 */
-	public function getFormFieldGetSelectOptionsCallback() : callable
+	public function getFormFieldGetSelectOptionsCallback() : callable|null
 	{
 		return $this->form_field_get_select_options_callback;
 	}

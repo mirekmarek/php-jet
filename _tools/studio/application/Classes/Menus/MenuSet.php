@@ -23,22 +23,20 @@ use Jet\Navigation_MenuSet;
 class Menus_MenuSet extends Navigation_MenuSet
 {
 
-
+	/**
+	 * @var ?Form
+	 */
+	protected static ?Form $create_form = null;
 
 	/**
-	 * @var Form
+	 * @var ?Form
 	 */
-	protected static $create_form;
-
-	/**
-	 * @var Form
-	 */
-	protected $__edit_form;
+	protected ?Form $__edit_form = null;
 
 	/**
 	 * @param string $name
 	 */
-	public function __construct( $name='' )
+	public function __construct( string $name='' )
 	{
 		$this->translator_namespace = false;
 
@@ -51,7 +49,7 @@ class Menus_MenuSet extends Navigation_MenuSet
 	/**
 	 *
 	 */
-	protected function init()
+	protected function init() : void
 	{
 		$menu_data = require $this->config_file_path;
 
@@ -91,7 +89,7 @@ class Menus_MenuSet extends Navigation_MenuSet
 	 *
 	 * @return Navigation_Menu
 	 */
-	public function addMenu( $id, $label, $icon = '', $index = null  )
+	public function addMenu( string $id, string $label, string $icon = '', int|null $index = null  ) : Navigation_Menu
 	{
 		if( isset( $this->menus[$id] ) ) {
 			throw new Navigation_Menu_Exception( 'Menu ID conflict: '.$id.' Menu set:'.$this->name );
@@ -114,7 +112,7 @@ class Menus_MenuSet extends Navigation_MenuSet
 	/**
 	 * @return Form
 	 */
-	public static function getCreateForm()
+	public static function getCreateForm() : Form
 	{
 		if(!static::$create_form) {
 
@@ -143,7 +141,7 @@ class Menus_MenuSet extends Navigation_MenuSet
 	/**
 	 * @return bool|Menus_MenuSet
 	 */
-	public static function catchCreateForm()
+	public static function catchCreateForm() : bool|Menus_MenuSet
 	{
 		$form = static::getCreateForm();
 		if(
@@ -166,7 +164,7 @@ class Menus_MenuSet extends Navigation_MenuSet
 	 * @return Form
 	 *
 	 */
-	public function getEditForm()
+	public function getEditForm() : Form
 	{
 		if(!$this->__edit_form) {
 
@@ -185,7 +183,7 @@ class Menus_MenuSet extends Navigation_MenuSet
 	/**
 	 * @return bool
 	 */
-	public function catchEditForm()
+	public function catchEditForm() : bool
 	{
 		$form = $this->getEditForm();
 
@@ -213,11 +211,11 @@ class Menus_MenuSet extends Navigation_MenuSet
 
 	/**
 	 * @param string $name
-	 * @param string|null|false $translator_namespace
+	 * @param string|null|bool $translator_namespace
 	 *
 	 * @return Menus_MenuSet
 	 */
-	public static function get($name, $translator_namespace=null)
+	public static function get(string $name, string|null|bool $translator_namespace=null) : Menus_MenuSet
 	{
 		$translator_namespace = false;
 
@@ -228,16 +226,15 @@ class Menus_MenuSet extends Navigation_MenuSet
 	/**
 	 * @return Menus_MenuSet[]
 	 */
-	public static function getList()
+	public static function getList() : array
 	{
-		/** @noinspection PhpIncompatibleReturnTypeInspection */
 		return parent::getList();
 	}
 
 		/**
 	 * @return Navigation_Menu[]
 	 */
-	public function getMenus()
+	public function getMenus() : array
 	{
 		return parent::getMenus();
 	}
@@ -249,7 +246,7 @@ class Menus_MenuSet extends Navigation_MenuSet
 	 *
 	 * @return Navigation_Menu|null
 	 */
-	public function getMenu( $id )
+	public function getMenu( string $id ) : Navigation_Menu|null
 	{
 		return parent::getMenu($id);
 	}
@@ -257,7 +254,7 @@ class Menus_MenuSet extends Navigation_MenuSet
 	/**
 	 *
 	 */
-	public function sortMenus()
+	public function sortMenus() : void
 	{
 		uasort( $this->menus, function( Menus_Menu $a, Menus_Menu $b ) {
 			if($a->getIndex()==$b->getIndex()) {
@@ -284,7 +281,7 @@ class Menus_MenuSet extends Navigation_MenuSet
 	/**
 	 * @param Menus_Menu $menu
 	 */
-	public function appendMenu( Menus_Menu $menu )
+	public function appendMenu( Menus_Menu $menu ) : void
 	{
 		$this->menus[$menu->getId()] = $menu;
 
@@ -296,7 +293,7 @@ class Menus_MenuSet extends Navigation_MenuSet
 	 *
 	 * @return Menus_Menu|null
 	 */
-	public function deleteMenu( $menu_id )
+	public function deleteMenu( string $menu_id ) : Menus_Menu|null
 	{
 		if(!isset($this->menus[$menu_id])) {
 			return null;
@@ -312,7 +309,7 @@ class Menus_MenuSet extends Navigation_MenuSet
 	/**
 	 * @return bool
 	 */
-	public function save()
+	public function save() : bool
 	{
 
 		$ok = true;

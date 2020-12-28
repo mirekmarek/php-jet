@@ -7,6 +7,7 @@
  */
 namespace JetApplicationModule\ManageAccess\Administrators\Users;
 
+use Jet\DataModel_Fetch_Instances;
 use JetApplication\Auth_Administrator_User as User;
 use JetApplication\Auth_Administrator_Role as Role;
 
@@ -52,9 +53,10 @@ class Listing extends Data_Listing {
 	protected string $role = '';
 
 	/**
-	 * @return User[]
+	 * @return User[]|DataModel_Fetch_Instances
+	 * @noinspection PhpDocSignatureInspection
 	 */
-	protected function getList() : iterable
+	protected function getList() : DataModel_Fetch_Instances
 	{
 		return User::getList();
 	}

@@ -7,6 +7,7 @@
  */
 namespace JetStudio;
 
+
 use Jet\Debug;
 use Jet\Debug_ErrorHandler_Handler;
 use Jet\Debug_ErrorHandler_Error;
@@ -19,17 +20,18 @@ class ErrorHandler_Display extends Debug_ErrorHandler_Handler
 	/**
 	 * @return string
 	 */
-	public function getName() {
+	public function getName() : string
+	{
 		return 'Display';
 	}
 
 	/**
 	 * @param Debug_ErrorHandler_Error $error
 	 */
-	public function handle( Debug_ErrorHandler_Error $error )
+	public function handle( Debug_ErrorHandler_Error $error ) : void
 	{
 		if( Debug::getOutputIsHTML() ) {
-			echo $this->display($error);
+			$this->display($error);
 		} else {
 			echo $error->toString();
 		}
@@ -38,7 +40,7 @@ class ErrorHandler_Display extends Debug_ErrorHandler_Handler
 	/**
 	 * @return bool
 	 */
-	public function errorDisplayed()
+	public function errorDisplayed() : bool
 	{
 		return true;
 	}
@@ -49,7 +51,7 @@ class ErrorHandler_Display extends Debug_ErrorHandler_Handler
 	 * @param  Debug_ErrorHandler_Error $e
 	 *
 	 */
-	public function display( Debug_ErrorHandler_Error $e )
+	public function display( Debug_ErrorHandler_Error $e ) : void
 	{
 
 		?>
@@ -120,7 +122,7 @@ class ErrorHandler_Display extends Debug_ErrorHandler_Handler
 	 *
 	 * @return string
 	 */
-	protected static function encode( $html )
+	protected static function encode( string $html ) : string
 	{
 		return nl2br( htmlspecialchars( $html, ENT_QUOTES ) );
 	}

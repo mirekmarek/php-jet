@@ -15,19 +15,19 @@ class DataModel_Namespace {
 	/**
 	 * @var string
 	 */
-	protected $namespace = '';
+	protected string $namespace = '';
 
 	/**
 	 * @var string
 	 */
-	protected $root_dir = '';
+	protected string $root_dir = '';
 
 	/**
 	 *
 	 * @param string $namespace
 	 * @param string $root_dir
 	 */
-	public function __construct( $namespace, $root_dir )
+	public function __construct( string $namespace, string $root_dir )
 	{
 		$this->namespace = $namespace;
 		$this->root_dir = $root_dir;
@@ -36,7 +36,7 @@ class DataModel_Namespace {
 	/**
 	 * @return string
 	 */
-	public function getNamespace()
+	public function getNamespace() : string
 	{
 		return $this->namespace;
 	}
@@ -44,7 +44,7 @@ class DataModel_Namespace {
 	/**
 	 * @return string
 	 */
-	public function getRootDir()
+	public function getRootDir() : string
 	{
 		return $this->root_dir;
 	}
@@ -52,7 +52,7 @@ class DataModel_Namespace {
 	/**
 	 * @return string
 	 */
-	public function __toString()
+	public function __toString() : string
 	{
 		return $this->namespace;
 	}

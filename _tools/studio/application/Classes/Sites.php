@@ -23,24 +23,24 @@ use Jet\SysConf_URI;
 class Sites extends BaseObject implements Application_Part
 {
 	/**
-	 * @var Sites_Site|bool
+	 * @var Sites_Site|bool|null
 	 */
-	protected static $__current_site;
+	protected static Sites_Site|bool|null $__current_site = null;
 
 	/**
-	 * @var Form
+	 * @var ?Form
 	 */
-	protected static $create_form;
+	protected static ?Form $create_form = null;
 
 
 	/**
-	 * @param $action
+	 * @param string $action
 	 * @param array $custom_get_params
 	 * @param string|null $custom_site_id
 	 *
-	 * @return string $url
+	 * @return string
 	 */
-	public static function getActionUrl( $action, array $custom_get_params=[], $custom_site_id=null )
+	public static function getActionUrl( string $action, array $custom_get_params=[], ?string $custom_site_id=null )
 	{
 
 		$get_params = [];
@@ -73,9 +73,8 @@ class Sites extends BaseObject implements Application_Part
 	/**
 	 * @return Sites_Site[]
 	 */
-	public static function load()
+	public static function load() : array
 	{
-		/** @noinspection PhpIncompatibleReturnTypeInspection */
 		return Sites_Site::loadSites();
 	}
 
@@ -83,7 +82,7 @@ class Sites extends BaseObject implements Application_Part
 	/**
 	 * @return Sites_Site[]
 	 */
-	public static function getSites()
+	public static function getSites() : array
 	{
 		$sites = static::load();
 
@@ -104,7 +103,7 @@ class Sites extends BaseObject implements Application_Part
 	 *
 	 * @return null|Sites_Site
 	 */
-	public static function getSite( $id )
+	public static function getSite( string $id ) : null|Sites_Site
 	{
 		$sites = static::load();
 
@@ -119,7 +118,7 @@ class Sites extends BaseObject implements Application_Part
 	/**
 	 * @return string|bool
 	 */
-	public static function getCurrentSiteId()
+	public static function getCurrentSiteId() : string|bool
 	{
 		if(static::getCurrentSite()) {
 			return static::getCurrentSite()->getId();
@@ -130,9 +129,9 @@ class Sites extends BaseObject implements Application_Part
 
 
 	/**
-	 * @return null|Sites_Site
+	 * @return bool|Sites_Site
 	 */
-	public static function getCurrentSite()
+	public static function getCurrentSite() : bool|Sites_Site
 	{
 		if(static::$__current_site===null) {
 			$id = Http_Request::GET()->getString('site');
@@ -154,7 +153,7 @@ class Sites extends BaseObject implements Application_Part
 	/**
 	 * @return Form
 	 */
-	public static function getCreateForm()
+	public static function getCreateForm() : Form
 	{
 		if(!static::$create_form) {
 
@@ -180,7 +179,7 @@ class Sites extends BaseObject implements Application_Part
 
 				if(
 					!preg_match('/^[a-zA-Z0-9\-]{2,}$/i', $id) ||
-					strpos( $id, '--' )!==false
+					str_contains( $id, '--' )
 				) {
 					$field->setError(Form_Field_Input::ERROR_CODE_INVALID_FORMAT);
 
@@ -280,7 +279,7 @@ class Sites extends BaseObject implements Application_Part
 	/**
 	 * @return bool|Sites_Site
 	 */
-	public static function catchCreateForm()
+	public static function catchCreateForm() : bool|Sites_Site
 	{
 		$form = static::getCreateForm();
 		if(
@@ -344,7 +343,7 @@ class Sites extends BaseObject implements Application_Part
 	 *
 	 * @return bool
 	 */
-	public static function exists( $site_id )
+	public static function exists( string $site_id ) : bool
 	{
 		foreach( static::getSites() as $site ) {
 			if($site->getId()==$site_id ) {

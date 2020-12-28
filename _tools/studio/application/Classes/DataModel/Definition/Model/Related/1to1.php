@@ -8,10 +8,7 @@
 namespace JetStudio;
 
 use Jet\DataModel_Definition_Model_Related_1to1 as Jet_DataModel_Definition_Model_Related_1to1;
-use Jet\DataModel_Exception;
 use Jet\Form;
-use Jet\Form_Field_Input;
-use Jet\Form_Field_Select;
 use Jet\Tr;
 
 /**
@@ -26,14 +23,14 @@ class DataModel_Definition_Model_Related_1to1 extends Jet_DataModel_Definition_M
 	protected string $internal_type = DataModels::MODEL_TYPE_RELATED_1TO1;
 
 	/**
-	 * @var Form
+	 * @var ?Form
 	 */
-	protected static Form $create_form;
+	protected static ?Form $create_form = null;
 
 	/**
 	 * @return Form
 	 */
-	public static function getCreateForm()
+	public static function getCreateForm() : Form
 	{
 		if(!static::$create_form) {
 			static::$create_form = DataModel_Definition_Model_Trait::getCreateForm_Related('1to1');
@@ -45,7 +42,7 @@ class DataModel_Definition_Model_Related_1to1 extends Jet_DataModel_Definition_M
 	/**
 	 * @return bool|DataModel_Definition_Model_Related_1to1
 	 */
-	public static function catchCreateForm()
+	public static function catchCreateForm() : bool|DataModel_Definition_Model_Related_1to1
 	{
 		$form = static::getCreateForm();
 
@@ -72,7 +69,7 @@ class DataModel_Definition_Model_Related_1to1 extends Jet_DataModel_Definition_M
 	/**
 	 * @return ClassCreator_Class
 	 */
-	public function createClass_initClass()
+	public function createClass_initClass() : ClassCreator_Class
 	{
 
 		$class = new ClassCreator_Class();
@@ -92,7 +89,7 @@ class DataModel_Definition_Model_Related_1to1 extends Jet_DataModel_Definition_M
 	/**
 	 * @param ClassCreator_Class $class
 	 */
-	public function createClass_main( ClassCreator_Class $class )
+	public function createClass_main( ClassCreator_Class $class ) : void
 	{
 
 		$class->addAnnotation(

@@ -19,24 +19,24 @@ class Menus extends BaseObject implements Application_Part
 
 
 	/**
-	 * @var Menus_MenuSet
+	 * @var Menus_MenuSet|null|bool
 	 */
-	protected static $__current_menu_set;
+	protected static Menus_MenuSet|null|bool $__current_menu_set = null;
 
 
 	/**
-	 * @var Menus_Menu
+	 * @var Menus_Menu|null|bool
 	 */
-	protected static $__current_menu;
+	protected static Menus_Menu|null|bool $__current_menu = null;
 
 	/**
-	 * @var Menus_Menu_Item
+	 * @var Menus_Menu_Item|null|bool
 	 */
-	protected static $__current_menu_item;
+	protected static Menus_Menu_Item|null|bool $__current_menu_item = null;
 
 
 	/**
-	 * @param $action
+	 * @param string $action
 	 * @param array $custom_get_params
 	 * @param string|null $custom_menu_set
 	 * @param string|null $custom_menu_id
@@ -45,11 +45,11 @@ class Menus extends BaseObject implements Application_Part
 	 * @return string $url
 	 */
 	public static function getActionUrl(
-		$action,
+		string $action,
 		array $custom_get_params=[],
-		$custom_menu_set=null,
-		$custom_menu_id=null,
-		$custom_menu_item_id=null
+		?string $custom_menu_set=null,
+		?string $custom_menu_id=null,
+		?string $custom_menu_item_id=null
 	)
 	{
 
@@ -108,7 +108,7 @@ class Menus extends BaseObject implements Application_Part
 	/**
 	 * @return string|bool
 	 */
-	public static function getCurrentMenuSetName()
+	public static function getCurrentMenuSetName() : string|bool
 	{
 		if(static::getCurrentMenuSet()) {
 			return static::getCurrentMenuSet()->getName();
@@ -121,7 +121,7 @@ class Menus extends BaseObject implements Application_Part
 	/**
 	 * @return null|Menus_MenuSet
 	 */
-	public static function getCurrentMenuSet()
+	public static function getCurrentMenuSet() : null|Menus_MenuSet
 	{
 		if(static::$__current_menu_set===null) {
 			$id = Http_Request::GET()->getString('set');
@@ -143,7 +143,7 @@ class Menus extends BaseObject implements Application_Part
 	/**
 	 * @return string|bool
 	 */
-	public static function getCurrentMenuId()
+	public static function getCurrentMenuId() : string|bool
 	{
 		if(static::getCurrentMenu()) {
 			return static::getCurrentMenu()->getId();
@@ -156,7 +156,7 @@ class Menus extends BaseObject implements Application_Part
 	/**
 	 * @return Menus_Menu|null
 	 */
-	public static function getCurrentMenu()
+	public static function getCurrentMenu() : Menus_Menu|null
 	{
 		if(!($set = static::getCurrentMenuSet())) {
 			return null;
@@ -185,7 +185,7 @@ class Menus extends BaseObject implements Application_Part
 	/**
 	 * @return string|bool
 	 */
-	public static function getCurrentMenuItemId()
+	public static function getCurrentMenuItemId() : string|bool
 	{
 		if(static::getCurrentMenuItem()) {
 			return static::getCurrentMenuItem()->getId();
@@ -198,7 +198,7 @@ class Menus extends BaseObject implements Application_Part
 	/**
 	 * @return Menus_Menu_Item|null
 	 */
-	public static function getCurrentMenuItem()
+	public static function getCurrentMenuItem() : Menus_Menu_Item|null
 	{
 		if(!($menu = static::getCurrentMenu())) {
 			return null;
@@ -229,7 +229,7 @@ class Menus extends BaseObject implements Application_Part
 	 *
 	 * @return Menus_MenuSet|null
 	 */
-	public static function getSet( $name )
+	public static function getSet( string $name ) : Menus_MenuSet|null
 	{
 		return Menus_MenuSet::get($name);
 	}
@@ -237,18 +237,18 @@ class Menus extends BaseObject implements Application_Part
 	/**
 	 * @return Menus_MenuSet[]
 	 */
-	public static function getSets()
+	public static function getSets() : array
 	{
 		return Menus_MenuSet::getList();
 	}
 
 
 	/**
-	 * @param $id
+	 * @param string $id
 	 *
 	 * @return bool
 	 */
-	public static function menuExists( $id )
+	public static function menuExists( string $id ) : bool
 	{
 		$set = static::getCurrentMenuSet();
 		if(!$set) {
@@ -266,11 +266,11 @@ class Menus extends BaseObject implements Application_Part
 
 
 	/**
-	 * @param $id
+	 * @param string $id
 	 *
 	 * @return bool
 	 */
-	public static function menuItemExists( $id )
+	public static function menuItemExists( string $id ) : bool
 	{
 		$menu = static::getCurrentMenu();
 		if(!$menu) {
@@ -285,8 +285,5 @@ class Menus extends BaseObject implements Application_Part
 
 		return true;
 	}
-
-
-
 
 }

@@ -13,34 +13,34 @@ namespace JetStudio;
 class ClassParser_Class_AbstractMethod extends ClassParser_Class_Element
 {
 	/**
-	 * @var ClassParser_Token
+	 * @var ?ClassParser_Token
 	 */
-	public $doc_comment;
+	public ?ClassParser_Token $doc_comment = null;
 
 	/**
 	 * @var string
 	 */
-	public $name = '';
+	public string $name = '';
 
 	/**
 	 * @var string
 	 */
-	public $param_declaration = '';
+	public string $param_declaration = '';
 
 	/**
 	 * @var string
 	 */
-	public $visibility = ClassParser::VISIBILITY_PUBLIC;
+	public string $visibility = ClassParser::VISIBILITY_PUBLIC;
 
 	/**
-	 * @var ClassParser_Token
+	 * @var ?ClassParser_Token
 	 */
-	public $declaration_start;
+	public ?ClassParser_Token $declaration_start = null;
 
 	/**
-	 * @var ClassParser_Token
+	 * @var ?ClassParser_Token
 	 */
-	public $declaration_end;
+	public ?ClassParser_Token $declaration_end = null;
 
 
 	/**
@@ -167,7 +167,7 @@ class ClassParser_Class_AbstractMethod extends ClassParser_Class_Element
 	/**
 	 *
 	 */
-	public function debug_showResult()
+	public function debug_showResult() : void
 	{
 		$parser = $this->parser;
 

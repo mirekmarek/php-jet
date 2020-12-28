@@ -17,42 +17,42 @@ class DataModel_Class {
 	/**
 	 * @var string
 	 */
-	protected $script_path = '';
+	protected string $script_path = '';
 
 	/**
-	 * @var ReflectionClass
+	 * @var ?ReflectionClass
 	 */
-	protected $reflection;
-
-	/**
-	 * @var string
-	 */
-	protected $namespace = '';
+	protected ?ReflectionClass $reflection = null;
 
 	/**
 	 * @var string
 	 */
-	protected $class_name = '';
-
-	/**
-	 * @var array
-	 */
-	protected $_parents;
-
-	/**
-	 * @var DataModel_Definition_Model_Main|DataModel_Definition_Model_Related_1to1|DataModel_Definition_Model_Related_1toN|DataModel_Definition_Model_Related_MtoN
-	 */
-	protected $definition;
+	protected string $namespace = '';
 
 	/**
 	 * @var string
 	 */
-	protected $error = '';
+	protected string $class_name = '';
+
+	/**
+	 * @var array|null
+	 */
+	protected array|null $_parents = null;
+
+	/**
+	 * @var DataModel_Definition_Model_Main|DataModel_Definition_Model_Related_1to1|DataModel_Definition_Model_Related_1toN|DataModel_Definition_Model_Related_MtoN|null
+	 */
+	protected DataModel_Definition_Model_Main|DataModel_Definition_Model_Related_1to1|DataModel_Definition_Model_Related_1toN|DataModel_Definition_Model_Related_MtoN|null $definition = null;
+
+	/**
+	 * @var string
+	 */
+	protected string $error = '';
 
 	/**
 	 * @var bool
 	 */
-	protected $is_new = false;
+	protected bool $is_new = false;
 
 	/**
 	 * @param string $script_path
@@ -60,7 +60,7 @@ class DataModel_Class {
 	 * @param string $class_name
 	 * @param ReflectionClass|null $reflection
 	 */
-	public function __construct( $script_path, $namespace, $class_name, ReflectionClass $reflection=null )
+	public function __construct( string $script_path, string $namespace, string $class_name, ReflectionClass $reflection=null )
 	{
 		$this->script_path = $script_path;
 		$this->reflection = $reflection;
@@ -71,7 +71,7 @@ class DataModel_Class {
 	/**
 	 * @return bool
 	 */
-	public function isIsNew()
+	public function isIsNew() : bool
 	{
 		return $this->is_new;
 	}
@@ -79,7 +79,7 @@ class DataModel_Class {
 	/**
 	 * @param bool $is_new
 	 */
-	public function setIsNew( $is_new )
+	public function setIsNew( bool $is_new ) : void
 	{
 		$this->is_new = $is_new;
 	}
@@ -89,7 +89,7 @@ class DataModel_Class {
 	/**
 	 * @return string
 	 */
-	public function getScriptPath()
+	public function getScriptPath() : string
 	{
 		return $this->script_path;
 	}
@@ -97,7 +97,7 @@ class DataModel_Class {
 	/**
 	 * @return string
 	 */
-	public function getNamespace()
+	public function getNamespace() : string
 	{
 		return $this->namespace;
 	}
@@ -105,7 +105,7 @@ class DataModel_Class {
 	/**
 	 * @return string
 	 */
-	public function getClassName()
+	public function getClassName() : string
 	{
 		return $this->class_name;
 	}
@@ -113,7 +113,7 @@ class DataModel_Class {
 	/**
 	 * @return ReflectionClass
 	 */
-	public function getReflection()
+	public function getReflection() : ReflectionClass
 	{
 		return $this->reflection;
 	}
@@ -123,7 +123,7 @@ class DataModel_Class {
 	/**
 	 * @return string
 	 */
-	public function getFullClassName()
+	public function getFullClassName() : string
 	{
 		return $this->namespace.'\\'.$this->class_name;
 	}
@@ -131,7 +131,7 @@ class DataModel_Class {
 	/**
 	 * @return DataModel_Definition_Model_Main|DataModel_Definition_Model_Related_1to1|DataModel_Definition_Model_Related_1toN|DataModel_Definition_Model_Related_MtoN
 	 */
-	public function getDefinition()
+	public function getDefinition() : DataModel_Definition_Model_Main|DataModel_Definition_Model_Related_1to1|DataModel_Definition_Model_Related_1toN|DataModel_Definition_Model_Related_MtoN
 	{
 		return $this->definition;
 	}
@@ -139,7 +139,7 @@ class DataModel_Class {
 	/**
 	 * @param DataModel_Definition_Model_Main|DataModel_Definition_Model_Related_1to1|DataModel_Definition_Model_Related_1toN|DataModel_Definition_Model_Related_MtoN $definition
 	 */
-	public function setDefinition( $definition )
+	public function setDefinition( DataModel_Definition_Model_Main|DataModel_Definition_Model_Related_1to1|DataModel_Definition_Model_Related_1toN|DataModel_Definition_Model_Related_MtoN $definition )
 	{
 		$definition->setClass( $this );
 
@@ -149,7 +149,7 @@ class DataModel_Class {
 	/**
 	 * @return string
 	 */
-	public function getError()
+	public function getError() : string
 	{
 		return $this->error;
 	}
@@ -157,7 +157,7 @@ class DataModel_Class {
 	/**
 	 * @param string $error
 	 */
-	public function setError( $error )
+	public function setError( string $error ) : void
 	{
 		$this->error = $error;
 	}
@@ -165,7 +165,7 @@ class DataModel_Class {
 	/**
 	 * @return array
 	 */
-	public function getImplements()
+	public function getImplements() : array
 	{
 		if(!$this->reflection) {
 			return [];
@@ -176,7 +176,7 @@ class DataModel_Class {
 	/**
 	 * @return bool
 	 */
-	public function isAbstract()
+	public function isAbstract() : bool
 	{
 		if(!$this->reflection) {
 			return false;
@@ -188,7 +188,7 @@ class DataModel_Class {
 	/**
 	 * @return string
 	 */
-	public function getExtends()
+	public function getExtends() : string
 	{
 		if(!$this->reflection) {
 			return '';
@@ -200,7 +200,7 @@ class DataModel_Class {
 	/**
 	 * @return array
 	 */
-	public function getParents()
+	public function getParents() : array
 	{
 		if($this->_parents===null) {
 			$this->_parents = [];
@@ -229,7 +229,7 @@ class DataModel_Class {
 	 *
 	 * @return bool
 	 */
-	public function isDescendantOf( DataModel_Class $class )
+	public function isDescendantOf( DataModel_Class $class ) : bool
 	{
 		$parents = $this->getParents();
 
@@ -239,9 +239,9 @@ class DataModel_Class {
 	/**
 	 * @param string $property_name
 	 *
-	 * @return false|string
+	 * @return bool|string
 	 */
-	public function getPropertyDeclaringClass( $property_name )
+	public function getPropertyDeclaringClass( string $property_name ) : bool|string
 	{
 		$parents = $this->getParents();
 

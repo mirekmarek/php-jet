@@ -20,7 +20,7 @@ class DataModel_Definition_Property_DataModel extends Jet_DataModel_Definition_P
 	/**
 	 * @param Form_Field[] &$fields
 	 */
-	public function getEditFormCustomFields( &$fields )
+	public function getEditFormCustomFields( array &$fields ) : void
 	{
 		$remove = [
 			'type',
@@ -38,7 +38,7 @@ class DataModel_Definition_Property_DataModel extends Jet_DataModel_Definition_P
 	/**
 	 * @return string
 	 */
-	public function getDataModelClass()
+	public function getDataModelClass() : string
 	{
 		return $this->data_model_class;
 	}
@@ -46,7 +46,7 @@ class DataModel_Definition_Property_DataModel extends Jet_DataModel_Definition_P
 	/**
 	 *
 	 */
-	public function showEditFormFields()
+	public function showEditFormFields() : void
 	{
 
 		$related_class = DataModels::getClass( $this->getDataModelClass() );
@@ -68,7 +68,7 @@ class DataModel_Definition_Property_DataModel extends Jet_DataModel_Definition_P
 	 *
 	 * @return ClassCreator_Class_Property
 	 */
-	public function createClassProperty( ClassCreator_Class $class )
+	public function createClassProperty( ClassCreator_Class $class ) : ClassCreator_Class_Property
 	{
 		$related_dm = DataModels::getClass( $this->getDataModelClass() )->getDefinition();
 		$annotations = [];
@@ -142,7 +142,7 @@ class DataModel_Definition_Property_DataModel extends Jet_DataModel_Definition_P
 	 * @param ClassCreator_Class $class
 	 *
 	 */
-	public function createClassMethods( ClassCreator_Class $class )
+	public function createClassMethods( ClassCreator_Class $class ) : void
 	{
 
 		$s_g_method_name = $this->getSetterGetterMethodName();

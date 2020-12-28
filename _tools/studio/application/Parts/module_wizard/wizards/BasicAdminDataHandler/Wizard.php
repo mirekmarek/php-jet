@@ -30,29 +30,29 @@ class Wizard extends ModuleWizard {
 	/**
 	 * @var string
 	 */
-	protected $title = 'Basic administration module for DataModel';
+	protected string $title = 'Basic administration module for DataModel';
 
 	/**
 	 * @var string
 	 */
-	protected $description = 'Create basic module which allows to create, edit and delete data entity';
+	protected string $description = 'Create basic module which allows to create, edit and delete data entity';
 
 	/**
 	 * @var string
 	 */
-	protected $data_model_class_name = '';
+	protected string $data_model_class_name = '';
 
 	/**
-	 * @var Form
+	 * @var ?Form
 	 */
-	protected $select_data_model_form;
+	protected ?Form $select_data_model_form = null;
 
 	
 
 	/**
 	 *
 	 */
-	public function init()
+	public function init() : void
 	{
 		$data_model_list = [];
 
@@ -144,7 +144,7 @@ class Wizard extends ModuleWizard {
 	/**
 	 * @return string
 	 */
-	public function getDataModelClassname()
+	public function getDataModelClassname() : string
 	{
 		return $this->data_model_class_name;
 	}
@@ -152,7 +152,7 @@ class Wizard extends ModuleWizard {
 	/**
 	 * @return Form
 	 */
-	public function getSetupForm()
+	public function getSetupForm() : Form
 	{
 		parent::getSetupForm();
 
@@ -168,7 +168,7 @@ class Wizard extends ModuleWizard {
 	/**
 	 * @return Form
 	 */
-	public function generateSetupForm()
+	public function generateSetupForm() : Form
 	{
 		$fields = [];
 
@@ -226,7 +226,7 @@ class Wizard extends ModuleWizard {
 	/**
 	 * @param array $fields
 	 */
-	public function generateSetupForm_ACL( array &$fields )
+	public function generateSetupForm_ACL( array &$fields ) : void
 	{
 		$acl_entity_name =new Form_Field_Input('ACL_ENTITY_NAME', 'ACL entity name:' );
 		$acl_entity_name->setIsRequired(true);
@@ -258,7 +258,7 @@ class Wizard extends ModuleWizard {
 	/**
 	 * @param array $fields
 	 */
-	public function generateSetupForm_dataModel( array &$fields )
+	public function generateSetupForm_dataModel( array &$fields ) : void
 	{
 
 		if(!$this->data_model_class_name) {
@@ -403,7 +403,7 @@ class Wizard extends ModuleWizard {
 	/**
 	 * @param array $fields
 	 */
-	public function generateSetupForm_page( array &$fields )
+	public function generateSetupForm_page( array &$fields ) : void
 	{
 
 		$sites_list = [''=>''];
@@ -490,7 +490,7 @@ class Wizard extends ModuleWizard {
 	/**
 	 * @param array $fields
 	 */
-	public function generateSetupForm_menuItem( array &$fields )
+	public function generateSetupForm_menuItem( array &$fields ) : void
 	{
 		$menus_list = [''=>''];
 
@@ -530,7 +530,7 @@ class Wizard extends ModuleWizard {
 	/**
 	 * @param array $fields
 	 */
-	public function generateSetupForm_texts( array &$fields )
+	public function generateSetupForm_texts( array &$fields ) : void
 	{
 
 		$scope = [
@@ -569,7 +569,7 @@ class Wizard extends ModuleWizard {
 	/**
 	 * @return Form
 	 */
-	public function getSelectDataModelForm()
+	public function getSelectDataModelForm() : Form
 	{
 
 		if(!$this->select_data_model_form) {
@@ -613,7 +613,7 @@ class Wizard extends ModuleWizard {
 	/**
 	 *
 	 */
-	public function catchSelectModelForm()
+	public function catchSelectModelForm() : void
 	{
 		$form = $this->getSelectDataModelForm();
 		if($form->catchInput() && $form->validate()) {

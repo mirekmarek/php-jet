@@ -36,7 +36,7 @@ echo $dialog->start();
 						data-locale="<?=$l?>"
 						id="selected_locale_<?=$l?>"
 						style="cursor: pointer;display: <?=$display;?>"
-						onclick="JetStudio.Sites.createSite.addLocale.unSelect('<?=$l?>');"
+						onclick="Sites.createSite.addLocale.unSelect('<?=$l?>');"
 				>
 					<td style="padding: 5px;"><?=UI::flag($l)?></td>
 
@@ -49,10 +49,10 @@ echo $dialog->start();
 		</table>
 
 	</div>
-	<?=UI::button_create(Tr::_('Add locale'))->setOnclick('JetStudio.Sites.createSite.addLocale.openDialog()'); ?>
+	<?=UI::button_create(Tr::_('Add locale'))->setOnclick('Sites.createSite.addLocale.openDialog()'); ?>
 
 	<?php
 echo $dialog->footer();
-	echo UI::button_save(Tr::_('Create'))->setOnclick('JetStudio.Sites.createSite.createSend()');
+	echo UI::button_save(Tr::_('Create'))->setOnclick('Sites.createSite.createSend()');
 echo $dialog->end();
 

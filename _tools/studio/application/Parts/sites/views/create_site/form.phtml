@@ -13,7 +13,7 @@ $form->setDefaultFieldWidth([
 ]);
 
 
-$form->getField('name')->input()->addJsAction('onkeyup', 'JetStudio.Sites.createSite.generateId(this.value);');
+$form->getField('name')->input()->addJsAction('onkeyup', 'Sites.createSite.generateId(this.value);');
 
 echo $form->start();
 echo $form->field('name');

@@ -45,4 +45,6 @@ return [
 	'Menu item <b>%name%</b> has been deleted' => 'Položka menu <b>%name%</b> byla smazána',
 	'Please select target menu' => 'Prosím zvolte cílové menu',
 	'Menu' => 'Menu',
+	'Content' => '',
+	'System' => '',
 ];

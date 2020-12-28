@@ -1,10 +1,8 @@
 <?php
 namespace JetStudio;
 
-use Jet\Locale;
 use Jet\Tr;
 use Jet\UI;
-use Jet\Form;
 
 $site = Sites::getCurrentSite();
 
@@ -17,7 +15,7 @@ $form = $site->getEditForm();
 <div class="toolbar" id="main-toolbar">
 	<?=UI::button_save()->setOnclick("$('#{$form->getId()}').submit()")?>
 
-	<?=UI::button_create(Tr::_('Add locale'))->setOnclick('JetStudio.Sites.editSite.addLocale()')?>
-	<?=UI::button_edit(Tr::_('Sort locales'))->setOnclick('JetStudio.Sites.editSite.sortLocales()')?>
+	<?=UI::button_create(Tr::_('Add locale'))->setOnclick('Sites.editSite.addLocale()')?>
+	<?=UI::button_edit(Tr::_('Sort locales'))->setOnclick('Sites.editSite.sortLocales()')?>
 </div>
 

@@ -24,14 +24,14 @@ class DataModel_Definition_Relation_External extends Jet_DataModel_Definition_Re
 
 
 	/**
-	 * @var Form
+	 * @var ?Form
 	 */
-	protected $_edit_form;
+	protected ?Form $_edit_form = null;
 
 	/**
 	 * @return DataModel_Definition_Model_Main|DataModel_Definition_Model_Related_1to1|DataModel_Definition_Model_Related_1toN|DataModel_Definition_Model_Related_MtoN
 	 */
-	public function getRelatedDataModel()
+	public function getRelatedDataModel() : DataModel_Definition_Model_Main|DataModel_Definition_Model_Related_1to1|DataModel_Definition_Model_Related_1toN|DataModel_Definition_Model_Related_MtoN
 	{
 		return DataModels::getClass($this->getRelatedDataModelClassName())->getDefinition();
 	}
@@ -39,7 +39,7 @@ class DataModel_Definition_Relation_External extends Jet_DataModel_Definition_Re
 	/**
 	 * @return string
 	 */
-	public function getName()
+	public function getName() : string
 	{
 		return $this->getRelatedDataModel()->getModelName();
 	}
@@ -47,7 +47,7 @@ class DataModel_Definition_Relation_External extends Jet_DataModel_Definition_Re
 	/**
 	 * @return Form
 	 */
-	public static function getSelectRelatedModelForm()
+	public static function getSelectRelatedModelForm() : Form
 	{
 		$classes = [''=>''];
 
@@ -99,7 +99,7 @@ class DataModel_Definition_Relation_External extends Jet_DataModel_Definition_Re
 	 *
 	 * @return Form
 	 */
-	public static function getCreateForm( $related_model )
+	public static function getCreateForm( DataModel_Definition_Model_Main|DataModel_Definition_Model_Related_1to1|DataModel_Definition_Model_Related_1toN|DataModel_Definition_Model_Related_MtoN $related_model ) : Form
 	{
 
 		$model = DataModels::getCurrentModel();
@@ -175,7 +175,7 @@ class DataModel_Definition_Relation_External extends Jet_DataModel_Definition_Re
 	 *
 	 * @return bool|DataModel_Definition_Relation_External
 	 */
-	public static function catchCreateForm( $related_model, Form $form ) {
+	public static function catchCreateForm( DataModel_Definition_Model_Main|DataModel_Definition_Model_Related_1to1|DataModel_Definition_Model_Related_1toN|DataModel_Definition_Model_Related_MtoN $related_model, Form $form ) : bool|DataModel_Definition_Relation_External {
 		if(
 			!$form->catchInput() ||
 			!$form->validate()
@@ -227,7 +227,7 @@ class DataModel_Definition_Relation_External extends Jet_DataModel_Definition_Re
 	 *
 	 * @return Form
 	 */
-	public function getEditForm()
+	public function getEditForm() : Form
 	{
 		if(!$this->_edit_form) {
 			$fields = [];
@@ -307,7 +307,7 @@ class DataModel_Definition_Relation_External extends Jet_DataModel_Definition_Re
 	/**
 	 * @return bool
 	 */
-	public function catchEditForm()
+	public function catchEditForm() : bool
 	{
 		$form = $this->getEditForm();
 
@@ -349,7 +349,7 @@ class DataModel_Definition_Relation_External extends Jet_DataModel_Definition_Re
 	 *
 	 * @return ClassCreator_Annotation
 	 */
-	public function createClass_getAsAnnotation( ClassCreator_Class $class )
+	public function createClass_getAsAnnotation( ClassCreator_Class $class ) : ClassCreator_Annotation
 	{
 
 		$class->addUse( new ClassCreator_UseClass('Jet', 'DataModel_Query') );
@@ -385,14 +385,10 @@ class DataModel_Definition_Relation_External extends Jet_DataModel_Definition_Re
 
 		$type = $this->getJoinType();
 
-		switch( $this->getJoinType() ) {
-			case DataModel_Query::JOIN_TYPE_LEFT_JOIN:
-				$type = 'DataModel_Query::JOIN_TYPE_LEFT_JOIN';
-			break;
-			case DataModel_Query::JOIN_TYPE_LEFT_OUTER_JOIN:
-				$type = 'DataModel_Query::JOIN_TYPE_LEFT_OUTER_JOIN';
-			break;
-		}
+		$type = match ($this->getJoinType()) {
+			DataModel_Query::JOIN_TYPE_LEFT_JOIN => 'DataModel_Query::JOIN_TYPE_LEFT_JOIN',
+			DataModel_Query::JOIN_TYPE_LEFT_OUTER_JOIN => 'DataModel_Query::JOIN_TYPE_LEFT_OUTER_JOIN',
+		};
 
 
 

@@ -18,19 +18,19 @@ require_once 'parts/init_libs.php';
 	$(document).ready(function () {
 
 
-		var toolbar = $('#main-toolbar');
+		const toolbar = $('#main-toolbar');
 
 		if(!toolbar.offset()) {
 			return;
 		}
 
-		var toolbar_offset = toolbar.offset().top;
-		var main_menu_h = 51;
-		var scroll_limit = toolbar_offset-main_menu_h;
+		const toolbar_offset = toolbar.offset().top;
+		const main_menu_h = 51;
+		const scroll_limit = toolbar_offset - main_menu_h;
 
 		$(window).scroll( function( event ) {
 
-			var w_s = $(this).scrollTop();
+			const w_s = $(this).scrollTop();
 
 			if(w_s>=scroll_limit) {
 				toolbar.css({

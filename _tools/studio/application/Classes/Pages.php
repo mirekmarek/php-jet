@@ -19,31 +19,30 @@ use Jet\SysConf_URI;
 class Pages extends BaseObject implements Application_Part
 {
 	/**
-	 * @var Sites_Site|bool
+	 * @var Sites_Site|bool|null
 	 */
-	protected static $__current_site;
+	protected static Sites_Site|bool|null $__current_site = null;
 
 	/**
-	 * @var Locale|bool
+	 * @var Locale|bool|null
 	 */
-	protected static $__current_locale;
+	protected static Locale|bool|null $__current_locale = null;
 
 	/**
-	 * @var Pages_Page|bool
+	 * @var Pages_Page|bool|null
 	 */
-	protected static $__current_page;
+	protected static Pages_Page|bool|null $__current_page = null;
 
 	/**
-	 * @var Pages_Page[][][]
+	 * @var Pages_Page[][][]|null
 	 */
-	protected static $pages;
+	protected static array|null $pages = null;
 
 	/**
 	 * @return Pages_Page[][][]
 	 */
-	public static function load()
+	public static function load() : array
 	{
-
 
 		if(static::$pages===null) {
 			static::$pages = [];
@@ -72,15 +71,19 @@ class Pages extends BaseObject implements Application_Part
 	}
 
 	/**
-	 * @param $action
+	 * @param string $action
 	 * @param array $custom_get_params
 	 * @param null|string $custom_page_id
 	 * @param null|string $custom_locale
 	 * @param null|string $custom_site_id
 	 *
-	 * @return string $url
+	 * @return string
 	 */
-	public static function getActionUrl( $action, array $custom_get_params=[], $custom_page_id=null, $custom_locale=null, $custom_site_id=null )
+	public static function getActionUrl( string $action,
+	                                     array $custom_get_params=[],
+	                                     ?string $custom_page_id=null,
+	                                     ?string $custom_locale=null,
+	                                     ?string $custom_site_id=null )
 	{
 
 		$get_params = [];
@@ -138,7 +141,7 @@ class Pages extends BaseObject implements Application_Part
 	 *
 	 * @return Pages_Page[]
 	 */
-	public static function getPages( $locale='', $site_id='' )
+	public static function getPages( string|Locale $locale='', string $site_id='' ) : array
 	{
 		static::load();
 
@@ -171,7 +174,7 @@ class Pages extends BaseObject implements Application_Part
 	 *
 	 * @return null|Pages_Page
 	 */
-	public static function getPage( $page_id, $locale='', $site_id='' )
+	public static function getPage( string $page_id, string|Locale $locale='', string $site_id='' ) : null|Pages_Page
 	{
 		static::load();
 
@@ -196,7 +199,7 @@ class Pages extends BaseObject implements Application_Part
 	/**
 	 * @return string|bool
 	 */
-	public static function getCurrentSiteId()
+	public static function getCurrentSiteId() : string|bool
 	{
 		if(static::getCurrentSite()) {
 			return static::getCurrentSite()->getId();
@@ -207,9 +210,9 @@ class Pages extends BaseObject implements Application_Part
 
 
 	/**
-	 * @return null|Sites_Site
+	 * @return bool|Sites_Site
 	 */
-	public static function getCurrentSite()
+	public static function getCurrentSite() : bool|Sites_Site
 	{
 		if(static::$__current_site===null) {
 			$id = Http_Request::GET()->getString('site');
@@ -229,9 +232,9 @@ class Pages extends BaseObject implements Application_Part
 
 
 	/**
-	 * @return null|Locale
+	 * @return bool|Locale
 	 */
-	public static function getCurrentLocale()
+	public static function getCurrentLocale() : bool|Locale
 	{
 		if(static::$__current_locale===null) {
 			$locale = Http_Request::GET()->getString('locale');
@@ -255,7 +258,7 @@ class Pages extends BaseObject implements Application_Part
 	/**
 	 * @return string|bool
 	 */
-	public static function getCurrentPageId()
+	public static function getCurrentPageId() : string|bool
 	{
 		if(static::getCurrentPage()) {
 			return static::getCurrentPage()->getId();
@@ -265,9 +268,9 @@ class Pages extends BaseObject implements Application_Part
 	}
 
 	/**
-	 * @return null|Pages_Page
+	 * @return bool|Pages_Page
 	 */
-	public static function getCurrentPage()
+	public static function getCurrentPage() : bool|Pages_Page
 	{
 		if(static::$__current_page===null) {
 			$site_id = static::getCurrentSiteId();
@@ -293,7 +296,7 @@ class Pages extends BaseObject implements Application_Part
 	/**
 	 * @return Data_Tree
 	 */
-	public static function getCurrentPageTree()
+	public static function getCurrentPageTree() : Data_Tree
 	{
 		static::load();
 
@@ -350,7 +353,7 @@ class Pages extends BaseObject implements Application_Part
 	 *
 	 * @return bool
 	 */
-	public static function exists( $page_id, $locale='', $site_id='' )
+	public static function exists( string $page_id, string $locale='', string $site_id='' ) : bool
 	{
 		static::load();
 
@@ -376,7 +379,7 @@ class Pages extends BaseObject implements Application_Part
 	/**
 	 * @return string
 	 */
-	public static function whatToEdit()
+	public static function whatToEdit() : string
 	{
 		if(!static::getCurrentPageId()) {
 			return '';

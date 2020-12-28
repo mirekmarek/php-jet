@@ -24,22 +24,23 @@ $init_generator = $field->getEditorInitializeCodeGenerator();
 if(!$CSS) {
 	$CSS = [
 		'' => [
-			'//cdn.tinymce.com/4/skins/lightgray/skin.min.css'
+		//	'//cdn.tiny.cloud/1/no-api-key/tinymce/5/skins/lightgray/skin.min.css'
 		],
 	];
 }
 
 if(!$JS) {
 	$JS = [
-		'//cdn.tinymce.com/4/tinymce.min.js',
+		'//cdn.tiny.cloud/1/no-api-key/tinymce/5/tinymce.min.js',
 	];
 }
 
 if(!$editor_config) {
 	$editor_config = [
+
 		'mode'                    => 'exact',
-		'theme'                   => 'modern',
-		'skin'                    => false,
+		//'theme'                   => 'silver',
+		//'skin'                    => false,
 		'apply_source_formatting' => true,
 		'remove_linebreaks'       => false,
 		'entity_encoding'         => 'raw',
@@ -51,10 +52,10 @@ if(!$editor_config) {
 		'forced_root_block' => '',
 
 
-		'plugins'       => 'advlist autolink lists link image charmap print preview hr anchor pagebreak searchreplace wordcount visualblocks visualchars code fullscreen insertdatetime media nonbreaking save table contextmenu directionality template paste textcolor colorpicker textpattern imagetools',
+		//'plugins'       => 'advlist autolink lists link image charmap print preview hr anchor pagebreak searchreplace wordcount visualblocks visualchars code fullscreen insertdatetime media nonbreaking save table contextmenu directionality template paste textcolor colorpicker textpattern imagetools',
 		'paste_as_text' => true,
 
-		'content_css' => '/public/styles/wysiwyg.css',
+		//'content_css' => '/public/styles/wysiwyg.css',
 	];
 }
 

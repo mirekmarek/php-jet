@@ -10,49 +10,52 @@ namespace JetStudio;
 use Jet\BaseObject;
 use Jet\BaseObject_Exception;
 
+/**
+ *
+ */
 class ClassCreator_Class_Method extends BaseObject
 {
 
 	/**
 	 * @var string
 	 */
-	protected $name = '';
+	protected string $name = '';
 
 	/**
 	 * @var bool
 	 */
-	protected $is_abstract = false;
+	protected bool $is_abstract = false;
 
 	/**
 	 * @var bool
 	 */
-	protected $is_static = false;
+	protected bool $is_static = false;
 
 	/**
 	 * @var string
 	 */
-	protected $access = 'public';
+	protected string $access = 'public';
 
 	/**
 	 * @var ClassCreator_Class_Method_Parameter[]
 	 */
-	protected $parameters = [];
+	protected array $parameters = [];
 
 	/**
 	 * @var string
 	 */
-	protected $return_type = '';
+	protected string $return_type = '';
 
 	/**
 	 * @var array
 	 */
-	protected $body = [];
+	protected array $body = [];
 
 
 	/**
 	 * @param string $name
 	 */
-	public function __construct( $name )
+	public function __construct( string $name )
 	{
 		$this->name = $name;
 	}
@@ -60,7 +63,7 @@ class ClassCreator_Class_Method extends BaseObject
 	/**
 	 * @return string
 	 */
-	public function getName()
+	public function getName() : string
 	{
 		return $this->name;
 	}
@@ -68,7 +71,7 @@ class ClassCreator_Class_Method extends BaseObject
 	/**
 	 * @return bool
 	 */
-	public function isAbstract()
+	public function isAbstract() : bool
 	{
 		return $this->is_abstract;
 	}
@@ -76,7 +79,7 @@ class ClassCreator_Class_Method extends BaseObject
 	/**
 	 * @param bool $is_abstract
 	 */
-	public function setIsAbstract( $is_abstract )
+	public function setIsAbstract( bool $is_abstract ) : void
 	{
 		$this->is_abstract = $is_abstract;
 	}
@@ -84,7 +87,7 @@ class ClassCreator_Class_Method extends BaseObject
 	/**
 	 * @return bool
 	 */
-	public function isStatic()
+	public function isStatic() : bool
 	{
 		return $this->is_static;
 	}
@@ -92,7 +95,7 @@ class ClassCreator_Class_Method extends BaseObject
 	/**
 	 * @param bool $is_static
 	 */
-	public function setIsStatic( $is_static )
+	public function setIsStatic( bool $is_static ) : void
 	{
 		$this->is_static = $is_static;
 	}
@@ -102,7 +105,7 @@ class ClassCreator_Class_Method extends BaseObject
 	/**
 	 * @return string
 	 */
-	public function getAccess()
+	public function getAccess() : string
 	{
 		return $this->access;
 	}
@@ -110,9 +113,9 @@ class ClassCreator_Class_Method extends BaseObject
 	/**
 	 * @param string $access
 	 *
-	 * @return $this
+	 * @return static
 	 */
-	public function setAccess( $access )
+	public function setAccess( string $access ) : static
 	{
 		$this->access = $access;
 
@@ -122,7 +125,7 @@ class ClassCreator_Class_Method extends BaseObject
 	/**
 	 * @return string
 	 */
-	public function getReturnType()
+	public function getReturnType() : string
 	{
 		return $this->return_type;
 	}
@@ -130,9 +133,9 @@ class ClassCreator_Class_Method extends BaseObject
 	/**
 	 * @param string $return_type
 	 *
-	 * @return $this
+	 * @return static
 	 */
-	public function setReturnType( $return_type )
+	public function setReturnType( string $return_type ) : static
 	{
 		$this->return_type = $return_type;
 
@@ -146,7 +149,7 @@ class ClassCreator_Class_Method extends BaseObject
 	 *
 	 * @return ClassCreator_Class_Method_Parameter
 	 */
-	public function addParameter( $name )
+	public function addParameter( string $name ) : ClassCreator_Class_Method_Parameter
 	{
 		if( isset($this->parameters[$name]) ) {
 			throw new BaseObject_Exception('Parameter '.$name.' already defined');
@@ -162,7 +165,7 @@ class ClassCreator_Class_Method extends BaseObject
 	/**
 	 *
 	 */
-	public function clearBody()
+	public function clearBody() : void
 	{
 		$this->body = [];
 	}
@@ -171,7 +174,7 @@ class ClassCreator_Class_Method extends BaseObject
 	 * @param int $padding_left
 	 * @param string $line
 	 */
-	public function line( $padding_left, $line )
+	public function line( int $padding_left, string $line ) : void
 	{
 		$this->body[] = [
 			'padding_left' => $padding_left,
@@ -185,7 +188,7 @@ class ClassCreator_Class_Method extends BaseObject
 	 *
 	 * @return string
 	 */
-	public function toString( $ident, $nl )
+	public function toString( string $ident, string $nl ) : string
 	{
 		$res = '';
 

@@ -12,10 +12,6 @@ namespace JetStudio;
  */
 interface DataModel_Definition_Model_Related_Interface extends DataModel_Definition_Model_Interface
 {
-	/**
-	 * @param DataModel_Definition_Model_Interface $parent
-	 */
-	public function setParentModel( DataModel_Definition_Model_Interface $parent );
 
 	/**
 	 * @return string
@@ -23,19 +19,9 @@ interface DataModel_Definition_Model_Related_Interface extends DataModel_Definit
 	public function getParentModelClassName();
 
 	/**
-	 * @return DataModel_Definition_Model_Main|DataModel_Definition_Model_Related_1to1|DataModel_Definition_Model_Related_1toN|DataModel_Definition_Model_Related_MtoN
-	 */
-	public function getParentModel();
-
-
-	/**
 	 * @return string
 	 */
-	public function getMainModelClassName();
+	public function getMainModelClassName() : string;
 
-	/**
-	 * @return DataModel_Definition_Model_Main
-	 */
-	public function getMainModel();
 
 }

@@ -9,42 +9,45 @@ namespace JetStudio;
 
 use Jet\BaseObject;
 
+/**
+ *
+ */
 class ClassCreator_Class_Method_Parameter extends BaseObject
 {
 	/**
 	 * @var string
 	 */
-	protected $name = '';
+	protected string $name = '';
 
 	/**
 	 * @var string
 	 */
-	protected $type = '';
+	protected string $type = '';
 
 	/**
 	 * @var bool
 	 */
-	protected $type_hinting = false;
+	protected bool $type_hinting = false;
 
 	/**
 	 * @var bool
 	 */
-	protected $optional = false;
+	protected bool $optional = false;
 
 	/**
 	 * @var mixed
 	 */
-	protected $default_value;
+	protected mixed $default_value = null;
 
 	/**
 	 * @var string
 	 */
-	protected $comment = '';
+	protected string $comment = '';
 
 	/**
 	 * @param string $name
 	 */
-	public function __construct( $name )
+	public function __construct( string $name )
 	{
 		$this->name = $name;
 	}
@@ -52,7 +55,7 @@ class ClassCreator_Class_Method_Parameter extends BaseObject
 	/**
 	 * @return string
 	 */
-	public function getName()
+	public function getName() : string
 	{
 		return $this->name;
 	}
@@ -60,7 +63,7 @@ class ClassCreator_Class_Method_Parameter extends BaseObject
 	/**
 	 * @return string
 	 */
-	public function getType()
+	public function getType() : string
 	{
 		return $this->type;
 	}
@@ -68,9 +71,9 @@ class ClassCreator_Class_Method_Parameter extends BaseObject
 	/**
 	 * @param string $type
 	 *
-	 * @return $this
+	 * @return static
 	 */
-	public function setType( $type )
+	public function setType( string $type ) : static
 	{
 		$this->type = $type;
 
@@ -80,7 +83,7 @@ class ClassCreator_Class_Method_Parameter extends BaseObject
 	/**
 	 * @return bool
 	 */
-	public function getTypeHinting()
+	public function getTypeHinting() : bool
 	{
 		return $this->type_hinting;
 	}
@@ -88,9 +91,9 @@ class ClassCreator_Class_Method_Parameter extends BaseObject
 	/**
 	 * @param bool $type_hinting
 	 *
-	 * @return $this
+	 * @return static
 	 */
-	public function setTypeHinting( $type_hinting )
+	public function setTypeHinting( bool $type_hinting ) : static
 	{
 		$this->type_hinting = (bool)$type_hinting;
 
@@ -100,7 +103,7 @@ class ClassCreator_Class_Method_Parameter extends BaseObject
 	/**
 	 * @return bool
 	 */
-	public function getIsOptional()
+	public function getIsOptional() : bool
 	{
 		return $this->optional;
 	}
@@ -108,9 +111,9 @@ class ClassCreator_Class_Method_Parameter extends BaseObject
 	/**
 	 * @param bool $optional
 	 *
-	 * @return $this
+	 * @return static
 	 */
-	public function setIsOptional( $optional )
+	public function setIsOptional( bool $optional ) : static
 	{
 		$this->optional = $optional;
 
@@ -120,7 +123,7 @@ class ClassCreator_Class_Method_Parameter extends BaseObject
 	/**
 	 * @return mixed
 	 */
-	public function getDefaultValue()
+	public function getDefaultValue() : mixed
 	{
 		return $this->default_value;
 	}
@@ -128,9 +131,9 @@ class ClassCreator_Class_Method_Parameter extends BaseObject
 	/**
 	 * @param mixed $default_value
 	 *
-	 * @return $this
+	 * @return static
 	 */
-	public function setDefaultValue( $default_value )
+	public function setDefaultValue( mixed $default_value ) : static
 	{
 		$this->default_value = $default_value;
 
@@ -140,7 +143,7 @@ class ClassCreator_Class_Method_Parameter extends BaseObject
 	/**
 	 * @return string
 	 */
-	public function getComment()
+	public function getComment() : string
 	{
 		return $this->comment;
 	}
@@ -149,9 +152,9 @@ class ClassCreator_Class_Method_Parameter extends BaseObject
 	 *
 	 * @param string $comment
 	 *
-	 * @return $this
+	 * @return static
 	 */
-	public function setComment( $comment )
+	public function setComment( string $comment ) : static
 	{
 		$this->comment = $comment;
 
@@ -161,7 +164,7 @@ class ClassCreator_Class_Method_Parameter extends BaseObject
 	/**
 	 * @return string
 	 */
-	public function getAsMethodParam()
+	public function getAsMethodParam() : string
 	{
 		$res = '';
 		if( $this->getTypeHinting() ) {
@@ -180,7 +183,7 @@ class ClassCreator_Class_Method_Parameter extends BaseObject
 	/**
 	 * @return string
 	 */
-	public function createClass_getAsAnnotation()
+	public function createClass_getAsAnnotation() : string
 	{
 		$res = '@param '.$this->getType().' $'.$this->getName();
 

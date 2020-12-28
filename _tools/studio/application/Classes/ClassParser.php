@@ -19,53 +19,53 @@ class ClassParser {
 	/**
 	 * @var string
 	 */
-	protected $script_data = '';
+	public string $script_data = '';
 
 	/**
 	 * @var ClassParser_Token[]
 	 */
-	public $tokens = [];
+	public array $tokens = [];
 
 	/**
 	 * @var int
 	 */
-	public $index = 0;
+	public int $index = 0;
 
 	/**
-	 * @var ClassParser_Token
+	 * @var ?ClassParser_Token
 	 */
-	public $_last_doc_comment_token;
+	public ?ClassParser_Token $_last_doc_comment_token = null;
 
 	/**
-	 * @var ClassParser_Token
+	 * @var ?ClassParser_Token
 	 */
-	public $_abstract_class_token;
+	public ?ClassParser_Token $_abstract_class_token = null;
 
 	/**
-	 * @var ClassParser_Token
+	 * @var ?ClassParser_Token
 	 */
-	public $start_token;
+	public ?ClassParser_Token $start_token = null;
 
 	/**
-	 * @var ClassParser_Namespace
+	 * @var ?ClassParser_Namespace
 	 */
-	public $namespace;
+	public ?ClassParser_Namespace $namespace = null;
 
 	/**
 	 * @var ClassParser_UseClass[]
 	 */
-	public $use_classes = [];
+	public array $use_classes = [];
 
 	/**
 	 * @var ClassParser_Class[]
 	 */
-	public $classes = [];
+	public array $classes = [];
 
 	/**
 	 *
 	 * @param string $script_data
 	 */
-	public function __construct( $script_data )
+	public function __construct( string $script_data )
 	{
 		if($script_data) {
 			$this->setScriptData( $script_data );
@@ -75,7 +75,7 @@ class ClassParser {
 	/**
 	 * @param string $script_data
 	 */
-	public function setScriptData( $script_data )
+	public function setScriptData( string $script_data )
 	{
 		//debug_print_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
 		//echo 'setScriptData:'.PHP_EOL;
@@ -99,7 +99,7 @@ class ClassParser {
 	/**
 	 *
 	 */
-	public function parse()
+	public function parse() : void
 	{
 		$tokens = token_get_all( $this->script_data );
 
@@ -149,16 +149,6 @@ class ClassParser {
 			}
 
 			switch( $token->id ) {
-
-				case T_COMMENT:
-					if(
-						$token->text[0]=='#' &&
-						$token->text[1]=='['
-					) {
-						ClassParser_Attribute::parse( $this );
-					}
-
-					break;
 				case T_DOC_COMMENT:
 					$this->_last_doc_comment_token = $token;
 
@@ -206,9 +196,15 @@ class ClassParser {
 					break;
 
 				case T_CLASS:
-					ClassParser_Class::parse( $this );
-					break;
 
+					if($this->tokens[$this->index-1]->text!='::') {
+						ClassParser_Class::parse( $this );
+					}
+
+					break;
+				case T_ATTRIBUTE:
+					ClassParser_Attribute::parse( $this );
+					break;
 				default:
 					//echo $token->debug_getInfo();
 					break;
@@ -224,7 +220,7 @@ class ClassParser {
 	/**
 	 * @return string
 	 */
-	public function __toString()
+	public function __toString() : string
 	{
 		return $this->toString();
 	}
@@ -232,7 +228,7 @@ class ClassParser {
 	/**
 	 * @return string
 	 */
-	public function toString()
+	public function toString() : string
 	{
 		$res = '';
 		foreach( $this->tokens as $index=>$token ) {
@@ -245,7 +241,7 @@ class ClassParser {
 	/**
 	 * @throws ClassParser_Exception
 	 */
-	public function parseError()
+	public function parseError() : void
 	{
 		$exception = new ClassParser_Exception('Parse error');
 
@@ -266,7 +262,7 @@ class ClassParser {
 	 *
 	 * @return string
 	 */
-	public function getTokenText( $from, $to )
+	public function getTokenText( int|ClassParser_Token $from, int|ClassParser_Token $to ) : string
 	{
 		if($from instanceof ClassParser_Token) {
 			$from = $from->index;
@@ -289,7 +285,7 @@ class ClassParser {
 	 * @param int|ClassParser_Token $from_index
 	 * @param int|ClassParser_Token $to_index
 	 */
-	public function removeTokens( $from_index, $to_index )
+	public function removeTokens( int|ClassParser_Token $from_index, int|ClassParser_Token $to_index ) : void
 	{
 		if($from_index instanceof ClassParser_Token) {
 			$from_index = $from_index->index;
@@ -321,7 +317,7 @@ class ClassParser {
 	 * @param int|ClassParser_Token $to_index
 	 * @param string $new_text
 	 */
-	public function replaceTokens( $from_index, $to_index, $new_text )
+	public function replaceTokens( int|ClassParser_Token $from_index, int|ClassParser_Token $to_index, string $new_text ) : void
 	{
 		if($from_index instanceof ClassParser_Token) {
 			$from_index = $from_index->index;
@@ -355,9 +351,9 @@ class ClassParser {
 
 	/**
 	 * @param ClassParser_Token $after_token
-	 * @param $code
+	 * @param string $code
 	 */
-	public function insertAfter( ClassParser_Token $after_token, $code )
+	public function insertAfter( ClassParser_Token $after_token, string $code ) : void
 	{
 		$str = '';
 
@@ -379,9 +375,9 @@ class ClassParser {
 
 	/**
 	 * @param ClassParser_Token $before_token
-	 * @param $code
+	 * @param string $code
 	 */
-	public function insertBefore( ClassParser_Token $before_token, $code )
+	public function insertBefore( ClassParser_Token $before_token, string $code ) : void
 	{
 		$str = '';
 
@@ -403,7 +399,7 @@ class ClassParser {
 	/**
 	 * @param string $code
 	 */
-	public function addUseClass( $code )
+	public function addUseClass( string $code ) : void
 	{
 
 		$after = $this->start_token;
@@ -426,10 +422,10 @@ class ClassParser {
 	 * @param string $class_name
 	 * @return string
 	 */
-	public function getFullClassName( $class_name )
+	public function getFullClassName( string $class_name ) : string
 	{
 
-		if(strpos($class_name, '\\')!==false) {
+		if( str_contains( $class_name, '\\' ) ) {
 			return $class_name;
 		}
 
@@ -449,7 +445,7 @@ class ClassParser {
 	 *
 	 * @return string
 	 */
-	public function actualize_setClassAnnotation( $class_name, $class_annotation )
+	public function actualize_setClassAnnotation( string $class_name, string $class_annotation ) : string
 	{
 		$class = $this->classes[$class_name];
 
@@ -473,9 +469,9 @@ class ClassParser {
 	/**
 	 * @param ClassCreator_UseClass[] $uses
 	 */
-	public function actualize_setUse( array $uses )
+	public function actualize_setUse( array $uses ) : void
 	{
-		$nl = ClassParser::getNl();
+		$nl = PHP_EOL;
 
 		foreach( $uses as $use ) {
 			$use_class = $use->getNamespace().'\\'.$use->getClass();
@@ -492,14 +488,14 @@ class ClassParser {
 	}
 
 	/**
-	 * @param $class_name
+	 * @param string $class_name
 	 * @param ClassCreator_Class_Property $property
 	 *
 	 * @return string
 	 */
-	public function actualize_addProperty( $class_name, ClassCreator_Class_Property $property )
+	public function actualize_addProperty( string $class_name, ClassCreator_Class_Property $property ) : string
 	{
-		$nl = ClassParser::getNl();
+		$nl = PHP_EOL;
 		$class = $this->classes[$class_name];
 
 		if(isset($class->properties[$property->getName()])) {
@@ -512,12 +508,12 @@ class ClassParser {
 	}
 
 	/**
-	 * @param $class_name
+	 * @param string $class_name
 	 * @param ClassCreator_Class_Property $property
 	 *
 	 * @return string
 	 */
-	public function actualize_updateProperty( $class_name, ClassCreator_Class_Property $property )
+	public function actualize_updateProperty( string $class_name, ClassCreator_Class_Property $property ) : string
 	{
 		$class = $this->classes[$class_name];
 
@@ -544,7 +540,7 @@ class ClassParser {
 	/**
 	 *
 	 */
-	public function debug_showTokens()
+	public function debug_showTokens() : void
 	{
 		foreach( $this->tokens as $index=>$token ) {
 			echo $token->debug_getInfo();
@@ -554,7 +550,7 @@ class ClassParser {
 	/**
 	 *
 	 */
-	public function debug_showResult()
+	public function debug_showResult() : void
 	{
 		if($this->namespace) {
 			$this->namespace->debug_showResult();

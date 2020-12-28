@@ -13,9 +13,9 @@ namespace JetStudio;
 abstract class ClassParser_Class_Element extends ClassParser_Element {
 
 	/**
-	 * @var ClassParser_Class
+	 * @var ?ClassParser_Class
 	 */
-	protected $__class;
+	protected ?ClassParser_Class $__class = null;
 
 	/**
 	 *

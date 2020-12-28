@@ -20,19 +20,20 @@ class ErrorHandler_ErrorPage extends Debug_ErrorHandler_Handler
 	/**
 	 * @var bool
 	 */
-	protected $displayed = false;
+	protected bool $displayed = false;
 
 	/**
 	 * @return string
 	 */
-	public function getName() {
+	public function getName() : string
+	{
 		return 'ErrorPage';
 	}
 
 	/**
 	 * @param Debug_ErrorHandler_Error $error
 	 */
-	public function handle( Debug_ErrorHandler_Error $error )
+	public function handle( Debug_ErrorHandler_Error $error ) : void
 	{
 		if(
 			$error->isFatal() &&
@@ -50,7 +51,7 @@ class ErrorHandler_ErrorPage extends Debug_ErrorHandler_Handler
 	/**
 	 * @return bool
 	 */
-	public function errorDisplayed()
+	public function errorDisplayed() : bool
 	{
 		return $this->displayed;
 	}

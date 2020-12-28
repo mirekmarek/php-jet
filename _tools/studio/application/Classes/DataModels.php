@@ -26,7 +26,7 @@ class DataModels extends BaseObject implements Application_Part
 	/**
 	 * @var array
 	 */
-	protected static $id_controllers = [
+	protected static array $id_controllers = [
 		DataModel_IDController_AutoIncrement::class => 'AutoIncrement',
 		DataModel_IDController_UniqueString::class  => 'UniqueString',
 		DataModel_IDController_Name::class          => 'Name',
@@ -43,7 +43,7 @@ class DataModels extends BaseObject implements Application_Part
 	/**
 	 * @var array
 	 */
-	protected static $types = [
+	protected static array $types = [
 		self::MODEL_TYPE_RELATED_1TON => 'Related DataModel 1toN',
 		self::MODEL_TYPE_RELATED_1TO1 => 'Related DataModel 1to1',
 		self::MODEL_TYPE_RELATED_MTON => 'Related DataModel MtoN',
@@ -52,41 +52,41 @@ class DataModels extends BaseObject implements Application_Part
 
 
 	/**
-	 * @var DataModel_Class|null
+	 * @var DataModel_Class|null|bool
 	 */
-	protected static $current_class;
+	protected static DataModel_Class|null|bool $current_class = null;
 
 	/**
-	 * @var DataModel_Definition_Property_Interface|\Jet\DataModel_Definition_Property|null
+	 * @var DataModel_Definition_Property_Interface|\Jet\DataModel_Definition_Property|null|bool
 	 */
-	protected static $current_property;
+	protected static DataModel_Definition_Property_Interface|\Jet\DataModel_Definition_Property|null|bool $current_property = null;
 
 	/**
-	 * @var DataModel_Definition_Key
+	 * @var DataModel_Definition_Key|null|bool
 	 */
-	protected static $current_key;
+	protected static DataModel_Definition_Key|null|bool $current_key = null;
 
 	/**
-	 * @var DataModel_Definition_Relation_External
+	 * @var DataModel_Definition_Relation_External|null|bool
 	 */
-	protected static $current_relation;
+	protected static DataModel_Definition_Relation_External|null|bool $current_relation = null;
 
 
 	/**
 	 * @var DataModel_Class[]
 	 */
-	protected static $classes;
+	protected static ?array $classes = null;
 
 	/**
 	 * @var DataModel_Namespace[]
 	 */
-	protected static $namespaces;
+	protected static ?array $namespaces = null;
 
 
 	/**
 	 * @return array
 	 */
-	public static function load_getDirs()
+	public static function load_getDirs() : array
 	{
 		$dirs = [
 			ProjectConf_PATH::APPLICATION_CLASSES(),
@@ -101,7 +101,7 @@ class DataModels extends BaseObject implements Application_Part
 	/**
 	 * @return DataModel_Class[]
 	 */
-	public static function load()
+	public static function load() : array
 	{
 		if(static::$classes===null) {
 			static::$classes = [];
@@ -121,7 +121,7 @@ class DataModels extends BaseObject implements Application_Part
 	/**
 	 * @return DataModel_Class[]
 	 */
-	public static function getProblematicClasses()
+	public static function getProblematicClasses() : array
 	{
 		static::load();
 
@@ -139,7 +139,7 @@ class DataModels extends BaseObject implements Application_Part
 	/**
 	 * @return DataModel_Namespace[]
 	 */
-	public static function getNamespaces()
+	public static function getNamespaces() : array
 	{
 
 		if( static::$namespaces===null ) {
@@ -169,18 +169,18 @@ class DataModels extends BaseObject implements Application_Part
 	/**
 	 * @return DataModel_Class[]
 	 */
-	public static function getClasses()
+	public static function getClasses() : array
 	{
 		return static::load();
 	}
 
 
 	/**
-	 * @param $action
+	 * @param string $action
 	 *
-	 * @return string $url
+	 * @return string
 	 */
-	public static function getActionUrl( $action )
+	public static function getActionUrl( string $action ) : string
 	{
 
 		$get_params = [];
@@ -212,7 +212,7 @@ class DataModels extends BaseObject implements Application_Part
 	 *
 	 * @return DataModel_Class|null
 	 */
-	public static function getClass( $name )
+	public static function getClass( string $name ) : DataModel_Class|null
 	{
 		static::load();
 
@@ -224,9 +224,9 @@ class DataModels extends BaseObject implements Application_Part
 	}
 
 	/**
-	 * @return DataModel_Class|null
+	 * @return DataModel_Class|null|bool
 	 */
-	public static function getCurrentClass()
+	public static function getCurrentClass() : DataModel_Class|null|bool
 	{
 		if(static::$current_class===null) {
 			$id = Http_Request::GET()->getString('class');
@@ -296,7 +296,7 @@ class DataModels extends BaseObject implements Application_Part
 	/**
 	 * @return string|null
 	 */
-	public static function getCurrentPropertyName()
+	public static function getCurrentPropertyName() : string|null
 	{
 		$current = static::getCurrentProperty();
 
@@ -309,9 +309,9 @@ class DataModels extends BaseObject implements Application_Part
 
 
 	/**
-	 * @return DataModel_Definition_Key
+	 * @return DataModel_Definition_Key|bool
 	 */
-	public static function getCurrentKey()
+	public static function getCurrentKey() : DataModel_Definition_Key|bool
 	{
 		if(static::$current_key===null) {
 			static::$current_key = false;
@@ -335,7 +335,7 @@ class DataModels extends BaseObject implements Application_Part
 	/**
 	 * @return string|null
 	 */
-	public static function getCurrentKeyName()
+	public static function getCurrentKeyName() : string|null
 	{
 		$current = static::getCurrentKey();
 
@@ -350,7 +350,7 @@ class DataModels extends BaseObject implements Application_Part
 	/**
 	 * @return string|null
 	 */
-	public static function getCurrentRelationName()
+	public static function getCurrentRelationName() : string|null
 	{
 		$current = static::getCurrentRelation();
 
@@ -363,9 +363,9 @@ class DataModels extends BaseObject implements Application_Part
 
 
 	/**
-	 * @return DataModel_Definition_Relation_External
+	 * @return DataModel_Definition_Relation_External|bool
 	 */
-	public static function getCurrentRelation()
+	public static function getCurrentRelation() : DataModel_Definition_Relation_External|bool
 	{
 		if(static::$current_relation===null) {
 			static::$current_relation = false;
@@ -390,7 +390,7 @@ class DataModels extends BaseObject implements Application_Part
 	/**
 	 * @return string|null
 	 */
-	public static function getCurrentWhatToEdit()
+	public static function getCurrentWhatToEdit() : string|null
 	{
 		if(!static::getCurrentModel()) {
 			return null;
@@ -409,7 +409,7 @@ class DataModels extends BaseObject implements Application_Part
 	/**
 	 * @return array
 	 */
-	public static function getIDControllers()
+	public static function getIDControllers() : array
 	{
 		$id_controllers = [];
 
@@ -424,7 +424,7 @@ class DataModels extends BaseObject implements Application_Part
 	/**
 	 * @return array
 	 */
-	public static function getDataModelTypes()
+	public static function getDataModelTypes() : array
 	{
 		$types = [];
 
@@ -441,7 +441,7 @@ class DataModels extends BaseObject implements Application_Part
 	 *
 	 * @return bool
 	 */
-	public static function checkModelName( Form_Field_Input $field, DataModel_Definition_Model_Interface $model=null )
+	public static function checkModelName( Form_Field_Input $field, ?DataModel_Definition_Model_Interface $model=null ) : bool
 	{
 		$name = $field->getValue();
 
@@ -467,7 +467,7 @@ class DataModels extends BaseObject implements Application_Part
 	 *
 	 * @return bool
 	 */
-	public static function checkClassName( Form_Field_Input $field, DataModel_Definition_Model_Interface $model=null )
+	public static function checkClassName( Form_Field_Input $field, ?DataModel_Definition_Model_Interface $model=null ) : bool
 	{
 		$name = $field->getValue();
 
@@ -478,7 +478,7 @@ class DataModels extends BaseObject implements Application_Part
 
 		if(
 			!preg_match('/^[a-z0-9_]{2,}$/i', $name) ||
-			strpos($name, '__')!==false
+			str_contains( $name, '__' )
 		) {
 			$field->setError(Form_Field_Input::ERROR_CODE_INVALID_FORMAT);
 
@@ -509,7 +509,7 @@ class DataModels extends BaseObject implements Application_Part
 	 *
 	 * @return bool
 	 */
-	public static function checkTableName( Form_Field_Input $field, DataModel_Definition_Model_Interface $model=null )
+	public static function checkTableName( Form_Field_Input $field, ?DataModel_Definition_Model_Interface $model=null ) : bool
 	{
 		$name = $field->getValue();
 
@@ -520,7 +520,7 @@ class DataModels extends BaseObject implements Application_Part
 
 		if(
 			!preg_match('/^[a-z0-9_]{2,}$/i', $name) ||
-			strpos($name, '__')!==false
+			str_contains( $name, '__' )
 		) {
 			$field->setError(Form_Field_Input::ERROR_CODE_INVALID_FORMAT);
 
@@ -579,7 +579,7 @@ class DataModels extends BaseObject implements Application_Part
 	 *
 	 * @return string
 	 */
-	public static function generateScriptPath( $namespace, $class_name )
+	public static function generateScriptPath( string $namespace, string $class_name ) : string
 	{
 		if(!isset(static::getNamespaces()[$namespace])) {
 			return '';
@@ -609,72 +609,11 @@ class DataModels extends BaseObject implements Application_Part
 	/**
 	 * @param DataModel_Definition_Model_Interface $model
 	 */
-	public static function addModel(DataModel_Definition_Model_Interface $model )
+	public static function addModel(DataModel_Definition_Model_Interface $model ) : void
 	{
 		static::load();
 
 		static::$classes[$model->getClassName()] = $model;
-	}
-
-
-	/**
-	 * @param string $model_name
-	 * @param string $class_name
-	 * @param DataModel_Definition_Model_Interface $parent
-	 *
-	 * @return DataModel_Definition_Model_Related_1to1
-	 */
-	public static function createModel_Related_1to1($model_name, $class_name, DataModel_Definition_Model_Interface $parent )
-	{
-		$model = new DataModel_Definition_Model_Related_1to1();
-		$model->setModelName( $model_name );
-		$model->setClassName( $class_name );
-		$model->setParentModel( $parent );
-		$model->checkIdProperties();
-
-		static::addModel( $model );
-
-		return $model;
-	}
-
-	/**
-	 * @param string $model_name
-	 * @param string $class_name
-	 * @param DataModel_Definition_Model_Interface $parent
-	 *
-	 * @return DataModel_Definition_Model_Related_1toN
-	 */
-	public static function createModel_Related_1toN($model_name, $class_name, DataModel_Definition_Model_Interface $parent )
-	{
-		$model = new DataModel_Definition_Model_Related_1toN();
-		$model->setModelName( $model_name );
-		$model->setClassName( $class_name );
-		$model->setParentModel( $parent );
-		$model->checkIdProperties();
-
-		static::addModel( $model );
-
-		return $model;
-	}
-
-	/**
-	 * @param string $model_name
-	 * @param string $class_name
-	 * @param DataModel_Definition_Model_Interface $parent
-	 *
-	 * @return DataModel_Definition_Model_Related_MtoN
-	 */
-	public static function createModel_Related_MtoN($model_name, $class_name, DataModel_Definition_Model_Interface $parent )
-	{
-		$model = new DataModel_Definition_Model_Related_MtoN();
-		$model->setModelName( $model_name );
-		$model->setClassName( $class_name );
-		$model->setParentModel( $parent );
-		$model->checkIdProperties();
-
-		static::addModel( $model );
-
-		return $model;
 	}
 
 }

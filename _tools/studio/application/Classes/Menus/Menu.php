@@ -23,27 +23,27 @@ class Menus_Menu extends Navigation_Menu
 
 
 	/**
-	 * @var Form
+	 * @var ?Form
 	 */
-	protected static $create_form;
+	protected static ?Form $create_form = null;
 
 	/**
-	 * @var Form
+	 * @var ?Form
 	 */
-	protected $__edit_form;
+	protected ?Form $__edit_form = null;
 
 
 	/**
 	 * @var Menus_Menu_Item[]
 	 */
-	protected $items = [];
+	protected array $items = [];
 
 
 
 	/**
 	 * @return Form
 	 */
-	public static function getCreateForm()
+	public static function getCreateForm() : Form
 	{
 		if(!static::$create_form) {
 
@@ -98,7 +98,7 @@ class Menus_Menu extends Navigation_Menu
 	/**
 	 * @return bool|Menus_Menu
 	 */
-	public static function catchCreateForm()
+	public static function catchCreateForm() : bool|Menus_Menu
 	{
 		$form = static::getCreateForm();
 		if(
@@ -125,7 +125,7 @@ class Menus_Menu extends Navigation_Menu
 	 * @return Form
 	 *
 	 */
-	public function getEditForm()
+	public function getEditForm() : Form
 	{
 		if(!$this->__edit_form) {
 			$id = new Form_Field_Input('id', 'Menu identifier:', $this->getId() );
@@ -169,7 +169,7 @@ class Menus_Menu extends Navigation_Menu
 	/**
 	 * @return bool
 	 */
-	public function catchEditForm()
+	public function catchEditForm() : bool
 	{
 		$form = $this->getEditForm();
 
@@ -201,7 +201,7 @@ class Menus_Menu extends Navigation_Menu
 	/**
 	 * @return Navigation_Menu_Item[]
 	 */
-	public function getMenuItems()
+	public function getMenuItems() : array
 	{
 		return $this->items;
 	}
@@ -211,9 +211,9 @@ class Menus_Menu extends Navigation_Menu
 	/**
 	 * @param string $id
 	 *
-	 * @return Navigation_Menu_Item|null
+	 * @return Menus_Menu_Item|null
 	 */
-	public function getItem( $id )
+	public function getItem( string $id ) : Menus_Menu_Item|null
 	{
 		if( !isset($this->items[$id]) ) {
 			return null;
@@ -225,10 +225,10 @@ class Menus_Menu extends Navigation_Menu
 	/**
 	 * @param string $id
 	 */
-	public function deleteMenuItem( $id )
+	public function deleteMenuItem( string $id ) : void
 	{
 		if( !isset($this->items[$id]) ) {
-			return null;
+			return;
 		}
 
 		unset( $this->items[$id] );
@@ -239,7 +239,7 @@ class Menus_Menu extends Navigation_Menu
 	/**
 	 *
 	 */
-	public function sortItems()
+	public function sortItems() : void
 	{
 
 		uasort( $this->items, function( Menus_Menu_Item $a, Menus_Menu_Item $b ) {
@@ -268,7 +268,7 @@ class Menus_Menu extends Navigation_Menu
 	 * @param Navigation_Menu_Item $item
 	 *
 	 */
-	public function addMenuItem( Navigation_Menu_Item $item )
+	public function addMenuItem( Navigation_Menu_Item $item ) : void
 	{
 		$this->items[$item->getId()] = $item;
 
@@ -279,9 +279,9 @@ class Menus_Menu extends Navigation_Menu
 	/**
 	 * @param bool $check_access
 	 *
-	 * @return Navigation_Menu[]|Navigation_Menu_Item[]|Menus_Menu_Item[]
+	 * @return Menus_Menu_Item[]
 	 */
-	public function getItems( $check_access=true )
+	public function getItems( $check_access=true ) : array
 	{
 		return $this->items;
 	}
@@ -289,7 +289,7 @@ class Menus_Menu extends Navigation_Menu
 	/**
 	 * @return array
 	 */
-	public function toArray()
+	public function toArray() : array
 	{
 
 		$menu = [

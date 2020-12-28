@@ -148,7 +148,7 @@ abstract class Mvc_View_Abstract extends BaseObject
 			return;
 		}
 
-		if( str_contains( '.', $script_name ) ) {
+		if( str_contains( $script_name, '.' ) ) {
 			throw new Mvc_View_Exception( 'Illegal script file name', Mvc_View_Exception::CODE_INVALID_VIEW_NAME );
 		}
 

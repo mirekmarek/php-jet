@@ -10,11 +10,9 @@ namespace JetStudio;
 use Jet\BaseObject;
 use Jet\Mvc_Site;
 use Jet\Locale;
-use Jet\Http_Request;
 use Jet\Form_Field_Input;
 use Jet\Data_Text;
 use Jet\Form_Field;
-use Jet\SysConf_URI;
 
 
 /**
@@ -25,14 +23,15 @@ class Project extends BaseObject implements Application_Part {
 	/**
 	 * @var string
 	 */
-	protected static $application_namespace = 'JetApplication';
+	protected static string $application_namespace = 'JetApplication';
 
 	/**
 	 * @param bool $as_string
 	 *
 	 * @return string[]|Locale[]
+	 * @noinspection PhpDocSignatureInspection
 	 */
-	public static function getDefaultLocales( $as_string=false )
+	public static function getDefaultLocales( bool $as_string=false ) : array
 	{
 		$locales = [];
 
@@ -50,7 +49,7 @@ class Project extends BaseObject implements Application_Part {
 	/**
 	 * @param string $application_namespace
 	 */
-	public static function setApplicationNamespace( $application_namespace )
+	public static function setApplicationNamespace( string $application_namespace ) : void
 	{
 		self::$application_namespace = $application_namespace;
 	}
@@ -60,7 +59,7 @@ class Project extends BaseObject implements Application_Part {
 	/**
 	 * @return string
 	 */
-	public static function getApplicationNamespace()
+	public static function getApplicationNamespace() : string
 	{
 		return static::$application_namespace;
 	}
@@ -72,7 +71,7 @@ class Project extends BaseObject implements Application_Part {
 	 *
 	 * @return string
 	 */
-	public static function generateIdentifier( $name, callable $check_exists_callback)
+	public static function generateIdentifier( string $name, callable $check_exists_callback ) : string
 	{
 
 		$id = Data_Text::removeAccents( $name );
@@ -100,7 +99,7 @@ class Project extends BaseObject implements Application_Part {
 	 *
 	 * @return bool
 	 */
-	public static function validateClassName( Form_Field $field )
+	public static function validateClassName( Form_Field $field ) : bool
 	{
 		if(!$field->getIsRequired()) {
 			return true;
@@ -119,8 +118,8 @@ class Project extends BaseObject implements Application_Part {
 
 		if(
 			!preg_match('/^([a-zA-Z1-9\\\_]{3,})$/', $class_name) ||
-			strpos( $class_name, '\\\\' )!==false ||
-			strpos( $class_name, '__' )!==false ||
+			str_contains( $class_name, '\\\\' ) ||
+			str_contains( $class_name, '__' ) ||
 			substr($class_name, -1)=='\\'
 		) {
 			$field->setError( Form_Field::ERROR_CODE_INVALID_FORMAT );
@@ -139,7 +138,7 @@ class Project extends BaseObject implements Application_Part {
 	 *
 	 * @return bool
 	 */
-	public static function validateMethodName( Form_Field $field, Form_Field_Input $class_name_field=null )
+	public static function validateMethodName( Form_Field $field, Form_Field_Input $class_name_field=null ) : bool
 	{
 		if(!$field->getIsRequired()) {
 			return true;
@@ -160,7 +159,7 @@ class Project extends BaseObject implements Application_Part {
 
 		if(
 			!preg_match('/^([a-zA-Z1-9_]{3,})$/', $method_name) ||
-			strpos( $method_name, '__' )!==false
+			str_contains( $method_name, '__' )
 		) {
 			$field->setError( Form_Field::ERROR_CODE_INVALID_FORMAT );
 			if($class_name_field) {
@@ -180,7 +179,7 @@ class Project extends BaseObject implements Application_Part {
 	 *
 	 * @return bool
 	 */
-	public static function validateControllerName( Form_Field $field )
+	public static function validateControllerName( Form_Field $field ) : bool
 	{
 		if(!$field->getIsRequired()) {
 			return true;
@@ -198,7 +197,7 @@ class Project extends BaseObject implements Application_Part {
 
 		if(
 			!preg_match('/^([a-zA-Z1-9_]{3,})$/', $controller_name) ||
-			strpos( $controller_name, '__' )!==false
+			str_contains( $controller_name, '__' )
 		) {
 			$field->setError( Form_Field::ERROR_CODE_INVALID_FORMAT );
 

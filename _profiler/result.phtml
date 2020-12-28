@@ -12,7 +12,7 @@ $blocks = $run->getBlocks();
  * @param int $b
  * @return string
  */
-function formatBytes($b)
+function formatBytes(int $b) : string
 {
 	return ($b / 1024) . "&nbsp;KiB";
 }
@@ -21,7 +21,7 @@ function formatBytes($b)
  * @param int $duration
  * @return string
  */
-function formatDuration($duration)
+function formatDuration(int $duration) : string
 {
 	$duration = round($duration * 1000, 3);
 
@@ -34,7 +34,7 @@ function formatDuration($duration)
  *
  * @return string
  */
-function formatQuery($query, array $query_data = [])
+function formatQuery(string $query, array $query_data = []) : string
 {
 
 	if (!$query_data) {

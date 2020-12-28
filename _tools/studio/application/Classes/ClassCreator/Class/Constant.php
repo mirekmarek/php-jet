@@ -10,6 +10,9 @@ namespace JetStudio;
 use Jet\BaseObject;
 use Jet\Data_Array;
 
+/**
+ *
+ */
 class ClassCreator_Class_Constant extends BaseObject
 {
 
@@ -17,21 +20,19 @@ class ClassCreator_Class_Constant extends BaseObject
 	/**
 	 * @var string
 	 */
-	protected $name = '';
+	protected string $name = '';
 
 	/**
 	 * @var mixed
 	 */
-	protected $value = '';
-
-
+	protected mixed $value = '';
 
 
 	/**
 	 * @param string $name
-	 * @param string $value
+	 * @param mixed $value
 	 */
-	public function __construct($name, $value)
+	public function __construct( string $name, mixed $value )
 	{
 		$this->name = $name;
 		$this->value = $value;
@@ -41,7 +42,7 @@ class ClassCreator_Class_Constant extends BaseObject
 	/**
 	 * @return string
 	 */
-	public function getName()
+	public function getName() : string
 	{
 		return $this->name;
 	}
@@ -49,7 +50,7 @@ class ClassCreator_Class_Constant extends BaseObject
 	/**
 	 * @param string $name
 	 */
-	public function setName( $name )
+	public function setName( string $name ) : void
 	{
 		$this->name = $name;
 	}
@@ -57,7 +58,7 @@ class ClassCreator_Class_Constant extends BaseObject
 	/**
 	 * @return mixed
 	 */
-	public function getValue()
+	public function getValue() : mixed
 	{
 		return $this->value;
 	}
@@ -65,7 +66,7 @@ class ClassCreator_Class_Constant extends BaseObject
 	/**
 	 * @param mixed $value
 	 */
-	public function setValue( $value )
+	public function setValue( mixed $value ) : void
 	{
 		$this->value = $value;
 	}
@@ -73,7 +74,7 @@ class ClassCreator_Class_Constant extends BaseObject
 	/**
 	 * @return string
 	 */
-	public function toString()
+	public function toString() : string
 	{
 		$res = '';
 
@@ -106,7 +107,7 @@ class ClassCreator_Class_Constant extends BaseObject
 	/**
 	 * @return string
 	 */
-	public function __toString()
+	public function __toString() : string
 	{
 		return $this->toString();
 	}

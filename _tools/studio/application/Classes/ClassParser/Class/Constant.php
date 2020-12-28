@@ -16,12 +16,12 @@ class ClassParser_Class_Constant extends ClassParser_Class_Element
 	/**
 	 * @var string
 	 */
-	public $name = '';
+	public string $name = '';
 
 	/**
 	 * @var string
 	 */
-	public $value = '';
+	public string $value = '';
 
 
 	/**
@@ -94,7 +94,7 @@ class ClassParser_Class_Constant extends ClassParser_Class_Element
 	/**
 	 *
 	 */
-	public function debug_showResult()
+	public function debug_showResult() : void
 	{
 		$parser = $this->parser;
 

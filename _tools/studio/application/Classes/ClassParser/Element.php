@@ -13,24 +13,24 @@ namespace JetStudio;
 abstract class ClassParser_Element {
 
 	/**
-	 * @var ClassParser
+	 * @var ?ClassParser
 	 */
-	public $parser;
+	public ?ClassParser $parser = null;
 
 	/**
 	 * @var string
 	 */
-	public $name = '';
+	public string $name = '';
 
 	/**
-	 * @var ClassParser_Token
+	 * @var ?ClassParser_Token
 	 */
-	public $start_token;
+	public ?ClassParser_Token $start_token = null;
 
 	/**
-	 * @var ClassParser_Token
+	 * @var ?ClassParser_Token
 	 */
-	public $end_token;
+	public ?ClassParser_Token $end_token = null;
 
 	/**
 	 *
@@ -45,7 +45,7 @@ abstract class ClassParser_Element {
 	 *
 	 * @return ClassParser_Token|null
 	 */
-	public function nextToken()
+	public function nextToken() : ClassParser_Token|null
 	{
 		$parser = $this->parser;
 		$parser->index++;
@@ -59,7 +59,7 @@ abstract class ClassParser_Element {
 	/**
 	 *
 	 */
-	public function parseError()
+	public function parseError() : void
 	{
 		$this->parser->parseError();
 	}
@@ -67,7 +67,7 @@ abstract class ClassParser_Element {
 	/**
 	 *
 	 */
-	public function remove()
+	public function remove() : void
 	{
 		$parser = $this->parser;
 
@@ -77,7 +77,7 @@ abstract class ClassParser_Element {
 	/**
 	 * @param string $new_text
 	 */
-	public function replace( $new_text )
+	public function replace( string $new_text ) : void
 	{
 		$new_text = trim($new_text);
 
@@ -89,7 +89,7 @@ abstract class ClassParser_Element {
 	/**
 	 * @return string
 	 */
-	public function toString()
+	public function toString() : string
 	{
 		return $this->parser->getTokenText( $this->start_token, $this->end_token );
 	}
@@ -97,6 +97,6 @@ abstract class ClassParser_Element {
 	/**
 	 *
 	 */
-	abstract public function debug_showResult();
+	abstract public function debug_showResult() : void;
 
 }

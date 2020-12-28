@@ -63,7 +63,6 @@ class DataModel_Definition_Property_DataModel extends DataModel_Definition_Prope
 	/**
 	 *
 	 * @return mixed
-	 * @noinspection PhpMixedReturnTypeCanBeReducedInspection
 	 */
 	public function getDefaultValue() : mixed
 	{

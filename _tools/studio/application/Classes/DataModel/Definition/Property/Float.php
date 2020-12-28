@@ -20,7 +20,7 @@ class DataModel_Definition_Property_Float extends Jet_DataModel_Definition_Prope
 	/**
 	 * @param Form_Field[] &$fields
 	 */
-	public function getEditFormCustomFields( &$fields )
+	public function getEditFormCustomFields( array &$fields ) : void
 	{
 		$default_value_field = new Form_Field_Float('default_value', 'Default value', $this->getDefaultValue());
 		$default_value_field->setCatcher( function( $value ) {
@@ -35,7 +35,7 @@ class DataModel_Definition_Property_Float extends Jet_DataModel_Definition_Prope
 	/**
 	 *
 	 */
-	public function showEditFormFields()
+	public function showEditFormFields() : void
 	{
 		$form = $this->getEditForm();
 
@@ -50,7 +50,7 @@ class DataModel_Definition_Property_Float extends Jet_DataModel_Definition_Prope
 	 *
 	 * @return ClassCreator_Class_Property
 	 */
-	public function createClassProperty( ClassCreator_Class $class )
+	public function createClassProperty( ClassCreator_Class $class ) : ClassCreator_Class_Property
 	{
 
 		$annotations = [];
@@ -65,7 +65,7 @@ class DataModel_Definition_Property_Float extends Jet_DataModel_Definition_Prope
 	 * @param ClassCreator_Class $class
 	 *
 	 */
-	public function createClassMethods( ClassCreator_Class $class )
+	public function createClassMethods( ClassCreator_Class $class ) : void
 	{
 
 		$s_g_method_name = $this->getSetterGetterMethodName();

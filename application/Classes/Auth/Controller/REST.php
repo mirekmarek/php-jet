@@ -72,7 +72,7 @@ class Auth_Controller_REST extends BaseObject implements Auth_Controller_Interfa
 	public function getCurrentUser() : RESTClient|bool
 	{
 
-		if( $this->current_user!==false ) {
+		if( $this->current_user!==null ) {
 			return $this->current_user;
 		}
 

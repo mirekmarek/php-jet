@@ -18,65 +18,65 @@ interface DataModel_Definition_Property_Interface {
 	/**
 	 * @var DataModel_Class $_class
 	 */
-	public function setClass( DataModel_Class $_class );
+	public function setClass( DataModel_Class $_class ) : void;
 
 	/**
 	 * @return string
 	 */
-	public function getDeclaringClassName();
+	public function getDeclaringClassName() : string;
 
 	/**
 	 * @return bool
 	 */
-	public function isInherited();
+	public function isInherited() : bool;
 
 	/**
 	 * @return bool
 	 */
-	public function isOverload();
+	public function isOverload() : bool;
 
 	/**
 	 * @return string
 	 */
-	public function getHeadCssClass();
+	public function getHeadCssClass() : string;
 
 	/**
 	 * @return string
 	 */
-	public function getTypeDescription();
+	public function getTypeDescription() : string;
 
 	/**
 	 * @return string
 	 */
-	public function getIcons();
+	public function getIcons() : string;
 
 
 
 	/**
 	 * @return Form
 	 */
-	public function getEditForm();
+	public function getEditForm() : Form;
 
 	/**
 	 * @param Form_Field[] &$fields
 	 */
-	public function getEditFormCustomFields( &$fields );
+	public function getEditFormCustomFields( array &$fields ) : void;
 
 	/**
-	 * @return bool
+	 * @return bool|DataModel_Definition_Property_Interface
 	 */
-	public function catchEditForm();
+	public function catchEditForm() : bool|DataModel_Definition_Property_Interface;
 
-
-	/**
-	 *
-	 */
-	public function showEditForm();
 
 	/**
 	 *
 	 */
-	public function showEditFormFields();
+	public function showEditForm() : void;
+
+	/**
+	 *
+	 */
+	public function showEditFormFields() : void;
 
 
 
@@ -84,92 +84,92 @@ interface DataModel_Definition_Property_Interface {
 	/**
 	 * @return string
 	 */
-	public function getType();
+	public function getType() : string;
 
 	/**
 	 * @return string
 	 */
-	public function getName();
+	public function getName() : string;
 
 	/**
 	 * @param string $name
 	 */
-	public function setName($name);
+	public function setName(string $name) : void;
 
 	/**
 	 * @return null|string
 	 */
-	public function getRelatedToClassName();
+	public function getRelatedToClassName() : null|string;
 
 	/**
 	 * @param null|string $related_to_class_name
 	 */
-	public function setRelatedToClassName($related_to_class_name);
+	public function setRelatedToClassName( ?string $related_to_class_name) : void;
 
 	/**
 	 * @return null|string
 	 */
-	public function getRelatedToPropertyName();
+	public function getRelatedToPropertyName() : null|string;
 
 	/**
 	 * @param null|string $related_to_property_name
 	 */
-	public function setRelatedToPropertyName($related_to_property_name);
+	public function setRelatedToPropertyName( ?string $related_to_property_name ) : void;
 
 	/**
 	 * @param string $database_column_name
 	 */
-	public function setDatabaseColumnName($database_column_name);
+	public function setDatabaseColumnName( string $database_column_name ) : void;
 
 	/**
 	 * @return bool
 	 */
-	public function getIsId();
+	public function getIsId() : bool;
 
 	/**
 	 * @param bool $is_id
 	 */
-	public function setIsId($is_id);
+	public function setIsId( bool $is_id ) : void;
 
 	/**
 	 * @return bool
 	 */
-	public function getIsKey();
+	public function getIsKey() : bool;
 
 	/**
 	 * @param bool $is_key
 	 */
-	public function setIsKey($is_key);
+	public function setIsKey( bool $is_key ) : void;
 
 	/**
 	 * @return bool
 	 */
-	public function getIsUnique();
+	public function getIsUnique() : bool;
 
 	/**
 	 * @param bool $is_unique
 	 */
-	public function setIsUnique($is_unique);
+	public function setIsUnique( bool $is_unique ) : void;
 
 	/**
 	 * @return bool
 	 */
-	public function isDoNotExport();
+	public function isDoNotExport() : bool;
 
 	/**
 	 * @param bool $do_not_export
 	 */
-	public function setDoNotExport($do_not_export);
+	public function setDoNotExport( bool $do_not_export ) : void;
 
 	/**
-	 * @return string
+	 * @return mixed
 	 */
-	public function getDefaultValue();
+	public function getDefaultValue() : mixed;
 
 	/**
 	 * @param string $default_value
 	 */
-	public function setDefaultValue($default_value);
+	public function setDefaultValue( string $default_value ) : void;
 
 
 
@@ -180,32 +180,32 @@ interface DataModel_Definition_Property_Interface {
 	 *
 	 * @return ClassCreator_Class_Property
 	 */
-	public function createClassProperty( ClassCreator_Class $class );
+	public function createClassProperty( ClassCreator_Class $class ) : ClassCreator_Class_Property;
 
 	/**
 	 * @param ClassCreator_Class $class
 	 *
 	 */
-	public function createClassMethods( ClassCreator_Class $class );
+	public function createClassMethods( ClassCreator_Class $class ) : void;
 
 	/**
 	 *
 	 */
-	public function prepare();
-
-	/**
-	 * @param DataModel_Class $class
-	 *
-	 * @return bool
-	 */
-	public function update( DataModel_Class $class );
-
+	public function prepare() : void;
 
 	/**
 	 * @param DataModel_Class $class
 	 *
 	 * @return bool
 	 */
-	public function add( DataModel_Class $class );
+	public function update( DataModel_Class $class ) : bool;
+
+
+	/**
+	 * @param DataModel_Class $class
+	 *
+	 * @return bool
+	 */
+	public function add( DataModel_Class $class ) : bool;
 
 }

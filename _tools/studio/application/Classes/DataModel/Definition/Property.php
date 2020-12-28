@@ -43,7 +43,7 @@ class DataModel_Definition_Property {
 	/**
 	 * @var array
 	 */
-	protected static $types = [
+	protected static array $types = [
 		DataModel::TYPE_STRING           => 'String',
 		DataModel::TYPE_INT              => 'Integer',
 		DataModel::TYPE_FLOAT            => 'Float',
@@ -60,7 +60,7 @@ class DataModel_Definition_Property {
 	/**
 	 * @var array
 	 */
-	protected static $form_error_codes = [
+	protected static array $form_error_codes = [
 		Form_Field::ERROR_CODE_EMPTY => [
 			'label' => Form_Field::ERROR_CODE_EMPTY
 		],
@@ -96,7 +96,7 @@ class DataModel_Definition_Property {
 	/**
 	 * @var array
 	 */
-	protected static $form_field_types = [
+	protected static array $form_field_types = [
 		'false' => [
 			'label' => '- No form field -',
 			'required_options' => [],
@@ -507,14 +507,14 @@ class DataModel_Definition_Property {
 
 
 	/**
-	 * @var Form
+	 * @var ?Form
 	 */
-	protected static $create_form;
+	protected static ?Form $create_form = null;
 
 	/**
 	 * @return array
 	 */
-	public static function getPropertyTypes()
+	public static function getPropertyTypes() : array
 	{
 		$types = [];
 
@@ -528,7 +528,7 @@ class DataModel_Definition_Property {
 	/**
 	 * @return array
 	 */
-	public static function getFormErrorCodes()
+	public static function getFormErrorCodes() : array
 	{
 		return static::$form_error_codes;
 	}
@@ -536,7 +536,7 @@ class DataModel_Definition_Property {
 	/**
 	 * @return array
 	 */
-	public static function getFormFieldTypes()
+	public static function getFormFieldTypes() : array
 	{
 		return static::$form_field_types;
 	}
@@ -546,7 +546,7 @@ class DataModel_Definition_Property {
 	 *
 	 * @return bool
 	 */
-	public static function checkPropertyNameFormat( Form_Field_Input $field )
+	public static function checkPropertyNameFormat( Form_Field_Input $field ) : bool
 	{
 		$name = $field->getValue();
 
@@ -570,7 +570,7 @@ class DataModel_Definition_Property {
 	 *
 	 * @return bool
 	 */
-	public static function checkPropertyName( Form_Field_Input $field, $old_name='' )
+	public static function checkPropertyName( Form_Field_Input $field, string $old_name='' ) : bool
 	{
 		if(!static::checkPropertyNameFormat($field)) {
 			return false;
@@ -616,7 +616,7 @@ class DataModel_Definition_Property {
 	/**
 	 * @return Form
 	 */
-	public static function getCreateForm()
+	public static function getCreateForm() : Form
 	{
 		if(!static::$create_form) {
 			$property_name = new Form_Field_Input('property_name', 'Property name:', '');
@@ -664,7 +664,7 @@ class DataModel_Definition_Property {
 	 *
 	 * @return bool|DataModel_Definition_Property_Interface
 	 */
-	public static function catchCreateForm( DataModel_Class $class )
+	public static function catchCreateForm( DataModel_Class $class ) : bool|DataModel_Definition_Property_Interface
 	{
 		$form = static::getCreateForm();
 		if(

@@ -29,28 +29,29 @@ class Sites_Site extends Mvc_Site
 {
 
 	/**
-	 * @var Form
+	 * @var ?Form
 	 */
-	protected $__edit_form;
+	protected ?Form $__edit_form = null;
 
 
 	/**
-	 * @var Form
+	 * @var ?Form
 	 */
-	protected $__add_locale_form;
+	protected ?Form $__add_locale_form = null;
 
 	/**
-	 * @var Form
+	 * @var ?Form
 	 */
-	protected $__sort_locales_form;
+	protected ?Form $__sort_locales_form = null;
 
 
 	/**
+	 *
 	 * @param string $id
 	 *
-	 * @return Mvc_Site|Sites_Site|null
+	 * @return static|null
 	 */
-	public static function get( $id )
+	public static function get( string $id ) : static|null
 	{
 		return Sites::getSite( $id );
 	}
@@ -58,7 +59,7 @@ class Sites_Site extends Mvc_Site
 	/**
 	 * @return Form
 	 */
-	public function getEditForm()
+	public function getEditForm() : Form
 	{
 		if(!$this->__edit_form) {
 			$name_field = new Form_Field_Input('name', 'Name:', $this->getName());
@@ -284,7 +285,7 @@ class Sites_Site extends Mvc_Site
 	/**
 	 * @return bool
 	 */
-	public function catchEditForm()
+	public function catchEditForm() : bool
 	{
 		$form = $this->getEditForm();
 
@@ -427,7 +428,7 @@ class Sites_Site extends Mvc_Site
 	/**
 	 * @return Form
 	 */
-	public function getAddLocaleForm()
+	public function getAddLocaleForm() : Form
 	{
 		if(!$this->__add_locale_form) {
 			$locale_field = new Form_Field_Hidden('locale');
@@ -444,7 +445,7 @@ class Sites_Site extends Mvc_Site
 	/**
 	 * @return Mvc_Site_LocalizedData_Interface|bool
 	 */
-	public function catchAddLocaleForm()
+	public function catchAddLocaleForm() : Mvc_Site_LocalizedData_Interface|bool
 	{
 		$form = $this->getAddLocaleForm();
 
@@ -470,7 +471,7 @@ class Sites_Site extends Mvc_Site
 	 *
 	 * @return bool
 	 */
-	public function createLocale( Locale $locale )
+	public function createLocale( Locale $locale ) : bool
 	{
 		$ok = true;
 		try {
@@ -540,7 +541,7 @@ class Sites_Site extends Mvc_Site
 	/**
 	 * @return Form
 	 */
-	public function getSortLocalesForm()
+	public function getSortLocalesForm() : Form
 	{
 		if(!$this->__sort_locales_form) {
 			$locale_field = new Form_Field_Hidden('locales', '', implode(',', $this->getLocales(true)));
@@ -557,7 +558,7 @@ class Sites_Site extends Mvc_Site
 	/**
 	 * @return bool
 	 */
-	public function catchSortLocalesForm()
+	public function catchSortLocalesForm() : bool
 	{
 		$form = $this->getSortLocalesForm();
 
@@ -578,7 +579,7 @@ class Sites_Site extends Mvc_Site
 	/**
 	 * @return bool
 	 */
-	public function save()
+	public function save() : bool
 	{
 		$ok = true;
 		try {
@@ -595,7 +596,7 @@ class Sites_Site extends Mvc_Site
 	/**
 	 *
 	 */
-	public function create()
+	public function create() : bool
 	{
 		$ok = true;
 		$templates_path = ProjectConf_PATH::TEMPLATES().'/';
@@ -656,7 +657,7 @@ class Sites_Site extends Mvc_Site
 	/**
 	 * @param Pages_Page $homepage
 	 */
-	public function create_applyTemplate_errorPages( Pages_Page $homepage )
+	public function create_applyTemplate_errorPages( Pages_Page $homepage ) : void
 	{
 		$templates_path = ProjectConf_PATH::TEMPLATES().'/';
 
@@ -677,7 +678,7 @@ class Sites_Site extends Mvc_Site
 	/**
 	 * @return array
 	 */
-	public function getLayoutsList()
+	public function getLayoutsList() : array
 	{
 		$list = IO_Dir::getList( $this->getLayoutsPath(), '*.'.Mvc_Layout::getScriptFileSuffix(), false, true );
 
@@ -700,7 +701,7 @@ class Sites_Site extends Mvc_Site
 	 *
 	 * @return array
 	 */
-	public function getLayoutOutputPositions( $layout_script_name )
+	public function getLayoutOutputPositions( string $layout_script_name ) : array
 	{
 		$res = [
 			Mvc_Layout::DEFAULT_OUTPUT_POSITION => Tr::_('Main position')

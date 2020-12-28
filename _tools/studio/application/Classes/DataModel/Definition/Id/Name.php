@@ -20,7 +20,8 @@ class DataModel_Definition_Id_Name extends DataModel_Definition_Id_Abstract {
 	/**
 	 * @param ClassCreator_Class $class
 	 */
-	public function createClass_IdDefinition( ClassCreator_Class $class ) {
+	public function createClass_IdDefinition( ClassCreator_Class $class ) : void
+	{
 		parent::createClass_IdDefinition( $class );
 
 		$id_property_name = $this->getSelectedIdPropertyName( DataModel::TYPE_ID );
@@ -47,7 +48,7 @@ class DataModel_Definition_Id_Name extends DataModel_Definition_Id_Abstract {
 	/**
 	 * @param ClassCreator_Class $class
 	 */
-	public function createClassMethods( ClassCreator_Class $class )
+	public function createClassMethods( ClassCreator_Class $class ) : void
 	{
 		$get_name_method_name = $this->model->getIDControllerOption('get_name_method_name', 'getName');
 
@@ -60,7 +61,7 @@ class DataModel_Definition_Id_Name extends DataModel_Definition_Id_Abstract {
 	/**
 	 * @return array
 	 */
-	public function getOptionsList()
+	public function getOptionsList() : array
 	{
 		return [
 			'id_property_name',
@@ -72,7 +73,7 @@ class DataModel_Definition_Id_Name extends DataModel_Definition_Id_Abstract {
 	 *
 	 * @return Form_Field[]
 	 */
-	public function getOptionsFormFields()
+	public function getOptionsFormFields() : array
 	{
 		$id_property_name = $this->getOptionsFormField_idProperty( DataModel::TYPE_ID );
 

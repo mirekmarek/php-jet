@@ -3,7 +3,6 @@ namespace JetStudio;
 
 use Jet\DataModel_Backend;
 use Jet\Debug;
-use Jet\SysConf_Jet;
 
 Debug::setOutputIsHTML( false );
 

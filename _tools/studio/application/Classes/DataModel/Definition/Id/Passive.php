@@ -17,7 +17,7 @@ class DataModel_Definition_Id_Passive extends DataModel_Definition_Id_Abstract {
 	/**
 	 * @return array
 	 */
-	public function getOptionsList()
+	public function getOptionsList() : array
 	{
 		return [];
 	}
@@ -26,7 +26,7 @@ class DataModel_Definition_Id_Passive extends DataModel_Definition_Id_Abstract {
 	 *
 	 * @return Form_Field[]
 	 */
-	public function getOptionsFormFields()
+	public function getOptionsFormFields() : array
 	{
 		return [];
 	}

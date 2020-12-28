@@ -31,7 +31,7 @@ class Config_Definition_Property_String extends Config_Definition_Property
 	 * @var string|bool
 	 */
 	protected string|bool $form_field_type = Form::TYPE_INPUT;
-	
+
 	/**
 	 * @param ?array $definition_data
 	 *

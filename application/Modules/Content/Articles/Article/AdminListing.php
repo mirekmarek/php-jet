@@ -9,6 +9,7 @@ namespace JetApplicationModule\Content\Articles;
 
 use Jet\Data_Listing;
 use Jet\Data_Listing_Filter_search;
+use Jet\DataModel_Fetch_Instances;
 
 /**
  *
@@ -40,9 +41,10 @@ class Article_AdminListing extends Data_Listing {
 	];
 
 	/**
-	 * @return Article[]
+	 * @return Article[]|DataModel_Fetch_Instances
+	 * @noinspection PhpDocSignatureInspection
 	 */
-	protected function getList() : iterable
+	protected function getList() : DataModel_Fetch_Instances
 	{
 		return Article::getList();
 	}

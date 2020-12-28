@@ -27,7 +27,7 @@ class DataModel_Definition_Key extends Jet_DataModel_Definition_Key
 	/**
 	 * @var array
 	 */
-	protected static $types = [
+	protected static array $types = [
 		DataModel::KEY_TYPE_INDEX => DataModel::KEY_TYPE_INDEX,
 		DataModel::KEY_TYPE_PRIMARY => DataModel::KEY_TYPE_PRIMARY,
 		DataModel::KEY_TYPE_UNIQUE => DataModel::KEY_TYPE_UNIQUE
@@ -35,14 +35,14 @@ class DataModel_Definition_Key extends Jet_DataModel_Definition_Key
 
 
 	/**
-	 * @var Form
+	 * @var ?Form
 	 */
-	protected $__edit_form;
+	protected ?Form $__edit_form = null;
 
 	/**
-	 * @var Form
+	 * @var ?Form
 	 */
-	protected static $create_form;
+	protected static ?Form $create_form = null;
 
 	/**
 	 * @param string $name
@@ -51,7 +51,7 @@ class DataModel_Definition_Key extends Jet_DataModel_Definition_Key
 	 *
 	 * @throws DataModel_Exception
 	 */
-	public function __construct( $name='', $type = DataModel::KEY_TYPE_INDEX, array $property_names = [] )
+	public function __construct( string $name='', string $type = DataModel::KEY_TYPE_INDEX, array $property_names = [] )
 	{
 		$this->name = $name;
 		$this->property_names = $property_names;
@@ -62,7 +62,7 @@ class DataModel_Definition_Key extends Jet_DataModel_Definition_Key
 	/**
 	 * @return array
 	 */
-	public static function getTypes()
+	public static function getTypes() : array
 	{
 		return static::$types;
 	}
@@ -70,7 +70,7 @@ class DataModel_Definition_Key extends Jet_DataModel_Definition_Key
 	/**
 	 * @return string
 	 */
-	public function getName()
+	public function getName() : string
 	{
 		return $this->name;
 	}
@@ -78,7 +78,7 @@ class DataModel_Definition_Key extends Jet_DataModel_Definition_Key
 	/**
 	 * @param string $name
 	 */
-	public function setName($name)
+	public function setName( string $name ) : void
 	{
 		$this->name = $name;
 	}
@@ -86,7 +86,7 @@ class DataModel_Definition_Key extends Jet_DataModel_Definition_Key
 	/**
 	 * @return string
 	 */
-	public function getType()
+	public function getType() : string
 	{
 		return $this->type;
 	}
@@ -94,7 +94,7 @@ class DataModel_Definition_Key extends Jet_DataModel_Definition_Key
 	/**
 	 * @param string $type
 	 */
-	public function setType($type)
+	public function setType( string $type ) : void
 	{
 		$this->type = $type;
 	}
@@ -102,7 +102,7 @@ class DataModel_Definition_Key extends Jet_DataModel_Definition_Key
 	/**
 	 * @return array
 	 */
-	public function getPropertyNames()
+	public function getPropertyNames() : array
 	{
 		return $this->property_names;
 	}
@@ -110,7 +110,7 @@ class DataModel_Definition_Key extends Jet_DataModel_Definition_Key
 	/**
 	 * @param array $property_names
 	 */
-	public function setPropertyNames( array $property_names )
+	public function setPropertyNames( array $property_names ) : void
 	{
 		$this->property_names = $property_names;
 	}
@@ -118,7 +118,7 @@ class DataModel_Definition_Key extends Jet_DataModel_Definition_Key
 	/**
 	 * @param string $property_id
 	 */
-	public function removeProperty( $property_id )
+	public function removeProperty( string $property_id ) : void
 	{
 		$i = array_search( $property_id, $this->property_names );
 		if( $i===false ) {
@@ -135,7 +135,7 @@ class DataModel_Definition_Key extends Jet_DataModel_Definition_Key
 	 *
 	 * @return bool
 	 */
-	public static function checkKeyName( Form_Field_Input $field, $old_name='' )
+	public static function checkKeyName( Form_Field_Input $field, string $old_name='' ) : bool
 	{
 		$name = $field->getValue();
 
@@ -189,7 +189,7 @@ class DataModel_Definition_Key extends Jet_DataModel_Definition_Key
 	/**
 	 * @return Form
 	 */
-	public static function getCreateForm()
+	public static function getCreateForm() : Form
 	{
 		if(!static::$create_form) {
 
@@ -251,7 +251,7 @@ class DataModel_Definition_Key extends Jet_DataModel_Definition_Key
 	/**
 	 * @return bool|DataModel_Definition_Key
 	 */
-	public static function catchCreateForm()
+	public static function catchCreateForm() : bool|DataModel_Definition_Key
 	{
 		$form = static::getCreateForm();
 
@@ -276,7 +276,7 @@ class DataModel_Definition_Key extends Jet_DataModel_Definition_Key
 	/**
 	 * @return Form
 	 */
-	public function getEditForm()
+	public function getEditForm() : Form
 	{
 		if( !$this->__edit_form ) {
 			$properties = [];
@@ -345,7 +345,7 @@ class DataModel_Definition_Key extends Jet_DataModel_Definition_Key
 	/**
 	 * @return bool
 	 */
-	public function catchEditForm()
+	public function catchEditForm() : bool
 	{
 		$form = $this->getEditForm();
 
@@ -367,7 +367,7 @@ class DataModel_Definition_Key extends Jet_DataModel_Definition_Key
 	 *
 	 * @return ClassCreator_Annotation
 	 */
-	public function createClass_getAsAnnotation( ClassCreator_Class $class )
+	public function createClass_getAsAnnotation( ClassCreator_Class $class ) : ClassCreator_Annotation
 	{
 
 		$properties = [];
@@ -378,11 +378,11 @@ class DataModel_Definition_Key extends Jet_DataModel_Definition_Key
 
 		$type = '';
 
-		switch( $this->getType() ) {
-			case DataModel::KEY_TYPE_INDEX: $type = 'DataModel::KEY_TYPE_INDEX'; break;
-			case DataModel::KEY_TYPE_PRIMARY: $type = 'DataModel::KEY_TYPE_PRIMARY'; break;
-			case DataModel::KEY_TYPE_UNIQUE: $type = 'DataModel::KEY_TYPE_UNIQUE'; break;
-		}
+		$type = match ($this->getType()) {
+			DataModel::KEY_TYPE_INDEX => 'DataModel::KEY_TYPE_INDEX',
+			DataModel::KEY_TYPE_PRIMARY => 'DataModel::KEY_TYPE_PRIMARY',
+			DataModel::KEY_TYPE_UNIQUE => 'DataModel::KEY_TYPE_UNIQUE',
+		};
 
 		$k_data = [
 			var_export( $this->getName(), true ),

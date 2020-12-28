@@ -8,9 +8,7 @@
 namespace JetStudio;
 
 use Jet\DataModel_Definition_Model_Main as Jet_DataModel_Definition_Model_Main;
-use Jet\DataModel_Exception;
 use Jet\Form;
-use Jet\Form_Field_Input;
 
 /**
  */
@@ -33,9 +31,9 @@ class DataModel_Definition_Model_Main extends Jet_DataModel_Definition_Model_Mai
 
 
 	/**
-	 * @var Form
+	 * @var ?Form
 	 */
-	protected static Form $create_form;
+	protected static ?Form $create_form = null;
 
 
 
@@ -55,7 +53,7 @@ class DataModel_Definition_Model_Main extends Jet_DataModel_Definition_Model_Mai
 	/**
 	 * @return ClassCreator_Class
 	 */
-	public function createClass_initClass()
+	public function createClass_initClass() : ClassCreator_Class
 	{
 
 		$class = new ClassCreator_Class();
@@ -73,7 +71,7 @@ class DataModel_Definition_Model_Main extends Jet_DataModel_Definition_Model_Mai
 	/**
 	 * @return bool|DataModel_Definition_Model_Main
 	 */
-	public static function catchCreateForm()
+	public static function catchCreateForm() : bool|DataModel_Definition_Model_Main
 	{
 		$form = static::getCreateForm();
 

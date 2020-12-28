@@ -16,17 +16,17 @@ interface DataModel_Definition_Model_Interface
 	/**
 	 * @return bool
 	 */
-	public function isAbstract();
+	public function isAbstract() : bool;
 
 	/**
 	 * @return bool
 	 */
-	public function canHaveRelated();
+	public function canHaveRelated() : bool;
 
 	/**
 	 * @return ClassCreator_Class|null
 	 */
-	public function createClass();
+	public function createClass() : ClassCreator_Class|null;
 
 	/**
 	 * @param ClassCreator_Class $class
@@ -34,7 +34,7 @@ interface DataModel_Definition_Model_Interface
 	 *
 	 * @return string
 	 */
-	public function createClass_getExtends( ClassCreator_Class $class, $default );
+	public function createClass_getExtends( ClassCreator_Class $class, string $default ) : string;
 
 
 	/**
@@ -44,148 +44,141 @@ interface DataModel_Definition_Model_Interface
 	 *
 	 * @return mixed
 	 */
-	public function getIDControllerOption( $option, $default_value );
+	public function getIDControllerOption( string $option, mixed $default_value ) : mixed;
 
 	/**
 	 *
 	 * @param string $option
 	 * @param mixed $value
 	 */
-	public function setIDControllerOption( $option, $value );
+	public function setIDControllerOption( string $option, mixed $value ) : void;
 
 	/**
 	 * @return DataModel_Definition_Relation_External[]
 	 */
-	public function getExternalRelations();
+	public function getExternalRelations() : array;
 
 
 	/**
-	 * @return DataModel_Definition_Property_Interface|\Jet\DataModel_Definition_Property
+	 * @return DataModel_Definition_Property_Interface[]|\Jet\DataModel_Definition_Property[]
+	 * @noinspection PhpDocSignatureInspection
 	 */
-	public function getProperties();
-
-	/**
-	 *
-	 * @param string $property_name
-	 *
-	 * @return DataModel_Definition_Property_Interface|\Jet\DataModel_Definition_Property
-	 */
-	public function getProperty( $property_name );
+	public function getProperties() : array;
 
 
 
 	/**
 	 * @return string
 	 */
-	public function getInternalType();
+	public function getInternalType() : string;
 
 
 	/**
 	 * @return string
 	 */
-	public function getModelName();
+	public function getModelName() : string;
 
 	/**
 	 * @param string $model_name
 	 */
-	public function setModelName($model_name);
+	public function setModelName(string $model_name ) : void;
 
 	/**
 	 * @return string
 	 */
-	public function getDatabaseTableName();
+	public function getDatabaseTableName() : string;
 
 	/**
 	 * @param string $database_table_name
 	 */
-	public function setDatabaseTableName($database_table_name);
+	public function setDatabaseTableName( string $database_table_name) : void;
 
 	/**
 	 * @return string
 	 */
-	public function getClassName();
+	public function getClassName() : string;
 
 	/**
 	 * @return string
 	 */
-	public function getExtends();
+	public function getExtends() : string;
 
 	/**
 	 * @return array
 	 */
-	public function getImplements();
+	public function getImplements() : array;
 
 	/**
 	 * @return array
 	 */
-	public function getExtendsScope();
+	public function getExtendsScope() : array;
 
 	/**
 	 * @return Form
 	 */
-	public function getEditForm();
+	public function getEditForm() : Form;
 
 	/**
 	 * @return bool
 	 */
-	public function catchEditForm();
+	public function catchEditForm() : bool;
 
 
 	/**
 	 * @param DataModel_Definition_Property_Interface $property
 	 */
-	public function addProperty(DataModel_Definition_Property_Interface $property );
+	public function addProperty(DataModel_Definition_Property_Interface $property ) : void;
 
 
 	/**
 	 * @param DataModel_Definition_Key $key
 	 */
-	public function addCustomNewKey( DataModel_Definition_Key $key );
+	public function addCustomNewKey( DataModel_Definition_Key $key ) : void;
 
 	/**
 	 * @param string $key_name
 	 *
 	 * @return DataModel_Definition_Key|null
 	 */
-	public function getCustomKey( $key_name );
+	public function getCustomKey( string $key_name ) : DataModel_Definition_Key|null;
 
 	/**
 	 * @return DataModel_Definition_Key[]
 	 */
-	public function getCustomKeys();
+	public function getCustomKeys() : array;
 
 	/**
 	 * @param string $key_name
 	 */
-	public function deleteCustomKey( $key_name );
+	public function deleteCustomKey( string $key_name ) : void;
 
 
 	/**
 	 * @param DataModel_Definition_Relation_External $relation
 	 */
-	public function addExternalRelation( DataModel_Definition_Relation_External $relation );
+	public function addExternalRelation( DataModel_Definition_Relation_External $relation ) : void;
 
 	/**
 	 * @param string $relation_id
 	 *
 	 * @return DataModel_Definition_Relation_External|null
 	 */
-	public function getExternalRelation( $relation_id );
+	public function getExternalRelation( string $relation_id ) : DataModel_Definition_Relation_External|null;
 
 
 	/**
 	 * @param string $relation_id
 	 */
-	public function deleteExternalRelation( $relation_id );
+	public function deleteExternalRelation( string $relation_id ) : void;
 
 	/**
 	 * @return bool
 	 */
-	public function save();
+	public function save() : bool;
 
 	/**
 	 * @return bool
 	 */
-	public function create();
+	public function create() : bool;
 
 }

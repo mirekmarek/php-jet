@@ -8,7 +8,6 @@
 namespace JetStudio;
 
 use Jet\DataModel;
-use Jet\ClassParser;
 use Jet\DataModel_Exception;
 use Jet\IO_File;
 use Jet\IO_Dir;
@@ -21,22 +20,22 @@ class DataModels_ClassFinder {
 	/**
 	 * @var DataModel_Class[]
 	 */
-	protected $classes = [];
+	protected array $classes = [];
 
 	/**
 	 * @var bool
 	 */
-	protected $_new_founded = false;
+	protected bool $_new_founded = false;
 
 	/**
 	 * @var array
 	 */
-	protected $dirs = [];
+	protected array $dirs = [];
 
 	/**
 	 * @var string[]
 	 */
-	protected $parent_classes = [
+	protected array $parent_classes = [
 		'Jet\DataModel',
 		'Jet\DataModel_Related_1to1',
 		'Jet\DataModel_Related_1toN',
@@ -55,7 +54,7 @@ class DataModels_ClassFinder {
 	/**
 	 *
 	 */
-	public function find()
+	public function find() : void
 	{
 		do {
 			$this->_new_founded = false;
@@ -83,7 +82,7 @@ class DataModels_ClassFinder {
 	/**
 	 * @param string $dir
 	 */
-	protected function readDir( $dir  )
+	protected function readDir( string $dir  ) : void
 	{
 		$dirs = IO_Dir::getList( $dir, '*', true, false );
 		$files = IO_Dir::getList( $dir, '*.php', false, true );
@@ -91,7 +90,7 @@ class DataModels_ClassFinder {
 		foreach( $files as $path=>$name ) {
 			$file_data = IO_File::read($path);
 
-			if(strpos($file_data, 'DataModel')===false) {
+			if( !str_contains( $file_data, 'DataModel' ) ) {
 				continue;
 			}
 
@@ -141,7 +140,7 @@ class DataModels_ClassFinder {
 	/**
 	 * @return DataModel_Class[]
 	 */
-	public function getClasses()
+	public function getClasses() : array
 	{
 		return $this->classes;
 	}

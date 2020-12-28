@@ -19,7 +19,8 @@ class DataModel_Definition_Id_UniqueString extends DataModel_Definition_Id_Abstr
 	/**
 	 * @param ClassCreator_Class $class
 	 */
-	public function createClass_IdDefinition( ClassCreator_Class $class ) {
+	public function createClass_IdDefinition( ClassCreator_Class $class ) : void
+	{
 		parent::createClass_IdDefinition( $class );
 
 		$id_property_name = $this->getSelectedIdPropertyName( DataModel::TYPE_ID );
@@ -43,7 +44,7 @@ class DataModel_Definition_Id_UniqueString extends DataModel_Definition_Id_Abstr
 	/**
 	 * @return array
 	 */
-	public function getOptionsList()
+	public function getOptionsList() : array
 	{
 		return [
 			'id_property_name'
@@ -54,7 +55,7 @@ class DataModel_Definition_Id_UniqueString extends DataModel_Definition_Id_Abstr
 	 *
 	 * @return Form_Field[]
 	 */
-	public function getOptionsFormFields()
+	public function getOptionsFormFields() : array
 	{
 		$id_property_name = $this->getOptionsFormField_idProperty( DataModel::TYPE_ID );
 

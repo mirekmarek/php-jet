@@ -54,9 +54,9 @@ interface Form_Field_Definition_Interface
 	public function setFormFieldGetSelectOptionsCallback( callable $form_field_get_select_options_callback ) : void;
 
 	/**
-	 * @return callable
+	 * @return callable|null
 	 */
-	public function getFormFieldGetSelectOptionsCallback() : callable;
+	public function getFormFieldGetSelectOptionsCallback() : callable|null;
 
 	/**
 	 * @param string $setter_name

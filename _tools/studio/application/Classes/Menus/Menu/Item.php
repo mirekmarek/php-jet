@@ -27,23 +27,23 @@ class Menus_Menu_Item extends Navigation_Menu_Item
 	/**
 	 * @var string
 	 */
-	protected $set_id = '';
+	protected string $set_id = '';
 
 
 	/**
-	 * @var Form
+	 * @var ?Form
 	 */
-	protected static $create_form;
+	protected static ?Form $create_form = null;
 
 	/**
-	 * @var Form
+	 * @var ?Form
 	 */
-	protected $__edit_form;
+	protected ?Form $__edit_form = null;
 
 	/**
 	 * @return string
 	 */
-	public function getSetId()
+	public function getSetId() : string
 	{
 		return $this->set_id;
 	}
@@ -51,7 +51,7 @@ class Menus_Menu_Item extends Navigation_Menu_Item
 	/**
 	 * @param string $set_id
 	 */
-	public function setSetId( $set_id )
+	public function setSetId( string $set_id ) : void
 	{
 		$this->set_id = $set_id;
 	}
@@ -60,7 +60,7 @@ class Menus_Menu_Item extends Navigation_Menu_Item
 	/**
 	 * @return string
 	 */
-	public function getFullId()
+	public function getFullId() : string
 	{
 		return $this->getSetId().'.'.$this->getMenuId().'.'.$this->getId();
 	}
@@ -70,7 +70,7 @@ class Menus_Menu_Item extends Navigation_Menu_Item
 	/**
 	 * @return Form
 	 */
-	public static function getCreateForm()
+	public static function getCreateForm() : Form
 	{
 		if(!static::$create_form) {
 
@@ -160,7 +160,7 @@ class Menus_Menu_Item extends Navigation_Menu_Item
 	/**
 	 * @return bool|Menus_Menu_Item
 	 */
-	public static function catchCreateForm()
+	public static function catchCreateForm() : bool|Menus_Menu_Item
 	{
 		$form = static::getCreateForm();
 		if(
@@ -189,7 +189,7 @@ class Menus_Menu_Item extends Navigation_Menu_Item
 		$menu_item->setLocale( $form->field('locale')->getValue() );
 
 		$menu_item->setUrlParts( static::catchURLParts( $form ) );
-		$menu_item->setGetParams( static::catchGETparams( $form ) );
+		$menu_item->setGetParams( static::catchGETParams( $form ) );
 
 		return $menu_item;
 	}
@@ -200,7 +200,7 @@ class Menus_Menu_Item extends Navigation_Menu_Item
 	 * @return Form
 	 *
 	 */
-	public function getEditForm()
+	public function getEditForm() : Form
 	{
 		if(!$this->__edit_form) {
 			$id = new Form_Field_Input('id', 'Menu item identifier:', $this->getId() );
@@ -311,7 +311,7 @@ class Menus_Menu_Item extends Navigation_Menu_Item
 	/**
 	 * @return bool
 	 */
-	public function catchEditForm()
+	public function catchEditForm() : bool
 	{
 		$form = $this->getEditForm();
 
@@ -325,7 +325,7 @@ class Menus_Menu_Item extends Navigation_Menu_Item
 		$form->catchData();
 
 		$this->setUrlParts( static::catchURLParts( $form ) );
-		$this->setGetParams( static::catchGETparams( $form ) );
+		$this->setGetParams( static::catchGETParams( $form ) );
 
 		$form_name = $form->getName();
 
@@ -341,7 +341,7 @@ class Menus_Menu_Item extends Navigation_Menu_Item
 	 *
 	 * @return string
 	 */
-	public function getId( $absolute=true )
+	public function getId( bool $absolute=true ) : string
 	{
 		return $this->id;
 	}
@@ -352,7 +352,7 @@ class Menus_Menu_Item extends Navigation_Menu_Item
 	 *
 	 * @return array
 	 */
-	public static function catchURLParts( Form $form, $field_prefix='' )
+	public static function catchURLParts( Form $form, string $field_prefix='' ) : array
 	{
 		$URL_parts = [];
 		for( $c=0; $c<static::URL_PARTS_COUNT; $c++) {
@@ -374,7 +374,7 @@ class Menus_Menu_Item extends Navigation_Menu_Item
 	 *
 	 * @return array
 	 */
-	public static function catchGETparams( Form $form, $field_prefix='' )
+	public static function catchGETParams( Form $form, string $field_prefix='' ) : array
 	{
 		$GET_params = [];
 		for( $c=0; $c<static::GET_PARAMS_COUNT; $c++) {
@@ -395,7 +395,7 @@ class Menus_Menu_Item extends Navigation_Menu_Item
 	/**
 	 * @return array
 	 */
-	public function toArray()
+	public function toArray() : array
 	{
 		$menu_item = [
 			'label' => $this->getLabel(),

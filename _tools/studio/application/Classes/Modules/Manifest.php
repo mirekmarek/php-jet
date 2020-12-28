@@ -7,7 +7,6 @@
  */
 namespace JetStudio;
 
-use Jet\ClassParser;
 use Jet\Application_Module_Manifest;
 use Jet\Data_Array;
 use Jet\Exception;
@@ -31,41 +30,36 @@ class Modules_Manifest extends Application_Module_Manifest
 
 
 	/**
-	 * @var Form
+	 * @var ?Form
 	 */
-	protected $__edit_form;
-
-	/**
-	 * @var Modules_Module_Controller[]
-	 */
-	protected $controllers = [];
+	protected ?Form $__edit_form = null;
 
 	/**
 	 * @var Pages_Page[][]
 	 */
-	protected $pages = [];
+	protected array $pages = [];
 
 
 	/**
-	 * @var Form
+	 * @var ?Form
 	 */
-	protected static $create_form;
+	protected static ?Form $create_form = null;
 
 	/**
-	 * @var Form
+	 * @var ?Form
 	 */
-	protected $page_create_form;
+	protected ?Form $page_create_form = null;
 
 	/**
-	 * @var Form
+	 * @var ?Form
 	 */
-	protected $menu_item_create_form;
+	protected ?Form $menu_item_create_form = null;
 
 
 	/**
 	 * @return bool
 	 */
-	public function save()
+	public function save() : bool
 	{
 		$ok = true;
 		try {
@@ -82,7 +76,7 @@ class Modules_Manifest extends Application_Module_Manifest
 	/**
 	 * @param array $manifest_data
 	 */
-	protected function setupProperties( array $manifest_data )
+	protected function setupProperties( array $manifest_data ) : void
 	{
 		parent::setupProperties( $manifest_data );
 
@@ -124,7 +118,7 @@ class Modules_Manifest extends Application_Module_Manifest
 	/**
 	 * @param string $name
 	 */
-	public function setName($name)
+	public function setName( string $name ) : void
 	{
 		$this->_name = $name;
 	}
@@ -132,7 +126,7 @@ class Modules_Manifest extends Application_Module_Manifest
 	/**
 	 * @param string $vendor
 	 */
-	public function setVendor($vendor)
+	public function setVendor( string $vendor ) : void
 	{
 		$this->vendor = $vendor;
 	}
@@ -140,7 +134,7 @@ class Modules_Manifest extends Application_Module_Manifest
 	/**
 	 * @param string $version
 	 */
-	public function setVersion($version)
+	public function setVersion( string $version ) : void
 	{
 		$this->version = $version;
 	}
@@ -148,7 +142,7 @@ class Modules_Manifest extends Application_Module_Manifest
 	/**
 	 * @param string $label
 	 */
-	public function setLabel($label)
+	public function setLabel( string $label ) : void
 	{
 		$this->label = $label;
 	}
@@ -156,7 +150,7 @@ class Modules_Manifest extends Application_Module_Manifest
 	/**
 	 * @param string $description
 	 */
-	public function setDescription($description)
+	public function setDescription( string $description ) : void
 	{
 		$this->description = $description;
 	}
@@ -164,7 +158,7 @@ class Modules_Manifest extends Application_Module_Manifest
 	/**
 	 * @param bool $is_mandatory
 	 */
-	public function setIsMandatory($is_mandatory)
+	public function setIsMandatory( bool $is_mandatory ) : void
 	{
 		$this->is_mandatory = $is_mandatory;
 	}
@@ -172,7 +166,7 @@ class Modules_Manifest extends Application_Module_Manifest
 	/**
 	 * @param array $ACL_actions
 	 */
-	public function setACLActions( $ACL_actions )
+	public function setACLActions( array $ACL_actions ) : void
 	{
 		$this->ACL_actions = $ACL_actions;
 	}
@@ -181,7 +175,7 @@ class Modules_Manifest extends Application_Module_Manifest
 	/**
 	 * @return Pages_Page[][]
 	 */
-	public function getPagesList()
+	public function getPagesList() : array
 	{
 		return $this->pages;
 	}
@@ -192,7 +186,7 @@ class Modules_Manifest extends Application_Module_Manifest
 	 *
 	 * @return null|Pages_Page
 	 */
-	public function getPage( $site_id, $page_id )
+	public function getPage( string $site_id, string $page_id ) : null|Pages_Page
 	{
 		if(
 			!isset($this->pages[$site_id]) ||
@@ -214,7 +208,7 @@ class Modules_Manifest extends Application_Module_Manifest
 	 *
 	 * @return Form
 	 */
-	public function getEditForm()
+	public function getEditForm() : Form
 	{
 		if( !$this->__edit_form ) {
 
@@ -325,7 +319,7 @@ class Modules_Manifest extends Application_Module_Manifest
 	/**
 	 * @return bool
 	 */
-	public function catchEditForm()
+	public function catchEditForm() : bool
 	{
 		$form = $this->getEditForm();
 		if(
@@ -346,7 +340,7 @@ class Modules_Manifest extends Application_Module_Manifest
 	 * @param Form $form
 	 *
 	 */
-	public function catchEditForm_ACLAction( Form $form )
+	public function catchEditForm_ACLAction( Form $form ) : void
 	{
 		$ACL_actions = [];
 		for( $m=0;$m<static::MAX_ACL_ACTION_COUNT;$m++ ) {
@@ -383,9 +377,8 @@ class Modules_Manifest extends Application_Module_Manifest
 	 *
 	 * @return bool
 	 */
-	public static function checkModuleName(Form_Field_Input $field, $name, $old_module_name='' )
+	public static function checkModuleName(Form_Field_Input $field, string $name, string $old_module_name='' ) : bool
 	{
-
 
 		if(!$name)	{
 			$field->setError( Form_Field_Input::ERROR_CODE_EMPTY );
@@ -394,7 +387,7 @@ class Modules_Manifest extends Application_Module_Manifest
 
 		if(
 			!preg_match('/^[a-z0-9.]{3,}$/i', $name) ||
-			strpos( $name, '..' )!==false ||
+			str_contains( $name, '..' ) ||
 			$name[0]=='.' ||
 			$name[strlen($name)-1]=='.'
 		) {
@@ -432,7 +425,7 @@ class Modules_Manifest extends Application_Module_Manifest
 	 *
 	 * @param Pages_Page $page
 	 */
-	public function addPage( $site_id, Pages_Page $page )
+	public function addPage( string $site_id, Pages_Page $page ) : void
 	{
 		if(!isset($this->pages[$site_id])) {
 			$this->pages[$site_id] = [];
@@ -445,7 +438,7 @@ class Modules_Manifest extends Application_Module_Manifest
 	/**
 	 * @return Form
 	 */
-	public function getPageCreateForm()
+	public function getPageCreateForm() : Form
 	{
 		if(!$this->page_create_form) {
 			$sites = [''=>''];
@@ -493,7 +486,7 @@ class Modules_Manifest extends Application_Module_Manifest
 	 *
 	 * @return Pages_Page|bool
 	 */
-	public function catchCratePageForm()
+	public function catchCratePageForm() : Pages_Page|null
 	{
 		$form = $this->getPageCreateForm();
 
@@ -539,7 +532,7 @@ class Modules_Manifest extends Application_Module_Manifest
 	 * @param string $site_id
 	 * @return string
 	 */
-	public static function generatePageId( $name, $site_id )
+	public static function generatePageId( string $name, string $site_id ) : string
 	{
 		$site = Sites::getSite( $site_id );
 
@@ -562,7 +555,7 @@ class Modules_Manifest extends Application_Module_Manifest
 	 * @param string $page_id
 	 * @return Pages_Page|null
 	 */
-	public function deletePage( $site_id, $page_id )
+	public function deletePage( string $site_id, string $page_id ) : Pages_Page|null
 	{
 		if( !isset($this->pages[$site_id][$page_id]) ) {
 			return null;
@@ -582,14 +575,14 @@ class Modules_Manifest extends Application_Module_Manifest
 	/**
 	 * @return array
 	 */
-	public function getControllers()
+	public function getControllers() : array
 	{
 		$controllers = [];
 
 		/**
 		 * @param string $dir
 		 */
-		$readDir = function ( $dir  ) use (&$readDir, &$controllers)
+		$readDir = function ( string $dir  ) use (&$readDir, &$controllers)
 		{
 			$dirs = IO_Dir::getList( $dir, '*', true, false );
 			$files = IO_Dir::getList( $dir, '*.php', false, true );
@@ -637,7 +630,7 @@ class Modules_Manifest extends Application_Module_Manifest
 	 *
 	 * @return array
 	 */
-	public function getControllerAction( $controller_name )
+	public function getControllerAction( string $controller_name ) : array
 	{
 		$class_name = $this->getNamespace().'Controller_'.$controller_name;
 
@@ -665,7 +658,7 @@ class Modules_Manifest extends Application_Module_Manifest
 	/**
 	 * @return Form
 	 */
-	public function getCreateMenuItemForm()
+	public function getCreateMenuItemForm() : Form
 	{
 		if(!$this->menu_item_create_form) {
 
@@ -705,7 +698,7 @@ class Modules_Manifest extends Application_Module_Manifest
 	/**
 	 * @return bool|Menus_Menu_Item
 	 */
-	public function catchCreateMenuItemForm()
+	public function catchCreateMenuItemForm() : bool|Menus_Menu_Item
 	{
 		$form = $this->getCreateMenuItemForm();
 		if(
@@ -741,7 +734,7 @@ class Modules_Manifest extends Application_Module_Manifest
 		$menu_item->setLocale( $form->field('locale')->getValue() );
 
 		$menu_item->setUrlParts( Menus_Menu_Item::catchURLParts( $form ) );
-		$menu_item->setGetParams( Menus_Menu_Item::catchGETparams( $form ) );
+		$menu_item->setGetParams( Menus_Menu_Item::catchGETParams( $form ) );
 
 		return $menu_item;
 	}
@@ -750,7 +743,7 @@ class Modules_Manifest extends Application_Module_Manifest
 	 *
 	 * @param Menus_Menu_Item $menu_item
 	 */
-	public function addMenuItem( Menus_Menu_Item $menu_item )
+	public function addMenuItem( Menus_Menu_Item $menu_item ) : void
 	{
 		$menu_set = $menu_item->getSetId();
 		$menu_id = $menu_item->getMenuId();
@@ -775,7 +768,7 @@ class Modules_Manifest extends Application_Module_Manifest
 	 *
 	 * @return Menus_Menu_Item[]
 	 */
-	public function getMenuItemsList( $menu_set='', $menu_id='' )
+	public function getMenuItemsList( string $menu_set='', string $menu_id='' ) : array
 	{
 		if(!$menu_set) {
 			return $this->menu_items;
@@ -804,7 +797,7 @@ class Modules_Manifest extends Application_Module_Manifest
 	 *
 	 * @return Menus_Menu_Item|null
 	 */
-	public function getMenuItem( $menu_set, $menu_id, $item_id )
+	public function getMenuItem( string $menu_set, string $menu_id, string $item_id ) : Menus_Menu_Item|null
 	{
 		if(!isset( $this->menu_items[$menu_set][$menu_id][$item_id])) {
 			return null;
@@ -821,7 +814,7 @@ class Modules_Manifest extends Application_Module_Manifest
 	 *
 	 * @return Menus_Menu_Item|null
 	 */
-	public function deleteMenuItem( $menu_set, $menu_id, $item_id )
+	public function deleteMenuItem( string $menu_set, string $menu_id, string $item_id ) : Menus_Menu_Item|null
 	{
 		if(
 			!isset( $this->menu_items[$menu_set]) ||
@@ -849,7 +842,7 @@ class Modules_Manifest extends Application_Module_Manifest
 	/**
 	 * @return array
 	 */
-	public function toArray()
+	public function toArray() : array
 	{
 		$res = [
 			'vendor'       => $this->getVendor(),
@@ -945,59 +938,17 @@ class Modules_Manifest extends Application_Module_Manifest
 		return $res;
 	}
 
-	/**
-	 *
-	 */
-	public function create()
-	{
-		$ok = true;
-		try {
-			$this->create_saveManifest();
-			$this->create_mainClass();
-			Application::resetOPCache();
-		} catch( Exception $e ) {
-			$ok = false;
-			Application::handleError( $e );
-		}
-
-		return $ok;
-	}
 
 	/**
 	 *
 	 */
-	public function create_saveManifest()
+	public function create_saveManifest() : void
 	{
 		$module_dir = $this->getModuleDir();
 
 		$data = new Data_Array($this->toArray());
 
 		IO_File::write( $module_dir.static::getManifestFileName(), '<?php return '.$data->export() );
-
-	}
-
-
-	/**
-	 *
-	 */
-	public function create_mainClass()
-	{
-		$class_name = 'Main';
-
-		$class = new ClassCreator_Class();
-
-		$class->setNamespace( rtrim($this->getNamespace(), '\\') );
-		$class->setName( $class_name );
-
-		$extends_ns = 'Jet';
-		$extends_class = 'Application_Module';
-
-
-		$class->addUse( new ClassCreator_UseClass($extends_ns, $extends_class) );
-		$class->setExtends( $extends_class );
-
-		$class->write( $this->getModuleDir().'Main.php');
-
 
 	}
 

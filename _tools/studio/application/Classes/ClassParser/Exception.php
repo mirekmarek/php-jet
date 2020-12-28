@@ -17,12 +17,12 @@ class ClassParser_Exception extends Exception{
 	/**
 	 * @var string
 	 */
-	protected $invalid_source_code = '';
+	protected string $invalid_source_code = '';
 
 	/**
 	 * @return string
 	 */
-	public function getInvalidSourceCode()
+	public function getInvalidSourceCode() : string
 	{
 		return $this->invalid_source_code;
 	}
@@ -30,7 +30,7 @@ class ClassParser_Exception extends Exception{
 	/**
 	 * @param string $invalid_source_code
 	 */
-	public function setInvalidSourceCode( $invalid_source_code )
+	public function setInvalidSourceCode( string $invalid_source_code )
 	{
 		$this->invalid_source_code = $invalid_source_code;
 	}

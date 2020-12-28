@@ -88,10 +88,7 @@ legend {
 }
 
 #edit_area {
-    padding-top: 0;
-    padding-left: 10px;
-    padding-right: 10px;
-    padding-bottom: 10px;
+    padding: 0 10px 10px;
 }
 
 #result_area {

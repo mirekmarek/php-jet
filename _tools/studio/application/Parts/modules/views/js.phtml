@@ -13,10 +13,10 @@ use Jet\Http_Request;?>
 				},
 
 				generateId: function( name ) {
-					var site_id = $('#add_page_form__site_id').val();
+					const site_id = $('#add_page_form__site_id').val();
 
 					$.ajax({
-						url: '<?=Modules::getActionUrl('page/generate_id', [], false)?>&name='+encodeURIComponent(name)+'&site_id='+encodeURIComponent(site_id),
+						url: '<?=Modules::getActionUrl('page/generate_id')?>&name='+encodeURIComponent(name)+'&site_id='+encodeURIComponent(site_id),
 						success: function(result) {
 							$('#add_page_form__page_id').val( result.id );
 						}
@@ -56,7 +56,7 @@ use Jet\Http_Request;?>
 					);
 				},
 				removeContent: function( site_id, page_id, index )  {
-					var form = $('#delete_content_form')[0]
+					const form = $('#delete_content_form')[0]
 					form.site.value = site_id;
 					form.page.value = page_id;
 					form.index.value = index;
@@ -131,7 +131,7 @@ use Jet\Http_Request;?>
 			},
 			generateId: function( name ) {
 				$.ajax({
-					url: '<?=Modules::getActionUrl('page/generate_id', [], false)?>&name='+encodeURIComponent(name),
+					url: '<?=Modules::getActionUrl('page/generate_id')?>&name='+encodeURIComponent(name),
 					success: function(result) {
 						$('#page_create_form__id').val( result.id );
 					}
@@ -151,7 +151,7 @@ use Jet\Http_Request;?>
 					$('#create_page_content_form__controller_action').removeClass('is-invalid');
 
 					$.ajax({
-						url: '<?=Modules::getActionUrl('page/get_module_controllers', [], false)?>&module='+encodeURIComponent(module_name),
+						url: '<?=Modules::getActionUrl('page/get_module_controllers')?>&module='+encodeURIComponent(module_name),
 						success: function(result) {
 							$.each(result.controllers, function(name) {
 								controllers.append($('<option></option>').attr('value', name).text(name));
@@ -172,7 +172,7 @@ use Jet\Http_Request;?>
 					controller_action.empty();
 
 					$.ajax({
-						url: '<?=Modules::getActionUrl('page/get_module_controller_actions', [], false)?>&module='+encodeURIComponent(module_name.val())+'&controller='+encodeURIComponent(controller),
+						url: '<?=Modules::getActionUrl('page/get_module_controller_actions')?>&module='+encodeURIComponent(module_name.val())+'&controller='+encodeURIComponent(controller),
 						success: function(result) {
 
 							$.each(result.actions, function(name) {

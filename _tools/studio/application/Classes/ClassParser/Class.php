@@ -14,95 +14,95 @@ class ClassParser_Class extends ClassParser_Element
 {
 
 	/**
-	 * @var ClassParser_Token
+	 * @var ?ClassParser_Token
 	 */
-	public $_last_doc_comment_token;
+	public ?ClassParser_Token $_last_doc_comment_token = null;
 
 	/**
-	 * @var ClassParser_Token
+	 * @var ?ClassParser_Token
 	 */
-	public $_abstract_token;
+	public ?ClassParser_Token $_abstract_token = null;
 
 	/**
-	 * @var ClassParser_Token
+	 * @var ?ClassParser_Token
 	 */
-	public $_public_token;
+	public ?ClassParser_Token $_public_token = null;
 
 	/**
-	 * @var ClassParser_Token
+	 * @var ?ClassParser_Token
 	 */
-	public $_private_token;
+	public ?ClassParser_Token $_private_token = null;
 
 	/**
-	 * @var ClassParser_Token
+	 * @var ?ClassParser_Token
 	 */
-	public $_protected_token;
+	public ?ClassParser_Token $_protected_token = null;
 
 	/**
-	 * @var ClassParser_Token
+	 * @var ?ClassParser_Token
 	 */
-	public $_static_token;
+	public ?ClassParser_Token $_static_token = null;
 
 
 	/**
 	 * @var bool
 	 */
-	public $is_abstract = false;
+	public bool $is_abstract = false;
 
 	/**
 	 * @var string
 	 */
-	public $name = '';
+	public string $name = '';
 
 	/**
 	 * @var string
 	 */
-	public $extends = '';
+	public string $extends = '';
 
 	/**
 	 * @var array
 	 */
-	public $implements = [];
+	public array $implements = [];
 
 	/**
-	 * @var ClassParser_Token
+	 * @var ?ClassParser_Token
 	 */
-	public $doc_comment;
+	public ?ClassParser_Token $doc_comment = null;
 
 	/**
-	 * @var ClassParser_Token
+	 * @var ?ClassParser_Token
 	 */
-	public $declaration_start;
+	public ?ClassParser_Token $declaration_start = null;
 
 	/**
-	 * @var ClassParser_Token
+	 * @var ?ClassParser_Token
 	 */
-	public $declaration_end;
+	public ?ClassParser_Token $declaration_end = null;
 
 	/**
-	 * @var ClassParser_Token
+	 * @var ?ClassParser_Token
 	 */
-	public $body_start;
+	public ?ClassParser_Token $body_start = null;
 
 	/**
-	 * @var ClassParser_Token
+	 * @var ?ClassParser_Token
 	 */
-	public $body_end;
+	public ?ClassParser_Token $body_end = null;
 
 	/**
 	 * @var ClassParser_Class_Constant[]
 	 */
-	public $constants = [];
+	public array $constants = [];
 
 	/**
 	 * @var ClassParser_Class_Property[]
 	 */
-	public $properties = [];
+	public array $properties = [];
 
 	/**
 	 * @var ClassParser_Class_Method[]|ClassParser_Class_AbstractMethod[]
 	 */
-	public $methods = [];
+	public array $methods = [];
 
 	/**
 	 * @param ClassParser $parser
@@ -131,10 +131,10 @@ class ClassParser_Class extends ClassParser_Element
 		$searching_for_implements_index = 0;
 
 		do {
+
 			if( !($token=$class->nextToken()) ) {
 				break;
 			}
-
 			if($token->ignore()) {
 				continue;
 			}
@@ -204,6 +204,7 @@ class ClassParser_Class extends ClassParser_Element
 					break 2;
 				default:
 					$class->parseError();
+					break;
 			}
 
 		} while( true );
@@ -311,7 +312,7 @@ class ClassParser_Class extends ClassParser_Element
 	/**
 	 *
 	 */
-	public function debug_showResult()
+	public function debug_showResult() : void
 	{
 		$parser = $this->parser;
 
@@ -354,7 +355,7 @@ class ClassParser_Class extends ClassParser_Element
 	/**
 	 * @param string $code
 	 */
-	public function addConstant( $code )
+	public function addConstant( string $code ) : void
 	{
 		$after = $this->body_start;
 
@@ -370,7 +371,7 @@ class ClassParser_Class extends ClassParser_Element
 	/**
 	 * @param string $code
 	 */
-	public function addProperty( $code )
+	public function addProperty( string $code ) : void
 	{
 		$after = $this->body_start;
 
@@ -393,7 +394,7 @@ class ClassParser_Class extends ClassParser_Element
 	/**
 	 * @param string $code
 	 */
-	public function addMethod( $code )
+	public function addMethod( string $code ) : void
 	{
 		$after = $this->body_start;
 

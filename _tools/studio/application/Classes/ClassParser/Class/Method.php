@@ -13,54 +13,54 @@ namespace JetStudio;
 class ClassParser_Class_Method extends ClassParser_Class_Element
 {
 	/**
-	 * @var ClassParser_Token
+	 * @var ?ClassParser_Token
 	 */
-	public $doc_comment;
+	public ?ClassParser_Token $doc_comment = null;
 
 	/**
 	 * @var bool
 	 */
-	public $is_static = false;
+	public bool $is_static = false;
 
 	/**
 	 * @var string
 	 */
-	public $name = '';
+	public string $name = '';
 
 	/**
 	 * @var string
 	 */
-	public $param_declaration = '';
+	public string $param_declaration = '';
 
 	/**
 	 * @var string 
 	 */
-	public $body = '';
+	public string $body = '';
 
 	/**
 	 * @var string
 	 */
-	public $visibility = ClassParser::VISIBILITY_PUBLIC;
+	public string $visibility = ClassParser::VISIBILITY_PUBLIC;
 
 	/**
-	 * @var ClassParser_Token
+	 * @var ?ClassParser_Token
 	 */
-	public $declaration_start;
+	public ?ClassParser_Token $declaration_start = null;
 
 	/**
-	 * @var ClassParser_Token
+	 * @var ?ClassParser_Token
 	 */
-	public $declaration_end;
+	public ?ClassParser_Token $declaration_end = null;
 
 	/**
-	 * @var ClassParser_Token
+	 * @var ?ClassParser_Token
 	 */
-	public $body_start;
+	public ?ClassParser_Token $body_start = null;
 
 	/**
-	 * @var ClassParser_Token
+	 * @var ?ClassParser_Token
 	 */
-	public $body_end;
+	public ?ClassParser_Token $body_end = null;
 	
 
 
@@ -126,15 +126,6 @@ class ClassParser_Class_Method extends ClassParser_Class_Element
 
 			if($searching_for_body) {
 				switch( $token->id ) {
-					case T_STRING:
-						$method->body .= $token->text;
-						break;
-					case '(':
-						$method->body .= $token->text;
-						break;
-					case ')':
-						$method->body .= $token->text;
-						break;
 					case T_CURLY_OPEN:
 					case '{':
 						$block_index++;
@@ -158,6 +149,9 @@ class ClassParser_Class_Method extends ClassParser_Class_Element
 
 						}
 						break;
+					case T_STRING:
+					case '(':
+					case ')':
 					default:
 						$method->body .= $token->text;
 						break;
@@ -234,7 +228,7 @@ class ClassParser_Class_Method extends ClassParser_Class_Element
 	/**
 	 *
 	 */
-	public function debug_showResult()
+	public function debug_showResult() : void
 	{
 		$parser = $this->parser;
 

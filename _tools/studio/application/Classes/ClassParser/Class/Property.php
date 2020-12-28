@@ -15,46 +15,46 @@ class ClassParser_Class_Property extends ClassParser_Class_Element
 
 
 	/**
-	 * @var ClassParser_Token
+	 * @var ?ClassParser_Token
 	 */
-	public $doc_comment;
+	public ?ClassParser_Token $doc_comment = null;
 
 	/**
 	 * @var bool
 	 */
-	public $is_static = false;
+	public bool $is_static = false;
 
 	/**
 	 * @var string
 	 */
-	public $name = '';
+	public string $name = '';
+
+	/**
+	 * @var ?string
+	 */
+	public ?string $value = null;
 
 	/**
 	 * @var string
 	 */
-	public $value = null;
+	public string $visibility = ClassParser::VISIBILITY_PUBLIC;
 
 	/**
-	 * @var string
+	 * @var ?ClassParser_Token
 	 */
-	public $visibility = ClassParser::VISIBILITY_PUBLIC;
+	public ?ClassParser_Token $declaration_start = null;
 
 	/**
-	 * @var ClassParser_Token
+	 * @var ?ClassParser_Token
 	 */
-	public $declaration_start;
-
-	/**
-	 * @var ClassParser_Token
-	 */
-	public $declaration_end;
+	public ?ClassParser_Token $declaration_end = null;
 
 
 	/**
 	 * @param ClassParser $parser
 	 * @param ClassParser_Class $class
 	 */
-	public static function parse( ClassParser $parser, ClassParser_Class $class )
+	public static function parse( ClassParser $parser, ClassParser_Class $class ) : void
 	{
 		$property = new static( $parser, $class );
 
@@ -161,7 +161,7 @@ class ClassParser_Class_Property extends ClassParser_Class_Element
 	/**
 	 *
 	 */
-	public function debug_showResult()
+	public function debug_showResult() : void
 	{
 		$parser = $this->parser;
 

@@ -19,7 +19,7 @@ class DataModel_Definition_Property_CustomData extends Jet_DataModel_Definition_
 	/**
 	 * @param Form_Field[] &$fields
 	 */
-	public function getEditFormCustomFields( &$fields )
+	public function getEditFormCustomFields( array &$fields ) : void
 	{
 		unset($fields['is_id']);
 		unset($fields['is_key']);
@@ -28,7 +28,7 @@ class DataModel_Definition_Property_CustomData extends Jet_DataModel_Definition_
 	/**
 	 *
 	 */
-	public function showEditFormFields()
+	public function showEditFormFields() : void
 	{
 
 	}
@@ -39,7 +39,7 @@ class DataModel_Definition_Property_CustomData extends Jet_DataModel_Definition_
 	 *
 	 * @return ClassCreator_Class_Property
 	 */
-	public function createClassProperty( ClassCreator_Class $class )
+	public function createClassProperty( ClassCreator_Class $class ) : ClassCreator_Class_Property
 	{
 		$annotations = [];
 
@@ -52,7 +52,7 @@ class DataModel_Definition_Property_CustomData extends Jet_DataModel_Definition_
 	 * @param ClassCreator_Class $class
 	 *
 	 */
-	public function createClassMethods( ClassCreator_Class $class )
+	public function createClassMethods( ClassCreator_Class $class ) : void
 	{
 		$s_g_method_name = $this->getSetterGetterMethodName();
 

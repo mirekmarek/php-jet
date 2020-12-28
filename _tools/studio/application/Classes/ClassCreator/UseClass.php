@@ -9,23 +9,26 @@ namespace JetStudio;
 
 use Jet\BaseObject;
 
+/**
+ *
+ */
 class ClassCreator_UseClass extends BaseObject
 {
 
 	/**
 	 * @var string
 	 */
-	protected $namespace = '';
+	protected string $namespace = '';
 
 	/**
 	 * @var string
 	 */
-	protected $class = '';
+	protected string $class = '';
 
 	/**
 	 * @var string
 	 */
-	protected $use_as = '';
+	protected string $use_as = '';
 
 	/**
 	 *
@@ -33,7 +36,9 @@ class ClassCreator_UseClass extends BaseObject
 	 * @param string $class
 	 * @param string $use_as
 	 */
-	public function __construct($namespace, $class, $use_as='' )
+	public function __construct( string $namespace,
+	                             string $class,
+	                             string $use_as='' )
 	{
 		$this->setNamespace( $namespace );
 		$this->class = $class;
@@ -41,11 +46,11 @@ class ClassCreator_UseClass extends BaseObject
 	}
 
 	/**
-	 * @param $class_name
+	 * @param string $class_name
 	 *
 	 * @return ClassCreator_UseClass
 	 */
-	public static function createByClassName( $class_name )
+	public static function createByClassName( string $class_name ) : ClassCreator_UseClass
 	{
 		$_cn = explode('\\', $class_name);
 
@@ -60,7 +65,7 @@ class ClassCreator_UseClass extends BaseObject
 	/**
 	 * @return string
 	 */
-	public function getKey()
+	public function getKey() : string
 	{
 		return $this->namespace.'\\'.$this->class;
 	}
@@ -69,7 +74,7 @@ class ClassCreator_UseClass extends BaseObject
 	/**
 	 * @return string
 	 */
-	public function getNamespace()
+	public function getNamespace() : string
 	{
 		return $this->namespace;
 	}
@@ -77,7 +82,7 @@ class ClassCreator_UseClass extends BaseObject
 	/**
 	 * @param string $namespace
 	 */
-	public function setNamespace($namespace)
+	public function setNamespace(string $namespace ) : void
 	{
 		$this->namespace = rtrim($namespace, '\\');
 	}
@@ -85,7 +90,7 @@ class ClassCreator_UseClass extends BaseObject
 	/**
 	 * @return string
 	 */
-	public function getClass()
+	public function getClass() : string
 	{
 		return $this->class;
 	}
@@ -93,7 +98,7 @@ class ClassCreator_UseClass extends BaseObject
 	/**
 	 * @param string $class
 	 */
-	public function setClass($class)
+	public function setClass( string $class ) : void
 	{
 		$this->class = $class;
 	}
@@ -101,7 +106,7 @@ class ClassCreator_UseClass extends BaseObject
 	/**
 	 * @return string
 	 */
-	public function getUseAs()
+	public function getUseAs() : string
 	{
 		return $this->use_as;
 	}
@@ -109,7 +114,7 @@ class ClassCreator_UseClass extends BaseObject
 	/**
 	 * @param string $use_as
 	 */
-	public function setUseAs($use_as)
+	public function setUseAs(string $use_as ) : void
 	{
 		$this->use_as = $use_as;
 	}
@@ -117,7 +122,7 @@ class ClassCreator_UseClass extends BaseObject
 	/**
 	 * @return string
 	 */
-	public function toString()
+	public function toString() : string
 	{
 		$res = 'use '.$this->namespace.'\\'.$this->class;
 
@@ -130,7 +135,10 @@ class ClassCreator_UseClass extends BaseObject
 		return $res;
 	}
 
-	public function __toString()
+	/**
+	 * @return string
+	 */
+	public function __toString() : string
 	{
 		return $this->toString();
 	}

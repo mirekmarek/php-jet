@@ -37,52 +37,52 @@ class Pages_Page extends Mvc_Page
 	const MAX_HTT_HEADERS_COUNT = 100;
 
 	/**
-	 * @var Form
+	 * @var ?Form
 	 */
-	protected $__edit_form_main;
+	protected ?Form $__edit_form_main = null;
 
 	/**
-	 * @var Form
+	 * @var ?Form
 	 */
-	protected $__edit_form_content;
+	protected ?Form $__edit_form_content = null;
 
 	/**
-	 * @var Form
+	 * @var ?Form
 	 */
-	protected $__edit_form_static_content;
+	protected ?Form $__edit_form_static_content = null;
 
 	/**
-	 * @var Form
+	 * @var ?Form
 	 */
-	protected $__edit_form_callback;
+	protected ?Form $__edit_form_callback = null;
 
 
 	/**
-	 * @var Form
+	 * @var ?Form
 	 */
-	protected $__delete_content_form;
+	protected ?Form $__delete_content_form = null;
 
 	/**
-	 * @var Form
+	 * @var ?Form
 	 */
-	protected $__create_content_form;
+	protected ?Form $__create_content_form = null;
 
 	/**
 	 *
 	 * @var Pages_Page_Content[]
 	 */
-	protected $content = [];
+	protected array $content = [];
 
 	/**
 	 * @var string
 	 */
-	protected $original_relative_path_fragment = '';
+	protected string $original_relative_path_fragment = '';
 
 
 	/**
-	 * @var Form
+	 * @var ?Form
 	 */
-	protected static $create_form;
+	protected static ?Form $create_form = null;
 
 	/**
 	 * @param Mvc_Site_Interface      $site
@@ -90,9 +90,9 @@ class Pages_Page extends Mvc_Page
 	 * @param array                   $data
 	 * @param Mvc_Page_Interface|null $parent_page
 	 *
-	 * @return Mvc_Page_Interface
+	 * @return static
 	 */
-	public static function createByData( Mvc_Site_Interface $site, Locale $locale, array $data, Mvc_Page_Interface $parent_page = null )
+	public static function createByData( Mvc_Site_Interface $site, Locale $locale, array $data, Mvc_Page_Interface $parent_page = null ) : static
 	{
 		$page = new static();
 
@@ -119,9 +119,9 @@ class Pages_Page extends Mvc_Page
 	 * @param string|Locale|null $locale (optional, null = current)
 	 * @param string|null        $site_id (optional, null = current)
 	 *
-	 * @return Pages_Page
+	 * @return static|null
 	 */
-	public static function get( $page_id = null, $locale = null, $site_id = null )
+	public static function get( string|null $page_id = null, string|Locale|null $locale = null, string|null $site_id = null ) : static|null
 	{
 		return Pages::getPage( $page_id, $locale, $site_id );
 	}
@@ -129,7 +129,7 @@ class Pages_Page extends Mvc_Page
 	/**
 	 * @param string $relative_path_fragment
 	 */
-	public function setRelativePathFragment( $relative_path_fragment )
+	public function setRelativePathFragment( string $relative_path_fragment ) : void
 	{
 		$this->relative_path_fragment = $relative_path_fragment;
 
@@ -156,7 +156,7 @@ class Pages_Page extends Mvc_Page
 	 *
 	 * @return Form
 	 */
-	public static function getCreateForm()
+	public static function getCreateForm() : Form
 	{
 		if(!static::$create_form) {
 
@@ -182,7 +182,7 @@ class Pages_Page extends Mvc_Page
 
 				if(
 					!preg_match('/^[a-zA-Z0-9\-]{2,}$/i', $id) ||
-					strpos( $id, '--' )!==false
+					str_contains( $id, '--' )
 				) {
 					$field->setError(Form_Field_Input::ERROR_CODE_INVALID_FORMAT);
 
@@ -224,7 +224,7 @@ class Pages_Page extends Mvc_Page
 	 *
 	 * @return bool|Pages_Page
 	 */
-	public static function catchCreateForm()
+	public static function catchCreateForm() : bool|Pages_Page
 	{
 		$form = static::getCreateForm();
 		if(
@@ -254,7 +254,11 @@ class Pages_Page extends Mvc_Page
 	 *
 	 * @return Pages_Page
 	 */
-	public static function createPage( $site_id, $locale, $id, $name, Pages_Page $parent=null )
+	public static function createPage( string $site_id,
+	                                   Locale|string $locale,
+	                                   string $id,
+	                                   string $name,
+	                                   ?Pages_Page $parent=null ) : Pages_Page
 	{
 
 		if(!is_object($locale)) {
@@ -282,7 +286,7 @@ class Pages_Page extends Mvc_Page
 	/**
 	 * @return string
 	 */
-	public function getFullId()
+	public function getFullId() : string
 	{
 		return $this->site_id.'.'.$this->id;
 	}
@@ -290,7 +294,7 @@ class Pages_Page extends Mvc_Page
 	/**
 	 * @return Form
 	 */
-	public function getEditForm_main()
+	public function getEditForm_main() : Form
 	{
 		if(!$this->__edit_form_main) {
 
@@ -509,7 +513,7 @@ class Pages_Page extends Mvc_Page
 	/**
 	 * @return bool
 	 */
-	public function catchEditForm_main()
+	public function catchEditForm_main() : bool
 	{
 		$form = $this->getEditForm_main();
 
@@ -533,7 +537,7 @@ class Pages_Page extends Mvc_Page
 	 * @param string $p_f_prefix
 	 *
 	 */
-	public function catchEditForm_metaTags( Form $form, $p_f_prefix='' )
+	public function catchEditForm_metaTags( Form $form, string $p_f_prefix='' ) : void
 	{
 		$meta_tags = [];
 		for( $m=0;$m<static::MAX_META_TAGS_COUNT;$m++ ) {
@@ -569,7 +573,7 @@ class Pages_Page extends Mvc_Page
 	 * @param string $p_f_prefix
 	 *
 	 */
-	public function catchEditForm_httpHeaders( Form $form, $p_f_prefix='' )
+	public function catchEditForm_httpHeaders( Form $form, string $p_f_prefix='' ) : void
 	{
 		$http_headers = [];
 
@@ -595,7 +599,7 @@ class Pages_Page extends Mvc_Page
 	/**
 	 * @return Form
 	 */
-	public function getEditForm_content()
+	public function getEditForm_content() : Form
 	{
 		if(!$this->__edit_form_content) {
 
@@ -660,7 +664,7 @@ class Pages_Page extends Mvc_Page
 	/**
 	 * @return bool
 	 */
-	public function catchEditForm_content()
+	public function catchEditForm_content() : bool
 	{
 		$form = $this->getEditForm_content();
 
@@ -703,7 +707,7 @@ class Pages_Page extends Mvc_Page
 	/**
 	 *
 	 */
-	public function sortContent()
+	public function sortContent() : void
 	{
 		$i = 0;
 		$positions = [];
@@ -759,7 +763,7 @@ class Pages_Page extends Mvc_Page
 	/**
 	 * @return Form
 	 */
-	public function getDeleteContentForm()
+	public function getDeleteContentForm() : Form
 	{
 		if(!$this->__delete_content_form) {
 			$index_field = new Form_Field_Hidden('index');
@@ -777,7 +781,7 @@ class Pages_Page extends Mvc_Page
 	/**
 	 * @return Pages_Page_Content|null
 	 */
-	public function catchDeleteContentForm()
+	public function catchDeleteContentForm() : Pages_Page_Content|null
 	{
 		$form = $this->getDeleteContentForm();
 
@@ -808,7 +812,7 @@ class Pages_Page extends Mvc_Page
 	/**
 	 * @return Form
 	 */
-	public function getEditForm_static_content()
+	public function getEditForm_static_content() : Form
 	{
 		if(!$this->__edit_form_static_content) {
 
@@ -841,7 +845,7 @@ class Pages_Page extends Mvc_Page
 	/**
 	 * @return bool
 	 */
-	public function catchEditForm_static_content()
+	public function catchEditForm_static_content() : bool
 	{
 		$form = $this->getEditForm_static_content();
 
@@ -862,7 +866,7 @@ class Pages_Page extends Mvc_Page
 	/**
 	 * @return Form
 	 */
-	public function getEditForm_callback()
+	public function getEditForm_callback() : Form
 	{
 		if(!$this->__edit_form_callback) {
 
@@ -916,7 +920,7 @@ class Pages_Page extends Mvc_Page
 	/**
 	 * @return bool
 	 */
-	public function catchEditForm_callback()
+	public function catchEditForm_callback() : bool
 	{
 		$form = $this->getEditForm_callback();
 
@@ -936,7 +940,7 @@ class Pages_Page extends Mvc_Page
 	/**
 	 * @return string
 	 */
-	public function getDataDirPath()
+	public function getDataDirPath() : string
 	{
 		if(!$this->getParent()) {
 			return Sites_Site::get( $this->site_id )->getPagesDataPath( $this->locale );
@@ -948,7 +952,7 @@ class Pages_Page extends Mvc_Page
 	/**
 	 * @return string
 	 */
-	public function getOriginalDataDirPath()
+	public function getOriginalDataDirPath() : string
 	{
 		if(!$this->getParent()) {
 			return Sites_Site::get( $this->site_id )->getPagesDataPath( $this->locale );
@@ -960,7 +964,7 @@ class Pages_Page extends Mvc_Page
 	/**
 	 * @return array
 	 */
-	public function toArray()
+	public function toArray() : array
 	{
 		$res =  parent::toArray();
 		unset( $res['relative_path_fragment'] );
@@ -972,13 +976,12 @@ class Pages_Page extends Mvc_Page
 	/**
 	 *
 	 */
-	public function saveDataFile()
+	public function saveDataFile() : void
 	{
 		if($this->relative_path_fragment!=$this->original_relative_path_fragment) {
 
 			$page_dir = $this->getDataDirPath();
 			$original_page_dir = $this->getOriginalDataDirPath();
-			var_dump($original_page_dir, $page_dir);
 
 			IO_Dir::rename( $original_page_dir, $page_dir );
 		}
@@ -1000,7 +1003,7 @@ class Pages_Page extends Mvc_Page
 	/**
 	 * @return bool
 	 */
-	public function save()
+	public function save() : bool
 	{
 		$ok = true;
 		try {
@@ -1017,7 +1020,7 @@ class Pages_Page extends Mvc_Page
 	/**
 	 * @param Mvc_Page_Content_Interface $content
 	 */
-	public function addContent( Mvc_Page_Content_Interface $content )
+	public function addContent( Mvc_Page_Content_Interface $content ) : void
 	{
 
 		parent::addContent( $content );
@@ -1028,7 +1031,7 @@ class Pages_Page extends Mvc_Page
 	/**
 	 * @param int $index
 	 */
-	public function removeContent( $index )
+	public function removeContent( int $index ) : void
 	{
 		parent::removeContent( $index );
 
@@ -1042,7 +1045,7 @@ class Pages_Page extends Mvc_Page
 	 *
 	 * @return Pages_Page
 	 */
-	public static function fromArray( $site_id, $page_id, array $data )
+	public static function fromArray( string $site_id, string $page_id, array $data ) : Pages_Page
 	{
 		$page = new Pages_Page();
 
@@ -1096,9 +1099,8 @@ class Pages_Page extends Mvc_Page
 	 *
 	 * @return Form
 	 */
-	public function getContentCreateForm()
+	public function getContentCreateForm() : Form
 	{
-
 
 		if( !$this->__create_content_form ) {
 
@@ -1168,7 +1170,7 @@ class Pages_Page extends Mvc_Page
 	 * @param string $controller
 	 * @return array
 	 */
-	public static function getModuleControllerActions( $module_name, $controller )
+	public static function getModuleControllerActions( string $module_name, string $controller ) : array
 	{
 		if(Modules::exists($module_name)) {
 			$module = Modules::getModule($module_name);
@@ -1186,7 +1188,7 @@ class Pages_Page extends Mvc_Page
 	 * @param string $module_name
 	 * @return array
 	 */
-	public static function getModuleControllers( $module_name )
+	public static function getModuleControllers( string $module_name ) : array
 	{
 		if(Modules::exists($module_name)) {
 			$module = Modules::getModule($module_name);
@@ -1197,9 +1199,9 @@ class Pages_Page extends Mvc_Page
 	}
 
 	/**
-	 *
+	 * @return bool|Pages_Page_Content
 	 */
-	public function catchContentCreateForm()
+	public function catchContentCreateForm() : bool|Pages_Page_Content
 	{
 		$form = $this->getContentCreateForm();
 

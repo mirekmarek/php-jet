@@ -562,8 +562,8 @@ abstract class Data_Listing extends BaseObject {
 	}
 
 	/**
-	 * @return iterable
+	 * @return DataModel_Fetch_Instances
 	 */
-	abstract protected function getList(): iterable;
+	abstract protected function getList(): DataModel_Fetch_Instances;
 
 }

@@ -6,19 +6,11 @@ use Jet\Locale;
 use Jet\Tr;
 ?>
 <script type="text/javascript">
-	if(!window['JetStudio']) {
-		var JetStudio = {};
-	}
-
-	if(!window['JetStudio']['Dialog']) {
-		JetStudio.Dialog = {};
-	}
-
-	JetStudio.Dialog.SelectLocale = {
+	const Dialog_SelectLocale = {
 		open: function( callback ) {
-			JetStudio.Dialog.SelectLocale.responseCallback = callback;
+			Dialog_SelectLocale.responseCallback = callback;
 
-			JetStudio.Dialog.SelectLocale.resetSearch();
+			Dialog_SelectLocale.resetSearch();
 
 			$('#dialog_select_locale').modal('show');
 		},
@@ -28,10 +20,10 @@ use Jet\Tr;
 		},
 
 		search: function() {
-			var value = $('#search_locale_value').val();
+			let value = $('#search_locale_value').val();
 
 			if(!value) {
-				JetStudio.Dialog.SelectLocale.resetSearch();
+				Dialog_SelectLocale.resetSearch();
 				return;
 			}
 
@@ -40,9 +32,9 @@ use Jet\Tr;
 			$('.locale-row').each( function (index, row) {
 				row = $(row);
 
-				var name = row.data('name').toLowerCase();
-				var name_local = row.data('nameLocal').toLowerCase();
-				var locale = row.data('locale').toLowerCase();
+				const name = row.data('name').toLowerCase();
+				const name_local = row.data('nameLocal').toLowerCase();
+				const locale = row.data('locale').toLowerCase();
 
 				if(
 					name.includes( value ) ||
@@ -65,15 +57,15 @@ use Jet\Tr;
 		},
 
 		select: function( locale ) {
-			var locale_row = $('#locale_'+locale);
+			const locale_row = $('#locale_' + locale);
 
-			var locale_data = {
+			const locale_data = {
 				locale: locale,
 				name: locale_row.data('name'),
 				name_local: locale_row.data('nameLocal')
 			};
 
-			JetStudio.Dialog.SelectLocale.responseCallback( locale_data );
+			Dialog_SelectLocale.responseCallback( locale_data );
 
 			$('#dialog_select_locale').modal('hide');
 		}
@@ -89,7 +81,7 @@ echo $dialog->start();
 ?>
 	<div class="input-group" style="margin-bottom: 5px;">
 		<span class="input-group-btn">
-			<button class="btn btn-default" type="button" onclick="JetStudio.Dialog.SelectLocale.resetSearch();">
+			<button class="btn btn-default" type="button" onclick="Dialog_SelectLocale.resetSearch();">
 				<?=UI::icon( 'times' )?>
 			</button>
 		</span>
@@ -98,10 +90,10 @@ echo $dialog->start();
 				class="form-control"
 				placeholder="<?=Tr::_('Search for locale ...', [], Tr::COMMON_NAMESPACE)?>"
 				id="search_locale_value"
-				onkeyup="JetStudio.Dialog.SelectLocale.search();"
+				onkeyup="Dialog_SelectLocale.search();"
 		>
 		<span class="input-group-btn">
-			<button class="btn btn-default" type="submit" onclick="JetStudio.Dialog.SelectLocale.search();">
+			<button class="btn btn-default" type="submit" onclick="Dialog_SelectLocale.search();">
 				<?=UI::icon( 'search' )?>
 			</button>
 		</span>
@@ -122,7 +114,7 @@ echo $dialog->start();
 				data-name-local="<?=$l->getName($l)?>"
 				data-locale="<?=$l?>"
 				style="cursor: pointer;"
-				onclick="JetStudio.Dialog.SelectLocale.select('<?=$l?>');"
+				onclick="Dialog_SelectLocale.select('<?=$l?>');"
 			>
 				<td style="padding: 5px;"><?=UI::flag($l)?></td>
 

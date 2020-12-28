@@ -23,7 +23,7 @@ class Autoloader_ModuleWizards extends Autoloader_Loader
 	 *
 	 * @return bool|string
 	 */
-	public function getScriptPath( $root_namespace, $namespace, $class_name )
+	public function getScriptPath( string $root_namespace, string $namespace, string $class_name ) : bool|string
 	{
 		if( substr($namespace, 0, 23)!='JetStudio\ModuleWizard\\' ) {
 			return false;

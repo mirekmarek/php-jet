@@ -9,22 +9,25 @@ namespace JetStudio;
 
 use Jet\BaseObject;
 
+/**
+ *
+ */
 class ClassCreator_Annotation extends BaseObject {
 
 	/**
 	 * @var string
 	 */
-	protected $prefix = '';
+	protected string $prefix = '';
 
 	/**
 	 * @var string
 	 */
-	protected $name = '';
+	protected string $name = '';
 
 	/**
 	 * @var mixed
 	 */
-	protected $value;
+	protected mixed $value = null;
 
 	/**
 	 *
@@ -32,7 +35,7 @@ class ClassCreator_Annotation extends BaseObject {
 	 * @param string $name
 	 * @param mixed $value
 	 */
-	public function __construct($prefix, $name, $value)
+	public function __construct( string $prefix, string $name, mixed $value)
 	{
 		$this->prefix = $prefix;
 		$this->name = $name;
@@ -43,7 +46,7 @@ class ClassCreator_Annotation extends BaseObject {
 	/**
 	 * @return string
 	 */
-	public function getPrefix()
+	public function getPrefix() : string
 	{
 		return $this->prefix;
 	}
@@ -51,7 +54,7 @@ class ClassCreator_Annotation extends BaseObject {
 	/**
 	 * @param string $prefix
 	 */
-	public function setPrefix($prefix)
+	public function setPrefix(string $prefix) : void
 	{
 		$this->prefix = $prefix;
 	}
@@ -59,7 +62,7 @@ class ClassCreator_Annotation extends BaseObject {
 	/**
 	 * @return string
 	 */
-	public function getName()
+	public function getName() : string
 	{
 		return $this->name;
 	}
@@ -67,7 +70,7 @@ class ClassCreator_Annotation extends BaseObject {
 	/**
 	 * @param string $name
 	 */
-	public function setName($name)
+	public function setName( string $name ) : void
 	{
 		$this->name = $name;
 	}
@@ -75,7 +78,7 @@ class ClassCreator_Annotation extends BaseObject {
 	/**
 	 * @return mixed
 	 */
-	public function getValue()
+	public function getValue() : mixed
 	{
 		return $this->value;
 	}
@@ -83,7 +86,7 @@ class ClassCreator_Annotation extends BaseObject {
 	/**
 	 * @param mixed $value
 	 */
-	public function setValue($value)
+	public function setValue( mixed $value ) : void
 	{
 		$this->value = $value;
 	}
@@ -91,7 +94,7 @@ class ClassCreator_Annotation extends BaseObject {
 	/**
 	 * @return string
 	 */
-	public function toString()
+	public function toString() : string
 	{
 		$value = $this->value;
 
@@ -107,7 +110,7 @@ class ClassCreator_Annotation extends BaseObject {
 	 *
 	 * @return string
 	 */
-	public function arrayToString( array $value )
+	public function arrayToString( array $value ) : string
 	{
 
 		$res = [];
@@ -134,7 +137,7 @@ class ClassCreator_Annotation extends BaseObject {
 	/**
 	 * @return string
 	 */
-	public function __toString()
+	public function __toString() : string
 	{
 		return $this->toString();
 	}

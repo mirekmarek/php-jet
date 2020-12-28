@@ -25,14 +25,14 @@ use Jet\UI;
 
 <script type="text/javascript">
 	$(document).ready(function () {
-		var main_toolbar = document.getElementById("main-toolbar");
+		const main_toolbar = document.getElementById("main-toolbar");
 		if(!main_toolbar) {
 			return;
 		}
-		var main_col = document.getElementById("main-col");
-		var main_toolbar_initial_offset = main_toolbar.offsetTop;
-		var main_toolbar_height = main_toolbar.offsetHeight;
-		var main_col_initial_padding_top = main_col.style.paddingTop;
+		const main_col = document.getElementById("main-col");
+		const main_toolbar_initial_offset = main_toolbar.offsetTop;
+		const main_toolbar_height = main_toolbar.offsetHeight;
+		const main_col_initial_padding_top = main_col.style.paddingTop;
 
 		window.onscroll = function() {
 			if (window.pageYOffset > main_toolbar_initial_offset) {

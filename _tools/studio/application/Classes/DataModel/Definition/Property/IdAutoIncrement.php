@@ -20,14 +20,14 @@ class DataModel_Definition_Property_IdAutoIncrement extends Jet_DataModel_Defini
 	/**
 	 * @param Form_Field[] &$fields
 	 */
-	public function getEditFormCustomFields( &$fields )
+	public function getEditFormCustomFields( array &$fields ) : void
 	{
 	}
 
 	/**
 	 *
 	 */
-	public function showEditFormFields()
+	public function showEditFormFields() : void
 	{
 	}
 
@@ -38,7 +38,7 @@ class DataModel_Definition_Property_IdAutoIncrement extends Jet_DataModel_Defini
 	 *
 	 * @return ClassCreator_Class_Property
 	 */
-	public function createClassProperty( ClassCreator_Class $class )
+	public function createClassProperty( ClassCreator_Class $class ) : ClassCreator_Class_Property
 	{
 
 		$property = $this->createClassProperty_main( $class, 'int',  'DataModel::TYPE_ID_AUTOINCREMENT');
@@ -50,7 +50,7 @@ class DataModel_Definition_Property_IdAutoIncrement extends Jet_DataModel_Defini
 	 * @param ClassCreator_Class $class
 	 *
 	 */
-	public function createClassMethods( ClassCreator_Class $class )
+	public function createClassMethods( ClassCreator_Class $class ) : void
 	{
 		$s_g_method_name = $this->getSetterGetterMethodName();
 

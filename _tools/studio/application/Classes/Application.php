@@ -25,29 +25,29 @@ use Jet\UI_messages;
 class Application extends Jet_Application {
 
 	/**
-	 * @var Mvc_Layout
+	 * @var ?Mvc_Layout
 	 */
-	protected static $layout;
+	protected static ?Mvc_Layout $layout = null;
 
 	/**
 	 * @var string
 	 */
-	protected static $current_part = '';
+	protected static string $current_part = '';
 
 	/**
-	 * @var Locale[]
+	 * @var Locale[]|null
 	 */
-	protected static $locales;
+	protected static ?array $locales = null;
 
 	/**
-	 * @var Locale
+	 * @var Locale|null
 	 */
-	protected static $current_locale;
+	protected static ?Locale $current_locale = null;
 
 	/**
 	 * @return Locale[]
 	 */
-	public static function getLocales()
+	public static function getLocales() : array
 	{
 		if(!static::$locales) {
 			static::$locales = [];
@@ -65,7 +65,7 @@ class Application extends Jet_Application {
 	/**
 	 * @return Locale
 	 */
-	public static function getCurrentLocale()
+	public static function getCurrentLocale() : Locale
 	{
 		if(!static::$current_locale) {
 			$cookie_name = 'locale';
@@ -103,7 +103,7 @@ class Application extends Jet_Application {
 	/**
 	 * @return array
 	 */
-	public static function getParts()
+	public static function getParts() : array
 	{
 		return [
 			'sites'      => [
@@ -142,7 +142,7 @@ class Application extends Jet_Application {
 	/**
 	 * @param $part
 	 */
-	public static function setCurrentPart( $part )
+	public static function setCurrentPart( string $part ) : void
 	{
 		static::$current_part = $part;
 		Tr::setCurrentNamespace( $part );
@@ -151,7 +151,7 @@ class Application extends Jet_Application {
 	/**
 	 * @return string
 	 */
-	public static function getCurrentPart()
+	public static function getCurrentPart() : string
 	{
 		return static::$current_part;
 	}
@@ -159,7 +159,7 @@ class Application extends Jet_Application {
 	/**
 	 * @return Mvc_View
 	 */
-	public static function getGeneralView()
+	public static function getGeneralView() : Mvc_View
 	{
 		$view = new Mvc_View( SysConf_PATH::APPLICATION().'views/' );
 
@@ -171,7 +171,7 @@ class Application extends Jet_Application {
 	 *
 	 * @return Mvc_View
 	 */
-	public static function getView( $part=null )
+	public static function getView( ?string $part=null ) : Mvc_View
 	{
 		if(!$part) {
 			$part = static::getCurrentPart();
@@ -186,7 +186,7 @@ class Application extends Jet_Application {
 	 *
 	 * @return Mvc_Layout
 	 */
-	public static function getLayout( $script='default' )
+	public static function getLayout( string $script='default' ) : Mvc_Layout
 	{
 		if(!static::$layout) {
 			static::$layout = new Mvc_Layout(SysConf_PATH::APPLICATION().'layouts/', $script);
@@ -201,7 +201,7 @@ class Application extends Jet_Application {
 	 * @param null|string $position
 	 * @param null|int $position_order
 	 */
-	public static function output( $output, $position = null, $position_order = null )
+	public static function output( string $output, ?string $position = null, ?int $position_order = null ) : void
 	{
 		static::getLayout()->addOutputPart(
 			$output,
@@ -214,7 +214,7 @@ class Application extends Jet_Application {
 	/**
 	 *
 	 */
-	public static function renderLayout()
+	public static function renderLayout() : void
 	{
 		echo static::getLayout()->render();
 	}
@@ -223,7 +223,7 @@ class Application extends Jet_Application {
 	/**
 	 * @param string|null $part
 	 */
-	public static function handleAction( $part=null )
+	public static function handleAction( ?string $part=null ) : void
 	{
 		if(!$part) {
 			$part = static::$current_part;
@@ -233,7 +233,7 @@ class Application extends Jet_Application {
 
 		if(
 			!$action ||
-			strpos($action, '.')!==false
+			str_contains( $action, '.' )
 		) {
 			return;
 		}
@@ -252,7 +252,7 @@ class Application extends Jet_Application {
 	 * @param Exception $e
 	 * @param Form|null $form
 	 */
-	public static function handleError( Exception $e, Form $form=null)
+	public static function handleError( Exception $e, Form $form=null) : void
 	{
 		$error_message  =Tr::_('Something went wrong!<br/><br/>%error%',
 			[
@@ -270,7 +270,7 @@ class Application extends Jet_Application {
 	/**
 	 *
 	 */
-	public static function resetOPCache()
+	public static function resetOPCache() : void
 	{
 		if(function_exists('opcache_reset')) {
 			opcache_reset();

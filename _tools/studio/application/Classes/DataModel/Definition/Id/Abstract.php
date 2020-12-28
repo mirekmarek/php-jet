@@ -17,9 +17,9 @@ use Jet\Form_Field_Select;
 abstract class DataModel_Definition_Id_Abstract {
 
 	/**
-	 * @var DataModel_Definition_Model_Interface|DataModel_Definition_Model
+	 * @var DataModel_Definition_Model_Interface|DataModel_Definition_Model|null
 	 */
-	protected $model;
+	protected DataModel_Definition_Model_Interface|DataModel_Definition_Model|null $model = null;
 
 
 	/**
@@ -34,7 +34,7 @@ abstract class DataModel_Definition_Id_Abstract {
 	/**
 	 * @param ClassCreator_Class $class
 	 */
-	public function createClass_IdDefinition( ClassCreator_Class $class )
+	public function createClass_IdDefinition( ClassCreator_Class $class ) : void
 	{
 
 		$id_controller_class = $this->model->getIDControllerClassName();
@@ -51,7 +51,7 @@ abstract class DataModel_Definition_Id_Abstract {
 	 *
 	 * @return array
 	 */
-	protected function getIdProperties( string $type )
+	protected function getIdProperties( string $type ) : array
 	{
 		$id_properties = [];
 
@@ -76,7 +76,7 @@ abstract class DataModel_Definition_Id_Abstract {
 	 *
 	 * @return bool|string
 	 */
-	public function getSelectedIdPropertyName( $type )
+	public function getSelectedIdPropertyName( string $type ) : bool|string
 	{
 
 		$id_properties = $this->getIdProperties($type);
@@ -100,7 +100,7 @@ abstract class DataModel_Definition_Id_Abstract {
 	/**
 	 * @param ClassCreator_Class $class
 	 */
-	public function createClassMethods( ClassCreator_Class $class )
+	public function createClassMethods( ClassCreator_Class $class ) : void
 	{
 
 	}
@@ -108,13 +108,13 @@ abstract class DataModel_Definition_Id_Abstract {
 	/**
 	 * @return array
 	 */
-	abstract public function getOptionsList();
+	abstract public function getOptionsList() : array;
 
 	/**
 	 *
 	 * @return Form_Field[]
 	 */
-	abstract public function getOptionsFormFields();
+	abstract public function getOptionsFormFields() : array;
 
 	/**
 	 *
@@ -122,7 +122,8 @@ abstract class DataModel_Definition_Id_Abstract {
 	 *
 	 * @return Form_Field_Select
 	 */
-	protected function getOptionsFormField_idProperty( string $type ) {
+	protected function getOptionsFormField_idProperty( string $type )  : Form_Field_Select
+	{
 		$id_properties = $this->getIdProperties( $type );
 
 		$default_id_property = '';

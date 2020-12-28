@@ -14,12 +14,12 @@ class ClassParser_Namespace extends ClassParser_Element{
 	/**
 	 * @var string
 	 */
-	public $namespace = '';
+	public string $namespace = '';
 
 	/**
 	 * @param ClassParser $parser
 	 */
-	public static function parse( ClassParser $parser )
+	public static function parse( ClassParser $parser ) : void
 	{
 		$namespace = new static( $parser );
 
@@ -39,6 +39,7 @@ class ClassParser_Namespace extends ClassParser_Element{
 			switch( $token->id ) {
 				case T_STRING:
 				case T_NS_SEPARATOR:
+				case T_NAME_QUALIFIED:
 					$namespace->namespace .= $token->text;
 					break;
 				case ';':
@@ -59,7 +60,7 @@ class ClassParser_Namespace extends ClassParser_Element{
 	/**
 	 *
 	 */
-	public function debug_showResult()
+	public function debug_showResult() : void
 	{
 		$parser = $this->parser;
 

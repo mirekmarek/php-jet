@@ -21,7 +21,7 @@ class DataModel_Definition_Property_String extends Jet_DataModel_Definition_Prop
 	/**
 	 * @param Form_Field[] &$fields
 	 */
-	public function getEditFormCustomFields( &$fields )
+	public function getEditFormCustomFields( array &$fields ) : void
 	{
 		$max_len_field = new Form_Field_Int('max_len', 'Maximal string length:', $this->getMaxLen());
 		$max_len_field->setMinValue(1);
@@ -49,7 +49,7 @@ class DataModel_Definition_Property_String extends Jet_DataModel_Definition_Prop
 	/**
 	 *
 	 */
-	public function showEditFormFields()
+	public function showEditFormFields() : void
 	{
 		$form = $this->getEditForm();
 
@@ -63,7 +63,7 @@ class DataModel_Definition_Property_String extends Jet_DataModel_Definition_Prop
 	 *
 	 * @return ClassCreator_Class_Property
 	 */
-	public function createClassProperty( ClassCreator_Class $class )
+	public function createClassProperty( ClassCreator_Class $class ) : ClassCreator_Class_Property
 	{
 		$annotations = [];
 
@@ -83,7 +83,7 @@ class DataModel_Definition_Property_String extends Jet_DataModel_Definition_Prop
 	 * @param ClassCreator_Class $class
 	 *
 	 */
-	public function createClassMethods( ClassCreator_Class $class )
+	public function createClassMethods( ClassCreator_Class $class ) : void
 	{
 
 		$s_g_method_name = $this->getSetterGetterMethodName();

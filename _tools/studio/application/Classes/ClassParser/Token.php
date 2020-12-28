@@ -15,23 +15,23 @@ class ClassParser_Token {
 	/**
 	 * @var int
 	 */
-	public $index = 0;
+	public int $index = 0;
 
 	/**
-	 * @var int
+	 * @var int|string
 	 */
-	public $id    = 0;
+	public int|string $id    = '';
 
 	/**
 	 * @var string
 	 */
-	public $text  = '';
+	public string $text  = '';
 
 	/**
 	 * @param bool $include_doc_comment
 	 * @return bool
 	 */
-	public function ignore( $include_doc_comment=true )
+	public function ignore( bool $include_doc_comment=true ) : bool
 	{
 		if( $include_doc_comment ) {
 			if(
@@ -45,7 +45,8 @@ class ClassParser_Token {
 		} else {
 			if(
 				$this->id==T_OPEN_TAG ||
-				$this->id==T_WHITESPACE
+				$this->id==T_WHITESPACE ||
+				$this->id==T_COMMENT
 			) {
 				return true;
 			}
@@ -59,7 +60,7 @@ class ClassParser_Token {
 	/**
 	 * @return string
 	 */
-	public function debug_getInfo()
+	public function debug_getInfo() : string
 	{
 		if(is_string($this->id)) {
 			$name = $this->id;

@@ -18,73 +18,73 @@ class ClassCreator_Class extends BaseObject {
 	const VISIBILITY_PROTECTED = 'protected';
 	const VISIBILITY_PRIVATE = 'private';
 
-	protected static $indentation = "\t";
-	protected static $nl = "\n";
+	protected static string $indentation = "\t";
+	protected static string $nl = "\n";
 
 	/**
 	 * @var string
 	 */
-	protected $namespace = '';
+	protected string $namespace = '';
 
 	/**
 	 * @var ClassCreator_UseClass[]
 	 */
-	protected $use = [];
+	protected array $use = [];
 
 	/**
 	 * @var ClassCreator_Annotation[]
 	 */
-	protected $annotations = [];
+	protected array $annotations = [];
 
 	/**
 	 * @var bool
 	 */
-	protected $is_abstract = false;
+	protected bool $is_abstract = false;
 
 	/**
 	 * @var string
 	 */
-	protected $name = '';
+	protected string $name = '';
 
 	/**
 	 * @var string
 	 */
-	protected $extends = '';
+	protected string $extends = '';
 
 	/**
 	 * @var array
 	 */
-	protected $implements = [];
+	protected array $implements = [];
 
 	/**
 	 * @var ClassCreator_Class_Constant[]
 	 */
-	protected $constants = [];
+	protected array $constants = [];
 
 	/**
 	 * @var ClassCreator_Class_Property[]
 	 */
-	protected $properties = [];
+	protected array $properties = [];
 
 	/**
 	 * @var ClassCreator_Class_Method[]
 	 */
-	protected $methods = [];
+	protected array $methods = [];
 
 	/**
 	 * @var array
 	 */
-	protected $errors = [];
+	protected array $errors = [];
 
 	/**
 	 * @var array
 	 */
-	protected $warnings = [];
+	protected array $warnings = [];
 
 	/**
 	 * @return bool
 	 */
-	public function isAbstract()
+	public function isAbstract() : bool
 	{
 		return $this->is_abstract;
 	}
@@ -92,7 +92,7 @@ class ClassCreator_Class extends BaseObject {
 	/**
 	 * @param bool $is_abstract
 	 */
-	public function setIsAbstract( $is_abstract )
+	public function setIsAbstract( bool $is_abstract ) : void
 	{
 		$this->is_abstract = $is_abstract;
 	}
@@ -100,7 +100,7 @@ class ClassCreator_Class extends BaseObject {
 	/**
 	 * @return ClassCreator_UseClass[]
 	 */
-	public function getUse()
+	public function getUse() : array
 	{
 		return $this->use;
 	}
@@ -108,7 +108,7 @@ class ClassCreator_Class extends BaseObject {
 	/**
 	 * @return ClassCreator_Annotation[]
 	 */
-	public function getAnnotations()
+	public function getAnnotations() : array
 	{
 		return $this->annotations;
 	}
@@ -116,7 +116,7 @@ class ClassCreator_Class extends BaseObject {
 	/**
 	 * @return ClassCreator_Class_Constant[]
 	 */
-	public function getConstants()
+	public function getConstants() : array
 	{
 		return $this->constants;
 	}
@@ -124,7 +124,7 @@ class ClassCreator_Class extends BaseObject {
 	/**
 	 * @return ClassCreator_Class_Property[]
 	 */
-	public function getProperties()
+	public function getProperties() : array
 	{
 		return $this->properties;
 	}
@@ -132,7 +132,7 @@ class ClassCreator_Class extends BaseObject {
 	/**
 	 * @return ClassCreator_Class_Method[]
 	 */
-	public function getMethods()
+	public function getMethods() : array
 	{
 		return $this->methods;
 	}
@@ -142,7 +142,7 @@ class ClassCreator_Class extends BaseObject {
 	 *
 	 * @return ClassCreator_Class_Method|null
 	 */
-	public function getMethod( $name )
+	public function getMethod( string $name ) : ClassCreator_Class_Method|null
 	{
 		if(!isset($this->methods[$name])) {
 			return null;
@@ -155,7 +155,7 @@ class ClassCreator_Class extends BaseObject {
 	/**
 	 * @return string
 	 */
-	public static function getIndentation()
+	public static function getIndentation() : string
 	{
 		return static::$indentation;
 	}
@@ -163,7 +163,7 @@ class ClassCreator_Class extends BaseObject {
 	/**
 	 * @param string $indentation
 	 */
-	public static function setIndentation($indentation)
+	public static function setIndentation( string $indentation ) : void
 	{
 		static::$indentation = $indentation;
 	}
@@ -171,7 +171,7 @@ class ClassCreator_Class extends BaseObject {
 	/**
 	 * @return string
 	 */
-	public static function getNl()
+	public static function getNl() : string
 	{
 		return static::$nl;
 	}
@@ -179,7 +179,7 @@ class ClassCreator_Class extends BaseObject {
 	/**
 	 * @param string $nl
 	 */
-	public static function setNl($nl)
+	public static function setNl( string $nl ) : void
 	{
 		static::$nl = $nl;
 	}
@@ -187,7 +187,7 @@ class ClassCreator_Class extends BaseObject {
 	/**
 	 * @return string
 	 */
-	public function getNamespace()
+	public function getNamespace() : string
 	{
 		return $this->namespace;
 	}
@@ -195,7 +195,7 @@ class ClassCreator_Class extends BaseObject {
 	/**
 	 * @param string $namespace
 	 */
-	public function setNamespace($namespace)
+	public function setNamespace( string $namespace ) : void
 	{
 		$this->namespace = $namespace;
 	}
@@ -203,7 +203,7 @@ class ClassCreator_Class extends BaseObject {
 	/**
 	 * @return string
 	 */
-	public function getName()
+	public function getName() : string
 	{
 		return $this->name;
 	}
@@ -211,7 +211,7 @@ class ClassCreator_Class extends BaseObject {
 	/**
 	 * @return string
 	 */
-	public function getFullName()
+	public function getFullName() : string
 	{
 		return $this->getNamespace().'\\'.$this->getName();
 	}
@@ -219,7 +219,7 @@ class ClassCreator_Class extends BaseObject {
 	/**
 	 * @param string $name
 	 */
-	public function setName($name)
+	public function setName( string $name ) : void
 	{
 		$this->name = $name;
 	}
@@ -227,7 +227,7 @@ class ClassCreator_Class extends BaseObject {
 	/**
 	 * @return string
 	 */
-	public function getExtends()
+	public function getExtends() : string
 	{
 		return $this->extends;
 	}
@@ -235,7 +235,7 @@ class ClassCreator_Class extends BaseObject {
 	/**
 	 * @param string $extends
 	 */
-	public function setExtends($extends)
+	public function setExtends( string $extends ) : void
 	{
 		$this->extends = $extends;
 	}
@@ -243,7 +243,7 @@ class ClassCreator_Class extends BaseObject {
 	/**
 	 * @param string $class_name
 	 */
-	public function addImplements( $class_name )
+	public function addImplements( string $class_name ) : void
 	{
 		$this->implements[] = $class_name;
 	}
@@ -251,7 +251,7 @@ class ClassCreator_Class extends BaseObject {
 	/**
 	 * @param ClassCreator_UseClass $use_class
 	 */
-	public function addUse( ClassCreator_UseClass $use_class )
+	public function addUse( ClassCreator_UseClass $use_class ) : void
 	{
 		foreach( $this->use as $e_use  ) {
 			if(
@@ -271,11 +271,10 @@ class ClassCreator_Class extends BaseObject {
 	/**
 	 * @param ClassCreator_Annotation $annotation
 	 */
-	public function addAnnotation( ClassCreator_Annotation $annotation )
+	public function addAnnotation( ClassCreator_Annotation $annotation ) : void
 	{
 		$this->annotations[] = $annotation;
 	}
-
 
 
 	/**
@@ -284,7 +283,7 @@ class ClassCreator_Class extends BaseObject {
 	 *
 	 * @return ClassCreator_Class_Constant
 	 */
-	public function createConstant( $name, $value )
+	public function createConstant( string $name, mixed $value ) : ClassCreator_Class_Constant
 	{
 		$constant = new ClassCreator_Class_Constant( $name, $value );
 
@@ -296,7 +295,7 @@ class ClassCreator_Class extends BaseObject {
 	/**
 	 * @param ClassCreator_Class_Constant $constant
 	 */
-	public function addConstant( ClassCreator_Class_Constant $constant )
+	public function addConstant( ClassCreator_Class_Constant $constant ) : void
 	{
 		if(isset( $this->constants[$constant->getName()] )) {
 			throw new BaseObject_Exception('Constant '.$constant->getName().' already defined');
@@ -310,7 +309,7 @@ class ClassCreator_Class extends BaseObject {
 	 *
 	 * @return bool
 	 */
-	public function hasConstant( $name )
+	public function hasConstant( string $name ) : bool
 	{
 		return isset( $this->constants[$name] );
 	}
@@ -323,7 +322,7 @@ class ClassCreator_Class extends BaseObject {
 	 *
 	 * @return ClassCreator_Class_Property
 	 */
-	public function createProperty( $name, $type )
+	public function createProperty( string $name, string $type ) : ClassCreator_Class_Property
 	{
 		$property = new ClassCreator_Class_Property( $name, $type );
 
@@ -335,7 +334,7 @@ class ClassCreator_Class extends BaseObject {
 	/**
 	 * @param ClassCreator_Class_Property $property
 	 */
-	public function addProperty( ClassCreator_Class_Property $property )
+	public function addProperty( ClassCreator_Class_Property $property ) : void
 	{
 		if(isset( $this->properties[$property->getName()] )) {
 			throw new BaseObject_Exception('Property '.$property->getName().' already defined');
@@ -349,7 +348,7 @@ class ClassCreator_Class extends BaseObject {
 	 *
 	 * @return bool
 	 */
-	public function hasProperty( $name )
+	public function hasProperty( string $name ) : bool
 	{
 		return isset( $this->properties[$name] );
 	}
@@ -359,7 +358,7 @@ class ClassCreator_Class extends BaseObject {
 	 *
 	 * @return ClassCreator_Class_Method
 	 */
-	public function createMethod( $name )
+	public function createMethod( string $name ) : ClassCreator_Class_Method
 	{
 		$method = new ClassCreator_Class_Method( $name );
 
@@ -371,7 +370,7 @@ class ClassCreator_Class extends BaseObject {
 	/**
 	 * @param ClassCreator_Class_Method $method
 	 */
-	public function addMethod( ClassCreator_Class_Method $method )
+	public function addMethod( ClassCreator_Class_Method $method ) : void
 	{
 		if(isset( $this->methods[$method->getName()] )) {
 			$this->addError('Method '.$method->getName().' already defined');
@@ -386,7 +385,7 @@ class ClassCreator_Class extends BaseObject {
 	 *
 	 * @return bool
 	 */
-	public function hasMethod( $name )
+	public function hasMethod( string $name ) : bool
 	{
 		return isset( $this->methods[$name] );
 	}
@@ -394,7 +393,7 @@ class ClassCreator_Class extends BaseObject {
 	/**
 	 * @return string
 	 */
-	public function generateClassAnnotation()
+	public function generateClassAnnotation() : string
 	{
 		$nl = ClassCreator_Class::getNl();
 
@@ -413,7 +412,7 @@ class ClassCreator_Class extends BaseObject {
 	/**
 	 * @return string
 	 */
-	public function toString()
+	public function toString() : string
 	{
 
 		$res = '';
@@ -480,15 +479,15 @@ class ClassCreator_Class extends BaseObject {
 	/**
 	 * @return string
 	 */
-	public function __toString()
+	public function __toString() : string
 	{
 		return $this->toString();
 	}
 
 	/**
-	 * @param $error
+	 * @param string $error
 	 */
-	public function addError( $error )
+	public function addError( string $error ) : void
 	{
 		$this->errors[] = $error;
 	}
@@ -496,7 +495,7 @@ class ClassCreator_Class extends BaseObject {
 	/**
 	 * @return array
 	 */
-	public function getErrors()
+	public function getErrors() : array
 	{
 		return $this->errors;
 	}
@@ -504,7 +503,7 @@ class ClassCreator_Class extends BaseObject {
 	/**
 	 * @return array
 	 */
-	public function getWarnings()
+	public function getWarnings()  : array
 	{
 		return $this->warnings;
 	}
@@ -512,7 +511,7 @@ class ClassCreator_Class extends BaseObject {
 	/**
 	 * @param $warning
 	 */
-	public function addWarning( $warning )
+	public function addWarning( string $warning ) : void
 	{
 		$this->warnings[] = $warning;
 	}

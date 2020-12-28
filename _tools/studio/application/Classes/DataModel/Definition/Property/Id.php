@@ -19,7 +19,7 @@ class DataModel_Definition_Property_Id extends Jet_DataModel_Definition_Property
 	/**
 	 * @param Form_Field[] &$fields
 	 */
-	public function getEditFormCustomFields( &$fields )
+	public function getEditFormCustomFields( array &$fields ) : void
 	{
 
 	}
@@ -28,7 +28,7 @@ class DataModel_Definition_Property_Id extends Jet_DataModel_Definition_Property
 	/**
 	 *
 	 */
-	public function showEditFormFields()
+	public function showEditFormFields() : void
 	{
 	}
 
@@ -39,7 +39,7 @@ class DataModel_Definition_Property_Id extends Jet_DataModel_Definition_Property
 	 *
 	 * @return ClassCreator_Class_Property
 	 */
-	public function createClassProperty( ClassCreator_Class $class )
+	public function createClassProperty( ClassCreator_Class $class ) : ClassCreator_Class_Property
 	{
 
 		$property = $this->createClassProperty_main( $class, 'string',  'DataModel::TYPE_ID');
@@ -51,7 +51,7 @@ class DataModel_Definition_Property_Id extends Jet_DataModel_Definition_Property
 	 * @param ClassCreator_Class $class
 	 *
 	 */
-	public function createClassMethods( ClassCreator_Class $class )
+	public function createClassMethods( ClassCreator_Class $class ) : void
 	{
 
 		$s_g_method_name = $this->getSetterGetterMethodName();

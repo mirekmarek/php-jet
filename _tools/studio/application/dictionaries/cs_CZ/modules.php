@@ -136,4 +136,5 @@ return [
 	'Delete this page?' => 'Smazat tuto stránku?',
 	'Do you really want to delete this page?' => 'Opravdu si přejete smazat tuto stránku?',
 	'Page <b>%site% : %page%</b> has been deleted' => 'Stránka <b>%site% : %page%</b> byla smazána',
+	'System' => '',
 ];

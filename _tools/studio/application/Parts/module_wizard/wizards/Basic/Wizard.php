@@ -10,7 +10,6 @@ namespace JetStudio\ModuleWizard\Basic;
 
 use Jet\Form;
 use JetStudio\ModuleWizard;
-use JetStudio\ModuleWizards;
 
 /**
  *
@@ -20,17 +19,17 @@ class Wizard extends ModuleWizard {
 	/**
 	 * @var string
 	 */
-	protected $title = 'Basic module';
+	protected string $title = 'Basic module';
 
 	/**
 	 * @var string
 	 */
-	protected $description = 'Create basic module without any extra features. Only very basic skeleton.';
+	protected string $description = 'Create basic module without any extra features. Only very basic skeleton.';
 
 	/**
 	 *
 	 */
-	public function init()
+	public function init() : void
 	{
 		$this->values = [
 			//'NAMESPACE' => '',
@@ -46,7 +45,7 @@ class Wizard extends ModuleWizard {
 	/**
 	 * @return Form
 	 */
-	public function generateSetupForm()
+	public function generateSetupForm() : Form
 	{
 		$fields = [];
 

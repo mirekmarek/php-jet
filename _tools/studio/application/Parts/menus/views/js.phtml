@@ -3,11 +3,7 @@ namespace JetStudio;
 ?>
 
 <script type="text/javascript">
-	if(!window['JetStudio']) {
-		var JetStudio = {};
-	}
-
-	JetStudio.Menus = {
+	const Menus = {
 		createSet: {
 			openDialog: function() {
 				$('#dialog_create_new_menu_set').modal('show');

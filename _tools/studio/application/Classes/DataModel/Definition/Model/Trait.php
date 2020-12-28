@@ -16,7 +16,6 @@ use Jet\Form_Field_Hidden;
 use Jet\Form_Field_Input;
 use Jet\Form_Field_Select;
 use Jet\IO_File;
-use Jet\Reflection;
 use Jet\Tr;
 
 /**
@@ -24,9 +23,9 @@ use Jet\Tr;
 trait DataModel_Definition_Model_Trait {
 
 	/**
-	 * @var DataModel_Class
+	 * @var ?DataModel_Class
 	 */
-	protected DataModel_Class $_class;
+	protected ?DataModel_Class $_class = null;
 
 	/**
 	 * @var bool
@@ -48,35 +47,35 @@ trait DataModel_Definition_Model_Trait {
 	 *
 	 * @var DataModel_Definition_Relation_External[]
 	 */
-	protected array $external_relations;
+	protected ?array $external_relations=null;
 
 	/**
-	 * @param DataModel_Definition_Key $key
+	 * @param null|array|DataModel_Definition_Key[] $key
 	 */
-	protected DataModel_Definition_Key $custom_keys;
+	protected ?array $custom_keys = null;
 
 	/**
-	 * @var ClassCreator_Class
+	 * @var ?ClassCreator_Class
 	 */
-	protected ClassCreator_Class $__class;
+	protected ?ClassCreator_Class $__class = null;
 
 
 	/**
-	 * @var Form
+	 * @var ?Form
 	 */
-	protected Form $__edit_form;
+	protected ?Form $__edit_form = null;
 
 	/**
-	 * @var Form
+	 * @var ?Form
 	 */
-	protected Form $__sort_properties_form;
+	protected ?Form $__sort_properties_form = null;
 
 
 
 	/**
 	 * @return DataModel_Class
 	 */
-	public function getClass()
+	public function getClass() : DataModel_Class
 	{
 		return $this->_class;
 	}
@@ -84,7 +83,7 @@ trait DataModel_Definition_Model_Trait {
 	/**
 	 * @param DataModel_Class $_class
 	 */
-	public function setClass( DataModel_Class $_class )
+	public function setClass( DataModel_Class $_class ) : void
 	{
 		$this->_class = $_class;
 
@@ -101,16 +100,16 @@ trait DataModel_Definition_Model_Trait {
 
 	/**
 	 */
-	protected function _initDatabaseTableName()
+	protected function _initDatabaseTableName() : void
 	{
-		$this->database_table_name = Reflection::get( $this->class_name, 'database_table_name', '' );
+		$this->database_table_name = $this->class_arguments['database_table_name'] ?? '';
 	}
 
 
 	/**
 	 * @return bool
 	 */
-	public function isAbstract()
+	public function isAbstract() : bool
 	{
 		return $this->_is_abstract;
 	}
@@ -118,7 +117,7 @@ trait DataModel_Definition_Model_Trait {
 	/**
 	 * @return bool
 	 */
-	public function canHaveRelated()
+	public function canHaveRelated() : bool
 	{
 		return true;
 	}
@@ -126,7 +125,7 @@ trait DataModel_Definition_Model_Trait {
 	/**
 	 * @return array
 	 */
-	public function getExtendsScope()
+	public function getExtendsScope() : array
 	{
 		$extends_scope = [
 			'' => '- default -',
@@ -153,35 +152,26 @@ trait DataModel_Definition_Model_Trait {
 
 	/**
 	 * @return DataModel_Definition_Property_Interface[]|\Jet\DataModel_Definition_Property[]
+	 * @noinspection PhpDocSignatureInspection
 	 */
-	public function getProperties()
+	public function getProperties() : array
 	{
 		return $this->properties;
 	}
-	/**
-	 *
-	 * @param string $property_name
-	 *
-	 * @return DataModel_Definition_Property_Interface|\Jet\DataModel_Definition_Property
-	 */
-	public function getProperty( $property_name )
-	{
-		return $this->properties[$property_name];
-	}
-
 
 	/**
 	 *
 	 */
-	protected function _initKeys()
+	protected function _initKeys() : void
 	{
+		/** @noinspection PhpUndefinedClassInspection */
 		parent::_initKeys();
 
-		$keys_definition_data = Reflection::get( $this->class_name, 'data_model_keys_definition', [] );
+		$keys_definition_data = $this->class_arguments['keys'] ?? [];
 
 		foreach( $keys_definition_data as $kd ) {
 			$key = new DataModel_Definition_Key(
-				$kd['name'], $kd['type'], $kd['property_names'], true
+				$kd['name'], $kd['type'], $kd['property_names']
 			);
 			$this->custom_keys[$key->getName()] = $key;
 
@@ -192,7 +182,7 @@ trait DataModel_Definition_Model_Trait {
 	/**
 	 * @return DataModel_Definition_Id_Abstract|null
 	 */
-	public function getIDControllerDefinition()
+	public function getIDControllerDefinition() : DataModel_Definition_Id_Abstract|null
 	{
 
 		if(!$this->getIDControllerClassName()) {
@@ -209,7 +199,7 @@ trait DataModel_Definition_Model_Trait {
 	/**
 	 * @return ClassCreator_Class|null
 	 */
-	public function createClass()
+	public function createClass() : ClassCreator_Class|null
 	{
 		if(!$this->__class) {
 			$class = $this->createClass_initClass();
@@ -234,7 +224,7 @@ trait DataModel_Definition_Model_Trait {
 	 *
 	 * @return string
 	 */
-	public function createClass_getExtends( ClassCreator_Class $class, $default )
+	public function createClass_getExtends( ClassCreator_Class $class, string $default ) : string
 	{
 		if(!$this->_extends) {
 			return $default;
@@ -262,7 +252,7 @@ trait DataModel_Definition_Model_Trait {
 	/**
 	 * @param ClassCreator_Class $class
 	 */
-	public function createClass_main( ClassCreator_Class $class )
+	public function createClass_main( ClassCreator_Class $class ) : void
 	{
 		$class->addAnnotation(
 			(new ClassCreator_Annotation('JetDataModel', 'name', var_export($this->getModelName(), true)) )
@@ -282,7 +272,7 @@ trait DataModel_Definition_Model_Trait {
 	/**
 	 * @param ClassCreator_Class $class
 	 */
-	public function createClass_ID( ClassCreator_Class $class )
+	public function createClass_ID( ClassCreator_Class $class ) : void
 	{
 		if($this->getIDControllerDefinition()) {
 			$this->getIDControllerDefinition()->createClass_IdDefinition( $class );
@@ -292,7 +282,7 @@ trait DataModel_Definition_Model_Trait {
 	/**
 	 * @param ClassCreator_Class $class
 	 */
-	public function createClass_customKeys( ClassCreator_Class $class )
+	public function createClass_customKeys( ClassCreator_Class $class ) : void
 	{
 		foreach( $this->getCustomKeys() as $key ) {
 			$class->addAnnotation( $key->createClass_getAsAnnotation( $class ) );
@@ -304,7 +294,7 @@ trait DataModel_Definition_Model_Trait {
 	/**
 	 * @param ClassCreator_Class $class
 	 */
-	public function createClass_externalRelations( ClassCreator_Class $class )
+	public function createClass_externalRelations( ClassCreator_Class $class ) : void
 	{
 		foreach( $this->getExternalRelations() as $relation ) {
 			$class->addAnnotation( $relation->createClass_getAsAnnotation( $class ) );
@@ -316,7 +306,7 @@ trait DataModel_Definition_Model_Trait {
 	/**
 	 * @param ClassCreator_Class $class
 	 */
-	public function createClass_properties( ClassCreator_Class $class )
+	public function createClass_properties( ClassCreator_Class $class ) : void
 	{
 		$model = $this;
 
@@ -339,7 +329,7 @@ trait DataModel_Definition_Model_Trait {
 	/**
 	 * @param ClassCreator_Class $class
 	 */
-	public function createClass_methods( ClassCreator_Class $class )
+	public function createClass_methods( ClassCreator_Class $class ) : void
 	{
 		$model = $this;
 
@@ -362,7 +352,7 @@ trait DataModel_Definition_Model_Trait {
 	/**
 	 *
 	 */
-	public function prepare()
+	public function prepare() : void
 	{
 		if(!$this->database_table_name) {
 			$this->database_table_name = $this->getModelName();
@@ -422,7 +412,7 @@ trait DataModel_Definition_Model_Trait {
 	/**
 	 * @return Form
 	 */
-	public function getEditForm()
+	public function getEditForm() : Form
 	{
 
 		if(!$this->__edit_form) {
@@ -439,6 +429,9 @@ trait DataModel_Definition_Model_Trait {
 				$this->setModelName( $value );
 			} );
 			$model_name_field->setValidator( function( Form_Field_Input $field ) {
+				/**
+				 * @var DataModel_Definition_Model_Interface $this
+				 */
 				return DataModels::checkModelName( $field, $this );
 			} );
 
@@ -465,6 +458,9 @@ trait DataModel_Definition_Model_Trait {
 				Form_Field_Input::ERROR_CODE_INVALID_FORMAT => 'Invalid DataModel table name name format'
 			]);
 			$database_table_name_field->setValidator( function( Form_Field_Input $field ) {
+				/**
+				 * @var DataModel_Definition_Model_Interface $this
+				 */
 				return DataModels::checkTableName( $field, $this );
 			} );
 
@@ -551,7 +547,7 @@ trait DataModel_Definition_Model_Trait {
 	/**
 	 * @return bool
 	 */
-	public function catchEditForm()
+	public function catchEditForm() : bool
 	{
 		$form = $this->getEditForm();
 
@@ -572,7 +568,7 @@ trait DataModel_Definition_Model_Trait {
 	/**
 	 * @param DataModel_Definition_Property_Interface $property
 	 */
-	public function addProperty(DataModel_Definition_Property_Interface $property )
+	public function addProperty(DataModel_Definition_Property_Interface $property ) : void
 	{
 
 		$this->properties[$property->getName()] = $property;
@@ -600,7 +596,7 @@ trait DataModel_Definition_Model_Trait {
 	 *
 	 * @return mixed
 	 */
-	public function getIDControllerOption( $option, $default_value )
+	public function getIDControllerOption( string $option, mixed $default_value ) : mixed
 	{
 		if(empty( $this->id_controller_options[$option])) {
 			$this->id_controller_options[$option] = $default_value;
@@ -615,7 +611,7 @@ trait DataModel_Definition_Model_Trait {
 	 * @param string $option
 	 * @param mixed $value
 	 */
-	public function setIDControllerOption( $option, $value )
+	public function setIDControllerOption( string $option, mixed $value ) : void
 	{
 		$this->id_controller_options[$option] = $value;
 	}
@@ -625,7 +621,7 @@ trait DataModel_Definition_Model_Trait {
 	/**
 	 * @return DataModel_Definition_Relation_External[]
 	 */
-	public function getExternalRelations()
+	public function getExternalRelations() : array
 	{
 		if($this->external_relations===null) {
 			$this->external_relations = [];
@@ -633,7 +629,7 @@ trait DataModel_Definition_Model_Trait {
 			if(!$this->_class->isIsNew()) {
 				$class = $this->class_name;
 
-				$relations_definitions_data = Reflection::get( $class, 'data_model_external_relations_definition', [] );
+				$relations_definitions_data = $this->class_arguments['external_relations'] ?? [];
 
 				foreach( $relations_definitions_data as $definition_data ) {
 					$relation = new DataModel_Definition_Relation_External( $class, $definition_data );
@@ -666,7 +662,7 @@ trait DataModel_Definition_Model_Trait {
 	/**
 	 * @return string
 	 */
-	public function getInternalType()
+	public function getInternalType() : string
 	{
 		return $this->internal_type;
 	}
@@ -674,7 +670,7 @@ trait DataModel_Definition_Model_Trait {
 	/**
 	 * @return string
 	 */
-	public function getExtends()
+	public function getExtends() : string
 	{
 		return $this->_extends;
 	}
@@ -683,7 +679,7 @@ trait DataModel_Definition_Model_Trait {
 	/**
 	 * @return array
 	 */
-	public function getImplements()
+	public function getImplements() : array
 	{
 		return $this->_implements;
 	}
@@ -694,7 +690,7 @@ trait DataModel_Definition_Model_Trait {
 	/**
 	 * @return string
 	 */
-	public function getModelName()
+	public function getModelName() : string
 	{
 		return $this->model_name;
 	}
@@ -702,7 +698,7 @@ trait DataModel_Definition_Model_Trait {
 	/**
 	 * @param string $model_name
 	 */
-	public function setModelName($model_name)
+	public function setModelName( string $model_name ) : void
 	{
 		$this->model_name = $model_name;
 	}
@@ -710,7 +706,7 @@ trait DataModel_Definition_Model_Trait {
 	/**
 	 * @return string
 	 */
-	public function getDatabaseTableName()
+	public function getDatabaseTableName() : string
 	{
 		return $this->database_table_name;
 	}
@@ -718,7 +714,7 @@ trait DataModel_Definition_Model_Trait {
 	/**
 	 * @param string $database_table_name
 	 */
-	public function setDatabaseTableName($database_table_name)
+	public function setDatabaseTableName(string $database_table_name) : void
 	{
 		$this->database_table_name = $database_table_name;
 	}
@@ -726,7 +722,7 @@ trait DataModel_Definition_Model_Trait {
 	/**
 	 * @param string $id_controller_class
 	 */
-	public function setIDControllerClassName( $id_controller_class )
+	public function setIDControllerClassName( string $id_controller_class ) : void
 	{
 		$this->id_controller_class = $id_controller_class;
 	}
@@ -734,7 +730,7 @@ trait DataModel_Definition_Model_Trait {
 	/**
 	 * @return string
 	 */
-	public function getClassName()
+	public function getClassName() : string
 	{
 		return $this->class_name;
 	}
@@ -743,7 +739,7 @@ trait DataModel_Definition_Model_Trait {
 	/**
 	 * @param DataModel_Definition_Key $key
 	 */
-	public function addCustomNewKey( DataModel_Definition_Key $key )
+	public function addCustomNewKey( DataModel_Definition_Key $key ) : void
 	{
 		$this->custom_keys[ $key->getName() ] = $key;
 	}
@@ -753,7 +749,7 @@ trait DataModel_Definition_Model_Trait {
 	 *
 	 * @return DataModel_Definition_Key|null
 	 */
-	public function getCustomKey( $key_name )
+	public function getCustomKey( string $key_name ) : DataModel_Definition_Key|null
 	{
 		if(!isset($this->custom_keys[$key_name])) {
 			return null;
@@ -765,13 +761,13 @@ trait DataModel_Definition_Model_Trait {
 	/**
 	 * @return DataModel_Definition_Key[]
 	 */
-	public function getCustomKeys()
+	public function getCustomKeys() : array
 	{
 		if($this->custom_keys===null) {
 			$this->custom_keys = [];
 
 			if(!$this->_class->isIsNew()) {
-				$keys_definition_data = Reflection::get( $this->class_name, 'data_model_keys_definition', [] );
+				$keys_definition_data = $this->class_arguments['keys'] ?? [];
 
 				foreach( $keys_definition_data as $kd ) {
 					$this->custom_keys[$kd['name']] = new DataModel_Definition_Key( $kd['name'], $kd['type'], $kd['property_names'] );
@@ -786,7 +782,7 @@ trait DataModel_Definition_Model_Trait {
 	/**
 	 * @return DataModel_Definition_Key[]
 	 */
-	public function getCustomCustomKeys()
+	public function getCustomCustomKeys() : array
 	{
 		$keys = [];
 
@@ -802,7 +798,7 @@ trait DataModel_Definition_Model_Trait {
 	/**
 	 * @param string $key_name
 	 */
-	public function deleteCustomKey( $key_name )
+	public function deleteCustomKey( string $key_name ) : void
 	{
 		$_keys = [];
 
@@ -824,7 +820,7 @@ trait DataModel_Definition_Model_Trait {
 	/**
 	 * @param DataModel_Definition_Relation_External $relation
 	 */
-	public function addExternalRelation( DataModel_Definition_Relation_External $relation )
+	public function addExternalRelation( DataModel_Definition_Relation_External $relation ) : void
 	{
 		$this->getExternalRelations();
 
@@ -836,7 +832,7 @@ trait DataModel_Definition_Model_Trait {
 	 *
 	 * @return DataModel_Definition_Relation_External|null
 	 */
-	public function getExternalRelation( $relation_name )
+	public function getExternalRelation( string $relation_name ) : DataModel_Definition_Relation_External|null
 	{
 		$this->getExternalRelations();
 		if(!isset($this->external_relations[$relation_name])) {
@@ -850,7 +846,7 @@ trait DataModel_Definition_Model_Trait {
 	/**
 	 * @param string $relation_name
 	 */
-	public function deleteExternalRelation( $relation_name )
+	public function deleteExternalRelation( string $relation_name ) : void
 	{
 		$this->getExternalRelations();
 
@@ -867,7 +863,7 @@ trait DataModel_Definition_Model_Trait {
 	/**
 	 * @return string
 	 */
-	public function getClassPath()
+	public function getClassPath() : string
 	{
 		return $this->_class->getScriptPath();
 	}
@@ -875,7 +871,7 @@ trait DataModel_Definition_Model_Trait {
 	/**
 	 * @return bool
 	 */
-	public function save()
+	public function save() : bool
 	{
 		$ok = true;
 		try {
@@ -912,7 +908,7 @@ trait DataModel_Definition_Model_Trait {
 	/**
 	 * @return bool
 	 */
-	public function create()
+	public function create() : bool
 	{
 		$ok = true;
 		try {
@@ -941,7 +937,7 @@ trait DataModel_Definition_Model_Trait {
 	 *
 	 * @return Form_Field[]
 	 */
-	public static function getCreateForm_mainFields()
+	public static function getCreateForm_mainFields() : array
 	{
 		$current_class = DataModels::getCurrentClass();
 
@@ -1029,7 +1025,7 @@ trait DataModel_Definition_Model_Trait {
 	/**
 	 * @return Form
 	 */
-	public static function getCreateForm_Main()
+	public static function getCreateForm_Main() : Form
 	{
 		$fields = static::getCreateForm_mainFields();
 
@@ -1047,7 +1043,7 @@ trait DataModel_Definition_Model_Trait {
 	 *
 	 * @return Form
 	 */
-	public static function getCreateForm_Related( $type )
+	public static function getCreateForm_Related( string $type ) : Form
 	{
 		$fields = static::getCreateForm_mainFields();
 
@@ -1123,7 +1119,7 @@ trait DataModel_Definition_Model_Trait {
 	 *
 	 * @return DataModel_Class
 	 */
-	public static function catchCreateForm_createClass( Form $form )
+	public static function catchCreateForm_createClass( Form $form ) : DataModel_Class
 	{
 		$namespace = $form->field('namespace')->getValue();
 		$class_name = $form->field('class_name')->getValue();
@@ -1144,7 +1140,8 @@ trait DataModel_Definition_Model_Trait {
 	 * @param Form $form
 	 * @param DataModel_Definition_Model_Main|DataModel_Definition_Model_Related_1to1|DataModel_Definition_Model_Related_1toN $model
 	 */
-	public static function catchCreateForm_modelMainSetup( Form $form, $model )
+	public static function catchCreateForm_modelMainSetup( Form $form,
+	                                                       DataModel_Definition_Model_Main|DataModel_Definition_Model_Related_1to1|DataModel_Definition_Model_Related_1toN $model ) : void
 	{
 
 
@@ -1190,7 +1187,8 @@ trait DataModel_Definition_Model_Trait {
 	 * @param Form $form
 	 * @param DataModel_Definition_Model_Related_1to1|DataModel_Definition_Model_Related_1toN $model
 	 */
-	public static function catchCreateForm_relatedModelSetup( Form $form, $model )
+	public static function catchCreateForm_relatedModelSetup( Form $form,
+	                                                          DataModel_Definition_Model_Related_1to1|DataModel_Definition_Model_Related_1toN $model ) : void
 	{
 		$current_model = DataModels::getCurrentModel();
 		$model->setParentModel( $current_model );

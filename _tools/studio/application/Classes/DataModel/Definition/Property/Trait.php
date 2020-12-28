@@ -8,7 +8,6 @@
 namespace JetStudio;
 
 use Jet\DataModel;
-use Jet\ClassParser;
 use Jet\Exception;
 use Jet\Form;
 use Jet\Form_Field_Checkbox;
@@ -28,27 +27,27 @@ trait DataModel_Definition_Property_Trait
 	/**
 	 * @var bool
 	 */
-	protected $_is_inherited = false;
+	protected bool $_is_inherited = false;
 
 	/**
 	 * @var string
 	 */
-	protected $_declaring_class_name = '';
+	protected string $_declaring_class_name = '';
 
 	/**
 	 * @var bool
 	 */
-	protected $_is_overload = false;
+	protected bool $_is_overload = false;
 
 	/**
-	 * @var
+	 * @var ?Form
 	 */
-	protected $__edit_form;
+	protected ?Form $__edit_form = null;
 
 	/**
 	 * @var DataModel_Class $_class
 	 */
-	public function setClass( DataModel_Class $_class )
+	public function setClass( DataModel_Class $_class ) : void
 	{
 		$reflection = $_class->getReflection();
 
@@ -73,7 +72,7 @@ trait DataModel_Definition_Property_Trait
 	/**
 	 * @return bool
 	 */
-	public function isInherited()
+	public function isInherited() : bool
 	{
 		return $this->_is_inherited;
 	}
@@ -82,7 +81,7 @@ trait DataModel_Definition_Property_Trait
 	/**
 	 * @return bool
 	 */
-	public function isOverload()
+	public function isOverload() : bool
 	{
 		return $this->_is_overload;
 	}
@@ -90,7 +89,7 @@ trait DataModel_Definition_Property_Trait
 	/**
 	 * @return string
 	 */
-	public function getDeclaringClassName()
+	public function getDeclaringClassName() : string
 	{
 		return $this->_declaring_class_name;
 	}
@@ -99,7 +98,7 @@ trait DataModel_Definition_Property_Trait
 	/**
 	 * @return Form
 	 */
-	public function getEditForm()
+	public function getEditForm() : Form
 	{
 
 		if(!$this->__edit_form) {
@@ -222,7 +221,7 @@ trait DataModel_Definition_Property_Trait
 	/**
 	 * @param array $fields
 	 */
-	public function getEditForm_getFormDefinitionFields( array &$fields )
+	public function getEditForm_getFormDefinitionFields( array &$fields ) : void
 	{
 		$form_field_creator_method_name_filed = new Form_Field_Input('form_field_creator_method_name', 'Field creator method:', $this->getFormFieldCreatorMethodName());
 		$form_field_creator_method_name_filed->setCatcher( function( $value ) {
@@ -350,7 +349,7 @@ trait DataModel_Definition_Property_Trait
 	/**
 	 * @return bool|DataModel_Definition_Property_Interface
 	 */
-	public function catchEditForm()
+	public function catchEditForm() : bool|DataModel_Definition_Property_Interface
 	{
 		$form = $this->getEditForm();
 
@@ -395,7 +394,7 @@ trait DataModel_Definition_Property_Trait
 	/**
 	 *
 	 */
-	public function showEditForm()
+	public function showEditForm() : void
 	{
 		$form = $this->getEditForm();
 
@@ -435,7 +434,7 @@ trait DataModel_Definition_Property_Trait
 	/**
 	 *
 	 */
-	public function showEditForm_formFieldDefinition()
+	public function showEditForm_formFieldDefinition() : void
 	{
 		if($this->getRelatedToClassName()) {
 			return;
@@ -595,7 +594,7 @@ trait DataModel_Definition_Property_Trait
 	/**
 	 * @return string
 	 */
-	public function getHeadCssClass()
+	public function getHeadCssClass() : string
 	{
 		/*
 		$class = 'bg-default';
@@ -616,7 +615,7 @@ trait DataModel_Definition_Property_Trait
 	/**
 	 * @return string
 	 */
-	public function getTypeDescription()
+	public function getTypeDescription() : string
 	{
 		return DataModel_Definition_Property::getPropertyTypes()[$this->getType()];
 	}
@@ -624,7 +623,7 @@ trait DataModel_Definition_Property_Trait
 	/**
 	 * @return string
 	 */
-	public function getIcons()
+	public function getIcons() : string
 	{
 		$icon = '';
 
@@ -684,7 +683,7 @@ trait DataModel_Definition_Property_Trait
 	 *
 	 * @param mixed &$value
 	 */
-	public function checkValueType(&$value)
+	public function checkValueType( mixed &$value) : void
 	{
 	}
 
@@ -694,7 +693,7 @@ trait DataModel_Definition_Property_Trait
 	/**
 	 * @return string
 	 */
-	public function getType()
+	public function getType() : string
 	{
 		return $this->type;
 	}
@@ -702,7 +701,7 @@ trait DataModel_Definition_Property_Trait
 	/**
 	 * @return string
 	 */
-	public function getName()
+	public function getName() : string
 	{
 		return $this->name;
 	}
@@ -710,7 +709,7 @@ trait DataModel_Definition_Property_Trait
 	/**
 	 * @param string $name
 	 */
-	public function setName($name)
+	public function setName( string $name ) : void
 	{
 		$this->name = $name;
 	}
@@ -718,7 +717,7 @@ trait DataModel_Definition_Property_Trait
 	/**
 	 * @return null|string
 	 */
-	public function getRelatedToClassName()
+	public function getRelatedToClassName() : string|null
 	{
 		return $this->related_to_class_name;
 	}
@@ -726,7 +725,7 @@ trait DataModel_Definition_Property_Trait
 	/**
 	 * @param null|string $related_to_class_name
 	 */
-	public function setRelatedToClassName($related_to_class_name)
+	public function setRelatedToClassName( ?string $related_to_class_name) : void
 	{
 		$this->related_to_class_name = $related_to_class_name;
 	}
@@ -734,7 +733,7 @@ trait DataModel_Definition_Property_Trait
 	/**
 	 * @return null|string
 	 */
-	public function getRelatedToPropertyName()
+	public function getRelatedToPropertyName() : string|null
 	{
 		return $this->related_to_property_name;
 	}
@@ -742,7 +741,7 @@ trait DataModel_Definition_Property_Trait
 	/**
 	 * @param null|string $related_to_property_name
 	 */
-	public function setRelatedToPropertyName($related_to_property_name)
+	public function setRelatedToPropertyName( ?string $related_to_property_name) : void
 	{
 		$this->related_to_property_name = $related_to_property_name;
 	}
@@ -750,7 +749,7 @@ trait DataModel_Definition_Property_Trait
 	/**
 	 * @param string $database_column_name
 	 */
-	public function setDatabaseColumnName($database_column_name)
+	public function setDatabaseColumnName(string $database_column_name) : void
 	{
 		$this->database_column_name = $database_column_name;
 	}
@@ -758,7 +757,7 @@ trait DataModel_Definition_Property_Trait
 	/**
 	 * @return bool
 	 */
-	public function isId()
+	public function isId() : bool
 	{
 		return $this->is_id;
 	}
@@ -766,7 +765,7 @@ trait DataModel_Definition_Property_Trait
 	/**
 	 * @param bool $is_id
 	 */
-	public function setIsId($is_id)
+	public function setIsId( bool $is_id ) : void
 	{
 		$this->is_id = $is_id;
 	}
@@ -774,7 +773,7 @@ trait DataModel_Definition_Property_Trait
 	/**
 	 * @return bool
 	 */
-	public function isKey()
+	public function isKey() : bool
 	{
 		return $this->is_key;
 	}
@@ -782,7 +781,7 @@ trait DataModel_Definition_Property_Trait
 	/**
 	 * @param bool $is_key
 	 */
-	public function setIsKey($is_key)
+	public function setIsKey( bool $is_key ) : void
 	{
 		$this->is_key = $is_key;
 	}
@@ -790,7 +789,7 @@ trait DataModel_Definition_Property_Trait
 	/**
 	 * @return bool
 	 */
-	public function isUnique()
+	public function isUnique() : bool
 	{
 		return $this->is_unique;
 	}
@@ -798,7 +797,7 @@ trait DataModel_Definition_Property_Trait
 	/**
 	 * @param bool $is_unique
 	 */
-	public function setIsUnique($is_unique)
+	public function setIsUnique( bool $is_unique ) : void
 	{
 		$this->is_unique = $is_unique;
 	}
@@ -806,7 +805,7 @@ trait DataModel_Definition_Property_Trait
 	/**
 	 * @return bool
 	 */
-	public function isDoNotExport()
+	public function isDoNotExport() : bool
 	{
 		return $this->do_not_export;
 	}
@@ -814,15 +813,15 @@ trait DataModel_Definition_Property_Trait
 	/**
 	 * @param bool $do_not_export
 	 */
-	public function setDoNotExport($do_not_export)
+	public function setDoNotExport( bool $do_not_export ) : void
 	{
 		$this->do_not_export = $do_not_export;
 	}
 
 	/**
-	 * @return string
+	 * @return mixed
 	 */
-	public function getDefaultValue()
+	public function getDefaultValue() : mixed
 	{
 		return $this->default_value;
 	}
@@ -830,7 +829,7 @@ trait DataModel_Definition_Property_Trait
 	/**
 	 * @param string $default_value
 	 */
-	public function setDefaultValue($default_value)
+	public function setDefaultValue( string $default_value ) : void
 	{
 		$this->default_value = $default_value;
 	}
@@ -839,9 +838,9 @@ trait DataModel_Definition_Property_Trait
 
 
 	/**
-	 * @param string $type
+	 * @param string|bool $type
 	 */
-	public function setFormFieldType( $type )
+	public function setFormFieldType( string|bool $type ) : void
 	{
 		$this->form_field_type = $type;
 	}
@@ -849,7 +848,7 @@ trait DataModel_Definition_Property_Trait
 	/**
 	 * @param string $form_field_creator_method_name
 	 */
-	public function setFormFieldCreatorMethodName( $form_field_creator_method_name )
+	public function setFormFieldCreatorMethodName( string $form_field_creator_method_name ) : void
 	{
 		$this->form_field_creator_method_name = $form_field_creator_method_name;
 	}
@@ -857,7 +856,7 @@ trait DataModel_Definition_Property_Trait
 	/**
 	 * @param callable $form_field_get_select_options_callback
 	 */
-	public function setFormFieldGetSelectOptionsCallback( $form_field_get_select_options_callback )
+	public function setFormFieldGetSelectOptionsCallback( callable $form_field_get_select_options_callback ) : void
 	{
 		$this->form_field_get_select_options_callback = $form_field_get_select_options_callback;
 	}
@@ -865,7 +864,7 @@ trait DataModel_Definition_Property_Trait
 	/**
 	 * @param string $form_setter_name
 	 */
-	public function setFormSetterName( $form_setter_name )
+	public function setFormSetterName( string $form_setter_name ) : void
 	{
 		$this->form_setter_name = $form_setter_name;
 	}
@@ -875,7 +874,7 @@ trait DataModel_Definition_Property_Trait
 	/**
 	 * @param bool $form_field_is_required
 	 */
-	public function setFormFieldIsRequired($form_field_is_required)
+	public function setFormFieldIsRequired( bool $form_field_is_required ) : void
 	{
 		$this->form_field_is_required = $form_field_is_required;
 	}
@@ -883,7 +882,7 @@ trait DataModel_Definition_Property_Trait
 	/**
 	 * @param null|string $form_field_validation_regexp
 	 */
-	public function setFormFieldValidationRegexp($form_field_validation_regexp)
+	public function setFormFieldValidationRegexp( ?string $form_field_validation_regexp ) : void
 	{
 		$this->form_field_validation_regexp = $form_field_validation_regexp;
 	}
@@ -891,7 +890,7 @@ trait DataModel_Definition_Property_Trait
 	/**
 	 * @param float|int|null $form_field_min_value
 	 */
-	public function setFormFieldMinValue($form_field_min_value)
+	public function setFormFieldMinValue( float|int|null $form_field_min_value) : void
 	{
 		$this->form_field_min_value = $form_field_min_value;
 	}
@@ -899,7 +898,7 @@ trait DataModel_Definition_Property_Trait
 	/**
 	 * @param float|int|null $form_field_max_value
 	 */
-	public function setFormFieldMaxValue($form_field_max_value)
+	public function setFormFieldMaxValue( float|int|null $form_field_max_value ) : void
 	{
 		$this->form_field_max_value = $form_field_max_value;
 	}
@@ -908,7 +907,7 @@ trait DataModel_Definition_Property_Trait
 	/**
 	 * @param array $options
 	 */
-	public function setFormFieldOptions( array $options )
+	public function setFormFieldOptions( array $options ) : void
 	{
 		$this->form_field_options = $options;
 	}
@@ -916,7 +915,7 @@ trait DataModel_Definition_Property_Trait
 	/**
 	 * @param string $label
 	 */
-	public function setFormFieldLabel( $label )
+	public function setFormFieldLabel( string $label ) : void
 	{
 		$this->form_field_label = $label;
 	}
@@ -939,17 +938,15 @@ trait DataModel_Definition_Property_Trait
 	 *
 	 * @return ClassCreator_Class_Property
 	 */
-	public function createClassProperty_main(
-		ClassCreator_Class $class,
-		$property_type,
-		$data_model_type,
-		array $annotations=[]
-	) {
+	public function createClassProperty_main( ClassCreator_Class $class,
+	                                          string $property_type,
+	                                          string$data_model_type,
+	                                          array $annotations=[] ) : ClassCreator_Class_Property{
 		$property = new ClassCreator_Class_Property( $this->getName(), $property_type );
 
 		if($this->getRelatedToClassName()) {
 
-			if(strpos($this->getRelatedToClassName(), ':')===false) {
+			if( !str_contains( $this->getRelatedToClassName(), ':' ) ) {
 				$to_scope = 'main';
 				$to_model_class_name = $this->getRelatedToClassName();
 			} else {
@@ -1062,17 +1059,17 @@ trait DataModel_Definition_Property_Trait
 	/**
 	 * @return string
 	 */
-	public function getSetterGetterMethodName()
+	public function getSetterGetterMethodName() : string
 	{
 		return static::generateSetterGetterMethodName( $this->getName() );
 	}
 
 	/**
-	 * @param $name
+	 * @param string $name
 	 *
 	 * @return string
 	 */
-	public static function generateSetterGetterMethodName( $name )
+	public static function generateSetterGetterMethodName( string $name ) : string
 	{
 		$name = explode('_', $name);
 
@@ -1089,7 +1086,7 @@ trait DataModel_Definition_Property_Trait
 	/**
 	 *
 	 */
-	public function prepare()
+	public function prepare() : void
 	{
 		if(!$this->database_column_name) {
 			$this->database_column_name = $this->getName();
@@ -1102,7 +1099,7 @@ trait DataModel_Definition_Property_Trait
 	 *
 	 * @return bool
 	 */
-	public function update( DataModel_Class $class )
+	public function update( DataModel_Class $class ) :bool
 	{
 		$ok = true;
 		try {
@@ -1144,7 +1141,7 @@ trait DataModel_Definition_Property_Trait
 	 *
 	 * @return bool
 	 */
-	public function add( DataModel_Class $class )
+	public function add( DataModel_Class $class ) : bool
 	{
 		$ok = true;
 		try {

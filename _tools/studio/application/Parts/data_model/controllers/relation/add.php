@@ -2,7 +2,6 @@
 namespace JetStudio;
 
 use Jet\AJAX;
-use Jet\Http_Headers;
 use Jet\Http_Request;
 use Jet\UI_messages;
 use Jet\Tr;

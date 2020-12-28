@@ -27,14 +27,14 @@ class Pages_Page_Content extends Mvc_Page_Content
 	const PARAMS_COUNT = 3;	
 
 	/**
-	 * @var Form
+	 * @var ?Form
 	 */
-	protected $__edit_form;
+	protected ?Form $__edit_form = null;
 
 	/**
 	 * @return string
 	 */
-	public function getContentKind()
+	public function getContentKind() : string
 	{
 
 		if( $this->getOutput() ) {
@@ -60,7 +60,7 @@ class Pages_Page_Content extends Mvc_Page_Content
 	 * @return Form_Field_Select
 	 *
 	 */
-	public static function getField__output_position( $default_value, Pages_Page $page )
+	public static function getField__output_position( string $default_value, Pages_Page $page ) : Form_Field_Select
 	{
 		/**
 		 * @var Sites_Site $site
@@ -84,7 +84,7 @@ class Pages_Page_Content extends Mvc_Page_Content
 	 *
 	 * @return Form_Field_Int
 	 */
-	public static function getField__output_position_order( $default_value )
+	public static function getField__output_position_order( int $default_value ) : Form_Field_Int
 	{
 		$output_position_order = new Form_Field_Int('output_position_order', 'Output position order:', $default_value);
 
@@ -96,7 +96,7 @@ class Pages_Page_Content extends Mvc_Page_Content
 	 *
 	 * @return Form_Field_Select
 	 */
-	public static function getField__module_name( $default_value )
+	public static function getField__module_name( string $default_value ) : Form_Field_Select
 	{
 		$modules = [
 			'' => ''
@@ -125,7 +125,7 @@ class Pages_Page_Content extends Mvc_Page_Content
 	 *
 	 * @return Form_Field_Select
 	 */
-	public static function getField__controller_name( $default_value, $module_name='' )
+	public static function getField__controller_name( string $default_value, string $module_name='' ) : Form_Field_Select
 	{
 		$controller_name = new Form_Field_Select('controller_name', 'Controller name:', $default_value, true);
 		$controller_name->setErrorMessages([
@@ -155,7 +155,9 @@ class Pages_Page_Content extends Mvc_Page_Content
 	 *
 	 * @return Form_Field_Select
 	 */
-	public static function getField__controller_action( $default_value, $module_name='', $controller='' )
+	public static function getField__controller_action( string $default_value='',
+	                                                    string $module_name='',
+	                                                    string $controller='' ) : Form_Field_Select
 	{
 		$controller_action = new Form_Field_Select('controller_action', 'Controller action:', $default_value);
 		$controller_action->setErrorMessages([
@@ -190,7 +192,7 @@ class Pages_Page_Content extends Mvc_Page_Content
 	 *
 	 * @return Form_Field_Input
 	 */
-	public static function getField__controller_class( $default_value )
+	public static function getField__controller_class( string $default_value ) : Form_Field_Input
 	{
 		$controller_class = new Form_Field_Input('controller_class', 'Custom controller class:', $default_value);
 		$controller_class->setErrorMessages([
@@ -209,7 +211,7 @@ class Pages_Page_Content extends Mvc_Page_Content
 	 *
 	 * @return Form_Field_Input
 	 */
-	public static function getField__controller_class_action( $default_value )
+	public static function getField__controller_class_action( string $default_value ) : Form_Field_Input
 	{
 		$controller_class_action = new Form_Field_Input('controller_class_action', 'Controller action:', $default_value);
 		$controller_class_action->setErrorMessages([
@@ -229,7 +231,7 @@ class Pages_Page_Content extends Mvc_Page_Content
 	 *
 	 * @return Form_Field_Textarea
 	 */
-	public static function getField__output( $default_value )
+	public static function getField__output( string $default_value ) : Form_Field_Textarea
 	{
 		$output = new Form_Field_Textarea('output', 'Static output:', $default_value);
 		$output->setValidator( function( Form_Field_Textarea $field ) {
@@ -252,7 +254,7 @@ class Pages_Page_Content extends Mvc_Page_Content
 	 *
 	 * @return Form_Field_Input
 	 */
-	public static function getField__output_callback_class( $default_value )
+	public static function getField__output_callback_class( string $default_value ) : Form_Field_Input
 	{
 		$output_callback_class = new Form_Field_Input('output_callback_class', 'Output callback class:', $default_value);
 		$output_callback_class->setErrorMessages([
@@ -272,7 +274,7 @@ class Pages_Page_Content extends Mvc_Page_Content
 	 *
 	 * @return Form_Field_Input
 	 */
-	public static function getField__output_callback_method( Form_Field_Input $output_callback_class_field, $default_value )
+	public static function getField__output_callback_method( Form_Field_Input $output_callback_class_field, string $default_value ) : Form_Field_Input
 	{
 		$output_callback_method = new Form_Field_Input('output_callback_method', 'Output callback method:', $default_value);
 		$output_callback_method->setErrorMessages([
@@ -293,7 +295,7 @@ class Pages_Page_Content extends Mvc_Page_Content
 	 *
 	 * @return Form
 	 */
-	public function getEditForm( Pages_Page $page )
+	public function getEditForm( Pages_Page $page ) : Form
 	{
 		if(!$this->__edit_form) {
 
@@ -409,7 +411,7 @@ class Pages_Page_Content extends Mvc_Page_Content
 	 *
 	 * @return array
 	 */
-	public static function catchParams( Form $form, $field_prefix='' )
+	public static function catchParams( Form $form, string $field_prefix='' ) : array
 	{
 		$params = [];
 		
@@ -433,25 +435,13 @@ class Pages_Page_Content extends Mvc_Page_Content
 	 * @param array $data
 	 * @return Pages_Page_Content
 	 */
-	public static function fromArray( array $data )
+	public static function fromArray( array $data ) : Pages_Page_Content
 	{
 		$content = new Pages_Page_Content();
 
 		foreach( $data as $k=>$v ) {
 			$content->{$k} = $v;
 		}
-
-		if($content->getModuleName()) {
-			$module_name = $content->getModuleName();
-
-			foreach( Modules::getModules() as $module ) {
-				if($module->getName()==$module_name) {
-					$content->setModuleName( $module->getInternalId() );
-				}
-			}
-
-		}
-
 
 		return $content;
 	}
@@ -460,7 +450,7 @@ class Pages_Page_Content extends Mvc_Page_Content
 	/**
 	 * @return array
 	 */
-	public function toArray()
+	public function toArray() : array
 	{
 		$data = parent::toArray();
 

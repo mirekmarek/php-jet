@@ -27,41 +27,41 @@ use Jet\UI_messages;
 abstract class ModuleWizard extends BaseObject {
 
 	/**
-	 * @var string
+	 * @var ?string
 	 */
-	private $_name;
+	private ?string $_name = null;
 
 	/**
 	 * @var string
 	 */
-	protected $title = '';
+	protected string $title = '';
 
 	/**
 	 * @var string
 	 */
-	protected $description = '';
+	protected string $description = '';
 
 	/**
-	 * @var Form
+	 * @var ?Form
 	 */
-	protected $setup_form;
+	protected ?Form $setup_form = null;
 
 	/**
 	 * @var string
 	 */
-	protected $module_name = '';
+	protected string $module_name = '';
 
 	/**
 	 * @var array
 	 */
-	protected $values = [];
+	protected array $values = [];
 
 
 
 	/**
 	 * @return string
 	 */
-	public function getName()
+	public function getName() : string
 	{
 		if(!$this->_name) {
 			$this->_name = substr(get_called_class(), 23, -7);
@@ -73,7 +73,7 @@ abstract class ModuleWizard extends BaseObject {
 	/**
 	 * @return string
 	 */
-	public function getBaseDir()
+	public function getBaseDir() : string
 	{
 		return ModuleWizards::getBasePath().$this->getName().'/';
 	}
@@ -81,7 +81,7 @@ abstract class ModuleWizard extends BaseObject {
 	/**
 	 * @return string
 	 */
-	public function getTrNamespace()
+	public function getTrNamespace() : string
 	{
 		$ns = get_called_class();
 
@@ -93,7 +93,7 @@ abstract class ModuleWizard extends BaseObject {
 	/**
 	 * @return string
 	 */
-	public function getTitle()
+	public function getTitle() : string
 	{
 		return Tr::_($this->title, [], $this->getTrNamespace());
 	}
@@ -101,7 +101,7 @@ abstract class ModuleWizard extends BaseObject {
 	/**
 	 * @return string
 	 */
-	public function getDescription()
+	public function getDescription() : string
 	{
 		return Tr::_($this->description, [], $this->getTrNamespace());
 	}
@@ -109,12 +109,12 @@ abstract class ModuleWizard extends BaseObject {
 	/**
 	 * @return Form
 	 */
-	abstract public function generateSetupForm();
+	abstract public function generateSetupForm() : Form;
 
 	/**
 	 * @param array $fields
 	 */
-	public function generateSetupForm_mainFields( array &$fields )
+	public function generateSetupForm_mainFields( array &$fields ) : void
 	{
 		$module_name = new Form_Field_Input('NAME', 'Name:', '' );
 		$module_name->setCatcher(function($value) {
@@ -178,7 +178,7 @@ abstract class ModuleWizard extends BaseObject {
 	/**
 	 * @return Form
 	 */
-	public function getSetupForm()
+	public function getSetupForm() : Form
 	{
 		if(!$this->setup_form) {
 			$this->setup_form = $this->generateSetupForm();
@@ -195,7 +195,7 @@ abstract class ModuleWizard extends BaseObject {
 	/**
 	 * @return bool
 	 */
-	public function catchSetupForm()
+	public function catchSetupForm() : bool
 	{
 		$form = $this->getSetupForm();
 
@@ -212,7 +212,7 @@ abstract class ModuleWizard extends BaseObject {
 	 *
 	 * @return Mvc_View
 	 */
-	public function getView()
+	public function getView() : Mvc_View
 	{
 		$view = new Mvc_View(  $this->getBaseDir().'views/' );
 		$view->setVar('wizard', $this);
@@ -223,13 +223,13 @@ abstract class ModuleWizard extends BaseObject {
 	/**
 	 *
 	 */
-	public function handleAction()
+	public function handleAction() : void
 	{
 		$action = Http_Request::GET()->getString('wizard_action');
 
 		if(
 			!$action ||
-			strpos($action, '.')!==false
+			str_contains( $action, '.' )
 		) {
 			return;
 		}
@@ -248,12 +248,12 @@ abstract class ModuleWizard extends BaseObject {
 	/**
 	 *
 	 */
-	abstract public function init();
+	abstract public function init() : void;
 
 	/**
 	 * @return string
 	 */
-	public function getModuleNamespace()
+	public function getModuleNamespace() : string
 	{
 		return Application_Modules::getModuleRootNamespace().'\\'.str_replace('.', '\\', $this->module_name);
 	}
@@ -261,7 +261,7 @@ abstract class ModuleWizard extends BaseObject {
 	/**
 	 * @return string
 	 */
-	public function getModuleTemplateDir()
+	public function getModuleTemplateDir() : string
 	{
 		return ProjectConf_PATH::TEMPLATES().'module_wizard/'.$this->getName();
 	}
@@ -269,7 +269,8 @@ abstract class ModuleWizard extends BaseObject {
 	/**
 	 * @return bool
 	 */
-	public function create() {
+	public function create() : bool
+	{
 
 		$this->values['NAMESPACE'] = $this->getModuleNamespace();
 
@@ -294,7 +295,7 @@ abstract class ModuleWizard extends BaseObject {
 	/**
 	 * @param string $dir
 	 */
-	protected function create_applyValues( $dir )
+	protected function create_applyValues( string $dir ) : void
 	{
 		$list = IO_Dir::getFilesList($dir);
 
@@ -322,7 +323,7 @@ abstract class ModuleWizard extends BaseObject {
 	/**
 	 *
 	 */
-	public function redirectToModuleEditing()
+	public function redirectToModuleEditing() : void
 	{
 		Http_Headers::movedTemporary('modules.php?module='.urlencode($this->module_name));
 		Application::end();

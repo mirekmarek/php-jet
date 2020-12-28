@@ -23,21 +23,21 @@ class ModuleWizards extends BaseObject implements Application_Part
 
 
 	/**
-	 * @var ModuleWizard
+	 * @var null|bool|ModuleWizard
 	 */
-	protected static $__current_wizard;
+	protected static null|bool|ModuleWizard $__current_wizard = null;
 
 	/**
-	 * @var string
+	 * @var ?string
 	 */
-	protected static $base_path;
+	protected static ?string $base_path = null;
 
 
 
 	/**
 	 * @return string
 	 */
-	public static function getBasePath()
+	public static function getBasePath() : string
 	{
 		if(!static::$base_path) {
 			static::$base_path = SysConf_PATH::APPLICATION().'Parts/module_wizard/wizards/';
@@ -49,16 +49,16 @@ class ModuleWizards extends BaseObject implements Application_Part
 	/**
 	 * @param string $base_path
 	 */
-	public static function setBasePath( $base_path )
+	public static function setBasePath( string $base_path ) : void
 	{
 		static::$base_path = $base_path;
 	}
 
 
 	/**
-	 * @return null|ModuleWizard
+	 * @return bool|ModuleWizard
 	 */
-	public static function getCurrentWizard()
+	public static function getCurrentWizard() : bool|ModuleWizard
 	{
 		if(static::$__current_wizard===null) {
 			$name = Http_Request::GET()->getString('wizard');
@@ -81,7 +81,7 @@ class ModuleWizards extends BaseObject implements Application_Part
 	 *
 	 * @return ModuleWizard|null
 	 */
-	public static function get( $name )
+	public static function get( string $name )
 	{
 		$list = static::getList();
 
@@ -96,7 +96,7 @@ class ModuleWizards extends BaseObject implements Application_Part
 	/**
 	 * @return ModuleWizard[]
 	 */
-	public static function getList()
+	public static function getList() : array
 	{
 		$base_path = static::getBasePath();
 
@@ -119,12 +119,12 @@ class ModuleWizards extends BaseObject implements Application_Part
 	}
 
 	/**
-	 * @param $action
+	 * @param string $action
 	 * @param array $custom_get_params
 	 *
-	 * @return string $url
+	 * @return string
 	 */
-	public static function getActionUrl( $action,  array $custom_get_params=[] )
+	public static function getActionUrl( string $action,  array $custom_get_params=[] )
 	{
 
 		$get_params = [];
@@ -143,7 +143,7 @@ class ModuleWizards extends BaseObject implements Application_Part
 	/**
 	 *
 	 */
-	public static function handleAction()
+	public static function handleAction() : void
 	{
 		$wizard = ModuleWizards::getCurrentWizard();
 

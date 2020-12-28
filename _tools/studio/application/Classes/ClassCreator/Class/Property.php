@@ -9,41 +9,43 @@ namespace JetStudio;
 
 use Jet\BaseObject;
 
+/**
+ *
+ */
 class ClassCreator_Class_Property extends BaseObject
 {
 
 	/**
 	 * @var string
 	 */
-	protected $visibility = ClassCreator_Class::VISIBILITY_PROTECTED;
+	protected string $visibility = ClassCreator_Class::VISIBILITY_PROTECTED;
 
 	/**
 	 * @var string
 	 */
-	protected $name = '';
+	protected string $name = '';
 
 	/**
 	 * @var string
 	 */
-	protected $type = '';
+	protected string $type = '';
 
 	/**
 	 * @var mixed
 	 */
-	protected $default_value;
+	protected mixed $default_value = null;
 
 	/**
 	 * @var ClassCreator_Annotation[]
 	 */
-	protected $annotations = [];
-
+	protected array $annotations = [];
 
 
 	/**
 	 * @param string $name
 	 * @param string $type
 	 */
-	public function __construct($name, $type)
+	public function __construct( string $name, string $type )
 	{
 		$this->name = $name;
 		$this->type = $type;
@@ -52,7 +54,7 @@ class ClassCreator_Class_Property extends BaseObject
 	/**
 	 * @return string
 	 */
-	public function getVisibility()
+	public function getVisibility() : string
 	{
 		return $this->visibility;
 	}
@@ -60,7 +62,7 @@ class ClassCreator_Class_Property extends BaseObject
 	/**
 	 * @param string $visibility
 	 */
-	public function setVisibility($visibility)
+	public function setVisibility(string $visibility) : void
 	{
 		$this->visibility = $visibility;
 	}
@@ -68,7 +70,7 @@ class ClassCreator_Class_Property extends BaseObject
 	/**
 	 * @return string
 	 */
-	public function getName()
+	public function getName() : string
 	{
 		return $this->name;
 	}
@@ -76,7 +78,7 @@ class ClassCreator_Class_Property extends BaseObject
 	/**
 	 * @param string $name
 	 */
-	public function setName( $name )
+	public function setName( string $name ) : void
 	{
 		$this->name = $name;
 	}
@@ -84,7 +86,7 @@ class ClassCreator_Class_Property extends BaseObject
 	/**
 	 * @return string
 	 */
-	public function getType()
+	public function getType() : string
 	{
 		return $this->type;
 	}
@@ -92,7 +94,7 @@ class ClassCreator_Class_Property extends BaseObject
 	/**
 	 * @param string $type
 	 */
-	public function setType($type)
+	public function setType( string $type ) : void
 	{
 		$this->type = $type;
 	}
@@ -100,7 +102,7 @@ class ClassCreator_Class_Property extends BaseObject
 	/**
 	 * @return mixed
 	 */
-	public function getDefaultValue()
+	public function getDefaultValue() : mixed
 	{
 		return $this->default_value;
 	}
@@ -108,7 +110,7 @@ class ClassCreator_Class_Property extends BaseObject
 	/**
 	 * @param mixed $default_value
 	 */
-	public function setDefaultValue( $default_value )
+	public function setDefaultValue( mixed $default_value ) : void
 	{
 		$this->default_value = $default_value;
 	}
@@ -116,7 +118,7 @@ class ClassCreator_Class_Property extends BaseObject
 	/**
 	 * @param ClassCreator_Annotation $annotation
 	 */
-	public function addAnnotation( ClassCreator_Annotation $annotation )
+	public function addAnnotation( ClassCreator_Annotation $annotation ) : void
 	{
 		$this->annotations[] = $annotation;
 	}
@@ -124,7 +126,7 @@ class ClassCreator_Class_Property extends BaseObject
 	/**
 	 * @return string
 	 */
-	public function toString()
+	public function toString() : string
 	{
 		$res = '';
 
@@ -152,7 +154,7 @@ class ClassCreator_Class_Property extends BaseObject
 	/**
 	 * @return string
 	 */
-	public function __toString()
+	public function __toString() : string
 	{
 		return $this->toString();
 	}

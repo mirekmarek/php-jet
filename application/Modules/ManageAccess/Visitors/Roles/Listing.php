@@ -9,6 +9,7 @@
 
 namespace JetApplicationModule\ManageAccess\Visitors\Roles;
 
+use Jet\DataModel_Fetch_Instances;
 use JetApplication\Auth_Visitor_Role as Role;
 
 use Jet\Data_Listing;
@@ -42,9 +43,10 @@ class Listing extends Data_Listing {
 	];
 
 	/**
-	 * @return Role[]
+	 * @return Role[]|DataModel_Fetch_Instances
+	 * @noinspection PhpDocSignatureInspection
 	 */
-	protected function getList() : iterable
+	protected function getList() : DataModel_Fetch_Instances
 	{
 		return Role::getList();
 	}

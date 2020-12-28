@@ -14,17 +14,17 @@ class ClassParser_UseClass extends ClassParser_Element{
 	/**
 	 * @var string
 	 */
-	public $class = '';
+	public string $class = '';
 
 	/**
 	 * @var string
 	 */
-	public $as = '';
+	public string $as = '';
 
 	/**
 	 * @param ClassParser $parser
 	 */
-	public static function parse( ClassParser $parser )
+	public static function parse( ClassParser $parser ) : void
 	{
 		$use = new static( $parser );
 
@@ -79,7 +79,7 @@ class ClassParser_UseClass extends ClassParser_Element{
 	/**
 	 *
 	 */
-	public function debug_showResult()
+	public function debug_showResult() : void
 	{
 		$parser = $this->parser;
 

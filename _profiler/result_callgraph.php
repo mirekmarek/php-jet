@@ -13,6 +13,7 @@ $critical_path = true;
 $type = 'png';
 
 /** @noinspection PhpUsageOfSilenceOperatorInspection */
+/** @noinspection PhpUndefinedFunctionInspection */
 $dot_script = @xhprof_generate_dot_script(
 	$GLOBALS['run']->getXHPData(),
 	$threshold,
@@ -23,7 +24,9 @@ $dot_script = @xhprof_generate_dot_script(
 );
 
 /** @noinspection PhpUsageOfSilenceOperatorInspection */
+/** @noinspection PhpUndefinedFunctionInspection */
 $content = @xhprof_generate_image_by_dot($dot_script, $type);
 
+/** @noinspection PhpUndefinedFunctionInspection */
 xhprof_generate_mime_header($type, strlen($content));
 echo $content;

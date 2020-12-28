@@ -4,6 +4,7 @@ namespace JetApplication;
 use Jet\Auth_User_Interface;
 use Jet\DataModel;
 use Jet\DataModel_Definition;
+use Jet\DataModel_Fetch_Instances;
 use Jet\DataModel_IDController_AutoIncrement;
 use Jet\DataModel_Related_MtoN_Iterator;
 use Jet\Form;
@@ -187,9 +188,9 @@ class Auth_RESTClient_User extends DataModel implements Auth_User_Interface
 	 * @param string|null $role_id (optional)
 	 * @param string      $search
 	 *
-	 * @return Auth_Administrator_User[]
+	 * @return Auth_Administrator_User[]|DataModel_Fetch_Instances
 	 */
-	public static function getList( string|null $role_id = null, string $search = '' ) : iterable
+	public static function getList( string|null $role_id = null, string $search = '' ) : iterable|DataModel_Fetch_Instances
 	{
 		$where = [];
 

@@ -11,12 +11,12 @@ $what = Pages::whatToEdit();
 
 $res = false;
 if($current) {
-	switch($what) {
-		case 'main': $res = $current->catchEditForm_main(); break;
-		case 'content': $res = $current->catchEditForm_content(); break;
-		case 'static_content': $res = $current->catchEditForm_static_content(); break;
-		case 'callback': $res = $current->catchEditForm_callback(); break;
-	}
+	$res = match ($what) {
+		'main' => $current->catchEditForm_main(),
+		'content' => $current->catchEditForm_content(),
+		'static_content' => $current->catchEditForm_static_content(),
+		'callback' => $current->catchEditForm_callback(),
+	};
 }
 
 if($res) {

@@ -7,16 +7,12 @@
  */
 namespace JetStudio;
 
-use http\Exception\BadQueryStringException;
 use Jet\DataModel;
 use Jet\DataModel_Definition_Model_Related_MtoN as Jet_DataModel_Definition_Model_Related_MtoN;
-use Jet\DataModel_Exception;
 use Jet\Form;
-use Jet\Form_Field_Checkbox;
 use Jet\Form_Field_Hidden;
 use Jet\Form_Field_Input;
 use Jet\Form_Field_Select;
-use Jet\Form_Field_Textarea;
 use Jet\Tr;
 
 /**
@@ -26,14 +22,14 @@ class DataModel_Definition_Model_Related_MtoN extends Jet_DataModel_Definition_M
 	use DataModel_Definition_Model_Related_Trait;
 
 	/**
-	 * @var Form
+	 * @var ?Form
 	 */
-	protected static $select_N_form;
+	protected static ?Form $select_N_form = null;
 
 	/**
 	 * @return bool
 	 */
-	public function canHaveRelated()
+	public function canHaveRelated() : bool
 	{
 		return false;
 	}
@@ -41,19 +37,19 @@ class DataModel_Definition_Model_Related_MtoN extends Jet_DataModel_Definition_M
 	/**
 	 * @var string
 	 */
-	protected $internal_type = DataModels::MODEL_TYPE_RELATED_MTON;
+	protected string $internal_type = DataModels::MODEL_TYPE_RELATED_MTON;
 
 	/**
-	 * @var Form
+	 * @var ?Form
 	 */
-	protected static $create_form;
+	protected static ?Form $create_form = null;
 
 
 
 	/**
 	 * @return Form
 	 */
-	public function getEditForm()
+	public function getEditForm() : Form
 	{
 
 		if(!$this->__edit_form) {
@@ -105,7 +101,7 @@ class DataModel_Definition_Model_Related_MtoN extends Jet_DataModel_Definition_M
 	/**
 	 * @return bool
 	 */
-	public function catchEditForm()
+	public function catchEditForm() : bool
 	{
 		$form = $this->getEditForm();
 
@@ -124,7 +120,7 @@ class DataModel_Definition_Model_Related_MtoN extends Jet_DataModel_Definition_M
 	/**
 	 * @return string
 	 */
-	public function getNModelClassName()
+	public function getNModelClassName() : string
 	{
 		return $this->N_model_class;
 	}
@@ -132,7 +128,7 @@ class DataModel_Definition_Model_Related_MtoN extends Jet_DataModel_Definition_M
 	/**
 	 * @param string $N_model_class
 	 */
-	public function setNModelClassName( $N_model_class )
+	public function setNModelClassName( string $N_model_class ) : void
 	{
 		$this->N_model_class = $N_model_class;
 	}
@@ -141,7 +137,7 @@ class DataModel_Definition_Model_Related_MtoN extends Jet_DataModel_Definition_M
 	/**
 	 * @return DataModel_Definition_Model_Main|DataModel_Definition_Model_Related_1to1|DataModel_Definition_Model_Related_1toN|DataModel_Definition_Model_Related_MtoN|null
 	 */
-	public function getNModel()
+	public function getNModel() : DataModel_Definition_Model_Main|DataModel_Definition_Model_Related_1to1|DataModel_Definition_Model_Related_1toN|DataModel_Definition_Model_Related_MtoN|null
 	{
 		if(!$this->N_model_class) {
 			return null;
@@ -153,7 +149,7 @@ class DataModel_Definition_Model_Related_MtoN extends Jet_DataModel_Definition_M
 	/**
 	 * @return array
 	 */
-	public function getOrderByOptions()
+	public function getOrderByOptions() : array
 	{
 		$res = [];
 
@@ -190,7 +186,7 @@ class DataModel_Definition_Model_Related_MtoN extends Jet_DataModel_Definition_M
 	/**
 	 * @return ClassCreator_Class
 	 */
-	public function createClass_initClass()
+	public function createClass_initClass() : ClassCreator_Class
 	{
 
 		$class = new ClassCreator_Class();
@@ -209,7 +205,7 @@ class DataModel_Definition_Model_Related_MtoN extends Jet_DataModel_Definition_M
 	/**
 	 * @param ClassCreator_Class $class
 	 */
-	public function createClass_main( ClassCreator_Class $class )
+	public function createClass_main( ClassCreator_Class $class ) : void
 	{
 
 		$class->addAnnotation(
@@ -282,14 +278,14 @@ class DataModel_Definition_Model_Related_MtoN extends Jet_DataModel_Definition_M
 	/**
 	 * @param ClassCreator_Class $class
 	 */
-	public function createClass_ID( ClassCreator_Class $class )
+	public function createClass_ID( ClassCreator_Class $class ) : void
 	{
 	}
 
 	/**
 	 * @return Form
 	 */
-	public static function getSelectNForm()
+	public static function getSelectNForm() : Form
 	{
 		if(!static::$select_N_form) {
 			$cc = DataModels::getCurrentClass();
@@ -329,9 +325,9 @@ class DataModel_Definition_Model_Related_MtoN extends Jet_DataModel_Definition_M
 	}
 
 	/**
-	 * @return false|string
+	 * @return bool|string
 	 */
-	public static function catchSelectNForm()
+	public static function catchSelectNForm() : bool|string
 	{
 		$form = static::getSelectNForm();
 
@@ -350,7 +346,7 @@ class DataModel_Definition_Model_Related_MtoN extends Jet_DataModel_Definition_M
 	 *
 	 * @return Form
 	 */
-	public static function getCreateForm( $N_class_name )
+	public static function getCreateForm( string $N_class_name ) : Form
 	{
 		if(!static::$create_form) {
 			$fields = DataModel_Definition_Model_Trait::getCreateForm_mainFields();
@@ -423,7 +419,7 @@ class DataModel_Definition_Model_Related_MtoN extends Jet_DataModel_Definition_M
 	 *
 	 * @return bool|DataModel_Definition_Model_Related_MtoN
 	 */
-	public static function catchCreateForm( $N_class_name )
+	public static function catchCreateForm( string $N_class_name ) : bool|DataModel_Definition_Model_Related_MtoN
 	{
 		$form = static::getCreateForm( $N_class_name );
 

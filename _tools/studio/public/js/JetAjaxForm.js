@@ -3,7 +3,7 @@ let JetAjaxForm = {
 
 	submit: function( form_id, handlers, form_data ) {
 
-		var form = document.getElementById(form_id);
+		const form = document.getElementById(form_id);
 		if(!form ) {
 			alert('Unknown form '+form_id+'!');
 			return;
@@ -54,7 +54,7 @@ let JetAjaxForm = {
 		JetAjaxForm.xhr.upload.addEventListener('progress', function(e) {
 
 			if (e.lengthComputable) {
-				var percentage = Math.round((e.loaded/e.total)*100);
+				const percentage = Math.round((e.loaded / e.total) * 100);
 
 				handlers.onProgress( form, percentage );
 			}
@@ -68,7 +68,7 @@ let JetAjaxForm = {
 
 				if(JetAjaxForm.xhr.status === 200) {
 					try {
-						var response = JSON.parse(JetAjaxForm.xhr.responseText);
+						let response = JSON.parse(JetAjaxForm.xhr.responseText);
 					} catch (e) {
 						handlers.onError( form );
 						return;
@@ -99,20 +99,20 @@ let JetAjaxForm = {
 	},
 
 	applySnippets: function( form, snippets ) {
-		for(var el_id in snippets) {
+		for(let el_id in snippets) {
 
 			JetAjaxForm.WYSIWYG.beforeApplySnippet( form );
 
-			var snippet = snippets[el_id];
+			const snippet = snippets[el_id];
 
 			document.getElementById(el_id).innerHTML = snippet;
 
-			var parser = new DOMParser();
-			var snippet_doc = parser.parseFromString(snippet, "text/html");
-			var scripts = snippet_doc.getElementsByTagName('script');
+			const parser = new DOMParser();
+			const snippet_doc = parser.parseFromString(snippet, "text/html");
+			const scripts = snippet_doc.getElementsByTagName('script');
 
 			if(scripts) {
-				for(var i=0;i<scripts.length;i++) {
+				for(let i=0; i<scripts.length; i++) {
 					eval( scripts[i].innerText );
 				}
 			}
