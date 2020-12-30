@@ -62,6 +62,10 @@ class ClassParser {
 	public array $classes = [];
 
 	/**
+	 * @var ClassParser_Attribute[]
+	 */
+	public array $__attributes = [];
+	/**
 	 *
 	 * @param string $script_data
 	 */
@@ -295,20 +299,17 @@ class ClassParser {
 			$to_index = $to_index->index;
 		}
 
-		$str = '';
-
 		$i=0;
 		foreach( $this->tokens as $token ) {
 			if(
-				$i<$from_index || $i>$to_index
+				$i>=$from_index && $i<=$to_index
 			) {
-				$str .= $token->text;
+				$token->id = 'DELETED';
+				$token->text = '';
 			}
 
 			$i++;
 		}
-
-		$this->setScriptData( $str );
 	}
 
 
@@ -441,6 +442,27 @@ class ClassParser {
 
 	/**
 	 * @param string $class_name
+	 * @param ClassCreator_Attribute $attribute
+	 */
+	public function actualize_setAttribute( string $class_name, ClassCreator_Attribute $attribute ) : void
+	{
+		$class = $this->classes[$class_name];
+
+
+		$name = $attribute->getName();
+
+		foreach($class->attributes as $c_a) {
+			if($c_a->name==$attribute->getName()) {
+				$this->removeTokens( $c_a->start_token, $c_a->end_token );
+			}
+		}
+
+		$this->insertBefore( $class->declaration_start, $attribute->toString() );
+
+	}
+
+	/**
+	 * @param string $class_name
 	 * @param string $class_annotation
 	 *
 	 * @return string
@@ -477,7 +499,6 @@ class ClassParser {
 			$use_class = $use->getNamespace().'\\'.$use->getClass();
 
 			foreach( $this->use_classes as $c_use_class ) {
-
 				if($c_use_class->class==$use_class) {
 					continue 2;
 				}

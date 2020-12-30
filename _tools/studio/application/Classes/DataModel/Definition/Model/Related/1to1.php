@@ -92,18 +92,12 @@ class DataModel_Definition_Model_Related_1to1 extends Jet_DataModel_Definition_M
 	public function createClass_main( ClassCreator_Class $class ) : void
 	{
 
-		$class->addAnnotation(
-			(new ClassCreator_Annotation('JetDataModel', 'name', var_export($this->getModelName(), true)) )
-		);
+		$class->setAttribute( 'DataModel_Definition', 'name', $this->getModelName() );
 
 		if($this->getDatabaseTableName()) {
-			$class->addAnnotation(
-				(new ClassCreator_Annotation('JetDataModel', 'database_table_name', var_export($this->getDatabaseTableName(), true)) )
-			);
+			$class->setAttribute( 'DataModel_Definition', 'database_table_name', $this->getDatabaseTableName() );
 		} else {
-			$class->addAnnotation(
-				(new ClassCreator_Annotation('JetDataModel', 'database_table_name', var_export($this->getModelName(), true)) )
-			);
+			$class->setAttribute( 'DataModel_Definition', 'database_table_name', $this->getModelName() );
 		}
 
 
@@ -119,9 +113,7 @@ class DataModel_Definition_Model_Related_1to1 extends Jet_DataModel_Definition_M
 			return;
 		}
 
-		$class->addAnnotation(
-			(new ClassCreator_Annotation('JetDataModel', 'parent_model_class', var_export($parent_class->getClassName(), true) ))
-		);
+		$class->setAttribute( 'DataModel_Definition', 'parent_model_class', $parent_class->getClassName().'::class' );
 
 	}
 

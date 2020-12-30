@@ -30,12 +30,10 @@ class DataModel_Definition_Id_AutoIncrement extends DataModel_Definition_Id_Abst
 		} else {
 
 			$id_controller_options = [
-				'id_property_name' => var_export( $id_property_name, true )
+				'id_property_name' => $id_property_name
 			];
 
-			$class->addAnnotation(
-				(new ClassCreator_Annotation('JetDataModel', 'id_controller_options', $id_controller_options ))
-			);
+			$class->setAttribute( 'DataModel_Definition', 'id_controller_options', $id_controller_options );
 			
 		}
 	}

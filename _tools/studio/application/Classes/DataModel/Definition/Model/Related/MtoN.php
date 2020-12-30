@@ -208,18 +208,12 @@ class DataModel_Definition_Model_Related_MtoN extends Jet_DataModel_Definition_M
 	public function createClass_main( ClassCreator_Class $class ) : void
 	{
 
-		$class->addAnnotation(
-			(new ClassCreator_Annotation('JetDataModel', 'name', var_export($this->getModelName(), true)) )
-		);
+		$class->setAttribute( 'DataModel_Definition', 'name', $this->getModelName() );
 
 		if($this->getDatabaseTableName()) {
-			$class->addAnnotation(
-				(new ClassCreator_Annotation('JetDataModel', 'database_table_name', var_export($this->getDatabaseTableName(), true)) )
-			);
+			$class->setAttribute( 'DataModel_Definition', 'database_table_name', $this->getDatabaseTableName() );
 		} else {
-			$class->addAnnotation(
-				(new ClassCreator_Annotation('JetDataModel', 'database_table_name', var_export($this->getModelName(), true)) )
-			);
+			$class->setAttribute( 'DataModel_Definition', 'database_table_name', $this->getModelName() );
 		}
 
 		$parent_id = $this->getParentModelClassName();
@@ -234,9 +228,7 @@ class DataModel_Definition_Model_Related_MtoN extends Jet_DataModel_Definition_M
 			return;
 		}
 
-		$class->addAnnotation(
-			(new ClassCreator_Annotation('JetDataModel', 'parent_model_class', var_export($parent_class->getClassName(), true) ))
-		);
+		$class->setAttribute( 'DataModel_Definition', 'parent_model_class', $parent_class->getClassName().'::class' );
 
 
 		$N_model_class = $this->getNModelClassName();
@@ -256,20 +248,12 @@ class DataModel_Definition_Model_Related_MtoN extends Jet_DataModel_Definition_M
 		}
 
 
-		$class->addAnnotation(
-			(new ClassCreator_Annotation('JetDataModel', 'N_model_class', var_export($N_class->getClassName(), true)) )
-		);
+		$class->setAttribute( 'DataModel_Definition', 'N_model_class', $N_class->getClassName().'::class' );
 
 
-		$order_by = [];
-		foreach( $this->getDefaultOrderBy() as $ob ) {
-			$order_by[] = var_export($ob, true);
-		}
 
-		if($order_by) {
-			$class->addAnnotation(
-				(new ClassCreator_Annotation('JetDataModel', 'default_order_by', $order_by))
-			);
+		if($this->getDefaultOrderBy()) {
+			$class->setAttribute( 'DataModel_Definition', 'default_order_by', $this->getDefaultOrderBy() );
 		}
 
 	}

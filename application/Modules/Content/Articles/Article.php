@@ -23,9 +23,18 @@ use JetApplication\Application_Web;
 /**
  *
  */
-#[DataModel_Definition(name: 'article')]
-#[DataModel_Definition(database_table_name: 'articles')]
-#[DataModel_Definition(id_controller_class: DataModel_IDController_UniqueString::class)]
+
+
+
+
+#[DataModel_Definition(
+	name: 'article',
+	database_table_name: 'articles',
+	id_controller_class: DataModel_IDController_UniqueString::class,
+	id_controller_options: [
+		'id_property_name' => 'id'
+	]
+)]
 class Article extends DataModel
 {
 
@@ -38,19 +47,26 @@ class Article extends DataModel
 	protected string $id = '';
 
 	/**
-	 * @var Data_DateTime|null
-	 */
-	#[DataModel_Definition(type: DataModel::TYPE_DATE_TIME)]
-	#[DataModel_Definition(form_field_error_messages: [Form_Field_DateTime::ERROR_CODE_INVALID_FORMAT => 'Invalid date format'])]
-	protected Data_DateTime|null $date_time;
+	 * @var ?Data_DateTime
+	 */ 
+	#[DataModel_Definition(
+		type: DataModel::TYPE_DATE_TIME,
+		form_field_type: Form::TYPE_DATE_TIME,
+		form_field_label: '',
+		form_field_error_messages: [
+			Form_Field_DateTime::ERROR_CODE_INVALID_FORMAT => 'Invalid date format'
+		]
+	)]
+	protected ?Data_DateTime $date_time = null;
 
 	/**
-	 *
-	 * @var Article_Localized[]|DataModel_Related_1toN|DataModel_Related_1toN_Iterator
-	 */
-	#[DataModel_Definition(type: DataModel::TYPE_DATA_MODEL)]
-	#[DataModel_Definition(data_model_class: Article_Localized::class)]
-	protected array|DataModel_Related_1toN_Iterator|DataModel_Related_1toN|null $localized;
+	 * @var Article_Localized[]|DataModel_Related_1toN|DataModel_Related_1toN_Iterator|null
+	 */ 
+	#[DataModel_Definition(
+		type: DataModel::TYPE_DATA_MODEL,
+		data_model_class: Article_Localized::class
+	)]
+	protected $localized = null;
 
 	/**
 	 * @var ?Form

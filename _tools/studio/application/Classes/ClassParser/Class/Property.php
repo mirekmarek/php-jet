@@ -39,6 +39,13 @@ class ClassParser_Class_Property extends ClassParser_Class_Element
 	 */
 	public string $visibility = ClassParser::VISIBILITY_PUBLIC;
 
+
+	/**
+	 * @var ClassParser_Attribute[]
+	 */
+	public array $attributes = [];
+
+
 	/**
 	 * @var ?ClassParser_Token
 	 */
@@ -57,6 +64,9 @@ class ClassParser_Class_Property extends ClassParser_Class_Element
 	public static function parse( ClassParser $parser, ClassParser_Class $class ) : void
 	{
 		$property = new static( $parser, $class );
+		$property->attributes = $parser->__attributes;
+
+		$parser->__attributes = [];
 
 		$token = $parser->tokens[$parser->index];
 		$property->start_token = $token;
@@ -98,7 +108,11 @@ class ClassParser_Class_Property extends ClassParser_Class_Element
 			$property->start_token = $class->_last_doc_comment_token;
 		}
 
-
+		foreach($property->attributes as $attribute) {
+			if($attribute->start_token->index<$property->start_token->index) {
+				$property->start_token = $attribute->start_token;
+			}
+		}
 
 
 		$searching_for_value = false;

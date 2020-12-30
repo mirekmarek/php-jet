@@ -18,9 +18,9 @@ class DataModel_Definition_Property_IdAutoIncrement extends DataModel_Definition
 	protected string $type = DataModel::TYPE_ID_AUTOINCREMENT;
 
 	/**
-	 * @var null
+	 * @var int
 	 */
-	protected $default_value = null;
+	protected $default_value = 0;
 
 	/**
 	 * @var bool

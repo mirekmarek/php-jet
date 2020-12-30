@@ -65,16 +65,16 @@ class DataModel_Definition_Property_String extends Jet_DataModel_Definition_Prop
 	 */
 	public function createClassProperty( ClassCreator_Class $class ) : ClassCreator_Class_Property
 	{
-		$annotations = [];
+		$attributes = [];
 
-		$annotations[] = new ClassCreator_Annotation('JetDataModel', 'max_len', $this->max_len);
+		$attributes[] = ['DataModel_Definition', 'max_len', $this->max_len];
 
 		if($this->default_value) {
-			$annotations[] = new ClassCreator_Annotation('JetDataModel', 'default_value', var_export($this->default_value, true));
+			$attributes[] = ['DataModel_Definition', 'default_value', $this->default_value ];
 		}
 
 
-		$property = $this->createClassProperty_main( $class, 'string',  'DataModel::TYPE_STRING', $annotations);
+		$property = $this->createClassProperty_main( $class, 'string',  'DataModel::TYPE_STRING', $attributes);
 
 		return $property;
 	}

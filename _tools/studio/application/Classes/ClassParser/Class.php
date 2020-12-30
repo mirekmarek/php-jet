@@ -65,6 +65,11 @@ class ClassParser_Class extends ClassParser_Element
 	public array $implements = [];
 
 	/**
+	 * @var ClassParser_Attribute[]
+	 */
+	public array $attributes = [];
+
+	/**
 	 * @var ?ClassParser_Token
 	 */
 	public ?ClassParser_Token $doc_comment = null;
@@ -110,6 +115,9 @@ class ClassParser_Class extends ClassParser_Element
 	public static function parse( ClassParser $parser )
 	{
 		$class = new static( $parser );
+
+		$class->attributes = $parser->__attributes;
+		$parser->__attributes = [];
 
 		$token = $parser->tokens[$parser->index];
 		$class->start_token = $token;
@@ -294,6 +302,10 @@ class ClassParser_Class extends ClassParser_Element
 
 					ClassParser_Class_Property::parse( $parser, $class );
 					break;
+				case T_ATTRIBUTE:
+					ClassParser_Attribute::parse( $parser );
+					break;
+
 				case '}':
 					$class->body_end = $token;
 					$class->end_token = $token;

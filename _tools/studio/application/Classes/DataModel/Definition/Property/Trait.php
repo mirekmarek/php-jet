@@ -248,6 +248,28 @@ trait DataModel_Definition_Property_Trait
 			Form_Field_Select::ERROR_CODE_INVALID_VALUE => 'Please select type'
 		]);
 
+
+		if($this->getType()==DataModel::TYPE_DATA_MODEL) {
+
+			$related_model = DataModels::getClass( $this->getDataModelClass() );
+
+			if(
+				$related_model &&
+				!($related_model instanceof DataModel_Definition_Model_Related_MtoN)
+			) {
+
+				$form_field_type_field->setSelectOptions([
+					'' => Tr::_('Include to the common form'),
+					'false' => Tr::_('DO NOT include to the common form')
+				]);
+			}
+
+
+			$fields[$form_field_type_field->getName()] = $form_field_type_field;
+			return;
+		}
+
+
 		$form_field_is_required_filed = new Form_Field_Checkbox('form_field_is_required', 'Is required', $this->getFormFieldIsRequired());
 		$form_field_is_required_filed->setCatcher( function( $value ) {
 			$this->setFormFieldIsRequired( $value );
@@ -266,12 +288,16 @@ trait DataModel_Definition_Property_Trait
 
 		$form_field_min_value_filed = new Form_Field_Input('form_field_min_value', 'Minimal value:', $this->getFormFieldMinValue());
 		$form_field_min_value_filed->setCatcher( function( $value ) {
-			$this->setFormFieldMinValue( $value );
+			if($value!=='') {
+				$this->setFormFieldMinValue( $value );
+			}
 		} );
 
 		$form_field_max_value_filed = new Form_Field_Input('form_field_max_value', 'Maximal value:', $this->getFormFieldMaxValue());
 		$form_field_max_value_filed->setCatcher( function( $value ) {
-			$this->setFormFieldMaxValue( $value );
+			if($value!=='') {
+				$this->setFormFieldMaxValue( $value );
+			}
 		} );
 
 
@@ -287,10 +313,15 @@ trait DataModel_Definition_Property_Trait
 		$form_field_get_select_options_callback_filed_class_name = new Form_Field_Input('form_field_get_select_options_callback_class_name', 'Select options callback:', $_callback[0]);
 		$form_field_get_select_options_callback_filed_method = new Form_Field_Input('form_field_get_select_options_callback_method', '', $_callback[1]);
 		$form_field_get_select_options_callback_filed_method->setCatcher( function( $value ) use ($form_field_get_select_options_callback_filed_class_name) {
-			$this->setFormFieldGetSelectOptionsCallback( [
-				$form_field_get_select_options_callback_filed_class_name->getValue(),
-				$value
-			] );
+			if($form_field_get_select_options_callback_filed_class_name->getValue() && $value) {
+				$this->setFormFieldGetSelectOptionsCallback( [
+					$form_field_get_select_options_callback_filed_class_name->getValue(),
+					$value
+				] );
+			} else {
+				$this->setFormFieldGetSelectOptionsCallback( null );
+			}
+
 		} );
 
 
@@ -454,17 +485,9 @@ trait DataModel_Definition_Property_Trait
 				echo '<legend>'.Tr::_('Form definition').'</legend>';
 
 				$type = $form->field('form_field_type');
-
-				$type->setSelectOptions([
-					'' => Tr::_('Include to the common form'),
-					'false' => Tr::_('DO NOT include to the common form')
-				]);
-
 				echo $type;
 
 			}
-
-
 
 			return;
 		}
@@ -854,9 +877,9 @@ trait DataModel_Definition_Property_Trait
 	}
 
 	/**
-	 * @param callable $form_field_get_select_options_callback
+	 * @param ?callable $form_field_get_select_options_callback
 	 */
-	public function setFormFieldGetSelectOptionsCallback( callable $form_field_get_select_options_callback ) : void
+	public function setFormFieldGetSelectOptionsCallback( ?callable $form_field_get_select_options_callback ) : void
 	{
 		$this->form_field_get_select_options_callback = $form_field_get_select_options_callback;
 	}
@@ -934,15 +957,23 @@ trait DataModel_Definition_Property_Trait
 	 * @param ClassCreator_Class $class
 	 * @param string $property_type
 	 * @param string $data_model_type
-	 * @param ClassCreator_Annotation[] $annotations
+	 * @param array $attributes
 	 *
 	 * @return ClassCreator_Class_Property
 	 */
 	public function createClassProperty_main( ClassCreator_Class $class,
 	                                          string $property_type,
-	                                          string$data_model_type,
-	                                          array $annotations=[] ) : ClassCreator_Class_Property{
-		$property = new ClassCreator_Class_Property( $this->getName(), $property_type );
+	                                          string $data_model_type,
+	                                          array $attributes=[]
+	) : ClassCreator_Class_Property{
+		$declared_type = $property_type;
+		if($data_model_type=='DataModel::TYPE_DATA_MODEL') {
+			$declared_type = '';
+		}
+
+		$property = new ClassCreator_Class_Property( $this->getName(), $property_type, $declared_type );
+
+		$property->setDefaultValue( $this->default_value );
 
 		if($this->getRelatedToClassName()) {
 
@@ -957,37 +988,37 @@ trait DataModel_Definition_Property_Trait
 			if($related_to_model) {
 				$related_to_property = $related_to_model->getProperty( $this->getRelatedToPropertyName() );
 
-				$property->addAnnotation( new ClassCreator_Annotation('JetDataModel', 'related_to', var_export($to_scope.'.'.$related_to_property->getName(), true)) );
+				$property->setAttribute( 'DataModel_Definition', 'related_to', $to_scope.'.'.$related_to_property->getName() ) ;
 			} else {
 				$class->addError('Unable to get related DataModel definition (related model:'.$to_model_class_name.')');
 			}
 
 		} else {
 
-			$property->addAnnotation( new ClassCreator_Annotation('JetDataModel', 'type', $data_model_type) );
+			$property->setAttribute( 'DataModel_Definition', 'type', $data_model_type );
 
 		}
 
 		if($this->database_column_name) {
-			$property->addAnnotation( new ClassCreator_Annotation('JetDataModel', 'database_column_name', var_export($this->database_column_name, true)) );
+			$property->setAttribute( 'DataModel_Definition', 'database_column_name', $this->database_column_name  );
 		}
 
 
 		if($this->getIsId()) {
-			$property->addAnnotation( new ClassCreator_Annotation('JetDataModel', 'is_id', 'true') );
+			$property->setAttribute( 'DataModel_Definition', 'is_id', true );
 
 		}
 		if($this->is_key) {
-			$property->addAnnotation( new ClassCreator_Annotation('JetDataModel', 'is_key', 'true') );
+			$property->setAttribute( 'DataModel_Definition', 'is_key', true );
 		}
 		if($this->do_not_export) {
-			$property->addAnnotation( new ClassCreator_Annotation('JetDataModel', 'do_not_export', 'true') );
+			$property->setAttribute( 'DataModel_Definition', 'do_not_export', true );
 		}
 
 
 
-		foreach( $annotations as $annotation ) {
-			$property->addAnnotation( $annotation );
+		foreach( $attributes as $a ) {
+			$property->setAttribute( $a[0], $a[1], $a[2] );
 		}
 
 
@@ -996,22 +1027,23 @@ trait DataModel_Definition_Property_Trait
 
 			$form_field_type = DataModel_Definition_Property::getFormFieldTypes()[$this->getFormFieldType()]['type'];
 
-			$property->addAnnotation( new ClassCreator_Annotation('JetDataModel', 'form_field_type', $form_field_type ) );
+			$property->setAttribute( 'DataModel_Definition', 'form_field_type', $form_field_type );
+
 			if($this->getFormFieldIsRequired()) {
-				$property->addAnnotation( new ClassCreator_Annotation('JetDataModel', 'form_field_is_required', 'true' ) );
+				$property->setAttribute( 'DataModel_Definition', 'form_field_is_required', true  );
 			}
 
-			$property->addAnnotation( new ClassCreator_Annotation('JetDataModel', 'form_field_label', var_export($this->getFormFieldLabel(), true) ) );
+			$property->setAttribute( 'DataModel_Definition', 'form_field_label', $this->getFormFieldLabel() );
 
 			if( $this->getFormFieldValidationRegexp() ) {
-				$property->addAnnotation( new ClassCreator_Annotation('JetDataModel', 'form_field_validation_regexp', var_export($this->getFormFieldValidationRegexp(), true) ) );
+				$property->setAttribute( 'DataModel_Definition', 'form_field_validation_regexp', $this->getFormFieldValidationRegexp() );
 			}
 
 			if( $this->getFormFieldMinValue()!==null && $this->getFormFieldMinValue()!=='' ) {
-				$property->addAnnotation( new ClassCreator_Annotation('JetDataModel', 'form_field_min_value', $this->getFormFieldMinValue() ) );
+				$property->setAttribute( 'DataModel_Definition', 'form_field_min_value', $this->getFormFieldMinValue() );
 			}
 			if( $this->getFormFieldMaxValue()!==null &&  $this->getFormFieldMaxValue()!=='' ) {
-				$property->addAnnotation( new ClassCreator_Annotation('JetDataModel', 'form_field_max_value', $this->getFormFieldMaxValue() ) );
+				$property->setAttribute( 'DataModel_Definition', 'form_field_max_value', $this->getFormFieldMaxValue() );
 			}
 
 			$callback = $this->getFormFieldGetSelectOptionsCallback();
@@ -1020,35 +1052,45 @@ trait DataModel_Definition_Property_Trait
 				!empty($callback[0]) &&
 				!empty($callback[1])
 			) {
-				$property->addAnnotation( new ClassCreator_Annotation('JetDataModel', 'form_field_get_select_options_callback', "['{$callback[0]}','{$callback[1]}']" ) );
+				$property->setAttribute( 'DataModel_Definition', 'form_field_get_select_options_callback', $callback  );
 			}
 
 			if( $this->getFormSetterName() ) {
-				$property->addAnnotation( new ClassCreator_Annotation('JetDataModel', 'form_setter_name', var_export($this->getFormSetterName(), true) ) );
+				$property->setAttribute( 'DataModel_Definition', 'form_setter_name', $this->getFormSetterName() );
 			}
 
 			if( $this->getFormFieldCreatorMethodName() ) {
-				$property->addAnnotation( new ClassCreator_Annotation('JetDataModel', 'form_field_creator_method_name', var_export($this->getFormFieldCreatorMethodName(), true) ) );
+				$property->setAttribute( 'DataModel_Definition', 'form_field_creator_method_name', $this->getFormFieldCreatorMethodName() );
 			}
 
 
 			$error_messages = $this->getFormFieldErrorMessages();
 
+			$field_class = 'Form_Field_'.$this->getFormFieldType();
+			$reflection = new \ReflectionClass('\Jet\\'.$field_class);
+			$constants = array_flip($reflection->getConstants());
+
+
+			$e_msg = [];
 			foreach( $error_messages as $k=>$v ) {
 				if(!$v) {
 					unset( $error_messages[$k] );
 				} else {
-					$error_messages[ $k ] = var_export($v, true);
+					$constant = $field_class.'::'.$constants[$k];
+					$e_msg[ $constant ] = $v;
 				}
 			}
 
-			if($error_messages) {
-				$property->addAnnotation( new ClassCreator_Annotation('JetDataModel', 'form_field_error_messages', $error_messages ) );
+			if( $e_msg ) {
+				$property->setAttribute( 'DataModel_Definition', 'form_field_error_messages', $e_msg );
 			}
 
-
 		} else {
-			$property->addAnnotation( new ClassCreator_Annotation('JetDataModel', 'form_field_type', 'false' ) );
+
+			if($this->getFormFieldType()!=='') {
+				$property->setAttribute( 'DataModel_Definition', 'form_field_type', false );
+			}
+
 
 		}
 

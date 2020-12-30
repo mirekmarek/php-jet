@@ -53,9 +53,7 @@ class DataModel_Definition_Property_Float extends Jet_DataModel_Definition_Prope
 	public function createClassProperty( ClassCreator_Class $class ) : ClassCreator_Class_Property
 	{
 
-		$annotations = [];
-
-		$property = $this->createClassProperty_main( $class, 'float',  'DataModel::TYPE_FLOAT', $annotations);
+		$property = $this->createClassProperty_main( $class, 'float',  'DataModel::TYPE_FLOAT' );
 
 		return $property;
 	}

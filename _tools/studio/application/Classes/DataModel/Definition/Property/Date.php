@@ -41,13 +41,11 @@ class DataModel_Definition_Property_Date extends Jet_DataModel_Definition_Proper
 	 */
 	public function createClassProperty( ClassCreator_Class $class ) : ClassCreator_Class_Property
 	{
-		$annotations = [];
-
 		$class->addUse(
 			new ClassCreator_UseClass('Jet', 'Data_DateTime')
 		);
 
-		$property = $this->createClassProperty_main( $class, 'Data_DateTime',  'DataModel::TYPE_DATE', $annotations);
+		$property = $this->createClassProperty_main( $class, 'Data_DateTime',  'DataModel::TYPE_DATE');
 
 		return $property;
 	}

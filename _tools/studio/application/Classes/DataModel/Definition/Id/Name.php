@@ -31,13 +31,11 @@ class DataModel_Definition_Id_Name extends DataModel_Definition_Id_Abstract {
 			$class->addError( Tr::_('There is not property which is DataModel::TYPE_ID type and is marked as ID', []) );
 		} else {
 			$id_controller_options = [
-				'id_property_name' => var_export( $id_property_name, true ),
-				'get_name_method_name' => var_export( $get_name_method_name , true )
+				'id_property_name' => $id_property_name,
+				'get_name_method_name' => $get_name_method_name
 			];
 
-			$class->addAnnotation(
-				(new ClassCreator_Annotation('JetDataModel', 'id_controller_options', $id_controller_options ))
-			);
+			$class->setAttribute( 'DataModel_Definition', 'id_controller_options', $id_controller_options );
 
 		}
 	}

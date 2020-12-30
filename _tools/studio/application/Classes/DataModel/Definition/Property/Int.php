@@ -52,10 +52,7 @@ class DataModel_Definition_Property_Int extends Jet_DataModel_Definition_Propert
 	 */
 	public function createClassProperty( ClassCreator_Class $class ) : ClassCreator_Class_Property
 	{
-
-		$annotations = [];
-
-		$property = $this->createClassProperty_main( $class, 'int',  'DataModel::TYPE_INT', $annotations);
+		$property = $this->createClassProperty_main( $class, 'int',  'DataModel::TYPE_INT' );
 
 		return $property;
 	}

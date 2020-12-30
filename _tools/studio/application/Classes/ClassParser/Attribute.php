@@ -32,6 +32,8 @@ class ClassParser_Attribute extends ClassParser_Element
 
 		$token = $parser->tokens[$parser->index];
 
+		$parser->__attributes[] = $attribute;
+
 		$attribute->start_token = $token;
 		$attribute->parser = $parser;
 
@@ -115,17 +117,12 @@ class ClassParser_Attribute extends ClassParser_Element
 					if($got_name && !$searching_for_arguments) {
 						$attribute->end_token = $token;
 
-						//TODO:
-
 						return;
 					}
 					$parser->parseError();
 
 					break;
 			}
-
-			//var_dump($token->debug_getInfo());
-			//die();
 
 		} while(true);
 

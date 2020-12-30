@@ -71,18 +71,25 @@ class DataModel_Definition_Property_DataModel extends Jet_DataModel_Definition_P
 	public function createClassProperty( ClassCreator_Class $class ) : ClassCreator_Class_Property
 	{
 		$related_dm = DataModels::getClass( $this->getDataModelClass() )->getDefinition();
-		$annotations = [];
+		$attributes = [];
 
 		$property_type = '';
 
 		if(!$related_dm) {
 			$class->addError('Unable to get related DataModel definition (related model ID: '.$this->getDataModelClass().')');
 		} else {
-			$annotations[] = new ClassCreator_Annotation('JetDataModel', 'data_model_class',  var_export($related_dm->getClassName(), true) );
+
+			$use = ClassCreator_UseClass::createByClassName( $related_dm->getClassName() );
+
+			if($use->getNamespace()!=$class->getNamespace()) {
+				$class->addUse( $use );
+			}
+
+			$attributes[] = ['DataModel_Definition', 'data_model_class',  $use->getClass().'::class' ];
 
 			$type = $related_dm->getInternalType();
 
-			$property_type = $related_dm->getClassName();
+			$property_type = $use->getClass();
 
 			switch( $type ) {
 				case DataModels::MODEL_TYPE_RELATED_1TO1:
@@ -133,7 +140,7 @@ class DataModel_Definition_Property_DataModel extends Jet_DataModel_Definition_P
 
 
 
-		$property = $this->createClassProperty_main( $class, $property_type,  'DataModel::TYPE_DATA_MODEL', $annotations);
+		$property = $this->createClassProperty_main( $class, $property_type,  'DataModel::TYPE_DATA_MODEL', $attributes);
 
 		return $property;
 	}

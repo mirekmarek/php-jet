@@ -347,9 +347,9 @@ class DataModel_Definition_Relation_External extends Jet_DataModel_Definition_Re
 	/**
 	 * @param ClassCreator_Class $class
 	 *
-	 * @return ClassCreator_Annotation
+	 * @return array
 	 */
-	public function createClass_getAsAnnotation( ClassCreator_Class $class ) : ClassCreator_Annotation
+	public function createClass_getAsAttribute( ClassCreator_Class $class ) : array
 	{
 
 		$class->addUse( new ClassCreator_UseClass('Jet', 'DataModel_Query') );
@@ -380,7 +380,7 @@ class DataModel_Definition_Relation_External extends Jet_DataModel_Definition_Re
 			$this_property = $this_model->getProperty( $this_property_id );
 			$related_property = $related_model->getProperty( $related_property_id );
 
-			$glue[$this_property->getName()] = var_export( $related_property->getName(), true );
+			$glue[$this_property->getName()] = $related_property->getName();
 		}
 
 		$type = $this->getJoinType();
@@ -402,14 +402,12 @@ class DataModel_Definition_Relation_External extends Jet_DataModel_Definition_Re
 		}
 
 
-		$r_data = [
-			var_export($related_class->getClassName(), true),
+		return [
+			$related_class->getClassName().'::class',
 			$glue,
 			$type
 		];
 
-		$an = new ClassCreator_Annotation('JetDataModel', 'relation', $r_data);
 
-		return $an;
 	}
 }

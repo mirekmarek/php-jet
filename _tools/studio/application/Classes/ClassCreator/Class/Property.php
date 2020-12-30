@@ -31,24 +31,33 @@ class ClassCreator_Class_Property extends BaseObject
 	protected string $type = '';
 
 	/**
+	 * @var string
+	 */
+	protected string $declared_type = '';
+
+	/**
 	 * @var mixed
 	 */
 	protected mixed $default_value = null;
 
+
+
 	/**
-	 * @var ClassCreator_Annotation[]
+	 * @var ClassCreator_Attribute[]
 	 */
-	protected array $annotations = [];
+	protected array $attributes = [];
 
 
 	/**
 	 * @param string $name
 	 * @param string $type
+	 * @param string $declared_type
 	 */
-	public function __construct( string $name, string $type )
+	public function __construct( string $name, string $type, string $declared_type )
 	{
 		$this->name = $name;
 		$this->type = $type;
+		$this->declared_type = $declared_type;
 	}
 
 	/**
@@ -115,12 +124,19 @@ class ClassCreator_Class_Property extends BaseObject
 		$this->default_value = $default_value;
 	}
 
+
 	/**
-	 * @param ClassCreator_Annotation $annotation
+	 * @param string $name
+	 * @param string $argument
+	 * @param mixed $argument_value
 	 */
-	public function addAnnotation( ClassCreator_Annotation $annotation ) : void
+	public function setAttribute( string $name, string $argument, mixed $argument_value ) : void
 	{
-		$this->annotations[] = $annotation;
+		if(!isset($this->attributes[$name])) {
+			$this->attributes[$name] = new ClassCreator_Attribute( $name );
+		}
+
+		$this->attributes[$name]->setArgument( $argument, $argument_value );
 	}
 
 	/**
@@ -133,19 +149,41 @@ class ClassCreator_Class_Property extends BaseObject
 		$ident = ClassCreator_Class::getIndentation();
 		$nl = ClassCreator_Class::getNl();
 
-		$res .= $ident.'/**'.$nl;
-		$res .= $ident.' * '.$nl;
-		foreach( $this->annotations as $annotation) {
-			$res .= $ident.' * '.$annotation.$nl;
+		$type = $this->type;
+		$declared_type = $this->declared_type;
+
+		if($this->default_value===null) {
+			if(str_contains($type, '|')) {
+				$type .= '|null';
+
+			} else {
+				$type = '?'.$type;
+			}
+			if($declared_type) {
+				if(str_contains($declared_type,'|')) {
+					$declared_type .= '|null';
+				} else {
+					$declared_type = '?'.$declared_type;
+				}
+			}
 		}
-		$res .= $ident.' * '.$nl;
-		$res .= $ident.' * @var '.$this->type.$nl;
-		$res .= $ident.' * '.$nl;
+
+		if($declared_type) {
+			$declared_type = ' '.$declared_type;
+		}
+
+		$res .= $ident.'/**'.$nl;
+		$res .= $ident.' * @var '.$type.$nl;
 		$res .= $ident.' */ '.$nl;
+
+		foreach($this->attributes as $attribute) {
+			$res .= $attribute->toString(1);
+		}
+
 		if($this->default_value!==null) {
-			$res .= $ident.$this->visibility.' $'.$this->name.' = '.var_export( $this->default_value, true).';'.$nl;
+			$res .= $ident.$this->visibility.$declared_type.' $'.$this->name.' = '.var_export( $this->default_value, true).';'.$nl;
 		} else {
-			$res .= $ident.$this->visibility.' $'.$this->name.';'.$nl;
+			$res .= $ident.$this->visibility.$declared_type.' $'.$this->name.' = null;'.$nl;
 		}
 
 		return $res;

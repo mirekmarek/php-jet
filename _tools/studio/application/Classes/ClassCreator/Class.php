@@ -32,9 +32,10 @@ class ClassCreator_Class extends BaseObject {
 	protected array $use = [];
 
 	/**
-	 * @var ClassCreator_Annotation[]
+	 * @var ClassCreator_Attribute[]
 	 */
-	protected array $annotations = [];
+	protected array $attributes = [];
+
 
 	/**
 	 * @var bool
@@ -105,13 +106,6 @@ class ClassCreator_Class extends BaseObject {
 		return $this->use;
 	}
 
-	/**
-	 * @return ClassCreator_Annotation[]
-	 */
-	public function getAnnotations() : array
-	{
-		return $this->annotations;
-	}
 
 	/**
 	 * @return ClassCreator_Class_Constant[]
@@ -269,12 +263,19 @@ class ClassCreator_Class extends BaseObject {
 	}
 
 	/**
-	 * @param ClassCreator_Annotation $annotation
+	 * @param string $name
+	 * @param string $argument
+	 * @param mixed $argument_value
 	 */
-	public function addAnnotation( ClassCreator_Annotation $annotation ) : void
+	public function setAttribute( string $name, string $argument, mixed $argument_value ) : void
 	{
-		$this->annotations[] = $annotation;
+		if(!isset($this->attributes[$name])) {
+			$this->attributes[$name] = new ClassCreator_Attribute( $name );
+		}
+
+		$this->attributes[$name]->setArgument( $argument, $argument_value );
 	}
+
 
 
 	/**
@@ -316,20 +317,6 @@ class ClassCreator_Class extends BaseObject {
 
 
 
-	/**
-	 * @param string $name
-	 * @param string $type
-	 *
-	 * @return ClassCreator_Class_Property
-	 */
-	public function createProperty( string $name, string $type ) : ClassCreator_Class_Property
-	{
-		$property = new ClassCreator_Class_Property( $name, $type );
-
-		$this->addProperty( $property );
-
-		return $property;
-	}
 
 	/**
 	 * @param ClassCreator_Class_Property $property
@@ -401,13 +388,20 @@ class ClassCreator_Class extends BaseObject {
 
 		$res .= '/**'.$nl;
 		$res .= ' *'.$nl;
-		foreach( $this->annotations as $annotation) {
-			$res .= ' * '.$annotation.$nl;
-		}
 		$res .= ' */'.$nl;
 
 		return $res;
 	}
+
+	/**
+	 * @return ClassCreator_Attribute[]
+	 */
+	public function getAttributes(): array
+	{
+		return $this->attributes;
+	}
+
+
 
 	/**
 	 * @return string
@@ -441,6 +435,10 @@ class ClassCreator_Class extends BaseObject {
 		$res .= $nl;
 
 		$res .= $this->generateClassAnnotation();
+
+		foreach($this->attributes as $attribute) {
+			$res .= $attribute->toString();
+		}
 
 		$res .= ($this->isAbstract() ? 'abstract ':'').'class '.$this->name;
 		if($this->extends) {

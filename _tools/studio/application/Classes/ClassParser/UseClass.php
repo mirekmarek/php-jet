@@ -46,6 +46,7 @@ class ClassParser_UseClass extends ClassParser_Element{
 			switch( $token->id ) {
 				case T_STRING:
 				case T_NS_SEPARATOR:
+				case T_NAME_QUALIFIED:
 					if($getting_as) {
 						$use->as .= $token->text;
 					} else {

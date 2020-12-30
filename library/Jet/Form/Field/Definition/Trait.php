@@ -58,7 +58,7 @@ trait Form_Field_Definition_Trait
 
 	/**
 	 *
-	 * @var callable
+	 * @var ?callable
 	 */
 	protected $form_field_get_select_options_callback;
 
@@ -116,9 +116,9 @@ trait Form_Field_Definition_Trait
 	}
 
 	/**
-	 * @param callable $form_field_get_select_options_callback
+	 * @param ?callable $form_field_get_select_options_callback
 	 */
-	public function setFormFieldGetSelectOptionsCallback( callable $form_field_get_select_options_callback ) : void
+	public function setFormFieldGetSelectOptionsCallback( ?callable $form_field_get_select_options_callback ) : void
 	{
 		$this->form_field_get_select_options_callback = $form_field_get_select_options_callback;
 	}

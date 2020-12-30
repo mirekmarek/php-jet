@@ -38,6 +38,11 @@ class ClassParser_Class_Method extends ClassParser_Class_Element
 	public string $body = '';
 
 	/**
+	 * @var ClassParser_Attribute[]
+	 */
+	public array $attributes = [];
+
+	/**
 	 * @var string
 	 */
 	public string $visibility = ClassParser::VISIBILITY_PUBLIC;
@@ -71,6 +76,9 @@ class ClassParser_Class_Method extends ClassParser_Class_Element
 	public static function parse( ClassParser $parser, ClassParser_Class $class )
 	{
 		$method = new static( $parser, $class );
+
+		$method->attributes = $parser->__attributes;
+		$parser->__attributes = [];
 
 		$token = $parser->tokens[$parser->index];
 		$method->start_token = $token;

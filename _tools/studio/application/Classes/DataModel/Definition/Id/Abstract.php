@@ -41,9 +41,7 @@ abstract class DataModel_Definition_Id_Abstract {
 		$id_controller_class = str_replace('Jet\\', '', $id_controller_class);
 		$class->addUse( new ClassCreator_UseClass('Jet', $id_controller_class) );
 
-		$class->addAnnotation(
-			(new ClassCreator_Annotation('JetDataModel', 'id_controller_class', var_export($id_controller_class, true)) )
-		);
+		$class->setAttribute( 'DataModel_Definition', 'id_controller_class', $id_controller_class.'::class' );
 	}
 
 	/**

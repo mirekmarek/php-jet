@@ -254,18 +254,12 @@ trait DataModel_Definition_Model_Trait {
 	 */
 	public function createClass_main( ClassCreator_Class $class ) : void
 	{
-		$class->addAnnotation(
-			(new ClassCreator_Annotation('JetDataModel', 'name', var_export($this->getModelName(), true)) )
-		);
+		$class->setAttribute( 'DataModel_Definition', 'name', $this->getModelName() );
 
 		if($this->getDatabaseTableName()) {
-			$class->addAnnotation(
-				(new ClassCreator_Annotation('JetDataModel', 'database_table_name', var_export($this->getDatabaseTableName(), true)) )
-			);
+			$class->setAttribute( 'DataModel_Definition', 'database_table_name', $this->getDatabaseTableName() );
 		} else {
-			$class->addAnnotation(
-				(new ClassCreator_Annotation('JetDataModel', 'database_table_name', var_export($this->getModelName(), true)) )
-			);
+			$class->setAttribute( 'DataModel_Definition', 'database_table_name', $this->getModelName() );
 		}
 	}
 
@@ -284,8 +278,17 @@ trait DataModel_Definition_Model_Trait {
 	 */
 	public function createClass_customKeys( ClassCreator_Class $class ) : void
 	{
+		$keys = [];
 		foreach( $this->getCustomKeys() as $key ) {
-			$class->addAnnotation( $key->createClass_getAsAnnotation( $class ) );
+			$keys[] = $key->createClass_getAsAttribute( $class );
+		}
+
+		if($keys) {
+			if(count($keys)==1) {
+				$class->setAttribute('DataModel_Definition', 'key', $keys[0]);
+			} else {
+				$class->setAttribute('DataModel_Definition', 'keys', $keys );
+			}
 		}
 
 	}
@@ -296,8 +299,17 @@ trait DataModel_Definition_Model_Trait {
 	 */
 	public function createClass_externalRelations( ClassCreator_Class $class ) : void
 	{
+		$relations = [];
 		foreach( $this->getExternalRelations() as $relation ) {
-			$class->addAnnotation( $relation->createClass_getAsAnnotation( $class ) );
+			$relations[] = $relation->createClass_getAsAttribute( $class );
+		}
+
+		if($relations) {
+			if(count($relations)==1) {
+				$class->setAttribute('DataModel_Definition', 'relation', $relations[0]);
+			} else {
+				$class->setAttribute('DataModel_Definition', 'relations', $relations );
+			}
 		}
 
 	}
@@ -874,6 +886,7 @@ trait DataModel_Definition_Model_Trait {
 	public function save() : bool
 	{
 		$ok = true;
+
 		try {
 			$class = $this->createClass();
 
@@ -885,8 +898,11 @@ trait DataModel_Definition_Model_Trait {
 
 			$parser = new ClassParser( $script );
 
+			foreach($class->getAttributes() as $attribute) {
+				$parser->actualize_setAttribute( $class->getName(), $attribute );
+			}
+
 			$parser->actualize_setUse( $class->getUse() );
-			$parser->actualize_setClassAnnotation( $this->_class->getClassName(), $class->generateClassAnnotation() );
 
 			IO_File::write(
 				$this->_class->getScriptPath(),

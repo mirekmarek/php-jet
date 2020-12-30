@@ -365,15 +365,15 @@ class DataModel_Definition_Key extends Jet_DataModel_Definition_Key
 	/**
 	 * @param ClassCreator_Class $class
 	 *
-	 * @return ClassCreator_Annotation
+	 * @return array
 	 */
-	public function createClass_getAsAnnotation( ClassCreator_Class $class ) : ClassCreator_Annotation
+	public function createClass_getAsAttribute( ClassCreator_Class $class ) : array
 	{
 
 		$properties = [];
 
 		foreach( $this->getPropertyNames() as $property_name ) {
-			$properties[] = var_export( DataModels::getCurrentModel()->getProperty($property_name)->getName(), true );
+			$properties[] = DataModels::getCurrentModel()->getProperty($property_name)->getName();
 		}
 
 		$type = '';
@@ -384,15 +384,12 @@ class DataModel_Definition_Key extends Jet_DataModel_Definition_Key
 			DataModel::KEY_TYPE_UNIQUE => 'DataModel::KEY_TYPE_UNIQUE',
 		};
 
-		$k_data = [
-			var_export( $this->getName(), true ),
+		return [
+			$this->getName(),
 			$properties,
 			$type,
 		];
 
-		$an = new ClassCreator_Annotation('JetDataModel', 'key', $k_data);
-
-		return $an;
 	}
 
 }
