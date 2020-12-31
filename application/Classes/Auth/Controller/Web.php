@@ -41,7 +41,7 @@ class Auth_Controller_Web extends BaseObject implements Auth_Controller_Interfac
 	 *
 	 * @var Visitor|bool|null
 	 */
-	protected Visitor|bool|null $current_user = false;
+	protected Visitor|bool|null $current_user = null;
 
 	/**
 	 *
@@ -90,18 +90,18 @@ class Auth_Controller_Web extends BaseObject implements Auth_Controller_Interfac
 	 */
 	public function getCurrentUser() : Visitor|bool
 	{
-		if( $this->current_user!==false ) {
+		if( $this->current_user!==null ) {
 			return $this->current_user;
 		}
 
-		$session = $this->getSession();
+		$user_id = $this->getSession()->getValue( 'user_id' );
 
-		$user_id = $session->getValue( 'user_id' );
-
-		if( !$user_id ) {
-			$this->current_user = null;
-		} else {
+		if( $user_id ) {
 			$this->current_user = Visitor::get( $user_id );
+		}
+
+		if(!$this->current_user) {
+			$this->current_user = false;
 		}
 
 		return $this->current_user;

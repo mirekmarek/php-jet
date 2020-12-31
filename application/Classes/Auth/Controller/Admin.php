@@ -40,7 +40,7 @@ class Auth_Controller_Admin extends BaseObject implements Auth_Controller_Interf
 	 *
 	 * @var Administrator|bool|null
 	 */
-	protected Administrator|bool|null $current_user = false;
+	protected Administrator|bool|null $current_user = null;
 
 	/**
 	 *
@@ -84,18 +84,18 @@ class Auth_Controller_Admin extends BaseObject implements Auth_Controller_Interf
 	 */
 	public function getCurrentUser() : Administrator|bool
 	{
-		if( $this->current_user!==false ) {
+		if( $this->current_user!==null ) {
 			return $this->current_user;
 		}
 
-		$session = $this->getSession();
+		$user_id = $this->getSession()->getValue( 'user_id' );
 
-		$user_id = $session->getValue( 'user_id' );
-
-		if( !$user_id ) {
-			$this->current_user = false;
-		} else {
+		if( $user_id ) {
 			$this->current_user = Administrator::get( $user_id );
+		}
+
+		if(!$this->current_user) {
+			$this->current_user = false;
 		}
 
 		return $this->current_user;

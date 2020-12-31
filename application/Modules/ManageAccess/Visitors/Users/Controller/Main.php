@@ -123,7 +123,7 @@ class Controller_Main extends Mvc_Controller_Default
 
 			$this->logAllowedAction( 'User created', $user->getId(), $user->getUsername(), $user );
 
-			$user->sendWelcomeEmail();
+			$user->sendWelcomeEmail( $password );
 
 			UI_messages::success(
 				Tr::_( 'User <b>%USERNAME%</b> has been created', [ 'USERNAME' => $user->getUsername() ] )

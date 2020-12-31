@@ -872,9 +872,9 @@ class Auth_Visitor_User extends DataModel implements Auth_User_Interface
 
 
 	/**
-	 *
+	 * @param string $password
 	 */
-	public function sendWelcomeEmail() : void
+	public function sendWelcomeEmail( string $password ) : void
 	{
 		$email = new Mailing_Email(
 			'user_welcome',
@@ -883,6 +883,7 @@ class Auth_Visitor_User extends DataModel implements Auth_User_Interface
 		);
 
 		$email->setVar('user', $this);
+		$email->setVar('password', $password);
 
 		$email->send( $this->getEmail() );
 	}
