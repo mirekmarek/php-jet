@@ -21,12 +21,6 @@ class Controller_Main extends Mvc_Controller_Default
 
 	/**
 	 *
-	 * @var Main
-	 */
-	protected $module = null;
-
-	/**
-	 *
 	 */
 	public function test_orm_Action() : void
 	{

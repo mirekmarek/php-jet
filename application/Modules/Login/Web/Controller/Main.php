@@ -21,18 +21,18 @@ use JetApplication\Auth_Visitor_User as User;
  */
 class Controller_Main extends Mvc_Controller_Default
 {
-	/**
-	 * @var Main
-	 */
-	protected $module = null;
 
 	/**
 	 *
 	 */
 	public function login_Action()
 	{
+		/**
+		 * @var Main $module
+		 */
+		$module = $this->getModule();
 
-		$form = $this->module->getLoginForm();
+		$form = $module->getLoginForm();
 
 		if( $form->catchInput() ) {
 			if( $form->validate() ) {
@@ -75,7 +75,12 @@ class Controller_Main extends Mvc_Controller_Default
 	 */
 	public function must_change_password_Action()
 	{
-		$form = $this->module->getMustChangePasswordForm();
+		/**
+		 * @var Main $module
+		 */
+		$module = $this->getModule();
+
+		$form = $module->getMustChangePasswordForm();
 
 		if( $form->catchInput()&&$form->validate() ) {
 			$data = $form->getValues();

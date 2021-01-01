@@ -17,12 +17,6 @@ class Controller_Admin_Dialogs extends Mvc_Controller_Default
 
 	/**
 	 *
-	 * @var Main
-	 */
-	protected $module = null;
-
-	/**
-	 *
 	 */
 	public function select_image_Action() : void
 	{

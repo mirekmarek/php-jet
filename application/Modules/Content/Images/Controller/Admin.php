@@ -26,11 +26,6 @@ use JetApplicationModule\UI\Admin\Main as UI_module;
  */
 class Controller_Admin extends Mvc_Controller_Default
 {
-	/**
-	 *
-	 * @var Main
-	 */
-	protected $module;
 
 	/**
 	 * @var ?Mvc_Controller_Router_AddEditDelete

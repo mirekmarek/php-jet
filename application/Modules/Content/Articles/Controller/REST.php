@@ -15,11 +15,6 @@ use Jet\Mvc_Controller_REST_Router;
  */
 class Controller_REST extends Mvc_Controller_REST
 {
-	/**
-	 *
-	 * @var Main
-	 */
-	protected $module = null;
 
 	/**
 	 * @var ?Article

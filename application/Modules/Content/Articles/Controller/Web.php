@@ -20,12 +20,6 @@ use Jet\Navigation_Breadcrumb;
 class Controller_Web extends Mvc_Controller_Default
 {
 	/**
-	 *
-	 * @var Main
-	 */
-	protected $module = null;
-
-	/**
 	 * @var ?Mvc_Controller_Router
 	 */
 	protected ?Mvc_Controller_Router $router = null;

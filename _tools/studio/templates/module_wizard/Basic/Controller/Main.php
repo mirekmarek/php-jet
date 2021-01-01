@@ -23,7 +23,7 @@ class Controller_Main extends Mvc_Controller_Default
 	/**
 	 *
 	 */
-	public function default_Action()
+	public function default_Action() : void
 	{
 	}
 }

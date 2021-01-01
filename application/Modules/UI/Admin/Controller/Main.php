@@ -21,11 +21,6 @@ use Jet\Mvc_Page;
  */
 class Controller_Main extends Mvc_Controller_Default
 {
-	/**
-	 *
-	 * @var Main
-	 */
-	protected $module = null;
 
 	/**
 	 *

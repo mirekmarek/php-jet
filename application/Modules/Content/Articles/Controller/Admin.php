@@ -28,12 +28,6 @@ class Controller_Admin extends Mvc_Controller_Default
 {
 
 	/**
-	 *
-	 * @var Main
-	 */
-	protected $module = null;
-
-	/**
 	 * @var ?Mvc_Controller_Router_AddEditDelete
 	 */
 	protected ?Mvc_Controller_Router_AddEditDelete $router = null;

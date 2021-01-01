@@ -24,17 +24,17 @@ use JetApplication\Auth_Administrator_User as User;
  */
 class Controller_Main extends Mvc_Controller_Default
 {
-	/**
-	 * @var Main
-	 */
-	protected $module = null;
 
 	/**
 	 *
 	 */
 	public function login_Action() : void
 	{
-		$form = $this->module->getLoginForm();
+		/**
+		 * @var Main $module
+		 */
+		$module = $this->getModule();
+		$form = $module->getLoginForm();
 
 		if( $form->catchInput() ) {
 			if( $form->validate() ) {
@@ -77,7 +77,11 @@ class Controller_Main extends Mvc_Controller_Default
 	 */
 	public function must_change_password_Action() : void
 	{
-		$form = $this->module->getMustChangePasswordForm();
+		/**
+		 * @var Main $module
+		 */
+		$module = $this->getModule();
+		$form = $module->getMustChangePasswordForm();
 
 		if( $form->catchInput()&&$form->validate() ) {
 			$data = $form->getValues();
@@ -112,7 +116,12 @@ class Controller_Main extends Mvc_Controller_Default
 	 */
 	public function change_password_Action() : void
 	{
-		$form = $this->module->getChangePasswordForm();
+		/**
+		 * @var Main $module
+		 */
+		$module = $this->getModule();
+
+		$form = $module->getChangePasswordForm();
 
 		Navigation_Breadcrumb::reset();
 

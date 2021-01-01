@@ -18,12 +18,6 @@ class Controller_REST extends Mvc_Controller_REST
 {
 
 	/**
-	 *
-	 * @var Main
-	 */
-	protected $module = null;
-
-	/**
 	 * @var ?Gallery
 	 */
 	protected ?Gallery $gallery = null;
