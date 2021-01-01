@@ -330,7 +330,7 @@ class Data_Array extends BaseObject implements BaseObject_Interface_Serializable
 	 */
 	public function export( array $comments = [] ) : string
 	{
-		$result = $this->_export( '', $this->data, 0, $comments );
+		$result = static::_export( $this->data, 0, '', $comments );
 
 		$result .= ';'.PHP_EOL;
 
@@ -338,14 +338,14 @@ class Data_Array extends BaseObject implements BaseObject_Interface_Serializable
 	}
 
 	/**
-	 * @param string $path
 	 * @param array $data
 	 * @param int $level
+	 * @param string $path
 	 * @param array $comments
 	 *
 	 * @return string
 	 */
-	protected function _export( string $path, array $data, int $level, array $comments ) : string
+	public static function _export( array $data, int $level=0, string $path='', array $comments=[] ) : string
 	{
 		$result = '';
 		$next_level = $level+1;
@@ -380,7 +380,7 @@ class Data_Array extends BaseObject implements BaseObject_Interface_Serializable
 			}
 
 			if( is_array( $value ) ) {
-				$result .= $this->_export( $my_path, $value, $next_level, $comments ).'';
+				$result .= static::_export( $value, $next_level, $my_path, $comments ).'';
 			} else if( is_object( $value ) ) {
 				$class_name = get_class( $value );
 
@@ -391,8 +391,8 @@ class Data_Array extends BaseObject implements BaseObject_Interface_Serializable
 				}
 
 
-				$result .= $class_name.'::__set_state( '.$this->_export(
-						$my_path, $object_values, $next_level, $comments
+				$result .= $class_name.'::__set_state( '.static::_export(
+						$object_values, $next_level, $my_path, $comments
 					).' )';
 			} else {
 				$result .= var_export( $value, true ).$comment;

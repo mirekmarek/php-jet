@@ -641,7 +641,7 @@ trait DataModel_Definition_Model_Trait {
 			if(!$this->_class->isIsNew()) {
 				$class = $this->class_name;
 
-				$relations_definitions_data = $this->class_arguments['external_relations'] ?? [];
+				$relations_definitions_data = $this->class_arguments['relations'] ?? [];
 
 				foreach( $relations_definitions_data as $definition_data ) {
 					$relation = new DataModel_Definition_Relation_External( $class, $definition_data );

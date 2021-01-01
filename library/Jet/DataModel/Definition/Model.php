@@ -157,10 +157,10 @@ abstract class DataModel_Definition_Model extends BaseObject
 			foreach( $class->getAttributes('Jet\DataModel_Definition') as $attribute ) {
 				foreach($attribute->getArguments() as $k=>$v) {
 					if($k=='relation') {
-						if(!isset($this->class_arguments['external_relations'])) {
-							$this->class_arguments['external_relations'] = [];
+						if(!isset($this->class_arguments['relations'])) {
+							$this->class_arguments['relations'] = [];
 						}
-						$this->class_arguments['external_relations'][] = $v;
+						$this->class_arguments['relations'][] = $v;
 						continue;
 					}
 
@@ -417,7 +417,7 @@ abstract class DataModel_Definition_Model extends BaseObject
 
 		$class = $this->class_name;
 
-		$relations_definitions_data = $this->getClassArgument( 'external_relations', [] );
+		$relations_definitions_data = $this->getClassArgument( 'relations', [] );
 
 		foreach( $relations_definitions_data as $definition_data ) {
 			$relation = new DataModel_Definition_Relation_External( $this->getClassName(), $definition_data );
