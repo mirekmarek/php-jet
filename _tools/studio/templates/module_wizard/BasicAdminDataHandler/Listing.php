@@ -23,7 +23,7 @@ class Listing extends Data_Listing {
 	/**
 	 * @var array
 	 */
-	protected $grid_columns = [
+	protected array $grid_columns = [
 		'_edit_'     => [
 			'title'         => '',
 			'disallow_sort' => true
@@ -35,19 +35,14 @@ class Listing extends Data_Listing {
 	/**
 	 * @var string[]
 	 */
-	protected $filters = [
+	protected array $filters = [
 		'search',
 	];
 
 	/**
-	 * @var int
+	 * @return %<DATA_MODEL_CLASS_ALIAS>%[]|DataModel_Fetch_Instances
 	 */
-	protected $role = 0;
-
-	/**
-	 * @return DataModel_Fetch_Instances
-	 */
-	protected function getList()
+	protected function getList() : DataModel_Fetch_Instances
 	{
 		return %<DATA_MODEL_CLASS_ALIAS>%::getList();
 	}
@@ -55,7 +50,7 @@ class Listing extends Data_Listing {
 	/**
 	 *
 	 */
-	protected function filter_search_getWhere()
+	protected function filter_search_getWhere() : void
 	{
 		if(!$this->search) {
 			return;

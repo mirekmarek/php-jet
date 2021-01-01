@@ -25,7 +25,7 @@ class Controller_Main extends Mvc_Controller_Default
 	/**
 	 *
 	 */
-	public function login_Action()
+	public function login_Action() : void
 	{
 		/**
 		 * @var Main $module
@@ -57,7 +57,7 @@ class Controller_Main extends Mvc_Controller_Default
 	/**
 	 *
 	 */
-	public function is_not_activated_Action()
+	public function is_not_activated_Action() : void
 	{
 		$this->render( 'is-not-activated' );
 	}
@@ -65,7 +65,7 @@ class Controller_Main extends Mvc_Controller_Default
 	/**
 	 *
 	 */
-	public function is_blocked_Action()
+	public function is_blocked_Action() : void
 	{
 		$this->render( 'is-blocked' );
 	}
@@ -73,7 +73,7 @@ class Controller_Main extends Mvc_Controller_Default
 	/**
 	 *
 	 */
-	public function must_change_password_Action()
+	public function must_change_password_Action() : void
 	{
 		/**
 		 * @var Main $module

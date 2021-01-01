@@ -24,7 +24,7 @@ class Controller_Web extends Mvc_Controller_Default
 	/**
 	 *
 	 */
-	public function default_Action()
+	public function default_Action() : void
 	{
 		$gallery = $this->gallery;
 

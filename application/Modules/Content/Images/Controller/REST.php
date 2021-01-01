@@ -170,7 +170,7 @@ class Controller_REST extends Mvc_Controller_REST
 	/**
 	 *
 	 */
-	public function get_galleries_Action( )
+	public function get_galleries_Action() : void
 	{
 		if(Http_Request::GET()->exists('tree')) {
 			$this->responseData( Gallery::getTree() );
@@ -193,7 +193,7 @@ class Controller_REST extends Mvc_Controller_REST
 	/**
 	 *
 	 */
-	public function get_gallery_Action( )
+	public function get_gallery_Action() : void
 	{
 		$this->responseData( $this->gallery);
 	}
@@ -201,7 +201,7 @@ class Controller_REST extends Mvc_Controller_REST
 	/**
 	 *
 	 */
-	public function add_gallery_Action()
+	public function add_gallery_Action() : void
 	{
 		$gallery = new Gallery();
 
@@ -226,7 +226,7 @@ class Controller_REST extends Mvc_Controller_REST
 	/**
 	 *
 	 */
-	public function update_gallery_Action()
+	public function update_gallery_Action() : void
 	{
 		$gallery = $this->gallery;
 
@@ -249,7 +249,7 @@ class Controller_REST extends Mvc_Controller_REST
 	/**
 	 *
 	 */
-	public function delete_gallery_Action()
+	public function delete_gallery_Action() : void
 	{
 		$gallery = $this->gallery;
 
@@ -267,7 +267,7 @@ class Controller_REST extends Mvc_Controller_REST
 	/**
 	 *
 	 */
-	public function get_images_Action()
+	public function get_images_Action() : void
 	{
 		$gallery = $this->gallery;
 
@@ -292,7 +292,7 @@ class Controller_REST extends Mvc_Controller_REST
 	/**
 	 *
 	 */
-	public function get_image_Action()
+	public function get_image_Action() : void
 	{
 		$image = $this->image;
 
@@ -314,7 +314,7 @@ class Controller_REST extends Mvc_Controller_REST
 	/**
 	 *
 	 */
-	public function add_image_Action()
+	public function add_image_Action() : void
 	{
 		$gallery = $this->gallery;
 
@@ -345,7 +345,7 @@ class Controller_REST extends Mvc_Controller_REST
 	/**
 	 *
 	 */
-	public function delete_image_Action()
+	public function delete_image_Action() : void
 	{
 		$image = $this->image;
 

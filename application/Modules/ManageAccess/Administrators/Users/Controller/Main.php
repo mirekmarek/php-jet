@@ -74,7 +74,7 @@ class Controller_Main extends Mvc_Controller_Default
 	/**
 	 * @param string $current_label
 	 */
-	protected function _setBreadcrumbNavigation( $current_label = '' )
+	protected function _setBreadcrumbNavigation( $current_label = '' ) : void
 	{
 		UI_module::initBreadcrumb();
 
@@ -86,7 +86,7 @@ class Controller_Main extends Mvc_Controller_Default
 	/**
 	 *
 	 */
-	public function listing_Action()
+	public function listing_Action() : void
 	{
 		$this->_setBreadcrumbNavigation();
 
@@ -102,7 +102,7 @@ class Controller_Main extends Mvc_Controller_Default
 	/**
 	 *
 	 */
-	public function add_Action()
+	public function add_Action() : void
 	{
 		$this->_setBreadcrumbNavigation( Tr::_( 'Create a new User' ) );
 
@@ -137,7 +137,7 @@ class Controller_Main extends Mvc_Controller_Default
 	/**
 	 *
 	 */
-	public function reset_password_Action()
+	public function reset_password_Action() : void
 	{
 		$user = $this->user;
 
@@ -150,7 +150,7 @@ class Controller_Main extends Mvc_Controller_Default
 	/**
 	 *
 	 */
-	public function edit_Action()
+	public function edit_Action() : void
 	{
 		$user = $this->user;
 
@@ -180,7 +180,7 @@ class Controller_Main extends Mvc_Controller_Default
 	/**
 	 *
 	 */
-	public function view_Action()
+	public function view_Action() : void
 	{
 		$user = $this->user;
 
@@ -202,7 +202,7 @@ class Controller_Main extends Mvc_Controller_Default
 	/**
 	 *
 	 */
-	public function delete_Action()
+	public function delete_Action() : void
 	{
 		$user = $this->user;
 

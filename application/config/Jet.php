@@ -18,7 +18,7 @@ SysConf_Jet::setCACHE_SAVE( false );
 
 SysConf_Jet::setHIDE_HTTP_REQUEST( true );
 
-SysConf_Jet::setTIMEZONE( 'Europe/Prague' );
+//SysConf_Jet::setTIMEZONE( 'Europe/Prague' );
 
 
 //Production configuration:
@@ -36,5 +36,5 @@ SysConf_Jet::setCACHE_SAVE( true );
 
 SysConf_Jet::setHIDE_HTTP_REQUEST( true );
 
-SysConf_Jet::setTIMEZONE( 'Europe/Prague' );
+//SysConf_Jet::setTIMEZONE( 'Europe/Prague' );
 */

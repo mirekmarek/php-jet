@@ -24,27 +24,22 @@ use JetApplicationModule\UI\Admin\Main as UI_module;
  */
 class Controller_Main extends Mvc_Controller_Default
 {
-	/**
-	 *
-	 * @var Main
-	 */
-	protected $module = null;
 
 	/**
-	 * @var Mvc_Controller_Router_AddEditDelete
+	 * @var ?Mvc_Controller_Router_AddEditDelete
 	 */
-	protected $router;
+	protected ?Mvc_Controller_Router_AddEditDelete $router = null;
 
 	/**
-	 * @var %<DATA_MODEL_CLASS_ALIAS>%
+	 * @var ?%<DATA_MODEL_CLASS_ALIAS>%
 	 */
-	protected $%<ITEM_VAR_NAME>%;
+	protected ?%<DATA_MODEL_CLASS_ALIAS>% $%<ITEM_VAR_NAME>% = null;
 
 	/**
 	 *
 	 * @return Mvc_Controller_Router_AddEditDelete
 	 */
-	public function getControllerRouter()
+	public function getControllerRouter() : Mvc_Controller_Router_AddEditDelete
 	{
 		if( !$this->router ) {
 			$this->router = new Mvc_Controller_Router_AddEditDelete(
@@ -68,7 +63,7 @@ class Controller_Main extends Mvc_Controller_Default
 	/**
 	 * @param string $current_label
 	 */
-	protected function _setBreadcrumbNavigation( $current_label = '' )
+	protected function _setBreadcrumbNavigation( string $current_label = '' ) : void
 	{
 		UI_module::initBreadcrumb();
 
@@ -80,7 +75,7 @@ class Controller_Main extends Mvc_Controller_Default
 	/**
 	 *
 	 */
-	public function listing_Action()
+	public function listing_Action() : void
 	{
 		$this->_setBreadcrumbNavigation();
 
@@ -96,7 +91,7 @@ class Controller_Main extends Mvc_Controller_Default
 	/**
 	 *
 	 */
-	public function add_Action()
+	public function add_Action() : void
 	{
 		$this->_setBreadcrumbNavigation( Tr::_( '%<TXT_BTN_NEW>%' ) );
 
@@ -127,7 +122,7 @@ class Controller_Main extends Mvc_Controller_Default
 	/**
 	 *
 	 */
-	public function edit_Action()
+	public function edit_Action() : void
 	{
 		$%<ITEM_VAR_NAME>% = $this->%<ITEM_VAR_NAME>%;
 
@@ -157,7 +152,7 @@ class Controller_Main extends Mvc_Controller_Default
 	/**
 	 *
 	 */
-	public function view_Action()
+	public function view_Action() : void
 	{
 		$%<ITEM_VAR_NAME>% = $this->%<ITEM_VAR_NAME>%;
 
@@ -179,7 +174,7 @@ class Controller_Main extends Mvc_Controller_Default
 	/**
 	 *
 	 */
-	public function delete_Action()
+	public function delete_Action() : void
 	{
 		$%<ITEM_VAR_NAME>% = $this->%<ITEM_VAR_NAME>%;
 

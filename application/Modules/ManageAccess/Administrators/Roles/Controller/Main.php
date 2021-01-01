@@ -82,7 +82,7 @@ class Controller_Main extends Mvc_Controller_Default
 	/**
 	 *
 	 */
-	public function listing_Action()
+	public function listing_Action() : void
 	{
 		$this->_setBreadcrumbNavigation();
 
@@ -99,7 +99,7 @@ class Controller_Main extends Mvc_Controller_Default
 	/**
 	 *
 	 */
-	public function add_Action()
+	public function add_Action() : void
 	{
 		$this->_setBreadcrumbNavigation( Tr::_( 'Create a new Role' ) );
 
@@ -128,7 +128,7 @@ class Controller_Main extends Mvc_Controller_Default
 
 	/**
 	 */
-	public function edit_Action()
+	public function edit_Action() : void
 	{
 		$role = $this->role;
 
@@ -157,7 +157,7 @@ class Controller_Main extends Mvc_Controller_Default
 	/**
 	 *
 	 */
-	public function view_Action()
+	public function view_Action() : void
 	{
 		$role = $this->role;
 
@@ -181,7 +181,7 @@ class Controller_Main extends Mvc_Controller_Default
 	/**
 	 *
 	 */
-	public function delete_action()
+	public function delete_action() : void
 	{
 		$role = $this->role;
 
