@@ -30,7 +30,7 @@ class Controller_Main extends Mvc_Controller_Default
 	/**
 	 *
 	 */
-	public function test_rest_Action()
+	public function test_rest_Action() : void
 	{
 		$session = Main::getSession();
 
@@ -57,7 +57,7 @@ class Controller_Main extends Mvc_Controller_Default
 	/**
 	 *
 	 */
-	public function login()
+	public function login() : void
 	{
 
 		$username_field = new Form_Field_Input('username', 'Username:');
@@ -101,7 +101,7 @@ class Controller_Main extends Mvc_Controller_Default
 	/**
 	 *
 	 */
-	public function tests()
+	public function tests() : void
 	{
 		/**
 		 * @var Test_Abstract[] $all_tests

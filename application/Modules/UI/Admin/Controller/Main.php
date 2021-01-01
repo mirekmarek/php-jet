@@ -48,7 +48,7 @@ class Controller_Main extends Mvc_Controller_Default
 	/**
 	 *
 	 */
-	public function logout_Action()
+	public function logout_Action() : void
 	{
 		Auth::logout();
 
@@ -58,7 +58,7 @@ class Controller_Main extends Mvc_Controller_Default
 	/**
 	 *
 	 */
-	public function default_Action()
+	public function default_Action() : void
 	{
 		$this->render( 'default' );
 	}
@@ -66,7 +66,7 @@ class Controller_Main extends Mvc_Controller_Default
 	/**
 	 *
 	 */
-	public function breadcrumb_navigation_Action()
+	public function breadcrumb_navigation_Action() : void
 	{
 		$this->render( 'breadcrumb_navigation' );
 	}
@@ -74,7 +74,7 @@ class Controller_Main extends Mvc_Controller_Default
 	/**
 	 *
 	 */
-	public function messages_Action()
+	public function messages_Action() : void
 	{
 		$this->render( 'messages' );
 	}
@@ -82,7 +82,7 @@ class Controller_Main extends Mvc_Controller_Default
 	/**
 	 *
 	 */
-	public function main_menu_Action()
+	public function main_menu_Action() : void
 	{
 		$this->render( 'main_menu' );
 	}

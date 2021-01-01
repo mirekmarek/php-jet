@@ -82,7 +82,7 @@ class Controller_REST extends Mvc_Controller_REST
 	/**
 	 *
 	 */
-	public function get_Action( )
+	public function get_Action( ) : void
 	{
 		$this->responseData( $this->article );
 	}
@@ -90,7 +90,7 @@ class Controller_REST extends Mvc_Controller_REST
 	/**
 	 *
 	 */
-	public function list_Action( )
+	public function list_Action( ) : void
 	{
 
 		/** @noinspection PhpParamsInspection */
@@ -110,7 +110,7 @@ class Controller_REST extends Mvc_Controller_REST
 	/**
 	 *
 	 */
-	public function add_Action()
+	public function add_Action() : void
 	{
 		$article = new Article();
 
@@ -136,7 +136,7 @@ class Controller_REST extends Mvc_Controller_REST
 	/**
 	 *
 	 */
-	public function update_Action()
+	public function update_Action() : void
 	{
 		$article = $this->article;
 
@@ -161,7 +161,7 @@ class Controller_REST extends Mvc_Controller_REST
 	/**
 	 *
 	 */
-	public function delete_Action()
+	public function delete_Action() : void
 	{
 		$article = $this->article;
 

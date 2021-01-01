@@ -28,7 +28,7 @@ class Controller_Main extends Mvc_Controller_Default
 	/**
 	 *
 	 */
-	public function test_orm_Action()
+	public function test_orm_Action() : void
 	{
 		$backends = [];
 

@@ -72,7 +72,7 @@ class Controller_Main extends Mvc_Controller_Default
 	/**
 	 *
 	 */
-	public function test_forms_Action()
+	public function test_forms_Action() : void
 	{
 		$input_field = new Form_Field_Input( 'input', 'Input' );
 		$input_field->setPlaceholder( 'Input field without validation' );
@@ -554,7 +554,7 @@ class Controller_Main extends Mvc_Controller_Default
 	/**
 	 *
 	 */
-	public function test_forms_data_model_Action()
+	public function test_forms_data_model_Action() : void
 	{
 
 		$obj = new DataModelTest_FormGenerator();

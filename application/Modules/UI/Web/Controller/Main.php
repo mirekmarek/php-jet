@@ -46,7 +46,7 @@ class Controller_Main extends Mvc_Controller_Default
 	/**
 	 *
 	 */
-	public function logout_Action()
+	public function logout_Action() : void
 	{
 		Auth::logout();
 
@@ -57,7 +57,7 @@ class Controller_Main extends Mvc_Controller_Default
 	/**
 	 *
 	 */
-	public function main_menu_Action()
+	public function main_menu_Action() : void
 	{
 
 		$this->view->setVar( 'site_tree_current', [ Mvc::getCurrentSite()->getHomepage( Mvc::getCurrentLocale() ) ] );
@@ -68,7 +68,7 @@ class Controller_Main extends Mvc_Controller_Default
 	/**
 	 *
 	 */
-	public function secret_area_menu_Action()
+	public function secret_area_menu_Action() : void
 	{
 		$this->view->setVar( 'site_tree_current', [ Mvc_Page::get( 'secret_area' ) ] );
 
@@ -78,7 +78,7 @@ class Controller_Main extends Mvc_Controller_Default
 	/**
 	 *
 	 */
-	public function breadcrumbNavigation_Action()
+	public function breadcrumbNavigation_Action() : void
 	{
 		$view = $this->getParameter( 'view', 'default' );
 

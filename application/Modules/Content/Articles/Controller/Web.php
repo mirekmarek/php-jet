@@ -90,7 +90,7 @@ class Controller_Web extends Mvc_Controller_Default
 	/**
 	 *
 	 */
-	public function list_Action()
+	public function list_Action() : void
 	{
 		$page_no = $this->page_no;
 
@@ -129,7 +129,7 @@ class Controller_Web extends Mvc_Controller_Default
 	/**
 	 *
 	 */
-	public function detail_Action()
+	public function detail_Action() : void
 	{
 		$article = $this->article;
 

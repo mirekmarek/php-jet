@@ -114,7 +114,7 @@ class Controller_Admin extends Mvc_Controller_Default
 	 * @param Gallery|null $gallery
 	 * @param string  $current_label
 	 */
-	protected function _setBreadcrumbNavigation( $gallery = null, $current_label = '' )
+	protected function _setBreadcrumbNavigation( $gallery = null, $current_label = '' ) : void
 	{
 		UI_module::initBreadcrumb();
 
@@ -136,7 +136,7 @@ class Controller_Admin extends Mvc_Controller_Default
 	/**
 	 *
 	 */
-	public function _initGalleries()
+	public function _initGalleries( : void
 	{
 
 		$search = Http_Request::GET()->getString('search');
@@ -156,7 +156,7 @@ class Controller_Admin extends Mvc_Controller_Default
 	/**
 	 *
 	 */
-	public function listing_Action()
+	public function listing_Action() : void
 	{
 
 		$this->_setBreadcrumbNavigation( $this->gallery );
@@ -172,7 +172,7 @@ class Controller_Admin extends Mvc_Controller_Default
 	/**
 	 *
 	 */
-	public function add_Action()
+	public function add_Action() : void
 	{
 
 		$parent_id = $this->gallery ? $this->gallery->getId() : '';
@@ -210,7 +210,7 @@ class Controller_Admin extends Mvc_Controller_Default
 	/**
 	 *
 	 */
-	public function edit_Action()
+	public function edit_Action() : void
 	{
 		$gallery = $this->gallery;
 
@@ -244,7 +244,7 @@ class Controller_Admin extends Mvc_Controller_Default
 	/**
 	 *
 	 */
-	public function view_Action()
+	public function view_Action() : void
 	{
 		$gallery = $this->gallery;
 
@@ -265,7 +265,7 @@ class Controller_Admin extends Mvc_Controller_Default
 	/**
 	 *
 	 */
-	public function delete_Action()
+	public function delete_Action() : void
 	{
 		$gallery = $this->gallery;
 
@@ -286,7 +286,7 @@ class Controller_Admin extends Mvc_Controller_Default
 	/**
 	 *
 	 */
-	public function image_upload_Action()
+	public function image_upload_Action() : void
 	{
 		$gallery = $this->gallery;
 
@@ -374,7 +374,7 @@ class Controller_Admin extends Mvc_Controller_Default
 	/**
 	 *
 	 */
-	public function image_delete_Action()
+	public function image_delete_Action() : void
 	{
 		$gallery = $this->gallery;
 
