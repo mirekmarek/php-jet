@@ -315,12 +315,4 @@ class Article extends DataModel
 		return $this->catchForm( $this->getAddForm() );
 	}
 
-	/**
-	 * @param string $value
-	 */
-	public function setAaaa( string $value ) : void
-	{
-		$this->aaaa = $value;
-	}
-
 }
