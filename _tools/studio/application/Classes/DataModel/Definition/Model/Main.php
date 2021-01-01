@@ -62,6 +62,8 @@ class DataModel_Definition_Model_Main extends Jet_DataModel_Definition_Model_Mai
 		$class->setName( $this->_class->getClassName() );
 
 		$class->addUse( new ClassCreator_UseClass('Jet', 'DataModel') );
+		$class->addUse( new ClassCreator_UseClass('Jet', 'DataModel_Definition') );
+
 		$class->setExtends( $this->createClass_getExtends($class, 'DataModel') );
 
 		return $class;

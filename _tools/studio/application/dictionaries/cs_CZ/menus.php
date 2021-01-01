@@ -47,4 +47,6 @@ return [
 	'Menu' => 'Menu',
 	'Content' => '',
 	'System' => '',
+	'aaaa' => '',
+	'aaa`' => '',
 ];

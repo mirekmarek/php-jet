@@ -78,6 +78,7 @@ class DataModel_Definition_Model_Related_1to1 extends Jet_DataModel_Definition_M
 		$class->setName( $this->_class->getClassName() );
 
 		$class->addUse( new ClassCreator_UseClass('Jet', 'DataModel') );
+		$class->addUse( new ClassCreator_UseClass('Jet', 'DataModel_Definition') );
 		$class->addUse( new ClassCreator_UseClass('Jet', 'DataModel_Related_1to1') );
 
 		$class->setExtends( $this->createClass_getExtends($class, 'DataModel_Related_1to1') );
