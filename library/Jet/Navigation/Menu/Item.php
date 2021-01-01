@@ -405,9 +405,9 @@ class Navigation_Menu_Item extends BaseObject
 	}
 
 	/**
-	 * @return Mvc_Page_Interface
+	 * @return Mvc_Page_Interface|null
 	 */
-	public function getTargetPage() : Mvc_Page_Interface
+	public function getTargetPage() : Mvc_Page_Interface|null
 	{
 		/**
 		 * @var Mvc_Page $page_class

@@ -119,9 +119,9 @@ class Menus extends BaseObject implements Application_Part
 
 
 	/**
-	 * @return null|Menus_MenuSet
+	 * @return bool|Menus_MenuSet
 	 */
-	public static function getCurrentMenuSet() : null|Menus_MenuSet
+	public static function getCurrentMenuSet() : bool|Menus_MenuSet
 	{
 		if(static::$__current_menu_set===null) {
 			$id = Http_Request::GET()->getString('set');
@@ -154,12 +154,12 @@ class Menus extends BaseObject implements Application_Part
 
 
 	/**
-	 * @return Menus_Menu|null
+	 * @return Menus_Menu|bool
 	 */
-	public static function getCurrentMenu() : Menus_Menu|null
+	public static function getCurrentMenu() : Menus_Menu|bool
 	{
 		if(!($set = static::getCurrentMenuSet())) {
-			return null;
+			return false;
 		}
 
 
@@ -196,12 +196,12 @@ class Menus extends BaseObject implements Application_Part
 
 
 	/**
-	 * @return Menus_Menu_Item|null
+	 * @return Menus_Menu_Item|bool
 	 */
-	public static function getCurrentMenuItem() : Menus_Menu_Item|null
+	public static function getCurrentMenuItem() : Menus_Menu_Item|bool
 	{
 		if(!($menu = static::getCurrentMenu())) {
-			return null;
+			return false;
 		}
 
 

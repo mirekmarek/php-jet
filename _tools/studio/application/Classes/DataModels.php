@@ -282,6 +282,7 @@ class DataModels extends BaseObject implements Application_Part
 
 				if(
 					$name &&
+					$model->hasProperty($name) &&
 					($item=$model->getProperty($name))
 				) {
 					static::$current_property = $item;
