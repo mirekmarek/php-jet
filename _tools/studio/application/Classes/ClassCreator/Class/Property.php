@@ -184,16 +184,16 @@ class ClassCreator_Class_Property extends BaseObject
 		if($this->default_value!==null) {
 			if(is_array($this->default_value)) {
 				if(count($this->default_value)>0) {
-					$res .= $ident.$this->visibility.$declared_type.' $'.$this->name.' = '.Data_Array::_export( $this->default_value, 1 ).';'.$nl;
+					$res .= $ident.$this->visibility.$declared_type.' $'.$this->name.' = '.Data_Array::_export( $this->default_value, 1 ).';';
 				} else {
-					$res .= $ident.$this->visibility.$declared_type.' $'.$this->name.' = [];'.$nl;
+					$res .= $ident.$this->visibility.$declared_type.' $'.$this->name.' = [];';
 				}
 			} else {
-				$res .= $ident.$this->visibility.$declared_type.' $'.$this->name.' = '.var_export( $this->default_value, true).';'.$nl;
+				$res .= $ident.$this->visibility.$declared_type.' $'.$this->name.' = '.var_export( $this->default_value, true).';';
 			}
 
 		} else {
-			$res .= $ident.$this->visibility.$declared_type.' $'.$this->name.' = null;'.$nl;
+			$res .= $ident.$this->visibility.$declared_type.' $'.$this->name.' = null;';
 		}
 
 		return $res;

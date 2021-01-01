@@ -299,6 +299,12 @@ class ClassParser {
 			$to_index = $to_index->index;
 		}
 
+		$index_after = $to_index+1;
+
+		if(isset($this->tokens[$index_after])) {
+			$this->tokens[$index_after]->text = ltrim($this->tokens[$index_after]->text);
+		}
+
 		$i=0;
 		foreach( $this->tokens as $token ) {
 			if(
@@ -457,8 +463,8 @@ class ClassParser {
 			}
 		}
 
-		$this->insertBefore( $class->declaration_start, $attribute->toString() );
 
+		$this->insertBefore( $class->declaration_start, ltrim($attribute->toString()) );
 	}
 
 	/**
@@ -493,7 +499,8 @@ class ClassParser {
 	 */
 	public function actualize_setUse( array $uses ) : void
 	{
-		$nl = PHP_EOL;
+		$ident = ClassCreator_Class::getIndentation();
+		$nl = ClassCreator_Class::getNl();
 
 		foreach( $uses as $use ) {
 			$use_class = $use->getNamespace().'\\'.$use->getClass();
@@ -516,7 +523,8 @@ class ClassParser {
 	 */
 	public function actualize_addProperty( string $class_name, ClassCreator_Class_Property $property ) : string
 	{
-		$nl = PHP_EOL;
+		$ident = ClassCreator_Class::getIndentation();
+		$nl = ClassCreator_Class::getNl();
 		$class = $this->classes[$class_name];
 
 		if(isset($class->properties[$property->getName()])) {
@@ -556,6 +564,27 @@ class ClassParser {
 	}
 
 
+	/**
+	 * @param string $class_name
+	 * @param ClassCreator_Class_Method $method
+	 *
+	 * @return string
+	 */
+	public function actualize_addMethod( string $class_name, ClassCreator_Class_Method $method ) : string
+	{
+		$ident = ClassCreator_Class::getIndentation();
+		$nl = ClassCreator_Class::getNl();
+		$class = $this->classes[$class_name];
+
+		if(isset($class->methods[$method->getName()])) {
+			return '';
+		}
+
+		$method_str = $method->toString( $ident, $nl );
+		$class->addMethod( $nl.$nl.$method_str );
+
+		return 'Method '.$method->getName().' added';
+	}
 
 
 	/**

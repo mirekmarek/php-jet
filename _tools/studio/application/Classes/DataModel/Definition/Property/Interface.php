@@ -185,8 +185,9 @@ interface DataModel_Definition_Property_Interface {
 	/**
 	 * @param ClassCreator_Class $class
 	 *
+	 * @return array
 	 */
-	public function createClassMethods( ClassCreator_Class $class ) : void;
+	public function createClassMethods( ClassCreator_Class $class ) : array;
 
 	/**
 	 *

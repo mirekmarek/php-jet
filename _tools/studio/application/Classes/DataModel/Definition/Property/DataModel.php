@@ -148,8 +148,9 @@ class DataModel_Definition_Property_DataModel extends Jet_DataModel_Definition_P
 	/**
 	 * @param ClassCreator_Class $class
 	 *
+	 * @return array
 	 */
-	public function createClassMethods( ClassCreator_Class $class ) : void
+	public function createClassMethods( ClassCreator_Class $class ) : array
 	{
 
 		$s_g_method_name = $this->getSetterGetterMethodName();
@@ -159,6 +160,8 @@ class DataModel_Definition_Property_DataModel extends Jet_DataModel_Definition_P
 
 		$getter = $class->createMethod('get'.$s_g_method_name);
 		$getter->line( 1, '//TODO: implement ...');
+
+		return ['set'.$s_g_method_name, 'get'.$s_g_method_name];
 	}
 
 }

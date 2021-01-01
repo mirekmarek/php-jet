@@ -385,9 +385,9 @@ class DataModel_Definition_Key extends Jet_DataModel_Definition_Key
 		};
 
 		return [
-			$this->getName(),
-			$properties,
-			$type,
+			'name' => $this->getName(),
+			'property_names' => $properties,
+			'type' => $type,
 		];
 
 	}

@@ -53,8 +53,9 @@ class DataModel_Definition_Property_Locale extends Jet_DataModel_Definition_Prop
 	/**
 	 * @param ClassCreator_Class $class
 	 *
+	 * @return array
 	 */
-	public function createClassMethods( ClassCreator_Class $class ) : void
+	public function createClassMethods( ClassCreator_Class $class ) : array
 	{
 
 		$class->addUse( new ClassCreator_UseClass('Jet', 'Locale') );
@@ -74,6 +75,8 @@ class DataModel_Definition_Property_Locale extends Jet_DataModel_Definition_Prop
 		$getter = $class->createMethod('get'.$s_g_method_name);
 		$getter->setReturnType('Locale');
 		$getter->line( 1, 'return $this->'.$this->getName().';');
+
+		return ['set'.$s_g_method_name, 'get'.$s_g_method_name];
 	}
 
 }

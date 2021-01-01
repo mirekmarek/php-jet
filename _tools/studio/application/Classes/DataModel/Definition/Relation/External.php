@@ -403,9 +403,9 @@ class DataModel_Definition_Relation_External extends Jet_DataModel_Definition_Re
 
 
 		return [
-			$related_class->getClassName().'::class',
-			$glue,
-			$type
+			'related_to_class_name' => $related_class->getClassName().'::class',
+			'join_by_properties' => $glue,
+			'join_type' => $type
 		];
 
 

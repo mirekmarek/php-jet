@@ -20,6 +20,7 @@ use Jet\DataModel_IDController_UniqueString;
 use Jet\Form;
 use JetApplication\Application_Web;
 
+
 /**
  *
  */
@@ -312,6 +313,14 @@ class Article extends DataModel
 	public function catchAddForm() : bool
 	{
 		return $this->catchForm( $this->getAddForm() );
+	}
+
+	/**
+	 * @param string $value
+	 */
+	public function setAaaa( string $value ) : void
+	{
+		$this->aaaa = $value;
 	}
 
 }

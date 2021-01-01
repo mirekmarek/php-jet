@@ -53,8 +53,9 @@ class DataModel_Definition_Property_DateTime extends Jet_DataModel_Definition_Pr
 	/**
 	 * @param ClassCreator_Class $class
 	 *
+	 * @return array
 	 */
-	public function createClassMethods( ClassCreator_Class $class ) : void
+	public function createClassMethods( ClassCreator_Class $class ) : array
 	{
 
 		$class->addUse( new ClassCreator_UseClass('Jet', 'Data_DateTime') );
@@ -82,6 +83,7 @@ class DataModel_Definition_Property_DateTime extends Jet_DataModel_Definition_Pr
 		$getter->setReturnType('Data_DateTime|null');
 		$getter->line( 1, 'return $this->'.$this->getName().';');
 
+		return ['set'.$s_g_method_name, 'get'.$s_g_method_name];
 	}
 
 }

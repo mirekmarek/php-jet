@@ -4,7 +4,6 @@ namespace JetStudio;
 require 'application/init.php';
 
 //TODO: update templates
-//TODO: update getters / setters
 
 Application::setCurrentPart( 'module_wizard' );
 Application::handleAction();

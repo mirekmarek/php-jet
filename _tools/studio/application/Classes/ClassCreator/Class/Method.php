@@ -18,6 +18,7 @@ class ClassCreator_Class_Method extends BaseObject
 
 	/**
 	 * @var string
+	 * @var string
 	 */
 	protected string $name = '';
 
@@ -193,16 +194,12 @@ class ClassCreator_Class_Method extends BaseObject
 		$res = '';
 
 		$res .= $ident.'/**'.$nl;
-		$res .= $ident.' *'.$nl;
 		foreach( $this->parameters as $param ) {
 			$res .= $ident.' * '.$param->createClass_getAsAnnotation().$nl;
 		}
 		if( $this->getReturnType() ) {
-			$res .= $ident.' *'.$nl;
 			$res .= $ident.' * @return '.$this->getReturnType().$nl;
 		}
-
-		$res .= $ident.' *'.$nl;
 		$res .= $ident.' */'.$nl;
 
 		$res .= $ident;
@@ -243,7 +240,7 @@ class ClassCreator_Class_Method extends BaseObject
 			$res .= $line;
 			$res .= $nl;
 		}
-		$res .= $ident.'}'.$nl;
+		$res .= $ident.'}';
 
 		return $res;
 	}

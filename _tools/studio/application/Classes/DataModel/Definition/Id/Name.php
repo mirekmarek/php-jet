@@ -45,8 +45,10 @@ class DataModel_Definition_Id_Name extends DataModel_Definition_Id_Abstract {
 
 	/**
 	 * @param ClassCreator_Class $class
+	 *
+	 * @return array
 	 */
-	public function createClassMethods( ClassCreator_Class $class ) : void
+	public function createClassMethods( ClassCreator_Class $class ) : array
 	{
 		$get_name_method_name = $this->model->getIDControllerOption('get_name_method_name', 'getName');
 
@@ -54,6 +56,8 @@ class DataModel_Definition_Id_Name extends DataModel_Definition_Id_Abstract {
 			$setter = $class->createMethod( $get_name_method_name );
 			$setter->line( 1, '//TODO: implement ...' );
 		}
+
+		return [$get_name_method_name];
 	}
 
 	/**

@@ -1211,6 +1211,19 @@ trait DataModel_Definition_Property_Trait
 				$this->createClassProperty( $created_class )
 			);
 
+			$created_methods = $this->createClassMethods( $created_class );
+
+			foreach($created_methods as $name) {
+				$method = $created_class->getMethod($name);
+
+				$parser->actualize_addMethod(
+					$class->getClassName(),
+					$method
+				);
+			}
+
+			$parser->actualize_setUse( $created_class->getUse() );
+
 			IO_File::write(
 				$class->getScriptPath(),
 				$parser->toString()

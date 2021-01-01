@@ -49,8 +49,9 @@ class DataModel_Definition_Property_IdAutoIncrement extends Jet_DataModel_Defini
 	/**
 	 * @param ClassCreator_Class $class
 	 *
+	 * @return array
 	 */
-	public function createClassMethods( ClassCreator_Class $class ) : void
+	public function createClassMethods( ClassCreator_Class $class ) : array
 	{
 		$s_g_method_name = $this->getSetterGetterMethodName();
 
@@ -58,6 +59,7 @@ class DataModel_Definition_Property_IdAutoIncrement extends Jet_DataModel_Defini
 		$getter->setReturnType('int');
 		$getter->line( 1, 'return $this->'.$this->getName().';');
 
+		return ['get'.$s_g_method_name];
 	}
 
 }

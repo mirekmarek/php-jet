@@ -97,10 +97,12 @@ abstract class DataModel_Definition_Id_Abstract {
 
 	/**
 	 * @param ClassCreator_Class $class
+	 *
+	 * @return array
 	 */
-	public function createClassMethods( ClassCreator_Class $class ) : void
+	public function createClassMethods( ClassCreator_Class $class ) : array
 	{
-
+		return [];
 	}
 
 	/**

@@ -45,8 +45,9 @@ class DataModel_Definition_Property_Bool extends Jet_DataModel_Definition_Proper
 	/**
 	 * @param ClassCreator_Class $class
 	 *
+	 * @return array
 	 */
-	public function createClassMethods( ClassCreator_Class $class ) : void
+	public function createClassMethods( ClassCreator_Class $class ) : array
 	{
 
 		$s_g_method_name = $this->getSetterGetterMethodName();
@@ -61,6 +62,7 @@ class DataModel_Definition_Property_Bool extends Jet_DataModel_Definition_Proper
 		$getter->setReturnType('bool');
 		$getter->line( 1, 'return $this->'.$this->getName().';');
 
+		return ['set'.$s_g_method_name, 'get'.$s_g_method_name];
 	}
 
 }
