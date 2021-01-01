@@ -16,6 +16,7 @@ use Jet\Form_Field_Select;
 use Jet\IO_File;
 use Jet\Tr;
 use Jet\UI;
+use ReflectionClass;
 
 
 /**
@@ -1074,7 +1075,7 @@ trait DataModel_Definition_Property_Trait
 			$error_messages = $this->getFormFieldErrorMessages();
 
 			$field_class = 'Form_Field_'.$this->getFormFieldType();
-			$reflection = new \ReflectionClass('\Jet\\'.$field_class);
+			$reflection = new ReflectionClass('\Jet\\'.$field_class);
 			$constants = array_flip($reflection->getConstants());
 
 

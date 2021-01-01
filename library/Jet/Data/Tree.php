@@ -537,11 +537,8 @@ class Data_Tree extends BaseObject implements BaseObject_Interface_IteratorCount
 	 */
 	public function setRootNode( Data_Tree_Node $node ) : void
 	{
-
 		$node->setIsRoot( true );
 		$this->root_node = $node;
-
-		$node->getChildren();
 	}
 
 	/**

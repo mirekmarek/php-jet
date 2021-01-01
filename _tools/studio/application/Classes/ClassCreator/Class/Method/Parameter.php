@@ -76,19 +76,6 @@ class ClassCreator_Class_Method_Parameter extends BaseObject
 		return $this;
 	}
 
-
-	/**
-	 * @param bool $type_hinting
-	 *
-	 * @return static
-	 */
-	public function setTypeHinting( bool $type_hinting ) : static
-	{
-		$this->type_hinting = (bool)$type_hinting;
-
-		return $this;
-	}
-
 	/**
 	 * @return bool
 	 */

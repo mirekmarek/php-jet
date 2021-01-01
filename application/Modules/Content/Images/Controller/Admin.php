@@ -134,9 +134,9 @@ class Controller_Admin extends Mvc_Controller_Default
 	}
 
 	/**
-	 *
+	 * @return string
 	 */
-	public function _initGalleries( : void
+	public function _initGalleries() : string
 	{
 
 		$search = Http_Request::GET()->getString('search');

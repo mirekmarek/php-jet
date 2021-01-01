@@ -27,4 +27,4 @@ try {
 
 echo DataModel_Helper::getCreateCommand($class);
 DataModel_Helper::create($class);
-echo PHP_EOL . PHP_EOL;;
+echo PHP_EOL . PHP_EOL;

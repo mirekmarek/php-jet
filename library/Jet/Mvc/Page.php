@@ -148,6 +148,7 @@ class Mvc_Page extends BaseObject implements Mvc_Page_Interface, BaseObject_Cach
 			!$locale &&
 			!$site_id
 		) {
+			/** @noinspection PhpIncompatibleReturnTypeInspection */
 			return Mvc::getCurrentPage();
 		}
 
