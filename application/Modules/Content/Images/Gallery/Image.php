@@ -96,9 +96,9 @@ class Gallery_Image extends DataModel
 	 *
 	 * @param string $id
 	 *
-	 * @return static
+	 * @return static|null
 	 */
-	public static function get( string $id ) : static
+	public static function get( string $id ) : static|null
 	{
 		return static::load( $id );
 	}

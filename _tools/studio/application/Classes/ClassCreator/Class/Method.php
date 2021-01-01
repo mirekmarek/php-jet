@@ -226,7 +226,14 @@ class ClassCreator_Class_Method extends BaseObject
 			$res .= ' '.implode(', ', $parameters).' ';
 		}
 
-		$res .= ')'.$nl;
+		$res .= ')';
+		if($this->getReturnType()) {
+			$res .= ' : '.$this->getReturnType();
+		} else {
+			$res .= ' : void';
+		}
+		$res .= $nl;
+
 		$res .= $ident.'{'.$nl;
 		foreach( $this->body as $l ) {
 			$padding_left = $l['padding_left'];

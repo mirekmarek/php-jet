@@ -67,8 +67,10 @@ let JetAjaxForm = {
 				handlers.hideProgressIndicator( form );
 
 				if(JetAjaxForm.xhr.status === 200) {
+					let response;
+
 					try {
-						let response = JSON.parse(JetAjaxForm.xhr.responseText);
+						response = JSON.parse(JetAjaxForm.xhr.responseText);
 					} catch (e) {
 						handlers.onError( form );
 						return;

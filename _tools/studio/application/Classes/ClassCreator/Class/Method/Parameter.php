@@ -24,10 +24,6 @@ class ClassCreator_Class_Method_Parameter extends BaseObject
 	 */
 	protected string $type = '';
 
-	/**
-	 * @var bool
-	 */
-	protected bool $type_hinting = false;
 
 	/**
 	 * @var bool
@@ -80,13 +76,6 @@ class ClassCreator_Class_Method_Parameter extends BaseObject
 		return $this;
 	}
 
-	/**
-	 * @return bool
-	 */
-	public function getTypeHinting() : bool
-	{
-		return $this->type_hinting;
-	}
 
 	/**
 	 * @param bool $type_hinting
@@ -167,9 +156,8 @@ class ClassCreator_Class_Method_Parameter extends BaseObject
 	public function getAsMethodParam() : string
 	{
 		$res = '';
-		if( $this->getTypeHinting() ) {
-			$res .= $this->getType().' ';
-		}
+		$res .= $this->getType().' ';
+
 
 		$res .= '$'.$this->getName();
 

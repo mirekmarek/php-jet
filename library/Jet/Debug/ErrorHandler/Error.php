@@ -50,9 +50,9 @@ class Debug_ErrorHandler_Error
 	protected string $request_URL = '';
 
 	/**
-	 * @var int
+	 * @var int|string
 	 */
-	protected int $code = 0;
+	protected int|string $code = 0;
 
 	/**
 	 * @var string

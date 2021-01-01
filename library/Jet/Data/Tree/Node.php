@@ -595,10 +595,10 @@ class Data_Tree_Node extends BaseObject implements BaseObject_Interface_Iterator
 
 	/**
 	 * @param array &$_result
-	 * @param int   $max_depth
+	 * @param ?int   $max_depth
 	 * @param int   $root_depth
 	 */
-	public function _toArray( array &$_result, int $max_depth, int $root_depth ) : void
+	public function _toArray( array &$_result, ?int $max_depth, int $root_depth ) : void
 	{
 
 		$id_key = $this->_tree->getIdKey();

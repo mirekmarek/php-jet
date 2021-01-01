@@ -63,7 +63,8 @@ class DataModel_Definition_Property_DateTime extends Jet_DataModel_Definition_Pr
 
 		$setter = $class->createMethod('set'.$s_g_method_name);
 		$setter->addParameter( 'value' )
-			->setType('Data_DateTime|string');
+			->setType('Data_DateTime|string|null');
+
 		$setter->line( 1, 'if( $value===null ) {' );
 		$setter->line( 2, '$this->'.$this->getName().' = null;' );
 		$setter->line( 2, 'return;' );

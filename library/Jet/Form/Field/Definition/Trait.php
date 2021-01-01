@@ -108,17 +108,17 @@ trait Form_Field_Definition_Trait
 	}
 
 	/**
-	 * @return callable|null
+	 * @return callable|array|null
 	 */
-	public function getFormFieldGetSelectOptionsCallback() : callable|null
+	public function getFormFieldGetSelectOptionsCallback() : callable|array|null
 	{
 		return $this->form_field_get_select_options_callback;
 	}
 
 	/**
-	 * @param ?callable $form_field_get_select_options_callback
+	 * @param callable|array|null $form_field_get_select_options_callback
 	 */
-	public function setFormFieldGetSelectOptionsCallback( ?callable $form_field_get_select_options_callback ) : void
+	public function setFormFieldGetSelectOptionsCallback( callable|array|null $form_field_get_select_options_callback ) : void
 	{
 		$this->form_field_get_select_options_callback = $form_field_get_select_options_callback;
 	}

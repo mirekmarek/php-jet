@@ -108,8 +108,9 @@ abstract class DataModel_Definition_Property extends BaseObject implements Form_
 		$this->data_model_class_name = (string)$data_model_class_name;
 		$this->name = $name;
 
-		$this->setUp( $definition_data );
-
+		if( $definition_data ) {
+			$this->setUp( $definition_data );
+		}
 	}
 
 	/**

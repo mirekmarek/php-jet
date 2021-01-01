@@ -292,17 +292,17 @@ class Client
 	}
 
 	/**
-	 * @return string
+	 * @return string|array
 	 */
-	public function requestBody() : string
+	public function requestBody() : string|array
 	{
 		return $this->request_body;
 	}
 
 	/**
-	 * @return array
+	 * @return array|null
 	 */
-	public function requestData() : array
+	public function requestData() : array|null
 	{
 		return $this->request_data;
 	}

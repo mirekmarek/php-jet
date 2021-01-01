@@ -81,6 +81,9 @@ class Gallery_Localized extends DataModel_Related_1toN
 		parent::__construct();
 		if($gallery_id) {
 			$this->gallery_id = $gallery_id;
+		}
+
+		if($locale) {
 			$this->locale = $locale;
 		}
 	}

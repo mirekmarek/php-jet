@@ -69,7 +69,7 @@ class DataModel_Definition_Property_Int extends Jet_DataModel_Definition_Propert
 		$setter = $class->createMethod('set'.$s_g_method_name);
 		$setter->addParameter( 'value' )
 			->setType('int');
-		$setter->line( 1, '$this->'.$this->getName().' = (int)$value;' );
+		$setter->line( 1, '$this->'.$this->getName().' = $value;' );
 
 
 		$getter = $class->createMethod('get'.$s_g_method_name);

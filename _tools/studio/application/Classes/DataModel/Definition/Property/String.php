@@ -91,7 +91,7 @@ class DataModel_Definition_Property_String extends Jet_DataModel_Definition_Prop
 		$setter = $class->createMethod('set'.$s_g_method_name);
 		$setter->addParameter( 'value' )
 			->setType('string');
-		$setter->line( 1, '$this->'.$this->getName().' = (string)$value;' );
+		$setter->line( 1, '$this->'.$this->getName().' = $value;' );
 
 
 		$getter = $class->createMethod('get'.$s_g_method_name);

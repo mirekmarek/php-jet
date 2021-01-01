@@ -306,9 +306,12 @@ trait DataModel_Definition_Property_Trait
 			!is_array($_callback) ||
 			!isset($_callback[1])
 		) {
-			$_callback = ['', ''];
+			$_callback = ['self::class', ''];
 		}
 
+		if($_callback[0]==DataModels::getCurrentClassName()) {
+			$_callback[0] = 'self::class';
+		}
 
 		$form_field_get_select_options_callback_filed_class_name = new Form_Field_Input('form_field_get_select_options_callback_class_name', 'Select options callback:', $_callback[0]);
 		$form_field_get_select_options_callback_filed_method = new Form_Field_Input('form_field_get_select_options_callback_method', '', $_callback[1]);
@@ -428,6 +431,8 @@ trait DataModel_Definition_Property_Trait
 	public function showEditForm() : void
 	{
 		$form = $this->getEditForm();
+		$form->setDefaultLabelWidth( [ Form::LJ_SIZE_MEDIUM => 3 ] );
+		$form->setDefaultFieldWidth( [ Form::LJ_SIZE_MEDIUM => 9 ] );
 
 		echo $form->start();
 
@@ -543,13 +548,15 @@ trait DataModel_Definition_Property_Trait
 				<?=$field_class_name->row()->start()?>
 				<?=$field_class_name->label()?>
 				<?=$field_class_name->error()?>
-				<div class="input-group" style="padding-left: 15px;margin-right: 15px;">
-					<span class="input-group-prepend"><span class="input-group-text"> </span></span>
-					<?=$field_class_name->input()?>
-					<span class="input-group-prepend"><span class="input-group-text">::</span></span>
-					<?=$field_method->input()?>
-					<span class="input-group-append"><span class="input-group-text">()</span></span>
-				</div>
+					<div class="col-md-9">
+						<div class="input-group" style="padding-left: 15px;margin-right: 15px;">
+							<span class="input-group-prepend"><span class="input-group-text"> </span></span>
+							<?=$field_class_name->input()?>
+							<span class="input-group-prepend"><span class="input-group-text">::</span></span>
+							<?=$field_method->input()?>
+							<span class="input-group-append"><span class="input-group-text">()</span></span>
+						</div>
+					</div>
 				<?=$field_class_name->row()->end()?>
 				<?php
 
@@ -877,9 +884,9 @@ trait DataModel_Definition_Property_Trait
 	}
 
 	/**
-	 * @param ?callable $form_field_get_select_options_callback
+	 * @param callable|array|null $form_field_get_select_options_callback
 	 */
-	public function setFormFieldGetSelectOptionsCallback( ?callable $form_field_get_select_options_callback ) : void
+	public function setFormFieldGetSelectOptionsCallback( callable|array|null $form_field_get_select_options_callback ) : void
 	{
 		$this->form_field_get_select_options_callback = $form_field_get_select_options_callback;
 	}

@@ -23,10 +23,6 @@ use JetApplication\Application_Web;
 /**
  *
  */
-
-
-
-
 #[DataModel_Definition(
 	name: 'article',
 	database_table_name: 'articles',
@@ -82,7 +78,6 @@ class Article extends DataModel
 	 * @var ?Form
 	 */
 	protected ?Form $_form_delete = null;
-
 
 	/**
 	 *
