@@ -187,6 +187,20 @@ class Installer_CompatibilityTester
 	/**
 	 *
 	 */
+	public function test_MBStringExtension() : void
+	{
+		$this->test(
+			Tr::_('Multibyte String extension'),
+			Tr::_('PHP Multibyte String extension must be activated'),
+			function() {
+				return extension_loaded( 'mbstring' );
+			}
+		);
+	}
+
+	/**
+	 *
+	 */
 	public function test_INTLExtension() : void
 	{
 		$this->test(

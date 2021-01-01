@@ -14,11 +14,6 @@ use Jet\Mvc_Controller_Default;
  */
 class Controller_Main extends Mvc_Controller_Default
 {
-	/**
-	 *
-	 * @var Main
-	 */
-	protected $module = null;
 
 	/**
 	 *
