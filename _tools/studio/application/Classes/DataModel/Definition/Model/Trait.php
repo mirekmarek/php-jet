@@ -941,6 +941,22 @@ trait DataModel_Definition_Model_Trait {
 
 			Application::resetOPCache();
 
+			if(!$this instanceof DataModel_Definition_Model_Main) {
+				DataModels::load(true);
+
+				$parent_class_name = $this->getRelevantParentModel()->getClassName();
+				$parent_class = DataModels::getClass( $parent_class_name );
+
+				$property = new DataModel_Definition_Property_DataModel( $parent_class_name, $this->getModelName() );
+
+				$property->setDataModelClass( $class->getFullName() );
+
+				if(!$property->add( $parent_class )) {
+					return false;
+				}
+			}
+
+
 		} catch( Exception $e ) {
 			$ok = false;
 			Application::handleError( $e );

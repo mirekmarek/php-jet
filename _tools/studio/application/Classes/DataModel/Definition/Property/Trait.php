@@ -111,12 +111,13 @@ trait DataModel_Definition_Property_Trait
 				Form_Field_Input::ERROR_CODE_INVALID_FORMAT => 'Invalid property name format'
 			]);
 			$name_field->setCatcher( function( $value ) {
-				$this->name = $value;
+				//$this->name = $value;
 			} );
 			$old_name = $this->getName();
 			$name_field->setValidator( function( Form_Field_Input $field ) use ($old_name) {
 				return DataModel_Definition_Property::checkPropertyName( $field, $old_name );
 			} );
+			$name_field->setIsReadonly( true );
 
 
 			$type_field = new Form_Field_Select('type', 'Type:', $this->getType());

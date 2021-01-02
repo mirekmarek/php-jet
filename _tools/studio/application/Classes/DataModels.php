@@ -99,10 +99,15 @@ class DataModels extends BaseObject implements Application_Part
 
 
 	/**
+	 * @param bool $reload
 	 * @return DataModel_Class[]
 	 */
-	public static function load() : array
+	public static function load( bool $reload=false ) : array
 	{
+		if($reload) {
+			static::$classes = null;
+		}
+
 		if(static::$classes===null) {
 			static::$classes = [];
 

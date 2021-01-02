@@ -44,6 +44,14 @@ class DataModel_Definition_Property_DataModel extends Jet_DataModel_Definition_P
 	}
 
 	/**
+	 * @param string $class
+	 */
+	public function setDataModelClass( string $class ) : void
+	{
+		$this->data_model_class = $class;
+	}
+
+	/**
 	 *
 	 */
 	public function showEditFormFields() : void
