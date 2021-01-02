@@ -37,7 +37,7 @@ if( ($new_model=$class_name::catchCreateForm()) ) {
 
 		UI_messages::success(
 			Tr::_('Class <strong>%class%</strong> has been created',[
-				'property' => $new_model->getClassName()
+				'class' => $new_model->getClassName()
 			])
 		);
 

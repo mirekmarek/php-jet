@@ -457,11 +457,11 @@ class ClassCreator_Class extends BaseObject {
 		}
 
 		foreach( $this->properties as $property ) {
-			$res .= $property.$nl;
+			$res .= $nl.$property.$nl;
 		}
 
 		foreach( $this->methods as $method ) {
-			$res .= $method->toString( $ident, $nl ).$nl;
+			$res .= $nl.$method->toString( $ident, $nl ).$nl;
 
 		}
 		$res .= '}'.$nl;

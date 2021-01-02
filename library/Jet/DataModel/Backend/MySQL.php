@@ -515,7 +515,9 @@ class DataModel_Backend_MySQL extends DataModel_Backend
 	 */
 	public function transactionRollback() : void
 	{
-		$this->getDbWrite()->rollBack();
+		if($this->getDbWrite()->inTransaction()) {
+			$this->getDbWrite()->rollBack();
+		}
 	}
 
 	/**
@@ -523,7 +525,9 @@ class DataModel_Backend_MySQL extends DataModel_Backend
 	 */
 	public function transactionCommit() : void
 	{
-		$this->getDbWrite()->commit();
+		if($this->getDbWrite()->inTransaction()) {
+			$this->getDbWrite()->commit();
+		}
 	}
 
 	/**
