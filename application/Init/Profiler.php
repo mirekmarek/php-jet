@@ -4,6 +4,7 @@ use Jet\Debug;
 use Jet\Debug_Profiler;
 use Jet\Debug_Profiler_Run;
 use Jet\SysConf_PATH;
+use Jet\SysConf_Cache;
 use Jet\SysConf_Jet;
 
 if( SysConf_Jet::DEBUG_PROFILER_ENABLED() ) {
@@ -77,22 +78,15 @@ if( SysConf_Jet::DEBUG_PROFILER_ENABLED() ) {
 				$memory = $root_block->getMemoryUsageDiff()/1024;
 
 				$show_cache_state = function( $title, $cache_name ) {
-					$getter_name = 'CACHE_'.$cache_name.'_LOAD';
-					$load = SysConf_Jet::$getter_name();
 
-					$getter_name = 'CACHE_'.$cache_name.'_SAVE';
-					$save = SysConf_Jet::$getter_name();
+					$getter_name = 'is'.$cache_name.'';
+					$state = SysConf_Cache::$getter_name();
 					?>
 					<tr>
 						<td colspan="2" style="font-weight: bolder"><?=$title?></td>
 					</tr>
-					<tr style="background-color: <?=($load?'#009900':'#990000')?>">
-						<td>Load:</td>
-						<td><?=($load?'yes':'no')?></td>
-					</tr>
-					<tr style="background-color: <?=($save?'#009900':'#990000')?>">
-						<td>Save:</td>
-						<td><?=($save?'yes':'no')?></td>
+					<tr style="background-color: <?=($state?'#009900':'#990000')?>">
+						<td><?=($state?'yes':'no')?></td>
 					</tr>
 					<?php
 				};
@@ -111,12 +105,8 @@ if( SysConf_Jet::DEBUG_PROFILER_ENABLED() ) {
 					<div id="__profiler__cache_state" style="display: none"><b>Cache settings</b>
 						<table style="margin: 10px;">
 							<?php
-							$show_cache_state('Autoloader', 'AUTOLOADER');
-							$show_cache_state('Reflection', 'REFLECTION');
-							$show_cache_state('DataModel Definition', 'DATAMODEL_DEFINITION');
-							$show_cache_state('Config Definition', 'CONFIG_DEFINITION');
-							$show_cache_state('MVC - Sites', 'MVC_SITE');
-							$show_cache_state('MVC - Pages', 'MVC_PAGE');
+							$show_cache_state('Autoloader', 'AUTOLOADER_ENABLED');
+							$show_cache_state('MVC', 'MVC_ENABLED');
 							?>
 						</table>
 					</div>

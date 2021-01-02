@@ -14,7 +14,7 @@ use Jet\SysConf_PATH;
 
 //Debug_Profiler::blockStart('INIT - Autoloader');
 
-require SysConf_PATH::LIBRARY().'Jet/Autoloader.php';
+require_once SysConf_PATH::LIBRARY().'Jet/Autoloader.php';
 
 
 Autoloader::initialize();

@@ -10,31 +10,14 @@ namespace Jet;
 require_once 'Exception.php';
 require_once 'Autoloader/Exception.php';
 require_once 'Autoloader/Loader.php';
+require_once 'Autoloader/Cache.php';
+require_once 'Autoloader/Cache/Backend.php';
 
 /**
  *
  */
 class Autoloader
 {
-	/**
-	 * @var bool
-	 */
-	protected static bool $cache_save_enabled = false;
-
-	/**
-	 * @var bool
-	 */
-	protected static bool $cache_load_enabled = false;
-
-	/**
-	 * @var callable
-	 */
-	protected static $cache_loader;
-
-	/**
-	 * @var callable
-	 */
-	protected static $cache_saver;
 
 	/**
 	 *
@@ -49,49 +32,15 @@ class Autoloader
 
 	/**
 	 *
-	 * @var array
+	 * @var ?array
 	 */
-	protected static array $classes_paths_map = [];
+	protected static ?array $class_path_map = null;
 
 	/**
 	 *
 	 * @var bool
 	 */
-	protected static bool $classes_paths_map_updated = false;
-
-	/**
-	 * @return bool
-	 */
-	public static function getCacheSaveEnabled() : bool
-	{
-		return static::$cache_save_enabled && static::$cache_saver;
-	}
-
-	/**
-	 * @return bool
-	 */
-	public static function getCacheLoadEnabled() : bool
-	{
-		return static::$cache_load_enabled && static::$cache_loader;
-	}
-
-	/**
-	 * @param callable $cache_loader
-	 */
-	public static function enableCacheLoad( callable $cache_loader ) : void
-	{
-		static::$cache_load_enabled = true;
-		static::$cache_loader = $cache_loader;
-	}
-
-	/**
-	 * @param callable $cache_saver
-	 */
-	public static function enableCacheSave( callable $cache_saver ) : void
-	{
-		static::$cache_save_enabled = true;
-		static::$cache_saver = $cache_saver;
-	}
+	protected static bool $save_class_map = false;
 
 
 	/**
@@ -104,54 +53,11 @@ class Autoloader
 			return;
 		}
 
-		if(
-			static::getCacheLoadEnabled() &&
-			static::$cache_loader
-		) {
-			$loader = static::$cache_loader;
-
-			$data = $loader();
-
-			if(is_array($data)) {
-				static::$classes_paths_map = $data;
-			}
-		}
-
-		$classes_paths_map_updated = &static::$classes_paths_map_updated;
-		$classes_paths_map = &static::$classes_paths_map;
-		$cache_save_enabled = &static::$cache_save_enabled;
-		$cache_saver = &static::$cache_saver;
-
-
-		register_shutdown_function(
-			function() use (&$classes_paths_map_updated, &$classes_paths_map, &$cache_save_enabled, &$cache_saver) {
-
-				if(
-					$classes_paths_map_updated &&
-					$cache_save_enabled &&
-					$cache_saver
-				) {
-					$cache_saver($classes_paths_map);
-				}
-			}
-		);
-
-
 		static::$is_initialized = true;
-
 
 		spl_autoload_register( [ __NAMESPACE__.'\Autoloader', 'load' ], true, true );
 
 	}
-	/**
-	 *
-	 * @return bool
-	 */
-	public static function getIsInitialized() : bool
-	{
-		return static::$is_initialized;
-	}
-
 
 	/**
 	 *
@@ -162,14 +68,27 @@ class Autoloader
 	public static function load( string $class_name ) : void
 	{
 
+		if(static::$class_path_map===null) {
+
+			$data = Autoloader_Cache::load();
+
+			if(is_array($data)) {
+				static::$class_path_map = $data;
+			} else {
+				static::$class_path_map = [];
+			}
+
+		}
+
+
 		$path = false;
 
 		$loader_name = '';
 
 		$cache_hit = false;
 
-		if( isset( static::$classes_paths_map[$class_name] ) ) {
-			$path = static::$classes_paths_map[$class_name];
+		if( isset( static::$class_path_map[$class_name] ) ) {
+			$path = static::$class_path_map[$class_name];
 			$loader_name = 'CACHE';
 			$cache_hit = true;
 		} else {
@@ -218,8 +137,16 @@ class Autoloader
 		}
 
 		if( !$cache_hit ) {
-			static::$classes_paths_map_updated = true;
-			static::$classes_paths_map[$class_name] = $path;
+			if(!static::$save_class_map) {
+				register_shutdown_function(
+					function() {
+						Autoloader_Cache::save( static::$class_path_map );
+					}
+				);
+
+				static::$save_class_map = true;
+			}
+			static::$class_path_map[$class_name] = $path;
 		}
 
 	}
