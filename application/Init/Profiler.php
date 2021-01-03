@@ -110,6 +110,9 @@ if( SysConf_Jet::isDebugProfilerEnabled() ) {
 							<td><b>Cache state:</b></td>
 							<td><?php $show_cache_state('Autoloader', SysConf_Cache::isAutoloaderEnabled() ); ?></td>
 							<td><?php $show_cache_state('MVC', SysConf_Cache::isMvcEnabled() ); ?></td>
+							<td style="padding-left: 20px"><b>Packager state:</b></td>
+							<td><?php $show_cache_state('JS', SysConf_Jet::isJSPackagerEnabled() ); ?></td>
+							<td><?php $show_cache_state('CSS', SysConf_Jet::isCSSPackagerEnabled() ); ?></td>
 						</tr>
 					</table>
 
