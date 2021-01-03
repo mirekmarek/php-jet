@@ -4,7 +4,7 @@ return [
 	'PHP version' => 'Verze PHP',
 	'PHP %VERSION% or newer is required' => 'Je vyžadována verze PHP %VERSION%, nebo novější',
 	'PHP version: ' => 'Verze PHP: ',
-	'PDO extension' => 'PHP rozšíření',
+	'PDO extension' => 'PDO rozšíření',
 	'PHP PDO extension must be activated' => 'PHP PDO rozšíření musí být aktivní',
 	'$_SERVER["REQUEST_URI"] value' => 'hodnota $_SERVER["REQUEST_URI"]',
 	'PHP $_SERVER["REQUEST_URI"] value must be available' => 'PHP hodnota $_SERVER["REQUEST_URI"] musí být k dispozici',
