@@ -65,7 +65,7 @@ class Modules_Manifest extends Application_Module_Manifest
 		$ok = true;
 		try {
 			$this->create_saveManifest();
-			Mvc_Cache::invalidate();
+			Mvc_Cache::reset();
 		} catch( Exception $e ) {
 			$ok = false;
 			Application::handleError( $e );

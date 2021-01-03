@@ -27,13 +27,27 @@ class Mvc_Cache
 		static::$backend = $backend;
 	}
 
+
+	/**
+	 * @return bool
+	 */
+	public static function isActive() : bool
+	{
+		if(!static::$backend) {
+			return false;
+		}
+
+		return static::$backend->isActive();
+	}
+
+
 	/**
 	 *
 	 */
-	public static function invalidate() : void
+	public static function reset() : void
 	{
 		if(static::$backend) {
-			static::$backend->invalidate();
+			static::$backend->reset();
 		}
 	}
 

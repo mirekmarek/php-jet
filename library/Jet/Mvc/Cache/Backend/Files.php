@@ -25,6 +25,15 @@ class Mvc_Cache_Backend_Files implements Mvc_Cache_Backend {
 		return SysConf_PATH::CACHE().'mvc_'.$entity.'.php';
 	}
 
+
+	/**
+	 * @return bool
+	 */
+	public function isActive() : bool
+	{
+		return SysConf_Cache::isMvcEnabled();
+	}
+
 	/**
 	 * @param string $entity
 	 * @return array|null
@@ -73,7 +82,7 @@ class Mvc_Cache_Backend_Files implements Mvc_Cache_Backend {
 	/**
 	 *
 	 */
-	public function invalidate(): void
+	public function reset(): void
 	{
 		$files = IO_Dir::getFilesList(SysConf_PATH::CACHE(), 'mvc_*.php');
 

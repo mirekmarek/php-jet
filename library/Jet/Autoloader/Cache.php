@@ -28,6 +28,18 @@ class Autoloader_Cache
 	}
 
 	/**
+	 * @return bool
+	 */
+	public static function isActive() : bool
+	{
+		if(!static::$backend) {
+			return false;
+		}
+
+		return static::$backend->isActive();
+	}
+
+	/**
 	 * @return array|null
 	 */
 	public static function load() : array|null
@@ -52,10 +64,10 @@ class Autoloader_Cache
 	/**
 	 *
 	 */
-	public static function invalidate() : void
+	public static function reset() : void
 	{
 		if(static::$backend) {
-			static::$backend->invalidate();
+			static::$backend->reset();
 		}
 	}
 }

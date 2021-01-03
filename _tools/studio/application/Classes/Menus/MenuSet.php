@@ -330,7 +330,7 @@ class Menus_MenuSet extends Navigation_MenuSet
 			$res = new Data_Array($res);
 
 			IO_File::write( $this->config_file_path, '<?php return '.$res->export() );
-			Mvc_Cache::invalidate();
+			Mvc_Cache::reset();
 
 		} catch( Exception $e ) {
 			$ok = false;

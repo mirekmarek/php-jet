@@ -19,10 +19,19 @@ class Autoloader_Cache_Backend_Files implements Autoloader_Cache_Backend {
 	/**
 	 * @return string
 	 */
-	public static function getPath() : string
+	public function getPath() : string
 	{
 		return SysConf_PATH::CACHE().'autoloader_class_map.php';
 	}
+
+	/**
+	 * @return bool
+	 */
+	public function isActive() : bool
+	{
+		return SysConf_Cache::isAutoloaderEnabled();
+	}
+	
 
 	/**
 	 *
@@ -34,7 +43,7 @@ class Autoloader_Cache_Backend_Files implements Autoloader_Cache_Backend {
 			return null;
 		}
 
-		$file_path = static::getPath();
+		$file_path = $this->getPath();
 
 		if(
 			!is_file( $file_path ) ||
@@ -56,7 +65,7 @@ class Autoloader_Cache_Backend_Files implements Autoloader_Cache_Backend {
 			return;
 		}
 
-		$file_path = static::getPath();
+		$file_path = $this->getPath();
 
 		file_put_contents(
 			$file_path,
@@ -71,9 +80,9 @@ class Autoloader_Cache_Backend_Files implements Autoloader_Cache_Backend {
 	/**
 	 *
 	 */
-	public function invalidate() : void
+	public function reset() : void
 	{
-		$file_path = static::getPath();
+		$file_path = $this->getPath();
 
 		if(file_exists($file_path)) {
 			unlink($file_path);

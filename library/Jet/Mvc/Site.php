@@ -641,7 +641,7 @@ class Mvc_Site extends BaseObject implements Mvc_Site_Interface
 			'<?php'.PHP_EOL.'return '.(new Data_Array( $data ))->export()
 		);
 
-		Mvc_Cache::invalidate();
+		Mvc_Cache::reset();
 	}
 
 	/**

@@ -77,39 +77,42 @@ if( SysConf_Jet::DEBUG_PROFILER_ENABLED() ) {
 				$duration = round($root_block->getDuration()*1000, 2);
 				$memory = $root_block->getMemoryUsageDiff()/1024;
 
-				$show_cache_state = function( $title, $cache_name ) {
-
-					$getter_name = 'is'.$cache_name.'';
-					$state = SysConf_Cache::$getter_name();
+				$show_cache_state = function( string $title, bool $state ) {
 					?>
+					<table>
 					<tr>
-						<td colspan="2" style="font-weight: bolder"><?=$title?></td>
+						<td colspan="2"><?=$title?></td>
+						<td style="background-color: <?=($state?'#009900':'#990000')?>"><?=($state?'yes':'no')?></td>
 					</tr>
-					<tr style="background-color: <?=($state?'#009900':'#990000')?>">
-						<td><?=($state?'yes':'no')?></td>
-					</tr>
+					</table>
 					<?php
 				};
 
 				?>
-				<div id="__profiler__" style="position: fixed; bottom: 0px;left: 0px;background-color: #c9c9c9;padding: 10px;font-family: Helvetica, Arial, sans-serif;border: 1px inset #ffffff;font-size:14px;">
-				<span onclick="document.getElementById('__profiler__').style.display='none';">X</span>&nbsp;&nbsp;&nbsp;
-					<a href="<?=$URL?>" target="_blank" style="text-decoration: underline;font-weight: bolder;color: #000000;">PROFILER</a>
-					&nbsp;&nbsp;&nbsp;
-					Duration: <b><?=$duration?> ms</b>
-					&nbsp;&nbsp;&nbsp;
-					Memory: <b><?=$memory?> Kib</b>
-					&nbsp;&nbsp;&nbsp;
-					SQL queries count: <b><?=count($run->getSqlQueries())?></b>
-					&nbsp;&nbsp;&nbsp;
-					<div id="__profiler__cache_state" style="display: none"><b>Cache settings</b>
-						<table style="margin: 10px;">
-							<?php
-							$show_cache_state('Autoloader', 'AUTOLOADER_ENABLED');
-							$show_cache_state('MVC', 'MVC_ENABLED');
-							?>
-						</table>
-					</div>
+				<div id="__profiler__" style="position: fixed; bottom: 0px;left: 0px;background-color: #c9c9c9;padding: 5px;font-family: Helvetica, Arial, sans-serif;border: 1px inset #ffffff;font-size:14px;">
+					<table>
+						<tr>
+							<td style="padding-right: 20px;">
+								<span onclick="document.getElementById('__profiler__').style.display='none';">X</span>
+							</td>
+							<td style="padding-right: 20px;">
+								<a href="<?=$URL?>" target="_blank" style="text-decoration: underline;font-weight: bolder;color: #000000;">PROFILER</a>
+							</td>
+							<td style="padding-right: 20px;">
+								Duration: <b><?=$duration?> ms</b>
+							</td>
+							<td style="padding-right: 20px;">
+								Memory: <b><?=$memory?> Kib</b>
+							</td>
+							<td style="padding-right: 20px;">
+								SQL queries count: <b><?=count($run->getSqlQueries())?></b>
+							</td>
+							<td><b>Cache state:</b></td>
+							<td><?php $show_cache_state('Autoloader', SysConf_Cache::isAutoloaderEnabled() ); ?></td>
+							<td><?php $show_cache_state('MVC', SysConf_Cache::isMvcEnabled() ); ?></td>
+						</tr>
+					</table>
+
 
 				</div>
 				<?php

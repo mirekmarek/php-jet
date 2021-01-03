@@ -14,9 +14,14 @@ interface Mvc_Cache_Backend
 {
 
 	/**
+	 * @return bool
+	 */
+	public function isActive() : bool;
+
+	/**
 	 *
 	 */
-	public function invalidate() : void;
+	public function reset() : void;
 
 	/**
 	 * @return array|null

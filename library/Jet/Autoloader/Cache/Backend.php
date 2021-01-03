@@ -13,6 +13,11 @@ namespace Jet;
 interface Autoloader_Cache_Backend
 {
 	/**
+	 * @return bool
+	 */
+	public function isActive() : bool;
+
+	/**
 	 * @return array|null
 	 */
 	public function load() : array|null;
@@ -25,6 +30,6 @@ interface Autoloader_Cache_Backend
 	/**
 	 *
 	 */
-	public function invalidate() : void;
+	public function reset() : void;
 
 }

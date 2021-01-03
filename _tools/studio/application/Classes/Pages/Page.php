@@ -980,7 +980,7 @@ class Pages_Page extends Mvc_Page
 			'<?php'.PHP_EOL.'return '.(new Data_Array( $data ))->export()
 		);
 
-		Mvc_Cache::invalidate();
+		Mvc_Cache::reset();
 	}
 
 	/**
