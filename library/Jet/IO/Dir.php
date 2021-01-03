@@ -20,26 +20,26 @@ class IO_Dir
 	 *
 	 * @var ?int
 	 */
-	protected static ?int $default_chmod_mask = null;
+	protected static ?int $default_mod = null;
 
 	/**
 	 * @return int
 	 */
-	public static function getDefaultChmodMask() : int
+	public static function getMod() : int
 	{
-		if( static::$default_chmod_mask===null ) {
-			static::$default_chmod_mask = SysConf_Jet::IO_CHMOD_MASK_DIR();
+		if( static::$default_mod===null ) {
+			static::$default_mod = SysConf_Jet::getIOModDir();
 		}
 
-		return static::$default_chmod_mask;
+		return static::$default_mod;
 	}
 
 	/**
 	 * @param int $default_chmod_mask
 	 */
-	public static function setDefaultChmodMask( int $default_chmod_mask )
+	public static function setDefaultMod( int $default_chmod_mask )
 	{
-		static::$default_chmod_mask = $default_chmod_mask;
+		static::$default_mod = $default_chmod_mask;
 	}
 
 
@@ -197,7 +197,7 @@ class IO_Dir
 		$create = array_reverse( $create );
 
 		foreach( $create as $dir_path ) {
-			if( !mkdir( $dir_path, self::getDefaultChmodMask(), true ) ) {
+			if( !mkdir( $dir_path, self::getMod(), true ) ) {
 				$error = static::_getLastError();
 
 				throw new IO_Dir_Exception(
@@ -206,7 +206,7 @@ class IO_Dir
 				);
 			}
 
-			chmod( $dir_path, self::getDefaultChmodMask() );
+			chmod( $dir_path, self::getMod() );
 		}
 	}
 

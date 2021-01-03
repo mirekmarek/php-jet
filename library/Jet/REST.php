@@ -368,7 +368,7 @@ class REST extends BaseObject
 
 		Http_Headers::sendHeader( 'HTTP/1.1 '.$http_code.' '.$http_message, true, $http_code );
 
-		Http_Headers::sendHeader( 'Content-type:application/json;charset='.SysConf_Jet::CHARSET() );
+		Http_Headers::sendHeader( 'Content-type:application/json;charset='.SysConf_Jet::getCharset() );
 
 		foreach( $http_headers as $header => $header_value ) {
 			Http_Headers::sendHeader( $header.': '.$header_value );

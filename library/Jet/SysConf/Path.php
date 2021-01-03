@@ -5,12 +5,13 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
-namespace JetStudio;
+namespace Jet;
 
+//TODO: aktualizovat konvenci ...
 /**
- *
+ * 
  */
-class ProjectConf_PATH {
+class SysConf_Path {
 	/**
 	 * @var string
 	 */
@@ -18,7 +19,15 @@ class ProjectConf_PATH {
 	/**
 	 * @var string
 	 */
+	protected static string $LIBRARY = '';
+	/**
+	 * @var string
+	 */
 	protected static string $SITES  =  '';
+	/**
+	 * @var string
+	 */
+	protected static string $MENUS  =  '';
 	/**
 	 * @var string
 	 */
@@ -40,17 +49,6 @@ class ProjectConf_PATH {
 	 * @var string
 	 */
 	protected static string $APPLICATION =  '';
-	
-	/**
-	 * @var string
-	 */
-	protected static string $APPLICATION_CLASSES =  '';
-
-	/**
-	 * @var string
-	 */
-	protected static string $APPLICATION_MODULES =  '';
-	
 	/**
 	 * @var string
 	 */
@@ -65,18 +63,13 @@ class ProjectConf_PATH {
 	protected static string $DICTIONARIES = '';
 
 	/**
-	 * @var string 
-	 */
-	protected static string $TEMPLATES = '';
-
-	/**
 	 * @param string $what
-	 * @throws ProjectConf_PATH_Exception
+	 * @throws SysConf_Path_Exception
 	 */
-	protected static function _check( string $what )
+	protected static function _check( string $what ) : void
 	{
 		if(!static::$$what) {
-			throw new ProjectConf_PATH_Exception('PATH '.$what.' is not set');
+			throw new SysConf_Path_Exception('Path '.$what.' is not set');
 		}
 	}
 
@@ -100,6 +93,23 @@ class ProjectConf_PATH {
 	/**
 	 * @return string
 	 */
+	public static function LIBRARY() : string
+	{
+		static::_check('LIBRARY');
+		return static::$LIBRARY;
+	}
+
+	/**
+	 * @param string $LIBRARY
+	 */
+	public static function setLIBRARY( string $LIBRARY ) : void
+	{
+		static::$LIBRARY = $LIBRARY;
+	}
+
+	/**
+	 * @return string
+	 */
 	public static function SITES() : string
 	{
 		static::_check('SITES');
@@ -113,6 +123,25 @@ class ProjectConf_PATH {
 	{
 		static::$SITES = $SITES;
 	}
+
+
+	/**
+	 * @return string
+	 */
+	public static function MENUS() : string
+	{
+		static::_check('MENUS');
+		return static::$MENUS;
+	}
+
+	/**
+	 * @param string $MENUS
+	 */
+	public static function setMENUS( string $MENUS ) : void
+	{
+		static::$MENUS = $MENUS;
+	}
+
 
 	/**
 	 * @return string
@@ -202,41 +231,6 @@ class ProjectConf_PATH {
 	/**
 	 * @return string
 	 */
-	public static function APPLICATION_CLASSES() : string
-	{
-		static::_check('APPLICATION_CLASSES');
-		return static::$APPLICATION_CLASSES;
-	}
-
-	/**
-	 * @param string $APPLICATION_CLASSES
-	 */
-	public static function setAPPLICATION_CLASSES( string $APPLICATION_CLASSES ) : void
-	{
-		static::$APPLICATION_CLASSES = $APPLICATION_CLASSES;
-	}
-
-
-	/**
-	 * @return string
-	 */
-	public static function APPLICATION_MODULES() : string
-	{
-		static::_check('APPLICATION_MODULES');
-		return static::$APPLICATION_MODULES;
-	}
-
-	/**
-	 * @param string $APPLICATION_MODULES
-	 */
-	public static function setAPPLICATION_MODULES( string $APPLICATION_MODULES ) : void
-	{
-		static::$APPLICATION_MODULES = $APPLICATION_MODULES;
-	}
-
-	/**
-	 * @return string
-	 */
 	public static function CONFIG() : string
 	{
 		static::_check('CONFIG');
@@ -285,22 +279,6 @@ class ProjectConf_PATH {
 		static::$DICTIONARIES = $DICTIONARIES;
 	}
 
-	/**
-	 * @return string
-	 */
-	public static function TEMPLATES() : string
-	{
-		static::_check('TEMPLATES');
-		return static::$TEMPLATES;
-	}
-
-	/**
-	 * @param string $TEMPLATES
-	 */
-	public static function setTEMPLATES( string $TEMPLATES ) : void
-	{
-		static::$TEMPLATES = $TEMPLATES;
-	}
 
 
 }

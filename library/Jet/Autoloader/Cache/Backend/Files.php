@@ -7,9 +7,9 @@
  */
 namespace Jet;
 
-require_once SysConf_PATH::LIBRARY().'Jet/Cache.php';
-require_once SysConf_PATH::LIBRARY().'Jet/Autoloader/Cache.php';
-require_once SysConf_PATH::LIBRARY().'Jet/Autoloader/Cache/Backend.php';
+require_once SysConf_Path::LIBRARY().'Jet/Cache.php';
+require_once SysConf_Path::LIBRARY().'Jet/Autoloader/Cache.php';
+require_once SysConf_Path::LIBRARY().'Jet/Autoloader/Cache/Backend.php';
 
 
 /**
@@ -21,7 +21,7 @@ class Autoloader_Cache_Backend_Files implements Autoloader_Cache_Backend {
 	 */
 	public function getPath() : string
 	{
-		return SysConf_PATH::CACHE().'autoloader_class_map.php';
+		return SysConf_Path::CACHE().'autoloader_class_map.php';
 	}
 
 	/**
@@ -72,7 +72,7 @@ class Autoloader_Cache_Backend_Files implements Autoloader_Cache_Backend {
 			'<?php return '.var_export( $map, true ).';'
 		);
 		/** @noinspection PhpUsageOfSilenceOperatorInspection */
-		@chmod( $file_path, SysConf_Jet::IO_CHMOD_MASK_FILE());
+		@chmod( $file_path, SysConf_Jet::getIOModFile());
 
 		Cache::resetOPCache();
 	}

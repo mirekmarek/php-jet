@@ -8,7 +8,7 @@
 namespace JetApplication\Installer;
 
 use Jet\IO_Dir;
-use Jet\SysConf_PATH;
+use Jet\SysConf_Path;
 
 use JetApplication\Application_Admin;
 use JetApplication\Application_Web;
@@ -41,39 +41,39 @@ class Installer_Step_DirsCheck_Controller extends Installer_Step_Controller
 		$this->catchContinue();
 
 		$dirs = [
-			SysConf_PATH::DATA()                                     => [
+			SysConf_Path::DATA()                                     => [
 				'is_required'  => true,
 				'is_writeable' => false,
 			],
-			SysConf_PATH::TMP()                                      => [
+			SysConf_Path::TMP()                                      => [
 				'is_required'  => true,
 				'is_writeable' => false,
 			],
-			SysConf_PATH::CACHE()                                    => [
+			SysConf_Path::CACHE()                                    => [
 				'is_required'  => true,
 				'is_writeable' => false,
 			],
-			SysConf_PATH::LOGS()                                     => [
+			SysConf_Path::LOGS()                                     => [
 				'is_required'  => true,
 				'is_writeable' => false,
 			],
-			SysConf_PATH::SITES().Application_Admin::getSiteId().'/' => [
+			SysConf_Path::SITES().Application_Admin::getSiteId().'/' => [
 				'is_required'  => true,
 				'is_writeable' => false,
 			],
-			SysConf_PATH::SITES().Application_Web::getSiteId().'/'   => [
+			SysConf_Path::SITES().Application_Web::getSiteId().'/'   => [
 				'is_required'  => true,
 				'is_writeable' => false,
 			],
-			SysConf_PATH::SITES().Application_REST::getSiteId().'/'  => [
+			SysConf_Path::SITES().Application_REST::getSiteId().'/'  => [
 				'is_required'  => true,
 				'is_writeable' => false,
 			],
-			SysConf_PATH::DICTIONARIES()                             => [
+			SysConf_Path::DICTIONARIES()                             => [
 				'is_required'  => true,
 				'is_writeable' => false,
 			],
-			SysConf_PATH::CONFIG()                                   => [
+			SysConf_Path::CONFIG()                                   => [
 				'is_required'  => false,
 				'is_writeable' => false,
 			],

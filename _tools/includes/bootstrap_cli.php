@@ -10,11 +10,11 @@ namespace Jet;
 
 $application_dir = dirname(dirname(__DIR__)) . '/application/';
 
-require_once($application_dir . 'config/PATH.php');
+require_once($application_dir . 'config/Path.php');
 require_once($application_dir . 'config/jet.php');
 
 
-$init_dir = SysConf_PATH::APPLICATION().'Init/';
+$init_dir = SysConf_Path::APPLICATION().'Init/';
 require( $init_dir.'Autoloader.php');
 require( $init_dir.'ClassNames.php' );
 

@@ -5,11 +5,13 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
-namespace Jet;
+namespace JetStudio;
+
+use Jet\Exception;
 
 /**
  *
  */
-class SysConf_PATH_Exception extends Exception
+class ProjectConf_Path_Exception extends Exception
 {
 }

@@ -66,7 +66,7 @@ class Sites extends BaseObject implements Application_Part
 			}
 		}
 
-		return SysConf_URI::BASE().'sites.php?'.http_build_query($get_params);
+		return SysConf_URI::getBase().'sites.php?'.http_build_query($get_params);
 	}
 
 

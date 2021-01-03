@@ -11,182 +11,182 @@ namespace Jet;
  * 
  */
 class SysConf_Jet {
-	protected static bool $DEVEL_MODE = false;
+	protected static bool $devel_mode = false;
 
-	protected static bool $DEBUG_PROFILER_ENABLED = false;
+	protected static bool $debug_profiler_enabled = false;
 
-	protected static bool $LAYOUT_CSS_PACKAGER_ENABLED = true;
-	protected static bool $LAYOUT_JS_PACKAGER_ENABLED = true;
+	protected static bool $CSS_packager_enabled = true;
+	protected static bool $JS_packager_enabled = true;
 
-	protected static bool $TRANSLATOR_AUTO_APPEND_UNKNOWN_PHRASE = true;
+	protected static bool $translator_auto_append_unknown_phrase = true;
 
-	protected static int $IO_CHMOD_MASK_DIR = 0777;
-	protected static int $IO_CHMOD_MASK_FILE = 0666;
+	protected static int $IO_mod_dir = 0777;
+	protected static int $IO_mod_file = 0666;
 
-	protected static bool $HIDE_HTTP_REQUEST = true;
+	protected static bool $hide_http_request = true;
 
-	protected static string $CHARSET = 'UTF-8';
+	protected static string $charset = 'UTF-8';
 
-	protected static string $TIMEZONE = 'Europe/Prague';
+	protected static string $timezone = '';
 
 	/**
 	 * @return bool
 	 */
-	public static function DEVEL_MODE() : bool
+	public static function isDevelMode() : bool
 	{
-		return self::$DEVEL_MODE;
+		return self::$devel_mode;
 	}
 
 	/**
 	 * @param bool $val
 	 */
-	public static function setDEVEL_MODE( bool $val ) : void
+	public static function setDevelMode( bool $val ) : void
 	{
-		self::$DEVEL_MODE = $val;
+		self::$devel_mode = $val;
 	}
 
 	/**
 	 * @return bool
 	 */
-	public static function DEBUG_PROFILER_ENABLED() : bool
+	public static function isDebugProfilerEnabled() : bool
 	{
-		return self::$DEBUG_PROFILER_ENABLED;
+		return self::$debug_profiler_enabled;
 	}
 
 	/**
 	 * @param bool $val
 	 */
-	public static function setDEBUG_PROFILER_ENABLED( bool $val ) : void
+	public static function setDebugProfilerEnabled( bool $val ) : void
 	{
-		self::$DEBUG_PROFILER_ENABLED = $val;
+		self::$debug_profiler_enabled = $val;
 	}
 
 	/**
 	 * @return bool
 	 */
-	public static function LAYOUT_CSS_PACKAGER_ENABLED() : bool
+	public static function isCSSPackagerEnabled() : bool
 	{
-		return self::$LAYOUT_CSS_PACKAGER_ENABLED;
+		return self::$CSS_packager_enabled;
 	}
 
 	/**
 	 * @param bool $val
 	 */
-	public static function setLAYOUT_CSS_PACKAGER_ENABLED( bool $val ) : void
+	public static function setCSSPackagerEnabled( bool $val ) : void
 	{
-		self::$LAYOUT_CSS_PACKAGER_ENABLED = $val;
+		self::$CSS_packager_enabled = $val;
 	}
 
 	/**
 	 * @return bool
 	 */
-	public static function LAYOUT_JS_PACKAGER_ENABLED() : bool
+	public static function isJSPackagerEnabled() : bool
 	{
-		return self::$LAYOUT_JS_PACKAGER_ENABLED;
+		return self::$JS_packager_enabled;
 	}
 
 	/**
 	 * @param bool $val
 	 */
-	public static function setLAYOUT_JS_PACKAGER_ENABLED( bool $val ) : void
+	public static function setJSPackagerEnabled( bool $val ) : void
 	{
-		self::$LAYOUT_JS_PACKAGER_ENABLED = $val;
+		self::$JS_packager_enabled = $val;
 	}
 
 	/**
 	 * @return bool
 	 */
-	public static function TRANSLATOR_AUTO_APPEND_UNKNOWN_PHRASE() : bool
+	public static function isTranslatorAutoAppendUnknownPhrase() : bool
 	{
-		return self::$TRANSLATOR_AUTO_APPEND_UNKNOWN_PHRASE;
+		return self::$translator_auto_append_unknown_phrase;
 	}
 
 	/**
 	 * @param bool $val
 	 */
-	public static function setTRANSLATOR_AUTO_APPEND_UNKNOWN_PHRASE( bool $val ) : void
+	public static function setTranslatorAutoAppendUnknownPhrase( bool $val ) : void
 	{
-		self::$TRANSLATOR_AUTO_APPEND_UNKNOWN_PHRASE = $val;
+		self::$translator_auto_append_unknown_phrase = $val;
 	}
 
 	/**
 	 * @return int
 	 */
-	public static function IO_CHMOD_MASK_DIR() : int
+	public static function getIOModDir() : int
 	{
-		return self::$IO_CHMOD_MASK_DIR;
+		return self::$IO_mod_dir;
 	}
 
 	/**
 	 * @param int $val
 	 */
-	public static function setIO_CHMOD_MASK_DIR( int $val ) : void
+	public static function setIOModDir( int $val ) : void
 	{
-		self::$IO_CHMOD_MASK_DIR = $val;
+		self::$IO_mod_dir = $val;
 	}
 
 	/**
 	 * @return int
 	 */
-	public static function IO_CHMOD_MASK_FILE() : int
+	public static function getIOModFile() : int
 	{
-		return self::$IO_CHMOD_MASK_FILE;
+		return self::$IO_mod_file;
 	}
 
 	/**
 	 * @param int $val
 	 */
-	public static function setIO_CHMOD_MASK_FILE( int $val ) : void
+	public static function setIOModFile( int $val ) : void
 	{
-		self::$IO_CHMOD_MASK_FILE = $val;
+		self::$IO_mod_file = $val;
 	}
 
 	/**
 	 * @return bool
 	 */
-	public static function HIDE_HTTP_REQUEST() : bool
+	public static function isHideHttpRequest() : bool
 	{
-		return self::$HIDE_HTTP_REQUEST;
+		return self::$hide_http_request;
 	}
 
 	/**
 	 * @param bool $val
 	 */
-	public static function setHIDE_HTTP_REQUEST( bool $val ) : void
+	public static function setHideHttpRequest( bool $val ) : void
 	{
-		self::$HIDE_HTTP_REQUEST = $val;
+		self::$hide_http_request = $val;
 	}
 
 	/**
 	 * @return string
 	 */
-	public static function CHARSET() : string
+	public static function getCharset() : string
 	{
-		return self::$CHARSET;
+		return self::$charset;
 	}
 
 	/**
 	 * @param string $val
 	 */
-	public static function setCHARSET( string $val ) : void
+	public static function setCharset( string $val ) : void
 	{
-		self::$CHARSET = $val;
+		self::$charset = $val;
 	}
 
 	/**
 	 * @return string
 	 */
-	public static function TIMEZONE() : string
+	public static function getTimezone() : string
 	{
-		return self::$TIMEZONE;
+		return self::$timezone;
 	}
 
 	/**
-	 * @param string $TIMEZONE
+	 * @param string $timezone
 	 */
-	public static function setTIMEZONE( string $TIMEZONE ) : void
+	public static function setTimezone( string $timezone ) : void
 	{
-		self::$TIMEZONE = $TIMEZONE;
+		self::$timezone = $timezone;
 	}
 
 }

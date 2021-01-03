@@ -31,7 +31,7 @@ class UI
 	public static function getViewsDir() : string
 	{
 		if(!static::$views_dir) {
-			static::$views_dir = SysConf_PATH::APPLICATION().'views/UI/';
+			static::$views_dir = SysConf_Path::APPLICATION().'views/UI/';
 		}
 		return static::$views_dir;
 	}

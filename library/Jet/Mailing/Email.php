@@ -186,7 +186,7 @@ class Mailing_Email extends BaseObject
 
 		if($parse_images) {
 
-			$public_url = str_replace('/','\\/', SysConf_URI::PUBLIC());
+			$public_url = str_replace('/','\\/', SysConf_URI::getPublic());
 
 			if(preg_match_all('/src=["]'.$public_url.'(.*)["]/Ui', $html, $matches, PREG_SET_ORDER )) {
 
@@ -197,7 +197,7 @@ class Mailing_Email extends BaseObject
 					$id = 'i_'.uniqid();
 
 
-					$this->addImage( $id, SysConf_PATH::PUBLIC().$image );
+					$this->addImage( $id, SysConf_Path::PUBLIC().$image );
 
 					$html = str_replace( $orig, 'src="cid:'.$id.'"', $html );
 				}

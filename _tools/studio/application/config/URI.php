@@ -1,8 +1,8 @@
 <?php
-use Jet\SysConf_PATH;
+use Jet\SysConf_Path;
 use Jet\SysConf_URI;
 
-require_once SysConf_PATH::LIBRARY().'Jet/SysConf/URI.php';
+require_once SysConf_Path::LIBRARY().'Jet/SysConf/URI.php';
 
 
 
@@ -18,5 +18,5 @@ if(isset( $_SERVER['REQUEST_URI'] )) {
 	$base_URI = '/_tools/studio/';
 }
 
-SysConf_URI::setBASE($base_URI);
-SysConf_URI::setPUBLIC($base_URI.'public/');
+SysConf_URI::setBase($base_URI);
+SysConf_URI::setPublic($base_URI.'public/');

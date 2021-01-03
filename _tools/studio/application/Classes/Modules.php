@@ -134,7 +134,7 @@ class Modules extends BaseObject implements Application_Part
 			}
 		}
 
-		return SysConf_URI::BASE().'modules.php?'.http_build_query($get_params);
+		return SysConf_URI::getBase().'modules.php?'.http_build_query($get_params);
 	}
 
 

@@ -15,12 +15,12 @@ class SysConf_URI
 	/**
 	 * @var string
 	 */
-	protected static string $BASE = '';
+	protected static string $base = '';
 
 	/**
 	 * @var string
 	 */
-	protected static string $PUBLIC = '';
+	protected static string $public = '';
 
 
 
@@ -39,36 +39,36 @@ class SysConf_URI
 	/**
 	 * @return string
 	 */
-	public static function BASE() : string
+	public static function getBase() : string
 	{
-		static::_check('BASE');
-		return static::$BASE;
+		static::_check('base');
+		return static::$base;
 	}
 
 	/**
-	 * @param string $BASE
+	 * @param string $base
 	 */
-	public static function setBASE( string $BASE ) : void
+	public static function setBase( string $base ) : void
 	{
-		static::$BASE = $BASE;
+		static::$base = $base;
 	}
 
 	/**
 	 * @return string
 	 */
-	public static function PUBLIC() : string
+	public static function getPublic() : string
 	{
-		static::_check('PUBLIC');
+		static::_check('public');
 
-		return static::$PUBLIC;
+		return static::$public;
 	}
 
 	/**
-	 * @param string $PUBLIC
+	 * @param string $public
 	 */
-	public static function setPUBLIC( string $PUBLIC ) : void
+	public static function setPublic( string $public ) : void
 	{
-		static::$PUBLIC = $PUBLIC;
+		static::$public = $public;
 	}
 	
 }

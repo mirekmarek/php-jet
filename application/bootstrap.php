@@ -7,7 +7,7 @@
  */
 namespace JetApplication;
 
-require __DIR__.'/config/PATH.php';
+require __DIR__.'/config/Path.php';
 require __DIR__.'/config/Jet.php';
 require __DIR__.'/config/URI.php';
 

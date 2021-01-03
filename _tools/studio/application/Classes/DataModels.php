@@ -89,8 +89,8 @@ class DataModels extends BaseObject implements Application_Part
 	public static function load_getDirs() : array
 	{
 		$dirs = [
-			ProjectConf_PATH::APPLICATION_CLASSES(),
-			ProjectConf_PATH::APPLICATION_MODULES()
+			ProjectConf_Path::APPLICATION_CLASSES(),
+			ProjectConf_Path::APPLICATION_MODULES()
 		];
 
 
@@ -151,7 +151,7 @@ class DataModels extends BaseObject implements Application_Part
 			static::$namespaces = [];
 			$app_ns = new DataModel_Namespace(
 				Project::getApplicationNamespace(),
-				ProjectConf_PATH::APPLICATION_CLASSES()
+				ProjectConf_Path::APPLICATION_CLASSES()
 			);
 
 			static::$namespaces[$app_ns->getNamespace()] = $app_ns;
@@ -208,7 +208,7 @@ class DataModels extends BaseObject implements Application_Part
 
 		$get_params['action'] = $action;
 
-		return SysConf_URI::BASE().'data_model.php?'.http_build_query($get_params);
+		return SysConf_URI::getBase().'data_model.php?'.http_build_query($get_params);
 	}
 
 

@@ -92,7 +92,7 @@ class PackageCreator_JavaScript_Default extends PackageCreator_JavaScript
 	 */
 	public function getPackagePath() : string
 	{
-		return SysConf_PATH::PUBLIC().$this->getPackageRelativeFileName();
+		return SysConf_Path::PUBLIC().$this->getPackageRelativeFileName();
 	}
 
 	/**
@@ -100,7 +100,7 @@ class PackageCreator_JavaScript_Default extends PackageCreator_JavaScript
 	 */
 	public function getPackageURI() : string
 	{
-		return SysConf_URI::PUBLIC().$this->getPackageRelativeFileName();
+		return SysConf_URI::getPublic().$this->getPackageRelativeFileName();
 	}
 
 }

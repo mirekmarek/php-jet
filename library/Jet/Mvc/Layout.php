@@ -99,8 +99,8 @@ class Mvc_Layout extends Mvc_View_Abstract
 		$this->setScriptsDir( $scripts_dir );
 		$this->setScriptName( $script_name );
 
-		$this->JS_packager_enabled = SysConf_Jet::LAYOUT_JS_PACKAGER_ENABLED();
-		$this->CSS_packager_enabled = SysConf_Jet::LAYOUT_CSS_PACKAGER_ENABLED();
+		$this->JS_packager_enabled = SysConf_Jet::isJSPackagerEnabled();
+		$this->CSS_packager_enabled = SysConf_Jet::isCSSPackagerEnabled();
 
 		$this->_data = new Data_Array();
 	}

@@ -8,31 +8,31 @@
 namespace JetStudio;
 
 use Jet\Autoloader;
-use Jet\SysConf_PATH;
+use Jet\SysConf_Path;
 
 //use Jet\Debug_Profiler;
 
 //Debug_Profiler::blockStart('INIT - Autoloader');
 
-require SysConf_PATH::LIBRARY().'Jet/Autoloader.php';
+require SysConf_Path::LIBRARY().'Jet/Autoloader.php';
 
 
 Autoloader::initialize();
 
 
-require SysConf_PATH::APPLICATION().'Autoloaders/Jet.php';
+require SysConf_Path::APPLICATION().'Autoloaders/Jet.php';
 Autoloader_Jet::register();
 
-require SysConf_PATH::APPLICATION().'Autoloaders/StudioClasses.php';
+require SysConf_Path::APPLICATION().'Autoloaders/StudioClasses.php';
 Autoloader_StudioClasses::register();
 
-require SysConf_PATH::APPLICATION().'Autoloaders/ModuleWizards.php';
+require SysConf_Path::APPLICATION().'Autoloaders/ModuleWizards.php';
 Autoloader_ModuleWizards::register();
 
-require SysConf_PATH::APPLICATION().'Autoloaders/ProjectClasses.php';
+require SysConf_Path::APPLICATION().'Autoloaders/ProjectClasses.php';
 Autoloader_ProjectClasses::register();
 
-require SysConf_PATH::APPLICATION().'Autoloaders/ProjectModules.php';
+require SysConf_Path::APPLICATION().'Autoloaders/ProjectModules.php';
 Autoloader_ProjectModules::register();
 
 

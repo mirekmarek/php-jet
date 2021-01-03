@@ -8,7 +8,7 @@
 namespace JetApplication\Installer;
 
 use Jet\Config;
-use Jet\SysConf_PATH;
+use Jet\SysConf_Path;
 
 Config::setBeTolerant( true );
 
@@ -17,7 +17,7 @@ require 'Classes/Installer.php';
 
 
 Installer::setApplicationNamespace('JetApplication');
-Installer::setBasePath( SysConf_PATH::BASE().'_installer/' );
+Installer::setBasePath( SysConf_Path::BASE().'_installer/' );
 
 Installer::setSteps(
 	[

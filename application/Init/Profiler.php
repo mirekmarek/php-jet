@@ -3,15 +3,15 @@
 use Jet\Debug;
 use Jet\Debug_Profiler;
 use Jet\Debug_Profiler_Run;
-use Jet\SysConf_PATH;
+use Jet\SysConf_Path;
 use Jet\SysConf_Cache;
 use Jet\SysConf_Jet;
 
-if( SysConf_Jet::DEBUG_PROFILER_ENABLED() ) {
+if( SysConf_Jet::isDebugProfilerEnabled() ) {
 
-	require SysConf_PATH::LIBRARY().'Jet/Debug/Profiler.php';
+	require SysConf_Path::LIBRARY().'Jet/Debug/Profiler.php';
 
-	$profiler_save_dir = SysConf_PATH::TMP().'_profiler/';
+	$profiler_save_dir = SysConf_Path::TMP().'_profiler/';
 
 	if( !empty( $_GET['JPR'] ) ) {
 		$run_id = $_GET['JPR'];
@@ -36,9 +36,9 @@ if( SysConf_Jet::DEBUG_PROFILER_ENABLED() ) {
 
 		if($run) {
 			if( isset( $_GET['callgraph'] ) ) {
-				require SysConf_PATH::BASE()."_profiler/result_callgraph.php";
+				require SysConf_Path::BASE()."_profiler/result_callgraph.php";
 			} else {
-				require SysConf_PATH::BASE()."_profiler/result.phtml";
+				require SysConf_Path::BASE()."_profiler/result.phtml";
 			}
 			die();
 
@@ -58,11 +58,11 @@ if( SysConf_Jet::DEBUG_PROFILER_ENABLED() ) {
 
 			if( !file_exists( $dir ) ) {
 				mkdir( $dir );
-				chmod( $dir, SysConf_Jet::IO_CHMOD_MASK_DIR() );
+				chmod( $dir, SysConf_Jet::getIOModDir() );
 			}
 
 			file_put_contents( $file_path, serialize( $run ) );
-			chmod( $file_path, SysConf_Jet::IO_CHMOD_MASK_DIR() );
+			chmod( $file_path, SysConf_Jet::getIOModDir() );
 
 		},
 		function( Debug_Profiler_Run $run ) {

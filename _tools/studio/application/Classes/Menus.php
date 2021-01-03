@@ -101,7 +101,7 @@ class Menus extends BaseObject implements Application_Part
 			}
 		}
 
-		return SysConf_URI::BASE().'menus.php?'.http_build_query($get_params);
+		return SysConf_URI::getBase().'menus.php?'.http_build_query($get_params);
 	}
 
 

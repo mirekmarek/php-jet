@@ -22,7 +22,7 @@ class IO_File
 	 *
 	 * @var ?int
 	 */
-	protected static ?int $default_chmod_mask = null;
+	protected static ?int $default_mod = null;
 
 	/**
 	 * @var ?array
@@ -37,21 +37,21 @@ class IO_File
 	/**
 	 * @return int
 	 */
-	public static function getDefaultChmodMask() : int
+	public static function getDefaultMod() : int
 	{
-		if( static::$default_chmod_mask===null ) {
-			static::$default_chmod_mask = SysConf_Jet::IO_CHMOD_MASK_FILE();
+		if( static::$default_mod===null ) {
+			static::$default_mod = SysConf_Jet::getIOModFile();
 		}
 
-		return static::$default_chmod_mask;
+		return static::$default_mod;
 	}
 
 	/**
-	 * @param int $default_chmod_mask
+	 * @param int $default_mod
 	 */
-	public static function setDefaultChmodMask( int $default_chmod_mask ) : void
+	public static function setDefaultMod( int $default_mod ) : void
 	{
-		static::$default_chmod_mask = $default_chmod_mask;
+		static::$default_mod = $default_mod;
 	}
 
 	/**
@@ -231,7 +231,7 @@ class IO_File
 	 */
 	public static function chmod( string $file_path, ?int $chmod_mask = null ) : void
 	{
-		$chmod_mask = ( $chmod_mask===null ) ? static::getDefaultChmodMask() : $chmod_mask;
+		$chmod_mask = ( $chmod_mask===null ) ? static::getDefaultMod() : $chmod_mask;
 
 		if( !chmod( $file_path, $chmod_mask ) ) {
 			$error = static::_getLastError();

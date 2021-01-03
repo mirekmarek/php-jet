@@ -8,24 +8,24 @@
 namespace JetApplication;
 
 use Jet\Debug_ErrorHandler;
-use Jet\SysConf_PATH;
+use Jet\SysConf_Path;
 use Jet\SysConf_Jet;
 
 //Debug_Profiler::blockStart('INIT - ErrorHandler');
 
-require SysConf_PATH::LIBRARY().'Jet/Debug.php';
-require SysConf_PATH::LIBRARY().'Jet/Debug/ErrorHandler.php';
+require SysConf_Path::LIBRARY().'Jet/Debug.php';
+require SysConf_Path::LIBRARY().'Jet/Debug/ErrorHandler.php';
 
 
-require SysConf_PATH::APPLICATION().'ErrorHandlers/Log.php';
-require SysConf_PATH::APPLICATION().'ErrorHandlers/Display.php';
-require SysConf_PATH::APPLICATION().'ErrorHandlers/ErrorPage.php';
+require SysConf_Path::APPLICATION().'ErrorHandlers/Log.php';
+require SysConf_Path::APPLICATION().'ErrorHandlers/Display.php';
+require SysConf_Path::APPLICATION().'ErrorHandlers/ErrorPage.php';
 
 
 
 ErrorHandler_Log::register();
 
-if( SysConf_Jet::DEVEL_MODE() ) {
+if( SysConf_Jet::isDevelMode() ) {
 	ErrorHandler_Display::register();
 } else {
 	ErrorHandler_ErrorPage::register();

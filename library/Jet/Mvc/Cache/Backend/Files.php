@@ -7,9 +7,9 @@
  */
 namespace Jet;
 
-require_once SysConf_PATH::LIBRARY().'Jet/Cache.php';
-require_once SysConf_PATH::LIBRARY().'Jet/Mvc/Cache.php';
-require_once SysConf_PATH::LIBRARY().'Jet/Mvc/Cache/Backend.php';
+require_once SysConf_Path::LIBRARY().'Jet/Cache.php';
+require_once SysConf_Path::LIBRARY().'Jet/Mvc/Cache.php';
+require_once SysConf_Path::LIBRARY().'Jet/Mvc/Cache/Backend.php';
 
 /**
  *
@@ -22,7 +22,7 @@ class Mvc_Cache_Backend_Files implements Mvc_Cache_Backend {
 	 */
 	protected function getPath( string $entity ) : string
 	{
-		return SysConf_PATH::CACHE().'mvc_'.$entity.'.php';
+		return SysConf_Path::CACHE().'mvc_'.$entity.'.php';
 	}
 
 
@@ -73,7 +73,7 @@ class Mvc_Cache_Backend_Files implements Mvc_Cache_Backend {
 			'<?php return '.var_export( $data, true ).';'
 		);
 
-		chmod( $file_path, SysConf_Jet::IO_CHMOD_MASK_FILE());
+		chmod( $file_path, SysConf_Jet::getIOModFile());
 
 		Cache::resetOPCache();
 	}
@@ -84,7 +84,7 @@ class Mvc_Cache_Backend_Files implements Mvc_Cache_Backend {
 	 */
 	public function reset(): void
 	{
-		$files = IO_Dir::getFilesList(SysConf_PATH::CACHE(), 'mvc_*.php');
+		$files = IO_Dir::getFilesList(SysConf_Path::CACHE(), 'mvc_*.php');
 
 		foreach($files as $file_path=>$file_name) {
 			IO_File::delete($file_path);

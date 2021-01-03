@@ -19,7 +19,7 @@ use Jet\Form;
 use Jet\Form_Field_FileImage;
 use Jet\Form_Field_Hidden;
 
-use Jet\SysConf_PATH;
+use Jet\SysConf_Path;
 use Jet\Tr;
 use Jet\Data_Tree;
 use Jet\IO_Dir;
@@ -420,7 +420,7 @@ class Gallery extends DataModel
 	 */
 	public function getBaseDirPath() : string
 	{
-		$base_dir = SysConf_PATH::PUBLIC().'imagegallery/';
+		$base_dir = SysConf_Path::PUBLIC().'imagegallery/';
 		if( !IO_Dir::exists( $base_dir ) ) {
 			IO_Dir::create( $base_dir );
 		}
@@ -433,7 +433,7 @@ class Gallery extends DataModel
 	 */
 	public function getBaseURI() : string
 	{
-		return SysConf_URI::PUBLIC().'imagegallery/';
+		return SysConf_URI::getPublic().'imagegallery/';
 	}
 
 

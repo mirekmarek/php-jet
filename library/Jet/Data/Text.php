@@ -30,7 +30,7 @@ class Data_Text
 	{
 
 		if( !class_exists( '\Transliterator', false ) ) {
-			$text = iconv( SysConf_Jet::CHARSET(), 'ASCII//TRANSLIT', $text );
+			$text = iconv( SysConf_Jet::getCharset(), 'ASCII//TRANSLIT', $text );
 
 			return preg_replace( '/[^a-zA-Z0-9]/', '_', $text );
 		} else {
@@ -81,7 +81,7 @@ class Data_Text
 				trim(
 					$input
 				)
-			), $flag, SysConf_Jet::CHARSET());
+			), $flag, SysConf_Jet::getCharset());
 
 	}
 

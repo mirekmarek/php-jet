@@ -95,7 +95,7 @@ class Pages extends BaseObject implements Application_Part
 			}
 		}
 
-		return SysConf_URI::BASE().'pages.php?'.http_build_query($get_params);
+		return SysConf_URI::getBase().'pages.php?'.http_build_query($get_params);
 	}
 
 

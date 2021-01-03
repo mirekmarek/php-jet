@@ -55,7 +55,7 @@ class Navigation_MenuSet extends BaseObject
 	public static function getMenusDirPath() : string
 	{
 		if(!self::$menus_dir_path) {
-			self::$menus_dir_path = SysConf_PATH::MENUS();
+			self::$menus_dir_path = SysConf_Path::MENUS();
 		}
 
 		return self::$menus_dir_path;

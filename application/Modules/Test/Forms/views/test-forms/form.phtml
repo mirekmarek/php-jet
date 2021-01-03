@@ -32,7 +32,7 @@ $form = $this->getRaw( 'form' );
 				 * @var Form_Field_FileImage $image_field
 				 */
 				?>
-				<img src="<?=SysConf_URI::PUBLIC()?>test_uploads/<?=$image_field->getFileName()?>" alt="test"/>
+				<img src="<?=SysConf_URI::getPublic()?>test_uploads/<?=$image_field->getFileName()?>" alt="test"/>
 			<?php else: ?>
 				<table class="table table-bordered">
 					<?php foreach( $form->getValues() as $k => $v ): ?>

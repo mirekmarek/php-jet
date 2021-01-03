@@ -9,8 +9,8 @@ namespace JetApplication;
 
 use Jet\Autoloader_Cache;
 use Jet\Autoloader_Cache_Backend_Files;
-use Jet\SysConf_PATH;
+use Jet\SysConf_Path;
 
-require_once SysConf_PATH::LIBRARY().'Jet/Autoloader/Cache/Backend/Files.php';
+require_once SysConf_Path::LIBRARY().'Jet/Autoloader/Cache/Backend/Files.php';
 
 Autoloader_Cache::init( new Autoloader_Cache_Backend_Files()  );

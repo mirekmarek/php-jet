@@ -20,11 +20,11 @@ use Jet\Mvc_Factory;
 use Jet\Application_Modules;
 
 
-require __DIR__.'/config/PATH.php';
+require __DIR__.'/config/Path.php';
 require __DIR__.'/config/URI.php';
 require __DIR__.'/config/Jet.php';
 
-require ProjectConf_PATH::APPLICATION().'Init/Cache/MVC.php';
+require ProjectConf_Path::APPLICATION().'Init/Cache/MVC.php';
 
 require __DIR__.'/Init/PHP.php';
 require __DIR__.'/Init/ErrorHandler.php';
@@ -32,7 +32,7 @@ require __DIR__.'/Init/Autoloader.php';
 
 
 
-Http_Request::initialize( SysConf_Jet::HIDE_HTTP_REQUEST() );
+Http_Request::initialize( SysConf_Jet::isHideHttpRequest() );
 
 Locale::setCurrentLocale( Application::getCurrentLocale() );
 Translator::setCurrentLocale( Application::getCurrentLocale() );
@@ -55,14 +55,14 @@ SysConf_Cache::setAutoloaderEnabled(false);
 SysConf_Cache::setMvcEnabled( false );
 
 Config::setBeTolerant( true );
-Config::setConfigDirPath( ProjectConf_PATH::CONFIG() );
+Config::setConfigDirPath( ProjectConf_Path::CONFIG() );
 
 /**
  * @var Application_Modules_Handler_Default $modules_handler
  */
 $modules_handler = Application_Modules::getHandler();
-$modules_handler->setActivatedModulesListFilePath( ProjectConf_PATH::DATA().'activated_modules_list.php' );
-$modules_handler->setInstalledModulesListFilePath( ProjectConf_PATH::DATA().'installed_modules_list.php' );
+$modules_handler->setActivatedModulesListFilePath( ProjectConf_Path::DATA().'activated_modules_list.php' );
+$modules_handler->setInstalledModulesListFilePath( ProjectConf_Path::DATA().'installed_modules_list.php' );
 
 Application_Factory::setModuleManifestClassName(__NAMESPACE__.'\Modules_Manifest');
-Application_Modules::setBasePath( ProjectConf_PATH::APPLICATION().'Modules/' );
+Application_Modules::setBasePath( ProjectConf_Path::APPLICATION().'Modules/' );

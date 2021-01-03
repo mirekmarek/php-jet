@@ -64,7 +64,7 @@ class Installer_Step_CreateSite_Controller extends Installer_Step_Controller
 		if( !$session->getValueExists( 'sites' ) )
 		{
 
-			$URL = $_SERVER['HTTP_HOST'].SysConf_URI::BASE();
+			$URL = $_SERVER['HTTP_HOST'].SysConf_URI::getBase();
 
 			$web = Mvc_Factory::getSiteInstance();
 			$web->setName( 'Example Web' );

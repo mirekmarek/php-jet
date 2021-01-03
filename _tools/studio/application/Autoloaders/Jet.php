@@ -8,7 +8,7 @@
 namespace JetStudio;
 
 use Jet\Autoloader_Loader;
-use Jet\SysConf_PATH;
+use Jet\SysConf_Path;
 
 /**
  *
@@ -31,7 +31,7 @@ class Autoloader_Jet extends Autoloader_Loader
 
 		$class_name = str_replace( '_', DIRECTORY_SEPARATOR, $class_name );
 
-		return SysConf_PATH::LIBRARY().'Jet/'.$class_name.'.php';
+		return SysConf_Path::LIBRARY().'Jet/'.$class_name.'.php';
 
 	}
 }

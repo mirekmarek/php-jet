@@ -12,7 +12,7 @@ use Jet\Form;
 use Jet\Form_Field_Input;
 use Jet\Form_Field_RegistrationPassword;
 use Jet\IO_File;
-use Jet\SysConf_PATH;
+use Jet\SysConf_Path;
 use Jet\Tr;
 use Jet\UI_messages;
 
@@ -64,7 +64,7 @@ class Installer_Step_ConfigureStudio_Controller extends Installer_Step_Controlle
 				]);
 
 
-				IO_File::write( SysConf_PATH::DATA().'_jet_studio_access.php', '<?php return '.$data->export() );
+				IO_File::write( SysConf_Path::DATA().'_jet_studio_access.php', '<?php return '.$data->export() );
 
 			} catch (Exception $e) {
 
