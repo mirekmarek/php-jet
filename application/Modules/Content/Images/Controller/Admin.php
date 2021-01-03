@@ -161,7 +161,7 @@ class Controller_Admin extends Mvc_Controller_Default
 		$this->view->setVar( 'selected_id', '' );
 
 
-		$this->render( 'admin/default' );
+		$this->output( 'admin/default' );
 	}
 
 	/**
@@ -198,7 +198,7 @@ class Controller_Admin extends Mvc_Controller_Default
 		$this->view->setVar( 'edit_form', $edit_form );
 		$this->view->setVar( 'selected_id', $parent_id );
 
-		$this->render( 'admin/add' );
+		$this->output( 'admin/add' );
 
 	}
 
@@ -232,7 +232,7 @@ class Controller_Admin extends Mvc_Controller_Default
 		$this->view->setVar( 'upload_form', $gallery->getImageUploadForm() );
 		$this->view->setVar( 'selected_id', $gallery->getId() );
 
-		$this->render( 'admin/edit' );
+		$this->output( 'admin/edit' );
 	}
 
 
@@ -253,7 +253,7 @@ class Controller_Admin extends Mvc_Controller_Default
 		$this->view->setVar( 'edit_form', $edit_form );
 		$this->view->setVar( 'selected_id', $gallery->getId() );
 
-		$this->render( 'admin/edit' );
+		$this->output( 'admin/edit' );
 
 	}
 

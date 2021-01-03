@@ -28,11 +28,11 @@ require 'parts/init_libs.php';
 		<small><?=Tr::_("PHP Jet Example Application");?></small>
 	</div>
 
-	<jet_module module="UI.Web" action="breadcrumbNavigation" view="default" />
+	<jet_module module="UI.Web" action="breadcrumbNavigation" view="default" is_cacheable="true" />
 
 	<div class="row">
 		<div class="col-md-3">
-			<jet_module module="UI.Web" action="main_menu"/>
+			<jet_module module="UI.Web" action="main_menu" is_cacheable="true"/>
 			<jet_layout_position name="left"/>
 		</div>
 		<div class="col-md-7" style="padding-top: 10px;padding-bottom: 20px;">
@@ -40,7 +40,7 @@ require 'parts/init_libs.php';
 		</div>
 		<div class="col-md-2">
 			<div class="well well-small">
-				<jet_module module="Test.MVC" action="test_mvc_info" />
+				<jet_module module="Test.MVC" action="test_mvc_info" is_cacheable="true" />
 			</div>
 			<jet_layout_position name="right"/>
 		</div>

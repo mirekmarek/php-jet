@@ -9,6 +9,7 @@ namespace JetStudio;
 
 use Jet\Form;
 use Jet\Form_Field;
+use Jet\Form_Field_Checkbox;
 use Jet\Form_Field_Input;
 use Jet\Form_Field_Int;
 use Jet\Form_Field_Select;
@@ -52,6 +53,20 @@ class Pages_Page_Content extends Mvc_Page_Content
 		}
 
 	}
+
+	/**
+	 * @param bool $default_value
+	 *
+	 * @return Form_Field_Checkbox
+	 *
+	 */
+	public static function getField__is_cacheable( bool $default_value ) : Form_Field_Checkbox
+	{
+		$is_cacheable = new Form_Field_Checkbox('is_cacheable', 'Is cacheable', $default_value );
+
+		return $is_cacheable;
+	}
+
 
 	/**
 	 * @param string $default_value
@@ -300,6 +315,12 @@ class Pages_Page_Content extends Mvc_Page_Content
 		if(!$this->__edit_form) {
 
 			$fields = [];
+
+			$is_cacheable = Pages_Page_Content::getField__is_cacheable( $this->isCacheable() );
+			$is_cacheable->setCatcher( function($value) {
+				$this->setIsCacheable( $value );
+			} );
+			$fields[] = $is_cacheable;
 
 			$output_position = static::getField__output_position( $this->getOutputPosition(), $page );
 			$output_position->setCatcher( function($value) { $this->setOutputPosition( $value );} );

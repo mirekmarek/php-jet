@@ -90,7 +90,7 @@ class Controller_Main extends Mvc_Controller_Default
 
 		$this->view->setVar('form', $form);
 
-		$this->render('login');
+		$this->output('login');
 	}
 
 	/**
@@ -219,7 +219,7 @@ class Controller_Main extends Mvc_Controller_Default
 			//$init_data();
 		}
 
-		$this->render( 'tests' );
+		$this->output( 'tests' );
 
 	}
 }

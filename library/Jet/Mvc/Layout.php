@@ -361,11 +361,13 @@ class Mvc_Layout extends Mvc_View_Abstract
 			$module_name = $properties['module'];
 			$action = isset( $properties['action'] ) ? $properties['action'] : '';
 			$parameters = [];
+			$is_cacheable = strtolower(isset( $properties['is_cacheable'] ) ? $properties['is_cacheable'] : false)=='true';
 
 			foreach( $properties as $k => $v ) {
 				if(
 					$k=='module' ||
-					$k=='action'
+					$k=='action' ||
+					$k=='is_cacheable'
 				) {
 					continue;
 				}
@@ -384,6 +386,7 @@ class Mvc_Layout extends Mvc_View_Abstract
 			$page_content->setParameters( $parameters );
 			$page_content->setOutputPosition( $position_name );
 			$page_content->setOutputPositionOrder( 1 );
+			$page_content->setIsCacheable( $is_cacheable );
 
 			$content[] = $page_content;
 		}

@@ -1090,6 +1090,7 @@ class Pages_Page extends Mvc_Page
 			$content_kind = new Form_Field_Hidden('content_kind', '', Pages_Page_Content::CONTENT_KIND_MODULE );
 
 
+			$is_cacheable = Pages_Page_Content::getField__is_cacheable( false );
 			$output_position = Pages_Page_Content::getField__output_position( Mvc_Layout::DEFAULT_OUTPUT_POSITION, $this );
 			$output_position_order = Pages_Page_Content::getField__output_position_order( 0 );
 
@@ -1111,6 +1112,7 @@ class Pages_Page extends Mvc_Page
 			$fields = [
 				$content_kind,
 
+				$is_cacheable,
 				$output_position,
 				$output_position_order,
 
@@ -1237,6 +1239,7 @@ class Pages_Page extends Mvc_Page
 
 		$content = new Pages_Page_Content();
 
+		$is_cacheable = $form->field('is_cacheable')->getValue();
 		$output_position = $form->field('output_position')->getValue();
 		$output_order = $form->field('output_position_order')->getValue();
 
@@ -1257,6 +1260,7 @@ class Pages_Page extends Mvc_Page
 			$output_order++;
 		}
 
+		$content->setIsCacheable( $is_cacheable );
 		$content->setOutputPosition( $output_position );
 		$content->setOutputPositionOrder( $output_order );
 

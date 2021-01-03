@@ -174,37 +174,14 @@ abstract class Mvc_Controller extends BaseObject
 	}
 
 	/**
-	 * Renders the output and adds it into the default layout.
 	 *
-	 * @param string $script
-	 * @param string|null $position (optional, default: by current dispatcher queue item)
-	 * @param int|null    $position_order (optional, default: by current dispatcher queue item)
+	 * @param string $view_script
 	 */
-	protected function render( string $script, string|null $position = null, int|null $position_order = null ) : void
+	protected function output( string $view_script ) : void
 	{
+		$output = $this->view->render( $view_script );
 
-
-		if( !$position ) {
-			$position = $this->content->getOutputPosition();
-			if( !$position ) {
-				$position = Mvc_Layout::DEFAULT_OUTPUT_POSITION;
-			}
-		}
-
-
-		if( $position_order===null ) {
-			$position_order = $this->content->getOutputPositionOrder();
-		}
-
-
-		$output = $this->view->render( $script );
-
-		Mvc_Layout::getCurrentLayout()->addOutputPart(
-			$output,
-			$position,
-			$position_order
-		);
-
+		$this->content->output( $output );
 	}
 
 }

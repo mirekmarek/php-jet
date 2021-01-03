@@ -95,7 +95,7 @@ class Controller_Admin extends Mvc_Controller_Default
 		$this->view->setVar( 'filter_form', $listing->filter_getForm());
 		$this->view->setVar( 'grid', $listing->getGrid() );
 
-		$this->render( 'admin/list' );
+		$this->output( 'admin/list' );
 	}
 
 	/**
@@ -126,7 +126,7 @@ class Controller_Admin extends Mvc_Controller_Default
 
 		$this->view->setVar( 'form', $form );
 
-		$this->render( 'admin/edit' );
+		$this->output( 'admin/edit' );
 	}
 
 	/**
@@ -156,7 +156,7 @@ class Controller_Admin extends Mvc_Controller_Default
 
 		$this->view->setVar( 'form', $form );
 
-		$this->render( 'admin/edit' );
+		$this->output( 'admin/edit' );
 	}
 
 	/**
@@ -178,7 +178,7 @@ class Controller_Admin extends Mvc_Controller_Default
 
 		$this->view->setVar( 'form', $form );
 
-		$this->render( 'admin/edit' );
+		$this->output( 'admin/edit' );
 	}
 
 	/**

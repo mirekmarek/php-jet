@@ -50,7 +50,7 @@ class Controller_Main extends Mvc_Controller_Default
 
 		$this->view->setVar( 'login_form', $form );
 
-		$this->render( 'login' );
+		$this->output( 'login' );
 	}
 
 
@@ -59,7 +59,7 @@ class Controller_Main extends Mvc_Controller_Default
 	 */
 	public function is_not_activated_Action() : void
 	{
-		$this->render( 'is-not-activated' );
+		$this->output( 'is-not-activated' );
 	}
 
 	/**
@@ -67,7 +67,7 @@ class Controller_Main extends Mvc_Controller_Default
 	 */
 	public function is_blocked_Action() : void
 	{
-		$this->render( 'is-blocked' );
+		$this->output( 'is-blocked' );
 	}
 
 	/**
@@ -107,6 +107,6 @@ class Controller_Main extends Mvc_Controller_Default
 
 		$this->view->setVar( 'form', $form );
 
-		$this->render( 'must-change-password' );
+		$this->output( 'must-change-password' );
 	}
 }

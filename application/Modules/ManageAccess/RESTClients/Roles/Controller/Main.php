@@ -93,7 +93,7 @@ class Controller_Main extends Mvc_Controller_Default
 		$this->view->setVar( 'filter_form', $listing->filter_getForm());
 		$this->view->setVar( 'grid', $listing->getGrid() );
 
-		$this->render( 'list' );
+		$this->output( 'list' );
 	}
 
 	/**
@@ -123,7 +123,7 @@ class Controller_Main extends Mvc_Controller_Default
 		$this->view->setVar( 'form', $form );
 		$this->view->setVar( 'available_privileges_list', Role::getAvailablePrivilegesList() );
 
-		$this->render( 'edit' );
+		$this->output( 'edit' );
 	}
 
 	/**
@@ -151,7 +151,7 @@ class Controller_Main extends Mvc_Controller_Default
 		$this->view->setVar( 'role', $role );
 		$this->view->setVar( 'available_privileges_list', Role::getAvailablePrivilegesList() );
 
-		$this->render( 'edit' );
+		$this->output( 'edit' );
 	}
 
 	/**
@@ -174,7 +174,7 @@ class Controller_Main extends Mvc_Controller_Default
 
 		$form->setIsReadonly();
 
-		$this->render( 'edit' );
+		$this->output( 'edit' );
 	}
 
 
@@ -201,7 +201,7 @@ class Controller_Main extends Mvc_Controller_Default
 
 		$this->view->setVar( 'role', $role );
 
-		$this->render( 'delete-confirm' );
+		$this->output( 'delete-confirm' );
 	}
 
 

@@ -54,6 +54,6 @@ class Controller_Main extends Mvc_Controller_Default
 
 
 
-		$this->render('tests');
+		$this->output('tests');
 	}
 }

@@ -57,6 +57,11 @@ class Mvc_Page_Content extends BaseObject implements Mvc_Page_Content_Interface
 	protected $output = '';
 
 	/**
+	 * @var bool
+	 */
+	protected bool $is_cacheable = false;
+
+	/**
 	 *
 	 * @var string
 	 */
@@ -181,6 +186,23 @@ class Mvc_Page_Content extends BaseObject implements Mvc_Page_Content_Interface
 	{
 		$this->output_position_order = (int)$output_position_order;
 	}
+
+	/**
+	 * @param bool $state
+	 */
+	public function setIsCacheable( bool $state ) : void
+	{
+		$this->is_cacheable = $state;
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function isCacheable() : bool
+	{
+		return $this->is_cacheable;
+	}
+
 
 	/**
 	 * @return string|callable
@@ -403,10 +425,19 @@ class Mvc_Page_Content extends BaseObject implements Mvc_Page_Content_Interface
 		if($controller_action===false) {
 			return;
 		}
-
 		$block_name = $module_name.':'.$controller_action;
 
+
 		Debug_Profiler::blockStart( 'Dispatch '.$block_name );
+
+		if($this->loadOutputCache()) {
+			Debug_Profiler::message( 'Loaded from cache' );
+
+			Debug_Profiler::blockEnd( 'Dispatch '.$block_name );
+			return;
+		}
+
+
 
 
 		$controller = $this->getControllerInstance();
@@ -427,6 +458,59 @@ class Mvc_Page_Content extends BaseObject implements Mvc_Page_Content_Interface
 		}
 
 		Debug_Profiler::blockEnd( 'Dispatch '.$block_name );
+
+	}
+
+	/**
+	 * @param string $output
+	 */
+	public function saveOutputCache( string $output ) : void
+	{
+		if($this->is_cacheable) {
+			Mvc_Cache::saveContentOutput( $this, $output );
+		}
+	}
+
+	/**
+	 *
+	 */
+	public function loadOutputCache(): bool
+	{
+		if(!$this->is_cacheable) {
+			return false;
+		}
+
+		$output = Mvc_Cache::loadContentOutput( $this );
+		if($output===null) {
+			return false;
+		}
+
+		$this->output( $output );
+
+		return true;
+	}
+
+
+	/**
+	 * @param string $output
+	 */
+	public function output( string $output ) : void
+	{
+		$position = $this->getOutputPosition();
+		if( !$position ) {
+			$position = Mvc_Layout::DEFAULT_OUTPUT_POSITION;
+		}
+
+
+		$position_order = $this->getOutputPositionOrder();
+
+		$this->saveOutputCache( $output );
+
+		Mvc_Layout::getCurrentLayout()->addOutputPart(
+			$output,
+			$position,
+			$position_order
+		);
 
 	}
 

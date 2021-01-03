@@ -111,6 +111,31 @@ interface Mvc_Page_Content_Interface
 	public function parameterExists( string $key ) : bool;
 
 	/**
+	 * @param bool $state
+	 */
+	public function setIsCacheable( bool $state ) : void;
+
+	/**
+	 * @return bool
+	 */
+	public function isCacheable() : bool;
+
+	/**
+	 * @param string $output
+	 */
+	public function saveOutputCache( string $output ): void;
+
+	/**
+	 *
+	 */
+	public function loadOutputCache(): bool;
+
+	/**
+	 * @param string $output
+	 */
+	public function output( string $output ) : void;
+
+	/**
 	 * @return string|callable
 	 */
 	public function getOutput() : string|callable;

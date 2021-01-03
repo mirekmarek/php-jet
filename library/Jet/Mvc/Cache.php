@@ -101,5 +101,31 @@ class Mvc_Cache
 		}
 	}
 
+	/**
+	 * @param Mvc_Page_Content_Interface $content
+	 *
+	 * @return string|null
+	 */
+	public static function loadContentOutput( Mvc_Page_Content_Interface $content ) : string|null
+	{
+		if(!static::$backend) {
+			return null;
+		}
+
+		return static::$backend->loadContentOutput( $content );
+	}
+
+	/**
+	 * @param Mvc_Page_Content_Interface $content
+	 * @param string $output
+	 *
+	 */
+	public static function saveContentOutput( Mvc_Page_Content_Interface $content, string $output ) : void
+	{
+		if(static::$backend) {
+			static::$backend->saveContentOutput( $content, $output );
+		}
+	}
+
 
 }

@@ -50,4 +50,19 @@ interface Mvc_Cache_Backend
 	 */
 	public function savePageMaps(  Mvc_Site_Interface $site, Locale $locale, array $map ): void;
 
+	/**
+	 * @param Mvc_Page_Content_Interface $content
+	 *
+	 * @return string|null
+	 */
+	public function loadContentOutput( Mvc_Page_Content_Interface $content ) : string|null;
+
+	/**
+	 * @param Mvc_Page_Content_Interface $content
+	 * @param string $output
+	 *
+	 */
+	public function saveContentOutput( Mvc_Page_Content_Interface $content, string $output ) : void;
+
+
 }

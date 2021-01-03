@@ -57,7 +57,7 @@ class Controller_Main extends Mvc_Controller_Default
 
 		$this->view->setVar( 'site_tree_current', [ Mvc::getCurrentSite()->getHomepage( Mvc::getCurrentLocale() ) ] );
 
-		$this->render( 'main-menu' );
+		$this->output( 'main-menu' );
 	}
 
 	/**
@@ -67,7 +67,7 @@ class Controller_Main extends Mvc_Controller_Default
 	{
 		$this->view->setVar( 'site_tree_current', [ Mvc_Page::get( 'secret_area' ) ] );
 
-		$this->render( 'secret-area-menu' );
+		$this->output( 'secret-area-menu' );
 	}
 
 	/**
@@ -77,7 +77,7 @@ class Controller_Main extends Mvc_Controller_Default
 	{
 		$view = $this->getParameter( 'view', 'default' );
 
-		$this->render( 'breadcrumb-navigation/'.$view );
+		$this->output( 'breadcrumb-navigation/'.$view );
 
 	}
 }

@@ -81,4 +81,5 @@ return [
 	'Please enter controller class action name' => 'Prosím zadejte akci třídy kontroleru',
 	'Please enter class name' => 'Prosím zadejte název třídy',
 	'Please enter method name' => 'Prosím zadejte název metody',
+	'Is cacheable' => 'Je kešovatelný',
 ];

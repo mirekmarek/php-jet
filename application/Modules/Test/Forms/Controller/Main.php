@@ -542,7 +542,7 @@ class Controller_Main extends Mvc_Controller_Default
 
 
 		$this->view->setVar( 'forms', $forms );
-		$this->render( 'test-forms' );
+		$this->output( 'test-forms' );
 	}
 
 	/**
@@ -571,6 +571,6 @@ class Controller_Main extends Mvc_Controller_Default
 		$this->view->setVar( 'form', $form );
 
 
-		$this->render( 'test-forms-data-model' );
+		$this->output( 'test-forms-data-model' );
 	}
 }

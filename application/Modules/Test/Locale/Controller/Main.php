@@ -20,6 +20,6 @@ class Controller_Main extends Mvc_Controller_Default
 	 */
 	public function test_locale_Action() : void
 	{
-		$this->render( 'test-locale' );
+		$this->output( 'test-locale' );
 	}
 }
