@@ -12,6 +12,7 @@ use Jet\Exception;
 use Jet\Form;
 use Jet\Form_Field_Input;
 use Jet\IO_File;
+use Jet\Mvc_Cache;
 use Jet\Navigation_Menu;
 use Jet\Http_Request;
 use Jet\Navigation_Menu_Exception;
@@ -329,7 +330,7 @@ class Menus_MenuSet extends Navigation_MenuSet
 			$res = new Data_Array($res);
 
 			IO_File::write( $this->config_file_path, '<?php return '.$res->export() );
-			Application::resetOPCache();
+			Mvc_Cache::invalidate();
 
 		} catch( Exception $e ) {
 			$ok = false;

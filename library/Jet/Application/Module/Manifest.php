@@ -362,6 +362,7 @@ class Application_Module_Manifest extends BaseObject
 		];
 
 		foreach( $this->pages[$site->getId()] as $page_id=>$page_data ) {
+
 			$page_data['id'] = $page_id;
 
 			if(isset($page_data['contents'])) {
@@ -380,9 +381,9 @@ class Application_Module_Manifest extends BaseObject
 				}
 			}
 
-			$page = Mvc_Page::createByData( $site, $locale, $page_data );
+			$page = Mvc_Factory::getPageInstance()::createByData( $site, $locale, $page_data );
 
-			$pages[] = $page;
+			$pages[$page_id] = $page;
 
 		}
 

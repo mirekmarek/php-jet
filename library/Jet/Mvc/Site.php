@@ -13,10 +13,8 @@ require_once 'Site/LocalizedData.php';
 /**
  *
  */
-class Mvc_Site extends BaseObject implements Mvc_Site_Interface, BaseObject_Cacheable_Interface
+class Mvc_Site extends BaseObject implements Mvc_Site_Interface
 {
-
-	use BaseObject_Cacheable_Trait;
 
 	/**
 	 * @var string
@@ -34,14 +32,14 @@ class Mvc_Site extends BaseObject implements Mvc_Site_Interface, BaseObject_Cach
 	protected static string $layouts_dir = 'layouts';
 
 	/**
-	 * @var Mvc_Site[]|null
+	 * @var Mvc_Site[]
 	 */
-	protected static array|null $sites = null;
+	protected static array $sites = [];
 
 	/**
-	 * @var Mvc_Site_LocalizedData_Interface[]
+	 * @var ?array
 	 */
-	protected static array|null $URL_map = null;
+	protected static array|null $maps = null;
 
 	/**
 	 *
@@ -97,15 +95,29 @@ class Mvc_Site extends BaseObject implements Mvc_Site_Interface, BaseObject_Cach
 	 */
 	protected $initializer;
 
-
 	/**
 	 * @return array
 	 */
-	public static function loadSitesData() : array
+	protected static function getMaps() : array
 	{
+		if(static::$maps!==null) {
+			return static::$maps;
+		}
 
-		Debug_Profiler::blockStart('Load sites data');
-		$sites = [];
+		$map = Mvc_Cache::loadSiteMaps();
+
+		if(is_array($map)) {
+			static::$maps = $map;
+
+			return static::$maps;
+		}
+
+		static::$maps = [
+			'files' => [],
+			'URL' => []
+		];
+
+		Debug_Profiler::blockStart('Load sites - maps');
 
 		$dirs = IO_Dir::getSubdirectoriesList( SysConf_PATH::SITES() );
 
@@ -117,15 +129,58 @@ class Mvc_Site extends BaseObject implements Mvc_Site_Interface, BaseObject_Cach
 				continue;
 			}
 
+			if(isset(static::$maps['files'][$id])) {
+				throw new Mvc_Page_Exception(
+					'Duplicate site: \''.$id.'\' ',
+					Mvc_Page_Exception::CODE_DUPLICATES_PAGE_ID
+				);
 
-			/** @noinspection PhpIncludeInspection */
-			$site_data = require $data_file_path;
+			}
+
+
+			static::$maps['files'][$id] = $data_file_path;
+
+			$data = require $data_file_path;
+
 			$site_data['id'] = $id;
-			$sites[$id] = $site_data;
-		}
-		Debug_Profiler::blockEnd('Load sites data');
 
-		return $sites;
+			$site = static::createByData( $data );
+
+			foreach( $site->getLocales() as $locale ) {
+				$l_data = $site->getLocalizedData($locale);
+
+				foreach($l_data->getURLs() as $URL) {
+					static::$maps['URL'][$URL] = [
+						$site->getId(),
+						$locale->toString()
+					];
+				}
+			}
+		}
+
+
+
+		uksort(
+			static::$maps['URL'],
+			function( $a, $b ) {
+				return strlen( $b )-strlen( $a );
+			}
+		);
+
+
+		Mvc_Cache::saveSiteMaps( static::$maps );
+
+		Debug_Profiler::blockEnd('Load sites - maps');
+
+		return static::$maps;
+	}
+
+	/**
+	 * @return array
+	 */
+	public static function getUrlMap() : array
+	{
+		return static::getMaps()['URL'];
 	}
 
 
@@ -134,68 +189,17 @@ class Mvc_Site extends BaseObject implements Mvc_Site_Interface, BaseObject_Cach
 	 *
 	 * @throws Mvc_Page_Exception
 	 */
-	public static function loadSites() : array
+	public static function getAllSites() : array
 	{
+		$map = static::getMaps()['files'];
 
-		if(static::$sites===null) {
-			if( static::getCacheLoadEnabled() ) {
-
-				$loader = static::$cache_loader;
-				$sites = $loader();
-				if($sites) {
-					Debug_Profiler::message('cache hit');
-
-					static::$sites = $sites;
-					return $sites;
-				}
+		foreach( $map as $id=>$path ) {
+			if(!isset(static::$sites[$id])) {
+				static::get($id);
 			}
-
-
-			$sites_data = static::loadSitesData();
-
-			Debug_Profiler::blockStart('Create site instances');
-			static::$sites = [];
-
-			foreach( $sites_data as $data ) {
-				$site = Mvc_Site::createByData( $data );
-
-				if(isset(static::$sites[$site->getId()])) {
-					throw new Mvc_Page_Exception(
-						'Duplicate site: \''.$site->getId().'\' ',
-						Mvc_Page_Exception::CODE_DUPLICATES_PAGE_ID
-					);
-
-				}
-
-				static::$sites[$site->getId()] = $site;
-			}
-
-			if(
-				static::$sites &&
-				static::getCacheSaveEnabled()
-			) {
-
-				$saver = static::$cache_saver;
-				$saver( static::$sites );
-			}
-
-			Debug_Profiler::blockEnd('Create site instances');
 		}
 
 		return static::$sites;
-	}
-
-	/**
-	 *
-	 * @param Mvc_Site[] $sites
-	 */
-	public static function setSites( array $sites ) : void
-	{
-		static::$sites = [];
-
-		foreach($sites as $site) {
-			static::$sites[$site->getId()] = $site;
-		}
 	}
 
 
@@ -241,31 +245,6 @@ class Mvc_Site extends BaseObject implements Mvc_Site_Interface, BaseObject_Cach
 
 	}
 
-	/**
-	 * @return Mvc_Site_LocalizedData_Interface[]
-	 */
-	public static function getUrlMap() : array
-	{
-		if(static::$URL_map!==null) {
-			return static::$URL_map;
-		}
-
-		static::loadSites();
-		static::$URL_map = [];
-
-		foreach( static::$sites as $site ) {
-			foreach( $site->getLocales() as $locale ) {
-				$l_data = $site->getLocalizedData($locale);
-
-				foreach($l_data->getURLs() as $URL) {
-					static::$URL_map[$URL] = $l_data;
-				}
-			}
-		}
-
-
-		return static::$URL_map;
-	}
 
 	/**
 	 *
@@ -275,11 +254,21 @@ class Mvc_Site extends BaseObject implements Mvc_Site_Interface, BaseObject_Cach
 	 */
 	public static function get( string $id ) : static|null
 	{
-		static::loadSites();
 
-		if( !isset( static::$sites[$id] ) ) {
+		if( isset( static::$sites[$id] ) ) {
+			return static::$sites[$id];
+		}
+
+		$map = static::getMaps()['files'];
+		if(!isset($map[$id])) {
 			return null;
 		}
+
+		$data = require $map[$id];
+
+		$site_data['id'] = $id;
+
+		static::$sites[$id] = static::createByData( $data );
 
 		return static::$sites[$id];
 	}
@@ -594,7 +583,7 @@ class Mvc_Site extends BaseObject implements Mvc_Site_Interface, BaseObject_Cach
 	 */
 	public static function getDefaultSite() : static|null
 	{
-		$sites = static::loadSites();
+		$sites = static::getAllSites();
 
 		foreach( $sites as $site ) {
 			if( $site->getIsDefault() ) {
@@ -652,10 +641,7 @@ class Mvc_Site extends BaseObject implements Mvc_Site_Interface, BaseObject_Cach
 			'<?php'.PHP_EOL.'return '.(new Data_Array( $data ))->export()
 		);
 
-
-		if(function_exists('opcache_reset')) {
-			opcache_reset();
-		}
+		Mvc_Cache::invalidate();
 	}
 
 	/**

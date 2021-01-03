@@ -76,44 +76,6 @@ trait Mvc_Page_Trait_Tree
 		return $path;
 	}
 
-	/**
-	 * @param Mvc_Page_Interface $parent
-	 */
-	public function setParent( Mvc_Page_Interface $parent ) : void
-	{
-		/**
-		 * @var Mvc_Page_Trait_Tree|Mvc_Page $this
-		 */
-		$this->parent_id = $parent->getId();
-		$this->__parent = $parent;
-
-		if($parent->getRelativePath()) {
-			$this->relative_path = $parent->getRelativePath().'/'.$this->relative_path_fragment;
-		} else {
-			$this->relative_path = $this->relative_path_fragment;
-
-		}
-
-		$parent->appendChild( $this );
-	}
-
-	/**
-	 * @param Mvc_Page_Interface $child
-	 */
-	public function appendChild( Mvc_Page_Interface $child ) : void
-	{
-		/**
-		 * @var Mvc_Page_Trait_Tree|Mvc_Page $this
-		 */
-
-		/** @noinspection PhpUndefinedFieldInspection */
-		$child->parent_id = $this->getId();
-		/** @noinspection PhpUndefinedFieldInspection */
-		$child->__parent = $this;
-
-		$this->children[] = $child->getId();
-		$this->__children = null;
-	}
 
 	/**
 	 * @return array

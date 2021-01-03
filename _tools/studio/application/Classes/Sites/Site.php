@@ -9,6 +9,7 @@ namespace JetStudio;
 
 use Jet\Exception;
 use Jet\IO_Dir;
+use Jet\Mvc_Cache;
 use Jet\Mvc_Layout;
 use Jet\Mvc_Site;
 use Jet\Form;
@@ -43,18 +44,6 @@ class Sites_Site extends Mvc_Site
 	 * @var ?Form
 	 */
 	protected ?Form $__sort_locales_form = null;
-
-
-	/**
-	 *
-	 * @param string $id
-	 *
-	 * @return static|null
-	 */
-	public static function get( string $id ) : static|null
-	{
-		return Sites::getSite( $id );
-	}
 
 	/**
 	 * @return Form
@@ -609,7 +598,8 @@ class Sites_Site extends Mvc_Site
 			}
 			$this->saveDataFile();
 
-			static::$sites = null;
+			static::$maps = null;
+			static::$sites = [];
 			Sites::load();
 
 			$layouts_dir = $this->getLayoutsPath();

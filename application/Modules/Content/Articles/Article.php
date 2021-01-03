@@ -216,13 +216,12 @@ class Article extends DataModel
 	 * @param string $path
 	 * @param string|Locale $locale
 	 *
-	 * @return Article|null
+	 * @return static|null
 	 */
-	public static function resolveArticleByURL( string $path, Locale|string $locale ) : Article|null
+	public static function resolveArticleByURL( string $path, Locale|string $locale ) : static|null
 	{
 		$current_article = null;
 		if( substr( $path, -5 )=='.html' ) {
-
 			$current_article = static::load(
 				[
 					'article_localized.URI_fragment' => $path,
@@ -230,7 +229,6 @@ class Article extends DataModel
 					'article_localized.locale' => $locale
 				]
 			);
-
 		}
 
 		/**

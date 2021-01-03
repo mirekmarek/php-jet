@@ -13,6 +13,7 @@ use Jet\Config;
 use Jet\DataModel_Factory;
 use Jet\Http_Request;
 use Jet\Locale;
+use Jet\SysConf_Cache;
 use Jet\SysConf_Jet;
 use Jet\Translator;
 use Jet\Mvc_Factory;
@@ -22,6 +23,8 @@ use Jet\Application_Modules;
 require __DIR__.'/config/PATH.php';
 require __DIR__.'/config/URI.php';
 require __DIR__.'/config/Jet.php';
+
+require ProjectConf_PATH::APPLICATION().'Init/Cache/MVC.php';
 
 require __DIR__.'/Init/PHP.php';
 require __DIR__.'/Init/ErrorHandler.php';
@@ -47,6 +50,9 @@ DataModel_Factory::setModelDefinitionClassNamePrefix(__NAMESPACE__.'\DataModel_D
 Mvc_Factory::setSiteClassName('JetStudio\\Sites_Site');
 Mvc_Factory::setPageClassName('JetStudio\\Pages_Page');
 Mvc_Factory::setPageContentClassName('JetStudio\\Pages_Page_Content');
+
+SysConf_Cache::setAutoloaderEnabled(false);
+SysConf_Cache::setMvcEnabled( false );
 
 Config::setBeTolerant( true );
 Config::setConfigDirPath( ProjectConf_PATH::CONFIG() );

@@ -25,7 +25,6 @@ SysConf_PATH::setBASE( $studio_base );
 SysConf_PATH::setPUBLIC( $studio_base . 'public/' );
 SysConf_PATH::setLOGS( $studio_base . 'logs/' );
 SysConf_PATH::setTMP( $studio_base . 'tmp/' );
-SysConf_PATH::setCACHE( $studio_base . 'cache/' );
 SysConf_PATH::setAPPLICATION( $studio_application );
 SysConf_PATH::setCONFIG( $studio_application . 'config/' );
 
@@ -36,6 +35,7 @@ SysConf_PATH::setDICTIONARIES( $studio_application . 'dictionaries/' );
 
 
 SysConf_PATH::setSITES( $project_base . 'sites/' );
+SysConf_PATH::setCACHE( $project_base . 'cache/' );
 
 ProjectConf_PATH::setBASE( $project_base );
 SysConf_PATH::setMENUS( $project_application.'menus/' );

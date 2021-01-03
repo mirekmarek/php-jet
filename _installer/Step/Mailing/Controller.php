@@ -37,7 +37,7 @@ class Installer_Step_Mailing_Controller extends Installer_Step_Controller
 		$known_senders = [];
 		$specification = '';
 
-		foreach( Mvc_Site::loadSites() as $site ) {
+		foreach( Mvc_Site::getAllSites() as $site ) {
 			$site_id = $site->getId();
 
 			foreach( $site->getLocales() as $locale ) {

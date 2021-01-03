@@ -18,5 +18,5 @@ SysConf_Jet::setHIDE_HTTP_REQUEST( true );
 
 //SysConf_Jet::setTIMEZONE( 'Europe/Prague' );
 
-SysConf_Cache::setMVC_ENABLED( false );
-SysConf_Cache::setAUTOLOADER_ENABLED( false );
+SysConf_Cache::setMvcEnabled( false );
+SysConf_Cache::setAutoloaderEnabled( false );

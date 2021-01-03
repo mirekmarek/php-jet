@@ -21,7 +21,7 @@ $config = Mailing::getConfig();
 <h3><?=Tr::_( 'Set the mail sender' )?></h3>
 <?=$form->start()?>
 
-<?php foreach( Mvc_Site::loadSites() as $site ): ?>
+<?php foreach( Mvc_Site::getAllSites() as $site ): ?>
 
 <fieldset>
 <legend><?=$site->getName()?></legend>

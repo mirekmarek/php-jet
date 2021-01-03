@@ -1,5 +1,6 @@
 <?php
 namespace JetStudio;
+
 require 'application/init.php';
 
 Application::setCurrentPart( 'pages' );

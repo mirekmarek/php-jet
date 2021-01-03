@@ -434,9 +434,7 @@ abstract class Config extends BaseObject
 
 		IO_File::write( $config_file_path, $config_data );
 
-		if(function_exists('opcache_reset')) {
-			opcache_reset();
-		}
+		Cache::resetOPCache();
 
 		Config::$_config_file_data = [];
 	}

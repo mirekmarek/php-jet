@@ -17,8 +17,6 @@ if(!$current) {
 $ok = true;
 try {
 	Application_Modules::uninstallModule( $current->getName() );
-
-	Application::resetOPCache();
 } catch( Exception $e ) {
 	$ok = false;
 	UI_messages::danger( $e->getMessage() );

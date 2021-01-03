@@ -40,7 +40,7 @@ class Installer_Step_CreateSite_Controller extends Installer_Step_Controller
 	 */
 	public static function sitesCreated()
 	{
-		return count( Mvc_Site::loadSites() )==3;
+		return count( Mvc_Site::getAllSites() )==3;
 	}
 
 	/**

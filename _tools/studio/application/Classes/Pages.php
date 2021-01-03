@@ -33,42 +33,6 @@ class Pages extends BaseObject implements Application_Part
 	 */
 	protected static Pages_Page|bool|null $__current_page = null;
 
-	/**
-	 * @var Pages_Page[][][]|null
-	 */
-	protected static array|null $pages = null;
-
-	/**
-	 * @return Pages_Page[][][]
-	 */
-	public static function load() : array
-	{
-
-		if(static::$pages===null) {
-			static::$pages = [];
-
-			foreach(Sites::getSites() as $site) {
-				$site_id = $site->getId();
-
-				static::$pages[$site_id] = [];
-
-				foreach($site->getLocales() as $locale) {
-					$locale_str = $locale->toString();
-					static::$pages[$site_id][$locale_str] = [];
-
-					$pages = Pages_Page::loadPagesData( $site, $locale );
-
-					foreach($pages as $page_id=>$page_data) {
-						$page = Pages_Page::createByData( $site, $locale, $page_data );
-						static::$pages[$site_id][$locale_str][$page_id] = $page;
-
-					}
-				}
-			}
-		}
-
-		return static::$pages;
-	}
 
 	/**
 	 * @param string $action
@@ -133,38 +97,6 @@ class Pages extends BaseObject implements Application_Part
 
 		return SysConf_URI::BASE().'pages.php?'.http_build_query($get_params);
 	}
-	
-	
-	/**
-	 * @param string|Locale $locale
-	 * @param string $site_id
-	 *
-	 * @return Pages_Page[]
-	 */
-	public static function getPages( string|Locale $locale='', string $site_id='' ) : array
-	{
-		static::load();
-
-		if(!$site_id) {
-			$site_id = static::getCurrentSiteId();
-		}
-
-		if(!$locale) {
-			$locale = static::getCurrentLocale();
-		}
-
-		$locale = (string)$locale;
-
-		uasort( static::$pages[$site_id][$locale], function(
-			Pages_Page $a,
-			Pages_Page $b
-		) {
-			return strcmp( $a->getName(), $b->getName() );
-		} );
-
-
-		return static::$pages[$site_id][$locale];
-	}
 
 
 	/**
@@ -176,8 +108,6 @@ class Pages extends BaseObject implements Application_Part
 	 */
 	public static function getPage( string $page_id, string|Locale $locale='', string $site_id='' ) : null|Pages_Page
 	{
-		static::load();
-
 		if(!$site_id) {
 			$site_id = static::getCurrentSiteId();
 		}
@@ -186,14 +116,7 @@ class Pages extends BaseObject implements Application_Part
 			$locale = static::getCurrentLocale();
 		}
 
-		$locale = (string)$locale;
-
-
-		if(!isset(static::$pages[$site_id][$locale][$page_id])) {
-			return null;
-		}
-
-		return static::$pages[$site_id][$locale][$page_id];
+		return Pages_Page::get( $page_id, $locale, $site_id );
 	}
 
 	/**
@@ -298,7 +221,6 @@ class Pages extends BaseObject implements Application_Part
 	 */
 	public static function getCurrentPageTree() : Data_Tree
 	{
-		static::load();
 
 		$tree_data = [];
 
@@ -355,17 +277,6 @@ class Pages extends BaseObject implements Application_Part
 	 */
 	public static function exists( string $page_id, string $locale='', string $site_id='' ) : bool
 	{
-		static::load();
-
-		$locale = (string)$locale;
-
-		if(!$site_id) {
-			$site_id = static::getCurrentSiteId();
-		}
-
-		if(!$locale) {
-			$locale = static::getCurrentLocale();
-		}
 
 		$page = static::getPage(  $page_id, $locale, $site_id );
 		if($page) {

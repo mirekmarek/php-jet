@@ -14,35 +14,21 @@ interface Mvc_Page_Interface
 {
 	/**
 	 * @param Mvc_Site_Interface $site
-	 * @param Locale             $locale
+	 * @param Locale $locale
 	 *
 	 * @return array
 	 */
-	public static function loadPagesData( Mvc_Site_Interface $site, Locale $locale ) : array;
+	public static function getRelativePathMap( Mvc_Site_Interface $site, Locale $locale ) : array;
 
-	/**
-	 * @param Mvc_Site_Interface $site
-	 * @param Locale             $locale
-	 *
-	 * @return static[]
-	 */
-	public static function loadPages( Mvc_Site_Interface $site, Locale $locale ) : array;
 
 	/**
 	 * @param Mvc_Site_Interface      $site
 	 * @param Locale                  $locale
 	 * @param array                   $data
-	 * @param Mvc_Page_Interface|null $parent_page
 	 *
 	 * @return static
 	 */
-	public static function createByData( Mvc_Site_Interface $site, Locale $locale, array $data, Mvc_Page_Interface $parent_page = null ) : static;
-
-	/**
-	 * @param Mvc_Page_Interface $page
-	 *
-	 */
-	public static function appendPage( Mvc_Page_Interface $page ) : void;
+	public static function createByData( Mvc_Site_Interface $site, Locale $locale, array $data ) : static;
 
 	/**
 	 *
@@ -52,7 +38,7 @@ interface Mvc_Page_Interface
 	 *
 	 * @return static|null
 	 */
-	public static function get( string|null $page_id = null, string|Locale|null $locale = null, string|null $site_id = null ) : static|null;
+	public static function get( string|null $page_id, string|Locale|null $locale = null, string|null $site_id = null ) : static|null;
 
 	/**
 	 *
@@ -62,17 +48,6 @@ interface Mvc_Page_Interface
 	 * @return static[]
 	 */
 	public static function getList( string $site_id, Locale $locale ) : array;
-
-
-	/**
-	 * @param Mvc_Site_Interface $site
-	 * @param Locale             $locale
-	 * @param string             $relative_path
-	 *
-	 * @return static|null
-	 */
-	public static function getByRelativePath( Mvc_Site_Interface $site, Locale $locale, string $relative_path ) : static|null;
-
 
 	/**
 	 * @return string
@@ -122,11 +97,6 @@ interface Mvc_Page_Interface
 	public function getKey() : string;
 
 	/**
-	 * @param Mvc_Page_Interface $parent
-	 */
-	public function setParent( Mvc_Page_Interface $parent ) : void;
-
-	/**
 	 * @return bool
 	 */
 	public function isCurrent() : bool;
@@ -161,11 +131,6 @@ interface Mvc_Page_Interface
 	 * @return static[]
 	 */
 	public function getChildren() : array;
-
-	/**
-	 * @param Mvc_Page_Interface $child
-	 */
-	public function appendChild( Mvc_Page_Interface $child ) : void;
 
 	/**
 	 * @return string

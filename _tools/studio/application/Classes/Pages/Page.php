@@ -13,13 +13,13 @@ use Jet\Form_Field_Select;
 use Jet\Form_Field_Textarea;
 use Jet\Form_Field_Hidden;
 use Jet\IO_Dir;
+use Jet\Mvc_Cache;
 use Jet\Mvc_Layout;
 use Jet\Mvc_Page;
 use Jet\Form;
 use Jet\Form_Field_Input;
 use Jet\Form_Field_Checkbox;
 use Jet\Mvc_Factory;
-use Jet\Mvc_Page_Interface;
 use Jet\Mvc_Site_Interface;
 use Jet\Tr;
 use Jet\Locale;
@@ -35,6 +35,11 @@ class Pages_Page extends Mvc_Page
 {
 	const MAX_META_TAGS_COUNT = 100;
 	const MAX_HTT_HEADERS_COUNT = 100;
+
+	/**
+	 * @var bool
+	 */
+	protected static bool $use_module_pages = false;
 
 	/**
 	 * @var ?Form
@@ -88,43 +93,18 @@ class Pages_Page extends Mvc_Page
 	 * @param Mvc_Site_Interface      $site
 	 * @param Locale                  $locale
 	 * @param array                   $data
-	 * @param Mvc_Page_Interface|null $parent_page
 	 *
 	 * @return static
 	 */
-	public static function createByData( Mvc_Site_Interface $site, Locale $locale, array $data, Mvc_Page_Interface $parent_page = null ) : static
+	public static function createByData( Mvc_Site_Interface $site, Locale $locale, array $data ) : static
 	{
-		$page = new static();
-
-		$page->setSite( $site );
-		$page->setLocale( $locale );
-		$page->setId( $data['id'] );
-
-		if( $parent_page ) {
-			$page->setParent( $parent_page );
-		}
-
-		unset( $data['id'] );
-
-		$page->setData( $data );
+		$page = parent::createByData( $site, $locale, $data );
 
 		$page->original_relative_path_fragment = $page->relative_path_fragment;
 
 		return $page;
 	}
 
-	/**
-	 *
-	 * @param string|null        $page_id (optional, null = current)
-	 * @param string|Locale|null $locale (optional, null = current)
-	 * @param string|null        $site_id (optional, null = current)
-	 *
-	 * @return static|null
-	 */
-	public static function get( string|null $page_id = null, string|Locale|null $locale = null, string|null $site_id = null ) : static|null
-	{
-		return Pages::getPage( $page_id, $locale, $site_id );
-	}
 
 	/**
 	 * @param string $relative_path_fragment
@@ -277,7 +257,10 @@ class Pages_Page extends Mvc_Page
 		if($parent) {
 			$page->setRelativePathFragment( $id );
 			$page->original_relative_path_fragment = $id;
-			$page->setParent( $parent );
+			$page->parent_id = $parent->getId();
+			if($parent->getRelativePath()) {
+				$page->relative_path = $parent->getRelativePath().'/'.$page->relative_path_fragment.'/';
+			}
 		}
 
 		return $page;
@@ -997,7 +980,7 @@ class Pages_Page extends Mvc_Page
 			'<?php'.PHP_EOL.'return '.(new Data_Array( $data ))->export()
 		);
 
-		Application::resetOPCache();
+		Mvc_Cache::invalidate();
 	}
 
 	/**

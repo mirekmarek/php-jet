@@ -7,6 +7,7 @@
  */
 namespace JetStudio;
 
+use Jet\Cache;
 use Jet\DataModel;
 use Jet\Exception;
 use Jet\Form;
@@ -1176,7 +1177,7 @@ trait DataModel_Definition_Property_Trait
 				$parser->toString()
 			);
 
-			Application::resetOPCache();
+			Cache::resetOPCache();
 
 
 		} catch( Exception $e ) {
@@ -1231,7 +1232,7 @@ trait DataModel_Definition_Property_Trait
 				$parser->toString()
 			);
 
-			Application::resetOPCache();
+			Cache::resetOPCache();
 
 
 		} catch( Exception $e ) {

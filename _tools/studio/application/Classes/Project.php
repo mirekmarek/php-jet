@@ -35,7 +35,7 @@ class Project extends BaseObject implements Application_Part {
 	{
 		$locales = [];
 
-		foreach(Mvc_Site::loadSites() as $site) {
+		foreach( Mvc_Site::getAllSites() as $site) {
 			foreach($site->getLocales() as $locale) {
 				$locale_str = (string)$locale;
 

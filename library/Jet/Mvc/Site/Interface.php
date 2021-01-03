@@ -12,23 +12,12 @@ namespace Jet;
  */
 interface Mvc_Site_Interface
 {
-	/**
-	 * @return array
-	 */
-	public static function loadSitesData() : array;
 
 	/**
 	 *
 	 * @return static[]
 	 */
-	public static function loadSites() : array;
-
-	/**
-	 *
-	 * @param static[] $sites
-	 */
-	public static function setSites( array $sites ) : void;
-
+	public static function getAllSites() : array;
 
 	/**
 	 * @param array  $data
@@ -39,7 +28,7 @@ interface Mvc_Site_Interface
 
 
 	/**
-	 * @return Mvc_Site_LocalizedData_Interface[]
+	 * @return array
 	 */
 	public static function getUrlMap() : array;
 

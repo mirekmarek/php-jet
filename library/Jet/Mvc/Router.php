@@ -145,12 +145,10 @@ class Mvc_Router extends BaseObject  implements Mvc_Router_Interface
 
 		$this->request_URL = (string)$request_URL;
 
-
 		if( $this->resolve_seekSiteAndLocale() ) {
 			$this->resolve_seekPage();
 
 			if($this->resolve_handleAuthentication()) {
-				$this->resolve_decodePath();
 
 				if($this->resolve_pageResolve()) {
 					if(
@@ -181,34 +179,19 @@ class Mvc_Router extends BaseObject  implements Mvc_Router_Interface
 
 		$site_class_name = Mvc_Factory::getSiteInstance();
 
-		Debug_Profiler::blockStart('Load sites');
-		$site_class_name::loadSites();
-		Debug_Profiler::blockEnd('Load sites');
-
 
 		Debug_Profiler::blockStart('Seeking for site');
 		$site_URLs_map = $site_class_name::getUrlMap();
 
-		$known_URLs = array_keys( $site_URLs_map );
-
-		usort(
-			$known_URLs,
-			function( $a, $b ) {
-				return strlen( $b )-strlen( $a );
-			}
-		);
-
-
 		$current_site_URL = null;
-
 		$founded_url = null;
 
-		foreach( $known_URLs as $URL ) {
+		foreach( $site_URLs_map as $URL=>$d ) {
 
 			if(substr($this->request_URL.'/', 0, strlen($URL))==$URL) {
-				$d = $site_URLs_map[$URL];
-				$this->site = $d->getSite();
-				$this->locale = $d->getLocale();
+
+				$this->site = $site_class_name::get( $d[0] );
+				$this->locale = new Locale( $d[1] );
 
 				$founded_url = $URL;
 
@@ -288,6 +271,8 @@ class Mvc_Router extends BaseObject  implements Mvc_Router_Interface
 	 */
 	protected function resolve_seekPage() : void
 	{
+
+
 		Debug_Profiler::blockStart('Seeking for page');
 
 		/**
@@ -296,43 +281,44 @@ class Mvc_Router extends BaseObject  implements Mvc_Router_Interface
 		$page_class_name = Mvc_Factory::getPageClassName();
 
 
-		Debug_Profiler::blockStart('Load pages');
-		$page_class_name::loadPages( $this->getSite(), $this->getLocale() );
-		Debug_Profiler::blockEnd('Load pages');
+		Debug_Profiler::blockStart('Load page maps');
+		$map = $page_class_name::getRelativePathMap( $this->site, $this->locale );
+		Debug_Profiler::blockEnd('Load page maps');
 
 
 		$relative_URIs = [];
 
 		if($this->path) {
-			$path = explode('/', $this->path);
+			$path = explode('/', rtrim($this->path, '/'));
 
 			while($path) {
-				$relative_URIs[] = implode( '/', $path );
+				$relative_URIs[] = implode( '/', $path ).'/';
 				unset( $path[count( $path )-1] );
 			}
 		}
 
+		$page_id = Mvc_Page::HOMEPAGE_ID;
 
 
 		foreach( $relative_URIs as $i => $URI ) {
 
-			$this->page = $page_class_name::getByRelativePath( $this->getSite(), $this->getLocale(), $URI );
-
-			if( $this->page ) {
-
-				$this->path = substr($this->path, strlen($URI)+1);
-				if(!$this->path) {
-					$this->path = '';
-				}
-
-				break;
+			if(!isset($map[$URI])) {
+				continue;
 			}
+
+			$page_id = $map[$URI];
+
+			$this->path = substr($this->path, strlen($URI) );
+			if(!$this->path) {
+				$this->path = '';
+			}
+
+			break;
 		}
 
+		$this->page = $page_class_name::get( $page_id, $this->locale, $this->site->getId() );
 
-		if( !$this->page ) {
-			$this->page = $this->site->getHomepage($this->locale);
-		}
+		$this->resolve_decodePath();
 
 		if($this->set_mvc_state) {
 			Mvc::setCurrentPage($this->page);

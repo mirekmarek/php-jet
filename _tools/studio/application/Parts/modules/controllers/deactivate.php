@@ -18,7 +18,6 @@ if($current->isInstalled()) {
 	$ok = true;
 	try {
 		Application_Modules::deactivateModule( $current->getName() );
-		Application::resetOPCache();
 	} catch( Exception $e ) {
 		$ok = false;
 		UI_messages::danger( $e->getMessage() );

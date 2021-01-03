@@ -64,6 +64,7 @@ class Controller_Web extends Mvc_Controller_Default
 				});
 			$this->router->addAction('detail')
 				->setResolver(function() use ($path) {
+
 					$current_article = Article::resolveArticleByURL( $path, Mvc::getCurrentLocale() );
 
 					if( !$current_article ) {

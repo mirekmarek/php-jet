@@ -16,6 +16,7 @@ use Jet\Form_Field_Input;
 use Jet\Form_Field_Select;
 use Jet\IO_Dir;
 use Jet\IO_File;
+use Jet\Mvc_Cache;
 use Jet\Mvc_Layout;
 use Jet\Tr;
 use \ReflectionClass;
@@ -64,7 +65,7 @@ class Modules_Manifest extends Application_Module_Manifest
 		$ok = true;
 		try {
 			$this->create_saveManifest();
-			Application::resetOPCache();
+			Mvc_Cache::invalidate();
 		} catch( Exception $e ) {
 			$ok = false;
 			Application::handleError( $e );

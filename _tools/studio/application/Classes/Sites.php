@@ -75,7 +75,7 @@ class Sites extends BaseObject implements Application_Part
 	 */
 	public static function load() : array
 	{
-		return Sites_Site::loadSites();
+		return Sites_Site::getAllSites();
 	}
 
 

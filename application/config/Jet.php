@@ -17,8 +17,8 @@ SysConf_Jet::setTRANSLATOR_AUTO_APPEND_UNKNOWN_PHRASE( true );
 
 SysConf_Jet::setHIDE_HTTP_REQUEST( true );
 
-SysConf_Cache::setMVC_ENABLED(true);
-SysConf_Cache::setAUTOLOADER_ENABLED(true);
+SysConf_Cache::setMvcEnabled(true);
+SysConf_Cache::setAutoloaderEnabled(true);
 
 //SysConf_Jet::setTIMEZONE( 'Europe/Prague' );
 

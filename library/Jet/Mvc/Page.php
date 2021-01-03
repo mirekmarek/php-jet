@@ -20,9 +20,8 @@ require_once 'Page/Content.php';
 /**
  *
  */
-class Mvc_Page extends BaseObject implements Mvc_Page_Interface, BaseObject_Cacheable_Interface
+class Mvc_Page extends BaseObject implements Mvc_Page_Interface
 {
-	use BaseObject_Cacheable_Trait;
 
 	const HOMEPAGE_ID = '_homepage_';
 
@@ -132,92 +131,112 @@ class Mvc_Page extends BaseObject implements Mvc_Page_Interface, BaseObject_Cach
 	 */
 	protected array $meta_tags = [];
 
-
 	/**
 	 *
-	 * @param string|null        $page_id (optional, null = current)
+	 * @param string|null         $page_id (optional, null = current)
 	 * @param string|Locale|null $locale (optional, null = current)
 	 * @param string|null        $site_id (optional, null = current)
 	 *
 	 * @return static|null
 	 */
-	public static function get( string|null $page_id = null, string|Locale|null $locale = null, string|null $site_id = null ) : static|null
+	public static function get( string|null $page_id, string|Locale|null $locale = null, string|null $site_id = null ) : static|null
 	{
-		if(
-			!$page_id &&
-			!$locale &&
-			!$site_id
-		) {
-			/** @noinspection PhpIncompatibleReturnTypeInspection */
-			return Mvc::getCurrentPage();
-		}
 
-		if( !$page_id ) {
+		if(!$page_id) {
+			if(!Mvc::getCurrentPage()) {
+				return null;
+			}
 			$page_id = Mvc::getCurrentPage()->getId();
 		}
 
 		if( !$locale ) {
 			$locale = Mvc::getCurrentLocale();
+			if(!$locale) {
+				return null;
+			}
 		}
 
-		if( !is_object( $locale ) ) {
-			$locale_str = (string)$locale;
-
-			$locale = new Locale( $locale_str );
-		} else {
-			$locale_str = (string)$locale;
+		if( is_string( $locale ) ) {
+			$locale = new Locale( $locale );
 		}
 
 
 		if( !$site_id ) {
+			if(!Mvc::getCurrentSite()) {
+				return null;
+			}
+
 			$site_id = Mvc::getCurrentSite()->getId();
 		}
 
+		$key = $site_id.':'.$locale.':'.$page_id;
 
-		if( isset( static::$pages[$site_id][$locale_str][$page_id] ) ) {
-			return static::$pages[$site_id][$locale_str][$page_id];
+		if(isset(static::$pages[$key])) {
+			return static::$pages[$key];
 		}
 
+		$site = Mvc_Factory::getSiteInstance()::get( $site_id );
 
-		$site_class_name = Mvc_Factory::getSiteClassName();
-		$page_class_name = Mvc_Factory::getPageClassName();
+		$maps = static::loadMaps( $site, $locale );
 
-		/**
-		 * @var Mvc_Site_Interface $site_class_name
-		 * @var Mvc_Page_Interface $page_class_name
-		 */
-		$site = $site_class_name::get( $site_id );
-
-		$page_class_name::loadPages( $site, $locale );
-
-		if( isset( static::$pages[$site_id][$locale_str][$page_id] ) ) {
-			return static::$pages[$site_id][$locale_str][$page_id];
-		}
-
-		return null;
-
-	}
-
-	/**
-	 * @param Mvc_Site_Interface $site
-	 * @param Locale             $locale
-	 * @param string             $relative_path
-	 *
-	 * @return static|null
-	 */
-	static public function getByRelativePath( Mvc_Site_Interface $site, Locale $locale, string $relative_path )  : static|null
-	{
-
-		static::loadPages( $site, $locale );
-
-		$str_locale = (string)$locale;
-
-		if( !isset( static::$path_map[$site->getId()][$str_locale][$relative_path] ) ) {
+		if(!isset($maps['pages_files_map'][$page_id])) {
 			return null;
 		}
 
-		return static::$path_map[$site->getId()][$str_locale][$relative_path];
+		$data_file_path = $maps['pages_files_map'][$page_id];
+
+		if($data_file_path[0]=='@') {
+			$module_name = substr($data_file_path, 1);
+			$module = Application_Modules::moduleManifest( $module_name );
+
+			if(!$module) {
+				return null;
+			}
+
+			$pages = $module->getPages( $site, $locale );
+
+			if(!isset($pages[$page_id])) {
+				return null;
+			}
+
+			$page = $pages[$page_id];
+
+			$page->children = $maps['children_map'][$page_id];
+			$page->relative_path = array_search( $page_id, $maps['relative_path_map'] );
+			$page->parent_id = $maps['parent_map'][$page_id];
+
+			static::$pages[$key] = $page;
+
+		} else {
+			if( !IO_File::isReadable( $data_file_path ) ) {
+				throw new Mvc_Page_Exception(
+					'Page data file is not readable: '.$data_file_path,
+					Mvc_Page_Exception::CODE_UNABLE_TO_READ_PAGE_DATA
+				);
+			}
+
+			/** @noinspection PhpIncludeInspection */
+			$data = require $data_file_path;
+
+			$data['id'] = $page_id;
+			$data['data_file_path'] = $data_file_path;
+			$data['children'] = $maps['children_map'][$page_id];
+			$data['relative_path'] = array_search( $page_id, $maps['relative_path_map'] );
+			$data['relative_path_fragment'] = basename($data['relative_path']);
+			$data['parent_id'] = $maps['parent_map'][$page_id];
+
+			$page = static::createByData( $site, $locale, $data );
+
+			static::$pages[$key] = $page;
+
+		}
+
+
+
+		return static::$pages[$key];
 	}
+
+
 
 	/**
 	 *

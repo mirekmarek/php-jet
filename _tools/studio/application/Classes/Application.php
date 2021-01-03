@@ -267,14 +267,4 @@ class Application extends Jet_Application {
 
 	}
 
-	/**
-	 *
-	 */
-	public static function resetOPCache() : void
-	{
-		if(function_exists('opcache_reset')) {
-			opcache_reset();
-		}
-	}
-	
 }

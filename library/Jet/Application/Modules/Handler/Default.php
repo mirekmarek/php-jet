@@ -563,6 +563,7 @@ class Application_Modules_Handler_Default extends Application_Modules_Handler
 			$this->getInstalledModulesListFilePath(),
 			'<?php'.PHP_EOL.' return '.var_export( $this->installed_modules_list, true ).';'.PHP_EOL
 		);
+		Mvc_Cache::invalidate();
 	}
 
 	/**
@@ -574,6 +575,7 @@ class Application_Modules_Handler_Default extends Application_Modules_Handler
 			$this->getActivatedModulesListFilePath(),
 			'<?php'.PHP_EOL.' return '.var_export( $this->activated_modules_list, true ).';'.PHP_EOL
 		);
+		Mvc_Cache::invalidate();
 	}
 
 }

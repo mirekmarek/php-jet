@@ -15,43 +15,43 @@ class SysConf_Cache {
 	/**
 	 * @var bool
 	 */
-	protected static bool $MVC_ENABLED = false;
+	protected static bool $mvc_enables = false;
 
 	/**
 	 * @var bool
 	 */
-	protected static bool $AUTOLOADER_ENABLED = false;
+	protected static bool $autoloader_enabled = false;
 
 	/**
 	 * @return bool
 	 */
-	public static function isMVC_ENABLED(): bool
+	public static function isMvcEnabled(): bool
 	{
-		return self::$MVC_ENABLED;
+		return self::$mvc_enables;
 	}
 
 	/**
-	 * @param bool $MVC_ENABLED
+	 * @param bool $mvc_enables
 	 */
-	public static function setMVC_ENABLED( bool $MVC_ENABLED ): void
+	public static function setMvcEnabled( bool $mvc_enables ): void
 	{
-		self::$MVC_ENABLED = $MVC_ENABLED;
+		self::$mvc_enables = $mvc_enables;
 	}
 
 	/**
 	 * @return bool
 	 */
-	public static function isAUTOLOADER_ENABLED(): bool
+	public static function isAutoloaderEnabled(): bool
 	{
-		return self::$AUTOLOADER_ENABLED;
+		return self::$autoloader_enabled;
 	}
 
 	/**
-	 * @param bool $AUTOLOADER_ENABLED
+	 * @param bool $autoloader_enabled
 	 */
-	public static function setAUTOLOADER_ENABLED( bool $AUTOLOADER_ENABLED ): void
+	public static function setAutoloaderEnabled( bool $autoloader_enabled ): void
 	{
-		self::$AUTOLOADER_ENABLED = $AUTOLOADER_ENABLED;
+		self::$autoloader_enabled = $autoloader_enabled;
 	}
 
 

@@ -7,6 +7,7 @@
  */
 namespace JetStudio;
 
+use Jet\Cache;
 use Jet\DataModel;
 use Jet\DataModel_Exception;
 use Jet\Exception;
@@ -909,7 +910,7 @@ trait DataModel_Definition_Model_Trait {
 				$parser->toString()
 			);
 
-			Application::resetOPCache();
+			Cache::resetOPCache();
 
 
 		} catch( Exception $e ) {
@@ -939,7 +940,7 @@ trait DataModel_Definition_Model_Trait {
 				'<?php'.PHP_EOL.$class->toString()
 			);
 
-			Application::resetOPCache();
+			Cache::resetOPCache();
 
 			if(!$this instanceof DataModel_Definition_Model_Main) {
 				DataModels::load(true);
