@@ -8,29 +8,35 @@
 namespace Jet;
 
 require_once SysConf_Path::getLibrary().'Jet/Cache.php';
+require_once SysConf_Path::getLibrary().'Jet/Cache/Redis.php';
 require_once SysConf_Path::getLibrary().'Jet/Mvc/Cache.php';
 require_once SysConf_Path::getLibrary().'Jet/Mvc/Cache/Backend.php';
 
 /**
  *
  */
-class Mvc_Cache_Backend_Files implements Mvc_Cache_Backend {
+class Mvc_Cache_Backend_Redis implements Mvc_Cache_Backend {
+
+	/**
+	 * @var Cache_Redis|null
+	 */
+	protected ?Cache_Redis $redis = null;
+
+	/**
+	 * @param string $host
+	 * @param int $port
+	 */
+	public function __construct( string $host='127.0.0.1', int $port=6379 )
+	{
+		$this->redis = new Cache_Redis( $host, $port );
+	}
 
 	/**
 	 * @return bool
 	 */
 	public function isActive() : bool
 	{
-		return SysConf_Cache::isMvcEnabled();
-	}
-
-	/**
-	 * @param string $entity
-	 * @return string
-	 */
-	protected function getMapPath( string $entity ) : string
-	{
-		return SysConf_Path::getCache().'mvc_'.$entity.'.php';
+		return SysConf_Cache::isMvcEnabled() && $this->redis->isActive();
 	}
 
 
@@ -40,20 +46,11 @@ class Mvc_Cache_Backend_Files implements Mvc_Cache_Backend {
 	 */
 	protected function readMap( string $entity ) : array|null
 	{
-		if(!SysConf_Cache::isMvcEnabled()) {
+		if(!$this->isActive()) {
 			return null;
 		}
 
-		$file_path = $this->getMapPath( $entity );
-
-		if(
-			!is_file( $file_path ) ||
-			!is_readable( $file_path )
-		) {
-			return null;
-		}
-
-		return require $file_path;
+		return $this->redis->get( 'mvc_'.$entity );
 	}
 
 	/**
@@ -62,32 +59,13 @@ class Mvc_Cache_Backend_Files implements Mvc_Cache_Backend {
 	 */
 	protected function writeMap( string $entity, array $data ) : void
 	{
-		if(!SysConf_Cache::isMvcEnabled()) {
+		if(!$this->isActive()) {
 			return;
 		}
 
-		$file_path = $this->getMapPath($entity);
-
-		file_put_contents(
-			$file_path,
-			'<?php return '.var_export( $data, true ).';',
-			LOCK_EX
-		);
-
-		chmod( $file_path, SysConf_Jet::getIOModFile());
+		$this->redis->set( 'mvc_'.$entity, $data );
 
 		Cache::resetOPCache();
-	}
-
-
-
-	/**
-	 * @param string $key
-	 * @return string
-	 */
-	protected function getHtmlPath( string $key ) : string
-	{
-		return SysConf_Path::getCache().'mvc_'.$key.'.html';
 	}
 
 
@@ -97,20 +75,11 @@ class Mvc_Cache_Backend_Files implements Mvc_Cache_Backend {
 	 */
 	protected function readHtml( string $key ) : string|null
 	{
-		if(!SysConf_Cache::isMvcEnabled()) {
+		if(!$this->isActive()) {
 			return null;
 		}
 
-		$file_path = $this->getHtmlPath( $key );
-
-		if(
-			!is_file( $file_path ) ||
-			!is_readable( $file_path )
-		) {
-			return null;
-		}
-
-		return file_get_contents( $file_path );
+		return $this->redis->get( 'mvc_'.$key.'.html' );
 	}
 
 	/**
@@ -119,19 +88,11 @@ class Mvc_Cache_Backend_Files implements Mvc_Cache_Backend {
 	 */
 	protected function writeHtml( string $key, string $html ) : void
 	{
-		if(!SysConf_Cache::isMvcEnabled()) {
+		if(!$this->isActive()) {
 			return;
 		}
 
-		$file_path = $this->getHtmlPath($key);
-
-		file_put_contents(
-			$file_path,
-			$html,
-			LOCK_EX
-		);
-
-		chmod( $file_path, SysConf_Jet::getIOModFile());
+		$this->redis->set( 'mvc_'.$key.'.html', $html );
 	}
 
 
@@ -141,17 +102,11 @@ class Mvc_Cache_Backend_Files implements Mvc_Cache_Backend {
 	 */
 	public function reset(): void
 	{
-		$files = IO_Dir::getFilesList(SysConf_Path::getCache(), 'mvc_*.php');
-
-		foreach($files as $file_path=>$file_name) {
-			IO_File::delete($file_path);
+		if(!$this->redis->isActive()) {
+			return;
 		}
 
-		$files = IO_Dir::getFilesList(SysConf_Path::getCache(), 'mvc_*.html');
-
-		foreach($files as $file_path=>$file_name) {
-			IO_File::delete($file_path);
-		}
+		$this->redis->deleteItems('mvc_');
 
 		Cache::resetOPCache();
 	}

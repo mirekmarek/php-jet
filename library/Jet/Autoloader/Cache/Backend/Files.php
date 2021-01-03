@@ -69,8 +69,10 @@ class Autoloader_Cache_Backend_Files implements Autoloader_Cache_Backend {
 
 		file_put_contents(
 			$file_path,
-			'<?php return '.var_export( $map, true ).';'
+			'<?php return '.var_export( $map, true ).';',
+			LOCK_EX
 		);
+
 		/** @noinspection PhpUsageOfSilenceOperatorInspection */
 		@chmod( $file_path, SysConf_Jet::getIOModFile());
 

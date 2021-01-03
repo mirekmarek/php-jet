@@ -485,7 +485,18 @@ class Mvc_Page_Content extends BaseObject implements Mvc_Page_Content_Interface
 			return false;
 		}
 
-		$this->output( $output );
+		$position = $this->getOutputPosition();
+		if( !$position ) {
+			$position = Mvc_Layout::DEFAULT_OUTPUT_POSITION;
+		}
+
+		$position_order = $this->getOutputPositionOrder();
+
+		Mvc_Layout::getCurrentLayout()->addOutputPart(
+			$output,
+			$position,
+			$position_order
+		);
 
 		return true;
 	}
