@@ -352,7 +352,7 @@ class Controller_Main extends Mvc_Controller_Default
 		$upload_image_field->setCatcher(
 			function( $tmp_file ) use ( $upload_image_field ) {
 
-				$target_dir = SysConf_Path::PUBLIC().'test_uploads/';
+				$target_dir = SysConf_Path::getPublic().'test_uploads/';
 
 				IO_Dir::create( $target_dir );
 

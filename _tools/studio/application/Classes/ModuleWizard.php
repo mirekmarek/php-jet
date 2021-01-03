@@ -263,7 +263,7 @@ abstract class ModuleWizard extends BaseObject {
 	 */
 	public function getModuleTemplateDir() : string
 	{
-		return ProjectConf_Path::TEMPLATES().'module_wizard/'.$this->getName();
+		return ProjectConf_Path::getTemplates().'module_wizard/'.$this->getName();
 	}
 
 	/**

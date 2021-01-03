@@ -2,7 +2,7 @@
 use Jet\SysConf_Path;
 use Jet\SysConf_URI;
 
-require_once SysConf_Path::LIBRARY().'Jet/SysConf/URI.php';
+require_once SysConf_Path::getLibrary().'Jet/SysConf/URI.php';
 
 
 

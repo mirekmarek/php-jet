@@ -152,7 +152,7 @@ class AccessControl {
 	 */
 	protected static function readKey() : bool|array
 	{
-		$path  = ProjectConf_Path::DATA().'_jet_studio_access.php';
+		$path  = ProjectConf_Path::getData().'_jet_studio_access.php';
 
 		if( !IO_File::exists($path) ) {
 			UI_messages::danger( Tr::_('The access configuration file does not exist') );

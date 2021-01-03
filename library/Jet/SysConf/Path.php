@@ -7,7 +7,6 @@
  */
 namespace Jet;
 
-//TODO: aktualizovat konvenci ...
 /**
  * 
  */
@@ -15,52 +14,52 @@ class SysConf_Path {
 	/**
 	 * @var string
 	 */
-	protected static string $BASE =    '';
+	protected static string $base =    '';
 	/**
 	 * @var string
 	 */
-	protected static string $LIBRARY = '';
+	protected static string $library = '';
 	/**
 	 * @var string
 	 */
-	protected static string $SITES  =  '';
+	protected static string $sites  =  '';
 	/**
 	 * @var string
 	 */
-	protected static string $MENUS  =  '';
+	protected static string $menus  =  '';
 	/**
 	 * @var string
 	 */
-	protected static string $PUBLIC =  '';
+	protected static string $public =  '';
 	/**
 	 * @var string
 	 */
-	protected static string $LOGS =    '';
+	protected static string $logs =    '';
 	/**
 	 * @var string
 	 */
-	protected static string $TMP =     '';
+	protected static string $tmp =     '';
 	/**
 	 * @var string
 	 */
-	protected static string $CACHE =   '';
+	protected static string $cache =   '';
 
 	/**
 	 * @var string
 	 */
-	protected static string $APPLICATION =  '';
+	protected static string $application =  '';
 	/**
 	 * @var string
 	 */
-	protected static string $CONFIG =       '';
+	protected static string $config =       '';
 	/**
 	 * @var string
 	 */
-	protected static string $DATA =         '';
+	protected static string $data =         '';
 	/**
 	 * @var string
 	 */
-	protected static string $DICTIONARIES = '';
+	protected static string $dictionaries = '';
 
 	/**
 	 * @param string $what
@@ -76,209 +75,206 @@ class SysConf_Path {
 	/**
 	 * @return string
 	 */
-	public static function BASE() : string
+	public static function getBase() : string
 	{
-		static::_check('BASE');
-		return static::$BASE;
+		static::_check('base');
+		return static::$base;
 	}
 
 	/**
-	 * @param string $BASE
+	 * @param string $base
 	 */
-	public static function setBASE( string $BASE ) : void
+	public static function setBase( string $base ) : void
 	{
-		static::$BASE = $BASE;
-	}
-
-	/**
-	 * @return string
-	 */
-	public static function LIBRARY() : string
-	{
-		static::_check('LIBRARY');
-		return static::$LIBRARY;
-	}
-
-	/**
-	 * @param string $LIBRARY
-	 */
-	public static function setLIBRARY( string $LIBRARY ) : void
-	{
-		static::$LIBRARY = $LIBRARY;
+		static::$base = $base;
 	}
 
 	/**
 	 * @return string
 	 */
-	public static function SITES() : string
+	public static function getLibrary() : string
 	{
-		static::_check('SITES');
-		return static::$SITES;
+		static::_check('library');
+		return static::$library;
 	}
 
 	/**
-	 * @param string $SITES
+	 * @param string $library
 	 */
-	public static function setSITES( string $SITES ) : void
+	public static function setLibrary( string $library ) : void
 	{
-		static::$SITES = $SITES;
+		static::$library = $library;
 	}
-
 
 	/**
 	 * @return string
 	 */
-	public static function MENUS() : string
+	public static function getSites() : string
 	{
-		static::_check('MENUS');
-		return static::$MENUS;
+		static::_check('sites');
+		return static::$sites;
 	}
 
 	/**
-	 * @param string $MENUS
+	 * @param string $sites
 	 */
-	public static function setMENUS( string $MENUS ) : void
+	public static function setSites( string $sites ) : void
 	{
-		static::$MENUS = $MENUS;
+		static::$sites = $sites;
 	}
 
 
 	/**
 	 * @return string
 	 */
-	public static function PUBLIC() : string
+	public static function getMenus() : string
 	{
-		static::_check('PUBLIC');
-		return static::$PUBLIC;
+		static::_check('menus');
+		return static::$menus;
 	}
 
 	/**
-	 * @param string $PUBLIC
+	 * @param string $menus
 	 */
-	public static function setPUBLIC( string $PUBLIC ) : void
+	public static function setMenus( string $menus ) : void
 	{
-		static::$PUBLIC = $PUBLIC;
+		static::$menus = $menus;
+	}
+
+
+	/**
+	 * @return string
+	 */
+	public static function getPublic() : string
+	{
+		static::_check('public');
+		return static::$public;
+	}
+
+	/**
+	 * @param string $public
+	 */
+	public static function setPublic( string $public ) : void
+	{
+		static::$public = $public;
 	}
 
 	/**
 	 * @return string
 	 */
-	public static function LOGS() : string
+	public static function getLogs() : string
 	{
-		static::_check('LOGS');
-		return static::$LOGS;
+		static::_check('logs');
+		return static::$logs;
 	}
 
 	/**
-	 * @param string $LOGS
+	 * @param string $logs
 	 */
-	public static function setLOGS( string $LOGS ) : void
+	public static function setLogs( string $logs ) : void
 	{
-		static::$LOGS = $LOGS;
-	}
-
-	/**
-	 * @return string
-	 */
-	public static function TMP() : string
-	{
-		static::_check('TMP');
-		return static::$TMP;
-	}
-
-	/**
-	 * @param string $TMP
-	 */
-	public static function setTMP( string $TMP ) : void
-	{
-		static::$TMP = $TMP;
+		static::$logs = $logs;
 	}
 
 	/**
 	 * @return string
 	 */
-	public static function CACHE() : string
+	public static function getTmp() : string
 	{
-		static::_check('CACHE');
-		return static::$CACHE;
+		static::_check('tmp');
+		return static::$tmp;
 	}
 
 	/**
-	 * @param string $CACHE
+	 * @param string $tmp
 	 */
-	public static function setCACHE( string $CACHE ) : void
+	public static function setTmp( string $tmp ) : void
 	{
-		static::$CACHE = $CACHE;
-	}
-
-	/**
-	 * @return string
-	 */
-	public static function APPLICATION() : string
-	{
-		static::_check('APPLICATION');
-		return static::$APPLICATION;
-	}
-
-	/**
-	 * @param string $APPLICATION
-	 */
-	public static function setAPPLICATION( string $APPLICATION ) : void
-	{
-		static::$APPLICATION = $APPLICATION;
+		static::$tmp = $tmp;
 	}
 
 	/**
 	 * @return string
 	 */
-	public static function CONFIG() : string
+	public static function getCache() : string
 	{
-		static::_check('CONFIG');
-		return static::$CONFIG;
+		static::_check('cache');
+		return static::$cache;
 	}
 
 	/**
-	 * @param string $CONFIG
+	 * @param string $cache
 	 */
-	public static function setCONFIG( string $CONFIG ) : void
+	public static function setCache( string $cache ) : void
 	{
-		static::$CONFIG = $CONFIG;
-	}
-
-	/**
-	 * @return string
-	 */
-	public static function DATA() : string
-	{
-		static::_check('DATA');
-		return static::$DATA;
-	}
-
-	/**
-	 * @param string $DATA
-	 */
-	public static function setDATA( string $DATA ) : void
-	{
-		static::$DATA = $DATA;
+		static::$cache = $cache;
 	}
 
 	/**
 	 * @return string
 	 */
-	public static function DICTIONARIES() : string
+	public static function getApplication() : string
 	{
-		static::_check('DICTIONARIES');
-		return static::$DICTIONARIES;
+		static::_check('application');
+		return static::$application;
 	}
 
 	/**
-	 * @param string $DICTIONARIES
+	 * @param string $application
 	 */
-	public static function setDICTIONARIES( string $DICTIONARIES ) : void
+	public static function setApplication( string $application ) : void
 	{
-		static::$DICTIONARIES = $DICTIONARIES;
+		static::$application = $application;
 	}
 
+	/**
+	 * @return string
+	 */
+	public static function getConfig() : string
+	{
+		static::_check('config');
+		return static::$config;
+	}
 
+	/**
+	 * @param string $config
+	 */
+	public static function setConfig( string $config ) : void
+	{
+		static::$config = $config;
+	}
 
+	/**
+	 * @return string
+	 */
+	public static function getData() : string
+	{
+		static::_check('data');
+		return static::$data;
+	}
+
+	/**
+	 * @param string $data
+	 */
+	public static function setData( string $data ) : void
+	{
+		static::$data = $data;
+	}
+
+	/**
+	 * @return string
+	 */
+	public static function getDictionaries() : string
+	{
+		static::_check('dictionaries');
+		return static::$dictionaries;
+	}
+
+	/**
+	 * @param string $dictionaries
+	 */
+	public static function setDictionaries( string $dictionaries ) : void
+	{
+		static::$dictionaries = $dictionaries;
+	}
 }

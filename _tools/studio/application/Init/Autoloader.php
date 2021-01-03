@@ -14,25 +14,25 @@ use Jet\SysConf_Path;
 
 //Debug_Profiler::blockStart('INIT - Autoloader');
 
-require SysConf_Path::LIBRARY().'Jet/Autoloader.php';
+require SysConf_Path::getLibrary().'Jet/Autoloader.php';
 
 
 Autoloader::initialize();
 
 
-require SysConf_Path::APPLICATION().'Autoloaders/Jet.php';
+require SysConf_Path::getApplication().'Autoloaders/Jet.php';
 Autoloader_Jet::register();
 
-require SysConf_Path::APPLICATION().'Autoloaders/StudioClasses.php';
+require SysConf_Path::getApplication().'Autoloaders/StudioClasses.php';
 Autoloader_StudioClasses::register();
 
-require SysConf_Path::APPLICATION().'Autoloaders/ModuleWizards.php';
+require SysConf_Path::getApplication().'Autoloaders/ModuleWizards.php';
 Autoloader_ModuleWizards::register();
 
-require SysConf_Path::APPLICATION().'Autoloaders/ProjectClasses.php';
+require SysConf_Path::getApplication().'Autoloaders/ProjectClasses.php';
 Autoloader_ProjectClasses::register();
 
-require SysConf_Path::APPLICATION().'Autoloaders/ProjectModules.php';
+require SysConf_Path::getApplication().'Autoloaders/ProjectModules.php';
 Autoloader_ProjectModules::register();
 
 

@@ -35,7 +35,7 @@ class Autoloader_StudioClasses extends Autoloader_Loader
 
 		$class_name = str_replace( '_', DIRECTORY_SEPARATOR, $class_name );
 
-		return SysConf_Path::APPLICATION().'Classes/'.$class_name.'.php';
+		return SysConf_Path::getApplication().'Classes/'.$class_name.'.php';
 
 	}
 }

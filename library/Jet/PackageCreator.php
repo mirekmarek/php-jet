@@ -123,7 +123,7 @@ abstract class PackageCreator extends BaseObject
 
 		$public_uri_str_len = strlen(SysConf_URI::getPublic());
 		if(substr($URI, 0, $public_uri_str_len)==SysConf_URI::getPublic()) {
-			return SysConf_Path::PUBLIC().substr($URI, $public_uri_str_len);
+			return SysConf_Path::getPublic().substr($URI, $public_uri_str_len);
 		}
 
 		if( substr( $o_URI, 0, 2 )=='//' ) {

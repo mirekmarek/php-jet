@@ -74,7 +74,7 @@ class ErrorHandler_Log extends Debug_ErrorHandler_Handler
 	protected function getLogDir() : bool|null|string
 	{
 		if(!$this->log_dir) {
-			$this->log_dir = SysConf_Path::LOGS();
+			$this->log_dir = SysConf_Path::getLogs();
 		}
 
 		return $this->log_dir;

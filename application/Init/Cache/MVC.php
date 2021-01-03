@@ -11,7 +11,7 @@ use Jet\Mvc_Cache;
 use Jet\Mvc_Cache_Backend_Files;
 use Jet\SysConf_Path;
 
-require_once SysConf_Path::LIBRARY().'Jet/Mvc/Cache/Backend/Files.php';
+require_once SysConf_Path::getLibrary().'Jet/Mvc/Cache/Backend/Files.php';
 
 
 Mvc_Cache::init( new Mvc_Cache_Backend_Files() );

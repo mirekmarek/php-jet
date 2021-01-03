@@ -31,6 +31,6 @@ class Autoloader_ProjectClasses extends Autoloader_Loader
 
 		$class_name = str_replace( '_', DIRECTORY_SEPARATOR, $class_name );
 
-		return ProjectConf_Path::APPLICATION_CLASSES().$class_name.'.php';
+		return ProjectConf_Path::getApplicationClasses().$class_name.'.php';
 	}
 }

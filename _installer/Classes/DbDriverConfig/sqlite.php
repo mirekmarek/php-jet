@@ -37,7 +37,7 @@ class Installer_DbDriverConfig_sqlite extends Installer_DbDriverConfig
 		$connection_config->setDriver( Db::DRIVER_SQLITE );
 		$connection_config->setUsername( '' );
 		$connection_config->setPassword( '' );
-		$connection_config->setDSN( SysConf_Path::DATA().'database.sq3' );
+		$connection_config->setDSN( SysConf_Path::getData().'database.sq3' );
 
 		$db_config->addConnection( 'default', $connection_config );
 

@@ -36,7 +36,7 @@ class Installer_Step_Final_Controller extends Installer_Step_Controller
 
 		$OK = true;
 
-		$install_symptom_file_path = SysConf_Path::DATA().'installed.txt';
+		$install_symptom_file_path = SysConf_Path::getData().'installed.txt';
 
 
 

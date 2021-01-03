@@ -64,7 +64,7 @@ class Installer_Step_ConfigureStudio_Controller extends Installer_Step_Controlle
 				]);
 
 
-				IO_File::write( SysConf_Path::DATA().'_jet_studio_access.php', '<?php return '.$data->export() );
+				IO_File::write( SysConf_Path::getData().'_jet_studio_access.php', '<?php return '.$data->export() );
 
 			} catch (Exception $e) {
 

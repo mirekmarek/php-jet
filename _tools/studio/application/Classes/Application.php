@@ -51,7 +51,7 @@ class Application extends Jet_Application {
 	{
 		if(!static::$locales) {
 			static::$locales = [];
-			$locales  = require SysConf_Path::CONFIG().'locales.php';
+			$locales  = require SysConf_Path::getConfig().'locales.php';
 
 			foreach( $locales as $l ) {
 				static::$locales[$l] = new Locale($l);
@@ -161,7 +161,7 @@ class Application extends Jet_Application {
 	 */
 	public static function getGeneralView() : Mvc_View
 	{
-		$view = new Mvc_View( SysConf_Path::APPLICATION().'views/' );
+		$view = new Mvc_View( SysConf_Path::getApplication().'views/' );
 
 		return $view;
 	}
@@ -176,7 +176,7 @@ class Application extends Jet_Application {
 		if(!$part) {
 			$part = static::getCurrentPart();
 		}
-		$view = new Mvc_View( SysConf_Path::APPLICATION().'Parts/'.$part.'/views/' );
+		$view = new Mvc_View( SysConf_Path::getApplication().'Parts/'.$part.'/views/' );
 
 		return $view;
 	}
@@ -189,7 +189,7 @@ class Application extends Jet_Application {
 	public static function getLayout( string $script='default' ) : Mvc_Layout
 	{
 		if(!static::$layout) {
-			static::$layout = new Mvc_Layout(SysConf_Path::APPLICATION().'layouts/', $script);
+			static::$layout = new Mvc_Layout(SysConf_Path::getApplication().'layouts/', $script);
 			Mvc_Layout::setCurrentLayout( static::$layout );
 		}
 
@@ -238,7 +238,7 @@ class Application extends Jet_Application {
 			return;
 		}
 
-		$controller = SysConf_Path::APPLICATION().'Parts/'.$part.'/controllers/'.$action.'.php';
+		$controller = SysConf_Path::getApplication().'Parts/'.$part.'/controllers/'.$action.'.php';
 
 		if(!IO_File::exists($controller)) {
 			return;

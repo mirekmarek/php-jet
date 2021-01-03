@@ -186,7 +186,7 @@ class Installer
 	{
 		Http_Request::initialize( true );
 
-		Config::setConfigDirPath( SysConf_Path::CONFIG() );
+		Config::setConfigDirPath( SysConf_Path::getConfig() );
 
 		static::initStepControllers();
 

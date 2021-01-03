@@ -34,7 +34,7 @@ class Mailing extends BaseObject
 	public static function getBaseViewDir() : string
 	{
 		if(!static::$base_view_dir) {
-			static::$base_view_dir = SysConf_Path::APPLICATION().'views/email_templates/';
+			static::$base_view_dir = SysConf_Path::getApplication().'views/email_templates/';
 		}
 
 		return static::$base_view_dir;

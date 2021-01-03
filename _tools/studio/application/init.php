@@ -24,7 +24,7 @@ require __DIR__.'/config/Path.php';
 require __DIR__.'/config/URI.php';
 require __DIR__.'/config/Jet.php';
 
-require ProjectConf_Path::APPLICATION().'Init/Cache/MVC.php';
+require ProjectConf_Path::getApplication().'Init/Cache/MVC.php';
 
 require __DIR__.'/Init/PHP.php';
 require __DIR__.'/Init/ErrorHandler.php';
@@ -55,14 +55,14 @@ SysConf_Cache::setAutoloaderEnabled(false);
 SysConf_Cache::setMvcEnabled( false );
 
 Config::setBeTolerant( true );
-Config::setConfigDirPath( ProjectConf_Path::CONFIG() );
+Config::setConfigDirPath( ProjectConf_Path::getConfig() );
 
 /**
  * @var Application_Modules_Handler_Default $modules_handler
  */
 $modules_handler = Application_Modules::getHandler();
-$modules_handler->setActivatedModulesListFilePath( ProjectConf_Path::DATA().'activated_modules_list.php' );
-$modules_handler->setInstalledModulesListFilePath( ProjectConf_Path::DATA().'installed_modules_list.php' );
+$modules_handler->setActivatedModulesListFilePath( ProjectConf_Path::getData().'activated_modules_list.php' );
+$modules_handler->setInstalledModulesListFilePath( ProjectConf_Path::getData().'installed_modules_list.php' );
 
 Application_Factory::setModuleManifestClassName(__NAMESPACE__.'\Modules_Manifest');
-Application_Modules::setBasePath( ProjectConf_Path::APPLICATION().'Modules/' );
+Application_Modules::setBasePath( ProjectConf_Path::getApplication().'Modules/' );

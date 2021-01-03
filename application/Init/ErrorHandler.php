@@ -13,13 +13,13 @@ use Jet\SysConf_Jet;
 
 //Debug_Profiler::blockStart('INIT - ErrorHandler');
 
-require SysConf_Path::LIBRARY().'Jet/Debug.php';
-require SysConf_Path::LIBRARY().'Jet/Debug/ErrorHandler.php';
+require SysConf_Path::getLibrary().'Jet/Debug.php';
+require SysConf_Path::getLibrary().'Jet/Debug/ErrorHandler.php';
 
 
-require SysConf_Path::APPLICATION().'ErrorHandlers/Log.php';
-require SysConf_Path::APPLICATION().'ErrorHandlers/Display.php';
-require SysConf_Path::APPLICATION().'ErrorHandlers/ErrorPage.php';
+require SysConf_Path::getApplication().'ErrorHandlers/Log.php';
+require SysConf_Path::getApplication().'ErrorHandlers/Display.php';
+require SysConf_Path::getApplication().'ErrorHandlers/ErrorPage.php';
 
 
 

@@ -7,9 +7,9 @@
  */
 namespace Jet;
 
-require_once SysConf_Path::LIBRARY().'Jet/Cache.php';
-require_once SysConf_Path::LIBRARY().'Jet/Mvc/Cache.php';
-require_once SysConf_Path::LIBRARY().'Jet/Mvc/Cache/Backend.php';
+require_once SysConf_Path::getLibrary().'Jet/Cache.php';
+require_once SysConf_Path::getLibrary().'Jet/Mvc/Cache.php';
+require_once SysConf_Path::getLibrary().'Jet/Mvc/Cache/Backend.php';
 
 /**
  *
@@ -30,7 +30,7 @@ class Mvc_Cache_Backend_Files implements Mvc_Cache_Backend {
 	 */
 	protected function getMapPath( string $entity ) : string
 	{
-		return SysConf_Path::CACHE().'mvc_'.$entity.'.php';
+		return SysConf_Path::getCache().'mvc_'.$entity.'.php';
 	}
 
 
@@ -86,7 +86,7 @@ class Mvc_Cache_Backend_Files implements Mvc_Cache_Backend {
 	 */
 	protected function getHtmlPath( string $key ) : string
 	{
-		return SysConf_Path::CACHE().'mvc_'.$key.'.html';
+		return SysConf_Path::getCache().'mvc_'.$key.'.html';
 	}
 
 
@@ -139,13 +139,13 @@ class Mvc_Cache_Backend_Files implements Mvc_Cache_Backend {
 	 */
 	public function reset(): void
 	{
-		$files = IO_Dir::getFilesList(SysConf_Path::CACHE(), 'mvc_*.php');
+		$files = IO_Dir::getFilesList(SysConf_Path::getCache(), 'mvc_*.php');
 
 		foreach($files as $file_path=>$file_name) {
 			IO_File::delete($file_path);
 		}
 
-		$files = IO_Dir::getFilesList(SysConf_Path::CACHE(), 'mvc_*.html');
+		$files = IO_Dir::getFilesList(SysConf_Path::getCache(), 'mvc_*.html');
 
 		foreach($files as $file_path=>$file_name) {
 			IO_File::delete($file_path);

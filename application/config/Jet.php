@@ -3,8 +3,8 @@ use Jet\SysConf_Path;
 use Jet\SysConf_Jet;
 use Jet\SysConf_Cache;
 
-require_once SysConf_Path::LIBRARY().'Jet/SysConf/Jet.php';
-require_once SysConf_Path::LIBRARY().'Jet/SysConf/Cache.php';
+require_once SysConf_Path::getLibrary().'Jet/SysConf/Jet.php';
+require_once SysConf_Path::getLibrary().'Jet/SysConf/Cache.php';
 
 //Dev configuration:
 SysConf_Jet::setDevelMode( true );

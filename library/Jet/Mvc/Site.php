@@ -119,7 +119,7 @@ class Mvc_Site extends BaseObject implements Mvc_Site_Interface
 
 		Debug_Profiler::blockStart('Load sites - maps');
 
-		$dirs = IO_Dir::getSubdirectoriesList( SysConf_Path::SITES() );
+		$dirs = IO_Dir::getSubdirectoriesList( SysConf_Path::getSites() );
 
 		foreach( $dirs as $id ) {
 
@@ -300,7 +300,7 @@ class Mvc_Site extends BaseObject implements Mvc_Site_Interface
 	 */
 	protected static function getSiteDataFilePath( string $id ) : string
 	{
-		return SysConf_Path::SITES().$id.'/'.static::$site_data_file_name;
+		return SysConf_Path::getSites().$id.'/'.static::$site_data_file_name;
 	}
 
 
@@ -453,7 +453,7 @@ class Mvc_Site extends BaseObject implements Mvc_Site_Interface
 			return $this->base_path;
 		}
 
-		return SysConf_Path::SITES().$this->id.'/';
+		return SysConf_Path::getSites().$this->id.'/';
 	}
 
 

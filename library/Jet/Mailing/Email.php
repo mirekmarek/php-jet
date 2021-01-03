@@ -197,7 +197,7 @@ class Mailing_Email extends BaseObject
 					$id = 'i_'.uniqid();
 
 
-					$this->addImage( $id, SysConf_Path::PUBLIC().$image );
+					$this->addImage( $id, SysConf_Path::getPublic().$image );
 
 					$html = str_replace( $orig, 'src="cid:'.$id.'"', $html );
 				}

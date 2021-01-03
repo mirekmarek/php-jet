@@ -41,39 +41,39 @@ class Installer_Step_DirsCheck_Controller extends Installer_Step_Controller
 		$this->catchContinue();
 
 		$dirs = [
-			SysConf_Path::DATA()                                     => [
+			SysConf_Path::getData()  => [
 				'is_required'  => true,
 				'is_writeable' => false,
 			],
-			SysConf_Path::TMP()                                      => [
+			SysConf_Path::getTmp()   => [
 				'is_required'  => true,
 				'is_writeable' => false,
 			],
-			SysConf_Path::CACHE()                                    => [
+			SysConf_Path::getCache() => [
 				'is_required'  => true,
 				'is_writeable' => false,
 			],
-			SysConf_Path::LOGS()                                     => [
+			SysConf_Path::getLogs()                                     => [
 				'is_required'  => true,
 				'is_writeable' => false,
 			],
-			SysConf_Path::SITES().Application_Admin::getSiteId().'/' => [
+			SysConf_Path::getSites().Application_Admin::getSiteId().'/' => [
 				'is_required'  => true,
 				'is_writeable' => false,
 			],
-			SysConf_Path::SITES().Application_Web::getSiteId().'/'   => [
+			SysConf_Path::getSites().Application_Web::getSiteId().'/'   => [
 				'is_required'  => true,
 				'is_writeable' => false,
 			],
-			SysConf_Path::SITES().Application_REST::getSiteId().'/'  => [
+			SysConf_Path::getSites().Application_REST::getSiteId().'/'  => [
 				'is_required'  => true,
 				'is_writeable' => false,
 			],
-			SysConf_Path::DICTIONARIES()                             => [
+			SysConf_Path::getDictionaries()                             => [
 				'is_required'  => true,
 				'is_writeable' => false,
 			],
-			SysConf_Path::CONFIG()                                   => [
+			SysConf_Path::getConfig()                                   => [
 				'is_required'  => false,
 				'is_writeable' => false,
 			],

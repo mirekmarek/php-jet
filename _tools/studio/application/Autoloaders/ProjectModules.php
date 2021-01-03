@@ -32,7 +32,7 @@ class Autoloader_ProjectModules extends Autoloader_Loader
 
 		$namespace = substr($namespace, strlen($root_namespace)+1);
 
-		$module_path = ProjectConf_Path::APPLICATION_MODULES().$namespace.'/';
+		$module_path = ProjectConf_Path::getApplicationModules().$namespace.'/';
 
 		$module_path = str_replace('\\', '/', $module_path);
 		$class_name = str_replace( '_', '/', $class_name );

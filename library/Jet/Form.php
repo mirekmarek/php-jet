@@ -218,7 +218,7 @@ class Form extends BaseObject
 	public static function getDefaultViewsDir() : string
 	{
 		if(!static::$default_views_dir) {
-			static::$default_views_dir = SysConf_Path::APPLICATION().'views/Form/';
+			static::$default_views_dir = SysConf_Path::getApplication().'views/Form/';
 		}
 
 		return static::$default_views_dir;

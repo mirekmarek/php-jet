@@ -89,7 +89,7 @@ abstract class Config extends BaseObject
 	public static function getConfigDirPath() : string
 	{
 		if( !static::$config_dir_path ) {
-			static::$config_dir_path = SysConf_Path::CONFIG();
+			static::$config_dir_path = SysConf_Path::getConfig();
 		}
 
 		return static::$config_dir_path;

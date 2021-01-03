@@ -17,7 +17,7 @@ require 'Classes/Installer.php';
 
 
 Installer::setApplicationNamespace('JetApplication');
-Installer::setBasePath( SysConf_Path::BASE().'_installer/' );
+Installer::setBasePath( SysConf_Path::getBase().'_installer/' );
 
 Installer::setSteps(
 	[

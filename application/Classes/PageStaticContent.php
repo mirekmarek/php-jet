@@ -27,7 +27,7 @@ class PageStaticContent extends BaseObject
 	public static function get( Mvc_Page_Interface $page, Mvc_Page_Content_Interface $page_content=null )
 	{
 
-		$root_dir = SysConf_Path::APPLICATION().'texts/staticContent/';
+		$root_dir = SysConf_Path::getApplication().'texts/staticContent/';
 
 		if(
 			$page_content &&

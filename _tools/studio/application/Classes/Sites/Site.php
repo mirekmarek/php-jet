@@ -588,7 +588,7 @@ class Sites_Site extends Mvc_Site
 	public function create() : bool
 	{
 		$ok = true;
-		$templates_path = ProjectConf_Path::TEMPLATES().'/';
+		$templates_path = ProjectConf_Path::getTemplates().'/';
 
 		try {
 			$dir = $this->getBasePath();
@@ -649,7 +649,7 @@ class Sites_Site extends Mvc_Site
 	 */
 	public function create_applyTemplate_errorPages( Pages_Page $homepage ) : void
 	{
-		$templates_path = ProjectConf_Path::TEMPLATES().'/';
+		$templates_path = ProjectConf_Path::getTemplates().'/';
 
 		$error_pages_source = $templates_path.'error_pages/';
 

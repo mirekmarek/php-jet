@@ -40,7 +40,7 @@ class ModuleWizards extends BaseObject implements Application_Part
 	public static function getBasePath() : string
 	{
 		if(!static::$base_path) {
-			static::$base_path = SysConf_Path::APPLICATION().'Parts/module_wizard/wizards/';
+			static::$base_path = SysConf_Path::getApplication().'Parts/module_wizard/wizards/';
 		}
 
 		return static::$base_path;
