@@ -12,14 +12,14 @@ SysConf_Jet::setHideHttpRequest( true );
 SysConf_Jet::setDevelMode( true );
 SysConf_Jet::setDebugProfilerEnabled( true );
 
-SysConf_Jet::setCSSPackagerEnabled( true );
-SysConf_Jet::setJSPackagerEnabled( true );
+SysConf_Jet::setCSSPackagerEnabled( false );
+SysConf_Jet::setJSPackagerEnabled( false );
 
 SysConf_Jet::setTranslatorAutoAppendUnknownPhrase( true );
 
 
-SysConf_Jet::setCacheMvcEnabled( true );
-SysConf_Jet::setCacheAutoloaderEnabled( true );
+SysConf_Jet::setCacheMvcEnabled( false );
+SysConf_Jet::setCacheAutoloaderEnabled( false );
 
 
 //Production configuration:

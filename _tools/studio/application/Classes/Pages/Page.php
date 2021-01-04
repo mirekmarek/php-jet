@@ -658,11 +658,13 @@ class Pages_Page extends Mvc_Page
 		$i = 0;
 		foreach( $this->content as $content ) {
 
-			$selected_module = $form->field('/content/'.$i.'/module_name')->getValue();
-			$selected_controller = $form->field('/content/'.$i.'/controller_name')->getValue();
+			if($form->fieldExists('/content/'.$i.'/module_name')) {
+				$selected_module = $form->field('/content/'.$i.'/module_name')->getValue();
+				$selected_controller = $form->field('/content/'.$i.'/controller_name')->getValue();
 
-			$form->field('/content/'.$i.'/controller_name')->setSelectOptions( static::getModuleControllers($selected_module) );
-			$form->field('/content/'.$i.'/controller_action')->setSelectOptions( static::getModuleControllerActions($selected_module, $selected_controller) );
+				$form->field('/content/'.$i.'/controller_name')->setSelectOptions( static::getModuleControllers($selected_module) );
+				$form->field('/content/'.$i.'/controller_action')->setSelectOptions( static::getModuleControllerActions($selected_module, $selected_controller) );
+			}
 
 			$i++;
 		}

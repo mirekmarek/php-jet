@@ -16,8 +16,13 @@ $items = Navigation_Breadcrumb::getItems();
 			<li style="margin-right: 20px;">
 			<?php if($locale->toString()==Mvc::getCurrentLocale()->toString()): ?>
 				<span class="badge badge-info"><?=UI::flag( $locale )?>&nbsp;<?=$locale->getLanguageName( $locale ) ?></span>
-			<?php else: ?>
-				<a href="<?=Mvc_Page::get(null, $locale)->getURLPath()?>"><?=UI::flag( $locale )?>&nbsp;<?=$locale->getLanguageName( $locale ) ?></a>
+			<?php else:
+				$eq_page = Mvc_Page::get(null, $locale);
+				if(!$eq_page) {
+					$eq_page = Mvc_Page::get(Mvc_Page::HOMEPAGE_ID, $locale);
+				}
+				?>
+				<a href="<?=$eq_page->getURLPath()?>"><?=UI::flag( $locale )?>&nbsp;<?=$locale->getLanguageName( $locale ) ?></a>
 			<?php endif; ?>
 			</li>
 		<?php endforeach; ?>
