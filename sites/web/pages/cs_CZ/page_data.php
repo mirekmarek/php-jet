@@ -1,4 +1,6 @@
 <?php
+use JetApplication\PageStaticContent;
+
 return [
     'name' => 'Homepage',
     'title' => 'Hlavní stránka',
@@ -25,7 +27,7 @@ return [
     'contents' => [
 	    [
 		    'output_position_order' => 1,
-	        'output' => ['JetApplication\PageStaticContent', 'get']
+	        'output' => [PageStaticContent::class, 'get']
 	    ],
 	    [
 		    'output_position_order' => 2,

@@ -1,4 +1,6 @@
 <?php
+use JetApplication\PageStaticContent;
+
 return [
 	'id' => 'subpage',
 	'name' => 'Subpage',
@@ -42,10 +44,7 @@ return [
 			'parameters' => [
 				'text_id' => 'lorem',
 			],
-			'output' => [
-				'JetApplication\\PageStaticContent',
-				'get',
-			],
+			'output' => [PageStaticContent::class, 'get'],
 			'output_position' => '',
 			'output_position_order' => 1,
 		],
