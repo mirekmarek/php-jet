@@ -5,6 +5,7 @@ return [
     'name' => 'ORM test',
     'title' => 'Test ORM',
     'layout_script_name' => 'default',
+	'icon' => 'database',
     'meta_tags' => [
     ],
     'contents' => [

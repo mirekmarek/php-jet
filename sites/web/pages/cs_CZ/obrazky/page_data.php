@@ -7,6 +7,7 @@ return [
 	'menu_title' => 'Obrázky',
 	'breadcrumb_title' => 'Obrázky',
 	'layout_script_name' => 'default',
+    'icon' => 'images',
 	'meta_tags' => [
 		[
 			'attribute'   => 'name',

@@ -4,6 +4,7 @@ return [
     'order' => 5,
     'name' => 'Staticka stránka',
     'title' => 'Statická stránka',
+    'icon' => 'file-code',
 	'http_headers' => [
 		'testHeader1' => 'test value 1'
 	],

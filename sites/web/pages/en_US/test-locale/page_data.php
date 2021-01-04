@@ -5,6 +5,7 @@ return [
     'name' => 'Test - Locale',
     'title' => 'Test - Locale',
     'layout_script_name' => 'default',
+	'icon' => 'globe',
     'meta_tags' => [
     ],
     'contents' => [

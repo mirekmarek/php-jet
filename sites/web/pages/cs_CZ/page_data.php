@@ -7,6 +7,7 @@ return [
     'menu_title' => 'Hlavní stránka',
     'breadcrumb_title' => 'Hlavní stránka',
     'layout_script_name' => 'default',
+    'icon' => 'home',
     'meta_tags' => [
         [
             'attribute'   => 'Meta1attribute',

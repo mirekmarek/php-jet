@@ -5,6 +5,7 @@ return [
     'name' => 'Forms test',
     'title' => 'Test formulářů',
     'layout_script_name' => 'default',
+	'icon' => 'keyboard',
     'meta_tags' => [
     ],
     'contents' => [

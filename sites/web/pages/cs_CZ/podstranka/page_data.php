@@ -9,6 +9,7 @@ return [
 	'menu_title' => 'Podstránka',
 	'breadcrumb_title' => 'Podstránka',
 	'layout_script_name' => 'default',
+    'icon' => 'file',
 	'meta_tags' => [
 			[
 				'attribute'   => 'Meta1attribute',

@@ -7,7 +7,6 @@ return [
 	'is_active' => true,
 	'SSL_required' => false,
 	'title' => 'Subpage',
-	'icon' => '',
 	'menu_title' => 'Subpage',
 	'breadcrumb_title' => 'Subpage',
 	'is_secret' => false,
@@ -17,6 +16,7 @@ return [
 		'test value 3',
 	],
 	'layout_script_name' => 'default',
+	'icon' => 'file',
 	'meta_tags' => [
 		[
 			'attribute' => 'attribute',

@@ -5,6 +5,7 @@ return [
     'name' => 'Locale test',
     'title' => 'Test lokalizace',
     'layout_script_name' => 'default',
+	'icon' => 'globe',
     'meta_tags' => [
     ],
     'contents' => [

@@ -6,6 +6,7 @@ return [
 	'title' => 'Articles',
 	'menu_title' => 'Articles',
 	'breadcrumb_title' => 'Articles',
+    'icon' => 'newspaper',
 	'layout_script_name' => 'default',
 	'meta_tags' => [
 		[

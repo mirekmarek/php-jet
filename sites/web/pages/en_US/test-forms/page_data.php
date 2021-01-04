@@ -5,6 +5,7 @@ return [
     'name' => 'Test - Forms',
     'title' => 'Test - Forms',
     'layout_script_name' => 'default',
+	'icon' => 'keyboard',
     'meta_tags' => [
     ],
     'contents' => [

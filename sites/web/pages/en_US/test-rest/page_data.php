@@ -6,6 +6,7 @@ return [
 	'name' => 'REST API test',
 	'title' => 'Test - REST API',
 	'layout_script_name' => 'plain',
+	'icon' => 'network-wired',
 	'meta_tags' => [],
 	'contents' => [
 		[

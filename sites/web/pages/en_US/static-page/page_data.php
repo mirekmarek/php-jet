@@ -5,10 +5,10 @@ return [
 	'is_active' => true,
 	'SSL_required' => false,
 	'title' => 'Static page',
-	'icon' => '',
 	'menu_title' => 'Static page',
 	'breadcrumb_title' => 'Static page',
 	'is_secret' => false,
+	'icon' => 'file-code',
 	'http_headers' => [
 		'test value 1',
 	],

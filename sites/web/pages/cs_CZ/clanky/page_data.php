@@ -6,6 +6,7 @@ return [
 	'title' => 'Články',
 	'menu_title' => 'Články',
 	'breadcrumb_title' => 'Články',
+    'icon' => 'newspaper',
 	'layout_script_name' => 'default',
 	'meta_tags' => [
 		[

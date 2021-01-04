@@ -7,6 +7,7 @@ return [
 	'menu_title' => 'Images',
 	'breadcrumb_title' => 'Images',
 	'layout_script_name' => 'default',
+    'icon' => 'images',
 	'meta_tags' => [
 		[
 			'attribute'   => 'name',

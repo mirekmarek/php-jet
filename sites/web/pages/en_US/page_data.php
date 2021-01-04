@@ -7,6 +7,7 @@ return [
     'menu_title' => 'Homepage',
     'breadcrumb_title' => 'Homepage',
     'layout_script_name' => 'default',
+    'icon' => 'home',
     'meta_tags' => [
         [
             'attribute'   => 'Meta1attribute',
