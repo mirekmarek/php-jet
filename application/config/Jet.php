@@ -18,7 +18,7 @@ SysConf_Jet::setJSPackagerEnabled( true );
 SysConf_Jet::setTranslatorAutoAppendUnknownPhrase( true );
 
 
-SysConf_Jet::setCacheMvcEnabled( true );
+SysConf_Jet::setCacheMvcEnabled( false );
 SysConf_Jet::setCacheAutoloaderEnabled( true );
 
 

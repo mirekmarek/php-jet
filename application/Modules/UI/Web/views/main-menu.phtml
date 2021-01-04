@@ -11,8 +11,11 @@ use Jet\UI;
  */
 $pages = $this->getRaw( 'site_tree_current' );
 
+$admin_page = Mvc_Page::get( Mvc_Page::HOMEPAGE_ID, null, 'admin' );
+$secret_area_page = Mvc_Page::get( 'secret_area' );
 
-$show_menu = function( $pages ) use ( &$show_menu ) {
+
+$show_menu = function( $pages, $level=0 ) use ( &$show_menu ) {
 	/**
 	 * @var Mvc_Page[] $pages
 	 */
@@ -21,70 +24,52 @@ $show_menu = function( $pages ) use ( &$show_menu ) {
 
 
 	$current_page_key = Mvc::getCurrentPage()->getKey();
-	?>
-	<ul>
-		<?php foreach( $pages as $page ):
-			if(
-				!$page->getIsActive() ||
-				$page->getIsSecret()
-			) {
-				continue;
-			}
-			?>
-			<li>
-				<?php if( $current_page_key==$page->getKey() ): ?>
-					<i><?=$page->getMenuTitle();?></i>
-				<?php else: ?>
-					<a href="<?=$page->getURL();?>"><?=$page->getMenuTitle();?></a>
-				<?php endif; ?>
-				<?php $show_menu( $page->getChildren() ); ?>
+	$padding = 10+($level*25);
+
+	foreach( $pages as $page ):
+		if(
+			!$page->getIsActive() ||
+			$page->getIsSecret()
+		) {
+			continue;
+		}
+
+		?>
+			<?php if( $current_page_key==$page->getKey() ): ?>
+			<li class="list-group-item active" style="padding-left: <?=$padding;?>px;">
+				<?=$page->getMenuTitle();?>
 			</li>
-		<?php endforeach; ?>
-	</ul>
-	<?php
+			<?php else: ?>
+			<li class="list-group-item" style="padding-left: <?=$padding;?>px;">
+				<a href="<?=$page->getURL();?>"><?=$page->getMenuTitle();?></a>
+			</li>
+			<?php endif; ?>
+			<?php $show_menu( $page->getChildren(), $level+1 ); ?>
+		<?php
+	endforeach;
 
 };
 
-$tabs = [];
-foreach( Mvc::getCurrentSite()->getLocales() as $locale ) {
-	$tabs[$locale->toString()] = UI::flag( $locale ).'&nbsp;'.$locale->getLanguageName( $locale );
-}
-
-$tabs = UI::tabs(
-		$tabs,
-		function( $locale ) {
-			$equal_page = Mvc_Page::get( null, $locale );
-
-			if( !$equal_page ) {
-				$equal_page = Mvc_Page::get( Mvc_Page::HOMEPAGE_ID, $locale );
-			}
-
-			return $equal_page->getURL();
-
-		},
-		Mvc::getCurrentLocale()->toString()
-);
 ?>
 
 
+<div class="card bg-light text-dark">
+	<div class="card-body">
+		<ul class="list-group list-group-flush">
+			<?php $show_menu( $pages ); ?>
+		</ul>
 
-<?=$tabs?>
+		<ul>
 
-<div class="panel panel-default panel-body" style="border-top: none;border-radius: 0px;box-shadow: 2px 2px 2px #aaaaaa;">
-<?php $show_menu( $pages ); ?>
+		</ul>
+		<?php if( $secret_area_page ): ?>
+			<a href="<?=$secret_area_page->getURL()?>" rel="nofollow"><?=$secret_area_page->getMenuTitle()?></a><br/>
+		<?php endif; ?>
 
-	<?php
-	$secret_area_page = Mvc_Page::get( 'secret_area' );
+		<?php if( $admin_page ): ?>
+			<a href="<?=$admin_page->getURL()?>" rel="nofollow"><?=$admin_page->getMenuTitle()?></a><br/>
+		<?php endif; ?>
 
-	if( $secret_area_page ): ?>
-		<a href="<?=$secret_area_page->getURL()?>" rel="nofollow"><?=$secret_area_page->getMenuTitle()?></a><br/>
-	<?php endif;
-
-	$admin_page = Mvc_Page::get( '_homepage_', null, 'admin' );
-
-	if( $admin_page ): ?>
-		<a href="<?=$admin_page->getURL()?>" rel="nofollow"><?=$admin_page->getMenuTitle()?></a><br/>
-	<?php endif; ?>
-
-		<a href="<?=SysConf_URI::getBase()?>_tools/studio/" rel="nofollow" target="_blank">Jet Studio</a><br/>
+			<a href="<?=SysConf_URI::getBase()?>_tools/studio/" rel="nofollow" target="_blank">Jet Studio</a><br/>
+	</div>
 </div>

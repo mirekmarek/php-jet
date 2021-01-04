@@ -23,9 +23,11 @@ require 'parts/init_libs.php';
 </head>
 <body>
 <div class="container-fluid">
-	<div class="page-header well well-large">
-		<h1><?=Tr::_('Hello WORLD!')?></h1>
-		<small><?=Tr::_("PHP Jet Example Application");?></small>
+	<div class="page-header card text-white bg-dark">
+		<div class="card-body">
+			<h1><?=Tr::_('Hello WORLD!')?></h1>
+			<small><?=Tr::_("PHP Jet Example Application");?></small>
+		</div>
 	</div>
 
 	<jet_module module="UI.Web" action="breadcrumbNavigation" view="default" is_cacheable="true" />
