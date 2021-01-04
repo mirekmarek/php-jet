@@ -20,7 +20,7 @@ return [
 	'Get item - unknown (error simulation)'                      => 'Položka (GET) - neznámá (simulace chyby)',
 	'Get tree'                                                   => 'Strom',
 	'Get images'                                                 => 'Seznam obrázků',
-	'Get images - uknown gallery (error simulation)'             => 'Seznam obrázků - neznámá galerie (simulace chyby)',
+	'Get images - unknown gallery (error simulation)'             => 'Seznam obrázků - neznámá galerie (simulace chyby)',
 	'Upload image (POST) - valid'                                => 'Nahrát obrázek (POST) - platné',
 	'Upload image (POST) - invalid file type (error simulation)' => 'Nahrát obrázek (POST) - nesprávný typ (simulace chyby)',
 	'Delete image - valid'                                       => 'Smazat obrázek - platné',

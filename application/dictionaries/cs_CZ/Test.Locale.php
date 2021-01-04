@@ -9,7 +9,6 @@ return [
 	'Long: '        => 'Dlouhé:',
 	'Full: '        => 'Úplné:',
 	'Custom: '      => 'Vlastní formát:',
-	'Nulbers'       => 'Čísla',
 	'Integer: '     => 'Celá:',
 	'Float: '       => 'Desetinná:',
 	'File size: '   => 'Velikost souboru:',

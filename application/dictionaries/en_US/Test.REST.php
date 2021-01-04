@@ -24,7 +24,7 @@ return [
 	'Get item - unknown (error simulation)' => '',
 	'Get tree' => '',
 	'Get images' => '',
-	'Get images - uknown gallery (error simulation)' => '',
+	'Get images - unknown gallery (error simulation)' => '',
 	'Upload image (POST) - valid' => '',
 	'Upload image (POST) - invalid file type (error simulation)' => '',
 	'Get image - valid' => '',

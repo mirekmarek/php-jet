@@ -163,6 +163,7 @@ class Cache_Redis {
 			return null;
 		}
 
+		/** @noinspection PhpUsageOfSilenceOperatorInspection */
 		$data = @unserialize($data);
 
 		if(!$data) {

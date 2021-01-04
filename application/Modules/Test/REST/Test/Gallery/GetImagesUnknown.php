@@ -21,7 +21,7 @@ class Test_Gallery_GetImagesUnknown extends Test_Abstract
 	 */
 	protected function _getTitle() : string
 	{
-		return 'Get images - uknown gallery (error simulation)';
+		return 'Get images - unknown gallery (error simulation)';
 	}
 
 	/**
