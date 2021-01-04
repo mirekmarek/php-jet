@@ -48,7 +48,7 @@ $show_cache_state = function( string $title, bool $state ) {
 				Duration: <b><?=$duration?> ms</b>
 			</td>
 			<td style="padding-right: 20px;">
-				Memory: <b><?=$memory?> Kib</b>
+				Memory: <b><?=round($memory, 3)?> KiB</b>
 			</td>
 			<td style="padding-right: 20px;">
 				SQL queries count: <b><?=count($run->getSqlQueries())?></b>

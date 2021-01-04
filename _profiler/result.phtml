@@ -21,7 +21,7 @@ $blocks = $run->getBlocks();
  */
 function formatBytes(int $b) : string
 {
-	return ($b / 1024) . "&nbsp;KiB";
+	return round(($b / 1024), 3) . "&nbsp;KiB";
 }
 
 /**
