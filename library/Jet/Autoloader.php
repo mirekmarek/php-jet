@@ -81,28 +81,28 @@ class Autoloader
 		}
 
 
-		$path = false;
-
-		$loader_name = '';
-
-		$cache_hit = false;
-
 		if( isset( static::$class_path_map[$class_name] ) ) {
 			$path = static::$class_path_map[$class_name];
-			$loader_name = 'CACHE';
-			$cache_hit = true;
-		} else {
-			$root_namespace = strstr($class_name, '\\', true);
-			$namespace = substr( $class_name, 0, strrpos($class_name, '\\') );
-			$_class_name = substr( $class_name, strlen($namespace)+1 );
 
-			foreach( static::$loaders as $loader_name => $loader ) {
-				$path = $loader->getScriptPath( $root_namespace, $namespace, $_class_name );
-				if( $path ) {
-					break;
-				}
+			/** @noinspection PhpIncludeInspection */
+			require_once $path;
+
+			return;
+		}
+
+
+		$path = false;
+		$root_namespace = strstr($class_name, '\\', true);
+		$namespace = substr( $class_name, 0, strrpos($class_name, '\\') );
+		$_class_name = substr( $class_name, strlen($namespace)+1 );
+
+		foreach( static::$loaders as $loader_name => $loader ) {
+			$path = $loader->getScriptPath( $root_namespace, $namespace, $_class_name );
+			if( $path ) {
+				break;
 			}
 		}
+
 
 		if( !$path ) {
 			throw new Autoloader_Exception(
@@ -112,7 +112,6 @@ class Autoloader
 				Autoloader_Exception::CODE_UNABLE_TO_DETERMINE_SCRIPT_PATH
 			);
 		}
-
 
 		if( !file_exists( $path ) ) {
 			throw new Autoloader_Exception(
@@ -136,18 +135,18 @@ class Autoloader
 			);
 		}
 
-		if( !$cache_hit ) {
-			if(!static::$save_class_map) {
-				register_shutdown_function(
-					function() {
-						Autoloader_Cache::save( static::$class_path_map );
-					}
-				);
+		static::$class_path_map[$class_name] = $path;
 
-				static::$save_class_map = true;
-			}
-			static::$class_path_map[$class_name] = $path;
+		if(!static::$save_class_map) {
+			register_shutdown_function(
+				function() {
+					Autoloader_Cache::save( static::$class_path_map );
+				}
+			);
+
+			static::$save_class_map = true;
 		}
+
 
 	}
 

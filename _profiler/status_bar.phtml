@@ -23,11 +23,11 @@ $show_cache_state = function( string $title, bool $state ) {
 	?>
 	<table>
 		<tr>
-			<td colspan="2"><?=$title?></td>
+			<td style="padding-right: 5px;padding-left: 5px;"><?=$title?></td>
 			<?php if($state): ?>
-				<td style="background-color: #009900; color: #0f0f0f;">YES</td>
+				<td style="background-color: #009900; color: #0f0f0f;padding-left: 10px; padding-right: 10px;font-weight: bolder;">YES</td>
 			<?php else: ?>
-				<td style="background-color: #990000; color: #b9b9b9">NO</td>
+				<td style="background-color: #990000; color: #b9b9b9;padding-left: 10px; padding-right: 10px;font-weight: bolder;">NO</td>
 			<?php endif; ?>
 		</tr>
 	</table>

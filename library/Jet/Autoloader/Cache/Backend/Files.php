@@ -8,6 +8,7 @@
 namespace Jet;
 
 require_once SysConf_Path::getLibrary().'Jet/Cache.php';
+require_once SysConf_Path::getLibrary().'Jet/Cache/Files.php';
 require_once SysConf_Path::getLibrary().'Jet/Autoloader/Cache.php';
 require_once SysConf_Path::getLibrary().'Jet/Autoloader/Cache/Backend.php';
 
@@ -15,14 +16,10 @@ require_once SysConf_Path::getLibrary().'Jet/Autoloader/Cache/Backend.php';
 /**
  *
  */
-class Autoloader_Cache_Backend_Files implements Autoloader_Cache_Backend {
-	/**
-	 * @return string
-	 */
-	public function getPath() : string
-	{
-		return SysConf_Path::getCache().'autoloader_class_map.php';
-	}
+class Autoloader_Cache_Backend_Files extends Cache_Files implements Autoloader_Cache_Backend
+{
+
+	const KEY = 'autoloader_class_map';
 
 	/**
 	 * @return bool
@@ -31,7 +28,6 @@ class Autoloader_Cache_Backend_Files implements Autoloader_Cache_Backend {
 	{
 		return SysConf_Jet::isCacheAutoloaderEnabled();
 	}
-	
 
 	/**
 	 *
@@ -39,20 +35,7 @@ class Autoloader_Cache_Backend_Files implements Autoloader_Cache_Backend {
 	 */
 	public function load() : array|null
 	{
-		if(!SysConf_Jet::isCacheAutoloaderEnabled()) {
-			return null;
-		}
-
-		$file_path = $this->getPath();
-
-		if(
-			!is_file( $file_path ) ||
-			!is_readable( $file_path )
-		) {
-			return null;
-		}
-
-		return require $file_path;
+		return $this->readData( static::KEY );
 	}
 
 
@@ -61,22 +44,7 @@ class Autoloader_Cache_Backend_Files implements Autoloader_Cache_Backend {
 	 */
 	public function save( array $map ) : void
 	{
-		if(!SysConf_Jet::isCacheAutoloaderEnabled()) {
-			return;
-		}
-
-		$file_path = $this->getPath();
-
-		file_put_contents(
-			$file_path,
-			'<?php return '.var_export( $map, true ).';',
-			LOCK_EX
-		);
-
-		/** @noinspection PhpUsageOfSilenceOperatorInspection */
-		@chmod( $file_path, SysConf_Jet::getIOModFile());
-
-		Cache::resetOPCache();
+		$this->writeData( static::KEY, $map );
 	}
 
 	/**
@@ -84,13 +52,6 @@ class Autoloader_Cache_Backend_Files implements Autoloader_Cache_Backend {
 	 */
 	public function reset() : void
 	{
-		$file_path = $this->getPath();
-
-		if(file_exists($file_path)) {
-			unlink($file_path);
-		}
-
-		Cache::resetOPCache();
-
+		$this->resetDataFile( static::KEY );
 	}
 }

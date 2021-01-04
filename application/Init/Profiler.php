@@ -12,9 +12,9 @@ use Jet\Debug_Profiler_Run;
 use Jet\SysConf_Path;
 use Jet\SysConf_Jet;
 
-if( SysConf_Jet::isDebugProfilerEnabled() ) {
+require SysConf_Path::getLibrary().'Jet/Debug/Profiler.php';
 
-	require SysConf_Path::getLibrary().'Jet/Debug/Profiler.php';
+if( SysConf_Jet::isDebugProfilerEnabled() ) {
 
 	$profiler_save_dir = SysConf_Path::getTmp().'_profiler/';
 

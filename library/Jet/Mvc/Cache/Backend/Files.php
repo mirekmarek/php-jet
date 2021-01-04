@@ -8,13 +8,16 @@
 namespace Jet;
 
 require_once SysConf_Path::getLibrary().'Jet/Cache.php';
+require_once SysConf_Path::getLibrary().'Jet/Cache/Files.php';
 require_once SysConf_Path::getLibrary().'Jet/Mvc/Cache.php';
 require_once SysConf_Path::getLibrary().'Jet/Mvc/Cache/Backend.php';
 
 /**
  *
  */
-class Mvc_Cache_Backend_Files implements Mvc_Cache_Backend {
+class Mvc_Cache_Backend_Files extends Cache_Files implements Mvc_Cache_Backend {
+
+	const KEY_PREFIX = 'mvc_';
 
 	/**
 	 * @return bool
@@ -25,135 +28,12 @@ class Mvc_Cache_Backend_Files implements Mvc_Cache_Backend {
 	}
 
 	/**
-	 * @param string $entity
-	 * @return string
-	 */
-	protected function getMapPath( string $entity ) : string
-	{
-		return SysConf_Path::getCache().'mvc_'.$entity.'.php';
-	}
-
-
-	/**
-	 * @param string $entity
-	 * @return array|null
-	 */
-	protected function readMap( string $entity ) : array|null
-	{
-		if(!SysConf_Jet::isCacheMvcEnabled()) {
-			return null;
-		}
-
-		$file_path = $this->getMapPath( $entity );
-
-		if(
-			!is_file( $file_path ) ||
-			!is_readable( $file_path )
-		) {
-			return null;
-		}
-
-		return require $file_path;
-	}
-
-	/**
-	 * @param string $entity
-	 * @param array $data
-	 */
-	protected function writeMap( string $entity, array $data ) : void
-	{
-		if(!SysConf_Jet::isCacheMvcEnabled()) {
-			return;
-		}
-
-		$file_path = $this->getMapPath($entity);
-
-		file_put_contents(
-			$file_path,
-			'<?php return '.var_export( $data, true ).';',
-			LOCK_EX
-		);
-
-		chmod( $file_path, SysConf_Jet::getIOModFile());
-
-		Cache::resetOPCache();
-	}
-
-
-
-	/**
-	 * @param string $key
-	 * @return string
-	 */
-	protected function getHtmlPath( string $key ) : string
-	{
-		return SysConf_Path::getCache().'mvc_'.$key.'.html';
-	}
-
-
-	/**
-	 * @param string $key
-	 * @return string|null
-	 */
-	protected function readHtml( string $key ) : string|null
-	{
-		if(!SysConf_Jet::isCacheMvcEnabled()) {
-			return null;
-		}
-
-		$file_path = $this->getHtmlPath( $key );
-
-		if(
-			!is_file( $file_path ) ||
-			!is_readable( $file_path )
-		) {
-			return null;
-		}
-
-		return file_get_contents( $file_path );
-	}
-
-	/**
-	 * @param string $key
-	 * @param string $html
-	 */
-	protected function writeHtml( string $key, string $html ) : void
-	{
-		if(!SysConf_Jet::isCacheMvcEnabled()) {
-			return;
-		}
-
-		$file_path = $this->getHtmlPath($key);
-
-		file_put_contents(
-			$file_path,
-			$html,
-			LOCK_EX
-		);
-
-		chmod( $file_path, SysConf_Jet::getIOModFile());
-	}
-
-
-
-	/**
 	 *
 	 */
 	public function reset(): void
 	{
-		$files = IO_Dir::getFilesList(SysConf_Path::getCache(), 'mvc_*.php');
-
-		foreach($files as $file_path=>$file_name) {
-			IO_File::delete($file_path);
-		}
-
-		$files = IO_Dir::getFilesList(SysConf_Path::getCache(), 'mvc_*.html');
-
-		foreach($files as $file_path=>$file_name) {
-			IO_File::delete($file_path);
-		}
-
-		Cache::resetOPCache();
+		$this->resetHtmlFiles( static::KEY_PREFIX );
+		$this->resetDataFiles( static::KEY_PREFIX );
 	}
 
 	/**
@@ -161,7 +41,7 @@ class Mvc_Cache_Backend_Files implements Mvc_Cache_Backend {
 	 */
 	public function loadSiteMaps(): array|null
 	{
-		return $this->readMap('site_maps');
+		return $this->readData( static::KEY_PREFIX.'site_maps');
 	}
 
 	/**
@@ -169,7 +49,7 @@ class Mvc_Cache_Backend_Files implements Mvc_Cache_Backend {
 	 */
 	public function saveSiteMaps( array $map ): void
 	{
-		$this->writeMap( 'site_maps', $map );
+		$this->writeData( static::KEY_PREFIX.'site_maps', $map );
 	}
 
 
@@ -178,7 +58,7 @@ class Mvc_Cache_Backend_Files implements Mvc_Cache_Backend {
 	 */
 	public function loadSitesFilesMap(): array|null
 	{
-		return $this->readMap('sites_files_map');
+		return $this->readData( static::KEY_PREFIX.'sites_files_map');
 	}
 
 	/**
@@ -186,7 +66,7 @@ class Mvc_Cache_Backend_Files implements Mvc_Cache_Backend {
 	 */
 	public function saveSitesFilesMap( array $map ): void
 	{
-		$this->writeMap( 'sites_files_map', $map );
+		$this->writeData( static::KEY_PREFIX.'sites_files_map', $map );
 	}
 
 	/**
@@ -197,7 +77,7 @@ class Mvc_Cache_Backend_Files implements Mvc_Cache_Backend {
 	 */
 	public function loadPageMaps( Mvc_Site_Interface $site, Locale $locale ): array|null
 	{
-		return $this->readMap('pages_map_'.$site->getId().'_'.$locale);
+		return $this->readData( static::KEY_PREFIX.'pages_map_'.$site->getId().'_'.$locale);
 	}
 
 	/**
@@ -208,7 +88,7 @@ class Mvc_Cache_Backend_Files implements Mvc_Cache_Backend {
 	 */
 	public function savePageMaps(  Mvc_Site_Interface $site, Locale $locale, array $map ): void
 	{
-		$this->writeMap( 'pages_map_'.$site->getId().'_'.$locale, $map );
+		$this->writeData( static::KEY_PREFIX.'pages_map_'.$site->getId().'_'.$locale, $map );
 	}
 
 	/**
@@ -230,7 +110,7 @@ class Mvc_Cache_Backend_Files implements Mvc_Cache_Backend {
 		$position = $content->getOutputPosition();
 		$position_order = $content->getOutputPositionOrder();
 
-		return $site_id.'_'.$locale.'_'.$page_id.'_'.md5($module.$controller.$action.$position.$position_order);
+		return static::KEY_PREFIX.$site_id.'_'.$locale.'_'.$page_id.'_'.md5($module.$controller.$action.$position.$position_order);
 	}
 
 	/**
