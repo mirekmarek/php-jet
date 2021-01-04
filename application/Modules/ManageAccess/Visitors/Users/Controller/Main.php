@@ -107,6 +107,7 @@ class Controller_Main extends Mvc_Controller_Default
 		$this->_setBreadcrumbNavigation( Tr::_( 'Create a new User' ) );
 
 		$user = new User();
+		$user->setPasswordIsValid(false);
 
 
 		$form = $user->getAddForm();
@@ -114,6 +115,8 @@ class Controller_Main extends Mvc_Controller_Default
 		if( $user->catchAddForm() ) {
 			$password = User::generatePassword();
 			$user->setPassword( $password );
+			$user->setPasswordIsValid(false);
+
 			$user->save();
 
 			$this->logAllowedAction( 'User created', $user->getId(), $user->getUsername(), $user );

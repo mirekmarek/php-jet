@@ -5,12 +5,16 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
-namespace Jet;
+namespace JetApplication;
+
+use Jet\Logger_Interface;
+use Jet\Auth_User_Interface;
+use Jet\BaseObject;
 
 /**
  *
  */
-interface Application_Logger_Interface
+class Logger_Web extends BaseObject implements Logger_Interface
 {
 
 	/**
@@ -21,7 +25,7 @@ interface Application_Logger_Interface
 	 * @param string $context_object_id (optional)
 	 * @param string $context_object_name (optional)
 	 * @param mixed $context_object_data (optional)
-	 * @param ?Auth_User_Interface $current_user (optional; default: null)
+	 * @param Auth_User_Interface|bool $current_user
 	 */
 	public function log( string $event_class,
 	                     string $event,
@@ -29,5 +33,17 @@ interface Application_Logger_Interface
 	                     string $context_object_id = '',
 	                     string $context_object_name = '',
 	                     mixed $context_object_data = [],
-	                     ?Auth_User_Interface $current_user = null );
+	                     Auth_User_Interface|bool $current_user = false )
+	{
+		Logger_Web_Event::log(
+			$event_class,
+			$event,
+			$event_message,
+			$context_object_id,
+			$context_object_name,
+			$context_object_data,
+			$current_user
+		);
+
+	}
 }

@@ -10,7 +10,7 @@ namespace Jet;
 /**
  *
  */
-class Application_Logger extends BaseObject
+class Logger
 {
 	const EVENT_CLASS_SUCCESS = 'success';
 	const EVENT_CLASS_INFO = 'info';
@@ -20,23 +20,23 @@ class Application_Logger extends BaseObject
 
 
 	/**
-	 * @var Application_Logger_Interface
+	 * @var ?Logger_Interface
 	 */
-	protected static Application_Logger_Interface $logger;
+	protected static ?Logger_Interface $logger = null;
 
 
 	/**
-	 * @param Application_Logger_Interface $logger
+	 * @param Logger_Interface $logger
 	 */
-	public static function setLogger( Application_Logger_Interface $logger ) : void
+	public static function setLogger( Logger_Interface $logger ) : void
 	{
 		static::$logger = $logger;
 	}
 
 	/**
-	 * @return Application_Logger_Interface
+	 * @return Logger_Interface|null
 	 */
-	public static function getLogger() : Application_Logger_Interface
+	public static function getLogger() : Logger_Interface|null
 	{
 		return static::$logger;
 	}
@@ -67,11 +67,6 @@ class Application_Logger extends BaseObject
 		if( $current_user===null ) {
 			$current_user = Auth::getCurrentUser();
 		}
-
-		if(!$current_user) {
-			$current_user = null;
-		}
-
 
 		$logger->log(
 			$event_class,

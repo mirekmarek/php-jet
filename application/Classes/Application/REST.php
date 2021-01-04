@@ -7,7 +7,7 @@
  */
 namespace JetApplication;
 
-use Jet\Application_Logger;
+use Jet\Logger;
 use Jet\Mvc_Site;
 use Jet\Mvc_Router;
 use Jet\Auth;
@@ -39,7 +39,7 @@ class Application_REST
 	public static function init( Mvc_Router $router ) : void
 	{
 		Application::initErrorPages( $router );
-		Application_Logger::setLogger( new Application_Logger_REST() );
+		Logger::setLogger( new Logger_REST() );
 		Auth::setController( new Auth_Controller_REST() );
 	}
 

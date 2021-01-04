@@ -7,7 +7,6 @@
  */
 namespace JetApplication;
 
-use Jet\Auth;
 use Jet\DataModel;
 use Jet\DataModel_Definition;
 use Jet\DataModel_IDController_AutoIncrement;
@@ -23,7 +22,7 @@ use Jet\Http_Request;
 #[DataModel_Definition(name: 'Auth_Event')]
 #[DataModel_Definition(id_controller_class: DataModel_IDController_AutoIncrement::class)]
 #[DataModel_Definition(id_controller_options: ['id_property_name'=>'id'])]
-abstract class Application_Logger_Event extends DataModel
+abstract class Logger_Event extends DataModel
 {
 
 	/**
@@ -122,7 +121,7 @@ abstract class Application_Logger_Event extends DataModel
 	 * @param string $context_object_id
 	 * @param string $context_object_name
 	 * @param mixed $context_object_data
-	 * @param Auth_User_Interface|null|bool $current_user
+	 * @param Auth_User_Interface|bool $current_user
 	 *
 	 * @return static
 	 */
@@ -132,7 +131,7 @@ abstract class Application_Logger_Event extends DataModel
 	                     string $context_object_id = '',
 	                     string $context_object_name = '',
 	                     mixed $context_object_data = [],
-                         Auth_User_Interface|null|bool $current_user = null ) : static
+                         Auth_User_Interface|bool $current_user = false ) : static
 	{
 
 
@@ -149,10 +148,6 @@ abstract class Application_Logger_Event extends DataModel
 		$event_i->context_object_id = $context_object_id;
 		$event_i->context_object_name = $context_object_name;
 		$event_i->context_object_data = json_encode( $context_object_data );
-
-		if($current_user===null) {
-			$current_user = Auth::getCurrentUser();
-		}
 
 		if( $current_user instanceof Auth_User_Interface ) {
 			$event_i->user_id = $current_user->getId();

@@ -55,9 +55,9 @@ class Installer_Step_CreateDB_Controller extends Installer_Step_Controller
 			$namespace.'\Auth_RESTClient_User',
 			$namespace.'\Auth_RESTClient_User_Roles',
 
-			$namespace.'\Application_Logger_Admin_Event',
-			$namespace.'\Application_Logger_Web_Event',
-			$namespace.'\Application_Logger_REST_Event',
+			$namespace.'\Logger_Admin_Event',
+			$namespace.'\Logger_Web_Event',
+			$namespace.'\Logger_REST_Event',
 		];
 
 		$result = [];

@@ -7,14 +7,14 @@
  */
 namespace JetApplication;
 
-use Jet\Application_Logger_Interface;
+use Jet\Logger_Interface;
 use Jet\Auth_User_Interface;
 use Jet\BaseObject;
 
 /**
  *
  */
-class Application_Logger_Admin extends BaseObject implements Application_Logger_Interface
+class Logger_Admin extends BaseObject implements Logger_Interface
 {
 
 	/**
@@ -25,7 +25,7 @@ class Application_Logger_Admin extends BaseObject implements Application_Logger_
 	 * @param string $context_object_id (optional)
 	 * @param string $context_object_name (optional)
 	 * @param mixed $context_object_data (optional)
-	 * @param Auth_User_Interface|null|bool $current_user
+	 * @param Auth_User_Interface|bool $current_user
 	 */
 	public function log( string $event_class,
 	                     string $event,
@@ -33,9 +33,9 @@ class Application_Logger_Admin extends BaseObject implements Application_Logger_
 	                     string $context_object_id = '',
 	                     string $context_object_name = '',
 	                     mixed $context_object_data = [],
-	                     Auth_User_Interface|null|bool $current_user = null )
+	                     Auth_User_Interface|bool $current_user=false )
 	{
-		Application_Logger_Admin_Event::log(
+		Logger_Admin_Event::log(
 			$event_class,
 			$event,
 			$event_message,
