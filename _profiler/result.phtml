@@ -299,88 +299,88 @@ function showRunBlock(Debug_Profiler_Run_Block $block, $level=0)
 	</script>
 </head>
 <body>
-<div class="container-full" style="padding: 10px;">
-	<h1>PHP Jet Profiler result</h1>
+	<div class="container-full" style="padding: 10px;">
+		<h1>PHP Jet Profiler result</h1>
 
-	<table class="table">
-		<tr>
-			<td>Run id:</td>
-			<td width="100%"><?= $run->getId(); ?></td>
-		</tr>
-		<tr>
-			<td>Request URL:</td>
-			<td><?= $run->getRequestURL(); ?></td>
-		</tr>
-		<tr>
-			<td nowrap="">Date and time:</td>
-			<td><?= $run->getDateAndTime(); ?></td>
-		</tr>
-	</table>
-
-	<hr/>
-	<?php if ($run->getXHPData()): ?>
-		<a href="?JPR=<?= $run->getId(); ?>&callgraph" target="_blank" style="font-weight: bolder">XHProf Call Graph</a>
-	<?php else: ?>
-		<strong>XHProf data not available</strong>
-	<?php endif; ?>
-
-
-	<hr/>
-	<h2>Run blocks</h2>
-	<?php showRunBlock($blocks[0]); ?>
-
-	<hr/>
-
-	<h2>SQL queries overview</h2>
-	<table class="table table-striped">
-		<thead>
-		<tr>
-			<th>Block</th>
-			<th>Query</th>
-			<th>Duration</th>
-			<th>Rows&nbsp;count</th>
-			<?php /*<td nowrap>Memory diff</td>*/ ?>
-			<th>Backtrace</th>
-
-		</tr>
-		</thead>
-		<tbody>
-
-		<?php
-		$total_count = 0;
-		$total_duration = 0;
-		foreach ($run->getSqlQueries() as $q):
-			$total_count++;
-			$total_duration = $total_duration + $q->getDuration();
-			?>
+		<table class="table">
 			<tr>
-				<td><a href="#run_block_<?= $q->getBlockId(); ?>"><?= $blocks[$q->getBlockId()]->getLabel(); ?></a></td>
-				<td valign="top"><?= formatQuery($q->getQuery(), $q->getQueryData()); ?></td>
-				<td valign="top"><?= formatDuration($q->getDuration()); ?></td>
-				<td valign="top"><?= $q->getRowsCount(); ?></td>
-				<?php /*<td valign="top">
-								Usage:&nbsp;<?=formatBytes( $q->getMemoryUsageDiff() );?>
-								<br/>
-								Peak&nbsp;usage:&nbsp;<?=formatBytes( $q->getMemoryPeakDiff() );?>
-						</td>*/ ?>
-				<td valign="top">
-					<ul>
-						<li><?= implode('</li><li>', $q->getBacktrace()); ?></li>
-					</ul>
-				</td>
+				<td>Run id:</td>
+				<td width="100%"><?= $run->getId(); ?></td>
 			</tr>
-		<?php endforeach; ?>
-		</tbody>
-		<tfoot>
-		<tr>
-			<th></th>
-			<th>Total count: <?= $total_count; ?></th>
-			<th><?= formatDuration($total_duration); ?></th>
-		</tr>
-		</tfoot>
-	</table>
+			<tr>
+				<td>Request URL:</td>
+				<td><?= $run->getRequestURL(); ?></td>
+			</tr>
+			<tr>
+				<td nowrap="">Date and time:</td>
+				<td><?= $run->getDateAndTime(); ?></td>
+			</tr>
+		</table>
 
-</div>
+		<hr/>
+		<?php if ($run->getXHPData()): ?>
+			<a href="?JPR=<?= $run->getId(); ?>&callgraph" target="_blank" style="font-weight: bolder">XHProf Call Graph</a>
+		<?php else: ?>
+			<strong>XHProf data not available</strong>
+		<?php endif; ?>
 
-	</body>
+
+		<hr/>
+		<h2>Run blocks</h2>
+		<?php showRunBlock($blocks[0]); ?>
+
+		<hr/>
+
+		<h2>SQL queries overview</h2>
+		<table class="table table-striped">
+			<thead>
+			<tr>
+				<th>Block</th>
+				<th>Query</th>
+				<th>Duration</th>
+				<th>Rows&nbsp;count</th>
+				<?php /*<td nowrap>Memory diff</td>*/ ?>
+				<th>Backtrace</th>
+
+			</tr>
+			</thead>
+			<tbody>
+
+			<?php
+			$total_count = 0;
+			$total_duration = 0;
+			foreach ($run->getSqlQueries() as $q):
+				$total_count++;
+				$total_duration = $total_duration + $q->getDuration();
+				?>
+				<tr>
+					<td><a href="#run_block_<?= $q->getBlockId(); ?>"><?= $blocks[$q->getBlockId()]->getLabel(); ?></a></td>
+					<td valign="top"><?= formatQuery($q->getQuery(), $q->getQueryData()); ?></td>
+					<td valign="top"><?= formatDuration($q->getDuration()); ?></td>
+					<td valign="top"><?= $q->getRowsCount(); ?></td>
+					<?php /*<td valign="top">
+									Usage:&nbsp;<?=formatBytes( $q->getMemoryUsageDiff() );?>
+									<br/>
+									Peak&nbsp;usage:&nbsp;<?=formatBytes( $q->getMemoryPeakDiff() );?>
+							</td>*/ ?>
+					<td valign="top">
+						<ul>
+							<li><?= implode('</li><li>', $q->getBacktrace()); ?></li>
+						</ul>
+					</td>
+				</tr>
+			<?php endforeach; ?>
+			</tbody>
+			<tfoot>
+			<tr>
+				<th></th>
+				<th>Total count: <?= $total_count; ?></th>
+				<th><?= formatDuration($total_duration); ?></th>
+			</tr>
+			</tfoot>
+		</table>
+
+	</div>
+
+</body>
 </html>
