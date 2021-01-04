@@ -10,7 +10,7 @@ $this->setVar('page', Pages::getCurrentPage());
 ?>
 <?=$this->render('js');?>
 
-<?php if(Pages::getCurrentLocale()): ?>
+<?php if(Pages::getCurrentPage()): ?>
 <div class="row toolbar" id="main-toolbar">
 	<div class="col-md-3">
 			<div class="dropdown" style="display: inline-block">
