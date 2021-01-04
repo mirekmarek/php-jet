@@ -15,4 +15,5 @@ return [
 	'Text' => '',
 	'Select image' => '',
 	'Edit article <b>%TITLE%</b>' => '',
+	'Invalid date format' => '',
 ];
