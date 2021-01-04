@@ -100,6 +100,123 @@ let JetAjaxForm = {
 		JetAjaxForm.xhr.send(form_data);
 	},
 
+	submitMultiUpload: function( form_id, file_field_name, handlers ) {
+		const form = document.getElementById(form_id);
+		if(!form ) {
+			alert('Unknown form '+form_id+'!');
+			return;
+		}
+
+		if(!form.elements[file_field_name+'[]']) {
+			alert('File form field '+form_id+' : '+file_field_name+'[] doesn\'t exist!');
+			return;
+		}
+
+		const file_field = form.elements[file_field_name+'[]'];
+		const total_count = file_field.files.length;
+
+		if(!total_count) {
+			return;
+		}
+
+		let c=0;
+
+		const upload = function( i ) {
+			c++;
+
+			if(c>total_count) {
+				handlers.hideProgressIndicator();
+				form.reset();
+
+				return;
+			}
+
+			let file = file_field.files[i];
+
+			handlers.onProgress = function ( percent ) {
+				let info = '[ '+c+' / '+total_count+' ] '+file.name+' ... ';
+
+				if(percent>0) {
+					info += percent+'%';
+				}
+
+				$('#__progress_prc__').html( info );
+			};
+
+
+
+			let form_data = new FormData( form );
+
+			form_data.delete(file_field.name)
+			form_data.append(file_field.name, file);
+
+
+			handlers.showProgressIndicator();
+
+			let xhr = new XMLHttpRequest();
+
+
+			xhr.upload.addEventListener('progress', function(e) {
+
+				if (e.lengthComputable) {
+					let percentage = Math.round((e.loaded/e.total)*100);
+
+					handlers.onProgress( percentage );
+				}
+			});
+
+
+			xhr.onreadystatechange = function() {
+
+				if( xhr.readyState === XMLHttpRequest.DONE ) {
+
+					if(xhr.status === 200) {
+						let response;
+
+						try {
+							response = JSON.parse(xhr.responseText);
+						} catch (e) {
+							handlers.onError();
+							return;
+						}
+
+						if(response.snippets) {
+							JetAjaxForm.applySnippets(form, response.snippets);
+						}
+
+						if( response.result==='ok' ) {
+							handlers.onSuccess(response.data);
+
+							setTimeout(function () {
+								upload( i+1 );
+							}, 1000);
+
+						} else {
+							handlers.onFormError(response.data);
+						}
+
+
+					} else {
+						handlers.hideProgressIndicator();
+
+						if( xhr.status === 401) {
+							handlers.onAccessDenied();
+						} else {
+							handlers.onError();
+						}
+					}
+				}
+			};
+
+			xhr.open("POST", form.action);
+			xhr.send(form_data);
+
+		};
+
+		upload(0);
+	},
+
+
 	applySnippets: function( form, snippets ) {
 		for(let el_id in snippets) {
 

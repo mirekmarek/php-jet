@@ -4,6 +4,10 @@ use Jet\SysConf_Jet;
 
 require_once SysConf_Path::getLibrary().'Jet/SysConf/Jet.php';
 
+//SysConf_Jet::setTIMEZONE( 'Europe/Prague' );
+SysConf_Jet::setHideHttpRequest( true );
+
+
 //Dev configuration:
 SysConf_Jet::setDevelMode( true );
 SysConf_Jet::setDebugProfilerEnabled( true );
@@ -13,12 +17,9 @@ SysConf_Jet::setJSPackagerEnabled( true );
 
 SysConf_Jet::setTranslatorAutoAppendUnknownPhrase( true );
 
-SysConf_Jet::setHideHttpRequest( true );
 
 SysConf_Jet::setCacheMvcEnabled( true );
 SysConf_Jet::setCacheAutoloaderEnabled( true );
-
-//SysConf_Jet::setTIMEZONE( 'Europe/Prague' );
 
 
 //Production configuration:
@@ -31,10 +32,7 @@ SysConf_Jet::setJSPackagerEnabled( true );
 
 SysConf_Jet::setTranslatorAutoAppendUnknownPhrase( false );
 
-SysConf_Jet::setHideHttpRequest( true );
-
 SysConf_Jet::setCacheMvcEnabled(true);
 SysConf_Jet::setCacheAutoloaderEnabled(true);
-
-//SysConf_Jet::setTIMEZONE( 'Europe/Prague' );
 */
+
