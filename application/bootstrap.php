@@ -20,7 +20,7 @@ require __DIR__.'/Init/ClassNames.php';
 require __DIR__.'/Init/HTTPRequest.php';
 
 //<REMOVE AFTER INSTALLATION> !!!
-//require __DIR__.'/Init/Installation.php';
+require __DIR__.'/Init/Installation.php';
 //</REMOVE AFTER INSTALLATION> !!!
 
 Application::runMvc();
