@@ -1,7 +1,7 @@
 <?php
 return [
     'id' => 'static_page',
-    'order' => 5,
+    'order' => 3,
     'name' => 'Staticka stránka',
     'title' => 'Statická stránka',
     'icon' => 'file-code',

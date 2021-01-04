@@ -4,6 +4,7 @@ use JetApplication\PageStaticContent;
 return [
 	'id' => 'subpage',
 	'name' => 'Subpage',
+	'order' => 4,
 	'is_active' => true,
 	'SSL_required' => false,
 	'title' => 'Subpage',

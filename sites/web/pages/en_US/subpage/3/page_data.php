@@ -3,6 +3,7 @@ use JetApplication\PageStaticContent;
 
 return [
 	'id' => 'subpage_3',
+	'order' => 3,
 	'name' => 'Subpage 3',
 	'is_active' => true,
 	'SSL_required' => false,

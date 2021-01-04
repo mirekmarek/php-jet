@@ -2,6 +2,7 @@
 return [
 	'id' => 'static_page',
 	'name' => 'Static page',
+	'order' => 3,
 	'is_active' => true,
 	'SSL_required' => false,
 	'title' => 'Static page',

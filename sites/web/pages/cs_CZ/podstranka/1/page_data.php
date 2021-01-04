@@ -1,6 +1,7 @@
 <?php
 return [
 	'id' => 'subpage_1',
+	'order' => 1,
 	'name' => 'Podstránka 1',
 	'is_active' => true,
 	'SSL_required' => false,
