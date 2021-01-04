@@ -13,7 +13,6 @@ use Jet\Config;
 use Jet\DataModel_Factory;
 use Jet\Http_Request;
 use Jet\Locale;
-use Jet\SysConf_Cache;
 use Jet\SysConf_Jet;
 use Jet\Translator;
 use Jet\Mvc_Factory;
@@ -51,8 +50,6 @@ Mvc_Factory::setSiteClassName('JetStudio\\Sites_Site');
 Mvc_Factory::setPageClassName('JetStudio\\Pages_Page');
 Mvc_Factory::setPageContentClassName('JetStudio\\Pages_Page_Content');
 
-SysConf_Cache::setAutoloaderEnabled(false);
-SysConf_Cache::setMvcEnabled( false );
 
 Config::setBeTolerant( true );
 Config::setConfigDirPath( ProjectConf_Path::getConfig() );

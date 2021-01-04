@@ -4,7 +4,6 @@ use Jet\Debug;
 use Jet\Debug_Profiler;
 use Jet\Debug_Profiler_Run;
 use Jet\SysConf_Path;
-use Jet\SysConf_Cache;
 use Jet\SysConf_Jet;
 
 if( SysConf_Jet::isDebugProfilerEnabled() ) {
@@ -108,8 +107,8 @@ if( SysConf_Jet::isDebugProfilerEnabled() ) {
 								SQL queries count: <b><?=count($run->getSqlQueries())?></b>
 							</td>
 							<td><b>Cache state:</b></td>
-							<td><?php $show_cache_state('Autoloader', SysConf_Cache::isAutoloaderEnabled() ); ?></td>
-							<td><?php $show_cache_state('MVC', SysConf_Cache::isMvcEnabled() ); ?></td>
+							<td><?php $show_cache_state('Autoloader', SysConf_Jet::isCacheAutoloaderEnabled() ); ?></td>
+							<td><?php $show_cache_state('MVC', SysConf_Jet::isCacheMvcEnabled() ); ?></td>
 							<td style="padding-left: 20px"><b>Packager state:</b></td>
 							<td><?php $show_cache_state('JS', SysConf_Jet::isJSPackagerEnabled() ); ?></td>
 							<td><?php $show_cache_state('CSS', SysConf_Jet::isCSSPackagerEnabled() ); ?></td>

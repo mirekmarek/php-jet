@@ -21,7 +21,7 @@ class Mvc_Cache_Backend_Files implements Mvc_Cache_Backend {
 	 */
 	public function isActive() : bool
 	{
-		return SysConf_Cache::isMvcEnabled();
+		return SysConf_Jet::isCacheMvcEnabled();
 	}
 
 	/**
@@ -40,7 +40,7 @@ class Mvc_Cache_Backend_Files implements Mvc_Cache_Backend {
 	 */
 	protected function readMap( string $entity ) : array|null
 	{
-		if(!SysConf_Cache::isMvcEnabled()) {
+		if(!SysConf_Jet::isCacheMvcEnabled()) {
 			return null;
 		}
 
@@ -62,7 +62,7 @@ class Mvc_Cache_Backend_Files implements Mvc_Cache_Backend {
 	 */
 	protected function writeMap( string $entity, array $data ) : void
 	{
-		if(!SysConf_Cache::isMvcEnabled()) {
+		if(!SysConf_Jet::isCacheMvcEnabled()) {
 			return;
 		}
 
@@ -97,7 +97,7 @@ class Mvc_Cache_Backend_Files implements Mvc_Cache_Backend {
 	 */
 	protected function readHtml( string $key ) : string|null
 	{
-		if(!SysConf_Cache::isMvcEnabled()) {
+		if(!SysConf_Jet::isCacheMvcEnabled()) {
 			return null;
 		}
 
@@ -119,7 +119,7 @@ class Mvc_Cache_Backend_Files implements Mvc_Cache_Backend {
 	 */
 	protected function writeHtml( string $key, string $html ) : void
 	{
-		if(!SysConf_Cache::isMvcEnabled()) {
+		if(!SysConf_Jet::isCacheMvcEnabled()) {
 			return;
 		}
 

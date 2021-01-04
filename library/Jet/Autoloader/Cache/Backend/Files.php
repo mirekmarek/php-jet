@@ -29,7 +29,7 @@ class Autoloader_Cache_Backend_Files implements Autoloader_Cache_Backend {
 	 */
 	public function isActive() : bool
 	{
-		return SysConf_Cache::isAutoloaderEnabled();
+		return SysConf_Jet::isCacheAutoloaderEnabled();
 	}
 	
 
@@ -39,7 +39,7 @@ class Autoloader_Cache_Backend_Files implements Autoloader_Cache_Backend {
 	 */
 	public function load() : array|null
 	{
-		if(!SysConf_Cache::isAutoloaderEnabled()) {
+		if(!SysConf_Jet::isCacheAutoloaderEnabled()) {
 			return null;
 		}
 
@@ -61,7 +61,7 @@ class Autoloader_Cache_Backend_Files implements Autoloader_Cache_Backend {
 	 */
 	public function save( array $map ) : void
 	{
-		if(!SysConf_Cache::isAutoloaderEnabled()) {
+		if(!SysConf_Jet::isCacheAutoloaderEnabled()) {
 			return;
 		}
 

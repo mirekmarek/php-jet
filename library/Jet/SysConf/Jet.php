@@ -29,6 +29,9 @@ class SysConf_Jet {
 
 	protected static string $timezone = '';
 
+	protected static bool $cache_mvc_enabled = false;
+	protected static bool $cache_autoloader_enabled = false;
+
 	/**
 	 * @return bool
 	 */
@@ -187,6 +190,38 @@ class SysConf_Jet {
 	public static function setTimezone( string $timezone ) : void
 	{
 		self::$timezone = $timezone;
+	}
+
+	/**
+	 * @return bool
+	 */
+	public static function isCacheMvcEnabled(): bool
+	{
+		return self::$cache_mvc_enabled;
+	}
+
+	/**
+	 * @param bool $mvc_enables
+	 */
+	public static function setCacheMvcEnabled( bool $mvc_enables ): void
+	{
+		self::$cache_mvc_enabled = $mvc_enables;
+	}
+
+	/**
+	 * @return bool
+	 */
+	public static function isCacheAutoloaderEnabled(): bool
+	{
+		return self::$cache_autoloader_enabled;
+	}
+
+	/**
+	 * @param bool $cache_autoloader_enabled
+	 */
+	public static function setCacheAutoloaderEnabled( bool $cache_autoloader_enabled ): void
+	{
+		self::$cache_autoloader_enabled = $cache_autoloader_enabled;
 	}
 
 }

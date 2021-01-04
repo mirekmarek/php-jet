@@ -35,4 +35,142 @@
 		}
 	};
 
+	//TODO:
+	/*
+	var form_id = 'images_upload_form_'+category_id;
+	var img_field_id = 'images_upload_form_'+category_id+'__images_upload';
+	var handlers = {
+		showProgressIndicator: function () {
+			$('#__progress__').show();
+
+			handlers.onProgress( 0 );
+
+		},
+
+		hideProgressIndicator: function () {
+			$('#__progress__').hide();
+		},
+
+		onSuccess: function ( response_data) {
+		},
+
+		onFormError: function ( response_data ) {
+			handlers.hideProgressIndicator();
+
+			if(response_data['too_big_files']) {
+				$('#too_big_files_warning').modal('show');
+			}
+		},
+
+		onError: function () {
+			alert('Něco se nepovedlo ...');
+		}
+	};
+
+			var form = document.getElementById( form_id );
+			var img_field = document.getElementById( img_field_id );
+			var total_count = img_field.files.length;
+
+
+			if(!total_count) {
+				return;
+			}
+
+			var c=0;
+
+			var upload = function( i ) {
+				c++;
+
+				if(c>total_count) {
+					handlers.hideProgressIndicator();
+					form.reset();
+
+					return;
+				}
+
+				var file = img_field.files[i];
+
+				handlers.onProgress = function ( percent ) {
+					var info = '[ '+c+' / '+total_count+' ] '+file.name+' ... ';
+
+					if(percent>0) {
+						info += percent+'%';
+					}
+
+					$('#__progress_prc__').html( info );
+				};
+
+
+
+				var form_data = new FormData();
+
+				form_data.append('ajax', 'ajax');
+				form_data.append('_jet_form_sent_', 'images_upload_form_'+category_id);
+				form_data.append('category_id', category_id);
+				form_data.append('images_upload[]', file);
+
+
+				handlers.showProgressIndicator();
+
+				var xhr = new XMLHttpRequest();
+
+
+				xhr.upload.addEventListener('progress', function(e) {
+
+					if (e.lengthComputable) {
+						var percentage = Math.round((e.loaded/e.total)*100);
+
+						handlers.onProgress( percentage );
+					}
+				});
+
+
+				xhr.onreadystatechange = function() {
+
+					if( xhr.readyState === XMLHttpRequest.DONE ) {
+
+						if(xhr.status === 200) {
+							try {
+								var response = JSON.parse(xhr.responseText);
+							} catch (e) {
+								handlers.onError();
+								return;
+							}
+
+							if(response.snippets) {
+								JetAjaxForm.applySnippets(form, response.snippets);
+							}
+
+							if( response.result==='ok' ) {
+								handlers.onSuccess(response.data);
+
+								setTimeout(function () {
+									upload( i+1 );
+								}, 1000);
+
+							} else {
+								handlers.onFormError(response.data);
+							}
+
+
+						} else {
+							handlers.hideProgressIndicator();
+
+							if( xhr.status === 401) {
+								handlers.onAccessDenied();
+							} else {
+								handlers.onError();
+							}
+						}
+					}
+				};
+
+				xhr.open("POST", form.action);
+				xhr.send(form_data);
+
+			};
+
+			upload(0);
+
+	 */
 </script>
