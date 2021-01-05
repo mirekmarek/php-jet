@@ -11,7 +11,7 @@ return [
 	'is_secret' => false,
 	'icon' => 'file-code',
 	'http_headers' => [
-		'test value 1',
+		'testHeader1' => 'test value 1'
 	],
 	'output' => '<html>
 <head>

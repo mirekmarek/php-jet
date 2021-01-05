@@ -13,9 +13,9 @@ return [
 	'breadcrumb_title' => 'Subpage 3',
 	'is_secret' => false,
 	'http_headers' => [
-		'test value 1',
-		'test value 2',
-		'test value 3',
+		'testHeader1' => 'test value 1',
+		'testHeader2' => 'test value 2',
+		'testHeader3' => 'test value 3',
 	],
 	'layout_script_name' => 'default',
 	'meta_tags' => [
