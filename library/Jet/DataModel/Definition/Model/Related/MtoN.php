@@ -70,7 +70,7 @@ class DataModel_Definition_Model_Related_MtoN extends DataModel_Definition_Model
 			!( $this->N_model_class = $this->getClassArgument( 'N_model_class', null ) )
 		) {
 			throw new DataModel_Exception(
-				$data_model_class_name.' @JetDataModel:N_model_class is not defined!',
+				$data_model_class_name.' #[DataModel_Definition(N_model_class)] is not defined!',
 				DataModel_Exception::CODE_DEFINITION_NONSENSE
 			);
 
@@ -126,7 +126,7 @@ class DataModel_Definition_Model_Related_MtoN extends DataModel_Definition_Model
 
 			if( !in_array( $property_name, $N_id_relation_defined ) ) {
 				throw new DataModel_Exception(
-					'Class: \''.$this->class_name.'\'  N model relation property is missing! Please declare property with this annotation: @JetDataModel:related_to = \''.$this->N_model_name.'.'.$property_name.'\' ',
+					'Class: \''.$this->class_name.'\'  N model relation property is missing! Please declare property with this annotation: #[DataModel_Definition(related_to: \''.$this->N_model_name.'.'.$property_name.'\')] ',
 					DataModel_Exception::CODE_DEFINITION_NONSENSE
 				);
 			}
@@ -151,7 +151,7 @@ class DataModel_Definition_Model_Related_MtoN extends DataModel_Definition_Model
 
 		if( count( $related_to )!=2 ) {
 			throw new DataModel_Exception(
-				'Invalid @JetDataModel:related_to definition format. Examples: @JetDataModel:related_to=\'parent.id\', @JetDataModel:related_to=\'main.id\', class:'.$this->class_name,
+				'Invalid #[DataModel_Definition(related_to)] definition format. Examples: #[DataModel_Definition(related_to:\'parent.id\')], #[DataModel_Definition(related_to:\'main.id\')], class:'.$this->class_name,
 				DataModel_Exception::CODE_DEFINITION_NONSENSE
 			);
 		}
@@ -167,7 +167,7 @@ class DataModel_Definition_Model_Related_MtoN extends DataModel_Definition_Model
 			!$related_to_property_name
 		) {
 			throw new DataModel_Exception(
-				'Invalid @JetDataModel:related_to definition format. Examples: @JetDataModel:related_to=\'parent.id\', @JetDataModel:related_to=\'main.id\', class:'.$this->class_name,
+				'Invalid #[DataModel_Definition(related_to)] definition format. Examples: #[DataModel_Definition(related_to: \'parent.id\')], #[DataModel_Definition(related_to: \'main.id\')], class:'.$this->class_name,
 				DataModel_Exception::CODE_DEFINITION_NONSENSE
 			);
 		}
@@ -175,7 +175,7 @@ class DataModel_Definition_Model_Related_MtoN extends DataModel_Definition_Model
 
 		if( !$this->is_sub_related_model && $what=='parent' ) {
 			throw new DataModel_Exception(
-				'Invalid @JetDataModel:related_to = \'parent.'.$related_to_property_name.'\' definition. Use: @JetDataModel:related_to = \'main.'.$related_to_property_name.'\'  ',
+				'Invalid #[DataModel_Definition(related_to: \'parent.'.$related_to_property_name.'\')] definition. Use: #[DataModel_Definition(related_to: \'main.'.$related_to_property_name.'\')] ',
 				DataModel_Exception::CODE_DEFINITION_NONSENSE
 			);
 		}
