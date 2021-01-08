@@ -20,7 +20,6 @@ UI::setViewsDir( __DIR__.'/views/UI/' );
 require 'Classes/Installer.php';
 
 
-Installer::setApplicationNamespace('JetApplication');
 Installer::setBasePath( SysConf_Path::getBase().'_installer/' );
 
 Installer::setSteps(

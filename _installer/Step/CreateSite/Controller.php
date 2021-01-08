@@ -92,7 +92,7 @@ class Installer_Step_CreateSite_Controller extends Installer_Step_Controller
 			}
 			$web->setIsDefault( true );
 			$web->setIsActive( true );
-			$web->setInitializer([Installer::getApplicationNamespace().'\Application_Web','init']);
+			$web->setInitializer([ Application_Web::class,'init']);
 
 
 
@@ -116,7 +116,7 @@ class Installer_Step_CreateSite_Controller extends Installer_Step_Controller
 				$ld->setURLs( [$URL.'admin/'.$locale->getLanguage().'/'] );
 			}
 			$admin->setIsActive( true );
-			$admin->setInitializer([Installer::getApplicationNamespace().'\Application_Admin','init']);
+			$admin->setInitializer([ Application_Admin::class, 'init' ]);
 
 
 
@@ -138,7 +138,7 @@ class Installer_Step_CreateSite_Controller extends Installer_Step_Controller
 				$ld->setURLs( [$URL.'rest/'.$locale->getLanguage().'/'] );
 			}
 			$rest->setIsActive( true );
-			$rest->setInitializer([Installer::getApplicationNamespace().'\Application_REST','init']);
+			$rest->setInitializer([ Application_REST::class,'init']);
 
 
 
@@ -173,13 +173,13 @@ class Installer_Step_CreateSite_Controller extends Installer_Step_Controller
 				/**
 				 * @var Mvc_Site[] $sites
 				 */
-				$sites[Application_REST::getSiteId()]->setInitializer([Installer::getApplicationNamespace().'\Application_REST','init']);
+				$sites[Application_REST::getSiteId()]->setInitializer([ Application_REST::class, 'init']);
 				$sites[Application_REST::getSiteId()]->setIsSecret(true);
 
-				$sites[Application_Admin::getSiteId()]->setInitializer([Installer::getApplicationNamespace().'\Application_Admin','init']);
+				$sites[Application_Admin::getSiteId()]->setInitializer([ Application_Admin::class, 'init']);
 				$sites[Application_Admin::getSiteId()]->setIsSecret(true);
 
-				$sites[Application_Web::getSiteId()]->setInitializer([Installer::getApplicationNamespace().'\Application_Web','init']);
+				$sites[Application_Web::getSiteId()]->setInitializer([ Application_Web::class, 'init']);
 
 				try {
 					foreach( $sites as $site ) {

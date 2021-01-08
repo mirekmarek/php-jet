@@ -413,9 +413,9 @@ class DataModel_Related_MtoN_Iterator extends BaseObject implements DataModel_Re
 	/**
 	 * @param DataModel_Related_MtoN $item
 	 *
-	 * @return DataModel|DataModel_Related_MtoN
+	 * @return DataModel|DataModel_Related_MtoN|null
 	 */
-	protected function _getCurrentItem( DataModel_Related_MtoN $item ) : DataModel|DataModel_Related_MtoN
+	protected function _getCurrentItem( DataModel_Related_MtoN $item ) : DataModel|DataModel_Related_MtoN|null
 	{
 		return $item->getNInstance( $this->_load_filter );
 	}

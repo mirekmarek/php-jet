@@ -10,6 +10,25 @@ namespace JetApplication\Installer;
 use Exception;
 use Jet\DataModel_Helper;
 
+use JetApplication\Auth_Administrator_Role;
+use JetApplication\Auth_Administrator_Role_Privilege;
+use JetApplication\Auth_Administrator_User;
+use JetApplication\Auth_Administrator_User_Roles;
+
+use JetApplication\Auth_Visitor_Role;
+use JetApplication\Auth_Visitor_Role_Privilege;
+use JetApplication\Auth_Visitor_User;
+use JetApplication\Auth_Visitor_User_Roles;
+
+use JetApplication\Auth_RESTClient_Role;
+use JetApplication\Auth_RESTClient_Role_Privilege;
+use JetApplication\Auth_RESTClient_User;
+use JetApplication\Auth_RESTClient_User_Roles;
+
+use JetApplication\Logger_Admin_Event;
+use JetApplication\Logger_Web_Event;
+use JetApplication\Logger_REST_Event;
+
 /**
  *
  */
@@ -36,28 +55,27 @@ class Installer_Step_CreateDB_Controller extends Installer_Step_Controller
 	public function main() : void
 	{
 		$this->catchContinue();
-
-		$namespace = Installer::getApplicationNamespace();
+		
 
 		$classes = [
-			$namespace.'\Auth_Administrator_Role',
-			$namespace.'\Auth_Administrator_Role_Privilege',
-			$namespace.'\Auth_Administrator_User',
-			$namespace.'\Auth_Administrator_User_Roles',
+			Auth_Administrator_Role::class,
+			Auth_Administrator_Role_Privilege::class,
+			Auth_Administrator_User::class,
+			Auth_Administrator_User_Roles::class,
 
-			$namespace.'\Auth_Visitor_Role',
-			$namespace.'\Auth_Visitor_Role_Privilege',
-			$namespace.'\Auth_Visitor_User',
-			$namespace.'\Auth_Visitor_User_Roles',
+			Auth_Visitor_Role::class,
+			Auth_Visitor_Role_Privilege::class,
+			Auth_Visitor_User::class,
+			Auth_Visitor_User_Roles::class,
 
-			$namespace.'\Auth_RESTClient_Role',
-			$namespace.'\Auth_RESTClient_Role_Privilege',
-			$namespace.'\Auth_RESTClient_User',
-			$namespace.'\Auth_RESTClient_User_Roles',
+			Auth_RESTClient_Role::class,
+			Auth_RESTClient_Role_Privilege::class,
+			Auth_RESTClient_User::class,
+			Auth_RESTClient_User_Roles::class,
 
-			$namespace.'\Logger_Admin_Event',
-			$namespace.'\Logger_Web_Event',
-			$namespace.'\Logger_REST_Event',
+			Logger_Admin_Event::class,
+			Logger_Web_Event::class,
+			Logger_REST_Event::class,
 		];
 
 		$result = [];
