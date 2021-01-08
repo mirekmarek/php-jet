@@ -1,0 +1,43 @@
+<?php
+use Jet\Mvc_View;
+use Jet\Form_Renderer;
+use Jet\Form_Field_Select;
+use Jet\Data_Text;
+
+/**
+ * @var Mvc_View          $this
+ * @var Form_Renderer     $r
+ * @var Form_Field_Select $field
+ */
+$r = $this->getRaw( 'element' );
+
+
+$field = $r->getField();
+$value = $field->getValue();
+if($field->getLastErrorCode()) {
+	$r->addCustomCssClass('is-invalid');
+}
+
+?>
+	<?php foreach( $field->getSelectOptions() as $key => $option ):
+		$class = 'radio';
+		if( $field->getIsReadonly() ) {
+			$class .= ' disabled';
+		}
+		?>
+
+		<div class="<?=$class?>">
+			<input type="radio" name="<?=$field->getTagNameValue()?>" value="<?=Data_Text::htmlSpecialChars($key)?>"
+				<?php
+				if( $field->getValue()==$key ) { ?> checked="checked"<?php }
+				if( $r->getCustomCssClasses() ) { ?> class="<?=$r->getCustomCssClasses()?>"<?php }
+				if( $r->getCssStyles() ) { ?> style="<?=$r->getCssStyles()?>"<?php }
+				if( $r->getJsActions() ) { ?> <?=$r->getJsActions()?><?php }
+
+				if( $field->getIsReadonly() ) { ?> disabled="disabled"<?php }
+				if( $field->getIsRequired() ) { ?> required="required"<?php }
+				?>
+			/>
+			<label class="form-check-label" for="<?=$field->getId()?>"><?=$option?></label>
+		</div>
+	<?php endforeach; ?>

@@ -1,0 +1,49 @@
+<?php
+use Jet\UI_messages_message;
+use Jet\UI_messages;
+use Jet\UI;
+use Jet\Mvc_View;
+
+/**
+ * @var Mvc_View            $this
+ * @var UI_messages_message $m
+ */
+$m = $this->getRaw( 'element' );
+
+$icon = $m->getIcon();
+
+if(!$icon) {
+	$icons_map = [
+		UI_messages::C_INFO    => 'info-circle',
+		UI_messages::C_SUCCESS => 'thumbs-up',
+		UI_messages::C_WARNING => 'exclamation-circle',
+		UI_messages::C_DANGER  => 'thumbs-down',
+	];
+
+	$icon = $icons_map[$m->getClass()];
+}
+
+$id = '__message__'.md5($m->getMessage().microtime(true));
+
+?>
+<div class="alert alert-<?=$m->getClass()?>" role="alert" id="<?=$id?>">
+	<?php
+	echo UI::icon($icon);
+
+	if($m->getIsCloseable()):
+		?><button type="button" class="close" data-dismiss="alert" aria-label=""><span aria-hidden="true" onclick="$('#<?=$id?>').fadeOut({duration:250});">&times;</span></button><?php
+	endif; ?>
+	<?=$m->getMessage()?>
+</div>
+<?php if($m->getIsCloseable() && $m->getClass()==UI_messages::C_SUCCESS): ?>
+<script type="text/javascript">
+	setTimeout( function() {
+		$('#<?=$id?>').fadeOut({
+			duration: 1000,
+			complete: function() {
+			}
+		});
+
+	}, 3000 );
+</script>
+<?php endif; ?>

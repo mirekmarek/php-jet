@@ -1,0 +1,27 @@
+<?php
+use Jet\Mvc_View;
+use Jet\Form_Field;
+/**
+ * @var Mvc_View      $this
+ * @var Form_Field $f
+ */
+$f = $this->getRaw( 'field' );
+
+/*
+echo $f->row()->start().
+		$f->error().
+		$f->label().
+		$f->container()->start().
+			$f->input().
+		$f->container()->end().
+	$f->row()->end();
+*/
+
+echo
+$f->row()->start().
+	$f->label().
+	$f->container()->start().
+		$f->input().
+		$f->error().
+	$f->container()->end().
+$f->row()->end();

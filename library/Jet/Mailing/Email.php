@@ -54,6 +54,11 @@ class Mailing_Email extends BaseObject
 	protected array $images = [];
 
 	/**
+	 * @var string|null
+	 */
+	protected string|null $view_base_dir = null;
+
+	/**
 	 * @var ?Mvc_View
 	 */
 	protected ?Mvc_View $__view = null;
@@ -92,25 +97,49 @@ class Mailing_Email extends BaseObject
 	}
 
 	/**
+	 * @return string|null
+	 */
+	public function getViewBaseDir(): ?string
+	{
+		if($this->view_base_dir===null) {
+			$this->view_base_dir = $path = Mvc_Site::get( $this->site_id )->getViewsPath().'EmailTemplates/';
+		}
+
+		return $this->view_base_dir;
+	}
+
+	/**
+	 * @param string $view_base_dir
+	 */
+	public function setViewBaseDir( string $view_base_dir ): void
+	{
+		$this->view_base_dir = $view_base_dir;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getViewDir(): string
+	{
+		$path = $this->getViewBaseDir();
+
+		if( $this->locale ) {
+			$path .= $this->locale.'/';
+		}
+
+		$path .= $this->name.'/';
+
+		return $path;
+	}
+
+
+	/**
 	 * @return Mvc_View
 	 */
 	public function getView() : Mvc_View
 	{
 		if(!$this->__view) {
-			$path = Mailing::getBaseViewDir();
-
-			if( $this->site_id ) {
-				$path .= $this->site_id.'/';
-			}
-
-			if( $this->locale ) {
-				$path .= $this->locale.'/';
-			}
-
-			$path .= $this->name.'/';
-
-
-			$this->__view = new Mvc_View( $path );
+			$this->__view = new Mvc_View( $this->getViewDir() );
 		}
 
 		return $this->__view;

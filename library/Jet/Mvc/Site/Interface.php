@@ -155,6 +155,16 @@ interface Mvc_Site_Interface
 	public function getLayoutsPath() : string;
 
 	/**
+	 * @param string $path
+	 */
+	public function setViewsPath( string $path ) : void;
+	/**
+	 * @return string
+	 */
+	public function getViewsPath() : string;
+
+
+	/**
 	 * Returns default locale
 	 *
 	 * @return Locale|null

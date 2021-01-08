@@ -1,0 +1,15 @@
+<?php
+use Jet\UI_tabs;
+use Jet\Mvc_View;
+
+/**
+ * @var Mvc_View $this
+ * @var UI_tabs  $t
+ */
+$t = $this->getRaw( 'element' );
+
+?><ul class="nav nav-tabs" style="margin-top: 10px;">
+<?php foreach( $t->getTabs() as $tab ):
+	echo $tab;
+endforeach; ?>
+</ul>

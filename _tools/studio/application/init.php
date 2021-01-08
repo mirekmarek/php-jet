@@ -11,12 +11,15 @@ use Jet\Application_Factory;
 use Jet\Application_Modules_Handler_Default;
 use Jet\Config;
 use Jet\DataModel_Factory;
+use Jet\Form;
 use Jet\Http_Request;
 use Jet\Locale;
 use Jet\SysConf_Jet;
+use Jet\SysConf_Path;
 use Jet\Translator;
 use Jet\Mvc_Factory;
 use Jet\Application_Modules;
+use Jet\UI;
 
 
 require __DIR__.'/config/Path.php';
@@ -30,6 +33,8 @@ require __DIR__.'/Init/ErrorHandler.php';
 require __DIR__.'/Init/Autoloader.php';
 
 
+UI::setViewsDir( SysConf_Path::getBase().'views/UI/' );
+Form::setDefaultViewsDir( SysConf_Path::getBase().'views/Form/' );
 
 Http_Request::initialize( SysConf_Jet::isHideHttpRequest() );
 
@@ -63,3 +68,4 @@ $modules_handler->setInstalledModulesListFilePath( ProjectConf_Path::getData().'
 
 Application_Factory::setModuleManifestClassName(__NAMESPACE__.'\Modules_Manifest');
 Application_Modules::setBasePath( ProjectConf_Path::getApplication().'Modules/' );
+

@@ -161,7 +161,7 @@ class Application extends Jet_Application {
 	 */
 	public static function getGeneralView() : Mvc_View
 	{
-		$view = new Mvc_View( SysConf_Path::getApplication().'views/' );
+		$view = new Mvc_View( SysConf_Path::getBase().'views/' );
 
 		return $view;
 	}
@@ -189,7 +189,7 @@ class Application extends Jet_Application {
 	public static function getLayout( string $script='default' ) : Mvc_Layout
 	{
 		if(!static::$layout) {
-			static::$layout = new Mvc_Layout(SysConf_Path::getApplication().'layouts/', $script);
+			static::$layout = new Mvc_Layout(SysConf_Path::getBase().'layouts/', $script);
 			Mvc_Layout::setCurrentLayout( static::$layout );
 		}
 

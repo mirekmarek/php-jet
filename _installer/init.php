@@ -8,10 +8,14 @@
 namespace JetApplication\Installer;
 
 use Jet\Config;
+use Jet\Form;
 use Jet\SysConf_Path;
+use Jet\UI;
 
 Config::setBeTolerant( true );
 
+Form::setDefaultViewsDir( __DIR__.'/views/Form/' );
+UI::setViewsDir( __DIR__.'/views/UI/' );
 
 require 'Classes/Installer.php';
 
@@ -35,6 +39,7 @@ Installer::setSteps(
 		'Final',
 	]
 );
+
 
 Installer::setAvailableLocales(
 	[

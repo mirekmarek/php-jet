@@ -32,6 +32,11 @@ class Mvc_Site extends BaseObject implements Mvc_Site_Interface
 	protected static string $layouts_dir = 'layouts';
 
 	/**
+	 * @var string
+	 */
+	protected static string $views_dir = 'views';
+
+	/**
 	 * @var Mvc_Site[]
 	 */
 	protected static array $sites = [];
@@ -62,6 +67,11 @@ class Mvc_Site extends BaseObject implements Mvc_Site_Interface
 	 * @var string|null
 	 */
 	protected string|null $layouts_path = null;
+
+	/**
+	 * @var string|null
+	 */
+	protected string|null $views_path = null;
 
 	/**
 	 * @var bool
@@ -433,6 +443,28 @@ class Mvc_Site extends BaseObject implements Mvc_Site_Interface
 
 		return $this->getBasePath().static::$layouts_dir.'/';
 	}
+
+
+	/**
+	 * @param string $path
+	 */
+	public function setViewsPath( string $path ) : void
+	{
+		$this->views_path = $path;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getViewsPath() : string
+	{
+		if($this->views_path!==null) {
+			return $this->views_path;
+		}
+
+		return $this->getBasePath().static::$views_dir.'/';
+	}
+
 
 	/**
 	 * @param string $path

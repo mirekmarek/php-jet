@@ -1,0 +1,28 @@
+<?php
+use Jet\UI_searchField;
+use Jet\UI;
+use Jet\Mvc_View;
+
+/**
+ * @var Mvc_View      $this
+ * @var UI_searchField $f
+ */
+$f = $this->getRaw( 'element' );
+
+?>
+
+<div class="input-group">
+	<div class="input-group-prepend">
+		<button class="btn btn-outline-secondary" type="button" onclick="this.form.<?=$f->getName()?>.value='';this.form.submit();">
+			<?=UI::icon( 'times' )?>
+		</button>
+	</div>
+
+	<input type="text" class="form-control" placeholder="<?=$f->getPlaceholder()?>" name="<?=$f->getName()?>" value="<?=$f->getValue()?>">
+
+	<div class="input-group-append">
+		<button class="btn btn-outline-secondary" type="submit">
+			<?=UI::icon( 'search' )?>
+		</button>
+	</div>
+</div>

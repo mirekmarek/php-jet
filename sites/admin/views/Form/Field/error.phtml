@@ -1,0 +1,23 @@
+<?php
+use Jet\Mvc_View;
+use Jet\Form_Renderer;
+
+/**
+ * @var Mvc_View      $this
+ * @var Form_Renderer $r
+ */
+$r = $this->getRaw( 'element' );
+
+$field = $r->getField();
+
+if(!$field->getLastErrorMessage()) {
+	return;
+}
+
+if(!$r->getBaseCssClasses()) {
+	$r->setBaseCssClass('error');
+}
+?>
+<div class="invalid-feedback">
+	<?=$field->getLastErrorMessage();?>
+</div>
