@@ -340,9 +340,9 @@ class DataModel_Related_1toN_Iterator extends BaseObject implements DataModel_Re
 	/**
 	 * @see \Iterator
 	 *
-	 * @return DataModel|null
+	 * @return DataModel|DataModel_Related_Interface|null
 	 */
-	public function current() : DataModel|null
+	public function current() : DataModel|DataModel_Related_Interface|null
 	{
 		if( $this->items===null ) {
 			return null;
@@ -368,9 +368,9 @@ class DataModel_Related_1toN_Iterator extends BaseObject implements DataModel_Re
 	/**
 	 * @see \Iterator
 	 *
-	 * @return DataModel|bool|null
+	 * @return DataModel|DataModel_Related_Interface|bool|null
 	 */
-	public function next() : DataModel|bool|null
+	public function next() : DataModel|DataModel_Related_Interface|bool|null
 	{
 		if( $this->items===null ) {
 			return null;

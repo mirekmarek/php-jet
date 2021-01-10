@@ -91,21 +91,15 @@ class DataModel_Definition_Model_Related extends DataModel_Definition_Model
 		$main_model_class_name = $parent_model_class;
 
 		$getParent = function( $class_name ) : string|null {
-
-			$reflection = new ReflectionClass( $class_name );
-			if(!$reflection) {
-				return false;
+			$def = DataModel_Definition::get( $class_name );
+			if(
+				!$def ||
+				$def instanceof DataModel_Definition_Model_Main
+			) {
+				return null;
 			}
 
-			foreach($reflection->getAttributes('Jet\DataModel_Definition') as $attr) {
-				foreach($attr->getArguments() as $k=>$v) {
-					if($k=='parent_model_class') {
-						return  $v;
-					}
-				}
-			}
-
-			return null;
+			return $def->getParentModelClassName();
 		};
 
 		while( ( $_parent = $getParent( $main_model_class_name ) ) ) {
