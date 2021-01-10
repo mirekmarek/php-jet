@@ -75,11 +75,29 @@ class Config_Definition_Config extends BaseObject
 
 		$this->class_reflection = new ReflectionClass( $class_name );
 
-		foreach( $this->class_reflection->getAttributes('Jet\Config_Definition') as $attribute ) {
-			foreach($attribute->getArguments() as $k=>$v) {
-				$this->class_arguments[$k] = $v;
-			}
+		$classes = [$this->class_reflection->getName() => $this->class_reflection];
+
+		if( ($parent = $this->class_reflection->getParentClass()) ) {
+			do {
+				$classes[$parent->getName()] = $parent;
+			} while( ($parent=$parent->getParentClass()) );
 		}
+
+		$classes = array_reverse( $classes );
+
+		foreach($classes as $class) {
+			/**
+			 * @var ReflectionClass $class
+			 */
+			foreach( $class->getAttributes('Jet\Config_Definition') as $attribute ) {
+				foreach($attribute->getArguments() as $k=>$v) {
+					$this->class_arguments[$k] = $v;
+				}
+			}
+
+		}
+
+
 
 
 		$this->name = $this->getClassArgument( 'name' );
