@@ -20,135 +20,183 @@ use Jet\DataModel_IDController_UniqueString;
 /**
  *
  */
-#[DataModel_Definition(name: 'data_model_test_form_generator')]
-#[DataModel_Definition(database_table_name: 'data_model_test_form_generator')]
-#[DataModel_Definition(id_controller_class: DataModel_IDController_UniqueString::class)]
+#[DataModel_Definition(
+	name: 'data_model_test_form_generator',
+	database_table_name: 'data_model_test_form_generator',
+	id_controller_class: DataModel_IDController_UniqueString::class
+)]
 class DataModelTest_FormGenerator extends DataModel
 {
 
 	/**
 	 * @var string
 	 */
-	#[DataModel_Definition(type: DataModel::TYPE_ID)]
-	#[DataModel_Definition(is_id: true)]
+	#[DataModel_Definition(
+		type: DataModel::TYPE_ID,
+		is_id: true
+	)]
 	protected string $id = '';
 
 	/**
 	 * @var bool
 	 */
-	#[DataModel_Definition(type: DataModel::TYPE_BOOL)]
-	#[DataModel_Definition(form_field_label: 'Checkbox')]
+	#[DataModel_Definition(
+		type: DataModel::TYPE_BOOL,
+		form_field_label: 'Checkbox'
+	)]
 	protected bool $checkbox = false;
 
 	/**
 	 * @var ?Data_DateTime
 	 */
-	#[DataModel_Definition(type: DataModel::TYPE_DATE)]
-	#[DataModel_Definition(form_field_label: 'Date: ')]
-	#[DataModel_Definition(form_field_error_messages: [Form_Field::ERROR_CODE_INVALID_FORMAT=>'Invalid date format'])]
+	#[DataModel_Definition(
+		type: DataModel::TYPE_DATE,
+		form_field_label: 'Date: ',
+		form_field_error_messages: [
+			Form_Field::ERROR_CODE_INVALID_FORMAT=>'Invalid date format'
+		]
+	)]
 	protected ?Data_DateTime $date = null;
 
 	/**
 	 * @var ?Data_DateTime
 	 */
-	#[DataModel_Definition(type: DataModel::TYPE_DATE_TIME)]
-	#[DataModel_Definition(form_field_label: 'Date and time: ')]
-	#[DataModel_Definition(form_field_error_messages: [Form_Field::ERROR_CODE_INVALID_FORMAT=>'Invalid date format'])]
+	#[DataModel_Definition(
+		type: DataModel::TYPE_DATE_TIME,
+		form_field_label: 'Date and time: ',
+		form_field_error_messages: [
+			Form_Field::ERROR_CODE_INVALID_FORMAT=>'Invalid date format'
+		]
+	)]
 	protected ?Data_DateTime $date_time = null;
 
 	/**
 	 * @var float
 	 */
-	#[DataModel_Definition(type: DataModel::TYPE_FLOAT)]
-	#[DataModel_Definition(form_field_label: 'Float: ')]
-	#[DataModel_Definition(form_field_min_value: 0)]
-	#[DataModel_Definition(form_field_max_value: 999)]
-	#[DataModel_Definition(form_field_error_messages: [Form_Field_Float::ERROR_CODE_OUT_OF_RANGE=>'Number is out of range (0-999)'])]
+	#[DataModel_Definition(
+		type: DataModel::TYPE_FLOAT,
+		form_field_label: 'Float: ',
+		form_field_min_value: 0,
+		form_field_max_value: 999,
+		form_field_error_messages: [
+			Form_Field_Float::ERROR_CODE_OUT_OF_RANGE=>'Number is out of range (0-999)'
+		]
+	)]
 	protected float $float = 0;
 
 	/**
 	 * @var int
 	 */
-	#[DataModel_Definition(type: DataModel::TYPE_INT)]
-	#[DataModel_Definition(form_field_label: 'Int: ')]
-	#[DataModel_Definition(form_field_min_value: 0)]
-	#[DataModel_Definition(form_field_max_value: 999)]
-	#[DataModel_Definition(form_field_error_messages: [Form_Field_Float::ERROR_CODE_OUT_OF_RANGE=>'Number is out of range (0-999)'])]
+	#[DataModel_Definition(
+		type: DataModel::TYPE_INT,
+		form_field_label: 'Int: ',
+		form_field_min_value: 0,
+		form_field_max_value: 999,
+		form_field_error_messages: [
+			Form_Field_Float::ERROR_CODE_OUT_OF_RANGE=>'Number is out of range (0-999)'
+		]
+	)]
 	protected int $int = 0;
 
 	/**
 	 * @var string
 	 */
-	#[DataModel_Definition(type: DataModel::TYPE_STRING)]
-	#[DataModel_Definition(max_len: 255)]
-	#[DataModel_Definition(form_field_label: 'Text: ')]
+	#[DataModel_Definition(
+		type: DataModel::TYPE_STRING,
+		max_len: 255,
+		form_field_label: 'Text: '
+	)]
 	protected string $text = '';
 
 	/**
 	 * @var string
 	 */
-	#[DataModel_Definition(type: DataModel::TYPE_STRING)]
-	#[DataModel_Definition(max_len: 65536)]
-	#[DataModel_Definition(form_field_label: 'Long text:')]
+	#[DataModel_Definition(
+		type: DataModel::TYPE_STRING,
+		max_len: 65536,
+		form_field_label: 'Long text:'
+	)]
 	protected string $long_text = '';
 
 	/**
 	 * @var string
 	 */
-	#[DataModel_Definition(type: DataModel::TYPE_STRING)]
-	#[DataModel_Definition(max_len: 655360)]
-	#[DataModel_Definition(form_field_label: 'WYSIWYG:')]
-	#[DataModel_Definition(form_field_type: Form::TYPE_WYSIWYG)]
+	#[DataModel_Definition(
+		type: DataModel::TYPE_STRING,
+		max_len: 655360,
+		form_field_label: 'WYSIWYG:',
+		form_field_type: Form::TYPE_WYSIWYG
+	)]
 	protected string $HTML = '';
 
 	/**
 	 * @var string
 	 */
-	#[DataModel_Definition(type: DataModel::TYPE_STRING)]
-	#[DataModel_Definition(form_field_label: 'Select: ')]
-	#[DataModel_Definition(form_field_type: Form::TYPE_SELECT)]
-	#[DataModel_Definition(form_field_get_select_options_callback: [self::class, 'getSelectOptions'])]
-	#[DataModel_Definition(form_field_error_messages: [Form_Field_MultiSelect::ERROR_CODE_INVALID_VALUE=>'Invalid value'])]
+	#[DataModel_Definition(
+		type: DataModel::TYPE_STRING,
+		form_field_label: 'Select: ',
+		form_field_type: Form::TYPE_SELECT,
+		form_field_get_select_options_callback: [self::class, 'getSelectOptions'],
+		form_field_error_messages: [
+			Form_Field_MultiSelect::ERROR_CODE_INVALID_VALUE=>'Invalid value'
+		]
+	)]
 	protected string $select = '';
 
 	/**
 	 * @var array
 	 */
-	#[DataModel_Definition(type: DataModel::TYPE_CUSTOM_DATA)]
-	#[DataModel_Definition(form_field_label: 'Multi Select: ')]
-	#[DataModel_Definition(form_field_type: Form::TYPE_MULTI_SELECT)]
-	#[DataModel_Definition(form_field_get_select_options_callback: [self::class, 'getSelectOptions'])]
-	#[DataModel_Definition(form_field_error_messages: [Form_Field_MultiSelect::ERROR_CODE_INVALID_VALUE=>'Invalid value'])]
+	#[DataModel_Definition(
+		type: DataModel::TYPE_CUSTOM_DATA,
+		form_field_label: 'Multi Select: ',
+		form_field_type: Form::TYPE_MULTI_SELECT,
+		form_field_get_select_options_callback: [self::class, 'getSelectOptions'],
+		form_field_error_messages: [
+			Form_Field_MultiSelect::ERROR_CODE_INVALID_VALUE=>'Invalid value'
+		]
+	)]
 	protected array $multi_select = [];
 
 	/**
 	 * @var array
 	 */
-	#[DataModel_Definition(type: DataModel::TYPE_CUSTOM_DATA)]
-	#[DataModel_Definition(form_field_label: 'Radio Button: ')]
-	#[DataModel_Definition(form_field_type: Form::TYPE_RADIO_BUTTON)]
-	#[DataModel_Definition(form_field_get_select_options_callback: [self::class, 'getSelectOptions'])]
-	#[DataModel_Definition(form_field_error_messages: [Form_Field_MultiSelect::ERROR_CODE_INVALID_VALUE=>'Invalid value'])]
+	#[DataModel_Definition(
+		type: DataModel::TYPE_CUSTOM_DATA,
+		form_field_label: 'Radio Button: ',
+		form_field_type: Form::TYPE_RADIO_BUTTON,
+		form_field_get_select_options_callback: [self::class, 'getSelectOptions'],
+		form_field_error_messages: [
+			Form_Field_MultiSelect::ERROR_CODE_INVALID_VALUE=>'Invalid value'
+		]
+	)]
 	protected array $radio_button = [];
 
 	/**
 	 * @var string
 	 */
-	#[DataModel_Definition(type: DataModel::TYPE_STRING)]
-	#[DataModel_Definition(max_len: 255)]
-	#[DataModel_Definition(form_field_label: 'Password (user registration): ')]
-	#[DataModel_Definition(form_field_type: Form::TYPE_REGISTRATION_PASSWORD)]
-	#[DataModel_Definition(form_field_options: [])]
-	#[DataModel_Definition(form_field_error_messages: [Form_Field_RegistrationPassword::ERROR_CODE_EMPTY=>'Please enter password', Form_Field_RegistrationPassword::ERROR_CODE_CHECK_EMPTY=>'Please enter confirm password', Form_Field_RegistrationPassword::ERROR_CODE_CHECK_NOT_MATCH=>'Passwords do not match'])]
+	#[DataModel_Definition(
+		type: DataModel::TYPE_STRING,
+		max_len: 255,
+		form_field_label: 'Password (user registration): ',
+		form_field_type: Form::TYPE_REGISTRATION_PASSWORD,
+		form_field_options: [],
+		form_field_error_messages: [
+			Form_Field_RegistrationPassword::ERROR_CODE_EMPTY=>'Please enter password',
+			Form_Field_RegistrationPassword::ERROR_CODE_CHECK_EMPTY=>'Please enter confirm password',
+			Form_Field_RegistrationPassword::ERROR_CODE_CHECK_NOT_MATCH=>'Passwords do not match'
+		]
+	)]
 	protected string $password = '';
 
 	/**
 	 * @var string
 	 */
-	#[DataModel_Definition(type: DataModel::TYPE_STRING)]
-	#[DataModel_Definition(max_len: 255)]
-	#[DataModel_Definition(form_field_label: 'Password: ')]
-	#[DataModel_Definition(form_field_type: Form::TYPE_PASSWORD)]
+	#[DataModel_Definition(
+		type: DataModel::TYPE_STRING,
+		max_len: 255,
+		form_field_label: 'Password: ',
+		form_field_type: Form::TYPE_PASSWORD
+	)]
 	protected string $password_nc = '';
 
 	/**

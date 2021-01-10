@@ -35,14 +35,16 @@ use JetApplication\Application_Web;
 /**
  *
  */
-#[DataModel_Definition(name: 'gallery')]
-#[DataModel_Definition(database_table_name: 'image_galleries')]
-#[DataModel_Definition(id_controller_class: DataModel_IDController_UniqueString::class )]
-#[DataModel_Definition(relation: [
-	'related_to_class_name'=>Gallery_Image::class,
-	'join_by_properties'=>['id'=>'gallery_id'],
-	'join_type'=>DataModel_Query::JOIN_TYPE_LEFT_OUTER_JOIN
-])]
+#[DataModel_Definition(
+	name: 'gallery',
+	database_table_name: 'image_galleries',
+	id_controller_class: DataModel_IDController_UniqueString::class,
+	relation: [
+		'related_to_class_name'=>Gallery_Image::class,
+		'join_by_properties'=>['id'=>'gallery_id'],
+		'join_type'=>DataModel_Query::JOIN_TYPE_LEFT_OUTER_JOIN
+	]
+)]
 class Gallery extends DataModel
 {
 
@@ -59,21 +61,27 @@ class Gallery extends DataModel
 	/**
 	 * @var string
 	 */
-	#[DataModel_Definition(type: DataModel::TYPE_ID)]
+	#[DataModel_Definition(
+		type: DataModel::TYPE_ID
+	)]
 	protected string $parent_id = '';
 	
 	/**
 	 * @var string
 	 */
-	#[DataModel_Definition(type: DataModel::TYPE_ID)]
-	#[DataModel_Definition(is_id: true)]
+	#[DataModel_Definition(
+		type: DataModel::TYPE_ID,
+		is_id: true
+	)]
 	protected string $id = '';
 
 	/**
 	 * @var Gallery_Localized[]|DataModel_Related_1toN|DataModel_Related_1toN_Iterator
 	 */
-	#[DataModel_Definition(type: DataModel::TYPE_DATA_MODEL)]
-	#[DataModel_Definition(data_model_class: Gallery_Localized::class )]
+	#[DataModel_Definition(
+		type: DataModel::TYPE_DATA_MODEL,
+		data_model_class: Gallery_Localized::class
+	)]
 	protected $localized = null;
 
 

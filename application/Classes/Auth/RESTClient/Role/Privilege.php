@@ -18,42 +18,53 @@ use Jet\Form_Field_Select;
 /**
  *
  */
-#[DataModel_Definition(name: 'role_privilege')]
-#[DataModel_Definition(database_table_name: 'roles_rest_clients_privileges')]
-#[DataModel_Definition(id_controller_class: DataModel_IDController_AutoIncrement::class)]
-#[DataModel_Definition(id_controller_options: ['id_property_name'=>'id'])]
-#[DataModel_Definition(parent_model_class: Auth_RESTClient_Role::class)]
+#[DataModel_Definition(
+	name: 'role_privilege',
+	database_table_name: 'roles_rest_clients_privileges',
+	id_controller_class: DataModel_IDController_AutoIncrement::class,
+	id_controller_options: ['id_property_name'=>'id'],
+	parent_model_class: Auth_RESTClient_Role::class
+)]
 class Auth_RESTClient_Role_Privilege extends DataModel_Related_1toN implements Auth_Role_Privilege_Interface
 {
-	/**
-	 */
-	#[DataModel_Definition(related_to: 'main.id')]
-	#[DataModel_Definition(form_field_type: false)]
+
+	#[DataModel_Definition(
+		related_to: 'main.id',
+		form_field_type: false
+	)]
 	protected string $role_id = '';
 
 	/**
 	 * @var int
 	 */
-	#[DataModel_Definition(type: DataModel::TYPE_ID_AUTOINCREMENT)]
-	#[DataModel_Definition(is_id: true)]
-	#[DataModel_Definition(form_field_type: false)]
+	#[DataModel_Definition(
+		type: DataModel::TYPE_ID_AUTOINCREMENT,
+		is_id: true,
+		form_field_type: false
+	)]
 	protected int $id = 0;
 
 	/**
 	 * @var string
 	 */
-	#[DataModel_Definition(type: DataModel::TYPE_STRING)]
-	#[DataModel_Definition(max_len: 100)]
-	#[DataModel_Definition(form_field_is_required: true)]
-	#[DataModel_Definition(form_field_type: false)]
+	#[DataModel_Definition(
+		type: DataModel::TYPE_STRING,
+		max_len: 100,
+		form_field_is_required: true,
+		form_field_type: false
+	)]
 	protected string $privilege = '';
 
 	/**
 	 * @var array
 	 */
-	#[DataModel_Definition(type: DataModel::TYPE_CUSTOM_DATA)]
-	#[DataModel_Definition(form_field_type: Form::TYPE_MULTI_SELECT)]
-	#[DataModel_Definition(form_field_error_messages: [Form_Field_Select::ERROR_CODE_INVALID_VALUE => 'Invalid value'])]
+	#[DataModel_Definition(
+		type: DataModel::TYPE_CUSTOM_DATA,
+		form_field_type: Form::TYPE_MULTI_SELECT,
+		form_field_error_messages: [
+			Form_Field_Select::ERROR_CODE_INVALID_VALUE => 'Invalid value'
+		]
+	)]
 	protected array $values = [];
 
 

@@ -21,10 +21,12 @@ use Jet\Form_Field_Input;
 /**
  *
  */
-#[DataModel_Definition(name: 'gallery_localized')]
-#[DataModel_Definition(database_table_name: 'image_galleries_localized')]
-#[DataModel_Definition(id_controller_class: DataModel_IDController_Passive::class)]
-#[DataModel_Definition(parent_model_class: Gallery::class)]
+#[DataModel_Definition(
+	name: 'gallery_localized',
+	database_table_name: 'image_galleries_localized',
+	id_controller_class: DataModel_IDController_Passive::class,
+	parent_model_class: Gallery::class
+)]
 class Gallery_Localized extends DataModel_Related_1toN
 {
 	/**
@@ -35,39 +37,47 @@ class Gallery_Localized extends DataModel_Related_1toN
 	/**
 	 * @var string
 	 */
-	#[DataModel_Definition(type: DataModel::TYPE_ID)]
-	#[DataModel_Definition(is_id: true)]
-	#[DataModel_Definition(form_field_type: false)]
-	#[DataModel_Definition(related_to: 'main.id')]
+	#[DataModel_Definition(
+		type: DataModel::TYPE_ID,
+		is_id: true,
+		form_field_type: false,
+	related_to: 'main.id'
+	)]
 	protected string $gallery_id = '';
 
 	/**
 	 * @var ?Locale
 	 */
-	#[DataModel_Definition(type: DataModel::TYPE_LOCALE)]
-	#[DataModel_Definition(is_id: true)]
-	#[DataModel_Definition(form_field_type: false)]
-	#[DataModel_Definition(do_not_export: true)]
+	#[DataModel_Definition(
+		type: DataModel::TYPE_LOCALE,
+		is_id: true,
+		form_field_type: false,
+		do_not_export: true
+	)]
 	protected ?Locale $locale = null;
 
 	/**
 	 * @var string
 	 */
-	#[DataModel_Definition(type: DataModel::TYPE_STRING)]
-	#[DataModel_Definition(max_len: 255)]
-	#[DataModel_Definition(form_field_is_required: true)]
-	#[DataModel_Definition(form_field_type: false)]
-	#[DataModel_Definition(is_key: true)]
+	#[DataModel_Definition(
+		type: DataModel::TYPE_STRING,
+		max_len: 255,
+		form_field_is_required: true,
+		form_field_type: false,
+		is_key: true
+	)]
 	protected string $URI_fragment = '';
 
 	/**
 	 * @var string
 	 */
-	#[DataModel_Definition(type: DataModel::TYPE_STRING)]
-	#[DataModel_Definition(max_len: 100)]
-	#[DataModel_Definition(form_field_is_required: true)]
-	#[DataModel_Definition(form_field_label: 'Title')]
-	#[DataModel_Definition(form_field_error_messages: [Form_Field_Input::ERROR_CODE_EMPTY => 'Please enter title'])]
+	#[DataModel_Definition(
+		type: DataModel::TYPE_STRING,
+		max_len: 100,
+		form_field_is_required: true,
+		form_field_label: 'Title',
+		form_field_error_messages: [Form_Field_Input::ERROR_CODE_EMPTY => 'Please enter title']
+	)]
 	protected string $title = '';
 
 

@@ -20,9 +20,11 @@ use Jet\Form;
 /**
  *
  */
-#[DataModel_Definition(name: 'role')]
-#[DataModel_Definition(id_controller_class: DataModel_IDController_Name::class)]
-#[DataModel_Definition(database_table_name: 'roles_administrators')]
+#[DataModel_Definition(
+	name: 'role',
+	id_controller_class: DataModel_IDController_Name::class,
+	database_table_name: 'roles_administrators'
+)]
 class Auth_Administrator_Role extends DataModel implements Auth_Role_Interface
 {
 
@@ -33,45 +35,57 @@ class Auth_Administrator_Role extends DataModel implements Auth_Role_Interface
 	/**
 	 * @var string
 	 */
-	#[DataModel_Definition(type: DataModel::TYPE_ID)]
-	#[DataModel_Definition(is_id: true)]
-	#[DataModel_Definition(form_field_type: false)]
+	#[DataModel_Definition(
+		type: DataModel::TYPE_ID,
+		is_id: true,
+		form_field_type: false
+	)]
 	protected string $id = '';
 	
 	/**
 	 * @var string
 	 */
-	#[DataModel_Definition(type: DataModel::TYPE_STRING)]
-	#[DataModel_Definition(max_len: 100)]
-	#[DataModel_Definition(form_field_is_required: true)]
-	#[DataModel_Definition(form_field_label: 'Name')]
-	#[DataModel_Definition(form_field_error_messages: [Form_Field_Input::ERROR_CODE_EMPTY=>'Please enter a name'])]
+	#[DataModel_Definition(
+		type: DataModel::TYPE_STRING,
+		max_len: 100,
+		form_field_is_required: true,
+		form_field_label: 'Name',
+		form_field_error_messages: [
+			Form_Field_Input::ERROR_CODE_EMPTY => 'Please enter a name'
+		]
+	)]
 	protected string $name = '';
 	
 	/**
 	 * @var string
 	 */
-	#[DataModel_Definition(type: DataModel::TYPE_STRING)]
-	#[DataModel_Definition(max_len: 65536)]
-	#[DataModel_Definition(form_field_label: 'Description')]
+	#[DataModel_Definition(
+		type: DataModel::TYPE_STRING,
+		max_len: 65536,
+		form_field_label: 'Description'
+	)]
 	protected string $description = '';
 
 
 	/**
 	 * @var Auth_Administrator_Role_Privilege[]
 	 */
-	#[DataModel_Definition(type: DataModel::TYPE_DATA_MODEL)]
-	#[DataModel_Definition(data_model_class: Auth_Administrator_Role_Privilege::class)]
-	#[DataModel_Definition(form_field_is_required: false)]
+	#[DataModel_Definition(
+		type: DataModel::TYPE_DATA_MODEL,
+		data_model_class: Auth_Administrator_Role_Privilege::class,
+		form_field_is_required: false
+	)]
 	protected $privileges = [];
 
 
 	/**
 	 * @var Auth_Administrator_User[]|DataModel_Related_MtoN_Iterator
 	 */
-	#[DataModel_Definition(type: DataModel::TYPE_DATA_MODEL)]
-	#[DataModel_Definition(data_model_class: Auth_Administrator_Role_Users::class)]
-	#[DataModel_Definition(form_field_type: false)]
+	#[DataModel_Definition(
+		type: DataModel::TYPE_DATA_MODEL,
+		data_model_class: Auth_Administrator_Role_Users::class,
+		form_field_type: false
+	)]
 	protected $users = null;
 
 	/**

@@ -12,7 +12,9 @@ use Jet\DataModel_Definition;
 /**
  *
  */
-#[DataModel_Definition(database_table_name: 'events_rest')]
+#[DataModel_Definition(
+	database_table_name: 'events_rest'
+)]
 class Logger_REST_Event extends Logger_Event
 {
 }

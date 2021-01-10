@@ -21,10 +21,12 @@ use Jet\Form_Field_Input;
 /**
  *
  */
-#[DataModel_Definition(name: 'article_localized')]
-#[DataModel_Definition(database_table_name: 'articles_localized')]
-#[DataModel_Definition(id_controller_class: DataModel_IDController_Passive::class)]
-#[DataModel_Definition(parent_model_class: Article::class)]
+#[DataModel_Definition(
+	name: 'article_localized',
+	database_table_name: 'articles_localized',
+	id_controller_class: DataModel_IDController_Passive::class,
+	parent_model_class: Article::class
+)]
 class Article_Localized extends DataModel_Related_1toN
 {
 	/**
@@ -36,61 +38,75 @@ class Article_Localized extends DataModel_Related_1toN
 	 *
 	 * @var string|null
 	 */
-	#[DataModel_Definition(type: DataModel::TYPE_ID)]
-	#[DataModel_Definition(is_id: true)]
-	#[DataModel_Definition(form_field_type: false)]
-	#[DataModel_Definition(related_to: 'main.id')]
-	#[DataModel_Definition(do_not_export: true)]
+	#[DataModel_Definition(
+		type: DataModel::TYPE_ID,
+		is_id: true,
+		form_field_type: false,
+		related_to: 'main.id',
+		do_not_export: true
+	)]
 	protected string|null $article_id = '';
 
 	/**
 	 * @var Locale|null
 	 */
-	#[DataModel_Definition(type: DataModel::TYPE_LOCALE)]
-	#[DataModel_Definition(is_id: true)]
-	#[DataModel_Definition(form_field_type: false)]
-	#[DataModel_Definition(do_not_export: true)]
+	#[DataModel_Definition(
+		type: DataModel::TYPE_LOCALE,
+		is_id: true,
+		form_field_type: false,
+		do_not_export: true
+	)]
 	protected Locale|null $locale;
 
 	/**
 	 *
 	 * @var string
 	 */
-	#[DataModel_Definition(type: DataModel::TYPE_STRING)]
-	#[DataModel_Definition(max_len: 255)]
-	#[DataModel_Definition(form_field_is_required: true)]
-	#[DataModel_Definition(form_field_type: false)]
-	#[DataModel_Definition(is_key: true)]
+	#[DataModel_Definition(
+		type: DataModel::TYPE_STRING,
+		max_len: 255,
+		form_field_is_required: true,
+		form_field_type: false,
+		is_key: true
+	)]
 	protected string $URI_fragment = '';
 
 	/**
 	 *
 	 * @var string
 	 */
-	#[DataModel_Definition(type: DataModel::TYPE_STRING)]
-	#[DataModel_Definition(max_len: 100)]
-	#[DataModel_Definition(form_field_is_required: true)]
-	#[DataModel_Definition(form_field_label: 'Title')]
-	#[DataModel_Definition(form_field_error_messages: [Form_Field_Input::ERROR_CODE_EMPTY => 'Please enter title'])]
+	#[DataModel_Definition(
+		type: DataModel::TYPE_STRING,
+		max_len: 100,
+		form_field_is_required: true,
+		form_field_label: 'Title',
+		form_field_error_messages: [
+			Form_Field_Input::ERROR_CODE_EMPTY => 'Please enter title'
+		]
+	)]
 	protected string $title = '';
 
 	/**
 	 *
 	 * @var string
 	 */
-	#[DataModel_Definition(type: DataModel::TYPE_STRING)]
-	#[DataModel_Definition(max_len: 65536)]
-	#[DataModel_Definition(form_field_label: 'Annotation')]
+	#[DataModel_Definition(
+		type: DataModel::TYPE_STRING,
+		max_len: 65536,
+		form_field_label: 'Annotation'
+	)]
 	protected string $annotation = '';
 
 	/**
 	 *
 	 * @var string
 	 */
-	#[DataModel_Definition(type: DataModel::TYPE_STRING)]
-	#[DataModel_Definition(max_len: 655360)]
-	#[DataModel_Definition(form_field_label: 'Text')]
-	#[DataModel_Definition(form_field_type: Form::TYPE_WYSIWYG)]
+	#[DataModel_Definition(
+		type: DataModel::TYPE_STRING,
+		max_len: 655360,
+		form_field_label: 'Text',
+		form_field_type: Form::TYPE_WYSIWYG
+	)]
 	protected string $text = '';
 
 	/**

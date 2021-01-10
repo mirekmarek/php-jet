@@ -20,108 +20,132 @@ use Jet\Tr;
 /**
  *
  */
-#[DataModel_Definition(name: 'user')]
-#[DataModel_Definition(database_table_name: 'users_rest_clients')]
-#[DataModel_Definition(id_controller_class: DataModel_IDController_AutoIncrement::class)]
-#[DataModel_Definition(id_controller_options: ['id_property_name'=>'id'])]
+#[DataModel_Definition(
+	name: 'user',
+	database_table_name: 'users_rest_clients',
+	id_controller_class: DataModel_IDController_AutoIncrement::class,
+	id_controller_options: ['id_property_name'=>'id']
+)]
 class Auth_RESTClient_User extends DataModel implements Auth_User_Interface
 {
 
 	/**
 	 * @var int
 	 */
-	#[DataModel_Definition(type: DataModel::TYPE_ID_AUTOINCREMENT)]
-	#[DataModel_Definition(is_id: true)]
-	#[DataModel_Definition(form_field_type: false)]
+	#[DataModel_Definition(
+		type: DataModel::TYPE_ID_AUTOINCREMENT,
+		is_id: true,
+		form_field_type: false
+	)]
 	protected int $id = 0;
 
 	/**
 	 * @var string
 	 */
-	#[DataModel_Definition(type: DataModel::TYPE_STRING)]
-	#[DataModel_Definition(max_len: 100)]
-	#[DataModel_Definition(form_field_is_required: true)]
-	#[DataModel_Definition(is_key: true)]
-	#[DataModel_Definition(is_unique: true)]
-	#[DataModel_Definition(form_field_label: 'Username')]
-	#[DataModel_Definition(form_field_error_messages: [Form_Field_Input::ERROR_CODE_EMPTY=>'Please enter username'])]
+	#[DataModel_Definition(
+		type: DataModel::TYPE_STRING,
+		max_len: 100,
+		form_field_is_required: true,
+		is_key: true,
+		is_unique: true,
+		form_field_label: 'Username',
+		form_field_error_messages: [
+			Form_Field_Input::ERROR_CODE_EMPTY=>'Please enter username'
+		]
+	)]
 	protected string $username = '';
 
 	/**
 	 * @var string
 	 */
-	#[DataModel_Definition(type: DataModel::TYPE_STRING)]
-	#[DataModel_Definition(do_not_export: true)]
-	#[DataModel_Definition(max_len: 255)]
-	#[DataModel_Definition(form_field_is_required: true)]
-	#[DataModel_Definition(is_key: true)]
-	#[DataModel_Definition(form_field_type: Form::TYPE_REGISTRATION_PASSWORD)]
-	#[DataModel_Definition(form_field_label: 'Password')]
-	#[DataModel_Definition(form_field_options: ['password_confirmation_label'=>'Confirm password'])]
-	#[DataModel_Definition(form_field_error_messages: [
-		Form_Field_RegistrationPassword::ERROR_CODE_EMPTY=>'Please enter password',
-		Form_Field_RegistrationPassword::ERROR_CODE_CHECK_EMPTY=>'Please enter confirm password',
-		Form_Field_RegistrationPassword::ERROR_CODE_CHECK_NOT_MATCH=>'Passwords do not match'
-	])]
+	#[DataModel_Definition(
+		type: DataModel::TYPE_STRING,
+		do_not_export: true,
+		max_len: 255,
+		form_field_is_required: true,
+		is_key: true,
+		form_field_type: Form::TYPE_REGISTRATION_PASSWORD,
+		form_field_label: 'Password',
+		form_field_options: ['password_confirmation_label'=>'Confirm password'],
+		form_field_error_messages: [
+			Form_Field_RegistrationPassword::ERROR_CODE_EMPTY=>'Please enter password',
+			Form_Field_RegistrationPassword::ERROR_CODE_CHECK_EMPTY=>'Please enter confirm password',
+			Form_Field_RegistrationPassword::ERROR_CODE_CHECK_NOT_MATCH=>'Passwords do not match'
+		]
+	)]
 	protected string $password = '';
 
 	/**
 	 * @var string
 	 */
-	#[DataModel_Definition(type: DataModel::TYPE_STRING)]
-	#[DataModel_Definition(max_len: 255)]
-	#[DataModel_Definition(form_field_label: 'E-mail')]
-	#[DataModel_Definition(form_field_is_required: true)]
-	#[DataModel_Definition(form_field_error_messages: [
-		Form_Field_Input::ERROR_CODE_EMPTY => 'Please enter e-mail address',
-		Form_Field_Input::ERROR_CODE_INVALID_FORMAT => 'Please enter e-mail address'
-	])]
+	#[DataModel_Definition(
+		type: DataModel::TYPE_STRING,
+		max_len: 255,
+		form_field_label: 'E-mail',
+		form_field_is_required: true,
+		form_field_error_messages: [
+			Form_Field_Input::ERROR_CODE_EMPTY => 'Please enter e-mail address',
+			Form_Field_Input::ERROR_CODE_INVALID_FORMAT => 'Please enter e-mail address'
+		]
+	)]
 	protected string $email = '';
 
 	/**
 	 * @var ?Locale
 	 */
-	#[DataModel_Definition(type: DataModel::TYPE_LOCALE)]
-	#[DataModel_Definition(form_field_label: 'Locale')]
-	#[DataModel_Definition(form_field_is_required: true)]
-	#[DataModel_Definition(form_field_error_messages: [
-		Form_Field_Select::ERROR_CODE_INVALID_VALUE => 'Please select locale',
-		Form_Field_Select::ERROR_CODE_EMPTY => 'Please select locale'
-	])]
-	#[DataModel_Definition(form_field_get_select_options_callback: [self::class, 'getLocales'])]
+	#[DataModel_Definition(
+		type: DataModel::TYPE_LOCALE,
+		form_field_label: 'Locale',
+		form_field_is_required: true,
+		form_field_error_messages: [
+			Form_Field_Select::ERROR_CODE_INVALID_VALUE => 'Please select locale',
+			Form_Field_Select::ERROR_CODE_EMPTY => 'Please select locale'
+		],
+		form_field_get_select_options_callback: [self::class, 'getLocales']
+	)]
 	protected ?Locale $locale = null;
 
 	/**
 	 * @var string
 	 */
-	#[DataModel_Definition(type: DataModel::TYPE_STRING)]
-	#[DataModel_Definition(max_len: 65536)]
-	#[DataModel_Definition(form_field_label: 'Description')]
+	#[DataModel_Definition(
+		type: DataModel::TYPE_STRING,
+		max_len: 65536,
+		form_field_label: 'Description'
+	)]
 	protected string $description = '';
 
 	/**
 	 * @var bool
 	 */
-	#[DataModel_Definition(type: DataModel::TYPE_BOOL)]
-	#[DataModel_Definition(default_value: false)]
-	#[DataModel_Definition(form_field_label: 'User is blocked')]
+	#[DataModel_Definition(
+		type: DataModel::TYPE_BOOL,
+		default_value: false,
+		form_field_label: 'User is blocked'
+	)]
 	protected bool $user_is_blocked = false;
 
 	/**
 	 * @var ?Data_DateTime
 	 */
-	#[DataModel_Definition(type: DataModel::TYPE_DATE_TIME)]
-	#[DataModel_Definition(default_value: null)]
-	#[DataModel_Definition(form_field_label: 'User is blocked till')]
-	#[DataModel_Definition(form_field_error_messages: [Form_Field_Input::ERROR_CODE_INVALID_FORMAT => 'Invalid date format'])]
+	#[DataModel_Definition(
+		type: DataModel::TYPE_DATE_TIME,
+		default_value: null,
+		form_field_label: 'User is blocked till',
+		form_field_error_messages: [
+			Form_Field_Input::ERROR_CODE_INVALID_FORMAT => 'Invalid date format'
+		]
+	)]
 	protected ?Data_DateTime $user_is_blocked_till = null;
 
 
 	/**
 	 * @var Auth_RESTClient_User_Roles|DataModel_Related_MtoN_Iterator|Auth_RESTClient_Role[]
 	 */
-	#[DataModel_Definition(type: DataModel::TYPE_DATA_MODEL)]
-	#[DataModel_Definition(data_model_class: Auth_RESTClient_User_Roles::class)]
+	#[DataModel_Definition(
+		type: DataModel::TYPE_DATA_MODEL,
+		data_model_class: Auth_RESTClient_User_Roles::class
+	)]
 	protected $roles;
 
 

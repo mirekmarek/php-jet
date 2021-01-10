@@ -19,98 +19,124 @@ use Jet\Http_Request;
 /**
  *
  */
-#[DataModel_Definition(name: 'Auth_Event')]
-#[DataModel_Definition(id_controller_class: DataModel_IDController_AutoIncrement::class)]
-#[DataModel_Definition(id_controller_options: ['id_property_name'=>'id'])]
+#[DataModel_Definition(
+	name: 'Auth_Event',
+	id_controller_class: DataModel_IDController_AutoIncrement::class,
+	id_controller_options: ['id_property_name'=>'id']
+)]
 abstract class Logger_Event extends DataModel
 {
 
 	/**
 	 * @var int
 	 */
-	#[DataModel_Definition(type: DataModel::TYPE_ID_AUTOINCREMENT)]
-	#[DataModel_Definition(is_id: true)]
+	#[DataModel_Definition(
+		type: DataModel::TYPE_ID_AUTOINCREMENT,
+		is_id: true
+	)]
 	protected int $id = 0;
 
 	/**
 	 * @var ?Data_DateTime
 	 */
-	#[DataModel_Definition(type: DataModel::TYPE_DATE_TIME)]
+	#[DataModel_Definition(
+		type: DataModel::TYPE_DATE_TIME
+	)]
 	protected ?Data_DateTime $date_time = null;
 
 	/**
 	 * @var string
 	 */
-	#[DataModel_Definition(type: DataModel::TYPE_STRING)]
-	#[DataModel_Definition(max_len: 255)]
-	#[DataModel_Definition(is_key: true)]
+	#[DataModel_Definition(
+		type: DataModel::TYPE_STRING,
+		max_len: 255,
+		is_key: true
+	)]
 	protected string $event_class = '';
 
 	/**
 	 * @var string
 	 */
-	#[DataModel_Definition(type: DataModel::TYPE_STRING)]
-	#[DataModel_Definition(max_len: 255)]
-	#[DataModel_Definition(is_key: true)]
+	#[DataModel_Definition(
+		type: DataModel::TYPE_STRING,
+		max_len: 255,
+		is_key: true
+	)]
 	protected string $event = '';
 
 	/**
 	 * @var string
 	 */
-	#[DataModel_Definition(type: DataModel::TYPE_STRING)]
-	#[DataModel_Definition(max_len: 1024)]
+	#[DataModel_Definition(
+		type: DataModel::TYPE_STRING,
+		max_len: 1024
+	)]
 	protected string $event_message = '';
 
 	/**
 	 * @var string
 	 */
-	#[DataModel_Definition(type: DataModel::TYPE_STRING)]
-	#[DataModel_Definition(max_len: 255)]
-	#[DataModel_Definition(is_key: true)]
+	#[DataModel_Definition(
+		type: DataModel::TYPE_STRING,
+		max_len: 255,
+		is_key: true
+	)]
 	protected string $context_object_id = '';
 
 	/**
 	 * @var string
 	 */
-	#[DataModel_Definition(type: DataModel::TYPE_STRING)]
-	#[DataModel_Definition(max_len: 255)]
+	#[DataModel_Definition(
+		type: DataModel::TYPE_STRING,
+		max_len: 255
+	)]
 	protected string $context_object_name = '';
 
 	/**
 	 * @var string
 	 */
-	#[DataModel_Definition(type: DataModel::TYPE_STRING)]
-	#[DataModel_Definition(max_len: 134217728)]
+	#[DataModel_Definition(
+		type: DataModel::TYPE_STRING,
+		max_len: 134217728
+	)]
 	protected string $context_object_data = '';
 
 
 	/**
 	 * @var string|int
 	 */
-	#[DataModel_Definition(type: DataModel::TYPE_STRING)]
-	#[DataModel_Definition(is_key: true)]
+	#[DataModel_Definition(
+		type: DataModel::TYPE_STRING,
+		is_key: true
+	)]
 	protected string|int $user_id = 0;
 
 	/**
 	 * @var string
 	 */
-	#[DataModel_Definition(type: DataModel::TYPE_STRING)]
-	#[DataModel_Definition(max_len: 255)]
-	#[DataModel_Definition(is_key: true)]
+	#[DataModel_Definition(
+		type: DataModel::TYPE_STRING,
+		max_len: 255,
+		is_key: true
+	)]
 	protected string $user_username = '';
 
 	/**
 	 * @var string
 	 */
-	#[DataModel_Definition(type: DataModel::TYPE_STRING)]
-	#[DataModel_Definition(max_len: 65536)]
+	#[DataModel_Definition(
+		type: DataModel::TYPE_STRING,
+		max_len: 65536
+	)]
 	protected string $request_URL = '';
 
 	/**
 	 * @var string
 	 */
-	#[DataModel_Definition(type: DataModel::TYPE_STRING)]
-	#[DataModel_Definition(max_len: 45)]
+	#[DataModel_Definition(
+		type: DataModel::TYPE_STRING,
+		max_len: 45
+	)]
 	protected string $remote_IP = '';
 
 	/**

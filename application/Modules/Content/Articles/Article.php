@@ -39,8 +39,10 @@ class Article extends DataModel
 	/**
 	 * @var string
 	 */
-	#[DataModel_Definition(type: DataModel::TYPE_ID)]
-	#[DataModel_Definition(is_id: true)]
+	#[DataModel_Definition(
+		type: DataModel::TYPE_ID,
+		is_id: true
+	)]
 	protected string $id = '';
 
 	/**

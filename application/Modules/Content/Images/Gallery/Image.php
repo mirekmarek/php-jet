@@ -15,76 +15,91 @@ use Jet\DataModel;
 use Jet\DataModel_Definition;
 use Jet\DataModel_IDController_UniqueString;
 
-/**
- *
- */
-#[DataModel_Definition(name: 'image')]
-#[DataModel_Definition(database_table_name: 'image_galleries_images')]
-#[DataModel_Definition(id_controller_class: DataModel_IDController_UniqueString::class)]
+#[DataModel_Definition(
+	name: 'image',
+	database_table_name: 'image_galleries_images',
+	id_controller_class: DataModel_IDController_UniqueString::class
+)]
 class Gallery_Image extends DataModel
 {
 
 	/**
 	 * @var string
 	 */
-	#[DataModel_Definition(type: DataModel::TYPE_ID)]
+	#[DataModel_Definition(
+		type: DataModel::TYPE_ID
+	)]
 	protected string $gallery_id = '';
 
 	/**
 	 * @var string
 	 */
-	#[DataModel_Definition(type: DataModel::TYPE_ID)]
-	#[DataModel_Definition(is_id: true)]
+	#[DataModel_Definition(
+		type: DataModel::TYPE_ID,
+		is_id: true
+	)]
 	protected string $id = '';
 
 	/**
 	 * @var int
 	 */
-	#[DataModel_Definition(type: DataModel::TYPE_INT)]
-	#[DataModel_Definition(form_field_min_value: 1)]
-	#[DataModel_Definition(form_field_type: false)]
+	#[DataModel_Definition(
+		type: DataModel::TYPE_INT,
+		form_field_min_value: 1,
+		form_field_type: false
+	)]
 	protected int $offset = 0;
 
 	/**
 	 * @var string
 	 */
-	#[DataModel_Definition(type: DataModel::TYPE_STRING)]
-	#[DataModel_Definition(max_len: 255)]
-	#[DataModel_Definition(form_field_is_required: true)]
-	#[DataModel_Definition(form_field_type: false)]
+	#[DataModel_Definition(
+		type: DataModel::TYPE_STRING,
+		max_len: 255,
+		form_field_is_required: true,
+		form_field_type: false
+	)]
 	protected string $file_name = '';
 
 	/**
 	 * @var string
 	 */
-	#[DataModel_Definition(type: DataModel::TYPE_STRING)]
-	#[DataModel_Definition(max_len: 255)]
-	#[DataModel_Definition(form_field_is_required: true)]
-	#[DataModel_Definition(form_field_type: false)]
+	#[DataModel_Definition(
+		type: DataModel::TYPE_STRING,
+		max_len: 255,
+		form_field_is_required: true,
+		form_field_type: false
+	)]
 	protected string $file_mime_type = '';
 
 	/**
 	 * @var int
 	 */
-	#[DataModel_Definition(type: DataModel::TYPE_INT)]
-	#[DataModel_Definition(form_field_min_value: 1)]
-	#[DataModel_Definition(form_field_type: false)]
+	#[DataModel_Definition(
+		type: DataModel::TYPE_INT,
+		form_field_min_value: 1,
+		form_field_type: false
+	)]
 	protected int $file_size = 0;
 
 	/**
 	 * @var int
 	 */
-	#[DataModel_Definition(type: DataModel::TYPE_INT)]
-	#[DataModel_Definition(form_field_min_value: 1)]
-	#[DataModel_Definition(form_field_type: false)]
+	#[DataModel_Definition(
+		type: DataModel::TYPE_INT,
+		form_field_min_value: 1,
+		form_field_type: false
+	)]
 	protected int $image_size_w = 0;
 
 	/**
 	 * @var int
 	 */
-	#[DataModel_Definition(type: DataModel::TYPE_INT)]
-	#[DataModel_Definition(form_field_min_value: 1)]
-	#[DataModel_Definition(form_field_type: false)]
+	#[DataModel_Definition(
+		type: DataModel::TYPE_INT,
+		form_field_min_value: 1,
+		form_field_type: false
+	)]
 	protected int $image_size_h = 0;
 
 	/**
