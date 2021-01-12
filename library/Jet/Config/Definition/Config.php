@@ -75,30 +75,7 @@ class Config_Definition_Config extends BaseObject
 
 		$this->class_reflection = new ReflectionClass( $class_name );
 
-		$classes = [$this->class_reflection->getName() => $this->class_reflection];
-
-		if( ($parent = $this->class_reflection->getParentClass()) ) {
-			do {
-				$classes[$parent->getName()] = $parent;
-			} while( ($parent=$parent->getParentClass()) );
-		}
-
-		$classes = array_reverse( $classes );
-
-		foreach($classes as $class) {
-			/**
-			 * @var ReflectionClass $class
-			 */
-			foreach( $class->getAttributes('Jet\Config_Definition') as $attribute ) {
-				foreach($attribute->getArguments() as $k=>$v) {
-					$this->class_arguments[$k] = $v;
-				}
-			}
-
-		}
-
-
-
+		$this->class_arguments = Attributes::getClassArguments( $this->class_reflection, 'Jet\Config_Definition' );
 
 		$this->name = $this->getClassArgument( 'name' );
 		if(!$this->name) {
@@ -108,29 +85,9 @@ class Config_Definition_Config extends BaseObject
 			);
 		}
 
-		$properties_definition_data = [];
-
-		foreach( $this->class_reflection->getProperties() as $property) {
-
-			$attributes = $property->getAttributes('Jet\Config_Definition');
-
-			if(!$attributes) {
-				continue;
-			}
-
-			$attrs = [];
-
-			foreach($attributes as $attr) {
-				foreach($attr->getArguments() as $k=>$v) {
-					$attrs[$k] = $v;
-				}
-			}
-
-			$properties_definition_data[$property->getName()] = $attrs;
-		}
+		$properties_definition_data = Attributes::getPropertiesDefinition( $this->class_reflection, 'Jet\Config_Definition' );
 
 		if(
-			!is_array( $properties_definition_data ) ||
 			!$properties_definition_data
 		) {
 			throw new Config_Exception(
