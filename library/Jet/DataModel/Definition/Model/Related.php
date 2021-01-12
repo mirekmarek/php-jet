@@ -380,32 +380,12 @@ class DataModel_Definition_Model_Related extends DataModel_Definition_Model
 		}
 
 		$getRelatedPropertiesDefinitionData = function( string $class_name ) : array {
+
 			$reflection = new ReflectionClass($class_name);
 
-			$properties_definition_data = [];
-			foreach( $reflection->getProperties() as $property) {
+			$properties_definition_data = Attributes::getPropertiesDefinition( $reflection, 'Jet\DataModel_Definition' );
 
-				$attributes = $property->getAttributes('Jet\DataModel_Definition');
-
-				if(!$attributes) {
-					continue;
-				}
-
-				$attrs = [];
-
-				foreach($attributes as $attr) {
-					foreach($attr->getArguments() as $k=>$v) {
-						$attrs[$k] = $v;
-					}
-				}
-
-				$properties_definition_data[$property->getName()] = $attrs;
-			}
-
-			if(
-				!is_array( $properties_definition_data ) ||
-				!$properties_definition_data
-			) {
+			if( !$properties_definition_data ) {
 				throw new DataModel_Exception(
 					'DataModel \''.$this->class_name.'\' does not have any properties defined!',
 					DataModel_Exception::CODE_DEFINITION_NONSENSE

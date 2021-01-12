@@ -139,45 +139,7 @@ abstract class DataModel_Definition_Model extends BaseObject
 		$this->class_name = (string)$data_model_class_name;
 		$this->class_reflection = new ReflectionClass( $data_model_class_name );
 
-
-		$classes = [$this->class_reflection->getName() => $this->class_reflection];
-
-		if( ($parent = $this->class_reflection->getParentClass()) ) {
-			do {
-				$classes[$parent->getName()] = $parent;
-			} while( ($parent=$parent->getParentClass()) );
-		}
-
-		$classes = array_reverse( $classes );
-
-		foreach($classes as $class) {
-			/**
-			 * @var ReflectionClass $class
-			 */
-			foreach( $class->getAttributes('Jet\DataModel_Definition') as $attribute ) {
-				foreach($attribute->getArguments() as $k=>$v) {
-					if($k=='relation') {
-						if(!isset($this->class_arguments['relations'])) {
-							$this->class_arguments['relations'] = [];
-						}
-						$this->class_arguments['relations'][] = $v;
-						continue;
-					}
-
-					if($k=='key') {
-						if(!isset($this->class_arguments['keys'])) {
-							$this->class_arguments['keys'] = [];
-						}
-						$this->class_arguments['keys'][] = $v;
-						continue;
-					}
-
-					$this->class_arguments[$k] = $v;
-				}
-			}
-
-		}
-
+		$this->class_arguments = Attributes::getClassArguments( $this->class_reflection, 'Jet\DataModel_Definition' );
 
 
 		$this->model_name = $this->_getModelNameDefinition();
@@ -304,35 +266,15 @@ abstract class DataModel_Definition_Model extends BaseObject
 	 * @param ?string $class_name
 	 *
 	 * @return array
-	 * @throws DataModel_Exception
 	 */
 	protected function _getPropertiesDefinitionData( ?string $class_name=null ) : array
 	{
 
 		$reflection = $class_name ? new ReflectionClass($class_name) : $this->class_reflection;
 
-		$properties_definition_data = [];
-		foreach( $reflection->getProperties() as $property) {
-
-			$attributes = $property->getAttributes('Jet\DataModel_Definition');
-
-			if(!$attributes) {
-				continue;
-			}
-
-			$attrs = [];
-
-			foreach($attributes as $attr) {
-				foreach($attr->getArguments() as $k=>$v) {
-					$attrs[$k] = $v;
-				}
-			}
-
-			$properties_definition_data[$property->getName()] = $attrs;
-		}
+		$properties_definition_data = Attributes::getPropertiesDefinition( $reflection, 'Jet\DataModel_Definition' );
 
 		if(
-			!is_array( $properties_definition_data ) ||
 			!$properties_definition_data
 		) {
 			throw new DataModel_Exception(
