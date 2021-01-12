@@ -127,7 +127,9 @@ trait BaseObject_Trait
 
 		foreach( $properties as $key => $val ) {
 			if( is_object( $val ) ) {
-				$this->{$key} = clone $val;
+				try {
+					$this->{$key} = clone $val;
+				} catch( \Error $e ) {};
 			}
 		}
 	}
