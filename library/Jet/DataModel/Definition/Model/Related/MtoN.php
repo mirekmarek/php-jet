@@ -53,7 +53,7 @@ class DataModel_Definition_Model_Related_MtoN extends DataModel_Definition_Model
 	}
 
 	/**
-	 * @throws DataModel_Exception
+	 *
 	 */
 	protected function _initParents() : void
 	{
@@ -77,13 +77,10 @@ class DataModel_Definition_Model_Related_MtoN extends DataModel_Definition_Model
 		}
 
 		$reflection = new ReflectionClass( $this->N_model_class );
-		foreach($reflection->getAttributes('Jet\DataModel_Definition') as $attribute) {
-			foreach($attribute->getArguments() as $k=>$v) {
-				if($k=='name') {
-					$this->N_model_name = $v;
-					break;
-				}
-			}
+
+		$arguments = Attributes::getClassArguments( $reflection, 'Jet\DataModel_Definition' );
+		if(!empty($arguments['name'])) {
+			$this->N_model_name = $arguments['name'];
 		}
 
 
