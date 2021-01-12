@@ -563,7 +563,6 @@ class DataModel_Backend_MySQL extends DataModel_Backend
 
 		$set = implode( ','.PHP_EOL, $set );
 
-
 		return 'INSERT INTO '.$table_name.' SET '.PHP_EOL.$set;
 	}
 
