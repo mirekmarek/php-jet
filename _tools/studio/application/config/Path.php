@@ -34,11 +34,11 @@ SysConf_Path::setDictionaries( $studio_application . 'dictionaries/' );
 
 
 
-SysConf_Path::setSites( $project_base . 'sites/' );
 SysConf_Path::setCache( $project_base . 'cache/' );
 
 ProjectConf_Path::setBase( $project_base );
-SysConf_Path::setMenus( $project_application.'menus/' );
+SysConf_Path::setSites( $project_application . 'sites/' );
+SysConf_Path::setMenus( $project_application . 'menus/' );
 
 ProjectConf_Path::setApplication( $project_application );
 ProjectConf_Path::setApplicationClasses( $project_application.'Classes/' );
