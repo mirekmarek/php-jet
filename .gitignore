@@ -9,11 +9,11 @@ logs/**
 tmp/**
 cache/**
 public/**
-!public/scripts/JetAjaxForm.js
-!public/styles/admin_main.js
-!public/styles/flags.js
-!public/styles/site_main.js
-!public/styles/wysiwyg.css
+!public/js/JetAjaxForm.js
+!public/css/admin_main.js
+!public/css/flags.js
+!public/css/site_main.js
+!public/css/wysiwyg.css
 !public/images/flags.png
 !public/email_images/email_header.jpg
 _tools/studio/public/css_packages/**
