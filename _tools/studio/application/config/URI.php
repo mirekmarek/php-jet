@@ -19,4 +19,7 @@ if(isset( $_SERVER['REQUEST_URI'] )) {
 }
 
 SysConf_URI::setBase($base_URI);
-SysConf_URI::setPublic($base_URI.'public/');
+SysConf_URI::setCss($base_URI.'css/');
+SysConf_URI::setJs($base_URI.'js/');
+SysConf_URI::setImages($base_URI.'images/');
+

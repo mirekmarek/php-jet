@@ -428,7 +428,7 @@ class Gallery extends DataModel
 	 */
 	public function getBaseDirPath() : string
 	{
-		$base_dir = SysConf_Path::getPublic().'imagegallery/';
+		$base_dir = SysConf_Path::getImages().'gallery/';
 		if( !IO_Dir::exists( $base_dir ) ) {
 			IO_Dir::create( $base_dir );
 		}
@@ -441,7 +441,7 @@ class Gallery extends DataModel
 	 */
 	public function getBaseURI() : string
 	{
-		return SysConf_URI::getPublic().'imagegallery/';
+		return SysConf_URI::getImages().'gallery/';
 	}
 
 

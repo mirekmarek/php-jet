@@ -11,6 +11,7 @@ use Jet\Config;
 use Jet\Form;
 use Jet\SysConf_Path;
 use Jet\UI;
+use Jet\SysConf_Jet;
 
 Config::setBeTolerant( true );
 
@@ -19,6 +20,8 @@ UI::setViewsDir( __DIR__.'/views/UI/' );
 
 require 'Classes/Installer.php';
 
+SysConf_Jet::setCSSPackagerEnabled( false );
+SysConf_Jet::setJSPackagerEnabled( false );
 
 Installer::setBasePath( SysConf_Path::getBase().'_installer/' );
 

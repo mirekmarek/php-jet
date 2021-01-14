@@ -53,10 +53,23 @@ class Installer_Step_DirsCheck_Controller extends Installer_Step_Controller
 				'is_required'  => true,
 				'is_writeable' => false,
 			],
-			SysConf_Path::getLogs()                                     => [
+			SysConf_Path::getLogs()                                  => [
 				'is_required'  => true,
 				'is_writeable' => false,
 			],
+			SysConf_Path::getCss()                                   => [
+				'is_required'  => true,
+				'is_writeable' => false,
+			],
+			SysConf_Path::getJs()                                     => [
+				'is_required'  => true,
+				'is_writeable' => false,
+			],
+			SysConf_Path::getImages()                                 => [
+				'is_required'  => true,
+				'is_writeable' => false,
+			],
+
 			SysConf_Path::getSites().Application_Admin::getSiteId().'/' => [
 				'is_required'  => true,
 				'is_writeable' => false,

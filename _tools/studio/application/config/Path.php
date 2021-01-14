@@ -22,7 +22,9 @@ require_once $studio_base.'application/Classes/ProjectConf/Path.php';
 SysConf_Path::setLibrary( $library );
 
 SysConf_Path::setBase( $studio_base );
-SysConf_Path::setPublic( $studio_base . 'public/' );
+SysConf_Path::setCss( $studio_base . 'css/' );
+SysConf_Path::setJs( $studio_base . 'js/' );
+SysConf_Path::setImages( $studio_base . 'images/' );
 SysConf_Path::setLogs( $studio_base . 'logs/' );
 SysConf_Path::setTmp( $studio_base . 'tmp/' );
 SysConf_Path::setApplication( $studio_application );
@@ -48,7 +50,6 @@ ProjectConf_Path::setSites( $project_base . 'sites/' );
 ProjectConf_Path::setConfig( $project_application . 'config/' );
 
 
-ProjectConf_Path::setPublic( $project_application . 'public/' );
 ProjectConf_Path::setLogs( $project_application . 'logs/' );
 ProjectConf_Path::setTmp( $project_application . 'tmp/' );
 ProjectConf_Path::setCache( $project_application . 'cache/' );

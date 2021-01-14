@@ -15,7 +15,7 @@ abstract class PackageCreator_CSS extends PackageCreator
 	/**
 	 * @var string
 	 */
-	protected static string $packages_dir_name = 'css_packages';
+	protected static string $packages_dir_name = 'packages';
 
 	/**
 	 * @return string

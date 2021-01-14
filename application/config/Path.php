@@ -11,7 +11,9 @@ SysConf_Path::setLibrary( $library );
 
 SysConf_Path::setBase( $base );
 
-SysConf_Path::setPublic( $base . 'public/' );
+SysConf_Path::setCss( $base . 'css/' );
+SysConf_Path::setJs( $base . 'js/' );
+SysConf_Path::setImages( $base . 'images/' );
 SysConf_Path::setLogs( $base . 'logs/' );
 SysConf_Path::setTmp( $base . 'tmp/' );
 SysConf_Path::setCache( $base . 'cache/' );

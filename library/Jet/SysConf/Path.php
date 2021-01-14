@@ -30,7 +30,15 @@ class SysConf_Path {
 	/**
 	 * @var string
 	 */
-	protected static string $public =  '';
+	protected static string $css =  '';
+	/**
+	 * @var string
+	 */
+	protected static string $js =  '';
+	/**
+	 * @var string
+	 */
+	protected static string $images =  '';
 	/**
 	 * @var string
 	 */
@@ -141,23 +149,59 @@ class SysConf_Path {
 		static::$menus = $menus;
 	}
 
+	/**
+	 * @return string
+	 */
+	public static function getCss(): string
+	{
+		static::_check('css');
+		return static::$css;
+	}
+
+	/**
+	 * @param string $css
+	 */
+	public static function setCss( string $css ): void
+	{
+		static::$css = $css;
+	}
 
 	/**
 	 * @return string
 	 */
-	public static function getPublic() : string
+	public static function getJs(): string
 	{
-		static::_check('public');
-		return static::$public;
+		static::_check('js');
+		return static::$js;
 	}
 
 	/**
-	 * @param string $public
+	 * @param string $js
 	 */
-	public static function setPublic( string $public ) : void
+	public static function setJs( string $js ): void
 	{
-		static::$public = $public;
+		static::$js = $js;
 	}
+
+	/**
+	 * @return string
+	 */
+	public static function getImages(): string
+	{
+		static::_check('images');
+		return static::$images;
+	}
+
+	/**
+	 * @param string $images
+	 */
+	public static function setImages( string $images ): void
+	{
+		static::$images = $images;
+	}
+
+
+
 
 	/**
 	 * @return string

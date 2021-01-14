@@ -3,8 +3,9 @@ RewriteEngine on
 RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
 
 #!!! REMOVE THIS ONE FOR A PRODUCTION SYSTEM:
-RewriteRule !(public/|_tools/studio/) application/bootstrap.php
+RewriteRule !(^css/|^js/|^images/|^_tools/studio/) application/bootstrap.php
 
 #!!! USE ONLY THIS ONE FOR A PRODUCTION SYSTEM:
+#RewriteRule !(^css/|^js/|^images/) application/bootstrap.php
 #RewriteRule !(public) application/bootstrap.php
 

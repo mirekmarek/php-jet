@@ -22,10 +22,6 @@ class ProjectConf_Path {
 	/**
 	 * @var string
 	 */
-	protected static string $public =  '';
-	/**
-	 * @var string
-	 */
 	protected static string $logs =    '';
 	/**
 	 * @var string
@@ -112,23 +108,6 @@ class ProjectConf_Path {
 	public static function setSites( string $sites ) : void
 	{
 		static::$sites = $sites;
-	}
-
-	/**
-	 * @return string
-	 */
-	public static function getPublic() : string
-	{
-		static::_check('public');
-		return static::$public;
-	}
-
-	/**
-	 * @param string $public
-	 */
-	public static function setPublic( string $public ) : void
-	{
-		static::$public = $public;
 	}
 
 	/**
