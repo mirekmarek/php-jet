@@ -44,15 +44,15 @@ class Installer_CompatibilityTester
 	public function __construct()
 	{
 		foreach( [
-			         'function_exists',
-			         'class_exists',
-			         'version_compare',
-			         'ini_get',
-			         'ob_start',
-			         'ob_end_clean',
-			         'ob_get_contents',
-			         'phpinfo',
-		         ] as $required_function ) {
+					 'function_exists',
+					 'class_exists',
+					 'version_compare',
+					 'ini_get',
+					 'ob_start',
+					 'ob_end_clean',
+					 'ob_get_contents',
+					 'phpinfo',
+				 ] as $required_function ) {
 
 			if( !function_exists( $required_function ) ) {
 				trigger_error( 'Error: function \'' . $required_function . '\' is required!', E_USER_ERROR );

@@ -347,6 +347,6 @@ class Db_Backend_PDO extends PDO implements Db_Backend_Interface
 	 */
 	public function quoteString( string $string ): string
 	{
-		return $this->quote( $string, PDO::PARAM_STR );
+		return $this->quote( $string );
 	}
 }
