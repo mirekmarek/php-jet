@@ -49,22 +49,6 @@ interface Mvc_Router_Interface
 	 */
 	public function getPage() : Mvc_Page_Interface;
 
-
-	/**
-	 * @return bool
-	 */
-	public function getIsFile() : bool;
-
-	/**
-	 * @param string $file_path
-	 */
-	public function setIsFile( string $file_path ) : void;
-
-	/**
-	 * @return string
-	 */
-	public function getFilePath() : string;
-
 	/**
 	 *
 	 * @return bool

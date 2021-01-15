@@ -397,11 +397,6 @@ interface Mvc_Page_Interface
 	public function resolve() : bool;
 
 	/**
-	 * @param string $file_path
-	 */
-	public function handleFile( string $file_path ) : void;
-
-	/**
 	 *
 	 */
 	public function handleHttpHeaders() : void;

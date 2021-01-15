@@ -1,4 +1,6 @@
 <?php
+use Jet\SysConf_URI;
+
 require_once 'parts/init_libs.php';
 ?>
 <!DOCTYPE html>
@@ -10,6 +12,8 @@ require_once 'parts/init_libs.php';
 	<jet_layout_meta_tags/>
 	<jet_layout_css/>
 	<jet_layout_javascripts/>
+
+	<link rel="icon" href="<?= SysConf_URI::getImages()?>favicon.png" type="image/png">
 
 	<style type="text/css">
         html, body {

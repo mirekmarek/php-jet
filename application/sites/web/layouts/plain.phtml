@@ -1,6 +1,7 @@
 <?php
 use Jet\Mvc_Layout;
 use Jet\Mvc;
+use Jet\SysConf_URI;
 
 /**
  * @var Mvc_Layout $this
@@ -19,6 +20,7 @@ require 'parts/init_libs.php';
 	<jet_layout_css/>
 	<jet_layout_javascripts/>
 
+	<link rel="icon" href="<?= SysConf_URI::getImages()?>favicon.png" type="image/png">
 </head>
 <body>
 	<jet_layout_main_position/>

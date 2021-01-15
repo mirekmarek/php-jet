@@ -53,12 +53,6 @@ class Mvc_Router extends BaseObject  implements Mvc_Router_Interface
 	 */
 	protected string $used_path = '';
 
-	//------------------------------------------------------------------
-
-	/**
-	 * @var string
-	 */
-	protected string $file_path = '';
 
 	//------------------------------------------------------------------
 	/**
@@ -151,10 +145,7 @@ class Mvc_Router extends BaseObject  implements Mvc_Router_Interface
 			if($this->resolve_handleAuthentication()) {
 
 				if($this->resolve_pageResolve()) {
-					if(
-						$this->getIsFile() ||
-						$this->getIsRedirect()
-					) {
+					if( $this->getIsRedirect() ) {
 						return;
 					}
 
@@ -442,31 +433,6 @@ class Mvc_Router extends BaseObject  implements Mvc_Router_Interface
 	public function getPage() : Mvc_Page_Interface
 	{
 		return $this->page;
-	}
-
-	/**
-	 * @param string $file_path
-	 */
-	public function setIsFile( string $file_path ) : void
-	{
-		$this->file_path = $file_path;
-	}
-
-	/**
-	 *
-	 * @return bool
-	 */
-	public function getIsFile() : bool
-	{
-		return (bool)$this->file_path;
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getFilePath() : string
-	{
-		return $this->file_path;
 	}
 
 	/**

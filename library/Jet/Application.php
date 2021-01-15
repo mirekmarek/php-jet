@@ -99,13 +99,6 @@ class Application extends BaseObject
 			Http_Headers::movedPermanently( $router->getValidUrl() );
 		}
 
-		if( $router->getIsFile() ) {
-			$page->handleFile( $router->getFilePath() );
-
-			return;
-		}
-
-
 		$result = $page->render();
 
 		$page->handleHttpHeaders();

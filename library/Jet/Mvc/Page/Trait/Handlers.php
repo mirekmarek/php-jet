@@ -24,24 +24,6 @@ trait Mvc_Page_Trait_Handlers
 		/**
 		 * @var Mvc_Page_Trait_Handlers|Mvc_Page $this
 		 */
-		$path = Mvc::getRouter()->getPath();
-
-		if(
-			$path &&
-			strpos( $path, '..' )==false
-		) {
-			if($path==static::getPageDataFileName()) {
-				return false;
-			}
-
-			$file_path = $this->getDataDirPath().$path;
-
-			if( IO_File::exists( $file_path ) ) {
-				Mvc::getRouter()->setIsFile( $file_path );
-
-				return true;
-			}
-		}
 
 		foreach( $this->getContent() as $content ) {
 			/**
@@ -94,21 +76,6 @@ trait Mvc_Page_Trait_Handlers
 
 		}
 
-	}
-
-
-	/**
-	 * @param string $file_path
-	 */
-	public function handleFile( string $file_path ) : void
-	{
-		/**
-		 * @var Mvc_Page_Trait_Handlers|Mvc_Page $this
-		 */
-
-		IO_File::send( $file_path );
-
-		Application::end();
 	}
 
 	/**
