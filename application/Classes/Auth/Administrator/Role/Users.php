@@ -5,6 +5,7 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace JetApplication;
 
 use Jet\DataModel_Related_MtoN;
@@ -22,7 +23,7 @@ use Jet\DataModel_Definition;
 class Auth_Administrator_Role_Users extends DataModel_Related_MtoN
 {
 	/**
-	 * 
+	 *
 	 */
 	#[DataModel_Definition(
 		related_to: 'user.id'
@@ -30,7 +31,7 @@ class Auth_Administrator_Role_Users extends DataModel_Related_MtoN
 	protected int $user_id = 0;
 
 	/**
-	 * 
+	 *
 	 */
 	#[DataModel_Definition(
 		related_to: 'main.id'

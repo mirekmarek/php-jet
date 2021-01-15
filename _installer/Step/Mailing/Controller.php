@@ -5,6 +5,7 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace JetApplication\Installer;
 
 use Exception;
@@ -30,7 +31,7 @@ class Installer_Step_Mailing_Controller extends Installer_Step_Controller
 	/**
 	 *
 	 */
-	public function main() : void
+	public function main(): void
 	{
 		$config = new Mailing_Config();
 
@@ -42,7 +43,7 @@ class Installer_Step_Mailing_Controller extends Installer_Step_Controller
 
 			foreach( $site->getLocales() as $locale ) {
 
-				if(!$config->getSender( $locale,$site_id, $specification )) {
+				if( !$config->getSender( $locale, $site_id, $specification ) ) {
 					$sender = new Mailing_Config_Sender();
 
 					$config->addSender( $sender, $locale, $site_id, $specification );
@@ -71,7 +72,7 @@ class Installer_Step_Mailing_Controller extends Installer_Step_Controller
 			try {
 				$config->writeConfigFile();
 			} catch( Exception $e ) {
-				UI_messages::danger( Tr::_('Something went wrong: %error%', ['error'=>$e->getMessage()], Tr::COMMON_NAMESPACE) );
+				UI_messages::danger( Tr::_( 'Something went wrong: %error%', ['error' => $e->getMessage()], Tr::COMMON_NAMESPACE ) );
 				Http_Headers::reload();
 			}
 

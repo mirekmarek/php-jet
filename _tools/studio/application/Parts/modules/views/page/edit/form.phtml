@@ -1,4 +1,5 @@
 <?php
+
 namespace JetStudio;
 
 use Jet\Mvc_View;
@@ -11,14 +12,14 @@ $page = Modules::getCurrentPage();
 $what = Modules::getCurrentPage_whatToEdit();
 
 $app_part = Application::getCurrentPart();
-Application::setCurrentPart('pages');
+Application::setCurrentPart( 'pages' );
 
 $view = Application::getView();
 Modules::setupPageForms();
 
-$view->setVar('page', $page);
-$view->setVar('what', $what);
+$view->setVar( 'page', $page );
+$view->setVar( 'what', $what );
 
-echo $view->render('page/edit');
+echo $view->render( 'page/edit' );
 
-Application::setCurrentPart($app_part);
+Application::setCurrentPart( $app_part );

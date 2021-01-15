@@ -5,10 +5,11 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace Jet;
 
 /**
- * 
+ *
  */
 class DataModel_Definition_Key extends BaseObject
 {
@@ -36,7 +37,7 @@ class DataModel_Definition_Key extends BaseObject
 	 *
 	 * @return static
 	 */
-	public static function __set_state( array $data ) : static
+	public static function __set_state( array $data ): static
 	{
 		return new static( $data['name'], $data['type'], $data['property_names'] );
 
@@ -45,7 +46,7 @@ class DataModel_Definition_Key extends BaseObject
 	/**
 	 * @param string $name
 	 * @param string $type
-	 * @param array  $property_names
+	 * @param array $property_names
 	 *
 	 * @throws DataModel_Exception
 	 */
@@ -57,8 +58,10 @@ class DataModel_Definition_Key extends BaseObject
 
 		if( !in_array(
 			$type, [
-				     DataModel::KEY_TYPE_INDEX, DataModel::KEY_TYPE_PRIMARY, DataModel::KEY_TYPE_UNIQUE,
-			     ]
+				DataModel::KEY_TYPE_INDEX,
+				DataModel::KEY_TYPE_PRIMARY,
+				DataModel::KEY_TYPE_UNIQUE,
+			]
 		)
 		) {
 			throw new DataModel_Exception(
@@ -75,7 +78,7 @@ class DataModel_Definition_Key extends BaseObject
 	/**
 	 * @return string
 	 */
-	public function getName() : string
+	public function getName(): string
 	{
 		return $this->name;
 	}
@@ -83,7 +86,7 @@ class DataModel_Definition_Key extends BaseObject
 	/**
 	 * @return array
 	 */
-	public function getPropertyNames() : array
+	public function getPropertyNames(): array
 	{
 		return $this->property_names;
 	}
@@ -91,7 +94,7 @@ class DataModel_Definition_Key extends BaseObject
 	/**
 	 * @return string
 	 */
-	public function getType() : string
+	public function getType(): string
 	{
 		return $this->type;
 	}

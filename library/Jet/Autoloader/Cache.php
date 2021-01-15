@@ -5,6 +5,7 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace Jet;
 
 require_once 'Cache/Backend.php';
@@ -22,7 +23,7 @@ class Autoloader_Cache
 	/**
 	 * @param Autoloader_Cache_Backend $backend
 	 */
-	public static function init( Autoloader_Cache_Backend $backend ) : void
+	public static function init( Autoloader_Cache_Backend $backend ): void
 	{
 		static::$backend = $backend;
 	}
@@ -30,9 +31,9 @@ class Autoloader_Cache
 	/**
 	 * @return bool
 	 */
-	public static function isActive() : bool
+	public static function isActive(): bool
 	{
-		if(!static::$backend) {
+		if( !static::$backend ) {
 			return false;
 		}
 
@@ -42,9 +43,9 @@ class Autoloader_Cache
 	/**
 	 * @return array|null
 	 */
-	public static function load() : array|null
+	public static function load(): array|null
 	{
-		if(!static::$backend) {
+		if( !static::$backend ) {
 			return null;
 		}
 
@@ -54,9 +55,9 @@ class Autoloader_Cache
 	/**
 	 * @param array $map
 	 */
-	public static function save( array $map ) : void
+	public static function save( array $map ): void
 	{
-		if(static::$backend) {
+		if( static::$backend ) {
 			static::$backend->save( $map );
 		}
 	}
@@ -64,9 +65,9 @@ class Autoloader_Cache
 	/**
 	 *
 	 */
-	public static function reset() : void
+	public static function reset(): void
 	{
-		if(static::$backend) {
+		if( static::$backend ) {
 			static::$backend->reset();
 		}
 	}

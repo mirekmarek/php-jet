@@ -5,6 +5,7 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace JetApplicationModule\Login\Web;
 
 use Jet\Application_Module;
@@ -25,7 +26,6 @@ use JetApplication\Auth_Visitor_User as Visitor;
  */
 class Main extends Application_Module
 {
-
 
 
 	/**
@@ -50,8 +50,9 @@ class Main extends Application_Module
 
 		$form = new Form(
 			'login', [
-				       $username_field, $password_field,
-			       ]
+				$username_field,
+				$password_field,
+			]
 		);
 
 		$form->getField( 'username' )->setIsRequired( true );
@@ -83,7 +84,10 @@ class Main extends Application_Module
 		$new_password = new Form_Field_RegistrationPassword( 'password', 'New password' );
 		$new_password->setPasswordConfirmationLabel( 'Confirm new password' );
 
-		$new_password->setPasswordStrengthCheckCallback( [ $user, 'verifyPasswordStrength' ] );
+		$new_password->setPasswordStrengthCheckCallback( [
+			$user,
+			'verifyPasswordStrength'
+		] );
 
 		$new_password->setIsRequired( true );
 		$new_password->setErrorMessages(
@@ -98,8 +102,9 @@ class Main extends Application_Module
 
 		$form = new Form(
 			'change_password', [
-				                 $current_password, $new_password,
-			                 ]
+				$current_password,
+				$new_password,
+			]
 		);
 
 
@@ -115,15 +120,15 @@ class Main extends Application_Module
 		$password = new Form_Field_RegistrationPassword( 'password', 'New password: ' );
 		$form = new Form(
 			'change_password', [
-				                 $password,
-			                 ]
+				$password,
+			]
 		);
 
 		/**
 		 * @var Visitor $user
 		 */
 		$user = Auth::getCurrentUser();
-		$password->setPasswordStrengthCheckCallback( function( $password ) use ($user) {
+		$password->setPasswordStrengthCheckCallback( function( $password ) use ( $user ) {
 			return $user->verifyPasswordStrength( $password );
 		} );
 

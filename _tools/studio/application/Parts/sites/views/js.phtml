@@ -4,43 +4,43 @@ namespace JetStudio;
 ?>
 
 <script type="text/javascript">
-	const  Sites = {
+	const Sites = {
 		createSite: {
-			openDialog: function() {
+			openDialog: function () {
 				$('#dialog_create_new_site').modal('show');
 			},
-			createSend: function() {
+			createSend: function () {
 				JetAjaxForm.submit(
 					'<?=Sites::getCreateForm()->getId()?>',
 					{
-						onSuccess: function( form, response_data ) {
-							location = '?site='+encodeURIComponent(response_data['new_site_id'])
+						onSuccess: function (form, response_data) {
+							location = '?site=' + encodeURIComponent(response_data['new_site_id'])
 						}
 					}
 				);
 			},
-			generateId: function( name ) {
+			generateId: function (name) {
 				$.ajax({
-					url: '<?=Sites::getActionUrl('generate_id', [], false)?>&name='+encodeURIComponent(name),
-					success: function(result) {
-						$('#site_create_form__id').val( result.id );
+					url: '<?=Sites::getActionUrl( 'generate_id', [], false )?>&name=' + encodeURIComponent(name),
+					success: function (result) {
+						$('#site_create_form__id').val(result.id);
 					}
 				});
 			},
 			addLocale: {
-				openDialog: function() {
-					Dialog_SelectLocale.open( function( locale_data ) {
+				openDialog: function () {
+					Dialog_SelectLocale.open(function (locale_data) {
 
 						const selected_locale = locale_data.locale;
 
 						const locales_field = $('#site_create_form__locales');
 
-						if(!locales_field.val()) {
+						if (!locales_field.val()) {
 							let selected_locales = selected_locale;
 						} else {
 							let selected_locales = locales_field.val().split(',');
 
-							if( selected_locales.indexOf(selected_locale)<0 ) {
+							if (selected_locales.indexOf(selected_locale) < 0) {
 								selected_locales.push(selected_locale);
 							}
 
@@ -48,69 +48,69 @@ namespace JetStudio;
 						}
 
 
-						locales_field.val( selected_locales );
+						locales_field.val(selected_locales);
 
 						Sites.createSite.addLocale._actualize();
-					} );
+					});
 				},
 
-				unSelect: function( locale ) {
+				unSelect: function (locale) {
 					const locales_field = $('#site_create_form__locales');
 
 					const selected_locales = locales_field.val().split(',');
 
 					let new_selected_locales = new Array();
-					for(let i=0; i<selected_locales.length; i++) {
+					for (let i = 0; i < selected_locales.length; i++) {
 
-						if( selected_locales[i]!=locale ) {
-							new_selected_locales.push( selected_locales[i] );
+						if (selected_locales[i] != locale) {
+							new_selected_locales.push(selected_locales[i]);
 						}
 
 					}
 
 					new_selected_locales = new_selected_locales.join(',');
-					locales_field.val( new_selected_locales );
+					locales_field.val(new_selected_locales);
 					Sites.createSite.addLocale._actualize();
 				},
 
-				_actualize: function() {
+				_actualize: function () {
 					const selected_locales = $('#site_create_form__locales').val().split(',');
 
-					$('.selected-locale-row').each( function (index, row) {
+					$('.selected-locale-row').each(function (index, row) {
 						row = $(row);
 						const locale = row.data('locale');
 
-						if( selected_locales.indexOf(locale)>-1 ) {
+						if (selected_locales.indexOf(locale) > -1) {
 							row.show();
 						} else {
 							row.hide();
 						}
 
-					} );
+					});
 
 				}
 			}
 		},
 		editSite: {
-			addLocale: function() {
-				Dialog_SelectLocale.open( function( locale_data ) {
+			addLocale: function () {
+				Dialog_SelectLocale.open(function (locale_data) {
 
 					$('#add_locale_form__locale').val(locale_data.locale);
 					$('#add_locale_form').submit();
 
-				} );
+				});
 			},
 
-			sortLocales: function() {
+			sortLocales: function () {
 				$('#locales_sort_dialog').modal('show');
 
 
 				setTimeout(function () {
 					$('#locales_sort_area').sortable({
-						stop: function() {
+						stop: function () {
 							const locales = new Array();
 
-							$('#locales_sort_area').find('.locale-sort-item').each( function(i, item) {
+							$('#locales_sort_area').find('.locale-sort-item').each(function (i, item) {
 								const id = $(item).data('locale');
 
 								locales.push(id);
@@ -121,7 +121,7 @@ namespace JetStudio;
 
 					});
 
-				}, 1000 )
+				}, 1000)
 
 			}
 		}

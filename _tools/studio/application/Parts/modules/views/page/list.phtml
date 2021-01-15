@@ -1,4 +1,5 @@
 <?php
+
 namespace JetStudio;
 
 use Jet\Http_Request;
@@ -24,30 +25,35 @@ $pages = $current->getPagesList();
 
 $current_page = Modules::getCurrentPage();
 ?>
-<table class="table table-striped">
-	<tr><td><b><?=Tr::_('Pages')?></b></td></tr>
-	<?php foreach( $sites as $site_id=>$site ):
+	<table class="table table-striped">
+		<tr>
+			<td><b><?= Tr::_( 'Pages' ) ?></b></td>
+		</tr>
+		<?php foreach( $sites as $site_id => $site ):
 
-		if(empty($pages[$site_id])) {
-			continue;
-		}
-		?>
-		<tr>
-			<td style="font-size: 10px;padding-left: 20px;"><b><?=Sites::getSite($site_id)->getName()?></b></td>
-		</tr>
-		<?php foreach($pages[$site_id] as $page): ?>
-		<tr>
-			<td style="padding-left: 50px;">
-				<?php if($current_page && $current_page->getFullId()==$page->getFullId()): ?>
-					<b class="badge badge-info"><?=$page->getName()?></b>
-				<?php else: ?>
-					<a href="<?=Http_Request::currentURI(['page'=>$page->getFullId()], ['menu_item', 'action'])?>"><?=$page->getName()?></a>
-				<?php endif; ?>
-			</td>
-		</tr>
+			if( empty( $pages[$site_id] ) ) {
+				continue;
+			}
+			?>
+			<tr>
+				<td style="font-size: 10px;padding-left: 20px;"><b><?= Sites::getSite( $site_id )->getName() ?></b></td>
+			</tr>
+			<?php foreach( $pages[$site_id] as $page ): ?>
+			<tr>
+				<td style="padding-left: 50px;">
+					<?php if( $current_page && $current_page->getFullId() == $page->getFullId() ): ?>
+						<b class="badge badge-info"><?= $page->getName() ?></b>
+					<?php else: ?>
+						<a href="<?= Http_Request::currentURI( ['page' => $page->getFullId()], [
+							'menu_item',
+							'action'
+						] ) ?>"><?= $page->getName() ?></a>
+					<?php endif; ?>
+				</td>
+			</tr>
 		<?php endforeach; ?>
-	<?php endforeach; ?>
-</table>
+		<?php endforeach; ?>
+	</table>
 <?php
 /*
 

@@ -5,6 +5,7 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace Jet;
 
 /**
@@ -33,7 +34,7 @@ class Mvc_View extends Mvc_View_Abstract
 	/**
 	 * @return Mvc_Controller|null
 	 */
-	public function getController() : Mvc_Controller|null
+	public function getController(): Mvc_Controller|null
 	{
 		return $this->controller;
 	}
@@ -47,17 +48,15 @@ class Mvc_View extends Mvc_View_Abstract
 	}
 
 
-
-
 	/**
 	 *
 	 * @param string $script_name
 	 *
+	 * @return string
 	 * @throws Mvc_View_Exception
 	 *
-	 * @return string
 	 */
-	public function render( string $script_name ) : string
+	public function render( string $script_name ): string
 	{
 		$this->setScriptName( $script_name );
 		$this->getScriptPath();
@@ -65,7 +64,7 @@ class Mvc_View extends Mvc_View_Abstract
 		ob_start();
 
 		if( static::getAddScriptPathInfoEnabled() ) {
-			echo '<!-- VIEW START: '.$this->_script_path.' -->';
+			echo '<!-- VIEW START: ' . $this->_script_path . ' -->';
 		}
 
 
@@ -73,7 +72,7 @@ class Mvc_View extends Mvc_View_Abstract
 		require $this->_script_path;
 
 		if( static::getAddScriptPathInfoEnabled() ) {
-			echo '<!-- VIEW END: '.$this->_script_path.' -->';
+			echo '<!-- VIEW END: ' . $this->_script_path . ' -->';
 		}
 
 		$result = ob_get_clean();

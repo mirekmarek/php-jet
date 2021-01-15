@@ -5,6 +5,7 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace JetApplicationModule\Content\Articles;
 
 use Jet\DataModel;
@@ -114,7 +115,7 @@ class Article_Localized extends DataModel_Related_1toN
 	 * @param string|null $article_id
 	 * @param Locale|null $locale
 	 */
-	public function __construct( ?string $article_id=null, ?Locale $locale=null )
+	public function __construct( ?string $article_id = null, ?Locale $locale = null )
 	{
 		parent::__construct();
 		$this->article_id = $article_id;
@@ -124,7 +125,7 @@ class Article_Localized extends DataModel_Related_1toN
 	/**
 	 * @return Article
 	 */
-	public function getArticle() : Article
+	public function getArticle(): Article
 	{
 		return $this->_article;
 	}
@@ -132,7 +133,7 @@ class Article_Localized extends DataModel_Related_1toN
 	/**
 	 * @param Article $article
 	 */
-	public function setArticle( Article $article ) : void
+	public function setArticle( Article $article ): void
 	{
 		$this->_article = $article;
 	}
@@ -149,7 +150,7 @@ class Article_Localized extends DataModel_Related_1toN
 	/**
 	 * @return string
 	 */
-	public function getArticleId() : string
+	public function getArticleId(): string
 	{
 		return $this->article_id;
 	}
@@ -157,7 +158,7 @@ class Article_Localized extends DataModel_Related_1toN
 	/**
 	 * @param string $article_id
 	 */
-	public function setArticleId( string $article_id ) : void
+	public function setArticleId( string $article_id ): void
 	{
 		$this->article_id = $article_id;
 	}
@@ -166,7 +167,7 @@ class Article_Localized extends DataModel_Related_1toN
 	/**
 	 * @return Locale
 	 */
-	public function getLocale() : Locale
+	public function getLocale(): Locale
 	{
 		return $this->locale;
 	}
@@ -174,9 +175,9 @@ class Article_Localized extends DataModel_Related_1toN
 	/**
 	 * @param Locale|string $locale
 	 */
-	public function setLocale( Locale|string $locale ) : void
+	public function setLocale( Locale|string $locale ): void
 	{
-		if( !( $locale instanceof Locale ) ) {
+		if( !($locale instanceof Locale) ) {
 			$locale = new Locale( $locale );
 		}
 
@@ -186,15 +187,15 @@ class Article_Localized extends DataModel_Related_1toN
 	/**
 	 * @return string
 	 */
-	public function getURL() : string
+	public function getURL(): string
 	{
-		return Mvc::getCurrentPage()->getURL( [ $this->getURIFragment() ], [] );
+		return Mvc::getCurrentPage()->getURL( [$this->getURIFragment()], [] );
 	}
 
 	/**
 	 * @return string
 	 */
-	public function getURIFragment() : string
+	public function getURIFragment(): string
 	{
 		return $this->URI_fragment;
 	}
@@ -202,7 +203,7 @@ class Article_Localized extends DataModel_Related_1toN
 	/**
 	 * @return string
 	 */
-	public function getTitle() : string
+	public function getTitle(): string
 	{
 		return $this->title;
 	}
@@ -210,7 +211,7 @@ class Article_Localized extends DataModel_Related_1toN
 	/**
 	 * @param string $title
 	 */
-	public function setTitle( string $title ) : void
+	public function setTitle( string $title ): void
 	{
 		$this->title = $title;
 
@@ -229,12 +230,12 @@ class Article_Localized extends DataModel_Related_1toN
 	 *
 	 * @return bool
 	 */
-	public function getUriFragmentExists( string $URI_fragment ) : bool
+	public function getUriFragmentExists( string $URI_fragment ): bool
 	{
 		$q = [
 			'URI_fragment' => $URI_fragment,
 			'AND',
-			'locale' => $this->locale,
+			'locale'       => $this->locale,
 		];
 
 		if( !$this->getIsNew() ) {
@@ -249,18 +250,18 @@ class Article_Localized extends DataModel_Related_1toN
 	 * Generates URI fragment:
 	 *
 	 *
-	 * @param string   $URI_fragment
+	 * @param string $URI_fragment
 	 *
 	 * @param callable $exists_checker
-	 * @param string   $suffix (optional) example: .html
-	 * @param bool     $remove_accents (optional, Default: true)
+	 * @param string $suffix (optional) example: .html
+	 * @param bool $remove_accents (optional, Default: true)
 	 *
 	 * @return string
 	 */
 	public function generateUrlFragment( string $URI_fragment,
 	                                     callable $exists_checker,
 	                                     string $suffix = '',
-	                                     bool $remove_accents = true ) : string
+	                                     bool $remove_accents = true ): string
 	{
 
 		if( $remove_accents ) {
@@ -271,8 +272,31 @@ class Article_Localized extends DataModel_Related_1toN
 		$URI_fragment = preg_replace( '~([-]{2,})~', '-', $URI_fragment );
 
 		$replace = [
-			'!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '+', '=', '.', '\'', '"', '/', '<', '>', ';', '?', '{',
-			'}', '[', ']', '|',
+			'!',
+			'@',
+			'#',
+			'$',
+			'%',
+			'^',
+			'&',
+			'*',
+			'(',
+			')',
+			'+',
+			'=',
+			'.',
+			'\'',
+			'"',
+			'/',
+			'<',
+			'>',
+			';',
+			'?',
+			'{',
+			'}',
+			'[',
+			']',
+			'|',
 		];
 		$URI_fragment = str_replace( $replace, '', $URI_fragment );
 
@@ -280,26 +304,26 @@ class Article_Localized extends DataModel_Related_1toN
 
 		$max_suffix_no = 9999;
 
-		if( $exists_checker( $URI_fragment.$suffix ) ) {
-			$_id = substr( $URI_fragment, 0, 255-strlen( (string)$max_suffix_no ) );
+		if( $exists_checker( $URI_fragment . $suffix ) ) {
+			$_id = substr( $URI_fragment, 0, 255 - strlen( (string)$max_suffix_no ) );
 
-			for( $c = 1; $c<=$max_suffix_no; $c++ ) {
-				$URI_fragment = $_id.$c;
+			for( $c = 1; $c <= $max_suffix_no; $c++ ) {
+				$URI_fragment = $_id . $c;
 
-				if( !$exists_checker( $URI_fragment.$suffix ) ) {
+				if( !$exists_checker( $URI_fragment . $suffix ) ) {
 					break;
 				}
 			}
 		}
 
 
-		return $URI_fragment.$suffix;
+		return $URI_fragment . $suffix;
 	}
 
 	/**
 	 * @return string
 	 */
-	public function getAnnotation() : string
+	public function getAnnotation(): string
 	{
 		return $this->annotation;
 	}
@@ -307,7 +331,7 @@ class Article_Localized extends DataModel_Related_1toN
 	/**
 	 * @param string $annotation
 	 */
-	public function setAnnotation( string $annotation ) : void
+	public function setAnnotation( string $annotation ): void
 	{
 		$this->annotation = $annotation;
 	}
@@ -315,7 +339,7 @@ class Article_Localized extends DataModel_Related_1toN
 	/**
 	 * @return string
 	 */
-	public function getText() : string
+	public function getText(): string
 	{
 		return $this->text;
 	}
@@ -323,7 +347,7 @@ class Article_Localized extends DataModel_Related_1toN
 	/**
 	 * @param string $text
 	 */
-	public function setText( string $text ) : void
+	public function setText( string $text ): void
 	{
 		$this->text = $text;
 	}

@@ -5,6 +5,7 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace Jet;
 
 /**
@@ -23,7 +24,7 @@ trait DataModel_Trait_IDController
 	 *
 	 * @return DataModel_IDController
 	 */
-	public function getIDController() : DataModel_IDController
+	public function getIDController(): DataModel_IDController
 	{
 		/**
 		 * @var DataModel $this
@@ -48,7 +49,7 @@ trait DataModel_Trait_IDController
 	/**
 	 * @return DataModel_IDController
 	 */
-	public static function getEmptyIDController() : DataModel_IDController
+	public static function getEmptyIDController(): DataModel_IDController
 	{
 		return static::getDataModelDefinition()->getIDController();
 	}

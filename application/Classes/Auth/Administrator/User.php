@@ -1,4 +1,5 @@
 <?php
+
 namespace JetApplication;
 
 use Jet\Auth_User_Interface;
@@ -23,7 +24,7 @@ use Jet\Tr;
 	name: 'user',
 	database_table_name: 'users_administrators',
 	id_controller_class: DataModel_IDController_AutoIncrement::class,
-	id_controller_options: ['id_property_name'=>'id']
+	id_controller_options: ['id_property_name' => 'id']
 )]
 class Auth_Administrator_User extends DataModel implements Auth_User_Interface
 {
@@ -49,7 +50,7 @@ class Auth_Administrator_User extends DataModel implements Auth_User_Interface
 		is_unique: true,
 		form_field_label: 'Username',
 		form_field_error_messages: [
-			Form_Field_Input::ERROR_CODE_EMPTY=>'Please enter username'
+			Form_Field_Input::ERROR_CODE_EMPTY => 'Please enter username'
 		]
 	)]
 	protected string $username = '';
@@ -68,8 +69,8 @@ class Auth_Administrator_User extends DataModel implements Auth_User_Interface
 		form_field_options: ['password_confirmation_label' => 'Confirm password'],
 		form_field_error_messages: [
 			Form_Field_RegistrationPassword::ERROR_CODE_EMPTY           => 'Please enter password',
-            Form_Field_RegistrationPassword::ERROR_CODE_CHECK_EMPTY     => 'Please enter confirm password',
-            Form_Field_RegistrationPassword::ERROR_CODE_CHECK_NOT_MATCH => 'Passwords do not match'
+			Form_Field_RegistrationPassword::ERROR_CODE_CHECK_EMPTY     => 'Please enter confirm password',
+			Form_Field_RegistrationPassword::ERROR_CODE_CHECK_NOT_MATCH => 'Passwords do not match'
 		]
 	)]
 	protected string $password = '';
@@ -93,9 +94,9 @@ class Auth_Administrator_User extends DataModel implements Auth_User_Interface
 		form_field_label: 'E-mail',
 		form_field_is_required: true,
 		form_field_error_messages: [
-			Form_Field_Input::ERROR_CODE_EMPTY          => 'Please enter e-mail address',
-			Form_Field_Input::ERROR_CODE_INVALID_FORMAT => 'Please enter e-mail address'
-		])]
+		Form_Field_Input::ERROR_CODE_EMPTY          => 'Please enter e-mail address',
+		Form_Field_Input::ERROR_CODE_INVALID_FORMAT => 'Please enter e-mail address'
+	])]
 	protected string $email = '';
 
 	/**
@@ -106,10 +107,13 @@ class Auth_Administrator_User extends DataModel implements Auth_User_Interface
 		form_field_label: 'Locale',
 		form_field_is_required: true,
 		form_field_error_messages: [
-			Form_Field_Select::ERROR_CODE_INVALID_VALUE => 'Please select locale',
-			Form_Field_Select::ERROR_CODE_EMPTY         => 'Please select locale'
-		],
-		form_field_get_select_options_callback: [self::class, 'getLocales']
+		Form_Field_Select::ERROR_CODE_INVALID_VALUE => 'Please select locale',
+		Form_Field_Select::ERROR_CODE_EMPTY         => 'Please select locale'
+	],
+		form_field_get_select_options_callback: [
+			self::class,
+			'getLocales'
+		]
 	)]
 	protected ?Locale $locale = null;
 
@@ -216,10 +220,10 @@ class Auth_Administrator_User extends DataModel implements Auth_User_Interface
 	public function __construct( ?string $username = null, ?string $password = null )
 	{
 
-		if( $username!==null ) {
+		if( $username !== null ) {
 			$this->setUsername( $username );
 		}
-		if( $password!==null ) {
+		if( $password !== null ) {
 			$this->setPassword( $password );
 		}
 
@@ -229,7 +233,7 @@ class Auth_Administrator_User extends DataModel implements Auth_User_Interface
 	/**
 	 * @param string $password
 	 */
-	public function setPassword( string $password ) : void
+	public function setPassword( string $password ): void
 	{
 		if( $password ) {
 			$this->password = $this->encryptPassword( $password );
@@ -241,7 +245,7 @@ class Auth_Administrator_User extends DataModel implements Auth_User_Interface
 	 *
 	 * @return string
 	 */
-	public function encryptPassword( string $password ) : string
+	public function encryptPassword( string $password ): string
 	{
 		return password_hash( $password, PASSWORD_DEFAULT );
 	}
@@ -251,18 +255,18 @@ class Auth_Administrator_User extends DataModel implements Auth_User_Interface
 	 *
 	 * @return static|null
 	 */
-	public static function get( string|int $id ) : static|null
+	public static function get( string|int $id ): static|null
 	{
 		return static::load( $id );
 	}
 
 	/**
 	 * @param string|null $role_id (optional)
-	 * @param string  $search
+	 * @param string $search
 	 *
 	 * @return Auth_Administrator_User[]
 	 */
-	public static function getList( string|null $role_id = null, string $search = '' ) : iterable
+	public static function getList( string|null $role_id = null, string $search = '' ): iterable
 	{
 		$where = [];
 
@@ -277,7 +281,7 @@ class Auth_Administrator_User extends DataModel implements Auth_User_Interface
 				$where [] = 'AND';
 			}
 
-			$search = '%'.$search.'%';
+			$search = '%' . $search . '%';
 			$where[] = [
 				'username *'   => $search,
 				'OR',
@@ -312,7 +316,7 @@ class Auth_Administrator_User extends DataModel implements Auth_User_Interface
 	 *
 	 * @return static|null
 	 */
-	public static function getByIdentity( string $username, string $password ) : static|null
+	public static function getByIdentity( string $username, string $password ): static|null
 	{
 
 		/**
@@ -340,7 +344,7 @@ class Auth_Administrator_User extends DataModel implements Auth_User_Interface
 	 *
 	 * @return bool
 	 */
-	public function verifyPassword( string $plain_password ) : bool
+	public function verifyPassword( string $plain_password ): bool
 	{
 		return password_verify( $plain_password, $this->password );
 	}
@@ -350,7 +354,7 @@ class Auth_Administrator_User extends DataModel implements Auth_User_Interface
 	 *
 	 * @return static|null;
 	 */
-	public static function getGetByUsername( string $username ) : static|null
+	public static function getGetByUsername( string $username ): static|null
 	{
 		return static::load(
 			[
@@ -362,7 +366,7 @@ class Auth_Administrator_User extends DataModel implements Auth_User_Interface
 	/**
 	 * @return int
 	 */
-	public function getId() : int
+	public function getId(): int
 	{
 		return $this->id;
 	}
@@ -370,7 +374,7 @@ class Auth_Administrator_User extends DataModel implements Auth_User_Interface
 	/**
 	 * @return string
 	 */
-	public function getUsername() : string
+	public function getUsername(): string
 	{
 		return $this->username;
 	}
@@ -378,7 +382,7 @@ class Auth_Administrator_User extends DataModel implements Auth_User_Interface
 	/**
 	 * @param string $username
 	 */
-	public function setUsername( string $username ) : void
+	public function setUsername( string $username ): void
 	{
 		$this->username = $username;
 	}
@@ -386,7 +390,7 @@ class Auth_Administrator_User extends DataModel implements Auth_User_Interface
 	/**
 	 * @return string
 	 */
-	public function getEmail() : string
+	public function getEmail(): string
 	{
 		return $this->email;
 	}
@@ -394,7 +398,7 @@ class Auth_Administrator_User extends DataModel implements Auth_User_Interface
 	/**
 	 * @param string $email
 	 */
-	public function setEmail( string $email ) : void
+	public function setEmail( string $email ): void
 	{
 		$this->email = $email;
 	}
@@ -402,7 +406,7 @@ class Auth_Administrator_User extends DataModel implements Auth_User_Interface
 	/**
 	 * @return Locale
 	 */
-	public function getLocale() : Locale
+	public function getLocale(): Locale
 	{
 		return $this->locale;
 	}
@@ -410,9 +414,9 @@ class Auth_Administrator_User extends DataModel implements Auth_User_Interface
 	/**
 	 * @param string|Locale $locale
 	 */
-	public function setLocale( Locale|string $locale ) : void
+	public function setLocale( Locale|string $locale ): void
 	{
-		if( !( $locale instanceof Locale ) ) {
+		if( !($locale instanceof Locale) ) {
 			$locale = new Locale( $locale );
 		}
 		$this->locale = $locale;
@@ -421,7 +425,7 @@ class Auth_Administrator_User extends DataModel implements Auth_User_Interface
 	/**
 	 * @return string
 	 */
-	public function getFirstName() : string
+	public function getFirstName(): string
 	{
 		return $this->first_name;
 	}
@@ -429,7 +433,7 @@ class Auth_Administrator_User extends DataModel implements Auth_User_Interface
 	/**
 	 * @param string $first_name
 	 */
-	public function setFirstName( string $first_name ) : void
+	public function setFirstName( string $first_name ): void
 	{
 		$this->first_name = $first_name;
 	}
@@ -437,7 +441,7 @@ class Auth_Administrator_User extends DataModel implements Auth_User_Interface
 	/**
 	 * @return string
 	 */
-	public function getSurname() : string
+	public function getSurname(): string
 	{
 		return $this->surname;
 	}
@@ -445,7 +449,7 @@ class Auth_Administrator_User extends DataModel implements Auth_User_Interface
 	/**
 	 * @param string $surname
 	 */
-	public function setSurname( string $surname ) : void
+	public function setSurname( string $surname ): void
 	{
 		$this->surname = $surname;
 	}
@@ -453,15 +457,15 @@ class Auth_Administrator_User extends DataModel implements Auth_User_Interface
 	/**
 	 * @return string
 	 */
-	public function getName() : string
+	public function getName(): string
 	{
-		return $this->first_name.' '.$this->surname;
+		return $this->first_name . ' ' . $this->surname;
 	}
 
 	/**
 	 * @return string
 	 */
-	public function getDescription() : string
+	public function getDescription(): string
 	{
 		return $this->description;
 	}
@@ -469,7 +473,7 @@ class Auth_Administrator_User extends DataModel implements Auth_User_Interface
 	/**
 	 * @param string $description
 	 */
-	public function setDescription( string $description ) : void
+	public function setDescription( string $description ): void
 	{
 		$this->description = $description;
 	}
@@ -477,7 +481,7 @@ class Auth_Administrator_User extends DataModel implements Auth_User_Interface
 	/**
 	 * @return bool
 	 */
-	public function getPasswordIsValid() : bool
+	public function getPasswordIsValid(): bool
 	{
 		return $this->password_is_valid;
 	}
@@ -485,7 +489,7 @@ class Auth_Administrator_User extends DataModel implements Auth_User_Interface
 	/**
 	 * @param bool $password_is_valid
 	 */
-	public function setPasswordIsValid( bool $password_is_valid ) : void
+	public function setPasswordIsValid( bool $password_is_valid ): void
 	{
 		$this->password_is_valid = (bool)$password_is_valid;
 	}
@@ -494,7 +498,7 @@ class Auth_Administrator_User extends DataModel implements Auth_User_Interface
 	 *
 	 * @return Data_DateTime|null
 	 */
-	public function getPasswordIsValidTill() : Data_DateTime|null
+	public function getPasswordIsValidTill(): Data_DateTime|null
 	{
 		return $this->password_is_valid_till;
 	}
@@ -502,12 +506,12 @@ class Auth_Administrator_User extends DataModel implements Auth_User_Interface
 	/**
 	 * @param Data_DateTime|string|null $password_is_valid_till
 	 */
-	public function setPasswordIsValidTill( Data_DateTime|string|null $password_is_valid_till ) : void
+	public function setPasswordIsValidTill( Data_DateTime|string|null $password_is_valid_till ): void
 	{
 		if( !$password_is_valid_till ) {
 			$this->password_is_valid_till = null;
 		} else {
-			if($password_is_valid_till instanceof Data_DateTime) {
+			if( $password_is_valid_till instanceof Data_DateTime ) {
 				$this->password_is_valid_till = $password_is_valid_till;
 			} else {
 				$this->password_is_valid_till = new Data_DateTime( $password_is_valid_till );
@@ -519,7 +523,7 @@ class Auth_Administrator_User extends DataModel implements Auth_User_Interface
 	/**
 	 * @return bool
 	 */
-	public function isBlocked() : bool
+	public function isBlocked(): bool
 	{
 		return $this->user_is_blocked;
 	}
@@ -527,7 +531,7 @@ class Auth_Administrator_User extends DataModel implements Auth_User_Interface
 	/**
 	 * @return null|Data_DateTime
 	 */
-	public function isBlockedTill() : null|Data_DateTime
+	public function isBlockedTill(): null|Data_DateTime
 	{
 		return $this->user_is_blocked_till;
 	}
@@ -535,13 +539,13 @@ class Auth_Administrator_User extends DataModel implements Auth_User_Interface
 	/**
 	 * @param string|Data_DateTime|null $till
 	 */
-	public function block( string|Data_DateTime|null $till = null ) : void
+	public function block( string|Data_DateTime|null $till = null ): void
 	{
 		$this->user_is_blocked = true;
 		if( !$till ) {
 			$this->user_is_blocked_till = null;
 		} else {
-			if($till instanceof Data_DateTime) {
+			if( $till instanceof Data_DateTime ) {
 				$this->user_is_blocked_till = $till;
 			} else {
 				$this->user_is_blocked_till = new Data_DateTime( $till );
@@ -552,7 +556,7 @@ class Auth_Administrator_User extends DataModel implements Auth_User_Interface
 	/**
 	 *
 	 */
-	public function unBlock() : void
+	public function unBlock(): void
 	{
 		$this->user_is_blocked = false;
 		$this->user_is_blocked_till = null;
@@ -562,7 +566,7 @@ class Auth_Administrator_User extends DataModel implements Auth_User_Interface
 	/**
 	 * @return Auth_Administrator_Role[]
 	 */
-	public function getRoles() : array
+	public function getRoles(): array
 	{
 		return $this->roles;
 	}
@@ -570,7 +574,7 @@ class Auth_Administrator_User extends DataModel implements Auth_User_Interface
 	/**
 	 * @param array $role_ids
 	 */
-	public function setRoles( array $role_ids ) : void
+	public function setRoles( array $role_ids ): void
 	{
 		$roles = [];
 
@@ -592,10 +596,10 @@ class Auth_Administrator_User extends DataModel implements Auth_User_Interface
 	 *
 	 * @return bool
 	 */
-	public function hasRole( string $role_id ) : bool
+	public function hasRole( string $role_id ): bool
 	{
 		foreach( $this->roles as $role ) {
-			if( $role->getId()==$role_id ) {
+			if( $role->getId() == $role_id ) {
 				return true;
 			}
 		}
@@ -609,7 +613,7 @@ class Auth_Administrator_User extends DataModel implements Auth_User_Interface
 	 *
 	 * @return bool
 	 */
-	public function hasPrivilege( string $privilege, mixed $value ) : bool
+	public function hasPrivilege( string $privilege, mixed $value ): bool
 	{
 
 		if( $this->getIsSuperuser() ) {
@@ -628,7 +632,7 @@ class Auth_Administrator_User extends DataModel implements Auth_User_Interface
 	/**
 	 * @return bool
 	 */
-	public function getIsSuperuser() : bool
+	public function getIsSuperuser(): bool
 	{
 		return $this->is_superuser;
 	}
@@ -636,7 +640,7 @@ class Auth_Administrator_User extends DataModel implements Auth_User_Interface
 	/**
 	 * @param bool $is_superuser
 	 */
-	public function setIsSuperuser( bool $is_superuser ) : void
+	public function setIsSuperuser( bool $is_superuser ): void
 	{
 		$this->is_superuser = (bool)$is_superuser;
 	}
@@ -646,7 +650,7 @@ class Auth_Administrator_User extends DataModel implements Auth_User_Interface
 	 *
 	 * @return array
 	 */
-	public function getPrivilegeValues( string $privilege ) : array
+	public function getPrivilegeValues( string $privilege ): array
 	{
 		$result = [];
 		foreach( $this->roles as $role ) {
@@ -666,7 +670,7 @@ class Auth_Administrator_User extends DataModel implements Auth_User_Interface
 	 *
 	 * @return bool
 	 */
-	public function usernameExists( string $username ) : bool
+	public function usernameExists( string $username ): bool
 	{
 		if( $this->getIsNew() ) {
 			$q = [
@@ -684,11 +688,10 @@ class Auth_Administrator_User extends DataModel implements Auth_User_Interface
 	}
 
 
-
 	/**
 	 *
 	 */
-	public function resetPassword() : void
+	public function resetPassword(): void
 	{
 
 		$password = static::generatePassword();
@@ -704,8 +707,8 @@ class Auth_Administrator_User extends DataModel implements Auth_User_Interface
 			Application_Admin::getSiteId()
 		);
 
-		$email->setVar('user', $this);
-		$email->setVar('password', $password);
+		$email->setVar( 'user', $this );
+		$email->setVar( 'password', $password );
 
 		$email->send( $this->getEmail() );
 	}
@@ -713,20 +716,84 @@ class Auth_Administrator_User extends DataModel implements Auth_User_Interface
 	/**
 	 * @return string
 	 */
-	public static function generatePassword() : string
+	public static function generatePassword(): string
 	{
 		srand();
 		$password = '';
 		$length = rand( 8, 12 );
 
 		$chars = [
-			0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o',
-			'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J',
-			'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '@', '#', '$', '%', '*',
+			0,
+			1,
+			2,
+			3,
+			4,
+			5,
+			6,
+			7,
+			8,
+			9,
+			'a',
+			'b',
+			'c',
+			'd',
+			'e',
+			'f',
+			'g',
+			'h',
+			'i',
+			'j',
+			'k',
+			'l',
+			'm',
+			'n',
+			'o',
+			'p',
+			'q',
+			'r',
+			's',
+			't',
+			'u',
+			'v',
+			'w',
+			'x',
+			'y',
+			'z',
+			'A',
+			'B',
+			'C',
+			'D',
+			'E',
+			'F',
+			'G',
+			'H',
+			'I',
+			'J',
+			'K',
+			'L',
+			'M',
+			'N',
+			'O',
+			'P',
+			'Q',
+			'R',
+			'S',
+			'T',
+			'U',
+			'V',
+			'W',
+			'X',
+			'Y',
+			'Z',
+			'@',
+			'#',
+			'$',
+			'%',
+			'*',
 		];
 
-		for( $l = 0; $l<$length; $l++ ) {
-			$password .= $chars[rand( 1, count( $chars ) )-1];
+		for( $l = 0; $l < $length; $l++ ) {
+			$password .= $chars[rand( 1, count( $chars ) ) - 1];
 		}
 
 		return $password;
@@ -737,9 +804,9 @@ class Auth_Administrator_User extends DataModel implements Auth_User_Interface
 	 *
 	 * @return bool
 	 */
-	public function verifyPasswordStrength( string $password ) : bool
+	public function verifyPasswordStrength( string $password ): bool
 	{
-		if( strlen( $password )<5 ) {
+		if( strlen( $password ) < 5 ) {
 			return false;
 		}
 
@@ -752,19 +819,19 @@ class Auth_Administrator_User extends DataModel implements Auth_User_Interface
 	 *
 	 * @return Form
 	 */
-	public function _getForm() : Form
+	public function _getForm(): Form
 	{
 
 		$form = $this->getCommonForm();
 
-		$roles = new Form_Field_MultiSelect('roles', 'Roles', $this->roles);
+		$roles = new Form_Field_MultiSelect( 'roles', 'Roles', $this->roles );
 		$roles->setSelectOptions( Auth_Administrator_Role::getList() );
-		$roles->setCatcher( function($value) {
+		$roles->setCatcher( function( $value ) {
 			$this->setRoles( $value );
 		} );
-		$roles->setErrorMessages([
+		$roles->setErrorMessages( [
 			Form_Field_MultiSelect::ERROR_CODE_INVALID_VALUE => "Please select role",
-		]);
+		] );
 		$form->addField( $roles );
 
 
@@ -774,7 +841,10 @@ class Auth_Administrator_User extends DataModel implements Auth_User_Interface
 			 */
 			$password_field = $form->getField( 'password' );
 			$password_field->setIsRequired( true );
-			$password_field->setPasswordStrengthCheckCallback( [ $this, 'verifyPasswordStrength' ] );
+			$password_field->setPasswordStrengthCheckCallback( [
+				$this,
+				'verifyPasswordStrength'
+			] );
 			$password_field->setErrorMessages(
 				[
 					Form_Field_RegistrationPassword::ERROR_CODE_WEAK_PASSWORD => 'Password is not strong enough',
@@ -787,7 +857,6 @@ class Auth_Administrator_User extends DataModel implements Auth_User_Interface
 		}
 
 
-
 		$form->getField( 'username' )->setValidator(
 			function( Form_Field_Input $field ) {
 				$username = $field->getValue();
@@ -795,7 +864,7 @@ class Auth_Administrator_User extends DataModel implements Auth_User_Interface
 				if( $this->usernameExists( $username ) ) {
 					$field->setCustomError(
 						Tr::_(
-							'Sorry, but username %USERNAME% is registered.', [ 'USERNAME' => $username ]
+							'Sorry, but username %USERNAME% is registered.', ['USERNAME' => $username]
 						)
 					);
 
@@ -814,13 +883,18 @@ class Auth_Administrator_User extends DataModel implements Auth_User_Interface
 	 *
 	 * @return Form
 	 */
-	public function getRegistrationForm() : Form
+	public function getRegistrationForm(): Form
 	{
 		$form = $this->_getForm();
-		$form->setName('register_user');
+		$form->setName( 'register_user' );
 
 		foreach( $form->getFields() as $field ) {
-			if( !in_array( $field->getName(), [ 'username', 'locale', 'password', 'email' ] ) ) {
+			if( !in_array( $field->getName(), [
+				'username',
+				'locale',
+				'password',
+				'email'
+			] ) ) {
 				$form->removeField( $field->getName() );
 			}
 		}
@@ -831,7 +905,7 @@ class Auth_Administrator_User extends DataModel implements Auth_User_Interface
 		 * @var Form_Field_RegistrationPassword $pwd
 		 */
 		$pwd = $form->getField( 'password' );
-		$pwd->setPasswordConfirmationLabel('Confirm password');
+		$pwd->setPasswordConfirmationLabel( 'Confirm password' );
 
 		return $form;
 	}
@@ -841,16 +915,15 @@ class Auth_Administrator_User extends DataModel implements Auth_User_Interface
 	 *
 	 * @return Form
 	 */
-	public function getEditForm() : Form
+	public function getEditForm(): Form
 	{
-		if(!$this->_form_edit) {
+		if( !$this->_form_edit ) {
 			$form = $this->_getForm();
-			$form->setName('_user');
+			$form->setName( '_user' );
 
 			if( $form->fieldExists( 'password' ) ) {
 				$form->removeField( 'password' );
 			}
-
 
 
 			$this->_form_edit = $form;
@@ -862,7 +935,7 @@ class Auth_Administrator_User extends DataModel implements Auth_User_Interface
 	/**
 	 * @return bool
 	 */
-	public function catchEditForm() : bool
+	public function catchEditForm(): bool
 	{
 		return $this->catchForm( $this->getEditForm() );
 	}
@@ -871,12 +944,12 @@ class Auth_Administrator_User extends DataModel implements Auth_User_Interface
 	/**
 	 * @return Form
 	 */
-	public function getAddForm() : Form
+	public function getAddForm(): Form
 	{
-		if(!$this->_form_add) {
+		if( !$this->_form_add ) {
 
 			$form = $this->_getForm();
-			$form->setName('add_user');
+			$form->setName( 'add_user' );
 
 			if( $form->fieldExists( 'password' ) ) {
 				$form->removeField( 'password' );
@@ -894,7 +967,7 @@ class Auth_Administrator_User extends DataModel implements Auth_User_Interface
 	/**
 	 * @return bool
 	 */
-	public function catchAddForm() : bool
+	public function catchAddForm(): bool
 	{
 		return $this->catchForm( $this->getAddForm() );
 	}
@@ -903,11 +976,11 @@ class Auth_Administrator_User extends DataModel implements Auth_User_Interface
 	/**
 	 * @return array
 	 */
-	public static function getLocales() : array
+	public static function getLocales(): array
 	{
 		$locales = [];
 
-		foreach( Application_Admin::getSite()->getLocales() as $locale_str=>$locale ) {
+		foreach( Application_Admin::getSite()->getLocales() as $locale_str => $locale ) {
 			$locales[$locale_str] = $locale->getName();
 		}
 
@@ -918,7 +991,7 @@ class Auth_Administrator_User extends DataModel implements Auth_User_Interface
 	/**
 	 * @param string $password
 	 */
-	public function sendWelcomeEmail( string $password ) : void
+	public function sendWelcomeEmail( string $password ): void
 	{
 		$email = new Mailing_Email(
 			'user_welcome',
@@ -926,8 +999,8 @@ class Auth_Administrator_User extends DataModel implements Auth_User_Interface
 			Application_Admin::getSiteId()
 		);
 
-		$email->setVar('user', $this);
-		$email->setVar('password', $password);
+		$email->setVar( 'user', $this );
+		$email->setVar( 'password', $password );
 
 		$email->send( $this->getEmail() );
 	}

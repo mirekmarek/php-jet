@@ -5,6 +5,7 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace Jet;
 
 /**
@@ -16,7 +17,7 @@ abstract class Mvc_Controller_Default extends Mvc_Controller
 	 *
 	 *
 	 */
-	public function responseAccessDenied() : void
+	public function responseAccessDenied(): void
 	{
 		ErrorPages::handleUnauthorized();
 		Application::end();

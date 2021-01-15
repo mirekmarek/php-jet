@@ -1,4 +1,5 @@
 <?php
+
 namespace JetApplication\Installer;
 
 use Jet\Tr;
@@ -11,20 +12,20 @@ use Jet\Mvc_View;
 	<table class="table table-striped">
 		<thead>
 		<tr>
-			<th><?=Tr::_( 'Class' );?></th>
-			<th><?=Tr::_( 'Status' );?></th>
+			<th><?= Tr::_( 'Class' ); ?></th>
+			<th><?= Tr::_( 'Status' ); ?></th>
 		</tr>
 		</thead>
 		<?php foreach( $this->getRaw( 'result' ) as $class => $state ): ?>
 			<tr>
-				<td><?=$class;?></td>
-				<?php if( $state===true ): ?>
+				<td><?= $class; ?></td>
+				<?php if( $state === true ): ?>
 					<td>
 						<div class="OK">OK</div>
 					</td>
 				<?php else: ?>
 					<td>
-						<div class="error"><?=$state;?></div>
+						<div class="error"><?= $state; ?></div>
 					</td>
 				<?php endif; ?>
 			</tr>
@@ -32,6 +33,6 @@ use Jet\Mvc_View;
 	</table>
 
 
-<?php if( $this->getBool( 'OK' ) ):
+	<?php if( $this->getBool( 'OK' ) ):
 	echo Installer::continueForm();
 endif; ?>

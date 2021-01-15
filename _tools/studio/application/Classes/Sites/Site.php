@@ -5,6 +5,7 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace JetStudio;
 
 use Jet\Exception;
@@ -47,35 +48,35 @@ class Sites_Site extends Mvc_Site
 	/**
 	 * @return Form
 	 */
-	public function getEditForm() : Form
+	public function getEditForm(): Form
 	{
-		if(!$this->__edit_form) {
-			$name_field = new Form_Field_Input('name', 'Name:', $this->getName());
+		if( !$this->__edit_form ) {
+			$name_field = new Form_Field_Input( 'name', 'Name:', $this->getName() );
 			$name_field->setIsRequired( true );
-			$name_field->setErrorMessages([
+			$name_field->setErrorMessages( [
 				Form_Field_Input::ERROR_CODE_EMPTY => 'Please enter site name'
-			]);
+			] );
 			$name_field->setCatcher( function( $value ) {
 				$this->setName( $value );
 			} );
 
 
-			$is_secret_field = new Form_Field_Checkbox('is_secret', 'is secret', $this->getIsSecret() );
+			$is_secret_field = new Form_Field_Checkbox( 'is_secret', 'is secret', $this->getIsSecret() );
 			$is_secret_field->setCatcher( function( $value ) {
 				$this->setIsSecret( $value );
 			} );
 
-			$is_default_field = new Form_Field_Checkbox('is_default', 'is default', $this->getIsDefault() );
+			$is_default_field = new Form_Field_Checkbox( 'is_default', 'is default', $this->getIsDefault() );
 			$is_default_field->setCatcher( function( $value ) {
 				$this->setIsDefault( $value );
 			} );
 
-			$is_active_field = new Form_Field_Checkbox('is_active', 'is active', $this->getIsActive() );
+			$is_active_field = new Form_Field_Checkbox( 'is_active', 'is active', $this->getIsActive() );
 			$is_active_field->setCatcher( function( $value ) {
 				$this->setIsActive( $value );
 			} );
 
-			$SSL_required_field = new Form_Field_Checkbox('SSL_required', 'SSL required', $this->getSSLRequired() );
+			$SSL_required_field = new Form_Field_Checkbox( 'SSL_required', 'SSL required', $this->getSSLRequired() );
 			$SSL_required_field->setCatcher( function( $value ) {
 				$this->setSSLRequired( $value );
 			} );
@@ -86,16 +87,16 @@ class Sites_Site extends Mvc_Site
 			$initializer = $this->getInitializer();
 
 			if(
-				is_array($initializer) &&
-				count($initializer)==2
+				is_array( $initializer ) &&
+				count( $initializer ) == 2
 			) {
 				$initializer_class = $initializer[0];
 				$initializer_method = $initializer[1];
 			}
 
 
-			$initializer_class_field = new Form_Field_Input('initializer_class', 'Initializer:', $initializer_class );
-			$initializer_class_method = new Form_Field_Input('initializer_method', '', $initializer_method );
+			$initializer_class_field = new Form_Field_Input( 'initializer_class', 'Initializer:', $initializer_class );
+			$initializer_class_method = new Form_Field_Input( 'initializer_method', '', $initializer_method );
 
 			$fields = [
 				$name_field,
@@ -111,13 +112,13 @@ class Sites_Site extends Mvc_Site
 				$ld = $this->getLocalizedData( $locale );
 
 
-				$ld_is_active_field = new Form_Field_Checkbox('/'.$locale.'/is_active', 'is active', $ld->getIsActive() );
-				$ld_is_active_field->setCatcher( function( $value ) use ($ld) {
-					if($this->getIsActive()) {
+				$ld_is_active_field = new Form_Field_Checkbox( '/' . $locale . '/is_active', 'is active', $ld->getIsActive() );
+				$ld_is_active_field->setCatcher( function( $value ) use ( $ld ) {
+					if( $this->getIsActive() ) {
 						$ld->setIsActive( $value );
 					}
 				} );
-				if(!$this->getIsActive()) {
+				if( !$this->getIsActive() ) {
 					$ld_is_active_field->setDefaultValue( false );
 					$ld_is_active_field->setIsReadonly( true );
 				}
@@ -125,59 +126,58 @@ class Sites_Site extends Mvc_Site
 				$fields[] = $ld_is_active_field;
 
 
-				$ld_SSL_required_field = new Form_Field_Checkbox('/'.$locale.'/SSL_required', 'SSL required', $ld->getSSLRequired() );
-				$ld_SSL_required_field->setCatcher( function( $value ) use ($ld) {
-					if(!$this->getSSLRequired()) {
+				$ld_SSL_required_field = new Form_Field_Checkbox( '/' . $locale . '/SSL_required', 'SSL required', $ld->getSSLRequired() );
+				$ld_SSL_required_field->setCatcher( function( $value ) use ( $ld ) {
+					if( !$this->getSSLRequired() ) {
 						$ld->setSSLRequired( $value );
 					}
 				} );
-				if($this->getSSLRequired()) {
-					$ld_SSL_required_field->setIsReadonly(true);
+				if( $this->getSSLRequired() ) {
+					$ld_SSL_required_field->setIsReadonly( true );
 				}
 				$fields[] = $ld_SSL_required_field;
 
 
-
-				$ld_title_field = new Form_Field_Input('/'.$locale.'/title', 'Title:', $ld->getTitle());
-				$ld_title_field->setCatcher( function( $value ) use ($ld) {
+				$ld_title_field = new Form_Field_Input( '/' . $locale . '/title', 'Title:', $ld->getTitle() );
+				$ld_title_field->setCatcher( function( $value ) use ( $ld ) {
 					$ld->setTitle( $value );
 				} );
 				$fields[] = $ld_title_field;
 
-				$URL_validate = function(  Form_Field_Input $field, $index  ) use ($ld) {
+				$URL_validate = function( Form_Field_Input $field, $index ) use ( $ld ) {
 					$value = $field->getValue();
-					if(!$value) {
+					if( !$value ) {
 						return true;
 					}
 
 					$value = strtolower( $value );
-					$value = str_replace('http://', '', $value);
-					$value = str_replace('https://', '', $value);
+					$value = str_replace( 'http://', '', $value );
+					$value = str_replace( 'https://', '', $value );
 					$value = preg_replace( '/[^a-z0-9-.\/]/i', '', $value );
 					$value = preg_replace( '~([/]{2,})~', '/', $value );
 					//$value = preg_replace( '~([-]{2,})~', '-', $value );
 					$value = preg_replace( '~([.]{2,})~', '.', $value );
 
-					$value = trim($value, '/');
+					$value = trim( $value, '/' );
 					$value .= '/';
 
 					$field->setValue( $value );
 
 					foreach( Sites::getSites() as $e_site ) {
-						if($e_site->getId()==$this->getId()) {
+						if( $e_site->getId() == $this->getId() ) {
 							continue;
 						}
 
 						foreach( $e_site->getLocales() as $locale ) {
 							$e_ld = $e_site->getLocalizedData( $locale );
 
-							if( in_array($value, $e_ld->getURLs()) ) {
+							if( in_array( $value, $e_ld->getURLs() ) ) {
 								$field->setCustomError(
 									Tr::_(
 										'URL conflicts with site <b>%site_name%</b> <b>%locale%</b>',
 										[
 											'site_name' => $e_site->getName(),
-											'locale' => $locale->getName()
+											'locale'    => $locale->getName()
 										]
 									),
 									'url_is_not_unique'
@@ -193,16 +193,16 @@ class Sites_Site extends Mvc_Site
 
 				$u = 0;
 				foreach( $ld->getURLs() as $URL ) {
-					$ld_URL_field = new Form_Field_Input('/'.$locale.'/URLs/'.$u, '', $URL);
-					if($u==0) {
+					$ld_URL_field = new Form_Field_Input( '/' . $locale . '/URLs/' . $u, '', $URL );
+					if( $u == 0 ) {
 						//$ld_URL_field->setIsRequired(true);
-						$ld_URL_field->setErrorMessages([
+						$ld_URL_field->setErrorMessages( [
 							Form_Field_Input::ERROR_CODE_EMPTY => 'Please enter at least one URL'
-						]);
+						] );
 					}
 
-					$ld_URL_field->setValidator( function( Form_Field_Input $field  ) use ($u, &$URL_validate) {
-						return $URL_validate($field, $u);
+					$ld_URL_field->setValidator( function( Form_Field_Input $field ) use ( $u, &$URL_validate ) {
+						return $URL_validate( $field, $u );
 					} );
 
 					$fields[] = $ld_URL_field;
@@ -210,10 +210,10 @@ class Sites_Site extends Mvc_Site
 					$u++;
 				}
 
-				for( $c=0;$c<3;$c++ ) {
-					$ld_URL_field = new Form_Field_Input('/'.$locale.'/URLs/'.$u, '');
-					$ld_URL_field->setValidator( function( Form_Field_Input $field  ) use ($u, &$URL_validate) {
-						return $URL_validate($field, $u);
+				for( $c = 0; $c < 3; $c++ ) {
+					$ld_URL_field = new Form_Field_Input( '/' . $locale . '/URLs/' . $u, '' );
+					$ld_URL_field->setValidator( function( Form_Field_Input $field ) use ( $u, &$URL_validate ) {
+						return $URL_validate( $field, $u );
 					} );
 
 					$fields[] = $ld_URL_field;
@@ -222,34 +222,33 @@ class Sites_Site extends Mvc_Site
 				}
 
 				$m = 0;
-				foreach( $ld->getDefaultMetaTags() as $meta_tag) {
+				foreach( $ld->getDefaultMetaTags() as $meta_tag ) {
 
-					$ld_meta_tag_attribute = new Form_Field_Input('/'.$locale.'/meta_tag/'.$m.'/attribute', 'Attribute:', $meta_tag->getAttribute() );
+					$ld_meta_tag_attribute = new Form_Field_Input( '/' . $locale . '/meta_tag/' . $m . '/attribute', 'Attribute:', $meta_tag->getAttribute() );
 					$fields[] = $ld_meta_tag_attribute;
 
 
-					$ld_meta_tag_attribute_value = new Form_Field_Input('/'.$locale.'/meta_tag/'.$m.'/attribute_value', 'Attribute value:', $meta_tag->getAttributeValue() );
+					$ld_meta_tag_attribute_value = new Form_Field_Input( '/' . $locale . '/meta_tag/' . $m . '/attribute_value', 'Attribute value:', $meta_tag->getAttributeValue() );
 					$fields[] = $ld_meta_tag_attribute_value;
 
 
-					$ld_meta_tag_content = new Form_Field_Input('/'.$locale.'/meta_tag/'.$m.'/content', 'Attribute value:', $meta_tag->getContent() );
+					$ld_meta_tag_content = new Form_Field_Input( '/' . $locale . '/meta_tag/' . $m . '/content', 'Attribute value:', $meta_tag->getContent() );
 					$fields[] = $ld_meta_tag_content;
 
 					$m++;
 				}
 
-				for( $c=0;$c<5;$c++ ) {
+				for( $c = 0; $c < 5; $c++ ) {
 
-					$ld_meta_tag_attribute = new Form_Field_Input('/'.$locale.'/meta_tag/'.$m.'/attribute', 'Attribute:', '' );
+					$ld_meta_tag_attribute = new Form_Field_Input( '/' . $locale . '/meta_tag/' . $m . '/attribute', 'Attribute:', '' );
 					$fields[] = $ld_meta_tag_attribute;
 
 
-					$ld_meta_tag_attribute_value = new Form_Field_Input('/'.$locale.'/meta_tag/'.$m.'/attribute_value', 'Attribute value:', '' );
+					$ld_meta_tag_attribute_value = new Form_Field_Input( '/' . $locale . '/meta_tag/' . $m . '/attribute_value', 'Attribute value:', '' );
 					$fields[] = $ld_meta_tag_attribute_value;
 
 
-
-					$ld_meta_tag_content = new Form_Field_Input('/'.$locale.'/meta_tag/'.$m.'/content', 'Attribute value:', '' );
+					$ld_meta_tag_content = new Form_Field_Input( '/' . $locale . '/meta_tag/' . $m . '/content', 'Attribute value:', '' );
 					$fields[] = $ld_meta_tag_content;
 
 					$m++;
@@ -262,7 +261,7 @@ class Sites_Site extends Mvc_Site
 				$fields
 			);
 
-			$form->setAction( Sites::getActionUrl('edit') );
+			$form->setAction( Sites::getActionUrl( 'edit' ) );
 
 			$this->__edit_form = $form;
 		}
@@ -273,7 +272,7 @@ class Sites_Site extends Mvc_Site
 	/**
 	 * @return bool
 	 */
-	public function catchEditForm() : bool
+	public function catchEditForm(): bool
 	{
 		$form = $this->getEditForm();
 
@@ -293,7 +292,7 @@ class Sites_Site extends Mvc_Site
 
 				$URLs[$locale_str] = [];
 
-				for( $u=0;$u<100;$u++ ) {
+				for( $u = 0; $u < 100; $u++ ) {
 					if( !$form->fieldExists( '/' . $locale_str . '/URLs/' . $u ) ) {
 						break;
 					}
@@ -302,13 +301,13 @@ class Sites_Site extends Mvc_Site
 
 					$URL = $field->getValue();
 
-					if($URL) {
+					if( $URL ) {
 						$URLs[$locale_str][$u] = $URL;
 
-						if(!isset($known_URLs[$URL])) {
+						if( !isset( $known_URLs[$URL] ) ) {
 							$known_URLs[$URL] = [
 								'locale' => $locale,
-								'u' => $u
+								'u'      => $u
 							];
 						} else {
 							$known_URL = $known_URLs[$URL];
@@ -317,7 +316,7 @@ class Sites_Site extends Mvc_Site
 							 */
 							$known_URL_locale = $known_URL['locale'];
 
-							$e_field = $form->field('/'.$locale.'/URLs/'.$u);
+							$e_field = $form->field( '/' . $locale . '/URLs/' . $u );
 							$e_field->setCustomError(
 								Tr::_(
 									'URL conflicts with locale <b>%locale%</b>',
@@ -333,7 +332,7 @@ class Sites_Site extends Mvc_Site
 					}
 				}
 
-				if(!count($URLs[$locale_str])) {
+				if( !count( $URLs[$locale_str] ) ) {
 					$field = $form->field( '/' . $locale_str . '/URLs/0' );
 					$field->setError( Form_Field_Input::ERROR_CODE_EMPTY );
 
@@ -341,30 +340,32 @@ class Sites_Site extends Mvc_Site
 				}
 			}
 
-			if($error) {
+			if( $error ) {
 				return false;
 			}
 
 
 			$form->catchData();
 
-			$initializer_class = $form->getField('initializer_class')->getValue();
-			$initializer_method = $form->getField('initializer_method')->getValue();
+			$initializer_class = $form->getField( 'initializer_class' )->getValue();
+			$initializer_method = $form->getField( 'initializer_method' )->getValue();
 
 			if(
 				$initializer_class &&
 				$initializer_method
 			) {
-				$this->setInitializer([ $initializer_class, $initializer_method ]);
+				$this->setInitializer( [
+					$initializer_class,
+					$initializer_method
+				] );
 			}
-
 
 
 			$data = $form->getData()->getRawData();
 
 			foreach( $this->getLocales() as $locale ) {
 				$locale_str = $locale->toString();
-				$ld = $this->getLocalizedData($locale);
+				$ld = $this->getLocalizedData( $locale );
 
 				$ld_data = $data[$locale_str];
 
@@ -372,9 +373,9 @@ class Sites_Site extends Mvc_Site
 				foreach( $ld_data['URLs'] as $URL ) {
 					if(
 						$URL &&
-						!in_array($URL, $URLs)
+						!in_array( $URL, $URLs )
 					) {
-						$URLs[] = strtolower($URL);
+						$URLs[] = strtolower( $URL );
 					}
 				}
 				$ld->setURLs( $URLs );
@@ -416,13 +417,13 @@ class Sites_Site extends Mvc_Site
 	/**
 	 * @return Form
 	 */
-	public function getAddLocaleForm() : Form
+	public function getAddLocaleForm(): Form
 	{
-		if(!$this->__add_locale_form) {
-			$locale_field = new Form_Field_Hidden('locale');
+		if( !$this->__add_locale_form ) {
+			$locale_field = new Form_Field_Hidden( 'locale' );
 
-			$form = new Form('add_locale_form', [$locale_field]);
-			$form->setAction( Sites::getActionUrl('locale/add') );
+			$form = new Form( 'add_locale_form', [$locale_field] );
+			$form->setAction( Sites::getActionUrl( 'locale/add' ) );
 
 			$this->__add_locale_form = $form;
 		}
@@ -433,7 +434,7 @@ class Sites_Site extends Mvc_Site
 	/**
 	 * @return Mvc_Site_LocalizedData_Interface|bool
 	 */
-	public function catchAddLocaleForm() : Mvc_Site_LocalizedData_Interface|bool
+	public function catchAddLocaleForm(): Mvc_Site_LocalizedData_Interface|bool
 	{
 		$form = $this->getAddLocaleForm();
 
@@ -441,10 +442,10 @@ class Sites_Site extends Mvc_Site
 			$form->catchInput() &&
 			$form->validate()
 		) {
-			$locale = $form->getField('locale')->getValue();
+			$locale = $form->getField( 'locale' )->getValue();
 
-			if($locale) {
-				$locale = new Locale($locale);
+			if( $locale ) {
+				$locale = new Locale( $locale );
 
 				return $this->createLocale( $locale );
 			}
@@ -459,12 +460,12 @@ class Sites_Site extends Mvc_Site
 	 *
 	 * @return bool
 	 */
-	public function createLocale( Locale $locale ) : bool
+	public function createLocale( Locale $locale ): bool
 	{
 		$ok = true;
 		try {
 			$pages_dir = $this->getPagesDataPath( $locale );
-			if(!IO_Dir::exists($pages_dir)) {
+			if( !IO_Dir::exists( $pages_dir ) ) {
 				IO_Dir::create( $pages_dir );
 			}
 
@@ -482,23 +483,23 @@ class Sites_Site extends Mvc_Site
 				break;
 			}
 
-			$base_url = trim($base_url, '/');
-			if(!$base_url) {
+			$base_url = trim( $base_url, '/' );
+			if( !$base_url ) {
 				$base_url = $this->getId();
 			}
 
 			$ld = $this->addLocale( $locale );
 			$ld->setIsActive( true );
-			if($base_url) {
+			if( $base_url ) {
 
-				if(count($this->localized_data)>1) {
-					$ld->setURLs([
-						$base_url.'/'.$locale->getLanguage()
-					]);
+				if( count( $this->localized_data ) > 1 ) {
+					$ld->setURLs( [
+						$base_url . '/' . $locale->getLanguage()
+					] );
 				} else {
-					$ld->setURLs([
+					$ld->setURLs( [
 						$base_url
-					]);
+					] );
 
 				}
 			}
@@ -529,13 +530,13 @@ class Sites_Site extends Mvc_Site
 	/**
 	 * @return Form
 	 */
-	public function getSortLocalesForm() : Form
+	public function getSortLocalesForm(): Form
 	{
-		if(!$this->__sort_locales_form) {
-			$locale_field = new Form_Field_Hidden('locales', '', implode(',', $this->getLocales(true)));
+		if( !$this->__sort_locales_form ) {
+			$locale_field = new Form_Field_Hidden( 'locales', '', implode( ',', $this->getLocales( true ) ) );
 
-			$form = new Form('sort_locales_form', [$locale_field]);
-			$form->setAction( Sites::getActionUrl('locale/sort') );
+			$form = new Form( 'sort_locales_form', [$locale_field] );
+			$form->setAction( Sites::getActionUrl( 'locale/sort' ) );
 
 			$this->__sort_locales_form = $form;
 		}
@@ -546,7 +547,7 @@ class Sites_Site extends Mvc_Site
 	/**
 	 * @return bool
 	 */
-	public function catchSortLocalesForm() : bool
+	public function catchSortLocalesForm(): bool
 	{
 		$form = $this->getSortLocalesForm();
 
@@ -554,7 +555,7 @@ class Sites_Site extends Mvc_Site
 			$form->catchInput() &&
 			$form->validate()
 		) {
-			$locales = explode(',', $form->getField('locales')->getValue());
+			$locales = explode( ',', $form->getField( 'locales' )->getValue() );
 
 			$this->sortLocales( $locales );
 
@@ -567,7 +568,7 @@ class Sites_Site extends Mvc_Site
 	/**
 	 * @return bool
 	 */
-	public function save() : bool
+	public function save(): bool
 	{
 		$ok = true;
 		try {
@@ -584,15 +585,15 @@ class Sites_Site extends Mvc_Site
 	/**
 	 *
 	 */
-	public function create() : bool
+	public function create(): bool
 	{
 		$ok = true;
-		$templates_path = ProjectConf_Path::getTemplates().'/';
+		$templates_path = ProjectConf_Path::getTemplates() . '/';
 
 		try {
 			$dir = $this->getBasePath();
 
-			if(!IO_Dir::exists($dir)) {
+			if( !IO_Dir::exists( $dir ) ) {
 				IO_Dir::create( $dir, false );
 			}
 			$this->saveDataFile();
@@ -602,23 +603,23 @@ class Sites_Site extends Mvc_Site
 			Sites::load();
 
 			$layouts_dir = $this->getLayoutsPath();
-			if(!IO_Dir::exists($layouts_dir)) {
+			if( !IO_Dir::exists( $layouts_dir ) ) {
 
 				IO_Dir::create( $layouts_dir );
 
 			}
 
-			if(!IO_File::exists($layouts_dir.'default.phtml')) {
+			if( !IO_File::exists( $layouts_dir . 'default.phtml' ) ) {
 				IO_File::copy(
-					$templates_path.'new_site_default_layout.phtml',
-					$layouts_dir.'default.phtml'
+					$templates_path . 'new_site_default_layout.phtml',
+					$layouts_dir . 'default.phtml'
 				);
 			}
 
 			foreach( $this->getLocales() as $locale ) {
 
 				$pages_dir = $this->getPagesDataPath( $locale );
-				if(!IO_Dir::exists($pages_dir)) {
+				if( !IO_Dir::exists( $pages_dir ) ) {
 					IO_Dir::create( $pages_dir );
 				}
 
@@ -646,19 +647,19 @@ class Sites_Site extends Mvc_Site
 	/**
 	 * @param Pages_Page $homepage
 	 */
-	public function create_applyTemplate_errorPages( Pages_Page $homepage ) : void
+	public function create_applyTemplate_errorPages( Pages_Page $homepage ): void
 	{
-		$templates_path = ProjectConf_Path::getTemplates().'/';
+		$templates_path = ProjectConf_Path::getTemplates() . '/';
 
-		$error_pages_source = $templates_path.'error_pages/';
+		$error_pages_source = $templates_path . 'error_pages/';
 
-		if( IO_Dir::exists($error_pages_source) ) {
+		if( IO_Dir::exists( $error_pages_source ) ) {
 			$error_pages_target = $homepage->getDataDirPath();
 
-			$list = IO_Dir::getList($error_pages_source, '*.phtml', false, true);
+			$list = IO_Dir::getList( $error_pages_source, '*.phtml', false, true );
 
-			foreach( $list as $path=>$name ) {
-				IO_File::copy( $path, $error_pages_target.$name );
+			foreach( $list as $path => $name ) {
+				IO_File::copy( $path, $error_pages_target . $name );
 			}
 		}
 
@@ -667,17 +668,17 @@ class Sites_Site extends Mvc_Site
 	/**
 	 * @return array
 	 */
-	public function getLayoutsList() : array
+	public function getLayoutsList(): array
 	{
-		$list = IO_Dir::getList( $this->getLayoutsPath(), '*.'.Mvc_Layout::getScriptFileSuffix(), false, true );
+		$list = IO_Dir::getList( $this->getLayoutsPath(), '*.' . Mvc_Layout::getScriptFileSuffix(), false, true );
 
 		$res = [];
 
-		$len = strlen(Mvc_Layout::getScriptFileSuffix())+1;
+		$len = strlen( Mvc_Layout::getScriptFileSuffix() ) + 1;
 		$len *= -1;
 
 		foreach( $list as $name ) {
-			$name = substr($name, 0, $len);
+			$name = substr( $name, 0, $len );
 
 			$res[$name] = $name;
 		}
@@ -690,19 +691,19 @@ class Sites_Site extends Mvc_Site
 	 *
 	 * @return array
 	 */
-	public function getLayoutOutputPositions( string $layout_script_name ) : array
+	public function getLayoutOutputPositions( string $layout_script_name ): array
 	{
 		$res = [
-			Mvc_Layout::DEFAULT_OUTPUT_POSITION => Tr::_('Main position')
+			Mvc_Layout::DEFAULT_OUTPUT_POSITION => Tr::_( 'Main position' )
 		];
 
-		$layout_file_path = $this->getLayoutsPath().$layout_script_name.'.'.Mvc_Layout::getScriptFileSuffix();
+		$layout_file_path = $this->getLayoutsPath() . $layout_script_name . '.' . Mvc_Layout::getScriptFileSuffix();
 
-		if( IO_File::isReadable($layout_file_path) ) {
+		if( IO_File::isReadable( $layout_file_path ) ) {
 			$layout = IO_File::read( $layout_file_path );
 
 			if( preg_match_all(
-				'/<'.Mvc_Layout::TAG_POSITION. '[ ]+name="([a-zA-Z0-9\-_ ]*)"[^\/]*\/>/i',
+				'/<' . Mvc_Layout::TAG_POSITION . '[ ]+name="([a-zA-Z0-9\-_ ]*)"[^\/]*\/>/i',
 				$layout,
 				$matches
 			) ) {

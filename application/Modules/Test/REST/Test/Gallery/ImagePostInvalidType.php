@@ -7,6 +7,7 @@
  */
 
 namespace JetApplicationModule\Test\REST;
+
 use Jet\Application_Modules;
 
 
@@ -19,15 +20,15 @@ class Test_Gallery_ImagePostInvalidType extends Test_Abstract
 	/**
 	 * @return bool
 	 */
-	public function isEnabled() : bool
+	public function isEnabled(): bool
 	{
-		return count($this->data['galleries'])>0;
+		return count( $this->data['galleries'] ) > 0;
 	}
 
 	/**
 	 * @return string
 	 */
-	protected function _getTitle() : string
+	protected function _getTitle(): string
 	{
 		return 'Upload image (POST) - invalid file type (error simulation)';
 	}
@@ -35,16 +36,16 @@ class Test_Gallery_ImagePostInvalidType extends Test_Abstract
 	/**
 	 *
 	 */
-	public function test() : void
+	public function test(): void
 	{
 		$gallery = $this->data['galleries'][0];
 		$id = $gallery['id'];
 
-		$dir = Application_Modules::getModuleDir('Test.REST').'data/';
+		$dir = Application_Modules::getModuleDir( 'Test.REST' ) . 'data/';
 
-		$valid_image = $dir.'test_invalid.txt';
+		$valid_image = $dir . 'test_invalid.txt';
 
-		$this->client->post('gallery/'.$id.'/image', [], $valid_image);
+		$this->client->post( 'gallery/' . $id . '/image', [], $valid_image );
 
 
 	}

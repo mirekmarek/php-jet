@@ -5,6 +5,7 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace Jet;
 
 /**
@@ -18,7 +19,7 @@ trait DataModel_Related_Trait
 	/**
 	 * @param DataModel_IDController $parent_id
 	 */
-	public function actualizeParentId( DataModel_IDController $parent_id ) : void
+	public function actualizeParentId( DataModel_IDController $parent_id ): void
 	{
 		/**
 		 * @var DataModel_Definition_Model_Related $definition
@@ -31,7 +32,7 @@ trait DataModel_Related_Trait
 
 			if(
 				$this->getIsSaved() &&
-				$this->{$property_name}!=$parent_id->getValue( $property_definition->getRelatedToPropertyName() )
+				$this->{$property_name} != $parent_id->getValue( $property_definition->getRelatedToPropertyName() )
 			) {
 				$this->setIsNew();
 			}
@@ -45,7 +46,7 @@ trait DataModel_Related_Trait
 	/**
 	 * @param DataModel_IDController $main_id
 	 */
-	public function actualizeMainId( DataModel_IDController $main_id ) : void
+	public function actualizeMainId( DataModel_IDController $main_id ): void
 	{
 
 		/**
@@ -59,7 +60,7 @@ trait DataModel_Related_Trait
 
 			if(
 				$this->getIsSaved() &&
-				$this->{$property_name}!=$main_id->getValue( $property_definition->getRelatedToPropertyName() )
+				$this->{$property_name} != $main_id->getValue( $property_definition->getRelatedToPropertyName() )
 			) {
 				$this->setIsNew();
 			}

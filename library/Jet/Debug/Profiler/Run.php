@@ -5,6 +5,7 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace Jet;
 
 /**
@@ -64,29 +65,26 @@ class Debug_Profiler_Run
 	public function __construct()
 	{
 
-		if( php_sapi_name()=='cli' ) {
+		if( php_sapi_name() == 'cli' ) {
 			$this->request_URL = isset( $_SERVER['SCRIPT_FILENAME'] ) ? $_SERVER['SCRIPT_FILENAME'] : 'CLI';
 		} else {
-			if( 
+			if(
 				!isset( $_SERVER['HTTP_HOST'] ) ||
 				!isset( $_SERVER['REQUEST_URI'] )
 			) {
 				$this->request_URL = 'unknown';
 			}
-			$this->request_URL = $_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
+			$this->request_URL = $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
 		}
 
 		$this->date_and_time = date( 'Y-m-d H:i:s' );
 
 		srand();
-		$this->id = md5( $this->request_URL.microtime( true ).rand().rand().rand() );
+		$this->id = md5( $this->request_URL . microtime( true ) . rand() . rand() . rand() );
 		$root_block = new Debug_Profiler_Run_Block( 'root', 0 );
 		$this->blocks[] = $root_block;
 		$this->__root_block = $root_block;
 		$this->__block_stack[] = $root_block;
-
-
-
 
 
 		$this->__current_block_level = 1;
@@ -96,12 +94,12 @@ class Debug_Profiler_Run
 			$this->__root_block
 		);
 
-		$this->appendBlock($block);
+		$this->appendBlock( $block );
 
 
 		if( extension_loaded( 'xhprof' ) ) {
 			xhprof_enable(
-				XHPROF_FLAGS_CPU+XHPROF_FLAGS_MEMORY,
+				XHPROF_FLAGS_CPU + XHPROF_FLAGS_MEMORY,
 				[
 				]
 			);
@@ -111,7 +109,7 @@ class Debug_Profiler_Run
 			/** @noinspection PhpUndefinedConstantInspection */
 			/** @noinspection PhpUndefinedFunctionInspection */
 			tideways_enable(
-				TIDEWAYS_FLAGS_CPU+TIDEWAYS_FLAGS_MEMORY,
+				TIDEWAYS_FLAGS_CPU + TIDEWAYS_FLAGS_MEMORY,
 				[
 				]
 			);
@@ -121,7 +119,7 @@ class Debug_Profiler_Run
 	/**
 	 * @return string
 	 */
-	public function getId() : string
+	public function getId(): string
 	{
 		return $this->id;
 	}
@@ -129,7 +127,7 @@ class Debug_Profiler_Run
 	/**
 	 * @return mixed
 	 */
-	public function getXHPData() : mixed
+	public function getXHPData(): mixed
 	{
 		return $this->XHP_data;
 	}
@@ -137,7 +135,7 @@ class Debug_Profiler_Run
 	/**
 	 * @return string
 	 */
-	public function getDateAndTime() : string
+	public function getDateAndTime(): string
 	{
 		return $this->date_and_time;
 	}
@@ -145,7 +143,7 @@ class Debug_Profiler_Run
 	/**
 	 * @return Debug_Profiler_Run_Block[]
 	 */
-	public function getBlocks() : array
+	public function getBlocks(): array
 	{
 		return $this->blocks;
 	}
@@ -153,7 +151,7 @@ class Debug_Profiler_Run
 	/**
 	 * @return string
 	 */
-	public function getRequestURL() : string
+	public function getRequestURL(): string
 	{
 		return $this->request_URL;
 	}
@@ -161,7 +159,7 @@ class Debug_Profiler_Run
 	/**
 	 * @return Debug_Profiler_Run_SQLQueryData[]
 	 */
-	public function getSqlQueries() : array
+	public function getSqlQueries(): array
 	{
 		$r = [];
 
@@ -179,9 +177,9 @@ class Debug_Profiler_Run
 	 *
 	 * @return Debug_Profiler_Run_Block
 	 */
-	public function blockStart( string $label ) : Debug_Profiler_Run_Block
+	public function blockStart( string $label ): Debug_Profiler_Run_Block
 	{
-		if($this->__current_block->getIsAnonymous()) {
+		if( $this->__current_block->getIsAnonymous() ) {
 			$this->__current_block->setEnd();
 			array_pop( $this->__block_stack );
 
@@ -193,13 +191,13 @@ class Debug_Profiler_Run
 		$block = new Debug_Profiler_Run_Block(
 			$label,
 			$this->__current_block_level,
-			$this->__block_stack[$this->__current_block_level-1]
+			$this->__block_stack[$this->__current_block_level - 1]
 		);
 
 
 		$this->__current_block_level++;
 
-		$this->appendBlock($block);
+		$this->appendBlock( $block );
 
 		return $block;
 
@@ -208,11 +206,11 @@ class Debug_Profiler_Run
 	/**
 	 * @param string $label (Does nothing. Only for best practises and clarity of source code)
 	 */
-	public function blockEnd( string $label ) : void
+	public function blockEnd( string $label ): void
 	{
-		if($this->__current_block->getLabel()!=$label) {
+		if( $this->__current_block->getLabel() != $label ) {
 			trigger_error(
-				'Jet Profiler Error: Inconsistent block start and end. Star:'.$this->__current_block->getLabel().', end: '.$label
+				'Jet Profiler Error: Inconsistent block start and end. Star:' . $this->__current_block->getLabel() . ', end: ' . $label
 			);
 
 			die();
@@ -223,23 +221,23 @@ class Debug_Profiler_Run
 		$this->__current_block_level--;
 		array_pop( $this->__block_stack );
 
-		if($this->__current_block_level>1) {
-			$this->__current_block = $this->__block_stack[count( $this->__block_stack )-1];
+		if( $this->__current_block_level > 1 ) {
+			$this->__current_block = $this->__block_stack[count( $this->__block_stack ) - 1];
 		} else {
-			$this->__current_block_level=1;
+			$this->__current_block_level = 1;
 			$block = new Debug_Profiler_Run_Block_Anonymous(
 				$this->__current_block_level,
 				$this->__root_block
 			);
 
-			$this->appendBlock($block);
+			$this->appendBlock( $block );
 		}
 	}
 
 	/**
 	 * @param Debug_Profiler_Run_Block $block
 	 */
-	protected function appendBlock( Debug_Profiler_Run_Block $block ) : void
+	protected function appendBlock( Debug_Profiler_Run_Block $block ): void
 	{
 		$this->blocks[$block->getId()] = $block;
 		$this->__current_block = $block;
@@ -250,7 +248,7 @@ class Debug_Profiler_Run
 	/**
 	 *
 	 */
-	public function runEnd() : void
+	public function runEnd(): void
 	{
 		$timestamp = microtime( true );
 
@@ -277,9 +275,9 @@ class Debug_Profiler_Run
 
 	/**
 	 * @param string $query
-	 * @param array  $query_data
+	 * @param array $query_data
 	 */
-	public function SQLQueryStart( string $query, array $query_data ) : void
+	public function SQLQueryStart( string $query, array $query_data ): void
 	{
 		$this->__current_block->SQLQueryStart( $query, $query_data );
 	}
@@ -287,7 +285,7 @@ class Debug_Profiler_Run
 	/**
 	 * @param int $rows_count
 	 */
-	public function SqlQueryDone( int $rows_count ) : void
+	public function SqlQueryDone( int $rows_count ): void
 	{
 		$this->__current_block->SQLQueryDone( $rows_count );
 	}
@@ -296,7 +294,7 @@ class Debug_Profiler_Run
 	/**
 	 * @return Debug_Profiler_Run_Block|null
 	 */
-	public function getCurrentBlock() : Debug_Profiler_Run_Block|null
+	public function getCurrentBlock(): Debug_Profiler_Run_Block|null
 	{
 		return $this->__current_block;
 	}
@@ -304,7 +302,7 @@ class Debug_Profiler_Run
 	/**
 	 * @param string $text
 	 */
-	public function message( string $text ) : void
+	public function message( string $text ): void
 	{
 		$this->__current_block->message( $text );
 	}
@@ -314,11 +312,11 @@ class Debug_Profiler_Run
 	 *
 	 * @return array
 	 */
-	public function __sleep() : array
+	public function __sleep(): array
 	{
 		$vars = get_object_vars( $this );
 		foreach( $vars as $k => $v ) {
-			if( substr( $k, 0, 2 )==='__' ) {
+			if( substr( $k, 0, 2 ) === '__' ) {
 				unset( $vars[$k] );
 			}
 		}

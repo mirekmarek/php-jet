@@ -5,6 +5,7 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace Jet;
 
 /**
@@ -44,16 +45,16 @@ trait Mvc_Page_Trait_Tree
 	 *
 	 * @return static|null
 	 */
-	public function getParent() : static|null
+	public function getParent(): static|null
 	{
 		/**
 		 * @var Mvc_Page_Interface|Mvc_Page_Trait_Tree $this
 		 */
-		if(!$this->parent_id) {
+		if( !$this->parent_id ) {
 			return null;
 		}
 
-		if(!$this->__parent) {
+		if( !$this->__parent ) {
 			$this->__parent = static::get( $this->parent_id, $this->getLocale(), $this->getSite()->getId() );
 		}
 
@@ -63,12 +64,12 @@ trait Mvc_Page_Trait_Tree
 	/**
 	 * @return array
 	 */
-	public function getPath() : array
+	public function getPath(): array
 	{
 		$path = [$this->getId()];
 
 		$parent = $this;
-		while( ( $parent = $parent->getParent() ) ) {
+		while( ($parent = $parent->getParent()) ) {
 
 			array_unshift( $path, $parent->getId() );
 		}
@@ -80,7 +81,7 @@ trait Mvc_Page_Trait_Tree
 	/**
 	 * @return array
 	 */
-	public function getChildrenIds() : array
+	public function getChildrenIds(): array
 	{
 		return $this->children;
 	}
@@ -88,19 +89,19 @@ trait Mvc_Page_Trait_Tree
 	/**
 	 * @return Mvc_Page_Interface[]
 	 */
-	public function getChildren() : array
+	public function getChildren(): array
 	{
 		/**
 		 * @var Mvc_Page_Interface|Mvc_Page_Trait_Tree $this
 		 */
 
-		if($this->__children===null) {
+		if( $this->__children === null ) {
 			$this->__children = [];
 
 			foreach( $this->children as $id ) {
 				$ch = static::get( $id, $this->getLocale(), $this->getSite()->getId() );
 
-				if($ch) {
+				if( $ch ) {
 					$this->__children[$id] = $ch;
 				}
 			}
@@ -111,11 +112,11 @@ trait Mvc_Page_Trait_Tree
 					$a_order = $a->getOrder();
 					$b_order = $b->getOrder();
 
-					if( $a_order==$b_order ) {
+					if( $a_order == $b_order ) {
 						return 0;
 					}
 
-					return ( $a_order<$b_order ) ? -1 : 1;
+					return ($a_order < $b_order) ? -1 : 1;
 				}
 			);
 
@@ -127,7 +128,7 @@ trait Mvc_Page_Trait_Tree
 	/**
 	 * @return int
 	 */
-	public function getOrder() : int
+	public function getOrder(): int
 	{
 		return $this->order;
 	}
@@ -136,7 +137,7 @@ trait Mvc_Page_Trait_Tree
 	 * @param int $order
 	 *
 	 */
-	public function setOrder( int $order ) : void
+	public function setOrder( int $order ): void
 	{
 		$this->order = (int)$order;
 	}
@@ -144,7 +145,7 @@ trait Mvc_Page_Trait_Tree
 	/**
 	 * @return array
 	 */
-	public function getChildrenKeys() : array
+	public function getChildrenKeys(): array
 	{
 		$result = [];
 

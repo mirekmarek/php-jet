@@ -5,6 +5,7 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace Jet;
 
 use Throwable;
@@ -33,15 +34,15 @@ class Debug_ErrorHandler
 	 * @var array
 	 */
 	protected static array $ignore_non_fatal_errors_paths = [
-		'/'.__NAMESPACE__.'/IO/'
+		'/' . __NAMESPACE__ . '/IO/'
 	];
 
 	/**
 	 * @param string $path
 	 */
-	public static function addIgnoreNonFatalErrorsPath( string $path ) : void
+	public static function addIgnoreNonFatalErrorsPath( string $path ): void
 	{
-		$path = str_replace('\\', '/', $path);
+		$path = str_replace( '\\', '/', $path );
 
 		static::$ignore_non_fatal_errors_paths[] = $path;
 	}
@@ -49,7 +50,7 @@ class Debug_ErrorHandler
 	/**
 	 * @return array
 	 */
-	public static function getIgnoreNonFatalErrorsPaths() : array
+	public static function getIgnoreNonFatalErrorsPaths(): array
 	{
 		return self::$ignore_non_fatal_errors_paths;
 	}
@@ -57,16 +58,25 @@ class Debug_ErrorHandler
 	/**
 	 *
 	 */
-	public static function initialize() : void
+	public static function initialize(): void
 	{
 
-		Debug::setOutputIsHTML( php_sapi_name()!='cli' );
+		Debug::setOutputIsHTML( php_sapi_name() != 'cli' );
 
 		$class_name = get_called_class();
 
-		set_error_handler( [ $class_name, 'handleError' ] );
-		set_exception_handler( [ $class_name, 'handleException' ] );
-		register_shutdown_function( [ $class_name, 'handleShutdown' ] );
+		set_error_handler( [
+			$class_name,
+			'handleError'
+		] );
+		set_exception_handler( [
+			$class_name,
+			'handleException'
+		] );
+		register_shutdown_function( [
+			$class_name,
+			'handleShutdown'
+		] );
 
 	}
 
@@ -76,7 +86,7 @@ class Debug_ErrorHandler
 	 *
 	 * @return Debug_ErrorHandler_Handler
 	 */
-	public static function registerHandler( Debug_ErrorHandler_Handler $handler ) : Debug_ErrorHandler_Handler
+	public static function registerHandler( Debug_ErrorHandler_Handler $handler ): Debug_ErrorHandler_Handler
 	{
 
 		static::$handlers[$handler->getName()] = $handler;
@@ -87,9 +97,9 @@ class Debug_ErrorHandler
 	/**
 	 * @param string $name
 	 */
-	public static function unRegisterHandler( string $name ) : void
+	public static function unRegisterHandler( string $name ): void
 	{
-		if(isset(static::$handlers[$name])) {
+		if( isset( static::$handlers[$name] ) ) {
 			unset( static::$handlers[$name] );
 		}
 	}
@@ -99,9 +109,9 @@ class Debug_ErrorHandler
 	 *
 	 * @return Debug_ErrorHandler_Handler|null
 	 */
-	public static function getHandler( string $name ) : Debug_ErrorHandler_Handler|null
+	public static function getHandler( string $name ): Debug_ErrorHandler_Handler|null
 	{
-		if(isset(static::$handlers[$name])) {
+		if( isset( static::$handlers[$name] ) ) {
 			return static::$handlers[$name];
 		}
 
@@ -112,20 +122,20 @@ class Debug_ErrorHandler
 	 *
 	 * @return Debug_ErrorHandler_Handler[]
 	 */
-	public static function getRegisteredHandlers() : array
+	public static function getRegisteredHandlers(): array
 	{
 		return static::$handlers;
 	}
 
 	/**
 	 *
-	 * @param int    $code
+	 * @param int $code
 	 * @param string $message
 	 * @param string $file
-	 * @param int    $line
-	 * @param array  $context
+	 * @param int $line
+	 * @param array $context
 	 */
-	public static function handleError( int $code, string $message, string $file='', int $line=0, array $context=[] ) : void
+	public static function handleError( int $code, string $message, string $file = '', int $line = 0, array $context = [] ): void
 	{
 		if( str_contains( $message, 'should not be abstract' ) ) {
 			return;
@@ -135,13 +145,13 @@ class Debug_ErrorHandler
 
 		static::$last_error = $error;
 
-		if(!$error->isFatal()) {
-			if( error_reporting()==0 ) {
+		if( !$error->isFatal() ) {
+			if( error_reporting() == 0 ) {
 				return;
 			}
 
 			foreach( static::$ignore_non_fatal_errors_paths as $path_part ) {
-				$win_path_part = str_replace('/', '\\', $path_part);
+				$win_path_part = str_replace( '/', '\\', $path_part );
 
 				if(
 					str_contains( $file, $path_part ) ||
@@ -160,7 +170,7 @@ class Debug_ErrorHandler
 	 *
 	 * @param Throwable $exception
 	 */
-	public static function handleException( Throwable $exception ) : void
+	public static function handleException( Throwable $exception ): void
 	{
 		$error = Debug_ErrorHandler_Error::newException( $exception );
 		static::_handleError( $error );
@@ -170,7 +180,7 @@ class Debug_ErrorHandler
 	 *
 	 * PHP Fatal errors detection
 	 */
-	public static function handleShutdown() : void
+	public static function handleShutdown(): void
 	{
 		$error = error_get_last();
 		if(
@@ -187,11 +197,11 @@ class Debug_ErrorHandler
 	 *
 	 * @param Debug_ErrorHandler_Error $error
 	 */
-	protected static function _handleError( Debug_ErrorHandler_Error $error ) : void
+	protected static function _handleError( Debug_ErrorHandler_Error $error ): void
 	{
 		if(
-			substr($error->getMessage(),0, 23)=='POST Content-Length of ' ||
-			$error->getMessage()=='Maximum number of allowable file uploads has been exceeded'
+			substr( $error->getMessage(), 0, 23 ) == 'POST Content-Length of ' ||
+			$error->getMessage() == 'Maximum number of allowable file uploads has been exceeded'
 		) {
 			return;
 		}
@@ -200,7 +210,7 @@ class Debug_ErrorHandler
 		$error_displayed = false;
 
 		if( $error->isFatal() ) {
-			if( php_sapi_name()!='cli' ) {
+			if( php_sapi_name() != 'cli' ) {
 				/** @noinspection PhpUsageOfSilenceOperatorInspection */
 				@header( 'HTTP/1.1 500 Internal Server Error' );
 			}
@@ -214,9 +224,9 @@ class Debug_ErrorHandler
 			}
 		}
 
-		if(!$error_displayed) {
-			if(Debug::getOutputIsHTML()){
-				echo '<pre>'.$error.'</pre>';
+		if( !$error_displayed ) {
+			if( Debug::getOutputIsHTML() ) {
+				echo '<pre>' . $error . '</pre>';
 
 			} else {
 				echo $error;
@@ -231,7 +241,7 @@ class Debug_ErrorHandler
 	/**
 	 * @return Debug_ErrorHandler_Error|null
 	 */
-	public static function getLastError() : Debug_ErrorHandler_Error|null
+	public static function getLastError(): Debug_ErrorHandler_Error|null
 	{
 		$last_error = static::$last_error;
 

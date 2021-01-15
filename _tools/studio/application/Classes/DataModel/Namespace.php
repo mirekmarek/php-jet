@@ -5,12 +5,14 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace JetStudio;
 
 /**
  *
  */
-class DataModel_Namespace {
+class DataModel_Namespace
+{
 
 	/**
 	 * @var string
@@ -36,7 +38,7 @@ class DataModel_Namespace {
 	/**
 	 * @return string
 	 */
-	public function getNamespace() : string
+	public function getNamespace(): string
 	{
 		return $this->namespace;
 	}
@@ -44,7 +46,7 @@ class DataModel_Namespace {
 	/**
 	 * @return string
 	 */
-	public function getRootDir() : string
+	public function getRootDir(): string
 	{
 		return $this->root_dir;
 	}
@@ -52,7 +54,7 @@ class DataModel_Namespace {
 	/**
 	 * @return string
 	 */
-	public function __toString() : string
+	public function __toString(): string
 	{
 		return $this->namespace;
 	}

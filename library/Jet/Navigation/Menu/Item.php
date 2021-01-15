@@ -5,6 +5,7 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace Jet;
 
 /**
@@ -101,23 +102,23 @@ class Navigation_Menu_Item extends BaseObject
 	 *
 	 * @throws Navigation_Menu_Exception
 	 */
-	public function setData( array $data ) : void
+	public function setData( array $data ): void
 	{
-		foreach( $data as $key=>$val ) {
+		foreach( $data as $key => $val ) {
 			if(
-				$key=='id' ||
-				$key=='label'
+				$key == 'id' ||
+				$key == 'label'
 			) {
 				continue;
 			}
 
-			if(!property_exists($this, $key)) {
-				throw new Navigation_Menu_Exception( 'Unknown menu property: '.$key);
+			if( !property_exists( $this, $key ) ) {
+				throw new Navigation_Menu_Exception( 'Unknown menu property: ' . $key );
 			}
 
-			$setter = $this->objectSetterMethodName($key);
+			$setter = $this->objectSetterMethodName( $key );
 
-			$this->$setter($val);
+			$this->$setter( $val );
 		}
 
 	}
@@ -125,7 +126,7 @@ class Navigation_Menu_Item extends BaseObject
 	/**
 	 * @return Navigation_Menu
 	 */
-	public function getMenu() : Navigation_Menu
+	public function getMenu(): Navigation_Menu
 	{
 		return $this->menu;
 	}
@@ -133,7 +134,7 @@ class Navigation_Menu_Item extends BaseObject
 	/**
 	 * @param Navigation_Menu $menu
 	 */
-	public function setMenu( Navigation_Menu $menu ) : void
+	public function setMenu( Navigation_Menu $menu ): void
 	{
 		$this->menu = $menu;
 		$this->menu_id = $menu->getId();
@@ -142,7 +143,7 @@ class Navigation_Menu_Item extends BaseObject
 	/**
 	 * @return string
 	 */
-	public function getMenuId() : string
+	public function getMenuId(): string
 	{
 		return $this->menu_id;
 	}
@@ -150,7 +151,7 @@ class Navigation_Menu_Item extends BaseObject
 	/**
 	 * @param string $menu_id
 	 */
-	public function setMenuId( string $menu_id ) : void
+	public function setMenuId( string $menu_id ): void
 	{
 		$this->menu_id = $menu_id;
 	}
@@ -161,10 +162,10 @@ class Navigation_Menu_Item extends BaseObject
 	 *
 	 * @return string
 	 */
-	public function getId( bool $absolute=true ) : string
+	public function getId( bool $absolute = true ): string
 	{
-		if($absolute) {
-			return $this->getMenu()->getId().'/'.$this->id;
+		if( $absolute ) {
+			return $this->getMenu()->getId() . '/' . $this->id;
 		}
 
 		return $this->id;
@@ -173,7 +174,7 @@ class Navigation_Menu_Item extends BaseObject
 	/**
 	 * @param string $id
 	 */
-	public function setId( string $id ) : void
+	public function setId( string $id ): void
 	{
 		$this->id = $id;
 	}
@@ -182,15 +183,15 @@ class Navigation_Menu_Item extends BaseObject
 	/**
 	 * @return string
 	 */
-	public function getLabel() : string
+	public function getLabel(): string
 	{
-		if($this->label) {
+		if( $this->label ) {
 			return $this->label;
 		}
 
 		$page = $this->getTargetPage();
 
-		if(!$page) {
+		if( !$page ) {
 			return '';
 		}
 
@@ -201,7 +202,7 @@ class Navigation_Menu_Item extends BaseObject
 	/**
 	 * @param string $label
 	 */
-	public function setLabel( string $label ) : void
+	public function setLabel( string $label ): void
 	{
 		$this->label = $label;
 	}
@@ -209,15 +210,15 @@ class Navigation_Menu_Item extends BaseObject
 	/**
 	 * @return string
 	 */
-	public function getIcon() : string
+	public function getIcon(): string
 	{
-		if($this->icon) {
+		if( $this->icon ) {
 			return $this->icon;
 		}
 
 		$page = $this->getTargetPage();
 
-		if(!$page) {
+		if( !$page ) {
 			return '';
 		}
 
@@ -227,7 +228,7 @@ class Navigation_Menu_Item extends BaseObject
 	/**
 	 * @param string $icon
 	 */
-	public function setIcon( string $icon ) : void
+	public function setIcon( string $icon ): void
 	{
 		$this->icon = $icon;
 	}
@@ -235,7 +236,7 @@ class Navigation_Menu_Item extends BaseObject
 	/**
 	 * @return int
 	 */
-	public function getIndex() : int
+	public function getIndex(): int
 	{
 		return $this->index;
 	}
@@ -243,7 +244,7 @@ class Navigation_Menu_Item extends BaseObject
 	/**
 	 * @param int $index
 	 */
-	public function setIndex( int $index ) : void
+	public function setIndex( int $index ): void
 	{
 		$this->index = $index;
 	}
@@ -251,7 +252,7 @@ class Navigation_Menu_Item extends BaseObject
 	/**
 	 * @return bool
 	 */
-	public function getSeparatorBefore() : bool
+	public function getSeparatorBefore(): bool
 	{
 		return $this->separator_before;
 	}
@@ -259,7 +260,7 @@ class Navigation_Menu_Item extends BaseObject
 	/**
 	 * @param bool $separator_before
 	 */
-	public function setSeparatorBefore( bool $separator_before ) : void
+	public function setSeparatorBefore( bool $separator_before ): void
 	{
 		$this->separator_before = $separator_before;
 	}
@@ -267,7 +268,7 @@ class Navigation_Menu_Item extends BaseObject
 	/**
 	 * @return bool
 	 */
-	public function getSeparatorAfter() : bool
+	public function getSeparatorAfter(): bool
 	{
 		return $this->separator_after;
 	}
@@ -275,7 +276,7 @@ class Navigation_Menu_Item extends BaseObject
 	/**
 	 * @param bool $separator_after
 	 */
-	public function setSeparatorAfter( bool $separator_after ) : void
+	public function setSeparatorAfter( bool $separator_after ): void
 	{
 		$this->separator_after = $separator_after;
 	}
@@ -283,7 +284,7 @@ class Navigation_Menu_Item extends BaseObject
 	/**
 	 * @return string
 	 */
-	public function getPageId() : string
+	public function getPageId(): string
 	{
 		return $this->page_id;
 	}
@@ -291,7 +292,7 @@ class Navigation_Menu_Item extends BaseObject
 	/**
 	 * @param string $page_id
 	 */
-	public function setPageId( string $page_id ) : void
+	public function setPageId( string $page_id ): void
 	{
 		$this->page_id = $page_id;
 	}
@@ -299,7 +300,7 @@ class Navigation_Menu_Item extends BaseObject
 	/**
 	 * @return string
 	 */
-	public function getSiteId() : string
+	public function getSiteId(): string
 	{
 		return $this->site_id;
 	}
@@ -307,7 +308,7 @@ class Navigation_Menu_Item extends BaseObject
 	/**
 	 * @param string $site_id
 	 */
-	public function setSiteId( string $site_id ) : void
+	public function setSiteId( string $site_id ): void
 	{
 		$this->site_id = $site_id;
 	}
@@ -315,7 +316,7 @@ class Navigation_Menu_Item extends BaseObject
 	/**
 	 * @return string
 	 */
-	public function getLocale() : string
+	public function getLocale(): string
 	{
 		return $this->locale;
 	}
@@ -323,7 +324,7 @@ class Navigation_Menu_Item extends BaseObject
 	/**
 	 * @param string $locale
 	 */
-	public function setLocale( string $locale ) : void
+	public function setLocale( string $locale ): void
 	{
 		$this->locale = $locale;
 	}
@@ -331,7 +332,7 @@ class Navigation_Menu_Item extends BaseObject
 	/**
 	 * @return array
 	 */
-	public function getUrlParts() : array
+	public function getUrlParts(): array
 	{
 		return $this->url_parts;
 	}
@@ -339,7 +340,7 @@ class Navigation_Menu_Item extends BaseObject
 	/**
 	 * @param array $url_parts
 	 */
-	public function setUrlParts( array $url_parts ) : void
+	public function setUrlParts( array $url_parts ): void
 	{
 		$this->url_parts = $url_parts;
 	}
@@ -347,7 +348,7 @@ class Navigation_Menu_Item extends BaseObject
 	/**
 	 * @return string
 	 */
-	public function getUrl() : string
+	public function getUrl(): string
 	{
 		if( $this->URL ) {
 			return $this->URL;
@@ -365,7 +366,7 @@ class Navigation_Menu_Item extends BaseObject
 	/**
 	 * @param string $URL
 	 */
-	public function setURL( string $URL ) : void
+	public function setURL( string $URL ): void
 	{
 		$this->URL = $URL;
 	}
@@ -373,7 +374,7 @@ class Navigation_Menu_Item extends BaseObject
 	/**
 	 * @return array
 	 */
-	public function getGetParams() : array
+	public function getGetParams(): array
 	{
 		return $this->get_params;
 	}
@@ -381,7 +382,7 @@ class Navigation_Menu_Item extends BaseObject
 	/**
 	 * @param array $get_params
 	 */
-	public function setGetParams( array $get_params ) : void
+	public function setGetParams( array $get_params ): void
 	{
 		$this->get_params = $get_params;
 	}
@@ -389,7 +390,7 @@ class Navigation_Menu_Item extends BaseObject
 	/**
 	 * @return bool
 	 */
-	public function getAccessAllowed() : bool
+	public function getAccessAllowed(): bool
 	{
 		if( $this->URL ) {
 			return true;
@@ -407,7 +408,7 @@ class Navigation_Menu_Item extends BaseObject
 	/**
 	 * @return Mvc_Page_Interface|null
 	 */
-	public function getTargetPage() : Mvc_Page_Interface|null
+	public function getTargetPage(): Mvc_Page_Interface|null
 	{
 		/**
 		 * @var Mvc_Page $page_class

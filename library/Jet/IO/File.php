@@ -5,6 +5,7 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace Jet;
 
 use finfo;
@@ -37,9 +38,9 @@ class IO_File
 	/**
 	 * @return int
 	 */
-	public static function getDefaultMod() : int
+	public static function getDefaultMod(): int
 	{
-		if( static::$default_mod===null ) {
+		if( static::$default_mod === null ) {
 			static::$default_mod = SysConf_Jet::getIOModFile();
 		}
 
@@ -49,7 +50,7 @@ class IO_File
 	/**
 	 * @param int $default_mod
 	 */
-	public static function setDefaultMod( int $default_mod ) : void
+	public static function setDefaultMod( int $default_mod ): void
 	{
 		static::$default_mod = $default_mod;
 	}
@@ -57,7 +58,7 @@ class IO_File
 	/**
 	 * @return array
 	 */
-	public static function getExtensionsMimesMap() : array
+	public static function getExtensionsMimesMap(): array
 	{
 		return static::$extensions_mimes_map;
 	}
@@ -65,7 +66,7 @@ class IO_File
 	/**
 	 * @param array $extensions_mimes_map
 	 */
-	public static function setExtensionsMimesMap( array $extensions_mimes_map ) : void
+	public static function setExtensionsMimesMap( array $extensions_mimes_map ): void
 	{
 		static::$extensions_mimes_map = $extensions_mimes_map;
 	}
@@ -76,7 +77,7 @@ class IO_File
 	 *
 	 * @return bool
 	 */
-	public static function exists( string $file_path ) : bool
+	public static function exists( string $file_path ): bool
 	{
 		return is_file( $file_path );
 	}
@@ -87,9 +88,9 @@ class IO_File
 	 *
 	 * @return bool
 	 */
-	public static function isWritable( string $file_path ) : bool
+	public static function isWritable( string $file_path ): bool
 	{
-		return ( is_file( $file_path )&&is_writable( $file_path ) );
+		return (is_file( $file_path ) && is_writable( $file_path ));
 	}
 
 	/**
@@ -98,9 +99,9 @@ class IO_File
 	 *
 	 * @return bool
 	 */
-	public static function isReadable( string $file_path ) : bool
+	public static function isReadable( string $file_path ): bool
 	{
-		return ( is_file( $file_path ) && is_readable( $file_path ) );
+		return (is_file( $file_path ) && is_readable( $file_path ));
 	}
 
 	/**
@@ -108,20 +109,20 @@ class IO_File
 	 *
 	 * @param string $file_path
 	 *
-	 * @throws IO_File_Exception
-	 *
 	 * @return int
 	 *
+	 * @throws IO_File_Exception
+	 *
 	 */
-	public static function getSize( string $file_path ) : int
+	public static function getSize( string $file_path ): int
 	{
 
 		$size = filesize( $file_path );
 
-		if( $size===false ) {
+		if( $size === false ) {
 			$error = static::_getLastError();
 			throw new IO_File_Exception(
-				'Unable to get size of file \''.$file_path.'\'. Error message: '.$error['message'],
+				'Unable to get size of file \'' . $file_path . '\'. Error message: ' . $error['message'],
 				IO_File_Exception::CODE_GET_FILE_SIZE_FAILED
 			);
 		}
@@ -131,12 +132,12 @@ class IO_File
 
 	/**
 	 *
-	 * @param string      $file_path
-	 * @param bool        $without_charset (optional)
+	 * @param string $file_path
+	 * @param bool $without_charset (optional)
 	 *
 	 * @return string
 	 */
-	public static function getMimeType( string $file_path, bool $without_charset = true ) : string
+	public static function getMimeType( string $file_path, bool $without_charset = true ): string
 	{
 
 		$mime_type = null;
@@ -157,7 +158,7 @@ class IO_File
 
 		if(
 			$without_charset &&
-			( $pos = strpos( $mime_type, ';' ) )!==false
+			($pos = strpos( $mime_type, ';' )) !== false
 		) {
 			$mime_type = substr( $mime_type, 0, $pos );
 		}
@@ -175,7 +176,7 @@ class IO_File
 	 * @throws IO_File_Exception
 	 *
 	 */
-	public static function write( string $file_path, string $data ) : void
+	public static function write( string $file_path, string $data ): void
 	{
 		static::_write( $file_path, $data, false );
 	}
@@ -185,11 +186,11 @@ class IO_File
 	 *
 	 * @param string $file_path
 	 * @param mixed $data
-	 * @param bool   $append
+	 * @param bool $append
 	 *
 	 * @throws IO_File_Exception
 	 */
-	protected static function _write( string $file_path, mixed $data, bool $append ) : void
+	protected static function _write( string $file_path, mixed $data, bool $append ): void
 	{
 
 		$is_new = false;
@@ -210,7 +211,7 @@ class IO_File
 				$error
 			) {
 				throw new IO_File_Exception(
-					'Unable to write file \''.$file_path.'\'. Error message: '.$error['message'],
+					'Unable to write file \'' . $file_path . '\'. Error message: ' . $error['message'],
 					IO_File_Exception::CODE_WRITE_FAILED
 				);
 			}
@@ -225,19 +226,19 @@ class IO_File
 	/**
 	 *
 	 * @param string $file_path
-	 * @param int|null    $chmod_mask (optional, default: by application configuration)
+	 * @param int|null $chmod_mask (optional, default: by application configuration)
 	 *
 	 * @throws IO_File_Exception
 	 */
-	public static function chmod( string $file_path, ?int $chmod_mask = null ) : void
+	public static function chmod( string $file_path, ?int $chmod_mask = null ): void
 	{
-		$chmod_mask = ( $chmod_mask===null ) ? static::getDefaultMod() : $chmod_mask;
+		$chmod_mask = ($chmod_mask === null) ? static::getDefaultMod() : $chmod_mask;
 
 		if( !chmod( $file_path, $chmod_mask ) ) {
 			$error = static::_getLastError();
 
 			throw new IO_File_Exception(
-				'Unable to chmod \''.$file_path.'\'. Error message: '.$error['message'],
+				'Unable to chmod \'' . $file_path . '\'. Error message: ' . $error['message'],
 				IO_File_Exception::CODE_CHMOD_FAILED
 			);
 		}
@@ -248,12 +249,12 @@ class IO_File
 	/**
 	 *
 	 * @param string $file_path
-	 * @param mixed  $data
+	 * @param mixed $data
 	 *
 	 * @throws IO_File_Exception
 	 *
 	 */
-	public static function append( string $file_path, mixed $data ) : void
+	public static function append( string $file_path, mixed $data ): void
 	{
 		static::_write( $file_path, $data, true );
 	}
@@ -263,11 +264,11 @@ class IO_File
 	 *
 	 * @param string $file_path
 	 *
+	 * @return string
 	 * @throws IO_File_Exception
 	 *
-	 * @return string
 	 */
-	public static function read( string $file_path ) : string
+	public static function read( string $file_path ): string
 	{
 		static::$http_response_header = null;
 		$data = file_get_contents( $file_path );
@@ -286,10 +287,10 @@ class IO_File
 
 		}
 
-		if( $data===false ) {
+		if( $data === false ) {
 			$error = static::_getLastError();
 			throw new IO_File_Exception(
-				'Unable to read file \''.$file_path.'\'. Error message: '.$error['message'],
+				'Unable to read file \'' . $file_path . '\'. Error message: ' . $error['message'],
 				IO_File_Exception::CODE_READ_FAILED
 			);
 		}
@@ -300,7 +301,7 @@ class IO_File
 	/**
 	 * @return array
 	 */
-	public static function getHttpResponseHeader() : array
+	public static function getHttpResponseHeader(): array
 	{
 		return static::$http_response_header;
 	}
@@ -310,18 +311,18 @@ class IO_File
 	 *
 	 * @param string $source_path
 	 * @param string $target_path
-	 * @param bool   $overwrite_if_exists (optional, default: true)
+	 * @param bool $overwrite_if_exists (optional, default: true)
 	 *
 	 * @throws IO_File_Exception
 	 */
 	public static function moveUploadedFile( string $source_path,
 	                                         string $target_path,
-	                                         bool $overwrite_if_exists = true ) : void
+	                                         bool $overwrite_if_exists = true ): void
 	{
 
 		if( !is_uploaded_file( $source_path ) ) {
 			throw new IO_File_Exception(
-				'File \''.$source_path.'\' is not uploaded file', IO_File_Exception::CODE_IS_NOT_UPLOADED_FILE
+				'File \'' . $source_path . '\' is not uploaded file', IO_File_Exception::CODE_IS_NOT_UPLOADED_FILE
 			);
 		}
 
@@ -332,12 +333,12 @@ class IO_File
 	 *
 	 * @param string $source_path
 	 * @param string $target_path
-	 * @param bool   $overwrite_if_exists (optional, default: true)
+	 * @param bool $overwrite_if_exists (optional, default: true)
 	 *
 	 * @throws IO_File_Exception
 	 *
 	 */
-	public static function move( string $source_path, string $target_path, bool $overwrite_if_exists = true ) : void
+	public static function move( string $source_path, string $target_path, bool $overwrite_if_exists = true ): void
 	{
 		static::rename( $source_path, $target_path, $overwrite_if_exists );
 	}
@@ -346,12 +347,12 @@ class IO_File
 	 *
 	 * @param string $source_path
 	 * @param string $target_path
-	 * @param bool   $overwrite_if_exists (optional, default: true)
+	 * @param bool $overwrite_if_exists (optional, default: true)
 	 *
 	 * @throws IO_File_Exception
 	 *
 	 */
-	public static function rename( string $source_path, string $target_path, bool $overwrite_if_exists = true ) : void
+	public static function rename( string $source_path, string $target_path, bool $overwrite_if_exists = true ): void
 	{
 		static::copy( $source_path, $target_path, $overwrite_if_exists );
 		static::delete( $source_path );
@@ -361,11 +362,11 @@ class IO_File
 	 *
 	 * @param string $source_path
 	 * @param string $target_path
-	 * @param bool   $overwrite_if_exists (optional, default: true)
+	 * @param bool $overwrite_if_exists (optional, default: true)
 	 *
 	 * @throws IO_File_Exception
 	 */
-	public static function copy( string $source_path, string $target_path, bool $overwrite_if_exists = true ) : void
+	public static function copy( string $source_path, string $target_path, bool $overwrite_if_exists = true ): void
 	{
 
 		if( file_exists( $target_path ) ) {
@@ -373,7 +374,7 @@ class IO_File
 				static::delete( $target_path );
 			} else {
 				throw new IO_File_Exception(
-					'Unable to copy file \''.$source_path.'\' -> \''.$target_path.'\'. Target already exists.',
+					'Unable to copy file \'' . $source_path . '\' -> \'' . $target_path . '\'. Target already exists.',
 					IO_File_Exception::CODE_COPY_FAILED
 				);
 			}
@@ -382,7 +383,7 @@ class IO_File
 		if( !copy( $source_path, $target_path ) ) {
 			$error = static::_getLastError();
 			throw new IO_File_Exception(
-				'Unable to copy file \''.$source_path.'\' -> \''.$target_path.'\'. Error message: '.$error['message'],
+				'Unable to copy file \'' . $source_path . '\' -> \'' . $target_path . '\'. Error message: ' . $error['message'],
 				IO_File_Exception::CODE_COPY_FAILED
 			);
 		}
@@ -397,12 +398,12 @@ class IO_File
 	 *
 	 * @throws IO_File_Exception
 	 */
-	public static function delete( string $file_path ) : void
+	public static function delete( string $file_path ): void
 	{
 		if( !unlink( $file_path ) ) {
 			$error = static::_getLastError();
 			throw new IO_File_Exception(
-				'Unable to delete file \''.$file_path.'\'. Error message: '.$error['message'],
+				'Unable to delete file \'' . $file_path . '\'. Error message: ' . $error['message'],
 				IO_File_Exception::CODE_DELETE_FAILED
 			);
 		}
@@ -412,20 +413,24 @@ class IO_File
 	 *
 	 * @return int
 	 */
-	public static function getMaxUploadSize() : int
+	public static function getMaxUploadSize(): int
 	{
 
 		$max_upload = ini_get( 'upload_max_filesize' );
 		$max_post = ini_get( 'post_max_size' );
 
-		$units = [ '' => 1, 'K' => 1024, 'M' => 1024*1024, 'G' => 1024*1024*1024 ];
+		$units = [''  => 1,
+		          'K' => 1024,
+		          'M' => 1024 * 1024,
+		          'G' => 1024 * 1024 * 1024
+		];
 
 		$max_post_unit = substr( $max_post, -1 );
 		$max_upload_unit = substr( $max_upload, -1 );
 
 
-		$max_post = $max_post*$units[$max_post_unit];
-		$max_upload = $max_upload*$units[$max_upload_unit];
+		$max_post = $max_post * $units[$max_post_unit];
+		$max_upload = $max_upload * $units[$max_upload_unit];
 
 		return min( $max_upload, $max_post );
 	}
@@ -435,9 +440,13 @@ class IO_File
 	 *
 	 * @return int
 	 */
-	public static function getMaxFileUploads() : int
+	public static function getMaxFileUploads(): int
 	{
-		$units = [ '' => 1, 'K' => 1024, 'M' => 1024*1024, 'G' => 1024*1024*1024 ];
+		$units = [''  => 1,
+		          'K' => 1024,
+		          'M' => 1024 * 1024,
+		          'G' => 1024 * 1024 * 1024
+		];
 
 		$max_file_uploads = (int)ini_get( 'max_file_uploads' );
 		$max_upload = ini_get( 'upload_max_filesize' );
@@ -448,15 +457,15 @@ class IO_File
 		$max_upload_unit = substr( $max_upload, -1 );
 
 
-		$max_post = $max_post*$units[$max_post_unit];
-		$max_upload = $max_upload*$units[$max_upload_unit];
+		$max_post = $max_post * $units[$max_post_unit];
+		$max_upload = $max_upload * $units[$max_upload_unit];
 
-		if($max_upload>$max_post) {
+		if( $max_upload > $max_post ) {
 			$max_upload = $max_post;
 		}
 
-		if( $max_upload*$max_file_uploads>$max_post ) {
-			$max_file_uploads = floor($max_post/$max_upload);
+		if( $max_upload * $max_file_uploads > $max_post ) {
+			$max_file_uploads = floor( $max_post / $max_upload );
 		}
 
 		return (int)$max_file_uploads;
@@ -468,8 +477,8 @@ class IO_File
 	 * @param string $file_path
 	 * @param string|null $file_name (optional, custom file name header value; default: autodetect)
 	 * @param string|null $file_mime (optional, mime type header value; default: autodetect )
-	 * @param int|null    $file_size (optional, file size header value; default: autodetect )
-	 * @param bool   $force_download (optional, force download header, default: false)
+	 * @param int|null $file_size (optional, file size header value; default: autodetect )
+	 * @param bool $force_download (optional, force download header, default: false)
 	 *
 	 * @throws IO_File_Exception
 	 */
@@ -477,12 +486,12 @@ class IO_File
 	                             ?string $file_name = null,
 	                             ?string $file_mime = null,
 	                             ?int $file_size = null,
-	                             bool $force_download = false ) : void
+	                             bool $force_download = false ): void
 	{
 
 		if( !static::isReadable( $file_path ) ) {
 			throw new IO_File_Exception(
-				'File \''.$file_path.'\' is not readable', IO_File_Exception::CODE_READ_FAILED
+				'File \'' . $file_path . '\' is not readable', IO_File_Exception::CODE_READ_FAILED
 			);
 
 		}
@@ -513,11 +522,11 @@ class IO_File
 	/**
 	 * @return array|null
 	 */
-	protected static function _getLastError() : array|null
+	protected static function _getLastError(): array|null
 	{
-		if( class_exists( __NAMESPACE__.'\Debug_ErrorHandler', false ) ) {
+		if( class_exists( __NAMESPACE__ . '\Debug_ErrorHandler', false ) ) {
 			$e = Debug_ErrorHandler::getLastError();
-			if(!$e) {
+			if( !$e ) {
 				return null;
 			}
 

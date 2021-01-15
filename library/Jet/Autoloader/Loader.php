@@ -5,6 +5,7 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace Jet;
 
 /**
@@ -16,7 +17,7 @@ abstract class Autoloader_Loader
 	/**
 	 * @return static
 	 */
-	public static function register() : static
+	public static function register(): static
 	{
 		$loader = new static();
 
@@ -33,5 +34,5 @@ abstract class Autoloader_Loader
 	 *
 	 * @return bool|string
 	 */
-	abstract public function getScriptPath( string $root_namespace, string $namespace, string $class_name ) : bool|string;
+	abstract public function getScriptPath( string $root_namespace, string $namespace, string $class_name ): bool|string;
 }

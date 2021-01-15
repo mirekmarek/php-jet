@@ -5,6 +5,7 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace Jet;
 
 /**
@@ -17,7 +18,7 @@ abstract class DataModel_Definition_Relation extends BaseObject
 	 * @var string
 	 */
 	protected string $this_data_model_class_name;
-	
+
 	/**
 	 * @var string
 	 */
@@ -40,11 +41,10 @@ abstract class DataModel_Definition_Relation extends BaseObject
 	protected array $required_relations = [];
 
 
-
 	/**
 	 * @param string $this_to_class_name
 	 */
-	public function setThisToClass( string $this_to_class_name ) : void
+	public function setThisToClass( string $this_to_class_name ): void
 	{
 		$this->this_data_model_class_name = $this_to_class_name;
 	}
@@ -52,7 +52,7 @@ abstract class DataModel_Definition_Relation extends BaseObject
 	/**
 	 * @return string
 	 */
-	public function getThisDataModelClassName() : string
+	public function getThisDataModelClassName(): string
 	{
 		return $this->this_data_model_class_name;
 	}
@@ -60,7 +60,7 @@ abstract class DataModel_Definition_Relation extends BaseObject
 	/**
 	 * @return string
 	 */
-	public function getThisDataModelName() : string
+	public function getThisDataModelName(): string
 	{
 		return $this->getThisDataModelDefinition()->getModelName();
 	}
@@ -68,7 +68,7 @@ abstract class DataModel_Definition_Relation extends BaseObject
 	/**
 	 * @return DataModel_Definition_Model
 	 */
-	public function getThisDataModelDefinition() : DataModel_Definition_Model
+	public function getThisDataModelDefinition(): DataModel_Definition_Model
 	{
 		return DataModel::getDataModelDefinition( $this->this_data_model_class_name );
 	}
@@ -85,7 +85,7 @@ abstract class DataModel_Definition_Relation extends BaseObject
 	/**
 	 * @return string
 	 */
-	public function getRelatedDataModelClassName() : string
+	public function getRelatedDataModelClassName(): string
 	{
 		return $this->related_data_model_class_name;
 	}
@@ -93,7 +93,7 @@ abstract class DataModel_Definition_Relation extends BaseObject
 	/**
 	 * @return string
 	 */
-	public function getRelatedDataModelName() : string
+	public function getRelatedDataModelName(): string
 	{
 		return $this->getRelatedDataModelDefinition()->getModelName();
 	}
@@ -101,7 +101,7 @@ abstract class DataModel_Definition_Relation extends BaseObject
 	/**
 	 * @return DataModel_Definition_Model
 	 */
-	public function getRelatedDataModelDefinition() : DataModel_Definition_Model
+	public function getRelatedDataModelDefinition(): DataModel_Definition_Model
 	{
 		return DataModel::getDataModelDefinition( $this->related_data_model_class_name );
 	}
@@ -109,7 +109,7 @@ abstract class DataModel_Definition_Relation extends BaseObject
 	/**
 	 * @return string
 	 */
-	public function getJoinType() : string
+	public function getJoinType(): string
 	{
 		return $this->join_type;
 	}
@@ -117,7 +117,7 @@ abstract class DataModel_Definition_Relation extends BaseObject
 	/**
 	 * @param string $join_type
 	 */
-	public function setJoinType( string $join_type ) : void
+	public function setJoinType( string $join_type ): void
 	{
 		$this->join_type = $join_type;
 	}
@@ -133,11 +133,11 @@ abstract class DataModel_Definition_Relation extends BaseObject
 	/**
 	 * @param array $items
 	 */
-	public function setJoinBy( array $items ) : void
+	public function setJoinBy( array $items ): void
 	{
 		$this->join_by = [];
 
-		foreach( $items as $this_property_name=>$related_property_name ) {
+		foreach( $items as $this_property_name => $related_property_name ) {
 			$join_item = new DataModel_Definition_Relation_Join_Item( $this, $this_property_name, $related_property_name );
 
 			$this->join_by[] = $join_item;
@@ -147,7 +147,7 @@ abstract class DataModel_Definition_Relation extends BaseObject
 	/**
 	 * @param DataModel_Definition_Relation_Join_Item $item
 	 */
-	public function addJoinBy( DataModel_Definition_Relation_Join_Item $item ) : void
+	public function addJoinBy( DataModel_Definition_Relation_Join_Item $item ): void
 	{
 		$this->join_by[] = $item;
 	}
@@ -155,7 +155,7 @@ abstract class DataModel_Definition_Relation extends BaseObject
 	/**
 	 * @param DataModel_Definition_Relation_Join_Condition $condition
 	 */
-	public function addJoinCondition( DataModel_Definition_Relation_Join_Condition $condition ) : void
+	public function addJoinCondition( DataModel_Definition_Relation_Join_Condition $condition ): void
 	{
 		$this->join_by[] = $condition;
 
@@ -164,7 +164,7 @@ abstract class DataModel_Definition_Relation extends BaseObject
 	/**
 	 * @return array
 	 */
-	public function getRequiredRelations() : array
+	public function getRequiredRelations(): array
 	{
 		return $this->required_relations;
 	}
@@ -172,7 +172,7 @@ abstract class DataModel_Definition_Relation extends BaseObject
 	/**
 	 * @param array $required_relations
 	 */
-	public function setRequiredRelations( array $required_relations ) : void
+	public function setRequiredRelations( array $required_relations ): void
 	{
 		$this->required_relations = $required_relations;
 	}

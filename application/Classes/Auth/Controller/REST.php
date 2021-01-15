@@ -5,6 +5,7 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace JetApplication;
 
 use Jet\BaseObject;
@@ -37,7 +38,7 @@ class Auth_Controller_REST extends BaseObject implements Auth_Controller_Interfa
 	 *
 	 * @return bool
 	 */
-	public function checkCurrentUser() : bool
+	public function checkCurrentUser(): bool
 	{
 
 		$user = $this->getCurrentUser();
@@ -49,13 +50,13 @@ class Auth_Controller_REST extends BaseObject implements Auth_Controller_Interfa
 		if( $user->isBlocked() ) {
 			$till = $user->isBlockedTill();
 			if(
-				$till!==null &&
-				$till<=Data_DateTime::now()
+				$till !== null &&
+				$till <= Data_DateTime::now()
 			) {
 				$user->unBlock();
 				$user->save();
 			} else {
-				$this->responseNotAuthorized('Yor account is blocked');
+				$this->responseNotAuthorized( 'Yor account is blocked' );
 
 				return false;
 			}
@@ -69,15 +70,15 @@ class Auth_Controller_REST extends BaseObject implements Auth_Controller_Interfa
 	 *
 	 * @return RESTClient|bool
 	 */
-	public function getCurrentUser() : RESTClient|bool
+	public function getCurrentUser(): RESTClient|bool
 	{
 
-		if( $this->current_user!==null ) {
+		if( $this->current_user !== null ) {
 			return $this->current_user;
 		}
 
 		if(
-			!empty($_SERVER['HTTP_AUTHORIZATION']) &&
+			!empty( $_SERVER['HTTP_AUTHORIZATION'] ) &&
 			(
 				!isset( $_SERVER['PHP_AUTH_USER'] ) ||
 				!isset( $_SERVER['PHP_AUTH_PW'] )
@@ -88,7 +89,7 @@ class Auth_Controller_REST extends BaseObject implements Auth_Controller_Interfa
 				$_SERVER['PHP_AUTH_USER'],
 				$_SERVER['PHP_AUTH_PW']
 			]
-				= explode(':' , base64_decode( substr($_SERVER['HTTP_AUTHORIZATION'], 6)));
+				= explode( ':', base64_decode( substr( $_SERVER['HTTP_AUTHORIZATION'], 6 ) ) );
 
 		}
 
@@ -96,21 +97,21 @@ class Auth_Controller_REST extends BaseObject implements Auth_Controller_Interfa
 			!isset( $_SERVER['PHP_AUTH_USER'] ) ||
 			!isset( $_SERVER['PHP_AUTH_PW'] )
 		) {
-			$this->responseNotAuthorized('Please enter username and password');
+			$this->responseNotAuthorized( 'Please enter username and password' );
 		} else {
 			$user = RESTClient::getByIdentity( $_SERVER['PHP_AUTH_USER'], $_SERVER['PHP_AUTH_PW'] );
 
 			if( !$user ) {
 				Logger::warning(
 					static::EVENT_LOGIN_FAILED,
-					'Login failed. Username: \''.$_SERVER['PHP_AUTH_USER'].'\'',
+					'Login failed. Username: \'' . $_SERVER['PHP_AUTH_USER'] . '\'',
 					$_SERVER['PHP_AUTH_USER'],
 					'',
 					[],
 					false
 				);
 
-				$this->responseNotAuthorized('Invalid username or password');
+				$this->responseNotAuthorized( 'Invalid username or password' );
 			}
 
 			/**
@@ -128,14 +129,14 @@ class Auth_Controller_REST extends BaseObject implements Auth_Controller_Interfa
 	/**
 	 *
 	 */
-	public function handleLogin() : void
+	public function handleLogin(): void
 	{
 	}
 
 	/**
 	 * Logout current user
 	 */
-	public function logout() : void
+	public function logout(): void
 	{
 		$this->current_user = null;
 	}
@@ -147,7 +148,7 @@ class Auth_Controller_REST extends BaseObject implements Auth_Controller_Interfa
 	 *
 	 * @return bool
 	 */
-	public function login( string $username, string $password ) : bool
+	public function login( string $username, string $password ): bool
 	{
 
 		$user = RESTClient::getByIdentity( $username, $password );
@@ -165,12 +166,12 @@ class Auth_Controller_REST extends BaseObject implements Auth_Controller_Interfa
 	/**
 	 * @param string $message
 	 */
-	protected function responseNotAuthorized( string $message ) : void
+	protected function responseNotAuthorized( string $message ): void
 	{
 		Debug::setOutputIsJSON( true );
 
 		$error = [
-			'result' => 'error',
+			'result'     => 'error',
 			'error_code' => 'Not authorized',
 			'error_msg'  => $message,
 		];
@@ -178,7 +179,7 @@ class Auth_Controller_REST extends BaseObject implements Auth_Controller_Interfa
 		header( 'WWW-Authenticate: Basic realm="Login"' );
 		Http_Headers::authorizationRequired();
 
-		echo json_encode($error);
+		echo json_encode( $error );
 
 		Application::end();
 
@@ -191,7 +192,7 @@ class Auth_Controller_REST extends BaseObject implements Auth_Controller_Interfa
 	 *
 	 * @return bool
 	 */
-	public function getCurrentUserHasPrivilege( string $privilege, mixed $value ) : bool
+	public function getCurrentUserHasPrivilege( string $privilege, mixed $value ): bool
 	{
 		$current_user = $this->getCurrentUser();
 
@@ -202,7 +203,7 @@ class Auth_Controller_REST extends BaseObject implements Auth_Controller_Interfa
 			return false;
 		}
 
-		return $current_user->hasPrivilege($privilege, $value);
+		return $current_user->hasPrivilege( $privilege, $value );
 	}
 
 
@@ -212,9 +213,9 @@ class Auth_Controller_REST extends BaseObject implements Auth_Controller_Interfa
 	 *
 	 * @return bool
 	 */
-	public function checkModuleActionAccess( string $module_name, string $action ) : bool
+	public function checkModuleActionAccess( string $module_name, string $action ): bool
 	{
-		return $this->getCurrentUserHasPrivilege( Auth_RESTClient_Role::PRIVILEGE_MODULE_ACTION, $module_name.':'.$action );
+		return $this->getCurrentUserHasPrivilege( Auth_RESTClient_Role::PRIVILEGE_MODULE_ACTION, $module_name . ':' . $action );
 	}
 
 
@@ -223,7 +224,7 @@ class Auth_Controller_REST extends BaseObject implements Auth_Controller_Interfa
 	 *
 	 * @return bool
 	 */
-	public function checkPageAccess( Mvc_Page_Interface $page ) : bool
+	public function checkPageAccess( Mvc_Page_Interface $page ): bool
 	{
 
 		$current_user = $this->getCurrentUser();

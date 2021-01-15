@@ -9,39 +9,39 @@ $wizard = ModuleWizards::getCurrentWizard();
 ?>
 <div class="container-fluid">
 
-<?php if($wizard): ?>
-	<div class="row">
-		<div class="offset-md-2 col-md-8">
-			<br/><br/>
-			<h4><?=$wizard->getTitle()?></h4>
-			<p><?=$wizard->getDescription()?></p>
-			<hr/>
+	<?php if( $wizard ): ?>
+		<div class="row">
+			<div class="offset-md-2 col-md-8">
+				<br/><br/>
+				<h4><?= $wizard->getTitle() ?></h4>
+				<p><?= $wizard->getDescription() ?></p>
+				<hr/>
+			</div>
 		</div>
-	</div>
-	<div class="row">
-		<div class="offset-md-3 col-md-6">
-			<?=Application::getGeneralView()->render('messages');?>
-			<?=$wizard->getView()->render('main');?>
+		<div class="row">
+			<div class="offset-md-3 col-md-6">
+				<?= Application::getGeneralView()->render( 'messages' ); ?>
+				<?= $wizard->getView()->render( 'main' ); ?>
+			</div>
 		</div>
-	</div>
-<?php else: ?>
-	<br/><br/><br/>
-	<div class="row">
-		<div class="offset-md-3 col-md-6">
-			<table class="table table-striped">
-				<?php foreach( ModuleWizards::getList() as $wizard ): ?>
-					<tr>
-						<td>
-							<b><?=$wizard->getTitle()?></b>
-							<p><?=$wizard->getDescription()?></p>
-							<div align="right">
-								<?=UI::button(Tr::_('Create'))->setClass('info')->setUrl(Http_Request::currentURI(['wizard'=>$wizard->getName()]))?>
-							</div>
-						</td>
-					</tr>
-				<?php endforeach; ?>
-			</table>
+	<?php else: ?>
+		<br/><br/><br/>
+		<div class="row">
+			<div class="offset-md-3 col-md-6">
+				<table class="table table-striped">
+					<?php foreach( ModuleWizards::getList() as $wizard ): ?>
+						<tr>
+							<td>
+								<b><?= $wizard->getTitle() ?></b>
+								<p><?= $wizard->getDescription() ?></p>
+								<div align="right">
+									<?= UI::button( Tr::_( 'Create' ) )->setClass( 'info' )->setUrl( Http_Request::currentURI( ['wizard' => $wizard->getName()] ) ) ?>
+								</div>
+							</td>
+						</tr>
+					<?php endforeach; ?>
+				</table>
+			</div>
 		</div>
-	</div>
-<?php endif; ?>
+	<?php endif; ?>
 </div>

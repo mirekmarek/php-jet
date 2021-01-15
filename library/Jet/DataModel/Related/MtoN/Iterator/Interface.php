@@ -5,6 +5,7 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace Jet;
 
 /**
@@ -24,18 +25,18 @@ interface DataModel_Related_MtoN_Iterator_Interface extends DataModel_Related_It
 	 *
 	 * @throws DataModel_Exception
 	 */
-	public function addItems( array $N_instances ) : void;
+	public function addItems( array $N_instances ): void;
 
 	/**
 	 * @param DataModel[] $N_instances
 	 *
 	 * @throws DataModel_Exception
 	 */
-	public function setItems( array $N_instances ) : void;
+	public function setItems( array $N_instances ): void;
 
 	/**
 	 * @return DataModel_IDController[]
 	 */
-	public function getIds() : array;
+	public function getIds(): array;
 
 }

@@ -8,7 +8,7 @@ use Jet\Mvc_View;
  * @var Auth_RESTClient_User $user
  */
 
-$user = $this->getRaw('user');
+$user = $this->getRaw( 'user' );
 ?>
 <h1>Vaše heslo k REST API bylo vyresetováno</h1>
 
@@ -17,11 +17,11 @@ $user = $this->getRaw('user');
 <table>
 	<tr>
 		<td>Uživatelské jméno:</td>
-		<td><?=$user->getUsername()?></td>
+		<td><?= $user->getUsername() ?></td>
 	</tr>
 	<tr>
 		<td>Heslo:</td>
-		<td><?=$this->getString('password')?></td>
+		<td><?= $this->getString( 'password' ) ?></td>
 	</tr>
 </table>
 

@@ -5,6 +5,7 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace JetStudio;
 
 use Jet\Application_Modules;
@@ -24,7 +25,8 @@ use Jet\UI_messages;
 /**
  *
  */
-abstract class ModuleWizard extends BaseObject {
+abstract class ModuleWizard extends BaseObject
+{
 
 	/**
 	 * @var ?string
@@ -57,14 +59,13 @@ abstract class ModuleWizard extends BaseObject {
 	protected array $values = [];
 
 
-
 	/**
 	 * @return string
 	 */
-	public function getName() : string
+	public function getName(): string
 	{
-		if(!$this->_name) {
-			$this->_name = substr(get_called_class(), 23, -7);
+		if( !$this->_name ) {
+			$this->_name = substr( get_called_class(), 23, -7 );
 		}
 
 		return $this->_name;
@@ -73,19 +74,19 @@ abstract class ModuleWizard extends BaseObject {
 	/**
 	 * @return string
 	 */
-	public function getBaseDir() : string
+	public function getBaseDir(): string
 	{
-		return ModuleWizards::getBasePath().$this->getName().'/';
+		return ModuleWizards::getBasePath() . $this->getName() . '/';
 	}
 
 	/**
 	 * @return string
 	 */
-	public function getTrNamespace() : string
+	public function getTrNamespace(): string
 	{
 		$ns = get_called_class();
 
-		$ns = str_replace('\\', '.', $ns);
+		$ns = str_replace( '\\', '.', $ns );
 
 		return $ns;
 	}
@@ -93,39 +94,39 @@ abstract class ModuleWizard extends BaseObject {
 	/**
 	 * @return string
 	 */
-	public function getTitle() : string
+	public function getTitle(): string
 	{
-		return Tr::_($this->title, [], $this->getTrNamespace());
+		return Tr::_( $this->title, [], $this->getTrNamespace() );
 	}
 
 	/**
 	 * @return string
 	 */
-	public function getDescription() : string
+	public function getDescription(): string
 	{
-		return Tr::_($this->description, [], $this->getTrNamespace());
+		return Tr::_( $this->description, [], $this->getTrNamespace() );
 	}
 
 	/**
 	 * @return Form
 	 */
-	abstract public function generateSetupForm() : Form;
+	abstract public function generateSetupForm(): Form;
 
 	/**
 	 * @param array $fields
 	 */
-	public function generateSetupForm_mainFields( array &$fields ) : void
+	public function generateSetupForm_mainFields( array &$fields ): void
 	{
-		$module_name = new Form_Field_Input('NAME', 'Name:', '' );
-		$module_name->setCatcher(function($value) {
+		$module_name = new Form_Field_Input( 'NAME', 'Name:', '' );
+		$module_name->setCatcher( function( $value ) {
 			$this->module_name = $value;
-		});
+		} );
 
-		$module_name->setIsRequired(true);
-		$module_name->setErrorMessages([
-			Form_Field_Input::ERROR_CODE_EMPTY => 'Please enter module name',
+		$module_name->setIsRequired( true );
+		$module_name->setErrorMessages( [
+			Form_Field_Input::ERROR_CODE_EMPTY          => 'Please enter module name',
 			Form_Field_Input::ERROR_CODE_INVALID_FORMAT => 'Invalid module name format'
-		]);
+		] );
 		$module_name->setValidator( function( Form_Field_Input $field ) {
 			$name = $field->getValue();
 
@@ -134,42 +135,41 @@ abstract class ModuleWizard extends BaseObject {
 
 		$fields[] = $module_name;
 
-		$module_label = new Form_Field_Input('LABEL', 'Label:' );
-		$module_label->setCatcher(function($value) {
+		$module_label = new Form_Field_Input( 'LABEL', 'Label:' );
+		$module_label->setCatcher( function( $value ) {
 			$this->values['LABEL'] = $value;
-		});
-		$module_label->setIsRequired(true);
-		$module_label->setErrorMessages([
+		} );
+		$module_label->setIsRequired( true );
+		$module_label->setErrorMessages( [
 			Form_Field_Input::ERROR_CODE_EMPTY => 'Please enter module label'
-		]);
+		] );
 		$fields[] = $module_label;
 
 
-
-		$description = new Form_Field_Input('DESCRIPTION', 'Description:' );
-		$description->setCatcher(function($value) {
-			$this->values['DESCRIPTION']  =$value;
-		});
+		$description = new Form_Field_Input( 'DESCRIPTION', 'Description:' );
+		$description->setCatcher( function( $value ) {
+			$this->values['DESCRIPTION'] = $value;
+		} );
 		$fields[] = $description;
 
 
-		$author = new Form_Field_Input('AUTHOR', 'Author:' );
-		$author->setCatcher(function($value) {
+		$author = new Form_Field_Input( 'AUTHOR', 'Author:' );
+		$author->setCatcher( function( $value ) {
 			$this->values['AUTHOR'] = $value;
-		});
+		} );
 		$fields[] = $author;
 
-		$license = new Form_Field_Input('LICENSE', 'License:' );
-		$license->setCatcher(function($value) {
+		$license = new Form_Field_Input( 'LICENSE', 'License:' );
+		$license->setCatcher( function( $value ) {
 			$this->values['LICENSE'] = $value;
-		});
+		} );
 		$fields[] = $license;
 
 
-		$copyright =new Form_Field_Input('COPYRIGHT', 'Copyright:' );
-		$copyright->setCatcher(function($value) {
+		$copyright = new Form_Field_Input( 'COPYRIGHT', 'Copyright:' );
+		$copyright->setCatcher( function( $value ) {
 			$this->values['COPYRIGHT'] = $value;
-		});
+		} );
 		$fields[] = $copyright;
 
 
@@ -178,28 +178,27 @@ abstract class ModuleWizard extends BaseObject {
 	/**
 	 * @return Form
 	 */
-	public function getSetupForm() : Form
+	public function getSetupForm(): Form
 	{
-		if(!$this->setup_form) {
+		if( !$this->setup_form ) {
 			$this->setup_form = $this->generateSetupForm();
 			$this->setup_form->setCustomTranslatorNamespace( $this->getTrNamespace() );
 
-			$this->setup_form->setAction( ModuleWizards::getActionUrl('create') );
+			$this->setup_form->setAction( ModuleWizards::getActionUrl( 'create' ) );
 		}
 
 		return $this->setup_form;
 	}
 
 
-
 	/**
 	 * @return bool
 	 */
-	public function catchSetupForm() : bool
+	public function catchSetupForm(): bool
 	{
 		$form = $this->getSetupForm();
 
-		if($form->catchInput() && $form->validate()) {
+		if( $form->catchInput() && $form->validate() ) {
 			$form->catchData();
 
 			return true;
@@ -212,10 +211,10 @@ abstract class ModuleWizard extends BaseObject {
 	 *
 	 * @return Mvc_View
 	 */
-	public function getView() : Mvc_View
+	public function getView(): Mvc_View
 	{
-		$view = new Mvc_View(  $this->getBaseDir().'views/' );
-		$view->setVar('wizard', $this);
+		$view = new Mvc_View( $this->getBaseDir() . 'views/' );
+		$view->setVar( 'wizard', $this );
 
 		return $view;
 	}
@@ -223,9 +222,9 @@ abstract class ModuleWizard extends BaseObject {
 	/**
 	 *
 	 */
-	public function handleAction() : void
+	public function handleAction(): void
 	{
-		$action = Http_Request::GET()->getString('wizard_action');
+		$action = Http_Request::GET()->getString( 'wizard_action' );
 
 		if(
 			!$action ||
@@ -234,9 +233,9 @@ abstract class ModuleWizard extends BaseObject {
 			return;
 		}
 
-		$controller = $this->getBaseDir().'controllers/'.$action.'.php';
+		$controller = $this->getBaseDir() . 'controllers/' . $action . '.php';
 
-		if(!IO_File::exists($controller)) {
+		if( !IO_File::exists( $controller ) ) {
 			return;
 		}
 
@@ -248,46 +247,46 @@ abstract class ModuleWizard extends BaseObject {
 	/**
 	 *
 	 */
-	abstract public function init() : void;
+	abstract public function init(): void;
 
 	/**
 	 * @return string
 	 */
-	public function getModuleNamespace() : string
+	public function getModuleNamespace(): string
 	{
-		return Application_Modules::getModuleRootNamespace().'\\'.str_replace('.', '\\', $this->module_name);
+		return Application_Modules::getModuleRootNamespace() . '\\' . str_replace( '.', '\\', $this->module_name );
 	}
 
 	/**
 	 * @return string
 	 */
-	public function getModuleTemplateDir() : string
+	public function getModuleTemplateDir(): string
 	{
-		return ProjectConf_Path::getTemplates().'module_wizard/'.$this->getName();
+		return ProjectConf_Path::getTemplates() . 'module_wizard/' . $this->getName();
 	}
 
 	/**
 	 * @return bool
 	 */
-	public function create() : bool
+	public function create(): bool
 	{
 
 		$this->values['NAMESPACE'] = $this->getModuleNamespace();
 
 		try {
 			$source_dir = $this->getModuleTemplateDir();
-			$target_dir = Application_Modules::getBasePath().str_replace('.', DIRECTORY_SEPARATOR, $this->module_name);
+			$target_dir = Application_Modules::getBasePath() . str_replace( '.', DIRECTORY_SEPARATOR, $this->module_name );
 
 
-			IO_Dir::copy($source_dir, $target_dir);
+			IO_Dir::copy( $source_dir, $target_dir );
 
 			$this->create_applyValues( $target_dir );
 		} catch( Exception $e ) {
-			Application::handleError($e);
+			Application::handleError( $e );
 			return false;
 		}
 
-		UI_messages::success( Tr::_('Module <b>%NAME%</b> has been created', ['NAME'=>$this->module_name], 'module_wizard') );
+		UI_messages::success( Tr::_( 'Module <b>%NAME%</b> has been created', ['NAME' => $this->module_name], 'module_wizard' ) );
 
 		return true;
 	}
@@ -295,26 +294,26 @@ abstract class ModuleWizard extends BaseObject {
 	/**
 	 * @param string $dir
 	 */
-	protected function create_applyValues( string $dir ) : void
+	protected function create_applyValues( string $dir ): void
 	{
-		$list = IO_Dir::getFilesList($dir);
+		$list = IO_Dir::getFilesList( $dir );
 
-		foreach($list as $path=>$name) {
-			$script = IO_File::read($path);
+		foreach( $list as $path => $name ) {
+			$script = IO_File::read( $path );
 
 			$values = [];
 
-			foreach($this->values as $k=>$v) {
-				$values['<'.$k.'>'] = $v;
+			foreach( $this->values as $k => $v ) {
+				$values['<' . $k . '>'] = $v;
 			}
 
 			$script = Data_Text::replaceData( $script, $values );
 
-			IO_File::write($path, $script);
+			IO_File::write( $path, $script );
 		}
 
-		$list = IO_Dir::getSubdirectoriesList($dir);
-		foreach($list as $path=>$name) {
+		$list = IO_Dir::getSubdirectoriesList( $dir );
+		foreach( $list as $path => $name ) {
 			$this->create_applyValues( $path );
 		}
 
@@ -323,9 +322,9 @@ abstract class ModuleWizard extends BaseObject {
 	/**
 	 *
 	 */
-	public function redirectToModuleEditing() : void
+	public function redirectToModuleEditing(): void
 	{
-		Http_Headers::movedTemporary('modules.php?module='.urlencode($this->module_name));
+		Http_Headers::movedTemporary( 'modules.php?module=' . urlencode( $this->module_name ) );
 		Application::end();
 	}
 }

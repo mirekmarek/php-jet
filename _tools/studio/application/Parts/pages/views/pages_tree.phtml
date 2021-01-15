@@ -1,4 +1,5 @@
 <?php
+
 namespace JetStudio;
 
 
@@ -9,7 +10,7 @@ use Jet\Tr;
 
 $UI_tree = new UI_tree();
 $UI_tree->setData( Pages::getCurrentPageTree() );
-$UI_tree->setRootId(Pages_Page::HOMEPAGE_ID);
+$UI_tree->setRootId( Pages_Page::HOMEPAGE_ID );
 //$UI_tree->setShowAll(true);
 $UI_tree->setSelectedId( Pages::getCurrentPageId() );
 
@@ -17,18 +18,18 @@ $renderer = function( Data_Tree_Node $node ) {
 
 	$page = Pages::getPage( $node->getId() );
 
-	if(!$page->getIsActive()): echo '<span class="badge badge-danger">'.UI::icon('times')->setTitle(Tr::_('Is not active')).'</span>'; endif;
+	if( !$page->getIsActive() ): echo '<span class="badge badge-danger">' . UI::icon( 'times' )->setTitle( Tr::_( 'Is not active' ) ) . '</span>'; endif;
 	?>
-	<a href="<?=Pages::getActionUrl('', [], $node->getId())?>" style="font-size: 16px;"><?=$node->getLabel()?></a>
+	<a href="<?= Pages::getActionUrl( '', [], $node->getId() ) ?>" style="font-size: 16px;"><?= $node->getLabel() ?></a>
 
 	<span style="font-size: 11px;">
 	<?php
 
-	if($page->getIsSecret()): echo '&nbsp;&nbsp;'.UI::icon('user-secret')->setTitle(Tr::_('Is secret')); endif;
-	if($page->getSSLRequired()): echo '&nbsp;&nbsp;'.UI::icon('lock')->setTitle(Tr::_('SSL required')); endif;
+	if( $page->getIsSecret() ): echo '&nbsp;&nbsp;' . UI::icon( 'user-secret' )->setTitle( Tr::_( 'Is secret' ) ); endif;
+	if( $page->getSSLRequired() ): echo '&nbsp;&nbsp;' . UI::icon( 'lock' )->setTitle( Tr::_( 'SSL required' ) ); endif;
 
-	if($page->getOutput()):
-		echo '&nbsp;&nbsp;'.UI::icon('file')->setTitle(Tr::_('Is static page'));
+	if( $page->getOutput() ):
+		echo '&nbsp;&nbsp;' . UI::icon( 'file' )->setTitle( Tr::_( 'Is static page' ) );
 	endif;
 	?>
 	</span>

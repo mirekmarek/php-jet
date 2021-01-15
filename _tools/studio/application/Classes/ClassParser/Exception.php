@@ -5,6 +5,7 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace JetStudio;
 
 use Jet\Exception;
@@ -12,7 +13,8 @@ use Jet\Exception;
 /**
  *
  */
-class ClassParser_Exception extends Exception{
+class ClassParser_Exception extends Exception
+{
 
 	/**
 	 * @var string
@@ -22,7 +24,7 @@ class ClassParser_Exception extends Exception{
 	/**
 	 * @return string
 	 */
-	public function getInvalidSourceCode() : string
+	public function getInvalidSourceCode(): string
 	{
 		return $this->invalid_source_code;
 	}
@@ -34,7 +36,6 @@ class ClassParser_Exception extends Exception{
 	{
 		$this->invalid_source_code = $invalid_source_code;
 	}
-
 
 
 }

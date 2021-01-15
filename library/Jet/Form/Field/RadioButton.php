@@ -5,10 +5,11 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace Jet;
 
 /**
- * 
+ *
  */
 class Form_Field_RadioButton extends Form_Field
 {
@@ -74,7 +75,7 @@ class Form_Field_RadioButton extends Form_Field
 	 *
 	 * @param Data_Array $data
 	 */
-	public function catchInput( Data_Array $data ) : void
+	public function catchInput( Data_Array $data ): void
 	{
 		$this->_value = null;
 		$this->_has_value = true;
@@ -91,9 +92,9 @@ class Form_Field_RadioButton extends Form_Field
 	/**
 	 * @return bool
 	 */
-	public function validate() : bool
+	public function validate(): bool
 	{
-		if( $this->_value===null && !$this->is_required ) {
+		if( $this->_value === null && !$this->is_required ) {
 			return true;
 		}
 
@@ -113,7 +114,7 @@ class Form_Field_RadioButton extends Form_Field
 	/**
 	 * @return array
 	 */
-	public function getRequiredErrorCodes() : array
+	public function getRequiredErrorCodes(): array
 	{
 		$codes = [];
 

@@ -9,16 +9,16 @@ use Jet\Mvc_View;
  * @var Mvc_View $this
  */
 
-$add_page_dialog = UI::dialog('add_page_dialog', Tr::_('Add page'), 600);
+$add_page_dialog = UI::dialog( 'add_page_dialog', Tr::_( 'Add page' ), 600 );
 ?>
 
-<?=$add_page_dialog->start()?>
-	<div id="add_page_form_area">
-		<?=$this->render('page/create/form') ?>
-	</div>
-<?=$add_page_dialog->footer()?>
-	<?=UI::button_save(Tr::_('Add page'))->setOnclick('Modules.editModule.addPage.send()')?>
-<?=$add_page_dialog->end()?>
+<?= $add_page_dialog->start() ?>
+<div id="add_page_form_area">
+	<?= $this->render( 'page/create/form' ) ?>
+</div>
+<?= $add_page_dialog->footer() ?>
+<?= UI::button_save( Tr::_( 'Add page' ) )->setOnclick( 'Modules.editModule.addPage.send()' ) ?>
+<?= $add_page_dialog->end() ?>
 
 
 

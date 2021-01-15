@@ -5,6 +5,7 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace JetStudio;
 
 use Jet\BaseObject;
@@ -42,7 +43,7 @@ class ClassCreator_Class_Constant extends BaseObject
 	/**
 	 * @return string
 	 */
-	public function getName() : string
+	public function getName(): string
 	{
 		return $this->name;
 	}
@@ -50,7 +51,7 @@ class ClassCreator_Class_Constant extends BaseObject
 	/**
 	 * @param string $name
 	 */
-	public function setName( string $name ) : void
+	public function setName( string $name ): void
 	{
 		$this->name = $name;
 	}
@@ -58,7 +59,7 @@ class ClassCreator_Class_Constant extends BaseObject
 	/**
 	 * @return mixed
 	 */
-	public function getValue() : mixed
+	public function getValue(): mixed
 	{
 		return $this->value;
 	}
@@ -66,7 +67,7 @@ class ClassCreator_Class_Constant extends BaseObject
 	/**
 	 * @param mixed $value
 	 */
-	public function setValue( mixed $value ) : void
+	public function setValue( mixed $value ): void
 	{
 		$this->value = $value;
 	}
@@ -74,7 +75,7 @@ class ClassCreator_Class_Constant extends BaseObject
 	/**
 	 * @return string
 	 */
-	public function toString() : string
+	public function toString(): string
 	{
 		$res = '';
 
@@ -82,24 +83,24 @@ class ClassCreator_Class_Constant extends BaseObject
 		$nl = ClassCreator_Class::getNl();
 
 		$value = $this->value;
-		if(is_array($value)) {
+		if( is_array( $value ) ) {
 
-			$value = (new Data_Array($value))->export();
+			$value = (new Data_Array( $value ))->export();
 
-			$value = explode("\n", $value);
+			$value = explode( "\n", $value );
 
-			foreach( $value as $i=>$v ) {
-				if($i>0) {
-					$value[$i] = $ident.$v;
+			foreach( $value as $i => $v ) {
+				if( $i > 0 ) {
+					$value[$i] = $ident . $v;
 				}
 			}
 
-			$value = implode("\n", $value);
+			$value = implode( "\n", $value );
 		} else {
-			$value = var_export( $value, true ).';';
+			$value = var_export( $value, true ) . ';';
 		}
 
-		$res .= $ident.'const '.$this->name.' = '.$value.$nl;
+		$res .= $ident . 'const ' . $this->name . ' = ' . $value . $nl;
 
 		return $res;
 	}
@@ -107,7 +108,7 @@ class ClassCreator_Class_Constant extends BaseObject
 	/**
 	 * @return string
 	 */
-	public function __toString() : string
+	public function __toString(): string
 	{
 		return $this->toString();
 	}

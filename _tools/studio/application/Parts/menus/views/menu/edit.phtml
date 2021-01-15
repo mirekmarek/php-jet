@@ -10,38 +10,38 @@ $menu = Menus::getCurrentMenu();
 $form = $menu->getEditForm();
 
 
-$form->setDefaultLabelWidth([
+$form->setDefaultLabelWidth( [
 	Form::LJ_SIZE_MEDIUM => 2
-]);
-$form->setDefaultFieldWidth([
+] );
+$form->setDefaultFieldWidth( [
 	Form::LJ_SIZE_MEDIUM => 6
-]);
+] );
 
-$delete_menu_dialog = UI::dialog('delete_menu_dialog', Tr::_('Delete menu'), 600);
+$delete_menu_dialog = UI::dialog( 'delete_menu_dialog', Tr::_( 'Delete menu' ), 600 );
 
 ?>
 
-<?=$form->start()?>
-	<?=$form->getCommonMessage();?>
-	<?=$form->field('id')?>
-	<?=$form->field('label')?>
-	<?=$form->field('icon')?>
-	<?=$form->field('index')?>
+<?= $form->start() ?>
+<?= $form->getCommonMessage(); ?>
+<?= $form->field( 'id' ) ?>
+<?= $form->field( 'label' ) ?>
+<?= $form->field( 'icon' ) ?>
+<?= $form->field( 'index' ) ?>
 
-	<?php if($menu->getMenuItems()): ?>
+<?php if( $menu->getMenuItems() ): ?>
 	<div class="row">
-		<label class="col-md-2 control-label"><?=Tr::_('Items:')?></label>
+		<label class="col-md-2 control-label"><?= Tr::_( 'Items:' ) ?></label>
 		<div class="col-md-6">
 			<div id="items_sort_area">
 				<?php foreach( $menu->getMenuItems() as $item ): ?>
-					<div class="list-group-item menu-item-sort-item" data-id="<?=$item->getId()?>">
-						<input type="hidden" name="items_sort[]" value="<?=$item->getId()?>">
+					<div class="list-group-item menu-item-sort-item" data-id="<?= $item->getId() ?>">
+						<input type="hidden" name="items_sort[]" value="<?= $item->getId() ?>">
 						<table>
 							<tr>
 								<td><span class="fa fa-arrows-v" style="font-size:16px;padding-right: 5px"></span></td>
 
 								<td>
-									<a href="<?=Menus::getActionUrl('', [], null, null, $item->getId())?>"><?=$item->getLabel()?></a>
+									<a href="<?= Menus::getActionUrl( '', [], null, null, $item->getId() ) ?>"><?= $item->getLabel() ?></a>
 								</td>
 							</tr>
 						</table>
@@ -50,22 +50,22 @@ $delete_menu_dialog = UI::dialog('delete_menu_dialog', Tr::_('Delete menu'), 600
 			</div>
 		</div>
 	</div>
-	<?php endif; ?>
+<?php endif; ?>
 
-<?=$form->end()?>
+<?= $form->end() ?>
 
 <?php
 echo $delete_menu_dialog->start();
-	echo Tr::_('Do you really want to delete this menu?');
+echo Tr::_( 'Do you really want to delete this menu?' );
 echo $delete_menu_dialog->footer();
-	echo UI::button_delete()->setUrl( Menus::getActionUrl('menu/delete') );
+echo UI::button_delete()->setUrl( Menus::getActionUrl( 'menu/delete' ) );
 echo $delete_menu_dialog->end();
 ?>
 
-<?=Application::getView()->render('item/create/dialog');?>
+<?= Application::getView()->render( 'item/create/dialog' ); ?>
 
 <script type="text/javascript">
-	$(document).ready( function() {
+	$(document).ready(function () {
 		Menus.initSort();
-	} );
+	});
 </script>

@@ -19,7 +19,7 @@ return [
 				'title'                  => 'Visitors - Users',
 				'relative_path_fragment' => 'visitors-users',
 				'icon'                   => 'users',
-				'contents' => [
+				'contents'               => [
 					[
 						'controller_action' => 'default'
 					]

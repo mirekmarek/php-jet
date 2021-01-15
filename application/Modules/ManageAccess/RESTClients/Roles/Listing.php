@@ -18,7 +18,8 @@ use Jet\Data_Listing_Filter_search;
 /**
  *
  */
-class Listing extends Data_Listing {
+class Listing extends Data_Listing
+{
 
 	use Data_Listing_Filter_search;
 
@@ -26,7 +27,7 @@ class Listing extends Data_Listing {
 	 * @var array
 	 */
 	protected array $grid_columns = [
-		'_edit_'     => [
+		'_edit_'      => [
 			'title'         => '',
 			'disallow_sort' => true
 		],
@@ -46,7 +47,7 @@ class Listing extends Data_Listing {
 	 * @return Role[]|DataModel_Fetch_Instances
 	 * @noinspection PhpDocSignatureInspection
 	 */
-	protected function getList() : DataModel_Fetch_Instances
+	protected function getList(): DataModel_Fetch_Instances
 	{
 		return Role::getList();
 	}
@@ -54,18 +55,18 @@ class Listing extends Data_Listing {
 	/**
 	 *
 	 */
-	protected function filter_search_getWhere() : void
+	protected function filter_search_getWhere(): void
 	{
-		if(!$this->search) {
+		if( !$this->search ) {
 			return;
 		}
 
-		$search = '%'.$this->search.'%';
-		$this->filter_addWhere([
-			'name *' => $search,
+		$search = '%' . $this->search . '%';
+		$this->filter_addWhere( [
+			'name *'        => $search,
 			'OR',
 			'description *' => $search,
-		]);
+		] );
 
 	}
 }

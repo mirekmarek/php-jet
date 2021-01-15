@@ -5,6 +5,7 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace Jet;
 
 use Throwable;
@@ -21,11 +22,19 @@ class Debug_ErrorHandler_Error
 	 * @var array
 	 */
 	protected static array $PHP_errors_txt = [
-		E_ERROR             => 'PHP Error', E_WARNING => 'PHP Warning', E_PARSE => 'PHP Parsing Error',
-		E_NOTICE            => 'PHP Notice', E_CORE_ERROR => 'PHP Core Error', E_CORE_WARNING => 'PHP Core Warning',
-		E_COMPILE_ERROR     => 'PHP Compile Error', E_COMPILE_WARNING => 'PHP Compile Warning',
-		E_RECOVERABLE_ERROR => 'PHP Recoverable error', E_USER_ERROR => 'PHP User Error',
-		E_USER_WARNING      => 'PHP User Warning', E_USER_NOTICE => 'PHP User Notice', E_STRICT => 'PHP Runtime Notice',
+		E_ERROR             => 'PHP Error',
+		E_WARNING           => 'PHP Warning',
+		E_PARSE             => 'PHP Parsing Error',
+		E_NOTICE            => 'PHP Notice',
+		E_CORE_ERROR        => 'PHP Core Error',
+		E_CORE_WARNING      => 'PHP Core Warning',
+		E_COMPILE_ERROR     => 'PHP Compile Error',
+		E_COMPILE_WARNING   => 'PHP Compile Warning',
+		E_RECOVERABLE_ERROR => 'PHP Recoverable error',
+		E_USER_ERROR        => 'PHP User Error',
+		E_USER_WARNING      => 'PHP User Warning',
+		E_USER_NOTICE       => 'PHP User Notice',
+		E_STRICT            => 'PHP Runtime Notice',
 		E_DEPRECATED        => 'PHP Deprecated',
 
 	];
@@ -112,7 +121,7 @@ class Debug_ErrorHandler_Error
 	/**
 	 * @param callable $formatter
 	 */
-	public static function setFormatter( callable $formatter ) : void
+	public static function setFormatter( callable $formatter ): void
 	{
 		self::$formatter = $formatter;
 	}
@@ -124,21 +133,22 @@ class Debug_ErrorHandler_Error
 	 *
 	 * @return string
 	 */
-	protected static function getPHPErrorText( int $error_number ) : string
+	protected static function getPHPErrorText( int $error_number ): string
 	{
-		return isset( static::$PHP_errors_txt[$error_number] ) ?
+		return isset( static::$PHP_errors_txt[$error_number] )
+			?
 			static::$PHP_errors_txt[$error_number]
 			:
-			'UNKNOWN ('.(int)$error_number.')';
+			'UNKNOWN (' . (int)$error_number . ')';
 	}
 
 	/**
 	 *
 	 * @return string
 	 */
-	protected function getCurrentURL() : string
+	protected function getCurrentURL(): string
 	{
-		if( php_sapi_name()=='cli' ) {
+		if( php_sapi_name() == 'cli' ) {
 			return isset( $_SERVER['SCRIPT_FILENAME'] ) ? $_SERVER['SCRIPT_FILENAME'] : 'CLI';
 		} else {
 			if(
@@ -148,7 +158,7 @@ class Debug_ErrorHandler_Error
 				return 'unknown';
 			}
 
-			return $_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
+			return $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
 		}
 	}
 
@@ -159,7 +169,7 @@ class Debug_ErrorHandler_Error
 	 *
 	 * @return string
 	 */
-	public static function formatVariable( mixed $var ) : string
+	public static function formatVariable( mixed $var ): string
 	{
 
 		if( is_object( $var ) ) {
@@ -167,8 +177,8 @@ class Debug_ErrorHandler_Error
 		}
 
 		$result = print_r( $var, true );
-		if( strlen( $result )>2048 ) {
-			$result = substr( $result, 0, 2048 ).' ...';
+		if( strlen( $result ) > 2048 ) {
+			$result = substr( $result, 0, 2048 ) . ' ...';
 		}
 
 		return $result;
@@ -179,19 +189,19 @@ class Debug_ErrorHandler_Error
 	 *
 	 * @return Debug_ErrorHandler_Error
 	 */
-	public static function newException( Throwable $exception ) : Debug_ErrorHandler_Error
+	public static function newException( Throwable $exception ): Debug_ErrorHandler_Error
 	{
 		$e = new static();
 
 		$e->exception = $exception;
-		$e->txt = 'Uncaught exception: '.get_class( $exception );
+		$e->txt = 'Uncaught exception: ' . get_class( $exception );
 		$e->code = $exception->getCode();
 		$e->message = $exception->getMessage();
 		$e->file = $exception->getFile();
 		$e->line = $exception->getLine();
 		$backtrace = $exception->getTrace();
 
-		$e->setBacktrace($backtrace);
+		$e->setBacktrace( $backtrace );
 
 		$e->is_fatal = true;
 
@@ -208,7 +218,7 @@ class Debug_ErrorHandler_Error
 	 *
 	 * @return Debug_ErrorHandler_Error
 	 */
-	public static function newError( int $code, string $message, string $file, int $line, array $context ) : Debug_ErrorHandler_Error
+	public static function newError( int $code, string $message, string $file, int $line, array $context ): Debug_ErrorHandler_Error
 	{
 
 		$e = new static();
@@ -219,12 +229,12 @@ class Debug_ErrorHandler_Error
 		$e->file = $file;
 		$e->line = $line;
 
-		$e->setContext($context);
+		$e->setContext( $context );
 
 		$backtrace = debug_backtrace();
 		array_shift( $backtrace );
 		array_shift( $backtrace );
-		$e->setBacktrace($backtrace);
+		$e->setBacktrace( $backtrace );
 
 		$e->is_fatal = in_array( $e->code, static::$PHP_fatal_errors );
 
@@ -236,7 +246,7 @@ class Debug_ErrorHandler_Error
 	 *
 	 * @return Debug_ErrorHandler_Error
 	 */
-	public static function newShutdownError( array $error ) : Debug_ErrorHandler_Error
+	public static function newShutdownError( array $error ): Debug_ErrorHandler_Error
 	{
 		$e = new static();
 
@@ -272,7 +282,7 @@ class Debug_ErrorHandler_Error
 	 * @param array $error_context
 	 *
 	 */
-	protected function setContext( array $error_context ) : void
+	protected function setContext( array $error_context ): void
 	{
 		$this->context = [];
 
@@ -288,7 +298,7 @@ class Debug_ErrorHandler_Error
 	 *
 	 *
 	 */
-	protected function setBacktrace( array $debug_backtrace ) : void
+	protected function setBacktrace( array $debug_backtrace ): void
 	{
 		$this->backtrace = [];
 		foreach( $debug_backtrace as $d ) {
@@ -300,7 +310,7 @@ class Debug_ErrorHandler_Error
 	/**
 	 * @return string
 	 */
-	public function getRequestURL() : string
+	public function getRequestURL(): string
 	{
 		return $this->request_URL;
 	}
@@ -308,7 +318,7 @@ class Debug_ErrorHandler_Error
 	/**
 	 * @return string
 	 */
-	public function getDate() : string
+	public function getDate(): string
 	{
 		return $this->date;
 	}
@@ -316,7 +326,7 @@ class Debug_ErrorHandler_Error
 	/**
 	 * @return string
 	 */
-	public function getTime() : string
+	public function getTime(): string
 	{
 		return $this->time;
 	}
@@ -324,7 +334,7 @@ class Debug_ErrorHandler_Error
 	/**
 	 * @return int
 	 */
-	public function getCode() : int
+	public function getCode(): int
 	{
 		return $this->code;
 	}
@@ -332,7 +342,7 @@ class Debug_ErrorHandler_Error
 	/**
 	 * @return string
 	 */
-	public function getTxt() : string
+	public function getTxt(): string
 	{
 		return $this->txt;
 	}
@@ -340,7 +350,7 @@ class Debug_ErrorHandler_Error
 	/**
 	 * @return string
 	 */
-	public function getMessage() : string
+	public function getMessage(): string
 	{
 		return $this->message;
 	}
@@ -348,7 +358,7 @@ class Debug_ErrorHandler_Error
 	/**
 	 * @return string
 	 */
-	public function getFile() : string
+	public function getFile(): string
 	{
 		return $this->file;
 	}
@@ -356,7 +366,7 @@ class Debug_ErrorHandler_Error
 	/**
 	 * @return int
 	 */
-	public function getLine() : int
+	public function getLine(): int
 	{
 		return $this->line;
 	}
@@ -364,7 +374,7 @@ class Debug_ErrorHandler_Error
 	/**
 	 * @return Throwable|null
 	 */
-	public function getException() : Throwable|null
+	public function getException(): Throwable|null
 	{
 		return $this->exception;
 	}
@@ -372,7 +382,7 @@ class Debug_ErrorHandler_Error
 	/**
 	 * @return Debug_ErrorHandler_Error_BacktraceItem[]
 	 */
-	public function getBacktrace() : array
+	public function getBacktrace(): array
 	{
 		return $this->backtrace;
 	}
@@ -380,7 +390,7 @@ class Debug_ErrorHandler_Error
 	/**
 	 * @return array
 	 */
-	public function getContext() : array
+	public function getContext(): array
 	{
 		return $this->context;
 	}
@@ -388,7 +398,7 @@ class Debug_ErrorHandler_Error
 	/**
 	 * @return bool
 	 */
-	public function isFatal() : bool
+	public function isFatal(): bool
 	{
 		return $this->is_fatal;
 	}
@@ -397,7 +407,7 @@ class Debug_ErrorHandler_Error
 	 *
 	 * @return string
 	 */
-	public function __toString() : string
+	public function __toString(): string
 	{
 		return $this->toString();
 	}
@@ -405,10 +415,10 @@ class Debug_ErrorHandler_Error
 	/**
 	 * @return string
 	 */
-	public function toString() : string
+	public function toString(): string
 	{
 
-		if(static::$formatter) {
+		if( static::$formatter ) {
 			$formatter = static::$formatter;
 
 			return $formatter( $this );
@@ -416,42 +426,42 @@ class Debug_ErrorHandler_Error
 
 		$output = '';
 
-		$output .=$this->getTxt().PHP_EOL;
-		$output .=$this->getMessage().PHP_EOL;
-		$output .=''.PHP_EOL;
-		$output .='script: '.$this->getFile().PHP_EOL;
-		$output .='line: '.$this->getLine().PHP_EOL;
-		$output .='time: '.$this->getDate().' '.$this->getTime().PHP_EOL;
-		$output .='URL: '.$this->getRequestURL().PHP_EOL;
-		$output .=''.PHP_EOL;
+		$output .= $this->getTxt() . PHP_EOL;
+		$output .= $this->getMessage() . PHP_EOL;
+		$output .= '' . PHP_EOL;
+		$output .= 'script: ' . $this->getFile() . PHP_EOL;
+		$output .= 'line: ' . $this->getLine() . PHP_EOL;
+		$output .= 'time: ' . $this->getDate() . ' ' . $this->getTime() . PHP_EOL;
+		$output .= 'URL: ' . $this->getRequestURL() . PHP_EOL;
+		$output .= '' . PHP_EOL;
 
 
 		if( $this->getContext() ) {
-			$output .='Error context:'.PHP_EOL;
-			$output .=''.PHP_EOL;
+			$output .= 'Error context:' . PHP_EOL;
+			$output .= '' . PHP_EOL;
 
 			foreach( $this->getContext() as $var_name => $var_value ) {
-				$output .="\t".'$'.$var_name.' = '.static::formatVariable($var_value).PHP_EOL;
+				$output .= "\t" . '$' . $var_name . ' = ' . static::formatVariable( $var_value ) . PHP_EOL;
 			}
-			$output .=''.PHP_EOL;
+			$output .= '' . PHP_EOL;
 		}
 
 
 		if( $this->getBacktrace() ) {
-			$output .='Debug backtrace:'.PHP_EOL;
-			$output .=''.PHP_EOL;
+			$output .= 'Debug backtrace:' . PHP_EOL;
+			$output .= '' . PHP_EOL;
 
 
 			foreach( $this->getBacktrace() as $d ) {
-				$output .=$d->getFile();
-				$output .="\t".'Line: '.$d->getLine().PHP_EOL;
-				$output .="\t".'Call: '.$d->getCall().PHP_EOL;
-				$output .=''.PHP_EOL;
+				$output .= $d->getFile();
+				$output .= "\t" . 'Line: ' . $d->getLine() . PHP_EOL;
+				$output .= "\t" . 'Call: ' . $d->getCall() . PHP_EOL;
+				$output .= '' . PHP_EOL;
 			}
-			$output .=''.PHP_EOL;
+			$output .= '' . PHP_EOL;
 		}
 
-		$output .=''.PHP_EOL;
+		$output .= '' . PHP_EOL;
 
 		return $output;
 

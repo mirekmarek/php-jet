@@ -5,12 +5,14 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace JetStudio;
 
 /**
  *
  */
-class ClassParser_UseClass extends ClassParser_Element{
+class ClassParser_UseClass extends ClassParser_Element
+{
 	/**
 	 * @var string
 	 */
@@ -24,7 +26,7 @@ class ClassParser_UseClass extends ClassParser_Element{
 	/**
 	 * @param ClassParser $parser
 	 */
-	public static function parse( ClassParser $parser ) : void
+	public static function parse( ClassParser $parser ): void
 	{
 		$use = new static( $parser );
 
@@ -35,11 +37,11 @@ class ClassParser_UseClass extends ClassParser_Element{
 
 		do {
 
-			if( !($token=$use->nextToken()) ) {
+			if( !($token = $use->nextToken()) ) {
 				break;
 			}
 
-			if($token->ignore()) {
+			if( $token->ignore() ) {
 				continue;
 			}
 
@@ -47,7 +49,7 @@ class ClassParser_UseClass extends ClassParser_Element{
 				case T_STRING:
 				case T_NS_SEPARATOR:
 				case T_NAME_QUALIFIED:
-					if($getting_as) {
+					if( $getting_as ) {
 						$use->as .= $token->text;
 					} else {
 						$use->class .= $token->text;
@@ -59,8 +61,8 @@ class ClassParser_UseClass extends ClassParser_Element{
 				case ';':
 					$use->end_token = $parser->tokens[$parser->index];
 
-					if(!$use->as) {
-						$class_parts = explode('\\', $use->class);
+					if( !$use->as ) {
+						$class_parts = explode( '\\', $use->class );
 
 						$use->as = end( $class_parts );
 					}
@@ -80,19 +82,19 @@ class ClassParser_UseClass extends ClassParser_Element{
 	/**
 	 *
 	 */
-	public function debug_showResult() : void
+	public function debug_showResult(): void
 	{
 		$parser = $this->parser;
 
-		echo 'Use: '.$this->class;
-		if($this->as) {
-			echo ' as '.$this->as;
+		echo 'Use: ' . $this->class;
+		if( $this->as ) {
+			echo ' as ' . $this->as;
 		}
 
-		echo PHP_EOL.' Code: '.$parser->getTokenText( $this->start_token, $this->end_token );
-		echo PHP_EOL.' Tokens: '.$this->start_token->index.' - '.$this->end_token->index;
+		echo PHP_EOL . ' Code: ' . $parser->getTokenText( $this->start_token, $this->end_token );
+		echo PHP_EOL . ' Tokens: ' . $this->start_token->index . ' - ' . $this->end_token->index;
 
-		echo PHP_EOL.PHP_EOL;
+		echo PHP_EOL . PHP_EOL;
 	}
 
 

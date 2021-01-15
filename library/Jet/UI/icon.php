@@ -5,11 +5,12 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace Jet;
 
 
 /**
- * 
+ *
  */
 class UI_icon extends UI_BaseElement
 {
@@ -60,7 +61,7 @@ class UI_icon extends UI_BaseElement
 	/**
 	 * @return string
 	 */
-	public function getIcon() : string
+	public function getIcon(): string
 	{
 		return $this->icon;
 	}
@@ -71,7 +72,7 @@ class UI_icon extends UI_BaseElement
 	 *
 	 * @return static
 	 */
-	public function setSize( int $size ) : static
+	public function setSize( int $size ): static
 	{
 		$this->size = (int)$size;
 
@@ -81,7 +82,7 @@ class UI_icon extends UI_BaseElement
 	/**
 	 * @return int
 	 */
-	public function getSize() : int
+	public function getSize(): int
 	{
 		return $this->size;
 	}
@@ -91,7 +92,7 @@ class UI_icon extends UI_BaseElement
 	 *
 	 * @return static
 	 */
-	public function setWidth( int $width ) : static
+	public function setWidth( int $width ): static
 	{
 		$this->width = (int)$width;
 
@@ -101,7 +102,7 @@ class UI_icon extends UI_BaseElement
 	/**
 	 * @return int
 	 */
-	public function getWidth() : int
+	public function getWidth(): int
 	{
 		return $this->width;
 	}
@@ -111,7 +112,7 @@ class UI_icon extends UI_BaseElement
 	 *
 	 * @return static
 	 */
-	public function setColor( string $color ) : static
+	public function setColor( string $color ): static
 	{
 		$this->color = $color;
 
@@ -121,7 +122,7 @@ class UI_icon extends UI_BaseElement
 	/**
 	 * @return string
 	 */
-	public function getColor() : string
+	public function getColor(): string
 	{
 		return $this->color;
 	}
@@ -131,7 +132,7 @@ class UI_icon extends UI_BaseElement
 	 *
 	 * @return static
 	 */
-	public function setTag( string $tag ) : static
+	public function setTag( string $tag ): static
 	{
 		$this->tag = $tag;
 
@@ -141,7 +142,7 @@ class UI_icon extends UI_BaseElement
 	/**
 	 * @return string
 	 */
-	public function getTag() : string
+	public function getTag(): string
 	{
 		return $this->tag;
 	}
@@ -149,7 +150,7 @@ class UI_icon extends UI_BaseElement
 	/**
 	 * @return string
 	 */
-	public function getTitle() : string
+	public function getTitle(): string
 	{
 		return $this->title;
 	}
@@ -159,7 +160,7 @@ class UI_icon extends UI_BaseElement
 	 *
 	 * @return static
 	 */
-	public function setTitle( string $title ) : static
+	public function setTitle( string $title ): static
 	{
 		$this->title = $title;
 

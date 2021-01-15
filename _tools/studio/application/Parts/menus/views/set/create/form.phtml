@@ -1,13 +1,14 @@
 <?php
+
 namespace JetStudio;
 
 $form = Menus_MenuSet::getCreateForm();
 
-$form->tag()->addJsAction('onsubmit', 'Menus.createSet.createSend();return false;');
+$form->tag()->addJsAction( 'onsubmit', 'Menus.createSet.createSend();return false;' );
 
 echo $form->start();
 echo $form->getCommonMessage();
-echo $form->field('menu_set_name');
+echo $form->field( 'menu_set_name' );
 
 echo $form->end();
 

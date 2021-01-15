@@ -5,6 +5,7 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace Jet;
 
 /**
@@ -45,7 +46,7 @@ class Translator_Dictionary extends BaseObject
 	/**
 	 * @return Locale|null
 	 */
-	public function getLocale() : Locale|null
+	public function getLocale(): Locale|null
 	{
 		return $this->locale;
 	}
@@ -53,7 +54,7 @@ class Translator_Dictionary extends BaseObject
 	/**
 	 * @return string
 	 */
-	public function getNamespace() : string
+	public function getNamespace(): string
 	{
 		return $this->namespace;
 	}
@@ -61,18 +62,18 @@ class Translator_Dictionary extends BaseObject
 	/**
 	 * @return Translator_Dictionary_Phrase[]
 	 */
-	public function getPhrases() : array
+	public function getPhrases(): array
 	{
 		return $this->phrases;
 	}
 
 	/**
 	 * @param string $phrase_txt
-	 * @param bool   $auto_append_unknown_phrase (optional)
+	 * @param bool $auto_append_unknown_phrase (optional)
 	 *
 	 * @return string
 	 */
-	public function getTranslation( string $phrase_txt, bool $auto_append_unknown_phrase = true ) : string
+	public function getTranslation( string $phrase_txt, bool $auto_append_unknown_phrase = true ): string
 	{
 		$hash = Translator_Dictionary_Phrase::generateHash( $phrase_txt );
 		if( isset( $this->phrases[$hash] ) ) {
@@ -89,10 +90,10 @@ class Translator_Dictionary extends BaseObject
 
 	/**
 	 * @param Translator_Dictionary_Phrase $phrase
-	 * @param bool                         $save_required
+	 * @param bool $save_required
 	 *
 	 */
-	public function addPhrase( Translator_Dictionary_Phrase $phrase, bool $save_required = true ) : void
+	public function addPhrase( Translator_Dictionary_Phrase $phrase, bool $save_required = true ): void
 	{
 		$this->phrases[$phrase->getHash()] = $phrase;
 		if( $save_required ) {
@@ -103,7 +104,7 @@ class Translator_Dictionary extends BaseObject
 	/**
 	 * @return bool
 	 */
-	public function saveRequired() : bool
+	public function saveRequired(): bool
 	{
 		return $this->save_required;
 	}

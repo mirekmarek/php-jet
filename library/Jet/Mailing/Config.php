@@ -5,6 +5,7 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace Jet;
 
 
@@ -33,12 +34,12 @@ class Mailing_Config extends Config
 	 * @return Mailing_Config_Sender|null
 	 *
 	 */
-	public function getSender( string|Locale $locale, string $site_id, string $specification ) : Mailing_Config_Sender|null
+	public function getSender( string|Locale $locale, string $site_id, string $specification ): Mailing_Config_Sender|null
 	{
 
 		$key = $this->getSenderKey( $locale, $site_id, $specification );
 
-		if(!isset($this->senders[$key])) {
+		if( !isset( $this->senders[$key] ) ) {
 			return null;
 		}
 
@@ -48,7 +49,7 @@ class Mailing_Config extends Config
 	/**
 	 * @return Mailing_Config_Sender[]|null
 	 */
-	public function getSenders() : array|null
+	public function getSenders(): array|null
 	{
 		return $this->senders;
 	}
@@ -62,7 +63,7 @@ class Mailing_Config extends Config
 	 */
 	public function addSender( Mailing_Config_Sender $sender_configuration, string|Locale $locale, string $site_id, string $specification )
 	{
-		$this->senders[ $this->getSenderKey( $locale, $site_id, $specification ) ] = $sender_configuration;
+		$this->senders[$this->getSenderKey( $locale, $site_id, $specification )] = $sender_configuration;
 	}
 
 	/**
@@ -70,7 +71,7 @@ class Mailing_Config extends Config
 	 */
 	public function deleteSender( string $key )
 	{
-		if(isset($this->senders[$key])) {
+		if( isset( $this->senders[$key] ) ) {
 			unset( $this->senders[$key] );
 		}
 	}
@@ -82,19 +83,19 @@ class Mailing_Config extends Config
 	 *
 	 * @return string
 	 */
-	public function getSenderKey( string|Locale $locale, string $site_id, string $specification ) : string
+	public function getSenderKey( string|Locale $locale, string $site_id, string $specification ): string
 	{
 		$key = (string)$locale;
 
-		if(!$site_id) {
+		if( !$site_id ) {
 			$site_id = 'ALL';
 		}
 
-		$key .= '/'.$site_id;
+		$key .= '/' . $site_id;
 
 
-		if($specification) {
-			$key .= '/'.$specification;
+		if( $specification ) {
+			$key .= '/' . $specification;
 		}
 
 		return $key;
@@ -105,8 +106,8 @@ class Mailing_Config extends Config
 	 *
 	 * @return Mailing_Config_Sender
 	 */
-	public function createSenderConfigInstance( array $data ) : Mailing_Config_Sender
+	public function createSenderConfigInstance( array $data ): Mailing_Config_Sender
 	{
-		return new Mailing_Config_Sender($data);
+		return new Mailing_Config_Sender( $data );
 	}
 }

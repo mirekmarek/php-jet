@@ -5,19 +5,21 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace Jet;
 
 /**
  *
  */
-class Cache {
+class Cache
+{
 
 	/**
 	 *
 	 */
-	public static function resetOPCache() : void
+	public static function resetOPCache(): void
 	{
-		if(function_exists('opcache_reset')) {
+		if( function_exists( 'opcache_reset' ) ) {
 			opcache_reset();
 		}
 	}

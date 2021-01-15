@@ -5,6 +5,7 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace Jet;
 
 use DateTime;
@@ -74,18 +75,18 @@ class Form_Field_Time extends Form_Field_Input
 	 *
 	 * @return bool
 	 */
-	public function validate() : bool
+	public function validate(): bool
 	{
 		if(
 			!$this->is_required &&
-			$this->_value===''
+			$this->_value === ''
 		) {
 			return true;
 		}
 
 
-		$check = DateTime::createFromFormat( 'Y-m-d H:i', '2011-01-01 '.$this->_value );
-		$check_c = DateTime::createFromFormat( 'Y-m-d H:i:s', '2011-01-01 '.$this->_value );
+		$check = DateTime::createFromFormat( 'Y-m-d H:i', '2011-01-01 ' . $this->_value );
+		$check_c = DateTime::createFromFormat( 'Y-m-d H:i:s', '2011-01-01 ' . $this->_value );
 
 		if( !$check && !$check_c ) {
 			$this->setError( self::ERROR_CODE_INVALID_FORMAT );
@@ -101,7 +102,7 @@ class Form_Field_Time extends Form_Field_Input
 	/**
 	 * @return array
 	 */
-	public function getRequiredErrorCodes() : array
+	public function getRequiredErrorCodes(): array
 	{
 		$codes = [];
 

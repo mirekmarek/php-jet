@@ -10,32 +10,32 @@ use Jet\UI;
  * @var Mvc_View $this
  * @var Wizard $wizard
  */
-$wizard = $this->getRaw('wizard');
+$wizard = $this->getRaw( 'wizard' );
 
 
 $setup_form = $wizard->getSetupForm();
 
-$setup_form->setDefaultLabelWidth([
+$setup_form->setDefaultLabelWidth( [
 	Form::LJ_SIZE_MEDIUM => 2
-]);
-$setup_form->setDefaultFieldWidth([
+] );
+$setup_form->setDefaultFieldWidth( [
 	Form::LJ_SIZE_MEDIUM => 10
-]);
+] );
 
 ?>
-	<?=$setup_form->start()?>
-	<legend><?=Tr::_('Main module parameters')?></legend>
+<?= $setup_form->start() ?>
+<legend><?= Tr::_( 'Main module parameters' ) ?></legend>
 
-	<?=$setup_form->field('NAME')?>
+<?= $setup_form->field( 'NAME' ) ?>
 
-	<?=$setup_form->field('LABEL')?>
-	<?=$setup_form->field('DESCRIPTION')?>
-	<?=$setup_form->field('AUTHOR')?>
-	<?=$setup_form->field('LICENSE')?>
-	<?=$setup_form->field('COPYRIGHT')?>
+<?= $setup_form->field( 'LABEL' ) ?>
+<?= $setup_form->field( 'DESCRIPTION' ) ?>
+<?= $setup_form->field( 'AUTHOR' ) ?>
+<?= $setup_form->field( 'LICENSE' ) ?>
+<?= $setup_form->field( 'COPYRIGHT' ) ?>
 
-	<div align="right">
-		<?=UI::button_save(Tr::_('Create'))->setClass('primary')->setIcon('magic')?>
-	</div>
-	<?=$setup_form->end()?>
+<div align="right">
+	<?= UI::button_save( Tr::_( 'Create' ) )->setClass( 'primary' )->setIcon( 'magic' ) ?>
+</div>
+<?= $setup_form->end() ?>
 

@@ -5,6 +5,7 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace Jet;
 
 use DateTime;
@@ -18,7 +19,7 @@ class Data_DateTime extends DateTime
 	/**
 	 * @return Data_DateTime
 	 */
-	public static function now() : Data_DateTime
+	public static function now(): Data_DateTime
 	{
 		$date = new static( date( 'Y-m-d\TH:i:s' ) );
 
@@ -28,7 +29,7 @@ class Data_DateTime extends DateTime
 	/**
 	 * @return string
 	 */
-	public function toString() : string
+	public function toString(): string
 	{
 		return $this->__toString();
 	}
@@ -36,7 +37,7 @@ class Data_DateTime extends DateTime
 	/**
 	 * @return string
 	 */
-	public function __toString() : string
+	public function __toString(): string
 	{
 		return (string)$this->format( 'Y-m-d\TH:i:s' );
 	}

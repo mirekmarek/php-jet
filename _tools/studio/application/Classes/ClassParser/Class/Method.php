@@ -5,6 +5,7 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace JetStudio;
 
 /**
@@ -33,7 +34,7 @@ class ClassParser_Class_Method extends ClassParser_Class_Element
 	public string $param_declaration = '';
 
 	/**
-	 * @var string 
+	 * @var string
 	 */
 	public string $body = '';
 
@@ -66,7 +67,6 @@ class ClassParser_Class_Method extends ClassParser_Class_Element
 	 * @var ?ClassParser_Token
 	 */
 	public ?ClassParser_Token $body_end = null;
-	
 
 
 	/**
@@ -89,7 +89,7 @@ class ClassParser_Class_Method extends ClassParser_Class_Element
 		}
 
 
-		if($class->_public_token) {
+		if( $class->_public_token ) {
 			if( $class->_public_token->index < $method->start_token->index ) {
 				$method->start_token = $class->_public_token;
 			}
@@ -97,14 +97,14 @@ class ClassParser_Class_Method extends ClassParser_Class_Element
 			$method->visibility = ClassParser::VISIBILITY_PUBLIC;
 		}
 
-		if($class->_private_token) {
+		if( $class->_private_token ) {
 			if( $class->_private_token->index < $method->start_token->index ) {
 				$method->start_token = $class->_private_token;
 			}
 			$method->visibility = ClassParser::VISIBILITY_PRIVATE;
 		}
 
-		if($class->_protected_token) {
+		if( $class->_protected_token ) {
 			if( $class->_protected_token->index < $method->start_token->index ) {
 				$method->start_token = $class->_protected_token;
 			}
@@ -113,12 +113,10 @@ class ClassParser_Class_Method extends ClassParser_Class_Element
 
 		$method->declaration_start = $method->start_token;
 
-		if($class->_last_doc_comment_token) {
+		if( $class->_last_doc_comment_token ) {
 			$method->doc_comment = $class->_last_doc_comment_token;
 			$method->start_token = $class->_last_doc_comment_token;
 		}
-
-
 
 
 		$searching_for_param_declaration = false;
@@ -128,11 +126,11 @@ class ClassParser_Class_Method extends ClassParser_Class_Element
 
 
 		do {
-			if( !($token=$method->nextToken()) ) {
+			if( !($token = $method->nextToken()) ) {
 				break;
 			}
 
-			if($searching_for_body) {
+			if( $searching_for_body ) {
 				switch( $token->id ) {
 					case T_CURLY_OPEN:
 					case '{':
@@ -143,7 +141,7 @@ class ClassParser_Class_Method extends ClassParser_Class_Element
 						$method->body .= $token->text;
 
 						$block_index--;
-						if($block_index<0) {
+						if( $block_index < 0 ) {
 							$class->methods[$method->name] = $method;
 							$method->end_token = $token;
 							$method->body_end = $token;
@@ -166,13 +164,13 @@ class ClassParser_Class_Method extends ClassParser_Class_Element
 				}
 
 			} else {
-				if($token->ignore()) {
+				if( $token->ignore() ) {
 					continue;
 				}
 
 				switch( $token->id ) {
 					case T_STRING:
-						if(!$searching_for_param_declaration) {
+						if( !$searching_for_param_declaration ) {
 							$method->name = $token->text;
 						} else {
 							$method->param_declaration .= $token->text;
@@ -190,7 +188,7 @@ class ClassParser_Class_Method extends ClassParser_Class_Element
 						}
 						break;
 					case ')':
-						if($searching_for_param_declaration) {
+						if( $searching_for_param_declaration ) {
 							$got_param_declaration = true;
 							$method->param_declaration .= $token->text;
 							$method->declaration_end = $token;
@@ -199,7 +197,7 @@ class ClassParser_Class_Method extends ClassParser_Class_Element
 						}
 						break;
 					case '{':
-						if($got_param_declaration) {
+						if( $got_param_declaration ) {
 							$searching_for_body = true;
 							$method->body = $token->text;
 							$method->body_start = $token;
@@ -221,11 +219,10 @@ class ClassParser_Class_Method extends ClassParser_Class_Element
 						} else {
 							$method->parseError();
 						}
-					break;
+						break;
 				}
 
 			}
-
 
 
 		} while( true );
@@ -236,30 +233,30 @@ class ClassParser_Class_Method extends ClassParser_Class_Element
 	/**
 	 *
 	 */
-	public function debug_showResult() : void
+	public function debug_showResult(): void
 	{
 		$parser = $this->parser;
 
-		if($this->is_static) {
+		if( $this->is_static ) {
 			echo 'Static ';
 		}
-		echo ucfirst($this->visibility).' Method: '.$this->name;
-		echo PHP_EOL.'_________________________________________________________'.PHP_EOL;
-		if($this->doc_comment) {
-			echo PHP_EOL.' Doc Comment: (token: '.$this->doc_comment->index.') '.$this->doc_comment->text;
-			echo PHP_EOL.'_________________________________________________________'.PHP_EOL;
+		echo ucfirst( $this->visibility ) . ' Method: ' . $this->name;
+		echo PHP_EOL . '_________________________________________________________' . PHP_EOL;
+		if( $this->doc_comment ) {
+			echo PHP_EOL . ' Doc Comment: (token: ' . $this->doc_comment->index . ') ' . $this->doc_comment->text;
+			echo PHP_EOL . '_________________________________________________________' . PHP_EOL;
 		}
-		echo PHP_EOL.' Declaration: '.$parser->getTokenText( $this->declaration_start, $this->declaration_end );
-		echo ' Tokens: '.$this->declaration_start->index.' - '.$this->declaration_end->index;
-		echo PHP_EOL.'_________________________________________________________'.PHP_EOL;
+		echo PHP_EOL . ' Declaration: ' . $parser->getTokenText( $this->declaration_start, $this->declaration_end );
+		echo ' Tokens: ' . $this->declaration_start->index . ' - ' . $this->declaration_end->index;
+		echo PHP_EOL . '_________________________________________________________' . PHP_EOL;
 
-		echo PHP_EOL.' Body: '.$parser->getTokenText( $this->body_start, $this->body_end );
-		echo ' Tokens: '.$this->body_start->index.' - '.$this->body_end->index;
-		echo PHP_EOL.'_________________________________________________________'.PHP_EOL;
+		echo PHP_EOL . ' Body: ' . $parser->getTokenText( $this->body_start, $this->body_end );
+		echo ' Tokens: ' . $this->body_start->index . ' - ' . $this->body_end->index;
+		echo PHP_EOL . '_________________________________________________________' . PHP_EOL;
 
 		echo $parser->getTokenText( $this->start_token, $this->end_token );
 
-		echo PHP_EOL.' Tokens: '.$this->start_token->index.' - '.$this->end_token->index;
+		echo PHP_EOL . ' Tokens: ' . $this->start_token->index . ' - ' . $this->end_token->index;
 	}
 
 }

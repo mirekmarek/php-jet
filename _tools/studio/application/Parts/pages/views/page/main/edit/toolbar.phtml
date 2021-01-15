@@ -9,10 +9,10 @@ use Jet\Mvc_View;
  * @var Pages_Page $page
  */
 
-$page = $this->getRaw('page');
+$page = $this->getRaw( 'page' );
 
 $form = $page->getEditForm_main();
 ?>
-<?=UI::button_save()->setOnclick("$('#{$form->getId()}').submit()")?>
+<?= UI::button_save()->setOnclick( "$('#{$form->getId()}').submit()" ) ?>
 
 

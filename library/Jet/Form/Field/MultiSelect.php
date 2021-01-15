@@ -5,10 +5,11 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace Jet;
 
 /**
- * 
+ *
  */
 class Form_Field_MultiSelect extends Form_Field
 {
@@ -73,7 +74,7 @@ class Form_Field_MultiSelect extends Form_Field
 	 *
 	 * @return bool
 	 */
-	public function validate() : bool
+	public function validate(): bool
 	{
 		$options = $this->select_options;
 		if( !$this->_value ) {
@@ -81,7 +82,7 @@ class Form_Field_MultiSelect extends Form_Field
 		}
 
 		if( !is_array( $this->_value ) ) {
-			$this->_value = [ $this->_value ];
+			$this->_value = [$this->_value];
 		}
 
 		foreach( $this->_value as $item ) {
@@ -103,7 +104,7 @@ class Form_Field_MultiSelect extends Form_Field
 	 *
 	 * @return bool
 	 */
-	public function checkValueIsNotEmpty() : bool
+	public function checkValueIsNotEmpty(): bool
 	{
 		if(
 			!$this->_value &&
@@ -122,7 +123,7 @@ class Form_Field_MultiSelect extends Form_Field
 	 *
 	 * @param Data_Array $data
 	 */
-	public function catchInput( Data_Array $data ) : void
+	public function catchInput( Data_Array $data ): void
 	{
 		$this->_value = null;
 		$this->_has_value = true;
@@ -138,7 +139,7 @@ class Form_Field_MultiSelect extends Form_Field
 					}
 				}
 			} else {
-				$this->_value = [ $this->_value_raw ];
+				$this->_value = [$this->_value_raw];
 			}
 		} else {
 			$this->_value_raw = null;
@@ -150,7 +151,7 @@ class Form_Field_MultiSelect extends Form_Field
 	/**
 	 * @return array
 	 */
-	public function getRequiredErrorCodes() : array
+	public function getRequiredErrorCodes(): array
 	{
 		$codes = [];
 

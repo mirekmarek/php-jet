@@ -5,6 +5,7 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace JetApplication\Installer;
 
 use Exception;
@@ -35,7 +36,7 @@ class Installer_Step_ConfigureDb_Controller extends Installer_Step_Controller
 	/**
 	 * @return bool
 	 */
-	public function getIsAvailable() : bool
+	public function getIsAvailable(): bool
 	{
 		return !Installer_Step_CreateSite_Controller::sitesCreated();
 	}
@@ -43,7 +44,7 @@ class Installer_Step_ConfigureDb_Controller extends Installer_Step_Controller
 	/**
 	 *
 	 */
-	public function main() : void
+	public function main(): void
 	{
 
 		$this->main_config = new Db_Config();
@@ -76,10 +77,10 @@ class Installer_Step_ConfigureDb_Controller extends Installer_Step_Controller
 	{
 		$driver = $connection_config->getDriver();
 
-		require Installer::getBasePath().'Classes/DbDriverConfig.php';
-		require Installer::getBasePath().'Classes/DbDriverConfig/'.$driver.'.php';
+		require Installer::getBasePath() . 'Classes/DbDriverConfig.php';
+		require Installer::getBasePath() . 'Classes/DbDriverConfig/' . $driver . '.php';
 
-		$class_name = __NAMESPACE__.'\\Installer_DbDriverConfig_'.$driver;
+		$class_name = __NAMESPACE__ . '\\Installer_DbDriverConfig_' . $driver;
 
 		/**
 		 * @var Installer_DbDriverConfig $driver_config
@@ -88,7 +89,7 @@ class Installer_Step_ConfigureDb_Controller extends Installer_Step_Controller
 
 		$form = $driver_config->getForm();
 
-		if($driver_config->catchForm()) {
+		if( $driver_config->catchForm() ) {
 
 			$ok = true;
 
@@ -96,10 +97,10 @@ class Installer_Step_ConfigureDb_Controller extends Installer_Step_Controller
 				$this->main_config->writeConfigFile();
 			} catch( Exception $e ) {
 				$ok = false;
-				UI_messages::danger( Tr::_('Something went wrong: %error%', ['error'=>$e->getMessage()], Tr::COMMON_NAMESPACE) );
+				UI_messages::danger( Tr::_( 'Something went wrong: %error%', ['error' => $e->getMessage()], Tr::COMMON_NAMESPACE ) );
 			}
 
-			if($ok) {
+			if( $ok ) {
 				Http_Headers::movedTemporary( '?test_connection' );
 			}
 		}
@@ -112,7 +113,7 @@ class Installer_Step_ConfigureDb_Controller extends Installer_Step_Controller
 	/**
 	 * @param $connection_config
 	 */
-	protected function test( Db_Backend_PDO_Config $connection_config ) : void
+	protected function test( Db_Backend_PDO_Config $connection_config ): void
 	{
 
 

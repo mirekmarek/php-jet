@@ -5,6 +5,7 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace JetStudio;
 
 use Jet\BaseObject;
@@ -13,7 +14,8 @@ use Jet\BaseObject_Exception;
 /**
  *
  */
-class ClassCreator_Class extends BaseObject {
+class ClassCreator_Class extends BaseObject
+{
 	const VISIBILITY_PUBLIC = 'public';
 	const VISIBILITY_PROTECTED = 'protected';
 	const VISIBILITY_PRIVATE = 'private';
@@ -85,7 +87,7 @@ class ClassCreator_Class extends BaseObject {
 	/**
 	 * @return bool
 	 */
-	public function isAbstract() : bool
+	public function isAbstract(): bool
 	{
 		return $this->is_abstract;
 	}
@@ -93,7 +95,7 @@ class ClassCreator_Class extends BaseObject {
 	/**
 	 * @param bool $is_abstract
 	 */
-	public function setIsAbstract( bool $is_abstract ) : void
+	public function setIsAbstract( bool $is_abstract ): void
 	{
 		$this->is_abstract = $is_abstract;
 	}
@@ -101,7 +103,7 @@ class ClassCreator_Class extends BaseObject {
 	/**
 	 * @return ClassCreator_UseClass[]
 	 */
-	public function getUse() : array
+	public function getUse(): array
 	{
 		return $this->use;
 	}
@@ -110,7 +112,7 @@ class ClassCreator_Class extends BaseObject {
 	/**
 	 * @return ClassCreator_Class_Constant[]
 	 */
-	public function getConstants() : array
+	public function getConstants(): array
 	{
 		return $this->constants;
 	}
@@ -118,7 +120,7 @@ class ClassCreator_Class extends BaseObject {
 	/**
 	 * @return ClassCreator_Class_Property[]
 	 */
-	public function getProperties() : array
+	public function getProperties(): array
 	{
 		return $this->properties;
 	}
@@ -126,7 +128,7 @@ class ClassCreator_Class extends BaseObject {
 	/**
 	 * @return ClassCreator_Class_Method[]
 	 */
-	public function getMethods() : array
+	public function getMethods(): array
 	{
 		return $this->methods;
 	}
@@ -136,9 +138,9 @@ class ClassCreator_Class extends BaseObject {
 	 *
 	 * @return ClassCreator_Class_Method|null
 	 */
-	public function getMethod( string $name ) : ClassCreator_Class_Method|null
+	public function getMethod( string $name ): ClassCreator_Class_Method|null
 	{
-		if(!isset($this->methods[$name])) {
+		if( !isset( $this->methods[$name] ) ) {
 			return null;
 		}
 
@@ -149,7 +151,7 @@ class ClassCreator_Class extends BaseObject {
 	/**
 	 * @return string
 	 */
-	public static function getIndentation() : string
+	public static function getIndentation(): string
 	{
 		return static::$indentation;
 	}
@@ -157,7 +159,7 @@ class ClassCreator_Class extends BaseObject {
 	/**
 	 * @param string $indentation
 	 */
-	public static function setIndentation( string $indentation ) : void
+	public static function setIndentation( string $indentation ): void
 	{
 		static::$indentation = $indentation;
 	}
@@ -165,7 +167,7 @@ class ClassCreator_Class extends BaseObject {
 	/**
 	 * @return string
 	 */
-	public static function getNl() : string
+	public static function getNl(): string
 	{
 		return static::$nl;
 	}
@@ -173,7 +175,7 @@ class ClassCreator_Class extends BaseObject {
 	/**
 	 * @param string $nl
 	 */
-	public static function setNl( string $nl ) : void
+	public static function setNl( string $nl ): void
 	{
 		static::$nl = $nl;
 	}
@@ -181,7 +183,7 @@ class ClassCreator_Class extends BaseObject {
 	/**
 	 * @return string
 	 */
-	public function getNamespace() : string
+	public function getNamespace(): string
 	{
 		return $this->namespace;
 	}
@@ -189,7 +191,7 @@ class ClassCreator_Class extends BaseObject {
 	/**
 	 * @param string $namespace
 	 */
-	public function setNamespace( string $namespace ) : void
+	public function setNamespace( string $namespace ): void
 	{
 		$this->namespace = $namespace;
 	}
@@ -197,7 +199,7 @@ class ClassCreator_Class extends BaseObject {
 	/**
 	 * @return string
 	 */
-	public function getName() : string
+	public function getName(): string
 	{
 		return $this->name;
 	}
@@ -205,15 +207,15 @@ class ClassCreator_Class extends BaseObject {
 	/**
 	 * @return string
 	 */
-	public function getFullName() : string
+	public function getFullName(): string
 	{
-		return $this->getNamespace().'\\'.$this->getName();
+		return $this->getNamespace() . '\\' . $this->getName();
 	}
 
 	/**
 	 * @param string $name
 	 */
-	public function setName( string $name ) : void
+	public function setName( string $name ): void
 	{
 		$this->name = $name;
 	}
@@ -221,7 +223,7 @@ class ClassCreator_Class extends BaseObject {
 	/**
 	 * @return string
 	 */
-	public function getExtends() : string
+	public function getExtends(): string
 	{
 		return $this->extends;
 	}
@@ -229,7 +231,7 @@ class ClassCreator_Class extends BaseObject {
 	/**
 	 * @param string $extends
 	 */
-	public function setExtends( string $extends ) : void
+	public function setExtends( string $extends ): void
 	{
 		$this->extends = $extends;
 	}
@@ -237,7 +239,7 @@ class ClassCreator_Class extends BaseObject {
 	/**
 	 * @param string $class_name
 	 */
-	public function addImplements( string $class_name ) : void
+	public function addImplements( string $class_name ): void
 	{
 		$this->implements[] = $class_name;
 	}
@@ -245,14 +247,14 @@ class ClassCreator_Class extends BaseObject {
 	/**
 	 * @param ClassCreator_UseClass $use_class
 	 */
-	public function addUse( ClassCreator_UseClass $use_class ) : void
+	public function addUse( ClassCreator_UseClass $use_class ): void
 	{
-		foreach( $this->use as $e_use  ) {
+		foreach( $this->use as $e_use ) {
 			if(
-				$e_use->getClass()==$use_class->getClass()
+				$e_use->getClass() == $use_class->getClass()
 			) {
-				if($e_use->getUseAs()!=$use_class->getUseAs()) {
-					throw new BaseObject_Exception('Use class collision: '.$e_use->getClass().' as '.$e_use.' VS '.$use_class->getClass().' as '.$use_class->getUseAs());
+				if( $e_use->getUseAs() != $use_class->getUseAs() ) {
+					throw new BaseObject_Exception( 'Use class collision: ' . $e_use->getClass() . ' as ' . $e_use . ' VS ' . $use_class->getClass() . ' as ' . $use_class->getUseAs() );
 				}
 
 				return;
@@ -267,15 +269,14 @@ class ClassCreator_Class extends BaseObject {
 	 * @param string $argument
 	 * @param mixed $argument_value
 	 */
-	public function setAttribute( string $name, string $argument, mixed $argument_value ) : void
+	public function setAttribute( string $name, string $argument, mixed $argument_value ): void
 	{
-		if(!isset($this->attributes[$name])) {
+		if( !isset( $this->attributes[$name] ) ) {
 			$this->attributes[$name] = new ClassCreator_Attribute( $name );
 		}
 
 		$this->attributes[$name]->setArgument( $argument, $argument_value );
 	}
-
 
 
 	/**
@@ -284,7 +285,7 @@ class ClassCreator_Class extends BaseObject {
 	 *
 	 * @return ClassCreator_Class_Constant
 	 */
-	public function createConstant( string $name, mixed $value ) : ClassCreator_Class_Constant
+	public function createConstant( string $name, mixed $value ): ClassCreator_Class_Constant
 	{
 		$constant = new ClassCreator_Class_Constant( $name, $value );
 
@@ -296,10 +297,10 @@ class ClassCreator_Class extends BaseObject {
 	/**
 	 * @param ClassCreator_Class_Constant $constant
 	 */
-	public function addConstant( ClassCreator_Class_Constant $constant ) : void
+	public function addConstant( ClassCreator_Class_Constant $constant ): void
 	{
-		if(isset( $this->constants[$constant->getName()] )) {
-			throw new BaseObject_Exception('Constant '.$constant->getName().' already defined');
+		if( isset( $this->constants[$constant->getName()] ) ) {
+			throw new BaseObject_Exception( 'Constant ' . $constant->getName() . ' already defined' );
 		}
 
 		$this->constants[$constant->getName()] = $constant;
@@ -310,21 +311,19 @@ class ClassCreator_Class extends BaseObject {
 	 *
 	 * @return bool
 	 */
-	public function hasConstant( string $name ) : bool
+	public function hasConstant( string $name ): bool
 	{
 		return isset( $this->constants[$name] );
 	}
 
 
-
-
 	/**
 	 * @param ClassCreator_Class_Property $property
 	 */
-	public function addProperty( ClassCreator_Class_Property $property ) : void
+	public function addProperty( ClassCreator_Class_Property $property ): void
 	{
-		if(isset( $this->properties[$property->getName()] )) {
-			throw new BaseObject_Exception('Property '.$property->getName().' already defined');
+		if( isset( $this->properties[$property->getName()] ) ) {
+			throw new BaseObject_Exception( 'Property ' . $property->getName() . ' already defined' );
 		}
 
 		$this->properties[$property->getName()] = $property;
@@ -335,7 +334,7 @@ class ClassCreator_Class extends BaseObject {
 	 *
 	 * @return bool
 	 */
-	public function hasProperty( string $name ) : bool
+	public function hasProperty( string $name ): bool
 	{
 		return isset( $this->properties[$name] );
 	}
@@ -345,7 +344,7 @@ class ClassCreator_Class extends BaseObject {
 	 *
 	 * @return ClassCreator_Class_Method
 	 */
-	public function createMethod( string $name ) : ClassCreator_Class_Method
+	public function createMethod( string $name ): ClassCreator_Class_Method
 	{
 		$method = new ClassCreator_Class_Method( $name );
 
@@ -357,10 +356,10 @@ class ClassCreator_Class extends BaseObject {
 	/**
 	 * @param ClassCreator_Class_Method $method
 	 */
-	public function addMethod( ClassCreator_Class_Method $method ) : void
+	public function addMethod( ClassCreator_Class_Method $method ): void
 	{
-		if(isset( $this->methods[$method->getName()] )) {
-			$this->addError('Method '.$method->getName().' already defined');
+		if( isset( $this->methods[$method->getName()] ) ) {
+			$this->addError( 'Method ' . $method->getName() . ' already defined' );
 		}
 
 		$this->methods[$method->getName()] = $method;
@@ -372,7 +371,7 @@ class ClassCreator_Class extends BaseObject {
 	 *
 	 * @return bool
 	 */
-	public function hasMethod( string $name ) : bool
+	public function hasMethod( string $name ): bool
 	{
 		return isset( $this->methods[$name] );
 	}
@@ -380,15 +379,15 @@ class ClassCreator_Class extends BaseObject {
 	/**
 	 * @return string
 	 */
-	public function generateClassAnnotation() : string
+	public function generateClassAnnotation(): string
 	{
 		$nl = ClassCreator_Class::getNl();
 
 		$res = '';
 
-		$res .= '/**'.$nl;
-		$res .= ' *'.$nl;
-		$res .= ' */'.$nl;
+		$res .= '/**' . $nl;
+		$res .= ' *' . $nl;
+		$res .= ' */' . $nl;
 
 		return $res;
 	}
@@ -402,17 +401,16 @@ class ClassCreator_Class extends BaseObject {
 	}
 
 
-
 	/**
 	 * @return string
 	 */
-	public function toString() : string
+	public function toString(): string
 	{
 
 		$res = '';
 
 		$use_str = [];
-		foreach( $this->use as $use  ) {
+		foreach( $this->use as $use ) {
 			$use_str[] = $use->toString();
 		}
 
@@ -423,48 +421,48 @@ class ClassCreator_Class extends BaseObject {
 		$nl = ClassCreator_Class::getNl();
 
 
-		$res .= '/**'.$nl;
-		$res .= ' * '.$nl;
-		$res .= ' */'.$nl;
+		$res .= '/**' . $nl;
+		$res .= ' * ' . $nl;
+		$res .= ' */' . $nl;
 
 		$res .= $nl;
-		$res .= 'namespace '.$this->getNamespace().';'.$nl;
+		$res .= 'namespace ' . $this->getNamespace() . ';' . $nl;
 
 		$res .= $nl;
-		$res .= implode($nl, $use_str).$nl;
+		$res .= implode( $nl, $use_str ) . $nl;
 		$res .= $nl;
 
 		$res .= $this->generateClassAnnotation();
 
-		foreach($this->attributes as $attribute) {
+		foreach( $this->attributes as $attribute ) {
 			$res .= $attribute->toString();
 		}
 
-		$res .= ($this->isAbstract() ? 'abstract ':'').'class '.$this->name;
-		if($this->extends) {
-			$res .= ' extends '.$this->extends;
+		$res .= ($this->isAbstract() ? 'abstract ' : '') . 'class ' . $this->name;
+		if( $this->extends ) {
+			$res .= ' extends ' . $this->extends;
 		}
 
-		if($this->implements) {
-			$res .= ' implements '.implode(', ',$this->implements);
+		if( $this->implements ) {
+			$res .= ' implements ' . implode( ', ', $this->implements );
 		}
 
 		$res .= $nl;
-		$res .= '{'.$nl;
+		$res .= '{' . $nl;
 
 		foreach( $this->constants as $constant ) {
-			$res .= $constant.$nl;
+			$res .= $constant . $nl;
 		}
 
 		foreach( $this->properties as $property ) {
-			$res .= $nl.$property.$nl;
+			$res .= $nl . $property . $nl;
 		}
 
 		foreach( $this->methods as $method ) {
-			$res .= $nl.$method->toString( $ident, $nl ).$nl;
+			$res .= $nl . $method->toString( $ident, $nl ) . $nl;
 
 		}
-		$res .= '}'.$nl;
+		$res .= '}' . $nl;
 
 		if( $this->errors ) {
 			return '';
@@ -477,7 +475,7 @@ class ClassCreator_Class extends BaseObject {
 	/**
 	 * @return string
 	 */
-	public function __toString() : string
+	public function __toString(): string
 	{
 		return $this->toString();
 	}
@@ -485,7 +483,7 @@ class ClassCreator_Class extends BaseObject {
 	/**
 	 * @param string $error
 	 */
-	public function addError( string $error ) : void
+	public function addError( string $error ): void
 	{
 		$this->errors[] = $error;
 	}
@@ -493,7 +491,7 @@ class ClassCreator_Class extends BaseObject {
 	/**
 	 * @return array
 	 */
-	public function getErrors() : array
+	public function getErrors(): array
 	{
 		return $this->errors;
 	}
@@ -501,7 +499,7 @@ class ClassCreator_Class extends BaseObject {
 	/**
 	 * @return array
 	 */
-	public function getWarnings()  : array
+	public function getWarnings(): array
 	{
 		return $this->warnings;
 	}
@@ -509,7 +507,7 @@ class ClassCreator_Class extends BaseObject {
 	/**
 	 * @param $warning
 	 */
-	public function addWarning( string $warning ) : void
+	public function addWarning( string $warning ): void
 	{
 		$this->warnings[] = $warning;
 	}

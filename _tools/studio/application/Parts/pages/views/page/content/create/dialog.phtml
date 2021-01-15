@@ -1,15 +1,17 @@
 <?php
+
 namespace JetStudio;
 
 use Jet\Mvc_View;
 use Jet\Tr;
 use Jet\UI;
+
 /**
  * @var Mvc_View $this
  * @var Pages_Page $page
  */
 
-$dialog = UI::dialog('dialog_create_new_page_content', Tr::_('Add content'), 1000);
+$dialog = UI::dialog( 'dialog_create_new_page_content', Tr::_( 'Add content' ), 1000 );
 
 echo $dialog->start();
 ?>
@@ -20,6 +22,6 @@ echo $dialog->start();
 	</div>
 	<?php
 echo $dialog->footer();
-echo UI::button_save(Tr::_('Add'))->setOnclick('Pages.editPage.content.createSend()');
+echo UI::button_save( Tr::_( 'Add' ) )->setOnclick( 'Pages.editPage.content.createSend()' );
 echo $dialog->end();
 

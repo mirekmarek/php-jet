@@ -5,6 +5,7 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace JetApplicationModule\Content\Images;
 
 use Jet\DataModel;
@@ -41,7 +42,7 @@ class Gallery_Localized extends DataModel_Related_1toN
 		type: DataModel::TYPE_ID,
 		is_id: true,
 		form_field_type: false,
-	related_to: 'main.id'
+		related_to: 'main.id'
 	)]
 	protected string $gallery_id = '';
 
@@ -86,14 +87,14 @@ class Gallery_Localized extends DataModel_Related_1toN
 	 * @param string|null $gallery_id
 	 * @param Locale|null $locale
 	 */
-	public function __construct( string|null $gallery_id=null, Locale $locale=null )
+	public function __construct( string|null $gallery_id = null, Locale $locale = null )
 	{
 		parent::__construct();
-		if($gallery_id) {
+		if( $gallery_id ) {
 			$this->gallery_id = $gallery_id;
 		}
 
-		if($locale) {
+		if( $locale ) {
 			$this->locale = $locale;
 		}
 	}
@@ -126,7 +127,7 @@ class Gallery_Localized extends DataModel_Related_1toN
 	/**
 	 * @return string
 	 */
-	public function getGalleryId() : string
+	public function getGalleryId(): string
 	{
 		return $this->gallery_id;
 	}
@@ -134,7 +135,7 @@ class Gallery_Localized extends DataModel_Related_1toN
 	/**
 	 * @param string $gallery_id
 	 */
-	public function setGalleryId( string $gallery_id ) : void
+	public function setGalleryId( string $gallery_id ): void
 	{
 		$this->gallery_id = $gallery_id;
 	}
@@ -151,9 +152,9 @@ class Gallery_Localized extends DataModel_Related_1toN
 	/**
 	 * @param Locale|string $locale
 	 */
-	public function setLocale( Locale|string $locale ) : void
+	public function setLocale( Locale|string $locale ): void
 	{
-		if( !( $locale instanceof Locale ) ) {
+		if( !($locale instanceof Locale) ) {
 			$locale = new Locale( $locale );
 		}
 
@@ -165,13 +166,13 @@ class Gallery_Localized extends DataModel_Related_1toN
 	 *
 	 * @return string
 	 */
-	public function getURL( Mvc_Page_Interface $base_page=null )
+	public function getURL( Mvc_Page_Interface $base_page = null )
 	{
-		if(!$base_page) {
+		if( !$base_page ) {
 			$base_page = Mvc::getCurrentPage();
 
 		}
-		return $base_page->getURL( [ $this->getURIFragment() ], [] );
+		return $base_page->getURL( [$this->getURIFragment()], [] );
 	}
 
 	/**
@@ -193,7 +194,7 @@ class Gallery_Localized extends DataModel_Related_1toN
 	/**
 	 * @param string $title
 	 */
-	public function setTitle( string $title ) : void
+	public function setTitle( string $title ): void
 	{
 		$this->title = $title;
 
@@ -212,12 +213,12 @@ class Gallery_Localized extends DataModel_Related_1toN
 	 *
 	 * @return bool
 	 */
-	public function getUriFragmentExists( string $URI_fragment ) : bool
+	public function getUriFragmentExists( string $URI_fragment ): bool
 	{
 		$q = [
 			'URI_fragment' => $URI_fragment,
 			'AND',
-			'locale' => $this->locale,
+			'locale'       => $this->locale,
 		];
 
 		if( !$this->getIsNew() ) {
@@ -232,11 +233,11 @@ class Gallery_Localized extends DataModel_Related_1toN
 	 * Generates URI fragment:
 	 *
 	 *
-	 * @param string   $URI_fragment
+	 * @param string $URI_fragment
 	 *
 	 * @param callable $exists_check
-	 * @param string   $suffix (optional) example: .html
-	 * @param bool     $remove_accents (optional, default: true)
+	 * @param string $suffix (optional) example: .html
+	 * @param bool $remove_accents (optional, default: true)
 	 *
 	 * @return string
 	 */
@@ -254,8 +255,31 @@ class Gallery_Localized extends DataModel_Related_1toN
 		$URI_fragment = preg_replace( '~([-]{2,})~', '-', $URI_fragment );
 
 		$replace = [
-			'!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '+', '=', '.', '\'', '"', '/', '<', '>', ';', '?', '{',
-			'}', '[', ']', '|',
+			'!',
+			'@',
+			'#',
+			'$',
+			'%',
+			'^',
+			'&',
+			'*',
+			'(',
+			')',
+			'+',
+			'=',
+			'.',
+			'\'',
+			'"',
+			'/',
+			'<',
+			'>',
+			';',
+			'?',
+			'{',
+			'}',
+			'[',
+			']',
+			'|',
 		];
 		$URI_fragment = str_replace( $replace, '', $URI_fragment );
 
@@ -263,20 +287,20 @@ class Gallery_Localized extends DataModel_Related_1toN
 
 		$max_suffix_no = 9999;
 
-		if( $exists_check( $URI_fragment.$suffix ) ) {
-			$_id = substr( $URI_fragment, 0, 255-strlen( (string)$max_suffix_no ) );
+		if( $exists_check( $URI_fragment . $suffix ) ) {
+			$_id = substr( $URI_fragment, 0, 255 - strlen( (string)$max_suffix_no ) );
 
-			for( $c = 1; $c<=$max_suffix_no; $c++ ) {
-				$URI_fragment = $_id.$c;
+			for( $c = 1; $c <= $max_suffix_no; $c++ ) {
+				$URI_fragment = $_id . $c;
 
-				if( !$exists_check( $URI_fragment.$suffix ) ) {
+				if( !$exists_check( $URI_fragment . $suffix ) ) {
 					break;
 				}
 			}
 		}
 
 
-		return $URI_fragment.$suffix;
+		return $URI_fragment . $suffix;
 	}
 
 

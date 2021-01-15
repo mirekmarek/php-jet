@@ -1,6 +1,6 @@
 <?php
 return [
-	'vendor'      => 'Miroslav Marek <mirek.marek.2m@gmail.com>',
+	'vendor' => 'Miroslav Marek <mirek.marek.2m@gmail.com>',
 
 	'label'       => 'Images',
 	'description' => '',
@@ -18,13 +18,13 @@ return [
 
 	'pages' => [
 		'admin' => [
-			'images' => [
+			'images'              => [
 				'title'                  => 'Images',
 				'relative_path_fragment' => 'images',
 				'icon'                   => 'images',
-				'contents' => [
+				'contents'               => [
 					[
-						'controller_name' => 'Admin',
+						'controller_name'   => 'Admin',
 						'controller_action' => 'default'
 					]
 				],
@@ -34,21 +34,21 @@ return [
 				'title'                  => 'Select image',
 				'relative_path_fragment' => 'select-image',
 				'icon'                   => 'images',
-				'contents' => [
+				'contents'               => [
 					[
-						'controller_name' => 'Admin_Dialogs',
+						'controller_name'   => 'Admin_Dialogs',
 						'controller_action' => 'select_image'
 					]
 				],
 			],
 		],
-		'rest' => [
+		'rest'  => [
 			'images' => [
 				'title'                  => 'Images',
 				'relative_path_fragment' => 'gallery',
-				'contents' => [
+				'contents'               => [
 					[
-						'controller_name' => 'REST',
+						'controller_name'   => 'REST',
 						'controller_action' => 'default'
 					]
 				],

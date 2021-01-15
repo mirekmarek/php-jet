@@ -5,6 +5,7 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace Jet;
 
 use Iterator;
@@ -143,7 +144,7 @@ abstract class Form_Field extends BaseObject implements JsonSerializable
 	 * @param string $name
 	 * @param string $label
 	 * @param mixed $default_value
-	 * @param bool   $is_required
+	 * @param bool $is_required
 	 */
 	public function __construct( string $name, string $label = '', mixed $default_value = '', bool $is_required = false )
 	{
@@ -158,7 +159,7 @@ abstract class Form_Field extends BaseObject implements JsonSerializable
 	/**
 	 * @return Form
 	 */
-	public function getForm() : Form
+	public function getForm(): Form
 	{
 		return $this->_form;
 	}
@@ -167,7 +168,7 @@ abstract class Form_Field extends BaseObject implements JsonSerializable
 	 *
 	 * @param Form $form
 	 */
-	public function setForm( Form $form ) : void
+	public function setForm( Form $form ): void
 	{
 		$this->_form = $form;
 	}
@@ -177,9 +178,9 @@ abstract class Form_Field extends BaseObject implements JsonSerializable
 	 *
 	 * @return string
 	 */
-	public function getId() : string
+	public function getId(): string
 	{
-		return $this->_form->getId().'__'.str_replace( '/', '___', $this->getName() );
+		return $this->_form->getId() . '__' . str_replace( '/', '___', $this->getName() );
 	}
 
 	/**
@@ -195,25 +196,25 @@ abstract class Form_Field extends BaseObject implements JsonSerializable
 	 *
 	 * @return string
 	 */
-	public function getTagNameValue( ?string $name = null ) : string
+	public function getTagNameValue( ?string $name = null ): string
 	{
 		if( !$name ) {
 			$name = $this->getName();
 		}
 
-		if( $name[0]!='/' ) {
+		if( $name[0] != '/' ) {
 			return $name;
 		}
 
 		$name = explode( '/', $name );
 		array_shift( $name );
 		foreach( $name as $i => $np ) {
-			if( $i>0 ) {
-				if( substr( $np, -2 )=='[]' ) {
+			if( $i > 0 ) {
+				if( substr( $np, -2 ) == '[]' ) {
 					$np = substr( $np, 0, -2 );
-					$name[$i] = '['.$np.'][]';
+					$name[$i] = '[' . $np . '][]';
 				} else {
-					$name[$i] = '['.$np.']';
+					$name[$i] = '[' . $np . ']';
 				}
 			}
 		}
@@ -225,7 +226,7 @@ abstract class Form_Field extends BaseObject implements JsonSerializable
 	 *
 	 * @return string
 	 */
-	public function getName() : string
+	public function getName(): string
 	{
 		return $this->_name;
 	}
@@ -233,7 +234,7 @@ abstract class Form_Field extends BaseObject implements JsonSerializable
 	/**
 	 * @param string $name
 	 */
-	public function setName( string $name ) : void
+	public function setName( string $name ): void
 	{
 		$this->_name = $name;
 	}
@@ -242,7 +243,7 @@ abstract class Form_Field extends BaseObject implements JsonSerializable
 	 *
 	 * @return mixed
 	 */
-	public function getDefaultValue() : mixed
+	public function getDefaultValue(): mixed
 	{
 		return $this->default_value;
 	}
@@ -251,7 +252,7 @@ abstract class Form_Field extends BaseObject implements JsonSerializable
 	 *
 	 * @param mixed $default_value
 	 */
-	public function setDefaultValue( mixed $default_value ) : void
+	public function setDefaultValue( mixed $default_value ): void
 	{
 
 		$this->default_value = $default_value;
@@ -285,7 +286,7 @@ abstract class Form_Field extends BaseObject implements JsonSerializable
 				$this->_value[] = trim( Data_Text::htmlSpecialChars( (string)$v ) );
 			}
 		} else {
-			if(is_string($default_value)) {
+			if( is_string( $default_value ) ) {
 				$this->_value = trim( Data_Text::htmlSpecialChars( $default_value ) );
 			} else {
 				$this->_value = $default_value;
@@ -299,7 +300,7 @@ abstract class Form_Field extends BaseObject implements JsonSerializable
 	 *
 	 * @return string
 	 */
-	public function getLabel() : string
+	public function getLabel(): string
 	{
 		return $this->_( $this->label );
 	}
@@ -308,7 +309,7 @@ abstract class Form_Field extends BaseObject implements JsonSerializable
 	 *
 	 * @param string $label
 	 */
-	public function setLabel( string $label ) : void
+	public function setLabel( string $label ): void
 	{
 		$this->label = $label;
 	}
@@ -317,7 +318,7 @@ abstract class Form_Field extends BaseObject implements JsonSerializable
 	/**
 	 * @return string
 	 */
-	public function getPlaceholder() : string
+	public function getPlaceholder(): string
 	{
 		return $this->_( $this->placeholder );
 	}
@@ -325,7 +326,7 @@ abstract class Form_Field extends BaseObject implements JsonSerializable
 	/**
 	 * @param string $placeholder
 	 */
-	public function setPlaceholder( string $placeholder ) : void
+	public function setPlaceholder( string $placeholder ): void
 	{
 		$this->placeholder = $placeholder;
 	}
@@ -334,7 +335,7 @@ abstract class Form_Field extends BaseObject implements JsonSerializable
 	 *
 	 * @return bool
 	 */
-	public function getIsRequired() : bool
+	public function getIsRequired(): bool
 	{
 		return $this->is_required;
 	}
@@ -343,12 +344,10 @@ abstract class Form_Field extends BaseObject implements JsonSerializable
 	 *
 	 * @param string $required
 	 */
-	public function setIsRequired( string $required ) : void
+	public function setIsRequired( string $required ): void
 	{
 		$this->is_required = (bool)$required;
 	}
-
-
 
 
 	/**
@@ -358,11 +357,11 @@ abstract class Form_Field extends BaseObject implements JsonSerializable
 	 *
 	 * @throws Form_Exception
 	 */
-	public function setOptions( array $options ) : void
+	public function setOptions( array $options ): void
 	{
 		foreach( $options as $o_k => $o_v ) {
 			if( !$this->objectHasProperty( $o_k ) ) {
-				throw new Form_Exception( 'Unknown form field option: '.$o_k );
+				throw new Form_Exception( 'Unknown form field option: ' . $o_k );
 			}
 
 			$this->{$o_k} = $o_v;
@@ -374,7 +373,7 @@ abstract class Form_Field extends BaseObject implements JsonSerializable
 	 *
 	 * @return array
 	 */
-	public function getSelectOptions() : array
+	public function getSelectOptions(): array
 	{
 		return $this->select_options;
 	}
@@ -384,7 +383,7 @@ abstract class Form_Field extends BaseObject implements JsonSerializable
 	 *
 	 * @param array|Iterator $options
 	 */
-	public function setSelectOptions( array|Iterator $options ) : void
+	public function setSelectOptions( array|Iterator $options ): void
 	{
 		if( is_object( $options ) ) {
 
@@ -403,7 +402,7 @@ abstract class Form_Field extends BaseObject implements JsonSerializable
 	/**
 	 * @return bool
 	 */
-	public function getIsReadonly() : bool
+	public function getIsReadonly(): bool
 	{
 		return $this->is_readonly;
 	}
@@ -411,7 +410,7 @@ abstract class Form_Field extends BaseObject implements JsonSerializable
 	/**
 	 * @param bool $is_readonly
 	 */
-	public function setIsReadonly( bool $is_readonly ) : void
+	public function setIsReadonly( bool $is_readonly ): void
 	{
 		$this->is_readonly = $is_readonly;
 	}
@@ -420,7 +419,7 @@ abstract class Form_Field extends BaseObject implements JsonSerializable
 	/**
 	 * @return callable|null
 	 */
-	public function getCatcher() : callable|null
+	public function getCatcher(): callable|null
 	{
 		return $this->catcher;
 	}
@@ -428,7 +427,7 @@ abstract class Form_Field extends BaseObject implements JsonSerializable
 	/**
 	 * @param callable $catcher
 	 */
-	public function setCatcher( callable $catcher ) : void
+	public function setCatcher( callable $catcher ): void
 	{
 		$this->catcher = $catcher;
 	}
@@ -436,12 +435,12 @@ abstract class Form_Field extends BaseObject implements JsonSerializable
 	/**
 	 *
 	 */
-	public function catchData() : void
+	public function catchData(): void
 	{
 		if(
 			$this->getIsReadonly() ||
 			!$this->getHasValue() ||
-			!( $catcher = $this->getCatcher() )
+			!($catcher = $this->getCatcher())
 		) {
 			return;
 		}
@@ -453,7 +452,7 @@ abstract class Form_Field extends BaseObject implements JsonSerializable
 	 *
 	 * @return bool
 	 */
-	public function getHasValue() : bool
+	public function getHasValue(): bool
 	{
 		return $this->_has_value;
 	}
@@ -462,7 +461,7 @@ abstract class Form_Field extends BaseObject implements JsonSerializable
 	 *
 	 * @return mixed
 	 */
-	public function getValue() : mixed
+	public function getValue(): mixed
 	{
 		return $this->_value;
 	}
@@ -470,7 +469,7 @@ abstract class Form_Field extends BaseObject implements JsonSerializable
 	/**
 	 * @param mixed $value
 	 */
-	public function setValue( mixed $value ) : void
+	public function setValue( mixed $value ): void
 	{
 		$this->_value = $value;
 	}
@@ -478,17 +477,16 @@ abstract class Form_Field extends BaseObject implements JsonSerializable
 	/**
 	 * @return mixed
 	 */
-	public function getValueRaw() : mixed
+	public function getValueRaw(): mixed
 	{
 		return $this->_value_raw;
 	}
 
 
-
 	/**
 	 * @return array
 	 */
-	public function jsonSerialize() : array
+	public function jsonSerialize(): array
 	{
 
 		$vars = [];
@@ -496,12 +494,12 @@ abstract class Form_Field extends BaseObject implements JsonSerializable
 		$vars['id'] = $this->getId();
 
 		foreach( get_object_vars( $this ) as $k => $v ) {
-			if( $k=='_type' ) {
+			if( $k == '_type' ) {
 				$vars['type'] = $v;
 				continue;
 			}
 
-			if( $k[0]!='_' ) {
+			if( $k[0] != '_' ) {
 				$vars[$k] = $v;
 			}
 		}
@@ -510,14 +508,14 @@ abstract class Form_Field extends BaseObject implements JsonSerializable
 	}
 
 	/**
-	 * @see Translator
-	 *
 	 * @param string $phrase
-	 * @param array  $data
+	 * @param array $data
 	 *
 	 * @return string
+	 * @see Translator
+	 *
 	 */
-	public function _( string $phrase, array $data = [] ) : string
+	public function _( string $phrase, array $data = [] ): string
 	{
 		return $this->_form->_( $phrase, $data );
 	}

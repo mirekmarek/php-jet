@@ -1,4 +1,5 @@
 <?php
+
 namespace JetStudio;
 
 use Jet\Http_Headers;
@@ -12,8 +13,8 @@ if(
 	$current->catchSortLocalesForm()
 ) {
 	if( $current->save() ) {
-		UI_messages::success( Tr::_('Saved ...') );
-		Http_Headers::reload([], ['action']);
+		UI_messages::success( Tr::_( 'Saved ...' ) );
+		Http_Headers::reload( [], ['action'] );
 	}
 
 }

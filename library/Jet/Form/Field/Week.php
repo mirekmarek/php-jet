@@ -5,6 +5,7 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace Jet;
 
 /**
@@ -72,11 +73,11 @@ class Form_Field_Week extends Form_Field_Input
 	 *
 	 * @return bool
 	 */
-	public function validate() : bool
+	public function validate(): bool
 	{
 		if(
 			!$this->is_required &&
-			$this->_value===''
+			$this->_value === ''
 		) {
 			return true;
 		}
@@ -95,7 +96,7 @@ class Form_Field_Week extends Form_Field_Input
 	/**
 	 * @return array
 	 */
-	public function getRequiredErrorCodes() : array
+	public function getRequiredErrorCodes(): array
 	{
 		$codes = [];
 

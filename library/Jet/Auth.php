@@ -5,6 +5,7 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace Jet;
 
 /**
@@ -24,7 +25,7 @@ class Auth extends BaseObject
 	 *
 	 * @return Auth_Controller_Interface|null
 	 */
-	public static function getController() : Auth_Controller_Interface|null
+	public static function getController(): Auth_Controller_Interface|null
 	{
 		return static::$controller;
 	}
@@ -32,7 +33,7 @@ class Auth extends BaseObject
 	/**
 	 * @param Auth_Controller_Interface $controller
 	 */
-	public static function setController( Auth_Controller_Interface $controller ) : void
+	public static function setController( Auth_Controller_Interface $controller ): void
 	{
 		static::$controller = $controller;
 	}
@@ -41,7 +42,7 @@ class Auth extends BaseObject
 	 *
 	 * @return bool
 	 */
-	public static function checkCurrentUser() : bool
+	public static function checkCurrentUser(): bool
 	{
 		return static::getController()->checkCurrentUser();
 	}
@@ -53,14 +54,14 @@ class Auth extends BaseObject
 	 *
 	 * @return bool
 	 */
-	public static function login( string $username, string $password ) : bool
+	public static function login( string $username, string $password ): bool
 	{
 		return static::getController()->login( $username, $password );
 	}
 
 	/**
 	 */
-	public static function logout() : void
+	public static function logout(): void
 	{
 		static::getController()->logout();
 	}
@@ -69,7 +70,7 @@ class Auth extends BaseObject
 	 *
 	 * @return Auth_User_Interface|bool
 	 */
-	public static function getCurrentUser() : Auth_User_Interface|bool
+	public static function getCurrentUser(): Auth_User_Interface|bool
 	{
 		return static::getController()->getCurrentUser();
 	}
@@ -81,7 +82,7 @@ class Auth extends BaseObject
 	 *
 	 * @return bool
 	 */
-	public static function getCurrentUserHasPrivilege( string $privilege, mixed $value ) : bool
+	public static function getCurrentUserHasPrivilege( string $privilege, mixed $value ): bool
 	{
 		return static::getController()->getCurrentUserHasPrivilege( $privilege, $value );
 	}
@@ -92,7 +93,7 @@ class Auth extends BaseObject
 	 *
 	 * @return bool
 	 */
-	public static function checkModuleActionAccess( string $module_name, string $action ) : bool
+	public static function checkModuleActionAccess( string $module_name, string $action ): bool
 	{
 		return static::getController()->checkModuleActionAccess( $module_name, $action );
 	}
@@ -102,7 +103,7 @@ class Auth extends BaseObject
 	 *
 	 * @return bool
 	 */
-	public static function checkPageAccess( Mvc_Page_Interface $page ) : bool
+	public static function checkPageAccess( Mvc_Page_Interface $page ): bool
 	{
 		return static::getController()->checkPageAccess( $page );
 	}
@@ -110,7 +111,7 @@ class Auth extends BaseObject
 	/**
 	 *
 	 */
-	public static function handleLogin() : void
+	public static function handleLogin(): void
 	{
 		static::getController()->handleLogin();
 	}

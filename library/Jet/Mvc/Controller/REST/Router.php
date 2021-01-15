@@ -5,6 +5,7 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace Jet;
 
 /**
@@ -53,7 +54,7 @@ class Mvc_Controller_REST_Router extends BaseObject implements Mvc_Controller_Ro
 	 * @param Mvc_Controller_REST $controller
 	 * @param array $actions_map
 	 */
-	public function __construct( Mvc_Controller_REST $controller, array $actions_map)
+	public function __construct( Mvc_Controller_REST $controller, array $actions_map )
 	{
 		$this->controller = $controller;
 		$this->actions_map = $actions_map;
@@ -63,7 +64,7 @@ class Mvc_Controller_REST_Router extends BaseObject implements Mvc_Controller_Ro
 	/**
 	 * @return Mvc_Controller
 	 */
-	public function getController() : Mvc_Controller
+	public function getController(): Mvc_Controller
 	{
 		return $this->controller;
 	}
@@ -71,7 +72,7 @@ class Mvc_Controller_REST_Router extends BaseObject implements Mvc_Controller_Ro
 	/**
 	 * @return callable
 	 */
-	public function getPreparer() : callable
+	public function getPreparer(): callable
 	{
 		return $this->preparer;
 	}
@@ -81,7 +82,7 @@ class Mvc_Controller_REST_Router extends BaseObject implements Mvc_Controller_Ro
 	 *
 	 * @return $this
 	 */
-	public function setPreparer( callable $preparer ) : static
+	public function setPreparer( callable $preparer ): static
 	{
 		$this->preparer = $preparer;
 
@@ -91,7 +92,7 @@ class Mvc_Controller_REST_Router extends BaseObject implements Mvc_Controller_Ro
 	/**
 	 * @return callable|null
 	 */
-	public function getResolverGet() : callable|null
+	public function getResolverGet(): callable|null
 	{
 		return $this->resolver_get;
 	}
@@ -101,7 +102,7 @@ class Mvc_Controller_REST_Router extends BaseObject implements Mvc_Controller_Ro
 	 *
 	 * @return $this
 	 */
-	public function setResolverGet( callable $resolver_get ) : static
+	public function setResolverGet( callable $resolver_get ): static
 	{
 		$this->resolver_get = $resolver_get;
 
@@ -111,7 +112,7 @@ class Mvc_Controller_REST_Router extends BaseObject implements Mvc_Controller_Ro
 	/**
 	 * @return callable|null
 	 */
-	public function getResolverPost() : callable|null
+	public function getResolverPost(): callable|null
 	{
 		return $this->resolver_post;
 	}
@@ -121,7 +122,7 @@ class Mvc_Controller_REST_Router extends BaseObject implements Mvc_Controller_Ro
 	 *
 	 * @return $this
 	 */
-	public function setResolverPost( callable $resolver_post ) : static
+	public function setResolverPost( callable $resolver_post ): static
 	{
 		$this->resolver_post = $resolver_post;
 
@@ -131,7 +132,7 @@ class Mvc_Controller_REST_Router extends BaseObject implements Mvc_Controller_Ro
 	/**
 	 * @return callable|null
 	 */
-	public function getResolverPut() : callable|null
+	public function getResolverPut(): callable|null
 	{
 		return $this->resolver_put;
 	}
@@ -141,7 +142,7 @@ class Mvc_Controller_REST_Router extends BaseObject implements Mvc_Controller_Ro
 	 *
 	 * @return $this
 	 */
-	public function setResolverPut( callable $resolver_put ) : static
+	public function setResolverPut( callable $resolver_put ): static
 	{
 		$this->resolver_put = $resolver_put;
 
@@ -151,7 +152,7 @@ class Mvc_Controller_REST_Router extends BaseObject implements Mvc_Controller_Ro
 	/**
 	 * @return callable|null
 	 */
-	public function getResolverDelete() : callable|null
+	public function getResolverDelete(): callable|null
 	{
 		return $this->resolver_delete;
 	}
@@ -161,7 +162,7 @@ class Mvc_Controller_REST_Router extends BaseObject implements Mvc_Controller_Ro
 	 *
 	 * @return $this
 	 */
-	public function setResolverDelete( callable $resolver_delete ) : static
+	public function setResolverDelete( callable $resolver_delete ): static
 	{
 		$this->resolver_delete = $resolver_delete;
 
@@ -173,12 +174,12 @@ class Mvc_Controller_REST_Router extends BaseObject implements Mvc_Controller_Ro
 	 *
 	 * @return bool|string
 	 */
-	public function resolve() : bool|string
+	public function resolve(): bool|string
 	{
 		$path = Mvc::getRouter()->getPath();
 
 		$preparer = $this->getPreparer();
-		if(!$preparer( $path )) {
+		if( !$preparer( $path ) ) {
 			return false;
 		}
 
@@ -201,14 +202,14 @@ class Mvc_Controller_REST_Router extends BaseObject implements Mvc_Controller_Ro
 
 		$controller_action = $resolver();
 
-		if(!$controller_action) {
+		if( !$controller_action ) {
 			return false;
 		}
 
 		$module_action = $this->actions_map[$controller_action];
 
-		if($module_action) {
-			if(!$this->controller->getModule()->actionIsAllowed( $module_action )) {
+		if( $module_action ) {
+			if( !$this->controller->getModule()->actionIsAllowed( $module_action ) ) {
 				$this->controller->responseAccessDenied();
 			}
 		}

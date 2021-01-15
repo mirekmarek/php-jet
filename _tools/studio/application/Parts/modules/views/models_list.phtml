@@ -6,22 +6,22 @@ use Jet\Tr;
 use Jet\UI;
 
 
-$showIcons = function( Modules_Manifest $module) {
+$showIcons = function( Modules_Manifest $module ) {
 	?>
-	<?php if($module->isMandatory()): ?>
-		<span class="badge badge-info"><?=UI::icon('exclamation-triangle')->setTitle(Tr::_('Is mandatory'))?></span>
+	<?php if( $module->isMandatory() ): ?>
+		<span class="badge badge-info"><?= UI::icon( 'exclamation-triangle' )->setTitle( Tr::_( 'Is mandatory' ) ) ?></span>
 	<?php endif; ?>
 
-	<?php if($module->isInstalled()): ?>
-		<span class="badge badge-success"><?=UI::icon('check')->setTitle(Tr::_('Is installed'))?></span>
+	<?php if( $module->isInstalled() ): ?>
+		<span class="badge badge-success"><?= UI::icon( 'check' )->setTitle( Tr::_( 'Is installed' ) ) ?></span>
 	<?php else: ?>
-		<span class="badge badge-danger"><?=UI::icon('times')->setTitle(Tr::_('Is not installed'))?></span>
+		<span class="badge badge-danger"><?= UI::icon( 'times' )->setTitle( Tr::_( 'Is not installed' ) ) ?></span>
 	<?php endif; ?>
 
-	<?php if($module->isActivated()): ?>
-		<span class="badge badge-success"><?=UI::icon('check')->setTitle(Tr::_('Is activated'))?></span>
+	<?php if( $module->isActivated() ): ?>
+		<span class="badge badge-success"><?= UI::icon( 'check' )->setTitle( Tr::_( 'Is activated' ) ) ?></span>
 	<?php else: ?>
-		<span class="badge badge-danger"><?=UI::icon('times')->setTitle(Tr::_('Is not activated'))?></span>
+		<span class="badge badge-danger"><?= UI::icon( 'times' )->setTitle( Tr::_( 'Is not activated' ) ) ?></span>
 	<?php endif; ?>
 	<?php
 };
@@ -29,23 +29,27 @@ $showIcons = function( Modules_Manifest $module) {
 <table class="table table-striped">
 	<?php
 	$module = Modules::getCurrentModule();
-	if($module):
-	?>
+	if( $module ):
+		?>
 		<tr>
 			<td style="width: 100px;">
-				<?php $showIcons($module); ?>
+				<?php $showIcons( $module ); ?>
 			</td>
 			<td>
 
-				<?php if(!Modules::getCurrentMenuItem() && !Modules::getCurrentPage()): ?>
-					<b class="badge badge-info" style="font-size: 20px;"><?=$module->getName()?></b>
+				<?php if( !Modules::getCurrentMenuItem() && !Modules::getCurrentPage() ): ?>
+					<b class="badge badge-info" style="font-size: 20px;"><?= $module->getName() ?></b>
 				<?php else: ?>
-					<a href="<?=Http_Request::currentURI([],['menu_item','page', 'action'])?>" style="font-weight: bolder;font-size: 20px;"><?=$module->getName()?></a>
+					<a href="<?= Http_Request::currentURI( [], [
+						'menu_item',
+						'page',
+						'action'
+					] ) ?>" style="font-weight: bolder;font-size: 20px;"><?= $module->getName() ?></a>
 				<?php endif; ?>
 				<br/>
-				<span style="font-size: 12px;"><?=$module->getLabel()?></span>
-					<?php require 'menu_item/list.phtml'?>
-					<?php require 'page/list.phtml'?>
+				<span style="font-size: 12px;"><?= $module->getLabel() ?></span>
+				<?php require 'menu_item/list.phtml' ?>
+				<?php require 'page/list.phtml' ?>
 				<br>
 			</td>
 		</tr>
@@ -53,17 +57,21 @@ $showIcons = function( Modules_Manifest $module) {
 
 
 	<?php foreach( Modules::getModules() as $module ):
-		if($module->getName()==Modules::getCurrentModuleName()) {
+		if( $module->getName() == Modules::getCurrentModuleName() ) {
 			continue;
 		}
 		?>
 		<tr>
 			<td style="width: 100px;">
-				<?php $showIcons($module); ?>
+				<?php $showIcons( $module ); ?>
 			</td>
 			<td>
-				<a href="<?=Http_Request::currentURI(['module'=>$module->getName()], ['menu_item', 'page', 'action'])?>"><?=$module->getName()?></a><br/>
-				<span style="font-size: 12px;"><?=$module->getLabel()?></span>
+				<a href="<?= Http_Request::currentURI( ['module' => $module->getName()], [
+					'menu_item',
+					'page',
+					'action'
+				] ) ?>"><?= $module->getName() ?></a><br/>
+				<span style="font-size: 12px;"><?= $module->getLabel() ?></span>
 			</td>
 		</tr>
 	<?php endforeach; ?>

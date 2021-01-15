@@ -5,7 +5,9 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace JetApplication\Installer;
+
 use Jet\BaseObject;
 use Jet\Db_Backend_Config;
 use Jet\Form;
@@ -34,7 +36,7 @@ abstract class Installer_DbDriverConfig extends BaseObject
 	 *
 	 * @param Db_Backend_Config|null $connection_config
 	 */
-	public function __construct( Db_Backend_Config $connection_config=null )
+	public function __construct( Db_Backend_Config $connection_config = null )
 	{
 		$this->connection_config = $connection_config;
 	}

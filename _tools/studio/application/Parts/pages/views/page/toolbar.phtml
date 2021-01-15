@@ -9,13 +9,14 @@ use Jet\Mvc_View;
  * @var Pages_Page $page
  */
 
-$page = $this->getRaw('page');
-$what = $this->getRaw('what');
+$page = $this->getRaw( 'page' );
+$what = $this->getRaw( 'what' );
 
 
-echo $this->render('page/'.$what.'/edit/toolbar');
+echo $this->render( 'page/' . $what . '/edit/toolbar' );
 ?>
 
-<?=Tr::_('Page')?> <span style="font-weight: bolder"><?=$page->getName()?></span> <span style="color: #aaaaaa;font-size: 12px;"><?=$page->getId()?></span>
+<?= Tr::_( 'Page' ) ?> <span style="font-weight: bolder"><?= $page->getName() ?></span> <span
+		style="color: #aaaaaa;font-size: 12px;"><?= $page->getId() ?></span>
 
 

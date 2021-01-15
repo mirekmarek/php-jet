@@ -5,6 +5,7 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace Jet;
 
 require_once 'LocalizedData/Interface.php';
@@ -60,12 +61,12 @@ class Mvc_Site_LocalizedData extends BaseObject implements Mvc_Site_LocalizedDat
 
 	/**
 	 * @param Mvc_Site_Interface $site
-	 * @param Locale             $locale
-	 * @param array              $data
+	 * @param Locale $locale
+	 * @param array $data
 	 *
 	 * @return static
 	 */
-	public static function createByData( Mvc_Site_Interface $site, Locale $locale, array $data ) : static
+	public static function createByData( Mvc_Site_Interface $site, Locale $locale, array $data ): static
 	{
 		/**
 		 * @var Mvc_Site_LocalizedData $ld
@@ -83,13 +84,13 @@ class Mvc_Site_LocalizedData extends BaseObject implements Mvc_Site_LocalizedDat
 	/**
 	 * @param array $data
 	 */
-	protected function setData( array $data ) : void
+	protected function setData( array $data ): void
 	{
 		$meta_tags = [];
 
-		if(isset($data['default_meta_tags'])) {
+		if( isset( $data['default_meta_tags'] ) ) {
 			foreach( $data['default_meta_tags'] as $m_data ) {
-				$meta_tags[] = Mvc_Site_LocalizedData_MetaTag::createByData( $this, $m_data);
+				$meta_tags[] = Mvc_Site_LocalizedData_MetaTag::createByData( $this, $m_data );
 			}
 
 			$this->setDefaultMetaTags( $meta_tags );
@@ -105,7 +106,7 @@ class Mvc_Site_LocalizedData extends BaseObject implements Mvc_Site_LocalizedDat
 	/**
 	 * @return Mvc_Site_Interface
 	 */
-	public function getSite() : Mvc_Site_Interface
+	public function getSite(): Mvc_Site_Interface
 	{
 		return $this->__site;
 	}
@@ -113,7 +114,7 @@ class Mvc_Site_LocalizedData extends BaseObject implements Mvc_Site_LocalizedDat
 	/**
 	 * @param Mvc_Site_Interface $site
 	 */
-	public function setSite( Mvc_Site_Interface $site ) : void
+	public function setSite( Mvc_Site_Interface $site ): void
 	{
 		$this->__site = $site;
 	}
@@ -122,7 +123,7 @@ class Mvc_Site_LocalizedData extends BaseObject implements Mvc_Site_LocalizedDat
 	/**
 	 * @return Locale
 	 */
-	public function getLocale() : Locale
+	public function getLocale(): Locale
 	{
 		return $this->__locale;
 	}
@@ -131,7 +132,7 @@ class Mvc_Site_LocalizedData extends BaseObject implements Mvc_Site_LocalizedDat
 	 * @param Locale $locale
 	 *
 	 */
-	public function setLocale( Locale $locale ) : void
+	public function setLocale( Locale $locale ): void
 	{
 		$this->__locale = $locale;
 	}
@@ -139,7 +140,7 @@ class Mvc_Site_LocalizedData extends BaseObject implements Mvc_Site_LocalizedDat
 	/**
 	 * @return bool
 	 */
-	public function getIsActive() : bool
+	public function getIsActive(): bool
 	{
 		return $this->is_active;
 	}
@@ -147,7 +148,7 @@ class Mvc_Site_LocalizedData extends BaseObject implements Mvc_Site_LocalizedDat
 	/**
 	 * @param bool $is_active
 	 */
-	public function setIsActive( bool $is_active ) : void
+	public function setIsActive( bool $is_active ): void
 	{
 		$this->is_active = (bool)$is_active;
 	}
@@ -156,7 +157,7 @@ class Mvc_Site_LocalizedData extends BaseObject implements Mvc_Site_LocalizedDat
 	/**
 	 * @return string
 	 */
-	public function getTitle() : string
+	public function getTitle(): string
 	{
 		return $this->title;
 	}
@@ -164,7 +165,7 @@ class Mvc_Site_LocalizedData extends BaseObject implements Mvc_Site_LocalizedDat
 	/**
 	 * @param string $title
 	 */
-	public function setTitle( string $title ) : void
+	public function setTitle( string $title ): void
 	{
 		$this->title = $title;
 	}
@@ -172,7 +173,7 @@ class Mvc_Site_LocalizedData extends BaseObject implements Mvc_Site_LocalizedDat
 	/**
 	 * @return array
 	 */
-	public function getURLs() : array
+	public function getURLs(): array
 	{
 		return $this->URLs;
 	}
@@ -180,10 +181,10 @@ class Mvc_Site_LocalizedData extends BaseObject implements Mvc_Site_LocalizedDat
 	/**
 	 * @param array $URLs
 	 */
-	public function setURLs( array $URLs ) : void
+	public function setURLs( array $URLs ): void
 	{
-		foreach( $URLs as $i=>$URL ) {
-			$URL = trim($URL, '/');
+		foreach( $URLs as $i => $URL ) {
+			$URL = trim( $URL, '/' );
 			$URL .= '/';
 
 			$URLs[$i] = $URL;
@@ -196,7 +197,7 @@ class Mvc_Site_LocalizedData extends BaseObject implements Mvc_Site_LocalizedDat
 	/**
 	 * @return string
 	 */
-	public function getDefaultURL() : string
+	public function getDefaultURL(): string
 	{
 		return $this->URLs[0];
 	}
@@ -205,9 +206,9 @@ class Mvc_Site_LocalizedData extends BaseObject implements Mvc_Site_LocalizedDat
 	/**
 	 * @return bool
 	 */
-	public function getSSLRequired() : bool
+	public function getSSLRequired(): bool
 	{
-		if($this->__site->getSSLRequired()) {
+		if( $this->__site->getSSLRequired() ) {
 			return true;
 		}
 
@@ -217,7 +218,7 @@ class Mvc_Site_LocalizedData extends BaseObject implements Mvc_Site_LocalizedDat
 	/**
 	 * @param bool $SSL_required
 	 */
-	public function setSSLRequired( bool $SSL_required ) : void
+	public function setSSLRequired( bool $SSL_required ): void
 	{
 		$this->SSL_required = $SSL_required;
 	}
@@ -227,7 +228,7 @@ class Mvc_Site_LocalizedData extends BaseObject implements Mvc_Site_LocalizedDat
 	 *
 	 * @return Mvc_Site_LocalizedData_MetaTag[]
 	 */
-	public function getDefaultMetaTags() : array
+	public function getDefaultMetaTags(): array
 	{
 		return $this->default_meta_tags;
 	}
@@ -236,7 +237,7 @@ class Mvc_Site_LocalizedData extends BaseObject implements Mvc_Site_LocalizedDat
 	 *
 	 * @param Mvc_Site_LocalizedData_MetaTag_Interface[] $default_meta_tags
 	 */
-	public function setDefaultMetaTags( array $default_meta_tags ) : void
+	public function setDefaultMetaTags( array $default_meta_tags ): void
 	{
 		$this->default_meta_tags = [];
 
@@ -249,7 +250,7 @@ class Mvc_Site_LocalizedData extends BaseObject implements Mvc_Site_LocalizedDat
 	 *
 	 * @param Mvc_Site_LocalizedData_MetaTag_Interface $default_meta_tag
 	 */
-	public function addDefaultMetaTag( Mvc_Site_LocalizedData_MetaTag_Interface $default_meta_tag ) : void
+	public function addDefaultMetaTag( Mvc_Site_LocalizedData_MetaTag_Interface $default_meta_tag ): void
 	{
 		$this->default_meta_tags[] = $default_meta_tag;
 	}
@@ -258,7 +259,7 @@ class Mvc_Site_LocalizedData extends BaseObject implements Mvc_Site_LocalizedDat
 	 *
 	 * @param int $index
 	 */
-	public function removeDefaultMetaTag( int $index ) : void
+	public function removeDefaultMetaTag( int $index ): void
 	{
 		unset( $this->default_meta_tags[$index] );
 	}
@@ -266,11 +267,11 @@ class Mvc_Site_LocalizedData extends BaseObject implements Mvc_Site_LocalizedDat
 	/**
 	 * @return array
 	 */
-	public function toArray() : array
+	public function toArray(): array
 	{
 		$data = get_object_vars( $this );
 		foreach( $data as $k => $v ) {
-			if( $k[0]=='_' ) {
+			if( $k[0] == '_' ) {
 				unset( $data[$k] );
 			}
 		}

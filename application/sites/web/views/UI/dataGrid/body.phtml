@@ -1,9 +1,10 @@
 <?php
+
 use Jet\UI_dataGrid;
 use Jet\Mvc_View;
 
 /**
- * @var Mvc_View    $this
+ * @var Mvc_View $this
  * @var UI_dataGrid $grid
  */
 $grid = $this->getRaw( 'grid' );
@@ -15,7 +16,7 @@ $grid = $this->getRaw( 'grid' );
 			$callback = $column->getRenderer();
 			?>
 			<td>
-				<?=$callback( $item, $i );?>
+				<?= $callback( $item, $i ); ?>
 			</td>
 		<?php endforeach; ?>
 	</tr>

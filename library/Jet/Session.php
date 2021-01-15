@@ -5,6 +5,7 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace Jet;
 
 /**
@@ -40,7 +41,7 @@ class Session extends BaseObject
 	/**
 	 *
 	 */
-	protected function sessionStart() : void
+	protected function sessionStart(): void
 	{
 		if( !static::$session_started ) {
 			/** @noinspection PhpUsageOfSilenceOperatorInspection */
@@ -63,7 +64,7 @@ class Session extends BaseObject
 	/**
 	 * @return callable
 	 */
-	public static function getSessionValidator() : callable
+	public static function getSessionValidator(): callable
 	{
 		return static::$session_validator;
 	}
@@ -71,7 +72,7 @@ class Session extends BaseObject
 	/**
 	 * @param callable $session_validator
 	 */
-	public static function setSessionValidator( callable $session_validator ) : void
+	public static function setSessionValidator( callable $session_validator ): void
 	{
 		static::$session_validator = $session_validator;
 	}
@@ -79,7 +80,7 @@ class Session extends BaseObject
 	/**
 	 *
 	 */
-	public static function regenerateId() : void
+	public static function regenerateId(): void
 	{
 		session_regenerate_id();
 	}
@@ -87,7 +88,7 @@ class Session extends BaseObject
 	/**
 	 *
 	 */
-	public static function destroy() : void
+	public static function destroy(): void
 	{
 		session_destroy();
 		$_SESSION = [];
@@ -96,7 +97,7 @@ class Session extends BaseObject
 	/**
 	 * @return null|string
 	 */
-	public function getNamespace() : null|string
+	public function getNamespace(): null|string
 	{
 		return $this->namespace;
 	}
@@ -105,7 +106,7 @@ class Session extends BaseObject
 	 * @param string $key
 	 * @param mixed $value
 	 */
-	public function setValue( string $key, mixed $value ) : void
+	public function setValue( string $key, mixed $value ): void
 	{
 		$this->checkKey( $key );
 
@@ -117,11 +118,11 @@ class Session extends BaseObject
 	 *
 	 * @throws Session_Exception
 	 */
-	protected function checkKey( string &$key ) : void
+	protected function checkKey( string &$key ): void
 	{
 		$key = (string)$key;
 
-		if( $key=='' ) {
+		if( $key == '' ) {
 			throw new Session_Exception(
 				'The key must be a non-empty string', Session_Exception::CODE_INVALID_KEY
 			);
@@ -132,7 +133,7 @@ class Session extends BaseObject
 	 *
 	 * @param string $key
 	 */
-	public function unsetValue( string $key ) : void
+	public function unsetValue( string $key ): void
 	{
 		$this->checkKey( $key );
 
@@ -146,7 +147,7 @@ class Session extends BaseObject
 	 *
 	 * @return bool
 	 */
-	public function getValueExists( string $key ) : bool
+	public function getValueExists( string $key ): bool
 	{
 		$this->checkKey( $key );
 
@@ -155,11 +156,11 @@ class Session extends BaseObject
 
 	/**
 	 * @param string $key
-	 * @param mixed  $default_value (optional)
+	 * @param mixed $default_value (optional)
 	 *
 	 * @return mixed
 	 */
-	public function getValue( string $key, mixed $default_value = null ) : mixed
+	public function getValue( string $key, mixed $default_value = null ): mixed
 	{
 		$this->checkKey( $key );
 
@@ -173,7 +174,7 @@ class Session extends BaseObject
 	/**
 	 *
 	 */
-	public function reset() : void
+	public function reset(): void
 	{
 		$_SESSION[$this->namespace] = [];
 	}
@@ -181,7 +182,7 @@ class Session extends BaseObject
 	/**
 	 * @return string
 	 */
-	public function getSessionId() : string
+	public function getSessionId(): string
 	{
 		return session_id();
 	}

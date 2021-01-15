@@ -32,15 +32,15 @@ class Test_ExternalRelation extends Test_Abstract
 
 		$q = Model_C1::createQuery();
 
-		$q->setSelect([
+		$q->setSelect( [
 			'id',
 			'text',
-		    'related_id' => 'model_a1.id',
-		    'related_text' => 'model_a1.text',
-		    'test_count' => new DataModel_Query_Select_Item_Expression( 'COUNT( %RELATED_ID% )', ['RELATED_ID'=>'model_a1.id'] )
-		]);
+			'related_id'   => 'model_a1.id',
+			'related_text' => 'model_a1.text',
+			'test_count'   => new DataModel_Query_Select_Item_Expression( 'COUNT( %RELATED_ID% )', ['RELATED_ID' => 'model_a1.id'] )
+		] );
 
-		$q->setOrderBy(['-model_a1.text']);
+		$q->setOrderBy( ['-model_a1.text'] );
 
 		$q->setWhere( $where );
 

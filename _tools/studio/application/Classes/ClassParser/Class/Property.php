@@ -5,6 +5,7 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace JetStudio;
 
 /**
@@ -61,7 +62,7 @@ class ClassParser_Class_Property extends ClassParser_Class_Element
 	 * @param ClassParser $parser
 	 * @param ClassParser_Class $class
 	 */
-	public static function parse( ClassParser $parser, ClassParser_Class $class ) : void
+	public static function parse( ClassParser $parser, ClassParser_Class $class ): void
 	{
 		$property = new static( $parser, $class );
 		$property->attributes = $parser->__attributes;
@@ -71,7 +72,7 @@ class ClassParser_Class_Property extends ClassParser_Class_Element
 		$token = $parser->tokens[$parser->index];
 		$property->start_token = $token;
 
-		$property->name = substr($token->text, 1);
+		$property->name = substr( $token->text, 1 );
 
 		if( $class->_static_token ) {
 			$property->is_static = true;
@@ -79,7 +80,7 @@ class ClassParser_Class_Property extends ClassParser_Class_Element
 		}
 
 
-		if($class->_public_token) {
+		if( $class->_public_token ) {
 			if( $class->_public_token->index < $property->start_token->index ) {
 				$property->start_token = $class->_public_token;
 			}
@@ -87,14 +88,14 @@ class ClassParser_Class_Property extends ClassParser_Class_Element
 			$property->visibility = ClassParser::VISIBILITY_PUBLIC;
 		}
 
-		if($class->_private_token) {
+		if( $class->_private_token ) {
 			if( $class->_private_token->index < $property->start_token->index ) {
 				$property->start_token = $class->_private_token;
 			}
 			$property->visibility = ClassParser::VISIBILITY_PRIVATE;
 		}
 
-		if($class->_protected_token) {
+		if( $class->_protected_token ) {
 			if( $class->_protected_token->index < $property->start_token->index ) {
 				$property->start_token = $class->_protected_token;
 			}
@@ -103,13 +104,13 @@ class ClassParser_Class_Property extends ClassParser_Class_Element
 
 		$property->declaration_start = $property->start_token;
 
-		if($class->_last_doc_comment_token) {
+		if( $class->_last_doc_comment_token ) {
 			$property->doc_comment = $class->_last_doc_comment_token;
 			$property->start_token = $class->_last_doc_comment_token;
 		}
 
-		foreach($property->attributes as $attribute) {
-			if($attribute->start_token->index<$property->start_token->index) {
+		foreach( $property->attributes as $attribute ) {
+			if( $attribute->start_token->index < $property->start_token->index ) {
 				$property->start_token = $attribute->start_token;
 			}
 		}
@@ -120,17 +121,17 @@ class ClassParser_Class_Property extends ClassParser_Class_Element
 
 
 		do {
-			if( !($token=$property->nextToken()) ) {
+			if( !($token = $property->nextToken()) ) {
 				break;
 			}
 
-			if($token->ignore()) {
+			if( $token->ignore() ) {
 				continue;
 			}
 
 			switch( $token->id ) {
 				case '=':
-					if(!$searching_for_value) {
+					if( !$searching_for_value ) {
 						$searching_for_value = true;
 					} else {
 						$property->parseError();
@@ -138,7 +139,7 @@ class ClassParser_Class_Property extends ClassParser_Class_Element
 					break;
 				case ';':
 					if(
-						!$property->name
+					!$property->name
 					) {
 						$property->parseError();
 					}
@@ -155,8 +156,8 @@ class ClassParser_Class_Property extends ClassParser_Class_Element
 					$class->_static_token = null;
 					return;
 				default:
-					if($searching_for_value) {
-						if($property->value===null) {
+					if( $searching_for_value ) {
+						if( $property->value === null ) {
 							$property->value = '';
 						}
 
@@ -175,20 +176,20 @@ class ClassParser_Class_Property extends ClassParser_Class_Element
 	/**
 	 *
 	 */
-	public function debug_showResult() : void
+	public function debug_showResult(): void
 	{
 		$parser = $this->parser;
 
-		if($this->is_static) {
+		if( $this->is_static ) {
 			echo 'Static ';
 		}
-		echo ucfirst($this->visibility).' Property: '.$this->name.' = '.$this->value;
-		if($this->doc_comment) {
-			echo PHP_EOL.' Doc Comment: (token: '.$this->doc_comment->index.') '.$this->doc_comment->text;
+		echo ucfirst( $this->visibility ) . ' Property: ' . $this->name . ' = ' . $this->value;
+		if( $this->doc_comment ) {
+			echo PHP_EOL . ' Doc Comment: (token: ' . $this->doc_comment->index . ') ' . $this->doc_comment->text;
 		}
-		echo PHP_EOL.' Code: '.$parser->getTokenText( $this->declaration_start, $this->declaration_end );
+		echo PHP_EOL . ' Code: ' . $parser->getTokenText( $this->declaration_start, $this->declaration_end );
 
-		echo PHP_EOL.' Tokens: '.$this->start_token->index.' - '.$this->end_token->index;
+		echo PHP_EOL . ' Tokens: ' . $this->start_token->index . ' - ' . $this->end_token->index;
 	}
 
 

@@ -5,6 +5,7 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace Jet;
 
 /**
@@ -15,7 +16,7 @@ abstract class Debug_ErrorHandler_Handler
 	/**
 	 * @return static
 	 */
-	public static function register() : static
+	public static function register(): static
 	{
 		$loader = new static();
 
@@ -28,17 +29,17 @@ abstract class Debug_ErrorHandler_Handler
 	/**
 	 * @return string
 	 */
-	abstract public function getName() : string;
+	abstract public function getName(): string;
 
 	/**
 	 * @param Debug_ErrorHandler_Error $error
 	 */
-	abstract public function handle( Debug_ErrorHandler_Error $error ) : void;
+	abstract public function handle( Debug_ErrorHandler_Error $error ): void;
 
 	/**
 	 *
 	 * @return bool
 	 */
-	abstract public function errorDisplayed() : bool;
+	abstract public function errorDisplayed(): bool;
 
 }

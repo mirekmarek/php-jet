@@ -5,6 +5,7 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace JetApplicationModule\Content\Articles;
 
 use Jet\DataModel;
@@ -47,7 +48,7 @@ class Article extends DataModel
 
 	/**
 	 * @var ?Data_DateTime
-	 */ 
+	 */
 	#[DataModel_Definition(
 		type: DataModel::TYPE_DATE_TIME,
 		form_field_type: Form::TYPE_DATE_TIME,
@@ -60,7 +61,7 @@ class Article extends DataModel
 
 	/**
 	 * @var Article_Localized[]|DataModel_Related_1toN|DataModel_Related_1toN_Iterator|null
-	 */ 
+	 */
 	#[DataModel_Definition(
 		type: DataModel::TYPE_DATA_MODEL,
 		data_model_class: Article_Localized::class
@@ -94,14 +95,14 @@ class Article extends DataModel
 	/**
 	 *
 	 */
-	public function afterLoad() : void
+	public function afterLoad(): void
 	{
 
-		foreach( Application_Web::getSite()->getLocales() as $lc_str => $locale) {
+		foreach( Application_Web::getSite()->getLocales() as $lc_str => $locale ) {
 
-			if (!isset($this->localized[$lc_str])) {
+			if( !isset( $this->localized[$lc_str] ) ) {
 
-				$this->localized[$lc_str] = new Article_Localized($this->getId(), $locale);
+				$this->localized[$lc_str] = new Article_Localized( $this->getId(), $locale );
 			}
 
 			$this->localized[$lc_str]->setArticle( $this );
@@ -116,7 +117,7 @@ class Article extends DataModel
 	 *
 	 * @return static|null
 	 */
-	public static function get( string $id ) : static|null
+	public static function get( string $id ): static|null
 	{
 		return static::load( $id );
 	}
@@ -127,19 +128,19 @@ class Article extends DataModel
 	 *
 	 * @return Article[]
 	 */
-	public static function getList( $search = '' ) : iterable
+	public static function getList( $search = '' ): iterable
 
 	{
 
 		$where = [];
 
 		if( $search ) {
-			$search = '%'.$search.'%';
+			$search = '%' . $search . '%';
 
 			$where[] = [
-				'article_localized.title *' => $search,
+				'article_localized.title *'      => $search,
 				'OR',
-				'article_localized.text *' => $search,
+				'article_localized.text *'       => $search,
 				'OR',
 				'article_localized.annotation *' => $search,
 			];
@@ -160,17 +161,16 @@ class Article extends DataModel
 	/**
 	 * @return string
 	 */
-	public function getId() : string
+	public function getId(): string
 	{
 		return $this->id;
 	}
 
 
-
 	/**
 	 * @return Data_DateTime
 	 */
-	public function getDateTime() : Data_DateTime
+	public function getDateTime(): Data_DateTime
 	{
 		return $this->date_time;
 	}
@@ -180,9 +180,9 @@ class Article extends DataModel
 	 *
 	 * @return Article_Localized
 	 */
-	public function getLocalized( Locale $locale=null ) : Article_Localized
+	public function getLocalized( Locale $locale = null ): Article_Localized
 	{
-		if(!$locale) {
+		if( !$locale ) {
 			$locale = Mvc::getCurrentLocale();
 		}
 		return $this->localized[$locale->toString()];
@@ -191,9 +191,9 @@ class Article extends DataModel
 	/**
 	 * @param Data_DateTime|string $date_time
 	 */
-	public function setDateTime( Data_DateTime|string $date_time ) : void
+	public function setDateTime( Data_DateTime|string $date_time ): void
 	{
-		if( !( $date_time instanceof Data_DateTime ) ) {
+		if( !($date_time instanceof Data_DateTime) ) {
 			$date_time = new Data_DateTime( $date_time );
 		}
 		$this->date_time = $date_time;
@@ -202,7 +202,7 @@ class Article extends DataModel
 	/**
 	 * @return Article[]|Data_Paginator_DataSource
 	 */
-	public static function getListForCurrentLocale() : array|Data_Paginator_DataSource
+	public static function getListForCurrentLocale(): array|Data_Paginator_DataSource
 	{
 		$list = static::fetchInstances(
 			[
@@ -220,15 +220,15 @@ class Article extends DataModel
 	 *
 	 * @return static|null
 	 */
-	public static function resolveArticleByURL( string $path, Locale|string $locale ) : static|null
+	public static function resolveArticleByURL( string $path, Locale|string $locale ): static|null
 	{
 		$current_article = null;
-		if( substr( $path, -5 )=='.html' ) {
+		if( substr( $path, -5 ) == '.html' ) {
 			$current_article = static::load(
 				[
 					'article_localized.URI_fragment' => $path,
 					'AND',
-					'article_localized.locale' => $locale
+					'article_localized.locale'       => $locale
 				]
 			);
 		}
@@ -242,7 +242,7 @@ class Article extends DataModel
 	/**
 	 * @return string
 	 */
-	public function getUrl() : string
+	public function getUrl(): string
 	{
 		return $this->getLocalized()->getURL();
 	}
@@ -250,17 +250,16 @@ class Article extends DataModel
 	/**
 	 * @return string
 	 */
-	public function getTitle() : string
+	public function getTitle(): string
 	{
 		return $this->getLocalized()->getTitle();
 	}
 
 
-
 	/**
 	 * @return string
 	 */
-	public function getAnnotation() : string
+	public function getAnnotation(): string
 	{
 		return $this->getLocalized()->getAnnotation();
 	}
@@ -269,7 +268,7 @@ class Article extends DataModel
 	/**
 	 * @return string
 	 */
-	public function getText() : string
+	public function getText(): string
 	{
 		return $this->getLocalized()->getText();
 	}
@@ -277,9 +276,9 @@ class Article extends DataModel
 	/**
 	 * @return Form
 	 */
-	public function getEditForm() : Form
+	public function getEditForm(): Form
 	{
-		if($this->_form_edit===null) {
+		if( $this->_form_edit === null ) {
 			$this->_form_edit = $this->getCommonForm();
 		}
 
@@ -289,7 +288,7 @@ class Article extends DataModel
 	/**
 	 * @return bool
 	 */
-	public function catchEditForm() : bool
+	public function catchEditForm(): bool
 	{
 		return $this->catchForm( $this->getEditForm() );
 	}
@@ -298,9 +297,9 @@ class Article extends DataModel
 	/**
 	 * @return Form
 	 */
-	public function getAddForm() : Form
+	public function getAddForm(): Form
 	{
-		if(!$this->_form_add) {
+		if( !$this->_form_add ) {
 			$this->_form_add = $this->getCommonForm();
 		}
 
@@ -310,7 +309,7 @@ class Article extends DataModel
 	/**
 	 * @return bool
 	 */
-	public function catchAddForm() : bool
+	public function catchAddForm(): bool
 	{
 		return $this->catchForm( $this->getAddForm() );
 	}

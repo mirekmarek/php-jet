@@ -41,7 +41,7 @@ class Auth_Administrator_Role extends DataModel implements Auth_Role_Interface
 		form_field_type: false
 	)]
 	protected string $id = '';
-	
+
 	/**
 	 * @var string
 	 */
@@ -55,7 +55,7 @@ class Auth_Administrator_Role extends DataModel implements Auth_Role_Interface
 		]
 	)]
 	protected string $name = '';
-	
+
 	/**
 	 * @var string
 	 */
@@ -104,7 +104,7 @@ class Auth_Administrator_Role extends DataModel implements Auth_Role_Interface
 	 *
 	 * @return static|null
 	 */
-	public static function get( string $id ) : static|null
+	public static function get( string $id ): static|null
 	{
 		return static::load( $id );
 	}
@@ -115,7 +115,7 @@ class Auth_Administrator_Role extends DataModel implements Auth_Role_Interface
 	 *
 	 * @return Auth_Administrator_Role[]
 	 */
-	public static function getList( ?string $search = '' ) : iterable
+	public static function getList( ?string $search = '' ): iterable
 	{
 
 		$where = [];
@@ -165,7 +165,7 @@ class Auth_Administrator_Role extends DataModel implements Auth_Role_Interface
 	/**
 	 * @param string $name
 	 */
-	public function setName( string $name ) : void
+	public function setName( string $name ): void
 	{
 		$this->name = $name;
 	}
@@ -173,7 +173,7 @@ class Auth_Administrator_Role extends DataModel implements Auth_Role_Interface
 	/**
 	 * @return string
 	 */
-	public function getDescription() : string
+	public function getDescription(): string
 	{
 		return $this->description;
 	}
@@ -181,7 +181,7 @@ class Auth_Administrator_Role extends DataModel implements Auth_Role_Interface
 	/**
 	 * @param string $description
 	 */
-	public function setDescription( string $description ) : void
+	public function setDescription( string $description ): void
 	{
 		$this->description = $description;
 	}
@@ -189,7 +189,7 @@ class Auth_Administrator_Role extends DataModel implements Auth_Role_Interface
 	/**
 	 * @return Auth_Administrator_User[]
 	 */
-	public function getUsers() : iterable
+	public function getUsers(): iterable
 	{
 		return $this->users;
 	}
@@ -197,7 +197,7 @@ class Auth_Administrator_Role extends DataModel implements Auth_Role_Interface
 	/**
 	 * @return Auth_Administrator_Role_Privilege[]
 	 */
-	public function getPrivileges() : array
+	public function getPrivileges(): array
 	{
 		return $this->privileges;
 	}
@@ -211,7 +211,7 @@ class Auth_Administrator_Role extends DataModel implements Auth_Role_Interface
 	 *
 	 * @param array $privileges
 	 */
-	public function setPrivileges( array $privileges ) : void
+	public function setPrivileges( array $privileges ): void
 	{
 		/** @noinspection PhpUndefinedMethodInspection */
 		$this->privileges->clearData();
@@ -231,7 +231,7 @@ class Auth_Administrator_Role extends DataModel implements Auth_Role_Interface
 	 * @param string $privilege
 	 * @param array $values
 	 */
-	public function setPrivilege( string $privilege, array $values ) : void
+	public function setPrivilege( string $privilege, array $values ): void
 	{
 		if( !isset( $this->privileges[$privilege] ) ) {
 			$this->privileges[$privilege] = new Auth_Administrator_Role_Privilege( $privilege, $values );
@@ -246,7 +246,7 @@ class Auth_Administrator_Role extends DataModel implements Auth_Role_Interface
 	 *
 	 * @return array
 	 */
-	public function getPrivilegeValues( string $privilege ) : array
+	public function getPrivilegeValues( string $privilege ): array
 	{
 		if( !isset( $this->privileges[$privilege] ) ) {
 			return [];
@@ -258,7 +258,7 @@ class Auth_Administrator_Role extends DataModel implements Auth_Role_Interface
 	/**
 	 * @param string $privilege
 	 */
-	public function removePrivilege( string $privilege ) : void
+	public function removePrivilege( string $privilege ): void
 	{
 		if( isset( $this->privileges[$privilege] ) ) {
 			unset( $this->privileges[$privilege] );
@@ -271,7 +271,7 @@ class Auth_Administrator_Role extends DataModel implements Auth_Role_Interface
 	 *
 	 * @return bool
 	 */
-	public function hasPrivilege( string $privilege, mixed $value ) : bool
+	public function hasPrivilege( string $privilege, mixed $value ): bool
 	{
 		if( !isset( $this->privileges[$privilege] ) ) {
 			return false;
@@ -283,7 +283,7 @@ class Auth_Administrator_Role extends DataModel implements Auth_Role_Interface
 	/**
 	 * @return string[]
 	 */
-	public static function getAvailablePrivilegesList() : array
+	public static function getAvailablePrivilegesList(): array
 	{
 
 		return [
@@ -296,7 +296,7 @@ class Auth_Administrator_Role extends DataModel implements Auth_Role_Interface
 	/**
 	 * @return Data_Forest
 	 */
-	public static function getAclActionValuesList_ModulesActions() : Data_Forest
+	public static function getAclActionValuesList_ModulesActions(): Data_Forest
 	{
 
 		$forest = new Data_Forest();
@@ -357,7 +357,7 @@ class Auth_Administrator_Role extends DataModel implements Auth_Role_Interface
 	 *
 	 * @return Mvc_Page[]
 	 */
-	public static function getAclActionValuesList_Pages() : array
+	public static function getAclActionValuesList_Pages(): array
 	{
 		$pages = [];
 
@@ -373,7 +373,7 @@ class Auth_Administrator_Role extends DataModel implements Auth_Role_Interface
 	/**
 	 * @return string
 	 */
-	public function __toString() : string
+	public function __toString(): string
 	{
 		return $this->toString();
 	}
@@ -381,7 +381,7 @@ class Auth_Administrator_Role extends DataModel implements Auth_Role_Interface
 	/**
 	 * @return string
 	 */
-	public function toString() : string
+	public function toString(): string
 	{
 		return $this->name;
 	}
@@ -389,7 +389,7 @@ class Auth_Administrator_Role extends DataModel implements Auth_Role_Interface
 	/**
 	 * @return Form
 	 */
-	public function _getForm() : Form
+	public function _getForm(): Form
 	{
 		$available_privileges_list = static::getAvailablePrivilegesList();
 

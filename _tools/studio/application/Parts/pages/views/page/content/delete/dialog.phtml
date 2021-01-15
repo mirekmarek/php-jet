@@ -1,21 +1,23 @@
 <?php
+
 namespace JetStudio;
 
 use Jet\Mvc_View;
 use Jet\UI;
 use Jet\Tr;
+
 /**
  * @var Mvc_View $this
  * @var Pages_Page $page
  */
 
-$page = $this->getRaw('page');
+$page = $this->getRaw( 'page' );
 
-$dialog = UI::dialog('delete_content', Tr::_('Delete this content'), 600);
+$dialog = UI::dialog( 'delete_content', Tr::_( 'Delete this content' ), 600 );
 
 echo $dialog->start();
 ?>
-<?=Tr::_('Do You really want to delete this content item ?');?>
+<?= Tr::_( 'Do You really want to delete this content item ?' ); ?>
 	<?php
 echo $dialog->footer();
 echo UI::button_delete()->setOnclick( "Pages.editPage.content.deleteContentSend();" );
@@ -24,5 +26,5 @@ echo $dialog->end();
 $form = $page->getDeleteContentForm();
 
 echo $form->start();
-echo $form->field('index');
+echo $form->field( 'index' );
 echo $form->end();

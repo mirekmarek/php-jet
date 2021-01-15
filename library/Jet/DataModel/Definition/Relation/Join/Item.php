@@ -5,10 +5,11 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace Jet;
 
 /**
- * 
+ *
  */
 class DataModel_Definition_Relation_Join_Item extends BaseObject
 {
@@ -36,10 +37,11 @@ class DataModel_Definition_Relation_Join_Item extends BaseObject
 	 * @param string $related_to_property_name
 	 */
 	public function __construct(
-				DataModel_Definition_Relation $relation,
-				string $this_property_name,
-				string $related_to_property_name
-	) {
+		DataModel_Definition_Relation $relation,
+		string $this_property_name,
+		string $related_to_property_name
+	)
+	{
 
 		$this->relation = $relation;
 
@@ -52,7 +54,7 @@ class DataModel_Definition_Relation_Join_Item extends BaseObject
 	/**
 	 * @return string
 	 */
-	public function getThisClassName() : string
+	public function getThisClassName(): string
 	{
 		return $this->relation->getThisDataModelClassName();
 	}
@@ -60,7 +62,7 @@ class DataModel_Definition_Relation_Join_Item extends BaseObject
 	/**
 	 * @return string
 	 */
-	public function getThisPropertyName() : string
+	public function getThisPropertyName(): string
 	{
 		return $this->this_property_name;
 	}
@@ -68,7 +70,7 @@ class DataModel_Definition_Relation_Join_Item extends BaseObject
 	/**
 	 * @return string
 	 */
-	public function getRelatedClassName() : string
+	public function getRelatedClassName(): string
 	{
 		return $this->relation->getRelatedDataModelClassName();
 	}
@@ -76,11 +78,10 @@ class DataModel_Definition_Relation_Join_Item extends BaseObject
 	/**
 	 * @return string
 	 */
-	public function getRelatedPropertyName() : string
+	public function getRelatedPropertyName(): string
 	{
 		return $this->related_property_name;
 	}
-
 
 
 	/**
@@ -88,7 +89,7 @@ class DataModel_Definition_Relation_Join_Item extends BaseObject
 	 *
 	 * @return DataModel_Definition_Property
 	 */
-	public function getThisProperty() : DataModel_Definition_Property
+	public function getThisProperty(): DataModel_Definition_Property
 	{
 		return $this->relation->getThisDataModelDefinition()->getProperty( $this->this_property_name );
 	}
@@ -96,7 +97,7 @@ class DataModel_Definition_Relation_Join_Item extends BaseObject
 	/**
 	 * @return DataModel_Definition_Property
 	 */
-	public function getRelatedProperty() : DataModel_Definition_Property
+	public function getRelatedProperty(): DataModel_Definition_Property
 	{
 		return $this->relation->getRelatedDataModelDefinition()->getProperty( $this->related_property_name );
 	}
@@ -105,7 +106,7 @@ class DataModel_Definition_Relation_Join_Item extends BaseObject
 	/**
 	 * @return string
 	 */
-	public function __toString() : string
+	public function __toString(): string
 	{
 		return $this->toString();
 	}
@@ -113,9 +114,9 @@ class DataModel_Definition_Relation_Join_Item extends BaseObject
 	/**
 	 * @return string
 	 */
-	public function toString() : string
+	public function toString(): string
 	{
-		return $this->getThisClassName().'.'.$this->this_property_name.'<->'.$this->getRelatedClassName().'.'.$this->related_property_name;
+		return $this->getThisClassName() . '.' . $this->this_property_name . '<->' . $this->getRelatedClassName() . '.' . $this->related_property_name;
 	}
 
 }

@@ -1,10 +1,12 @@
 <?php
+
 namespace JetStudio;
 
 use Jet\UI_messages;
+
 ?>
-<br/><br/><br/><br/><br/>
-<?php
-foreach(UI_messages::get() as $message):
+	<br/><br/><br/><br/><br/>
+	<?php
+foreach( UI_messages::get() as $message ):
 	echo $message;
 endforeach;

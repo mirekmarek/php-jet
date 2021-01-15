@@ -5,6 +5,7 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace Jet;
 
 /**
@@ -15,24 +16,24 @@ abstract class Application_Modules_Handler extends BaseObject
 	/**
 	 *
 	 *
+	 * @return Application_Module_Manifest[]
 	 * @throws Application_Modules_Exception
 	 *
-	 * @return Application_Module_Manifest[]
 	 */
-	abstract public function allModulesList() : array;
-
-	/**
-	 *
-	 * @throws Application_Modules_Exception
-	 * @return Application_Module_Manifest[]
-	 */
-	abstract public function installedModulesList() : array;
+	abstract public function allModulesList(): array;
 
 	/**
 	 *
 	 * @return Application_Module_Manifest[]
+	 * @throws Application_Modules_Exception
 	 */
-	abstract public function activatedModulesList() : array;
+	abstract public function installedModulesList(): array;
+
+	/**
+	 *
+	 * @return Application_Module_Manifest[]
+	 */
+	abstract public function activatedModulesList(): array;
 
 	/**
 	 *
@@ -40,7 +41,7 @@ abstract class Application_Modules_Handler extends BaseObject
 	 *
 	 * @return bool
 	 */
-	abstract public function moduleExists( string $module_name ) : bool;
+	abstract public function moduleExists( string $module_name ): bool;
 
 	/**
 	 *
@@ -48,7 +49,7 @@ abstract class Application_Modules_Handler extends BaseObject
 	 *
 	 * @return bool
 	 */
-	abstract public function moduleIsInstalled( string $module_name ) : bool;
+	abstract public function moduleIsInstalled( string $module_name ): bool;
 
 	/**
 	 *
@@ -56,7 +57,7 @@ abstract class Application_Modules_Handler extends BaseObject
 	 *
 	 * @return bool
 	 */
-	abstract public function moduleIsActivated( string $module_name ) : bool;
+	abstract public function moduleIsActivated( string $module_name ): bool;
 
 	/**
 	 *
@@ -64,7 +65,7 @@ abstract class Application_Modules_Handler extends BaseObject
 	 *
 	 * @throws Application_Modules_Exception
 	 */
-	abstract public function installModule( string $module_name ) : void;
+	abstract public function installModule( string $module_name ): void;
 
 	/**
 	 *
@@ -72,7 +73,7 @@ abstract class Application_Modules_Handler extends BaseObject
 	 *
 	 * @throws Application_Modules_Exception
 	 */
-	abstract public function uninstallModule( string $module_name ) : void;
+	abstract public function uninstallModule( string $module_name ): void;
 
 	/**
 	 *
@@ -80,7 +81,7 @@ abstract class Application_Modules_Handler extends BaseObject
 	 *
 	 * @throws Application_Modules_Exception
 	 */
-	abstract public function activateModule( string $module_name ) : void;
+	abstract public function activateModule( string $module_name ): void;
 
 	/**
 	 *
@@ -88,7 +89,7 @@ abstract class Application_Modules_Handler extends BaseObject
 	 *
 	 * @throws Application_Modules_Exception
 	 */
-	abstract public function deactivateModule( string $module_name ) : void;
+	abstract public function deactivateModule( string $module_name ): void;
 
 
 	/**
@@ -97,16 +98,16 @@ abstract class Application_Modules_Handler extends BaseObject
 	 *
 	 * @return Application_Module_Manifest
 	 */
-	abstract public function moduleManifest( string $module_name ) : Application_Module_Manifest;
+	abstract public function moduleManifest( string $module_name ): Application_Module_Manifest;
 
 	/**
 	 *
 	 * @param string $module_name
 	 *
+	 * @return Application_Module
 	 * @throws Application_Modules_Exception
 	 *
-	 * @return Application_Module
 	 */
-	abstract public function moduleInstance( string $module_name ) : Application_Module;
+	abstract public function moduleInstance( string $module_name ): Application_Module;
 
 }

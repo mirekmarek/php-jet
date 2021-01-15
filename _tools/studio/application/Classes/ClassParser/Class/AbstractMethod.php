@@ -5,6 +5,7 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace JetStudio;
 
 /**
@@ -59,33 +60,31 @@ class ClassParser_Class_AbstractMethod extends ClassParser_Class_Element
 			$method->parseError();
 		}
 
-		if($class->_public_token) {
+		if( $class->_public_token ) {
 			$method->start_token = $class->_public_token;
 			$method->visibility = ClassParser::VISIBILITY_PUBLIC;
 		}
 
-		if($class->_private_token) {
+		if( $class->_private_token ) {
 			$method->start_token = $class->_private_token;
 			$method->visibility = ClassParser::VISIBILITY_PRIVATE;
 		}
 
-		if($class->_protected_token) {
+		if( $class->_protected_token ) {
 			$method->start_token = $class->_protected_token;
 			$method->visibility = ClassParser::VISIBILITY_PROTECTED;
 		}
 
-		if( $class->_abstract_token->index<$method->start_token->index ) {
+		if( $class->_abstract_token->index < $method->start_token->index ) {
 			$method->start_token = $class->_abstract_token;
 		}
 
 		$method->declaration_start = $method->start_token;
 
-		if($class->_last_doc_comment_token) {
+		if( $class->_last_doc_comment_token ) {
 			$method->doc_comment = $class->_last_doc_comment_token;
 			$method->start_token = $class->_last_doc_comment_token;
 		}
-
-
 
 
 		$searching_for_param_declaration = false;
@@ -93,18 +92,18 @@ class ClassParser_Class_AbstractMethod extends ClassParser_Class_Element
 
 
 		do {
-			if( !($token=$method->nextToken()) ) {
+			if( !($token = $method->nextToken()) ) {
 				break;
 			}
 
-			if($token->ignore()) {
+			if( $token->ignore() ) {
 				continue;
 			}
 
 
 			switch( $token->id ) {
 				case T_STRING:
-					if(!$searching_for_param_declaration) {
+					if( !$searching_for_param_declaration ) {
 						$method->name = $token->text;
 					} else {
 						$method->param_declaration .= $token->text;
@@ -122,7 +121,7 @@ class ClassParser_Class_AbstractMethod extends ClassParser_Class_Element
 					}
 					break;
 				case ')':
-					if($searching_for_param_declaration) {
+					if( $searching_for_param_declaration ) {
 						$got_param_declaration = true;
 						$method->param_declaration .= $token->text;
 					} else {
@@ -167,21 +166,21 @@ class ClassParser_Class_AbstractMethod extends ClassParser_Class_Element
 	/**
 	 *
 	 */
-	public function debug_showResult() : void
+	public function debug_showResult(): void
 	{
 		$parser = $this->parser;
 
 		echo 'Abstract ';
 
-		echo ucfirst($this->visibility).' Method: '.$this->name;
-		if($this->doc_comment) {
-			echo PHP_EOL.' Doc Comment: (token: '.$this->doc_comment->index.') '.$this->doc_comment->text;
+		echo ucfirst( $this->visibility ) . ' Method: ' . $this->name;
+		if( $this->doc_comment ) {
+			echo PHP_EOL . ' Doc Comment: (token: ' . $this->doc_comment->index . ') ' . $this->doc_comment->text;
 		}
 
-		echo PHP_EOL.' Declaration: '.$parser->getTokenText( $this->declaration_start, $this->declaration_end );
-		echo ' Tokens: '.$this->declaration_start->index.' - '.$this->declaration_end->index;
+		echo PHP_EOL . ' Declaration: ' . $parser->getTokenText( $this->declaration_start, $this->declaration_end );
+		echo ' Tokens: ' . $this->declaration_start->index . ' - ' . $this->declaration_end->index;
 
-		echo PHP_EOL.' Tokens: '.$this->start_token->index.' - '.$this->end_token->index;
+		echo PHP_EOL . ' Tokens: ' . $this->start_token->index . ' - ' . $this->end_token->index;
 	}
 
 

@@ -5,6 +5,7 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace JetApplication;
 
 use Jet\Auth_Role_Privilege_Interface;
@@ -22,7 +23,7 @@ use Jet\Form_Field_Select;
 	name: 'role_privilege',
 	database_table_name: 'roles_administrators_privileges',
 	id_controller_class: DataModel_IDController_AutoIncrement::class,
-	id_controller_options: ['id_property_name'=>'id'],
+	id_controller_options: ['id_property_name' => 'id'],
 	parent_model_class: Auth_Administrator_Role::class
 )]
 class Auth_Administrator_Role_Privilege extends DataModel_Related_1toN implements Auth_Role_Privilege_Interface
@@ -87,7 +88,7 @@ class Auth_Administrator_Role_Privilege extends DataModel_Related_1toN implement
 	/**
 	 * @return string
 	 */
-	public function getPrivilege() : string
+	public function getPrivilege(): string
 	{
 		return $this->privilege;
 	}
@@ -95,7 +96,7 @@ class Auth_Administrator_Role_Privilege extends DataModel_Related_1toN implement
 	/**
 	 * @param string $privilege
 	 */
-	public function setPrivilege( string $privilege ) : void
+	public function setPrivilege( string $privilege ): void
 	{
 		$this->privilege = $privilege;
 	}
@@ -105,7 +106,7 @@ class Auth_Administrator_Role_Privilege extends DataModel_Related_1toN implement
 	 *
 	 * @return bool
 	 */
-	public function hasValue( mixed $value ) : bool
+	public function hasValue( mixed $value ): bool
 	{
 		if( is_array( $value ) ) {
 			foreach( $value as $v ) {
@@ -123,7 +124,7 @@ class Auth_Administrator_Role_Privilege extends DataModel_Related_1toN implement
 	/**
 	 * @return array
 	 */
-	public function getValues() : array
+	public function getValues(): array
 	{
 		return $this->values;
 	}
@@ -131,7 +132,7 @@ class Auth_Administrator_Role_Privilege extends DataModel_Related_1toN implement
 	/**
 	 * @param array $values
 	 */
-	public function setValues( array $values ) : void
+	public function setValues( array $values ): void
 	{
 		$this->values = $values;
 	}

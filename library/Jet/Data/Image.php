@@ -5,6 +5,7 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace Jet;
 
 /**
@@ -62,13 +63,13 @@ class Data_Image extends BaseObject
 
 		if( !IO_File::exists( $path ) ) {
 			throw new Data_Image_Exception(
-				'File \''.$path.'\' does not exist!', Data_Image_Exception::CODE_IMAGE_FILE_DOES_NOT_EXIST
+				'File \'' . $path . '\' does not exist!', Data_Image_Exception::CODE_IMAGE_FILE_DOES_NOT_EXIST
 			);
 		}
 
 		if( !IO_File::isReadable( $path ) ) {
 			throw new Data_Image_Exception(
-				'File \''.$path.'\' is not readable!', Data_Image_Exception::CODE_IMAGE_FILE_IS_NOT_READABLE
+				'File \'' . $path . '\' is not readable!', Data_Image_Exception::CODE_IMAGE_FILE_IS_NOT_READABLE
 			);
 		}
 
@@ -77,14 +78,18 @@ class Data_Image extends BaseObject
 
 		if( !$image_dat ) {
 			throw new Data_Image_Exception(
-				'File: \''.$path.'\' Unsupported type! Unable to get image size!',
+				'File: \'' . $path . '\' Unsupported type! Unable to get image size!',
 				Data_Image_Exception::CODE_UNSUPPORTED_IMAGE_TYPE
 			);
 		}
 
 		$this->path = $path;
 
-		list( $this->width, $this->height, $this->img_type ) = $image_dat;
+		[
+			$this->width,
+			$this->height,
+			$this->img_type
+		] = $image_dat;
 
 		$this->mime_type = $image_dat['mime'];
 	}
@@ -92,7 +97,7 @@ class Data_Image extends BaseObject
 	/**
 	 * @return string
 	 */
-	public function getPath() : string
+	public function getPath(): string
 	{
 		return $this->path;
 	}
@@ -100,15 +105,15 @@ class Data_Image extends BaseObject
 	/**
 	 * @return string
 	 */
-	public function getDirectory() : string
+	public function getDirectory(): string
 	{
-		return dirname( $this->path ).'/';
+		return dirname( $this->path ) . '/';
 	}
 
 	/**
 	 * @return string
 	 */
-	public function getFileName() : string
+	public function getFileName(): string
 	{
 		return basename( $this->path );
 	}
@@ -116,7 +121,7 @@ class Data_Image extends BaseObject
 	/**
 	 * @return int
 	 */
-	public function getWidth() : int
+	public function getWidth(): int
 	{
 		return $this->width;
 	}
@@ -124,7 +129,7 @@ class Data_Image extends BaseObject
 	/**
 	 * @return int
 	 */
-	public function getHeight() : int
+	public function getHeight(): int
 	{
 		return $this->height;
 	}
@@ -132,7 +137,7 @@ class Data_Image extends BaseObject
 	/**
 	 * @return int
 	 */
-	public function getImgType() : int
+	public function getImgType(): int
 	{
 		return $this->img_type;
 	}
@@ -140,7 +145,7 @@ class Data_Image extends BaseObject
 	/**
 	 * @return string
 	 */
-	public function getMimeType() : string
+	public function getMimeType(): string
 	{
 		return $this->mime_type;
 	}
@@ -148,7 +153,7 @@ class Data_Image extends BaseObject
 	/**
 	 * @return int
 	 */
-	public function getImageQuality() : int
+	public function getImageQuality(): int
 	{
 		return $this->image_quality;
 	}
@@ -156,43 +161,43 @@ class Data_Image extends BaseObject
 	/**
 	 * @param int $image_quality
 	 */
-	public function setImageQuality( int $image_quality ) : void
+	public function setImageQuality( int $image_quality ): void
 	{
 		$this->image_quality = $image_quality;
 	}
 
 	/**
-	 * @param string   $target_path
-	 * @param int      $maximal_width
-	 * @param int      $maximal_height
+	 * @param string $target_path
+	 * @param int $maximal_width
+	 * @param int $maximal_height
 	 * @param int|null $target_img_type
 	 *
 	 * @return Data_Image
 	 *
 	 * @throws Data_Image_Exception
 	 */
-	public function createThumbnail( string $target_path, int $maximal_width, int $maximal_height, ?int $target_img_type = null ) : Data_Image
+	public function createThumbnail( string $target_path, int $maximal_width, int $maximal_height, ?int $target_img_type = null ): Data_Image
 	{
 
-		if( $this->width>=$this->height ) {
+		if( $this->width >= $this->height ) {
 			$new_width = $maximal_width;
-			$new_height = (int)round( ( $new_width/$this->width )*$this->height );
+			$new_height = (int)round( ($new_width / $this->width) * $this->height );
 
 
-			if( $new_height>$maximal_height ) {
+			if( $new_height > $maximal_height ) {
 				$_height = $new_height;
 				$new_height = $maximal_height;
-				$new_width = (int)round( ( $new_height/$_height )*$new_width );
+				$new_width = (int)round( ($new_height / $_height) * $new_width );
 			}
 
 		} else {
 			$new_height = $maximal_height;
-			$new_width = (int)round( ( $new_height/$this->height )*$this->width );
+			$new_width = (int)round( ($new_height / $this->height) * $this->width );
 
-			if( $new_width>$maximal_width ) {
+			if( $new_width > $maximal_width ) {
 				$_width = $new_width;
 				$new_width = $maximal_width;
-				$new_height = (int)round( ( $new_width/$_width )*$new_height );
+				$new_height = (int)round( ($new_width / $_width) * $new_height );
 			}
 		}
 
@@ -201,7 +206,7 @@ class Data_Image extends BaseObject
 
 
 	/**
-	 * @param string   $target_path
+	 * @param string $target_path
 	 * @param int|null $new_width (optional)
 	 * @param int|null $new_height (optional)
 	 * @param int|null $target_img_type (optional)
@@ -210,7 +215,7 @@ class Data_Image extends BaseObject
 	 *
 	 * @throws Data_Image_Exception
 	 */
-	public function saveAs( string $target_path, ?int $new_width = null, ?int $new_height = null, ?int $target_img_type = null ) : Data_Image
+	public function saveAs( string $target_path, ?int $new_width = null, ?int $new_height = null, ?int $target_img_type = null ): Data_Image
 	{
 		if( !$target_img_type ) {
 			$target_img_type = $this->img_type;
@@ -234,7 +239,7 @@ class Data_Image extends BaseObject
 
 		if( !$image ) {
 			throw new Data_Image_Exception(
-				'File: \''.$this->path.'\' Unsupported type! Unable to get image size!',
+				'File: \'' . $this->path . '\' Unsupported type! Unable to get image size!',
 				Data_Image_Exception::CODE_UNSUPPORTED_IMAGE_TYPE
 			);
 		}
@@ -242,8 +247,8 @@ class Data_Image extends BaseObject
 		$new_image = imagecreatetruecolor( $new_width, $new_height );
 
 		if(
-			$target_img_type==self::TYPE_PNG ||
-			$target_img_type==self::TYPE_GIF
+			$target_img_type == self::TYPE_PNG ||
+			$target_img_type == self::TYPE_GIF
 		) {
 			imagealphablending( $new_image, false );
 			imagesavealpha( $new_image, true );

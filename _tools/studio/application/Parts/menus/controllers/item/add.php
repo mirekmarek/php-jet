@@ -1,4 +1,5 @@
 <?php
+
 namespace JetStudio;
 
 use Jet\UI_messages;
@@ -13,12 +14,12 @@ $data = [];
 $set = Menus::getCurrentMenuSet();
 $menu = Menus::getCurrentMenu();
 
-if(!$set || !$menu) {
+if( !$set || !$menu ) {
 	die();
 }
 
 if(
-	($new_item=Menus_Menu_Item::catchCreateForm())
+($new_item = Menus_Menu_Item::catchCreateForm())
 ) {
 
 	$menu->addMenuItem( $new_item );
@@ -27,16 +28,16 @@ if(
 		$ok = true;
 
 		UI_messages::success(
-			Tr::_('Menu item <strong>%item%</strong> has been created',[
-				'item' => $new_item->getLabel().' ('.$new_item->getId().')'
-			])
+			Tr::_( 'Menu item <strong>%item%</strong> has been created', [
+				'item' => $new_item->getLabel() . ' (' . $new_item->getId() . ')'
+			] )
 		);
 
 		$data = [
 			'new_menu_item_id' => $new_item->getId()
 		];
 	} else {
-		$form->setCommonMessage( implode('', UI_messages::get()) );
+		$form->setCommonMessage( implode( '', UI_messages::get() ) );
 	}
 
 }
@@ -44,7 +45,7 @@ if(
 AJAX::formResponse(
 	$ok,
 	[
-		$form->getId().'_form_area' => Application::getView()->render('item/create/form')
+		$form->getId() . '_form_area' => Application::getView()->render( 'item/create/form' )
 	],
 	$data
 );

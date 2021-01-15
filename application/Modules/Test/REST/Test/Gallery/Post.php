@@ -21,7 +21,7 @@ class Test_Gallery_Post extends Test_Abstract
 	/**
 	 * @return string
 	 */
-	protected function _getTitle() : string
+	protected function _getTitle(): string
 	{
 		return 'Add (POST) - valid';
 	}
@@ -29,7 +29,7 @@ class Test_Gallery_Post extends Test_Abstract
 	/**
 	 *
 	 */
-	public function test() : void
+	public function test(): void
 	{
 
 		$data = [
@@ -39,13 +39,13 @@ class Test_Gallery_Post extends Test_Abstract
 				]
 		];
 
-		foreach( Application_Web::getSite()->getLocales() as $locale_str=>$locale ) {
+		foreach( Application_Web::getSite()->getLocales() as $locale_str => $locale ) {
 			$data['localized'][$locale_str] = [
-				'title' => 'test title ('.$locale->getLanguageName($locale).') '.time(),
+				'title' => 'test title (' . $locale->getLanguageName( $locale ) . ') ' . time(),
 			];
 		}
 
-		$this->client->post('gallery', $data);
+		$this->client->post( 'gallery', $data );
 
 	}
 }

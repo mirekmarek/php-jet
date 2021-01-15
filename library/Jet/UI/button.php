@@ -5,6 +5,7 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace Jet;
 
 
@@ -68,7 +69,7 @@ class UI_button extends UI_BaseElement
 	 *
 	 * @return $this
 	 */
-	public function setLabel( string $label ) : static
+	public function setLabel( string $label ): static
 	{
 		$this->label = $label;
 
@@ -78,7 +79,7 @@ class UI_button extends UI_BaseElement
 	/**
 	 * @return string
 	 */
-	public function getLabel() : string
+	public function getLabel(): string
 	{
 		return $this->label;
 	}
@@ -88,7 +89,7 @@ class UI_button extends UI_BaseElement
 	 *
 	 * @return $this
 	 */
-	public function setType( string $type ) : static
+	public function setType( string $type ): static
 	{
 		$this->type = $type;
 
@@ -98,7 +99,7 @@ class UI_button extends UI_BaseElement
 	/**
 	 * @return string
 	 */
-	public function getType() : string
+	public function getType(): string
 	{
 		return $this->type;
 	}
@@ -108,7 +109,7 @@ class UI_button extends UI_BaseElement
 	 *
 	 * @return $this
 	 */
-	public function setClass( string $class ) : static
+	public function setClass( string $class ): static
 	{
 		$this->class = $class;
 
@@ -118,7 +119,7 @@ class UI_button extends UI_BaseElement
 	/**
 	 * @return string
 	 */
-	public function getClass() : string
+	public function getClass(): string
 	{
 		return $this->class;
 	}
@@ -128,7 +129,7 @@ class UI_button extends UI_BaseElement
 	 *
 	 * @return $this
 	 */
-	public function setSize( string $size ) : static
+	public function setSize( string $size ): static
 	{
 		$this->size = $size;
 
@@ -138,7 +139,7 @@ class UI_button extends UI_BaseElement
 	/**
 	 * @return string
 	 */
-	public function getSize() : string
+	public function getSize(): string
 	{
 		return $this->size;
 	}
@@ -148,7 +149,7 @@ class UI_button extends UI_BaseElement
 	 *
 	 * @return $this
 	 */
-	public function setIcon( string $icon ) : static
+	public function setIcon( string $icon ): static
 	{
 		$this->icon = $icon;
 
@@ -158,7 +159,7 @@ class UI_button extends UI_BaseElement
 	/**
 	 * @return string
 	 */
-	public function getIcon() : string
+	public function getIcon(): string
 	{
 		return $this->icon;
 	}
@@ -168,9 +169,9 @@ class UI_button extends UI_BaseElement
 	 *
 	 * @return $this
 	 */
-	public function setOnclick( string $onclick ) : static
+	public function setOnclick( string $onclick ): static
 	{
-		$this->setJsAction('onclick', $onclick);
+		$this->setJsAction( 'onclick', $onclick );
 
 		return $this;
 	}
@@ -181,7 +182,7 @@ class UI_button extends UI_BaseElement
 	 *
 	 * @return $this
 	 */
-	public function setUrl( string $url ) : static
+	public function setUrl( string $url ): static
 	{
 		$this->url = $url;
 
@@ -191,7 +192,7 @@ class UI_button extends UI_BaseElement
 	/**
 	 * @return string
 	 */
-	public function getUrl() : string
+	public function getUrl(): string
 	{
 		return $this->url;
 	}

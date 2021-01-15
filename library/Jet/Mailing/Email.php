@@ -5,6 +5,7 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace Jet;
 
 /**
@@ -71,9 +72,9 @@ class Mailing_Email extends BaseObject
 	 * @param string|null $site_id
 	 * @param string $specification
 	 */
-	public function __construct( string $name, string|Locale|null $locale=null, ?string $site_id=null, string $specification='' )
+	public function __construct( string $name, string|Locale|null $locale = null, ?string $site_id = null, string $specification = '' )
 	{
-		if($locale===null) {
+		if( $locale === null ) {
 			$locale = Locale::getCurrentLocale();
 		}
 
@@ -84,8 +85,8 @@ class Mailing_Email extends BaseObject
 			$locale = new Locale( $locale );
 		}
 
-		if($site_id===null) {
-			if(Mvc::getCurrentSite()) {
+		if( $site_id === null ) {
+			if( Mvc::getCurrentSite() ) {
 				$site_id = Mvc::getCurrentSite()->getId();
 			}
 		}
@@ -101,8 +102,8 @@ class Mailing_Email extends BaseObject
 	 */
 	public function getViewBaseDir(): ?string
 	{
-		if($this->view_base_dir===null) {
-			$this->view_base_dir = $path = Mvc_Site::get( $this->site_id )->getViewsPath().'EmailTemplates/';
+		if( $this->view_base_dir === null ) {
+			$this->view_base_dir = $path = Mvc_Site::get( $this->site_id )->getViewsPath() . 'EmailTemplates/';
 		}
 
 		return $this->view_base_dir;
@@ -124,10 +125,10 @@ class Mailing_Email extends BaseObject
 		$path = $this->getViewBaseDir();
 
 		if( $this->locale ) {
-			$path .= $this->locale.'/';
+			$path .= $this->locale . '/';
 		}
 
-		$path .= $this->name.'/';
+		$path .= $this->name . '/';
 
 		return $path;
 	}
@@ -136,9 +137,9 @@ class Mailing_Email extends BaseObject
 	/**
 	 * @return Mvc_View
 	 */
-	public function getView() : Mvc_View
+	public function getView(): Mvc_View
 	{
-		if(!$this->__view) {
+		if( !$this->__view ) {
 			$this->__view = new Mvc_View( $this->getViewDir() );
 		}
 
@@ -148,7 +149,7 @@ class Mailing_Email extends BaseObject
 	/**
 	 * @return string
 	 */
-	public function getName() : string
+	public function getName(): string
 	{
 		return $this->name;
 	}
@@ -156,7 +157,7 @@ class Mailing_Email extends BaseObject
 	/**
 	 * @return Locale
 	 */
-	public function getLocale() : Locale
+	public function getLocale(): Locale
 	{
 		return $this->locale;
 	}
@@ -164,7 +165,7 @@ class Mailing_Email extends BaseObject
 	/**
 	 * @return string
 	 */
-	public function getSiteId() : string
+	public function getSiteId(): string
 	{
 		return $this->site_id;
 	}
@@ -172,7 +173,7 @@ class Mailing_Email extends BaseObject
 	/**
 	 * @return string
 	 */
-	public function getSpecification() : string
+	public function getSpecification(): string
 	{
 		return $this->specification;
 	}
@@ -180,7 +181,7 @@ class Mailing_Email extends BaseObject
 	/**
 	 * @return Mailing_Config_Sender
 	 */
-	public function getSender() : Mailing_Config_Sender
+	public function getSender(): Mailing_Config_Sender
 	{
 		return Mailing::getConfig()->getSender( $this->locale, $this->site_id, $this->specification );
 	}
@@ -190,18 +191,18 @@ class Mailing_Email extends BaseObject
 	 * @param string $key
 	 * @param mixed $value
 	 */
-	public function setVar(string  $key, mixed $value ) : void
+	public function setVar( string $key, mixed $value ): void
 	{
 		$this->data[$key] = $value;
-		$this->getView()->setVar($key, $value);
+		$this->getView()->setVar( $key, $value );
 	}
 
 	/**
 	 * @return string
 	 */
-	public function getSubject() : string
+	public function getSubject(): string
 	{
-		return trim($this->getView()->render(static::SUBJECT_VIEW));
+		return trim( $this->getView()->render( static::SUBJECT_VIEW ) );
 	}
 
 	/**
@@ -209,26 +210,26 @@ class Mailing_Email extends BaseObject
 	 *
 	 * @return string
 	 */
-	public function getBodyHtml( bool $parse_images=true ) : string
+	public function getBodyHtml( bool $parse_images = true ): string
 	{
-		$html =  $this->getView()->render(static::BODY_HTML_VIEW);
+		$html = $this->getView()->render( static::BODY_HTML_VIEW );
 
-		if($parse_images) {
+		if( $parse_images ) {
 
-			$public_url = str_replace('/','\\/', SysConf_URI::getImages());
+			$public_url = str_replace( '/', '\\/', SysConf_URI::getImages() );
 
-			if(preg_match_all('/src=["]'.$public_url.'(.*)["]/Ui', $html, $matches, PREG_SET_ORDER )) {
+			if( preg_match_all( '/src=["]' . $public_url . '(.*)["]/Ui', $html, $matches, PREG_SET_ORDER ) ) {
 
 				foreach( $matches as $m ) {
-					$orig=$m[0];
-					$image=$m[1];
+					$orig = $m[0];
+					$image = $m[1];
 
-					$id = 'i_'.uniqid();
+					$id = 'i_' . uniqid();
 
 
-					$this->addImage( $id, SysConf_Path::getImages().$image );
+					$this->addImage( $id, SysConf_Path::getImages() . $image );
 
-					$html = str_replace( $orig, 'src="cid:'.$id.'"', $html );
+					$html = str_replace( $orig, 'src="cid:' . $id . '"', $html );
 				}
 
 			}
@@ -240,20 +241,20 @@ class Mailing_Email extends BaseObject
 	/**
 	 * @return string
 	 */
-	public function getBodyTxt() : string
+	public function getBodyTxt(): string
 	{
-		return $this->getView()->render(static::BODY_TXT_VIEW);
+		return $this->getView()->render( static::BODY_TXT_VIEW );
 	}
 
 	/**
 	 * @param string $file_path
 	 * @param string $file_name
 	 */
-	public function addAttachments( string $file_path, string $file_name='' ) : void
+	public function addAttachments( string $file_path, string $file_name = '' ): void
 	{
 
-		if(!$file_name) {
-			$file_name = basename($file_path);
+		if( !$file_name ) {
+			$file_name = basename( $file_path );
 		}
 
 		$this->attachments[$file_name] = $file_path;
@@ -262,18 +263,17 @@ class Mailing_Email extends BaseObject
 	/**
 	 * @return array
 	 */
-	public function getAttachments() : array
+	public function getAttachments(): array
 	{
 		return $this->attachments;
 	}
-
 
 
 	/**
 	 * @param string $cid
 	 * @param string $path
 	 */
-	public function addImage( string $cid, string $path ) : void
+	public function addImage( string $cid, string $path ): void
 	{
 		$this->images[$cid] = $path;
 	}
@@ -281,7 +281,7 @@ class Mailing_Email extends BaseObject
 	/**
 	 * @return array
 	 */
-	public function getImages() : array
+	public function getImages(): array
 	{
 		return $this->images;
 	}
@@ -293,7 +293,7 @@ class Mailing_Email extends BaseObject
 	 *
 	 * @return bool
 	 */
-	public function send( string $to, array $extra_headers=[] ) : bool
+	public function send( string $to, array $extra_headers = [] ): bool
 	{
 
 		return Mailing::sendEmail( $this, $to, $extra_headers );

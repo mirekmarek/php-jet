@@ -5,6 +5,7 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace Jet;
 
 /**
@@ -17,7 +18,7 @@ trait DataModel_Trait_Save
 	 * @throws Exception
 	 * @throws DataModel_Exception
 	 */
-	public function save() : void
+	public function save(): void
 	{
 		/**
 		 * @var DataModel $this
@@ -25,7 +26,7 @@ trait DataModel_Trait_Save
 
 		if( $this->getLoadFilter() ) {
 			throw new DataModel_Exception(
-				'Nothing to save... Object is not completely loaded. (Class: \''.get_class( $this ).'\', ID:\''.$this->getIDController().'\')'
+				'Nothing to save... Object is not completely loaded. (Class: \'' . get_class( $this ) . '\', ID:\'' . $this->getIDController() . '\')'
 			);
 		}
 
@@ -43,7 +44,7 @@ trait DataModel_Trait_Save
 			$operation = 'update';
 		}
 
-		$this->{'_'.$operation}();
+		$this->{'_' . $operation}();
 
 		$this->commitBackendTransaction();
 
@@ -57,10 +58,10 @@ trait DataModel_Trait_Save
 	 * @param array $data
 	 * @param array $where
 	 */
-	public static function updateData( array $data, array $where ) : void
+	public static function updateData( array $data, array $where ): void
 	{
 		/**
-		 * @var DataModel         $this
+		 * @var DataModel $this
 		 * @var DataModel_Backend $backend
 		 */
 
@@ -81,11 +82,11 @@ trait DataModel_Trait_Save
 	/**
 	 *
 	 */
-	protected function _save() : void
+	protected function _save(): void
 	{
 
 		/**
-		 * @var DataModel                  $this
+		 * @var DataModel $this
 		 * @var DataModel_Definition_Model $definition
 		 */
 		$definition = static::getDataModelDefinition();
@@ -122,17 +123,17 @@ trait DataModel_Trait_Save
 	/**
 	 *
 	 */
-	protected function _saveRelatedObjects() : void
+	protected function _saveRelatedObjects(): void
 	{
 
 		/**
-		 * @var DataModel                  $this
+		 * @var DataModel $this
 		 * @var DataModel_Definition_Model $definition
 		 *
 		 */
 		$definition = static::getDataModelDefinition();
 
-		$is_related = ( $this instanceof DataModel_Related_Interface );
+		$is_related = ($this instanceof DataModel_Related_Interface);
 
 		foreach( $definition->getProperties() as $property_name => $property_definition ) {
 
@@ -159,10 +160,10 @@ trait DataModel_Trait_Save
 	 *
 	 * @throws DataModel_Exception
 	 */
-	protected function _update() : void
+	protected function _update(): void
 	{
 		/**
-		 * @var DataModel                  $this
+		 * @var DataModel $this
 		 * @var DataModel_Definition_Model $definition
 		 */
 		$definition = static::getDataModelDefinition();

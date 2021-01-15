@@ -5,6 +5,7 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace Jet;
 
 use Iterator;
@@ -127,7 +128,7 @@ class Data_Tree extends BaseObject implements BaseObject_Interface_IteratorCount
 	 *
 	 * @return string
 	 */
-	public function getNodesClassName() : string
+	public function getNodesClassName(): string
 	{
 		return $this->nodes_class_name;
 	}
@@ -135,7 +136,7 @@ class Data_Tree extends BaseObject implements BaseObject_Interface_IteratorCount
 	/**
 	 * @param string $nodes_class_name
 	 */
-	public function setNodesClassName( string $nodes_class_name ) : void
+	public function setNodesClassName( string $nodes_class_name ): void
 	{
 		$this->nodes_class_name = $nodes_class_name;
 	}
@@ -143,7 +144,7 @@ class Data_Tree extends BaseObject implements BaseObject_Interface_IteratorCount
 	/**
 	 * @return bool
 	 */
-	public function getAdoptOrphans() : bool
+	public function getAdoptOrphans(): bool
 	{
 		return $this->adopt_orphans;
 	}
@@ -151,7 +152,7 @@ class Data_Tree extends BaseObject implements BaseObject_Interface_IteratorCount
 	/**
 	 * @param bool $adopt_orphans
 	 */
-	public function setAdoptOrphans( bool $adopt_orphans ) : void
+	public function setAdoptOrphans( bool $adopt_orphans ): void
 	{
 		$this->adopt_orphans = $adopt_orphans;
 	}
@@ -159,7 +160,7 @@ class Data_Tree extends BaseObject implements BaseObject_Interface_IteratorCount
 	/**
 	 * @return bool
 	 */
-	public function getIgnoreOrphans() : bool
+	public function getIgnoreOrphans(): bool
 	{
 		return $this->ignore_orphans;
 	}
@@ -167,7 +168,7 @@ class Data_Tree extends BaseObject implements BaseObject_Interface_IteratorCount
 	/**
 	 * @param bool $ignore_orphans
 	 */
-	public function setIgnoreOrphans( bool $ignore_orphans ) : void
+	public function setIgnoreOrphans( bool $ignore_orphans ): void
 	{
 		$this->ignore_orphans = $ignore_orphans;
 	}
@@ -178,7 +179,7 @@ class Data_Tree extends BaseObject implements BaseObject_Interface_IteratorCount
 	 *
 	 * @return string
 	 */
-	public function getIdKey() : string
+	public function getIdKey(): string
 	{
 		return $this->id_key;
 	}
@@ -186,7 +187,7 @@ class Data_Tree extends BaseObject implements BaseObject_Interface_IteratorCount
 	/**
 	 * @param string $id_key
 	 */
-	public function setIdKey( string $id_key ) : void
+	public function setIdKey( string $id_key ): void
 	{
 		$this->id_key = $id_key;
 	}
@@ -194,7 +195,7 @@ class Data_Tree extends BaseObject implements BaseObject_Interface_IteratorCount
 	/**
 	 * @return string
 	 */
-	public function getIdGetterMethodName() : string
+	public function getIdGetterMethodName(): string
 	{
 		return $this->id_getter_method_name;
 	}
@@ -202,7 +203,7 @@ class Data_Tree extends BaseObject implements BaseObject_Interface_IteratorCount
 	/**
 	 * @param string $id_getter_method_name
 	 */
-	public function setIdGetterMethodName( string $id_getter_method_name ) : void
+	public function setIdGetterMethodName( string $id_getter_method_name ): void
 	{
 		$this->id_getter_method_name = $id_getter_method_name;
 	}
@@ -212,7 +213,7 @@ class Data_Tree extends BaseObject implements BaseObject_Interface_IteratorCount
 	 *
 	 * @return string
 	 */
-	public function getParentIdKey() : string
+	public function getParentIdKey(): string
 	{
 		return $this->parent_id_key;
 	}
@@ -220,7 +221,7 @@ class Data_Tree extends BaseObject implements BaseObject_Interface_IteratorCount
 	/**
 	 * @param string $parent_id_key
 	 */
-	public function setParentIdKey( string $parent_id_key ) : void
+	public function setParentIdKey( string $parent_id_key ): void
 	{
 		$this->parent_id_key = $parent_id_key;
 	}
@@ -228,7 +229,7 @@ class Data_Tree extends BaseObject implements BaseObject_Interface_IteratorCount
 	/**
 	 * @return string
 	 */
-	public function getParentIdGetterMethodName() : string
+	public function getParentIdGetterMethodName(): string
 	{
 		return $this->parent_id_getter_method_name;
 	}
@@ -236,7 +237,7 @@ class Data_Tree extends BaseObject implements BaseObject_Interface_IteratorCount
 	/**
 	 * @param string $parent_id_getter_method_name
 	 */
-	public function setParentIdGetterMethodName( string $parent_id_getter_method_name ) : void
+	public function setParentIdGetterMethodName( string $parent_id_getter_method_name ): void
 	{
 		$this->parent_id_getter_method_name = $parent_id_getter_method_name;
 	}
@@ -244,7 +245,7 @@ class Data_Tree extends BaseObject implements BaseObject_Interface_IteratorCount
 	/**
 	 * @return string
 	 */
-	public function getLabelKey() : string
+	public function getLabelKey(): string
 	{
 		return $this->label_key;
 	}
@@ -252,7 +253,7 @@ class Data_Tree extends BaseObject implements BaseObject_Interface_IteratorCount
 	/**
 	 * @param string $label_key
 	 */
-	public function setLabelKey( string $label_key ) : void
+	public function setLabelKey( string $label_key ): void
 	{
 		$this->label_key = $label_key;
 	}
@@ -260,7 +261,7 @@ class Data_Tree extends BaseObject implements BaseObject_Interface_IteratorCount
 	/**
 	 * @return string
 	 */
-	public function getLabelGetterMethodName() : string
+	public function getLabelGetterMethodName(): string
 	{
 		return $this->label_getter_method_name;
 	}
@@ -268,7 +269,7 @@ class Data_Tree extends BaseObject implements BaseObject_Interface_IteratorCount
 	/**
 	 * @param string $label_getter_method_name
 	 */
-	public function setLabelGetterMethodName( string $label_getter_method_name ) : void
+	public function setLabelGetterMethodName( string $label_getter_method_name ): void
 	{
 		$this->label_getter_method_name = $label_getter_method_name;
 	}
@@ -276,7 +277,7 @@ class Data_Tree extends BaseObject implements BaseObject_Interface_IteratorCount
 	/**
 	 * @return string
 	 */
-	public function getChildrenKey() : string
+	public function getChildrenKey(): string
 	{
 		return $this->children_key;
 	}
@@ -284,7 +285,7 @@ class Data_Tree extends BaseObject implements BaseObject_Interface_IteratorCount
 	/**
 	 * @param string $children_key
 	 */
-	public function setChildrenKey( string $children_key ) : void
+	public function setChildrenKey( string $children_key ): void
 	{
 		$this->children_key = $children_key;
 	}
@@ -292,7 +293,7 @@ class Data_Tree extends BaseObject implements BaseObject_Interface_IteratorCount
 	/**
 	 * @return string
 	 */
-	public function getDepthKey() : string
+	public function getDepthKey(): string
 	{
 		return $this->depth_key;
 	}
@@ -301,7 +302,7 @@ class Data_Tree extends BaseObject implements BaseObject_Interface_IteratorCount
 	 * @param string $depth_key
 	 *
 	 */
-	public function setDepthKey( string $depth_key ) : void
+	public function setDepthKey( string $depth_key ): void
 	{
 		$this->depth_key = $depth_key;
 	}
@@ -311,7 +312,7 @@ class Data_Tree extends BaseObject implements BaseObject_Interface_IteratorCount
 	 *
 	 * @return Data_Tree_Node[]
 	 */
-	public function getNodes() : array
+	public function getNodes(): array
 	{
 		return $this->nodes;
 	}
@@ -320,7 +321,7 @@ class Data_Tree extends BaseObject implements BaseObject_Interface_IteratorCount
 	 *
 	 * @return array
 	 */
-	public function getNodesIds() : array
+	public function getNodesIds(): array
 	{
 		return array_keys( $this->nodes );
 	}
@@ -331,7 +332,7 @@ class Data_Tree extends BaseObject implements BaseObject_Interface_IteratorCount
 	 *
 	 * @return bool
 	 */
-	public function getNodeExists( string $node_id ) : bool
+	public function getNodeExists( string $node_id ): bool
 	{
 		return isset( $this->nodes[$node_id] );
 	}
@@ -341,7 +342,7 @@ class Data_Tree extends BaseObject implements BaseObject_Interface_IteratorCount
 	 *
 	 * @return array|bool
 	 */
-	public function getPath( string $target_node_id ) : array|bool
+	public function getPath( string $target_node_id ): array|bool
 	{
 		$target_node_id = (string)$target_node_id;
 		$target_node = $this->getNode( $target_node_id );
@@ -353,8 +354,8 @@ class Data_Tree extends BaseObject implements BaseObject_Interface_IteratorCount
 		$path = [];
 		$path[] = $target_node->getId();
 
-		while( ( $parent = $target_node->getParent() ) ) {
-			if( $parent->getId()===null ) {
+		while( ($parent = $target_node->getParent()) ) {
+			if( $parent->getId() === null ) {
 				break;
 			}
 			$path[] = $parent->getId();
@@ -372,7 +373,7 @@ class Data_Tree extends BaseObject implements BaseObject_Interface_IteratorCount
 	 *
 	 * @return Data_Tree_Node|null
 	 */
-	public function getNode( string $node_id ) : Data_Tree_Node|null
+	public function getNode( string $node_id ): Data_Tree_Node|null
 	{
 		if( !isset( $this->nodes[$node_id] ) ) {
 			return null;
@@ -386,7 +387,7 @@ class Data_Tree extends BaseObject implements BaseObject_Interface_IteratorCount
 	 *
 	 * @param array $data
 	 */
-	public function setData( array $data ) : void
+	public function setData( array $data ): void
 	{
 		$this->use_objects = false;
 		$this->_setData( $data );
@@ -398,7 +399,7 @@ class Data_Tree extends BaseObject implements BaseObject_Interface_IteratorCount
 	 *
 	 * @throws Data_Tree_Exception
 	 */
-	protected function _setData( array|Iterator $items ) : void
+	protected function _setData( array|Iterator $items ): void
 	{
 		$this->__parent_map = [];
 
@@ -477,7 +478,7 @@ class Data_Tree extends BaseObject implements BaseObject_Interface_IteratorCount
 	 * @return string
 	 * @throws Data_Tree_Exception
 	 */
-	protected function getNodeData_id( array|object $item ) : string
+	protected function getNodeData_id( array|object $item ): string
 	{
 
 		if( $this->use_objects ) {
@@ -486,7 +487,7 @@ class Data_Tree extends BaseObject implements BaseObject_Interface_IteratorCount
 
 		if( !isset( $item[$this->id_key] ) ) {
 			throw new Data_Tree_Exception(
-				'Missing \''.$this->id_key.'\' key in item data', Data_Tree_Exception::CODE_MISSING_VALUE
+				'Missing \'' . $this->id_key . '\' key in item data', Data_Tree_Exception::CODE_MISSING_VALUE
 			);
 
 		}
@@ -497,11 +498,11 @@ class Data_Tree extends BaseObject implements BaseObject_Interface_IteratorCount
 	/**
 	 * @param array|object $item
 	 *
+	 * @return string
 	 * @throws Data_Tree_Exception
 	 *
-	 * @return string
 	 */
-	protected function getNodeData_parentId( array|object $item ) : string
+	protected function getNodeData_parentId( array|object $item ): string
 	{
 		if( $this->use_objects ) {
 			return $item->{$this->parent_id_getter_method_name}();
@@ -509,7 +510,7 @@ class Data_Tree extends BaseObject implements BaseObject_Interface_IteratorCount
 
 		if( !isset( $item[$this->parent_id_key] ) ) {
 			throw new Data_Tree_Exception(
-				'Missing \''.$this->parent_id_key.'\' key in item data', Data_Tree_Exception::CODE_MISSING_VALUE
+				'Missing \'' . $this->parent_id_key . '\' key in item data', Data_Tree_Exception::CODE_MISSING_VALUE
 			);
 
 		}
@@ -522,7 +523,7 @@ class Data_Tree extends BaseObject implements BaseObject_Interface_IteratorCount
 	 *
 	 * @return Data_Tree_Node|null
 	 */
-	public function getRootNode() : Data_Tree_Node|null
+	public function getRootNode(): Data_Tree_Node|null
 	{
 		if( !$this->root_node ) {
 			$this->root_node = new $this->nodes_class_name( $this, null );
@@ -535,7 +536,7 @@ class Data_Tree extends BaseObject implements BaseObject_Interface_IteratorCount
 	/**
 	 * @param Data_Tree_Node $node
 	 */
-	public function setRootNode( Data_Tree_Node $node ) : void
+	public function setRootNode( Data_Tree_Node $node ): void
 	{
 		$node->setIsRoot( true );
 		$this->root_node = $node;
@@ -544,7 +545,7 @@ class Data_Tree extends BaseObject implements BaseObject_Interface_IteratorCount
 	/**
 	 * @param string $parent_id
 	 */
-	protected function __setData( string $parent_id ) : void
+	protected function __setData( string $parent_id ): void
 	{
 		if( !isset( $this->__parent_map[$parent_id] ) ) {
 			return;
@@ -564,10 +565,10 @@ class Data_Tree extends BaseObject implements BaseObject_Interface_IteratorCount
 	 *
 	 * @param array|object $item_data
 	 *
-	 * @throws Data_Tree_Exception
 	 * @return Data_Tree_Node|null
+	 * @throws Data_Tree_Exception
 	 */
-	public function appendNode( array|object $item_data ) : Data_Tree_Node|null
+	public function appendNode( array|object $item_data ): Data_Tree_Node|null
 	{
 
 		$id = $this->getNodeData_id( $item_data );
@@ -575,7 +576,7 @@ class Data_Tree extends BaseObject implements BaseObject_Interface_IteratorCount
 
 		if( isset( $this->nodes[$id] ) ) {
 			throw new Data_Tree_Exception(
-				'Node \''.$id.'\' already exists', Data_Tree_Exception::CODE_NODE_ALREADY_EXISTS
+				'Node \'' . $id . '\' already exists', Data_Tree_Exception::CODE_NODE_ALREADY_EXISTS
 			);
 		}
 
@@ -600,8 +601,7 @@ class Data_Tree extends BaseObject implements BaseObject_Interface_IteratorCount
 				$parent = $this->getRootNode();
 			} else {
 				throw new Data_Tree_Exception(
-					'Inconsistent tree data. Parent node \''.$new_node->getParentId(
-					).'\' does not exist. Node ID: \''.$new_node->getId().'\' ',
+					'Inconsistent tree data. Parent node \'' . $new_node->getParentId() . '\' does not exist. Node ID: \'' . $new_node->getId() . '\' ',
 					Data_Tree_Exception::CODE_INCONSISTENT_TREE_DATA
 				);
 
@@ -623,7 +623,7 @@ class Data_Tree extends BaseObject implements BaseObject_Interface_IteratorCount
 	 * @return string
 	 * @throws Data_Tree_Exception
 	 */
-	protected function getNodeData_label( object|array $item ) : string
+	protected function getNodeData_label( object|array $item ): string
 	{
 
 		if( $this->use_objects ) {
@@ -632,7 +632,7 @@ class Data_Tree extends BaseObject implements BaseObject_Interface_IteratorCount
 
 		if( !isset( $item[$this->label_key] ) ) {
 			throw new Data_Tree_Exception(
-				'Missing \''.$this->label_key.'\' key in item data', Data_Tree_Exception::CODE_MISSING_VALUE
+				'Missing \'' . $this->label_key . '\' key in item data', Data_Tree_Exception::CODE_MISSING_VALUE
 			);
 
 		}
@@ -644,7 +644,7 @@ class Data_Tree extends BaseObject implements BaseObject_Interface_IteratorCount
 	 *
 	 * @param Iterator|array $data
 	 */
-	public function setDataSource( Iterator|array $data ) : void
+	public function setDataSource( Iterator|array $data ): void
 	{
 		$this->use_objects = true;
 		$this->_setData( $data );
@@ -653,7 +653,7 @@ class Data_Tree extends BaseObject implements BaseObject_Interface_IteratorCount
 	/**
 	 *
 	 */
-	public function resetIteratorMap() : void
+	public function resetIteratorMap(): void
 	{
 		$this->_iterator_map = [];
 
@@ -665,7 +665,7 @@ class Data_Tree extends BaseObject implements BaseObject_Interface_IteratorCount
 	/**
 	 * @return string
 	 */
-	public function toJSON() : string
+	public function toJSON(): string
 	{
 
 		$data = $this->jsonSerialize();
@@ -676,7 +676,7 @@ class Data_Tree extends BaseObject implements BaseObject_Interface_IteratorCount
 	/**
 	 * @return array
 	 */
-	public function jsonSerialize() : array
+	public function jsonSerialize(): array
 	{
 		return $this->toArray();
 	}
@@ -693,7 +693,7 @@ class Data_Tree extends BaseObject implements BaseObject_Interface_IteratorCount
 	 *
 	 * @return array
 	 */
-	public function toArray() : array
+	public function toArray(): array
 	{
 		$result = [];
 
@@ -708,7 +708,7 @@ class Data_Tree extends BaseObject implements BaseObject_Interface_IteratorCount
 	/**
 	 *
 	 */
-	public function rewind() : void
+	public function rewind(): void
 	{
 		if( !$this->_iterator_map ) {
 			$this->getIteratorMap();
@@ -726,7 +726,7 @@ class Data_Tree extends BaseObject implements BaseObject_Interface_IteratorCount
 	/**
 	 *
 	 */
-	public function getIteratorMap() : array
+	public function getIteratorMap(): array
 	{
 		if( $this->_iterator_map ) {
 			return $this->_iterator_map;
@@ -750,7 +750,7 @@ class Data_Tree extends BaseObject implements BaseObject_Interface_IteratorCount
 	/**
 	 * @return Data_Tree_Node
 	 */
-	public function current() : Data_Tree_Node
+	public function current(): Data_Tree_Node
 	{
 		if( !$this->_iterator_map ) {
 			$this->getIteratorMap();
@@ -762,7 +762,7 @@ class Data_Tree extends BaseObject implements BaseObject_Interface_IteratorCount
 	/**
 	 * @return string
 	 */
-	public function key() : string
+	public function key(): string
 	{
 		if( !$this->_iterator_map ) {
 			$this->getIteratorMap();
@@ -774,7 +774,7 @@ class Data_Tree extends BaseObject implements BaseObject_Interface_IteratorCount
 	/**
 	 *
 	 */
-	public function next() : void
+	public function next(): void
 	{
 		if( !$this->_iterator_map ) {
 			$this->getIteratorMap();
@@ -785,13 +785,13 @@ class Data_Tree extends BaseObject implements BaseObject_Interface_IteratorCount
 	/**
 	 * @return bool
 	 */
-	public function valid() : bool
+	public function valid(): bool
 	{
 		if( !$this->_iterator_map ) {
 			$this->getIteratorMap();
 		}
 
-		return key( $this->_iterator_map )!==null;
+		return key( $this->_iterator_map ) !== null;
 	}
 
 	//- Countable ---------------------------------------------------------------------------------
@@ -801,7 +801,7 @@ class Data_Tree extends BaseObject implements BaseObject_Interface_IteratorCount
 	/**
 	 * @return int
 	 */
-	public function count() : int
+	public function count(): int
 	{
 		return count( $this->nodes );
 	}

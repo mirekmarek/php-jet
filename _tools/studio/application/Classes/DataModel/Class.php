@@ -5,6 +5,7 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace JetStudio;
 
 use \ReflectionClass;
@@ -12,7 +13,8 @@ use \ReflectionClass;
 /**
  *
  */
-class DataModel_Class {
+class DataModel_Class
+{
 
 	/**
 	 * @var string
@@ -60,7 +62,7 @@ class DataModel_Class {
 	 * @param string $class_name
 	 * @param ReflectionClass|null $reflection
 	 */
-	public function __construct( string $script_path, string $namespace, string $class_name, ReflectionClass $reflection=null )
+	public function __construct( string $script_path, string $namespace, string $class_name, ReflectionClass $reflection = null )
 	{
 		$this->script_path = $script_path;
 		$this->reflection = $reflection;
@@ -71,7 +73,7 @@ class DataModel_Class {
 	/**
 	 * @return bool
 	 */
-	public function isIsNew() : bool
+	public function isIsNew(): bool
 	{
 		return $this->is_new;
 	}
@@ -79,17 +81,16 @@ class DataModel_Class {
 	/**
 	 * @param bool $is_new
 	 */
-	public function setIsNew( bool $is_new ) : void
+	public function setIsNew( bool $is_new ): void
 	{
 		$this->is_new = $is_new;
 	}
 
 
-
 	/**
 	 * @return string
 	 */
-	public function getScriptPath() : string
+	public function getScriptPath(): string
 	{
 		return $this->script_path;
 	}
@@ -97,7 +98,7 @@ class DataModel_Class {
 	/**
 	 * @return string
 	 */
-	public function getNamespace() : string
+	public function getNamespace(): string
 	{
 		return $this->namespace;
 	}
@@ -105,7 +106,7 @@ class DataModel_Class {
 	/**
 	 * @return string
 	 */
-	public function getClassName() : string
+	public function getClassName(): string
 	{
 		return $this->class_name;
 	}
@@ -113,25 +114,24 @@ class DataModel_Class {
 	/**
 	 * @return ReflectionClass
 	 */
-	public function getReflection() : ReflectionClass
+	public function getReflection(): ReflectionClass
 	{
 		return $this->reflection;
 	}
 
 
-
 	/**
 	 * @return string
 	 */
-	public function getFullClassName() : string
+	public function getFullClassName(): string
 	{
-		return $this->namespace.'\\'.$this->class_name;
+		return $this->namespace . '\\' . $this->class_name;
 	}
 
 	/**
 	 * @return DataModel_Definition_Model_Main|DataModel_Definition_Model_Related_1to1|DataModel_Definition_Model_Related_1toN|DataModel_Definition_Model_Related_MtoN
 	 */
-	public function getDefinition() : DataModel_Definition_Model_Main|DataModel_Definition_Model_Related_1to1|DataModel_Definition_Model_Related_1toN|DataModel_Definition_Model_Related_MtoN
+	public function getDefinition(): DataModel_Definition_Model_Main|DataModel_Definition_Model_Related_1to1|DataModel_Definition_Model_Related_1toN|DataModel_Definition_Model_Related_MtoN
 	{
 		return $this->definition;
 	}
@@ -149,7 +149,7 @@ class DataModel_Class {
 	/**
 	 * @return string
 	 */
-	public function getError() : string
+	public function getError(): string
 	{
 		return $this->error;
 	}
@@ -157,7 +157,7 @@ class DataModel_Class {
 	/**
 	 * @param string $error
 	 */
-	public function setError( string $error ) : void
+	public function setError( string $error ): void
 	{
 		$this->error = $error;
 	}
@@ -165,9 +165,9 @@ class DataModel_Class {
 	/**
 	 * @return array
 	 */
-	public function getImplements() : array
+	public function getImplements(): array
 	{
-		if(!$this->reflection) {
+		if( !$this->reflection ) {
 			return [];
 		}
 		return $this->reflection->getInterfaceNames();
@@ -176,9 +176,9 @@ class DataModel_Class {
 	/**
 	 * @return bool
 	 */
-	public function isAbstract() : bool
+	public function isAbstract(): bool
 	{
-		if(!$this->reflection) {
+		if( !$this->reflection ) {
 			return false;
 		}
 
@@ -188,9 +188,9 @@ class DataModel_Class {
 	/**
 	 * @return string
 	 */
-	public function getExtends() : string
+	public function getExtends(): string
 	{
-		if(!$this->reflection) {
+		if( !$this->reflection ) {
 			return '';
 		}
 
@@ -200,15 +200,15 @@ class DataModel_Class {
 	/**
 	 * @return array
 	 */
-	public function getParents() : array
+	public function getParents(): array
 	{
-		if($this->_parents===null) {
+		if( $this->_parents === null ) {
 			$this->_parents = [];
 
-			$getParent = function( DataModel_Class $class ) use ( &$getParent) {
-				if($class->getExtends()) {
+			$getParent = function( DataModel_Class $class ) use ( &$getParent ) {
+				if( $class->getExtends() ) {
 					$e_class = DataModels::getClass( $class->getExtends() );
-					if($e_class) {
+					if( $e_class ) {
 						$this->_parents[] = $e_class->getFullClassName();
 						$getParent( $e_class );
 					}
@@ -229,7 +229,7 @@ class DataModel_Class {
 	 *
 	 * @return bool
 	 */
-	public function isDescendantOf( DataModel_Class $class ) : bool
+	public function isDescendantOf( DataModel_Class $class ): bool
 	{
 		$parents = $this->getParents();
 
@@ -241,18 +241,18 @@ class DataModel_Class {
 	 *
 	 * @return bool|string
 	 */
-	public function getPropertyDeclaringClass( string $property_name ) : bool|string
+	public function getPropertyDeclaringClass( string $property_name ): bool|string
 	{
 		$parents = $this->getParents();
 
-		foreach($parents as $class_name) {
-			$class = DataModels::getClass($class_name);
+		foreach( $parents as $class_name ) {
+			$class = DataModels::getClass( $class_name );
 
-			if(!$class) {
+			if( !$class ) {
 				continue;
 			}
 
-			if($class->getReflection()->hasProperty($property_name)) {
+			if( $class->getReflection()->hasProperty( $property_name ) ) {
 				return $class_name;
 			}
 		}

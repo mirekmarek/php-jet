@@ -5,10 +5,11 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace Jet;
 
 /**
- * 
+ *
  */
 class DataModel_Query_OrderBy_Item extends BaseObject
 {
@@ -27,15 +28,15 @@ class DataModel_Query_OrderBy_Item extends BaseObject
 
 	/**
 	 * @param DataModel_Definition_Property|DataModel_Query_Select_Item $item
-	 * @param bool                                                      $desc (optional)
+	 * @param bool $desc (optional)
 	 *
 	 * @throws Exception
 	 */
 	public function __construct( DataModel_Definition_Property|DataModel_Query_Select_Item $item, bool $desc = false )
 	{
 		if(
-			!( $item instanceof DataModel_Definition_Property ) &&
-			!( $item instanceof DataModel_Query_Select_Item )
+			!($item instanceof DataModel_Definition_Property) &&
+			!($item instanceof DataModel_Query_Select_Item)
 		) {
 			throw new Exception(
 				'Item must be instance of \'DataModel_Definition_Property_Abstract\' or \'DataModel_Query_Select_Item\' '
@@ -57,7 +58,7 @@ class DataModel_Query_OrderBy_Item extends BaseObject
 	/**
 	 * @return bool
 	 */
-	public function getDesc() : bool
+	public function getDesc(): bool
 	{
 		return $this->desc;
 	}
@@ -65,7 +66,7 @@ class DataModel_Query_OrderBy_Item extends BaseObject
 	/**
 	 * @param bool $desc
 	 */
-	public function setDesc( bool $desc ) : void
+	public function setDesc( bool $desc ): void
 	{
 		$this->desc = (bool)$desc;
 	}

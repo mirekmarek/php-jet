@@ -5,6 +5,7 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace JetStudio;
 
 use Jet\DataModel;
@@ -14,26 +15,27 @@ use Jet\Form_Field;
 /**
  *
  */
-class DataModel_Definition_Id_UniqueString extends DataModel_Definition_Id_Abstract {
+class DataModel_Definition_Id_UniqueString extends DataModel_Definition_Id_Abstract
+{
 
 	/**
 	 * @param ClassCreator_Class $class
 	 */
-	public function createClass_IdDefinition( ClassCreator_Class $class ) : void
+	public function createClass_IdDefinition( ClassCreator_Class $class ): void
 	{
 		parent::createClass_IdDefinition( $class );
 
 		$id_property_name = $this->getSelectedIdPropertyName( DataModel::TYPE_ID );
 
-		if(!$id_property_name) {
-			$class->addError( Tr::_('There is not property which is DataModel::TYPE_ID type and is marked as ID', []) );
+		if( !$id_property_name ) {
+			$class->addError( Tr::_( 'There is not property which is DataModel::TYPE_ID type and is marked as ID', [] ) );
 		} else {
 
 			$id_controller_options = [
 				'id_property_name' => $id_property_name
 			];
 
-			$class->setAttribute('DataModel_Definition', 'id_controller_options', $id_controller_options );
+			$class->setAttribute( 'DataModel_Definition', 'id_controller_options', $id_controller_options );
 
 		}
 
@@ -42,7 +44,7 @@ class DataModel_Definition_Id_UniqueString extends DataModel_Definition_Id_Abstr
 	/**
 	 * @return array
 	 */
-	public function getOptionsList() : array
+	public function getOptionsList(): array
 	{
 		return [
 			'id_property_name'
@@ -53,7 +55,7 @@ class DataModel_Definition_Id_UniqueString extends DataModel_Definition_Id_Abstr
 	 *
 	 * @return Form_Field[]
 	 */
-	public function getOptionsFormFields() : array
+	public function getOptionsFormFields(): array
 	{
 		$id_property_name = $this->getOptionsFormField_idProperty( DataModel::TYPE_ID );
 

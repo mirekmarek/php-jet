@@ -5,6 +5,7 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace JetApplicationModule\Content\Articles;
 
 use Jet\Http_Headers;
@@ -42,28 +43,28 @@ class Controller_Web extends Mvc_Controller_Default
 	/**
 	 * @return Mvc_Controller_Router
 	 */
-	public function getControllerRouter() : Mvc_Controller_Router
+	public function getControllerRouter(): Mvc_Controller_Router
 	{
-		if(!$this->router) {
-			$this->router = new Mvc_Controller_Router($this);
+		if( !$this->router ) {
+			$this->router = new Mvc_Controller_Router( $this );
 
 			$path = Mvc::getRouter()->getPath();
 
-			$this->router->addAction('list')
-				->setResolver(function() use ($path) {
-					if($path=='') {
+			$this->router->addAction( 'list' )
+				->setResolver( function() use ( $path ) {
+					if( $path == '' ) {
 						return true;
 					}
-					if( preg_match( '/^page:([0-9]+)$/', $path, $matches) ) {
+					if( preg_match( '/^page:([0-9]+)$/', $path, $matches ) ) {
 						$this->page_no = $matches[1];
 						Mvc::getRouter()->setUsedPath( $path );
 						return true;
 					}
 
 					return false;
-				});
-			$this->router->addAction('detail')
-				->setResolver(function() use ($path) {
+				} );
+			$this->router->addAction( 'detail' )
+				->setResolver( function() use ( $path ) {
 
 					$current_article = Article::resolveArticleByURL( $path, Mvc::getCurrentLocale() );
 
@@ -75,7 +76,7 @@ class Controller_Web extends Mvc_Controller_Default
 
 					return true;
 
-				});
+				} );
 		}
 
 		return $this->router;
@@ -85,7 +86,7 @@ class Controller_Web extends Mvc_Controller_Default
 	/**
 	 *
 	 */
-	public function list_Action() : void
+	public function list_Action(): void
 	{
 		$page_no = $this->page_no;
 
@@ -93,23 +94,23 @@ class Controller_Web extends Mvc_Controller_Default
 			$page_no,
 			$this->public_list_items_per_page,
 			function( $page_no ) {
-				return Mvc::getCurrentPage()->getURLPath(['page:'.$page_no]);
+				return Mvc::getCurrentPage()->getURLPath( ['page:' . $page_no] );
 			}
 		);
 
 		$paginator->setDataSource( Article::getListForCurrentLocale() );
 
 
-		if(!$paginator->getCurrentPageNoIsInRange()) {
+		if( !$paginator->getCurrentPageNoIsInRange() ) {
 
 			Http_Headers::movedTemporary(
-							($page_no>1) ?
-									$paginator->getLastPageURL()
-									:
-									$paginator->getFirstPageURL()
-							);
+				($page_no > 1)
+					?
+					$paginator->getLastPageURL()
+					:
+					$paginator->getFirstPageURL()
+			);
 		}
-
 
 
 		$articles_list = $paginator->getData();
@@ -124,7 +125,7 @@ class Controller_Web extends Mvc_Controller_Default
 	/**
 	 *
 	 */
-	public function detail_Action() : void
+	public function detail_Action(): void
 	{
 		$article = $this->article;
 

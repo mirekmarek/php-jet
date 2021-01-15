@@ -5,6 +5,7 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace Jet;
 
 /**
@@ -33,7 +34,7 @@ class Application_Modules extends BaseObject
 	/**
 	 * @return string
 	 */
-	public static function getModuleRootNamespace() : string
+	public static function getModuleRootNamespace(): string
 	{
 		return static::$module_root_namespace;
 	}
@@ -41,7 +42,7 @@ class Application_Modules extends BaseObject
 	/**
 	 * @param string $module_root_namespace
 	 */
-	public static function setModuleRootNamespace( string $module_root_namespace ) : void
+	public static function setModuleRootNamespace( string $module_root_namespace ): void
 	{
 		static::$module_root_namespace = $module_root_namespace;
 	}
@@ -51,19 +52,18 @@ class Application_Modules extends BaseObject
 	 *
 	 * @return string
 	 */
-	public static function getModuleDir( string $module_name ) : string
+	public static function getModuleDir( string $module_name ): string
 	{
-		return static::getBasePath().str_replace( '.', '/', $module_name).'/';
+		return static::getBasePath() . str_replace( '.', '/', $module_name ) . '/';
 	}
 
 
 	/**
 	 * @return Application_Modules_Handler
 	 */
-	public static function getHandler() : Application_Modules_Handler
+	public static function getHandler(): Application_Modules_Handler
 	{
 		if( !static::$handler ) {
-
 
 
 			static::$handler = new Application_Modules_Handler_Default();
@@ -83,10 +83,10 @@ class Application_Modules extends BaseObject
 	/**
 	 * @return string
 	 */
-	public static function getBasePath() : string
+	public static function getBasePath(): string
 	{
-		if(!static::$base_path) {
-			static::$base_path = SysConf_Path::getApplication().'Modules/';
+		if( !static::$base_path ) {
+			static::$base_path = SysConf_Path::getApplication() . 'Modules/';
 		}
 		return static::$base_path;
 	}
@@ -94,7 +94,7 @@ class Application_Modules extends BaseObject
 	/**
 	 * @param string $base_path
 	 */
-	public static function setBasePath( string $base_path ) : void
+	public static function setBasePath( string $base_path ): void
 	{
 		static::$base_path = $base_path;
 	}
@@ -102,10 +102,10 @@ class Application_Modules extends BaseObject
 
 	/**
 	 *
-	 * @throws Application_Modules_Exception
 	 * @return Application_Module_Manifest[]
+	 * @throws Application_Modules_Exception
 	 */
-	public static function installedModulesList() : array
+	public static function installedModulesList(): array
 	{
 		return static::getHandler()->installedModulesList();
 	}
@@ -113,11 +113,11 @@ class Application_Modules extends BaseObject
 	/**
 	 *
 	 *
+	 * @return Application_Module_Manifest[]
 	 * @throws Application_Modules_Exception
 	 *
-	 * @return Application_Module_Manifest[]
 	 */
-	public static function allModulesList() : array
+	public static function allModulesList(): array
 	{
 		return static::getHandler()->allModulesList();
 	}
@@ -126,7 +126,7 @@ class Application_Modules extends BaseObject
 	 *
 	 * @return Application_Module_Manifest[]
 	 */
-	public static function activatedModulesList() : array
+	public static function activatedModulesList(): array
 	{
 		return static::getHandler()->activatedModulesList();
 	}
@@ -137,7 +137,7 @@ class Application_Modules extends BaseObject
 	 *
 	 * @return bool
 	 */
-	public static function moduleExists( string $module_name ) : bool
+	public static function moduleExists( string $module_name ): bool
 	{
 		return static::getHandler()->moduleExists( $module_name );
 	}
@@ -148,7 +148,7 @@ class Application_Modules extends BaseObject
 	 *
 	 * @return bool
 	 */
-	public static function moduleIsInstalled( string $module_name ) : bool
+	public static function moduleIsInstalled( string $module_name ): bool
 	{
 		return static::getHandler()->moduleIsInstalled( $module_name );
 	}
@@ -159,7 +159,7 @@ class Application_Modules extends BaseObject
 	 *
 	 * @return bool
 	 */
-	public static function moduleIsActivated( string $module_name ) : bool
+	public static function moduleIsActivated( string $module_name ): bool
 	{
 		return static::getHandler()->moduleIsActivated( $module_name );
 	}
@@ -171,7 +171,7 @@ class Application_Modules extends BaseObject
 	 *
 	 * @return Application_Module_Manifest
 	 */
-	public static function moduleManifest( string $module_name ) : Application_Module_Manifest
+	public static function moduleManifest( string $module_name ): Application_Module_Manifest
 	{
 		return static::getHandler()->moduleManifest( $module_name );
 	}
@@ -182,7 +182,7 @@ class Application_Modules extends BaseObject
 	 *
 	 * @throws Application_Modules_Exception
 	 */
-	public static function installModule( string $module_name ) : void
+	public static function installModule( string $module_name ): void
 	{
 		static::getHandler()->installModule( $module_name );
 	}
@@ -193,7 +193,7 @@ class Application_Modules extends BaseObject
 	 *
 	 * @throws Application_Modules_Exception
 	 */
-	public static function uninstallModule( string $module_name ) : void
+	public static function uninstallModule( string $module_name ): void
 	{
 		static::getHandler()->uninstallModule( $module_name );
 	}
@@ -204,7 +204,7 @@ class Application_Modules extends BaseObject
 	 *
 	 * @throws Application_Modules_Exception
 	 */
-	public static function activateModule( string $module_name ) : void
+	public static function activateModule( string $module_name ): void
 	{
 		static::getHandler()->activateModule( $module_name );
 	}
@@ -215,7 +215,7 @@ class Application_Modules extends BaseObject
 	 *
 	 * @throws Application_Modules_Exception
 	 */
-	public static function deactivateModule( string $module_name ) : void
+	public static function deactivateModule( string $module_name ): void
 	{
 		static::getHandler()->deactivateModule( $module_name );
 	}
@@ -226,7 +226,7 @@ class Application_Modules extends BaseObject
 	 *
 	 * @return Application_Module
 	 */
-	public static function moduleInstance( string $module_name ) : Application_Module
+	public static function moduleInstance( string $module_name ): Application_Module
 	{
 		return static::getHandler()->moduleInstance( $module_name );
 	}

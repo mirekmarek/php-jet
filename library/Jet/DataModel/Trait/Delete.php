@@ -5,6 +5,7 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace Jet;
 
 /**
@@ -16,16 +17,16 @@ trait DataModel_Trait_Delete
 	 *
 	 * @throws DataModel_Exception
 	 */
-	public function delete() : void
+	public function delete(): void
 	{
 		/**
 		 * @var DataModel $this
 		 */
 		if( $this->getLoadFilter() ) {
 			throw new DataModel_Exception(
-				'Nothing to delete... Object is not completely loaded. (Class: \''.get_class(
+				'Nothing to delete... Object is not completely loaded. (Class: \'' . get_class(
 					$this
-				).'\', Id:\''.$this->getIDController().'\')', DataModel_Exception::CODE_NOTHING_TO_DELETE
+				) . '\', Id:\'' . $this->getIDController() . '\')', DataModel_Exception::CODE_NOTHING_TO_DELETE
 			);
 		}
 
@@ -34,14 +35,14 @@ trait DataModel_Trait_Delete
 			!$this->getIsSaved()
 		) {
 			throw new DataModel_Exception(
-				'Nothing to delete... Object was not loaded. (Class: \''.get_class(
+				'Nothing to delete... Object was not loaded. (Class: \'' . get_class(
 					$this
-				).'\', Id:\''.$this->getIDController().'\')', DataModel_Exception::CODE_NOTHING_TO_DELETE
+				) . '\', Id:\'' . $this->getIDController() . '\')', DataModel_Exception::CODE_NOTHING_TO_DELETE
 			);
 		}
 
 		/**
-		 * @var DataModel_Backend          $backend
+		 * @var DataModel_Backend $backend
 		 * @var DataModel_Definition_Model $definition
 		 */
 		$backend = static::getBackendInstance();

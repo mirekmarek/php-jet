@@ -5,6 +5,7 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace Jet;
 
 /**
@@ -33,7 +34,7 @@ class UI_messages extends BaseObject
 	/**
 	 * @return string
 	 */
-	public static function getSessionNamespace() : string
+	public static function getSessionNamespace(): string
 	{
 		return static::$session_namespace;
 	}
@@ -41,17 +42,16 @@ class UI_messages extends BaseObject
 	/**
 	 * @param string $session_namespace
 	 */
-	public static function setSessionNamespace( string $session_namespace ) : void
+	public static function setSessionNamespace( string $session_namespace ): void
 	{
 		static::$session_namespace = $session_namespace;
 	}
 
 
-
 	/**
 	 * @param string $message
 	 */
-	public static function success( string $message ) : void
+	public static function success( string $message ): void
 	{
 		static::set( static::C_SUCCESS, $message );
 	}
@@ -63,7 +63,7 @@ class UI_messages extends BaseObject
 	 */
 	public static function set( string $class,
 	                            string $message,
-	                            string $context='' ) : void
+	                            string $context = '' ): void
 	{
 		$s = static::getSession();
 
@@ -81,9 +81,9 @@ class UI_messages extends BaseObject
 	/**
 	 * @return Session
 	 */
-	protected static function getSession() : Session
+	protected static function getSession(): Session
 	{
-		if( static::$session===null ) {
+		if( static::$session === null ) {
 			static::$session = new Session( static::getSessionNamespace() );
 		}
 
@@ -99,7 +99,7 @@ class UI_messages extends BaseObject
 	 */
 	public static function create( string $class,
 	                               string $message,
-	                               string $context='' ) : UI_messages_message
+	                               string $context = '' ): UI_messages_message
 	{
 		return new UI_messages_message( $class, $message, $context );
 	}
@@ -110,7 +110,7 @@ class UI_messages extends BaseObject
 	 *
 	 * @return UI_messages_message
 	 */
-	public static function createSuccess( string $message, string $context='' ) : UI_messages_message
+	public static function createSuccess( string $message, string $context = '' ): UI_messages_message
 	{
 		return static::create( static::C_SUCCESS, $message, $context );
 	}
@@ -119,7 +119,7 @@ class UI_messages extends BaseObject
 	 * @param string $message
 	 * @param string $context
 	 */
-	public static function info( string $message, string $context='' ) : void
+	public static function info( string $message, string $context = '' ): void
 	{
 		static::set( static::C_INFO, $message, $context );
 	}
@@ -130,7 +130,7 @@ class UI_messages extends BaseObject
 	 *
 	 * @return UI_messages_message
 	 */
-	public static function createInfo( string $message, string $context='' ) : UI_messages_message
+	public static function createInfo( string $message, string $context = '' ): UI_messages_message
 	{
 		return static::create( static::C_INFO, $message, $context );
 	}
@@ -139,7 +139,7 @@ class UI_messages extends BaseObject
 	 * @param string $message
 	 * @param string $context
 	 */
-	public static function warning( string $message, string $context='' )
+	public static function warning( string $message, string $context = '' )
 	{
 		static::set( static::C_WARNING, $message, $context );
 	}
@@ -150,7 +150,7 @@ class UI_messages extends BaseObject
 	 *
 	 * @return UI_messages_message
 	 */
-	public static function createWarning( string $message, string $context='' ) : UI_messages_message
+	public static function createWarning( string $message, string $context = '' ): UI_messages_message
 	{
 		return static::create( static::C_WARNING, $message, $context );
 	}
@@ -159,7 +159,7 @@ class UI_messages extends BaseObject
 	 * @param string $message
 	 * @param string $context
 	 */
-	public static function danger( string $message, string $context='' )
+	public static function danger( string $message, string $context = '' )
 	{
 		static::set( static::C_DANGER, $message, $context );
 	}
@@ -170,7 +170,7 @@ class UI_messages extends BaseObject
 	 *
 	 * @return UI_messages_message
 	 */
-	public static function createDanger( string $message, string $context='' ) : UI_messages_message
+	public static function createDanger( string $message, string $context = '' ): UI_messages_message
 	{
 		return static::create( static::C_DANGER, $message, $context );
 	}
@@ -180,7 +180,7 @@ class UI_messages extends BaseObject
 	 *
 	 * @return UI_messages_message[]
 	 */
-	public static function get( string|null $context=null ) : array
+	public static function get( string|null $context = null ): array
 	{
 		$messages = [];
 
@@ -190,12 +190,12 @@ class UI_messages extends BaseObject
 
 		if( $s->getValueExists( 'msg' ) ) {
 
-			if($context!==null) {
+			if( $context !== null ) {
 				foreach( $s->getValue( 'msg' ) as $msg ) {
 					/**
 					 * @var UI_messages_message $msg
 					 */
-					if($msg->getContext()==$context) {
+					if( $msg->getContext() == $context ) {
 						$messages[] = $msg;
 					} else {
 						$not_relevant_messages[] = $msg;

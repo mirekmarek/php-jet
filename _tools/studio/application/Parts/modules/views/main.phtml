@@ -4,36 +4,36 @@ namespace JetStudio;
 $what_to_edit = Modules::getCurrentWhatToEdit();
 
 ?>
-<?=Application::getView()->render('js');?>
+<?= Application::getView()->render( 'js' ); ?>
 
 <div class="row toolbar" id="main-toolbar">
 	<div class="col-md-3">
 	</div>
 	<div class="col-md-9">
-		<?php if($what_to_edit): ?>
-			<?=Application::getView()->render($what_to_edit.'/edit/toolbar');?>
+		<?php if( $what_to_edit ): ?>
+			<?= Application::getView()->render( $what_to_edit . '/edit/toolbar' ); ?>
 		<?php endif; ?>
 	</div>
 </div>
 
 
-<?php if(Modules::getCurrentModule()): ?>
-<div class="row" id="main-col">
-	<div class="col-md-3" style="padding: 0px;">
-		<?=Application::getView()->render('models_list');?>
-	</div>
-	<div class="col-md-9" style="padding: 0px">
-		<div class="container-fluid">
-			<?=Application::getView()->render($what_to_edit.'/edit/form');?>
+<?php if( Modules::getCurrentModule() ): ?>
+	<div class="row" id="main-col">
+		<div class="col-md-3" style="padding: 0px;">
+			<?= Application::getView()->render( 'models_list' ); ?>
+		</div>
+		<div class="col-md-9" style="padding: 0px">
+			<div class="container-fluid">
+				<?= Application::getView()->render( $what_to_edit . '/edit/form' ); ?>
+			</div>
 		</div>
 	</div>
-</div>
 <?php else: ?>
-<div class="row" id="main-col">
-	<div class="col-md-12">
-		<?=Application::getGeneralView()->render('messages');?>
-		<?=Application::getView()->render('models_list');?>
+	<div class="row" id="main-col">
+		<div class="col-md-12">
+			<?= Application::getGeneralView()->render( 'messages' ); ?>
+			<?= Application::getView()->render( 'models_list' ); ?>
+		</div>
 	</div>
-</div>
 <?php endif; ?>
 

@@ -5,6 +5,7 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace Jet;
 
 /**
@@ -36,7 +37,7 @@ class DataModel_Definition_Property_IdAutoIncrement extends DataModel_Definition
 	 *
 	 * @param mixed $value
 	 */
-	public function checkValueType( mixed &$value ) : void
+	public function checkValueType( mixed &$value ): void
 	{
 	}
 

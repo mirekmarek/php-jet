@@ -5,6 +5,7 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace Jet;
 
 /**
@@ -15,19 +16,19 @@ class Debug_ErrorHandler_Error_BacktraceItem
 	/**
 	 * @var string
 	 */
-	protected string $file     = '';
+	protected string $file = '';
 	/**
 	 * @var int|string
 	 */
-	protected int|string $line     = 0;
+	protected int|string $line = 0;
 	/**
 	 * @var string
 	 */
-	protected string $class    = '';
+	protected string $class = '';
 	/**
 	 * @var string
 	 */
-	protected string $type     = '';
+	protected string $type = '';
 	/**
 	 * @var string
 	 */
@@ -35,12 +36,12 @@ class Debug_ErrorHandler_Error_BacktraceItem
 	/**
 	 * @var array
 	 */
-	protected array $args     = [];
+	protected array $args = [];
 	/**
 	 * @var string
 	 */
-	protected string $call     = '';
-	
+	protected string $call = '';
+
 
 	/**
 	 *
@@ -56,7 +57,7 @@ class Debug_ErrorHandler_Error_BacktraceItem
 
 		$call = '';
 		if( $class ) {
-			$call .= $class.$type;
+			$call .= $class . $type;
 		}
 
 		if( $function ) {
@@ -64,20 +65,20 @@ class Debug_ErrorHandler_Error_BacktraceItem
 		}
 
 
-		$this->file     = isset( $d['file'] ) ? $d['file'] : '?';
-		$this->line     = isset( $d['line'] ) ? $d['line'] : '?';
-		$this->class    = $class;
-		$this->type     = $type;
+		$this->file = isset( $d['file'] ) ? $d['file'] : '?';
+		$this->line = isset( $d['line'] ) ? $d['line'] : '?';
+		$this->class = $class;
+		$this->type = $type;
 		$this->function = $function;
-		$this->call     = $call;
-		$this->args     = $args;
+		$this->call = $call;
+		$this->args = $args;
 
 	}
 
 	/**
 	 * @return string
 	 */
-	public function getFile() : string
+	public function getFile(): string
 	{
 		return $this->file;
 	}
@@ -85,7 +86,7 @@ class Debug_ErrorHandler_Error_BacktraceItem
 	/**
 	 * @return int|string
 	 */
-	public function getLine() : int|string
+	public function getLine(): int|string
 	{
 		return $this->line;
 	}
@@ -93,7 +94,7 @@ class Debug_ErrorHandler_Error_BacktraceItem
 	/**
 	 * @return string
 	 */
-	public function getClass() : string
+	public function getClass(): string
 	{
 		return $this->class;
 	}
@@ -101,7 +102,7 @@ class Debug_ErrorHandler_Error_BacktraceItem
 	/**
 	 * @return string
 	 */
-	public function getType() : string
+	public function getType(): string
 	{
 		return $this->type;
 	}
@@ -109,7 +110,7 @@ class Debug_ErrorHandler_Error_BacktraceItem
 	/**
 	 * @return string
 	 */
-	public function getFunction() : string
+	public function getFunction(): string
 	{
 		return $this->function;
 	}
@@ -117,7 +118,7 @@ class Debug_ErrorHandler_Error_BacktraceItem
 	/**
 	 * @return array
 	 */
-	public function getArgs() : array
+	public function getArgs(): array
 	{
 		return $this->args;
 	}
@@ -125,7 +126,7 @@ class Debug_ErrorHandler_Error_BacktraceItem
 	/**
 	 * @return string
 	 */
-	public function getCall() : string
+	public function getCall(): string
 	{
 		return $this->call;
 	}

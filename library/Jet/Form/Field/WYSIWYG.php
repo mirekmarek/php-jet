@@ -5,10 +5,11 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace Jet;
 
 /**
- * 
+ *
  */
 class Form_Field_WYSIWYG extends Form_Field
 {
@@ -89,13 +90,11 @@ class Form_Field_WYSIWYG extends Form_Field
 	protected $editor_initialize_code_generator = null;
 
 
-
-
 	/**
 	 * @param string $URI
 	 * @param string $media
 	 */
-	public function appendWYSIWYGEditorCSSFile( string $URI, string $media = 'screen' ) : void
+	public function appendWYSIWYGEditorCSSFile( string $URI, string $media = 'screen' ): void
 	{
 		if( !isset( $this->editor_CSS_files[$media] ) ) {
 			$this->editor_CSS_files[$media] = [];
@@ -107,7 +106,7 @@ class Form_Field_WYSIWYG extends Form_Field
 	/**
 	 * @return array
 	 */
-	public function getEditorCSSFiles() : array
+	public function getEditorCSSFiles(): array
 	{
 		return $this->editor_CSS_files;
 	}
@@ -115,7 +114,7 @@ class Form_Field_WYSIWYG extends Form_Field
 	/**
 	 * @param array $editor_CSS_files
 	 */
-	public function setEditorCSSFiles( array $editor_CSS_files ) : void
+	public function setEditorCSSFiles( array $editor_CSS_files ): void
 	{
 		$this->editor_CSS_files = $editor_CSS_files;
 	}
@@ -123,7 +122,7 @@ class Form_Field_WYSIWYG extends Form_Field
 	/**
 	 * @param string $URI
 	 */
-	public function appendEditorJavaScriptFile( string $URI ) : void
+	public function appendEditorJavaScriptFile( string $URI ): void
 	{
 		$this->editor_JavaScript_files[] = $URI;
 	}
@@ -131,7 +130,7 @@ class Form_Field_WYSIWYG extends Form_Field
 	/**
 	 * @return array
 	 */
-	public function getEditorJavaScriptFiles() : array
+	public function getEditorJavaScriptFiles(): array
 	{
 		return $this->editor_JavaScript_files;
 	}
@@ -139,7 +138,7 @@ class Form_Field_WYSIWYG extends Form_Field
 	/**
 	 * @param array $editor_JavaScript_files
 	 */
-	public function setEditorJavaScriptFiles( array $editor_JavaScript_files ) : void
+	public function setEditorJavaScriptFiles( array $editor_JavaScript_files ): void
 	{
 		$this->editor_JavaScript_files = $editor_JavaScript_files;
 	}
@@ -147,7 +146,7 @@ class Form_Field_WYSIWYG extends Form_Field
 	/**
 	 * @return array|null
 	 */
-	public function getEditorConfig() : array|null
+	public function getEditorConfig(): array|null
 	{
 		return $this->editor_config;
 	}
@@ -155,7 +154,7 @@ class Form_Field_WYSIWYG extends Form_Field
 	/**
 	 * @param array $editor_config
 	 */
-	public function setEditorConfig( array $editor_config ) : void
+	public function setEditorConfig( array $editor_config ): void
 	{
 		$this->editor_config = $editor_config;
 	}
@@ -164,7 +163,7 @@ class Form_Field_WYSIWYG extends Form_Field
 	/**
 	 * @return callable|null
 	 */
-	public function getEditorInitializeCodeGenerator() : callable|null
+	public function getEditorInitializeCodeGenerator(): callable|null
 	{
 		return $this->editor_initialize_code_generator;
 	}
@@ -172,7 +171,7 @@ class Form_Field_WYSIWYG extends Form_Field
 	/**
 	 * @param callable $editor_initialize_code_generator
 	 */
-	public function setEditorInitializeCodeGenerator( callable $editor_initialize_code_generator ) : void
+	public function setEditorInitializeCodeGenerator( callable $editor_initialize_code_generator ): void
 	{
 		$this->editor_initialize_code_generator = $editor_initialize_code_generator;
 	}
@@ -182,7 +181,7 @@ class Form_Field_WYSIWYG extends Form_Field
 	 *
 	 * @param Data_Array $data
 	 */
-	public function catchInput( Data_Array $data ) : void
+	public function catchInput( Data_Array $data ): void
 	{
 		$this->_value = null;
 		$this->_has_value = $data->exists( $this->_name );
@@ -199,7 +198,7 @@ class Form_Field_WYSIWYG extends Form_Field
 	/**
 	 * @return array
 	 */
-	public function getRequiredErrorCodes() : array
+	public function getRequiredErrorCodes(): array
 	{
 		$codes = [];
 

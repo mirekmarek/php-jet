@@ -5,6 +5,7 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace JetStudio;
 
 use Jet\BaseObject;
@@ -46,71 +47,71 @@ class Menus extends BaseObject implements Application_Part
 	 */
 	public static function getActionUrl(
 		string $action,
-		array $custom_get_params=[],
-		?string $custom_menu_set=null,
-		?string $custom_menu_id=null,
-		?string $custom_menu_item_id=null
+		array $custom_get_params = [],
+		?string $custom_menu_set = null,
+		?string $custom_menu_id = null,
+		?string $custom_menu_item_id = null
 	)
 	{
 
 		$get_params = [];
 
-		if(static::getCurrentMenuSetName()) {
+		if( static::getCurrentMenuSetName() ) {
 			$get_params['set'] = static::getCurrentMenuSetName();
 
-			if(static::getCurrentMenuId()) {
+			if( static::getCurrentMenuId() ) {
 				$get_params['menu'] = static::getCurrentMenuId();
 
-				if(static::getCurrentMenuItemId()) {
+				if( static::getCurrentMenuItemId() ) {
 					$get_params['item'] = static::getCurrentMenuItemId();
 				}
 			}
 		}
 
-		if($custom_menu_set!==null) {
+		if( $custom_menu_set !== null ) {
 			$get_params['set'] = $custom_menu_set;
-			if(!$custom_menu_set) {
+			if( !$custom_menu_set ) {
 				unset( $get_params['set'] );
 			}
 		}
 
-		if($custom_menu_id!==null) {
+		if( $custom_menu_id !== null ) {
 			$get_params['menu'] = $custom_menu_id;
 
-			if(!$custom_menu_id) {
-				unset($get_params['menu']);
+			if( !$custom_menu_id ) {
+				unset( $get_params['menu'] );
 			}
 		}
 
-		if($custom_menu_item_id!==null) {
+		if( $custom_menu_item_id !== null ) {
 			$get_params['item'] = $custom_menu_item_id;
 
-			if(!$custom_menu_item_id) {
-				unset($get_params['item']);
+			if( !$custom_menu_item_id ) {
+				unset( $get_params['item'] );
 			}
 		}
 
 
-		if($action) {
+		if( $action ) {
 			$get_params['action'] = $action;
 		}
 
-		if($custom_get_params) {
-			foreach( $custom_get_params as $k=>$v ) {
+		if( $custom_get_params ) {
+			foreach( $custom_get_params as $k => $v ) {
 				$get_params[$k] = $v;
 			}
 		}
 
-		return SysConf_URI::getBase().'menus.php?'.http_build_query($get_params);
+		return SysConf_URI::getBase() . 'menus.php?' . http_build_query( $get_params );
 	}
 
 
 	/**
 	 * @return string|bool
 	 */
-	public static function getCurrentMenuSetName() : string|bool
+	public static function getCurrentMenuSetName(): string|bool
 	{
-		if(static::getCurrentMenuSet()) {
+		if( static::getCurrentMenuSet() ) {
 			return static::getCurrentMenuSet()->getName();
 		}
 
@@ -121,16 +122,16 @@ class Menus extends BaseObject implements Application_Part
 	/**
 	 * @return bool|Menus_MenuSet
 	 */
-	public static function getCurrentMenuSet() : bool|Menus_MenuSet
+	public static function getCurrentMenuSet(): bool|Menus_MenuSet
 	{
-		if(static::$__current_menu_set===null) {
-			$id = Http_Request::GET()->getString('set');
+		if( static::$__current_menu_set === null ) {
+			$id = Http_Request::GET()->getString( 'set' );
 
 			static::$__current_menu_set = false;
 
 			if(
 				$id &&
-				($set=static::getSet($id))
+				($set = static::getSet( $id ))
 			) {
 				static::$__current_menu_set = $set;
 			}
@@ -143,9 +144,9 @@ class Menus extends BaseObject implements Application_Part
 	/**
 	 * @return string|bool
 	 */
-	public static function getCurrentMenuId() : string|bool
+	public static function getCurrentMenuId(): string|bool
 	{
-		if(static::getCurrentMenu()) {
+		if( static::getCurrentMenu() ) {
 			return static::getCurrentMenu()->getId();
 		}
 
@@ -156,22 +157,21 @@ class Menus extends BaseObject implements Application_Part
 	/**
 	 * @return Menus_Menu|bool
 	 */
-	public static function getCurrentMenu() : Menus_Menu|bool
+	public static function getCurrentMenu(): Menus_Menu|bool
 	{
-		if(!($set = static::getCurrentMenuSet())) {
+		if( !($set = static::getCurrentMenuSet()) ) {
 			return false;
 		}
 
 
-
-		if(static::$__current_menu===null) {
-			$id = Http_Request::GET()->getString('menu');
+		if( static::$__current_menu === null ) {
+			$id = Http_Request::GET()->getString( 'menu' );
 
 			static::$__current_menu = false;
 
 			if(
 				$id &&
-				($menu=$set->getMenu($id))
+				($menu = $set->getMenu( $id ))
 			) {
 				static::$__current_menu = $menu;
 			}
@@ -181,13 +181,12 @@ class Menus extends BaseObject implements Application_Part
 	}
 
 
-
 	/**
 	 * @return string|bool
 	 */
-	public static function getCurrentMenuItemId() : string|bool
+	public static function getCurrentMenuItemId(): string|bool
 	{
-		if(static::getCurrentMenuItem()) {
+		if( static::getCurrentMenuItem() ) {
 			return static::getCurrentMenuItem()->getId();
 		}
 
@@ -198,22 +197,21 @@ class Menus extends BaseObject implements Application_Part
 	/**
 	 * @return Menus_Menu_Item|bool
 	 */
-	public static function getCurrentMenuItem() : Menus_Menu_Item|bool
+	public static function getCurrentMenuItem(): Menus_Menu_Item|bool
 	{
-		if(!($menu = static::getCurrentMenu())) {
+		if( !($menu = static::getCurrentMenu()) ) {
 			return false;
 		}
 
 
-
-		if(static::$__current_menu_item===null) {
-			$id = Http_Request::GET()->getString('item');
+		if( static::$__current_menu_item === null ) {
+			$id = Http_Request::GET()->getString( 'item' );
 
 			static::$__current_menu_item = false;
 
 			if(
 				$id &&
-				($item=$menu->getItem($id))
+				($item = $menu->getItem( $id ))
 			) {
 				static::$__current_menu_item = $item;
 			}
@@ -223,21 +221,20 @@ class Menus extends BaseObject implements Application_Part
 	}
 
 
-
 	/**
 	 * @param string $name
 	 *
 	 * @return Menus_MenuSet|null
 	 */
-	public static function getSet( string $name ) : Menus_MenuSet|null
+	public static function getSet( string $name ): Menus_MenuSet|null
 	{
-		return Menus_MenuSet::get($name);
+		return Menus_MenuSet::get( $name );
 	}
 
 	/**
 	 * @return Menus_MenuSet[]
 	 */
-	public static function getSets() : array
+	public static function getSets(): array
 	{
 		return Menus_MenuSet::getList();
 	}
@@ -248,16 +245,16 @@ class Menus extends BaseObject implements Application_Part
 	 *
 	 * @return bool
 	 */
-	public static function menuExists( string $id ) : bool
+	public static function menuExists( string $id ): bool
 	{
 		$set = static::getCurrentMenuSet();
-		if(!$set) {
+		if( !$set ) {
 			return false;
 		}
 
 		$menu = $set->getMenu( $id );
 
-		if(!$menu) {
+		if( !$menu ) {
 			return false;
 		}
 
@@ -270,16 +267,16 @@ class Menus extends BaseObject implements Application_Part
 	 *
 	 * @return bool
 	 */
-	public static function menuItemExists( string $id ) : bool
+	public static function menuItemExists( string $id ): bool
 	{
 		$menu = static::getCurrentMenu();
-		if(!$menu) {
+		if( !$menu ) {
 			return false;
 		}
 
 		$item = $menu->getItem( $id );
 
-		if(!$item) {
+		if( !$item ) {
 			return false;
 		}
 

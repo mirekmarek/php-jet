@@ -7,6 +7,7 @@
  */
 
 namespace JetApplicationModule\Test\REST;
+
 use Jet\Data_DateTime;
 
 use JetApplication\Application_Web;
@@ -22,7 +23,7 @@ class Test_Article_Post extends Test_Abstract
 	/**
 	 * @return string
 	 */
-	protected function _getTitle() : string
+	protected function _getTitle(): string
 	{
 		return 'Add (POST) - valid';
 	}
@@ -30,7 +31,7 @@ class Test_Article_Post extends Test_Abstract
 	/**
 	 *
 	 */
-	public function test() : void
+	public function test(): void
 	{
 
 		$data = [
@@ -40,15 +41,15 @@ class Test_Article_Post extends Test_Abstract
 				]
 		];
 
-		foreach(Application_Web::getSite()->getLocales() as $locale_str=>$locale) {
+		foreach( Application_Web::getSite()->getLocales() as $locale_str => $locale ) {
 			$data['localized'][$locale_str] = [
-				'title' => 'test title ('.$locale->getLanguageName($locale).') '.time(),
+				'title'      => 'test title (' . $locale->getLanguageName( $locale ) . ') ' . time(),
 				'annotation' => 'annotation annotation',
-				'text' => 'text text text',
+				'text'       => 'text text text',
 			];
 		}
 
-		$this->client->post('article', $data);
+		$this->client->post( 'article', $data );
 
 	}
 }

@@ -5,6 +5,7 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace Jet;
 
 /**
@@ -38,7 +39,7 @@ class DataModel_Definition_Property_String extends DataModel_Definition_Property
 	 *
 	 * @throws DataModel_Exception
 	 */
-	public function setUp( array $definition_data ) : void
+	public function setUp( array $definition_data ): void
 	{
 		if( $definition_data ) {
 			parent::setUp( $definition_data );
@@ -52,7 +53,7 @@ class DataModel_Definition_Property_String extends DataModel_Definition_Property
 	 * @param mixed &$value
 	 *
 	 */
-	public function checkValueType( mixed &$value ) : void
+	public function checkValueType( mixed &$value ): void
 	{
 		$value = (string)$value;
 	}
@@ -60,7 +61,7 @@ class DataModel_Definition_Property_String extends DataModel_Definition_Property
 	/**
 	 * @return int|null
 	 */
-	public function getMaxLen() : int|null
+	public function getMaxLen(): int|null
 	{
 		return $this->max_len;
 	}
@@ -68,14 +69,14 @@ class DataModel_Definition_Property_String extends DataModel_Definition_Property
 	/**
 	 * @return string
 	 */
-	public function getFormFieldType() : string
+	public function getFormFieldType(): string
 	{
 
-		if( $this->form_field_type!=Form::TYPE_INPUT ) {
+		if( $this->form_field_type != Form::TYPE_INPUT ) {
 			return $this->form_field_type;
 		}
 
-		if( $this->max_len<=255 ) {
+		if( $this->max_len <= 255 ) {
 			return Form::TYPE_INPUT;
 		} else {
 			return Form::TYPE_TEXTAREA;

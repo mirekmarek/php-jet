@@ -5,12 +5,13 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace Jet;
 
 use \ReflectionClass;
 
 /**
- * 
+ *
  */
 class Config_Definition_Config extends BaseObject
 {
@@ -49,7 +50,7 @@ class Config_Definition_Config extends BaseObject
 	 *
 	 * @return static
 	 */
-	public static function __set_state( array $data ) : static
+	public static function __set_state( array $data ): static
 	{
 		$i = new static();
 
@@ -78,9 +79,9 @@ class Config_Definition_Config extends BaseObject
 		$this->class_arguments = Attributes::getClassArguments( $this->class_reflection, 'Jet\Config_Definition' );
 
 		$this->name = $this->getClassArgument( 'name' );
-		if(!$this->name) {
+		if( !$this->name ) {
 			throw new DataModel_Exception(
-				'Config Class \''.$this->class_name.'\' does not have name! Please define attribute #[Config_Definition(name: \'some_name\')] ',
+				'Config Class \'' . $this->class_name . '\' does not have name! Please define attribute #[Config_Definition(name: \'some_name\')] ',
 				DataModel_Exception::CODE_DEFINITION_NONSENSE
 			);
 		}
@@ -88,10 +89,10 @@ class Config_Definition_Config extends BaseObject
 		$properties_definition_data = Attributes::getPropertiesDefinition( $this->class_reflection, 'Jet\Config_Definition' );
 
 		if(
-			!$properties_definition_data
+		!$properties_definition_data
 		) {
 			throw new Config_Exception(
-				'Configuration \''.$this->class_name.'\' does not have any properties defined!',
+				'Configuration \'' . $this->class_name . '\' does not have any properties defined!',
 				Config_Exception::CODE_DEFINITION_NONSENSE
 			);
 		}
@@ -102,13 +103,13 @@ class Config_Definition_Config extends BaseObject
 				!$definition_data['type']
 			) {
 				throw new Config_Exception(
-					'Property '.get_class( $this ).'::'.$property_name.': \'type\' parameter is not defined.',
+					'Property ' . get_class( $this ) . '::' . $property_name . ': \'type\' parameter is not defined.',
 					Config_Exception::CODE_CONFIG_CHECK_ERROR
 				);
 
 			}
 
-			$class_name = __NAMESPACE__.'\\'.static::BASE_PROPERTY_DEFINITION_CLASS_NAME.'_'.$definition_data['type'];
+			$class_name = __NAMESPACE__ . '\\' . static::BASE_PROPERTY_DEFINITION_CLASS_NAME . '_' . $definition_data['type'];
 
 			unset( $definition_data['type'] );
 
@@ -126,7 +127,7 @@ class Config_Definition_Config extends BaseObject
 	 *
 	 * @return mixed
 	 */
-	protected function getClassArgument( string $argument, mixed $default_value='' ) : mixed
+	protected function getClassArgument( string $argument, mixed $default_value = '' ): mixed
 	{
 		return $this->class_arguments[$argument] ?? $default_value;
 	}
@@ -135,7 +136,7 @@ class Config_Definition_Config extends BaseObject
 	/**
 	 * @return string
 	 */
-	public function getClassName() : string
+	public function getClassName(): string
 	{
 		return $this->class_name;
 	}
@@ -143,7 +144,7 @@ class Config_Definition_Config extends BaseObject
 	/**
 	 * @return string
 	 */
-	public function getName() : string
+	public function getName(): string
 	{
 		return $this->name;
 	}
@@ -152,7 +153,7 @@ class Config_Definition_Config extends BaseObject
 	/**
 	 * @return Config_Definition_Property[]
 	 */
-	public function getPropertiesDefinition() : array
+	public function getPropertiesDefinition(): array
 	{
 		return $this->properties_definition;
 	}

@@ -5,6 +5,7 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace JetApplicationModule\Login\Web;
 
 use Jet\Logger;
@@ -25,7 +26,7 @@ class Controller_Main extends Mvc_Controller_Default
 	/**
 	 *
 	 */
-	public function login_Action() : void
+	public function login_Action(): void
 	{
 		/**
 		 * @var Main $module
@@ -57,7 +58,7 @@ class Controller_Main extends Mvc_Controller_Default
 	/**
 	 *
 	 */
-	public function is_not_activated_Action() : void
+	public function is_not_activated_Action(): void
 	{
 		$this->output( 'is-not-activated' );
 	}
@@ -65,7 +66,7 @@ class Controller_Main extends Mvc_Controller_Default
 	/**
 	 *
 	 */
-	public function is_blocked_Action() : void
+	public function is_blocked_Action(): void
 	{
 		$this->output( 'is-blocked' );
 	}
@@ -73,7 +74,7 @@ class Controller_Main extends Mvc_Controller_Default
 	/**
 	 *
 	 */
-	public function must_change_password_Action() : void
+	public function must_change_password_Action(): void
 	{
 		/**
 		 * @var Main $module
@@ -82,7 +83,7 @@ class Controller_Main extends Mvc_Controller_Default
 
 		$form = $module->getMustChangePasswordForm();
 
-		if( $form->catchInput()&&$form->validate() ) {
+		if( $form->catchInput() && $form->validate() ) {
 			$data = $form->getValues();
 			/**
 			 * @var User $user

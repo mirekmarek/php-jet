@@ -5,6 +5,7 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace Jet;
 
 /**
@@ -75,7 +76,7 @@ abstract class DataModel_Fetch extends BaseObject implements BaseObject_Interfac
 	 * @param int $limit
 	 * @param int $offset
 	 */
-	public function setPagination( int $limit, int $offset ) : void
+	public function setPagination( int $limit, int $offset ): void
 	{
 		$this->pagination_enabled = true;
 
@@ -85,7 +86,7 @@ abstract class DataModel_Fetch extends BaseObject implements BaseObject_Interfac
 	/**
 	 * @return DataModel_Query
 	 */
-	public function getQuery() : DataModel_Query
+	public function getQuery(): DataModel_Query
 	{
 		return $this->query;
 	}
@@ -95,10 +96,10 @@ abstract class DataModel_Fetch extends BaseObject implements BaseObject_Interfac
 	 *
 	 * @return int
 	 */
-	public function getCount() : int
+	public function getCount(): int
 	{
-		if( $this->count===null ) {
-			$this->count = DataModel_Backend::get($this->data_model_definition)->getCount( $this->query );
+		if( $this->count === null ) {
+			$this->count = DataModel_Backend::get( $this->data_model_definition )->getCount( $this->query );
 		}
 
 		return $this->count;
@@ -107,13 +108,13 @@ abstract class DataModel_Fetch extends BaseObject implements BaseObject_Interfac
 	/**
 	 *
 	 */
-	abstract protected function _fetch() : void;
+	abstract protected function _fetch(): void;
 
 
 	/**
 	 * @return string
 	 */
-	public function toJSON() : string
+	public function toJSON(): string
 	{
 		return json_encode( $this->jsonSerialize() );
 	}
@@ -121,7 +122,7 @@ abstract class DataModel_Fetch extends BaseObject implements BaseObject_Interfac
 	/**
 	 * @return array
 	 */
-	public function jsonSerialize() : array
+	public function jsonSerialize(): array
 	{
 		$result = [];
 
@@ -138,26 +139,26 @@ abstract class DataModel_Fetch extends BaseObject implements BaseObject_Interfac
 	/**
 	 * @return array
 	 */
-	abstract public function toArray() : array;
+	abstract public function toArray(): array;
 
 	/**
+	 * @return int
 	 * @see Countable
 	 *
-	 * @return int
 	 */
-	public function count() : int
+	public function count(): int
 	{
 		return $this->getCount();
 	}
 
 	/**
-	 * @see ArrayAccess
-	 *
 	 * @param mixed $offset
 	 *
 	 * @return bool
+	 * @see ArrayAccess
+	 *
 	 */
-	public function offsetExists( mixed $offset ) : bool
+	public function offsetExists( mixed $offset ): bool
 	{
 		$this->_fetch();
 
@@ -167,23 +168,23 @@ abstract class DataModel_Fetch extends BaseObject implements BaseObject_Interfac
 	/**
 	 * Do nothing - DataModel_FetchAll is readonly
 	 *
-	 * @see ArrayAccess
-	 *
 	 * @param mixed $offset
 	 * @param mixed $value
+	 * @see ArrayAccess
+	 *
 	 */
-	public function offsetSet( mixed $offset, mixed $value ) : void
+	public function offsetSet( mixed $offset, mixed $value ): void
 	{
 	}
 
 	/**
-	 * @see ArrayAccess
-	 *
 	 * @param mixed $offset
 	 *
 	 * @return DataModel
+	 * @see ArrayAccess
+	 *
 	 */
-	public function offsetGet( mixed $offset ) : DataModel
+	public function offsetGet( mixed $offset ): DataModel
 	{
 		$this->_fetch();
 
@@ -195,25 +196,25 @@ abstract class DataModel_Fetch extends BaseObject implements BaseObject_Interfac
 	 *
 	 * @return DataModel|DataModel_IDController
 	 */
-	abstract protected function _get( mixed $item ) : DataModel|DataModel_IDController;
+	abstract protected function _get( mixed $item ): DataModel|DataModel_IDController;
 
 	/**
+	 * @param int $offset
 	 * @see ArrayAccess
 	 *
-	 * @param int $offset
 	 */
-	public function offsetUnset( mixed $offset ) : void
+	public function offsetUnset( mixed $offset ): void
 	{
 		$this->_fetch();
 		unset( $this->data[$offset] );
 	}
 
 	/**
+	 * @return DataModel
 	 * @see Iterator
 	 *
-	 * @return DataModel
 	 */
-	public function current() : DataModel
+	public function current(): DataModel
 	{
 		$this->_fetch();
 
@@ -221,10 +222,10 @@ abstract class DataModel_Fetch extends BaseObject implements BaseObject_Interfac
 	}
 
 	/**
-	 * @see Iterator
 	 * @return string
+	 * @see Iterator
 	 */
-	public function key() : string
+	public function key(): string
 	{
 		$this->_fetch();
 
@@ -234,7 +235,7 @@ abstract class DataModel_Fetch extends BaseObject implements BaseObject_Interfac
 	/**
 	 * @see Iterator
 	 */
-	public function next() : void
+	public function next(): void
 	{
 		$this->_fetch();
 		next( $this->data );
@@ -243,21 +244,21 @@ abstract class DataModel_Fetch extends BaseObject implements BaseObject_Interfac
 	/**
 	 * @see Iterator
 	 */
-	public function rewind() : void
+	public function rewind(): void
 	{
 		$this->_fetch();
 		reset( $this->data );
 	}
 
 	/**
-	 * @see Iterator
 	 * @return bool
+	 * @see Iterator
 	 */
-	public function valid() : bool
+	public function valid(): bool
 	{
 		$this->_fetch();
 
-		return key( $this->data )!==null;
+		return key( $this->data ) !== null;
 	}
 
 }

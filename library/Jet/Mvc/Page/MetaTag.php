@@ -5,6 +5,7 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace Jet;
 
 require_once 'MetaTag/Interface.php';
@@ -40,11 +41,11 @@ class Mvc_Page_MetaTag extends BaseObject implements Mvc_Page_MetaTag_Interface
 
 	/**
 	 * @param Mvc_Page_Interface $page
-	 * @param array              $data
+	 * @param array $data
 	 *
 	 * @return static
 	 */
-	public static function createByData( Mvc_Page_Interface $page, array $data ) : static
+	public static function createByData( Mvc_Page_Interface $page, array $data ): static
 	{
 		/**
 		 * @var Mvc_Page_MetaTag $meta_tag
@@ -61,7 +62,7 @@ class Mvc_Page_MetaTag extends BaseObject implements Mvc_Page_MetaTag_Interface
 	/**
 	 * @param array $data
 	 */
-	protected function setData( array $data ) : void
+	protected function setData( array $data ): void
 	{
 		foreach( $data as $key => $val ) {
 			$this->{$key} = $val;
@@ -71,7 +72,7 @@ class Mvc_Page_MetaTag extends BaseObject implements Mvc_Page_MetaTag_Interface
 	/**
 	 * @return Mvc_Page_Interface
 	 */
-	public function getPage() : Mvc_Page_Interface
+	public function getPage(): Mvc_Page_Interface
 	{
 		if( !$this->__page ) {
 			return Mvc::getCurrentPage();
@@ -83,7 +84,7 @@ class Mvc_Page_MetaTag extends BaseObject implements Mvc_Page_MetaTag_Interface
 	/**
 	 * @param Mvc_Page_Interface $page
 	 */
-	public function setPage( Mvc_Page_Interface $page ) : void
+	public function setPage( Mvc_Page_Interface $page ): void
 	{
 		$this->__page = $page;
 	}
@@ -91,7 +92,7 @@ class Mvc_Page_MetaTag extends BaseObject implements Mvc_Page_MetaTag_Interface
 	/**
 	 * @return string
 	 */
-	public function __toString() : string
+	public function __toString(): string
 	{
 		return $this->toString();
 	}
@@ -99,21 +100,21 @@ class Mvc_Page_MetaTag extends BaseObject implements Mvc_Page_MetaTag_Interface
 	/**
 	 * @return string
 	 */
-	public function toString() : string
+	public function toString(): string
 	{
 		if( $this->attribute ) {
-			return '<meta '.$this->attribute.'="'.Data_Text::htmlSpecialChars(
-				$this->attribute_value
-			).'" content="'.Data_Text::htmlSpecialChars( $this->content ).'" />';
+			return '<meta ' . $this->attribute . '="' . Data_Text::htmlSpecialChars(
+					$this->attribute_value
+				) . '" content="' . Data_Text::htmlSpecialChars( $this->content ) . '" />';
 		} else {
-			return '<meta content="'.Data_Text::htmlSpecialChars( $this->content ).'" />';
+			return '<meta content="' . Data_Text::htmlSpecialChars( $this->content ) . '" />';
 		}
 	}
 
 	/**
 	 * @return string
 	 */
-	public function getAttribute() : string
+	public function getAttribute(): string
 	{
 		return $this->attribute;
 	}
@@ -121,7 +122,7 @@ class Mvc_Page_MetaTag extends BaseObject implements Mvc_Page_MetaTag_Interface
 	/**
 	 * @param string $attribute
 	 */
-	public function setAttribute( string $attribute ) : void
+	public function setAttribute( string $attribute ): void
 	{
 		$this->attribute = $attribute;
 	}
@@ -129,7 +130,7 @@ class Mvc_Page_MetaTag extends BaseObject implements Mvc_Page_MetaTag_Interface
 	/**
 	 * @return string
 	 */
-	public function getAttributeValue() : string
+	public function getAttributeValue(): string
 	{
 		return $this->attribute_value;
 	}
@@ -137,7 +138,7 @@ class Mvc_Page_MetaTag extends BaseObject implements Mvc_Page_MetaTag_Interface
 	/**
 	 * @param string $attribute_value
 	 */
-	public function setAttributeValue( string $attribute_value ) : void
+	public function setAttributeValue( string $attribute_value ): void
 	{
 		$this->attribute_value = $attribute_value;
 	}
@@ -145,7 +146,7 @@ class Mvc_Page_MetaTag extends BaseObject implements Mvc_Page_MetaTag_Interface
 	/**
 	 * @return string
 	 */
-	public function getContent() : string
+	public function getContent(): string
 	{
 		return $this->content;
 	}
@@ -153,7 +154,7 @@ class Mvc_Page_MetaTag extends BaseObject implements Mvc_Page_MetaTag_Interface
 	/**
 	 * @param string $content
 	 */
-	public function setContent( string $content ) : void
+	public function setContent( string $content ): void
 	{
 		$this->content = $content;
 	}
@@ -162,11 +163,11 @@ class Mvc_Page_MetaTag extends BaseObject implements Mvc_Page_MetaTag_Interface
 	/**
 	 * @return array
 	 */
-	public function toArray() : array
+	public function toArray(): array
 	{
 		$data = get_object_vars( $this );
 		foreach( $data as $k => $v ) {
-			if( $k[0]=='_' ) {
+			if( $k[0] == '_' ) {
 				unset( $data[$k] );
 			}
 		}

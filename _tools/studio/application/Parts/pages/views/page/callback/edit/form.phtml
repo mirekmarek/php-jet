@@ -9,31 +9,31 @@ use Jet\Mvc_View;
  * @var Pages_Page $page
  */
 
-$page = $this->getRaw('page');
+$page = $this->getRaw( 'page' );
 
 $form = $page->getEditForm_callback();
 
-$form->setDefaultLabelWidth([
+$form->setDefaultLabelWidth( [
 	Form::LJ_SIZE_MEDIUM => 2
-]);
-$form->setDefaultFieldWidth([
+] );
+$form->setDefaultFieldWidth( [
 	Form::LJ_SIZE_MEDIUM => 6
-]);
+] );
 
 
-$class_field = $form->field('output_callback_class');
-$method_field = $form->field('output_callback_method');
+$class_field = $form->field( 'output_callback_class' );
+$method_field = $form->field( 'output_callback_method' );
 ?>
-<?=$form->start()?>
+<?= $form->start() ?>
 
-<?=$class_field->row()->start()?>
-	<div class="input-group" style="padding-left: 15px;margin-right: 15px;">
-		<span class="input-group-prepend"><span class="input-group-text"></span></span>
-		<?=$class_field->input()?>
-		<span class="input-group-prepend"><span class="input-group-text">::</span></span>
-		<?=$method_field->input()?>
-		<span class="input-group-append"><span class="input-group-text">( Jet\Mvc_Page $page )</span></span>
-	</div>
-<?=$class_field->row()->end()?>
+<?= $class_field->row()->start() ?>
+<div class="input-group" style="padding-left: 15px;margin-right: 15px;">
+	<span class="input-group-prepend"><span class="input-group-text"></span></span>
+	<?= $class_field->input() ?>
+	<span class="input-group-prepend"><span class="input-group-text">::</span></span>
+	<?= $method_field->input() ?>
+	<span class="input-group-append"><span class="input-group-text">( Jet\Mvc_Page $page )</span></span>
+</div>
+<?= $class_field->row()->end() ?>
 
-<?=$form->end()?>
+<?= $form->end() ?>

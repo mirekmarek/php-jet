@@ -5,6 +5,7 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace Jet;
 
 /**
@@ -32,7 +33,7 @@ class DataModel_Definition_Property_CustomData extends DataModel_Definition_Prop
 	 *
 	 * @throws DataModel_Exception
 	 */
-	public function setUp( array $definition_data ) : void
+	public function setUp( array $definition_data ): void
 	{
 		if( !$definition_data ) {
 			return;
@@ -42,7 +43,7 @@ class DataModel_Definition_Property_CustomData extends DataModel_Definition_Prop
 
 		if( $this->is_id ) {
 			throw new DataModel_Exception(
-				'Property '.$this->data_model_class_name.'::'.$this->name.' is Array and Array can\'t be ID.',
+				'Property ' . $this->data_model_class_name . '::' . $this->name . ' is Array and Array can\'t be ID.',
 				DataModel_Exception::CODE_DEFINITION_NONSENSE
 			);
 		}
@@ -52,7 +53,7 @@ class DataModel_Definition_Property_CustomData extends DataModel_Definition_Prop
 	/**
 	 * @return bool
 	 */
-	public function getMustBeSerializedBeforeStore() : bool
+	public function getMustBeSerializedBeforeStore(): bool
 	{
 		return true;
 	}
@@ -61,10 +62,10 @@ class DataModel_Definition_Property_CustomData extends DataModel_Definition_Prop
 	/**
 	 * @param mixed $value
 	 */
-	public function checkValueType( mixed &$value ) : void
+	public function checkValueType( mixed &$value ): void
 	{
 		if( !is_array( $value ) ) {
-			$value = [ $value ];
+			$value = [$value];
 		}
 	}
 }

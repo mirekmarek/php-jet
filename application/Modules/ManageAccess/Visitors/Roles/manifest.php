@@ -18,7 +18,7 @@ return [
 				'title'                  => 'Visitors - User roles',
 				'relative_path_fragment' => 'visitors-user-roles',
 				'icon'                   => 'street-view',
-				'contents' => [
+				'contents'               => [
 					[
 						'controller_action' => 'default'
 					]

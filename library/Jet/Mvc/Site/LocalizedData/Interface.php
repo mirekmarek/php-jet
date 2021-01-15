@@ -5,6 +5,7 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace Jet;
 
 /**
@@ -15,8 +16,8 @@ interface Mvc_Site_LocalizedData_Interface
 
 	/**
 	 * @param Mvc_Site_Interface $site
-	 * @param Locale             $locale
-	 * @param array              $data
+	 * @param Locale $locale
+	 * @param array $data
 	 *
 	 * @return Mvc_Site_LocalizedData_Interface
 	 */
@@ -25,100 +26,100 @@ interface Mvc_Site_LocalizedData_Interface
 	/**
 	 * @return Mvc_Site_Interface
 	 */
-	public function getSite() : Mvc_Site_Interface;
+	public function getSite(): Mvc_Site_Interface;
 
 	/**
 	 * @param Mvc_Site_Interface $site
 	 */
-	public function setSite( Mvc_Site_Interface $site ) : void;
+	public function setSite( Mvc_Site_Interface $site ): void;
 
 
 	/**
 	 * @return Locale
 	 */
-	public function getLocale() : Locale;
+	public function getLocale(): Locale;
 
 	/**
 	 * @param Locale $locale
 	 *
 	 */
-	public function setLocale( Locale $locale ) : void;
+	public function setLocale( Locale $locale ): void;
 
 	/**
 	 * @return bool
 	 */
-	public function getIsActive() : bool;
+	public function getIsActive(): bool;
 
 	/**
 	 * @param bool $is_active
 	 */
-	public function setIsActive( bool $is_active ) : void;
+	public function setIsActive( bool $is_active ): void;
 
 
 	/**
 	 * @return string
 	 */
-	public function getTitle() : string;
+	public function getTitle(): string;
 
 	/**
 	 * @param string $title
 	 */
-	public function setTitle( string $title ) : void;
+	public function setTitle( string $title ): void;
 
 	/**
 	 * @return array
 	 */
-	public function getURLs() : array;
+	public function getURLs(): array;
 
 	/**
 	 * @param array $URLs
 	 */
-	public function setURLs( array $URLs ) : void;
+	public function setURLs( array $URLs ): void;
 
 	/**
 	 * @return string
 	 */
-	public function getDefaultURL() : string;
+	public function getDefaultURL(): string;
 
 	/**
 	 * @return bool
 	 */
-	public function getSSLRequired() : bool;
+	public function getSSLRequired(): bool;
 
 	/**
 	 * @param bool $SSL_required
 	 */
-	public function setSSLRequired( bool $SSL_required ) : void;
+	public function setSSLRequired( bool $SSL_required ): void;
 
 
 	/**
 	 *
 	 * @return Mvc_Site_LocalizedData_MetaTag_Interface[]
 	 */
-	public function getDefaultMetaTags() : array;
+	public function getDefaultMetaTags(): array;
 
 	/**
 	 *
 	 * @param Mvc_Site_LocalizedData_MetaTag_Interface $default_meta_tag
 	 */
-	public function addDefaultMetaTag( Mvc_Site_LocalizedData_MetaTag_Interface $default_meta_tag ) : void;
+	public function addDefaultMetaTag( Mvc_Site_LocalizedData_MetaTag_Interface $default_meta_tag ): void;
 
 	/**
 	 *
 	 * @param int $index
 	 */
-	public function removeDefaultMetaTag( int $index ) : void;
+	public function removeDefaultMetaTag( int $index ): void;
 
 	/**
 	 *
 	 * @param Mvc_Site_LocalizedData_MetaTag_Interface[] $default_meta_tags
 	 */
-	public function setDefaultMetaTags( array $default_meta_tags ) : void;
+	public function setDefaultMetaTags( array $default_meta_tags ): void;
 
 
 	/**
 	 * @return array
 	 */
-	public function toArray() : array;
+	public function toArray(): array;
 
 }

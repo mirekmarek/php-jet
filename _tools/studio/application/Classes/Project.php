@@ -5,6 +5,7 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace JetStudio;
 
 use Jet\BaseObject;
@@ -17,7 +18,8 @@ use Jet\Form_Field;
 
 /**
  */
-class Project extends BaseObject implements Application_Part {
+class Project extends BaseObject implements Application_Part
+{
 
 
 	/**
@@ -31,12 +33,12 @@ class Project extends BaseObject implements Application_Part {
 	 * @return string[]|Locale[]
 	 * @noinspection PhpDocSignatureInspection
 	 */
-	public static function getDefaultLocales( bool $as_string=false ) : array
+	public static function getDefaultLocales( bool $as_string = false ): array
 	{
 		$locales = [];
 
-		foreach( Mvc_Site::getAllSites() as $site) {
-			foreach($site->getLocales() as $locale) {
+		foreach( Mvc_Site::getAllSites() as $site ) {
+			foreach( $site->getLocales() as $locale ) {
 				$locale_str = (string)$locale;
 
 				$locales[$locale_str] = $as_string ? $locale_str : $locale;
@@ -49,17 +51,16 @@ class Project extends BaseObject implements Application_Part {
 	/**
 	 * @param string $application_namespace
 	 */
-	public static function setApplicationNamespace( string $application_namespace ) : void
+	public static function setApplicationNamespace( string $application_namespace ): void
 	{
 		self::$application_namespace = $application_namespace;
 	}
 
 
-
 	/**
 	 * @return string
 	 */
-	public static function getApplicationNamespace() : string
+	public static function getApplicationNamespace(): string
 	{
 		return static::$application_namespace;
 	}
@@ -71,7 +72,7 @@ class Project extends BaseObject implements Application_Part {
 	 *
 	 * @return string
 	 */
-	public static function generateIdentifier( string $name, callable $check_exists_callback ) : string
+	public static function generateIdentifier( string $name, callable $check_exists_callback ): string
 	{
 
 		$id = Data_Text::removeAccents( $name );
@@ -87,7 +88,7 @@ class Project extends BaseObject implements Application_Part {
 		while( $check_exists_callback( $id ) ) {
 			$i++;
 
-			$id = $base_id.$i;
+			$id = $base_id . $i;
 		}
 
 		return $id;
@@ -99,9 +100,9 @@ class Project extends BaseObject implements Application_Part {
 	 *
 	 * @return bool
 	 */
-	public static function validateClassName( Form_Field $field ) : bool
+	public static function validateClassName( Form_Field $field ): bool
 	{
-		if(!$field->getIsRequired()) {
+		if( !$field->getIsRequired() ) {
 			return true;
 		}
 
@@ -117,10 +118,10 @@ class Project extends BaseObject implements Application_Part {
 		}
 
 		if(
-			!preg_match('/^([a-zA-Z1-9\\\_]{3,})$/', $class_name) ||
+			!preg_match( '/^([a-zA-Z1-9\\\_]{3,})$/', $class_name ) ||
 			str_contains( $class_name, '\\\\' ) ||
 			str_contains( $class_name, '__' ) ||
-			substr($class_name, -1)=='\\'
+			substr( $class_name, -1 ) == '\\'
 		) {
 			$field->setError( Form_Field::ERROR_CODE_INVALID_FORMAT );
 
@@ -138,9 +139,9 @@ class Project extends BaseObject implements Application_Part {
 	 *
 	 * @return bool
 	 */
-	public static function validateMethodName( Form_Field $field, Form_Field_Input $class_name_field=null ) : bool
+	public static function validateMethodName( Form_Field $field, Form_Field_Input $class_name_field = null ): bool
 	{
-		if(!$field->getIsRequired()) {
+		if( !$field->getIsRequired() ) {
 			return true;
 		}
 
@@ -148,21 +149,21 @@ class Project extends BaseObject implements Application_Part {
 		$method_name = $field->getValue();
 
 		if(
-			!$method_name
+		!$method_name
 		) {
 			$field->setError( Form_Field::ERROR_CODE_EMPTY );
-			if($class_name_field) {
+			if( $class_name_field ) {
 				$class_name_field->setCustomError( $field->getErrorMessage( Form_Field::ERROR_CODE_EMPTY ) );
 			}
 			return false;
 		}
 
 		if(
-			!preg_match('/^([a-zA-Z1-9_]{3,})$/', $method_name) ||
+			!preg_match( '/^([a-zA-Z1-9_]{3,})$/', $method_name ) ||
 			str_contains( $method_name, '__' )
 		) {
 			$field->setError( Form_Field::ERROR_CODE_INVALID_FORMAT );
-			if($class_name_field) {
+			if( $class_name_field ) {
 				$class_name_field->setCustomError( $field->getErrorMessage( Form_Field::ERROR_CODE_INVALID_FORMAT ) );
 			}
 
@@ -179,9 +180,9 @@ class Project extends BaseObject implements Application_Part {
 	 *
 	 * @return bool
 	 */
-	public static function validateControllerName( Form_Field $field ) : bool
+	public static function validateControllerName( Form_Field $field ): bool
 	{
-		if(!$field->getIsRequired()) {
+		if( !$field->getIsRequired() ) {
 			return true;
 		}
 
@@ -196,7 +197,7 @@ class Project extends BaseObject implements Application_Part {
 		}
 
 		if(
-			!preg_match('/^([a-zA-Z1-9_]{3,})$/', $controller_name) ||
+			!preg_match( '/^([a-zA-Z1-9_]{3,})$/', $controller_name ) ||
 			str_contains( $controller_name, '__' )
 		) {
 			$field->setError( Form_Field::ERROR_CODE_INVALID_FORMAT );

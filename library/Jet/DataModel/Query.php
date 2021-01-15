@@ -5,6 +5,7 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace Jet;
 
 /**
@@ -96,11 +97,11 @@ class DataModel_Query extends BaseObject
 	/**
 	 *
 	 * @param DataModel_Definition_Model $main_data_model_definition
-	 * @param array                      $where
+	 * @param array $where
 	 *
 	 * @return DataModel_Query
 	 */
-	public static function createQuery( DataModel_Definition_Model $main_data_model_definition, array $where = [] ) : DataModel_Query
+	public static function createQuery( DataModel_Definition_Model $main_data_model_definition, array $where = [] ): DataModel_Query
 	{
 
 		$result = new static( $main_data_model_definition );
@@ -110,7 +111,6 @@ class DataModel_Query extends BaseObject
 
 		return $result;
 	}
-
 
 
 	/**
@@ -126,7 +126,7 @@ class DataModel_Query extends BaseObject
 	/**
 	 * @return DataModel_Definition_Model
 	 */
-	public function getDataModelDefinition() : DataModel_Definition_Model
+	public function getDataModelDefinition(): DataModel_Definition_Model
 	{
 		return $this->data_model_definition;
 	}
@@ -134,7 +134,7 @@ class DataModel_Query extends BaseObject
 	/**
 	 * @return DataModel_Query_Select
 	 */
-	public function getSelect() : DataModel_Query_Select
+	public function getSelect(): DataModel_Query_Select
 	{
 		return $this->select;
 	}
@@ -146,7 +146,7 @@ class DataModel_Query extends BaseObject
 	 * @return DataModel_Query|null
 	 *
 	 */
-	public function setSelect( array $items ) : DataModel_Query|null
+	public function setSelect( array $items ): DataModel_Query|null
 	{
 		$this->select = new DataModel_Query_Select( $this, $items );
 
@@ -156,7 +156,7 @@ class DataModel_Query extends BaseObject
 	/**
 	 * @return DataModel_Query_Where|null
 	 */
-	public function getWhere() : DataModel_Query_Where|null
+	public function getWhere(): DataModel_Query_Where|null
 	{
 		return $this->where;
 	}
@@ -166,7 +166,7 @@ class DataModel_Query extends BaseObject
 	 *
 	 * @return DataModel_Query
 	 */
-	public function setWhere( array $where ) : DataModel_Query
+	public function setWhere( array $where ): DataModel_Query
 	{
 		$this->where = new DataModel_Query_Where( $this, $where );
 
@@ -176,7 +176,7 @@ class DataModel_Query extends BaseObject
 	/**
 	 * @return DataModel_Query_Having|null
 	 */
-	public function getHaving() : DataModel_Query_Having|null
+	public function getHaving(): DataModel_Query_Having|null
 	{
 		return $this->having;
 	}
@@ -186,7 +186,7 @@ class DataModel_Query extends BaseObject
 	 *
 	 * @return DataModel_Query
 	 */
-	public function setHaving( array $having ) : DataModel_Query
+	public function setHaving( array $having ): DataModel_Query
 	{
 		$this->having = new DataModel_Query_Having( $this, $having );
 
@@ -196,7 +196,7 @@ class DataModel_Query extends BaseObject
 	/**
 	 * @return DataModel_Query_GroupBy|null
 	 */
-	public function getGroupBy() : DataModel_Query_GroupBy|null
+	public function getGroupBy(): DataModel_Query_GroupBy|null
 	{
 		return $this->group_by;
 	}
@@ -209,7 +209,7 @@ class DataModel_Query extends BaseObject
 	 * @return DataModel_Query
 	 *
 	 */
-	public function setGroupBy( array|string $group_by ) : DataModel_Query
+	public function setGroupBy( array|string $group_by ): DataModel_Query
 	{
 		$this->group_by = new DataModel_Query_GroupBy( $this, $group_by );
 
@@ -219,7 +219,7 @@ class DataModel_Query extends BaseObject
 	/**
 	 * @return DataModel_Query_OrderBy|DataModel_Query_OrderBy_Item[]|null
 	 */
-	public function getOrderBy() : DataModel_Query_OrderBy|array|null
+	public function getOrderBy(): DataModel_Query_OrderBy|array|null
 	{
 		return $this->order_by;
 	}
@@ -232,7 +232,7 @@ class DataModel_Query extends BaseObject
 	 * @return DataModel_Query
 	 *
 	 */
-	public function setOrderBy( array|string $order_by ) : DataModel_Query
+	public function setOrderBy( array|string $order_by ): DataModel_Query
 	{
 		$this->order_by = new DataModel_Query_OrderBy( $this, $order_by );
 
@@ -242,7 +242,7 @@ class DataModel_Query extends BaseObject
 	/**
 	 * @return int|null
 	 */
-	public function getLimit() : int|null
+	public function getLimit(): int|null
 	{
 		return $this->limit;
 	}
@@ -254,10 +254,10 @@ class DataModel_Query extends BaseObject
 	 *
 	 * @return DataModel_Query
 	 */
-	public function setLimit( int $limit, ?int $offset = null ) : DataModel_Query
+	public function setLimit( int $limit, ?int $offset = null ): DataModel_Query
 	{
 		$this->limit = (int)$limit;
-		$this->offset = $offset===null ? null : (int)$offset;
+		$this->offset = $offset === null ? null : (int)$offset;
 
 		return $this;
 	}
@@ -265,7 +265,7 @@ class DataModel_Query extends BaseObject
 	/**
 	 * @return int|null
 	 */
-	public function getOffset() : int|null
+	public function getOffset(): int|null
 	{
 		return $this->offset;
 	}
@@ -274,16 +274,16 @@ class DataModel_Query extends BaseObject
 	/**
 	 * @return DataModel_Definition_Relation[]
 	 */
-	public function getRelations() : array
+	public function getRelations(): array
 	{
 		return $this->relations;
 	}
 
 	/**
-	 * @param string                        $name
+	 * @param string $name
 	 * @param DataModel_Definition_Relation $relation
 	 */
-	public function addRelation( string $name, DataModel_Definition_Relation $relation ) : void
+	public function addRelation( string $name, DataModel_Definition_Relation $relation ): void
 	{
 		$this->relations[$name] = $relation;
 	}
@@ -296,7 +296,7 @@ class DataModel_Query extends BaseObject
 	 *
 	 * @return DataModel_Query
 	 */
-	public function setRelationJoinType( string $related_data_model_name, string $join_type ) : DataModel_Query
+	public function setRelationJoinType( string $related_data_model_name, string $join_type ): DataModel_Query
 	{
 		$this->getRelation( $related_data_model_name )->setJoinType( $join_type );
 
@@ -306,15 +306,15 @@ class DataModel_Query extends BaseObject
 	/**
 	 * @param string $related_data_model_name
 	 *
+	 * @return DataModel_Definition_Relation
 	 * @throws DataModel_Query_Exception
 	 *
-	 * @return DataModel_Definition_Relation
 	 */
-	public function getRelation( string $related_data_model_name ) : DataModel_Definition_Relation
+	public function getRelation( string $related_data_model_name ): DataModel_Definition_Relation
 	{
 		if( !isset( $this->relations[$related_data_model_name] ) ) {
 			throw new DataModel_Query_Exception(
-				'Unknown relation \''.$this->data_model_definition->getModelName().'\' <-> \''.$related_data_model_name.'\' Class: \''.$this->data_model_definition->getClassName().'\' ',
+				'Unknown relation \'' . $this->data_model_definition->getModelName() . '\' <-> \'' . $related_data_model_name . '\' Class: \'' . $this->data_model_definition->getClassName() . '\' ',
 				DataModel_Query_Exception::CODE_QUERY_PARSE_ERROR
 			);
 		}
@@ -332,30 +332,33 @@ class DataModel_Query extends BaseObject
 	 *
 	 * @param string $property_name
 	 *
+	 * @return DataModel_Definition_Property
 	 * @throws DataModel_Query_Exception
 	 *
-	 * @return DataModel_Definition_Property
 	 */
-	public function getPropertyAndSetRelation( string $property_name ) : DataModel_Definition_Property
+	public function getPropertyAndSetRelation( string $property_name ): DataModel_Definition_Property
 	{
 
 		if( str_contains( $property_name, '.' ) ) {
 			$property_name_parts = explode( '.', $property_name );
 
-			if( count( $property_name_parts )!=2 ) {
+			if( count( $property_name_parts ) != 2 ) {
 				throw new DataModel_Query_Exception(
-					'Invalid property name: \''.$property_name.'\'. Valid examples: property_name, related_data_model_name.property_name',
+					'Invalid property name: \'' . $property_name . '\'. Valid examples: property_name, related_data_model_name.property_name',
 					DataModel_Query_Exception::CODE_QUERY_PARSE_ERROR
 				);
 
 			}
 
-			[$related_data_model_name, $property_name] = $property_name_parts;
+			[
+				$related_data_model_name,
+				$property_name
+			] = $property_name_parts;
 
 
 			$relevant_relation = clone $this->data_model_definition->getRelation( $related_data_model_name );
 
-			if( ( $required_relations = $relevant_relation->getRequiredRelations() ) ) {
+			if( ($required_relations = $relevant_relation->getRequiredRelations()) ) {
 				foreach( $required_relations as $required_relation ) {
 					if( !isset( $this->relations[$required_relation] ) ) {
 						$this->relations[$required_relation] = clone $this->data_model_definition->getRelation( $required_relation );
@@ -374,12 +377,11 @@ class DataModel_Query extends BaseObject
 		}
 
 
-
 		$properties = $data_model_definition->getProperties();
 
 		if( !isset( $properties[$property_name] ) ) {
 			throw new DataModel_Query_Exception(
-				'Unknown property: \''.$data_model_definition->getModelName().'::'.$property_name.'\'',
+				'Unknown property: \'' . $data_model_definition->getModelName() . '::' . $property_name . '\'',
 				DataModel_Query_Exception::CODE_QUERY_PARSE_ERROR
 			);
 		}
@@ -390,15 +392,15 @@ class DataModel_Query extends BaseObject
 	/**
 	 * @return string
 	 */
-	public function toString() : string
+	public function toString(): string
 	{
-		return DataModel_Backend::get($this->data_model_definition)->createSelectQuery( $this );
+		return DataModel_Backend::get( $this->data_model_definition )->createSelectQuery( $this );
 	}
 
 	/**
 	 * @return string
 	 */
-	public function __toString() : string
+	public function __toString(): string
 	{
 		return $this->toString();
 	}

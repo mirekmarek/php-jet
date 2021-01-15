@@ -5,6 +5,7 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace Jet;
 
 /**
@@ -53,7 +54,7 @@ class Mvc_Controller_Router_Action extends BaseObject
 	/**
 	 * @return Mvc_Controller_Router
 	 */
-	public function router() : Mvc_Controller_Router
+	public function router(): Mvc_Controller_Router
 	{
 		return $this->router;
 	}
@@ -61,7 +62,7 @@ class Mvc_Controller_Router_Action extends BaseObject
 	/**
 	 * @return Mvc_Controller
 	 */
-	public function controller() : Mvc_Controller
+	public function controller(): Mvc_Controller
 	{
 		return $this->router()->getController();
 	}
@@ -70,7 +71,7 @@ class Mvc_Controller_Router_Action extends BaseObject
 	/**
 	 * @return string
 	 */
-	public function getControllerAction() : string
+	public function getControllerAction(): string
 	{
 		return $this->controller_action;
 	}
@@ -80,7 +81,7 @@ class Mvc_Controller_Router_Action extends BaseObject
 	 *
 	 * @return $this
 	 */
-	public function setControllerAction( string $controller_action ) : static
+	public function setControllerAction( string $controller_action ): static
 	{
 		$this->controller_action = $controller_action;
 
@@ -91,7 +92,7 @@ class Mvc_Controller_Router_Action extends BaseObject
 	/**
 	 * @return string
 	 */
-	public function getModuleAction() : string
+	public function getModuleAction(): string
 	{
 		return $this->module_action;
 	}
@@ -101,7 +102,7 @@ class Mvc_Controller_Router_Action extends BaseObject
 	 *
 	 * @return $this
 	 */
-	public function setModuleAction( string $module_action ) : static
+	public function setModuleAction( string $module_action ): static
 	{
 		$this->module_action = $module_action;
 
@@ -120,7 +121,7 @@ class Mvc_Controller_Router_Action extends BaseObject
 	 *
 	 * @return $this
 	 */
-	public function setResolver( callable $resolver ) : static
+	public function setResolver( callable $resolver ): static
 	{
 		$this->resolver = $resolver;
 
@@ -132,7 +133,7 @@ class Mvc_Controller_Router_Action extends BaseObject
 	 *
 	 * @return $this
 	 */
-	public function setURICreator( callable $URI_creator ) : static
+	public function setURICreator( callable $URI_creator ): static
 	{
 		$this->URI_creator = $URI_creator;
 
@@ -144,9 +145,9 @@ class Mvc_Controller_Router_Action extends BaseObject
 	 *
 	 * @return bool|string
 	 */
-	public function resolve() : bool|string
+	public function resolve(): bool|string
 	{
-		if(!$this->resolver) {
+		if( !$this->resolver ) {
 			return false;
 		}
 
@@ -162,9 +163,9 @@ class Mvc_Controller_Router_Action extends BaseObject
 	 *
 	 * @return string|bool
 	 */
-	public function URI( ...$arguments ) : string|bool
+	public function URI( ...$arguments ): string|bool
 	{
-		if(!$this->isAccessAllowed()) {
+		if( !$this->isAccessAllowed() ) {
 			return false;
 		}
 
@@ -175,7 +176,7 @@ class Mvc_Controller_Router_Action extends BaseObject
 	 *
 	 * @return bool
 	 */
-	public function isAccessAllowed() : bool
+	public function isAccessAllowed(): bool
 	{
 
 		$module_action = $this->getModuleAction();
@@ -186,7 +187,6 @@ class Mvc_Controller_Router_Action extends BaseObject
 
 		return $this->router->getController()->getModule()->actionIsAllowed( $module_action );
 	}
-
 
 
 }

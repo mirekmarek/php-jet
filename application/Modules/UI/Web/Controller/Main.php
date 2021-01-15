@@ -5,6 +5,7 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace JetApplicationModule\UI\Web;
 
 use Jet\Mvc_Controller_Default;
@@ -24,7 +25,7 @@ class Controller_Main extends Mvc_Controller_Default
 
 	/**
 	 *
-	 * @param  Mvc_Page_Content_Interface $content
+	 * @param Mvc_Page_Content_Interface $content
 	 */
 	public function __construct( Mvc_Page_Content_Interface $content )
 	{
@@ -41,7 +42,7 @@ class Controller_Main extends Mvc_Controller_Default
 	/**
 	 *
 	 */
-	public function logout_Action() : void
+	public function logout_Action(): void
 	{
 		Auth::logout();
 
@@ -52,10 +53,10 @@ class Controller_Main extends Mvc_Controller_Default
 	/**
 	 *
 	 */
-	public function main_menu_Action() : void
+	public function main_menu_Action(): void
 	{
 
-		$this->view->setVar( 'site_tree_current', [ Mvc::getCurrentSite()->getHomepage( Mvc::getCurrentLocale() ) ] );
+		$this->view->setVar( 'site_tree_current', [Mvc::getCurrentSite()->getHomepage( Mvc::getCurrentLocale() )] );
 
 		$this->output( 'main-menu' );
 	}
@@ -63,9 +64,9 @@ class Controller_Main extends Mvc_Controller_Default
 	/**
 	 *
 	 */
-	public function secret_area_menu_Action() : void
+	public function secret_area_menu_Action(): void
 	{
-		$this->view->setVar( 'site_tree_current', [ Mvc_Page::get( 'secret_area' ) ] );
+		$this->view->setVar( 'site_tree_current', [Mvc_Page::get( 'secret_area' )] );
 
 		$this->output( 'secret-area-menu' );
 	}
@@ -73,11 +74,11 @@ class Controller_Main extends Mvc_Controller_Default
 	/**
 	 *
 	 */
-	public function breadcrumbNavigation_Action() : void
+	public function breadcrumbNavigation_Action(): void
 	{
 		$view = $this->getParameter( 'view', 'default' );
 
-		$this->output( 'breadcrumb-navigation/'.$view );
+		$this->output( 'breadcrumb-navigation/' . $view );
 
 	}
 }

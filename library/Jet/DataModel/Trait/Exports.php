@@ -5,6 +5,7 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace Jet;
 
 /**
@@ -17,7 +18,7 @@ trait DataModel_Trait_Exports
 	/**
 	 * @return string
 	 */
-	public function toJSON() : string
+	public function toJSON(): string
 	{
 		$data = $this->jsonSerialize();
 
@@ -27,10 +28,10 @@ trait DataModel_Trait_Exports
 	/**
 	 * @return array
 	 */
-	public function jsonSerialize() : array
+	public function jsonSerialize(): array
 	{
 		/**
-		 * @var DataModel                  $this
+		 * @var DataModel $this
 		 * @var DataModel_Definition_Model $definition
 		 */
 		$definition = static::getDataModelDefinition();

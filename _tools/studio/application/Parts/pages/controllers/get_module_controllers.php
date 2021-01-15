@@ -1,4 +1,5 @@
 <?php
+
 namespace JetStudio;
 
 use Jet\AJAX;
@@ -8,19 +9,19 @@ $GET = Http_Request::GET();
 
 $default_controller = '';
 $actions = [];
-$module_name = $GET->getString('module');
+$module_name = $GET->getString( 'module' );
 
 $controllers = Pages_Page::getModuleControllers( $module_name );
 
-foreach($controllers as $default_controller) {
-	$actions = Pages_Page::getModuleControllerActions($module_name, $default_controller);
+foreach( $controllers as $default_controller ) {
+	$actions = Pages_Page::getModuleControllerActions( $module_name, $default_controller );
 	break;
 }
 
 AJAX::response(
 	[
-		'controllers' => $controllers,
+		'controllers'        => $controllers,
 		'default_controller' => $default_controller,
-		'actions' => $actions
+		'actions'            => $actions
 	]
 );

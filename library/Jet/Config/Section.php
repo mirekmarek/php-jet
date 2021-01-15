@@ -5,6 +5,7 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace Jet;
 
 /**
@@ -30,7 +31,7 @@ class Config_Section extends Config
 	 */
 	public function __construct( array $data = null )
 	{
-		if($data!==null) {
+		if( $data !== null ) {
 			$this->setData( $data );
 		}
 	}
@@ -38,7 +39,7 @@ class Config_Section extends Config
 	/**
 	 * @return Config_Definition_Config
 	 */
-	public function getDefinition() : Config_Definition_Config
+	public function getDefinition(): Config_Definition_Config
 	{
 		if( !$this->definition ) {
 			$this->definition = Config_Definition::getSectionConfigDefinition( get_called_class() );
@@ -51,7 +52,7 @@ class Config_Section extends Config
 	/**
 	 * @return Config
 	 */
-	public function getConfig() : Config
+	public function getConfig(): Config
 	{
 		return $this->_config;
 	}
@@ -59,7 +60,7 @@ class Config_Section extends Config
 	/**
 	 * @param Config $config
 	 */
-	public function setConfig( Config $config ) : void
+	public function setConfig( Config $config ): void
 	{
 		$this->_config = $config;
 	}
@@ -67,7 +68,7 @@ class Config_Section extends Config
 	/**
 	 * @return string
 	 */
-	public function getConfigFilePath() : string
+	public function getConfigFilePath(): string
 	{
 		return $this->getConfig()->getConfigFilePath();
 	}
@@ -75,7 +76,7 @@ class Config_Section extends Config
 	/**
 	 * @param string $config_file_path
 	 */
-	public function setConfigFilePath( string $config_file_path ) : void
+	public function setConfigFilePath( string $config_file_path ): void
 	{
 		$this->getConfig()->setConfigFilePath( $config_file_path );
 	}
@@ -83,11 +84,11 @@ class Config_Section extends Config
 
 	/**
 	 *
+	 * @return array
 	 * @throws Config_Exception
 	 *
-	 * @return array
 	 */
-	public function readConfigFileData() : array
+	public function readConfigFileData(): array
 	{
 		return $this->getConfig()->readConfigFileData();
 	}
@@ -96,7 +97,7 @@ class Config_Section extends Config
 	/**
 	 *
 	 */
-	public function writeConfigFile() : void
+	public function writeConfigFile(): void
 	{
 		$this->getConfig()->writeConfigFile();
 	}

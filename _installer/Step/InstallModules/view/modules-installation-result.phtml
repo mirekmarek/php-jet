@@ -1,4 +1,5 @@
 <?php
+
 namespace JetApplication\Installer;
 
 use Jet\Mvc_View;
@@ -6,7 +7,7 @@ use Jet\Tr;
 use Jet\Application_Module_Manifest;
 
 /**
- * @var Mvc_View                              $this
+ * @var Mvc_View $this
  * @var Application_Module_Manifest[] $modules
  */
 
@@ -16,41 +17,41 @@ $result = $this->getRaw( 'result' );
 $OK = $this->getBool( 'OK' );
 ?>
 
-<table class="table table-striped">
-	<thead>
-	<tr>
-		<th><?=Tr::_( 'Module' );?></th>
-		<th><?=Tr::_( 'Result' );?></th>
-	</tr>
-	</thead>
-	<?php foreach( $modules as $name => $info ):
-		if( !isset( $result[$name] ) ) {
-			continue;
-		}
-
-		$state = $result[$name];
-		?>
+	<table class="table table-striped">
+		<thead>
 		<tr>
-			<td>
-				<label for="module_<?=$info->getName();?>"><?=$info->getLabel();?></label>
-				<br/>
-				<div style="font-size: 11px;"><?=$info->getName();?></div>
-
-			</td>
-			<td>
-				<?php if( $state===true ): ?>
-					<div class="OK">OK</div>
-				<?php else: ?>
-					<div class="error"><?=$state;?></div>
-				<?php endif; ?>
-
-			</td>
-
+			<th><?= Tr::_( 'Module' ); ?></th>
+			<th><?= Tr::_( 'Result' ); ?></th>
 		</tr>
-	<?php endforeach; ?>
-</table>
+		</thead>
+		<?php foreach( $modules as $name => $info ):
+			if( !isset( $result[$name] ) ) {
+				continue;
+			}
 
-<?php if( $OK ):
+			$state = $result[$name];
+			?>
+			<tr>
+				<td>
+					<label for="module_<?= $info->getName(); ?>"><?= $info->getLabel(); ?></label>
+					<br/>
+					<div style="font-size: 11px;"><?= $info->getName(); ?></div>
+
+				</td>
+				<td>
+					<?php if( $state === true ): ?>
+						<div class="OK">OK</div>
+					<?php else: ?>
+						<div class="error"><?= $state; ?></div>
+					<?php endif; ?>
+
+				</td>
+
+			</tr>
+		<?php endforeach; ?>
+	</table>
+
+	<?php if( $OK ):
 	echo Installer::continueForm();
 else:
 	echo Installer::buttonBack();

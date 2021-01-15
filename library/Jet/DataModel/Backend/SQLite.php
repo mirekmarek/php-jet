@@ -5,12 +5,13 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace Jet;
 
 use SQLite3;
 
 /**
- * 
+ *
  */
 class DataModel_Backend_SQLite extends DataModel_Backend
 {
@@ -37,9 +38,9 @@ class DataModel_Backend_SQLite extends DataModel_Backend
 	/**
 	 * @return Db_Backend_Interface
 	 */
-	public function getDb() : Db_Backend_Interface
+	public function getDb(): Db_Backend_Interface
 	{
-		if(!$this->_db) {
+		if( !$this->_db ) {
 			$this->_db = Db::get( $this->config->getConnection() );
 		}
 
@@ -49,7 +50,7 @@ class DataModel_Backend_SQLite extends DataModel_Backend
 	/**
 	 * @param Db_Backend_Interface $db
 	 */
-	public function setDb( Db_Backend_Interface $db ) : void
+	public function setDb( Db_Backend_Interface $db ): void
 	{
 		$this->_db = $db;
 	}
@@ -61,16 +62,16 @@ class DataModel_Backend_SQLite extends DataModel_Backend
 	 *
 	 * @return bool
 	 */
-	public function helper_tableExists( DataModel_Definition_Model $definition ) : bool
+	public function helper_tableExists( DataModel_Definition_Model $definition ): bool
 	{
 		$table_name = $this->_getTableName( $definition, false );
 
 		$db = $this->getDb();
 
-		if($db->fetchOne("SELECT name FROM sqlite_master WHERE type='table' AND name='{$table_name}';")) {
+		if( $db->fetchOne( "SELECT name FROM sqlite_master WHERE type='table' AND name='{$table_name}';" ) ) {
 			return true;
 		}
-		
+
 		return false;
 	}
 
@@ -78,18 +79,18 @@ class DataModel_Backend_SQLite extends DataModel_Backend
 	/**
 	 * @param DataModel_Definition_Model $definition
 	 */
-	public function helper_create( DataModel_Definition_Model $definition ) : void
+	public function helper_create( DataModel_Definition_Model $definition ): void
 	{
 		$this->getDb()->execCommand( $this->helper_getCreateCommand( $definition ) );
 	}
 
 	/**
 	 * @param DataModel_Definition_Model $definition
-	 * @param string|null                $force_table_name (optional)
+	 * @param string|null $force_table_name (optional)
 	 *
 	 * @return string
 	 */
-	public function helper_getCreateCommand( DataModel_Definition_Model $definition, ?string $force_table_name = null ) : string
+	public function helper_getCreateCommand( DataModel_Definition_Model $definition, ?string $force_table_name = null ): string
 	{
 
 		$options = [];
@@ -97,7 +98,7 @@ class DataModel_Backend_SQLite extends DataModel_Backend
 		$_options = [];
 
 		foreach( $options as $o => $v ) {
-			$_options[] = $o.'='.$v;
+			$_options[] = $o . '=' . $v;
 		}
 
 		$_options = implode( ' ', $_options );
@@ -110,7 +111,7 @@ class DataModel_Backend_SQLite extends DataModel_Backend
 				continue;
 			}
 
-			$_columns[] = "\t".$this->_getColumnName( $property, true, false ).' '.$this->_getSQLType( $property );
+			$_columns[] = "\t" . $this->_getColumnName( $property, true, false ) . ' ' . $this->_getSQLType( $property );
 		}
 
 		$table_name = $force_table_name ? $force_table_name : $this->_getTableName( $definition );
@@ -120,7 +121,7 @@ class DataModel_Backend_SQLite extends DataModel_Backend
 
 		$has_ai = false;
 		foreach( $definition->getProperties() as $property ) {
-			if( $property->getType()==DataModel::TYPE_ID_AUTOINCREMENT ) {
+			if( $property->getType() == DataModel::TYPE_ID_AUTOINCREMENT ) {
 				$has_ai = true;
 				break;
 			}
@@ -139,40 +140,40 @@ class DataModel_Backend_SQLite extends DataModel_Backend
 			switch( $key->getType() ) {
 				case DataModel::KEY_TYPE_PRIMARY:
 					if( !$has_ai ) {
-						$keys[] = PHP_EOL."\t".',PRIMARY KEY ('.$key_columns.')';
+						$keys[] = PHP_EOL . "\t" . ',PRIMARY KEY (' . $key_columns . ')';
 					}
 					break;
 				case DataModel::KEY_TYPE_INDEX:
-					$create_index_query[] = PHP_EOL.'CREATE INDEX IF NOT EXISTS '.$this->_quoteName(
-							'_k_'.$key_name
-						).' ON '.$table_name.' ('.$key_columns.');';
+					$create_index_query[] = PHP_EOL . 'CREATE INDEX IF NOT EXISTS ' . $this->_quoteName(
+							'_k_' . $key_name
+						) . ' ON ' . $table_name . ' (' . $key_columns . ');';
 					break;
 				default:
-					$create_index_query[] = PHP_EOL.'CREATE '.$key->getType().' INDEX IF NOT EXISTS '.$this->_quoteName(
-							'_k_'.$key_name
-						).' ON '.$table_name.' ('.$key_columns.');';
+					$create_index_query[] = PHP_EOL . 'CREATE ' . $key->getType() . ' INDEX IF NOT EXISTS ' . $this->_quoteName(
+							'_k_' . $key_name
+						) . ' ON ' . $table_name . ' (' . $key_columns . ');';
 					break;
 			}
 		}
 
 		$create_index_query = implode( PHP_EOL, $create_index_query );
 
-		$q = 'CREATE TABLE IF NOT EXISTS '.$table_name.' ('.PHP_EOL;
-		$q .= implode( ','.PHP_EOL, $_columns );
+		$q = 'CREATE TABLE IF NOT EXISTS ' . $table_name . ' (' . PHP_EOL;
+		$q .= implode( ',' . PHP_EOL, $_columns );
 		$q .= implode( '', $keys );
-		$q .= PHP_EOL.') '.$_options.';'.$create_index_query.PHP_EOL.PHP_EOL;
+		$q .= PHP_EOL . ') ' . $_options . ';' . $create_index_query . PHP_EOL . PHP_EOL;
 
 		return $q;
 	}
 
 	/**
 	 * @param DataModel_Definition_Property $property_definition
-	 * @param bool                          $quote
-	 * @param bool                          $add_table_name
+	 * @param bool $quote
+	 * @param bool $add_table_name
 	 *
 	 * @return string
 	 */
-	protected function _getColumnName( DataModel_Definition_Property $property_definition, $quote = true, $add_table_name = true ) : string
+	protected function _getColumnName( DataModel_Definition_Property $property_definition, $quote = true, $add_table_name = true ): string
 	{
 		$column_name = $property_definition->getDatabaseColumnName();
 
@@ -188,7 +189,7 @@ class DataModel_Backend_SQLite extends DataModel_Backend
 
 		$table_name = $this->_getTableName( $property_definition->getDataModelDefinition() );
 
-		return $table_name.'.'.$column_name;
+		return $table_name . '.' . $column_name;
 	}
 
 	/**
@@ -196,18 +197,18 @@ class DataModel_Backend_SQLite extends DataModel_Backend
 	 *
 	 * @return string
 	 */
-	protected function _quoteName( string $name ) : string
+	protected function _quoteName( string $name ): string
 	{
-		return '`'.$name.'`';
+		return '`' . $name . '`';
 	}
 
 	/**
 	 * @param DataModel_Definition_Model $model_definition
-	 * @param bool                       $quote
+	 * @param bool $quote
 	 *
 	 * @return string
 	 */
-	protected function _getTableName( DataModel_Definition_Model $model_definition, bool $quote = true ) : string
+	protected function _getTableName( DataModel_Definition_Model $model_definition, bool $quote = true ): string
 	{
 		$table_name = strtolower( $model_definition->getDatabaseTableName() );
 
@@ -221,10 +222,10 @@ class DataModel_Backend_SQLite extends DataModel_Backend
 	/**
 	 * @param DataModel_Definition_Property $column
 	 *
-	 * @throws DataModel_Exception
 	 * @return string
+	 * @throws DataModel_Exception
 	 */
-	protected function _getSQLType( DataModel_Definition_Property $column ) : string
+	protected function _getSQLType( DataModel_Definition_Property $column ): string
 	{
 		$backend_options = $column->getBackendOptions( 'SQLite' );
 
@@ -259,7 +260,7 @@ class DataModel_Backend_SQLite extends DataModel_Backend
 				return 'BLOB';
 			default:
 				throw new DataModel_Exception(
-					'Unknown column type \''.$column->getType().'\'! Column \''.$name.'\' ',
+					'Unknown column type \'' . $column->getType() . '\'! Column \'' . $name . '\' ',
 					DataModel_Exception::CODE_DEFINITION_NONSENSE
 				);
 		}
@@ -268,7 +269,7 @@ class DataModel_Backend_SQLite extends DataModel_Backend
 	/**
 	 * @param DataModel_Definition_Model $definition
 	 */
-	public function helper_drop( DataModel_Definition_Model $definition ) : void
+	public function helper_drop( DataModel_Definition_Model $definition ): void
 	{
 		$this->getDb()->execCommand( $this->helper_getDropCommand( $definition ) );
 	}
@@ -278,19 +279,19 @@ class DataModel_Backend_SQLite extends DataModel_Backend
 	 *
 	 * @return string
 	 */
-	public function helper_getDropCommand( DataModel_Definition_Model $definition ) : string
+	public function helper_getDropCommand( DataModel_Definition_Model $definition ): string
 	{
 		$table_name = $this->_getTableName( $definition );
-		$ui_prefix = '_d'.date( 'YmdHis' );
+		$ui_prefix = '_d' . date( 'YmdHis' );
 
-		return 'RENAME TABLE '.$table_name.' TO '.$this->_quoteName( $ui_prefix.$table_name ).'';
+		return 'RENAME TABLE ' . $table_name . ' TO ' . $this->_quoteName( $ui_prefix . $table_name ) . '';
 	}
 
 	/**
 	 * @param DataModel_Definition_Model $definition
 	 *
 	 */
-	public function helper_update( DataModel_Definition_Model $definition ) : void
+	public function helper_update( DataModel_Definition_Model $definition ): void
 	{
 		$this->transactionStart();
 		try {
@@ -307,7 +308,7 @@ class DataModel_Backend_SQLite extends DataModel_Backend
 	/**
 	 *
 	 */
-	public function transactionStart() : void
+	public function transactionStart(): void
 	{
 		$this->getDb()->beginTransaction();
 	}
@@ -317,16 +318,16 @@ class DataModel_Backend_SQLite extends DataModel_Backend
 	 *
 	 * @return array
 	 */
-	public function helper_getUpdateCommand( DataModel_Definition_Model $definition ) : array
+	public function helper_getUpdateCommand( DataModel_Definition_Model $definition ): array
 	{
 		$table_name = $this->_getTableName( $definition );
 
-		$exists_cols = $this->getDb()->fetchCol( 'PRAGMA table_info('.$table_name.')', [], 'name' );
+		$exists_cols = $this->getDb()->fetchCol( 'PRAGMA table_info(' . $table_name . ')', [], 'name' );
 
 
-		$update_prefix = '_UP'.date( 'YmdHis' ).'_';
-		$updated_table_name = $this->_quoteName( $update_prefix.$this->_getTableName( $definition, false ) );
-		$backup_table_name = $this->_quoteName( $update_prefix.'b_'.$this->_getTableName( $definition, false ) );
+		$update_prefix = '_UP' . date( 'YmdHis' ) . '_';
+		$updated_table_name = $this->_quoteName( $update_prefix . $this->_getTableName( $definition, false ) );
+		$backup_table_name = $this->_quoteName( $update_prefix . 'b_' . $this->_getTableName( $definition, false ) );
 
 
 		$create_command = $this->helper_getCreateCommand( $definition, $updated_table_name );
@@ -346,7 +347,7 @@ class DataModel_Backend_SQLite extends DataModel_Backend
 		$new_cols = new DataModel_RecordData( $definition );
 		foreach( $_new_cols as $new_col ) {
 			foreach( $properties as $property ) {
-				if( $this->_getColumnName( $property, false )==$new_col ) {
+				if( $this->_getColumnName( $property, false ) == $new_col ) {
 					$new_cols->addItem( $property, $property->getDefaultValue() );
 
 					continue 2;
@@ -359,24 +360,24 @@ class DataModel_Backend_SQLite extends DataModel_Backend
 
 		$new_cols = $this->_getRecord( $new_cols );
 
-		$data_migration_command = 'INSERT INTO '.$updated_table_name.'
-					('.implode( ',', $common_cols ).')
+		$data_migration_command = 'INSERT INTO ' . $updated_table_name . '
+					(' . implode( ',', $common_cols ) . ')
 				SELECT
-					'.implode( ',', $common_cols ).'
-				FROM '.$table_name.';';
+					' . implode( ',', $common_cols ) . '
+				FROM ' . $table_name . ';';
 
 		$update_default_values = '';
 		if( $_new_cols ) {
 			$_new_cols = [];
 			foreach( $new_cols as $c => $v ) {
-				$_new_cols[] = $c.'='.$v;
+				$_new_cols[] = $c . '=' . $v;
 			}
-			$update_default_values = 'UPDATE '.$updated_table_name.' SET '.implode( ','.PHP_EOL, $_new_cols );
+			$update_default_values = 'UPDATE ' . $updated_table_name . ' SET ' . implode( ',' . PHP_EOL, $_new_cols );
 		}
 
 
-		$rename_command1 = 'ALTER TABLE '.$table_name.' RENAME TO '.$backup_table_name.' ;'.PHP_EOL;
-		$rename_command2 = 'ALTER TABLE '.$updated_table_name.' RENAME TO  '.$table_name.'; ';
+		$rename_command1 = 'ALTER TABLE ' . $table_name . ' RENAME TO ' . $backup_table_name . ' ;' . PHP_EOL;
+		$rename_command2 = 'ALTER TABLE ' . $updated_table_name . ' RENAME TO  ' . $table_name . '; ';
 
 		$update_command = [];
 		$update_command[] = $create_command;
@@ -392,19 +393,19 @@ class DataModel_Backend_SQLite extends DataModel_Backend
 
 	/**
 	 * @param DataModel_RecordData $record
-	 * @param bool                 $quote
-	 * @param bool                 $add_table_name
+	 * @param bool $quote
+	 * @param bool $add_table_name
 	 *
 	 * @return array
 	 */
-	protected function _getRecord( DataModel_RecordData $record, bool $quote = true, bool $add_table_name = false ) : array
+	protected function _getRecord( DataModel_RecordData $record, bool $quote = true, bool $add_table_name = false ): array
 	{
 		$_record = [];
 
 		foreach( $record as $item ) {
 
 			$value = $item->getValue();
-			if($item->getPropertyDefinition()->getMustBeSerializedBeforeStore()) {
+			if( $item->getPropertyDefinition()->getMustBeSerializedBeforeStore() ) {
 				$value = $this->serialize( $value );
 			}
 
@@ -421,13 +422,13 @@ class DataModel_Backend_SQLite extends DataModel_Backend
 	 *
 	 * @return float|int|string
 	 */
-	protected function _getValue( mixed $value ) : float|int|string
+	protected function _getValue( mixed $value ): float|int|string
 	{
 		if( $value instanceof DataModel_Definition_Property ) {
 			return $this->_getColumnName( $value );
 		}
 
-		if( $value===null ) {
+		if( $value === null ) {
 			return 'NULL';
 		}
 
@@ -455,7 +456,7 @@ class DataModel_Backend_SQLite extends DataModel_Backend
 			$value = (string)$value;
 		}
 
-		return "'". SQLite3::escapeString( $value )."'";
+		return "'" . SQLite3::escapeString( $value ) . "'";
 	}
 
 	/**
@@ -463,7 +464,7 @@ class DataModel_Backend_SQLite extends DataModel_Backend
 	 *
 	 * @return string
 	 */
-	protected function serialize( mixed $data ) : string
+	protected function serialize( mixed $data ): string
 	{
 		return base64_encode( serialize( $data ) );
 	}
@@ -471,7 +472,7 @@ class DataModel_Backend_SQLite extends DataModel_Backend
 	/**
 	 *
 	 */
-	public function transactionRollback() : void
+	public function transactionRollback(): void
 	{
 		$this->getDb()->rollBack();
 	}
@@ -479,7 +480,7 @@ class DataModel_Backend_SQLite extends DataModel_Backend
 	/**
 	 *
 	 */
-	public function transactionCommit() : void
+	public function transactionCommit(): void
 	{
 		$this->getDb()->commit();
 	}
@@ -489,7 +490,7 @@ class DataModel_Backend_SQLite extends DataModel_Backend
 	 *
 	 * @return string
 	 */
-	public function save( DataModel_RecordData $record ) : string
+	public function save( DataModel_RecordData $record ): string
 	{
 
 		$this->getDb()->execCommand( $this->createInsertQuery( $record ) );
@@ -503,7 +504,7 @@ class DataModel_Backend_SQLite extends DataModel_Backend
 	 *
 	 * @return string
 	 */
-	public function createInsertQuery( DataModel_RecordData $record ) : string
+	public function createInsertQuery( DataModel_RecordData $record ): string
 	{
 
 		$data_model_definition = $record->getDataModelDefinition();
@@ -515,7 +516,7 @@ class DataModel_Backend_SQLite extends DataModel_Backend
 
 		foreach( $record as $item ) {
 			if(
-				$item->getPropertyDefinition()->getType()==DataModel::TYPE_ID_AUTOINCREMENT &&
+				$item->getPropertyDefinition()->getType() == DataModel::TYPE_ID_AUTOINCREMENT &&
 				!$item->getPropertyDefinition()->getRelatedToPropertyName()
 			) {
 				continue;
@@ -526,31 +527,31 @@ class DataModel_Backend_SQLite extends DataModel_Backend
 
 		}
 
-		$columns = implode( ','.PHP_EOL, $columns );
-		$values = implode( ','.PHP_EOL, $values );
+		$columns = implode( ',' . PHP_EOL, $columns );
+		$values = implode( ',' . PHP_EOL, $values );
 
-		return 'INSERT INTO '.$table_name.' ('.$columns.') VALUES ('.$values.')';
+		return 'INSERT INTO ' . $table_name . ' (' . $columns . ') VALUES (' . $values . ')';
 
 	}
 
 	/**
 	 * @param DataModel_RecordData $record
-	 * @param DataModel_Query      $where
+	 * @param DataModel_Query $where
 	 *
 	 * @return int
 	 */
-	public function update( DataModel_RecordData $record, DataModel_Query $where ) : int
+	public function update( DataModel_RecordData $record, DataModel_Query $where ): int
 	{
 		return $this->getDb()->execCommand( $this->createUpdateQuery( $record, $where ) );
 	}
 
 	/**
 	 * @param DataModel_RecordData $record
-	 * @param DataModel_Query      $where
+	 * @param DataModel_Query $where
 	 *
 	 * @return string
 	 */
-	public function createUpdateQuery( DataModel_RecordData $record, DataModel_Query $where ) : string
+	public function createUpdateQuery( DataModel_RecordData $record, DataModel_Query $where ): string
 	{
 		$data_model_definition = $record->getDataModelDefinition();
 		$table_name = $this->_getTableName( $data_model_definition );
@@ -558,48 +559,48 @@ class DataModel_Backend_SQLite extends DataModel_Backend
 		$set = [];
 
 		foreach( $this->_getRecord( $record ) as $k => $v ) {
-			$set[] = $k.'='.$v;
+			$set[] = $k . '=' . $v;
 		}
 
-		$set = implode( ','.PHP_EOL, $set );
+		$set = implode( ',' . PHP_EOL, $set );
 
 		$where = $this->_getSqlQueryWherePart( $where->getWhere() );
 
-		return 'UPDATE '.$table_name.' SET '.PHP_EOL.$set.$where;
+		return 'UPDATE ' . $table_name . ' SET ' . PHP_EOL . $set . $where;
 
 	}
 
 	/**
 	 * @param DataModel_Query_Where|null $query
 	 *
-	 * @param int                   $level (optional)
+	 * @param int $level (optional)
 	 *
 	 * @return string
 	 */
-	protected function _getSqlQueryWherePart( DataModel_Query_Where $query = null, int $level = 0 ) : string
+	protected function _getSqlQueryWherePart( DataModel_Query_Where $query = null, int $level = 0 ): string
 	{
 		if( !$query ) {
 			return '';
 		}
 		$res = '';
 
-		$next_level = $level+1;
+		$next_level = $level + 1;
 		$tab = str_repeat( "\t", $next_level );
 
 		foreach( $query as $qp ) {
 			if( $qp instanceof DataModel_Query_Where ) {
-				$res .= $tab.'('.PHP_EOL.$this->_getSqlQueryWherePart( $qp, $next_level ).' '.PHP_EOL."\t".')';
+				$res .= $tab . '(' . PHP_EOL . $this->_getSqlQueryWherePart( $qp, $next_level ) . ' ' . PHP_EOL . "\t" . ')';
 				continue;
 			}
 
 			if(
-				$qp===DataModel_Query::L_O_AND ||
-				$qp===DataModel_Query::L_O_OR
+				$qp === DataModel_Query::L_O_AND ||
+				$qp === DataModel_Query::L_O_OR
 			) {
 				/**
 				 * @var string $qp
 				 */
-				$res .= PHP_EOL.$tab.$qp.' '.PHP_EOL;
+				$res .= PHP_EOL . $tab . $qp . ' ' . PHP_EOL;
 				continue;
 			}
 
@@ -610,14 +611,14 @@ class DataModel_Backend_SQLite extends DataModel_Backend
 			$prop = $qp->getProperty();
 
 
-			$res .= $tab.$this->_getSQLQueryWherePart_handleExpression(
+			$res .= $tab . $this->_getSQLQueryWherePart_handleExpression(
 					$this->_getColumnName( $prop ), $qp->getOperator(), $qp->getValue()
 				);
 
 		}
 
 		if( $res && !$level ) {
-			$res = PHP_EOL.'WHERE'.PHP_EOL.$res.PHP_EOL;
+			$res = PHP_EOL . 'WHERE' . PHP_EOL . $res . PHP_EOL;
 		}
 
 		return $res;
@@ -626,11 +627,11 @@ class DataModel_Backend_SQLite extends DataModel_Backend
 	/**
 	 * @param string $item
 	 * @param string $operator
-	 * @param mixed  $value
+	 * @param mixed $value
 	 *
 	 * @return string
 	 */
-	protected function _getSQLQueryWherePart_handleExpression( string $item, string $operator, mixed $value ) : string
+	protected function _getSQLQueryWherePart_handleExpression( string $item, string $operator, mixed $value ): string
 	{
 		$res = '';
 
@@ -639,12 +640,12 @@ class DataModel_Backend_SQLite extends DataModel_Backend
 
 			foreach( $value as $v ) {
 
-				$sq[] = "\t\t".$item.$this->_getSQLQueryWherePart_handleOperator( $operator, $v );
+				$sq[] = "\t\t" . $item . $this->_getSQLQueryWherePart_handleOperator( $operator, $v );
 			}
 
-			$res .= '('.PHP_EOL.implode( ' OR'.PHP_EOL, $sq ).PHP_EOL."\t".') ';
+			$res .= '(' . PHP_EOL . implode( ' OR' . PHP_EOL, $sq ) . PHP_EOL . "\t" . ') ';
 		} else {
-			$res .= $item.$this->_getSQLQueryWherePart_handleOperator( $operator, $value );
+			$res .= $item . $this->_getSQLQueryWherePart_handleOperator( $operator, $value );
 
 		}
 
@@ -654,53 +655,53 @@ class DataModel_Backend_SQLite extends DataModel_Backend
 
 	/**
 	 * @param string $operator
-	 * @param mixed  $value
+	 * @param mixed $value
 	 *
-	 * @throws DataModel_Backend_Exception
 	 * @return string
+	 * @throws DataModel_Backend_Exception
 	 */
-	protected function _getSQLQueryWherePart_handleOperator( string $operator, mixed $value ) : string
+	protected function _getSQLQueryWherePart_handleOperator( string $operator, mixed $value ): string
 	{
 		$value = $this->_getValue( $value );
 		$res = '';
 
 		switch( $operator ) {
 			case DataModel_Query::O_EQUAL:
-				if( $value==='NULL' ) {
+				if( $value === 'NULL' ) {
 					$res .= ' IS NULL';
 				} else {
-					$res .= '='.$value;
+					$res .= '=' . $value;
 				}
 				break;
 			case DataModel_Query::O_NOT_EQUAL:
-				if( $value==='NULL' ) {
+				if( $value === 'NULL' ) {
 					$res .= ' IS NOT NULL';
 				} else {
-					$res .= '<>'.$value;
+					$res .= '<>' . $value;
 				}
 				break;
 			case DataModel_Query::O_LIKE:
-				$res .= ' LIKE '.$value;
+				$res .= ' LIKE ' . $value;
 				break;
 			case DataModel_Query::O_NOT_LIKE:
-				$res .= ' NOT LIKE '.$value;
+				$res .= ' NOT LIKE ' . $value;
 				break;
 			case DataModel_Query::O_GREATER_THAN:
-				$res .= '>'.$value.' ';
+				$res .= '>' . $value . ' ';
 				break;
 			case DataModel_Query::O_LESS_THAN:
-				$res .= '<'.$value.' ';
+				$res .= '<' . $value . ' ';
 				break;
 			case DataModel_Query::O_GREATER_THAN_OR_EQUAL:
-				$res .= '>='.$value.' ';
+				$res .= '>=' . $value . ' ';
 				break;
 			case DataModel_Query::O_LESS_THAN_OR_EQUAL:
-				$res .= '<='.$value.' ';
+				$res .= '<=' . $value . ' ';
 				break;
 
 			default:
 				throw new DataModel_Backend_Exception(
-					'Unknown operator '.$operator.'! ', DataModel_Backend_Exception::CODE_BACKEND_ERROR
+					'Unknown operator ' . $operator . '! ', DataModel_Backend_Exception::CODE_BACKEND_ERROR
 				);
 
 
@@ -714,7 +715,7 @@ class DataModel_Backend_SQLite extends DataModel_Backend
 	 *
 	 * @return int
 	 */
-	public function delete( DataModel_Query $where ) : int
+	public function delete( DataModel_Query $where ): int
 	{
 		return $this->getDb()->execCommand( $this->createDeleteQuery( $where ) );
 	}
@@ -724,11 +725,11 @@ class DataModel_Backend_SQLite extends DataModel_Backend
 	 *
 	 * @return string
 	 */
-	public function createDeleteQuery( DataModel_Query $where ) : string
+	public function createDeleteQuery( DataModel_Query $where ): string
 	{
 		$table_name = $this->_getTableName( $where->getDataModelDefinition() );
 
-		return 'DELETE FROM '.$table_name.''.$this->_getSqlQueryWherePart( $where->getWhere() );
+		return 'DELETE FROM ' . $table_name . '' . $this->_getSqlQueryWherePart( $where->getWhere() );
 	}
 
 	/**
@@ -736,7 +737,7 @@ class DataModel_Backend_SQLite extends DataModel_Backend
 	 *
 	 * @return int
 	 */
-	public function getCount( DataModel_Query $query ) : int
+	public function getCount( DataModel_Query $query ): int
 	{
 		return (int)$this->getDb()->fetchOne( $this->createCountQuery( $query ) );
 	}
@@ -746,10 +747,10 @@ class DataModel_Backend_SQLite extends DataModel_Backend
 	 *
 	 * @return string
 	 */
-	public function createCountQuery( DataModel_Query $query ) : string
+	public function createCountQuery( DataModel_Query $query ): string
 	{
 
-		if(!$query->getSelect()) {
+		if( !$query->getSelect() ) {
 			$id_properties = [];
 			foreach( $query->getDataModelDefinition()->getIdProperties() as $id_property ) {
 				$id_properties[] = $id_property;
@@ -758,7 +759,7 @@ class DataModel_Backend_SQLite extends DataModel_Backend
 			$query->setSelect( $id_properties );
 		}
 
-		return 'SELECT count(*) FROM ('.$this->createSelectQuery($query).')';
+		return 'SELECT count(*) FROM (' . $this->createSelectQuery( $query ) . ')';
 	}
 
 	/**
@@ -766,7 +767,7 @@ class DataModel_Backend_SQLite extends DataModel_Backend
 	 *
 	 * @return string
 	 */
-	protected function _getSQLQueryTableName( DataModel_Query $query ) : string
+	protected function _getSQLQueryTableName( DataModel_Query $query ): string
 	{
 		$main_model_definition = $query->getDataModelDefinition();
 
@@ -777,10 +778,10 @@ class DataModel_Backend_SQLite extends DataModel_Backend
 	/**
 	 * @param DataModel_Query $query
 	 *
-	 * @throws DataModel_Backend_Exception
 	 * @return string
+	 * @throws DataModel_Backend_Exception
 	 */
-	protected function _getSQLQueryJoinPart( DataModel_Query $query ) : string
+	protected function _getSQLQueryJoinPart( DataModel_Query $query ): string
 	{
 		$join_qp = '';
 
@@ -792,14 +793,14 @@ class DataModel_Backend_SQLite extends DataModel_Backend
 
 			switch( $relation->getJoinType() ) {
 				case DataModel_Query::JOIN_TYPE_LEFT_JOIN:
-					$join_qp .= PHP_EOL."\t\t".'JOIN '.$r_table_name.' ON'.PHP_EOL;
+					$join_qp .= PHP_EOL . "\t\t" . 'JOIN ' . $r_table_name . ' ON' . PHP_EOL;
 					break;
 				case DataModel_Query::JOIN_TYPE_LEFT_OUTER_JOIN:
-					$join_qp .= PHP_EOL."\t\t".'LEFT OUTER JOIN '.$r_table_name.' ON'.PHP_EOL;
+					$join_qp .= PHP_EOL . "\t\t" . 'LEFT OUTER JOIN ' . $r_table_name . ' ON' . PHP_EOL;
 					break;
 				default:
 					throw new DataModel_Backend_Exception(
-						'MySQL backend: unknown join type \''.$relation->getJoinType().'\'',
+						'MySQL backend: unknown join type \'' . $relation->getJoinType() . '\'',
 						DataModel_Backend_Exception::CODE_BACKEND_ERROR
 					);
 			}
@@ -807,22 +808,22 @@ class DataModel_Backend_SQLite extends DataModel_Backend
 			$j = [];
 			foreach( $relation->getJoinBy() as $join_by ) {
 
-				if($join_by instanceof DataModel_Definition_Relation_Join_Item) {
-					$j[] = "\t\t\t".$this->_getColumnName( $join_by->getRelatedProperty() ).' = '.$this->_getColumnName( $join_by->getThisProperty() );
+				if( $join_by instanceof DataModel_Definition_Relation_Join_Item ) {
+					$j[] = "\t\t\t" . $this->_getColumnName( $join_by->getRelatedProperty() ) . ' = ' . $this->_getColumnName( $join_by->getThisProperty() );
 				}
 
-				if($join_by instanceof DataModel_Definition_Relation_Join_Condition) {
+				if( $join_by instanceof DataModel_Definition_Relation_Join_Condition ) {
 
-					$value = $this->_getValue($join_by->getValue());
+					$value = $this->_getValue( $join_by->getValue() );
 					$operator = $this->_getSQLQueryWherePart_handleOperator( $join_by->getOperator(), $value );
 
-					$j[] = "\t\t\t".$this->_getColumnName( $join_by->getRelatedProperty() ).$operator.$value;
+					$j[] = "\t\t\t" . $this->_getColumnName( $join_by->getRelatedProperty() ) . $operator . $value;
 
 				}
 			}
 
 
-			$join_qp .= implode( ' AND '.PHP_EOL, $j );
+			$join_qp .= implode( ' AND ' . PHP_EOL, $j );
 		}
 
 		return $join_qp;
@@ -833,7 +834,7 @@ class DataModel_Backend_SQLite extends DataModel_Backend
 	 *
 	 * @return string
 	 */
-	protected function _getSqlQueryGroupPart( ?DataModel_Query $query = null ) : string
+	protected function _getSqlQueryGroupPart( ?DataModel_Query $query = null ): string
 	{
 		$group_by = $query->getGroupBy();
 		if( !$group_by ) {
@@ -858,7 +859,7 @@ class DataModel_Backend_SQLite extends DataModel_Backend
 			$group_by_qp[] = $val;
 		}
 
-		$group_by_qp = PHP_EOL.'GROUP BY'.PHP_EOL."\t".implode( ','.PHP_EOL."\t", $group_by_qp ).PHP_EOL;
+		$group_by_qp = PHP_EOL . 'GROUP BY' . PHP_EOL . "\t" . implode( ',' . PHP_EOL . "\t", $group_by_qp ) . PHP_EOL;
 
 		return $group_by_qp;
 	}
@@ -866,34 +867,34 @@ class DataModel_Backend_SQLite extends DataModel_Backend
 	/**
 	 * @param DataModel_Query_Having|null $query
 	 *
-	 * @param int                    $level (optional)
+	 * @param int $level (optional)
 	 *
 	 * @return string
 	 */
-	protected function _getSqlQueryHavingPart( ?DataModel_Query_Having $query = null, int $level = 0 ) : string
+	protected function _getSqlQueryHavingPart( ?DataModel_Query_Having $query = null, int $level = 0 ): string
 	{
 		if( !$query ) {
 			return '';
 		}
 		$res = '';
 
-		$next_level = $level+1;
+		$next_level = $level + 1;
 		$tab = str_repeat( "\t", $next_level );
 
 		foreach( $query as $qp ) {
 			if( $qp instanceof DataModel_Query_Having ) {
-				$res .= $tab.'('.PHP_EOL.$this->_getSqlQueryHavingPart( $qp, $next_level ).' '.PHP_EOL."\t".')';
+				$res .= $tab . '(' . PHP_EOL . $this->_getSqlQueryHavingPart( $qp, $next_level ) . ' ' . PHP_EOL . "\t" . ')';
 				continue;
 			}
 
 			if(
-				$qp===DataModel_Query::L_O_AND ||
-				$qp===DataModel_Query::L_O_OR
+				$qp === DataModel_Query::L_O_AND ||
+				$qp === DataModel_Query::L_O_OR
 			) {
 				/**
 				 * @var string $qp
 				 */
-				$res .= PHP_EOL.$tab.$qp.PHP_EOL.' ';
+				$res .= PHP_EOL . $tab . $qp . PHP_EOL . ' ';
 				continue;
 			}
 
@@ -907,13 +908,13 @@ class DataModel_Backend_SQLite extends DataModel_Backend
 			$item = $qp->getProperty()->getSelectAs();
 
 
-			$res .= $tab.$this->_getSQLQueryWherePart_handleExpression(
+			$res .= $tab . $this->_getSQLQueryWherePart_handleExpression(
 					$item, $qp->getOperator(), $qp->getValue()
 				);
 		}
 
 		if( $res && !$level ) {
-			$res = PHP_EOL.'HAVING'.PHP_EOL.$res.PHP_EOL;
+			$res = PHP_EOL . 'HAVING' . PHP_EOL . $res . PHP_EOL;
 		}
 
 		return $res;
@@ -924,18 +925,18 @@ class DataModel_Backend_SQLite extends DataModel_Backend
 	 *
 	 * @return mixed
 	 */
-	public function fetchAll( DataModel_Query $query ) : mixed
+	public function fetchAll( DataModel_Query $query ): mixed
 	{
 		return $this->_fetch( $query, 'fetchAll' );
 	}
 
 	/**
 	 * @param DataModel_Query $query
-	 * @param string          $fetch_method
+	 * @param string $fetch_method
 	 *
 	 * @return mixed
 	 */
-	protected function _fetch( DataModel_Query $query, string $fetch_method ) : mixed
+	protected function _fetch( DataModel_Query $query, string $fetch_method ): mixed
 	{
 
 		$data = $this->getDb()->$fetch_method(
@@ -954,20 +955,20 @@ class DataModel_Backend_SQLite extends DataModel_Backend
 	 *
 	 * @return string
 	 */
-	public function createSelectQuery( DataModel_Query $query ) : string
+	public function createSelectQuery( DataModel_Query $query ): string
 	{
 
-		return 'SELECT'.PHP_EOL
-				."\t".$this->_getSQLQuerySelectPart( $query ).PHP_EOL
-			.'FROM'.PHP_EOL
-				."\t".$this->_getSQLQueryTableName( $query )
-					.$this->_getSQLQueryJoinPart( $query )
+		return 'SELECT' . PHP_EOL
+			. "\t" . $this->_getSQLQuerySelectPart( $query ) . PHP_EOL
+			. 'FROM' . PHP_EOL
+			. "\t" . $this->_getSQLQueryTableName( $query )
+			. $this->_getSQLQueryJoinPart( $query )
 
-			.$this->_getSqlQueryWherePart( $query->getWhere() )
-			.$this->_getSqlQueryGroupPart( $query )
-			.$this->_getSqlQueryHavingPart( $query->getHaving() )
-			.$this->_getSqlQueryOrderByPart( $query )
-			.$this->_getSqlQueryLimitPart( $query );
+			. $this->_getSqlQueryWherePart( $query->getWhere() )
+			. $this->_getSqlQueryGroupPart( $query )
+			. $this->_getSqlQueryHavingPart( $query->getHaving() )
+			. $this->_getSqlQueryOrderByPart( $query )
+			. $this->_getSqlQueryLimitPart( $query );
 
 	}
 
@@ -977,7 +978,7 @@ class DataModel_Backend_SQLite extends DataModel_Backend
 	 *
 	 * @return string
 	 */
-	protected function _getSQLQuerySelectPart( DataModel_Query $query ) : string
+	protected function _getSQLQuerySelectPart( DataModel_Query $query ): string
 	{
 		$columns_qp = [];
 
@@ -991,7 +992,7 @@ class DataModel_Backend_SQLite extends DataModel_Backend
 			$select_as = $item->getSelectAs();
 
 			if( $property instanceof DataModel_Definition_Property ) {
-				$columns_qp[] = $this->_getColumnName( $property ).' AS '.$this->_quoteName( $select_as ).'';
+				$columns_qp[] = $this->_getColumnName( $property ) . ' AS ' . $this->_quoteName( $select_as ) . '';
 
 				continue;
 			}
@@ -999,13 +1000,13 @@ class DataModel_Backend_SQLite extends DataModel_Backend
 			if( $property instanceof DataModel_Query_Select_Item_Expression ) {
 				$backend_function_call = $property->toString( $mapper );
 
-				$columns_qp[] = $backend_function_call.' AS '.$this->_quoteName( $select_as ).'';
+				$columns_qp[] = $backend_function_call . ' AS ' . $this->_quoteName( $select_as ) . '';
 				continue;
 			}
 
 		}
 
-		return implode( ','.PHP_EOL."\t", $columns_qp );
+		return implode( ',' . PHP_EOL . "\t", $columns_qp );
 	}
 
 	/**
@@ -1013,7 +1014,7 @@ class DataModel_Backend_SQLite extends DataModel_Backend
 	 *
 	 * @return string
 	 */
-	protected function _getSqlQueryOrderByPart( DataModel_Query $query ) : string
+	protected function _getSqlQueryOrderByPart( DataModel_Query $query ): string
 	{
 		$order_by = $query->getOrderBy();
 
@@ -1040,9 +1041,9 @@ class DataModel_Backend_SQLite extends DataModel_Backend
 			 * @var string $item
 			 */
 			if( $order_by_desc ) {
-				$order_qp[] = $item.' DESC';
+				$order_qp[] = $item . ' DESC';
 			} else {
-				$order_qp[] = $item.' ASC';
+				$order_qp[] = $item . ' ASC';
 			}
 		}
 
@@ -1050,7 +1051,7 @@ class DataModel_Backend_SQLite extends DataModel_Backend
 			return '';
 		}
 
-		return PHP_EOL.'ORDER BY'.PHP_EOL."\t".implode( ','.PHP_EOL."\t", $order_qp ).PHP_EOL;
+		return PHP_EOL . 'ORDER BY' . PHP_EOL . "\t" . implode( ',' . PHP_EOL . "\t", $order_qp ) . PHP_EOL;
 
 	}
 
@@ -1059,7 +1060,7 @@ class DataModel_Backend_SQLite extends DataModel_Backend
 	 *
 	 * @return string
 	 */
-	protected function _getSqlQueryLimitPart( DataModel_Query $query ) : string
+	protected function _getSqlQueryLimitPart( DataModel_Query $query ): string
 	{
 		$limit_qp = '';
 
@@ -1068,9 +1069,9 @@ class DataModel_Backend_SQLite extends DataModel_Backend
 
 		if( $limit ) {
 			if( $offset ) {
-				$limit_qp = PHP_EOL.'LIMIT '.$offset.','.$limit.PHP_EOL;
+				$limit_qp = PHP_EOL . 'LIMIT ' . $offset . ',' . $limit . PHP_EOL;
 			} else {
-				$limit_qp = PHP_EOL.'LIMIT '.$limit.PHP_EOL;
+				$limit_qp = PHP_EOL . 'LIMIT ' . $limit . PHP_EOL;
 			}
 		}
 
@@ -1082,7 +1083,7 @@ class DataModel_Backend_SQLite extends DataModel_Backend
 	 *
 	 * @return mixed
 	 */
-	public function fetchAssoc( DataModel_Query $query ) : mixed
+	public function fetchAssoc( DataModel_Query $query ): mixed
 	{
 		return $this->_fetch( $query, 'fetchAssoc' );
 	}
@@ -1092,7 +1093,7 @@ class DataModel_Backend_SQLite extends DataModel_Backend
 	 *
 	 * @return mixed
 	 */
-	public function fetchPairs( DataModel_Query $query ) : mixed
+	public function fetchPairs( DataModel_Query $query ): mixed
 	{
 		return $this->_fetch( $query, 'fetchPairs' );
 	}
@@ -1102,7 +1103,7 @@ class DataModel_Backend_SQLite extends DataModel_Backend
 	 *
 	 * @return mixed
 	 */
-	public function fetchRow( DataModel_Query $query ) : mixed
+	public function fetchRow( DataModel_Query $query ): mixed
 	{
 		return $this->_fetch( $query, 'fetchRow' );
 	}
@@ -1112,7 +1113,7 @@ class DataModel_Backend_SQLite extends DataModel_Backend
 	 *
 	 * @return mixed
 	 */
-	public function fetchOne( DataModel_Query $query ) : mixed
+	public function fetchOne( DataModel_Query $query ): mixed
 	{
 		return $this->_fetch( $query, 'fetchOne' );
 	}
@@ -1122,7 +1123,7 @@ class DataModel_Backend_SQLite extends DataModel_Backend
 	 *
 	 * @return array
 	 */
-	public function fetchCol( DataModel_Query $query ) : array
+	public function fetchCol( DataModel_Query $query ): array
 	{
 		$data = $this->getDb()->fetchCol(
 			$this->createSelectQuery( $query )
@@ -1136,12 +1137,12 @@ class DataModel_Backend_SQLite extends DataModel_Backend
 		foreach( $data as $i => $d ) {
 			foreach( $query->getSelect() as $item ) {
 				/**
-				 * @var DataModel_Query_Select_Item   $item
+				 * @var DataModel_Query_Select_Item $item
 				 * @var DataModel_Definition_Property $property
 				 */
 				$property = $item->getItem();
 
-				if( !( $property instanceof DataModel_Definition_Property ) ) {
+				if( !($property instanceof DataModel_Definition_Property) ) {
 					continue;
 				}
 
@@ -1163,7 +1164,7 @@ class DataModel_Backend_SQLite extends DataModel_Backend
 	 *
 	 * @return mixed
 	 */
-	protected function unserialize( string $string ) : mixed
+	protected function unserialize( string $string ): mixed
 	{
 		$data = base64_decode( $string );
 

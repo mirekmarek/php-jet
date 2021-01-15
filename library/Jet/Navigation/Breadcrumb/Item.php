@@ -5,6 +5,7 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace Jet;
 
 /**
@@ -51,7 +52,7 @@ class Navigation_Breadcrumb_Item extends BaseObject
 	 *
 	 * @return Mvc_Page_Interface|null
 	 */
-	public function getPage() : Mvc_Page_Interface|null
+	public function getPage(): Mvc_Page_Interface|null
 	{
 		return $this->page;
 	}
@@ -59,7 +60,7 @@ class Navigation_Breadcrumb_Item extends BaseObject
 	/**
 	 * @param Mvc_Page_Interface $page
 	 */
-	public function setPage( Mvc_Page_Interface $page ) : void
+	public function setPage( Mvc_Page_Interface $page ): void
 	{
 		$this->page = $page;
 		$this->URL = $page->getURL();
@@ -70,7 +71,7 @@ class Navigation_Breadcrumb_Item extends BaseObject
 	 *
 	 * @return string
 	 */
-	public function getTitle() : string
+	public function getTitle(): string
 	{
 		return $this->title;
 	}
@@ -79,7 +80,7 @@ class Navigation_Breadcrumb_Item extends BaseObject
 	 *
 	 * @param string $title
 	 */
-	public function setTitle( string $title ) : void
+	public function setTitle( string $title ): void
 	{
 		$this->title = $title;
 	}
@@ -88,7 +89,7 @@ class Navigation_Breadcrumb_Item extends BaseObject
 	 *
 	 * @return string
 	 */
-	public function getURL() : string
+	public function getURL(): string
 	{
 		return $this->URL;
 	}
@@ -106,7 +107,7 @@ class Navigation_Breadcrumb_Item extends BaseObject
 	 *
 	 * @return bool
 	 */
-	public function getIsLast() : bool
+	public function getIsLast(): bool
 	{
 		return $this->is_last;
 	}
@@ -115,7 +116,7 @@ class Navigation_Breadcrumb_Item extends BaseObject
 	 *
 	 * @param bool $is_last
 	 */
-	public function setIsLast( bool $is_last ) : void
+	public function setIsLast( bool $is_last ): void
 	{
 		$this->is_last = (bool)$is_last;
 	}
@@ -123,7 +124,7 @@ class Navigation_Breadcrumb_Item extends BaseObject
 	/**
 	 * @return int
 	 */
-	public function getIndex() : int
+	public function getIndex(): int
 	{
 		return $this->index;
 	}
@@ -131,7 +132,7 @@ class Navigation_Breadcrumb_Item extends BaseObject
 	/**
 	 * @param int $index
 	 */
-	public function setIndex( int $index ) : void
+	public function setIndex( int $index ): void
 	{
 		$this->index = $index;
 	}
@@ -139,7 +140,7 @@ class Navigation_Breadcrumb_Item extends BaseObject
 	/**
 	 * @return bool
 	 */
-	public function getIsActive() : bool
+	public function getIsActive(): bool
 	{
 		return $this->is_active || $this->is_last;
 	}
@@ -147,7 +148,7 @@ class Navigation_Breadcrumb_Item extends BaseObject
 	/**
 	 * @param bool $is_active
 	 */
-	public function setIsActive( bool $is_active ) : void
+	public function setIsActive( bool $is_active ): void
 	{
 		$this->is_active = $is_active;
 	}

@@ -5,12 +5,14 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace JetStudio;
 
 /**
  *
  */
-class ClassParser_Token {
+class ClassParser_Token
+{
 
 	/**
 	 * @var int
@@ -20,33 +22,33 @@ class ClassParser_Token {
 	/**
 	 * @var int|string
 	 */
-	public int|string $id    = '';
+	public int|string $id = '';
 
 	/**
 	 * @var string
 	 */
-	public string $text  = '';
+	public string $text = '';
 
 	/**
 	 * @param bool $include_doc_comment
 	 * @return bool
 	 */
-	public function ignore( bool $include_doc_comment=true ) : bool
+	public function ignore( bool $include_doc_comment = true ): bool
 	{
 		if( $include_doc_comment ) {
 			if(
-				$this->id==T_OPEN_TAG ||
-				$this->id==T_WHITESPACE ||
-				$this->id==T_COMMENT ||
-				$this->id==T_DOC_COMMENT
+				$this->id == T_OPEN_TAG ||
+				$this->id == T_WHITESPACE ||
+				$this->id == T_COMMENT ||
+				$this->id == T_DOC_COMMENT
 			) {
 				return true;
 			}
 		} else {
 			if(
-				$this->id==T_OPEN_TAG ||
-				$this->id==T_WHITESPACE ||
-				$this->id==T_COMMENT
+				$this->id == T_OPEN_TAG ||
+				$this->id == T_WHITESPACE ||
+				$this->id == T_COMMENT
 			) {
 				return true;
 			}
@@ -60,15 +62,15 @@ class ClassParser_Token {
 	/**
 	 * @return string
 	 */
-	public function debug_getInfo() : string
+	public function debug_getInfo(): string
 	{
-		if(is_string($this->id)) {
+		if( is_string( $this->id ) ) {
 			$name = $this->id;
 		} else {
-			$name = token_name($this->id);
+			$name = token_name( $this->id );
 		}
 
-		return $this->index.' '.$name.' :"'.$this->text.'"'.PHP_EOL.PHP_EOL;
+		return $this->index . ' ' . $name . ' :"' . $this->text . '"' . PHP_EOL . PHP_EOL;
 	}
 
 }

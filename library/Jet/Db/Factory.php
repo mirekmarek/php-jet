@@ -5,6 +5,7 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace Jet;
 
 /**
@@ -21,7 +22,7 @@ class Db_Factory
 	/**
 	 * @return string
 	 */
-	public static function getDefaultBackend() : string
+	public static function getDefaultBackend(): string
 	{
 		return static::$default_backend;
 	}
@@ -35,16 +36,15 @@ class Db_Factory
 	}
 
 
-
 	/**
 	 *
-	 * @param array     $config_data (optional)
+	 * @param array $config_data (optional)
 	 *
 	 * @return Db_Backend_Config|Db_Backend_PDO_Config
 	 */
-	public static function getBackendConfigInstance( array $config_data = [] ) : Db_Backend_Config|Db_Backend_PDO_Config
+	public static function getBackendConfigInstance( array $config_data = [] ): Db_Backend_Config|Db_Backend_PDO_Config
 	{
-		$config_class = static::$default_backend.'_Config';
+		$config_class = static::$default_backend . '_Config';
 
 		return new $config_class( $config_data );
 	}
@@ -55,7 +55,7 @@ class Db_Factory
 	 *
 	 * @return Db_Backend_Interface
 	 */
-	public static function getBackendInstance( Db_Backend_Config $connection_config ) : Db_Backend_Interface
+	public static function getBackendInstance( Db_Backend_Config $connection_config ): Db_Backend_Interface
 	{
 		$adapter_class = static::$default_backend;
 

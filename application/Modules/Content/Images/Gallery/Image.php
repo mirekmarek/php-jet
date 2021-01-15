@@ -5,6 +5,7 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace JetApplicationModule\Content\Images;
 
 use Jet\Data_Image;
@@ -113,23 +114,23 @@ class Gallery_Image extends DataModel
 	 *
 	 * @return static|null
 	 */
-	public static function get( string $id ) : static|null
+	public static function get( string $id ): static|null
 	{
 		return static::load( $id );
 	}
 
 	/**
-	 * @param Gallery     $gallery
-	 * @param string      $source_file_path
+	 * @param Gallery $gallery
+	 * @param string $source_file_path
 	 * @param string|null $source_file_name
-	 * @param bool        $do_not_save_immediately
+	 * @param bool $do_not_save_immediately
 	 *
 	 * @return Gallery_Image
 	 */
 	public static function getNewImage( Gallery $gallery,
 	                                    string $source_file_path,
 	                                    ?string $source_file_name = null,
-	                                    bool $do_not_save_immediately = false ) : Gallery_Image
+	                                    bool $do_not_save_immediately = false ): Gallery_Image
 	{
 
 		$image = new static();
@@ -137,7 +138,7 @@ class Gallery_Image extends DataModel
 
 		$image->setGallery( $gallery );
 
-		$offset = ceil( $image->getAllImagesCount()/1000 );
+		$offset = ceil( $image->getAllImagesCount() / 1000 );
 		$offset = $offset ? $offset : 1;
 
 		$image->setOffset( $offset );
@@ -172,7 +173,7 @@ class Gallery_Image extends DataModel
 	/**
 	 * @return string
 	 */
-	public function getId() : string
+	public function getId(): string
 	{
 		return $this->id;
 	}
@@ -180,7 +181,7 @@ class Gallery_Image extends DataModel
 	/**
 	 * @return int
 	 */
-	public function getAllImagesCount() : int
+	public function getAllImagesCount(): int
 	{
 		return static::fetchIDs()->getCount();
 	}
@@ -189,7 +190,7 @@ class Gallery_Image extends DataModel
 	/**
 	 * @return Gallery
 	 */
-	public function getGallery() : Gallery
+	public function getGallery(): Gallery
 	{
 		if( !$this->__gallery ) {
 			$this->__gallery = Gallery::get( $this->gallery_id );
@@ -201,7 +202,7 @@ class Gallery_Image extends DataModel
 	/**
 	 * @param Gallery $gallery
 	 */
-	public function setGallery( Gallery $gallery ) : void
+	public function setGallery( Gallery $gallery ): void
 	{
 		$this->gallery_id = $gallery->getId();
 
@@ -211,7 +212,7 @@ class Gallery_Image extends DataModel
 	/**
 	 * @return int
 	 */
-	public function getOffset() : int
+	public function getOffset(): int
 	{
 		return $this->offset;
 	}
@@ -219,7 +220,7 @@ class Gallery_Image extends DataModel
 	/**
 	 * @param int $offset
 	 */
-	protected function setOffset( int $offset ) : void
+	protected function setOffset( int $offset ): void
 	{
 		$this->offset = (int)$offset;
 	}
@@ -227,49 +228,49 @@ class Gallery_Image extends DataModel
 	/**
 	 * @return string
 	 */
-	public function getOffsetDirPath() : string
+	public function getOffsetDirPath(): string
 	{
-		return $this->getGallery()->getBaseDirPath().$this->getOffset().'/';
+		return $this->getGallery()->getBaseDirPath() . $this->getOffset() . '/';
 	}
 
 	/**
 	 * @return string
 	 */
-	public function getDirPath() : string
+	public function getDirPath(): string
 	{
-		return $this->getOffsetDirPath().$this->getId().'/';
+		return $this->getOffsetDirPath() . $this->getId() . '/';
 	}
 
 	/**
 	 * @return string
 	 */
-	public function getFilePath() : string
+	public function getFilePath(): string
 	{
-		return $this->getDirPath().$this->getFileName();
+		return $this->getDirPath() . $this->getFileName();
 	}
 
 	/**
 	 * @return string
 	 */
-	public function getBaseURI() : string
+	public function getBaseURI(): string
 	{
-		return $this->getGallery()->getBaseURI().$this->getOffset().'/'.$this->getId().'/';
-	}
-
-
-	/**
-	 * @return string
-	 */
-	public function getURI() : string
-	{
-		return $this->getBaseURI().rawurldecode( $this->getFileName() );
+		return $this->getGallery()->getBaseURI() . $this->getOffset() . '/' . $this->getId() . '/';
 	}
 
 
 	/**
 	 * @return string
 	 */
-	public function getFileName() : string
+	public function getURI(): string
+	{
+		return $this->getBaseURI() . rawurldecode( $this->getFileName() );
+	}
+
+
+	/**
+	 * @return string
+	 */
+	public function getFileName(): string
 	{
 		return $this->file_name;
 	}
@@ -277,7 +278,7 @@ class Gallery_Image extends DataModel
 	/**
 	 * @param string $file_name
 	 */
-	protected function setFileName( string $file_name ) : void
+	protected function setFileName( string $file_name ): void
 	{
 		$this->file_name = $file_name;
 	}
@@ -288,7 +289,7 @@ class Gallery_Image extends DataModel
 	 *
 	 * @return Gallery_Image[]
 	 */
-	public static function getList( $gallery_id = '' ) : iterable
+	public static function getList( $gallery_id = '' ): iterable
 	{
 		$where = [];
 
@@ -302,7 +303,7 @@ class Gallery_Image extends DataModel
 	/**
 	 * @return string
 	 */
-	public function getGalleryId() : string
+	public function getGalleryId(): string
 	{
 		return $this->gallery_id;
 	}
@@ -310,7 +311,7 @@ class Gallery_Image extends DataModel
 	/**
 	 * @return string
 	 */
-	public function getFileMimeType() : string
+	public function getFileMimeType(): string
 	{
 		return $this->file_mime_type;
 	}
@@ -318,7 +319,7 @@ class Gallery_Image extends DataModel
 	/**
 	 * @param string $file_mime_type
 	 */
-	protected function setFileMimeType( string $file_mime_type ) : void
+	protected function setFileMimeType( string $file_mime_type ): void
 	{
 		$this->file_mime_type = $file_mime_type;
 	}
@@ -326,7 +327,7 @@ class Gallery_Image extends DataModel
 	/**
 	 * @return int
 	 */
-	public function getFileSize() : int
+	public function getFileSize(): int
 	{
 		return $this->file_size;
 	}
@@ -334,7 +335,7 @@ class Gallery_Image extends DataModel
 	/**
 	 * @param int $file_size
 	 */
-	protected function setFileSize( int $file_size ) : void
+	protected function setFileSize( int $file_size ): void
 	{
 		$this->file_size = (int)$file_size;
 	}
@@ -342,7 +343,7 @@ class Gallery_Image extends DataModel
 	/**
 	 * @return int
 	 */
-	public function getImageSizeH() : int
+	public function getImageSizeH(): int
 	{
 		return $this->image_size_h;
 	}
@@ -350,7 +351,7 @@ class Gallery_Image extends DataModel
 	/**
 	 * @param int $image_size_h
 	 */
-	protected function setImageSizeH( int $image_size_h ) : void
+	protected function setImageSizeH( int $image_size_h ): void
 	{
 		$this->image_size_h = (int)$image_size_h;
 	}
@@ -358,7 +359,7 @@ class Gallery_Image extends DataModel
 	/**
 	 * @return int
 	 */
-	public function getImageSizeW() : int
+	public function getImageSizeW(): int
 	{
 		return $this->image_size_w;
 	}
@@ -366,23 +367,23 @@ class Gallery_Image extends DataModel
 	/**
 	 * @param int $image_size_w
 	 */
-	protected function setImageSizeW( int $image_size_w ) : void
+	protected function setImageSizeW( int $image_size_w ): void
 	{
 		$this->image_size_w = (int)$image_size_w;
 	}
 
 	/**
-	 * @param int  $maximal_size_w
-	 * @param int  $maximal_size_h
+	 * @param int $maximal_size_w
+	 * @param int $maximal_size_h
 	 *
 	 * @return Gallery_Image_Thumbnail
 	 */
-	public function getThumbnail( int $maximal_size_w, int $maximal_size_h ) : Gallery_Image_Thumbnail
+	public function getThumbnail( int $maximal_size_w, int $maximal_size_h ): Gallery_Image_Thumbnail
 	{
 		$maximal_size_w = (int)$maximal_size_w;
 		$maximal_size_h = (int)$maximal_size_h;
 
-		$thb = new Gallery_Image_Thumbnail($this, $maximal_size_w, $maximal_size_h);
+		$thb = new Gallery_Image_Thumbnail( $this, $maximal_size_w, $maximal_size_h );
 
 		return $thb;
 	}
@@ -390,11 +391,11 @@ class Gallery_Image extends DataModel
 	/**
 	 *
 	 */
-	public function afterDelete() : void
+	public function afterDelete(): void
 	{
 		$path = $this->getDirPath();
 
-		if(IO_Dir::exists($path)) {
+		if( IO_Dir::exists( $path ) ) {
 			IO_Dir::remove( $path );
 		}
 	}
@@ -403,12 +404,12 @@ class Gallery_Image extends DataModel
 	/**
 	 *
 	 */
-	public function jsonSerialize() : array
+	public function jsonSerialize(): array
 	{
 
 		$data = parent::jsonSerialize();
 
-		$data['URL'] = Http_Request::baseURL().$this->getURI();
+		$data['URL'] = Http_Request::baseURL() . $this->getURI();
 
 		return $data;
 	}

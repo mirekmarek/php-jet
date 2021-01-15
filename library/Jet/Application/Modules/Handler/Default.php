@@ -5,6 +5,7 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace Jet;
 
 /**
@@ -69,7 +70,7 @@ class Application_Modules_Handler_Default extends Application_Modules_Handler
 	/**
 	 * @return string
 	 */
-	public function getModuleManifestFileName() : string
+	public function getModuleManifestFileName(): string
 	{
 		return $this->module_manifest_file_name;
 	}
@@ -85,10 +86,10 @@ class Application_Modules_Handler_Default extends Application_Modules_Handler
 	/**
 	 * @return string
 	 */
-	public function getInstalledModulesListFilePath() : string
+	public function getInstalledModulesListFilePath(): string
 	{
-		if(!$this->installed_modules_list_file_path) {
-			$this->installed_modules_list_file_path = SysConf_Path::getData().'installed_modules_list.php';
+		if( !$this->installed_modules_list_file_path ) {
+			$this->installed_modules_list_file_path = SysConf_Path::getData() . 'installed_modules_list.php';
 		}
 		return $this->installed_modules_list_file_path;
 	}
@@ -104,10 +105,10 @@ class Application_Modules_Handler_Default extends Application_Modules_Handler
 	/**
 	 * @return string
 	 */
-	public function getActivatedModulesListFilePath() : string
+	public function getActivatedModulesListFilePath(): string
 	{
-		if(!$this->activated_modules_list_file_path) {
-			$this->activated_modules_list_file_path = SysConf_Path::getData().'activated_modules_list.php';
+		if( !$this->activated_modules_list_file_path ) {
+			$this->activated_modules_list_file_path = SysConf_Path::getData() . 'activated_modules_list.php';
 		}
 		return $this->activated_modules_list_file_path;
 	}
@@ -127,20 +128,20 @@ class Application_Modules_Handler_Default extends Application_Modules_Handler
 	 *
 	 * @return bool
 	 */
-	public function moduleExists( string $module_name ) : bool
+	public function moduleExists( string $module_name ): bool
 	{
-		if( $this->all_modules_list===null ) {
+		if( $this->all_modules_list === null ) {
 			$this->allModulesList();
 		}
 
-		return in_array($module_name, $this->all_modules_list);
+		return in_array( $module_name, $this->all_modules_list );
 	}
 
 	/**
 	 *
 	 * @return Application_Module_Manifest[]
 	 */
-	public function activatedModulesList() : array
+	public function activatedModulesList(): array
 	{
 		$this->_readActivatedModulesList();
 
@@ -159,7 +160,7 @@ class Application_Modules_Handler_Default extends Application_Modules_Handler
 	 *
 	 * @return Application_Module_Manifest[]
 	 */
-	public function installedModulesList() : array
+	public function installedModulesList(): array
 	{
 		$this->_readInstalledModulesList();
 
@@ -172,9 +173,9 @@ class Application_Modules_Handler_Default extends Application_Modules_Handler
 	 *
 	 * @return Application_Module_Manifest[]
 	 */
-	public function allModulesList() : array
+	public function allModulesList(): array
 	{
-		if( $this->all_modules_list===null ) {
+		if( $this->all_modules_list === null ) {
 			$this->all_modules_list = [];
 
 
@@ -205,20 +206,21 @@ class Application_Modules_Handler_Default extends Application_Modules_Handler
 
 		foreach( $modules as $module_dir ) {
 
-			if( !IO_File::exists( $base_dir.$module_dir.'/'.$this->getModuleManifestFileName() ) ) {
+			if( !IO_File::exists( $base_dir . $module_dir . '/' . $this->getModuleManifestFileName() ) ) {
 
-				$next_module_name_prefix = ( $module_name_prefix ) ?
-					$module_name_prefix.$module_dir.'\\'
+				$next_module_name_prefix = ($module_name_prefix)
+					?
+					$module_name_prefix . $module_dir . '\\'
 					:
-					$module_dir.'\\';
+					$module_dir . '\\';
 
 				$this->_readModulesList(
-					$base_dir.$module_dir.'/', $next_module_name_prefix
+					$base_dir . $module_dir . '/', $next_module_name_prefix
 				);
 				continue;
 			}
 
-			$module_name = str_replace( '\\', '.', $module_name_prefix.$module_dir );
+			$module_name = str_replace( '\\', '.', $module_name_prefix . $module_dir );
 
 			$module_manifest = new $manifest_class_name( $module_name );
 
@@ -240,12 +242,12 @@ class Application_Modules_Handler_Default extends Application_Modules_Handler
 	 *
 	 * @return bool
 	 */
-	public function moduleIsInstalled( string $module_name ) : bool
+	public function moduleIsInstalled( string $module_name ): bool
 	{
 
 		$this->_readInstalledModulesList();
 
-		return in_array($module_name, $this->installed_modules_list );
+		return in_array( $module_name, $this->installed_modules_list );
 	}
 
 	/**
@@ -254,7 +256,7 @@ class Application_Modules_Handler_Default extends Application_Modules_Handler
 	 *
 	 * @return bool
 	 */
-	public function moduleIsActivated( string $module_name ) : bool
+	public function moduleIsActivated( string $module_name ): bool
 	{
 
 		$this->_readActivatedModulesList();
@@ -263,21 +265,19 @@ class Application_Modules_Handler_Default extends Application_Modules_Handler
 	}
 
 
-
-
 	/**
 	 * @param string $module_name
 	 *
 	 * @throws Application_Modules_Exception
 	 */
-	protected function _checkModuleExists( string $module_name ) : void
+	protected function _checkModuleExists( string $module_name ): void
 	{
 
 		$this->allModulesList();
 
 		if( !in_array( $module_name, $this->all_modules_list ) ) {
 			throw new Application_Modules_Exception(
-				'Module \''.$module_name.'\' does not exist ', Application_Modules_Exception::CODE_MODULE_DOES_NOT_EXIST
+				'Module \'' . $module_name . '\' does not exist ', Application_Modules_Exception::CODE_MODULE_DOES_NOT_EXIST
 			);
 		}
 	}
@@ -288,7 +288,7 @@ class Application_Modules_Handler_Default extends Application_Modules_Handler
 	 *
 	 * @throws Application_Modules_Exception
 	 */
-	public function installModule( string $module_name ) : void
+	public function installModule( string $module_name ): void
 	{
 
 		$this->_checkModuleExists( $module_name );
@@ -297,14 +297,14 @@ class Application_Modules_Handler_Default extends Application_Modules_Handler
 
 		if( $module_manifest->isInstalled() ) {
 			throw new Application_Modules_Exception(
-				'Module \''.$module_name.'\' is already installed',
+				'Module \'' . $module_name . '\' is already installed',
 				Application_Modules_Exception::CODE_MODULE_ALREADY_INSTALLED
 			);
 		}
 
 		if( !$module_manifest->isCompatible() ) {
 			throw new Application_Modules_Exception(
-				'Module \''.$module_name.'\' is not compatible with this system.',
+				'Module \'' . $module_name . '\' is not compatible with this system.',
 				Application_Modules_Exception::CODE_MODULE_IS_NOT_COMPATIBLE
 			);
 		}
@@ -340,7 +340,7 @@ class Application_Modules_Handler_Default extends Application_Modules_Handler
 	 *
 	 * @throws Application_Modules_Exception
 	 */
-	public function uninstallModule( string $module_name ) : void
+	public function uninstallModule( string $module_name ): void
 	{
 
 		$this->_checkModuleExists( $module_name );
@@ -349,7 +349,7 @@ class Application_Modules_Handler_Default extends Application_Modules_Handler
 
 		if( !$module_manifest->isInstalled() ) {
 			throw new Application_Modules_Exception(
-				'Module \''.$module_name.'\' is not installed',
+				'Module \'' . $module_name . '\' is not installed',
 				Application_Modules_Exception::CODE_MODULE_IS_NOT_INSTALLED
 			);
 		}
@@ -404,7 +404,7 @@ class Application_Modules_Handler_Default extends Application_Modules_Handler
 	 *
 	 * @throws Application_Modules_Exception
 	 */
-	public function activateModule( string $module_name ) : void
+	public function activateModule( string $module_name ): void
 	{
 
 		$this->_checkModuleExists( $module_name );
@@ -413,7 +413,7 @@ class Application_Modules_Handler_Default extends Application_Modules_Handler
 
 		if( !$module_manifest->isInstalled() ) {
 			throw new Application_Modules_Exception(
-				'Module \''.$module_name.'\' is not installed',
+				'Module \'' . $module_name . '\' is not installed',
 				Application_Modules_Exception::CODE_MODULE_IS_NOT_INSTALLED
 			);
 		}
@@ -433,7 +433,7 @@ class Application_Modules_Handler_Default extends Application_Modules_Handler
 	 *
 	 * @throws Application_Modules_Exception
 	 */
-	public function deactivateModule( string $module_name ) : void
+	public function deactivateModule( string $module_name ): void
 	{
 
 		$this->_checkModuleExists( $module_name );
@@ -442,7 +442,7 @@ class Application_Modules_Handler_Default extends Application_Modules_Handler
 
 		if( !$module_manifest->isInstalled() ) {
 			throw new Application_Modules_Exception(
-				'Module \''.$module_name.'\' is not installed',
+				'Module \'' . $module_name . '\' is not installed',
 				Application_Modules_Exception::CODE_MODULE_IS_NOT_INSTALLED
 			);
 		}
@@ -466,16 +466,15 @@ class Application_Modules_Handler_Default extends Application_Modules_Handler
 	}
 
 
-
 	/**
 	 *
 	 * @param string $module_name
 	 *
 	 * @return Application_Module_Manifest
 	 */
-	public function moduleManifest( string $module_name ) : Application_Module_Manifest
+	public function moduleManifest( string $module_name ): Application_Module_Manifest
 	{
-		if(!isset($this->module_manifest[$module_name])) {
+		if( !isset( $this->module_manifest[$module_name] ) ) {
 			$manifest_class_name = Application_Factory::getModuleManifestClassName();
 
 			$this->module_manifest[$module_name] = new $manifest_class_name( $module_name );
@@ -488,20 +487,20 @@ class Application_Modules_Handler_Default extends Application_Modules_Handler
 	 *
 	 * @param string $module_name
 	 *
+	 * @return Application_Module
 	 * @throws Application_Modules_Exception
 	 *
-	 * @return Application_Module
 	 */
-	public function moduleInstance( string $module_name ) : Application_Module
+	public function moduleInstance( string $module_name ): Application_Module
 	{
 
 		if( isset( $this->module_instance[$module_name] ) ) {
 			return $this->module_instance[$module_name];
 		}
 
-		if(!$this->moduleIsActivated($module_name)) {
+		if( !$this->moduleIsActivated( $module_name ) ) {
 			throw new Application_Modules_Exception(
-				'Module \''.$module_name.'\' does not exist, is not installed or is not activated',
+				'Module \'' . $module_name . '\' does not exist, is not installed or is not activated',
 				Application_Modules_Exception::CODE_MODULE_DOES_NOT_EXIST
 			);
 		}
@@ -511,9 +510,9 @@ class Application_Modules_Handler_Default extends Application_Modules_Handler
 		$module_dir = $module_manifest->getModuleDir();
 
 		/** @noinspection PhpIncludeInspection */
-		require_once $module_dir.'Main.php';
+		require_once $module_dir . 'Main.php';
 
-		$class_name = $module_manifest->getNamespace().'Main';
+		$class_name = $module_manifest->getNamespace() . 'Main';
 
 		$module = new $class_name( $module_manifest );
 
@@ -526,12 +525,12 @@ class Application_Modules_Handler_Default extends Application_Modules_Handler
 	/**
 	 *
 	 */
-	protected function _readActivatedModulesList() : void
+	protected function _readActivatedModulesList(): void
 	{
-		if( $this->activated_modules_list===null ) {
+		if( $this->activated_modules_list === null ) {
 			$this->activated_modules_list = [];
 
-			if(IO_File::exists($this->getActivatedModulesListFilePath())) {
+			if( IO_File::exists( $this->getActivatedModulesListFilePath() ) ) {
 				$this->activated_modules_list = require $this->getActivatedModulesListFilePath();
 			}
 		}
@@ -542,12 +541,12 @@ class Application_Modules_Handler_Default extends Application_Modules_Handler
 	 *
 	 *
 	 */
-	protected function _readInstalledModulesList() : void
+	protected function _readInstalledModulesList(): void
 	{
-		if( $this->installed_modules_list===null ) {
+		if( $this->installed_modules_list === null ) {
 			$this->installed_modules_list = [];
 
-			if(IO_File::exists($this->getInstalledModulesListFilePath())) {
+			if( IO_File::exists( $this->getInstalledModulesListFilePath() ) ) {
 				$this->installed_modules_list = require $this->getInstalledModulesListFilePath();
 			}
 		}
@@ -557,11 +556,11 @@ class Application_Modules_Handler_Default extends Application_Modules_Handler
 	/**
 	 *
 	 */
-	protected function _saveInstalledModulesList() : void
+	protected function _saveInstalledModulesList(): void
 	{
 		IO_File::write(
 			$this->getInstalledModulesListFilePath(),
-			'<?php'.PHP_EOL.' return '.var_export( $this->installed_modules_list, true ).';'.PHP_EOL
+			'<?php' . PHP_EOL . ' return ' . var_export( $this->installed_modules_list, true ) . ';' . PHP_EOL
 		);
 		Mvc_Cache::reset();
 	}
@@ -569,11 +568,11 @@ class Application_Modules_Handler_Default extends Application_Modules_Handler
 	/**
 	 *
 	 */
-	protected function _saveActivatedModulesList() : void
+	protected function _saveActivatedModulesList(): void
 	{
 		IO_File::write(
 			$this->getActivatedModulesListFilePath(),
-			'<?php'.PHP_EOL.' return '.var_export( $this->activated_modules_list, true ).';'.PHP_EOL
+			'<?php' . PHP_EOL . ' return ' . var_export( $this->activated_modules_list, true ) . ';' . PHP_EOL
 		);
 		Mvc_Cache::reset();
 	}

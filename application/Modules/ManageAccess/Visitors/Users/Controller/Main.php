@@ -5,6 +5,7 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace JetApplicationModule\ManageAccess\Visitors\Users;
 
 use JetApplication\Auth_Visitor_User as User;
@@ -39,33 +40,36 @@ class Controller_Main extends Mvc_Controller_Default
 	 *
 	 * @return Mvc_Controller_Router_AddEditDelete
 	 */
-	public function getControllerRouter() : Mvc_Controller_Router_AddEditDelete
+	public function getControllerRouter(): Mvc_Controller_Router_AddEditDelete
 	{
 		if( !$this->router ) {
 			$this->router = new Mvc_Controller_Router_AddEditDelete(
 				$this,
-				function($id) {
-					return (bool)($this->user = User::get($id));
+				function( $id ) {
+					return (bool)($this->user = User::get( $id ));
 				},
 				[
-					'listing'=> Main::ACTION_GET_USER,
-					'view'   => Main::ACTION_GET_USER,
-					'add'    => Main::ACTION_ADD_USER,
-					'edit'   => Main::ACTION_UPDATE_USER,
-					'delete' => Main::ACTION_DELETE_USER,
+					'listing' => Main::ACTION_GET_USER,
+					'view'    => Main::ACTION_GET_USER,
+					'add'     => Main::ACTION_ADD_USER,
+					'edit'    => Main::ACTION_UPDATE_USER,
+					'delete'  => Main::ACTION_DELETE_USER,
 				]
 			);
 
-			$this->router->addAction('reset_password', Main::ACTION_UPDATE_USER)
+			$this->router->addAction( 'reset_password', Main::ACTION_UPDATE_USER )
 				->setResolver( function() {
 					return (
-						Http_Request::GET()->getString('action')=='reset_password' &&
-						($this->user = User::get(Http_Request::GET()->getInt('id')))
+						Http_Request::GET()->getString( 'action' ) == 'reset_password' &&
+						($this->user = User::get( Http_Request::GET()->getInt( 'id' ) ))
 					);
 				} )
-				->setURICreator( function($id) {
-					return Http_Request::currentURI(['id'=>$id, 'action'=>'reset_password']);
-				});
+				->setURICreator( function( $id ) {
+					return Http_Request::currentURI( [
+						'id' => $id,
+						'action' => 'reset_password'
+					] );
+				} );
 		}
 
 		return $this->router;
@@ -74,7 +78,7 @@ class Controller_Main extends Mvc_Controller_Default
 	/**
 	 * @param string $current_label
 	 */
-	protected function _setBreadcrumbNavigation( $current_label = '' ) : void
+	protected function _setBreadcrumbNavigation( $current_label = '' ): void
 	{
 		UI_module::initBreadcrumb();
 
@@ -86,14 +90,14 @@ class Controller_Main extends Mvc_Controller_Default
 	/**
 	 *
 	 */
-	public function listing_Action() : void
+	public function listing_Action(): void
 	{
 		$this->_setBreadcrumbNavigation();
 
 		$listing = new Listing();
 		$listing->handle();
 
-		$this->view->setVar( 'filter_form', $listing->filter_getForm());
+		$this->view->setVar( 'filter_form', $listing->filter_getForm() );
 		$this->view->setVar( 'grid', $listing->getGrid() );
 
 		$this->output( 'list' );
@@ -102,12 +106,12 @@ class Controller_Main extends Mvc_Controller_Default
 	/**
 	 *
 	 */
-	public function add_Action() : void
+	public function add_Action(): void
 	{
 		$this->_setBreadcrumbNavigation( Tr::_( 'Create a new User' ) );
 
 		$user = new User();
-		$user->setPasswordIsValid(false);
+		$user->setPasswordIsValid( false );
 
 
 		$form = $user->getAddForm();
@@ -115,7 +119,7 @@ class Controller_Main extends Mvc_Controller_Default
 		if( $user->catchAddForm() ) {
 			$password = User::generatePassword();
 			$user->setPassword( $password );
-			$user->setPasswordIsValid(false);
+			$user->setPasswordIsValid( false );
 
 			$user->save();
 
@@ -124,10 +128,10 @@ class Controller_Main extends Mvc_Controller_Default
 			$user->sendWelcomeEmail( $password );
 
 			UI_messages::success(
-				Tr::_( 'User <b>%USERNAME%</b> has been created', [ 'USERNAME' => $user->getUsername() ] )
+				Tr::_( 'User <b>%USERNAME%</b> has been created', ['USERNAME' => $user->getUsername()] )
 			);
 
-			Http_Headers::reload( ['id'=>$user->getId()], ['action'] );
+			Http_Headers::reload( ['id' => $user->getId()], ['action'] );
 		}
 
 		$this->view->setVar( 'form', $form );
@@ -140,12 +144,12 @@ class Controller_Main extends Mvc_Controller_Default
 	/**
 	 *
 	 */
-	public function reset_password_Action() : void
+	public function reset_password_Action(): void
 	{
 		$user = $this->user;
 
 		$user->resetPassword();
-		UI_messages::success( Tr::_( 'Password has been re-generated', [ 'USERNAME' => $user->getUsername() ] ) );
+		UI_messages::success( Tr::_( 'Password has been re-generated', ['USERNAME' => $user->getUsername()] ) );
 		Http_Headers::reload( [], ['action'] );
 
 	}
@@ -153,11 +157,11 @@ class Controller_Main extends Mvc_Controller_Default
 	/**
 	 *
 	 */
-	public function edit_Action() : void
+	public function edit_Action(): void
 	{
 		$user = $this->user;
 
-		$this->_setBreadcrumbNavigation( Tr::_( 'Edit user account <b>%USERNAME%</b>', [ 'USERNAME' => $user->getUsername() ] ) );
+		$this->_setBreadcrumbNavigation( Tr::_( 'Edit user account <b>%USERNAME%</b>', ['USERNAME' => $user->getUsername()] ) );
 
 		$form = $user->getEditForm();
 
@@ -167,7 +171,7 @@ class Controller_Main extends Mvc_Controller_Default
 			$this->logAllowedAction( 'User updated', $user->getId(), $user->getUsername(), $user );
 
 			UI_messages::success(
-				Tr::_( 'User <b>%USERNAME%</b> has been updated', [ 'USERNAME' => $user->getUsername() ] )
+				Tr::_( 'User <b>%USERNAME%</b> has been updated', ['USERNAME' => $user->getUsername()] )
 			);
 
 			Http_Headers::reload();
@@ -183,12 +187,12 @@ class Controller_Main extends Mvc_Controller_Default
 	/**
 	 *
 	 */
-	public function view_Action() : void
+	public function view_Action(): void
 	{
 		$user = $this->user;
 
 		$this->_setBreadcrumbNavigation(
-			Tr::_( 'User account detail <b>%USERNAME%</b>', [ 'USERNAME' => $user->getUsername() ] )
+			Tr::_( 'User account detail <b>%USERNAME%</b>', ['USERNAME' => $user->getUsername()] )
 		);
 
 		$form = $user->getEditForm();
@@ -205,23 +209,26 @@ class Controller_Main extends Mvc_Controller_Default
 	/**
 	 *
 	 */
-	public function delete_Action() : void
+	public function delete_Action(): void
 	{
 		$user = $this->user;
 
 		$this->_setBreadcrumbNavigation(
-			Tr::_( 'Delete user account <b>%USERNAME%</b>', [ 'USERNAME' => $user->getUsername() ] )
+			Tr::_( 'Delete user account <b>%USERNAME%</b>', ['USERNAME' => $user->getUsername()] )
 		);
 
-		if( Http_Request::POST()->getString( 'delete' )=='yes' ) {
+		if( Http_Request::POST()->getString( 'delete' ) == 'yes' ) {
 			$user->delete();
 			$this->logAllowedAction( 'User deleted', $user->getId(), $user->getUsername(), $user );
 
 			UI_messages::info(
-				Tr::_( 'User <b>%USERNAME%</b> has been deleted', [ 'USERNAME' => $user->getUsername() ] )
+				Tr::_( 'User <b>%USERNAME%</b> has been deleted', ['USERNAME' => $user->getUsername()] )
 			);
 
-			Http_Headers::reload([], ['action', 'id']);
+			Http_Headers::reload( [], [
+				'action',
+				'id'
+			] );
 		}
 
 

@@ -6,18 +6,18 @@ use Jet\Tr;
 
 $site = Sites::getCurrentSite();
 
-if($site) {
+if( $site ) {
 	return;
 }
 ?>
 <div class="row" id="main-toolbar">
 	<div class="col-md-12 toolbar">
-		<?=UI::button_create(Tr::_('Create a new site'))->setOnclick('Sites.createSite.openDialog()')?>
+		<?= UI::button_create( Tr::_( 'Create a new site' ) )->setOnclick( 'Sites.createSite.openDialog()' ) ?>
 	</div>
 </div>
 <div class="row" id="main-col">
 	<div class="col-md-12">
-		<?=Application::getGeneralView()->render('messages');?>
-		<?=Application::getView()->render('sites_list');?>
+		<?= Application::getGeneralView()->render( 'messages' ); ?>
+		<?= Application::getView()->render( 'sites_list' ); ?>
 	</div>
 </div>

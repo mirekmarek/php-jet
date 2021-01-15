@@ -5,63 +5,65 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace JetStudio;
 
 /**
  *
  */
-class ProjectConf_Path {
+class ProjectConf_Path
+{
 	/**
 	 * @var string
 	 */
-	protected static string $base =    '';
+	protected static string $base = '';
 	/**
 	 * @var string
 	 */
-	protected static string $sites  =  '';
+	protected static string $sites = '';
 	/**
 	 * @var string
 	 */
-	protected static string $logs =    '';
+	protected static string $logs = '';
 	/**
 	 * @var string
 	 */
-	protected static string $tmp =     '';
+	protected static string $tmp = '';
 	/**
 	 * @var string
 	 */
-	protected static string $cache =   '';
+	protected static string $cache = '';
 
 	/**
 	 * @var string
 	 */
-	protected static string $application =  '';
-	
-	/**
-	 * @var string
-	 */
-	protected static string $application_classes =  '';
+	protected static string $application = '';
 
 	/**
 	 * @var string
 	 */
-	protected static string $application_modules =  '';
-	
+	protected static string $application_classes = '';
+
 	/**
 	 * @var string
 	 */
-	protected static string $config =       '';
+	protected static string $application_modules = '';
+
 	/**
 	 * @var string
 	 */
-	protected static string $data =         '';
+	protected static string $config = '';
+	/**
+	 * @var string
+	 */
+	protected static string $data = '';
 	/**
 	 * @var string
 	 */
 	protected static string $dictionaries = '';
 
 	/**
-	 * @var string 
+	 * @var string
 	 */
 	protected static string $templates = '';
 
@@ -69,26 +71,26 @@ class ProjectConf_Path {
 	 * @param string $what
 	 * @throws ProjectConf_Path_Exception
 	 */
-	protected static function _check( string $what ) : void
+	protected static function _check( string $what ): void
 	{
-		if(!static::$$what) {
-			throw new ProjectConf_Path_Exception('Path '.$what.' is not set');
+		if( !static::$$what ) {
+			throw new ProjectConf_Path_Exception( 'Path ' . $what . ' is not set' );
 		}
 	}
 
 	/**
 	 * @return string
 	 */
-	public static function getBase() : string
+	public static function getBase(): string
 	{
-		static::_check('base');
+		static::_check( 'base' );
 		return static::$base;
 	}
 
 	/**
 	 * @param string $base
 	 */
-	public static function setBase( string $base ) : void
+	public static function setBase( string $base ): void
 	{
 		static::$base = $base;
 	}
@@ -96,16 +98,16 @@ class ProjectConf_Path {
 	/**
 	 * @return string
 	 */
-	public static function getSites() : string
+	public static function getSites(): string
 	{
-		static::_check('sites');
+		static::_check( 'sites' );
 		return static::$sites;
 	}
 
 	/**
 	 * @param string $sites
 	 */
-	public static function setSites( string $sites ) : void
+	public static function setSites( string $sites ): void
 	{
 		static::$sites = $sites;
 	}
@@ -113,16 +115,16 @@ class ProjectConf_Path {
 	/**
 	 * @return string
 	 */
-	public static function getLogs() : string
+	public static function getLogs(): string
 	{
-		static::_check('logs');
+		static::_check( 'logs' );
 		return static::$logs;
 	}
 
 	/**
 	 * @param string $logs
 	 */
-	public static function setLogs( string $logs ) : void
+	public static function setLogs( string $logs ): void
 	{
 		static::$logs = $logs;
 	}
@@ -130,16 +132,16 @@ class ProjectConf_Path {
 	/**
 	 * @return string
 	 */
-	public static function getTmp() : string
+	public static function getTmp(): string
 	{
-		static::_check('tmp');
+		static::_check( 'tmp' );
 		return static::$tmp;
 	}
 
 	/**
 	 * @param string $tmp
 	 */
-	public static function setTmp( string $tmp ) : void
+	public static function setTmp( string $tmp ): void
 	{
 		static::$tmp = $tmp;
 	}
@@ -147,16 +149,16 @@ class ProjectConf_Path {
 	/**
 	 * @return string
 	 */
-	public static function getCache() : string
+	public static function getCache(): string
 	{
-		static::_check('cache');
+		static::_check( 'cache' );
 		return static::$cache;
 	}
 
 	/**
 	 * @param string $cache
 	 */
-	public static function setCache( string $cache ) : void
+	public static function setCache( string $cache ): void
 	{
 		static::$cache = $cache;
 	}
@@ -164,16 +166,16 @@ class ProjectConf_Path {
 	/**
 	 * @return string
 	 */
-	public static function getApplication() : string
+	public static function getApplication(): string
 	{
-		static::_check('application');
+		static::_check( 'application' );
 		return static::$application;
 	}
 
 	/**
 	 * @param string $application
 	 */
-	public static function setApplication( string $application ) : void
+	public static function setApplication( string $application ): void
 	{
 		static::$application = $application;
 	}
@@ -181,16 +183,16 @@ class ProjectConf_Path {
 	/**
 	 * @return string
 	 */
-	public static function getApplicationClasses() : string
+	public static function getApplicationClasses(): string
 	{
-		static::_check('application_classes');
+		static::_check( 'application_classes' );
 		return static::$application_classes;
 	}
 
 	/**
 	 * @param string $application_classes
 	 */
-	public static function setApplicationClasses( string $application_classes ) : void
+	public static function setApplicationClasses( string $application_classes ): void
 	{
 		static::$application_classes = $application_classes;
 	}
@@ -199,16 +201,16 @@ class ProjectConf_Path {
 	/**
 	 * @return string
 	 */
-	public static function getApplicationModules() : string
+	public static function getApplicationModules(): string
 	{
-		static::_check('application_modules');
+		static::_check( 'application_modules' );
 		return static::$application_modules;
 	}
 
 	/**
 	 * @param string $application_modules
 	 */
-	public static function setApplicationModules( string $application_modules ) : void
+	public static function setApplicationModules( string $application_modules ): void
 	{
 		static::$application_modules = $application_modules;
 	}
@@ -216,16 +218,16 @@ class ProjectConf_Path {
 	/**
 	 * @return string
 	 */
-	public static function getConfig() : string
+	public static function getConfig(): string
 	{
-		static::_check('config');
+		static::_check( 'config' );
 		return static::$config;
 	}
 
 	/**
 	 * @param string $config
 	 */
-	public static function setConfig( string $config ) : void
+	public static function setConfig( string $config ): void
 	{
 		static::$config = $config;
 	}
@@ -233,16 +235,16 @@ class ProjectConf_Path {
 	/**
 	 * @return string
 	 */
-	public static function getData() : string
+	public static function getData(): string
 	{
-		static::_check('data');
+		static::_check( 'data' );
 		return static::$data;
 	}
 
 	/**
 	 * @param string $data
 	 */
-	public static function setData( string $data ) : void
+	public static function setData( string $data ): void
 	{
 		static::$data = $data;
 	}
@@ -250,16 +252,16 @@ class ProjectConf_Path {
 	/**
 	 * @return string
 	 */
-	public static function getDictionaries() : string
+	public static function getDictionaries(): string
 	{
-		static::_check('dictionaries');
+		static::_check( 'dictionaries' );
 		return static::$dictionaries;
 	}
 
 	/**
 	 * @param string $dictionaries
 	 */
-	public static function setDictionaries( string $dictionaries ) : void
+	public static function setDictionaries( string $dictionaries ): void
 	{
 		static::$dictionaries = $dictionaries;
 	}
@@ -267,16 +269,16 @@ class ProjectConf_Path {
 	/**
 	 * @return string
 	 */
-	public static function getTemplates() : string
+	public static function getTemplates(): string
 	{
-		static::_check('templates');
+		static::_check( 'templates' );
 		return static::$templates;
 	}
 
 	/**
 	 * @param string $templates
 	 */
-	public static function setTemplates( string $templates ) : void
+	public static function setTemplates( string $templates ): void
 	{
 		static::$templates = $templates;
 	}

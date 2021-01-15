@@ -5,6 +5,7 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace Jet;
 
 /**
@@ -49,7 +50,7 @@ class Navigation_Menu extends BaseObject
 	 *
 	 * @param string $id
 	 * @param string $label
-	 * @param int    $index
+	 * @param int $index
 	 * @param string $icon
 	 *
 	 */
@@ -68,7 +69,7 @@ class Navigation_Menu extends BaseObject
 	/**
 	 * @return Navigation_Menu|null
 	 */
-	public function getParentMenu() : Navigation_Menu|null
+	public function getParentMenu(): Navigation_Menu|null
 	{
 		return $this->parent_menu;
 	}
@@ -76,7 +77,7 @@ class Navigation_Menu extends BaseObject
 	/**
 	 * @param Navigation_Menu $parent_menu
 	 */
-	public function setParentMenu( Navigation_Menu $parent_menu ) : void
+	public function setParentMenu( Navigation_Menu $parent_menu ): void
 	{
 		$this->parent_menu = $parent_menu;
 	}
@@ -86,10 +87,10 @@ class Navigation_Menu extends BaseObject
 	 *
 	 * @return string
 	 */
-	public function getId( bool $absolute=true ) : string
+	public function getId( bool $absolute = true ): string
 	{
-		if($this->parent_menu && $absolute) {
-			return $this->getParentMenu()->getId().'/'.$this->id;
+		if( $this->parent_menu && $absolute ) {
+			return $this->getParentMenu()->getId() . '/' . $this->id;
 		}
 		return $this->id;
 	}
@@ -97,7 +98,7 @@ class Navigation_Menu extends BaseObject
 	/**
 	 * @param string $id
 	 */
-	public function setId( string $id ) : void
+	public function setId( string $id ): void
 	{
 		$this->id = $id;
 	}
@@ -105,7 +106,7 @@ class Navigation_Menu extends BaseObject
 	/**
 	 * @return string
 	 */
-	public function getLabel() : string
+	public function getLabel(): string
 	{
 		return $this->label;
 	}
@@ -113,7 +114,7 @@ class Navigation_Menu extends BaseObject
 	/**
 	 * @param string $label
 	 */
-	public function setLabel( string $label ) : void
+	public function setLabel( string $label ): void
 	{
 		$this->label = $label;
 	}
@@ -121,7 +122,7 @@ class Navigation_Menu extends BaseObject
 	/**
 	 * @return int
 	 */
-	public function getIndex() : int
+	public function getIndex(): int
 	{
 		return $this->index;
 	}
@@ -129,7 +130,7 @@ class Navigation_Menu extends BaseObject
 	/**
 	 * @param int $index
 	 */
-	public function setIndex( int $index ) : void
+	public function setIndex( int $index ): void
 	{
 		$this->index = $index;
 	}
@@ -137,7 +138,7 @@ class Navigation_Menu extends BaseObject
 	/**
 	 * @return string
 	 */
-	public function getIcon() : string
+	public function getIcon(): string
 	{
 		return $this->icon;
 	}
@@ -145,7 +146,7 @@ class Navigation_Menu extends BaseObject
 	/**
 	 * @param string $icon
 	 */
-	public function setIcon( string $icon ) : void
+	public function setIcon( string $icon ): void
 	{
 		$this->icon = $icon;
 	}
@@ -156,13 +157,13 @@ class Navigation_Menu extends BaseObject
 	 *
 	 * @throws Navigation_Menu_Exception
 	 */
-	public function addItem( Navigation_Menu_Item $item ) : void
+	public function addItem( Navigation_Menu_Item $item ): void
 	{
 		$item->setMenu( $this );
 
 		$id = $item->getId();
-		if( isset($this->items[$id]) ) {
-			throw new Navigation_Menu_Exception( 'Duplicate menu element: '.$id);
+		if( isset( $this->items[$id] ) ) {
+			throw new Navigation_Menu_Exception( 'Duplicate menu element: ' . $id );
 		}
 
 		$this->items[$id] = $item;
@@ -173,13 +174,13 @@ class Navigation_Menu extends BaseObject
 	 *
 	 * @throws Navigation_Menu_Exception
 	 */
-	public function addMenu( Navigation_Menu $menu ) : void
+	public function addMenu( Navigation_Menu $menu ): void
 	{
 		$menu->setParentMenu( $this );
 
 		$id = $menu->getId();
-		if( isset($this->items[$id]) ) {
-			throw new Navigation_Menu_Exception( 'Duplicate menu element: '.$id);
+		if( isset( $this->items[$id] ) ) {
+			throw new Navigation_Menu_Exception( 'Duplicate menu element: ' . $id );
 		}
 
 		$this->items[$id] = $menu;
@@ -188,9 +189,9 @@ class Navigation_Menu extends BaseObject
 	/**
 	 * @return bool
 	 */
-	public function getAccessAllowed() : bool
+	public function getAccessAllowed(): bool
 	{
-		return (count($this->getItems())>0);
+		return (count( $this->getItems() ) > 0);
 	}
 
 	/**
@@ -199,7 +200,7 @@ class Navigation_Menu extends BaseObject
 	 * @return Navigation_Menu[]|Navigation_Menu_Item[]
 	 * @noinspection PhpDocSignatureInspection
 	 */
-	public function getItems( $check_access=true ) : array
+	public function getItems( $check_access = true ): array
 	{
 		$items = [];
 
@@ -214,7 +215,7 @@ class Navigation_Menu extends BaseObject
 			$items[] = $i;
 		}
 
-		static::sortMenuItems($items);
+		static::sortMenuItems( $items );
 
 		return $items;
 	}
@@ -222,27 +223,26 @@ class Navigation_Menu extends BaseObject
 	/**
 	 * @param Navigation_Menu_Item[]|Navigation_Menu[] $items
 	 */
-	public function setItems( array $items ) : void
+	public function setItems( array $items ): void
 	{
 		$this->items = [];
 
 		foreach( $items as $item ) {
-			if($item instanceof Navigation_Menu_Item) {
+			if( $item instanceof Navigation_Menu_Item ) {
 				$this->addItem( $item );
 			}
 
-			if($item instanceof Navigation_Menu) {
+			if( $item instanceof Navigation_Menu ) {
 				$this->addMenu( $item );
 			}
 		}
 	}
 
 
-
 	/**
 	 * @param Navigation_Menu[]|Navigation_Menu_Item[] $items
 	 */
-	public static function sortMenuItems( array &$items ) : void
+	public static function sortMenuItems( array &$items ): void
 	{
 		uasort(
 			$items,
@@ -263,11 +263,11 @@ class Navigation_Menu extends BaseObject
 				 * @var Navigation_Menu|Navigation_Menu_Item $b
 				 */
 
-				if( $a->getIndex()==$b->getIndex() ) {
+				if( $a->getIndex() == $b->getIndex() ) {
 					return 0;
 				}
 
-				return ( $a->getIndex()<$b->getIndex() ) ? -1 : 1;
+				return ($a->getIndex() < $b->getIndex()) ? -1 : 1;
 			}
 		);
 

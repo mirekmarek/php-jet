@@ -5,6 +5,7 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace Jet;
 
 /**
@@ -45,12 +46,15 @@ class Translator extends BaseObject
 	 *
 	 * @return Translator_Backend
 	 */
-	public static function getBackend() : Translator_Backend
+	public static function getBackend(): Translator_Backend
 	{
-		if( static::$backend===null ) {
+		if( static::$backend === null ) {
 			static::$backend = new Translator_Backend_PHPFiles();
 
-			register_shutdown_function( [ get_called_class(), 'saveUpdatedDictionaries' ] );
+			register_shutdown_function( [
+				get_called_class(),
+				'saveUpdatedDictionaries'
+			] );
 		}
 
 		return static::$backend;
@@ -60,10 +64,13 @@ class Translator extends BaseObject
 	 *
 	 * @param Translator_Backend $backend
 	 */
-	public static function setBackend( Translator_Backend $backend ) : void
+	public static function setBackend( Translator_Backend $backend ): void
 	{
-		if( static::$backend===null ) {
-			register_shutdown_function( [ get_called_class(), 'saveUpdatedDictionaries' ] );
+		if( static::$backend === null ) {
+			register_shutdown_function( [
+				get_called_class(),
+				'saveUpdatedDictionaries'
+			] );
 		}
 		static::$backend = $backend;
 	}
@@ -71,9 +78,9 @@ class Translator extends BaseObject
 	/**
 	 * @return bool
 	 */
-	public static function getAutoAppendUnknownPhrase() : bool
+	public static function getAutoAppendUnknownPhrase(): bool
 	{
-		if(static::$auto_append_unknown_phrase===null) {
+		if( static::$auto_append_unknown_phrase === null ) {
 			static::$auto_append_unknown_phrase = SysConf_Jet::isTranslatorAutoAppendUnknownPhrase();
 		}
 
@@ -83,7 +90,7 @@ class Translator extends BaseObject
 	/**
 	 * @param bool $auto_append_unknown_phrase
 	 */
-	public static function setAutoAppendUnknownPhrase( bool $auto_append_unknown_phrase ) : void
+	public static function setAutoAppendUnknownPhrase( bool $auto_append_unknown_phrase ): void
 	{
 		static::$auto_append_unknown_phrase = $auto_append_unknown_phrase;
 	}
@@ -92,7 +99,7 @@ class Translator extends BaseObject
 	 *
 	 * @return string
 	 */
-	public static function getCurrentNamespace() : string
+	public static function getCurrentNamespace(): string
 	{
 		return static::$current_namespace;
 	}
@@ -101,7 +108,7 @@ class Translator extends BaseObject
 	 *
 	 * @param string $current_namespace
 	 */
-	public static function setCurrentNamespace( string $current_namespace ) : void
+	public static function setCurrentNamespace( string $current_namespace ): void
 	{
 		static::$current_namespace = $current_namespace;
 	}
@@ -110,7 +117,7 @@ class Translator extends BaseObject
 	 *
 	 * @return Locale
 	 */
-	public static function getCurrentLocale() : Locale
+	public static function getCurrentLocale(): Locale
 	{
 		return static::$current_locale;
 	}
@@ -119,7 +126,7 @@ class Translator extends BaseObject
 	 *
 	 * @param Locale $current_locale
 	 */
-	public static function setCurrentLocale( Locale $current_locale ) : void
+	public static function setCurrentLocale( Locale $current_locale ): void
 	{
 		static::$current_locale = $current_locale;
 	}
@@ -127,7 +134,7 @@ class Translator extends BaseObject
 	/**
 	 *
 	 */
-	public static function saveUpdatedDictionaries() : void
+	public static function saveUpdatedDictionaries(): void
 	{
 		$backend = static::getBackend();
 
@@ -142,7 +149,7 @@ class Translator extends BaseObject
 	 * Gets translation of given text
 	 *
 	 * @param string $text
-	 * @param array  $data (optional) - data that replace parts of text; input array('KEY1'=>'value1') replaces %KEY1% in text for value1
+	 * @param array $data (optional) - data that replace parts of text; input array('KEY1'=>'value1') replaces %KEY1% in text for value1
 	 * @param string|null $namespace (optional)
 	 * @param string|null $locale (optional) - target locale
 	 *
@@ -157,9 +164,9 @@ class Translator extends BaseObject
 	 * Gets translation of given text
 	 *
 	 *
-	 * @param string        $phrase
-	 * @param array         $data (optional) - data that replace parts of text; input array('KEY1'=>'value1') replaces %KEY1% in text for value1
-	 * @param string|null        $namespace (optional)
+	 * @param string $phrase
+	 * @param array $data (optional) - data that replace parts of text; input array('KEY1'=>'value1') replaces %KEY1% in text for value1
+	 * @param string|null $namespace (optional)
 	 * @param string|Locale|null $locale (optional) - target locale
 	 *
 	 * @return string
@@ -167,14 +174,14 @@ class Translator extends BaseObject
 	public static function getTranslation( string $phrase,
 	                                       array $data = [],
 	                                       string|null $namespace = null,
-	                                       string|Locale|null $locale = null ) : string
+	                                       string|Locale|null $locale = null ): string
 	{
 
 		if( !$namespace ) {
 			$namespace = static::$current_namespace;
 		}
 
-		if( $locale===null ) {
+		if( $locale === null ) {
 			$locale = static::$current_locale;
 		}
 
@@ -206,15 +213,15 @@ class Translator extends BaseObject
 	 *
 	 * @param string $namespace
 	 * @param Locale $locale
-	 * @param bool   $force_load (optional, default: false)
+	 * @param bool $force_load (optional, default: false)
 	 *
 	 * @return Translator_Dictionary
 	 */
 	public static function loadDictionary( string $namespace,
 	                                       Locale $locale,
-	                                       bool $force_load = false ) : Translator_Dictionary
+	                                       bool $force_load = false ): Translator_Dictionary
 	{
-		$dictionary_key = $namespace.':'.$locale;
+		$dictionary_key = $namespace . ':' . $locale;
 
 		if(
 			!isset( static::$dictionaries[$dictionary_key] ) ||

@@ -1,14 +1,16 @@
 <?php
+
 use Jet\Mvc_View;
 use Jet\Form_Renderer;
+
 /**
- * @var Mvc_View      $this
+ * @var Mvc_View $this
  * @var Form_Renderer $r
  */
 $r = $this->getRaw( 'element' );
 
-if(!$r->getBaseCssClasses()) {
-	$r->setBaseCssClass('form-group row');
+if( !$r->getBaseCssClasses() ) {
+	$r->setBaseCssClass( 'form-group row' );
 }
 
 //if($r->getField()->getLastErrorMessage()) {
@@ -17,7 +19,7 @@ if(!$r->getBaseCssClasses()) {
 
 ?>
 <div <?php
-if($r->getCssClasses()) echo ' class="'.$r->getCssClasses().'"';
-if($r->getCssStyles()) echo ' style="'.$r->getCssStyles().'"';
-if($r->getJsActions()) echo $r->getJsActions();
+if( $r->getCssClasses() ) echo ' class="' . $r->getCssClasses() . '"';
+if( $r->getCssStyles() ) echo ' style="' . $r->getCssStyles() . '"';
+if( $r->getJsActions() ) echo $r->getJsActions();
 ?>>

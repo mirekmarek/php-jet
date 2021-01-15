@@ -1,4 +1,5 @@
 <?php
+
 use Jet\Mvc;
 use Jet\Mvc_View;
 use Jet\Mvc_Page;
@@ -6,7 +7,7 @@ use Jet\SysConf_URI;
 use Jet\UI;
 
 /**
- * @var Mvc_View   $this
+ * @var Mvc_View $this
  * @var Mvc_Page[] $pages
  */
 $pages = $this->getRaw( 'site_tree_current' );
@@ -15,7 +16,7 @@ $admin_page = Mvc_Page::get( Mvc_Page::HOMEPAGE_ID, null, 'admin' );
 $secret_area_page = Mvc_Page::get( 'secret_area' );
 
 
-$show_menu = function( $pages, $level=0 ) use ( &$show_menu ) {
+$show_menu = function( $pages, $level = 0 ) use ( &$show_menu ) {
 	/**
 	 * @var Mvc_Page[] $pages
 	 */
@@ -26,7 +27,7 @@ $show_menu = function( $pages, $level=0 ) use ( &$show_menu ) {
 
 
 	$current_page_key = Mvc::getCurrentPage()->getKey();
-	$padding = 10+($level*25);
+	$padding = 10 + ($level * 25);
 
 	foreach( $pages as $page ):
 		if(
@@ -38,24 +39,24 @@ $show_menu = function( $pages, $level=0 ) use ( &$show_menu ) {
 
 		$pd = $padding;
 		$icon = '';
-		if($page->getIcon()) {
-			$icon = UI::icon($page->getIcon()).' ';
+		if( $page->getIcon() ) {
+			$icon = UI::icon( $page->getIcon() ) . ' ';
 		} else {
 			$pd += 10;
 		}
 
 		?>
-			<?php if( $current_page_key==$page->getKey() ): ?>
-			<li class="list-group-item active" style="padding-left: <?=$pd;?>px;">
-				<?=$icon?><?=$page->getMenuTitle();?>
-			</li>
-			<?php else: ?>
-			<li class="list-group-item" style="padding-left: <?=$pd;?>px;">
-				<?=$icon?><a href="<?=$page->getURL();?>"><?=$page->getMenuTitle();?></a>
-			</li>
-			<?php endif; ?>
-			<?php $show_menu( $page->getChildren(), $level+1 ); ?>
-		<?php
+		<?php if( $current_page_key == $page->getKey() ): ?>
+		<li class="list-group-item active" style="padding-left: <?= $pd; ?>px;">
+			<?= $icon ?><?= $page->getMenuTitle(); ?>
+		</li>
+	<?php else: ?>
+		<li class="list-group-item" style="padding-left: <?= $pd; ?>px;">
+			<?= $icon ?><a href="<?= $page->getURL(); ?>"><?= $page->getMenuTitle(); ?></a>
+		</li>
+	<?php endif; ?>
+		<?php $show_menu( $page->getChildren(), $level + 1 ); ?>
+	<?php
 	endforeach;
 
 };
@@ -68,13 +69,14 @@ $show_menu = function( $pages, $level=0 ) use ( &$show_menu ) {
 		</ul>
 
 		<?php if( $secret_area_page ): ?>
-			<a href="<?=$secret_area_page->getURL()?>" rel="nofollow"><?=$secret_area_page->getMenuTitle()?></a><br/>
+			<a href="<?= $secret_area_page->getURL() ?>" rel="nofollow"><?= $secret_area_page->getMenuTitle() ?></a>
+			<br/>
 		<?php endif; ?>
 
 		<?php if( $admin_page ): ?>
-			<a href="<?=$admin_page->getURL()?>" rel="nofollow"><?=$admin_page->getMenuTitle()?></a><br/>
+			<a href="<?= $admin_page->getURL() ?>" rel="nofollow"><?= $admin_page->getMenuTitle() ?></a><br/>
 		<?php endif; ?>
 
-			<a href="<?=SysConf_URI::getBase()?>_tools/studio/" rel="nofollow" target="_blank">Jet Studio</a><br/>
+		<a href="<?= SysConf_URI::getBase() ?>_tools/studio/" rel="nofollow" target="_blank">Jet Studio</a><br/>
 	</div>
 </div>

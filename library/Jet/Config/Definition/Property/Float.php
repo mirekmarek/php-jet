@@ -5,6 +5,7 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace Jet;
 
 /**
@@ -41,19 +42,19 @@ class Config_Definition_Property_Float extends Config_Definition_Property
 	 *
 	 * @throws Config_Exception
 	 */
-	public function setUp( array $definition_data = null ) : void
+	public function setUp( array $definition_data = null ): void
 	{
 		parent::setUp( $definition_data );
 
-		if( $this->min_value!==null ) {
+		if( $this->min_value !== null ) {
 			$this->form_field_min_value = $this->min_value;
 		}
 
-		if( $this->max_value!==null ) {
+		if( $this->max_value !== null ) {
 			$this->form_field_max_value = $this->max_value;
 		}
 
-		if( $this->form_field_type===null ) {
+		if( $this->form_field_type === null ) {
 			$this->form_field_type = Form::TYPE_FLOAT;
 		}
 	}
@@ -61,7 +62,7 @@ class Config_Definition_Property_Float extends Config_Definition_Property
 	/**
 	 * @return float|null
 	 */
-	public function getMinValue() : float|null
+	public function getMinValue(): float|null
 	{
 		return $this->min_value;
 	}
@@ -78,7 +79,7 @@ class Config_Definition_Property_Float extends Config_Definition_Property
 	/**
 	 * @return float|null
 	 */
-	public function getMaxValue() : float|null
+	public function getMaxValue(): float|null
 	{
 		return $this->max_value;
 	}
@@ -95,7 +96,7 @@ class Config_Definition_Property_Float extends Config_Definition_Property
 	/**
 	 * @param mixed &$value
 	 */
-	protected function checkValueType( mixed &$value ) : void
+	protected function checkValueType( mixed &$value ): void
 	{
 		$value = (float)$value;
 	}
@@ -107,25 +108,25 @@ class Config_Definition_Property_Float extends Config_Definition_Property
 	 *
 	 * @throws Config_Exception
 	 */
-	protected function checkValue( mixed $value ) : void
+	protected function checkValue( mixed $value ): void
 	{
 
 		if(
-			$this->min_value!==null &&
-			$value<$this->min_value
+			$this->min_value !== null &&
+			$value < $this->min_value
 		) {
 			throw new Config_Exception(
-				'Configuration property '.$this->_configuration_class.'::'.$this->name.' value is under the minimal value (by definition). Minimal value: '.$this->min_value.', current value: '.$value,
+				'Configuration property ' . $this->_configuration_class . '::' . $this->name . ' value is under the minimal value (by definition). Minimal value: ' . $this->min_value . ', current value: ' . $value,
 				Config_Exception::CODE_CONFIG_CHECK_ERROR
 			);
 		}
 
 		if(
-			$this->max_value!==null &&
-			$value>$this->max_value
+			$this->max_value !== null &&
+			$value > $this->max_value
 		) {
 			throw new Config_Exception(
-				'Configuration property '.$this->_configuration_class.'::'.$this->name.' value is above the maximum value (by definition). Maximum value: '.$this->max_value.', current value: '.$value,
+				'Configuration property ' . $this->_configuration_class . '::' . $this->name . ' value is above the maximum value (by definition). Maximum value: ' . $this->max_value . ', current value: ' . $value,
 				Config_Exception::CODE_CONFIG_CHECK_ERROR
 			);
 		}

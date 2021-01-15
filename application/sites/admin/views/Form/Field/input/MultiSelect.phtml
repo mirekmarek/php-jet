@@ -1,4 +1,5 @@
 <?php
+
 use Jet\Mvc_View;
 use Jet\Form_Renderer;
 use Jet\Form_Field_Select;
@@ -6,69 +7,69 @@ use Jet\Form_Field_Select_Option_Interface;
 use Jet\Data_Text;
 
 /**
- * @var Mvc_View          $this
- * @var Form_Renderer     $r
+ * @var Mvc_View $this
+ * @var Form_Renderer $r
  * @var Form_Field_Select $field
  */
 $r = $this->getRaw( 'element' );
 
 
-if(!$r->getBaseCssClasses()) {
-	$r->setBaseCssClass('form-control');
+if( !$r->getBaseCssClasses() ) {
+	$r->setBaseCssClass( 'form-control' );
 }
 
 $field = $r->getField();
 $value = $field->getValue();
 
 //var_dump($value);die();
-if($field->getLastErrorCode()) {
-	$r->addCustomCssClass('is-invalid');
+if( $field->getLastErrorCode() ) {
+	$r->addCustomCssClass( 'is-invalid' );
 }
 
 ?>
-	<select name="<?=$field->getTagNameValue()?>[]" id="<?=$field->getId()?>" multiple="multiple"<?php
+<select name="<?= $field->getTagNameValue() ?>[]" id="<?= $field->getId() ?>" multiple="multiple"<?php
 
-	if( $r->getCssClasses() ) echo ' class ="'.$r->getCssClasses().'"';
-	if( $r->getCssStyles() ) echo ' style ="'.$r->getCssStyles().'"';
-	if( $r->getJsActions() ) echo $r->getJsActions();
+if( $r->getCssClasses() ) echo ' class ="' . $r->getCssClasses() . '"';
+if( $r->getCssStyles() ) echo ' style ="' . $r->getCssStyles() . '"';
+if( $r->getJsActions() ) echo $r->getJsActions();
 
-	if( $field->getIsRequired() ) echo ' required="required"';
-	if( $field->getIsReadonly() ) echo ' disabled="disabled"';
-	?>>
-		<?php foreach( $field->getSelectOptions() as $val => $label ):
+if( $field->getIsRequired() ) echo ' required="required"';
+if( $field->getIsReadonly() ) echo ' disabled="disabled"';
+?>>
+	<?php foreach( $field->getSelectOptions() as $val => $label ):
 
-			$selected = false;
+		$selected = false;
 
-			if(
-				is_array( $value )&&
-				!empty( $value )
-			) {
-				foreach( $value as $val_in ) {
-					if( (string)$val==(string)$val_in ) {
-						$selected = true;
-						break;
-					}
-				}
-			} else {
-				if( $val==$value ) {
+		if(
+			is_array( $value ) &&
+			!empty( $value )
+		) {
+			foreach( $value as $val_in ) {
+				if( (string)$val == (string)$val_in ) {
 					$selected = true;
+					break;
 				}
 			}
+		} else {
+			if( $val == $value ) {
+				$selected = true;
+			}
+		}
 
-			$css = '';
-			if( $label instanceof Form_Field_Select_Option_Interface ) {
-				if( ( $class = $label->getSelectOptionCssClass() ) ) {
-					$css .= ' class="'.$class.'"';
-				}
-				if( ( $style = $label->getSelectOptionCssStyle() ) ) {
-					$css .= ' style="'.$style.'"';
-				}
+		$css = '';
+		if( $label instanceof Form_Field_Select_Option_Interface ) {
+			if( ($class = $label->getSelectOptionCssClass()) ) {
+				$css .= ' class="' . $class . '"';
 			}
+			if( ($style = $label->getSelectOptionCssStyle()) ) {
+				$css .= ' style="' . $style . '"';
+			}
+		}
 
-			if( $selected ) {
-				echo '<option value="'.Data_Text::htmlSpecialChars( $val ).'" '.$css.' selected="selected">'.Data_Text::htmlSpecialChars( $label ).'</option>'.PHP_EOL;
-			} else {
-				echo '<option value="'.Data_Text::htmlSpecialChars( $val ).'" '.$css.'>'.Data_Text::htmlSpecialChars( $label ).'</option>'.PHP_EOL;
-			}
-		endforeach; ?>
-	</select>
+		if( $selected ) {
+			echo '<option value="' . Data_Text::htmlSpecialChars( $val ) . '" ' . $css . ' selected="selected">' . Data_Text::htmlSpecialChars( $label ) . '</option>' . PHP_EOL;
+		} else {
+			echo '<option value="' . Data_Text::htmlSpecialChars( $val ) . '" ' . $css . '>' . Data_Text::htmlSpecialChars( $label ) . '</option>' . PHP_EOL;
+		}
+	endforeach; ?>
+</select>

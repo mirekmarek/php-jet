@@ -5,10 +5,11 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace Jet;
 
 /**
- * 
+ *
  */
 class Form_Field_Checkbox extends Form_Field
 {
@@ -66,7 +67,7 @@ class Form_Field_Checkbox extends Form_Field
 	/**
 	 * @param Data_Array $data
 	 */
-	public function catchInput( Data_Array $data ) : void
+	public function catchInput( Data_Array $data ): void
 	{
 		$this->_value_raw = false;
 		$this->_value = false;
@@ -83,7 +84,7 @@ class Form_Field_Checkbox extends Form_Field
 	/**
 	 * @return bool
 	 */
-	public function checkValueIsNotEmpty() : bool
+	public function checkValueIsNotEmpty(): bool
 	{
 		return true;
 	}
@@ -92,7 +93,7 @@ class Form_Field_Checkbox extends Form_Field
 	/**
 	 * @return bool
 	 */
-	public function validate() : bool
+	public function validate(): bool
 	{
 		$this->setIsValid();
 
@@ -103,7 +104,7 @@ class Form_Field_Checkbox extends Form_Field
 	/**
 	 * @return array
 	 */
-	public function getRequiredErrorCodes() : array
+	public function getRequiredErrorCodes(): array
 	{
 		return [];
 	}

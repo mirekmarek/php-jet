@@ -5,10 +5,11 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace Jet;
 
 /**
- * 
+ *
  */
 class DataModel_Query_Select extends BaseObject implements BaseObject_Interface_IteratorCountable
 {
@@ -22,7 +23,7 @@ class DataModel_Query_Select extends BaseObject implements BaseObject_Interface_
 	/**
 	 *
 	 * @param DataModel_Query $query
-	 * @param array           $items
+	 * @param array $items
 	 *
 	 * @throws DataModel_Query_Exception
 	 */
@@ -55,7 +56,7 @@ class DataModel_Query_Select extends BaseObject implements BaseObject_Interface_
 			if( $val instanceof DataModel_Query_Select_Item_Expression ) {
 
 				$properties = [];
-				foreach( $val->getProperties() as $k=>$p ) {
+				foreach( $val->getProperties() as $k => $p ) {
 					$properties[$k] = $query->getPropertyAndSetRelation( $p );
 				}
 				$val->setProperties( $properties );
@@ -86,13 +87,13 @@ class DataModel_Query_Select extends BaseObject implements BaseObject_Interface_
 	 * @throws DataModel_Query_Exception
 	 *
 	 */
-	public function addItem( DataModel_Query_Select_Item $item ) : void
+	public function addItem( DataModel_Query_Select_Item $item ): void
 	{
 		$select_as = $item->getSelectAs();
 
 		if( array_key_exists( $select_as, $this->items ) ) {
 			throw new DataModel_Query_Exception(
-				'Item \''.$select_as.'\' is already in the list', DataModel_Query_Exception::CODE_QUERY_PARSE_ERROR
+				'Item \'' . $select_as . '\' is already in the list', DataModel_Query_Exception::CODE_QUERY_PARSE_ERROR
 			);
 
 		}
@@ -103,9 +104,9 @@ class DataModel_Query_Select extends BaseObject implements BaseObject_Interface_
 	/**
 	 * @return bool
 	 */
-	public function getIsEmpty() : bool
+	public function getIsEmpty(): bool
 	{
-		return ( count( $this->items )==0 );
+		return (count( $this->items ) == 0);
 	}
 
 	/**
@@ -113,7 +114,7 @@ class DataModel_Query_Select extends BaseObject implements BaseObject_Interface_
 	 *
 	 * @return DataModel_Query_Select_Item
 	 */
-	public function getItem( string $select_as ) : DataModel_Query_Select_Item
+	public function getItem( string $select_as ): DataModel_Query_Select_Item
 	{
 		return $this->items[$select_as];
 	}
@@ -123,7 +124,7 @@ class DataModel_Query_Select extends BaseObject implements BaseObject_Interface_
 	 *
 	 * @return bool
 	 */
-	public function hasItem( string $select_as ) : bool
+	public function hasItem( string $select_as ): bool
 	{
 		return array_key_exists( $select_as, $this->items );
 	}
@@ -138,20 +139,20 @@ class DataModel_Query_Select extends BaseObject implements BaseObject_Interface_
 	//------------------------------------------------------------------------------------------------------------
 	//------------------------------------------------------------------------------------------------------------
 	/**
+	 * @return DataModel_Query_Select_Item
 	 * @see \Iterator
 	 *
-	 * @return DataModel_Query_Select_Item
 	 */
-	public function current() : DataModel_Query_Select_Item
+	public function current(): DataModel_Query_Select_Item
 	{
 		return current( $this->items );
 	}
 
 	/**
-	 * @see \Iterator
 	 * @return string
+	 * @see \Iterator
 	 */
-	public function key() : string
+	public function key(): string
 	{
 		return key( $this->items );
 	}
@@ -159,7 +160,7 @@ class DataModel_Query_Select extends BaseObject implements BaseObject_Interface_
 	/**
 	 * @see \Iterator
 	 */
-	public function next() : DataModel_Query_Select_Item|bool
+	public function next(): DataModel_Query_Select_Item|bool
 	{
 		return next( $this->items );
 	}
@@ -167,29 +168,29 @@ class DataModel_Query_Select extends BaseObject implements BaseObject_Interface_
 	/**
 	 * @see \Iterator
 	 */
-	public function rewind() : void
+	public function rewind(): void
 	{
 		reset( $this->items );
 	}
 
 	/**
-	 * @see \Iterator
 	 * @return bool
+	 * @see \Iterator
 	 */
-	public function valid() : bool
+	public function valid(): bool
 	{
-		return key( $this->items )!==null;
+		return key( $this->items ) !== null;
 	}
 
 
 	/**
+	 * @return int
 	 * @see \Countable
 	 *
-	 * @return int
 	 */
-	public function count() : int
+	public function count(): int
 	{
-		return count($this->items);
+		return count( $this->items );
 	}
 
 }

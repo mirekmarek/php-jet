@@ -1,4 +1,5 @@
 <?php
+
 namespace JetStudio;
 
 use Jet\Application_Modules;
@@ -9,7 +10,7 @@ use Jet\UI_messages;
 
 $current = Modules::getCurrentModule();
 
-if(!$current) {
+if( !$current ) {
 	die();
 }
 
@@ -21,10 +22,10 @@ try {
 	UI_messages::danger( $e->getMessage() );
 }
 
-if($ok) {
-	UI_messages::success( Tr::_('Module <b>%module%</b> has been installed', [
+if( $ok ) {
+	UI_messages::success( Tr::_( 'Module <b>%module%</b> has been installed', [
 		'module' => $current->getName()
-	]) );
+	] ) );
 }
 
-Http_Headers::reload([], ['action']);
+Http_Headers::reload( [], ['action'] );

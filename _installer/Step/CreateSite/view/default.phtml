@@ -12,49 +12,50 @@ use JetApplication\Application_Web;
 use JetApplication\Application_REST;
 
 /**
- * @var Mvc_View   $this
+ * @var Mvc_View $this
  * @var Mvc_Site[] $sites
- * @var Form       $main_form
+ * @var Form $main_form
  */
 
 $main_form = $this->getRaw( 'main_form' );
 
-$main_form->setDefaultLabelWidth( [ Form::LJ_SIZE_MEDIUM => 2 ] );
+$main_form->setDefaultLabelWidth( [Form::LJ_SIZE_MEDIUM => 2] );
 
 $sites = $this->getRaw( 'sites' );
 
 $titles = [
-	Application_Web::getSiteId()   => Tr::_('Web'),
-	Application_Admin::getSiteId() => Tr::_('Administration'),
-	Application_REST::getSiteId()  => Tr::_('REST API'),
+	Application_Web::getSiteId()   => Tr::_( 'Web' ),
+	Application_Admin::getSiteId() => Tr::_( 'Administration' ),
+	Application_REST::getSiteId()  => Tr::_( 'REST API' ),
 ];
 
 ?>
 
-<?=$main_form->start()?>
-<?=$main_form->message()?>
+<?= $main_form->start() ?>
+<?= $main_form->message() ?>
 <?php foreach( $sites as $site ): ?>
-<fieldset>
-	<legend><?=$titles[$site->getId()]?></legend>
+	<fieldset>
+		<legend><?= $titles[$site->getId()] ?></legend>
 
-	<?php foreach( $site->getLocales() as $locale ):
-		$field = $main_form->field( '/'.$site->getId().'/'.$locale.'/URL' );
-		?>
+		<?php foreach( $site->getLocales() as $locale ):
+			$field = $main_form->field( '/' . $site->getId() . '/' . $locale . '/URL' );
+			?>
 
 
-		<?=$field->error()?>
-		<div style="margin-bottom: 25px" class="input-group">
-			<span class="input-group-addon"><span style="display: inline-block;width: 150px"><?=UI::locale($locale);?></span> http://</span>
-			<?=$field->input()?>
-			<span class="input-group-addon">/</span>
-		</div>
+			<?= $field->error() ?>
+			<div style="margin-bottom: 25px" class="input-group">
+				<span class="input-group-addon"><span
+							style="display: inline-block;width: 150px"><?= UI::locale( $locale ); ?></span> http://</span>
+				<?= $field->input() ?>
+				<span class="input-group-addon">/</span>
+			</div>
 
-	<?php endforeach; ?>
+		<?php endforeach; ?>
 
-</fieldset>
+	</fieldset>
 <?php endforeach; ?>
 
-<?=Installer::buttonNext() ?>
+<?= Installer::buttonNext() ?>
 
-<?=$main_form->end()?>
+<?= $main_form->end() ?>
 

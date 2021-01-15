@@ -5,6 +5,7 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace JetStudio;
 
 /**
@@ -129,7 +130,7 @@ class ClassParser_Class extends ClassParser_Element
 			$class->declaration_start = $parser->_abstract_class_token;
 		}
 
-		if($parser->_last_doc_comment_token) {
+		if( $parser->_last_doc_comment_token ) {
 			$class->start_token = $parser->_last_doc_comment_token;
 			$class->doc_comment = $parser->_last_doc_comment_token;
 		}
@@ -140,22 +141,22 @@ class ClassParser_Class extends ClassParser_Element
 
 		do {
 
-			if( !($token=$class->nextToken()) ) {
+			if( !($token = $class->nextToken()) ) {
 				break;
 			}
-			if($token->ignore()) {
+			if( $token->ignore() ) {
 				continue;
 			}
 
 			switch( $token->id ) {
 				case T_NS_SEPARATOR:
-					if($searching_for_implements) {
-						if(!isset($class->implements[$searching_for_implements_index])) {
+					if( $searching_for_implements ) {
+						if( !isset( $class->implements[$searching_for_implements_index] ) ) {
 							$class->implements[$searching_for_implements_index] = '';
 						}
 						$class->implements[$searching_for_implements_index] .= $token->text;
 					} else {
-						if($searching_for_extends) {
+						if( $searching_for_extends ) {
 							$class->extends .= $token->text;
 						} else {
 							$class->parseError();
@@ -164,14 +165,14 @@ class ClassParser_Class extends ClassParser_Element
 
 					break;
 				case T_STRING:
-					if($searching_for_implements) {
-						if(!isset($class->implements[$searching_for_implements_index])) {
+					if( $searching_for_implements ) {
+						if( !isset( $class->implements[$searching_for_implements_index] ) ) {
 							$class->implements[$searching_for_implements_index] = '';
 						}
 
 						$class->implements[$searching_for_implements_index] .= $token->text;
 					} else {
-						if($searching_for_extends) {
+						if( $searching_for_extends ) {
 							$class->extends .= $token->text;
 						} else {
 							$class->name = $token->text;
@@ -201,13 +202,13 @@ class ClassParser_Class extends ClassParser_Element
 					$searching_for_implements = true;
 					break;
 				case ',':
-					if(!$searching_for_implements) {
+					if( !$searching_for_implements ) {
 						$class->parseError();
 					}
 					$searching_for_implements_index++;
 					break;
 				case '{':
-					$class->declaration_end = $parser->tokens[$token->index-1];
+					$class->declaration_end = $parser->tokens[$token->index - 1];
 					$class->body_start = $token;
 					break 2;
 				default:
@@ -219,11 +220,11 @@ class ClassParser_Class extends ClassParser_Element
 
 
 		do {
-			if( !($token=$class->nextToken()) ) {
+			if( !($token = $class->nextToken()) ) {
 				break;
 			}
 
-			if($token->ignore(false)) {
+			if( $token->ignore( false ) ) {
 				continue;
 			}
 
@@ -260,7 +261,7 @@ class ClassParser_Class extends ClassParser_Element
 					break;
 				case T_STATIC:
 					if(
-						$class->_static_token
+					$class->_static_token
 					) {
 						$class->parseError();
 					}
@@ -282,7 +283,7 @@ class ClassParser_Class extends ClassParser_Element
 					break;
 				case T_ABSTRACT:
 					if(
-						$class->_abstract_token
+					$class->_abstract_token
 					) {
 						$class->parseError();
 					}
@@ -324,55 +325,55 @@ class ClassParser_Class extends ClassParser_Element
 	/**
 	 *
 	 */
-	public function debug_showResult() : void
+	public function debug_showResult(): void
 	{
 		$parser = $this->parser;
 
-		if($this->is_abstract) {
+		if( $this->is_abstract ) {
 			echo 'Abstract ';
 		}
-		echo 'Class: '.$this->name;
+		echo 'Class: ' . $this->name;
 
 		//echo PHP_EOL.' Code: '.$parser->getTokenText( $this->start_token, $this->end_token );
-		echo PHP_EOL.' Tokens: '.$this->start_token->index.' - '.$this->end_token->index;
-		echo PHP_EOL.'_________________________________________________________'.PHP_EOL;
-		if($this->doc_comment) {
-			echo PHP_EOL.' Doc Comment: (token: '.$this->doc_comment->index.') '.$this->doc_comment->text;
-			echo PHP_EOL.'_________________________________________________________'.PHP_EOL;
+		echo PHP_EOL . ' Tokens: ' . $this->start_token->index . ' - ' . $this->end_token->index;
+		echo PHP_EOL . '_________________________________________________________' . PHP_EOL;
+		if( $this->doc_comment ) {
+			echo PHP_EOL . ' Doc Comment: (token: ' . $this->doc_comment->index . ') ' . $this->doc_comment->text;
+			echo PHP_EOL . '_________________________________________________________' . PHP_EOL;
 		}
 
-		echo PHP_EOL.' Declaration: '.$parser->getTokenText( $this->declaration_start, $this->declaration_end );
-		echo ' Tokens: '.$this->declaration_start->index.' - '.$this->declaration_end->index;
-		echo PHP_EOL.'_________________________________________________________'.PHP_EOL;
+		echo PHP_EOL . ' Declaration: ' . $parser->getTokenText( $this->declaration_start, $this->declaration_end );
+		echo ' Tokens: ' . $this->declaration_start->index . ' - ' . $this->declaration_end->index;
+		echo PHP_EOL . '_________________________________________________________' . PHP_EOL;
 
 
 		foreach( $this->constants as $constant ) {
 			$constant->debug_showResult();
-			echo PHP_EOL.'_________________________________________________________'.PHP_EOL;
+			echo PHP_EOL . '_________________________________________________________' . PHP_EOL;
 		}
 
 		foreach( $this->properties as $property ) {
 			$property->debug_showResult();
-			echo PHP_EOL.'_________________________________________________________'.PHP_EOL;
+			echo PHP_EOL . '_________________________________________________________' . PHP_EOL;
 		}
 
 		foreach( $this->methods as $method ) {
 			$method->debug_showResult();
-			echo PHP_EOL.'_________________________________________________________'.PHP_EOL;
+			echo PHP_EOL . '_________________________________________________________' . PHP_EOL;
 		}
 
-		echo PHP_EOL.PHP_EOL;
+		echo PHP_EOL . PHP_EOL;
 	}
 
 	/**
 	 * @param string $code
 	 */
-	public function addConstant( string $code ) : void
+	public function addConstant( string $code ): void
 	{
 		$after = $this->body_start;
 
 		foreach( $this->constants as $constant ) {
-			if($constant->end_token->index>$after->index) {
+			if( $constant->end_token->index > $after->index ) {
 				$after = $constant->end_token;
 			}
 		}
@@ -383,18 +384,18 @@ class ClassParser_Class extends ClassParser_Element
 	/**
 	 * @param string $code
 	 */
-	public function addProperty( string $code ) : void
+	public function addProperty( string $code ): void
 	{
 		$after = $this->body_start;
 
 		foreach( $this->constants as $constant ) {
-			if($constant->end_token->index>$after->index) {
+			if( $constant->end_token->index > $after->index ) {
 				$after = $constant->end_token;
 			}
 		}
 
 		foreach( $this->properties as $property ) {
-			if($property->end_token->index>$after->index) {
+			if( $property->end_token->index > $after->index ) {
 				$after = $property->end_token;
 			}
 		}
@@ -406,25 +407,25 @@ class ClassParser_Class extends ClassParser_Element
 	/**
 	 * @param string $code
 	 */
-	public function addMethod( string $code ) : void
+	public function addMethod( string $code ): void
 	{
 		$after = $this->body_start;
 
 		foreach( $this->constants as $constant ) {
-			if($constant->end_token->index>$after->index) {
+			if( $constant->end_token->index > $after->index ) {
 				$after = $constant->end_token;
 			}
 		}
 
 		foreach( $this->properties as $property ) {
-			if($property->end_token->index>$after->index) {
+			if( $property->end_token->index > $after->index ) {
 				$after = $property->end_token;
 			}
 
 		}
 
 		foreach( $this->methods as $method ) {
-			if($method->end_token->index>$after->index) {
+			if( $method->end_token->index > $after->index ) {
 				$after = $method->end_token;
 			}
 

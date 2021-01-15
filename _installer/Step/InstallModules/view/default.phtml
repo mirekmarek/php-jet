@@ -1,4 +1,5 @@
 <?php
+
 namespace JetApplication\Installer;
 
 use Jet\Mvc_View;
@@ -7,8 +8,8 @@ use Jet\Form;
 use Jet\Application_Module_Manifest;
 
 /**
- * @var Mvc_View                              $this
- * @var Form                                  $form
+ * @var Mvc_View $this
+ * @var Form $form
  * @var Application_Module_Manifest[] $modules
  */
 
@@ -17,15 +18,15 @@ $modules = $this->getRaw( 'modules' );
 $form = $this->getRaw( 'form' );
 
 ?>
-<?=$form->start()?>
+<?= $form->start() ?>
 
 	<table class="table table-striped">
 		<thead>
 		<tr>
 			<th></th>
-			<th><?=Tr::_( 'Module' );?></th>
-			<th><?=Tr::_( 'Installed?' );?></th>
-			<th><?=Tr::_( 'Activated?' );?></th>
+			<th><?= Tr::_( 'Module' ); ?></th>
+			<th><?= Tr::_( 'Installed?' ); ?></th>
+			<th><?= Tr::_( 'Activated?' ); ?></th>
 		</tr>
 		</thead>
 		<?php foreach( $modules as $manifest ): ?>
@@ -35,29 +36,29 @@ $form = $this->getRaw( 'form' );
 
 						if( $manifest->isMandatory() ):
 							?>
-							<input type="checkbox" value="<?=$manifest->getName();?>" name="modules[]"
-							       id="module_<?=$manifest->getName();?>" checked="checked" disabled="disabled"/>
-							<?php
+							<input type="checkbox" value="<?= $manifest->getName(); ?>" name="modules[]"
+							       id="module_<?= $manifest->getName(); ?>" checked="checked" disabled="disabled"/>
+						<?php
 						else:
 							?>
-							<input type="checkbox" value="<?=$manifest->getName();?>" name="modules[]"
-							       id="module_<?=$manifest->getName();?>" checked="checked"/>
-							<?php
+							<input type="checkbox" value="<?= $manifest->getName(); ?>" name="modules[]"
+							       id="module_<?= $manifest->getName(); ?>" checked="checked"/>
+						<?php
 						endif;
 					endif; ?>
 				</td>
 				<td>
-					<label for="module_<?=$manifest->getName();?>"><?=$manifest->getLabel();?> </label>
+					<label for="module_<?= $manifest->getName(); ?>"><?= $manifest->getLabel(); ?> </label>
 					<br/>
-					<div style="font-size: 11px;"><?=$manifest->getName();?></div>
+					<div style="font-size: 11px;"><?= $manifest->getName(); ?></div>
 					<br/>
-					<?=$manifest->getDescription();?>
+					<?= $manifest->getDescription(); ?>
 				</td>
-				<td><?=Tr::_( $manifest->isInstalled() ? 'Yes' : 'NO' );?></td>
-				<td><?=Tr::_( $manifest->isActivated() ? 'Yes' : 'NO' );?></td>
+				<td><?= Tr::_( $manifest->isInstalled() ? 'Yes' : 'NO' ); ?></td>
+				<td><?= Tr::_( $manifest->isActivated() ? 'Yes' : 'NO' ); ?></td>
 			</tr>
 		<?php endforeach; ?>
 	</table>
 
-<?=Installer::buttonNext();?>
-<?=$form->end()?>
+<?= Installer::buttonNext(); ?>
+<?= $form->end() ?>

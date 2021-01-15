@@ -10,34 +10,34 @@ use Jet\Tr;
 
 /**
  * @var Mvc_View $this
- * @var Form     $form
- * @var User     $user
+ * @var Form $form
+ * @var User $user
  */
 $form = $this->getRaw( 'form' );
 
 $form->setAutocomplete( false );
-$form->setDefaultLabelWidth( [ Form::LJ_SIZE_MEDIUM => 2 ] );
-$form->setDefaultFieldWidth( [ Form::LJ_SIZE_MEDIUM => 4 ] );
+$form->setDefaultLabelWidth( [Form::LJ_SIZE_MEDIUM => 2] );
+$form->setDefaultFieldWidth( [Form::LJ_SIZE_MEDIUM => 4] );
 
 $user = $this->getRaw( 'user' );
 $router = $this->getController()->getControllerRouter();
 ?>
 
 
-<?=$form->start()?>
+<?= $form->start() ?>
 
 <div class="row toolbar" id="main-toolbar">
 	<div class="col-md-12">
-		<?=UI::button_goBack()?>
+		<?= UI::button_goBack() ?>
 
 		<?php if( !$form->getIsReadonly() ): ?>
-			<?=UI::button_save()?>
+			<?= UI::button_save() ?>
 
 			<?php if( !$user->getIsNew() ): ?>
 				<div class="btn-group" style="margin-left: 10px">
-					<a href="<?=$router->action('reset_password')->URI( $user->getId() )?>" class="btn btn-warning">
-						<?=UI::icon( 'refresh' )?>
-						<?=Tr::_( 'Reset password' )?>
+					<a href="<?= $router->action( 'reset_password' )->URI( $user->getId() ) ?>" class="btn btn-warning">
+						<?= UI::icon( 'refresh' ) ?>
+						<?= Tr::_( 'Reset password' ) ?>
 					</a>
 				</div>
 			<?php endif; ?>
@@ -48,27 +48,27 @@ $router = $this->getController()->getControllerRouter();
 <div class="row">
 	<div class="col-md-12" id="main-col">
 
-		<?=$form->field( 'username' )?>
+		<?= $form->field( 'username' ) ?>
 
-		<?=$form->fieldExists( 'password' ) ? $form->field( 'password' ) : ''?>
-		<?=$form->field( 'email' )?>
-		<?=$form->field( 'locale' )?>
-		<?=$form->field( 'first_name' )?>
-		<?=$form->field( 'surname' )?>
-		<?=$form->field( 'description' )?>
-		<?=$form->field( 'roles' )?>
+		<?= $form->fieldExists( 'password' ) ? $form->field( 'password' ) : '' ?>
+		<?= $form->field( 'email' ) ?>
+		<?= $form->field( 'locale' ) ?>
+		<?= $form->field( 'first_name' ) ?>
+		<?= $form->field( 'surname' ) ?>
+		<?= $form->field( 'description' ) ?>
+		<?= $form->field( 'roles' ) ?>
 
 		<hr class="separator">
-		<?=$form->field( 'user_is_activated' )?>
+		<?= $form->field( 'user_is_activated' ) ?>
 		<hr class="separator">
-		<?=$form->field( 'user_is_blocked' )?>
-		<?=$form->field( 'user_is_blocked_till' )?>
+		<?= $form->field( 'user_is_blocked' ) ?>
+		<?= $form->field( 'user_is_blocked_till' ) ?>
 		<hr class="separator">
-		<?=$form->field( 'password_is_valid' )?>
-		<?=$form->field( 'password_is_valid_till' )?>
+		<?= $form->field( 'password_is_valid' ) ?>
+		<?= $form->field( 'password_is_valid_till' ) ?>
 		<hr class="separator">
 
 	</div>
 </div>
 
-<?=$form->end()?>
+<?= $form->end() ?>

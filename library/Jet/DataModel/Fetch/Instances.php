@@ -5,6 +5,7 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace Jet;
 
 /**
@@ -32,7 +33,7 @@ class DataModel_Fetch_Instances extends DataModel_Fetch implements Data_Paginato
 	/**
 	 * @return array|DataModel_PropertyFilter
 	 */
-	public function getLoadFilter() : array|DataModel_PropertyFilter
+	public function getLoadFilter(): array|DataModel_PropertyFilter
 	{
 		return $this->load_filter;
 	}
@@ -40,11 +41,11 @@ class DataModel_Fetch_Instances extends DataModel_Fetch implements Data_Paginato
 	/**
 	 * @param array|DataModel_PropertyFilter $load_filter
 	 */
-	public function setLoadFilter( array|DataModel_PropertyFilter $load_filter ) : void
+	public function setLoadFilter( array|DataModel_PropertyFilter $load_filter ): void
 	{
 		if( $load_filter ) {
 
-			if( !( $load_filter instanceof DataModel_PropertyFilter ) ) {
+			if( !($load_filter instanceof DataModel_PropertyFilter) ) {
 				$load_filter = new DataModel_PropertyFilter(
 					$this->data_model_definition, $load_filter
 				);
@@ -62,27 +63,27 @@ class DataModel_Fetch_Instances extends DataModel_Fetch implements Data_Paginato
 	/**
 	 *
 	 */
-	protected function _fetch() : void
+	protected function _fetch(): void
 	{
-		if( $this->data!==null ) {
+		if( $this->data !== null ) {
 			return;
 		}
 
 		$this->data = [];
 
-		$l = DataModel_Backend::get($this->data_model_definition)->fetchAll( $this->query );
+		$l = DataModel_Backend::get( $this->data_model_definition )->fetchAll( $this->query );
 
 		foreach( $l as $item ) {
 			$l_id = clone $this->empty_id_instance;
 
 			foreach( $l_id->getPropertyNames() as $k ) {
-				$l_id->setValue( $k, $item[$k]);
+				$l_id->setValue( $k, $item[$k] );
 
-				if(!isset($this->_where[$k])) {
+				if( !isset( $this->_where[$k] ) ) {
 					$this->_where[$k] = [];
 				}
 
-				$this->_where[$k][] =  $item[$k];
+				$this->_where[$k][] = $item[$k];
 			}
 
 			$i_id_str = (string)$l_id;
@@ -94,7 +95,7 @@ class DataModel_Fetch_Instances extends DataModel_Fetch implements Data_Paginato
 	/**
 	 * @return array
 	 */
-	public function toArray() : array
+	public function toArray(): array
 	{
 		$result = [];
 
@@ -110,10 +111,10 @@ class DataModel_Fetch_Instances extends DataModel_Fetch implements Data_Paginato
 	 *
 	 * @return DataModel
 	 */
-	protected function _get( mixed $item ) : DataModel
+	protected function _get( mixed $item ): DataModel
 	{
 
-		if( $this->_instances===null ) {
+		if( $this->_instances === null ) {
 
 			/**
 			 * @var DataModel $class_name
@@ -123,7 +124,7 @@ class DataModel_Fetch_Instances extends DataModel_Fetch implements Data_Paginato
 
 			$this->_instances = $class_name::fetch(
 				[
-					$model_name=>$this->_where
+					$model_name => $this->_where
 				],
 				null,
 				function( DataModel $item ) {

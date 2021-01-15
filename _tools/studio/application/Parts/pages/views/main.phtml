@@ -4,62 +4,62 @@ namespace JetStudio;
 use Jet\UI;
 use Jet\Tr;
 
-$this->setVar('what', Pages::whatToEdit());
-$this->setVar('page', Pages::getCurrentPage());
+$this->setVar( 'what', Pages::whatToEdit() );
+$this->setVar( 'page', Pages::getCurrentPage() );
 
 ?>
-<?=$this->render('js');?>
+<?= $this->render( 'js' ); ?>
 
-<?php if(Pages::getCurrentPage()): ?>
-<div class="row toolbar" id="main-toolbar">
-	<div class="col-md-3">
+<?php if( Pages::getCurrentPage() ): ?>
+	<div class="row toolbar" id="main-toolbar">
+		<div class="col-md-3">
 			<div class="dropdown" style="display: inline-block">
-				<button class="btn btn-light dropdown-toggle" type="button"  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-					<?=UI::flag( Pages::getCurrentLocale() )?>
-					<span style="font-weight: bolder;font-size: 16px;"><?=Pages::getCurrentSite()->getName()?></span>
+				<button class="btn btn-light dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true"
+				        aria-expanded="false">
+					<?= UI::flag( Pages::getCurrentLocale() ) ?>
+					<span style="font-weight: bolder;font-size: 16px;"><?= Pages::getCurrentSite()->getName() ?></span>
 				</button>
 				<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
 					<?php foreach( Sites::getSites() as $site ): ?>
 						<div class="dropdown-item" style="padding-bottom: 10px;">
-						<strong><?=$site->getName()?></strong>
-						<?php foreach( $site->getLocales() as $locale ):
-							$link = Pages::getActionUrl('', [], Pages_Page::HOMEPAGE_ID, $locale, $site->getId());
-							?>
-						<div style="width: 300px;padding: 10px;">
-							<a href="<?=$link?>"><?=UI::flag($locale)?></a>
-							<a href="<?=$link?>"><?=$locale->getName()?></a>
-						</div>
-						<?php endforeach; ?>
+							<strong><?= $site->getName() ?></strong>
+							<?php foreach( $site->getLocales() as $locale ):
+								$link = Pages::getActionUrl( '', [], Pages_Page::HOMEPAGE_ID, $locale, $site->getId() );
+								?>
+								<div style="width: 300px;padding: 10px;">
+									<a href="<?= $link ?>"><?= UI::flag( $locale ) ?></a>
+									<a href="<?= $link ?>"><?= $locale->getName() ?></a>
+								</div>
+							<?php endforeach; ?>
 						</div>
 					<?php endforeach; ?>
 				</div>
 			</div>
+		</div>
+		<div class="col-md-9" style="padding: 0px;">
+			<?= UI::button_create( Tr::_( 'Create a new page' ) )->setOnclick( 'Pages.createPage.openDialog()' ) ?>
+			<?= $this->render( 'page/toolbar' ); ?>
+		</div>
 	</div>
-	<div class="col-md-9" style="padding: 0px;">
-		<?=UI::button_create(Tr::_('Create a new page'))->setOnclick('Pages.createPage.openDialog()')?>
-		<?=$this->render('page/toolbar');?>
-	</div>
-</div>
 
 
-
-<div class="row" id="main-col">
-	<div class="col-md-3" style="padding: 0px;">
-		<?=$this->render('pages_tree');?>
+	<div class="row" id="main-col">
+		<div class="col-md-3" style="padding: 0px;">
+			<?= $this->render( 'pages_tree' ); ?>
+		</div>
+		<div class="col-md-9" style="padding: 0px;">
+			<?= $this->render( 'page/edit' ); ?>
+		</div>
 	</div>
-	<div class="col-md-9" style="padding: 0px;">
-		<?=$this->render('page/edit');?>
-	</div>
-</div>
 
 
 <?php else: ?>
-<div class="row">
-	<div class="col-md-12">
-		<?=$this->render('dashboard');?>
+	<div class="row">
+		<div class="col-md-12">
+			<?= $this->render( 'dashboard' ); ?>
+		</div>
 	</div>
-</div>
 <?php endif; ?>
 
 
-<?=$this->render('page/create/dialog');?>
+<?= $this->render( 'page/create/dialog' ); ?>

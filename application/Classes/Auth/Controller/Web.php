@@ -5,6 +5,7 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace JetApplication;
 
 use Jet\BaseObject;
@@ -47,7 +48,7 @@ class Auth_Controller_Web extends BaseObject implements Auth_Controller_Interfac
 	 *
 	 * @return bool
 	 */
-	public function checkCurrentUser() : bool
+	public function checkCurrentUser(): bool
 	{
 
 		$user = $this->getCurrentUser();
@@ -61,7 +62,7 @@ class Auth_Controller_Web extends BaseObject implements Auth_Controller_Interfac
 
 		if( $user->isBlocked() ) {
 			$till = $user->isBlockedTill();
-			if( $till!==null&&$till<=Data_DateTime::now() ) {
+			if( $till !== null && $till <= Data_DateTime::now() ) {
 				$user->unBlock();
 				$user->save();
 			} else {
@@ -73,7 +74,7 @@ class Auth_Controller_Web extends BaseObject implements Auth_Controller_Interfac
 			return false;
 		}
 
-		if( ( $pwd_valid_till = $user->getPasswordIsValidTill() )!==null&&$pwd_valid_till<=Data_DateTime::now() ) {
+		if( ($pwd_valid_till = $user->getPasswordIsValidTill()) !== null && $pwd_valid_till <= Data_DateTime::now() ) {
 			$user->setPasswordIsValid( false );
 			$user->save();
 
@@ -88,9 +89,9 @@ class Auth_Controller_Web extends BaseObject implements Auth_Controller_Interfac
 	 *
 	 * @return Visitor|null
 	 */
-	public function getCurrentUser() : Visitor|bool
+	public function getCurrentUser(): Visitor|bool
 	{
-		if( $this->current_user!==null ) {
+		if( $this->current_user !== null ) {
 			return $this->current_user;
 		}
 
@@ -100,7 +101,7 @@ class Auth_Controller_Web extends BaseObject implements Auth_Controller_Interfac
 			$this->current_user = Visitor::get( $user_id );
 		}
 
-		if(!$this->current_user) {
+		if( !$this->current_user ) {
 			$this->current_user = false;
 		}
 
@@ -110,7 +111,7 @@ class Auth_Controller_Web extends BaseObject implements Auth_Controller_Interfac
 	/**
 	 * @return Session
 	 */
-	protected function getSession() : Session
+	protected function getSession(): Session
 	{
 		return new Session( 'auth_web' );
 
@@ -119,7 +120,7 @@ class Auth_Controller_Web extends BaseObject implements Auth_Controller_Interfac
 	/**
 	 *
 	 */
-	public function handleLogin() : void
+	public function handleLogin(): void
 	{
 
 		$page = Mvc::getCurrentPage();
@@ -158,12 +159,12 @@ class Auth_Controller_Web extends BaseObject implements Auth_Controller_Interfac
 	/**
 	 *
 	 */
-	public function logout() : void
+	public function logout(): void
 	{
 		$user = $this->getCurrentUser();
 		if( $user ) {
 			Logger::info(
-				static::EVENT_LOGOUT, 'User has '.$user->getUsername().' (id:'.$user->getId().') logged off',
+				static::EVENT_LOGOUT, 'User has ' . $user->getUsername() . ' (id:' . $user->getId() . ') logged off',
 				$user->getId(), $user->getName()
 			);
 		}
@@ -179,7 +180,7 @@ class Auth_Controller_Web extends BaseObject implements Auth_Controller_Interfac
 	 *
 	 * @return bool
 	 */
-	public function login( string $username, string $password ) : bool
+	public function login( string $username, string $password ): bool
 	{
 
 		$user = Visitor::getByIdentity( $username, $password );
@@ -187,7 +188,7 @@ class Auth_Controller_Web extends BaseObject implements Auth_Controller_Interfac
 		if( !$user ) {
 			Logger::warning(
 				static::EVENT_LOGIN_FAILED,
-				'Login failed. Username: \''.$username.'\'',
+				'Login failed. Username: \'' . $username . '\'',
 				$username,
 				'',
 				[],
@@ -207,7 +208,7 @@ class Auth_Controller_Web extends BaseObject implements Auth_Controller_Interfac
 
 		Logger::success(
 			static::EVENT_LOGIN_SUCCESS,
-			'User '.$user->getUsername().' (id:'.$user->getId().') has logged in',
+			'User ' . $user->getUsername() . ' (id:' . $user->getId() . ') has logged in',
 			$user->getId(),
 			$user->getName()
 		);
@@ -223,7 +224,7 @@ class Auth_Controller_Web extends BaseObject implements Auth_Controller_Interfac
 	 *
 	 * @return bool
 	 */
-	public function getCurrentUserHasPrivilege( string $privilege, mixed $value ) : bool
+	public function getCurrentUserHasPrivilege( string $privilege, mixed $value ): bool
 	{
 		$current_user = $this->getCurrentUser();
 
@@ -234,7 +235,7 @@ class Auth_Controller_Web extends BaseObject implements Auth_Controller_Interfac
 			return false;
 		}
 
-		return $current_user->hasPrivilege($privilege, $value);
+		return $current_user->hasPrivilege( $privilege, $value );
 	}
 
 
@@ -244,7 +245,7 @@ class Auth_Controller_Web extends BaseObject implements Auth_Controller_Interfac
 	 *
 	 * @return bool
 	 */
-	public function checkModuleActionAccess( string $module_name, string $action ) : bool
+	public function checkModuleActionAccess( string $module_name, string $action ): bool
 	{
 		return false;
 	}
@@ -255,7 +256,7 @@ class Auth_Controller_Web extends BaseObject implements Auth_Controller_Interfac
 	 *
 	 * @return bool
 	 */
-	public function checkPageAccess( Mvc_Page_Interface $page ) : bool
+	public function checkPageAccess( Mvc_Page_Interface $page ): bool
 	{
 		return $this->getCurrentUserHasPrivilege( Auth_Visitor_Role::PRIVILEGE_VISIT_PAGE, $page->getKey() );
 	}

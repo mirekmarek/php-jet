@@ -5,6 +5,7 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace Jet;
 
 /**
@@ -50,7 +51,7 @@ class Application_Module_Manifest extends BaseObject
 	protected string $description = '';
 
 	/**
-	 * @var array 
+	 * @var array
 	 */
 	protected array $ACL_actions = [];
 
@@ -82,7 +83,7 @@ class Application_Module_Manifest extends BaseObject
 	/**
 	 * @return callable
 	 */
-	public static function getCompatibilityChecker() : callable
+	public static function getCompatibilityChecker(): callable
 	{
 		return static::$compatibility_checker;
 	}
@@ -96,11 +97,10 @@ class Application_Module_Manifest extends BaseObject
 	}
 
 
-
 	/**
 	 * @return string
 	 */
-	public static function getManifestFileName() : string
+	public static function getManifestFileName(): string
 	{
 		return static::$manifest_file_name;
 	}
@@ -139,23 +139,23 @@ class Application_Module_Manifest extends BaseObject
 	 *
 	 * @throws Application_Modules_Exception
 	 */
-	protected function readManifestData() : array
+	protected function readManifestData(): array
 	{
 		$module_dir = $this->getModuleDir();
 
 		if( !IO_Dir::exists( $module_dir ) ) {
 			throw new Application_Modules_Exception(
-				'Directory \''.$module_dir.'\' does not exist',
+				'Directory \'' . $module_dir . '\' does not exist',
 				Application_Modules_Exception::CODE_MODULE_DOES_NOT_EXIST
 			);
 		}
 
 
-		$manifest_file = $module_dir.static::$manifest_file_name;
+		$manifest_file = $module_dir . static::$manifest_file_name;
 
 		if( !IO_File::isReadable( $manifest_file ) ) {
 			throw new Application_Modules_Exception(
-				'Module manifest file \''.$manifest_file.'\' does not exist or is not readable. ',
+				'Module manifest file \'' . $manifest_file . '\' does not exist or is not readable. ',
 				Application_Modules_Exception::CODE_MANIFEST_IS_NOT_READABLE
 			);
 		}
@@ -175,14 +175,14 @@ class Application_Module_Manifest extends BaseObject
 	{
 		if( !is_array( $manifest_data ) ) {
 			throw new Application_Modules_Exception(
-				'Manifest data must be array (Module: \''.$this->_name.'\')',
+				'Manifest data must be array (Module: \'' . $this->_name . '\')',
 				Application_Modules_Exception::CODE_MANIFEST_NONSENSE
 			);
 		}
 
 		if( empty( $manifest_data['label'] ) ) {
 			throw new Application_Modules_Exception(
-				'Module label not set! (\'label\' array key does not exist, or is empty) (Module: \''.$this->_name.'\')',
+				'Module label not set! (\'label\' array key does not exist, or is empty) (Module: \'' . $this->_name . '\')',
 				Application_Modules_Exception::CODE_MANIFEST_NONSENSE
 			);
 		}
@@ -200,7 +200,7 @@ class Application_Module_Manifest extends BaseObject
 		foreach( $manifest_data as $key => $val ) {
 			if( !$this->objectHasProperty( $key ) ) {
 				throw new Application_Modules_Exception(
-					'Unknown manifest property \''.$key.'\' (Module: \''.$this->_name.'\') ',
+					'Unknown manifest property \'' . $key . '\' (Module: \'' . $this->_name . '\') ',
 					Application_Modules_Exception::CODE_MANIFEST_NONSENSE
 				);
 			}
@@ -215,7 +215,7 @@ class Application_Module_Manifest extends BaseObject
 	 *
 	 * @return string
 	 */
-	public function getModuleDir() : string
+	public function getModuleDir(): string
 	{
 		return Application_Modules::getModuleDir( $this->_name );
 	}
@@ -223,7 +223,7 @@ class Application_Module_Manifest extends BaseObject
 	/**
 	 * @return string
 	 */
-	public function getName() : string
+	public function getName(): string
 	{
 		return $this->_name;
 	}
@@ -231,15 +231,15 @@ class Application_Module_Manifest extends BaseObject
 	/**
 	 * @return string
 	 */
-	public function getNamespace() : string
+	public function getNamespace(): string
 	{
-		return Application_Modules::getModuleRootNamespace().'\\'.str_replace( '.', '\\', $this->_name ).'\\';
+		return Application_Modules::getModuleRootNamespace() . '\\' . str_replace( '.', '\\', $this->_name ) . '\\';
 	}
 
 	/**
 	 * @return string
 	 */
-	public function getVendor() : string
+	public function getVendor(): string
 	{
 		return $this->vendor;
 	}
@@ -247,7 +247,7 @@ class Application_Module_Manifest extends BaseObject
 	/**
 	 * @return string
 	 */
-	public function getVersion() : string
+	public function getVersion(): string
 	{
 		return $this->version;
 	}
@@ -255,7 +255,7 @@ class Application_Module_Manifest extends BaseObject
 	/**
 	 * @return string
 	 */
-	public function getLabel() : string
+	public function getLabel(): string
 	{
 		return $this->label;
 	}
@@ -263,7 +263,7 @@ class Application_Module_Manifest extends BaseObject
 	/**
 	 * @return string
 	 */
-	public function getDescription() : string
+	public function getDescription(): string
 	{
 		return $this->description;
 	}
@@ -271,30 +271,30 @@ class Application_Module_Manifest extends BaseObject
 	/**
 	 * @param bool $translate_description
 	 * @param ?Locale $translate_locale
-	 * 
+	 *
 	 * @return array
 	 */
-	public function getACLActions( bool $translate_description=true, ?Locale $translate_locale=null ) : array
+	public function getACLActions( bool $translate_description = true, ?Locale $translate_locale = null ): array
 	{
-		if(!$translate_description) {
+		if( !$translate_description ) {
 			return $this->ACL_actions;
 		}
-		
+
 		$res = [];
-		
-		foreach($this->ACL_actions as $action=>$description) {
-			$res[$action] = Tr::_($description, [], $this->getName(), $translate_locale);
+
+		foreach( $this->ACL_actions as $action => $description ) {
+			$res[$action] = Tr::_( $description, [], $this->getName(), $translate_locale );
 		}
-		
+
 		return $res;
 	}
 
 	/**
 	 * @param string $action
-	 * 
+	 *
 	 * @return bool
 	 */
-	public function hasACLAction( string $action ) : bool
+	public function hasACLAction( string $action ): bool
 	{
 		return array_key_exists( $action, $this->ACL_actions );
 	}
@@ -302,9 +302,9 @@ class Application_Module_Manifest extends BaseObject
 	/**
 	 * @return bool
 	 */
-	public function isCompatible() : bool
+	public function isCompatible(): bool
 	{
-		if(!static::$compatibility_checker) {
+		if( !static::$compatibility_checker ) {
 			return true;
 		}
 
@@ -316,7 +316,7 @@ class Application_Module_Manifest extends BaseObject
 	/**
 	 * @return bool
 	 */
-	public function isMandatory() : bool
+	public function isMandatory(): bool
 	{
 		return $this->is_mandatory;
 	}
@@ -326,7 +326,7 @@ class Application_Module_Manifest extends BaseObject
 	 *
 	 * @return array
 	 */
-	public function getPagesRaw() : array
+	public function getPagesRaw(): array
 	{
 		return $this->pages;
 	}
@@ -338,16 +338,16 @@ class Application_Module_Manifest extends BaseObject
 	 *
 	 * @return Mvc_Page[]
 	 */
-	public function getPages( Mvc_Site_Interface $site, Locale $locale, null|string|bool $translator_namespace=null ) : array
+	public function getPages( Mvc_Site_Interface $site, Locale $locale, null|string|bool $translator_namespace = null ): array
 	{
 
-		if($translator_namespace===null) {
+		if( $translator_namespace === null ) {
 			$translator_namespace = $this->getName();
 		}
 
 		if(
-			!isset($this->pages[$site->getId()]) ||
-			!is_array($this->pages[$site->getId()])
+			!isset( $this->pages[$site->getId()] ) ||
+			!is_array( $this->pages[$site->getId()] )
 		) {
 			return [];
 		}
@@ -361,21 +361,21 @@ class Application_Module_Manifest extends BaseObject
 			'breadcrumb_title',
 		];
 
-		foreach( $this->pages[$site->getId()] as $page_id=>$page_data ) {
+		foreach( $this->pages[$site->getId()] as $page_id => $page_data ) {
 
 			$page_data['id'] = $page_id;
 
-			if(isset($page_data['contents'])) {
-				foreach( $page_data['contents'] as $i=>$content ) {
-					if( empty($content['module_name']) ) {
+			if( isset( $page_data['contents'] ) ) {
+				foreach( $page_data['contents'] as $i => $content ) {
+					if( empty( $content['module_name'] ) ) {
 						$page_data['contents'][$i]['module_name'] = $this->getName();
 					}
 				}
 			}
 
-			if( $translator_namespace!==false ) {
+			if( $translator_namespace !== false ) {
 				foreach( $translate_fields as $tf ) {
-					if(!empty($page_data[$tf])) {
+					if( !empty( $page_data[$tf] ) ) {
 						$page_data[$tf] = Tr::_( $page_data[$tf], [], $translator_namespace, $locale );
 					}
 				}
@@ -393,7 +393,7 @@ class Application_Module_Manifest extends BaseObject
 	/**
 	 * @return array
 	 */
-	public function getMenuItemsRaw() : array
+	public function getMenuItemsRaw(): array
 	{
 		return $this->menu_items;
 	}
@@ -405,25 +405,25 @@ class Application_Module_Manifest extends BaseObject
 	 *
 	 * @return Navigation_Menu_Item[]
 	 */
-	public function getMenuItems( string $menu_set_name, ?string $translator_namespace=null ) : array
+	public function getMenuItems( string $menu_set_name, ?string $translator_namespace = null ): array
 	{
 
-		if(!isset( $this->menu_items[$menu_set_name])) {
+		if( !isset( $this->menu_items[$menu_set_name] ) ) {
 			return [];
 		}
 
-		if($translator_namespace===null) {
+		if( $translator_namespace === null ) {
 			$translator_namespace = $this->getName();
 		}
 
 		$res = [];
-		foreach( $this->menu_items[$menu_set_name] as $menu_id=> $menu_items_data ) {
-			foreach( $menu_items_data as $item_id=>$menu_item_data ) {
+		foreach( $this->menu_items[$menu_set_name] as $menu_id => $menu_items_data ) {
+			foreach( $menu_items_data as $item_id => $menu_item_data ) {
 				$label = '';
 
-				if(!empty($menu_item_data['label'])) {
-					if($translator_namespace!==false) {
-						$label = Tr::_($menu_item_data['label'], [], $translator_namespace);
+				if( !empty( $menu_item_data['label'] ) ) {
+					if( $translator_namespace !== false ) {
+						$label = Tr::_( $menu_item_data['label'], [], $translator_namespace );
 					} else {
 						$label = $menu_item_data['label'];
 					}
@@ -444,7 +444,7 @@ class Application_Module_Manifest extends BaseObject
 	/**
 	 * @return bool
 	 */
-	public function isInstalled() : bool
+	public function isInstalled(): bool
 	{
 		return Application_Modules::moduleIsInstalled( $this->_name );
 	}
@@ -452,7 +452,7 @@ class Application_Module_Manifest extends BaseObject
 	/**
 	 * @return bool
 	 */
-	public function isActivated() : bool
+	public function isActivated(): bool
 	{
 		return Application_Modules::moduleIsActivated( $this->_name );
 	}

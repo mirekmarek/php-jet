@@ -5,12 +5,13 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace Jet;
 
-require_once SysConf_Path::getLibrary().'Jet/Cache.php';
-require_once SysConf_Path::getLibrary().'Jet/Cache/Files.php';
-require_once SysConf_Path::getLibrary().'Jet/Autoloader/Cache.php';
-require_once SysConf_Path::getLibrary().'Jet/Autoloader/Cache/Backend.php';
+require_once SysConf_Path::getLibrary() . 'Jet/Cache.php';
+require_once SysConf_Path::getLibrary() . 'Jet/Cache/Files.php';
+require_once SysConf_Path::getLibrary() . 'Jet/Autoloader/Cache.php';
+require_once SysConf_Path::getLibrary() . 'Jet/Autoloader/Cache/Backend.php';
 
 
 /**
@@ -24,7 +25,7 @@ class Autoloader_Cache_Backend_Files extends Cache_Files implements Autoloader_C
 	/**
 	 * @return bool
 	 */
-	public function isActive() : bool
+	public function isActive(): bool
 	{
 		return SysConf_Jet::isCacheAutoloaderEnabled();
 	}
@@ -33,7 +34,7 @@ class Autoloader_Cache_Backend_Files extends Cache_Files implements Autoloader_C
 	 *
 	 * @return array|null
 	 */
-	public function load() : array|null
+	public function load(): array|null
 	{
 		return $this->readData( static::KEY );
 	}
@@ -42,7 +43,7 @@ class Autoloader_Cache_Backend_Files extends Cache_Files implements Autoloader_C
 	/**
 	 * @param array $map
 	 */
-	public function save( array $map ) : void
+	public function save( array $map ): void
 	{
 		$this->writeData( static::KEY, $map );
 	}
@@ -50,7 +51,7 @@ class Autoloader_Cache_Backend_Files extends Cache_Files implements Autoloader_C
 	/**
 	 *
 	 */
-	public function reset() : void
+	public function reset(): void
 	{
 		$this->resetDataFile( static::KEY );
 	}

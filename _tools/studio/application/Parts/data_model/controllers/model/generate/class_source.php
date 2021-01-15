@@ -1,16 +1,17 @@
 <?php
+
 namespace JetStudio;
 
 $current = DataModels::getCurrentModel();
-if(!$current) {
+if( !$current ) {
 	die();
 }
 
-header('Content-Type: text/plain');
+header( 'Content-Type: text/plain' );
 
 $class = $current->createClass();
 
-if(!$class) {
+if( !$class ) {
 	die();
 }
 

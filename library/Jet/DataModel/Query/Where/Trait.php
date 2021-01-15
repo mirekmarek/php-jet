@@ -5,6 +5,7 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace Jet;
 
 /**
@@ -40,7 +41,7 @@ trait DataModel_Query_Where_Trait
 					break;
 				default:
 					throw new DataModel_Query_Exception(
-						'Unknown logical operator \''.strtoupper( $val ).'\'. Available operators: AND, OR',
+						'Unknown logical operator \'' . strtoupper( $val ) . '\'. Available operators: AND, OR',
 						DataModel_Query_Exception::CODE_QUERY_PARSE_ERROR
 					);
 			}
@@ -54,14 +55,14 @@ trait DataModel_Query_Where_Trait
 	 *
 	 * @return string
 	 */
-	protected function _determineOperator( string &$key ) : string
+	protected function _determineOperator( string &$key ): string
 	{
 		$operator = DataModel_Query::O_EQUAL;
 		$key = trim( $key );
 
 		foreach( DataModel_Query::AVAILABLE_OPERATORS as $s_operator ) {
 			$len = strlen( $s_operator );
-			if( substr( $key, -$len )==$s_operator ) {
+			if( substr( $key, -$len ) == $s_operator ) {
 				$operator = $s_operator;
 				$key = trim( substr( $key, 0, -$len ) );
 				break;

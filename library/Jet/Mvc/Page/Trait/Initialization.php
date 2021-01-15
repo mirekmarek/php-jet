@@ -5,6 +5,7 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace Jet;
 
 /**
@@ -38,19 +39,17 @@ trait Mvc_Page_Trait_Initialization
 	protected static array $maps = [];
 
 
-
-
 	/**
 	 * @param Mvc_Site_Interface $site
 	 * @param Locale $locale
 	 *
 	 * @return array
 	 */
-	public static function getRelativePathMap( Mvc_Site_Interface $site, Locale $locale ) : array
+	public static function getRelativePathMap( Mvc_Site_Interface $site, Locale $locale ): array
 	{
 		$site_id = $site->getId();
 
-		$key = $site_id.':'.$locale;
+		$key = $site_id . ':' . $locale;
 
 		static::loadMaps( $site, $locale );
 
@@ -63,23 +62,23 @@ trait Mvc_Page_Trait_Initialization
 	 *
 	 * @return array
 	 */
-	public static function loadMaps( Mvc_Site_Interface $site, Locale $locale ) : array
+	public static function loadMaps( Mvc_Site_Interface $site, Locale $locale ): array
 	{
 		$site_id = $site->getId();
 
-		$key = $site_id.':'.$locale;
+		$key = $site_id . ':' . $locale;
 
-		if(!isset(static::$maps[$key])) {
+		if( !isset( static::$maps[$key] ) ) {
 			$map = Mvc_Cache::loadPageMaps( $site, $locale );
-			if($map) {
+			if( $map ) {
 				static::$maps[$key] = $map;
 			} else {
 				static::$maps[$key] = [
-					'pages_files_map' => [],
+					'pages_files_map'   => [],
 					'relative_path_map' => [],
-					'children_map' => [],
-					'parent_map' => [],
-					'parents_map' => [],
+					'children_map'      => [],
+					'parent_map'        => [],
+					'parents_map'       => [],
 				];
 
 				static::loadMaps_readDir( $key, $site->getPagesDataPath( $locale ) );
@@ -96,18 +95,18 @@ trait Mvc_Page_Trait_Initialization
 	 * @param Mvc_Site_Interface $site
 	 * @param Locale $locale
 	 */
-	protected static function loadMaps_modules( Mvc_Site_Interface $site, Locale $locale ) : void
+	protected static function loadMaps_modules( Mvc_Site_Interface $site, Locale $locale ): void
 	{
-		if(!static::$use_module_pages) {
+		if( !static::$use_module_pages ) {
 			return;
 		}
 
 		$site_id = $site->getId();
 		$locale_str = $locale->toString();
-		$key = $site_id.':'.$locale_str;
+		$key = $site_id . ':' . $locale_str;
 
-		Debug_Profiler::blockStart('Loading module pages');
-		Debug_Profiler::message('site: '.$site_id.' locale: '.$locale_str);
+		Debug_Profiler::blockStart( 'Loading module pages' );
+		Debug_Profiler::message( 'site: ' . $site_id . ' locale: ' . $locale_str );
 
 		foreach( Application_Modules::activatedModulesList() as $manifest ) {
 
@@ -116,15 +115,15 @@ trait Mvc_Page_Trait_Initialization
 			foreach( $pages as $page ) {
 				$page_id = $page->getId();
 
-				static::$maps[$key]['relative_path_map'][$page->getRelativePath().'/'] = $page_id;
+				static::$maps[$key]['relative_path_map'][$page->getRelativePath() . '/'] = $page_id;
 				static::$maps[$key]['children_map'][$page_id] = [];
-				static::$maps[$key]['pages_files_map'][$page_id] = '@'.$manifest->getName();
+				static::$maps[$key]['pages_files_map'][$page_id] = '@' . $manifest->getName();
 				static::$maps[$key]['parent_map'][$page_id] = Mvc_Page::HOMEPAGE_ID;
 				static::$maps[$key]['parents_map'][$page_id] = [Mvc_Page::HOMEPAGE_ID];
 
 			}
 		}
-		Debug_Profiler::blockEnd('Loading module pages');
+		Debug_Profiler::blockEnd( 'Loading module pages' );
 
 	}
 
@@ -138,29 +137,29 @@ trait Mvc_Page_Trait_Initialization
 	 *
 	 * @throws Mvc_Page_Exception
 	 */
-	protected static function loadMaps_readDir( string $key, string $source_dir_path, string $parent_page_id = '', string $parent_path='', array $parents=[] ) : void
+	protected static function loadMaps_readDir( string $key, string $source_dir_path, string $parent_page_id = '', string $parent_path = '', array $parents = [] ): void
 	{
 
-		$page_data_file_path = $source_dir_path.static::$page_data_file_name;
+		$page_data_file_path = $source_dir_path . static::$page_data_file_name;
 
 
 		$page_id = static::loadMaps_getPageId( $page_data_file_path );
-		if(!$parent_page_id) {
+		if( !$parent_page_id ) {
 			$page_id = Mvc_Page::HOMEPAGE_ID;
 		}
 
 
 		if( isset( static::$maps[$key]['pages_files_map'][$page_id] ) ) {
 			throw new Mvc_Page_Exception(
-				'Duplicate page: \''.$key.':'.$page_id.'\', page data file: '.$page_data_file_path,
+				'Duplicate page: \'' . $key . ':' . $page_id . '\', page data file: ' . $page_data_file_path,
 				Mvc_Page_Exception::CODE_DUPLICATES_PAGE_ID
 			);
 		}
 
 		static::$maps[$key]['pages_files_map'][$page_id] = $page_data_file_path;
 
-		if($parent_page_id) {
-			$relative_path = $parent_path.rawurlencode(basename($source_dir_path)).'/';
+		if( $parent_page_id ) {
+			$relative_path = $parent_path . rawurlencode( basename( $source_dir_path ) ) . '/';
 			static::$maps[$key]['children_map'][$parent_page_id][] = $page_id;
 		} else {
 			$relative_path = '';
@@ -170,7 +169,6 @@ trait Mvc_Page_Trait_Initialization
 		static::$maps[$key]['children_map'][$page_id] = [];
 		static::$maps[$key]['parent_map'][$page_id] = $parent_page_id;
 		static::$maps[$key]['parents_map'][$page_id] = $parents;
-
 
 
 		$parents[] = $page_id;
@@ -190,12 +188,12 @@ trait Mvc_Page_Trait_Initialization
 	 *
 	 * @return string
 	 */
-	protected static function loadMaps_getPageId( string $data_file_path, array $parent_page_data = null, $dir_name='' ) : string
+	protected static function loadMaps_getPageId( string $data_file_path, array $parent_page_data = null, $dir_name = '' ): string
 	{
 
 		if( !IO_File::isReadable( $data_file_path ) ) {
 			throw new Mvc_Page_Exception(
-				'Page data file is not readable: '.$data_file_path,
+				'Page data file is not readable: ' . $data_file_path,
 				Mvc_Page_Exception::CODE_UNABLE_TO_READ_PAGE_DATA
 			);
 		}
@@ -203,15 +201,14 @@ trait Mvc_Page_Trait_Initialization
 		/** @noinspection PhpIncludeInspection */
 		$data = require $data_file_path;
 
-		return $data['id']??'';
+		return $data['id'] ?? '';
 	}
-
 
 
 	/**
 	 * @return string
 	 */
-	public static function getPageDataFileName() : string
+	public static function getPageDataFileName(): string
 	{
 		return static::$page_data_file_name;
 	}
@@ -219,20 +216,20 @@ trait Mvc_Page_Trait_Initialization
 	/**
 	 * @param string $page_data_file_name
 	 */
-	public static function setPageDataFileName( string $page_data_file_name ) : void
+	public static function setPageDataFileName( string $page_data_file_name ): void
 	{
 		static::$page_data_file_name = $page_data_file_name;
 	}
 
 
 	/**
-	 * @param Mvc_Site_Interface      $site
-	 * @param Locale                  $locale
-	 * @param array                   $data
+	 * @param Mvc_Site_Interface $site
+	 * @param Locale $locale
+	 * @param array $data
 	 *
 	 * @return static
 	 */
-	public static function createByData( Mvc_Site_Interface $site, Locale $locale, array $data ) : static
+	public static function createByData( Mvc_Site_Interface $site, Locale $locale, array $data ): static
 	{
 		/**
 		 * @var Mvc_Page $page
@@ -254,7 +251,7 @@ trait Mvc_Page_Trait_Initialization
 	/**
 	 * @param array $data
 	 */
-	protected function setData( array $data ) : void
+	protected function setData( array $data ): void
 	{
 		/**
 		 * @var Mvc_Page $this
@@ -278,17 +275,17 @@ trait Mvc_Page_Trait_Initialization
 			unset( $data['contents'] );
 		}
 
-		if(!isset($data['relative_path'])) {
+		if( !isset( $data['relative_path'] ) ) {
 			/**
 			 * @var Mvc_Page $parent
 			 */
 			$parent = $this->getParent();
 			$parent_path = $parent ? $parent->getRelativePath() : '';
 
-			if(!$parent_path) {
+			if( !$parent_path ) {
 				$data['relative_path'] = $data['relative_path_fragment'];
 			} else {
-				$data['relative_path'] = $parent_path.'/'.$data['relative_path_fragment'];
+				$data['relative_path'] = $parent_path . '/' . $data['relative_path_fragment'];
 			}
 		}
 
@@ -297,15 +294,15 @@ trait Mvc_Page_Trait_Initialization
 			$this->{$key} = $var;
 		}
 
-		if(!$this->name) {
+		if( !$this->name ) {
 			$this->name = $this->title;
 		}
 
-		if(!$this->menu_title) {
+		if( !$this->menu_title ) {
 			$this->menu_title = $this->title;
 		}
 
-		if(!$this->breadcrumb_title) {
+		if( !$this->breadcrumb_title ) {
 			$this->breadcrumb_title = $this->title;
 		}
 
@@ -315,15 +312,15 @@ trait Mvc_Page_Trait_Initialization
 	/**
 	 * @return string
 	 */
-	public function getDataDirPath() : string
+	public function getDataDirPath(): string
 	{
-		return dirname( $this->getDataFilePath() ).'/';
+		return dirname( $this->getDataFilePath() ) . '/';
 	}
 
 	/**
 	 * @return string
 	 */
-	public function getDataFilePath() : string
+	public function getDataFilePath(): string
 	{
 		return $this->data_file_path;
 	}
@@ -331,7 +328,7 @@ trait Mvc_Page_Trait_Initialization
 	/**
 	 * @param string $data_file_path
 	 */
-	public function setDataFilePath( string $data_file_path ) : void
+	public function setDataFilePath( string $data_file_path ): void
 	{
 		$this->data_file_path = $data_file_path;
 	}

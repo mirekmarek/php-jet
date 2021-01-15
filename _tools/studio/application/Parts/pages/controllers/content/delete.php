@@ -1,4 +1,5 @@
 <?php
+
 namespace JetStudio;
 
 use Jet\Http_Headers;
@@ -13,8 +14,8 @@ if(
 ) {
 
 	if( $current->save() ) {
-		UI_messages::info( Tr::_('Content has been deleted') );
+		UI_messages::info( Tr::_( 'Content has been deleted' ) );
 
-		Http_Headers::reload([], ['action']);
+		Http_Headers::reload( [], ['action'] );
 	}
 }

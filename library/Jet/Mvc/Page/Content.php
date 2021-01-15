@@ -5,6 +5,7 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace Jet;
 
 require_once 'Content/Interface.php';
@@ -92,14 +93,14 @@ class Mvc_Page_Content extends BaseObject implements Mvc_Page_Content_Interface
 
 	/**
 	 * @param Mvc_Page_Interface $page
-	 * @param array              $data
+	 * @param array $data
 	 *
 	 * @return Mvc_Page_Content_Interface
 	 */
-	public static function createByData( Mvc_Page_Interface $page, array $data ) : Mvc_Page_Content_Interface
+	public static function createByData( Mvc_Page_Interface $page, array $data ): Mvc_Page_Content_Interface
 	{
 		/**
-		 * @var Mvc_Page_Content $content;
+		 * @var Mvc_Page_Content $content ;
 		 */
 		$content = Mvc_Factory::getPageContentInstance();
 		$content->setPage( $page );
@@ -113,7 +114,7 @@ class Mvc_Page_Content extends BaseObject implements Mvc_Page_Content_Interface
 	/**
 	 * @param array $data
 	 */
-	protected function setData( array $data ) : void
+	protected function setData( array $data ): void
 	{
 		foreach( $data as $key => $val ) {
 			$this->{$key} = $val;
@@ -123,7 +124,7 @@ class Mvc_Page_Content extends BaseObject implements Mvc_Page_Content_Interface
 	/**
 	 * @return string
 	 */
-	public function getControllerName() : string
+	public function getControllerName(): string
 	{
 		return $this->controller_name;
 	}
@@ -131,7 +132,7 @@ class Mvc_Page_Content extends BaseObject implements Mvc_Page_Content_Interface
 	/**
 	 * @param string $controller_name
 	 */
-	public function setControllerName( string $controller_name ) : void
+	public function setControllerName( string $controller_name ): void
 	{
 		$this->controller_name = $controller_name;
 	}
@@ -139,7 +140,7 @@ class Mvc_Page_Content extends BaseObject implements Mvc_Page_Content_Interface
 	/**
 	 * @return string
 	 */
-	public function getControllerClass() : string
+	public function getControllerClass(): string
 	{
 		return $this->controller_class;
 	}
@@ -147,17 +148,16 @@ class Mvc_Page_Content extends BaseObject implements Mvc_Page_Content_Interface
 	/**
 	 * @param string $controller_class
 	 */
-	public function setControllerClass( string $controller_class ) : void
+	public function setControllerClass( string $controller_class ): void
 	{
 		$this->controller_class = $controller_class;
 	}
 
 
-
 	/**
 	 * @return string
 	 */
-	public function getOutputPosition() : string
+	public function getOutputPosition(): string
 	{
 		return $this->output_position;
 	}
@@ -165,7 +165,7 @@ class Mvc_Page_Content extends BaseObject implements Mvc_Page_Content_Interface
 	/**
 	 * @param string $output_position
 	 */
-	public function setOutputPosition( string $output_position ) : void
+	public function setOutputPosition( string $output_position ): void
 	{
 		$this->output_position = $output_position;
 	}
@@ -174,7 +174,7 @@ class Mvc_Page_Content extends BaseObject implements Mvc_Page_Content_Interface
 	/**
 	 * @return int
 	 */
-	public function getOutputPositionOrder() : int
+	public function getOutputPositionOrder(): int
 	{
 		return $this->output_position_order;
 	}
@@ -182,7 +182,7 @@ class Mvc_Page_Content extends BaseObject implements Mvc_Page_Content_Interface
 	/**
 	 * @param int $output_position_order
 	 */
-	public function setOutputPositionOrder( int $output_position_order ) : void
+	public function setOutputPositionOrder( int $output_position_order ): void
 	{
 		$this->output_position_order = (int)$output_position_order;
 	}
@@ -190,7 +190,7 @@ class Mvc_Page_Content extends BaseObject implements Mvc_Page_Content_Interface
 	/**
 	 * @param bool $state
 	 */
-	public function setIsCacheable( bool $state ) : void
+	public function setIsCacheable( bool $state ): void
 	{
 		$this->is_cacheable = $state;
 	}
@@ -198,7 +198,7 @@ class Mvc_Page_Content extends BaseObject implements Mvc_Page_Content_Interface
 	/**
 	 * @return bool
 	 */
-	public function isCacheable() : bool
+	public function isCacheable(): bool
 	{
 		return $this->is_cacheable;
 	}
@@ -207,7 +207,7 @@ class Mvc_Page_Content extends BaseObject implements Mvc_Page_Content_Interface
 	/**
 	 * @return string|callable
 	 */
-	public function getOutput() : string|callable
+	public function getOutput(): string|callable
 	{
 		return $this->output;
 	}
@@ -215,7 +215,7 @@ class Mvc_Page_Content extends BaseObject implements Mvc_Page_Content_Interface
 	/**
 	 * @param string|callable $output
 	 */
-	public function setOutput( string|callable $output ) : void
+	public function setOutput( string|callable $output ): void
 	{
 		$this->output = $output;
 	}
@@ -224,7 +224,7 @@ class Mvc_Page_Content extends BaseObject implements Mvc_Page_Content_Interface
 	/**
 	 * @return Mvc_Page_Interface
 	 */
-	public function getPage() : Mvc_Page_Interface
+	public function getPage(): Mvc_Page_Interface
 	{
 		if( !$this->__page ) {
 			return Mvc::getCurrentPage();
@@ -236,7 +236,7 @@ class Mvc_Page_Content extends BaseObject implements Mvc_Page_Content_Interface
 	/**
 	 * @param Mvc_Page_Interface $page
 	 */
-	public function setPage( Mvc_Page_Interface $page ) : void
+	public function setPage( Mvc_Page_Interface $page ): void
 	{
 		$this->__page = $page;
 	}
@@ -244,7 +244,7 @@ class Mvc_Page_Content extends BaseObject implements Mvc_Page_Content_Interface
 	/**
 	 * @return string
 	 */
-	public function getModuleName() : string
+	public function getModuleName(): string
 	{
 		return $this->module_name;
 	}
@@ -252,7 +252,7 @@ class Mvc_Page_Content extends BaseObject implements Mvc_Page_Content_Interface
 	/**
 	 * @param string $module_name
 	 */
-	public function setModuleName( string $module_name ) : void
+	public function setModuleName( string $module_name ): void
 	{
 		$this->module_name = $module_name;
 	}
@@ -260,9 +260,9 @@ class Mvc_Page_Content extends BaseObject implements Mvc_Page_Content_Interface
 	/**
 	 * @return Application_Module|bool
 	 */
-	public function getModuleInstance() : Application_Module|bool
+	public function getModuleInstance(): Application_Module|bool
 	{
-		if( $this->__module_instance!==null ) {
+		if( $this->__module_instance !== null ) {
 			return $this->__module_instance;
 		}
 
@@ -290,9 +290,9 @@ class Mvc_Page_Content extends BaseObject implements Mvc_Page_Content_Interface
 	/**
 	 * @return string
 	 */
-	public function getControllerAction() : string
+	public function getControllerAction(): string
 	{
-		if($this->controller_action===false) {
+		if( $this->controller_action === false ) {
 			return false;
 		}
 
@@ -302,17 +302,16 @@ class Mvc_Page_Content extends BaseObject implements Mvc_Page_Content_Interface
 	/**
 	 * @param string $controller_action
 	 */
-	public function setControllerAction( string $controller_action ) : void
+	public function setControllerAction( string $controller_action ): void
 	{
 		$this->controller_action = $controller_action;
 	}
 
 
-
 	/**
 	 * @return array
 	 */
-	public function getParameters() : array
+	public function getParameters(): array
 	{
 		return $this->parameters;
 	}
@@ -320,18 +319,18 @@ class Mvc_Page_Content extends BaseObject implements Mvc_Page_Content_Interface
 	/**
 	 * @param array $parameters
 	 */
-	public function setParameters( array $parameters ) : void
+	public function setParameters( array $parameters ): void
 	{
 		$this->parameters = $parameters;
 	}
 
 	/**
 	 * @param string $key
-	 * @param mixed  $default_value
+	 * @param mixed $default_value
 	 *
 	 * @return mixed
 	 */
-	public function getParameter( string $key, mixed $default_value = null ) : mixed
+	public function getParameter( string $key, mixed $default_value = null ): mixed
 	{
 		if( !array_key_exists( $key, $this->parameters ) ) {
 			return $default_value;
@@ -342,9 +341,9 @@ class Mvc_Page_Content extends BaseObject implements Mvc_Page_Content_Interface
 
 	/**
 	 * @param string $key
-	 * @param mixed  $value
+	 * @param mixed $value
 	 */
-	public function setParameter( string $key, mixed $value ) : void
+	public function setParameter( string $key, mixed $value ): void
 	{
 		$this->parameters[$key] = $value;
 	}
@@ -354,7 +353,7 @@ class Mvc_Page_Content extends BaseObject implements Mvc_Page_Content_Interface
 	 *
 	 * @return bool
 	 */
-	public function parameterExists( string $key ) : bool
+	public function parameterExists( string $key ): bool
 	{
 		return array_key_exists( $key, $this->parameters );
 	}
@@ -364,21 +363,21 @@ class Mvc_Page_Content extends BaseObject implements Mvc_Page_Content_Interface
 	 *
 	 * @return Mvc_Controller|bool
 	 */
-	public function getControllerInstance() : Mvc_Controller|bool
+	public function getControllerInstance(): Mvc_Controller|bool
 	{
-		if( $this->__controller_instance!==null ) {
+		if( $this->__controller_instance !== null ) {
 			return $this->__controller_instance;
 		}
 
-		if( !($controller_class_name=$this->getControllerClass()) ) {
+		if( !($controller_class_name = $this->getControllerClass()) ) {
 			$module_instance = $this->getModuleInstance();
-			if(!$module_instance) {
+			if( !$module_instance ) {
 				return false;
 			}
 
-			$controller_suffix = 'Controller_'.$this->getControllerName();
+			$controller_suffix = 'Controller_' . $this->getControllerName();
 
-			$controller_class_name = $module_instance->getModuleManifest()->getNamespace().$controller_suffix;
+			$controller_class_name = $module_instance->getModuleManifest()->getNamespace() . $controller_suffix;
 
 		}
 
@@ -391,7 +390,7 @@ class Mvc_Page_Content extends BaseObject implements Mvc_Page_Content_Interface
 	/**
 	 *
 	 */
-	public function skipDispatch() : void
+	public function skipDispatch(): void
 	{
 		$this->_skip_dispatch = true;
 	}
@@ -399,14 +398,14 @@ class Mvc_Page_Content extends BaseObject implements Mvc_Page_Content_Interface
 	/**
 	 *
 	 */
-	public function dispatch() : void
+	public function dispatch(): void
 	{
-		if($this->_skip_dispatch) {
+		if( $this->_skip_dispatch ) {
 			return;
 		}
 
-		if( ($output=$this->getOutput()) ) {
-			if(is_callable($output)) {
+		if( ($output = $this->getOutput()) ) {
+			if( is_callable( $output ) ) {
 				$output = $output( $this->getPage(), $this );
 			}
 
@@ -422,22 +421,20 @@ class Mvc_Page_Content extends BaseObject implements Mvc_Page_Content_Interface
 		$module_name = $this->getModuleName();
 		$controller_action = $this->getControllerAction();
 
-		if($controller_action===false) {
+		if( $controller_action === false ) {
 			return;
 		}
-		$block_name = $module_name.':'.$controller_action;
+		$block_name = $module_name . ':' . $controller_action;
 
 
-		Debug_Profiler::blockStart( 'Dispatch '.$block_name );
+		Debug_Profiler::blockStart( 'Dispatch ' . $block_name );
 
-		if($this->loadOutputCache()) {
+		if( $this->loadOutputCache() ) {
 			Debug_Profiler::message( 'Loaded from cache' );
 
-			Debug_Profiler::blockEnd( 'Dispatch '.$block_name );
+			Debug_Profiler::blockEnd( 'Dispatch ' . $block_name );
 			return;
 		}
-
-
 
 
 		$controller = $this->getControllerInstance();
@@ -447,7 +444,7 @@ class Mvc_Page_Content extends BaseObject implements Mvc_Page_Content_Interface
 			Debug_Profiler::message( 'Module is not installed and/or activated - skipping' );
 
 		} else {
-			Debug_Profiler::message( 'Dispatch:'.$this->getPage()->getKey().'|'.$module_name.':'.get_class($controller).':'.$controller_action );
+			Debug_Profiler::message( 'Dispatch:' . $this->getPage()->getKey() . '|' . $module_name . ':' . get_class( $controller ) . ':' . $controller_action );
 
 			$translator_namespace = Translator::getCurrentNamespace();
 			Translator::setCurrentNamespace( $module_name );
@@ -457,16 +454,16 @@ class Mvc_Page_Content extends BaseObject implements Mvc_Page_Content_Interface
 			Translator::setCurrentNamespace( $translator_namespace );
 		}
 
-		Debug_Profiler::blockEnd( 'Dispatch '.$block_name );
+		Debug_Profiler::blockEnd( 'Dispatch ' . $block_name );
 
 	}
 
 	/**
 	 * @param string $output
 	 */
-	public function saveOutputCache( string $output ) : void
+	public function saveOutputCache( string $output ): void
 	{
-		if($this->is_cacheable) {
+		if( $this->is_cacheable ) {
 			Mvc_Cache::saveContentOutput( $this, $output );
 		}
 	}
@@ -476,12 +473,12 @@ class Mvc_Page_Content extends BaseObject implements Mvc_Page_Content_Interface
 	 */
 	public function loadOutputCache(): bool
 	{
-		if(!$this->is_cacheable) {
+		if( !$this->is_cacheable ) {
 			return false;
 		}
 
 		$output = Mvc_Cache::loadContentOutput( $this );
-		if($output===null) {
+		if( $output === null ) {
 			return false;
 		}
 
@@ -505,7 +502,7 @@ class Mvc_Page_Content extends BaseObject implements Mvc_Page_Content_Interface
 	/**
 	 * @param string $output
 	 */
-	public function output( string $output ) : void
+	public function output( string $output ): void
 	{
 		$position = $this->getOutputPosition();
 		if( !$position ) {
@@ -526,34 +523,33 @@ class Mvc_Page_Content extends BaseObject implements Mvc_Page_Content_Interface
 	}
 
 
-
 	/**
 	 * @return array
 	 */
-	public function toArray() : array
+	public function toArray(): array
 	{
 		$data = get_object_vars( $this );
 		foreach( $data as $k => $v ) {
-			if( $k[0]=='_' ) {
+			if( $k[0] == '_' ) {
 				unset( $data[$k] );
 			}
 		}
 
 		if( $this->output ) {
-			unset($data['module_name']);
-			unset($data['controller_name']);
-			unset($data['controller_class']);
-			unset($data['controller_action']);
+			unset( $data['module_name'] );
+			unset( $data['controller_name'] );
+			unset( $data['controller_class'] );
+			unset( $data['controller_action'] );
 
 
 		} else {
 			unset( $data['output'] );
 
-			if($this->controller_class) {
-				unset($data['module_name']);
-				unset($data['controller_name']);
+			if( $this->controller_class ) {
+				unset( $data['module_name'] );
+				unset( $data['controller_name'] );
 			} else {
-				unset($data['controller_class']);
+				unset( $data['controller_class'] );
 			}
 		}
 

@@ -5,6 +5,7 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace Jet;
 
 /**
@@ -21,12 +22,12 @@ trait DataModel_Trait_InternalState
 	/**
 	 *
 	 */
-	public function initNewObject() : void
+	public function initNewObject(): void
 	{
 		$this->setIsNew();
 
 		/**
-		 * @var DataModel                  $this
+		 * @var DataModel $this
 		 * @var DataModel_Definition_Model $data_model_definition
 		 */
 		$data_model_definition = static::getDataModelDefinition();
@@ -42,7 +43,7 @@ trait DataModel_Trait_InternalState
 	/**
 	 *
 	 */
-	public function setIsNew() : void
+	public function setIsNew(): void
 	{
 		$this->_data_model_saved = false;
 	}
@@ -51,7 +52,7 @@ trait DataModel_Trait_InternalState
 	 *
 	 * @return bool
 	 */
-	public function getIsNew() : bool
+	public function getIsNew(): bool
 	{
 		return !$this->_data_model_saved;
 	}
@@ -59,7 +60,7 @@ trait DataModel_Trait_InternalState
 	/**
 	 * @return bool
 	 */
-	public function getIsSaved() : bool
+	public function getIsSaved(): bool
 	{
 		return $this->_data_model_saved;
 	}
@@ -67,7 +68,7 @@ trait DataModel_Trait_InternalState
 	/**
 	 *
 	 */
-	public function setIsSaved() : void
+	public function setIsSaved(): void
 	{
 		$this->_data_model_saved = true;
 	}

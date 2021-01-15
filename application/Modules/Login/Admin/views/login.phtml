@@ -1,4 +1,5 @@
 <?php
+
 use Jet\Tr;
 use Jet\UI;
 use Jet\Form;
@@ -6,7 +7,7 @@ use Jet\Mvc_View;
 
 /**
  * @var Mvc_View $this
- * @var Form     $form
+ * @var Form $form
  */
 $form = $this->getRaw( 'login_form' );
 
@@ -16,36 +17,36 @@ $form->field( 'password' )->setPlaceholder( 'password' );
 ?>
 <div class="card">
 	<h5 class="card-header">
-		<?=Tr::_( 'Sign In' )?>
+		<?= Tr::_( 'Sign In' ) ?>
 		<?php require '_language_select.phtml'; ?>
 	</h5>
 
-	<?=$form->start()?>
+	<?= $form->start() ?>
 	<div class="card-body">
 		<?php if( $form->getCommonMessage() ): ?>
 			<div id="login-alert" class="alert alert-danger">
-				<?=$form->getCommonMessage()?>
+				<?= $form->getCommonMessage() ?>
 			</div>
 		<?php endif; ?>
 
 		<div style="margin-bottom: 25px" class="input-group">
 			<div class="input-group-prepend">
-				<span class="input-group-text"><?=UI::icon( 'user' )?></span>
+				<span class="input-group-text"><?= UI::icon( 'user' ) ?></span>
 			</div>
-			<?=$form->field( 'username' )->input()?>
+			<?= $form->field( 'username' )->input() ?>
 		</div>
 
 		<div style="margin-bottom: 25px" class="input-group">
 			<div class="input-group-prepend">
-				<span class="input-group-text"><?=UI::icon( 'lock' )->setTag( 'i' )?></span>
+				<span class="input-group-text"><?= UI::icon( 'lock' )->setTag( 'i' ) ?></span>
 			</div>
-			<?=$form->field( 'password' )->input()?>
+			<?= $form->field( 'password' )->input() ?>
 		</div>
 
 		<div class="text-right">
-			<input type="submit" class="btn btn-primary" value="<?=Tr::_( 'Sign In' )?>"/>
+			<input type="submit" class="btn btn-primary" value="<?= Tr::_( 'Sign In' ) ?>"/>
 		</div>
 	</div>
-	<?=$form->end()?>
+	<?= $form->end() ?>
 </div>
 

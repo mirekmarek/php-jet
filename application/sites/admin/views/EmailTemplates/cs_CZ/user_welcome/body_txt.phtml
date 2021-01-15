@@ -8,19 +8,19 @@ use Jet\Mvc_View;
  * @var Auth_Administrator_User $user
  */
 
-$user = $this->getRaw('user');
+$user = $this->getRaw( 'user' );
 ?>
 Vítejte v systému, administrátore!
 
 Zde jsou vaše přihlašovací údaje:
 
-	Uživatelské jméno: <?=$user->getUsername()?>
+Uživatelské jméno: <?= $user->getUsername() ?>
 
-	Heslo: <?=$this->getString('password');?>
+Heslo: <?= $this->getString( 'password' ); ?>
 
-	Vaše jméno: <?=$user->getName()?>
+Vaše jméno: <?= $user->getName() ?>
 
-	Váš e-mail: <?=$user->getEmail()?>
+Váš e-mail: <?= $user->getEmail() ?>
 
 
 Po přihlášení si prosím změňte heslo

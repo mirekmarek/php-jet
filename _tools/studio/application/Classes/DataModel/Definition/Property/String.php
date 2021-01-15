@@ -5,6 +5,7 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace JetStudio;
 
 use Jet\DataModel_Definition_Property_String as Jet_DataModel_Definition_Property_String;
@@ -15,28 +16,28 @@ use Jet\Form_Field_Int;
 /**
  *
  */
-class DataModel_Definition_Property_String extends Jet_DataModel_Definition_Property_String implements DataModel_Definition_Property_Interface {
+class DataModel_Definition_Property_String extends Jet_DataModel_Definition_Property_String implements DataModel_Definition_Property_Interface
+{
 	use DataModel_Definition_Property_Trait;
 
 	/**
 	 * @param Form_Field[] &$fields
 	 */
-	public function getEditFormCustomFields( array &$fields ) : void
+	public function getEditFormCustomFields( array &$fields ): void
 	{
-		$max_len_field = new Form_Field_Int('max_len', 'Maximal string length:', $this->getMaxLen());
-		$max_len_field->setMinValue(1);
-		$max_len_field->setIsRequired(true);
-		$max_len_field->setErrorMessages([
+		$max_len_field = new Form_Field_Int( 'max_len', 'Maximal string length:', $this->getMaxLen() );
+		$max_len_field->setMinValue( 1 );
+		$max_len_field->setIsRequired( true );
+		$max_len_field->setErrorMessages( [
 			Form_Field_Int::ERROR_CODE_EMPTY => 'Please enter maximal string length',
 			Form_Field_Int::ERROR_CODE_OUT_OF_RANGE => 'Minimal value is 1, maximal is unlimited'
-		]);
+		] );
 		$max_len_field->setCatcher( function( $value ) {
 			$this->max_len = $value;
 		} );
 
 
-
-		$default_value_field = new Form_Field_Input('default_value', 'Default value', $this->getDefaultValue());
+		$default_value_field = new Form_Field_Input( 'default_value', 'Default value', $this->getDefaultValue() );
 		$default_value_field->setCatcher( function( $value ) {
 			$this->default_value = $value;
 		} );
@@ -49,12 +50,12 @@ class DataModel_Definition_Property_String extends Jet_DataModel_Definition_Prop
 	/**
 	 *
 	 */
-	public function showEditFormFields() : void
+	public function showEditFormFields(): void
 	{
 		$form = $this->getEditForm();
 
-		echo $form->field('max_len');
-		echo $form->field('default_value');
+		echo $form->field( 'max_len' );
+		echo $form->field( 'default_value' );
 	}
 
 	/**
@@ -63,18 +64,26 @@ class DataModel_Definition_Property_String extends Jet_DataModel_Definition_Prop
 	 *
 	 * @return ClassCreator_Class_Property
 	 */
-	public function createClassProperty( ClassCreator_Class $class ) : ClassCreator_Class_Property
+	public function createClassProperty( ClassCreator_Class $class ): ClassCreator_Class_Property
 	{
 		$attributes = [];
 
-		$attributes[] = ['DataModel_Definition', 'max_len', $this->max_len];
+		$attributes[] = [
+			'DataModel_Definition',
+			'max_len',
+			$this->max_len
+		];
 
-		if($this->default_value) {
-			$attributes[] = ['DataModel_Definition', 'default_value', $this->default_value ];
+		if( $this->default_value ) {
+			$attributes[] = [
+				'DataModel_Definition',
+				'default_value',
+				$this->default_value
+			];
 		}
 
 
-		$property = $this->createClassProperty_main( $class, 'string',  'DataModel::TYPE_STRING', $attributes);
+		$property = $this->createClassProperty_main( $class, 'string', 'DataModel::TYPE_STRING', $attributes );
 
 		return $property;
 	}
@@ -84,22 +93,25 @@ class DataModel_Definition_Property_String extends Jet_DataModel_Definition_Prop
 	 *
 	 * @return array
 	 */
-	public function createClassMethods( ClassCreator_Class $class ) : array
+	public function createClassMethods( ClassCreator_Class $class ): array
 	{
 
 		$s_g_method_name = $this->getSetterGetterMethodName();
 
-		$setter = $class->createMethod('set'.$s_g_method_name);
+		$setter = $class->createMethod( 'set' . $s_g_method_name );
 		$setter->addParameter( 'value' )
-			->setType('string');
-		$setter->line( 1, '$this->'.$this->getName().' = $value;' );
+			->setType( 'string' );
+		$setter->line( 1, '$this->' . $this->getName() . ' = $value;' );
 
 
-		$getter = $class->createMethod('get'.$s_g_method_name);
-		$getter->setReturnType('string');
-		$getter->line( 1, 'return $this->'.$this->getName().';');
+		$getter = $class->createMethod( 'get' . $s_g_method_name );
+		$getter->setReturnType( 'string' );
+		$getter->line( 1, 'return $this->' . $this->getName() . ';' );
 
-		return ['set'.$s_g_method_name, 'get'.$s_g_method_name];
+		return [
+			'set' . $s_g_method_name,
+			'get' . $s_g_method_name
+		];
 	}
 
 }

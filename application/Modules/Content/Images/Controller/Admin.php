@@ -5,6 +5,7 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace JetApplicationModule\Content\Images;
 
 use Jet\AJAX;
@@ -42,62 +43,71 @@ class Controller_Admin extends Mvc_Controller_Default
 	 *
 	 * @return Mvc_Controller_Router_AddEditDelete
 	 */
-	public function getControllerRouter() : Mvc_Controller_Router_AddEditDelete
+	public function getControllerRouter(): Mvc_Controller_Router_AddEditDelete
 	{
 		if( !$this->router ) {
 			$this->router = new Mvc_Controller_Router_AddEditDelete(
 				$this,
-				function($id) {
-					return (bool)($this->gallery = Gallery::get($id));
+				function( $id ) {
+					return (bool)($this->gallery = Gallery::get( $id ));
 				},
 				[
-					'listing'=> Main::ACTION_GET_GALLERY,
-					'view'   => Main::ACTION_GET_GALLERY,
-					'add'    => Main::ACTION_ADD_GALLERY,
-					'edit'   => Main::ACTION_UPDATE_GALLERY,
-					'delete' => Main::ACTION_DELETE_GALLERY,
+					'listing' => Main::ACTION_GET_GALLERY,
+					'view'    => Main::ACTION_GET_GALLERY,
+					'add'     => Main::ACTION_ADD_GALLERY,
+					'edit'    => Main::ACTION_UPDATE_GALLERY,
+					'delete'  => Main::ACTION_DELETE_GALLERY,
 				]
 			);
 
 			$GET = Http_Request::GET();
-			$id = $GET->getString('id');
-			$action = $GET->getString('action');
+			$id = $GET->getString( 'id' );
+			$action = $GET->getString( 'action' );
 
-			$this->router->getAction('add')
-				->setResolver(function() use ($action, $id) {
-					if($action!='add') {
+			$this->router->getAction( 'add' )
+				->setResolver( function() use ( $action, $id ) {
+					if( $action != 'add' ) {
 						return false;
 					}
 
-					$this->gallery = Gallery::get($id);
+					$this->gallery = Gallery::get( $id );
 
 					return true;
-				})
-				->setURICreator( function($id) {
-					return Http_Request::currentURI(['action'=>'add', 'id'=>$id]);
+				} )
+				->setURICreator( function( $id ) {
+					return Http_Request::currentURI( [
+						'action' => 'add',
+						'id'     => $id
+					] );
 				} );
 
-			$this->router->addAction('image_upload')
-				->setResolver(function() use ($id, $action) {
+			$this->router->addAction( 'image_upload' )
+				->setResolver( function() use ( $id, $action ) {
 					return (
-						$action=='image_upload' &&
-						($this->gallery=Gallery::get($id))
+						$action == 'image_upload' &&
+						($this->gallery = Gallery::get( $id ))
 					);
-				})
+				} )
 				->setURICreator( function( $gallery_id ) {
-					return Http_Request::currentURI(['action'=>'image_upload', 'id'=>$gallery_id]);
-				});
+					return Http_Request::currentURI( [
+						'action' => 'image_upload',
+						'id'     => $gallery_id
+					] );
+				} );
 
-			$this->router->addAction('image_delete')
-				->setResolver(function() use ($id, $action) {
+			$this->router->addAction( 'image_delete' )
+				->setResolver( function() use ( $id, $action ) {
 					return (
-						$action=='image_delete' &&
-						($this->gallery=Gallery::get($id))
+						$action == 'image_delete' &&
+						($this->gallery = Gallery::get( $id ))
 					);
-				})
+				} )
 				->setURICreator( function( $gallery_id ) {
-					return Http_Request::currentURI(['action'=>'image_delete', 'id'=>$gallery_id]);
-				});
+					return Http_Request::currentURI( [
+						'action' => 'image_delete',
+						'id'     => $gallery_id
+					] );
+				} );
 
 		}
 
@@ -107,9 +117,9 @@ class Controller_Admin extends Mvc_Controller_Default
 
 	/**
 	 * @param Gallery|null $gallery
-	 * @param string  $current_label
+	 * @param string $current_label
 	 */
-	protected function _setBreadcrumbNavigation( $gallery = null, $current_label = '' ) : void
+	protected function _setBreadcrumbNavigation( $gallery = null, $current_label = '' ): void
 	{
 		UI_module::initBreadcrumb();
 
@@ -117,8 +127,8 @@ class Controller_Admin extends Mvc_Controller_Default
 
 			foreach( $gallery->getPath() as $gallery ) {
 				Navigation_Breadcrumb::addURL(
-						$gallery->getTitle(),
-						$this->getControllerRouter()->action('edit')->URI( $gallery->getId() )
+					$gallery->getTitle(),
+					$this->getControllerRouter()->action( 'edit' )->URI( $gallery->getId() )
 				);
 			}
 		}
@@ -131,19 +141,19 @@ class Controller_Admin extends Mvc_Controller_Default
 	/**
 	 * @return string
 	 */
-	public function _initGalleries() : string
+	public function _initGalleries(): string
 	{
 
-		$search = Http_Request::GET()->getString('search');
+		$search = Http_Request::GET()->getString( 'search' );
 
-		if($search) {
-			$this->view->setVar( 'galleries', Gallery::search($search) );
+		if( $search ) {
+			$this->view->setVar( 'galleries', Gallery::search( $search ) );
 
 		} else {
 			$this->view->setVar( 'galleries', Gallery::getTree() );
 		}
 
-		$this->view->setVar('search', $search);
+		$this->view->setVar( 'search', $search );
 
 		return $search;
 	}
@@ -151,7 +161,7 @@ class Controller_Admin extends Mvc_Controller_Default
 	/**
 	 *
 	 */
-	public function listing_Action() : void
+	public function listing_Action(): void
 	{
 
 		$this->_setBreadcrumbNavigation( $this->gallery );
@@ -167,7 +177,7 @@ class Controller_Admin extends Mvc_Controller_Default
 	/**
 	 *
 	 */
-	public function add_Action() : void
+	public function add_Action(): void
 	{
 
 		$parent_id = $this->gallery ? $this->gallery->getId() : '';
@@ -188,10 +198,10 @@ class Controller_Admin extends Mvc_Controller_Default
 			$this->logAllowedAction( 'Gallery created', $gallery->getId(), $gallery->getTitle(), $gallery );
 
 			UI_messages::success(
-				Tr::_( 'Gallery <b>%TITLE%</b> has been created', [ 'TITLE' => $gallery->getTitle() ] )
+				Tr::_( 'Gallery <b>%TITLE%</b> has been created', ['TITLE' => $gallery->getTitle()] )
 			);
 
-			Http_Headers::reload( ['id'=>$gallery->getId()], ['action'] );
+			Http_Headers::reload( ['id' => $gallery->getId()], ['action'] );
 		}
 
 		$this->view->setVar( 'gallery', $gallery );
@@ -205,7 +215,7 @@ class Controller_Admin extends Mvc_Controller_Default
 	/**
 	 *
 	 */
-	public function edit_Action() : void
+	public function edit_Action(): void
 	{
 		$gallery = $this->gallery;
 
@@ -221,7 +231,7 @@ class Controller_Admin extends Mvc_Controller_Default
 			$this->logAllowedAction( 'Gallery updated', $gallery->getId(), $gallery->getTitle(), $gallery );
 
 			UI_messages::success(
-				Tr::_( 'Gallery <b>%TITLE%</b> has been updated', [ 'TITLE' => $gallery->getTitle() ] )
+				Tr::_( 'Gallery <b>%TITLE%</b> has been updated', ['TITLE' => $gallery->getTitle()] )
 			);
 
 			Http_Headers::reload();
@@ -239,7 +249,7 @@ class Controller_Admin extends Mvc_Controller_Default
 	/**
 	 *
 	 */
-	public function view_Action() : void
+	public function view_Action(): void
 	{
 		$gallery = $this->gallery;
 
@@ -260,7 +270,7 @@ class Controller_Admin extends Mvc_Controller_Default
 	/**
 	 *
 	 */
-	public function delete_Action() : void
+	public function delete_Action(): void
 	{
 		$gallery = $this->gallery;
 
@@ -271,17 +281,17 @@ class Controller_Admin extends Mvc_Controller_Default
 		$this->logAllowedAction( 'Gallery deleted', $gallery->getId(), $gallery->getTitle(), $gallery );
 
 		UI_messages::warning(
-			Tr::_( 'Gallery <b>%TITLE%</b> has been deleted', [ 'TITLE' => $gallery->getTitle() ] )
+			Tr::_( 'Gallery <b>%TITLE%</b> has been deleted', ['TITLE' => $gallery->getTitle()] )
 		);
 
-		Http_Headers::reload( ['id'=>$parent_id], ['action'] );
+		Http_Headers::reload( ['id' => $parent_id], ['action'] );
 	}
 
 
 	/**
 	 *
 	 */
-	public function image_upload_Action() : void
+	public function image_upload_Action(): void
 	{
 		$gallery = $this->gallery;
 
@@ -291,7 +301,7 @@ class Controller_Admin extends Mvc_Controller_Default
 
 		$result_message = '';
 
-		if( ( $images = $gallery->catchImageUploadForm() ) ) {
+		if( ($images = $gallery->catchImageUploadForm()) ) {
 
 			$ids = [];
 			$names = [];
@@ -300,26 +310,26 @@ class Controller_Admin extends Mvc_Controller_Default
 				$names[] = $i->getFileName();
 			}
 
-			$result_message .= UI_messages::createSuccess( Tr::_('Image %FILE_NAME% uploaded ....', ['FILE_NAME'=>implode(', ', $names)]) );
+			$result_message .= UI_messages::createSuccess( Tr::_( 'Image %FILE_NAME% uploaded ....', ['FILE_NAME' => implode( ', ', $names )] ) );
 
 			$this->logAllowedAction(
 				'image_uploaded',
-				implode(', ', $ids),
-				implode(', ', $names)
+				implode( ', ', $ids ),
+				implode( ', ', $names )
 			);
 
 			$ok = true;
 		} else {
-			if(Http_Request::postMaxSizeExceeded()) {
+			if( Http_Request::postMaxSizeExceeded() ) {
 				$error_message = 'You are uploading too large files<br/>'
-								.'<br/>'
-								.'The maximum size of one uploaded file is: <b>%max_upload_size%</b><br/>'
-								.'The maximum number of uploaded files is: <b>%max_file_uploads%</b><br/>';
+					. '<br/>'
+					. 'The maximum size of one uploaded file is: <b>%max_upload_size%</b><br/>'
+					. 'The maximum number of uploaded files is: <b>%max_file_uploads%</b><br/>';
 
-				$result_message .= UI_messages::createDanger( Tr::_($error_message, [
-					'max_upload_size' => Locale::getCurrentLocale()->formatSize(IO_File::getMaxUploadSize()),
-					'max_file_uploads' => Locale::getCurrentLocale()->formatInt(IO_File::getMaxFileUploads())
-				]) );
+				$result_message .= UI_messages::createDanger( Tr::_( $error_message, [
+					'max_upload_size'  => Locale::getCurrentLocale()->formatSize( IO_File::getMaxUploadSize() ),
+					'max_file_uploads' => Locale::getCurrentLocale()->formatInt( IO_File::getMaxFileUploads() )
+				] ) );
 			}
 		}
 
@@ -327,24 +337,24 @@ class Controller_Admin extends Mvc_Controller_Default
 		/**
 		 * @var Form_Field_FileImage $files_field
 		 */
-		$files_field = $upload_form->field('file');
+		$files_field = $upload_form->field( 'file' );
 
-		foreach( $files_field->getMultipleUploadErrors() as $file_name=>$errors ):
+		foreach( $files_field->getMultipleUploadErrors() as $file_name => $errors ):
 
-			foreach( $errors as $code=>$error_message ):
+			foreach( $errors as $code => $error_message ):
 
 				$error_message = Tr::_(
 					'File <b>%file_name%</b>: %error_message%',
 					[
-						'file_name'=>$file_name,
-						'error_message'=>$error_message
+						'file_name'     => $file_name,
+						'error_message' => $error_message
 					]
 				);
 
-				if( $code==Form_Field_FileImage::ERROR_CODE_FILE_IS_TOO_LARGE ) {
+				if( $code == Form_Field_FileImage::ERROR_CODE_FILE_IS_TOO_LARGE ) {
 					$error_message .= Tr::_(
 						'<br/>The maximum size of one uploaded file is: <b>%max_upload_size%</b>',
-						['max_upload_size'=>Locale::getCurrentLocale()->formatSize(IO_File::getMaxUploadSize())]
+						['max_upload_size' => Locale::getCurrentLocale()->formatSize( IO_File::getMaxUploadSize() )]
 					);
 
 				}
@@ -359,9 +369,9 @@ class Controller_Admin extends Mvc_Controller_Default
 		AJAX::formResponse(
 			$ok,
 			[
-				'images_area' => $this->view->render('admin/parts/images'),
+				'images_area'          => $this->view->render( 'admin/parts/images' ),
 				'system-messages-area' => (string)$result_message
-			]);
+			] );
 
 	}
 
@@ -369,7 +379,7 @@ class Controller_Admin extends Mvc_Controller_Default
 	/**
 	 *
 	 */
-	public function image_delete_Action() : void
+	public function image_delete_Action(): void
 	{
 		$gallery = $this->gallery;
 
@@ -384,7 +394,7 @@ class Controller_Admin extends Mvc_Controller_Default
 					$image->delete();
 
 					UI_messages::warning(
-						Tr::_( 'Image <b>%TITLE%</b> has been deleted', [ 'TITLE' => $image->getFileName() ] )
+						Tr::_( 'Image <b>%TITLE%</b> has been deleted', ['TITLE' => $image->getFileName()] )
 					);
 
 
@@ -393,7 +403,7 @@ class Controller_Admin extends Mvc_Controller_Default
 					);
 				}
 			}
-			Http_Headers::reload( ['id'=>$gallery->getId()], ['action'] );
+			Http_Headers::reload( ['id' => $gallery->getId()], ['action'] );
 		}
 	}
 }

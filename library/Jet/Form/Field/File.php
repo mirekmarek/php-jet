@@ -5,6 +5,7 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace Jet;
 
 /**
@@ -55,7 +56,6 @@ class Form_Field_File extends Form_Field
 	 * @var string string
 	 */
 	protected static string $default_input_renderer = 'Field/input/File';
-
 
 
 	/**
@@ -112,7 +112,7 @@ class Form_Field_File extends Form_Field
 	 *
 	 * @param Form $form
 	 */
-	public function setForm( Form $form ) : void
+	public function setForm( Form $form ): void
 	{
 		parent::setForm( $form );
 
@@ -125,7 +125,7 @@ class Form_Field_File extends Form_Field
 	/**
 	 * @return int|null
 	 */
-	public function getMaximalFileSize() : int|null
+	public function getMaximalFileSize(): int|null
 	{
 		return $this->maximal_file_size;
 	}
@@ -133,7 +133,7 @@ class Form_Field_File extends Form_Field
 	/**
 	 * @param int|null $maximal_file_size
 	 */
-	public function setMaximalFileSize( int|null $maximal_file_size ) : void
+	public function setMaximalFileSize( int|null $maximal_file_size ): void
 	{
 		$this->maximal_file_size = $maximal_file_size;
 	}
@@ -141,7 +141,7 @@ class Form_Field_File extends Form_Field
 	/**
 	 * @return array
 	 */
-	public function getAllowedMimeTypes() : array
+	public function getAllowedMimeTypes(): array
 	{
 		return $this->allowed_mime_types;
 	}
@@ -149,7 +149,7 @@ class Form_Field_File extends Form_Field
 	/**
 	 * @param array $allowed_mime_types
 	 */
-	public function setAllowedMimeTypes( array $allowed_mime_types ) : void
+	public function setAllowedMimeTypes( array $allowed_mime_types ): void
 	{
 		$this->allowed_mime_types = $allowed_mime_types;
 	}
@@ -157,7 +157,7 @@ class Form_Field_File extends Form_Field
 	/**
 	 * @return string|array
 	 */
-	public function getFileName() : string|array
+	public function getFileName(): string|array
 	{
 		return $this->file_name;
 	}
@@ -165,7 +165,7 @@ class Form_Field_File extends Form_Field
 	/**
 	 * @return string|array
 	 */
-	public function getUploadedFilePath() : string|array
+	public function getUploadedFilePath(): string|array
 	{
 		if( !$this->uploaded_file_path ) {
 			return $this->getTmpFilePath();
@@ -177,7 +177,7 @@ class Form_Field_File extends Form_Field
 	/**
 	 * @param string $uploaded_file_path
 	 */
-	public function setUploadedFilePath( string $uploaded_file_path ) : void
+	public function setUploadedFilePath( string $uploaded_file_path ): void
 	{
 		$this->uploaded_file_path = $uploaded_file_path;
 	}
@@ -185,7 +185,7 @@ class Form_Field_File extends Form_Field
 	/**
 	 * @return bool
 	 */
-	public function getAllowMultipleUpload() : bool
+	public function getAllowMultipleUpload(): bool
 	{
 		return $this->allow_multiple_upload;
 	}
@@ -193,7 +193,7 @@ class Form_Field_File extends Form_Field
 	/**
 	 * @param bool $allow_multiple_upload
 	 */
-	public function setAllowMultipleUpload( bool $allow_multiple_upload ) : void
+	public function setAllowMultipleUpload( bool $allow_multiple_upload ): void
 	{
 		$this->allow_multiple_upload = $allow_multiple_upload;
 	}
@@ -202,7 +202,7 @@ class Form_Field_File extends Form_Field
 	/**
 	 * @return array
 	 */
-	public function getMultipleUploadErrors() : array
+	public function getMultipleUploadErrors(): array
 	{
 		return $this->multiple_upload_errors;
 	}
@@ -211,9 +211,9 @@ class Form_Field_File extends Form_Field
 	 * @param string $file_name
 	 * @param string $error_code
 	 */
-	public function addMultipleUploadError( string $file_name, string $error_code ) : void
+	public function addMultipleUploadError( string $file_name, string $error_code ): void
 	{
-		if(!isset($this->multiple_upload_errors[$file_name])) {
+		if( !isset( $this->multiple_upload_errors[$file_name] ) ) {
 			$this->multiple_upload_errors[$file_name] = [];
 		}
 
@@ -224,7 +224,7 @@ class Form_Field_File extends Form_Field
 	/**
 	 * @return string|array
 	 */
-	public function getTmpFilePath() : string|array
+	public function getTmpFilePath(): string|array
 	{
 		return $this->tmp_file_path;
 	}
@@ -233,29 +233,29 @@ class Form_Field_File extends Form_Field
 	 *
 	 * @param Data_Array $data
 	 */
-	public function catchInput( Data_Array $data ) : void
+	public function catchInput( Data_Array $data ): void
 	{
 
 		$this->_value = null;
 		$this->_has_value = false;
 
-		if(array_key_exists($this->_name, $_FILES)) {
+		if( array_key_exists( $this->_name, $_FILES ) ) {
 			$file_data = $_FILES[$this->_name];
 
 			if(
-				array_key_exists('tmp_name', $file_data) &&
-				array_key_exists('name', $file_data)
+				array_key_exists( 'tmp_name', $file_data ) &&
+				array_key_exists( 'name', $file_data )
 			) {
-				if(!is_array($file_data['name'])) {
+				if( !is_array( $file_data['name'] ) ) {
 
 					if(
-						!empty( $file_data['name'] )
+					!empty( $file_data['name'] )
 					) {
 						$this->_has_value = true;
 					}
 				} else {
 					if(
-						count($file_data['name'])>0 &&
+						count( $file_data['name'] ) > 0 &&
 						!empty( $file_data['name'][0] )
 					) {
 						$this->_has_value = true;
@@ -266,10 +266,10 @@ class Form_Field_File extends Form_Field
 		}
 
 
-		if($this->_has_value) {
+		if( $this->_has_value ) {
 			if(
 				$this->getAllowMultipleUpload() &&
-				is_array($_FILES[$this->_name]['tmp_name'])
+				is_array( $_FILES[$this->_name]['tmp_name'] )
 			) {
 				$this->catchInput_multiple();
 			} else {
@@ -282,7 +282,7 @@ class Form_Field_File extends Form_Field
 	/**
 	 *
 	 */
-	protected function catchInput_multiple() : void
+	protected function catchInput_multiple(): void
 	{
 
 		if( $this->_has_value ) {
@@ -298,13 +298,13 @@ class Form_Field_File extends Form_Field
 
 			$files = [];
 
-			foreach( $names as $i=>$name ) {
+			foreach( $names as $i => $name ) {
 				$files[$i] = [
-					'name' => $name,
-					'type' => $types[$i],
+					'name'     => $name,
+					'type'     => $types[$i],
 					'tmp_name' => $tmp_names[$i],
-					'error' => $errors[$i],
-					'size' => $sizes[$i]
+					'error'    => $errors[$i],
+					'size'     => $sizes[$i]
 				];
 			}
 
@@ -321,7 +321,7 @@ class Form_Field_File extends Form_Field
 	/**
 	 *
 	 */
-	protected function catchInput_single() : void
+	protected function catchInput_single(): void
 	{
 
 		if( $this->_has_value ) {
@@ -332,7 +332,7 @@ class Form_Field_File extends Form_Field
 			$this->tmp_file_path = $file_data['tmp_name'];
 			$this->file_name = $file_data['name'];
 
-			if(is_array($this->tmp_file_path)) {
+			if( is_array( $this->tmp_file_path ) ) {
 				$this->tmp_file_path = $this->tmp_file_path[0];
 				$this->_value = $this->tmp_file_path;
 				$this->file_name = $this->file_name[0];
@@ -347,7 +347,7 @@ class Form_Field_File extends Form_Field
 	 *
 	 * @return bool
 	 */
-	public function validate() : bool
+	public function validate(): bool
 	{
 		if( !$this->_has_value ) {
 			if( $this->is_required ) {
@@ -362,12 +362,12 @@ class Form_Field_File extends Form_Field
 		$check_file_size = function( $path, $file_name ) {
 			$res = true;
 
-			if(!$path) {
+			if( !$path ) {
 				$res = false;
 			} else {
 				if( $this->maximal_file_size ) {
 					$file_size = IO_File::getSize( $path );
-					if( $file_size>$this->maximal_file_size ) {
+					if( $file_size > $this->maximal_file_size ) {
 						$res = false;
 					}
 				}
@@ -400,9 +400,9 @@ class Form_Field_File extends Form_Field
 			return true;
 		};
 
-		if(!is_array($this->_value)) {
+		if( !is_array( $this->_value ) ) {
 			if(
-				!$check_file_size( $this->_value, $this->file_name )
+			!$check_file_size( $this->_value, $this->file_name )
 			) {
 				$this->setError( self::ERROR_CODE_FILE_IS_TOO_LARGE );
 
@@ -419,7 +419,7 @@ class Form_Field_File extends Form_Field
 
 			return true;
 		} else {
-			foreach( $this->_value as $i=>$path ) {
+			foreach( $this->_value as $i => $path ) {
 				if(
 					!$check_file_size( $path, $this->file_name[$i] ) ||
 					!$check_mime_type( $path, $this->file_name[$i] )
@@ -437,7 +437,7 @@ class Form_Field_File extends Form_Field
 	/**
 	 * @param int $index
 	 */
-	protected function unsetFile( int $index ) : void
+	protected function unsetFile( int $index ): void
 	{
 		unset( $this->_value_raw[$index] );
 		unset( $this->_value[$index] );
@@ -449,7 +449,7 @@ class Form_Field_File extends Form_Field
 	/**
 	 * @return string
 	 */
-	public function render() : string
+	public function render(): string
 	{
 		if( $this->getIsReadonly() ) {
 			return '';
@@ -461,7 +461,7 @@ class Form_Field_File extends Form_Field
 	/**
 	 * @return array
 	 */
-	public function getRequiredErrorCodes() : array
+	public function getRequiredErrorCodes(): array
 	{
 		$codes = [];
 		$codes[] = self::ERROR_CODE_FILE_IS_TOO_LARGE;
@@ -490,11 +490,11 @@ class Form_Field_File extends Form_Field
 	 *
 	 * @return string
 	 */
-	public function getTagNameValue( string|null $name = null ) : string
+	public function getTagNameValue( string|null $name = null ): string
 	{
 		$name = parent::getTagNameValue( $name );
 
-		if( substr($name, -1)!=']' ) {
+		if( substr( $name, -1 ) != ']' ) {
 			$name .= '[]';
 		}
 

@@ -5,6 +5,7 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace JetApplicationModule\Test\ORM;
 
 use Jet\DataModel;
@@ -20,9 +21,9 @@ use Jet\DataModel_IDController_UniqueString;
 	database_table_name: 'model_c1',
 	id_controller_class: DataModel_IDController_UniqueString::class,
 	relation: [
-	'related_to_class_name'=> Model_A1::class,
-	'join_by_properties'=>[ 'id'=>'id' ],
-	'join_type'=>DataModel_Query::JOIN_TYPE_LEFT_OUTER_JOIN
+		'related_to_class_name' => Model_A1::class,
+		'join_by_properties'    => ['id' => 'id'],
+		'join_type'             => DataModel_Query::JOIN_TYPE_LEFT_OUTER_JOIN
 	]
 )]
 class Model_C1 extends DataModel

@@ -10,63 +10,64 @@ use Jet\Mvc_View;
  * @var Pages_Page $page
  */
 
-$page = $this->getRaw('page');
+$page = $this->getRaw( 'page' );
 
 $form = $page->getEditForm_main();
 
-$form->setDefaultLabelWidth([
+$form->setDefaultLabelWidth( [
 	Form::LJ_SIZE_MEDIUM => 2
-]);
-$form->setDefaultFieldWidth([
+] );
+$form->setDefaultFieldWidth( [
 	Form::LJ_SIZE_MEDIUM => 6
-]);
-
+] );
 
 
 ?>
-<?=$form->start()?>
+<?= $form->start() ?>
 
 <fieldset style="margin-bottom: 40px;">
-	<?=$form->field('name')?>
+	<?= $form->field( 'name' ) ?>
 
-	<?=$form->field('is_secret')?>
-	<?=$form->field('is_active')?>
-	<?=$form->field('SSL_required')?>
+	<?= $form->field( 'is_secret' ) ?>
+	<?= $form->field( 'is_active' ) ?>
+	<?= $form->field( 'SSL_required' ) ?>
 
-	<?=$form->field('title')?>
-	<?=$form->field('menu_title')?>
-	<?=$form->field('breadcrumb_title')?>
-	<?=$form->field('icon')?>
+	<?= $form->field( 'title' ) ?>
+	<?= $form->field( 'menu_title' ) ?>
+	<?= $form->field( 'breadcrumb_title' ) ?>
+	<?= $form->field( 'icon' ) ?>
 
-	<?php if($form->fieldExists('relative_path_fragment')):
-		$field = $form->field('relative_path_fragment');
+	<?php if( $form->fieldExists( 'relative_path_fragment' ) ):
+		$field = $form->field( 'relative_path_fragment' );
 
 		$parent = $page->getParent();
-		if($parent) {
+		if( $parent ) {
 			$parent_URL = $parent->getURL();
 		} else {
 			$parent_URL = $page->getSite()->getHomepage( $page->getLocale() )->getURL();
 		}
 		?>
-		<?=$field->row()->start()?>
-		<?=$field->label()?>
+		<?= $field->row()->start() ?>
+		<?= $field->label() ?>
 
-		<?=$field->container()->start()?>
+		<?= $field->container()->start() ?>
 		<div class="input-group">
-			<span class="input-group-prepend" style="font-weight: bolder"><span class="input-group-text"><?=rtrim($parent_URL,'/')?>/</span></span>
-			<?=$field->input()?>
-			<?=$field->error()?>
+			<span class="input-group-prepend" style="font-weight: bolder"><span
+						class="input-group-text"><?= rtrim( $parent_URL, '/' ) ?>/</span></span>
+			<?= $field->input() ?>
+			<?= $field->error() ?>
 		</div>
-		<?=$field->container()->end()?>
+		<?= $field->container()->end() ?>
 
-		<?=$field->row()->end()?>
+		<?= $field->row()->end() ?>
 	<?php else: ?>
 		<div class="row">
 			<label class="col-md-2 control-label">URL:</label>
 			<div class="col-md-5">
 				<div class="input-group">
 					<span class="input-group-prepend" style=""><span class="input-group-text"> </span></span>
-					<span class="input-group-prepend" style="bolder;border-left: none;border-right: none;"><span class="input-group-text"><?=$page->getURL()?></span></span>
+					<span class="input-group-prepend" style="bolder;border-left: none;border-right: none;"><span
+								class="input-group-text"><?= $page->getURL() ?></span></span>
 					<span class="input-group-append" style=""><span class="input-group-text"></span></span>
 				</div>
 			</div>
@@ -81,7 +82,7 @@ $form->setDefaultFieldWidth([
 	<div class="col-md-2">
 	</div>
 	<div class="col-md-5">
-		<label class="control-label"><?=Tr::_('Meta Tags:');?></label>
+		<label class="control-label"><?= Tr::_( 'Meta Tags:' ); ?></label>
 	</div>
 </div>
 
@@ -89,23 +90,27 @@ $form->setDefaultFieldWidth([
 	<div class="col-md-2"></div>
 	<div class="col-md-10">
 		<table>
-			<?php for( $m=0;$m<Pages_Page::MAX_META_TAGS_COUNT;$m++ ):
-				if(!$form->fieldExists('/meta_tag/'.$m.'/attribute')) {
+			<?php for( $m = 0; $m < Pages_Page::MAX_META_TAGS_COUNT; $m++ ):
+				if( !$form->fieldExists( '/meta_tag/' . $m . '/attribute' ) ) {
 					break;
 				}
 
 				?>
-				<tr><td style="padding: 6px 6px 6px 15px;">
+				<tr>
+					<td style="padding: 6px 6px 6px 15px;">
 						<div class="input-group">
-							<span class="input-group-prepend"><span class="input-group-text">&lt;meta&nbsp;</span></span>
-							<?=$form->field('/meta_tag/'.$m.'/attribute')->input()?>
+							<span class="input-group-prepend"><span
+										class="input-group-text">&lt;meta&nbsp;</span></span>
+							<?= $form->field( '/meta_tag/' . $m . '/attribute' )->input() ?>
 							<span class="input-group-prepend"><span class="input-group-text">="</span></span>
-							<?=$form->field('/meta_tag/'.$m.'/attribute_value')->input()?>
-							<span class="input-group-prepend"><span class="input-group-text">&nbsp;&nbsp;content="</span></span>
-							<?=$form->field('/meta_tag/'.$m.'/content')->input()?>
+							<?= $form->field( '/meta_tag/' . $m . '/attribute_value' )->input() ?>
+							<span class="input-group-prepend"><span
+										class="input-group-text">&nbsp;&nbsp;content="</span></span>
+							<?= $form->field( '/meta_tag/' . $m . '/content' )->input() ?>
 							<span class="input-group-append"><span class="input-group-text">"/&gt;</span></span>
 						</div>
-					</td></tr>
+					</td>
+				</tr>
 			<?php endfor; ?>
 		</table>
 
@@ -113,12 +118,11 @@ $form->setDefaultFieldWidth([
 </div>
 
 
-
 <div class="form-group row">
 	<div class="col-md-2">
 	</div>
 	<div class="col-md-5">
-		<label class="control-label"><?=Tr::_('HTTP headers:');?></label>
+		<label class="control-label"><?= Tr::_( 'HTTP headers:' ); ?></label>
 	</div>
 </div>
 
@@ -127,29 +131,29 @@ $form->setDefaultFieldWidth([
 	<div class="col-md-2"></div>
 	<div class="col-md-10">
 		<table>
-			<?php for( $u=0;$u<Pages_Page::MAX_HTT_HEADERS_COUNT;$u++ ):
-				if(!$form->fieldExists('/http_headers/'.$u)) {
+			<?php for( $u = 0; $u < Pages_Page::MAX_HTT_HEADERS_COUNT; $u++ ):
+				if( !$form->fieldExists( '/http_headers/' . $u ) ) {
 					break;
 				}
 
-				$field= $form->field('/http_headers/'.$u);
-				$field->input()->addCustomCssStyle('width: 400px');
+				$field = $form->field( '/http_headers/' . $u );
+				$field->input()->addCustomCssStyle( 'width: 400px' );
 				?>
 				<tr>
 					<td></td>
 					<td style="padding-left: 15px;">
-							<?=$field->row()->start()?>
-							<?=$field->error()?>
-							<div class="input-group">
+						<?= $field->row()->start() ?>
+						<?= $field->error() ?>
+						<div class="input-group">
 									<span class="input-group-prepend">
 										<span class="input-group-text"></span>
 									</span>
-								<?=$field->input()?>
-									<span class="input-group-append">
+							<?= $field->input() ?>
+							<span class="input-group-append">
 										<span class="input-group-text"></span>
 									</span>
-							</div>
-							<?=$field->row()->end()?>
+						</div>
+						<?= $field->row()->end() ?>
 					</td>
 				</tr>
 			<?php endfor; ?>
@@ -158,4 +162,4 @@ $form->setDefaultFieldWidth([
 	</div>
 </div>
 
-<?=$form->end()?>
+<?= $form->end() ?>

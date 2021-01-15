@@ -5,6 +5,7 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace Jet;
 
 /**
@@ -25,7 +26,7 @@ class Form_Renderer_Pair extends Form_Renderer
 	/**
 	 * @return string
 	 */
-	public function getViewScriptStart() : string
+	public function getViewScriptStart(): string
 	{
 		return $this->view_script_start;
 	}
@@ -35,7 +36,7 @@ class Form_Renderer_Pair extends Form_Renderer
 	 *
 	 * @return $this
 	 */
-	public function setViewScriptStart( string $view_script_start ) : static
+	public function setViewScriptStart( string $view_script_start ): static
 	{
 		$this->view_script_start = $view_script_start;
 
@@ -45,7 +46,7 @@ class Form_Renderer_Pair extends Form_Renderer
 	/**
 	 * @return string
 	 */
-	public function getViewScriptEnd() : string
+	public function getViewScriptEnd(): string
 	{
 		return $this->view_script_end;
 	}
@@ -55,7 +56,7 @@ class Form_Renderer_Pair extends Form_Renderer
 	 *
 	 * @return $this
 	 */
-	public function setViewScriptEnd( string $view_script_end ) : static
+	public function setViewScriptEnd( string $view_script_end ): static
 	{
 		$this->view_script_end = $view_script_end;
 
@@ -66,12 +67,12 @@ class Form_Renderer_Pair extends Form_Renderer
 	/**
 	 * @return string
 	 */
-	public function start() : string
+	public function start(): string
 	{
 		try {
-			return $this->getView()->render($this->getViewScriptStart());
+			return $this->getView()->render( $this->getViewScriptStart() );
 		} catch( \Exception $e ) {
-			Debug_ErrorHandler::handleException($e);
+			Debug_ErrorHandler::handleException( $e );
 			die();
 		}
 	}
@@ -80,12 +81,12 @@ class Form_Renderer_Pair extends Form_Renderer
 	/**
 	 * @return string
 	 */
-	public function end() : string
+	public function end(): string
 	{
 		try {
-			return $this->getView()->render($this->getViewScriptEnd());
+			return $this->getView()->render( $this->getViewScriptEnd() );
 		} catch( \Exception $e ) {
-			Debug_ErrorHandler::handleException($e);
+			Debug_ErrorHandler::handleException( $e );
 			die();
 		}
 	}

@@ -18,7 +18,7 @@ return [
 				'title'                  => 'Administrators - User roles',
 				'icon'                   => 'user-circle',
 				'relative_path_fragment' => 'administrators-user-roles',
-				'contents' => [
+				'contents'               => [
 					[
 						'controller_action' => 'default',
 					]

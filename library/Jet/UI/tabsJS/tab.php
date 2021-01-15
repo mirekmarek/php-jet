@@ -5,6 +5,7 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace Jet;
 
 /**
@@ -101,7 +102,7 @@ class UI_tabsJS_tab extends UI_BaseElement
 	/**
 	 * @return bool
 	 */
-	public function getIsSelected() : bool
+	public function getIsSelected(): bool
 	{
 		return $this->is_selected;
 	}
@@ -109,7 +110,7 @@ class UI_tabsJS_tab extends UI_BaseElement
 	/**
 	 * @param bool $is_selected
 	 */
-	public function setIsSelected( bool $is_selected ) : void
+	public function setIsSelected( bool $is_selected ): void
 	{
 		$this->is_selected = $is_selected;
 	}
@@ -117,7 +118,7 @@ class UI_tabsJS_tab extends UI_BaseElement
 	/**
 	 * @return string
 	 */
-	public function getId() : string
+	public function getId(): string
 	{
 		return $this->id;
 	}
@@ -125,7 +126,7 @@ class UI_tabsJS_tab extends UI_BaseElement
 	/**
 	 * @param string $id
 	 */
-	public function setId( string $id ) : void
+	public function setId( string $id ): void
 	{
 		$this->id = $id;
 	}
@@ -133,7 +134,7 @@ class UI_tabsJS_tab extends UI_BaseElement
 	/**
 	 * @return string
 	 */
-	public function getTitle() : string
+	public function getTitle(): string
 	{
 		return $this->title;
 	}
@@ -141,7 +142,7 @@ class UI_tabsJS_tab extends UI_BaseElement
 	/**
 	 * @param string $title
 	 */
-	public function setTitle( string $title ) : void
+	public function setTitle( string $title ): void
 	{
 		$this->title = $title;
 	}
@@ -149,9 +150,9 @@ class UI_tabsJS_tab extends UI_BaseElement
 	/**
 	 * @return string
 	 */
-	public function getContentStartRendererScript() : string
+	public function getContentStartRendererScript(): string
 	{
-		if(!$this->content_start_renderer_script) {
+		if( !$this->content_start_renderer_script ) {
 			$this->content_start_renderer_script = static::getDefaultContentStartRendererScript();
 		}
 
@@ -161,7 +162,7 @@ class UI_tabsJS_tab extends UI_BaseElement
 	/**
 	 * @param string $script
 	 */
-	public function setContentStartRendererScript( string $script ) : void
+	public function setContentStartRendererScript( string $script ): void
 	{
 		$this->content_start_renderer_script = $script;
 	}
@@ -170,9 +171,9 @@ class UI_tabsJS_tab extends UI_BaseElement
 	/**
 	 * @return string
 	 */
-	public function getContentEndRendererScript() : string
+	public function getContentEndRendererScript(): string
 	{
-		if(!$this->content_end_renderer_script) {
+		if( !$this->content_end_renderer_script ) {
 			$this->content_end_renderer_script = static::getDefaultContentEndRendererScript();
 		}
 
@@ -182,7 +183,7 @@ class UI_tabsJS_tab extends UI_BaseElement
 	/**
 	 * @param string $script
 	 */
-	public function setContentEndRendererScript( string $script ) : void
+	public function setContentEndRendererScript( string $script ): void
 	{
 		$this->content_end_renderer_script = $script;
 	}
@@ -190,17 +191,17 @@ class UI_tabsJS_tab extends UI_BaseElement
 	/**
 	 * @return string
 	 */
-	public function contentStart() : string
+	public function contentStart(): string
 	{
-		return $this->getView()->render($this->getContentStartRendererScript());
+		return $this->getView()->render( $this->getContentStartRendererScript() );
 	}
 
 	/**
 	 * @return string
 	 */
-	public function contentEnd() : string
+	public function contentEnd(): string
 	{
-		return $this->getView()->render($this->getContentEndRendererScript());
+		return $this->getView()->render( $this->getContentEndRendererScript() );
 	}
 
 }

@@ -29,7 +29,10 @@ class Test_BasicSelect extends Test_Abstract
 
 		$q = Model_A1::createQuery();
 
-		echo $q->setSelect(['id', 'text']);
+		echo $q->setSelect( [
+			'id',
+			'text'
+		] );
 
 	}
 }

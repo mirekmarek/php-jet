@@ -12,9 +12,9 @@ use Jet\Tr;
 use Jet\Mvc_View;
 
 /**
- * @var Mvc_View     $this
- * @var UI_dataGrid  $grid
- * @var Form         $filter_form
+ * @var Mvc_View $this
+ * @var UI_dataGrid $grid
+ * @var Form $filter_form
  */
 $router = $this->getController()->getControllerRouter();
 $grid = $this->getRaw( 'grid' );
@@ -24,12 +24,12 @@ $c_edit = $grid->getColumn( '_edit_' );
 $c_edit->setRenderer(
 	function( Role $item ) use ( $router ) {
 
-		if( ( $edit_uri = $router->action('edit')->URI( $item->getId() ) ) ):
-			echo UI::button_edit()->setUrl( $edit_uri )->setSize( UI_button::SIZE_EXTRA_SMALL);
+		if( ($edit_uri = $router->action( 'edit' )->URI( $item->getId() )) ):
+			echo UI::button_edit()->setUrl( $edit_uri )->setSize( UI_button::SIZE_EXTRA_SMALL );
 		endif;
 		echo '&nbsp;';
-		if( ( $delete_uri = $router->action('delete')->URI( $item->getId() ) ) ):
-			echo UI::button_delete()->setUrl( $delete_uri )->setSize( UI_button::SIZE_EXTRA_SMALL);
+		if( ($delete_uri = $router->action( 'delete' )->URI( $item->getId() )) ):
+			echo UI::button_delete()->setUrl( $delete_uri )->setSize( UI_button::SIZE_EXTRA_SMALL );
 		endif;
 	}
 );
@@ -39,17 +39,17 @@ $grid->getColumn( 'id' )->setCssStyle( 'width:120px;' );
 
 $grid->getColumn( 'id' )->setRenderer(
 	function( Role $item ) use ( $router ) {
-		$edit_uri = $router->action('edit')->URI( $item->getId() );
+		$edit_uri = $router->action( 'edit' )->URI( $item->getId() );
 
-		?><a href="<?=$edit_uri?>"><?=$item->getId();?></a><?php
+		?><a href="<?= $edit_uri ?>"><?= $item->getId(); ?></a><?php
 	}
 );
 
 $grid->getColumn( 'name' )->setRenderer(
 	function( Role $item ) use ( $router ) {
-		$edit_uri = $router->action('edit')->URI( $item->getId() );
+		$edit_uri = $router->action( 'edit' )->URI( $item->getId() );
 
-		?><a href="<?=$edit_uri?>"><?=$item->getName();?></a><?php
+		?><a href="<?= $edit_uri ?>"><?= $item->getName(); ?></a><?php
 	}
 );
 $grid->getColumn( 'description' )->setRenderer(
@@ -59,21 +59,21 @@ $grid->getColumn( 'description' )->setRenderer(
 );
 ?>
 
-<?=$filter_form->start()?>
+<?= $filter_form->start() ?>
 <div class="row toolbar">
 	<div class="col-xs-5 col-md-2">
-		<?php if( ( $add_uri = $router->action('add')->URI() ) ): ?>
-			<?=UI::button_create( Tr::_( 'Create a new Role' ) )->setUrl( $add_uri )?>
+		<?php if( ($add_uri = $router->action( 'add' )->URI()) ): ?>
+			<?= UI::button_create( Tr::_( 'Create a new Role' ) )->setUrl( $add_uri ) ?>
 		<?php endif; ?>
 	</div>
 	<div class="col-xs-7 col-md-3">
-		<?=UI::searchField( 'search', $filter_form->field('search')->getValue() )?>
+		<?= UI::searchField( 'search', $filter_form->field( 'search' )->getValue() ) ?>
 	</div>
 </div>
-<?=$filter_form->end()?>
+<?= $filter_form->end() ?>
 
 <div class="row">
 	<div class="col-md-12">
-		<?=$grid->render();?>
+		<?= $grid->render(); ?>
 	</div>
 </div>

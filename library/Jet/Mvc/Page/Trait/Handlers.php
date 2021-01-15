@@ -5,6 +5,7 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace Jet;
 
 /**
@@ -19,7 +20,7 @@ trait Mvc_Page_Trait_Handlers
 	 *
 	 * @return bool
 	 */
-	public function resolve() : bool
+	public function resolve(): bool
 	{
 		/**
 		 * @var Mvc_Page_Trait_Handlers|Mvc_Page $this
@@ -29,26 +30,26 @@ trait Mvc_Page_Trait_Handlers
 			/**
 			 * @var Mvc_Page_Content $content
 			 */
-			if($content->getOutput()) {
+			if( $content->getOutput() ) {
 				continue;
 			}
 
 			$controller = $content->getControllerInstance();
-			if(!$controller) {
+			if( !$controller ) {
 				continue;
 			}
 
-			$profiler_block = 'Resolve controller '.$content->getModuleName().':'.$content->getControllerName();
-			Debug_Profiler::blockStart($profiler_block);
+			$profiler_block = 'Resolve controller ' . $content->getModuleName() . ':' . $content->getControllerName();
+			Debug_Profiler::blockStart( $profiler_block );
 
-			if( ($action=$controller->resolve()) ) {
-				if($action!==true) {
+			if( ($action = $controller->resolve()) ) {
+				if( $action !== true ) {
 					$controller->getContent()->setControllerAction( $action );
 				}
 			} else {
 				$content->skipDispatch();
 			}
-			Debug_Profiler::blockEnd($profiler_block);
+			Debug_Profiler::blockEnd( $profiler_block );
 		}
 
 		return true;
@@ -57,7 +58,7 @@ trait Mvc_Page_Trait_Handlers
 	/**
 	 *
 	 */
-	public function handleHttpHeaders() : void
+	public function handleHttpHeaders(): void
 	{
 		/**
 		 * @var Mvc_Page_Trait_Handlers|Mvc_Page $this
@@ -71,7 +72,7 @@ trait Mvc_Page_Trait_Handlers
 					$value = implode( '; ', $value );
 				}
 
-				Http_Headers::sendHeader( $header.': '.$value );
+				Http_Headers::sendHeader( $header . ': ' . $value );
 			}
 
 		}
@@ -81,14 +82,14 @@ trait Mvc_Page_Trait_Handlers
 	/**
 	 * @return string
 	 */
-	public function render() : string
+	public function render(): string
 	{
 		/**
 		 * @var Mvc_Page_Trait_Handlers|Mvc_Page $this
 		 */
 
-		if( ( $output = $this->getOutput() ) ) {
-			if(is_callable($output)) {
+		if( ($output = $this->getOutput()) ) {
+			if( is_callable( $output ) ) {
 				return $output( $this );
 			}
 

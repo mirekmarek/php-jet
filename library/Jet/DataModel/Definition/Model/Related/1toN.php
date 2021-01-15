@@ -5,6 +5,7 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace Jet;
 
 /**
@@ -21,7 +22,7 @@ class DataModel_Definition_Model_Related_1toN extends DataModel_Definition_Model
 	/**
 	 * @return string
 	 */
-	public function getIteratorClassName() : string
+	public function getIteratorClassName(): string
 	{
 		return $this->iterator_class;
 	}
@@ -29,7 +30,7 @@ class DataModel_Definition_Model_Related_1toN extends DataModel_Definition_Model
 	/**
 	 * @param string $iterator_class
 	 */
-	public function setIteratorClass( string $iterator_class ) : void
+	public function setIteratorClass( string $iterator_class ): void
 	{
 		$this->iterator_class = $iterator_class;
 	}
@@ -38,11 +39,11 @@ class DataModel_Definition_Model_Related_1toN extends DataModel_Definition_Model
 	/**
 	 * @throws DataModel_Exception
 	 */
-	protected function _initParents() : void
+	protected function _initParents(): void
 	{
 		parent::_initParents();
 
-		$iterator_class = $this->getClassArgument('iterator_class', null);
+		$iterator_class = $this->getClassArgument( 'iterator_class', null );
 		if( $iterator_class ) {
 			$this->iterator_class = $iterator_class;
 		}

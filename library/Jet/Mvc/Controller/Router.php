@@ -5,6 +5,7 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace Jet;
 
 /**
@@ -43,7 +44,7 @@ class Mvc_Controller_Router extends BaseObject implements Mvc_Controller_Router_
 	 *
 	 * @return Mvc_Controller_Router_Action
 	 */
-	public function addAction( string $controller_action_name, string $module_action_name='' ) : Mvc_Controller_Router_Action
+	public function addAction( string $controller_action_name, string $module_action_name = '' ): Mvc_Controller_Router_Action
 	{
 		$action = new Mvc_Controller_Router_Action( $this, $controller_action_name, $module_action_name );
 
@@ -58,9 +59,9 @@ class Mvc_Controller_Router extends BaseObject implements Mvc_Controller_Router_
 	 *
 	 * @return Mvc_Controller_Router_Action
 	 */
-	public function setDefaultAction( string $controller_action_name, string $module_action_name='' ) : Mvc_Controller_Router_Action
+	public function setDefaultAction( string $controller_action_name, string $module_action_name = '' ): Mvc_Controller_Router_Action
 	{
-		$action = $this->addAction($controller_action_name, $module_action_name);
+		$action = $this->addAction( $controller_action_name, $module_action_name );
 
 		$this->default_action = $action;
 
@@ -71,7 +72,7 @@ class Mvc_Controller_Router extends BaseObject implements Mvc_Controller_Router_
 	/**
 	 * @return Mvc_Controller
 	 */
-	public function getController() : Mvc_Controller
+	public function getController(): Mvc_Controller
 	{
 		return $this->controller;
 	}
@@ -80,7 +81,7 @@ class Mvc_Controller_Router extends BaseObject implements Mvc_Controller_Router_
 	/**
 	 * @return Mvc_Controller_Router_Action[]
 	 */
-	public function getActions() : array
+	public function getActions(): array
 	{
 		return $this->actions;
 	}
@@ -90,7 +91,7 @@ class Mvc_Controller_Router extends BaseObject implements Mvc_Controller_Router_
 	 *
 	 * @return Mvc_Controller_Router_Action
 	 */
-	public function action( string $action_name ) : Mvc_Controller_Router_Action
+	public function action( string $action_name ): Mvc_Controller_Router_Action
 	{
 		return $this->actions[$action_name];
 	}
@@ -100,7 +101,7 @@ class Mvc_Controller_Router extends BaseObject implements Mvc_Controller_Router_
 	 *
 	 * @return Mvc_Controller_Router_Action
 	 */
-	public function getAction( string $controller_action_name ) : Mvc_Controller_Router_Action
+	public function getAction( string $controller_action_name ): Mvc_Controller_Router_Action
 	{
 		return $this->actions[$controller_action_name];
 	}
@@ -108,7 +109,7 @@ class Mvc_Controller_Router extends BaseObject implements Mvc_Controller_Router_
 	/**
 	 * @return Mvc_Controller_Router_Action
 	 */
-	public function getDefaultAction() : Mvc_Controller_Router_Action
+	public function getDefaultAction(): Mvc_Controller_Router_Action
 	{
 		return $this->default_action;
 	}
@@ -118,7 +119,7 @@ class Mvc_Controller_Router extends BaseObject implements Mvc_Controller_Router_
 	 *
 	 * @return bool|string
 	 */
-	public function resolve() : bool|string
+	public function resolve(): bool|string
 	{
 		$access_denied = false;
 		foreach( $this->actions as $action ) {
@@ -127,7 +128,7 @@ class Mvc_Controller_Router extends BaseObject implements Mvc_Controller_Router_
 				continue;
 			}
 
-			if(!$action->isAccessAllowed()) {
+			if( !$action->isAccessAllowed() ) {
 				$access_denied = true;
 				continue;
 			}
@@ -136,11 +137,11 @@ class Mvc_Controller_Router extends BaseObject implements Mvc_Controller_Router_
 		}
 
 		if(
-			$this->default_action
+		$this->default_action
 		) {
 			$action = $this->default_action;
 
-			if(!$action->isAccessAllowed()) {
+			if( !$action->isAccessAllowed() ) {
 				$access_denied = true;
 			} else {
 				return $action->getControllerAction();
@@ -148,7 +149,7 @@ class Mvc_Controller_Router extends BaseObject implements Mvc_Controller_Router_
 			}
 		}
 
-		if($access_denied) {
+		if( $access_denied ) {
 			$this->controller->responseAccessDenied();
 		}
 

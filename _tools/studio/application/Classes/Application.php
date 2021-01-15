@@ -5,6 +5,7 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace JetStudio;
 
 use Exception;
@@ -22,7 +23,8 @@ use Jet\UI_messages;
 /**
  *
  */
-class Application extends Jet_Application {
+class Application extends Jet_Application
+{
 
 	/**
 	 * @var ?Mvc_Layout
@@ -47,14 +49,14 @@ class Application extends Jet_Application {
 	/**
 	 * @return Locale[]
 	 */
-	public static function getLocales() : array
+	public static function getLocales(): array
 	{
-		if(!static::$locales) {
+		if( !static::$locales ) {
 			static::$locales = [];
-			$locales  = require SysConf_Path::getConfig().'locales.php';
+			$locales = require SysConf_Path::getConfig() . 'locales.php';
 
 			foreach( $locales as $l ) {
-				static::$locales[$l] = new Locale($l);
+				static::$locales[$l] = new Locale( $l );
 			}
 
 		}
@@ -65,9 +67,9 @@ class Application extends Jet_Application {
 	/**
 	 * @return Locale
 	 */
-	public static function getCurrentLocale() : Locale
+	public static function getCurrentLocale(): Locale
 	{
-		if(!static::$current_locale) {
+		if( !static::$current_locale ) {
 			$cookie_name = 'locale';
 
 			$locales = static::getLocales();
@@ -78,22 +80,22 @@ class Application extends Jet_Application {
 			}
 
 			if(
-				isset($_COOKIE[$cookie_name]) &&
-				isset($locales[$_COOKIE[$cookie_name]])
+				isset( $_COOKIE[$cookie_name] ) &&
+				isset( $locales[$_COOKIE[$cookie_name]] )
 			) {
 				static::$current_locale = $locales[$_COOKIE[$cookie_name]];
 			}
 
 			$GET = Http_Request::GET();
 			if(
-				($set_locale=$GET->getString('std_locale')) &&
-				isset($locales[$set_locale])
+				($set_locale = $GET->getString( 'std_locale' )) &&
+				isset( $locales[$set_locale] )
 			) {
 				static::$current_locale = $locales[$set_locale];
 			}
 
 
-			setcookie($cookie_name, static::$current_locale->toString(), time() + (86400 * 365) );
+			setcookie( $cookie_name, static::$current_locale->toString(), time() + (86400 * 365) );
 		}
 
 
@@ -103,36 +105,36 @@ class Application extends Jet_Application {
 	/**
 	 * @return array
 	 */
-	public static function getParts() : array
+	public static function getParts(): array
 	{
 		return [
-			'sites'      => [
-					'label' => Tr::_('Sites',[], Tr::COMMON_NAMESPACE),
-					'icon'  => 'compass',
-					'class' => 'Sites',
-				],
-			'pages'      => [
-					'label' => Tr::_('Pages',[], Tr::COMMON_NAMESPACE),
-					'icon'  => 'file-code',
-					'class' => 'Pages',
-				],
-			'data_model' => [
-				'label' => Tr::_('DataModel', [], Tr::COMMON_NAMESPACE),
+			'sites'         => [
+				'label' => Tr::_( 'Sites', [], Tr::COMMON_NAMESPACE ),
+				'icon'  => 'compass',
+				'class' => 'Sites',
+			],
+			'pages'         => [
+				'label' => Tr::_( 'Pages', [], Tr::COMMON_NAMESPACE ),
+				'icon'  => 'file-code',
+				'class' => 'Pages',
+			],
+			'data_model'    => [
+				'label' => Tr::_( 'DataModel', [], Tr::COMMON_NAMESPACE ),
 				'icon'  => 'database',
 				'class' => 'DataModels',
 			],
-			'menus'      => [
-					'label' => Tr::_('Menus', [], Tr::COMMON_NAMESPACE),
-					'icon'  => 'sitemap',
-					'class' => 'Menus',
-				],
-			'modules'    => [
-					'label' => Tr::_('Modules', [], Tr::COMMON_NAMESPACE),
-					'icon'  => 'boxes',
-					'class' => 'Modules',
-				],
-			'module_wizard'    => [
-				'label' => Tr::_('Module wizard', [], Tr::COMMON_NAMESPACE),
+			'menus'         => [
+				'label' => Tr::_( 'Menus', [], Tr::COMMON_NAMESPACE ),
+				'icon'  => 'sitemap',
+				'class' => 'Menus',
+			],
+			'modules'       => [
+				'label' => Tr::_( 'Modules', [], Tr::COMMON_NAMESPACE ),
+				'icon'  => 'boxes',
+				'class' => 'Modules',
+			],
+			'module_wizard' => [
+				'label' => Tr::_( 'Module wizard', [], Tr::COMMON_NAMESPACE ),
 				'icon'  => 'magic',
 				'class' => 'ModuleWizards',
 			],
@@ -142,7 +144,7 @@ class Application extends Jet_Application {
 	/**
 	 * @param $part
 	 */
-	public static function setCurrentPart( string $part ) : void
+	public static function setCurrentPart( string $part ): void
 	{
 		static::$current_part = $part;
 		Tr::setCurrentNamespace( $part );
@@ -151,7 +153,7 @@ class Application extends Jet_Application {
 	/**
 	 * @return string
 	 */
-	public static function getCurrentPart() : string
+	public static function getCurrentPart(): string
 	{
 		return static::$current_part;
 	}
@@ -159,9 +161,9 @@ class Application extends Jet_Application {
 	/**
 	 * @return Mvc_View
 	 */
-	public static function getGeneralView() : Mvc_View
+	public static function getGeneralView(): Mvc_View
 	{
-		$view = new Mvc_View( SysConf_Path::getBase().'views/' );
+		$view = new Mvc_View( SysConf_Path::getBase() . 'views/' );
 
 		return $view;
 	}
@@ -171,12 +173,12 @@ class Application extends Jet_Application {
 	 *
 	 * @return Mvc_View
 	 */
-	public static function getView( ?string $part=null ) : Mvc_View
+	public static function getView( ?string $part = null ): Mvc_View
 	{
-		if(!$part) {
+		if( !$part ) {
 			$part = static::getCurrentPart();
 		}
-		$view = new Mvc_View( SysConf_Path::getApplication().'Parts/'.$part.'/views/' );
+		$view = new Mvc_View( SysConf_Path::getApplication() . 'Parts/' . $part . '/views/' );
 
 		return $view;
 	}
@@ -186,10 +188,10 @@ class Application extends Jet_Application {
 	 *
 	 * @return Mvc_Layout
 	 */
-	public static function getLayout( string $script='default' ) : Mvc_Layout
+	public static function getLayout( string $script = 'default' ): Mvc_Layout
 	{
-		if(!static::$layout) {
-			static::$layout = new Mvc_Layout(SysConf_Path::getBase().'layouts/', $script);
+		if( !static::$layout ) {
+			static::$layout = new Mvc_Layout( SysConf_Path::getBase() . 'layouts/', $script );
 			Mvc_Layout::setCurrentLayout( static::$layout );
 		}
 
@@ -201,7 +203,7 @@ class Application extends Jet_Application {
 	 * @param null|string $position
 	 * @param null|int $position_order
 	 */
-	public static function output( string $output, ?string $position = null, ?int $position_order = null ) : void
+	public static function output( string $output, ?string $position = null, ?int $position_order = null ): void
 	{
 		static::getLayout()->addOutputPart(
 			$output,
@@ -214,7 +216,7 @@ class Application extends Jet_Application {
 	/**
 	 *
 	 */
-	public static function renderLayout() : void
+	public static function renderLayout(): void
 	{
 		echo static::getLayout()->render();
 	}
@@ -223,13 +225,13 @@ class Application extends Jet_Application {
 	/**
 	 * @param string|null $part
 	 */
-	public static function handleAction( ?string $part=null ) : void
+	public static function handleAction( ?string $part = null ): void
 	{
-		if(!$part) {
+		if( !$part ) {
 			$part = static::$current_part;
 		}
 
-		$action = Http_Request::GET()->getString('action');
+		$action = Http_Request::GET()->getString( 'action' );
 
 		if(
 			!$action ||
@@ -238,9 +240,9 @@ class Application extends Jet_Application {
 			return;
 		}
 
-		$controller = SysConf_Path::getApplication().'Parts/'.$part.'/controllers/'.$action.'.php';
+		$controller = SysConf_Path::getApplication() . 'Parts/' . $part . '/controllers/' . $action . '.php';
 
-		if(!IO_File::exists($controller)) {
+		if( !IO_File::exists( $controller ) ) {
 			return;
 		}
 
@@ -252,14 +254,14 @@ class Application extends Jet_Application {
 	 * @param Exception $e
 	 * @param Form|null $form
 	 */
-	public static function handleError( Exception $e, Form $form=null) : void
+	public static function handleError( Exception $e, Form $form = null ): void
 	{
-		$error_message  =Tr::_('Something went wrong!<br/><br/>%error%',
+		$error_message = Tr::_( 'Something went wrong!<br/><br/>%error%',
 			[
 				'error' => $e->getMessage()
 			], Tr::COMMON_NAMESPACE );
 
-		if($form) {
+		if( $form ) {
 			$form->setCommonMessage( UI_messages::createDanger( $error_message ) );
 		} else {
 			UI_messages::danger( $error_message );

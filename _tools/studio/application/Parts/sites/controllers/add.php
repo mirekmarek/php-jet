@@ -1,4 +1,5 @@
 <?php
+
 namespace JetStudio;
 
 use Jet\UI_messages;
@@ -9,15 +10,15 @@ $form = Sites::getCreateForm();
 $ok = false;
 $data = [];
 
-if( ($new_site=Sites::catchCreateForm()) ) {
+if( ($new_site = Sites::catchCreateForm()) ) {
 
 	if( $new_site->create() ) {
 		$ok = true;
 
 		UI_messages::success(
-			Tr::_('Site <strong>%key%</strong> has been created',[
+			Tr::_( 'Site <strong>%key%</strong> has been created', [
 				'key' => $new_site->getName()
-			])
+			] )
 		);
 
 		$data = [
@@ -30,7 +31,7 @@ if( ($new_site=Sites::catchCreateForm()) ) {
 AJAX::formResponse(
 	$ok,
 	[
-		$form->getId().'_form_area' => Application::getView()->render('create_site/form')
+		$form->getId() . '_form_area' => Application::getView()->render( 'create_site/form' )
 	],
 	$data
 );

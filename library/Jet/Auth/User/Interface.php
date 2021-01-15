@@ -5,6 +5,7 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace Jet;
 
 /**
@@ -18,7 +19,7 @@ interface Auth_User_Interface
 	 *
 	 * @return static|null
 	 */
-	public static function get( string|int $id ) : static|null;
+	public static function get( string|int $id ): static|null;
 
 	/**
 	 *
@@ -26,7 +27,7 @@ interface Auth_User_Interface
 	 *
 	 * @return Auth_User_Interface[]
 	 */
-	public static function getList( string|null $role_id = null ) : iterable;
+	public static function getList( string|null $role_id = null ): iterable;
 
 	/**
 	 *
@@ -35,7 +36,7 @@ interface Auth_User_Interface
 	 *
 	 * @return static|null
 	 */
-	public static function getByIdentity( string $username, string $password ) : static|null;
+	public static function getByIdentity( string $username, string $password ): static|null;
 
 	/**
 	 *
@@ -43,67 +44,67 @@ interface Auth_User_Interface
 	 *
 	 * @return Auth_User_Interface|null
 	 */
-	public static function getGetByUsername( string $username ) : Auth_User_Interface|null;
+	public static function getGetByUsername( string $username ): Auth_User_Interface|null;
 
 	/**
 	 * @return string|int
 	 */
-	public function getId() : string|int;
+	public function getId(): string|int;
 
 
 	/**
 	 * @return string
 	 */
-	public function getUsername() : string;
+	public function getUsername(): string;
 
 	/**
 	 * @param string $username
 	 */
-	public function setUsername( string $username ) : void;
+	public function setUsername( string $username ): void;
 
 	/**
 	 * @param string $username
 	 *
 	 * @return bool
 	 */
-	public function usernameExists( string $username ) : bool;
+	public function usernameExists( string $username ): bool;
 
 	/**
 	 * @param string $password
 	 */
-	public function setPassword( string $password ) : void;
+	public function setPassword( string $password ): void;
 
 	/**
 	 * @param string $password
 	 *
 	 * @return string
 	 */
-	public function encryptPassword( string $password ) : string;
+	public function encryptPassword( string $password ): string;
 
 	/**
 	 * @param string $plain_password
 	 *
 	 * @return bool
 	 */
-	public function verifyPassword( string $plain_password ) : bool;
+	public function verifyPassword( string $plain_password ): bool;
 
 	/**
 	 *
 	 * @return string
 	 */
-	public function getName() : string;
+	public function getName(): string;
 
 	/**
 	 *
 	 * @param string[] $role_ids
 	 */
-	public function setRoles( array $role_ids ) : void;
+	public function setRoles( array $role_ids ): void;
 
 	/**
 	 *
 	 * @return Auth_Role_Interface[]
 	 */
-	public function getRoles() : array;
+	public function getRoles(): array;
 
 	/**
 	 *
@@ -111,23 +112,23 @@ interface Auth_User_Interface
 	 *
 	 * @return bool
 	 */
-	public function hasRole( string $role_id ) : bool;
+	public function hasRole( string $role_id ): bool;
 
 	/**
 	 *
 	 * @param string $privilege
-	 * @param mixed  $value
+	 * @param mixed $value
 	 *
 	 * @return bool
 	 */
-	public function hasPrivilege( string $privilege, mixed $value ) : bool;
+	public function hasPrivilege( string $privilege, mixed $value ): bool;
 
 	/**
 	 * @param string $privilege
 	 *
 	 * @return array
 	 */
-	public function getPrivilegeValues( string $privilege ) : array;
+	public function getPrivilegeValues( string $privilege ): array;
 
 
 }

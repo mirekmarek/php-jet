@@ -1,4 +1,5 @@
 <?php
+
 namespace JetStudio;
 
 use Jet\Http_Headers;
@@ -8,20 +9,20 @@ use Jet\UI_messages;
 $class = DataModels::getCurrentClass();
 $property = DataModels::getCurrentProperty();
 
-if(!$property) {
+if( !$property ) {
 	Application::end();
 }
 
 
 if( $property->catchEditForm() ) {
 
-	if($property->update( $class )) {
-		UI_messages::success( Tr::_('Saved ...') );
+	if( $property->update( $class ) ) {
+		UI_messages::success( Tr::_( 'Saved ...' ) );
 	}
 
-	Http_Headers::reload([], ['action']);
+	Http_Headers::reload( [], ['action'] );
 } else {
 	UI_messages::danger(
-		Tr::_('There are some problems ... Please check the form.')
+		Tr::_( 'There are some problems ... Please check the form.' )
 	);
 }

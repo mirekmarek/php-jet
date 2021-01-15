@@ -1,9 +1,10 @@
 <?php
+
 use Jet\UI_dataGrid;
 use Jet\Mvc_View;
 
 /**
- * @var Mvc_View    $this
+ * @var Mvc_View $this
  * @var UI_dataGrid $grid
  */
 $grid = $this->getRaw( 'grid' );
@@ -11,14 +12,14 @@ $grid = $this->getRaw( 'grid' );
 ?>
 <table class="table table-striped">
 	<thead>
-		<?=$grid->getCustomHeader()?>
-		<?=$grid->renderHeader();?>
+	<?= $grid->getCustomHeader() ?>
+	<?= $grid->renderHeader(); ?>
 	</thead>
 	<tbody>
-		<?=$grid->renderBody()?>
+	<?= $grid->renderBody() ?>
 	</tbody>
 	<tfoot>
-		<?=$grid->getCustomFooter()?>
-		<?=$grid->renderPaginator()?>
+	<?= $grid->getCustomFooter() ?>
+	<?= $grid->renderPaginator() ?>
 	</tfoot>
 </table>

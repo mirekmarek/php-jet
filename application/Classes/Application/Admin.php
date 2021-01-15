@@ -5,6 +5,7 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace JetApplication;
 
 use Jet\Logger;
@@ -22,7 +23,7 @@ class Application_Admin
 	/**
 	 * @return string
 	 */
-	public static function getSiteId() : string
+	public static function getSiteId(): string
 	{
 		return 'admin';
 	}
@@ -30,7 +31,7 @@ class Application_Admin
 	/**
 	 * @return Mvc_Site
 	 */
-	public static function getSite() : Mvc_Site
+	public static function getSite(): Mvc_Site
 	{
 		return Mvc_Site::get( static::getSiteId() );
 	}
@@ -38,7 +39,7 @@ class Application_Admin
 	/**
 	 * @param Mvc_Router $router
 	 */
-	public static function init( Mvc_Router $router ) : void
+	public static function init( Mvc_Router $router ): void
 	{
 		Application::initErrorPages( $router );
 		Logger::setLogger( new Logger_Admin() );
@@ -48,14 +49,14 @@ class Application_Admin
 
 	/**
 	 * @param string $dialog_id
-	 * @param array  $options
+	 * @param array $options
 	 *
 	 * @return null|string
 	 */
-	public static function requireDialog( string $dialog_id, array $options=[] ) : null|string
+	public static function requireDialog( string $dialog_id, array $options = [] ): null|string
 	{
 
-		$page = Mvc_Page::get('dialog-'.$dialog_id);
+		$page = Mvc_Page::get( 'dialog-' . $dialog_id );
 
 		if(
 			!$page ||
@@ -68,12 +69,12 @@ class Application_Admin
 
 		$module = $content->getModuleInstance();
 
-		if(!$module) {
+		if( !$module ) {
 			return null;
 		}
 
-		$view = new Mvc_View( $module->getViewsDir().'admin/dialog-hooks/' );
-		foreach( $options as $k=>$v ) {
+		$view = new Mvc_View( $module->getViewsDir() . 'admin/dialog-hooks/' );
+		foreach( $options as $k => $v ) {
 			$view->setVar( $k, $v );
 		}
 

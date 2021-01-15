@@ -5,6 +5,7 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace Jet;
 
 /**
@@ -21,7 +22,7 @@ class DataModel_PropertyFilter extends BaseObject
 	/**
 	 *
 	 * @param DataModel_Definition_Model $model_definition
-	 * @param array                      $only_properties
+	 * @param array $only_properties
 	 *
 	 * @throws DataModel_Exception
 	 */
@@ -34,21 +35,24 @@ class DataModel_PropertyFilter extends BaseObject
 			if( !str_contains( $lp, '.' ) ) {
 				$model_name = $model_definition->getModelName();
 				$property_name = $lp;
-				if(!$model_definition->hasProperty($property_name)) {
-					throw new DataModel_Exception('Unknown property '.$lp);
+				if( !$model_definition->hasProperty( $property_name ) ) {
+					throw new DataModel_Exception( 'Unknown property ' . $lp );
 				}
 
 			} else {
-				[ $model_name, $property_name ] = explode( '.', $lp );
-				if($model_name!=$model_definition->getModelName()) {
-					$relation = $model_definition->getRelation($model_name);
+				[
+					$model_name,
+					$property_name
+				] = explode( '.', $lp );
+				if( $model_name != $model_definition->getModelName() ) {
+					$relation = $model_definition->getRelation( $model_name );
 
-					if(!$relation->getRelatedDataModelDefinition()->hasProperty($property_name)) {
-						throw new DataModel_Exception('Unknown property '.$lp);
+					if( !$relation->getRelatedDataModelDefinition()->hasProperty( $property_name ) ) {
+						throw new DataModel_Exception( 'Unknown property ' . $lp );
 					}
 				} else {
-					if(!$model_definition->hasProperty($property_name)) {
-						throw new DataModel_Exception('Unknown property '.$lp);
+					if( !$model_definition->hasProperty( $property_name ) ) {
+						throw new DataModel_Exception( 'Unknown property ' . $lp );
 					}
 				}
 			}
@@ -67,28 +71,29 @@ class DataModel_PropertyFilter extends BaseObject
 	 *
 	 * @return bool
 	 */
-	public function getPropertyDefinitionAllowed( DataModel_Definition_Property $property ) : bool
+	public function getPropertyDefinitionAllowed( DataModel_Definition_Property $property ): bool
 	{
-		if($property instanceof DataModel_Definition_Property_DataModel) {
-			if(!$this->getModelAllowed( $property->getValueDataModelDefinition()->getModelName() ) ) {
+		if( $property instanceof DataModel_Definition_Property_DataModel ) {
+			if( !$this->getModelAllowed( $property->getValueDataModelDefinition()->getModelName() ) ) {
 				return false;
 			}
 
 		} else {
-			if(!$this->getPropertyAllowed( $property->getDataModelDefinition()->getModelName(), $property->getName() )) {
+			if( !$this->getPropertyAllowed( $property->getDataModelDefinition()->getModelName(), $property->getName() ) ) {
 				return false;
 			}
 		}
 
 		return true;
 	}
+
 	/**
 	 * @param string $model_name
 	 * @param string $property_name
 	 *
 	 * @return bool
 	 */
-	public function getPropertyAllowed( string $model_name, string $property_name ) : bool
+	public function getPropertyAllowed( string $model_name, string $property_name ): bool
 	{
 		if( !array_key_exists( $model_name, $this->only_properties ) ) {
 			return false;
@@ -102,7 +107,7 @@ class DataModel_PropertyFilter extends BaseObject
 	 *
 	 * @return bool
 	 */
-	public function getModelAllowed( string $model_name ) : bool
+	public function getModelAllowed( string $model_name ): bool
 	{
 		return array_key_exists( $model_name, $this->only_properties );
 	}
@@ -112,7 +117,7 @@ class DataModel_PropertyFilter extends BaseObject
 	 *
 	 * @return array
 	 */
-	public function getPropertyNames( string $model_name ) : array
+	public function getPropertyNames( string $model_name ): array
 	{
 		if( !array_key_exists( $model_name, $this->only_properties ) ) {
 			return [];
@@ -123,13 +128,13 @@ class DataModel_PropertyFilter extends BaseObject
 
 
 	/**
-	 * @param DataModel_Definition_Model    $model_definition
+	 * @param DataModel_Definition_Model $model_definition
 	 * @param ?DataModel_PropertyFilter $load_filter
 	 *
 	 * @return DataModel_Definition_Property[]
 	 */
 	public static function getQuerySelect( DataModel_Definition_Model $model_definition,
-	                                       ?DataModel_PropertyFilter $load_filter = null ) : array
+	                                       ?DataModel_PropertyFilter $load_filter = null ): array
 	{
 
 		if( !$load_filter ) {

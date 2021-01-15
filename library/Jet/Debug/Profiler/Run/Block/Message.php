@@ -5,6 +5,7 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace Jet;
 
 
@@ -43,7 +44,7 @@ class Debug_Profiler_Run_Block_Message
 	/**
 	 * @return array
 	 */
-	public function getBacktrace() : array
+	public function getBacktrace(): array
 	{
 		return $this->backtrace;
 	}
@@ -51,7 +52,7 @@ class Debug_Profiler_Run_Block_Message
 	/**
 	 * @return string
 	 */
-	public function getText() : string
+	public function getText(): string
 	{
 		return $this->text;
 	}
@@ -59,7 +60,7 @@ class Debug_Profiler_Run_Block_Message
 	/**
 	 * @return float
 	 */
-	public function getTimestamp() : float
+	public function getTimestamp(): float
 	{
 		return $this->timestamp;
 	}

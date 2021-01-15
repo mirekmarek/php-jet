@@ -5,6 +5,7 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace JetApplicationModule\Content\Images;
 
 use Jet\Http_Request;
@@ -35,67 +36,67 @@ class Controller_REST extends Mvc_Controller_REST
 	/**
 	 * @return Mvc_Controller_REST_Router
 	 */
-	public function getControllerRouter() : Mvc_Controller_REST_Router
+	public function getControllerRouter(): Mvc_Controller_REST_Router
 	{
 		$router = new Mvc_Controller_REST_Router(
 			$this,
 			[
-				'get_galleries'    => Main::ACTION_GET_GALLERY,
-				'get_gallery'      => Main::ACTION_GET_GALLERY,
-				'add_gallery'      => Main::ACTION_ADD_GALLERY,
-				'update_gallery'   => Main::ACTION_UPDATE_GALLERY,
-				'delete_gallery'   => Main::ACTION_DELETE_GALLERY,
+				'get_galleries'  => Main::ACTION_GET_GALLERY,
+				'get_gallery'    => Main::ACTION_GET_GALLERY,
+				'add_gallery'    => Main::ACTION_ADD_GALLERY,
+				'update_gallery' => Main::ACTION_UPDATE_GALLERY,
+				'delete_gallery' => Main::ACTION_DELETE_GALLERY,
 
-				'get_images'       => Main::ACTION_GET_GALLERY,
-				'get_image'        => Main::ACTION_GET_GALLERY,
-				'add_image'        => Main::ACTION_ADD_IMAGE,
-				'delete_image'     => Main::ACTION_DELETE_IMAGE,
+				'get_images'   => Main::ACTION_GET_GALLERY,
+				'get_image'    => Main::ACTION_GET_GALLERY,
+				'add_image'    => Main::ACTION_ADD_IMAGE,
+				'delete_image' => Main::ACTION_DELETE_IMAGE,
 			]
 		);
 
 		$router
-			->setPreparer( function($path) {
+			->setPreparer( function( $path ) {
 				if( !$path ) {
 					return true;
 				}
 
-				$path_fragments = explode('/', $path);
+				$path_fragments = explode( '/', $path );
 
-				$gallery_id = array_shift($path_fragments);
-				$this->gallery = Gallery::get($gallery_id);
+				$gallery_id = array_shift( $path_fragments );
+				$this->gallery = Gallery::get( $gallery_id );
 
-				if(!$this->gallery) {
-					$this->responseUnknownItem($gallery_id);
+				if( !$this->gallery ) {
+					$this->responseUnknownItem( $gallery_id );
 					return false;
 				}
 
-				if(!$path_fragments) {
+				if( !$path_fragments ) {
 					return true;
 				}
 
-				$this->sub_object = array_shift($path_fragments);
-				if($this->sub_object!='image') {
+				$this->sub_object = array_shift( $path_fragments );
+				if( $this->sub_object != 'image' ) {
 					return false;
 				}
 
-				if(!$path_fragments) {
+				if( !$path_fragments ) {
 					return true;
 				}
 
-				$image_id = array_shift($path_fragments);
-				if($path_fragments) {
+				$image_id = array_shift( $path_fragments );
+				if( $path_fragments ) {
 					return false;
 				}
 
-				$this->image = Gallery_Image::get($image_id);
-				if(!$this->image) {
-					$this->responseUnknownItem($image_id);
+				$this->image = Gallery_Image::get( $image_id );
+				if( !$this->image ) {
+					$this->responseUnknownItem( $image_id );
 
 					return false;
 				}
 
-				if($this->image->getGalleryId()!=$this->gallery->getId()) {
-					$this->responseUnknownItem($image_id);
+				if( $this->image->getGalleryId() != $this->gallery->getId() ) {
+					$this->responseUnknownItem( $image_id );
 
 					return false;
 				}
@@ -103,30 +104,30 @@ class Controller_REST extends Mvc_Controller_REST
 
 				return true;
 			} )
-			->setResolverGet(function() {
+			->setResolverGet( function() {
 				$controller_action = 'get_galleries';
-				if($this->gallery) {
+				if( $this->gallery ) {
 					$controller_action = 'get_gallery';
 				}
 
-				if($this->sub_object) {
+				if( $this->sub_object ) {
 					$controller_action = 'get_images';
-					if($this->image) {
+					if( $this->image ) {
 						$controller_action = 'get_image';
 					}
 				}
 
 				return $controller_action;
-			})
-			->setResolverPost(function() {
+			} )
+			->setResolverPost( function() {
 				$controller_action = 'add_gallery';
 
-				if($this->gallery) {
-					if(!$this->sub_object) {
+				if( $this->gallery ) {
+					if( !$this->sub_object ) {
 						return false;
 					}
 
-					if($this->image) {
+					if( $this->image ) {
 						return false;
 					}
 
@@ -134,34 +135,34 @@ class Controller_REST extends Mvc_Controller_REST
 				}
 
 				return $controller_action;
-			})
-			->setResolverPut(function() {
-				if(!$this->gallery) {
+			} )
+			->setResolverPut( function() {
+				if( !$this->gallery ) {
 					return false;
 				}
 
-				if($this->sub_object) {
+				if( $this->sub_object ) {
 					return false;
 				}
 
 				return 'update_gallery';
-			})
-			->setResolverDelete(function() {
-				if(!$this->gallery) {
+			} )
+			->setResolverDelete( function() {
+				if( !$this->gallery ) {
 					return false;
 				}
 				$controller_action = 'delete_gallery';
 
 
-				if($this->sub_object) {
-					if(!$this->image) {
+				if( $this->sub_object ) {
+					if( !$this->image ) {
 						return false;
 					}
 
 					$controller_action = 'delete_image';
 				}
 				return $controller_action;
-			});
+			} );
 
 		return $router;
 	}
@@ -170,9 +171,9 @@ class Controller_REST extends Mvc_Controller_REST
 	/**
 	 *
 	 */
-	public function get_galleries_Action() : void
+	public function get_galleries_Action(): void
 	{
-		if(Http_Request::GET()->exists('tree')) {
+		if( Http_Request::GET()->exists( 'tree' ) ) {
 			$this->responseData( Gallery::getTree() );
 		} else {
 			/** @noinspection PhpParamsInspection */
@@ -193,15 +194,15 @@ class Controller_REST extends Mvc_Controller_REST
 	/**
 	 *
 	 */
-	public function get_gallery_Action() : void
+	public function get_gallery_Action(): void
 	{
-		$this->responseData( $this->gallery);
+		$this->responseData( $this->gallery );
 	}
 
 	/**
 	 *
 	 */
-	public function add_gallery_Action() : void
+	public function add_gallery_Action(): void
 	{
 		$gallery = new Gallery();
 
@@ -226,7 +227,7 @@ class Controller_REST extends Mvc_Controller_REST
 	/**
 	 *
 	 */
-	public function update_gallery_Action() : void
+	public function update_gallery_Action(): void
 	{
 		$gallery = $this->gallery;
 
@@ -249,7 +250,7 @@ class Controller_REST extends Mvc_Controller_REST
 	/**
 	 *
 	 */
-	public function delete_gallery_Action() : void
+	public function delete_gallery_Action(): void
 	{
 		$gallery = $this->gallery;
 
@@ -262,12 +263,10 @@ class Controller_REST extends Mvc_Controller_REST
 	}
 
 
-
-
 	/**
 	 *
 	 */
-	public function get_images_Action() : void
+	public function get_images_Action(): void
 	{
 		$gallery = $this->gallery;
 
@@ -280,7 +279,7 @@ class Controller_REST extends Mvc_Controller_REST
 					$list,
 					[
 						'file_name' => 'image.file_name',
-					    'file_size' => 'image.file_size'
+						'file_size' => 'image.file_size'
 					]
 				)
 
@@ -292,17 +291,20 @@ class Controller_REST extends Mvc_Controller_REST
 	/**
 	 *
 	 */
-	public function get_image_Action() : void
+	public function get_image_Action(): void
 	{
 		$image = $this->image;
 
 		if(
-			($thb=Http_Request::GET()->getString('thumbnail')) &&
-			preg_match( '/^([0-9]+)x([0-9]+)$/', $thb)
+			($thb = Http_Request::GET()->getString( 'thumbnail' )) &&
+			preg_match( '/^([0-9]+)x([0-9]+)$/', $thb )
 		) {
-			[ $max_w, $max_h ] = explode('x', $thb);
+			[
+				$max_w,
+				$max_h
+			] = explode( 'x', $thb );
 
-			$thb = $image->getThumbnail($max_w, $max_h);
+			$thb = $image->getThumbnail( $max_w, $max_h );
 
 			$this->responseData( $thb );
 		}
@@ -314,14 +316,14 @@ class Controller_REST extends Mvc_Controller_REST
 	/**
 	 *
 	 */
-	public function add_image_Action() : void
+	public function add_image_Action(): void
 	{
 		$gallery = $this->gallery;
 
 		$upload_form = $gallery->getImageUploadForm();
 
 
-		if( ( $images = $gallery->catchImageUploadForm( true ) ) ) {
+		if( ($images = $gallery->catchImageUploadForm( true )) ) {
 			$ids = [];
 			$names = [];
 			foreach( $images as $i ) {
@@ -332,8 +334,8 @@ class Controller_REST extends Mvc_Controller_REST
 
 			$this->logAllowedAction(
 				'image_uploaded',
-				implode(', ', $ids),
-				implode(', ', $names)
+				implode( ', ', $ids ),
+				implode( ', ', $names )
 			);
 
 			$this->responseData( $images[0] );
@@ -345,7 +347,7 @@ class Controller_REST extends Mvc_Controller_REST
 	/**
 	 *
 	 */
-	public function delete_image_Action() : void
+	public function delete_image_Action(): void
 	{
 		$image = $this->image;
 

@@ -9,8 +9,8 @@ $menu = Menus::getCurrentMenu();
 $form = $menu->getEditForm();
 
 ?>
-<?=UI::button_save()->setOnclick("$('#".$form->getId()."').submit()")?>
+<?= UI::button_save()->setOnclick( "$('#" . $form->getId() . "').submit()" ) ?>
 
-<?=UI::button_create(Tr::_('Create a new menu item'))->setOnclick("Menus.createMenuItem.openDialog();")?>
+<?= UI::button_create( Tr::_( 'Create a new menu item' ) )->setOnclick( "Menus.createMenuItem.openDialog();" ) ?>
 
-<?=UI::button_delete(Tr::_('Delete this menu'))->setOnclick("$('#delete_menu_dialog').modal('show')") ?>
+<?= UI::button_delete( Tr::_( 'Delete this menu' ) )->setOnclick( "$('#delete_menu_dialog').modal('show')" ) ?>

@@ -5,6 +5,7 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace JetApplicationModule\Content\Images;
 
 /**
@@ -28,7 +29,7 @@ class Config
 	/**
 	 * @return int
 	 */
-	public static function getDefaultMaxH() : int
+	public static function getDefaultMaxH(): int
 	{
 		return static::$default_max_h;
 	}
@@ -36,11 +37,10 @@ class Config
 	/**
 	 * @return int
 	 */
-	public static function getDefaultMaxW() : int
+	public static function getDefaultMaxW(): int
 	{
 		return static::$default_max_w;
 	}
-
 
 
 }

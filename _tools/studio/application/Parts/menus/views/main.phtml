@@ -9,15 +9,15 @@ use Jet\Tr;
  * @var Mvc_View $this
  */
 ?>
-<?=Application::getView()->render('js');?>
+<?= Application::getView()->render( 'js' ); ?>
 
-<?php if(Menus::getCurrentMenuSet()):
+<?php if( Menus::getCurrentMenuSet() ):
 
 	$what = '';
 	if( Menus::getCurrentMenu() ):
 		if( Menus::getCurrentMenuItem() ):
 			$what = 'item';
-			$this->setVar('item', Menus::getCurrentMenuItem());
+			$this->setVar( 'item', Menus::getCurrentMenuItem() );
 		else:
 			$what = 'menu';
 		endif;
@@ -27,38 +27,38 @@ use Jet\Tr;
 	?>
 	<div class="row toolbar" id="main-toolbar">
 		<div class="col-md-3">
-			<?=UI::button_create(Tr::_('Create a new menu set'))->setOnclick("Menus.createSet.openDialog();");?>
+			<?= UI::button_create( Tr::_( 'Create a new menu set' ) )->setOnclick( "Menus.createSet.openDialog();" ); ?>
 		</div>
 		<div class="col-md-9">
-			<?php require $what.'/toolbar.phtml'; ?>
+			<?php require $what . '/toolbar.phtml'; ?>
 		</div>
 	</div>
 
 	<div class="row" id="main-col">
 		<div class="col-md-3" style="padding: 0px;">
-			<?=Application::getView()->render('tree');?>
+			<?= Application::getView()->render( 'tree' ); ?>
 		</div>
 		<div class="col-md-9" style="padding: 0px;">
 			<div class="container-fluid">
-				<?=Application::getGeneralView()->render('messages');?>
-				<?php require $what.'/edit.phtml'; ?>
+				<?= Application::getGeneralView()->render( 'messages' ); ?>
+				<?php require $what . '/edit.phtml'; ?>
 			</div>
 		</div>
 	</div>
 <?php else: ?>
-<div class="row">
-	<div class="col-md-12" style="padding: 0px;">
-		<div class="toolbar">
-			<?=UI::button_create(Tr::_('Create a new menu set'))->setOnclick("Menus.createSet.openDialog();");?>
-		</div>
-		<div style="padding: 10px;">
-			<?=Application::getGeneralView()->render('messages');?>
+	<div class="row">
+		<div class="col-md-12" style="padding: 0px;">
+			<div class="toolbar">
+				<?= UI::button_create( Tr::_( 'Create a new menu set' ) )->setOnclick( "Menus.createSet.openDialog();" ); ?>
+			</div>
+			<div style="padding: 10px;">
+				<?= Application::getGeneralView()->render( 'messages' ); ?>
 
-			<?=Application::getView()->render('tree');?>
+				<?= Application::getView()->render( 'tree' ); ?>
+			</div>
 		</div>
 	</div>
-</div>
 <?php endif; ?>
 
 
-<?=Application::getView()->render('set/create/dialog');?>
+<?= Application::getView()->render( 'set/create/dialog' ); ?>

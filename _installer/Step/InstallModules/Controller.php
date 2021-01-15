@@ -5,6 +5,7 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace JetApplication\Installer;
 
 use Jet\Application_Modules;
@@ -34,7 +35,7 @@ class Installer_Step_InstallModules_Controller extends Installer_Step_Controller
 	 */
 	protected array $selected_modules = [];
 
-	public function main() : void
+	public function main(): void
 	{
 		$this->all_modules = Application_Modules::allModulesList();
 
@@ -49,7 +50,7 @@ class Installer_Step_InstallModules_Controller extends Installer_Step_Controller
 		);
 
 		$form = new Form(
-			'modules_select_form', [ $modules_field, ]
+			'modules_select_form', [$modules_field,]
 		);
 
 		$this->view->setVar( 'modules', $this->all_modules );
@@ -91,7 +92,7 @@ class Installer_Step_InstallModules_Controller extends Installer_Step_Controller
 					$OK = false;
 				}
 
-				if( $result[$module_name]!==true ) {
+				if( $result[$module_name] !== true ) {
 					continue;
 				}
 

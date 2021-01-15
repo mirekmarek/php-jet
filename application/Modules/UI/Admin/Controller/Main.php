@@ -5,6 +5,7 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace JetApplicationModule\UI\Admin;
 
 use Jet\Mvc_Controller_Default;
@@ -24,12 +25,11 @@ class Controller_Main extends Mvc_Controller_Default
 
 	/**
 	 *
-	 * @param  Mvc_Page_Content_Interface $content
+	 * @param Mvc_Page_Content_Interface $content
 	 */
 	public function __construct( Mvc_Page_Content_Interface $content )
 	{
 		parent::__construct( $content );
-
 
 
 		$GET = Http_Request::GET();
@@ -43,7 +43,7 @@ class Controller_Main extends Mvc_Controller_Default
 	/**
 	 *
 	 */
-	public function logout_Action() : void
+	public function logout_Action(): void
 	{
 		Auth::logout();
 
@@ -53,7 +53,7 @@ class Controller_Main extends Mvc_Controller_Default
 	/**
 	 *
 	 */
-	public function default_Action() : void
+	public function default_Action(): void
 	{
 		$this->output( 'default' );
 	}
@@ -61,7 +61,7 @@ class Controller_Main extends Mvc_Controller_Default
 	/**
 	 *
 	 */
-	public function breadcrumb_navigation_Action() : void
+	public function breadcrumb_navigation_Action(): void
 	{
 		$this->output( 'breadcrumb_navigation' );
 	}
@@ -69,7 +69,7 @@ class Controller_Main extends Mvc_Controller_Default
 	/**
 	 *
 	 */
-	public function messages_Action() : void
+	public function messages_Action(): void
 	{
 		$this->output( 'messages' );
 	}
@@ -77,7 +77,7 @@ class Controller_Main extends Mvc_Controller_Default
 	/**
 	 *
 	 */
-	public function main_menu_Action() : void
+	public function main_menu_Action(): void
 	{
 		$this->output( 'main_menu' );
 	}

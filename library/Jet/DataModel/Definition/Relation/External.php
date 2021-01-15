@@ -5,10 +5,11 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace Jet;
 
 /**
- * 
+ *
  */
 class DataModel_Definition_Relation_External extends DataModel_Definition_Relation
 {
@@ -19,7 +20,7 @@ class DataModel_Definition_Relation_External extends DataModel_Definition_Relati
 	 * @param ?array $definition_data
 	 *
 	 */
-	public function __construct( string $this_model_class_name='', ?array $definition_data = null )
+	public function __construct( string $this_model_class_name = '', ?array $definition_data = null )
 	{
 
 		if( $definition_data ) {
@@ -29,11 +30,11 @@ class DataModel_Definition_Relation_External extends DataModel_Definition_Relati
 
 	/**
 	 * @param string $this_model_class_name
-	 * @param array  $definition_data
+	 * @param array $definition_data
 	 *
 	 * @throws DataModel_Exception
 	 */
-	public function setUp( string $this_model_class_name, array $definition_data ) : void
+	public function setUp( string $this_model_class_name, array $definition_data ): void
 	{
 
 		if( !isset( $definition_data['related_to_class_name'] ) ) {
@@ -62,7 +63,6 @@ class DataModel_Definition_Relation_External extends DataModel_Definition_Relati
 		}
 
 
-
 		$this->this_data_model_class_name = $this_model_class_name;
 		$this->related_data_model_class_name = $definition_data['related_to_class_name'];
 		$this->join_type = $definition_data['join_type'];
@@ -75,7 +75,7 @@ class DataModel_Definition_Relation_External extends DataModel_Definition_Relati
 
 			if( !isset( $related_properties[$related_property_name] ) ) {
 				throw new DataModel_Exception(
-					'Unknown property '.$definition_data['related_to_class_name'].'::'.$related_property_name.' ',
+					'Unknown property ' . $definition_data['related_to_class_name'] . '::' . $related_property_name . ' ',
 					DataModel_Exception::CODE_DEFINITION_NONSENSE
 				);
 			}

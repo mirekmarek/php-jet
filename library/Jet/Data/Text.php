@@ -5,6 +5,7 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace Jet;
 
 use Transliterator;
@@ -26,7 +27,7 @@ class Data_Text
 	 *
 	 * @return string
 	 */
-	public static function removeAccents( string $text ) : string
+	public static function removeAccents( string $text ): string
 	{
 
 		if( !class_exists( '\Transliterator', false ) ) {
@@ -50,16 +51,16 @@ class Data_Text
 	 * replaces %PARAM1% for value 1 and %PARAM2% for value 2
 	 *
 	 * @param string $text
-	 * @param array  $data
+	 * @param array $data
 	 *
 	 * @return string
 	 */
-	public static function replaceData( string $text, array $data ) : string
+	public static function replaceData( string $text, array $data ): string
 	{
 
 		$replace_keys = array_keys( $data );
 		foreach( $replace_keys as $i => $v ) {
-			$replace_keys[$i] = '%'.$v.'%';
+			$replace_keys[$i] = '%' . $v . '%';
 		}
 		$replace_values = array_values( $data );
 
@@ -68,11 +69,11 @@ class Data_Text
 
 	/**
 	 * @param string $input
-	 * @param bool   $encode_quotes
+	 * @param bool $encode_quotes
 	 *
 	 * @return string
 	 */
-	public static function htmlSpecialChars( string $input, bool $encode_quotes=false ) : string
+	public static function htmlSpecialChars( string $input, bool $encode_quotes = false ): string
 	{
 		$flag = $encode_quotes ? ENT_QUOTES : ENT_COMPAT;
 
@@ -81,7 +82,7 @@ class Data_Text
 				trim(
 					$input
 				)
-			), $flag, SysConf_Jet::getCharset());
+			), $flag, SysConf_Jet::getCharset() );
 
 	}
 

@@ -80,7 +80,7 @@ class Client
 	/**
 	 * @var array|null
 	 */
-	protected array|null$response_data = null;
+	protected array|null $response_data = null;
 
 
 	/**
@@ -89,13 +89,13 @@ class Client
 	 * @param string $username
 	 * @param string $password
 	 */
-	public function __construct( string $username='', string $password='' )
+	public function __construct( string $username = '', string $password = '' )
 	{
-		if(!$username) {
+		if( !$username ) {
 			$session = Main::getSession();
 
-			$username = $session->getValue('username');
-			$password = $session->getValue('password');
+			$username = $session->getValue( 'username' );
+			$password = $session->getValue( 'password' );
 		}
 
 
@@ -110,8 +110,8 @@ class Client
 	 *
 	 * @param string $method
 	 * @param string $object
-	 * @param array  $data
-	 * @param array  $get_params
+	 * @param array $data
+	 * @param array $get_params
 	 * @param string $upload_file_path
 	 *
 	 * @return bool
@@ -119,8 +119,8 @@ class Client
 	public function exec( string $method,
 	                      string $object,
 	                      array $data = [],
-	                      array $get_params=[],
-	                      string $upload_file_path='' ) : bool
+	                      array $get_params = [],
+	                      string $upload_file_path = '' ): bool
 	{
 		$headers = [];
 
@@ -135,11 +135,10 @@ class Client
 
 
 		if( $this->username ) {
-			curl_setopt( $curl_handle, CURLOPT_USERPWD, $this->username.':'.$this->password );
+			curl_setopt( $curl_handle, CURLOPT_USERPWD, $this->username . ':' . $this->password );
 		}
 
 		curl_setopt( $curl_handle, CURLOPT_URL, $URL );
-
 
 
 		switch( $method ) {
@@ -152,9 +151,9 @@ class Client
 			case self::METHOD_POST:
 				curl_setopt( $curl_handle, CURLOPT_POST, true );
 
-				if($upload_file_path) {
+				if( $upload_file_path ) {
 					$this->request_body = [
-						'file' => new CURLFile($upload_file_path)
+						'file' => new CURLFile( $upload_file_path )
 					];
 
 				} else {
@@ -205,11 +204,10 @@ class Client
 		$this->response_body = substr( $this->response_body, $header_size );
 
 
-
 		$result = false;
 
 		if( $this->response_data === false ) {
-			$this->error_message = 'CURL_ERR:'.curl_errno( $curl_handle ).' - '.curl_error( $curl_handle );
+			$this->error_message = 'CURL_ERR:' . curl_errno( $curl_handle ) . ' - ' . curl_error( $curl_handle );
 
 		} else {
 
@@ -239,11 +237,11 @@ class Client
 
 	/**
 	 * @param string $object
-	 * @param array  $get_params
+	 * @param array $get_params
 	 *
 	 * @return bool
 	 */
-	public function get( string $object, array $get_params=[] ) : bool
+	public function get( string $object, array $get_params = [] ): bool
 	{
 		return $this->exec( static::METHOD_GET, $object, [], $get_params );
 	}
@@ -253,7 +251,7 @@ class Client
 	 *
 	 * @return bool
 	 */
-	public function delete( string $object ) : bool
+	public function delete( string $object ): bool
 	{
 		return $this->exec( static::METHOD_DELETE, $object, [], [] );
 	}
@@ -261,23 +259,23 @@ class Client
 
 	/**
 	 * @param string $object
-	 * @param array  $data
+	 * @param array $data
 	 * @param string $upload_file_path
 	 *
 	 * @return bool
 	 */
-	public function post( string $object, array $data, string $upload_file_path=''  ) : bool
+	public function post( string $object, array $data, string $upload_file_path = '' ): bool
 	{
 		return $this->exec( static::METHOD_POST, $object, $data, [], $upload_file_path );
 	}
 
 	/**
 	 * @param string $object
-	 * @param array  $data
+	 * @param array $data
 	 *
 	 * @return bool
 	 */
-	public function put( string $object, array $data  ) : bool
+	public function put( string $object, array $data ): bool
 	{
 		return $this->exec( static::METHOD_PUT, $object, $data );
 	}
@@ -286,7 +284,7 @@ class Client
 	/**
 	 * @return string
 	 */
-	public function request() : string
+	public function request(): string
 	{
 		return $this->request;
 	}
@@ -294,7 +292,7 @@ class Client
 	/**
 	 * @return string|array
 	 */
-	public function requestBody() : string|array
+	public function requestBody(): string|array
 	{
 		return $this->request_body;
 	}
@@ -302,7 +300,7 @@ class Client
 	/**
 	 * @return array|null
 	 */
-	public function requestData() : array|null
+	public function requestData(): array|null
 	{
 		return $this->request_data;
 	}
@@ -310,7 +308,7 @@ class Client
 	/**
 	 * @return string
 	 */
-	public function errorMessage() : string
+	public function errorMessage(): string
 	{
 		return $this->error_message;
 	}
@@ -318,7 +316,7 @@ class Client
 	/**
 	 * @return int
 	 */
-	public function responseStatus() : int
+	public function responseStatus(): int
 	{
 		return $this->response_status;
 	}
@@ -326,7 +324,7 @@ class Client
 	/**
 	 * @return string
 	 */
-	public function responseHeader() : string
+	public function responseHeader(): string
 	{
 		return $this->response_header;
 	}
@@ -334,7 +332,7 @@ class Client
 	/**
 	 * @return string
 	 */
-	public function responseBody() : string
+	public function responseBody(): string
 	{
 		return $this->response_body;
 	}
@@ -342,7 +340,7 @@ class Client
 	/**
 	 * @return array|null
 	 */
-	public function responseData() : array|null
+	public function responseData(): array|null
 	{
 		return $this->response_data;
 	}

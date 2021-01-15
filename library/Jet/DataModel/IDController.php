@@ -5,6 +5,7 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace Jet;
 
 /**
@@ -35,7 +36,7 @@ abstract class DataModel_IDController extends BaseObject
 
 	/**
 	 * @param DataModel_Definition_Model $data_model_definition
-	 * @param array                      $options
+	 * @param array $options
 	 */
 	public function __construct( DataModel_Definition_Model $data_model_definition, array $options )
 	{
@@ -56,7 +57,7 @@ abstract class DataModel_IDController extends BaseObject
 	 *
 	 * @throws DataModel_IDController_Exception
 	 */
-	public function init( array|string|int $id_data ) : void
+	public function init( array|string|int $id_data ): void
 	{
 
 		$given_id_keys = [];
@@ -68,15 +69,15 @@ abstract class DataModel_IDController extends BaseObject
 			}
 		} else {
 			foreach( $this->values as $key => $val ) {
-				if(isset($id_data[$key])) {
+				if( isset( $id_data[$key] ) ) {
 					$this->values[$key] = $id_data[$key];
 					$given_id_keys[] = $key;
 				}
 			}
 		}
 
-		if( ( $missing_keys = array_diff( array_keys( $this->values ), $given_id_keys ) ) ) {
-			throw new DataModel_IDController_Exception( 'ID value missing: '.implode( ', ', $missing_keys ) );
+		if( ($missing_keys = array_diff( array_keys( $this->values ), $given_id_keys )) ) {
+			throw new DataModel_IDController_Exception( 'ID value missing: ' . implode( ', ', $missing_keys ) );
 		}
 
 	}
@@ -85,7 +86,7 @@ abstract class DataModel_IDController extends BaseObject
 	/**
 	 * @return string
 	 */
-	public function getDataModelClassName() : string
+	public function getDataModelClassName(): string
 	{
 		return $this->data_model_class_name;
 	}
@@ -93,7 +94,7 @@ abstract class DataModel_IDController extends BaseObject
 	/**
 	 * @return DataModel_Definition_Model_Main|DataModel_Definition_Model_Related_1to1|DataModel_Definition_Model_Related_1toN|DataModel_Definition_Model_Related|DataModel_Definition_Model_Related_MtoN
 	 */
-	public function getDataModelDefinition() : DataModel_Definition_Model_Main|DataModel_Definition_Model_Related_1to1|DataModel_Definition_Model_Related_1toN|DataModel_Definition_Model_Related|DataModel_Definition_Model_Related_MtoN
+	public function getDataModelDefinition(): DataModel_Definition_Model_Main|DataModel_Definition_Model_Related_1to1|DataModel_Definition_Model_Related_1toN|DataModel_Definition_Model_Related|DataModel_Definition_Model_Related_MtoN
 	{
 		return DataModel_Definition::get( $this->data_model_class_name );
 	}
@@ -103,7 +104,7 @@ abstract class DataModel_IDController extends BaseObject
 	 *
 	 * @return DataModel_Query
 	 */
-	public function getQuery() : DataModel_Query
+	public function getQuery(): DataModel_Query
 	{
 		$data_model_definition = $this->getDataModelDefinition();
 
@@ -115,7 +116,7 @@ abstract class DataModel_IDController extends BaseObject
 		$properties = $data_model_definition->getProperties();
 
 		foreach( $this->values as $property_name => $value ) {
-			if( $value===null ) {
+			if( $value === null ) {
 				continue;
 			}
 
@@ -126,22 +127,22 @@ abstract class DataModel_IDController extends BaseObject
 
 		return $query;
 	}
-	
+
 
 	/**
 	 * @param array $options
 	 */
-	public function setOptions( array $options ) : void
+	public function setOptions( array $options ): void
 	{
 		foreach( $options as $key => $val ) {
 			$this->{$key} = $val;
 		}
 	}
-	
+
 	/**
 	 * @param DataModel_Interface $data_model
 	 */
-	public function assocDataModelInstance( DataModel_Interface $data_model ) : void
+	public function assocDataModelInstance( DataModel_Interface $data_model ): void
 	{
 		$this->_data_model_instance = $data_model;
 	}
@@ -150,7 +151,7 @@ abstract class DataModel_IDController extends BaseObject
 	 * @param string $name
 	 * @param mixed  &$property
 	 */
-	public function assocDataModelInstanceProperty( string $name, mixed &$property ) : void
+	public function assocDataModelInstanceProperty( string $name, mixed &$property ): void
 	{
 		$this->values[$name] = &$property;
 	}
@@ -158,7 +159,7 @@ abstract class DataModel_IDController extends BaseObject
 	/**
 	 * @return string
 	 */
-	public function __toString() : string
+	public function __toString(): string
 	{
 		return $this->toString();
 	}
@@ -166,7 +167,7 @@ abstract class DataModel_IDController extends BaseObject
 	/**
 	 * @return string
 	 */
-	public function toString() : string
+	public function toString(): string
 	{
 		return implode( ':', $this->values );
 	}
@@ -178,11 +179,11 @@ abstract class DataModel_IDController extends BaseObject
 	 *
 	 * @throws DataModel_Exception
 	 */
-	public function getValue( string $property_name ) : mixed
+	public function getValue( string $property_name ): mixed
 	{
 		if( !array_key_exists( $property_name, $this->values ) ) {
 			throw new DataModel_Exception(
-				'Undefined ID property \''.$property_name.'\''
+				'Undefined ID property \'' . $property_name . '\''
 			);
 		}
 
@@ -193,15 +194,15 @@ abstract class DataModel_IDController extends BaseObject
 
 	/**
 	 * @param string $property_name
-	 * @param mixed  $value
+	 * @param mixed $value
 	 *
 	 * @throws DataModel_Exception
 	 */
-	public function setValue( string $property_name, mixed $value ) : void
+	public function setValue( string $property_name, mixed $value ): void
 	{
 		if( !array_key_exists( $property_name, $this->values ) ) {
 			throw new DataModel_Exception(
-				'Undefined ID property \''.$property_name.'\''
+				'Undefined ID property \'' . $property_name . '\''
 			);
 		}
 
@@ -212,7 +213,7 @@ abstract class DataModel_IDController extends BaseObject
 	/**
 	 * @return array
 	 */
-	public function getPropertyNames() : array
+	public function getPropertyNames(): array
 	{
 		return array_keys( $this->values );
 	}
@@ -221,7 +222,7 @@ abstract class DataModel_IDController extends BaseObject
 	/**
 	 *
 	 */
-	public function generate() : void
+	public function generate(): void
 	{
 		$this->beforeSave();
 	}
@@ -229,12 +230,12 @@ abstract class DataModel_IDController extends BaseObject
 	/**
 	 *
 	 */
-	abstract public function beforeSave() : void;
+	abstract public function beforeSave(): void;
 
 	/**
 	 * @param mixed $backend_save_result
 	 *
 	 */
-	abstract public function afterSave( mixed $backend_save_result ) : void;
+	abstract public function afterSave( mixed $backend_save_result ): void;
 
 }

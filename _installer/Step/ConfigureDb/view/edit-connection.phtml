@@ -6,21 +6,21 @@ use Jet\Mvc_View;
 
 /**
  * @var Mvc_View $this
- * @var Form     $form
+ * @var Form $form
  */
 $form = $this->getRaw( 'form' );
-$form->setDefaultLabelWidth( [ Form::LJ_SIZE_MEDIUM => 2 ] );
+$form->setDefaultLabelWidth( [Form::LJ_SIZE_MEDIUM => 2] );
 
 ?>
-<?=$form->start()?>
-<?=$form->message()?>
+<?= $form->start() ?>
+<?= $form->message() ?>
 
 <?php foreach( $form->getFields() as $field ):
 	echo $field;
 endforeach; ?>
 
 
-<?=Installer::buttonNext();?>
+<?= Installer::buttonNext(); ?>
 
-<?=$form->end()?>
+<?= $form->end() ?>
 

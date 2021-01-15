@@ -12,18 +12,18 @@ use Jet\Debug_Profiler_Run;
 use Jet\SysConf_Path;
 use Jet\SysConf_Jet;
 
-require SysConf_Path::getLibrary().'Jet/Debug/Profiler.php';
+require SysConf_Path::getLibrary() . 'Jet/Debug/Profiler.php';
 
 if( SysConf_Jet::isDebugProfilerEnabled() ) {
 
-	$profiler_save_dir = SysConf_Path::getTmp().'_profiler/';
+	$profiler_save_dir = SysConf_Path::getTmp() . '_profiler/';
 
 	if( !empty( $_GET['JPR'] ) ) {
 		$run_id = $_GET['JPR'];
 		$run = null;
 
 		if( !str_contains( $run_id, '.' ) ) {
-			$file_path = $profiler_save_dir.$run_id.'.jpd';
+			$file_path = $profiler_save_dir . $run_id . '.jpd';
 
 			if( file_exists( $file_path ) ) {
 
@@ -31,18 +31,18 @@ if( SysConf_Jet::isDebugProfilerEnabled() ) {
 
 				if(
 					!is_object( $run ) ||
-					!( $run instanceof Debug_Profiler_Run )
+					!($run instanceof Debug_Profiler_Run)
 				) {
 					$run = null;
 				}
 			}
 		}
 
-		if($run) {
+		if( $run ) {
 			if( isset( $_GET['callgraph'] ) ) {
-				require SysConf_Path::getBase()."_profiler/result_callgraph.php";
+				require SysConf_Path::getBase() . "_profiler/result_callgraph.php";
 			} else {
-				require SysConf_Path::getBase()."_profiler/result.phtml";
+				require SysConf_Path::getBase() . "_profiler/result.phtml";
 			}
 			die();
 
@@ -56,7 +56,7 @@ if( SysConf_Jet::isDebugProfilerEnabled() ) {
 			$run_id = $run->getId();
 
 			$dir = $profiler_save_dir;
-			$file_path = $dir.$run_id.'.jpd';
+			$file_path = $dir . $run_id . '.jpd';
 
 			if( !file_exists( $dir ) ) {
 				mkdir( $dir );
@@ -68,14 +68,14 @@ if( SysConf_Jet::isDebugProfilerEnabled() ) {
 
 		},
 		function( Debug_Profiler_Run $run ) {
-			$URL = '?JPR='.$run->getId();
+			$URL = '?JPR=' . $run->getId();
 
 			if( Debug::getOutputIsXML() ) {
-				echo '<!-- profiler: '.$URL.' -->';
+				echo '<!-- profiler: ' . $URL . ' -->';
 			} elseif( Debug::getOutputIsJSON() ) {
 				//echo '//profiler: '.$URL;
 			} else {
-				require SysConf_Path::getBase()."_profiler/status_bar.phtml";
+				require SysConf_Path::getBase() . "_profiler/status_bar.phtml";
 			}
 		}
 	);

@@ -5,17 +5,19 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace Jet;
 
-require_once SysConf_Path::getLibrary().'Jet/Cache.php';
-require_once SysConf_Path::getLibrary().'Jet/Cache/Redis.php';
-require_once SysConf_Path::getLibrary().'Jet/Mvc/Cache.php';
-require_once SysConf_Path::getLibrary().'Jet/Mvc/Cache/Backend.php';
+require_once SysConf_Path::getLibrary() . 'Jet/Cache.php';
+require_once SysConf_Path::getLibrary() . 'Jet/Cache/Redis.php';
+require_once SysConf_Path::getLibrary() . 'Jet/Mvc/Cache.php';
+require_once SysConf_Path::getLibrary() . 'Jet/Mvc/Cache/Backend.php';
 
 /**
  *
  */
-class Mvc_Cache_Backend_Redis implements Mvc_Cache_Backend {
+class Mvc_Cache_Backend_Redis implements Mvc_Cache_Backend
+{
 
 	/**
 	 * @var Cache_Redis|null
@@ -26,7 +28,7 @@ class Mvc_Cache_Backend_Redis implements Mvc_Cache_Backend {
 	 * @param string $host
 	 * @param int $port
 	 */
-	public function __construct( string $host='127.0.0.1', int $port=6379 )
+	public function __construct( string $host = '127.0.0.1', int $port = 6379 )
 	{
 		$this->redis = new Cache_Redis( $host, $port );
 	}
@@ -34,7 +36,7 @@ class Mvc_Cache_Backend_Redis implements Mvc_Cache_Backend {
 	/**
 	 * @return bool
 	 */
-	public function isActive() : bool
+	public function isActive(): bool
 	{
 		return SysConf_Jet::isCacheMvcEnabled() && $this->redis->isActive();
 	}
@@ -44,26 +46,26 @@ class Mvc_Cache_Backend_Redis implements Mvc_Cache_Backend {
 	 * @param string $entity
 	 * @return array|null
 	 */
-	protected function readMap( string $entity ) : array|null
+	protected function readMap( string $entity ): array|null
 	{
-		if(!$this->isActive()) {
+		if( !$this->isActive() ) {
 			return null;
 		}
 
-		return $this->redis->get( 'mvc_'.$entity );
+		return $this->redis->get( 'mvc_' . $entity );
 	}
 
 	/**
 	 * @param string $entity
 	 * @param array $data
 	 */
-	protected function writeMap( string $entity, array $data ) : void
+	protected function writeMap( string $entity, array $data ): void
 	{
-		if(!$this->isActive()) {
+		if( !$this->isActive() ) {
 			return;
 		}
 
-		$this->redis->set( 'mvc_'.$entity, $data );
+		$this->redis->set( 'mvc_' . $entity, $data );
 
 		Cache::resetOPCache();
 	}
@@ -73,28 +75,27 @@ class Mvc_Cache_Backend_Redis implements Mvc_Cache_Backend {
 	 * @param string $key
 	 * @return string|null
 	 */
-	protected function readHtml( string $key ) : string|null
+	protected function readHtml( string $key ): string|null
 	{
-		if(!$this->isActive()) {
+		if( !$this->isActive() ) {
 			return null;
 		}
 
-		return $this->redis->get( 'mvc_'.$key.'.html' );
+		return $this->redis->get( 'mvc_' . $key . '.html' );
 	}
 
 	/**
 	 * @param string $key
 	 * @param string $html
 	 */
-	protected function writeHtml( string $key, string $html ) : void
+	protected function writeHtml( string $key, string $html ): void
 	{
-		if(!$this->isActive()) {
+		if( !$this->isActive() ) {
 			return;
 		}
 
-		$this->redis->set( 'mvc_'.$key.'.html', $html );
+		$this->redis->set( 'mvc_' . $key . '.html', $html );
 	}
-
 
 
 	/**
@@ -102,11 +103,11 @@ class Mvc_Cache_Backend_Redis implements Mvc_Cache_Backend {
 	 */
 	public function reset(): void
 	{
-		if(!$this->redis->isActive()) {
+		if( !$this->redis->isActive() ) {
 			return;
 		}
 
-		$this->redis->deleteItems('mvc_');
+		$this->redis->deleteItems( 'mvc_' );
 
 		Cache::resetOPCache();
 	}
@@ -116,7 +117,7 @@ class Mvc_Cache_Backend_Redis implements Mvc_Cache_Backend {
 	 */
 	public function loadSiteMaps(): array|null
 	{
-		return $this->readMap('site_maps');
+		return $this->readMap( 'site_maps' );
 	}
 
 	/**
@@ -133,7 +134,7 @@ class Mvc_Cache_Backend_Redis implements Mvc_Cache_Backend {
 	 */
 	public function loadSitesFilesMap(): array|null
 	{
-		return $this->readMap('sites_files_map');
+		return $this->readMap( 'sites_files_map' );
 	}
 
 	/**
@@ -152,7 +153,7 @@ class Mvc_Cache_Backend_Redis implements Mvc_Cache_Backend {
 	 */
 	public function loadPageMaps( Mvc_Site_Interface $site, Locale $locale ): array|null
 	{
-		return $this->readMap('pages_map_'.$site->getId().'_'.$locale);
+		return $this->readMap( 'pages_map_' . $site->getId() . '_' . $locale );
 	}
 
 	/**
@@ -161,9 +162,9 @@ class Mvc_Cache_Backend_Redis implements Mvc_Cache_Backend {
 	 *
 	 * @param array $map
 	 */
-	public function savePageMaps(  Mvc_Site_Interface $site, Locale $locale, array $map ): void
+	public function savePageMaps( Mvc_Site_Interface $site, Locale $locale, array $map ): void
 	{
-		$this->writeMap( 'pages_map_'.$site->getId().'_'.$locale, $map );
+		$this->writeMap( 'pages_map_' . $site->getId() . '_' . $locale, $map );
 	}
 
 	/**
@@ -171,7 +172,7 @@ class Mvc_Cache_Backend_Redis implements Mvc_Cache_Backend {
 	 *
 	 * @return string
 	 */
-	protected function getContentKey( Mvc_Page_Content_Interface $content ) : string
+	protected function getContentKey( Mvc_Page_Content_Interface $content ): string
 	{
 		$page = $content->getPage();
 		$site_id = $page->getSiteId();
@@ -185,7 +186,7 @@ class Mvc_Cache_Backend_Redis implements Mvc_Cache_Backend {
 		$position = $content->getOutputPosition();
 		$position_order = $content->getOutputPositionOrder();
 
-		return $site_id.'_'.$locale.'_'.$page_id.'_'.md5($module.$controller.$action.$position.$position_order);
+		return $site_id . '_' . $locale . '_' . $page_id . '_' . md5( $module . $controller . $action . $position . $position_order );
 	}
 
 	/**
@@ -193,7 +194,7 @@ class Mvc_Cache_Backend_Redis implements Mvc_Cache_Backend {
 	 *
 	 * @return string|null
 	 */
-	public function loadContentOutput( Mvc_Page_Content_Interface $content ) : string|null
+	public function loadContentOutput( Mvc_Page_Content_Interface $content ): string|null
 	{
 		$key = $this->getContentKey( $content );
 
@@ -205,7 +206,7 @@ class Mvc_Cache_Backend_Redis implements Mvc_Cache_Backend {
 	 * @param string $output
 	 *
 	 */
-	public function saveContentOutput( Mvc_Page_Content_Interface $content, string $output ) : void
+	public function saveContentOutput( Mvc_Page_Content_Interface $content, string $output ): void
 	{
 		$key = $this->getContentKey( $content );
 

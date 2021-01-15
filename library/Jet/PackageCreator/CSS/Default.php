@@ -5,6 +5,7 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace Jet;
 
 /**
@@ -25,7 +26,7 @@ class PackageCreator_CSS_Default extends PackageCreator_CSS
 	/**
 	 *
 	 * @param string $media
-	 * @param array  $URIs
+	 * @param array $URIs
 	 */
 	public function __construct( string $media, array $URIs )
 	{
@@ -37,13 +38,13 @@ class PackageCreator_CSS_Default extends PackageCreator_CSS
 	/**
 	 *
 	 */
-	public function generate() : void
+	public function generate(): void
 	{
 
 		$package_path = $this->getPackagePath();
 
 		if(
-			!IO_File::exists( $package_path )
+		!IO_File::exists( $package_path )
 		) {
 
 			IO_File::write(
@@ -59,9 +60,9 @@ class PackageCreator_CSS_Default extends PackageCreator_CSS
 	 *
 	 * @return string
 	 */
-	public function createPackage() : string
+	public function createPackage(): string
 	{
-		$CSS = '@charset "utf-8";'.PHP_EOL.PHP_EOL;
+		$CSS = '@charset "utf-8";' . PHP_EOL . PHP_EOL;
 
 		foreach( $this->URIs as $URI ) {
 
@@ -69,9 +70,9 @@ class PackageCreator_CSS_Default extends PackageCreator_CSS
 
 			$CSS_file_data = $this->changeUrls( $CSS_file_data, $URI );
 
-			$CSS .= '/* URI: '.$URI.' */'.PHP_EOL;
-			$CSS .= $CSS_file_data.PHP_EOL;
-			$CSS .= '/* ------------------------ */ '.PHP_EOL;
+			$CSS .= '/* URI: ' . $URI . ' */' . PHP_EOL;
+			$CSS .= $CSS_file_data . PHP_EOL;
+			$CSS .= '/* ------------------------ */ ' . PHP_EOL;
 		}
 
 		return $CSS;
@@ -83,9 +84,9 @@ class PackageCreator_CSS_Default extends PackageCreator_CSS
 	 *
 	 * @return string
 	 */
-	public function changeUrls( string $CSS_file_data, string $URI ) : string
+	public function changeUrls( string $CSS_file_data, string $URI ): string
 	{
-		$base_URI = dirname( $this->normalizeURI( $URI ) ).'/';
+		$base_URI = dirname( $this->normalizeURI( $URI ) ) . '/';
 
 
 		$res = [];
@@ -95,39 +96,39 @@ class PackageCreator_CSS_Default extends PackageCreator_CSS
 				$path = trim( $r[1] );
 
 				if(
-					$path[0]=='"' ||
-					$path[0]=="'"
+					$path[0] == '"' ||
+					$path[0] == "'"
 				) {
 					$path = substr( $path, 1, -1 );
 				}
 
 
-				if( $path[0]=='.' ) {
+				if( $path[0] == '.' ) {
 
 					$_base_URI = $base_URI;
 
 					$path = explode( '/', $path );
 
-					while( $path[0]=='..' ) {
+					while( $path[0] == '..' ) {
 						array_shift( $path );
 						$_base_URI = dirname( $_base_URI );
 					}
 
-					if( $_base_URI=='/' ) {
+					if( $_base_URI == '/' ) {
 						$_base_URI = '';
 					}
 
-					$URL = $_base_URI.'/'.implode( '/', $path );
+					$URL = $_base_URI . '/' . implode( '/', $path );
 
 				} else {
-					if( $path[0]=='/' ) {
+					if( $path[0] == '/' ) {
 						$URL = $path;
 					} else {
-						$URL = $base_URI.$path;
+						$URL = $base_URI . $path;
 					}
 				}
 
-				$CSS_file_data = str_replace( $orig_str, 'url("'.$URL.'")', $CSS_file_data );
+				$CSS_file_data = str_replace( $orig_str, 'url("' . $URL . '")', $CSS_file_data );
 
 			}
 
@@ -141,10 +142,10 @@ class PackageCreator_CSS_Default extends PackageCreator_CSS
 	 *
 	 * @return string
 	 */
-	public function getKey() : string
+	public function getKey(): string
 	{
 		if( !$this->key ) {
-			$this->key = $this->media.'_'.md5( implode( '', $this->URIs ) );
+			$this->key = $this->media . '_' . md5( implode( '', $this->URIs ) );
 		}
 
 		return $this->key;
@@ -153,26 +154,26 @@ class PackageCreator_CSS_Default extends PackageCreator_CSS
 	/**
 	 * @return string
 	 */
-	public function getPackagePath() : string
+	public function getPackagePath(): string
 	{
-		return SysConf_Path::getCss().$this->getPackageRelativeFileName();
+		return SysConf_Path::getCss() . $this->getPackageRelativeFileName();
 	}
 
 
 	/**
 	 * @return string
 	 */
-	public function getPackageRelativeFileName() : string
+	public function getPackageRelativeFileName(): string
 	{
-		return static::getPackagesDirName().'/'.$this->getKey().'.css';
+		return static::getPackagesDirName() . '/' . $this->getKey() . '.css';
 	}
 
 	/**
 	 * @return string
 	 */
-	public function getPackageURI() : string
+	public function getPackageURI(): string
 	{
-		return SysConf_URI::getCss().$this->getPackageRelativeFileName();
+		return SysConf_URI::getCss() . $this->getPackageRelativeFileName();
 	}
 
 

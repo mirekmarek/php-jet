@@ -5,11 +5,12 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace Jet;
 
 
 /**
- * 
+ *
  */
 class UI_messages_message extends UI_BaseElement
 {
@@ -51,7 +52,7 @@ class UI_messages_message extends UI_BaseElement
 	 * @param string $message
 	 * @param string $context
 	 */
-	public function __construct( string $class, string $message, string $context='' )
+	public function __construct( string $class, string $message, string $context = '' )
 	{
 		$this->class = $class;
 		$this->message = $message;
@@ -61,7 +62,7 @@ class UI_messages_message extends UI_BaseElement
 	/**
 	 * @return string
 	 */
-	public function getIcon() : string
+	public function getIcon(): string
 	{
 		return $this->icon;
 	}
@@ -71,7 +72,7 @@ class UI_messages_message extends UI_BaseElement
 	 *
 	 * @return $this
 	 */
-	public function setIcon( string $icon ) : static
+	public function setIcon( string $icon ): static
 	{
 		$this->icon = $icon;
 
@@ -81,7 +82,7 @@ class UI_messages_message extends UI_BaseElement
 	/**
 	 * @return string
 	 */
-	public function getClass() : string
+	public function getClass(): string
 	{
 		return $this->class;
 	}
@@ -91,7 +92,7 @@ class UI_messages_message extends UI_BaseElement
 	 *
 	 * @return $this
 	 */
-	public function setClass( string $class ) : static
+	public function setClass( string $class ): static
 	{
 		$this->class = $class;
 
@@ -101,7 +102,7 @@ class UI_messages_message extends UI_BaseElement
 	/**
 	 * @return string
 	 */
-	public function getMessage() : string
+	public function getMessage(): string
 	{
 		return $this->message;
 	}
@@ -111,7 +112,7 @@ class UI_messages_message extends UI_BaseElement
 	 *
 	 * @return $this
 	 */
-	public function setMessage( string $message ) : static
+	public function setMessage( string $message ): static
 	{
 		$this->message = $message;
 
@@ -121,7 +122,7 @@ class UI_messages_message extends UI_BaseElement
 	/**
 	 * @return string
 	 */
-	public function getContext() : string
+	public function getContext(): string
 	{
 		return $this->context;
 	}
@@ -131,7 +132,7 @@ class UI_messages_message extends UI_BaseElement
 	 *
 	 * @return $this
 	 */
-	public function setContext( string $context ) : static
+	public function setContext( string $context ): static
 	{
 		$this->context = $context;
 
@@ -139,11 +140,10 @@ class UI_messages_message extends UI_BaseElement
 	}
 
 
-
 	/**
 	 * @return bool
 	 */
-	public function getIsCloseable() : bool
+	public function getIsCloseable(): bool
 	{
 		return $this->closeable;
 	}
@@ -153,13 +153,12 @@ class UI_messages_message extends UI_BaseElement
 	 *
 	 * @return $this
 	 */
-	public function setCloseable( bool $closeable ) : static
+	public function setCloseable( bool $closeable ): static
 	{
 		$this->closeable = $closeable;
 
 		return $this;
 	}
-
 
 
 }

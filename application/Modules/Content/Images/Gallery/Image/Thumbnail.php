@@ -5,6 +5,7 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace JetApplicationModule\Content\Images;
 
 use Jet\BaseObject;
@@ -65,41 +66,43 @@ class Gallery_Image_Thumbnail extends BaseObject implements BaseObject_Interface
 	 * @param int $maximal_size_w
 	 * @param int $maximal_size_h
 	 */
-	public function __construct( Gallery_Image $image, int $maximal_size_w , int $maximal_size_h ) {
+	public function __construct( Gallery_Image $image, int $maximal_size_w, int $maximal_size_h )
+	{
 
 		$this->image = $image;
 
-		$key = $maximal_size_w.'x'.$maximal_size_h;
+		$key = $maximal_size_w . 'x' . $maximal_size_h;
 
-		$file_name = $key.pathinfo($image->getFileName())['extension'];
+		$file_name = $key . pathinfo( $image->getFileName() )['extension'];
 
-		$this->dir_path = $image->getDirPath().'_thb_/';
-		$this->path = $this->dir_path.$file_name;
+		$this->dir_path = $image->getDirPath() . '_thb_/';
+		$this->path = $this->dir_path . $file_name;
 
 
-		$this->URI = $image->getBaseURI().'_thb_/'.$file_name;
+		$this->URI = $image->getBaseURI() . '_thb_/' . $file_name;
 
 	}
 
 	/**
 	 * @param bool $regenerate
 	 */
-	public function generate( $regenerate=false ) {
-		if($this->generated) {
+	public function generate( $regenerate = false )
+	{
+		if( $this->generated ) {
 			return;
 		}
 
 
 		if(
 			$regenerate ||
-			!IO_File::exists($this->path)
+			!IO_File::exists( $this->path )
 		) {
-			if( !IO_File::isReadable($this->image->getFilePath()) ) {
+			if( !IO_File::isReadable( $this->image->getFilePath() ) ) {
 				return;
 			}
 
-			if(!IO_Dir::exists($this->dir_path)) {
-				IO_Dir::create($this->dir_path);
+			if( !IO_Dir::exists( $this->dir_path ) ) {
+				IO_Dir::create( $this->dir_path );
 			}
 
 			$image_file = new Data_Image( $this->image->getFilePath() );
@@ -120,10 +123,11 @@ class Gallery_Image_Thumbnail extends BaseObject implements BaseObject_Interface
 	/**
 	 * @return string
 	 */
-	public function getURI() {
+	public function getURI()
+	{
 		$this->generate();
 
-		if(!$this->generated) {
+		if( !$this->generated ) {
 			return '';
 		}
 
@@ -169,10 +173,10 @@ class Gallery_Image_Thumbnail extends BaseObject implements BaseObject_Interface
 	/**
 	 *
 	 */
-	public function delete() : void
+	public function delete(): void
 	{
-		if(IO_File::exists($this->path)) {
-			IO_File::delete($this->path);
+		if( IO_File::exists( $this->path ) ) {
+			IO_File::delete( $this->path );
 		}
 
 	}
@@ -196,9 +200,9 @@ class Gallery_Image_Thumbnail extends BaseObject implements BaseObject_Interface
 	 */
 	public function getRealImage()
 	{
-		if(!$this->real_image) {
+		if( !$this->real_image ) {
 			$this->generate();
-			$this->real_image = new Data_Image($this->path);
+			$this->real_image = new Data_Image( $this->path );
 		}
 
 		return $this->real_image;
@@ -232,16 +236,16 @@ class Gallery_Image_Thumbnail extends BaseObject implements BaseObject_Interface
 	/**
 	 *
 	 */
-	public function jsonSerialize() : array
+	public function jsonSerialize(): array
 	{
 
 		$data = [
 			'maximal_size_w' => $this->maximal_size_w,
 			'maximal_size_h' => $this->maximal_size_h,
-			'real_size_w' => $this->getRealImage()->getWidth(),
-			'real_size_h' => $this->getRealImage()->getHeight(),
-			'file_size' => IO_File::getSize( $this->getPath() ),
-			'URL' => Http_Request::baseURL().$this->getURI()
+			'real_size_w'    => $this->getRealImage()->getWidth(),
+			'real_size_h'    => $this->getRealImage()->getHeight(),
+			'file_size'      => IO_File::getSize( $this->getPath() ),
+			'URL'            => Http_Request::baseURL() . $this->getURI()
 		];
 
 		return $data;
@@ -250,8 +254,8 @@ class Gallery_Image_Thumbnail extends BaseObject implements BaseObject_Interface
 	/**
 	 * @return string
 	 */
-	public function toJSON() : string
+	public function toJSON(): string
 	{
-		return json_encode($this->jsonSerialize());
+		return json_encode( $this->jsonSerialize() );
 	}
 }

@@ -17,15 +17,15 @@ class Test_Gallery_GetImageUnknown extends Test_Abstract
 	/**
 	 * @return bool
 	 */
-	public function isEnabled() : bool
+	public function isEnabled(): bool
 	{
-		return count($this->data['images'])>0;
+		return count( $this->data['images'] ) > 0;
 	}
 
 	/**
 	 * @return string
 	 */
-	protected function _getTitle() : string
+	protected function _getTitle(): string
 	{
 		return 'Get image - unknown (error simulation)';
 	}
@@ -33,11 +33,11 @@ class Test_Gallery_GetImageUnknown extends Test_Abstract
 	/**
 	 *
 	 */
-	public function test() : void
+	public function test(): void
 	{
 		$image = $this->data['images'][0];
 
-		$this->client->get('gallery/'.$image['gallery_id'].'/image/unknownunknown');
+		$this->client->get( 'gallery/' . $image['gallery_id'] . '/image/unknownunknown' );
 
 	}
 }

@@ -5,6 +5,7 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace JetStudio;
 
 use Jet\Debug_ErrorHandler_Handler;
@@ -20,7 +21,7 @@ class ErrorHandler_Log extends Debug_ErrorHandler_Handler
 	/**
 	 * @return string
 	 */
-	public function getName() : string
+	public function getName(): string
 	{
 		return 'Display';
 	}
@@ -33,7 +34,7 @@ class ErrorHandler_Log extends Debug_ErrorHandler_Handler
 	/**
 	 * @param Debug_ErrorHandler_Error $error
 	 */
-	public function handle( Debug_ErrorHandler_Error $error ) : void
+	public function handle( Debug_ErrorHandler_Error $error ): void
 	{
 		$message = $error->toString();
 
@@ -41,16 +42,16 @@ class ErrorHandler_Log extends Debug_ErrorHandler_Handler
 
 
 		/** @noinspection PhpUsageOfSilenceOperatorInspection */
-		$log_fn = $dir.'/'.@date( 'Y-m-d' ).'.log';
+		$log_fn = $dir . '/' . @date( 'Y-m-d' ) . '.log';
 
 		/** @noinspection PhpUsageOfSilenceOperatorInspection */
 		if( !@file_put_contents(
 			$log_fn,
-			$message.'_________________________________________________________________________________________'.PHP_EOL.PHP_EOL.PHP_EOL,
+			$message . '_________________________________________________________________________________________' . PHP_EOL . PHP_EOL . PHP_EOL,
 			FILE_APPEND
 		)
 		) {
-			echo 'Warning! Log  file\''.$log_fn.'\' is not writable!';
+			echo 'Warning! Log  file\'' . $log_fn . '\' is not writable!';
 			echo $message;
 
 			return;
@@ -63,7 +64,7 @@ class ErrorHandler_Log extends Debug_ErrorHandler_Handler
 	/**
 	 * @param string $log_dir
 	 */
-	public function setLogDir( string $log_dir ) : void
+	public function setLogDir( string $log_dir ): void
 	{
 		$this->log_dir = $log_dir;
 	}
@@ -71,9 +72,9 @@ class ErrorHandler_Log extends Debug_ErrorHandler_Handler
 	/**
 	 * @return bool|null|string
 	 */
-	protected function getLogDir() : bool|null|string
+	protected function getLogDir(): bool|null|string
 	{
-		if(!$this->log_dir) {
+		if( !$this->log_dir ) {
 			$this->log_dir = SysConf_Path::getLogs();
 		}
 
@@ -84,7 +85,7 @@ class ErrorHandler_Log extends Debug_ErrorHandler_Handler
 	/**
 	 * @return bool
 	 */
-	public function errorDisplayed() : bool
+	public function errorDisplayed(): bool
 	{
 		return false;
 	}

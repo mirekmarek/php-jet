@@ -5,6 +5,7 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace Jet;
 
 /**
@@ -17,7 +18,7 @@ trait Form_Field_Trait_Validation
 	 * @var array
 	 */
 	protected array $error_messages = [
-		self::ERROR_CODE_EMPTY => '',
+		self::ERROR_CODE_EMPTY          => '',
 		self::ERROR_CODE_INVALID_FORMAT => '',
 	];
 
@@ -55,7 +56,7 @@ trait Form_Field_Trait_Validation
 	/**
 	 * @return callable|null
 	 */
-	public function getValidator() : callable|null
+	public function getValidator(): callable|null
 	{
 		return $this->validator;
 	}
@@ -71,13 +72,13 @@ trait Form_Field_Trait_Validation
 	/**
 	 * @return array
 	 */
-	abstract public function getRequiredErrorCodes() : array;
+	abstract public function getRequiredErrorCodes(): array;
 
 	/**
 	 *
 	 * @return array
 	 */
-	public function getErrorMessages() : array
+	public function getErrorMessages(): array
 	{
 		return $this->error_messages;
 	}
@@ -88,12 +89,12 @@ trait Form_Field_Trait_Validation
 	 *
 	 * @throws Form_Exception
 	 */
-	public function setErrorMessages( array $error_messages ) : void
+	public function setErrorMessages( array $error_messages ): void
 	{
 
 		foreach( $error_messages as $key => $message ) {
 			if( !array_key_exists( $key, $this->error_messages ) ) {
-				throw new Form_Exception( 'Unknown form field error code: '.$key.'! Field: '.$this->_name );
+				throw new Form_Exception( 'Unknown form field error code: ' . $key . '! Field: ' . $this->_name );
 			}
 
 			$this->error_messages[$key] = $message;
@@ -106,7 +107,7 @@ trait Form_Field_Trait_Validation
 	 *
 	 * @return string|bool
 	 */
-	public function getErrorMessage( string $code ) : string|bool
+	public function getErrorMessage( string $code ): string|bool
 	{
 		$message = isset( $this->error_messages[$code] ) ? $this->error_messages[$code] : false;
 
@@ -118,7 +119,7 @@ trait Form_Field_Trait_Validation
 	 *
 	 * @param string $code
 	 */
-	public function setError( string $code ) : void
+	public function setError( string $code ): void
 	{
 		/**
 		 * @var Form_Field $this
@@ -137,7 +138,7 @@ trait Form_Field_Trait_Validation
 	 * @param string $error_message
 	 * @param string $code
 	 */
-	public function setCustomError( string $error_message, string $code='custom' ) : void
+	public function setCustomError( string $error_message, string $code = 'custom' ): void
 	{
 		/**
 		 * @var Form_Field $this
@@ -155,7 +156,7 @@ trait Form_Field_Trait_Validation
 	 *
 	 * @return string
 	 */
-	public function getLastErrorCode() : string
+	public function getLastErrorCode(): string
 	{
 		return $this->last_error_code;
 	}
@@ -164,7 +165,7 @@ trait Form_Field_Trait_Validation
 	 *
 	 * @return string
 	 */
-	public function getLastErrorMessage() : string
+	public function getLastErrorMessage(): string
 	{
 		return $this->last_error_message;
 	}
@@ -175,17 +176,17 @@ trait Form_Field_Trait_Validation
 	 *
 	 * @return string
 	 */
-	public function getValidationRegexp( bool $raw=false ) : string
+	public function getValidationRegexp( bool $raw = false ): string
 	{
-		if($raw) {
+		if( $raw ) {
 			return $this->validation_regexp;
 		}
 
 		$regexp = $this->validation_regexp;
 
 		if(
-			isset($regexp[0]) &&
-			$regexp[0]=='/'
+			isset( $regexp[0] ) &&
+			$regexp[0] == '/'
 		) {
 			$regexp = substr( $regexp, 1 );
 			$regexp = substr( $regexp, 0, strrpos( $regexp, '/' ) );
@@ -198,7 +199,7 @@ trait Form_Field_Trait_Validation
 	 *
 	 * @param string $validation_regexp
 	 */
-	public function setValidationRegexp( string $validation_regexp ) : void
+	public function setValidationRegexp( string $validation_regexp ): void
 	{
 		$this->validation_regexp = $validation_regexp;
 	}
@@ -207,7 +208,7 @@ trait Form_Field_Trait_Validation
 	 *
 	 * @param Data_Array $data
 	 */
-	public function catchInput( Data_Array $data ) : void
+	public function catchInput( Data_Array $data ): void
 	{
 		$this->_value = null;
 		$this->_has_value = $data->exists( $this->_name );
@@ -225,10 +226,10 @@ trait Form_Field_Trait_Validation
 	 *
 	 * @return bool
 	 */
-	public function checkValueIsNotEmpty() : bool
+	public function checkValueIsNotEmpty(): bool
 	{
 		if(
-			$this->_value==='' &&
+			$this->_value === '' &&
 			$this->is_required
 		) {
 			$this->setError( self::ERROR_CODE_EMPTY );
@@ -243,7 +244,7 @@ trait Form_Field_Trait_Validation
 	 *
 	 * @return bool
 	 */
-	public function validate() : bool
+	public function validate(): bool
 	{
 
 		if( !$this->validateFormat() ) {
@@ -261,7 +262,7 @@ trait Form_Field_Trait_Validation
 	 *
 	 * @return bool|int
 	 */
-	protected function validateFormat() : bool|int
+	protected function validateFormat(): bool|int
 	{
 
 		if( !$this->validation_regexp ) {
@@ -270,13 +271,13 @@ trait Form_Field_Trait_Validation
 
 		if(
 			!$this->is_required &&
-			$this->_value===''
+			$this->_value === ''
 		) {
 			return true;
 		}
 
-		if( $this->validation_regexp[0]!='/' ) {
-			return preg_match( '/'.$this->validation_regexp.'/', $this->_value );
+		if( $this->validation_regexp[0] != '/' ) {
+			return preg_match( '/' . $this->validation_regexp . '/', $this->_value );
 		} else {
 			return preg_match( $this->validation_regexp, $this->_value );
 		}
@@ -286,7 +287,7 @@ trait Form_Field_Trait_Validation
 	/**
 	 *
 	 */
-	protected function setIsValid() : void
+	protected function setIsValid(): void
 	{
 		$this->is_valid = true;
 		$this->last_error_code = false;
@@ -297,7 +298,7 @@ trait Form_Field_Trait_Validation
 	 *
 	 * @return bool
 	 */
-	public function isValid() : bool
+	public function isValid(): bool
 	{
 		return $this->is_valid;
 	}

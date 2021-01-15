@@ -5,6 +5,7 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace JetStudio;
 
 
@@ -28,9 +29,9 @@ class DataModel_Definition_Key extends Jet_DataModel_Definition_Key
 	 * @var array
 	 */
 	protected static array $types = [
-		DataModel::KEY_TYPE_INDEX => DataModel::KEY_TYPE_INDEX,
+		DataModel::KEY_TYPE_INDEX   => DataModel::KEY_TYPE_INDEX,
 		DataModel::KEY_TYPE_PRIMARY => DataModel::KEY_TYPE_PRIMARY,
-		DataModel::KEY_TYPE_UNIQUE => DataModel::KEY_TYPE_UNIQUE
+		DataModel::KEY_TYPE_UNIQUE  => DataModel::KEY_TYPE_UNIQUE
 	];
 
 
@@ -47,11 +48,11 @@ class DataModel_Definition_Key extends Jet_DataModel_Definition_Key
 	/**
 	 * @param string $name
 	 * @param string $type
-	 * @param array  $property_names
+	 * @param array $property_names
 	 *
 	 * @throws DataModel_Exception
 	 */
-	public function __construct( string $name='', string $type = DataModel::KEY_TYPE_INDEX, array $property_names = [] )
+	public function __construct( string $name = '', string $type = DataModel::KEY_TYPE_INDEX, array $property_names = [] )
 	{
 		$this->name = $name;
 		$this->property_names = $property_names;
@@ -62,7 +63,7 @@ class DataModel_Definition_Key extends Jet_DataModel_Definition_Key
 	/**
 	 * @return array
 	 */
-	public static function getTypes() : array
+	public static function getTypes(): array
 	{
 		return static::$types;
 	}
@@ -70,7 +71,7 @@ class DataModel_Definition_Key extends Jet_DataModel_Definition_Key
 	/**
 	 * @return string
 	 */
-	public function getName() : string
+	public function getName(): string
 	{
 		return $this->name;
 	}
@@ -78,7 +79,7 @@ class DataModel_Definition_Key extends Jet_DataModel_Definition_Key
 	/**
 	 * @param string $name
 	 */
-	public function setName( string $name ) : void
+	public function setName( string $name ): void
 	{
 		$this->name = $name;
 	}
@@ -86,7 +87,7 @@ class DataModel_Definition_Key extends Jet_DataModel_Definition_Key
 	/**
 	 * @return string
 	 */
-	public function getType() : string
+	public function getType(): string
 	{
 		return $this->type;
 	}
@@ -94,7 +95,7 @@ class DataModel_Definition_Key extends Jet_DataModel_Definition_Key
 	/**
 	 * @param string $type
 	 */
-	public function setType( string $type ) : void
+	public function setType( string $type ): void
 	{
 		$this->type = $type;
 	}
@@ -102,7 +103,7 @@ class DataModel_Definition_Key extends Jet_DataModel_Definition_Key
 	/**
 	 * @return array
 	 */
-	public function getPropertyNames() : array
+	public function getPropertyNames(): array
 	{
 		return $this->property_names;
 	}
@@ -110,7 +111,7 @@ class DataModel_Definition_Key extends Jet_DataModel_Definition_Key
 	/**
 	 * @param array $property_names
 	 */
-	public function setPropertyNames( array $property_names ) : void
+	public function setPropertyNames( array $property_names ): void
 	{
 		$this->property_names = $property_names;
 	}
@@ -118,10 +119,10 @@ class DataModel_Definition_Key extends Jet_DataModel_Definition_Key
 	/**
 	 * @param string $property_id
 	 */
-	public function removeProperty( string $property_id ) : void
+	public function removeProperty( string $property_id ): void
 	{
 		$i = array_search( $property_id, $this->property_names );
-		if( $i===false ) {
+		if( $i === false ) {
 			return;
 		}
 
@@ -135,19 +136,19 @@ class DataModel_Definition_Key extends Jet_DataModel_Definition_Key
 	 *
 	 * @return bool
 	 */
-	public static function checkKeyName( Form_Field_Input $field, string $old_name='' ) : bool
+	public static function checkKeyName( Form_Field_Input $field, string $old_name = '' ): bool
 	{
 		$name = $field->getValue();
 
-		if(!$name)	{
+		if( !$name ) {
 			$field->setError( Form_Field_Input::ERROR_CODE_EMPTY );
 			return false;
 		}
 
 		if(
-			!preg_match('/^[a-z0-9_]{2,}$/i', $name)
+		!preg_match( '/^[a-z0-9_]{2,}$/i', $name )
 		) {
-			$field->setError(Form_Field_Input::ERROR_CODE_INVALID_FORMAT);
+			$field->setError( Form_Field_Input::ERROR_CODE_INVALID_FORMAT );
 
 			return false;
 		}
@@ -155,7 +156,7 @@ class DataModel_Definition_Key extends Jet_DataModel_Definition_Key
 		$exists = false;
 
 		foreach( DataModels::getCurrentModel()->getKeys() as $k ) {
-			if($k->getName()==$name) {
+			if( $k->getName() == $name ) {
 				$exists = true;
 				break;
 			}
@@ -169,12 +170,12 @@ class DataModel_Definition_Key extends Jet_DataModel_Definition_Key
 			||
 			(
 				$old_name &&
-				$old_name!=$name &&
+				$old_name != $name &&
 				$exists
 			)
 		) {
 			$field->setCustomError(
-				Tr::_('Key with the same name already exists'),
+				Tr::_( 'Key with the same name already exists' ),
 				'key_is_not_unique'
 			);
 
@@ -189,12 +190,12 @@ class DataModel_Definition_Key extends Jet_DataModel_Definition_Key
 	/**
 	 * @return Form
 	 */
-	public static function getCreateForm() : Form
+	public static function getCreateForm(): Form
 	{
-		if(!static::$create_form) {
+		if( !static::$create_form ) {
 
 			$properties = [];
-			if(DataModels::getCurrentModel()) {
+			if( DataModels::getCurrentModel() ) {
 				foreach( DataModels::getCurrentModel()->getProperties() as $property ) {
 					if(
 						($property instanceof DataModel_Definition_Property_CustomData) ||
@@ -203,36 +204,36 @@ class DataModel_Definition_Key extends Jet_DataModel_Definition_Key
 						continue;
 					}
 
-					$properties[ $property->getName() ] = $property->getName();
+					$properties[$property->getName()] = $property->getName();
 				}
 			}
 
-			$name_field = new Form_Field_Input('name', 'Key name:', '');
-			$name_field->setIsRequired(true);
-			$name_field->setErrorMessages([
-				Form_Field_Input::ERROR_CODE_EMPTY => 'Please enter key name',
+			$name_field = new Form_Field_Input( 'name', 'Key name:', '' );
+			$name_field->setIsRequired( true );
+			$name_field->setErrorMessages( [
+				Form_Field_Input::ERROR_CODE_EMPTY          => 'Please enter key name',
 				Form_Field_Input::ERROR_CODE_INVALID_FORMAT => 'Invalid key name format',
-			]);
+			] );
 			$name_field->setValidator( function( Form_Field_Input $field ) {
 				return DataModel_Definition_Key::checkKeyName( $field );
 			} );
 
 
-			$type_field = new Form_Field_Select('type', 'Key type:', '');
+			$type_field = new Form_Field_Select( 'type', 'Key type:', '' );
 			$type_field->setSelectOptions( static::getTypes() );
-			$type_field->setIsRequired(true);
-			$type_field->setErrorMessages([
-				Form_Field_Select::ERROR_CODE_EMPTY => 'Please select key type',
+			$type_field->setIsRequired( true );
+			$type_field->setErrorMessages( [
+				Form_Field_Select::ERROR_CODE_EMPTY         => 'Please select key type',
 				Form_Field_Select::ERROR_CODE_INVALID_VALUE => 'Please select key type',
-			]);
+			] );
 
-			$properties_field = new Form_Field_MultiSelect('properties', 'Properties:', '');
-			$properties_field->setSelectOptions($properties);
-			$properties_field->setIsRequired(true);
-			$properties_field->setErrorMessages([
-				Form_Field_MultiSelect::ERROR_CODE_EMPTY => 'Please select some property',
+			$properties_field = new Form_Field_MultiSelect( 'properties', 'Properties:', '' );
+			$properties_field->setSelectOptions( $properties );
+			$properties_field->setIsRequired( true );
+			$properties_field->setErrorMessages( [
+				Form_Field_MultiSelect::ERROR_CODE_EMPTY         => 'Please select some property',
 				Form_Field_MultiSelect::ERROR_CODE_INVALID_VALUE => 'Please select some property',
-			]);
+			] );
 
 			$fields = [
 				$name_field,
@@ -240,9 +241,9 @@ class DataModel_Definition_Key extends Jet_DataModel_Definition_Key
 				$properties_field,
 			];
 
-			static::$create_form = new Form('key_add_form', $fields);
+			static::$create_form = new Form( 'key_add_form', $fields );
 
-			static::$create_form->setAction( DataModels::getActionUrl('key/add') );
+			static::$create_form->setAction( DataModels::getActionUrl( 'key/add' ) );
 		}
 
 		return static::$create_form;
@@ -251,19 +252,19 @@ class DataModel_Definition_Key extends Jet_DataModel_Definition_Key
 	/**
 	 * @return bool|DataModel_Definition_Key
 	 */
-	public static function catchCreateForm() : bool|DataModel_Definition_Key
+	public static function catchCreateForm(): bool|DataModel_Definition_Key
 	{
 		$form = static::getCreateForm();
 
-		if(!$form->catchInput() || !$form->validate()) {
+		if( !$form->catchInput() || !$form->validate() ) {
 			return false;
 		}
 
 		$new_key = new DataModel_Definition_Key();
 
-		$new_key->setName( $form->field('name')->getValue() );
-		$new_key->setType( $form->field('type')->getValue() );
-		$new_key->setPropertyNames( $form->field('properties')->getValue() );
+		$new_key->setName( $form->field( 'name' )->getValue() );
+		$new_key->setType( $form->field( 'type' )->getValue() );
+		$new_key->setPropertyNames( $form->field( 'properties' )->getValue() );
 
 		static::$create_form = null;
 
@@ -276,7 +277,7 @@ class DataModel_Definition_Key extends Jet_DataModel_Definition_Key
 	/**
 	 * @return Form
 	 */
-	public function getEditForm() : Form
+	public function getEditForm(): Form
 	{
 		if( !$this->__edit_form ) {
 			$properties = [];
@@ -288,41 +289,41 @@ class DataModel_Definition_Key extends Jet_DataModel_Definition_Key
 					continue;
 				}
 
-				$properties[ $property->getName() ] = $property->getName();
+				$properties[$property->getName()] = $property->getName();
 			}
 
-			$name_field = new Form_Field_Input('name', 'Key name:', $this->getName());
-			$name_field->setIsRequired(true);
-			$name_field->setErrorMessages([
-				Form_Field_Input::ERROR_CODE_EMPTY => 'Please enter key name',
+			$name_field = new Form_Field_Input( 'name', 'Key name:', $this->getName() );
+			$name_field->setIsRequired( true );
+			$name_field->setErrorMessages( [
+				Form_Field_Input::ERROR_CODE_EMPTY          => 'Please enter key name',
 				Form_Field_Input::ERROR_CODE_INVALID_FORMAT => 'Invalid key name format',
-			]);
+			] );
 			$name_field->setCatcher( function( $value ) {
 				$this->setName( $value );
 			} );
 			$old_name = $this->getName();
-			$name_field->setValidator( function( Form_Field_Input $field ) use ($old_name) {
+			$name_field->setValidator( function( Form_Field_Input $field ) use ( $old_name ) {
 				return DataModel_Definition_Key::checkKeyName( $field, $old_name );
 			} );
 
-			$type_field = new Form_Field_Select('type', 'Key type:', $this->getType());
+			$type_field = new Form_Field_Select( 'type', 'Key type:', $this->getType() );
 			$type_field->setSelectOptions( static::getTypes() );
-			$type_field->setIsRequired(true);
-			$type_field->setErrorMessages([
-				Form_Field_Select::ERROR_CODE_EMPTY => 'Please select key type',
+			$type_field->setIsRequired( true );
+			$type_field->setErrorMessages( [
+				Form_Field_Select::ERROR_CODE_EMPTY         => 'Please select key type',
 				Form_Field_Select::ERROR_CODE_INVALID_VALUE => 'Please select key type',
-			]);
+			] );
 			$type_field->setCatcher( function( $value ) {
 				$this->setType( $value );
 			} );
 
-			$properties_field = new Form_Field_MultiSelect('properties', 'Properties:', $this->getPropertyNames());
-			$properties_field->setSelectOptions($properties);
-			$properties_field->setIsRequired(true);
-			$properties_field->setErrorMessages([
-				Form_Field_MultiSelect::ERROR_CODE_EMPTY => 'Please select some property',
+			$properties_field = new Form_Field_MultiSelect( 'properties', 'Properties:', $this->getPropertyNames() );
+			$properties_field->setSelectOptions( $properties );
+			$properties_field->setIsRequired( true );
+			$properties_field->setErrorMessages( [
+				Form_Field_MultiSelect::ERROR_CODE_EMPTY         => 'Please select some property',
 				Form_Field_MultiSelect::ERROR_CODE_INVALID_VALUE => 'Please select some property',
-			]);
+			] );
 			$properties_field->setCatcher( function( $value ) {
 				$this->setPropertyNames( $value );
 			} );
@@ -333,9 +334,9 @@ class DataModel_Definition_Key extends Jet_DataModel_Definition_Key
 				$properties_field,
 			];
 
-			$this->__edit_form = new Form('key_edit_form_'.$this->getName(), $fields);
+			$this->__edit_form = new Form( 'key_edit_form_' . $this->getName(), $fields );
 
-			$this->__edit_form->setAction( DataModels::getActionUrl('key/edit') );
+			$this->__edit_form->setAction( DataModels::getActionUrl( 'key/edit' ) );
 
 		}
 
@@ -345,7 +346,7 @@ class DataModel_Definition_Key extends Jet_DataModel_Definition_Key
 	/**
 	 * @return bool
 	 */
-	public function catchEditForm() : bool
+	public function catchEditForm(): bool
 	{
 		$form = $this->getEditForm();
 
@@ -367,13 +368,13 @@ class DataModel_Definition_Key extends Jet_DataModel_Definition_Key
 	 *
 	 * @return array
 	 */
-	public function createClass_getAsAttribute( ClassCreator_Class $class ) : array
+	public function createClass_getAsAttribute( ClassCreator_Class $class ): array
 	{
 
 		$properties = [];
 
 		foreach( $this->getPropertyNames() as $property_name ) {
-			$properties[] = DataModels::getCurrentModel()->getProperty($property_name)->getName();
+			$properties[] = DataModels::getCurrentModel()->getProperty( $property_name )->getName();
 		}
 
 		$type = '';
@@ -385,9 +386,9 @@ class DataModel_Definition_Key extends Jet_DataModel_Definition_Key
 		};
 
 		return [
-			'name' => $this->getName(),
+			'name'           => $this->getName(),
 			'property_names' => $properties,
-			'type' => $type,
+			'type'           => $type,
 		];
 
 	}

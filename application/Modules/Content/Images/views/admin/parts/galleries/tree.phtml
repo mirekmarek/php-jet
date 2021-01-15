@@ -9,7 +9,7 @@ use Jet\Mvc;
 use Jet\Mvc_View;
 
 /**
- * @var Mvc_View  $this
+ * @var Mvc_View $this
  * @var Data_Tree $galleries
  */
 $galleries = $this->getRaw( 'galleries' );
@@ -23,7 +23,7 @@ $tree->setSelectedId( $this->getRaw( 'selected_id' ) );
 $tree->setRendererOpened(
 	function( Data_Tree_Node $node ) use ( $router ) {
 		?>
-		<a href="<?=$router->action('edit')->URI( $node->getId() );?>"><?=$node->getLabel();?></a>
+		<a href="<?= $router->action( 'edit' )->URI( $node->getId() ); ?>"><?= $node->getLabel(); ?></a>
 		<?php
 	}
 );
@@ -32,7 +32,7 @@ $tree->setRendererOpened(
 $tree->setRendererSelected(
 	function( Data_Tree_Node $node ) {
 		?>
-		<strong><?=$node->getLabel();?></strong>
+		<strong><?= $node->getLabel(); ?></strong>
 		<?php
 	}
 );
@@ -41,16 +41,18 @@ $tree->setRendererNormal(
 	function( Data_Tree_Node $node ) use ( $router ) {
 		if( $node->getIsRoot() ):
 			?>
-			<a href="<?=Mvc::getCurrentPage()->getURLPath();?>" style="font-style: italic;"><?=$node->getLabel();?></a>
-			<?php
+			<a href="<?= Mvc::getCurrentPage()->getURLPath(); ?>"
+			   style="font-style: italic;"><?= $node->getLabel(); ?></a>
+		<?php
 		else:
 			?>
-			<a href="<?=$router->action('edit')->URI( $node->getId() );?>" style="font-style: italic;"><?=$node->getLabel();?></a>
-			<?php
+			<a href="<?= $router->action( 'edit' )->URI( $node->getId() ); ?>"
+			   style="font-style: italic;"><?= $node->getLabel(); ?></a>
+		<?php
 		endif;
 	}
 );
 
 ?>
 
-<?=$tree->render()?>
+<?= $tree->render() ?>

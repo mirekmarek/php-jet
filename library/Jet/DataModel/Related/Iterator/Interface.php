@@ -5,6 +5,7 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace Jet;
 
 
@@ -17,28 +18,28 @@ interface DataModel_Related_Iterator_Interface extends BaseObject_Interface_Arra
 	/**
 	 * @param DataModel_IDController $parent_id
 	 */
-	public function actualizeParentId( DataModel_IDController $parent_id ) : void;
+	public function actualizeParentId( DataModel_IDController $parent_id ): void;
 
 	/**
 	 * @param DataModel_IDController $main_id
 	 */
-	public function actualizeMainId( DataModel_IDController $main_id ) : void;
+	public function actualizeMainId( DataModel_IDController $main_id ): void;
 
 
 	/**
 	 *
 	 */
-	public function save() : void;
+	public function save(): void;
 
 	/**
 	 *
 	 */
-	public function delete() : void;
+	public function delete(): void;
 
 	/**
 	 *
 	 */
-	public function removeAllItems() : void;
+	public function removeAllItems(): void;
 
 	/**
 	 * @return DataModel_Related_Interface[]
@@ -48,7 +49,7 @@ interface DataModel_Related_Iterator_Interface extends BaseObject_Interface_Arra
 	/**
 	 * @param callable $sort_callback
 	 */
-	public function sortItems( callable $sort_callback) : void;
+	public function sortItems( callable $sort_callback ): void;
 
 
 	/**
@@ -59,6 +60,6 @@ interface DataModel_Related_Iterator_Interface extends BaseObject_Interface_Arra
 	 * @return Form_Field[]
 	 *
 	 */
-	public function getRelatedFormFields( DataModel_Definition_Property $parent_property_definition, DataModel_PropertyFilter $property_filter = null ) : array;
+	public function getRelatedFormFields( DataModel_Definition_Property $parent_property_definition, DataModel_PropertyFilter $property_filter = null ): array;
 
 }

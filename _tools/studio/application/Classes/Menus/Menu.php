@@ -5,6 +5,7 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace JetStudio;
 
 use Jet\Form_Field;
@@ -39,29 +40,28 @@ class Menus_Menu extends Navigation_Menu
 	protected array $items = [];
 
 
-
 	/**
 	 * @return Form
 	 */
-	public static function getCreateForm() : Form
+	public static function getCreateForm(): Form
 	{
-		if(!static::$create_form) {
+		if( !static::$create_form ) {
 
-			$label = new Form_Field_Input('label', 'Menu label:', '' );
-			$label->setIsRequired(true);
-			$label->setErrorMessages([
+			$label = new Form_Field_Input( 'label', 'Menu label:', '' );
+			$label->setIsRequired( true );
+			$label->setErrorMessages( [
 				Form_Field_Input::ERROR_CODE_EMPTY => 'Please enter menu label',
-			]);
-			
+			] );
 
-			$id = new Form_Field_Input('id', 'Menu identifier:', '' );
-			$id->setIsRequired(true);
-			$id->setErrorMessages([
+
+			$id = new Form_Field_Input( 'id', 'Menu identifier:', '' );
+			$id->setIsRequired( true );
+			$id->setErrorMessages( [
 				Form_Field_Input::ERROR_CODE_EMPTY => 'Please enter menu identifier',
-			]);
+			] );
 			$id->setValidator( function( Form_Field $field ) {
-				if(!$field->getValue()) {
-					$field->setError(Form_Field::ERROR_CODE_EMPTY);
+				if( !$field->getValue() ) {
+					$field->setError( Form_Field::ERROR_CODE_EMPTY );
 					return false;
 				}
 
@@ -73,8 +73,8 @@ class Menus_Menu extends Navigation_Menu
 				return true;
 			} );
 
-			$icon = new Form_Field_Input('icon', 'Icon:', '' );
-			$index = new Form_Field_Int('index', 'Index:', 0 );
+			$icon = new Form_Field_Input( 'icon', 'Icon:', '' );
+			$index = new Form_Field_Int( 'index', 'Index:', 0 );
 
 
 			$fields = [
@@ -84,10 +84,10 @@ class Menus_Menu extends Navigation_Menu
 				$index
 			];
 
-			$form = new Form('create_menu_form', $fields );
+			$form = new Form( 'create_menu_form', $fields );
 
 
-			$form->setAction( Menus::getActionUrl('menu/add') );
+			$form->setAction( Menus::getActionUrl( 'menu/add' ) );
 
 			static::$create_form = $form;
 		}
@@ -98,7 +98,7 @@ class Menus_Menu extends Navigation_Menu
 	/**
 	 * @return bool|Menus_Menu
 	 */
-	public static function catchCreateForm() : bool|Menus_Menu
+	public static function catchCreateForm(): bool|Menus_Menu
 	{
 		$form = static::getCreateForm();
 		if(
@@ -109,10 +109,10 @@ class Menus_Menu extends Navigation_Menu
 		}
 
 		$menu_item = new Menus_Menu(
-			$form->field('id')->getValue(),
-			$form->field('label')->getValue(),
-			$form->field('index')->getValue(),
-			$form->field('icon')->getValue()
+			$form->field( 'id' )->getValue(),
+			$form->field( 'label' )->getValue(),
+			$form->field( 'index' )->getValue(),
+			$form->field( 'icon' )->getValue()
 		);
 
 
@@ -125,40 +125,40 @@ class Menus_Menu extends Navigation_Menu
 	 * @return Form
 	 *
 	 */
-	public function getEditForm() : Form
+	public function getEditForm(): Form
 	{
-		if(!$this->__edit_form) {
-			$id = new Form_Field_Input('id', 'Menu identifier:', $this->getId() );
-			$id->setIsReadonly(true);
+		if( !$this->__edit_form ) {
+			$id = new Form_Field_Input( 'id', 'Menu identifier:', $this->getId() );
+			$id->setIsReadonly( true );
 
-			$label = new Form_Field_Input('label', 'Menu label:', $this->getLabel() );
-			$label->setIsRequired(true);
-			$label->setErrorMessages([
+			$label = new Form_Field_Input( 'label', 'Menu label:', $this->getLabel() );
+			$label->setIsRequired( true );
+			$label->setErrorMessages( [
 				Form_Field_Input::ERROR_CODE_EMPTY => 'Please enter menu label',
-			]);
+			] );
 			$label->setCatcher( function( $value ) {
 				$this->setLabel( $value );
 			} );
 
 
-			$icon = new Form_Field_Input('icon', 'Icon:', $this->getIcon() );
+			$icon = new Form_Field_Input( 'icon', 'Icon:', $this->getIcon() );
 			$icon->setCatcher( function( $value ) {
 				$this->setIcon( $value );
 			} );
 
-			$index = new Form_Field_Int('index', 'Index:', $this->getIndex() );
+			$index = new Form_Field_Int( 'index', 'Index:', $this->getIndex() );
 			$index->setCatcher( function( $value ) {
 				$this->setIndex( $value );
 			} );
 
 
-			$form = new Form('menu_edit_form', [
+			$form = new Form( 'menu_edit_form', [
 				$id,
 				$label,
 				$icon,
 				$index
-			]);
-			$form->setAction( Menus::getActionUrl('menu/edit') );
+			] );
+			$form->setAction( Menus::getActionUrl( 'menu/edit' ) );
 			$this->__edit_form = $form;
 		}
 
@@ -169,7 +169,7 @@ class Menus_Menu extends Navigation_Menu
 	/**
 	 * @return bool
 	 */
-	public function catchEditForm() : bool
+	public function catchEditForm(): bool
 	{
 		$form = $this->getEditForm();
 
@@ -183,7 +183,7 @@ class Menus_Menu extends Navigation_Menu
 		$form->catchData();
 
 
-		$items_sort = Http_Request::POST()->getRaw('items_sort', []);
+		$items_sort = Http_Request::POST()->getRaw( 'items_sort', [] );
 		$i = 0;
 		foreach( $items_sort as $item_id ) {
 			$i++;
@@ -196,16 +196,13 @@ class Menus_Menu extends Navigation_Menu
 	}
 
 
-
-
 	/**
 	 * @return Navigation_Menu_Item[]
 	 */
-	public function getMenuItems() : array
+	public function getMenuItems(): array
 	{
 		return $this->items;
 	}
-
 
 
 	/**
@@ -213,9 +210,9 @@ class Menus_Menu extends Navigation_Menu
 	 *
 	 * @return Menus_Menu_Item|null
 	 */
-	public function getItem( string $id ) : Menus_Menu_Item|null
+	public function getItem( string $id ): Menus_Menu_Item|null
 	{
-		if( !isset($this->items[$id]) ) {
+		if( !isset( $this->items[$id] ) ) {
 			return null;
 		}
 
@@ -225,9 +222,9 @@ class Menus_Menu extends Navigation_Menu
 	/**
 	 * @param string $id
 	 */
-	public function deleteMenuItem( string $id ) : void
+	public function deleteMenuItem( string $id ): void
 	{
-		if( !isset($this->items[$id]) ) {
+		if( !isset( $this->items[$id] ) ) {
 			return;
 		}
 
@@ -239,15 +236,15 @@ class Menus_Menu extends Navigation_Menu
 	/**
 	 *
 	 */
-	public function sortItems() : void
+	public function sortItems(): void
 	{
 
 		uasort( $this->items, function( Menus_Menu_Item $a, Menus_Menu_Item $b ) {
-			if($a->getIndex()==$b->getIndex()) {
+			if( $a->getIndex() == $b->getIndex() ) {
 				return 0;
 			}
 
-			if($a->getIndex()>$b->getIndex()) {
+			if( $a->getIndex() > $b->getIndex() ) {
 				return 1;
 			}
 
@@ -268,7 +265,7 @@ class Menus_Menu extends Navigation_Menu
 	 * @param Navigation_Menu_Item $item
 	 *
 	 */
-	public function addMenuItem( Navigation_Menu_Item $item ) : void
+	public function addMenuItem( Navigation_Menu_Item $item ): void
 	{
 		$this->items[$item->getId()] = $item;
 
@@ -281,7 +278,7 @@ class Menus_Menu extends Navigation_Menu
 	 *
 	 * @return Menus_Menu_Item[]
 	 */
-	public function getItems( $check_access=true ) : array
+	public function getItems( $check_access = true ): array
 	{
 		return $this->items;
 	}
@@ -289,19 +286,19 @@ class Menus_Menu extends Navigation_Menu
 	/**
 	 * @return array
 	 */
-	public function toArray() : array
+	public function toArray(): array
 	{
 
 		$menu = [
 			'label' => $this->getLabel(),
-			'icon' => $this->getIcon(),
+			'icon'  => $this->getIcon(),
 			'index' => $this->getIndex()
 		];
 
-		if($this->items) {
+		if( $this->items ) {
 			$menu['items'] = [];
 
-			foreach($this->items as $item) {
+			foreach( $this->items as $item ) {
 				$item_id = $item->getId();
 
 				$menu_item = $item->toArray();

@@ -5,6 +5,7 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace JetStudio;
 
 use Jet\DataModel_Definition_Model_Related_1to1 as Jet_DataModel_Definition_Model_Related_1to1;
@@ -13,7 +14,8 @@ use Jet\Tr;
 
 /**
  */
-class DataModel_Definition_Model_Related_1to1 extends Jet_DataModel_Definition_Model_Related_1to1 implements DataModel_Definition_Model_Related_Interface{
+class DataModel_Definition_Model_Related_1to1 extends Jet_DataModel_Definition_Model_Related_1to1 implements DataModel_Definition_Model_Related_Interface
+{
 
 	use DataModel_Definition_Model_Related_Trait;
 
@@ -30,10 +32,10 @@ class DataModel_Definition_Model_Related_1to1 extends Jet_DataModel_Definition_M
 	/**
 	 * @return Form
 	 */
-	public static function getCreateForm() : Form
+	public static function getCreateForm(): Form
 	{
-		if(!static::$create_form) {
-			static::$create_form = DataModel_Definition_Model_Trait::getCreateForm_Related('1to1');
+		if( !static::$create_form ) {
+			static::$create_form = DataModel_Definition_Model_Trait::getCreateForm_Related( '1to1' );
 		}
 
 		return static::$create_form;
@@ -42,7 +44,7 @@ class DataModel_Definition_Model_Related_1to1 extends Jet_DataModel_Definition_M
 	/**
 	 * @return bool|DataModel_Definition_Model_Related_1to1
 	 */
-	public static function catchCreateForm() : bool|DataModel_Definition_Model_Related_1to1
+	public static function catchCreateForm(): bool|DataModel_Definition_Model_Related_1to1
 	{
 		$form = static::getCreateForm();
 
@@ -53,7 +55,7 @@ class DataModel_Definition_Model_Related_1to1 extends Jet_DataModel_Definition_M
 			return false;
 		}
 
-		$class = DataModel_Definition_Model_Trait::catchCreateForm_createClass($form);
+		$class = DataModel_Definition_Model_Trait::catchCreateForm_createClass( $form );
 
 		$model = new DataModel_Definition_Model_Related_1to1();
 		$model->setClass( $class );
@@ -65,11 +67,10 @@ class DataModel_Definition_Model_Related_1to1 extends Jet_DataModel_Definition_M
 	}
 
 
-
 	/**
 	 * @return ClassCreator_Class
 	 */
-	public function createClass_initClass() : ClassCreator_Class
+	public function createClass_initClass(): ClassCreator_Class
 	{
 
 		$class = new ClassCreator_Class();
@@ -77,11 +78,11 @@ class DataModel_Definition_Model_Related_1to1 extends Jet_DataModel_Definition_M
 		$class->setNamespace( $this->_class->getNamespace() );
 		$class->setName( $this->_class->getClassName() );
 
-		$class->addUse( new ClassCreator_UseClass('Jet', 'DataModel') );
-		$class->addUse( new ClassCreator_UseClass('Jet', 'DataModel_Definition') );
-		$class->addUse( new ClassCreator_UseClass('Jet', 'DataModel_Related_1to1') );
+		$class->addUse( new ClassCreator_UseClass( 'Jet', 'DataModel' ) );
+		$class->addUse( new ClassCreator_UseClass( 'Jet', 'DataModel_Definition' ) );
+		$class->addUse( new ClassCreator_UseClass( 'Jet', 'DataModel_Related_1to1' ) );
 
-		$class->setExtends( $this->createClass_getExtends($class, 'DataModel_Related_1to1') );
+		$class->setExtends( $this->createClass_getExtends( $class, 'DataModel_Related_1to1' ) );
 
 		return $class;
 	}
@@ -90,12 +91,12 @@ class DataModel_Definition_Model_Related_1to1 extends Jet_DataModel_Definition_M
 	/**
 	 * @param ClassCreator_Class $class
 	 */
-	public function createClass_main( ClassCreator_Class $class ) : void
+	public function createClass_main( ClassCreator_Class $class ): void
 	{
 
 		$class->setAttribute( 'DataModel_Definition', 'name', $this->getModelName() );
 
-		if($this->getDatabaseTableName()) {
+		if( $this->getDatabaseTableName() ) {
 			$class->setAttribute( 'DataModel_Definition', 'database_table_name', $this->getDatabaseTableName() );
 		} else {
 			$class->setAttribute( 'DataModel_Definition', 'database_table_name', $this->getModelName() );
@@ -103,18 +104,18 @@ class DataModel_Definition_Model_Related_1to1 extends Jet_DataModel_Definition_M
 
 
 		$parent_class = $this->parent_model_class;
-		if(!$parent_class) {
+		if( !$parent_class ) {
 			$parent_class = $this->main_model_class_name;
 		}
 
 		$parent_class = DataModels::getClass( $parent_class );
-		if(!$parent_class) {
-			$class->addError( Tr::_('Fatal: unknown parent class!') );
+		if( !$parent_class ) {
+			$class->addError( Tr::_( 'Fatal: unknown parent class!' ) );
 
 			return;
 		}
 
-		$class->setAttribute( 'DataModel_Definition', 'parent_model_class', $parent_class->getClassName().'::class' );
+		$class->setAttribute( 'DataModel_Definition', 'parent_model_class', $parent_class->getClassName() . '::class' );
 
 	}
 

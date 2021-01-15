@@ -5,6 +5,7 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace Jet;
 
 /**
@@ -15,12 +16,12 @@ trait Mvc_Page_Trait_URL
 
 	/**
 	 * @param string|null|bool $schema
-	 * @param array            $path_fragments
-	 * @param array            $GET_params
+	 * @param array $path_fragments
+	 * @param array $GET_params
 	 *
 	 * @return string
 	 */
-	protected function _createURL( string|null|bool $schema, array $path_fragments, array $GET_params ) : string
+	protected function _createURL( string|null|bool $schema, array $path_fragments, array $GET_params ): string
 	{
 		/**
 		 * @var Mvc_Page|Mvc_Page_Trait_URL $this
@@ -29,24 +30,24 @@ trait Mvc_Page_Trait_URL
 		$site = $this->getSite();
 
 
-		$URL = $site->getLocalizedData($this->locale)->getDefaultURL().$this->relative_path;
+		$URL = $site->getLocalizedData( $this->locale )->getDefaultURL() . $this->relative_path;
 
-		if($schema===false) {
-			$URL = strchr($URL, '/');
+		if( $schema === false ) {
+			$URL = strchr( $URL, '/' );
 		} else {
-			if($schema===null) {
-				if($this->getSSLRequired()) {
+			if( $schema === null ) {
+				if( $this->getSSLRequired() ) {
 					$schema = 'https';
 				} else {
 					$schema = 'http';
 				}
 			}
 
-			if(!$schema) {
-				$URL = '//'.$URL;
+			if( !$schema ) {
+				$URL = '//' . $URL;
 
 			} else {
-				$URL = $schema.'://'.$URL;
+				$URL = $schema . '://' . $URL;
 			}
 		}
 
@@ -56,12 +57,12 @@ trait Mvc_Page_Trait_URL
 			$_path_fragments = $path_fragments;
 			$path_fragments = [];
 			$p = '';
-			foreach( $_path_fragments as $i=>$p ) {
-				if(!$p) {
+			foreach( $_path_fragments as $i => $p ) {
+				if( !$p ) {
 					continue;
 				}
 				$p = rawurlencode( $p );
-				$p = str_replace('%3A', ':', $p);
+				$p = str_replace( '%3A', ':', $p );
 
 				$path_fragments[] = $p;
 
@@ -76,7 +77,7 @@ trait Mvc_Page_Trait_URL
 
 			$path_fragments = implode( '/', $path_fragments );
 
-			if($URL[strlen($URL)-1]!='/') {
+			if( $URL[strlen( $URL ) - 1] != '/' ) {
 				$URL .= '/';
 			}
 
@@ -108,7 +109,7 @@ trait Mvc_Page_Trait_URL
 
 			$query = http_build_query( $GET_params );
 
-			$URL .= '?'.$query;
+			$URL .= '?' . $query;
 		}
 
 		return $URL;
@@ -123,7 +124,7 @@ trait Mvc_Page_Trait_URL
 	 *
 	 * @return string
 	 */
-	public function getURL( array $path_fragments = [], array $GET_params = [] ) : string
+	public function getURL( array $path_fragments = [], array $GET_params = [] ): string
 	{
 		return $this->_createURL( null, $path_fragments, $GET_params );
 	}
@@ -135,7 +136,7 @@ trait Mvc_Page_Trait_URL
 	 *
 	 * @return string
 	 */
-	public function getURLPath( array $path_fragments = [], array $GET_params = [] ) : string
+	public function getURLPath( array $path_fragments = [], array $GET_params = [] ): string
 	{
 		return $this->_createURL( false, $path_fragments, $GET_params );
 	}
@@ -148,7 +149,7 @@ trait Mvc_Page_Trait_URL
 	 *
 	 * @return string
 	 */
-	public function getNonSchemaURL( array $path_fragments = [], array $GET_params = [] ) : string
+	public function getNonSchemaURL( array $path_fragments = [], array $GET_params = [] ): string
 	{
 		/**
 		 * @var Mvc_Page|Mvc_Page_Trait_URL $this
@@ -164,7 +165,7 @@ trait Mvc_Page_Trait_URL
 	 *
 	 * @return string
 	 */
-	public function getNonSslURL( array $path_fragments = [], array $GET_params = [] ) : string
+	public function getNonSslURL( array $path_fragments = [], array $GET_params = [] ): string
 	{
 		return $this->_createURL( 'http', $path_fragments, $GET_params );
 	}
@@ -176,7 +177,7 @@ trait Mvc_Page_Trait_URL
 	 *
 	 * @return string
 	 */
-	public function getSslURL( array $path_fragments = [], array $GET_params = [] ) : string
+	public function getSslURL( array $path_fragments = [], array $GET_params = [] ): string
 	{
 		return $this->_createURL( 'https', $path_fragments, $GET_params );
 	}

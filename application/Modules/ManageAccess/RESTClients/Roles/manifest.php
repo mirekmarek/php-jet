@@ -19,7 +19,7 @@ return [
 				'title'                  => 'REST clients - User roles',
 				'icon'                   => 'lock',
 				'relative_path_fragment' => 'rest-clients-user-roles',
-				'contents' => [
+				'contents'               => [
 					[
 						'controller_action' => 'default'
 					]

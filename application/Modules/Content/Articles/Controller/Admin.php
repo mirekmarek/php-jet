@@ -5,6 +5,7 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace JetApplicationModule\Content\Articles;
 
 use Jet\Mvc_Controller_Default;
@@ -41,30 +42,30 @@ class Controller_Admin extends Mvc_Controller_Default
 	 *
 	 * @return Mvc_Controller_Router_AddEditDelete
 	 */
-	public function getControllerRouter() : Mvc_Controller_Router_AddEditDelete
+	public function getControllerRouter(): Mvc_Controller_Router_AddEditDelete
 	{
 		if( !$this->router ) {
 			$this->router = new Mvc_Controller_Router_AddEditDelete(
 				$this,
-				function($id) {
-					return (bool)($this->article = Article::get($id));
+				function( $id ) {
+					return (bool)($this->article = Article::get( $id ));
 				},
 				[
-					'listing'=> Main::ACTION_GET_ARTICLE,
-					'view'   => Main::ACTION_GET_ARTICLE,
-					'add'    => Main::ACTION_ADD_ARTICLE,
-					'edit'   => Main::ACTION_UPDATE_ARTICLE,
-					'delete' => Main::ACTION_DELETE_ARTICLE,
+					'listing' => Main::ACTION_GET_ARTICLE,
+					'view'    => Main::ACTION_GET_ARTICLE,
+					'add'     => Main::ACTION_ADD_ARTICLE,
+					'edit'    => Main::ACTION_UPDATE_ARTICLE,
+					'delete'  => Main::ACTION_DELETE_ARTICLE,
 				]
 			);
 
-			$this->router->action('delete')
-				->setResolver(function() {
-					return Http_Request::GET()->getString('action')=='delete';
-				})
+			$this->router->action( 'delete' )
+				->setResolver( function() {
+					return Http_Request::GET()->getString( 'action' ) == 'delete';
+				} )
 				->setURICreator( function() {
-					return Http_Request::currentURI(['action'=>'delete']);
-				});
+					return Http_Request::currentURI( ['action' => 'delete'] );
+				} );
 		}
 
 		return $this->router;
@@ -73,7 +74,7 @@ class Controller_Admin extends Mvc_Controller_Default
 	/**
 	 * @param string $current_label
 	 */
-	protected function _setBreadcrumbNavigation( $current_label = '' ) : void
+	protected function _setBreadcrumbNavigation( $current_label = '' ): void
 	{
 		UI_module::initBreadcrumb();
 
@@ -85,14 +86,14 @@ class Controller_Admin extends Mvc_Controller_Default
 	/**
 	 *
 	 */
-	public function listing_Action() : void
+	public function listing_Action(): void
 	{
 		$this->_setBreadcrumbNavigation();
 
 		$listing = new Article_AdminListing();
 		$listing->handle();
 
-		$this->view->setVar( 'filter_form', $listing->filter_getForm());
+		$this->view->setVar( 'filter_form', $listing->filter_getForm() );
 		$this->view->setVar( 'grid', $listing->getGrid() );
 
 		$this->output( 'admin/list' );
@@ -101,7 +102,7 @@ class Controller_Admin extends Mvc_Controller_Default
 	/**
 	 *
 	 */
-	public function add_Action() : void
+	public function add_Action(): void
 	{
 		$this->_setBreadcrumbNavigation( Tr::_( 'Create a new Article' ) );
 
@@ -117,10 +118,10 @@ class Controller_Admin extends Mvc_Controller_Default
 			$this->logAllowedAction( 'Article created', $article->getId(), $article->getTitle(), $article );
 
 			UI_messages::success(
-				Tr::_( 'Article <b>%TITLE%</b> has been created', [ 'TITLE' => $article->getTitle() ] )
+				Tr::_( 'Article <b>%TITLE%</b> has been created', ['TITLE' => $article->getTitle()] )
 			);
 
-			Http_Headers::reload( ['id'=>$article->getId()], ['action'] );
+			Http_Headers::reload( ['id' => $article->getId()], ['action'] );
 		}
 
 
@@ -132,11 +133,11 @@ class Controller_Admin extends Mvc_Controller_Default
 	/**
 	 *
 	 */
-	public function edit_Action() : void
+	public function edit_Action(): void
 	{
 		$article = $this->article;
 
-		$this->_setBreadcrumbNavigation( Tr::_( 'Edit article <b>%TITLE%</b>', [ 'TITLE' => $article->getTitle() ] ) );
+		$this->_setBreadcrumbNavigation( Tr::_( 'Edit article <b>%TITLE%</b>', ['TITLE' => $article->getTitle()] ) );
 
 
 		$form = $article->getEditForm();
@@ -147,7 +148,7 @@ class Controller_Admin extends Mvc_Controller_Default
 			$this->logAllowedAction( 'Article updated', $article->getId(), $article->getTitle(), $article );
 
 			UI_messages::success(
-				Tr::_( 'Article <b>%TITLE%</b> has been updated', [ 'TITLE' => $article->getTitle() ] )
+				Tr::_( 'Article <b>%TITLE%</b> has been updated', ['TITLE' => $article->getTitle()] )
 			);
 
 			Http_Headers::reload();
@@ -162,12 +163,12 @@ class Controller_Admin extends Mvc_Controller_Default
 	/**
 	 *
 	 */
-	public function view_Action() : void
+	public function view_Action(): void
 	{
 		$article = $this->article;
 
 		$this->_setBreadcrumbNavigation(
-			Tr::_( 'Article detail <b>%TITLE%</b>', [ 'TITLE' => $article->getTitle() ] )
+			Tr::_( 'Article detail <b>%TITLE%</b>', ['TITLE' => $article->getTitle()] )
 		);
 
 		Navigation_Breadcrumb::addURL( $article->getTitle() );
@@ -184,15 +185,15 @@ class Controller_Admin extends Mvc_Controller_Default
 	/**
 	 *
 	 */
-	public function delete_action() : void
+	public function delete_action(): void
 	{
 		$POST = Http_Request::POST();
 
-		if( is_array($ids=$POST->getRaw('selected')) ) {
+		if( is_array( $ids = $POST->getRaw( 'selected' ) ) ) {
 			foreach( $ids as $id ) {
-				$article = Article::get($id);
+				$article = Article::get( $id );
 
-				if(!$article) {
+				if( !$article ) {
 					continue;
 				}
 
@@ -201,7 +202,7 @@ class Controller_Admin extends Mvc_Controller_Default
 				$this->logAllowedAction( 'Article deleted', $article->getId(), $article->getTitle(), $article );
 
 				UI_messages::warning(
-					Tr::_( 'Article <b>%TITLE%</b> has been deleted', [ 'TITLE' => $article->getTitle() ] )
+					Tr::_( 'Article <b>%TITLE%</b> has been deleted', ['TITLE' => $article->getTitle()] )
 				);
 			}
 		}

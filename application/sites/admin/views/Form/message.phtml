@@ -1,19 +1,21 @@
 <?php
+
 use Jet\Mvc_View;
 use Jet\Form_Renderer;
+
 /**
- * @var Mvc_View      $this
+ * @var Mvc_View $this
  * @var Form_Renderer $r
  */
 $r = $this->getRaw( 'element' );
 $form = $r->getForm();
 
-if(!$form->getCommonMessage()) {
+if( !$form->getCommonMessage() ) {
 	return;
 }
 ?>
 <div <?php
-	if($r->getCssClasses()) { ?> class="<?=$r->getCssClasses()?>"<?php }
-	if($r->getCssStyles()) { ?> style="<?=$r->getCssStyles()?>"<?php }
-	if($r->getJsActions()) { ?> <?=$r->getJsActions()?><?php }
-?>><?=$form->getCommonMessage()?></div>
+if( $r->getCssClasses() ) { ?> class="<?= $r->getCssClasses() ?>"<?php }
+if( $r->getCssStyles() ) { ?> style="<?= $r->getCssStyles() ?>"<?php }
+if( $r->getJsActions() ) { ?> <?= $r->getJsActions() ?><?php }
+?>><?= $form->getCommonMessage() ?></div>

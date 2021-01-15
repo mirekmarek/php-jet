@@ -5,6 +5,7 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace JetStudio;
 
 use Jet\BaseObject;
@@ -12,7 +13,8 @@ use Jet\BaseObject;
 /**
  *
  */
-class ClassCreator_Annotation extends BaseObject {
+class ClassCreator_Annotation extends BaseObject
+{
 
 	/**
 	 * @var string
@@ -35,7 +37,7 @@ class ClassCreator_Annotation extends BaseObject {
 	 * @param string $name
 	 * @param mixed $value
 	 */
-	public function __construct( string $prefix, string $name, mixed $value)
+	public function __construct( string $prefix, string $name, mixed $value )
 	{
 		$this->prefix = $prefix;
 		$this->name = $name;
@@ -46,7 +48,7 @@ class ClassCreator_Annotation extends BaseObject {
 	/**
 	 * @return string
 	 */
-	public function getPrefix() : string
+	public function getPrefix(): string
 	{
 		return $this->prefix;
 	}
@@ -54,7 +56,7 @@ class ClassCreator_Annotation extends BaseObject {
 	/**
 	 * @param string $prefix
 	 */
-	public function setPrefix(string $prefix) : void
+	public function setPrefix( string $prefix ): void
 	{
 		$this->prefix = $prefix;
 	}
@@ -62,7 +64,7 @@ class ClassCreator_Annotation extends BaseObject {
 	/**
 	 * @return string
 	 */
-	public function getName() : string
+	public function getName(): string
 	{
 		return $this->name;
 	}
@@ -70,7 +72,7 @@ class ClassCreator_Annotation extends BaseObject {
 	/**
 	 * @param string $name
 	 */
-	public function setName( string $name ) : void
+	public function setName( string $name ): void
 	{
 		$this->name = $name;
 	}
@@ -78,7 +80,7 @@ class ClassCreator_Annotation extends BaseObject {
 	/**
 	 * @return mixed
 	 */
-	public function getValue() : mixed
+	public function getValue(): mixed
 	{
 		return $this->value;
 	}
@@ -86,7 +88,7 @@ class ClassCreator_Annotation extends BaseObject {
 	/**
 	 * @param mixed $value
 	 */
-	public function setValue( mixed $value ) : void
+	public function setValue( mixed $value ): void
 	{
 		$this->value = $value;
 	}
@@ -94,15 +96,15 @@ class ClassCreator_Annotation extends BaseObject {
 	/**
 	 * @return string
 	 */
-	public function toString() : string
+	public function toString(): string
 	{
 		$value = $this->value;
 
-		if(is_array( $value )) {
+		if( is_array( $value ) ) {
 			$value = $this->arrayToString( $value );
 		}
 
-		return '@'.$this->prefix.':'.$this->name.' = '.$value;
+		return '@' . $this->prefix . ':' . $this->name . ' = ' . $value;
 	}
 
 	/**
@@ -110,25 +112,25 @@ class ClassCreator_Annotation extends BaseObject {
 	 *
 	 * @return string
 	 */
-	public function arrayToString( array $value ) : string
+	public function arrayToString( array $value ): string
 	{
 
 		$res = [];
 
-		foreach( $value as $k=>$v ) {
-			if(is_array( $v )) {
+		foreach( $value as $k => $v ) {
+			if( is_array( $v ) ) {
 				$v = $this->arrayToString( $v );
 			}
 
-			if(is_int($k)) {
+			if( is_int( $k ) ) {
 				$res[] = $v;
 
 			} else {
-				$res[] = var_export($k, true).' => '.$v;
+				$res[] = var_export( $k, true ) . ' => ' . $v;
 			}
 		}
 
-		$res = '['.implode(', ', $res).']';
+		$res = '[' . implode( ', ', $res ) . ']';
 
 		return $res;
 
@@ -137,7 +139,7 @@ class ClassCreator_Annotation extends BaseObject {
 	/**
 	 * @return string
 	 */
-	public function __toString() : string
+	public function __toString(): string
 	{
 		return $this->toString();
 	}

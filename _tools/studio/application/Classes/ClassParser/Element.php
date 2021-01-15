@@ -5,12 +5,14 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace JetStudio;
 
 /**
  *
  */
-abstract class ClassParser_Element {
+abstract class ClassParser_Element
+{
 
 	/**
 	 * @var ?ClassParser
@@ -45,11 +47,11 @@ abstract class ClassParser_Element {
 	 *
 	 * @return ClassParser_Token|null
 	 */
-	public function nextToken() : ClassParser_Token|null
+	public function nextToken(): ClassParser_Token|null
 	{
 		$parser = $this->parser;
 		$parser->index++;
-		if($parser->index>=count($parser->tokens)) {
+		if( $parser->index >= count( $parser->tokens ) ) {
 			return null;
 		}
 
@@ -59,7 +61,7 @@ abstract class ClassParser_Element {
 	/**
 	 *
 	 */
-	public function parseError() : void
+	public function parseError(): void
 	{
 		$this->parser->parseError();
 	}
@@ -67,7 +69,7 @@ abstract class ClassParser_Element {
 	/**
 	 *
 	 */
-	public function remove() : void
+	public function remove(): void
 	{
 		$parser = $this->parser;
 
@@ -77,9 +79,9 @@ abstract class ClassParser_Element {
 	/**
 	 * @param string $new_text
 	 */
-	public function replace( string $new_text ) : void
+	public function replace( string $new_text ): void
 	{
-		$new_text = trim($new_text);
+		$new_text = trim( $new_text );
 
 		$parser = $this->parser;
 
@@ -89,7 +91,7 @@ abstract class ClassParser_Element {
 	/**
 	 * @return string
 	 */
-	public function toString() : string
+	public function toString(): string
 	{
 		return $this->parser->getTokenText( $this->start_token, $this->end_token );
 	}
@@ -97,6 +99,6 @@ abstract class ClassParser_Element {
 	/**
 	 *
 	 */
-	abstract public function debug_showResult() : void;
+	abstract public function debug_showResult(): void;
 
 }

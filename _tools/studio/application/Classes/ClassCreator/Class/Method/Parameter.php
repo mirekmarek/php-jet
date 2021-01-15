@@ -5,6 +5,7 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace JetStudio;
 
 use Jet\BaseObject;
@@ -51,7 +52,7 @@ class ClassCreator_Class_Method_Parameter extends BaseObject
 	/**
 	 * @return string
 	 */
-	public function getName() : string
+	public function getName(): string
 	{
 		return $this->name;
 	}
@@ -59,7 +60,7 @@ class ClassCreator_Class_Method_Parameter extends BaseObject
 	/**
 	 * @return string
 	 */
-	public function getType() : string
+	public function getType(): string
 	{
 		return $this->type;
 	}
@@ -69,7 +70,7 @@ class ClassCreator_Class_Method_Parameter extends BaseObject
 	 *
 	 * @return static
 	 */
-	public function setType( string $type ) : static
+	public function setType( string $type ): static
 	{
 		$this->type = $type;
 
@@ -79,7 +80,7 @@ class ClassCreator_Class_Method_Parameter extends BaseObject
 	/**
 	 * @return bool
 	 */
-	public function getIsOptional() : bool
+	public function getIsOptional(): bool
 	{
 		return $this->optional;
 	}
@@ -89,7 +90,7 @@ class ClassCreator_Class_Method_Parameter extends BaseObject
 	 *
 	 * @return static
 	 */
-	public function setIsOptional( bool $optional ) : static
+	public function setIsOptional( bool $optional ): static
 	{
 		$this->optional = $optional;
 
@@ -99,7 +100,7 @@ class ClassCreator_Class_Method_Parameter extends BaseObject
 	/**
 	 * @return mixed
 	 */
-	public function getDefaultValue() : mixed
+	public function getDefaultValue(): mixed
 	{
 		return $this->default_value;
 	}
@@ -109,7 +110,7 @@ class ClassCreator_Class_Method_Parameter extends BaseObject
 	 *
 	 * @return static
 	 */
-	public function setDefaultValue( mixed $default_value ) : static
+	public function setDefaultValue( mixed $default_value ): static
 	{
 		$this->default_value = $default_value;
 
@@ -119,7 +120,7 @@ class ClassCreator_Class_Method_Parameter extends BaseObject
 	/**
 	 * @return string
 	 */
-	public function getComment() : string
+	public function getComment(): string
 	{
 		return $this->comment;
 	}
@@ -130,7 +131,7 @@ class ClassCreator_Class_Method_Parameter extends BaseObject
 	 *
 	 * @return static
 	 */
-	public function setComment( string $comment ) : static
+	public function setComment( string $comment ): static
 	{
 		$this->comment = $comment;
 
@@ -140,16 +141,16 @@ class ClassCreator_Class_Method_Parameter extends BaseObject
 	/**
 	 * @return string
 	 */
-	public function getAsMethodParam() : string
+	public function getAsMethodParam(): string
 	{
 		$res = '';
-		$res .= $this->getType().' ';
+		$res .= $this->getType() . ' ';
 
 
-		$res .= '$'.$this->getName();
+		$res .= '$' . $this->getName();
 
-		if($this->getIsOptional()) {
-			$res .='='.var_export( $this->getDefaultValue(), true );
+		if( $this->getIsOptional() ) {
+			$res .= '=' . var_export( $this->getDefaultValue(), true );
 		}
 
 		return $res;
@@ -158,12 +159,12 @@ class ClassCreator_Class_Method_Parameter extends BaseObject
 	/**
 	 * @return string
 	 */
-	public function createClass_getAsAnnotation() : string
+	public function createClass_getAsAnnotation(): string
 	{
-		$res = '@param '.$this->getType().' $'.$this->getName();
+		$res = '@param ' . $this->getType() . ' $' . $this->getName();
 
-		if($this->getComment()) {
-			$res .= ' '.$this->getComment();
+		if( $this->getComment() ) {
+			$res .= ' ' . $this->getComment();
 		}
 
 		return $res;

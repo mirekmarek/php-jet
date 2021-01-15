@@ -5,6 +5,7 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace Jet;
 
 /**
@@ -65,7 +66,7 @@ abstract class Config_Definition_Property extends BaseObject implements Form_Fie
 	 *
 	 * @return static
 	 */
-	public static function __set_state( array $data ) : static
+	public static function __set_state( array $data ): static
 	{
 		$i = new static( $data['_configuration_class'], $data['name'] );
 
@@ -79,8 +80,8 @@ abstract class Config_Definition_Property extends BaseObject implements Form_Fie
 	/**
 	 *
 	 * @param string|Config $configuration_class_name
-	 * @param string        $name
-	 * @param ?array    $definition_data (optional)
+	 * @param string $name
+	 * @param ?array $definition_data (optional)
 	 *
 	 */
 	public function __construct( string|Config $configuration_class_name, string $name, ?array $definition_data = null )
@@ -100,7 +101,7 @@ abstract class Config_Definition_Property extends BaseObject implements Form_Fie
 	/**
 	 * @param Config $configuration
 	 */
-	public function setConfiguration( Config $configuration ) : void
+	public function setConfiguration( Config $configuration ): void
 	{
 		$this->_configuration = $configuration;
 		$this->_configuration_class = get_class( $configuration );
@@ -111,7 +112,7 @@ abstract class Config_Definition_Property extends BaseObject implements Form_Fie
 	 *
 	 * @throws Config_Exception
 	 */
-	public function setUp( ?array $definition_data = null ) : void
+	public function setUp( ?array $definition_data = null ): void
 	{
 		if( !$definition_data ) {
 			return;
@@ -120,7 +121,7 @@ abstract class Config_Definition_Property extends BaseObject implements Form_Fie
 		foreach( $definition_data as $key => $val ) {
 			if( !$this->objectHasProperty( $key ) ) {
 				throw new Config_Exception(
-					$this->_configuration_class.'::'.$this->name.': unknown definition option \''.$key.'\'  ',
+					$this->_configuration_class . '::' . $this->name . ': unknown definition option \'' . $key . '\'  ',
 					Config_Exception::CODE_DEFINITION_NONSENSE
 				);
 			}
@@ -139,7 +140,7 @@ abstract class Config_Definition_Property extends BaseObject implements Form_Fie
 	 *
 	 * @return string
 	 */
-	public function getName() : string
+	public function getName(): string
 	{
 		return $this->name;
 	}
@@ -148,7 +149,7 @@ abstract class Config_Definition_Property extends BaseObject implements Form_Fie
 	 *
 	 * @return string
 	 */
-	public function getDescription() : string
+	public function getDescription(): string
 	{
 		return $this->description;
 	}
@@ -156,7 +157,7 @@ abstract class Config_Definition_Property extends BaseObject implements Form_Fie
 	/**
 	 * @param string $description
 	 */
-	public function setDescription( string $description ) : void
+	public function setDescription( string $description ): void
 	{
 		$this->description = $description;
 	}
@@ -166,7 +167,7 @@ abstract class Config_Definition_Property extends BaseObject implements Form_Fie
 	 *
 	 * @return mixed
 	 */
-	public function getDefaultValue( /** @noinspection PhpUnusedParameterInspection */ Config $config ) : mixed
+	public function getDefaultValue( /** @noinspection PhpUnusedParameterInspection */ Config $config ): mixed
 	{
 		return $this->default_value;
 	}
@@ -174,7 +175,7 @@ abstract class Config_Definition_Property extends BaseObject implements Form_Fie
 	/**
 	 * @param mixed $default_value
 	 */
-	public function setDefaultValue( mixed $default_value ) : void
+	public function setDefaultValue( mixed $default_value ): void
 	{
 		$this->default_value = $default_value;
 	}
@@ -182,7 +183,7 @@ abstract class Config_Definition_Property extends BaseObject implements Form_Fie
 	/**
 	 * @return bool
 	 */
-	public function getIsRequired() : bool
+	public function getIsRequired(): bool
 	{
 		return $this->is_required;
 	}
@@ -190,7 +191,7 @@ abstract class Config_Definition_Property extends BaseObject implements Form_Fie
 	/**
 	 * @param bool $is_required
 	 */
-	public function setIsRequired( bool $is_required ) : void
+	public function setIsRequired( bool $is_required ): void
 	{
 		$this->is_required = $is_required;
 		$this->form_field_is_required = $is_required;
@@ -199,7 +200,7 @@ abstract class Config_Definition_Property extends BaseObject implements Form_Fie
 	/**
 	 * @return string
 	 */
-	public function getErrorMessage() : string
+	public function getErrorMessage(): string
 	{
 		return $this->error_message;
 	}
@@ -207,7 +208,7 @@ abstract class Config_Definition_Property extends BaseObject implements Form_Fie
 	/**
 	 * @param string $error_message
 	 */
-	public function setErrorMessage( string $error_message ) : void
+	public function setErrorMessage( string $error_message ): void
 	{
 		$this->error_message = $error_message;
 	}
@@ -215,7 +216,7 @@ abstract class Config_Definition_Property extends BaseObject implements Form_Fie
 	/**
 	 * @return string
 	 */
-	public function getLabel() : string
+	public function getLabel(): string
 	{
 		return $this->label;
 	}
@@ -223,7 +224,7 @@ abstract class Config_Definition_Property extends BaseObject implements Form_Fie
 	/**
 	 * @param string $label
 	 */
-	public function setLabel( string $label ) : void
+	public function setLabel( string $label ): void
 	{
 		$this->label = $label;
 	}
@@ -231,7 +232,7 @@ abstract class Config_Definition_Property extends BaseObject implements Form_Fie
 	/**
 	 * @return string
 	 */
-	public function getType() : string
+	public function getType(): string
 	{
 		return $this->_type;
 	}
@@ -245,7 +246,7 @@ abstract class Config_Definition_Property extends BaseObject implements Form_Fie
 	 *
 	 * @throws Config_Exception
 	 */
-	public function prepareValue( /** @noinspection PhpUnusedParameterInspection */ mixed $value, Config $config ) : mixed
+	public function prepareValue( /** @noinspection PhpUnusedParameterInspection */ mixed $value, Config $config ): mixed
 	{
 
 		$this->checkValueType( $value );
@@ -259,7 +260,7 @@ abstract class Config_Definition_Property extends BaseObject implements Form_Fie
 	 *
 	 * @param mixed &$value
 	 */
-	abstract protected function checkValueType( mixed &$value ) : void;
+	abstract protected function checkValueType( mixed &$value ): void;
 
 	/**
 	 *
@@ -267,12 +268,12 @@ abstract class Config_Definition_Property extends BaseObject implements Form_Fie
 	 *
 	 * @throws Config_Exception
 	 */
-	abstract protected function checkValue( mixed $value ) : void;
+	abstract protected function checkValue( mixed $value ): void;
 
 	/**
 	 * @return string
 	 */
-	public function getFormFieldName() : string
+	public function getFormFieldName(): string
 	{
 		return $this->name;
 	}
@@ -280,7 +281,7 @@ abstract class Config_Definition_Property extends BaseObject implements Form_Fie
 	/**
 	 * @return string
 	 */
-	public function getFormFieldContextClassName() : string
+	public function getFormFieldContextClassName(): string
 	{
 		return $this->_configuration_class;
 	}
@@ -288,7 +289,7 @@ abstract class Config_Definition_Property extends BaseObject implements Form_Fie
 	/**
 	 * @return string
 	 */
-	public function getFormFieldContextPropertyName() : string
+	public function getFormFieldContextPropertyName(): string
 	{
 		return $this->name;
 	}
@@ -297,7 +298,7 @@ abstract class Config_Definition_Property extends BaseObject implements Form_Fie
 	/**
 	 * @return string
 	 */
-	public function __toString() : string
+	public function __toString(): string
 	{
 		return $this->toString();
 	}
@@ -305,9 +306,9 @@ abstract class Config_Definition_Property extends BaseObject implements Form_Fie
 	/**
 	 * @return string
 	 */
-	public function toString() : string
+	public function toString(): string
 	{
-		return $this->_configuration_class.'::'.$this->getName();
+		return $this->_configuration_class . '::' . $this->getName();
 	}
 
 }

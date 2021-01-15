@@ -1,4 +1,5 @@
 <?php
+
 use Jet\Navigation_Breadcrumb;
 
 $items = Navigation_Breadcrumb::getItems();
@@ -9,17 +10,17 @@ $items = Navigation_Breadcrumb::getItems();
 			<?php if( $item->getIsActive() ): ?>
 				<li class="breadcrumb-item active">
 					<?php if( !$item->getIsLast() ): ?>
-						<a href="<?=$item->getURL();?>"><?=$item->getTitle();?></a>
+						<a href="<?= $item->getURL(); ?>"><?= $item->getTitle(); ?></a>
 					<?php else: ?>
-						<?=$item->getTitle();?>
+						<?= $item->getTitle(); ?>
 					<?php endif; ?>
 				</li>
 			<?php else: ?>
 				<li class="breadcrumb-item">
 					<?php if( !$item->getIsLast() ): ?>
-						<a href="<?=$item->getURL();?>"><?=$item->getTitle();?></a>
+						<a href="<?= $item->getURL(); ?>"><?= $item->getTitle(); ?></a>
 					<?php else: ?>
-						<?=$item->getTitle();?>
+						<?= $item->getTitle(); ?>
 					<?php endif; ?>
 				</li>
 			<?php endif; ?>

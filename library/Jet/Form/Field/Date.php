@@ -5,6 +5,7 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace Jet;
 
 use DateTime;
@@ -71,11 +72,11 @@ class Form_Field_Date extends Form_Field_Input
 	/**
 	 * @param Data_Array $data
 	 */
-	public function catchInput( Data_Array $data ) : void
+	public function catchInput( Data_Array $data ): void
 	{
 		parent::catchInput( $data );
 
-		if( $this->_value==='' ) {
+		if( $this->_value === '' ) {
 			$this->_value = null;
 		}
 
@@ -87,7 +88,7 @@ class Form_Field_Date extends Form_Field_Input
 	 *
 	 * @return bool
 	 */
-	public function validate() : bool
+	public function validate(): bool
 	{
 
 		if( $this->_value ) {
@@ -99,7 +100,7 @@ class Form_Field_Date extends Form_Field_Input
 				return false;
 			}
 		} else {
-			if($this->is_required) {
+			if( $this->is_required ) {
 				$this->setError( self::ERROR_CODE_EMPTY );
 				return false;
 			}
@@ -113,7 +114,7 @@ class Form_Field_Date extends Form_Field_Input
 	/**
 	 * @return array
 	 */
-	public function getRequiredErrorCodes() : array
+	public function getRequiredErrorCodes(): array
 	{
 		$codes = [];
 
@@ -124,7 +125,6 @@ class Form_Field_Date extends Form_Field_Input
 
 		return $codes;
 	}
-
 
 
 }

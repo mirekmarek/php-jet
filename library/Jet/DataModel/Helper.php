@@ -5,6 +5,7 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace Jet;
 
 /**
@@ -32,7 +33,7 @@ class DataModel_Helper
 	 * @param string $class
 	 *
 	 */
-	public static function create( string $class ) : void
+	public static function create( string $class ): void
 	{
 		/**
 		 * @var DataModel_Interface $class
@@ -49,7 +50,7 @@ class DataModel_Helper
 	 *
 	 * @return array
 	 */
-	public static function getUpdateCommand( string $class ) : array
+	public static function getUpdateCommand( string $class ): array
 	{
 		/**
 		 * @var DataModel_Interface $class
@@ -63,7 +64,7 @@ class DataModel_Helper
 	 *
 	 * @param string $class
 	 */
-	public static function update( string $class ) : void
+	public static function update( string $class ): void
 	{
 		/**
 		 * @var DataModel_Interface $class
@@ -78,7 +79,7 @@ class DataModel_Helper
 	 *
 	 * @param string $class
 	 */
-	public static function drop( string $class ) : void
+	public static function drop( string $class ): void
 	{
 		/**
 		 * @var DataModel_Interface $class

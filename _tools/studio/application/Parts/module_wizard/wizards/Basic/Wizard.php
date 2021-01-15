@@ -14,7 +14,8 @@ use JetStudio\ModuleWizard;
 /**
  *
  */
-class Wizard extends ModuleWizard {
+class Wizard extends ModuleWizard
+{
 
 	/**
 	 * @var string
@@ -29,7 +30,7 @@ class Wizard extends ModuleWizard {
 	/**
 	 *
 	 */
-	public function init() : void
+	public function init(): void
 	{
 		$this->values = [
 			//'NAMESPACE' => '',
@@ -45,13 +46,13 @@ class Wizard extends ModuleWizard {
 	/**
 	 * @return Form
 	 */
-	public function generateSetupForm() : Form
+	public function generateSetupForm(): Form
 	{
 		$fields = [];
 
 		$this->generateSetupForm_mainFields( $fields );
 
-		$form = new Form('module_wizard_setup_form', $fields);
+		$form = new Form( 'module_wizard_setup_form', $fields );
 
 		return $form;
 	}

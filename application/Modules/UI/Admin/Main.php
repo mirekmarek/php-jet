@@ -5,6 +5,7 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace JetApplicationModule\UI\Admin;
 
 use Jet\Application_Module;
@@ -33,7 +34,7 @@ class Main extends Application_Module
 		Navigation_Breadcrumb::reset();
 
 		Navigation_Breadcrumb::addURL(
-			UI::icon( $page->getIcon() ).'&nbsp;&nbsp;'.$page->getBreadcrumbTitle(),
+			UI::icon( $page->getIcon() ) . '&nbsp;&nbsp;' . $page->getBreadcrumbTitle(),
 			$page->getURL()
 		);
 

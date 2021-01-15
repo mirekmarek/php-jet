@@ -3,14 +3,14 @@ return [
 	'vendor'      => 'Miroslav Marek <mirek.marek.2m@gmail.com>',
 	'label'       => 'Administrator users management',
 	'description' => '',
-	
+
 	'ACL_actions' => [
 		'get_user'    => 'Get user data',
 		'add_user'    => 'Add new user',
 		'update_user' => 'Update user',
 		'delete_user' => 'Delete user',
 	],
-	
+
 
 	'pages' => [
 		'admin' => [
@@ -18,7 +18,7 @@ return [
 				'title'                  => 'Administrators - Users',
 				'icon'                   => 'user-secret',
 				'relative_path_fragment' => 'administrators-users',
-				'contents' => [
+				'contents'               => [
 					[
 						'controller_action' => 'default'
 					]

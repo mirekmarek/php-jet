@@ -5,12 +5,14 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace Jet;
 
 /**
  *
  */
-abstract class Data_Listing extends BaseObject {
+abstract class Data_Listing extends BaseObject
+{
 
 	/**
 	 * @var string
@@ -99,7 +101,7 @@ abstract class Data_Listing extends BaseObject {
 	/**
 	 * @return string
 	 */
-	public static function getPaginationPageNoGetParam() : string
+	public static function getPaginationPageNoGetParam(): string
 	{
 		return static::$pagination_page_no_get_param;
 	}
@@ -115,7 +117,7 @@ abstract class Data_Listing extends BaseObject {
 	/**
 	 * @return string
 	 */
-	public static function getPaginationItemsPerPageParam() : string
+	public static function getPaginationItemsPerPageParam(): string
 	{
 		return static::$pagination_items_per_page_param;
 	}
@@ -123,7 +125,7 @@ abstract class Data_Listing extends BaseObject {
 	/**
 	 * @param string $pagination_items_per_page_param
 	 */
-	public static function setPaginationItemsPerPageParam( string $pagination_items_per_page_param ) : void
+	public static function setPaginationItemsPerPageParam( string $pagination_items_per_page_param ): void
 	{
 		static::$pagination_items_per_page_param = $pagination_items_per_page_param;
 	}
@@ -131,7 +133,7 @@ abstract class Data_Listing extends BaseObject {
 	/**
 	 * @return int
 	 */
-	public static function getPaginationMaxItemsPerPage() : int
+	public static function getPaginationMaxItemsPerPage(): int
 	{
 		return static::$pagination_max_items_per_page;
 	}
@@ -139,7 +141,7 @@ abstract class Data_Listing extends BaseObject {
 	/**
 	 * @param int $pagination_max_items_per_page
 	 */
-	public static function setPaginationMaxItemsPerPage( int $pagination_max_items_per_page ) : void
+	public static function setPaginationMaxItemsPerPage( int $pagination_max_items_per_page ): void
 	{
 		static::$pagination_max_items_per_page = $pagination_max_items_per_page;
 	}
@@ -147,7 +149,7 @@ abstract class Data_Listing extends BaseObject {
 	/**
 	 * @return int
 	 */
-	public static function getPaginationDefaultItemsPerPage() : int
+	public static function getPaginationDefaultItemsPerPage(): int
 	{
 		return static::$pagination_default_items_per_page;
 	}
@@ -155,7 +157,7 @@ abstract class Data_Listing extends BaseObject {
 	/**
 	 * @param int $pagination_default_items_per_page
 	 */
-	public static function setPaginationDefaultItemsPerPage( int $pagination_default_items_per_page ) : void
+	public static function setPaginationDefaultItemsPerPage( int $pagination_default_items_per_page ): void
 	{
 		static::$pagination_default_items_per_page = $pagination_default_items_per_page;
 	}
@@ -163,7 +165,7 @@ abstract class Data_Listing extends BaseObject {
 	/**
 	 * @return string
 	 */
-	public static function getSortGetParam() : string
+	public static function getSortGetParam(): string
 	{
 		return static::$sort_get_param;
 	}
@@ -171,7 +173,7 @@ abstract class Data_Listing extends BaseObject {
 	/**
 	 * @param string $sort_get_param
 	 */
-	public static function setSortGetParam( string $sort_get_param ) : void
+	public static function setSortGetParam( string $sort_get_param ): void
 	{
 		static::$sort_get_param = $sort_get_param;
 	}
@@ -179,7 +181,7 @@ abstract class Data_Listing extends BaseObject {
 	/**
 	 * @return string
 	 */
-	public function getDefaultSort() : string
+	public function getDefaultSort(): string
 	{
 		return $this->default_sort;
 	}
@@ -187,17 +189,16 @@ abstract class Data_Listing extends BaseObject {
 	/**
 	 * @param string $default_sort
 	 */
-	public function setDefaultSort( string $default_sort ) : void
+	public function setDefaultSort( string $default_sort ): void
 	{
 		$this->default_sort = $default_sort;
 	}
 
 
-
 	/**
 	 *
 	 */
-	public function handle() : void
+	public function handle(): void
 	{
 		$this->filter_catchGetParams();
 		$this->pagination_catchGetParams();
@@ -210,7 +211,7 @@ abstract class Data_Listing extends BaseObject {
 	/**
 	 * @return array
 	 */
-	public function getGridColumns() : array
+	public function getGridColumns(): array
 	{
 		return $this->grid_columns;
 	}
@@ -218,7 +219,7 @@ abstract class Data_Listing extends BaseObject {
 	/**
 	 * @param array $grid_columns_schema
 	 */
-	public function setGridColumnsSchema( array $grid_columns_schema ) : void
+	public function setGridColumnsSchema( array $grid_columns_schema ): void
 	{
 		$this->grid_columns_schema = $grid_columns_schema;
 	}
@@ -226,10 +227,10 @@ abstract class Data_Listing extends BaseObject {
 	/**
 	 * @return array
 	 */
-	public function getGridColumnsSchema() : array
+	public function getGridColumnsSchema(): array
 	{
-		if(!$this->grid_columns_schema) {
-			$this->grid_columns_schema = array_keys($this->getGridColumns());
+		if( !$this->grid_columns_schema ) {
+			$this->grid_columns_schema = array_keys( $this->getGridColumns() );
 		}
 
 		return $this->grid_columns_schema;
@@ -240,7 +241,7 @@ abstract class Data_Listing extends BaseObject {
 	 * @param string $p
 	 * @param mixed $v
 	 */
-	protected function setGetParam( string $p, mixed $v ) : void
+	protected function setGetParam( string $p, mixed $v ): void
 	{
 		$this->get_param_values[$p] = $v;
 	}
@@ -248,9 +249,9 @@ abstract class Data_Listing extends BaseObject {
 	/**
 	 * @param string $p
 	 */
-	protected function unsetGetParam( string $p ) : void
+	protected function unsetGetParam( string $p ): void
 	{
-		unset( $this->get_param_values[$p]);
+		unset( $this->get_param_values[$p] );
 	}
 
 
@@ -259,30 +260,30 @@ abstract class Data_Listing extends BaseObject {
 	 *
 	 * @return string
 	 */
-	protected function getURI( array $get_params=null ) : string
+	protected function getURI( array $get_params = null ): string
 	{
-		if($get_params===null) {
+		if( $get_params === null ) {
 			$get_params = $this->get_param_values;
 		}
 
-		foreach( $get_params as $k=>$v ) {
-			if(!$v) {
+		foreach( $get_params as $k => $v ) {
+			if( !$v ) {
 				unset( $get_params[$k] );
 			}
 		}
 
-		return '?'.http_build_query( $get_params );
+		return '?' . http_build_query( $get_params );
 	}
 
 
 	/**
 	 * @return Form
 	 */
-	public function filter_getForm() : Form
+	public function filter_getForm(): Form
 	{
-		if(!$this->filter_form) {
-			$this->filter_form = new Form('filter_form', []);
-			$this->filter_form->setAction($this->getURI());
+		if( !$this->filter_form ) {
+			$this->filter_form = new Form( 'filter_form', [] );
+			$this->filter_form->setAction( $this->getURI() );
 
 			foreach( $this->filters as $filter ) {
 				$this->{"filter_{$filter}_getForm"}( $this->filter_form );
@@ -295,7 +296,7 @@ abstract class Data_Listing extends BaseObject {
 	/**
 	 *
 	 */
-	public function filter_catchForm() : void
+	public function filter_catchForm(): void
 	{
 		$form = $this->filter_getForm();
 
@@ -307,7 +308,7 @@ abstract class Data_Listing extends BaseObject {
 				$this->{"filter_{$filter}_catchForm"}( $form );
 			}
 
-			$this->pagination_setPageNo(1);
+			$this->pagination_setPageNo( 1 );
 
 			Http_Headers::movedTemporary( $this->getURI() );
 		}
@@ -318,7 +319,7 @@ abstract class Data_Listing extends BaseObject {
 	/**
 	 *
 	 */
-	public function filter_catchGetParams() : void
+	public function filter_catchGetParams(): void
 	{
 		foreach( $this->filters as $filter ) {
 			$this->{"filter_{$filter}_catchGetParams"}();
@@ -328,7 +329,7 @@ abstract class Data_Listing extends BaseObject {
 	/**
 	 *
 	 */
-	protected function filter_setupWhere() : void
+	protected function filter_setupWhere(): void
 	{
 		foreach( $this->filters as $filter ) {
 			$this->{"filter_{$filter}_setupWhere"}();
@@ -340,9 +341,9 @@ abstract class Data_Listing extends BaseObject {
 	/**
 	 * @param array $where
 	 */
-	public function filter_addWhere( array $where ) : void
+	public function filter_addWhere( array $where ): void
 	{
-		if($this->filter_where) {
+		if( $this->filter_where ) {
 			$this->filter_where[] = 'AND';
 		}
 
@@ -352,9 +353,9 @@ abstract class Data_Listing extends BaseObject {
 	/**
 	 * @return array
 	 */
-	public function filter_getWhere() : array
+	public function filter_getWhere(): array
 	{
-		if($this->filter_where===null) {
+		if( $this->filter_where === null ) {
 			$this->filter_where = [];
 
 			foreach( $this->filters as $filter ) {
@@ -369,7 +370,7 @@ abstract class Data_Listing extends BaseObject {
 	/**
 	 * @param int $page_no
 	 */
-	public function pagination_setPageNo( int $page_no ) : void
+	public function pagination_setPageNo( int $page_no ): void
 	{
 		$this->pagination_page_no = $page_no;
 		$this->setGetParam( static::$pagination_page_no_get_param, $page_no );
@@ -378,9 +379,9 @@ abstract class Data_Listing extends BaseObject {
 	/**
 	 * @param int $items_per_page
 	 */
-	public function pagination_setItemsPerPage( int $items_per_page ) : void
+	public function pagination_setItemsPerPage( int $items_per_page ): void
 	{
-		if($items_per_page>static::$pagination_max_items_per_page) {
+		if( $items_per_page > static::$pagination_max_items_per_page ) {
 			$items_per_page = static::$pagination_max_items_per_page;
 		}
 
@@ -392,25 +393,25 @@ abstract class Data_Listing extends BaseObject {
 	/**
 	 *
 	 */
-	protected function pagination_catchGetParams() : void
+	protected function pagination_catchGetParams(): void
 	{
 		$GET = Http_Request::GET();
 
 		$param = static::$pagination_page_no_get_param;
-		if($GET->exists($param)) {
-			$this->pagination_setPageNo( $GET->getInt($param) );
+		if( $GET->exists( $param ) ) {
+			$this->pagination_setPageNo( $GET->getInt( $param ) );
 		}
 
 		$param = static::$pagination_items_per_page_param;
-		if($GET->exists($param)) {
-			$this->pagination_setItemsPerPage( $GET->getInt($param) );
+		if( $GET->exists( $param ) ) {
+			$this->pagination_setItemsPerPage( $GET->getInt( $param ) );
 		}
 	}
 
 	/**
 	 * @return int
 	 */
-	protected function pagination_getPageNo() : int
+	protected function pagination_getPageNo(): int
 	{
 		return $this->pagination_page_no;
 	}
@@ -418,9 +419,9 @@ abstract class Data_Listing extends BaseObject {
 	/**
 	 * @return int
 	 */
-	protected function pagination_getItemsPerPage() : int
+	protected function pagination_getItemsPerPage(): int
 	{
-		if(!$this->pagination_items_per_page) {
+		if( !$this->pagination_items_per_page ) {
 			return static::$pagination_default_items_per_page;
 		}
 
@@ -430,19 +431,19 @@ abstract class Data_Listing extends BaseObject {
 	/**
 	 * @param string $sort_by
 	 */
-	public function sort_setSort( string $sort_by ) : void
+	public function sort_setSort( string $sort_by ): void
 	{
 		$sort_column = $sort_by;
 
-		if($sort_column[0]=='-' || $sort_column[0]=='+') {
-			$sort_column = substr($sort_column, 1);
+		if( $sort_column[0] == '-' || $sort_column[0] == '+' ) {
+			$sort_column = substr( $sort_column, 1 );
 		}
 
 		$grid_columns = $this->getGridColumns();
 
 		if(
-			!isset($grid_columns[$sort_column]) ||
-			!empty($grid_columns[$sort_column]['disallow_sort'])
+			!isset( $grid_columns[$sort_column] ) ||
+			!empty( $grid_columns[$sort_column]['disallow_sort'] )
 		) {
 			return;
 		}
@@ -454,55 +455,55 @@ abstract class Data_Listing extends BaseObject {
 	/**
 	 *
 	 */
-	protected function sort_catchGetParams() : void
+	protected function sort_catchGetParams(): void
 	{
 		$GET = Http_Request::GET();
 
 		$param = static::$sort_get_param;
-		if($GET->exists($param)) {
-			$this->sort_setSort( $GET->getString($param) );
+		if( $GET->exists( $param ) ) {
+			$this->sort_setSort( $GET->getString( $param ) );
 		}
 	}
 
 	/**
 	 * @return string
 	 */
-	protected function getSortBy() : string
+	protected function getSortBy(): string
 	{
-		return $this->sort?:$this->default_sort;
+		return $this->sort ? : $this->default_sort;
 	}
 
 
 	/**
 	 * @return callable
 	 */
-	protected function getGrid_getPaginatorURLCreator() : callable
+	protected function getGrid_getPaginatorURLCreator(): callable
 	{
 		return function( $page_no ) {
 			$params = $this->get_param_values;
 			$params[static::$pagination_page_no_get_param] = (int)$page_no;
 
-			return Http_Request::currentURI($params);
+			return Http_Request::currentURI( $params );
 		};
 	}
 
 	/**
 	 * @return callable
 	 */
-	protected function getGrid_getSortURLCreator() : callable
+	protected function getGrid_getSortURLCreator(): callable
 	{
 		return function( $column_name, $desc ) {
 			$params = $this->get_param_values;
-			$params[static::$sort_get_param] = ($desc?'-':'').$column_name;
+			$params[static::$sort_get_param] = ($desc ? '-' : '') . $column_name;
 
-			return Http_Request::currentURI($params);
+			return Http_Request::currentURI( $params );
 		};
 	}
 
 	/**
 	 * @return Data_Paginator
 	 */
-	protected function getGrid_createPaginator() : Data_Paginator
+	protected function getGrid_createPaginator(): Data_Paginator
 	{
 		return new Data_Paginator(
 			$this->pagination_getPageNo(),
@@ -514,7 +515,7 @@ abstract class Data_Listing extends BaseObject {
 	/**
 	 * @return DataModel_Fetch_Instances
 	 */
-	protected function getGrid_prepareList() : DataModel_Fetch_Instances
+	protected function getGrid_prepareList(): DataModel_Fetch_Instances
 	{
 		$list = $this->getList();
 
@@ -527,13 +528,13 @@ abstract class Data_Listing extends BaseObject {
 	/**
 	 *
 	 */
-	protected function getGrid_createColumns() : void
+	protected function getGrid_createColumns(): void
 	{
 		foreach( $this->getGridColumnsSchema() as $column_id ) {
 			$column_definition = $this->getGridColumns()[$column_id];
 
-			$column = $this->grid->addColumn( $column_id, Tr::_($column_definition['title']) );
-			if(!empty($column_definition['disallow_sort'])) {
+			$column = $this->grid->addColumn( $column_id, Tr::_( $column_definition['title'] ) );
+			if( !empty( $column_definition['disallow_sort'] ) ) {
 				$column->setAllowSort( false );
 			}
 		}
@@ -543,10 +544,10 @@ abstract class Data_Listing extends BaseObject {
 	/**
 	 * @return UI_dataGrid
 	 */
-	public function getGrid() : UI_dataGrid
+	public function getGrid(): UI_dataGrid
 	{
 
-		if(!$this->grid) {
+		if( !$this->grid ) {
 			$this->grid = new UI_dataGrid();
 
 			$this->getGrid_createColumns();

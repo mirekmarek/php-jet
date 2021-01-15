@@ -31,71 +31,99 @@ class Test_BasicSelectWhere extends Test_Abstract
 		$where = [
 			[
 				[
-					'id' => 'xxxx',
+					'id'   => 'xxxx',
 					'AND',
 					'text' => 'yyyy',
 				],
 				'OR',
 				[
-					'id' => 123,
+					'id'   => 123,
 					'AND',
 					'text' => 123,
 
 				],
 				'OR',
 				[
-					'id' => 3.14,
+					'id'   => 3.14,
 					'AND',
 					'text' => 3.14,
 
 				],
 				'OR',
 				[
-					'id' => ['a','b','c',1,2,3],
+					'id'   => [
+						'a',
+						'b',
+						'c',
+						1,
+						2,
+						3
+					],
 					'AND',
-					'text' => ['a','b','c',1,2,3],
+					'text' => [
+						'a',
+						'b',
+						'c',
+						1,
+						2,
+						3
+					],
 
 				],
 				'OR',
 				[
-					'id' => null,
+					'id'   => null,
 					'AND',
 					'text' => null,
 
 				]
 
 			],
-		    'AND',
+			'AND',
 			[
 				[
-					'id !=' => 'xxxx',
+					'id !='   => 'xxxx',
 					'AND',
 					'text !=' => 'yyyy',
 				],
 				'OR',
 				[
-					'id!=' => 123,
+					'id!='    => 123,
 					'AND',
 					'text !=' => 123,
 
 				],
 				'OR',
 				[
-					'id!=' => 3.14,
+					'id!='        => 3.14,
 					'AND',
 					'text     !=' => 3.14,
 
 				],
 				'OR',
 				[
-					'id             !=' => ['a','b','c',1,2,3],
+					'id             !=' => [
+						'a',
+						'b',
+						'c',
+						1,
+						2,
+						3
+					],
 					'AND',
-					'text!=' => ['a','b','c',1,2,3],
+					'text!='            => [
+						'a',
+						'b',
+						'c',
+						1,
+						2,
+						3
+					],
 
 				],
 				'OR',
 				[
-					'id !=' => null,
+					'id !='   => null,
 					'AND',
 					'text !=' => null,
 
@@ -103,22 +131,22 @@ class Test_BasicSelectWhere extends Test_Abstract
 
 			],
 			'OR',
-		    [
-		    	'text =' => 'test',
-			    'OR',
-			    'text *' => 'test',
-			    'OR',
-			    'text !*' => 'test',
-			    'OR',
+			[
+				'text ='  => 'test',
+				'OR',
+				'text *'  => 'test',
+				'OR',
+				'text !*' => 'test',
+				'OR',
 
-			    'text <' => 123,
-			    'OR',
-			    'text >' => 123,
+				'text <'  => 123,
+				'OR',
+				'text >'  => 123,
 
-			    'OR',
-			    'text <=' => 123,
-			    'OR',
-			    'text >=' => 123,
+				'OR',
+				'text <=' => 123,
+				'OR',
+				'text >=' => 123,
 			]
 
 
@@ -126,21 +154,24 @@ class Test_BasicSelectWhere extends Test_Abstract
 
 		$q = Model_A1::createQuery();
 
-		$q->setSelect([
+		$q->setSelect( [
 			'id',
 			'text',
-		    'test_count' => new DataModel_Query_Select_Item_Expression( 'COUNT( %ID% )', ['ID'=>'id'] )
-		]);
+			'test_count' => new DataModel_Query_Select_Item_Expression( 'COUNT( %ID% )', ['ID' => 'id'] )
+		] );
 
-		$q->setHaving([
+		$q->setHaving( [
 			'test_count < ' => 777,
-		    'OR',
+			'OR',
 			'test_count > ' => 111,
-		]);
+		] );
 
-		$q->setOrderBy(['-test_count', 'text']);
+		$q->setOrderBy( [
+			'-test_count',
+			'text'
+		] );
 
-		$q->setGroupBy(['id']);
+		$q->setGroupBy( ['id'] );
 
 		$q->setWhere( $where );
 

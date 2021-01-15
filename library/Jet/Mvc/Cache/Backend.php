@@ -5,6 +5,7 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace Jet;
 
 /**
@@ -16,12 +17,12 @@ interface Mvc_Cache_Backend
 	/**
 	 * @return bool
 	 */
-	public function isActive() : bool;
+	public function isActive(): bool;
 
 	/**
 	 *
 	 */
-	public function reset() : void;
+	public function reset(): void;
 
 	/**
 	 * @return array|null
@@ -48,21 +49,21 @@ interface Mvc_Cache_Backend
 	 *
 	 * @param array $map
 	 */
-	public function savePageMaps(  Mvc_Site_Interface $site, Locale $locale, array $map ): void;
+	public function savePageMaps( Mvc_Site_Interface $site, Locale $locale, array $map ): void;
 
 	/**
 	 * @param Mvc_Page_Content_Interface $content
 	 *
 	 * @return string|null
 	 */
-	public function loadContentOutput( Mvc_Page_Content_Interface $content ) : string|null;
+	public function loadContentOutput( Mvc_Page_Content_Interface $content ): string|null;
 
 	/**
 	 * @param Mvc_Page_Content_Interface $content
 	 * @param string $output
 	 *
 	 */
-	public function saveContentOutput( Mvc_Page_Content_Interface $content, string $output ) : void;
+	public function saveContentOutput( Mvc_Page_Content_Interface $content, string $output ): void;
 
 
 }

@@ -5,6 +5,7 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace Jet;
 
 
@@ -33,7 +34,7 @@ class Debug_Profiler_Run_Block_Anonymous extends Debug_Profiler_Run_Block
 		$this->memory_start = memory_get_usage();
 		$this->memory_peak_start = memory_get_peak_usage();
 
-		$this->id = md5( $this->label.$this->timestamp_start );
+		$this->id = md5( $this->label . $this->timestamp_start );
 
 		if( $parent_block ) {
 			$this->parent_block = $parent_block;
@@ -45,7 +46,7 @@ class Debug_Profiler_Run_Block_Anonymous extends Debug_Profiler_Run_Block
 	/**
 	 * @param float|null $timestamp_end (optional, default: current)
 	 */
-	public function setEnd( float|null $timestamp_end = null ) : void
+	public function setEnd( float|null $timestamp_end = null ): void
 	{
 		if( $this->timestamp_end ) {
 			return;

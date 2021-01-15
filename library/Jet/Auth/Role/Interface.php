@@ -5,6 +5,7 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace Jet;
 
 /**
@@ -18,49 +19,49 @@ interface Auth_Role_Interface
 	 *
 	 * @return static|null
 	 */
-	public static function get( string $id ) : static|null;
+	public static function get( string $id ): static|null;
 
 	/**
 	 * @return Auth_Role_Interface[]
 	 */
-	public static function getList() : iterable;
+	public static function getList(): iterable;
 
 
 	/**
 	 * @return string
 	 */
-	public function getId() : string;
+	public function getId(): string;
 
 	/**
 	 * @return string
 	 */
-	public function getName() : string;
+	public function getName(): string;
 
 	/**
 	 * @param string $name
 	 */
-	public function setName( string $name ) : void;
+	public function setName( string $name ): void;
 
 	/**
 	 * @return string
 	 */
-	public function getDescription() : string;
+	public function getDescription(): string;
 
 	/**
 	 * @param string $description
 	 */
-	public function setDescription( string $description ) : void;
+	public function setDescription( string $description ): void;
 
 	/**
 	 * @return Auth_User_Interface[]
 	 */
-	public function getUsers() : iterable;
+	public function getUsers(): iterable;
 
 
 	/**
 	 * @return Auth_Role_Privilege_Interface[]
 	 */
-	public function getPrivileges() : array;
+	public function getPrivileges(): array;
 
 	/**
 	 *
@@ -68,7 +69,7 @@ interface Auth_Role_Interface
 	 *
 	 * @return array
 	 */
-	public function getPrivilegeValues( string $privilege ) : array;
+	public function getPrivilegeValues( string $privilege ): array;
 
 	/**
 	 * Data format:
@@ -81,7 +82,7 @@ interface Auth_Role_Interface
 	 *
 	 * @param array $privileges
 	 */
-	public function setPrivileges( array $privileges ) : void;
+	public function setPrivileges( array $privileges ): void;
 
 	/**
 	 * Example:
@@ -91,7 +92,7 @@ interface Auth_Role_Interface
 	 *
 	 *
 	 * @param string $privilege
-	 * @param array  $values
+	 * @param array $values
 	 */
 	public function setPrivilege( string $privilege, array $values );
 
@@ -102,7 +103,7 @@ interface Auth_Role_Interface
 	 *
 	 * @param string $privilege
 	 */
-	public function removePrivilege( string $privilege ) : void;
+	public function removePrivilege( string $privilege ): void;
 
 	/**
 	 * Example:
@@ -111,10 +112,10 @@ interface Auth_Role_Interface
 	 * values: operation_id_1
 	 *
 	 * @param string $privilege
-	 * @param mixed  $value
+	 * @param mixed $value
 	 *
 	 * @return bool
 	 */
-	public function hasPrivilege( string $privilege, mixed $value ) : bool;
+	public function hasPrivilege( string $privilege, mixed $value ): bool;
 
 }

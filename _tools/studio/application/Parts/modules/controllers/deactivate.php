@@ -1,4 +1,5 @@
 <?php
+
 namespace JetStudio;
 
 use Jet\Application_Modules;
@@ -9,11 +10,11 @@ use Jet\UI_messages;
 
 $current = Modules::getCurrentModule();
 
-if(!$current) {
+if( !$current ) {
 	die();
 }
 
-if($current->isInstalled()) {
+if( $current->isInstalled() ) {
 
 	$ok = true;
 	try {
@@ -23,13 +24,13 @@ if($current->isInstalled()) {
 		UI_messages::danger( $e->getMessage() );
 	}
 
-	if($ok) {
-		UI_messages::info( Tr::_('Module <b>%module%</b> has been deactivated', [
+	if( $ok ) {
+		UI_messages::info( Tr::_( 'Module <b>%module%</b> has been deactivated', [
 			'module' => $current->getName()
-		]) );
+		] ) );
 	}
 
 }
 
 
-Http_Headers::reload([], ['action']);
+Http_Headers::reload( [], ['action'] );

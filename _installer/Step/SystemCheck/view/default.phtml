@@ -8,7 +8,7 @@ use Jet\UI;
 use Jet\Tr;
 
 /**
- * @var Mvc_View                      $this
+ * @var Mvc_View $this
  * @var Installer_CompatibilityTester $tester
  */
 $tester = $this->getRaw( 'tester' );
@@ -31,25 +31,25 @@ $tester = $this->getRaw( 'tester' );
 			}
 		}
 		?>
-		<tr class="<?=$css_class;?>">
-			<td><?=$icon?></td>
-			<td><b><?=$test_result->getTitle();?></b><br/><?=$test_result->getDescription();?></td>
-			<td><?=$test_result->getResultMessage();?></td>
+		<tr class="<?= $css_class; ?>">
+			<td><?= $icon ?></td>
+			<td><b><?= $test_result->getTitle(); ?></b><br/><?= $test_result->getDescription(); ?></td>
+			<td><?= $test_result->getResultMessage(); ?></td>
 		</tr>
-		<?php
+	<?php
 	endforeach; ?>
 	</tbody>
 </table>
 
 <?php if( $tester->isCompatible() ):
 	if( !$tester->hasWarnings() ):
-		echo UI_messages::createSuccess( Tr::_( 'The system is fully compatible!' ) )->setCloseable(false);
+		echo UI_messages::createSuccess( Tr::_( 'The system is fully compatible!' ) )->setCloseable( false );
 	else:
-		echo UI_messages::createWarning( Tr::_( 'The system is compatible. Please take care about warnings!' ) )->setCloseable(false);
+		echo UI_messages::createWarning( Tr::_( 'The system is compatible. Please take care about warnings!' ) )->setCloseable( false );
 	endif;
 
 	echo Installer::continueForm();
 
 else:
-	echo UI_messages::createDanger( Tr::_( 'Sorry, but the system is not compatible!' ) )->setCloseable(false);
+	echo UI_messages::createDanger( Tr::_( 'Sorry, but the system is not compatible!' ) )->setCloseable( false );
 endif; ?>

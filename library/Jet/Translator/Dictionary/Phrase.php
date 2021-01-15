@@ -5,6 +5,7 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace Jet;
 
 /**
@@ -35,8 +36,8 @@ class Translator_Dictionary_Phrase extends BaseObject
 	/**
 	 * @param string $phrase
 	 * @param string $translation (optional)
-	 * @param bool   $is_translated (optional)
-	 * @param string|null   $hash (optional)
+	 * @param bool $is_translated (optional)
+	 * @param string|null $hash (optional)
 	 */
 	public function __construct( string $phrase, string $translation = '', bool $is_translated = false, string|null $hash = null )
 	{
@@ -56,9 +57,9 @@ class Translator_Dictionary_Phrase extends BaseObject
 	 *
 	 * @return string
 	 */
-	public static function generateHash( string $phrase ) : string
+	public static function generateHash( string $phrase ): string
 	{
-		if( strlen( $phrase )<255 ) {
+		if( strlen( $phrase ) < 255 ) {
 			return $phrase;
 		}
 
@@ -68,7 +69,7 @@ class Translator_Dictionary_Phrase extends BaseObject
 	/**
 	 * @return string
 	 */
-	public function getPhrase() : string
+	public function getPhrase(): string
 	{
 		return $this->phrase;
 	}
@@ -76,7 +77,7 @@ class Translator_Dictionary_Phrase extends BaseObject
 	/**
 	 * @return string
 	 */
-	public function getHash() : string
+	public function getHash(): string
 	{
 		return $this->hash;
 	}
@@ -84,7 +85,7 @@ class Translator_Dictionary_Phrase extends BaseObject
 	/**
 	 * @return bool
 	 */
-	public function getIsTranslated() : bool
+	public function getIsTranslated(): bool
 	{
 		return $this->is_translated;
 	}
@@ -92,7 +93,7 @@ class Translator_Dictionary_Phrase extends BaseObject
 	/**
 	 * @param bool $is_translated
 	 */
-	public function setIsTranslated( bool $is_translated ) : void
+	public function setIsTranslated( bool $is_translated ): void
 	{
 		$this->is_translated = $is_translated;
 	}
@@ -101,7 +102,7 @@ class Translator_Dictionary_Phrase extends BaseObject
 	 *
 	 * @return string
 	 */
-	public function getTranslation() : string
+	public function getTranslation(): string
 	{
 		if( !$this->is_translated ) {
 			return $this->phrase;
@@ -113,7 +114,7 @@ class Translator_Dictionary_Phrase extends BaseObject
 	/**
 	 * @param string $translation
 	 */
-	public function setTranslation( string $translation ) : void
+	public function setTranslation( string $translation ): void
 	{
 		$this->translation = $translation;
 	}
@@ -121,7 +122,7 @@ class Translator_Dictionary_Phrase extends BaseObject
 	/**
 	 * @return string
 	 */
-	public function getTranslationRaw() : string
+	public function getTranslationRaw(): string
 	{
 		return $this->translation;
 	}

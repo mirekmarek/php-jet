@@ -1,4 +1,5 @@
 <?php
+
 use Jet\Mvc_Page;
 use Jet\UI;
 use Jet\Navigation_MenuSet;
@@ -10,25 +11,28 @@ use Jet\Mvc;
 ?>
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-	<a class="navbar-brand" href="<?=Mvc_Page::get( Mvc_Page::HOMEPAGE_ID )->getURLPath()?>">JetApplication</a>
+	<a class="navbar-brand" href="<?= Mvc_Page::get( Mvc_Page::HOMEPAGE_ID )->getURLPath() ?>">JetApplication</a>
 
-	<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#mainNavBar" aria-controls="mainNavBar" aria-expanded="false" aria-label="">
+	<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#mainNavBar"
+	        aria-controls="mainNavBar" aria-expanded="false" aria-label="">
 		<span class="navbar-toggler-icon"></span>
 	</button>
 
 	<div class="collapse navbar-collapse" id="mainNavBar">
 		<ul class="nav navbar-nav">
-			<?php foreach( Navigation_MenuSet::get('admin')->getMenus() as $menu ): ?>
+			<?php foreach( Navigation_MenuSet::get( 'admin' )->getMenus() as $menu ): ?>
 				<li class="nav-item dropdown">
-					<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-						<?=$menu->getLabel()?> <span class="caret"></span>
+					<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+					   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+						<?= $menu->getLabel() ?> <span class="caret"></span>
 					</a>
 					<div class="dropdown-menu" aria-labelledby="navbarDropdown">
 						<?php foreach( $menu->getItems() as $item ): ?>
 							<?php if( $item->getSeparatorBefore() ): ?>
 								<div class="dropdown-divider"></div>
 							<?php endif; ?>
-							<a class="dropdown-item" href="<?=$item->getUrl()?>"><?=UI::icon( $item->getIcon() )->setWidth( 20 )?> <?=$item->getLabel()?></a>
+							<a class="dropdown-item"
+							   href="<?= $item->getUrl() ?>"><?= UI::icon( $item->getIcon() )->setWidth( 20 ) ?> <?= $item->getLabel() ?></a>
 							<?php if( $item->getSeparatorAfter() ): ?>
 								<div class="dropdown-divider"></div>
 							<?php endif; ?>
@@ -42,23 +46,26 @@ use Jet\Mvc;
 		<ul class="navbar-nav ml-auto">
 
 			<li class="nav-item dropdown">
-				<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-					<span><?=UI::flag( Locale::getCurrentLocale() )?></span>
+				<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+				   aria-haspopup="true" aria-expanded="false">
+					<span><?= UI::flag( Locale::getCurrentLocale() ) ?></span>
 				</a>
 				<div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
 					<?php foreach( Mvc::getCurrentSite()->getLocales() as $locale ): ?>
-						<a class="dropdown-item" href="<?=Mvc::getCurrentSite()->getHomepage()->getURLPath([], ['locale' =>$locale->toString()])?>">
-							<?=UI::flag( $locale )?>
-							<?=$locale->getName( $locale )?>
+						<a class="dropdown-item"
+						   href="<?= Mvc::getCurrentSite()->getHomepage()->getURLPath( [], ['locale' => $locale->toString()] ) ?>">
+							<?= UI::flag( $locale ) ?>
+							<?= $locale->getName( $locale ) ?>
 						</a>
 					<?php endforeach; ?>
 				</div>
 			</li>
 
 			<li class="nav-item dropdown">
-				<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-					<?=UI::icon( 'user' )?>
-					<?=Auth::getCurrentUser()->getUsername()?>
+				<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+				   aria-haspopup="true" aria-expanded="false">
+					<?= UI::icon( 'user' ) ?>
+					<?= Auth::getCurrentUser()->getUsername() ?>
 				</a>
 				<div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
 
@@ -66,16 +73,17 @@ use Jet\Mvc;
 						Mvc_Page::get( 'change_password' ) &&
 						Mvc_Page::get( 'change_password' )->accessAllowed()
 					): ?>
-						<a class="dropdown-item"  href="<?=Mvc_Page::get( 'change_password' )->getURL()?>">
-								<?=UI::icon( 'cog' )?>
-								<?=Tr::_( 'Change password' )?>
-							</a>
+						<a class="dropdown-item" href="<?= Mvc_Page::get( 'change_password' )->getURL() ?>">
+							<?= UI::icon( 'cog' ) ?>
+							<?= Tr::_( 'Change password' ) ?>
+						</a>
 						<div class="dropdown-divider"></div>
 					<?php endif; ?>
 
-					<a class="dropdown-item"  href="<?=Mvc_Page::get( Mvc_Page::HOMEPAGE_ID )->getURL( [], [ 'logout' => 'logout' ] )?>">
-							<?=UI::icon( 'sign-out-alt' )?>
-							<?=Tr::_( 'Logout' )?>
+					<a class="dropdown-item"
+					   href="<?= Mvc_Page::get( Mvc_Page::HOMEPAGE_ID )->getURL( [], ['logout' => 'logout'] ) ?>">
+						<?= UI::icon( 'sign-out-alt' ) ?>
+						<?= Tr::_( 'Logout' ) ?>
 					</a>
 				</div>
 			</li>

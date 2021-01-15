@@ -5,6 +5,7 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace JetStudio;
 
 use Jet\DataModel_Definition_Property_Float as Jet_DataModel_Definition_Property_Float;
@@ -14,15 +15,16 @@ use Jet\Form_Field_Float;
 /**
  *
  */
-class DataModel_Definition_Property_Float extends Jet_DataModel_Definition_Property_Float implements DataModel_Definition_Property_Interface {
+class DataModel_Definition_Property_Float extends Jet_DataModel_Definition_Property_Float implements DataModel_Definition_Property_Interface
+{
 	use DataModel_Definition_Property_Trait;
 
 	/**
 	 * @param Form_Field[] &$fields
 	 */
-	public function getEditFormCustomFields( array &$fields ) : void
+	public function getEditFormCustomFields( array &$fields ): void
 	{
-		$default_value_field = new Form_Field_Float('default_value', 'Default value', $this->getDefaultValue());
+		$default_value_field = new Form_Field_Float( 'default_value', 'Default value', $this->getDefaultValue() );
 		$default_value_field->setCatcher( function( $value ) {
 			$this->default_value = $value;
 		} );
@@ -35,13 +37,12 @@ class DataModel_Definition_Property_Float extends Jet_DataModel_Definition_Prope
 	/**
 	 *
 	 */
-	public function showEditFormFields() : void
+	public function showEditFormFields(): void
 	{
 		$form = $this->getEditForm();
 
-		echo $form->field('default_value');
+		echo $form->field( 'default_value' );
 	}
-
 
 
 	/**
@@ -50,10 +51,10 @@ class DataModel_Definition_Property_Float extends Jet_DataModel_Definition_Prope
 	 *
 	 * @return ClassCreator_Class_Property
 	 */
-	public function createClassProperty( ClassCreator_Class $class ) : ClassCreator_Class_Property
+	public function createClassProperty( ClassCreator_Class $class ): ClassCreator_Class_Property
 	{
 
-		$property = $this->createClassProperty_main( $class, 'float',  'DataModel::TYPE_FLOAT' );
+		$property = $this->createClassProperty_main( $class, 'float', 'DataModel::TYPE_FLOAT' );
 
 		return $property;
 	}
@@ -64,22 +65,25 @@ class DataModel_Definition_Property_Float extends Jet_DataModel_Definition_Prope
 	 *
 	 * @return array
 	 */
-	public function createClassMethods( ClassCreator_Class $class ) : array
+	public function createClassMethods( ClassCreator_Class $class ): array
 	{
 
 		$s_g_method_name = $this->getSetterGetterMethodName();
 
-		$setter = $class->createMethod('set'.$s_g_method_name);
+		$setter = $class->createMethod( 'set' . $s_g_method_name );
 		$setter->addParameter( 'value' )
-			->setType('float');
-		$setter->line( 1, '$this->'.$this->getName().' = $value;' );
+			->setType( 'float' );
+		$setter->line( 1, '$this->' . $this->getName() . ' = $value;' );
 
 
-		$getter = $class->createMethod('get'.$s_g_method_name);
-		$getter->setReturnType('float');
-		$getter->line( 1, 'return $this->'.$this->getName().';');
+		$getter = $class->createMethod( 'get' . $s_g_method_name );
+		$getter->setReturnType( 'float' );
+		$getter->line( 1, 'return $this->' . $this->getName() . ';' );
 
-		return ['set'.$s_g_method_name, 'get'.$s_g_method_name];
+		return [
+			'set' . $s_g_method_name,
+			'get' . $s_g_method_name
+		];
 	}
 
 }

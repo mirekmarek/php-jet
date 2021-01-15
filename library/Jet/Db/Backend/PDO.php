@@ -5,6 +5,7 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace Jet;
 
 use \PDO;
@@ -53,7 +54,7 @@ class Db_Backend_PDO extends PDO implements Db_Backend_Interface
 	 *
 	 * @return Db_Backend_PDO_Config
 	 */
-	public function getConfig() : Db_Backend_PDO_Config
+	public function getConfig(): Db_Backend_PDO_Config
 	{
 		return $this->config;
 	}
@@ -82,7 +83,7 @@ class Db_Backend_PDO extends PDO implements Db_Backend_Interface
 	 *
 	 * @return PDOStatement
 	 */
-	public function doQuery( string $statement ) : PDOStatement
+	public function doQuery( string $statement ): PDOStatement
 	{
 		Debug_Profiler::SQLQueryStart( $statement );
 
@@ -96,11 +97,11 @@ class Db_Backend_PDO extends PDO implements Db_Backend_Interface
 	 * Executes command (INSERT, UPDATE, DELETE or CREATE, ...) and return affected rows
 	 *
 	 * @param string $query
-	 * @param array  $query_data
+	 * @param array $query_data
 	 *
 	 * @return int
 	 */
-	public function execCommand( string $query, array $query_data = [] ) : int
+	public function execCommand( string $query, array $query_data = [] ): int
 	{
 		Debug_Profiler::SQLQueryStart( $query, $query_data );
 
@@ -132,11 +133,11 @@ class Db_Backend_PDO extends PDO implements Db_Backend_Interface
 	/**
 	 *
 	 * @param string $query
-	 * @param array  $query_data
+	 * @param array $query_data
 	 *
 	 * @return string
 	 */
-	public function prepareQuery( string $query, array $query_data = [] ) : string
+	public function prepareQuery( string $query, array $query_data = [] ): string
 	{
 
 		if( !$query_data ) {
@@ -148,18 +149,18 @@ class Db_Backend_PDO extends PDO implements Db_Backend_Interface
 
 		foreach( $query_data as $key => $value ) {
 
-			if( $value===null ) {
+			if( $value === null ) {
 				$value = 'NULL';
 			} else if( is_bool( $value ) ) {
 				$value = $value ? 1 : 0;
-			} else if( is_int( $value )||is_float( $value ) ) {
+			} else if( is_int( $value ) || is_float( $value ) ) {
 
 			} else {
 				$value = $this->quote( (string)$value );
 
 			}
 
-			$replacements[':'.$key] = $value;
+			$replacements[':' . $key] = $value;
 		}
 
 		krsort( $replacements, SORT_STRING );
@@ -174,11 +175,11 @@ class Db_Backend_PDO extends PDO implements Db_Backend_Interface
 	/**
 	 *
 	 * @param string $query
-	 * @param array  $query_data (optional)
+	 * @param array $query_data (optional)
 	 *
 	 * @return array|bool
 	 */
-	public function fetchRow( string $query, array $query_data = [] ) : array|bool
+	public function fetchRow( string $query, array $query_data = [] ): array|bool
 	{
 		$q = $this->prepareQuery( $query, $query_data );
 
@@ -196,11 +197,11 @@ class Db_Backend_PDO extends PDO implements Db_Backend_Interface
 	/**
 	 *
 	 * @param string $query
-	 * @param array  $query_data (optional)
+	 * @param array $query_data (optional)
 	 *
 	 * @return array
 	 */
-	public function fetchAll( string $query, array $query_data = [] ) : array
+	public function fetchAll( string $query, array $query_data = [] ): array
 	{
 		$q = $this->prepareQuery( $query, $query_data );
 
@@ -216,12 +217,12 @@ class Db_Backend_PDO extends PDO implements Db_Backend_Interface
 	/**
 	 *
 	 * @param string $query
-	 * @param array  $query_data (optional)
+	 * @param array $query_data (optional)
 	 * @param string|null $key_column (optional)
 	 *
 	 * @return array
 	 */
-	public function fetchAssoc( string $query, array $query_data = [], ?string $key_column = null ) : array
+	public function fetchAssoc( string $query, array $query_data = [], ?string $key_column = null ): array
 	{
 		$q = $this->prepareQuery( $query, $query_data );
 
@@ -231,14 +232,14 @@ class Db_Backend_PDO extends PDO implements Db_Backend_Interface
 		$result = [];
 
 		foreach( $stn as $row ) {
-			if( $key_column===null ) {
-				[ $key_column ] = array_keys( $row );
+			if( $key_column === null ) {
+				[$key_column] = array_keys( $row );
 			}
 			$key = $row[$key_column];
 
 			$result[$key] = $row;
 		}
-		Debug_Profiler::SQLQueryDone( count($result) );
+		Debug_Profiler::SQLQueryDone( count( $result ) );
 
 		return $result;
 
@@ -247,12 +248,12 @@ class Db_Backend_PDO extends PDO implements Db_Backend_Interface
 	/**
 	 *
 	 * @param string $query
-	 * @param array  $query_data (optional)
+	 * @param array $query_data (optional)
 	 * @param string|null $column (optional, default: 1st column)
 	 *
 	 * @return array
 	 */
-	public function fetchCol( string $query, array $query_data = [], ?string $column = null ) : array
+	public function fetchCol( string $query, array $query_data = [], ?string $column = null ): array
 	{
 		$q = $this->prepareQuery( $query, $query_data );
 
@@ -261,12 +262,12 @@ class Db_Backend_PDO extends PDO implements Db_Backend_Interface
 
 		$result = [];
 		foreach( $stn as $row ) {
-			if( $column===null ) {
-				[ $column ] = array_keys( $row );
+			if( $column === null ) {
+				[$column] = array_keys( $row );
 			}
 			$result[] = $row[$column];
 		}
-		Debug_Profiler::SQLQueryDone( count($result) );
+		Debug_Profiler::SQLQueryDone( count( $result ) );
 
 		return $result;
 	}
@@ -274,13 +275,13 @@ class Db_Backend_PDO extends PDO implements Db_Backend_Interface
 	/**
 	 *
 	 * @param string $query
-	 * @param array  $query_data (optional)
+	 * @param array $query_data (optional)
 	 * @param string|null $key_column (optional, default: 1st column)
 	 * @param string|null $value_column (optional, default: 2nd column)
 	 *
 	 * @return array
 	 */
-	public function fetchPairs( string $query, array $query_data = [], ?string $key_column = null, ?string $value_column = null ) : array
+	public function fetchPairs( string $query, array $query_data = [], ?string $key_column = null, ?string $value_column = null ): array
 	{
 		$q = $this->prepareQuery( $query, $query_data );
 
@@ -290,14 +291,17 @@ class Db_Backend_PDO extends PDO implements Db_Backend_Interface
 		$result = [];
 
 		foreach( $stn as $row ) {
-			if( $key_column===null ) {
-				[ $key_column, $value_column ] = array_keys( $row );
+			if( $key_column === null ) {
+				[
+					$key_column,
+					$value_column
+				] = array_keys( $row );
 			}
 			$key = $row[$key_column];
 
 			$result[$key] = $row[$value_column];
 		}
-		Debug_Profiler::SQLQueryDone( count($result) );
+		Debug_Profiler::SQLQueryDone( count( $result ) );
 
 		return $result;
 	}
@@ -305,12 +309,12 @@ class Db_Backend_PDO extends PDO implements Db_Backend_Interface
 	/**
 	 *
 	 * @param string $query
-	 * @param array  $query_data (optional)
+	 * @param array $query_data (optional)
 	 * @param string|null $column (optional, default:1st column)
 	 *
 	 * @return mixed
 	 */
-	public function fetchOne( string $query, array $query_data = [], ?string $column = null ) : mixed
+	public function fetchOne( string $query, array $query_data = [], ?string $column = null ): mixed
 	{
 		$q = $this->prepareQuery( $query, $query_data );
 
@@ -319,8 +323,8 @@ class Db_Backend_PDO extends PDO implements Db_Backend_Interface
 		Debug_Profiler::SQLQueryDone();
 
 		foreach( $stn as $row ) {
-			if( $column===null ) {
-				[ $column ] = array_keys( $row );
+			if( $column === null ) {
+				[$column] = array_keys( $row );
 			}
 
 			return $row[$column];
@@ -333,7 +337,7 @@ class Db_Backend_PDO extends PDO implements Db_Backend_Interface
 	/**
 	 *
 	 */
-	public function disconnect() : void
+	public function disconnect(): void
 	{
 	}
 

@@ -9,28 +9,28 @@ use Jet\Mvc_View;
  * @var Pages_Page $page
  */
 
-$page = $this->getRaw('page');
+$page = $this->getRaw( 'page' );
 
 $form = $page->getEditForm_content();
 
-$form->setDefaultLabelWidth([
+$form->setDefaultLabelWidth( [
 	Form::LJ_SIZE_MEDIUM => 2
-]);
-$form->setDefaultFieldWidth([
+] );
+$form->setDefaultFieldWidth( [
 	Form::LJ_SIZE_MEDIUM => 6
-]);
+] );
 
 ?>
-<?=$form->start()?>
-	<div style="min-height: 600px;margin-bottom: 40px;">
-		<div style="padding: 10px;">
-			<?=$form->field('layout_script_name')?>
-		</div>
-		<div id="content_list_area">
-			<?=$this->render('page/content/edit/form/list');?>
-		</div>
+<?= $form->start() ?>
+<div style="min-height: 600px;margin-bottom: 40px;">
+	<div style="padding: 10px;">
+		<?= $form->field( 'layout_script_name' ) ?>
 	</div>
-<?=$form->end()?>
+	<div id="content_list_area">
+		<?= $this->render( 'page/content/edit/form/list' ); ?>
+	</div>
+</div>
+<?= $form->end() ?>
 
-<?=$this->render('page/content/create/dialog');?>
-<?=$this->render('page/content/delete/dialog');?>
+<?= $this->render( 'page/content/create/dialog' ); ?>
+<?= $this->render( 'page/content/delete/dialog' ); ?>

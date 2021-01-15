@@ -5,6 +5,7 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace Jet;
 
 /**
@@ -69,7 +70,7 @@ class Form_Field_Hidden extends Form_Field
 	/**
 	 * @return array
 	 */
-	public function getRequiredErrorCodes() : array
+	public function getRequiredErrorCodes(): array
 	{
 		$codes = [];
 
@@ -87,7 +88,7 @@ class Form_Field_Hidden extends Form_Field
 	/**
 	 * @return string
 	 */
-	public function render() : string
+	public function render(): string
 	{
 		return (string)$this->input();
 	}

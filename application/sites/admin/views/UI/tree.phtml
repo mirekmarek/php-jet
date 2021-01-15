@@ -1,4 +1,5 @@
 <?php
+
 use Jet\UI_tree;
 use Jet\UI;
 use Jet\Data_Tree_Node;
@@ -6,7 +7,7 @@ use Jet\Mvc_View;
 
 /**
  * @var Mvc_View $this
- * @var UI_tree  $tree
+ * @var UI_tree $tree
  */
 $tree = $this->getRaw( 'tree' );
 
@@ -36,15 +37,15 @@ $icon_size = 16;
 		}
 
 
-		$padding = ( $node->getDepth() )*$icon_width;
+		$padding = ($node->getDepth()) * $icon_width;
 		?>
 		<div class="tree-row-container">
-			<div class="tree-row<?=$tree->getSelectedId()==$node->getId()?' selected':''?>">
+			<div class="tree-row<?= $tree->getSelectedId() == $node->getId() ? ' selected' : '' ?>">
 				<div class="tree-row-icon-container"
-				     style="padding-left: <?=$padding;?>px;"><?=UI::icon( $icon )->setSize( $icon_size )->setTag(
+				     style="padding-left: <?= $padding; ?>px;"><?= UI::icon( $icon )->setSize( $icon_size )->setTag(
 						'div'
-					)->setWidth( $icon_width )?></div>
-				<div class="tree-row-node-container"><?=$display_callback( $node, $node->getData() );?></div>
+					)->setWidth( $icon_width ) ?></div>
+				<div class="tree-row-node-container"><?= $display_callback( $node, $node->getData() ); ?></div>
 			</div>
 		</div>
 

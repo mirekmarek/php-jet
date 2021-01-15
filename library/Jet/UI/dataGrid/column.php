@@ -5,6 +5,7 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace Jet;
 
 /**
@@ -55,7 +56,7 @@ class UI_dataGrid_column extends BaseObject
 	/**
 	 * @return UI_dataGrid
 	 */
-	public function getGrid() : UI_dataGrid
+	public function getGrid(): UI_dataGrid
 	{
 		return $this->grid;
 	}
@@ -63,7 +64,7 @@ class UI_dataGrid_column extends BaseObject
 	/**
 	 * @param UI_dataGrid $grid
 	 */
-	public function setGrid( UI_dataGrid $grid ) : void
+	public function setGrid( UI_dataGrid $grid ): void
 	{
 		$this->grid = $grid;
 	}
@@ -71,7 +72,7 @@ class UI_dataGrid_column extends BaseObject
 	/**
 	 * @return string
 	 */
-	public function getName() : string
+	public function getName(): string
 	{
 		return $this->name;
 	}
@@ -80,7 +81,7 @@ class UI_dataGrid_column extends BaseObject
 	/**
 	 * @return callable
 	 */
-	public function getRenderer() : callable
+	public function getRenderer(): callable
 	{
 		return $this->renderer;
 	}
@@ -90,7 +91,7 @@ class UI_dataGrid_column extends BaseObject
 	 *
 	 * @return $this
 	 */
-	public function setRenderer( callable $renderer ) : static
+	public function setRenderer( callable $renderer ): static
 	{
 		$this->renderer = $renderer;
 
@@ -102,7 +103,7 @@ class UI_dataGrid_column extends BaseObject
 	/**
 	 * @return string
 	 */
-	public function getTitle() : string
+	public function getTitle(): string
 	{
 		return $this->title;
 	}
@@ -112,7 +113,7 @@ class UI_dataGrid_column extends BaseObject
 	 *
 	 * @return $this
 	 */
-	public function setTitle( string $title ) : static
+	public function setTitle( string $title ): static
 	{
 		$this->title = $title;
 
@@ -122,7 +123,7 @@ class UI_dataGrid_column extends BaseObject
 	/**
 	 * @return string
 	 */
-	public function getCssClass() : string
+	public function getCssClass(): string
 	{
 		return $this->css_class;
 	}
@@ -132,7 +133,7 @@ class UI_dataGrid_column extends BaseObject
 	 *
 	 * @return $this
 	 */
-	public function setCssClass( string $css_class ) : static
+	public function setCssClass( string $css_class ): static
 	{
 		$this->css_class = $css_class;
 
@@ -142,7 +143,7 @@ class UI_dataGrid_column extends BaseObject
 	/**
 	 * @return string
 	 */
-	public function getCssStyle() : string
+	public function getCssStyle(): string
 	{
 		return $this->css_style;
 	}
@@ -152,7 +153,7 @@ class UI_dataGrid_column extends BaseObject
 	 *
 	 * @return $this
 	 */
-	public function setCssStyle( string $css_style ) : static
+	public function setCssStyle( string $css_style ): static
 	{
 		$this->css_style = $css_style;
 
@@ -173,7 +174,7 @@ class UI_dataGrid_column extends BaseObject
 	 *
 	 * @return $this
 	 */
-	public function setAllowSort( bool $allow_order_by ) : static
+	public function setAllowSort( bool $allow_order_by ): static
 	{
 		$this->allow_sort = (bool)$allow_order_by;
 
@@ -183,17 +184,17 @@ class UI_dataGrid_column extends BaseObject
 	/**
 	 * @return bool
 	 */
-	public function isSortByAsc() : bool
+	public function isSortByAsc(): bool
 	{
-		return $this->getGrid()->getSortBy()==$this->name;
+		return $this->getGrid()->getSortBy() == $this->name;
 	}
 
 	/**
 	 * @return bool
 	 */
-	public function isSortByDesc() : bool
+	public function isSortByDesc(): bool
 	{
-		return $this->getGrid()->getSortBy()=='-'.$this->name;
+		return $this->getGrid()->getSortBy() == '-' . $this->name;
 	}
 
 }

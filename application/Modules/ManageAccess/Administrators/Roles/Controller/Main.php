@@ -45,20 +45,20 @@ class Controller_Main extends Mvc_Controller_Default
 	 *
 	 * @return Mvc_Controller_Router_AddEditDelete
 	 */
-	public function getControllerRouter() : Mvc_Controller_Router_AddEditDelete
+	public function getControllerRouter(): Mvc_Controller_Router_AddEditDelete
 	{
 		if( !$this->router ) {
 			$this->router = new Mvc_Controller_Router_AddEditDelete(
 				$this,
-				function($id) {
-					return (bool)($this->role = Role::get($id));
+				function( $id ) {
+					return (bool)($this->role = Role::get( $id ));
 				},
 				[
-					'listing'=> Main::ACTION_GET_ROLE,
-					'view'   => Main::ACTION_GET_ROLE,
-					'add'    => Main::ACTION_ADD_ROLE,
-					'edit'   => Main::ACTION_UPDATE_ROLE,
-					'delete' => Main::ACTION_DELETE_ROLE,
+					'listing' => Main::ACTION_GET_ROLE,
+					'view'    => Main::ACTION_GET_ROLE,
+					'add'     => Main::ACTION_ADD_ROLE,
+					'edit'    => Main::ACTION_UPDATE_ROLE,
+					'delete'  => Main::ACTION_DELETE_ROLE,
 				]
 			);
 		}
@@ -70,7 +70,7 @@ class Controller_Main extends Mvc_Controller_Default
 	/**
 	 * @param string $current_label
 	 */
-	protected function _setBreadcrumbNavigation( $current_label = '' ) : void
+	protected function _setBreadcrumbNavigation( $current_label = '' ): void
 	{
 		UI_module::initBreadcrumb();
 
@@ -82,7 +82,7 @@ class Controller_Main extends Mvc_Controller_Default
 	/**
 	 *
 	 */
-	public function listing_Action() : void
+	public function listing_Action(): void
 	{
 		$this->_setBreadcrumbNavigation();
 
@@ -90,7 +90,7 @@ class Controller_Main extends Mvc_Controller_Default
 		$listing->setDefaultSort( 'name' );
 		$listing->handle();
 
-		$this->view->setVar( 'filter_form', $listing->filter_getForm());
+		$this->view->setVar( 'filter_form', $listing->filter_getForm() );
 		$this->view->setVar( 'grid', $listing->getGrid() );
 
 		$this->output( 'list' );
@@ -99,7 +99,7 @@ class Controller_Main extends Mvc_Controller_Default
 	/**
 	 *
 	 */
-	public function add_Action() : void
+	public function add_Action(): void
 	{
 		$this->_setBreadcrumbNavigation( Tr::_( 'Create a new Role' ) );
 
@@ -112,10 +112,10 @@ class Controller_Main extends Mvc_Controller_Default
 			$this->logAllowedAction( 'Role created', $role->getId(), $role->getName(), $role );
 
 			UI_messages::success(
-				Tr::_( 'Role <b>%ROLE_NAME%</b> has been created', [ 'ROLE_NAME' => $role->getName() ] )
+				Tr::_( 'Role <b>%ROLE_NAME%</b> has been created', ['ROLE_NAME' => $role->getName()] )
 			);
 
-			Http_Headers::reload( ['id'=>$role->getId()], ['action'] );
+			Http_Headers::reload( ['id' => $role->getId()], ['action'] );
 		}
 
 
@@ -128,11 +128,11 @@ class Controller_Main extends Mvc_Controller_Default
 
 	/**
 	 */
-	public function edit_Action() : void
+	public function edit_Action(): void
 	{
 		$role = $this->role;
 
-		$this->_setBreadcrumbNavigation( Tr::_( 'Edit role <b>%ROLE_NAME%</b>', [ 'ROLE_NAME' => $role->getName() ] ) );
+		$this->_setBreadcrumbNavigation( Tr::_( 'Edit role <b>%ROLE_NAME%</b>', ['ROLE_NAME' => $role->getName()] ) );
 
 		$form = $role->getEditForm();
 
@@ -141,7 +141,7 @@ class Controller_Main extends Mvc_Controller_Default
 			$this->logAllowedAction( 'Role updated', $role->getId(), $role->getName(), $role );
 
 			UI_messages::success(
-				Tr::_( 'Role <b>%ROLE_NAME%</b> has been updated', [ 'ROLE_NAME' => $role->getName() ] )
+				Tr::_( 'Role <b>%ROLE_NAME%</b> has been updated', ['ROLE_NAME' => $role->getName()] )
 			);
 
 			Http_Headers::reload();
@@ -157,12 +157,12 @@ class Controller_Main extends Mvc_Controller_Default
 	/**
 	 *
 	 */
-	public function view_Action() : void
+	public function view_Action(): void
 	{
 		$role = $this->role;
 
 		$this->_setBreadcrumbNavigation(
-			Tr::_( 'Role detail <b>%ROLE_NAME%</b>', [ 'ROLE_NAME' => $role->getName() ] )
+			Tr::_( 'Role detail <b>%ROLE_NAME%</b>', ['ROLE_NAME' => $role->getName()] )
 		);
 
 		$form = $role->getEditForm();
@@ -181,21 +181,24 @@ class Controller_Main extends Mvc_Controller_Default
 	/**
 	 *
 	 */
-	public function delete_action() : void
+	public function delete_action(): void
 	{
 		$role = $this->role;
 
 		$this->_setBreadcrumbNavigation(
-			Tr::_( 'Delete role <b>%ROLE_NAME%</b>', [ 'ROLE_NAME' => $role->getName() ] )
+			Tr::_( 'Delete role <b>%ROLE_NAME%</b>', ['ROLE_NAME' => $role->getName()] )
 		);
 
-		if( Http_Request::POST()->getString( 'delete' )=='yes' ) {
+		if( Http_Request::POST()->getString( 'delete' ) == 'yes' ) {
 			$role->delete();
 
 			$this->logAllowedAction( 'Role deleted', $role->getId(), $role->getName(), $role );
 
-			UI_messages::info( Tr::_( 'Role <b>%ROLE_NAME%</b> has been deleted', [ 'ROLE_NAME' => $role->getName() ] ) );
-			Http_Headers::reload([], ['action', 'id']);
+			UI_messages::info( Tr::_( 'Role <b>%ROLE_NAME%</b> has been deleted', ['ROLE_NAME' => $role->getName()] ) );
+			Http_Headers::reload( [], [
+				'action',
+				'id'
+			] );
 		}
 
 

@@ -5,6 +5,7 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace Jet;
 
 /**
@@ -69,12 +70,30 @@ class REST extends BaseObject
 	 * @var array
 	 */
 	protected static array $errors = [
-		self::ERR_CODE_AUTHORIZATION_REQUIRED        => [ Http_Headers::CODE_401_UNAUTHORIZED, 'Access denied! Authorization required! ', ],
-		self::ERR_CODE_ACCESS_DENIED                 => [ Http_Headers::CODE_401_UNAUTHORIZED, 'Access denied! Insufficient permissions! ', ],
-		self::ERR_CODE_VALIDATION_ERROR              => [ Http_Headers::CODE_400_BAD_REQUEST,  'Validation error', ],
-		self::ERR_CODE_REQUEST_ERROR                 => [ Http_Headers::CODE_400_BAD_REQUEST,  'Bad request' ],
-		self::ERR_CODE_UNKNOWN_ITEM                  => [ Http_Headers::CODE_404_NOT_FOUND,    'Unknown item' ],
-		self::ERR_CODE_COMMON                        => [ Http_Headers::CODE_400_BAD_REQUEST,  'Common error' ],
+		self::ERR_CODE_AUTHORIZATION_REQUIRED => [
+			Http_Headers::CODE_401_UNAUTHORIZED,
+			'Access denied! Authorization required! ',
+		],
+		self::ERR_CODE_ACCESS_DENIED          => [
+			Http_Headers::CODE_401_UNAUTHORIZED,
+			'Access denied! Insufficient permissions! ',
+		],
+		self::ERR_CODE_VALIDATION_ERROR       => [
+			Http_Headers::CODE_400_BAD_REQUEST,
+			'Validation error',
+		],
+		self::ERR_CODE_REQUEST_ERROR          => [
+			Http_Headers::CODE_400_BAD_REQUEST,
+			'Bad request'
+		],
+		self::ERR_CODE_UNKNOWN_ITEM           => [
+			Http_Headers::CODE_404_NOT_FOUND,
+			'Unknown item'
+		],
+		self::ERR_CODE_COMMON                 => [
+			Http_Headers::CODE_400_BAD_REQUEST,
+			'Common error'
+		],
 	];
 
 	/**
@@ -99,13 +118,16 @@ class REST extends BaseObject
 	 */
 	public static function defineError( string $code, int $http_code, string $message )
 	{
-		static::$errors[$code] = [$http_code, $message];
+		static::$errors[$code] = [
+			$http_code,
+			$message
+		];
 	}
 
 	/**
 	 * @return string
 	 */
-	public static function getSortGetParam() : string
+	public static function getSortGetParam(): string
 	{
 		return static::$sort_get_param;
 	}
@@ -113,7 +135,7 @@ class REST extends BaseObject
 	/**
 	 * @param string $sort_get_param
 	 */
-	public static function setSortGetParam( string $sort_get_param ) : void
+	public static function setSortGetParam( string $sort_get_param ): void
 	{
 		static::$sort_get_param = $sort_get_param;
 	}
@@ -121,7 +143,7 @@ class REST extends BaseObject
 	/**
 	 * @return string
 	 */
-	public static function getPageGetParam() : string
+	public static function getPageGetParam(): string
 	{
 		return static::$page_get_param;
 	}
@@ -129,7 +151,7 @@ class REST extends BaseObject
 	/**
 	 * @param string $page_get_param
 	 */
-	public static function setPageGetParam( string $page_get_param ) : void
+	public static function setPageGetParam( string $page_get_param ): void
 	{
 		static::$page_get_param = $page_get_param;
 	}
@@ -137,7 +159,7 @@ class REST extends BaseObject
 	/**
 	 * @return string
 	 */
-	public static function getItemsPerPageGetParam() : string
+	public static function getItemsPerPageGetParam(): string
 	{
 		return static::$items_per_page_get_param;
 	}
@@ -145,7 +167,7 @@ class REST extends BaseObject
 	/**
 	 * @param string $items_per_page_get_param
 	 */
-	public static function setItemsPerPageGetParam( string $items_per_page_get_param ) : void
+	public static function setItemsPerPageGetParam( string $items_per_page_get_param ): void
 	{
 		static::$items_per_page_get_param = $items_per_page_get_param;
 	}
@@ -153,7 +175,7 @@ class REST extends BaseObject
 	/**
 	 * @return int
 	 */
-	public static function getDefaultItemsPerPage() : int
+	public static function getDefaultItemsPerPage(): int
 	{
 		return static::$default_items_per_page;
 	}
@@ -161,7 +183,7 @@ class REST extends BaseObject
 	/**
 	 * @param int $default_items_per_page
 	 */
-	public static function setDefaultItemsPerPage( int $default_items_per_page ) : void
+	public static function setDefaultItemsPerPage( int $default_items_per_page ): void
 	{
 		static::$default_items_per_page = (int)$default_items_per_page;
 	}
@@ -169,7 +191,7 @@ class REST extends BaseObject
 	/**
 	 * @return int
 	 */
-	public static function getMaxItemsPerPage() : int
+	public static function getMaxItemsPerPage(): int
 	{
 		return static::$max_items_per_page;
 	}
@@ -177,7 +199,7 @@ class REST extends BaseObject
 	/**
 	 * @param int $max_items_per_page
 	 */
-	public static function setMaxItemsPerPage( int $max_items_per_page ) : void
+	public static function setMaxItemsPerPage( int $max_items_per_page ): void
 	{
 		static::$max_items_per_page = (int)$max_items_per_page;
 	}
@@ -185,20 +207,26 @@ class REST extends BaseObject
 	/**
 	 *
 	 */
-	public static function init() : void
+	public static function init(): void
 	{
 		Debug::setOutputIsJSON( true );
 
-		ErrorPages::setHandler(401, [get_called_class(), 'responseAccessDenied']);
-		ErrorPages::setHandler(404, [get_called_class(), 'responseBadRequest']);
+		ErrorPages::setHandler( 401, [
+			get_called_class(),
+			'responseAccessDenied'
+		] );
+		ErrorPages::setHandler( 404, [
+			get_called_class(),
+			'responseBadRequest'
+		] );
 	}
 
 	/**
 	 * @return string
 	 */
-	public static function getRequestMethod() : string
+	public static function getRequestMethod(): string
 	{
-		if(!static::$request_method) {
+		if( !static::$request_method ) {
 			static::$request_method = strtoupper( Http_Request::requestMethod() );
 		}
 
@@ -208,22 +236,22 @@ class REST extends BaseObject
 	/**
 	 * @return array
 	 */
-	public static function getRequestData() : array
+	public static function getRequestData(): array
 	{
 
-		if(static::$request_data===null) {
+		if( static::$request_data === null ) {
 
 			$data = Http_Request::rawPostData();
 
 			if( !$data ) {
-				static::responseValidationError(['Input is missing']);
+				static::responseValidationError( ['Input is missing'] );
 			}
 
 			$data = json_decode( $data, true );
 
-			if($data===null) {
+			if( $data === null ) {
 				//$error = json_last_error();
-				static::responseValidationError(['Input is not valid JSON']);
+				static::responseValidationError( ['Input is not valid JSON'] );
 			}
 
 			static::$request_data = $data;
@@ -243,7 +271,7 @@ class REST extends BaseObject
 	 * @return string
 	 */
 	public static function getHttpRequestHeader( string $header,
-	                                             string $default_value = '' ) : string
+	                                             string $default_value = '' ): string
 	{
 		$headers = Http_Request::headers();
 
@@ -254,13 +282,13 @@ class REST extends BaseObject
 	/**
 	 * @param string $message
 	 */
-	public static function responseOK( string $message='' ) : void
+	public static function responseOK( string $message = '' ): void
 	{
 		$response = [
 			'result' => 'OK',
 		];
 
-		if($message) {
+		if( $message ) {
 			$response['message'] = $message;
 		}
 
@@ -271,35 +299,38 @@ class REST extends BaseObject
 	/**
 	 * @param mixed $data
 	 */
-	public static function responseData( mixed $data ) : void
+	public static function responseData( mixed $data ): void
 	{
-		static::_response( json_encode($data) );
+		static::_response( json_encode( $data ) );
 	}
 
 
 	/**
 	 * @param string|int $code
-	 * @param mixed      $data
+	 * @param mixed $data
 	 *
 	 * @throws Mvc_Controller_Exception
 	 */
-	public static function responseError( string|int $code, mixed $data = null ) : void
+	public static function responseError( string|int $code, mixed $data = null ): void
 	{
 		if( !isset( static::$errors[$code] ) ) {
 			throw new Mvc_Controller_Exception(
-				'REST Error (code:'.$code.') is not specified! Please enter the error. Add '.get_called_class().'::$errors['.$code.'] entry.  ',
+				'REST Error (code:' . $code . ') is not specified! Please enter the error. Add ' . get_called_class() . '::$errors[' . $code . '] entry.  ',
 				Mvc_Controller_Exception::CODE_INVALID_RESPONSE_CODE
 			);
 		}
 
-		[ $http_code, $error_message ] = static::$errors[$code];
+		[
+			$http_code,
+			$error_message
+		] = static::$errors[$code];
 
 		$error_code = $code;
 
 		$error = [
 			'result' => 'error',
 			'error_code' => $error_code,
-			'error_msg'  => $error_message,
+			'error_msg' => $error_message,
 		];
 
 		if( $data ) {
@@ -315,7 +346,7 @@ class REST extends BaseObject
 	/**
 	 *
 	 */
-	public static function responseAccessDenied() : void
+	public static function responseAccessDenied(): void
 	{
 		if( !Auth::getCurrentUser() ) {
 			static::responseError( self::ERR_CODE_AUTHORIZATION_REQUIRED );
@@ -327,7 +358,7 @@ class REST extends BaseObject
 	/**
 	 * @param array $errors
 	 */
-	public static function responseValidationError( array $errors ) : void
+	public static function responseValidationError( array $errors ): void
 	{
 		static::responseError( self::ERR_CODE_VALIDATION_ERROR, $errors );
 	}
@@ -336,10 +367,10 @@ class REST extends BaseObject
 	/**
 	 * @param string|array $id
 	 */
-	public static function responseUnknownItem( string|array $id ) : void
+	public static function responseUnknownItem( string|array $id ): void
 	{
 		if( !is_array( $id ) ) {
-			$id = [ 'id' => $id ];
+			$id = ['id' => $id];
 		}
 
 		static::responseError( self::ERR_CODE_UNKNOWN_ITEM, $id );
@@ -348,7 +379,7 @@ class REST extends BaseObject
 	/**
 	 *
 	 */
-	public static function responseBadRequest() : void
+	public static function responseBadRequest(): void
 	{
 		static::responseError( self::ERR_CODE_REQUEST_ERROR, [] );
 	}
@@ -356,8 +387,8 @@ class REST extends BaseObject
 
 	/**
 	 * @param string $response_text
-	 * @param array  $http_headers
-	 * @param int    $http_code
+	 * @param array $http_headers
+	 * @param int $http_code
 	 * @param string $http_message
 	 */
 	protected static function _response( string $response_text,
@@ -366,12 +397,12 @@ class REST extends BaseObject
 	                                     string $http_message = 'OK' )
 	{
 
-		Http_Headers::sendHeader( 'HTTP/1.1 '.$http_code.' '.$http_message, true, $http_code );
+		Http_Headers::sendHeader( 'HTTP/1.1 ' . $http_code . ' ' . $http_message, true, $http_code );
 
-		Http_Headers::sendHeader( 'Content-type:application/json;charset='.SysConf_Jet::getCharset() );
+		Http_Headers::sendHeader( 'Content-type:application/json;charset=' . SysConf_Jet::getCharset() );
 
 		foreach( $http_headers as $header => $header_value ) {
-			Http_Headers::sendHeader( $header.': '.$header_value );
+			Http_Headers::sendHeader( $header . ': ' . $header_value );
 		}
 
 		echo $response_text;
@@ -386,24 +417,24 @@ class REST extends BaseObject
 	 *
 	 * @return Data_Paginator
 	 */
-	public static function handleDataPagination( DataModel_Fetch_Instances $data ) : Data_Paginator
+	public static function handleDataPagination( DataModel_Fetch_Instances $data ): Data_Paginator
 	{
 		$GET = Http_Request::GET();
 
-		$current_page_no = $GET->getInt(static::getPageGetParam(), 1);
-		$items_per_page = $GET->getInt(static::getItemsPerPageGetParam(), static::getDefaultItemsPerPage());
+		$current_page_no = $GET->getInt( static::getPageGetParam(), 1 );
+		$items_per_page = $GET->getInt( static::getItemsPerPageGetParam(), static::getDefaultItemsPerPage() );
 
-		if($items_per_page>static::getMaxItemsPerPage()) {
+		if( $items_per_page > static::getMaxItemsPerPage() ) {
 			$items_per_page = static::getMaxItemsPerPage();
 		}
 
 		$page_get_param = static::getPageGetParam();
 
-		$paginator = new Data_Paginator($current_page_no, $items_per_page, function( $page_no ) use ($page_get_param) {
-			return Http_Request::currentURL( [ $page_get_param => $page_no ] );
-		});
+		$paginator = new Data_Paginator( $current_page_no, $items_per_page, function( $page_no ) use ( $page_get_param ) {
+			return Http_Request::currentURL( [$page_get_param => $page_no] );
+		} );
 
-		$paginator->setDataSource($data);
+		$paginator->setDataSource( $data );
 
 		return $paginator;
 	}
@@ -411,34 +442,34 @@ class REST extends BaseObject
 	/**
 	 *
 	 * @param DataModel_Fetch_Instances $data
-	 * @param array           $sort_items_map
+	 * @param array $sort_items_map
 	 *
 	 * @return DataModel_Fetch_Instances
 	 */
-	public static  function handleOrderBy( DataModel_Fetch_Instances $data,
-	                                       array $sort_items_map ) : DataModel_Fetch_Instances
+	public static function handleOrderBy( DataModel_Fetch_Instances $data,
+	                                      array $sort_items_map ): DataModel_Fetch_Instances
 	{
 		$GET = Http_Request::GET();
 
-		if( ($order_by_param=$GET->getString(static::getSortGetParam())) ) {
+		if( ($order_by_param = $GET->getString( static::getSortGetParam() )) ) {
 
 			$order_by = [];
 
-			foreach( explode(',', $order_by_param) as $oi ) {
+			foreach( explode( ',', $order_by_param ) as $oi ) {
 				$direction = $oi[0];
 
-				if( $direction!='+' && $direction!='-' ) {
+				if( $direction != '+' && $direction != '-' ) {
 					$direction = '+';
 					$item = $oi;
 				} else {
-					$item = substr($oi, 1);
+					$item = substr( $oi, 1 );
 				}
 
-				if(!isset($sort_items_map[$item])) {
-					static::responseError( self::ERR_CODE_REQUEST_ERROR, ['Unknown sort item: '.$oi] );
+				if( !isset( $sort_items_map[$item] ) ) {
+					static::responseError( self::ERR_CODE_REQUEST_ERROR, ['Unknown sort item: ' . $oi] );
 				}
 
-				$order_by[] = $direction.$sort_items_map[$item];
+				$order_by[] = $direction . $sort_items_map[$item];
 			}
 
 			$data->getQuery()->setOrderBy( $order_by );

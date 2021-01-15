@@ -5,6 +5,7 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace Jet;
 
 use \ReflectionClass;
@@ -33,11 +34,10 @@ class Config_Definition_Config_Section extends Config_Definition_Config
 
 		if( !$properties_definition_data ) {
 			throw new Config_Exception(
-				'Configuration \''.$this->class_name.'\' does not have any properties defined!',
+				'Configuration \'' . $this->class_name . '\' does not have any properties defined!',
 				Config_Exception::CODE_DEFINITION_NONSENSE
 			);
 		}
-
 
 
 		$this->properties_definition = [];
@@ -47,13 +47,13 @@ class Config_Definition_Config_Section extends Config_Definition_Config
 				!$definition_data['type']
 			) {
 				throw new Config_Exception(
-					'Property '.get_class( $this ).'::'.$property_name.': \'type\' parameter is not defined.',
+					'Property ' . get_class( $this ) . '::' . $property_name . ': \'type\' parameter is not defined.',
 					Config_Exception::CODE_CONFIG_CHECK_ERROR
 				);
 
 			}
 
-			$class_name = __NAMESPACE__.'\\'.static::BASE_PROPERTY_DEFINITION_CLASS_NAME.'_'.$definition_data['type'];
+			$class_name = __NAMESPACE__ . '\\' . static::BASE_PROPERTY_DEFINITION_CLASS_NAME . '_' . $definition_data['type'];
 
 			unset( $definition_data['type'] );
 

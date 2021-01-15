@@ -5,6 +5,7 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace Jet;
 
 
@@ -27,7 +28,7 @@ abstract class DataModel_Related_MtoN extends BaseObject implements DataModel_Re
 	/**
 	 *
 	 */
-	public function afterLoad() : void
+	public function afterLoad(): void
 	{
 
 	}
@@ -35,7 +36,7 @@ abstract class DataModel_Related_MtoN extends BaseObject implements DataModel_Re
 	/**
 	 *
 	 */
-	public function beforeSave() : void
+	public function beforeSave(): void
 	{
 
 	}
@@ -43,7 +44,7 @@ abstract class DataModel_Related_MtoN extends BaseObject implements DataModel_Re
 	/**
 	 *
 	 */
-	public function afterAdd() : void
+	public function afterAdd(): void
 	{
 
 	}
@@ -51,7 +52,7 @@ abstract class DataModel_Related_MtoN extends BaseObject implements DataModel_Re
 	/**
 	 *
 	 */
-	public function afterUpdate() : void
+	public function afterUpdate(): void
 	{
 
 	}
@@ -59,7 +60,7 @@ abstract class DataModel_Related_MtoN extends BaseObject implements DataModel_Re
 	/**
 	 *
 	 */
-	public function afterDelete() : void
+	public function afterDelete(): void
 	{
 
 	}

@@ -33,11 +33,10 @@ abstract class Test_Abstract
 	/**
 	 * @return string
 	 */
-	public function getId() : string
+	public function getId(): string
 	{
 		return $this->id;
 	}
-
 
 
 	/**

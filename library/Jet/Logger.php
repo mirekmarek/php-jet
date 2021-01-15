@@ -5,6 +5,7 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace Jet;
 
 /**
@@ -28,7 +29,7 @@ class Logger
 	/**
 	 * @param Logger_Interface $logger
 	 */
-	public static function setLogger( Logger_Interface $logger ) : void
+	public static function setLogger( Logger_Interface $logger ): void
 	{
 		static::$logger = $logger;
 	}
@@ -36,7 +37,7 @@ class Logger
 	/**
 	 * @return Logger_Interface|null
 	 */
-	public static function getLogger() : Logger_Interface|null
+	public static function getLogger(): Logger_Interface|null
 	{
 		return static::$logger;
 	}
@@ -57,14 +58,14 @@ class Logger
 	                               string $context_object_id = '',
 	                               string $context_object_name = '',
 	                               mixed $context_object_data = [],
-	                               Auth_User_Interface|null|bool $current_user = null ) : void
+	                               Auth_User_Interface|null|bool $current_user = null ): void
 	{
 		$logger = static::getLogger();
 		if( !$logger ) {
 			return;
 		}
 
-		if( $current_user===null ) {
+		if( $current_user === null ) {
 			$current_user = Auth::getCurrentUser();
 		}
 
@@ -93,7 +94,7 @@ class Logger
 	                                string $context_object_id = '',
 	                                string $context_object_name = '',
 	                                mixed $context_object_data = [],
-	                                Auth_User_Interface|null|bool $current_user = null ) : void
+	                                Auth_User_Interface|null|bool $current_user = null ): void
 	{
 		static::common(
 			static::EVENT_CLASS_SUCCESS,
@@ -120,7 +121,7 @@ class Logger
 	                             string $context_object_id = '',
 	                             string $context_object_name = '',
 	                             mixed $context_object_data = [],
-	                             Auth_User_Interface|null|bool $current_user = null ) : void
+	                             Auth_User_Interface|null|bool $current_user = null ): void
 	{
 		static::common(
 			static::EVENT_CLASS_INFO,
@@ -147,7 +148,7 @@ class Logger
 	                                string $context_object_id = '',
 	                                string $context_object_name = '',
 	                                mixed $context_object_data = [],
-	                                Auth_User_Interface|null|bool $current_user = null ) : void
+	                                Auth_User_Interface|null|bool $current_user = null ): void
 	{
 		static::common(
 			static::EVENT_CLASS_WARNING,
@@ -174,7 +175,7 @@ class Logger
 	                               string $context_object_id = '',
 	                               string $context_object_name = '',
 	                               mixed $context_object_data = [],
-	                               Auth_User_Interface|null|bool $current_user = null ) : void
+	                               Auth_User_Interface|null|bool $current_user = null ): void
 	{
 		static::common(
 			static::EVENT_CLASS_DANGER,
@@ -201,7 +202,7 @@ class Logger
 	                              string $context_object_id = '',
 	                              string $context_object_name = '',
 	                              mixed $context_object_data = [],
-	                              Auth_User_Interface|null|bool $current_user = null ) : void
+	                              Auth_User_Interface|null|bool $current_user = null ): void
 	{
 		static::common(
 			static::EVENT_CLASS_FAULT,

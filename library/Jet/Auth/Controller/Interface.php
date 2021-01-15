@@ -5,6 +5,7 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace Jet;
 
 /**
@@ -16,7 +17,7 @@ interface Auth_Controller_Interface
 	/**
 	 *
 	 */
-	public function handleLogin() : void;
+	public function handleLogin(): void;
 
 	/**
 	 *
@@ -25,23 +26,23 @@ interface Auth_Controller_Interface
 	 *
 	 * @return bool
 	 */
-	public function login( string $username, string $password ) : bool;
+	public function login( string $username, string $password ): bool;
 
 	/**
 	 *
 	 */
-	public function logout() : void;
+	public function logout(): void;
 
 	/**
 	 * @return bool
 	 */
-	public function checkCurrentUser() : bool;
+	public function checkCurrentUser(): bool;
 
 	/**
 	 *
 	 * @return Auth_User_Interface|bool
 	 */
-	public function getCurrentUser() : Auth_User_Interface|bool;
+	public function getCurrentUser(): Auth_User_Interface|bool;
 
 	/**
 	 *
@@ -50,7 +51,7 @@ interface Auth_Controller_Interface
 	 *
 	 * @return bool
 	 */
-	public function getCurrentUserHasPrivilege( string $privilege, mixed $value ) : bool;
+	public function getCurrentUserHasPrivilege( string $privilege, mixed $value ): bool;
 
 	/**
 	 * @param string $module_name
@@ -58,7 +59,7 @@ interface Auth_Controller_Interface
 	 *
 	 * @return bool
 	 */
-	public function checkModuleActionAccess( string $module_name, string $action ) : bool;
+	public function checkModuleActionAccess( string $module_name, string $action ): bool;
 
 
 	/**
@@ -66,6 +67,6 @@ interface Auth_Controller_Interface
 	 *
 	 * @return bool
 	 */
-	public function checkPageAccess( Mvc_Page_Interface $page ) : bool;
+	public function checkPageAccess( Mvc_Page_Interface $page ): bool;
 
 }

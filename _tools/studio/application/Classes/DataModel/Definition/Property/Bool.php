@@ -1,4 +1,5 @@
 <?php
+
 namespace JetStudio;
 
 use Jet\DataModel_Definition_Property_Bool as Jet_DataModel_Definition_Property_Bool;
@@ -14,7 +15,7 @@ class DataModel_Definition_Property_Bool extends Jet_DataModel_Definition_Proper
 	/**
 	 * @param Form_Field[] &$fields
 	 */
-	public function getEditFormCustomFields( array &$fields ) : void
+	public function getEditFormCustomFields( array &$fields ): void
 	{
 	}
 
@@ -22,7 +23,7 @@ class DataModel_Definition_Property_Bool extends Jet_DataModel_Definition_Proper
 	/**
 	 *
 	 */
-	public function showEditFormFields() : void
+	public function showEditFormFields(): void
 	{
 
 	}
@@ -33,10 +34,10 @@ class DataModel_Definition_Property_Bool extends Jet_DataModel_Definition_Proper
 	 *
 	 * @return ClassCreator_Class_Property
 	 */
-	public function createClassProperty( ClassCreator_Class $class ) : ClassCreator_Class_Property
+	public function createClassProperty( ClassCreator_Class $class ): ClassCreator_Class_Property
 	{
 
-		$property = $this->createClassProperty_main( $class, 'bool',  'DataModel::TYPE_BOOL' );
+		$property = $this->createClassProperty_main( $class, 'bool', 'DataModel::TYPE_BOOL' );
 
 		return $property;
 
@@ -47,22 +48,25 @@ class DataModel_Definition_Property_Bool extends Jet_DataModel_Definition_Proper
 	 *
 	 * @return array
 	 */
-	public function createClassMethods( ClassCreator_Class $class ) : array
+	public function createClassMethods( ClassCreator_Class $class ): array
 	{
 
 		$s_g_method_name = $this->getSetterGetterMethodName();
 
-		$setter = $class->createMethod('set'.$s_g_method_name);
+		$setter = $class->createMethod( 'set' . $s_g_method_name );
 		$setter->addParameter( 'value' )
-			->setType('bool');
-		$setter->line( 1, '$this->'.$this->getName().' = (bool)$value;' );
+			->setType( 'bool' );
+		$setter->line( 1, '$this->' . $this->getName() . ' = (bool)$value;' );
 
 
-		$getter = $class->createMethod('get'.$s_g_method_name);
-		$getter->setReturnType('bool');
-		$getter->line( 1, 'return $this->'.$this->getName().';');
+		$getter = $class->createMethod( 'get' . $s_g_method_name );
+		$getter->setReturnType( 'bool' );
+		$getter->line( 1, 'return $this->' . $this->getName() . ';' );
 
-		return ['set'.$s_g_method_name, 'get'.$s_g_method_name];
+		return [
+			'set' . $s_g_method_name,
+			'get' . $s_g_method_name
+		];
 	}
 
 }

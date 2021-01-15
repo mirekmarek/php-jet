@@ -5,6 +5,7 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace JetApplication;
 
 use Jet\DataModel;
@@ -22,7 +23,7 @@ use Jet\Http_Request;
 #[DataModel_Definition(
 	name: 'Auth_Event',
 	id_controller_class: DataModel_IDController_AutoIncrement::class,
-	id_controller_options: ['id_property_name'=>'id']
+	id_controller_options: ['id_property_name' => 'id']
 )]
 abstract class Logger_Event extends DataModel
 {
@@ -152,12 +153,12 @@ abstract class Logger_Event extends DataModel
 	 * @return static
 	 */
 	public static function log( string $event_class,
-	                     string $event,
-	                     string $event_message,
-	                     string $context_object_id = '',
-	                     string $context_object_name = '',
-	                     mixed $context_object_data = [],
-                         Auth_User_Interface|bool $current_user = false ) : static
+	                            string $event,
+	                            string $event_message,
+	                            string $context_object_id = '',
+	                            string $context_object_name = '',
+	                            mixed $context_object_data = [],
+	                            Auth_User_Interface|bool $current_user = false ): static
 	{
 
 
@@ -189,7 +190,7 @@ abstract class Logger_Event extends DataModel
 	/**
 	 * @return int
 	 */
-	public function getId() : int
+	public function getId(): int
 	{
 		return $this->id;
 	}
@@ -197,7 +198,7 @@ abstract class Logger_Event extends DataModel
 	/**
 	 * @return Data_DateTime
 	 */
-	public function getDateTime() : Data_DateTime
+	public function getDateTime(): Data_DateTime
 	{
 		return $this->date_time;
 	}
@@ -205,7 +206,7 @@ abstract class Logger_Event extends DataModel
 	/**
 	 * @return string
 	 */
-	public function getEventClass() : string
+	public function getEventClass(): string
 	{
 		return $this->event_class;
 	}
@@ -213,7 +214,7 @@ abstract class Logger_Event extends DataModel
 	/**
 	 * @return string
 	 */
-	public function getEvent() : string
+	public function getEvent(): string
 	{
 		return $this->event;
 	}
@@ -221,7 +222,7 @@ abstract class Logger_Event extends DataModel
 	/**
 	 * @return string
 	 */
-	public function getEventMessage() : string
+	public function getEventMessage(): string
 	{
 		return $this->event_message;
 	}
@@ -229,7 +230,7 @@ abstract class Logger_Event extends DataModel
 	/**
 	 * @return string
 	 */
-	public function getContextObjectId() : string
+	public function getContextObjectId(): string
 	{
 		return $this->context_object_id;
 	}
@@ -237,7 +238,7 @@ abstract class Logger_Event extends DataModel
 	/**
 	 * @return string
 	 */
-	public function getContextObjectName() : string
+	public function getContextObjectName(): string
 	{
 		return $this->context_object_name;
 	}
@@ -245,7 +246,7 @@ abstract class Logger_Event extends DataModel
 	/**
 	 * @return string
 	 */
-	public function getContextObjectData() : string
+	public function getContextObjectData(): string
 	{
 		return $this->context_object_data;
 	}
@@ -253,7 +254,7 @@ abstract class Logger_Event extends DataModel
 	/**
 	 * @return string
 	 */
-	public function getRemoteIP() : string
+	public function getRemoteIP(): string
 	{
 		return $this->remote_IP;
 	}
@@ -261,7 +262,7 @@ abstract class Logger_Event extends DataModel
 	/**
 	 * @return string
 	 */
-	public function getRequestURL() : string
+	public function getRequestURL(): string
 	{
 		return $this->request_URL;
 	}
@@ -269,7 +270,7 @@ abstract class Logger_Event extends DataModel
 	/**
 	 * @return string
 	 */
-	public function getUserId() : string
+	public function getUserId(): string
 	{
 		return $this->user_id;
 	}
@@ -277,7 +278,7 @@ abstract class Logger_Event extends DataModel
 	/**
 	 * @return string
 	 */
-	public function getUserUsername() : string
+	public function getUserUsername(): string
 	{
 		return $this->user_username;
 	}

@@ -5,6 +5,7 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace JetStudio;
 
 use Jet\DataModel_Definition_Property_DataModel as Jet_DataModel_Definition_Property_DataModel;
@@ -14,13 +15,14 @@ use Jet\Tr;
 /**
  *
  */
-class DataModel_Definition_Property_DataModel extends Jet_DataModel_Definition_Property_DataModel implements DataModel_Definition_Property_Interface {
+class DataModel_Definition_Property_DataModel extends Jet_DataModel_Definition_Property_DataModel implements DataModel_Definition_Property_Interface
+{
 	use DataModel_Definition_Property_Trait;
 
 	/**
 	 * @param Form_Field[] &$fields
 	 */
-	public function getEditFormCustomFields( array &$fields ) : void
+	public function getEditFormCustomFields( array &$fields ): void
 	{
 		$remove = [
 			'type',
@@ -31,14 +33,14 @@ class DataModel_Definition_Property_DataModel extends Jet_DataModel_Definition_P
 		];
 
 		foreach( $remove as $r ) {
-			unset($fields[$r]);
+			unset( $fields[$r] );
 		}
 	}
 
 	/**
 	 * @return string
 	 */
-	public function getDataModelClass() : string
+	public function getDataModelClass(): string
 	{
 		return $this->data_model_class;
 	}
@@ -46,7 +48,7 @@ class DataModel_Definition_Property_DataModel extends Jet_DataModel_Definition_P
 	/**
 	 * @param string $class
 	 */
-	public function setDataModelClass( string $class ) : void
+	public function setDataModelClass( string $class ): void
 	{
 		$this->data_model_class = $class;
 	}
@@ -54,18 +56,18 @@ class DataModel_Definition_Property_DataModel extends Jet_DataModel_Definition_P
 	/**
 	 *
 	 */
-	public function showEditFormFields() : void
+	public function showEditFormFields(): void
 	{
 
 		$related_class = DataModels::getClass( $this->getDataModelClass() );
 		$related_model = $related_class->getDefinition();
 
 		if( $related_model ) {
-			echo '<label>'.Tr::_('Related DataModel:').'&nbsp;&nbsp;</label>';
+			echo '<label>' . Tr::_( 'Related DataModel:' ) . '&nbsp;&nbsp;</label>';
 			echo
-				'<a href="?class='.$related_class->getFullClassName().'">'
-				.$related_model->getModelName().' ('.$related_model->getClassName().')'
-				.'</a>';
+				'<a href="?class=' . $related_class->getFullClassName() . '">'
+				. $related_model->getModelName() . ' (' . $related_model->getClassName() . ')'
+				. '</a>';
 		}
 	}
 
@@ -76,24 +78,28 @@ class DataModel_Definition_Property_DataModel extends Jet_DataModel_Definition_P
 	 *
 	 * @return ClassCreator_Class_Property
 	 */
-	public function createClassProperty( ClassCreator_Class $class ) : ClassCreator_Class_Property
+	public function createClassProperty( ClassCreator_Class $class ): ClassCreator_Class_Property
 	{
 		$related_dm = DataModels::getClass( $this->getDataModelClass() )->getDefinition();
 		$attributes = [];
 
 		$property_type = '';
 
-		if(!$related_dm) {
-			$class->addError('Unable to get related DataModel definition (related model ID: '.$this->getDataModelClass().')');
+		if( !$related_dm ) {
+			$class->addError( 'Unable to get related DataModel definition (related model ID: ' . $this->getDataModelClass() . ')' );
 		} else {
 
 			$use = ClassCreator_UseClass::createByClassName( $related_dm->getClassName() );
 
-			if($use->getNamespace()!=$class->getNamespace()) {
+			if( $use->getNamespace() != $class->getNamespace() ) {
 				$class->addUse( $use );
 			}
 
-			$attributes[] = ['DataModel_Definition', 'data_model_class',  $use->getClass().'::class' ];
+			$attributes[] = [
+				'DataModel_Definition',
+				'data_model_class',
+				$use->getClass() . '::class'
+			];
 
 			$type = $related_dm->getInternalType();
 
@@ -101,28 +107,28 @@ class DataModel_Definition_Property_DataModel extends Jet_DataModel_Definition_P
 
 			switch( $type ) {
 				case DataModels::MODEL_TYPE_RELATED_1TO1:
-					$class->addUse( new ClassCreator_UseClass('Jet', 'DataModel_Related_1to1') );
+					$class->addUse( new ClassCreator_UseClass( 'Jet', 'DataModel_Related_1to1' ) );
 					$property_type .= '|DataModel_Related_1to1|null';
 					break;
 				case DataModels::MODEL_TYPE_RELATED_1TON:
 
-					$class->addUse( new ClassCreator_UseClass('Jet', 'DataModel_Related_1toN') );
+					$class->addUse( new ClassCreator_UseClass( 'Jet', 'DataModel_Related_1toN' ) );
 
 					$iterator_class = $related_dm->getIteratorClassName();
 
-					if( substr($iterator_class, 0, 4)=='Jet\\' ) {
+					if( substr( $iterator_class, 0, 4 ) == 'Jet\\' ) {
 						$iterator_class = substr( $iterator_class, 4 );
 
-						$class->addUse( new ClassCreator_UseClass('Jet', $iterator_class) );
+						$class->addUse( new ClassCreator_UseClass( 'Jet', $iterator_class ) );
 					}
 
-					$property_type .= '[]|DataModel_Related_1toN|'.$iterator_class;
+					$property_type .= '[]|DataModel_Related_1toN|' . $iterator_class;
 					break;
 				case DataModels::MODEL_TYPE_RELATED_MTON:
 					$N_model = $related_dm->getNModel();
 
-					if($N_model) {
-						$class->addUse( new ClassCreator_UseClass('Jet', 'DataModel_Related_MtoN') );
+					if( $N_model ) {
+						$class->addUse( new ClassCreator_UseClass( 'Jet', 'DataModel_Related_MtoN' ) );
 
 						/*
 						if($N_model->getNamespaceId()!=Project::getCurrentNamespaceId()) {
@@ -136,9 +142,9 @@ class DataModel_Definition_Property_DataModel extends Jet_DataModel_Definition_P
 						}
 						*/
 
-						$property_type .= '|DataModel_Related_MtoN|'.$N_model->getClassName().'[]';
+						$property_type .= '|DataModel_Related_MtoN|' . $N_model->getClassName() . '[]';
 					} else {
-						$class->addError('Unable to get N DataModel definition');
+						$class->addError( 'Unable to get N DataModel definition' );
 					}
 
 					break;
@@ -146,9 +152,7 @@ class DataModel_Definition_Property_DataModel extends Jet_DataModel_Definition_P
 		}
 
 
-
-
-		$property = $this->createClassProperty_main( $class, $property_type,  'DataModel::TYPE_DATA_MODEL', $attributes);
+		$property = $this->createClassProperty_main( $class, $property_type, 'DataModel::TYPE_DATA_MODEL', $attributes );
 
 		return $property;
 	}
@@ -158,18 +162,21 @@ class DataModel_Definition_Property_DataModel extends Jet_DataModel_Definition_P
 	 *
 	 * @return array
 	 */
-	public function createClassMethods( ClassCreator_Class $class ) : array
+	public function createClassMethods( ClassCreator_Class $class ): array
 	{
 
 		$s_g_method_name = $this->getSetterGetterMethodName();
 
-		$setter = $class->createMethod('set'.$s_g_method_name);
+		$setter = $class->createMethod( 'set' . $s_g_method_name );
 		$setter->line( 1, '//TODO: implement ...' );
 
-		$getter = $class->createMethod('get'.$s_g_method_name);
-		$getter->line( 1, '//TODO: implement ...');
+		$getter = $class->createMethod( 'get' . $s_g_method_name );
+		$getter->line( 1, '//TODO: implement ...' );
 
-		return ['set'.$s_g_method_name, 'get'.$s_g_method_name];
+		return [
+			'set' . $s_g_method_name,
+			'get' . $s_g_method_name
+		];
 	}
 
 }

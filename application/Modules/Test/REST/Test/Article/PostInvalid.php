@@ -21,7 +21,7 @@ class Test_Article_PostInvalid extends Test_Abstract
 	/**
 	 * @return string
 	 */
-	protected function _getTitle() : string
+	protected function _getTitle(): string
 	{
 		return 'Add (POST) - invalid (error simulation)';
 	}
@@ -29,7 +29,7 @@ class Test_Article_PostInvalid extends Test_Abstract
 	/**
 	 *
 	 */
-	public function test() : void
+	public function test(): void
 	{
 		$data = [
 			'date_time' => 'xxxxx',
@@ -38,15 +38,15 @@ class Test_Article_PostInvalid extends Test_Abstract
 				]
 		];
 
-		foreach(Application_Web::getSite()->getLocales() as $locale_str=>$locale ) {
+		foreach( Application_Web::getSite()->getLocales() as $locale_str => $locale ) {
 			$data['localized'][$locale_str] = [
-				'title' => '',
+				'title'      => '',
 				'annotation' => '',
-				'text' => '',
+				'text'       => '',
 			];
 		}
 
-		$this->client->post('article', $data);
+		$this->client->post( 'article', $data );
 
 	}
 }

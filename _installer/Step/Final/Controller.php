@@ -5,6 +5,7 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace JetApplication\Installer;
 
 use Exception;
@@ -27,17 +28,15 @@ class Installer_Step_Final_Controller extends Installer_Step_Controller
 	protected string $label = 'Installation finish';
 
 
-
 	/**
 	 *
 	 */
-	public function main() : void
+	public function main(): void
 	{
 
 		$OK = true;
 
-		$install_symptom_file_path = SysConf_Path::getData().'installed.txt';
-
+		$install_symptom_file_path = SysConf_Path::getData() . 'installed.txt';
 
 
 		if(
@@ -47,7 +46,7 @@ class Installer_Step_Final_Controller extends Installer_Step_Controller
 			try {
 				IO_File::write( $install_symptom_file_path, Data_DateTime::now()->toString() );
 			} catch( Exception $e ) {
-				UI_messages::danger( Tr::_('Something went wrong: %error%', ['error'=>$e->getMessage()], Tr::COMMON_NAMESPACE) );
+				UI_messages::danger( Tr::_( 'Something went wrong: %error%', ['error' => $e->getMessage()], Tr::COMMON_NAMESPACE ) );
 				$OK = false;
 			}
 		}

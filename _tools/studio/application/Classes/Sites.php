@@ -5,6 +5,7 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace JetStudio;
 
 use Jet\BaseObject;
@@ -40,40 +41,40 @@ class Sites extends BaseObject implements Application_Part
 	 *
 	 * @return string
 	 */
-	public static function getActionUrl( string $action, array $custom_get_params=[], ?string $custom_site_id=null )
+	public static function getActionUrl( string $action, array $custom_get_params = [], ?string $custom_site_id = null )
 	{
 
 		$get_params = [];
 
-		if(Sites::getCurrentSiteId()) {
+		if( Sites::getCurrentSiteId() ) {
 			$get_params['site'] = Sites::getCurrentSiteId();
 		}
 
-		if($custom_site_id!==null) {
+		if( $custom_site_id !== null ) {
 			$get_params['site'] = $custom_site_id;
-			if(!$custom_site_id) {
+			if( !$custom_site_id ) {
 				unset( $get_params['site'] );
 			}
 		}
 
-		if($action) {
+		if( $action ) {
 			$get_params['action'] = $action;
 		}
 
-		if($custom_get_params) {
-			foreach( $custom_get_params as $k=>$v ) {
+		if( $custom_get_params ) {
+			foreach( $custom_get_params as $k => $v ) {
 				$get_params[$k] = $v;
 			}
 		}
 
-		return SysConf_URI::getBase().'sites.php?'.http_build_query($get_params);
+		return SysConf_URI::getBase() . 'sites.php?' . http_build_query( $get_params );
 	}
 
 
 	/**
 	 * @return Sites_Site[]
 	 */
-	public static function load() : array
+	public static function load(): array
 	{
 		return Sites_Site::getAllSites();
 	}
@@ -82,7 +83,7 @@ class Sites extends BaseObject implements Application_Part
 	/**
 	 * @return Sites_Site[]
 	 */
-	public static function getSites() : array
+	public static function getSites(): array
 	{
 		$sites = static::load();
 
@@ -97,17 +98,16 @@ class Sites extends BaseObject implements Application_Part
 	}
 
 
-
 	/**
 	 * @param string $id
 	 *
 	 * @return null|Sites_Site
 	 */
-	public static function getSite( string $id ) : null|Sites_Site
+	public static function getSite( string $id ): null|Sites_Site
 	{
 		$sites = static::load();
 
-		if(!isset( $sites[$id])) {
+		if( !isset( $sites[$id] ) ) {
 			return null;
 		}
 
@@ -118,9 +118,9 @@ class Sites extends BaseObject implements Application_Part
 	/**
 	 * @return string|bool
 	 */
-	public static function getCurrentSiteId() : string|bool
+	public static function getCurrentSiteId(): string|bool
 	{
-		if(static::getCurrentSite()) {
+		if( static::getCurrentSite() ) {
 			return static::getCurrentSite()->getId();
 		}
 
@@ -131,16 +131,16 @@ class Sites extends BaseObject implements Application_Part
 	/**
 	 * @return bool|Sites_Site
 	 */
-	public static function getCurrentSite() : bool|Sites_Site
+	public static function getCurrentSite(): bool|Sites_Site
 	{
-		if(static::$__current_site===null) {
-			$id = Http_Request::GET()->getString('site');
+		if( static::$__current_site === null ) {
+			$id = Http_Request::GET()->getString( 'site' );
 
 			static::$__current_site = false;
 
 			if(
 				$id &&
-				($site=static::getSite($id))
+				($site = static::getSite( $id ))
 			) {
 				static::$__current_site = $site;
 			}
@@ -153,44 +153,44 @@ class Sites extends BaseObject implements Application_Part
 	/**
 	 * @return Form
 	 */
-	public static function getCreateForm() : Form
+	public static function getCreateForm(): Form
 	{
-		if(!static::$create_form) {
+		if( !static::$create_form ) {
 
-			$name_field = new Form_Field_Input('name', 'Name:');
+			$name_field = new Form_Field_Input( 'name', 'Name:' );
 			$name_field->setIsRequired( true );
-			$name_field->setErrorMessages([
+			$name_field->setErrorMessages( [
 				Form_Field_Input::ERROR_CODE_EMPTY => 'Please enter site name'
-			]);
+			] );
 
-			$id_field = new Form_Field_Input('id', 'Identifier:');
+			$id_field = new Form_Field_Input( 'id', 'Identifier:' );
 			$id_field->setIsRequired( true );
-			$id_field->setErrorMessages([
-				Form_Field_Input::ERROR_CODE_EMPTY => 'Please enter site identifier',
+			$id_field->setErrorMessages( [
+				Form_Field_Input::ERROR_CODE_EMPTY          => 'Please enter site identifier',
 				Form_Field_Input::ERROR_CODE_INVALID_FORMAT => 'Invalid identifier format',
-			]);
+			] );
 			$id_field->setValidator( function( Form_Field_Input $field ) {
 				$id = $field->getValue();
 
-				if(!$id)	{
+				if( !$id ) {
 					$field->setError( Form_Field_Input::ERROR_CODE_EMPTY );
 					return false;
 				}
 
 				if(
-					!preg_match('/^[a-zA-Z0-9\-]{2,}$/i', $id) ||
+					!preg_match( '/^[a-zA-Z0-9\-]{2,}$/i', $id ) ||
 					str_contains( $id, '--' )
 				) {
-					$field->setError(Form_Field_Input::ERROR_CODE_INVALID_FORMAT);
+					$field->setError( Form_Field_Input::ERROR_CODE_INVALID_FORMAT );
 
 					return false;
 				}
 
 				if(
-					Sites::exists( $id )
+				Sites::exists( $id )
 				) {
 					$field->setCustomError(
-						Tr::_('Site with the identifier already exists'),
+						Tr::_( 'Site with the identifier already exists' ),
 						'site_id_is_not_unique'
 					);
 
@@ -201,44 +201,44 @@ class Sites extends BaseObject implements Application_Part
 
 			} );
 
-			$locales_field = new Form_Field_Hidden('locales', '', implode(',', Project::getDefaultLocales(true)));
+			$locales_field = new Form_Field_Hidden( 'locales', '', implode( ',', Project::getDefaultLocales( true ) ) );
 
-			$base_url_field = new Form_Field_Input('base_url', 'Base URL:');
+			$base_url_field = new Form_Field_Input( 'base_url', 'Base URL:' );
 			$base_url_field->setIsRequired( true );
-			$base_url_field->setErrorMessages([
-				Form_Field_Input::ERROR_CODE_EMPTY => 'Please enter base URL',
+			$base_url_field->setErrorMessages( [
+				Form_Field_Input::ERROR_CODE_EMPTY          => 'Please enter base URL',
 				Form_Field_Input::ERROR_CODE_INVALID_FORMAT => 'Invalid URL format',
-			]);
+			] );
 
 			$base_url_field->setValidator( function( Form_Field_Input $field ) {
 				$base_url = $field->getValue();
 
-				if(!$base_url)	{
+				if( !$base_url ) {
 					$field->setError( Form_Field_Input::ERROR_CODE_EMPTY );
 					return false;
 				}
 
 				if(
-					!preg_match('/^[a-z0-9\-\/.]{2,}$/i', $base_url)
+				!preg_match( '/^[a-z0-9\-\/.]{2,}$/i', $base_url )
 				) {
-					$field->setError(Form_Field_Input::ERROR_CODE_INVALID_FORMAT);
+					$field->setError( Form_Field_Input::ERROR_CODE_INVALID_FORMAT );
 
 					return false;
 				}
 
 				$sites = Sites::getSites();
 
-				foreach($sites as $e_site) {
-					foreach($e_site->getLocales() as $locale) {
-						$e_ld = $e_site->getLocalizedData($locale);
+				foreach( $sites as $e_site ) {
+					foreach( $e_site->getLocales() as $locale ) {
+						$e_ld = $e_site->getLocalizedData( $locale );
 
-						if( in_array($base_url, $e_ld->getURLs()) ) {
+						if( in_array( $base_url, $e_ld->getURLs() ) ) {
 							$field->setCustomError(
 								Tr::_(
 									'URL conflicts with site <b>%site_name%</b> <b>%locale%</b>',
 									[
 										'site_name' => $e_site->getName(),
-										'locale' => $locale->getName()
+										'locale'    => $locale->getName()
 									]
 								),
 								'url_is_not_unique'
@@ -265,9 +265,7 @@ class Sites extends BaseObject implements Application_Part
 			);
 
 
-
-
-			$form->setAction( Sites::getActionUrl('add') );
+			$form->setAction( Sites::getActionUrl( 'add' ) );
 
 			static::$create_form = $form;
 		}
@@ -279,7 +277,7 @@ class Sites extends BaseObject implements Application_Part
 	/**
 	 * @return bool|Sites_Site
 	 */
-	public static function catchCreateForm() : bool|Sites_Site
+	public static function catchCreateForm(): bool|Sites_Site
 	{
 		$form = static::getCreateForm();
 		if(
@@ -292,45 +290,45 @@ class Sites extends BaseObject implements Application_Part
 
 		$locales = [];
 
-		foreach( explode(',', $form->field('locales')->getValue()) as $locale_str ) {
-			if(!$locale_str) {
+		foreach( explode( ',', $form->field( 'locales' )->getValue() ) as $locale_str ) {
+			if( !$locale_str ) {
 				continue;
 			}
 
-			$locale = new Locale($locale_str);
+			$locale = new Locale( $locale_str );
 
 			$locales[$locale_str] = $locale;
 		}
 
-		if(!$locales) {
+		if( !$locales ) {
 			$form->setCommonMessage(
-				UI_messages::createDanger(Tr::_('Please select at least one locale'))
+				UI_messages::createDanger( Tr::_( 'Please select at least one locale' ) )
 			);
 			return false;
 		}
 
 
 		$site = new Sites_Site();
-		$site->setId( $form->field('id')->getValue() );
-		$site->setName( $form->field('name')->getValue() );
+		$site->setId( $form->field( 'id' )->getValue() );
+		$site->setName( $form->field( 'name' )->getValue() );
 		$site->setIsActive( true );
 
-		$base_url = trim($form->field('base_url')->getValue(), '/');
+		$base_url = trim( $form->field( 'base_url' )->getValue(), '/' );
 
 		$default_added = false;
-		foreach( $locales as $i=>$locale ) {
+		foreach( $locales as $i => $locale ) {
 			$ld = $site->addLocale( $locale );
 			$ld->setIsActive( true );
 
-			if($default_added) {
-				$ld->setURLs([
-					$base_url.'/'.$locale->getLanguage()
-				]);
+			if( $default_added ) {
+				$ld->setURLs( [
+					$base_url . '/' . $locale->getLanguage()
+				] );
 			} else {
 				$default_added = true;
-				$ld->setURLs([
+				$ld->setURLs( [
 					$base_url
-				]);
+				] );
 			}
 		}
 
@@ -343,10 +341,10 @@ class Sites extends BaseObject implements Application_Part
 	 *
 	 * @return bool
 	 */
-	public static function exists( string $site_id ) : bool
+	public static function exists( string $site_id ): bool
 	{
 		foreach( static::getSites() as $site ) {
-			if($site->getId()==$site_id ) {
+			if( $site->getId() == $site_id ) {
 				return true;
 			}
 		}

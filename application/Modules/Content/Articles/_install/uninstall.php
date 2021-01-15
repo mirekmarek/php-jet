@@ -1,4 +1,5 @@
 <?php
+
 namespace JetApplicationModule\Content\Articles;
 
 use Jet\DataModel_Helper;

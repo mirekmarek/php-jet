@@ -1,4 +1,5 @@
 <?php
+
 namespace JetStudio;
 
 use Jet\Mvc_Layout;
@@ -13,15 +14,15 @@ use Jet\Mvc_View;
  * @var Pages_Page $page
  */
 
-$page = $this->getRaw('page');
+$page = $this->getRaw( 'page' );
 
 $form = $page->getEditForm_content();
-$form->setDefaultLabelWidth([
+$form->setDefaultLabelWidth( [
 	Form::LJ_SIZE_MEDIUM => 3
-]);
-$form->setDefaultFieldWidth([
+] );
+$form->setDefaultFieldWidth( [
 	Form::LJ_SIZE_MEDIUM => 7
-]);
+] );
 
 /**
  * @var Sites_Site $site
@@ -35,11 +36,11 @@ $i = 0;
 foreach( $page->getContent() as $content ) {
 
 	$position = $content->getOutputPosition();
-	if(!$position) {
+	if( !$position ) {
 		$position = Mvc_Layout::DEFAULT_OUTPUT_POSITION;
 	}
 	if( !isset( $positions[$position] ) ) {
-		if(isset($known_positions[$position])) {
+		if( isset( $known_positions[$position] ) ) {
 			$known = true;
 			$label = $known_positions[$position];
 		} else {
@@ -48,10 +49,10 @@ foreach( $page->getContent() as $content ) {
 		}
 
 		$positions[$position] = [
-					'known'   => $known,
-					'label'   => $label,
-					'content' => []
-				];
+			'known'   => $known,
+			'label'   => $label,
+			'content' => []
+		];
 	}
 
 	$positions[$position]['content'][$i] = $content;
@@ -59,18 +60,18 @@ foreach( $page->getContent() as $content ) {
 	$i++;
 }
 
-foreach( $positions as $position=>$pd ) {
+foreach( $positions as $position => $pd ) {
 	uasort(
 		$positions[$position]['content'],
 		function( Pages_Page_Content $a, Pages_Page_Content $b ) {
 			$a_p = $a->getOutputPositionOrder();
 			$b_p = $b->getOutputPositionOrder();
 
-			if($a_p==$b_p) {
+			if( $a_p == $b_p ) {
 				return 0;
 			}
 
-			if($a_p>$b_p) {
+			if( $a_p > $b_p ) {
 				return 1;
 			}
 
@@ -81,18 +82,17 @@ foreach( $positions as $position=>$pd ) {
 
 $modules = [];
 
-foreach( Modules::getModules() as $module )
-{
-	$modules[ $module->getName() ] = $module->getLabel().' ('.$module->getName().')';
+foreach( Modules::getModules() as $module ) {
+	$modules[$module->getName()] = $module->getLabel() . ' (' . $module->getName() . ')';
 }
 
 
 $site_id = $page->getSiteId();
 $page_id = $page->getId();
 
-$delete_content_action_creator = $this->getRaw('delete_content_action_creator');
+$delete_content_action_creator = $this->getRaw( 'delete_content_action_creator' );
 
-if(!$delete_content_action_creator) {
+if( !$delete_content_action_creator ) {
 	$delete_content_action_creator = function( $i ) {
 		return "Pages.editPage.content.deleteContent($i);";
 	};
@@ -101,36 +101,37 @@ if(!$delete_content_action_creator) {
 
 ?>
 
-<?php foreach( $positions as $position=>$pd ): ?>
+	<?php foreach( $positions as $position => $pd ): ?>
 
 
-<?php if($pd['known']): ?>
-	<h5><?=Tr::_('Position: %position%', ['position'=>$pd['label']])?></h5>
-<?php else: ?>
-	<h5 style="color: #ff0000"><?=Tr::_('! Unknown position: %position%', ['position' => $pd['label']])?></h5>
-<?php endif; ?>
+	<?php if( $pd['known'] ): ?>
+		<h5><?= Tr::_( 'Position: %position%', ['position' => $pd['label']] ) ?></h5>
+	<?php else: ?>
+		<h5 style="color: #ff0000"><?= Tr::_( '! Unknown position: %position%', ['position' => $pd['label']] ) ?></h5>
+	<?php endif; ?>
 
-	<?php foreach( $pd['content'] as $i=>$content ):
+	<?php foreach( $pd['content'] as $i => $content ):
 		/**
 		 * @var Pages_Page_Content $content
 		 */
 
 
-		$f_prefix = '/content/'.$i.'/';
+		$f_prefix = '/content/' . $i . '/';
 
 		?>
 		<div>
 			<div class="card">
-				<div class="card-header" data-toggle="collapse" data-target="#content_<?=$site_id?>_<?=$page_id?>_<?=$i?>">
+				<div class="card-header" data-toggle="collapse"
+				     data-target="#content_<?= $site_id ?>_<?= $page_id ?>_<?= $i ?>">
 					<table width="100%">
 						<tr>
-							<td style="width: 100px"><?=$content->getOutputPositionOrder()?>.</td>
+							<td style="width: 100px"><?= $content->getOutputPositionOrder() ?>.</td>
 
-							<?php switch($content->getContentKind()) {
+							<?php switch( $content->getContentKind() ) {
 								case Pages_Page_Content::CONTENT_KIND_MODULE:
 									$known = isset( $modules[$content->getModuleName()] );
 
-									if($known) {
+									if( $known ) {
 										$label = $modules[$content->getModuleName()];
 									} else {
 										$label = $content->getModuleName();
@@ -139,19 +140,19 @@ if(!$delete_content_action_creator) {
 									?>
 									<td style="width: 200px;">
 										<?php if( $known ): ?>
-											<b><?=Tr::_('Module: ')?></b>
+											<b><?= Tr::_( 'Module: ' ) ?></b>
 										<?php else: ?>
-											<b style="color: #ff0000"><?=Tr::_('Unknown Module: ')?></b>
+											<b style="color: #ff0000"><?= Tr::_( 'Unknown Module: ' ) ?></b>
 										<?php endif; ?>
 									</td>
 									<td>
 										<table border="0">
 											<tr>
-												<td><?=$label?></td>
+												<td><?= $label ?></td>
 												<td>&nbsp;&nbsp;->&nbsp;&nbsp;</td>
-												<td><?=$content->getControllerName()?></td>
+												<td><?= $content->getControllerName() ?></td>
 												<td>&nbsp;&nbsp;->&nbsp;&nbsp;</td>
-												<td><?=$content->getControllerAction()?></td>
+												<td><?= $content->getControllerAction() ?></td>
 											</tr>
 										</table>
 									</td>
@@ -160,13 +161,13 @@ if(!$delete_content_action_creator) {
 									break;
 								case Pages_Page_Content::CONTENT_KIND_CLASS:
 									?>
-									<td style="width: 200px;"><b><?=Tr::_('Controller class: ')?></b></td>
+									<td style="width: 200px;"><b><?= Tr::_( 'Controller class: ' ) ?></b></td>
 									<td>
 										<table border="0">
 											<tr>
-												<td><?=$content->getControllerClass()?></td>
+												<td><?= $content->getControllerClass() ?></td>
 												<td>&nbsp;&nbsp;->&nbsp;&nbsp;</td>
-												<td><?=$content->getControllerAction()?></td>
+												<td><?= $content->getControllerAction() ?></td>
 											</tr>
 										</table>
 									</td>
@@ -174,55 +175,57 @@ if(!$delete_content_action_creator) {
 									break;
 								case Pages_Page_Content::CONTENT_KIND_STATIC:
 									?>
-									<td style="width: 200px;"><b><?=Tr::_('Static:')?></b></td>
+									<td style="width: 200px;"><b><?= Tr::_( 'Static:' ) ?></b></td>
 									<td>
-										<?=substr(strip_tags($content->getOutput()), 0, 100).' ...'?>
+										<?= substr( strip_tags( $content->getOutput() ), 0, 100 ) . ' ...' ?>
 									</td>
 									<?php
 									break;
 								case Pages_Page_Content::CONTENT_KIND_CALLBACK:
 									$callback = $content->getOutput();
 									?>
-									<td style="width: 200px;"><b><?=Tr::_('Callback:')?></b></td>
+									<td style="width: 200px;"><b><?= Tr::_( 'Callback:' ) ?></b></td>
 									<td>
-										<?=$callback[0]?>::<?=$callback[1]?><span style="color: #c9c9c9">( Jet\Mvc_Page $page, Jet\Mvc_Page_Content $content )</span>
+										<?= $callback[0] ?>::<?= $callback[1] ?><span style="color: #c9c9c9">( Jet\Mvc_Page $page, Jet\Mvc_Page_Content $content )</span>
 									</td>
 									<?php
 									break;
 
-							}?>
+							} ?>
 							<td align="right">
-								<?=UI::button_delete(Tr::_('Delete this content'))->setOnclick($delete_content_action_creator($i))->setSize(UI_button::SIZE_EXTRA_SMALL)?>
+								<?= UI::button_delete( Tr::_( 'Delete this content' ) )->setOnclick( $delete_content_action_creator( $i ) )->setSize( UI_button::SIZE_EXTRA_SMALL ) ?>
 							</td>
 						</tr>
 					</table>
 
 
-
 				</div>
 
-				<div class="card-body collapse" id="content_<?=$site_id?>_<?=$page_id?>_<?=$i?>">
+				<div class="card-body collapse" id="content_<?= $site_id ?>_<?= $page_id ?>_<?= $i ?>">
 					<?php
-					echo $form->field($f_prefix.'output_position');
-					echo $form->field($f_prefix.'output_position_order');
-					echo $form->field($f_prefix.'is_cacheable');
+					echo $form->field( $f_prefix . 'output_position' );
+					echo $form->field( $f_prefix . 'output_position_order' );
+					echo $form->field( $f_prefix . 'is_cacheable' );
 					?>
 					<hr/>
 					<div class="form-group row">
-						<label class="col-md-3 control-label"><?=Tr::_('Parameters:')?></label>
+						<label class="col-md-3 control-label"><?= Tr::_( 'Parameters:' ) ?></label>
 						<div class="col-md-7">
 							<?php
 							$i = 0;
-							while( $form->fieldExists($f_prefix.'params/'.$i.'/key') ):
-								$field_key = $form->getField($f_prefix.'params/'.$i.'/key');
-								$field_value = $form->getField($f_prefix.'params/'.$i.'/value');
+							while( $form->fieldExists( $f_prefix . 'params/' . $i . '/key' ) ):
+								$field_key = $form->getField( $f_prefix . 'params/' . $i . '/key' );
+								$field_value = $form->getField( $f_prefix . 'params/' . $i . '/value' );
 								?>
 								<div class="input-group">
-									<span class="input-group-prepend" style="font-weight: bolder"><span class="input-group-text"> </span></span>
-									<?=$field_key->input()?>
-									<span class="input-group-prepend" style="font-weight: bolder"><span class="input-group-text">=</span></span>
-									<?=$field_value->input()?>
-									<span class="input-group-append" style="font-weight: bolder"><span class="input-group-text"> </span></span>
+									<span class="input-group-prepend" style="font-weight: bolder"><span
+												class="input-group-text"> </span></span>
+									<?= $field_key->input() ?>
+									<span class="input-group-prepend" style="font-weight: bolder"><span
+												class="input-group-text">=</span></span>
+									<?= $field_value->input() ?>
+									<span class="input-group-append" style="font-weight: bolder"><span
+												class="input-group-text"> </span></span>
 								</div>
 								<?php
 								$i++;
@@ -232,58 +235,58 @@ if(!$delete_content_action_creator) {
 					<hr/>
 
 
-					<?php switch($content->getContentKind()) {
+					<?php switch( $content->getContentKind() ) {
 						case Pages_Page_Content::CONTENT_KIND_MODULE:
 							$ids = [
-								'module_mame' => $form->field($f_prefix.'module_name')->getId(),
-								'controller_name' => $form->field($f_prefix.'controller_name')->getId(),
-								'controller_action' => $form->field($f_prefix.'controller_action')->getId(),
+								'module_mame'       => $form->field( $f_prefix . 'module_name' )->getId(),
+								'controller_name'   => $form->field( $f_prefix . 'controller_name' )->getId(),
+								'controller_action' => $form->field( $f_prefix . 'controller_action' )->getId(),
 							];
 
-							$ids=str_replace('"', "'", json_encode($ids));
+							$ids = str_replace( '"', "'", json_encode( $ids ) );
 
-							$form->field($f_prefix.'module_name')->input()->addJsAction('onchange', 'Pages.editPage.content.moduleSelected(this.value,'.$ids.')');
-							$form->field($f_prefix.'controller_name')->input()->addJsAction('onchange', 'Pages.editPage.content.controllerSelected(this.value,'.$ids.')');
+							$form->field( $f_prefix . 'module_name' )->input()->addJsAction( 'onchange', 'Pages.editPage.content.moduleSelected(this.value,' . $ids . ')' );
+							$form->field( $f_prefix . 'controller_name' )->input()->addJsAction( 'onchange', 'Pages.editPage.content.controllerSelected(this.value,' . $ids . ')' );
 
 
-							echo $form->field($f_prefix.'module_name');
-							echo $form->field($f_prefix.'controller_name');
-							echo $form->field($f_prefix.'controller_action');
+							echo $form->field( $f_prefix . 'module_name' );
+							echo $form->field( $f_prefix . 'controller_name' );
+							echo $form->field( $f_prefix . 'controller_action' );
 
 							break;
 						case Pages_Page_Content::CONTENT_KIND_CLASS:
-							echo $form->field($f_prefix.'controller_class');
-							echo $form->field($f_prefix.'controller_class_action');
+							echo $form->field( $f_prefix . 'controller_class' );
+							echo $form->field( $f_prefix . 'controller_class_action' );
 
 							break;
 						case Pages_Page_Content::CONTENT_KIND_STATIC:
-							$form->field($f_prefix.'output')->input()->addCustomCssStyle('height: 400px');
+							$form->field( $f_prefix . 'output' )->input()->addCustomCssStyle( 'height: 400px' );
 
-							echo $form->field($f_prefix.'output')->input();
+							echo $form->field( $f_prefix . 'output' )->input();
 
 							break;
 						case Pages_Page_Content::CONTENT_KIND_CALLBACK:
-							$class_field = $form->field($f_prefix.'output_callback_class');
-							$method_field = $form->field($f_prefix.'output_callback_method');
+							$class_field = $form->field( $f_prefix . 'output_callback_class' );
+							$method_field = $form->field( $f_prefix . 'output_callback_method' );
 							?>
 							<div style="width: 1000px;margin: 10px;">
-								<?=$class_field->row()->start()?>
-									<?=$class_field->error()?>
-									<?=$method_field->error()?>
-									<div class="input-group">
+								<?= $class_field->row()->start() ?>
+								<?= $class_field->error() ?>
+								<?= $method_field->error() ?>
+								<div class="input-group">
 									<span class="input-group-prepend">
 									</span>
-										<?=$class_field->input()?>
-										<span class="input-group-prepend"><span class="input-group-text">::</span></span>
-										<?=$method_field->input()?>
-										<span class="input-group-append"><span class="input-group-text">( Jet\Mvc_Page $page, Jet\Mvc_Page_Content $content )</span></span>
-									</div>
-									<?=$class_field->row()->end()?>
+									<?= $class_field->input() ?>
+									<span class="input-group-prepend"><span class="input-group-text">::</span></span>
+									<?= $method_field->input() ?>
+									<span class="input-group-append"><span class="input-group-text">( Jet\Mvc_Page $page, Jet\Mvc_Page_Content $content )</span></span>
+								</div>
+								<?= $class_field->row()->end() ?>
 							</div>
 							<?php
 							break;
 
-					}?>
+					} ?>
 
 				</div>
 			</div>
@@ -294,10 +297,10 @@ if(!$delete_content_action_creator) {
 
 <?php endforeach; ?>
 
-<?php
-$form->setDefaultLabelWidth([
+	<?php
+$form->setDefaultLabelWidth( [
 	Form::LJ_SIZE_MEDIUM => 2
-]);
-$form->setDefaultFieldWidth([
+] );
+$form->setDefaultFieldWidth( [
 	Form::LJ_SIZE_MEDIUM => 6
-]);
+] );

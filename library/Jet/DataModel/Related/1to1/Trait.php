@@ -5,6 +5,7 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace Jet;
 
 /**
@@ -19,9 +20,9 @@ trait DataModel_Related_1to1_Trait
 	 *
 	 * @return DataModel_Definition_Model_Related_1to1
 	 */
-	public static function dataModelDefinitionFactory( string $data_model_class_name ) : DataModel_Definition_Model_Related_1to1
+	public static function dataModelDefinitionFactory( string $data_model_class_name ): DataModel_Definition_Model_Related_1to1
 	{
-		$class_name = DataModel_Factory::getModelDefinitionClassNamePrefix().'Related_1to1';
+		$class_name = DataModel_Factory::getModelDefinitionClassNamePrefix() . 'Related_1to1';
 
 		return new $class_name( $data_model_class_name );
 	}
@@ -29,7 +30,7 @@ trait DataModel_Related_1to1_Trait
 	/**
 	 * @return DataModel_Related_Interface|null
 	 */
-	public function createNewRelatedDataModelInstance() : DataModel_Related_Interface|null
+	public function createNewRelatedDataModelInstance(): DataModel_Related_Interface|null
 	{
 		return null;
 	}
@@ -37,13 +38,13 @@ trait DataModel_Related_1to1_Trait
 
 	/**
 	 *
-	 * @param array                  $where
+	 * @param array $where
 	 * @param ?DataModel_PropertyFilter $load_filter
 	 *
 	 * @return array
 	 */
 	public static function fetchRelatedData( array $where,
-	                                         ?DataModel_PropertyFilter $load_filter = null ) : array
+	                                         ?DataModel_PropertyFilter $load_filter = null ): array
 	{
 		/**
 		 * @var DataModel_Definition_Model_Related_1toN $definition
@@ -70,7 +71,7 @@ trait DataModel_Related_1to1_Trait
 
 	/**
 	 *
-	 * @param array  $this_data
+	 * @param array $this_data
 	 * @param array  &$related_data
 	 * @param DataModel_PropertyFilter|null $load_filter
 	 *
@@ -78,7 +79,7 @@ trait DataModel_Related_1to1_Trait
 	 */
 	public static function initRelatedByData( array $this_data,
 	                                          array &$related_data,
-	                                          DataModel_PropertyFilter $load_filter = null ) : static
+	                                          DataModel_PropertyFilter $load_filter = null ): static
 	{
 		return static::initByData( $this_data, $related_data, $load_filter );
 	}
@@ -87,12 +88,12 @@ trait DataModel_Related_1to1_Trait
 	/**
 	 *
 	 * @param DataModel_Definition_Property $parent_property_definition
-	 * @param DataModel_PropertyFilter|null      $property_filter
+	 * @param DataModel_PropertyFilter|null $property_filter
 	 *
 	 * @return Form_Field[]
 	 */
 	public function getRelatedFormFields( DataModel_Definition_Property $parent_property_definition,
-	                                      DataModel_PropertyFilter $property_filter = null ) : array
+	                                      DataModel_PropertyFilter $property_filter = null ): array
 	{
 
 		$fields = [];
@@ -101,7 +102,7 @@ trait DataModel_Related_1to1_Trait
 
 		foreach( $related_form->getFields() as $field ) {
 
-			$field->setName( '/'.$parent_property_definition->getName().'/'.$field->getName() );
+			$field->setName( '/' . $parent_property_definition->getName() . '/' . $field->getName() );
 
 			$fields[] = $field;
 		}

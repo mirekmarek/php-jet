@@ -19,15 +19,15 @@ class Test_Article_PutInvalid extends Test_Abstract
 	/**
 	 * @return bool
 	 */
-	public function isEnabled() : bool
+	public function isEnabled(): bool
 	{
-		return count($this->data['articles'])>0;
+		return count( $this->data['articles'] ) > 0;
 	}
 
 	/**
 	 * @return string
 	 */
-	protected function _getTitle() : string
+	protected function _getTitle(): string
 	{
 		return 'Update (PUT) - invalid (error simulation)';
 	}
@@ -35,7 +35,7 @@ class Test_Article_PutInvalid extends Test_Abstract
 	/**
 	 *
 	 */
-	public function test() : void
+	public function test(): void
 	{
 		$id = $this->data['articles'][0]['id'];
 
@@ -46,15 +46,15 @@ class Test_Article_PutInvalid extends Test_Abstract
 				]
 		];
 
-		foreach(Application_Web::getSite()->getLocales() as $locale_str=>$locale ) {
+		foreach( Application_Web::getSite()->getLocales() as $locale_str => $locale ) {
 			$data['localized'][$locale_str] = [
-				'title' => '',
+				'title'      => '',
 				'annotation' => '',
-				'text' => '',
+				'text'       => '',
 			];
 		}
 
-		$this->client->put('article/'.$id, $data);
+		$this->client->put( 'article/' . $id, $data );
 
 	}
 }

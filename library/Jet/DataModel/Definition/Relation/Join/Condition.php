@@ -5,10 +5,11 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace Jet;
 
 /**
- * 
+ *
  */
 class DataModel_Definition_Relation_Join_Condition extends BaseObject
 {
@@ -40,15 +41,16 @@ class DataModel_Definition_Relation_Join_Condition extends BaseObject
 	 * @param DataModel_Definition_Relation $relation
 	 * @param string $related_to_property_name
 	 * @param string $operator
-	 * @param mixed  $value
+	 * @param mixed $value
 	 *
 	 */
 	public function __construct(
-				DataModel_Definition_Relation $relation,
-				string $related_to_property_name,
-				string $operator,
-				mixed $value
-	) {
+		DataModel_Definition_Relation $relation,
+		string $related_to_property_name,
+		string $operator,
+		mixed $value
+	)
+	{
 
 
 		$this->relation = $relation;
@@ -64,7 +66,7 @@ class DataModel_Definition_Relation_Join_Condition extends BaseObject
 	/**
 	 * @return DataModel_Definition_Property
 	 */
-	public function getRelatedProperty() : DataModel_Definition_Property
+	public function getRelatedProperty(): DataModel_Definition_Property
 	{
 		return $this->relation->getRelatedDataModelDefinition()->getProperty( $this->related_property_name );
 	}
@@ -72,7 +74,7 @@ class DataModel_Definition_Relation_Join_Condition extends BaseObject
 	/**
 	 * @return string
 	 */
-	public function getOperator() : string
+	public function getOperator(): string
 	{
 		return $this->operator;
 	}
@@ -80,7 +82,7 @@ class DataModel_Definition_Relation_Join_Condition extends BaseObject
 	/**
 	 * @return string
 	 */
-	public function getValue() : string
+	public function getValue(): string
 	{
 		return $this->value;
 	}
@@ -89,7 +91,7 @@ class DataModel_Definition_Relation_Join_Condition extends BaseObject
 	/**
 	 * @return string
 	 */
-	public function __toString() : string
+	public function __toString(): string
 	{
 		return $this->toString();
 	}
@@ -97,9 +99,9 @@ class DataModel_Definition_Relation_Join_Condition extends BaseObject
 	/**
 	 * @return string
 	 */
-	public function toString() : string
+	public function toString(): string
 	{
-		return $this->relation->getRelatedDataModelClassName().'.'.$this->related_property_name.' '.$this->operator.' '.$this->value;
+		return $this->relation->getRelatedDataModelClassName() . '.' . $this->related_property_name . ' ' . $this->operator . ' ' . $this->value;
 	}
 
 }

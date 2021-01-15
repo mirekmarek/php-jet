@@ -5,6 +5,7 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace Jet;
 
 use PDO;
@@ -18,14 +19,20 @@ class Db_Backend_PDO_Config extends Db_Backend_Config
 	 *
 	 * @var string
 	 */
-	#[Config_Definition(type : Config::TYPE_STRING)]
-	#[Config_Definition(description : 'PDO driver')]
-	#[Config_Definition(default_value : 'mysql')]
-	#[Config_Definition(is_required : true)]
-	#[Config_Definition(form_field_type : Form::TYPE_SELECT)]
-	#[Config_Definition(form_field_get_select_options_callback : [self::class, 'getDrivers'])]
-	#[Config_Definition(form_field_label : 'Driver')]
-	#[Config_Definition(form_field_error_messages : [Form_Field::ERROR_CODE_EMPTY=>'Please select driver', Form_Field_MultiSelect::ERROR_CODE_INVALID_VALUE=>'Please select driver'])]
+	#[Config_Definition(type: Config::TYPE_STRING)]
+	#[Config_Definition(description: 'PDO driver')]
+	#[Config_Definition(default_value: 'mysql')]
+	#[Config_Definition(is_required: true)]
+	#[Config_Definition(form_field_type: Form::TYPE_SELECT)]
+	#[Config_Definition(form_field_get_select_options_callback: [
+		self::class,
+		'getDrivers'
+	])]
+	#[Config_Definition(form_field_label: 'Driver')]
+	#[Config_Definition(form_field_error_messages: [
+		Form_Field::ERROR_CODE_EMPTY => 'Please select driver',
+		Form_Field_MultiSelect::ERROR_CODE_INVALID_VALUE => 'Please select driver'
+	])]
 	protected string $driver = '';
 
 
@@ -33,35 +40,35 @@ class Db_Backend_PDO_Config extends Db_Backend_Config
 	 *
 	 * @var string
 	 */
-	#[Config_Definition(type : Config::TYPE_STRING)]
-	#[Config_Definition(is_required : true)]
-	#[Config_Definition(form_field_label : 'DSN')]
-	#[Config_Definition(form_field_error_messages : [Form_Field::ERROR_CODE_EMPTY=>'Please enter connection DSN'])]
+	#[Config_Definition(type: Config::TYPE_STRING)]
+	#[Config_Definition(is_required: true)]
+	#[Config_Definition(form_field_label: 'DSN')]
+	#[Config_Definition(form_field_error_messages: [Form_Field::ERROR_CODE_EMPTY => 'Please enter connection DSN'])]
 	protected string $DSN = '';
 
 	/**
 	 *
 	 * @var string
 	 */
-	#[Config_Definition(form_field_label : 'Username')]
-	#[Config_Definition(type : Config::TYPE_STRING)]
-	#[Config_Definition(is_required : false)]
+	#[Config_Definition(form_field_label: 'Username')]
+	#[Config_Definition(type: Config::TYPE_STRING)]
+	#[Config_Definition(is_required: false)]
 	protected string $username = '';
 
 	/**
 	 *
 	 * @var string
 	 */
-	#[Config_Definition(form_field_type : Form::TYPE_PASSWORD)]
-	#[Config_Definition(form_field_label : 'Password')]
-	#[Config_Definition(type : Config::TYPE_STRING)]
-	#[Config_Definition(is_required : false)]
-	protected string $password  ='';
+	#[Config_Definition(form_field_type: Form::TYPE_PASSWORD)]
+	#[Config_Definition(form_field_label: 'Password')]
+	#[Config_Definition(type: Config::TYPE_STRING)]
+	#[Config_Definition(is_required: false)]
+	protected string $password = '';
 
 	/**
 	 * @return array
 	 */
-	public static function getDrivers() : array
+	public static function getDrivers(): array
 	{
 		$drivers = PDO::getAvailableDrivers();
 
@@ -72,7 +79,7 @@ class Db_Backend_PDO_Config extends Db_Backend_Config
 	 *
 	 * @return string
 	 */
-	public function getUsername() : string
+	public function getUsername(): string
 	{
 		return $this->username;
 	}
@@ -80,7 +87,7 @@ class Db_Backend_PDO_Config extends Db_Backend_Config
 	/**
 	 * @param string $username
 	 */
-	public function setUsername( string $username ) : void
+	public function setUsername( string $username ): void
 	{
 		$this->username = $username;
 	}
@@ -89,7 +96,7 @@ class Db_Backend_PDO_Config extends Db_Backend_Config
 	 *
 	 * @return string
 	 */
-	public function getPassword() : string
+	public function getPassword(): string
 	{
 		return $this->password;
 	}
@@ -97,7 +104,7 @@ class Db_Backend_PDO_Config extends Db_Backend_Config
 	/**
 	 * @param string $password
 	 */
-	public function setPassword( string $password ) : void
+	public function setPassword( string $password ): void
 	{
 		$this->password = $password;
 	}
@@ -105,15 +112,15 @@ class Db_Backend_PDO_Config extends Db_Backend_Config
 	/**
 	 * @return string
 	 */
-	public function getDsn() : string
+	public function getDsn(): string
 	{
-		return $this->driver.':'.$this->DSN;
+		return $this->driver . ':' . $this->DSN;
 	}
 
 	/**
 	 * @param string $DSN
 	 */
-	public function setDSN( string $DSN ) : void
+	public function setDSN( string $DSN ): void
 	{
 		$this->DSN = $DSN;
 	}

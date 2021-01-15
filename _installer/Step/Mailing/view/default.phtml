@@ -10,35 +10,35 @@ use Jet\UI;
 
 /**
  * @var Mvc_View $this
- * @var Form     $form
+ * @var Form $form
  */
 
 
 $form = $this->getRaw( 'form' );
-$form->setDefaultLabelWidth( [ Form::LJ_SIZE_MEDIUM => 1 ] );
+$form->setDefaultLabelWidth( [Form::LJ_SIZE_MEDIUM => 1] );
 $config = Mailing::getConfig();
 ?>
-<h3><?=Tr::_( 'Set the mail sender' )?></h3>
-<?=$form->start()?>
+<h3><?= Tr::_( 'Set the mail sender' ) ?></h3>
+<?= $form->start() ?>
 
 <?php foreach( Mvc_Site::getAllSites() as $site ): ?>
 
-<fieldset>
-<legend><?=$site->getName()?></legend>
+	<fieldset>
+		<legend><?= $site->getName() ?></legend>
 
-	<?php foreach( $site->getLocales() as $locale ):
-		$key = $config->getSenderKey( $locale, $site->getId(), '' );
-		?>
-	<fieldset style="padding-left: 60px;">
-		<legend><?=UI::flag($locale)?> <?=$locale->getName();?></legend>
+		<?php foreach( $site->getLocales() as $locale ):
+			$key = $config->getSenderKey( $locale, $site->getId(), '' );
+			?>
+			<fieldset style="padding-left: 60px;">
+				<legend><?= UI::flag( $locale ) ?> <?= $locale->getName(); ?></legend>
 
-		<?=$form->field( '/senders/'.$key.'/email' )?>
-		<?=$form->field( '/senders/'.$key.'/name' )?>
+				<?= $form->field( '/senders/' . $key . '/email' ) ?>
+				<?= $form->field( '/senders/' . $key . '/name' ) ?>
+			</fieldset>
+		<?php endforeach; ?>
 	</fieldset>
-	<?php endforeach; ?>
-</fieldset>
 <?php endforeach; ?>
 
-<?=Installer::buttonNext()?>
+<?= Installer::buttonNext() ?>
 
-<?=$form->end()?>
+<?= $form->end() ?>

@@ -5,6 +5,7 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace Jet;
 
 /**
@@ -107,28 +108,29 @@ class Form_Field_RegistrationPassword extends Form_Field
 	 * @param string $name
 	 * @param string $label
 	 * @param string $default_value
-	 * @param bool   $is_required
+	 * @param bool $is_required
 	 */
-	public function __construct( string $name, string $label = '', string $default_value = '', bool $is_required = false ){
-		parent::__construct($name, $label, $default_value, $is_required);
+	public function __construct( string $name, string $label = '', string $default_value = '', bool $is_required = false )
+	{
+		parent::__construct( $name, $label, $default_value, $is_required );
 
-		$this->confirmation_input = new Form_Field_Password( $name.'_confirmation' );
+		$this->confirmation_input = new Form_Field_Password( $name . '_confirmation' );
 	}
 
 	/**
 	 * @param Form $form
 	 */
-	public function setForm( Form $form ) : void
+	public function setForm( Form $form ): void
 	{
 		parent::setForm( $form );
-		$this->confirmation_input->setForm($form);
+		$this->confirmation_input->setForm( $form );
 	}
 
 	/**
 	 *
 	 * @param Data_Array $data
 	 */
-	public function catchInput( Data_Array $data ) : void
+	public function catchInput( Data_Array $data ): void
 	{
 
 		parent::catchInput( $data );
@@ -140,7 +142,7 @@ class Form_Field_RegistrationPassword extends Form_Field
 	/**
 	 * @return bool
 	 */
-	public function checkValueIsNotEmpty() : bool
+	public function checkValueIsNotEmpty(): bool
 	{
 		if( !$this->_value ) {
 			$this->setError( self::ERROR_CODE_EMPTY );
@@ -160,10 +162,10 @@ class Form_Field_RegistrationPassword extends Form_Field
 	/**
 	 * @return bool
 	 */
-	public function validate() : bool
+	public function validate(): bool
 	{
 
-		if( $this->_value!=$this->confirmation_input->_value ) {
+		if( $this->_value != $this->confirmation_input->_value ) {
 			$this->setError( self::ERROR_CODE_CHECK_NOT_MATCH );
 
 			return false;
@@ -188,7 +190,7 @@ class Form_Field_RegistrationPassword extends Form_Field
 	/**
 	 * @return callable|null
 	 */
-	public function getPasswordStrengthCheckCallback() : callable|null
+	public function getPasswordStrengthCheckCallback(): callable|null
 	{
 		return $this->password_strength_check_callback;
 	}
@@ -196,7 +198,7 @@ class Form_Field_RegistrationPassword extends Form_Field
 	/**
 	 * @param callable $password_strength_check_callback
 	 */
-	public function setPasswordStrengthCheckCallback( callable $password_strength_check_callback ) : void
+	public function setPasswordStrengthCheckCallback( callable $password_strength_check_callback ): void
 	{
 		$this->password_strength_check_callback = $password_strength_check_callback;
 	}
@@ -224,7 +226,7 @@ class Form_Field_RegistrationPassword extends Form_Field
 	/**
 	 * @return string
 	 */
-	public function render() : string
+	public function render(): string
 	{
 		if( $this->getIsReadonly() ) {
 			return '';
@@ -236,7 +238,7 @@ class Form_Field_RegistrationPassword extends Form_Field
 	/**
 	 * @return Form_Renderer_Single
 	 */
-	public function label_confirmation() : Form_Renderer_Single
+	public function label_confirmation(): Form_Renderer_Single
 	{
 		if( !$this->_tag_label_confirmation ) {
 			$this->_tag_label_confirmation = $this->confirmation_input->label();
@@ -248,7 +250,7 @@ class Form_Field_RegistrationPassword extends Form_Field
 	/**
 	 * @return string
 	 */
-	public function getPasswordConfirmationLabel() : string
+	public function getPasswordConfirmationLabel(): string
 	{
 		return $this->confirmation_input->getLabel();
 	}
@@ -256,15 +258,15 @@ class Form_Field_RegistrationPassword extends Form_Field
 	/**
 	 * @param string $password_confirmation_label
 	 */
-	public function setPasswordConfirmationLabel( string $password_confirmation_label ) : void
+	public function setPasswordConfirmationLabel( string $password_confirmation_label ): void
 	{
-		$this->confirmation_input->setLabel($password_confirmation_label);
+		$this->confirmation_input->setLabel( $password_confirmation_label );
 	}
 
 	/**
 	 * @return Form_Renderer_Single
 	 */
-	public function input_confirmation() : Form_Renderer_Single
+	public function input_confirmation(): Form_Renderer_Single
 	{
 		if( !$this->_tag_field_confirmation ) {
 

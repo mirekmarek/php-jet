@@ -5,6 +5,7 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace JetStudio;
 
 use Jet\Data_Array;
@@ -37,12 +38,12 @@ class Menus_MenuSet extends Navigation_MenuSet
 	/**
 	 * @param string $name
 	 */
-	public function __construct( string $name='' )
+	public function __construct( string $name = '' )
 	{
 		$this->translator_namespace = false;
 
-		if($name) {
-			$this->setName($name);
+		if( $name ) {
+			$this->setName( $name );
 			$this->init();
 		}
 	}
@@ -50,24 +51,24 @@ class Menus_MenuSet extends Navigation_MenuSet
 	/**
 	 *
 	 */
-	protected function init() : void
+	protected function init(): void
 	{
 		$menu_data = require $this->config_file_path;
 
-		foreach( $menu_data as $id=>$item_data ) {
-			if(empty($item_data['icon'])) {
+		foreach( $menu_data as $id => $item_data ) {
+			if( empty( $item_data['icon'] ) ) {
 				$item_data['icon'] = '';
 			}
 
 			$root_menu = $this->addMenu(
 				$id,
-				$this->_($item_data['label']),
+				$this->_( $item_data['label'] ),
 				$item_data['icon']
 			);
 
-			if( isset($item_data['items']) ) {
-				foreach( $item_data['items'] as $menu_item_id=>$menu_item_data ) {
-					$label = $this->_($menu_item_data['label']);
+			if( isset( $item_data['items'] ) ) {
+				foreach( $item_data['items'] as $menu_item_id => $menu_item_data ) {
+					$label = $this->_( $menu_item_data['label'] );
 					$menu_item = new Menus_Menu_Item( $menu_item_id, $label );
 					$menu_item->setData( $menu_item_data );
 
@@ -80,24 +81,24 @@ class Menus_MenuSet extends Navigation_MenuSet
 	}
 
 	/**
-	 * @param string   $id
+	 * @param string $id
 	 *
-	 * @param string   $label
-	 * @param string   $icon
+	 * @param string $label
+	 * @param string $icon
 	 * @param int|null $index
 	 *
+	 * @return Navigation_Menu
 	 * @throws Navigation_Menu_Exception
 	 *
-	 * @return Navigation_Menu
 	 */
-	public function addMenu( string $id, string $label, string $icon = '', int|null $index = null  ) : Navigation_Menu
+	public function addMenu( string $id, string $label, string $icon = '', int|null $index = null ): Navigation_Menu
 	{
 		if( isset( $this->menus[$id] ) ) {
-			throw new Navigation_Menu_Exception( 'Menu ID conflict: '.$id.' Menu set:'.$this->name );
+			throw new Navigation_Menu_Exception( 'Menu ID conflict: ' . $id . ' Menu set:' . $this->name );
 		}
 
-		if( $index===null ) {
-			$index = count( $this->menus )+1;
+		if( $index === null ) {
+			$index = count( $this->menus ) + 1;
 		}
 
 		$menu = new Menus_Menu( $id, $label, $index, $icon );
@@ -108,29 +109,27 @@ class Menus_MenuSet extends Navigation_MenuSet
 	}
 
 
-
-
 	/**
 	 * @return Form
 	 */
-	public static function getCreateForm() : Form
+	public static function getCreateForm(): Form
 	{
-		if(!static::$create_form) {
+		if( !static::$create_form ) {
 
-			$menu_set_name = new Form_Field_Input('menu_set_name', 'Menu set name:', '' );
-			$menu_set_name->setIsRequired(true);
-			$menu_set_name->setErrorMessages([
+			$menu_set_name = new Form_Field_Input( 'menu_set_name', 'Menu set name:', '' );
+			$menu_set_name->setIsRequired( true );
+			$menu_set_name->setErrorMessages( [
 				Form_Field_Input::ERROR_CODE_EMPTY => 'Please enter menu set name',
-			]);
+			] );
 
 			$fields = [
 				$menu_set_name
 			];
 
-			$form = new Form('create_menu_set_form', $fields );
+			$form = new Form( 'create_menu_set_form', $fields );
 
 
-			$form->setAction( Menus::getActionUrl('set/add') );
+			$form->setAction( Menus::getActionUrl( 'set/add' ) );
 
 			static::$create_form = $form;
 		}
@@ -142,7 +141,7 @@ class Menus_MenuSet extends Navigation_MenuSet
 	/**
 	 * @return bool|Menus_MenuSet
 	 */
-	public static function catchCreateForm() : bool|Menus_MenuSet
+	public static function catchCreateForm(): bool|Menus_MenuSet
 	{
 		$form = static::getCreateForm();
 		if(
@@ -153,8 +152,8 @@ class Menus_MenuSet extends Navigation_MenuSet
 		}
 
 
-		$set =  new Menus_MenuSet();
-		$set->setName( $form->field('menu_set_name')->getValue() );
+		$set = new Menus_MenuSet();
+		$set->setName( $form->field( 'menu_set_name' )->getValue() );
 
 
 		return $set;
@@ -165,16 +164,17 @@ class Menus_MenuSet extends Navigation_MenuSet
 	 * @return Form
 	 *
 	 */
-	public function getEditForm() : Form
+	public function getEditForm(): Form
 	{
-		if(!$this->__edit_form) {
+		if( !$this->__edit_form ) {
 
-			$menu_set_name = new Form_Field_Input('menu_set_name', 'Menu set name:', $this->getName() );
-			$menu_set_name->setIsReadonly(true);
-			$menu_set_name->setCatcher( function( $name ) {} );
+			$menu_set_name = new Form_Field_Input( 'menu_set_name', 'Menu set name:', $this->getName() );
+			$menu_set_name->setIsReadonly( true );
+			$menu_set_name->setCatcher( function( $name ) {
+			} );
 
-			$form = new Form('menu_set_edit_form', [$menu_set_name]);
-			$form->setAction( Menus::getActionUrl('set/edit') );
+			$form = new Form( 'menu_set_edit_form', [$menu_set_name] );
+			$form->setAction( Menus::getActionUrl( 'set/edit' ) );
 			$this->__edit_form = $form;
 		}
 
@@ -184,7 +184,7 @@ class Menus_MenuSet extends Navigation_MenuSet
 	/**
 	 * @return bool
 	 */
-	public function catchEditForm() : bool
+	public function catchEditForm(): bool
 	{
 		$form = $this->getEditForm();
 
@@ -197,7 +197,7 @@ class Menus_MenuSet extends Navigation_MenuSet
 
 		$form->catchData();
 
-		$items_sort = Http_Request::POST()->getRaw('items_sort', []);
+		$items_sort = Http_Request::POST()->getRaw( 'items_sort', [] );
 		$i = 0;
 		foreach( $items_sort as $item_id ) {
 			$i++;
@@ -216,30 +216,29 @@ class Menus_MenuSet extends Navigation_MenuSet
 	 *
 	 * @return Menus_MenuSet
 	 */
-	public static function get(string $name, string|null|bool $translator_namespace=null) : Menus_MenuSet
+	public static function get( string $name, string|null|bool $translator_namespace = null ): Menus_MenuSet
 	{
 		$translator_namespace = false;
 
 		/** @noinspection PhpIncompatibleReturnTypeInspection */
-		return parent::get($name, $translator_namespace);
+		return parent::get( $name, $translator_namespace );
 	}
 
 	/**
 	 * @return Menus_MenuSet[]
 	 */
-	public static function getList() : array
+	public static function getList(): array
 	{
 		return parent::getList();
 	}
 
-		/**
+	/**
 	 * @return Navigation_Menu[]
 	 */
-	public function getMenus() : array
+	public function getMenus(): array
 	{
 		return parent::getMenus();
 	}
-
 
 
 	/**
@@ -247,22 +246,22 @@ class Menus_MenuSet extends Navigation_MenuSet
 	 *
 	 * @return Navigation_Menu|null
 	 */
-	public function getMenu( string $id ) : Navigation_Menu|null
+	public function getMenu( string $id ): Navigation_Menu|null
 	{
-		return parent::getMenu($id);
+		return parent::getMenu( $id );
 	}
 
 	/**
 	 *
 	 */
-	public function sortMenus() : void
+	public function sortMenus(): void
 	{
 		uasort( $this->menus, function( Menus_Menu $a, Menus_Menu $b ) {
-			if($a->getIndex()==$b->getIndex()) {
+			if( $a->getIndex() == $b->getIndex() ) {
 				return 0;
 			}
 
-			if($a->getIndex()>$b->getIndex()) {
+			if( $a->getIndex() > $b->getIndex() ) {
 				return 1;
 			}
 
@@ -282,7 +281,7 @@ class Menus_MenuSet extends Navigation_MenuSet
 	/**
 	 * @param Menus_Menu $menu
 	 */
-	public function appendMenu( Menus_Menu $menu ) : void
+	public function appendMenu( Menus_Menu $menu ): void
 	{
 		$this->menus[$menu->getId()] = $menu;
 
@@ -294,13 +293,13 @@ class Menus_MenuSet extends Navigation_MenuSet
 	 *
 	 * @return Menus_Menu|null
 	 */
-	public function deleteMenu( string $menu_id ) : Menus_Menu|null
+	public function deleteMenu( string $menu_id ): Menus_Menu|null
 	{
-		if(!isset($this->menus[$menu_id])) {
+		if( !isset( $this->menus[$menu_id] ) ) {
 			return null;
 		}
 		$old_menu = $this->menus[$menu_id];
-		unset($this->menus[$menu_id]);
+		unset( $this->menus[$menu_id] );
 		$this->sortMenus();
 
 		/** @noinspection PhpIncompatibleReturnTypeInspection */
@@ -310,7 +309,7 @@ class Menus_MenuSet extends Navigation_MenuSet
 	/**
 	 * @return bool
 	 */
-	public function save() : bool
+	public function save(): bool
 	{
 
 		$ok = true;
@@ -327,9 +326,9 @@ class Menus_MenuSet extends Navigation_MenuSet
 
 			}
 
-			$res = new Data_Array($res);
+			$res = new Data_Array( $res );
 
-			IO_File::write( $this->config_file_path, '<?php return '.$res->export() );
+			IO_File::write( $this->config_file_path, '<?php return ' . $res->export() );
 			Mvc_Cache::reset();
 
 		} catch( Exception $e ) {

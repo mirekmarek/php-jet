@@ -5,6 +5,7 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace Jet;
 
 /**
@@ -34,7 +35,7 @@ class Mvc_Layout_OutputPart extends BaseObject
 	/**
 	 * @param string $output
 	 * @param string $position
-	 * @param int    $position_order
+	 * @param int $position_order
 	 */
 	public function __construct( string $output, string $position, int $position_order )
 	{
@@ -46,7 +47,7 @@ class Mvc_Layout_OutputPart extends BaseObject
 	/**
 	 * @return string
 	 */
-	public function getOutput() : string
+	public function getOutput(): string
 	{
 		return $this->output;
 	}
@@ -54,7 +55,7 @@ class Mvc_Layout_OutputPart extends BaseObject
 	/**
 	 * @param string $output
 	 */
-	public function setOutput( string $output ) : void
+	public function setOutput( string $output ): void
 	{
 		$this->output = $output;
 	}
@@ -62,7 +63,7 @@ class Mvc_Layout_OutputPart extends BaseObject
 	/**
 	 * @return string
 	 */
-	public function getPosition() : string
+	public function getPosition(): string
 	{
 		return $this->position;
 	}
@@ -70,7 +71,7 @@ class Mvc_Layout_OutputPart extends BaseObject
 	/**
 	 * @param string $position
 	 */
-	public function setPosition( string $position ) : void
+	public function setPosition( string $position ): void
 	{
 		$this->position = $position;
 	}
@@ -78,7 +79,7 @@ class Mvc_Layout_OutputPart extends BaseObject
 	/**
 	 * @return int
 	 */
-	public function getPositionOrder() : int
+	public function getPositionOrder(): int
 	{
 		return $this->position_order;
 	}
@@ -86,7 +87,7 @@ class Mvc_Layout_OutputPart extends BaseObject
 	/**
 	 * @param int $position_order
 	 */
-	public function setPositionOrder( int $position_order ) : void
+	public function setPositionOrder( int $position_order ): void
 	{
 		$this->position_order = $position_order;
 	}

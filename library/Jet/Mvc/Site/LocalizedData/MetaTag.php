@@ -5,6 +5,7 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace Jet;
 
 require_once 'MetaTag/Interface.php';
@@ -41,11 +42,11 @@ class Mvc_Site_LocalizedData_MetaTag extends BaseObject implements Mvc_Site_Loca
 
 	/**
 	 * @param Mvc_Site_LocalizedData_Interface $localized_data
-	 * @param array                            $data
+	 * @param array $data
 	 *
 	 * @return static
 	 */
-	public static function createByData( Mvc_Site_LocalizedData_Interface $localized_data, array $data ) : static
+	public static function createByData( Mvc_Site_LocalizedData_Interface $localized_data, array $data ): static
 	{
 		/**
 		 * @var Mvc_Site_LocalizedData_MetaTag $meta_tag
@@ -61,7 +62,7 @@ class Mvc_Site_LocalizedData_MetaTag extends BaseObject implements Mvc_Site_Loca
 	/**
 	 * @param array $data
 	 */
-	protected function setData( array $data ) : void
+	protected function setData( array $data ): void
 	{
 		foreach( $data as $key => $val ) {
 			$this->{$key} = $val;
@@ -71,7 +72,7 @@ class Mvc_Site_LocalizedData_MetaTag extends BaseObject implements Mvc_Site_Loca
 	/**
 	 * @return Mvc_Site_LocalizedData_Interface
 	 */
-	public function getLocalizedData() : Mvc_Site_LocalizedData_Interface
+	public function getLocalizedData(): Mvc_Site_LocalizedData_Interface
 	{
 		return $this->__localized_data;
 	}
@@ -79,7 +80,7 @@ class Mvc_Site_LocalizedData_MetaTag extends BaseObject implements Mvc_Site_Loca
 	/**
 	 * @param Mvc_Site_LocalizedData_Interface $localized_data
 	 */
-	public function setLocalizedData( Mvc_Site_LocalizedData_Interface $localized_data ) : void
+	public function setLocalizedData( Mvc_Site_LocalizedData_Interface $localized_data ): void
 	{
 		$this->__localized_data = $localized_data;
 	}
@@ -88,7 +89,7 @@ class Mvc_Site_LocalizedData_MetaTag extends BaseObject implements Mvc_Site_Loca
 	/**
 	 * @return string
 	 */
-	public function __toString() : string
+	public function __toString(): string
 	{
 		return $this->toString();
 	}
@@ -96,14 +97,14 @@ class Mvc_Site_LocalizedData_MetaTag extends BaseObject implements Mvc_Site_Loca
 	/**
 	 * @return string
 	 */
-	public function toString() : string
+	public function toString(): string
 	{
 		if( $this->attribute ) {
-			return '<meta '.$this->attribute.'="'.Data_Text::htmlSpecialChars(
-				$this->attribute_value
-			).'" content="'.Data_Text::htmlSpecialChars( $this->content ).'" />';
+			return '<meta ' . $this->attribute . '="' . Data_Text::htmlSpecialChars(
+					$this->attribute_value
+				) . '" content="' . Data_Text::htmlSpecialChars( $this->content ) . '" />';
 		} else {
-			return '<meta content="'.Data_Text::htmlSpecialChars( $this->content ).'" />';
+			return '<meta content="' . Data_Text::htmlSpecialChars( $this->content ) . '" />';
 		}
 	}
 
@@ -111,7 +112,7 @@ class Mvc_Site_LocalizedData_MetaTag extends BaseObject implements Mvc_Site_Loca
 	/**
 	 * @return string
 	 */
-	public function getAttribute() : string
+	public function getAttribute(): string
 	{
 		return $this->attribute;
 	}
@@ -119,7 +120,7 @@ class Mvc_Site_LocalizedData_MetaTag extends BaseObject implements Mvc_Site_Loca
 	/**
 	 * @param string $attribute
 	 */
-	public function setAttribute( string $attribute ) : void
+	public function setAttribute( string $attribute ): void
 	{
 		$this->attribute = $attribute;
 	}
@@ -127,7 +128,7 @@ class Mvc_Site_LocalizedData_MetaTag extends BaseObject implements Mvc_Site_Loca
 	/**
 	 * @return string
 	 */
-	public function getAttributeValue() : string
+	public function getAttributeValue(): string
 	{
 		return $this->attribute_value;
 	}
@@ -135,7 +136,7 @@ class Mvc_Site_LocalizedData_MetaTag extends BaseObject implements Mvc_Site_Loca
 	/**
 	 * @param string $attribute_value
 	 */
-	public function setAttributeValue( string $attribute_value ) : void
+	public function setAttributeValue( string $attribute_value ): void
 	{
 		$this->attribute_value = $attribute_value;
 	}
@@ -143,7 +144,7 @@ class Mvc_Site_LocalizedData_MetaTag extends BaseObject implements Mvc_Site_Loca
 	/**
 	 * @return string
 	 */
-	public function getContent() : string
+	public function getContent(): string
 	{
 		return $this->content;
 	}
@@ -151,7 +152,7 @@ class Mvc_Site_LocalizedData_MetaTag extends BaseObject implements Mvc_Site_Loca
 	/**
 	 * @param string $content
 	 */
-	public function setContent( string $content ) : void
+	public function setContent( string $content ): void
 	{
 		$this->content = $content;
 	}
@@ -159,11 +160,11 @@ class Mvc_Site_LocalizedData_MetaTag extends BaseObject implements Mvc_Site_Loca
 	/**
 	 * @return array
 	 */
-	public function toArray() : array
+	public function toArray(): array
 	{
 		$data = get_object_vars( $this );
 		foreach( $data as $k => $v ) {
-			if( $k[0]=='_' ) {
+			if( $k[0] == '_' ) {
 				unset( $data[$k] );
 			}
 		}

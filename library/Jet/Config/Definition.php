@@ -5,6 +5,7 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace Jet;
 
 use Attribute;
@@ -12,7 +13,7 @@ use Attribute;
 /**
  *
  */
-#[Attribute(Attribute::TARGET_CLASS|Attribute::TARGET_PROPERTY|Attribute::IS_REPEATABLE)]
+#[Attribute(Attribute::TARGET_CLASS | Attribute::TARGET_PROPERTY | Attribute::IS_REPEATABLE)]
 class Config_Definition extends BaseObject
 {
 
@@ -28,7 +29,7 @@ class Config_Definition extends BaseObject
 	 *
 	 * @return Config_Definition_Config
 	 */
-	public static function getMainConfigDefinition( string $class_name ) : Config_Definition_Config
+	public static function getMainConfigDefinition( string $class_name ): Config_Definition_Config
 	{
 		$definition = new Config_Definition_Config( $class_name );
 
@@ -41,7 +42,7 @@ class Config_Definition extends BaseObject
 	 *
 	 * @return Config_Definition_Config_Section
 	 */
-	public static function getSectionConfigDefinition( string $class_name ) : Config_Definition_Config_Section
+	public static function getSectionConfigDefinition( string $class_name ): Config_Definition_Config_Section
 	{
 		$definition = new Config_Definition_Config_Section( $class_name );
 

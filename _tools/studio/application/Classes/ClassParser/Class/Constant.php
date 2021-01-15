@@ -5,6 +5,7 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace JetStudio;
 
 /**
@@ -39,17 +40,17 @@ class ClassParser_Class_Constant extends ClassParser_Class_Element
 		$got_value = false;
 
 		do {
-			if( !($token=$const->nextToken()) ) {
+			if( !($token = $const->nextToken()) ) {
 				break;
 			}
 
-			if($token->ignore()) {
+			if( $token->ignore() ) {
 				continue;
 			}
 
 			switch( $token->id ) {
 				case T_STRING:
-					if($searching_for_value) {
+					if( $searching_for_value ) {
 						$got_value = true;
 						$const->value .= $token->text;
 					} else {
@@ -57,7 +58,7 @@ class ClassParser_Class_Constant extends ClassParser_Class_Element
 					}
 					break;
 				case '=':
-					if($searching_for_value) {
+					if( $searching_for_value ) {
 						$got_value = true;
 						$const->value .= $token->text;
 					} else {
@@ -78,7 +79,7 @@ class ClassParser_Class_Constant extends ClassParser_Class_Element
 					$const->end_token = $token;
 					return;
 				default:
-					if($searching_for_value) {
+					if( $searching_for_value ) {
 						$const->value .= $token->text;
 						$got_value = true;
 					} else {
@@ -94,14 +95,14 @@ class ClassParser_Class_Constant extends ClassParser_Class_Element
 	/**
 	 *
 	 */
-	public function debug_showResult() : void
+	public function debug_showResult(): void
 	{
 		$parser = $this->parser;
 
-		echo 'Constant: '.$this->name.' = '.$this->value;
+		echo 'Constant: ' . $this->name . ' = ' . $this->value;
 
-		echo PHP_EOL.' Code: '.$parser->getTokenText( $this->start_token, $this->end_token );
-		echo PHP_EOL.' Tokens: '.$this->start_token->index.' - '.$this->end_token->index;
+		echo PHP_EOL . ' Code: ' . $parser->getTokenText( $this->start_token, $this->end_token );
+		echo PHP_EOL . ' Tokens: ' . $this->start_token->index . ' - ' . $this->end_token->index;
 	}
 
 

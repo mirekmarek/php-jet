@@ -5,6 +5,7 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace Jet;
 
 /**
@@ -16,7 +17,7 @@ trait DataModel_Trait_MagicMethods
 	/**
 	 *
 	 */
-	public function __wakeup() : void
+	public function __wakeup(): void
 	{
 		/**
 		 * @var DataModel $this
@@ -27,7 +28,7 @@ trait DataModel_Trait_MagicMethods
 	/**
 	 * @return array
 	 */
-	public function __debugInfo() : array
+	public function __debugInfo(): array
 	{
 		/** @noinspection PhpUndefinedClassInspection */
 		/** @noinspection PhpUndefinedMethodInspection */
@@ -45,7 +46,7 @@ trait DataModel_Trait_MagicMethods
 	/**
 	 *
 	 */
-	public function __clone() : void
+	public function __clone(): void
 	{
 		/**
 		 * @var DataModel $this

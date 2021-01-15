@@ -5,6 +5,7 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace Jet;
 
 /**
@@ -74,7 +75,11 @@ class Form_Field_FileImage extends Form_Field_File
 	 * @var array
 	 */
 	protected array $allowed_mime_types = [
-		'image/pjpeg', 'image/jpeg', 'image/jpg', 'image/gif', 'image/png',
+		'image/pjpeg',
+		'image/jpeg',
+		'image/jpg',
+		'image/gif',
+		'image/png',
 	];
 
 	/**
@@ -100,7 +105,7 @@ class Form_Field_FileImage extends Form_Field_File
 	/**
 	 * @return int|null
 	 */
-	public function getMaximalHeight() : int|null
+	public function getMaximalHeight(): int|null
 	{
 		return $this->maximal_height;
 	}
@@ -108,7 +113,7 @@ class Form_Field_FileImage extends Form_Field_File
 	/**
 	 * @return int|null
 	 */
-	public function getMaximalWidth() : int|null
+	public function getMaximalWidth(): int|null
 	{
 		return $this->maximal_width;
 	}
@@ -119,7 +124,7 @@ class Form_Field_FileImage extends Form_Field_File
 	 *
 	 * @return bool
 	 */
-	public function validate() : bool
+	public function validate(): bool
 	{
 		if( !parent::validate() ) {
 			return false;
@@ -142,15 +147,15 @@ class Form_Field_FileImage extends Form_Field_File
 		};
 
 		if( $this->_value ) {
-			if(is_array($this->_value)) {
-				foreach( $this->_value as $i=>$path ) {
-					if(!$check_dimensions( $path )) {
+			if( is_array( $this->_value ) ) {
+				foreach( $this->_value as $i => $path ) {
+					if( !$check_dimensions( $path ) ) {
 						$this->unsetFile( $i );
 					}
 
 				}
 			} else {
-				if(!$check_dimensions( $this->_value )) {
+				if( !$check_dimensions( $this->_value ) ) {
 					$this->setError( self::ERROR_CODE_DISALLOWED_FILE_TYPE );
 					return false;
 				}
@@ -167,7 +172,7 @@ class Form_Field_FileImage extends Form_Field_File
 	/**
 	 * @return array
 	 */
-	public function getRequiredErrorCodes() : array
+	public function getRequiredErrorCodes(): array
 	{
 		$codes = [];
 

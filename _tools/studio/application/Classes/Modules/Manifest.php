@@ -5,6 +5,7 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace JetStudio;
 
 use Jet\Application_Module_Manifest;
@@ -60,7 +61,7 @@ class Modules_Manifest extends Application_Module_Manifest
 	/**
 	 * @return bool
 	 */
-	public function save() : bool
+	public function save(): bool
 	{
 		$ok = true;
 		try {
@@ -77,33 +78,33 @@ class Modules_Manifest extends Application_Module_Manifest
 	/**
 	 * @param array $manifest_data
 	 */
-	protected function setupProperties( array $manifest_data ) : void
+	protected function setupProperties( array $manifest_data ): void
 	{
 		parent::setupProperties( $manifest_data );
 
-		foreach($this->menu_items as $set_id=>$menus) {
-			foreach($menus as $menu_id=>$items) {
-				foreach($items as $item_id=>$item_data) {
-					$item = new Menus_Menu_Item( $item_id, $item_data['label']??'' );
-					$item->setData($item_data);
+		foreach( $this->menu_items as $set_id => $menus ) {
+			foreach( $menus as $menu_id => $items ) {
+				foreach( $items as $item_id => $item_data ) {
+					$item = new Menus_Menu_Item( $item_id, $item_data['label'] ?? '' );
+					$item->setData( $item_data );
 					$item->setSetId( $set_id );
-					$item->setMenuId($menu_id);
+					$item->setMenuId( $menu_id );
 
 					$this->menu_items[$set_id][$menu_id][$item_id] = $item;
 				}
 			}
 		}
 
-		foreach($this->pages as $site_id=>$pages ) {
-			$site = Sites::getSite($site_id);
-			if(!$site) {
-				unset($this->pages[$site_id]);
+		foreach( $this->pages as $site_id => $pages ) {
+			$site = Sites::getSite( $site_id );
+			if( !$site ) {
+				unset( $this->pages[$site_id] );
 				continue;
 			}
 
 			$locale = $site->getDefaultLocale();
 
-			foreach($pages as $page_id=>$page_data) {
+			foreach( $pages as $page_id => $page_data ) {
 				/**
 				 * @var array $page_data
 				 */
@@ -119,7 +120,7 @@ class Modules_Manifest extends Application_Module_Manifest
 	/**
 	 * @param string $name
 	 */
-	public function setName( string $name ) : void
+	public function setName( string $name ): void
 	{
 		$this->_name = $name;
 	}
@@ -127,7 +128,7 @@ class Modules_Manifest extends Application_Module_Manifest
 	/**
 	 * @param string $vendor
 	 */
-	public function setVendor( string $vendor ) : void
+	public function setVendor( string $vendor ): void
 	{
 		$this->vendor = $vendor;
 	}
@@ -135,7 +136,7 @@ class Modules_Manifest extends Application_Module_Manifest
 	/**
 	 * @param string $version
 	 */
-	public function setVersion( string $version ) : void
+	public function setVersion( string $version ): void
 	{
 		$this->version = $version;
 	}
@@ -143,7 +144,7 @@ class Modules_Manifest extends Application_Module_Manifest
 	/**
 	 * @param string $label
 	 */
-	public function setLabel( string $label ) : void
+	public function setLabel( string $label ): void
 	{
 		$this->label = $label;
 	}
@@ -151,7 +152,7 @@ class Modules_Manifest extends Application_Module_Manifest
 	/**
 	 * @param string $description
 	 */
-	public function setDescription( string $description ) : void
+	public function setDescription( string $description ): void
 	{
 		$this->description = $description;
 	}
@@ -159,7 +160,7 @@ class Modules_Manifest extends Application_Module_Manifest
 	/**
 	 * @param bool $is_mandatory
 	 */
-	public function setIsMandatory( bool $is_mandatory ) : void
+	public function setIsMandatory( bool $is_mandatory ): void
 	{
 		$this->is_mandatory = $is_mandatory;
 	}
@@ -167,7 +168,7 @@ class Modules_Manifest extends Application_Module_Manifest
 	/**
 	 * @param array $ACL_actions
 	 */
-	public function setACLActions( array $ACL_actions ) : void
+	public function setACLActions( array $ACL_actions ): void
 	{
 		$this->ACL_actions = $ACL_actions;
 	}
@@ -176,7 +177,7 @@ class Modules_Manifest extends Application_Module_Manifest
 	/**
 	 * @return Pages_Page[][]
 	 */
-	public function getPagesList() : array
+	public function getPagesList(): array
 	{
 		return $this->pages;
 	}
@@ -187,18 +188,18 @@ class Modules_Manifest extends Application_Module_Manifest
 	 *
 	 * @return null|Pages_Page
 	 */
-	public function getPage( string $site_id, string $page_id ) : null|Pages_Page
+	public function getPage( string $site_id, string $page_id ): null|Pages_Page
 	{
 		if(
-			!isset($this->pages[$site_id]) ||
-			!isset($this->pages[$site_id][$page_id])
+			!isset( $this->pages[$site_id] ) ||
+			!isset( $this->pages[$site_id][$page_id] )
 		) {
 			return null;
 		}
 
 		$page = $this->pages[$site_id][$page_id];
 
-		$site = Sites::getSite($page->getSiteId());
+		$site = Sites::getSite( $page->getSiteId() );
 		$page->setLocale( $site->getDefaultLocale() );
 
 		return $page;
@@ -209,16 +210,16 @@ class Modules_Manifest extends Application_Module_Manifest
 	 *
 	 * @return Form
 	 */
-	public function getEditForm() : Form
+	public function getEditForm(): Form
 	{
 		if( !$this->__edit_form ) {
 
-			$module_name = new Form_Field_Input('module_name', 'Name:', $this->getName() );
-			$module_name->setIsRequired(true);
-			$module_name->setErrorMessages([
-				Form_Field_Input::ERROR_CODE_EMPTY => 'Please enter module name',
+			$module_name = new Form_Field_Input( 'module_name', 'Name:', $this->getName() );
+			$module_name->setIsRequired( true );
+			$module_name->setErrorMessages( [
+				Form_Field_Input::ERROR_CODE_EMPTY          => 'Please enter module name',
 				Form_Field_Input::ERROR_CODE_INVALID_FORMAT => 'Invalid module name format'
-			]);
+			] );
 			$module_name->setValidator( function( Form_Field_Input $field ) {
 				$name = $field->getValue();
 				$old_module_name = $this->getName();
@@ -230,43 +231,41 @@ class Modules_Manifest extends Application_Module_Manifest
 			} );
 
 
-
-			$module_label = new Form_Field_Input('module_label', 'Label:', $this->getLabel() );
-			$module_label->setIsRequired(true);
-			$module_label->setErrorMessages([
+			$module_label = new Form_Field_Input( 'module_label', 'Label:', $this->getLabel() );
+			$module_label->setIsRequired( true );
+			$module_label->setErrorMessages( [
 				Form_Field_Input::ERROR_CODE_EMPTY => 'Please enter module label'
-			]);
+			] );
 			$module_label->setCatcher( function( $value ) {
 				$this->setLabel( $value );
 			} );
 
 
-			$vendor = new Form_Field_Input('vendor', 'Vendor:', $this->getVendor() );
+			$vendor = new Form_Field_Input( 'vendor', 'Vendor:', $this->getVendor() );
 			$vendor->setCatcher( function( $value ) {
 				$this->setVendor( $value );
 			} );
 
-			$version = new Form_Field_Input('version', 'Version:', $this->getVersion() );
+			$version = new Form_Field_Input( 'version', 'Version:', $this->getVersion() );
 			$version->setCatcher( function( $value ) {
 				$this->setVersion( $value );
 			} );
 
-			$description = new Form_Field_Input('description', 'Description:', $this->getDescription() );
+			$description = new Form_Field_Input( 'description', 'Description:', $this->getDescription() );
 			$description->setCatcher( function( $value ) {
 				$this->setDescription( $value );
 			} );
 
-			$is_mandatory = new Form_Field_Checkbox('is_mandatory', 'Is mandatory', $this->isMandatory() );
+			$is_mandatory = new Form_Field_Checkbox( 'is_mandatory', 'Is mandatory', $this->isMandatory() );
 			$is_mandatory->setCatcher( function( $value ) {
 				$this->setIsMandatory( $value );
 			} );
 
-			$is_active = new Form_Field_Checkbox('is_active', 'Is active', $this->isActivated() );
-			$is_active->setIsReadonly(true);
+			$is_active = new Form_Field_Checkbox( 'is_active', 'Is active', $this->isActivated() );
+			$is_active->setIsReadonly( true );
 
-			$is_installed = new Form_Field_Checkbox('is_installed', 'Is installed', $this->isInstalled() );
-			$is_installed->setIsReadonly(true);
-
+			$is_installed = new Form_Field_Checkbox( 'is_installed', 'Is installed', $this->isInstalled() );
+			$is_installed->setIsReadonly( true );
 
 
 			$fields = [
@@ -282,34 +281,33 @@ class Modules_Manifest extends Application_Module_Manifest
 
 
 			$m = 0;
-			foreach( $this->getACLActions( false ) as $action=>$description) {
+			foreach( $this->getACLActions( false ) as $action => $description ) {
 
-				$acl_action = new Form_Field_Input('/ACL_action/'.$m.'/action', 'Action:', $action );
+				$acl_action = new Form_Field_Input( '/ACL_action/' . $m . '/action', 'Action:', $action );
 				$fields[] = $acl_action;
 
-				$acl_action_description = new Form_Field_Input('/ACL_action/'.$m.'/description', 'Label:', $description );
+				$acl_action_description = new Form_Field_Input( '/ACL_action/' . $m . '/description', 'Label:', $description );
 				$fields[] = $acl_action_description;
 
 				$m++;
 			}
 
-			for( $c=0;$c<8;$c++ ) {
+			for( $c = 0; $c < 8; $c++ ) {
 
-				$acl_action = new Form_Field_Input('/ACL_action/'.$m.'/action', 'Action:', '' );
+				$acl_action = new Form_Field_Input( '/ACL_action/' . $m . '/action', 'Action:', '' );
 				$fields[] = $acl_action;
 
-				$acl_action_description = new Form_Field_Input('/ACL_action/'.$m.'/description', 'Label:', '' );
+				$acl_action_description = new Form_Field_Input( '/ACL_action/' . $m . '/description', 'Label:', '' );
 				$fields[] = $acl_action_description;
 
 				$m++;
 			}
 
 
+			$form = new Form( 'edit_module_form', $fields );
 
-			$form = new Form('edit_module_form', $fields );
 
-
-			$form->setAction( Modules::getActionUrl('edit') );
+			$form->setAction( Modules::getActionUrl( 'edit' ) );
 
 			$this->__edit_form = $form;
 		}
@@ -320,7 +318,7 @@ class Modules_Manifest extends Application_Module_Manifest
 	/**
 	 * @return bool
 	 */
-	public function catchEditForm() : bool
+	public function catchEditForm(): bool
 	{
 		$form = $this->getEditForm();
 		if(
@@ -341,24 +339,24 @@ class Modules_Manifest extends Application_Module_Manifest
 	 * @param Form $form
 	 *
 	 */
-	public function catchEditForm_ACLAction( Form $form ) : void
+	public function catchEditForm_ACLAction( Form $form ): void
 	{
 		$ACL_actions = [];
-		for( $m=0;$m<static::MAX_ACL_ACTION_COUNT;$m++ ) {
-			if(!$form->fieldExists('/ACL_action/'.$m.'/action')) {
+		for( $m = 0; $m < static::MAX_ACL_ACTION_COUNT; $m++ ) {
+			if( !$form->fieldExists( '/ACL_action/' . $m . '/action' ) ) {
 				break;
 			}
 
-			$action = $form->field('/ACL_action/'.$m.'/action')->getValue();
-			$description = $form->field('/ACL_action/'.$m.'/description')->getValue();
+			$action = $form->field( '/ACL_action/' . $m . '/action' )->getValue();
+			$description = $form->field( '/ACL_action/' . $m . '/description' )->getValue();
 
 			if(
-				!$action
+			!$action
 			) {
 				continue;
 			}
 
-			if(!$description) {
+			if( !$description ) {
 				$description = $action;
 			}
 
@@ -370,7 +368,6 @@ class Modules_Manifest extends Application_Module_Manifest
 	}
 
 
-
 	/**
 	 * @param Form_Field_Input $field
 	 * @param string $name
@@ -378,21 +375,21 @@ class Modules_Manifest extends Application_Module_Manifest
 	 *
 	 * @return bool
 	 */
-	public static function checkModuleName(Form_Field_Input $field, string $name, string $old_module_name='' ) : bool
+	public static function checkModuleName( Form_Field_Input $field, string $name, string $old_module_name = '' ): bool
 	{
 
-		if(!$name)	{
+		if( !$name ) {
 			$field->setError( Form_Field_Input::ERROR_CODE_EMPTY );
 			return false;
 		}
 
 		if(
-			!preg_match('/^[a-z0-9.]{3,}$/i', $name) ||
+			!preg_match( '/^[a-z0-9.]{3,}$/i', $name ) ||
 			str_contains( $name, '..' ) ||
-			$name[0]=='.' ||
-			$name[strlen($name)-1]=='.'
+			$name[0] == '.' ||
+			$name[strlen( $name ) - 1] == '.'
 		) {
-			$field->setError(Form_Field_Input::ERROR_CODE_INVALID_FORMAT);
+			$field->setError( Form_Field_Input::ERROR_CODE_INVALID_FORMAT );
 
 			return false;
 		}
@@ -400,17 +397,17 @@ class Modules_Manifest extends Application_Module_Manifest
 		if(
 			(
 				!$old_module_name &&
-				Modules::exists($name)
+				Modules::exists( $name )
 			)
 			||
 			(
 				$old_module_name &&
-				$old_module_name!=$name &&
-				Modules::exists($name)
+				$old_module_name != $name &&
+				Modules::exists( $name )
 			)
 		) {
 			$field->setCustomError(
-				Tr::_('Module with the same name already exists'),
+				Tr::_( 'Module with the same name already exists' ),
 				'module_name_is_not_unique'
 			);
 
@@ -426,9 +423,9 @@ class Modules_Manifest extends Application_Module_Manifest
 	 *
 	 * @param Pages_Page $page
 	 */
-	public function addPage( string $site_id, Pages_Page $page ) : void
+	public function addPage( string $site_id, Pages_Page $page ): void
 	{
-		if(!isset($this->pages[$site_id])) {
+		if( !isset( $this->pages[$site_id] ) ) {
 			$this->pages[$site_id] = [];
 		}
 
@@ -439,42 +436,42 @@ class Modules_Manifest extends Application_Module_Manifest
 	/**
 	 * @return Form
 	 */
-	public function getPageCreateForm() : Form
+	public function getPageCreateForm(): Form
 	{
-		if(!$this->page_create_form) {
-			$sites = [''=>''];
+		if( !$this->page_create_form ) {
+			$sites = ['' => ''];
 			foreach( Sites::getSites() as $site ) {
 				$sites[$site->getId()] = $site->getName();
 			}
 
-			$site_id = new Form_Field_Select('site_id', 'Site: ', '');
+			$site_id = new Form_Field_Select( 'site_id', 'Site: ', '' );
 			$site_id->setSelectOptions( $sites );
 			$site_id->setIsRequired( true );
-			$site_id->setErrorMessages([
-				Form_Field_Select::ERROR_CODE_EMPTY => 'Please select site',
+			$site_id->setErrorMessages( [
+				Form_Field_Select::ERROR_CODE_EMPTY         => 'Please select site',
 				Form_Field_Select::ERROR_CODE_INVALID_VALUE => 'Please select site',
-			]);
-			
-			$page_name = new Form_Field_Input('page_name', 'Page name:', '');
-			$page_name->setIsRequired(true);
-			$page_name->setErrorMessages([
+			] );
+
+			$page_name = new Form_Field_Input( 'page_name', 'Page name:', '' );
+			$page_name->setIsRequired( true );
+			$page_name->setErrorMessages( [
 				Form_Field_Input::ERROR_CODE_EMPTY => 'Please enter page name'
-			]);
+			] );
 
-			$page_id = new Form_Field_Input('page_id', 'Page ID:', '');
-			$page_id->setIsRequired(true);
-			$page_id->setErrorMessages([
+			$page_id = new Form_Field_Input( 'page_id', 'Page ID:', '' );
+			$page_id->setIsRequired( true );
+			$page_id->setErrorMessages( [
 				Form_Field_Input::ERROR_CODE_EMPTY => 'Please enter page ID'
-			]);
-			
+			] );
 
-			$form = new Form('add_page_form', [
+
+			$form = new Form( 'add_page_form', [
 				$site_id,
 				$page_name,
 				$page_id
-			]);
+			] );
 
-			$form->setAction( Modules::getActionUrl('page/add') );
+			$form->setAction( Modules::getActionUrl( 'page/add' ) );
 
 
 			$this->page_create_form = $form;
@@ -487,7 +484,7 @@ class Modules_Manifest extends Application_Module_Manifest
 	 *
 	 * @return Pages_Page|bool
 	 */
-	public function catchCratePageForm() : Pages_Page|null
+	public function catchCratePageForm(): Pages_Page|null
 	{
 		$form = $this->getPageCreateForm();
 
@@ -498,9 +495,9 @@ class Modules_Manifest extends Application_Module_Manifest
 			return false;
 		}
 
-		$site_id = $form->getField('site_id')->getValue();
-		$page_name = $form->getField('page_name')->getValue();
-		$page_id = $form->getField('page_id')->getValue();
+		$site_id = $form->getField( 'site_id' )->getValue();
+		$page_name = $form->getField( 'page_name' )->getValue();
+		$page_id = $form->getField( 'page_id' )->getValue();
 
 
 		$page_id = static::generatePageId( $page_id, $site_id );
@@ -519,9 +516,9 @@ class Modules_Manifest extends Application_Module_Manifest
 		$content->setControllerAction( 'default' );
 		$content->setOutputPosition( Mvc_Layout::DEFAULT_OUTPUT_POSITION );
 
-		$page->setContent([
+		$page->setContent( [
 			$content
-		]);
+		] );
 
 		$this->addPage( $site_id, $page );
 
@@ -533,11 +530,11 @@ class Modules_Manifest extends Application_Module_Manifest
 	 * @param string $site_id
 	 * @return string
 	 */
-	public static function generatePageId( string $name, string $site_id ) : string
+	public static function generatePageId( string $name, string $site_id ): string
 	{
 		$site = Sites::getSite( $site_id );
 
-		$id = Project::generateIdentifier( $name, function( $id ) use ($site) {
+		$id = Project::generateIdentifier( $name, function( $id ) use ( $site ) {
 
 			foreach( $site->getLocales() as $locale ) {
 				if( Pages::exists( $id, $locale, $site->getId() ) ) {
@@ -556,18 +553,18 @@ class Modules_Manifest extends Application_Module_Manifest
 	 * @param string $page_id
 	 * @return Pages_Page|null
 	 */
-	public function deletePage( string $site_id, string $page_id ) : Pages_Page|null
+	public function deletePage( string $site_id, string $page_id ): Pages_Page|null
 	{
-		if( !isset($this->pages[$site_id][$page_id]) ) {
+		if( !isset( $this->pages[$site_id][$page_id] ) ) {
 			return null;
 		}
 
 		$old_page = $this->pages[$site_id][$page_id];
 
-		unset($this->pages[$site_id][$page_id]);
+		unset( $this->pages[$site_id][$page_id] );
 
-		if(!count($this->pages[$site_id])) {
-			unset($this->pages[$site_id]);
+		if( !count( $this->pages[$site_id] ) ) {
+			unset( $this->pages[$site_id] );
 		}
 
 		return $old_page;
@@ -576,25 +573,24 @@ class Modules_Manifest extends Application_Module_Manifest
 	/**
 	 * @return array
 	 */
-	public function getControllers() : array
+	public function getControllers(): array
 	{
 		$controllers = [];
 
 		/**
 		 * @param string $dir
 		 */
-		$readDir = function ( string $dir  ) use (&$readDir, &$controllers)
-		{
+		$readDir = function( string $dir ) use ( &$readDir, &$controllers ) {
 			$dirs = IO_Dir::getList( $dir, '*', true, false );
 			$files = IO_Dir::getList( $dir, '*.php', false, true );
 
-			foreach( $files as $path=>$name ) {
-				$file_data = IO_File::read($path);
+			foreach( $files as $path => $name ) {
+				$file_data = IO_File::read( $path );
 
-				$parser = new ClassParser($file_data);
+				$parser = new ClassParser( $file_data );
 
-				foreach($parser->classes as $class ) {
-					$full_name = $parser->namespace->namespace.'\\'.$class->name;
+				foreach( $parser->classes as $class ) {
+					$full_name = $parser->namespace->namespace . '\\' . $class->name;
 
 					$_class = new ReflectionClass( $full_name );
 
@@ -605,23 +601,23 @@ class Modules_Manifest extends Application_Module_Manifest
 						$_class = $parent;
 					}
 
-					if(!in_array('Jet\Mvc_Controller', $parents)) {
+					if( !in_array( 'Jet\Mvc_Controller', $parents ) ) {
 						continue;
 					}
 
-					$c_n = substr($class->name, 11);
+					$c_n = substr( $class->name, 11 );
 
 					$controllers[$c_n] = $c_n;
 				}
 
 			}
 
-			foreach( $dirs as $path=>$name ) {
+			foreach( $dirs as $path => $name ) {
 				$readDir( $path );
 			}
 		};
 
-		$readDir($this->getModuleDir().'Controller/');
+		$readDir( $this->getModuleDir() . 'Controller/' );
 
 		return $controllers;
 	}
@@ -631,9 +627,9 @@ class Modules_Manifest extends Application_Module_Manifest
 	 *
 	 * @return array
 	 */
-	public function getControllerAction( string $controller_name ) : array
+	public function getControllerAction( string $controller_name ): array
 	{
-		$class_name = $this->getNamespace().'Controller_'.$controller_name;
+		$class_name = $this->getNamespace() . 'Controller_' . $controller_name;
 
 		$reflection = new ReflectionClass( $class_name );
 
@@ -641,13 +637,13 @@ class Modules_Manifest extends Application_Module_Manifest
 
 		$actions = [];
 
-		foreach($methods as $method) {
+		foreach( $methods as $method ) {
 			$name = $method->getName();
-			if(substr($name, -7)!='_Action') {
+			if( substr( $name, -7 ) != '_Action' ) {
 				continue;
 			}
 
-			$name = substr($name, 0, -7);
+			$name = substr( $name, 0, -7 );
 
 			$actions[$name] = $name;
 		}
@@ -659,36 +655,36 @@ class Modules_Manifest extends Application_Module_Manifest
 	/**
 	 * @return Form
 	 */
-	public function getCreateMenuItemForm() : Form
+	public function getCreateMenuItemForm(): Form
 	{
-		if(!$this->menu_item_create_form) {
+		if( !$this->menu_item_create_form ) {
 
 			$form = Menus_Menu_Item::getCreateForm();
-			$form->setCustomTranslatorNamespace('menus');
+			$form->setCustomTranslatorNamespace( 'menus' );
 
-			$target_menus = [''=>''];
+			$target_menus = ['' => ''];
 			foreach( Menus::getSets() as $set ) {
 				foreach( $set->getMenus() as $menu ) {
 
-					$key = $set->getName().':'.$menu->getId();
+					$key = $set->getName() . ':' . $menu->getId();
 
-					$target_menus[$key] = $set->getName().' / '.$menu->getLabel().' ('.$menu->getId().')';
+					$target_menus[$key] = $set->getName() . ' / ' . $menu->getLabel() . ' (' . $menu->getId() . ')';
 				}
 			}
 
 
-			$target_menu = new Form_Field_Select('target_menu', 'Menu', '');
+			$target_menu = new Form_Field_Select( 'target_menu', 'Menu', '' );
 			$target_menu->setIsRequired( true );
-			$target_menu->setErrorMessages([
-				Form_Field_Select::ERROR_CODE_EMPTY=> 'Please select target menu',
+			$target_menu->setErrorMessages( [
+				Form_Field_Select::ERROR_CODE_EMPTY         => 'Please select target menu',
 				Form_Field_Select::ERROR_CODE_INVALID_VALUE => 'Please select target menu'
-			]);
-			$target_menu->setSelectOptions($target_menus);
+			] );
+			$target_menu->setSelectOptions( $target_menus );
 
 
 			$form->addField( $target_menu );
 
-			$form->setAction( Modules::getActionUrl('menu_item/add') );
+			$form->setAction( Modules::getActionUrl( 'menu_item/add' ) );
 
 			$this->menu_item_create_form = $form;
 		}
@@ -699,7 +695,7 @@ class Modules_Manifest extends Application_Module_Manifest
 	/**
 	 * @return bool|Menus_Menu_Item
 	 */
-	public function catchCreateMenuItemForm() : bool|Menus_Menu_Item
+	public function catchCreateMenuItemForm(): bool|Menus_Menu_Item
 	{
 		$form = $this->getCreateMenuItemForm();
 		if(
@@ -709,30 +705,33 @@ class Modules_Manifest extends Application_Module_Manifest
 			return false;
 		}
 
-		$target_menu = $form->field('target_menu')->getValue();
+		$target_menu = $form->field( 'target_menu' )->getValue();
 
-		[$set_name, $menu_id] = explode(':', $target_menu);
+		[
+			$set_name,
+			$menu_id
+		] = explode( ':', $target_menu );
 
 		$menu_item = new Menus_Menu_Item(
-			$form->field('id')->getValue(),
-			$form->field('label')->getValue()
+			$form->field( 'id' )->getValue(),
+			$form->field( 'label' )->getValue()
 		);
 
 		$menu_item->setSetId( $set_name );
 		$menu_item->setMenuId( $menu_id );
 
-		$menu_item->setIndex( $form->field('index')->getValue() );
-		$menu_item->setIcon( $form->field('icon')->getValue() );
+		$menu_item->setIndex( $form->field( 'index' )->getValue() );
+		$menu_item->setIcon( $form->field( 'icon' )->getValue() );
 
-		$menu_item->setSeparatorBefore( $form->field('separator_before')->getValue() );
-		$menu_item->setSeparatorAfter( $form->field('separator_after')->getValue() );
+		$menu_item->setSeparatorBefore( $form->field( 'separator_before' )->getValue() );
+		$menu_item->setSeparatorAfter( $form->field( 'separator_after' )->getValue() );
 
 
-		$menu_item->setURL( $form->field('URL')->getValue() );
+		$menu_item->setURL( $form->field( 'URL' )->getValue() );
 
-		$menu_item->setPageId( $form->field('page_id')->getValue() );
-		$menu_item->setSiteId( $form->field('site_id')->getValue() );
-		$menu_item->setLocale( $form->field('locale')->getValue() );
+		$menu_item->setPageId( $form->field( 'page_id' )->getValue() );
+		$menu_item->setSiteId( $form->field( 'site_id' )->getValue() );
+		$menu_item->setLocale( $form->field( 'locale' )->getValue() );
 
 		$menu_item->setUrlParts( Menus_Menu_Item::catchURLParts( $form ) );
 		$menu_item->setGetParams( Menus_Menu_Item::catchGETParams( $form ) );
@@ -744,17 +743,17 @@ class Modules_Manifest extends Application_Module_Manifest
 	 *
 	 * @param Menus_Menu_Item $menu_item
 	 */
-	public function addMenuItem( Menus_Menu_Item $menu_item ) : void
+	public function addMenuItem( Menus_Menu_Item $menu_item ): void
 	{
 		$menu_set = $menu_item->getSetId();
 		$menu_id = $menu_item->getMenuId();
 		$item_id = $menu_item->getId();
 
-		if(!isset($this->menu_items[$menu_set])) {
+		if( !isset( $this->menu_items[$menu_set] ) ) {
 			$this->menu_items[$menu_set] = [];
 		}
 
-		if(!isset($this->menu_items[$menu_set][$menu_id])) {
+		if( !isset( $this->menu_items[$menu_set][$menu_id] ) ) {
 			$this->menu_items[$menu_set][$menu_id] = [];
 		}
 
@@ -769,21 +768,21 @@ class Modules_Manifest extends Application_Module_Manifest
 	 *
 	 * @return Menus_Menu_Item[]
 	 */
-	public function getMenuItemsList( string $menu_set='', string $menu_id='' ) : array
+	public function getMenuItemsList( string $menu_set = '', string $menu_id = '' ): array
 	{
-		if(!$menu_set) {
+		if( !$menu_set ) {
 			return $this->menu_items;
 		}
 
-		if(!isset( $this->menu_items[$menu_set])) {
+		if( !isset( $this->menu_items[$menu_set] ) ) {
 			return [];
 		}
 
-		if(!$menu_id) {
+		if( !$menu_id ) {
 			return $this->menu_items[$menu_set];
 		}
 
-		if( !isset( $this->menu_items[$menu_set][$menu_id]) ) {
+		if( !isset( $this->menu_items[$menu_set][$menu_id] ) ) {
 			return [];
 		}
 
@@ -798,9 +797,9 @@ class Modules_Manifest extends Application_Module_Manifest
 	 *
 	 * @return Menus_Menu_Item|null
 	 */
-	public function getMenuItem( string $menu_set, string $menu_id, string $item_id ) : Menus_Menu_Item|null
+	public function getMenuItem( string $menu_set, string $menu_id, string $item_id ): Menus_Menu_Item|null
 	{
-		if(!isset( $this->menu_items[$menu_set][$menu_id][$item_id])) {
+		if( !isset( $this->menu_items[$menu_set][$menu_id][$item_id] ) ) {
 			return null;
 		}
 
@@ -815,12 +814,12 @@ class Modules_Manifest extends Application_Module_Manifest
 	 *
 	 * @return Menus_Menu_Item|null
 	 */
-	public function deleteMenuItem( string $menu_set, string $menu_id, string $item_id ) : Menus_Menu_Item|null
+	public function deleteMenuItem( string $menu_set, string $menu_id, string $item_id ): Menus_Menu_Item|null
 	{
 		if(
-			!isset( $this->menu_items[$menu_set]) ||
-			!isset( $this->menu_items[$menu_set][$menu_id]) ||
-			!isset( $this->menu_items[$menu_set][$menu_id][$item_id])
+			!isset( $this->menu_items[$menu_set] ) ||
+			!isset( $this->menu_items[$menu_set][$menu_id] ) ||
+			!isset( $this->menu_items[$menu_set][$menu_id][$item_id] )
 		) {
 			return null;
 		}
@@ -829,11 +828,11 @@ class Modules_Manifest extends Application_Module_Manifest
 
 		unset( $this->menu_items[$menu_set][$menu_id][$item_id] );
 
-		if(!count( $this->menu_items[$menu_set][$menu_id])) {
+		if( !count( $this->menu_items[$menu_set][$menu_id] ) ) {
 			unset( $this->menu_items[$menu_set][$menu_id] );
 		}
 
-		if(!count( $this->menu_items[$menu_set])) {
+		if( !count( $this->menu_items[$menu_set] ) ) {
 			unset( $this->menu_items[$menu_set] );
 		}
 
@@ -843,7 +842,7 @@ class Modules_Manifest extends Application_Module_Manifest
 	/**
 	 * @return array
 	 */
-	public function toArray() : array
+	public function toArray(): array
 	{
 		$res = [
 			'vendor'       => $this->getVendor(),
@@ -853,25 +852,25 @@ class Modules_Manifest extends Application_Module_Manifest
 			'is_mandatory' => $this->isMandatory()
 		];
 
-		foreach( $this->getACLActions(false) as $action=>$description ) {
-			if(!isset($res['ACL_actions'])) {
+		foreach( $this->getACLActions( false ) as $action => $description ) {
+			if( !isset( $res['ACL_actions'] ) ) {
 				$res['ACL_actions'] = [];
 			}
 
 			$res['ACL_actions'][$action] = $description;
 		}
 
-		$cleanupArray = function( $data ) use (&$cleanupArray) {
-			foreach($data as $k=>$v) {
-				if(!$v) {
-					unset($data[$k]);
+		$cleanupArray = function( $data ) use ( &$cleanupArray ) {
+			foreach( $data as $k => $v ) {
+				if( !$v ) {
+					unset( $data[$k] );
 					continue;
 				}
 
-				if(is_array($v)) {
-					$data[$k] = $cleanupArray($v);
-					if(!$data[$k]) {
-						unset($data[$k]);
+				if( is_array( $v ) ) {
+					$data[$k] = $cleanupArray( $v );
+					if( !$data[$k] ) {
+						unset( $data[$k] );
 					}
 				}
 			}
@@ -879,55 +878,55 @@ class Modules_Manifest extends Application_Module_Manifest
 			return $data;
 		};
 
-		foreach( $this->pages as $site_id=>$pages ) {
-			if(!isset($res['pages'])) {
+		foreach( $this->pages as $site_id => $pages ) {
+			if( !isset( $res['pages'] ) ) {
 				$res['pages'] = [];
 			}
 
-			if(!isset($res['pages'][$site_id])) {
+			if( !isset( $res['pages'][$site_id] ) ) {
 				$res['pages'][$site_id] = [];
 			}
 
-			foreach( $pages as $page_id=>$page ) {
+			foreach( $pages as $page_id => $page ) {
 				$page_data = $page->toArray();
-				unset($page_data['id']);
+				unset( $page_data['id'] );
 				$page_data['relative_path_fragment'] = $page->getRelativePathFragment();
 
-				$page_data = $cleanupArray($page_data);
+				$page_data = $cleanupArray( $page_data );
 
 				$res['pages'][$site_id][$page_id] = $page_data;
 			}
 
 		}
 
-		foreach( $this->menu_items as $namespace_id=>$menus ) {
+		foreach( $this->menu_items as $namespace_id => $menus ) {
 			$namespace = Menus::getSet( $namespace_id );
-			if(!$namespace) {
+			if( !$namespace ) {
 				continue;
 			}
 
-			if(!isset($res['menu_items'])) {
+			if( !isset( $res['menu_items'] ) ) {
 				$res['menu_items'] = [];
 			}
 
 			$namespace = $namespace->getName();
 
-			if(!isset($res['menu_items'][$namespace])) {
+			if( !isset( $res['menu_items'][$namespace] ) ) {
 				$res['menu_items'][$namespace] = [];
 			}
 
-			foreach( $menus as $menu_id=>$items ) {
+			foreach( $menus as $menu_id => $items ) {
 
-				if(!isset($res['menu_items'][$namespace][$menu_id])) {
+				if( !isset( $res['menu_items'][$namespace][$menu_id] ) ) {
 					$res['menu_items'][$namespace][$menu_id] = [];
 				}
 
-				foreach( $items as $item_id=>$item ) {
+				foreach( $items as $item_id => $item ) {
 					/**
-					 * @var Menus_Menu_Item $item;
+					 * @var Menus_Menu_Item $item ;
 					 */
 					$item = $item->toArray();
-					$item = $cleanupArray($item);
+					$item = $cleanupArray( $item );
 
 					$res['menu_items'][$namespace][$menu_id][$item_id] = $item;
 
@@ -943,13 +942,13 @@ class Modules_Manifest extends Application_Module_Manifest
 	/**
 	 *
 	 */
-	public function create_saveManifest() : void
+	public function create_saveManifest(): void
 	{
 		$module_dir = $this->getModuleDir();
 
-		$data = new Data_Array($this->toArray());
+		$data = new Data_Array( $this->toArray() );
 
-		IO_File::write( $module_dir.static::getManifestFileName(), '<?php return '.$data->export() );
+		IO_File::write( $module_dir . static::getManifestFileName(), '<?php return ' . $data->export() );
 
 	}
 

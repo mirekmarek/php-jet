@@ -1,34 +1,34 @@
 <script type="text/javascript">
 	const imageGallery = {
-		uploadImage: function( form_id ) {
+		uploadImage: function (form_id) {
 			imageGallery.submit(form_id);
 		},
-		submit: function( id ) {
+		submit: function (id) {
 			JetAjaxForm.submitMultiUpload(id, 'file', {
-				showProgressIndicator: function( form ) {
+				showProgressIndicator: function (form) {
 					$('#__progress__').show();
 					$('#__progress_prc__').html('');
 				},
 
-				hideProgressIndicator: function( form ) {
+				hideProgressIndicator: function (form) {
 					$('#__progress__').hide();
 				},
 
-				onProgress: function( form, percent ) {
-					$('#__progress_prc__').html(percent+'%');
+				onProgress: function (form, percent) {
+					$('#__progress_prc__').html(percent + '%');
 				},
 
-				onSuccess: function( form, response_data ) {
+				onSuccess: function (form, response_data) {
 				},
 
-				onFormError: function( form, response_data ) {
+				onFormError: function (form, response_data) {
 				},
 
-				onAccessDenied: function( form ) {
+				onAccessDenied: function (form) {
 					alert('Access denied!');
 				},
 
-				onError: function( form ) {
+				onError: function (form) {
 					alert('Unknown error ...');
 				}
 			});

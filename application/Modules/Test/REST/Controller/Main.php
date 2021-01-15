@@ -25,24 +25,24 @@ class Controller_Main extends Mvc_Controller_Default
 	/**
 	 *
 	 */
-	public function test_rest_Action() : void
+	public function test_rest_Action(): void
 	{
 		$session = Main::getSession();
 
 		if(
-			!$session->getValueExists('username') ||
-			!$session->getValueExists('password') ||
-			!$session->getValue('valid_login')
+			!$session->getValueExists( 'username' ) ||
+			!$session->getValueExists( 'password' ) ||
+			!$session->getValue( 'valid_login' )
 		) {
 			$this->login();
 		} else {
-			if(Http_Request::GET()->exists('logout')) {
+			if( Http_Request::GET()->exists( 'logout' ) ) {
 				$session = Main::getSession();
 				$session->unsetValue( 'username' );
 				$session->unsetValue( 'password' );
 				$session->unsetValue( 'valid_login' );
 
-				Http_Headers::reload([], ['logout']);
+				Http_Headers::reload( [], ['logout'] );
 
 			}
 			$this->tests();
@@ -52,15 +52,15 @@ class Controller_Main extends Mvc_Controller_Default
 	/**
 	 *
 	 */
-	public function login() : void
+	public function login(): void
 	{
 
-		$username_field = new Form_Field_Input('username', 'Username:');
-		$password_field = new Form_Field_Password('password', 'Password:');
-		$form = new Form('login_form', [
+		$username_field = new Form_Field_Input( 'username', 'Username:' );
+		$password_field = new Form_Field_Password( 'password', 'Password:' );
+		$form = new Form( 'login_form', [
 			$username_field,
-		    $password_field
-		]);
+			$password_field
+		] );
 
 		if(
 			$form->catchInput() &&
@@ -70,33 +70,33 @@ class Controller_Main extends Mvc_Controller_Default
 			$password = $password_field->getValue();
 
 
-			$client = new Client($username, $password);
+			$client = new Client( $username, $password );
 
-			$client->get('');
+			$client->get( '' );
 
-			if($client->responseStatus()==200) {
+			if( $client->responseStatus() == 200 ) {
 				$session = Main::getSession();
-				$session->setValue('username', $username);
-				$session->setValue('password', $password);
-				$session->setValue('valid_login', true);
+				$session->setValue( 'username', $username );
+				$session->setValue( 'password', $password );
+				$session->setValue( 'valid_login', true );
 
 				Http_Headers::reload();
 			}
 
-			$this->view->setVar('client', $client);
+			$this->view->setVar( 'client', $client );
 
 
 		}
 
-		$this->view->setVar('form', $form);
+		$this->view->setVar( 'form', $form );
 
-		$this->output('login');
+		$this->output( 'login' );
 	}
 
 	/**
 	 *
 	 */
-	public function tests() : void
+	public function tests(): void
 	{
 		/**
 		 * @var Test_Abstract[] $all_tests
@@ -111,18 +111,18 @@ class Controller_Main extends Mvc_Controller_Default
 			'images'    => []
 		];
 
-		$init_data = function() use (&$data, $client) {
-			if($client->get('article')) {
+		$init_data = function() use ( &$data, $client ) {
+			if( $client->get( 'article' ) ) {
 				$data['articles'] = $client->responseData()['items'];
 			}
 
-			if($client->get('gallery')) {
+			if( $client->get( 'gallery' ) ) {
 				$data['galleries'] = $client->responseData()['items'];
 
-				if($data['galleries']) {
+				if( $data['galleries'] ) {
 					$gallery = $data['galleries'][0];
 
-					if($client->get('gallery/'.$gallery['id'].'/image')) {
+					if( $client->get( 'gallery/' . $gallery['id'] . '/image' ) ) {
 						$data['images'] = $client->responseData()['items'];
 					}
 				}
@@ -130,7 +130,6 @@ class Controller_Main extends Mvc_Controller_Default
 		};
 
 		$init_data();
-
 
 
 		$tests = [
@@ -190,13 +189,13 @@ class Controller_Main extends Mvc_Controller_Default
 			]
 		];
 
-		foreach( $tests as $i=>$tests_data ) {
-			$tests[$i]['title'] = Tr::_($tests_data['title']);
+		foreach( $tests as $i => $tests_data ) {
+			$tests[$i]['title'] = Tr::_( $tests_data['title'] );
 
 			$test_instances = [];
 
 			foreach( $tests_data['tests'] as $test ) {
-				$class_name = __NAMESPACE__.'\\Test_'.$test;
+				$class_name = __NAMESPACE__ . '\\Test_' . $test;
 				$test_instances[$test] = new $class_name( $test, $data );
 				$all_tests[$test] = $test_instances[$test];
 
@@ -206,11 +205,11 @@ class Controller_Main extends Mvc_Controller_Default
 		}
 
 
-		$selected_test_id = Http_Request::GET()->getString( 'test', '', array_keys($all_tests) );
+		$selected_test_id = Http_Request::GET()->getString( 'test', '', array_keys( $all_tests ) );
 
-		$this->view->setVar('tests', $tests);
-		if($selected_test_id) {
-			$all_tests[$selected_test_id]->setIsSelected(true);
+		$this->view->setVar( 'tests', $tests );
+		if( $selected_test_id ) {
+			$all_tests[$selected_test_id]->setIsSelected( true );
 			$this->view->setVar( 'selected_test', $all_tests[$selected_test_id] );
 
 

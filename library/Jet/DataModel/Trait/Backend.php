@@ -5,6 +5,7 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace Jet;
 
 /**
@@ -18,7 +19,7 @@ trait DataModel_Trait_Backend
 	 *
 	 * @return DataModel_Backend
 	 */
-	public static function getBackendInstance() : DataModel_Backend
+	public static function getBackendInstance(): DataModel_Backend
 	{
 		return DataModel_Backend::get( static::getDataModelDefinition() );
 	}
@@ -26,7 +27,7 @@ trait DataModel_Trait_Backend
 	/**
 	 *
 	 */
-	public function startBackendTransaction() : void
+	public function startBackendTransaction(): void
 	{
 		/**
 		 * @var DataModel $this
@@ -40,7 +41,7 @@ trait DataModel_Trait_Backend
 	/**
 	 * @return bool
 	 */
-	public function getBackendTransactionStarted() : bool
+	public function getBackendTransactionStarted(): bool
 	{
 		return static::getBackendInstance()->getTransactionStarted();
 	}
@@ -48,7 +49,7 @@ trait DataModel_Trait_Backend
 	/**
 	 *
 	 */
-	public function commitBackendTransaction() : void
+	public function commitBackendTransaction(): void
 	{
 		/**
 		 * @var DataModel $this
@@ -62,7 +63,7 @@ trait DataModel_Trait_Backend
 	/**
 	 * @return bool
 	 */
-	public function getBackendTransactionStartedByThisInstance() : bool
+	public function getBackendTransactionStartedByThisInstance(): bool
 	{
 		/**
 		 * @var DataModel $this
@@ -72,7 +73,7 @@ trait DataModel_Trait_Backend
 			return false;
 		}
 
-		if( get_class( $starter )!=get_class( $this ) ) {
+		if( get_class( $starter ) != get_class( $this ) ) {
 			return false;
 		}
 
@@ -81,7 +82,7 @@ trait DataModel_Trait_Backend
 		 */
 		$id_controller = $this->getIDController();
 
-		if( $starter->getIDController()->toString()!=$id_controller->toString() ) {
+		if( $starter->getIDController()->toString() != $id_controller->toString() ) {
 			return false;
 		}
 
@@ -91,7 +92,7 @@ trait DataModel_Trait_Backend
 	/**
 	 *
 	 */
-	public function rollbackBackendTransaction() : void
+	public function rollbackBackendTransaction(): void
 	{
 		static::getBackendInstance()->transactionRollback();
 	}

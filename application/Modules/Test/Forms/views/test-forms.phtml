@@ -1,4 +1,5 @@
 <?php
+
 use Jet\Form;
 use Jet\SysConf_URI;
 use Jet\Tr;
@@ -7,42 +8,42 @@ use Jet\Mvc_Layout;
 
 /**
  * @var Mvc_View $this
- * @var Form[]   $forms
+ * @var Form[] $forms
  */
 
 $forms = $this->getRaw( 'forms' );
 
-Mvc_Layout::getCurrentLayout()->requireJavascriptFile( SysConf_URI::getJs().'JetAjaxForm.js?v=1' );
+Mvc_Layout::getCurrentLayout()->requireJavascriptFile( SysConf_URI::getJs() . 'JetAjaxForm.js?v=1' );
 
 ?>
 <script type="text/javascript">
 	const testSendForm = {
-		submit: function( id ) {
+		submit: function (id) {
 			JetAjaxForm.submit(id, {
-				showProgressIndicator: function( form ) {
+				showProgressIndicator: function (form) {
 					$('#__progress__').show();
 					$('#__progress_prc__').html('');
 				},
 
-				hideProgressIndicator: function( form ) {
+				hideProgressIndicator: function (form) {
 					$('#__progress__').hide();
 				},
 
-				onProgress: function( form, percent ) {
-					$('#__progress_prc__').html(percent+'%');
+				onProgress: function (form, percent) {
+					$('#__progress_prc__').html(percent + '%');
 				},
 
-				onSuccess: function( form, response_data ) {
+				onSuccess: function (form, response_data) {
 				},
 
-				onFormError: function( form, response_data ) {
+				onFormError: function (form, response_data) {
 				},
 
-				onAccessDenied: function( form ) {
+				onAccessDenied: function (form) {
 					alert('Access denied!');
 				},
 
-				onError: function( form ) {
+				onError: function (form) {
 					alert('Unknown error ...');
 				}
 			});
@@ -52,42 +53,51 @@ Mvc_Layout::getCurrentLayout()->requireJavascriptFile( SysConf_URI::getJs().'Jet
 </script>
 
 <style type="text/css">
-	#__progress__ {
-		z-index: 9999999999;
-		position: fixed;
-		display:none;
-		top: 0px; left: 0px;
-		width: 100%;
-		height: 100%;
-		background-color: #000000;
-		opacity: 0.5
-	}
+    #__progress__ {
+        z-index: 9999999999;
+        position: fixed;
+        display: none;
+        top: 0px;
+        left: 0px;
+        width: 100%;
+        height: 100%;
+        background-color: #000000;
+        opacity: 0.5
+    }
 
-	#__progress__ .loading {
-		margin-top: 20%;margin-left:40%;width:20%;opacity: 1;background-color: #ffffff;padding:20px;border-radius: 10px;
-		color: #000000;
-		font-size: 18px;
-	}
+    #__progress__ .loading {
+        margin-top: 20%;
+        margin-left: 40%;
+        width: 20%;
+        opacity: 1;
+        background-color: #ffffff;
+        padding: 20px;
+        border-radius: 10px;
+        color: #000000;
+        font-size: 18px;
+    }
 </style>
 
-<h2><?=Tr::_( 'Form test' )?></h2>
+<h2><?= Tr::_( 'Form test' ) ?></h2>
 <p>
-	<?php foreach( $forms as $form_name => $d ):
+	<?php foreach($forms
+
+	as $form_name => $d):
 	/**
 	 * @var Form $form
 	 */
-		$form = $d['form'];
-		//$form->setIsReadonly();
-		$this->setVar('form', $form);
+	$form = $d['form'];
+	//$form->setIsReadonly();
+	$this->setVar( 'form', $form );
 	?>
 	<fieldset style="margin-bottom: 40px">
-		<legend><?=$d['title']?></legend>
+		<legend><?= $d['title'] ?></legend>
 
-		<div id="form_area_<?=$form->getId()?>">
-			<?=$this->render('test-forms/form');?>
+		<div id="form_area_<?= $form->getId() ?>">
+			<?= $this->render( 'test-forms/form' ); ?>
 		</div>
 	</fieldset>
-	<?php endforeach; ?>
+<?php endforeach; ?>
 </p>
 
 
@@ -96,6 +106,6 @@ Mvc_Layout::getCurrentLayout()->requireJavascriptFile( SysConf_URI::getJs().'Jet
 	<div class="loading" align="center">
 		<div id="__progress_prc__"></div>
 		<i class="fa fa-spinner fa-spin fa-3x fa-fw"></i>
-		<span class="sr-only"><?=Tr::_('Loading ...');?></span>
+		<span class="sr-only"><?= Tr::_( 'Loading ...' ); ?></span>
 	</div>
 </div>

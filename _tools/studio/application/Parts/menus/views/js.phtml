@@ -5,77 +5,76 @@ namespace JetStudio;
 <script type="text/javascript">
 	const Menus = {
 		createSet: {
-			openDialog: function() {
+			openDialog: function () {
 				$('#dialog_create_new_menu_set').modal('show');
 			},
-			createSend: function() {
+			createSend: function () {
 				JetAjaxForm.submit(
 					'<?=Menus_MenuSet::getCreateForm()->getId()?>',
 					{
-						onSuccess: function( form, response_data ) {
-							location = '?set='+encodeURIComponent(response_data['new_set'])
+						onSuccess: function (form, response_data) {
+							location = '?set=' + encodeURIComponent(response_data['new_set'])
 						}
 					}
 				);
 			}
 		},
 		createMenu: {
-			openDialog: function() {
+			openDialog: function () {
 				$('#dialog_create_new_menu').modal('show');
 			},
-			createSend: function() {
+			createSend: function () {
 				JetAjaxForm.submit(
 					'<?=Menus_Menu::getCreateForm()->getId()?>',
 					{
-						onSuccess: function( form, response_data ) {
-							location = '?set=<?=Menus::getCurrentMenuSetName()?>&menu='+encodeURIComponent(response_data['new_menu_id'])
+						onSuccess: function (form, response_data) {
+							location = '?set=<?=Menus::getCurrentMenuSetName()?>&menu=' + encodeURIComponent(response_data['new_menu_id'])
 						}
 					}
 				);
 			},
-			generateId: function( name ) {
+			generateId: function (name) {
 				$.ajax({
-					url: '<?=Menus::getActionUrl('menu/generate_id', [], false)?>&name='+encodeURIComponent(name),
-					success: function(result) {
-						$('#create_menu_form__id').val( result.id );
+					url: '<?=Menus::getActionUrl( 'menu/generate_id', [], false )?>&name=' + encodeURIComponent(name),
+					success: function (result) {
+						$('#create_menu_form__id').val(result.id);
 					}
 				});
 			}
 
 		},
 		createMenuItem: {
-			openDialog: function() {
+			openDialog: function () {
 				$('#dialog_create_new_menu_item').modal('show');
 			},
-			createSend: function() {
+			createSend: function () {
 				JetAjaxForm.submit(
 					'<?=Menus_Menu_Item::getCreateForm()->getId()?>',
 					{
-						onSuccess: function( form, response_data ) {
-							location = '?set=<?=Menus::getCurrentMenuSetName()?>&menu=<?=Menus::getCurrentMenuId()?>&item='+encodeURIComponent(response_data['new_menu_item_id'])
+						onSuccess: function (form, response_data) {
+							location = '?set=<?=Menus::getCurrentMenuSetName()?>&menu=<?=Menus::getCurrentMenuId()?>&item=' + encodeURIComponent(response_data['new_menu_item_id'])
 						}
 					}
 				);
 			},
-			generateId: function( name ) {
+			generateId: function (name) {
 				$.ajax({
-					url: '<?=Menus::getActionUrl('item/generate_id', [], false)?>&name='+encodeURIComponent(name),
-					success: function(result) {
-						$('#create_menu_item_form__id').val( result.id );
+					url: '<?=Menus::getActionUrl( 'item/generate_id', [], false )?>&name=' + encodeURIComponent(name),
+					success: function (result) {
+						$('#create_menu_item_form__id').val(result.id);
 					}
 				});
 			}
 
 		},
 
-		initSort: function() {
+		initSort: function () {
 			$('#items_sort_area').sortable({
-				stop: function() {
+				stop: function () {
 				}
 
 			});
 		}
-
 
 
 	}

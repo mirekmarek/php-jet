@@ -5,6 +5,7 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace Jet;
 
 /**
@@ -33,7 +34,7 @@ class Db extends BaseObject
 	 * @return Db_Backend_Interface
 	 * @throws Db_Exception
 	 */
-	public static function get( ?string $connection_name = null ) : Db_Backend_Interface
+	public static function get( ?string $connection_name = null ): Db_Backend_Interface
 	{
 		if( !$connection_name ) {
 			$connection_name = static::getConfig()->getDefaultConnectionName();
@@ -49,7 +50,7 @@ class Db extends BaseObject
 
 		if( !$connection_config ) {
 			throw new Db_Exception(
-				'Connection \''.$connection_name.'\' does not exist',
+				'Connection \'' . $connection_name . '\' does not exist',
 				Db_Exception::CODE_UNKNOWN_CONNECTION
 			);
 		}
@@ -63,7 +64,7 @@ class Db extends BaseObject
 	 *
 	 * @return Db_Config
 	 */
-	public static function getConfig() : Db_Config
+	public static function getConfig(): Db_Config
 	{
 		if( !static::$config ) {
 			static::$config = new Db_Config();
@@ -75,18 +76,18 @@ class Db extends BaseObject
 	/**
 	 * @param Db_Config $config
 	 */
-	public static function setConfig( Db_Config $config ) : void
+	public static function setConfig( Db_Config $config ): void
 	{
 		static::$config = $config;
 	}
 
 	/**
 	 * @param string $connection_name
-	 * @param array  $connection_config_data
+	 * @param array $connection_config_data
 	 *
 	 * @return Db_Backend_Interface
 	 */
-	public static function create( string $connection_name, array $connection_config_data ) : Db_Backend_Interface
+	public static function create( string $connection_name, array $connection_config_data ): Db_Backend_Interface
 	{
 		if( isset( static::$connections[$connection_name] ) ) {
 			return static::$connections[$connection_name];

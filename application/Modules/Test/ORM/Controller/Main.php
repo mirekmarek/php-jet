@@ -5,6 +5,7 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace JetApplicationModule\Test\ORM;
 
 use Jet\DataModel_Backend_MySQL;
@@ -22,7 +23,7 @@ class Controller_Main extends Mvc_Controller_Default
 	/**
 	 *
 	 */
-	public function test_orm_Action() : void
+	public function test_orm_Action(): void
 	{
 		$backends = [];
 
@@ -31,29 +32,28 @@ class Controller_Main extends Mvc_Controller_Default
 
 		$_tests = [
 			'BasicSelect',
-		    'BasicSelectWhere',
-		    'SimpleInternalRelation',
+			'BasicSelectWhere',
+			'SimpleInternalRelation',
 			'SimpleInternalSubRelation',
 
-		    'CountSelect',
+			'CountSelect',
 
-		    'M2NRelation',
+			'M2NRelation',
 
-		    'ExternalRelation'
+			'ExternalRelation'
 		];
 
 		$tests = [];
 		foreach( $_tests as $test ) {
 
-			$class_name = __NAMESPACE__.'\\Test_'.$test;
+			$class_name = __NAMESPACE__ . '\\Test_' . $test;
 			$tests[$test] = new $class_name( $test );
 		}
 
-		$this->view->setVar('backends', $backends);
-		$this->view->setVar('tests', $tests);
+		$this->view->setVar( 'backends', $backends );
+		$this->view->setVar( 'tests', $tests );
 
 
-
-		$this->output('tests');
+		$this->output( 'tests' );
 	}
 }

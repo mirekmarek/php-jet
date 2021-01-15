@@ -18,7 +18,7 @@ class Test_Article_GetList extends Test_Abstract
 	/**
 	 * @return string
 	 */
-	protected function _getTitle() : string
+	protected function _getTitle(): string
 	{
 		return 'Get list';
 	}
@@ -26,8 +26,8 @@ class Test_Article_GetList extends Test_Abstract
 	/**
 	 *
 	 */
-	public function test() : void
+	public function test(): void
 	{
-		$this->client->get('article');
+		$this->client->get( 'article' );
 	}
 }

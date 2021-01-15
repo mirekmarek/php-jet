@@ -5,6 +5,7 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace Jet;
 
 /**
@@ -15,48 +16,48 @@ interface DataModel_Related_Interface extends DataModel_Interface
 
 	/**
 	 *
-	 * @param array                  $where
+	 * @param array $where
 	 * @param DataModel_PropertyFilter|null $load_filter
 	 *
 	 * @return array
 	 */
-	public static function fetchRelatedData( array $where, DataModel_PropertyFilter $load_filter = null ) : array;
+	public static function fetchRelatedData( array $where, DataModel_PropertyFilter $load_filter = null ): array;
 
 	/**
 	 *
-	 * @param array  $this_data
+	 * @param array $this_data
 	 * @param array  &$related_data
 	 * @param DataModel_PropertyFilter|null $load_filter
 	 *
 	 * @return mixed
 	 */
-	public static function initRelatedByData( array $this_data, array &$related_data, DataModel_PropertyFilter $load_filter = null ) : mixed;
+	public static function initRelatedByData( array $this_data, array &$related_data, DataModel_PropertyFilter $load_filter = null ): mixed;
 
 	/**
 	 * @return DataModel_Related_Interface|DataModel_Related_1toN_Iterator|DataModel_Related_MtoN_Iterator|null
 	 */
-	public function createNewRelatedDataModelInstance() : DataModel_Related_Interface|DataModel_Related_1toN_Iterator|DataModel_Related_MtoN_Iterator|null;
+	public function createNewRelatedDataModelInstance(): DataModel_Related_Interface|DataModel_Related_1toN_Iterator|DataModel_Related_MtoN_Iterator|null;
 
 
 	/**
 	 * @param DataModel_IDController $parent_id
 	 */
-	public function actualizeParentId( DataModel_IDController $parent_id ) : void;
+	public function actualizeParentId( DataModel_IDController $parent_id ): void;
 
 	/**
 	 * @param DataModel_IDController $main_id
 	 */
-	public function actualizeMainId( DataModel_IDController $main_id ) : void;
+	public function actualizeMainId( DataModel_IDController $main_id ): void;
 
 	/**
 	 *
 	 */
-	public function save() : void;
+	public function save(): void;
 
 	/**
 	 *
 	 */
-	public function delete() : void;
+	public function delete(): void;
 
 	/**
 	 *
@@ -66,6 +67,6 @@ interface DataModel_Related_Interface extends DataModel_Interface
 	 * @return Form_Field[]
 	 *
 	 */
-	public function getRelatedFormFields( DataModel_Definition_Property $parent_property_definition, DataModel_PropertyFilter $property_filter = null ) : array;
+	public function getRelatedFormFields( DataModel_Definition_Property $parent_property_definition, DataModel_PropertyFilter $property_filter = null ): array;
 
 }

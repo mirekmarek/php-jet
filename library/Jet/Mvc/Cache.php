@@ -5,6 +5,7 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace Jet;
 
 require_once 'Cache/Backend.php';
@@ -22,7 +23,7 @@ class Mvc_Cache
 	/**
 	 * @param Mvc_Cache_Backend $backend
 	 */
-	public static function init( Mvc_Cache_Backend $backend ) : void
+	public static function init( Mvc_Cache_Backend $backend ): void
 	{
 		static::$backend = $backend;
 	}
@@ -31,9 +32,9 @@ class Mvc_Cache
 	/**
 	 * @return bool
 	 */
-	public static function isActive() : bool
+	public static function isActive(): bool
 	{
-		if(!static::$backend) {
+		if( !static::$backend ) {
 			return false;
 		}
 
@@ -44,9 +45,9 @@ class Mvc_Cache
 	/**
 	 *
 	 */
-	public static function reset() : void
+	public static function reset(): void
 	{
-		if(static::$backend) {
+		if( static::$backend ) {
 			static::$backend->reset();
 		}
 	}
@@ -56,7 +57,7 @@ class Mvc_Cache
 	 */
 	public static function loadSiteMaps(): array|null
 	{
-		if(!static::$backend) {
+		if( !static::$backend ) {
 			return null;
 		}
 
@@ -68,7 +69,7 @@ class Mvc_Cache
 	 */
 	public static function saveSiteMaps( array $map ): void
 	{
-		if(static::$backend) {
+		if( static::$backend ) {
 			static::$backend->saveSiteMaps( $map );
 		}
 	}
@@ -81,7 +82,7 @@ class Mvc_Cache
 	 */
 	public static function loadPageMaps( Mvc_Site_Interface $site, Locale $locale ): array|null
 	{
-		if(!static::$backend) {
+		if( !static::$backend ) {
 			return null;
 		}
 
@@ -94,9 +95,9 @@ class Mvc_Cache
 	 *
 	 * @param array $map
 	 */
-	public static function savePageMaps(  Mvc_Site_Interface $site, Locale $locale, array $map ): void
+	public static function savePageMaps( Mvc_Site_Interface $site, Locale $locale, array $map ): void
 	{
-		if(static::$backend) {
+		if( static::$backend ) {
 			static::$backend->savePageMaps( $site, $locale, $map );
 		}
 	}
@@ -106,9 +107,9 @@ class Mvc_Cache
 	 *
 	 * @return string|null
 	 */
-	public static function loadContentOutput( Mvc_Page_Content_Interface $content ) : string|null
+	public static function loadContentOutput( Mvc_Page_Content_Interface $content ): string|null
 	{
-		if(!static::$backend) {
+		if( !static::$backend ) {
 			return null;
 		}
 
@@ -120,9 +121,9 @@ class Mvc_Cache
 	 * @param string $output
 	 *
 	 */
-	public static function saveContentOutput( Mvc_Page_Content_Interface $content, string $output ) : void
+	public static function saveContentOutput( Mvc_Page_Content_Interface $content, string $output ): void
 	{
-		if(static::$backend) {
+		if( static::$backend ) {
 			static::$backend->saveContentOutput( $content, $output );
 		}
 	}

@@ -5,6 +5,7 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace JetApplicationModule\ManageAccess\Visitors\Users;
 
 use Jet\DataModel_Fetch_Instances;
@@ -21,7 +22,8 @@ use Jet\Tr;
 /**
  *
  */
-class Listing extends Data_Listing {
+class Listing extends Data_Listing
+{
 
 	use Data_Listing_Filter_search;
 
@@ -56,7 +58,7 @@ class Listing extends Data_Listing {
 	 * @return User[]|DataModel_Fetch_Instances
 	 * @noinspection PhpDocSignatureInspection
 	 */
-	protected function getList() : DataModel_Fetch_Instances
+	protected function getList(): DataModel_Fetch_Instances
 	{
 		return User::getList();
 	}
@@ -64,70 +66,70 @@ class Listing extends Data_Listing {
 	/**
 	 *
 	 */
-	protected function filter_search_getWhere() : void
+	protected function filter_search_getWhere(): void
 	{
-		if(!$this->search) {
+		if( !$this->search ) {
 			return;
 		}
 
-		$search = '%'.$this->search.'%';
-		$this->filter_addWhere([
-			'username *'   => $search,
+		$search = '%' . $this->search . '%';
+		$this->filter_addWhere( [
+			'username *' => $search,
 			'OR',
-			'email *'      => $search,
-		]);
+			'email *'    => $search,
+		] );
 
 	}
 
 	/**
 	 *
 	 */
-	protected function filter_role_catchGetParams() : void
+	protected function filter_role_catchGetParams(): void
 	{
-		$this->role = Http_Request::GET()->getString('role');
-		$this->setGetParam('role', $this->role);
+		$this->role = Http_Request::GET()->getString( 'role' );
+		$this->setGetParam( 'role', $this->role );
 	}
 
 	/**
 	 * @param Form $form
 	 */
-	public function filter_role_catchForm( Form $form ) : void
+	public function filter_role_catchForm( Form $form ): void
 	{
-		$value = $form->field('role')->getValue();
+		$value = $form->field( 'role' )->getValue();
 
 		$this->role = $value;
-		$this->setGetParam('role', $value);
+		$this->setGetParam( 'role', $value );
 	}
 
 	/**
 	 * @param Form $form
 	 */
-	protected function filter_role_getForm( Form $form ) : void
+	protected function filter_role_getForm( Form $form ): void
 	{
-		$field = new Form_Field_Select('role', 'Role:', $this->role);
-		$field->setErrorMessages([
+		$field = new Form_Field_Select( 'role', 'Role:', $this->role );
+		$field->setErrorMessages( [
 			Form_Field_Select::ERROR_CODE_INVALID_VALUE => ' '
-		]);
-		$options = [0=>Tr::_('- all -')];
+		] );
+		$options = [0 => Tr::_( '- all -' )];
 
-		foreach(Role::getList() as $role) {
+		foreach( Role::getList() as $role ) {
 			$options[$role->getId()] = $role->getName();
 		}
 		$field->setSelectOptions( $options );
 
 
-		$form->addField($field);
+		$form->addField( $field );
 	}
 
 	/**
 	 *
 	 */
-	protected function filter_role_getWhere() : void
+	protected function filter_role_getWhere(): void
 	{
-		if($this->role) {
-			$this->filter_addWhere([
+		if( $this->role ) {
+			$this->filter_addWhere( [
 				'role.id' => $this->role,
-			]);
+			] );
 		}
 	}
 

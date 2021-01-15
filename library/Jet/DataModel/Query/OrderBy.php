@@ -5,10 +5,11 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace Jet;
 
 /**
- * 
+ *
  */
 class DataModel_Query_OrderBy extends BaseObject implements BaseObject_Interface_IteratorCountable
 {
@@ -29,7 +30,7 @@ class DataModel_Query_OrderBy extends BaseObject implements BaseObject_Interface
 	public function __construct( DataModel_Query $query, array|string $order_by )
 	{
 		if( !is_array( $order_by ) ) {
-			$order_by = [ $order_by ];
+			$order_by = [$order_by];
 		}
 
 		$select = $query->getSelect();
@@ -50,13 +51,13 @@ class DataModel_Query_OrderBy extends BaseObject implements BaseObject_Interface
 
 			$desc = false;
 
-			if( $ob[0]=='-' ) {
+			if( $ob[0] == '-' ) {
 				$desc = true;
 			}
 
 			if(
-				$ob[0]=='+' ||
-				$ob[0]=='-'
+				$ob[0] == '+' ||
+				$ob[0] == '-'
 			) {
 				$ob = substr( $ob, 1 );
 			}
@@ -78,7 +79,7 @@ class DataModel_Query_OrderBy extends BaseObject implements BaseObject_Interface
 
 			if( !$property ) {
 				throw new DataModel_Query_Exception(
-					'setOrderBy error. Undefined order by property: \''.$ob.'\'',
+					'setOrderBy error. Undefined order by property: \'' . $ob . '\'',
 					DataModel_Query_Exception::CODE_QUERY_PARSE_ERROR
 				);
 			}
@@ -92,9 +93,9 @@ class DataModel_Query_OrderBy extends BaseObject implements BaseObject_Interface
 	/**
 	 * @return bool
 	 */
-	public function getIsEmpty() : bool
+	public function getIsEmpty(): bool
 	{
-		return ( count( $this->items )==0 );
+		return (count( $this->items ) == 0);
 	}
 
 
@@ -108,16 +109,16 @@ class DataModel_Query_OrderBy extends BaseObject implements BaseObject_Interface
 	/**
 	 * @see \Iterator
 	 */
-	public function current() : DataModel_Query_OrderBy_Item
+	public function current(): DataModel_Query_OrderBy_Item
 	{
 		return current( $this->items );
 	}
 
 	/**
-	 * @see \Iterator
 	 * @return string
+	 * @see \Iterator
 	 */
-	public function key() : string
+	public function key(): string
 	{
 		return key( $this->items );
 	}
@@ -125,7 +126,7 @@ class DataModel_Query_OrderBy extends BaseObject implements BaseObject_Interface
 	/**
 	 * @see \Iterator
 	 */
-	public function next() : DataModel_Query_OrderBy_Item|bool
+	public function next(): DataModel_Query_OrderBy_Item|bool
 	{
 		return next( $this->items );
 	}
@@ -133,29 +134,29 @@ class DataModel_Query_OrderBy extends BaseObject implements BaseObject_Interface
 	/**
 	 * @see \Iterator
 	 */
-	public function rewind() : void
+	public function rewind(): void
 	{
 		reset( $this->items );
 	}
 
 	/**
-	 * @see \Iterator
 	 * @return bool
+	 * @see \Iterator
 	 */
-	public function valid() : bool
+	public function valid(): bool
 	{
-		return key( $this->items )!==null;
+		return key( $this->items ) !== null;
 	}
 
 
 	/**
+	 * @return int
 	 * @see \Countable
 	 *
-	 * @return int
 	 */
-	public function count() : int
+	public function count(): int
 	{
-		return count($this->items);
+		return count( $this->items );
 	}
 
 }

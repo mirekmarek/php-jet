@@ -1,4 +1,5 @@
 <?php
+
 namespace JetApplicationModule\Content\Images;
 
 use Jet\Form_Field_FileImage;
@@ -7,8 +8,8 @@ use Jet\Tr;
 use Jet\Mvc_View;
 
 /**
- * @var Mvc_View             $this
- * @var Gallery              $gallery
+ * @var Mvc_View $this
+ * @var Gallery $gallery
  * @var Form_Field_FileImage $files_field
  */
 $gallery = $this->getRaw( 'gallery' );
@@ -16,18 +17,18 @@ $images = $gallery->getImages();
 
 $router = $this->getController()->getControllerRouter();
 
-$delete_uri = $router->action('image_delete')->URI($gallery->getId());
+$delete_uri = $router->action( 'image_delete' )->URI( $gallery->getId() );
 
 
 if( count( $images ) ): ?>
-	<form action="<?=$delete_uri?>" method="post">
+	<form action="<?= $delete_uri ?>" method="post">
 		<div class="row">
 			<?php foreach( $images as $image ): ?>
 				<div style="float:left;margin: 10px;overflow: hidden;">
 					<div class="thumbnail" style="height: 200px;width: 200px;padding:10px;overflow: hidden">
-						<a href="<?=$image->getURI();?>" target="_blank">
+						<a href="<?= $image->getURI(); ?>" target="_blank">
 							<div
-								style="width:180px;height:135px;background-position:center;background-repeat:no-repeat;background-image: url('<?=$image->getThumbnail( 180, 135 )->getURI();?>');"
+									style="width:180px;height:135px;background-position:center;background-repeat:no-repeat;background-image: url('<?= $image->getThumbnail( 180, 135 )->getURI(); ?>');"
 							></div>
 						</a>
 
@@ -35,10 +36,10 @@ if( count( $images ) ): ?>
 							<p>
 								<?php if( $delete_uri ): ?>
 									<input type="checkbox" name="images[]"
-									       value="<?=$image->getId();?>"
-									       id="image_<?=$image->getId();?>">
+									       value="<?= $image->getId(); ?>"
+									       id="image_<?= $image->getId(); ?>">
 								<?php endif; ?>
-								<?=$image->getFileName();?>
+								<?= $image->getFileName(); ?>
 							</p>
 						</div>
 					</div>
@@ -47,7 +48,7 @@ if( count( $images ) ): ?>
 		</div>
 
 		<?php if( $delete_uri ): ?>
-			<?=UI::button_delete( Tr::_( 'Delete selected images' ) )->setType( 'submit' )?>
+			<?= UI::button_delete( Tr::_( 'Delete selected images' ) )->setType( 'submit' ) ?>
 		<?php endif; ?>
 	</form>
 <?php endif;

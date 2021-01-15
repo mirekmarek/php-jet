@@ -5,6 +5,7 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace Jet;
 
 /**
@@ -18,11 +19,10 @@ class Form_Renderer_Single extends Form_Renderer
 	protected ?string $view_script = null;
 
 
-
 	/**
 	 * @return string
 	 */
-	public function getViewScript() : string
+	public function getViewScript(): string
 	{
 		return $this->view_script;
 	}
@@ -33,7 +33,7 @@ class Form_Renderer_Single extends Form_Renderer
 	 *
 	 * @return $this
 	 */
-	public function setViewScript( string $view_script ) : static
+	public function setViewScript( string $view_script ): static
 	{
 		$this->view_script = $view_script;
 
@@ -43,7 +43,7 @@ class Form_Renderer_Single extends Form_Renderer
 	/**
 	 * @return string
 	 */
-	public function __toString() : string
+	public function __toString(): string
 	{
 		return $this->toString();
 	}
@@ -51,7 +51,7 @@ class Form_Renderer_Single extends Form_Renderer
 	/**
 	 * @return string
 	 */
-	public function toString() : string
+	public function toString(): string
 	{
 		return $this->render();
 	}
@@ -59,12 +59,12 @@ class Form_Renderer_Single extends Form_Renderer
 	/**
 	 * @return string
 	 */
-	public function render() : string
+	public function render(): string
 	{
 		try {
-			return $this->getView()->render($this->getViewScript());
+			return $this->getView()->render( $this->getViewScript() );
 		} catch( \Exception $e ) {
-			Debug_ErrorHandler::handleException($e);
+			Debug_ErrorHandler::handleException( $e );
 			die();
 		}
 

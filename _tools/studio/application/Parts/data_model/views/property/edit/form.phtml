@@ -7,12 +7,12 @@ use Jet\Form;
 $current = DataModels::getCurrentProperty();
 
 $form = $current->getEditForm();
-$form->setDefaultLabelWidth([
+$form->setDefaultLabelWidth( [
 	Form::LJ_SIZE_MEDIUM => 2
-]);
-$form->setDefaultFieldWidth([
+] );
+$form->setDefaultFieldWidth( [
 	Form::LJ_SIZE_MEDIUM => 10
-]);
+] );
 
 
 $current->showEditForm();

@@ -5,6 +5,7 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace Jet;
 
 /**
@@ -23,7 +24,7 @@ class DataModel_Query_Where extends BaseObject implements BaseObject_Interface_I
 	/**
 	 *
 	 * @param DataModel_Query $query
-	 * @param array           $where
+	 * @param array $where
 	 *
 	 * @throws DataModel_Query_Exception
 	 */
@@ -51,24 +52,23 @@ class DataModel_Query_Where extends BaseObject implements BaseObject_Interface_I
 	/**
 	 *
 	 * @param DataModel_Definition_Property $property_definition
-	 * @param string                        $operator (DataModel_Query::O_OR,  DataModel_Query::O_AND, ... )
-	 * @param mixed                         $value
+	 * @param string $operator (DataModel_Query::O_OR,  DataModel_Query::O_AND, ... )
+	 * @param mixed $value
 	 *
 	 * @throws DataModel_Query_Exception
 	 */
-	public function addExpression( DataModel_Definition_Property $property_definition, string $operator, mixed $value ) : void
+	public function addExpression( DataModel_Definition_Property $property_definition, string $operator, mixed $value ): void
 	{
 		if( $this->expressions ) {
-			$previous = $this->expressions[count( $this->expressions )-1];
+			$previous = $this->expressions[count( $this->expressions ) - 1];
 
 			if(
-				$previous!==DataModel_Query::L_O_AND &&
-				$previous!==DataModel_Query::L_O_OR
+				$previous !== DataModel_Query::L_O_AND &&
+				$previous !== DataModel_Query::L_O_OR
 			) {
 
 				throw new DataModel_Query_Exception(
-					'Previous part of the query must be AND or OR. '.$previous.' given. Current where dump:'.$this->toString(
-					), DataModel_Query_Exception::CODE_QUERY_NONSENSE
+					'Previous part of the query must be AND or OR. ' . $previous . ' given. Current where dump:' . $this->toString(), DataModel_Query_Exception::CODE_QUERY_NONSENSE
 				);
 			}
 		}
@@ -79,7 +79,7 @@ class DataModel_Query_Where extends BaseObject implements BaseObject_Interface_I
 	/**
 	 * @return string
 	 */
-	public function toString() : string
+	public function toString(): string
 	{
 		$result = [];
 
@@ -91,15 +91,15 @@ class DataModel_Query_Where extends BaseObject implements BaseObject_Interface_I
 			}
 		}
 
-		return '( '.implode( ' ', $result ).' )';
+		return '( ' . implode( ' ', $result ) . ' )';
 	}
 
 	/**
 	 * @return bool
 	 */
-	public function getIsEmpty() : bool
+	public function getIsEmpty(): bool
 	{
-		return ( count( $this->expressions )==0 );
+		return (count( $this->expressions ) == 0);
 	}
 
 	/**
@@ -107,22 +107,21 @@ class DataModel_Query_Where extends BaseObject implements BaseObject_Interface_I
 	 *
 	 * @throws DataModel_Query_Exception
 	 */
-	public function addAND() : void
+	public function addAND(): void
 	{
 		//for easier implementation of the query ... (often is associated with multiple conditions in the cycle)
 		if( !$this->expressions ) {
 			return;
 		}
 
-		$previous = $this->expressions[count( $this->expressions )-1];
+		$previous = $this->expressions[count( $this->expressions ) - 1];
 
 		if(
-			$previous===DataModel_Query::L_O_AND ||
-			$previous===DataModel_Query::L_O_OR
+			$previous === DataModel_Query::L_O_AND ||
+			$previous === DataModel_Query::L_O_OR
 		) {
 			throw new DataModel_Query_Exception(
-				'Previous part of the query must be Expression. '.$previous.' given. Current where dump:'.$this->toString(
-				), DataModel_Query_Exception::CODE_QUERY_NONSENSE
+				'Previous part of the query must be Expression. ' . $previous . ' given. Current where dump:' . $this->toString(), DataModel_Query_Exception::CODE_QUERY_NONSENSE
 			);
 		}
 
@@ -134,22 +133,21 @@ class DataModel_Query_Where extends BaseObject implements BaseObject_Interface_I
 	 *
 	 * @throws DataModel_Query_Exception
 	 */
-	public function addOR() : void
+	public function addOR(): void
 	{
 		//for easier implementation of the query ... (often is associated with multiple conditions in the cycle)
 		if( !$this->expressions ) {
 			return;
 		}
 
-		$previous = $this->expressions[count( $this->expressions )-1];
+		$previous = $this->expressions[count( $this->expressions ) - 1];
 
 		if(
-			$previous===DataModel_Query::L_O_AND ||
-			$previous===DataModel_Query::L_O_OR
+			$previous === DataModel_Query::L_O_AND ||
+			$previous === DataModel_Query::L_O_OR
 		) {
 			throw new DataModel_Query_Exception(
-				'Previous part of the query must be Expression. '.$previous.' given. Current where dump:'.$this->toString(
-				), DataModel_Query_Exception::CODE_QUERY_NONSENSE
+				'Previous part of the query must be Expression. ' . $previous . ' given. Current where dump:' . $this->toString(), DataModel_Query_Exception::CODE_QUERY_NONSENSE
 			);
 		}
 
@@ -161,18 +159,17 @@ class DataModel_Query_Where extends BaseObject implements BaseObject_Interface_I
 	 *
 	 * @throws DataModel_Query_Exception
 	 */
-	public function addSubExpressions( DataModel_Query_Where $sub_expressions ) : void
+	public function addSubExpressions( DataModel_Query_Where $sub_expressions ): void
 	{
 		if( $this->expressions ) {
-			$previous = $this->expressions[count( $this->expressions )-1];
+			$previous = $this->expressions[count( $this->expressions ) - 1];
 
 			if(
-				$previous!==DataModel_Query::L_O_AND &&
-				$previous!==DataModel_Query::L_O_OR
+				$previous !== DataModel_Query::L_O_AND &&
+				$previous !== DataModel_Query::L_O_OR
 			) {
 				throw new DataModel_Query_Exception(
-					'Previous part of the query must be Expression. '.$previous.' given. Current where dump:'.$this->toString(
-					), DataModel_Query_Exception::CODE_QUERY_NONSENSE
+					'Previous part of the query must be Expression. ' . $previous . ' given. Current where dump:' . $this->toString(), DataModel_Query_Exception::CODE_QUERY_NONSENSE
 				);
 			}
 		}
@@ -183,7 +180,7 @@ class DataModel_Query_Where extends BaseObject implements BaseObject_Interface_I
 	/**
 	 * @param DataModel_Query_Where $part
 	 */
-	public function attach( DataModel_Query_Where $part ) : void
+	public function attach( DataModel_Query_Where $part ): void
 	{
 		if( $this->expressions ) {
 			$this->expressions[] = DataModel_Query::L_O_AND;
@@ -205,16 +202,16 @@ class DataModel_Query_Where extends BaseObject implements BaseObject_Interface_I
 	/**
 	 * @see \Iterator
 	 */
-	public function current() : DataModel_Query_Where_Expression|DataModel_Query_Where|string
+	public function current(): DataModel_Query_Where_Expression|DataModel_Query_Where|string
 	{
 		return current( $this->expressions );
 	}
 
 	/**
-	 * @see \Iterator
 	 * @return string
+	 * @see \Iterator
 	 */
-	public function key() : string
+	public function key(): string
 	{
 		return key( $this->expressions );
 	}
@@ -222,7 +219,7 @@ class DataModel_Query_Where extends BaseObject implements BaseObject_Interface_I
 	/**
 	 * @see \Iterator
 	 */
-	public function next() : DataModel_Query_Where_Expression|DataModel_Query_Where|string|bool
+	public function next(): DataModel_Query_Where_Expression|DataModel_Query_Where|string|bool
 	{
 		return next( $this->expressions );
 	}
@@ -230,29 +227,29 @@ class DataModel_Query_Where extends BaseObject implements BaseObject_Interface_I
 	/**
 	 * @see \Iterator
 	 */
-	public function rewind() : void
+	public function rewind(): void
 	{
 		reset( $this->expressions );
 	}
 
 	/**
-	 * @see \Iterator
 	 * @return bool
+	 * @see \Iterator
 	 */
-	public function valid() : bool
+	public function valid(): bool
 	{
-		return key( $this->expressions )!==null;
+		return key( $this->expressions ) !== null;
 	}
 
 
 	/**
+	 * @return int
 	 * @see \Countable
 	 *
-	 * @return int
 	 */
-	public function count() : int
+	public function count(): int
 	{
-		return count($this->expressions);
+		return count( $this->expressions );
 	}
 
 }

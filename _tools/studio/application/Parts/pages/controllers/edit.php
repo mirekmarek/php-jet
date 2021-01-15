@@ -1,4 +1,5 @@
 <?php
+
 namespace JetStudio;
 
 use Jet\Http_Headers;
@@ -10,7 +11,7 @@ $current = Pages::getCurrentPage();
 $what = Pages::whatToEdit();
 
 $res = false;
-if($current) {
+if( $current ) {
 	$res = match ($what) {
 		'main' => $current->catchEditForm_main(),
 		'content' => $current->catchEditForm_content(),
@@ -19,15 +20,15 @@ if($current) {
 	};
 }
 
-if($res) {
+if( $res ) {
 	if( $current->save() ) {
-		UI_messages::success(Tr::_('Saved ...'));
+		UI_messages::success( Tr::_( 'Saved ...' ) );
 	}
 
-	Http_Headers::reload([], ['action']);
+	Http_Headers::reload( [], ['action'] );
 
 } else {
 	UI_messages::danger(
-		Tr::_('There are some problems ... Please check the form.')
+		Tr::_( 'There are some problems ... Please check the form.' )
 	);
 }

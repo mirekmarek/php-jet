@@ -22,19 +22,19 @@ $current_menu_item = Modules::getCurrentMenuItem();
 ?>
 <table class="table table-striped">
 	<tr>
-		<td><b><?=Tr::_('Menu items')?></b></td>
+		<td><b><?= Tr::_( 'Menu items' ) ?></b></td>
 	</tr>
-	<?php foreach( Menus::getSets() as $set_id=>$set ):
-		if(!$module->getMenuItemsList($set->getName())) {
+	<?php foreach( Menus::getSets() as $set_id => $set ):
+		if( !$module->getMenuItemsList( $set->getName() ) ) {
 			continue;
 		}
-		foreach( $set->getMenus() as $menu_id=>$menu ):
-			if(!($items=$module->getMenuItemsList($set->getName(), $menu->getId()))) {
+		foreach( $set->getMenus() as $menu_id => $menu ):
+			if( !($items = $module->getMenuItemsList( $set->getName(), $menu->getId() )) ) {
 				continue;
 			}
 			?>
 			<tr>
-				<td style="font-size: 10px;padding-left: 20px;"><b><?=$set_id?> / <?=$menu_id?></b></td>
+				<td style="font-size: 10px;padding-left: 20px;"><b><?= $set_id ?> / <?= $menu_id ?></b></td>
 			</tr>
 			<?php
 
@@ -42,14 +42,17 @@ $current_menu_item = Modules::getCurrentMenuItem();
 				?>
 				<tr>
 					<td style="padding-left: 50px;">
-						<?php if($current_menu_item && $current_menu_item->getFullId()==$item->getFullId()): ?>
-							<b class="badge badge-info"><?=$item->getId()?></b>
+						<?php if( $current_menu_item && $current_menu_item->getFullId() == $item->getFullId() ): ?>
+							<b class="badge badge-info"><?= $item->getId() ?></b>
 						<?php else: ?>
-							<a href="<?=Http_Request::currentURI(['menu_item'=>$item->getFullId()], ['page', 'action'])?>"><?=$item->getId()?></a>
+							<a href="<?= Http_Request::currentURI( ['menu_item' => $item->getFullId()], [
+								'page',
+								'action'
+							] ) ?>"><?= $item->getId() ?></a>
 						<?php endif; ?>
 					</td>
 				</tr>
-				<?php
+			<?php
 			endforeach;
 		endforeach;
 	endforeach; ?>

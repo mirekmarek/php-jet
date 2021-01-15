@@ -5,6 +5,7 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace JetStudio;
 
 use Jet\DataModel;
@@ -14,7 +15,8 @@ use Jet\Tr;
 
 /**
  */
-class DataModel_Definition_Model_Related_1toN extends Jet_DataModel_Definition_Model_Related_1toN implements DataModel_Definition_Model_Related_Interface {
+class DataModel_Definition_Model_Related_1toN extends Jet_DataModel_Definition_Model_Related_1toN implements DataModel_Definition_Model_Related_Interface
+{
 
 	use DataModel_Definition_Model_Related_Trait;
 
@@ -32,10 +34,10 @@ class DataModel_Definition_Model_Related_1toN extends Jet_DataModel_Definition_M
 	/**
 	 * @return Form
 	 */
-	public static function getCreateForm() : Form
+	public static function getCreateForm(): Form
 	{
-		if(!static::$create_form) {
-			static::$create_form = DataModel_Definition_Model_Trait::getCreateForm_Related('1toN');
+		if( !static::$create_form ) {
+			static::$create_form = DataModel_Definition_Model_Trait::getCreateForm_Related( '1toN' );
 		}
 
 		return static::$create_form;
@@ -44,7 +46,7 @@ class DataModel_Definition_Model_Related_1toN extends Jet_DataModel_Definition_M
 	/**
 	 * @return bool|DataModel_Definition_Model_Related_1toN
 	 */
-	public static function catchCreateForm() : bool|DataModel_Definition_Model_Related_1toN
+	public static function catchCreateForm(): bool|DataModel_Definition_Model_Related_1toN
 	{
 		$form = static::getCreateForm();
 
@@ -55,7 +57,7 @@ class DataModel_Definition_Model_Related_1toN extends Jet_DataModel_Definition_M
 			return false;
 		}
 
-		$class = DataModel_Definition_Model_Trait::catchCreateForm_createClass($form);
+		$class = DataModel_Definition_Model_Trait::catchCreateForm_createClass( $form );
 
 		$model = new DataModel_Definition_Model_Related_1toN();
 		$model->setClass( $class );
@@ -70,18 +72,18 @@ class DataModel_Definition_Model_Related_1toN extends Jet_DataModel_Definition_M
 	/**
 	 * @return ClassCreator_Class
 	 */
-	public function createClass_initClass() : ClassCreator_Class
+	public function createClass_initClass(): ClassCreator_Class
 	{
 		$class = new ClassCreator_Class();
 
 		$class->setNamespace( $this->_class->getNamespace() );
 		$class->setName( $this->_class->getClassName() );
 
-		$class->addUse( new ClassCreator_UseClass('Jet', 'DataModel') );
-		$class->addUse( new ClassCreator_UseClass('Jet', 'DataModel_Definition') );
-		$class->addUse( new ClassCreator_UseClass('Jet', 'DataModel_Related_1toN') );
+		$class->addUse( new ClassCreator_UseClass( 'Jet', 'DataModel' ) );
+		$class->addUse( new ClassCreator_UseClass( 'Jet', 'DataModel_Definition' ) );
+		$class->addUse( new ClassCreator_UseClass( 'Jet', 'DataModel_Related_1toN' ) );
 
-		$class->setExtends( $this->createClass_getExtends($class, 'DataModel_Related_1toN') );
+		$class->setExtends( $this->createClass_getExtends( $class, 'DataModel_Related_1toN' ) );
 
 		return $class;
 	}
@@ -90,11 +92,11 @@ class DataModel_Definition_Model_Related_1toN extends Jet_DataModel_Definition_M
 	/**
 	 * @param ClassCreator_Class $class
 	 */
-	public function createClass_main( ClassCreator_Class $class ) : void
+	public function createClass_main( ClassCreator_Class $class ): void
 	{
 		$class->setAttribute( 'DataModel_Definition', 'name', $this->getModelName() );
 
-		if($this->getDatabaseTableName()) {
+		if( $this->getDatabaseTableName() ) {
 			$class->setAttribute( 'DataModel_Definition', 'database_table_name', $this->getDatabaseTableName() );
 		} else {
 			$class->setAttribute( 'DataModel_Definition', 'database_table_name', $this->getModelName() );
@@ -102,46 +104,45 @@ class DataModel_Definition_Model_Related_1toN extends Jet_DataModel_Definition_M
 
 
 		$parent_class = $this->getParentModelClassName();
-		if(!$parent_class) {
+		if( !$parent_class ) {
 			$parent_class = $this->getMainModelClassName();
 		}
 
 
 		$parent_class = DataModels::getClass( $parent_class );
-		if(!$parent_class) {
-			$class->addError( Tr::_('Fatal: unknown parent class!') );
+		if( !$parent_class ) {
+			$class->addError( Tr::_( 'Fatal: unknown parent class!' ) );
 
 			return;
 		}
 
-		$class->setAttribute( 'DataModel_Definition', 'parent_model_class', $parent_class->getClassName().'::class' );
+		$class->setAttribute( 'DataModel_Definition', 'parent_model_class', $parent_class->getClassName() . '::class' );
 
 		$iterator_class = $this->getIteratorClassName();
 
 
-		if($iterator_class!='Jet\\DataModel_Related_1toN_Iterator') {
+		if( $iterator_class != 'Jet\\DataModel_Related_1toN_Iterator' ) {
 
-			if(substr( $iterator_class, 0, 4 )=='Jet\\') {
+			if( substr( $iterator_class, 0, 4 ) == 'Jet\\' ) {
 				$iterator_class = substr( $iterator_class, 4 );
 
-				$class->addUse( new ClassCreator_UseClass('Jet', $iterator_class) );
+				$class->addUse( new ClassCreator_UseClass( 'Jet', $iterator_class ) );
 			}
 
-			$class->setAttribute( 'DataModel_Definition', 'iterator_class', $iterator_class.'::class' );
+			$class->setAttribute( 'DataModel_Definition', 'iterator_class', $iterator_class . '::class' );
 		}
 
-		if($this->getDefaultOrderBy()) {
+		if( $this->getDefaultOrderBy() ) {
 			$class->setAttribute( 'DataModel_Definition', 'default_order_by', $this->getDefaultOrderBy() );
 		}
 
 	}
 
 
-
 	/**
 	 * @param string $iterator_class
 	 */
-	public function setIteratorClass( string $iterator_class) : void
+	public function setIteratorClass( string $iterator_class ): void
 	{
 		$this->iterator_class = $iterator_class;
 	}
@@ -149,7 +150,7 @@ class DataModel_Definition_Model_Related_1toN extends Jet_DataModel_Definition_M
 	/**
 	 * @param array $default_order_by
 	 */
-	public function setDefaultOrderBy( array $default_order_by ) : void
+	public function setDefaultOrderBy( array $default_order_by ): void
 	{
 		$this->default_order_by = $default_order_by;
 	}
@@ -158,14 +159,14 @@ class DataModel_Definition_Model_Related_1toN extends Jet_DataModel_Definition_M
 	/**
 	 * @return array
 	 */
-	public function getOrderByOptions() : array
+	public function getOrderByOptions(): array
 	{
 		$res = [];
 
 		foreach( $this->getProperties() as $property ) {
 			if(
 				$property->getRelatedToClassName() ||
-				$property->getType()==DataModel::TYPE_CUSTOM_DATA
+				$property->getType() == DataModel::TYPE_CUSTOM_DATA
 			) {
 				continue;
 			}
@@ -176,8 +177,6 @@ class DataModel_Definition_Model_Related_1toN extends Jet_DataModel_Definition_M
 
 		return $res;
 	}
-
-
 
 
 }

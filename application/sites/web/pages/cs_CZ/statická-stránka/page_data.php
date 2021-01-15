@@ -1,15 +1,15 @@
 <?php
 return [
-    'id' => 'static_page',
-    'order' => 3,
-    'name' => 'Staticka stránka',
-    'title' => 'Statická stránka',
-    'icon' => 'file-code',
+	'id'           => 'static_page',
+	'order'        => 3,
+	'name'         => 'Staticka stránka',
+	'title'        => 'Statická stránka',
+	'icon'         => 'file-code',
 	'http_headers' => [
 		'testHeader1' => 'test value 1'
 	],
-    'output' =>
-'<html>
+	'output'       =>
+		'<html>
 <head>
 
 </head>

@@ -5,6 +5,7 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace JetApplication\Installer;
 
 use Jet\Http_Headers;
@@ -25,7 +26,7 @@ class Installer_Step_Welcome_Controller extends Installer_Step_Controller
 	/**
 	 * @return bool
 	 */
-	public function getIsAvailable() : bool
+	public function getIsAvailable(): bool
 	{
 		return !Installer_Step_CreateSite_Controller::sitesCreated();
 	}
@@ -33,7 +34,7 @@ class Installer_Step_Welcome_Controller extends Installer_Step_Controller
 	/**
 	 *
 	 */
-	public function main() : void
+	public function main(): void
 	{
 		$this->catchContinue();
 
@@ -43,19 +44,19 @@ class Installer_Step_Welcome_Controller extends Installer_Step_Controller
 			$translations[] = $locale->toString();
 		}
 
-		if(Http_Request::GET()->exists('locale')) {
+		if( Http_Request::GET()->exists( 'locale' ) ) {
 			$locale = Http_Request::GET()->getString(
-									'locale',
-									Installer::getCurrentLocale()->toString(),
-									$translations
-						);
+				'locale',
+				Installer::getCurrentLocale()->toString(),
+				$translations
+			);
 
 			$locale = new Locale( $locale );
 
-			Installer::setSelectedLocales( [ $locale ] );
+			Installer::setSelectedLocales( [$locale] );
 			Installer::setCurrentLocale( $locale );
 
-			Http_Headers::reload([], ['locale']);
+			Http_Headers::reload( [], ['locale'] );
 
 		}
 

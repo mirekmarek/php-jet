@@ -1,10 +1,11 @@
 <?php
+
 use Jet\UI_icon;
 use Jet\Mvc_View;
 
 /**
  * @var Mvc_View $this
- * @var UI_icon  $i
+ * @var UI_icon $i
  */
 $i = $this->getRaw( 'element' );
 
@@ -13,14 +14,14 @@ $res = '';
 $style = '';
 
 if( $i->getSize() ) {
-	$style .= 'font-size:'.$i->getSize().'px;';
+	$style .= 'font-size:' . $i->getSize() . 'px;';
 }
 if( $i->getWidth() ) {
-	$style .= 'width:'.$i->getWidth().'px;';
+	$style .= 'width:' . $i->getWidth() . 'px;';
 }
 if( $i->getColor() ) {
-	$style .= 'color:'.$i->getColor().';';
+	$style .= 'color:' . $i->getColor() . ';';
 }
 
 $tag = $i->getTag();
-?><<?=$tag?> class="fa fa-<?=$i->getIcon()?>" style="<?=$style?>" title="<?=$i->getTitle()?>" <?=$i->getJsActions()?>></<?=$tag?>>
+?><<?= $tag ?> class="fa fa-<?= $i->getIcon() ?>" style="<?= $style ?>" title="<?= $i->getTitle() ?>" <?= $i->getJsActions() ?>></<?= $tag ?>>

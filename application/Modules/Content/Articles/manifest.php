@@ -1,6 +1,6 @@
 <?php
 return [
-	'vendor'      => 'Miroslav Marek <mirek.marek.2m@gmail.com>',
+	'vendor' => 'Miroslav Marek <mirek.marek.2m@gmail.com>',
 
 	'label'       => 'Articles',
 	'description' => '',
@@ -18,21 +18,21 @@ return [
 				'title'                  => 'Articles',
 				'relative_path_fragment' => 'articles',
 				'icon'                   => 'file-alt',
-				'contents' => [
+				'contents'               => [
 					[
-						'controller_name' => 'Admin',
+						'controller_name'   => 'Admin',
 						'controller_action' => 'default'
 					]
 				],
 			],
 		],
-		'rest' => [
+		'rest'  => [
 			'articles' => [
 				'title'                  => 'Articles',
 				'relative_path_fragment' => 'article',
-				'contents' => [
+				'contents'               => [
 					[
-						'controller_name' => 'REST',
+						'controller_name'   => 'REST',
 						'controller_action' => 'get_article'
 					]
 				],

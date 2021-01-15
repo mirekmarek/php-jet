@@ -5,6 +5,7 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace Jet;
 
 /**
@@ -30,13 +31,13 @@ class DataModel_Definition_Property_DateTime extends DataModel_Definition_Proper
 	/**
 	 * @param mixed &$value
 	 */
-	public function checkValueType( mixed &$value ) : void
+	public function checkValueType( mixed &$value ): void
 	{
-		if( $value==='' ) {
+		if( $value === '' ) {
 			$value = null;
 		}
 
-		if( $value===null ) {
+		if( $value === null ) {
 			return;
 		}
 
@@ -56,7 +57,7 @@ class DataModel_Definition_Property_DateTime extends DataModel_Definition_Proper
 	 *
 	 * @return mixed
 	 */
-	public function getJsonSerializeValue( mixed &$property ) : mixed
+	public function getJsonSerializeValue( mixed &$property ): mixed
 	{
 		if( !$property ) {
 			return $property;

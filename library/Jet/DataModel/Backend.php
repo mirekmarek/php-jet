@@ -5,6 +5,7 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace Jet;
 
 /**
@@ -16,16 +17,16 @@ abstract class DataModel_Backend extends BaseObject
 	 * @var array[]
 	 */
 	protected static array $backend_types = [
-			'MySQL' => [
-				'title' => 'MySQL / MariaDB',
-				'driver' => Db::DRIVER_MYSQL
-			],
-			'SQLite' => [
-				'title' => 'SQLite',
-				'driver' => Db::DRIVER_SQLITE
-			]
+		'MySQL'  => [
+			'title'  => 'MySQL / MariaDB',
+			'driver' => Db::DRIVER_MYSQL
+		],
+		'SQLite' => [
+			'title'  => 'SQLite',
+			'driver' => Db::DRIVER_SQLITE
+		]
 
-		];
+	];
 
 	/**
 	 * @var ?DataModel_Config
@@ -59,7 +60,7 @@ abstract class DataModel_Backend extends BaseObject
 	 *
 	 * @return array
 	 */
-	public static function getBackendTypes( bool $as_hash=false ) : array
+	public static function getBackendTypes( bool $as_hash = false ): array
 	{
 
 		$drivers = Db_Backend_PDO_Config::getDrivers();
@@ -92,7 +93,7 @@ abstract class DataModel_Backend extends BaseObject
 	 * @param string $driver
 	 * @param string $title
 	 */
-	public static function addBackendType( string $type, string $driver, string $title ) : void
+	public static function addBackendType( string $type, string $driver, string $title ): void
 	{
 		static::$backend_types[$type] = [
 			'title'  => $title,
@@ -105,7 +106,7 @@ abstract class DataModel_Backend extends BaseObject
 	 *
 	 * @return DataModel_Config
 	 */
-	public static function getMainConfig() : DataModel_Config
+	public static function getMainConfig(): DataModel_Config
 	{
 		if( !static::$_main_config ) {
 			static::$_main_config = new DataModel_Config();
@@ -118,7 +119,7 @@ abstract class DataModel_Backend extends BaseObject
 	 *
 	 * @return string
 	 */
-	public static function getDefaultBackendType() : string
+	public static function getDefaultBackendType(): string
 	{
 		return self::getMainConfig()->getBackendType();
 	}
@@ -128,15 +129,15 @@ abstract class DataModel_Backend extends BaseObject
 	 *
 	 * @return DataModel_Backend
 	 */
-	public static function get( DataModel_Definition_Model $definition ) : DataModel_Backend
+	public static function get( DataModel_Definition_Model $definition ): DataModel_Backend
 	{
-		if(static::$custom_backends) {
-			if($definition instanceof DataModel_Definition_Model_Related) {
+		if( static::$custom_backends ) {
+			if( $definition instanceof DataModel_Definition_Model_Related ) {
 				$definition = $definition->getMainModelDefinition();
 			}
 
 			$class_name = $definition->getClassName();
-			if( isset(static::$custom_backends[$class_name]) ) {
+			if( isset( static::$custom_backends[$class_name] ) ) {
 				return static::$custom_backends[$class_name];
 			}
 		}
@@ -148,9 +149,9 @@ abstract class DataModel_Backend extends BaseObject
 	/**
 	 * @return DataModel_Backend
 	 */
-	public static function getDefaultBackend() : DataModel_Backend
+	public static function getDefaultBackend(): DataModel_Backend
 	{
-		if(!static::$default_backend) {
+		if( !static::$default_backend ) {
 			$backend_type = static::getDefaultBackendType();
 
 			static::$default_backend = DataModel_Factory::getBackendInstance(
@@ -165,7 +166,7 @@ abstract class DataModel_Backend extends BaseObject
 	/**
 	 * @param DataModel_Backend $default_backend
 	 */
-	public static function setDefaultBackend( DataModel_Backend $default_backend ) : void
+	public static function setDefaultBackend( DataModel_Backend $default_backend ): void
 	{
 		static::$default_backend = $default_backend;
 	}
@@ -176,7 +177,7 @@ abstract class DataModel_Backend extends BaseObject
 	 * @param string $data_model_class_name
 	 * @param DataModel_Backend $backend
 	 */
-	public static function setCustomBackend( string $data_model_class_name, DataModel_Backend $backend ) : void
+	public static function setCustomBackend( string $data_model_class_name, DataModel_Backend $backend ): void
 	{
 		static::$custom_backends[$data_model_class_name] = $backend;
 	}
@@ -186,9 +187,9 @@ abstract class DataModel_Backend extends BaseObject
 	 *
 	 * @return DataModel_Backend|null
 	 */
-	public static function getCustomBackend( string $data_model_class_name ) : DataModel_Backend|null
+	public static function getCustomBackend( string $data_model_class_name ): DataModel_Backend|null
 	{
-		if(!isset(static::$custom_backends[$data_model_class_name])) {
+		if( !isset( static::$custom_backends[$data_model_class_name] ) ) {
 			return null;
 		}
 
@@ -200,10 +201,10 @@ abstract class DataModel_Backend extends BaseObject
 	 *
 	 * @return DataModel_Backend
 	 */
-	public static function unsetCustomBackend( string $data_model_class_name ) : DataModel_Backend
+	public static function unsetCustomBackend( string $data_model_class_name ): DataModel_Backend
 	{
-		if(isset(static::$custom_backends[$data_model_class_name])) {
-			unset(static::$custom_backends[$data_model_class_name]);
+		if( isset( static::$custom_backends[$data_model_class_name] ) ) {
+			unset( static::$custom_backends[$data_model_class_name] );
 		}
 
 		return static::$custom_backends[$data_model_class_name];
@@ -224,7 +225,7 @@ abstract class DataModel_Backend extends BaseObject
 	 *
 	 * @return string
 	 */
-	abstract public function createSelectQuery( DataModel_Query $query ) : string;
+	abstract public function createSelectQuery( DataModel_Query $query ): string;
 
 
 	/**
@@ -232,7 +233,7 @@ abstract class DataModel_Backend extends BaseObject
 	 *
 	 * @return string
 	 */
-	abstract public function createCountQuery( DataModel_Query $query ) : string;
+	abstract public function createCountQuery( DataModel_Query $query ): string;
 
 	/**
 	 * @param DataModel_RecordData $record
@@ -240,103 +241,103 @@ abstract class DataModel_Backend extends BaseObject
 	 *
 	 * @return string
 	 */
-	abstract public function createInsertQuery( DataModel_RecordData $record ) : string;
+	abstract public function createInsertQuery( DataModel_RecordData $record ): string;
 
 	/**
 	 * @param DataModel_RecordData $record
-	 * @param DataModel_Query      $where
+	 * @param DataModel_Query $where
 	 *
 	 * @return string
 	 */
-	abstract public function createUpdateQuery( DataModel_RecordData $record, DataModel_Query $where ) : string;
+	abstract public function createUpdateQuery( DataModel_RecordData $record, DataModel_Query $where ): string;
 
 	/**
 	 * @param DataModel_Query $where
 	 *
 	 * @return string
 	 */
-	abstract public function createDeleteQuery( DataModel_Query $where ) : string;
+	abstract public function createDeleteQuery( DataModel_Query $where ): string;
 
 	/**
 	 * @param DataModel_RecordData $record
 	 *
 	 * @return mixed
 	 */
-	abstract public function save( DataModel_RecordData $record ) : mixed;
+	abstract public function save( DataModel_RecordData $record ): mixed;
 
 	/**
 	 * @param DataModel_RecordData $record
-	 * @param DataModel_Query      $where
+	 * @param DataModel_Query $where
 	 *
 	 * @return int
 	 */
-	abstract public function update( DataModel_RecordData $record, DataModel_Query $where ) : int;
+	abstract public function update( DataModel_RecordData $record, DataModel_Query $where ): int;
 
 	/**
 	 * @param DataModel_Query $where
 	 *
 	 * @return int
 	 */
-	abstract public function delete( DataModel_Query $where ) : int;
+	abstract public function delete( DataModel_Query $where ): int;
 
 	/**
 	 * @param DataModel_Query $query
 	 *
 	 * @return int
 	 */
-	abstract public function getCount( DataModel_Query $query ) : int;
+	abstract public function getCount( DataModel_Query $query ): int;
 
 	/**
 	 * @param DataModel_Query $query
 	 *
 	 * @return mixed
 	 */
-	abstract public function fetchAll( DataModel_Query $query ) : mixed;
+	abstract public function fetchAll( DataModel_Query $query ): mixed;
 
 	/**
 	 * @param DataModel_Query $query
 	 *
 	 * @return mixed
 	 */
-	abstract public function fetchAssoc( DataModel_Query $query ) : mixed;
+	abstract public function fetchAssoc( DataModel_Query $query ): mixed;
 
 	/**
 	 * @param DataModel_Query $query
 	 *
 	 * @return mixed
 	 */
-	abstract public function fetchPairs( DataModel_Query $query ) : mixed;
+	abstract public function fetchPairs( DataModel_Query $query ): mixed;
 
 	/**
 	 * @param DataModel_Query $query
 	 *
 	 * @return mixed
 	 */
-	abstract public function fetchRow( DataModel_Query $query ) : mixed;
+	abstract public function fetchRow( DataModel_Query $query ): mixed;
 
 	/**
 	 * @param DataModel_Query $query
 	 *
 	 * @return mixed
 	 */
-	abstract public function fetchOne( DataModel_Query $query ) : mixed;
+	abstract public function fetchOne( DataModel_Query $query ): mixed;
 
 	/**
 	 * @param DataModel_Query $query
 	 *
 	 * @return mixed
 	 */
-	abstract public function fetchCol( DataModel_Query $query ) : mixed;
+	abstract public function fetchCol( DataModel_Query $query ): mixed;
 
 	/**
 	 *
 	 */
-	abstract public function transactionStart() : void;
+	abstract public function transactionStart(): void;
 
 	/**
 	 * @return bool
 	 */
-	public function getTransactionStarted() : bool
+	public function getTransactionStarted(): bool
 	{
 		return (bool)$this->_transaction_starter;
 	}
@@ -344,7 +345,7 @@ abstract class DataModel_Backend extends BaseObject
 	/**
 	 * @return DataModel_Interface|null
 	 */
-	public function getTransactionStarter() : DataModel_Interface|null
+	public function getTransactionStarter(): DataModel_Interface|null
 	{
 		return $this->_transaction_starter;
 	}
@@ -352,7 +353,7 @@ abstract class DataModel_Backend extends BaseObject
 	/**
 	 * @param ?DataModel_Interface $transaction_starter
 	 */
-	public function setTransactionStarter( ?DataModel_Interface $transaction_starter ) : void
+	public function setTransactionStarter( ?DataModel_Interface $transaction_starter ): void
 	{
 		$this->_transaction_starter = $transaction_starter;
 	}
@@ -360,12 +361,12 @@ abstract class DataModel_Backend extends BaseObject
 	/**
 	 *
 	 */
-	abstract public function transactionCommit() : void;
+	abstract public function transactionCommit(): void;
 
 	/**
 	 *
 	 */
-	abstract public function transactionRollback() : void;
+	abstract public function transactionRollback(): void;
 
 
 	/**
@@ -375,20 +376,20 @@ abstract class DataModel_Backend extends BaseObject
 	 *
 	 * @return array
 	 */
-	protected function validateResultData( DataModel_Query $query, string $fetch_method, array $data ) : array
+	protected function validateResultData( DataModel_Query $query, string $fetch_method, array $data ): array
 	{
-		$fetch_row = ( $fetch_method=='fetchRow' );
-		$fetch_pairs = ( $fetch_method=='fetchPairs' );
+		$fetch_row = ($fetch_method == 'fetchRow');
+		$fetch_pairs = ($fetch_method == 'fetchPairs');
 
 
 		if( $fetch_row ) {
-			$data = [ $data ];
+			$data = [$data];
 		}
 
 		if( $fetch_pairs ) {
 
 			/**
-			 * @var DataModel_Query_Select_Item   $item
+			 * @var DataModel_Query_Select_Item $item
 			 * @var DataModel_Definition_Property $property
 			 */
 			$property = $item->getItem();
@@ -402,12 +403,12 @@ abstract class DataModel_Backend extends BaseObject
 			foreach( $data as $i => $d ) {
 				foreach( $query->getSelect() as $item ) {
 					/**
-					 * @var DataModel_Query_Select_Item   $item
+					 * @var DataModel_Query_Select_Item $item
 					 * @var DataModel_Definition_Property $property
 					 */
 					$property = $item->getItem();
 
-					if( !( $property instanceof DataModel_Definition_Property ) ) {
+					if( !($property instanceof DataModel_Definition_Property) ) {
 						continue;
 					}
 
@@ -436,9 +437,9 @@ abstract class DataModel_Backend extends BaseObject
 	 *
 	 * @return mixed
 	 */
-	protected function unserialize( string $string ) : mixed
+	protected function unserialize( string $string ): mixed
 	{
-		if(!$string) {
+		if( !$string ) {
 			return null;
 		}
 
@@ -450,7 +451,7 @@ abstract class DataModel_Backend extends BaseObject
 	 *
 	 * @return string
 	 */
-	protected function serialize( mixed $data ) : string
+	protected function serialize( mixed $data ): string
 	{
 		return serialize( $data );
 	}
@@ -461,45 +462,45 @@ abstract class DataModel_Backend extends BaseObject
 	 * @return bool
 	 * @throws Exception
 	 */
-	abstract public function helper_tableExists( DataModel_Definition_Model $definition ) : bool;
+	abstract public function helper_tableExists( DataModel_Definition_Model $definition ): bool;
 
 	/**
 	 * @param DataModel_Definition_Model $definition
-	 * @param ?string                  $force_table_name (optional)
+	 * @param ?string $force_table_name (optional)
 	 *
 	 * @return string
 	 */
-	abstract public function helper_getCreateCommand( DataModel_Definition_Model $definition, ?string $force_table_name = null ) : string;
+	abstract public function helper_getCreateCommand( DataModel_Definition_Model $definition, ?string $force_table_name = null ): string;
 
 	/**
 	 * @param DataModel_Definition_Model $definition
 	 */
-	abstract public function helper_create( DataModel_Definition_Model $definition ) : void;
+	abstract public function helper_create( DataModel_Definition_Model $definition ): void;
 
 	/**
 	 * @param DataModel_Definition_Model $definition
 	 *
 	 * @return string
 	 */
-	abstract public function helper_getDropCommand( DataModel_Definition_Model $definition ) : string;
+	abstract public function helper_getDropCommand( DataModel_Definition_Model $definition ): string;
 
 	/**
 	 * @param DataModel_Definition_Model $definition
 	 */
-	abstract public function helper_drop( DataModel_Definition_Model $definition ) : void;
+	abstract public function helper_drop( DataModel_Definition_Model $definition ): void;
 
 	/**
 	 * @param DataModel_Definition_Model $definition
 	 *
 	 * @return array
 	 */
-	abstract public function helper_getUpdateCommand( DataModel_Definition_Model $definition ) : array;
+	abstract public function helper_getUpdateCommand( DataModel_Definition_Model $definition ): array;
 
 	/**
 	 * @param DataModel_Definition_Model $definition
 	 *
 	 * @throws Exception
 	 */
-	abstract public function helper_update( DataModel_Definition_Model $definition ) : void;
+	abstract public function helper_update( DataModel_Definition_Model $definition ): void;
 
 }

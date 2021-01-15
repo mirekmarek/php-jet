@@ -1,4 +1,5 @@
 <?php
+
 namespace JetStudio;
 
 use Jet\UI_messages;
@@ -16,11 +17,14 @@ if(
 
 
 	if( $menu && $set->save() ) {
-		UI_messages::info( Tr::_('Menu <b>%name%</b> has been deleted', [
+		UI_messages::info( Tr::_( 'Menu <b>%name%</b> has been deleted', [
 			'name' => $menu->getLabel()
-		]) );
+		] ) );
 
-		Http_Headers::reload([], ['action', 'menu']);
+		Http_Headers::reload( [], [
+			'action',
+			'menu'
+		] );
 	}
 
 }

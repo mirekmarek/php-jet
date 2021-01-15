@@ -1,9 +1,10 @@
 <?php
+
 use Jet\UI_dialog;
 use Jet\Mvc_View;
 
 /**
- * @var Mvc_View  $this
+ * @var Mvc_View $this
  * @var UI_dialog $d
  */
 $d = $this->getRaw( 'element' );
@@ -11,25 +12,25 @@ $d = $this->getRaw( 'element' );
 $size_class = '';
 $w = $d->getWidth();
 
-if($w<=300) {
+if( $w <= 300 ) {
 	$size_class = 'modal-sm';
 }
 
-if($w>=500) {
+if( $w >= 500 ) {
 	$size_class = 'modal-lg';
 }
 
-if($w>=800) {
+if( $w >= 800 ) {
 	$size_class = 'modal-xl';
 }
 
 ?>
-<div class="modal fade" id="<?=$d->getId()?>" role="dialog">
-	<div class="modal-dialog <?=$size_class?>">
+<div class="modal fade" id="<?= $d->getId() ?>" role="dialog">
+	<div class="modal-dialog <?= $size_class ?>">
 
 		<div class="modal-content">
 			<div class="modal-header">
-				<h5 class="modal-title"><?=$d->getTitle()?></h5>
+				<h5 class="modal-title"><?= $d->getTitle() ?></h5>
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 					<span aria-hidden="true">&times;</span>
 				</button>

@@ -5,6 +5,7 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace JetStudio;
 
 /**
@@ -26,7 +27,7 @@ class ClassParser_Attribute extends ClassParser_Element
 	/**
 	 * @param ClassParser $parser
 	 */
-	public static function parse( ClassParser $parser ) : void
+	public static function parse( ClassParser $parser ): void
 	{
 		$attribute = new static( $parser );
 
@@ -43,42 +44,42 @@ class ClassParser_Attribute extends ClassParser_Element
 		$array_counter = 0;
 
 		do {
-			if( !($token=$attribute->nextToken()) ) {
+			if( !($token = $attribute->nextToken()) ) {
 				break;
 			}
 
-			if($token->ignore()) {
+			if( $token->ignore() ) {
 				continue;
 			}
 
-			switch($token->id) {
+			switch( $token->id ) {
 				case T_STRING:
-						if(!$got_name) {
-							$attribute->name = $token->text;
-							$got_name = true;
-							continue 2;
-						}
-						if($searching_for_arguments) {
-							$attribute->arguments .= $token->text;
-							$got_argument_value = true;
-							continue 2;
-						}
+					if( !$got_name ) {
+						$attribute->name = $token->text;
+						$got_name = true;
+						continue 2;
+					}
+					if( $searching_for_arguments ) {
+						$attribute->arguments .= $token->text;
+						$got_argument_value = true;
+						continue 2;
+					}
 
-						$parser->parseError();
+					$parser->parseError();
 					break;
 				case T_DOUBLE_COLON:
 				case T_CONSTANT_ENCAPSED_STRING:
 				case T_CLASS:
 				case ':':
 				case T_DOUBLE_ARROW:
-					if($searching_for_arguments) {
+					if( $searching_for_arguments ) {
 						$attribute->arguments .= $token->text;
 						continue 2;
 					}
 					$parser->parseError();
 					break;
 				case '[':
-					if($searching_for_arguments) {
+					if( $searching_for_arguments ) {
 						$attribute->arguments .= $token->text;
 						$array_counter++;
 						continue 2;
@@ -98,7 +99,7 @@ class ClassParser_Attribute extends ClassParser_Element
 					continue 2;
 
 				case ')';
-					if($got_argument_value) {
+					if( $got_argument_value ) {
 						$searching_for_arguments = false;
 						$searching_for_argument_name = false;
 						$searching_for_argument_value = false;
@@ -106,15 +107,15 @@ class ClassParser_Attribute extends ClassParser_Element
 					}
 
 					$parser->parseError();
-				break;
+					break;
 				case ']':
-					if($array_counter>0) {
+					if( $array_counter > 0 ) {
 						$array_counter--;
 						$attribute->arguments .= $token->text;
 						continue 2;
 					}
 
-					if($got_name && !$searching_for_arguments) {
+					if( $got_name && !$searching_for_arguments ) {
 						$attribute->end_token = $token;
 
 						return;
@@ -124,14 +125,14 @@ class ClassParser_Attribute extends ClassParser_Element
 					break;
 			}
 
-		} while(true);
+		} while( true );
 
 	}
 
 	/**
 	 *
 	 */
-	public function debug_showResult() : void
+	public function debug_showResult(): void
 	{
 	}
 }

@@ -5,6 +5,7 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace Jet;
 
 /**
@@ -61,7 +62,7 @@ class Form_Field_Color extends Form_Field_Input
 	 * @var array
 	 */
 	protected array $error_messages = [
-		self::ERROR_CODE_EMPTY => '',
+		self::ERROR_CODE_EMPTY          => '',
 		self::ERROR_CODE_INVALID_FORMAT => '',
 	];
 
@@ -71,11 +72,11 @@ class Form_Field_Color extends Form_Field_Input
 	 *
 	 * @return bool
 	 */
-	public function validate() : bool
+	public function validate(): bool
 	{
 		if(
 			!$this->is_required &&
-			$this->_value===''
+			$this->_value === ''
 		) {
 			return true;
 		}
@@ -95,7 +96,7 @@ class Form_Field_Color extends Form_Field_Input
 	/**
 	 * @return array
 	 */
-	public function getRequiredErrorCodes() : array
+	public function getRequiredErrorCodes(): array
 	{
 		$codes = [];
 

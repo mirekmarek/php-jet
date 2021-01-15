@@ -5,6 +5,7 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace Jet;
 
 /**
@@ -19,14 +20,14 @@ interface BaseObject_Interface
 	 *
 	 * @return bool
 	 */
-	public function objectHasProperty( string $property_name ) : bool;
+	public function objectHasProperty( string $property_name ): bool;
 
 	/**
 	 * @param string $property_name
 	 *
 	 * @return string
 	 */
-	public function objectSetterMethodName( string $property_name ) : string;
+	public function objectSetterMethodName( string $property_name ): string;
 
 
 	/**
@@ -34,6 +35,6 @@ interface BaseObject_Interface
 	 *
 	 * @return string
 	 */
-	public function objectGetterMethodName( string $property_name ) : string;
+	public function objectGetterMethodName( string $property_name ): string;
 
 }

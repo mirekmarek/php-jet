@@ -5,6 +5,7 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace JetApplication\Installer;
 
 use Jet\Locale;
@@ -54,7 +55,7 @@ class Installer_CompatibilityTester
 		         ] as $required_function ) {
 
 			if( !function_exists( $required_function ) ) {
-				trigger_error( 'Error: function \''.$required_function.'\' is required!', E_USER_ERROR );
+				trigger_error( 'Error: function \'' . $required_function . '\' is required!', E_USER_ERROR );
 			}
 		}
 
@@ -70,7 +71,7 @@ class Installer_CompatibilityTester
 	 *
 	 * @return bool
 	 */
-	public function testSystem( array $tests ) : bool
+	public function testSystem( array $tests ): bool
 	{
 
 		foreach( $tests as $test ) {
@@ -96,7 +97,7 @@ class Installer_CompatibilityTester
 	/**
 	 * @return Installer_CompatibilityTester_TestResult[]
 	 */
-	public function getTestResults() : array
+	public function getTestResults(): array
 	{
 		return $this->test_results;
 	}
@@ -104,7 +105,7 @@ class Installer_CompatibilityTester
 	/**
 	 * @return bool
 	 */
-	public function isCompatible() : bool
+	public function isCompatible(): bool
 	{
 		return $this->is_compatible;
 	}
@@ -112,7 +113,7 @@ class Installer_CompatibilityTester
 	/**
 	 * @return bool
 	 */
-	public function hasWarnings() : bool
+	public function hasWarnings(): bool
 	{
 		return $this->has_warnings;
 	}
@@ -125,7 +126,7 @@ class Installer_CompatibilityTester
 	 *
 	 * @return bool
 	 */
-	public function test( string $title, string $description, callable $test ) : bool
+	public function test( string $title, string $description, callable $test ): bool
 	{
 		$test_result = new Installer_CompatibilityTester_TestResult( true, $title, $description );
 		$test_result->setPassed( $test( $test_result ) );
@@ -141,7 +142,7 @@ class Installer_CompatibilityTester
 	 *
 	 * @return bool
 	 */
-	public function check( string $title, string $description, callable $test ) : bool
+	public function check( string $title, string $description, callable $test ): bool
 	{
 		$test_result = new Installer_CompatibilityTester_TestResult( false, $title, $description );
 		$test_result->setPassed( $test( $test_result ) );
@@ -154,15 +155,15 @@ class Installer_CompatibilityTester
 	/**
 	 *
 	 */
-	public function test_PHPVersion() : void
+	public function test_PHPVersion(): void
 	{
 		$required_version = '8.0';
 
 		$this->test(
-			Tr::_('PHP version'),
-			Tr::_('PHP %VERSION% or newer is required', ['VERSION'=>$required_version]),
-			function( Installer_CompatibilityTester_TestResult $test_result ) use ($required_version) {
-				$test_result->setResultMessage( Tr::_('PHP version: ').PHP_VERSION );
+			Tr::_( 'PHP version' ),
+			Tr::_( 'PHP %VERSION% or newer is required', ['VERSION' => $required_version] ),
+			function( Installer_CompatibilityTester_TestResult $test_result ) use ( $required_version ) {
+				$test_result->setResultMessage( Tr::_( 'PHP version: ' ) . PHP_VERSION );
 
 				return version_compare( PHP_VERSION, $required_version, '>=' );
 			}
@@ -173,11 +174,11 @@ class Installer_CompatibilityTester
 	/**
 	 *
 	 */
-	public function test_PDOExtension() : void
+	public function test_PDOExtension(): void
 	{
 		$this->test(
-			Tr::_('PDO extension'),
-			Tr::_('PHP PDO extension must be activated'),
+			Tr::_( 'PDO extension' ),
+			Tr::_( 'PHP PDO extension must be activated' ),
 			function() {
 				return extension_loaded( 'PDO' );
 			}
@@ -187,11 +188,11 @@ class Installer_CompatibilityTester
 	/**
 	 *
 	 */
-	public function test_MBStringExtension() : void
+	public function test_MBStringExtension(): void
 	{
 		$this->test(
-			Tr::_('Multibyte String extension'),
-			Tr::_('PHP Multibyte String extension must be activated'),
+			Tr::_( 'Multibyte String extension' ),
+			Tr::_( 'PHP Multibyte String extension must be activated' ),
 			function() {
 				return extension_loaded( 'mbstring' );
 			}
@@ -201,11 +202,11 @@ class Installer_CompatibilityTester
 	/**
 	 *
 	 */
-	public function test_INTLExtension() : void
+	public function test_INTLExtension(): void
 	{
 		$this->test(
-			Tr::_('INTL extension'),
-			Tr::_('PHP Internationalization Functions extension must be activated'),
+			Tr::_( 'INTL extension' ),
+			Tr::_( 'PHP Internationalization Functions extension must be activated' ),
 			function( Installer_CompatibilityTester_TestResult $test_result ) {
 				return extension_loaded( 'intl' );
 			}
@@ -215,11 +216,11 @@ class Installer_CompatibilityTester
 	/**
 	 *
 	 */
-	public function test_RequestUriVar() : void
+	public function test_RequestUriVar(): void
 	{
 		$this->test(
-			Tr::_('$_SERVER["REQUEST_URI"] value'),
-			Tr::_('PHP $_SERVER["REQUEST_URI"] value must be available'),
+			Tr::_( '$_SERVER["REQUEST_URI"] value' ),
+			Tr::_( 'PHP $_SERVER["REQUEST_URI"] value must be available' ),
 			function() {
 				return isset( $_SERVER['REQUEST_URI'] );
 			}
@@ -231,11 +232,11 @@ class Installer_CompatibilityTester
 	/**
 	 *
 	 */
-	public function check_GDExtension() : void
+	public function check_GDExtension(): void
 	{
 		if( $this->check(
-			Tr::_('GD extension'),
-			Tr::_('PHP GD extension should be activated'),
+			Tr::_( 'GD extension' ),
+			Tr::_( 'PHP GD extension should be activated' ),
 			function() {
 				return extension_loaded( 'gd' );
 			}
@@ -243,7 +244,7 @@ class Installer_CompatibilityTester
 		) {
 			/** @noinspection SpellCheckingInspection */
 			$this->check(
-				Tr::_('GD Functions'),
+				Tr::_( 'GD Functions' ),
 				'imagecreatefromjpeg, imagecreatefromgif, imagecreatefrompng, imagecolorallocatealpha, imagefilledrectangle, imagecopyresampled, imagejpeg, imagegif, imagepng',
 				function( Installer_CompatibilityTester_TestResult $test_result ) {
 
@@ -266,7 +267,7 @@ class Installer_CompatibilityTester
 
 					foreach( $functions as $function_name ) {
 						if( !function_exists( $function_name ) ) {
-							$na_function_names[] = Tr::_('<i>%FUNCTION_NAME%</i> is not available', ['FUNCTION_NAME'=>$function_name]);
+							$na_function_names[] = Tr::_( '<i>%FUNCTION_NAME%</i> is not available', ['FUNCTION_NAME' => $function_name] );
 							$OK = false;
 						}
 					}
@@ -283,11 +284,11 @@ class Installer_CompatibilityTester
 	/**
 	 *
 	 */
-	public function check_FileInfoExtension() : void
+	public function check_FileInfoExtension(): void
 	{
 		$this->check(
-			Tr::_('FileInfo extension'),
-			Tr::_('PHP FileInfo extension should be activated'),
+			Tr::_( 'FileInfo extension' ),
+			Tr::_( 'PHP FileInfo extension should be activated' ),
 			function() {
 				return extension_loaded( 'fileinfo' );
 			}
@@ -297,18 +298,18 @@ class Installer_CompatibilityTester
 	/**
 	 *
 	 */
-	public function check_MaxUploadFileSize() : void
+	public function check_MaxUploadFileSize(): void
 	{
 		$this->check(
-			Tr::_('PHP configuration: Max upload file size'),
+			Tr::_( 'PHP configuration: Max upload file size' ),
 			'',
 			function( Installer_CompatibilityTester_TestResult $test_result ) {
 
 				$post_max_size_cv = ini_get( 'post_max_size' );
 				$post_max_size = $this->getAsBytes( $post_max_size_cv );
 
-				if($post_max_size_cv=='0') {
-					$post_max_size_cv = Tr::_('unlimited');
+				if( $post_max_size_cv == '0' ) {
+					$post_max_size_cv = Tr::_( 'unlimited' );
 					$post_max_size = 99999999999999999999;
 				}
 
@@ -316,7 +317,7 @@ class Installer_CompatibilityTester
 				$upload_max_filesize_cv = ini_get( 'upload_max_filesize' );
 				$upload_max_filesize = $this->getAsBytes( $upload_max_filesize_cv );
 
-				if( $post_max_size<=$upload_max_filesize ) {
+				if( $post_max_size <= $upload_max_filesize ) {
 					$test_result->setResultMessage(
 						Tr::_(
 							'<i>post_max_size</i> (%POST_MAX_SIZE_CV%) should be greater then <i>upload_max_filesize</i> (%UPLOAD_MAX_FILESIZE_CV%)',
@@ -330,15 +331,15 @@ class Installer_CompatibilityTester
 					return false;
 				}
 
-				$limit = 1024*1024*2;
+				$limit = 1024 * 1024 * 2;
 
-				if( $upload_max_filesize<$limit ) {
+				if( $upload_max_filesize < $limit ) {
 					$test_result->setResultMessage(
 						Tr::_(
 							'<i>upload_max_filesize</i> (%UPLOAD_MAX_FILESIZE_CV%) should be greater then %LIMIT%',
 							[
 								'UPLOAD_MAX_FILESIZE_CV' => $upload_max_filesize_cv,
-							    'LIMIT' => Locale::size($limit)
+								'LIMIT'                  => Locale::size( $limit )
 							]
 						)
 					);
@@ -368,14 +369,14 @@ class Installer_CompatibilityTester
 	 *
 	 * @return int
 	 */
-	public function getAsBytes( $val ) : int
+	public function getAsBytes( $val ): int
 	{
-		$val = trim($val);
+		$val = trim( $val );
 
-		$last = strtoupper($val[strlen($val)-1]);
-		$val = substr($val, 0, -1);
+		$last = strtoupper( $val[strlen( $val ) - 1] );
+		$val = substr( $val, 0, -1 );
 
-		switch($last) {
+		switch( $last ) {
 			/** @noinspection PhpMissingBreakStatementInspection */
 			case 'G':
 				$val *= 1024;
@@ -385,7 +386,7 @@ class Installer_CompatibilityTester
 			case 'K':
 				$val *= 1024;
 		}
-		$val = $val*1;
+		$val = $val * 1;
 
 
 		return $val;

@@ -5,6 +5,7 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace Jet;
 
 /**
@@ -17,7 +18,7 @@ class DataModel_Fetch_IDs extends DataModel_Fetch implements BaseObject_Interfac
 	 *
 	 * @return array
 	 */
-	public function toArray() : array
+	public function toArray(): array
 	{
 		$this->_fetch();
 
@@ -34,21 +35,21 @@ class DataModel_Fetch_IDs extends DataModel_Fetch implements BaseObject_Interfac
 	/**
 	 *
 	 */
-	protected function _fetch() : void
+	protected function _fetch(): void
 	{
-		if( $this->data!==null ) {
+		if( $this->data !== null ) {
 			return;
 		}
 
 		$this->data = [];
 
-		$l = DataModel_Backend::get($this->data_model_definition)->fetchAll( $this->query );
+		$l = DataModel_Backend::get( $this->data_model_definition )->fetchAll( $this->query );
 
 		foreach( $l as $item ) {
 			$l_id = clone $this->empty_id_instance;
 
 			foreach( $l_id->getPropertyNames() as $k ) {
-				$l_id->setValue( $k, $item[$k]);
+				$l_id->setValue( $k, $item[$k] );
 			}
 
 			$this->data[(string)$l_id] = $l_id;
@@ -60,7 +61,7 @@ class DataModel_Fetch_IDs extends DataModel_Fetch implements BaseObject_Interfac
 	 *
 	 * @return DataModel_IDController
 	 */
-	protected function _get( mixed $item ) : DataModel_IDController
+	protected function _get( mixed $item ): DataModel_IDController
 	{
 		return $item;
 	}

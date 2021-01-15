@@ -5,6 +5,7 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace JetStudio;
 
 use Jet\DataModel_Definition_Model;
@@ -14,7 +15,8 @@ use Jet\Form_Field_Select;
 /**
  *
  */
-abstract class DataModel_Definition_Id_Abstract {
+abstract class DataModel_Definition_Id_Abstract
+{
 
 	/**
 	 * @var DataModel_Definition_Model_Interface|DataModel_Definition_Model|null
@@ -34,14 +36,14 @@ abstract class DataModel_Definition_Id_Abstract {
 	/**
 	 * @param ClassCreator_Class $class
 	 */
-	public function createClass_IdDefinition( ClassCreator_Class $class ) : void
+	public function createClass_IdDefinition( ClassCreator_Class $class ): void
 	{
 
 		$id_controller_class = $this->model->getIDControllerClassName();
-		$id_controller_class = str_replace('Jet\\', '', $id_controller_class);
-		$class->addUse( new ClassCreator_UseClass('Jet', $id_controller_class) );
+		$id_controller_class = str_replace( 'Jet\\', '', $id_controller_class );
+		$class->addUse( new ClassCreator_UseClass( 'Jet', $id_controller_class ) );
 
-		$class->setAttribute( 'DataModel_Definition', 'id_controller_class', $id_controller_class.'::class' );
+		$class->setAttribute( 'DataModel_Definition', 'id_controller_class', $id_controller_class . '::class' );
 	}
 
 	/**
@@ -49,14 +51,14 @@ abstract class DataModel_Definition_Id_Abstract {
 	 *
 	 * @return array
 	 */
-	protected function getIdProperties( string $type ) : array
+	protected function getIdProperties( string $type ): array
 	{
 		$id_properties = [];
 
 		foreach( $this->model->getProperties() as $property ) {
 			if(
 				!$property->getIsId() ||
-				$property->getType()!=$type ||
+				$property->getType() != $type ||
 				$property->getRelatedToPropertyName()
 			) {
 				continue;
@@ -74,19 +76,19 @@ abstract class DataModel_Definition_Id_Abstract {
 	 *
 	 * @return bool|string
 	 */
-	public function getSelectedIdPropertyName( string $type ) : bool|string
+	public function getSelectedIdPropertyName( string $type ): bool|string
 	{
 
-		$id_properties = $this->getIdProperties($type);
+		$id_properties = $this->getIdProperties( $type );
 
-		if(!$id_properties) {
+		if( !$id_properties ) {
 			return false;
 		}
 
-		$default_id_property = array_keys($id_properties)[0];
+		$default_id_property = array_keys( $id_properties )[0];
 
-		$id_property = $this->model->getIDControllerOption('id_property_name', $default_id_property);
-		if(!isset($id_properties[$id_property])) {
+		$id_property = $this->model->getIDControllerOption( 'id_property_name', $default_id_property );
+		if( !isset( $id_properties[$id_property] ) ) {
 			$id_property = $default_id_property;
 		}
 
@@ -100,7 +102,7 @@ abstract class DataModel_Definition_Id_Abstract {
 	 *
 	 * @return array
 	 */
-	public function createClassMethods( ClassCreator_Class $class ) : array
+	public function createClassMethods( ClassCreator_Class $class ): array
 	{
 		return [];
 	}
@@ -108,13 +110,13 @@ abstract class DataModel_Definition_Id_Abstract {
 	/**
 	 * @return array
 	 */
-	abstract public function getOptionsList() : array;
+	abstract public function getOptionsList(): array;
 
 	/**
 	 *
 	 * @return Form_Field[]
 	 */
-	abstract public function getOptionsFormFields() : array;
+	abstract public function getOptionsFormFields(): array;
 
 	/**
 	 *
@@ -122,26 +124,26 @@ abstract class DataModel_Definition_Id_Abstract {
 	 *
 	 * @return Form_Field_Select
 	 */
-	protected function getOptionsFormField_idProperty( string $type )  : Form_Field_Select
+	protected function getOptionsFormField_idProperty( string $type ): Form_Field_Select
 	{
 		$id_properties = $this->getIdProperties( $type );
 
 		$default_id_property = '';
-		if($id_properties) {
-			$default_id_property = array_keys($id_properties)[0];
+		if( $id_properties ) {
+			$default_id_property = array_keys( $id_properties )[0];
 		}
 
-		if(!$id_properties) {
-			$id_properties = [''=>''];
+		if( !$id_properties ) {
+			$id_properties = ['' => ''];
 		}
 
-		$id_property_name = new Form_Field_Select('id_property_name', 'ID property:', $this->model->getIDControllerOption('id_property_name', $default_id_property));
-		$id_property_name->setSelectOptions($id_properties);
-		$id_property_name->setErrorMessages([
+		$id_property_name = new Form_Field_Select( 'id_property_name', 'ID property:', $this->model->getIDControllerOption( 'id_property_name', $default_id_property ) );
+		$id_property_name->setSelectOptions( $id_properties );
+		$id_property_name->setErrorMessages( [
 			Form_Field_Select::ERROR_CODE_INVALID_VALUE => 'Please select ID property'
-		]);
-		$id_property_name->setCatcher( function($value) {
-			$this->model->setIDControllerOption('id_property_name', $value);
+		] );
+		$id_property_name->setCatcher( function( $value ) {
+			$this->model->setIDControllerOption( 'id_property_name', $value );
 		} );
 
 		return $id_property_name;

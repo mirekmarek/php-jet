@@ -5,6 +5,7 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace JetApplication;
 
 use Jet\Logger;
@@ -20,7 +21,7 @@ class Application_REST
 	/**
 	 * @return string
 	 */
-	public static function getSiteId() : string
+	public static function getSiteId(): string
 	{
 		return 'rest';
 	}
@@ -28,7 +29,7 @@ class Application_REST
 	/**
 	 * @return Mvc_Site
 	 */
-	public static function getSite() : Mvc_Site
+	public static function getSite(): Mvc_Site
 	{
 		return Mvc_Site::get( static::getSiteId() );
 	}
@@ -36,7 +37,7 @@ class Application_REST
 	/**
 	 * @param Mvc_Router $router
 	 */
-	public static function init( Mvc_Router $router ) : void
+	public static function init( Mvc_Router $router ): void
 	{
 		Application::initErrorPages( $router );
 		Logger::setLogger( new Logger_REST() );

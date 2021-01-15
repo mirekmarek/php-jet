@@ -5,6 +5,7 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace Jet;
 
 require_once 'Exception.php';
@@ -46,7 +47,7 @@ class Autoloader
 	/**
 	 *
 	 */
-	public static function initialize() : void
+	public static function initialize(): void
 	{
 
 		if( static::$is_initialized ) {
@@ -55,7 +56,10 @@ class Autoloader
 
 		static::$is_initialized = true;
 
-		spl_autoload_register( [ __NAMESPACE__.'\Autoloader', 'load' ], true, true );
+		spl_autoload_register( [
+			__NAMESPACE__ . '\Autoloader',
+			'load'
+		], true, true );
 
 	}
 
@@ -65,14 +69,14 @@ class Autoloader
 	 *
 	 * @throws Autoloader_Exception
 	 */
-	public static function load( string $class_name ) : void
+	public static function load( string $class_name ): void
 	{
 
-		if(static::$class_path_map===null) {
+		if( static::$class_path_map === null ) {
 
 			$data = Autoloader_Cache::load();
 
-			if(is_array($data)) {
+			if( is_array( $data ) ) {
 				static::$class_path_map = $data;
 			} else {
 				static::$class_path_map = [];
@@ -92,9 +96,10 @@ class Autoloader
 
 
 		$path = false;
-		$root_namespace = strstr($class_name, '\\', true);
-		$namespace = substr( $class_name, 0, strrpos($class_name, '\\') );
-		$_class_name = substr( $class_name, strlen($namespace)+1 );
+		$root_namespace = strstr( $class_name, '\\', true );
+		$namespace = substr( $class_name, 0, strrpos( $class_name, '\\' ) );
+		$_class_name = substr( $class_name, strlen( $namespace ) + 1 );
+		$loader_name = '';
 
 		foreach( static::$loaders as $loader_name => $loader ) {
 			$path = $loader->getScriptPath( $root_namespace, $namespace, $_class_name );
@@ -106,16 +111,16 @@ class Autoloader
 
 		if( !$path ) {
 			throw new Autoloader_Exception(
-				'Unable to load class \''.$class_name.'\'. Registered auto loaders: \''
+				'Unable to load class \'' . $class_name . '\'. Registered auto loaders: \''
 				. implode( '\', \'', array_keys( static::$loaders ) )
-				.'\'',
+				. '\'',
 				Autoloader_Exception::CODE_UNABLE_TO_DETERMINE_SCRIPT_PATH
 			);
 		}
 
 		if( !file_exists( $path ) ) {
 			throw new Autoloader_Exception(
-				'File \''.$path.'\' does not exist. Class: \''.$class_name.'\', Loader: \''.$loader_name.'\'',
+				'File \'' . $path . '\' does not exist. Class: \'' . $class_name . '\', Loader: \'' . $loader_name . '\'',
 				Autoloader_Exception::CODE_SCRIPT_DOES_NOT_EXIST
 			);
 
@@ -130,14 +135,14 @@ class Autoloader
 			!trait_exists( $class_name, false )
 		) {
 			throw new Autoloader_Exception(
-				'Class \''.$class_name.'\' does not exist in script: \''.$path.'\', Loader: \''.$loader_name.'\' ',
+				'Class \'' . $class_name . '\' does not exist in script: \'' . $path . '\', Loader: \'' . $loader_name . '\' ',
 				Autoloader_Exception::CODE_INVALID_CLASS_DOES_NOT_EXIST
 			);
 		}
 
 		static::$class_path_map[$class_name] = $path;
 
-		if(!static::$save_class_map) {
+		if( !static::$save_class_map ) {
 			register_shutdown_function(
 				function() {
 					Autoloader_Cache::save( static::$class_path_map );
@@ -153,7 +158,7 @@ class Autoloader
 	/**
 	 * @param Autoloader_Loader $loader
 	 */
-	public static function register( Autoloader_Loader $loader ) : void
+	public static function register( Autoloader_Loader $loader ): void
 	{
 		static::$loaders[get_class( $loader )] = $loader;
 	}

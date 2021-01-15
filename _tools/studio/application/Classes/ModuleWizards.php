@@ -5,6 +5,7 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace JetStudio;
 
 use Jet\BaseObject;
@@ -33,14 +34,13 @@ class ModuleWizards extends BaseObject implements Application_Part
 	protected static ?string $base_path = null;
 
 
-
 	/**
 	 * @return string
 	 */
-	public static function getBasePath() : string
+	public static function getBasePath(): string
 	{
-		if(!static::$base_path) {
-			static::$base_path = SysConf_Path::getApplication().'Parts/module_wizard/wizards/';
+		if( !static::$base_path ) {
+			static::$base_path = SysConf_Path::getApplication() . 'Parts/module_wizard/wizards/';
 		}
 
 		return static::$base_path;
@@ -49,7 +49,7 @@ class ModuleWizards extends BaseObject implements Application_Part
 	/**
 	 * @param string $base_path
 	 */
-	public static function setBasePath( string $base_path ) : void
+	public static function setBasePath( string $base_path ): void
 	{
 		static::$base_path = $base_path;
 	}
@@ -58,16 +58,16 @@ class ModuleWizards extends BaseObject implements Application_Part
 	/**
 	 * @return bool|ModuleWizard
 	 */
-	public static function getCurrentWizard() : bool|ModuleWizard
+	public static function getCurrentWizard(): bool|ModuleWizard
 	{
-		if(static::$__current_wizard===null) {
-			$name = Http_Request::GET()->getString('wizard');
+		if( static::$__current_wizard === null ) {
+			$name = Http_Request::GET()->getString( 'wizard' );
 
 			static::$__current_wizard = false;
 
 			if(
 				$name &&
-				($wizard=static::get($name))
+				($wizard = static::get( $name ))
 			) {
 				static::$__current_wizard = $wizard;
 			}
@@ -85,7 +85,7 @@ class ModuleWizards extends BaseObject implements Application_Part
 	{
 		$list = static::getList();
 
-		if(!isset($list[$name])) {
+		if( !isset( $list[$name] ) ) {
 			return null;
 		}
 
@@ -96,7 +96,7 @@ class ModuleWizards extends BaseObject implements Application_Part
 	/**
 	 * @return ModuleWizard[]
 	 */
-	public static function getList() : array
+	public static function getList(): array
 	{
 		$base_path = static::getBasePath();
 
@@ -104,8 +104,8 @@ class ModuleWizards extends BaseObject implements Application_Part
 
 		$res = [];
 
-		foreach( $list as $path=>$name ) {
-			$class_name = ModuleWizards::WIZARD_NAMESPACE.'\\'.$name.'\\Wizard';
+		foreach( $list as $path => $name ) {
+			$class_name = ModuleWizards::WIZARD_NAMESPACE . '\\' . $name . '\\Wizard';
 
 			/**
 			 * @var ModuleWizard $wizard
@@ -124,30 +124,30 @@ class ModuleWizards extends BaseObject implements Application_Part
 	 *
 	 * @return string
 	 */
-	public static function getActionUrl( string $action,  array $custom_get_params=[] )
+	public static function getActionUrl( string $action, array $custom_get_params = [] )
 	{
 
 		$get_params = [];
 		$get_params['wizard'] = static::getCurrentWizard()->getName();
 		$get_params['wizard_action'] = $action;
 
-		if($custom_get_params) {
-			foreach( $custom_get_params as $k=>$v ) {
+		if( $custom_get_params ) {
+			foreach( $custom_get_params as $k => $v ) {
 				$get_params[$k] = $v;
 			}
 		}
 
-		return SysConf_URI::getBase().'module_wizard.php?'.http_build_query($get_params);
+		return SysConf_URI::getBase() . 'module_wizard.php?' . http_build_query( $get_params );
 	}
 
 	/**
 	 *
 	 */
-	public static function handleAction() : void
+	public static function handleAction(): void
 	{
 		$wizard = ModuleWizards::getCurrentWizard();
 
-		if($wizard) {
+		if( $wizard ) {
 			Tr::setCurrentNamespace( $wizard->getTrNamespace() );
 			$wizard->init();
 

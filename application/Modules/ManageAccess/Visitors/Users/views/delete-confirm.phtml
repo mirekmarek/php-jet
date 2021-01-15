@@ -9,8 +9,8 @@ use Jet\Mvc_View;
 use Jet\Tr;
 
 /**
- * @var Mvc_View   $this
- * @var User       $user
+ * @var Mvc_View $this
+ * @var User $user
  */
 $user = $this->getRaw( 'user' );
 $router = $this->getController()->getControllerRouter();
@@ -20,17 +20,17 @@ $router = $this->getController()->getControllerRouter();
 <div class="row">
 	<div class="col-md-12" id="main-col">
 
-		<?=UI::button_goBack()?>
+		<?= UI::button_goBack() ?>
 		<p>
-			<?=Tr::_( 'Do you really want to delete this user?' );?>
+			<?= Tr::_( 'Do you really want to delete this user?' ); ?>
 			<br/>
-			<a href="<?=$router->action('edit')->URI( $user->getId() );?>"
-			   style="font-weight: bolder;font-size: 20px;"><?=$user->getName();?> (<?=$user->getUsername();?>)</a>
+			<a href="<?= $router->action( 'edit' )->URI( $user->getId() ); ?>"
+			   style="font-weight: bolder;font-size: 20px;"><?= $user->getName(); ?> (<?= $user->getUsername(); ?>)</a>
 		</p>
 
-		<form action="<?=Http_Request::currentURI()?>" method="post">
+		<form action="<?= Http_Request::currentURI() ?>" method="post">
 			<input type="hidden" name="delete" value="yes">
-			<?=UI::button_delete()->setType( 'submit' )?>
+			<?= UI::button_delete()->setType( 'submit' ) ?>
 		</form>
 	</div>
 </div>

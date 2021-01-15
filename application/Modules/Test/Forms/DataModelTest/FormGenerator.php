@@ -5,6 +5,7 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace JetApplicationModule\Test\Forms;
 
 use Jet\DataModel;
@@ -53,7 +54,7 @@ class DataModelTest_FormGenerator extends DataModel
 		type: DataModel::TYPE_DATE,
 		form_field_label: 'Date: ',
 		form_field_error_messages: [
-			Form_Field::ERROR_CODE_INVALID_FORMAT=>'Invalid date format'
+			Form_Field::ERROR_CODE_INVALID_FORMAT => 'Invalid date format'
 		]
 	)]
 	protected ?Data_DateTime $date = null;
@@ -65,7 +66,7 @@ class DataModelTest_FormGenerator extends DataModel
 		type: DataModel::TYPE_DATE_TIME,
 		form_field_label: 'Date and time: ',
 		form_field_error_messages: [
-			Form_Field::ERROR_CODE_INVALID_FORMAT=>'Invalid date format'
+			Form_Field::ERROR_CODE_INVALID_FORMAT => 'Invalid date format'
 		]
 	)]
 	protected ?Data_DateTime $date_time = null;
@@ -79,7 +80,7 @@ class DataModelTest_FormGenerator extends DataModel
 		form_field_min_value: 0,
 		form_field_max_value: 999,
 		form_field_error_messages: [
-			Form_Field_Float::ERROR_CODE_OUT_OF_RANGE=>'Number is out of range (0-999)'
+			Form_Field_Float::ERROR_CODE_OUT_OF_RANGE => 'Number is out of range (0-999)'
 		]
 	)]
 	protected float $float = 0;
@@ -93,7 +94,7 @@ class DataModelTest_FormGenerator extends DataModel
 		form_field_min_value: 0,
 		form_field_max_value: 999,
 		form_field_error_messages: [
-			Form_Field_Float::ERROR_CODE_OUT_OF_RANGE=>'Number is out of range (0-999)'
+			Form_Field_Float::ERROR_CODE_OUT_OF_RANGE => 'Number is out of range (0-999)'
 		]
 	)]
 	protected int $int = 0;
@@ -136,9 +137,12 @@ class DataModelTest_FormGenerator extends DataModel
 		type: DataModel::TYPE_STRING,
 		form_field_label: 'Select: ',
 		form_field_type: Form::TYPE_SELECT,
-		form_field_get_select_options_callback: [self::class, 'getSelectOptions'],
+		form_field_get_select_options_callback: [
+		self::class,
+		'getSelectOptions'
+	],
 		form_field_error_messages: [
-			Form_Field_MultiSelect::ERROR_CODE_INVALID_VALUE=>'Invalid value'
+			Form_Field_MultiSelect::ERROR_CODE_INVALID_VALUE => 'Invalid value'
 		]
 	)]
 	protected string $select = '';
@@ -150,9 +154,12 @@ class DataModelTest_FormGenerator extends DataModel
 		type: DataModel::TYPE_CUSTOM_DATA,
 		form_field_label: 'Multi Select: ',
 		form_field_type: Form::TYPE_MULTI_SELECT,
-		form_field_get_select_options_callback: [self::class, 'getSelectOptions'],
+		form_field_get_select_options_callback: [
+		self::class,
+		'getSelectOptions'
+	],
 		form_field_error_messages: [
-			Form_Field_MultiSelect::ERROR_CODE_INVALID_VALUE=>'Invalid value'
+			Form_Field_MultiSelect::ERROR_CODE_INVALID_VALUE => 'Invalid value'
 		]
 	)]
 	protected array $multi_select = [];
@@ -164,9 +171,12 @@ class DataModelTest_FormGenerator extends DataModel
 		type: DataModel::TYPE_CUSTOM_DATA,
 		form_field_label: 'Radio Button: ',
 		form_field_type: Form::TYPE_RADIO_BUTTON,
-		form_field_get_select_options_callback: [self::class, 'getSelectOptions'],
+		form_field_get_select_options_callback: [
+		self::class,
+		'getSelectOptions'
+	],
 		form_field_error_messages: [
-			Form_Field_MultiSelect::ERROR_CODE_INVALID_VALUE=>'Invalid value'
+			Form_Field_MultiSelect::ERROR_CODE_INVALID_VALUE => 'Invalid value'
 		]
 	)]
 	protected array $radio_button = [];
@@ -181,9 +191,9 @@ class DataModelTest_FormGenerator extends DataModel
 		form_field_type: Form::TYPE_REGISTRATION_PASSWORD,
 		form_field_options: [],
 		form_field_error_messages: [
-			Form_Field_RegistrationPassword::ERROR_CODE_EMPTY=>'Please enter password',
-			Form_Field_RegistrationPassword::ERROR_CODE_CHECK_EMPTY=>'Please enter confirm password',
-			Form_Field_RegistrationPassword::ERROR_CODE_CHECK_NOT_MATCH=>'Passwords do not match'
+			Form_Field_RegistrationPassword::ERROR_CODE_EMPTY           => 'Please enter password',
+			Form_Field_RegistrationPassword::ERROR_CODE_CHECK_EMPTY     => 'Please enter confirm password',
+			Form_Field_RegistrationPassword::ERROR_CODE_CHECK_NOT_MATCH => 'Passwords do not match'
 		]
 	)]
 	protected string $password = '';
@@ -202,7 +212,7 @@ class DataModelTest_FormGenerator extends DataModel
 	/**
 	 * @return array
 	 */
-	public static function getSelectOptions() : array
+	public static function getSelectOptions(): array
 	{
 		return [
 			'value1' => 'Option 1',
@@ -216,7 +226,7 @@ class DataModelTest_FormGenerator extends DataModel
 	/**
 	 * @return string
 	 */
-	public function getLongText() : string
+	public function getLongText(): string
 	{
 		return $this->long_text;
 	}
@@ -224,7 +234,7 @@ class DataModelTest_FormGenerator extends DataModel
 	/**
 	 * @param string $long_text
 	 */
-	public function setLongText( string $long_text ) : void
+	public function setLongText( string $long_text ): void
 	{
 		$this->long_text = $long_text;
 	}
@@ -232,7 +242,7 @@ class DataModelTest_FormGenerator extends DataModel
 	/**
 	 * @return string
 	 */
-	public function getText() : string
+	public function getText(): string
 	{
 		return $this->text;
 	}
@@ -240,7 +250,7 @@ class DataModelTest_FormGenerator extends DataModel
 	/**
 	 * @param string $text
 	 */
-	public function setText( string $text ) : void
+	public function setText( string $text ): void
 	{
 		$this->text = $text;
 	}
@@ -248,7 +258,7 @@ class DataModelTest_FormGenerator extends DataModel
 	/**
 	 * @return Data_DateTime|null
 	 */
-	public function getDate() : Data_DateTime|null
+	public function getDate(): Data_DateTime|null
 	{
 		return $this->date;
 	}
@@ -264,7 +274,7 @@ class DataModelTest_FormGenerator extends DataModel
 	/**
 	 * @return Data_DateTime|null
 	 */
-	public function getDateTime() : Data_DateTime|null
+	public function getDateTime(): Data_DateTime|null
 	{
 		return $this->date_time;
 	}
@@ -272,7 +282,7 @@ class DataModelTest_FormGenerator extends DataModel
 	/**
 	 * @param ?Data_DateTime $date_time
 	 */
-	public function setDateTime( ?Data_DateTime $date_time ) : void
+	public function setDateTime( ?Data_DateTime $date_time ): void
 	{
 		$this->date_time = $date_time;
 	}
@@ -280,7 +290,7 @@ class DataModelTest_FormGenerator extends DataModel
 	/**
 	 * @return string
 	 */
-	public function getHTML() : string
+	public function getHTML(): string
 	{
 		return $this->HTML;
 	}
@@ -288,7 +298,7 @@ class DataModelTest_FormGenerator extends DataModel
 	/**$HTM
 	 * @param string $HTML
 	 */
-	public function setHTML( string $HTML ) : void
+	public function setHTML( string $HTML ): void
 	{
 		$this->HTML = $HTML;
 	}
@@ -296,7 +306,7 @@ class DataModelTest_FormGenerator extends DataModel
 	/**
 	 * @return bool
 	 */
-	public function getCheckbox() : bool
+	public function getCheckbox(): bool
 	{
 		return $this->checkbox;
 	}
@@ -304,7 +314,7 @@ class DataModelTest_FormGenerator extends DataModel
 	/**
 	 * @param bool $checkbox
 	 */
-	public function setCheckbox( bool $checkbox ) : void
+	public function setCheckbox( bool $checkbox ): void
 	{
 		$this->checkbox = $checkbox;
 	}
@@ -312,7 +322,7 @@ class DataModelTest_FormGenerator extends DataModel
 	/**
 	 * @return float
 	 */
-	public function getFloat() : float
+	public function getFloat(): float
 	{
 		return $this->float;
 	}
@@ -320,7 +330,7 @@ class DataModelTest_FormGenerator extends DataModel
 	/**
 	 * @param float $float
 	 */
-	public function setFloat( float $float ) : void
+	public function setFloat( float $float ): void
 	{
 		$this->float = $float;
 	}
@@ -328,7 +338,7 @@ class DataModelTest_FormGenerator extends DataModel
 	/**
 	 * @return int
 	 */
-	public function getInt() : int
+	public function getInt(): int
 	{
 		return $this->int;
 	}
@@ -336,7 +346,7 @@ class DataModelTest_FormGenerator extends DataModel
 	/**
 	 * @param int $int
 	 */
-	public function setInt( int $int ) : void
+	public function setInt( int $int ): void
 	{
 		$this->int = $int;
 	}
@@ -344,7 +354,7 @@ class DataModelTest_FormGenerator extends DataModel
 	/**
 	 * @return string
 	 */
-	public function getSelect() : string
+	public function getSelect(): string
 	{
 		return $this->select;
 	}
@@ -352,7 +362,7 @@ class DataModelTest_FormGenerator extends DataModel
 	/**
 	 * @param string $select
 	 */
-	public function setSelect( string $select ) : void
+	public function setSelect( string $select ): void
 	{
 		$this->select = $select;
 	}
@@ -360,7 +370,7 @@ class DataModelTest_FormGenerator extends DataModel
 	/**
 	 * @return array
 	 */
-	public function getMultiSelect() : array
+	public function getMultiSelect(): array
 	{
 		return $this->multi_select;
 	}
@@ -368,7 +378,7 @@ class DataModelTest_FormGenerator extends DataModel
 	/**
 	 * @param array $multi_select
 	 */
-	public function setMultiSelect( array $multi_select ) : void
+	public function setMultiSelect( array $multi_select ): void
 	{
 		$this->multi_select = $multi_select;
 	}
@@ -376,7 +386,7 @@ class DataModelTest_FormGenerator extends DataModel
 	/**
 	 * @return array
 	 */
-	public function getRadioButton() : array
+	public function getRadioButton(): array
 	{
 		return $this->radio_button;
 	}
@@ -384,7 +394,7 @@ class DataModelTest_FormGenerator extends DataModel
 	/**
 	 * @param array $radio_button
 	 */
-	public function setRadioButton( array $radio_button ) : void
+	public function setRadioButton( array $radio_button ): void
 	{
 		$this->radio_button = $radio_button;
 	}
@@ -392,7 +402,7 @@ class DataModelTest_FormGenerator extends DataModel
 	/**
 	 * @return string
 	 */
-	public function getPassword() : string
+	public function getPassword(): string
 	{
 		return $this->password;
 	}
@@ -400,7 +410,7 @@ class DataModelTest_FormGenerator extends DataModel
 	/**
 	 * @param string $password
 	 */
-	public function setPassword( string $password ) : void
+	public function setPassword( string $password ): void
 	{
 		$this->password = $password;
 	}
@@ -408,7 +418,7 @@ class DataModelTest_FormGenerator extends DataModel
 	/**
 	 * @return string
 	 */
-	public function getPasswordNc() : string
+	public function getPasswordNc(): string
 	{
 		return $this->password_nc;
 	}
@@ -416,7 +426,7 @@ class DataModelTest_FormGenerator extends DataModel
 	/**
 	 * @param string $password_nc
 	 */
-	public function setPasswordNc( string $password_nc ) : void
+	public function setPasswordNc( string $password_nc ): void
 	{
 		$this->password_nc = $password_nc;
 	}

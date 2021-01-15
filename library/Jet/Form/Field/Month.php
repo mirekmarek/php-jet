@@ -5,6 +5,7 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace Jet;
 
 use DateTime;
@@ -74,17 +75,17 @@ class Form_Field_Month extends Form_Field_Input
 	 *
 	 * @return bool
 	 */
-	public function validate() : bool
+	public function validate(): bool
 	{
 		if(
 			!$this->is_required &&
-			$this->_value===''
+			$this->_value === ''
 		) {
 			return true;
 		}
 
 
-		$check = DateTime::createFromFormat( 'Y-m-d', $this->_value.'-01' );
+		$check = DateTime::createFromFormat( 'Y-m-d', $this->_value . '-01' );
 
 		if( !$check ) {
 			$this->setError( self::ERROR_CODE_INVALID_FORMAT );
@@ -100,7 +101,7 @@ class Form_Field_Month extends Form_Field_Input
 	/**
 	 * @return array
 	 */
-	public function getRequiredErrorCodes() : array
+	public function getRequiredErrorCodes(): array
 	{
 		$codes = [];
 

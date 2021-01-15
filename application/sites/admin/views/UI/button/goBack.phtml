@@ -1,33 +1,37 @@
 <?php
+
 use Jet\UI_button;
 use Jet\UI;
 use Jet\Mvc_View;
 use Jet\Http_Request;
 
 /**
- * @var Mvc_View  $this
+ * @var Mvc_View $this
  * @var UI_button $b
  */
 $b = $this->getRaw( 'element' );
 
-if(!$b->getLabel()) {
-	$b->setLabel( UI::_('Go back') );
+if( !$b->getLabel() ) {
+	$b->setLabel( UI::_( 'Go back' ) );
 }
 
-if(!$b->getIcon()) {
-	$b->setIcon('chevron-left');
+if( !$b->getIcon() ) {
+	$b->setIcon( 'chevron-left' );
 }
 
-if(!$b->getClass()) {
-	$b->setClass('light');
+if( !$b->getClass() ) {
+	$b->setClass( 'light' );
 }
 
 $URL = $b->getUrl();
 
-if(!$URL) {
-	$URL = Http_Request::currentURI([], ['id', 'action']);
+if( !$URL ) {
+	$URL = Http_Request::currentURI( [], [
+		'id',
+		'action'
+	] );
 }
 
-?><a href="<?=$URL?>" class="btn btn-<?=$b->getClass()?> btn-<?=$b->getSize()?>" <?=$b->getJsActions()?>><?php
-if( $b->getIcon() ) echo UI::icon($b->getIcon());
-?>&nbsp;<?=$b->getLabel()?></a>
+?><a href="<?= $URL ?>" class="btn btn-<?= $b->getClass() ?> btn-<?= $b->getSize() ?>" <?= $b->getJsActions() ?>><?php
+	if( $b->getIcon() ) echo UI::icon( $b->getIcon() );
+	?>&nbsp;<?= $b->getLabel() ?></a>

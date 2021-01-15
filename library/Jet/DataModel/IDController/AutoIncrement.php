@@ -5,6 +5,7 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace Jet;
 
 /**
@@ -24,7 +25,7 @@ class DataModel_IDController_AutoIncrement extends DataModel_IDController
 	 * @throws DataModel_Exception
 	 *
 	 */
-	public function beforeSave() : void
+	public function beforeSave(): void
 	{
 		$this->_check();
 	}
@@ -34,7 +35,7 @@ class DataModel_IDController_AutoIncrement extends DataModel_IDController
 	 *
 	 * @throws DataModel_Exception
 	 */
-	public function afterSave( mixed $backend_save_result ) : void
+	public function afterSave( mixed $backend_save_result ): void
 	{
 		$this->_check();
 
@@ -44,11 +45,11 @@ class DataModel_IDController_AutoIncrement extends DataModel_IDController
 	/**
 	 * @throws DataModel_Exception
 	 */
-	protected function _check() : void
+	protected function _check(): void
 	{
 		if( !array_key_exists( $this->id_property_name, $this->values ) ) {
 			throw new DataModel_Exception(
-				'Class \''.$this->data_model_class_name.'\': Property \''.$this->id_property_name.'\' does not exist. Please configure ID class by #[DataModel_Definition(id_controller_options:[ \'id_property_name\' => \'some_property_name\' ])], or define that property, or create your own ID class.',
+				'Class \'' . $this->data_model_class_name . '\': Property \'' . $this->id_property_name . '\' does not exist. Please configure ID class by #[DataModel_Definition(id_controller_options:[ \'id_property_name\' => \'some_property_name\' ])], or define that property, or create your own ID class.',
 				DataModel_Exception::CODE_DEFINITION_NONSENSE
 			);
 		}

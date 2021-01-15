@@ -5,6 +5,7 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace Jet;
 
 /**
@@ -24,7 +25,7 @@ class Application extends BaseObject
 	 * @param ?string $URL (optional; URL to dispatch; default: null = current URL)
 	 *
 	 */
-	public static function runMvc( ?string $URL = null ) : void
+	public static function runMvc( ?string $URL = null ): void
 	{
 		Debug_Profiler::blockStart( 'MVC router - Init and resolve' );
 
@@ -80,7 +81,7 @@ class Application extends BaseObject
 			$page->getSSLRequired() &&
 			!Http_Request::isHttps()
 		) {
-			Http_Headers::movedPermanently( Http_Request::URL(true, true) );
+			Http_Headers::movedPermanently( Http_Request::URL( true, true ) );
 		}
 
 		if( $router->getLoginRequired() ) {
@@ -95,7 +96,7 @@ class Application extends BaseObject
 			return;
 		}
 
-		if($router->getHasUnusedPath()) {
+		if( $router->getHasUnusedPath() ) {
 			Http_Headers::movedPermanently( $router->getValidUrl() );
 		}
 
@@ -110,7 +111,7 @@ class Application extends BaseObject
 	/**
 	 *
 	 */
-	public static function end() : void
+	public static function end(): void
 	{
 
 		if( !static::$do_not_end ) {
@@ -122,7 +123,7 @@ class Application extends BaseObject
 	 * Useful for tests
 	 *
 	 */
-	public static function doNotEnd() : void
+	public static function doNotEnd(): void
 	{
 		static::$do_not_end = true;
 	}

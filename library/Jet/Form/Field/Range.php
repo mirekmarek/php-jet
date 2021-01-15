@@ -5,6 +5,7 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace Jet;
 
 /**
@@ -86,7 +87,7 @@ class Form_Field_Range extends Form_Field_Input
 	/**
 	 * @return int|null
 	 */
-	public function getMinValue() : int|null
+	public function getMinValue(): int|null
 	{
 		return $this->min_value;
 	}
@@ -94,7 +95,7 @@ class Form_Field_Range extends Form_Field_Input
 	/**
 	 * @param int $min
 	 */
-	public function setMinValue( int $min ) : void
+	public function setMinValue( int $min ): void
 	{
 		$this->min_value = (int)$min;
 	}
@@ -102,7 +103,7 @@ class Form_Field_Range extends Form_Field_Input
 	/**
 	 * @return int|null
 	 */
-	public function getMaxValue() : int|null
+	public function getMaxValue(): int|null
 	{
 		return $this->max_value;
 	}
@@ -110,7 +111,7 @@ class Form_Field_Range extends Form_Field_Input
 	/**
 	 * @param int|null $max
 	 */
-	public function setMaxValue( int|null $max ) : void
+	public function setMaxValue( int|null $max ): void
 	{
 		$this->max_value = (int)$max;
 	}
@@ -118,7 +119,7 @@ class Form_Field_Range extends Form_Field_Input
 	/**
 	 * @return int
 	 */
-	public function getStep() : int
+	public function getStep(): int
 	{
 		return $this->step;
 	}
@@ -126,7 +127,7 @@ class Form_Field_Range extends Form_Field_Input
 	/**
 	 * @param int $step
 	 */
-	public function setStep( int $step ) : void
+	public function setStep( int $step ): void
 	{
 		$this->step = $step;
 	}
@@ -134,12 +135,12 @@ class Form_Field_Range extends Form_Field_Input
 	/**
 	 * @return bool
 	 */
-	public function validate() : bool
+	public function validate(): bool
 	{
 
 		if(
 			!$this->is_required &&
-			$this->_value_raw===''
+			$this->_value_raw === ''
 		) {
 			$this->setIsValid();
 
@@ -149,8 +150,8 @@ class Form_Field_Range extends Form_Field_Input
 		$this->_value = (int)$this->_value_raw;
 
 		if(
-			$this->min_value!==null &&
-			$this->_value<$this->min_value
+			$this->min_value !== null &&
+			$this->_value < $this->min_value
 		) {
 			$this->setError( self::ERROR_CODE_OUT_OF_RANGE );
 
@@ -158,8 +159,8 @@ class Form_Field_Range extends Form_Field_Input
 		}
 
 		if(
-			$this->max_value!==null &&
-			$this->_value>$this->max_value
+			$this->max_value !== null &&
+			$this->_value > $this->max_value
 		) {
 			$this->setError( self::ERROR_CODE_OUT_OF_RANGE );
 
@@ -176,7 +177,7 @@ class Form_Field_Range extends Form_Field_Input
 	/**
 	 * @return array
 	 */
-	public function getRequiredErrorCodes() : array
+	public function getRequiredErrorCodes(): array
 	{
 		$codes = [];
 
@@ -185,8 +186,8 @@ class Form_Field_Range extends Form_Field_Input
 		}
 
 		if(
-			$this->min_value!==null ||
-			$this->max_value!==null
+			$this->min_value !== null ||
+			$this->max_value !== null
 		) {
 			$codes[] = self::ERROR_CODE_OUT_OF_RANGE;
 		}

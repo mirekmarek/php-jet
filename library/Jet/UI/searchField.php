@@ -5,6 +5,7 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace Jet;
 
 /**
@@ -50,7 +51,7 @@ class UI_searchField extends BaseObject
 	/**
 	 * @return string
 	 */
-	public static function getDefaultRendererScript() : string
+	public static function getDefaultRendererScript(): string
 	{
 		return static::$default_renderer_script;
 	}
@@ -58,7 +59,7 @@ class UI_searchField extends BaseObject
 	/**
 	 * @param string $default_renderer_script
 	 */
-	public static function setDefaultRendererScript( string $default_renderer_script ) : void
+	public static function setDefaultRendererScript( string $default_renderer_script ): void
 	{
 		static::$default_renderer_script = $default_renderer_script;
 	}
@@ -66,7 +67,7 @@ class UI_searchField extends BaseObject
 	/**
 	 * @return string
 	 */
-	public static function getDefaultPlaceholder() : string
+	public static function getDefaultPlaceholder(): string
 	{
 		return static::$default_placeholder;
 	}
@@ -74,7 +75,7 @@ class UI_searchField extends BaseObject
 	/**
 	 * @param string $default_placeholder
 	 */
-	public static function setDefaultPlaceholder( string $default_placeholder ) : void
+	public static function setDefaultPlaceholder( string $default_placeholder ): void
 	{
 		static::$default_placeholder = $default_placeholder;
 	}
@@ -93,9 +94,9 @@ class UI_searchField extends BaseObject
 	/**
 	 * @return string
 	 */
-	public function getRendererScript() : string
+	public function getRendererScript(): string
 	{
-		if(!$this->renderer_script) {
+		if( !$this->renderer_script ) {
 			$this->renderer_script = static::getDefaultRendererScript();
 		}
 
@@ -105,7 +106,7 @@ class UI_searchField extends BaseObject
 	/**
 	 * @param string $renderer_script
 	 */
-	public function setRendererScript( string $renderer_script ) : void
+	public function setRendererScript( string $renderer_script ): void
 	{
 		$this->renderer_script = $renderer_script;
 	}
@@ -113,7 +114,7 @@ class UI_searchField extends BaseObject
 	/**
 	 * @return string
 	 */
-	public function getName() : string
+	public function getName(): string
 	{
 		return $this->name;
 	}
@@ -121,7 +122,7 @@ class UI_searchField extends BaseObject
 	/**
 	 * @return string
 	 */
-	public function getValue() : string
+	public function getValue(): string
 	{
 		return $this->value;
 	}
@@ -129,9 +130,9 @@ class UI_searchField extends BaseObject
 	/**
 	 * @return string
 	 */
-	public function getPlaceholder() : string
+	public function getPlaceholder(): string
 	{
-		if(!$this->placeholder) {
+		if( !$this->placeholder ) {
 			$this->placeholder = static::getDefaultPlaceholder();
 		}
 
@@ -143,7 +144,7 @@ class UI_searchField extends BaseObject
 	 *
 	 * @return static
 	 */
-	public function setPlaceholder( string $placeholder ) : static
+	public function setPlaceholder( string $placeholder ): static
 	{
 		$this->placeholder = $placeholder;
 
@@ -154,7 +155,7 @@ class UI_searchField extends BaseObject
 	/**
 	 * @return Mvc_View
 	 */
-	public function getView() : Mvc_View
+	public function getView(): Mvc_View
 	{
 
 		$view = UI::getView();
@@ -166,7 +167,7 @@ class UI_searchField extends BaseObject
 	/**
 	 * @return string
 	 */
-	public function getAction() : string
+	public function getAction(): string
 	{
 		return Http_Request::currentURI();
 	}
@@ -174,7 +175,7 @@ class UI_searchField extends BaseObject
 	/**
 	 * @return string
 	 */
-	public function __toString() : string
+	public function __toString(): string
 	{
 		return $this->toString();
 	}
@@ -182,9 +183,9 @@ class UI_searchField extends BaseObject
 	/**
 	 * @return string
 	 */
-	public function toString() : string
+	public function toString(): string
 	{
-		return $this->getView()->render($this->getRendererScript());
+		return $this->getView()->render( $this->getRendererScript() );
 	}
 
 }

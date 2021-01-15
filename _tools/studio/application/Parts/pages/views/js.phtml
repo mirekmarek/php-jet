@@ -5,33 +5,33 @@ namespace JetStudio;
 <script type="text/javascript">
 	const Pages = {
 		createPage: {
-			openDialog: function() {
+			openDialog: function () {
 				$('#dialog_create_new_page').modal('show');
 			},
-			createSend: function() {
+			createSend: function () {
 				JetAjaxForm.submit(
 					'<?=Pages_Page::getCreateForm()->getId()?>',
 					{
-						onSuccess: function( form, response_data ) {
-							location = '?site=<?=Pages::getCurrentSiteId()?>&locale=<?=Pages::getCurrentLocale()?>&page='+encodeURIComponent(response_data['new_page_id'])
+						onSuccess: function (form, response_data) {
+							location = '?site=<?=Pages::getCurrentSiteId()?>&locale=<?=Pages::getCurrentLocale()?>&page=' + encodeURIComponent(response_data['new_page_id'])
 						}
 					}
 				);
 			},
-			generateId: function( name ) {
+			generateId: function (name) {
 				$.ajax({
-					url: '<?=Pages::getActionUrl('generate_id', [], false)?>&name='+encodeURIComponent(name),
-					success: function(result) {
-						$('#page_create_form__id').val( result.id );
+					url: '<?=Pages::getActionUrl( 'generate_id', [], false )?>&name=' + encodeURIComponent(name),
+					success: function (result) {
+						$('#page_create_form__id').val(result.id);
 					}
 				});
 			}
 		},
 		editPage: {
 			content: {
-				moduleSelected: function( module_name, ids ) {
-					let controllers = $('#'+ids['controller_name']);
-					let controller_action = $('#'+ids['controller_action']);
+				moduleSelected: function (module_name, ids) {
+					let controllers = $('#' + ids['controller_name']);
+					let controller_action = $('#' + ids['controller_action']);
 
 					controllers.empty();
 					controller_action.empty();
@@ -40,40 +40,40 @@ namespace JetStudio;
 					$('#create_page_content_form__controller_action').removeClass('is-invalid');
 
 					$.ajax({
-						url: '<?=Pages::getActionUrl('get_module_controllers', [], false)?>&module='+encodeURIComponent(module_name),
-						success: function(result) {
-							$.each(result.controllers, function(name) {
+						url: '<?=Pages::getActionUrl( 'get_module_controllers', [], false )?>&module=' + encodeURIComponent(module_name),
+						success: function (result) {
+							$.each(result.controllers, function (name) {
 								controllers.append($('<option></option>').attr('value', name).text(name));
 							});
 
-							controllers.val( result.default_controller );
+							controllers.val(result.default_controller);
 
-							$.each(result.actions, function(name) {
+							$.each(result.actions, function (name) {
 								controller_action.append($('<option></option>').attr('value', name).text(name));
 							});
 						}
 					});
 				},
-				controllerSelected: function( controller, ids ) {
-					let module_name = $('#'+ids['module_mame']);
-					let controller_action = $('#'+ids['controller_action']);
+				controllerSelected: function (controller, ids) {
+					let module_name = $('#' + ids['module_mame']);
+					let controller_action = $('#' + ids['controller_action']);
 
 					controller_action.empty();
 
 					$.ajax({
-						url: '<?=Pages::getActionUrl('get_module_controller_actions', [], false)?>&module='+encodeURIComponent(module_name.val())+'&controller='+encodeURIComponent(controller),
-						success: function(result) {
+						url: '<?=Pages::getActionUrl( 'get_module_controller_actions', [], false )?>&module=' + encodeURIComponent(module_name.val()) + '&controller=' + encodeURIComponent(controller),
+						success: function (result) {
 
-							$.each(result.actions, function(name) {
+							$.each(result.actions, function (name) {
 								controller_action.append($('<option></option>').attr('value', name).text(name));
 							});
 						}
 					});
 
-					console.debug( module_name, ids );
+					console.debug(module_name, ids);
 				},
 
-				addContent: function() {
+				addContent: function () {
 					$('#dialog_create_new_page_content').modal('show');
 				},
 
@@ -83,26 +83,26 @@ namespace JetStudio;
 					JetAjaxForm.submit(
 						'create_page_content_form',
 						{
-							onSuccess: function( form, response_data ) {
+							onSuccess: function (form, response_data) {
 							}
 						}
 					);
 					<?php endif; ?>
 				},
 
-				deleteContent: function( index ) {
-					$('#delete_content_form__index').val( index );
+				deleteContent: function (index) {
+					$('#delete_content_form__index').val(index);
 					$('#delete_content').modal('show');
 				},
 
-				deleteContentSend: function() {
+				deleteContentSend: function () {
 					$('#delete_content_form').submit();
 				}
 			}
 		},
 
 		deletePage: {
-			openDialog: function() {
+			openDialog: function () {
 				$('#delete_page').modal('show');
 			}
 		}

@@ -1,4 +1,5 @@
 <?php
+
 use Jet\Mvc_Layout;
 use Jet\Mvc;
 use Jet\SysConf_URI;
@@ -10,19 +11,20 @@ use Jet\SysConf_URI;
 require 'parts/init_libs.php';
 ?>
 <!DOCTYPE html>
-<html lang="<?=Mvc::getCurrentLocale()->getLanguage()?>">
+<html lang="<?= Mvc::getCurrentLocale()->getLanguage() ?>">
 <head>
-	<title><?=Mvc::getCurrentSite()->getLocalizedData( Mvc::getCurrentLocale() )->getTitle()?> : <?=Mvc::getCurrentPage()->getTitle()?></title>
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<meta http-equiv="content-language" content="<?=Mvc::getCurrentLocale()->getLanguage()?>" />
+	<title><?= Mvc::getCurrentSite()->getLocalizedData( Mvc::getCurrentLocale() )->getTitle() ?>
+		: <?= Mvc::getCurrentPage()->getTitle() ?></title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+	<meta http-equiv="content-language" content="<?= Mvc::getCurrentLocale()->getLanguage() ?>"/>
 
 	<jet_layout_meta_tags/>
 	<jet_layout_css/>
 	<jet_layout_javascripts/>
 
-	<link rel="icon" href="<?= SysConf_URI::getImages()?>favicon.png" type="image/png">
+	<link rel="icon" href="<?= SysConf_URI::getImages() ?>favicon.png" type="image/png">
 </head>
 <body>
-	<jet_layout_main_position/>
+<jet_layout_main_position/>
 </body>
 </html>

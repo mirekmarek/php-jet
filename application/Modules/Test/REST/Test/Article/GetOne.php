@@ -18,15 +18,15 @@ class Test_Article_GetOne extends Test_Abstract
 	/**
 	 * @return bool
 	 */
-	public function isEnabled() : bool
+	public function isEnabled(): bool
 	{
-		return count($this->data['articles'])>0;
+		return count( $this->data['articles'] ) > 0;
 	}
 
 	/**
 	 * @return string
 	 */
-	protected function _getTitle() : string
+	protected function _getTitle(): string
 	{
 		return 'Get item';
 	}
@@ -34,7 +34,7 @@ class Test_Article_GetOne extends Test_Abstract
 	/**
 	 *
 	 */
-	public function test() : void
+	public function test(): void
 	{
 
 		$ids = [];
@@ -42,9 +42,9 @@ class Test_Article_GetOne extends Test_Abstract
 			$ids[] = $item['id'];
 		}
 
-		shuffle($ids);
+		shuffle( $ids );
 		$id = $ids[0];
 
-		$this->client->get('article/'.$id);
+		$this->client->get( 'article/' . $id );
 	}
 }

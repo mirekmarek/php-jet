@@ -5,6 +5,7 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace JetApplication\Installer;
 
 use Exception;
@@ -32,7 +33,7 @@ class Installer_Step_SelectDbType_Controller extends Installer_Step_Controller
 	/**
 	 * @return bool
 	 */
-	public function getIsAvailable() : bool
+	public function getIsAvailable(): bool
 	{
 		return !Installer_Step_CreateSite_Controller::sitesCreated();
 	}
@@ -40,11 +41,11 @@ class Installer_Step_SelectDbType_Controller extends Installer_Step_Controller
 	/**
 	 *
 	 */
-	public function main() : void
+	public function main(): void
 	{
 
 		$db_type_field = new Form_Field_Select( 'type', 'Please database type: ' );
-		$db_type_field->setSelectOptions( DataModel_Backend::getBackendTypes(true) );
+		$db_type_field->setSelectOptions( DataModel_Backend::getBackendTypes( true ) );
 		$db_type_field->setDefaultValue( static::getSelectedBackendType()['type'] );
 		$db_type_field->setIsRequired( true );
 
@@ -56,7 +57,7 @@ class Installer_Step_SelectDbType_Controller extends Installer_Step_Controller
 		);
 
 		$select_db_type_form = new Form(
-			'select_db_type_form', [ $db_type_field ]
+			'select_db_type_form', [$db_type_field]
 		);
 
 
@@ -71,22 +72,22 @@ class Installer_Step_SelectDbType_Controller extends Installer_Step_Controller
 			$data_model_config = new DataModel_Config();
 			$db_config = new Db_Config();
 
-			require Installer::getBasePath().'Classes/DbDriverConfig.php';
-			require Installer::getBasePath().'Classes/DbDriverConfig/'.$driver.'.php';
+			require Installer::getBasePath() . 'Classes/DbDriverConfig.php';
+			require Installer::getBasePath() . 'Classes/DbDriverConfig/' . $driver . '.php';
 
-			$class_name = __NAMESPACE__.'\\Installer_DbDriverConfig_'.$driver;
+			$class_name = __NAMESPACE__ . '\\Installer_DbDriverConfig_' . $driver;
 
 			/**
 			 * @var Installer_DbDriverConfig $driver_config
 			 */
 			$driver_config = new $class_name();
-			$driver_config->initialize(  $db_config, $data_model_config );
+			$driver_config->initialize( $db_config, $data_model_config );
 
 			try {
 				$db_config->writeConfigFile();
 				$data_model_config->writeConfigFile();
 			} catch( Exception $e ) {
-				UI_messages::danger( Tr::_('Something went wrong: %error%', ['error'=>$e->getMessage()], Tr::COMMON_NAMESPACE) );
+				UI_messages::danger( Tr::_( 'Something went wrong: %error%', ['error' => $e->getMessage()], Tr::COMMON_NAMESPACE ) );
 				Http_Headers::reload();
 			}
 
@@ -105,14 +106,14 @@ class Installer_Step_SelectDbType_Controller extends Installer_Step_Controller
 	/**
 	 * @return array
 	 */
-	public static function getSelectedBackendType() : array
+	public static function getSelectedBackendType(): array
 	{
 		$session = Installer::getSession();
 
 		$types = DataModel_Backend::getBackendTypes();
 
 		if( !$session->getValueExists( 'backend_type' ) ) {
-			[ $default ] = array_keys( $types );
+			[$default] = array_keys( $types );
 
 			$session->setValue( 'backend_type', $default );
 		}
@@ -123,7 +124,7 @@ class Installer_Step_SelectDbType_Controller extends Installer_Step_Controller
 	/**
 	 * @param string $type
 	 */
-	public static function setSelectedDbType( string $type ) : void
+	public static function setSelectedDbType( string $type ): void
 	{
 
 		if( !isset( DataModel_Backend::getBackendTypes()[$type] ) ) {
@@ -137,9 +138,9 @@ class Installer_Step_SelectDbType_Controller extends Installer_Step_Controller
 	/**
 	 * @return array|bool
 	 */
-	public function getStepsAfter() : array|bool
+	public function getStepsAfter(): array|bool
 	{
-		return [ 'ConfigureDb' ];
+		return ['ConfigureDb'];
 
 		/*
 		if( static::getSelectedBackendType()['driver']!=Db::DRIVER_SQLITE )

@@ -5,6 +5,7 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace Jet;
 
 /**
@@ -43,17 +44,17 @@ abstract class Mvc_Controller extends BaseObject
 	 *
 	 * @see Mvc_View
 	 */
-	protected function initializeDefaultView() : void
+	protected function initializeDefaultView(): void
 	{
 		$this->view = Mvc_Factory::getViewInstance( $this->module->getViewsDir() );
-		$this->view->setController($this);
+		$this->view->setController( $this );
 	}
 
 
 	/**
 	 * @return Mvc_Page_Content_Interface|null
 	 */
-	public function getContent() : Mvc_Page_Content_Interface|null
+	public function getContent(): Mvc_Page_Content_Interface|null
 	{
 		return $this->content;
 	}
@@ -61,7 +62,7 @@ abstract class Mvc_Controller extends BaseObject
 	/**
 	 * @return Application_Module|null
 	 */
-	public function getModule() : Application_Module|null
+	public function getModule(): Application_Module|null
 	{
 		return $this->module;
 	}
@@ -71,7 +72,7 @@ abstract class Mvc_Controller extends BaseObject
 	 *
 	 * @return Mvc_Controller_Router_Interface|Mvc_Controller_Router|null
 	 */
-	public function getControllerRouter() : Mvc_Controller_Router_Interface|Mvc_Controller_Router|null
+	public function getControllerRouter(): Mvc_Controller_Router_Interface|Mvc_Controller_Router|null
 	{
 		return null;
 	}
@@ -79,13 +80,13 @@ abstract class Mvc_Controller extends BaseObject
 	/**
 	 *
 	 */
-	abstract public function responseAccessDenied() : void;
+	abstract public function responseAccessDenied(): void;
 
 	/**
 	 * @param string $action_message
 	 * @param string $context_object_id
 	 * @param string $context_object_name
-	 * @param mixed  $context_object_data
+	 * @param mixed $context_object_data
 	 */
 	public function logAllowedAction( string $action_message,
 	                                  string $context_object_id = '',
@@ -97,7 +98,7 @@ abstract class Mvc_Controller extends BaseObject
 		$module_action = $this->content->getControllerAction();
 
 		Logger::success(
-			'allowed_action:'.$module_name.':'.$module_action,
+			'allowed_action:' . $module_name . ':' . $module_action,
 			$action_message,
 			$context_object_id,
 			$context_object_name,
@@ -110,14 +111,14 @@ abstract class Mvc_Controller extends BaseObject
 	/**
 	 * @return array
 	 */
-	public function getParameters() : array
+	public function getParameters(): array
 	{
 		return $this->content->getParameters();
 	}
 
 	/**
 	 * @param string $key
-	 * @param mixed  $default_value
+	 * @param mixed $default_value
 	 *
 	 * @return mixed
 	 */
@@ -131,18 +132,17 @@ abstract class Mvc_Controller extends BaseObject
 	 *
 	 * @return bool
 	 */
-	public function parameterExists( string $key ) : bool
+	public function parameterExists( string $key ): bool
 	{
 		return $this->content->parameterExists( $key );
 	}
-
 
 
 	/**
 	 *
 	 * @return bool|string
 	 */
-	public function resolve() : bool|string
+	public function resolve(): bool|string
 	{
 		$router = $this->getControllerRouter();
 		if( !$router ) {
@@ -153,20 +153,18 @@ abstract class Mvc_Controller extends BaseObject
 	}
 
 
-
-
 	/**
 	 *
 	 *
 	 * @throws Exception
 	 */
-	public function dispatch() : void
+	public function dispatch(): void
 	{
-		$method = $this->content->getControllerAction().'_Action';
+		$method = $this->content->getControllerAction() . '_Action';
 
 		if( !method_exists( $this, $method ) ) {
 			throw new Exception(
-				'Controller method '.get_class( $this ).'::'.$method.'() does not exist'
+				'Controller method ' . get_class( $this ) . '::' . $method . '() does not exist'
 			);
 		}
 
@@ -177,7 +175,7 @@ abstract class Mvc_Controller extends BaseObject
 	 *
 	 * @param string $view_script
 	 */
-	protected function output( string $view_script ) : void
+	protected function output( string $view_script ): void
 	{
 		$output = $this->view->render( $view_script );
 

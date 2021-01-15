@@ -5,6 +5,7 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace Jet;
 
 /**
@@ -31,7 +32,7 @@ class DataModel_Definition_Property_Int extends DataModel_Definition_Property
 	 * @param array $definition_data
 	 *
 	 */
-	public function setUp( array $definition_data ) : void
+	public function setUp( array $definition_data ): void
 	{
 
 		if( !$definition_data ) {
@@ -40,10 +41,10 @@ class DataModel_Definition_Property_Int extends DataModel_Definition_Property
 
 		parent::setUp( $definition_data );
 
-		if( $this->form_field_min_value!==null ) {
+		if( $this->form_field_min_value !== null ) {
 			$this->form_field_min_value = (int)$this->form_field_min_value;
 		}
-		if( $this->form_field_max_value!==null ) {
+		if( $this->form_field_max_value !== null ) {
 			$this->form_field_max_value = (int)$this->form_field_max_value;
 		}
 
@@ -52,7 +53,7 @@ class DataModel_Definition_Property_Int extends DataModel_Definition_Property
 	/**
 	 * @param mixed &$value
 	 */
-	public function checkValueType( mixed &$value ) : void
+	public function checkValueType( mixed &$value ): void
 	{
 		$value = (int)$value;
 	}

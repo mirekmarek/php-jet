@@ -5,6 +5,7 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace JetStudio;
 
 use Jet\Autoloader_Loader;
@@ -23,15 +24,15 @@ class Autoloader_Jet extends Autoloader_Loader
 	 *
 	 * @return bool|string
 	 */
-	public function getScriptPath( string $root_namespace, string $namespace, string $class_name ) : bool|string
+	public function getScriptPath( string $root_namespace, string $namespace, string $class_name ): bool|string
 	{
-		if($root_namespace!='Jet') {
+		if( $root_namespace != 'Jet' ) {
 			return false;
 		}
 
 		$class_name = str_replace( '_', DIRECTORY_SEPARATOR, $class_name );
 
-		return SysConf_Path::getLibrary().'Jet/'.$class_name.'.php';
+		return SysConf_Path::getLibrary() . 'Jet/' . $class_name . '.php';
 
 	}
 }

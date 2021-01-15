@@ -5,6 +5,7 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace JetStudio;
 
 use Jet\BaseObject;
@@ -86,7 +87,7 @@ class DataModels extends BaseObject implements Application_Part
 	/**
 	 * @return array
 	 */
-	public static function load_getDirs() : array
+	public static function load_getDirs(): array
 	{
 		$dirs = [
 			ProjectConf_Path::getApplicationClasses(),
@@ -102,13 +103,13 @@ class DataModels extends BaseObject implements Application_Part
 	 * @param bool $reload
 	 * @return DataModel_Class[]
 	 */
-	public static function load( bool $reload=false ) : array
+	public static function load( bool $reload = false ): array
 	{
-		if($reload) {
+		if( $reload ) {
 			static::$classes = null;
 		}
 
-		if(static::$classes===null) {
+		if( static::$classes === null ) {
 			static::$classes = [];
 
 			$finder = new DataModels_ClassFinder(
@@ -126,14 +127,14 @@ class DataModels extends BaseObject implements Application_Part
 	/**
 	 * @return DataModel_Class[]
 	 */
-	public static function getProblematicClasses() : array
+	public static function getProblematicClasses(): array
 	{
 		static::load();
 
 		$problems = [];
 
-		foreach(static::$classes as $class) {
-			if($class->getError()) {
+		foreach( static::$classes as $class ) {
+			if( $class->getError() ) {
 				$problems[] = $class;
 			}
 		}
@@ -144,10 +145,10 @@ class DataModels extends BaseObject implements Application_Part
 	/**
 	 * @return DataModel_Namespace[]
 	 */
-	public static function getNamespaces() : array
+	public static function getNamespaces(): array
 	{
 
-		if( static::$namespaces===null ) {
+		if( static::$namespaces === null ) {
 			static::$namespaces = [];
 			$app_ns = new DataModel_Namespace(
 				Project::getApplicationNamespace(),
@@ -156,9 +157,9 @@ class DataModels extends BaseObject implements Application_Part
 
 			static::$namespaces[$app_ns->getNamespace()] = $app_ns;
 
-			foreach(Modules::getModules() as $module) {
+			foreach( Modules::getModules() as $module ) {
 				$ns = new DataModel_Namespace(
-					rtrim($module->getNamespace(), '\\'),
+					rtrim( $module->getNamespace(), '\\' ),
 					$module->getModuleDir()
 				);
 
@@ -170,11 +171,10 @@ class DataModels extends BaseObject implements Application_Part
 	}
 
 
-
 	/**
 	 * @return DataModel_Class[]
 	 */
-	public static function getClasses() : array
+	public static function getClasses(): array
 	{
 		return static::load();
 	}
@@ -185,30 +185,30 @@ class DataModels extends BaseObject implements Application_Part
 	 *
 	 * @return string
 	 */
-	public static function getActionUrl( string $action ) : string
+	public static function getActionUrl( string $action ): string
 	{
 
 		$get_params = [];
 
-		if(static::getCurrentClassName()) {
+		if( static::getCurrentClassName() ) {
 			$get_params['class'] = static::getCurrentClassName();
 		}
 
-		if(static::getCurrentPropertyName()) {
+		if( static::getCurrentPropertyName() ) {
 			$get_params['property'] = static::getCurrentPropertyName();
 		}
 
-		if(static::getCurrentKeyName()) {
+		if( static::getCurrentKeyName() ) {
 			$get_params['key'] = static::getCurrentKeyName();
 		}
 
-		if(static::getCurrentRelationName()) {
+		if( static::getCurrentRelationName() ) {
 			$get_params['relation'] = static::getCurrentRelationName();
 		}
 
 		$get_params['action'] = $action;
 
-		return SysConf_URI::getBase().'data_model.php?'.http_build_query($get_params);
+		return SysConf_URI::getBase() . 'data_model.php?' . http_build_query( $get_params );
 	}
 
 
@@ -217,11 +217,11 @@ class DataModels extends BaseObject implements Application_Part
 	 *
 	 * @return DataModel_Class|null
 	 */
-	public static function getClass( string $name ) : DataModel_Class|null
+	public static function getClass( string $name ): DataModel_Class|null
 	{
 		static::load();
 
-		if(!isset( static::$classes[$name])) {
+		if( !isset( static::$classes[$name] ) ) {
 			return null;
 		}
 
@@ -231,16 +231,16 @@ class DataModels extends BaseObject implements Application_Part
 	/**
 	 * @return DataModel_Class|null|bool
 	 */
-	public static function getCurrentClass() : DataModel_Class|null|bool
+	public static function getCurrentClass(): DataModel_Class|null|bool
 	{
-		if(static::$current_class===null) {
-			$id = Http_Request::GET()->getString('class');
+		if( static::$current_class === null ) {
+			$id = Http_Request::GET()->getString( 'class' );
 
 			static::$current_class = false;
 
 			if(
 				$id &&
-				($item=static::getClass($id))
+				($item = static::getClass( $id ))
 			) {
 				static::$current_class = $item;
 			}
@@ -254,7 +254,7 @@ class DataModels extends BaseObject implements Application_Part
 	 */
 	public static function getCurrentClassName()
 	{
-		if(static::getCurrentClass()) {
+		if( static::getCurrentClass() ) {
 			return static::getCurrentClass()->getFullClassName();
 		}
 
@@ -267,7 +267,7 @@ class DataModels extends BaseObject implements Application_Part
 	public static function getCurrentModel()
 	{
 		$class = static::getCurrentClass();
-		if(!$class) {
+		if( !$class ) {
 			return null;
 		}
 
@@ -279,16 +279,16 @@ class DataModels extends BaseObject implements Application_Part
 	 */
 	public static function getCurrentProperty()
 	{
-		if(static::$current_property===null) {
+		if( static::$current_property === null ) {
 			static::$current_property = false;
 
-			if(($model=static::getCurrentModel())) {
-				$name = Http_Request::GET()->getString('property');
+			if( ($model = static::getCurrentModel()) ) {
+				$name = Http_Request::GET()->getString( 'property' );
 
 				if(
 					$name &&
-					$model->hasProperty($name) &&
-					($item=$model->getProperty($name))
+					$model->hasProperty( $name ) &&
+					($item = $model->getProperty( $name ))
 				) {
 					static::$current_property = $item;
 				}
@@ -302,11 +302,11 @@ class DataModels extends BaseObject implements Application_Part
 	/**
 	 * @return string|null
 	 */
-	public static function getCurrentPropertyName() : string|null
+	public static function getCurrentPropertyName(): string|null
 	{
 		$current = static::getCurrentProperty();
 
-		if(!$current) {
+		if( !$current ) {
 			return null;
 		}
 
@@ -317,17 +317,17 @@ class DataModels extends BaseObject implements Application_Part
 	/**
 	 * @return DataModel_Definition_Key|bool
 	 */
-	public static function getCurrentKey() : DataModel_Definition_Key|bool
+	public static function getCurrentKey(): DataModel_Definition_Key|bool
 	{
-		if(static::$current_key===null) {
+		if( static::$current_key === null ) {
 			static::$current_key = false;
 
-			if(($model=static::getCurrentModel())) {
-				$name = Http_Request::GET()->getString('key');
+			if( ($model = static::getCurrentModel()) ) {
+				$name = Http_Request::GET()->getString( 'key' );
 
 				if(
 					$name &&
-					($item=$model->getCustomKey($name))
+					($item = $model->getCustomKey( $name ))
 				) {
 					static::$current_key = $item;
 				}
@@ -341,11 +341,11 @@ class DataModels extends BaseObject implements Application_Part
 	/**
 	 * @return string|null
 	 */
-	public static function getCurrentKeyName() : string|null
+	public static function getCurrentKeyName(): string|null
 	{
 		$current = static::getCurrentKey();
 
-		if(!$current) {
+		if( !$current ) {
 			return null;
 		}
 
@@ -356,11 +356,11 @@ class DataModels extends BaseObject implements Application_Part
 	/**
 	 * @return string|null
 	 */
-	public static function getCurrentRelationName() : string|null
+	public static function getCurrentRelationName(): string|null
 	{
 		$current = static::getCurrentRelation();
 
-		if(!$current) {
+		if( !$current ) {
 			return null;
 		}
 
@@ -371,17 +371,17 @@ class DataModels extends BaseObject implements Application_Part
 	/**
 	 * @return DataModel_Definition_Relation_External|bool
 	 */
-	public static function getCurrentRelation() : DataModel_Definition_Relation_External|bool
+	public static function getCurrentRelation(): DataModel_Definition_Relation_External|bool
 	{
-		if(static::$current_relation===null) {
+		if( static::$current_relation === null ) {
 			static::$current_relation = false;
 
-			if(($model=static::getCurrentModel())) {
-				$id = Http_Request::GET()->getString('relation');
+			if( ($model = static::getCurrentModel()) ) {
+				$id = Http_Request::GET()->getString( 'relation' );
 
 				if(
 					$id &&
-					($item=$model->getExternalRelation($id))
+					($item = $model->getExternalRelation( $id ))
 				) {
 					static::$current_relation = $item;
 				}
@@ -396,16 +396,16 @@ class DataModels extends BaseObject implements Application_Part
 	/**
 	 * @return string|null
 	 */
-	public static function getCurrentWhatToEdit() : string|null
+	public static function getCurrentWhatToEdit(): string|null
 	{
-		if(!static::getCurrentModel()) {
+		if( !static::getCurrentModel() ) {
 			return null;
 		}
-		if(static::getCurrentKey()):
+		if( static::getCurrentKey() ):
 			return 'key';
-		elseif(static::getCurrentRelation()):
+		elseif( static::getCurrentRelation() ):
 			return 'relation';
-		elseif(static::getCurrentProperty()):
+		elseif( static::getCurrentProperty() ):
 			return 'property';
 		else:
 			return 'model';
@@ -415,12 +415,12 @@ class DataModels extends BaseObject implements Application_Part
 	/**
 	 * @return array
 	 */
-	public static function getIDControllers() : array
+	public static function getIDControllers(): array
 	{
 		$id_controllers = [];
 
-		foreach( static::$id_controllers as $class=> $label ) {
-			$id_controllers[$class] = Tr::_($label);
+		foreach( static::$id_controllers as $class => $label ) {
+			$id_controllers[$class] = Tr::_( $label );
 		}
 
 		return $id_controllers;
@@ -430,12 +430,12 @@ class DataModels extends BaseObject implements Application_Part
 	/**
 	 * @return array
 	 */
-	public static function getDataModelTypes() : array
+	public static function getDataModelTypes(): array
 	{
 		$types = [];
 
-		foreach( static::$types as $type=>$label ) {
-			$types[$type] = Tr::_($label);
+		foreach( static::$types as $type => $label ) {
+			$types[$type] = Tr::_( $label );
 		}
 
 		return $types;
@@ -447,17 +447,17 @@ class DataModels extends BaseObject implements Application_Part
 	 *
 	 * @return bool
 	 */
-	public static function checkModelName( Form_Field_Input $field, ?DataModel_Definition_Model_Interface $model=null ) : bool
+	public static function checkModelName( Form_Field_Input $field, ?DataModel_Definition_Model_Interface $model = null ): bool
 	{
 		$name = $field->getValue();
 
-		if(!$name)	{
+		if( !$name ) {
 			$field->setError( Form_Field_Input::ERROR_CODE_EMPTY );
 			return false;
 		}
 
-		if( !preg_match('/^[a-z0-9_]{2,}$/i', $name) ) {
-			$field->setError(Form_Field_Input::ERROR_CODE_INVALID_FORMAT);
+		if( !preg_match( '/^[a-z0-9_]{2,}$/i', $name ) ) {
+			$field->setError( Form_Field_Input::ERROR_CODE_INVALID_FORMAT );
 
 			return false;
 		}
@@ -473,29 +473,29 @@ class DataModels extends BaseObject implements Application_Part
 	 *
 	 * @return bool
 	 */
-	public static function checkClassName( Form_Field_Input $field, ?DataModel_Definition_Model_Interface $model=null ) : bool
+	public static function checkClassName( Form_Field_Input $field, ?DataModel_Definition_Model_Interface $model = null ): bool
 	{
 		$name = $field->getValue();
 
-		if(!$name)	{
+		if( !$name ) {
 			$field->setError( Form_Field_Input::ERROR_CODE_EMPTY );
 			return false;
 		}
 
 		if(
-			!preg_match('/^[a-z0-9_]{2,}$/i', $name) ||
+			!preg_match( '/^[a-z0-9_]{2,}$/i', $name ) ||
 			str_contains( $name, '__' )
 		) {
-			$field->setError(Form_Field_Input::ERROR_CODE_INVALID_FORMAT);
+			$field->setError( Form_Field_Input::ERROR_CODE_INVALID_FORMAT );
 
 			return false;
 		}
 
 		foreach( DataModels::getClasses() as $class ) {
 
-			if($class->getFullClassName()==$name) {
+			if( $class->getFullClassName() == $name ) {
 				$field->setCustomError(
-					Tr::_('DataModel with the same class name already exists'),
+					Tr::_( 'DataModel with the same class name already exists' ),
 					'data_model_class_is_not_unique'
 				);
 
@@ -508,42 +508,41 @@ class DataModels extends BaseObject implements Application_Part
 	}
 
 
-
 	/**
 	 * @param Form_Field_Input $field
 	 * @param DataModel_Definition_Model_Interface|null $model
 	 *
 	 * @return bool
 	 */
-	public static function checkTableName( Form_Field_Input $field, ?DataModel_Definition_Model_Interface $model=null ) : bool
+	public static function checkTableName( Form_Field_Input $field, ?DataModel_Definition_Model_Interface $model = null ): bool
 	{
 		$name = $field->getValue();
 
-		if(!$name)	{
+		if( !$name ) {
 			return true;
 		}
 
 
 		if(
-			!preg_match('/^[a-z0-9_]{2,}$/i', $name) ||
+			!preg_match( '/^[a-z0-9_]{2,}$/i', $name ) ||
 			str_contains( $name, '__' )
 		) {
-			$field->setError(Form_Field_Input::ERROR_CODE_INVALID_FORMAT);
+			$field->setError( Form_Field_Input::ERROR_CODE_INVALID_FORMAT );
 
 			return false;
 		}
 
 		$exists = false;
 
-		if($model) {
+		if( $model ) {
 			foreach( DataModels::getClasses() as $class ) {
 				$m = $class->getDefinition();
 
 				if(
-					$class->getFullClassName()!=$model->getClassName() &&
+					$class->getFullClassName() != $model->getClassName() &&
 					(
-						$m->getDatabaseTableName()==$name ||
-						$m->getModelName()==$name
+						$m->getDatabaseTableName() == $name ||
+						$m->getModelName() == $name
 					)
 				) {
 					$exists = true;
@@ -555,8 +554,8 @@ class DataModels extends BaseObject implements Application_Part
 				$m = $class->getDefinition();
 
 				if(
-					$m->getDatabaseTableName()==$name ||
-					$m->getModelName()==$name
+					$m->getDatabaseTableName() == $name ||
+					$m->getModelName() == $name
 				) {
 					$exists = true;
 					break;
@@ -567,7 +566,7 @@ class DataModels extends BaseObject implements Application_Part
 
 		if( $exists ) {
 			$field->setCustomError(
-				Tr::_('DataModel with the same table name already exists'),
+				Tr::_( 'DataModel with the same table name already exists' ),
 				'data_model_table_is_not_unique'
 			);
 
@@ -585,37 +584,26 @@ class DataModels extends BaseObject implements Application_Part
 	 *
 	 * @return string
 	 */
-	public static function generateScriptPath( string $namespace, string $class_name ) : string
+	public static function generateScriptPath( string $namespace, string $class_name ): string
 	{
-		if(!isset(static::getNamespaces()[$namespace])) {
+		if( !isset( static::getNamespaces()[$namespace] ) ) {
 			return '';
 		}
 
-		$namespace  = static::getNamespaces()[$namespace];
+		$namespace = static::getNamespaces()[$namespace];
 
-		$class_name = str_replace('__', '_', $class_name);
-		$class_name = str_replace('\\', DIRECTORY_SEPARATOR, $class_name);
-		$class_name = str_replace('_', DIRECTORY_SEPARATOR, $class_name);
+		$class_name = str_replace( '__', '_', $class_name );
+		$class_name = str_replace( '\\', DIRECTORY_SEPARATOR, $class_name );
+		$class_name = str_replace( '_', DIRECTORY_SEPARATOR, $class_name );
 
-		return $namespace->getRootDir().$class_name.'.php';
+		return $namespace->getRootDir() . $class_name . '.php';
 	}
-
-
-
-
-
-
-
-
-
-
-
 
 
 	/**
 	 * @param DataModel_Definition_Model_Interface $model
 	 */
-	public static function addModel(DataModel_Definition_Model_Interface $model ) : void
+	public static function addModel( DataModel_Definition_Model_Interface $model ): void
 	{
 		static::load();
 

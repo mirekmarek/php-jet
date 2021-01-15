@@ -5,6 +5,7 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace Jet;
 
 /**
@@ -76,7 +77,7 @@ class Mvc_Layout extends Mvc_View_Abstract
 	/**
 	 * @return Mvc_Layout|null
 	 */
-	public static function getCurrentLayout() : Mvc_Layout|null
+	public static function getCurrentLayout(): Mvc_Layout|null
 	{
 		return static::$current_layout;
 	}
@@ -84,7 +85,7 @@ class Mvc_Layout extends Mvc_View_Abstract
 	/**
 	 * @param Mvc_Layout $current_layout
 	 */
-	public static function setCurrentLayout( Mvc_Layout $current_layout ) : void
+	public static function setCurrentLayout( Mvc_Layout $current_layout ): void
 	{
 		static::$current_layout = $current_layout;
 	}
@@ -110,10 +111,10 @@ class Mvc_Layout extends Mvc_View_Abstract
 	 * @return string
 	 *
 	 */
-	protected function _render() : string
+	protected function _render(): string
 	{
-		if( $this->_script_name===false ) {
-			$result = '<'.static::TAG_MAIN_POSITION.'/>';
+		if( $this->_script_name === false ) {
+			$result = '<' . static::TAG_MAIN_POSITION . '/>';
 		} else {
 			$this->getScriptPath();
 
@@ -123,7 +124,7 @@ class Mvc_Layout extends Mvc_View_Abstract
 			include $this->_script_path;
 
 			if( static::getAddScriptPathInfoEnabled() ) {
-				echo '<!-- LAYOUT: '.$this->_script_name.' -->';
+				echo '<!-- LAYOUT: ' . $this->_script_name . ' -->';
 			}
 
 			$result = ob_get_clean();
@@ -140,24 +141,24 @@ class Mvc_Layout extends Mvc_View_Abstract
 	 * @param string|null $position (optional, default: main position)
 	 * @param int|null $position_order (optional, default:null)
 	 */
-	public function addOutputPart( string $output, string|null $position = null, int|null $position_order = null ) : void
+	public function addOutputPart( string $output, string|null $position = null, int|null $position_order = null ): void
 	{
 		if( !$position ) {
 			$position = static::DEFAULT_OUTPUT_POSITION;
 		}
 
 		if(
-			$position_order===null ||
-			$position_order===false
+			$position_order === null ||
+			$position_order === false
 		) {
 			$position_order = 0;
 			foreach( $this->output_parts as $o ) {
-				if( $o->getPosition()!==$position ) {
+				if( $o->getPosition() !== $position ) {
 					continue;
 				}
 
-				if( $o->getPositionOrder()>=$position_order ) {
-					$position_order = $o->getPositionOrder()+1;
+				if( $o->getPositionOrder() >= $position_order ) {
+					$position_order = $o->getPositionOrder() + 1;
 				}
 
 			}
@@ -167,15 +168,15 @@ class Mvc_Layout extends Mvc_View_Abstract
 		foreach( $this->output_parts as $output_part ) {
 			$_po = $output_part->getPositionOrder();
 
-			if( floor( $_po )==floor( $position_order ) ) {
-				if( $_po>$current_max_position_order ) {
+			if( floor( $_po ) == floor( $position_order ) ) {
+				if( $_po > $current_max_position_order ) {
 					$current_max_position_order = $_po;
 				}
 			}
 		}
 
-		if( $current_max_position_order!==null ) {
-			$position_order = $current_max_position_order+0.001;
+		if( $current_max_position_order !== null ) {
+			$position_order = $current_max_position_order + 0.001;
 		}
 
 
@@ -188,7 +189,7 @@ class Mvc_Layout extends Mvc_View_Abstract
 	/**
 	 * @return bool
 	 */
-	public function getJSPackagerEnabled() : bool
+	public function getJSPackagerEnabled(): bool
 	{
 		return $this->JS_packager_enabled;
 	}
@@ -196,7 +197,7 @@ class Mvc_Layout extends Mvc_View_Abstract
 	/**
 	 * @param bool $JS_packager_enabled
 	 */
-	public function setJSPackagerEnabled( bool $JS_packager_enabled ) : void
+	public function setJSPackagerEnabled( bool $JS_packager_enabled ): void
 	{
 		$this->JS_packager_enabled = (bool)$JS_packager_enabled;
 	}
@@ -204,7 +205,7 @@ class Mvc_Layout extends Mvc_View_Abstract
 	/**
 	 * @param string $URI
 	 */
-	public function requireJavascriptFile( string $URI ) : void
+	public function requireJavascriptFile( string $URI ): void
 	{
 		if( !in_array( $URI, $this->required_javascript_files ) ) {
 			$this->required_javascript_files[] = $URI;
@@ -214,7 +215,7 @@ class Mvc_Layout extends Mvc_View_Abstract
 	/**
 	 * @param string $URI
 	 */
-	public function requireMainJavascriptFile( string $URI ) : void
+	public function requireMainJavascriptFile( string $URI ): void
 	{
 		if( !in_array( $URI, $this->required_main_javascript_files ) ) {
 			$this->required_main_javascript_files[] = $URI;
@@ -222,11 +223,10 @@ class Mvc_Layout extends Mvc_View_Abstract
 	}
 
 
-
 	/**
 	 * @return bool
 	 */
-	public function getCSSPackagerEnabled() : bool
+	public function getCSSPackagerEnabled(): bool
 	{
 		return $this->CSS_packager_enabled;
 	}
@@ -234,7 +234,7 @@ class Mvc_Layout extends Mvc_View_Abstract
 	/**
 	 * @param bool $CSS_packager_enabled
 	 */
-	public function setCSSPackagerEnabled( bool $CSS_packager_enabled ) : void
+	public function setCSSPackagerEnabled( bool $CSS_packager_enabled ): void
 	{
 		$this->CSS_packager_enabled = (bool)$CSS_packager_enabled;
 	}
@@ -243,7 +243,7 @@ class Mvc_Layout extends Mvc_View_Abstract
 	 * @param string $URI
 	 * @param string $media (optional)
 	 */
-	public function requireCssFile( string $URI, string $media = '' ) : void
+	public function requireCssFile( string $URI, string $media = '' ): void
 	{
 
 		if( !isset( $this->required_css_files[$media] ) ) {
@@ -260,7 +260,7 @@ class Mvc_Layout extends Mvc_View_Abstract
 	 * @param string $URI
 	 * @param string $media (optional)
 	 */
-	public function requireMainCssFile( string $URI, string $media = '' ) : void
+	public function requireMainCssFile( string $URI, string $media = '' ): void
 	{
 
 		if( !isset( $this->required_main_css_files[$media] ) ) {
@@ -278,7 +278,7 @@ class Mvc_Layout extends Mvc_View_Abstract
 	 *
 	 * @return string
 	 */
-	public function render() : string
+	public function render(): string
 	{
 
 		$result = $this->_render();
@@ -303,7 +303,7 @@ class Mvc_Layout extends Mvc_View_Abstract
 	/**
 	 * @param string $result
 	 */
-	protected function handleContent( string $result ) : void
+	protected function handleContent( string $result ): void
 	{
 
 		$content = $this->parseContent( $result );
@@ -319,11 +319,11 @@ class Mvc_Layout extends Mvc_View_Abstract
 	 *
 	 * @return Mvc_Page_Content_Interface[]
 	 */
-	public function parseContent( string $result ) : array
+	public function parseContent( string $result ): array
 	{
 
 		$matches = [];
-		if( !preg_match_all( '/<'.static::TAG_MODULE.'([^>]*)>/i', $result, $matches, PREG_SET_ORDER ) ) {
+		if( !preg_match_all( '/<' . static::TAG_MODULE . '([^>]*)>/i', $result, $matches, PREG_SET_ORDER ) ) {
 			return [];
 		}
 
@@ -341,7 +341,7 @@ class Mvc_Layout extends Mvc_View_Abstract
 
 
 			foreach( $_properties as $property ) {
-				if( !$property|| !str_contains( $property, '=' ) ) {
+				if( !$property || !str_contains( $property, '=' ) ) {
 					continue;
 				}
 
@@ -361,13 +361,13 @@ class Mvc_Layout extends Mvc_View_Abstract
 			$module_name = $properties['module'];
 			$action = isset( $properties['action'] ) ? $properties['action'] : '';
 			$parameters = [];
-			$is_cacheable = strtolower(isset( $properties['is_cacheable'] ) ? $properties['is_cacheable'] : false)=='true';
+			$is_cacheable = strtolower( isset( $properties['is_cacheable'] ) ? $properties['is_cacheable'] : false ) == 'true';
 
 			foreach( $properties as $k => $v ) {
 				if(
-					$k=='module' ||
-					$k=='action' ||
-					$k=='is_cacheable'
+					$k == 'module' ||
+					$k == 'action' ||
+					$k == 'is_cacheable'
 				) {
 					continue;
 				}
@@ -375,7 +375,7 @@ class Mvc_Layout extends Mvc_View_Abstract
 				$parameters[$k] = $v;
 			}
 
-			$position_name = 'module_content_'.md5( $orig_str );
+			$position_name = 'module_content_' . md5( $orig_str );
 
 			$this->virtual_positions[$orig_str] = $position_name;
 
@@ -397,20 +397,20 @@ class Mvc_Layout extends Mvc_View_Abstract
 	/**
 	 * @param string &$result
 	 */
-	protected function handlePositions( string &$result ) : void
+	protected function handlePositions( string &$result ): void
 	{
 		foreach( $this->virtual_positions as $original_string => $position ) {
-			$result = str_replace( $original_string, '<'.static::TAG_POSITION.' name="'.$position.'" />', $result );
+			$result = str_replace( $original_string, '<' . static::TAG_POSITION . ' name="' . $position . '" />', $result );
 		}
 
 		uasort( $this->output_parts, function( Mvc_Layout_OutputPart $a, Mvc_Layout_OutputPart $b ) {
 			$a_o = $a->getPositionOrder();
 			$b_o = $b->getPositionOrder();
 
-			if ($a_o == $b_o) {
+			if( $a_o == $b_o ) {
 				return 0;
 			}
-			return ( $a_o < $b_o ) ? -1 : 1;
+			return ($a_o < $b_o) ? -1 : 1;
 		} );
 
 
@@ -426,20 +426,20 @@ class Mvc_Layout extends Mvc_View_Abstract
 	 *
 	 * @return int
 	 */
-	protected function _handlePositions( string &$result, bool $handle_main_position ) : int
+	protected function _handlePositions( string &$result, bool $handle_main_position ): int
 	{
 
 		$matches_count = 0;
 		$matches = [];
 
 		if( preg_match_all(
-			'/<'.static::TAG_POSITION. '[ ]+name="([a-zA-Z0-9\-_ ]*)"[^\/]*\/>/i',
+			'/<' . static::TAG_POSITION . '[ ]+name="([a-zA-Z0-9\-_ ]*)"[^\/]*\/>/i',
 			$result,
 			$matches,
 			PREG_SET_ORDER
 		) ) {
 
-			$matches_count = $matches_count+count( $matches );
+			$matches_count = $matches_count + count( $matches );
 
 			foreach( $matches as $match ) {
 				$orig = $match[0];
@@ -448,7 +448,7 @@ class Mvc_Layout extends Mvc_View_Abstract
 				$output_on_position = '';
 
 				foreach( $this->output_parts as $o_id => $o ) {
-					if( $o->getPosition()!=$position ) {
+					if( $o->getPosition() != $position ) {
 						continue;
 					}
 
@@ -465,7 +465,7 @@ class Mvc_Layout extends Mvc_View_Abstract
 		if(
 			$handle_main_position &&
 			preg_match_all(
-				'/<'.static::TAG_MAIN_POSITION.'[^\/]*\/>/i',
+				'/<' . static::TAG_MAIN_POSITION . '[^\/]*\/>/i',
 				$result,
 				$matches,
 				PREG_SET_ORDER
@@ -475,7 +475,7 @@ class Mvc_Layout extends Mvc_View_Abstract
 			$output_on_position = '';
 
 			foreach( $this->output_parts as $o_id => $o ) {
-				if( $o->getPosition()==static::DEFAULT_OUTPUT_POSITION ) {
+				if( $o->getPosition() == static::DEFAULT_OUTPUT_POSITION ) {
 					$output_on_position .= $o->getOutput();
 					unset( $this->output_parts[$o_id] );
 				}
@@ -491,15 +491,15 @@ class Mvc_Layout extends Mvc_View_Abstract
 	/**
 	 * @param string &$result
 	 */
-	protected function handleMetaTags( string &$result ) : void
+	protected function handleMetaTags( string &$result ): void
 	{
 		$dat = [];
 		$dat[static::TAG_META_TAGS] = '';
 
-		if( ( $page = Mvc::getCurrentPage() ) ) {
+		if( ($page = Mvc::getCurrentPage()) ) {
 
 			foreach( $page->getMetaTags() as $mt ) {
-				$dat[static::TAG_META_TAGS] .= PHP_EOL."\t".$mt;
+				$dat[static::TAG_META_TAGS] .= PHP_EOL . "\t" . $mt;
 			}
 
 		}
@@ -517,18 +517,18 @@ class Mvc_Layout extends Mvc_View_Abstract
 	 *
 	 * @return string
 	 */
-	protected function _replaceTagByValue( string $output, string $tag, string $snippet ) : string
+	protected function _replaceTagByValue( string $output, string $tag, string $snippet ): string
 	{
 		$matches = [];
 
-		if( preg_match_all( '/<[ ]*'.$tag.'[ ]*\/>/i', $output, $matches, PREG_SET_ORDER ) ) {
+		if( preg_match_all( '/<[ ]*' . $tag . '[ ]*\/>/i', $output, $matches, PREG_SET_ORDER ) ) {
 			$orig = $matches[0][0];
 
 
 			$output = str_replace( $orig, $snippet, $output );
 		}
 
-		if( preg_match_all( '/<[ ]*'.$tag.'[ ]*>*<\/[ ]*'.$tag.'[ ]*>/i', $output, $matches, PREG_SET_ORDER ) ) {
+		if( preg_match_all( '/<[ ]*' . $tag . '[ ]*>*<\/[ ]*' . $tag . '[ ]*>/i', $output, $matches, PREG_SET_ORDER ) ) {
 			$orig = $matches[0][0];
 
 
@@ -543,7 +543,7 @@ class Mvc_Layout extends Mvc_View_Abstract
 	 *
 	 * @param string &$result
 	 */
-	protected function handleJavascripts( string &$result ) : void
+	protected function handleJavascripts( string &$result ): void
 	{
 
 		if( !strpos( $result, static::TAG_JAVASCRIPT ) ) {
@@ -559,7 +559,6 @@ class Mvc_Layout extends Mvc_View_Abstract
 		);
 
 
-
 		if(
 			$this->JS_packager_enabled &&
 			$JS_files
@@ -569,14 +568,14 @@ class Mvc_Layout extends Mvc_View_Abstract
 			$package_creator->generate();
 			$package_URI = $package_creator->getPackageURI();
 
-			$JS_files = [ $package_URI ];
+			$JS_files = [$package_URI];
 		}
 
 
 		$snippet = '';
 
 		foreach( $JS_files as $URI ) {
-			$snippet .= "\t".'<script type="text/javascript" src="'.$URI.'"></script>'.PHP_EOL;
+			$snippet .= "\t" . '<script type="text/javascript" src="' . $URI . '"></script>' . PHP_EOL;
 		}
 
 		$result = $this->_replaceTagByValue( $result, static::TAG_JAVASCRIPT, $snippet );
@@ -590,7 +589,7 @@ class Mvc_Layout extends Mvc_View_Abstract
 	 * @see Mvc_Layout::requireCssFile();
 	 *
 	 */
-	protected function handleCss( string &$result ) : void
+	protected function handleCss( string &$result ): void
 	{
 
 		if( !strpos( $result, static::TAG_CSS ) ) {
@@ -599,15 +598,15 @@ class Mvc_Layout extends Mvc_View_Abstract
 
 		$CSS_files = $this->required_main_css_files;
 
-		foreach( $this->required_css_files as $media=>$files ) {
-			if(!isset($CSS_files[$media])) {
+		foreach( $this->required_css_files as $media => $files ) {
+			if( !isset( $CSS_files[$media] ) ) {
 				$CSS_files[$media] = $files;
 
 				continue;
 			}
 
 			foreach( $files as $file ) {
-				if(in_array($file, $CSS_files[$media])) {
+				if( in_array( $file, $CSS_files[$media] ) ) {
 					continue;
 				}
 
@@ -643,9 +642,9 @@ class Mvc_Layout extends Mvc_View_Abstract
 			foreach( $URIs as $URI ) {
 
 				if( $media ) {
-					$snippet .= "\t".'<link rel="stylesheet" type="text/css" href="'.$URI.'" media="'.$media.'"/>'.PHP_EOL;
+					$snippet .= "\t" . '<link rel="stylesheet" type="text/css" href="' . $URI . '" media="' . $media . '"/>' . PHP_EOL;
 				} else {
-					$snippet .= "\t".'<link rel="stylesheet" type="text/css" href="'.$URI.'"/>'.PHP_EOL;
+					$snippet .= "\t" . '<link rel="stylesheet" type="text/css" href="' . $URI . '"/>' . PHP_EOL;
 				}
 
 			}

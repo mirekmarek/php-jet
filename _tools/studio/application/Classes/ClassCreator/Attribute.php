@@ -5,6 +5,7 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace JetStudio;
 
 use Jet\BaseObject;
@@ -50,12 +51,11 @@ class ClassCreator_Attribute extends BaseObject
 	}
 
 
-
 	/**
 	 * @param string $argument
 	 * @param mixed $value
 	 */
-	public function setArgument( string $argument, mixed $value ) : void
+	public function setArgument( string $argument, mixed $value ): void
 	{
 		$this->arguments[$argument] = $value;
 	}
@@ -64,34 +64,34 @@ class ClassCreator_Attribute extends BaseObject
 	 * @param int $pad
 	 * @return string
 	 */
-	public function toString( int $pad = 0 ) : string
+	public function toString( int $pad = 0 ): string
 	{
 		$nl = ClassCreator_Class::getNl();
 		$ident = ClassCreator_Class::getIndentation();
 
-		$pad_str = str_pad('', $pad*strlen($ident), $ident[0] );
+		$pad_str = str_pad( '', $pad * strlen( $ident ), $ident[0] );
 
 
-		$res = $pad_str.'#['.$this->name;
+		$res = $pad_str . '#[' . $this->name;
 
-		if(count($this->arguments)) {
-			$res .= '('.$nl;
+		if( count( $this->arguments ) ) {
+			$res .= '(' . $nl;
 
 			$c = 0;
-			foreach($this->arguments as $argument=>$value) {
+			foreach( $this->arguments as $argument => $value ) {
 				$c++;
-				$res .= $pad_str.$ident.$argument.': '.static::toString_exportValue( $value, $pad_str );
+				$res .= $pad_str . $ident . $argument . ': ' . static::toString_exportValue( $value, $pad_str );
 
-				if($c<count($this->arguments)) {
+				if( $c < count( $this->arguments ) ) {
 					$res .= ',';
 				}
 				$res .= $nl;
 			}
 
-			$res .= $pad_str.')';
+			$res .= $pad_str . ')';
 		}
 
-		return $res.']'.$nl;
+		return $res . ']' . $nl;
 	}
 
 	/**
@@ -101,26 +101,26 @@ class ClassCreator_Attribute extends BaseObject
 	 *
 	 * @return string
 	 */
-	public static function toString_exportValue( mixed $value, string $pad_str, int $level=1 ) : string
+	public static function toString_exportValue( mixed $value, string $pad_str, int $level = 1 ): string
 	{
 
-		if(is_bool($value)) {
+		if( is_bool( $value ) ) {
 			return $value ? 'true' : 'false';
 		}
 
-		if(is_int($value) || is_float($value)) {
+		if( is_int( $value ) || is_float( $value ) ) {
 			return $value;
 		}
 
-		if(is_object($value)) {
+		if( is_object( $value ) ) {
 			$value = (string)$value;
 		}
 
-		if(is_string($value)) {
-			if(str_contains($value, '::')) {
+		if( is_string( $value ) ) {
+			if( str_contains( $value, '::' ) ) {
 				return $value;
 			} else {
-				return var_export($value, true);
+				return var_export( $value, true );
 			}
 		}
 
@@ -128,34 +128,34 @@ class ClassCreator_Attribute extends BaseObject
 		$ident = ClassCreator_Class::getIndentation();
 
 		$tab = '';
-		for($i=0;$i<$level;$i++) {
+		for( $i = 0; $i < $level; $i++ ) {
 			$tab .= $ident;
 		}
 
-		$res = '['.$nl;
+		$res = '[' . $nl;
 
-		$i=0;
-		foreach($value as $key=>$v) {
+		$i = 0;
+		foreach( $value as $key => $v ) {
 			$i++;
-			if(is_string($key)) {
-				if(str_contains($key, '::')) {
-					$res .= $pad_str.$tab.$ident.$key.' => '.static::toString_exportValue($v, $pad_str, $level+1);
+			if( is_string( $key ) ) {
+				if( str_contains( $key, '::' ) ) {
+					$res .= $pad_str . $tab . $ident . $key . ' => ' . static::toString_exportValue( $v, $pad_str, $level + 1 );
 
 				} else {
-					$res .= $pad_str.$tab.$ident."'".$key."'".' => '.static::toString_exportValue($v, $pad_str, $level+1);
+					$res .= $pad_str . $tab . $ident . "'" . $key . "'" . ' => ' . static::toString_exportValue( $v, $pad_str, $level + 1 );
 				}
 			} else {
-				$res .= $pad_str.$tab.$ident.static::toString_exportValue($v, $pad_str, $level+1);
+				$res .= $pad_str . $tab . $ident . static::toString_exportValue( $v, $pad_str, $level + 1 );
 			}
 
-			if($i<count($value)) {
-				$res .= ','.$nl;
+			if( $i < count( $value ) ) {
+				$res .= ',' . $nl;
 			} else {
 				$res .= $nl;
 			}
 		}
 
-		$res .= $pad_str.$tab.']';
+		$res .= $pad_str . $tab . ']';
 
 		return $res;
 	}

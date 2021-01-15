@@ -5,6 +5,7 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace Jet;
 
 /**
@@ -44,7 +45,7 @@ abstract class PackageCreator extends BaseObject
 	/**
 	 * @param string $CSS_class_name
 	 */
-	public static function setCSSClassName( string $CSS_class_name ) : void
+	public static function setCSSClassName( string $CSS_class_name ): void
 	{
 		static::$CSS_class_name = $CSS_class_name;
 	}
@@ -52,11 +53,11 @@ abstract class PackageCreator extends BaseObject
 
 	/**
 	 * @param string $media
-	 * @param array  $URIs
+	 * @param array $URIs
 	 *
 	 * @return PackageCreator_CSS
 	 */
-	public static function CSS( string $media, array $URIs ) : PackageCreator_CSS
+	public static function CSS( string $media, array $URIs ): PackageCreator_CSS
 	{
 		$class_name = static::getCSSClassName();
 		return new $class_name( $media, $URIs );
@@ -65,7 +66,7 @@ abstract class PackageCreator extends BaseObject
 	/**
 	 * @return string
 	 */
-	public static function getJavaScriptClassName() : string
+	public static function getJavaScriptClassName(): string
 	{
 		return static::$JavaScript_class_name;
 	}
@@ -73,18 +74,18 @@ abstract class PackageCreator extends BaseObject
 	/**
 	 * @param string $JavaScript_class_name
 	 */
-	public static function setJavaScriptClassName( string $JavaScript_class_name ) : void
+	public static function setJavaScriptClassName( string $JavaScript_class_name ): void
 	{
 		static::$JavaScript_class_name = $JavaScript_class_name;
 	}
 
 
 	/**
-	 * @param array  $URIs
+	 * @param array $URIs
 	 *
 	 * @return PackageCreator_JavaScript
 	 */
-	public static function JavaScript( array $URIs ) : PackageCreator_JavaScript
+	public static function JavaScript( array $URIs ): PackageCreator_JavaScript
 	{
 		$class_name = static::getJavaScriptClassName();
 		return new $class_name( $URIs );
@@ -96,7 +97,7 @@ abstract class PackageCreator extends BaseObject
 	 *
 	 * @return string|null
 	 */
-	protected function getFileContent( string $URI ) : string|null
+	protected function getFileContent( string $URI ): string|null
 	{
 
 		$_URI = $this->normalizePath( $URI );
@@ -112,28 +113,28 @@ abstract class PackageCreator extends BaseObject
 	 *
 	 * @return string
 	 */
-	protected function normalizePath( string $URI ) : string
+	protected function normalizePath( string $URI ): string
 	{
 
 		$o_URI = $URI;
 
 		if( str_contains( $URI, '?' ) ) {
-			$URI = strstr($URI, '?', true);
+			$URI = strstr( $URI, '?', true );
 		}
 
-		$public_uri_str_len = strlen(SysConf_URI::getCss());
-		if(substr($URI, 0, $public_uri_str_len)==SysConf_URI::getCss()) {
-			return SysConf_Path::getCss().substr($URI, $public_uri_str_len);
+		$public_uri_str_len = strlen( SysConf_URI::getCss() );
+		if( substr( $URI, 0, $public_uri_str_len ) == SysConf_URI::getCss() ) {
+			return SysConf_Path::getCss() . substr( $URI, $public_uri_str_len );
 		}
 
-		$public_uri_str_len = strlen(SysConf_URI::getJs());
-		if(substr($URI, 0, $public_uri_str_len)==SysConf_URI::getJs()) {
-			return SysConf_Path::getJs().substr($URI, $public_uri_str_len);
+		$public_uri_str_len = strlen( SysConf_URI::getJs() );
+		if( substr( $URI, 0, $public_uri_str_len ) == SysConf_URI::getJs() ) {
+			return SysConf_Path::getJs() . substr( $URI, $public_uri_str_len );
 		}
 
 
-		if( substr( $o_URI, 0, 2 )=='//' ) {
-			return 'http:'.$o_URI;
+		if( substr( $o_URI, 0, 2 ) == '//' ) {
+			return 'http:' . $o_URI;
 		}
 
 		return $o_URI;
@@ -145,7 +146,7 @@ abstract class PackageCreator extends BaseObject
 	 *
 	 * @return string
 	 */
-	protected function normalizeURI( string $URI ) : string
+	protected function normalizeURI( string $URI ): string
 	{
 		return $URI;
 	}

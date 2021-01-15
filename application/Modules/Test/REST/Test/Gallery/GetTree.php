@@ -18,7 +18,7 @@ class Test_Gallery_GetTree extends Test_Abstract
 	/**
 	 * @return string
 	 */
-	protected function _getTitle() : string
+	protected function _getTitle(): string
 	{
 		return 'Get tree';
 	}
@@ -26,8 +26,8 @@ class Test_Gallery_GetTree extends Test_Abstract
 	/**
 	 *
 	 */
-	public function test() : void
+	public function test(): void
 	{
-		$this->client->get('gallery', ['tree'=>1]);
+		$this->client->get( 'gallery', ['tree' => 1] );
 	}
 }

@@ -5,12 +5,14 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace JetStudio;
 
 /**
  *
  */
-class ClassParser_Namespace extends ClassParser_Element{
+class ClassParser_Namespace extends ClassParser_Element
+{
 	/**
 	 * @var string
 	 */
@@ -19,7 +21,7 @@ class ClassParser_Namespace extends ClassParser_Element{
 	/**
 	 * @param ClassParser $parser
 	 */
-	public static function parse( ClassParser $parser ) : void
+	public static function parse( ClassParser $parser ): void
 	{
 		$namespace = new static( $parser );
 
@@ -28,11 +30,11 @@ class ClassParser_Namespace extends ClassParser_Element{
 
 		do {
 
-			if( !($token=$namespace->nextToken()) ) {
+			if( !($token = $namespace->nextToken()) ) {
 				break;
 			}
 
-			if($token->ignore()) {
+			if( $token->ignore() ) {
 				continue;
 			}
 
@@ -60,15 +62,15 @@ class ClassParser_Namespace extends ClassParser_Element{
 	/**
 	 *
 	 */
-	public function debug_showResult() : void
+	public function debug_showResult(): void
 	{
 		$parser = $this->parser;
 
-		echo 'Namespace: '.$this->namespace;
+		echo 'Namespace: ' . $this->namespace;
 
-		echo PHP_EOL.' Code: '.$parser->getTokenText( $this->start_token, $this->end_token );
-		echo PHP_EOL.' Tokens: '.$this->start_token->index.' - '.$this->end_token->index;
-		echo PHP_EOL.PHP_EOL;
+		echo PHP_EOL . ' Code: ' . $parser->getTokenText( $this->start_token, $this->end_token );
+		echo PHP_EOL . ' Tokens: ' . $this->start_token->index . ' - ' . $this->end_token->index;
+		echo PHP_EOL . PHP_EOL;
 	}
 
 }

@@ -11,14 +11,14 @@ return [
 		'update_user' => 'Update user',
 		'delete_user' => 'Delete user',
 	],
-	
+
 	'pages' => [
 		'admin' => [
 			'rest-clients-users' => [
 				'title'                  => 'REST clients - Users',
 				'icon'                   => 'server',
 				'relative_path_fragment' => 'rest-clients-users',
-				'contents' => [
+				'contents'               => [
 					[
 						'controller_action' => 'default'
 					]

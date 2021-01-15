@@ -1,13 +1,14 @@
 <?php
+
 namespace JetStudio;
 
 $form = DataModel_Definition_Property::getCreateForm();
 
-$form->tag()->addJsAction('onsubmit', 'DataModel.property.create.createSend();return false;');
+$form->tag()->addJsAction( 'onsubmit', 'DataModel.property.create.createSend();return false;' );
 
 echo $form->start();
-echo $form->field('property_name');
-echo $form->field('type');
+echo $form->field( 'property_name' );
+echo $form->field( 'type' );
 
 echo $form->end();
 

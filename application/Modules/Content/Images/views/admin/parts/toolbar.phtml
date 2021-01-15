@@ -10,9 +10,9 @@ use Jet\UI_button;
 
 /**
  * @var Mvc_View $this
- * @var Gallery  $gallery
- * @var Form     $upload_form
- * @var Form     $edit_form
+ * @var Gallery $gallery
+ * @var Form $upload_form
+ * @var Form $edit_form
  */
 $gallery = $this->getRaw( 'gallery' );
 $router = $this->getController()->getControllerRouter();
@@ -24,27 +24,27 @@ $edit_form = $this->getRaw( 'edit_form' );
 <div class="row toolbar" id="main-toolbar">
 	<div class="col-xs-12 col-md-3">
 		<form method="get">
-		<?=UI::searchField('search', $this->getRaw('search')) ?>
+			<?= UI::searchField( 'search', $this->getRaw( 'search' ) ) ?>
 		</form>
 	</div>
 	<div class="col-xs-12 col-md-9">
-		<?php if( ( $add_uri = $router->action('add')->URI( $parent_id ) ) && ( !$gallery || !$gallery->getIsNew() ) ):
+		<?php if( ($add_uri = $router->action( 'add' )->URI( $parent_id )) && (!$gallery || !$gallery->getIsNew()) ):
 			echo UI::button_create( Tr::_( 'Create a new gallery' ) )->setUrl( $add_uri );
 		endif;
 
-		if($edit_form && !$edit_form->getIsReadonly()):
-			echo UI::button_save()->setOnclick( "$('#".$edit_form->getId()."').submit()" );
+		if( $edit_form && !$edit_form->getIsReadonly() ):
+			echo UI::button_save()->setOnclick( "$('#" . $edit_form->getId() . "').submit()" );
 		endif;
 
-		if($gallery && !$gallery->getIsNew()):
-			if( $edit_form && !$edit_form->getIsReadonly()): ?>
-			<div id="upload_form_area" style="display: inline-block;">
-				<?php require 'upload-form.phtml' ?>
-			</div>
+		if( $gallery && !$gallery->getIsNew() ):
+			if( $edit_form && !$edit_form->getIsReadonly() ): ?>
+				<div id="upload_form_area" style="display: inline-block;">
+					<?php require 'upload-form.phtml' ?>
+				</div>
 			<?php endif;
-			if( ($delete_uri = $router->action('delete')->URI( $gallery->getId() )) ): ?>
+			if( ($delete_uri = $router->action( 'delete' )->URI( $gallery->getId() )) ): ?>
 				<div style="display: inline-block;padding-left: 50px;">
-					<?=UI::button_delete( Tr::_('Delete this gallery') )->setUrl( $delete_uri )->setSize(UI_button::SIZE_EXTRA_SMALL);?>
+					<?= UI::button_delete( Tr::_( 'Delete this gallery' ) )->setUrl( $delete_uri )->setSize( UI_button::SIZE_EXTRA_SMALL ); ?>
 				</div>
 			<?php endif;
 

@@ -11,79 +11,80 @@ use Jet\Mvc_View;
 
 $current = Modules::getCurrentModule();
 
-if(!$current) {
+if( !$current ) {
 	return;
 }
 
 $form = $current->getEditForm();
 
-$form->setDefaultLabelWidth([
+$form->setDefaultLabelWidth( [
 	Form::LJ_SIZE_MEDIUM => 2
-]);
-$form->setDefaultFieldWidth([
+] );
+$form->setDefaultFieldWidth( [
 	Form::LJ_SIZE_MEDIUM => 6
-]);
+] );
 ?>
 
-<?=$form->start()?>
+<?= $form->start() ?>
 <input type="hidden" name="generate" value="0"/>
 
-	<?=Application::getGeneralView()->render('messages');?>
+<?= Application::getGeneralView()->render( 'messages' ); ?>
 
-	<legend>
-		<?=Tr::_('Module')?>
-		<span style="font-weight: bolder"><?=$current->getLabel()?></span> <span style="color: #aaaaaa;font-size: 12px;"><?=$current->getName()?></span>
-	</legend>
+<legend>
+	<?= Tr::_( 'Module' ) ?>
+	<span style="font-weight: bolder"><?= $current->getLabel() ?></span> <span
+			style="color: #aaaaaa;font-size: 12px;"><?= $current->getName() ?></span>
+</legend>
 
 
-	<?=$form->field('module_name')?>
-	<?=$form->field('module_label')?>
-	<?=$form->field('vendor')?>
-	<?=$form->field('version')?>
-	<?=$form->field('description')?>
-	<?=$form->field('is_mandatory')?>
-	<?=$form->field('is_active')?>
-	<?=$form->field('is_installed')?>
+<?= $form->field( 'module_name' ) ?>
+<?= $form->field( 'module_label' ) ?>
+<?= $form->field( 'vendor' ) ?>
+<?= $form->field( 'version' ) ?>
+<?= $form->field( 'description' ) ?>
+<?= $form->field( 'is_mandatory' ) ?>
+<?= $form->field( 'is_active' ) ?>
+<?= $form->field( 'is_installed' ) ?>
 
-	<legend><?=Tr::_('ACL actions')?></legend>
-	<div class="row">
-		<div class="col-md-2"></div>
-		<div class="col-md-6">
-			<fieldset style="margin-bottom: 40px;">
-				<table>
-					<thead>
+<legend><?= Tr::_( 'ACL actions' ) ?></legend>
+<div class="row">
+	<div class="col-md-2"></div>
+	<div class="col-md-6">
+		<fieldset style="margin-bottom: 40px;">
+			<table>
+				<thead>
+				<tr>
+					<th><?= Tr::_( 'Action' ) ?></th>
+					<th><?= Tr::_( 'Description' ) ?></th>
+				</tr>
+				</thead>
+				<tbody>
+				<?php for( $m = 0; $m < Modules_Manifest::MAX_ACL_ACTION_COUNT; $m++ ):
+					$prefix = '/ACL_action/' . $m;
+
+					if( !$form->fieldExists( $prefix . '/action' ) ) {
+						break;
+					}
+
+					$action = $form->field( $prefix . '/action' );
+					$action->input()->addCustomCssStyle( 'width:300px;' );
+					$description = $form->field( $prefix . '/description' );
+					$description->input()->addCustomCssStyle( 'width:300px;' );
+
+					?>
 					<tr>
-						<th><?=Tr::_('Action')?></th>
-						<th><?=Tr::_('Description')?></th>
+						<td style="padding: 5px;"><?= $action->input() ?></td>
+						<td style="padding: 5px;"><?= $description->input() ?></td>
 					</tr>
-					</thead>
-					<tbody>
-					<?php for( $m=0;$m<Modules_Manifest::MAX_ACL_ACTION_COUNT;$m++ ):
-						$prefix = '/ACL_action/'.$m;
-
-						if(!$form->fieldExists($prefix.'/action')) {
-							break;
-						}
-
-						$action = $form->field($prefix.'/action');
-						$action->input()->addCustomCssStyle('width:300px;');
-						$description = $form->field($prefix.'/description');
-						$description->input()->addCustomCssStyle('width:300px;');
-
-						?>
-						<tr>
-							<td style="padding: 5px;"><?=$action->input()?></td>
-							<td style="padding: 5px;"><?=$description->input()?></td>
-						</tr>
-					<?php endfor; ?>
-					</tbody>
-				</table>
-			</fieldset>
-		</div>
+				<?php endfor; ?>
+				</tbody>
+			</table>
+		</fieldset>
 	</div>
+</div>
 
-<?=$form->end()?>
+<?= $form->end() ?>
 
-<?=$this->render('page/create/dialog') ?>
-<?=$this->render('menu_item/create/dialog') ?>
+<?= $this->render( 'page/create/dialog' ) ?>
+<?= $this->render( 'menu_item/create/dialog' ) ?>
 

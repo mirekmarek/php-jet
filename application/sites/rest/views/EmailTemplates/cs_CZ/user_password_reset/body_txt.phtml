@@ -8,15 +8,15 @@ use Jet\Mvc_View;
  * @var Auth_RESTClient_User $user
  */
 
-$user = $this->getRaw('user');
+$user = $this->getRaw( 'user' );
 ?>
 Vaše heslo k REST API bylo vyresetováno
 
 Zde jsou vaše přihlašovací údaje:
 
-	Uživatelské jméno: <?=$user->getUsername()?>
+Uživatelské jméno: <?= $user->getUsername() ?>
 
-	Heslo: <?=$this->getString('password')?>
+Heslo: <?= $this->getString( 'password' ) ?>
 
 
 Přejeme příjemný den

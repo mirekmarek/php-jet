@@ -8,19 +8,19 @@ use Jet\Mvc_View;
  * @var Auth_Visitor_User $user
  */
 
-$user = $this->getRaw('user');
+$user = $this->getRaw( 'user' );
 ?>
 Welcome to the system!
 
 This is your user account details:
 
-	Username: <?=$user->getUsername()?>
+Username: <?= $user->getUsername() ?>
 
-	Password: <?=$this->getString('password')?>
+Password: <?= $this->getString( 'password' ) ?>
 
-	Your name: <?=$user->getName()?>
+Your name: <?= $user->getName() ?>
 
-	Your e-mail: <?=$user->getEmail()?>
+Your e-mail: <?= $user->getEmail() ?>
 
 
 Please change your password after sign in

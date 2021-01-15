@@ -5,12 +5,14 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace Jet;
 
 /**
- * 
+ *
  */
-class SysConf_Jet {
+class SysConf_Jet
+{
 	protected static bool $devel_mode = false;
 
 	protected static bool $debug_profiler_enabled = false;
@@ -35,7 +37,7 @@ class SysConf_Jet {
 	/**
 	 * @return bool
 	 */
-	public static function isDevelMode() : bool
+	public static function isDevelMode(): bool
 	{
 		return self::$devel_mode;
 	}
@@ -43,7 +45,7 @@ class SysConf_Jet {
 	/**
 	 * @param bool $val
 	 */
-	public static function setDevelMode( bool $val ) : void
+	public static function setDevelMode( bool $val ): void
 	{
 		self::$devel_mode = $val;
 	}
@@ -51,7 +53,7 @@ class SysConf_Jet {
 	/**
 	 * @return bool
 	 */
-	public static function isDebugProfilerEnabled() : bool
+	public static function isDebugProfilerEnabled(): bool
 	{
 		return self::$debug_profiler_enabled;
 	}
@@ -59,7 +61,7 @@ class SysConf_Jet {
 	/**
 	 * @param bool $val
 	 */
-	public static function setDebugProfilerEnabled( bool $val ) : void
+	public static function setDebugProfilerEnabled( bool $val ): void
 	{
 		self::$debug_profiler_enabled = $val;
 	}
@@ -67,7 +69,7 @@ class SysConf_Jet {
 	/**
 	 * @return bool
 	 */
-	public static function isCSSPackagerEnabled() : bool
+	public static function isCSSPackagerEnabled(): bool
 	{
 		return self::$CSS_packager_enabled;
 	}
@@ -75,7 +77,7 @@ class SysConf_Jet {
 	/**
 	 * @param bool $val
 	 */
-	public static function setCSSPackagerEnabled( bool $val ) : void
+	public static function setCSSPackagerEnabled( bool $val ): void
 	{
 		self::$CSS_packager_enabled = $val;
 	}
@@ -83,7 +85,7 @@ class SysConf_Jet {
 	/**
 	 * @return bool
 	 */
-	public static function isJSPackagerEnabled() : bool
+	public static function isJSPackagerEnabled(): bool
 	{
 		return self::$JS_packager_enabled;
 	}
@@ -91,7 +93,7 @@ class SysConf_Jet {
 	/**
 	 * @param bool $val
 	 */
-	public static function setJSPackagerEnabled( bool $val ) : void
+	public static function setJSPackagerEnabled( bool $val ): void
 	{
 		self::$JS_packager_enabled = $val;
 	}
@@ -99,7 +101,7 @@ class SysConf_Jet {
 	/**
 	 * @return bool
 	 */
-	public static function isTranslatorAutoAppendUnknownPhrase() : bool
+	public static function isTranslatorAutoAppendUnknownPhrase(): bool
 	{
 		return self::$translator_auto_append_unknown_phrase;
 	}
@@ -107,7 +109,7 @@ class SysConf_Jet {
 	/**
 	 * @param bool $val
 	 */
-	public static function setTranslatorAutoAppendUnknownPhrase( bool $val ) : void
+	public static function setTranslatorAutoAppendUnknownPhrase( bool $val ): void
 	{
 		self::$translator_auto_append_unknown_phrase = $val;
 	}
@@ -115,7 +117,7 @@ class SysConf_Jet {
 	/**
 	 * @return int
 	 */
-	public static function getIOModDir() : int
+	public static function getIOModDir(): int
 	{
 		return self::$IO_mod_dir;
 	}
@@ -123,7 +125,7 @@ class SysConf_Jet {
 	/**
 	 * @param int $val
 	 */
-	public static function setIOModDir( int $val ) : void
+	public static function setIOModDir( int $val ): void
 	{
 		self::$IO_mod_dir = $val;
 	}
@@ -131,7 +133,7 @@ class SysConf_Jet {
 	/**
 	 * @return int
 	 */
-	public static function getIOModFile() : int
+	public static function getIOModFile(): int
 	{
 		return self::$IO_mod_file;
 	}
@@ -139,7 +141,7 @@ class SysConf_Jet {
 	/**
 	 * @param int $val
 	 */
-	public static function setIOModFile( int $val ) : void
+	public static function setIOModFile( int $val ): void
 	{
 		self::$IO_mod_file = $val;
 	}
@@ -147,7 +149,7 @@ class SysConf_Jet {
 	/**
 	 * @return bool
 	 */
-	public static function isHideHttpRequest() : bool
+	public static function isHideHttpRequest(): bool
 	{
 		return self::$hide_http_request;
 	}
@@ -155,7 +157,7 @@ class SysConf_Jet {
 	/**
 	 * @param bool $val
 	 */
-	public static function setHideHttpRequest( bool $val ) : void
+	public static function setHideHttpRequest( bool $val ): void
 	{
 		self::$hide_http_request = $val;
 	}
@@ -163,7 +165,7 @@ class SysConf_Jet {
 	/**
 	 * @return string
 	 */
-	public static function getCharset() : string
+	public static function getCharset(): string
 	{
 		return self::$charset;
 	}
@@ -171,7 +173,7 @@ class SysConf_Jet {
 	/**
 	 * @param string $val
 	 */
-	public static function setCharset( string $val ) : void
+	public static function setCharset( string $val ): void
 	{
 		self::$charset = $val;
 	}
@@ -179,7 +181,7 @@ class SysConf_Jet {
 	/**
 	 * @return string
 	 */
-	public static function getTimezone() : string
+	public static function getTimezone(): string
 	{
 		return self::$timezone;
 	}
@@ -187,7 +189,7 @@ class SysConf_Jet {
 	/**
 	 * @param string $timezone
 	 */
-	public static function setTimezone( string $timezone ) : void
+	public static function setTimezone( string $timezone ): void
 	{
 		self::$timezone = $timezone;
 	}

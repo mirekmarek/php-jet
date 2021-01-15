@@ -5,6 +5,7 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace JetApplicationModule\Content\Articles;
 
 use Jet\Data_Listing;
@@ -14,7 +15,8 @@ use Jet\DataModel_Fetch_Instances;
 /**
  *
  */
-class Article_AdminListing extends Data_Listing {
+class Article_AdminListing extends Data_Listing
+{
 
 	use Data_Listing_Filter_search;
 
@@ -22,12 +24,12 @@ class Article_AdminListing extends Data_Listing {
 	 * @var array
 	 */
 	protected array $grid_columns = [
-		'_edit_'     => [
+		'_edit_'    => [
 			'title'         => '',
 			'disallow_sort' => true
 		],
 		'title'     => [
-			'title' => 'Title',
+			'title'         => 'Title',
 			'disallow_sort' => true
 		],
 		'date_time' => ['title' => 'Date and time'],
@@ -44,7 +46,7 @@ class Article_AdminListing extends Data_Listing {
 	 * @return Article[]|DataModel_Fetch_Instances
 	 * @noinspection PhpDocSignatureInspection
 	 */
-	protected function getList() : DataModel_Fetch_Instances
+	protected function getList(): DataModel_Fetch_Instances
 	{
 		return Article::getList();
 	}
@@ -53,20 +55,20 @@ class Article_AdminListing extends Data_Listing {
 	/**
 	 *
 	 */
-	protected function filter_search_getWhere() : void
+	protected function filter_search_getWhere(): void
 	{
-		if(!$this->search) {
+		if( !$this->search ) {
 			return;
 		}
 
-		$search = '%'.$this->search.'%';
-		$this->filter_addWhere([
-			'article_localized.title *' => $search,
+		$search = '%' . $this->search . '%';
+		$this->filter_addWhere( [
+			'article_localized.title *'      => $search,
 			'OR',
 			'article_localized.annotation *' => $search,
 			'OR',
-			'article_localized.text *' => $search,
-		]);
+			'article_localized.text *'       => $search,
+		] );
 
 	}
 }

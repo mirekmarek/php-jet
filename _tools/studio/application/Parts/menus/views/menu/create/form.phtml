@@ -1,17 +1,18 @@
 <?php
+
 namespace JetStudio;
 
 $form = Menus_Menu::getCreateForm();
 
-$form->getField('label')->input()->addJsAction('onkeyup', 'Menus.createMenu.generateId(this.value);');
+$form->getField( 'label' )->input()->addJsAction( 'onkeyup', 'Menus.createMenu.generateId(this.value);' );
 
 
 echo $form->start();
 echo $form->getCommonMessage();
-echo $form->field('label');
-echo $form->field('id');
-echo $form->field('icon');
-echo $form->field('index');
+echo $form->field( 'label' );
+echo $form->field( 'id' );
+echo $form->field( 'icon' );
+echo $form->field( 'index' );
 
 echo $form->end();
 

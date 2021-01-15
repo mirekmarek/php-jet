@@ -12,15 +12,15 @@ use Jet\Mvc_View;
 use JetApplication\Application_Web;
 
 /**
- * @var Mvc_View     $this
- * @var UI_dataGrid  $grid
- * @var Form         $filter_form
+ * @var Mvc_View $this
+ * @var UI_dataGrid $grid
+ * @var Form $filter_form
  */
 $router = $this->getController()->getControllerRouter();
 $grid = $this->getRaw( 'grid' );
 $filter_form = $this->getRaw( 'filter_form' );
 
-$delete_uri = $router->action('delete')->URI();
+$delete_uri = $router->action( 'delete' )->URI();
 
 $grid->getColumn( '_edit_' )
 	->setAllowSort( false )
@@ -29,8 +29,8 @@ $grid->getColumn( '_edit_' )
 		function( Article $item ) use ( $delete_uri ) {
 			if( $delete_uri ):
 				?>
-				<input type="checkbox" name="selected[]" value="<?=$item->getId()?>"/>
-				<?php
+				<input type="checkbox" name="selected[]" value="<?= $item->getId() ?>"/>
+			<?php
 			endif;
 		}
 	);
@@ -40,10 +40,10 @@ $grid->getColumn( 'title' )
 	->setRenderer(
 		function( Article $item ) use ( $router ) {
 			foreach( Application_Web::getSite()->getLocales() as $locale ):
-				$URI = $router->action('edit')->URI( $item->getId() );
-				$title = $item->getLocalized($locale)->getTitle();
+				$URI = $router->action( 'edit' )->URI( $item->getId() );
+				$title = $item->getLocalized( $locale )->getTitle();
 
-				echo UI::flag($locale).'&nbsp;<a href="'.$URI.'">'.$title.'</a><br/>';
+				echo UI::flag( $locale ) . '&nbsp;<a href="' . $URI . '">' . $title . '</a><br/>';
 			endforeach;
 		}
 	);
@@ -56,36 +56,36 @@ $grid->getColumn( 'date_time' )
 		}
 	);
 
-if($delete_uri && count($grid->getData()) ) {
-	$grid->setCustomFooter('
+if( $delete_uri && count( $grid->getData() ) ) {
+	$grid->setCustomFooter( '
 		<tr>
-			<td colspan="'.count($grid->getColumns()).'" class="toolbar">
-				'.UI::button_delete()->setType('submit')->setSize(UI_button::SIZE_EXTRA_SMALL).'
+			<td colspan="' . count( $grid->getColumns() ) . '" class="toolbar">
+				' . UI::button_delete()->setType( 'submit' )->setSize( UI_button::SIZE_EXTRA_SMALL ) . '
 			</td>
 		</tr>
-	');
+	' );
 }
 
 ?>
-<?=$filter_form->start()?>
+<?= $filter_form->start() ?>
 <div class="row toolbar" id="main-toolbar">
 	<div class="col-xs-5 col-md-2">
-		<?php if( ( $add_uri = $router->action('add')->URI() ) ): ?>
-			<?=UI::button_create( Tr::_( 'Create a new Article' ) )->setUrl( $add_uri )?>
+		<?php if( ($add_uri = $router->action( 'add' )->URI()) ): ?>
+			<?= UI::button_create( Tr::_( 'Create a new Article' ) )->setUrl( $add_uri ) ?>
 		<?php endif; ?>
 	</div>
 
 	<div class="col-xs-7 col-md-3">
-		<?=UI::searchField( 'search', $filter_form->field('search')->getValue() )?>
+		<?= UI::searchField( 'search', $filter_form->field( 'search' )->getValue() ) ?>
 	</div>
 </div>
-<?=$filter_form->end()?>
+<?= $filter_form->end() ?>
 
 
 <div class="row main-row">
 	<div class="col-md-12 main-col">
-		<form action="<?=$delete_uri?>" method="post">
-			<?=$grid->render()?>
+		<form action="<?= $delete_uri ?>" method="post">
+			<?= $grid->render() ?>
 		</form>
 	</div>
 </div>

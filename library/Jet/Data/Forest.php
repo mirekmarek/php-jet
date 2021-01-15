@@ -5,6 +5,7 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace Jet;
 
 /**
@@ -34,7 +35,7 @@ class Data_Forest extends BaseObject implements BaseObject_Interface_IteratorCou
 	/**
 	 * @return string
 	 */
-	public function getLabelKey() : string
+	public function getLabelKey(): string
 	{
 		return $this->label_key;
 	}
@@ -42,7 +43,7 @@ class Data_Forest extends BaseObject implements BaseObject_Interface_IteratorCou
 	/**
 	 * @param string $label_key
 	 */
-	public function setLabelKey( string $label_key ) : void
+	public function setLabelKey( string $label_key ): void
 	{
 		$this->label_key = $label_key;
 	}
@@ -51,7 +52,7 @@ class Data_Forest extends BaseObject implements BaseObject_Interface_IteratorCou
 	 *
 	 * @return string
 	 */
-	public function getIdKey() : string
+	public function getIdKey(): string
 	{
 		return $this->id_key;
 	}
@@ -60,7 +61,7 @@ class Data_Forest extends BaseObject implements BaseObject_Interface_IteratorCou
 	 *
 	 * @param string $id_key
 	 */
-	public function setIdKey( string $id_key ) : void
+	public function setIdKey( string $id_key ): void
 	{
 		$this->id_key = $id_key;
 	}
@@ -72,13 +73,13 @@ class Data_Forest extends BaseObject implements BaseObject_Interface_IteratorCou
 	 *
 	 * @throws Data_Tree_Exception
 	 */
-	public function appendTree( Data_Tree $tree ) : void
+	public function appendTree( Data_Tree $tree ): void
 	{
 		$tree_id = $tree->getRootNode()->getId();
 
 		if( isset( $this->trees[$tree_id] ) ) {
 			throw new Data_Tree_Exception(
-				'Tree \''.$tree_id.'\' already exists in the forest', Data_Tree_Exception::CODE_TREE_ALREADY_IN_FOREST
+				'Tree \'' . $tree_id . '\' already exists in the forest', Data_Tree_Exception::CODE_TREE_ALREADY_IN_FOREST
 			);
 		}
 
@@ -95,7 +96,7 @@ class Data_Forest extends BaseObject implements BaseObject_Interface_IteratorCou
 	 *
 	 * @return Data_Tree[]
 	 */
-	public function getTrees() : array
+	public function getTrees(): array
 	{
 		return $this->trees;
 	}
@@ -106,7 +107,7 @@ class Data_Forest extends BaseObject implements BaseObject_Interface_IteratorCou
 	 *
 	 * @return Data_Tree
 	 */
-	public function getTree( string $tree_id ) : Data_Tree
+	public function getTree( string $tree_id ): Data_Tree
 	{
 		return $this->trees[$tree_id];
 	}
@@ -115,7 +116,7 @@ class Data_Forest extends BaseObject implements BaseObject_Interface_IteratorCou
 	 *
 	 * @param string $tree_id
 	 */
-	public function removeTree( string $tree_id ) : void
+	public function removeTree( string $tree_id ): void
 	{
 		if( !isset( $this->trees[$tree_id] ) ) {
 			return;
@@ -129,7 +130,7 @@ class Data_Forest extends BaseObject implements BaseObject_Interface_IteratorCou
 	 *
 	 * @return bool
 	 */
-	public function getTreeExists( string $tree_id ) : bool
+	public function getTreeExists( string $tree_id ): bool
 	{
 		return isset( $this->trees[$tree_id] );
 	}
@@ -141,7 +142,7 @@ class Data_Forest extends BaseObject implements BaseObject_Interface_IteratorCou
 	 *
 	 * @return array
 	 */
-	public function toArray( int|null $max_depth = null ) : array
+	public function toArray( int|null $max_depth = null ): array
 	{
 
 		$output = [];
@@ -160,7 +161,7 @@ class Data_Forest extends BaseObject implements BaseObject_Interface_IteratorCou
 	/**
 	 * @return string
 	 */
-	public function toJSON() : string
+	public function toJSON(): string
 	{
 
 		$data = $this->jsonSerialize();
@@ -171,7 +172,7 @@ class Data_Forest extends BaseObject implements BaseObject_Interface_IteratorCou
 	/**
 	 * @return array
 	 */
-	public function jsonSerialize() : array
+	public function jsonSerialize(): array
 	{
 		$data = [];
 
@@ -193,7 +194,7 @@ class Data_Forest extends BaseObject implements BaseObject_Interface_IteratorCou
 	/**
 	 * @return Data_Tree_Node
 	 */
-	public function current() : Data_Tree_Node
+	public function current(): Data_Tree_Node
 	{
 		$current_tree_id = key( $this->trees );
 
@@ -204,7 +205,7 @@ class Data_Forest extends BaseObject implements BaseObject_Interface_IteratorCou
 	 *
 	 * @return Data_Tree_Node|bool
 	 */
-	public function next() : Data_Tree_Node|bool
+	public function next(): Data_Tree_Node|bool
 	{
 		$current_tree_id = key( $this->trees );
 
@@ -229,7 +230,7 @@ class Data_Forest extends BaseObject implements BaseObject_Interface_IteratorCou
 	 *
 	 * @return string
 	 */
-	public function key() : string
+	public function key(): string
 	{
 		$current_tree_id = key( $this->trees );
 
@@ -240,7 +241,7 @@ class Data_Forest extends BaseObject implements BaseObject_Interface_IteratorCou
 	 *
 	 * @return bool
 	 */
-	public function valid() : bool
+	public function valid(): bool
 	{
 		if( !key( $this->trees ) ) {
 			return false;
@@ -253,7 +254,7 @@ class Data_Forest extends BaseObject implements BaseObject_Interface_IteratorCou
 	/**
 	 *
 	 */
-	public function rewind() : void
+	public function rewind(): void
 	{
 		foreach( $this->trees as $tree ) {
 			$tree->rewind();
@@ -268,7 +269,7 @@ class Data_Forest extends BaseObject implements BaseObject_Interface_IteratorCou
 	/**
 	 * @return int
 	 */
-	public function count() : int
+	public function count(): int
 	{
 		$result = 0;
 

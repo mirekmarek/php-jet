@@ -1,4 +1,5 @@
 <?php
+
 use JetApplicationModule\Content\Articles\Article;
 use Jet\Tr;
 use Jet\Locale;
@@ -6,21 +7,21 @@ use Jet\Mvc_View;
 
 /**
  * @var Mvc_View $this
- * @var Article  $article
+ * @var Article $article
  */
 $article = $this->getRaw( 'article' );
 ?>
 
-<h1><?=$article->getTitle();?></h1 style="color: ">
+<h1><?= $article->getTitle(); ?></h1 style="color: ">
 
 <div>
-	<?=Tr::_( 'Date:' );?>
-	<?=Locale::dateAndTime( $article->getDateTime() );?>
+	<?= Tr::_( 'Date:' ); ?>
+	<?= Locale::dateAndTime( $article->getDateTime() ); ?>
 </div>
 
 <p>
-	<?=$article->getAnnotation();?>
+	<?= $article->getAnnotation(); ?>
 </p>
 
-<?=$article->getText();?>
+<?= $article->getText(); ?>
 

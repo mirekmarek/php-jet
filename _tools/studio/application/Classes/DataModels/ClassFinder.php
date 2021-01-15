@@ -5,6 +5,7 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace JetStudio;
 
 use Jet\DataModel;
@@ -15,7 +16,8 @@ use ReflectionClass;
 
 /**
  */
-class DataModels_ClassFinder {
+class DataModels_ClassFinder
+{
 
 	/**
 	 * @var DataModel_Class[]
@@ -54,16 +56,16 @@ class DataModels_ClassFinder {
 	/**
 	 *
 	 */
-	public function find() : void
+	public function find(): void
 	{
 		do {
 			$this->_new_founded = false;
 			foreach( $this->dirs as $dir ) {
-				$this->readDir($dir);
+				$this->readDir( $dir );
 			}
-		} while($this->_new_founded);
+		} while( $this->_new_founded );
 
-		ksort($this->classes);
+		ksort( $this->classes );
 
 		foreach( $this->classes as $class ) {
 			try {
@@ -71,34 +73,35 @@ class DataModels_ClassFinder {
 				 * @var DataModel_Definition_Model_Main|DataModel_Definition_Model_Related_1to1|DataModel_Definition_Model_Related_1toN|DataModel_Definition_Model_Related_MtoN $definition
 				 */
 				$definition = DataModel::getDataModelDefinition( $class->getFullClassName() );
-			} catch(DataModel_Exception $e) {
-				$class->setError($e->getMessage());
+			} catch( DataModel_Exception $e ) {
+				$class->setError( $e->getMessage() );
 				continue;
 			}
 			$class->setDefinition( $definition );
 		}
 
 	}
+
 	/**
 	 * @param string $dir
 	 */
-	protected function readDir( string $dir  ) : void
+	protected function readDir( string $dir ): void
 	{
 		$dirs = IO_Dir::getList( $dir, '*', true, false );
 		$files = IO_Dir::getList( $dir, '*.php', false, true );
 
-		foreach( $files as $path=>$name ) {
-			$file_data = IO_File::read($path);
+		foreach( $files as $path => $name ) {
+			$file_data = IO_File::read( $path );
 
 			if( !str_contains( $file_data, 'DataModel' ) ) {
 				continue;
 			}
 
-			$parser = new ClassParser($file_data);
+			$parser = new ClassParser( $file_data );
 
-			foreach($parser->classes as $class ) {
-				$full_name = $parser->namespace->namespace.'\\'.$class->name;
-				if(isset($this->classes[$full_name])) {
+			foreach( $parser->classes as $class ) {
+				$full_name = $parser->namespace->namespace . '\\' . $class->name;
+				if( isset( $this->classes[$full_name] ) ) {
 					continue;
 				}
 
@@ -106,13 +109,13 @@ class DataModels_ClassFinder {
 
 				$parent_class = $reflection->getParentClass();
 
-				if(!$parent_class) {
+				if( !$parent_class ) {
 					continue;
 				}
 
 				$parent = $reflection->getParentClass()->getName();
 
-				if(!in_array($parent, $this->parent_classes)) {
+				if( !in_array( $parent, $this->parent_classes ) ) {
 					continue;
 				}
 
@@ -132,7 +135,7 @@ class DataModels_ClassFinder {
 
 		}
 
-		foreach( $dirs as $path=>$name ) {
+		foreach( $dirs as $path => $name ) {
 			$this->readDir( $path );
 		}
 	}
@@ -140,7 +143,7 @@ class DataModels_ClassFinder {
 	/**
 	 * @return DataModel_Class[]
 	 */
-	public function getClasses() : array
+	public function getClasses(): array
 	{
 		return $this->classes;
 	}

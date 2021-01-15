@@ -5,6 +5,7 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace Jet;
 
 /**
@@ -71,7 +72,7 @@ abstract class Mvc_View_Abstract extends BaseObject
 	/**
 	 * @return string
 	 */
-	public static function getScriptFileSuffix() : string
+	public static function getScriptFileSuffix(): string
 	{
 		return static::$script_file_suffix;
 	}
@@ -79,18 +80,17 @@ abstract class Mvc_View_Abstract extends BaseObject
 	/**
 	 * @param string $script_file_suffix
 	 */
-	public static function setScriptFileSuffix( string $script_file_suffix ) : void
+	public static function setScriptFileSuffix( string $script_file_suffix ): void
 	{
 		static::$script_file_suffix = $script_file_suffix;
 	}
-
 
 
 	/**
 	 *
 	 * @return bool
 	 */
-	public static function getAddScriptPathInfoEnabled() : bool
+	public static function getAddScriptPathInfoEnabled(): bool
 	{
 		return static::$add_script_path_info;
 	}
@@ -100,7 +100,7 @@ abstract class Mvc_View_Abstract extends BaseObject
 	 * @param bool $enabled
 	 *
 	 */
-	public static function setAddScriptPathInfoEnabled( $enabled = true ) : void
+	public static function setAddScriptPathInfoEnabled( $enabled = true ): void
 	{
 		static::$add_script_path_info = (bool)$enabled;
 	}
@@ -108,7 +108,7 @@ abstract class Mvc_View_Abstract extends BaseObject
 	/**
 	 * @return string
 	 */
-	public function getScriptsDir() : string
+	public function getScriptsDir(): string
 	{
 		return $this->_scripts_dir;
 	}
@@ -116,9 +116,9 @@ abstract class Mvc_View_Abstract extends BaseObject
 	/**
 	 * @param string $scripts_dir
 	 */
-	public function setScriptsDir( string $scripts_dir ) : void
+	public function setScriptsDir( string $scripts_dir ): void
 	{
-		if( $scripts_dir[strlen( $scripts_dir )-1]!='/' ) {
+		if( $scripts_dir[strlen( $scripts_dir ) - 1] != '/' ) {
 			$scripts_dir .= '/';
 		}
 
@@ -129,7 +129,7 @@ abstract class Mvc_View_Abstract extends BaseObject
 	 *
 	 * @return string
 	 */
-	public function getScriptName() : string
+	public function getScriptName(): string
 	{
 		return $this->_script_name;
 	}
@@ -140,9 +140,9 @@ abstract class Mvc_View_Abstract extends BaseObject
 	 *
 	 * @throws Mvc_View_Exception
 	 */
-	public function setScriptName( string $script_name ) : void
+	public function setScriptName( string $script_name ): void
 	{
-		if( $script_name===false ) {
+		if( $script_name === false ) {
 			$this->_script_name = false;
 
 			return;
@@ -160,9 +160,9 @@ abstract class Mvc_View_Abstract extends BaseObject
 	 *
 	 * @return string
 	 */
-	public function getScriptPath() : string
+	public function getScriptPath(): string
 	{
-		$file = $this->_scripts_dir.$this->_script_name.'.'.static::getScriptFileSuffix();
+		$file = $this->_scripts_dir . $this->_script_name . '.' . static::getScriptFileSuffix();
 
 		$this->_script_path = $file;
 
@@ -176,7 +176,7 @@ abstract class Mvc_View_Abstract extends BaseObject
 	 *
 	 * @return bool
 	 */
-	public function varExists( string $key ) : bool
+	public function varExists( string $key ): bool
 	{
 		return $this->_data->exists( $key );
 	}
@@ -186,7 +186,7 @@ abstract class Mvc_View_Abstract extends BaseObject
 	 * @param string $key
 	 * @param mixed $val
 	 */
-	public function setVar( string $key, mixed $val ) : void
+	public function setVar( string $key, mixed $val ): void
 	{
 		$this->_data->set( $key, $val );
 	}
@@ -195,7 +195,7 @@ abstract class Mvc_View_Abstract extends BaseObject
 	 *
 	 * @param string $key
 	 */
-	public function unsetVar( string $key ) : void
+	public function unsetVar( string $key ): void
 	{
 		$this->_data->remove( $key );
 	}
@@ -208,7 +208,7 @@ abstract class Mvc_View_Abstract extends BaseObject
 	 *
 	 * @return mixed
 	 */
-	public function getRaw( string $key, mixed $default_value = null ) : mixed
+	public function getRaw( string $key, mixed $default_value = null ): mixed
 	{
 		return $this->_data->getRaw( $key, $default_value );
 	}
@@ -220,7 +220,7 @@ abstract class Mvc_View_Abstract extends BaseObject
 	 *
 	 * @return int
 	 */
-	public function getInt( string $key, int $default_value = 0 ) : int
+	public function getInt( string $key, int $default_value = 0 ): int
 	{
 		return $this->_data->getInt( $key, $default_value );
 	}
@@ -232,7 +232,7 @@ abstract class Mvc_View_Abstract extends BaseObject
 	 *
 	 * @return float
 	 */
-	public function getFloat( string $key, float $default_value = 0.0 ) : float
+	public function getFloat( string $key, float $default_value = 0.0 ): float
 	{
 		return $this->_data->getFloat( $key, $default_value );
 	}
@@ -244,7 +244,7 @@ abstract class Mvc_View_Abstract extends BaseObject
 	 *
 	 * @return bool
 	 */
-	public function getBool( string $key, bool $default_value = false ) : bool
+	public function getBool( string $key, bool $default_value = false ): bool
 	{
 		return $this->_data->getBool( $key, $default_value );
 	}
@@ -256,7 +256,7 @@ abstract class Mvc_View_Abstract extends BaseObject
 	 *
 	 * @return string
 	 */
-	public function getString( string $key, string $default_value = '' )  :string
+	public function getString( string $key, string $default_value = '' ): string
 	{
 		return $this->_data->getString( $key, $default_value );
 	}

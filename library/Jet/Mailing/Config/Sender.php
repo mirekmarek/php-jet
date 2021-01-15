@@ -5,6 +5,7 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace Jet;
 
 /**
@@ -22,7 +23,9 @@ class Mailing_Config_Sender extends Config_Section
 	#[Config_Definition(is_required: true)]
 	#[Config_Definition(form_field_label: 'E-mail:')]
 	#[Config_Definition(form_field_type: Form::TYPE_EMAIL)]
-	#[Config_Definition(form_field_error_messages: [Form_Field_Email::ERROR_CODE_EMPTY => 'Please enter valid email address',Form_Field_Email::ERROR_CODE_INVALID_FORMAT => 'Please enter valid email address'])]
+	#[Config_Definition(form_field_error_messages: [Form_Field_Email::ERROR_CODE_EMPTY          => 'Please enter valid email address',
+	                                                Form_Field_Email::ERROR_CODE_INVALID_FORMAT => 'Please enter valid email address'
+	])]
 	protected string $email = '';
 
 	/**
@@ -37,7 +40,7 @@ class Mailing_Config_Sender extends Config_Section
 	/**
 	 * @return string
 	 */
-	public function getEmail() : string
+	public function getEmail(): string
 	{
 		return $this->email;
 	}
@@ -45,7 +48,7 @@ class Mailing_Config_Sender extends Config_Section
 	/**
 	 * @param string $email
 	 */
-	public function setEmail( string $email ) : void
+	public function setEmail( string $email ): void
 	{
 		$this->email = $email;
 	}
@@ -53,7 +56,7 @@ class Mailing_Config_Sender extends Config_Section
 	/**
 	 * @return string
 	 */
-	public function getName() : string
+	public function getName(): string
 	{
 		return $this->name;
 	}
@@ -61,7 +64,7 @@ class Mailing_Config_Sender extends Config_Section
 	/**
 	 * @param string $name
 	 */
-	public function setName( string $name ) : void
+	public function setName( string $name ): void
 	{
 		$this->name = $name;
 	}

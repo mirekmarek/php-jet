@@ -1,11 +1,13 @@
 <?php
+
 use Jet\Tr;
 use Jet\UI;
+
 ?>
 
 <div class="card">
 	<h5 class="card-header">
-		<?=Tr::_( 'Account is not activated' )?>
+		<?= Tr::_( 'Account is not activated' ) ?>
 		<?php require '_language_select.phtml'; ?>
 	</h5>
 
@@ -13,16 +15,16 @@ use Jet\UI;
 		<table>
 			<tr>
 				<td style="padding: 5px;">
-					<?=UI::icon( 'times-circle' )->setSize( 50 )?>
+					<?= UI::icon( 'times-circle' )->setSize( 50 ) ?>
 				</td>
 				<td>
-					<?=Tr::_( '<b>Your account is not activated!</b><br/>Please contact your system administrator.' );?>
+					<?= Tr::_( '<b>Your account is not activated!</b><br/>Please contact your system administrator.' ); ?>
 				</td>
 			</tr>
 		</table>
 
 		<div style="padding-top: 10px">
-			<a href="?logout" class="btn btn-light"><?=Tr::_( 'Logout' );?></a>
+			<a href="?logout" class="btn btn-light"><?= Tr::_( 'Logout' ); ?></a>
 		</div>
 	</div>
 </div>

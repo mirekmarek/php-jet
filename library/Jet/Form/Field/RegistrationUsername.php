@@ -5,6 +5,7 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace Jet;
 
 /**
@@ -85,7 +86,7 @@ class Form_Field_RegistrationUsername extends Form_Field_Input
 	 *
 	 * @return bool
 	 */
-	public function validate() : bool
+	public function validate(): bool
 	{
 
 		if( !$this->_value ) {
@@ -117,7 +118,7 @@ class Form_Field_RegistrationUsername extends Form_Field_Input
 	/**
 	 * @return callable|null
 	 */
-	public function getUserExistsCheckCallback() : callable|null
+	public function getUserExistsCheckCallback(): callable|null
 	{
 		return $this->user_exists_check_callback;
 	}
@@ -125,7 +126,7 @@ class Form_Field_RegistrationUsername extends Form_Field_Input
 	/**
 	 * @param callable $user_exists_check_callback
 	 */
-	public function setUserExistsCheckCallback( callable $user_exists_check_callback ) : void
+	public function setUserExistsCheckCallback( callable $user_exists_check_callback ): void
 	{
 		$this->user_exists_check_callback = $user_exists_check_callback;
 	}
@@ -133,7 +134,7 @@ class Form_Field_RegistrationUsername extends Form_Field_Input
 	/**
 	 * @return array
 	 */
-	public function getRequiredErrorCodes() : array
+	public function getRequiredErrorCodes(): array
 	{
 		$codes = [];
 

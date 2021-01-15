@@ -10,32 +10,32 @@ use Jet\UI;
  * @var Mvc_View $this
  */
 
-$what = $this->getRaw('what');
+$what = $this->getRaw( 'what' );
 
 $tabs = UI::tabs(
 	[
-		'main' => Tr::_('Main settings'),
-		'content' => Tr::_('Content'),
-		'static_content' => Tr::_('Static content'),
-		'callback' => Tr::_('Callback')
+		'main'           => Tr::_( 'Main settings' ),
+		'content'        => Tr::_( 'Content' ),
+		'static_content' => Tr::_( 'Static content' ),
+		'callback'       => Tr::_( 'Callback' )
 	],
 	function( $tab_id ) {
-		return Http_Request::currentURI(['what'=>$tab_id], ['action']);
+		return Http_Request::currentURI( ['what' => $tab_id], ['action'] );
 	},
 	$what
 );
 
 ?>
 <div style="padding: 5px;">
-	<?=Application::getGeneralView()->render('messages');?>
+	<?= Application::getGeneralView()->render( 'messages' ); ?>
 </div>
 
 <div class="container-fluid main-col">
 
-	<?=$tabs?>
+	<?= $tabs ?>
 
 	<div style="padding: 10px;">
-		<?=$this->render('page/'.$what.'/edit/form') ; ?>
+		<?= $this->render( 'page/' . $what . '/edit/form' ); ?>
 	</div>
 </div>
 

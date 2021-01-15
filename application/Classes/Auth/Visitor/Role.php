@@ -1,4 +1,5 @@
 <?php
+
 namespace JetApplication;
 
 use Jet\DataModel;
@@ -37,7 +38,7 @@ class Auth_Visitor_Role extends DataModel implements Auth_Role_Interface
 		form_field_type: false
 	)]
 	protected string $id = '';
-	
+
 	/**
 	 * @var string
 	 */
@@ -47,11 +48,11 @@ class Auth_Visitor_Role extends DataModel implements Auth_Role_Interface
 		form_field_is_required: true,
 		form_field_label: 'Name',
 		form_field_error_messages: [
-			Form_Field::ERROR_CODE_EMPTY=>'Please enter a name'
+			Form_Field::ERROR_CODE_EMPTY => 'Please enter a name'
 		]
 	)]
 	protected string $name = '';
-	
+
 	/**
 	 * @var string
 	 */
@@ -100,7 +101,7 @@ class Auth_Visitor_Role extends DataModel implements Auth_Role_Interface
 	 *
 	 * @return static|null
 	 */
-	public static function get( string $id ) : static|null
+	public static function get( string $id ): static|null
 	{
 		return static::load( $id );
 	}
@@ -111,15 +112,15 @@ class Auth_Visitor_Role extends DataModel implements Auth_Role_Interface
 	 *
 	 * @return Auth_Visitor_Role[]
 	 */
-	public static function getList( string $search = '' ) : iterable
+	public static function getList( string $search = '' ): iterable
 	{
 
 		$where = [];
 		if( $search ) {
-			$search = '%'.$search.'%';
+			$search = '%' . $search . '%';
 
 			$where[] = [
-				'name *' => $search,
+				'name *'        => $search,
 				'OR',
 				'description *' => $search,
 			];
@@ -133,7 +134,7 @@ class Auth_Visitor_Role extends DataModel implements Auth_Role_Interface
 				'name',
 				'description',
 
-			]);
+			] );
 
 		$list->getQuery()->setOrderBy( 'name' );
 
@@ -144,7 +145,7 @@ class Auth_Visitor_Role extends DataModel implements Auth_Role_Interface
 	/**
 	 * @return string
 	 */
-	public function getId() : string
+	public function getId(): string
 	{
 		return $this->id;
 	}
@@ -153,7 +154,7 @@ class Auth_Visitor_Role extends DataModel implements Auth_Role_Interface
 	/**
 	 * @return string
 	 */
-	public function getName() : string
+	public function getName(): string
 	{
 		return $this->name;
 	}
@@ -161,7 +162,7 @@ class Auth_Visitor_Role extends DataModel implements Auth_Role_Interface
 	/**
 	 * @param string $name
 	 */
-	public function setName( string $name ) : void
+	public function setName( string $name ): void
 	{
 		$this->name = $name;
 	}
@@ -169,7 +170,7 @@ class Auth_Visitor_Role extends DataModel implements Auth_Role_Interface
 	/**
 	 * @return string
 	 */
-	public function getDescription() : string
+	public function getDescription(): string
 	{
 		return $this->description;
 	}
@@ -177,7 +178,7 @@ class Auth_Visitor_Role extends DataModel implements Auth_Role_Interface
 	/**
 	 * @param string $description
 	 */
-	public function setDescription( string $description ) : void
+	public function setDescription( string $description ): void
 	{
 		$this->description = $description;
 	}
@@ -185,7 +186,7 @@ class Auth_Visitor_Role extends DataModel implements Auth_Role_Interface
 	/**
 	 * @return Auth_Visitor_User[]
 	 */
-	public function getUsers() : iterable
+	public function getUsers(): iterable
 	{
 		return $this->users;
 	}
@@ -193,7 +194,7 @@ class Auth_Visitor_Role extends DataModel implements Auth_Role_Interface
 	/**
 	 * @return Auth_Visitor_Role_Privilege[]
 	 */
-	public function getPrivileges() : array
+	public function getPrivileges(): array
 	{
 		return $this->privileges;
 	}
@@ -207,7 +208,7 @@ class Auth_Visitor_Role extends DataModel implements Auth_Role_Interface
 	 *
 	 * @param array $privileges
 	 */
-	public function setPrivileges( array $privileges ) : void
+	public function setPrivileges( array $privileges ): void
 	{
 		/** @noinspection PhpUndefinedMethodInspection */
 		$this->privileges->clearData();
@@ -225,9 +226,9 @@ class Auth_Visitor_Role extends DataModel implements Auth_Role_Interface
 	 *
 	 *
 	 * @param string $privilege
-	 * @param array  $values
+	 * @param array $values
 	 */
-	public function setPrivilege( string $privilege, array $values ) : void
+	public function setPrivilege( string $privilege, array $values ): void
 	{
 		if( !isset( $this->privileges[$privilege] ) ) {
 			$this->privileges[$privilege] = new Auth_Visitor_Role_Privilege( $privilege, $values );
@@ -243,7 +244,7 @@ class Auth_Visitor_Role extends DataModel implements Auth_Role_Interface
 	 *
 	 * @return array
 	 */
-	public function getPrivilegeValues( string $privilege ) : array
+	public function getPrivilegeValues( string $privilege ): array
 	{
 		if( !isset( $this->privileges[$privilege] ) ) {
 			return [];
@@ -255,7 +256,7 @@ class Auth_Visitor_Role extends DataModel implements Auth_Role_Interface
 	/**
 	 * @param string $privilege
 	 */
-	public function removePrivilege( string $privilege ) : void
+	public function removePrivilege( string $privilege ): void
 	{
 		if( isset( $this->privileges[$privilege] ) ) {
 			unset( $this->privileges[$privilege] );
@@ -264,11 +265,11 @@ class Auth_Visitor_Role extends DataModel implements Auth_Role_Interface
 
 	/**
 	 * @param string $privilege
-	 * @param mixed  $value
+	 * @param mixed $value
 	 *
 	 * @return bool
 	 */
-	public function hasPrivilege( string $privilege, mixed $value ) : bool
+	public function hasPrivilege( string $privilege, mixed $value ): bool
 	{
 		if( !isset( $this->privileges[$privilege] ) ) {
 			return false;
@@ -325,8 +326,8 @@ class Auth_Visitor_Role extends DataModel implements Auth_Role_Interface
 
 		$form = $this->getCommonForm();
 
-		$form->field('/privileges/visit_page/values')->setSelectOptions(static::getAclActionValuesList_Pages());
-		$form->field('/privileges/visit_page/values')->setLabel('Secret area access');
+		$form->field( '/privileges/visit_page/values' )->setSelectOptions( static::getAclActionValuesList_Pages() );
+		$form->field( '/privileges/visit_page/values' )->setLabel( 'Secret area access' );
 
 
 		return $form;
@@ -354,8 +355,7 @@ class Auth_Visitor_Role extends DataModel implements Auth_Role_Interface
 
 			$tree->getRootNode()->setId( $homepage->getKey() );
 			$tree->getRootNode()->setLabel(
-				$homepage->getSite()->getName().' ('.$homepage->getLocale()->getName().')'.' - '.$homepage->getName(
-				)
+				$homepage->getSite()->getName() . ' (' . $homepage->getLocale()->getName() . ')' . ' - ' . $homepage->getName()
 			);
 
 			$pages = [];
@@ -369,16 +369,15 @@ class Auth_Visitor_Role extends DataModel implements Auth_Role_Interface
 		}
 
 
-
 		foreach( $forest as $node ) {
 			//$node->setLabel( $node->getLabel().' ('.$node->getId().')' );
 
 			if( $node->getIsRoot() ) {
 				$node->setSelectOptionCssStyle( 'font-weight:bolder;font-size:15px;padding: 3px;' );
 			} else {
-				$padding = 20*$node->getDepth();
+				$padding = 20 * $node->getDepth();
 				$node->setSelectOptionCssStyle(
-					'padding-left: '.$padding.'px;padding-top:2px; padding-bottom:2px; font-size:12px;'
+					'padding-left: ' . $padding . 'px;padding-top:2px; padding-bottom:2px; font-size:12px;'
 				);
 			}
 
@@ -394,7 +393,7 @@ class Auth_Visitor_Role extends DataModel implements Auth_Role_Interface
 	protected static function _getPagesTree( Mvc_Page_Interface $page, &$data )
 	{
 
-		if($page->getIsSecret()) {
+		if( $page->getIsSecret() ) {
 			$data[$page->getKey()] = [
 				'id'        => $page->getKey(),
 				'parent_id' => $page->getParent()->getKey(),
@@ -409,13 +408,12 @@ class Auth_Visitor_Role extends DataModel implements Auth_Role_Interface
 	}
 
 
-
 	/**
 	 * @return Form
 	 */
 	public function getEditForm()
 	{
-		if(!$this->_form_edit) {
+		if( !$this->_form_edit ) {
 			$this->_form_edit = $this->_getForm();
 		}
 
@@ -436,7 +434,7 @@ class Auth_Visitor_Role extends DataModel implements Auth_Role_Interface
 	 */
 	public function getAddForm()
 	{
-		if(!$this->_form_add) {
+		if( !$this->_form_add ) {
 			$this->_form_add = $this->_getForm();
 		}
 

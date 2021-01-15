@@ -5,6 +5,7 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace Jet;
 
 use \ReflectionClass;
@@ -53,7 +54,7 @@ class DataModel_Definition_Model_Related extends DataModel_Definition_Model
 	/**
 	 *
 	 */
-	public function init() : void
+	public function init(): void
 	{
 		$this->_initParents();
 		$this->_initProperties();
@@ -63,7 +64,7 @@ class DataModel_Definition_Model_Related extends DataModel_Definition_Model
 
 		if( !$this->id_properties ) {
 			throw new DataModel_Exception(
-				'There are not any ID properties in DataModel \''.$this->getClassName().'\' definition',
+				'There are not any ID properties in DataModel \'' . $this->getClassName() . '\' definition',
 				DataModel_Exception::CODE_DEFINITION_NONSENSE
 			);
 		}
@@ -74,14 +75,14 @@ class DataModel_Definition_Model_Related extends DataModel_Definition_Model
 	/**
 	 * @throws DataModel_Exception
 	 */
-	protected function _initParents() : void
+	protected function _initParents(): void
 	{
 
-		$parent_model_class = $this->getClassArgument('parent_model_class');
+		$parent_model_class = $this->getClassArgument( 'parent_model_class' );
 
 		if( !$parent_model_class ) {
 			throw new DataModel_Exception(
-				$this->class_name.' #[DataModel_Definition(parent_model_class: SomeParent::class)] attribute is not defined ',
+				$this->class_name . ' #[DataModel_Definition(parent_model_class: SomeParent::class)] attribute is not defined ',
 				DataModel_Exception::CODE_DEFINITION_NONSENSE
 			);
 		}
@@ -90,7 +91,7 @@ class DataModel_Definition_Model_Related extends DataModel_Definition_Model
 
 		$main_model_class_name = $parent_model_class;
 
-		$getParent = function( $class_name ) : string|null {
+		$getParent = function( $class_name ): string|null {
 			$def = DataModel_Definition::get( $class_name );
 			if(
 				!$def ||
@@ -102,16 +103,16 @@ class DataModel_Definition_Model_Related extends DataModel_Definition_Model
 			return $def->getParentModelClassName();
 		};
 
-		while( ( $_parent = $getParent( $main_model_class_name ) ) ) {
+		while( ($_parent = $getParent( $main_model_class_name )) ) {
 
 			$main_model_class_name = $_parent;
 
 			$this->is_sub_related_model = true;
 		}
 
-		if( !is_subclass_of( $main_model_class_name, __NAMESPACE__.'\DataModel' ) ) {
+		if( !is_subclass_of( $main_model_class_name, __NAMESPACE__ . '\DataModel' ) ) {
 			throw new DataModel_Exception(
-				'Main parent class '.$main_model_class_name.' is not subclass of '.__NAMESPACE__.'\DataModel ',
+				'Main parent class ' . $main_model_class_name . ' is not subclass of ' . __NAMESPACE__ . '\DataModel ',
 				DataModel_Exception::CODE_DEFINITION_NONSENSE
 			);
 		}
@@ -124,7 +125,7 @@ class DataModel_Definition_Model_Related extends DataModel_Definition_Model
 	/**
 	 *
 	 */
-	protected function _initProperties() : void
+	protected function _initProperties(): void
 	{
 
 		parent::_initProperties();
@@ -133,15 +134,15 @@ class DataModel_Definition_Model_Related extends DataModel_Definition_Model
 		$parent_id_relation_defined = [];
 
 		foreach( $this->properties as $property ) {
-			if(!$property->getRelatedToClassName()) {
+			if( !$property->getRelatedToClassName() ) {
 				continue;
 			}
 
-			if($property->getRelatedToClassName()==$this->main_model_class_name) {
+			if( $property->getRelatedToClassName() == $this->main_model_class_name ) {
 				$main_id_relation_defined[] = $property->getRelatedToPropertyName();
 			}
 
-			if($property->getRelatedToClassName()==$this->parent_model_class) {
+			if( $property->getRelatedToClassName() == $this->parent_model_class ) {
 				$parent_id_relation_defined[] = $property->getRelatedToPropertyName();
 			}
 		}
@@ -154,7 +155,7 @@ class DataModel_Definition_Model_Related extends DataModel_Definition_Model
 
 			if( !in_array( $property_name, $main_id_relation_defined ) ) {
 				throw new DataModel_Exception(
-					'Class: \''.$this->class_name.'\'  Main model relation property is missing! Please declare property with this attribute: #[DataModel_Definition(related_to: \'main.'.$property_name.'\')] ',
+					'Class: \'' . $this->class_name . '\'  Main model relation property is missing! Please declare property with this attribute: #[DataModel_Definition(related_to: \'main.' . $property_name . '\')] ',
 					DataModel_Exception::CODE_DEFINITION_NONSENSE
 				);
 			}
@@ -174,7 +175,7 @@ class DataModel_Definition_Model_Related extends DataModel_Definition_Model
 
 				if( !in_array( $property_name, $parent_id_relation_defined ) ) {
 					throw new DataModel_Exception(
-						'Class: \''.$this->class_name.'\'  parent model relation property is missing! Please declare property with this attribute: #[DataModel_Definition(related_to:\'parent.'.$property_name.'\')]',
+						'Class: \'' . $this->class_name . '\'  parent model relation property is missing! Please declare property with this attribute: #[DataModel_Definition(related_to:\'parent.' . $property_name . '\')]',
 						DataModel_Exception::CODE_DEFINITION_NONSENSE
 					);
 				}
@@ -186,7 +187,7 @@ class DataModel_Definition_Model_Related extends DataModel_Definition_Model
 	/**
 	 *
 	 */
-	public function initRelations() : void
+	public function initRelations(): void
 	{
 		parent::initRelations();
 
@@ -196,11 +197,10 @@ class DataModel_Definition_Model_Related extends DataModel_Definition_Model
 
 
 		foreach( $this->properties as $property ) {
-			if($property->getRelatedToClassName()==$main_model_class_name) {
-				$main_to_this_join[ $property->getRelatedToPropertyName() ] = $property->getName();
+			if( $property->getRelatedToClassName() == $main_model_class_name ) {
+				$main_to_this_join[$property->getRelatedToPropertyName()] = $property->getName();
 			}
 		}
-
 
 
 		DataModel_Relations::add(
@@ -222,18 +222,18 @@ class DataModel_Definition_Model_Related extends DataModel_Definition_Model
 
 
 			foreach( $this->properties as $property ) {
-				if($property->getRelatedToClassName()==$parent_model_class) {
+				if( $property->getRelatedToClassName() == $parent_model_class ) {
 					$parent_to_this_join[$property->getRelatedToPropertyName()] = $property->getName();
 				}
 
-				if($property->getRelatedToClassName()==$main_model_class_name) {
+				if( $property->getRelatedToClassName() == $main_model_class_name ) {
 
 					foreach( $parent_model_definition->getProperties() as $parent_property ) {
 						if(
-							$parent_property->getRelatedToClassName()==$main_model_class_name &&
-							$parent_property->getRelatedToPropertyName()==$property->getRelatedToPropertyName()
+							$parent_property->getRelatedToClassName() == $main_model_class_name &&
+							$parent_property->getRelatedToPropertyName() == $property->getRelatedToPropertyName()
 						) {
-							$parent_to_this_join[ $parent_property->getName() ] = $property->getName();
+							$parent_to_this_join[$parent_property->getName()] = $property->getName();
 							break;
 						}
 					}
@@ -260,7 +260,7 @@ class DataModel_Definition_Model_Related extends DataModel_Definition_Model
 	 *
 	 * @return DataModel_Definition_Property[]
 	 */
-	public function getMainModelRelationIdProperties() : array
+	public function getMainModelRelationIdProperties(): array
 	{
 		$res = [];
 
@@ -275,7 +275,7 @@ class DataModel_Definition_Model_Related extends DataModel_Definition_Model
 	 *
 	 * @return DataModel_Definition_Property[]
 	 */
-	public function getParentModelRelationIdProperties() : array
+	public function getParentModelRelationIdProperties(): array
 	{
 		$res = [];
 
@@ -289,7 +289,7 @@ class DataModel_Definition_Model_Related extends DataModel_Definition_Model
 	/**
 	 * @return string
 	 */
-	public function getMainModelClassName() : string
+	public function getMainModelClassName(): string
 	{
 		return $this->main_model_class_name;
 	}
@@ -297,7 +297,7 @@ class DataModel_Definition_Model_Related extends DataModel_Definition_Model
 	/**
 	 * @return string
 	 */
-	public function getParentModelClassName() : string
+	public function getParentModelClassName(): string
 	{
 		return $this->parent_model_class;
 	}
@@ -306,15 +306,16 @@ class DataModel_Definition_Model_Related extends DataModel_Definition_Model
 	 *
 	 * @return DataModel_Definition_Model_Main
 	 */
-	public function getMainModelDefinition() : DataModel_Definition_Model_Main
+	public function getMainModelDefinition(): DataModel_Definition_Model_Main
 	{
 		return DataModel_Definition::get( $this->main_model_class_name );
 	}
+
 	/**
 	 *
 	 * @return DataModel_Definition_Model_Related_1to1|DataModel_Definition_Model_Related_1toN
 	 */
-	public function getParentModelDefinition() : DataModel_Definition_Model_Related_1to1|DataModel_Definition_Model_Related_1toN
+	public function getParentModelDefinition(): DataModel_Definition_Model_Related_1to1|DataModel_Definition_Model_Related_1toN
 	{
 		return DataModel_Definition::get( $this->parent_model_class );
 	}
@@ -323,7 +324,7 @@ class DataModel_Definition_Model_Related extends DataModel_Definition_Model
 	/**
 	 * @return array
 	 */
-	public function getDefaultOrderBy() : array
+	public function getDefaultOrderBy(): array
 	{
 		return $this->default_order_by;
 	}
@@ -331,7 +332,7 @@ class DataModel_Definition_Model_Related extends DataModel_Definition_Model
 	/**
 	 * @param array $default_order_by
 	 */
-	public function setDefaultOrderBy( array $default_order_by ) : void
+	public function setDefaultOrderBy( array $default_order_by ): void
 	{
 		$this->default_order_by = $default_order_by;
 	}
@@ -344,50 +345,53 @@ class DataModel_Definition_Model_Related extends DataModel_Definition_Model
 	 * @return DataModel_Definition_Property
 	 * @throws DataModel_Exception
 	 */
-	protected function _initRelationProperty( string $property_name, string $related_to, array $property_definition_data ) : DataModel_Definition_Property
+	protected function _initRelationProperty( string $property_name, string $related_to, array $property_definition_data ): DataModel_Definition_Property
 	{
 
 		$related_to = explode( '.', $related_to );
 
-		if( count( $related_to )!=2 ) {
+		if( count( $related_to ) != 2 ) {
 			throw new DataModel_Exception(
-				'Invalid #[DataModel_Definition(related_to)] definition format. Examples: #[DataModel_Definition(related_to:\'parent.id\')], #[DataModel_Definition(related_to:\'main.id\')], class:'.$this->class_name,
+				'Invalid #[DataModel_Definition(related_to)] definition format. Examples: #[DataModel_Definition(related_to:\'parent.id\')], #[DataModel_Definition(related_to:\'main.id\')], class:' . $this->class_name,
 				DataModel_Exception::CODE_DEFINITION_NONSENSE
 			);
 		}
 
-		[ $what, $related_to_property_name ] = $related_to;
+		[
+			$what,
+			$related_to_property_name
+		] = $related_to;
 
 		if(
 			(
-				$what!='parent' &&
-				$what!='main'
+				$what != 'parent' &&
+				$what != 'main'
 			) ||
 			!$related_to_property_name
 		) {
 			throw new DataModel_Exception(
-				'Invalid #[DataModel_Definition(related_to)] definition format. Examples: #[DataModel_Definition(related_to:\'parent.id\')], #[DataModel_Definition(related_to:\'main.id\')], class:'.$this->class_name,
+				'Invalid #[DataModel_Definition(related_to)] definition format. Examples: #[DataModel_Definition(related_to:\'parent.id\')], #[DataModel_Definition(related_to:\'main.id\')], class:' . $this->class_name,
 				DataModel_Exception::CODE_DEFINITION_NONSENSE
 			);
 		}
 
 
-		if( !$this->is_sub_related_model && $what=='parent' ) {
+		if( !$this->is_sub_related_model && $what == 'parent' ) {
 			throw new DataModel_Exception(
-				'Invalid #[DataModel_Definition(related_to: \'parent.'.$related_to_property_name.'\')] definition. Use: #[DataModel_Definition(related_to: \'main.'.$related_to_property_name.'\')]  ',
+				'Invalid #[DataModel_Definition(related_to: \'parent.' . $related_to_property_name . '\')] definition. Use: #[DataModel_Definition(related_to: \'main.' . $related_to_property_name . '\')]  ',
 				DataModel_Exception::CODE_DEFINITION_NONSENSE
 			);
 		}
 
-		$getRelatedPropertiesDefinitionData = function( string $class_name ) : array {
+		$getRelatedPropertiesDefinitionData = function( string $class_name ): array {
 
-			$reflection = new ReflectionClass($class_name);
+			$reflection = new ReflectionClass( $class_name );
 
 			$properties_definition_data = Attributes::getPropertiesDefinition( $reflection, 'Jet\DataModel_Definition' );
 
 			if( !$properties_definition_data ) {
 				throw new DataModel_Exception(
-					'DataModel \''.$this->class_name.'\' does not have any properties defined!',
+					'DataModel \'' . $this->class_name . '\' does not have any properties defined!',
 					DataModel_Exception::CODE_DEFINITION_NONSENSE
 				);
 			}
@@ -400,13 +404,13 @@ class DataModel_Definition_Model_Related extends DataModel_Definition_Model
 
 		$related_definition_data = [];
 
-		if( $what=='parent' ) {
+		if( $what == 'parent' ) {
 			$related_to_class_name = $this->parent_model_class;
 			$related_definition_data = $getRelatedPropertiesDefinitionData( $related_to_class_name );
 			$target_properties_array = &$this->parent_model_relation_id_properties;
 		}
 
-		if( $what=='main' ) {
+		if( $what == 'main' ) {
 			$related_to_class_name = $this->main_model_class_name;
 			$related_definition_data = $getRelatedPropertiesDefinitionData( $related_to_class_name );
 			$target_properties_array = &$this->main_model_relation_id_properties;
@@ -414,7 +418,7 @@ class DataModel_Definition_Model_Related extends DataModel_Definition_Model
 
 		if( !isset( $related_definition_data[$related_to_property_name] ) ) {
 			throw new DataModel_Exception(
-				'Unknown relation property \''.$related_to_class_name.'.'.$related_to_property_name.'\'',
+				'Unknown relation property \'' . $related_to_class_name . '.' . $related_to_property_name . '\'',
 				DataModel_Exception::CODE_DEFINITION_NONSENSE
 			);
 

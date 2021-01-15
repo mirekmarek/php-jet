@@ -53,7 +53,7 @@ abstract class Test_Abstract
 	/**
 	 * @return string
 	 */
-	public function getId() : string
+	public function getId(): string
 	{
 		return $this->id;
 	}
@@ -61,7 +61,7 @@ abstract class Test_Abstract
 	/**
 	 * @return bool
 	 */
-	public function isSelected() : bool
+	public function isSelected(): bool
 	{
 		return $this->is_selected;
 	}
@@ -69,7 +69,7 @@ abstract class Test_Abstract
 	/**
 	 * @param bool $is_selected
 	 */
-	public function setIsSelected( bool $is_selected ) : void
+	public function setIsSelected( bool $is_selected ): void
 	{
 		$this->is_selected = $is_selected;
 	}
@@ -77,7 +77,7 @@ abstract class Test_Abstract
 	/**
 	 * @return Client
 	 */
-	public function getClient() : Client
+	public function getClient(): Client
 	{
 		return $this->client;
 	}
@@ -85,7 +85,7 @@ abstract class Test_Abstract
 	/**
 	 * @return bool
 	 */
-	public function isEnabled() : bool
+	public function isEnabled(): bool
 	{
 		return true;
 	}
@@ -94,7 +94,7 @@ abstract class Test_Abstract
 	/**
 	 * @return string
 	 */
-	public function getTitle() : string
+	public function getTitle(): string
 	{
 		return Tr::_( $this->_getTitle() );
 	}
@@ -102,37 +102,37 @@ abstract class Test_Abstract
 	/**
 	 * @return string
 	 */
-	abstract protected function _getTitle() : string;
+	abstract protected function _getTitle(): string;
 
 	/**
 	 *
 	 */
-	abstract public function test() : void;
+	abstract public function test(): void;
 
 	/**
 	 *
 	 */
-	public function showResult() : void
+	public function showResult(): void
 	{
 		?>
-		<h3><?=Tr::_('Request')?></h3>
-		<h4><?=Tr::_('Header')?></h4>
-		<pre><?=$this->client->request()?></pre>
-		<?php if($this->client->requestBody()): ?>
-		<h4><?=Tr::_('Body')?></h4>
-		<pre><?=is_string($this->client->requestBody()) ? $this->client->requestBody(): print_r($this->client->requestBody(), true)?></pre>
-		<h4><?=Tr::_('Data')?></h4>
-		<pre><?=var_export( $this->client->requestData(), true )?></pre>
-		<?php endif; ?>
+		<h3><?= Tr::_( 'Request' ) ?></h3>
+		<h4><?= Tr::_( 'Header' ) ?></h4>
+		<pre><?= $this->client->request() ?></pre>
+		<?php if( $this->client->requestBody() ): ?>
+		<h4><?= Tr::_( 'Body' ) ?></h4>
+		<pre><?= is_string( $this->client->requestBody() ) ? $this->client->requestBody() : print_r( $this->client->requestBody(), true ) ?></pre>
+		<h4><?= Tr::_( 'Data' ) ?></h4>
+		<pre><?= var_export( $this->client->requestData(), true ) ?></pre>
+	<?php endif; ?>
 
 
-		<h3><?=Tr::_('Response')?></h3>
-		<h4><?=Tr::_('Header')?></h4>
-		<pre><?=$this->client->responseHeader()?></pre>
-		<h4><?=Tr::_('Body')?></h4>
-		<pre><?=$this->client->responseBody()?></pre>
-		<h4><?=Tr::_('Data')?></h4>
-		<pre><?=var_export($this->client->responseData(), true)?></pre>
+		<h3><?= Tr::_( 'Response' ) ?></h3>
+		<h4><?= Tr::_( 'Header' ) ?></h4>
+		<pre><?= $this->client->responseHeader() ?></pre>
+		<h4><?= Tr::_( 'Body' ) ?></h4>
+		<pre><?= $this->client->responseBody() ?></pre>
+		<h4><?= Tr::_( 'Data' ) ?></h4>
+		<pre><?= var_export( $this->client->responseData(), true ) ?></pre>
 		<?php
 	}
 }

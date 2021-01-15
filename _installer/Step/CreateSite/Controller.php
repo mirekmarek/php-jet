@@ -5,6 +5,7 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace JetApplication\Installer;
 
 use Exception;
@@ -40,13 +41,13 @@ class Installer_Step_CreateSite_Controller extends Installer_Step_Controller
 	 */
 	public static function sitesCreated()
 	{
-		return count( Mvc_Site::getAllSites() )==3;
+		return count( Mvc_Site::getAllSites() ) == 3;
 	}
 
 	/**
 	 *
 	 */
-	public function main() : void
+	public function main(): void
 	{
 
 		if( static::sitesCreated() ) {
@@ -61,10 +62,9 @@ class Installer_Step_CreateSite_Controller extends Installer_Step_Controller
 
 		$session = Installer::getSession();
 
-		if( !$session->getValueExists( 'sites' ) )
-		{
+		if( !$session->getValueExists( 'sites' ) ) {
 
-			$URL = $_SERVER['HTTP_HOST'].SysConf_URI::getBase();
+			$URL = $_SERVER['HTTP_HOST'] . SysConf_URI::getBase();
 
 			$web = Mvc_Factory::getSiteInstance();
 			$web->setName( 'Example Web' );
@@ -82,77 +82,80 @@ class Installer_Step_CreateSite_Controller extends Installer_Step_Controller
 			$ld->addDefaultMetaTag( $meta_tag );
 
 			foreach( Installer::getSelectedLocales() as $locale ) {
-				if( $locale->toString()==$default_locale->toString() ) {
+				if( $locale->toString() == $default_locale->toString() ) {
 					continue;
 				}
 				$ld = $web->addLocale( $locale );
 				$ld->setTitle( Tr::_( 'PHP Jet Example Web', [], null, $locale ) );
-				$ld->setURLs( [$URL.$locale->getLanguage()] );
+				$ld->setURLs( [$URL . $locale->getLanguage()] );
 				$ld->addDefaultMetaTag( $meta_tag );
 			}
 			$web->setIsDefault( true );
 			$web->setIsActive( true );
-			$web->setInitializer([ Application_Web::class,'init']);
-
-
-
+			$web->setInitializer( [
+				Application_Web::class,
+				'init'
+			] );
 
 
 			$admin = Mvc_Factory::getSiteInstance();
-			$admin->setIsSecret(true);
+			$admin->setIsSecret( true );
 			$admin->setName( 'Example Administration' );
 			$admin->setId( Application_Admin::getSiteId() );
 
 			$ld = $admin->addLocale( $default_locale );
 			$ld->setTitle( Tr::_( 'PHP Jet Example Administration', [], null, $default_locale ) );
-			$ld->setURLs( [$URL.'admin/'] );
+			$ld->setURLs( [$URL . 'admin/'] );
 
 			foreach( Installer::getSelectedLocales() as $locale ) {
-				if( $locale->toString()==$default_locale->toString() ) {
+				if( $locale->toString() == $default_locale->toString() ) {
 					continue;
 				}
 				$ld = $admin->addLocale( $locale );
 				$ld->setTitle( Tr::_( 'PHP Jet Example Administration', [], null, $locale ) );
-				$ld->setURLs( [$URL.'admin/'.$locale->getLanguage().'/'] );
+				$ld->setURLs( [$URL . 'admin/' . $locale->getLanguage() . '/'] );
 			}
 			$admin->setIsActive( true );
-			$admin->setInitializer([ Application_Admin::class, 'init' ]);
-
+			$admin->setInitializer( [
+				Application_Admin::class,
+				'init'
+			] );
 
 
 			$rest = Mvc_Factory::getSiteInstance();
-			$rest->setIsSecret(true);
+			$rest->setIsSecret( true );
 			$rest->setName( 'Example REST API' );
 			$rest->setId( Application_REST::getSiteId() );
 
 			$ld = $rest->addLocale( $default_locale );
 			$ld->setTitle( Tr::_( 'PHP Jet Example REST API', [], null, $default_locale ) );
-			$ld->setURLs( [$URL.'rest/'] );
+			$ld->setURLs( [$URL . 'rest/'] );
 
 			foreach( Installer::getSelectedLocales() as $locale ) {
-				if( $locale->toString()==$default_locale->toString() ) {
+				if( $locale->toString() == $default_locale->toString() ) {
 					continue;
 				}
 				$ld = $rest->addLocale( $locale );
 				$ld->setTitle( Tr::_( 'PHP Jet Example REST API', [], null, $locale ) );
-				$ld->setURLs( [$URL.'rest/'.$locale->getLanguage().'/'] );
+				$ld->setURLs( [$URL . 'rest/' . $locale->getLanguage() . '/'] );
 			}
 			$rest->setIsActive( true );
-			$rest->setInitializer([ Application_REST::class,'init']);
-
+			$rest->setInitializer( [
+				Application_REST::class,
+				'init'
+			] );
 
 
 			$sites = [
-				$web->getId()   => $web,
-			    $admin->getId() => $admin,
-			    $rest->getId()  => $rest
+				$web->getId() => $web,
+				$admin->getId() => $admin,
+				$rest->getId() => $rest
 			];
 
 
 			$session->setValue( 'sites', $sites );
 
-		}
-		else {
+		} else {
 			$sites = $session->getValue( 'sites' );
 		}
 
@@ -173,13 +176,22 @@ class Installer_Step_CreateSite_Controller extends Installer_Step_Controller
 				/**
 				 * @var Mvc_Site[] $sites
 				 */
-				$sites[Application_REST::getSiteId()]->setInitializer([ Application_REST::class, 'init']);
-				$sites[Application_REST::getSiteId()]->setIsSecret(true);
+				$sites[Application_REST::getSiteId()]->setInitializer( [
+					Application_REST::class,
+					'init'
+				] );
+				$sites[Application_REST::getSiteId()]->setIsSecret( true );
 
-				$sites[Application_Admin::getSiteId()]->setInitializer([ Application_Admin::class, 'init']);
-				$sites[Application_Admin::getSiteId()]->setIsSecret(true);
+				$sites[Application_Admin::getSiteId()]->setInitializer( [
+					Application_Admin::class,
+					'init'
+				] );
+				$sites[Application_Admin::getSiteId()]->setIsSecret( true );
 
-				$sites[Application_Web::getSiteId()]->setInitializer([ Application_Web::class, 'init']);
+				$sites[Application_Web::getSiteId()]->setInitializer( [
+					Application_Web::class,
+					'init'
+				] );
 
 				try {
 					foreach( $sites as $site ) {
@@ -187,9 +199,8 @@ class Installer_Step_CreateSite_Controller extends Installer_Step_Controller
 					}
 
 				} catch( Exception $e ) {
-					UI_messages::danger( Tr::_('Something went wrong: %error%', ['error'=>$e->getMessage()], Tr::COMMON_NAMESPACE) );
+					UI_messages::danger( Tr::_( 'Something went wrong: %error%', ['error' => $e->getMessage()], Tr::COMMON_NAMESPACE ) );
 				}
-
 
 
 				Http_Headers::movedPermanently( '?' );
@@ -201,13 +212,13 @@ class Installer_Step_CreateSite_Controller extends Installer_Step_Controller
 		//----------------------------------------------------------------------
 		$main_form_fields = [];
 
-		foreach( $sites as $site) {
+		foreach( $sites as $site ) {
 			foreach( $site->getLocales() as $locale ) {
 				$URL = $site->getLocalizedData( $locale )->getURLs()[0];
 
 				$URL = rtrim( $URL, '/' );
 
-				$URL_field = new Form_Field_Input( '/'.$site->getId().'/'.$locale.'/URL', 'URL ', $URL, true );
+				$URL_field = new Form_Field_Input( '/' . $site->getId() . '/' . $locale . '/URL', 'URL ', $URL, true );
 
 				$URL_field->setErrorMessages(
 					[
@@ -231,14 +242,14 @@ class Installer_Step_CreateSite_Controller extends Installer_Step_Controller
 			foreach( $sites as $site ) {
 
 				foreach( $site->getLocales() as $locale ) {
-					$URL = strtolower($main_form->getField('/'.$site->getId().'/'.$locale.'/URL')->getValue());
-					$URL = rtrim($URL, '/');
+					$URL = strtolower( $main_form->getField( '/' . $site->getId() . '/' . $locale . '/URL' )->getValue() );
+					$URL = rtrim( $URL, '/' );
 
-					$URL = str_replace('http://', '', $URL);
-					$URL = str_replace('https://', '', $URL);
-					$URL = str_replace('//', '', $URL);
+					$URL = str_replace( 'http://', '', $URL );
+					$URL = str_replace( 'https://', '', $URL );
+					$URL = str_replace( '//', '', $URL );
 
-					$site->getLocalizedData( $locale )->setURLs([$URL]);
+					$site->getLocalizedData( $locale )->setURLs( [$URL] );
 				}
 			}
 

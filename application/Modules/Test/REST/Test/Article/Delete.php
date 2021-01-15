@@ -19,15 +19,15 @@ class Test_Article_Delete extends Test_Abstract
 	/**
 	 * @return bool
 	 */
-	public function isEnabled() : bool
+	public function isEnabled(): bool
 	{
-		return count($this->data['articles'])>0;
+		return count( $this->data['articles'] ) > 0;
 	}
 
 	/**
 	 * @return string
 	 */
-	protected function _getTitle() : string
+	protected function _getTitle(): string
 	{
 		return 'Delete - valid';
 	}
@@ -35,11 +35,11 @@ class Test_Article_Delete extends Test_Abstract
 	/**
 	 *
 	 */
-	public function test() : void
+	public function test(): void
 	{
 		$id = $this->data['articles'][0]['id'];
 
-		$this->client->delete('article/'.$id);
+		$this->client->delete( 'article/' . $id );
 
 	}
 }

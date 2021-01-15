@@ -5,6 +5,7 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace Jet;
 
 require_once 'Dir/Exception.php';
@@ -25,9 +26,9 @@ class IO_Dir
 	/**
 	 * @return int
 	 */
-	public static function getMod() : int
+	public static function getMod(): int
 	{
-		if( static::$default_mod===null ) {
+		if( static::$default_mod === null ) {
 			static::$default_mod = SysConf_Jet::getIOModDir();
 		}
 
@@ -49,7 +50,7 @@ class IO_Dir
 	 *
 	 * @return bool
 	 */
-	public static function exists( string $dir_path ) : bool
+	public static function exists( string $dir_path ): bool
 	{
 		return is_dir( $dir_path );
 	}
@@ -60,9 +61,9 @@ class IO_Dir
 	 *
 	 * @return bool
 	 */
-	public static function isReadable( string $dir_path ) : bool
+	public static function isReadable( string $dir_path ): bool
 	{
-		return is_dir( $dir_path )&&is_readable( $dir_path );
+		return is_dir( $dir_path ) && is_readable( $dir_path );
 	}
 
 	/**
@@ -71,9 +72,9 @@ class IO_Dir
 	 *
 	 * @return bool
 	 */
-	public static function isWritable( string $dir_path ) : bool
+	public static function isWritable( string $dir_path ): bool
 	{
-		return is_dir( $dir_path )&&is_writable( $dir_path );
+		return is_dir( $dir_path ) && is_writable( $dir_path );
 	}
 
 	/**
@@ -81,11 +82,11 @@ class IO_Dir
 	 *
 	 * @param string $source_path
 	 * @param string $target_path
-	 * @param bool   $overwrite_if_exists (optional, default: true)
+	 * @param bool $overwrite_if_exists (optional, default: true)
 	 *
 	 * @throws IO_Dir_Exception
 	 */
-	public static function move( string $source_path, string $target_path, bool $overwrite_if_exists = true ) : void
+	public static function move( string $source_path, string $target_path, bool $overwrite_if_exists = true ): void
 	{
 		self::rename( $source_path, $target_path, $overwrite_if_exists );
 	}
@@ -95,11 +96,11 @@ class IO_Dir
 	 *
 	 * @param string $source_path
 	 * @param string $target_path
-	 * @param bool   $overwrite_if_exists (optional, default: true)
+	 * @param bool $overwrite_if_exists (optional, default: true)
 	 *
 	 * @throws IO_Dir_Exception
 	 */
-	public static function rename( string $source_path, string $target_path, bool $overwrite_if_exists = true ) : void
+	public static function rename( string $source_path, string $target_path, bool $overwrite_if_exists = true ): void
 	{
 		static::copy( $source_path, $target_path, $overwrite_if_exists );
 		static::remove( $source_path );
@@ -114,12 +115,12 @@ class IO_Dir
 	 *
 	 * @throws IO_Dir_Exception
 	 */
-	public static function copy( string $source_path, string $target_path, bool $overwrite_if_exists = true ) : void
+	public static function copy( string $source_path, string $target_path, bool $overwrite_if_exists = true ): void
 	{
 
 		if( !self::exists( $source_path ) ) {
 			throw new IO_Dir_Exception(
-				'Directory \''.$source_path.'\' not found', IO_Dir_Exception::CODE_COPY_FAILED
+				'Directory \'' . $source_path . '\' not found', IO_Dir_Exception::CODE_COPY_FAILED
 			);
 		}
 
@@ -128,31 +129,31 @@ class IO_Dir
 			!$overwrite_if_exists
 		) {
 			throw new IO_Dir_Exception(
-				'Target directory \''.$source_path.'\' already exists', IO_Dir_Exception::CODE_COPY_FAILED
+				'Target directory \'' . $source_path . '\' already exists', IO_Dir_Exception::CODE_COPY_FAILED
 			);
 		}
 
 		static::create( $target_path, $overwrite_if_exists );
 
 		$dh = opendir( $source_path );
-		if( $dh===false ) {
+		if( $dh === false ) {
 			$error = static::_getLastError();
 			throw new IO_Dir_Exception(
-				'Failed to open source directory \''.$source_path.'\'. Error message: '.$error['message'],
+				'Failed to open source directory \'' . $source_path . '\'. Error message: ' . $error['message'],
 				IO_Dir_Exception::CODE_OPEN_FAILED
 			);
 		}
 
-		while( ( $file = readdir( $dh ) )!==false ) {
+		while( ($file = readdir( $dh )) !== false ) {
 			if(
-				$file=='.' ||
-				$file=='..'
+				$file == '.' ||
+				$file == '..'
 			) {
 				continue;
 			}
 
-			$source = $source_path.'/'.$file;
-			$target = $target_path.'/'.$file;
+			$source = $source_path . '/' . $file;
+			$target = $target_path . '/' . $file;
 
 			if( is_file( $source ) ) {
 				IO_File::copy( $source, $target, $overwrite_if_exists );
@@ -171,7 +172,7 @@ class IO_Dir
 	 *
 	 * @throws IO_Dir_Exception
 	 */
-	public static function create( string $dir_path, bool $overwrite_if_exists = false ) : void
+	public static function create( string $dir_path, bool $overwrite_if_exists = false ): void
 	{
 
 		if( static::exists( $dir_path ) ) {
@@ -186,7 +187,7 @@ class IO_Dir
 			$dir_path,
 		];
 
-		while( ( $dir_path = dirname( $dir_path ) ) ) {
+		while( ($dir_path = dirname( $dir_path )) ) {
 			if( static::exists( $dir_path ) ) {
 				break;
 			}
@@ -201,7 +202,7 @@ class IO_Dir
 				$error = static::_getLastError();
 
 				throw new IO_Dir_Exception(
-					'Failed to create directory \''.$dir_path.'\'. Error message: '.$error['message'],
+					'Failed to create directory \'' . $dir_path . '\'. Error message: ' . $error['message'],
 					IO_Dir_Exception::CODE_CREATE_FAILED
 				);
 			}
@@ -217,29 +218,29 @@ class IO_Dir
 	 *
 	 * @throws IO_Dir_Exception
 	 */
-	public static function remove( string $dir_path ) : void
+	public static function remove( string $dir_path ): void
 	{
 
 		$e = null;
 		$dh = opendir( $dir_path );
 
-		if( $dh===false ) {
+		if( $dh === false ) {
 			$error = static::_getLastError();
 			throw new IO_Dir_Exception(
-				'Failed to open directory \''.$dir_path.'\'. Error message: '.$error['message'],
+				'Failed to open directory \'' . $dir_path . '\'. Error message: ' . $error['message'],
 				IO_Dir_Exception::CODE_REMOVE_FAILED
 			);
 		}
 
-		while( ( $file = readdir( $dh ) )!==false ) {
+		while( ($file = readdir( $dh )) !== false ) {
 			if(
-				$file=='.' ||
-				$file=='..'
+				$file == '.' ||
+				$file == '..'
 			) {
 				continue;
 			}
 
-			$fp = $dir_path.'/'.$file;
+			$fp = $dir_path . '/' . $file;
 			if( is_dir( $fp ) ) {
 				self::remove( $fp );
 			} elseif( is_file( $fp ) ) {
@@ -251,7 +252,7 @@ class IO_Dir
 		if( !rmdir( $dir_path ) ) {
 			$error = static::_getLastError();
 			throw new IO_Dir_Exception(
-				'Failed to remove directory \''.$dir_path.'\'. Error message: '.$error['message'],
+				'Failed to remove directory \'' . $dir_path . '\'. Error message: ' . $error['message'],
 				IO_Dir_Exception::CODE_REMOVE_FAILED
 			);
 		}
@@ -270,7 +271,7 @@ class IO_Dir
 	 * @return array
 	 * @throws IO_Dir_Exception
 	 */
-	public static function getFilesList( string $dir_path, string $mask = '*' ) : array
+	public static function getFilesList( string $dir_path, string $mask = '*' ): array
 	{
 		return static::getList( $dir_path, $mask, false );
 	}
@@ -293,37 +294,37 @@ class IO_Dir
 	public static function getList( string $dir_path,
 	                                string $mask = '*',
 	                                bool $get_dirs = true,
-	                                bool $get_files = true ) : array
+	                                bool $get_files = true ): array
 	{
 		$last_char = substr( $dir_path, -1 );
 
 		if(
-			$last_char!='/' &&
-			$last_char!='\\'
+			$last_char != '/' &&
+			$last_char != '\\'
 		) {
 			$dir_path .= DIRECTORY_SEPARATOR;
 		}
 
-		$pattern = $dir_path.$mask;
+		$pattern = $dir_path . $mask;
 
 		if(
 			$get_dirs &&
 			!$get_files
 		) {
-			$options = GLOB_ERR|GLOB_ONLYDIR;
+			$options = GLOB_ERR | GLOB_ONLYDIR;
 		} else {
 			$options = GLOB_ERR;
 		}
 
-		$options = $options|GLOB_BRACE;
+		$options = $options | GLOB_BRACE;
 
 		$files = glob( $pattern, $options );
 
-		if( $files===false ) {
+		if( $files === false ) {
 			$error = static::_getLastError();
 			if( $error ) {
 				throw new IO_Dir_Exception(
-					'Failed to open source directory \''.$dir_path.'\'. Error message: '.$error['message'],
+					'Failed to open source directory \'' . $dir_path . '\'. Error message: ' . $error['message'],
 					IO_Dir_Exception::CODE_OPEN_FAILED
 				);
 			} else {
@@ -337,8 +338,8 @@ class IO_Dir
 			$file_name = basename( $file_path );
 
 			if(
-				$file_name==='.' ||
-				$file_name==='..'
+				$file_name === '.' ||
+				$file_name === '..'
 			) {
 				continue;
 			}
@@ -378,7 +379,7 @@ class IO_Dir
 	 * @return array
 	 * @throws IO_Dir_Exception
 	 */
-	public static function getSubdirectoriesList( string $dir_path, string $mask = '*' ) : array
+	public static function getSubdirectoriesList( string $dir_path, string $mask = '*' ): array
 	{
 		return static::getList( $dir_path, $mask, true, false );
 	}
@@ -387,11 +388,11 @@ class IO_Dir
 	/**
 	 * @return array|null
 	 */
-	protected static function _getLastError() : array|null
+	protected static function _getLastError(): array|null
 	{
-		if( class_exists( __NAMESPACE__.'\\Debug_ErrorHandler', false ) ) {
+		if( class_exists( __NAMESPACE__ . '\\Debug_ErrorHandler', false ) ) {
 			$e = Debug_ErrorHandler::getLastError();
-			if(!$e) {
+			if( !$e ) {
 				return null;
 			}
 

@@ -5,6 +5,7 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace Jet;
 
 /**
@@ -37,7 +38,7 @@ class Data_Array extends BaseObject implements BaseObject_Interface_Serializable
 	 *
 	 * @return array
 	 */
-	public function getRawData() : array
+	public function getRawData(): array
 	{
 		return $this->data;
 	}
@@ -46,7 +47,7 @@ class Data_Array extends BaseObject implements BaseObject_Interface_Serializable
 	 *
 	 * @param array $data
 	 */
-	public function appendData( array $data ) : void
+	public function appendData( array $data ): void
 	{
 		$this->data = array_merge( $this->data, $data );
 	}
@@ -55,7 +56,7 @@ class Data_Array extends BaseObject implements BaseObject_Interface_Serializable
 	 *
 	 * @param array $data
 	 */
-	public function setData( array $data ) : void
+	public function setData( array $data ): void
 	{
 		$this->data = $data;
 	}
@@ -63,7 +64,7 @@ class Data_Array extends BaseObject implements BaseObject_Interface_Serializable
 	/**
 	 *
 	 */
-	public function clearData() : void
+	public function clearData(): void
 	{
 		$this->data = [];
 	}
@@ -74,7 +75,7 @@ class Data_Array extends BaseObject implements BaseObject_Interface_Serializable
 	 *
 	 * @return bool
 	 */
-	public function exists( string $key ) : bool
+	public function exists( string $key ): bool
 	{
 		if( !$key ) {
 			return false;
@@ -82,7 +83,7 @@ class Data_Array extends BaseObject implements BaseObject_Interface_Serializable
 
 		$target = &$this->data;
 
-		if( $key[0]===self::PATH_DELIMITER ) {
+		if( $key[0] === self::PATH_DELIMITER ) {
 			$path = explode( self::PATH_DELIMITER, trim( $key, self::PATH_DELIMITER ) );
 
 			if( !$path ) {
@@ -123,7 +124,7 @@ class Data_Array extends BaseObject implements BaseObject_Interface_Serializable
 	 * @param string $key
 	 * @param mixed $value
 	 */
-	public function set( string $key, mixed $value ) : void
+	public function set( string $key, mixed $value ): void
 	{
 
 		if( !$key ) {
@@ -134,7 +135,7 @@ class Data_Array extends BaseObject implements BaseObject_Interface_Serializable
 
 		$target = &$this->data;
 
-		if( $key[0]===self::PATH_DELIMITER ) {
+		if( $key[0] === self::PATH_DELIMITER ) {
 			$path = explode( self::PATH_DELIMITER, trim( $key, self::PATH_DELIMITER ) );
 
 
@@ -168,7 +169,7 @@ class Data_Array extends BaseObject implements BaseObject_Interface_Serializable
 	 *
 	 * @param string $key
 	 */
-	public function remove( string $key ) : void
+	public function remove( string $key ): void
 	{
 		if( !$key ) {
 			return;
@@ -176,7 +177,7 @@ class Data_Array extends BaseObject implements BaseObject_Interface_Serializable
 
 		$target = &$this->data;
 
-		if( $key[0]===self::PATH_DELIMITER ) {
+		if( $key[0] === self::PATH_DELIMITER ) {
 			$path = explode( self::PATH_DELIMITER, trim( $key, self::PATH_DELIMITER ) );
 
 			if( !$path ) {
@@ -217,7 +218,7 @@ class Data_Array extends BaseObject implements BaseObject_Interface_Serializable
 	 *
 	 * @return int
 	 */
-	public function getInt( string $key, int $default_value = 0 ) : int
+	public function getInt( string $key, int $default_value = 0 ): int
 	{
 		return (int)$this->getRaw( $key, $default_value );
 	}
@@ -229,7 +230,7 @@ class Data_Array extends BaseObject implements BaseObject_Interface_Serializable
 	 *
 	 * @return mixed
 	 */
-	public function getRaw( string $key, mixed $default_value = null ) : mixed
+	public function getRaw( string $key, mixed $default_value = null ): mixed
 	{
 		if( !$key ) {
 			return $default_value;
@@ -237,7 +238,7 @@ class Data_Array extends BaseObject implements BaseObject_Interface_Serializable
 
 		$target = &$this->data;
 
-		if( $key[0]===self::PATH_DELIMITER ) {
+		if( $key[0] === self::PATH_DELIMITER ) {
 			$path = explode( self::PATH_DELIMITER, trim( $key, self::PATH_DELIMITER ) );
 
 			if( !$path ) {
@@ -279,7 +280,7 @@ class Data_Array extends BaseObject implements BaseObject_Interface_Serializable
 	 *
 	 * @return float
 	 */
-	public function getFloat( string $key, float $default_value = 0.0 ) : float
+	public function getFloat( string $key, float $default_value = 0.0 ): float
 	{
 		return (float)$this->getRaw( $key, $default_value );
 	}
@@ -291,7 +292,7 @@ class Data_Array extends BaseObject implements BaseObject_Interface_Serializable
 	 *
 	 * @return bool
 	 */
-	public function getBool( string $key, bool $default_value = false ) : bool
+	public function getBool( string $key, bool $default_value = false ): bool
 	{
 		return (bool)$this->getRaw( $key, $default_value );
 	}
@@ -304,7 +305,7 @@ class Data_Array extends BaseObject implements BaseObject_Interface_Serializable
 	 *
 	 * @return string
 	 */
-	public function getString( string $key, string $default_value = '', array $valid_values = [] ) : string
+	public function getString( string $key, string $default_value = '', array $valid_values = [] ): string
 	{
 
 		$value = $this->getRaw( $key, $default_value );
@@ -328,11 +329,11 @@ class Data_Array extends BaseObject implements BaseObject_Interface_Serializable
 	 *
 	 * @return string
 	 */
-	public function export( array $comments = [] ) : string
+	public function export( array $comments = [] ): string
 	{
 		$result = static::_export( $this->data, 0, '', $comments );
 
-		$result .= ';'.PHP_EOL;
+		$result .= ';' . PHP_EOL;
 
 		return $result;
 	}
@@ -345,42 +346,42 @@ class Data_Array extends BaseObject implements BaseObject_Interface_Serializable
 	 *
 	 * @return string
 	 */
-	public static function _export( array $data, int $level=0, string $path='', array $comments=[] ) : string
+	public static function _export( array $data, int $level = 0, string $path = '', array $comments = [] ): string
 	{
 		$result = '';
-		$next_level = $level+1;
+		$next_level = $level + 1;
 
 		$indent = str_pad( '', $level, "\t" );
 
 
 		$comment = '';
 		if( isset( $comments[$path] ) ) {
-			$comment .= "\t".'/* '.$comments[$path].' */';
+			$comment .= "\t" . '/* ' . $comments[$path] . ' */';
 		}
 
 
-		$result .= '['.$comment.PHP_EOL;
+		$result .= '[' . $comment . PHP_EOL;
 
-		$my_root_path = $path.static::PATH_DELIMITER;
+		$my_root_path = $path . static::PATH_DELIMITER;
 
 		foreach( $data as $key => $value ) {
 
-			$my_path = $my_root_path.$key;
+			$my_path = $my_root_path . $key;
 
 			$comment = '';
 			if( isset( $comments[$my_path] ) ) {
-				$comment .= "\t".'/* '.$comments[$my_path].' */';
+				$comment .= "\t" . '/* ' . $comments[$my_path] . ' */';
 			}
 
 			if( is_int( $key ) ) {
-				$result .= $indent."\t";
+				$result .= $indent . "\t";
 
 			} else {
-				$result .= $indent."\t".'\''.str_replace( "'", "\\'", $key ).'\' => ';
+				$result .= $indent . "\t" . '\'' . str_replace( "'", "\\'", $key ) . '\' => ';
 			}
 
 			if( is_array( $value ) ) {
-				$result .= static::_export( $value, $next_level, $my_path, $comments ).'';
+				$result .= static::_export( $value, $next_level, $my_path, $comments ) . '';
 			} else if( is_object( $value ) ) {
 				$class_name = get_class( $value );
 
@@ -391,17 +392,17 @@ class Data_Array extends BaseObject implements BaseObject_Interface_Serializable
 				}
 
 
-				$result .= $class_name.'::__set_state( '.static::_export(
+				$result .= $class_name . '::__set_state( ' . static::_export(
 						$object_values, $next_level, $my_path, $comments
-					).' )';
+					) . ' )';
 			} else {
-				$result .= var_export( $value, true ).$comment;
+				$result .= var_export( $value, true ) . $comment;
 			}
 
-			$result .= ','.PHP_EOL;
+			$result .= ',' . PHP_EOL;
 
 		}
-		$result .= $indent.']';
+		$result .= $indent . ']';
 
 		return $result;
 
@@ -410,7 +411,7 @@ class Data_Array extends BaseObject implements BaseObject_Interface_Serializable
 	/**
 	 * @return string
 	 */
-	public function toJSON() : string
+	public function toJSON(): string
 	{
 		$data = $this->jsonSerialize();
 
@@ -420,7 +421,7 @@ class Data_Array extends BaseObject implements BaseObject_Interface_Serializable
 	/**
 	 *
 	 */
-	public function jsonSerialize() : array
+	public function jsonSerialize(): array
 	{
 		$data = $this->data;
 
@@ -432,7 +433,7 @@ class Data_Array extends BaseObject implements BaseObject_Interface_Serializable
 	 *
 	 * @return array
 	 */
-	protected function _jsonSerializeTraverse( array $data ) : array
+	protected function _jsonSerializeTraverse( array $data ): array
 	{
 		foreach( $data as $key => $val ) {
 

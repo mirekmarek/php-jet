@@ -5,6 +5,7 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace Jet;
 
 /**
@@ -49,7 +50,7 @@ class Form_Field_Select_Option extends BaseObject
 	/**
 	 * @return string
 	 */
-	public function getSelectOptionCssStyle() : string
+	public function getSelectOptionCssStyle(): string
 	{
 		return $this->style;
 	}
@@ -66,7 +67,7 @@ class Form_Field_Select_Option extends BaseObject
 	/**
 	 * @return string
 	 */
-	public function getSelectOptionCssClass() : string
+	public function getSelectOptionCssClass(): string
 	{
 		return $this->class;
 	}
@@ -74,7 +75,7 @@ class Form_Field_Select_Option extends BaseObject
 	/**
 	 * @return string
 	 */
-	public function __toString() : string
+	public function __toString(): string
 	{
 		return $this->option;
 	}

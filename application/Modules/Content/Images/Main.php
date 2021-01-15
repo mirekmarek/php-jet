@@ -5,6 +5,7 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace JetApplicationModule\Content\Images;
 
 use Jet\Application_Module;
@@ -24,5 +25,5 @@ class Main extends Application_Module
 	const ACTION_ADD_IMAGE = 'add_image';
 	const ACTION_UPDATE_IMAGE = 'update_image';
 	const ACTION_DELETE_IMAGE = 'delete_image';
-	
+
 }

@@ -5,24 +5,26 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace Jet;
 
-require_once SysConf_Path::getLibrary().'Jet/Cache.php';
-require_once SysConf_Path::getLibrary().'Jet/Cache/Files.php';
-require_once SysConf_Path::getLibrary().'Jet/Mvc/Cache.php';
-require_once SysConf_Path::getLibrary().'Jet/Mvc/Cache/Backend.php';
+require_once SysConf_Path::getLibrary() . 'Jet/Cache.php';
+require_once SysConf_Path::getLibrary() . 'Jet/Cache/Files.php';
+require_once SysConf_Path::getLibrary() . 'Jet/Mvc/Cache.php';
+require_once SysConf_Path::getLibrary() . 'Jet/Mvc/Cache/Backend.php';
 
 /**
  *
  */
-class Mvc_Cache_Backend_Files extends Cache_Files implements Mvc_Cache_Backend {
+class Mvc_Cache_Backend_Files extends Cache_Files implements Mvc_Cache_Backend
+{
 
 	const KEY_PREFIX = 'mvc_';
 
 	/**
 	 * @return bool
 	 */
-	public function isActive() : bool
+	public function isActive(): bool
 	{
 		return SysConf_Jet::isCacheMvcEnabled();
 	}
@@ -41,7 +43,7 @@ class Mvc_Cache_Backend_Files extends Cache_Files implements Mvc_Cache_Backend {
 	 */
 	public function loadSiteMaps(): array|null
 	{
-		return $this->readData( static::KEY_PREFIX.'site_maps');
+		return $this->readData( static::KEY_PREFIX . 'site_maps' );
 	}
 
 	/**
@@ -49,7 +51,7 @@ class Mvc_Cache_Backend_Files extends Cache_Files implements Mvc_Cache_Backend {
 	 */
 	public function saveSiteMaps( array $map ): void
 	{
-		$this->writeData( static::KEY_PREFIX.'site_maps', $map );
+		$this->writeData( static::KEY_PREFIX . 'site_maps', $map );
 	}
 
 
@@ -58,7 +60,7 @@ class Mvc_Cache_Backend_Files extends Cache_Files implements Mvc_Cache_Backend {
 	 */
 	public function loadSitesFilesMap(): array|null
 	{
-		return $this->readData( static::KEY_PREFIX.'sites_files_map');
+		return $this->readData( static::KEY_PREFIX . 'sites_files_map' );
 	}
 
 	/**
@@ -66,7 +68,7 @@ class Mvc_Cache_Backend_Files extends Cache_Files implements Mvc_Cache_Backend {
 	 */
 	public function saveSitesFilesMap( array $map ): void
 	{
-		$this->writeData( static::KEY_PREFIX.'sites_files_map', $map );
+		$this->writeData( static::KEY_PREFIX . 'sites_files_map', $map );
 	}
 
 	/**
@@ -77,7 +79,7 @@ class Mvc_Cache_Backend_Files extends Cache_Files implements Mvc_Cache_Backend {
 	 */
 	public function loadPageMaps( Mvc_Site_Interface $site, Locale $locale ): array|null
 	{
-		return $this->readData( static::KEY_PREFIX.'pages_map_'.$site->getId().'_'.$locale);
+		return $this->readData( static::KEY_PREFIX . 'pages_map_' . $site->getId() . '_' . $locale );
 	}
 
 	/**
@@ -86,9 +88,9 @@ class Mvc_Cache_Backend_Files extends Cache_Files implements Mvc_Cache_Backend {
 	 *
 	 * @param array $map
 	 */
-	public function savePageMaps(  Mvc_Site_Interface $site, Locale $locale, array $map ): void
+	public function savePageMaps( Mvc_Site_Interface $site, Locale $locale, array $map ): void
 	{
-		$this->writeData( static::KEY_PREFIX.'pages_map_'.$site->getId().'_'.$locale, $map );
+		$this->writeData( static::KEY_PREFIX . 'pages_map_' . $site->getId() . '_' . $locale, $map );
 	}
 
 	/**
@@ -96,7 +98,7 @@ class Mvc_Cache_Backend_Files extends Cache_Files implements Mvc_Cache_Backend {
 	 *
 	 * @return string
 	 */
-	protected function getContentKey( Mvc_Page_Content_Interface $content ) : string
+	protected function getContentKey( Mvc_Page_Content_Interface $content ): string
 	{
 		$page = $content->getPage();
 		$site_id = $page->getSiteId();
@@ -110,7 +112,7 @@ class Mvc_Cache_Backend_Files extends Cache_Files implements Mvc_Cache_Backend {
 		$position = $content->getOutputPosition();
 		$position_order = $content->getOutputPositionOrder();
 
-		return static::KEY_PREFIX.$site_id.'_'.$locale.'_'.$page_id.'_'.md5($module.$controller.$action.$position.$position_order);
+		return static::KEY_PREFIX . $site_id . '_' . $locale . '_' . $page_id . '_' . md5( $module . $controller . $action . $position . $position_order );
 	}
 
 	/**
@@ -118,7 +120,7 @@ class Mvc_Cache_Backend_Files extends Cache_Files implements Mvc_Cache_Backend {
 	 *
 	 * @return string|null
 	 */
-	public function loadContentOutput( Mvc_Page_Content_Interface $content ) : string|null
+	public function loadContentOutput( Mvc_Page_Content_Interface $content ): string|null
 	{
 		$key = $this->getContentKey( $content );
 
@@ -130,7 +132,7 @@ class Mvc_Cache_Backend_Files extends Cache_Files implements Mvc_Cache_Backend {
 	 * @param string $output
 	 *
 	 */
-	public function saveContentOutput( Mvc_Page_Content_Interface $content, string $output ) : void
+	public function saveContentOutput( Mvc_Page_Content_Interface $content, string $output ): void
 	{
 		$key = $this->getContentKey( $content );
 

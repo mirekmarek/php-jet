@@ -5,6 +5,7 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace Jet;
 
 /**
@@ -141,7 +142,7 @@ class Http_Headers
 	/**
 	 * @return string
 	 */
-	public static function getHeaderFunctionName() : string
+	public static function getHeaderFunctionName(): string
 	{
 		return static::$header_function_name;
 	}
@@ -149,7 +150,7 @@ class Http_Headers
 	/**
 	 * @param string $header_function_name
 	 */
-	public static function setHeaderFunctionName( string $header_function_name ) : void
+	public static function setHeaderFunctionName( string $header_function_name ): void
 	{
 		static::$header_function_name = $header_function_name;
 	}
@@ -157,7 +158,7 @@ class Http_Headers
 	/**
 	 * @return string
 	 */
-	public static function getHttpVersion() : string
+	public static function getHttpVersion(): string
 	{
 		return static::$http_version;
 	}
@@ -165,7 +166,7 @@ class Http_Headers
 	/**
 	 * @param string $http_version
 	 */
-	public static function setHttpVersion( string $http_version ) : void
+	public static function setHttpVersion( string $http_version ): void
 	{
 		static::$http_version = $http_version;
 	}
@@ -174,7 +175,7 @@ class Http_Headers
 	 *
 	 * @return array
 	 */
-	public static function getResponseCodes() : array
+	public static function getResponseCodes(): array
 	{
 		return static::$response_messages;
 	}
@@ -183,19 +184,19 @@ class Http_Headers
 	 *
 	 * @param array $headers (optional)
 	 */
-	public static function responseOK( array $headers = [] ) : void
+	public static function responseOK( array $headers = [] ): void
 	{
 		static::response( static::CODE_200_OK, $headers );
 	}
 
 	/**
 	 *
-	 * @param int   $code
+	 * @param int $code
 	 * @param array $headers (optional)
 	 *
 	 * @return bool
 	 */
-	public static function response( int $code, array $headers = [] ) : bool
+	public static function response( int $code, array $headers = [] ): bool
 	{
 
 
@@ -216,7 +217,7 @@ class Http_Headers
 					$value = implode( '; ', $value );
 				}
 
-				static::sendHeader( $header.': '.$value );
+				static::sendHeader( $header . ': ' . $value );
 			}
 
 		}
@@ -230,14 +231,14 @@ class Http_Headers
 	 *
 	 * @return string|bool
 	 */
-	public static function getResponseHeader( int $http_code ) : string|bool
+	public static function getResponseHeader( int $http_code ): string|bool
 	{
 		$message = static::getResponseMessage( $http_code );
 		if( !$message ) {
 			return false;
 		}
 
-		return 'HTTP/'.static::$http_version.' '.$http_code.' '.$message;
+		return 'HTTP/' . static::$http_version . ' ' . $http_code . ' ' . $message;
 	}
 
 	/**
@@ -247,7 +248,7 @@ class Http_Headers
 	 *
 	 * @return string|bool
 	 */
-	public static function getResponseMessage( int $http_code ) : string|bool
+	public static function getResponseMessage( int $http_code ): string|bool
 	{
 		if( !isset( static::$response_messages[$http_code] ) ) {
 			return false;
@@ -261,11 +262,11 @@ class Http_Headers
 	 * CLI Unit test support
 	 *
 	 * @param string $header
-	 * @param bool   $replace
-	 * @param int    $http_response_code
+	 * @param bool $replace
+	 * @param int $http_response_code
 	 *
 	 */
-	public static function sendHeader( string $header, bool $replace = true, int $http_response_code = 0 ) : void
+	public static function sendHeader( string $header, bool $replace = true, int $http_response_code = 0 ): void
 	{
 		$f_name = static::$header_function_name;
 
@@ -273,12 +274,12 @@ class Http_Headers
 	}
 
 	/**
-	 * @param int    $http_code
+	 * @param int $http_code
 	 * @param string $target_URL
-	 * @param array  $headers
-	 * @param bool   $application_end
+	 * @param array $headers
+	 * @param bool $application_end
 	 */
-	public static function redirect( int $http_code, string $target_URL, array $headers = [], bool $application_end = true ) : void
+	public static function redirect( int $http_code, string $target_URL, array $headers = [], bool $application_end = true ): void
 	{
 		$headers['Location'] = $target_URL;
 		static::response(
@@ -295,10 +296,10 @@ class Http_Headers
 	/**
 	 *
 	 * @param string $target_URL target URL
-	 * @param array  $headers (optional, default: none)
-	 * @param bool   $application_end (optional, default: true)
+	 * @param array $headers (optional, default: none)
+	 * @param bool $application_end (optional, default: true)
 	 */
-	public static function movedPermanently( string $target_URL, array $headers = [], bool $application_end = true ) : void
+	public static function movedPermanently( string $target_URL, array $headers = [], bool $application_end = true ): void
 	{
 		static::redirect(
 			static::CODE_301_MOVED_PERMANENTLY,
@@ -312,10 +313,10 @@ class Http_Headers
 	 * Temporary redirection - 302
 	 *
 	 * @param string $target_URL target URL
-	 * @param array  $headers (optional, default: none)
-	 * @param bool   $application_end (optional, default: true)
+	 * @param array $headers (optional, default: none)
+	 * @param bool $application_end (optional, default: true)
 	 */
-	public static function movedTemporary( string $target_URL, array $headers = [], bool $application_end = true ) : void
+	public static function movedTemporary( string $target_URL, array $headers = [], bool $application_end = true ): void
 	{
 		static::redirect(
 			static::CODE_302_MOVED_TEMPORARY,
@@ -330,10 +331,10 @@ class Http_Headers
 	 * See other - 303
 	 *
 	 * @param string $target_URL target URL
-	 * @param array  $headers (optional, default: none)
-	 * @param bool   $application_end (optional, default: true)
+	 * @param array $headers (optional, default: none)
+	 * @param bool $application_end (optional, default: true)
 	 */
-	public static function seeOther( string $target_URL, array $headers = [], bool $application_end = true ) : void
+	public static function seeOther( string $target_URL, array $headers = [], bool $application_end = true ): void
 	{
 		static::redirect(
 			static::CODE_303_SEE_OTHER,
@@ -349,7 +350,7 @@ class Http_Headers
 	 *
 	 * @param array $headers (optional, default: none)
 	 */
-	public static function notFound( array $headers = [] ) : void
+	public static function notFound( array $headers = [] ): void
 	{
 		static::response( static::CODE_404_NOT_FOUND, $headers );
 	}
@@ -359,7 +360,7 @@ class Http_Headers
 	 *
 	 * @param array $headers (optional, default: none)
 	 */
-	public static function notModified( array $headers = [] ) : void
+	public static function notModified( array $headers = [] ): void
 	{
 		static::response( static::CODE_304_NOT_MODIFIED, $headers );
 	}
@@ -370,7 +371,7 @@ class Http_Headers
 	 *
 	 * @param array $headers (optional, default: none)
 	 */
-	public static function authorizationRequired( array $headers = [] ) : void
+	public static function authorizationRequired( array $headers = [] ): void
 	{
 		static::response( static::CODE_401_UNAUTHORIZED, $headers );
 	}
@@ -380,7 +381,7 @@ class Http_Headers
 	 *
 	 * @param array $headers (optional, default: none)
 	 */
-	public static function badRequest( array $headers = [] ) : void
+	public static function badRequest( array $headers = [] ): void
 	{
 		static::response( static::CODE_400_BAD_REQUEST, $headers );
 	}
@@ -390,7 +391,7 @@ class Http_Headers
 	 *
 	 * @param array $headers (optional, default: none)
 	 */
-	public static function forbidden( array $headers = [] ) : void
+	public static function forbidden( array $headers = [] ): void
 	{
 		static::response( static::CODE_403_FORBIDDEN, $headers );
 	}
@@ -400,7 +401,7 @@ class Http_Headers
 	 *
 	 * @param array $headers (optional)
 	 */
-	public static function internalServerError( array $headers = [] ) : void
+	public static function internalServerError( array $headers = [] ): void
 	{
 		static::response( static::CODE_500_INTERNAL_SERVER_ERROR, $headers );
 	}
@@ -409,16 +410,16 @@ class Http_Headers
 	/**
 	 * Reload current page
 	 *
-	 * @param array       $set_GET_params (optional)
-	 * @param array       $unset_GET_params (optional)
+	 * @param array $set_GET_params (optional)
+	 * @param array $unset_GET_params (optional)
 	 * @param null|string $set_anchor (optional, default: do not change current state)
 	 *
-	 * @param bool        $application_end (optional, default: true)
+	 * @param bool $application_end (optional, default: true)
 	 */
-	public static function reload( array $set_GET_params = [], array $unset_GET_params = [], ?string $set_anchor = null, bool $application_end = true ) : void
+	public static function reload( array $set_GET_params = [], array $unset_GET_params = [], ?string $set_anchor = null, bool $application_end = true ): void
 	{
 		static::sendHeader(
-			'Location: '.Http_Request::currentURI( $set_GET_params, $unset_GET_params, $set_anchor )
+			'Location: ' . Http_Request::currentURI( $set_GET_params, $unset_GET_params, $set_anchor )
 		);
 		if( $application_end ) {
 			Application::end();
@@ -434,7 +435,7 @@ class Http_Headers
 	 * @param int $file_size
 	 * @param bool $force_download (optional, force download header, default: false)
 	 */
-	public static function sendDownloadFileHeaders( string $file_name, string $file_mime, int $file_size, bool $force_download = false ) : void
+	public static function sendDownloadFileHeaders( string $file_name, string $file_mime, int $file_size, bool $force_download = false ): void
 	{
 
 		$date = gmdate( 'D, d M Y H:i:s' );
@@ -444,22 +445,22 @@ class Http_Headers
 			static::sendHeader( 'Cache-Control: public, must-revalidate, max-age=0' );
 			static::sendHeader( 'Pragma: public' );
 			static::sendHeader( 'Expires: Sat, 26 Jul 1997 05:00:00 GMT' );
-			static::sendHeader( 'Last-Modified: '.$date.' GMT' );
+			static::sendHeader( 'Last-Modified: ' . $date . ' GMT' );
 			static::sendHeader( 'Content-Type: application/force-download' );
 			static::sendHeader( 'Content-Type: application/octet-stream' );
 			static::sendHeader( 'Content-Type: application/download' );
-			static::sendHeader( 'Content-Type: '.$file_mime );
-			static::sendHeader( 'Content-Disposition: attachment; filename="'.$file_name.'";' );
+			static::sendHeader( 'Content-Type: ' . $file_mime );
+			static::sendHeader( 'Content-Disposition: attachment; filename="' . $file_name . '";' );
 			static::sendHeader( 'Content-Transfer-Encoding: binary' );
-			static::sendHeader( 'Content-Length: '.$file_size );
+			static::sendHeader( 'Content-Length: ' . $file_size );
 		} else {
-			static::sendHeader( 'Content-Type: '.$file_mime );
+			static::sendHeader( 'Content-Type: ' . $file_mime );
 			static::sendHeader( 'Cache-Control: public, must-revalidate, max-age=0' );
 			static::sendHeader( 'Pragma: public' );
 			static::sendHeader( 'Expires: Sat, 26 Jul 1997 05:00:00 GMT' );
-			static::sendHeader( 'Last-Modified: '.$date.' GMT' );
-			static::sendHeader( 'Content-Length: '.$file_size );
-			static::sendHeader( 'Content-Disposition: inline; filename="'.$file_name.'";' );
+			static::sendHeader( 'Last-Modified: ' . $date . ' GMT' );
+			static::sendHeader( 'Content-Length: ' . $file_size );
+			static::sendHeader( 'Content-Disposition: inline; filename="' . $file_name . '";' );
 		}
 	}
 

@@ -5,6 +5,7 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace JetStudio;
 
 use Jet\BaseObject;
@@ -42,7 +43,6 @@ class ClassCreator_Class_Property extends BaseObject
 	protected mixed $default_value = null;
 
 
-
 	/**
 	 * @var ClassCreator_Attribute[]
 	 */
@@ -64,7 +64,7 @@ class ClassCreator_Class_Property extends BaseObject
 	/**
 	 * @return string
 	 */
-	public function getVisibility() : string
+	public function getVisibility(): string
 	{
 		return $this->visibility;
 	}
@@ -72,7 +72,7 @@ class ClassCreator_Class_Property extends BaseObject
 	/**
 	 * @param string $visibility
 	 */
-	public function setVisibility(string $visibility) : void
+	public function setVisibility( string $visibility ): void
 	{
 		$this->visibility = $visibility;
 	}
@@ -80,7 +80,7 @@ class ClassCreator_Class_Property extends BaseObject
 	/**
 	 * @return string
 	 */
-	public function getName() : string
+	public function getName(): string
 	{
 		return $this->name;
 	}
@@ -88,7 +88,7 @@ class ClassCreator_Class_Property extends BaseObject
 	/**
 	 * @param string $name
 	 */
-	public function setName( string $name ) : void
+	public function setName( string $name ): void
 	{
 		$this->name = $name;
 	}
@@ -96,7 +96,7 @@ class ClassCreator_Class_Property extends BaseObject
 	/**
 	 * @return string
 	 */
-	public function getType() : string
+	public function getType(): string
 	{
 		return $this->type;
 	}
@@ -104,7 +104,7 @@ class ClassCreator_Class_Property extends BaseObject
 	/**
 	 * @param string $type
 	 */
-	public function setType( string $type ) : void
+	public function setType( string $type ): void
 	{
 		$this->type = $type;
 	}
@@ -112,7 +112,7 @@ class ClassCreator_Class_Property extends BaseObject
 	/**
 	 * @return mixed
 	 */
-	public function getDefaultValue() : mixed
+	public function getDefaultValue(): mixed
 	{
 		return $this->default_value;
 	}
@@ -120,7 +120,7 @@ class ClassCreator_Class_Property extends BaseObject
 	/**
 	 * @param mixed $default_value
 	 */
-	public function setDefaultValue( mixed $default_value ) : void
+	public function setDefaultValue( mixed $default_value ): void
 	{
 		$this->default_value = $default_value;
 	}
@@ -131,9 +131,9 @@ class ClassCreator_Class_Property extends BaseObject
 	 * @param string $argument
 	 * @param mixed $argument_value
 	 */
-	public function setAttribute( string $name, string $argument, mixed $argument_value ) : void
+	public function setAttribute( string $name, string $argument, mixed $argument_value ): void
 	{
-		if(!isset($this->attributes[$name])) {
+		if( !isset( $this->attributes[$name] ) ) {
 			$this->attributes[$name] = new ClassCreator_Attribute( $name );
 		}
 
@@ -143,7 +143,7 @@ class ClassCreator_Class_Property extends BaseObject
 	/**
 	 * @return string
 	 */
-	public function toString() : string
+	public function toString(): string
 	{
 		$res = '';
 
@@ -153,47 +153,47 @@ class ClassCreator_Class_Property extends BaseObject
 		$type = $this->type;
 		$declared_type = $this->declared_type;
 
-		if($this->default_value===null) {
-			if(str_contains($type, '|')) {
+		if( $this->default_value === null ) {
+			if( str_contains( $type, '|' ) ) {
 				$type .= '|null';
 
 			} else {
-				$type = '?'.$type;
+				$type = '?' . $type;
 			}
-			if($declared_type) {
-				if(str_contains($declared_type,'|')) {
+			if( $declared_type ) {
+				if( str_contains( $declared_type, '|' ) ) {
 					$declared_type .= '|null';
 				} else {
-					$declared_type = '?'.$declared_type;
+					$declared_type = '?' . $declared_type;
 				}
 			}
 		}
 
-		if($declared_type) {
-			$declared_type = ' '.$declared_type;
+		if( $declared_type ) {
+			$declared_type = ' ' . $declared_type;
 		}
 
-		$res .= $ident.'/**'.$nl;
-		$res .= $ident.' * @var '.$type.$nl;
-		$res .= $ident.' */ '.$nl;
+		$res .= $ident . '/**' . $nl;
+		$res .= $ident . ' * @var ' . $type . $nl;
+		$res .= $ident . ' */ ' . $nl;
 
-		foreach($this->attributes as $attribute) {
-			$res .= $attribute->toString(1);
+		foreach( $this->attributes as $attribute ) {
+			$res .= $attribute->toString( 1 );
 		}
 
-		if($this->default_value!==null) {
-			if(is_array($this->default_value)) {
-				if(count($this->default_value)>0) {
-					$res .= $ident.$this->visibility.$declared_type.' $'.$this->name.' = '.Data_Array::_export( $this->default_value, 1 ).';';
+		if( $this->default_value !== null ) {
+			if( is_array( $this->default_value ) ) {
+				if( count( $this->default_value ) > 0 ) {
+					$res .= $ident . $this->visibility . $declared_type . ' $' . $this->name . ' = ' . Data_Array::_export( $this->default_value, 1 ) . ';';
 				} else {
-					$res .= $ident.$this->visibility.$declared_type.' $'.$this->name.' = [];';
+					$res .= $ident . $this->visibility . $declared_type . ' $' . $this->name . ' = [];';
 				}
 			} else {
-				$res .= $ident.$this->visibility.$declared_type.' $'.$this->name.' = '.var_export( $this->default_value, true).';';
+				$res .= $ident . $this->visibility . $declared_type . ' $' . $this->name . ' = ' . var_export( $this->default_value, true ) . ';';
 			}
 
 		} else {
-			$res .= $ident.$this->visibility.$declared_type.' $'.$this->name.' = null;';
+			$res .= $ident . $this->visibility . $declared_type . ' $' . $this->name . ' = null;';
 		}
 
 		return $res;
@@ -202,7 +202,7 @@ class ClassCreator_Class_Property extends BaseObject
 	/**
 	 * @return string
 	 */
-	public function __toString() : string
+	public function __toString(): string
 	{
 		return $this->toString();
 	}

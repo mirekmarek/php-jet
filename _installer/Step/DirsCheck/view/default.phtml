@@ -1,4 +1,5 @@
 <?php
+
 namespace JetApplication\Installer;
 
 use Jet\Mvc_View;
@@ -26,19 +27,19 @@ use Jet\Tr;
 					$icon = UI::icon( 'meh' );
 					$css_class = 'warning';
 
-					$comment = '<br/><br/>'.Tr::_( $dir_data['comment'] );
+					$comment = '<br/><br/>' . Tr::_( $dir_data['comment'] );
 				}
 			}
 			?>
-			<tr class="<?=$css_class;?>">
-				<td><?=$icon?></td>
-				<td><?=htmlspecialchars( $dir );?><?=$comment;?></td>
+			<tr class="<?= $css_class; ?>">
+				<td><?= $icon ?></td>
+				<td><?= htmlspecialchars( $dir ); ?><?= $comment; ?></td>
 			</tr>
 		<?php endforeach; ?>
 		</tbody>
 	</table>
 
 	<br/>
-<?php if( $this->getBool( 'is_OK' ) ):
+	<?php if( $this->getBool( 'is_OK' ) ):
 	echo Installer::continueForm();
 endif; ?>

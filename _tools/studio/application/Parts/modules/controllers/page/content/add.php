@@ -1,4 +1,5 @@
 <?php
+
 namespace JetStudio;
 
 use Jet\UI_messages;
@@ -14,17 +15,17 @@ if(
 ) {
 	die();
 }
-Application::setCurrentPart('pages');
+Application::setCurrentPart( 'pages' );
 
 $ok = false;
 $data = [];
 $snippets = [];
 
 $view = Application::getView();
-$view->setVar( 'page', $page);
+$view->setVar( 'page', $page );
 
 if(
-	($new_content=$page->catchContentCreateForm())
+($new_content = $page->catchContentCreateForm())
 ) {
 	$form = $page->getContentCreateForm();
 
@@ -37,20 +38,20 @@ if(
 
 		$form->setCommonMessage(
 			UI_messages::createSuccess(
-				Tr::_('New content has been created')
+				Tr::_( 'New content has been created' )
 			)
 		);
 
 		$data = [];
 
-		$snippets['content_list_area'] = $view->render('page/content/edit/form/list');
+		$snippets['content_list_area'] = $view->render( 'page/content/edit/form/list' );
 	} else {
-		$form->setCommonMessage( implode('', UI_messages::get()) );
+		$form->setCommonMessage( implode( '', UI_messages::get() ) );
 	}
 }
 Modules::setupPageForms();
 
-$snippets['content_create_form_area'] = $view->render('page/content/create/form');
+$snippets['content_create_form_area'] = $view->render( 'page/content/create/form' );
 
 AJAX::formResponse(
 	$ok,

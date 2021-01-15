@@ -5,6 +5,7 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace JetApplicationModule\Content\Images;
 
 use Jet\Mvc_Controller_Default;
@@ -21,14 +22,15 @@ class Controller_Web extends Mvc_Controller_Default
 	 * @var ?Gallery
 	 */
 	protected ?Gallery $gallery = null;
+
 	/**
 	 *
 	 */
-	public function default_Action() : void
+	public function default_Action(): void
 	{
 		$gallery = $this->gallery;
 
-		if(!$gallery) {
+		if( !$gallery ) {
 			$this->view->setVar( 'galleries', Gallery::getRootGalleries() );
 
 			$this->output( 'web/default' );
@@ -50,13 +52,13 @@ class Controller_Web extends Mvc_Controller_Default
 	 *
 	 * @return bool|string
 	 */
-	public function resolve() : bool|string
+	public function resolve(): bool|string
 	{
 		$path = Mvc::getRouter()->getPath();
 
-		if($path) {
+		if( $path ) {
 			$gallery = Gallery::resolveGalleryByURL( $path, Mvc::getCurrentLocale() );
-			if(!$gallery) {
+			if( !$gallery ) {
 				return false;
 			}
 

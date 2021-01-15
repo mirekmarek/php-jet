@@ -5,6 +5,7 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace Jet;
 
 /**
@@ -27,7 +28,7 @@ class DataModel_Definition_Property_DataModel extends DataModel_Definition_Prope
 	 *
 	 * @throws DataModel_Exception
 	 */
-	public function setUp( array $definition_data ) : void
+	public function setUp( array $definition_data ): void
 	{
 
 		if( $definition_data ) {
@@ -35,7 +36,7 @@ class DataModel_Definition_Property_DataModel extends DataModel_Definition_Prope
 
 			if( $this->is_id ) {
 				throw new DataModel_Exception(
-					$this->data_model_class_name.'::'.$this->name.' property type is DataModel. Can\'t be ID! ',
+					$this->data_model_class_name . '::' . $this->name . ' property type is DataModel. Can\'t be ID! ',
 					DataModel_Exception::CODE_DEFINITION_NONSENSE
 				);
 			}
@@ -43,7 +44,7 @@ class DataModel_Definition_Property_DataModel extends DataModel_Definition_Prope
 
 			if( !$this->data_model_class ) {
 				throw new DataModel_Exception(
-					'Property '.$this->data_model_class_name.'::'.$this->name.' is DataModel, but data_model_class is missing in definition data.',
+					'Property ' . $this->data_model_class_name . '::' . $this->name . ' is DataModel, but data_model_class is missing in definition data.',
 					DataModel_Exception::CODE_DEFINITION_NONSENSE
 				);
 			}
@@ -55,7 +56,7 @@ class DataModel_Definition_Property_DataModel extends DataModel_Definition_Prope
 	/**
 	 * @param mixed &$property
 	 */
-	public function initPropertyDefaultValue( mixed &$property ) : void
+	public function initPropertyDefaultValue( mixed &$property ): void
 	{
 		$property = $this->getDefaultValue();
 	}
@@ -64,7 +65,7 @@ class DataModel_Definition_Property_DataModel extends DataModel_Definition_Prope
 	 *
 	 * @return mixed
 	 */
-	public function getDefaultValue() : mixed
+	public function getDefaultValue(): mixed
 	{
 		$class_name = $this->getValueDataModelClass();
 
@@ -92,7 +93,7 @@ class DataModel_Definition_Property_DataModel extends DataModel_Definition_Prope
 	 *
 	 * @return array|null
 	 */
-	public function getJsonSerializeValue(  mixed &$property ) : ?array
+	public function getJsonSerializeValue( mixed &$property ): ?array
 	{
 		if( !$property ) {
 			return null;
@@ -107,7 +108,7 @@ class DataModel_Definition_Property_DataModel extends DataModel_Definition_Prope
 	/**
 	 * @return bool
 	 */
-	public function getCanBeTableField() : bool
+	public function getCanBeTableField(): bool
 	{
 		return false;
 	}
@@ -115,7 +116,7 @@ class DataModel_Definition_Property_DataModel extends DataModel_Definition_Prope
 	/**
 	 * @return bool
 	 */
-	public function getCanBeInSelectPartOfQuery() : bool
+	public function getCanBeInSelectPartOfQuery(): bool
 	{
 		return false;
 	}
@@ -123,7 +124,7 @@ class DataModel_Definition_Property_DataModel extends DataModel_Definition_Prope
 	/**
 	 * @return bool
 	 */
-	public function getCanBeInInsertRecord() : bool
+	public function getCanBeInInsertRecord(): bool
 	{
 		return false;
 	}
@@ -131,7 +132,7 @@ class DataModel_Definition_Property_DataModel extends DataModel_Definition_Prope
 	/**
 	 * @return bool
 	 */
-	public function getCanBeInUpdateRecord() : bool
+	public function getCanBeInUpdateRecord(): bool
 	{
 		return false;
 	}
@@ -141,7 +142,7 @@ class DataModel_Definition_Property_DataModel extends DataModel_Definition_Prope
 	 * @param array $data
 	 *
 	 */
-	public function loadPropertyValue( mixed &$property, array $data ) : void
+	public function loadPropertyValue( mixed &$property, array $data ): void
 	{
 	}
 
@@ -150,10 +151,10 @@ class DataModel_Definition_Property_DataModel extends DataModel_Definition_Prope
 	 *
 	 * @throws DataModel_Exception
 	 */
-	public function checkValueType( mixed &$value ) : void
+	public function checkValueType( mixed &$value ): void
 	{
 		throw new DataModel_Exception(
-			'You can not use checkValueType for the property that is DataObject (property: '.$this->name.')'
+			'You can not use checkValueType for the property that is DataObject (property: ' . $this->name . ')'
 		);
 	}
 
@@ -162,10 +163,10 @@ class DataModel_Definition_Property_DataModel extends DataModel_Definition_Prope
 	 * @param mixed &$property
 	 * @param mixed $value
 	 */
-	public function catchFormField( BaseObject $object_instance,mixed &$property, mixed $value ) : void
+	public function catchFormField( BaseObject $object_instance, mixed &$property, mixed $value ): void
 	{
 
-		if( ( $method_name = $this->getFormSetterName() ) ) {
+		if( ($method_name = $this->getFormSetterName()) ) {
 			$object_instance->{$method_name}( $value );
 		}
 
@@ -178,7 +179,7 @@ class DataModel_Definition_Property_DataModel extends DataModel_Definition_Prope
 	 * @throws DataModel_Exception
 	 *
 	 */
-	public function getAllRelatedPropertyDefinitions( array &$related_definitions ) : void
+	public function getAllRelatedPropertyDefinitions( array &$related_definitions ): void
 	{
 		/**
 		 * @var DataModel_Definition_Property_DataModel[] $related_definitions
@@ -194,7 +195,7 @@ class DataModel_Definition_Property_DataModel extends DataModel_Definition_Prope
 			$current = $this->getValueDataModelClass();
 
 			throw new DataModel_Exception(
-				'Data model name collision: '.$prev.' vs '.$current, DataModel_Exception::CODE_DEFINITION_NONSENSE
+				'Data model name collision: ' . $prev . ' vs ' . $current, DataModel_Exception::CODE_DEFINITION_NONSENSE
 			);
 		}
 

@@ -5,6 +5,7 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace JetApplication\Installer;
 
 use Jet\IO_Dir;
@@ -28,7 +29,7 @@ class Installer_Step_DirsCheck_Controller extends Installer_Step_Controller
 	/**
 	 * @return bool
 	 */
-	public function getIsAvailable() : bool
+	public function getIsAvailable(): bool
 	{
 		return !Installer_Step_CreateSite_Controller::sitesCreated();
 	}
@@ -36,57 +37,57 @@ class Installer_Step_DirsCheck_Controller extends Installer_Step_Controller
 	/**
 	 *
 	 */
-	public function main() : void
+	public function main(): void
 	{
 		$this->catchContinue();
 
 		$dirs = [
-			SysConf_Path::getData()  => [
+			SysConf_Path::getData()   => [
 				'is_required'  => true,
 				'is_writeable' => false,
 			],
-			SysConf_Path::getTmp()   => [
+			SysConf_Path::getTmp()    => [
 				'is_required'  => true,
 				'is_writeable' => false,
 			],
-			SysConf_Path::getCache() => [
+			SysConf_Path::getCache()  => [
 				'is_required'  => true,
 				'is_writeable' => false,
 			],
-			SysConf_Path::getLogs()                                  => [
+			SysConf_Path::getLogs()   => [
 				'is_required'  => true,
 				'is_writeable' => false,
 			],
-			SysConf_Path::getCss()                                   => [
+			SysConf_Path::getCss()    => [
 				'is_required'  => true,
 				'is_writeable' => false,
 			],
-			SysConf_Path::getJs()                                     => [
+			SysConf_Path::getJs()     => [
 				'is_required'  => true,
 				'is_writeable' => false,
 			],
-			SysConf_Path::getImages()                                 => [
+			SysConf_Path::getImages() => [
 				'is_required'  => true,
 				'is_writeable' => false,
 			],
 
-			SysConf_Path::getSites().Application_Admin::getSiteId().'/' => [
+			SysConf_Path::getSites() . Application_Admin::getSiteId() . '/' => [
 				'is_required'  => true,
 				'is_writeable' => false,
 			],
-			SysConf_Path::getSites().Application_Web::getSiteId().'/'   => [
+			SysConf_Path::getSites() . Application_Web::getSiteId() . '/'   => [
 				'is_required'  => true,
 				'is_writeable' => false,
 			],
-			SysConf_Path::getSites().Application_REST::getSiteId().'/'  => [
+			SysConf_Path::getSites() . Application_REST::getSiteId() . '/'  => [
 				'is_required'  => true,
 				'is_writeable' => false,
 			],
-			SysConf_Path::getDictionaries()                             => [
+			SysConf_Path::getDictionaries()                                 => [
 				'is_required'  => true,
 				'is_writeable' => false,
 			],
-			SysConf_Path::getConfig()                                   => [
+			SysConf_Path::getConfig()                                       => [
 				'is_required'  => false,
 				'is_writeable' => false,
 			],
@@ -96,7 +97,7 @@ class Installer_Step_DirsCheck_Controller extends Installer_Step_Controller
 		$is_OK = true;
 		foreach( $dirs as $dir => $dir_data ) {
 			$dirs[$dir]['is_writeable'] = IO_Dir::isWritable( $dir );
-			if( !$dirs[$dir]['is_writeable']&&$dir_data['is_required'] ) {
+			if( !$dirs[$dir]['is_writeable'] && $dir_data['is_required'] ) {
 				$is_OK = false;
 			}
 		}

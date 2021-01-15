@@ -1,13 +1,14 @@
 <?php
+
 namespace JetStudio;
 
 use Jet\Tr;
 use Jet\UI;
 
-$delete_menu_item_dialog = UI::dialog('delete_menu_item_dialog', Tr::_('Delete menu'), 600);
+$delete_menu_item_dialog = UI::dialog( 'delete_menu_item_dialog', Tr::_( 'Delete menu' ), 600 );
 
 echo $delete_menu_item_dialog->start();
-	echo Tr::_('Do you really want to delete this menu item?');
+echo Tr::_( 'Do you really want to delete this menu item?' );
 echo $delete_menu_item_dialog->footer();
-	echo UI::button_delete()->setUrl( Modules::getActionUrl('menu_item/delete') );
+echo UI::button_delete()->setUrl( Modules::getActionUrl( 'menu_item/delete' ) );
 echo $delete_menu_item_dialog->end();

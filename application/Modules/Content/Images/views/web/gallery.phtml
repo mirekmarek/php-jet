@@ -6,23 +6,23 @@ use Jet\Mvc_Layout;
 use Jet\Mvc_View;
 
 /**
- * @var Mvc_View                               $this
- * @var Gallery                                $gallery
+ * @var Mvc_View $this
+ * @var Gallery $gallery
  */
 
 $gallery = $this->getRaw( 'gallery' );
 
-Mvc_Layout::getCurrentLayout()->requireCssFile('https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.9.0/css/lightbox.css');
-Mvc_Layout::getCurrentLayout()->requireJavascriptFile('https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.9.0/js/lightbox.js');
+Mvc_Layout::getCurrentLayout()->requireCssFile( 'https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.9.0/css/lightbox.css' );
+Mvc_Layout::getCurrentLayout()->requireJavascriptFile( 'https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.9.0/js/lightbox.js' );
 ?>
 
 <div class="row">
 	<?php foreach( $gallery->getChildren() as $gallery ): ?>
-		<a href="<?=$gallery->getLocalized()->getURL()?>" class="img-thumbnail"
+		<a href="<?= $gallery->getLocalized()->getURL() ?>" class="img-thumbnail"
 		   style="width: 120px;height: 120px;text-align: center;overflow: hidden;margin: 3px;border:none;">
-			<?=UI::icon( 'folder' )->setSize( 80 )?>
+			<?= UI::icon( 'folder' )->setSize( 80 ) ?>
 			<br/>
-			<?=$gallery->getTitle();?>
+			<?= $gallery->getTitle(); ?>
 		</a>
 	<?php endforeach; ?>
 </div>
@@ -35,8 +35,8 @@ Mvc_Layout::getCurrentLayout()->requireJavascriptFile('https://cdnjs.cloudflare.
 		?>
 		<div style="float:left;margin: 10px;overflow: hidden;">
 			<div class="thumbnail" style="height: 155px;width: 200px;padding:10px;overflow: hidden">
-				<a href="<?=$image->getURI();?>" data-lightbox="example-set">
-					<div style="width:180px;height:135px;background-position:center;background-repeat:no-repeat;background-image: url('<?=$image->getThumbnail( 180, 135 );?>');"></div>
+				<a href="<?= $image->getURI(); ?>" data-lightbox="example-set">
+					<div style="width:180px;height:135px;background-position:center;background-repeat:no-repeat;background-image: url('<?= $image->getThumbnail( 180, 135 ); ?>');"></div>
 				</a>
 			</div>
 		</div>

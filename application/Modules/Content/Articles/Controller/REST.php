@@ -5,6 +5,7 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace JetApplicationModule\Content\Articles;
 
 use Jet\Mvc_Controller_REST;
@@ -24,7 +25,7 @@ class Controller_REST extends Mvc_Controller_REST
 	/**
 	 * @return Mvc_Controller_REST_Router
 	 */
-	public function getControllerRouter() : Mvc_Controller_REST_Router
+	public function getControllerRouter(): Mvc_Controller_REST_Router
 	{
 		$router = new Mvc_Controller_REST_Router(
 			$this,
@@ -38,38 +39,38 @@ class Controller_REST extends Mvc_Controller_REST
 		);
 
 		$router
-			->setPreparer( function($path) {
+			->setPreparer( function( $path ) {
 				if(
 					($id = $path) &&
 					!($this->article = Article::get( $id ))
 				) {
-					$this->responseUnknownItem($id);
+					$this->responseUnknownItem( $id );
 					return false;
 				}
 
 				return true;
 			} )
-			->setResolverGet(function() {
+			->setResolverGet( function() {
 				return $this->article ? 'get' : 'list';
-			})
-			->setResolverPost(function() {
-				if($this->article) {
+			} )
+			->setResolverPost( function() {
+				if( $this->article ) {
 					return false;
 				}
 				return 'add';
-			})
-			->setResolverPut(function() {
-				if(!$this->article) {
+			} )
+			->setResolverPut( function() {
+				if( !$this->article ) {
 					return false;
 				}
 				return 'update';
-			})
-			->setResolverDelete(function() {
-				if(!$this->article) {
+			} )
+			->setResolverDelete( function() {
+				if( !$this->article ) {
 					return false;
 				}
 				return 'delete';
-			});
+			} );
 
 		return $router;
 	}
@@ -77,7 +78,7 @@ class Controller_REST extends Mvc_Controller_REST
 	/**
 	 *
 	 */
-	public function get_Action( ) : void
+	public function get_Action(): void
 	{
 		$this->responseData( $this->article );
 	}
@@ -85,7 +86,7 @@ class Controller_REST extends Mvc_Controller_REST
 	/**
 	 *
 	 */
-	public function list_Action( ) : void
+	public function list_Action(): void
 	{
 
 		/** @noinspection PhpParamsInspection */
@@ -94,8 +95,8 @@ class Controller_REST extends Mvc_Controller_REST
 				$this->handleOrderBy(
 					Article::getList(),
 					[
-						'title' => 'article_localized.title',
-					    'date_time' => 'article.date_time'
+						'title'     => 'article_localized.title',
+						'date_time' => 'article.date_time'
 					]
 				)
 			)
@@ -105,7 +106,7 @@ class Controller_REST extends Mvc_Controller_REST
 	/**
 	 *
 	 */
-	public function add_Action() : void
+	public function add_Action(): void
 	{
 		$article = new Article();
 
@@ -113,9 +114,9 @@ class Controller_REST extends Mvc_Controller_REST
 
 		$data = $this->getRequestData();
 
-		$form->catchInput($data, true);
+		$form->catchInput( $data, true );
 
-		if($form->validate()) {
+		if( $form->validate() ) {
 			$form->catchData();
 
 			$article->save();
@@ -131,15 +132,15 @@ class Controller_REST extends Mvc_Controller_REST
 	/**
 	 *
 	 */
-	public function update_Action() : void
+	public function update_Action(): void
 	{
 		$article = $this->article;
 
 		$form = $article->getEditForm();
 
-		$form->catchInput($this->getRequestData(), true);
+		$form->catchInput( $this->getRequestData(), true );
 
-		if($form->validate()) {
+		if( $form->validate() ) {
 
 			$form->catchData();
 
@@ -156,7 +157,7 @@ class Controller_REST extends Mvc_Controller_REST
 	/**
 	 *
 	 */
-	public function delete_Action() : void
+	public function delete_Action(): void
 	{
 		$article = $this->article;
 

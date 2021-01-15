@@ -5,6 +5,7 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace JetStudio;
 
 use Jet\Form;
@@ -25,7 +26,7 @@ class Pages_Page_Content extends Mvc_Page_Content
 	const CONTENT_KIND_CLASS = 'class';
 	const CONTENT_KIND_STATIC = 'static';
 	const CONTENT_KIND_CALLBACK = 'callback';
-	const PARAMS_COUNT = 3;	
+	const PARAMS_COUNT = 3;
 
 	/**
 	 * @var ?Form
@@ -35,11 +36,11 @@ class Pages_Page_Content extends Mvc_Page_Content
 	/**
 	 * @return string
 	 */
-	public function getContentKind() : string
+	public function getContentKind(): string
 	{
 
 		if( $this->getOutput() ) {
-			if( is_array($this->getOutput()) ) {
+			if( is_array( $this->getOutput() ) ) {
 				return static::CONTENT_KIND_CALLBACK;
 			} else {
 				return static::CONTENT_KIND_STATIC;
@@ -60,9 +61,9 @@ class Pages_Page_Content extends Mvc_Page_Content
 	 * @return Form_Field_Checkbox
 	 *
 	 */
-	public static function getField__is_cacheable( bool $default_value ) : Form_Field_Checkbox
+	public static function getField__is_cacheable( bool $default_value ): Form_Field_Checkbox
 	{
-		$is_cacheable = new Form_Field_Checkbox('is_cacheable', 'Is cacheable', $default_value );
+		$is_cacheable = new Form_Field_Checkbox( 'is_cacheable', 'Is cacheable', $default_value );
 
 		return $is_cacheable;
 	}
@@ -75,20 +76,20 @@ class Pages_Page_Content extends Mvc_Page_Content
 	 * @return Form_Field_Select
 	 *
 	 */
-	public static function getField__output_position( string $default_value, Pages_Page $page ) : Form_Field_Select
+	public static function getField__output_position( string $default_value, Pages_Page $page ): Form_Field_Select
 	{
 		/**
 		 * @var Sites_Site $site
 		 */
 		$site = $page->getSite();
 
-		$output_position = new Form_Field_Select('output_position', 'Output position:', $default_value );
+		$output_position = new Form_Field_Select( 'output_position', 'Output position:', $default_value );
 		$output_position->setIsRequired( true );
 		$output_position->setSelectOptions( $site->getLayoutOutputPositions( $page->getLayoutScriptName() ) );
-		$output_position->setErrorMessages([
-			Form_Field_Select::ERROR_CODE_EMPTY => 'Please select output position',
+		$output_position->setErrorMessages( [
+			Form_Field_Select::ERROR_CODE_EMPTY         => 'Please select output position',
 			Form_Field_Select::ERROR_CODE_INVALID_VALUE => 'Please select output position'
-		]);
+		] );
 
 		return $output_position;
 	}
@@ -99,9 +100,9 @@ class Pages_Page_Content extends Mvc_Page_Content
 	 *
 	 * @return Form_Field_Int
 	 */
-	public static function getField__output_position_order( int $default_value ) : Form_Field_Int
+	public static function getField__output_position_order( int $default_value ): Form_Field_Int
 	{
-		$output_position_order = new Form_Field_Int('output_position_order', 'Output position order:', $default_value);
+		$output_position_order = new Form_Field_Int( 'output_position_order', 'Output position order:', $default_value );
 
 		return $output_position_order;
 	}
@@ -111,27 +112,26 @@ class Pages_Page_Content extends Mvc_Page_Content
 	 *
 	 * @return Form_Field_Select
 	 */
-	public static function getField__module_name( string $default_value ) : Form_Field_Select
+	public static function getField__module_name( string $default_value ): Form_Field_Select
 	{
 		$modules = [
 			'' => ''
 		];
 		foreach( Modules::getModules() as $module ) {
-			$modules[ $module->getName() ] = $module->getName().' ('.$module->getLabel().')';
+			$modules[$module->getName()] = $module->getName() . ' (' . $module->getLabel() . ')';
 		}
 
 		asort( $modules );
 
-		$module_name = new Form_Field_Select('module_name', 'Module name:', $default_value);
-		$module_name->setErrorMessages([
-			Form_Field_Select::ERROR_CODE_EMPTY => 'Please select module name',
+		$module_name = new Form_Field_Select( 'module_name', 'Module name:', $default_value );
+		$module_name->setErrorMessages( [
+			Form_Field_Select::ERROR_CODE_EMPTY         => 'Please select module name',
 			Form_Field_Select::ERROR_CODE_INVALID_VALUE => 'Please select module name'
-		]);
+		] );
 		$module_name->setSelectOptions( $modules );
 
 		return $module_name;
 	}
-
 
 
 	/**
@@ -140,18 +140,18 @@ class Pages_Page_Content extends Mvc_Page_Content
 	 *
 	 * @return Form_Field_Select
 	 */
-	public static function getField__controller_name( string $default_value, string $module_name='' ) : Form_Field_Select
+	public static function getField__controller_name( string $default_value, string $module_name = '' ): Form_Field_Select
 	{
-		$controller_name = new Form_Field_Select('controller_name', 'Controller name:', $default_value, true);
-		$controller_name->setErrorMessages([
-			Form_Field_Select::ERROR_CODE_EMPTY => 'Please select controller',
+		$controller_name = new Form_Field_Select( 'controller_name', 'Controller name:', $default_value, true );
+		$controller_name->setErrorMessages( [
+			Form_Field_Select::ERROR_CODE_EMPTY         => 'Please select controller',
 			Form_Field_Select::ERROR_CODE_INVALID_VALUE => 'Invalid controller name format'
-		]);
+		] );
 
 		$select_options = [];
 
-		if($module_name && Modules::exists($module_name)) {
-			$module = Modules::getModule($module_name);
+		if( $module_name && Modules::exists( $module_name ) ) {
+			$module = Modules::getModule( $module_name );
 
 			$select_options = $module->getControllers();
 		}
@@ -170,26 +170,26 @@ class Pages_Page_Content extends Mvc_Page_Content
 	 *
 	 * @return Form_Field_Select
 	 */
-	public static function getField__controller_action( string $default_value='',
-	                                                    string $module_name='',
-	                                                    string $controller='' ) : Form_Field_Select
+	public static function getField__controller_action( string $default_value = '',
+	                                                    string $module_name = '',
+	                                                    string $controller = '' ): Form_Field_Select
 	{
-		$controller_action = new Form_Field_Select('controller_action', 'Controller action:', $default_value);
-		$controller_action->setErrorMessages([
-			Form_Field_Select::ERROR_CODE_EMPTY => 'Please select controller action',
+		$controller_action = new Form_Field_Select( 'controller_action', 'Controller action:', $default_value );
+		$controller_action->setErrorMessages( [
+			Form_Field_Select::ERROR_CODE_EMPTY         => 'Please select controller action',
 			Form_Field_Select::ERROR_CODE_INVALID_VALUE => 'Please select controller action'
-		]);
+		] );
 
 		$select_options = [];
 
 		if(
 			$module_name &&
-			Modules::exists($module_name)
+			Modules::exists( $module_name )
 		) {
-			$module = Modules::getModule($module_name);
+			$module = Modules::getModule( $module_name );
 
 			$controllers = $module->getControllers();
-			if(isset($controllers[$controller])) {
+			if( isset( $controllers[$controller] ) ) {
 				$select_options = $module->getControllerAction( $controller );
 			}
 		}
@@ -207,13 +207,13 @@ class Pages_Page_Content extends Mvc_Page_Content
 	 *
 	 * @return Form_Field_Input
 	 */
-	public static function getField__controller_class( string $default_value ) : Form_Field_Input
+	public static function getField__controller_class( string $default_value ): Form_Field_Input
 	{
-		$controller_class = new Form_Field_Input('controller_class', 'Custom controller class:', $default_value);
-		$controller_class->setErrorMessages([
-			Form_Field_Input::ERROR_CODE_EMPTY => 'Please enter controller class',
+		$controller_class = new Form_Field_Input( 'controller_class', 'Custom controller class:', $default_value );
+		$controller_class->setErrorMessages( [
+			Form_Field_Input::ERROR_CODE_EMPTY          => 'Please enter controller class',
 			Form_Field_Input::ERROR_CODE_INVALID_FORMAT => 'Invalid class name format'
-		]);
+		] );
 		$controller_class->setValidator( function( Form_Field $filed ) {
 			return Project::validateClassName( $filed );
 		} );
@@ -226,13 +226,13 @@ class Pages_Page_Content extends Mvc_Page_Content
 	 *
 	 * @return Form_Field_Input
 	 */
-	public static function getField__controller_class_action( string $default_value ) : Form_Field_Input
+	public static function getField__controller_class_action( string $default_value ): Form_Field_Input
 	{
-		$controller_class_action = new Form_Field_Input('controller_class_action', 'Controller action:', $default_value);
-		$controller_class_action->setErrorMessages([
-			Form_Field_Input::ERROR_CODE_EMPTY => 'Please enter controller class action name',
+		$controller_class_action = new Form_Field_Input( 'controller_class_action', 'Controller action:', $default_value );
+		$controller_class_action->setErrorMessages( [
+			Form_Field_Input::ERROR_CODE_EMPTY          => 'Please enter controller class action name',
 			Form_Field_Input::ERROR_CODE_INVALID_FORMAT => 'Invalid action name format'
-		]);
+		] );
 		$controller_class_action->setValidator( function( Form_Field $filed ) {
 			return Project::validateMethodName( $filed );
 		} );
@@ -246,9 +246,9 @@ class Pages_Page_Content extends Mvc_Page_Content
 	 *
 	 * @return Form_Field_Textarea
 	 */
-	public static function getField__output( string $default_value ) : Form_Field_Textarea
+	public static function getField__output( string $default_value ): Form_Field_Textarea
 	{
-		$output = new Form_Field_Textarea('output', 'Static output:', $default_value);
+		$output = new Form_Field_Textarea( 'output', 'Static output:', $default_value );
 		$output->setValidator( function( Form_Field_Textarea $field ) {
 			$value = $field->getValueRaw();
 
@@ -257,9 +257,9 @@ class Pages_Page_Content extends Mvc_Page_Content
 
 			return true;
 		} );
-		$output->setErrorMessages([
+		$output->setErrorMessages( [
 			Form_Field_Input::ERROR_CODE_EMPTY => 'Please enter static output'
-		]);
+		] );
 
 		return $output;
 	}
@@ -269,13 +269,13 @@ class Pages_Page_Content extends Mvc_Page_Content
 	 *
 	 * @return Form_Field_Input
 	 */
-	public static function getField__output_callback_class( string $default_value ) : Form_Field_Input
+	public static function getField__output_callback_class( string $default_value ): Form_Field_Input
 	{
-		$output_callback_class = new Form_Field_Input('output_callback_class', 'Output callback class:', $default_value);
-		$output_callback_class->setErrorMessages([
-			Form_Field_Input::ERROR_CODE_EMPTY => 'Please enter class name',
+		$output_callback_class = new Form_Field_Input( 'output_callback_class', 'Output callback class:', $default_value );
+		$output_callback_class->setErrorMessages( [
+			Form_Field_Input::ERROR_CODE_EMPTY          => 'Please enter class name',
 			Form_Field_Input::ERROR_CODE_INVALID_FORMAT => 'Invalid class name format'
-		]);
+		] );
 		$output_callback_class->setValidator( function( Form_Field $filed ) {
 			return Project::validateClassName( $filed );
 		} );
@@ -289,14 +289,14 @@ class Pages_Page_Content extends Mvc_Page_Content
 	 *
 	 * @return Form_Field_Input
 	 */
-	public static function getField__output_callback_method( Form_Field_Input $output_callback_class_field, string $default_value ) : Form_Field_Input
+	public static function getField__output_callback_method( Form_Field_Input $output_callback_class_field, string $default_value ): Form_Field_Input
 	{
-		$output_callback_method = new Form_Field_Input('output_callback_method', 'Output callback method:', $default_value);
-		$output_callback_method->setErrorMessages([
-			Form_Field_Input::ERROR_CODE_EMPTY => 'Please enter method name',
+		$output_callback_method = new Form_Field_Input( 'output_callback_method', 'Output callback method:', $default_value );
+		$output_callback_method->setErrorMessages( [
+			Form_Field_Input::ERROR_CODE_EMPTY          => 'Please enter method name',
 			Form_Field_Input::ERROR_CODE_INVALID_FORMAT => 'Invalid method name format'
-		]);
-		$output_callback_method->setValidator( function( Form_Field $filed ) use ($output_callback_class_field) {
+		] );
+		$output_callback_method->setValidator( function( Form_Field $filed ) use ( $output_callback_class_field ) {
 			return Project::validateMethodName( $filed, $output_callback_class_field );
 		} );
 
@@ -304,108 +304,125 @@ class Pages_Page_Content extends Mvc_Page_Content
 	}
 
 
-
 	/**
 	 * @param Pages_Page $page
 	 *
 	 * @return Form
 	 */
-	public function getEditForm( Pages_Page $page ) : Form
+	public function getEditForm( Pages_Page $page ): Form
 	{
-		if(!$this->__edit_form) {
+		if( !$this->__edit_form ) {
 
 			$fields = [];
 
 			$is_cacheable = Pages_Page_Content::getField__is_cacheable( $this->isCacheable() );
-			$is_cacheable->setCatcher( function($value) {
+			$is_cacheable->setCatcher( function( $value ) {
 				$this->setIsCacheable( $value );
 			} );
 			$fields[] = $is_cacheable;
 
 			$output_position = static::getField__output_position( $this->getOutputPosition(), $page );
-			$output_position->setCatcher( function($value) { $this->setOutputPosition( $value );} );
+			$output_position->setCatcher( function( $value ) {
+				$this->setOutputPosition( $value );
+			} );
 			$fields[] = $output_position;
 
 			$output_position_order = static::getField__output_position_order( $this->getOutputPositionOrder() );
-			$output_position_order->setCatcher( function($value) { $this->setOutputPositionOrder( $value ); } );
+			$output_position_order->setCatcher( function( $value ) {
+				$this->setOutputPositionOrder( $value );
+			} );
 			$fields[] = $output_position_order;
 
 			$i = 0;
-			foreach( $this->parameters as $key=>$val ) {
-				
-				$param_key = new Form_Field_Input('/params/'.$i.'/key', '', $key);
+			foreach( $this->parameters as $key => $val ) {
+
+				$param_key = new Form_Field_Input( '/params/' . $i . '/key', '', $key );
 				$fields[] = $param_key;
 
-				$param_value = new Form_Field_Input('/params/'.$i.'/value', '', $val);
+				$param_value = new Form_Field_Input( '/params/' . $i . '/value', '', $val );
 				$fields[] = $param_value;
-				
-				$i++;
-			}
-			
-			for( $c=0; $c<static::PARAMS_COUNT; $c++) {
-				
-				$param_key = new Form_Field_Input('/params/'.$i.'/key', '', '');
-				$fields[] = $param_key;
 
-				$param_value = new Form_Field_Input('/params/'.$i.'/value', '', '');
-				$fields[] = $param_value;
-				
 				$i++;
 			}
 
+			for( $c = 0; $c < static::PARAMS_COUNT; $c++ ) {
+
+				$param_key = new Form_Field_Input( '/params/' . $i . '/key', '', '' );
+				$fields[] = $param_key;
+
+				$param_value = new Form_Field_Input( '/params/' . $i . '/value', '', '' );
+				$fields[] = $param_value;
+
+				$i++;
+			}
 
 
 			switch( $this->getContentKind() ) {
 				case static::CONTENT_KIND_MODULE:
-					$module_name =  static::getField__module_name($this->getModuleName());
-					$module_name->setIsRequired(true);
-					$module_name->setCatcher( function($value) { $this->setModuleName( $value ); } );
+					$module_name = static::getField__module_name( $this->getModuleName() );
+					$module_name->setIsRequired( true );
+					$module_name->setCatcher( function( $value ) {
+						$this->setModuleName( $value );
+					} );
 					$fields[] = $module_name;
 
 					$controller_name = static::getField__controller_name( $this->getControllerName(), $this->getModuleName() );
-					$controller_name->setIsRequired(true);
-					$controller_name->setCatcher( function($value) { $this->setControllerName( $value ); } );
+					$controller_name->setIsRequired( true );
+					$controller_name->setCatcher( function( $value ) {
+						$this->setControllerName( $value );
+					} );
 					$fields[] = $controller_name;
 
 					$controller_action = static::getField__controller_action( $this->getControllerAction(), $this->getModuleName(), $this->getControllerName() );
-					$controller_action->setIsRequired(true);
-					$controller_action->setCatcher( function($value) { $this->setControllerAction( $value ); } );
+					$controller_action->setIsRequired( true );
+					$controller_action->setCatcher( function( $value ) {
+						$this->setControllerAction( $value );
+					} );
 					$fields[] = $controller_action;
 
 					break;
 				case static::CONTENT_KIND_CLASS:
 					$controller_class = static::getField__controller_class( $this->getControllerClass() );
-					$controller_class->setIsRequired(true);
-					$controller_class->setCatcher( function($value) { $this->setControllerClass( $value ); } );
+					$controller_class->setIsRequired( true );
+					$controller_class->setCatcher( function( $value ) {
+						$this->setControllerClass( $value );
+					} );
 					$fields[] = $controller_class;
 
 
 					$controller_class_action = static::getField__controller_class_action( $this->getControllerAction() );
-					$controller_class_action->setIsRequired(true);
-					$controller_class_action->setCatcher( function($value) { $this->setControllerAction( $value ); } );
+					$controller_class_action->setIsRequired( true );
+					$controller_class_action->setCatcher( function( $value ) {
+						$this->setControllerAction( $value );
+					} );
 					$fields[] = $controller_class_action;
 
 					break;
 				case static::CONTENT_KIND_STATIC:
 					$output = static::getField__output( $this->getOutput() );
-					$output->setCatcher( function($value) { $this->setOutput( $value ); } );
+					$output->setCatcher( function( $value ) {
+						$this->setOutput( $value );
+					} );
 					$fields[] = $output;
 
 					break;
 				case static::CONTENT_KIND_CALLBACK:
 					$callback = $this->getOutput();
 
-					$output_callback_class= static::getField__output_callback_class( $callback[0] );
-					$output_callback_class->setIsRequired(true);
+					$output_callback_class = static::getField__output_callback_class( $callback[0] );
+					$output_callback_class->setIsRequired( true );
 					$output_callback_method = static::getField__output_callback_method( $output_callback_class, $callback[1] );
-					$output_callback_class->setIsRequired(true);
+					$output_callback_class->setIsRequired( true );
 
-					$output_callback_method->setCatcher( function() use ($output_callback_class, $output_callback_method) {
+					$output_callback_method->setCatcher( function() use ( $output_callback_class, $output_callback_method ) {
 
 						$class = $output_callback_class->getValue();
 						$method = $output_callback_method->getValue();
 
-						$this->setOutput( [$class, $method] );
+						$this->setOutput( [
+							$class,
+							$method
+						] );
 					} );
 					$fields[] = $output_callback_class;
 					$fields[] = $output_callback_method;
@@ -415,10 +432,9 @@ class Pages_Page_Content extends Mvc_Page_Content
 			}
 
 
+			$form = new Form( 'page_content_edit_form', $fields );
 
-			$form = new Form('page_content_edit_form', $fields );
-
-			$form->setAction( Pages::getActionUrl('edit_content') );
+			$form->setAction( Pages::getActionUrl( 'edit_content' ) );
 
 			$this->__edit_form = $form;
 		}
@@ -432,17 +448,17 @@ class Pages_Page_Content extends Mvc_Page_Content
 	 *
 	 * @return array
 	 */
-	public static function catchParams( Form $form, string $field_prefix='' ) : array
+	public static function catchParams( Form $form, string $field_prefix = '' ): array
 	{
 		$params = [];
-		
+
 		$i = 0;
-		while( $form->fieldExists( $field_prefix.'/params/'.$i.'/key' ) ) {
+		while( $form->fieldExists( $field_prefix . '/params/' . $i . '/key' ) ) {
 
-			$param_key = $form->field($field_prefix.'/params/'.$i.'/key')->getValue();
-			$param_value = $form->field($field_prefix.'/params/'.$i.'/value')->getValue();
+			$param_key = $form->field( $field_prefix . '/params/' . $i . '/key' )->getValue();
+			$param_value = $form->field( $field_prefix . '/params/' . $i . '/value' )->getValue();
 
-			if($param_key) {
+			if( $param_key ) {
 				$params[$param_key] = $param_value;
 			}
 
@@ -456,30 +472,30 @@ class Pages_Page_Content extends Mvc_Page_Content
 	 * @param array $data
 	 * @return Pages_Page_Content
 	 */
-	public static function fromArray( array $data ) : Pages_Page_Content
+	public static function fromArray( array $data ): Pages_Page_Content
 	{
 		$content = new Pages_Page_Content();
 
-		foreach( $data as $k=>$v ) {
+		foreach( $data as $k => $v ) {
 			$content->{$k} = $v;
 		}
 
 		return $content;
 	}
-	
+
 
 	/**
 	 * @return array
 	 */
-	public function toArray() : array
+	public function toArray(): array
 	{
 		$data = parent::toArray();
 
-		if(!empty($data['module_name'])) {
+		if( !empty( $data['module_name'] ) ) {
 
 			$module = Modules::getModule( $data['module_name'] );
 
-			if($module) {
+			if( $module ) {
 				$data['module_name'] = $module->getName();
 			}
 

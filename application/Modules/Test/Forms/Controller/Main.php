@@ -5,6 +5,7 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace JetApplicationModule\Test\Forms;
 
 use Jet\Mvc_Controller_Default;
@@ -66,7 +67,7 @@ class Controller_Main extends Mvc_Controller_Default
 	/**
 	 *
 	 */
-	public function test_forms_Action() : void
+	public function test_forms_Action(): void
 	{
 		$input_field = new Form_Field_Input( 'input', 'Input' );
 		$input_field->setPlaceholder( 'Input field without validation' );
@@ -266,7 +267,6 @@ class Controller_Main extends Mvc_Controller_Default
 		$wysiwyg_field = new Form_Field_WYSIWYG( 'wysiwyg', 'WYSIWYG' );
 
 
-
 		$registration_user_name_field = new Form_Field_RegistrationUsername(
 			'registration_user_name_field', 'Registration - username'
 		);
@@ -280,10 +280,10 @@ class Controller_Main extends Mvc_Controller_Default
 			function( $user_name ) {
 				return !in_array(
 					$user_name, [
-						          'exists1',
-						          'exists2',
-						          'some username',
-					          ]
+						'exists1',
+						'exists2',
+						'some username',
+					]
 				);
 			}
 		);
@@ -303,10 +303,10 @@ class Controller_Main extends Mvc_Controller_Default
 			function( $user_name ) {
 				return !in_array(
 					$user_name, [
-						          'exists1@domain.tld',
-						          'exists2@domain.tld',
-						          'some.user.name@domain.tld',
-					          ]
+						'exists1@domain.tld',
+						'exists2@domain.tld',
+						'some.user.name@domain.tld',
+					]
 				);
 			}
 		);
@@ -339,12 +339,12 @@ class Controller_Main extends Mvc_Controller_Default
 
 
 		$upload_image_field = new Form_Field_FileImage( 'upload_image', 'Upload image' );
-		$upload_image_field->setIsRequired(true);
+		$upload_image_field->setIsRequired( true );
 		$upload_image_field->setMaximalSize( 200, 150 );
 		$upload_image_field->setMaximalFileSize( 2 * 1024 * 1024 );
 		$upload_image_field->setErrorMessages(
 			[
-				Form_Field_FileImage::ERROR_CODE_EMPTY => 'Please select image',
+				Form_Field_FileImage::ERROR_CODE_EMPTY                => 'Please select image',
 				Form_Field_FileImage::ERROR_CODE_DISALLOWED_FILE_TYPE => 'Unsupported file type',
 				Form_Field_FileImage::ERROR_CODE_FILE_IS_TOO_LARGE    => 'Maximal file size is 2MiB',
 			]
@@ -352,11 +352,11 @@ class Controller_Main extends Mvc_Controller_Default
 		$upload_image_field->setCatcher(
 			function( $tmp_file ) use ( $upload_image_field ) {
 
-				$target_dir = SysConf_Path::getImages().'test_uploads/';
+				$target_dir = SysConf_Path::getImages() . 'test_uploads/';
 
 				IO_Dir::create( $target_dir );
 
-				$target_path = $target_dir.$upload_image_field->getFileName();
+				$target_path = $target_dir . $upload_image_field->getFileName();
 
 				IO_File::copy( $tmp_file, $target_path );
 
@@ -366,11 +366,11 @@ class Controller_Main extends Mvc_Controller_Default
 		);
 
 		$upload_file_field = new Form_Field_File( 'upload_file', 'Upload file' );
-		$upload_file_field->setIsRequired(true);
+		$upload_file_field->setIsRequired( true );
 		$upload_file_field->setMaximalFileSize( 2 * 1024 * 1024 );
 		$upload_file_field->setErrorMessages(
 			[
-				Form_Field_File::ERROR_CODE_EMPTY => 'Please select file',
+				Form_Field_File::ERROR_CODE_EMPTY                => 'Please select file',
 				Form_Field_File::ERROR_CODE_DISALLOWED_FILE_TYPE => 'Unsupported file type',
 				Form_Field_File::ERROR_CODE_FILE_IS_TOO_LARGE    => 'Maximal file size is 2MiB',
 			]
@@ -400,9 +400,9 @@ class Controller_Main extends Mvc_Controller_Default
 			'title' => Tr::_( 'Common form' ),
 			'form'  => new Form(
 				'common_form', [
-					             $input_field,
-					             $validated_input_field,
-				             ]
+					$input_field,
+					$validated_input_field,
+				]
 			),
 		];
 
@@ -410,10 +410,10 @@ class Controller_Main extends Mvc_Controller_Default
 			'title' => Tr::_( 'Number form' ),
 			'form'  => new Form(
 				'numbers_form', [
-					              $int_field,
-					              $float_field,
-					              $range_field,
-				              ]
+					$int_field,
+					$float_field,
+					$range_field,
+				]
 			),
 		];
 
@@ -421,12 +421,12 @@ class Controller_Main extends Mvc_Controller_Default
 			'title' => Tr::_( 'Time and date form' ),
 			'form'  => new Form(
 				'date_form', [
-					           $date_field,
-					           $date_time_field,
-					           $time_field,
-					           $week_field,
-					           $month_field,
-				           ]
+					$date_field,
+					$date_time_field,
+					$time_field,
+					$week_field,
+					$month_field,
+				]
 			),
 		];
 
@@ -434,9 +434,9 @@ class Controller_Main extends Mvc_Controller_Default
 			'title' => Tr::_( 'Contact form' ),
 			'form'  => new Form(
 				'contact_form', [
-					              $email_field,
-					              $tel_field,
-				              ]
+					$email_field,
+					$tel_field,
+				]
 			),
 		];
 
@@ -444,12 +444,12 @@ class Controller_Main extends Mvc_Controller_Default
 			'title' => Tr::_( 'Select form' ),
 			'form'  => new Form(
 				'select_form', [
-					             $select_field,
-					             $multi_select_field,
-					             $checkbox_field,
-					             $radio_field,
+					$select_field,
+					$multi_select_field,
+					$checkbox_field,
+					$radio_field,
 
-				             ]
+				]
 			),
 		];
 
@@ -457,9 +457,9 @@ class Controller_Main extends Mvc_Controller_Default
 			'title' => Tr::_( 'Text form' ),
 			'form'  => new Form(
 				'text_form', [
-					           $textarea_field,
-					           $wysiwyg_field,
-				           ]
+					$textarea_field,
+					$wysiwyg_field,
+				]
 			),
 		];
 
@@ -467,10 +467,10 @@ class Controller_Main extends Mvc_Controller_Default
 			'title' => Tr::_( 'Registration form' ),
 			'form'  => new Form(
 				'registration_form', [
-					                   $registration_user_name_field,
-					                   $registration_email_field,
-					                   $registration_password_field,
-				                   ]
+					$registration_user_name_field,
+					$registration_email_field,
+					$registration_password_field,
+				]
 			),
 		];
 
@@ -478,11 +478,11 @@ class Controller_Main extends Mvc_Controller_Default
 			'title' => Tr::_( 'Special fields form' ),
 			'form'  => new Form(
 				'special_form', [
-					              $password_field,
-					              $url_field,
-					              $search_field,
-					              $color_field,
-				              ]
+					$password_field,
+					$url_field,
+					$search_field,
+					$color_field,
+				]
 			),
 		];
 
@@ -491,8 +491,8 @@ class Controller_Main extends Mvc_Controller_Default
 			'title' => Tr::_( 'File upload form' ),
 			'form'  => new Form(
 				'upload_file_form', [
-					                  $upload_file_field,
-				                  ]
+					$upload_file_field,
+				]
 			),
 		];
 
@@ -501,8 +501,8 @@ class Controller_Main extends Mvc_Controller_Default
 			'title' => Tr::_( 'Image upload form' ),
 			'form'  => new Form(
 				'upload_image_form', [
-					                   $upload_image_field,
-				                   ]
+					$upload_image_field,
+				]
 			),
 		];
 
@@ -513,24 +513,24 @@ class Controller_Main extends Mvc_Controller_Default
 			 */
 			$form = $d['form'];
 
-			$form->setAction( '#'.$form->getId() );
+			$form->setAction( '#' . $form->getId() );
 
-			if($form->catchInput()) {
+			if( $form->catchInput() ) {
 				$form->validate();
-				if($form->getIsValid()) {
+				if( $form->getIsValid() ) {
 					$form->catchData();
-					$form->setCommonMessage( UI_messages::createSuccess( Tr::_('Form sent and is valid') ) );
+					$form->setCommonMessage( UI_messages::createSuccess( Tr::_( 'Form sent and is valid' ) ) );
 				} else {
-					$form->setCommonMessage( UI_messages::createDanger( Tr::_('Form sent, but is not valid') ) );
+					$form->setCommonMessage( UI_messages::createDanger( Tr::_( 'Form sent, but is not valid' ) ) );
 				}
 
-				if(Http_Request::POST()->exists('ajax')) {
-					$this->view->setVar('form', $form);
+				if( Http_Request::POST()->exists( 'ajax' ) ) {
+					$this->view->setVar( 'form', $form );
 
 					AJAX::formResponse(
 						$form->getIsValid(),
 						[
-							'form_area_'.$form->getId() => $this->view->render('test-forms/form')
+							'form_area_' . $form->getId() => $this->view->render( 'test-forms/form' )
 						]
 					);
 				}
@@ -548,7 +548,7 @@ class Controller_Main extends Mvc_Controller_Default
 	/**
 	 *
 	 */
-	public function test_forms_data_model_Action() : void
+	public function test_forms_data_model_Action(): void
 	{
 
 		$obj = new DataModelTest_FormGenerator();
@@ -558,13 +558,13 @@ class Controller_Main extends Mvc_Controller_Default
 		if( $form->catchInput() ) {
 
 			$form->validate();
-			if($form->getIsValid()) {
+			if( $form->getIsValid() ) {
 				$form->catchData();
-				$form->setCommonMessage( UI_messages::createSuccess( Tr::_('Form sent and is valid') ) );
+				$form->setCommonMessage( UI_messages::createSuccess( Tr::_( 'Form sent and is valid' ) ) );
 
 				$this->view->setVar( 'data_model', $obj );
 			} else {
-				$form->setCommonMessage( UI_messages::createDanger( Tr::_('Form sent, but is not valid') ) );
+				$form->setCommonMessage( UI_messages::createDanger( Tr::_( 'Form sent, but is not valid' ) ) );
 			}
 
 		}

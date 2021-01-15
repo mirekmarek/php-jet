@@ -8,15 +8,15 @@ use Jet\Mvc_View;
  * @var Auth_Administrator_User $user
  */
 
-$user = $this->getRaw('user');
+$user = $this->getRaw( 'user' );
 ?>
 Vaše administrátorské heslo bylo vyresetováno
 
 Zde jsou vaše přihlašovací údaje:
 
-	Uživatelské jméno: <?=$user->getUsername()?>
+Uživatelské jméno: <?= $user->getUsername() ?>
 
-	Heslo: <?=$this->getString('password')?>
+Heslo: <?= $this->getString( 'password' ) ?>
 
 
 Po přihlášení si prosím změňte heslo

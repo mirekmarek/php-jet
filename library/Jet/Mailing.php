@@ -5,6 +5,7 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace Jet;
 
 /**
@@ -32,7 +33,7 @@ class Mailing extends BaseObject
 	 *
 	 * @return Mailing_Config
 	 */
-	public static function getConfig() : Mailing_Config
+	public static function getConfig(): Mailing_Config
 	{
 		if( !static::$config ) {
 			static::$config = new Mailing_Config();
@@ -44,7 +45,7 @@ class Mailing extends BaseObject
 	/**
 	 * @return Mailing_Backend_Abstract
 	 */
-	public static function getBackend() : Mailing_Backend_Abstract
+	public static function getBackend(): Mailing_Backend_Abstract
 	{
 		if( !static::$backend ) {
 			static::$backend = new Mailing_Backend_Default();
@@ -56,12 +57,11 @@ class Mailing extends BaseObject
 	/**
 	 * @param Mailing_Backend_Abstract $backend
 	 */
-	public static function setBackend( Mailing_Backend_Abstract $backend ) : void
+	public static function setBackend( Mailing_Backend_Abstract $backend ): void
 	{
 		static::$backend = $backend;
 	}
-	
-	
+
 
 	/**
 	 * @param Mailing_Email $email
@@ -70,7 +70,7 @@ class Mailing extends BaseObject
 	 *
 	 * @return bool
 	 */
-	public static function sendEmail( Mailing_Email $email, string $to, array $headers=[] ) : bool
+	public static function sendEmail( Mailing_Email $email, string $to, array $headers = [] ): bool
 	{
 		return static::getBackend()->sendEmail( $email, $to, $headers );
 	}

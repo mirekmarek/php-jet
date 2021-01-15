@@ -5,6 +5,7 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace Jet;
 
 /**
@@ -24,9 +25,9 @@ trait DataModel_Related_1toN_Trait
 	 *
 	 * @return DataModel_Definition_Model_Related_1toN
 	 */
-	public static function dataModelDefinitionFactory( string $data_model_class_name ) : DataModel_Definition_Model_Related_1toN
+	public static function dataModelDefinitionFactory( string $data_model_class_name ): DataModel_Definition_Model_Related_1toN
 	{
-		$class_name = DataModel_Factory::getModelDefinitionClassNamePrefix().'Related_1toN';
+		$class_name = DataModel_Factory::getModelDefinitionClassNamePrefix() . 'Related_1toN';
 
 		return new $class_name( $data_model_class_name );
 	}
@@ -34,12 +35,12 @@ trait DataModel_Related_1toN_Trait
 
 	/**
 	 *
-	 * @param array                  $where
+	 * @param array $where
 	 * @param DataModel_PropertyFilter|null $load_filter
 	 *
 	 * @return array
 	 */
-	public static function fetchRelatedData( array $where, DataModel_PropertyFilter $load_filter = null ) : array
+	public static function fetchRelatedData( array $where, DataModel_PropertyFilter $load_filter = null ): array
 	{
 		/**
 		 * @var DataModel_Definition_Model_Related_1toN $definition
@@ -73,21 +74,23 @@ trait DataModel_Related_1toN_Trait
 	/**
 	 * @return array
 	 */
-	public static function getLoadRelatedDataOrderBy() : array
+	public static function getLoadRelatedDataOrderBy(): array
 	{
 		/**
 		 * @var DataModel_Definition_Model_Related_1toN $definition
 		 */
 		$definition = static::getDataModelDefinition();
 
-		return static::$load_related_data_order_by ? static::$load_related_data_order_by :
+		return static::$load_related_data_order_by
+			? static::$load_related_data_order_by
+			:
 			$definition->getDefaultOrderBy();
 	}
 
 	/**
 	 * @param array $order_by
 	 */
-	public static function setLoadRelatedDataOrderBy( array $order_by ) : void
+	public static function setLoadRelatedDataOrderBy( array $order_by ): void
 	{
 		static::$load_related_data_order_by = $order_by;
 	}
@@ -95,7 +98,7 @@ trait DataModel_Related_1toN_Trait
 
 	/**
 	 *
-	 * @param array  $this_data
+	 * @param array $this_data
 	 * @param array  &$related_data
 	 * @param DataModel_PropertyFilter|null $load_filter
 	 *
@@ -103,7 +106,7 @@ trait DataModel_Related_1toN_Trait
 	 */
 	public static function initRelatedByData( array $this_data,
 	                                          array &$related_data,
-	                                          DataModel_PropertyFilter $load_filter = null ) : DataModel_Related_1toN_Iterator
+	                                          DataModel_PropertyFilter $load_filter = null ): DataModel_Related_1toN_Iterator
 	{
 
 		/**
@@ -132,7 +135,7 @@ trait DataModel_Related_1toN_Trait
 	/**
 	 * @return null|string|int
 	 */
-	public function getArrayKeyValue() : null|string|int
+	public function getArrayKeyValue(): null|string|int
 	{
 		return null;
 	}
@@ -140,7 +143,7 @@ trait DataModel_Related_1toN_Trait
 	/**
 	 * @return DataModel_Related_Interface|DataModel_Related_1toN_Iterator|null
 	 */
-	public function createNewRelatedDataModelInstance() : DataModel_Related_Interface|DataModel_Related_1toN_Iterator|null
+	public function createNewRelatedDataModelInstance(): DataModel_Related_Interface|DataModel_Related_1toN_Iterator|null
 	{
 		/**
 		 * @var DataModel_Definition_Model_Related_1toN $data_model_definition
@@ -163,7 +166,7 @@ trait DataModel_Related_1toN_Trait
 	 *
 	 */
 	public function getRelatedFormFields( DataModel_Definition_Property $parent_property_definition,
-	                                      DataModel_PropertyFilter $property_filter = null ) : array
+	                                      DataModel_PropertyFilter $property_filter = null ): array
 	{
 		$related_form = $this->getForm( '', $property_filter );
 

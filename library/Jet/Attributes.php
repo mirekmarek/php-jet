@@ -5,14 +5,16 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace Jet;
 
 
 use \ReflectionClass;
 
-class Attributes {
+class Attributes
+{
 
-	public static function getPropertiesDefinition( ReflectionClass $reflection, string $attribute_name ) : array
+	public static function getPropertiesDefinition( ReflectionClass $reflection, string $attribute_name ): array
 	{
 
 		$classes = [$reflection->getName() => $reflection];
@@ -20,39 +22,39 @@ class Attributes {
 		if( ($parent = $reflection->getParentClass()) ) {
 			do {
 				$classes[$parent->getName()] = $parent;
-			} while( ($parent=$parent->getParentClass()) );
+			} while( ($parent = $parent->getParentClass()) );
 		}
 
 		$classes = array_reverse( $classes );
 
 		$properties_definition_data = [];
 
-		foreach($classes as $class) {
+		foreach( $classes as $class ) {
 			/**
 			 * @var ReflectionClass $class
 			 */
-			foreach( $class->getProperties() as $property) {
+			foreach( $class->getProperties() as $property ) {
 
-				$attributes = $property->getAttributes($attribute_name);
+				$attributes = $property->getAttributes( $attribute_name );
 
-				if(!$attributes) {
+				if( !$attributes ) {
 					continue;
 				}
 
 				$attrs = [];
 
-				foreach($attributes as $attr) {
-					foreach($attr->getArguments() as $k=>$v) {
+				foreach( $attributes as $attr ) {
+					foreach( $attr->getArguments() as $k => $v ) {
 						$attrs[$k] = $v;
 					}
 				}
 
 				$_name = $property->getName();
 
-				if(!isset($properties_definition_data[$_name])) {
+				if( !isset( $properties_definition_data[$_name] ) ) {
 					$properties_definition_data[$_name] = $attrs;
 				} else {
-					foreach($attrs as $k=>$v) {
+					foreach( $attrs as $k => $v ) {
 						$properties_definition_data[$_name][$k] = $v;
 					}
 				}
@@ -62,7 +64,7 @@ class Attributes {
 		return $properties_definition_data;
 	}
 
-	public static function getClassArguments( ReflectionClass $reflection, string $attribute_name ) : array
+	public static function getClassArguments( ReflectionClass $reflection, string $attribute_name ): array
 	{
 
 		$classes = [$reflection->getName() => $reflection];
@@ -70,30 +72,30 @@ class Attributes {
 		if( ($parent = $reflection->getParentClass()) ) {
 			do {
 				$classes[$parent->getName()] = $parent;
-			} while( ($parent=$parent->getParentClass()) );
+			} while( ($parent = $parent->getParentClass()) );
 		}
 
 		$classes = array_reverse( $classes );
 
 		$class_arguments = [];
 
-		foreach($classes as $class) {
+		foreach( $classes as $class ) {
 			/**
 			 * @var ReflectionClass $class
 			 */
-			foreach( $class->getAttributes($attribute_name) as $attribute ) {
+			foreach( $class->getAttributes( $attribute_name ) as $attribute ) {
 
-				foreach($attribute->getArguments() as $k=>$v) {
-					if($k=='relation') {
-						if(!isset($class_arguments['relations'])) {
+				foreach( $attribute->getArguments() as $k => $v ) {
+					if( $k == 'relation' ) {
+						if( !isset( $class_arguments['relations'] ) ) {
 							$class_arguments['relations'] = [];
 						}
 						$class_arguments['relations'][] = $v;
 						continue;
 					}
 
-					if($k=='key') {
-						if(!isset($class_arguments['keys'])) {
+					if( $k == 'key' ) {
+						if( !isset( $class_arguments['keys'] ) ) {
 							$class_arguments['keys'] = [];
 						}
 						$class_arguments['keys'][] = $v;

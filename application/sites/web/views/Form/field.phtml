@@ -1,8 +1,10 @@
 <?php
+
 use Jet\Mvc_View;
 use Jet\Form_Field;
+
 /**
- * @var Mvc_View      $this
+ * @var Mvc_View $this
  * @var Form_Field $f
  */
 $f = $this->getRaw( 'field' );
@@ -18,10 +20,10 @@ echo $f->row()->start().
 */
 
 echo
-$f->row()->start().
-	$f->label().
-	$f->container()->start().
-		$f->input().
-		$f->error().
-	$f->container()->end().
-$f->row()->end();
+	$f->row()->start() .
+	$f->label() .
+	$f->container()->start() .
+	$f->input() .
+	$f->error() .
+	$f->container()->end() .
+	$f->row()->end();

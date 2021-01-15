@@ -1,5 +1,6 @@
 <?php
 namespace JetApplication\Installer;
+
 use Jet\Mvc_Layout;
 use Jet\Tr;
 use Jet\UI_messages;
@@ -7,20 +8,20 @@ use Jet\SysConf_URI;
 
 /**
  * @var Installer_Step_Controller[] $steps
- * @var Mvc_Layout                  $this
+ * @var Mvc_Layout $this
  */
 $steps = $this->getRaw( 'steps' );
 
 $this->requireJavascriptFile( 'https://code.jquery.com/jquery-3.5.1.js' );
 $this->requireCssFile( 'https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css' );
 $this->requireCssFile( 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css' );
-$this->requireCssFile( SysConf_URI::getCss().'flags.css' );
+$this->requireCssFile( SysConf_URI::getCss() . 'flags.css' );
 
 
 ?>
 <html>
 <head>
-	<title><?=Tr::_( 'PHP Jet - Example Project Installer' );?></title>
+	<title><?= Tr::_( 'PHP Jet - Example Project Installer' ); ?></title>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 	<jet_layout_meta_tags/>
 	<jet_layout_css/>
@@ -28,8 +29,8 @@ $this->requireCssFile( SysConf_URI::getCss().'flags.css' );
 
 	<style type="text/css">
 
-		html,body,.container {
-			height:100%;
+		html, body, .container {
+			height: 100%;
 		}
 
 		header {
@@ -39,18 +40,19 @@ $this->requireCssFile( SysConf_URI::getCss().'flags.css' );
 			font-weight: bolder;
 			padding: 10px;
 			margin-left: -15px;
-            margin-right: -15px;
+			margin-right: -15px;
 			margin-bottom: 20px;
 		}
 
 
 		.progress-area {
-            background-color: #5c5c5c;
+			background-color: #5c5c5c;
 		}
 
 		.step {
 			padding: 5px;
 		}
+
 		.step-prev {
 
 		}
@@ -90,7 +92,7 @@ $this->requireCssFile( SysConf_URI::getCss().'flags.css' );
 	<div class="row h-100">
 		<div class="col-md-2 progress-area">
 			<header>
-				<?=Tr::_( 'PHP Jet - Example Project Installer' );?>
+				<?= Tr::_( 'PHP Jet - Example Project Installer' ); ?>
 			</header>
 
 			<?php foreach( $steps as $step ):
@@ -100,24 +102,24 @@ $this->requireCssFile( SysConf_URI::getCss().'flags.css' );
 				}
 				?>
 				<?php if( $step->getIsPast() ): ?>
-				<div class="step step-prev<?=$class;?>">
+				<div class="step step-prev<?= $class; ?>">
 					<?php if( $step->getIsAvailable() ): ?>
-						<a href="<?=$step->getURL();?>"><?=$step->getLabel();?></a>
+						<a href="<?= $step->getURL(); ?>"><?= $step->getLabel(); ?></a>
 					<?php else: ?>
-						<?=$step->getLabel();?>
+						<?= $step->getLabel(); ?>
 					<?php endif; ?>
 				</div>
 			<?php endif; ?>
 				<?php if( $step->getIsCurrent() ): ?>
-				<div class="step step-current<?=$class;?>"><?=$step->getLabel();?></div>
+				<div class="step step-current<?= $class; ?>"><?= $step->getLabel(); ?></div>
 			<?php endif; ?>
 				<?php if( $step->getIsFuture() ): ?>
-				<div class="step step-next<?=$class;?>"><?=$step->getLabel();?></div>
+				<div class="step step-next<?= $class; ?>"><?= $step->getLabel(); ?></div>
 			<?php endif; ?>
 			<?php endforeach; ?>
 		</div>
 		<div class="col-md-10 main">
-			<h1><?=Installer::getCurrentStepController()->getLabel()?></h1>
+			<h1><?= Installer::getCurrentStepController()->getLabel() ?></h1>
 			<hr/>
 			<div id="system-messages-area">
 				<?php

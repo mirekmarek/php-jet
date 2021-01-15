@@ -1,4 +1,5 @@
 <?php
+
 namespace JetApplication\Installer;
 
 use Jet\Form;
@@ -6,18 +7,18 @@ use Jet\Mvc_View;
 
 /**
  * @var Mvc_View $this
- * @var Form     $form
+ * @var Form $form
  */
 
 $form = $this->getRaw( 'form' );
-$form->setDefaultLabelWidth( [ Form::LJ_SIZE_MEDIUM => 2 ] );
-$form->setDefaultFieldWidth( [ Form::LJ_SIZE_MEDIUM => 4 ] );
+$form->setDefaultLabelWidth( [Form::LJ_SIZE_MEDIUM => 2] );
+$form->setDefaultFieldWidth( [Form::LJ_SIZE_MEDIUM => 4] );
 ?>
-<?=$form->start()?>
-<?=$form->message()?>
+<?= $form->start() ?>
+<?= $form->message() ?>
 
-<?=$form->field( 'username' )?>
-<?=$form->field( 'password' )?>
+<?= $form->field( 'username' ) ?>
+<?= $form->field( 'password' ) ?>
 
-<?=Installer::buttonNext();?>
-<?=$form->end()?>
+<?= Installer::buttonNext(); ?>
+<?= $form->end() ?>

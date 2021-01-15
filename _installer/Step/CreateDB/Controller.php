@@ -5,6 +5,7 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace JetApplication\Installer;
 
 use Exception;
@@ -43,7 +44,7 @@ class Installer_Step_CreateDB_Controller extends Installer_Step_Controller
 	/**
 	 * @return bool
 	 */
-	public function getIsAvailable() : bool
+	public function getIsAvailable(): bool
 	{
 		return !Installer_Step_CreateSite_Controller::sitesCreated();
 	}
@@ -52,10 +53,10 @@ class Installer_Step_CreateDB_Controller extends Installer_Step_Controller
 	/**
 	 *
 	 */
-	public function main() : void
+	public function main(): void
 	{
 		$this->catchContinue();
-		
+
 
 		$classes = [
 			Auth_Administrator_Role::class,

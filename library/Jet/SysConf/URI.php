@@ -5,6 +5,7 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace Jet;
 
 /**
@@ -21,7 +22,7 @@ class SysConf_URI
 	 * @var string
 	 */
 	protected static string $css = '';
-	
+
 	/**
 	 * @var string
 	 */
@@ -38,26 +39,26 @@ class SysConf_URI
 	 *
 	 * @throws SysConf_URI_Exception
 	 */
-	protected static function _check( string $what ) : void
+	protected static function _check( string $what ): void
 	{
-		if(!static::$$what) {
-			throw new SysConf_URI_Exception('URI '.$what.' is not set');
+		if( !static::$$what ) {
+			throw new SysConf_URI_Exception( 'URI ' . $what . ' is not set' );
 		}
 	}
 
 	/**
 	 * @return string
 	 */
-	public static function getBase() : string
+	public static function getBase(): string
 	{
-		static::_check('base');
+		static::_check( 'base' );
 		return static::$base;
 	}
 
 	/**
 	 * @param string $base
 	 */
-	public static function setBase( string $base ) : void
+	public static function setBase( string $base ): void
 	{
 		static::$base = $base;
 	}
@@ -65,9 +66,9 @@ class SysConf_URI
 	/**
 	 * @return string
 	 */
-	public static function getCss() : string
+	public static function getCss(): string
 	{
-		static::_check('css');
+		static::_check( 'css' );
 
 		return static::$css;
 	}
@@ -75,7 +76,7 @@ class SysConf_URI
 	/**
 	 * @param string $css
 	 */
-	public static function setCss( string $css ) : void
+	public static function setCss( string $css ): void
 	{
 		static::$css = $css;
 	}
@@ -84,9 +85,9 @@ class SysConf_URI
 	/**
 	 * @return string
 	 */
-	public static function getImages() : string
+	public static function getImages(): string
 	{
-		static::_check('images');
+		static::_check( 'images' );
 
 		return static::$images;
 	}
@@ -94,7 +95,7 @@ class SysConf_URI
 	/**
 	 * @param string $images
 	 */
-	public static function setImages( string $images ) : void
+	public static function setImages( string $images ): void
 	{
 		static::$images = $images;
 	}
@@ -103,9 +104,9 @@ class SysConf_URI
 	/**
 	 * @return string
 	 */
-	public static function getJs() : string
+	public static function getJs(): string
 	{
-		static::_check('js');
+		static::_check( 'js' );
 
 		return static::$js;
 	}
@@ -113,7 +114,7 @@ class SysConf_URI
 	/**
 	 * @param string $js
 	 */
-	public static function setJs( string $js ) : void
+	public static function setJs( string $js ): void
 	{
 		static::$js = $js;
 	}

@@ -5,6 +5,7 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace JetStudio;
 
 /**
@@ -16,10 +17,10 @@ trait DataModel_Definition_Model_Related_Trait
 	/**
 	 * @return DataModel_Definition_Model_Main|DataModel_Definition_Model_Related_1to1|DataModel_Definition_Model_Related_1toN|DataModel_Definition_Model_Related_MtoN
 	 */
-	public function getRelevantParentModel() : DataModel_Definition_Model_Main|DataModel_Definition_Model_Related_1to1|DataModel_Definition_Model_Related_1toN|DataModel_Definition_Model_Related_MtoN
+	public function getRelevantParentModel(): DataModel_Definition_Model_Main|DataModel_Definition_Model_Related_1to1|DataModel_Definition_Model_Related_1toN|DataModel_Definition_Model_Related_MtoN
 	{
 		$parent_class = $this->parent_model_class;
-		if(!$parent_class) {
+		if( !$parent_class ) {
 			$parent_class = $this->main_model_class_name;
 		}
 
@@ -32,9 +33,9 @@ trait DataModel_Definition_Model_Related_Trait
 	/**
 	 * @param DataModel_Definition_Model_Interface $parent
 	 */
-	public function setParentModel( DataModel_Definition_Model_Interface $parent ) : void
+	public function setParentModel( DataModel_Definition_Model_Interface $parent ): void
 	{
-		if($parent instanceof DataModel_Definition_Model_Related_Interface) {
+		if( $parent instanceof DataModel_Definition_Model_Related_Interface ) {
 			$this->parent_model_class = $parent->getClassName();
 		} else {
 			$this->main_model_class_name = $parent->getClassName();
@@ -45,7 +46,7 @@ trait DataModel_Definition_Model_Related_Trait
 	/**
 	 * @return string
 	 */
-	public function getParentModelClassName() : string
+	public function getParentModelClassName(): string
 	{
 		return $this->parent_model_class;
 	}
@@ -53,16 +54,16 @@ trait DataModel_Definition_Model_Related_Trait
 	/**
 	 * @return DataModel_Definition_Model_Main|DataModel_Definition_Model_Related_1to1|DataModel_Definition_Model_Related_1toN|DataModel_Definition_Model_Related_MtoN
 	 */
-	public function getParentModel() : DataModel_Definition_Model_Main|DataModel_Definition_Model_Related_1to1|DataModel_Definition_Model_Related_1toN|DataModel_Definition_Model_Related_MtoN
+	public function getParentModel(): DataModel_Definition_Model_Main|DataModel_Definition_Model_Related_1to1|DataModel_Definition_Model_Related_1toN|DataModel_Definition_Model_Related_MtoN
 	{
-		return DataModels::getClass($this->parent_model_class)->getDefinition();
+		return DataModels::getClass( $this->parent_model_class )->getDefinition();
 	}
 
 
 	/**
 	 * @return string
 	 */
-	public function getMainModelClassName() : string
+	public function getMainModelClassName(): string
 	{
 		return $this->main_model_class_name;
 	}
@@ -70,9 +71,9 @@ trait DataModel_Definition_Model_Related_Trait
 	/**
 	 * @return DataModel_Definition_Model_Main|DataModel_Definition_Model_Related_1to1|DataModel_Definition_Model_Related_1toN|DataModel_Definition_Model_Related_MtoN
 	 */
-	public function getMainModel() : DataModel_Definition_Model_Main|DataModel_Definition_Model_Related_1to1|DataModel_Definition_Model_Related_1toN|DataModel_Definition_Model_Related_MtoN
+	public function getMainModel(): DataModel_Definition_Model_Main|DataModel_Definition_Model_Related_1to1|DataModel_Definition_Model_Related_1toN|DataModel_Definition_Model_Related_MtoN
 	{
-		return DataModels::getClass($this->main_model_class_name)->getDefinition();
+		return DataModels::getClass( $this->main_model_class_name )->getDefinition();
 	}
 
 }

@@ -5,10 +5,11 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace Jet;
 
 /**
- * 
+ *
  */
 class DataModel_RecordData_Item
 {
@@ -26,7 +27,7 @@ class DataModel_RecordData_Item
 
 	/**
 	 * @param DataModel_Definition_Property $property_definition
-	 * @param mixed                         $value
+	 * @param mixed $value
 	 */
 	public function __construct( DataModel_Definition_Property $property_definition, mixed $value )
 	{
@@ -37,7 +38,7 @@ class DataModel_RecordData_Item
 	/**
 	 * @return DataModel_Definition_Property
 	 */
-	public function getPropertyDefinition() : DataModel_Definition_Property
+	public function getPropertyDefinition(): DataModel_Definition_Property
 	{
 		return $this->property_definition;
 	}
@@ -45,7 +46,7 @@ class DataModel_RecordData_Item
 	/**
 	 * @return mixed
 	 */
-	public function getValue() : mixed
+	public function getValue(): mixed
 	{
 		return $this->value;
 	}

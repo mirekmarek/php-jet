@@ -5,6 +5,7 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace JetStudio;
 
 use Jet\Form;
@@ -19,7 +20,8 @@ use Jet\UI_messages;
 /**
  *
  */
-class AccessControl {
+class AccessControl
+{
 
 	/**
 	 * @var ?Session
@@ -29,17 +31,17 @@ class AccessControl {
 	/**
 	 *
 	 */
-	public static function handle() : void
+	public static function handle(): void
 	{
 		Application::setCurrentPart( 'login' );
 
 		$session = static::getSession();
 		$key = static::readKey();
-		if(!$key) {
+		if( !$key ) {
 			static::handle_keyFileProblem();
 		}
 
-		if($session->getValue('username')!=$key['username']) {
+		if( $session->getValue( 'username' ) != $key['username'] ) {
 			static::handle_login();
 		}
 
@@ -49,10 +51,10 @@ class AccessControl {
 	/**
 	 *
 	 */
-	protected static function handle_keyFileProblem() : void
+	protected static function handle_keyFileProblem(): void
 	{
 		Application::getLayout( 'login' );
-		Application::output( Application::getView()->render('error') );
+		Application::output( Application::getView()->render( 'error' ) );
 		Application::renderLayout();
 
 		Application::end();
@@ -61,7 +63,7 @@ class AccessControl {
 	/**
 	 *
 	 */
-	protected static function handle_login() : void
+	protected static function handle_login(): void
 	{
 		$form = static::getLoginForm();
 
@@ -82,9 +84,9 @@ class AccessControl {
 		Application::getLayout( 'login' );
 
 		$view = Application::getView();
-		$view->setVar('login_form', $form);
+		$view->setVar( 'login_form', $form );
 
-		Application::output( $view->render('login') );
+		Application::output( $view->render( 'login' ) );
 		Application::renderLayout();
 
 		Application::end();
@@ -94,16 +96,16 @@ class AccessControl {
 	/**
 	 *
 	 */
-	public static function logout() : void
+	public static function logout(): void
 	{
-		static::getSession()->unsetValue('username');
+		static::getSession()->unsetValue( 'username' );
 	}
 
 
 	/**
 	 * @return Form
 	 */
-	public static function getLoginForm() : Form
+	public static function getLoginForm(): Form
 	{
 		$username_field = new Form_Field_Input( 'username', 'Username: ' );
 		$username_field->setErrorMessages(
@@ -120,7 +122,8 @@ class AccessControl {
 
 		$form = new Form(
 			'login', [
-				$username_field, $password_field,
+				$username_field,
+				$password_field,
 			]
 		);
 
@@ -138,10 +141,10 @@ class AccessControl {
 	/**
 	 * @return Session
 	 */
-	protected static function getSession() : Session
+	protected static function getSession(): Session
 	{
-		if(!static::$session) {
-			static::$session = new Session('_jet_studio_sess');
+		if( !static::$session ) {
+			static::$session = new Session( '_jet_studio_sess' );
 		}
 
 		return static::$session;
@@ -150,27 +153,27 @@ class AccessControl {
 	/**
 	 * @return bool|array
 	 */
-	protected static function readKey() : bool|array
+	protected static function readKey(): bool|array
 	{
-		$path  = ProjectConf_Path::getData().'_jet_studio_access.php';
+		$path = ProjectConf_Path::getData() . '_jet_studio_access.php';
 
-		if( !IO_File::exists($path) ) {
-			UI_messages::danger( Tr::_('The access configuration file does not exist') );
+		if( !IO_File::exists( $path ) ) {
+			UI_messages::danger( Tr::_( 'The access configuration file does not exist' ) );
 			return false;
 		}
 
-		if( !IO_File::isReadable($path) ) {
-			UI_messages::danger( Tr::_('The access configuration file is not readable') );
+		if( !IO_File::isReadable( $path ) ) {
+			UI_messages::danger( Tr::_( 'The access configuration file is not readable' ) );
 			return false;
 		}
 
 		$key = require $path;
 		if(
-			!is_array($key) ||
-			!isset($key['username']) ||
-			!isset($key['password'])
+			!is_array( $key ) ||
+			!isset( $key['username'] ) ||
+			!isset( $key['password'] )
 		) {
-			UI_messages::danger( Tr::_('The access configuration is corrupted') );
+			UI_messages::danger( Tr::_( 'The access configuration is corrupted' ) );
 			return false;
 		}
 
@@ -182,20 +185,20 @@ class AccessControl {
 	 * @param string $password
 	 * @return bool
 	 */
-	protected static function checkKey( string $username, string $password ) : bool
+	protected static function checkKey( string $username, string $password ): bool
 	{
 
 		$key = static::readKey();
 
-		if($key['username']!=$username) {
+		if( $key['username'] != $username ) {
 			return false;
 		}
 
-		if(!password_verify($password, $key['password'])) {
+		if( !password_verify( $password, $key['password'] ) ) {
 			return false;
 		}
 
-		static::getSession()->setValue('username', $username);
+		static::getSession()->setValue( 'username', $username );
 
 		return true;
 	}

@@ -5,6 +5,7 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace Jet;
 
 /**
@@ -31,7 +32,7 @@ abstract class UI_BaseElement extends BaseObject
 	/**
 	 * @return string
 	 */
-	public static function getDefaultRendererScript() : string
+	public static function getDefaultRendererScript(): string
 	{
 		return static::$default_renderer_script;
 	}
@@ -39,7 +40,7 @@ abstract class UI_BaseElement extends BaseObject
 	/**
 	 * @param string $default_renderer_script
 	 */
-	public static function setDefaultRendererScript( string $default_renderer_script ) : void
+	public static function setDefaultRendererScript( string $default_renderer_script ): void
 	{
 		static::$default_renderer_script = $default_renderer_script;
 	}
@@ -47,9 +48,9 @@ abstract class UI_BaseElement extends BaseObject
 	/**
 	 * @return string
 	 */
-	public function getRendererScript() : string
+	public function getRendererScript(): string
 	{
-		if(!$this->renderer_script) {
+		if( !$this->renderer_script ) {
 			$this->renderer_script = static::getDefaultRendererScript();
 		}
 
@@ -61,13 +62,12 @@ abstract class UI_BaseElement extends BaseObject
 	 *
 	 * @return $this
 	 */
-	public function setRendererScript( string $renderer_script ) : static
+	public function setRendererScript( string $renderer_script ): static
 	{
 		$this->renderer_script = $renderer_script;
 
 		return $this;
 	}
-
 
 
 	/**
@@ -76,7 +76,7 @@ abstract class UI_BaseElement extends BaseObject
 	 *
 	 * @return $this
 	 */
-	public function setJsAction( string $event, string $handler_code ) : static
+	public function setJsAction( string $event, string $handler_code ): static
 	{
 		/**
 		 * @var UI_icon $this
@@ -87,7 +87,7 @@ abstract class UI_BaseElement extends BaseObject
 		if( !isset( $this->js_actions[$event] ) ) {
 			$this->js_actions[$event] = $handler_code;
 		} else {
-			$this->js_actions[$event] .= ';'.$handler_code;
+			$this->js_actions[$event] .= ';' . $handler_code;
 
 		}
 
@@ -99,13 +99,13 @@ abstract class UI_BaseElement extends BaseObject
 	 *
 	 * @return array|string
 	 */
-	public function getJsActions( bool $as_string=true ) : array|string
+	public function getJsActions( bool $as_string = true ): array|string
 	{
-		if($as_string) {
+		if( $as_string ) {
 			$js_actions = [];
 
 			foreach( $this->js_actions as $vent => $handler ) {
-				$js_actions[] = ' '.$vent.'="'.$handler.'"';
+				$js_actions[] = ' ' . $vent . '="' . $handler . '"';
 			}
 
 			return implode( '', $js_actions );
@@ -117,7 +117,7 @@ abstract class UI_BaseElement extends BaseObject
 	/**
 	 * @return Mvc_View
 	 */
-	public function getView() : Mvc_View
+	public function getView(): Mvc_View
 	{
 
 		$view = UI::getView();
@@ -129,7 +129,7 @@ abstract class UI_BaseElement extends BaseObject
 	/**
 	 * @return string
 	 */
-	public function __toString() : string
+	public function __toString(): string
 	{
 		return $this->toString();
 	}
@@ -137,9 +137,9 @@ abstract class UI_BaseElement extends BaseObject
 	/**
 	 * @return string
 	 */
-	public function toString() : string
+	public function toString(): string
 	{
-		return $this->getView()->render($this->getRendererScript());
+		return $this->getView()->render( $this->getRendererScript() );
 	}
 
 

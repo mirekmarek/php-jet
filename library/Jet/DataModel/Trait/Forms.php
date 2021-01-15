@@ -5,6 +5,7 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace Jet;
 
 /**
@@ -17,10 +18,10 @@ trait DataModel_Trait_Forms
 	 *
 	 * @return Form
 	 */
-	public function getCommonForm( $form_name = '' ) : Form
+	public function getCommonForm( $form_name = '' ): Form
 	{
 		/**
-		 * @var DataModel                  $this
+		 * @var DataModel $this
 		 * @var DataModel_Definition_Model $definition
 		 */
 
@@ -34,17 +35,17 @@ trait DataModel_Trait_Forms
 
 	/**
 	 *
-	 * @param string                              $form_name
+	 * @param string $form_name
 	 * @param array|DataModel_PropertyFilter|null $property_filter
 	 *
+	 * @return Form
 	 * @throws DataModel_Exception
 	 *
-	 * @return Form
 	 */
-	public function getForm( string $form_name, array|DataModel_PropertyFilter|null $property_filter = null ) : Form
+	public function getForm( string $form_name, array|DataModel_PropertyFilter|null $property_filter = null ): Form
 	{
 		/**
-		 * @var DataModel                  $this
+		 * @var DataModel $this
 		 * @var DataModel_Definition_Model $definition
 		 */
 
@@ -53,7 +54,7 @@ trait DataModel_Trait_Forms
 
 		if(
 			$property_filter &&
-			!( $property_filter instanceof DataModel_PropertyFilter )
+			!($property_filter instanceof DataModel_PropertyFilter)
 		) {
 			$property_filter = new DataModel_PropertyFilter( $definition, $property_filter );
 		}
@@ -73,13 +74,13 @@ trait DataModel_Trait_Forms
 			}
 			$property = &$this->{$property_name};
 
-			if( ( $field_creator_method_name = $property_definition->getFormFieldCreatorMethodName() ) ) {
+			if( ($field_creator_method_name = $property_definition->getFormFieldCreatorMethodName()) ) {
 				$created_field = $this->{$field_creator_method_name}( $property_definition, $property_filter );
 			} else {
 				if(
-					is_object( $property )&&
+					is_object( $property ) &&
 					method_exists( $property, 'getRelatedFormFields' ) &&
-					$property_definition->getFormFieldType()!==false
+					$property_definition->getFormFieldType() !== false
 				) {
 					foreach( $property->getRelatedFormFields( $property_definition, $property_filter ) as $field ) {
 						$form_fields[] = $field;
@@ -115,18 +116,18 @@ trait DataModel_Trait_Forms
 	}
 
 	/**
-	 * @param Form  $form
+	 * @param Form $form
 	 *
 	 * @param array|null $data
-	 * @param bool  $force_catch
+	 * @param bool $force_catch
 	 *
 	 * @return bool;
 	 */
-	public function catchForm( Form $form, ?array $data = null, bool $force_catch = false ) : bool
+	public function catchForm( Form $form, ?array $data = null, bool $force_catch = false ): bool
 	{
 
 		if(
-			!$form->catchInput( $data, $force_catch )||
+			!$form->catchInput( $data, $force_catch ) ||
 			!$form->validate()
 		) {
 			return false;
