@@ -15,7 +15,7 @@ return [
 	],
 	'output'           => '<html>
 <head>
-
+	<link rel="icon" href="/images/favicon.png" type="image/png">
 </head>
 <body>
 	<h1>Static page ...</h1>
