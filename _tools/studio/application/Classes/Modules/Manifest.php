@@ -839,104 +839,6 @@ class Modules_Manifest extends Application_Module_Manifest
 		return $old_item;
 	}
 
-	/**
-	 * @return array
-	 */
-	public function toArray(): array
-	{
-		$res = [
-			'vendor'       => $this->getVendor(),
-			'version'      => $this->getVersion(),
-			'label'        => $this->getLabel(),
-			'description'  => $this->getDescription(),
-			'is_mandatory' => $this->isMandatory()
-		];
-
-		foreach( $this->getACLActions( false ) as $action => $description ) {
-			if( !isset( $res['ACL_actions'] ) ) {
-				$res['ACL_actions'] = [];
-			}
-
-			$res['ACL_actions'][$action] = $description;
-		}
-
-		$cleanupArray = function( $data ) use ( &$cleanupArray ) {
-			foreach( $data as $k => $v ) {
-				if( !$v ) {
-					unset( $data[$k] );
-					continue;
-				}
-
-				if( is_array( $v ) ) {
-					$data[$k] = $cleanupArray( $v );
-					if( !$data[$k] ) {
-						unset( $data[$k] );
-					}
-				}
-			}
-
-			return $data;
-		};
-
-		foreach( $this->pages as $site_id => $pages ) {
-			if( !isset( $res['pages'] ) ) {
-				$res['pages'] = [];
-			}
-
-			if( !isset( $res['pages'][$site_id] ) ) {
-				$res['pages'][$site_id] = [];
-			}
-
-			foreach( $pages as $page_id => $page ) {
-				$page_data = $page->toArray();
-				unset( $page_data['id'] );
-				$page_data['relative_path_fragment'] = $page->getRelativePathFragment();
-
-				$page_data = $cleanupArray( $page_data );
-
-				$res['pages'][$site_id][$page_id] = $page_data;
-			}
-
-		}
-
-		foreach( $this->menu_items as $namespace_id => $menus ) {
-			$namespace = Menus::getSet( $namespace_id );
-			if( !$namespace ) {
-				continue;
-			}
-
-			if( !isset( $res['menu_items'] ) ) {
-				$res['menu_items'] = [];
-			}
-
-			$namespace = $namespace->getName();
-
-			if( !isset( $res['menu_items'][$namespace] ) ) {
-				$res['menu_items'][$namespace] = [];
-			}
-
-			foreach( $menus as $menu_id => $items ) {
-
-				if( !isset( $res['menu_items'][$namespace][$menu_id] ) ) {
-					$res['menu_items'][$namespace][$menu_id] = [];
-				}
-
-				foreach( $items as $item_id => $item ) {
-					/**
-					 * @var Menus_Menu_Item $item ;
-					 */
-					$item = $item->toArray();
-					$item = $cleanupArray( $item );
-
-					$res['menu_items'][$namespace][$menu_id][$item_id] = $item;
-
-				}
-
-			}
-		}
-
-		return $res;
-	}
 
 
 	/**
@@ -944,11 +846,7 @@ class Modules_Manifest extends Application_Module_Manifest
 	 */
 	public function create_saveManifest(): void
 	{
-		$module_dir = $this->getModuleDir();
-
-		$data = new Data_Array( $this->toArray() );
-
-		IO_File::write( $module_dir . static::getManifestFileName(), '<?php return ' . $data->export() );
+		$this->saveDatafile();
 
 	}
 

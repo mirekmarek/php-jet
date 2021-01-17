@@ -24,11 +24,6 @@ trait Mvc_Page_Trait_Initialization
 	protected static bool $use_module_pages = true;
 
 	/**
-	 * @var string
-	 */
-	protected string $data_file_path = '';
-
-	/**
 	 * @var Mvc_Page[]
 	 */
 	protected static array $pages = [];
@@ -244,6 +239,7 @@ trait Mvc_Page_Trait_Initialization
 
 		$page->setData( $data );
 
+		$page->original_relative_path_fragment = $page->relative_path_fragment;
 
 		return $page;
 	}
@@ -306,31 +302,6 @@ trait Mvc_Page_Trait_Initialization
 			$this->breadcrumb_title = $this->title;
 		}
 
-	}
-
-
-	/**
-	 * @return string
-	 */
-	public function getDataDirPath(): string
-	{
-		return dirname( $this->getDataFilePath() ) . '/';
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getDataFilePath(): string
-	{
-		return $this->data_file_path;
-	}
-
-	/**
-	 * @param string $data_file_path
-	 */
-	public function setDataFilePath( string $data_file_path ): void
-	{
-		$this->data_file_path = $data_file_path;
 	}
 
 

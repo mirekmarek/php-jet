@@ -248,4 +248,25 @@ class Navigation_MenuSet extends BaseObject
 	}
 
 
+	/**
+	 *
+	 */
+	public function saveDataFile(): void
+	{
+		$res = [];
+
+		foreach( $this->menus as $menu ) {
+			$menu_id = $menu->getId();
+
+			$res[$menu_id] = $menu->toArray();
+
+		}
+
+		$res = new Data_Array( $res );
+
+		IO_File::write( $this->config_file_path, '<?php return ' . $res->export() );
+		Mvc_Cache::reset();
+
+	}
+
 }

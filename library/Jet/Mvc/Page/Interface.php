@@ -412,4 +412,8 @@ interface Mvc_Page_Interface
 	 */
 	public function render(): string;
 
+	/**
+	 *
+	 */
+	public function saveDataFile(): void;
 }

@@ -122,6 +122,8 @@ class Translator_Backend_PHPFiles extends Translator_Backend
 		$data = '<?php' . PHP_EOL . 'return ' . (new Data_Array( $data ))->export();
 
 		IO_File::write( $file_path, $data );
+
+		Cache::resetOPCache();
 	}
 
 

@@ -283,34 +283,4 @@ class Menus_Menu extends Navigation_Menu
 		return $this->items;
 	}
 
-	/**
-	 * @return array
-	 */
-	public function toArray(): array
-	{
-
-		$menu = [
-			'label' => $this->getLabel(),
-			'icon'  => $this->getIcon(),
-			'index' => $this->getIndex()
-		];
-
-		if( $this->items ) {
-			$menu['items'] = [];
-
-			foreach( $this->items as $item ) {
-				$item_id = $item->getId();
-
-				$menu_item = $item->toArray();
-
-
-				$menu['items'][$item_id] = $menu_item;
-
-			}
-		}
-
-		return $menu;
-
-	}
-
 }

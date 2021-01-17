@@ -9,7 +9,6 @@
 namespace JetApplication\Installer;
 
 use JetApplication\Auth_Administrator_User;
-use JetApplication\Auth_RESTClient_User;
 
 /**
  *
@@ -48,14 +47,6 @@ class Installer_Step_CreateAdministrator_Controller extends Installer_Step_Contr
 			if( $administrator->catchForm( $form ) ) {
 				$administrator->setIsSuperuser( true );
 				$administrator->save();
-
-
-				$api_user = new Auth_RESTClient_User();
-				$api_user->setUsername( $administrator->getUsername() );
-				$api_user->setLocale( $administrator->getLocale() );
-				$api_user->setEmail( $administrator->getEmail() );
-				$api_user->setPassword( $form->getField( 'password' )->getValue() );
-				$api_user->save();
 
 				Installer::goToNext();
 			}

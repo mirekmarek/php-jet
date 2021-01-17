@@ -8,12 +8,9 @@
 
 namespace JetStudio;
 
-use Jet\Data_Array;
 use Jet\Exception;
 use Jet\Form;
 use Jet\Form_Field_Input;
-use Jet\IO_File;
-use Jet\Mvc_Cache;
 use Jet\Navigation_Menu;
 use Jet\Http_Request;
 use Jet\Navigation_Menu_Exception;
@@ -314,23 +311,7 @@ class Menus_MenuSet extends Navigation_MenuSet
 
 		$ok = true;
 		try {
-			$res = [];
-
-			foreach( $this->menus as $menu ) {
-				$menu_id = $menu->getId();
-				/**
-				 * @var Menus_Menu $menu
-				 */
-
-				$res[$menu_id] = $menu->toArray();
-
-			}
-
-			$res = new Data_Array( $res );
-
-			IO_File::write( $this->config_file_path, '<?php return ' . $res->export() );
-			Mvc_Cache::reset();
-
+			$this->saveDataFile();
 		} catch( Exception $e ) {
 			$ok = false;
 			Application::handleError( $e );

@@ -13,21 +13,15 @@ use Jet\Exception;
 use Jet\Form_Field_Select;
 use Jet\Form_Field_Textarea;
 use Jet\Form_Field_Hidden;
-use Jet\IO_Dir;
-use Jet\Mvc_Cache;
 use Jet\Mvc_Layout;
 use Jet\Mvc_Page;
 use Jet\Form;
 use Jet\Form_Field_Input;
 use Jet\Form_Field_Checkbox;
 use Jet\Mvc_Factory;
-use Jet\Mvc_Site_Interface;
 use Jet\Tr;
 use Jet\Locale;
-use Jet\IO_File;
-use Jet\Data_Array;
 use Jet\Mvc_Page_Content_Interface;
-use Jet\Mvc_Page_MetaTag;
 
 /**
  *
@@ -79,58 +73,14 @@ class Pages_Page extends Mvc_Page
 	 */
 	protected array $content = [];
 
-	/**
-	 * @var string
-	 */
-	protected string $original_relative_path_fragment = '';
-
 
 	/**
 	 * @var ?Form
 	 */
 	protected static ?Form $create_form = null;
 
-	/**
-	 * @param Mvc_Site_Interface $site
-	 * @param Locale $locale
-	 * @param array $data
-	 *
-	 * @return static
-	 */
-	public static function createByData( Mvc_Site_Interface $site, Locale $locale, array $data ): static
-	{
-		$page = parent::createByData( $site, $locale, $data );
-
-		$page->original_relative_path_fragment = $page->relative_path_fragment;
-
-		return $page;
-	}
 
 
-	/**
-	 * @param string $relative_path_fragment
-	 */
-	public function setRelativePathFragment( string $relative_path_fragment ): void
-	{
-		$this->relative_path_fragment = $relative_path_fragment;
-
-
-		$parent = $this->getParent();
-		if(
-			$parent &&
-			$parent->getRelativePath()
-		) {
-			$this->relative_path = $parent->getRelativePath() . '/' . $this->relative_path_fragment;
-		} else {
-			$this->relative_path = $this->relative_path_fragment;
-
-		}
-
-		foreach( $this->getChildren() as $ch ) {
-			$ch->setRelativePathFragment( $ch->getRelativePathFragment() );
-
-		}
-	}
 
 
 	/**
@@ -226,54 +176,6 @@ class Pages_Page extends Mvc_Page
 		return $new_page;
 	}
 
-	/**
-	 * @param string $site_id
-	 * @param Locale|string $locale
-	 * @param string $id
-	 * @param string $name
-	 * @param Pages_Page|null $parent
-	 *
-	 * @return Pages_Page
-	 */
-	public static function createPage( string $site_id,
-	                                   Locale|string $locale,
-	                                   string $id,
-	                                   string $name,
-	                                   ?Pages_Page $parent = null ): Pages_Page
-	{
-
-		if( !is_object( $locale ) ) {
-			$locale = new Locale( $locale );
-		}
-
-
-		$page = new Pages_Page();
-		$page->setSiteId( $site_id );
-		$page->setLocale( $locale );
-		$page->setId( $id );
-		$page->setName( $name );
-		$page->setTitle( $name );
-		$page->setLayoutScriptName( 'default' );
-
-		if( $parent ) {
-			$page->setRelativePathFragment( $id );
-			$page->original_relative_path_fragment = $id;
-			$page->parent_id = $parent->getId();
-			if( $parent->getRelativePath() ) {
-				$page->relative_path = $parent->getRelativePath() . '/' . $page->relative_path_fragment . '/';
-			}
-		}
-
-		return $page;
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getFullId(): string
-	{
-		return $this->site_id . '.' . $this->id;
-	}
 
 	/**
 	 * @return Form
@@ -686,57 +588,49 @@ class Pages_Page extends Mvc_Page
 	}
 
 
+
+
 	/**
+	 * @param string $site_id
+	 * @param Locale|string $locale
+	 * @param string $id
+	 * @param string $name
+	 * @param Pages_Page|null $parent
 	 *
+	 * @return Pages_Page
 	 */
-	public function sortContent(): void
+	public static function createPage( string $site_id,
+	                                   Locale|string $locale,
+	                                   string $id,
+	                                   string $name,
+	                                   ?Pages_Page $parent = null ): Pages_Page
 	{
-		$i = 0;
-		$positions = [];
 
-		foreach( $this->getContent() as $content ) {
-
-			$position = $content->getOutputPosition();
-
-			if( !isset( $positions[$position] ) ) {
-				$positions[$position] = [];
-			}
-
-			$positions[$position][$i] = $content;
-
-			$i++;
+		if( !is_object( $locale ) ) {
+			$locale = new Locale( $locale );
 		}
 
-		foreach( $positions as $position => $pd ) {
-			uasort(
-				$positions[$position],
-				function( Pages_Page_Content $a, Pages_Page_Content $b ) {
-					$a_p = $a->getOutputPositionOrder();
-					$b_p = $b->getOutputPositionOrder();
 
-					if( $a_p == $b_p ) {
-						return 0;
-					}
+		$page = new Pages_Page();
+		$page->setSiteId( $site_id );
+		$page->setLocale( $locale );
+		$page->setId( $id );
+		$page->setName( $name );
+		$page->setTitle( $name );
+		$page->setLayoutScriptName( 'default' );
 
-					if( $a_p > $b_p ) {
-						return 1;
-					}
-
-					return -1;
-				}
-			);
-
-			$c = 0;
-			foreach( $positions[$position] as $content ) {
-				/**
-				 * @var Pages_Page_Content $content
-				 */
-				$c++;
-				$content->setOutputPositionOrder( $c );
+		if( $parent ) {
+			$page->setRelativePathFragment( $id );
+			$page->original_relative_path_fragment = $id;
+			$page->parent_id = $parent->getId();
+			if( $parent->getRelativePath() ) {
+				$page->relative_path = $parent->getRelativePath() . '/' . $page->relative_path_fragment . '/';
 			}
 		}
 
+		return $page;
 	}
+
 
 
 	/**
@@ -917,162 +811,7 @@ class Pages_Page extends Mvc_Page
 	}
 
 
-	/**
-	 * @return string
-	 */
-	public function getDataDirPath(): string
-	{
-		if( !$this->getParent() ) {
-			return Sites_Site::get( $this->site_id )->getPagesDataPath( $this->locale );
-		} else {
-			return $this->getParent()->getDataDirPath() . rawurldecode( $this->relative_path_fragment ) . '/';
-		}
-	}
 
-	/**
-	 * @return string
-	 */
-	public function getOriginalDataDirPath(): string
-	{
-		if( !$this->getParent() ) {
-			return Sites_Site::get( $this->site_id )->getPagesDataPath( $this->locale );
-		} else {
-			return $this->getParent()->getDataDirPath() . rawurldecode( $this->original_relative_path_fragment ) . '/';
-		}
-	}
-
-	/**
-	 * @return array
-	 */
-	public function toArray(): array
-	{
-		$res = parent::toArray();
-		unset( $res['relative_path_fragment'] );
-		unset( $res['original_relative_path_fragment'] );
-
-		return $res;
-	}
-
-	/**
-	 *
-	 */
-	public function saveDataFile(): void
-	{
-		if( $this->relative_path_fragment != $this->original_relative_path_fragment ) {
-
-			$page_dir = $this->getDataDirPath();
-			$original_page_dir = $this->getOriginalDataDirPath();
-
-			IO_Dir::rename( $original_page_dir, $page_dir );
-		}
-
-		$data = $this->toArray();
-
-		$page_dir = $this->getDataDirPath();
-
-		$data_file_path = $page_dir . static::getPageDataFileName();
-
-		IO_File::write(
-			$data_file_path,
-			'<?php' . PHP_EOL . 'return ' . (new Data_Array( $data ))->export()
-		);
-
-		Mvc_Cache::reset();
-	}
-
-	/**
-	 * @return bool
-	 */
-	public function save(): bool
-	{
-		$ok = true;
-		try {
-			$this->saveDataFile();
-		} catch( Exception $e ) {
-			$ok = false;
-			Application::handleError( $e );
-		}
-
-		return $ok;
-	}
-
-
-	/**
-	 * @param Mvc_Page_Content_Interface $content
-	 */
-	public function addContent( Mvc_Page_Content_Interface $content ): void
-	{
-
-		parent::addContent( $content );
-		$this->sortContent();
-	}
-
-
-	/**
-	 * @param int $index
-	 */
-	public function removeContent( int $index ): void
-	{
-		parent::removeContent( $index );
-
-		$this->sortContent();
-	}
-
-	/**
-	 * @param string $site_id
-	 * @param string $page_id
-	 * @param array $data
-	 *
-	 * @return Pages_Page
-	 */
-	public static function fromArray( string $site_id, string $page_id, array $data ): Pages_Page
-	{
-		$page = new Pages_Page();
-
-		$page->setSiteId( $site_id );
-		$page->setId( $page_id );
-
-		foreach( $data as $key => $val ) {
-			if(
-				$key == 'contents'
-			) {
-				$page->content = [];
-				foreach( $val as $c_d ) {
-					$page->content[] = Pages_Page_Content::fromArray( $c_d );
-				}
-				continue;
-			}
-
-			if(
-				$key == 'meta_tags'
-			) {
-				$page->meta_tags = [];
-				foreach( $val as $m_d ) {
-					$meta_tag = new Mvc_Page_MetaTag();
-					$meta_tag->setAttribute( $m_d['attribute'] );
-					$meta_tag->setAttributeValue( $m_d['attribute_value'] );
-					$meta_tag->setContent( $m_d['content'] );
-
-					$page->meta_tags[] = $meta_tag;
-				}
-
-				continue;
-			}
-
-			$page->{$key} = $val;
-		}
-
-		if( !$page->name ) {
-			$page->name = $page->title;
-		}
-
-		if( !$page->title ) {
-			$page->title = $page->name;
-		}
-
-
-		return $page;
-	}
 
 
 	/**
@@ -1145,39 +884,6 @@ class Pages_Page extends Mvc_Page
 		}
 
 		return $this->__create_content_form;
-	}
-
-	/**
-	 * @param string $module_name
-	 * @param string $controller
-	 * @return array
-	 */
-	public static function getModuleControllerActions( string $module_name, string $controller ): array
-	{
-		if( Modules::exists( $module_name ) ) {
-			$module = Modules::getModule( $module_name );
-			$controllers = $module->getControllers();
-
-			if( isset( $controllers[$controller] ) ) {
-				return $module->getControllerAction( $controller );
-			}
-		}
-
-		return [];
-	}
-
-	/**
-	 * @param string $module_name
-	 * @return array
-	 */
-	public static function getModuleControllers( string $module_name ): array
-	{
-		if( Modules::exists( $module_name ) ) {
-			$module = Modules::getModule( $module_name );
-			return $module->getControllers();
-		}
-
-		return [];
 	}
 
 	/**
@@ -1292,6 +998,157 @@ class Pages_Page extends Mvc_Page
 		$this->__create_content_form = null;
 
 		return $content;
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	/**
+	 * @param string $module_name
+	 * @param string $controller
+	 * @return array
+	 */
+	public static function getModuleControllerActions( string $module_name, string $controller ): array
+	{
+		if( Modules::exists( $module_name ) ) {
+			$module = Modules::getModule( $module_name );
+			$controllers = $module->getControllers();
+
+			if( isset( $controllers[$controller] ) ) {
+				return $module->getControllerAction( $controller );
+			}
+		}
+
+		return [];
+	}
+
+	/**
+	 * @param string $module_name
+	 * @return array
+	 */
+	public static function getModuleControllers( string $module_name ): array
+	{
+		if( Modules::exists( $module_name ) ) {
+			$module = Modules::getModule( $module_name );
+			return $module->getControllers();
+		}
+
+		return [];
+	}
+
+
+	/**
+	 * @return string
+	 */
+	public function getFullId(): string
+	{
+		return $this->site_id . '.' . $this->id;
+	}
+
+
+	/**
+	 *
+	 */
+	public function sortContent(): void
+	{
+		$i = 0;
+		$positions = [];
+
+		foreach( $this->getContent() as $content ) {
+
+			$position = $content->getOutputPosition();
+
+			if( !isset( $positions[$position] ) ) {
+				$positions[$position] = [];
+			}
+
+			$positions[$position][$i] = $content;
+
+			$i++;
+		}
+
+		foreach( $positions as $position => $pd ) {
+			uasort(
+				$positions[$position],
+				function( Pages_Page_Content $a, Pages_Page_Content $b ) {
+					$a_p = $a->getOutputPositionOrder();
+					$b_p = $b->getOutputPositionOrder();
+
+					if( $a_p == $b_p ) {
+						return 0;
+					}
+
+					if( $a_p > $b_p ) {
+						return 1;
+					}
+
+					return -1;
+				}
+			);
+
+			$c = 0;
+			foreach( $positions[$position] as $content ) {
+				/**
+				 * @var Pages_Page_Content $content
+				 */
+				$c++;
+				$content->setOutputPositionOrder( $c );
+			}
+		}
+
+	}
+
+
+	/**
+	 * @param Mvc_Page_Content_Interface $content
+	 */
+	public function addContent( Mvc_Page_Content_Interface $content ): void
+	{
+
+		parent::addContent( $content );
+		$this->sortContent();
+	}
+
+
+	/**
+	 * @param int $index
+	 */
+	public function removeContent( int $index ): void
+	{
+		parent::removeContent( $index );
+
+		$this->sortContent();
+	}
+
+
+	/**
+	 * @return bool
+	 */
+	public function save(): bool
+	{
+		$ok = true;
+		try {
+			$this->saveDataFile();
+		} catch( Exception $e ) {
+			$ok = false;
+			Application::handleError( $e );
+		}
+
+		return $ok;
 	}
 
 }

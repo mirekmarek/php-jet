@@ -424,7 +424,7 @@ abstract class Config extends BaseObject
 	/**
 	 *
 	 */
-	public function writeConfigFile(): void
+	public function saveConfigFile(): void
 	{
 		$config_file_path = $this->getConfigFilePath();
 

@@ -31,6 +31,7 @@ class Mvc_Page extends BaseObject implements Mvc_Page_Interface
 	use Mvc_Page_Trait_URL;
 	use Mvc_Page_Trait_Auth;
 	use Mvc_Page_Trait_Handlers;
+	use Mvc_Page_Trait_Save;
 
 	/**
 	 *
@@ -90,6 +91,11 @@ class Mvc_Page extends BaseObject implements Mvc_Page_Interface
 	 * @var string
 	 */
 	protected string $relative_path_fragment = '';
+
+	/**
+	 * @var string
+	 */
+	protected string $original_relative_path_fragment = '';
 
 	/**
 	 * @var string
@@ -220,7 +226,6 @@ class Mvc_Page extends BaseObject implements Mvc_Page_Interface
 			$data = require $data_file_path;
 
 			$data['id'] = $page_id;
-			$data['data_file_path'] = $data_file_path;
 			$data['children'] = $maps['children_map'][$page_id];
 			$data['relative_path'] = array_search( $page_id, $maps['relative_path_map'] );
 			$data['relative_path_fragment'] = basename( $data['relative_path'] );
@@ -461,7 +466,25 @@ class Mvc_Page extends BaseObject implements Mvc_Page_Interface
 	public function setRelativePathFragment( string $relative_path_fragment ): void
 	{
 		$this->relative_path_fragment = $relative_path_fragment;
+
+
+		$parent = $this->getParent();
+		if(
+			$parent &&
+			$parent->getRelativePath()
+		) {
+			$this->relative_path = $parent->getRelativePath() . '/' . $this->relative_path_fragment;
+		} else {
+			$this->relative_path = $this->relative_path_fragment;
+
+		}
+
+		foreach( $this->getChildren() as $ch ) {
+			$ch->setRelativePathFragment( $ch->getRelativePathFragment() );
+
+		}
 	}
+
 
 	/**
 	 * @return string
@@ -844,13 +867,14 @@ class Mvc_Page extends BaseObject implements Mvc_Page_Interface
 			}
 		}
 
-		unset( $data['data_file_path'] );
 		unset( $data['relative_path'] );
 		unset( $data['parent_id'] );
 		unset( $data['children'] );
 		unset( $data['site_id'] );
 		unset( $data['locale'] );
 		unset( $data['order'] );
+		unset( $data['relative_path_fragment'] );
+		unset( $data['original_relative_path_fragment'] );
 
 
 		$data['meta_tags'] = [];

@@ -97,9 +97,9 @@ class Config_Section extends Config
 	/**
 	 *
 	 */
-	public function writeConfigFile(): void
+	public function saveConfigFile(): void
 	{
-		$this->getConfig()->writeConfigFile();
+		$this->getConfig()->saveConfigFile();
 	}
 
 }
