@@ -87,9 +87,14 @@ interface Mvc_Router_Interface
 	public function getRedirectType(): int;
 
 	/**
+	 * @param bool $authorization_required
+	 */
+	public function setAuthorizationRequired( bool $authorization_required ): void;
+
+	/**
 	 * @return bool
 	 */
-	public function getLoginRequired(): bool;
+	public function getAuthorizationRequired(): bool;
 
 	/**
 	 * @return string

@@ -87,7 +87,7 @@ class Mvc_Router extends BaseObject implements Mvc_Router_Interface
 	/**
 	 * @var bool
 	 */
-	protected bool $login_required = false;
+	protected bool $authorization_required = false;
 
 	//-----------------------------------------------------------------
 
@@ -139,20 +139,20 @@ class Mvc_Router extends BaseObject implements Mvc_Router_Interface
 		if( $this->resolve_seekSiteAndLocale() ) {
 			$this->resolve_seekPage();
 
-			if( $this->resolve_handleAuthentication() ) {
+			$this->resolve_Auth();
 
-				if( $this->resolve_pageResolve() ) {
-					if( $this->getIsRedirect() ) {
-						return;
-					}
+			$this->resolve_pageResolve();
 
-					if( $this->getIs404() ) {
-						return;
-					}
-
-					$this->resolve_checkPathUsed();
-				}
+			if( $this->getIsRedirect() ) {
+				return;
 			}
+
+			if( $this->getIs404() ) {
+				return;
+			}
+
+			$this->resolve_checkPathUsed();
+
 		}
 
 
@@ -372,24 +372,12 @@ class Mvc_Router extends BaseObject implements Mvc_Router_Interface
 
 	/**
 	 *
-	 * @return bool
 	 */
-	protected function resolve_handleAuthentication(): bool
+	protected function resolve_Auth() : void
 	{
-		if( !$this->getPage()->getIsSecret() ) {
-			return true;
+		if( $this->getPage()->getIsSecret() ) {
+			$this->authorization_required = true;
 		}
-
-		if( !Auth::checkCurrentUser() ) {
-			$this->login_required = true;
-			return false;
-		}
-
-		if( !$this->getPage()->accessAllowed() ) {
-			return false;
-		}
-
-		return true;
 
 	}
 
@@ -497,17 +485,17 @@ class Mvc_Router extends BaseObject implements Mvc_Router_Interface
 	/**
 	 * @return bool
 	 */
-	public function getLoginRequired(): bool
+	public function getAuthorizationRequired(): bool
 	{
-		return $this->login_required;
+		return $this->authorization_required;
 	}
 
 	/**
-	 * @param bool $login_required
+	 * @param bool $authorization_required
 	 */
-	protected function setLoginRequired( bool $login_required ): void
+	public function setAuthorizationRequired( bool $authorization_required ): void
 	{
-		$this->login_required = $login_required;
+		$this->authorization_required = $authorization_required;
 	}
 
 

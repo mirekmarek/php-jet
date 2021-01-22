@@ -405,6 +405,11 @@ interface Mvc_Page_Interface
 	/**
 	 * @return bool
 	 */
+	public function authorize(): bool;
+
+	/**
+	 * @return bool
+	 */
 	public function accessAllowed(): bool;
 
 	/**

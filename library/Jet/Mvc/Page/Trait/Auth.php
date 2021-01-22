@@ -14,6 +14,22 @@ namespace Jet;
 trait Mvc_Page_Trait_Auth
 {
 
+	public function authorize(): bool
+	{
+		/**
+		 * @var Mvc_Page $this
+		 */
+		if( !$this->getIsSecret() ) {
+			return true;
+		}
+
+		if( !Auth::checkCurrentUser() ) {
+			Auth::handleLogin();
+			return false;
+		}
+
+		return true;
+	}
 
 	/**
 	 * @return bool
@@ -21,7 +37,7 @@ trait Mvc_Page_Trait_Auth
 	public function accessAllowed(): bool
 	{
 		/**
-		 * @var Mvc_Page|Mvc_Page_Trait_Auth $this
+		 * @var Mvc_Page $this
 		 */
 		if( !$this->getIsSecret() ) {
 			return true;
