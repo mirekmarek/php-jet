@@ -80,6 +80,7 @@ class DataModel_Definition_Property_DataModel extends Jet_DataModel_Definition_P
 	 */
 	public function createClassProperty( ClassCreator_Class $class ): ClassCreator_Class_Property
 	{
+
 		$related_dm = DataModels::getClass( $this->getDataModelClass() )->getDefinition();
 		$attributes = [];
 

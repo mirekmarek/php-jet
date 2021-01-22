@@ -230,7 +230,8 @@ trait DataModel_Definition_Property_Trait
 			$this->setFormFieldCreatorMethodName( $value );
 		} );
 
-		$form_field_type = $this->getFormFieldType();
+		$form_field_type = $this->form_field_type;
+
 		if( $form_field_type === false ) {
 			$form_field_type = 'false';
 		}
@@ -239,6 +240,7 @@ trait DataModel_Definition_Property_Trait
 			if( $value === 'false' ) {
 				$value = false;
 			}
+
 			$this->setFormFieldType( $value );
 		} );
 		$so = [];
@@ -1013,19 +1015,20 @@ trait DataModel_Definition_Property_Trait
 			$property->setAttribute( $a[0], $a[1], $a[2] );
 		}
 
-
-		if( $this->getFormFieldType() ) {
+		if( $this->form_field_type!==false ) {
 			$class->addUse( (new ClassCreator_UseClass( 'Jet', 'Form' )) );
 
-			$form_field_type = DataModel_Definition_Property::getFormFieldTypes()[$this->getFormFieldType()]['type'];
-
-			$property->setAttribute( 'DataModel_Definition', 'form_field_type', $form_field_type );
+			if($this->form_field_type) {
+				$property->setAttribute( 'DataModel_Definition', 'form_field_type', $this->form_field_type );
+			}
 
 			if( $this->getFormFieldIsRequired() ) {
 				$property->setAttribute( 'DataModel_Definition', 'form_field_is_required', true );
 			}
 
-			$property->setAttribute( 'DataModel_Definition', 'form_field_label', $this->getFormFieldLabel() );
+			if($this->getFormFieldLabel()) {
+				$property->setAttribute( 'DataModel_Definition', 'form_field_label', $this->getFormFieldLabel() );
+			}
 
 			if( $this->getFormFieldValidationRegexp() ) {
 				$property->setAttribute( 'DataModel_Definition', 'form_field_validation_regexp', $this->getFormFieldValidationRegexp() );
@@ -1058,7 +1061,18 @@ trait DataModel_Definition_Property_Trait
 
 			$error_messages = $this->getFormFieldErrorMessages();
 
-			$field_class = 'Form_Field_' . $this->getFormFieldType();
+			$field_type = $this->form_field_type;
+
+			if(!$field_type) {
+				if( $this->max_len <= 255 ) {
+					$field_type = Form::TYPE_INPUT;
+				} else {
+					$field_type = Form::TYPE_TEXTAREA;
+				}
+			}
+
+
+			$field_class = 'Form_Field_' . $field_type;
 			$reflection = new ReflectionClass( '\Jet\\' . $field_class );
 			$constants = array_flip( $reflection->getConstants() );
 
@@ -1078,12 +1092,7 @@ trait DataModel_Definition_Property_Trait
 			}
 
 		} else {
-
-			if( $this->getFormFieldType() !== '' ) {
-				$property->setAttribute( 'DataModel_Definition', 'form_field_type', false );
-			}
-
-
+			$property->setAttribute( 'DataModel_Definition', 'form_field_type', false );
 		}
 
 		return $property;

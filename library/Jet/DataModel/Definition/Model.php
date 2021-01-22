@@ -169,8 +169,11 @@ abstract class DataModel_Definition_Model extends BaseObject
 		$model_name = $this->getClassArgument( 'name' );
 
 		if(
-			!is_string( $model_name ) ||
-			!$model_name
+			(
+				!is_string( $model_name ) ||
+				!$model_name
+			) &&
+			!$this->class_reflection->isAbstract()
 		) {
 			throw new DataModel_Exception(
 				'DataModel \'' . $this->class_name . '\' does not have model name! Please define attribute #[DataModel_Definition(name: \'SOME_NAME\')] ',
