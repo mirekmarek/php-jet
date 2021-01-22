@@ -1061,34 +1061,38 @@ trait DataModel_Definition_Property_Trait
 
 			$error_messages = $this->getFormFieldErrorMessages();
 
-			$field_type = $this->form_field_type;
 
-			if(!$field_type) {
-				if( $this->max_len <= 255 ) {
-					$field_type = Form::TYPE_INPUT;
-				} else {
-					$field_type = Form::TYPE_TEXTAREA;
+			if(!($this instanceof DataModel_Definition_Property_DataModel)) {
+				$field_type = $this->form_field_type;
+				
+				if(!$field_type) {
+					if( $this->max_len <= 255 ) {
+						$field_type = Form::TYPE_INPUT;
+					} else {
+						$field_type = Form::TYPE_TEXTAREA;
+					}
 				}
-			}
 
 
-			$field_class = 'Form_Field_' . $field_type;
-			$reflection = new ReflectionClass( '\Jet\\' . $field_class );
-			$constants = array_flip( $reflection->getConstants() );
+				$field_class = 'Form_Field_' . $field_type;
+				$reflection = new ReflectionClass( '\Jet\\' . $field_class );
+				$constants = array_flip( $reflection->getConstants() );
 
 
-			$e_msg = [];
-			foreach( $error_messages as $k => $v ) {
-				if( !$v ) {
-					unset( $error_messages[$k] );
-				} else {
-					$constant = $field_class . '::' . $constants[$k];
-					$e_msg[$constant] = $v;
+				$e_msg = [];
+				foreach( $error_messages as $k => $v ) {
+					if( !$v ) {
+						unset( $error_messages[$k] );
+					} else {
+						$constant = $field_class . '::' . $constants[$k];
+						$e_msg[$constant] = $v;
+					}
 				}
-			}
 
-			if( $e_msg ) {
-				$property->setAttribute( 'DataModel_Definition', 'form_field_error_messages', $e_msg );
+				if( $e_msg ) {
+					$property->setAttribute( 'DataModel_Definition', 'form_field_error_messages', $e_msg );
+				}
+
 			}
 
 		} else {
