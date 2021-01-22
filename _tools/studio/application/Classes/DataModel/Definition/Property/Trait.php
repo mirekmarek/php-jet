@@ -1064,7 +1064,7 @@ trait DataModel_Definition_Property_Trait
 
 			if(!($this instanceof DataModel_Definition_Property_DataModel)) {
 				$field_type = $this->form_field_type;
-				
+
 				if(!$field_type) {
 					if( $this->max_len <= 255 ) {
 						$field_type = Form::TYPE_INPUT;

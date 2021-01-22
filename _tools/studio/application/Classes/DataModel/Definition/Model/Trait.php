@@ -68,11 +68,6 @@ trait DataModel_Definition_Model_Trait
 	 */
 	protected ?Form $__edit_form = null;
 
-	/**
-	 * @var ?Form
-	 */
-	protected ?Form $__sort_properties_form = null;
-
 
 	/**
 	 * @return DataModel_Class
@@ -559,20 +554,7 @@ trait DataModel_Definition_Model_Trait
 	 */
 	public function addProperty( DataModel_Definition_Property_Interface $property ): void
 	{
-
 		$this->properties[$property->getName()] = $property;
-
-		foreach( DataModels::getClasses() as $class ) {
-
-			if( $class->isDescendantOf( $this->_class ) ) {
-
-				$new_property = clone $property;
-
-				$this->addProperty( $new_property );
-			}
-		}
-
-		$this->__sort_properties_form = null;
 	}
 
 
