@@ -64,26 +64,22 @@ class Mvc_Router extends BaseObject implements Mvc_Router_Interface
 	//------------------------------------------------------------------
 
 	/**
-	 * @see Mvc_Router_RoutingData::setRedirect()
 	 *
 	 * @var bool
 	 */
 	protected bool $is_redirect = false;
 
 	/**
-	 * @see Mvc_Router_RoutingData::setRedirect()
 	 *
 	 * @var string
 	 */
 	protected string $redirect_target_URL = '';
 
 	/**
-	 * @see Mvc_Router_RoutingData::setRedirect()
-	 * Options: Mvc_Router::REDIRECT_TYPE_TEMPORARY, Mvc_Router::REDIRECT_TYPE_PERMANENTLY
 	 *
-	 * @var string|int
+	 * @var int
 	 */
-	protected string|int $redirect_type = '';
+	protected int $redirect_type = Http_Headers::CODE_302_MOVED_TEMPORARY;
 
 
 	//-----------------------------------------------------------------
@@ -147,6 +143,10 @@ class Mvc_Router extends BaseObject implements Mvc_Router_Interface
 
 				if( $this->resolve_pageResolve() ) {
 					if( $this->getIsRedirect() ) {
+						return;
+					}
+
+					if( $this->getIs404() ) {
 						return;
 					}
 
@@ -447,7 +447,7 @@ class Mvc_Router extends BaseObject implements Mvc_Router_Interface
 	/**
 	 *
 	 */
-	protected function setIs404(): void
+	public function setIs404(): void
 	{
 		$this->is_404 = true;
 	}
@@ -463,22 +463,18 @@ class Mvc_Router extends BaseObject implements Mvc_Router_Interface
 	/**
 	 *
 	 * @param string $target_URL
-	 * @param string|int|null $http_code (optional), options: temporary, permanent, default: Http_Headers::CODE_302_MOVED_TEMPORARY
+	 * @param int $http_code
 	 */
-	protected function setIsRedirect( string $target_URL, string|int|null $http_code = null ): void
+	public function setIsRedirect( string $target_URL, int $http_code = Http_Headers::CODE_302_MOVED_TEMPORARY ): void
 	{
 
 		if( $_SERVER['QUERY_STRING'] ) {
 			$target_URL .= '?' . $_SERVER['QUERY_STRING'];
 		}
 
-		if( !$http_code ) {
-			$http_code = Http_Headers::CODE_302_MOVED_TEMPORARY;
-		}
-
 		$this->is_redirect = true;
 		$this->redirect_target_URL = $target_URL;
-		$this->redirect_type = (string)$http_code;
+		$this->redirect_type = $http_code;
 	}
 
 	/**
@@ -490,9 +486,9 @@ class Mvc_Router extends BaseObject implements Mvc_Router_Interface
 	}
 
 	/**
-	 * @return string
+	 * @return int
 	 */
-	public function getRedirectType(): string
+	public function getRedirectType(): int
 	{
 		return $this->redirect_type;
 	}

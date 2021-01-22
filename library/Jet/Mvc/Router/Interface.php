@@ -52,9 +52,21 @@ interface Mvc_Router_Interface
 
 	/**
 	 *
+	 */
+	public function setIs404(): void;
+
+	/**
+	 *
 	 * @return bool
 	 */
 	public function getIs404(): bool;
+
+	/**
+	 *
+	 * @param string $target_URL
+	 * @param int $http_code
+	 */
+	public function setIsRedirect( string $target_URL, int $http_code = Http_Headers::CODE_302_MOVED_TEMPORARY );
 
 	/**
 	 *
@@ -70,9 +82,9 @@ interface Mvc_Router_Interface
 
 	/**
 	 *
-	 * @return string
+	 * @return int
 	 */
-	public function getRedirectType(): string;
+	public function getRedirectType(): int;
 
 	/**
 	 * @return bool
