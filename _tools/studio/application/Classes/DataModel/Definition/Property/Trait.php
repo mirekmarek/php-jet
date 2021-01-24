@@ -1084,6 +1084,8 @@ trait DataModel_Definition_Property_Trait
 					if( !$v ) {
 						unset( $error_messages[$k] );
 					} else {
+						$class->addUse( new ClassCreator_UseClass( 'Jet', $field_class ) );
+
 						$constant = $field_class . '::' . $constants[$k];
 						$e_msg[$constant] = $v;
 					}
@@ -1166,6 +1168,8 @@ trait DataModel_Definition_Property_Trait
 				$class->getClassName(),
 				$this->createClassProperty( $created_class )
 			);
+
+			$parser->actualize_setUse( $created_class->getUse() );
 
 			IO_File::write(
 				$class->getScriptPath(),
