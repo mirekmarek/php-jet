@@ -17,10 +17,13 @@ abstract class Mvc_Controller_Default extends Mvc_Controller
 	 *
 	 *
 	 */
-	public function responseAccessDenied(): void
+	public function handleNotAuthorized(): void
 	{
-		ErrorPages::handleUnauthorized();
-		Application::end();
+		if(Auth::getCurrentUser()) {
+			Mvc::getRouter()->setAccessNotAllowed();
+		} else {
+			Mvc::getRouter()->setLoginRequired();
+		}
 	}
 
 }

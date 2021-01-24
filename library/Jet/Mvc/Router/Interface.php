@@ -87,35 +87,45 @@ interface Mvc_Router_Interface
 	public function getRedirectType(): int;
 
 	/**
-	 * @param bool $authorization_required
+	 * @return bool
 	 */
-	public function setAuthorizationRequired( bool $authorization_required ): void;
+	public function getLoginRequired(): bool;
+
+	/**
+	 * @param bool $login_required
+	 */
+	public function setLoginRequired( bool $login_required=true ): void;
 
 	/**
 	 * @return bool
 	 */
-	public function getAuthorizationRequired(): bool;
+	public function accessNotAllowed(): bool;
+
+	/**
+	 * @param bool $access_not_allowed
+	 */
+	public function setAccessNotAllowed( bool $access_not_allowed=true ): void;
 
 	/**
 	 * @return string
 	 */
-	public function getPath(): string;
+	public function getUrlPath(): string;
 
 
 	/**
 	 * @return string
 	 */
-	public function getUsedPath(): string;
+	public function getUsedUrlPath(): string;
 
 	/**
 	 * @param string $used_path
 	 */
-	public function setUsedPath( string $used_path ): void;
+	public function setUsedUrlPath( string $used_path ): void;
 
 	/**
 	 * @return bool
 	 */
-	public function getHasUnusedPath(): bool;
+	public function getHasUnusedUrlPath(): bool;
 
 	/**
 	 * @return string

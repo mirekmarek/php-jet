@@ -213,7 +213,7 @@ class REST extends BaseObject
 
 		ErrorPages::setHandler( 401, [
 			get_called_class(),
-			'responseAccessDenied'
+			'handleNotAuthorized'
 		] );
 		ErrorPages::setHandler( 404, [
 			get_called_class(),
@@ -346,7 +346,7 @@ class REST extends BaseObject
 	/**
 	 *
 	 */
-	public static function responseAccessDenied(): void
+	public static function handleNotAuthorized(): void
 	{
 		if( !Auth::getCurrentUser() ) {
 			static::responseError( self::ERR_CODE_AUTHORIZATION_REQUIRED );

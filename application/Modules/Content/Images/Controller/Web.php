@@ -54,7 +54,7 @@ class Controller_Web extends Mvc_Controller_Default
 	 */
 	public function resolve(): bool|string
 	{
-		$path = Mvc::getRouter()->getPath();
+		$path = Mvc::getRouter()->getUrlPath();
 
 		if( $path ) {
 			$gallery = Gallery::resolveGalleryByURL( $path, Mvc::getCurrentLocale() );
@@ -63,7 +63,7 @@ class Controller_Web extends Mvc_Controller_Default
 			}
 
 			$this->gallery = $gallery;
-			Mvc::getRouter()->setUsedPath( $path );
+			Mvc::getRouter()->setUsedUrlPath( $path );
 		}
 
 

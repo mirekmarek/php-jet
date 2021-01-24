@@ -41,18 +41,19 @@ class Mvc_Router extends BaseObject implements Mvc_Router_Interface
 	 */
 	protected ?Mvc_Page_Interface $page = null;
 
+	//------------------------------------------------------------------
+
 	/**
 	 *
 	 * @var string
 	 */
-	protected string $path = '';
+	protected string $url_path = '';
 
-	//------------------------------------------------------------------
 
 	/**
 	 * @var string
 	 */
-	protected string $used_path = '';
+	protected string $used_url_path = '';
 
 
 	//------------------------------------------------------------------
@@ -87,7 +88,12 @@ class Mvc_Router extends BaseObject implements Mvc_Router_Interface
 	/**
 	 * @var bool
 	 */
-	protected bool $authorization_required = false;
+	protected bool $login_required = false;
+
+	/**
+	 * @var bool
+	 */
+	protected bool $access_not_allowed = false;
 
 	//-----------------------------------------------------------------
 
@@ -137,25 +143,14 @@ class Mvc_Router extends BaseObject implements Mvc_Router_Interface
 		$this->request_URL = (string)$request_URL;
 
 		if( $this->resolve_seekSiteAndLocale() ) {
-			$this->resolve_seekPage();
-
-			$this->resolve_Auth();
-
-			$this->resolve_pageResolve();
-
-			if( $this->getIsRedirect() ) {
-				return;
+			if($this->resolve_seekPage()) {
+				if($this->resolve_authorizePage()) {
+					if($this->resolve_pageResolve()) {
+						$this->resolve_checkUrlPathUsed();
+					}
+				}
 			}
-
-			if( $this->getIs404() ) {
-				return;
-			}
-
-			$this->resolve_checkPathUsed();
-
 		}
-
-
 	}
 
 
@@ -187,9 +182,9 @@ class Mvc_Router extends BaseObject implements Mvc_Router_Interface
 
 				$founded_url = $URL;
 
-				$this->path = substr( $this->request_URL, strlen( $founded_url ) );
-				if( !$this->path ) {
-					$this->path = '';
+				$this->url_path = substr( $this->request_URL, strlen( $founded_url ) );
+				if( !$this->url_path ) {
+					$this->url_path = '';
 				}
 
 				break;
@@ -230,9 +225,9 @@ class Mvc_Router extends BaseObject implements Mvc_Router_Interface
 
 			$redirect_to = (Http_Request::isHttps() ? 'https' : 'http') . '://'
 				. $this->getSite()->getLocalizedData( $this->locale )->getDefaultURL()
-				. $this->path;
+				. $this->url_path;
 
-			if( $this->path && Mvc::getForceSlashOnURLEnd() ) {
+			if( $this->url_path && Mvc::getForceSlashOnURLEnd() ) {
 				$redirect_to .= '/';
 			}
 
@@ -260,7 +255,7 @@ class Mvc_Router extends BaseObject implements Mvc_Router_Interface
 	/**
 	 *
 	 */
-	protected function resolve_seekPage(): void
+	protected function resolve_seekPage(): bool
 	{
 
 
@@ -279,8 +274,8 @@ class Mvc_Router extends BaseObject implements Mvc_Router_Interface
 
 		$relative_URIs = [];
 
-		if( $this->path ) {
-			$path = explode( '/', rtrim( $this->path, '/' ) );
+		if( $this->url_path ) {
+			$path = explode( '/', rtrim( $this->url_path, '/' ) );
 
 			while( $path ) {
 				$relative_URIs[] = implode( '/', $path ) . '/';
@@ -299,9 +294,9 @@ class Mvc_Router extends BaseObject implements Mvc_Router_Interface
 
 			$page_id = $map[$URI];
 
-			$this->path = substr( $this->path, strlen( $URI ) );
-			if( !$this->path ) {
-				$this->path = '';
+			$this->url_path = substr( $this->url_path, strlen( $URI ) );
+			if( !$this->url_path ) {
+				$this->url_path = '';
 			}
 
 			break;
@@ -317,6 +312,15 @@ class Mvc_Router extends BaseObject implements Mvc_Router_Interface
 
 		Debug_Profiler::blockEnd( 'Seeking for page' );
 
+		return true;
+	}
+
+	/**
+	 * @return bool
+	 */
+	protected function resolve_authorizePage(): bool
+	{
+		return $this->page->authorize();
 	}
 
 	/**
@@ -342,14 +346,14 @@ class Mvc_Router extends BaseObject implements Mvc_Router_Interface
 	protected function resolve_decodePath(): void
 	{
 		$path = [];
-		if( $this->path ) {
-			$_path = explode( '/', $this->path );
+		if( $this->url_path ) {
+			$_path = explode( '/', $this->url_path );
 			foreach( $_path as $i => $p ) {
 				if( $p ) {
 					$path[$i] = rawurldecode( $p );
 				}
 			}
-			$this->path = implode( '/', $path );
+			$this->url_path = implode( '/', $path );
 		}
 
 	}
@@ -357,29 +361,27 @@ class Mvc_Router extends BaseObject implements Mvc_Router_Interface
 	/**
 	 *
 	 */
-	protected function resolve_checkPathUsed(): void
+	protected function resolve_checkUrlPathUsed(): void
 	{
+		if( $this->getIsRedirect() ) {
+			return;
+		}
 
-		if( $this->path != $this->used_path ) {
+		if( $this->getIs404() ) {
+			return;
+		}
+
+
+		if( $this->url_path != $this->used_url_path ) {
 			$this->has_unused_path = true;
 
 			$this->valid_url = $this->getPage()->getURL();
-			if( $this->used_path ) {
-				$this->valid_url .= '/' . $this->used_path;
+			if( $this->used_url_path ) {
+				$this->valid_url .= '/' . $this->used_url_path;
 			}
 		}
 	}
 
-	/**
-	 *
-	 */
-	protected function resolve_Auth() : void
-	{
-		if( $this->getPage()->getIsSecret() ) {
-			$this->authorization_required = true;
-		}
-
-	}
 
 	/**
 	 * @return bool
@@ -485,17 +487,33 @@ class Mvc_Router extends BaseObject implements Mvc_Router_Interface
 	/**
 	 * @return bool
 	 */
-	public function getAuthorizationRequired(): bool
+	public function getLoginRequired(): bool
 	{
-		return $this->authorization_required;
+		return $this->login_required;
 	}
 
 	/**
-	 * @param bool $authorization_required
+	 * @param bool $login_required
 	 */
-	public function setAuthorizationRequired( bool $authorization_required ): void
+	public function setLoginRequired( bool $login_required=true ): void
 	{
-		$this->authorization_required = $authorization_required;
+		$this->login_required = $login_required;
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function accessNotAllowed(): bool
+	{
+		return $this->access_not_allowed;
+	}
+
+	/**
+	 * @param bool $access_not_allowed
+	 */
+	public function setAccessNotAllowed( bool $access_not_allowed=true ): void
+	{
+		$this->access_not_allowed = $access_not_allowed;
 	}
 
 
@@ -504,31 +522,31 @@ class Mvc_Router extends BaseObject implements Mvc_Router_Interface
 	 * /**
 	 * @return string
 	 */
-	public function getPath(): string
+	public function getUrlPath(): string
 	{
-		return $this->path;
+		return $this->url_path;
 	}
 
 	/**
 	 * @return string
 	 */
-	public function getUsedPath(): string
+	public function getUsedUrlPath(): string
 	{
-		return $this->used_path;
+		return $this->used_url_path;
 	}
 
 	/**
 	 * @param string $used_path
 	 */
-	public function setUsedPath( string $used_path ): void
+	public function setUsedUrlPath( string $used_path ): void
 	{
-		$this->used_path = $used_path;
+		$this->used_url_path = $used_path;
 	}
 
 	/**
 	 * @return bool
 	 */
-	public function getHasUnusedPath(): bool
+	public function getHasUnusedUrlPath(): bool
 	{
 		return $this->has_unused_path;
 	}

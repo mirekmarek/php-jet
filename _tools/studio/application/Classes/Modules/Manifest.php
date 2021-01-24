@@ -9,7 +9,6 @@
 namespace JetStudio;
 
 use Jet\Application_Module_Manifest;
-use Jet\Data_Array;
 use Jet\Exception;
 use Jet\Form;
 use Jet\Form_Field_Checkbox;

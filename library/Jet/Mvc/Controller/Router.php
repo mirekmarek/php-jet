@@ -121,39 +121,32 @@ class Mvc_Controller_Router extends BaseObject implements Mvc_Controller_Router_
 	 */
 	public function resolve(): bool|string
 	{
-		$access_denied = false;
+
 		foreach( $this->actions as $action ) {
 
 			if( !$action->resolve() ) {
 				continue;
 			}
 
-			if( !$action->isAccessAllowed() ) {
-				$access_denied = true;
-				continue;
-			}
-
-			return $action->getControllerAction();
-		}
-
-		if(
-		$this->default_action
-		) {
-			$action = $this->default_action;
-
-			if( !$action->isAccessAllowed() ) {
-				$access_denied = true;
-			} else {
+			if( $action->authorize() ) {
 				return $action->getControllerAction();
-
+			} else {
+				$this->controller->handleNotAuthorized();
+				return false;
 			}
 		}
 
-		if( $access_denied ) {
-			$this->controller->responseAccessDenied();
+		if(!$this->default_action) {
+			return false;
 		}
 
-		return false;
+		if( $this->default_action->authorize() ) {
+			return $this->default_action->getControllerAction();
+		} else {
+			$this->controller->handleNotAuthorized();
+			return false;
+		}
+
 	}
 
 }

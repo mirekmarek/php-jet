@@ -48,7 +48,7 @@ class Controller_Web extends Mvc_Controller_Default
 		if( !$this->router ) {
 			$this->router = new Mvc_Controller_Router( $this );
 
-			$path = Mvc::getRouter()->getPath();
+			$path = Mvc::getRouter()->getUrlPath();
 
 			$this->router->addAction( 'list' )
 				->setResolver( function() use ( $path ) {
@@ -57,7 +57,7 @@ class Controller_Web extends Mvc_Controller_Default
 					}
 					if( preg_match( '/^page:([0-9]+)$/', $path, $matches ) ) {
 						$this->page_no = $matches[1];
-						Mvc::getRouter()->setUsedPath( $path );
+						Mvc::getRouter()->setUsedUrlPath( $path );
 						return true;
 					}
 
@@ -72,7 +72,7 @@ class Controller_Web extends Mvc_Controller_Default
 						return false;
 					}
 					$this->article = $current_article;
-					Mvc::getRouter()->setUsedPath( $path );
+					Mvc::getRouter()->setUsedUrlPath( $path );
 
 					return true;
 

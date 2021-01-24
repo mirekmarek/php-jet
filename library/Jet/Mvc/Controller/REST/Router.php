@@ -176,7 +176,7 @@ class Mvc_Controller_REST_Router extends BaseObject implements Mvc_Controller_Ro
 	 */
 	public function resolve(): bool|string
 	{
-		$path = Mvc::getRouter()->getPath();
+		$path = Mvc::getRouter()->getUrlPath();
 
 		$preparer = $this->getPreparer();
 		if( !$preparer( $path ) ) {
@@ -210,11 +210,11 @@ class Mvc_Controller_REST_Router extends BaseObject implements Mvc_Controller_Ro
 
 		if( $module_action ) {
 			if( !$this->controller->getModule()->actionIsAllowed( $module_action ) ) {
-				$this->controller->responseAccessDenied();
+				$this->controller->handleNotAuthorized();
 			}
 		}
 
-		Mvc::getRouter()->setUsedPath( $path );
+		Mvc::getRouter()->setUsedUrlPath( $path );
 
 		return $controller_action;
 	}

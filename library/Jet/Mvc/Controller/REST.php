@@ -73,9 +73,9 @@ abstract class Mvc_Controller_REST extends Mvc_Controller
 	/**
 	 *
 	 */
-	public function responseAccessDenied(): void
+	public function handleNotAuthorized(): void
 	{
-		REST::responseAccessDenied();
+		REST::handleNotAuthorized();
 	}
 
 	/**

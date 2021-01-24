@@ -23,8 +23,16 @@ trait Mvc_Page_Trait_Auth
 			return true;
 		}
 
+		$router = Mvc::getRouter();
+
 		if( !Auth::checkCurrentUser() ) {
-			Auth::handleLogin();
+			$router->setLoginRequired();
+			return false;
+		}
+
+		if( !Auth::checkPageAccess( $this ) ) {
+			$router->setAccessNotAllowed();
+
 			return false;
 		}
 

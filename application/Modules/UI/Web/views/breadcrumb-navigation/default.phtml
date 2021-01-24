@@ -23,7 +23,7 @@ $items = Navigation_Breadcrumb::getItems();
 						$eq_page = Mvc_Page::get( Mvc_Page::HOMEPAGE_ID, $locale );
 					}
 					?>
-					<a href="<?= $eq_page->getURLPath() ?>"><?= UI::flag( $locale ) ?>
+					<a href="<?= $eq_page->getURL() ?>"><?= UI::flag( $locale ) ?>
 						&nbsp;<?= $locale->getLanguageName( $locale ) ?></a>
 				<?php endif; ?>
 			</li>

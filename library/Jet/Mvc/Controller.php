@@ -80,7 +80,7 @@ abstract class Mvc_Controller extends BaseObject
 	/**
 	 *
 	 */
-	abstract public function responseAccessDenied(): void;
+	abstract public function handleNotAuthorized(): void;
 
 	/**
 	 * @param string $action_message

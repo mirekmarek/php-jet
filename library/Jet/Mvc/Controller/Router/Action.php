@@ -165,7 +165,7 @@ class Mvc_Controller_Router_Action extends BaseObject
 	 */
 	public function URI( ...$arguments ): string|bool
 	{
-		if( !$this->isAccessAllowed() ) {
+		if( !$this->authorize() ) {
 			return false;
 		}
 
@@ -176,7 +176,7 @@ class Mvc_Controller_Router_Action extends BaseObject
 	 *
 	 * @return bool
 	 */
-	public function isAccessAllowed(): bool
+	public function authorize(): bool
 	{
 
 		$module_action = $this->getModuleAction();

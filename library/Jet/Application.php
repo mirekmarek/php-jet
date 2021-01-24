@@ -59,7 +59,7 @@ class Application extends BaseObject
 			);
 		}
 
-		if( $router->getHasUnusedPath() ) {
+		if( $router->getHasUnusedUrlPath() ) {
 			Http_Headers::movedPermanently( $router->getValidUrl() );
 		}
 
@@ -98,14 +98,12 @@ class Application extends BaseObject
 		}
 
 
-		if(
-			$router->getAuthorizationRequired() &&
-			!$page->authorize()
-		) {
+		if( $router->getLoginRequired() ) {
+			Auth::handleLogin();
 			return;
 		}
 
-		if( !$page->accessAllowed() ) {
+		if( $router->accessNotAllowed() ) {
 			ErrorPages::handleUnauthorized( false );
 
 			return;

@@ -412,6 +412,7 @@ interface Mvc_Page_Interface
 	 */
 	public function accessAllowed(): bool;
 
+
 	/**
 	 * @return string
 	 */
