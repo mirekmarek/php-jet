@@ -205,6 +205,11 @@ abstract class DataModel_Definition_Model extends BaseObject
 
 		}
 
+		$options = $this->getClassArgument( 'id_controller_options' );
+
+		if($options) {
+			$this->id_controller_options = $options;
+		}
 
 	}
 
