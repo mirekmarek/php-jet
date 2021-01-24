@@ -9,6 +9,7 @@
 namespace JetStudio;
 
 use Jet\Application_Module_Manifest;
+use Jet\Data_Array;
 use Jet\Exception;
 use Jet\Form;
 use Jet\Form_Field_Checkbox;
@@ -115,6 +116,31 @@ class Modules_Manifest extends Application_Module_Manifest
 			}
 		}
 	}
+
+	/**
+	 *
+	 * @param string $menu_set_name
+	 * @param ?string $translator_namespace
+	 *
+	 * @return Menus_Menu_Item[]
+	 */
+	public function getMenuItems( string $menu_set_name, ?string $translator_namespace = null ): array
+	{
+		if( !isset( $this->menu_items[$menu_set_name] ) ) {
+			return [];
+		}
+
+		$res = [];
+		foreach( $this->menu_items[$menu_set_name] as $menu_id => $menu_items_data ) {
+			foreach( $menu_items_data as $item_id => $menu_item ) {
+
+				$res[] = $menu_item;
+			}
+		}
+
+		return $res;
+	}
+
 
 	/**
 	 * @param string $name
