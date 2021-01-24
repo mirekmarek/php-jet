@@ -85,7 +85,7 @@ class Controller_Main extends Mvc_Controller_Default
 		$this->view->setVar( 'filter_form', $listing->filter_getForm());
 		$this->view->setVar( 'grid', $listing->getGrid() );
 
-		$this->render( 'list' );
+		$this->output( 'list' );
 	}
 
 	/**
@@ -115,7 +115,7 @@ class Controller_Main extends Mvc_Controller_Default
 		$this->view->setVar( 'form', $form );
 		$this->view->setVar( '%<ITEM_VAR_NAME>%', $%<ITEM_VAR_NAME>% );
 
-		$this->render( 'edit' );
+		$this->output( 'edit' );
 
 	}
 
@@ -145,7 +145,7 @@ class Controller_Main extends Mvc_Controller_Default
 		$this->view->setVar( 'form', $form );
 		$this->view->setVar( '%<ITEM_VAR_NAME>%', $%<ITEM_VAR_NAME>% );
 
-		$this->render( 'edit' );
+		$this->output( 'edit' );
 
 	}
 
@@ -167,7 +167,7 @@ class Controller_Main extends Mvc_Controller_Default
 		$this->view->setVar( 'form', $form );
 		$this->view->setVar( '%<ITEM_VAR_NAME>%', $%<ITEM_VAR_NAME>% );
 
-		$this->render( 'edit' );
+		$this->output( 'edit' );
 
 	}
 
@@ -196,7 +196,7 @@ class Controller_Main extends Mvc_Controller_Default
 
 		$this->view->setVar( '%<ITEM_VAR_NAME>%', $%<ITEM_VAR_NAME>% );
 
-		$this->render( 'delete-confirm' );
+		$this->output( 'delete-confirm' );
 	}
 
 }
