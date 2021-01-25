@@ -38,7 +38,6 @@ class Data_Text
 			$transliterator = Transliterator::create( 'NFD; [:Nonspacing Mark:] Remove; NFC' );
 
 			return $transliterator->transliterate( $text );
-
 		}
 	}
 
