@@ -138,8 +138,20 @@ class DataModel_Definition_Relation_External extends Jet_DataModel_Definition_Re
 			$options = [
 				'' => Tr::_( '- none -' )
 			];
+
+			$related_property_type = $related_property->getType();
+			if($related_property_type==DataModel::TYPE_ID_AUTOINCREMENT) {
+				$related_property_type=DataModel::TYPE_INT;
+			}
+
 			foreach( $model->getProperties() as $cm_property ) {
-				if( $cm_property->getType() != $related_property->getType() ) {
+				$cm_property_type = $cm_property->getType();
+
+				if($cm_property_type==DataModel::TYPE_ID_AUTOINCREMENT) {
+					$cm_property_type=DataModel::TYPE_INT;
+				}
+
+				if( $cm_property_type != $related_property_type ) {
 					continue;
 				}
 				$options[$cm_property->getName()] = $model->getModelName() . '.' . $cm_property->getName();
@@ -266,8 +278,20 @@ class DataModel_Definition_Relation_External extends Jet_DataModel_Definition_Re
 				$options = [
 					'' => Tr::_( '- none -' )
 				];
+
+				$related_property_type = $related_property->getType();
+				if($related_property_type==DataModel::TYPE_ID_AUTOINCREMENT) {
+					$related_property_type=DataModel::TYPE_INT;
+				}
+
+
 				foreach( $model->getProperties() as $cm_property ) {
-					if( $cm_property->getType() != $related_property->getType() ) {
+					$cm_property_type = $cm_property->getType();
+					if($cm_property_type==DataModel::TYPE_ID_AUTOINCREMENT) {
+						$cm_property_type = DataModel::TYPE_INT;
+					}
+
+					if( $cm_property_type != $related_property_type ) {
 						continue;
 					}
 					$options[$cm_property->getName()] = $model->getModelName() . '.' . $cm_property->getName();
