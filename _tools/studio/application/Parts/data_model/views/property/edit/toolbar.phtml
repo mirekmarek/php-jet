@@ -5,11 +5,11 @@ use Jet\UI;
 
 $form = DataModels::getCurrentProperty()->getEditForm();
 
-if($form->getIsReadonly()) {
+if( $form->getIsReadonly() ) {
 	return;
 }
 ?>
 
-<?=UI::button_save()
-	->setOnclick("$('#".$form->getId()."').submit()")
+<?= UI::button_save()
+	->setOnclick( "$('#" . $form->getId() . "').submit()" )
 ?>

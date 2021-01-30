@@ -1,4 +1,5 @@
 <?php
+
 namespace JetStudio;
 
 use Jet\DataModel_Backend;
@@ -7,7 +8,7 @@ use Jet\Debug;
 Debug::setOutputIsHTML( false );
 
 $current = DataModels::getCurrentModel();
-if(!$current) {
+if( !$current ) {
 	die();
 }
 

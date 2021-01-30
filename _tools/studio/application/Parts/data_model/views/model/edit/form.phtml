@@ -1,4 +1,5 @@
 <?php
+
 namespace JetStudio;
 
 use Jet\Form;
@@ -9,49 +10,49 @@ $current = DataModels::getCurrentModel();
 
 $form = $current->getEditForm();
 
-$form->setDefaultLabelWidth([
+$form->setDefaultLabelWidth( [
 	Form::LJ_SIZE_MEDIUM => 2
-]);
-$form->setDefaultFieldWidth([
+] );
+$form->setDefaultFieldWidth( [
 	Form::LJ_SIZE_MEDIUM => 10
-]);
+] );
 
 
 echo $form->start();
 
-echo $form->field('model_name');
-echo $form->field('database_table_name');
+echo $form->field( 'model_name' );
+echo $form->field( 'database_table_name' );
 
-if( !($current instanceof DataModel_Definition_Model_Related_MtoN)):
-	echo $form->field('id_controller_class');
+if( !($current instanceof DataModel_Definition_Model_Related_MtoN) ):
+	echo $form->field( 'id_controller_class' );
 
 	if(
 		$current->getIDControllerDefinition() &&
 		($id_controller_options = $current->getIDControllerDefinition()->getOptionsList())
 	):
 		?>
-		<legend><?=Tr::_('ID controller options')?></legend>
+		<legend><?= Tr::_( 'ID controller options' ) ?></legend>
 		<?php
 		foreach( $id_controller_options as $id_option ) {
-			echo $form->field('/id_controller_options/'.$id_option);
+			echo $form->field( '/id_controller_options/' . $id_option );
 		}
 	endif;
 
-	if($form->fieldExists('iterator_class')):
-		echo $form->field('iterator_class');
+	if( $form->fieldExists( 'iterator_class' ) ):
+		echo $form->field( 'iterator_class' );
 	endif;
 
 endif;
 
 
-if($form->fieldExists('default_order_by')):
-	echo $form->field('default_order_by');
+if( $form->fieldExists( 'default_order_by' ) ):
+	echo $form->field( 'default_order_by' );
 
 	$order_by_options = $current->getOrderByOptions();
 
-	if($order_by_options): ?>
+	if( $order_by_options ): ?>
 		<div class="form-group row">
-			<label class="col-md-2 control-label"><?=Tr::_('Default order by:')?></label>
+			<label class="col-md-2 control-label"><?= Tr::_( 'Default order by:' ) ?></label>
 			<div class="col-md-10">
 			</div>
 		</div>
@@ -60,26 +61,26 @@ if($form->fieldExists('default_order_by')):
 			<div class="col-md-2">
 			</div>
 			<div class="col-md-5 list-group" id="order_by_options_source" style="padding: 10px;">
-				<span><?=Tr::_('Available')?></span>
-				<?php foreach( $order_by_options as $id=>$label ): ?>
+				<span><?= Tr::_( 'Available' ) ?></span>
+				<?php foreach( $order_by_options as $id => $label ): ?>
 					<div class="list-group-item order_by_options_item"
-					     data-id="<?=$id?>"
-					     data-label="<?=$label?>"
-					     onclick="DataModel.edit.defaultOrderBy.selectItem('<?=$id?>')"
+					     data-id="<?= $id ?>"
+					     data-label="<?= $label ?>"
+					     onclick="DataModel.edit.defaultOrderBy.selectItem('<?= $id ?>')"
 					>
-						<?=UI::icon('plus')?>
-						<?=$label?>
+						<?= UI::icon( 'plus' ) ?>
+						<?= $label ?>
 					</div>
 				<?php endforeach; ?>
 			</div>
 			<div class="col-md-5">
-				<span><?=Tr::_('Selected')?></span>
+				<span><?= Tr::_( 'Selected' ) ?></span>
 				<div id="order_by_options_selected" class="list-group" style="padding: 10px;">
 
 				</div>
 			</div>
 		</div>
-		<?php
+	<?php
 	endif;
 
 endif;

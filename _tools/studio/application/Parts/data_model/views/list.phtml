@@ -5,21 +5,21 @@ $list = DataModels::getClasses();
 
 ?>
 <table class="table table-striped">
-	<?php foreach($list as $item): ?>
-	<tr>
-		<?php if($item->getFullClassName()==DataModels::getCurrentClassName()): ?>
-			<td>
-				<?php require 'list/item.phtml'; ?>
-			</td>
-		<?php endif;?>
-	</tr>
+	<?php foreach( $list as $item ): ?>
+		<tr>
+			<?php if( $item->getFullClassName() == DataModels::getCurrentClassName() ): ?>
+				<td>
+					<?php require 'list/item.phtml'; ?>
+				</td>
+			<?php endif; ?>
+		</tr>
 	<?php endforeach; ?>
 
-	<?php foreach($list as $item): ?>
+	<?php foreach( $list as $item ): ?>
 		<tr>
-			<?php if($item->getFullClassName()!=DataModels::getCurrentClassName()): ?>
-				<td><a href="?class=<?=$item->getFullClassName()?>"><?=$item->getFullClassName()?></a></td>
-			<?php endif;?>
+			<?php if( $item->getFullClassName() != DataModels::getCurrentClassName() ): ?>
+				<td><a href="?class=<?= $item->getFullClassName() ?>"><?= $item->getFullClassName() ?></a></td>
+			<?php endif; ?>
 		</tr>
 	<?php endforeach; ?>
 

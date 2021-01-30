@@ -173,4 +173,7 @@ return [
 	'Upsss .... '                                                                                  => 'Ajaj ...',
 	'I am sorry, but there are some troubles ...'                                                  => 'Lituji, máme nějaké problémy ....',
 	'Class <strong>%class%</strong> has been created'                                              => 'Třída <strong>%class%</strong> byla vytvořena',
+	'Property'                                                                                     => 'Vlastnost',
+	'External relation'                                                                            => 'Externí relaci',
+	'Key'                                                                                          => 'Klíč',
 ];

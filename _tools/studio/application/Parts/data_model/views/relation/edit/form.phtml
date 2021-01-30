@@ -1,43 +1,47 @@
 <?php
+
 namespace JetStudio;
 
 use Jet\Form;
-use Jet\Mvc_View;use Jet\Tr;
+use Jet\Mvc_View;
+use Jet\Tr;
 
 /**
- * @var Mvc_View $this;
+ * @var Mvc_View $this ;
  */
 
 $relation = DataModels::getCurrentRelation();
 
 $form = $relation->getEditForm();
-$form->setDefaultLabelWidth([
+$form->setDefaultLabelWidth( [
 	Form::LJ_SIZE_MEDIUM => 3
-]);
-$form->setDefaultFieldWidth([
+] );
+$form->setDefaultFieldWidth( [
 	Form::LJ_SIZE_MEDIUM => 9
-]);
+] );
 
 ?>
-<div class="row">
-	<label class="col-md-3"><?=Tr::_('Related model:')?></label>
-	<div class="col-md-9" style="padding: 10px"><a href="?class=<?=$relation->getRelatedDataModelClassName()?>"><?=$relation->getRelatedDataModelName().' ('.$relation->getRelatedDataModelClassName().')'?></a></div>
-</div>
-<?php
+	<div class="row">
+		<label class="col-md-3"><?= Tr::_( 'Related model:' ) ?></label>
+		<div class="col-md-9" style="padding: 10px"><a
+					href="?class=<?= $relation->getRelatedDataModelClassName() ?>"><?= $relation->getRelatedDataModelName() . ' (' . $relation->getRelatedDataModelClassName() . ')' ?></a>
+		</div>
+	</div>
+	<?php
 
 echo $form->start();
 
-echo $form->field('join_type');
+echo $form->field( 'join_type' );
 
-$form->setDoNotTranslateTexts(true);
+$form->setDoNotTranslateTexts( true );
 foreach( $relation->getRelatedDataModel()->getProperties() as $property ) {
-	if(!$form->fieldExists('glue_'.$property->getName())) {
+	if( !$form->fieldExists( 'glue_' . $property->getName() ) ) {
 		continue;
 	}
 
-	echo $form->field('glue_'.$property->getName());
+	echo $form->field( 'glue_' . $property->getName() );
 }
-$form->setDoNotTranslateTexts(false);
+$form->setDoNotTranslateTexts( false );
 
 echo $form->end();
 

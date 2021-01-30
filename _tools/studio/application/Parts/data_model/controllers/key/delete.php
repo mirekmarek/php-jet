@@ -1,4 +1,5 @@
 <?php
+
 namespace JetStudio;
 
 use Jet\Http_Headers;
@@ -13,17 +14,20 @@ $current = DataModels::getCurrentModel();
  */
 if(
 	$current &&
-	($key = $current->getCustomKey( Http_Request::GET()->getString('key') ))
+	($key = $current->getCustomKey( Http_Request::GET()->getString( 'key' ) ))
 ) {
 	$current->deleteCustomKey( $key->getName() );
 
-	if($current->save()) {
+	if( $current->save() ) {
 		UI_messages::info(
-			Tr::_('Key <strong>%key%</strong> has been deleted', ['key'=>$key->getName()])
+			Tr::_( 'Key <strong>%key%</strong> has been deleted', ['key' => $key->getName()] )
 		);
 
 	}
 }
 
-Http_Headers::reload([], ['action','key']);
+Http_Headers::reload( [], [
+	'action',
+	'key'
+] );
 

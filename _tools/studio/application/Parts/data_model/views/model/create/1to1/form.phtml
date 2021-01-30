@@ -1,29 +1,30 @@
 <?php
+
 namespace JetStudio;
 
 use Jet\Form;
 
 $form = DataModel_Definition_Model_Related_1to1::getCreateForm();
 
-$form->setDefaultLabelWidth( [ Form::LJ_SIZE_MEDIUM => 4 ] );
-$form->setDefaultFieldWidth( [ Form::LJ_SIZE_MEDIUM => 8 ] );
+$form->setDefaultLabelWidth( [Form::LJ_SIZE_MEDIUM => 4] );
+$form->setDefaultFieldWidth( [Form::LJ_SIZE_MEDIUM => 8] );
 
-$form->field('namespace')->input()->addJsAction('onchange', "DataModel.create.generateScriptPath(this.form)");
-$form->field('class_name')->input()->addJsAction('onkeyup', "DataModel.create.generateScriptPath(this.form);DataModel.create.generateModelName(this.form);");
+$form->field( 'namespace' )->input()->addJsAction( 'onchange', "DataModel.create.generateScriptPath(this.form)" );
+$form->field( 'class_name' )->input()->addJsAction( 'onkeyup', "DataModel.create.generateScriptPath(this.form);DataModel.create.generateModelName(this.form);" );
 
 
 echo $form->start();
 echo $form->getCommonMessage();
-echo $form->field('type');
-echo $form->field('namespace');
-echo $form->field('class_name');
-echo $form->field('model_name');
-echo $form->field('script_path');
+echo $form->field( 'type' );
+echo $form->field( 'namespace' );
+echo $form->field( 'class_name' );
+echo $form->field( 'model_name' );
+echo $form->field( 'script_path' );
 
-echo $form->field('id_controller_class');
+echo $form->field( 'id_controller_class' );
 
-foreach($form->getFields() as $field) {
-	if(substr($field->getName(),0, 8)!='related_') {
+foreach( $form->getFields() as $field ) {
+	if( substr( $field->getName(), 0, 8 ) != 'related_' ) {
 		continue;
 	}
 
