@@ -1,16 +1,10 @@
 <?php
 namespace JetStudio;
 ?>
-<?php use Jet\Http_Request;
-
-if( DataModels::getCurrentWhatToEdit() == 'model' ): ?>
-	<b class="badge badge-info" style="font-size: 20px;"><?= DataModels::getCurrentClass()->getFullClassName() ?></b>
+<?php use Jet\Http_Request;if(DataModels::getCurrentWhatToEdit()=='model'): ?>
+	<b class="badge badge-info" style="font-size: 20px;"><?=DataModels::getCurrentClass()->getFullClassName()?></b>
 <?php else: ?>
-	<a href="<?= Http_Request::currentURI( [], [
-		'key',
-		'property',
-		'relation'
-	] ) ?>" style="font-weight: bolder;font-size: 20px;"><?= DataModels::getCurrentClass()->getFullClassName() ?></a>
+	<a href="<?=Http_Request::currentURI([],['key','property', 'relation'])?>" style="font-weight: bolder;font-size: 20px;"><?=DataModels::getCurrentClass()->getFullClassName()?></a>
 <?php endif; ?>
 <br/>
 <table style="width: 100%;margin-top: 5px;">

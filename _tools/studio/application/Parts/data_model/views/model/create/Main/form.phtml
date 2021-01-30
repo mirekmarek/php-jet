@@ -1,27 +1,26 @@
 <?php
-
 namespace JetStudio;
 
 use Jet\Form;
 
 $form = DataModel_Definition_Model_Main::getCreateForm();
 
-$form->setDefaultLabelWidth( [Form::LJ_SIZE_MEDIUM => 2] );
-$form->setDefaultFieldWidth( [Form::LJ_SIZE_MEDIUM => 10] );
+$form->setDefaultLabelWidth( [ Form::LJ_SIZE_MEDIUM => 2 ] );
+$form->setDefaultFieldWidth( [ Form::LJ_SIZE_MEDIUM => 10 ] );
 
-$form->field( 'namespace' )->input()->addJsAction( 'onchange', "DataModel.create.generateScriptPath(this.form)" );
-$form->field( 'class_name' )->input()->addJsAction( 'onkeyup', "DataModel.create.generateScriptPath(this.form);DataModel.create.generateModelName(this.form);" );
+$form->field('namespace')->input()->addJsAction('onchange', "DataModel.create.generateScriptPath(this.form)");
+$form->field('class_name')->input()->addJsAction('onkeyup', "DataModel.create.generateScriptPath(this.form);DataModel.create.generateModelName(this.form);");
 
 echo $form->start();
 echo $form->getCommonMessage();
-echo $form->field( 'type' );
-echo $form->field( 'namespace' );
-echo $form->field( 'class_name' );
-echo $form->field( 'model_name' );
-echo $form->field( 'script_path' );
+echo $form->field('type');
+echo $form->field('namespace');
+echo $form->field('class_name');
+echo $form->field('model_name');
+echo $form->field('script_path');
 
-echo $form->field( 'id_controller_class' );
-echo $form->field( 'id_property_name' );
+echo $form->field('id_controller_class');
+echo $form->field('id_property_name');
 
 echo $form->end();
 

@@ -1,5 +1,4 @@
 <?php
-
 namespace JetStudio;
 
 use Jet\Mvc_View;
@@ -13,28 +12,28 @@ use Jet\UI;
  * @var Form $form
  */
 
-$form = $this->getRaw( 'form' );
-$related = $this->getRaw( 'related' );
+$form = $this->getRaw('form');
+$related = $this->getRaw('related');
 
 echo $form->start();
 
 echo $form->getCommonMessage();
 
-echo $form->field( 'related_model_class_name' );
-echo $form->field( 'join_type' );
+echo $form->field('related_model_class_name');
+echo $form->field('join_type');
 
-$form->setDoNotTranslateTexts( true );
+$form->setDoNotTranslateTexts(true);
 foreach( $related->getProperties() as $property ) {
-	if( !$form->fieldExists( 'glue_' . $property->getName() ) ) {
+	if(!$form->fieldExists('glue_'.$property->getName())) {
 		continue;
 	}
 
-	echo $form->field( 'glue_' . $property->getName() );
+	echo $form->field('glue_'.$property->getName());
 }
 
-echo UI::dialog( '', '', 600 )->footer();
+echo UI::dialog('', '', 600)->footer();
 echo $form->end();
 
-echo UI::button_save( Tr::_( 'Create' ) )->setOnclick( 'DataModel.relation.create.createSend();return false;' );
+echo UI::button_save(Tr::_('Create'))->setOnclick('DataModel.relation.create.createSend();return false;');
 
 

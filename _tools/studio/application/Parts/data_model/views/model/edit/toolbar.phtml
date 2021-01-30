@@ -4,7 +4,7 @@ namespace JetStudio;
 use Jet\Tr;
 use Jet\UI;
 
-if( !DataModels::getCurrentModel() ) {
+if(!DataModels::getCurrentModel()) {
 	return;
 }
 
@@ -19,35 +19,20 @@ if( $class ) {
 $form = DataModels::getCurrentModel()->getEditForm();
 ?>
 
-<?= UI::button_save()
-	->setOnclick( "$('#" . $form->getId() . "').submit()" )
+<?=UI::button_save()
+	->setOnclick("$('#".$form->getId()."').submit()")
 ?>
-<?php if( $class && !$errors ): ?>
+<?php if($class && !$errors): ?>
 	<div class="dropdown" style="display: inline-block">
-		<button type="button" class="btn btn-light dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
-		        aria-expanded="false">
-			<?= Tr::_( 'Generate' ) ?>
+		<button type="button" class="btn btn-light dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+			<?=Tr::_('Generate')?>
 		</button>
 		<div class="dropdown-menu" style="padding: 10px;">
-			<a class="dropdown-item"
-			   href="<?= DataModels::getActionUrl( 'model/generate/database_table' ) ?>"><?= Tr::_( 'Database table' ) ?></a>
-			<a class="dropdown-item" href="#"
-			   onclick="DataModel.edit.showSQLCreate();"><?= Tr::_( 'Show SQL - create' ) ?></a>
-			<a class="dropdown-item" href="#"
-			   onclick="DataModel.edit.showSQLUpdate();"><?= Tr::_( 'Show SQL - update' ) ?></a>
+			<a class="dropdown-item" href="<?=DataModels::getActionUrl('model/generate/database_table')?>"><?=Tr::_('Database table')?></a>
+			<a class="dropdown-item" href="#" onclick="DataModel.edit.showSQLCreate();"><?=Tr::_('Show SQL - create')?></a>
+			<a class="dropdown-item" href="#" onclick="DataModel.edit.showSQLUpdate();"><?=Tr::_('Show SQL - update')?></a>
 		</div>
 	</div>
 <?php endif; ?>
 
 
-<?= UI::button_create( Tr::_( 'Create property' ) )
-	->setOnclick( 'DataModel.property.create.openDialog()' )
-?>
-
-<?= UI::button_create( Tr::_( 'Create external relation' ) )
-	->setOnclick( 'DataModel.relation.create.openDialog()' )
-?>
-
-<?= UI::button_create( Tr::_( 'Create key' ) )
-	->setOnclick( 'DataModel.key.create.openDialog()' )
-?>
