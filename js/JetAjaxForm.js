@@ -101,6 +101,10 @@ let JetAjaxForm = {
 	},
 
 	submitMultiUpload: function( form_id, file_field_name, handlers ) {
+		if(!handlers) {
+			handlers = JetAjaxForm.defaultHandlers;
+		}
+
 		const form = document.getElementById(form_id);
 		if(!form ) {
 			alert('Unknown form '+form_id+'!');
