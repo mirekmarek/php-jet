@@ -73,18 +73,24 @@ class DataModel_Fetch_Instances extends DataModel_Fetch implements Data_Paginato
 
 		$l = DataModel_Backend::get( $this->data_model_definition )->fetchAll( $this->query );
 
+		$this->_where = [];
 		foreach( $l as $item ) {
 			$l_id = clone $this->empty_id_instance;
 
+			$where = [];
 			foreach( $l_id->getPropertyNames() as $k ) {
 				$l_id->setValue( $k, $item[$k] );
 
-				if( !isset( $this->_where[$k] ) ) {
-					$this->_where[$k] = [];
+				if($where) {
+					$where[] = 'AND';
 				}
-
-				$this->_where[$k][] = $item[$k];
+				$where[$k] = $item[$k];
 			}
+
+			if($this->_where) {
+				$this->_where[] = 'OR';
+			}
+			$this->_where[] = $where;
 
 			$i_id_str = (string)$l_id;
 
