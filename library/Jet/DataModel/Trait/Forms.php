@@ -97,12 +97,14 @@ trait DataModel_Trait_Forms
 				continue;
 			}
 
-			$created_field->setCatcher(
-				function( $value ) use ( $property_definition, &$property ) {
-					/** @noinspection PhpParamsInspection */
-					$property_definition->catchFormField( $this, $property, $value );
-				}
-			);
+			if(!$created_field->getCatcher()) {
+				$created_field->setCatcher(
+					function( $value ) use ( $property_definition, &$property ) {
+						/** @noinspection PhpParamsInspection */
+						$property_definition->catchFormField( $this, $property, $value );
+					}
+				);
+			}
 
 
 			$form_fields[] = $created_field;
