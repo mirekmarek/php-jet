@@ -195,7 +195,7 @@ class DataModel_Definition_Property_DataModel extends DataModel_Definition_Prope
 			$current = $this->getValueDataModelClass();
 
 			throw new DataModel_Exception(
-				'Data model name collision: ' . $prev . ' vs ' . $current, DataModel_Exception::CODE_DEFINITION_NONSENSE
+				'Data model name ('.$related_model_name.') collision: ' . $prev . ' vs ' . $current, DataModel_Exception::CODE_DEFINITION_NONSENSE
 			);
 		}
 

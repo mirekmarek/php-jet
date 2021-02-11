@@ -35,9 +35,11 @@ class Data_Text
 
 			return preg_replace( '/[^a-zA-Z0-9]/', '_', $text );
 		} else {
+			/** @noinspection SpellCheckingInspection */
 			$transliterator = Transliterator::create( 'NFD; [:Nonspacing Mark:] Remove; NFC' );
 
 			return $transliterator->transliterate( $text );
+
 		}
 	}
 

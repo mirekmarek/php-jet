@@ -53,6 +53,7 @@ trait Form_Field_Trait_Validation
 	 */
 	protected string $last_error_message = '';
 
+
 	/**
 	 * @return callable|null
 	 */
@@ -73,6 +74,33 @@ trait Form_Field_Trait_Validation
 	 * @return array
 	 */
 	abstract public function getRequiredErrorCodes(): array;
+
+
+	/**
+	 *
+	 * @return bool
+	 */
+	public function validate(): bool
+	{
+
+		$validator = $this->getValidator();
+		if( $validator ) {
+			return $validator( $this );
+		}
+
+		if( !$this->checkValueIsNotEmpty() ) {
+			return false;
+		}
+
+		if( !$this->validateFormat() ) {
+			return false;
+		}
+
+		$this->setIsValid();
+
+		return true;
+	}
+
 
 	/**
 	 *
@@ -206,24 +234,6 @@ trait Form_Field_Trait_Validation
 
 	/**
 	 *
-	 * @param Data_Array $data
-	 */
-	public function catchInput( Data_Array $data ): void
-	{
-		$this->_value = null;
-		$this->_has_value = $data->exists( $this->_name );
-
-		if( $this->_has_value ) {
-			$this->_value_raw = $data->getRaw( $this->_name );
-			$this->_value = trim( $data->getString( $this->_name ) );
-		} else {
-			$this->_value_raw = null;
-			$this->_value = $this->default_value;
-		}
-	}
-
-	/**
-	 *
 	 * @return bool
 	 */
 	public function checkValueIsNotEmpty(): bool
@@ -244,25 +254,7 @@ trait Form_Field_Trait_Validation
 	 *
 	 * @return bool
 	 */
-	public function validate(): bool
-	{
-
-		if( !$this->validateFormat() ) {
-			$this->setError( self::ERROR_CODE_INVALID_FORMAT );
-
-			return false;
-		}
-
-		$this->setIsValid();
-
-		return true;
-	}
-
-	/**
-	 *
-	 * @return bool|int
-	 */
-	protected function validateFormat(): bool|int
+	protected function validateFormat(): bool
 	{
 
 		if( !$this->validation_regexp ) {
@@ -277,11 +269,17 @@ trait Form_Field_Trait_Validation
 		}
 
 		if( $this->validation_regexp[0] != '/' ) {
-			return preg_match( '/' . $this->validation_regexp . '/', $this->_value );
+			$res = preg_match( '/' . $this->validation_regexp . '/', $this->_value );
 		} else {
-			return preg_match( $this->validation_regexp, $this->_value );
+			$res = preg_match( $this->validation_regexp, $this->_value );
 		}
 
+		if(!$res) {
+			$this->setError( self::ERROR_CODE_INVALID_FORMAT );
+			return false;
+		}
+
+		return true;
 	}
 
 	/**

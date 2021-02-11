@@ -699,29 +699,9 @@ class Form extends BaseObject
 		$this->common_message = '';
 		$this->is_valid = true;
 		foreach( $this->fields as $field ) {
-
-			if( $field->getIsReadonly() ) {
-				continue;
-			}
-
-			$validator = $field->getValidator();
-			if( $validator ) {
-				if( !$validator( $field ) ) {
-					$this->is_valid = false;
-				}
-
-				continue;
-			}
-
-			if( !$field->checkValueIsNotEmpty() ) {
-				$this->is_valid = false;
-				continue;
-			}
-
 			if( !$field->validate() ) {
 				$this->is_valid = false;
 			}
-
 		}
 
 

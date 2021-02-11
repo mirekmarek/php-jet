@@ -32,7 +32,6 @@ class DataModel_Query_Where extends BaseObject implements BaseObject_Interface_I
 	{
 		$this->query = $query;
 
-
 		foreach( $where as $key => $val ) {
 			if( is_int( $key ) ) {
 				$this->_determineLogicalOperatorOrSubExpressions( $val );

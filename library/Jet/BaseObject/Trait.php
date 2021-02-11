@@ -64,14 +64,14 @@ trait BaseObject_Trait
 	 */
 	public function __sleep(): array
 	{
-		$vars = get_object_vars( $this );
-		foreach( $vars as $k => $v ) {
-			if( substr( $k, 0, 2 ) === '__' ) {
-				unset( $vars[$k] );
+		$vars = [];
+		foreach(get_object_vars($this) as $k=>$v) {
+			if($k[0]!='_') {
+				$vars[] = $k;
 			}
 		}
 
-		return array_keys( $vars );
+		return $vars;
 	}
 
 	/**

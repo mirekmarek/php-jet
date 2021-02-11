@@ -520,4 +520,22 @@ abstract class Form_Field extends BaseObject implements JsonSerializable
 		return $this->_form->_( $phrase, $data );
 	}
 
+	/**
+	 *
+	 * @param Data_Array $data
+	 */
+	public function catchInput( Data_Array $data ): void
+	{
+		$this->_value = null;
+		$this->_has_value = $data->exists( $this->_name );
+
+		if( $this->_has_value ) {
+			$this->_value_raw = $data->getRaw( $this->_name );
+			$this->_value = trim( $data->getString( $this->_name ) );
+		} else {
+			$this->_value_raw = null;
+			$this->_value = $this->default_value;
+		}
+	}
+
 }
