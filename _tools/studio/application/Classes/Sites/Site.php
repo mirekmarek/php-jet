@@ -361,7 +361,7 @@ class Sites_Site extends Mvc_Site
 			}
 
 
-			$data = $form->getData()->getRawData();
+			$data = $form->getValues();
 
 			foreach( $this->getLocales() as $locale ) {
 				$locale_str = $locale->toString();

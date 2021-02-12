@@ -789,65 +789,16 @@ class Form extends BaseObject
 	}
 
 	/**
-	 * returns field values if form is valid otherwise false
-	 *
-	 * @param bool $escape_values - example: for database usage *
-	 * @param bool $force_skip_is_valid
 	 *
 	 * @return array|bool
 	 */
-	public function getValues( bool $escape_values = false,
-	                           bool $force_skip_is_valid = false ): array|bool
+	public function getValues(): array|bool
 	{
-		if(
-			!$this->is_valid &&
-			!$force_skip_is_valid
-		) {
+		if( !$this->is_valid ) {
 			return false;
 		}
 
-		$result = [];
-		foreach( $this->fields as $key => $field ) {
-			if(
-				$field->getIsReadonly() ||
-				!$field->getHasValue()
-			) {
-				continue;
-			}
-
-			$value = $field->getValue();
-
-			if( $escape_values ) {
-				if( is_string( $value ) ) {
-					$value = addslashes( $value );
-				} else {
-					if( is_bool( $value ) ) {
-						$value = $value ? 1 : 0;
-					}
-				}
-			}
-
-			$result[$key] = $value;
-		}
-
-		return $result;
-	}
-
-	/**
-	 * @param bool $force_skip_is_valid
-	 *
-	 * @return Data_Array|null
-	 */
-	public function getData( bool $force_skip_is_valid = false ): Data_Array|null
-	{
-		if(
-			!$this->is_valid &&
-			!$force_skip_is_valid
-		) {
-			return null;
-		}
-
-		$data = new Data_Array();
+		$values = new Data_Array();
 
 		foreach( $this->fields as $key => $field ) {
 			if(
@@ -859,10 +810,10 @@ class Form extends BaseObject
 
 			$value = $field->getValue();
 
-			$data->set( $key, $value );
+			$values->set( $key, $value );
 		}
 
-		return $data;
+		return $values->getRawData();
 	}
 
 	/**
