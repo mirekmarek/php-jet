@@ -7,7 +7,7 @@
  */
 namespace Jet;
 
-require 'includes/bootstrap_cli.php';
+require 'init/init.php';
 
 if (!isset($argv[1])) {
 	die('Usage: ' . $argv[0] . ' \'Namespace\ClassName\'' . PHP_EOL);

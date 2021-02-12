@@ -6,7 +6,8 @@
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
 namespace Jet;
-require "bootstrap_cli.php";
+
+require "init.php";
 
 if (!isset($argv[1])) {
 	die("Usage: {$argv[0]} ModuleName" . PHP_EOL);

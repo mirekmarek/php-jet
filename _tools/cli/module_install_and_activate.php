@@ -6,7 +6,8 @@
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
 namespace Jet;
-$module_name = require "includes/modules_main.php";
+
+$module_name = require "init/init_modules.php";
 
 echo "Installing module '{$module_name}' ... " . PHP_EOL;
 

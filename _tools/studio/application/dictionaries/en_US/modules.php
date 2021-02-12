@@ -111,4 +111,7 @@ return [
 	'Delete this Module' => '',
 	'Do You really want to delete module <strong>%name%</strong> ?' => '',
 	'Modules <b>%module%</b> has been deleted' => '',
+	'System' => '',
+	'Delete this page?' => '',
+	'Do you really want to delete this page?' => '',
 ];

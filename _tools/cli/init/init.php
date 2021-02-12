@@ -8,7 +8,7 @@
 namespace Jet;
 
 
-$application_dir = dirname(dirname(__DIR__)) . '/application/';
+$application_dir = dirname(dirname(dirname(__DIR__))) . '/application/';
 
 require_once $application_dir . 'config/Path.php';
 require_once $application_dir . 'config/Jet.php';

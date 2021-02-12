@@ -36,4 +36,10 @@ return [
 	'Custom URL parts:' => '',
 	'GET parameter:' => '',
 	'URL:' => '',
+	'Content' => '',
+	'System' => '',
+	'Please select target menu' => '',
+	'Menu' => '',
+	'Delete this menu item' => '',
+	'Do you really want to delete this menu item?' => '',
 ];

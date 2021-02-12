@@ -6,7 +6,8 @@
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
 namespace Jet;
-require "includes/bootstrap_cli.php";
+
+require "init/init.php";
 
 try {
 	$list = Application_Modules::allModulesList();

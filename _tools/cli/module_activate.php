@@ -7,8 +7,14 @@
  */
 namespace Jet;
 
-require 'includes/bootstrap_cli.php';
+$module_name = require "init/init_modules.php";
 
-Mvc_Cache::reset();
+echo "Activating module '{$module_name}' ... " . PHP_EOL;
 
-echo 'Done'.PHP_EOL.PHP_EOL;
+try {
+	Application_Modules::activateModule($module_name);
+} catch (Exception $e) {
+	handleException($e);
+}
+
+ok();
