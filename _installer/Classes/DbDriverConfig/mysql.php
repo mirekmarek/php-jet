@@ -30,7 +30,7 @@ class Installer_DbDriverConfig_mysql extends Installer_DbDriverConfig
 	 *
 	 * @return Db_Backend_Config|Db_Backend_PDO_Config
 	 */
-	public function initialize( Db_Config $db_config, DataModel_Config $data_model_config )
+	public function initialize( Db_Config $db_config, DataModel_Config $data_model_config ) : Db_Backend_Config|Db_Backend_PDO_Config
 	{
 		$connection_config = Db_Factory::getBackendConfigInstance();
 		$connection_config->setName( 'default' );
@@ -57,7 +57,7 @@ class Installer_DbDriverConfig_mysql extends Installer_DbDriverConfig
 	/**
 	 * @return Form
 	 */
-	public function getForm()
+	public function getForm() : Form
 	{
 		if( !$this->_form ) {
 			$DSN_data = [
@@ -144,7 +144,7 @@ class Installer_DbDriverConfig_mysql extends Installer_DbDriverConfig
 	/**
 	 * @return bool
 	 */
-	public function catchForm()
+	public function catchForm() : bool
 	{
 		$form = $this->getForm();
 

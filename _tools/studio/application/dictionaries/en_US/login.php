@@ -5,4 +5,5 @@ return [
 	'Please enter password' => '',
 	'username' => '',
 	'password' => '',
+	'Logout' => '',
 ];

@@ -872,7 +872,6 @@ class Mvc_Page extends BaseObject implements Mvc_Page_Interface
 		unset( $data['children'] );
 		unset( $data['site_id'] );
 		unset( $data['locale'] );
-		unset( $data['order'] );
 		unset( $data['relative_path_fragment'] );
 		unset( $data['original_relative_path_fragment'] );
 

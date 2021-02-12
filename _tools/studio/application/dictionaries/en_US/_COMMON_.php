@@ -15,4 +15,7 @@ return [
 	'The access configuration file does not exist' => '',
 	'The access configuration file is not readable' => '',
 	'The access configuration is corrupted' => '',
+	'Module wizard' => '',
+	'Select locale' => '',
+	'Search for locale ...' => '',
 ];

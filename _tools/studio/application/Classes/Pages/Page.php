@@ -10,6 +10,7 @@ namespace JetStudio;
 
 use Jet\Data_Text;
 use Jet\Exception;
+use Jet\Form_Field_Int;
 use Jet\Form_Field_Select;
 use Jet\Form_Field_Textarea;
 use Jet\Form_Field_Hidden;
@@ -195,6 +196,13 @@ class Pages_Page extends Mvc_Page
 				$page->setName( $value );
 			} );
 
+
+			$order_field = new Form_Field_Int( 'order', 'Order:', $page->getOrder() );
+			$order_field->setCatcher( function( $value ) use ( $page ) {
+				$page->setOrder( $value );
+			} );
+
+
 			$title_field = new Form_Field_Input( 'title', 'Title:', $page->getTitle() );
 			$title_field->setIsRequired( true );
 			$title_field->setErrorMessages( [
@@ -263,6 +271,7 @@ class Pages_Page extends Mvc_Page
 				$menu_title_field,
 				$breadcrumb_title_field,
 				$icon_field,
+				$order_field,
 
 				$is_secret_field,
 				$is_active_field,

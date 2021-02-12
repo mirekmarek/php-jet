@@ -47,17 +47,17 @@ abstract class Installer_DbDriverConfig extends BaseObject
 	 *
 	 * @return Db_Backend_Config|Db_Backend_PDO_Config
 	 */
-	abstract public function initialize( Db_Config $db_config, DataModel_Config $data_model_config );
+	abstract public function initialize( Db_Config $db_config, DataModel_Config $data_model_config ) : Db_Backend_Config|Db_Backend_PDO_Config;
 
 
 	/**
 	 * @return Form
 	 */
-	abstract public function getForm();
+	abstract public function getForm() : Form;
 
 	/**
 	 * @return bool
 	 */
-	abstract public function catchForm();
+	abstract public function catchForm() : bool;
 
 }

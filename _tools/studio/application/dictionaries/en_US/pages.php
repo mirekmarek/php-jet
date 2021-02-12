@@ -69,4 +69,5 @@ return [
 	'Invalid controller name format' => '',
 	'Please select controller' => '',
 	'Please select controller action' => '',
+	'Order:' => '',
 ];
