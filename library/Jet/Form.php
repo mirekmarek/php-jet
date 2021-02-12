@@ -65,6 +65,10 @@ class Form extends BaseObject
 	const TYPE_FILE = 'File';
 	const TYPE_FILE_IMAGE = 'FileImage';
 
+	/**
+	 * @var string
+	 */
+	protected static string $default_sent_key = '_jet_form_sent_';
 
 	/**
 	 * @var ?string
@@ -100,7 +104,8 @@ class Form extends BaseObject
 	/**
 	 * @var string
 	 */
-	protected string $sent_key = '_jet_form_sent_';
+	protected string $sent_key = '';
+
 
 	/**
 	 * @var string $name
@@ -511,6 +516,9 @@ class Form extends BaseObject
 	 */
 	public function getSentKey(): string
 	{
+		if(!$this->sent_key) {
+			$this->sent_key = static::getDefaultSentKey();
+		}
 		return $this->sent_key;
 	}
 
@@ -520,6 +528,22 @@ class Form extends BaseObject
 	public function setSentKey( string $sent_key ): void
 	{
 		$this->sent_key = $sent_key;
+	}
+
+	/**
+	 * @return string
+	 */
+	public static function getDefaultSentKey(): string
+	{
+		return static::$default_sent_key;
+	}
+
+	/**
+	 * @param string $sent_key
+	 */
+	public static function setDefaultSentKey( string $sent_key ): void
+	{
+		static::$default_sent_key = $sent_key;
 	}
 
 
