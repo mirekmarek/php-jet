@@ -150,6 +150,11 @@ class Form extends BaseObject
 	protected array $fields = [];
 
 	/**
+	 * @var array 
+	 */
+	protected array $validation_errors = [];
+
+	/**
 	 * @var bool
 	 */
 	protected bool $is_valid = false;
@@ -665,8 +670,26 @@ class Form extends BaseObject
 	}
 
 	/**
+	 * @throws Form_Exception
+	 */
+	protected function checkFieldsHasErrorMessages(): void
+	{
+		foreach( $this->fields as $field ) {
+			$required_error_codes = $field->getRequiredErrorCodes();
+
+			foreach( $required_error_codes as $code ) {
+				if( !$field->getErrorMessage( $code ) ) {
+					throw new Form_Exception(
+						'Form field error message is not set. Form:' . $this->name . ' Field:' . $field->getName() . ' Error code:' . $code
+					);
+				}
+			}
+		}
+	}
+
+	/**
 	 * catch values from input ($_POST is default)
-	 * and return true if form sent ...
+	 * and return true if the form has been sent ...
 	 *
 	 * @param array|null $input_data
 	 * @param bool $force_catch
@@ -722,32 +745,16 @@ class Form extends BaseObject
 
 		$this->common_message = '';
 		$this->is_valid = true;
+		$this->validation_errors = [];
 		foreach( $this->fields as $field ) {
 			if( !$field->validate() ) {
 				$this->is_valid = false;
+				$this->validation_errors[$field->getName()] = $field->getLastErrorMessage();
 			}
 		}
 
 
 		return $this->is_valid;
-	}
-
-	/**
-	 * @throws Form_Exception
-	 */
-	protected function checkFieldsHasErrorMessages(): void
-	{
-		foreach( $this->fields as $field ) {
-			$required_error_codes = $field->getRequiredErrorCodes();
-
-			foreach( $required_error_codes as $code ) {
-				if( !$field->getErrorMessage( $code ) ) {
-					throw new Form_Exception(
-						'Form field error message is not set. Form:' . $this->name . ' Field:' . $field->getName() . ' Error code:' . $code
-					);
-				}
-			}
-		}
 	}
 
 	/**
@@ -785,23 +792,11 @@ class Form extends BaseObject
 	}
 
 	/**
-	 * get all errors in form
-	 *
 	 * @return array
 	 */
-	public function getAllErrors(): array
+	public function getValidationErrors(): array
 	{
-		$result = [];
-
-		foreach( $this->fields as $key => $field ) {
-			$last_error = $field->getLastErrorMessage();
-
-			if( $last_error ) {
-				$result[$key] = $last_error;
-			}
-		}
-
-		return $result;
+		return $this->validation_errors;
 	}
 
 	/**

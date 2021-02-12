@@ -219,7 +219,7 @@ class Controller_REST extends Mvc_Controller_REST
 
 			$this->responseData( $gallery );
 		} else {
-			$this->responseValidationError( $form->getAllErrors() );
+			$this->responseValidationError( $form->getValidationErrors() );
 		}
 
 	}
@@ -243,7 +243,7 @@ class Controller_REST extends Mvc_Controller_REST
 
 			$this->responseData( $gallery );
 		} else {
-			$this->responseValidationError( $form->getAllErrors() );
+			$this->responseValidationError( $form->getValidationErrors() );
 		}
 	}
 
@@ -340,7 +340,7 @@ class Controller_REST extends Mvc_Controller_REST
 
 			$this->responseData( $images[0] );
 		} else {
-			$this->responseValidationError( $upload_form->getAllErrors() );
+			$this->responseValidationError( $upload_form->getValidationErrors() );
 		}
 	}
 

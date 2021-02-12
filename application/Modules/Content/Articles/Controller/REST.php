@@ -124,7 +124,7 @@ class Controller_REST extends Mvc_Controller_REST
 			$this->logAllowedAction( 'Article created', $article->getId(), $article->getTitle(), $article );
 			$this->responseData( $article );
 		} else {
-			$this->responseValidationError( $form->getAllErrors() );
+			$this->responseValidationError( $form->getValidationErrors() );
 		}
 
 	}
@@ -149,7 +149,7 @@ class Controller_REST extends Mvc_Controller_REST
 			$this->logAllowedAction( 'Article created', $article->getId(), $article->getTitle(), $article );
 			$this->responseData( $article );
 		} else {
-			$this->responseValidationError( $form->getAllErrors() );
+			$this->responseValidationError( $form->getValidationErrors() );
 		}
 
 	}
