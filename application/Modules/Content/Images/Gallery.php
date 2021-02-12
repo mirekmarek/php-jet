@@ -478,7 +478,7 @@ class Gallery extends DataModel
 	 */
 	public function catchEditForm(): bool
 	{
-		return $this->catchForm( $this->getEditForm() );
+		return $this->getEditForm()->catch();
 	}
 
 
@@ -514,7 +514,7 @@ class Gallery extends DataModel
 	 */
 	public function catchAddForm(): bool
 	{
-		return $this->catchForm( $this->getAddForm() );
+		return $this->getAddForm()->catch();
 	}
 
 	/**

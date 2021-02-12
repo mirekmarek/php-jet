@@ -289,29 +289,6 @@ abstract class Config extends BaseObject
 		}
 
 		return new Form( $form_name, $form_fields );
-
-	}
-
-	/**
-	 * @param Form $form
-	 *
-	 * @param array|null $data
-	 * @param bool $force_catch
-	 *
-	 * @return bool;
-	 */
-	public function catchForm( Form $form, ?array $data = null, bool $force_catch = false ): bool
-	{
-
-		if(
-			!$form->catchInput( $data, $force_catch ) ||
-			!$form->validate()
-		) {
-			return false;
-		}
-
-		return $form->catchData();
-
 	}
 
 	/**

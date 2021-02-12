@@ -232,16 +232,6 @@ interface DataModel_Interface extends BaseObject_Interface_Serializable_JSON
 	 */
 	public function getCommonForm( string $form_name = '' ): Form;
 
-	/**
-	 * @param Form $form
-	 *
-	 * @param array|null $data
-	 * @param bool $force_catch
-	 *
-	 * @return bool;
-	 */
-	public function catchForm( Form $form, array|null $data = null, bool $force_catch = false ): bool;
-
 
 //-- Events -------------------------------------
 

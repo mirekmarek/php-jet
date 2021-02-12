@@ -852,6 +852,19 @@ class Form extends BaseObject
 		return true;
 	}
 
+	public function catch() : bool
+	{
+		if(
+			$this->catchInput() &&
+			$this->validate()
+		) {
+			$this->catchData();
+			return true;
+		}
+
+		return false;
+	}
+
 	/**
 	 *
 	 * @param string $phrase

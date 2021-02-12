@@ -427,7 +427,7 @@ class Auth_RESTClient_Role extends DataModel implements Auth_Role_Interface
 	 */
 	public function catchEditForm(): bool
 	{
-		return $this->catchForm( $this->getEditForm() );
+		return $this->getEditForm()->catch();
 	}
 
 
@@ -448,7 +448,7 @@ class Auth_RESTClient_Role extends DataModel implements Auth_Role_Interface
 	 */
 	public function catchAddForm(): bool
 	{
-		return $this->catchForm( $this->getAddForm() );
+		return $this->getAddForm()->catch();
 	}
 
 }

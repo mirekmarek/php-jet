@@ -930,7 +930,7 @@ class Auth_Visitor_User extends DataModel implements Auth_User_Interface
 	 */
 	public function catchEditForm(): bool
 	{
-		return $this->catchForm( $this->getEditForm() );
+		return $this->getEditForm()->catch();
 	}
 
 
@@ -962,7 +962,7 @@ class Auth_Visitor_User extends DataModel implements Auth_User_Interface
 	 */
 	public function catchAddForm(): bool
 	{
-		return $this->catchForm( $this->getAddForm() );
+		return $this->getAddForm()->catch();
 	}
 
 

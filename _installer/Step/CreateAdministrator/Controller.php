@@ -44,7 +44,7 @@ class Installer_Step_CreateAdministrator_Controller extends Installer_Step_Contr
 			$this->view->setVar( 'form', $form );
 
 
-			if( $administrator->catchForm( $form ) ) {
+			if( $form->catch() ) {
 				$administrator->setIsSuperuser( true );
 				$administrator->save();
 

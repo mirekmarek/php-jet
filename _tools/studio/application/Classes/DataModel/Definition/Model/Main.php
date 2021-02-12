@@ -111,7 +111,7 @@ class DataModel_Definition_Model_Main extends Jet_DataModel_Definition_Model_Mai
 
 		$catchEditForm = $class->createMethod( 'catchEditForm' );
 		$catchEditForm->setReturnType( 'bool' );
-		$catchEditForm->line( 1, 'return $this->catchForm( $this->getEditForm() );' );
+		$catchEditForm->line( 1, 'return $this->getEditForm()->catch();' );
 
 
 		$getAddForm = $class->createMethod( 'getAddForm' );
@@ -124,7 +124,7 @@ class DataModel_Definition_Model_Main extends Jet_DataModel_Definition_Model_Mai
 
 		$catchAddForm = $class->createMethod( 'catchAddForm' );
 		$catchAddForm->setReturnType( 'bool' );
-		$catchAddForm->line( 1, 'return $this->catchForm( $this->getAddForm() );' );
+		$catchAddForm->line( 1, 'return $this->getAddForm()->catch();' );
 
 
 		$get = $class->createMethod( 'get' );
