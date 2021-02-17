@@ -320,6 +320,10 @@ trait DataModel_Definition_Property_Trait
 			$_callback[0] = 'self::class';
 		}
 
+		if(str_contains($_callback[0], '\\')) {
+			$_callback[0] = substr($_callback[0], strrpos($_callback[0], '\\')+1).'::class';
+		}
+
 		$form_field_get_select_options_callback_filed_class_name = new Form_Field_Input( 'form_field_get_select_options_callback_class_name', 'Select options callback:', $_callback[0] );
 		$form_field_get_select_options_callback_filed_method = new Form_Field_Input( 'form_field_get_select_options_callback_method', '', $_callback[1] );
 		$form_field_get_select_options_callback_filed_method->setCatcher( function( $value ) use ( $form_field_get_select_options_callback_filed_class_name ) {
@@ -1019,7 +1023,7 @@ trait DataModel_Definition_Property_Trait
 			$class->addUse( (new ClassCreator_UseClass( 'Jet', 'Form' )) );
 
 			if($this->form_field_type) {
-				$property->setAttribute( 'DataModel_Definition', 'form_field_type', $this->form_field_type );
+				$property->setAttribute( 'DataModel_Definition', 'form_field_type', DataModel_Definition_Property::getFormFieldTypes()[$this->form_field_type]['type'] );
 			}
 
 			if( $this->getFormFieldIsRequired() ) {

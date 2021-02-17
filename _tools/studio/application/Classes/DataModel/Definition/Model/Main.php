@@ -75,21 +75,6 @@ class DataModel_Definition_Model_Main extends Jet_DataModel_Definition_Model_Mai
 	{
 		$model = $this;
 
-		foreach( $model->getProperties() as $property ) {
-			if(
-				$property->isInherited() &&
-				!$property->isOverload()
-			) {
-				continue;
-			}
-
-			$property->createClassMethods( $class );
-		}
-
-		if( ($id_controller_definition = $this->getIDControllerDefinition()) ) {
-			$id_controller_definition->createClassMethods( $class );
-		}
-
 		$class->addUse( new ClassCreator_UseClass( 'Jet', 'Form' ) );
 
 
@@ -141,6 +126,21 @@ class DataModel_Definition_Model_Main extends Jet_DataModel_Definition_Model_Mai
 		$getList->line( 1, '$list = static::fetchInstances( $where );' );
 		$getList->line( 1, '' );
 		$getList->line( 1, 'return $list;' );
+
+		foreach( $model->getProperties() as $property ) {
+			if(
+				$property->isInherited() &&
+				!$property->isOverload()
+			) {
+				continue;
+			}
+
+			$property->createClassMethods( $class );
+		}
+
+		if( ($id_controller_definition = $this->getIDControllerDefinition()) ) {
+			$id_controller_definition->createClassMethods( $class );
+		}
 
 	}
 
