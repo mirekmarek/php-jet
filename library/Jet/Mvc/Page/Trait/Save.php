@@ -43,7 +43,10 @@ trait Mvc_Page_Trait_Save
 	 */
 	public function saveDataFile(): void
 	{
-		if( $this->relative_path_fragment != $this->original_relative_path_fragment ) {
+		if(
+			$this->original_relative_path_fragment &&
+			$this->relative_path_fragment != $this->original_relative_path_fragment
+		) {
 
 			$page_dir = $this->getDataDirPath();
 			$original_page_dir = $this->getOriginalDataDirPath();

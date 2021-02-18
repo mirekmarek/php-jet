@@ -41,6 +41,11 @@ trait Mvc_Page_Trait_Tree
 	 */
 	protected int $order = 0;
 
+	public function setParentId( string $page_id ) : void
+	{
+		$this->parent_id = $page_id;
+	}
+
 	/**
 	 *
 	 * @return static|null
