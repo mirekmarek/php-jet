@@ -20,6 +20,7 @@ use Jet\Form;
 use Jet\Form_Field_Input;
 use Jet\Form_Field_Checkbox;
 use Jet\Mvc_Factory;
+use Jet\Mvc_Page_MetaTag_Interface;
 use Jet\Tr;
 use Jet\Locale;
 use Jet\Mvc_Page_Content_Interface;
@@ -196,12 +197,10 @@ class Pages_Page extends Mvc_Page
 				$page->setName( $value );
 			} );
 
-
 			$order_field = new Form_Field_Int( 'order', 'Order:', $page->getOrder() );
 			$order_field->setCatcher( function( $value ) use ( $page ) {
 				$page->setOrder( $value );
 			} );
-
 
 			$title_field = new Form_Field_Input( 'title', 'Title:', $page->getTitle() );
 			$title_field->setIsRequired( true );
@@ -1158,6 +1157,26 @@ class Pages_Page extends Mvc_Page
 		}
 
 		return $ok;
+	}
+
+
+	/**
+	 *
+	 * @return Mvc_Page_MetaTag_Interface[]
+	 */
+	public function getMetaTags(): array
+	{
+		$meta_tags = [];
+		
+		foreach( $this->meta_tags as $mt ) {
+			$key = $mt->getAttribute() . ':' . $mt->getAttributeValue();
+			if( $key == ':' ) {
+				$key = $mt->getContent();
+			}
+			$meta_tags[$key] = $mt;
+		}
+
+		return $meta_tags;
 	}
 
 }

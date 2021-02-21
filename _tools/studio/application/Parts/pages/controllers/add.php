@@ -24,6 +24,8 @@ if( ($new_page = Pages_Page::catchCreateForm()) ) {
 		$data = [
 			'new_page_id' => $new_page->getId()
 		];
+	} else {
+		Pages_Page::getCreateForm()->setCommonMessage( implode('', UI_messages::get()) );
 	}
 
 }
