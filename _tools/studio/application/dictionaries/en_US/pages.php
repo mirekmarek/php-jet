@@ -70,4 +70,7 @@ return [
 	'Please select controller' => '',
 	'Please select controller action' => '',
 	'Order:' => '',
+	'Please enter class name' => '',
+	'Is cacheable' => '',
+	'Please enter method name' => '',
 ];

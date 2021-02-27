@@ -279,13 +279,13 @@ class Wizard extends ModuleWizard
 		foreach( $data_model->getProperties() as $property ) {
 			if( $property->getIsId() ) {
 				$id_properties[$property->getName()] = $property->getName();
-			} else {
-				if(
-					$property->getType() != DataModel::TYPE_DATA_MODEL &&
-					$property->getType() != DataModel::TYPE_CUSTOM_DATA
-				) {
-					$name_properties[$property->getName()] = $property->getName();
-				}
+			}
+
+			if(
+				$property->getType() != DataModel::TYPE_DATA_MODEL &&
+				$property->getType() != DataModel::TYPE_CUSTOM_DATA
+			) {
+				$name_properties[$property->getName()] = $property->getName();
 			}
 
 			/*
