@@ -18,13 +18,13 @@ class Mailing_Backend_Default extends Mailing_Backend_Abstract
 	/**
 	 * @param Mailing_Email $email
 	 * @param string $to
-	 * @param array $headers
 	 *
 	 * @return bool
 	 */
-	public function sendEmail( Mailing_Email $email, string $to, array $headers = [] ): bool
+	public function sendEmail( Mailing_Email $email, string $to ): bool
 	{
 
+		/*
 		$sender = $email->getSender();
 		$subject = $email->getSubject();
 
@@ -70,7 +70,6 @@ class Mailing_Backend_Default extends Mailing_Backend_Abstract
 		$message .= $eol . "--$boundary_3--" . $eol;
 
 		foreach( $email->getImages() as $image_id => $image_path ) {
-			/** @noinspection PhpUsageOfSilenceOperatorInspection */
 			$image_info = @getimagesize( $image_path );
 			if( !$image_info ) {
 				continue;
@@ -100,6 +99,11 @@ class Mailing_Backend_Default extends Mailing_Backend_Abstract
 
 
 		$message .= "--$boundary_1--" . $eol;
+		*/
+
+		$subject = $email->getSubject();
+
+		$email->prepare( $message, $header );
 
 		return mail( $to, $subject, $message, $header );
 

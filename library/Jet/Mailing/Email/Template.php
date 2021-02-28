@@ -1,0 +1,245 @@
+<?php
+/**
+ *
+ * @copyright Copyright (c) 2011-2021 Miroslav Marek <mirek.marek.2m@gmail.com>
+ * @license http://www.php-jet.net/license/license.txt
+ * @author Miroslav Marek <mirek.marek.2m@gmail.com>
+ */
+
+namespace Jet;
+
+/**
+ *
+ */
+class Mailing_Email_Template extends BaseObject
+{
+
+	const SUBJECT_VIEW = 'subject';
+	const BODY_TXT_VIEW = 'body_txt';
+	const BODY_HTML_VIEW = 'body_html';
+
+
+	/**
+	 * @var string
+	 */
+	protected string $name = '';
+
+	/**
+	 * @var ?Locale
+	 */
+	protected ?Locale $locale = null;
+
+	/**
+	 * @var ?string
+	 */
+	protected ?string $site_id = '';
+
+	/**
+	 * @var string
+	 */
+	protected string $sender_specification = '';
+
+	/**
+	 * @var array
+	 */
+	protected array $data = [];
+
+	/**
+	 * @var array
+	 */
+	protected array $attachments = [];
+
+	/**
+	 * @var array
+	 */
+	protected array $images = [];
+
+	/**
+	 * @var string|null
+	 */
+	protected string|null $view_base_dir = null;
+
+	/**
+	 * @var ?Mvc_View
+	 */
+	protected ?Mvc_View $__view = null;
+
+
+	/**
+	 *
+	 * @param string $name
+	 * @param string|Locale|null $locale
+	 * @param string|null $site_id
+	 * @param string $specification
+	 */
+	public function __construct( string $name, string|Locale|null $locale = null, ?string $site_id = null, string $specification = '' )
+	{
+		if( $locale === null ) {
+			$locale = Locale::getCurrentLocale();
+		}
+
+		if(
+			$locale &&
+			is_string( $locale )
+		) {
+			$locale = new Locale( $locale );
+		}
+
+		if( $site_id === null ) {
+			if( Mvc::getCurrentSite() ) {
+				$site_id = Mvc::getCurrentSite()->getId();
+			}
+		}
+
+		$this->name = $name;
+		$this->locale = $locale;
+		$this->site_id = $site_id;
+		$this->sender_specification = $specification;
+	}
+
+	/**
+	 * @return string|null
+	 */
+	public function getViewBaseDir(): ?string
+	{
+		if( $this->view_base_dir === null ) {
+			$this->view_base_dir = $path = Mvc_Site::get( $this->site_id )->getViewsPath() . 'EmailTemplates/';
+		}
+
+		return $this->view_base_dir;
+	}
+
+	/**
+	 * @param string $view_base_dir
+	 */
+	public function setViewBaseDir( string $view_base_dir ): void
+	{
+		$this->view_base_dir = $view_base_dir;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getViewDir(): string
+	{
+		$path = $this->getViewBaseDir();
+
+		if( $this->locale ) {
+			$path .= $this->locale . '/';
+		}
+
+		$path .= $this->name . '/';
+
+		return $path;
+	}
+
+
+	/**
+	 * @return Mvc_View
+	 */
+	public function getView(): Mvc_View
+	{
+		if( !$this->__view ) {
+			$this->__view = new Mvc_View( $this->getViewDir() );
+		}
+
+		return $this->__view;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getName(): string
+	{
+		return $this->name;
+	}
+
+	/**
+	 * @return Locale
+	 */
+	public function getLocale(): Locale
+	{
+		return $this->locale;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getSiteId(): string
+	{
+		return $this->site_id;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getSenderSpecification(): string
+	{
+		return $this->sender_specification;
+	}
+
+	/**
+	 * @return Mailing_Config_Sender
+	 */
+	public function getSender(): Mailing_Config_Sender
+	{
+		return Mailing::getConfig()->getSender( $this->locale, $this->site_id, $this->sender_specification );
+	}
+
+
+	/**
+	 * @param string $key
+	 * @param mixed $value
+	 */
+	public function setVar( string $key, mixed $value ): void
+	{
+		$this->data[$key] = $value;
+		$this->getView()->setVar( $key, $value );
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getSubject(): string
+	{
+		return trim( $this->getView()->render( static::SUBJECT_VIEW ) );
+	}
+
+	/**
+	 * @param bool $parse_images
+	 *
+	 * @return string
+	 */
+	public function getBodyHtml( bool $parse_images = true ): string
+	{
+		return $this->getView()->render( static::BODY_HTML_VIEW );
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getBodyTxt(): string
+	{
+		return $this->getView()->render( static::BODY_TXT_VIEW );
+	}
+
+
+	public function getEmail() : Mailing_Email
+	{
+		$email = new Mailing_Email();
+
+		$sender = $this->getSender();
+
+		$email->setSenderName( $sender->getName() );
+		$email->setSenderEmail( $sender->getEmail() );
+
+		$email->setSubject( $this->getSubject() );
+
+		$email->setBodyHtml( $this->getBodyHtml() );
+		$email->setBodyTxt( $this->getBodyTxt() );
+
+		return $email;
+	}
+
+
+}

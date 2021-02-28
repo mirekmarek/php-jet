@@ -18,10 +18,9 @@ abstract class Mailing_Backend_Abstract
 	/**
 	 * @param Mailing_Email $email
 	 * @param string $to
-	 * @param array $headers
 	 *
 	 * @return bool
 	 */
-	abstract public function sendEmail( Mailing_Email $email, string $to, array $headers = [] ): bool;
+	abstract public function sendEmail( Mailing_Email $email, string $to ): bool;
 
 }

@@ -14,35 +14,15 @@ namespace Jet;
 class Mailing_Email extends BaseObject
 {
 
-	const SUBJECT_VIEW = 'subject';
-	const BODY_TXT_VIEW = 'body_txt';
-	const BODY_HTML_VIEW = 'body_html';
-
+	/**
+	 * @var string
+	 */
+	protected string $sender_name = '';
 
 	/**
 	 * @var string
 	 */
-	protected string $name = '';
-
-	/**
-	 * @var ?Locale
-	 */
-	protected ?Locale $locale = null;
-
-	/**
-	 * @var ?string
-	 */
-	protected ?string $site_id = '';
-
-	/**
-	 * @var string
-	 */
-	protected string $specification = '';
-
-	/**
-	 * @var array
-	 */
-	protected array $data = [];
+	protected string $sender_email;
 
 	/**
 	 * @var array
@@ -54,147 +34,57 @@ class Mailing_Email extends BaseObject
 	 */
 	protected array $images = [];
 
-	/**
-	 * @var string|null
-	 */
-	protected string|null $view_base_dir = null;
 
 	/**
-	 * @var ?Mvc_View
+	 * @var string
 	 */
-	protected ?Mvc_View $__view = null;
-
+	protected string $subject = '';
 
 	/**
-	 *
-	 * @param string $name
-	 * @param string|Locale|null $locale
-	 * @param string|null $site_id
-	 * @param string $specification
+	 * @var string
 	 */
-	public function __construct( string $name, string|Locale|null $locale = null, ?string $site_id = null, string $specification = '' )
+	protected string $body_html = '';
+
+	/**
+	 * @var string
+	 */
+	protected string $body_txt = '';
+
+	/**
+	 * @var array
+	 */
+	protected array $custom_headers = [];
+
+	/**
+	 * @return string
+	 */
+	public function getSenderName(): string
 	{
-		if( $locale === null ) {
-			$locale = Locale::getCurrentLocale();
-		}
-
-		if(
-			$locale &&
-			is_string( $locale )
-		) {
-			$locale = new Locale( $locale );
-		}
-
-		if( $site_id === null ) {
-			if( Mvc::getCurrentSite() ) {
-				$site_id = Mvc::getCurrentSite()->getId();
-			}
-		}
-
-		$this->name = $name;
-		$this->locale = $locale;
-		$this->site_id = $site_id;
-		$this->specification = $specification;
+		return $this->sender_name;
 	}
 
 	/**
-	 * @return string|null
+	 * @param string $sender_name
 	 */
-	public function getViewBaseDir(): ?string
+	public function setSenderName( string $sender_name ): void
 	{
-		if( $this->view_base_dir === null ) {
-			$this->view_base_dir = $path = Mvc_Site::get( $this->site_id )->getViewsPath() . 'EmailTemplates/';
-		}
-
-		return $this->view_base_dir;
-	}
-
-	/**
-	 * @param string $view_base_dir
-	 */
-	public function setViewBaseDir( string $view_base_dir ): void
-	{
-		$this->view_base_dir = $view_base_dir;
+		$this->sender_name = $sender_name;
 	}
 
 	/**
 	 * @return string
 	 */
-	public function getViewDir(): string
+	public function getSenderEmail(): string
 	{
-		$path = $this->getViewBaseDir();
-
-		if( $this->locale ) {
-			$path .= $this->locale . '/';
-		}
-
-		$path .= $this->name . '/';
-
-		return $path;
-	}
-
-
-	/**
-	 * @return Mvc_View
-	 */
-	public function getView(): Mvc_View
-	{
-		if( !$this->__view ) {
-			$this->__view = new Mvc_View( $this->getViewDir() );
-		}
-
-		return $this->__view;
+		return $this->sender_email;
 	}
 
 	/**
-	 * @return string
+	 * @param string $sender_email
 	 */
-	public function getName(): string
+	public function setSenderEmail( string $sender_email ): void
 	{
-		return $this->name;
-	}
-
-	/**
-	 * @return Locale
-	 */
-	public function getLocale(): Locale
-	{
-		return $this->locale;
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getSiteId(): string
-	{
-		return $this->site_id;
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getSpecification(): string
-	{
-		return $this->specification;
-	}
-
-	/**
-	 * @return Mailing_Config_Sender
-	 */
-	public function getSender(): Mailing_Config_Sender
-	{
-		return Mailing::getConfig()->getSender( $this->locale, $this->site_id, $this->specification );
-	}
-
-
-	/**
-	 * @param string $key
-	 * @param mixed $value
-	 */
-	public function setVar( string $key, mixed $value ): void
-	{
-		$this->data[$key] = $value;
-		$this->getView()->setVar( $key, $value );
+		$this->sender_email = $sender_email;
 	}
 
 	/**
@@ -202,40 +92,15 @@ class Mailing_Email extends BaseObject
 	 */
 	public function getSubject(): string
 	{
-		return trim( $this->getView()->render( static::SUBJECT_VIEW ) );
+		return $this->subject;
 	}
 
 	/**
-	 * @param bool $parse_images
-	 *
-	 * @return string
+	 * @param string $subject
 	 */
-	public function getBodyHtml( bool $parse_images = true ): string
+	public function setSubject( string $subject ): void
 	{
-		$html = $this->getView()->render( static::BODY_HTML_VIEW );
-
-		if( $parse_images ) {
-
-			$public_url = str_replace( '/', '\\/', SysConf_URI::getImages() );
-
-			if( preg_match_all( '/src=["]' . $public_url . '(.*)["]/Ui', $html, $matches, PREG_SET_ORDER ) ) {
-
-				foreach( $matches as $m ) {
-					$orig = $m[0];
-					$image = $m[1];
-
-					$id = 'i_' . uniqid();
-
-
-					$this->addImage( $id, SysConf_Path::getImages() . $image );
-
-					$html = str_replace( $orig, 'src="cid:' . $id . '"', $html );
-				}
-
-			}
-		}
-
-		return $html;
+		$this->subject = $subject;
 	}
 
 	/**
@@ -243,8 +108,60 @@ class Mailing_Email extends BaseObject
 	 */
 	public function getBodyTxt(): string
 	{
-		return $this->getView()->render( static::BODY_TXT_VIEW );
+		return $this->body_txt;
 	}
+
+	/**
+	 * @param string $body_txt
+	 */
+	public function setBodyTxt( string $body_txt ): void
+	{
+		$this->body_txt = $body_txt;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getBodyHtml(): string
+	{
+		return $this->body_html;
+	}
+
+	/**
+	 * @param string $body_html
+	 * @param bool $parse_images
+	 */
+	public function setBodyHtml( string $body_html, bool $parse_images = true ): void
+	{
+		$this->body_html = $body_html;
+
+		$this->images = [];
+
+		if($parse_images) {
+			$this->parseImages();
+		}
+	}
+
+	public function parseImages() : void
+	{
+		$public_url = str_replace( '/', '\\/', SysConf_URI::getImages() );
+
+		if( preg_match_all( '/src=["]' . $public_url . '(.*)["]/Ui', $this->body_html, $matches, PREG_SET_ORDER ) ) {
+
+			foreach( $matches as $m ) {
+				$orig = $m[0];
+				$image = $m[1];
+
+				$id = 'i_' . uniqid();
+
+				$this->addImage( $id, SysConf_Path::getImages() . $image );
+
+				$this->body_html = str_replace( $orig, 'src="cid:' . $id . '"', $this->body_html );
+			}
+
+		}
+	}
+
 
 	/**
 	 * @param string $file_path
@@ -286,17 +203,123 @@ class Mailing_Email extends BaseObject
 		return $this->images;
 	}
 
+	/**
+	 * @param string $header
+	 * @param string $value
+	 */
+	public function setCustomHeader( string $header, string $value ) : void
+	{
+		$this->custom_headers[$header] = $value;
+	}
+
+	/**
+	 * @return array
+	 */
+	public function getCustomHeaders(): array
+	{
+		return $this->custom_headers;
+	}
+
+
+
+
+	public function prepare( string &$message, string &$header ) : void
+	{
+		$subject = $this->getSubject();
+
+		$boundary_1 = uniqid( 'MP' );
+		$boundary_2 = $boundary_1 . 'SP1';
+		$boundary_3 = $boundary_1 . 'SP2';
+
+		$eol = PHP_EOL;
+
+		$headers = [];
+
+		if($this->getSenderName()) {
+			$headers['From'] = $this->getSenderName() . "<" . $this->getSenderEmail() . ">";
+		} else {
+			$headers['From'] = $this->getSenderEmail();
+		}
+
+		$headers['Subject'] = $subject;
+		$headers['Reply-To'] = $this->getSenderEmail();
+		$headers['MIME-Version'] = '1.0';
+		$headers['Content-Type'] = 'multipart/mixed; boundary=' . $boundary_1 . ';';
+		foreach( $this->getCustomHeaders() as $h => $v ) {
+			$headers[$h] = $v;
+		}
+
+
+		$header = '';
+		foreach( $headers as $h => $v ) {
+			$header .= $h . ": " . mb_encode_mimeheader( $v ) . $eol;
+		}
+
+
+		$message = "This is a MIME encoded message." . $eol;
+		$message .= $eol . "--$boundary_1" . $eol;
+		$message .= "Content-Type: multipart/related; boundary=" . $boundary_2 . ";" . $eol;
+		$message .= $eol . "--$boundary_2" . $eol;
+		$message .= "Content-Type: multipart/alternative; boundary=" . $boundary_3 . ";" . $eol;
+		$message .= $eol . "--$boundary_3" . $eol;
+
+		$message .= "Content-type: text/plain;charset=utf-8" . $eol;
+		$message .= $eol;
+		$message .= $this->getBodyTxt() . $eol;
+
+
+		$message .= $eol . "--$boundary_3" . $eol;
+
+
+		$message .= "Content-type: text/html;charset=utf-8" . $eol;
+		$message .= $eol;
+		$message .= $this->getBodyHtml() . $eol;
+
+		$message .= $eol . "--$boundary_3--" . $eol;
+
+		foreach( $this->getImages() as $image_id => $image_path ) {
+			/** @noinspection PhpUsageOfSilenceOperatorInspection */
+			$image_info = @getimagesize( $image_path );
+			if( !$image_info ) {
+				continue;
+			}
+
+			$filename = basename( $image_path );
+
+			$message .= $eol . "--$boundary_2" . $eol;
+			$message .= 'Content-type: ' . $image_info['mime'] . $eol;
+			$message .= 'Content-ID: <' . $image_id . ">" . $eol;
+			$message .= 'Content-Transfer-Encoding: base64' . $eol;
+			$message .= 'Content-Disposition: inline; filename="' . mb_encode_mimeheader( $filename ) . '""' . $eol;
+			$message .= $eol;
+			$message .= chunk_split( base64_encode( IO_File::read( $image_path ) ) );
+
+		}
+
+		$message .= "--$boundary_2--" . $eol;
+
+		foreach( $this->getAttachments() as $file_path => $filename ) {
+			$message .= $eol . "--$boundary_1" . $eol;
+			$message .= 'Content-Type: application/octet-stream; name="' . mb_encode_mimeheader( $filename ) . '"' . $eol;
+			$message .= 'Content-Transfer-Encoding: base64' . $eol;
+			$message .= 'Content-Disposition: attachment' . $eol;
+			$message .= chunk_split( base64_encode( IO_File::read( $file_path ) ) );
+		}
+
+
+		$message .= "--$boundary_1--" . $eol;
+
+	}
+
 
 	/**
 	 * @param string $to
-	 * @param array $extra_headers
 	 *
 	 * @return bool
 	 */
-	public function send( string $to, array $extra_headers = [] ): bool
+	public function send( string $to ): bool
 	{
-
-		return Mailing::sendEmail( $this, $to, $extra_headers );
+		return Mailing::sendEmail( $this, $to );
 	}
 
 }
