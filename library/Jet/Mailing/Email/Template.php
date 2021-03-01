@@ -55,14 +55,51 @@ class Mailing_Email_Template extends BaseObject
 	protected array $images = [];
 
 	/**
-	 * @var string|null
+	 * @var string
 	 */
-	protected string|null $view_base_dir = null;
+	protected string $view_dir = '';
+
+	/**
+	 * @var ?callable
+	 */
+	protected static $view_dir_generator = null;
 
 	/**
 	 * @var ?Mvc_View
 	 */
 	protected ?Mvc_View $__view = null;
+
+	/**
+	 * @return callable|null
+	 */
+	public static function getViewDirGenerator(): ?callable
+	{
+		if(!static::$view_dir_generator) {
+			static::$view_dir_generator = function( Mailing_Email_Template $template ) : string {
+				$path = Mvc_Site::get( $template->getSiteId() )->getViewsPath() . 'EmailTemplates/';
+
+				if( $template->getLocale() ) {
+					$path .= $template->getLocale() . '/';
+				}
+
+				$path .= $template->getName() . '/';
+
+				return $path;
+			};
+		}
+
+		return static::$view_dir_generator;
+	}
+
+	/**
+	 * @param callable|null $view_dir_generator
+	 */
+	public static function setViewDirGenerator( ?callable $view_dir_generator ): void
+	{
+		static::$view_dir_generator = $view_dir_generator;
+	}
+
+
 
 
 	/**
@@ -98,39 +135,26 @@ class Mailing_Email_Template extends BaseObject
 	}
 
 	/**
-	 * @return string|null
+	 * @param string $view_dir
 	 */
-	public function getViewBaseDir(): ?string
+	public function setViewDir( string $view_dir ): void
 	{
-		if( $this->view_base_dir === null ) {
-			$this->view_base_dir = $path = Mvc_Site::get( $this->site_id )->getViewsPath() . 'EmailTemplates/';
-		}
-
-		return $this->view_base_dir;
+		$this->view_dir = $view_dir;
 	}
 
-	/**
-	 * @param string $view_base_dir
-	 */
-	public function setViewBaseDir( string $view_base_dir ): void
-	{
-		$this->view_base_dir = $view_base_dir;
-	}
 
 	/**
 	 * @return string
 	 */
 	public function getViewDir(): string
 	{
-		$path = $this->getViewBaseDir();
+		if(!$this->view_dir) {
+			$generator = static::getViewDirGenerator();
 
-		if( $this->locale ) {
-			$path .= $this->locale . '/';
+			$this->view_dir = $generator( $this );
 		}
 
-		$path .= $this->name . '/';
-
-		return $path;
+		return $this->view_dir;
 	}
 
 
