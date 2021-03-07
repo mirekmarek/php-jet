@@ -18,15 +18,20 @@ $field = $r->getField();
 if( $field->getLastErrorCode() ) {
 	$r->addCustomCssClass( 'is-invalid' );
 }
+
+$attrs = [
+	'name' => $field->getTagNameValue(),
+	'id' => $field->getId(),
+];
+
+if( $field->getPlaceholder() ) {
+	$attrs['placeholder'] = Data_Text::htmlSpecialChars( $field->getPlaceholder() );
+}
+if( $field->getIsReadonly() ) {
+	$attrs['readonly'] = 'readonly';
+}
+if( $field->getIsRequired() ) {
+	$attrs['required'] = 'required';
+}
 ?>
-<textarea name="<?= $field->getTagNameValue() ?>" id="<?= $field->getId() ?>" <?php
-
-if( $r->getCssClasses() ) echo ' class ="' . $r->getCssClasses() . '"';
-if( $r->getCssStyles() ) echo ' style ="' . $r->getCssStyles() . '"';
-if( $r->getJsActions() ) echo $r->getJsActions();
-
-if( $field->getPlaceholder() ) echo ' placeholder="' . Data_Text::htmlSpecialChars( $field->getPlaceholder() ) . '"';
-if( $field->getIsReadonly() ) echo ' readonly="readonly"';
-if( $field->getIsRequired() ) echo ' required="required"';
-
-?>><?= $field->getValue() ?></textarea>
+<textarea <?=$r->renderAttributes($attrs)?>><?= $field->getValueRaw() ?></textarea>

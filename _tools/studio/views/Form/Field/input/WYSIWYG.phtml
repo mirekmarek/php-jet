@@ -7,8 +7,8 @@ use Jet\Form_Renderer;
 use Jet\Form_Field_WYSIWYG;
 
 /**
- * @var Mvc_View           $this
- * @var Form_Renderer      $r
+ * @var Mvc_View $this
+ * @var Form_Renderer $r
  * @var Form_Field_WYSIWYG $field
  */
 $r = $this->getRaw( 'element' );
@@ -21,7 +21,7 @@ $editor_config = $field->getEditorConfig();
 $init_generator = $field->getEditorInitializeCodeGenerator();
 
 
-if(!$CSS) {
+if( !$CSS ) {
 	$CSS = [
 		'' => [
 			//	'//cdn.tiny.cloud/1/no-api-key/tinymce/5/skins/lightgray/skin.min.css'
@@ -29,13 +29,13 @@ if(!$CSS) {
 	];
 }
 
-if(!$JS) {
+if( !$JS ) {
 	$JS = [
 		'//cdn.tiny.cloud/1/no-api-key/tinymce/5/tinymce.min.js',
 	];
 }
 
-if(!$editor_config) {
+if( !$editor_config ) {
 	$editor_config = [
 
 		'mode'                    => 'exact',
@@ -53,24 +53,24 @@ if(!$editor_config) {
 
 
 		//'plugins'       => 'advlist autolink lists link image charmap print preview hr anchor pagebreak searchreplace wordcount visualblocks visualchars code fullscreen insertdatetime media nonbreaking save table contextmenu directionality template paste textcolor colorpicker textpattern imagetools',
-		'paste_as_text' => true,
+		'paste_as_text'     => true,
 
 		//'content_css' => '/css/wysiwyg.css',
 	];
 }
 
-if(!$init_generator) {
+if( !$init_generator ) {
 	$init_generator = function( Form_Field_WYSIWYG $field, $editor_config ) {
 
-		$editor_config['selector'] = '#'.$field->getId();
+		$editor_config['selector'] = '#' . $field->getId();
 
 		if( $field->getIsReadonly() ) {
 			$editor_config['readonly'] = 1;
 		}
 
 		return '<script type="text/javascript">'
-			.'tinymce.init('.json_encode( $editor_config ).');'
-			.'</script>'.PHP_EOL;
+			. 'tinymce.init(' . json_encode( $editor_config ) . ');'
+			. '</script>' . PHP_EOL;
 
 	};
 }
@@ -107,25 +107,30 @@ if(!$init_generator) {
 */
 
 
-foreach($CSS  as $media => $files ) {
+foreach( $CSS as $media => $files ) {
 	foreach( $files as $URI ) {
 		Mvc_Layout::getCurrentLayout()->requireCssFile( $URI, $media );
 	}
 }
-foreach($JS  as $URI ) {
+foreach( $JS as $URI ) {
 	Mvc_Layout::getCurrentLayout()->requireJavascriptFile( $URI );
 }
 
+$attrs = [
+	'name' => $field->getTagNameValue(),
+	'id' => $field->getId(),
+];
+
+if( $field->getPlaceholder() ) {
+	$attrs['placeholder'] = Data_Text::htmlSpecialChars( $field->getPlaceholder() );
+}
+if( $field->getIsReadonly() ) {
+	$attrs['readonly'] = 'readonly';
+}
+if( $field->getIsRequired() ) {
+	$attrs['required'] = 'required';
+}
 ?>
-<textarea name="<?=$field->getTagNameValue()?>" id="<?=$field->getId()?>" <?php
+<textarea <?=$r->renderAttributes($attrs)?>><?= $field->getValueRaw() ?></textarea>
 
-if( $r->getJsActions() ) echo $r->getJsActions();
-if( $r->getCssStyles() ) echo ' style ="'.$r->getCssStyles().'"';
-
-if( $field->getPlaceholder() ) echo ' placeholder="'.Data_Text::htmlSpecialChars($field->getPlaceholder()).'"';
-if( $field->getIsReadonly() ) echo ' readonly="readonly"';
-if( $field->getIsRequired() ) echo ' required="required"';
-
-?>><?=$field->getValueRaw()?></textarea>
-
-<?=$init_generator( $field, $editor_config );?>
+<?= $init_generator( $field, $editor_config ); ?>

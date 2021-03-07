@@ -3,7 +3,6 @@
 use Jet\Mvc_View;
 use Jet\Form_Renderer;
 use Jet\Form_Field_Float;
-use Jet\Data_Text;
 
 /**
  * @var Mvc_View $this
@@ -22,20 +21,17 @@ $field = $r->getField();
 if( $field->getLastErrorCode() ) {
 	$r->addCustomCssClass( 'is-invalid' );
 }
+
+$attrs = $r->getStdInputFieldAttributes('number');
+
+if( $field->getMinValue() !== null ) {
+	$attrs['min'] = $field->getMinValue();
+}
+
+if( $field->getMaxValue() !== null ) {
+	$attrs['max'] = $field->getMaxValue();
+}
+
+$attrs['step'] = $field->getStep();
 ?>
-<input type="number" name="<?= $field->getTagNameValue() ?>" id="<?= $field->getId() ?>" <?php
-
-if( $r->getCssClasses() ) echo ' class ="' . $r->getCssClasses() . '"';
-if( $r->getCssStyles() ) echo ' style ="' . $r->getCssStyles() . '"';
-if( $r->getJsActions() ) echo $r->getJsActions();
-
-if( $field->getPlaceholder() ) echo ' placeholder="' . Data_Text::htmlSpecialChars( $field->getPlaceholder() ) . '"';
-if( $field->getIsReadonly() ) echo ' readonly="readonly"';
-if( $field->getIsRequired() ) echo ' required="required"';
-if( $field->getValidationRegexp() ) echo ' pattern="' . $field->getValidationRegexp() . '"';
-
-if( $field->getMinValue() !== null ) echo ' min="' . $field->getMinValue() . '"';
-if( $field->getMaxValue() !== null ) echo ' max="' . $field->getMaxValue() . '"';
-
-?> step="<?= $field->getStep() ?>"<?php
-?> value="<?= $field->getValue() ?>"/>
+<input <?=$r->renderAttributes( $attrs )?>/>

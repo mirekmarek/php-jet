@@ -9,7 +9,9 @@ use Jet\Form_Renderer;
  */
 $r = $this->getRaw( 'element' );
 
-?>
-<div class="<?= $r->getWidthCssClasses( function( $size, $width ) {
+$r->setWidthCssClassesCreator(function( $size, $width ) {
 	return 'col-' . $size . '-' . $width;
-} ) ?>">
+});
+
+?>
+<div <?=$r->renderAttributes([])?>>

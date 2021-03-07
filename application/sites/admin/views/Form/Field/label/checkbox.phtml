@@ -13,7 +13,9 @@ if( !$r->getBaseCssClasses() ) {
 	$r->setBaseCssClass( 'col-form-label' );
 }
 
-?>
-<div class="<?= $r->getWidthCssClasses( function( $size, $width ) {
+$r->setWidthCssClassesCreator(function( $size, $width ) {
 	return 'col-' . $size . '-' . $width;
-} ) ?>"></div>
+} );
+
+?>
+<div <?=$r->renderAttributes([])?>></div>

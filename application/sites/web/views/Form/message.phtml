@@ -14,8 +14,4 @@ if( !$form->getCommonMessage() ) {
 	return;
 }
 ?>
-<div <?php
-if( $r->getCssClasses() ) { ?> class="<?= $r->getCssClasses() ?>"<?php }
-if( $r->getCssStyles() ) { ?> style="<?= $r->getCssStyles() ?>"<?php }
-if( $r->getJsActions() ) { ?> <?= $r->getJsActions() ?><?php }
-?>><?= $form->getCommonMessage() ?></div>
+<div <?=$r->renderAttributes([])?>><?= $form->getCommonMessage() ?></div>

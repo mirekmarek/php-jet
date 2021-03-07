@@ -16,10 +16,5 @@ if( !$r->getBaseCssClasses() ) {
 //if($r->getField()->getLastErrorMessage()) {
 //	$r->addCustomCssClass('has-error has-feedback');
 //}
-
 ?>
-<div <?php
-if( $r->getCssClasses() ) echo ' class="' . $r->getCssClasses() . '"';
-if( $r->getCssStyles() ) echo ' style="' . $r->getCssStyles() . '"';
-if( $r->getJsActions() ) echo $r->getJsActions();
-?>>
+<div <?=$r->renderAttributes([])?>>

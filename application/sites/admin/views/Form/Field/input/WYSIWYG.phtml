@@ -116,16 +116,21 @@ foreach( $JS as $URI ) {
 	Mvc_Layout::getCurrentLayout()->requireJavascriptFile( $URI );
 }
 
+$attrs = [
+	'name' => $field->getTagNameValue(),
+	'id' => $field->getId(),
+];
+
+if( $field->getPlaceholder() ) {
+	$attrs['placeholder'] = Data_Text::htmlSpecialChars( $field->getPlaceholder() );
+}
+if( $field->getIsReadonly() ) {
+	$attrs['readonly'] = 'readonly';
+}
+if( $field->getIsRequired() ) {
+	$attrs['required'] = 'required';
+}
 ?>
-<textarea name="<?= $field->getTagNameValue() ?>" id="<?= $field->getId() ?>" <?php
-
-if( $r->getJsActions() ) echo $r->getJsActions();
-if( $r->getCssStyles() ) echo ' style ="' . $r->getCssStyles() . '"';
-
-if( $field->getPlaceholder() ) echo ' placeholder="' . Data_Text::htmlSpecialChars( $field->getPlaceholder() ) . '"';
-if( $field->getIsReadonly() ) echo ' readonly="readonly"';
-if( $field->getIsRequired() ) echo ' required="required"';
-
-?>><?= $field->getValueRaw() ?></textarea>
+<textarea <?=$r->renderAttributes($attrs)?>><?= $field->getValueRaw() ?></textarea>
 
 <?= $init_generator( $field, $editor_config ); ?>

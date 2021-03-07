@@ -13,17 +13,33 @@ if(!$r->getBaseCssClasses()) {
 	$r->setBaseCssClass('form-horizontal');
 }
 
+$attrs = [
+	'name' => $form->getName(),
+	'id' => $form->getId(),
+	'method' => $form->getMethod(),
+];
+
+if($form->getAction()) {
+	$attrs['action'] = $form->getAction();
+}
+if($form->getTarget()) {
+	$attrs['target'] = $form->getTarget();
+}
+if($form->getEnctype()) {
+	$attrs['enctype'] = $form->getEnctype();
+	?> enctype="<?=$form->getEnctype()?>"<?php
+}
+if($form->getAcceptCharset()) {
+	$attrs['accept-charset'] = $form->getAcceptCharset();
+}
+if($form->getNovalidate()) {
+	$attrs['novalidate'] = 'novalidate';
+}
+if(!$form->getAutocomplete()) {
+	$attrs['autocomplete'] = 'off';
+}
 ?>
-<form name="<?=$form->getName()?>" id="<?=$form->getId()?>" method="<?=$form->getMethod()?>" class="<?=$r->getCssClasses()?>" <?php
-	if($r->getCssClasses()) { ?> class="<?=$r->getCssClasses()?>"<?php }
-	if($r->getJsActions()) { ?> <?=$r->getJsActions()?><?php }
-	if($form->getAction()) { ?> action="<?=$form->getAction()?>"<?php }
-	if($form->getTarget()) { ?> target="<?=$form->getTarget()?>"<?php }
-	if($form->getEnctype()) { ?> enctype="<?=$form->getEnctype()?>"<?php }
-	if($form->getAcceptCharset()) { ?> accept-charset="<?=$form->getAcceptCharset()?>"<?php }
-	if($form->getNovalidate()) { ?> novalidate="novalidate"<?php }
-	if(!$form->getAutocomplete()) { ?> autocomplete="off"<?php }
-?>>
+<form <?=$r->renderAttributes($attrs)?>>
 <?php if( !$form->getIsReadonly() ): ?>
 	<input type="hidden" name="<?=$form->getSentKey()?>" value="<?=$form->getName();?>">
 <?php endif; ?>

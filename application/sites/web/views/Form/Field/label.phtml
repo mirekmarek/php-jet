@@ -13,18 +13,15 @@ if( !$r->getBaseCssClasses() ) {
 	$r->setBaseCssClass( 'col-form-label' );
 }
 
-$class = $r->getWidthCssClasses( function( $size, $width ) {
+$r->setWidthCssClassesCreator(function( $size, $width ) {
 	return 'col-' . $size . '-' . $width;
-} );
+});
 
-if( $r->getCssClasses() ) {
-	$class .= ' ' . $r->getCssClasses();
-}
+$attrs = [
+	'for' => $r->getField()->getId()
+]
 ?>
-<label for="<?= $r->getField()->getId() ?>" class="<?= $class ?>"<?php
-if( $r->getCssStyles() ) echo ' style="' . $r->getCssStyles() . '"';
-if( $r->getJsActions() ) echo $r->getJsActions();
-?>><?php
+<label <?=$r->renderAttributes($attrs)?>><?php
 	if( $r->getField()->getIsRequired() ) echo '<em class="form-required">*</em> ';
 	echo $r->getField()->getLabel();
-	?></label>
+?></label>

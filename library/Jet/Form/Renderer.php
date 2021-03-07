@@ -49,6 +49,16 @@ abstract class Form_Renderer extends BaseObject
 	 */
 	protected array|null $width = null;
 
+	/**
+	 * @var array
+	 */
+	protected array $custom_data_attributes = [];
+
+	/**
+	 * @var ?callable
+	 */
+	public $width_css_classes_creator = null;
+
 
 	/**
 	 * Form_RendererTag constructor.
@@ -77,6 +87,24 @@ abstract class Form_Renderer extends BaseObject
 	{
 		$this->width = $width;
 	}
+
+	/**
+	 * @return callable|null
+	 */
+	public function getWidthCssClassesCreator(): ?callable
+	{
+		return $this->width_css_classes_creator;
+	}
+
+	/**
+	 * @param callable $width_css_classes_creator
+	 */
+	public function setWidthCssClassesCreator( callable $width_css_classes_creator ): void
+	{
+		$this->width_css_classes_creator = $width_css_classes_creator;
+	}
+
+
 
 	/**
 	 * @return Form
@@ -124,13 +152,17 @@ abstract class Form_Renderer extends BaseObject
 	public function getJsActions( bool $as_string = true ): array|string
 	{
 		if( $as_string ) {
-			$js_actions = [];
-
-			foreach( $this->js_actions as $vent => $handler ) {
-				$js_actions[] = ' ' . $vent . '="' . $handler . '"';
+			if(!$this->js_actions) {
+				return '';
 			}
 
-			return implode( '', $js_actions );
+			$js_actions = [''];
+
+			foreach( $this->js_actions as $vent => $handler ) {
+				$js_actions[] = $vent . '="' . $handler . '"';
+			}
+
+			return implode( ' ', $js_actions );
 		}
 
 		return $this->js_actions;
@@ -190,16 +222,18 @@ abstract class Form_Renderer extends BaseObject
 	}
 
 	/**
-	 * @param callable $class_creator
 	 * @param bool $as_string
 	 *
 	 * @return array|string
 	 */
-	public function getWidthCssClasses( callable $class_creator, bool $as_string = true ): array|string
+	public function getWidthCssClasses( bool $as_string = true ): array|string
 	{
 		$css_classes = [];
 
-		if( $this->width ) {
+		$class_creator = $this->getWidthCssClassesCreator();
+
+
+		if( $class_creator && $this->width ) {
 			foreach( $this->width as $size => $width ) {
 				$css_classes[] = $class_creator( $size, $width );
 			}
@@ -223,12 +257,17 @@ abstract class Form_Renderer extends BaseObject
 	{
 		$css_classes = array_merge(
 			$this->getBaseCssClasses( false ),
+			$this->getWidthCssClasses( false ),
 			$this->getCustomCssClasses( false )
 		);
 
 
 		if( $as_string ) {
-			return implode( ' ', $css_classes );
+			if(!$css_classes) {
+				return '';
+			}
+
+			return ' class="'.implode( ' ', $css_classes ).'"';
 		}
 
 		return $css_classes;
@@ -254,10 +293,88 @@ abstract class Form_Renderer extends BaseObject
 	public function getCssStyles( bool $as_string = true ): array|string
 	{
 		if( $as_string ) {
-			return implode( ';', $this->custom_css_styles );
+			if(!$this->custom_css_styles) {
+				return '';
+			}
+			return ' style="'.implode( ';', $this->custom_css_styles ).'"';
 		}
 
 		return $this->custom_css_styles;
+	}
+
+	public function addCustomDataAttribute( $attr, $value ) : static
+	{
+		$this->custom_data_attributes[$attr] = $value;
+
+		return $this;
+	}
+
+	public function getCustomDataAttributes( bool $as_string = true ) : array|string
+	{
+		if($as_string) {
+			if(!$this->custom_data_attributes) {
+				return '';
+			}
+
+			$attrs = [''];
+
+			foreach($this->custom_data_attributes as $attr=>$value) {
+				$attrs[] = 'data-'.$attr.'="'.addslashes(Data_Text::htmlSpecialChars($value)).'"';
+			}
+
+			return implode(' ', $attrs);
+		}
+
+		return $this->custom_data_attributes;
+	}
+
+	public function getMainTagAttributes() : string
+	{
+		$res = '';
+		$res .= $this->getCssClasses();
+		$res .= $this->getCssStyles();
+		$res .= $this->getJsActions();
+		$res .= $this->getCustomDataAttributes();
+
+		return $res;
+	}
+
+	public function getStdInputFieldAttributes( string $type ) : array
+	{
+		$field = $this->getField();
+
+		$attrs = [
+			'type' => $type,
+			'name' => $field->getTagNameValue(),
+			'id' => $field->getId(),
+			'value' => $field->getValue()
+		];
+
+		if( $field->getPlaceholder() ) {
+			$attrs['placeholder'] = Data_Text::htmlSpecialChars( $field->getPlaceholder() );
+		}
+		if( $field->getIsReadonly() ) {
+			$attrs['readonly'] = 'readonly';
+		}
+		if( $field->getIsRequired() ) {
+			$attrs['required'] = 'required';
+		}
+		if( $field->getValidationRegexp() ) {
+			$attrs['pattern'] = $field->getValidationRegexp();
+		}
+
+		return $attrs;
+	}
+
+	public function renderAttributes( array $attributes ) : string
+	{
+		$res = $this->getMainTagAttributes();
+
+		foreach($attributes as $attr=>$value) {
+			$res .= ' '.$attr.'="'.$value.'"';
+		}
+
+		return $res;
 	}
 
 	/**

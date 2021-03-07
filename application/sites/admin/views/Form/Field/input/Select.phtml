@@ -23,16 +23,22 @@ $value = $field->getValue();
 if( $field->getLastErrorCode() ) {
 	$r->addCustomCssClass( 'is-invalid' );
 }
+
+
+$attrs = [
+	'name' => $field->getTagNameValue(),
+	'id' => $field->getId(),
+];
+
+if( $field->getIsReadonly() ) {
+	$attrs['disabled'] = 'disabled';
+}
+if( $field->getIsRequired() ) {
+	$attrs['required'] = 'required';
+}
+
 ?>
-<select name="<?= $field->getTagNameValue() ?>" id="<?= $field->getId() ?>" <?php
-
-if( $r->getCssClasses() ) echo ' class ="' . $r->getCssClasses() . '"';
-if( $r->getCssStyles() ) echo ' style ="' . $r->getCssStyles() . '"';
-if( $r->getJsActions() ) echo $r->getJsActions();
-
-if( $field->getIsRequired() ) echo ' required="required"';
-if( $field->getIsReadonly() ) echo ' disabled="disabled"';
-?>>
+<select  <?=$r->renderAttributes($attrs)?>>
 	<?php foreach( $field->getSelectOptions() as $val => $label ):
 
 		$css = '';

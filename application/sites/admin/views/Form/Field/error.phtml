@@ -19,6 +19,6 @@ if( !$r->getBaseCssClasses() ) {
 	$r->setBaseCssClass( 'error' );
 }
 ?>
-<div class="invalid-feedback">
+<div <?=$r->renderAttributes([])?>>
 	<?= $field->getLastErrorMessage(); ?>
 </div>

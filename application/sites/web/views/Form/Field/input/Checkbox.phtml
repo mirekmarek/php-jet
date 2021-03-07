@@ -17,17 +17,24 @@ $field = $r->getField();
 if( $field->getLastErrorCode() ) {
 	$r->addCustomCssClass( 'is-invalid' );
 }
+
+$attrs = [
+	'type' => 'checkbox',
+	'name' => $field->getTagNameValue(),
+	'id' => $field->getId(),
+	'value' => 1
+];
+
+if($field->getIsReadonly()) {
+	$attrs['disabled'] = 'disabled';
+}
+
+if($field->getValue()) {
+	$attrs['checked'] = 'checked';
+}
 ?>
 <div class="<?= $r->getCssClasses() ?>">
-	<input type="checkbox" name="<?= $field->getTagNameValue() ?>" id="<?= $field->getId() ?>" value="1" <?php
-
-	if( $r->getCssStyles() ) echo ' style ="' . $r->getCssStyles() . '"';
-	if( $r->getJsActions() ) echo $r->getJsActions();
-
-	if( $field->getIsReadonly() ) echo ' disabled="disabled"';
-	if( $field->getValue() ) echo ' checked="checked"';
-
-	?>/>
+	<input <?=$r->renderAttributes($attrs)?>/>
 
 	<label class="form-check-label" for="<?= $field->getId() ?>"><?= $r->getField()->getLabel() ?></label>
 </div>

@@ -23,17 +23,30 @@ if( $field->getLastErrorCode() ) {
 	$r->addCustomCssClass( 'is-invalid' );
 }
 
+$attrs = [
+	'type' => 'file',
+	'name' => $field->getTagNameValue(),
+	'id' => $field->getId(),
+];
+
+if( $field->getIsReadonly() ) {
+	$attrs['disabled'] = 'disabled';
+}
+if( $field->getIsRequired() ) {
+	$attrs['required'] = 'required';
+}
+if( $field->getPlaceholder() ) {
+	$attrs['placeholder'] = Data_Text::htmlSpecialChars( $field->getPlaceholder() );
+}
+
+if( $field->getAllowMultipleUpload() ) {
+	$attrs['multiple'] = 'multiple';
+}
+if( $field->getAllowedMimeTypes() ) {
+	$attrs['accept'] = implode( '|', $field->getAllowedMimeTypes() );
+}
+
+$attrs['value'] = '';
+
 ?>
-<input type="file" name="<?= $field->getTagNameValue() ?>" id="<?= $field->getId() ?>" <?php
-
-if( $r->getCssClasses() ) echo ' class ="' . $r->getCssClasses() . '"';
-if( $r->getCssStyles() ) echo ' style ="' . $r->getCssStyles() . '"';
-if( $r->getJsActions() ) echo $r->getJsActions();
-
-if( $field->getPlaceholder() ) echo ' placeholder="' . Data_Text::htmlSpecialChars( $field->getPlaceholder() ) . '"';
-if( $field->getAllowMultipleUpload() ) echo ' multiple="multiple"';
-if( $field->getIsReadonly() ) echo ' readonly="readonly"';
-if( $field->getIsRequired() ) echo ' required="required"';
-if( $field->getAllowedMimeTypes() ) echo ' accept="' . implode( '|', $field->getAllowedMimeTypes() ) . '"';
-
-?> value=""/>
+<input <?=$r->renderAttributes($attrs)?>/>

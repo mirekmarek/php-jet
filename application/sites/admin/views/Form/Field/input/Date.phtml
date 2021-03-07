@@ -2,7 +2,6 @@
 
 use Jet\Mvc_View;
 use Jet\Form_Renderer;
-use Jet\Data_Text;
 
 
 /**
@@ -29,18 +28,5 @@ if( $field->getValue() ) {
 		$value = $date->format( 'Y-m-d' );
 	}
 }
-
-
 ?>
-<input type="date" name="<?= $field->getTagNameValue() ?>" id="<?= $field->getId() ?>" <?php
-
-if( $r->getCssClasses() ) echo ' class ="' . $r->getCssClasses() . '"';
-if( $r->getCssStyles() ) echo ' style ="' . $r->getCssStyles() . '"';
-if( $r->getJsActions() ) echo $r->getJsActions();
-
-if( $field->getPlaceholder() ) echo ' placeholder="' . Data_Text::htmlSpecialChars( $field->getPlaceholder() ) . '"';
-if( $field->getIsReadonly() ) echo ' readonly="readonly"';
-if( $field->getIsRequired() ) echo ' required="required"';
-if( $field->getValidationRegexp() ) echo ' pattern="' . $field->getValidationRegexp() . '"';
-
-?> value="<?= $value ?>"/>
+<input <?=$r->renderAttributes( $r->getStdInputFieldAttributes('date') )?>/>
