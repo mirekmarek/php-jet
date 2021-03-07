@@ -31,7 +31,7 @@ class Main extends Application_Module
 	 *
 	 * @return Form
 	 */
-	public function getLoginForm()
+	public function getLoginForm() : Form
 	{
 		$username_field = new Form_Field_Input( 'username', 'Username: ' );
 		$username_field->setErrorMessages(
@@ -66,7 +66,7 @@ class Main extends Application_Module
 	/**
 	 * @return Form
 	 */
-	public function getChangePasswordForm()
+	public function getChangePasswordForm() : Form
 	{
 		$user = new Administrator();
 
@@ -111,7 +111,7 @@ class Main extends Application_Module
 	/**
 	 * @return Form
 	 */
-	public function getMustChangePasswordForm()
+	public function getMustChangePasswordForm() : Form
 	{
 
 		$password = new Form_Field_RegistrationPassword( 'password', 'New password: ' );

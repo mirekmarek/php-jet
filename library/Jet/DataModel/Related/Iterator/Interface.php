@@ -44,7 +44,7 @@ interface DataModel_Related_Iterator_Interface extends BaseObject_Interface_Arra
 	/**
 	 * @return DataModel_Related_Interface[]
 	 */
-	public function getItems();
+	public function getItems() : iterable;
 
 	/**
 	 * @param callable $sort_callback

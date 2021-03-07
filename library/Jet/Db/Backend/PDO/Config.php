@@ -19,20 +19,22 @@ class Db_Backend_PDO_Config extends Db_Backend_Config
 	 *
 	 * @var string
 	 */
-	#[Config_Definition(type: Config::TYPE_STRING)]
-	#[Config_Definition(description: 'PDO driver')]
-	#[Config_Definition(default_value: 'mysql')]
-	#[Config_Definition(is_required: true)]
-	#[Config_Definition(form_field_type: Form::TYPE_SELECT)]
-	#[Config_Definition(form_field_get_select_options_callback: [
-		self::class,
-		'getDrivers'
-	])]
-	#[Config_Definition(form_field_label: 'Driver')]
-	#[Config_Definition(form_field_error_messages: [
-		Form_Field::ERROR_CODE_EMPTY => 'Please select driver',
-		Form_Field_MultiSelect::ERROR_CODE_INVALID_VALUE => 'Please select driver'
-	])]
+	#[Config_Definition(
+		type: Config::TYPE_STRING,
+		description: 'PDO driver',
+		default_value: 'mysql',
+		is_required: true,
+		form_field_type: Form::TYPE_SELECT,
+		form_field_get_select_options_callback: [
+			self::class,
+			'getDrivers'
+		],
+		form_field_label: 'Driver',
+		form_field_error_messages: [
+			Form_Field::ERROR_CODE_EMPTY => 'Please select driver',
+			Form_Field_MultiSelect::ERROR_CODE_INVALID_VALUE => 'Please select driver'
+		]
+	)]
 	protected string $driver = '';
 
 
@@ -40,29 +42,37 @@ class Db_Backend_PDO_Config extends Db_Backend_Config
 	 *
 	 * @var string
 	 */
-	#[Config_Definition(type: Config::TYPE_STRING)]
-	#[Config_Definition(is_required: true)]
-	#[Config_Definition(form_field_label: 'DSN')]
-	#[Config_Definition(form_field_error_messages: [Form_Field::ERROR_CODE_EMPTY => 'Please enter connection DSN'])]
+	#[Config_Definition(
+		type: Config::TYPE_STRING,
+		is_required: true,
+		form_field_label: 'DSN',
+		form_field_error_messages: [
+			Form_Field::ERROR_CODE_EMPTY => 'Please enter connection DSN'
+		]
+	)]
 	protected string $DSN = '';
 
 	/**
 	 *
 	 * @var string
 	 */
-	#[Config_Definition(form_field_label: 'Username')]
-	#[Config_Definition(type: Config::TYPE_STRING)]
-	#[Config_Definition(is_required: false)]
+	#[Config_Definition(
+		form_field_label: 'Username',
+		type: Config::TYPE_STRING,
+		is_required: false
+	)]
 	protected string $username = '';
 
 	/**
 	 *
 	 * @var string
 	 */
-	#[Config_Definition(form_field_type: Form::TYPE_PASSWORD)]
-	#[Config_Definition(form_field_label: 'Password')]
-	#[Config_Definition(type: Config::TYPE_STRING)]
-	#[Config_Definition(is_required: false)]
+	#[Config_Definition(
+		form_field_type: Form::TYPE_PASSWORD,
+		form_field_label: 'Password',
+		type: Config::TYPE_STRING,
+		is_required: false
+	)]
 	protected string $password = '';
 
 	/**

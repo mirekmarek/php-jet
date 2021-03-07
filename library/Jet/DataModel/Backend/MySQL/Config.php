@@ -18,69 +18,85 @@ class DataModel_Backend_MySQL_Config extends DataModel_Backend_Config
 	 *
 	 * @var string
 	 */
-	#[Config_Definition(type: Config::TYPE_STRING)]
-	#[Config_Definition(is_required: true)]
-	#[Config_Definition(form_field_type: Form::TYPE_SELECT)]
-	#[Config_Definition(form_field_get_select_options_callback: [
-		DataModel_Backend_MySQL_Config::class,
-		'getDbConnectionsList'
-	])]
-	#[Config_Definition(form_field_label: 'Connection - read: ')]
-	#[Config_Definition(form_field_error_messages: [
-		Form_Field::ERROR_CODE_EMPTY                     => 'Please select database connection',
-		Form_Field_MultiSelect::ERROR_CODE_INVALID_VALUE => 'Please select database connection'
-	])]
+	#[Config_Definition(
+		type: Config::TYPE_STRING,
+		is_required: true,
+		form_field_type: Form::TYPE_SELECT,
+		form_field_get_select_options_callback: [
+			DataModel_Backend_MySQL_Config::class,
+			'getDbConnectionsList'
+		],
+		form_field_label: 'Connection - read: ',
+		form_field_error_messages: [
+			Form_Field::ERROR_CODE_EMPTY                     => 'Please select database connection',
+			Form_Field_MultiSelect::ERROR_CODE_INVALID_VALUE => 'Please select database connection'
+		]
+	)]
 	protected string $connection_read = '';
 
 	/**
 	 *
 	 * @var string
 	 */
-	#[Config_Definition(type: Config::TYPE_STRING)]
-	#[Config_Definition(is_required: true)]
-	#[Config_Definition(form_field_type: Form::TYPE_SELECT)]
-	#[Config_Definition(form_field_get_select_options_callback: [
-		DataModel_Backend_MySQL_Config::class,
-		'getDbConnectionsList'
-	])]
-	#[Config_Definition(form_field_label: 'Connection - write: ')]
-	#[Config_Definition(form_field_error_messages: [
-		Form_Field::ERROR_CODE_EMPTY                     => 'Please select database connection',
-		Form_Field_MultiSelect::ERROR_CODE_INVALID_VALUE => 'Please select database connection'
-	])]
+	#[Config_Definition(
+		type: Config::TYPE_STRING,
+		is_required: true,
+		form_field_type: Form::TYPE_SELECT,
+		form_field_get_select_options_callback: [
+			DataModel_Backend_MySQL_Config::class,
+			'getDbConnectionsList'
+		],
+		form_field_label: 'Connection - write: ',
+		form_field_error_messages: [
+			Form_Field::ERROR_CODE_EMPTY                     => 'Please select database connection',
+			Form_Field_MultiSelect::ERROR_CODE_INVALID_VALUE => 'Please select database connection'
+		]
+	)]
 	protected string $connection_write = '';
 
 	/**
 	 *
 	 * @var string
 	 */
-	#[Config_Definition(type: Config::TYPE_STRING)]
-	#[Config_Definition(is_required: true)]
-	#[Config_Definition(default_value: 'InnoDB')]
-	#[Config_Definition(form_field_label: 'Engine: ')]
-	#[Config_Definition(form_field_error_messages: [Form_Field::ERROR_CODE_EMPTY => 'Please enter table engine'])]
+	#[Config_Definition(
+		type: Config::TYPE_STRING,
+		is_required: true,
+		default_value: 'InnoDB',
+		form_field_label: 'Engine: ',
+		form_field_error_messages: [
+			Form_Field::ERROR_CODE_EMPTY => 'Please enter table engine'
+		]
+	)]
 	protected string $engine = '';
 
 	/**
 	 *
 	 * @var string
 	 */
-	#[Config_Definition(type: Config::TYPE_STRING)]
-	#[Config_Definition(is_required: true)]
-	#[Config_Definition(default_value: 'utf8')]
-	#[Config_Definition(form_field_label: 'Default charset: ')]
-	#[Config_Definition(form_field_error_messages: [Form_Field::ERROR_CODE_EMPTY => 'Please enter charset'])]
+	#[Config_Definition(
+		type: Config::TYPE_STRING,
+		is_required: true,
+		default_value: 'utf8',
+		form_field_label: 'Default charset: ',
+		form_field_error_messages: [
+			Form_Field::ERROR_CODE_EMPTY => 'Please enter charset'
+		]
+	)]
 	protected string $default_charset = '';
 
 	/**
 	 *
 	 * @var string
 	 */
-	#[Config_Definition(type: Config::TYPE_STRING)]
-	#[Config_Definition(is_required: true)]
-	#[Config_Definition(default_value: 'utf8_general_ci')]
-	#[Config_Definition(form_field_label: 'Default collate: ')]
-	#[Config_Definition(form_field_error_messages: [Form_Field::ERROR_CODE_EMPTY => 'Please enter default collate'])]
+	#[Config_Definition(
+		type: Config::TYPE_STRING,
+		is_required: true,
+		default_value: 'utf8_general_ci',
+		form_field_label: 'Default collate: ',
+		form_field_error_messages: [
+			Form_Field::ERROR_CODE_EMPTY => 'Please enter default collate'
+		]
+	)]
 	protected string $collate = '';
 
 	/**

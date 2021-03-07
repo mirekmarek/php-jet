@@ -16,7 +16,7 @@ class Test_BasicSelect extends Test_Abstract
 	/**
 	 * @return string
 	 */
-	protected function _getTitle()
+	protected function _getTitle() : string
 	{
 		return 'Basic SELECT';
 	}
@@ -24,7 +24,7 @@ class Test_BasicSelect extends Test_Abstract
 	/**
 	 *
 	 */
-	public function test()
+	public function test() : void
 	{
 
 		$q = Model_A1::createQuery();

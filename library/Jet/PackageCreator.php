@@ -37,7 +37,7 @@ abstract class PackageCreator extends BaseObject
 	/**
 	 * @return string
 	 */
-	public static function getCSSClassName()
+	public static function getCSSClassName() : string
 	{
 		return static::$CSS_class_name;
 	}

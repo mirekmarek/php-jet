@@ -19,7 +19,7 @@ class Test_SimpleInternalRelation extends Test_Abstract
 	/**
 	 * @return string
 	 */
-	protected function _getTitle()
+	protected function _getTitle() : string
 	{
 		return 'Simple internal relation';
 	}
@@ -27,7 +27,7 @@ class Test_SimpleInternalRelation extends Test_Abstract
 	/**
 	 *
 	 */
-	public function test()
+	public function test() : void
 	{
 		$where = [];
 

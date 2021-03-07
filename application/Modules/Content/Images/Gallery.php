@@ -257,7 +257,7 @@ class Gallery extends DataModel
 				$this->localized[$lc_str] = new Gallery_Localized( $this->getId(), $locale );
 			}
 
-			$this->localized[$lc_str]->setArticle( $this );
+			$this->localized[$lc_str]->setGallery( $this );
 		}
 
 	}
@@ -396,7 +396,6 @@ class Gallery extends DataModel
 	 * @param null|string $source_file_name
 	 *
 	 * @return Gallery_Image
-	 * @throws Exception
 	 */
 	public function addImage( string $source_file_path, ?string $source_file_name = null ): Gallery_Image
 	{

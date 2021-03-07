@@ -81,7 +81,7 @@ class ModuleWizards extends BaseObject implements Application_Part
 	 *
 	 * @return ModuleWizard|null
 	 */
-	public static function get( string $name )
+	public static function get( string $name ) : ?ModuleWizard
 	{
 		$list = static::getList();
 
@@ -124,7 +124,7 @@ class ModuleWizards extends BaseObject implements Application_Part
 	 *
 	 * @return string
 	 */
-	public static function getActionUrl( string $action, array $custom_get_params = [] )
+	public static function getActionUrl( string $action, array $custom_get_params = [] ) : string
 	{
 
 		$get_params = [];

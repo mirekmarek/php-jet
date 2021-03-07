@@ -155,7 +155,7 @@ class Translator extends BaseObject
 	 *
 	 * @return string
 	 */
-	public static function _( string $text, array $data = [], string|null $namespace = null, string|null $locale = null )
+	public static function _( string $text, array $data = [], string|null $namespace = null, string|null $locale = null ) : string
 	{
 		return static::getTranslation( $text, $data, $namespace, $locale );
 	}

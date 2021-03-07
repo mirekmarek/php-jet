@@ -123,7 +123,7 @@ class Gallery_Image_Thumbnail extends BaseObject implements BaseObject_Interface
 	/**
 	 * @return string
 	 */
-	public function getURI()
+	public function getURI() : string
 	{
 		$this->generate();
 
@@ -137,7 +137,7 @@ class Gallery_Image_Thumbnail extends BaseObject implements BaseObject_Interface
 	/**
 	 * @return string
 	 */
-	public function getPath()
+	public function getPath() : string
 	{
 		$this->generate();
 
@@ -147,7 +147,7 @@ class Gallery_Image_Thumbnail extends BaseObject implements BaseObject_Interface
 	/**
 	 * @return string
 	 */
-	public function getDirPath()
+	public function getDirPath() : string
 	{
 		$this->generate();
 
@@ -157,7 +157,7 @@ class Gallery_Image_Thumbnail extends BaseObject implements BaseObject_Interface
 	/**
 	 * @return int
 	 */
-	public function getMaximalSizeW()
+	public function getMaximalSizeW() : int
 	{
 		return $this->maximal_size_w;
 	}
@@ -165,7 +165,7 @@ class Gallery_Image_Thumbnail extends BaseObject implements BaseObject_Interface
 	/**
 	 * @return int
 	 */
-	public function getMaximalSizeH()
+	public function getMaximalSizeH() : int
 	{
 		return $this->maximal_size_h;
 	}
@@ -184,7 +184,7 @@ class Gallery_Image_Thumbnail extends BaseObject implements BaseObject_Interface
 	/**
 	 * @return string
 	 */
-	public function __toString()
+	public function __toString() : string
 	{
 		try {
 			$URI = $this->getURI();
@@ -198,7 +198,7 @@ class Gallery_Image_Thumbnail extends BaseObject implements BaseObject_Interface
 	/**
 	 * @return Data_Image
 	 */
-	public function getRealImage()
+	public function getRealImage() : Data_Image
 	{
 		if( !$this->real_image ) {
 			$this->generate();
@@ -211,7 +211,7 @@ class Gallery_Image_Thumbnail extends BaseObject implements BaseObject_Interface
 	/**
 	 * @return int
 	 */
-	public function getWidth()
+	public function getWidth() : int
 	{
 		return $this->getRealImage()->getWidth();
 	}
@@ -219,7 +219,7 @@ class Gallery_Image_Thumbnail extends BaseObject implements BaseObject_Interface
 	/**
 	 * @return int
 	 */
-	public function getHeight()
+	public function getHeight() : int
 	{
 		return $this->getRealImage()->getHeight();
 	}
@@ -227,7 +227,7 @@ class Gallery_Image_Thumbnail extends BaseObject implements BaseObject_Interface
 	/**
 	 * @return string
 	 */
-	public function getMimeType()
+	public function getMimeType() : string
 	{
 		return $this->getRealImage()->getMimeType();
 	}

@@ -19,7 +19,7 @@ class Test_CountSelect extends Test_Abstract
 	/**
 	 * @return string
 	 */
-	protected function _getTitle()
+	protected function _getTitle() : string
 	{
 		return 'Count query';
 	}
@@ -27,7 +27,7 @@ class Test_CountSelect extends Test_Abstract
 	/**
 	 *
 	 */
-	public function test()
+	public function test() : void
 	{
 		$where = [];
 

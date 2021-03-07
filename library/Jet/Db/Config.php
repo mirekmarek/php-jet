@@ -20,20 +20,24 @@ class Db_Config extends Config
 	 *
 	 * @var string
 	 */
-	#[Config_Definition(form_field_label: 'Default connection:')]
-	#[Config_Definition(type: Config::TYPE_STRING)]
-	#[Config_Definition(description: 'Connection name default value for Db::get() / Db::getConnection()')]
-	#[Config_Definition(is_required: true)]
-	#[Config_Definition(default_value: 'default')]
-	#[Config_Definition(form_field_type: Form::TYPE_SELECT)]
-	#[Config_Definition(form_field_get_select_options_callback: [
-		'Db_Config',
-		'getConnectionsList'
-	])]
-	#[Config_Definition(form_field_error_messages: [
-		Form_Field::ERROR_CODE_EMPTY => 'Please select default connection',
-		Form_Field_MultiSelect::ERROR_CODE_INVALID_VALUE => 'Please select default connection'
-	])]
+	#[Config_Definition(
+		form_field_label: 'Default connection:',
+		type: Config::TYPE_STRING,
+		description: 'Connection name default value for Db::get() / Db::getConnection()',
+		is_required: true,
+		default_value: 'default',
+		form_field_type: Form::TYPE_SELECT,
+		form_field_get_select_options_callback: [
+			'Db_Config',
+			'getConnectionsList'
+		]
+	)]
+	#[Config_Definition(
+		form_field_error_messages: [
+			Form_Field::ERROR_CODE_EMPTY => 'Please select default connection',
+			Form_Field_MultiSelect::ERROR_CODE_INVALID_VALUE => 'Please select default connection'
+		]
+	)]
 	protected string $default_connection_name = 'default';
 
 
@@ -41,8 +45,10 @@ class Db_Config extends Config
 	 *
 	 * @var Db_Backend_Config[]|null
 	 */
-	#[Config_Definition(type: Config::TYPE_SECTIONS)]
-	#[Config_Definition(section_creator_method_name: 'connectionConfigCreator')]
+	#[Config_Definition(
+		type: Config::TYPE_SECTIONS,
+		section_creator_method_name: 'connectionConfigCreator'
+	)]
 	protected ?array $connections = null;
 
 	/**

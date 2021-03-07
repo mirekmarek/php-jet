@@ -20,8 +20,10 @@ class Mailing_Config extends Config
 	 *
 	 * @var Mailing_Config_Sender[]
 	 */
-	#[Config_Definition(type: Config::TYPE_SECTIONS)]
-	#[Config_Definition(section_creator_method_name: 'createSenderConfigInstance')]
+	#[Config_Definition(
+		type: Config::TYPE_SECTIONS,
+		section_creator_method_name: 'createSenderConfigInstance'
+	)]
 	protected array|null $senders = null;
 
 

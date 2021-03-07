@@ -81,7 +81,7 @@ class DataModel_Backend_SQLite extends DataModel_Backend
 	 */
 	public function helper_create( DataModel_Definition_Model $definition ): void
 	{
-		$this->getDb()->execCommand( $this->helper_getCreateCommand( $definition ) );
+		$this->getDb()->execute( $this->helper_getCreateCommand( $definition ) );
 	}
 
 	/**
@@ -271,7 +271,7 @@ class DataModel_Backend_SQLite extends DataModel_Backend
 	 */
 	public function helper_drop( DataModel_Definition_Model $definition ): void
 	{
-		$this->getDb()->execCommand( $this->helper_getDropCommand( $definition ) );
+		$this->getDb()->execute( $this->helper_getDropCommand( $definition ) );
 	}
 
 	/**
@@ -296,7 +296,7 @@ class DataModel_Backend_SQLite extends DataModel_Backend
 		$this->transactionStart();
 		try {
 			foreach( $this->helper_getUpdateCommand( $definition ) as $q ) {
-				$this->getDb()->execCommand( $q );
+				$this->getDb()->execute( $q );
 			}
 		} catch( \Exception $e ) {
 			$this->transactionRollback();
@@ -493,7 +493,7 @@ class DataModel_Backend_SQLite extends DataModel_Backend
 	public function save( DataModel_RecordData $record ): string
 	{
 
-		$this->getDb()->execCommand( $this->createInsertQuery( $record ) );
+		$this->getDb()->execute( $this->createInsertQuery( $record ) );
 
 		return $this->getDb()->lastInsertId();
 	}
@@ -542,7 +542,7 @@ class DataModel_Backend_SQLite extends DataModel_Backend
 	 */
 	public function update( DataModel_RecordData $record, DataModel_Query $where ): int
 	{
-		return $this->getDb()->execCommand( $this->createUpdateQuery( $record, $where ) );
+		return $this->getDb()->execute( $this->createUpdateQuery( $record, $where ) );
 	}
 
 	/**
@@ -717,7 +717,7 @@ class DataModel_Backend_SQLite extends DataModel_Backend
 	 */
 	public function delete( DataModel_Query $where ): int
 	{
-		return $this->getDb()->execCommand( $this->createDeleteQuery( $where ) );
+		return $this->getDb()->execute( $this->createDeleteQuery( $where ) );
 	}
 
 	/**

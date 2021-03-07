@@ -109,7 +109,7 @@ class DataModel_Backend_MySQL extends DataModel_Backend
 	 */
 	public function helper_create( DataModel_Definition_Model $definition ): void
 	{
-		$this->getDbWrite()->execCommand( $this->helper_getCreateCommand( $definition ) );
+		$this->getDbWrite()->execute( $this->helper_getCreateCommand( $definition ) );
 	}
 
 	/**
@@ -369,7 +369,7 @@ class DataModel_Backend_MySQL extends DataModel_Backend
 	 */
 	public function helper_drop( DataModel_Definition_Model $definition ): void
 	{
-		$this->getDbWrite()->execCommand( $this->helper_getDropCommand( $definition ) );
+		$this->getDbWrite()->execute( $this->helper_getDropCommand( $definition ) );
 	}
 
 	/**
@@ -388,14 +388,14 @@ class DataModel_Backend_MySQL extends DataModel_Backend
 	/**
 	 * @param DataModel_Definition_Model $definition
 	 *
-	 * @throws \Exception|Exception
+	 * @throws \Exception
 	 */
 	public function helper_update( DataModel_Definition_Model $definition ): void
 	{
 		$this->transactionStart();
 		try {
 			foreach( $this->helper_getUpdateCommand( $definition ) as $q ) {
-				$this->getDbWrite()->execCommand( $q );
+				$this->getDbWrite()->execute( $q );
 			}
 		} catch( \Exception $e ) {
 			$this->transactionRollback();
@@ -536,7 +536,7 @@ class DataModel_Backend_MySQL extends DataModel_Backend
 	 */
 	public function save( DataModel_RecordData $record ): int
 	{
-		$this->getDbWrite()->execCommand( $this->createInsertQuery( $record ) );
+		$this->getDbWrite()->execute( $this->createInsertQuery( $record ) );
 
 		return $this->getDbWrite()->lastInsertId();
 	}
@@ -574,7 +574,7 @@ class DataModel_Backend_MySQL extends DataModel_Backend
 	public function update( DataModel_RecordData $record, DataModel_Query $where ): int
 	{
 
-		return $this->getDbWrite()->execCommand( $this->createUpdateQuery( $record, $where ) );
+		return $this->getDbWrite()->execute( $this->createUpdateQuery( $record, $where ) );
 	}
 
 	/**
@@ -752,7 +752,7 @@ class DataModel_Backend_MySQL extends DataModel_Backend
 	 */
 	public function delete( DataModel_Query $where ): int
 	{
-		return $this->getDbWrite()->execCommand( $this->createDeleteQuery( $where ) );
+		return $this->getDbWrite()->execute( $this->createDeleteQuery( $where ) );
 	}
 
 	/**

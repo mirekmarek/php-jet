@@ -14,13 +14,15 @@ use \PDOStatement;
 /**
  *
  */
-class Db_Backend_PDO extends PDO implements Db_Backend_Interface
+class Db_Backend_PDO implements Db_Backend_Interface
 {
 	/**
 	 *
 	 * @var Db_Backend_PDO_Config
 	 */
 	protected Db_Backend_PDO_Config $config;
+
+	protected ?PDO $pdo;
 
 	/**
 	 * @param Db_Backend_Config $config
@@ -33,9 +35,9 @@ class Db_Backend_PDO extends PDO implements Db_Backend_Interface
 
 		$this->config = $config;
 
-		parent::__construct( $config->getDsn(), $config->getUsername(), $config->getPassword() );
+		$this->pdo = new PDO( $config->getDsn(), $config->getUsername(), $config->getPassword() );
 
-		$this->setAttribute( static::ATTR_ERRMODE, static::ERRMODE_EXCEPTION );
+		$this->pdo->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION );
 
 	}
 
@@ -44,10 +46,7 @@ class Db_Backend_PDO extends PDO implements Db_Backend_Interface
 	 */
 	public function __destruct()
 	{
-		try {
-			$this->disconnect();
-		} catch( \Exception $e ) {
-		}
+		$this->disconnect();
 	}
 
 	/**
@@ -61,74 +60,30 @@ class Db_Backend_PDO extends PDO implements Db_Backend_Interface
 
 
 	/**
+	 * @param string $query
+	 * @param array $query_data
+	 * @param ?callable $result_handler
 	 *
-	 * @param mixed $statement
-	 *
-	 * @return int|false
-	 * @noinspection PhpMissingParamTypeInspection
+	 * @return iterable
 	 */
-	public function exec( $statement )
+	public function query( string $query, array $query_data = [], ?callable $result_handler=null ): iterable
 	{
-		Debug_Profiler::SQLQueryStart( $statement );
+		$q = $this->prepareQuery( $query, $query_data );
 
-		$result = parent::exec( $statement );
+		Debug_Profiler::SQLQueryStart( $query, $query_data );
+		$stn = $this->pdo->query( $q );
 
-		Debug_Profiler::SQLQueryDone( $result );
+		if(!$result_handler) {
+			$result = $stn;
+		} else {
+			$result = $result_handler( $stn );
+		}
+
+		Debug_Profiler::SQLQueryDone( count($result) );
 
 		return $result;
 	}
 
-	/**
-	 * @param string $statement
-	 *
-	 * @return PDOStatement
-	 */
-	public function doQuery( string $statement ): PDOStatement
-	{
-		Debug_Profiler::SQLQueryStart( $statement );
-
-		$res = $this->query( $statement );
-		Debug_Profiler::SQLQueryDone();
-
-		return $res;
-	}
-
-	/**
-	 * Executes command (INSERT, UPDATE, DELETE or CREATE, ...) and return affected rows
-	 *
-	 * @param string $query
-	 * @param array $query_data
-	 *
-	 * @return int
-	 */
-	public function execCommand( string $query, array $query_data = [] ): int
-	{
-		Debug_Profiler::SQLQueryStart( $query, $query_data );
-
-		$statement = $this->prepare( $query );
-
-		foreach( $query_data as $k => $v ) {
-			$type = PDO::PARAM_STR;
-			$len = null;
-
-			if( is_int( $v ) ) {
-				$type = PDO::PARAM_INT;
-			} else if( is_null( $v ) ) {
-				$type = PDO::PARAM_NULL;
-			} else if( is_string( $v ) ) {
-				$len = strlen( $v );
-			}
-
-			$statement->bindParam( $k, $query_data[$k], $type, $len );
-
-		}
-
-		$res = $statement->execute();
-
-		Debug_Profiler::SQLQueryDone( $res );
-
-		return $res;
-	}
 
 	/**
 	 *
@@ -153,11 +108,13 @@ class Db_Backend_PDO extends PDO implements Db_Backend_Interface
 				$value = 'NULL';
 			} else if( is_bool( $value ) ) {
 				$value = $value ? 1 : 0;
-			} else if( is_int( $value ) || is_float( $value ) ) {
-
 			} else {
-				$value = $this->quote( (string)$value );
+				/** @noinspection PhpStatementHasEmptyBodyInspection */
+				if( is_int( $value ) || is_float( $value ) ) {
 
+				} else {
+					$value = $this->quoteString( (string)$value );
+				}
 			}
 
 			$replacements[':' . $key] = $value;
@@ -173,6 +130,44 @@ class Db_Backend_PDO extends PDO implements Db_Backend_Interface
 
 
 	/**
+	 * Executes command (INSERT, UPDATE, DELETE or CREATE, ...) and return affected rows
+	 *
+	 * @param string $query
+	 * @param array $query_data
+	 *
+	 * @return int
+	 */
+	public function execute( string $query, array $query_data = [] ): int
+	{
+		Debug_Profiler::SQLQueryStart( $query, $query_data );
+
+		$statement = $this->pdo->prepare( $query );
+
+		foreach( $query_data as $k => $v ) {
+			$type = PDO::PARAM_STR;
+			$len = null;
+
+			if( is_int( $v ) ) {
+				$type = PDO::PARAM_INT;
+			} else if( is_null( $v ) ) {
+				$type = PDO::PARAM_NULL;
+			} else if( is_string( $v ) ) {
+				$len = strlen( $v );
+			}
+
+			$statement->bindParam( $k, $query_data[$k], $type, $len );
+
+		}
+
+		$res = $statement->execute();
+
+		Debug_Profiler::SQLQueryDone( $res );
+
+		return $res;
+	}
+
+
+	/**
 	 *
 	 * @param string $query
 	 * @param array $query_data (optional)
@@ -181,17 +176,22 @@ class Db_Backend_PDO extends PDO implements Db_Backend_Interface
 	 */
 	public function fetchRow( string $query, array $query_data = [] ): array|bool
 	{
-		$q = $this->prepareQuery( $query, $query_data );
+		$res = $this->query( $query, $query_data, function( PDOStatement $stn ) {
+			foreach( $stn as $row ) {
+				return $row;
+			}
 
-		Debug_Profiler::SQLQueryStart( $q, $query_data );
-		$stn = $this->query( $q );
-		Debug_Profiler::SQLQueryDone();
+			return [];
+		} );
 
-		foreach( $stn as $row ) {
-			return $row;
+		/**
+		 * @var array $res
+		 */
+		if(!$res) {
+			return false;
 		}
 
-		return false;
+		return $res;
 	}
 
 	/**
@@ -203,13 +203,12 @@ class Db_Backend_PDO extends PDO implements Db_Backend_Interface
 	 */
 	public function fetchAll( string $query, array $query_data = [] ): array
 	{
-		$q = $this->prepareQuery( $query, $query_data );
-
-		Debug_Profiler::SQLQueryStart( $q, $query_data );
-		$stn = $this->query( $q );
-		$res = $stn->fetchAll( PDO::FETCH_ASSOC );
-
-		Debug_Profiler::SQLQueryDone( count( $res ) );
+		/**
+		 * @var array $res
+		 */
+		$res =  $this->query( $query, $query_data, function( PDOStatement $stn ) {
+			return $stn->fetchAll( PDO::FETCH_ASSOC );
+		} );
 
 		return $res;
 	}
@@ -224,25 +223,25 @@ class Db_Backend_PDO extends PDO implements Db_Backend_Interface
 	 */
 	public function fetchAssoc( string $query, array $query_data = [], ?string $key_column = null ): array
 	{
-		$q = $this->prepareQuery( $query, $query_data );
+		/**
+		 * @var array $res
+		 */
+		$res =  $this->query( $query, $query_data, function( PDOStatement $stn ) use ($key_column) {
+			$result = [];
 
-		Debug_Profiler::SQLQueryStart( $q, $query_data );
-		$stn = $this->query( $q );
+			foreach( $stn as $row ) {
+				if( $key_column === null ) {
+					[$key_column] = array_keys( $row );
+				}
+				$key = $row[$key_column];
 
-		$result = [];
-
-		foreach( $stn as $row ) {
-			if( $key_column === null ) {
-				[$key_column] = array_keys( $row );
+				$result[$key] = $row;
 			}
-			$key = $row[$key_column];
 
-			$result[$key] = $row;
-		}
-		Debug_Profiler::SQLQueryDone( count( $result ) );
+			return $result;
+		} );
 
-		return $result;
-
+		return $res;
 	}
 
 	/**
@@ -255,21 +254,23 @@ class Db_Backend_PDO extends PDO implements Db_Backend_Interface
 	 */
 	public function fetchCol( string $query, array $query_data = [], ?string $column = null ): array
 	{
-		$q = $this->prepareQuery( $query, $query_data );
+		/**
+		 * @var array $res
+		 */
+		$res =  $this->query( $query, $query_data, function( PDOStatement $stn ) use ($column) {
+			$result = [];
 
-		Debug_Profiler::SQLQueryStart( $q, $query_data );
-		$stn = $this->query( $q );
-
-		$result = [];
-		foreach( $stn as $row ) {
-			if( $column === null ) {
-				[$column] = array_keys( $row );
+			foreach( $stn as $row ) {
+				if( $column === null ) {
+					[$column] = array_keys( $row );
+				}
+				$result[] = $row[$column];
 			}
-			$result[] = $row[$column];
-		}
-		Debug_Profiler::SQLQueryDone( count( $result ) );
 
-		return $result;
+			return $result;
+		} );
+
+		return $res;
 	}
 
 	/**
@@ -283,27 +284,28 @@ class Db_Backend_PDO extends PDO implements Db_Backend_Interface
 	 */
 	public function fetchPairs( string $query, array $query_data = [], ?string $key_column = null, ?string $value_column = null ): array
 	{
-		$q = $this->prepareQuery( $query, $query_data );
+		/**
+		 * @var array $res
+		 */
+		$res =  $this->query( $query, $query_data, function( PDOStatement $stn ) use ($key_column, $value_column) {
+			$result = [];
 
-		Debug_Profiler::SQLQueryStart( $q, $query_data );
-		$stn = $this->query( $q );
+			foreach( $stn as $row ) {
+				if( $key_column === null ) {
+					[
+						$key_column,
+						$value_column
+					] = array_keys( $row );
+				}
+				$key = $row[$key_column];
 
-		$result = [];
-
-		foreach( $stn as $row ) {
-			if( $key_column === null ) {
-				[
-					$key_column,
-					$value_column
-				] = array_keys( $row );
+				$result[$key] = $row[$value_column];
 			}
-			$key = $row[$key_column];
 
-			$result[$key] = $row[$value_column];
-		}
-		Debug_Profiler::SQLQueryDone( count( $result ) );
+			return $result;
+		} );
 
-		return $result;
+		return $res;
 	}
 
 	/**
@@ -316,21 +318,22 @@ class Db_Backend_PDO extends PDO implements Db_Backend_Interface
 	 */
 	public function fetchOne( string $query, array $query_data = [], ?string $column = null ): mixed
 	{
-		$q = $this->prepareQuery( $query, $query_data );
+		/**
+		 * @var array $res
+		 */
+		$res =  $this->query( $query, $query_data, function( PDOStatement $stn ) use ($column) {
+			foreach( $stn as $row ) {
+				if( $column === null ) {
+					[$column] = array_keys( $row );
+				}
 
-		Debug_Profiler::SQLQueryStart( $q, $query_data );
-		$stn = $this->query( $q );
-		Debug_Profiler::SQLQueryDone();
-
-		foreach( $stn as $row ) {
-			if( $column === null ) {
-				[$column] = array_keys( $row );
+				return [$row[$column]];
 			}
 
-			return $row[$column];
-		}
+			return [false];
+		} );
 
-		return false;
+		return $res[0];
 	}
 
 
@@ -339,6 +342,7 @@ class Db_Backend_PDO extends PDO implements Db_Backend_Interface
 	 */
 	public function disconnect(): void
 	{
+		$this->pdo = null;
 	}
 
 	/**
@@ -347,6 +351,31 @@ class Db_Backend_PDO extends PDO implements Db_Backend_Interface
 	 */
 	public function quoteString( string $string ): string
 	{
-		return $this->quote( $string );
+		return $this->pdo->quote( $string );
+	}
+
+	public function beginTransaction(): bool
+	{
+		return $this->pdo->beginTransaction();
+	}
+
+	public function commit(): bool
+	{
+		return $this->pdo->commit();
+	}
+
+	public function rollBack(): bool
+	{
+		return $this->pdo->rollBack();
+	}
+
+	public function inTransaction(): bool
+	{
+		return $this->pdo->inTransaction();
+	}
+
+	public function lastInsertId( string $name = null ): string
+	{
+		return $this->pdo->lastInsertId( $name );
 	}
 }

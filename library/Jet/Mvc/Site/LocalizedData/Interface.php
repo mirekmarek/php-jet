@@ -21,7 +21,7 @@ interface Mvc_Site_LocalizedData_Interface
 	 *
 	 * @return Mvc_Site_LocalizedData_Interface
 	 */
-	public static function createByData( Mvc_Site_Interface $site, Locale $locale, array $data );
+	public static function createByData( Mvc_Site_Interface $site, Locale $locale, array $data ) : Mvc_Site_LocalizedData_Interface;
 
 	/**
 	 * @return Mvc_Site_Interface

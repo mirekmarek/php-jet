@@ -17,7 +17,7 @@ interface DataModel_Definition_Model_Related_Interface extends DataModel_Definit
 	/**
 	 * @return string
 	 */
-	public function getParentModelClassName();
+	public function getParentModelClassName() : string;
 
 	/**
 	 * @return string

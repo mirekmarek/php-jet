@@ -72,11 +72,12 @@ if( SysConf_Jet::isDebugProfilerEnabled() ) {
 
 			if( Debug::getOutputIsXML() ) {
 				echo '<!-- profiler: ' . $URL . ' -->';
-			} elseif( Debug::getOutputIsJSON() ) {
-				//echo '//profiler: '.$URL;
 			} else {
-				require SysConf_Path::getBase() . "_profiler/status_bar.phtml";
+				if( !Debug::getOutputIsJSON() ) {
+					require SysConf_Path::getBase() . "_profiler/status_bar.phtml";
+				}
 			}
+
 		}
 	);
 

@@ -52,14 +52,16 @@ interface Db_Backend_Interface
 	 *
 	 * @return int
 	 */
-	public function execCommand( string $query, array $query_data = [] ): int;
+	public function execute( string $query, array $query_data = [] ): int;
 
 	/**
-	 * @param string $statement
+	 * @param string $query
+	 * @param array $query_data
+	 * @param ?callable $result_handler
 	 *
-	 * @return object
+	 * @return iterable
 	 */
-	public function doQuery( string $statement ): object;
+	public function query( string $query, array $query_data = [], ?callable $result_handler=null ): iterable;
 
 
 	/**
@@ -124,22 +126,22 @@ interface Db_Backend_Interface
 	/**
 	 * @return bool
 	 */
-	public function beginTransaction();
+	public function beginTransaction() : bool;
 
 	/**
 	 * @return bool
 	 */
-	public function commit();
+	public function commit() : bool;
 
 	/**
 	 * @return bool
 	 */
-	public function rollBack();
+	public function rollBack() : bool;
 
 	/**
 	 * @return bool
 	 */
-	public function inTransaction();
+	public function inTransaction() : bool;
 
 	/**
 	 * @param string $string
@@ -153,6 +155,6 @@ interface Db_Backend_Interface
 	 *
 	 * @return string
 	 */
-	public function lastInsertId( string $name = null );
+	public function lastInsertId( string $name = null ) : string;
 
 }

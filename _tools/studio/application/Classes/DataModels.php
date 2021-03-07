@@ -252,7 +252,7 @@ class DataModels extends BaseObject implements Application_Part
 	/**
 	 * @return string|bool
 	 */
-	public static function getCurrentClassName()
+	public static function getCurrentClassName() : string|bool
 	{
 		if( static::getCurrentClass() ) {
 			return static::getCurrentClass()->getFullClassName();
@@ -264,7 +264,7 @@ class DataModels extends BaseObject implements Application_Part
 	/**
 	 * @return DataModel_Definition_Model_Main|DataModel_Definition_Model_Related_1to1|DataModel_Definition_Model_Related_1toN|DataModel_Definition_Model_Related_MtoN|null
 	 */
-	public static function getCurrentModel()
+	public static function getCurrentModel() : DataModel_Definition_Model_Main|DataModel_Definition_Model_Related_1to1|DataModel_Definition_Model_Related_1toN|DataModel_Definition_Model_Related_MtoN|null
 	{
 		$class = static::getCurrentClass();
 		if( !$class ) {
@@ -275,9 +275,9 @@ class DataModels extends BaseObject implements Application_Part
 	}
 
 	/**
-	 * @return DataModel_Definition_Property_Interface|\Jet\DataModel_Definition_Property|null
+	 * @return DataModel_Definition_Property_Interface|DataModel_Definition_Property|null
 	 */
-	public static function getCurrentProperty()
+	public static function getCurrentProperty() : DataModel_Definition_Property_Interface|DataModel_Definition_Property|null
 	{
 		if( static::$current_property === null ) {
 			static::$current_property = false;

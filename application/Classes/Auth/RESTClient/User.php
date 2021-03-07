@@ -565,7 +565,7 @@ class Auth_RESTClient_User extends DataModel implements Auth_User_Interface
 	/**
 	 * @return string
 	 */
-	public static function generatePassword()
+	public static function generatePassword() : string
 	{
 		srand();
 		$password = '';

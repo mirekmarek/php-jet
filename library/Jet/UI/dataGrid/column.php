@@ -164,7 +164,7 @@ class UI_dataGrid_column extends BaseObject
 	/**
 	 * @return bool
 	 */
-	public function getAllowSort()
+	public function getAllowSort() : bool
 	{
 		return $this->allow_sort;
 	}

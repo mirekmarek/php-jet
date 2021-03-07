@@ -283,7 +283,7 @@ class Auth_Visitor_Role extends DataModel implements Auth_Role_Interface
 	 *
 	 * @return array
 	 */
-	public static function getAvailablePrivilegesList()
+	public static function getAvailablePrivilegesList() : array
 	{
 
 		return [
@@ -294,7 +294,7 @@ class Auth_Visitor_Role extends DataModel implements Auth_Role_Interface
 	/**
 	 * @return string
 	 */
-	public function __toString()
+	public function __toString() : string
 	{
 		return $this->toString();
 	}
@@ -302,7 +302,7 @@ class Auth_Visitor_Role extends DataModel implements Auth_Role_Interface
 	/**
 	 * @return string
 	 */
-	public function toString()
+	public function toString() : string
 	{
 		return $this->name;
 	}
@@ -313,7 +313,7 @@ class Auth_Visitor_Role extends DataModel implements Auth_Role_Interface
 	 *
 	 * @return Form
 	 */
-	public function _getForm()
+	public function _getForm() : Form
 	{
 		$available_privileges_list = static::getAvailablePrivilegesList();
 
@@ -337,7 +337,7 @@ class Auth_Visitor_Role extends DataModel implements Auth_Role_Interface
 	 *
 	 * @return Data_Forest
 	 */
-	public static function getAclActionValuesList_Pages()
+	public static function getAclActionValuesList_Pages() : Data_Forest
 	{
 
 		$forest = new Data_Forest();
@@ -411,7 +411,7 @@ class Auth_Visitor_Role extends DataModel implements Auth_Role_Interface
 	/**
 	 * @return Form
 	 */
-	public function getEditForm()
+	public function getEditForm() : Form
 	{
 		if( !$this->_form_edit ) {
 			$this->_form_edit = $this->_getForm();
@@ -423,7 +423,7 @@ class Auth_Visitor_Role extends DataModel implements Auth_Role_Interface
 	/**
 	 * @return bool
 	 */
-	public function catchEditForm()
+	public function catchEditForm() : bool
 	{
 		return $this->getEditForm()->catch();
 	}
@@ -432,7 +432,7 @@ class Auth_Visitor_Role extends DataModel implements Auth_Role_Interface
 	/**
 	 * @return Form
 	 */
-	public function getAddForm()
+	public function getAddForm() : Form
 	{
 		if( !$this->_form_add ) {
 			$this->_form_add = $this->_getForm();
@@ -444,7 +444,7 @@ class Auth_Visitor_Role extends DataModel implements Auth_Role_Interface
 	/**
 	 * @return bool
 	 */
-	public function catchAddForm()
+	public function catchAddForm() : bool
 	{
 		return $this->getAddForm()->catch();
 	}

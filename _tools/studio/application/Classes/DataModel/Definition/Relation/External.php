@@ -414,8 +414,6 @@ class DataModel_Definition_Relation_External extends Jet_DataModel_Definition_Re
 			$glue[$this_property->getName()] = $related_property->getName();
 		}
 
-		$type = $this->getJoinType();
-
 		$type = match ($this->getJoinType()) {
 			DataModel_Query::JOIN_TYPE_LEFT_JOIN => 'DataModel_Query::JOIN_TYPE_LEFT_JOIN',
 			DataModel_Query::JOIN_TYPE_LEFT_OUTER_JOIN => 'DataModel_Query::JOIN_TYPE_LEFT_OUTER_JOIN',

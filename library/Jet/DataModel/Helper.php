@@ -19,7 +19,7 @@ class DataModel_Helper
 	 *
 	 * @return string
 	 */
-	public static function getCreateCommand( string $class )
+	public static function getCreateCommand( string $class ) : string
 	{
 		/**
 		 * @var DataModel_Interface $class

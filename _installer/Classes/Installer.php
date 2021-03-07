@@ -320,7 +320,7 @@ class Installer
 	/**
 	 * @return string
 	 */
-	public static function getCurrentStepName()
+	public static function getCurrentStepName() : string
 	{
 
 		if( !static::$current_step_name ) {

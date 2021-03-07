@@ -42,7 +42,7 @@ abstract class Test_Abstract
 	/**
 	 * @return string
 	 */
-	public function getTitle()
+	public function getTitle() : string
 	{
 		return Tr::_( $this->_getTitle() );
 	}
@@ -50,11 +50,11 @@ abstract class Test_Abstract
 	/**
 	 * @return string
 	 */
-	abstract protected function _getTitle();
+	abstract protected function _getTitle() : string;
 
 	/**
 	 *
 	 */
-	abstract public function test();
+	abstract public function test() : void;
 
 }

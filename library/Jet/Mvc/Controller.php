@@ -122,7 +122,7 @@ abstract class Mvc_Controller extends BaseObject
 	 *
 	 * @return mixed
 	 */
-	public function getParameter( string $key, mixed $default_value = null )
+	public function getParameter( string $key, mixed $default_value = null ) : mixed
 	{
 		return $this->content->getParameter( $key, $default_value );
 	}

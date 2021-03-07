@@ -102,7 +102,7 @@ class Gallery_Localized extends DataModel_Related_1toN
 	/**
 	 * @return Gallery
 	 */
-	public function getGallery()
+	public function getGallery() : Gallery
 	{
 		return $this->_gallery;
 	}
@@ -110,7 +110,7 @@ class Gallery_Localized extends DataModel_Related_1toN
 	/**
 	 * @param Gallery $gallery
 	 */
-	public function setArticle( Gallery $gallery )
+	public function setGallery( Gallery $gallery ) : void
 	{
 		$this->_gallery = $gallery;
 	}
@@ -144,7 +144,7 @@ class Gallery_Localized extends DataModel_Related_1toN
 	/**
 	 * @return Locale
 	 */
-	public function getLocale()
+	public function getLocale() : Locale
 	{
 		return $this->locale;
 	}
@@ -166,7 +166,7 @@ class Gallery_Localized extends DataModel_Related_1toN
 	 *
 	 * @return string
 	 */
-	public function getURL( Mvc_Page_Interface $base_page = null )
+	public function getURL( Mvc_Page_Interface $base_page = null ) : string
 	{
 		if( !$base_page ) {
 			$base_page = Mvc::getCurrentPage();
@@ -178,7 +178,7 @@ class Gallery_Localized extends DataModel_Related_1toN
 	/**
 	 * @return string
 	 */
-	public function getURIFragment()
+	public function getURIFragment() : string
 	{
 		return $this->URI_fragment;
 	}
@@ -186,7 +186,7 @@ class Gallery_Localized extends DataModel_Related_1toN
 	/**
 	 * @return string
 	 */
-	public function getTitle()
+	public function getTitle() : string
 	{
 		return $this->title;
 	}
@@ -244,7 +244,7 @@ class Gallery_Localized extends DataModel_Related_1toN
 	public function generateUrlFragment( string $URI_fragment,
 	                                     callable $exists_check,
 	                                     string $suffix = '',
-	                                     bool $remove_accents = true )
+	                                     bool $remove_accents = true ) : string
 	{
 
 		if( $remove_accents ) {

@@ -48,7 +48,7 @@ class Pages extends BaseObject implements Application_Part
 	                                     array $custom_get_params = [],
 	                                     ?string $custom_page_id = null,
 	                                     ?string $custom_locale = null,
-	                                     ?string $custom_site_id = null )
+	                                     ?string $custom_site_id = null ) : string
 	{
 
 		$get_params = [];

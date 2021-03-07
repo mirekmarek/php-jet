@@ -41,7 +41,7 @@ class Sites extends BaseObject implements Application_Part
 	 *
 	 * @return string
 	 */
-	public static function getActionUrl( string $action, array $custom_get_params = [], ?string $custom_site_id = null )
+	public static function getActionUrl( string $action, array $custom_get_params = [], ?string $custom_site_id = null ) : string
 	{
 
 		$get_params = [];

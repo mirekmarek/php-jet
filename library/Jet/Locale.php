@@ -326,7 +326,7 @@ class Locale extends BaseObject
 	 *
 	 * @return array
 	 */
-	public static function getAllLocalesList( null|string|Locale $in_locale = null )
+	public static function getAllLocalesList( null|string|Locale $in_locale = null ) : array
 	{
 		if( !$in_locale ) {
 			$in_locale = static::getCurrentLocale();
@@ -672,7 +672,7 @@ class Locale extends BaseObject
 	 *
 	 * @return string
 	 */
-	public function formatCurrency( float|int $value, string $currency )
+	public function formatCurrency( float|int $value, string $currency ) : string
 	{
 		$f = new PHP_NumberFormatter( $this->locale, PHP_NumberFormatter::CURRENCY );
 		return $f->formatCurrency( $value, $currency );
