@@ -275,11 +275,11 @@ class Debug_Profiler_Run
 
 	/**
 	 * @param string $query
-	 * @param array $query_data
+	 * @param array $query_params
 	 */
-	public function SQLQueryStart( string $query, array $query_data ): void
+	public function SQLQueryStart( string $query, array $query_params ): void
 	{
-		$this->__current_block->SQLQueryStart( $query, $query_data );
+		$this->__current_block->SQLQueryStart( $query, $query_params );
 	}
 
 	/**

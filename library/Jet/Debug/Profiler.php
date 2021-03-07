@@ -120,9 +120,9 @@ class Debug_Profiler
 
 	/**
 	 * @param string $query
-	 * @param array $query_data
+	 * @param array $query_params
 	 */
-	public static function SQLQueryStart( string $query, $query_data = [] ): void
+	public static function SQLQueryStart( string $query, $query_params = [] ): void
 	{
 		if(
 			!static::$enabled ||
@@ -131,7 +131,7 @@ class Debug_Profiler
 			return;
 		}
 
-		static::$run->SQLQueryStart( $query, $query_data );
+		static::$run->SQLQueryStart( $query, $query_params );
 	}
 
 	/**

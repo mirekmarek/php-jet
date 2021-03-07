@@ -62,8 +62,7 @@ function formatQuery(string $query, array $query_data = []) : string
 				if (is_int($value) || is_float($value)) {
 
 				} else {
-					$value = addslashes((string)$value);
-
+					$value = "'".addslashes((string)$value)."'";
 				}
 
 		$replacements[':' . $key] = $value;
@@ -167,7 +166,7 @@ function showRunBlock(Debug_Profiler_Run_Block $block, $level=0)
 						$total_duration = $total_duration + $q->getDuration();
 						?>
 						<tr>
-							<td valign="top"><?= formatQuery($q->getQuery(), $q->getQueryData()); ?></td>
+							<td valign="top"><?= formatQuery($q->getQuery(), $q->getQueryParams()); ?></td>
 							<td valign="top"><?= formatDuration($q->getDuration()); ?></td>
 							<td valign="top"><?= $q->getRowsCount(); ?></td>
 							<?php /* <td valign="top">
@@ -355,7 +354,7 @@ function showRunBlock(Debug_Profiler_Run_Block $block, $level=0)
 				?>
 				<tr>
 					<td><a href="#run_block_<?= $q->getBlockId(); ?>"><?= $blocks[$q->getBlockId()]->getLabel(); ?></a></td>
-					<td valign="top"><?= formatQuery($q->getQuery(), $q->getQueryData()); ?></td>
+					<td valign="top"><?= formatQuery($q->getQuery(), $q->getQueryParams()); ?></td>
 					<td valign="top"><?= formatDuration($q->getDuration()); ?></td>
 					<td valign="top"><?= $q->getRowsCount(); ?></td>
 					<?php /*<td valign="top">

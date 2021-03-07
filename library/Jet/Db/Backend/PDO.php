@@ -24,6 +24,8 @@ class Db_Backend_PDO implements Db_Backend_Interface
 
 	protected ?PDO $pdo;
 
+	protected array $statements = [];
+
 	/**
 	 * @param Db_Backend_Config $config
 	 */
@@ -58,74 +60,46 @@ class Db_Backend_PDO implements Db_Backend_Interface
 		return $this->config;
 	}
 
-
-	/**
-	 * @param string $query
-	 * @param array $query_data
-	 * @param ?callable $result_handler
-	 *
-	 * @return iterable
-	 */
-	public function query( string $query, array $query_data = [], ?callable $result_handler=null ): iterable
+	protected function _q( string $query, array $query_params = [] ) : PDOStatement
 	{
-		$q = $this->prepareQuery( $query, $query_data );
+		$q_hash = md5($query);
 
-		Debug_Profiler::SQLQueryStart( $query, $query_data );
-		$stn = $this->pdo->query( $q );
-
-		if(!$result_handler) {
-			$result = $stn;
-		} else {
-			$result = $result_handler( $stn );
+		if(!isset($this->statements[$q_hash])) {
+			$this->statements[$q_hash] = $this->pdo->prepare( $query );
 		}
 
-		Debug_Profiler::SQLQueryDone( count($result) );
+		$statement = $this->statements[$q_hash];
 
-		return $result;
+		$statement->execute( $query_params );
+
+		return $statement;
 	}
 
 
 	/**
-	 *
 	 * @param string $query
-	 * @param array $query_data
+	 * @param array $query_params
+	 * @param ?callable $result_handler
 	 *
-	 * @return string
+	 * @return iterable
 	 */
-	public function prepareQuery( string $query, array $query_data = [] ): string
+	public function query( string $query, array $query_params = [], ?callable $result_handler=null ): iterable
 	{
 
-		if( !$query_data ) {
-			return $query;
+		Debug_Profiler::SQLQueryStart( $query, $query_params );
+
+		$statement = $this->_q($query, $query_params);
+
+
+		if(!$result_handler) {
+			$result = $statement;
+		} else {
+			$result = $result_handler( $statement );
 		}
 
+		Debug_Profiler::SQLQueryDone( $statement->rowCount() );
 
-		$replacements = [];
-
-		foreach( $query_data as $key => $value ) {
-
-			if( $value === null ) {
-				$value = 'NULL';
-			} else if( is_bool( $value ) ) {
-				$value = $value ? 1 : 0;
-			} else {
-				/** @noinspection PhpStatementHasEmptyBodyInspection */
-				if( is_int( $value ) || is_float( $value ) ) {
-
-				} else {
-					$value = $this->quoteString( (string)$value );
-				}
-			}
-
-			$replacements[':' . $key] = $value;
-		}
-
-		krsort( $replacements, SORT_STRING );
-
-		return str_replace(
-			array_keys( $replacements ), array_values( $replacements ), $query
-		);
-
+		return $result;
 	}
 
 
@@ -141,29 +115,13 @@ class Db_Backend_PDO implements Db_Backend_Interface
 	{
 		Debug_Profiler::SQLQueryStart( $query, $query_data );
 
-		$statement = $this->pdo->prepare( $query );
+		$statement = $this->_q($query, $query_data);
 
-		foreach( $query_data as $k => $v ) {
-			$type = PDO::PARAM_STR;
-			$len = null;
+		$count = $statement->rowCount();
 
-			if( is_int( $v ) ) {
-				$type = PDO::PARAM_INT;
-			} else if( is_null( $v ) ) {
-				$type = PDO::PARAM_NULL;
-			} else if( is_string( $v ) ) {
-				$len = strlen( $v );
-			}
+		Debug_Profiler::SQLQueryDone( $count );
 
-			$statement->bindParam( $k, $query_data[$k], $type, $len );
-
-		}
-
-		$res = $statement->execute();
-
-		Debug_Profiler::SQLQueryDone( $res );
-
-		return $res;
+		return $count;
 	}
 
 
@@ -343,15 +301,6 @@ class Db_Backend_PDO implements Db_Backend_Interface
 	public function disconnect(): void
 	{
 		$this->pdo = null;
-	}
-
-	/**
-	 * @param string $string
-	 * @return string
-	 */
-	public function quoteString( string $string ): string
-	{
-		return $this->pdo->quote( $string );
 	}
 
 	public function beginTransaction(): bool

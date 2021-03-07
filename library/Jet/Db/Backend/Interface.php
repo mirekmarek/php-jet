@@ -36,15 +36,6 @@ interface Db_Backend_Interface
 	public function getConfig(): Db_Backend_Config;
 
 	/**
-	 *
-	 * @param string $query
-	 * @param array $query_data
-	 *
-	 * @return string
-	 */
-	public function prepareQuery( string $query, array $query_data = [] ): string;
-
-	/**
 	 * Executes command (INSERT, UPDATE, DELETE or CREATE, ...) and return affected rows
 	 *
 	 * @param string $query
@@ -56,12 +47,12 @@ interface Db_Backend_Interface
 
 	/**
 	 * @param string $query
-	 * @param array $query_data
+	 * @param array $query_params
 	 * @param ?callable $result_handler
 	 *
 	 * @return iterable
 	 */
-	public function query( string $query, array $query_data = [], ?callable $result_handler=null ): iterable;
+	public function query( string $query, array $query_params = [], ?callable $result_handler=null ): iterable;
 
 
 	/**
@@ -142,13 +133,6 @@ interface Db_Backend_Interface
 	 * @return bool
 	 */
 	public function inTransaction() : bool;
-
-	/**
-	 * @param string $string
-	 *
-	 * @return string
-	 */
-	public function quoteString( string $string ): string;
 
 	/**
 	 * @param string|null $name
