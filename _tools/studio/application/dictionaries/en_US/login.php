@@ -1,9 +1,9 @@
 <?php
 return [
-	'Sign In' => '',
+	'Sign In'               => '',
 	'Please enter username' => '',
 	'Please enter password' => '',
-	'username' => '',
-	'password' => '',
-	'Logout' => '',
+	'username'              => '',
+	'password'              => '',
+	'Logout'                => '',
 ];

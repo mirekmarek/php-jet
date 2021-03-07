@@ -114,4 +114,7 @@ return [
 	'System' => '',
 	'Delete this page?' => '',
 	'Do you really want to delete this page?' => '',
+	'asdfdsafdas' => '',
+	's fdas fsd' => '',
+	'Menu item <strong>%item%</strong> has been created' => '',
 ];
