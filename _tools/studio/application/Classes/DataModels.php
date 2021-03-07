@@ -296,7 +296,7 @@ class DataModels extends BaseObject implements Application_Part
 			}
 		}
 
-		return static::$current_property;
+		return static::$current_property ? : null;
 	}
 
 	/**
