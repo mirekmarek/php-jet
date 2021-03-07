@@ -1,32 +1,40 @@
 <?php
+
 use Jet\Mvc_View;
 use Jet\Form_Renderer;
 
 /**
- * @var Mvc_View      $this
+ * @var Mvc_View $this
  * @var Form_Renderer $r
  */
 $r = $this->getRaw( 'element' );
 
-if(!$r->getBaseCssClasses()) {
-	$r->setBaseCssClass('checkbox');
+if( !$r->getBaseCssClasses() ) {
+	$r->setBaseCssClass( 'checkbox' );
 }
 
 $field = $r->getField();
-if($field->getLastErrorCode()) {
-	$r->addCustomCssClass('is-invalid');
+if( $field->getLastErrorCode() ) {
+	$r->addCustomCssClass( 'is-invalid' );
+}
+
+$attrs = [
+	'type' => 'checkbox',
+	'name' => $field->getTagNameValue(),
+	'id' => $field->getId(),
+	'value' => 1
+];
+
+if($field->getIsReadonly()) {
+	$attrs['disabled'] = 'disabled';
+}
+
+if($field->getValue()) {
+	$attrs['checked'] = 'checked';
 }
 ?>
-	<div class="<?=$r->getCssClasses()?>">
-		<input type="checkbox" name="<?=$field->getTagNameValue()?>" id="<?=$field->getId()?>" value="1" <?php
+<div class="<?= $r->getCssClasses() ?>">
+	<input <?=$r->renderAttributes($attrs)?>/>
 
-		if( $r->getCssStyles() ) echo ' style ="'.$r->getCssStyles().'"';
-		if( $r->getJsActions() ) echo $r->getJsActions();
-
-		if( $field->getIsReadonly() ) echo ' disabled="disabled"';
-		if( $field->getValue() ) echo ' checked="checked"';
-
-		?>/>
-
-		<label class="form-check-label" for="<?=$field->getId()?>"><?=$r->getField()->getLabel()?></label>
-	</div>
+	<label class="form-check-label" for="<?= $field->getId() ?>"><?= $r->getField()->getLabel() ?></label>
+</div>
