@@ -44,8 +44,7 @@ return [
 	'Do you really want to delete this menu item?' => '',
 	'Menu set <strong>%set%</strong> has been created' => '',
 	'Menu <strong>%menu%</strong> has been created' => '',
-	'asdfdsafdas' => '',
 	'Menu item <strong>%item%</strong> has been created' => '',
-	's fdas fsd' => '',
 	'Menu item <b>%name%</b> has been deleted' => '',
+	'Items:' => '',
 ];
