@@ -8,6 +8,7 @@
 
 namespace JetStudio;
 
+use Jet\Autoloader;
 use Jet\BaseObject;
 use Jet\Form_Field_Input;
 use Jet\Http_Request;
@@ -586,17 +587,7 @@ class DataModels extends BaseObject implements Application_Part
 	 */
 	public static function generateScriptPath( string $namespace, string $class_name ): string
 	{
-		if( !isset( static::getNamespaces()[$namespace] ) ) {
-			return '';
-		}
-
-		$namespace = static::getNamespaces()[$namespace];
-
-		$class_name = str_replace( '__', '_', $class_name );
-		$class_name = str_replace( '\\', DIRECTORY_SEPARATOR, $class_name );
-		$class_name = str_replace( '_', DIRECTORY_SEPARATOR, $class_name );
-
-		return $namespace->getRootDir() . $class_name . '.php';
+		return Autoloader::getScriptPath($namespace.'\\'.$class_name);
 	}
 
 

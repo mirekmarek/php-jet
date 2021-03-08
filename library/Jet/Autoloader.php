@@ -64,6 +64,30 @@ class Autoloader
 	}
 
 	/**
+	 * @param string $class_name
+	 * @param ?string $loader_name
+	 *
+	 * @return string|bool
+	 */
+	public static function getScriptPath( string $class_name, ?string &$loader_name='' ) : string|bool
+	{
+		$path = false;
+		$root_namespace = strstr( $class_name, '\\', true );
+		$namespace = substr( $class_name, 0, strrpos( $class_name, '\\' ) );
+		$_class_name = substr( $class_name, strlen( $namespace ) + 1 );
+		$loader_name = '';
+
+		foreach( static::$loaders as $loader_name => $loader ) {
+			$path = $loader->getScriptPath( $root_namespace, $namespace, $_class_name );
+			if( $path ) {
+				break;
+			}
+		}
+
+		return $path;
+	}
+
+	/**
 	 *
 	 * @param string $class_name
 	 *
@@ -95,18 +119,7 @@ class Autoloader
 		}
 
 
-		$path = false;
-		$root_namespace = strstr( $class_name, '\\', true );
-		$namespace = substr( $class_name, 0, strrpos( $class_name, '\\' ) );
-		$_class_name = substr( $class_name, strlen( $namespace ) + 1 );
-		$loader_name = '';
-
-		foreach( static::$loaders as $loader_name => $loader ) {
-			$path = $loader->getScriptPath( $root_namespace, $namespace, $_class_name );
-			if( $path ) {
-				break;
-			}
-		}
+		$path = static::getScriptPath( $class_name, $loader_name );
 
 
 		if( !$path ) {
