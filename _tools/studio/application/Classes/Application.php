@@ -163,9 +163,7 @@ class Application extends Jet_Application
 	 */
 	public static function getGeneralView(): Mvc_View
 	{
-		$view = new Mvc_View( SysConf_Path::getBase() . 'views/' );
-
-		return $view;
+		return new Mvc_View( SysConf_Path::getBase() . 'views/' );
 	}
 
 	/**
@@ -178,9 +176,7 @@ class Application extends Jet_Application
 		if( !$part ) {
 			$part = static::getCurrentPart();
 		}
-		$view = new Mvc_View( SysConf_Path::getApplication() . 'Parts/' . $part . '/views/' );
-
-		return $view;
+		return new Mvc_View( SysConf_Path::getApplication() . 'Parts/' . $part . '/views/' );
 	}
 
 	/**

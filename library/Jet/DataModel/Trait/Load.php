@@ -290,13 +290,11 @@ trait DataModel_Trait_Load
 		}
 
 
-		$_this = static::initByData(
+		return static::initByData(
 			$this_data,
 			$related_data
 		);
 
-
-		return $_this;
 	}
 
 	/**

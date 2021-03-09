@@ -31,9 +31,7 @@ class Config_Definition extends BaseObject
 	 */
 	public static function getMainConfigDefinition( string $class_name ): Config_Definition_Config
 	{
-		$definition = new Config_Definition_Config( $class_name );
-
-		return $definition;
+		return new Config_Definition_Config( $class_name );
 	}
 
 
@@ -44,8 +42,6 @@ class Config_Definition extends BaseObject
 	 */
 	public static function getSectionConfigDefinition( string $class_name ): Config_Definition_Config_Section
 	{
-		$definition = new Config_Definition_Config_Section( $class_name );
-
-		return $definition;
+		return new Config_Definition_Config_Section( $class_name );
 	}
 }

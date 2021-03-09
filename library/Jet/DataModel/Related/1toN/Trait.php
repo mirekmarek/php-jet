@@ -152,9 +152,7 @@ trait DataModel_Related_1toN_Trait
 
 		$iterator_class = $data_model_definition->getIteratorClassName();
 
-		$i = new $iterator_class( $data_model_definition );
-
-		return $i;
+		return new $iterator_class( $data_model_definition );
 	}
 
 	/**

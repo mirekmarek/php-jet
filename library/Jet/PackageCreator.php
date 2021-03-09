@@ -102,10 +102,7 @@ abstract class PackageCreator extends BaseObject
 
 		$_URI = $this->normalizePath( $URI );
 
-		$content = IO_File::read( $_URI );
-
-
-		return $content;
+		return IO_File::read( $_URI );
 	}
 
 	/**

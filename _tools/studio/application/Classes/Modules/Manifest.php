@@ -558,7 +558,7 @@ class Modules_Manifest extends Application_Module_Manifest
 	{
 		$site = Sites::getSite( $site_id );
 
-		$id = Project::generateIdentifier( $name, function( $id ) use ( $site ) {
+		return Project::generateIdentifier( $name, function( $id ) use ( $site ) {
 
 			foreach( $site->getLocales() as $locale ) {
 				if( Pages::exists( $id, $locale, $site->getId() ) ) {
@@ -568,8 +568,6 @@ class Modules_Manifest extends Application_Module_Manifest
 
 			return false;
 		} );
-
-		return $id;
 	}
 
 	/**

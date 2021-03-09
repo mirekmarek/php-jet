@@ -973,7 +973,7 @@ trait DataModel_Definition_Model_Trait
 		} );
 
 
-		$fields = [
+		return [
 			'type'                => $type,
 			'namespace'           => $namespace,
 			'class_name'          => $class_name,
@@ -983,7 +983,6 @@ trait DataModel_Definition_Model_Trait
 			'id_property_name'    => $id_property_name
 		];
 
-		return $fields;
 	}
 
 	/**

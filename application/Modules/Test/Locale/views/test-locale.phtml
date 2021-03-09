@@ -129,51 +129,50 @@ $now = Data_DateTime::now();
 
 <legend><?= Tr::_( 'Locales' ) ?></legend>
 
-<table>
-	<table class="table table-striped">
-		<thead>
+
+<table class="table table-striped">
+	<thead>
+	<tr>
+		<th rowspan="2"></th>
+
+		<th rowspan="2"><?= Tr::_( 'Locale code' ) ?></th>
+		<th rowspan="2"><?= Tr::_( 'Name' ) ?></th>
+		<th rowspan="2"><?= Tr::_( 'Native name' ) ?></th>
+		<th colspan="3"><?= Tr::_( 'Region' ) ?></th>
+		<th colspan="3"><?= Tr::_( 'Language' ) ?></th>
+	</tr>
+	<tr>
+		<th><?= Tr::_( 'Code' ) ?></th>
+		<th><?= Tr::_( 'Name' ) ?></th>
+		<th><?= Tr::_( 'Native name' ) ?></th>
+		<th><?= Tr::_( 'Code' ) ?></th>
+		<th><?= Tr::_( 'Name' ) ?></th>
+		<th><?= Tr::_( 'Native name' ) ?></th>
+	</tr>
+	</thead>
+	<tbody>
+	<?php
+	$current_locale = Locale::getCurrentLocale();
+	foreach( Locale::getAllLocalesList() as $l => $name ):
+		$l = new Locale( $l );
+		?>
 		<tr>
-			<th rowspan="2"></th>
+			<td><?= UI::flag( $l ) ?></td>
 
-			<th rowspan="2"><?= Tr::_( 'Locale code' ) ?></th>
-			<th rowspan="2"><?= Tr::_( 'Name' ) ?></th>
-			<th rowspan="2"><?= Tr::_( 'Native name' ) ?></th>
-			<th colspan="3"><?= Tr::_( 'Region' ) ?></th>
-			<th colspan="3"><?= Tr::_( 'Language' ) ?></th>
+			<td><?= $l ?></td>
+			<td><?= $l->getName( $current_locale ) ?></td>
+			<td><?= $l->getName( $l ) ?></td>
+
+			<td><?= $l->getRegion() ?></td>
+			<td><?= $l->getRegionName( $current_locale ) ?></td>
+			<td><?= $l->getRegionName( $l ) ?></td>
+
+			<td><?= $l->getLanguage() ?></td>
+			<td><?= $l->getLanguageName( $current_locale ) ?></td>
+			<td><?= $l->getLanguageName( $l ) ?></td>
+
 		</tr>
-		<tr>
-			<th><?= Tr::_( 'Code' ) ?></th>
-			<th><?= Tr::_( 'Name' ) ?></th>
-			<th><?= Tr::_( 'Native name' ) ?></th>
-			<th><?= Tr::_( 'Code' ) ?></th>
-			<th><?= Tr::_( 'Name' ) ?></th>
-			<th><?= Tr::_( 'Native name' ) ?></th>
-		</tr>
-		</thead>
-		<tbody>
-		<?php
-		$current_locale = Locale::getCurrentLocale();
-		foreach( Locale::getAllLocalesList() as $l => $name ):
-			$l = new Locale( $l );
-			?>
-			<tr>
-				<td><?= UI::flag( $l ) ?></td>
-
-				<td><?= $l ?></td>
-				<td><?= $l->getName( $current_locale ) ?></td>
-				<td><?= $l->getName( $l ) ?></td>
-
-				<td><?= $l->getRegion() ?></td>
-				<td><?= $l->getRegionName( $current_locale ) ?></td>
-				<td><?= $l->getRegionName( $l ) ?></td>
-
-				<td><?= $l->getLanguage() ?></td>
-				<td><?= $l->getLanguageName( $current_locale ) ?></td>
-				<td><?= $l->getLanguageName( $l ) ?></td>
-
-			</tr>
-		<?php endforeach; ?>
-		</tbody>
-	</table>
-
+	<?php endforeach; ?>
+	</tbody>
 </table>
+

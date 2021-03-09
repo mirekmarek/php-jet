@@ -89,11 +89,10 @@ class DataModel_Definition_Relation_External extends Jet_DataModel_Definition_Re
 			Form_Field_Select::ERROR_CODE_INVALID_VALUE => 'Please select related model'
 		] );
 
-		$form = new Form( 'add_relation_select_related_model_form', [
+		return new Form( 'add_relation_select_related_model_form', [
 			$select_field
 		] );
 
-		return $form;
 	}
 
 	/**

@@ -238,8 +238,7 @@ class Gallery_Image_Thumbnail extends BaseObject implements BaseObject_Interface
 	 */
 	public function jsonSerialize(): array
 	{
-
-		$data = [
+		return [
 			'maximal_size_w' => $this->maximal_size_w,
 			'maximal_size_h' => $this->maximal_size_h,
 			'real_size_w'    => $this->getRealImage()->getWidth(),
@@ -247,8 +246,6 @@ class Gallery_Image_Thumbnail extends BaseObject implements BaseObject_Interface
 			'file_size'      => IO_File::getSize( $this->getPath() ),
 			'URL'            => Http_Request::baseURL() . $this->getURI()
 		];
-
-		return $data;
 	}
 
 	/**

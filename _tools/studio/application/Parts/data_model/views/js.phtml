@@ -74,7 +74,7 @@ namespace JetStudio;
 					if (values.length) {
 						values = values.split('|');
 					} else {
-						values = new Array();
+						values = [];
 					}
 
 					values.push('+' + id);
@@ -95,7 +95,7 @@ namespace JetStudio;
 
 					let val = '';
 					let e_id = '';
-					let new_values = new Array();
+					let new_values = [];
 
 					for (let i = 0; i < values.length; i++) {
 						val = values[i];
@@ -122,7 +122,7 @@ namespace JetStudio;
 					let val = '';
 					let e_id = '';
 					let o_sort = '';
-					let new_values = new Array();
+					let new_values = [];
 
 					for (let i = 0; i < values.length; i++) {
 						val = values[i];
@@ -195,7 +195,7 @@ namespace JetStudio;
 						handle: 'i.property-option-move',
 						stop: function () {
 
-							let new_values = new Array();
+							let new_values = [];
 
 							selected_area.find('.order_by_options_item_selected').each(function (i, item) {
 								let id = $(item).data('id');

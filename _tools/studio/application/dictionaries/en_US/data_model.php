@@ -170,4 +170,8 @@ return [
 	'Please select N model'                                                                        => '',
 	'Relation %name% property name:'                                                               => '',
 	'Invalid property name format'                                                                 => '',
+	'Database table <b>%table%</b> has been created'                                               => '',
+	'Upsss .... '                                                                                  => '',
+	'I am sorry, but there are some troubles ...'                                                  => '',
+	'Class <strong>%class%</strong> has been created'                                              => '',
 ];

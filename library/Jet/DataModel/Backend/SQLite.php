@@ -790,7 +790,7 @@ class DataModel_Backend_SQLite extends DataModel_Backend
 
 			$r_table_name = $this->_getTableName( $relation->getRelatedDataModelDefinition() );
 
-
+			/** @noinspection PhpSwitchCanBeReplacedWithMatchExpressionInspection */
 			switch( $relation->getJoinType() ) {
 				case DataModel_Query::JOIN_TYPE_LEFT_JOIN:
 					$join_qp .= PHP_EOL . "\t\t" . 'JOIN ' . $r_table_name . ' ON' . PHP_EOL;

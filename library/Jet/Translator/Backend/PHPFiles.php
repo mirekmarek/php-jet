@@ -88,12 +88,10 @@ class Translator_Backend_PHPFiles extends Translator_Backend
 	 */
 	protected function _getFilePath( string $namespace, Locale $locale ): string
 	{
-
 		$namespace = str_replace( '/', '.', $namespace );
 
-		$file = $this->getDictionariesBasePath() . $locale . '/' . $namespace . '.php';
+		return $this->getDictionariesBasePath() . $locale . '/' . $namespace . '.php';
 
-		return $file;
 	}
 
 	/**

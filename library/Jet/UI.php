@@ -50,9 +50,7 @@ class UI
 	 */
 	public static function getView(): Mvc_View
 	{
-		$view = Mvc_Factory::getViewInstance( static::getViewsDir() );
-
-		return $view;
+		return Mvc_Factory::getViewInstance( static::getViewsDir() );
 	}
 
 

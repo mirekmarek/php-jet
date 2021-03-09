@@ -100,15 +100,13 @@ class Main extends Application_Module
 		);
 
 
-		$form = new Form(
+		return new Form(
 			'change_password', [
 				$current_password,
 				$new_password,
 			]
 		);
 
-
-		return $form;
 	}
 
 	/**

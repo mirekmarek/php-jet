@@ -108,15 +108,12 @@ class Menus_Menu extends Navigation_Menu
 			return false;
 		}
 
-		$menu_item = new Menus_Menu(
+		return new Menus_Menu(
 			$form->field( 'id' )->getValue(),
 			$form->field( 'label' )->getValue(),
 			$form->field( 'index' )->getValue(),
 			$form->field( 'icon' )->getValue()
 		);
-
-
-		return $menu_item;
 	}
 
 

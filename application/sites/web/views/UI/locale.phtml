@@ -13,5 +13,4 @@ $f = $this->getRaw( 'element' );
 $title = $f->getLocale()->getRegionName() . ' - ' . $f->getLocale()->getLanguageName();
 $region = strtolower( $f->getLocale()->getRegion() );
 ?>
-	<span class="flag flag-<?= $region ?>" title="<?= $title ?>"
-	      alt="<?= $title ?>" <?= $f->getJsActions() ?>></span> <?= $f->getLocale()->getLanguageName() ?>
+<span class="flag flag-<?= $region ?>" title="<?= $title ?>" <?= $f->getJsActions() ?>></span> <?= $f->getLocale()->getLanguageName() ?>

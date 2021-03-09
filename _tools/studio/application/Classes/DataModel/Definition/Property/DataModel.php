@@ -153,9 +153,7 @@ class DataModel_Definition_Property_DataModel extends Jet_DataModel_Definition_P
 		}
 
 
-		$property = $this->createClassProperty_main( $class, $property_type, 'DataModel::TYPE_DATA_MODEL', $attributes );
-
-		return $property;
+		return $this->createClassProperty_main( $class, $property_type, 'DataModel::TYPE_DATA_MODEL', $attributes );
 	}
 
 	/**

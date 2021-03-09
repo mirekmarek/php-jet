@@ -63,9 +63,7 @@ class Pages_Page_Content extends Mvc_Page_Content
 	 */
 	public static function getField__is_cacheable( bool $default_value ): Form_Field_Checkbox
 	{
-		$is_cacheable = new Form_Field_Checkbox( 'is_cacheable', 'Is cacheable', $default_value );
-
-		return $is_cacheable;
+		return new Form_Field_Checkbox( 'is_cacheable', 'Is cacheable', $default_value );
 	}
 
 
@@ -102,9 +100,8 @@ class Pages_Page_Content extends Mvc_Page_Content
 	 */
 	public static function getField__output_position_order( int $default_value ): Form_Field_Int
 	{
-		$output_position_order = new Form_Field_Int( 'output_position_order', 'Output position order:', $default_value );
+		return new Form_Field_Int( 'output_position_order', 'Output position order:', $default_value );
 
-		return $output_position_order;
 	}
 
 	/**

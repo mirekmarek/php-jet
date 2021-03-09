@@ -41,10 +41,7 @@ class Autoloader_ApplicationModules extends Autoloader_Loader
 		$module_path = Application_Modules::getModuleDir( $module_name );
 
 		$class_name = str_replace( '_', DIRECTORY_SEPARATOR, $class_name );
-		$path = $module_path . $class_name . '.php';
-
-
-		return $path;
+		return $module_path . $class_name . '.php';
 
 	}
 }

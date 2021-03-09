@@ -59,7 +59,7 @@ namespace JetStudio;
 
 					const selected_locales = locales_field.val().split(',');
 
-					let new_selected_locales = new Array();
+					let new_selected_locales = [];
 					for (let i = 0; i < selected_locales.length; i++) {
 
 						if (selected_locales[i] != locale) {
@@ -108,7 +108,7 @@ namespace JetStudio;
 				setTimeout(function () {
 					$('#locales_sort_area').sortable({
 						stop: function () {
-							const locales = new Array();
+							const locales = [];
 
 							$('#locales_sort_area').find('.locale-sort-item').each(function (i, item) {
 								const id = $(item).data('locale');

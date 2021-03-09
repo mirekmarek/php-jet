@@ -21,9 +21,7 @@ class Data_DateTime extends DateTime
 	 */
 	public static function now(): Data_DateTime
 	{
-		$date = new static( date( 'Y-m-d\TH:i:s' ) );
-
-		return $date;
+		return new static( date( 'Y-m-d\TH:i:s' ) );
 	}
 
 	/**

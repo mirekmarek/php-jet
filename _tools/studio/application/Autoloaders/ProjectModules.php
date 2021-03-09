@@ -38,8 +38,6 @@ class Autoloader_ProjectModules extends Autoloader_Loader
 		$module_path = str_replace( '\\', '/', $module_path );
 		$class_name = str_replace( '_', '/', $class_name );
 
-		$path = $module_path . $class_name . '.php';
-
-		return $path;
+		return $module_path . $class_name . '.php';
 	}
 }

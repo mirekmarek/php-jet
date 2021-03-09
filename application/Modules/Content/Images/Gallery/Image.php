@@ -383,9 +383,7 @@ class Gallery_Image extends DataModel
 		$maximal_size_w = (int)$maximal_size_w;
 		$maximal_size_h = (int)$maximal_size_h;
 
-		$thb = new Gallery_Image_Thumbnail( $this, $maximal_size_w, $maximal_size_h );
-
-		return $thb;
+		return new Gallery_Image_Thumbnail( $this, $maximal_size_w, $maximal_size_h );
 	}
 
 	/**

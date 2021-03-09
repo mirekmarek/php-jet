@@ -167,15 +167,13 @@ class Pages_Page extends Mvc_Page
 			return false;
 		}
 
-		$new_page = static::createPage(
+		return static::createPage(
 			Pages::getCurrentSiteId(),
 			Pages::getCurrentLocale(),
 			$form->field( 'id' )->getValue(),
 			$form->field( 'name' )->getValue(),
 			Pages::getCurrentPage()
 		);
-
-		return $new_page;
 	}
 
 

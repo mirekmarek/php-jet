@@ -146,7 +146,7 @@ class Article extends DataModel
 			];
 		}
 
-		$list = static::fetchInstances(
+		return static::fetchInstances(
 			$where,
 			[
 				'article.id',
@@ -155,7 +155,6 @@ class Article extends DataModel
 			]
 		);
 
-		return $list;
 	}
 
 	/**

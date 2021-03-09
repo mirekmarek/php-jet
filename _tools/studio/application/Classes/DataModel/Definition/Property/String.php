@@ -82,10 +82,7 @@ class DataModel_Definition_Property_String extends Jet_DataModel_Definition_Prop
 			];
 		}
 
-
-		$property = $this->createClassProperty_main( $class, 'string', 'DataModel::TYPE_STRING', $attributes );
-
-		return $property;
+		return $this->createClassProperty_main( $class, 'string', 'DataModel::TYPE_STRING', $attributes );
 	}
 
 	/**

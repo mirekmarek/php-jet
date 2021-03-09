@@ -90,13 +90,11 @@ class DataModels extends BaseObject implements Application_Part
 	 */
 	public static function load_getDirs(): array
 	{
-		$dirs = [
+		return [
 			ProjectConf_Path::getApplicationClasses(),
 			ProjectConf_Path::getApplicationModules()
 		];
 
-
-		return $dirs;
 	}
 
 

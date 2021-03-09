@@ -58,9 +58,7 @@ class ClassCreator_UseClass extends BaseObject
 		$class_name = array_pop( $_cn );
 		$namespace = implode( '\\', $_cn );
 
-		$i = new static( $namespace, $class_name );
-
-		return $i;
+		return new static( $namespace, $class_name );
 	}
 
 	/**

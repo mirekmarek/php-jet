@@ -52,9 +52,7 @@ class Wizard extends ModuleWizard
 
 		$this->generateSetupForm_mainFields( $fields );
 
-		$form = new Form( 'module_wizard_setup_form', $fields );
-
-		return $form;
+		return new Form( 'module_wizard_setup_form', $fields );
 	}
 
 }

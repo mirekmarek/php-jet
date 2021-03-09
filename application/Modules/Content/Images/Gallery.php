@@ -176,7 +176,7 @@ class Gallery extends DataModel
 	public static function resolveGalleryByURL( string $path, Locale|string $locale ): Gallery|null
 	{
 
-		$gallery = static::load(
+		return static::load(
 			[
 				'gallery_localized.URI_fragment' => $path,
 				'AND',
@@ -184,11 +184,6 @@ class Gallery extends DataModel
 			]
 		);
 
-
-		/**
-		 * @var Gallery $gallery
-		 */
-		return $gallery;
 	}
 
 	/**
@@ -201,7 +196,7 @@ class Gallery extends DataModel
 
 		$search = '%' . $search . '%';
 
-		$result = static::fetchInstances(
+		return static::fetchInstances(
 			[
 				'gallery_localized.title *' => $search,
 				'OR',
@@ -209,10 +204,6 @@ class Gallery extends DataModel
 			]
 		);
 
-		/**
-		 * @var Gallery[] $result
-		 */
-		return $result;
 	}
 
 
