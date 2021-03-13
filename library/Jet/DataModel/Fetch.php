@@ -210,11 +210,11 @@ abstract class DataModel_Fetch extends BaseObject implements BaseObject_Interfac
 	}
 
 	/**
-	 * @return DataModel
+	 * @return DataModel|DataModel_IDController
 	 * @see Iterator
 	 *
 	 */
-	public function current(): DataModel
+	public function current(): DataModel|DataModel_IDController
 	{
 		$this->_fetch();
 

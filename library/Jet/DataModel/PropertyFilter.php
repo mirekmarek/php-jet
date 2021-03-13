@@ -30,7 +30,7 @@ class DataModel_PropertyFilter extends BaseObject
 	{
 
 		foreach( $only_properties as $lp ) {
-			$property_name = null;
+			$property_names = [];
 
 			if( !str_contains( $lp, '.' ) ) {
 				$model_name = $model_definition->getModelName();
@@ -39,29 +39,47 @@ class DataModel_PropertyFilter extends BaseObject
 					throw new DataModel_Exception( 'Unknown property ' . $lp );
 				}
 
+				$property_names[] = $property_name;
 			} else {
 				[
 					$model_name,
 					$property_name
 				] = explode( '.', $lp );
+
 				if( $model_name != $model_definition->getModelName() ) {
 					$relation = $model_definition->getRelation( $model_name );
 
-					if( !$relation->getRelatedDataModelDefinition()->hasProperty( $property_name ) ) {
-						throw new DataModel_Exception( 'Unknown property ' . $lp );
+					if($property_name=='*') {
+						$property_names = array_keys($relation->getRelatedDataModelDefinition()->getProperties());;
+					} else {
+						if( !$relation->getRelatedDataModelDefinition()->hasProperty( $property_name ) ) {
+							throw new DataModel_Exception( 'Unknown property ' . $lp );
+						}
+
+						$property_names[] = $property_name;
 					}
 				} else {
-					if( !$model_definition->hasProperty( $property_name ) ) {
-						throw new DataModel_Exception( 'Unknown property ' . $lp );
+					if($property_name=='*') {
+						$property_names = array_keys($model_definition->getProperties());
+					} else {
+						if( !$model_definition->hasProperty( $property_name ) ) {
+							throw new DataModel_Exception( 'Unknown property ' . $lp );
+						}
+
+						$property_names[] = $property_name;
 					}
 				}
 			}
+
+
 
 			if( !isset( $this->only_properties[$model_name] ) ) {
 				$this->only_properties[$model_name] = [];
 			}
 
-			$this->only_properties[$model_name][] = $property_name;
+			foreach($property_names as $property_name) {
+				$this->only_properties[$model_name][] = $property_name;
+			}
 		}
 	}
 

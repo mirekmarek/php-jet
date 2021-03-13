@@ -466,7 +466,7 @@ class DataModel_Backend_MySQL extends DataModel_Backend
 				$_new_cols[] = $c . '=' . $v;
 			}
 
-			$update_default_values = 'UPDATE ' . $updated_table_name . ' SET ' . implode( ', ', $_new_cols );
+			$update_default_values = 'UPDATE ' . $updated_table_name . ' SET ' . implode( ', ', $_new_cols ).';';
 		}
 
 

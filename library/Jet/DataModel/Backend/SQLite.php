@@ -372,7 +372,7 @@ class DataModel_Backend_SQLite extends DataModel_Backend
 			foreach( $new_cols as $c => $v ) {
 				$_new_cols[] = $c . '=' . $v;
 			}
-			$update_default_values = 'UPDATE ' . $updated_table_name . ' SET ' . implode( ',' . PHP_EOL, $_new_cols );
+			$update_default_values = 'UPDATE ' . $updated_table_name . ' SET ' . implode( ',' . PHP_EOL, $_new_cols ).';';
 		}
 
 
