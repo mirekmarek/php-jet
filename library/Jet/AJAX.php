@@ -22,7 +22,9 @@ class AJAX
 	 */
 	public static function response( mixed $response_data, array $http_headers = [], int $http_code = 200, string $http_message = 'OK' ): void
 	{
-		ob_end_clean();
+		if( ob_get_level() ) {
+			ob_end_clean();
+		}
 		Debug::setOutputIsJSON( true );
 
 		header( 'HTTP/1.1 ' . $http_code . ' ' . $http_message );
