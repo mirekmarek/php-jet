@@ -6,7 +6,7 @@ use Jet\Mvc_Page;
 
 ?>
 <div style="position: absolute;top:15px; right: 15px;">
-	<?php foreach( Mvc::getCurrentSite()->getLocales() as $locale ): ?>
+	<?php foreach( Mvc::getCurrentBase()->getLocales() as $locale ): ?>
 		<?php if( $locale->toString() == Mvc::getCurrentLocale()->toString() ): ?>
 			<?= UI::flag( $locale ) ?>
 		<?php else:

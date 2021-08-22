@@ -1,6 +1,6 @@
 <?php
 return [
-	'Please select site and locale'                    => '',
+	'Please select base and locale'                    => '',
 	'Please enter page name'                           => '',
 	'Invalid page identifier format'                   => '',
 	'Name:'                                            => '',

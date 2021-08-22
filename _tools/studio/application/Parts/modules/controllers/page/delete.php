@@ -12,11 +12,11 @@ $page = Modules::getCurrentPage();
 
 if( $page ) {
 
-	$module->deletePage( $page->getSiteId(), $page->getId() );
+	$module->deletePage( $page->getBaseId(), $page->getId() );
 
 	if( $module->save() ) {
-		UI_messages::info( Tr::_( 'Page <b>%site% : %page%</b> has been deleted', [
-			'site' => $page->getSite()->getName(),
+		UI_messages::info( Tr::_( 'Page <b>%base% : %page%</b> has been deleted', [
+			'base' => $page->getBase()->getName(),
 			'page' => $page->getName()
 		] ) );
 

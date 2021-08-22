@@ -61,7 +61,7 @@ echo $form->field( 'is_cacheable' );
 
 	<?php
 
-$tabs_suffix = '_' . $page->getSiteId() . '_' . $page->getId();
+$tabs_suffix = '_' . $page->getBaseId() . '_' . $page->getId();
 
 $form_id = $form->getId();
 ?>

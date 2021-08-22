@@ -47,7 +47,7 @@ $form->setDefaultFieldWidth( [Form::LJ_SIZE_MEDIUM => 9] );
 
 		<?= $form->field( 'date_time' ) ?>
 
-		<?php foreach( Application_Web::getSite()->getLocales() as $locale ):
+		<?php foreach( Application_Web::getBase()->getLocales() as $locale ):
 
 			$form->field( '/localized/' . $locale . '/text' )->input()->addCustomCssStyle( 'height:400px' );
 			?>

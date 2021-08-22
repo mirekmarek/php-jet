@@ -68,7 +68,7 @@ class Navigation_Menu_Item extends BaseObject
 	/**
 	 * @var string
 	 */
-	protected string $site_id = '';
+	protected string $base_id = '';
 
 	/**
 	 * @var string
@@ -300,17 +300,17 @@ class Navigation_Menu_Item extends BaseObject
 	/**
 	 * @return string
 	 */
-	public function getSiteId(): string
+	public function getBaseId(): string
 	{
-		return $this->site_id;
+		return $this->base_id;
 	}
 
 	/**
-	 * @param string $site_id
+	 * @param string $base_id
 	 */
-	public function setSiteId( string $site_id ): void
+	public function setBaseId( string $base_id ): void
 	{
-		$this->site_id = $site_id;
+		$this->base_id = $base_id;
 	}
 
 	/**
@@ -415,7 +415,7 @@ class Navigation_Menu_Item extends BaseObject
 		 */
 		$page_class = Mvc_Factory::getPageClassName();
 
-		return $page_class::get( $this->page_id, $this->locale, $this->site_id );
+		return $page_class::get( $this->page_id, $this->locale, $this->base_id );
 	}
 
 }

@@ -70,17 +70,17 @@ class Application extends BaseObject
 			return;
 		}
 
-		$site = Mvc::getCurrentSite();
+		$base = Mvc::getCurrentBase();
 		$locale = Mvc::getCurrentLocale();
 		$page = Mvc::getCurrentPage();
 
 
-		if( !$site->getIsActive() ) {
+		if( !$base->getIsActive() ) {
 			ErrorPages::handleServiceUnavailable( false );
 			return;
 		}
 
-		if( !$site->getLocalizedData( $locale )->getIsActive() ) {
+		if( !$base->getLocalizedData( $locale )->getIsActive() ) {
 			ErrorPages::handleNotFound( false );
 			return;
 		}

@@ -14,61 +14,61 @@ namespace Jet;
 interface Mvc_Page_Interface
 {
 	/**
-	 * @param Mvc_Site_Interface $site
+	 * @param Mvc_Base_Interface $base
 	 * @param Locale $locale
 	 *
 	 * @return array
 	 */
-	public static function getRelativePathMap( Mvc_Site_Interface $site, Locale $locale ): array;
+	public static function getRelativePathMap( Mvc_Base_Interface $base, Locale $locale ): array;
 
 
 	/**
-	 * @param Mvc_Site_Interface $site
+	 * @param Mvc_Base_Interface $base
 	 * @param Locale $locale
 	 * @param array $data
 	 *
 	 * @return static
 	 */
-	public static function createByData( Mvc_Site_Interface $site, Locale $locale, array $data ): static;
+	public static function createByData( Mvc_Base_Interface $base, Locale $locale, array $data ): static;
 
 	/**
 	 *
 	 * @param string|null $page_id (optional, null = current)
 	 * @param string|Locale|null $locale (optional, null = current)
-	 * @param string|null $site_id (optional, null = current)
+	 * @param string|null $base_id (optional, null = current)
 	 *
 	 * @return static|null
 	 */
-	public static function get( string|null $page_id, string|Locale|null $locale = null, string|null $site_id = null ): static|null;
+	public static function get( string|null $page_id, string|Locale|null $locale = null, string|null $base_id = null ): static|null;
 
 	/**
 	 *
-	 * @param string $site_id
+	 * @param string $base_id
 	 * @param Locale $locale
 	 *
 	 * @return static[]
 	 */
-	public static function getList( string $site_id, Locale $locale ): array;
+	public static function getList( string $base_id, Locale $locale ): array;
 
 	/**
 	 * @return string
 	 */
-	public function getSiteId(): string;
+	public function getBaseId(): string;
 
 	/**
-	 * @param string $site_id
+	 * @param string $base_id
 	 */
-	public function setSiteId( string $site_id ): void;
+	public function setBaseId( string $base_id ): void;
 
 	/**
-	 * @param Mvc_Site_Interface $site
+	 * @param Mvc_Base_Interface $base
 	 */
-	public function setSite( Mvc_Site_Interface $site ): void;
+	public function setBase( Mvc_Base_Interface $base ): void;
 
 	/**
-	 * @return Mvc_Site_Interface
+	 * @return Mvc_Base_Interface
 	 */
-	public function getSite(): Mvc_Site_Interface;
+	public function getBase(): Mvc_Base_Interface;
 
 	/**
 	 * @param Locale $locale

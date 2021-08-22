@@ -37,7 +37,7 @@ namespace Jet;
  * ]
  *
  *          Warning!
- *          This kind of relation has no affect on saving or deleting object (like DataModel_Related_* models has).
+ *          This kind of relation has no effect on saving or deleting object (like DataModel_Related_* models has).
  *
  * Composite keys definition:
  * #[DataModel_Definition(key: ['key_name', ['property_name', 'next_property_name'], DataModel::KEY_TYPE_*]

@@ -32,7 +32,7 @@ class UI
 	public static function getViewsDir(): string
 	{
 		if( !static::$views_dir ) {
-			static::$views_dir = Mvc::getCurrentSite()->getViewsPath() . 'UI/';
+			static::$views_dir = Mvc::getCurrentBase()->getViewsPath() . 'UI/';
 		}
 		return static::$views_dir;
 	}

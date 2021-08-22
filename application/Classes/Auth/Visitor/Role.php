@@ -23,9 +23,6 @@ use Jet\Mvc_Page_Interface;
 )]
 class Auth_Visitor_Role extends DataModel implements Auth_Role_Interface
 {
-	/**
-	 * Privilege to sites/page
-	 */
 	const PRIVILEGE_VISIT_PAGE = 'visit_page';
 
 
@@ -345,17 +342,17 @@ class Auth_Visitor_Role extends DataModel implements Auth_Role_Interface
 		$forest->setLabelKey( 'name' );
 
 
-		$site = Application_Web::getSite();
-		foreach( $site->getLocales() as $locale ) {
+		$base = Application_Web::getBase();
+		foreach( $base->getLocales() as $locale ) {
 
-			$homepage = $site->getHomepage( $locale );
+			$homepage = $base->getHomepage( $locale );
 
 			$tree = new Data_Tree();
 			$tree->setAdoptOrphans( true );
 
 			$tree->getRootNode()->setId( $homepage->getKey() );
 			$tree->getRootNode()->setLabel(
-				$homepage->getSite()->getName() . ' (' . $homepage->getLocale()->getName() . ')' . ' - ' . $homepage->getName()
+				$homepage->getBase()->getName() . ' (' . $homepage->getLocale()->getName() . ')' . ' - ' . $homepage->getName()
 			);
 
 			$pages = [];

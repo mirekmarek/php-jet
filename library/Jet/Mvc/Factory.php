@@ -23,15 +23,15 @@ class Mvc_Factory
 	/**
 	 * @var string
 	 */
-	protected static string $site_class_name = Mvc_Site::class;
+	protected static string $base_class_name = Mvc_Base::class;
 	/**
 	 * @var string
 	 */
-	protected static string $site_localized_class_name = Mvc_Site_LocalizedData::class;
+	protected static string $base_localized_class_name = Mvc_Base_LocalizedData::class;
 	/**
 	 * @var string
 	 */
-	protected static string $site_localized_meta_tag_class_name = Mvc_Site_LocalizedData_MetaTag::class;
+	protected static string $base_localized_meta_tag_class_name = Mvc_Base_LocalizedData_MetaTag::class;
 
 
 	/**
@@ -89,26 +89,26 @@ class Mvc_Factory
 	/**
 	 * @return string
 	 */
-	public static function getSiteClassName(): string
+	public static function getBaseClassName(): string
 	{
-		return static::$site_class_name;
+		return static::$base_class_name;
 	}
 
 	/**
-	 * @param string $site_class_name
+	 * @param string $base_class_name
 	 */
-	public static function setSiteClassName( string $site_class_name ): void
+	public static function setBaseClassName( string $base_class_name ): void
 	{
-		static::$site_class_name = $site_class_name;
+		static::$base_class_name = $base_class_name;
 	}
 
 	/**
 	 *
-	 * @return Mvc_Site_Interface
+	 * @return Mvc_Base_Interface
 	 */
-	public static function getSiteInstance(): Mvc_Site_Interface
+	public static function getBaseInstance(): Mvc_Base_Interface
 	{
-		$class_name = static::getSiteClassName();
+		$class_name = static::getBaseClassName();
 
 		return new $class_name();
 	}
@@ -199,28 +199,28 @@ class Mvc_Factory
 	/**
 	 * @return string
 	 */
-	public static function getSiteLocalizedClassName(): string
+	public static function getBaseLocalizedClassName(): string
 	{
-		return static::$site_localized_class_name;
+		return static::$base_localized_class_name;
 	}
 
 	/**
-	 * @param string $site_localized_class_name
+	 * @param string $base_localized_class_name
 	 */
-	public static function setSiteLocalizedClassName( string $site_localized_class_name ): void
+	public static function setBaseLocalizedClassName( string $base_localized_class_name ): void
 	{
-		static::$site_localized_class_name = $site_localized_class_name;
+		static::$base_localized_class_name = $base_localized_class_name;
 	}
 
 	/**
 	 *
 	 * @param Locale|null $locale
 	 *
-	 * @return Mvc_Site_LocalizedData_Interface
+	 * @return Mvc_Base_LocalizedData_Interface
 	 */
-	public static function getSiteLocalizedInstance( Locale|null $locale = null ): Mvc_Site_LocalizedData_Interface
+	public static function getBaseLocalizedInstance( Locale|null $locale = null ): Mvc_Base_LocalizedData_Interface
 	{
-		$class_name = static::getSiteLocalizedClassName();
+		$class_name = static::getBaseLocalizedClassName();
 
 		return new $class_name( $locale );
 	}
@@ -228,27 +228,27 @@ class Mvc_Factory
 	/**
 	 * @return string
 	 */
-	public static function getSiteLocalizedMetaTagClassName(): string
+	public static function getBaseLocalizedMetaTagClassName(): string
 	{
-		return static::$site_localized_meta_tag_class_name;
+		return static::$base_localized_meta_tag_class_name;
 	}
 
 	/**
-	 * @param string $site_localized_meta_tag_class_name
+	 * @param string $base_localized_meta_tag_class_name
 	 */
-	public static function setSiteLocalizedMetaTagClassName( string $site_localized_meta_tag_class_name ): void
+	public static function setBaseLocalizedMetaTagClassName( string $base_localized_meta_tag_class_name ): void
 	{
-		static::$site_localized_meta_tag_class_name = $site_localized_meta_tag_class_name;
+		static::$base_localized_meta_tag_class_name = $base_localized_meta_tag_class_name;
 	}
 
 	/**
 	 *
 	 *
-	 * @return Mvc_Site_LocalizedData_MetaTag_Interface
+	 * @return Mvc_Base_LocalizedData_MetaTag_Interface
 	 */
-	public static function getSiteLocalizedMetaTagInstance(): Mvc_Site_LocalizedData_MetaTag_Interface
+	public static function getBaseLocalizedMetaTagInstance(): Mvc_Base_LocalizedData_MetaTag_Interface
 	{
-		$class_name = static::getSiteLocalizedMetaTagClassName();
+		$class_name = static::getBaseLocalizedMetaTagClassName();
 
 		return new $class_name();
 	}

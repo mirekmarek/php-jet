@@ -27,10 +27,10 @@ trait Mvc_Page_Trait_URL
 		 * @var Mvc_Page|Mvc_Page_Trait_URL $this
 		 */
 
-		$site = $this->getSite();
+		$base = $this->getBase();
 
 
-		$URL = $site->getLocalizedData( $this->locale )->getDefaultURL() . $this->relative_path;
+		$URL = $base->getLocalizedData( $this->locale )->getDefaultURL() . $this->relative_path;
 
 		if( $schema === false ) {
 			$URL = strchr( $URL, '/' );

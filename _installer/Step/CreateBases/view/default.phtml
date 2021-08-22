@@ -1,0 +1,55 @@
+<?php
+namespace JetApplication\Installer;
+
+use Jet\Mvc_View;
+use Jet\Mvc_Base;
+use Jet\Form;
+use Jet\UI;
+use Jet\Tr;
+
+use JetApplication\Application_Admin;
+use JetApplication\Application_Web;
+use JetApplication\Application_REST;
+
+/**
+ * @var Mvc_View $this
+ * @var Mvc_Base[] $bases
+ * @var Form $main_form
+ */
+
+$main_form = $this->getRaw( 'main_form' );
+
+$main_form->setDefaultLabelWidth( [Form::LJ_SIZE_MEDIUM => 2] );
+
+$bases = $this->getRaw( 'bases' );
+?>
+
+<?= $main_form->start() ?>
+<?= $main_form->message() ?>
+<?php foreach( $bases as $base ): ?>
+		<h3><?=$base->getLocalizedData($base->getDefaultLocale())->getTitle()?></h3>
+
+		<?php foreach( $base->getLocales() as $locale ):
+			$field = $main_form->field( '/' . $base->getId() . '/' . $locale . '/URL' );
+			?>
+
+
+			<?= $field->error() ?>
+			<div style="margin-bottom: 25px" class="input-group">
+				<span class="input-group-prepend">
+					<span class="input-group-text"style="display: inline-block;width: 150px"> <?= UI::locale( $locale ); ?></span>
+					<span class="input-group-text"> http://</span>
+				</span>
+				<?= $field->input() ?>
+				<div class="input-group-append"><span class="input-group-text"></span></div>
+			</div>
+
+		<?php endforeach; ?>
+
+	<br/><br/>
+<?php endforeach; ?>
+
+<?= Installer::buttonNext() ?>
+
+<?= $main_form->end() ?>
+

@@ -62,11 +62,11 @@ use Jet\UI;
 						<span class="caret"></span>
 					</a>
 					<div class="dropdown-menu" aria-labelledby="navbarDropdown">
-						<?php foreach( Sites::getSites() as $site ): ?>
+						<?php foreach( Bases::getBases() as $base ): ?>
 							<div class="dropdown-item">
-								<b><?=$site->getName()?></b>
-								<?php foreach( $site->getLocales() as $locale ):
-									$hp = $site->getHomepage($locale);
+								<b><?=$base->getName()?></b>
+								<?php foreach( $base->getLocales() as $locale ):
+									$hp = $base->getHomepage($locale);
 									if(!$hp) {
 										continue;
 									}

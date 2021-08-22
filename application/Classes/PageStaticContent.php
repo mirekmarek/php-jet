@@ -36,7 +36,7 @@ class PageStaticContent extends BaseObject
 		) {
 			$file_path = $root_dir . $page->getLocale() . '/' . $text_id . '.html';
 		} else {
-			$file_path = $root_dir . $page->getLocale() . '/' . $page->getSite()->getId() . '/' . $page->getId() . '.html';
+			$file_path = $root_dir . $page->getLocale() . '/' . $page->getBase()->getId() . '/' . $page->getId() . '.html';
 		}
 
 		if( !IO_File::exists( $file_path ) ) {

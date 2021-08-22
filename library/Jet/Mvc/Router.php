@@ -27,9 +27,9 @@ class Mvc_Router extends BaseObject implements Mvc_Router_Interface
 	protected string $request_URL = '';
 
 	/**
-	 * @var ?Mvc_Site_Interface
+	 * @var ?Mvc_Base_Interface
 	 */
-	protected ?Mvc_Site_Interface $site = null;
+	protected ?Mvc_Base_Interface $base = null;
 
 	/**
 	 * @var ?Locale
@@ -142,7 +142,7 @@ class Mvc_Router extends BaseObject implements Mvc_Router_Interface
 
 		$this->request_URL = (string)$request_URL;
 
-		if( $this->resolve_seekSiteAndLocale() ) {
+		if( $this->resolve_seekBaseAndLocale() ) {
 			if($this->resolve_seekPage()) {
 				if($this->resolve_authorizePage()) {
 					if($this->resolve_pageResolve()) {
@@ -159,25 +159,25 @@ class Mvc_Router extends BaseObject implements Mvc_Router_Interface
 	 *
 	 * @throws Mvc_Page_Exception
 	 */
-	protected function resolve_seekSiteAndLocale(): bool
+	protected function resolve_seekBaseAndLocale(): bool
 	{
 
-		Debug_Profiler::blockStart( 'Resolve site and locale' );
+		Debug_Profiler::blockStart( 'Resolve base and locale' );
 
-		$site_class_name = Mvc_Factory::getSiteInstance();
+		$base_class_name = Mvc_Factory::getBaseInstance();
 
 
-		Debug_Profiler::blockStart( 'Seeking for site' );
-		$site_URLs_map = $site_class_name::getUrlMap();
+		Debug_Profiler::blockStart( 'Seeking for base' );
+		$base_URLs_map = $base_class_name::getUrlMap();
 
-		$current_site_URL = null;
+		$current_base_URL = null;
 		$founded_url = null;
 
-		foreach( $site_URLs_map as $URL => $d ) {
+		foreach( $base_URLs_map as $URL => $d ) {
 
 			if( substr( $this->request_URL . '/', 0, strlen( $URL ) ) == $URL ) {
 
-				$this->site = $site_class_name::get( $d[0] );
+				$this->base = $base_class_name::get( $d[0] );
 				$this->locale = new Locale( $d[1] );
 
 				$founded_url = $URL;
@@ -191,23 +191,23 @@ class Mvc_Router extends BaseObject implements Mvc_Router_Interface
 			}
 		}
 
-		Debug_Profiler::blockEnd( 'Seeking for site' );
+		Debug_Profiler::blockEnd( 'Seeking for base' );
 
-		if( !$this->site ) {
-			$this->site = $site_class_name::getDefaultSite();
-			if( !$this->site ) {
+		if( !$this->base ) {
+			$this->base = $base_class_name::getDefaultBase();
+			if( !$this->base ) {
 
 				throw new Mvc_Page_Exception(
-					'Unable to find default site'
+					'Unable to find default base'
 				);
 
 			}
 
-			$this->locale = $this->site->getDefaultLocale();
+			$this->locale = $this->base->getDefaultLocale();
 			if( !$this->locale ) {
 
 				throw new Mvc_Page_Exception(
-					'Unable to find default locale (site: ' . $this->site->getId() . ')'
+					'Unable to find default locale (base: ' . $this->base->getId() . ')'
 				);
 			}
 
@@ -217,14 +217,14 @@ class Mvc_Router extends BaseObject implements Mvc_Router_Interface
 		$OK = true;
 
 		if( $this->set_mvc_state ) {
-			Mvc::setCurrentSite( $this->site );
+			Mvc::setCurrentBase( $this->base );
 			Mvc::setCurrentLocale( $this->locale );
 		}
 
-		if( $founded_url != $this->site->getLocalizedData( $this->locale )->getDefaultURL() ) {
+		if( $founded_url != $this->base->getLocalizedData( $this->locale )->getDefaultURL() ) {
 
 			$redirect_to = (Http_Request::isHttps() ? 'https' : 'http') . '://'
-				. $this->getSite()->getLocalizedData( $this->locale )->getDefaultURL()
+				. $this->getBase()->getLocalizedData( $this->locale )->getDefaultURL()
 				. $this->url_path;
 
 			if( $this->url_path && Mvc::getForceSlashOnURLEnd() ) {
@@ -233,22 +233,22 @@ class Mvc_Router extends BaseObject implements Mvc_Router_Interface
 
 			$this->setIsRedirect( $redirect_to );
 
-			Debug_Profiler::message( 'wrong site URL' );
+			Debug_Profiler::message( 'wrong base URL' );
 
 			$OK = false;
 		}
 
 
 		if( $OK ) {
-			if( ($site_initializer = $this->site->getInitializer()) ) {
-				Debug_Profiler::blockStart( 'Site initializer call' );
-				$site_initializer( $this );
-				Debug_Profiler::blockEnd( 'Site initializer call' );
+			if( ($base_initializer = $this->base->getInitializer()) ) {
+				Debug_Profiler::blockStart( 'Base initializer call' );
+				$base_initializer( $this );
+				Debug_Profiler::blockEnd( 'Base initializer call' );
 			}
 		}
 
 
-		Debug_Profiler::blockEnd( 'Resolve site and locale' );
+		Debug_Profiler::blockEnd( 'Resolve base and locale' );
 		return $OK;
 	}
 
@@ -268,7 +268,7 @@ class Mvc_Router extends BaseObject implements Mvc_Router_Interface
 
 
 		Debug_Profiler::blockStart( 'Load page maps' );
-		$map = $page_class_name::getRelativePathMap( $this->site, $this->locale );
+		$map = $page_class_name::getRelativePathMap( $this->base, $this->locale );
 		Debug_Profiler::blockEnd( 'Load page maps' );
 
 
@@ -302,7 +302,7 @@ class Mvc_Router extends BaseObject implements Mvc_Router_Interface
 			break;
 		}
 
-		$this->page = $page_class_name::get( $page_id, $this->locale, $this->site->getId() );
+		$this->page = $page_class_name::get( $page_id, $this->locale, $this->base->getId() );
 
 		$this->resolve_decodePath();
 
@@ -401,11 +401,11 @@ class Mvc_Router extends BaseObject implements Mvc_Router_Interface
 
 	/**
 	 *
-	 * @return Mvc_Site_Interface
+	 * @return Mvc_Base_Interface
 	 */
-	public function getSite(): Mvc_Site_Interface
+	public function getBase(): Mvc_Base_Interface
 	{
-		return $this->site;
+		return $this->base;
 	}
 
 	/**

@@ -6,13 +6,13 @@ $form = Modules::getCurrentModule()->getPageCreateForm();
 
 
 $form->field( 'page_name' )->input()->addJsAction( 'onkeyup', 'Modules.editModule.addPage.generateId(this.value);' );
-$form->field( 'site_id' )->input()->addJsAction( 'onchange', 'Modules.editModule.addPage.toggleFields(this.options[this.selectedIndex].value);' );
+$form->field( 'base_id' )->input()->addJsAction( 'onchange', 'Modules.editModule.addPage.toggleFields(this.options[this.selectedIndex].value);' );
 
 echo $form->start();
 
 echo $form->getCommonMessage();
 
-echo $form->field( 'site_id' );
+echo $form->field( 'base_id' );
 echo $form->field( 'page_name' );
 echo $form->field( 'page_id' );
 

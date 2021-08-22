@@ -20,7 +20,7 @@ $edit_form->setDefaultFieldWidth( [Form::LJ_SIZE_MEDIUM => 5] );
 
 echo $edit_form->start();
 
-foreach( Application_Web::getSite()->getLocales() as $locale ):
+foreach( Application_Web::getBase()->getLocales() as $locale ):
 	$field = $edit_form->field( '/localized/' . $locale . '/title' );
 
 	echo $field->row()->start();

@@ -56,7 +56,7 @@ class Controller_Main extends Mvc_Controller_Default
 	public function main_menu_Action(): void
 	{
 
-		$this->view->setVar( 'site_tree_current', [Mvc::getCurrentSite()->getHomepage( Mvc::getCurrentLocale() )] );
+		$this->view->setVar( 'page_tree_current', [Mvc::getCurrentBase()->getHomepage( Mvc::getCurrentLocale() )] );
 
 		$this->output( 'main-menu' );
 	}
@@ -66,7 +66,7 @@ class Controller_Main extends Mvc_Controller_Default
 	 */
 	public function secret_area_menu_Action(): void
 	{
-		$this->view->setVar( 'site_tree_current', [Mvc_Page::get( 'secret_area' )] );
+		$this->view->setVar( 'page_tree_current', [Mvc_Page::get( 'secret_area' )] );
 
 		$this->output( 'secret-area-menu' );
 	}

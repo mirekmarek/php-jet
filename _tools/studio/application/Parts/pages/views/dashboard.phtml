@@ -7,16 +7,16 @@ if( Pages::getCurrentPage() ) {
 	return;
 }
 
-$sites = Sites::getSites();
+$bases = Bases::getBases();
 ?>
 
 
 <div style="padding-top: 10px;">
-	<?php foreach( $sites as $site ): ?>
-		<h5><?= $site->getName() ?></h5>
+	<?php foreach( $bases as $base ): ?>
+		<h5><?= $base->getName() ?></h5>
 		<table class="table table-striped">
-			<?php foreach( $site->getLocales() as $locale ):
-				$link = Pages::getActionUrl( '', [], Pages_Page::HOMEPAGE_ID, $locale, $site->getId() );
+			<?php foreach( $base->getLocales() as $locale ):
+				$link = Pages::getActionUrl( '', [], Pages_Page::HOMEPAGE_ID, $locale, $base->getId() );
 				?>
 				<tr>
 					<td style="width: 30px"><a href="<?= $link ?>"><?= UI::flag( $locale ) ?></a></td>

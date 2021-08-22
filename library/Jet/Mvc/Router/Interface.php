@@ -35,9 +35,9 @@ interface Mvc_Router_Interface
 
 	/**
 	 *
-	 * @return Mvc_Site_Interface
+	 * @return Mvc_Base_Interface
 	 */
-	public function getSite(): Mvc_Site_Interface;
+	public function getBase(): Mvc_Base_Interface;
 
 	/**
 	 * @return Locale

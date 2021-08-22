@@ -33,7 +33,7 @@ Installer::setSteps(
 		'SelectDbType',
 		'CreateDB',
 		'SelectLocales',
-		'CreateSite',
+		'CreateBases',
 		'Mailing',
 		'InstallModules',
 		'CreateAdministrator',

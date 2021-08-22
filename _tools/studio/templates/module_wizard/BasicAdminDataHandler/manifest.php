@@ -13,7 +13,7 @@ return [
 	
 
 	'pages' => [
-		'%<PAGE_SITE_ID>%' => [
+		'%<PAGE_BASE_ID>%' => [
 			'%<PAGE_ID>%' => [
 				'title'                  => '%<PAGE_TITLE>%',
 				'icon'                   => '%<PAGE_ICON>%',

@@ -4,7 +4,7 @@ application/config/data_model.php
 application/config/db.php
 application/config/mailing.php
 application/data/**
-application/sites/**/site_data.php
+application/bases/**/base_data.php
 logs/**
 tmp/**
 cache/**

@@ -704,7 +704,7 @@ class Auth_Administrator_User extends DataModel implements Auth_User_Interface
 		$email_template = new Mailing_Email_Template(
 			'user_password_reset',
 			$this->getLocale(),
-			Application_Admin::getSiteId()
+			Application_Admin::getBaseId()
 		);
 
 		$email_template->setVar( 'user', $this );
@@ -980,7 +980,7 @@ class Auth_Administrator_User extends DataModel implements Auth_User_Interface
 	{
 		$locales = [];
 
-		foreach( Application_Admin::getSite()->getLocales() as $locale_str => $locale ) {
+		foreach( Application_Admin::getBase()->getLocales() as $locale_str => $locale ) {
 			$locales[$locale_str] = $locale->getName();
 		}
 
@@ -996,7 +996,7 @@ class Auth_Administrator_User extends DataModel implements Auth_User_Interface
 		$email_template = new Mailing_Email_Template(
 			'user_welcome',
 			$this->getLocale(),
-			Application_Admin::getSiteId()
+			Application_Admin::getBaseId()
 		);
 
 		$email_template->setVar( 'user', $this );

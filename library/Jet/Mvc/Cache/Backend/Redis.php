@@ -115,56 +115,56 @@ class Mvc_Cache_Backend_Redis implements Mvc_Cache_Backend
 	/**
 	 * @return array|null
 	 */
-	public function loadSiteMaps(): array|null
+	public function loadBaseMaps(): array|null
 	{
-		return $this->readMap( 'site_maps' );
+		return $this->readMap( 'base_maps' );
 	}
 
 	/**
 	 * @param array $map
 	 */
-	public function saveSiteMaps( array $map ): void
+	public function saveBaseMaps( array $map ): void
 	{
-		$this->writeMap( 'site_maps', $map );
+		$this->writeMap( 'base_maps', $map );
 	}
 
 
 	/**
 	 * @return array|null
 	 */
-	public function loadSitesFilesMap(): array|null
+	public function loadBasesFilesMap(): array|null
 	{
-		return $this->readMap( 'sites_files_map' );
+		return $this->readMap( 'bases_files_map' );
 	}
 
 	/**
 	 * @param array $map
 	 */
-	public function saveSitesFilesMap( array $map ): void
+	public function saveBasesFilesMap( array $map ): void
 	{
-		$this->writeMap( 'sites_files_map', $map );
+		$this->writeMap( 'bases_files_map', $map );
 	}
 
 	/**
-	 * @param Mvc_Site_Interface $site
+	 * @param Mvc_Base_Interface $base
 	 * @param Locale $locale
 	 *
 	 * @return array|null
 	 */
-	public function loadPageMaps( Mvc_Site_Interface $site, Locale $locale ): array|null
+	public function loadPageMaps( Mvc_Base_Interface $base, Locale $locale ): array|null
 	{
-		return $this->readMap( 'pages_map_' . $site->getId() . '_' . $locale );
+		return $this->readMap( 'pages_map_' . $base->getId() . '_' . $locale );
 	}
 
 	/**
-	 * @param Mvc_Site_Interface $site
+	 * @param Mvc_Base_Interface $base
 	 * @param Locale $locale
 	 *
 	 * @param array $map
 	 */
-	public function savePageMaps( Mvc_Site_Interface $site, Locale $locale, array $map ): void
+	public function savePageMaps( Mvc_Base_Interface $base, Locale $locale, array $map ): void
 	{
-		$this->writeMap( 'pages_map_' . $site->getId() . '_' . $locale, $map );
+		$this->writeMap( 'pages_map_' . $base->getId() . '_' . $locale, $map );
 	}
 
 	/**
@@ -175,7 +175,7 @@ class Mvc_Cache_Backend_Redis implements Mvc_Cache_Backend
 	protected function getContentKey( Mvc_Page_Content_Interface $content ): string
 	{
 		$page = $content->getPage();
-		$site_id = $page->getSiteId();
+		$base_id = $page->getBaseId();
 		$locale = $page->getLocale();
 		$page_id = $page->getId();
 
@@ -186,7 +186,7 @@ class Mvc_Cache_Backend_Redis implements Mvc_Cache_Backend
 		$position = $content->getOutputPosition();
 		$position_order = $content->getOutputPositionOrder();
 
-		return $site_id . '_' . $locale . '_' . $page_id . '_' . md5( $module . $controller . $action . $position . $position_order );
+		return $base_id . '_' . $locale . '_' . $page_id . '_' . md5( $module . $controller . $action . $position . $position_order );
 	}
 
 	/**

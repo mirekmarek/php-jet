@@ -10,7 +10,7 @@ use Jet\UI;
  * @var Mvc_View $this
  * @var Mvc_Page[] $pages
  */
-$pages = $this->getRaw( 'site_tree_current' );
+$pages = $this->getRaw( 'page_tree_current' );
 
 $admin_page = Mvc_Page::get( Mvc_Page::HOMEPAGE_ID, null, 'admin' );
 $secret_area_page = Mvc_Page::get( 'secret_area' );

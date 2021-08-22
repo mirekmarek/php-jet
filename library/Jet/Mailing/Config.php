@@ -30,16 +30,16 @@ class Mailing_Config extends Config
 	/**
 	 *
 	 * @param string|Locale $locale
-	 * @param string $site_id
+	 * @param string $base_id
 	 * @param string $specification
 	 *
 	 * @return Mailing_Config_Sender|null
 	 *
 	 */
-	public function getSender( string|Locale $locale, string $site_id, string $specification ): Mailing_Config_Sender|null
+	public function getSender( string|Locale $locale, string $base_id, string $specification ): Mailing_Config_Sender|null
 	{
 
-		$key = $this->getSenderKey( $locale, $site_id, $specification );
+		$key = $this->getSenderKey( $locale, $base_id, $specification );
 
 		if( !isset( $this->senders[$key] ) ) {
 			return null;
@@ -59,13 +59,13 @@ class Mailing_Config extends Config
 	/**
 	 * @param Mailing_Config_Sender $sender_configuration
 	 * @param string|Locale $locale
-	 * @param string $site_id
+	 * @param string $base_id
 	 * @param string $specification
 	 *
 	 */
-	public function addSender( Mailing_Config_Sender $sender_configuration, string|Locale $locale, string $site_id, string $specification )
+	public function addSender( Mailing_Config_Sender $sender_configuration, string|Locale $locale, string $base_id, string $specification )
 	{
-		$this->senders[$this->getSenderKey( $locale, $site_id, $specification )] = $sender_configuration;
+		$this->senders[$this->getSenderKey( $locale, $base_id, $specification )] = $sender_configuration;
 	}
 
 	/**
@@ -80,20 +80,20 @@ class Mailing_Config extends Config
 
 	/**
 	 * @param string|Locale $locale
-	 * @param string $site_id
+	 * @param string $base_id
 	 * @param string $specification
 	 *
 	 * @return string
 	 */
-	public function getSenderKey( string|Locale $locale, string $site_id, string $specification ): string
+	public function getSenderKey( string|Locale $locale, string $base_id, string $specification ): string
 	{
 		$key = (string)$locale;
 
-		if( !$site_id ) {
-			$site_id = 'ALL';
+		if( !$base_id ) {
+			$base_id = 'ALL';
 		}
 
-		$key .= '/' . $site_id;
+		$key .= '/' . $base_id;
 
 
 		if( $specification ) {

@@ -20,7 +20,7 @@ trait Mvc_Page_Trait_Save
 	public function getDataDirPath(): string
 	{
 		if( !$this->getParent() ) {
-			return Mvc_Site::get( $this->site_id )->getPagesDataPath( $this->locale );
+			return Mvc_Base::get( $this->base_id )->getPagesDataPath( $this->locale );
 		} else {
 			return $this->getParent()->getDataDirPath() . rawurldecode( $this->relative_path_fragment ) . '/';
 		}
@@ -32,7 +32,7 @@ trait Mvc_Page_Trait_Save
 	public function getOriginalDataDirPath(): string
 	{
 		if( !$this->getParent() ) {
-			return Mvc_Site::get( $this->site_id )->getPagesDataPath( $this->locale );
+			return Mvc_Base::get( $this->base_id )->getPagesDataPath( $this->locale );
 		} else {
 			return $this->getParent()->getDataDirPath() . rawurldecode( $this->original_relative_path_fragment ) . '/';
 		}

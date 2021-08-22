@@ -60,7 +60,7 @@ trait Mvc_Page_Trait_Tree
 		}
 
 		if( !$this->__parent ) {
-			$this->__parent = static::get( $this->parent_id, $this->getLocale(), $this->getSite()->getId() );
+			$this->__parent = static::get( $this->parent_id, $this->getLocale(), $this->getBase()->getId() );
 		}
 
 		return $this->__parent;
@@ -104,7 +104,7 @@ trait Mvc_Page_Trait_Tree
 			$this->__children = [];
 
 			foreach( $this->children as $id ) {
-				$ch = static::get( $id, $this->getLocale(), $this->getSite()->getId() );
+				$ch = static::get( $id, $this->getLocale(), $this->getBase()->getId() );
 
 				if( $ch ) {
 					$this->__children[$id] = $ch;

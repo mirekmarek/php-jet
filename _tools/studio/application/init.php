@@ -51,7 +51,7 @@ DataModel_Factory::setPropertyDefinitionClassNamePrefix(__NAMESPACE__.'\DataMode
 DataModel_Factory::setModelDefinitionClassNamePrefix(__NAMESPACE__.'\DataModel_Definition_Model_');
 
 
-Mvc_Factory::setSiteClassName('JetStudio\\Sites_Site');
+Mvc_Factory::setBaseClassName( 'JetStudio\\Bases_Base' );
 Mvc_Factory::setPageClassName('JetStudio\\Pages_Page');
 Mvc_Factory::setPageContentClassName('JetStudio\\Pages_Page_Content');
 

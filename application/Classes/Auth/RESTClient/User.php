@@ -553,7 +553,7 @@ class Auth_RESTClient_User extends DataModel implements Auth_User_Interface
 		$email_template = new Mailing_Email_Template(
 			'user_password_reset',
 			$this->getLocale(),
-			Application_REST::getSiteId()
+			Application_REST::getBaseId()
 		);
 
 		$email_template->setVar( 'user', $this );
@@ -796,7 +796,7 @@ class Auth_RESTClient_User extends DataModel implements Auth_User_Interface
 	{
 		$locales = [];
 
-		foreach( Application_REST::getSite()->getLocales() as $locale_str => $locale ) {
+		foreach( Application_REST::getBase()->getLocales() as $locale_str => $locale ) {
 			$locales[$locale_str] = $locale->getName();
 		}
 
@@ -812,7 +812,7 @@ class Auth_RESTClient_User extends DataModel implements Auth_User_Interface
 		$email_template = new Mailing_Email_Template(
 			'user_welcome',
 			$this->getLocale(),
-			Application_REST::getSiteId()
+			Application_REST::getBaseId()
 		);
 
 		$email_template->setVar( 'user', $this );

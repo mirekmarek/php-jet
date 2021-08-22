@@ -228,7 +228,7 @@ class Form extends BaseObject
 	public static function getDefaultViewsDir(): string
 	{
 		if( !static::$default_views_dir ) {
-			static::$default_views_dir = Mvc::getCurrentSite()->getViewsPath() . 'Form/';
+			static::$default_views_dir = Mvc::getCurrentBase()->getViewsPath() . 'Form/';
 		}
 
 		return static::$default_views_dir;

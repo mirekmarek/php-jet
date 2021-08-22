@@ -20,9 +20,9 @@ use Jet\SysConf_URI;
 class Pages extends BaseObject implements Application_Part
 {
 	/**
-	 * @var Sites_Site|bool|null
+	 * @var Bases_Base|bool|null
 	 */
-	protected static Sites_Site|bool|null $__current_site = null;
+	protected static Bases_Base|bool|null $__current_base = null;
 
 	/**
 	 * @var Locale|bool|null
@@ -40,21 +40,21 @@ class Pages extends BaseObject implements Application_Part
 	 * @param array $custom_get_params
 	 * @param null|string $custom_page_id
 	 * @param null|string $custom_locale
-	 * @param null|string $custom_site_id
+	 * @param null|string $custom_base_id
 	 *
 	 * @return string
 	 */
-	public static function getActionUrl( string $action,
-	                                     array $custom_get_params = [],
+	public static function getActionUrl( string  $action,
+	                                     array   $custom_get_params = [],
 	                                     ?string $custom_page_id = null,
 	                                     ?string $custom_locale = null,
-	                                     ?string $custom_site_id = null ) : string
+	                                     ?string $custom_base_id = null ) : string
 	{
 
 		$get_params = [];
 
-		if( static::getCurrentSiteId() ) {
-			$get_params['site'] = static::getCurrentSiteId();
+		if( static::getCurrentBaseId() ) {
+			$get_params['base'] = static::getCurrentBaseId();
 		}
 		if( static::getCurrentLocale() ) {
 			$get_params['locale'] = (string)static::getCurrentLocale();
@@ -65,10 +65,10 @@ class Pages extends BaseObject implements Application_Part
 			$get_params['what'] = static::whatToEdit();
 		}
 
-		if( $custom_site_id !== null ) {
-			$get_params['site'] = $custom_site_id;
-			if( !$custom_site_id ) {
-				unset( $get_params['site'] );
+		if( $custom_base_id !== null ) {
+			$get_params['base'] = $custom_base_id;
+			if( !$custom_base_id ) {
+				unset( $get_params['base'] );
 			}
 		}
 
@@ -103,30 +103,30 @@ class Pages extends BaseObject implements Application_Part
 	/**
 	 * @param string $page_id
 	 * @param string|Locale $locale
-	 * @param string $site_id
+	 * @param string $base_id
 	 *
 	 * @return null|Pages_Page
 	 */
-	public static function getPage( string $page_id, string|Locale $locale = '', string $site_id = '' ): null|Pages_Page
+	public static function getPage( string $page_id, string|Locale $locale = '', string $base_id = '' ): null|Pages_Page
 	{
-		if( !$site_id ) {
-			$site_id = static::getCurrentSiteId();
+		if( !$base_id ) {
+			$base_id = static::getCurrentBaseId();
 		}
 
 		if( !$locale ) {
 			$locale = static::getCurrentLocale();
 		}
 
-		return Pages_Page::get( $page_id, $locale, $site_id );
+		return Pages_Page::get( $page_id, $locale, $base_id );
 	}
 
 	/**
 	 * @return string|bool
 	 */
-	public static function getCurrentSiteId(): string|bool
+	public static function getCurrentBaseId(): string|bool
 	{
-		if( static::getCurrentSite() ) {
-			return static::getCurrentSite()->getId();
+		if( static::getCurrentBase() ) {
+			return static::getCurrentBase()->getId();
 		}
 
 		return false;
@@ -134,24 +134,24 @@ class Pages extends BaseObject implements Application_Part
 
 
 	/**
-	 * @return bool|Sites_Site
+	 * @return bool|Bases_Base
 	 */
-	public static function getCurrentSite(): bool|Sites_Site
+	public static function getCurrentBase(): bool|Bases_Base
 	{
-		if( static::$__current_site === null ) {
-			$id = Http_Request::GET()->getString( 'site' );
+		if( static::$__current_base === null ) {
+			$id = Http_Request::GET()->getString( 'base' );
 
-			static::$__current_site = false;
+			static::$__current_base = false;
 
 			if(
 				$id &&
-				($site = Sites::getSite( $id ))
+				($base = Bases::getBase( $id ))
 			) {
-				static::$__current_site = $site;
+				static::$__current_base = $base;
 			}
 		}
 
-		return static::$__current_site;
+		return static::$__current_base;
 	}
 
 
@@ -168,8 +168,8 @@ class Pages extends BaseObject implements Application_Part
 			if(
 				$locale &&
 				($locale = new Locale( $locale )) &&
-				static::getCurrentSite() &&
-				static::getCurrentSite()->getHasLocale( $locale )
+				static::getCurrentBase() &&
+				static::getCurrentBase()->getHasLocale( $locale )
 			) {
 				static::$__current_locale = $locale;
 			}
@@ -197,7 +197,7 @@ class Pages extends BaseObject implements Application_Part
 	public static function getCurrentPage(): bool|Pages_Page
 	{
 		if( static::$__current_page === null ) {
-			$site_id = static::getCurrentSiteId();
+			$base_id = static::getCurrentBaseId();
 			$locale = static::getCurrentLocale();
 
 			$page_id = Http_Request::GET()->getString( 'page' );
@@ -205,10 +205,10 @@ class Pages extends BaseObject implements Application_Part
 			static::$__current_page = false;
 
 			if(
-				$site_id &&
+				$base_id &&
 				$locale &&
 				$page_id &&
-				($page = static::getPage( $page_id, $locale, $site_id ))
+				($page = static::getPage( $page_id, $locale, $base_id ))
 			) {
 				static::$__current_page = $page;
 			}
@@ -249,7 +249,7 @@ class Pages extends BaseObject implements Application_Part
 		 * @var Pages_Page $homepage
 		 */
 
-		$homepage = static::getCurrentSite()->getHomepage( static::getCurrentLocale() );
+		$homepage = static::getCurrentBase()->getHomepage( static::getCurrentLocale() );
 		$appendNode( $homepage );
 
 		$tree = new Data_Tree();
@@ -272,14 +272,14 @@ class Pages extends BaseObject implements Application_Part
 	/**
 	 * @param string $page_id
 	 * @param string $locale
-	 * @param string $site_id
+	 * @param string $base_id
 	 *
 	 * @return bool
 	 */
-	public static function exists( string $page_id, string $locale = '', string $site_id = '' ): bool
+	public static function exists( string $page_id, string $locale = '', string $base_id = '' ): bool
 	{
 
-		$page = static::getPage( $page_id, $locale, $site_id );
+		$page = static::getPage( $page_id, $locale, $base_id );
 		if( $page ) {
 			return true;
 		}

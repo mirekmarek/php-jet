@@ -1,6 +1,6 @@
 <?php
 return [
 	'vendor'      => 'Miroslav Marek <mirek.marek@web-jet.cz>',
-	'label'       => 'Site UI',
+	'label'       => 'Web UI',
 	'description' => ''
 ];

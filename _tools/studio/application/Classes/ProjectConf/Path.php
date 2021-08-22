@@ -16,11 +16,11 @@ class ProjectConf_Path
 	/**
 	 * @var string
 	 */
-	protected static string $base = '';
+	protected static string $root = '';
 	/**
 	 * @var string
 	 */
-	protected static string $sites = '';
+	protected static string $bases = '';
 	/**
 	 * @var string
 	 */
@@ -81,35 +81,35 @@ class ProjectConf_Path
 	/**
 	 * @return string
 	 */
-	public static function getBase(): string
+	public static function getRoot(): string
 	{
-		static::_check( 'base' );
-		return static::$base;
+		static::_check( 'root' );
+		return static::$root;
 	}
 
 	/**
-	 * @param string $base
+	 * @param string $root
 	 */
-	public static function setBase( string $base ): void
+	public static function setRoot( string $root ): void
 	{
-		static::$base = $base;
+		static::$root = $root;
 	}
 
 	/**
 	 * @return string
 	 */
-	public static function getSites(): string
+	public static function getBases(): string
 	{
-		static::_check( 'sites' );
-		return static::$sites;
+		static::_check( 'bases' );
+		return static::$bases;
 	}
 
 	/**
-	 * @param string $sites
+	 * @param string $bases
 	 */
-	public static function setSites( string $sites ): void
+	public static function setBases( string $bases ): void
 	{
-		static::$sites = $sites;
+		static::$bases = $bases;
 	}
 
 	/**

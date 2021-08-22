@@ -241,7 +241,7 @@ class Gallery extends DataModel
 	public function afterLoad(): void
 	{
 
-		foreach( Application_Web::getSite()->getLocales() as $lc_str => $locale ) {
+		foreach( Application_Web::getBase()->getLocales() as $lc_str => $locale ) {
 
 			if( !isset( $this->localized[$lc_str] ) ) {
 

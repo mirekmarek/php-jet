@@ -45,7 +45,7 @@ $form->setDefaultFieldWidth( [
 		if( $parent ) {
 			$parent_URL = $parent->getURL();
 		} else {
-			$parent_URL = $page->getSite()->getHomepage( $page->getLocale() )->getURL();
+			$parent_URL = $page->getBase()->getHomepage( $page->getLocale() )->getURL();
 		}
 		?>
 		<?= $field->row()->start() ?>

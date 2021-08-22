@@ -1,0 +1,38 @@
+<?php
+namespace JetStudio;
+
+use Jet\UI;
+use Jet\Tr;
+
+?>
+<?= Application::getView()->render( 'js' ); ?>
+
+<?php if( Bases::getCurrentBase() ): ?>
+	<div class="row" id="main-toolbar">
+		<div class="col-md-3" style="padding: 0px;">
+			<div class="toolbar">
+
+				<?= UI::button_create( Tr::_( 'Create a new Base' ) )->setOnclick( 'Bases.createBase.openDialog()' ) ?>
+			</div>
+		</div>
+		<div class="col-md-9" style="padding: 0px;">
+			<?= Application::getView()->render( 'base_edit/toolbar' ); ?>
+		</div>
+	</div>
+
+	<div class="row" id="main-col">
+		<div class="col-md-3">
+			<div style="padding: 0px;">
+				<?= Application::getView()->render( 'bases_list' ); ?>
+			</div>
+		</div>
+		<div class="col-md-9" style="padding: 0px;">
+			<?= Application::getView()->render( 'base_edit/edit' ); ?>
+		</div>
+	</div>
+
+<?php else: ?>
+	<?= Application::getView()->render( 'base_edit/dashboard' ); ?>
+<?php endif; ?>
+
+<?= Application::getView()->render( 'create_base/dialog' ); ?>

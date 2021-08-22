@@ -27,29 +27,29 @@ interface Mvc_Cache_Backend
 	/**
 	 * @return array|null
 	 */
-	public function loadSiteMaps(): array|null;
+	public function loadBaseMaps(): array|null;
 
 	/**
 	 * @param array $map
 	 */
-	public function saveSiteMaps( array $map ): void;
+	public function saveBaseMaps( array $map ): void;
 
 
 	/**
-	 * @param Mvc_Site_Interface $site
+	 * @param Mvc_Base_Interface $base
 	 * @param Locale $locale
 	 *
 	 * @return array|null
 	 */
-	public function loadPageMaps( Mvc_Site_Interface $site, Locale $locale ): array|null;
+	public function loadPageMaps( Mvc_Base_Interface $base, Locale $locale ): array|null;
 
 	/**
-	 * @param Mvc_Site_Interface $site
+	 * @param Mvc_Base_Interface $base
 	 * @param Locale $locale
 	 *
 	 * @param array $map
 	 */
-	public function savePageMaps( Mvc_Site_Interface $site, Locale $locale, array $map ): void;
+	public function savePageMaps( Mvc_Base_Interface $base, Locale $locale, array $map ): void;
 
 	/**
 	 * @param Mvc_Page_Content_Interface $content

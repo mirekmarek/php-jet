@@ -25,11 +25,11 @@ class Application extends Jet_Application
 	 */
 	public static function initErrorPages( Mvc_Router $router )
 	{
-		$current_site = $router->getSite();
+		$current_base = $router->getBase();
 		$current_locale = $router->getLocale();
 
 		ErrorPages::setErrorPagesDir(
-			$current_site->getPagesDataPath(
+			$current_base->getPagesDataPath(
 				$current_locale
 			)
 		);

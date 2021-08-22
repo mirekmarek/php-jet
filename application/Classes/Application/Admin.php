@@ -9,7 +9,7 @@
 namespace JetApplication;
 
 use Jet\Logger;
-use Jet\Mvc_Site;
+use Jet\Mvc_Base;
 use Jet\Mvc_Page;
 use Jet\Mvc_View;
 use Jet\Mvc_Router;
@@ -23,17 +23,17 @@ class Application_Admin
 	/**
 	 * @return string
 	 */
-	public static function getSiteId(): string
+	public static function getBaseId(): string
 	{
 		return 'admin';
 	}
 
 	/**
-	 * @return Mvc_Site
+	 * @return Mvc_Base
 	 */
-	public static function getSite(): Mvc_Site
+	public static function getBase(): Mvc_Base
 	{
-		return Mvc_Site::get( static::getSiteId() );
+		return Mvc_Base::get( static::getBaseId() );
 	}
 
 	/**

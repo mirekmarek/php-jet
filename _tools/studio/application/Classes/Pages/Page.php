@@ -127,7 +127,7 @@ class Pages_Page extends Mvc_Page
 				) {
 					$field->setCustomError(
 						Tr::_( 'Page with the identifier already exists' ),
-						'site_id_is_not_unique'
+						'base_id_is_not_unique'
 					);
 
 					return false;
@@ -168,7 +168,7 @@ class Pages_Page extends Mvc_Page
 		}
 
 		return static::createPage(
-			Pages::getCurrentSiteId(),
+			Pages::getCurrentBaseId(),
 			Pages::getCurrentLocale(),
 			$form->field( 'id' )->getValue(),
 			$form->field( 'name' )->getValue(),
@@ -493,9 +493,9 @@ class Pages_Page extends Mvc_Page
 
 			$page = $this;
 			/**
-			 * @var Sites_Site $site
+			 * @var Bases_Base $base
 			 */
-			$site = $this->getSite();
+			$base = $this->getBase();
 
 			$layout_script_name_field = new Form_Field_Select( 'layout_script_name', 'Layout script name:', $page->getLayoutScriptName() );
 			$layout_script_name_field->setErrorMessages( [
@@ -504,7 +504,7 @@ class Pages_Page extends Mvc_Page
 			$layout_script_name_field->setCatcher( function( $value ) use ( $page ) {
 				$page->setLayoutScriptName( $value );
 			} );
-			$layouts = $site->getLayoutsList();
+			$layouts = $base->getLayoutsList();
 			if( !$layouts ) {
 				$layouts = ['' => ''];
 			}
@@ -597,7 +597,7 @@ class Pages_Page extends Mvc_Page
 
 
 	/**
-	 * @param string $site_id
+	 * @param string $base_id
 	 * @param Locale|string $locale
 	 * @param string $id
 	 * @param string $name
@@ -605,11 +605,11 @@ class Pages_Page extends Mvc_Page
 	 *
 	 * @return Pages_Page
 	 */
-	public static function createPage( string $site_id,
+	public static function createPage( string        $base_id,
 	                                   Locale|string $locale,
-	                                   string $id,
-	                                   string $name,
-	                                   ?Pages_Page $parent = null ): Pages_Page
+	                                   string        $id,
+	                                   string        $name,
+	                                   ?Pages_Page   $parent = null ): Pages_Page
 	{
 
 		if( !is_object( $locale ) ) {
@@ -618,7 +618,7 @@ class Pages_Page extends Mvc_Page
 
 
 		$page = new Pages_Page();
-		$page->setSiteId( $site_id );
+		$page->setBaseId( $base_id );
 		$page->setLocale( $locale );
 		$page->setId( $id );
 		$page->setName( $name );
@@ -1062,7 +1062,7 @@ class Pages_Page extends Mvc_Page
 	 */
 	public function getFullId(): string
 	{
-		return $this->site_id . '.' . $this->id;
+		return $this->base_id . '.' . $this->id;
 	}
 
 

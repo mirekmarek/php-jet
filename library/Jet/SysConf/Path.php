@@ -24,7 +24,7 @@ class SysConf_Path
 	/**
 	 * @var string
 	 */
-	protected static string $sites = '';
+	protected static string $bases = '';
 	/**
 	 * @var string
 	 */
@@ -119,18 +119,18 @@ class SysConf_Path
 	/**
 	 * @return string
 	 */
-	public static function getSites(): string
+	public static function getBases(): string
 	{
-		static::_check( 'sites' );
-		return static::$sites;
+		static::_check( 'bases' );
+		return static::$bases;
 	}
 
 	/**
-	 * @param string $sites
+	 * @param string $bases
 	 */
-	public static function setSites( string $sites ): void
+	public static function setBases( string $bases ): void
 	{
-		static::$sites = $sites;
+		static::$bases = $bases;
 	}
 
 

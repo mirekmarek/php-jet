@@ -13,7 +13,7 @@ namespace JetStudio;
 					'<?=Pages_Page::getCreateForm()->getId()?>',
 					{
 						onSuccess: function (form, response_data) {
-							location = '?site=<?=Pages::getCurrentSiteId()?>&locale=<?=Pages::getCurrentLocale()?>&page=' + encodeURIComponent(response_data['new_page_id'])
+							location = '?base=<?=Pages::getCurrentBaseId()?>&locale=<?=Pages::getCurrentLocale()?>&page=' + encodeURIComponent(response_data['new_page_id'])
 						}
 					}
 				);

@@ -723,7 +723,7 @@ class Auth_Visitor_User extends DataModel implements Auth_User_Interface
 		$email_template = new Mailing_Email_Template(
 			'user_password_reset',
 			$this->getLocale(),
-			Application_Web::getSiteId()
+			Application_Web::getBaseId()
 		);
 
 		$email_template->setVar( 'user', $this );
@@ -973,7 +973,7 @@ class Auth_Visitor_User extends DataModel implements Auth_User_Interface
 	{
 		$locales = [];
 
-		foreach( Application_Web::getSite()->getLocales() as $locale_str => $locale ) {
+		foreach( Application_Web::getBase()->getLocales() as $locale_str => $locale ) {
 			$locales[$locale_str] = $locale->getName();
 		}
 
@@ -989,7 +989,7 @@ class Auth_Visitor_User extends DataModel implements Auth_User_Interface
 		$email_template = new Mailing_Email_Template(
 			'user_welcome',
 			$this->getLocale(),
-			Application_Web::getSiteId()
+			Application_Web::getBaseId()
 		);
 
 		$email_template->setVar( 'user', $this );

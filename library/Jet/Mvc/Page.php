@@ -37,7 +37,7 @@ class Mvc_Page extends BaseObject implements Mvc_Page_Interface
 	 *
 	 * @var ?string
 	 */
-	protected ?string $site_id = null;
+	protected ?string $base_id = null;
 	/**
 	 *
 	 * @var ?Locale
@@ -142,11 +142,11 @@ class Mvc_Page extends BaseObject implements Mvc_Page_Interface
 	 *
 	 * @param string|null $page_id (optional, null = current)
 	 * @param string|Locale|null $locale (optional, null = current)
-	 * @param string|null $site_id (optional, null = current)
+	 * @param string|null $base_id (optional, null = current)
 	 *
 	 * @return static|null
 	 */
-	public static function get( string|null $page_id, string|Locale|null $locale = null, string|null $site_id = null ): static|null
+	public static function get( string|null $page_id, string|Locale|null $locale = null, string|null $base_id = null ): static|null
 	{
 
 		if( !$page_id ) {
@@ -168,23 +168,23 @@ class Mvc_Page extends BaseObject implements Mvc_Page_Interface
 		}
 
 
-		if( !$site_id ) {
-			if( !Mvc::getCurrentSite() ) {
+		if( !$base_id ) {
+			if( !Mvc::getCurrentBase() ) {
 				return null;
 			}
 
-			$site_id = Mvc::getCurrentSite()->getId();
+			$base_id = Mvc::getCurrentBase()->getId();
 		}
 
-		$key = $site_id . ':' . $locale . ':' . $page_id;
+		$key = $base_id . ':' . $locale . ':' . $page_id;
 
 		if( isset( static::$pages[$key] ) ) {
 			return static::$pages[$key];
 		}
 
-		$site = Mvc_Factory::getSiteInstance()::get( $site_id );
+		$base = Mvc_Factory::getBaseInstance()::get( $base_id );
 
-		$maps = static::loadMaps( $site, $locale );
+		$maps = static::loadMaps( $base, $locale );
 
 		if( !isset( $maps['pages_files_map'][$page_id] ) ) {
 			return null;
@@ -200,7 +200,7 @@ class Mvc_Page extends BaseObject implements Mvc_Page_Interface
 				return null;
 			}
 
-			$pages = $module->getPages( $site, $locale );
+			$pages = $module->getPages( $base, $locale );
 
 			if( !isset( $pages[$page_id] ) ) {
 				return null;
@@ -231,7 +231,7 @@ class Mvc_Page extends BaseObject implements Mvc_Page_Interface
 			$data['relative_path_fragment'] = basename( $data['relative_path'] );
 			$data['parent_id'] = $maps['parent_map'][$page_id];
 
-			$page = static::createByData( $site, $locale, $data );
+			$page = static::createByData( $base, $locale, $data );
 
 			static::$pages[$key] = $page;
 
@@ -244,19 +244,19 @@ class Mvc_Page extends BaseObject implements Mvc_Page_Interface
 
 	/**
 	 *
-	 * @param string $site_id
+	 * @param string $base_id
 	 * @param Locale $locale
 	 *
 	 * @return static[]
 	 */
-	public static function getList( string $site_id, Locale $locale ): array
+	public static function getList( string $base_id, Locale $locale ): array
 	{
-		$site_class_name = Mvc_Factory::getSiteClassName();
+		$base_class_name = Mvc_Factory::getBaseClassName();
 
 		/**
-		 * @var Mvc_Site_Interface $site_class_name
+		 * @var Mvc_Base_Interface $base_class_name
 		 */
-		$site = $site_class_name::get( $site_id );
+		$base = $base_class_name::get( $base_id );
 
 		if( is_string( $locale ) ) {
 			$locale = new Locale( $locale );
@@ -265,7 +265,7 @@ class Mvc_Page extends BaseObject implements Mvc_Page_Interface
 		/**
 		 * @var Mvc_Page $homepage
 		 */
-		$homepage = $site->getHomepage( $locale );
+		$homepage = $base->getHomepage( $locale );
 
 		$result = [];
 
@@ -294,7 +294,7 @@ class Mvc_Page extends BaseObject implements Mvc_Page_Interface
 	 */
 	public function getKey(): string
 	{
-		return $this->getSite()->getId() . ':' . $this->getLocale() . ':' . $this->getId();
+		return $this->getBase()->getId() . ':' . $this->getLocale() . ':' . $this->getId();
 	}
 
 	/**
@@ -307,7 +307,7 @@ class Mvc_Page extends BaseObject implements Mvc_Page_Interface
 		if(
 			$current_page &&
 			$current_page->getId() == $this->getId() &&
-			$current_page->getSiteId() == $this->getSiteId() &&
+			$current_page->getBaseId() == $this->getBaseId() &&
 			$current_page->getLocale()->toString() == $this->getLocale()->toString()
 		) {
 			return true;
@@ -325,7 +325,7 @@ class Mvc_Page extends BaseObject implements Mvc_Page_Interface
 
 		if(
 			!$current_page ||
-			$current_page->getSiteId() != $this->getSiteId() ||
+			$current_page->getBaseId() != $this->getBaseId() ||
 			$current_page->getLocale()->toString() != $this->getLocale()->toString()
 		) {
 			return false;
@@ -341,38 +341,38 @@ class Mvc_Page extends BaseObject implements Mvc_Page_Interface
 	/**
 	 * @return string
 	 */
-	public function getSiteId(): string
+	public function getBaseId(): string
 	{
-		return $this->site_id;
+		return $this->base_id;
 	}
 
 	/**
-	 * @param string $site_id
+	 * @param string $base_id
 	 */
-	public function setSiteId( string $site_id ): void
+	public function setBaseId( string $base_id ): void
 	{
-		$this->site_id = $site_id;
+		$this->base_id = $base_id;
 	}
 
 	/**
-	 * @return Mvc_Site_Interface
+	 * @return Mvc_Base_Interface
 	 */
-	public function getSite(): Mvc_Site_Interface
+	public function getBase(): Mvc_Base_Interface
 	{
-		$site_class_name = Mvc_Factory::getSiteClassName();
+		$base_class_name = Mvc_Factory::getBaseClassName();
 
 		/**
-		 * @var Mvc_Site_Interface $site_class_name
+		 * @var Mvc_Base_Interface $base_class_name
 		 */
-		return $site_class_name::get( $this->site_id );
+		return $base_class_name::get( $this->base_id );
 	}
 
 	/**
-	 * @param Mvc_Site_Interface $site
+	 * @param Mvc_Base_Interface $base
 	 */
-	public function setSite( Mvc_Site_Interface $site ): void
+	public function setBase( Mvc_Base_Interface $base ): void
 	{
-		$this->site_id = $site->getId();
+		$this->base_id = $base->getId();
 	}
 
 	/**
@@ -524,7 +524,7 @@ class Mvc_Page extends BaseObject implements Mvc_Page_Interface
 			return true;
 		}
 
-		if( $this->getSite()->getLocalizedData( $this->getLocale() )->getSSLRequired() ) {
+		if( $this->getBase()->getLocalizedData( $this->getLocale() )->getSSLRequired() ) {
 			return true;
 		}
 
@@ -670,7 +670,7 @@ class Mvc_Page extends BaseObject implements Mvc_Page_Interface
 	 */
 	public function isSecretByDefault(): bool
 	{
-		if( $this->getSite()->getIsSecret() ) {
+		if( $this->getBase()->getIsSecret() ) {
 			return true;
 		}
 
@@ -724,7 +724,7 @@ class Mvc_Page extends BaseObject implements Mvc_Page_Interface
 	 */
 	public function getLayoutsPath(): string
 	{
-		return $this->getSite()->getLayoutsPath();
+		return $this->getBase()->getLayoutsPath();
 	}
 
 	/**
@@ -794,7 +794,7 @@ class Mvc_Page extends BaseObject implements Mvc_Page_Interface
 	{
 		$meta_tags = [];
 
-		foreach( $this->getSite()->getLocalizedData( $this->getLocale() )->getDefaultMetaTags() as $mt ) {
+		foreach( $this->getBase()->getLocalizedData( $this->getLocale() )->getDefaultMetaTags() as $mt ) {
 			$key = $mt->getAttribute() . ':' . $mt->getAttributeValue();
 			if( $key == ':' ) {
 				$key = $mt->getContent();
@@ -870,7 +870,7 @@ class Mvc_Page extends BaseObject implements Mvc_Page_Interface
 		unset( $data['relative_path'] );
 		unset( $data['parent_id'] );
 		unset( $data['children'] );
-		unset( $data['site_id'] );
+		unset( $data['base_id'] );
 		unset( $data['locale'] );
 		unset( $data['relative_path_fragment'] );
 		unset( $data['original_relative_path_fragment'] );

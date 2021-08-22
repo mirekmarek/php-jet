@@ -359,7 +359,7 @@ class Auth_RESTClient_Role extends DataModel implements Auth_Role_Interface
 	{
 		$pages = [];
 
-		foreach( Mvc_Page::getList( Application_Admin::getSiteId(), Mvc::getCurrentLocale() ) as $page ) {
+		foreach( Mvc_Page::getList( Application_Admin::getBaseId(), Mvc::getCurrentLocale() ) as $page ) {
 			$pages[$page->getId()] = $page->getName();
 		}
 

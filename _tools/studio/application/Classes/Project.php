@@ -9,7 +9,7 @@
 namespace JetStudio;
 
 use Jet\BaseObject;
-use Jet\Mvc_Site;
+use Jet\Mvc_Base;
 use Jet\Locale;
 use Jet\Form_Field_Input;
 use Jet\Data_Text;
@@ -37,8 +37,8 @@ class Project extends BaseObject implements Application_Part
 	{
 		$locales = [];
 
-		foreach( Mvc_Site::getAllSites() as $site ) {
-			foreach( $site->getLocales() as $locale ) {
+		foreach( Mvc_Base::getAllBases() as $base ) {
+			foreach( $base->getLocales() as $locale ) {
 				$locale_str = (string)$locale;
 
 				$locales[$locale_str] = $as_string ? $locale_str : $locale;

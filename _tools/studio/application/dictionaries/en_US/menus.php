@@ -31,7 +31,7 @@ return [
 	'MVC link'                                      => '',
 	'Direct link'                                   => '',
 	'Page ID:'                                      => '',
-	'Site ID:'                                      => '',
+	'Base ID:'                                      => '',
 	'Locale:'                                       => '',
 	'Custom URL parts:'                             => '',
 	'GET parameter:'                                => '',

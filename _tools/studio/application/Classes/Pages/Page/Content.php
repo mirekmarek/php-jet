@@ -77,13 +77,13 @@ class Pages_Page_Content extends Mvc_Page_Content
 	public static function getField__output_position( string $default_value, Pages_Page $page ): Form_Field_Select
 	{
 		/**
-		 * @var Sites_Site $site
+		 * @var Bases_Base $base
 		 */
-		$site = $page->getSite();
+		$base = $page->getBase();
 
 		$output_position = new Form_Field_Select( 'output_position', 'Output position:', $default_value );
 		$output_position->setIsRequired( true );
-		$output_position->setSelectOptions( $site->getLayoutOutputPositions( $page->getLayoutScriptName() ) );
+		$output_position->setSelectOptions( $base->getLayoutOutputPositions( $page->getLayoutScriptName() ) );
 		$output_position->setErrorMessages( [
 			Form_Field_Select::ERROR_CODE_EMPTY         => 'Please select output position',
 			Form_Field_Select::ERROR_CODE_INVALID_VALUE => 'Please select output position'

@@ -20,7 +20,7 @@ use JetStudio\DataModels;
 use JetStudio\Menus;
 use JetStudio\ModuleWizard;
 use JetStudio\ModuleWizards;
-use JetStudio\Sites;
+use JetStudio\Bases;
 
 /**
  *
@@ -127,7 +127,7 @@ class Wizard extends ModuleWizard
 			'LOG_EVENT_UPDATED' => $def_name . ' updated',
 			'LOG_EVENT_DELETED' => $def_name . ' deleted',
 
-			'PAGE_SITE_ID'       => 'admin',
+			'PAGE_BASE_ID'       => 'admin',
 			'PAGE_ID'            => $page_id,
 			'PAGE_TITLE'         => $def_name . ' administration',
 			'PAGE_ICON'          => '',
@@ -401,23 +401,23 @@ class Wizard extends ModuleWizard
 	public function generateSetupForm_page( array &$fields ): void
 	{
 
-		$sites_list = ['' => ''];
+		$bases_list = ['' => ''];
 
-		foreach( Sites::getSites() as $site ) {
-			$sites_list[$site->getId()] = $site->getName();
+		foreach( Bases::getBases() as $base ) {
+			$bases_list[$base->getId()] = $base->getName();
 		}
 
-		$page_site_id_field = new Form_Field_Select( 'PAGE_SITE_ID', 'Site:' );
-		$page_site_id_field->setCatcher( function( $value ) {
-			$this->values['PAGE_SITE_ID'] = $value;
+		$page_base_id_field = new Form_Field_Select( 'PAGE_BASE_ID', 'Base:' );
+		$page_base_id_field->setCatcher( function( $value ) {
+			$this->values['PAGE_BASE_ID'] = $value;
 		} );
-		$page_site_id_field->setIsRequired( true );
-		$page_site_id_field->setErrorMessages( [
-			Form_Field_Select::ERROR_CODE_EMPTY         => 'Please select site',
-			Form_Field_Select::ERROR_CODE_INVALID_VALUE => 'Please select site',
+		$page_base_id_field->setIsRequired( true );
+		$page_base_id_field->setErrorMessages( [
+			Form_Field_Select::ERROR_CODE_EMPTY         => 'Please select base',
+			Form_Field_Select::ERROR_CODE_INVALID_VALUE => 'Please select base',
 		] );
-		$page_site_id_field->setSelectOptions( $sites_list );
-		$fields[] = $page_site_id_field;
+		$page_base_id_field->setSelectOptions( $bases_list );
+		$fields[] = $page_base_id_field;
 
 
 		/*

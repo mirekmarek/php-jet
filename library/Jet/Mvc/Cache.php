@@ -55,50 +55,50 @@ class Mvc_Cache
 	/**
 	 * @return array|null
 	 */
-	public static function loadSiteMaps(): array|null
+	public static function loadBaseMaps(): array|null
 	{
 		if( !static::$backend ) {
 			return null;
 		}
 
-		return static::$backend->loadSiteMaps();
+		return static::$backend->loadBaseMaps();
 	}
 
 	/**
 	 * @param array $map
 	 */
-	public static function saveSiteMaps( array $map ): void
+	public static function saveBaseMaps( array $map ): void
 	{
 		if( static::$backend ) {
-			static::$backend->saveSiteMaps( $map );
+			static::$backend->saveBaseMaps( $map );
 		}
 	}
 
 	/**
-	 * @param Mvc_Site_Interface $site
+	 * @param Mvc_Base_Interface $base
 	 * @param Locale $locale
 	 *
 	 * @return array|null
 	 */
-	public static function loadPageMaps( Mvc_Site_Interface $site, Locale $locale ): array|null
+	public static function loadPageMaps( Mvc_Base_Interface $base, Locale $locale ): array|null
 	{
 		if( !static::$backend ) {
 			return null;
 		}
 
-		return static::$backend->loadPageMaps( $site, $locale );
+		return static::$backend->loadPageMaps( $base, $locale );
 	}
 
 	/**
-	 * @param Mvc_Site_Interface $site
+	 * @param Mvc_Base_Interface $base
 	 * @param Locale $locale
 	 *
 	 * @param array $map
 	 */
-	public static function savePageMaps( Mvc_Site_Interface $site, Locale $locale, array $map ): void
+	public static function savePageMaps( Mvc_Base_Interface $base, Locale $locale, array $map ): void
 	{
 		if( static::$backend ) {
-			static::$backend->savePageMaps( $site, $locale, $map );
+			static::$backend->savePageMaps( $base, $locale, $map );
 		}
 	}
 

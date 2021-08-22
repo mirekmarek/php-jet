@@ -46,7 +46,7 @@ class Test_Gallery_PutInvalid extends Test_Abstract
 				]
 		];
 
-		foreach( Application_Web::getSite()->getLocales() as $locale_str => $locale ) {
+		foreach( Application_Web::getBase()->getLocales() as $locale_str => $locale ) {
 			$data['localized'][$locale_str] = [
 				'title' => ''
 			];

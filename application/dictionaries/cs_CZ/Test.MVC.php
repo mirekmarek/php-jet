@@ -1,6 +1,6 @@
 <?php
 return [
-	'Current site id:' => 'Aktuální id webu:',
+	'Current base id:' => 'Aktuální id základny:',
 	'Current locale:'  => 'Aktuální lokalizace:',
 	'Current page id:' => 'Aktuální id stránky:',
 ];

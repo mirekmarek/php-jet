@@ -10,7 +10,7 @@ namespace JetApplication\Installer;
 
 use Exception;
 use Jet\Mailing_Config_Sender;
-use Jet\Mvc_Site;
+use Jet\Mvc_Base;
 use Jet\UI_messages;
 use Jet\Http_Headers;
 use Jet\Tr;
@@ -38,18 +38,18 @@ class Installer_Step_Mailing_Controller extends Installer_Step_Controller
 		$known_senders = [];
 		$specification = '';
 
-		foreach( Mvc_Site::getAllSites() as $site ) {
-			$site_id = $site->getId();
+		foreach( Mvc_Base::getAllBases() as $base ) {
+			$base_id = $base->getId();
 
-			foreach( $site->getLocales() as $locale ) {
+			foreach( $base->getLocales() as $locale ) {
 
-				if( !$config->getSender( $locale, $site_id, $specification ) ) {
+				if( !$config->getSender( $locale, $base_id, $specification ) ) {
 					$sender = new Mailing_Config_Sender();
 
-					$config->addSender( $sender, $locale, $site_id, $specification );
+					$config->addSender( $sender, $locale, $base_id, $specification );
 				}
 
-				$known_senders[] = $config->getSenderKey( $locale, $site_id, $specification );
+				$known_senders[] = $config->getSenderKey( $locale, $base_id, $specification );
 			}
 		}
 

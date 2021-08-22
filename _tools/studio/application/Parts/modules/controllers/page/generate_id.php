@@ -6,9 +6,9 @@ use Jet\AJAX;
 use Jet\Http_Request;
 
 $name = Http_Request::GET()->getString( 'name' );
-$site_id = Http_Request::GET()->getString( 'site_id' );
+$base_id = Http_Request::GET()->getString( 'base_id' );
 
-$id = Modules_Manifest::generatePageId( $name, $site_id );
+$id = Modules_Manifest::generatePageId( $name, $base_id );
 
 AJAX::response(
 	[

@@ -2,7 +2,7 @@
 return [
 	'Project settings'                       => 'Nastavení projektu',
 	'Application configuration'              => 'Konfigurace aplikace',
-	'Sites'                                  => 'Weby (sites)',
+	'Bases'                                  => 'Báze',
 	'Pages'                                  => 'Stránky',
 	'Menus'                                  => 'Menu',
 	'Modules'                                => 'Moduly',

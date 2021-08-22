@@ -9,7 +9,7 @@ return [
 	'Please enter a name' => '',
 	'Invalid value' => '',
 	'Privileges' => '',
-	'Sites and pages' => '',
+	'Bases and pages' => '',
 	'Get role data' => '',
 	'Add new role' => '',
 	'Update role' => '',

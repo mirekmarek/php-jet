@@ -108,10 +108,10 @@ class Application extends Jet_Application
 	public static function getParts(): array
 	{
 		return [
-			'sites'         => [
-				'label' => Tr::_( 'Sites', [], Tr::COMMON_NAMESPACE ),
+			'bases'         => [
+				'label' => Tr::_( 'Bases', [], Tr::COMMON_NAMESPACE ),
 				'icon'  => 'compass',
-				'class' => 'Sites',
+				'class' => 'Bases',
 			],
 			'pages'         => [
 				'label' => Tr::_( 'Pages', [], Tr::COMMON_NAMESPACE ),

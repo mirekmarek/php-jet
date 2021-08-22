@@ -1,0 +1,21 @@
+<?php
+namespace JetStudio;
+
+use Jet\Tr;
+use Jet\UI;
+
+$base = Bases::getCurrentBase();
+
+if( !$base ) {
+	return;
+}
+
+$form = $base->getEditForm();
+?>
+<div class="toolbar" id="main-toolbar">
+	<?= UI::button_save()->setOnclick( "$('#{$form->getId()}').submit()" ) ?>
+
+	<?= UI::button_create( Tr::_( 'Add locale' ) )->setOnclick( 'Bases.editBase.addLocale()' ) ?>
+	<?= UI::button_edit( Tr::_( 'Sort locales' ) )->setOnclick( 'Bases.editBase.sortLocales()' ) ?>
+</div>
+

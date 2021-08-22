@@ -32,7 +32,7 @@ class Mailing_Email_Template extends BaseObject
 	/**
 	 * @var ?string
 	 */
-	protected ?string $site_id = '';
+	protected ?string $base_id = '';
 
 	/**
 	 * @var string
@@ -76,7 +76,7 @@ class Mailing_Email_Template extends BaseObject
 	{
 		if(!static::$view_dir_generator) {
 			static::$view_dir_generator = function( Mailing_Email_Template $template ) : string {
-				$path = Mvc_Site::get( $template->getSiteId() )->getViewsPath() . 'EmailTemplates/';
+				$path = Mvc_Base::get( $template->getBaseId() )->getViewsPath() . 'EmailTemplates/';
 
 				if( $template->getLocale() ) {
 					$path .= $template->getLocale() . '/';
@@ -106,10 +106,10 @@ class Mailing_Email_Template extends BaseObject
 	 *
 	 * @param string $name
 	 * @param string|Locale|null $locale
-	 * @param string|null $site_id
+	 * @param string|null $base_id
 	 * @param string $specification
 	 */
-	public function __construct( string $name, string|Locale|null $locale = null, ?string $site_id = null, string $specification = '' )
+	public function __construct( string $name, string|Locale|null $locale = null, ?string $base_id = null, string $specification = '' )
 	{
 		if( $locale === null ) {
 			$locale = Locale::getCurrentLocale();
@@ -122,15 +122,15 @@ class Mailing_Email_Template extends BaseObject
 			$locale = new Locale( $locale );
 		}
 
-		if( $site_id === null ) {
-			if( Mvc::getCurrentSite() ) {
-				$site_id = Mvc::getCurrentSite()->getId();
+		if( $base_id === null ) {
+			if( Mvc::getCurrentBase() ) {
+				$base_id = Mvc::getCurrentBase()->getId();
 			}
 		}
 
 		$this->name = $name;
 		$this->locale = $locale;
-		$this->site_id = $site_id;
+		$this->base_id = $base_id;
 		$this->sender_specification = $specification;
 	}
 
@@ -189,9 +189,9 @@ class Mailing_Email_Template extends BaseObject
 	/**
 	 * @return string
 	 */
-	public function getSiteId(): string
+	public function getBaseId(): string
 	{
-		return $this->site_id;
+		return $this->base_id;
 	}
 
 	/**
@@ -207,7 +207,7 @@ class Mailing_Email_Template extends BaseObject
 	 */
 	public function getSender(): Mailing_Config_Sender
 	{
-		return Mailing::getConfig()->getSender( $this->locale, $this->site_id, $this->sender_specification );
+		return Mailing::getConfig()->getSender( $this->locale, $this->base_id, $this->sender_specification );
 	}
 
 

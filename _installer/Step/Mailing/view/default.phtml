@@ -3,7 +3,7 @@ namespace JetApplication\Installer;
 
 use Jet\Form;
 use Jet\Mailing;
-use Jet\Mvc_Site;
+use Jet\Mvc_Base;
 use Jet\Mvc_View;
 use Jet\Tr;
 use Jet\UI;
@@ -21,13 +21,13 @@ $config = Mailing::getConfig();
 <h3><?= Tr::_( 'Set the mail sender' ) ?></h3>
 <?= $form->start() ?>
 
-<?php foreach( Mvc_Site::getAllSites() as $site ): ?>
+<?php foreach( Mvc_Base::getAllBases() as $base ): ?>
 
 	<fieldset>
-		<legend><?= $site->getName() ?></legend>
+		<legend><?= $base->getName() ?></legend>
 
-		<?php foreach( $site->getLocales() as $locale ):
-			$key = $config->getSenderKey( $locale, $site->getId(), '' );
+		<?php foreach( $base->getLocales() as $locale ):
+			$key = $config->getSenderKey( $locale, $base->getId(), '' );
 			?>
 			<fieldset style="padding-left: 60px;">
 				<legend><?= UI::flag( $locale ) ?> <?= $locale->getName(); ?></legend>

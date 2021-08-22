@@ -94,14 +94,14 @@ class Modules_Manifest extends Application_Module_Manifest
 			}
 		}
 
-		foreach( $this->pages as $site_id => $pages ) {
-			$site = Sites::getSite( $site_id );
-			if( !$site ) {
-				unset( $this->pages[$site_id] );
+		foreach( $this->pages as $base_id => $pages ) {
+			$base = Bases::getBase( $base_id );
+			if( !$base ) {
+				unset( $this->pages[$base_id] );
 				continue;
 			}
 
-			$locale = $site->getDefaultLocale();
+			$locale = $base->getDefaultLocale();
 
 			foreach( $pages as $page_id => $page_data ) {
 				/**
@@ -109,9 +109,9 @@ class Modules_Manifest extends Application_Module_Manifest
 				 */
 				$page_data['id'] = $page_id;
 
-				$page = Pages_Page::createByData( $site, $locale, $page_data );
+				$page = Pages_Page::createByData( $base, $locale, $page_data );
 
-				$this->pages[$site_id][$page_id] = $page;
+				$this->pages[$base_id][$page_id] = $page;
 			}
 		}
 	}
@@ -207,24 +207,24 @@ class Modules_Manifest extends Application_Module_Manifest
 	}
 
 	/**
-	 * @param $site_id
-	 * @param $page_id
+	 * @param string $base_id
+	 * @param string $page_id
 	 *
 	 * @return null|Pages_Page
 	 */
-	public function getPage( string $site_id, string $page_id ): null|Pages_Page
+	public function getPage( string $base_id, string $page_id ): null|Pages_Page
 	{
 		if(
-			!isset( $this->pages[$site_id] ) ||
-			!isset( $this->pages[$site_id][$page_id] )
+			!isset( $this->pages[$base_id] ) ||
+			!isset( $this->pages[$base_id][$page_id] )
 		) {
 			return null;
 		}
 
-		$page = $this->pages[$site_id][$page_id];
+		$page = $this->pages[$base_id][$page_id];
 
-		$site = Sites::getSite( $page->getSiteId() );
-		$page->setLocale( $site->getDefaultLocale() );
+		$base = Bases::getBase( $page->getBaseId() );
+		$page->setLocale( $base->getDefaultLocale() );
 
 		return $page;
 	}
@@ -443,17 +443,17 @@ class Modules_Manifest extends Application_Module_Manifest
 	}
 
 	/**
-	 * @param string $site_id
+	 * @param string $base_id
 	 *
 	 * @param Pages_Page $page
 	 */
-	public function addPage( string $site_id, Pages_Page $page ): void
+	public function addPage( string $base_id, Pages_Page $page ): void
 	{
-		if( !isset( $this->pages[$site_id] ) ) {
-			$this->pages[$site_id] = [];
+		if( !isset( $this->pages[$base_id] ) ) {
+			$this->pages[$base_id] = [];
 		}
 
-		$this->pages[$site_id][$page->getId()] = $page;
+		$this->pages[$base_id][$page->getId()] = $page;
 
 	}
 
@@ -463,17 +463,17 @@ class Modules_Manifest extends Application_Module_Manifest
 	public function getPageCreateForm(): Form
 	{
 		if( !$this->page_create_form ) {
-			$sites = ['' => ''];
-			foreach( Sites::getSites() as $site ) {
-				$sites[$site->getId()] = $site->getName();
+			$bases = ['' => ''];
+			foreach( Bases::getBases() as $base ) {
+				$bases[$base->getId()] = $base->getName();
 			}
 
-			$site_id = new Form_Field_Select( 'site_id', 'Site: ', '' );
-			$site_id->setSelectOptions( $sites );
-			$site_id->setIsRequired( true );
-			$site_id->setErrorMessages( [
-				Form_Field_Select::ERROR_CODE_EMPTY         => 'Please select site',
-				Form_Field_Select::ERROR_CODE_INVALID_VALUE => 'Please select site',
+			$base_id = new Form_Field_Select( 'base_id', 'Base: ', '' );
+			$base_id->setSelectOptions( $bases );
+			$base_id->setIsRequired( true );
+			$base_id->setErrorMessages( [
+				Form_Field_Select::ERROR_CODE_EMPTY         => 'Please select base',
+				Form_Field_Select::ERROR_CODE_INVALID_VALUE => 'Please select base',
 			] );
 
 			$page_name = new Form_Field_Input( 'page_name', 'Page name:', '' );
@@ -490,7 +490,7 @@ class Modules_Manifest extends Application_Module_Manifest
 
 
 			$form = new Form( 'add_page_form', [
-				$site_id,
+				$base_id,
 				$page_name,
 				$page_id
 			] );
@@ -519,16 +519,16 @@ class Modules_Manifest extends Application_Module_Manifest
 			return false;
 		}
 
-		$site_id = $form->getField( 'site_id' )->getValue();
+		$base_id = $form->getField( 'base_id' )->getValue();
 		$page_name = $form->getField( 'page_name' )->getValue();
 		$page_id = $form->getField( 'page_id' )->getValue();
 
 
-		$page_id = static::generatePageId( $page_id, $site_id );
+		$page_id = static::generatePageId( $page_id, $base_id );
 
 		$page = new Pages_Page();
 
-		$page->setSiteId( $site_id );
+		$page->setBaseId( $base_id );
 		$page->setId( $page_id );
 		$page->setName( $page_name );
 		$page->setTitle( $page_name );
@@ -544,24 +544,24 @@ class Modules_Manifest extends Application_Module_Manifest
 			$content
 		] );
 
-		$this->addPage( $site_id, $page );
+		$this->addPage( $base_id, $page );
 
 		return $page;
 	}
 
 	/**
 	 * @param string $name
-	 * @param string $site_id
+	 * @param string $base_id
 	 * @return string
 	 */
-	public static function generatePageId( string $name, string $site_id ): string
+	public static function generatePageId( string $name, string $base_id ): string
 	{
-		$site = Sites::getSite( $site_id );
+		$base = Bases::getBase( $base_id );
 
-		return Project::generateIdentifier( $name, function( $id ) use ( $site ) {
+		return Project::generateIdentifier( $name, function( $id ) use ( $base ) {
 
-			foreach( $site->getLocales() as $locale ) {
-				if( Pages::exists( $id, $locale, $site->getId() ) ) {
+			foreach( $base->getLocales() as $locale ) {
+				if( Pages::exists( $id, $locale, $base->getId() ) ) {
 					return true;
 				}
 			}
@@ -571,22 +571,22 @@ class Modules_Manifest extends Application_Module_Manifest
 	}
 
 	/**
-	 * @param string $site_id
+	 * @param string $base_id
 	 * @param string $page_id
 	 * @return Pages_Page|null
 	 */
-	public function deletePage( string $site_id, string $page_id ): Pages_Page|null
+	public function deletePage( string $base_id, string $page_id ): Pages_Page|null
 	{
-		if( !isset( $this->pages[$site_id][$page_id] ) ) {
+		if( !isset( $this->pages[$base_id][$page_id] ) ) {
 			return null;
 		}
 
-		$old_page = $this->pages[$site_id][$page_id];
+		$old_page = $this->pages[$base_id][$page_id];
 
-		unset( $this->pages[$site_id][$page_id] );
+		unset( $this->pages[$base_id][$page_id] );
 
-		if( !count( $this->pages[$site_id] ) ) {
-			unset( $this->pages[$site_id] );
+		if( !count( $this->pages[$base_id] ) ) {
+			unset( $this->pages[$base_id] );
 		}
 
 		return $old_page;
@@ -752,7 +752,7 @@ class Modules_Manifest extends Application_Module_Manifest
 		$menu_item->setURL( $form->field( 'URL' )->getValue() );
 
 		$menu_item->setPageId( $form->field( 'page_id' )->getValue() );
-		$menu_item->setSiteId( $form->field( 'site_id' )->getValue() );
+		$menu_item->setBaseId( $form->field( 'base_id' )->getValue() );
 		$menu_item->setLocale( $form->field( 'locale' )->getValue() );
 
 		$menu_item->setUrlParts( Menus_Menu_Item::catchURLParts( $form ) );

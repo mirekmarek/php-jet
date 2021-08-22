@@ -51,9 +51,9 @@ use Jet\Mvc;
 					<span><?= UI::flag( Locale::getCurrentLocale() ) ?></span>
 				</a>
 				<div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-					<?php foreach( Mvc::getCurrentSite()->getLocales() as $locale ): ?>
+					<?php foreach( Mvc::getCurrentBase()->getLocales() as $locale ): ?>
 						<a class="dropdown-item"
-						   href="<?= Mvc::getCurrentSite()->getHomepage()->getURLPath( [], ['locale' => $locale->toString()] ) ?>">
+						   href="<?= Mvc::getCurrentBase()->getHomepage()->getURLPath( [], ['locale' => $locale->toString()] ) ?>">
 							<?= UI::flag( $locale ) ?>
 							<?= $locale->getName( $locale ) ?>
 						</a>

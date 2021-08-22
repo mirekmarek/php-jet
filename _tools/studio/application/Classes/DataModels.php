@@ -534,7 +534,16 @@ class DataModels extends BaseObject implements Application_Part
 		$exists = false;
 
 		if( $model ) {
+			$m_class = DataModels::getClass($model->getClassName());
+
 			foreach( DataModels::getClasses() as $class ) {
+				if(
+					$class->isDescendantOf( $m_class ) ||
+					$m_class->isDescendantOf($class)
+				) {
+					continue;
+				}
+
 				$m = $class->getDefinition();
 
 				if(

@@ -3,7 +3,7 @@ return [
 	'Save'                                          => '',
 	'Project settings'                              => '',
 	'Application configuration'                     => '',
-	'Sites'                                         => '',
+	'Bases'                                         => '',
 	'Pages'                                         => '',
 	'Menus'                                         => '',
 	'Modules'                                       => '',

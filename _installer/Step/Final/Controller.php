@@ -41,7 +41,7 @@ class Installer_Step_Final_Controller extends Installer_Step_Controller
 
 		if(
 			$OK &&
-			Installer_Step_CreateSite_Controller::sitesCreated()
+			Installer_Step_CreateBases_Controller::basesCreated()
 		) {
 			try {
 				IO_File::write( $install_symptom_file_path, Data_DateTime::now()->toString() );

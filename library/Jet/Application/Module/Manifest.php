@@ -330,13 +330,13 @@ class Application_Module_Manifest extends BaseObject
 	}
 
 	/**
-	 * @param Mvc_Site_Interface $site
+	 * @param Mvc_Base_Interface $base
 	 * @param Locale $locale
 	 * @param null|string|bool $translator_namespace
 	 *
 	 * @return Mvc_Page[]
 	 */
-	public function getPages( Mvc_Site_Interface $site, Locale $locale, null|string|bool $translator_namespace = null ): array
+	public function getPages( Mvc_Base_Interface $base, Locale $locale, null|string|bool $translator_namespace = null ): array
 	{
 
 		if( $translator_namespace === null ) {
@@ -344,8 +344,8 @@ class Application_Module_Manifest extends BaseObject
 		}
 
 		if(
-			!isset( $this->pages[$site->getId()] ) ||
-			!is_array( $this->pages[$site->getId()] )
+			!isset( $this->pages[$base->getId()] ) ||
+			!is_array( $this->pages[$base->getId()] )
 		) {
 			return [];
 		}
@@ -359,7 +359,7 @@ class Application_Module_Manifest extends BaseObject
 			'breadcrumb_title',
 		];
 
-		foreach( $this->pages[$site->getId()] as $page_id => $page_data ) {
+		foreach( $this->pages[$base->getId()] as $page_id => $page_data ) {
 
 			$page_data['id'] = $page_id;
 
@@ -379,7 +379,7 @@ class Application_Module_Manifest extends BaseObject
 				}
 			}
 
-			$page = Mvc_Factory::getPageInstance()::createByData( $site, $locale, $page_data );
+			$page = Mvc_Factory::getPageInstance()::createByData( $base, $locale, $page_data );
 
 			$pages[$page_id] = $page;
 
@@ -494,13 +494,13 @@ class Application_Module_Manifest extends BaseObject
 			return $data;
 		};
 
-		foreach( $this->pages as $site_id => $pages ) {
+		foreach( $this->pages as $base_id => $pages ) {
 			if( !isset( $res['pages'] ) ) {
 				$res['pages'] = [];
 			}
 
-			if( !isset( $res['pages'][$site_id] ) ) {
-				$res['pages'][$site_id] = [];
+			if( !isset( $res['pages'][$base_id] ) ) {
+				$res['pages'][$base_id] = [];
 			}
 
 			foreach( $pages as $page_id => $page ) {
@@ -510,7 +510,7 @@ class Application_Module_Manifest extends BaseObject
 
 				$page_data = $cleanupArray( $page_data );
 
-				$res['pages'][$site_id][$page_id] = $page_data;
+				$res['pages'][$base_id][$page_id] = $page_data;
 			}
 
 		}

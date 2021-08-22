@@ -109,7 +109,7 @@ class Menus_Menu_Item extends Navigation_Menu_Item
 			$URL = new Form_Field_Input( 'URL', 'URL:', '' );
 
 			$page_id = new Form_Field_Input( 'page_id', 'Page ID:', '' );
-			$site_id = new Form_Field_Input( 'site_id', 'Site ID:', '' );
+			$base_id = new Form_Field_Input( 'base_id', 'Base ID:', '' );
 			$locale = new Form_Field_Input( 'locale', 'Locale:', '' );
 
 
@@ -125,7 +125,7 @@ class Menus_Menu_Item extends Navigation_Menu_Item
 				$URL,
 
 				$page_id,
-				$site_id,
+				$base_id,
 				$locale,
 			];
 
@@ -185,7 +185,7 @@ class Menus_Menu_Item extends Navigation_Menu_Item
 		$menu_item->setURL( $form->field( 'URL' )->getValue() );
 
 		$menu_item->setPageId( $form->field( 'page_id' )->getValue() );
-		$menu_item->setSiteId( $form->field( 'site_id' )->getValue() );
+		$menu_item->setBaseId( $form->field( 'base_id' )->getValue() );
 		$menu_item->setLocale( $form->field( 'locale' )->getValue() );
 
 		$menu_item->setUrlParts( static::catchURLParts( $form ) );
@@ -248,9 +248,9 @@ class Menus_Menu_Item extends Navigation_Menu_Item
 				$this->setPageId( $value );
 			} );
 
-			$site_id = new Form_Field_Input( 'site_id', 'Site ID:', $this->getSiteId() );
-			$site_id->setCatcher( function( $value ) {
-				$this->setSiteId( $value );
+			$base_id = new Form_Field_Input( 'base_id', 'Base ID:', $this->getBaseId() );
+			$base_id->setCatcher( function( $value ) {
+				$this->setBaseId( $value );
 			} );
 
 			$locale = new Form_Field_Input( 'locale', 'Locale:', $this->getLocale() );
@@ -270,7 +270,7 @@ class Menus_Menu_Item extends Navigation_Menu_Item
 				$URL,
 
 				$page_id,
-				$site_id,
+				$base_id,
 				$locale,
 			];
 
@@ -407,7 +407,7 @@ class Menus_Menu_Item extends Navigation_Menu_Item
 			$menu_item['URL'] = $this->getUrl();
 		} else {
 			$menu_item['page_id'] = $this->getPageId();
-			$menu_item['site_id'] = $this->getSiteId();
+			$menu_item['base_id'] = $this->getBaseId();
 			$menu_item['locale'] = (string)$this->getLocale();
 			$menu_item['url_parts'] = $this->getUrlParts();
 			$menu_item['get_params'] = $this->getGetParams();

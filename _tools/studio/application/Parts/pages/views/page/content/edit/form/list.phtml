@@ -25,12 +25,12 @@ $form->setDefaultFieldWidth( [
 ] );
 
 /**
- * @var Sites_Site $site
+ * @var Bases_Base $base
  */
-$site = $page->getSite();
+$base = $page->getBase();
 
 $positions = [];
-$known_positions = $site->getLayoutOutputPositions( $page->getLayoutScriptName() );
+$known_positions = $base->getLayoutOutputPositions( $page->getLayoutScriptName() );
 
 $i = 0;
 foreach( $page->getContent() as $content ) {
@@ -87,7 +87,7 @@ foreach( Modules::getModules() as $module ) {
 }
 
 
-$site_id = $page->getSiteId();
+$base_id = $page->getBaseId();
 $page_id = $page->getId();
 
 $delete_content_action_creator = $this->getRaw( 'delete_content_action_creator' );
@@ -122,7 +122,7 @@ if( !$delete_content_action_creator ) {
 		<div>
 			<div class="card">
 				<div class="card-header" data-toggle="collapse"
-				     data-target="#content_<?= $site_id ?>_<?= $page_id ?>_<?= $i ?>">
+				     data-target="#content_<?= $base_id ?>_<?= $page_id ?>_<?= $i ?>">
 					<table width="100%">
 						<tr>
 							<td style="width: 100px"><?= $content->getOutputPositionOrder() ?>.</td>
@@ -201,7 +201,7 @@ if( !$delete_content_action_creator ) {
 
 				</div>
 
-				<div class="card-body collapse" id="content_<?= $site_id ?>_<?= $page_id ?>_<?= $i ?>">
+				<div class="card-body collapse" id="content_<?= $base_id ?>_<?= $page_id ?>_<?= $i ?>">
 					<?php
 					echo $form->field( $f_prefix . 'output_position' );
 					echo $form->field( $f_prefix . 'output_position_order' );

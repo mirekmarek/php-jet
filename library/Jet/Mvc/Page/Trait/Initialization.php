@@ -35,36 +35,36 @@ trait Mvc_Page_Trait_Initialization
 
 
 	/**
-	 * @param Mvc_Site_Interface $site
+	 * @param Mvc_Base_Interface $base
 	 * @param Locale $locale
 	 *
 	 * @return array
 	 */
-	public static function getRelativePathMap( Mvc_Site_Interface $site, Locale $locale ): array
+	public static function getRelativePathMap( Mvc_Base_Interface $base, Locale $locale ): array
 	{
-		$site_id = $site->getId();
+		$base_id = $base->getId();
 
-		$key = $site_id . ':' . $locale;
+		$key = $base_id . ':' . $locale;
 
-		static::loadMaps( $site, $locale );
+		static::loadMaps( $base, $locale );
 
 		return static::$maps[$key]['relative_path_map'];
 	}
 
 	/**
-	 * @param Mvc_Site_Interface $site
+	 * @param Mvc_Base_Interface $base
 	 * @param Locale $locale
 	 *
 	 * @return array
 	 */
-	public static function loadMaps( Mvc_Site_Interface $site, Locale $locale ): array
+	public static function loadMaps( Mvc_Base_Interface $base, Locale $locale ): array
 	{
-		$site_id = $site->getId();
+		$base_id = $base->getId();
 
-		$key = $site_id . ':' . $locale;
+		$key = $base_id . ':' . $locale;
 
 		if( !isset( static::$maps[$key] ) ) {
-			$map = Mvc_Cache::loadPageMaps( $site, $locale );
+			$map = Mvc_Cache::loadPageMaps( $base, $locale );
 			if( $map ) {
 				static::$maps[$key] = $map;
 			} else {
@@ -76,10 +76,10 @@ trait Mvc_Page_Trait_Initialization
 					'parents_map'       => [],
 				];
 
-				static::loadMaps_readDir( $key, $site->getPagesDataPath( $locale ) );
-				static::loadMaps_modules( $site, $locale );
+				static::loadMaps_readDir( $key, $base->getPagesDataPath( $locale ) );
+				static::loadMaps_modules( $base, $locale );
 
-				Mvc_Cache::savePageMaps( $site, $locale, static::$maps[$key] );
+				Mvc_Cache::savePageMaps( $base, $locale, static::$maps[$key] );
 			}
 		}
 
@@ -87,25 +87,25 @@ trait Mvc_Page_Trait_Initialization
 	}
 
 	/**
-	 * @param Mvc_Site_Interface $site
+	 * @param Mvc_Base_Interface $base
 	 * @param Locale $locale
 	 */
-	protected static function loadMaps_modules( Mvc_Site_Interface $site, Locale $locale ): void
+	protected static function loadMaps_modules( Mvc_Base_Interface $base, Locale $locale ): void
 	{
 		if( !static::$use_module_pages ) {
 			return;
 		}
 
-		$site_id = $site->getId();
+		$base_id = $base->getId();
 		$locale_str = $locale->toString();
-		$key = $site_id . ':' . $locale_str;
+		$key = $base_id . ':' . $locale_str;
 
 		Debug_Profiler::blockStart( 'Loading module pages' );
-		Debug_Profiler::message( 'site: ' . $site_id . ' locale: ' . $locale_str );
+		Debug_Profiler::message( 'base: ' . $base_id . ' locale: ' . $locale_str );
 
 		foreach( Application_Modules::activatedModulesList() as $manifest ) {
 
-			$pages = $manifest->getPages( $site, $locale );
+			$pages = $manifest->getPages( $base, $locale );
 
 			foreach( $pages as $page ) {
 				$page_id = $page->getId();
@@ -218,20 +218,20 @@ trait Mvc_Page_Trait_Initialization
 
 
 	/**
-	 * @param Mvc_Site_Interface $site
+	 * @param Mvc_Base_Interface $base
 	 * @param Locale $locale
 	 * @param array $data
 	 *
 	 * @return static
 	 */
-	public static function createByData( Mvc_Site_Interface $site, Locale $locale, array $data ): static
+	public static function createByData( Mvc_Base_Interface $base, Locale $locale, array $data ): static
 	{
 		/**
 		 * @var Mvc_Page $page
 		 */
 		$page = Mvc_Factory::getPageInstance();
 
-		$page->setSite( $site );
+		$page->setBase( $base );
 		$page->setLocale( $locale );
 		$page->setId( $data['id'] );
 

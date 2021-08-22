@@ -1,6 +1,6 @@
 <?php
 return [
-	'Please select site and locale'                                                              => 'Prosím vyberte web a lokalizaci',
+	'Please select base and locale'                                                              => 'Prosím vyberte bázi a lokalizaci',
 	'Create a new Page'                                                                          => 'Vytvořit novou stránku',
 	'Please enter page name'                                                                     => 'Prosím zadejte název stránky',
 	'Invalid page identifier format'                                                             => 'Nesprávní formát identifikátoru stránky',

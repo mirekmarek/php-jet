@@ -39,7 +39,7 @@ $grid->getColumn( '_edit_' )
 $grid->getColumn( 'title' )
 	->setRenderer(
 		function( Article $item ) use ( $router ) {
-			foreach( Application_Web::getSite()->getLocales() as $locale ):
+			foreach( Application_Web::getBase()->getLocales() as $locale ):
 				$URI = $router->action( 'edit' )->URI( $item->getId() );
 				$title = $item->getLocalized( $locale )->getTitle();
 

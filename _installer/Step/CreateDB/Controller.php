@@ -46,7 +46,7 @@ class Installer_Step_CreateDB_Controller extends Installer_Step_Controller
 	 */
 	public function getIsAvailable(): bool
 	{
-		return !Installer_Step_CreateSite_Controller::sitesCreated();
+		return !Installer_Step_CreateBases_Controller::basesCreated();
 	}
 
 

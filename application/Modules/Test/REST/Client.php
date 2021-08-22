@@ -102,7 +102,7 @@ class Client
 		$this->username = $username;
 		$this->password = $password;
 
-		$this->root_page = Application_REST::getSite()->getHomepage( Mvc::getCurrentLocale() );
+		$this->root_page = Application_REST::getBase()->getHomepage( Mvc::getCurrentLocale() );
 	}
 
 

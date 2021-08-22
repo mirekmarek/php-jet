@@ -26,9 +26,9 @@ class Mvc
 	protected static ?Mvc_Router_Interface $router = null;
 
 	/**
-	 * @var ?Mvc_Site_Interface
+	 * @var ?Mvc_Base_Interface
 	 */
-	protected static ?Mvc_Site_Interface $current_site = null;
+	protected static ?Mvc_Base_Interface $current_base = null;
 
 	/**
 	 * @var ?Locale
@@ -79,19 +79,19 @@ class Mvc
 
 	/**
 	 *
-	 * @return Mvc_Site_Interface|null
+	 * @return Mvc_Base_Interface|null
 	 */
-	public static function getCurrentSite(): Mvc_Site_Interface|null
+	public static function getCurrentBase(): Mvc_Base_Interface|null
 	{
-		return static::$current_site;
+		return static::$current_base;
 	}
 
 	/**
-	 * @param Mvc_Site_Interface $current_site
+	 * @param Mvc_Base_Interface $current_base
 	 */
-	public static function setCurrentSite( Mvc_Site_Interface $current_site ): void
+	public static function setCurrentBase( Mvc_Base_Interface $current_base ): void
 	{
-		static::$current_site = $current_site;
+		static::$current_base = $current_base;
 	}
 
 	/**
