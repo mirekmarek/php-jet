@@ -574,6 +574,10 @@ class Data_Tree extends BaseObject implements BaseObject_Interface_IteratorCount
 		$id = $this->getNodeData_id( $item_data );
 		$parent_id = $this->getNodeData_parentId( $item_data );
 
+		if(!$parent_id) {
+			$parent_id = '';
+		}
+
 		if( isset( $this->nodes[$id] ) ) {
 			throw new Data_Tree_Exception(
 				'Node \'' . $id . '\' already exists', Data_Tree_Exception::CODE_NODE_ALREADY_EXISTS

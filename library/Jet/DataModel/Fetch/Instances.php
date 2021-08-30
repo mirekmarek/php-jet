@@ -115,9 +115,9 @@ class DataModel_Fetch_Instances extends DataModel_Fetch implements Data_Paginato
 	/**
 	 * @param mixed $item
 	 *
-	 * @return DataModel
+	 * @return DataModel|DataModel_Related_1toN|DataModel_Related_1to1|DataModel_Related_MtoN
 	 */
-	protected function _get( mixed $item ): DataModel
+	protected function _get( mixed $item ): DataModel|DataModel_Related_1toN|DataModel_Related_1to1|DataModel_Related_MtoN
 	{
 
 		if( $this->_instances === null ) {
@@ -133,7 +133,10 @@ class DataModel_Fetch_Instances extends DataModel_Fetch implements Data_Paginato
 					$model_name => $this->_where
 				],
 				null,
-				function( DataModel $item ) {
+				function( $item ) {
+					/**
+					 * @var DataModel $item
+					 */
 					return $item->getIDController()->toString();
 				},
 				$this->load_filter
