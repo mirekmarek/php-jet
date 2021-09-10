@@ -303,7 +303,7 @@ trait DataModel_Trait_Load
 	 * @param callable|null $item_key_generator
 	 * @param array|DataModel_PropertyFilter|null $load_filter
 	 *
-	 * @return DataModel[]
+	 * @return static[]
 	 */
 	public static function fetch( array $where_per_model = [],
 	                              array|string|null $order_by = null,
