@@ -359,6 +359,31 @@ class Mvc_Base extends BaseObject implements Mvc_Base_Interface
 	}
 
 	/**
+	 *
+	 * @param bool $get_as_string (optional), default: false
+	 *
+	 * @return Locale[]
+	 */
+	public function getActiveLocales( bool $get_as_string = false ): array
+	{
+
+		$result = [];
+
+		foreach( $this->localized_data as $ld ) {
+			if(!$ld->getIsActive()) {
+				continue;
+			}
+			$locale = $ld->getLocale();
+
+			$lc_str = (string)$locale;
+			$result[$lc_str] = $get_as_string ? $lc_str : $locale;
+		}
+
+
+		return $result;
+	}
+
+	/**
 	 * @param array $order
 	 */
 	public function sortLocales( array $order ): void

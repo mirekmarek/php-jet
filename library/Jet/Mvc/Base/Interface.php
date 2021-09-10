@@ -195,6 +195,15 @@ interface Mvc_Base_Interface
 	 */
 	public function getLocales( bool $get_as_string = false ): array;
 
+	/**
+	 *
+	 *
+	 * @param bool $get_as_string (optional, default: false)
+	 *
+	 * @return Locale[]
+	 */
+	public function getActiveLocales( bool $get_as_string = false ): array;
+
 
 	/**
 	 * @param array $order
