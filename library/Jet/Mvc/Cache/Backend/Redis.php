@@ -186,7 +186,10 @@ class Mvc_Cache_Backend_Redis implements Mvc_Cache_Backend
 		$position = $content->getOutputPosition();
 		$position_order = $content->getOutputPositionOrder();
 
-		return $base_id . '_' . $locale . '_' . $page_id . '_' . md5( $module . $controller . $action . $position . $position_order );
+		$cache_context = $page->getCacheContext();
+		$cache_context = $cache_context? '_'.$cache_context : '';
+
+		return $base_id . '_' . $locale . '_' . $page_id . '_' . md5( $module . $controller . $action . $position . $position_order ).$cache_context;
 	}
 
 	/**

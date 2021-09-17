@@ -422,4 +422,15 @@ interface Mvc_Page_Interface
 	 *
 	 */
 	public function saveDataFile(): void;
+
+	/**
+	 * @return string
+	 */
+	public function getCacheContext(): string;
+
+	/**
+	 * @param string $cache_context
+	 */
+	public function setCacheContext( string $cache_context ): void;
+
 }

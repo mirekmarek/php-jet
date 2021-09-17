@@ -115,6 +115,11 @@ class Mvc_Page extends BaseObject implements Mvc_Page_Interface
 	protected array $http_headers = [];
 
 	/**
+	 * @var string
+	 */
+	protected string $_cache_context = '';
+
+	/**
 	 *
 	 * @var string|callable
 	 */
@@ -897,5 +902,22 @@ class Mvc_Page extends BaseObject implements Mvc_Page_Interface
 
 		return $data;
 	}
+
+	/**
+	 * @return string
+	 */
+	public function getCacheContext(): string
+	{
+		return $this->_cache_context;
+	}
+
+	/**
+	 * @param string $cache_context
+	 */
+	public function setCacheContext( string $cache_context ): void
+	{
+		$this->_cache_context = $cache_context;
+	}
+
 
 }
