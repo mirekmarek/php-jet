@@ -32,6 +32,10 @@ if( !$URL ) {
 	] );
 }
 
+$label = trim($b->getLabel());
+$label = $label ? '&nbsp;'.$label : '';
+
+
 ?><a href="<?= $URL ?>" class="btn btn-<?= $b->getClass() ?> btn-<?= $b->getSize() ?>" <?= $b->getJsActions() ?>><?php
 	if( $b->getIcon() ) echo UI::icon( $b->getIcon() );
-	?>&nbsp;<?= $b->getLabel() ?></a>
+	?><?=$label ?></a>
