@@ -91,7 +91,7 @@ return [
 	'Index:'                                                        => 'Index:',
 	'MVC link'                                                      => 'MVC odkaz',
 	'Direct link'                                                   => 'Přímý odkaz',
-	'Base ID:'                                                      => 'ID báze:',
+	'Base:'                                                         => 'Báze:',
 	'Locale:'                                                       => 'Lokalizace:',
 	'Custom URL parts:'                                             => 'Volitelné části URL:',
 	'GET parameter:'                                                => 'Volitelné GET parametry:',
@@ -136,5 +136,5 @@ return [
 	'Delete this page?'                                             => 'Smazat tuto stránku?',
 	'Do you really want to delete this page?'                       => 'Opravdu si přejete smazat tuto stránku?',
 	'Page <b>%base% : %page%</b> has been deleted'                  => 'Stránka <b>%base% : %page%</b> byla smazána',
-	'System'                                                        => '',
+	'System'                                                        => 'System',
 ];

@@ -19,6 +19,11 @@ class ClassParser_Class_AbstractMethod extends ClassParser_Class_Element
 	public ?ClassParser_Token $doc_comment = null;
 
 	/**
+	 * @var bool
+	 */
+	public bool $is_static = false;
+
+	/**
 	 * @var string
 	 */
 	public string $name = '';
@@ -57,8 +62,10 @@ class ClassParser_Class_AbstractMethod extends ClassParser_Class_Element
 
 
 		if( $class->_static_token ) {
-			$method->parseError();
+			$method->is_static = true;
+			$method->start_token = $class->_static_token;
 		}
+
 
 		if( $class->_public_token ) {
 			$method->start_token = $class->_public_token;
@@ -142,6 +149,7 @@ class ClassParser_Class_AbstractMethod extends ClassParser_Class_Element
 					$method->declaration_end = $token;
 
 					$class->_last_doc_comment_token = null;
+					$class->_static_token = null;
 					$class->_private_token = null;
 					$class->_protected_token = null;
 					$class->_public_token = null;

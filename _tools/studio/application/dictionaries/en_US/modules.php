@@ -93,7 +93,7 @@ return [
 	'MVC link'                                                      => '',
 	'Direct link'                                                   => '',
 	'Page ID:'                                                      => '',
-	'Base ID:'                                                      => '',
+	'Base:'                                                         => '',
 	'Locale:'                                                       => '',
 	'Custom URL parts:'                                             => '',
 	'GET parameter:'                                                => '',

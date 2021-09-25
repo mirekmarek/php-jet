@@ -261,7 +261,7 @@ class ClassParser_Class extends ClassParser_Element
 					break;
 				case T_STATIC:
 					if(
-					$class->_static_token
+						$class->_static_token
 					) {
 						$class->parseError();
 					}

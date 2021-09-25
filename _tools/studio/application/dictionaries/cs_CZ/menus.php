@@ -26,7 +26,7 @@ return [
 	'MVC link'                                           => 'MVC odkaz',
 	'Direct link'                                        => 'Přímý odkaz',
 	'Page ID:'                                           => 'ID stránky:',
-	'Base ID:'                                           => 'ID báze:',
+	'Base:'                                              => 'Báze:',
 	'Locale:'                                            => 'Lokalizace:',
 	'Custom URL parts:'                                  => 'Volitelné části URL:',
 	'GET parameter:'                                     => 'Volitelné GET parametry:',
@@ -45,4 +45,5 @@ return [
 	'Menu item <b>%name%</b> has been deleted'           => 'Položka menu <b>%name%</b> byla smazána',
 	'Please select target menu'                          => 'Prosím zvolte cílové menu',
 	'Menu'                                               => 'Menu',
+	'Please select base'                                 => 'Prosím vyberte bázi',
 ];

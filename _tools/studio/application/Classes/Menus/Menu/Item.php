@@ -13,6 +13,7 @@ use Jet\Form_Field_Checkbox;
 use Jet\Form_Field_Int;
 use Jet\Form;
 use Jet\Form_Field_Input;
+use Jet\Form_Field_Select;
 use Jet\Navigation_Menu_Item;
 
 /**
@@ -109,7 +110,21 @@ class Menus_Menu_Item extends Navigation_Menu_Item
 			$URL = new Form_Field_Input( 'URL', 'URL:', '' );
 
 			$page_id = new Form_Field_Input( 'page_id', 'Page ID:', '' );
-			$base_id = new Form_Field_Input( 'base_id', 'Base ID:', '' );
+
+
+			$bases = ['' => ''];
+			foreach( Bases::getBases() as $base ) {
+				$bases[$base->getId()] = $base->getName();
+			}
+			$base_id = new Form_Field_Select( 'base_id', 'Base:', '' );
+			$base_id->setSelectOptions( $bases );
+			$base_id->setIsRequired( true );
+			$base_id->setErrorMessages( [
+				Form_Field_Select::ERROR_CODE_EMPTY         => 'Please select base',
+				Form_Field_Select::ERROR_CODE_INVALID_VALUE => 'Please select base',
+			] );
+
+
 			$locale = new Form_Field_Input( 'locale', 'Locale:', '' );
 
 
@@ -248,7 +263,18 @@ class Menus_Menu_Item extends Navigation_Menu_Item
 				$this->setPageId( $value );
 			} );
 
-			$base_id = new Form_Field_Input( 'base_id', 'Base ID:', $this->getBaseId() );
+			$bases = ['' => ''];
+			foreach( Bases::getBases() as $base ) {
+				$bases[$base->getId()] = $base->getName();
+			}
+			$base_id = new Form_Field_Select( 'base_id', 'Base:', $this->getBaseId() );
+			$base_id->setSelectOptions( $bases );
+			$base_id->setIsRequired( true );
+			$base_id->setErrorMessages( [
+				Form_Field_Select::ERROR_CODE_EMPTY         => 'Please select base',
+				Form_Field_Select::ERROR_CODE_INVALID_VALUE => 'Please select base',
+			] );
+
 			$base_id->setCatcher( function( $value ) {
 				$this->setBaseId( $value );
 			} );
