@@ -819,6 +819,33 @@ class Mvc_Page extends BaseObject implements Mvc_Page_Interface
 	}
 
 	/**
+	 * @param string $attribute
+	 * @param string $attribute_value
+	 * @param string $content
+	 */
+	public function setMetaTag( string $attribute, string $attribute_value, string $content ) : void
+	{
+		foreach($this->getMetaTags() as $meta_tag) {
+
+			if(
+				$meta_tag->getAttribute()==$attribute &&
+				$meta_tag->getAttributeValue()==$attribute_value
+			) {
+				$meta_tag->setContent( $content );
+
+				return;
+			}
+
+		}
+
+		$meta_tag = Mvc_Factory::getPageMetaTagInstance();
+		$meta_tag->setAttribute($attribute);
+		$meta_tag->setAttributeValue($attribute_value);
+		$meta_tag->setContent($content);
+		$this->addMetaTag($meta_tag);
+	}
+
+	/**
 	 * @param Mvc_Page_MetaTag_Interface[] $meta_tags
 	 */
 	public function setMetaTags( array $meta_tags ): void

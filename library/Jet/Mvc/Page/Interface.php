@@ -354,6 +354,13 @@ interface Mvc_Page_Interface
 	 * @param Mvc_Page_MetaTag_Interface $meta_tag
 	 */
 	public function addMetaTag( Mvc_Page_MetaTag_Interface $meta_tag ): void;
+	
+	/**
+	 * @param string $attribute
+	 * @param string $attribute_value
+	 * @param string $content
+	 */
+	public function setMetaTag( string $attribute, string $attribute_value, string $content ) : void;
 
 	/**
 	 * @param Mvc_Page_MetaTag_Interface[] $meta_tags
