@@ -31,7 +31,9 @@ use Jet\Mvc_Page_Content_Interface;
 class Pages_Page extends Mvc_Page
 {
 	const MAX_META_TAGS_COUNT = 100;
-	const MAX_HTT_HEADERS_COUNT = 100;
+	const MAX_HTTP_HEADERS_COUNT = 100;
+	const MAX_PARAMS_COUNT = 100;
+	const PARAMS_COUNT = 3;
 
 	/**
 	 * @var bool
@@ -385,6 +387,31 @@ class Pages_Page extends Mvc_Page
 				$u++;
 			}
 
+			
+			$i = 0;
+			foreach( $this->parameters as $key => $val ) {
+
+				$param_key = new Form_Field_Input( '/params/' . $i . '/key', '', $key );
+				$fields[] = $param_key;
+
+				$param_value = new Form_Field_Input( '/params/' . $i . '/value', '', $val );
+				$fields[] = $param_value;
+
+				$i++;
+			}
+
+			for( $c = 0; $c < static::PARAMS_COUNT; $c++ ) {
+
+				$param_key = new Form_Field_Input( '/params/' . $i . '/key', '', '' );
+				$fields[] = $param_key;
+
+				$param_value = new Form_Field_Input( '/params/' . $i . '/value', '', '' );
+				$fields[] = $param_value;
+
+				$i++;
+			}
+
+
 			$form = new Form(
 				'page_edit_form_main',
 				$fields
@@ -413,6 +440,7 @@ class Pages_Page extends Mvc_Page
 
 			$this->catchEditForm_metaTags( $form );
 			$this->catchEditForm_httpHeaders( $form );
+			$this->catchEditForm_params( $form );
 
 			return true;
 		}
@@ -465,7 +493,7 @@ class Pages_Page extends Mvc_Page
 	{
 		$http_headers = [];
 
-		for( $u = 0; $u < static::MAX_HTT_HEADERS_COUNT; $u++ ) {
+		for( $u = 0; $u < static::MAX_HTTP_HEADERS_COUNT; $u++ ) {
 			if( !$form->fieldExists( $p_f_prefix . '/http_headers/' . $u ) ) {
 				break;
 			}
@@ -481,6 +509,30 @@ class Pages_Page extends Mvc_Page
 		}
 
 		$this->setHttpHeaders( $http_headers );
+	}
+
+	/**
+	 * @param Form $form
+	 * @param string $field_prefix
+	 */
+	public function catchEditForm_params( Form $form, string $field_prefix = '' ): void
+	{
+		$params = [];
+
+		$i = 0;
+		while( $form->fieldExists( $field_prefix . '/params/' . $i . '/key' ) ) {
+
+			$param_key = $form->field( $field_prefix . '/params/' . $i . '/key' )->getValue();
+			$param_value = $form->field( $field_prefix . '/params/' . $i . '/value' )->getValue();
+
+			if( $param_key ) {
+				$params[$param_key] = $param_value;
+			}
+
+			$i++;
+		}
+
+		$this->setParameters( $params );
 	}
 
 
@@ -592,9 +644,6 @@ class Pages_Page extends Mvc_Page
 
 		return true;
 	}
-
-
-
 
 	/**
 	 * @param string $base_id

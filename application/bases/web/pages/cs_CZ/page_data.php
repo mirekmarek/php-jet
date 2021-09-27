@@ -1,45 +1,56 @@
 <?php
-
-use JetApplication\PageStaticContent;
-
 return [
-	'name'               => 'Homepage',
-	'title'              => 'Hlavní stránka',
-	'menu_title'         => 'Hlavní stránka',
-	'breadcrumb_title'   => 'Hlavní stránka',
+	'id' => '_homepage_',
+	'name' => 'Homepage',
+	'is_active' => true,
+	'SSL_required' => false,
+	'title' => 'Hlavní stránka',
+	'icon' => 'home',
+	'menu_title' => 'Hlavní stránka',
+	'breadcrumb_title' => 'Hlavní stránka',
+	'is_secret' => false,
+	'http_headers' => [
+	],
 	'layout_script_name' => 'default',
-	'icon'               => 'home',
-	'meta_tags'          => [
+	'order' => 0,
+	'parameters' => [
+	],
+	'meta_tags' => [
 		[
-			'attribute'       => 'Meta1attribute',
+			'attribute' => 'Meta1attribute',
 			'attribute_value' => 'Meta 1 attribute value',
-			'content'         => 'Meta 1 content'
+			'content' => 'Meta 1 content',
 		],
 		[
-			'attribute'       => 'Meta2attribute',
+			'attribute' => 'Meta2attribute',
 			'attribute_value' => 'Meta 2 attribute value',
-			'content'         => 'Meta 2 content'
+			'content' => 'Meta 2 content',
 		],
 		[
-			'attribute'       => 'Meta3attribute',
+			'attribute' => 'Meta3attribute',
 			'attribute_value' => 'Meta 3 attribute value',
-			'content'         => 'Meta 3 content'
+			'content' => 'Meta 3 content',
 		],
 	],
-	'contents'           => [
+	'contents' => [
 		[
+			'parameters' => [
+			],
+			'output' => [
+				'JetApplication\\PageStaticContent',
+				'get',
+			],
+			'is_cacheable' => false,
+			'output_position' => '',
 			'output_position_order' => 1,
-			'output'                => [
-				PageStaticContent::class,
-				'get'
-			]
 		],
 		[
+			'parameters' => [
+			],
+			'output' => '<hr/>&copy; Miroslav Marek',
+			'is_cacheable' => false,
+			'output_position' => '',
 			'output_position_order' => 2,
-			'output'                => '<hr/>&copy; Miroslav Marek'
 		],
-
-
-	]
+	],
 ];
-
