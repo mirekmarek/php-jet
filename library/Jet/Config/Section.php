@@ -42,7 +42,7 @@ class Config_Section extends Config
 	public function getDefinition(): Config_Definition_Config
 	{
 		if( !$this->definition ) {
-			$this->definition = Config_Definition::getSectionConfigDefinition( get_called_class() );
+			$this->definition = Config_Definition::getSectionConfigDefinition( static::class );
 		}
 
 		return $this->definition;

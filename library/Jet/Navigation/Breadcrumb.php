@@ -162,6 +162,9 @@ class Navigation_Breadcrumb extends BaseObject
 	 */
 	public static function shift( int $shift_count ): void
 	{
+		if( static::$items === null ) {
+			static::setByPage();
+		}
 
 		if( $shift_count < 0 ) {
 			$shift_count = count( static::$items ) + $shift_count;

@@ -175,7 +175,7 @@ abstract class Config extends BaseObject
 	public function getDefinition(): Config_Definition_Config
 	{
 		if( !$this->definition ) {
-			$this->definition = Config_Definition::getMainConfigDefinition( get_called_class() );
+			$this->definition = Config_Definition::getMainConfigDefinition( static::class );
 		}
 
 		return $this->definition;

@@ -23,7 +23,7 @@ trait DataModel_Trait_Definition
 	public static function getDataModelDefinition( string $class_name = '' ): DataModel_Definition_Model
 	{
 		if( !$class_name ) {
-			$class_name = get_called_class();
+			$class_name = static::class;
 		}
 
 		return DataModel_Definition::get( $class_name );

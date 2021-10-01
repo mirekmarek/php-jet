@@ -212,11 +212,11 @@ class REST extends BaseObject
 		Debug::setOutputIsJSON( true );
 
 		ErrorPages::setHandler( 401, [
-			get_called_class(),
+			static::class,
 			'handleNotAuthorized'
 		] );
 		ErrorPages::setHandler( 404, [
-			get_called_class(),
+			static::class,
 			'responseBadRequest'
 		] );
 	}
@@ -315,7 +315,7 @@ class REST extends BaseObject
 	{
 		if( !isset( static::$errors[$code] ) ) {
 			throw new Mvc_Controller_Exception(
-				'REST Error (code:' . $code . ') is not specified! Please enter the error. Add ' . get_called_class() . '::$errors[' . $code . '] entry.  ',
+				'REST Error (code:' . $code . ') is not specified! Please enter the error. Add ' . static::class . '::$errors[' . $code . '] entry.  ',
 				Mvc_Controller_Exception::CODE_INVALID_RESPONSE_CODE
 			);
 		}

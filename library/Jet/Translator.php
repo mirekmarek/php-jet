@@ -52,7 +52,7 @@ class Translator extends BaseObject
 			static::$backend = new Translator_Backend_PHPFiles();
 
 			register_shutdown_function( [
-				get_called_class(),
+				static::class,
 				'saveUpdatedDictionaries'
 			] );
 		}
@@ -68,7 +68,7 @@ class Translator extends BaseObject
 	{
 		if( static::$backend === null ) {
 			register_shutdown_function( [
-				get_called_class(),
+				static::class,
 				'saveUpdatedDictionaries'
 			] );
 		}

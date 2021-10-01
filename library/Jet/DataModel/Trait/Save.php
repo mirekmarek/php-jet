@@ -69,7 +69,7 @@ trait DataModel_Trait_Save
 
 		$backend->update(
 			DataModel_RecordData::createRecordData(
-				get_called_class(),
+				static::class,
 				$data
 			),
 			static::createQuery(

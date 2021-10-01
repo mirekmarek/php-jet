@@ -23,15 +23,16 @@ class Debug_ErrorHandler_Error
 	 */
 	protected static array $PHP_errors_txt = [
 		E_ERROR             => 'PHP Error',
-		E_WARNING           => 'PHP Warning',
 		E_PARSE             => 'PHP Parsing Error',
-		E_NOTICE            => 'PHP Notice',
 		E_CORE_ERROR        => 'PHP Core Error',
 		E_CORE_WARNING      => 'PHP Core Warning',
 		E_COMPILE_ERROR     => 'PHP Compile Error',
 		E_COMPILE_WARNING   => 'PHP Compile Warning',
 		E_RECOVERABLE_ERROR => 'PHP Recoverable error',
 		E_USER_ERROR        => 'PHP User Error',
+
+		E_WARNING           => 'PHP Warning',
+		E_NOTICE            => 'PHP Notice',
 		E_USER_WARNING      => 'PHP User Warning',
 		E_USER_NOTICE       => 'PHP User Notice',
 		E_STRICT            => 'PHP Runtime Notice',
@@ -49,8 +50,8 @@ class Debug_ErrorHandler_Error
 		E_CORE_WARNING,
 		E_COMPILE_ERROR,
 		E_COMPILE_WARNING,
-		E_USER_ERROR,
 		E_RECOVERABLE_ERROR,
+		E_USER_ERROR,
 	];
 
 	/**
@@ -135,11 +136,7 @@ class Debug_ErrorHandler_Error
 	 */
 	protected static function getPHPErrorText( int $error_number ): string
 	{
-		return isset( static::$PHP_errors_txt[$error_number] )
-			?
-			static::$PHP_errors_txt[$error_number]
-			:
-			'UNKNOWN (' . (int)$error_number . ')';
+		return static::$PHP_errors_txt[$error_number] ?? 'UNKNOWN (' . $error_number . ')';
 	}
 
 	/**
@@ -149,7 +146,7 @@ class Debug_ErrorHandler_Error
 	protected function getCurrentURL(): string
 	{
 		if( php_sapi_name() == 'cli' ) {
-			return isset( $_SERVER['SCRIPT_FILENAME'] ) ? $_SERVER['SCRIPT_FILENAME'] : 'CLI';
+			return $_SERVER['SCRIPT_FILENAME'] ?? 'CLI';
 		} else {
 			if(
 				!isset( $_SERVER['HTTP_HOST'] ) ||
@@ -214,11 +211,10 @@ class Debug_ErrorHandler_Error
 	 * @param string $message
 	 * @param string $file
 	 * @param int $line
-	 * @param array $context
 	 *
 	 * @return Debug_ErrorHandler_Error
 	 */
-	public static function newError( int $code, string $message, string $file, int $line, array $context ): Debug_ErrorHandler_Error
+	public static function newError( int $code, string $message, string $file, int $line ): Debug_ErrorHandler_Error
 	{
 
 		$e = new static();
@@ -229,32 +225,10 @@ class Debug_ErrorHandler_Error
 		$e->file = $file;
 		$e->line = $line;
 
-		$e->setContext( $context );
-
 		$backtrace = debug_backtrace();
 		array_shift( $backtrace );
 		array_shift( $backtrace );
 		$e->setBacktrace( $backtrace );
-
-		$e->is_fatal = in_array( $e->code, static::$PHP_fatal_errors );
-
-		return $e;
-	}
-
-	/**
-	 * @param array $error
-	 *
-	 * @return Debug_ErrorHandler_Error
-	 */
-	public static function newShutdownError( array $error ): Debug_ErrorHandler_Error
-	{
-		$e = new static();
-
-		$e->code = $error['type'];
-		$e->txt = self::getPHPErrorText( $error['type'] );
-		$e->message = $error['message'];
-		$e->file = $error['file'];
-		$e->line = $error['line'];
 
 		$e->is_fatal = in_array( $e->code, static::$PHP_fatal_errors );
 
@@ -276,21 +250,6 @@ class Debug_ErrorHandler_Error
 		$this->request_URL = $this->getCurrentURL();
 	}
 
-
-	/**
-	 *
-	 * @param array $error_context
-	 *
-	 */
-	protected function setContext( array $error_context ): void
-	{
-		$this->context = [];
-
-		foreach( $error_context as $k => $v ) {
-			$this->context[$k] = $v;
-		}
-
-	}
 
 	/**
 	 *
@@ -388,14 +347,6 @@ class Debug_ErrorHandler_Error
 	}
 
 	/**
-	 * @return array
-	 */
-	public function getContext(): array
-	{
-		return $this->context;
-	}
-
-	/**
 	 * @return bool
 	 */
 	public function isFatal(): bool
@@ -434,18 +385,6 @@ class Debug_ErrorHandler_Error
 		$output .= 'time: ' . $this->getDate() . ' ' . $this->getTime() . PHP_EOL;
 		$output .= 'URL: ' . $this->getRequestURL() . PHP_EOL;
 		$output .= '' . PHP_EOL;
-
-
-		if( $this->getContext() ) {
-			$output .= 'Error context:' . PHP_EOL;
-			$output .= '' . PHP_EOL;
-
-			foreach( $this->getContext() as $var_name => $var_value ) {
-				$output .= "\t" . '$' . $var_name . ' = ' . static::formatVariable( $var_value ) . PHP_EOL;
-			}
-			$output .= '' . PHP_EOL;
-		}
-
 
 		if( $this->getBacktrace() ) {
 			$output .= 'Debug backtrace:' . PHP_EOL;
