@@ -76,15 +76,11 @@ class Debug_ErrorHandler
 
 	/**
 	 * @param Debug_ErrorHandler_Handler $handler
-	 *
-	 * @return Debug_ErrorHandler_Handler
 	 */
-	public static function registerHandler( Debug_ErrorHandler_Handler $handler ): Debug_ErrorHandler_Handler
+	public static function registerHandler( Debug_ErrorHandler_Handler $handler ): void
 	{
 
 		static::$handlers[$handler->getName()] = $handler;
-
-		return $handler;
 	}
 
 	/**
@@ -142,7 +138,8 @@ class Debug_ErrorHandler
 					str_contains( $file, $path_part ) ||
 					str_contains( $file, $win_path_part )
 				) {
-					return;
+					$error->setIsSilenced( true );
+					break;
 				}
 			}
 		}
@@ -193,16 +190,16 @@ class Debug_ErrorHandler
 			}
 		}
 
-		if( !$error_displayed ) {
-			if( Debug::getOutputIsHTML() ) {
-				echo '<pre>' . $error . '</pre>';
+		if(!$error->isFatal()) {
+			if( !$error_displayed ) {
+				if( Debug::getOutputIsHTML() ) {
+					echo '<pre>' . $error . '</pre>';
 
-			} else {
-				echo $error;
+				} else {
+					echo $error;
+				}
 			}
-		}
 
-		if( $error->isFatal() ) {
 			die();
 		}
 	}

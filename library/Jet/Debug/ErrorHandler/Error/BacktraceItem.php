@@ -50,10 +50,10 @@ class Debug_ErrorHandler_Error_BacktraceItem
 	public function __construct( array $d )
 	{
 
-		$class = isset( $d['class'] ) ? $d['class'] : '';
-		$type = isset( $d['type'] ) ? $d['type'] : '';
-		$function = isset( $d['function'] ) ? $d['function'] : '';
-		$args = isset( $d['args'] ) ? $d['args'] : [];
+		$class = $d['class'] ?? '';
+		$type = $d['type'] ?? '';
+		$function = $d['function'] ?? '';
+		$args = $d['args'] ?? [];
 
 		$call = '';
 		if( $class ) {
@@ -65,8 +65,8 @@ class Debug_ErrorHandler_Error_BacktraceItem
 		}
 
 
-		$this->file = isset( $d['file'] ) ? $d['file'] : '?';
-		$this->line = isset( $d['line'] ) ? $d['line'] : '?';
+		$this->file = $d['file'] ?? '?';
+		$this->line = $d['line'] ?? '?';
 		$this->class = $class;
 		$this->type = $type;
 		$this->function = $function;

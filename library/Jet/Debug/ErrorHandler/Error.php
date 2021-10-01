@@ -115,6 +115,11 @@ class Debug_ErrorHandler_Error
 	protected bool $is_fatal = false;
 
 	/**
+	 * @var bool
+	 */
+	protected bool $is_silenced = false;
+
+	/**
 	 * @var callable
 	 */
 	protected static $formatter;
@@ -159,34 +164,12 @@ class Debug_ErrorHandler_Error
 		}
 	}
 
-
-	/**
-	 *
-	 * @param mixed $var
-	 *
-	 * @return string
-	 */
-	public static function formatVariable( mixed $var ): string
-	{
-
-		if( is_object( $var ) ) {
-			return get_class( $var );
-		}
-
-		$result = print_r( $var, true );
-		if( strlen( $result ) > 2048 ) {
-			$result = substr( $result, 0, 2048 ) . ' ...';
-		}
-
-		return $result;
-	}
-
 	/**
 	 * @param Throwable $exception
 	 *
-	 * @return Debug_ErrorHandler_Error
+	 * @return static
 	 */
-	public static function newException( Throwable $exception ): Debug_ErrorHandler_Error
+	public static function newException( Throwable $exception ): static
 	{
 		$e = new static();
 
@@ -212,9 +195,9 @@ class Debug_ErrorHandler_Error
 	 * @param string $file
 	 * @param int $line
 	 *
-	 * @return Debug_ErrorHandler_Error
+	 * @return static
 	 */
-	public static function newError( int $code, string $message, string $file, int $line ): Debug_ErrorHandler_Error
+	public static function newError( int $code, string $message, string $file, int $line ): static
 	{
 
 		$e = new static();
@@ -353,6 +336,28 @@ class Debug_ErrorHandler_Error
 	{
 		return $this->is_fatal;
 	}
+
+	/**
+	 * @return bool
+	 */
+	public function isSilenced(): bool
+	{
+		if($this->is_fatal) {
+			return false;
+		}
+
+		return $this->is_silenced;
+	}
+
+	/**
+	 * @param bool $is_silenced
+	 */
+	public function setIsSilenced( bool $is_silenced ): void
+	{
+		$this->is_silenced = $is_silenced;
+	}
+
+
 
 	/**
 	 *

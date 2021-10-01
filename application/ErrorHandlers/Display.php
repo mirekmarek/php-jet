@@ -30,6 +30,10 @@ class ErrorHandler_Display extends Debug_ErrorHandler_Handler
 	 */
 	public function handle( Debug_ErrorHandler_Error $error ): void
 	{
+		if(!$error->isSilenced()) {
+			return;
+		}
+
 		if( Debug::getOutputIsHTML() ) {
 			$this->display( $error );
 		} else {
@@ -53,7 +57,6 @@ class ErrorHandler_Display extends Debug_ErrorHandler_Handler
 	 */
 	public function display( Debug_ErrorHandler_Error $e ): void
 	{
-
 		?>
 		<br/>
 		<div style="background-color: #c9ffc9;padding:5px;border: 1px solid black; font-family: 'Arial CE', Arial, sans-serif;">

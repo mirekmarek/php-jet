@@ -36,6 +36,10 @@ class ErrorHandler_Log extends Debug_ErrorHandler_Handler
 	 */
 	public function handle( Debug_ErrorHandler_Error $error ): void
 	{
+		if(!$error->isSilenced()) {
+			return;
+		}
+
 		$message = $error->toString();
 
 		$dir = $this->getLogDir();
