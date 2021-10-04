@@ -68,7 +68,7 @@ class DataModel_Query_OrderBy_Item extends BaseObject
 	 */
 	public function setDesc( bool $desc ): void
 	{
-		$this->desc = (bool)$desc;
+		$this->desc = $desc;
 	}
 
 

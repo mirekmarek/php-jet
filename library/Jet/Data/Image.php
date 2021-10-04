@@ -59,7 +59,7 @@ class Data_Image extends BaseObject
 	 */
 	public function __construct( string $path )
 	{
-		$this->path = (string)$path;
+		$this->path = $path;
 
 		if( !IO_File::exists( $path ) ) {
 			throw new Data_Image_Exception(

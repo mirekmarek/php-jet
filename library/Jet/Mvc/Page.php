@@ -228,7 +228,6 @@ class Mvc_Page extends BaseObject implements Mvc_Page_Interface
 				);
 			}
 
-			/** @noinspection PhpIncludeInspection */
 			$data = require $data_file_path;
 
 			$data['id'] = $page_id;

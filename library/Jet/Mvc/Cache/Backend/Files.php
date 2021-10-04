@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpIncludeInspection */
+
 /**
  *
  * @copyright Copyright (c) 2011-2021 Miroslav Marek <mirek.marek@web-jet.cz>

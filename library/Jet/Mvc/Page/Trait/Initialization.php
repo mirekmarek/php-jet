@@ -183,7 +183,7 @@ trait Mvc_Page_Trait_Initialization
 	 *
 	 * @return string
 	 */
-	protected static function loadMaps_getPageId( string $data_file_path, array $parent_page_data = null, $dir_name = '' ): string
+	protected static function loadMaps_getPageId( string $data_file_path, array $parent_page_data = null, string $dir_name = '' ): string
 	{
 
 		if( !IO_File::isReadable( $data_file_path ) ) {
@@ -193,7 +193,6 @@ trait Mvc_Page_Trait_Initialization
 			);
 		}
 
-		/** @noinspection PhpIncludeInspection */
 		$data = require $data_file_path;
 
 		return $data['id'] ?? '';

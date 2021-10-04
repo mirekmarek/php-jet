@@ -184,7 +184,6 @@ class ErrorPages extends BaseObject
 			ob_implicit_flush();
 		}
 
-		/** @noinspection PhpIncludeInspection */
 		require $path;
 
 		return true;
@@ -202,7 +201,6 @@ class ErrorPages extends BaseObject
 			return false;
 		}
 
-		$code = (int)$code;
 		$path = static::$error_pages_dir . $code . '.phtml';
 
 		if(

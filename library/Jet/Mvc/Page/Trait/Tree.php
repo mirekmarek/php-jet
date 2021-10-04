@@ -144,7 +144,7 @@ trait Mvc_Page_Trait_Tree
 	 */
 	public function setOrder( int $order ): void
 	{
-		$this->order = (int)$order;
+		$this->order = $order;
 	}
 
 	/**

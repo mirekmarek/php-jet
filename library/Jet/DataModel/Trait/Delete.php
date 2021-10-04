@@ -63,9 +63,6 @@ trait DataModel_Trait_Delete
 				}
 			}
 
-			/**
-			 * @var DataModel_IDController $id_controller
-			 */
 			$id_controller = $this->getIDController();
 
 			$backend->delete( $id_controller->getQuery() );

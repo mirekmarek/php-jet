@@ -33,7 +33,7 @@ class Session extends BaseObject
 	public function __construct( string $namespace )
 	{
 
-		$this->namespace = (string)$namespace;
+		$this->namespace = $namespace;
 
 		$this->sessionStart();
 	}
@@ -120,8 +120,6 @@ class Session extends BaseObject
 	 */
 	protected function checkKey( string &$key ): void
 	{
-		$key = (string)$key;
-
 		if( $key == '' ) {
 			throw new Session_Exception(
 				'The key must be a non-empty string', Session_Exception::CODE_INVALID_KEY

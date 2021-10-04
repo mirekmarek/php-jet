@@ -62,7 +62,6 @@ class Translator_Backend_PHPFiles extends Translator_Backend
 		$dictionary = new Translator_Dictionary( $namespace, $locale );
 
 		if( is_readable( $file_path ) ) {
-			/** @noinspection PhpIncludeInspection */
 			$data = require $file_path;
 
 			foreach( $data as $phrase => $translation ) {

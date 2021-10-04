@@ -130,7 +130,7 @@ abstract class PackageCreator extends BaseObject
 		}
 
 
-		if( substr( $o_URI, 0, 2 ) == '//' ) {
+		if( str_starts_with( $o_URI, '//' ) ) {
 			return 'http:' . $o_URI;
 		}
 

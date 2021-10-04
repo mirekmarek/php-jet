@@ -173,7 +173,7 @@ class DataModel_Backend_SQLite extends DataModel_Backend
 	 *
 	 * @return string
 	 */
-	protected function _getColumnName( DataModel_Definition_Property $property_definition, $quote = true, $add_table_name = true ): string
+	protected function _getColumnName( DataModel_Definition_Property $property_definition, bool $quote = true, bool $add_table_name = true ): string
 	{
 		$column_name = $property_definition->getDatabaseColumnName();
 
@@ -437,11 +437,11 @@ class DataModel_Backend_SQLite extends DataModel_Backend
 		}
 
 		if( is_int( $value ) ) {
-			return (int)$value;
+			return $value;
 		}
 
 		if( is_float( $value ) ) {
-			return (float)$value;
+			return $value;
 		}
 
 		if( $value instanceof Data_DateTime ) {

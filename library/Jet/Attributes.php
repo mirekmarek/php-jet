@@ -9,7 +9,7 @@
 namespace Jet;
 
 
-use \ReflectionClass;
+use ReflectionClass;
 
 class Attributes
 {

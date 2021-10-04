@@ -444,9 +444,6 @@ trait Form_Field_Trait_Render
 	 */
 	public function row(): Form_Renderer_Pair
 	{
-		/**
-		 * @var Form_Field $this
-		 */
 		if( !$this->_tag_row ) {
 			$this->_tag_row = Form_Factory::gerRendererPairInstance( $this->_form, $this );
 			$this->_tag_row->setViewScriptStart( $this->getRowStartRendererScript() );
@@ -489,9 +486,6 @@ trait Form_Field_Trait_Render
 	 */
 	public function error(): Form_Renderer_Single
 	{
-		/**
-		 * @var Form_Field $this
-		 */
 		if( !$this->_tag_error ) {
 			$this->_tag_error = Form_Factory::gerRendererSingleInstance( $this->_form, $this );
 			$this->_tag_error->setViewScript( $this->getErrorRenderer() );

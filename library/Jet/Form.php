@@ -479,7 +479,7 @@ class Form extends BaseObject
 	 */
 	public function setNovalidate( bool $novalidate ): void
 	{
-		$this->novalidate = (bool)$novalidate;
+		$this->novalidate = $novalidate;
 	}
 
 	/**

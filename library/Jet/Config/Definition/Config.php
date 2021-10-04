@@ -8,7 +8,7 @@
 
 namespace Jet;
 
-use \ReflectionClass;
+use ReflectionClass;
 
 /**
  *

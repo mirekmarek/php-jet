@@ -614,7 +614,7 @@ class Mvc_Base extends BaseObject implements Mvc_Base_Interface
 	 */
 	public function setIsActive( bool $is_active ): void
 	{
-		$this->is_active = (bool)$is_active;
+		$this->is_active = $is_active;
 	}
 
 	/**
@@ -664,7 +664,7 @@ class Mvc_Base extends BaseObject implements Mvc_Base_Interface
 	 */
 	public function setIsDefault( bool $is_default ): void
 	{
-		$this->is_default = (bool)$is_default;
+		$this->is_default = $is_default;
 	}
 
 	/**

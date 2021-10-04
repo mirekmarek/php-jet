@@ -8,8 +8,8 @@
 
 namespace Jet;
 
-use \Iterator;
-use \Countable;
+use Iterator;
+use Countable;
 
 /**
  *

@@ -8,8 +8,8 @@
 
 namespace Jet;
 
-use \PDO;
-use \PDOStatement;
+use PDO;
+use PDOStatement;
 
 /**
  *

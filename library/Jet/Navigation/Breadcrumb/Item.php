@@ -118,7 +118,7 @@ class Navigation_Breadcrumb_Item extends BaseObject
 	 */
 	public function setIsLast( bool $is_last ): void
 	{
-		$this->is_last = (bool)$is_last;
+		$this->is_last = $is_last;
 	}
 
 	/**

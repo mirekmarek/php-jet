@@ -67,8 +67,6 @@ class Mvc_View extends Mvc_View_Abstract
 			echo '<!-- VIEW START: ' . $this->_script_path . ' -->';
 		}
 
-
-		/** @noinspection PhpIncludeInspection */
 		require $this->_script_path;
 
 		if( static::getAddScriptPathInfoEnabled() ) {

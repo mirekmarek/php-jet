@@ -47,9 +47,7 @@ class Mvc_Cache
 	 */
 	public static function reset(): void
 	{
-		if( static::$backend ) {
-			static::$backend->reset();
-		}
+		static::$backend?->reset();
 	}
 
 	/**
@@ -69,9 +67,7 @@ class Mvc_Cache
 	 */
 	public static function saveBaseMaps( array $map ): void
 	{
-		if( static::$backend ) {
-			static::$backend->saveBaseMaps( $map );
-		}
+		static::$backend?->saveBaseMaps( $map );
 	}
 
 	/**
@@ -97,9 +93,7 @@ class Mvc_Cache
 	 */
 	public static function savePageMaps( Mvc_Base_Interface $base, Locale $locale, array $map ): void
 	{
-		if( static::$backend ) {
-			static::$backend->savePageMaps( $base, $locale, $map );
-		}
+		static::$backend?->savePageMaps( $base, $locale, $map );
 	}
 
 	/**
@@ -123,9 +117,7 @@ class Mvc_Cache
 	 */
 	public static function saveContentOutput( Mvc_Page_Content_Interface $content, string $output ): void
 	{
-		if( static::$backend ) {
-			static::$backend->saveContentOutput( $content, $output );
-		}
+		static::$backend?->saveContentOutput( $content, $output );
 	}
 
 

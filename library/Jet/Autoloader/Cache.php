@@ -57,9 +57,7 @@ class Autoloader_Cache
 	 */
 	public static function save( array $map ): void
 	{
-		if( static::$backend ) {
-			static::$backend->save( $map );
-		}
+		static::$backend?->save( $map );
 	}
 
 	/**
@@ -67,8 +65,6 @@ class Autoloader_Cache
 	 */
 	public static function reset(): void
 	{
-		if( static::$backend ) {
-			static::$backend->reset();
-		}
+		static::$backend?->reset();
 	}
 }

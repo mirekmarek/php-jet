@@ -18,7 +18,7 @@ trait DataModel_Trait_Forms
 	 *
 	 * @return Form
 	 */
-	public function getCommonForm( $form_name = '' ): Form
+	public function getCommonForm( string $form_name = '' ): Form
 	{
 		/**
 		 * @var DataModel $this
@@ -100,7 +100,6 @@ trait DataModel_Trait_Forms
 			if(!$created_field->getCatcher()) {
 				$created_field->setCatcher(
 					function( $value ) use ( $property_definition, &$property ) {
-						/** @noinspection PhpParamsInspection */
 						$property_definition->catchFormField( $this, $property, $value );
 					}
 				);

@@ -137,7 +137,7 @@ trait Form_Field_Trait_Validation
 	 */
 	public function getErrorMessage( string $code ): string|bool
 	{
-		$message = isset( $this->error_messages[$code] ) ? $this->error_messages[$code] : false;
+		$message = $this->error_messages[$code] ?? false;
 
 		return $this->_( $message );
 

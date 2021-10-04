@@ -150,7 +150,7 @@ class Mvc_Base_LocalizedData extends BaseObject implements Mvc_Base_LocalizedDat
 	 */
 	public function setIsActive( bool $is_active ): void
 	{
-		$this->is_active = (bool)$is_active;
+		$this->is_active = $is_active;
 	}
 
 

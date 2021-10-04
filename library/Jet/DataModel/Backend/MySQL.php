@@ -285,9 +285,9 @@ class DataModel_Backend_MySQL extends DataModel_Backend
 
 				if( $max_len <= 512 ) {
 					if( $column->getIsId() ) {
-						return 'varchar(' . ((int)$max_len) . ') COLLATE utf8_bin NOT NULL  DEFAULT \'\'';
+						return 'varchar(' . ($max_len) . ') COLLATE utf8_bin NOT NULL  DEFAULT \'\'';
 					} else {
-						return 'varchar(' . ((int)$max_len) . ') DEFAULT ' . $this->_getValue( $default_value );
+						return 'varchar(' . ($max_len) . ') DEFAULT ' . $this->_getValue( $default_value );
 					}
 				}
 
@@ -339,11 +339,11 @@ class DataModel_Backend_MySQL extends DataModel_Backend
 		}
 
 		if( is_int( $value ) ) {
-			return (int)$value;
+			return $value;
 		}
 
 		if( is_float( $value ) ) {
-			return (float)$value;
+			return $value;
 		}
 
 		if( $value instanceof Data_DateTime ) {
@@ -492,7 +492,7 @@ class DataModel_Backend_MySQL extends DataModel_Backend
 	 *
 	 * @return array
 	 */
-	protected function _getRecord( DataModel_RecordData $record, $quote = true, $add_table_name = false ): array
+	protected function _getRecord( DataModel_RecordData $record, bool $quote = true, bool $add_table_name = false ): array
 	{
 		$_record = [];
 

@@ -246,7 +246,7 @@ class Data_Tree_Node extends BaseObject implements BaseObject_Interface_Iterator
 	 */
 	public function setIsRoot( bool $is_root ): void
 	{
-		$this->is_root = (bool)$is_root;
+		$this->is_root = $is_root;
 	}
 
 	/**
@@ -508,7 +508,7 @@ class Data_Tree_Node extends BaseObject implements BaseObject_Interface_Iterator
 	protected function _prepareIteratorMap( array &$result, int|null $max_depth, int|null $root_depth ): void
 	{
 
-		$result[(string)$this->id] = $this;
+		$result[$this->id] = $this;
 
 		if( $max_depth ) {
 			if( ($root_depth - $this->depth) > $max_depth ) {

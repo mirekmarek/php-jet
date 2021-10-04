@@ -30,8 +30,6 @@ trait DataModel_Trait_MagicMethods
 	 */
 	public function __debugInfo(): array
 	{
-		/** @noinspection PhpUndefinedClassInspection */
-		/** @noinspection PhpUndefinedMethodInspection */
 		$r = parent::__debugInfo();
 
 		$r['_data_model_saved'] = $this->getIsSaved();
@@ -51,8 +49,6 @@ trait DataModel_Trait_MagicMethods
 		/**
 		 * @var DataModel $this
 		 */
-		/** @noinspection PhpUndefinedClassInspection */
-		/** @noinspection PhpUndefinedMethodInspection */
 		parent::__clone();
 
 		$this->setIsNew();

@@ -200,7 +200,7 @@ class Navigation_Menu extends BaseObject
 	 * @return Navigation_Menu[]|Navigation_Menu_Item[]
 	 * @noinspection PhpDocSignatureInspection
 	 */
-	public function getItems( $check_access = true ): array
+	public function getItems( bool $check_access = true ): array
 	{
 		$items = [];
 

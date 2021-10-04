@@ -74,7 +74,7 @@ class UI_icon extends UI_BaseElement
 	 */
 	public function setSize( int $size ): static
 	{
-		$this->size = (int)$size;
+		$this->size = $size;
 
 		return $this;
 	}
@@ -94,7 +94,7 @@ class UI_icon extends UI_BaseElement
 	 */
 	public function setWidth( int $width ): static
 	{
-		$this->width = (int)$width;
+		$this->width = $width;
 
 		return $this;
 	}

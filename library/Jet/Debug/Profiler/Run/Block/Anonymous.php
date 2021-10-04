@@ -27,7 +27,7 @@ class Debug_Profiler_Run_Block_Anonymous extends Debug_Profiler_Run_Block
 	public function __construct( int $level, ?Debug_Profiler_Run_Block $parent_block = null )
 	{
 		$this->label = '?';
-		$this->level = (int)$level;
+		$this->level = $level;
 
 
 		$this->timestamp_start = microtime( true );

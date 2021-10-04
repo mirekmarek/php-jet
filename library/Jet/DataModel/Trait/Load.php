@@ -113,9 +113,6 @@ trait DataModel_Trait_Load
 			}
 
 
-			/**
-			 * @var DataModel_Related_Interface $class_name
-			 */
 			$class_name = $property_definition->getValueDataModelClass();
 
 			$related_dm_definition = DataModel_Definition::get( $class_name );
@@ -160,6 +157,9 @@ trait DataModel_Trait_Load
 				}
 			}
 
+			/**
+			 * @var DataModel_Related_Interface $class_name
+			 */
 
 			$_this->{$property_name} = $class_name::initRelatedByData(
 				$this_related_data,

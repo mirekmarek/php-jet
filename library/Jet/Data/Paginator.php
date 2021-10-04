@@ -118,8 +118,8 @@ class Data_Paginator extends BaseObject implements BaseObject_Interface_Serializ
 
 		$this->current_page_no_is_in_range = true;
 
-		$this->current_page_no = (int)$current_page_no;
-		$this->items_per_page = (int)$items_per_page;
+		$this->current_page_no = $current_page_no;
+		$this->items_per_page = $items_per_page;
 
 		if( $this->current_page_no < 1 ) {
 			$this->current_page_no_is_in_range = false;

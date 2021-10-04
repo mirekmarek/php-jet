@@ -41,9 +41,9 @@ class Mvc_Page_Content extends BaseObject implements Mvc_Page_Content_Interface
 
 	/**
 	 *
-	 * @var string
+	 * @var string|bool
 	 */
-	protected string $controller_action = '';
+	protected string|bool $controller_action = '';
 
 	/**
 	 *
@@ -184,7 +184,7 @@ class Mvc_Page_Content extends BaseObject implements Mvc_Page_Content_Interface
 	 */
 	public function setOutputPositionOrder( int $output_position_order ): void
 	{
-		$this->output_position_order = (int)$output_position_order;
+		$this->output_position_order = $output_position_order;
 	}
 
 	/**
@@ -288,9 +288,9 @@ class Mvc_Page_Content extends BaseObject implements Mvc_Page_Content_Interface
 
 
 	/**
-	 * @return string
+	 * @return string|bool
 	 */
-	public function getControllerAction(): string
+	public function getControllerAction(): string|bool
 	{
 		if( $this->controller_action === false ) {
 			return false;

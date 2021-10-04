@@ -383,7 +383,6 @@ abstract class Config extends BaseObject
 
 			}
 
-			/** @noinspection PhpIncludeInspection */
 			$data = require $config_file_path;
 			if( !is_array( $data ) ) {
 				throw new Config_Exception(

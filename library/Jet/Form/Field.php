@@ -210,7 +210,7 @@ abstract class Form_Field extends BaseObject implements JsonSerializable
 		array_shift( $name );
 		foreach( $name as $i => $np ) {
 			if( $i > 0 ) {
-				if( substr( $np, -2 ) == '[]' ) {
+				if( str_ends_with( $np, '[]' ) ) {
 					$np = substr( $np, 0, -2 );
 					$name[$i] = '[' . $np . '][]';
 				} else {

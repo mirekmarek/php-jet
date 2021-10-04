@@ -93,9 +93,6 @@ trait DataModel_Trait_Save
 
 		$record = new DataModel_RecordData( $definition );
 
-		/**
-		 * @var DataModel_IDController $id_controller
-		 */
 		$id_controller = $this->getIDController();
 
 		$id_controller->beforeSave();
@@ -180,9 +177,6 @@ trait DataModel_Trait_Save
 		}
 
 		if( !$record->getIsEmpty() ) {
-			/**
-			 * @var DataModel_IDController $id_controller
-			 */
 			$id_controller = $this->getIDController();
 			$where_query = $id_controller->getQuery();
 			if( $where_query->getWhere()->getIsEmpty() ) {

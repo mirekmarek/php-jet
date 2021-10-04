@@ -494,7 +494,7 @@ class Form_Field_File extends Form_Field
 	{
 		$name = parent::getTagNameValue( $name );
 
-		if( substr( $name, -1 ) != ']' ) {
+		if( !str_ends_with( $name, ']' ) ) {
 			$name .= '[]';
 		}
 

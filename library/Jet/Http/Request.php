@@ -384,7 +384,7 @@ class Http_Request extends BaseObject
 
 			$headers = [];
 			foreach( $_SERVER as $key => $value ) {
-				if( substr( $key, 0, 5 ) != 'HTTP_' ) {
+				if( !str_starts_with( $key, 'HTTP_' ) ) {
 					continue;
 				}
 

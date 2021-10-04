@@ -160,7 +160,6 @@ class Application_Module_Manifest extends BaseObject
 			);
 		}
 
-		/** @noinspection PhpIncludeInspection */
 		return require $manifest_file;
 	}
 

@@ -66,7 +66,7 @@ class Debug_Profiler_Run
 	{
 
 		if( php_sapi_name() == 'cli' ) {
-			$this->request_URL = isset( $_SERVER['SCRIPT_FILENAME'] ) ? $_SERVER['SCRIPT_FILENAME'] : 'CLI';
+			$this->request_URL = $_SERVER['SCRIPT_FILENAME'] ?? 'CLI';
 		} else {
 			if(
 				!isset( $_SERVER['HTTP_HOST'] ) ||
@@ -316,7 +316,7 @@ class Debug_Profiler_Run
 	{
 		$vars = get_object_vars( $this );
 		foreach( $vars as $k => $v ) {
-			if( substr( $k, 0, 2 ) === '__' ) {
+			if( str_starts_with( $k, '__' ) ) {
 				unset( $vars[$k] );
 			}
 		}

@@ -77,9 +77,6 @@ trait DataModel_Trait_Backend
 			return false;
 		}
 
-		/**
-		 * @var DataModel_IDController $id_controller
-		 */
 		$id_controller = $this->getIDController();
 
 		if( $starter->getIDController()->toString() != $id_controller->toString() ) {

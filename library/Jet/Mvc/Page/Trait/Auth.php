@@ -16,9 +16,6 @@ trait Mvc_Page_Trait_Auth
 
 	public function authorize(): bool
 	{
-		/**
-		 * @var Mvc_Page $this
-		 */
 		if( !$this->getIsSecret() ) {
 			return true;
 		}
@@ -44,9 +41,6 @@ trait Mvc_Page_Trait_Auth
 	 */
 	public function accessAllowed(): bool
 	{
-		/**
-		 * @var Mvc_Page $this
-		 */
 		if( !$this->getIsSecret() ) {
 			return true;
 		}

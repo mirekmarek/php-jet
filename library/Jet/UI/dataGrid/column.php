@@ -176,7 +176,7 @@ class UI_dataGrid_column extends BaseObject
 	 */
 	public function setAllowSort( bool $allow_order_by ): static
 	{
-		$this->allow_sort = (bool)$allow_order_by;
+		$this->allow_sort = $allow_order_by;
 
 		return $this;
 	}

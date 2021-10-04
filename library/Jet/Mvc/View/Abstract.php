@@ -100,9 +100,9 @@ abstract class Mvc_View_Abstract extends BaseObject
 	 * @param bool $enabled
 	 *
 	 */
-	public static function setAddScriptPathInfoEnabled( $enabled = true ): void
+	public static function setAddScriptPathInfoEnabled( bool $enabled = true ): void
 	{
-		static::$add_script_path_info = (bool)$enabled;
+		static::$add_script_path_info = $enabled;
 	}
 
 	/**
@@ -142,12 +142,6 @@ abstract class Mvc_View_Abstract extends BaseObject
 	 */
 	public function setScriptName( string $script_name ): void
 	{
-		if( $script_name === false ) {
-			$this->_script_name = false;
-
-			return;
-		}
-
 		if( str_contains( $script_name, '.' ) ) {
 			throw new Mvc_View_Exception( 'Illegal script file name', Mvc_View_Exception::CODE_INVALID_VIEW_NAME );
 		}

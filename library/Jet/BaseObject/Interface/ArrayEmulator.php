@@ -8,9 +8,9 @@
 
 namespace Jet;
 
-use \ArrayAccess;
-use \Iterator;
-use \Countable;
+use ArrayAccess;
+use Iterator;
+use Countable;
 
 /**
  *

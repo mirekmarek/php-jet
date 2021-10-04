@@ -131,10 +131,8 @@ abstract class Application_Module extends BaseObject
 		if( file_exists( $install_script ) ) {
 			try {
 
-				/** @noinspection PhpUnusedLocalVariableInspection */
 				$module_instance = $this;
 
-				/** @noinspection PhpIncludeInspection */
 				require_once $install_script;
 
 			} catch( \Exception $e ) {
@@ -161,10 +159,8 @@ abstract class Application_Module extends BaseObject
 		if( file_exists( $uninstall_script ) ) {
 			try {
 
-				/** @noinspection PhpUnusedLocalVariableInspection */
 				$module_instance = $this;
 
-				/** @noinspection PhpIncludeInspection */
 				require_once $uninstall_script;
 
 			} catch( \Exception $e ) {

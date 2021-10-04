@@ -185,7 +185,7 @@ class REST extends BaseObject
 	 */
 	public static function setDefaultItemsPerPage( int $default_items_per_page ): void
 	{
-		static::$default_items_per_page = (int)$default_items_per_page;
+		static::$default_items_per_page = $default_items_per_page;
 	}
 
 	/**
@@ -201,7 +201,7 @@ class REST extends BaseObject
 	 */
 	public static function setMaxItemsPerPage( int $max_items_per_page ): void
 	{
-		static::$max_items_per_page = (int)$max_items_per_page;
+		static::$max_items_per_page = $max_items_per_page;
 	}
 
 	/**
@@ -275,7 +275,7 @@ class REST extends BaseObject
 	{
 		$headers = Http_Request::headers();
 
-		return isset( $headers[$header] ) ? $headers[$header] : $default_value;
+		return $headers[$header] ?? $default_value;
 	}
 
 

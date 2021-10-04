@@ -256,8 +256,8 @@ class DataModel_Query extends BaseObject
 	 */
 	public function setLimit( int $limit, ?int $offset = null ): DataModel_Query
 	{
-		$this->limit = (int)$limit;
-		$this->offset = $offset === null ? null : (int)$offset;
+		$this->limit = $limit;
+		$this->offset = $offset === null ? null : $offset;
 
 		return $this;
 	}

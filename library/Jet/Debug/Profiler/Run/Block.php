@@ -108,7 +108,7 @@ class Debug_Profiler_Run_Block
 	public function __construct( string $label, int $level, ?Debug_Profiler_Run_Block $parent_block = null )
 	{
 		$this->label = $label;
-		$this->level = (int)$level;
+		$this->level = $level;
 
 		$this->backtrace_start = Debug_Profiler::getBacktrace( 3 );
 
@@ -354,7 +354,7 @@ class Debug_Profiler_Run_Block
 	{
 		$vars = get_object_vars( $this );
 		foreach( $vars as $k => $v ) {
-			if( substr( $k, 0, 2 ) === '__' ) {
+			if( str_starts_with( $k, '__' ) ) {
 				unset( $vars[$k] );
 			}
 		}

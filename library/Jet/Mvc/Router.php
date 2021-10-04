@@ -133,10 +133,10 @@ class Mvc_Router extends BaseObject implements Mvc_Router_Interface
 			$request_URL = substr( $request_URL, 0, $pos );
 		}
 
-		if( substr( $request_URL, 0, 7 ) == 'http://' ) {
+		if( str_starts_with( $request_URL, 'http://' ) ) {
 			$request_URL = substr( $request_URL, 7 );
 		}
-		if( substr( $request_URL, 0, 8 ) == 'https://' ) {
+		if( str_starts_with( $request_URL, 'https://' ) ) {
 			$request_URL = substr( $request_URL, 8 );
 		}
 
@@ -175,7 +175,7 @@ class Mvc_Router extends BaseObject implements Mvc_Router_Interface
 
 		foreach( $base_URLs_map as $URL => $d ) {
 
-			if( substr( $this->request_URL . '/', 0, strlen( $URL ) ) == $URL ) {
+			if( str_starts_with( $this->request_URL . '/', $URL ) ) {
 
 				$this->base = $base_class_name::get( $d[0] );
 				$this->locale = new Locale( $d[1] );

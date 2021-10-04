@@ -187,9 +187,7 @@ class Navigation_MenuSet extends BaseObject
 
 				$m = $this->getMenu( $menu_item->getMenuId() );
 
-				if( $m ) {
-					$m->addItem( $menu_item );
-				}
+				$m?->addItem( $menu_item );
 			}
 
 		}

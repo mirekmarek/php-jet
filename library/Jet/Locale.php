@@ -8,9 +8,9 @@
 
 namespace Jet;
 
-use \IntlDateFormatter as PHP_IntlDateFormatter;
-use \NumberFormatter as PHP_NumberFormatter;
-use \Locale as PHP_Locale;
+use IntlDateFormatter as PHP_IntlDateFormatter;
+use NumberFormatter as PHP_NumberFormatter;
+use Locale as PHP_Locale;
 
 
 /**
@@ -520,12 +520,12 @@ class Locale extends BaseObject
 	/**
 	 * Returns date formatted by locale
 	 *
-	 * @param Data_DateTime $date_and_time
+	 * @param ?Data_DateTime $date_and_time
 	 * @param int $format
 	 *
 	 * @return string
 	 */
-	public function formatDate( Data_DateTime $date_and_time, int $format = self::DATE_TIME_FORMAT_MEDIUM ): string
+	public function formatDate( ?Data_DateTime $date_and_time, int $format = self::DATE_TIME_FORMAT_MEDIUM ): string
 	{
 		if( !$date_and_time ) {
 			return '';
@@ -540,13 +540,13 @@ class Locale extends BaseObject
 
 	/**
 	 *
-	 * @param Data_DateTime $date_and_time
+	 * @param ?Data_DateTime $date_and_time
 	 * @param int $date_format
 	 * @param int $time_format
 	 *
 	 * @return string
 	 */
-	public function formatDateAndTime( Data_DateTime $date_and_time,
+	public function formatDateAndTime( ?Data_DateTime $date_and_time,
 	                                   int $date_format = self::DATE_TIME_FORMAT_MEDIUM,
 	                                   int $time_format = self::DATE_TIME_FORMAT_SHORT ): string
 	{
@@ -565,12 +565,12 @@ class Locale extends BaseObject
 
 	/**
 	 *
-	 * @param Data_DateTime $date_and_time
+	 * @param ?Data_DateTime $date_and_time
 	 * @param int $time_format
 	 *
 	 * @return string
 	 */
-	public function formatTime( Data_DateTime $date_and_time, int $time_format = self::DATE_TIME_FORMAT_SHORT ): string
+	public function formatTime( ?Data_DateTime $date_and_time, int $time_format = self::DATE_TIME_FORMAT_SHORT ): string
 	{
 		if( !$date_and_time ) {
 			return '';

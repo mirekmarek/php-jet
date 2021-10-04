@@ -113,14 +113,13 @@ class Mvc_Layout extends Mvc_View_Abstract
 	 */
 	protected function _render(): string
 	{
-		if( $this->_script_name === false ) {
+		if( !$this->_script_name ) {
 			$result = '<' . static::TAG_MAIN_POSITION . '/>';
 		} else {
 			$this->getScriptPath();
 
 			ob_start();
 
-			/** @noinspection PhpIncludeInspection */
 			include $this->_script_path;
 
 			if( static::getAddScriptPathInfoEnabled() ) {
@@ -148,8 +147,7 @@ class Mvc_Layout extends Mvc_View_Abstract
 		}
 
 		if(
-			$position_order === null ||
-			$position_order === false
+			$position_order === null
 		) {
 			$position_order = 0;
 			foreach( $this->output_parts as $o ) {
@@ -199,7 +197,7 @@ class Mvc_Layout extends Mvc_View_Abstract
 	 */
 	public function setJSPackagerEnabled( bool $JS_packager_enabled ): void
 	{
-		$this->JS_packager_enabled = (bool)$JS_packager_enabled;
+		$this->JS_packager_enabled = $JS_packager_enabled;
 	}
 
 	/**
@@ -236,7 +234,7 @@ class Mvc_Layout extends Mvc_View_Abstract
 	 */
 	public function setCSSPackagerEnabled( bool $CSS_packager_enabled ): void
 	{
-		$this->CSS_packager_enabled = (bool)$CSS_packager_enabled;
+		$this->CSS_packager_enabled = $CSS_packager_enabled;
 	}
 
 	/**
@@ -359,9 +357,9 @@ class Mvc_Layout extends Mvc_View_Abstract
 
 
 			$module_name = $properties['module'];
-			$action = isset( $properties['action'] ) ? $properties['action'] : '';
+			$action = $properties['action'] ?? '';
 			$parameters = [];
-			$is_cacheable = strtolower( isset( $properties['is_cacheable'] ) ? $properties['is_cacheable'] : false ) == 'true';
+			$is_cacheable = strtolower( $properties['is_cacheable'] ?? false ) == 'true';
 
 			foreach( $properties as $k => $v ) {
 				if(

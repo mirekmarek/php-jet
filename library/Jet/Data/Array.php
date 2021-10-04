@@ -131,8 +131,6 @@ class Data_Array extends BaseObject implements BaseObject_Interface_Serializable
 			return;
 		}
 
-		$key = (string)$key;
-
 		$target = &$this->data;
 
 		if( $key[0] === self::PATH_DELIMITER ) {

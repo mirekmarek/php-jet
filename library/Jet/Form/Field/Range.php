@@ -97,7 +97,7 @@ class Form_Field_Range extends Form_Field_Input
 	 */
 	public function setMinValue( int $min ): void
 	{
-		$this->min_value = (int)$min;
+		$this->min_value = $min;
 	}
 
 	/**

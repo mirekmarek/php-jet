@@ -43,7 +43,7 @@ class Translator_Dictionary_Phrase extends BaseObject
 	{
 		$this->phrase = $phrase;
 		$this->translation = $translation;
-		$this->is_translated = (bool)$is_translated;
+		$this->is_translated = $is_translated;
 		if( !$hash ) {
 			$hash = static::generateHash( $phrase );
 		}

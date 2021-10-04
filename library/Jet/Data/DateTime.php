@@ -37,6 +37,6 @@ class Data_DateTime extends DateTime
 	 */
 	public function __toString(): string
 	{
-		return (string)$this->format( 'Y-m-d\TH:i:s' );
+		return $this->format( 'Y-m-d\TH:i:s' );
 	}
 }

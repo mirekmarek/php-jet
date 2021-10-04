@@ -71,9 +71,9 @@ interface Mvc_Page_Content_Interface
 	public function getModuleInstance(): Application_Module|bool;
 
 	/**
-	 * @return string
+	 * @return string|bool
 	 */
-	public function getControllerAction(): string;
+	public function getControllerAction(): string|bool;
 
 	/**
 	 * @param string $controller_action

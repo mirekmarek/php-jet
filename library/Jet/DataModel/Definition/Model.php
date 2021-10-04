@@ -8,7 +8,7 @@
 
 namespace Jet;
 
-use \ReflectionClass;
+use ReflectionClass;
 
 
 /**
@@ -136,7 +136,7 @@ abstract class DataModel_Definition_Model extends BaseObject
 	protected function _mainInit( string $data_model_class_name ): void
 	{
 
-		$this->class_name = (string)$data_model_class_name;
+		$this->class_name = $data_model_class_name;
 		$this->class_reflection = new ReflectionClass( $data_model_class_name );
 
 		$this->class_arguments = Attributes::getClassArguments( $this->class_reflection, 'Jet\DataModel_Definition' );
@@ -304,8 +304,8 @@ abstract class DataModel_Definition_Model extends BaseObject
 	 * @throws DataModel_Exception
 	 *
 	 */
-	protected function _initRelationProperty( string $property_name, /** @noinspection PhpUnusedParameterInspection */
-	                                          string $related_to, /** @noinspection PhpUnusedParameterInspection */
+	protected function _initRelationProperty( string $property_name,
+	                                          string $related_to,
 	                                          array $property_definition_data ): DataModel_Definition_Property|null
 	{
 		throw new DataModel_Exception(
