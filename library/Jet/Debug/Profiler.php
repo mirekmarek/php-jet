@@ -66,7 +66,7 @@ class Debug_Profiler
 	public static function enable(
 		?callable $saver = null,
 		?callable $displayer = null,
-		$log_SQL_queries = true
+		bool $log_SQL_queries = true
 	): void
 	{
 		static::$run = new Debug_Profiler_Run();
@@ -122,7 +122,7 @@ class Debug_Profiler
 	 * @param string $query
 	 * @param array $query_params
 	 */
-	public static function SQLQueryStart( string $query, $query_params = [] ): void
+	public static function SQLQueryStart( string $query, array $query_params = [] ): void
 	{
 		if(
 			!static::$enabled ||

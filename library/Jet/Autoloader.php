@@ -57,7 +57,7 @@ class Autoloader
 		static::$is_initialized = true;
 
 		spl_autoload_register( [
-			__NAMESPACE__ . '\Autoloader',
+			static::class,
 			'load'
 		], true, true );
 
@@ -112,7 +112,6 @@ class Autoloader
 		if( isset( static::$class_path_map[$class_name] ) ) {
 			$path = static::$class_path_map[$class_name];
 
-			/** @noinspection PhpIncludeInspection */
 			require_once $path;
 
 			return;
@@ -139,7 +138,6 @@ class Autoloader
 
 		}
 
-		/** @noinspection PhpIncludeInspection */
 		require_once $path;
 
 		if(
