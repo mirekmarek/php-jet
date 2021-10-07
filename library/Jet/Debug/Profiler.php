@@ -35,38 +35,17 @@ class Debug_Profiler
 	 */
 	protected static Debug_Profiler_Run|null $run = null;
 
-	/**
-	 * @var string|null
-	 */
-	protected static string|null $run_save_directory_path = null;
 
 
 	/**
-	 * @return string
-	 */
-	public static function getRunSaveDirectoryPath(): string
-	{
-		return static::$run_save_directory_path;
-	}
-
-	/**
-	 * @param string $run_save_directory_path
-	 */
-	public static function setRunSaveDirectoryPath( string $run_save_directory_path ): void
-	{
-		static::$run_save_directory_path = $run_save_directory_path;
-	}
-
-
-	/**
-	 * @param callable|null $saver
-	 * @param callable|null $displayer
 	 * @param bool $log_SQL_queries
+	 * @param callable $saver
+	 * @param callable|null $displayer
 	 */
 	public static function enable(
-		?callable $saver = null,
+		bool $log_SQL_queries,
+		callable $saver,
 		?callable $displayer = null,
-		bool $log_SQL_queries = true
 	): void
 	{
 		static::$run = new Debug_Profiler_Run();
@@ -81,15 +60,11 @@ class Debug_Profiler
 				$run = Debug_Profiler::getRun();
 				$run->runEnd();
 
-				if( $saver ) {
-					$saver( $run );
-				}
+				$saver( $run );
 
 				if( $displayer ) {
 					$displayer( $run );
 				}
-
-
 			}
 		);
 	}
@@ -124,14 +99,9 @@ class Debug_Profiler
 	 */
 	public static function SQLQueryStart( string $query, array $query_params = [] ): void
 	{
-		if(
-			!static::$enabled ||
-			!static::$log_SQL_queries
-		) {
-			return;
+		if( static::$log_SQL_queries ) {
+			static::$run?->SQLQueryStart( $query, $query_params );
 		}
-
-		static::$run->SQLQueryStart( $query, $query_params );
 	}
 
 	/**
@@ -139,14 +109,9 @@ class Debug_Profiler
 	 */
 	public static function SQLQueryDone( int $rows_count = 0 ): void
 	{
-		if(
-			!static::$enabled ||
-			!static::$log_SQL_queries
-		) {
-			return;
+		if( static::$log_SQL_queries ) {
+			static::$run?->SqlQueryDone( $rows_count );
 		}
-
-		static::$run->SqlQueryDone( $rows_count );
 	}
 
 	/**
@@ -154,11 +119,7 @@ class Debug_Profiler
 	 */
 	public static function message( string $text ): void
 	{
-		if( !static::$enabled ) {
-			return;
-		}
-
-		static::$run->message( $text );
+		static::$run?->message( $text );
 	}
 
 	/**
@@ -166,11 +127,7 @@ class Debug_Profiler
 	 */
 	public static function blockStart( string $label ): void
 	{
-		if( !static::$enabled ) {
-			return;
-		}
-
-		static::$run->blockStart( $label );
+		static::$run?->blockStart( $label );
 	}
 
 	/**
@@ -180,11 +137,7 @@ class Debug_Profiler
 	 */
 	public static function blockEnd( string $label ): void
 	{
-		if( !static::$enabled ) {
-			return;
-		}
-
-		static::$run->blockEnd( $label );
+		static::$run?->blockEnd( $label );
 	}
 
 
@@ -210,7 +163,11 @@ class Debug_Profiler
 			if( !isset( $bt['file'] ) ) {
 				$backtrace[] = '?';
 			} else {
-				$backtrace[] = $bt['file'] . ':' . $bt['line'];
+				$file = $bt['file'];
+
+				$file = '~/'.substr($file, strlen(SysConf_Path::getBase()));
+
+				$backtrace[] = $file . ':' . $bt['line'];
 			}
 		}
 

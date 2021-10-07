@@ -27,12 +27,15 @@ $controller = new class {
 		$this->catchShowRun();
 
 		Debug_Profiler::enable(
-			function(Debug_Profiler_Run $run) {
-				$this->saveRun($run);
-			},
-			function(Debug_Profiler_Run $run) {
-				$this->statusBarDisplayer($run);
-			}
+			log_SQL_queries: true,
+			saver:
+				function(Debug_Profiler_Run $run) {
+					$this->saveRun($run);
+				},
+			displayer:
+				function(Debug_Profiler_Run $run) {
+					$this->statusBarDisplayer($run);
+				}
 		);
 	}
 
@@ -97,7 +100,7 @@ $controller = new class {
 			echo '<!-- profiler: ' . $URL . ' -->';
 		} else {
 			if( !Debug::getOutputIsJSON() ) {
-				require __DIR__ . '/view/status_bar.phtml';
+				require __DIR__ . '/views/status_bar.phtml';
 			}
 		}
 	}
@@ -117,7 +120,7 @@ $controller = new class {
 		if( isset( $_GET['callgraph'] ) ) {
 			$this->showCallGraph( $run );
 		} else {
-			require __DIR__ . '/view/result.phtml';
+			require __DIR__ . '/views/result.phtml';
 		}
 		die();
 
