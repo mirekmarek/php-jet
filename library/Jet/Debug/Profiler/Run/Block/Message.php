@@ -36,7 +36,7 @@ class Debug_Profiler_Run_Block_Message
 	{
 		$this->text = $text;
 
-		$this->backtrace = Debug_Profiler::getBacktrace( 4 );
+		$this->backtrace = Debug_Profiler_Run::getBacktrace( 4 );
 
 		$this->timestamp = microtime( true );
 	}

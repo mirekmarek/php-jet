@@ -140,40 +140,4 @@ class Debug_Profiler
 		static::$run?->blockEnd( $label );
 	}
 
-
-	/**
-	 *
-	 * @param int $shift (optional, default: 0)
-	 *
-	 * @return array
-	 */
-	public static function getBacktrace( int $shift = 0 ): array
-	{
-		$_backtrace = debug_backtrace( DEBUG_BACKTRACE_IGNORE_ARGS );
-
-		if( $shift ) {
-			for( $c = 0; $c < $shift; $c++ ) {
-				array_shift( $_backtrace );
-			}
-		}
-
-		$backtrace = [];
-
-		foreach( $_backtrace as $bt ) {
-			if( !isset( $bt['file'] ) ) {
-				$backtrace[] = '?';
-			} else {
-				$file = $bt['file'];
-
-				$file = '~/'.substr($file, strlen(SysConf_Path::getBase()));
-
-				$backtrace[] = $file . ':' . $bt['line'];
-			}
-		}
-
-		return $backtrace;
-
-	}
-
-
 }

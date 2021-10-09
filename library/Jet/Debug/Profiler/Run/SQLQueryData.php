@@ -82,7 +82,7 @@ class Debug_Profiler_Run_SQLQueryData
 		$this->query = $query;
 		$this->query_params = $query_params;
 
-		$this->backtrace = Debug_Profiler::getBacktrace( 5 );
+		$this->backtrace = Debug_Profiler_Run::getBacktrace( 5 );
 
 		$this->timestamp_start = microtime( true );
 		$this->memory_start = memory_get_usage();

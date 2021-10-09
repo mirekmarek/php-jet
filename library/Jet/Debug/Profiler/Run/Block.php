@@ -110,7 +110,7 @@ class Debug_Profiler_Run_Block
 		$this->label = $label;
 		$this->level = $level;
 
-		$this->backtrace_start = Debug_Profiler::getBacktrace( 3 );
+		$this->backtrace_start = Debug_Profiler_Run::getBacktrace( 3 );
 
 		$this->timestamp_start = microtime( true );
 		$this->memory_start = memory_get_usage();
@@ -144,7 +144,7 @@ class Debug_Profiler_Run_Block
 		$this->timestamp_end = $timestamp_end ? $timestamp_end : microtime( true );
 		$this->memory_end = memory_get_usage();
 		$this->memory_peak_end = memory_get_peak_usage();
-		$this->backtrace_end = Debug_Profiler::getBacktrace( 3 );
+		$this->backtrace_end = Debug_Profiler_Run::getBacktrace( 3 );
 	}
 
 	/**
