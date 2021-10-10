@@ -108,7 +108,6 @@ class DataModel_Query_Where extends BaseObject implements BaseObject_Interface_I
 	 */
 	public function addAND(): void
 	{
-		//for easier implementation of the query ... (often is associated with multiple conditions in the cycle)
 		if( !$this->expressions ) {
 			return;
 		}
@@ -134,7 +133,6 @@ class DataModel_Query_Where extends BaseObject implements BaseObject_Interface_I
 	 */
 	public function addOR(): void
 	{
-		//for easier implementation of the query ... (often is associated with multiple conditions in the cycle)
 		if( !$this->expressions ) {
 			return;
 		}

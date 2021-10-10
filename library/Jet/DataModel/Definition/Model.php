@@ -421,13 +421,7 @@ abstract class DataModel_Definition_Model extends BaseObject
 	{
 		$id_controller_class = $this->getIDControllerClassName();
 
-		/**
-		 * @var DataModel_IDController $empty_id
-		 */
-		$empty_id = new $id_controller_class( $this, $this->getIDControllerOptions() );
-
-
-		return $empty_id;
+		return new $id_controller_class( $this, $this->getIDControllerOptions() );
 	}
 
 	/**

@@ -446,7 +446,6 @@ class Data_Array extends BaseObject implements BaseObject_Interface_Serializable
 
 			if( is_subclass_of( $val, '\JsonSerializable' ) ) {
 				$data[$key] = $val->jsonSerialize();
-				continue;
 			}
 		}
 

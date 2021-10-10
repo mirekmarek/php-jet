@@ -380,9 +380,7 @@ class Debug_ErrorHandler_Error
 			return $formatter( $this );
 		}
 
-		$output = '';
-
-		$output .= $this->getTxt() . PHP_EOL;
+		$output = $this->getTxt() . PHP_EOL;
 		$output .= $this->getMessage() . PHP_EOL;
 		$output .= '' . PHP_EOL;
 		$output .= 'script: ' . $this->getFile() . PHP_EOL;

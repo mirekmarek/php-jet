@@ -163,9 +163,7 @@ class UI_tree extends BaseObject
 		$tree_data = $this->getData();
 
 		$path = $selected_id ? $tree_data->getPath( $selected_id ) : false;
-		$path = $path ? $path : [$tree_data->getRootNode()->getId()];
-
-		return $path;
+		return $path ? : [$tree_data->getRootNode()->getId()];
 	}
 
 	/**

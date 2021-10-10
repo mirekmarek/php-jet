@@ -95,10 +95,7 @@ trait DataModel_Related_MtoN_Trait
 		 */
 		$definition = static::getDataModelDefinition();
 
-		return static::$_load_related_data_order_by
-			? static::$_load_related_data_order_by
-			:
-			$definition->getDefaultOrderBy();
+		return static::$_load_related_data_order_by ? : $definition->getDefaultOrderBy();
 	}
 
 	/**
@@ -125,10 +122,7 @@ trait DataModel_Related_MtoN_Trait
 
 		$iterator_class = $data_model_definition->getIteratorClassName();
 
-		$iterator = new $iterator_class( $data_model_definition, $items );
-
-		return $iterator;
-
+		return new $iterator_class( $data_model_definition, $items );
 	}
 
 	/**

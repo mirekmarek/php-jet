@@ -141,7 +141,7 @@ class Debug_Profiler_Run_Block
 			return;
 		}
 
-		$this->timestamp_end = $timestamp_end ? $timestamp_end : microtime( true );
+		$this->timestamp_end = $timestamp_end ? : microtime( true );
 		$this->memory_end = memory_get_usage();
 		$this->memory_peak_end = memory_get_peak_usage();
 		$this->backtrace_end = Debug_Profiler_Run::getBacktrace( 3 );

@@ -296,7 +296,7 @@ class Mvc_Page_Content extends BaseObject implements Mvc_Page_Content_Interface
 			return false;
 		}
 
-		return $this->controller_action ? $this->controller_action : static::DEFAULT_CONTROLLER_ACTION;
+		return $this->controller_action ? : static::DEFAULT_CONTROLLER_ACTION;
 	}
 
 	/**

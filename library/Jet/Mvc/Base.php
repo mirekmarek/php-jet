@@ -595,7 +595,6 @@ class Mvc_Base extends BaseObject implements Mvc_Base_Interface
 
 			if( (string)$o_locale == (string)$locale ) {
 				unset( $this->localized_data[(string)$locale] );
-				continue;
 			}
 
 		}

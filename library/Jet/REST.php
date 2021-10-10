@@ -263,7 +263,6 @@ class REST extends BaseObject
 	}
 
 	/**
-	 * Get request HTTP header or default value if does not exist
 	 *
 	 * @param string $header
 	 * @param string $default_value

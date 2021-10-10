@@ -361,9 +361,8 @@ class Data_Tree extends BaseObject implements BaseObject_Interface_IteratorCount
 			$target_node = $parent;
 		}
 
-		$path = array_reverse( $path );
+		return array_reverse( $path );
 
-		return $path;
 	}
 
 	/**

@@ -184,7 +184,7 @@ class DataModel_Backend_MySQL extends DataModel_Backend
 			}
 		}
 
-		$table_name = $force_table_name ? $force_table_name : $this->_getTableName( $definition );
+		$table_name = $force_table_name ? : $this->_getTableName( $definition );
 
 		$q = 'CREATE TABLE IF NOT EXISTS ' . $table_name . ' (' . PHP_EOL;
 		$q .= implode( ',' . PHP_EOL, $_columns );
@@ -1004,7 +1004,6 @@ class DataModel_Backend_MySQL extends DataModel_Backend
 				$backend_function_call = $property->toString( $mapper );
 
 				$columns_qp[] = $backend_function_call . ' AS ' . $this->_quoteName( $select_as ) . '';
-				continue;
 			}
 
 		}
@@ -1042,9 +1041,7 @@ class DataModel_Backend_MySQL extends DataModel_Backend
 			$group_by_qp[] = $val;
 		}
 
-		$group_by_qp = PHP_EOL . 'GROUP BY' . PHP_EOL . "\t" . implode( ',' . PHP_EOL . "\t", $group_by_qp ) . PHP_EOL;
-
-		return $group_by_qp;
+		return PHP_EOL . 'GROUP BY' . PHP_EOL . "\t" . implode( ',' . PHP_EOL . "\t", $group_by_qp ) . PHP_EOL;
 	}
 
 	/**

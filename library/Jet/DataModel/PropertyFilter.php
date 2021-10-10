@@ -50,7 +50,7 @@ class DataModel_PropertyFilter extends BaseObject
 					$relation = $model_definition->getRelation( $model_name );
 
 					if($property_name=='*') {
-						$property_names = array_keys($relation->getRelatedDataModelDefinition()->getProperties());;
+						$property_names = array_keys($relation->getRelatedDataModelDefinition()->getProperties());
 					} else {
 						if( !$relation->getRelatedDataModelDefinition()->hasProperty( $property_name ) ) {
 							throw new DataModel_Exception( 'Unknown property ' . $lp );

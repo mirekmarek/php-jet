@@ -93,6 +93,7 @@ class DataModel_Backend_SQLite extends DataModel_Backend
 	public function helper_getCreateCommand( DataModel_Definition_Model $definition, ?string $force_table_name = null ): string
 	{
 
+		/*
 		$options = [];
 
 		$_options = [];
@@ -102,7 +103,8 @@ class DataModel_Backend_SQLite extends DataModel_Backend
 		}
 
 		$_options = implode( ' ', $_options );
-
+		*/
+		$_options = '';
 
 		$_columns = [];
 
@@ -114,7 +116,7 @@ class DataModel_Backend_SQLite extends DataModel_Backend
 			$_columns[] = "\t" . $this->_getColumnName( $property, true, false ) . ' ' . $this->_getSQLType( $property );
 		}
 
-		$table_name = $force_table_name ? $force_table_name : $this->_getTableName( $definition );
+		$table_name = $force_table_name ? : $this->_getTableName( $definition );
 
 		$create_index_query = [];
 		$keys = [];
@@ -859,9 +861,7 @@ class DataModel_Backend_SQLite extends DataModel_Backend
 			$group_by_qp[] = $val;
 		}
 
-		$group_by_qp = PHP_EOL . 'GROUP BY' . PHP_EOL . "\t" . implode( ',' . PHP_EOL . "\t", $group_by_qp ) . PHP_EOL;
-
-		return $group_by_qp;
+		return PHP_EOL . 'GROUP BY' . PHP_EOL . "\t" . implode( ',' . PHP_EOL . "\t", $group_by_qp ) . PHP_EOL;
 	}
 
 	/**
@@ -1001,7 +1001,6 @@ class DataModel_Backend_SQLite extends DataModel_Backend
 				$backend_function_call = $property->toString( $mapper );
 
 				$columns_qp[] = $backend_function_call . ' AS ' . $this->_quoteName( $select_as ) . '';
-				continue;
 			}
 
 		}
