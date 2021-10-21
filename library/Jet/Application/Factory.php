@@ -11,7 +11,7 @@ namespace Jet;
 /**
  *
  */
-class Application_Factory extends BaseObject
+class Application_Factory
 {
 
 	/**
