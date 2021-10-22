@@ -13,12 +13,12 @@ namespace Jet;
  */
 trait Mvc_Page_Trait_Parameters
 {
-
 	/**
 	 *
 	 * @var array
 	 */
 	protected array $parameters = [];
+
 
 	/**
 	 * @return array

@@ -13,6 +13,21 @@ namespace Jet;
  */
 trait Mvc_Page_Trait_URL
 {
+	/**
+	 * @var string
+	 */
+	protected string $relative_path_fragment = '';
+
+	/**
+	 * @var string
+	 */
+	protected string $original_relative_path_fragment = '';
+
+	/**
+	 * @var string
+	 */
+	protected string $relative_path = '';
+
 
 	/**
 	 * @param string|null|bool $schema
@@ -180,6 +195,58 @@ trait Mvc_Page_Trait_URL
 	public function getSslURL( array $path_fragments = [], array $GET_params = [] ): string
 	{
 		return $this->_createURL( 'https', $path_fragments, $GET_params );
+	}
+
+	/**
+	 * @param string $relative_path_fragment
+	 */
+	public function setRelativePathFragment( string $relative_path_fragment ): void
+	{
+		$this->relative_path_fragment = $relative_path_fragment;
+
+
+		$parent = $this->getParent();
+		if(
+			$parent &&
+			$parent->getRelativePath()
+		) {
+			$this->relative_path = $parent->getRelativePath() . '/' . $this->relative_path_fragment;
+		} else {
+			$this->relative_path = $this->relative_path_fragment;
+
+		}
+
+		foreach( $this->getChildren() as $ch ) {
+			$ch->setRelativePathFragment( $ch->getRelativePathFragment() );
+
+		}
+	}
+
+
+	/**
+	 * @return string
+	 */
+	public function getRelativePathFragment(): string
+	{
+		return $this->relative_path_fragment;
+	}
+
+
+	/**
+	 * @return string
+	 */
+	public function getRelativePath(): string
+	{
+		return $this->relative_path;
+	}
+
+
+	/**
+	 * @param string $relative_path
+	 */
+	public function setRelativePath( string $relative_path ): void
+	{
+		$this->relative_path = $relative_path;
 	}
 
 }

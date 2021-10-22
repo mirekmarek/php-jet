@@ -35,6 +35,23 @@ trait Mvc_Page_Trait_Initialization
 
 
 	/**
+	 * @return bool
+	 */
+	public static function getUseModulePages(): bool
+	{
+		return static::$use_module_pages;
+	}
+
+	/**
+	 * @param bool $use_module_pages
+	 */
+	public static function setUseModulePages( bool $use_module_pages ): void
+	{
+		static::$use_module_pages = $use_module_pages;
+	}
+
+
+	/**
 	 * @param Mvc_Base_Interface $base
 	 * @param Locale $locale
 	 *
@@ -303,5 +320,18 @@ trait Mvc_Page_Trait_Initialization
 
 	}
 
+	/**
+	 *
+	 */
+	public function __wakeup()
+	{
+		foreach( $this->content as $cnt ) {
+			$cnt->setPage( $this );
+		}
+
+		foreach( $this->meta_tags as $mt ) {
+			$mt->setPage( $this );
+		}
+	}
 
 }

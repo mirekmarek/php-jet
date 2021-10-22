@@ -14,6 +14,54 @@ namespace Jet;
 trait Mvc_Page_Trait_Auth
 {
 
+	/**
+	 *
+	 * @var bool
+	 */
+	protected bool $is_secret = false;
+
+	/**
+	 * @param bool $is_secret
+	 */
+	public function setIsSecret( bool $is_secret ): void
+	{
+		$this->is_secret = $is_secret;
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function isSecretByDefault(): bool
+	{
+		if( $this->getBase()->getIsSecret() ) {
+			return true;
+		}
+
+		if( ($parent = $this->getParent()) ) {
+			if( $parent->getIsSecret() ) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function getIsSecret(): bool
+	{
+		if( $this->isSecretByDefault() ) {
+			return true;
+		}
+
+		return $this->is_secret;
+	}
+
+
+	/**
+	 * @return bool
+	 */
 	public function authorize(): bool
 	{
 		if( !$this->getIsSecret() ) {

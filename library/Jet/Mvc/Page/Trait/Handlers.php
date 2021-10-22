@@ -14,7 +14,6 @@ namespace Jet;
 trait Mvc_Page_Trait_Handlers
 {
 
-
 	/**
 	 *
 	 *

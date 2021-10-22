@@ -82,15 +82,6 @@ trait Mvc_Page_Trait_Tree
 		return $path;
 	}
 
-
-	/**
-	 * @return array
-	 */
-	public function getChildrenIds(): array
-	{
-		return $this->children;
-	}
-
 	/**
 	 * @return Mvc_Page_Interface[]
 	 */
@@ -130,6 +121,30 @@ trait Mvc_Page_Trait_Tree
 		return $this->__children;
 	}
 
+
+	/**
+	 * @return array
+	 */
+	public function getChildrenKeys(): array
+	{
+		$result = [];
+
+		foreach( $this->getChildren() as $page ) {
+			$result[] = $page->getKey();
+		}
+
+		return $result;
+	}
+
+	/**
+	 * @return array
+	 */
+	public function getChildrenIds(): array
+	{
+		return $this->children;
+	}
+
+
 	/**
 	 * @return int
 	 */
@@ -145,20 +160,6 @@ trait Mvc_Page_Trait_Tree
 	public function setOrder( int $order ): void
 	{
 		$this->order = $order;
-	}
-
-	/**
-	 * @return array
-	 */
-	public function getChildrenKeys(): array
-	{
-		$result = [];
-
-		foreach( $this->getChildren() as $page ) {
-			$result[] = $page->getKey();
-		}
-
-		return $result;
 	}
 
 }
