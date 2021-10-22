@@ -14,6 +14,7 @@ use Jet\Form_Field_Int;
 use Jet\Form_Field_Select;
 use Jet\Form_Field_Textarea;
 use Jet\Form_Field_Hidden;
+use Jet\Http_Request;
 use Jet\Mvc_Layout;
 use Jet\Mvc_Page;
 use Jet\Form;
@@ -280,7 +281,8 @@ class Pages_Page extends Mvc_Page
 			if( $this->getId() != static::HOMEPAGE_ID ) {
 				$relative_path_fragment_field = new Form_Field_Input( 'relative_path_fragment', 'URL:', rawurldecode( $page->getRelativePathFragment() ) );
 				$relative_path_fragment_field->setIsRequired( true );
-				$relative_path_fragment_field->setCatcher( function( $value ) use ( $page ) {
+				$relative_path_fragment_field->setCatcher( function( $value ) use ( $page, $relative_path_fragment_field ) {
+					$value = rawurlencode($value);
 					$page->setRelativePathFragment( $value );
 				} );
 				$relative_path_fragment_field->setIsRequired( true );
@@ -290,11 +292,13 @@ class Pages_Page extends Mvc_Page
 				$relative_path_fragment_field->setValidator( function( Form_Field_Input $field ) use ( $page ) {
 					$value = $field->getValue();
 
-					$value = Data_Text::removeAccents( $value );
-					$value = strtolower( $value );
+					//$value = Data_Text::removeAccents( $value );
+					$value = mb_strtolower( $value );
 
 					$value = str_replace( ' ', '-', $value );
-					$value = preg_replace( '/[^a-z0-9-]/i', '', $value );
+					//$value = preg_replace( '/[^a-z0-9-]/i', '', $value );
+					$value = preg_replace( '/[^\p{L}0-9\-]/u', '', $value );
+
 					$value = preg_replace( '~([-]{2,})~', '-', $value );
 
 					$field->setValue( $value );

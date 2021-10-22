@@ -190,7 +190,7 @@ class Debug_ErrorHandler
 			}
 		}
 
-		if(!$error->isFatal()) {
+		if($error->isFatal()) {
 			if( !$error_displayed ) {
 				if( Debug::getOutputIsHTML() ) {
 					echo '<pre>' . $error . '</pre>';

@@ -8,7 +8,6 @@
 
 namespace JetStudio;
 
-
 use Jet\Debug;
 use Jet\Debug_ErrorHandler_Handler;
 use Jet\Debug_ErrorHandler_Error;
@@ -31,6 +30,10 @@ class ErrorHandler_Display extends Debug_ErrorHandler_Handler
 	 */
 	public function handle( Debug_ErrorHandler_Error $error ): void
 	{
+		if($error->isSilenced()) {
+			return;
+		}
+
 		if( Debug::getOutputIsHTML() ) {
 			$this->display( $error );
 		} else {
@@ -54,7 +57,6 @@ class ErrorHandler_Display extends Debug_ErrorHandler_Handler
 	 */
 	public function display( Debug_ErrorHandler_Error $e ): void
 	{
-
 		?>
 		<br/>
 		<div style="background-color: #c9ffc9;padding:5px;border: 1px solid black; font-family: 'Arial CE', Arial, sans-serif;">
@@ -62,8 +64,7 @@ class ErrorHandler_Display extends Debug_ErrorHandler_Handler
 			<hr/>
 			<?= static::encode( $e->getMessage() ) ?>
 			<hr/>
-			<table cellSpacing="0" cellPadding="2" border="1"
-			       style="border-collapse:collapse;collapse;background-color: #c9c9c9;">
+			<table cellSpacing="0" cellPadding="2" border="1" style="border-collapse:collapse;collapse;background-color: #c9c9c9;">
 				<tr>
 					<td>script:</td>
 					<td><?= $e->getFile() ?></td>
@@ -83,35 +84,11 @@ class ErrorHandler_Display extends Debug_ErrorHandler_Handler
 			</table>
 			<br/>
 
-
-			<?php if( $e->getContext() ): ?>
-				<br/><strong>Error context:</strong><br/>
-				<table border="1" cellSpacing="0" cellpadding="2"
-				       style="border-collapse:collapse;background-color: #999999;">
-					<tr>
-						<th align="left">Variable</th>
-						<th align="left">Value</th>
-					</tr>
-					<?php
-					$i = 0;
-					foreach( $e->getContext() as $var_name => $var_value ):
-						$row_style = 'background-color:' . (($i % 2 ? '#f0f0f0' : '#c9c9c9'));
-						$i++;
-						$var_value = Debug_ErrorHandler_Error::formatVariable( $var_value );
-						?>
-						<tr style="<?= $row_style ?>">
-							<td valign="top"> $<?= $var_name ?></td>
-							<td><?= static::encode( $var_value ) ?></td>
-						</tr>
-					<?php endforeach; ?>
-				</table>
-			<?php endif; ?>
 			<?php if( $e->getBacktrace() ): ?>
 
 				<br/><strong>Debug backtrace:</strong><br/>
 
-				<table border="1" cellSpacing="0" cellpadding="2"
-				       style="border-collapse:collapse;background-color: #999999;">
+				<table border="1" cellSpacing="0" cellpadding="2" style="border-collapse:collapse;background-color: #999999;">
 					<tr>
 						<th align="left">File</th>
 						<th align="left">Line</th>
