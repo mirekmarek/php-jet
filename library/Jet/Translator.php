@@ -151,11 +151,11 @@ class Translator extends BaseObject
 	 * @param string $text
 	 * @param array $data (optional) - data that replace parts of text; input array('KEY1'=>'value1') replaces %KEY1% in text for value1
 	 * @param string|null $namespace (optional)
-	 * @param string|null $locale (optional) - target locale
+	 * @param Locale|null $locale (optional) - target locale
 	 *
 	 * @return string
 	 */
-	public static function _( string $text, array $data = [], string|null $namespace = null, string|null $locale = null ) : string
+	public static function _( string $text, array $data = [], string|null $namespace = null, Locale|null $locale = null ) : string
 	{
 		return static::getTranslation( $text, $data, $namespace, $locale );
 	}
@@ -167,14 +167,14 @@ class Translator extends BaseObject
 	 * @param string $phrase
 	 * @param array $data (optional) - data that replace parts of text; input array('KEY1'=>'value1') replaces %KEY1% in text for value1
 	 * @param string|null $namespace (optional)
-	 * @param string|Locale|null $locale (optional) - target locale
+	 * @param Locale|null $locale (optional) - target locale
 	 *
 	 * @return string
 	 */
 	public static function getTranslation( string $phrase,
 	                                       array $data = [],
 	                                       string|null $namespace = null,
-	                                       string|Locale|null $locale = null ): string
+	                                       Locale|null $locale = null ): string
 	{
 
 		if( !$namespace ) {

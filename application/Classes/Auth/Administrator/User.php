@@ -107,13 +107,13 @@ class Auth_Administrator_User extends DataModel implements Auth_User_Interface
 		form_field_label: 'Locale',
 		form_field_is_required: true,
 		form_field_error_messages: [
-		Form_Field_Select::ERROR_CODE_INVALID_VALUE => 'Please select locale',
-		Form_Field_Select::ERROR_CODE_EMPTY         => 'Please select locale'
-	],
+			Form_Field_Select::ERROR_CODE_INVALID_VALUE => 'Please select locale',
+			Form_Field_Select::ERROR_CODE_EMPTY         => 'Please select locale'
+		],
 		form_field_get_select_options_callback: [
 			self::class,
 			'getLocales'
-		]
+		],
 	)]
 	protected ?Locale $locale = null;
 
@@ -412,7 +412,7 @@ class Auth_Administrator_User extends DataModel implements Auth_User_Interface
 	}
 
 	/**
-	 * @param string|Locale $locale
+	 * @param Locale|string $locale
 	 */
 	public function setLocale( Locale|string $locale ): void
 	{
@@ -421,6 +421,7 @@ class Auth_Administrator_User extends DataModel implements Auth_User_Interface
 		}
 		$this->locale = $locale;
 	}
+
 
 	/**
 	 * @return string

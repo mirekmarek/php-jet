@@ -105,11 +105,11 @@ class Mailing_Email_Template extends BaseObject
 	/**
 	 *
 	 * @param string $name
-	 * @param string|Locale|null $locale
+	 * @param Locale|null $locale
 	 * @param string|null $base_id
 	 * @param string $specification
 	 */
-	public function __construct( string $name, string|Locale|null $locale = null, ?string $base_id = null, string $specification = '' )
+	public function __construct( string $name, Locale|null $locale = null, ?string $base_id = null, string $specification = '' )
 	{
 		if( $locale === null ) {
 			$locale = Locale::getCurrentLocale();

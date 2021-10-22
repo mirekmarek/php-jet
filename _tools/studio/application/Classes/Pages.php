@@ -102,12 +102,12 @@ class Pages extends BaseObject implements Application_Part
 
 	/**
 	 * @param string $page_id
-	 * @param string|Locale $locale
+	 * @param Locale|null $locale
 	 * @param string $base_id
 	 *
 	 * @return null|Pages_Page
 	 */
-	public static function getPage( string $page_id, string|Locale $locale = '', string $base_id = '' ): null|Pages_Page
+	public static function getPage( string $page_id, Locale|null $locale = null, string $base_id = '' ): null|Pages_Page
 	{
 		if( !$base_id ) {
 			$base_id = static::getCurrentBaseId();

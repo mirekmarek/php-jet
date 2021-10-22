@@ -157,7 +157,6 @@ class Gallery_Localized extends DataModel_Related_1toN
 		if( !($locale instanceof Locale) ) {
 			$locale = new Locale( $locale );
 		}
-
 		$this->locale = $locale;
 	}
 

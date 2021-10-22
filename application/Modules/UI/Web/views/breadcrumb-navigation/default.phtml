@@ -18,7 +18,7 @@ $items = Navigation_Breadcrumb::getItems();
 				<?php if( $locale->toString() == Mvc::getCurrentLocale()->toString() ): ?>
 					<span class="badge badge-info"><?= UI::flag( $locale ) ?>&nbsp;<?= $locale->getLanguageName( $locale ) ?></span>
 				<?php else:
-					$eq_page = Mvc_Page::get( null, $locale );
+					$eq_page = Mvc_Page::get( locale: $locale );
 					if( !$eq_page ) {
 						$eq_page = Mvc_Page::get( Mvc_Page::HOMEPAGE_ID, $locale );
 					}

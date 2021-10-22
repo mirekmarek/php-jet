@@ -34,12 +34,12 @@ interface Mvc_Page_Interface
 	/**
 	 *
 	 * @param string|null $page_id (optional, null = current)
-	 * @param string|Locale|null $locale (optional, null = current)
+	 * @param Locale|null $locale (optional, null = current)
 	 * @param string|null $base_id (optional, null = current)
 	 *
 	 * @return static|null
 	 */
-	public static function get( string|null $page_id, string|Locale|null $locale = null, string|null $base_id = null ): static|null;
+	public static function get( string|null $page_id=null, Locale|null $locale = null, string|null $base_id = null ): static|null;
 
 	/**
 	 *

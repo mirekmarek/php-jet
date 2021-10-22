@@ -410,9 +410,9 @@ class Auth_Visitor_User extends DataModel implements Auth_User_Interface
 	}
 
 	/**
-	 * @param string|Locale $locale
+	 * @param Locale|string $locale
 	 */
-	public function setLocale( string|Locale $locale ): void
+	public function setLocale( Locale|string $locale ): void
 	{
 		if( !($locale instanceof Locale) ) {
 			$locale = new Locale( $locale );

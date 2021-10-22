@@ -169,11 +169,11 @@ class Gallery extends DataModel
 
 	/**
 	 * @param string $path
-	 * @param string|Locale $locale
+	 * @param Locale $locale
 	 *
 	 * @return Gallery|null
 	 */
-	public static function resolveGalleryByURL( string $path, Locale|string $locale ): Gallery|null
+	public static function resolveGalleryByURL( string $path, Locale $locale ): Gallery|null
 	{
 
 		return static::load(

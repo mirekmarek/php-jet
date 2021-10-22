@@ -36,7 +36,7 @@ class ErrorHandler_Log extends Debug_ErrorHandler_Handler
 	 */
 	public function handle( Debug_ErrorHandler_Error $error ): void
 	{
-		if(!$error->isSilenced()) {
+		if($error->isSilenced()) {
 			return;
 		}
 

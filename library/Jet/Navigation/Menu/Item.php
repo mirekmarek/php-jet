@@ -71,9 +71,9 @@ class Navigation_Menu_Item extends BaseObject
 	protected string $base_id = '';
 
 	/**
-	 * @var string
+	 * @var ?Locale
 	 */
-	protected string $locale = '';
+	protected ?Locale $locale = null;
 
 	/**
 	 * @var array
@@ -314,18 +314,22 @@ class Navigation_Menu_Item extends BaseObject
 	}
 
 	/**
-	 * @return string
+	 * @return Locale
 	 */
-	public function getLocale(): string
+	public function getLocale(): Locale
 	{
 		return $this->locale;
 	}
 
 	/**
-	 * @param string $locale
+	 * @param Locale|string $locale
 	 */
-	public function setLocale( string $locale ): void
+	public function setLocale( Locale|string $locale ): void
 	{
+		if(!$locale instanceof Locale) {
+			$locale = new Locale($locale);
+		}
+
 		$this->locale = $locale;
 	}
 

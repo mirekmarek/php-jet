@@ -647,18 +647,18 @@ class Pages_Page extends Mvc_Page
 
 	/**
 	 * @param string $base_id
-	 * @param Locale|string $locale
+	 * @param Locale $locale
 	 * @param string $id
 	 * @param string $name
 	 * @param Pages_Page|null $parent
 	 *
 	 * @return Pages_Page
 	 */
-	public static function createPage( string        $base_id,
-	                                   Locale|string $locale,
-	                                   string        $id,
-	                                   string        $name,
-	                                   ?Pages_Page   $parent = null ): Pages_Page
+	public static function createPage( string       $base_id,
+	                                   Locale       $locale,
+	                                   string       $id,
+	                                   string       $name,
+	                                   ?Pages_Page  $parent = null ): Pages_Page
 	{
 
 		if( !is_object( $locale ) ) {

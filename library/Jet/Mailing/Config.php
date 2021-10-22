@@ -29,14 +29,14 @@ class Mailing_Config extends Config
 
 	/**
 	 *
-	 * @param string|Locale $locale
+	 * @param Locale $locale
 	 * @param string $base_id
 	 * @param string $specification
 	 *
 	 * @return Mailing_Config_Sender|null
 	 *
 	 */
-	public function getSender( string|Locale $locale, string $base_id, string $specification ): Mailing_Config_Sender|null
+	public function getSender( Locale $locale, string $base_id, string $specification ): Mailing_Config_Sender|null
 	{
 
 		$key = $this->getSenderKey( $locale, $base_id, $specification );
@@ -58,12 +58,12 @@ class Mailing_Config extends Config
 
 	/**
 	 * @param Mailing_Config_Sender $sender_configuration
-	 * @param string|Locale $locale
+	 * @param Locale $locale
 	 * @param string $base_id
 	 * @param string $specification
 	 *
 	 */
-	public function addSender( Mailing_Config_Sender $sender_configuration, string|Locale $locale, string $base_id, string $specification )
+	public function addSender( Mailing_Config_Sender $sender_configuration, Locale $locale, string $base_id, string $specification )
 	{
 		$this->senders[$this->getSenderKey( $locale, $base_id, $specification )] = $sender_configuration;
 	}
@@ -79,13 +79,13 @@ class Mailing_Config extends Config
 	}
 
 	/**
-	 * @param string|Locale $locale
+	 * @param Locale $locale
 	 * @param string $base_id
 	 * @param string $specification
 	 *
 	 * @return string
 	 */
-	public function getSenderKey( string|Locale $locale, string $base_id, string $specification ): string
+	public function getSenderKey( Locale $locale, string $base_id, string $specification ): string
 	{
 		$key = (string)$locale;
 
