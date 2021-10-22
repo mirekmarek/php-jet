@@ -38,4 +38,5 @@ class Mvc_Page extends BaseObject implements Mvc_Page_Interface
 	use Mvc_Page_Trait_Cache;
 	use Mvc_Page_Trait_Handlers;
 	use Mvc_Page_Trait_Save;
+	
 }
