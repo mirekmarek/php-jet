@@ -14,9 +14,10 @@ namespace Jet;
 abstract class Mvc_Controller extends BaseObject
 {
 	/**
-	 * @var Mvc_Page_Content_Interface|null
+	 * @var Mvc_Page_Content_Interface
 	 */
-	protected Mvc_Page_Content_Interface|null $content = null;
+	protected Mvc_Page_Content_Interface $content;
+
 	/**
 	 *
 	 * @var Application_Module|null
@@ -24,9 +25,9 @@ abstract class Mvc_Controller extends BaseObject
 	protected $module = null;
 
 	/**
-	 * @var Mvc_View|null
+	 * @var Mvc_View
 	 */
-	protected Mvc_View|null $view = null;
+	protected Mvc_View $view;
 
 	/**
 	 *
@@ -52,9 +53,9 @@ abstract class Mvc_Controller extends BaseObject
 
 
 	/**
-	 * @return Mvc_Page_Content_Interface|null
+	 * @return Mvc_Page_Content_Interface
 	 */
-	public function getContent(): Mvc_Page_Content_Interface|null
+	public function getContent(): Mvc_Page_Content_Interface
 	{
 		return $this->content;
 	}
@@ -66,77 +67,6 @@ abstract class Mvc_Controller extends BaseObject
 	{
 		return $this->module;
 	}
-
-	/**
-	 *
-	 *
-	 * @return Mvc_Controller_Router_Interface|Mvc_Controller_Router|null
-	 */
-	public function getControllerRouter(): Mvc_Controller_Router_Interface|Mvc_Controller_Router|null
-	{
-		return null;
-	}
-
-	/**
-	 *
-	 */
-	abstract public function handleNotAuthorized(): void;
-
-	/**
-	 * @param string $action_message
-	 * @param string $context_object_id
-	 * @param string $context_object_name
-	 * @param mixed $context_object_data
-	 */
-	public function logAllowedAction( string $action_message,
-	                                  string $context_object_id = '',
-	                                  string $context_object_name = '',
-	                                  mixed $context_object_data = [] )
-	{
-
-		$module_name = $this->module->getModuleManifest()->getName();
-		$module_action = $this->content->getControllerAction();
-
-		Logger::success(
-			'allowed_action:' . $module_name . ':' . $module_action,
-			$action_message,
-			$context_object_id,
-			$context_object_name,
-			$context_object_data
-		);
-
-	}
-
-
-	/**
-	 * @return array
-	 */
-	public function getParameters(): array
-	{
-		return $this->content->getParameters();
-	}
-
-	/**
-	 * @param string $key
-	 * @param mixed $default_value
-	 *
-	 * @return mixed
-	 */
-	public function getParameter( string $key, mixed $default_value = null ) : mixed
-	{
-		return $this->content->getParameter( $key, $default_value );
-	}
-
-	/**
-	 * @param string $key
-	 *
-	 * @return bool
-	 */
-	public function parameterExists( string $key ): bool
-	{
-		return $this->content->parameterExists( $key );
-	}
-
 
 	/**
 	 *
@@ -180,6 +110,46 @@ abstract class Mvc_Controller extends BaseObject
 		$output = $this->view->render( $view_script );
 
 		$this->content->output( $output );
+	}
+
+
+	/**
+	 * @return Mvc_Controller_Router_Interface|null
+	 */
+	public function getControllerRouter(): Mvc_Controller_Router_Interface|null
+	{
+		return null;
+	}
+
+	/**
+	 *
+	 */
+	abstract public function handleNotAuthorized(): void;
+
+
+	/**
+	 * @param string $action_message
+	 * @param string $context_object_id
+	 * @param string $context_object_name
+	 * @param mixed $context_object_data
+	 */
+	public function logAllowedAction( string $action_message,
+	                                  string $context_object_id = '',
+	                                  string $context_object_name = '',
+	                                  mixed $context_object_data = [] )
+	{
+
+		$module_name = $this->module->getModuleManifest()->getName();
+		$module_action = $this->content->getControllerAction();
+
+		Logger::success(
+			'allowed_action:' . $module_name . ':' . $module_action,
+			$action_message,
+			$context_object_id,
+			$context_object_name,
+			$context_object_data
+		);
+
 	}
 
 }

@@ -76,7 +76,7 @@ class Controller_Main extends Mvc_Controller_Default
 	 */
 	public function breadcrumbNavigation_Action(): void
 	{
-		$view = $this->getParameter( 'view', 'default' );
+		$view = $this->content->getParameter( 'view', 'default' );
 
 		$this->output( 'breadcrumb-navigation/' . $view );
 

@@ -258,12 +258,17 @@ class Mvc_Base extends BaseObject implements Mvc_Base_Interface
 
 	/**
 	 *
-	 * @param string $id
+	 * @param ?string $id
 	 *
 	 * @return static|null
 	 */
-	public static function get( string $id ): static|null
+	public static function get( ?string $id=null ): static|null
 	{
+		if( !$id ) {
+			/** @noinspection PhpIncompatibleReturnTypeInspection */
+			return Mvc::getCurrentBase();
+		}
+
 
 		if( isset( static::$bases[$id] ) ) {
 			return static::$bases[$id];

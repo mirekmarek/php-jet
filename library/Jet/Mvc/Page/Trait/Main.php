@@ -184,10 +184,6 @@ trait Mvc_Page_Trait_Main
 		 */
 		$base = $base_class_name::get( $base_id );
 
-		if( is_string( $locale ) ) {
-			$locale = new Locale( $locale );
-		}
-
 		/**
 		 * @var Mvc_Page $homepage
 		 */
