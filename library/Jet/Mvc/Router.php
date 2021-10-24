@@ -227,7 +227,7 @@ class Mvc_Router extends BaseObject implements Mvc_Router_Interface
 				. $this->getBase()->getLocalizedData( $this->locale )->getDefaultURL()
 				. $this->url_path;
 
-			if( $this->url_path && Mvc::getForceSlashOnURLEnd() ) {
+			if( $this->url_path && SysConf_Jet_Mvc::getForceSlashOnURLEnd() ) {
 				$redirect_to .= '/';
 			}
 

@@ -14,16 +14,6 @@ namespace Jet;
 trait Mvc_Page_Trait_Initialization
 {
 	/**
-	 * @var string
-	 */
-	protected static string $page_data_file_name = 'page_data.php';
-
-	/**
-	 * @var bool
-	 */
-	protected static bool $use_module_pages = true;
-
-	/**
 	 * @var Mvc_Page[]
 	 */
 	protected static array $pages = [];
@@ -32,24 +22,6 @@ trait Mvc_Page_Trait_Initialization
 	 * @var array
 	 */
 	protected static array $maps = [];
-
-
-	/**
-	 * @return bool
-	 */
-	public static function getUseModulePages(): bool
-	{
-		return static::$use_module_pages;
-	}
-
-	/**
-	 * @param bool $use_module_pages
-	 */
-	public static function setUseModulePages( bool $use_module_pages ): void
-	{
-		static::$use_module_pages = $use_module_pages;
-	}
-
 
 	/**
 	 * @param Mvc_Base_Interface $base
@@ -109,7 +81,7 @@ trait Mvc_Page_Trait_Initialization
 	 */
 	protected static function loadMaps_modules( Mvc_Base_Interface $base, Locale $locale ): void
 	{
-		if( !static::$use_module_pages ) {
+		if( !SysConf_Jet_Mvc::getUseModulePages() ) {
 			return;
 		}
 
@@ -152,7 +124,7 @@ trait Mvc_Page_Trait_Initialization
 	protected static function loadMaps_readDir( string $key, string $source_dir_path, string $parent_page_id = '', string $parent_path = '', array $parents = [] ): void
 	{
 
-		$page_data_file_path = $source_dir_path . static::$page_data_file_name;
+		$page_data_file_path = $source_dir_path . SysConf_Jet_Mvc::getPageDataFileName();
 
 
 		$page_id = static::loadMaps_getPageId( $page_data_file_path );
@@ -215,22 +187,6 @@ trait Mvc_Page_Trait_Initialization
 		return $data['id'] ?? '';
 	}
 
-
-	/**
-	 * @return string
-	 */
-	public static function getPageDataFileName(): string
-	{
-		return static::$page_data_file_name;
-	}
-
-	/**
-	 * @param string $page_data_file_name
-	 */
-	public static function setPageDataFileName( string $page_data_file_name ): void
-	{
-		static::$page_data_file_name = $page_data_file_name;
-	}
 
 
 	/**

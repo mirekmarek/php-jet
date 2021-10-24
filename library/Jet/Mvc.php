@@ -13,12 +13,6 @@ namespace Jet;
  */
 class Mvc
 {
-
-	/**
-	 * @var bool
-	 */
-	protected static bool $force_slash_on_URL_end = false;
-
 	/**
 	 *
 	 * @var ?Mvc_Router_Interface
@@ -40,22 +34,6 @@ class Mvc
 	 */
 	protected static ?Mvc_Page_Interface $current_page = null;
 
-
-	/**
-	 * @return bool
-	 */
-	public static function getForceSlashOnURLEnd(): bool
-	{
-		return self::$force_slash_on_URL_end;
-	}
-
-	/**
-	 * @param bool $force_slash_on_URL_end
-	 */
-	public static function setForceSlashOnURLEnd( bool $force_slash_on_URL_end ): void
-	{
-		self::$force_slash_on_URL_end = $force_slash_on_URL_end;
-	}
 
 	/**
 	 * @return Mvc_Router_Interface
@@ -121,14 +99,6 @@ class Mvc
 		}
 
 		static::$current_locale = $current_locale;
-	}
-
-	/**
-	 *
-	 */
-	public static function unsetCurrentPage(): void
-	{
-		static::$current_page = null;
 	}
 
 	/**

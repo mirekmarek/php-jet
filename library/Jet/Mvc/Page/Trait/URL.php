@@ -100,7 +100,7 @@ trait Mvc_Page_Trait_URL
 			$URL .= $path_fragments;
 
 			if(
-				Mvc::getForceSlashOnURLEnd() &&
+				SysConf_Jet_Mvc::getForceSlashOnURLEnd() &&
 				!$do_not_add_slash
 			) {
 				$URL .= '/';
@@ -108,7 +108,7 @@ trait Mvc_Page_Trait_URL
 		} else {
 			if(
 				$this->relative_path &&
-				Mvc::getForceSlashOnURLEnd()
+				SysConf_Jet_Mvc::getForceSlashOnURLEnd()
 			) {
 				$URL .= '/';
 			}

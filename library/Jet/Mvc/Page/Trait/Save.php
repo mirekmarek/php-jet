@@ -107,7 +107,7 @@ trait Mvc_Page_Trait_Save
 
 		$page_dir = $this->getDataDirPath();
 
-		$data_file_path = $page_dir . static::getPageDataFileName();
+		$data_file_path = $page_dir . SysConf_Jet_Mvc::getPageDataFileName();
 
 		IO_File::write(
 			$data_file_path,

@@ -18,26 +18,6 @@ class Mvc_Base extends BaseObject implements Mvc_Base_Interface
 {
 
 	/**
-	 * @var string
-	 */
-	protected static string $base_data_file_name = 'base_data.php';
-
-	/**
-	 * @var string
-	 */
-	protected static string $pages_dir = 'pages';
-
-	/**
-	 * @var string
-	 */
-	protected static string $layouts_dir = 'layouts';
-
-	/**
-	 * @var string
-	 */
-	protected static string $views_dir = 'views';
-
-	/**
 	 * @var Mvc_Base[]
 	 */
 	protected static array $bases = [];
@@ -315,7 +295,7 @@ class Mvc_Base extends BaseObject implements Mvc_Base_Interface
 	 */
 	protected static function getBaseDataFilePath( string $id ): string
 	{
-		return SysConf_Path::getBases() . $id . '/' . static::$base_data_file_name;
+		return SysConf_Path::getBases() . $id . '/' . SysConf_Jet_Mvc::getBaseDataFileName();
 	}
 
 
@@ -471,7 +451,7 @@ class Mvc_Base extends BaseObject implements Mvc_Base_Interface
 			return $this->layouts_path;
 		}
 
-		return $this->getBasePath() . static::$layouts_dir . '/';
+		return $this->getBasePath() . SysConf_Jet_Mvc::getBaseLayoutsDir() . '/';
 	}
 
 
@@ -492,7 +472,7 @@ class Mvc_Base extends BaseObject implements Mvc_Base_Interface
 			return $this->views_path;
 		}
 
-		return $this->getBasePath() . static::$views_dir . '/';
+		return $this->getBasePath() . SysConf_Jet_Mvc::getBaseViewsDir() . '/';
 	}
 
 
@@ -628,7 +608,7 @@ class Mvc_Base extends BaseObject implements Mvc_Base_Interface
 	 */
 	public function getPagesDataPath( Locale|null $locale = null ): string
 	{
-		$path = $this->getBasePath() . static::$pages_dir . '/';
+		$path = $this->getBasePath() . SysConf_Jet_Mvc::getBasePagesDir() . '/';
 
 		if( !$locale ) {
 			return $path;
@@ -698,7 +678,7 @@ class Mvc_Base extends BaseObject implements Mvc_Base_Interface
 		$data = $this->toArray();
 
 		IO_File::write(
-			$this->getBasePath() . static::$base_data_file_name,
+			$this->getBasePath() . SysConf_Jet_Mvc::getBaseDataFileName(),
 			'<?php' . PHP_EOL . 'return ' . (new Data_Array( $data ))->export()
 		);
 
