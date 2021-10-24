@@ -19,21 +19,6 @@ class Mvc
 	 */
 	protected static ?Mvc_Router_Interface $router = null;
 
-	/**
-	 * @var ?Mvc_Base_Interface
-	 */
-	protected static ?Mvc_Base_Interface $current_base = null;
-
-	/**
-	 * @var ?Locale
-	 */
-	protected static ?Locale $current_locale = null;
-
-	/**
-	 * @var ?Mvc_Page_Interface
-	 */
-	protected static ?Mvc_Page_Interface $current_page = null;
-
 
 	/**
 	 * @return Mvc_Router_Interface
@@ -61,15 +46,7 @@ class Mvc
 	 */
 	public static function getCurrentBase(): Mvc_Base_Interface|null
 	{
-		return static::$current_base;
-	}
-
-	/**
-	 * @param Mvc_Base_Interface $current_base
-	 */
-	public static function setCurrentBase( Mvc_Base_Interface $current_base ): void
-	{
-		static::$current_base = $current_base;
+		return static::getRouter()->getBase();
 	}
 
 	/**
@@ -78,27 +55,7 @@ class Mvc
 	 */
 	public static function getCurrentLocale(): Locale|null
 	{
-		return static::$current_locale;
-	}
-
-	/**
-	 * @param Locale $current_locale
-	 * @param bool $set_system_locale (optional, default: true)
-	 * @param bool $set_translator_locale (optional, default: true)
-	 */
-	public static function setCurrentLocale( Locale $current_locale,
-	                                         bool $set_system_locale = true,
-	                                         bool $set_translator_locale = true ): void
-	{
-		if( $set_system_locale ) {
-			Locale::setCurrentLocale( $current_locale );
-		}
-
-		if( $set_translator_locale ) {
-			Translator::setCurrentLocale( $current_locale );
-		}
-
-		static::$current_locale = $current_locale;
+		return static::getRouter()->getLocale();
 	}
 
 	/**
@@ -107,16 +64,7 @@ class Mvc
 	 */
 	public static function getCurrentPage(): Mvc_Page_Interface|null
 	{
-		return static::$current_page;
+		return static::getRouter()->getPage();
 	}
-
-	/**
-	 * @param Mvc_Page_Interface $current_page
-	 */
-	public static function setCurrentPage( Mvc_Page_Interface $current_page ): void
-	{
-		static::$current_page = $current_page;
-	}
-
-
+	
 }

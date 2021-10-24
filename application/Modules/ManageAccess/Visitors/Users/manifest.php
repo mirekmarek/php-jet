@@ -11,32 +11,4 @@ return [
 		'update_user' => 'Update user',
 		'delete_user' => 'Delete user',
 	],
-
-
-	'pages' => [
-		'admin' => [
-			'visitors-users' => [
-				'title'                  => 'Visitors - Users',
-				'relative_path_fragment' => 'visitors-users',
-				'icon'                   => 'users',
-				'contents'               => [
-					[
-						'controller_action' => 'default'
-					]
-				],
-			],
-		],
-	],
-
-	'menu_items' => [
-		'admin' => [
-			'system' => [
-				'visitor_users' => [
-					'page_id' => 'visitors-users',
-					'index'   => 100,
-				],
-			],
-		],
-	],
-
 ];

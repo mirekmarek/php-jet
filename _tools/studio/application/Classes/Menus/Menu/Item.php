@@ -439,6 +439,16 @@ class Menus_Menu_Item extends Navigation_Menu_Item
 			$menu_item['get_params'] = $this->getGetParams();
 		}
 
+		foreach($menu_item as $key=>$value) {
+			if(
+				$value==='' ||
+				$value===false ||
+				$value===[]
+			) {
+				unset($menu_item[$key]);
+			}
+		}
+
 		return $menu_item;
 	}
 

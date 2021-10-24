@@ -314,9 +314,9 @@ class Navigation_Menu_Item extends BaseObject
 	}
 
 	/**
-	 * @return Locale
+	 * @return ?Locale
 	 */
-	public function getLocale(): Locale
+	public function getLocale(): ?Locale
 	{
 		return $this->locale;
 	}

@@ -11,31 +11,4 @@ return [
 		'update_role' => 'Update role',
 		'delete_role' => 'Delete role',
 	],
-
-	'pages' => [
-		'admin' => [
-			'visitors-roles' => [
-				'title'                  => 'Visitors - User roles',
-				'relative_path_fragment' => 'visitors-user-roles',
-				'icon'                   => 'street-view',
-				'contents'               => [
-					[
-						'controller_action' => 'default'
-					]
-				],
-			],
-		],
-	],
-
-	'menu_items' => [
-		'admin' => [
-			'system' => [
-				'visitor_roles' => [
-					'page_id' => 'visitors-roles',
-					'index'   => 101,
-				],
-			],
-		],
-	],
-
 ];

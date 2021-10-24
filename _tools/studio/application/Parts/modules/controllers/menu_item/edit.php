@@ -15,7 +15,16 @@ if(
 	$menu_item->catchEditForm()
 ) {
 
-	if( $module->save() ) {
+	$ok = true;
+	try {
+		$module->getMenuItems()->save();
+	} catch(\Exception $e) {
+		$ok = false;
+		UI_messages::danger( $e->getMessage() );
+
+	}
+
+	if( $ok ) {
 		UI_messages::success( Tr::_( 'Saved ...' ) );
 		Http_Headers::reload( [], ['action'] );
 	}

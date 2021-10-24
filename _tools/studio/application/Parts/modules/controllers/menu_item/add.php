@@ -15,14 +15,15 @@ $module = Modules::getCurrentModule();
 
 if(
 	$module &&
-	($new_item = $module->catchCreateMenuItemForm())
+	($new_item = $module->getMenuItems()->catchCreateMenuItemForm())
 ) {
-	Modules::getCurrentModule()->addMenuItem( $new_item );
+	Modules::getCurrentModule()->getMenuItems()->addMenuItem( $new_item );
 
-	$form = $module->getCreateMenuItemForm();
+	$form = $module->getMenuItems()->getCreateMenuItemForm();
 
-	if( $module->save() ) {
-		$ok = true;
+	$ok = true;
+	try {
+		$module->getMenuItems()->save();
 
 		UI_messages::success(
 			Tr::_( 'Menu item <strong>%item%</strong> has been created', [
@@ -32,8 +33,10 @@ if(
 
 		$data['id'] = $new_item->getFullId();
 
-	} else {
-		$form->setCommonMessage( implode( '', UI_messages::get() ) );
+	} catch( \Exception $e ) {
+		$ok = false;
+
+		$form->setCommonMessage( UI_messages::createDanger($e->getMessage()) );
 	}
 
 }

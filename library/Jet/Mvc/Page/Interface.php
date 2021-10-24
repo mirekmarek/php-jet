@@ -457,6 +457,24 @@ interface Mvc_Page_Interface
 	public function render(): string;
 
 	/**
+	 * @param string $data_file_path
+	 */
+	public function setDataFilePath( string $data_file_path ): void;
+
+	/**
+	 * @param bool $actualized
+	 * @return string
+	 */
+	public function getDataFilePath( bool $actualized = false ): string;
+
+	/**
+	 * @param bool $actualized
+	 *
+	 * @return string
+	 */
+	public function getDataDirPath( bool $actualized = false ): string;
+
+	/**
 	 *
 	 */
 	public function saveDataFile(): void;

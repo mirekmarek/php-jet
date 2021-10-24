@@ -68,6 +68,10 @@ trait Mvc_Page_Trait_Main
 	 */
 	protected string $breadcrumb_title = '';
 
+	/**
+	 * @var string
+	 */
+	protected string $_data_file_path = '';
 
 	/**
 	 *
@@ -119,49 +123,53 @@ trait Mvc_Page_Trait_Main
 
 		$data_file_path = $maps['pages_files_map'][$page_id];
 
-		if( $data_file_path[0] == '@' ) {
-			$module_name = substr( $data_file_path, 1 );
-			$module = Application_Modules::moduleManifest( $module_name );
-
-			if( !$module ) {
-				return null;
-			}
-
-			$pages = $module->getPages( $base, $locale );
-
-			if( !isset( $pages[$page_id] ) ) {
-				return null;
-			}
-
-			$page = $pages[$page_id];
-
-			$page->children = $maps['children_map'][$page_id];
-			$page->relative_path = array_search( $page_id, $maps['relative_path_map'] );
-			$page->parent_id = $maps['parent_map'][$page_id];
-
-			static::$pages[$key] = $page;
-
-		} else {
-			if( !IO_File::isReadable( $data_file_path ) ) {
-				throw new Mvc_Page_Exception(
-					'Page data file is not readable: ' . $data_file_path,
-					Mvc_Page_Exception::CODE_UNABLE_TO_READ_PAGE_DATA
-				);
-			}
-
-			$data = require $data_file_path;
-
-			$data['id'] = $page_id;
-			$data['children'] = $maps['children_map'][$page_id];
-			$data['relative_path'] = array_search( $page_id, $maps['relative_path_map'] );
-			$data['relative_path_fragment'] = basename( $data['relative_path'] );
-			$data['parent_id'] = $maps['parent_map'][$page_id];
-
-			$page = static::createByData( $base, $locale, $data );
-
-			static::$pages[$key] = $page;
-
+		if( !IO_File::isReadable( $data_file_path ) ) {
+			throw new Mvc_Page_Exception(
+				'Page data file is not readable: ' . $data_file_path,
+				Mvc_Page_Exception::CODE_UNABLE_TO_READ_PAGE_DATA
+			);
 		}
+
+		$data = require $data_file_path;
+
+		$data['id'] = $page_id;
+		$data['children'] = $maps['children_map'][$page_id];
+		$data['relative_path'] = array_search( $page_id, $maps['relative_path_map'] );
+		$data['relative_path_fragment'] = basename( $data['relative_path'] );
+		$data['parent_id'] = $maps['parent_map'][$page_id];
+
+		if(isset($maps['translator_namespace'][$page_id])) {
+
+			$translator_namespace = $maps['translator_namespace'][$page_id];
+
+			$translate_fields = [
+				'name',
+				'title',
+				'menu_title',
+				'breadcrumb_title',
+			];
+			foreach( $translate_fields as $tf ) {
+				if( !empty( $data[$tf] ) ) {
+					$data[$tf] = Tr::_( $data[$tf], [], $translator_namespace, $locale );
+				}
+			}
+		}
+
+		if(isset($maps['module'][$page_id])) {
+			$module_name = $maps['module'][$page_id];
+
+			foreach( $data['contents'] as $i => $content ) {
+				if( empty( $content['module_name'] ) ) {
+					$data['contents'][$i]['module_name'] = $module_name;
+				}
+			}
+		}
+
+		$page = static::createByData( $base, $locale, $data );
+		$page->setDataFilePath( $data_file_path );
+
+		static::$pages[$key] = $page;
+
 
 
 		return static::$pages[$key];
@@ -488,6 +496,40 @@ trait Mvc_Page_Trait_Main
 
 		return in_array( $this->getId(), $c_path );
 
+	}
+
+	/**
+	 * @param string $data_file_path
+	 */
+	public function setDataFilePath( string $data_file_path ): void
+	{
+		$this->_data_file_path = $data_file_path;
+	}
+
+	/**
+	 * @param bool $actualized
+	 * @return string
+	 */
+	public function getDataFilePath( bool $actualized = false ): string
+	{
+		if($actualized) {
+			return $this->getDataDirPath(true).basename($this->_data_file_path);
+		}
+
+		return $this->_data_file_path;
+	}
+
+	/**
+	 * @param bool $actualized
+	 * @return string
+	 */
+	public function getDataDirPath( bool $actualized = false ): string
+	{
+		if($actualized) {
+			return dirname($this->_data_file_path, 2).'/'.rawurldecode( $this->getRelativePathFragment() ) . '/';
+		}
+
+		return dirname($this->_data_file_path).'/';
 	}
 
 }

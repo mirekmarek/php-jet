@@ -78,7 +78,7 @@ class Controller_Main extends Mvc_Controller_Default
 	/**
 	 * @param string $current_label
 	 */
-	protected function _setBreadcrumbNavigation( $current_label = '' ): void
+	protected function _setBreadcrumbNavigation( string $current_label = '' ): void
 	{
 		UI_module::initBreadcrumb();
 

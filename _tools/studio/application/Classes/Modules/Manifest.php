@@ -13,14 +13,12 @@ use Jet\Exception;
 use Jet\Form;
 use Jet\Form_Field_Checkbox;
 use Jet\Form_Field_Input;
-use Jet\Form_Field_Select;
 use Jet\IO_Dir;
 use Jet\IO_File;
 use Jet\Mvc_Cache;
-use Jet\Mvc_Layout;
 use Jet\Tr;
-use \ReflectionClass;
-use \ReflectionMethod;
+use ReflectionClass;
+use ReflectionMethod;
 
 /**
  *
@@ -29,32 +27,14 @@ class Modules_Manifest extends Application_Module_Manifest
 {
 	const MAX_ACL_ACTION_COUNT = 100;
 
-
 	/**
 	 * @var ?Form
 	 */
 	protected ?Form $__edit_form = null;
 
-	/**
-	 * @var Pages_Page[][]
-	 */
-	protected array $pages = [];
+	protected ?Modules_MenuItems $__menu_items = null;
 
-
-	/**
-	 * @var ?Form
-	 */
-	protected static ?Form $create_form = null;
-
-	/**
-	 * @var ?Form
-	 */
-	protected ?Form $page_create_form = null;
-
-	/**
-	 * @var ?Form
-	 */
-	protected ?Form $menu_item_create_form = null;
+	protected ?Modules_Pages $__pages = null;
 
 
 	/**
@@ -72,72 +52,6 @@ class Modules_Manifest extends Application_Module_Manifest
 		}
 
 		return $ok;
-	}
-
-	/**
-	 * @param array $manifest_data
-	 */
-	protected function setupProperties( array $manifest_data ): void
-	{
-		parent::setupProperties( $manifest_data );
-
-		foreach( $this->menu_items as $set_id => $menus ) {
-			foreach( $menus as $menu_id => $items ) {
-				foreach( $items as $item_id => $item_data ) {
-					$item = new Menus_Menu_Item( $item_id, $item_data['label'] ?? '' );
-					$item->setData( $item_data );
-					$item->setSetId( $set_id );
-					$item->setMenuId( $menu_id );
-
-					$this->menu_items[$set_id][$menu_id][$item_id] = $item;
-				}
-			}
-		}
-
-		foreach( $this->pages as $base_id => $pages ) {
-			$base = Bases::getBase( $base_id );
-			if( !$base ) {
-				unset( $this->pages[$base_id] );
-				continue;
-			}
-
-			$locale = $base->getDefaultLocale();
-
-			foreach( $pages as $page_id => $page_data ) {
-				/**
-				 * @var array $page_data
-				 */
-				$page_data['id'] = $page_id;
-
-				$page = Pages_Page::createByData( $base, $locale, $page_data );
-
-				$this->pages[$base_id][$page_id] = $page;
-			}
-		}
-	}
-
-	/**
-	 *
-	 * @param string $menu_set_name
-	 * @param ?string $translator_namespace
-	 *
-	 * @return Menus_Menu_Item[]
-	 */
-	public function getMenuItems( string $menu_set_name, ?string $translator_namespace = null ): array
-	{
-		if( !isset( $this->menu_items[$menu_set_name] ) ) {
-			return [];
-		}
-
-		$res = [];
-		foreach( $this->menu_items[$menu_set_name] as $menu_id => $menu_items_data ) {
-			foreach( $menu_items_data as $item_id => $menu_item ) {
-
-				$res[] = $menu_item;
-			}
-		}
-
-		return $res;
 	}
 
 
@@ -196,39 +110,6 @@ class Modules_Manifest extends Application_Module_Manifest
 	{
 		$this->ACL_actions = $ACL_actions;
 	}
-
-
-	/**
-	 * @return Pages_Page[][]
-	 */
-	public function getPagesList(): array
-	{
-		return $this->pages;
-	}
-
-	/**
-	 * @param string $base_id
-	 * @param string $page_id
-	 *
-	 * @return null|Pages_Page
-	 */
-	public function getPage( string $base_id, string $page_id ): null|Pages_Page
-	{
-		if(
-			!isset( $this->pages[$base_id] ) ||
-			!isset( $this->pages[$base_id][$page_id] )
-		) {
-			return null;
-		}
-
-		$page = $this->pages[$base_id][$page_id];
-
-		$base = Bases::getBase( $page->getBaseId() );
-		$page->setLocale( $base->getDefaultLocale() );
-
-		return $page;
-	}
-
 
 	/**
 	 *
@@ -442,155 +323,7 @@ class Modules_Manifest extends Application_Module_Manifest
 
 	}
 
-	/**
-	 * @param string $base_id
-	 *
-	 * @param Pages_Page $page
-	 */
-	public function addPage( string $base_id, Pages_Page $page ): void
-	{
-		if( !isset( $this->pages[$base_id] ) ) {
-			$this->pages[$base_id] = [];
-		}
 
-		$this->pages[$base_id][$page->getId()] = $page;
-
-	}
-
-	/**
-	 * @return Form
-	 */
-	public function getPageCreateForm(): Form
-	{
-		if( !$this->page_create_form ) {
-			$bases = ['' => ''];
-			foreach( Bases::getBases() as $base ) {
-				$bases[$base->getId()] = $base->getName();
-			}
-
-			$base_id = new Form_Field_Select( 'base_id', 'Base: ', '' );
-			$base_id->setSelectOptions( $bases );
-			$base_id->setIsRequired( true );
-			$base_id->setErrorMessages( [
-				Form_Field_Select::ERROR_CODE_EMPTY         => 'Please select base',
-				Form_Field_Select::ERROR_CODE_INVALID_VALUE => 'Please select base',
-			] );
-
-			$page_name = new Form_Field_Input( 'page_name', 'Page name:', '' );
-			$page_name->setIsRequired( true );
-			$page_name->setErrorMessages( [
-				Form_Field_Input::ERROR_CODE_EMPTY => 'Please enter page name'
-			] );
-
-			$page_id = new Form_Field_Input( 'page_id', 'Page ID:', '' );
-			$page_id->setIsRequired( true );
-			$page_id->setErrorMessages( [
-				Form_Field_Input::ERROR_CODE_EMPTY => 'Please enter page ID'
-			] );
-
-
-			$form = new Form( 'add_page_form', [
-				$base_id,
-				$page_name,
-				$page_id
-			] );
-
-			$form->setAction( Modules::getActionUrl( 'page/add' ) );
-
-
-			$this->page_create_form = $form;
-		}
-
-		return $this->page_create_form;
-	}
-
-	/**
-	 *
-	 * @return Pages_Page|bool
-	 */
-	public function catchCratePageForm(): Pages_Page|null
-	{
-		$form = $this->getPageCreateForm();
-
-		if(
-			!$form->catchInput() ||
-			!$form->validate()
-		) {
-			return false;
-		}
-
-		$base_id = $form->getField( 'base_id' )->getValue();
-		$page_name = $form->getField( 'page_name' )->getValue();
-		$page_id = $form->getField( 'page_id' )->getValue();
-
-
-		$page_id = static::generatePageId( $page_id, $base_id );
-
-		$page = new Pages_Page();
-
-		$page->setBaseId( $base_id );
-		$page->setId( $page_id );
-		$page->setName( $page_name );
-		$page->setTitle( $page_name );
-		$page->setRelativePathFragment( $page_id );
-
-		$content = new Pages_Page_Content();
-		$content->setModuleName( $this->getName() );
-		$content->setControllerName( 'Main' );
-		$content->setControllerAction( 'default' );
-		$content->setOutputPosition( Mvc_Layout::DEFAULT_OUTPUT_POSITION );
-
-		$page->setContent( [
-			$content
-		] );
-
-		$this->addPage( $base_id, $page );
-
-		return $page;
-	}
-
-	/**
-	 * @param string $name
-	 * @param string $base_id
-	 * @return string
-	 */
-	public static function generatePageId( string $name, string $base_id ): string
-	{
-		$base = Bases::getBase( $base_id );
-
-		return Project::generateIdentifier( $name, function( $id ) use ( $base ) {
-
-			foreach( $base->getLocales() as $locale ) {
-				if( Pages::exists( $id, $locale, $base->getId() ) ) {
-					return true;
-				}
-			}
-
-			return false;
-		} );
-	}
-
-	/**
-	 * @param string $base_id
-	 * @param string $page_id
-	 * @return Pages_Page|null
-	 */
-	public function deletePage( string $base_id, string $page_id ): Pages_Page|null
-	{
-		if( !isset( $this->pages[$base_id][$page_id] ) ) {
-			return null;
-		}
-
-		$old_page = $this->pages[$base_id][$page_id];
-
-		unset( $this->pages[$base_id][$page_id] );
-
-		if( !count( $this->pages[$base_id] ) ) {
-			unset( $this->pages[$base_id] );
-		}
-
-		return $old_page;
-	}
 
 	/**
 	 * @return array
@@ -661,7 +394,7 @@ class Modules_Manifest extends Application_Module_Manifest
 
 		foreach( $methods as $method ) {
 			$name = $method->getName();
-			if( substr( $name, -7 ) != '_Action' ) {
+			if( !str_ends_with( $name, '_Action' ) ) {
 				continue;
 			}
 
@@ -674,194 +407,6 @@ class Modules_Manifest extends Application_Module_Manifest
 	}
 
 
-	/**
-	 * @return Form
-	 */
-	public function getCreateMenuItemForm(): Form
-	{
-		if( !$this->menu_item_create_form ) {
-
-			$form = Menus_Menu_Item::getCreateForm();
-			$form->setCustomTranslatorNamespace( 'menus' );
-
-			$target_menus = ['' => ''];
-			foreach( Menus::getSets() as $set ) {
-				foreach( $set->getMenus() as $menu ) {
-
-					$key = $set->getName() . ':' . $menu->getId();
-
-					$target_menus[$key] = $set->getName() . ' / ' . $menu->getLabel() . ' (' . $menu->getId() . ')';
-				}
-			}
-
-
-			$target_menu = new Form_Field_Select( 'target_menu', 'Menu', '' );
-			$target_menu->setIsRequired( true );
-			$target_menu->setErrorMessages( [
-				Form_Field_Select::ERROR_CODE_EMPTY         => 'Please select target menu',
-				Form_Field_Select::ERROR_CODE_INVALID_VALUE => 'Please select target menu'
-			] );
-			$target_menu->setSelectOptions( $target_menus );
-
-
-			$form->addField( $target_menu );
-
-			$form->setAction( Modules::getActionUrl( 'menu_item/add' ) );
-
-			$this->menu_item_create_form = $form;
-		}
-
-		return $this->menu_item_create_form;
-	}
-
-	/**
-	 * @return bool|Menus_Menu_Item
-	 */
-	public function catchCreateMenuItemForm(): bool|Menus_Menu_Item
-	{
-		$form = $this->getCreateMenuItemForm();
-		if(
-			!$form->catchInput() ||
-			!$form->validate()
-		) {
-			return false;
-		}
-
-		$target_menu = $form->field( 'target_menu' )->getValue();
-
-		[
-			$set_name,
-			$menu_id
-		] = explode( ':', $target_menu );
-
-		$menu_item = new Menus_Menu_Item(
-			$form->field( 'id' )->getValue(),
-			$form->field( 'label' )->getValue()
-		);
-
-		$menu_item->setSetId( $set_name );
-		$menu_item->setMenuId( $menu_id );
-
-		$menu_item->setIndex( $form->field( 'index' )->getValue() );
-		$menu_item->setIcon( $form->field( 'icon' )->getValue() );
-
-		$menu_item->setSeparatorBefore( $form->field( 'separator_before' )->getValue() );
-		$menu_item->setSeparatorAfter( $form->field( 'separator_after' )->getValue() );
-
-
-		$menu_item->setURL( $form->field( 'URL' )->getValue() );
-
-		$menu_item->setPageId( $form->field( 'page_id' )->getValue() );
-		$menu_item->setBaseId( $form->field( 'base_id' )->getValue() );
-		$menu_item->setLocale( $form->field( 'locale' )->getValue() );
-
-		$menu_item->setUrlParts( Menus_Menu_Item::catchURLParts( $form ) );
-		$menu_item->setGetParams( Menus_Menu_Item::catchGETParams( $form ) );
-
-		return $menu_item;
-	}
-
-	/**
-	 *
-	 * @param Menus_Menu_Item $menu_item
-	 */
-	public function addMenuItem( Menus_Menu_Item $menu_item ): void
-	{
-		$menu_set = $menu_item->getSetId();
-		$menu_id = $menu_item->getMenuId();
-		$item_id = $menu_item->getId();
-
-		if( !isset( $this->menu_items[$menu_set] ) ) {
-			$this->menu_items[$menu_set] = [];
-		}
-
-		if( !isset( $this->menu_items[$menu_set][$menu_id] ) ) {
-			$this->menu_items[$menu_set][$menu_id] = [];
-		}
-
-		$this->menu_items[$menu_set][$menu_id][$item_id] = $menu_item;
-
-		$this->menu_item_create_form = null;
-	}
-
-	/**
-	 * @param string $menu_set
-	 * @param string $menu_id
-	 *
-	 * @return Menus_Menu_Item[]
-	 */
-	public function getMenuItemsList( string $menu_set = '', string $menu_id = '' ): array
-	{
-		if( !$menu_set ) {
-			return $this->menu_items;
-		}
-
-		if( !isset( $this->menu_items[$menu_set] ) ) {
-			return [];
-		}
-
-		if( !$menu_id ) {
-			return $this->menu_items[$menu_set];
-		}
-
-		if( !isset( $this->menu_items[$menu_set][$menu_id] ) ) {
-			return [];
-		}
-
-
-		return $this->menu_items[$menu_set][$menu_id];
-	}
-
-	/**
-	 * @param string $menu_set
-	 * @param string $menu_id
-	 * @param string $item_id
-	 *
-	 * @return Menus_Menu_Item|null
-	 */
-	public function getMenuItem( string $menu_set, string $menu_id, string $item_id ): Menus_Menu_Item|null
-	{
-		if( !isset( $this->menu_items[$menu_set][$menu_id][$item_id] ) ) {
-			return null;
-		}
-
-		return $this->menu_items[$menu_set][$menu_id][$item_id];
-	}
-
-	/**
-	 *
-	 * @param string $menu_set
-	 * @param string $menu_id
-	 * @param string $item_id
-	 *
-	 * @return Menus_Menu_Item|null
-	 */
-	public function deleteMenuItem( string $menu_set, string $menu_id, string $item_id ): Menus_Menu_Item|null
-	{
-		if(
-			!isset( $this->menu_items[$menu_set] ) ||
-			!isset( $this->menu_items[$menu_set][$menu_id] ) ||
-			!isset( $this->menu_items[$menu_set][$menu_id][$item_id] )
-		) {
-			return null;
-		}
-
-		$old_item = $this->menu_items[$menu_set][$menu_id][$item_id];
-
-		unset( $this->menu_items[$menu_set][$menu_id][$item_id] );
-
-		if( !count( $this->menu_items[$menu_set][$menu_id] ) ) {
-			unset( $this->menu_items[$menu_set][$menu_id] );
-		}
-
-		if( !count( $this->menu_items[$menu_set] ) ) {
-			unset( $this->menu_items[$menu_set] );
-		}
-
-		return $old_item;
-	}
-
-
 
 	/**
 	 *
@@ -870,6 +415,22 @@ class Modules_Manifest extends Application_Module_Manifest
 	{
 		$this->saveDatafile();
 
+	}
+
+	public function getMenuItems() : Modules_MenuItems {
+		if(!$this->__menu_items) {
+			$this->__menu_items = new Modules_MenuItems($this);
+		}
+
+		return $this->__menu_items;
+	}
+
+	public function getPages() : Modules_Pages {
+		if(!$this->__pages) {
+			$this->__pages = new Modules_Pages($this);
+		}
+
+		return $this->__pages;
 	}
 
 }

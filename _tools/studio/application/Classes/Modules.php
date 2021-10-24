@@ -184,7 +184,7 @@ class Modules extends BaseObject implements Application_Part
 			) {
 				$id = explode( '.', $id );
 
-				$item = $module->getMenuItem( $id[0], $id[1], $id[2] );
+				$item = $module->getMenuItems()->getMenuItem( $id[0], $id[1], $id[2] );
 
 				if( $item ) {
 					static::$__current_menu_item = $item;
@@ -213,7 +213,7 @@ class Modules extends BaseObject implements Application_Part
 			) {
 				$id = explode( '.', $id );
 
-				$page = $module->getPage( $id[0], $id[1] );
+				$page = $module->getPages()->getPage( $id[0], $id[1] );
 
 				if( $page ) {
 					static::$__current_page = $page;

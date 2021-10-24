@@ -677,10 +677,7 @@ class Mvc_Base extends BaseObject implements Mvc_Base_Interface
 	{
 		$data = $this->toArray();
 
-		IO_File::write(
-			$this->getBasePath() . SysConf_Jet_Mvc::getBaseDataFileName(),
-			'<?php' . PHP_EOL . 'return ' . (new Data_Array( $data ))->export()
-		);
+		IO_File::writeDataAsPhp( $this->getBasePath() . SysConf_Jet_Mvc::getBaseDataFileName(), $data );
 
 		Mvc_Cache::reset();
 	}

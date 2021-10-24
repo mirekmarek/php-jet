@@ -11,32 +11,4 @@ return [
 		'update_role' => 'Update role',
 		'delete_role' => 'Delete role',
 	],
-
-
-	'pages' => [
-		'admin' => [
-			'rest-clients-roles' => [
-				'title'                  => 'REST clients - User roles',
-				'icon'                   => 'lock',
-				'relative_path_fragment' => 'rest-clients-user-roles',
-				'contents'               => [
-					[
-						'controller_action' => 'default'
-					]
-				],
-			],
-		],
-	],
-
-	'menu_items' => [
-		'admin' => [
-			'system' => [
-				'rest_clients_roles' => [
-					'page_id' => 'rest-clients-roles',
-					'index'   => 301,
-				],
-			],
-		],
-	],
-
 ];

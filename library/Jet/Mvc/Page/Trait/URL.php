@@ -21,11 +21,6 @@ trait Mvc_Page_Trait_URL
 	/**
 	 * @var string
 	 */
-	protected string $original_relative_path_fragment = '';
-
-	/**
-	 * @var string
-	 */
 	protected string $relative_path = '';
 
 

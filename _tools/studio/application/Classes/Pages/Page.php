@@ -8,13 +8,12 @@
 
 namespace JetStudio;
 
-use Jet\Data_Text;
 use Jet\Exception;
 use Jet\Form_Field_Int;
 use Jet\Form_Field_Select;
 use Jet\Form_Field_Textarea;
 use Jet\Form_Field_Hidden;
-use Jet\Http_Request;
+use Jet\IO_Dir;
 use Jet\Mvc_Layout;
 use Jet\Mvc_Page;
 use Jet\Form;
@@ -581,7 +580,7 @@ class Pages_Page extends Mvc_Page
 				$content_form = $content->getEditForm( $this );
 
 				foreach( $content_form->getFields() as $field ) {
-					if( substr( $field->getName(), 0, 9 ) != '/content/' ) {
+					if( !str_starts_with( $field->getName(), '/content/' ) ) {
 						if( $field->getName()[0] != '/' ) {
 							$field->setName( '/content/' . $i . '/' . $field->getName() );
 						} else {
@@ -680,7 +679,6 @@ class Pages_Page extends Mvc_Page
 
 		if( $parent ) {
 			$page->setRelativePathFragment( $id );
-			$page->original_relative_path_fragment = $id;
 			$page->parent_id = $parent->getId();
 			if( $parent->getRelativePath() ) {
 				$page->relative_path = $parent->getRelativePath() . '/' . $page->relative_path_fragment . '/';
@@ -1070,12 +1068,6 @@ class Pages_Page extends Mvc_Page
 
 
 
-
-
-
-
-
-
 	/**
 	 * @param string $module_name
 	 * @param string $controller
@@ -1202,6 +1194,22 @@ class Pages_Page extends Mvc_Page
 		$ok = true;
 		try {
 			$this->saveDataFile();
+		} catch( Exception $e ) {
+			$ok = false;
+			Application::handleError( $e );
+		}
+
+		return $ok;
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function delete(): bool
+	{
+		$ok = true;
+		try {
+			IO_Dir::remove( $this->getDataDirPath() );
 		} catch( Exception $e ) {
 			$ok = false;
 			Application::handleError( $e );

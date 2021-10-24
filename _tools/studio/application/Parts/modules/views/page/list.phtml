@@ -13,15 +13,19 @@ use Jet\Tr;
 $current = Modules::getCurrentModule();
 
 if(
-	!$current ||
-	!$current->getPagesList()
+	!$current
 ) {
 	return;
 }
 
+$pages = $current->getPages();
+if(!$pages->getList()) {
+
+}
+
 
 $bases = Bases::getBases();
-$pages = $current->getPagesList();
+$pages = $pages->getList();
 
 $current_page = Modules::getCurrentPage();
 ?>

@@ -558,10 +558,11 @@ class Application_Modules_Handler_Default extends Application_Modules_Handler
 	 */
 	protected function _saveInstalledModulesList(): void
 	{
-		IO_File::write(
+		IO_File::writeDataAsPhp(
 			$this->getInstalledModulesListFilePath(),
-			'<?php' . PHP_EOL . ' return ' . var_export( $this->installed_modules_list, true ) . ';' . PHP_EOL
+			$this->installed_modules_list
 		);
+
 		Mvc_Cache::reset();
 	}
 
@@ -570,10 +571,11 @@ class Application_Modules_Handler_Default extends Application_Modules_Handler
 	 */
 	protected function _saveActivatedModulesList(): void
 	{
-		IO_File::write(
+		IO_File::writeDataAsPhp(
 			$this->getActivatedModulesListFilePath(),
-			'<?php' . PHP_EOL . ' return ' . var_export( $this->activated_modules_list, true ) . ';' . PHP_EOL
+			$this->activated_modules_list
 		);
+
 		Mvc_Cache::reset();
 	}
 

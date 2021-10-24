@@ -182,6 +182,22 @@ class IO_File
 	}
 
 	/**
+	 * @param string $path
+	 * @param array $data
+	 * @param bool $reset_cache
+	 *
+	 * @throws IO_File_Exception
+	 */
+	public static function writeDataAsPhp( string $path, array $data, bool $reset_cache=true ) : void
+	{
+		$content = '<?php' . PHP_EOL . 'return ' . (new Data_Array( $data ))->export();
+
+		IO_File::write( $path, $content );
+		Cache::resetOPCache();
+
+	}
+
+	/**
 	 * Writes data to file including file locking
 	 *
 	 * @param string $file_path

@@ -5,6 +5,7 @@ namespace JetStudio;
 use Jet\Http_Headers;
 use Jet\UI_messages;
 use Jet\Tr;
+use Exception;
 
 $module = Modules::getCurrentModule();
 $page = Modules::getCurrentPage();
@@ -21,7 +22,8 @@ if( $page ) {
 }
 
 if( $res ) {
-	if( $module->save() ) {
+
+	if( $page->save() ) {
 		UI_messages::success( Tr::_( 'Saved ...' ) );
 	}
 

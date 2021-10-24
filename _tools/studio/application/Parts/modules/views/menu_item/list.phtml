@@ -11,10 +11,12 @@ use Jet\Mvc_View;
 
 $module = Modules::getCurrentModule();
 
-if(
-	!$module ||
-	!$module->getMenuItemsList()
-) {
+if( !$module ) {
+	return;
+}
+
+$menu_items = $module->getMenuItems();
+if(!$menu_items->getList()) {
 	return;
 }
 
@@ -25,11 +27,13 @@ $current_menu_item = Modules::getCurrentMenuItem();
 		<td><b><?= Tr::_( 'Menu items' ) ?></b></td>
 	</tr>
 	<?php foreach( Menus::getSets() as $set_id => $set ):
-		if( !$module->getMenuItemsList( $set->getName() ) ) {
+
+		if( !$menu_items->getList( $set->getName() ) ) {
 			continue;
 		}
+
 		foreach( $set->getMenus() as $menu_id => $menu ):
-			if( !($items = $module->getMenuItemsList( $set->getName(), $menu->getId() )) ) {
+			if( !($items = $menu_items->getList( $set->getName(), $menu->getId() )) ) {
 				continue;
 			}
 			?>

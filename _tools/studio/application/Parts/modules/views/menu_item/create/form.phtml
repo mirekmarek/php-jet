@@ -4,7 +4,7 @@ namespace JetStudio;
 
 $module = Modules::getCurrentModule();
 
-$form = $module->getCreateMenuItemForm();
+$form = $module->getMenuItems()->getCreateMenuItemForm();
 
 $form->getField( 'label' )->input()->addJsAction( 'onkeyup', 'Modules.editModule.addMenuItem.generateId(this.value);' );
 

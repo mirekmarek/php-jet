@@ -24,31 +24,21 @@ interface Mvc_Router_Interface
 	public function resolve( string $request_URL ): void;
 
 	/**
-	 * @return bool
+	 *
+	 * @return ?Mvc_Base_Interface
 	 */
-	public function getSetMvcState(): bool;
+	public function getBase(): ?Mvc_Base_Interface;
 
 	/**
-	 * @param bool $set_mvc_state
+	 * @return ?Locale
 	 */
-	public function setSetMvcState( bool $set_mvc_state ): void;
+	public function getLocale(): ?Locale;
 
 	/**
 	 *
-	 * @return Mvc_Base_Interface
+	 * @return ?Mvc_Page_Interface
 	 */
-	public function getBase(): Mvc_Base_Interface;
-
-	/**
-	 * @return Locale
-	 */
-	public function getLocale(): Locale;
-
-	/**
-	 *
-	 * @return Mvc_Page_Interface
-	 */
-	public function getPage(): Mvc_Page_Interface;
+	public function getPage(): ?Mvc_Page_Interface;
 
 	/**
 	 *

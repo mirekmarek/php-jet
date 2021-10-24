@@ -13,11 +13,11 @@ $data = [];
 
 if(
 	$current &&
-	($new_page = $current->catchCratePageForm())
+	($new_page = $current->getPages()->catchCratePageForm())
 ) {
-	$form = $current->getPageCreateForm();
+	$form = $current->getPages()->getPageCreateForm();
 
-	if( $current->save() ) {
+	if( $new_page->save() ) {
 		$ok = true;
 		UI_messages::success( Tr::_( 'Page <b>%page%</b> has been added', ['page' => $new_page->getName()] ) );
 		$data['id'] = $new_page->getFullId();

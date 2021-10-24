@@ -27,4 +27,10 @@ return [
 	'User is blocked till' => '',
 	'Password is valid' => '',
 	'Password is valid till' => '',
+	'- all -' => '',
+	'' => '',
+	' ' => '',
+	'Role:' => '',
+	'Please enter e-mail address' => '',
+	'Invalid date format' => '',
 ];

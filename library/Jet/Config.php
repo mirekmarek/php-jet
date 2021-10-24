@@ -404,15 +404,10 @@ abstract class Config extends BaseObject
 	 */
 	public function saveConfigFile(): void
 	{
-		$config_file_path = $this->getConfigFilePath();
-
-		$config_data = $this->toArray();
-
-		$config_data = '<?php' . PHP_EOL . 'return ' . (new Data_Array( $config_data ))->export();
-
-		IO_File::write( $config_file_path, $config_data );
-
-		Cache::resetOPCache();
+		IO_File::writeDataAsPhp(
+			$this->getConfigFilePath(),
+			$this->toArray()
+		);
 
 		Config::$_config_file_data = [];
 	}

@@ -58,11 +58,13 @@ trait Mvc_Page_Trait_Initialization
 				static::$maps[$key] = $map;
 			} else {
 				static::$maps[$key] = [
-					'pages_files_map'   => [],
-					'relative_path_map' => [],
-					'children_map'      => [],
-					'parent_map'        => [],
-					'parents_map'       => [],
+					'pages_files_map'      => [],
+					'relative_path_map'    => [],
+					'children_map'         => [],
+					'parent_map'           => [],
+					'parents_map'          => [],
+					'translator_namespace' => [],
+					'module'               => [],
 				];
 
 				static::loadMaps_readDir( $key, $base->getPagesDataPath( $locale ) );
@@ -88,22 +90,46 @@ trait Mvc_Page_Trait_Initialization
 		$base_id = $base->getId();
 		$locale_str = $locale->toString();
 		$key = $base_id . ':' . $locale_str;
+		$parent_page_id = Mvc_Page::HOMEPAGE_ID;
 
 		Debug_Profiler::blockStart( 'Loading module pages' );
 		Debug_Profiler::message( 'base: ' . $base_id . ' locale: ' . $locale_str );
 
+
 		foreach( Application_Modules::activatedModulesList() as $manifest ) {
 
-			$pages = $manifest->getPages( $base, $locale );
+			$root_dir = $manifest->getModuleDir().SysConf_Jet_Mvc::getBasePagesDir().'/'.$base_id.'/';
 
-			foreach( $pages as $page ) {
-				$page_id = $page->getId();
+			$sub_dirs = IO_Dir::getList($root_dir, get_files: false);
+			foreach($sub_dirs as $dir_path=>$dir_name) {
+				$page_data_file_path = $dir_path . SysConf_Jet_Mvc::getPageDataFileName();
 
-				static::$maps[$key]['relative_path_map'][$page->getRelativePath() . '/'] = $page_id;
+				$page_id = static::loadMaps_getPageId( $page_data_file_path );
+
+				if(!$page_id) {
+					throw new Mvc_Page_Exception(
+						'Page id is not specified: ' . $page_data_file_path,
+						Mvc_Page_Exception::CODE_DEFINITION_ERROR
+					);
+				}
+
+				if( isset( static::$maps[$key]['pages_files_map'][$page_id] ) ) {
+					throw new Mvc_Page_Exception(
+						'Duplicate page: \'' . $key . ':' . $page_id . '\', page data file: ' . $page_data_file_path,
+						Mvc_Page_Exception::CODE_DUPLICATES_PAGE_ID
+					);
+				}
+
+				$relative_path = '' . rawurlencode( basename( $dir_path ) ) . '/';
+
+				static::$maps[$key]['pages_files_map'][$page_id] = $page_data_file_path;
+				static::$maps[$key]['children_map'][$parent_page_id][] = $page_id;
+				static::$maps[$key]['relative_path_map'][$relative_path] = $page_id;
 				static::$maps[$key]['children_map'][$page_id] = [];
-				static::$maps[$key]['pages_files_map'][$page_id] = '@' . $manifest->getName();
-				static::$maps[$key]['parent_map'][$page_id] = Mvc_Page::HOMEPAGE_ID;
-				static::$maps[$key]['parents_map'][$page_id] = [Mvc_Page::HOMEPAGE_ID];
+				static::$maps[$key]['parent_map'][$page_id] = $parent_page_id;
+				static::$maps[$key]['parents_map'][$page_id] = [$parent_page_id];
+				static::$maps[$key]['translator_namespace'][$page_id] = $manifest->getName();
+				static::$maps[$key]['module'][$page_id] = $manifest->getName();
 
 			}
 		}
@@ -210,8 +236,6 @@ trait Mvc_Page_Trait_Initialization
 		unset( $data['id'] );
 
 		$page->setData( $data );
-
-		$page->original_relative_path_fragment = $page->relative_path_fragment;
 
 		return $page;
 	}

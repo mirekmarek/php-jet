@@ -13,9 +13,17 @@ if(
 	$module &&
 	$menu_item
 ) {
-	$module->deleteMenuItem( $menu_item->getSetId(), $menu_item->getMenuId(), $menu_item->getId() );
+	$module->getMenuItems()->deleteMenuItem( $menu_item->getSetId(), $menu_item->getMenuId(), $menu_item->getId() );
 
-	if( $module->save() ) {
+	$ok = true;
+	try {
+		$module->getMenuItems()->save();
+	} catch(\Exception $e) {
+		$ok = false;
+		UI_messages::danger( $e->getMessage() );
+	}
+
+	if($ok) {
 		Tr::setCurrentNamespace( 'menus' );
 
 		UI_messages::info( Tr::_( 'Menu item <b>%name%</b> has been deleted', [
@@ -28,5 +36,6 @@ if(
 			'menu_item'
 		] );
 	}
+
 
 }

@@ -17,8 +17,8 @@ return [
 	],
 	'contents'           => [
 		[
-			'module_name'           => 'Content.Images',
-			'controller_name'       => 'Web',
+			'module_name'           => 'Content.Images.Browser',
+			'controller_name'       => 'Main',
 			'controller_action'     => 'default',
 			'output_position_order' => 1
 		]

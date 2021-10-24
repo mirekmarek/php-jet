@@ -16,10 +16,9 @@ if( $page ) {
 	$index = $POST->getInt( 'index' );
 	$page->removeContent( $index );
 
-	if( $module->save() ) {
+	if( $page->save() ) {
 		UI_messages::info( Tr::_( 'Content has been removed...' ) );
-
-		Http_Headers::reload( [], ['action'] );
 	}
 
+	Http_Headers::reload( [], ['action'] );
 }

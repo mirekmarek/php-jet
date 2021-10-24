@@ -1,0 +1,27 @@
+<?php
+
+use JetApplication\Content_Article;
+use Jet\Tr;
+use Jet\Locale;
+use Jet\Mvc_View;
+
+/**
+ * @var Mvc_View $this
+ * @var Content_Article $article
+ */
+$article = $this->getRaw( 'article' );
+?>
+
+<h1><?= $article->getTitle(); ?></h1 style="color: ">
+
+<div>
+	<?= Tr::_( 'Date:' ); ?>
+	<?= Locale::dateAndTime( $article->getDateTime() ); ?>
+</div>
+
+<p>
+	<?= $article->getAnnotation(); ?>
+</p>
+
+<?= $article->getText(); ?>
+

@@ -176,6 +176,9 @@ class Translator extends BaseObject
 	                                       string|null $namespace = null,
 	                                       Locale|null $locale = null ): string
 	{
+		if(!trim($phrase)) {
+			return $phrase;
+		}
 
 		if( !$namespace ) {
 			$namespace = static::$current_namespace;

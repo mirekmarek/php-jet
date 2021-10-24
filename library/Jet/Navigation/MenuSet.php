@@ -21,6 +21,11 @@ class Navigation_MenuSet extends BaseObject
 	/**
 	 * @var string
 	 */
+	protected static string $module_menu_items_dir = 'menuItems';
+
+	/**
+	 * @var string
+	 */
 	protected string $name = '';
 
 	/**
@@ -55,11 +60,11 @@ class Navigation_MenuSet extends BaseObject
 	 */
 	public static function getMenusDirPath(): string
 	{
-		if( !self::$menus_dir_path ) {
-			self::$menus_dir_path = SysConf_Path::getMenus();
+		if( !static::$menus_dir_path ) {
+			static::$menus_dir_path = SysConf_Path::getMenus();
 		}
 
-		return self::$menus_dir_path;
+		return static::$menus_dir_path;
 	}
 
 	/**
@@ -67,8 +72,26 @@ class Navigation_MenuSet extends BaseObject
 	 */
 	public static function setMenusDirPath( string $menus_path ): void
 	{
-		self::$menus_dir_path = $menus_path;
+		static::$menus_dir_path = $menus_path;
 	}
+
+	/**
+	 * @return string
+	 */
+	public static function getModuleMenuItemsDir(): string
+	{
+		return static::$module_menu_items_dir;
+	}
+
+	/**
+	 * @param string $module_menu_items_dir
+	 */
+	public static function setModuleMenuItemsDir( string $module_menu_items_dir ): void
+	{
+		static::$module_menu_items_dir = $module_menu_items_dir;
+	}
+
+
 
 	/**
 	 * @param string $name
@@ -183,13 +206,36 @@ class Navigation_MenuSet extends BaseObject
 	protected function initModuleMenuItems(): void
 	{
 		foreach( Application_Modules::activatedModulesList() as $manifest ) {
-			foreach( $manifest->getMenuItems( $this->name ) as $menu_item ) {
 
-				$m = $this->getMenu( $menu_item->getMenuId() );
-
-				$m?->addItem( $menu_item );
+			$items_file_path = $manifest->getModuleDir().static::getModuleMenuItemsDir().'/'.$this->name.'.php';
+			if(!IO_File::isReadable($items_file_path)) {
+				continue;
 			}
 
+			$menu_data = require $items_file_path;
+
+			$translator_namespace = $manifest->getName();
+
+			foreach($menu_data as $menu_id=>$menu_items_data) {
+				$menu = $this->getMenu( $menu_id );
+				if( !$menu ) {
+					continue;
+				}
+
+				foreach( $menu_items_data as $item_id => $menu_item_data ) {
+					$label = '';
+
+					if( !empty( $menu_item_data['label'] ) ) {
+						$label = Tr::_( $menu_item_data['label'], [], $translator_namespace );
+					}
+
+					$menu_item = new Navigation_Menu_Item( $item_id, $label );
+					$menu_item->setMenuId( $menu_id );
+					$menu_item->setData( $menu_item_data );
+
+					$menu->addItem( $menu_item );
+				}
+			}
 		}
 	}
 
@@ -260,11 +306,7 @@ class Navigation_MenuSet extends BaseObject
 
 		}
 
-		$res = new Data_Array( $res );
-
-		IO_File::write( $this->config_file_path, '<?php return ' . $res->export() );
-		Mvc_Cache::reset();
-
+		IO_File::writeDataAsPhp( $this->config_file_path, $res );
 	}
 
 }

@@ -31,9 +31,7 @@ if(
 
 	$page->addContent( $new_content );
 
-	if( $module->save() ) {
-		$ok = true;
-
+	if( $page->save() ) {
 		$form = $page->getContentCreateForm();
 
 		$form->setCommonMessage(
@@ -48,6 +46,8 @@ if(
 	} else {
 		$form->setCommonMessage( implode( '', UI_messages::get() ) );
 	}
+
+
 }
 Modules::setupPageForms();
 

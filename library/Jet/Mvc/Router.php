@@ -15,10 +15,16 @@ require_once 'Router/Interface.php';
  */
 class Mvc_Router extends BaseObject implements Mvc_Router_Interface
 {
+
 	/**
 	 * @var bool
 	 */
-	protected bool $set_mvc_state = true;
+	protected bool $set_system_locale = true;
+
+	/**
+	 * @var bool
+	 */
+	protected bool $set_translator_locale = true;
 
 	/**
 	 *
@@ -110,10 +116,36 @@ class Mvc_Router extends BaseObject implements Mvc_Router_Interface
 	/**
 	 * @return bool
 	 */
-	public function getIsSSLRequest(): bool
+	public function getSetSystemLocale(): bool
 	{
-		return Http_Request::isHttps();
+		return $this->set_system_locale;
 	}
+
+	/**
+	 * @param bool $set_system_locale
+	 */
+	public function setSetSystemLocale( bool $set_system_locale ): void
+	{
+		$this->set_system_locale = $set_system_locale;
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function getSetTranslatorLocale(): bool
+	{
+		return $this->set_translator_locale;
+	}
+
+	/**
+	 * @param bool $set_translator_locale
+	 */
+	public function setSetTranslatorLocale( bool $set_translator_locale ): void
+	{
+		$this->set_translator_locale = $set_translator_locale;
+	}
+
+
 
 	/**
 	 *
@@ -216,9 +248,11 @@ class Mvc_Router extends BaseObject implements Mvc_Router_Interface
 
 		$OK = true;
 
-		if( $this->set_mvc_state ) {
-			Mvc::setCurrentBase( $this->base );
-			Mvc::setCurrentLocale( $this->locale );
+		if($this->set_system_locale) {
+			Locale::setCurrentLocale( $this->locale );
+		}
+		if($this->set_translator_locale) {
+			Translator::setCurrentLocale( $this->locale );
 		}
 
 		if( $founded_url != $this->base->getLocalizedData( $this->locale )->getDefaultURL() ) {
@@ -306,10 +340,6 @@ class Mvc_Router extends BaseObject implements Mvc_Router_Interface
 
 		$this->resolve_decodePath();
 
-		if( $this->set_mvc_state ) {
-			Mvc::setCurrentPage( $this->page );
-		}
-
 		Debug_Profiler::blockEnd( 'Seeking for page' );
 
 		return true;
@@ -382,45 +412,28 @@ class Mvc_Router extends BaseObject implements Mvc_Router_Interface
 		}
 	}
 
-
-	/**
-	 * @return bool
-	 */
-	public function getSetMvcState(): bool
-	{
-		return $this->set_mvc_state;
-	}
-
-	/**
-	 * @param bool $set_mvc_state
-	 */
-	public function setSetMvcState( bool $set_mvc_state ): void
-	{
-		$this->set_mvc_state = $set_mvc_state;
-	}
-
 	/**
 	 *
-	 * @return Mvc_Base_Interface
+	 * @return ?Mvc_Base_Interface
 	 */
-	public function getBase(): Mvc_Base_Interface
+	public function getBase(): ?Mvc_Base_Interface
 	{
 		return $this->base;
 	}
 
 	/**
-	 * @return Locale
+	 * @return ?Locale
 	 */
-	public function getLocale(): Locale
+	public function getLocale(): ?Locale
 	{
 		return $this->locale;
 	}
 
 	/**
 	 *
-	 * @return Mvc_Page_Interface
+	 * @return ?Mvc_Page_Interface
 	 */
-	public function getPage(): Mvc_Page_Interface
+	public function getPage(): ?Mvc_Page_Interface
 	{
 		return $this->page;
 	}
