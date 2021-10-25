@@ -1,5 +1,5 @@
 <?php
 return [
-	'Create'                                => '',
-	'Module <b>%NAME%</b> has been created' => '',
+	'Create'                                => 'Vytvořit',
+	'Module <b>%NAME%</b> has been created' => 'Modul <b>%NAME%</b> byl vytvořen',
 ];
