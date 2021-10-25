@@ -9,15 +9,16 @@ namespace %<NAMESPACE>%;
 
 use %<DATA_MODEL_CLASS_NAME>% as %<DATA_MODEL_CLASS_ALIAS>%;
 
+use Jet\Mvc;
 use Jet\Mvc_Controller_Router_AddEditDelete;
-use Jet\UI_messages;
+use Jet\Mvc_Page;
 use Jet\Mvc_Controller_Default;
+use Jet\UI;
+use Jet\UI_messages;
 use Jet\Http_Headers;
 use Jet\Http_Request;
 use Jet\Tr;
 use Jet\Navigation_Breadcrumb;
-
-use JetApplicationModule\Admin\UI\Main as UI_module;
 
 /**
  *
@@ -65,7 +66,17 @@ class Controller_Main extends Mvc_Controller_Default
 	 */
 	protected function _setBreadcrumbNavigation( string $current_label = '' ) : void
 	{
-		UI_module::initBreadcrumb();
+		/**
+		 * @var Mvc_Page $page
+		 */
+		$page = Mvc::getCurrentPage();
+
+		Navigation_Breadcrumb::reset();
+
+		Navigation_Breadcrumb::addURL(
+			UI::icon( $page->getIcon() ) . '&nbsp;&nbsp;' . $page->getBreadcrumbTitle(),
+			$page->getURL()
+		);
 
 		if( $current_label ) {
 			Navigation_Breadcrumb::addURL( $current_label );
