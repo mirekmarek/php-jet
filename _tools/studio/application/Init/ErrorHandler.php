@@ -9,8 +9,8 @@
 namespace JetStudio;
 
 use Jet\Debug_ErrorHandler;
+use Jet\SysConf_Jet_Debug;
 use Jet\SysConf_Path;
-use Jet\SysConf_Jet;
 
 //Debug_Profiler::blockStart('INIT - ErrorHandler');
 
@@ -24,7 +24,7 @@ require SysConf_Path::getApplication() . 'ErrorHandlers/ErrorPage.php';
 
 ErrorHandler_Log::register();
 
-if( SysConf_Jet::isDevelMode() ) {
+if( SysConf_Jet_Debug::getDevelMode() ) {
 	ErrorHandler_Display::register();
 } else {
 	ErrorHandler_ErrorPage::register();

@@ -41,7 +41,7 @@ trait DataModel_Related_MtoN_Trait
 	 */
 	public static function dataModelDefinitionFactory( string $data_model_class_name ): DataModel_Definition_Model_Related_MtoN
 	{
-		$class_name = DataModel_Factory::getModelDefinitionClassNamePrefix() . 'Related_MtoN';
+		$class_name = Factory_DataModel::getModelDefinitionClassNamePrefix() . 'Related_MtoN';
 
 		return new $class_name( $data_model_class_name );
 	}

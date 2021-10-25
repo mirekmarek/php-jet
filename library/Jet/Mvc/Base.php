@@ -204,7 +204,7 @@ class Mvc_Base extends BaseObject implements Mvc_Base_Interface
 		/**
 		 * @var Mvc_Base $base
 		 */
-		$base = Mvc_Factory::getBaseInstance();
+		$base = Factory_Mvc::getBaseInstance();
 		$base->id = $data['id'];
 		unset( $data['id'] );
 
@@ -311,7 +311,7 @@ class Mvc_Base extends BaseObject implements Mvc_Base_Interface
 			return $this->localized_data[(string)$locale];
 		}
 
-		$new_ld = Mvc_Factory::getBaseLocalizedInstance( $locale );
+		$new_ld = Factory_Mvc::getBaseLocalizedInstance( $locale );
 		$new_ld->setLocale( $locale );
 		$new_ld->setBase( $this );
 
@@ -665,7 +665,7 @@ class Mvc_Base extends BaseObject implements Mvc_Base_Interface
 		/**
 		 * @var Mvc_Page $class_name
 		 */
-		$class_name = Mvc_Factory::getPageClassName();
+		$class_name = Factory_Mvc::getPageClassName();
 
 		return $class_name::get( Mvc_Page::HOMEPAGE_ID, $locale, $this->getId() );
 	}

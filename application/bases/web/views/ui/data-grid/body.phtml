@@ -1,0 +1,24 @@
+<?php
+
+use Jet\UI_dataGrid;
+use Jet\Mvc_View;
+
+/**
+ * @var Mvc_View $this
+ * @var UI_dataGrid $grid
+ */
+$grid = $this->getRaw( 'grid' );
+?>
+
+<?php foreach( $grid->getData() as $i => $item ): ?>
+	<tr>
+		<?php foreach( $grid->getColumns() as $column ):
+			$callback = $column->getRenderer();
+			?>
+			<td>
+				<?= $callback( $item, $i ); ?>
+			</td>
+		<?php endforeach; ?>
+	</tr>
+<?php endforeach; ?>
+

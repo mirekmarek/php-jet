@@ -4,10 +4,12 @@ namespace JetApplicationModule\Content\Images\Browser;
 use Jet\UI;
 use Jet\Mvc_Layout;
 use Jet\Mvc_View;
+use JetApplication\Content_Gallery;
+use JetApplication\Content_Gallery_Image;
 
 /**
  * @var Mvc_View $this
- * @var Gallery $gallery
+ * @var Content_Gallery $gallery
  */
 
 $gallery = $this->getRaw( 'gallery' );
@@ -30,7 +32,7 @@ Mvc_Layout::getCurrentLayout()->requireJavascriptFile( 'https://cdnjs.cloudflare
 <div class="row">
 	<?php foreach( $gallery->getImages() as $image ):
 		/**
-		 * @var Gallery_Image $image
+		 * @var Content_Gallery_Image $image
 		 */
 		?>
 		<div style="float:left;margin: 10px;overflow: hidden;">

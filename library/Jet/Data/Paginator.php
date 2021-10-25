@@ -13,13 +13,6 @@ namespace Jet;
  */
 class Data_Paginator extends BaseObject implements BaseObject_Interface_Serializable_JSON
 {
-
-	/**
-	 * @var int
-	 */
-	protected static int $max_items_per_page = 500;
-
-
 	/**
 	 * @var int
 	 */
@@ -130,8 +123,8 @@ class Data_Paginator extends BaseObject implements BaseObject_Interface_Serializ
 			$this->items_per_page = 1;
 		}
 
-		if( $this->items_per_page > static::$max_items_per_page ) {
-			$this->items_per_page = static::$max_items_per_page;
+		if( $this->items_per_page > SysConf_Jet_Data_Paginator::getMaxItemsPerPage() ) {
+			$this->items_per_page = SysConf_Jet_Data_Paginator::getMaxItemsPerPage();
 		}
 
 

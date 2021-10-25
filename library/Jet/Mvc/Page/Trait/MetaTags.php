@@ -66,7 +66,7 @@ trait Mvc_Page_Trait_MetaTags
 
 		}
 
-		$meta_tag = Mvc_Factory::getPageMetaTagInstance();
+		$meta_tag = Factory_Mvc::getPageMetaTagInstance();
 		$meta_tag->setAttribute($attribute);
 		$meta_tag->setAttributeValue($attribute_value);
 		$meta_tag->setContent($content);

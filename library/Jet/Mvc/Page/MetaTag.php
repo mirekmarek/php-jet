@@ -50,7 +50,7 @@ class Mvc_Page_MetaTag extends BaseObject implements Mvc_Page_MetaTag_Interface
 		/**
 		 * @var Mvc_Page_MetaTag $meta_tag
 		 */
-		$meta_tag = Mvc_Factory::getPageMetaTagInstance();
+		$meta_tag = Factory_Mvc::getPageMetaTagInstance();
 		$meta_tag->setPage( $page );
 
 		$meta_tag->setData( $data );

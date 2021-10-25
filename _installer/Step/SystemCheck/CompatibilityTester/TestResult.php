@@ -45,9 +45,9 @@ class Installer_CompatibilityTester_TestResult
 	 */
 	public function __construct( bool $required, string $title, string $description )
 	{
-		$this->required = (bool)$required;
-		$this->title = (string)$title;
-		$this->description = (string)$description;
+		$this->required = $required;
+		$this->title = $title;
+		$this->description = $description;
 	}
 
 	/**
@@ -63,7 +63,7 @@ class Installer_CompatibilityTester_TestResult
 	 */
 	public function setDescription( string $description ): void
 	{
-		$this->description = (string)$description;
+		$this->description = $description;
 	}
 
 	/**
@@ -79,7 +79,7 @@ class Installer_CompatibilityTester_TestResult
 	 */
 	public function setPassed( bool $passed ): void
 	{
-		$this->passed = (bool)$passed;
+		$this->passed = $passed;
 	}
 
 	/**
@@ -95,7 +95,7 @@ class Installer_CompatibilityTester_TestResult
 	 */
 	public function setRequired( bool $required ): void
 	{
-		$this->required = (bool)$required;
+		$this->required = $required;
 	}
 
 	/**
@@ -111,7 +111,7 @@ class Installer_CompatibilityTester_TestResult
 	 */
 	public function setResultMessage( string $result_message ): void
 	{
-		$this->result_message = (string)$result_message;
+		$this->result_message = $result_message;
 	}
 
 	/**
@@ -127,7 +127,7 @@ class Installer_CompatibilityTester_TestResult
 	 */
 	public function setTitle( string $title ): void
 	{
-		$this->title = (string)$title;
+		$this->title = $title;
 	}
 
 	/**

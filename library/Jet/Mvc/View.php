@@ -63,13 +63,13 @@ class Mvc_View extends Mvc_View_Abstract
 
 		ob_start();
 
-		if( static::getAddScriptPathInfoEnabled() ) {
+		if( SysConf_Jet_Mvc_View::getAddScriptPathInfo() ) {
 			echo '<!-- VIEW START: ' . $this->_script_path . ' -->';
 		}
 
 		require $this->_script_path;
 
-		if( static::getAddScriptPathInfoEnabled() ) {
+		if( SysConf_Jet_Mvc_View::getAddScriptPathInfo() ) {
 			echo '<!-- VIEW END: ' . $this->_script_path . ' -->';
 		}
 

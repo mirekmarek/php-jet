@@ -102,7 +102,7 @@ class Mvc_Page_Content extends BaseObject implements Mvc_Page_Content_Interface
 		/**
 		 * @var Mvc_Page_Content $content ;
 		 */
-		$content = Mvc_Factory::getPageContentInstance();
+		$content = Factory_Mvc::getPageContentInstance();
 		$content->setPage( $page );
 
 		$content->setData( $data );

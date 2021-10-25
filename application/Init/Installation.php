@@ -18,7 +18,6 @@ if(
 	IO_File::exists( $installer_path ) &&
 	!IO_File::exists( $install_symptom_file )
 ) {
-	/** @noinspection PhpIncludeInspection */
-	require($installer_path);
+	require $installer_path;
 	die();
 }

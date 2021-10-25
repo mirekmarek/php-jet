@@ -16,7 +16,7 @@ class UI_localeLabel extends UI_BaseElement
 	/**
 	 * @var string
 	 */
-	protected static string $default_renderer_script = 'localeLabel';
+	protected static string $default_renderer_script = 'locale-label';
 
 
 	/**

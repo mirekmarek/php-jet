@@ -30,7 +30,7 @@ echo $form->field( 'model_name' );
 echo $form->field( 'script_path' );
 
 foreach( $form->getFields() as $field ) {
-	if( substr( $field->getName(), 0, 8 ) != 'related_' ) {
+	if( !str_starts_with( $field->getName(), 'related_' ) ) {
 		continue;
 	}
 

@@ -17,19 +17,19 @@ class UI_dataGrid extends BaseObject
 	/**
 	 * @var string
 	 */
-	protected static string $default_renderer_script = 'dataGrid';
+	protected static string $default_renderer_script = 'data-grid';
 	/**
 	 * @var string
 	 */
-	protected static string $default_renderer_script_header = 'dataGrid/header';
+	protected static string $default_renderer_script_header = 'data-grid/header';
 	/**
 	 * @var string
 	 */
-	protected static string $default_renderer_script_body = 'dataGrid/body';
+	protected static string $default_renderer_script_body = 'data-grid/body';
 	/**
 	 * @var string
 	 */
-	protected static string $default_renderer_script_paginator = 'dataGrid/paginator';
+	protected static string $default_renderer_script_paginator = 'data-grid/paginator';
 
 
 	/**

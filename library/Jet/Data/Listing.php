@@ -13,33 +13,6 @@ namespace Jet;
  */
 abstract class Data_Listing extends BaseObject
 {
-
-	/**
-	 * @var string
-	 */
-	protected static string $pagination_page_no_get_param = 'p';
-
-	/**
-	 * @var string
-	 */
-	protected static string $pagination_items_per_page_param = 'items_per_page';
-
-	/**
-	 * @var int
-	 */
-	protected static int $pagination_max_items_per_page = 500;
-
-	/**
-	 * @var int
-	 */
-	protected static int $pagination_default_items_per_page = 50;
-
-	/**
-	 * @var string
-	 */
-	protected static string $sort_get_param = 'sort';
-
-
 	/**
 	 * @var array
 	 */
@@ -96,86 +69,6 @@ abstract class Data_Listing extends BaseObject
 	 */
 	public function __construct()
 	{
-	}
-
-	/**
-	 * @return string
-	 */
-	public static function getPaginationPageNoGetParam(): string
-	{
-		return static::$pagination_page_no_get_param;
-	}
-
-	/**
-	 * @param string $pagination_page_no_get_param
-	 */
-	public static function setPaginationPageNoGetParam( string $pagination_page_no_get_param )
-	{
-		static::$pagination_page_no_get_param = $pagination_page_no_get_param;
-	}
-
-	/**
-	 * @return string
-	 */
-	public static function getPaginationItemsPerPageParam(): string
-	{
-		return static::$pagination_items_per_page_param;
-	}
-
-	/**
-	 * @param string $pagination_items_per_page_param
-	 */
-	public static function setPaginationItemsPerPageParam( string $pagination_items_per_page_param ): void
-	{
-		static::$pagination_items_per_page_param = $pagination_items_per_page_param;
-	}
-
-	/**
-	 * @return int
-	 */
-	public static function getPaginationMaxItemsPerPage(): int
-	{
-		return static::$pagination_max_items_per_page;
-	}
-
-	/**
-	 * @param int $pagination_max_items_per_page
-	 */
-	public static function setPaginationMaxItemsPerPage( int $pagination_max_items_per_page ): void
-	{
-		static::$pagination_max_items_per_page = $pagination_max_items_per_page;
-	}
-
-	/**
-	 * @return int
-	 */
-	public static function getPaginationDefaultItemsPerPage(): int
-	{
-		return static::$pagination_default_items_per_page;
-	}
-
-	/**
-	 * @param int $pagination_default_items_per_page
-	 */
-	public static function setPaginationDefaultItemsPerPage( int $pagination_default_items_per_page ): void
-	{
-		static::$pagination_default_items_per_page = $pagination_default_items_per_page;
-	}
-
-	/**
-	 * @return string
-	 */
-	public static function getSortGetParam(): string
-	{
-		return static::$sort_get_param;
-	}
-
-	/**
-	 * @param string $sort_get_param
-	 */
-	public static function setSortGetParam( string $sort_get_param ): void
-	{
-		static::$sort_get_param = $sort_get_param;
 	}
 
 	/**
@@ -373,7 +266,7 @@ abstract class Data_Listing extends BaseObject
 	public function pagination_setPageNo( int $page_no ): void
 	{
 		$this->pagination_page_no = $page_no;
-		$this->setGetParam( static::$pagination_page_no_get_param, $page_no );
+		$this->setGetParam( SysConf_Jet_Data_Listing::getPaginationPageNoGetParam(), $page_no );
 	}
 
 	/**
@@ -381,12 +274,13 @@ abstract class Data_Listing extends BaseObject
 	 */
 	public function pagination_setItemsPerPage( int $items_per_page ): void
 	{
-		if( $items_per_page > static::$pagination_max_items_per_page ) {
-			$items_per_page = static::$pagination_max_items_per_page;
+
+		if( $items_per_page > SysConf_Jet_Data_Listing::getPaginationMaxItemsPerPage() ) {
+			$items_per_page = SysConf_Jet_Data_Listing::getPaginationMaxItemsPerPage();
 		}
 
 		$this->pagination_items_per_page = $items_per_page;
-		$this->setGetParam( static::$pagination_items_per_page_param, $items_per_page );
+		$this->setGetParam( SysConf_Jet_Data_Listing::getPaginationItemsPerPageParam(), $items_per_page );
 	}
 
 
@@ -397,12 +291,12 @@ abstract class Data_Listing extends BaseObject
 	{
 		$GET = Http_Request::GET();
 
-		$param = static::$pagination_page_no_get_param;
+		$param = SysConf_Jet_Data_Listing::getPaginationPageNoGetParam();
 		if( $GET->exists( $param ) ) {
 			$this->pagination_setPageNo( $GET->getInt( $param ) );
 		}
 
-		$param = static::$pagination_items_per_page_param;
+		$param = SysConf_Jet_Data_Listing::getPaginationItemsPerPageParam();
 		if( $GET->exists( $param ) ) {
 			$this->pagination_setItemsPerPage( $GET->getInt( $param ) );
 		}
@@ -422,7 +316,7 @@ abstract class Data_Listing extends BaseObject
 	protected function pagination_getItemsPerPage(): int
 	{
 		if( !$this->pagination_items_per_page ) {
-			return static::$pagination_default_items_per_page;
+			return SysConf_Jet_Data_Listing::getPaginationDefaultItemsPerPage();
 		}
 
 		return $this->pagination_items_per_page;
@@ -449,7 +343,7 @@ abstract class Data_Listing extends BaseObject
 		}
 
 		$this->sort = $sort_by;
-		$this->setGetParam( static::$sort_get_param, $sort_by );
+		$this->setGetParam( SysConf_Jet_Data_Listing::getSortGetParam(), $sort_by );
 	}
 
 	/**
@@ -459,7 +353,7 @@ abstract class Data_Listing extends BaseObject
 	{
 		$GET = Http_Request::GET();
 
-		$param = static::$sort_get_param;
+		$param = SysConf_Jet_Data_Listing::getSortGetParam();
 		if( $GET->exists( $param ) ) {
 			$this->sort_setSort( $GET->getString( $param ) );
 		}
@@ -481,7 +375,7 @@ abstract class Data_Listing extends BaseObject
 	{
 		return function( $page_no ) {
 			$params = $this->get_param_values;
-			$params[static::$pagination_page_no_get_param] = (int)$page_no;
+			$params[SysConf_Jet_Data_Listing::getPaginationPageNoGetParam()] = (int)$page_no;
 
 			return Http_Request::currentURI( $params );
 		};
@@ -494,7 +388,7 @@ abstract class Data_Listing extends BaseObject
 	{
 		return function( $column_name, $desc ) {
 			$params = $this->get_param_values;
-			$params[static::$sort_get_param] = ($desc ? '-' : '') . $column_name;
+			$params[SysConf_Jet_Data_Listing::getSortGetParam()] = ($desc ? '-' : '') . $column_name;
 
 			return Http_Request::currentURI( $params );
 		};

@@ -13,18 +13,6 @@ namespace Jet;
  */
 abstract class Mvc_View_Abstract extends BaseObject
 {
-	/**
-	 * @var string
-	 */
-	protected static string $script_file_suffix = 'phtml';
-
-	/**
-	 *
-	 * view path information (<!-- VIEW START: /view/dir/view.phtml -->, <!-- VIEW START: /view/dir/view.phtml -->)
-	 *
-	 * @var bool
-	 */
-	protected static bool $add_script_path_info = false;
 
 	/**
 	 * View dir
@@ -69,41 +57,7 @@ abstract class Mvc_View_Abstract extends BaseObject
 	 */
 	protected array $_postprocessors = [];
 
-	/**
-	 * @return string
-	 */
-	public static function getScriptFileSuffix(): string
-	{
-		return static::$script_file_suffix;
-	}
 
-	/**
-	 * @param string $script_file_suffix
-	 */
-	public static function setScriptFileSuffix( string $script_file_suffix ): void
-	{
-		static::$script_file_suffix = $script_file_suffix;
-	}
-
-
-	/**
-	 *
-	 * @return bool
-	 */
-	public static function getAddScriptPathInfoEnabled(): bool
-	{
-		return static::$add_script_path_info;
-	}
-
-	/**
-	 *
-	 * @param bool $enabled
-	 *
-	 */
-	public static function setAddScriptPathInfoEnabled( bool $enabled = true ): void
-	{
-		static::$add_script_path_info = $enabled;
-	}
 
 	/**
 	 * @return string
@@ -156,7 +110,7 @@ abstract class Mvc_View_Abstract extends BaseObject
 	 */
 	public function getScriptPath(): string
 	{
-		$file = $this->_scripts_dir . $this->_script_name . '.' . static::getScriptFileSuffix();
+		$file = $this->_scripts_dir . $this->_script_name . '.' . SysConf_Jet_Mvc_View::getScriptFileSuffix();
 
 		$this->_script_path = $file;
 

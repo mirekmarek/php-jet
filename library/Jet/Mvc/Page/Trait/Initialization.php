@@ -98,7 +98,7 @@ trait Mvc_Page_Trait_Initialization
 
 		foreach( Application_Modules::activatedModulesList() as $manifest ) {
 
-			$root_dir = $manifest->getModuleDir().SysConf_Jet_Mvc::getBasePagesDir().'/'.$base_id.'/';
+			$root_dir = $manifest->getModuleDir().SysConf_Jet_Modules::getPagesDir().'/'.$base_id.'/';
 
 			$sub_dirs = IO_Dir::getList($root_dir, get_files: false);
 			foreach($sub_dirs as $dir_path=>$dir_name) {
@@ -227,7 +227,7 @@ trait Mvc_Page_Trait_Initialization
 		/**
 		 * @var Mvc_Page $page
 		 */
-		$page = Mvc_Factory::getPageInstance();
+		$page = Factory_Mvc::getPageInstance();
 
 		$page->setBase( $base );
 		$page->setLocale( $locale );

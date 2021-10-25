@@ -165,7 +165,7 @@ class PackageCreator_CSS_Default extends PackageCreator_CSS
 	 */
 	public function getPackageRelativeFileName(): string
 	{
-		return static::getPackagesDirName() . '/' . $this->getKey() . '.css';
+		return SysConf_Jet_PackageCreator_CSS::getPackagesDirName() . '/' . $this->getKey() . '.css';
 	}
 
 	/**

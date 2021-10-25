@@ -17,34 +17,6 @@ class IO_Dir
 {
 
 	/**
-	 * Chmod mask for new directory
-	 *
-	 * @var ?int
-	 */
-	protected static ?int $default_mod = null;
-
-	/**
-	 * @return int
-	 */
-	public static function getMod(): int
-	{
-		if( static::$default_mod === null ) {
-			static::$default_mod = SysConf_Jet::getIOModDir();
-		}
-
-		return static::$default_mod;
-	}
-
-	/**
-	 * @param int $default_chmod_mask
-	 */
-	public static function setDefaultMod( int $default_chmod_mask )
-	{
-		static::$default_mod = $default_chmod_mask;
-	}
-
-
-	/**
 	 *
 	 * @param string $dir_path
 	 *
@@ -198,7 +170,7 @@ class IO_Dir
 		$create = array_reverse( $create );
 
 		foreach( $create as $dir_path ) {
-			if( !mkdir( $dir_path, self::getMod(), true ) ) {
+			if( !mkdir( $dir_path, SysConf_Jet_IO::getDirMod(), true ) ) {
 				$error = static::_getLastError();
 
 				throw new IO_Dir_Exception(
@@ -207,7 +179,7 @@ class IO_Dir
 				);
 			}
 
-			chmod( $dir_path, self::getMod() );
+			chmod( $dir_path, SysConf_Jet_IO::getDirMod() );
 		}
 	}
 

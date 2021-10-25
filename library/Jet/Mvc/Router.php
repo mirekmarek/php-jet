@@ -196,7 +196,7 @@ class Mvc_Router extends BaseObject implements Mvc_Router_Interface
 
 		Debug_Profiler::blockStart( 'Resolve base and locale' );
 
-		$base_class_name = Mvc_Factory::getBaseInstance();
+		$base_class_name = Factory_Mvc::getBaseInstance();
 
 
 		Debug_Profiler::blockStart( 'Seeking for base' );
@@ -298,7 +298,7 @@ class Mvc_Router extends BaseObject implements Mvc_Router_Interface
 		/**
 		 * @var Mvc_Page_Interface $page_class_name
 		 */
-		$page_class_name = Mvc_Factory::getPageClassName();
+		$page_class_name = Factory_Mvc::getPageClassName();
 
 
 		Debug_Profiler::blockStart( 'Load page maps' );

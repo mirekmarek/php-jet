@@ -12,7 +12,7 @@ use Jet\BaseObject;
 use Jet\Auth_Controller_Interface;
 
 use Jet\Mvc;
-use Jet\Mvc_Factory;
+use Jet\Factory_Mvc;
 use Jet\Mvc_Page_Interface;
 
 use Jet\Application_Modules;
@@ -143,7 +143,7 @@ class Auth_Controller_Web extends BaseObject implements Auth_Controller_Interfac
 		$module = Application_Modules::moduleInstance( static::LOGIN_FORM_MODULE_NAME );
 
 		$page_content = [];
-		$page_content_item = Mvc_Factory::getPageContentInstance();
+		$page_content_item = Factory_Mvc::getPageContentInstance();
 
 		$page_content_item->setModuleName( $module->getModuleManifest()->getName() );
 		$page_content_item->setControllerAction( $action );

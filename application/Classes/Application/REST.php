@@ -39,7 +39,6 @@ class Application_REST
 	 */
 	public static function init( Mvc_Router $router ): void
 	{
-		Application::initErrorPages( $router );
 		Logger::setLogger( new Logger_REST() );
 		Auth::setController( new Auth_Controller_REST() );
 	}

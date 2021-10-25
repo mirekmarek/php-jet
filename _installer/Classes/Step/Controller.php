@@ -170,7 +170,7 @@ abstract class Installer_Step_Controller
 	 */
 	public function setIsLast( bool $is_last ): void
 	{
-		$this->is_last = (bool)$is_last;
+		$this->is_last = $is_last;
 	}
 
 	/**

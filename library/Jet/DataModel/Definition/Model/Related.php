@@ -434,7 +434,7 @@ class DataModel_Definition_Model_Related extends DataModel_Definition_Model
 			$parent_id_property_data['form_field_type'] = $property_definition_data['form_field_type'];
 		}
 
-		$this_id_property = DataModel_Factory::getPropertyDefinitionInstance(
+		$this_id_property = Factory_DataModel::getPropertyDefinitionInstance(
 			$this->class_name,
 			$property_name,
 			$parent_id_property_data

@@ -11,10 +11,11 @@ namespace JetApplication\Installer;
 use Jet\Config;
 use Jet\Http_Request;
 use Jet\Http_Headers;
-use Jet\Mvc_Factory;
+use Jet\Factory_Mvc;
 use Jet\Mvc_Layout;
 use Jet\Locale;
 use Jet\Mvc_View;
+use Jet\SysConf_Jet_Translator;
 use Jet\SysConf_Path;
 use Jet\Session;
 use Jet\Translator;
@@ -359,7 +360,7 @@ class Installer
 	public static function initTranslator(): void
 	{
 
-		Translator::setAutoAppendUnknownPhrase( true );
+		SysConf_Jet_Translator::setAutoAppendUnknownPhrase(true);
 
 		/**
 		 * @var Translator_Backend_PHPFiles $backend
@@ -402,7 +403,7 @@ class Installer
 	{
 
 		if( !static::$layout ) {
-			static::$layout = Mvc_Factory::getLayoutInstance( static::getBasePath() . 'layout/', 'default' );
+			static::$layout = Factory_Mvc::getLayoutInstance( static::getBasePath() . 'layout/', 'default' );
 			static::$layout->setCSSPackagerEnabled( false );
 			static::$layout->setJSPackagerEnabled( false );
 

@@ -16,7 +16,7 @@ class UI_searchField extends BaseObject
 	/**
 	 * @var string
 	 */
-	protected static string $default_renderer_script = 'searchField';
+	protected static string $default_renderer_script = 'search-field';
 
 	/**
 	 * @var string|null

@@ -146,6 +146,6 @@ class Db_Config extends Config
 	 */
 	public function connectionConfigCreator( array $data ): Db_Backend_Config|Db_Backend_PDO_Config
 	{
-		return Db_Factory::getBackendConfigInstance( $data );
+		return Factory_Db::getBackendConfigInstance( $data );
 	}
 }

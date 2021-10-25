@@ -13,7 +13,7 @@ use Jet\Mvc;
 use Jet\Mvc_Page_Interface;
 use JetApplication\Application_REST;
 
-use \CURLFile;
+use CURLFile;
 
 /**
  *
@@ -124,7 +124,7 @@ class Client
 	{
 		$headers = [];
 
-		if( substr( $object, -1 ) == '/' ) {
+		if( str_ends_with( $object, '/' ) ) {
 			$object = substr( $object, 0, -1 );
 		}
 

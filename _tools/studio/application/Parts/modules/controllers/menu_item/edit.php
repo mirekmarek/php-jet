@@ -2,6 +2,7 @@
 
 namespace JetStudio;
 
+use Exception;
 use Jet\Http_Headers;
 use Jet\UI_messages;
 use Jet\Tr;
@@ -18,7 +19,7 @@ if(
 	$ok = true;
 	try {
 		$module->getMenuItems()->save();
-	} catch(\Exception $e) {
+	} catch( Exception $e) {
 		$ok = false;
 		UI_messages::danger( $e->getMessage() );
 

@@ -161,7 +161,7 @@ trait DataModel_Definition_Model_Trait
 	 */
 	protected function _initKeys(): void
 	{
-		/** @noinspection PhpUndefinedClassInspection */
+		/** @noinspection PhpMultipleClassDeclarationsInspection */
 		parent::_initKeys();
 
 		$keys_definition_data = $this->class_arguments['keys'] ?? [];

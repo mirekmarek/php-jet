@@ -68,117 +68,7 @@ class Http_Headers
 	const CODE_598_NETWORK_READ_TIMEOUT_ERROR = 598;
 	const CODE_599_NETWORK_CONNECT_TIMEOUT_ERROR = 599;
 
-	/**
-	 *
-	 * @var array
-	 */
-	protected static array $response_messages = [
-		200 => 'OK',
-		201 => 'Created',
-		202 => 'Accepted',
-		204 => 'No Content',
-		205 => 'Reset Content',
-		206 => 'Partial Content',
 
-		301 => 'Moved Permanently',
-		302 => 'Found',
-		303 => 'See Other',
-		304 => 'Not Modified',
-		307 => 'Temporary Redirect',
-		308 => 'Permanent Redirect',
-
-		400 => 'Bad Request',
-		401 => 'Unauthorized',
-		402 => 'Payment Required',
-		403 => 'Forbidden',
-		404 => 'Not Found',
-		405 => 'Method Not Allowed',
-		406 => 'Not Acceptable',
-		407 => 'Proxy Authentication Required',
-		408 => 'Request Timeout',
-		409 => 'Conflict',
-		410 => 'Gone',
-		411 => 'Length Required',
-		412 => 'Precondition Failed',
-		413 => 'Request Entity Too Large',
-		414 => 'Request-URI Too Long',
-		415 => 'Unsupported Media Type',
-		416 => 'Requested Range Not Satisfiable',
-		417 => 'Expectation Failed',
-		425 => 'Unordered Collection',
-		426 => 'Upgrade Required',
-		428 => 'Precondition Required',
-		429 => 'Too Many Requests',
-		431 => 'Request Header Fields Too Large',
-		444 => 'No Response',
-		451 => 'Unavailable For Legal Reasons',
-
-		500 => 'Internal Server Error',
-		501 => 'Not Implemented',
-		502 => 'Bad Gateway',
-		503 => 'Service Unavailable',
-		504 => 'Gateway Timeout',
-		505 => 'HTTP Version Not Supported',
-		506 => 'Variant Also Negotiates',
-		509 => 'Bandwidth Limit Exceeded',
-		510 => 'Not Extended',
-		511 => 'Network Authentication Required',
-		598 => 'Network read timeout error',
-		599 => 'Network connect timeout error',
-	];
-
-
-	/**
-	 * @var string
-	 */
-	protected static string $header_function_name = '\header';
-
-	/**
-	 *
-	 * @var string
-	 */
-	protected static string $http_version = '1.1';
-
-	/**
-	 * @return string
-	 */
-	public static function getHeaderFunctionName(): string
-	{
-		return static::$header_function_name;
-	}
-
-	/**
-	 * @param string $header_function_name
-	 */
-	public static function setHeaderFunctionName( string $header_function_name ): void
-	{
-		static::$header_function_name = $header_function_name;
-	}
-
-	/**
-	 * @return string
-	 */
-	public static function getHttpVersion(): string
-	{
-		return static::$http_version;
-	}
-
-	/**
-	 * @param string $http_version
-	 */
-	public static function setHttpVersion( string $http_version ): void
-	{
-		static::$http_version = $http_version;
-	}
-
-	/**
-	 *
-	 * @return array
-	 */
-	public static function getResponseCodes(): array
-	{
-		return static::$response_messages;
-	}
 
 	/**
 	 *
@@ -238,7 +128,7 @@ class Http_Headers
 			return false;
 		}
 
-		return 'HTTP/' . static::$http_version . ' ' . $http_code . ' ' . $message;
+		return 'HTTP/' . SysConf_Jet_Http::getHttpVersion() . ' ' . $http_code . ' ' . $message;
 	}
 
 	/**
@@ -250,11 +140,13 @@ class Http_Headers
 	 */
 	public static function getResponseMessage( int $http_code ): string|bool
 	{
-		if( !isset( static::$response_messages[$http_code] ) ) {
+		$response_messages = SysConf_Jet_Http::getResponseMessages();
+
+		if( !isset( $response_messages[$http_code] ) ) {
 			return false;
 		}
 
-		return static::$response_messages[$http_code];
+		return $response_messages[$http_code];
 	}
 
 	/**
@@ -268,7 +160,7 @@ class Http_Headers
 	 */
 	public static function sendHeader( string $header, bool $replace = true, int $http_response_code = 0 ): void
 	{
-		$f_name = static::$header_function_name;
+		$f_name = SysConf_Jet_Http::getHeaderFunctionName();
 
 		$f_name( $header, $replace, $http_response_code );
 	}

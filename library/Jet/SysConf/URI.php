@@ -13,45 +13,18 @@ namespace Jet;
  */
 class SysConf_URI
 {
-	/**
-	 * @var string
-	 */
-	protected static string $base = '';
-
-	/**
-	 * @var string
-	 */
-	protected static string $css = '';
-
-	/**
-	 * @var string
-	 */
-	protected static string $js = '';
-
-	/**
-	 * @var string
-	 */
-	protected static string $images = '';
+	protected static string $base;
+	protected static string $css;
+	protected static string $js;
+	protected static string $images;
 
 
-	/**
-	 * @param string $what
-	 *
-	 * @throws SysConf_URI_Exception
-	 */
-	protected static function _check( string $what ): void
-	{
-		if( !static::$$what ) {
-			throw new SysConf_URI_Exception( 'URI ' . $what . ' is not set' );
-		}
-	}
 
 	/**
 	 * @return string
 	 */
 	public static function getBase(): string
 	{
-		static::_check( 'base' );
 		return static::$base;
 	}
 
@@ -68,8 +41,6 @@ class SysConf_URI
 	 */
 	public static function getCss(): string
 	{
-		static::_check( 'css' );
-
 		return static::$css;
 	}
 
@@ -87,8 +58,6 @@ class SysConf_URI
 	 */
 	public static function getImages(): string
 	{
-		static::_check( 'images' );
-
 		return static::$images;
 	}
 
@@ -106,8 +75,6 @@ class SysConf_URI
 	 */
 	public static function getJs(): string
 	{
-		static::_check( 'js' );
-
 		return static::$js;
 	}
 

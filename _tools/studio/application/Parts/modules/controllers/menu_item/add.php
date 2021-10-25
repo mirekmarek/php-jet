@@ -2,6 +2,7 @@
 
 namespace JetStudio;
 
+use Exception;
 use Jet\UI_messages;
 use Jet\Tr;
 use Jet\AJAX;
@@ -33,7 +34,7 @@ if(
 
 		$data['id'] = $new_item->getFullId();
 
-	} catch( \Exception $e ) {
+	} catch( Exception $e ) {
 		$ok = false;
 
 		$form->setCommonMessage( UI_messages::createDanger($e->getMessage()) );

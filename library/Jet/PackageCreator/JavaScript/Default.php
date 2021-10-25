@@ -84,8 +84,7 @@ class PackageCreator_JavaScript_Default extends PackageCreator_JavaScript
 	 */
 	public function getPackageRelativeFileName(): string
 	{
-
-		return static::getPackagesDirName() . '/' . $this->getKey() . '.js';
+		return SysConf_Jet_PackageCreator_JavaScript::getPackagesDirName() . '/' . $this->getKey() . '.js';
 	}
 
 	/**

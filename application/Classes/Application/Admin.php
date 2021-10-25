@@ -14,6 +14,9 @@ use Jet\Mvc_Page;
 use Jet\Mvc_View;
 use Jet\Mvc_Router;
 use Jet\Auth;
+use Jet\SysConf_Jet_ErrorPages;
+use Jet\SysConf_Jet_Form;
+use Jet\SysConf_Jet_UI;
 
 /**
  *
@@ -41,10 +44,12 @@ class Application_Admin
 	 */
 	public static function init( Mvc_Router $router ): void
 	{
-		Application::initErrorPages( $router );
 		Logger::setLogger( new Logger_Admin() );
 		Auth::setController( new Auth_Controller_Admin() );
 
+		SysConf_Jet_UI::setViewsDir( $router->getBase()->getViewsPath() . 'ui/' );
+		SysConf_Jet_Form::setDefaultViewsDir( $router->getBase()->getViewsPath() . 'form/' );
+		SysConf_Jet_ErrorPages::setErrorPagesDir( $router->getBase()->getPagesDataPath( $router->getLocale() ) );
 	}
 
 	/**

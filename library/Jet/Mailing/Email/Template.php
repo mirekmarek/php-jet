@@ -18,26 +18,20 @@ class Mailing_Email_Template extends BaseObject
 	const BODY_TXT_VIEW = 'body_txt';
 	const BODY_HTML_VIEW = 'body_html';
 
+	/**
+	 * @var string
+	 */
+	protected string $template_id;
+
+	/**
+	 * @var Locale
+	 */
+	protected Locale $locale;
 
 	/**
 	 * @var string
 	 */
-	protected string $name = '';
-
-	/**
-	 * @var ?Locale
-	 */
-	protected ?Locale $locale = null;
-
-	/**
-	 * @var ?string
-	 */
-	protected ?string $base_id = '';
-
-	/**
-	 * @var string
-	 */
-	protected string $sender_specification = '';
+	protected string $sender_id;
 
 	/**
 	 * @var array
@@ -60,78 +54,26 @@ class Mailing_Email_Template extends BaseObject
 	protected string $view_dir = '';
 
 	/**
-	 * @var ?callable
-	 */
-	protected static $view_dir_generator = null;
-
-	/**
 	 * @var ?Mvc_View
 	 */
 	protected ?Mvc_View $__view = null;
 
-	/**
-	 * @return callable|null
-	 */
-	public static function getViewDirGenerator(): ?callable
-	{
-		if(!static::$view_dir_generator) {
-			static::$view_dir_generator = function( Mailing_Email_Template $template ) : string {
-				$path = Mvc_Base::get( $template->getBaseId() )->getViewsPath() . 'EmailTemplates/';
-
-				if( $template->getLocale() ) {
-					$path .= $template->getLocale() . '/';
-				}
-
-				$path .= $template->getName() . '/';
-
-				return $path;
-			};
-		}
-
-		return static::$view_dir_generator;
-	}
 
 	/**
-	 * @param callable|null $view_dir_generator
-	 */
-	public static function setViewDirGenerator( ?callable $view_dir_generator ): void
-	{
-		static::$view_dir_generator = $view_dir_generator;
-	}
-
-
-
-
-	/**
-	 *
-	 * @param string $name
+	 * @param string $template_id
+	 * @param string $sender_id
 	 * @param Locale|null $locale
-	 * @param string|null $base_id
-	 * @param string $specification
 	 */
-	public function __construct( string $name, Locale|null $locale = null, ?string $base_id = null, string $specification = '' )
+	public function __construct( string $template_id, string $sender_id=Mailing::DEFAULT_SENDER_ID, Locale $locale=null  )
 	{
-		if( $locale === null ) {
+		if(!$locale) {
 			$locale = Locale::getCurrentLocale();
 		}
 
-		if(
-			$locale &&
-			is_string( $locale )
-		) {
-			$locale = new Locale( $locale );
-		}
-
-		if( $base_id === null ) {
-			if( Mvc::getCurrentBase() ) {
-				$base_id = Mvc::getCurrentBase()->getId();
-			}
-		}
-
-		$this->name = $name;
+		$this->template_id = $template_id;
 		$this->locale = $locale;
-		$this->base_id = $base_id;
-		$this->sender_specification = $specification;
+		$this->sender_id = $sender_id;
+		$this->view_dir = SysConf_Jet_Mailing::getTemplatesDir().$this->locale.'/'.$this->template_id.'/';
 	}
 
 	/**
@@ -148,12 +90,6 @@ class Mailing_Email_Template extends BaseObject
 	 */
 	public function getViewDir(): string
 	{
-		if(!$this->view_dir) {
-			$generator = static::getViewDirGenerator();
-
-			$this->view_dir = $generator( $this );
-		}
-
 		return $this->view_dir;
 	}
 
@@ -173,9 +109,9 @@ class Mailing_Email_Template extends BaseObject
 	/**
 	 * @return string
 	 */
-	public function getName(): string
+	public function getTemplateId(): string
 	{
-		return $this->name;
+		return $this->template_id;
 	}
 
 	/**
@@ -189,17 +125,9 @@ class Mailing_Email_Template extends BaseObject
 	/**
 	 * @return string
 	 */
-	public function getBaseId(): string
+	public function getSenderId(): string
 	{
-		return $this->base_id;
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getSenderSpecification(): string
-	{
-		return $this->sender_specification;
+		return $this->sender_id;
 	}
 
 	/**
@@ -207,7 +135,7 @@ class Mailing_Email_Template extends BaseObject
 	 */
 	public function getSender(): Mailing_Config_Sender
 	{
-		return Mailing::getConfig()->getSender( $this->locale, $this->base_id, $this->sender_specification );
+		return Mailing::getConfig()->getSender( $this->sender_id );
 	}
 
 

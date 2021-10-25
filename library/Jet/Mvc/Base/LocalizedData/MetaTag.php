@@ -51,7 +51,7 @@ class Mvc_Base_LocalizedData_MetaTag extends BaseObject implements Mvc_Base_Loca
 		/**
 		 * @var Mvc_Base_LocalizedData_MetaTag $meta_tag
 		 */
-		$meta_tag = Mvc_Factory::getBaseLocalizedMetaTagInstance();
+		$meta_tag = Factory_Mvc::getBaseLocalizedMetaTagInstance();
 		$meta_tag->setLocalizedData( $localized_data );
 
 		$meta_tag->setData( $data );

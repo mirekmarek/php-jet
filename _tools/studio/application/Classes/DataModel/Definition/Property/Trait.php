@@ -1130,9 +1130,7 @@ trait DataModel_Definition_Property_Trait
 			$name[$i] = ucfirst( strtolower( $n ) );
 		}
 
-		$name = implode( '', $name );
-
-		return $name;
+		return implode( '', $name );
 
 	}
 

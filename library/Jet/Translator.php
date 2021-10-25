@@ -23,11 +23,6 @@ class Translator extends BaseObject
 	protected static ?Translator_Backend $backend = null;
 
 	/**
-	 * @var bool
-	 */
-	protected static bool|null $auto_append_unknown_phrase = null;
-
-	/**
 	 * @var string
 	 */
 	protected static string $current_namespace = self::COMMON_NAMESPACE;
@@ -73,26 +68,6 @@ class Translator extends BaseObject
 			] );
 		}
 		static::$backend = $backend;
-	}
-
-	/**
-	 * @return bool
-	 */
-	public static function getAutoAppendUnknownPhrase(): bool
-	{
-		if( static::$auto_append_unknown_phrase === null ) {
-			static::$auto_append_unknown_phrase = SysConf_Jet::isTranslatorAutoAppendUnknownPhrase();
-		}
-
-		return static::$auto_append_unknown_phrase;
-	}
-
-	/**
-	 * @param bool $auto_append_unknown_phrase
-	 */
-	public static function setAutoAppendUnknownPhrase( bool $auto_append_unknown_phrase ): void
-	{
-		static::$auto_append_unknown_phrase = $auto_append_unknown_phrase;
 	}
 
 	/**
@@ -201,7 +176,7 @@ class Translator extends BaseObject
 
 		$dictionary = static::loadDictionary( $namespace, $locale );
 
-		$translation = $dictionary->getTranslation( $phrase, static::getAutoAppendUnknownPhrase() );
+		$translation = $dictionary->getTranslation( $phrase, SysConf_Jet_Translator::getAutoAppendUnknownPhrase() );
 
 
 		if( $data ) {

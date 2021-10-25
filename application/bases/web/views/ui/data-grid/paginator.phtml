@@ -1,0 +1,98 @@
+<?php
+
+use Jet\UI_dataGrid;
+use Jet\UI;
+use Jet\Mvc_View;
+
+/**
+ * @var Mvc_View $this
+ * @var UI_dataGrid $grid
+ */
+$grid = $this->getRaw( 'grid' );
+
+$paginator = $grid->getPaginator();
+
+$pages = $paginator->getPagesURL();
+
+
+$s_index = $paginator->getCurrentPageNo() - 3;
+$e_index = $paginator->getCurrentPageNo() + 3;
+if( $s_index < 1 ) {
+	$e_index = $e_index + ($s_index * -1) + 1;
+	$s_index = 1;
+}
+
+if( $e_index > count( $pages ) ) {
+	$e_index = count( $pages );
+	$s_index = $e_index - 6;
+	if( $s_index < 1 ) {
+		$s_index = 1;
+	}
+}
+
+?>
+
+<tr>
+	<td colspan="<?= count( $grid->getColumns() ); ?>">
+		<div style="float: right; padding: 5px;">
+			<?= UI::_(
+				'%FROM% - %TO% / total count: %COUNT%',
+				[
+					'FROM'  => $paginator->getShowFrom(),
+					'TO'    => $paginator->getShowTo(),
+					'COUNT' => $paginator->getDataItemsCount(),
+				] ) ?>
+		</div>
+
+		<nav>
+
+			<ul class="pagination">
+				<?php if( ($p_URL = $paginator->getPrevPageURL()) ): ?>
+					<li class="page-item">
+						<a class="page-link" href="<?= $paginator->getFirstPageURL() ?>"
+						   aria-label="<?= UI::_( 'Firts' ) ?>">
+							<?= UI::icon( 'backward' ) ?>
+						</a>
+					</li>
+					<li class="page-item">
+						<a class="page-link" href="<?= $p_URL ?>" aria-label="<?= UI::_( 'Previous' ) ?>">
+							<?= UI::icon( 'chevron-left' ) ?>
+						</a>
+					</li>
+				<?php endif ?>
+
+
+				<?php
+				for( $p_no = $s_index; ($p_no <= $e_index && isset( $pages[$p_no] )); $p_no++ ):
+					$p_URL = $pages[$p_no];
+
+					?>
+					<?php if( $p_no == $paginator->getCurrentPageNo() ): ?>
+					<li class="page-item active"><a class="page-link" href="<?= $p_URL ?>"><?= $p_no ?></a></li>
+				<?php else: ?>
+					<li class="page-item"><a class="page-link" href="<?= $p_URL ?>"><?= $p_no ?></a></li>
+				<?php endif; ?>
+				<?php endfor; ?>
+
+
+				<?php if( ($p_URL = $paginator->getNextPageURL()) ): ?>
+					<li class="page-item">
+						<a class="page-link" href="<?= $p_URL ?>" aria-label="<?= UI::_( 'Next' ) ?>">
+							<?= UI::icon( 'chevron-right' ) ?>
+						</a>
+					</li>
+					<li class="page-item">
+						<a class="page-link" href="<?= $paginator->getLastPageURL() ?>"
+						   aria-label="<?= UI::_( 'Last' ) ?>">
+							<?= UI::icon( 'forward' ) ?>
+						</a>
+					</li>
+				<?php endif ?>
+
+			</ul>
+		</nav>
+
+	</td>
+</tr>
+
+

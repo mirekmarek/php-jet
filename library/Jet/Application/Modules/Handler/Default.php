@@ -179,7 +179,7 @@ class Application_Modules_Handler_Default extends Application_Modules_Handler
 			$this->all_modules_list = [];
 
 
-			$this->_readModulesList( Application_Modules::getBasePath(), '' );
+			$this->_readModulesList( SysConf_Path::getModules(), '' );
 
 			$this->_readActivatedModulesList();
 			$this->_readInstalledModulesList();
@@ -202,7 +202,7 @@ class Application_Modules_Handler_Default extends Application_Modules_Handler
 	{
 		$modules = IO_Dir::getSubdirectoriesList( $base_dir );
 
-		$manifest_class_name = Application_Factory::getModuleManifestClassName();
+		$manifest_class_name = Factory_Application::getModuleManifestClassName();
 
 		foreach( $modules as $module_dir ) {
 
@@ -475,7 +475,7 @@ class Application_Modules_Handler_Default extends Application_Modules_Handler
 	public function moduleManifest( string $module_name ): Application_Module_Manifest
 	{
 		if( !isset( $this->module_manifest[$module_name] ) ) {
-			$manifest_class_name = Application_Factory::getModuleManifestClassName();
+			$manifest_class_name = Factory_Application::getModuleManifestClassName();
 
 			$this->module_manifest[$module_name] = new $manifest_class_name( $module_name );
 		}

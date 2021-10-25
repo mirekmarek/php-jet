@@ -117,7 +117,7 @@ class DataModel_Definition_Property_DataModel extends Jet_DataModel_Definition_P
 
 					$iterator_class = $related_dm->getIteratorClassName();
 
-					if( substr( $iterator_class, 0, 4 ) == 'Jet\\' ) {
+					if( str_starts_with( $iterator_class, 'Jet\\' ) ) {
 						$iterator_class = substr( $iterator_class, 4 );
 
 						$class->addUse( new ClassCreator_UseClass( 'Jet', $iterator_class ) );

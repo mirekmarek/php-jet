@@ -70,7 +70,7 @@ abstract class Cache_Files
 			LOCK_EX
 		);
 
-		chmod( $file_path, SysConf_Jet::getIOModFile() );
+		chmod( $file_path, SysConf_Jet_IO::getFileMod() );
 
 		Cache::resetOPCache();
 	}
@@ -126,7 +126,7 @@ abstract class Cache_Files
 			LOCK_EX
 		);
 
-		chmod( $file_path, SysConf_Jet::getIOModFile() );
+		chmod( $file_path, SysConf_Jet_IO::getFileMod() );
 	}
 
 	/**

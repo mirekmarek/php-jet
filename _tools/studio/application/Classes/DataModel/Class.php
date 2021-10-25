@@ -8,7 +8,7 @@
 
 namespace JetStudio;
 
-use \ReflectionClass;
+use ReflectionClass;
 
 /**
  *

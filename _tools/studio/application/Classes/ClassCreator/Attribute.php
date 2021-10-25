@@ -128,9 +128,7 @@ class ClassCreator_Attribute extends BaseObject
 		$ident = ClassCreator_Class::getIndentation();
 
 		$tab = '';
-		for( $i = 0; $i < $level; $i++ ) {
-			$tab .= $ident;
-		}
+		$tab .= str_repeat( $ident, $level );
 
 		$res = '[' . $nl;
 

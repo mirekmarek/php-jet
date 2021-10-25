@@ -302,7 +302,7 @@ class Menus_Menu_Item extends Navigation_Menu_Item
 
 			$URL_parts = $this->getUrlParts();
 			for( $c = 0; $c < static::URL_PARTS_COUNT; $c++ ) {
-				$URL_part_value = isset( $URL_parts[$c] ) ? $URL_parts[$c] : '';
+				$URL_part_value = $URL_parts[$c] ?? '';
 
 				$URL_part = new Form_Field_Input( '/URL_parts/' . $c, '', $URL_part_value );
 				$fields[] = $URL_part;
@@ -313,8 +313,8 @@ class Menus_Menu_Item extends Navigation_Menu_Item
 			$GET_params_keys = array_keys( $GET_params );
 			$GET_params_values = array_values( $GET_params );
 			for( $c = 0; $c < static::GET_PARAMS_COUNT; $c++ ) {
-				$key = isset( $GET_params_keys[$c] ) ? $GET_params_keys[$c] : '';
-				$value = isset( $GET_params_values[$c] ) ? $GET_params_values[$c] : '';
+				$key = $GET_params_keys[$c] ?? '';
+				$value = $GET_params_values[$c] ?? '';
 
 				$GET_param_key = new Form_Field_Input( '/GET_params/' . $c . '/key', '', $key );
 				$fields[] = $GET_param_key;

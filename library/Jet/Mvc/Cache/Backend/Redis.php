@@ -38,7 +38,7 @@ class Mvc_Cache_Backend_Redis implements Mvc_Cache_Backend
 	 */
 	public function isActive(): bool
 	{
-		return SysConf_Jet::isCacheMvcEnabled() && $this->redis->isActive();
+		return SysConf_Jet_Mvc::getCacheEnabled() && $this->redis->isActive();
 	}
 
 

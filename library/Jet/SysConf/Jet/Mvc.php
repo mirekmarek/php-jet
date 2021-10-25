@@ -14,15 +14,13 @@ namespace Jet;
 class SysConf_Jet_Mvc
 {
 	protected static string $page_data_file_name = 'page_data.php';
-
 	protected static bool $use_module_pages = true;
-
 	protected static string $base_data_file_name = 'base_data.php';
 	protected static string $base_pages_dir = 'pages';
 	protected static string $base_layouts_dir = 'layouts';
 	protected static string $base_views_dir = 'views';
-
 	protected static bool $force_slash_on_URL_end = false;
+	protected static bool $cache_enabled = false;
 
 	/**
 	 * @return bool
@@ -136,5 +134,22 @@ class SysConf_Jet_Mvc
 	{
 		self::$force_slash_on_URL_end = $force_slash_on_URL_end;
 	}
+
+	/**
+	 * @return bool
+	 */
+	public static function getCacheEnabled(): bool
+	{
+		return self::$cache_enabled;
+	}
+
+	/**
+	 * @param bool $cache_enabled
+	 */
+	public static function setCacheEnabled( bool $cache_enabled ): void
+	{
+		self::$cache_enabled = $cache_enabled;
+	}
+
 
 }

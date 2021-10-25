@@ -13,39 +13,11 @@ namespace Jet;
  */
 class Application_Modules extends BaseObject
 {
-
-	/**
-	 * @var ?string
-	 */
-	protected static ?string $base_path = null;
-
-	/**
-	 * @var string
-	 */
-	protected static string $module_root_namespace = 'JetApplicationModule';
-
-
 	/**
 	 * @var ?Application_Modules_Handler
 	 */
 	protected static ?Application_Modules_Handler $handler = null;
 
-
-	/**
-	 * @return string
-	 */
-	public static function getModuleRootNamespace(): string
-	{
-		return static::$module_root_namespace;
-	}
-
-	/**
-	 * @param string $module_root_namespace
-	 */
-	public static function setModuleRootNamespace( string $module_root_namespace ): void
-	{
-		static::$module_root_namespace = $module_root_namespace;
-	}
 
 	/**
 	 * @param string $module_name
@@ -54,7 +26,7 @@ class Application_Modules extends BaseObject
 	 */
 	public static function getModuleDir( string $module_name ): string
 	{
-		return static::getBasePath() . str_replace( '.', '/', $module_name ) . '/';
+		return SysConf_Path::getModules() . str_replace( '.', '/', $module_name ) . '/';
 	}
 
 
@@ -79,26 +51,6 @@ class Application_Modules extends BaseObject
 	{
 		static::$handler = $handler;
 	}
-
-	/**
-	 * @return string
-	 */
-	public static function getBasePath(): string
-	{
-		if( !static::$base_path ) {
-			static::$base_path = SysConf_Path::getApplication() . 'Modules/';
-		}
-		return static::$base_path;
-	}
-
-	/**
-	 * @param string $base_path
-	 */
-	public static function setBasePath( string $base_path ): void
-	{
-		static::$base_path = $base_path;
-	}
-
 
 	/**
 	 *

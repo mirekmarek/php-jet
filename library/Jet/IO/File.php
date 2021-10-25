@@ -19,57 +19,9 @@ class IO_File
 {
 
 	/**
-	 * Chmod mask for new file
-	 *
-	 * @var ?int
-	 */
-	protected static ?int $default_mod = null;
-
-	/**
 	 * @var ?array
 	 */
 	protected static ?array $http_response_header = null;
-
-	/**
-	 * @var ?array
-	 */
-	protected static ?array $extensions_mimes_map = null;
-
-	/**
-	 * @return int
-	 */
-	public static function getDefaultMod(): int
-	{
-		if( static::$default_mod === null ) {
-			static::$default_mod = SysConf_Jet::getIOModFile();
-		}
-
-		return static::$default_mod;
-	}
-
-	/**
-	 * @param int $default_mod
-	 */
-	public static function setDefaultMod( int $default_mod ): void
-	{
-		static::$default_mod = $default_mod;
-	}
-
-	/**
-	 * @return array
-	 */
-	public static function getExtensionsMimesMap(): array
-	{
-		return static::$extensions_mimes_map;
-	}
-
-	/**
-	 * @param array $extensions_mimes_map
-	 */
-	public static function setExtensionsMimesMap( array $extensions_mimes_map ): void
-	{
-		static::$extensions_mimes_map = $extensions_mimes_map;
-	}
 
 	/**
 	 *
@@ -142,11 +94,13 @@ class IO_File
 
 		$mime_type = null;
 
-		if( is_array( static::$extensions_mimes_map ) ) {
+		$extensions_mimes_map = SysConf_Jet_IO::getExtensionsMimesMap();
+
+		if( is_array( $extensions_mimes_map ) ) {
 			$extension = strtolower( pathinfo( $file_path, PATHINFO_EXTENSION ) );
 
-			if( isset( static::$extensions_mimes_map[$extension] ) ) {
-				$mime_type = static::$extensions_mimes_map[$extension];
+			if( isset( $extensions_mimes_map[$extension] ) ) {
+				$mime_type = $extensions_mimes_map[$extension];
 			}
 		}
 
@@ -248,7 +202,7 @@ class IO_File
 	 */
 	public static function chmod( string $file_path, ?int $chmod_mask = null ): void
 	{
-		$chmod_mask = ($chmod_mask === null) ? static::getDefaultMod() : $chmod_mask;
+		$chmod_mask = ($chmod_mask === null) ? SysConf_Jet_IO::getFileMod() : $chmod_mask;
 
 		if( !chmod( $file_path, $chmod_mask ) ) {
 			$error = static::_getLastError();

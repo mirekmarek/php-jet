@@ -5,7 +5,6 @@ namespace JetStudio;
 use Jet\Http_Headers;
 use Jet\UI_messages;
 use Jet\Tr;
-use Exception;
 
 $module = Modules::getCurrentModule();
 $page = Modules::getCurrentPage();

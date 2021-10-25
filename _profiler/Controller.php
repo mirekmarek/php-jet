@@ -9,7 +9,7 @@
 use Jet\Debug;
 use Jet\Debug_Profiler;
 use Jet\Debug_Profiler_Run;
-use Jet\SysConf_Jet;
+use Jet\SysConf_Jet_IO;
 use Jet\SysConf_Path;
 
 $controller = new class {
@@ -45,7 +45,7 @@ $controller = new class {
 
 		if( !file_exists( $dir ) ) {
 			mkdir( $dir );
-			chmod( $dir, SysConf_Jet::getIOModDir() );
+			chmod( $dir, SysConf_Jet_IO::getDirMod() );
 		}
 
 		return $dir;
@@ -58,9 +58,7 @@ $controller = new class {
 		}
 
 		$dir = $this->getRunDirPath();
-		$file_path = $dir . $run_id . $this->run_file_suffix;
-
-		return $file_path;
+		return $dir . $run_id . $this->run_file_suffix;
 	}
 
 	public function saveRun( Debug_Profiler_Run $run ) : void
@@ -68,7 +66,7 @@ $controller = new class {
 		$file_path = $this->getRunFilePath( $run->getId() );
 
 		file_put_contents( $file_path, serialize( $run ) );
-		chmod( $file_path, SysConf_Jet::getIOModDir() );
+		chmod( $file_path, SysConf_Jet_IO::getDirMod() );
 	}
 
 

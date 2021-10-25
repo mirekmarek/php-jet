@@ -16,17 +16,17 @@ class UI_tabsJS_tab extends UI_BaseElement
 	/**
 	 * @var string
 	 */
-	protected static string $default_renderer_script = 'tabsJS/tab';
+	protected static string $default_renderer_script = 'tabs-js/tab';
 
 	/**
 	 * @var string
 	 */
-	protected static string $default_content_start_renderer_script = 'tabsJS/tab/content_start';
+	protected static string $default_content_start_renderer_script = 'tabs-js/tab/content-start';
 
 	/**
 	 * @var string
 	 */
-	protected static string $default_content_end_renderer_script = 'tabsJS/tab/content_end';
+	protected static string $default_content_end_renderer_script = 'tabs-js/tab/content-end';
 
 
 	/**

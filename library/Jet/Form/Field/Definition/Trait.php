@@ -291,7 +291,7 @@ trait Form_Field_Definition_Trait
 			return null;
 		}
 
-		$field = Form_Factory::getFieldInstance(
+		$field = Factory_Form::getFieldInstance(
 			$this->getFormFieldType(), $this->getFormFieldName(), $this->getFormFieldLabel(), $property_value,
 			$this->getFormFieldIsRequired()
 		);

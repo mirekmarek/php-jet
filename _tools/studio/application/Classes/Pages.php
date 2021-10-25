@@ -73,14 +73,14 @@ class Pages extends BaseObject implements Application_Part
 		}
 
 		if( $custom_locale !== null ) {
-			$get_params['locale'] = (string)$custom_locale;
+			$get_params['locale'] = $custom_locale;
 			if( !$custom_locale ) {
 				unset( $get_params['locale'] );
 			}
 		}
 
 		if( $custom_page_id !== null ) {
-			$get_params['page'] = (string)$custom_page_id;
+			$get_params['page'] = $custom_page_id;
 			if( !$custom_page_id ) {
 				unset( $get_params['page'] );
 			}

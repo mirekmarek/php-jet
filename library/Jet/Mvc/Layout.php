@@ -100,8 +100,8 @@ class Mvc_Layout extends Mvc_View_Abstract
 		$this->setScriptsDir( $scripts_dir );
 		$this->setScriptName( $script_name );
 
-		$this->JS_packager_enabled = SysConf_Jet::isJSPackagerEnabled();
-		$this->CSS_packager_enabled = SysConf_Jet::isCSSPackagerEnabled();
+		$this->JS_packager_enabled = SysConf_Jet_PackageCreator_JavaScript::getEnabled();
+		$this->CSS_packager_enabled = SysConf_Jet_PackageCreator_CSS::getEnabled();
 
 		$this->_data = new Data_Array();
 	}
@@ -122,7 +122,7 @@ class Mvc_Layout extends Mvc_View_Abstract
 
 			include $this->_script_path;
 
-			if( static::getAddScriptPathInfoEnabled() ) {
+			if( SysConf_Jet_Mvc_View::getAddScriptPathInfo() ) {
 				echo '<!-- LAYOUT: ' . $this->_script_name . ' -->';
 			}
 
@@ -377,7 +377,7 @@ class Mvc_Layout extends Mvc_View_Abstract
 
 			$this->virtual_positions[$orig_str] = $position_name;
 
-			$page_content = Mvc_Factory::getPageContentInstance();
+			$page_content = Factory_Mvc::getPageContentInstance();
 
 			$page_content->setModuleName( $module_name );
 			$page_content->setControllerAction( $action );
@@ -561,7 +561,7 @@ class Mvc_Layout extends Mvc_View_Abstract
 			$this->JS_packager_enabled &&
 			$JS_files
 		) {
-			$package_creator = PackageCreator::JavaScript( $JS_files );
+			$package_creator = Factory_PackageCreator::JavaScript( $JS_files );
 
 			$package_creator->generate();
 			$package_URI = $package_creator->getPackageURI();
@@ -620,7 +620,7 @@ class Mvc_Layout extends Mvc_View_Abstract
 
 			foreach( $CSS_files as $media => $URIs ) {
 
-				$package_creator = PackageCreator::CSS(
+				$package_creator = Factory_PackageCreator::CSS(
 					$media,
 					$URIs
 				);

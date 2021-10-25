@@ -377,7 +377,7 @@ class Locale extends BaseObject
 	 *
 	 * Alias of: Locale::getCurrentLocale()->formatDateAdnTime($date_and_time);
 	 *
-	 * @param Data_DateTime $date_and_time
+	 * @param Data_DateTime|null $date_and_time
 	 * @param int $date_format
 	 * @param int $time_format
 	 *
@@ -395,7 +395,7 @@ class Locale extends BaseObject
 	 *
 	 * Alias of: Locale::getCurrentLocale()->formatTime($date_and_time);
 	 *
-	 * @param Data_DateTime $date_and_time
+	 * @param Data_DateTime|null $date_and_time
 	 * @param int $time_format
 	 *
 	 * @return string

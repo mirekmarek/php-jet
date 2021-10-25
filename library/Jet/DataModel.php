@@ -83,7 +83,7 @@ namespace Jet;
  *             - default: autodetect
  *          #[DataModel_Definition(form_field_is_required: bool)]
  *             - default: false
- *          #[DataModel_Definition(form_field_label: 'Field label:')]
+ *          #[DataModel_Definition(form_field_label: 'field label:')]
  *          #[DataModel_Definition(form_field_options: ['option'=>'value','option'=>'value'])]
  *          #[DataModel_Definition(form_field_validation_regexp: '/some_regexp/')]
  *          #[DataModel_Definition(form_field_min_value: 1)]

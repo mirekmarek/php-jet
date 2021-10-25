@@ -417,7 +417,7 @@ class Navigation_Menu_Item extends BaseObject
 		/**
 		 * @var Mvc_Page $page_class
 		 */
-		$page_class = Mvc_Factory::getPageClassName();
+		$page_class = Factory_Mvc::getPageClassName();
 
 		return $page_class::get( $this->page_id, $this->locale, $this->base_id );
 	}

@@ -613,44 +613,4 @@ class Wizard extends ModuleWizard
 			Http_Headers::reload( ['data_model' => $data_model_id] );
 		}
 	}
-
-	public function create(): bool
-	{
-		return parent::create();
-
-		//TODO: create page
-		//TODO: create menu item
-		/*
-
-
-	'pages' => [
-		'%<PAGE_BASE_ID>%' => [
-			'%<PAGE_ID>%' => [
-				'title'                  => '%<PAGE_TITLE>%',
-				'icon'                   => '%<PAGE_ICON>%',
-				'relative_path_fragment' => '%<PAGE_PATH_FRAGMENT>%',
-				'contents' => [
-					[
-						'controller_action' => 'default'
-					]
-				],
-			],
-		],
-	],
-
-	'menu_items' => [
-		'%<TARGET_MENU_SET_ID>%' => [
-			'%<TARGET_MENU_ID>%' => [
-				'%<MENU_ITEM_ID>%' => [
-					'separator_before' => true,
-					'page_id'          => '%<PAGE_ID>%',
-					'index'            => 200,
-				],
-			],
-		],
-	],
-
-		 */
-	}
-
 }

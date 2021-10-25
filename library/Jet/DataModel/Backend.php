@@ -154,7 +154,7 @@ abstract class DataModel_Backend extends BaseObject
 		if( !static::$default_backend ) {
 			$backend_type = static::getDefaultBackendType();
 
-			static::$default_backend = DataModel_Factory::getBackendInstance(
+			static::$default_backend = Factory_DataModel::getBackendInstance(
 				$backend_type,
 				static::getMainConfig()->getBackendConfig()
 			);

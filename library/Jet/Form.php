@@ -68,16 +68,6 @@ class Form extends BaseObject
 	/**
 	 * @var string
 	 */
-	protected static string $default_sent_key = '_jet_form_sent_';
-
-	/**
-	 * @var ?string
-	 */
-	protected static ?string $default_views_dir = null;
-
-	/**
-	 * @var string
-	 */
 	protected static string $default_renderer_start_script = 'start';
 
 	/**
@@ -220,27 +210,6 @@ class Form extends BaseObject
 	 * @var ?Form_Renderer_Single
 	 */
 	protected ?Form_Renderer_Single $_message_tag = null;
-
-
-	/**
-	 * @return string
-	 */
-	public static function getDefaultViewsDir(): string
-	{
-		if( !static::$default_views_dir ) {
-			static::$default_views_dir = Mvc::getCurrentBase()->getViewsPath() . 'Form/';
-		}
-
-		return static::$default_views_dir;
-	}
-
-	/**
-	 * @param string $default_views_dir
-	 */
-	public static function setDefaultViewsDir( string $default_views_dir ): void
-	{
-		static::$default_views_dir = $default_views_dir;
-	}
 
 	/**
 	 * @return string
@@ -522,7 +491,7 @@ class Form extends BaseObject
 	public function getSentKey(): string
 	{
 		if(!$this->sent_key) {
-			$this->sent_key = static::getDefaultSentKey();
+			$this->sent_key = SysConf_Jet_Form::getDefaultSentKey();
 		}
 		return $this->sent_key;
 	}
@@ -535,21 +504,7 @@ class Form extends BaseObject
 		$this->sent_key = $sent_key;
 	}
 
-	/**
-	 * @return string
-	 */
-	public static function getDefaultSentKey(): string
-	{
-		return static::$default_sent_key;
-	}
 
-	/**
-	 * @param string $sent_key
-	 */
-	public static function setDefaultSentKey( string $sent_key ): void
-	{
-		static::$default_sent_key = $sent_key;
-	}
 
 
 	/**
@@ -950,7 +905,7 @@ class Form extends BaseObject
 	public function getViewsDir(): string
 	{
 		if( !$this->views_dir ) {
-			$this->views_dir = static::getDefaultViewsDir();
+			$this->views_dir = SysConf_Jet_Form::getDefaultViewsDir();
 		}
 
 		return $this->views_dir;
@@ -969,7 +924,7 @@ class Form extends BaseObject
 	 */
 	public function getView(): Mvc_View
 	{
-		return Mvc_Factory::getViewInstance( $this->getViewsDir() );
+		return Factory_Mvc::getViewInstance( $this->getViewsDir() );
 	}
 
 
@@ -981,7 +936,7 @@ class Form extends BaseObject
 		if( !$this->_form_tag ) {
 			$this->checkFieldsHasErrorMessages();
 
-			$this->_form_tag = Form_Factory::gerRendererPairInstance( $this );
+			$this->_form_tag = Factory_Form::gerRendererPairInstance( $this );
 
 			$this->_form_tag->setViewScriptStart( $this->getRendererStartScript() );
 			$this->_form_tag->setViewScriptEnd( $this->getRendererEndScript() );
@@ -1013,7 +968,7 @@ class Form extends BaseObject
 	public function message(): Form_Renderer_Single
 	{
 		if( !$this->_message_tag ) {
-			$this->_message_tag = Form_Factory::gerRendererSingleInstance( $this );
+			$this->_message_tag = Factory_Form::gerRendererSingleInstance( $this );
 			$this->_message_tag->setViewScript( 'message' );
 		}
 

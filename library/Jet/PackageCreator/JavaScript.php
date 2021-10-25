@@ -15,27 +15,6 @@ abstract class PackageCreator_JavaScript extends PackageCreator
 {
 
 	/**
-	 * @var string
-	 */
-	protected static string $packages_dir_name = 'packages';
-
-	/**
-	 * @return string
-	 */
-	public static function getPackagesDirName(): string
-	{
-		return static::$packages_dir_name;
-	}
-
-	/**
-	 * @param string $packages_dir_name
-	 */
-	public static function setPackagesDirName( string $packages_dir_name ): void
-	{
-		static::$packages_dir_name = $packages_dir_name;
-	}
-
-	/**
 	 *
 	 * @param array $URIs
 	 */

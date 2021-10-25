@@ -1,36 +1,48 @@
 <?php
 use Jet\SysConf_Path;
-use Jet\SysConf_Jet;
+use Jet\SysConf_Jet_Debug;
+use Jet\SysConf_Jet_Mvc;
+use Jet\SysConf_Jet_Translator;
+use Jet\SysConf_Jet_Http;
+use Jet\SysConf_Jet_Autoloader;
+use Jet\SysConf_Jet_PackageCreator_CSS;
+use Jet\SysConf_Jet_PackageCreator_JavaScript;
+
+
 
 require_once SysConf_Path::getLibrary() . 'Jet/SysConf/Jet.php';
+require_once SysConf_Path::getLibrary() . 'Jet/SysConf/Jet/Debug.php';
+require_once SysConf_Path::getLibrary() . 'Jet/SysConf/Jet/Mvc.php';
+require_once SysConf_Path::getLibrary() . 'Jet/SysConf/Jet/Translator.php';
+require_once SysConf_Path::getLibrary() . 'Jet/SysConf/Jet/Http.php';
+require_once SysConf_Path::getLibrary() . 'Jet/SysConf/Jet/Autoloader.php';
+require_once SysConf_Path::getLibrary() . 'Jet/SysConf/Jet/PackageCreator/CSS.php';
+require_once SysConf_Path::getLibrary() . 'Jet/SysConf/Jet/PackageCreator/JavaScript.php';
 
 //SysConf_Jet::setTIMEZONE( 'Europe/Prague' );
-SysConf_Jet::setHideHttpRequest( true );
+SysConf_Jet_Http::setHideRequest( true );
 
 
-SysConf_Jet::setDevelMode( true );
+SysConf_Jet_Debug::setDevelMode( true );
 
-if( SysConf_Jet::isDevelMode() ) {
+if( SysConf_Jet_Debug::getDevelMode() ) {
 	//Dev configuration
-	SysConf_Jet::setDebugProfilerEnabled( true );
+	SysConf_Jet_Debug::setProfilerEnabled( true );
 
-	SysConf_Jet::setCSSPackagerEnabled( false );
-	SysConf_Jet::setJSPackagerEnabled( false );
+	SysConf_Jet_PackageCreator_CSS::setEnabled( false );
+	SysConf_Jet_PackageCreator_JavaScript::setEnabled( false );
 
-	SysConf_Jet::setCacheMvcEnabled( false );
-	SysConf_Jet::setCacheAutoloaderEnabled( false );
-
-	SysConf_Jet::setTranslatorAutoAppendUnknownPhrase( true );
+	SysConf_Jet_Mvc::setCacheEnabled( false );
+	SysConf_Jet_Autoloader::setCacheEnabled( false );
+	SysConf_Jet_Translator::setAutoAppendUnknownPhrase( true );
 } else {
 	//Production configuration
-	SysConf_Jet::setDebugProfilerEnabled( false );
+	SysConf_Jet_Debug::setProfilerEnabled( false );
 
-	SysConf_Jet::setCSSPackagerEnabled( true );
-	SysConf_Jet::setJSPackagerEnabled( true );
+	SysConf_Jet_PackageCreator_CSS::setEnabled( true );
+	SysConf_Jet_PackageCreator_JavaScript::setEnabled( true );
 
-	SysConf_Jet::setCacheMvcEnabled( true );
-	SysConf_Jet::setCacheAutoloaderEnabled( true );
-
-	SysConf_Jet::setTranslatorAutoAppendUnknownPhrase( false );
-
+	SysConf_Jet_Mvc::setCacheEnabled( true );
+	SysConf_Jet_Autoloader::setCacheEnabled( true );
+	SysConf_Jet_Translator::setAutoAppendUnknownPhrase( false );
 }

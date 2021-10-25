@@ -1,0 +1,29 @@
+<?php
+
+use Jet\UI_button;
+use Jet\UI;
+use Jet\Mvc_View;
+
+/**
+ * @var Mvc_View $this
+ * @var UI_button $b
+ */
+$b = $this->getRaw( 'element' );
+
+if( !$b->getClass() ) {
+	$b->setClass( 'light' );
+}
+
+
+if( $b->getUrl() ):
+	?><a href="<?= $b->getUrl() ?>"
+	     class="btn btn-<?= $b->getClass() ?> btn-<?= $b->getSize() ?>" <?= $b->getJsActions() ?>><?php
+	if( $b->getIcon() ) echo UI::icon( $b->getIcon() );
+	?><?= $b->getLabel() ?></a><?php
+else:
+	?>
+	<button type="<?= $b->getType() ?>"
+	        class="btn btn-<?= $b->getClass() ?> btn-<?= $b->getSize() ?>" <?= $b->getJsActions() ?>><?php
+	if( $b->getIcon() ) echo UI::icon( $b->getIcon() );
+	?><?= $b->getLabel() ?></button><?php
+endif;

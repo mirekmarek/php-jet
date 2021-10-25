@@ -40,7 +40,6 @@ class Installer_Step_Final_Controller extends Installer_Step_Controller
 
 
 		if(
-			$OK &&
 			Installer_Step_CreateBases_Controller::basesCreated()
 		) {
 			try {

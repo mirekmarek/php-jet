@@ -21,11 +21,6 @@ class Navigation_MenuSet extends BaseObject
 	/**
 	 * @var string
 	 */
-	protected static string $module_menu_items_dir = 'menuItems';
-
-	/**
-	 * @var string
-	 */
 	protected string $name = '';
 
 	/**
@@ -73,22 +68,6 @@ class Navigation_MenuSet extends BaseObject
 	public static function setMenusDirPath( string $menus_path ): void
 	{
 		static::$menus_dir_path = $menus_path;
-	}
-
-	/**
-	 * @return string
-	 */
-	public static function getModuleMenuItemsDir(): string
-	{
-		return static::$module_menu_items_dir;
-	}
-
-	/**
-	 * @param string $module_menu_items_dir
-	 */
-	public static function setModuleMenuItemsDir( string $module_menu_items_dir ): void
-	{
-		static::$module_menu_items_dir = $module_menu_items_dir;
 	}
 
 
@@ -207,7 +186,7 @@ class Navigation_MenuSet extends BaseObject
 	{
 		foreach( Application_Modules::activatedModulesList() as $manifest ) {
 
-			$items_file_path = $manifest->getModuleDir().static::getModuleMenuItemsDir().'/'.$this->name.'.php';
+			$items_file_path = $manifest->getModuleDir().SysConf_Jet_Modules::getModuleMenuItemsDir().'/'.$this->name.'.php';
 			if(!IO_File::isReadable($items_file_path)) {
 				continue;
 			}

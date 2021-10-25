@@ -29,23 +29,19 @@ class Mailing_Config extends Config
 
 	/**
 	 *
-	 * @param Locale $locale
-	 * @param string $base_id
-	 * @param string $specification
+	 * @param string $id
 	 *
 	 * @return Mailing_Config_Sender|null
 	 *
 	 */
-	public function getSender( Locale $locale, string $base_id, string $specification ): Mailing_Config_Sender|null
+	public function getSender( string $id ): Mailing_Config_Sender|null
 	{
 
-		$key = $this->getSenderKey( $locale, $base_id, $specification );
-
-		if( !isset( $this->senders[$key] ) ) {
+		if( !isset( $this->senders[$id] ) ) {
 			return null;
 		}
 
-		return $this->senders[$key];
+		return $this->senders[$id];
 	}
 
 	/**
@@ -57,50 +53,23 @@ class Mailing_Config extends Config
 	}
 
 	/**
+	 * @param string $id
 	 * @param Mailing_Config_Sender $sender_configuration
-	 * @param Locale $locale
-	 * @param string $base_id
-	 * @param string $specification
 	 *
 	 */
-	public function addSender( Mailing_Config_Sender $sender_configuration, Locale $locale, string $base_id, string $specification )
+	public function addSender( string $id, Mailing_Config_Sender $sender_configuration )
 	{
-		$this->senders[$this->getSenderKey( $locale, $base_id, $specification )] = $sender_configuration;
+		$this->senders[$id] = $sender_configuration;
 	}
 
 	/**
-	 * @param string $key
+	 * @param string $id
 	 */
-	public function deleteSender( string $key )
+	public function deleteSender( string $id )
 	{
-		if( isset( $this->senders[$key] ) ) {
-			unset( $this->senders[$key] );
+		if( isset( $this->senders[$id] ) ) {
+			unset( $this->senders[$id] );
 		}
-	}
-
-	/**
-	 * @param Locale $locale
-	 * @param string $base_id
-	 * @param string $specification
-	 *
-	 * @return string
-	 */
-	public function getSenderKey( Locale $locale, string $base_id, string $specification ): string
-	{
-		$key = (string)$locale;
-
-		if( !$base_id ) {
-			$base_id = 'ALL';
-		}
-
-		$key .= '/' . $base_id;
-
-
-		if( $specification ) {
-			$key .= '/' . $specification;
-		}
-
-		return $key;
 	}
 
 	/**

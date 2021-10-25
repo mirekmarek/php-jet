@@ -679,9 +679,7 @@ class Auth_Visitor_User extends DataModel implements Auth_User_Interface
 			);
 		}
 
-		$result = array_unique( $result );
-
-		return $result;
+		return array_unique( $result );
 	}
 
 	/**
@@ -721,15 +719,16 @@ class Auth_Visitor_User extends DataModel implements Auth_User_Interface
 		$this->save();
 
 		$email_template = new Mailing_Email_Template(
-			'user_password_reset',
-			$this->getLocale(),
-			Application_Web::getBaseId()
+			'visitor/user_password_reset',
+			locale: $this->getLocale()
 		);
 
 		$email_template->setVar( 'user', $this );
 		$email_template->setVar( 'password', $password );
 
-		$email_template->getEmail()->send( $this->getEmail() );
+		$email = $email_template->getEmail();
+		$email->setTo( $this->getEmail() );
+		$email->send();
 
 	}
 
@@ -987,15 +986,17 @@ class Auth_Visitor_User extends DataModel implements Auth_User_Interface
 	public function sendWelcomeEmail( string $password ): void
 	{
 		$email_template = new Mailing_Email_Template(
-			'user_welcome',
-			$this->getLocale(),
-			Application_Web::getBaseId()
+			'visitor/user_welcome',
+			$this->getLocale()
 		);
 
 		$email_template->setVar( 'user', $this );
 		$email_template->setVar( 'password', $password );
 
-		$email_template->getEmail()->send( $this->getEmail() );
+		$email = $email_template->getEmail();
+		$email->setTo( $this->getEmail() );
+		$email->send();
+
 	}
 
 

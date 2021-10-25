@@ -71,7 +71,7 @@ class Mvc_Base_LocalizedData extends BaseObject implements Mvc_Base_LocalizedDat
 		/**
 		 * @var Mvc_Base_LocalizedData $ld
 		 */
-		$ld = Mvc_Factory::getBaseLocalizedInstance();
+		$ld = Factory_Mvc::getBaseLocalizedInstance();
 
 		$ld->setBase( $base );
 		$ld->setLocale( $locale );

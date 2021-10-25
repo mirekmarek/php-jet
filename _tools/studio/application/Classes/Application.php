@@ -142,7 +142,7 @@ class Application extends Jet_Application
 	}
 
 	/**
-	 * @param $part
+	 * @param string $part
 	 */
 	public static function setCurrentPart( string $part ): void
 	{
@@ -163,7 +163,7 @@ class Application extends Jet_Application
 	 */
 	public static function getGeneralView(): Mvc_View
 	{
-		return new Mvc_View( SysConf_Path::getBase() . 'views/' );
+		return new Mvc_View( SysConf_Path::getBase() . 'application/views/' );
 	}
 
 	/**
@@ -187,7 +187,7 @@ class Application extends Jet_Application
 	public static function getLayout( string $script = 'default' ): Mvc_Layout
 	{
 		if( !static::$layout ) {
-			static::$layout = new Mvc_Layout( SysConf_Path::getBase() . 'layouts/', $script );
+			static::$layout = new Mvc_Layout( SysConf_Path::getBase() . 'application/layouts/', $script );
 			Mvc_Layout::setCurrentLayout( static::$layout );
 		}
 

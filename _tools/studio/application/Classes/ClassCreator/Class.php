@@ -505,7 +505,7 @@ class ClassCreator_Class extends BaseObject
 	}
 
 	/**
-	 * @param $warning
+	 * @param string $warning
 	 */
 	public function addWarning( string $warning ): void
 	{

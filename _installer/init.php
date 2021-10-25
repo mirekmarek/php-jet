@@ -8,20 +8,22 @@
 namespace JetApplication\Installer;
 
 use Jet\Config;
-use Jet\Form;
+use Jet\SysConf_Jet_Form;
+use Jet\SysConf_Jet_UI;
 use Jet\SysConf_Path;
-use Jet\UI;
-use Jet\SysConf_Jet;
+use Jet\SysConf_Jet_PackageCreator_CSS;
+use Jet\SysConf_Jet_PackageCreator_JavaScript;
 
 Config::setBeTolerant( true );
 
-Form::setDefaultViewsDir( __DIR__.'/views/Form/' );
-UI::setViewsDir( __DIR__.'/views/UI/' );
+SysConf_Jet_Form::setDefaultViewsDir( __DIR__.'/views/form/' );
+SysConf_Jet_UI::setViewsDir( __DIR__.'/views/ui/' );
+
 
 require 'Classes/Installer.php';
 
-SysConf_Jet::setCSSPackagerEnabled( false );
-SysConf_Jet::setJSPackagerEnabled( false );
+SysConf_Jet_PackageCreator_CSS::setEnabled( false );
+SysConf_Jet_PackageCreator_JavaScript::setEnabled( false );
 
 Installer::setBasePath( SysConf_Path::getBase().'_installer/' );
 

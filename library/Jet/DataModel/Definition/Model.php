@@ -251,7 +251,7 @@ abstract class DataModel_Definition_Model extends BaseObject
 					$property_dd
 				);
 			} else {
-				$property_definition = DataModel_Factory::getPropertyDefinitionInstance(
+				$property_definition = Factory_DataModel::getPropertyDefinitionInstance(
 					$this->class_name,
 					$property_name,
 					$property_dd

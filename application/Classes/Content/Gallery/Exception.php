@@ -6,7 +6,7 @@
  * @author Miroslav Marek <mirek.marek@web-jet.cz>
  */
 
-namespace JetApplication;;
+namespace JetApplication;
 
 use Jet\Exception;
 

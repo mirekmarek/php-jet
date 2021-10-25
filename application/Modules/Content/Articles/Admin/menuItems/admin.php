@@ -2,7 +2,8 @@
 return [
 	'content' => [
 		'articles' => [
-			'index' => 0,
+			'index' => 1,
+			'separator_after' => true,
 			'page_id' => 'articles',
 		],
 	],

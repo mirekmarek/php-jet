@@ -13,7 +13,7 @@ use Jet\Form;
 use Jet\Form_Field_Input;
 use Jet\Form_Field_Password;
 use Jet\Db_Config;
-use Jet\Db_Factory;
+use Jet\Factory_Db;
 use Jet\Db_Backend_Config;
 use Jet\Db_Backend_PDO_Config;
 use Jet\DataModel_Config;
@@ -32,7 +32,7 @@ class Installer_DbDriverConfig_mysql extends Installer_DbDriverConfig
 	 */
 	public function initialize( Db_Config $db_config, DataModel_Config $data_model_config ) : Db_Backend_Config|Db_Backend_PDO_Config
 	{
-		$connection_config = Db_Factory::getBackendConfigInstance();
+		$connection_config = Factory_Db::getBackendConfigInstance();
 		$connection_config->setName( 'default' );
 		$connection_config->setDriver( Db::DRIVER_MYSQL );
 		$connection_config->setUsername( '' );

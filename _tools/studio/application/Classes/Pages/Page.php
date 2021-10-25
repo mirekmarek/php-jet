@@ -19,7 +19,7 @@ use Jet\Mvc_Page;
 use Jet\Form;
 use Jet\Form_Field_Input;
 use Jet\Form_Field_Checkbox;
-use Jet\Mvc_Factory;
+use Jet\Factory_Mvc;
 use Jet\Mvc_Page_MetaTag_Interface;
 use Jet\Tr;
 use Jet\Locale;
@@ -474,7 +474,7 @@ class Pages_Page extends Mvc_Page
 				continue;
 			}
 
-			$meta_tag = Mvc_Factory::getPageMetaTagInstance();
+			$meta_tag = Factory_Mvc::getPageMetaTagInstance();
 
 			$meta_tag->setAttribute( $attribute );
 			$meta_tag->setAttributeValue( $attribute_value );

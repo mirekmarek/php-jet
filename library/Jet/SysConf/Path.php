@@ -13,81 +13,27 @@ namespace Jet;
  */
 class SysConf_Path
 {
-	/**
-	 * @var string
-	 */
-	protected static string $base = '';
-	/**
-	 * @var string
-	 */
-	protected static string $library = '';
-	/**
-	 * @var string
-	 */
-	protected static string $bases = '';
-	/**
-	 * @var string
-	 */
-	protected static string $menus = '';
-	/**
-	 * @var string
-	 */
-	protected static string $css = '';
-	/**
-	 * @var string
-	 */
-	protected static string $js = '';
-	/**
-	 * @var string
-	 */
-	protected static string $images = '';
-	/**
-	 * @var string
-	 */
-	protected static string $logs = '';
-	/**
-	 * @var string
-	 */
-	protected static string $tmp = '';
-	/**
-	 * @var string
-	 */
-	protected static string $cache = '';
-
-	/**
-	 * @var string
-	 */
-	protected static string $application = '';
-	/**
-	 * @var string
-	 */
-	protected static string $config = '';
-	/**
-	 * @var string
-	 */
-	protected static string $data = '';
-	/**
-	 * @var string
-	 */
-	protected static string $dictionaries = '';
-
-	/**
-	 * @param string $what
-	 * @throws SysConf_Path_Exception
-	 */
-	protected static function _check( string $what ): void
-	{
-		if( !static::$$what ) {
-			throw new SysConf_Path_Exception( 'Path ' . $what . ' is not set' );
-		}
-	}
+	protected static string $base;
+	protected static string $modules;
+	protected static string $library;
+	protected static string $bases;
+	protected static string $menus;
+	protected static string $css;
+	protected static string $js;
+	protected static string $images;
+	protected static string $logs;
+	protected static string $tmp;
+	protected static string $cache;
+	protected static string $application;
+	protected static string $config;
+	protected static string $data;
+	protected static string $dictionaries;
 
 	/**
 	 * @return string
 	 */
 	public static function getBase(): string
 	{
-		static::_check( 'base' );
 		return static::$base;
 	}
 
@@ -102,9 +48,24 @@ class SysConf_Path
 	/**
 	 * @return string
 	 */
+	public static function getModules(): string
+	{
+		return static::$modules;
+	}
+
+	/**
+	 * @param string $modules
+	 */
+	public static function setModules( string $modules ): void
+	{
+		static::$modules = $modules;
+	}
+
+	/**
+	 * @return string
+	 */
 	public static function getLibrary(): string
 	{
-		static::_check( 'library' );
 		return static::$library;
 	}
 
@@ -121,7 +82,6 @@ class SysConf_Path
 	 */
 	public static function getBases(): string
 	{
-		static::_check( 'bases' );
 		return static::$bases;
 	}
 
@@ -139,7 +99,6 @@ class SysConf_Path
 	 */
 	public static function getMenus(): string
 	{
-		static::_check( 'menus' );
 		return static::$menus;
 	}
 
@@ -156,7 +115,6 @@ class SysConf_Path
 	 */
 	public static function getCss(): string
 	{
-		static::_check( 'css' );
 		return static::$css;
 	}
 
@@ -173,7 +131,6 @@ class SysConf_Path
 	 */
 	public static function getJs(): string
 	{
-		static::_check( 'js' );
 		return static::$js;
 	}
 
@@ -190,7 +147,6 @@ class SysConf_Path
 	 */
 	public static function getImages(): string
 	{
-		static::_check( 'images' );
 		return static::$images;
 	}
 
@@ -208,7 +164,6 @@ class SysConf_Path
 	 */
 	public static function getLogs(): string
 	{
-		static::_check( 'logs' );
 		return static::$logs;
 	}
 
@@ -225,7 +180,6 @@ class SysConf_Path
 	 */
 	public static function getTmp(): string
 	{
-		static::_check( 'tmp' );
 		return static::$tmp;
 	}
 
@@ -242,7 +196,6 @@ class SysConf_Path
 	 */
 	public static function getCache(): string
 	{
-		static::_check( 'cache' );
 		return static::$cache;
 	}
 
@@ -259,7 +212,6 @@ class SysConf_Path
 	 */
 	public static function getApplication(): string
 	{
-		static::_check( 'application' );
 		return static::$application;
 	}
 
@@ -276,7 +228,6 @@ class SysConf_Path
 	 */
 	public static function getConfig(): string
 	{
-		static::_check( 'config' );
 		return static::$config;
 	}
 
@@ -293,7 +244,6 @@ class SysConf_Path
 	 */
 	public static function getData(): string
 	{
-		static::_check( 'data' );
 		return static::$data;
 	}
 
@@ -310,7 +260,6 @@ class SysConf_Path
 	 */
 	public static function getDictionaries(): string
 	{
-		static::_check( 'dictionaries' );
 		return static::$dictionaries;
 	}
 

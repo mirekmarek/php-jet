@@ -9,8 +9,8 @@ namespace JetStudio;
 
 use Jet\SysConf_Path;
 
-$project_base = dirname(dirname(dirname(dirname(__DIR__)))).'/';
-$studio_base = dirname(dirname(__DIR__)).'/';
+$project_base = dirname( __DIR__, 4 ) .'/';
+$studio_base = dirname( __DIR__, 2 ) .'/';
 $studio_application =  $studio_base.'application/';
 $project_application =  $project_base.'application/';
 
@@ -59,3 +59,5 @@ ProjectConf_Path::setData( $project_application . 'data/' );
 ProjectConf_Path::setDictionaries( $project_application . 'dictionaries/' );
 
 ProjectConf_Path::setTemplates( $studio_base . 'templates/' );
+
+SysConf_Path::setModules( ProjectConf_Path::getApplication().'Modules/' );

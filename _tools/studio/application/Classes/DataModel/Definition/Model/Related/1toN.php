@@ -123,7 +123,7 @@ class DataModel_Definition_Model_Related_1toN extends Jet_DataModel_Definition_M
 
 		if( $iterator_class != 'Jet\\DataModel_Related_1toN_Iterator' ) {
 
-			if( substr( $iterator_class, 0, 4 ) == 'Jet\\' ) {
+			if( str_starts_with( $iterator_class, 'Jet\\' ) ) {
 				$iterator_class = substr( $iterator_class, 4 );
 
 				$class->addUse( new ClassCreator_UseClass( 'Jet', $iterator_class ) );

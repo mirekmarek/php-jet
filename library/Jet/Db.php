@@ -55,7 +55,7 @@ class Db extends BaseObject
 			);
 		}
 
-		static::$connections[$connection_name] = Db_Factory::getBackendInstance( $connection_config );
+		static::$connections[$connection_name] = Factory_Db::getBackendInstance( $connection_config );
 
 		return static::$connections[$connection_name];
 	}
@@ -93,8 +93,8 @@ class Db extends BaseObject
 			return static::$connections[$connection_name];
 		}
 
-		$config = Db_Factory::getBackendConfigInstance( $connection_config_data );
-		$connection = Db_Factory::getBackendInstance( $config );
+		$config = Factory_Db::getBackendConfigInstance( $connection_config_data );
+		$connection = Factory_Db::getBackendInstance( $config );
 
 		static::$connections[$connection_name] = $connection;
 

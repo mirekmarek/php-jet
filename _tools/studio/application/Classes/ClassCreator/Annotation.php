@@ -130,10 +130,7 @@ class ClassCreator_Annotation extends BaseObject
 			}
 		}
 
-		$res = '[' . implode( ', ', $res ) . ']';
-
-		return $res;
-
+		return '[' . implode( ', ', $res ) . ']';
 	}
 
 	/**

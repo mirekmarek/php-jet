@@ -8,7 +8,6 @@
 
 namespace JetStudio;
 
-use Jet\Application_Modules;
 use Jet\BaseObject;
 use Jet\Data_Text;
 use Jet\Exception;
@@ -19,6 +18,9 @@ use Jet\Http_Request;
 use Jet\IO_Dir;
 use Jet\IO_File;
 use Jet\Mvc_View;
+use Jet\SysConf_Jet_Modules;
+use Jet\SysConf_Jet_Mvc;
+use Jet\SysConf_Path;
 use Jet\Tr;
 use Jet\UI_messages;
 
@@ -86,9 +88,7 @@ abstract class ModuleWizard extends BaseObject
 	{
 		$ns = get_called_class();
 
-		$ns = str_replace( '\\', '.', $ns );
-
-		return $ns;
+		return str_replace( '\\', '.', $ns );
 	}
 
 	/**
@@ -239,7 +239,6 @@ abstract class ModuleWizard extends BaseObject
 			return;
 		}
 
-		/** @noinspection PhpIncludeInspection */
 		require $controller;
 	}
 
@@ -254,7 +253,7 @@ abstract class ModuleWizard extends BaseObject
 	 */
 	public function getModuleNamespace(): string
 	{
-		return Application_Modules::getModuleRootNamespace() . '\\' . str_replace( '.', '\\', $this->module_name );
+		return SysConf_Jet_Modules::getModuleRootNamespace() . '\\' . str_replace( '.', '\\', $this->module_name );
 	}
 
 	/**
@@ -275,12 +274,15 @@ abstract class ModuleWizard extends BaseObject
 
 		try {
 			$source_dir = $this->getModuleTemplateDir();
-			$target_dir = Application_Modules::getBasePath() . str_replace( '.', DIRECTORY_SEPARATOR, $this->module_name );
+			$target_dir = SysConf_Path::getModules() . str_replace( '.', DIRECTORY_SEPARATOR, $this->module_name );
 
 
 			IO_Dir::copy( $source_dir, $target_dir );
 
 			$this->create_applyValues( $target_dir );
+			$this->create_page( $target_dir );
+			$this->create_menuItem( $target_dir );
+
 		} catch( Exception $e ) {
 			Application::handleError( $e );
 			return false;
@@ -291,7 +293,58 @@ abstract class ModuleWizard extends BaseObject
 		return true;
 	}
 
-	/**
+	public function create_page( string $target_dir ) : void
+	{
+		if(
+			!empty($this->values['PAGE_BASE_ID']) &&
+			!empty($this->values['PAGE_ID']) &&
+			!empty($this->values['PAGE_PATH_FRAGMENT'])
+		) {
+			$pages_dir = $target_dir.'/'.SysConf_Jet_Modules::getPagesDir().'/'.$this->values['PAGE_BASE_ID'].'/';
+
+			IO_Dir::create($pages_dir);
+			$pages_dir .= rawurldecode($this->values['PAGE_PATH_FRAGMENT']).'/';
+			IO_Dir::create($pages_dir);
+
+			IO_File::writeDataAsPhp($pages_dir.SysConf_Jet_Mvc::getPageDataFileName(), [
+				'id'       => $this->values['PAGE_ID'],
+				'title'    => $this->values['PAGE_TITLE'],
+				'icon'     => $this->values['PAGE_ICON'],
+				'contents' => [
+					[
+						'controller_action' => 'default'
+					]
+				],
+			]);
+		}
+
+	}
+
+	public function create_menuItem( string $target_dir ) : void
+	{
+		if(
+			!empty($this->values['TARGET_MENU_SET_ID']) &&
+			!empty($this->values['TARGET_MENU_ID']) &&
+			!empty($this->values['MENU_ITEM_ID'])
+		) {
+			$menus_dir = $target_dir.'/'.SysConf_Jet_Modules::getModuleMenuItemsDir().'/';
+
+			IO_Dir::create($menus_dir);
+			IO_File::writeDataAsPhp($menus_dir.$this->values['TARGET_MENU_SET_ID'].'.php', [
+				$this->values['TARGET_MENU_ID'] => [
+					$this->values['MENU_ITEM_ID'] => [
+						'separator_before' => true,
+						'page_id'          => $this->values['PAGE_ID'],
+						'index'            => 200,
+					],
+				],
+			]);
+
+
+		}
+	}
+
+		/**
 	 * @param string $dir
 	 */
 	protected function create_applyValues( string $dir ): void

@@ -27,7 +27,7 @@ class Mvc_Cache_Backend_Files extends Cache_Files implements Mvc_Cache_Backend
 	 */
 	public function isActive(): bool
 	{
-		return SysConf_Jet::isCacheMvcEnabled();
+		return SysConf_Jet_Mvc::getCacheEnabled();
 	}
 
 	/**

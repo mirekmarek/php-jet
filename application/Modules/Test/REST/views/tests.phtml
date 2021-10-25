@@ -77,9 +77,7 @@ $session = Main::getSession();
 			<?php endforeach; ?>
 		</div>
 		<div class="col-md-8">
-			<?php if( $selected_test ):
-				$selected_test->showResult();
-			endif; ?>
+			<?php $selected_test?->showResult(); ?>
 		</div>
 	</div>
 

@@ -275,7 +275,7 @@ class Menus_Menu extends Navigation_Menu
 	 *
 	 * @return Menus_Menu_Item[]
 	 */
-	public function getItems( $check_access = true ): array
+	public function getItems( bool $check_access = true ): array
 	{
 		return $this->items;
 	}

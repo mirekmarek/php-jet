@@ -113,7 +113,7 @@ trait Mvc_Page_Trait_Main
 			return static::$pages[$key];
 		}
 
-		$base = Mvc_Factory::getBaseInstance()::get( $base_id );
+		$base = Factory_Mvc::getBaseInstance()::get( $base_id );
 
 		$maps = static::loadMaps( $base, $locale );
 
@@ -185,7 +185,7 @@ trait Mvc_Page_Trait_Main
 	 */
 	public static function getList( string $base_id, Locale $locale ): array
 	{
-		$base_class_name = Mvc_Factory::getBaseClassName();
+		$base_class_name = Factory_Mvc::getBaseClassName();
 
 		/**
 		 * @var Mvc_Base_Interface $base_class_name
@@ -240,7 +240,7 @@ trait Mvc_Page_Trait_Main
 	 */
 	public function getBase(): Mvc_Base_Interface
 	{
-		$base_class_name = Mvc_Factory::getBaseClassName();
+		$base_class_name = Factory_Mvc::getBaseClassName();
 
 		/**
 		 * @var Mvc_Base_Interface $base_class_name

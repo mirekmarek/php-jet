@@ -109,7 +109,7 @@ class DataModel_Config extends Config
 	 */
 	public function createBackendConfigInstance( array $data ): DataModel_Backend_Config
 	{
-		return DataModel_Factory::getBackendConfigInstance(
+		return Factory_DataModel::getBackendConfigInstance(
 			$this->getBackendType(),
 			$data
 		);

@@ -22,7 +22,7 @@ trait DataModel_Related_1to1_Trait
 	 */
 	public static function dataModelDefinitionFactory( string $data_model_class_name ): DataModel_Definition_Model_Related_1to1
 	{
-		$class_name = DataModel_Factory::getModelDefinitionClassNamePrefix() . 'Related_1to1';
+		$class_name = Factory_DataModel::getModelDefinitionClassNamePrefix() . 'Related_1to1';
 
 		return new $class_name( $data_model_class_name );
 	}

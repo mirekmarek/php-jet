@@ -9,13 +9,11 @@
 namespace JetStudio;
 
 use Jet\BaseObject;
-use Jet\Cache;
-use Jet\Data_Array;
 use Jet\Form;
 use Jet\Form_Field_Select;
 use Jet\IO_Dir;
 use Jet\IO_File;
-use Jet\Navigation_MenuSet;
+use Jet\SysConf_Jet_Modules;
 
 
 /**
@@ -44,7 +42,7 @@ class Modules_MenuItems extends BaseObject
 	 */
 	protected function read(): void
 	{
-		$dir = $this->module_manifest->getModuleDir().Navigation_MenuSet::getModuleMenuItemsDir().'/';
+		$dir = $this->module_manifest->getModuleDir().SysConf_Jet_Modules::getModuleMenuItemsDir().'/';
 		if(!IO_Dir::isReadable($dir)) {
 			return;
 		}
@@ -72,7 +70,7 @@ class Modules_MenuItems extends BaseObject
 
 	public function save() : void
 	{
-		$dir = $this->module_manifest->getModuleDir().Navigation_MenuSet::getModuleMenuItemsDir().'/';
+		$dir = $this->module_manifest->getModuleDir().SysConf_Jet_Modules::getModuleMenuItemsDir().'/';
 
 		foreach($this->menu_items as $menu_set=>$menus) {
 			$file = $dir.$menu_set.'.php';

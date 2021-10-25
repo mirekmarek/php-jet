@@ -16,6 +16,7 @@ use Jet\IO_Dir;
 use Jet\IO_File;
 use Jet\Mvc_Base;
 use Jet\Mvc_Layout;
+use Jet\SysConf_Jet_Modules;
 use Jet\SysConf_Jet_Mvc;
 
 /**
@@ -52,7 +53,7 @@ class Modules_Pages extends BaseObject
 			$base_id = $base->getId();
 			$locale = $base->getDefaultLocale();
 
-			$root_dir = $this->module_manifest->getModuleDir().SysConf_Jet_Mvc::getBasePagesDir().'/'.$base_id.'/';
+			$root_dir = $this->module_manifest->getModuleDir().SysConf_Jet_Modules::getPagesDir().'/'.$base_id.'/';
 
 			if(!IO_Dir::exists($root_dir)) {
 				continue;
@@ -131,7 +132,7 @@ class Modules_Pages extends BaseObject
 
 		$this->pages[$base_id][$page->getId()] = $page;
 
-		$path = $this->module_manifest->getModuleDir().SysConf_Jet_Mvc::getBasePagesDir().'/'.$base_id.'/'.rawurldecode($page->getRelativePathFragment()).'/'.SysConf_Jet_Mvc::getPageDataFileName();
+		$path = $this->module_manifest->getModuleDir().SysConf_Jet_Modules::getPagesDir().'/'.$base_id.'/'.rawurldecode($page->getRelativePathFragment()).'/'.SysConf_Jet_Mvc::getPageDataFileName();
 		$page->setDataFilePath( $path );
 
 	}

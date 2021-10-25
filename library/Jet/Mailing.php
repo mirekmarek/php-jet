@@ -13,6 +13,8 @@ namespace Jet;
  */
 class Mailing extends BaseObject
 {
+	const DEFAULT_SENDER_ID = 'default';
+
 	/**
 	 * @var ?Mailing_Config
 	 */
@@ -22,12 +24,6 @@ class Mailing extends BaseObject
 	 * @var ?Mailing_Backend_Abstract
 	 */
 	protected static ?Mailing_Backend_Abstract $backend = null;
-
-	/**
-	 * @var ?string
-	 */
-	protected static ?string $base_view_dir = null;
-
 
 	/**
 	 *
@@ -65,13 +61,12 @@ class Mailing extends BaseObject
 
 	/**
 	 * @param Mailing_Email $email
-	 * @param string $to
 	 *
 	 * @return bool
 	 */
-	public static function sendEmail( Mailing_Email $email, string $to ): bool
+	public static function sendEmail( Mailing_Email $email ): bool
 	{
-		return static::getBackend()->sendEmail( $email, $to );
+		return static::getBackend()->sendEmail( $email );
 	}
 
 }

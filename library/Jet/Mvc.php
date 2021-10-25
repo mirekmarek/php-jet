@@ -26,7 +26,7 @@ class Mvc
 	public static function getRouter(): Mvc_Router_Interface
 	{
 		if( !static::$router ) {
-			static::$router = Mvc_Factory::getRouterInstance();
+			static::$router = Factory_Mvc::getRouterInstance();
 		}
 
 		return static::$router;

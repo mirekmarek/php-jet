@@ -57,7 +57,7 @@ trait Mvc_Page_Trait_Layout
 	public function initializeLayout(): void
 	{
 		Mvc_Layout::setCurrentLayout(
-			Mvc_Factory::getLayoutInstance(
+			Factory_Mvc::getLayoutInstance(
 				$this->getLayoutsPath(),
 				$this->getLayoutScriptName()
 			)

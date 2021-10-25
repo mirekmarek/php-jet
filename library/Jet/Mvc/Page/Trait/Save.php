@@ -72,7 +72,7 @@ trait Mvc_Page_Trait_Save
 			return;
 		}
 
-		$curr_data_dir_path = $this->getDataDirPath( true );;
+		$curr_data_dir_path = $this->getDataDirPath( true );
 		$old_data_dir_path = $this->getDataDirPath();
 
 		if( $curr_data_dir_path != $old_data_dir_path ) {

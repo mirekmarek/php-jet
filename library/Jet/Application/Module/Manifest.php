@@ -13,12 +13,6 @@ namespace Jet;
  */
 class Application_Module_Manifest extends BaseObject
 {
-
-	/**
-	 * @var string
-	 */
-	protected static string $manifest_file_name = 'manifest.php';
-
 	/**
 	 *
 	 * @var string
@@ -81,24 +75,6 @@ class Application_Module_Manifest extends BaseObject
 		static::$compatibility_checker = $compatibility_checker;
 	}
 
-
-	/**
-	 * @return string
-	 */
-	public static function getManifestFileName(): string
-	{
-		return static::$manifest_file_name;
-	}
-
-	/**
-	 * @param string $manifest_file_name
-	 */
-	public static function setManifestFileName( string $manifest_file_name )
-	{
-		static::$manifest_file_name = $manifest_file_name;
-	}
-
-
 	/**
 	 * @param ?string $module_name
 	 *
@@ -136,7 +112,7 @@ class Application_Module_Manifest extends BaseObject
 		}
 
 
-		$manifest_file = $module_dir . static::$manifest_file_name;
+		$manifest_file = $module_dir . SysConf_Jet_Modules::getManifestFileName();
 
 		if( !IO_File::isReadable( $manifest_file ) ) {
 			throw new Application_Modules_Exception(
@@ -215,7 +191,7 @@ class Application_Module_Manifest extends BaseObject
 	 */
 	public function getNamespace(): string
 	{
-		return Application_Modules::getModuleRootNamespace() . '\\' . str_replace( '.', '\\', $this->_name ) . '\\';
+		return SysConf_Jet_Modules::getModuleRootNamespace() . '\\' . str_replace( '.', '\\', $this->_name ) . '\\';
 	}
 
 	/**
@@ -349,7 +325,7 @@ class Application_Module_Manifest extends BaseObject
 	public function saveDatafile(): void
 	{
 		IO_File::writeDataAsPhp(
-			$this->getModuleDir() . static::getManifestFileName(),
+			$this->getModuleDir() . SysConf_Jet_Modules::getManifestFileName(),
 			$this->toArray()
 		);
 	}

@@ -7,19 +7,18 @@
  */
 namespace JetStudio;
 
-use Jet\Application_Factory;
+use Jet\Factory_Application;
 use Jet\Application_Modules_Handler_Default;
 use Jet\Config;
-use Jet\DataModel_Factory;
-use Jet\Form;
+use Jet\Factory_DataModel;
 use Jet\Http_Request;
 use Jet\Locale;
-use Jet\SysConf_Jet;
-use Jet\SysConf_Path;
+use Jet\SysConf_Jet_Form;
+use Jet\SysConf_Jet_Http;
+use Jet\SysConf_Jet_UI;
 use Jet\Translator;
-use Jet\Mvc_Factory;
+use Jet\Factory_Mvc;
 use Jet\Application_Modules;
-use Jet\UI;
 
 
 require __DIR__.'/config/Path.php';
@@ -33,10 +32,10 @@ require __DIR__.'/Init/ErrorHandler.php';
 require __DIR__.'/Init/Autoloader.php';
 
 
-UI::setViewsDir( SysConf_Path::getBase().'views/UI/' );
-Form::setDefaultViewsDir( SysConf_Path::getBase().'views/Form/' );
+SysConf_Jet_UI::setViewsDir( __DIR__.'/views/ui/' );
+SysConf_Jet_Form::setDefaultViewsDir( __DIR__.'/views/form/' );
 
-Http_Request::initialize( SysConf_Jet::isHideHttpRequest() );
+Http_Request::initialize( SysConf_Jet_Http::getHideRequest() );
 
 Locale::setCurrentLocale( Application::getCurrentLocale() );
 Translator::setCurrentLocale( Application::getCurrentLocale() );
@@ -47,16 +46,13 @@ Config::setBeTolerant(true);
 
 Project::setApplicationNamespace('JetApplication');
 
-DataModel_Factory::setPropertyDefinitionClassNamePrefix(__NAMESPACE__.'\DataModel_Definition_Property_');
-DataModel_Factory::setModelDefinitionClassNamePrefix(__NAMESPACE__.'\DataModel_Definition_Model_');
+Factory_DataModel::setPropertyDefinitionClassNamePrefix(__NAMESPACE__.'\DataModel_Definition_Property_');
+Factory_DataModel::setModelDefinitionClassNamePrefix(__NAMESPACE__.'\DataModel_Definition_Model_');
+Factory_Mvc::setBaseClassName( Bases_Base::class );
+Factory_Mvc::setPageClassName( Pages_Page::class );
+Factory_Mvc::setPageContentClassName( Pages_Page_Content::class );
+Factory_Application::setModuleManifestClassName( Modules_Manifest::class );
 
-
-Mvc_Factory::setBaseClassName( 'JetStudio\\Bases_Base' );
-Mvc_Factory::setPageClassName('JetStudio\\Pages_Page');
-Mvc_Factory::setPageContentClassName('JetStudio\\Pages_Page_Content');
-
-
-Config::setBeTolerant( true );
 Config::setConfigDirPath( ProjectConf_Path::getConfig() );
 
 /**
@@ -65,7 +61,4 @@ Config::setConfigDirPath( ProjectConf_Path::getConfig() );
 $modules_handler = Application_Modules::getHandler();
 $modules_handler->setActivatedModulesListFilePath( ProjectConf_Path::getData().'activated_modules_list.php' );
 $modules_handler->setInstalledModulesListFilePath( ProjectConf_Path::getData().'installed_modules_list.php' );
-
-Application_Factory::setModuleManifestClassName(__NAMESPACE__.'\Modules_Manifest');
-Application_Modules::setBasePath( ProjectConf_Path::getApplication().'Modules/' );
 

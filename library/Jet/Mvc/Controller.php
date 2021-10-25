@@ -47,7 +47,7 @@ abstract class Mvc_Controller extends BaseObject
 	 */
 	protected function initializeDefaultView(): void
 	{
-		$this->view = Mvc_Factory::getViewInstance( $this->module->getViewsDir() );
+		$this->view = Factory_Mvc::getViewInstance( $this->module->getViewsDir() );
 		$this->view->setController( $this );
 	}
 

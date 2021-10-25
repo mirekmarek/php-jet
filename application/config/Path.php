@@ -1,7 +1,7 @@
 <?php
 use Jet\SysConf_Path;
 
-$base = dirname( dirname( __DIR__ ) ).'/';
+$base = dirname( __DIR__, 2 ) .'/';
 $library = $base.'library/';
 $application =  $base.'application/';
 
@@ -20,6 +20,7 @@ SysConf_Path::setCache( $base . 'cache/' );
 
 SysConf_Path::setApplication( $application );
 SysConf_Path::setBases( $application . 'bases/' );
+SysConf_Path::setModules( $application . 'Modules/' );
 SysConf_Path::setConfig( $application . 'config/' );
 SysConf_Path::setMenus( $application . 'menus/' );
 SysConf_Path::setData( $application . 'data/' );

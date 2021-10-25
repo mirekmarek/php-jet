@@ -16,8 +16,9 @@ use Jet\Form;
 use Jet\Form_Field_Input;
 use Jet\Form_Field_Checkbox;
 use Jet\Form_Field_Hidden;
+use Jet\SysConf_Jet_Mvc_View;
 use Jet\Tr;
-use Jet\Mvc_Factory;
+use Jet\Factory_Mvc;
 use Jet\Locale;
 use Jet\Mvc_Page;
 use Jet\Mvc_Base_LocalizedData_Interface;
@@ -393,7 +394,7 @@ class Bases_Base extends Mvc_Base
 						continue;
 					}
 
-					$meta_tag = Mvc_Factory::getBaseLocalizedMetaTagInstance();
+					$meta_tag = Factory_Mvc::getBaseLocalizedMetaTagInstance();
 
 					$meta_tag->setAttribute( $attribute );
 					$meta_tag->setAttributeValue( $attribute_value );
@@ -671,11 +672,11 @@ class Bases_Base extends Mvc_Base
 	 */
 	public function getLayoutsList(): array
 	{
-		$list = IO_Dir::getList( $this->getLayoutsPath(), '*.' . Mvc_Layout::getScriptFileSuffix(), false, true );
+		$list = IO_Dir::getList( $this->getLayoutsPath(), '*.' . SysConf_Jet_Mvc_View::getScriptFileSuffix(), false, true );
 
 		$res = [];
 
-		$len = strlen( Mvc_Layout::getScriptFileSuffix() ) + 1;
+		$len = strlen( SysConf_Jet_Mvc_View::getScriptFileSuffix() ) + 1;
 		$len *= -1;
 
 		foreach( $list as $name ) {
@@ -698,7 +699,7 @@ class Bases_Base extends Mvc_Base
 			Mvc_Layout::DEFAULT_OUTPUT_POSITION => Tr::_( 'Main position' )
 		];
 
-		$layout_file_path = $this->getLayoutsPath() . $layout_script_name . '.' . Mvc_Layout::getScriptFileSuffix();
+		$layout_file_path = $this->getLayoutsPath() . $layout_script_name . '.' . SysConf_Jet_Mvc_View::getScriptFileSuffix();
 
 		if( IO_File::isReadable( $layout_file_path ) ) {
 			$layout = IO_File::read( $layout_file_path );

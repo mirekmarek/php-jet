@@ -135,11 +135,6 @@ abstract class DataModel_Definition_Property extends BaseObject implements Form_
 				$this->{$key} = $val;
 			}
 
-			$this->is_id = (bool)$this->is_id;
-			$this->is_key = (bool)$this->is_key;
-			$this->is_unique = (bool)$this->is_unique;
-			$this->form_field_is_required = (bool)$this->form_field_is_required;
-
 			if( $this->is_id ) {
 				if( !isset( $definition_data['form_field_type'] ) ) {
 					$this->form_field_type = Form::TYPE_HIDDEN;

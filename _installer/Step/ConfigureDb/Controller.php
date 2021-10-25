@@ -71,7 +71,7 @@ class Installer_Step_ConfigureDb_Controller extends Installer_Step_Controller
 
 
 	/**
-	 * @param $connection_config
+	 * @param Db_Backend_PDO_Config $connection_config
 	 */
 	protected function configure( Db_Backend_PDO_Config $connection_config )
 	{
@@ -111,7 +111,7 @@ class Installer_Step_ConfigureDb_Controller extends Installer_Step_Controller
 	}
 
 	/**
-	 * @param $connection_config
+	 * @param Db_Backend_PDO_Config $connection_config
 	 */
 	protected function test( Db_Backend_PDO_Config $connection_config ): void
 	{

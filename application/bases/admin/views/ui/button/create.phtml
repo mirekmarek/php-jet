@@ -1,0 +1,40 @@
+<?php
+
+use Jet\UI_button;
+use Jet\UI;
+use Jet\Mvc_View;
+
+/**
+ * @var Mvc_View $this
+ * @var UI_button $b
+ */
+$b = $this->getRaw( 'element' );
+
+if( !$b->getLabel() ) {
+	$b->setLabel( UI::_( 'Create' ) );
+}
+
+if( !$b->getIcon() ) {
+	$b->setIcon( 'plus' );
+}
+
+if( !$b->getClass() ) {
+	$b->setClass( 'light' );
+}
+
+$label = trim($b->getLabel());
+$label = $label ? '&nbsp;'.$label : '';
+
+
+if( $b->getUrl() ):
+	?><a href="<?= $b->getUrl() ?>"
+	     class="btn btn-<?= $b->getClass() ?> btn-<?= $b->getSize() ?>" <?= $b->getJsActions() ?>><?php
+	if( $b->getIcon() ) echo UI::icon( $b->getIcon() );
+	?><?=$label?></a><?php
+else:
+	?>
+	<button type="<?= $b->getType() ?>"
+	        class="btn btn-<?= $b->getClass() ?> btn-<?= $b->getSize() ?>" <?= $b->getJsActions() ?>><?php
+	if( $b->getIcon() ) echo UI::icon( $b->getIcon() );
+	?><?=$label?></button><?php
+endif;

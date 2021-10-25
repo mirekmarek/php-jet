@@ -15,6 +15,21 @@ class Mailing_Email extends BaseObject
 {
 
 	/**
+	 * @var string|array
+	 */
+	protected string|array $to;
+
+	/**
+	 * @var string|array
+	 */
+	protected string|array $to_copy = '';
+
+	/**
+	 * @var string|array
+	 */
+	protected string|array $to_hidden_copy = '';
+
+	/**
 	 * @var string
 	 */
 	protected string $sender_name = '';
@@ -86,6 +101,57 @@ class Mailing_Email extends BaseObject
 	{
 		$this->sender_email = $sender_email;
 	}
+
+	/**
+	 * @return array|string
+	 */
+	public function getTo(): array|string
+	{
+		return $this->to;
+	}
+
+	/**
+	 * @param array|string $to
+	 */
+	public function setTo( array|string $to ): void
+	{
+		$this->to = $to;
+	}
+
+	/**
+	 * @return array|string
+	 */
+	public function getToCopy(): array|string
+	{
+		return $this->to_copy;
+	}
+
+	/**
+	 * @param array|string $to_copy
+	 */
+	public function setToCopy( array|string $to_copy ): void
+	{
+		$this->to_copy = $to_copy;
+	}
+
+	/**
+	 * @return array|string
+	 */
+	public function getToHiddenCopy(): array|string
+	{
+		return $this->to_hidden_copy;
+	}
+
+	/**
+	 * @param array|string $to_hidden_copy
+	 */
+	public function setToHiddenCopy( array|string $to_hidden_copy ): void
+	{
+		$this->to_hidden_copy = $to_hidden_copy;
+	}
+
+
+
 
 	/**
 	 * @return string
@@ -222,13 +288,12 @@ class Mailing_Email extends BaseObject
 
 
 	/**
-	 * @param string $to
 	 *
 	 * @return bool
 	 */
-	public function send( string $to ): bool
+	public function send(): bool
 	{
-		return Mailing::sendEmail( $this, $to );
+		return Mailing::sendEmail( $this );
 	}
 
 }

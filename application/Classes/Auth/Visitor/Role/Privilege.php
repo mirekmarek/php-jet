@@ -64,7 +64,7 @@ class Auth_Visitor_Role_Privilege extends DataModel_Related_1toN implements Auth
 	 * @param string $privilege
 	 * @param array $values
 	 */
-	public function __construct( $privilege = '', array $values = [] )
+	public function __construct( string $privilege = '', array $values = [] )
 	{
 
 		if( $privilege ) {

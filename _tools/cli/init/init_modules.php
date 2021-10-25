@@ -24,7 +24,7 @@ if (!Application_Modules::moduleExists( $module_name)) {
  * @param Exception $e
  * @param int $error_code
  */
-function handleException(Exception $e, $error_code = 100)
+function handleException( Exception $e, int $error_code = 100)
 {
 	echo "ERROR" . PHP_EOL;
 	echo $e->getMessage();

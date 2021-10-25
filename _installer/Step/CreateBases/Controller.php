@@ -12,7 +12,7 @@ use Exception;
 use Jet\Http_Request;
 use Jet\Http_Headers;
 use Jet\Mvc_Base;
-use Jet\Mvc_Factory;
+use Jet\Factory_Mvc;
 use Jet\Mvc_Base_Interface;
 use Jet\Form;
 use Jet\Form_Field_Input;
@@ -66,7 +66,7 @@ class Installer_Step_CreateBases_Controller extends Installer_Step_Controller
 
 			$URL = $_SERVER['HTTP_HOST'] . SysConf_URI::getBase();
 
-			$web = Mvc_Factory::getBaseInstance();
+			$web = Factory_Mvc::getBaseInstance();
 			$web->setName( 'Example Web' );
 			$web->setId( Application_Web::getBaseId() );
 
@@ -98,7 +98,7 @@ class Installer_Step_CreateBases_Controller extends Installer_Step_Controller
 			] );
 
 
-			$admin = Mvc_Factory::getBaseInstance();
+			$admin = Factory_Mvc::getBaseInstance();
 			$admin->setIsSecret( true );
 			$admin->setName( 'Example Administration' );
 			$admin->setId( Application_Admin::getBaseId() );
@@ -122,7 +122,7 @@ class Installer_Step_CreateBases_Controller extends Installer_Step_Controller
 			] );
 
 
-			$rest = Mvc_Factory::getBaseInstance();
+			$rest = Factory_Mvc::getBaseInstance();
 			$rest->setIsSecret( true );
 			$rest->setName( 'Example REST API' );
 			$rest->setId( Application_REST::getBaseId() );
