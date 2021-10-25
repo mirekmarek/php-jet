@@ -8,17 +8,16 @@
 namespace JetStudio;
 
 use Jet\Factory_Application;
-use Jet\Application_Modules_Handler_Default;
 use Jet\Config;
 use Jet\Factory_DataModel;
 use Jet\Http_Request;
 use Jet\Locale;
 use Jet\SysConf_Jet_Form;
 use Jet\SysConf_Jet_Http;
+use Jet\SysConf_Jet_Modules;
 use Jet\SysConf_Jet_UI;
 use Jet\Translator;
 use Jet\Factory_Mvc;
-use Jet\Application_Modules;
 
 
 require __DIR__.'/config/Path.php';
@@ -32,8 +31,6 @@ require __DIR__.'/Init/ErrorHandler.php';
 require __DIR__.'/Init/Autoloader.php';
 
 
-SysConf_Jet_UI::setViewsDir( __DIR__.'/views/ui/' );
-SysConf_Jet_Form::setDefaultViewsDir( __DIR__.'/views/form/' );
 
 Http_Request::initialize( SysConf_Jet_Http::getHideRequest() );
 
@@ -42,7 +39,15 @@ Translator::setCurrentLocale( Application::getCurrentLocale() );
 
 AccessControl::handle();
 
+
+SysConf_Jet_UI::setViewsDir( __DIR__.'/views/ui/' );
+SysConf_Jet_Form::setDefaultViewsDir( __DIR__.'/views/form/' );
+SysConf_Jet_Modules::setActivatedModulesListFilePath( ProjectConf_Path::getData().'activated_modules_list.php' );
+SysConf_Jet_Modules::setInstalledModulesListFilePath( ProjectConf_Path::getData().'installed_modules_list.php' );
+
+
 Config::setBeTolerant(true);
+Config::setConfigDirPath( ProjectConf_Path::getConfig() );
 
 Project::setApplicationNamespace('JetApplication');
 
@@ -52,13 +57,3 @@ Factory_Mvc::setBaseClassName( Bases_Base::class );
 Factory_Mvc::setPageClassName( Pages_Page::class );
 Factory_Mvc::setPageContentClassName( Pages_Page_Content::class );
 Factory_Application::setModuleManifestClassName( Modules_Manifest::class );
-
-Config::setConfigDirPath( ProjectConf_Path::getConfig() );
-
-/**
- * @var Application_Modules_Handler_Default $modules_handler
- */
-$modules_handler = Application_Modules::getHandler();
-$modules_handler->setActivatedModulesListFilePath( ProjectConf_Path::getData().'activated_modules_list.php' );
-$modules_handler->setInstalledModulesListFilePath( ProjectConf_Path::getData().'installed_modules_list.php' );
-

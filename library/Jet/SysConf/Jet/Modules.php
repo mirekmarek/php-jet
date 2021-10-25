@@ -21,6 +21,8 @@ class SysConf_Jet_Modules
 	protected static string $pages_dir = 'pages';
 	protected static string $module_root_namespace = 'JetApplicationModule';
 	protected static string $manifest_file_name = 'manifest.php';
+	protected static ?string $installed_modules_list_file_path = null;
+	protected static ?string $activated_modules_list_file_path = null;
 
 	/**
 	 * @return string
@@ -151,5 +153,42 @@ class SysConf_Jet_Modules
 	}
 
 
+	/**
+	 * @return string
+	 */
+	public static function getInstalledModulesListFilePath(): string
+	{
+		if( !static::$installed_modules_list_file_path ) {
+			static::$installed_modules_list_file_path = SysConf_Path::getData() . 'installed_modules_list.php';
+		}
+		return static::$installed_modules_list_file_path;
+	}
 
+	/**
+	 * @param string $installed_modules_list_file_path
+	 */
+	public static function setInstalledModulesListFilePath( string $installed_modules_list_file_path )
+	{
+		static::$installed_modules_list_file_path = $installed_modules_list_file_path;
+	}
+
+	/**
+	 * @return string
+	 */
+	public static function getActivatedModulesListFilePath(): string
+	{
+		if( !static::$activated_modules_list_file_path ) {
+			static::$activated_modules_list_file_path = SysConf_Path::getData() . 'activated_modules_list.php';
+		}
+		return static::$activated_modules_list_file_path;
+	}
+
+	/**
+	 * @param string $activated_modules_list_file_path
+	 */
+	public static function setActivatedModulesListFilePath( string $activated_modules_list_file_path )
+	{
+		static::$activated_modules_list_file_path = $activated_modules_list_file_path;
+	}
+	
 }

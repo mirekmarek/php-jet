@@ -13,28 +13,11 @@ namespace Jet;
  */
 class Application_Modules_Handler_Default extends Application_Modules_Handler
 {
-
-	/**
-	 * @var string
-	 */
-	protected string $module_manifest_file_name = 'manifest.php';
-
-	/**
-	 * @var ?string
-	 */
-	protected ?string $installed_modules_list_file_path = null;
-
-	/**
-	 * @var ?string
-	 */
-	protected ?string $activated_modules_list_file_path = null;
-
 	/**
 	 *
 	 * @var ?array
 	 */
 	protected ?array $activated_modules_list = null;
-
 
 	/**
 	 *
@@ -58,69 +41,6 @@ class Application_Modules_Handler_Default extends Application_Modules_Handler
 	 * @var Application_Module[]
 	 */
 	protected array $module_instance = [];
-
-	/**
-	 *
-	 */
-	public function __construct()
-	{
-
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getModuleManifestFileName(): string
-	{
-		return $this->module_manifest_file_name;
-	}
-
-	/**
-	 * @param string $module_manifest_file_name
-	 */
-	public function setModuleManifestFileName( string $module_manifest_file_name )
-	{
-		$this->module_manifest_file_name = $module_manifest_file_name;
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getInstalledModulesListFilePath(): string
-	{
-		if( !$this->installed_modules_list_file_path ) {
-			$this->installed_modules_list_file_path = SysConf_Path::getData() . 'installed_modules_list.php';
-		}
-		return $this->installed_modules_list_file_path;
-	}
-
-	/**
-	 * @param string $installed_modules_list_file_path
-	 */
-	public function setInstalledModulesListFilePath( string $installed_modules_list_file_path )
-	{
-		$this->installed_modules_list_file_path = $installed_modules_list_file_path;
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getActivatedModulesListFilePath(): string
-	{
-		if( !$this->activated_modules_list_file_path ) {
-			$this->activated_modules_list_file_path = SysConf_Path::getData() . 'activated_modules_list.php';
-		}
-		return $this->activated_modules_list_file_path;
-	}
-
-	/**
-	 * @param string $activated_modules_list_file_path
-	 */
-	public function setActivatedModulesListFilePath( string $activated_modules_list_file_path )
-	{
-		$this->activated_modules_list_file_path = $activated_modules_list_file_path;
-	}
-
 
 	/**
 	 *
@@ -206,7 +126,7 @@ class Application_Modules_Handler_Default extends Application_Modules_Handler
 
 		foreach( $modules as $module_dir ) {
 
-			if( !IO_File::exists( $base_dir . $module_dir . '/' . $this->getModuleManifestFileName() ) ) {
+			if( !IO_File::exists( $base_dir . $module_dir . '/' .SysConf_Jet_Modules::getManifestFileName() ) ) {
 
 				$next_module_name_prefix = ($module_name_prefix)
 					?
@@ -530,8 +450,10 @@ class Application_Modules_Handler_Default extends Application_Modules_Handler
 		if( $this->activated_modules_list === null ) {
 			$this->activated_modules_list = [];
 
-			if( IO_File::exists( $this->getActivatedModulesListFilePath() ) ) {
-				$this->activated_modules_list = require $this->getActivatedModulesListFilePath();
+			$path = SysConf_Jet_Modules::getActivatedModulesListFilePath();
+
+			if( IO_File::exists( $path ) ) {
+				$this->activated_modules_list = require $path;
 			}
 		}
 
@@ -546,8 +468,10 @@ class Application_Modules_Handler_Default extends Application_Modules_Handler
 		if( $this->installed_modules_list === null ) {
 			$this->installed_modules_list = [];
 
-			if( IO_File::exists( $this->getInstalledModulesListFilePath() ) ) {
-				$this->installed_modules_list = require $this->getInstalledModulesListFilePath();
+			$path = SysConf_Jet_Modules::getInstalledModulesListFilePath();
+
+			if( IO_File::exists( $path ) ) {
+				$this->installed_modules_list = require $path;
 			}
 		}
 	}
@@ -559,7 +483,7 @@ class Application_Modules_Handler_Default extends Application_Modules_Handler
 	protected function _saveInstalledModulesList(): void
 	{
 		IO_File::writeDataAsPhp(
-			$this->getInstalledModulesListFilePath(),
+			SysConf_Jet_Modules::getInstalledModulesListFilePath(),
 			$this->installed_modules_list
 		);
 
@@ -572,7 +496,7 @@ class Application_Modules_Handler_Default extends Application_Modules_Handler
 	protected function _saveActivatedModulesList(): void
 	{
 		IO_File::writeDataAsPhp(
-			$this->getActivatedModulesListFilePath(),
+			SysConf_Jet_Modules::getActivatedModulesListFilePath(),
 			$this->activated_modules_list
 		);
 
