@@ -22,10 +22,7 @@ $value = '';
 
 if( $field->getValue() ) {
 	$date = new DateTime( $field->getValue() );
-
-	if( $date ) {
-		$value = $date->format( 'Y-m-d\TH:i' );
-	}
+	$value = $date->format( 'Y-m-d\TH:i' );
 }
 
 ?>

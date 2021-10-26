@@ -8,7 +8,6 @@
 
 namespace JetApplication\Installer;
 
-use Jet\Config;
 use Jet\Http_Request;
 use Jet\Http_Headers;
 use Jet\Factory_Mvc;
@@ -16,7 +15,6 @@ use Jet\Mvc_Layout;
 use Jet\Locale;
 use Jet\Mvc_View;
 use Jet\SysConf_Jet_Translator;
-use Jet\SysConf_Path;
 use Jet\Session;
 use Jet\Translator;
 use Jet\Translator_Backend_PHPFiles;
