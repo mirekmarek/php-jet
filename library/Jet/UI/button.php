@@ -23,11 +23,6 @@ class UI_button extends UI_BaseElement
 	/**
 	 * @var string
 	 */
-	protected static string $default_renderer_script = 'button';
-
-	/**
-	 * @var string
-	 */
 	protected string $type = 'button';
 
 	/**
@@ -63,6 +58,19 @@ class UI_button extends UI_BaseElement
 	{
 		$this->label = $label;
 	}
+
+	/**
+	 * @return string
+	 */
+	public function getViewScript(): string
+	{
+		if( !$this->view_script ) {
+			$this->view_script = SysConf_Jet_UI_DefaultViews::get('button' );
+		}
+
+		return $this->view_script;
+	}
+
 
 	/**
 	 * @param string $label

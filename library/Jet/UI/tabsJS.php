@@ -13,20 +13,6 @@ namespace Jet;
  */
 class UI_tabsJS extends UI_BaseElement
 {
-	/**
-	 * @var string
-	 */
-	protected static string $default_renderer_script = 'tabs-js';
-
-	/**
-	 * @var string
-	 */
-	protected static string $default_content_start_renderer_script = 'tabs-js/content-start';
-
-	/**
-	 * @var string
-	 */
-	protected static string $default_content_end_renderer_script = 'tabs-js/content-end';
 
 	/**
 	 * @var string
@@ -46,44 +32,12 @@ class UI_tabsJS extends UI_BaseElement
 	/**
 	 * @var string
 	 */
-	protected string $content_start_renderer_script = '';
+	protected string $content_start_view_script = '';
 
 	/**
 	 * @var string
 	 */
-	protected string $content_end_renderer_script = '';
-
-	/**
-	 * @return string
-	 */
-	public static function getDefaultContentStartRendererScript(): string
-	{
-		return static::$default_content_start_renderer_script;
-	}
-
-	/**
-	 * @param string $default_content_start_renderer_script
-	 */
-	public static function setDefaultContentStartRendererScript( string $default_content_start_renderer_script ): void
-	{
-		static::$default_content_start_renderer_script = $default_content_start_renderer_script;
-	}
-
-	/**
-	 * @return string
-	 */
-	public static function getDefaultContentEndRendererScript(): string
-	{
-		return static::$default_content_end_renderer_script;
-	}
-
-	/**
-	 * @param string $default_content_end_renderer_script
-	 */
-	public static function setDefaultContentEndRendererScript( string $default_content_end_renderer_script ): void
-	{
-		static::$default_content_end_renderer_script = $default_content_end_renderer_script;
-	}
+	protected string $content_end_view_script = '';
 
 
 	/**
@@ -154,42 +108,54 @@ class UI_tabsJS extends UI_BaseElement
 	/**
 	 * @return string
 	 */
-	public function getContentStartRendererScript(): string
+	public function getViewScript(): string
 	{
-		if( !$this->content_start_renderer_script ) {
-			$this->content_start_renderer_script = static::getDefaultContentStartRendererScript();
+		if( !$this->view_script ) {
+			$this->view_script = SysConf_Jet_UI_DefaultViews::get('tabs-js');
 		}
 
-		return $this->content_start_renderer_script;
+		return $this->view_script;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getContentStartViewScript(): string
+	{
+		if( !$this->content_start_view_script ) {
+			$this->content_start_view_script = SysConf_Jet_UI_DefaultViews::get('tabs-js', 'content_start');
+		}
+
+		return $this->content_start_view_script;
 	}
 
 	/**
 	 * @param string $script
 	 */
-	public function setContentStartRendererScript( string $script ): void
+	public function setContentStartViewScript( string $script ): void
 	{
-		$this->content_start_renderer_script = $script;
+		$this->content_start_view_script = $script;
 	}
 
 
 	/**
 	 * @return string
 	 */
-	public function getContentEndRendererScript(): string
+	public function getContentEndViewScript(): string
 	{
-		if( !$this->content_end_renderer_script ) {
-			$this->content_end_renderer_script = static::getDefaultContentEndRendererScript();
+		if( !$this->content_end_view_script ) {
+			$this->content_end_view_script = SysConf_Jet_UI_DefaultViews::get('tabs-js', 'content_end');
 		}
 
-		return $this->content_end_renderer_script;
+		return $this->content_end_view_script;
 	}
 
 	/**
 	 * @param string $script
 	 */
-	public function setContentEndRendererScript( string $script ): void
+	public function setContentEndViewScript( string $script ): void
 	{
-		$this->content_end_renderer_script = $script;
+		$this->content_end_view_script = $script;
 	}
 
 	/**
@@ -197,7 +163,7 @@ class UI_tabsJS extends UI_BaseElement
 	 */
 	public function contentStart(): string
 	{
-		return $this->getView()->render( $this->getContentStartRendererScript() );
+		return $this->getView()->render( $this->getContentStartViewScript() );
 	}
 
 	/**
@@ -205,7 +171,7 @@ class UI_tabsJS extends UI_BaseElement
 	 */
 	public function contentEnd(): string
 	{
-		return $this->getView()->render( $this->getContentEndRendererScript() );
+		return $this->getView()->render( $this->getContentEndViewScript() );
 	}
 
 }

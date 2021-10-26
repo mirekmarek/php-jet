@@ -14,10 +14,6 @@ namespace Jet;
  */
 class UI_icon extends UI_BaseElement
 {
-	/**
-	 * @var string
-	 */
-	protected static string $default_renderer_script = 'icon';
 
 	/**
 	 * @var string
@@ -56,6 +52,18 @@ class UI_icon extends UI_BaseElement
 	public function __construct( string $icon )
 	{
 		$this->icon = $icon;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getViewScript(): string
+	{
+		if( !$this->view_script ) {
+			$this->view_script = SysConf_Jet_UI_DefaultViews::get('icon');
+		}
+
+		return $this->view_script;
 	}
 
 	/**

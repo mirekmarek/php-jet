@@ -15,8 +15,15 @@ class UI_button_goBack extends UI_button
 {
 
 	/**
-	 * @var string
+	 * @return string
 	 */
-	protected static string $default_renderer_script = 'button/go-back';
+	public function getViewScript(): string
+	{
+		if( !$this->view_script ) {
+			$this->view_script = SysConf_Jet_UI_DefaultViews::get('button/go-back' );
+		}
+
+		return $this->view_script;
+	}
 
 }

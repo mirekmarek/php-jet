@@ -18,11 +18,6 @@ class UI_messages_message extends UI_BaseElement
 	/**
 	 * @var string
 	 */
-	protected static string $default_renderer_script = 'messages/message';
-
-	/**
-	 * @var string
-	 */
 	protected string $class = '';
 
 	/**
@@ -57,6 +52,18 @@ class UI_messages_message extends UI_BaseElement
 		$this->class = $class;
 		$this->message = $message;
 		$this->context = $context;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getViewScript(): string
+	{
+		if( !$this->view_script ) {
+			$this->view_script = SysConf_Jet_UI_DefaultViews::get('messages/message' );
+		}
+
+		return $this->view_script;
 	}
 
 	/**

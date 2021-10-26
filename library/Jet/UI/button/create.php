@@ -13,10 +13,16 @@ namespace Jet;
  */
 class UI_button_create extends UI_button
 {
-
 	/**
-	 * @var string
+	 * @return string
 	 */
-	protected static string $default_renderer_script = 'button/create';
+	public function getViewScript(): string
+	{
+		if( !$this->view_script ) {
+			$this->view_script = SysConf_Jet_UI_DefaultViews::get('button/create' );
+		}
+
+		return $this->view_script;
+	}
 
 }

@@ -13,9 +13,17 @@ namespace Jet;
  */
 class UI_button_edit extends UI_button
 {
+
 	/**
-	 * @var string
+	 * @return string
 	 */
-	protected static string $default_renderer_script = 'button/edit';
+	public function getViewScript(): string
+	{
+		if( !$this->view_script ) {
+			$this->view_script = SysConf_Jet_UI_DefaultViews::get('button/edit' );
+		}
+
+		return $this->view_script;
+	}
 
 }

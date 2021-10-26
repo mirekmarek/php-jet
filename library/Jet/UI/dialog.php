@@ -17,21 +17,6 @@ class UI_dialog extends BaseObject
 	/**
 	 * @var string
 	 */
-	protected static string $default_renderer_script_start = 'dialog/start';
-
-	/**
-	 * @var string
-	 */
-	protected static string $default_renderer_script_footer = 'dialog/footer';
-
-	/**
-	 * @var string
-	 */
-	protected static string $default_renderer_script_end = 'dialog/end';
-
-	/**
-	 * @var string
-	 */
 	protected string $id = '';
 
 	/**
@@ -47,66 +32,18 @@ class UI_dialog extends BaseObject
 	/**
 	 * @var string
 	 */
-	protected string $renderer_script_start = 'dialog/start';
+	protected string $view_script_start = '';
 
 	/**
 	 * @var string
 	 */
-	protected string $renderer_script_footer = 'dialog/footer';
+	protected string $view_script_footer = '';
 
 	/**
 	 * @var string
 	 */
-	protected string $renderer_script_end = 'dialog/end';
+	protected string $view_script_end = '';
 
-
-	/**
-	 * @return string
-	 */
-	public static function getDefaultRendererScriptStart(): string
-	{
-		return static::$default_renderer_script_start;
-	}
-
-	/**
-	 * @param string $default_renderer_script_start
-	 */
-	public static function setDefaultRendererScriptStart( string $default_renderer_script_start ): void
-	{
-		static::$default_renderer_script_start = $default_renderer_script_start;
-	}
-
-	/**
-	 * @return string
-	 */
-	public static function getDefaultRendererScriptFooter(): string
-	{
-		return static::$default_renderer_script_footer;
-	}
-
-	/**
-	 * @param string $default_renderer_script_footer
-	 */
-	public static function setDefaultRendererScriptFooter( string $default_renderer_script_footer ): void
-	{
-		static::$default_renderer_script_footer = $default_renderer_script_footer;
-	}
-
-	/**
-	 * @return string
-	 */
-	public static function getDefaultRendererScriptEnd(): string
-	{
-		return static::$default_renderer_script_end;
-	}
-
-	/**
-	 * @param string $default_renderer_script_end
-	 */
-	public static function setDefaultRendererScriptEnd( string $default_renderer_script_end ): void
-	{
-		static::$default_renderer_script_end = $default_renderer_script_end;
-	}
 
 	/**
 	 *
@@ -124,61 +61,61 @@ class UI_dialog extends BaseObject
 	/**
 	 * @return string
 	 */
-	public function getRendererScriptStart(): string
+	public function getViewScriptStart(): string
 	{
-		if( !$this->renderer_script_start ) {
-			$this->renderer_script_start = static::getDefaultRendererScriptStart();
+		if( !$this->view_script_start ) {
+			$this->view_script_start = SysConf_Jet_UI_DefaultViews::get('dialog', 'start');
 		}
 
-		return $this->renderer_script_start;
+		return $this->view_script_start;
 	}
 
 	/**
-	 * @param string $renderer_script_start
+	 * @param string $view_script_start
 	 */
-	public function setRendererScriptStart( string $renderer_script_start ): void
+	public function setViewScriptStart( string $view_script_start ): void
 	{
-		$this->renderer_script_start = $renderer_script_start;
+		$this->view_script_start = $view_script_start;
 	}
 
 	/**
 	 * @return string
 	 */
-	public function getRendererScriptFooter(): string
+	public function getViewScriptFooter(): string
 	{
-		if( !$this->renderer_script_footer ) {
-			$this->renderer_script_footer = static::getDefaultRendererScriptFooter();
+		if( !$this->view_script_footer ) {
+			$this->view_script_footer = SysConf_Jet_UI_DefaultViews::get('dialog', 'footer');
 		}
 
-		return $this->renderer_script_footer;
+		return $this->view_script_footer;
 	}
 
 	/**
-	 * @param string $renderer_script_footer
+	 * @param string $view_script_footer
 	 */
-	public function setRendererScriptFooter( string $renderer_script_footer ): void
+	public function setViewScriptFooter( string $view_script_footer ): void
 	{
-		$this->renderer_script_footer = $renderer_script_footer;
+		$this->view_script_footer = $view_script_footer;
 	}
 
 	/**
 	 * @return string
 	 */
-	public function getRendererScriptEnd(): string
+	public function getViewScriptEnd(): string
 	{
-		if( !$this->renderer_script_end ) {
-			$this->renderer_script_end = static::getDefaultRendererScriptEnd();
+		if( !$this->view_script_end ) {
+			$this->view_script_end = SysConf_Jet_UI_DefaultViews::get('dialog', 'end');
 		}
 
-		return $this->renderer_script_end;
+		return $this->view_script_end;
 	}
 
 	/**
-	 * @param string $renderer_script_end
+	 * @param string $view_script_end
 	 */
-	public function setRendererScriptEnd( string $renderer_script_end ): void
+	public function setViewScriptEnd( string $view_script_end ): void
 	{
-		$this->renderer_script_end = $renderer_script_end;
+		$this->view_script_end = $view_script_end;
 	}
 
 	/**
@@ -225,7 +162,7 @@ class UI_dialog extends BaseObject
 	 */
 	public function start(): string
 	{
-		return $this->getView()->render( $this->getRendererScriptStart() );
+		return $this->getView()->render( $this->getViewScriptStart() );
 	}
 
 	/**
@@ -233,7 +170,7 @@ class UI_dialog extends BaseObject
 	 */
 	public function footer(): string
 	{
-		return $this->getView()->render( $this->getRendererScriptFooter() );
+		return $this->getView()->render( $this->getViewScriptFooter() );
 	}
 
 	/**
@@ -241,7 +178,7 @@ class UI_dialog extends BaseObject
 	 */
 	public function end(): string
 	{
-		return $this->getView()->render( $this->getRendererScriptEnd() );
+		return $this->getView()->render( $this->getViewScriptEnd() );
 	}
 
 }

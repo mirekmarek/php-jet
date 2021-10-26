@@ -13,26 +13,11 @@ namespace Jet;
  */
 class UI_searchField extends BaseObject
 {
-	/**
-	 * @var string
-	 */
-	protected static string $default_renderer_script = 'search-field';
 
 	/**
 	 * @var string|null
 	 */
-	protected ?string $renderer_script = null;
-
-
-	/**
-	 * @var string
-	 */
-	protected string $search_key = 'search';
-
-	/**
-	 * @var string
-	 */
-	protected static string $default_placeholder = 'Search for...';
+	protected ?string $view_script = null;
 
 	/**
 	 * @var string
@@ -48,37 +33,6 @@ class UI_searchField extends BaseObject
 	 */
 	protected ?string $value = null;
 
-	/**
-	 * @return string
-	 */
-	public static function getDefaultRendererScript(): string
-	{
-		return static::$default_renderer_script;
-	}
-
-	/**
-	 * @param string $default_renderer_script
-	 */
-	public static function setDefaultRendererScript( string $default_renderer_script ): void
-	{
-		static::$default_renderer_script = $default_renderer_script;
-	}
-
-	/**
-	 * @return string
-	 */
-	public static function getDefaultPlaceholder(): string
-	{
-		return static::$default_placeholder;
-	}
-
-	/**
-	 * @param string $default_placeholder
-	 */
-	public static function setDefaultPlaceholder( string $default_placeholder ): void
-	{
-		static::$default_placeholder = $default_placeholder;
-	}
 
 	/**
 	 * @param string $name
@@ -94,21 +48,22 @@ class UI_searchField extends BaseObject
 	/**
 	 * @return string
 	 */
-	public function getRendererScript(): string
+	public function getViewScript(): string
 	{
-		if( !$this->renderer_script ) {
-			$this->renderer_script = static::getDefaultRendererScript();
+		if( !$this->view_script ) {
+			$this->view_script = SysConf_Jet_UI_DefaultViews::get('search-field');
 		}
 
-		return $this->renderer_script;
+		return $this->view_script;
 	}
 
+
 	/**
-	 * @param string $renderer_script
+	 * @param string $view_script
 	 */
-	public function setRendererScript( string $renderer_script ): void
+	public function setViewScript( string $view_script ): void
 	{
-		$this->renderer_script = $renderer_script;
+		$this->view_script = $view_script;
 	}
 
 	/**
@@ -133,7 +88,7 @@ class UI_searchField extends BaseObject
 	public function getPlaceholder(): string
 	{
 		if( !$this->placeholder ) {
-			$this->placeholder = static::getDefaultPlaceholder();
+			$this->placeholder = SysConf_Jet_UI::getSearchDefaultPlaceholder();
 		}
 
 		return UI::_( $this->placeholder );
@@ -185,7 +140,7 @@ class UI_searchField extends BaseObject
 	 */
 	public function toString(): string
 	{
-		return $this->getView()->render( $this->getRendererScript() );
+		return $this->getView()->render( $this->getViewScript() );
 	}
 
 }

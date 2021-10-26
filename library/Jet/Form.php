@@ -65,25 +65,16 @@ class Form extends BaseObject
 	const TYPE_FILE = 'File';
 	const TYPE_FILE_IMAGE = 'FileImage';
 
-	/**
-	 * @var string
-	 */
-	protected static string $default_renderer_start_script = 'start';
 
 	/**
 	 * @var string
 	 */
-	protected static string $default_renderer_end_script = 'end';
+	protected string $start_view_script = '';
 
 	/**
 	 * @var string
 	 */
-	protected string $renderer_start_script = 'start';
-
-	/**
-	 * @var string
-	 */
-	protected string $renderer_end_script = 'end';
+	protected string $end_view_script = '';
 
 	/**
 	 *
@@ -214,72 +205,40 @@ class Form extends BaseObject
 	/**
 	 * @return string
 	 */
-	public static function getDefaultRendererStartScript(): string
+	public function getStartViewScript(): string
 	{
-		return static::$default_renderer_start_script;
-	}
-
-	/**
-	 * @param string $default_renderer_start_script
-	 */
-	public static function setDefaultRendererStartScript( string $default_renderer_start_script ): void
-	{
-		static::$default_renderer_start_script = $default_renderer_start_script;
-	}
-
-	/**
-	 * @return string
-	 */
-	public static function getDefaultRendererEndScript(): string
-	{
-		return static::$default_renderer_end_script;
-	}
-
-	/**
-	 * @param string $default_renderer_end_script
-	 */
-	public static function setDefaultRendererEndScript( string $default_renderer_end_script ): void
-	{
-		static::$default_renderer_end_script = $default_renderer_end_script;
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getRendererStartScript(): string
-	{
-		if( !$this->renderer_start_script ) {
-			$this->renderer_start_script = static::getRendererStartScript();
+		if( !$this->start_view_script ) {
+			$this->start_view_script = SysConf_Jet_Form_DefaultViews::get('Form', 'start');
 		}
-		return $this->renderer_start_script;
+		return $this->start_view_script;
 	}
 
 	/**
-	 * @param string $renderer_start_script
+	 * @param string $start_view_script
 	 */
-	public function setRendererStartScript( string $renderer_start_script ): void
+	public function setStartViewScript( string $start_view_script ): void
 	{
-		$this->renderer_start_script = $renderer_start_script;
+		$this->start_view_script = $start_view_script;
 	}
 
 	/**
 	 * @return string
 	 */
-	public function getRendererEndScript(): string
+	public function getEndViewScript(): string
 	{
-		if( !$this->renderer_end_script ) {
-			$this->renderer_end_script = static::getRendererEndScript();
+		if( !$this->end_view_script ) {
+			$this->end_view_script = SysConf_Jet_Form_DefaultViews::get('Form', 'end');
 		}
 
-		return $this->renderer_end_script;
+		return $this->end_view_script;
 	}
 
 	/**
-	 * @param string $renderer_end_script
+	 * @param string $end_view_script
 	 */
-	public function setRendererEndScript( string $renderer_end_script ): void
+	public function setEndViewScript( string $end_view_script ): void
 	{
-		$this->renderer_end_script = $renderer_end_script;
+		$this->end_view_script = $end_view_script;
 	}
 
 
@@ -938,8 +897,8 @@ class Form extends BaseObject
 
 			$this->_form_tag = Factory_Form::gerRendererPairInstance( $this );
 
-			$this->_form_tag->setViewScriptStart( $this->getRendererStartScript() );
-			$this->_form_tag->setViewScriptEnd( $this->getRendererEndScript() );
+			$this->_form_tag->setViewScriptStart( $this->getStartViewScript() );
+			$this->_form_tag->setViewScriptEnd( $this->getEndViewScript() );
 		}
 
 		return $this->_form_tag;

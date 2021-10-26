@@ -20,47 +20,6 @@ abstract class Form_Field extends BaseObject implements JsonSerializable
 	use Form_Field_Trait_Validation;
 	use Form_Field_Trait_Render;
 
-	/**
-	 * @var string
-	 */
-	protected static string $default_renderer_script = 'field';
-
-	/**
-	 * @var string
-	 */
-	protected static string $default_row_start_renderer_script = 'field/row/start';
-
-	/**
-	 * @var string
-	 */
-	protected static string $default_row_end_renderer_script = 'field/row/end';
-
-	/**
-	 * @var string
-	 */
-	protected static string $default_input_container_start_renderer_script = 'field/input/container/start';
-
-	/**
-	 * @var string
-	 */
-	protected static string $default_input_container_end_renderer_script = 'field/input/container/end';
-
-	/**
-	 * @var string
-	 */
-	protected static string $default_error_renderer = 'field/error';
-
-	/**
-	 * @var string
-	 */
-	protected static string $default_label_renderer = 'field/label';
-
-	/**
-	 * @var string string
-	 */
-	protected static string $default_input_renderer = 'field/input/';
-
-
 	const ERROR_CODE_EMPTY = 'empty';
 	const ERROR_CODE_INVALID_FORMAT = 'invalid_format';
 

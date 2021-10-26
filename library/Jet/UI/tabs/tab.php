@@ -13,10 +13,6 @@ namespace Jet;
  */
 class UI_tabs_tab extends UI_BaseElement
 {
-	/**
-	 * @var string
-	 */
-	protected static string $default_renderer_script = 'tabs/tab';
 
 
 	/**
@@ -52,6 +48,17 @@ class UI_tabs_tab extends UI_BaseElement
 		$this->tab_url_creator = $tab_url_creator;
 	}
 
+	/**
+	 * @return string
+	 */
+	public function getViewScript(): string
+	{
+		if( !$this->view_script ) {
+			$this->view_script = SysConf_Jet_UI_DefaultViews::get('tabs/tab' );
+		}
+
+		return $this->view_script;
+	}
 
 	/**
 	 * @return bool

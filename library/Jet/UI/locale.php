@@ -15,11 +15,6 @@ class UI_locale extends UI_BaseElement
 {
 
 	/**
-	 * @var string
-	 */
-	protected static string $default_renderer_script = 'locale';
-
-	/**
 	 * @var ?Locale
 	 */
 	protected ?Locale $locale = null;
@@ -31,6 +26,18 @@ class UI_locale extends UI_BaseElement
 	public function __construct( Locale $locale )
 	{
 		$this->locale = $locale;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getViewScript(): string
+	{
+		if( !$this->view_script ) {
+			$this->view_script = SysConf_Jet_UI_DefaultViews::get('locale');
+		}
+
+		return $this->view_script;
 	}
 
 	/**

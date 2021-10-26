@@ -23,42 +23,42 @@ trait Form_Field_Trait_Render
 	/**
 	 * @var ?string
 	 */
-	protected ?string $renderer_script = null;
+	protected ?string $view_script = null;
 
 	/**
 	 * @var ?string
 	 */
-	protected ?string $row_start_renderer_script = null;
+	protected ?string $row_start_view_script = null;
 
 	/**
 	 * @var ?string
 	 */
-	protected ?string $row_end_renderer_script = null;
+	protected ?string $row_end_view_script = null;
 
 	/**
 	 * @var ?string
 	 */
-	protected ?string $input_container_start_renderer_script = null;
+	protected ?string $input_container_start_view_script = null;
 
 	/**
 	 * @var ?string
 	 */
-	protected ?string $input_container_end_renderer_script = null;
+	protected ?string $input_container_end_view_script = null;
 
 	/**
 	 * @var ?string
 	 */
-	protected ?string $error_renderer = null;
+	protected ?string $error_view_script = null;
 
 	/**
 	 * @var ?string
 	 */
-	protected ?string $label_renderer = null;
+	protected ?string $label_view_script = null;
 
 	/**
 	 * @var string string
 	 */
-	protected string $input_renderer = '';
+	protected string $input_view_script = '';
 
 
 	/**
@@ -108,17 +108,11 @@ trait Form_Field_Trait_Render
 	 */
 	public function getViewsDir(): string
 	{
-		/**
-		 * @var Form_Field $this
-		 * @var Form $form
-		 */
-
 		if( $this->custom_views_dir ) {
 			return $this->custom_views_dir;
 		}
-		$form = $this->_form;
 
-		return $form->getViewsDir();
+		return $this->_form->getViewsDir();
 	}
 
 	/**
@@ -126,7 +120,6 @@ trait Form_Field_Trait_Render
 	 */
 	public function getView(): Mvc_View
 	{
-
 		return Factory_Mvc::getViewInstance( $this->getViewsDir() );
 	}
 
@@ -134,289 +127,161 @@ trait Form_Field_Trait_Render
 	/**
 	 * @return string
 	 */
-	public static function getDefaultRendererScript(): string
+	public function getViewScript(): string
 	{
-		return static::$default_renderer_script;
-	}
-
-	/**
-	 * @param string $default_renderer_script
-	 */
-	public static function setDefaultRendererScript( string $default_renderer_script ): void
-	{
-		static::$default_renderer_script = $default_renderer_script;
-	}
-
-	/**
-	 * @return string
-	 */
-	public static function getDefaultRowStartRendererScript(): string
-	{
-		return static::$default_row_start_renderer_script;
-	}
-
-	/**
-	 * @param string $default_row_start_renderer_script
-	 */
-	public static function setDefaultRowStartRendererScript( string $default_row_start_renderer_script ): void
-	{
-		static::$default_row_start_renderer_script = $default_row_start_renderer_script;
-	}
-
-	/**
-	 * @return string
-	 */
-	public static function getDefaultRowEndRendererScript(): string
-	{
-		return static::$default_row_end_renderer_script;
-	}
-
-	/**
-	 * @param string $default_row_end_renderer_script
-	 */
-	public static function setDefaultRowEndRendererScript( string $default_row_end_renderer_script ): void
-	{
-		static::$default_row_end_renderer_script = $default_row_end_renderer_script;
-	}
-
-	/**
-	 * @return string
-	 */
-	public static function getDefaultInputContainerStartRendererScript(): string
-	{
-		return static::$default_input_container_start_renderer_script;
-	}
-
-	/**
-	 * @param string $default_input_container_start_renderer_script
-	 */
-	public static function setDefaultInputContainerStartRendererScript( string $default_input_container_start_renderer_script ): void
-	{
-		static::$default_input_container_start_renderer_script = $default_input_container_start_renderer_script;
-	}
-
-	/**
-	 * @return string
-	 */
-	public static function getDefaultInputContainerEndRendererScript(): string
-	{
-		return static::$default_input_container_end_renderer_script;
-	}
-
-	/**
-	 * @param string $default_input_container_end_renderer_script
-	 */
-	public static function setDefaultInputContainerEndRendererScript( string $default_input_container_end_renderer_script ): void
-	{
-		static::$default_input_container_end_renderer_script = $default_input_container_end_renderer_script;
-	}
-
-	/**
-	 * @return string
-	 */
-	public static function getDefaultErrorRenderer(): string
-	{
-		return static::$default_error_renderer;
-	}
-
-	/**
-	 * @param string $default_error_renderer
-	 */
-	public static function setDefaultErrorRenderer( string $default_error_renderer ): void
-	{
-		static::$default_error_renderer = $default_error_renderer;
-	}
-
-	/**
-	 * @return string
-	 */
-	public static function getDefaultLabelRenderer(): string
-	{
-		return static::$default_label_renderer;
-	}
-
-	/**
-	 * @param string $default_label_renderer
-	 */
-	public static function setDefaultLabelRenderer( string $default_label_renderer ): void
-	{
-		static::$default_label_renderer = $default_label_renderer;
-	}
-
-	/**
-	 * @return string
-	 */
-	public static function getDefaultInputRenderer(): string
-	{
-		return static::$default_input_renderer;
-	}
-
-	/**
-	 * @param string $default_input_renderer
-	 */
-	public static function setDefaultInputRenderer( string $default_input_renderer ): void
-	{
-		static::$default_input_renderer = $default_input_renderer;
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getRendererScript(): string
-	{
-		if( !$this->renderer_script ) {
-			$this->renderer_script = static::getDefaultRendererScript();
+		if( !$this->view_script ) {
+			$this->view_script = SysConf_Jet_Form_DefaultViews::get($this->_type, 'field');
 		}
 
-		return $this->renderer_script;
+		return $this->view_script;
 	}
 
 	/**
-	 * @param string $renderer_script
+	 * @param string $view_script
 	 */
-	public function setRendererScript( string $renderer_script ): void
+	public function setViewScript( string $view_script ): void
 	{
-		$this->renderer_script = $renderer_script;
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getRowStartRendererScript(): string
-	{
-		if( !$this->row_start_renderer_script ) {
-			$this->row_start_renderer_script = static::getDefaultRowStartRendererScript();
-		}
-
-		return $this->row_start_renderer_script;
-	}
-
-	/**
-	 * @param string $row_start_renderer_script
-	 */
-	public function setRowStartRendererScript( string $row_start_renderer_script ): void
-	{
-		$this->row_start_renderer_script = $row_start_renderer_script;
+		$this->view_script = $view_script;
 	}
 
 	/**
 	 * @return string
 	 */
-	public function getRowEndRendererScript(): string
+	public function getRowStartViewScript(): string
 	{
-		if( !$this->row_end_renderer_script ) {
-			$this->row_end_renderer_script = static::getDefaultRowEndRendererScript();
+		if( !$this->row_start_view_script ) {
+			$this->row_start_view_script = SysConf_Jet_Form_DefaultViews::get($this->_type, 'row_start');
 		}
 
-		return $this->row_end_renderer_script;
+		return $this->row_start_view_script;
 	}
 
 	/**
-	 * @param string $row_end_renderer_script
+	 * @param string $row_start_view_script
 	 */
-	public function setRowEndRendererScript( string $row_end_renderer_script ): void
+	public function setRowStartViewScript( string $row_start_view_script ): void
 	{
-		$this->row_end_renderer_script = $row_end_renderer_script;
+		$this->row_start_view_script = $row_start_view_script;
 	}
 
 	/**
 	 * @return string
 	 */
-	public function getInputContainerStartRendererScript(): string
+	public function getRowEndViewScript(): string
 	{
-		if( !$this->input_container_start_renderer_script ) {
-			$this->input_container_start_renderer_script = static::getDefaultInputContainerStartRendererScript();
+		if( !$this->row_end_view_script ) {
+			$this->row_end_view_script = SysConf_Jet_Form_DefaultViews::get($this->_type, 'row_end');
 		}
 
-		return $this->input_container_start_renderer_script;
+		return $this->row_end_view_script;
 	}
 
 	/**
-	 * @param string $input_container_start_renderer_script
+	 * @param string $row_end_view_script
 	 */
-	public function setInputContainerStartRendererScript( string $input_container_start_renderer_script ): void
+	public function setRowEndViewScript( string $row_end_view_script ): void
 	{
-		$this->input_container_start_renderer_script = $input_container_start_renderer_script;
+		$this->row_end_view_script = $row_end_view_script;
 	}
 
 	/**
 	 * @return string
 	 */
-	public function getInputContainerEndRendererScript(): string
+	public function getInputContainerStartViewScript(): string
 	{
-		if( !$this->input_container_end_renderer_script ) {
-			$this->input_container_end_renderer_script = static::getDefaultInputContainerEndRendererScript();
+		if( !$this->input_container_start_view_script ) {
+			$this->input_container_start_view_script = SysConf_Jet_Form_DefaultViews::get($this->_type, 'input_container_start');
 		}
 
-		return $this->input_container_end_renderer_script;
+		return $this->input_container_start_view_script;
 	}
 
 	/**
-	 * @param string $input_container_end_renderer_script
+	 * @param string $input_container_start_view_script
 	 */
-	public function setInputContainerEndRendererScript( string $input_container_end_renderer_script ): void
+	public function setInputContainerStartViewScript( string $input_container_start_view_script ): void
 	{
-		$this->input_container_end_renderer_script = $input_container_end_renderer_script;
+		$this->input_container_start_view_script = $input_container_start_view_script;
 	}
 
 	/**
 	 * @return string
 	 */
-	public function getErrorRenderer(): string
+	public function getInputContainerEndViewScript(): string
 	{
-		if( !$this->error_renderer ) {
-			$this->error_renderer = static::getDefaultErrorRenderer();
+		if( !$this->input_container_end_view_script ) {
+			$this->input_container_end_view_script = SysConf_Jet_Form_DefaultViews::get($this->_type, 'input_container_end');
 		}
 
-		return $this->error_renderer;
+		return $this->input_container_end_view_script;
 	}
 
 	/**
-	 * @param string $error_renderer
+	 * @param string $input_container_end_view_script
 	 */
-	public function setErrorRenderer( string $error_renderer ): void
+	public function setInputContainerEndViewScript( string $input_container_end_view_script ): void
 	{
-		$this->error_renderer = $error_renderer;
+		$this->input_container_end_view_script = $input_container_end_view_script;
 	}
 
 	/**
 	 * @return string
 	 */
-	public function getLabelRenderer(): string
+	public function getErrorViewScript(): string
 	{
-		if( !$this->label_renderer ) {
-			$this->label_renderer = static::getDefaultLabelRenderer();
+		if( !$this->error_view_script ) {
+			$this->error_view_script = SysConf_Jet_Form_DefaultViews::get($this->_type, 'error');
 		}
 
-		return $this->label_renderer;
+		return $this->error_view_script;
 	}
 
 	/**
-	 * @param string $label_renderer
+	 * @param string $error_view_script
 	 */
-	public function setLabelRenderer( string $label_renderer ): void
+	public function setErrorViewScript( string $error_view_script ): void
 	{
-		$this->label_renderer = $label_renderer;
+		$this->error_view_script = $error_view_script;
 	}
 
 	/**
 	 * @return string
 	 */
-	public function getInputRenderer(): string
+	public function getLabelViewScript(): string
 	{
-		if( !$this->input_renderer ) {
-			$this->input_renderer = static::getDefaultInputRenderer();
+		if( !$this->label_view_script ) {
+			$this->label_view_script = SysConf_Jet_Form_DefaultViews::get($this->_type, 'label');
 		}
 
-		return $this->input_renderer;
+		return $this->label_view_script;
 	}
 
 	/**
-	 * @param string $input_renderer
+	 * @param string $label_view_script
 	 */
-	public function setInputRenderer( string $input_renderer ): void
+	public function setLabelViewScript( string $label_view_script ): void
 	{
-		$this->input_renderer = $input_renderer;
+		$this->label_view_script = $label_view_script;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getInputViewScript(): string
+	{
+		if( !$this->input_view_script ) {
+			$this->input_view_script = SysConf_Jet_Form_DefaultViews::get($this->_type, 'input');
+		}
+
+		return $this->input_view_script;
+	}
+
+	/**
+	 * @param string $input_view_script
+	 */
+	public function setInputViewScript( string $input_view_script ): void
+	{
+		$this->input_view_script = $input_view_script;
 	}
 
 
@@ -436,7 +301,7 @@ trait Form_Field_Trait_Render
 		$view = $this->getView();
 		$view->setVar( 'field', $this );
 
-		return $view->render( $this->getRendererScript() );
+		return $view->render( $this->getViewScript() );
 	}
 
 	/**
@@ -446,8 +311,8 @@ trait Form_Field_Trait_Render
 	{
 		if( !$this->_tag_row ) {
 			$this->_tag_row = Factory_Form::gerRendererPairInstance( $this->_form, $this );
-			$this->_tag_row->setViewScriptStart( $this->getRowStartRendererScript() );
-			$this->_tag_row->setViewScriptEnd( $this->getRowEndRendererScript() );
+			$this->_tag_row->setViewScriptStart( $this->getRowStartViewScript() );
+			$this->_tag_row->setViewScriptEnd( $this->getRowEndViewScript() );
 		}
 
 		return $this->_tag_row;
@@ -465,8 +330,8 @@ trait Form_Field_Trait_Render
 
 		if( !$this->_tag_container ) {
 			$this->_tag_container = Factory_Form::gerRendererPairInstance( $this->_form, $this );
-			$this->_tag_container->setViewScriptStart( $this->getInputContainerStartRendererScript() );
-			$this->_tag_container->setViewScriptEnd( $this->getInputContainerEndRendererScript() );
+			$this->_tag_container->setViewScriptStart( $this->getInputContainerStartViewScript() );
+			$this->_tag_container->setViewScriptEnd( $this->getInputContainerEndViewScript() );
 
 			/**
 			 * @var Form $form
@@ -488,7 +353,7 @@ trait Form_Field_Trait_Render
 	{
 		if( !$this->_tag_error ) {
 			$this->_tag_error = Factory_Form::gerRendererSingleInstance( $this->_form, $this );
-			$this->_tag_error->setViewScript( $this->getErrorRenderer() );
+			$this->_tag_error->setViewScript( $this->getErrorViewScript() );
 		}
 
 		return $this->_tag_error;
@@ -505,7 +370,7 @@ trait Form_Field_Trait_Render
 
 		if( !$this->_tag_label ) {
 			$this->_tag_label = Factory_Form::gerRendererSingleInstance( $this->_form, $this );
-			$this->_tag_label->setViewScript( $this->getLabelRenderer() );
+			$this->_tag_label->setViewScript( $this->getLabelViewScript() );
 			/**
 			 * @var Form $form
 			 */
@@ -528,7 +393,7 @@ trait Form_Field_Trait_Render
 
 		if( !$this->_tag_input ) {
 			$this->_tag_input = Factory_Form::gerRendererSingleInstance( $this->_form, $this );
-			$this->_tag_input->setViewScript( $this->getInputRenderer() );
+			$this->_tag_input->setViewScript( $this->getInputViewScript() );
 
 			/**
 			 * @var Form $form

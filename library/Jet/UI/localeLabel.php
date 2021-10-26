@@ -13,11 +13,6 @@ namespace Jet;
  */
 class UI_localeLabel extends UI_BaseElement
 {
-	/**
-	 * @var string
-	 */
-	protected static string $default_renderer_script = 'locale-label';
-
 
 	/**
 	 * @var ?Locale
@@ -31,6 +26,18 @@ class UI_localeLabel extends UI_BaseElement
 	public function __construct( Locale $locale )
 	{
 		$this->locale = $locale;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getViewScript(): string
+	{
+		if( !$this->view_script ) {
+			$this->view_script = SysConf_Jet_UI_DefaultViews::get('locale-label');
+		}
+
+		return $this->view_script;
 	}
 
 	/**

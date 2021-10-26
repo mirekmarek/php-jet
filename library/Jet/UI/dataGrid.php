@@ -13,25 +13,6 @@ namespace Jet;
  */
 class UI_dataGrid extends BaseObject
 {
-
-	/**
-	 * @var string
-	 */
-	protected static string $default_renderer_script = 'data-grid';
-	/**
-	 * @var string
-	 */
-	protected static string $default_renderer_script_header = 'data-grid/header';
-	/**
-	 * @var string
-	 */
-	protected static string $default_renderer_script_body = 'data-grid/body';
-	/**
-	 * @var string
-	 */
-	protected static string $default_renderer_script_paginator = 'data-grid/paginator';
-
-
 	/**
 	 * @var UI_dataGrid_column[]
 	 */
@@ -56,19 +37,19 @@ class UI_dataGrid extends BaseObject
 	/**
 	 * @var string
 	 */
-	protected string $renderer_script = '';
+	protected string $view_script = '';
 	/**
 	 * @var string
 	 */
-	protected string $renderer_script_header = '';
+	protected string $view_script_header = '';
 	/**
 	 * @var string
 	 */
-	protected string $renderer_script_body = '';
+	protected string $view_script_body = '';
 	/**
 	 * @var string
 	 */
-	protected string $renderer_script_paginator = '';
+	protected string $view_script_paginator = '';
 
 	/**
 	 * @var callable
@@ -85,70 +66,6 @@ class UI_dataGrid extends BaseObject
 	 */
 	protected string $custom_footer = '';
 
-
-	/**
-	 * @return string
-	 */
-	public static function getDefaultRendererScript(): string
-	{
-		return static::$default_renderer_script;
-	}
-
-	/**
-	 * @param string $default_renderer_script
-	 */
-	public static function setDefaultRendererScript( string $default_renderer_script ): void
-	{
-		static::$default_renderer_script = $default_renderer_script;
-	}
-
-	/**
-	 * @return string
-	 */
-	public static function getDefaultRendererScriptHeader(): string
-	{
-		return static::$default_renderer_script_header;
-	}
-
-	/**
-	 * @param string $default_renderer_script_header
-	 */
-	public static function setDefaultRendererScriptHeader( string $default_renderer_script_header ): void
-	{
-		static::$default_renderer_script_header = $default_renderer_script_header;
-	}
-
-	/**
-	 * @return string
-	 */
-	public static function getDefaultRendererScriptBody(): string
-	{
-		return static::$default_renderer_script_body;
-	}
-
-	/**
-	 * @param string $default_renderer_script_body
-	 */
-	public static function setDefaultRendererScriptBody( string $default_renderer_script_body ): void
-	{
-		static::$default_renderer_script_body = $default_renderer_script_body;
-	}
-
-	/**
-	 * @return string
-	 */
-	public static function getDefaultRendererScriptPaginator(): string
-	{
-		return static::$default_renderer_script_paginator;
-	}
-
-	/**
-	 * @param string $default_renderer_script_paginator
-	 */
-	public static function setDefaultRendererScriptPaginator( string $default_renderer_script_paginator ): void
-	{
-		static::$default_renderer_script_paginator = $default_renderer_script_paginator;
-	}
 
 	/**
 	 * @param string $name
@@ -329,26 +246,27 @@ class UI_dataGrid extends BaseObject
 		return $view;
 	}
 
+
 	/**
 	 * @return string
 	 */
-	public function getRendererScript(): string
+	public function getViewScript(): string
 	{
-		if( !$this->renderer_script ) {
-			$this->renderer_script = static::getDefaultRendererScript();
+		if( !$this->view_script ) {
+			$this->view_script = SysConf_Jet_UI_DefaultViews::get('data-grid');
 		}
 
-		return $this->renderer_script;
+		return $this->view_script;
 	}
 
 	/**
-	 * @param string $renderer_script
+	 * @param string $view_script
 	 *
 	 * @return $this
 	 */
-	public function setRendererScript( string $renderer_script ): static
+	public function setViewScript( string $view_script ): static
 	{
-		$this->renderer_script = $renderer_script;
+		$this->view_script = $view_script;
 
 		return $this;
 	}
@@ -356,23 +274,23 @@ class UI_dataGrid extends BaseObject
 	/**
 	 * @return string
 	 */
-	public function getRendererScriptHeader(): string
+	public function getViewScriptHeader(): string
 	{
-		if( !$this->renderer_script_header ) {
-			$this->renderer_script_header = static::getDefaultRendererScriptHeader();
+		if( !$this->view_script_header ) {
+			$this->view_script_header = SysConf_Jet_UI_DefaultViews::get('data-grid', 'header');
 		}
 
-		return $this->renderer_script_header;
+		return $this->view_script_header;
 	}
 
 	/**
-	 * @param string $renderer_script_header
+	 * @param string $view_script_header
 	 *
 	 * @return $this
 	 */
-	public function setRendererScriptHeader( string $renderer_script_header ): static
+	public function setViewScriptHeader( string $view_script_header ): static
 	{
-		$this->renderer_script_header = $renderer_script_header;
+		$this->view_script_header = $view_script_header;
 
 		return $this;
 	}
@@ -380,23 +298,23 @@ class UI_dataGrid extends BaseObject
 	/**
 	 * @return string
 	 */
-	public function getRendererScriptBody(): string
+	public function getViewScriptBody(): string
 	{
-		if( !$this->renderer_script_body ) {
-			$this->renderer_script_body = static::getDefaultRendererScriptBody();
+		if( !$this->view_script_body ) {
+			$this->view_script_body = SysConf_Jet_UI_DefaultViews::get('data-grid', 'body');
 		}
 
-		return $this->renderer_script_body;
+		return $this->view_script_body;
 	}
 
 	/**
-	 * @param string $renderer_script_body
+	 * @param string $view_script_body
 	 *
 	 * @return $this
 	 */
-	public function setRendererScriptBody( string $renderer_script_body ): static
+	public function setViewScriptBody( string $view_script_body ): static
 	{
-		$this->renderer_script_body = $renderer_script_body;
+		$this->view_script_body = $view_script_body;
 
 		return $this;
 	}
@@ -404,23 +322,23 @@ class UI_dataGrid extends BaseObject
 	/**
 	 * @return string
 	 */
-	public function getRendererScriptPaginator(): string
+	public function getViewScriptPaginator(): string
 	{
-		if( !$this->renderer_script_paginator ) {
-			$this->renderer_script_paginator = static::getDefaultRendererScriptPaginator();
+		if( !$this->view_script_paginator ) {
+			$this->view_script_paginator = SysConf_Jet_UI_DefaultViews::get('data-grid', 'paginator');
 		}
 
-		return $this->renderer_script_paginator;
+		return $this->view_script_paginator;
 	}
 
 	/**
-	 * @param string $renderer_script_paginator
+	 * @param string $view_script_paginator
 	 *
 	 * @return $this
 	 */
-	public function setRendererScriptPaginator( string $renderer_script_paginator ): static
+	public function setViewScriptPaginator( string $view_script_paginator ): static
 	{
-		$this->renderer_script_paginator = $renderer_script_paginator;
+		$this->view_script_paginator = $view_script_paginator;
 
 		return $this;
 	}
@@ -471,7 +389,7 @@ class UI_dataGrid extends BaseObject
 	 */
 	public function render(): string
 	{
-		return $this->getView()->render( $this->getRendererScript() );
+		return $this->getView()->render( $this->getViewScript() );
 	}
 
 	/**
@@ -480,7 +398,7 @@ class UI_dataGrid extends BaseObject
 	 */
 	public function renderHeader(): string
 	{
-		return $this->getView()->render( $this->getRendererScriptHeader() );
+		return $this->getView()->render( $this->getViewScriptHeader() );
 	}
 
 	/**
@@ -489,7 +407,7 @@ class UI_dataGrid extends BaseObject
 	 */
 	public function renderBody(): string
 	{
-		return $this->getView()->render( $this->getRendererScriptBody() );
+		return $this->getView()->render( $this->getViewScriptBody() );
 	}
 
 	/**
@@ -502,7 +420,7 @@ class UI_dataGrid extends BaseObject
 			return '';
 		}
 
-		return $this->getView()->render( $this->getRendererScriptPaginator() );
+		return $this->getView()->render( $this->getViewScriptPaginator() );
 	}
 
 }

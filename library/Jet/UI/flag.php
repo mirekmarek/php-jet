@@ -15,11 +15,6 @@ class UI_flag extends UI_BaseElement
 {
 
 	/**
-	 * @var string
-	 */
-	protected static string $default_renderer_script = 'flag';
-
-	/**
 	 * @var ?Locale
 	 */
 	protected ?Locale $locale = null;
@@ -32,6 +27,20 @@ class UI_flag extends UI_BaseElement
 	{
 		$this->locale = $locale;
 	}
+
+
+	/**
+	 * @return string
+	 */
+	public function getViewScript(): string
+	{
+		if( !$this->view_script ) {
+			$this->view_script = SysConf_Jet_UI_DefaultViews::get('flag');
+		}
+
+		return $this->view_script;
+	}
+
 
 	/**
 	 * @return Locale

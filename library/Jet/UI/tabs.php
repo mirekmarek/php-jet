@@ -13,10 +13,6 @@ namespace Jet;
  */
 class UI_tabs extends UI_BaseElement
 {
-	/**
-	 * @var string
-	 */
-	protected static string $default_renderer_script = 'tabs';
 
 	/**
 	 * @var UI_tabs_tab[]
@@ -53,6 +49,18 @@ class UI_tabs extends UI_BaseElement
 			$tab->setIsSelected( $id == $this->selected_tab_id );
 		}
 
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getViewScript(): string
+	{
+		if( !$this->view_script ) {
+			$this->view_script = SysConf_Jet_UI_DefaultViews::get('tabs');
+		}
+
+		return $this->view_script;
 	}
 
 

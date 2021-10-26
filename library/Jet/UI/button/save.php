@@ -20,8 +20,15 @@ class UI_button_save extends UI_button
 	protected string $type = 'submit';
 
 	/**
-	 * @var string
+	 * @return string
 	 */
-	protected static string $default_renderer_script = 'button/save';
+	public function getViewScript(): string
+	{
+		if( !$this->view_script ) {
+			$this->view_script = SysConf_Jet_UI_DefaultViews::get('button/save' );
+		}
+
+		return $this->view_script;
+	}
 
 }

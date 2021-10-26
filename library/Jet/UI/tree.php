@@ -14,15 +14,11 @@ namespace Jet;
  */
 class UI_tree extends BaseObject
 {
-	/**
-	 * @var string
-	 */
-	protected static string $default_renderer_script = 'tree';
 
 	/**
 	 * @var ?string
 	 */
-	protected ?string $renderer_script = null;
+	protected ?string $view_script = null;
 
 	/**
 	 * @var ?Data_Tree
@@ -59,40 +55,27 @@ class UI_tree extends BaseObject
 	 */
 	protected $renderer_normal;
 
-	/**
-	 * @return string
-	 */
-	public static function getDefaultRendererScript(): string
-	{
-		return static::$default_renderer_script;
-	}
 
-	/**
-	 * @param string $default_renderer_script
-	 */
-	public static function setDefaultRendererScript( string $default_renderer_script ): void
-	{
-		static::$default_renderer_script = $default_renderer_script;
-	}
 
 	/**
 	 * @return string
 	 */
-	public function getRendererScript(): string
+	public function getViewScript(): string
 	{
-		if( !$this->renderer_script ) {
-			$this->renderer_script = static::getDefaultRendererScript();
+		if( !$this->view_script ) {
+			$this->view_script = SysConf_Jet_UI_DefaultViews::get('tree');
 		}
 
-		return $this->renderer_script;
+		return $this->view_script;
 	}
 
+
 	/**
-	 * @param string $renderer_script
+	 * @param string $view_script
 	 */
-	public function setRendererScript( string $renderer_script ): void
+	public function setViewScript( string $view_script ): void
 	{
-		$this->renderer_script = $renderer_script;
+		$this->view_script = $view_script;
 	}
 
 	/**
@@ -344,7 +327,7 @@ class UI_tree extends BaseObject
 	 */
 	public function render(): string
 	{
-		return $this->getView()->render( $this->getRendererScript() );
+		return $this->getView()->render( $this->getViewScript() );
 	}
 
 }
