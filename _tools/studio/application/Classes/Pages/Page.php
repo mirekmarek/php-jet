@@ -32,8 +32,8 @@ class Pages_Page extends Mvc_Page
 {
 	const MAX_META_TAGS_COUNT = 100;
 	const MAX_HTTP_HEADERS_COUNT = 100;
-	const MAX_PARAMS_COUNT = 100;
-	const PARAMS_COUNT = 3;
+
+	const PARAMS_COUNT = 5;
 
 	/**
 	 * @var bool

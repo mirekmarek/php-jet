@@ -39,7 +39,8 @@ return [
 	'Base URL:' => 'Základní URL:',
 	'Base <strong>%key%</strong> has been created' => 'Báze <strong>%key%</strong> byla vytvořena',
 	'There are some problems ... Please check the form.' => 'Něco je špatně ... Prosím překontrolujte formulář.',
-	'Base with the identifier already exists' => '',
-	'URL conflicts with locale <b>%locale%</b>' => '',
-	'Locale is not active' => '',
+	'Base with the identifier already exists' => 'Báze se stejným id již existuje',
+	'URL conflicts with locale <b>%locale%</b>' => 'URL koliduje s lokalizací <b>%locale%</b>',
+	'Locale is not active' => 'Lokalizace není aktuální',
+	'Parameters:' => 'Parametry:',
 ];

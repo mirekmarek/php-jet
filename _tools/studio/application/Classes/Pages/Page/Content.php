@@ -26,7 +26,7 @@ class Pages_Page_Content extends Mvc_Page_Content
 	const CONTENT_KIND_CLASS = 'class';
 	const CONTENT_KIND_STATIC = 'static';
 	const CONTENT_KIND_CALLBACK = 'callback';
-	const PARAMS_COUNT = 3;
+	const PARAMS_COUNT = 5;
 
 	/**
 	 * @var ?Form

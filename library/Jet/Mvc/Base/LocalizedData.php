@@ -58,6 +58,11 @@ class Mvc_Base_LocalizedData extends BaseObject implements Mvc_Base_LocalizedDat
 	 * @var Mvc_Base_LocalizedData_MetaTag[]
 	 */
 	protected array $default_meta_tags = [];
+	/**
+	 *
+	 * @var array
+	 */
+	protected array $parameters = [];
 
 	/**
 	 * @param Mvc_Base_Interface $base
@@ -263,6 +268,57 @@ class Mvc_Base_LocalizedData extends BaseObject implements Mvc_Base_LocalizedDat
 	{
 		unset( $this->default_meta_tags[$index] );
 	}
+
+	/**
+	 * @return array
+	 */
+	public function getParameters(): array
+	{
+		return $this->parameters;
+	}
+
+	/**
+	 * @param array $parameters
+	 */
+	public function setParameters( array $parameters ): void
+	{
+		$this->parameters = $parameters;
+	}
+
+	/**
+	 * @param string $key
+	 * @param mixed $default_value
+	 *
+	 * @return mixed
+	 */
+	public function getParameter( string $key, mixed $default_value = null ): mixed
+	{
+		if( !array_key_exists( $key, $this->parameters ) ) {
+			return $default_value;
+		}
+
+		return $this->parameters[$key];
+	}
+
+	/**
+	 * @param string $key
+	 * @param mixed $value
+	 */
+	public function setParameter( string $key, mixed $value ): void
+	{
+		$this->parameters[$key] = $value;
+	}
+
+	/**
+	 * @param string $key
+	 *
+	 * @return bool
+	 */
+	public function parameterExists( string $key ): bool
+	{
+		return array_key_exists( $key, $this->parameters );
+	}
+
 
 	/**
 	 * @return array

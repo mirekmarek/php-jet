@@ -120,6 +120,36 @@ interface Mvc_Base_LocalizedData_Interface
 	/**
 	 * @return array
 	 */
+	public function getParameters(): array;
+
+	/**
+	 * @param array $parameters
+	 */
+	public function setParameters( array $parameters ): void;
+
+	/**
+	 * @param string $key
+	 * @param mixed $default_value
+	 *
+	 * @return mixed
+	 */
+	public function getParameter( string $key, mixed $default_value = null ): mixed;
+
+	/**
+	 * @param string $key
+	 * @param mixed $value
+	 */
+	public function setParameter( string $key, mixed $value ): void;
+	/**
+	 * @param string $key
+	 *
+	 * @return bool
+	 */
+	public function parameterExists( string $key ): bool;
+
+	/**
+	 * @return array
+	 */
 	public function toArray(): array;
 
 }

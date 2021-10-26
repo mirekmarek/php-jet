@@ -29,6 +29,7 @@ use Jet\IO_File;
  */
 class Bases_Base extends Mvc_Base
 {
+	const PARAMS_COUNT = 5;
 
 	/**
 	 * @var ?Form
@@ -255,6 +256,31 @@ class Bases_Base extends Mvc_Base
 					$m++;
 				}
 
+
+				$i = 0;
+				foreach( $ld->getParameters() as $key => $val ) {
+
+					$param_key = new Form_Field_Input( '/'.$locale.'/params/' . $i . '/key', '', $key );
+					$fields[] = $param_key;
+
+					$param_value = new Form_Field_Input( '/'.$locale.'/params/' . $i . '/value', '', $val );
+					$fields[] = $param_value;
+
+					$i++;
+				}
+
+				for( $c = 0; $c < static::PARAMS_COUNT; $c++ ) {
+
+					$param_key = new Form_Field_Input( '/'.$locale.'/params/' . $i . '/key', '', '' );
+					$fields[] = $param_key;
+
+					$param_value = new Form_Field_Input( '/'.$locale.'/params/' . $i . '/value', '', '' );
+					$fields[] = $param_value;
+
+					$i++;
+				}
+
+
 			}
 
 			$form = new Form(
@@ -405,6 +431,24 @@ class Bases_Base extends Mvc_Base
 
 
 				$ld->setDefaultMetaTags( $meta_tags );
+
+				$params = [];
+				foreach( $ld_data['params'] as $param ) {
+					$key = $param['key'];
+					$value = $param['value'];
+
+					if(
+						!$key && !$value
+					) {
+						continue;
+					}
+
+					$params[$key] = $value;
+				}
+
+
+				$ld->setParameters( $params );
+
 			}
 
 			return true;
