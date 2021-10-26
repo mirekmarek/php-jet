@@ -13,10 +13,6 @@ namespace Jet;
  */
 class Navigation_MenuSet extends BaseObject
 {
-	/**
-	 * @var string|null
-	 */
-	protected static string|null $menus_dir_path = null;
 
 	/**
 	 * @var string
@@ -51,28 +47,6 @@ class Navigation_MenuSet extends BaseObject
 
 
 	/**
-	 * @return string
-	 */
-	public static function getMenusDirPath(): string
-	{
-		if( !static::$menus_dir_path ) {
-			static::$menus_dir_path = SysConf_Path::getMenus();
-		}
-
-		return static::$menus_dir_path;
-	}
-
-	/**
-	 * @param string $menus_path
-	 */
-	public static function setMenusDirPath( string $menus_path ): void
-	{
-		static::$menus_dir_path = $menus_path;
-	}
-
-
-
-	/**
 	 * @param string $name
 	 * @param string|null|bool $translator_namespace
 	 *
@@ -92,7 +66,7 @@ class Navigation_MenuSet extends BaseObject
 	 */
 	public static function getList(): iterable
 	{
-		$files = IO_Dir::getList( static::getMenusDirPath(), '*.php', false );
+		$files = IO_Dir::getList( SysConf_Path::getMenus(), '*.php', false );
 
 		foreach( $files as $path => $name ) {
 			$name = pathinfo( $name )['filename'];
@@ -120,7 +94,7 @@ class Navigation_MenuSet extends BaseObject
 	public function setName( string $name ): void
 	{
 		$this->name = $name;
-		$this->config_file_path = static::getMenusDirPath() . $name . '.php';
+		$this->config_file_path = SysConf_Path::getMenus() . $name . '.php';
 	}
 
 	/**
