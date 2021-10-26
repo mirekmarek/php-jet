@@ -53,12 +53,6 @@ abstract class Config extends BaseObject
 
 
 	/**
-	 *
-	 * @var string|null
-	 */
-	protected static string|null $config_dir_path = null;
-
-	/**
 	 * @var bool
 	 */
 	protected static bool $be_tolerant = false;
@@ -85,26 +79,6 @@ abstract class Config extends BaseObject
 	 */
 	private array|null $properties_definition = null;
 
-
-	/**
-	 * @return string
-	 */
-	public static function getConfigDirPath(): string
-	{
-		if( !static::$config_dir_path ) {
-			static::$config_dir_path = SysConf_Path::getConfig();
-		}
-
-		return static::$config_dir_path;
-	}
-
-	/**
-	 * @param string $path
-	 */
-	public static function setConfigDirPath( string $path ): void
-	{
-		static::$config_dir_path = $path;
-	}
 
 	/**
 	 * @return bool
@@ -342,7 +316,7 @@ abstract class Config extends BaseObject
 	public function getConfigFilePath(): string
 	{
 		if( !$this->_config_file_path ) {
-			$this->_config_file_path = static::getConfigDirPath() . $this->getDefinition()->getName() . '.php';
+			$this->_config_file_path = SysConf_Path::getConfig() . $this->getDefinition()->getName() . '.php';
 		}
 
 		return $this->_config_file_path;

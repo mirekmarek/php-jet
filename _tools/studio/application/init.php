@@ -16,6 +16,7 @@ use Jet\SysConf_Jet_Form;
 use Jet\SysConf_Jet_Http;
 use Jet\SysConf_Jet_Modules;
 use Jet\SysConf_Jet_UI;
+use Jet\SysConf_Path;
 use Jet\Translator;
 use Jet\Factory_Mvc;
 
@@ -47,7 +48,7 @@ SysConf_Jet_Modules::setInstalledModulesListFilePath( ProjectConf_Path::getData(
 
 
 Config::setBeTolerant(true);
-Config::setConfigDirPath( ProjectConf_Path::getConfig() );
+SysConf_Path::setConfig( ProjectConf_Path::getConfig() );
 
 Project::setApplicationNamespace('JetApplication');
 
