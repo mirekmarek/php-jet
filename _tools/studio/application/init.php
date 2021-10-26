@@ -37,11 +37,11 @@ Http_Request::initialize( SysConf_Jet_Http::getHideRequest() );
 Locale::setCurrentLocale( Application::getCurrentLocale() );
 Translator::setCurrentLocale( Application::getCurrentLocale() );
 
-AccessControl::handle();
-
-
 SysConf_Jet_UI::setViewsDir( __DIR__.'/views/ui/' );
 SysConf_Jet_Form::setDefaultViewsDir( __DIR__.'/views/form/' );
+
+AccessControl::handle();
+
 SysConf_Jet_Modules::setActivatedModulesListFilePath( ProjectConf_Path::getData().'activated_modules_list.php' );
 SysConf_Jet_Modules::setInstalledModulesListFilePath( ProjectConf_Path::getData().'installed_modules_list.php' );
 

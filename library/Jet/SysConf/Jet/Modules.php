@@ -17,7 +17,7 @@ class SysConf_Jet_Modules
 	protected static string $install_script = 'install.php';
 	protected static string $uninstall_script = 'uninstall.php';
 	protected static string $views_dir = 'views';
-	protected static string $module_menu_items_dir = 'menuItems';
+	protected static string $module_menu_items_dir = 'menu-items';
 	protected static string $pages_dir = 'pages';
 	protected static string $module_root_namespace = 'JetApplicationModule';
 	protected static string $manifest_file_name = 'manifest.php';
