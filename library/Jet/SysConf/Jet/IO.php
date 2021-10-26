@@ -15,7 +15,7 @@ class SysConf_Jet_IO
 {
 	protected static int $dir_mod = 0777;
 	protected static int $file_mod = 0666;
-	protected static ?array $extensions_mimes_map = null;
+	protected static array $extensions_mimes_map = [];
 
 	/**
 	 * @return int
