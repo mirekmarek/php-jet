@@ -7,6 +7,7 @@ require_once SysConf_Path::getLibrary().'Jet/SysConf/URI.php';
 $base_URI = '/';
 
 //- It is better to hardcode value for the production system
+// Set $base_URI (if necessary) and remove code below:
 $request_URI = $_SERVER['REQUEST_URI'] ?? '/';
 if( ($pos=strpos($request_URI, '?'))!==false ) {
 	$request_URI = substr($request_URI, 0, $pos-1);

@@ -70,7 +70,7 @@ class Http_Request extends BaseObject
 	 * @param bool $hide_PHP_request_data
 	 *
 	 */
-	public static function initialize( bool $hide_PHP_request_data = false ): void
+	public static function initialize( ?bool $hide_PHP_request_data = null ): void
 	{
 
 		if( static::$is_initialized ) {
@@ -88,6 +88,10 @@ class Http_Request extends BaseObject
 			empty( $_POST ) ) {
 
 			static::$post_max_size_exceeded = true;
+		}
+
+		if($hide_PHP_request_data===null) {
+			$hide_PHP_request_data = SysConf_Jet_Http::getHideRequest();
 		}
 
 		if( $hide_PHP_request_data ) {

@@ -6,10 +6,16 @@
  * @author Miroslav Marek <mirek.marek@web-jet.cz>
  */
 
-namespace Jet;
+namespace JetApplication;
 
 //Debug_Profiler::blockStart('INIT - ClassNames');
 
-//Application_Factory::setModuleManifestClassName( 'JetApplication\Application_Module_Manifest' );
+/**
+ * Example:
+ *
+ * use Jet\Factory_Application;
+ *
+ * Factory_Application::setModuleManifestClassName( Application_Module_Manifest::class );
+ */
 
 //Debug_Profiler::blockEnd('INIT - ClassNames');

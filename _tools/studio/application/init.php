@@ -13,7 +13,6 @@ use Jet\Factory_DataModel;
 use Jet\Http_Request;
 use Jet\Locale;
 use Jet\SysConf_Jet_Form;
-use Jet\SysConf_Jet_Http;
 use Jet\SysConf_Jet_Modules;
 use Jet\SysConf_Jet_UI;
 use Jet\SysConf_Path;
@@ -33,7 +32,7 @@ require __DIR__.'/Init/Autoloader.php';
 
 
 
-Http_Request::initialize( SysConf_Jet_Http::getHideRequest() );
+Http_Request::initialize();
 
 Locale::setCurrentLocale( Application::getCurrentLocale() );
 Translator::setCurrentLocale( Application::getCurrentLocale() );
