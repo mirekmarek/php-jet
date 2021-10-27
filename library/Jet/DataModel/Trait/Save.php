@@ -134,6 +134,9 @@ trait DataModel_Trait_Save
 
 		foreach( $definition->getProperties() as $property_name => $property_definition ) {
 
+			/**
+			 * @var object $prop
+			 */
 			$prop = $this->{$property_name};
 
 			if(
