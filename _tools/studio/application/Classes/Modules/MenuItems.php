@@ -42,7 +42,7 @@ class Modules_MenuItems extends BaseObject
 	 */
 	protected function read(): void
 	{
-		$dir = $this->module_manifest->getModuleDir().SysConf_Jet_Modules::getModuleMenuItemsDir().'/';
+		$dir = $this->module_manifest->getModuleDir().SysConf_Jet_Modules::getMenuItemsDir().'/';
 		if(!IO_Dir::isReadable($dir)) {
 			return;
 		}
@@ -70,7 +70,7 @@ class Modules_MenuItems extends BaseObject
 
 	public function save() : void
 	{
-		$dir = $this->module_manifest->getModuleDir().SysConf_Jet_Modules::getModuleMenuItemsDir().'/';
+		$dir = $this->module_manifest->getModuleDir().SysConf_Jet_Modules::getMenuItemsDir().'/';
 
 		foreach($this->menu_items as $menu_set=>$menus) {
 			$file = $dir.$menu_set.'.php';

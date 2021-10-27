@@ -20,7 +20,7 @@ $f = $this->getRaw( 'element' );
 		</button>
 	</div>
 
-	<input type="text" class="form-control" placeholder="<?= $f->getPlaceholder() ?>" name="<?= $f->getName() ?>"
+	<input type="text" class="form-control" placeholder="<?=$f->getPlaceholder()?:UI::_('Search for...')?>" name="<?= $f->getName() ?>"
 	       value="<?= $f->getValue() ?>">
 
 	<div class="input-group-append">

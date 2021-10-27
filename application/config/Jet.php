@@ -4,24 +4,27 @@ use Jet\SysConf_Jet_Debug;
 use Jet\SysConf_Jet_Mvc;
 use Jet\SysConf_Jet_Translator;
 use Jet\SysConf_Jet_Http;
+use Jet\SysConf_Jet_Mailing;
 use Jet\SysConf_Jet_Autoloader;
 use Jet\SysConf_Jet_PackageCreator_CSS;
 use Jet\SysConf_Jet_PackageCreator_JavaScript;
 
 
 
-require_once SysConf_Path::getLibrary() . 'Jet/SysConf/Jet.php';
+require_once SysConf_Path::getLibrary() . 'Jet/SysConf/Jet/Main.php';
 require_once SysConf_Path::getLibrary() . 'Jet/SysConf/Jet/Debug.php';
 require_once SysConf_Path::getLibrary() . 'Jet/SysConf/Jet/Mvc.php';
 require_once SysConf_Path::getLibrary() . 'Jet/SysConf/Jet/Translator.php';
 require_once SysConf_Path::getLibrary() . 'Jet/SysConf/Jet/Http.php';
 require_once SysConf_Path::getLibrary() . 'Jet/SysConf/Jet/Autoloader.php';
+require_once SysConf_Path::getLibrary() . 'Jet/SysConf/Jet/Mailing.php';
 require_once SysConf_Path::getLibrary() . 'Jet/SysConf/Jet/PackageCreator/CSS.php';
 require_once SysConf_Path::getLibrary() . 'Jet/SysConf/Jet/PackageCreator/JavaScript.php';
 
 //SysConf_Jet::setTIMEZONE( 'Europe/Prague' );
 SysConf_Jet_Http::setHideRequest( true );
 
+SysConf_Jet_Mailing::setTemplatesDir( SysConf_Path::getApplication().'email-templates/' );
 
 SysConf_Jet_Debug::setDevelMode( true );
 

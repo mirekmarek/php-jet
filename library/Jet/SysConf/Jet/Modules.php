@@ -17,7 +17,7 @@ class SysConf_Jet_Modules
 	protected static string $install_script = 'install.php';
 	protected static string $uninstall_script = 'uninstall.php';
 	protected static string $views_dir = 'views';
-	protected static string $module_menu_items_dir = 'menu-items';
+	protected static string $menu_items_dir = 'menu-items';
 	protected static string $pages_dir = 'pages';
 	protected static string $module_root_namespace = 'JetApplicationModule';
 	protected static string $manifest_file_name = 'manifest.php';
@@ -91,17 +91,17 @@ class SysConf_Jet_Modules
 	/**
 	 * @return string
 	 */
-	public static function getModuleMenuItemsDir(): string
+	public static function getMenuItemsDir(): string
 	{
-		return static::$module_menu_items_dir;
+		return static::$menu_items_dir;
 	}
 
 	/**
-	 * @param string $module_menu_items_dir
+	 * @param string $menu_items_dir
 	 */
-	public static function setModuleMenuItemsDir( string $module_menu_items_dir ): void
+	public static function setMenuItemsDir( string $menu_items_dir ): void
 	{
-		static::$module_menu_items_dir = $module_menu_items_dir;
+		static::$menu_items_dir = $menu_items_dir;
 	}
 
 	/**

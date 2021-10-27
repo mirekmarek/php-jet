@@ -327,7 +327,7 @@ abstract class ModuleWizard extends BaseObject
 			!empty($this->values['TARGET_MENU_ID']) &&
 			!empty($this->values['MENU_ITEM_ID'])
 		) {
-			$menus_dir = $target_dir.'/'.SysConf_Jet_Modules::getModuleMenuItemsDir().'/';
+			$menus_dir = $target_dir.'/'.SysConf_Jet_Modules::getMenuItemsDir().'/';
 
 			IO_Dir::create($menus_dir);
 			IO_File::writeDataAsPhp($menus_dir.$this->values['TARGET_MENU_SET_ID'].'.php', [

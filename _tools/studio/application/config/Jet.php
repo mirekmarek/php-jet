@@ -8,7 +8,7 @@ use Jet\SysConf_Jet_Autoloader;
 use Jet\SysConf_Jet_PackageCreator_CSS;
 use Jet\SysConf_Jet_PackageCreator_JavaScript;
 
-require_once SysConf_Path::getLibrary().'Jet/SysConf/Jet.php';
+require_once SysConf_Path::getLibrary().'Jet/SysConf/Jet/Main.php';
 require_once SysConf_Path::getLibrary().'Jet/SysConf/Jet/Debug.php';
 require_once SysConf_Path::getLibrary().'Jet/SysConf/Jet/Mvc.php';
 require_once SysConf_Path::getLibrary().'Jet/SysConf/Jet/Http.php';

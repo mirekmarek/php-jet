@@ -160,7 +160,7 @@ class Navigation_MenuSet extends BaseObject
 	{
 		foreach( Application_Modules::activatedModulesList() as $manifest ) {
 
-			$items_file_path = $manifest->getModuleDir().SysConf_Jet_Modules::getModuleMenuItemsDir().'/'.$this->name.'.php';
+			$items_file_path = $manifest->getModuleDir().SysConf_Jet_Modules::getMenuItemsDir().'/'.$this->name.'.php';
 			if(!IO_File::isReadable($items_file_path)) {
 				continue;
 			}

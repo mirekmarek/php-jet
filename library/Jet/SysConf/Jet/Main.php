@@ -11,7 +11,7 @@ namespace Jet;
 /**
  *
  */
-class SysConf_Jet
+class SysConf_Jet_Main
 {
 	protected static string $charset = 'UTF-8';
 	protected static string $timezone = '';
@@ -22,7 +22,7 @@ class SysConf_Jet
 	 */
 	public static function getCharset(): string
 	{
-		return self::$charset;
+		return static::$charset;
 	}
 
 	/**
@@ -30,7 +30,7 @@ class SysConf_Jet
 	 */
 	public static function setCharset( string $val ): void
 	{
-		self::$charset = $val;
+		static::$charset = $val;
 	}
 
 	/**
@@ -38,7 +38,7 @@ class SysConf_Jet
 	 */
 	public static function getTimezone(): string
 	{
-		return self::$timezone;
+		return static::$timezone;
 	}
 
 	/**
@@ -46,7 +46,7 @@ class SysConf_Jet
 	 */
 	public static function setTimezone( string $timezone ): void
 	{
-		self::$timezone = $timezone;
+		static::$timezone = $timezone;
 	}
 
 }

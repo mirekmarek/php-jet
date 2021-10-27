@@ -88,7 +88,7 @@ class UI_searchField extends BaseObject
 	public function getPlaceholder(): string
 	{
 		if( !$this->placeholder ) {
-			$this->placeholder = SysConf_Jet_UI::getSearchDefaultPlaceholder();
+			return '';
 		}
 
 		return UI::_( $this->placeholder );
