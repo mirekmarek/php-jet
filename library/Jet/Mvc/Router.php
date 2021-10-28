@@ -506,7 +506,7 @@ class Mvc_Router extends BaseObject implements Mvc_Router_Interface
 	}
 
 	/**
-	 * @param bool $login_required
+	 *
 	 */
 	public function setLoginRequired(): void
 	{

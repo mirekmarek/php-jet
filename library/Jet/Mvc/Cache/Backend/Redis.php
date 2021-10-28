@@ -66,8 +66,6 @@ class Mvc_Cache_Backend_Redis implements Mvc_Cache_Backend
 		}
 
 		$this->redis->set( 'mvc_' . $entity, $data );
-
-		Cache::resetOPCache();
 	}
 
 
@@ -108,8 +106,6 @@ class Mvc_Cache_Backend_Redis implements Mvc_Cache_Backend
 		}
 
 		$this->redis->deleteItems( 'mvc_' );
-
-		Cache::resetOPCache();
 	}
 
 	/**
