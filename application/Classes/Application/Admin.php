@@ -8,10 +8,10 @@
 
 namespace JetApplication;
 
+use Jet\Factory_Mvc;
 use Jet\Logger;
 use Jet\Mvc_Base;
 use Jet\Mvc_Page;
-use Jet\Mvc_View;
 use Jet\Mvc_Router;
 use Jet\Auth;
 use Jet\SysConf_Jet_ErrorPages;
@@ -78,7 +78,7 @@ class Application_Admin
 			return null;
 		}
 
-		$view = new Mvc_View( $module->getViewsDir() . 'dialog-hooks/' );
+		$view = Factory_Mvc::getViewInstance( $module->getViewsDir() . 'dialog-hooks/' );
 		foreach( $options as $k => $v ) {
 			$view->setVar( $k, $v );
 		}

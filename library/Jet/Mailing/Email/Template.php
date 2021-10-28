@@ -100,7 +100,7 @@ class Mailing_Email_Template extends BaseObject
 	public function getView(): Mvc_View
 	{
 		if( !$this->__view ) {
-			$this->__view = new Mvc_View( $this->getViewDir() );
+			$this->__view = Factory_Mvc::getViewInstance( $this->getViewDir() );
 		}
 
 		return $this->__view;
