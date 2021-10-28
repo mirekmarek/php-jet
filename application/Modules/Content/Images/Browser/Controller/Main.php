@@ -35,7 +35,7 @@ class Controller_Main extends Mvc_Controller_Default
 		$path = Mvc::getRouter()->getUrlPath();
 
 		if( $path ) {
-			$gallery = Content_Gallery::resolveGalleryByURL( $path, Mvc::getCurrentLocale() );
+			$gallery = Content_Gallery::resolveGalleryByURL( $path, Mvc::locale() );
 			if( !$gallery ) {
 				return false;
 			}

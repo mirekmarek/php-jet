@@ -29,7 +29,7 @@ class Main extends Application_Module
 		/**
 		 * @var Mvc_Page $page
 		 */
-		$page = Mvc::getCurrentPage();
+		$page = Mvc::page();
 
 		Navigation_Breadcrumb::reset();
 

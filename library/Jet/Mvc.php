@@ -44,7 +44,7 @@ class Mvc
 	 *
 	 * @return Mvc_Base_Interface|null
 	 */
-	public static function getCurrentBase(): Mvc_Base_Interface|null
+	public static function base(): Mvc_Base_Interface|null
 	{
 		return static::getRouter()->getBase();
 	}
@@ -53,7 +53,7 @@ class Mvc
 	 *
 	 * @return Locale|null
 	 */
-	public static function getCurrentLocale(): Locale|null
+	public static function locale(): Locale|null
 	{
 		return static::getRouter()->getLocale();
 	}
@@ -62,7 +62,7 @@ class Mvc
 	 *
 	 * @return Mvc_Page_Interface|null
 	 */
-	public static function getCurrentPage(): Mvc_Page_Interface|null
+	public static function page(): Mvc_Page_Interface|null
 	{
 		return static::getRouter()->getPage();
 	}

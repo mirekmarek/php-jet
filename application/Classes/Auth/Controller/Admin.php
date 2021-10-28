@@ -117,7 +117,7 @@ class Auth_Controller_Admin extends BaseObject implements Auth_Controller_Interf
 	public function handleLogin(): void
 	{
 
-		$page = Mvc::getCurrentPage();
+		$page = Mvc::page();
 
 
 		$action = 'login';

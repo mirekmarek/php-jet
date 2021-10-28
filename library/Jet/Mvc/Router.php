@@ -508,25 +508,25 @@ class Mvc_Router extends BaseObject implements Mvc_Router_Interface
 	/**
 	 * @param bool $login_required
 	 */
-	public function setLoginRequired( bool $login_required=true ): void
+	public function setLoginRequired(): void
 	{
-		$this->login_required = $login_required;
+		$this->login_required = true;
 	}
 
 	/**
 	 * @return bool
 	 */
-	public function accessNotAllowed(): bool
+	public function getAccessNotAllowed(): bool
 	{
 		return $this->access_not_allowed;
 	}
 
 	/**
-	 * @param bool $access_not_allowed
+	 *
 	 */
-	public function setAccessNotAllowed( bool $access_not_allowed=true ): void
+	public function setAccessNotAllowed(): void
 	{
-		$this->access_not_allowed = $access_not_allowed;
+		$this->access_not_allowed = true;
 	}
 
 

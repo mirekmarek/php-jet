@@ -246,7 +246,7 @@ class Mvc_Base extends BaseObject implements Mvc_Base_Interface
 	{
 		if( !$id ) {
 			/** @noinspection PhpIncompatibleReturnTypeInspection */
-			return Mvc::getCurrentBase();
+			return Mvc::base();
 		}
 
 
@@ -659,7 +659,7 @@ class Mvc_Base extends BaseObject implements Mvc_Base_Interface
 	public function getHomepage( Locale|null $locale = null ): Mvc_Page_Interface
 	{
 		if( !$locale ) {
-			$locale = Mvc::getCurrentLocale();
+			$locale = Mvc::locale();
 		}
 
 		/**

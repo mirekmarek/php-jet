@@ -24,6 +24,27 @@ interface Mvc_Router_Interface
 	public function resolve( string $request_URL ): void;
 
 	/**
+	 * @return bool
+	 */
+	public function getSetSystemLocale(): bool;
+
+	/**
+	 * @param bool $set_system_locale
+	 */
+	public function setSetSystemLocale( bool $set_system_locale ): void;
+
+	/**
+	 * @return bool
+	 */
+	public function getSetTranslatorLocale(): bool;
+
+	/**
+	 * @param bool $set_translator_locale
+	 */
+	public function setSetTranslatorLocale( bool $set_translator_locale ): void;
+
+
+	/**
 	 *
 	 * @return ?Mvc_Base_Interface
 	 */
@@ -82,19 +103,19 @@ interface Mvc_Router_Interface
 	public function getLoginRequired(): bool;
 
 	/**
-	 * @param bool $login_required
+	 *
 	 */
-	public function setLoginRequired( bool $login_required=true ): void;
+	public function setLoginRequired(): void;
 
 	/**
 	 * @return bool
 	 */
-	public function accessNotAllowed(): bool;
+	public function getAccessNotAllowed(): bool;
 
 	/**
-	 * @param bool $access_not_allowed
+	 *
 	 */
-	public function setAccessNotAllowed( bool $access_not_allowed=true ): void;
+	public function setAccessNotAllowed(): void;
 
 	/**
 	 * @return string

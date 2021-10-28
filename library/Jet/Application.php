@@ -70,9 +70,9 @@ class Application extends BaseObject
 			return;
 		}
 
-		$base = Mvc::getCurrentBase();
-		$locale = Mvc::getCurrentLocale();
-		$page = Mvc::getCurrentPage();
+		$base = $router->getBase();
+		$locale = $router->getLocale();
+		$page = $router->getPage();
 
 
 		if( !$base->getIsActive() ) {
@@ -94,7 +94,7 @@ class Application extends BaseObject
 			$page->getSSLRequired() &&
 			!Http_Request::isHttps()
 		) {
-			Http_Headers::movedPermanently( Http_Request::URL( true, true ) );
+			Http_Headers::movedPermanently( Http_Request::URL( include_query_string: true, force_SSL: true ) );
 		}
 
 
@@ -103,7 +103,7 @@ class Application extends BaseObject
 			return;
 		}
 
-		if( $router->accessNotAllowed() ) {
+		if( $router->getAccessNotAllowed() ) {
 			ErrorPages::handleUnauthorized( false );
 
 			return;

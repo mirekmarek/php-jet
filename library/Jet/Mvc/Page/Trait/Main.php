@@ -85,14 +85,14 @@ trait Mvc_Page_Trait_Main
 	{
 
 		if( !$page_id ) {
-			if( !Mvc::getCurrentPage() ) {
+			if( !Mvc::page() ) {
 				return null;
 			}
-			$page_id = Mvc::getCurrentPage()->getId();
+			$page_id = Mvc::page()->getId();
 		}
 
 		if( !$locale ) {
-			$locale = Mvc::getCurrentLocale();
+			$locale = Mvc::locale();
 			if( !$locale ) {
 				return null;
 			}
@@ -100,11 +100,11 @@ trait Mvc_Page_Trait_Main
 
 
 		if( !$base_id ) {
-			if( !Mvc::getCurrentBase() ) {
+			if( !Mvc::base() ) {
 				return null;
 			}
 
-			$base_id = Mvc::getCurrentBase()->getId();
+			$base_id = Mvc::base()->getId();
 		}
 
 		$key = $base_id . ':' . $locale . ':' . $page_id;
@@ -463,7 +463,7 @@ trait Mvc_Page_Trait_Main
 	 */
 	public function isCurrent(): bool
 	{
-		$current_page = Mvc::getCurrentPage();
+		$current_page = Mvc::page();
 
 		if(
 			$current_page &&
@@ -482,7 +482,7 @@ trait Mvc_Page_Trait_Main
 	 */
 	public function isInCurrentPath(): bool
 	{
-		$current_page = Mvc::getCurrentPage();
+		$current_page = Mvc::page();
 
 		if(
 			!$current_page ||

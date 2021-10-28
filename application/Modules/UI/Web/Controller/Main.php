@@ -56,7 +56,7 @@ class Controller_Main extends Mvc_Controller_Default
 	public function main_menu_Action(): void
 	{
 
-		$this->view->setVar( 'page_tree_current', [Mvc::getCurrentBase()->getHomepage( Mvc::getCurrentLocale() )] );
+		$this->view->setVar( 'page_tree_current', [Mvc::base()->getHomepage( Mvc::locale() )] );
 
 		$this->output( 'main-menu' );
 	}

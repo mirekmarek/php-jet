@@ -188,7 +188,7 @@ class Content_Article_Localized extends DataModel_Related_1toN
 	 */
 	public function getURL(): string
 	{
-		return Mvc::getCurrentPage()->getURL( [$this->getURIFragment()], [] );
+		return Mvc::page()->getURL( [$this->getURIFragment()], [] );
 	}
 
 	/**

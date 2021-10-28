@@ -26,7 +26,7 @@ $show_menu = function( $pages, $level = 0 ) use ( &$show_menu ) {
 	}
 
 
-	$current_page_key = Mvc::getCurrentPage()->getKey();
+	$current_page_key = Mvc::page()->getKey();
 	$padding = 10 + ($level * 25);
 
 	foreach( $pages as $page ):
