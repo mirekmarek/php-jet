@@ -73,11 +73,7 @@ class Mvc_View extends Mvc_View_Abstract
 			echo '<!-- VIEW END: ' . $this->_script_path . ' -->';
 		}
 
-		$result = ob_get_clean();
-
-		$this->handlePostprocessors( $result );
-
-		return $result;
+		return ob_get_clean();
 	}
 
 }

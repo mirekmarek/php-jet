@@ -287,11 +287,8 @@ class Mvc_Layout extends Mvc_View_Abstract
 
 		$this->handleMetaTags( $result );
 
-
 		$this->handleJavascripts( $result );
 		$this->handleCss( $result );
-
-		$this->handlePostprocessors( $result );
 
 		$this->output_parts = [];
 

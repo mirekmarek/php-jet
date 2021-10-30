@@ -52,12 +52,6 @@ abstract class Mvc_View_Abstract extends BaseObject
 	 */
 	protected Data_Array|null $_data = null;
 
-	/**
-	 * @var callable[]
-	 */
-	protected array $_postprocessors = [];
-
-
 
 	/**
 	 * @return string
@@ -72,10 +66,6 @@ abstract class Mvc_View_Abstract extends BaseObject
 	 */
 	public function setScriptsDir( string $scripts_dir ): void
 	{
-		if( $scripts_dir[strlen( $scripts_dir ) - 1] != '/' ) {
-			$scripts_dir .= '/';
-		}
-
 		$this->_scripts_dir = $scripts_dir;
 	}
 
@@ -99,7 +89,6 @@ abstract class Mvc_View_Abstract extends BaseObject
 		if( str_contains( $script_name, '.' ) ) {
 			throw new Mvc_View_Exception( 'Illegal script file name', Mvc_View_Exception::CODE_INVALID_VIEW_NAME );
 		}
-
 
 		$this->_script_name = $script_name;
 	}
@@ -208,24 +197,4 @@ abstract class Mvc_View_Abstract extends BaseObject
 	{
 		return $this->_data->getString( $key, $default_value );
 	}
-
-
-	/**
-	 * @param callable $postprocessor
-	 */
-	public function addPostProcessor( callable $postprocessor )
-	{
-		$this->_postprocessors[] = $postprocessor;
-	}
-
-	/**
-	 * @param string &$result
-	 */
-	protected function handlePostprocessors( string &$result )
-	{
-		foreach( $this->_postprocessors as $pp ) {
-			$pp( $result, $this );
-		}
-	}
-
 }
