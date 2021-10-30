@@ -42,7 +42,7 @@ class Mvc_View extends Mvc_View_Abstract
 	/**
 	 * @param Mvc_Controller $controller
 	 */
-	public function setController( Mvc_Controller $controller )
+	public function setController( Mvc_Controller $controller ) : void
 	{
 		$this->controller = $controller;
 	}
