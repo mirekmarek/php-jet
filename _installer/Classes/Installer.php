@@ -400,9 +400,6 @@ class Installer
 
 		if( !static::$layout ) {
 			static::$layout = Factory_Mvc::getLayoutInstance( static::getBasePath() . 'layout/', 'default' );
-			static::$layout->setCSSPackagerEnabled( false );
-			static::$layout->setJSPackagerEnabled( false );
-
 		}
 
 		return static::$layout;

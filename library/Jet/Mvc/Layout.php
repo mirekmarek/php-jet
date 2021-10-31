@@ -64,15 +64,6 @@ class Mvc_Layout extends Mvc_View_Abstract
 	 */
 	protected array $required_css_files = [];
 
-	/**
-	 * @var bool
-	 */
-	protected bool $JS_packager_enabled = true;
-
-	/**
-	 * @var bool
-	 */
-	protected bool $CSS_packager_enabled = true;
 
 	/**
 	 * @return Mvc_Layout|null
@@ -99,9 +90,6 @@ class Mvc_Layout extends Mvc_View_Abstract
 	{
 		$this->setScriptsDir( $scripts_dir );
 		$this->setScriptName( $script_name );
-
-		$this->JS_packager_enabled = SysConf_Jet_PackageCreator_JavaScript::getEnabled();
-		$this->CSS_packager_enabled = SysConf_Jet_PackageCreator_CSS::getEnabled();
 
 		$this->_data = new Data_Array();
 	}
@@ -185,22 +173,6 @@ class Mvc_Layout extends Mvc_View_Abstract
 
 
 	/**
-	 * @return bool
-	 */
-	public function getJSPackagerEnabled(): bool
-	{
-		return $this->JS_packager_enabled;
-	}
-
-	/**
-	 * @param bool $JS_packager_enabled
-	 */
-	public function setJSPackagerEnabled( bool $JS_packager_enabled ): void
-	{
-		$this->JS_packager_enabled = $JS_packager_enabled;
-	}
-
-	/**
 	 * @param string $URI
 	 */
 	public function requireJavascriptFile( string $URI ): void
@@ -218,23 +190,6 @@ class Mvc_Layout extends Mvc_View_Abstract
 		if( !in_array( $URI, $this->required_main_javascript_files ) ) {
 			$this->required_main_javascript_files[] = $URI;
 		}
-	}
-
-
-	/**
-	 * @return bool
-	 */
-	public function getCSSPackagerEnabled(): bool
-	{
-		return $this->CSS_packager_enabled;
-	}
-
-	/**
-	 * @param bool $CSS_packager_enabled
-	 */
-	public function setCSSPackagerEnabled( bool $CSS_packager_enabled ): void
-	{
-		$this->CSS_packager_enabled = $CSS_packager_enabled;
 	}
 
 	/**
@@ -355,14 +310,16 @@ class Mvc_Layout extends Mvc_View_Abstract
 
 			$module_name = $properties['module'];
 			$action = $properties['action'] ?? '';
+			$controller_name = $properties['controller'] ?? 'Main';
 			$parameters = [];
-			$is_cacheable = strtolower( $properties['is_cacheable'] ?? false ) == 'true';
+			$is_cacheable = strtolower( $properties['is_cacheable'] ?? 'false' ) == 'true';
 
 			foreach( $properties as $k => $v ) {
 				if(
 					$k == 'module' ||
 					$k == 'action' ||
-					$k == 'is_cacheable'
+					$k == 'is_cacheable' ||
+					$k == 'controller'
 				) {
 					continue;
 				}
@@ -378,6 +335,7 @@ class Mvc_Layout extends Mvc_View_Abstract
 
 			$page_content->setModuleName( $module_name );
 			$page_content->setControllerAction( $action );
+			$page_content->setControllerName( $controller_name );
 			$page_content->setParameters( $parameters );
 			$page_content->setOutputPosition( $position_name );
 			$page_content->setOutputPositionOrder( 1 );
@@ -555,7 +513,7 @@ class Mvc_Layout extends Mvc_View_Abstract
 
 
 		if(
-			$this->JS_packager_enabled &&
+			SysConf_Jet_PackageCreator_JavaScript::getEnabled() &&
 			$JS_files
 		) {
 			$package_creator = Factory_PackageCreator::JavaScript( $JS_files );
@@ -611,7 +569,7 @@ class Mvc_Layout extends Mvc_View_Abstract
 
 
 		if(
-			$this->CSS_packager_enabled &&
+			SysConf_Jet_PackageCreator_CSS::getEnabled() &&
 			$CSS_files
 		) {
 
