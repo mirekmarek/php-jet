@@ -525,7 +525,7 @@ trait Mvc_Page_Trait_Main
 	 */
 	public function getDataDirPath( bool $actualized = false ): string
 	{
-		if($actualized) {
+		if($actualized && $this->id!=Mvc_Page::HOMEPAGE_ID) {
 			return dirname($this->_data_file_path, 2).'/'.rawurldecode( $this->getRelativePathFragment() ) . '/';
 		}
 
