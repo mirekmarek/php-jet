@@ -15,13 +15,9 @@ interface Mvc_Router_Interface
 {
 
 	/**
-	 *
-	 *
-	 * @param string $request_URL
-	 *
-	 * @throws Mvc_Router_Exception
+	 * @param string|null $request_URL
 	 */
-	public function resolve( string $request_URL ): void;
+	public function resolve( string|null $request_URL = null ): void;
 
 	/**
 	 * @return bool
