@@ -77,36 +77,11 @@ class Mvc_Controller_Router_Action extends BaseObject
 	}
 
 	/**
-	 * @param string $controller_action
-	 *
-	 * @return $this
-	 */
-	public function setControllerAction( string $controller_action ): static
-	{
-		$this->controller_action = $controller_action;
-
-		return $this;
-	}
-
-
-	/**
 	 * @return string
 	 */
 	public function getModuleAction(): string
 	{
 		return $this->module_action;
-	}
-
-	/**
-	 * @param string $module_action
-	 *
-	 * @return $this
-	 */
-	public function setModuleAction( string $module_action ): static
-	{
-		$this->module_action = $module_action;
-
-		return $this;
 	}
 
 
