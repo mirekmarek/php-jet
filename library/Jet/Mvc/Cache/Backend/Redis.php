@@ -101,10 +101,6 @@ class Mvc_Cache_Backend_Redis implements Mvc_Cache_Backend
 	 */
 	public function reset(): void
 	{
-		if( !$this->redis->isActive() ) {
-			return;
-		}
-
 		$this->redis->deleteItems( 'mvc_' );
 	}
 

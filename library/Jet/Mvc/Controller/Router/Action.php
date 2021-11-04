@@ -20,9 +20,9 @@ class Mvc_Controller_Router_Action extends BaseObject
 	protected ?Mvc_Controller_Router $router = null;
 
 	/**
-	 * @var string|bool
+	 * @var string
 	 */
-	protected string|bool $controller_action = '';
+	protected string $controller_action = '';
 
 	/**
 	 * @var string
@@ -69,9 +69,9 @@ class Mvc_Controller_Router_Action extends BaseObject
 
 
 	/**
-	 * @return string|bool
+	 * @return string
 	 */
-	public function getControllerAction(): string|bool
+	public function getControllerAction(): string
 	{
 		return $this->controller_action;
 	}
