@@ -13,42 +13,8 @@ namespace Jet;
  */
 abstract class PackageCreator_JavaScript extends PackageCreator
 {
-
 	/**
-	 *
 	 * @param array $URIs
 	 */
 	abstract public function __construct( array $URIs );
-
-	/**
-	 *
-	 */
-	abstract public function generate(): void;
-
-	/**
-	 * @return string
-	 */
-	abstract public function createPackage(): string;
-
-	/**
-	 *
-	 * @return string
-	 */
-	abstract public function getKey(): string;
-
-	/**
-	 * @return string
-	 */
-	abstract public function getPackagePath(): string;
-
-	/**
-	 * @return string
-	 */
-	abstract public function getPackageRelativeFileName(): string;
-
-	/**
-	 * @return string
-	 */
-	abstract public function getPackageURI(): string;
-
 }

@@ -19,40 +19,14 @@ class PackageCreator_CSS_Default extends PackageCreator_CSS
 	protected string $media = '';
 
 	/**
-	 * @var string|null
-	 */
-	protected string|null $key = null;
-
-	/**
 	 *
 	 * @param string $media
 	 * @param array $URIs
 	 */
 	public function __construct( string $media, array $URIs )
 	{
-
 		$this->media = $media;
 		$this->URIs = $URIs;
-	}
-
-	/**
-	 *
-	 */
-	public function generate(): void
-	{
-
-		$package_path = $this->getPackagePath();
-
-		if(
-		!IO_File::exists( $package_path )
-		) {
-
-			IO_File::write(
-				$package_path, $this->createPackage()
-			);
-
-		}
-
 	}
 
 
@@ -60,7 +34,7 @@ class PackageCreator_CSS_Default extends PackageCreator_CSS
 	 *
 	 * @return string
 	 */
-	public function createPackage(): string
+	protected function createPackage(): string
 	{
 		$CSS = '@charset "utf-8";' . PHP_EOL . PHP_EOL;
 
@@ -84,7 +58,7 @@ class PackageCreator_CSS_Default extends PackageCreator_CSS
 	 *
 	 * @return string
 	 */
-	public function changeUrls( string $CSS_file_data, string $URI ): string
+	protected function changeUrls( string $CSS_file_data, string $URI ): string
 	{
 		$base_URI = dirname( $this->normalizeURI( $URI ) ) . '/';
 
@@ -137,19 +111,17 @@ class PackageCreator_CSS_Default extends PackageCreator_CSS
 		return $CSS_file_data;
 	}
 
-
 	/**
-	 *
 	 * @return string
 	 */
-	public function getKey(): string
+	protected function getPackageRelativeFileName(): string
 	{
-		if( !$this->key ) {
-			$this->key = $this->media . '_' . md5( implode( '', $this->URIs ) );
+		if($this->media) {
+			return SysConf_Jet_PackageCreator_CSS::getPackagesDirName() . '/' . $this->media . '_' .$this->getKey() . '.css';
 		}
-
-		return $this->key;
+		return SysConf_Jet_PackageCreator_CSS::getPackagesDirName() . '/' . $this->getKey() . '.css';
 	}
+
 
 	/**
 	 * @return string
@@ -159,15 +131,6 @@ class PackageCreator_CSS_Default extends PackageCreator_CSS
 		return SysConf_Path::getCss() . $this->getPackageRelativeFileName();
 	}
 
-
-	/**
-	 * @return string
-	 */
-	public function getPackageRelativeFileName(): string
-	{
-		return SysConf_Jet_PackageCreator_CSS::getPackagesDirName() . '/' . $this->getKey() . '.css';
-	}
-
 	/**
 	 * @return string
 	 */
@@ -175,6 +138,5 @@ class PackageCreator_CSS_Default extends PackageCreator_CSS
 	{
 		return SysConf_URI::getCss() . $this->getPackageRelativeFileName();
 	}
-
 
 }

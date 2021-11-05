@@ -13,12 +13,6 @@ namespace Jet;
  */
 class PackageCreator_JavaScript_Default extends PackageCreator_JavaScript
 {
-
-	/**
-	 * @var string|null
-	 */
-	protected string|null $key = null;
-
 	/**
 	 *
 	 * @param array $URIs
@@ -30,28 +24,9 @@ class PackageCreator_JavaScript_Default extends PackageCreator_JavaScript
 
 	/**
 	 *
-	 */
-	public function generate(): void
-	{
-
-		$package_path = $this->getPackagePath();
-
-		if(
-		!IO_File::exists( $package_path )
-		) {
-
-			IO_File::write(
-				$package_path, $this->createPackage()
-			);
-		}
-	}
-
-
-	/**
-	 *
 	 * @return string
 	 */
-	public function createPackage(): string
+	protected function createPackage(): string
 	{
 		$JS = '';
 
@@ -66,23 +41,9 @@ class PackageCreator_JavaScript_Default extends PackageCreator_JavaScript
 
 
 	/**
-	 *
 	 * @return string
 	 */
-	public function getKey(): string
-	{
-		if( !$this->key ) {
-			$this->key = md5( implode( '', $this->URIs ) );
-		}
-
-		return $this->key;
-	}
-
-
-	/**
-	 * @return string
-	 */
-	public function getPackageRelativeFileName(): string
+	protected function getPackageRelativeFileName(): string
 	{
 		return SysConf_Jet_PackageCreator_JavaScript::getPackagesDirName() . '/' . $this->getKey() . '.js';
 	}

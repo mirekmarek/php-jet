@@ -19,6 +19,43 @@ abstract class PackageCreator extends BaseObject
 	 */
 	protected array $URIs = [];
 
+	/**
+	 * @var string|null
+	 */
+	protected string|null $key = null;
+
+	/**
+	 * @return string
+	 */
+	abstract public function getPackagePath(): string;
+
+	/**
+	 * @return string
+	 */
+	abstract public function getPackageURI(): string;
+
+
+	/**
+	 *
+	 */
+	public function generate(): void
+	{
+		$package_path = $this->getPackagePath();
+
+		if( !IO_File::exists( $package_path ) ) {
+
+			IO_File::write(
+				$package_path,
+				$this->createPackage()
+			);
+		}
+	}
+
+	/**
+	 * @return string
+	 */
+	abstract protected function createPackage(): string;
+
 
 	/**
 	 * @param string $URI
@@ -74,5 +111,18 @@ abstract class PackageCreator extends BaseObject
 	protected function normalizeURI( string $URI ): string
 	{
 		return $URI;
+	}
+
+	/**
+	 *
+	 * @return string
+	 */
+	protected function getKey(): string
+	{
+		if( !$this->key ) {
+			$this->key = md5( implode( '', $this->URIs ) );
+		}
+
+		return $this->key;
 	}
 }
