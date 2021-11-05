@@ -20,24 +20,11 @@ class Application_Modules extends BaseObject
 
 
 	/**
-	 * @param string $module_name
-	 *
-	 * @return string
-	 */
-	public static function getModuleDir( string $module_name ): string
-	{
-		return SysConf_Path::getModules() . str_replace( '.', '/', $module_name ) . '/';
-	}
-
-
-	/**
 	 * @return Application_Modules_Handler
 	 */
 	public static function getHandler(): Application_Modules_Handler
 	{
 		if( !static::$handler ) {
-
-
 			static::$handler = new Application_Modules_Handler_Default();
 		}
 
@@ -47,9 +34,19 @@ class Application_Modules extends BaseObject
 	/**
 	 * @param Application_Modules_Handler $handler
 	 */
-	public static function setHandler( Application_Modules_Handler $handler )
+	public static function setHandler( Application_Modules_Handler $handler ) : void
 	{
 		static::$handler = $handler;
+	}
+
+	/**
+	 * @param string $module_name
+	 *
+	 * @return string
+	 */
+	public static function getModuleDir( string $module_name ): string
+	{
+		return static::getHandler()->getModuleDir( $module_name );
 	}
 
 	/**

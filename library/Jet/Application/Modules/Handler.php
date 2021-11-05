@@ -13,6 +13,17 @@ namespace Jet;
  */
 abstract class Application_Modules_Handler extends BaseObject
 {
+
+	/**
+	 * @param string $module_name
+	 *
+	 * @return string
+	 */
+	public function getModuleDir( string $module_name ): string
+	{
+		return SysConf_Path::getModules() . str_replace( '.', '/', $module_name ) . '/';
+	}
+
 	/**
 	 *
 	 *
