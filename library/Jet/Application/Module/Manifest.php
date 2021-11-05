@@ -70,7 +70,7 @@ class Application_Module_Manifest extends BaseObject
 	/**
 	 * @param callable $compatibility_checker
 	 */
-	public static function setCompatibilityChecker( callable $compatibility_checker )
+	public static function setCompatibilityChecker( callable $compatibility_checker ) : void
 	{
 		static::$compatibility_checker = $compatibility_checker;
 	}
