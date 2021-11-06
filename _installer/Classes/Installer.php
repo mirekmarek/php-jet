@@ -455,7 +455,7 @@ class Installer
 	 */
 	public static function getView(): Mvc_View
 	{
-		return new Mvc_View( static::getBasePath() . 'views' );
+		return new Mvc_View( static::getBasePath() . 'views/' );
 	}
 
 
