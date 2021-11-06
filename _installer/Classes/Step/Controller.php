@@ -8,8 +8,8 @@
 
 namespace JetApplication\Installer;
 
-use Jet\Mvc_Layout;
-use Jet\Mvc_View;
+use Jet\MVC_Layout;
+use Jet\MVC_View;
 use Jet\Tr;
 use Jet\Http_Request;
 
@@ -29,13 +29,13 @@ abstract class Installer_Step_Controller
 	protected string $label = '';
 
 	/**
-	 * @var ?Mvc_Layout
+	 * @var ?MVC_Layout
 	 */
-	protected ?Mvc_Layout $layout = null;
+	protected ?MVC_Layout $layout = null;
 	/**
-	 * @var ?Mvc_View
+	 * @var ?MVC_View
 	 */
-	protected ?Mvc_View $view = null;
+	protected ?MVC_View $view = null;
 
 	/**
 	 * @var bool
@@ -77,7 +77,7 @@ abstract class Installer_Step_Controller
 	{
 		$this->name = $name;
 
-		$this->view = new Mvc_View( $step_base_path . 'view/' );
+		$this->view = new MVC_View( $step_base_path . 'view/' );
 		$this->view->setVar( 'controller', $this );
 
 	}

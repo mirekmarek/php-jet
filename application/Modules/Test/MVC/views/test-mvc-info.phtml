@@ -1,6 +1,6 @@
 <?php
 
-use Jet\Mvc;
+use Jet\MVC;
 use Jet\Tr;
 
 ?>
@@ -10,15 +10,15 @@ use Jet\Tr;
 		<table class="table">
 			<tr>
 				<td><?= Tr::_( 'Current base id:' ) ?></td>
-				<td><?= Mvc::getBase()->getId(); ?></td>
+				<td><?= MVC::getBase()->getId(); ?></td>
 			</tr>
 			<tr>
 				<td><?= Tr::_( 'Current locale:' ) ?></td>
-				<td><?= Mvc::getLocale(); ?></td>
+				<td><?= MVC::getLocale(); ?></td>
 			</tr>
 			<tr>
 				<td><?= Tr::_( 'Current page id:' ) ?></td>
-				<td><?= Mvc::getPage()->getId(); ?></td>
+				<td><?= MVC::getPage()->getId(); ?></td>
 			</tr>
 		</table>
 

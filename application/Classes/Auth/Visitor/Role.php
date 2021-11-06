@@ -11,7 +11,7 @@ use Jet\Data_Forest;
 use Jet\Data_Tree;
 use Jet\Form;
 use Jet\Form_Field;
-use Jet\Mvc_Page_Interface;
+use Jet\MVC_Page_Interface;
 
 /**
  *
@@ -384,10 +384,10 @@ class Auth_Visitor_Role extends DataModel implements Auth_Role_Interface
 	}
 
 	/**
-	 * @param Mvc_Page_Interface $page
+	 * @param MVC_Page_Interface $page
 	 * @param                    $data
 	 */
-	protected static function _getPagesTree( Mvc_Page_Interface $page, &$data )
+	protected static function _getPagesTree( MVC_Page_Interface $page, &$data )
 	{
 
 		if( $page->getIsSecret() ) {

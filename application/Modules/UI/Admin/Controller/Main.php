@@ -8,26 +8,26 @@
 
 namespace JetApplicationModule\UI\Admin;
 
-use Jet\Mvc_Controller_Default;
+use Jet\MVC_Controller_Default;
 
 use Jet\Auth;
 use Jet\Http_Headers;
 use Jet\Http_Request;
-use Jet\Mvc_Page_Content_Interface;
+use Jet\MVC_Page_Content_Interface;
 
-use Jet\Mvc;
+use Jet\MVC;
 
 /**
  *
  */
-class Controller_Main extends Mvc_Controller_Default
+class Controller_Main extends MVC_Controller_Default
 {
 
 	/**
 	 *
-	 * @param Mvc_Page_Content_Interface $content
+	 * @param MVC_Page_Content_Interface $content
 	 */
-	public function __construct( Mvc_Page_Content_Interface $content )
+	public function __construct( MVC_Page_Content_Interface $content )
 	{
 		parent::__construct( $content );
 
@@ -47,7 +47,7 @@ class Controller_Main extends Mvc_Controller_Default
 	{
 		Auth::logout();
 
-		Http_Headers::movedTemporary( Mvc::getHomePage()->getURL() );
+		Http_Headers::movedTemporary( MVC::getHomePage()->getURL() );
 	}
 
 	/**

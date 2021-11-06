@@ -15,12 +15,12 @@ use Jet\Form_Field_Input;
 use Jet\Form_Field_Int;
 use Jet\Form_Field_Select;
 use Jet\Form_Field_Textarea;
-use Jet\Mvc_Page_Content;
+use Jet\MVC_Page_Content;
 
 /**
  *
  */
-class Pages_Page_Content extends Mvc_Page_Content
+class Pages_Page_Content extends MVC_Page_Content
 {
 	const CONTENT_KIND_MODULE = 'module';
 	const CONTENT_KIND_CLASS = 'class';

@@ -27,9 +27,9 @@ use Jet\IO_Dir;
 
 use Jet\Locale;
 
-use Jet\Mvc;
+use Jet\MVC;
 
-use Jet\Mvc_Page_Interface;
+use Jet\MVC_Page_Interface;
 use Jet\SysConf_URI;
 use Jet\Exception;
 
@@ -284,7 +284,7 @@ class Content_Gallery extends DataModel
 	public function getLocalized( Locale $locale = null ): Content_Gallery_Localized
 	{
 		if( !$locale ) {
-			$locale = Mvc::getLocale();
+			$locale = MVC::getLocale();
 		}
 		return $this->localized[$locale->toString()];
 	}
@@ -298,11 +298,11 @@ class Content_Gallery extends DataModel
 	}
 
 	/**
-	 * @param Mvc_Page_Interface|null $base_page
+	 * @param MVC_Page_Interface|null $base_page
 	 *
 	 * @return string
 	 */
-	public function getURL( ?Mvc_Page_Interface $base_page = null ): string
+	public function getURL( ?MVC_Page_Interface $base_page = null ): string
 	{
 		return $this->getLocalized()->getURL( $base_page );
 	}

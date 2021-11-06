@@ -3,17 +3,17 @@
 use Jet\Form;
 use Jet\SysConf_URI;
 use Jet\Tr;
-use Jet\Mvc_View;
-use Jet\Mvc_Layout;
+use Jet\MVC_View;
+use Jet\MVC_Layout;
 
 /**
- * @var Mvc_View $this
+ * @var MVC_View $this
  * @var Form[] $forms
  */
 
 $forms = $this->getRaw( 'forms' );
 
-Mvc_Layout::getCurrentLayout()->requireJavascriptFile( SysConf_URI::getJs() . 'JetAjaxForm.js?v=1' );
+MVC_Layout::getCurrentLayout()->requireJavascriptFile( SysConf_URI::getJs() . 'JetAjaxForm.js?v=1' );
 
 ?>
 <script type="text/javascript">

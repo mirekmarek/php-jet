@@ -2,19 +2,19 @@
 
 namespace JetApplicationModule\Content\Images\Admin;
 
-use Jet\Mvc_Layout;
+use Jet\MVC_Layout;
 use Jet\UI;
 use Jet\SysConf_URI;
 
 use Jet\Form;
-use Jet\Mvc_View;
+use Jet\MVC_View;
 use JetApplication\Content_Gallery;
 
 
-Mvc_Layout::getCurrentLayout()->requireJavascriptFile( SysConf_URI::getJs() . 'JetAjaxForm.js?v=1' );
+MVC_Layout::getCurrentLayout()->requireJavascriptFile( SysConf_URI::getJs() . 'JetAjaxForm.js?v=1' );
 
 /**
- * @var Mvc_View $this
+ * @var MVC_View $this
  * @var Form $upload_form
  * @var Content_Gallery $gallery
  */

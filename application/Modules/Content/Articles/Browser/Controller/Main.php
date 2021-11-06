@@ -11,21 +11,21 @@ namespace JetApplicationModule\Content\Articles\Browser;
 use JetApplication\Content_Article;
 
 use Jet\Http_Headers;
-use Jet\Mvc_Controller_Default;
-use Jet\Mvc;
+use Jet\MVC_Controller_Default;
+use Jet\MVC;
 use Jet\Data_Paginator;
-use Jet\Mvc_Controller_Router;
+use Jet\MVC_Controller_Router;
 use Jet\Navigation_Breadcrumb;
 
 /**
  *
  */
-class Controller_Main extends Mvc_Controller_Default
+class Controller_Main extends MVC_Controller_Default
 {
 	/**
-	 * @var ?Mvc_Controller_Router
+	 * @var ?MVC_Controller_Router
 	 */
-	protected ?Mvc_Controller_Router $router = null;
+	protected ?MVC_Controller_Router $router = null;
 
 	/**
 	 * @var int
@@ -43,14 +43,14 @@ class Controller_Main extends Mvc_Controller_Default
 	protected ?Content_Article $article = null;
 
 	/**
-	 * @return Mvc_Controller_Router
+	 * @return MVC_Controller_Router
 	 */
-	public function getControllerRouter(): Mvc_Controller_Router
+	public function getControllerRouter(): MVC_Controller_Router
 	{
 		if( !$this->router ) {
-			$this->router = new Mvc_Controller_Router( $this );
+			$this->router = new MVC_Controller_Router( $this );
 
-			$path = Mvc::getRouter()->getUrlPath();
+			$path = MVC::getRouter()->getUrlPath();
 
 			$this->router->addAction( 'list' )
 				->setResolver( function() use ( $path ) {
@@ -59,7 +59,7 @@ class Controller_Main extends Mvc_Controller_Default
 					}
 					if( preg_match( '/^page:([0-9]+)$/', $path, $matches ) ) {
 						$this->page_no = $matches[1];
-						Mvc::getRouter()->setUsedUrlPath( $path );
+						MVC::getRouter()->setUsedUrlPath( $path );
 						return true;
 					}
 
@@ -68,13 +68,13 @@ class Controller_Main extends Mvc_Controller_Default
 			$this->router->addAction( 'detail' )
 				->setResolver( function() use ( $path ) {
 
-					$current_article = Content_Article::resolveArticleByURL( $path, Mvc::getLocale() );
+					$current_article = Content_Article::resolveArticleByURL( $path, MVC::getLocale() );
 
 					if( !$current_article ) {
 						return false;
 					}
 					$this->article = $current_article;
-					Mvc::getRouter()->setUsedUrlPath( $path );
+					MVC::getRouter()->setUsedUrlPath( $path );
 
 					return true;
 
@@ -96,7 +96,7 @@ class Controller_Main extends Mvc_Controller_Default
 			$page_no,
 			$this->public_list_items_per_page,
 			function( $page_no ) {
-				return Mvc::getPage()->getURLPath( ['page:' . $page_no] );
+				return MVC::getPage()->getURLPath( ['page:' . $page_no] );
 			}
 		);
 

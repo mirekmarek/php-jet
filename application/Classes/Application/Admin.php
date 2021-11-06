@@ -8,11 +8,11 @@
 
 namespace JetApplication;
 
-use Jet\Factory_Mvc;
+use Jet\Factory_MVC;
 use Jet\Logger;
-use Jet\Mvc;
-use Jet\Mvc_Base_Interface;
-use Jet\Mvc_Router;
+use Jet\MVC;
+use Jet\MVC_Base_Interface;
+use Jet\MVC_Router;
 use Jet\Auth;
 use Jet\SysConf_Jet_ErrorPages;
 use Jet\SysConf_Jet_Form;
@@ -32,17 +32,17 @@ class Application_Admin
 	}
 
 	/**
-	 * @return Mvc_Base_Interface
+	 * @return MVC_Base_Interface
 	 */
-	public static function getBase(): Mvc_Base_Interface
+	public static function getBase(): MVC_Base_Interface
 	{
-		return Mvc::getBase( static::getBaseId() );
+		return MVC::getBase( static::getBaseId() );
 	}
 
 	/**
-	 * @param Mvc_Router $router
+	 * @param MVC_Router $router
 	 */
-	public static function init( Mvc_Router $router ): void
+	public static function init( MVC_Router $router ): void
 	{
 		Logger::setLogger( new Logger_Admin() );
 		Auth::setController( new Auth_Controller_Admin() );
@@ -61,7 +61,7 @@ class Application_Admin
 	public static function requireDialog( string $dialog_id, array $options = [] ): null|string
 	{
 
-		$page = Mvc::getPage( 'dialog-' . $dialog_id );
+		$page = MVC::getPage( 'dialog-' . $dialog_id );
 
 		if(
 			!$page ||
@@ -78,7 +78,7 @@ class Application_Admin
 			return null;
 		}
 
-		$view = Factory_Mvc::getViewInstance( $module->getViewsDir() . 'dialog-hooks/' );
+		$view = Factory_MVC::getViewInstance( $module->getViewsDir() . 'dialog-hooks/' );
 		foreach( $options as $k => $v ) {
 			$view->setVar( $k, $v );
 		}

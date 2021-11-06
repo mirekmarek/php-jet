@@ -410,11 +410,11 @@ class Navigation_Menu_Item extends BaseObject
 	}
 
 	/**
-	 * @return Mvc_Page_Interface|null
+	 * @return MVC_Page_Interface|null
 	 */
-	public function getTargetPage(): Mvc_Page_Interface|null
+	public function getTargetPage(): MVC_Page_Interface|null
 	{
-		return Mvc::getPage( $this->page_id, $this->locale, $this->base_id );
+		return MVC::getPage( $this->page_id, $this->locale, $this->base_id );
 	}
 
 }

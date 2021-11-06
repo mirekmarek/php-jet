@@ -13,13 +13,13 @@ use Jet\Form_Field_Input;
 use Jet\Form_Field_Password;
 use Jet\Http_Headers;
 use Jet\Http_Request;
-use Jet\Mvc_Controller_Default;
+use Jet\MVC_Controller_Default;
 use Jet\Tr;
 
 /**
  *
  */
-class Controller_Main extends Mvc_Controller_Default
+class Controller_Main extends MVC_Controller_Default
 {
 
 	/**

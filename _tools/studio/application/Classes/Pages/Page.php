@@ -14,22 +14,22 @@ use Jet\Form_Field_Select;
 use Jet\Form_Field_Textarea;
 use Jet\Form_Field_Hidden;
 use Jet\IO_Dir;
-use Jet\Mvc;
-use Jet\Mvc_Layout;
-use Jet\Mvc_Page;
+use Jet\MVC;
+use Jet\MVC_Layout;
+use Jet\MVC_Page;
 use Jet\Form;
 use Jet\Form_Field_Input;
 use Jet\Form_Field_Checkbox;
-use Jet\Factory_Mvc;
-use Jet\Mvc_Page_MetaTag_Interface;
+use Jet\Factory_MVC;
+use Jet\MVC_Page_MetaTag_Interface;
 use Jet\Tr;
 use Jet\Locale;
-use Jet\Mvc_Page_Content_Interface;
+use Jet\MVC_Page_Content_Interface;
 
 /**
  *
  */
-class Pages_Page extends Mvc_Page
+class Pages_Page extends MVC_Page
 {
 	const MAX_META_TAGS_COUNT = 100;
 	const MAX_HTTP_HEADERS_COUNT = 100;
@@ -278,7 +278,7 @@ class Pages_Page extends Mvc_Page
 				$SSL_required_field
 			];
 
-			if( $this->getId() != Mvc::HOMEPAGE_ID ) {
+			if( $this->getId() != MVC::HOMEPAGE_ID ) {
 				$relative_path_fragment_field = new Form_Field_Input( 'relative_path_fragment', 'URL:', rawurldecode( $page->getRelativePathFragment() ) );
 				$relative_path_fragment_field->setIsRequired( true );
 				$relative_path_fragment_field->setCatcher( function( $value ) use ( $page, $relative_path_fragment_field ) {
@@ -475,7 +475,7 @@ class Pages_Page extends Mvc_Page
 				continue;
 			}
 
-			$meta_tag = Factory_Mvc::getPageMetaTagInstance();
+			$meta_tag = Factory_MVC::getPageMetaTagInstance();
 
 			$meta_tag->setAttribute( $attribute );
 			$meta_tag->setAttributeValue( $attribute_value );
@@ -885,7 +885,7 @@ class Pages_Page extends Mvc_Page
 
 
 			$is_cacheable = Pages_Page_Content::getField__is_cacheable( false );
-			$output_position = Pages_Page_Content::getField__output_position( Mvc_Layout::DEFAULT_OUTPUT_POSITION, $this );
+			$output_position = Pages_Page_Content::getField__output_position( MVC_Layout::DEFAULT_OUTPUT_POSITION, $this );
 			$output_position_order = Pages_Page_Content::getField__output_position_order( 0 );
 
 			$module_name = Pages_Page_Content::getField__module_name( '' );
@@ -1166,9 +1166,9 @@ class Pages_Page extends Mvc_Page
 
 
 	/**
-	 * @param Mvc_Page_Content_Interface $content
+	 * @param MVC_Page_Content_Interface $content
 	 */
-	public function addContent( Mvc_Page_Content_Interface $content ): void
+	public function addContent( MVC_Page_Content_Interface $content ): void
 	{
 
 		parent::addContent( $content );
@@ -1222,7 +1222,7 @@ class Pages_Page extends Mvc_Page
 
 	/**
 	 *
-	 * @return Mvc_Page_MetaTag_Interface[]
+	 * @return MVC_Page_MetaTag_Interface[]
 	 */
 	public function getMetaTags(): array
 	{

@@ -42,11 +42,11 @@ class Application extends BaseObject
 	/**
 	 * @param ?string $URL
 	 */
-	public static function runMvc( ?string $URL = null ): void
+	public static function runMVC( ?string $URL = null ): void
 	{
 		Debug_Profiler::blockStart( 'MVC router - Init and resolve' );
 
-		$router = Mvc::getRouter();
+		$router = MVC::getRouter();
 
 		$router->resolve( $URL );
 

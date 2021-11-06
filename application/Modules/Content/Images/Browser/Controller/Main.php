@@ -8,8 +8,8 @@
 
 namespace JetApplicationModule\Content\Images\Browser;
 
-use Jet\Mvc_Controller_Default;
-use Jet\Mvc;
+use Jet\MVC_Controller_Default;
+use Jet\MVC;
 use Jet\Navigation_Breadcrumb;
 
 use JetApplication\Content_Gallery;
@@ -17,7 +17,7 @@ use JetApplication\Content_Gallery;
 /**
  *
  */
-class Controller_Main extends Mvc_Controller_Default
+class Controller_Main extends MVC_Controller_Default
 {
 
 	/**
@@ -32,16 +32,16 @@ class Controller_Main extends Mvc_Controller_Default
 	 */
 	public function resolve(): bool|string
 	{
-		$path = Mvc::getRouter()->getUrlPath();
+		$path = MVC::getRouter()->getUrlPath();
 
 		if( $path ) {
-			$gallery = Content_Gallery::resolveGalleryByURL( $path, Mvc::getLocale() );
+			$gallery = Content_Gallery::resolveGalleryByURL( $path, MVC::getLocale() );
 			if( !$gallery ) {
 				return false;
 			}
 
 			$this->gallery = $gallery;
-			Mvc::getRouter()->setUsedUrlPath( $path );
+			MVC::getRouter()->setUsedUrlPath( $path );
 		}
 
 

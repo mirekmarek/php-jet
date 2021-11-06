@@ -1,8 +1,8 @@
 <?php
 namespace JetApplicationModule\Content\Articles\Admin;
 
-use Jet\Mvc;
-use Jet\Mvc_View;
+use Jet\MVC;
+use Jet\MVC_View;
 use Jet\Form;
 
 use Jet\UI;
@@ -10,7 +10,7 @@ use JetApplication\Application_Admin;
 use JetApplication\Application_Web;
 
 /**
- * @var Mvc_View $this
+ * @var MVC_View $this
  * @var Form $form
  */
 
@@ -34,7 +34,7 @@ $form->setDefaultFieldWidth( [Form::LJ_SIZE_MEDIUM => 9] );
 
 <div class="row toolbar" id="main-toolbar">
 	<div class="col-md-12">
-		<?= UI::button_goBack()->setUrl( Mvc::getPage()->getURLPath() ) ?>
+		<?= UI::button_goBack()->setUrl( MVC::getPage()->getURLPath() ) ?>
 
 		<?php if( !$form->getIsReadonly() ): ?>
 			<?= UI::button_save() ?>

@@ -17,7 +17,7 @@ use Jet\Locale;
 use Jet\Tr;
 use Jet\UI_messages;
 use Jet\SysConf_URI;
-use Jet\Mvc;
+use Jet\MVC;
 
 /**
  *
@@ -77,7 +77,7 @@ class Bases extends BaseObject implements Application_Part
 	 */
 	public static function load(): array
 	{
-		return Mvc::getBases();
+		return MVC::getBases();
 	}
 
 

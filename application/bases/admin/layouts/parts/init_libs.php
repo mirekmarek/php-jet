@@ -1,10 +1,10 @@
 <?php
 
-use Jet\Mvc_Layout;
+use Jet\MVC_Layout;
 use Jet\SysConf_URI;
 
 /**
- * @var Mvc_Layout $this
+ * @var MVC_Layout $this
  */
 
 

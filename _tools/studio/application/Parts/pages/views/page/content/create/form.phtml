@@ -4,10 +4,10 @@ namespace JetStudio;
 
 use Jet\Form;
 use Jet\Tr;
-use Jet\Mvc_View;
+use Jet\MVC_View;
 
 /**
- * @var Mvc_View $this
+ * @var MVC_View $this
  * @var Pages_Page $page
  */
 
@@ -148,7 +148,7 @@ $form_id = $form->getId();
 							</span>
 				<?= $method_field->input() ?>
 				<span class="input-group-append">
-								<span class="input-group-text">( Jet\Mvc_Page $page, Jet\Mvc_Page_Content $content )</span>
+								<span class="input-group-text">( Jet\MVC_Page $page, Jet\MVC_Page_Content $content )</span>
 							</span>
 			</div>
 			<?= $class_field->row()->end() ?>

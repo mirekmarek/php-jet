@@ -15,7 +15,7 @@ use Jet\DataModel_Related_1toN_Iterator;
 use Jet\Form_Field_DateTime;
 use Jet\Locale;
 use Jet\Data_DateTime;
-use Jet\Mvc;
+use Jet\MVC;
 use Jet\Data_Paginator_DataSource;
 use Jet\DataModel_IDController_UniqueString;
 use Jet\Form;
@@ -181,7 +181,7 @@ class Content_Article extends DataModel
 	public function getLocalized( Locale $locale = null ): Content_Article_Localized
 	{
 		if( !$locale ) {
-			$locale = Mvc::getLocale();
+			$locale = MVC::getLocale();
 		}
 		return $this->localized[$locale->toString()];
 	}
@@ -204,7 +204,7 @@ class Content_Article extends DataModel
 	{
 		$list = static::fetchInstances(
 			[
-				'article_localized.locale' => Mvc::getLocale(),
+				'article_localized.locale' => MVC::getLocale(),
 			]
 		);
 		$list->getQuery()->setOrderBy( '-date_time' );

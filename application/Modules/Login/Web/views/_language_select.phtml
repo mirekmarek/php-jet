@@ -1,15 +1,15 @@
 <?php
 use Jet\UI;
-use Jet\Mvc;
+use Jet\MVC;
 ?>
 <div style="position: absolute;top:15px; right: 15px;">
-	<?php foreach( Mvc::getBase()->getLocales() as $locale ): ?>
-		<?php if( $locale->toString() == Mvc::getLocale()->toString() ): ?>
+	<?php foreach( MVC::getBase()->getLocales() as $locale ): ?>
+		<?php if( $locale->toString() == MVC::getLocale()->toString() ): ?>
 			<?= UI::flag( $locale ) ?>
 		<?php else:
-			$equal_page = Mvc::getPage( locale: $locale );
+			$equal_page = MVC::getPage( locale: $locale );
 			if( !$equal_page ) {
-				$equal_page = Mvc::getHomePage( locale: $locale );
+				$equal_page = MVC::getHomePage( locale: $locale );
 			}
 			?>
 			<a href="<?= $equal_page->getURL() ?>"><?= UI::flag( $locale ) ?></a>

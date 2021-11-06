@@ -1,17 +1,17 @@
 <?php
 
-use Jet\Mvc_Layout;
-use Jet\Mvc;
+use Jet\MVC_Layout;
+use Jet\MVC;
 use Jet\SysConf_URI;
 
 /**
- * @var Mvc_Layout $this
+ * @var MVC_Layout $this
  */
 ?>
-<title><?= Mvc::getBase()->getLocalizedData( Mvc::getLocale() )->getTitle() ?>
-	: <?= Mvc::getPage()->getTitle() ?></title>
+<title><?= MVC::getBase()->getLocalizedData( MVC::getLocale() )->getTitle() ?>
+	: <?= MVC::getPage()->getTitle() ?></title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-<meta http-equiv="content-language" content="<?= Mvc::getLocale()->getLanguage() ?>"/>
+<meta http-equiv="content-language" content="<?= MVC::getLocale()->getLanguage() ?>"/>
 
 <jet_layout_meta_tags/>
 <jet_layout_css/>

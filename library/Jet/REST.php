@@ -146,16 +146,16 @@ class REST extends BaseObject
 	 * @param string|int $code
 	 * @param mixed $data
 	 *
-	 * @throws Mvc_Controller_Exception
+	 * @throws MVC_Controller_Exception
 	 */
 	public static function responseError( string|int $code, mixed $data = null ): void
 	{
 		$errors = SysConf_Jet_REST::getErrors();
 
 		if( !isset( $errors[$code] ) ) {
-			throw new Mvc_Controller_Exception(
+			throw new MVC_Controller_Exception(
 				'REST Error (code:' . $code . ') is not specified!',
-				Mvc_Controller_Exception::CODE_INVALID_RESPONSE_CODE
+				MVC_Controller_Exception::CODE_INVALID_RESPONSE_CODE
 			);
 		}
 

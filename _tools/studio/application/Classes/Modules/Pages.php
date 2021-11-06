@@ -14,10 +14,10 @@ use Jet\Form_Field_Input;
 use Jet\Form_Field_Select;
 use Jet\IO_Dir;
 use Jet\IO_File;
-use Jet\Mvc;
-use Jet\Mvc_Layout;
+use Jet\MVC;
+use Jet\MVC_Layout;
 use Jet\SysConf_Jet_Modules;
-use Jet\SysConf_Jet_Mvc;
+use Jet\SysConf_Jet_MVC;
 
 /**
  *
@@ -49,7 +49,7 @@ class Modules_Pages extends BaseObject
 	 */
 	protected function read(): void
 	{
-		foreach( Mvc::getBases() as $base ) {
+		foreach( MVC::getBases() as $base ) {
 			$base_id = $base->getId();
 			$locale = $base->getDefaultLocale();
 
@@ -62,7 +62,7 @@ class Modules_Pages extends BaseObject
 			$sub_dirs = IO_Dir::getList($root_dir, get_files: false);
 			foreach($sub_dirs as $dir_path=>$dir_name) {
 
-				$page_data_file_path = $dir_path . SysConf_Jet_Mvc::getPageDataFileName();
+				$page_data_file_path = $dir_path . SysConf_Jet_MVC::getPageDataFileName();
 
 				if(!IO_File::isReadable($page_data_file_path)) {
 					continue;
@@ -132,7 +132,7 @@ class Modules_Pages extends BaseObject
 
 		$this->pages[$base_id][$page->getId()] = $page;
 
-		$path = $this->module_manifest->getModuleDir().SysConf_Jet_Modules::getPagesDir().'/'.$base_id.'/'.rawurldecode($page->getRelativePathFragment()).'/'.SysConf_Jet_Mvc::getPageDataFileName();
+		$path = $this->module_manifest->getModuleDir().SysConf_Jet_Modules::getPagesDir().'/'.$base_id.'/'.rawurldecode($page->getRelativePathFragment()).'/'.SysConf_Jet_MVC::getPageDataFileName();
 		$page->setDataFilePath( $path );
 
 	}
@@ -218,7 +218,7 @@ class Modules_Pages extends BaseObject
 		$content->setModuleName( $this->module_manifest->getName() );
 		$content->setControllerName( 'Main' );
 		$content->setControllerAction( 'default' );
-		$content->setOutputPosition( Mvc_Layout::DEFAULT_OUTPUT_POSITION );
+		$content->setOutputPosition( MVC_Layout::DEFAULT_OUTPUT_POSITION );
 
 		$page->setContent( [
 			$content

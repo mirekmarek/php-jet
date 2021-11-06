@@ -5,11 +5,11 @@ use Jet\UI_tree;
 
 use Jet\Data_Tree;
 use Jet\Data_Tree_Node;
-use Jet\Mvc;
-use Jet\Mvc_View;
+use Jet\MVC;
+use Jet\MVC_View;
 
 /**
- * @var Mvc_View $this
+ * @var MVC_View $this
  * @var Data_Tree $galleries
  */
 $galleries = $this->getRaw( 'galleries' );
@@ -41,7 +41,7 @@ $tree->setRendererNormal(
 	function( Data_Tree_Node $node ) use ( $router ) {
 		if( $node->getIsRoot() ):
 			?>
-			<a href="<?= Mvc::getPage()->getURLPath(); ?>"
+			<a href="<?= MVC::getPage()->getURLPath(); ?>"
 			   style="font-style: italic;"><?= $node->getLabel(); ?></a>
 		<?php
 		else:

@@ -8,7 +8,7 @@
 
 namespace JetApplicationModule\Test\Forms;
 
-use Jet\Mvc_Controller_Default;
+use Jet\MVC_Controller_Default;
 
 use Jet\Http_Request;
 use Jet\SysConf_Path;
@@ -61,7 +61,7 @@ use Jet\AJAX;
 /**
  *
  */
-class Controller_Main extends Mvc_Controller_Default
+class Controller_Main extends MVC_Controller_Default
 {
 
 	/**

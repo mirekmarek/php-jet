@@ -1,13 +1,13 @@
 <?php
 
-use Jet\Mvc_Layout;
-use Jet\Mvc_View;
+use Jet\MVC_Layout;
+use Jet\MVC_View;
 use Jet\Data_Text;
 use Jet\Form_Renderer;
 use Jet\Form_Field_WYSIWYG;
 
 /**
- * @var Mvc_View $this
+ * @var MVC_View $this
  * @var Form_Renderer $r
  * @var Form_Field_WYSIWYG $field
  */
@@ -109,11 +109,11 @@ if(!$init_generator) {
 
 foreach( $CSS as $media => $files ) {
 	foreach( $files as $URI ) {
-		Mvc_Layout::getCurrentLayout()->requireCssFile( $URI, $media );
+		MVC_Layout::getCurrentLayout()->requireCssFile( $URI, $media );
 	}
 }
 foreach( $JS as $URI ) {
-	Mvc_Layout::getCurrentLayout()->requireJavascriptFile( $URI );
+	MVC_Layout::getCurrentLayout()->requireJavascriptFile( $URI );
 }
 
 $attrs = [

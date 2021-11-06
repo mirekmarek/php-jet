@@ -10,9 +10,9 @@ namespace JetApplication;
 
 use Jet\Logger;
 
-use Jet\Mvc;
-use Jet\Mvc_Base_Interface;
-use Jet\Mvc_Router;
+use Jet\MVC;
+use Jet\MVC_Base_Interface;
+use Jet\MVC_Router;
 
 use Jet\Auth;
 use Jet\SysConf_Jet_ErrorPages;
@@ -33,18 +33,18 @@ class Application_Web
 	}
 
 	/**
-	 * @return Mvc_Base_Interface
+	 * @return MVC_Base_Interface
 	 */
-	public static function getBase(): Mvc_Base_Interface
+	public static function getBase(): MVC_Base_Interface
 	{
-		return Mvc::getBase( static::getBaseId() );
+		return MVC::getBase( static::getBaseId() );
 	}
 
 
 	/**
-	 * @param Mvc_Router $router
+	 * @param MVC_Router $router
 	 */
-	public static function init( Mvc_Router $router ): void
+	public static function init( MVC_Router $router ): void
 	{
 		Logger::setLogger( new Logger_Web() );
 		Auth::setController( new Auth_Controller_Web() );

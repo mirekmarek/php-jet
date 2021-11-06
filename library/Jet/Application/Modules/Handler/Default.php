@@ -487,7 +487,7 @@ class Application_Modules_Handler_Default extends Application_Modules_Handler
 			$this->installed_modules_list
 		);
 
-		Mvc_Cache::reset();
+		MVC_Cache::reset();
 	}
 
 	/**
@@ -500,7 +500,7 @@ class Application_Modules_Handler_Default extends Application_Modules_Handler
 			$this->activated_modules_list
 		);
 
-		Mvc_Cache::reset();
+		MVC_Cache::reset();
 	}
 
 }

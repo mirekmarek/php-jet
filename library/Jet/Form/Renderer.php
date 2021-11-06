@@ -378,9 +378,9 @@ abstract class Form_Renderer extends BaseObject
 	}
 
 	/**
-	 * @return Mvc_View
+	 * @return MVC_View
 	 */
-	public function getView(): Mvc_View
+	public function getView(): MVC_View
 	{
 
 		$view = $this->field

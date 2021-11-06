@@ -8,9 +8,9 @@
 
 namespace JetApplicationModule\UI\Web;
 
-use Jet\Mvc_Controller_Default;
-use Jet\Mvc;
-use Jet\Mvc_Page_Content_Interface;
+use Jet\MVC_Controller_Default;
+use Jet\MVC;
+use Jet\MVC_Page_Content_Interface;
 use Jet\Http_Request;
 use Jet\Auth;
 use Jet\Http_Headers;
@@ -19,14 +19,14 @@ use Jet\Http_Headers;
 /**
  *
  */
-class Controller_Main extends Mvc_Controller_Default
+class Controller_Main extends MVC_Controller_Default
 {
 
 	/**
 	 *
-	 * @param Mvc_Page_Content_Interface $content
+	 * @param MVC_Page_Content_Interface $content
 	 */
-	public function __construct( Mvc_Page_Content_Interface $content )
+	public function __construct( MVC_Page_Content_Interface $content )
 	{
 		parent::__construct( $content );
 
@@ -45,7 +45,7 @@ class Controller_Main extends Mvc_Controller_Default
 	{
 		Auth::logout();
 
-		Http_Headers::movedTemporary( Mvc::getHomePage()->getURL() );
+		Http_Headers::movedTemporary( MVC::getHomePage()->getURL() );
 	}
 
 
@@ -55,7 +55,7 @@ class Controller_Main extends Mvc_Controller_Default
 	public function main_menu_Action(): void
 	{
 
-		$this->view->setVar( 'page_tree_current', [Mvc::getBase()->getHomepage( Mvc::getLocale() )] );
+		$this->view->setVar( 'page_tree_current', [MVC::getBase()->getHomepage( MVC::getLocale() )] );
 
 		$this->output( 'main-menu' );
 	}
@@ -65,7 +65,7 @@ class Controller_Main extends Mvc_Controller_Default
 	 */
 	public function secret_area_menu_Action(): void
 	{
-		$this->view->setVar( 'page_tree_current', [Mvc::getPage( 'secret_area' )] );
+		$this->view->setVar( 'page_tree_current', [MVC::getPage( 'secret_area' )] );
 
 		$this->output( 'secret-area-menu' );
 	}

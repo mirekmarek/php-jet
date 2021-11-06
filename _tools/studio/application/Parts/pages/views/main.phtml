@@ -3,7 +3,7 @@ namespace JetStudio;
 
 use Jet\UI;
 use Jet\Tr;
-use Jet\Mvc;
+use Jet\MVC;
 
 $this->setVar( 'what', Pages::whatToEdit() );
 $this->setVar( 'page', Pages::getCurrentPage() );
@@ -25,7 +25,7 @@ $this->setVar( 'page', Pages::getCurrentPage() );
 						<div class="dropdown-item" style="padding-bottom: 10px;">
 							<strong><?= $base->getName() ?></strong>
 							<?php foreach( $base->getLocales() as $locale ):
-								$link = Pages::getActionUrl( '', [], Mvc::HOMEPAGE_ID, $locale, $base->getId() );
+								$link = Pages::getActionUrl( '', [], MVC::HOMEPAGE_ID, $locale, $base->getId() );
 								?>
 								<div style="width: 300px;padding: 10px;">
 									<a href="<?= $link ?>"><?= UI::flag( $locale ) ?></a>

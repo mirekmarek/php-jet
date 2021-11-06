@@ -8,9 +8,9 @@
 
 namespace JetApplicationModule\Test\REST;
 
-use Jet\Mvc;
+use Jet\MVC;
 
-use Jet\Mvc_Page_Interface;
+use Jet\MVC_Page_Interface;
 use JetApplication\Application_REST;
 
 use CURLFile;
@@ -38,9 +38,9 @@ class Client
 	protected string $password = '';
 
 	/**
-	 * @var ?Mvc_Page_Interface
+	 * @var ?MVC_Page_Interface
 	 */
-	protected ?Mvc_Page_Interface $root_page = null;
+	protected ?MVC_Page_Interface $root_page = null;
 
 	/**
 	 * @var string
@@ -102,7 +102,7 @@ class Client
 		$this->username = $username;
 		$this->password = $password;
 
-		$this->root_page = Application_REST::getBase()->getHomepage( Mvc::getLocale() );
+		$this->root_page = Application_REST::getBase()->getHomepage( MVC::getLocale() );
 	}
 
 

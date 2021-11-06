@@ -11,9 +11,9 @@ namespace JetApplication;
 use Jet\BaseObject;
 use Jet\Auth_Controller_Interface;
 
-use Jet\Mvc;
-use Jet\Factory_Mvc;
-use Jet\Mvc_Page_Interface;
+use Jet\MVC;
+use Jet\Factory_MVC;
+use Jet\MVC_Page_Interface;
 
 use Jet\Application_Modules;
 use Jet\Logger;
@@ -123,7 +123,7 @@ class Auth_Controller_Web extends BaseObject implements Auth_Controller_Interfac
 	public function handleLogin(): void
 	{
 
-		$page = Mvc::getPage();
+		$page = MVC::getPage();
 
 
 		$action = 'login';
@@ -143,7 +143,7 @@ class Auth_Controller_Web extends BaseObject implements Auth_Controller_Interfac
 		$module = Application_Modules::moduleInstance( static::LOGIN_FORM_MODULE_NAME );
 
 		$page_content = [];
-		$page_content_item = Factory_Mvc::getPageContentInstance();
+		$page_content_item = Factory_MVC::getPageContentInstance();
 
 		$page_content_item->setModuleName( $module->getModuleManifest()->getName() );
 		$page_content_item->setControllerAction( $action );
@@ -252,11 +252,11 @@ class Auth_Controller_Web extends BaseObject implements Auth_Controller_Interfac
 
 
 	/**
-	 * @param Mvc_Page_Interface $page
+	 * @param MVC_Page_Interface $page
 	 *
 	 * @return bool
 	 */
-	public function checkPageAccess( Mvc_Page_Interface $page ): bool
+	public function checkPageAccess( MVC_Page_Interface $page ): bool
 	{
 		return $this->getCurrentUserHasPrivilege( Auth_Visitor_Role::PRIVILEGE_VISIT_PAGE, $page->getKey() );
 	}

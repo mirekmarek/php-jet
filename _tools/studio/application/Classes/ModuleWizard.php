@@ -17,9 +17,9 @@ use Jet\Http_Headers;
 use Jet\Http_Request;
 use Jet\IO_Dir;
 use Jet\IO_File;
-use Jet\Mvc_View;
+use Jet\MVC_View;
 use Jet\SysConf_Jet_Modules;
-use Jet\SysConf_Jet_Mvc;
+use Jet\SysConf_Jet_MVC;
 use Jet\SysConf_Path;
 use Jet\Tr;
 use Jet\UI_messages;
@@ -209,11 +209,11 @@ abstract class ModuleWizard extends BaseObject
 
 	/**
 	 *
-	 * @return Mvc_View
+	 * @return MVC_View
 	 */
-	public function getView(): Mvc_View
+	public function getView(): MVC_View
 	{
-		$view = new Mvc_View( $this->getBaseDir() . 'views/' );
+		$view = new MVC_View( $this->getBaseDir() . 'views/' );
 		$view->setVar( 'wizard', $this );
 
 		return $view;
@@ -306,7 +306,7 @@ abstract class ModuleWizard extends BaseObject
 			$pages_dir .= rawurldecode($this->values['PAGE_PATH_FRAGMENT']).'/';
 			IO_Dir::create($pages_dir);
 
-			IO_File::writeDataAsPhp($pages_dir.SysConf_Jet_Mvc::getPageDataFileName(), [
+			IO_File::writeDataAsPhp($pages_dir.SysConf_Jet_MVC::getPageDataFileName(), [
 				'id'       => $this->values['PAGE_ID'],
 				'title'    => $this->values['PAGE_TITLE'],
 				'icon'     => $this->values['PAGE_ICON'],

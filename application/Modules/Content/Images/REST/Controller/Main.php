@@ -9,15 +9,15 @@
 namespace JetApplicationModule\Content\Images\REST;
 
 use Jet\Http_Request;
-use Jet\Mvc_Controller_REST;
-use Jet\Mvc_Controller_REST_Router;
+use Jet\MVC_Controller_REST;
+use Jet\MVC_Controller_REST_Router;
 use JetApplication\Content_Gallery;
 use JetApplication\Content_Gallery_Image;
 
 /**
  *
  */
-class Controller_Main extends Mvc_Controller_REST
+class Controller_Main extends MVC_Controller_REST
 {
 
 	/**
@@ -36,11 +36,11 @@ class Controller_Main extends Mvc_Controller_REST
 	protected ?Content_Gallery_Image $image = null;
 
 	/**
-	 * @return Mvc_Controller_REST_Router
+	 * @return MVC_Controller_REST_Router
 	 */
-	public function getControllerRouter(): Mvc_Controller_REST_Router
+	public function getControllerRouter(): MVC_Controller_REST_Router
 	{
-		$router = new Mvc_Controller_REST_Router(
+		$router = new MVC_Controller_REST_Router(
 			$this,
 			[
 				'get_galleries'  => Main::ACTION_GET_GALLERY,

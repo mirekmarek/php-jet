@@ -12,12 +12,12 @@ use Jet\DataModel_Backend_MySQL;
 use Jet\DataModel_Backend_MySQL_Config;
 use Jet\DataModel_Backend_SQLite;
 use Jet\DataModel_Backend_SQLite_Config;
-use Jet\Mvc_Controller_Default;
+use Jet\MVC_Controller_Default;
 
 /**
  *
  */
-class Controller_Main extends Mvc_Controller_Default
+class Controller_Main extends MVC_Controller_Default
 {
 
 	/**

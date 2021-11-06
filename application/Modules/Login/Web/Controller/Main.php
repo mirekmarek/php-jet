@@ -11,7 +11,7 @@ namespace JetApplicationModule\Login\Web;
 use Jet\Logger;
 use Jet\Session;
 use Jet\Tr;
-use Jet\Mvc_Controller_Default;
+use Jet\MVC_Controller_Default;
 use Jet\Http_Headers;
 use Jet\Auth;
 
@@ -20,7 +20,7 @@ use JetApplication\Auth_Visitor_User as User;
 /**
  *
  */
-class Controller_Main extends Mvc_Controller_Default
+class Controller_Main extends MVC_Controller_Default
 {
 
 	/**

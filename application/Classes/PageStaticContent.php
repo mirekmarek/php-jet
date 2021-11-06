@@ -10,8 +10,8 @@ namespace JetApplication;
 
 use Jet\BaseObject;
 use Jet\IO_File;
-use Jet\Mvc_Page_Content_Interface;
-use Jet\Mvc_Page_Interface;
+use Jet\MVC_Page_Content_Interface;
+use Jet\MVC_Page_Interface;
 use Jet\SysConf_Path;
 
 /**
@@ -20,12 +20,12 @@ use Jet\SysConf_Path;
 class PageStaticContent extends BaseObject
 {
 	/**
-	 * @param Mvc_Page_Interface $page
-	 * @param Mvc_Page_Content_Interface|null $page_content
+	 * @param MVC_Page_Interface $page
+	 * @param MVC_Page_Content_Interface|null $page_content
 	 *
 	 * @return string
 	 */
-	public static function get( Mvc_Page_Interface $page, Mvc_Page_Content_Interface $page_content = null ) : string
+	public static function get( MVC_Page_Interface $page, MVC_Page_Content_Interface $page_content = null ) : string
 	{
 
 		$root_dir = SysConf_Path::getApplication() . 'texts/staticContent/';

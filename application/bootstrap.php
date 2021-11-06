@@ -23,4 +23,4 @@ require __DIR__.'/Init/HTTPRequest.php';
 require __DIR__.'/Init/Installation.php';
 //</REMOVE AFTER INSTALLATION> !!!
 
-Application::runMvc();
+Application::runMVC();

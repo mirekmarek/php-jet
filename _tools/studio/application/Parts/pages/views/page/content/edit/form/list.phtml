@@ -2,15 +2,15 @@
 
 namespace JetStudio;
 
-use Jet\Mvc_Layout;
+use Jet\MVC_Layout;
 use Jet\Tr;
 use Jet\UI;
 use Jet\Form;
 use Jet\UI_button;
-use Jet\Mvc_View;
+use Jet\MVC_View;
 
 /**
- * @var Mvc_View $this
+ * @var MVC_View $this
  * @var Pages_Page $page
  */
 
@@ -37,7 +37,7 @@ foreach( $page->getContent() as $content ) {
 
 	$position = $content->getOutputPosition();
 	if( !$position ) {
-		$position = Mvc_Layout::DEFAULT_OUTPUT_POSITION;
+		$position = MVC_Layout::DEFAULT_OUTPUT_POSITION;
 	}
 	if( !isset( $positions[$position] ) ) {
 		if( isset( $known_positions[$position] ) ) {
@@ -186,7 +186,7 @@ if( !$delete_content_action_creator ) {
 									?>
 									<td style="width: 200px;"><b><?= Tr::_( 'Callback:' ) ?></b></td>
 									<td>
-										<?= $callback[0] ?>::<?= $callback[1] ?><span style="color: #c9c9c9">( Jet\Mvc_Page $page, Jet\Mvc_Page_Content $content )</span>
+										<?= $callback[0] ?>::<?= $callback[1] ?><span style="color: #c9c9c9">( Jet\MVC_Page $page, Jet\MVC_Page_Content $content )</span>
 									</td>
 									<?php
 									break;
@@ -279,7 +279,7 @@ if( !$delete_content_action_creator ) {
 									<?= $class_field->input() ?>
 									<span class="input-group-prepend"><span class="input-group-text">::</span></span>
 									<?= $method_field->input() ?>
-									<span class="input-group-append"><span class="input-group-text">( Jet\Mvc_Page $page, Jet\Mvc_Page_Content $content )</span></span>
+									<span class="input-group-append"><span class="input-group-text">( Jet\MVC_Page $page, Jet\MVC_Page_Content $content )</span></span>
 								</div>
 								<?= $class_field->row()->end() ?>
 							</div>

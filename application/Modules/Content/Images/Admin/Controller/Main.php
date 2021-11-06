@@ -12,10 +12,10 @@ use JetApplication\Content_Gallery;
 
 use Jet\AJAX;
 use Jet\Form_Field_FileImage;
-use Jet\Mvc_Controller_Default;
+use Jet\MVC_Controller_Default;
 use Jet\Http_Headers;
 use Jet\Http_Request;
-use Jet\Mvc_Controller_Router_AddEditDelete;
+use Jet\MVC_Controller_Router_AddEditDelete;
 use Jet\Tr;
 use Jet\Navigation_Breadcrumb;
 use Jet\UI_messages;
@@ -28,13 +28,13 @@ use JetApplicationModule\UI\Admin\Main as UI_module;
 /**
  *
  */
-class Controller_Main extends Mvc_Controller_Default
+class Controller_Main extends MVC_Controller_Default
 {
 
 	/**
-	 * @var ?Mvc_Controller_Router_AddEditDelete
+	 * @var ?MVC_Controller_Router_AddEditDelete
 	 */
-	protected ?Mvc_Controller_Router_AddEditDelete $router = null;
+	protected ?MVC_Controller_Router_AddEditDelete $router = null;
 
 	/**
 	 * @var ?Content_Gallery
@@ -44,12 +44,12 @@ class Controller_Main extends Mvc_Controller_Default
 
 	/**
 	 *
-	 * @return Mvc_Controller_Router_AddEditDelete
+	 * @return MVC_Controller_Router_AddEditDelete
 	 */
-	public function getControllerRouter(): Mvc_Controller_Router_AddEditDelete
+	public function getControllerRouter(): MVC_Controller_Router_AddEditDelete
 	{
 		if( !$this->router ) {
-			$this->router = new Mvc_Controller_Router_AddEditDelete(
+			$this->router = new MVC_Controller_Router_AddEditDelete(
 				$this,
 				function( $id ) {
 					return (bool)($this->gallery = Content_Gallery::get( $id ));

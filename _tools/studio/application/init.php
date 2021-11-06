@@ -17,7 +17,7 @@ use Jet\SysConf_Jet_Modules;
 use Jet\SysConf_Jet_UI;
 use Jet\SysConf_Path;
 use Jet\Translator;
-use Jet\Factory_Mvc;
+use Jet\Factory_MVC;
 
 
 require __DIR__.'/config/Path.php';
@@ -53,7 +53,7 @@ Project::setApplicationNamespace('JetApplication');
 
 Factory_DataModel::setPropertyDefinitionClassNamePrefix(__NAMESPACE__.'\DataModel_Definition_Property_');
 Factory_DataModel::setModelDefinitionClassNamePrefix(__NAMESPACE__.'\DataModel_Definition_Model_');
-Factory_Mvc::setBaseClassName( Bases_Base::class );
-Factory_Mvc::setPageClassName( Pages_Page::class );
-Factory_Mvc::setPageContentClassName( Pages_Page_Content::class );
+Factory_MVC::setBaseClassName( Bases_Base::class );
+Factory_MVC::setPageClassName( Pages_Page::class );
+Factory_MVC::setPageContentClassName( Pages_Page_Content::class );
 Factory_Application::setModuleManifestClassName( Modules_Manifest::class );

@@ -14,8 +14,8 @@ use Jet\DataModel_Related_1toN;
 use Jet\DataModel_IDController_Passive;
 
 use Jet\Locale;
-use Jet\Mvc;
-use Jet\Mvc_Page_Interface;
+use Jet\MVC;
+use Jet\MVC_Page_Interface;
 use Jet\Data_Text;
 use Jet\Form_Field_Input;
 
@@ -161,14 +161,14 @@ class Content_Gallery_Localized extends DataModel_Related_1toN
 	}
 
 	/**
-	 * @param Mvc_Page_Interface|null $base_page
+	 * @param MVC_Page_Interface|null $base_page
 	 *
 	 * @return string
 	 */
-	public function getURL( Mvc_Page_Interface $base_page = null ) : string
+	public function getURL( MVC_Page_Interface $base_page = null ) : string
 	{
 		if( !$base_page ) {
-			$base_page = Mvc::getPage();
+			$base_page = MVC::getPage();
 
 		}
 		return $base_page->getURL( [$this->getURIFragment()], [] );

@@ -236,9 +236,9 @@ class UI_dataGrid extends BaseObject
 
 
 	/**
-	 * @return Mvc_View
+	 * @return MVC_View
 	 */
-	protected function getView(): Mvc_View
+	protected function getView(): MVC_View
 	{
 		$view = UI::getView();
 		$view->setVar( 'grid', $this );

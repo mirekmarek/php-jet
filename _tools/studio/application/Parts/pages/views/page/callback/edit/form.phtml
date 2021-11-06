@@ -2,10 +2,10 @@
 namespace JetStudio;
 
 use Jet\Form;
-use Jet\Mvc_View;
+use Jet\MVC_View;
 
 /**
- * @var Mvc_View $this
+ * @var MVC_View $this
  * @var Pages_Page $page
  */
 
@@ -32,7 +32,7 @@ $method_field = $form->field( 'output_callback_method' );
 	<?= $class_field->input() ?>
 	<span class="input-group-prepend"><span class="input-group-text">::</span></span>
 	<?= $method_field->input() ?>
-	<span class="input-group-append"><span class="input-group-text">( Jet\Mvc_Page $page )</span></span>
+	<span class="input-group-append"><span class="input-group-text">( Jet\MVC_Page $page )</span></span>
 </div>
 <?= $class_field->row()->end() ?>
 

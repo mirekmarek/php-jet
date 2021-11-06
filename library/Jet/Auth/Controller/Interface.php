@@ -63,10 +63,10 @@ interface Auth_Controller_Interface
 
 
 	/**
-	 * @param Mvc_Page_Interface $page
+	 * @param MVC_Page_Interface $page
 	 *
 	 * @return bool
 	 */
-	public function checkPageAccess( Mvc_Page_Interface $page ): bool;
+	public function checkPageAccess( MVC_Page_Interface $page ): bool;
 
 }

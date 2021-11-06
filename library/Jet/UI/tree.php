@@ -296,9 +296,9 @@ class UI_tree extends BaseObject
 	}
 
 	/**
-	 * @return Mvc_View
+	 * @return MVC_View
 	 */
-	public function getView(): Mvc_View
+	public function getView(): MVC_View
 	{
 		$view = UI::getView();
 		$view->setVar( 'tree', $this );

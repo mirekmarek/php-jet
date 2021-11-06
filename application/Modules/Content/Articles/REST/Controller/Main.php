@@ -10,13 +10,13 @@ namespace JetApplicationModule\Content\Articles\REST;
 
 use JetApplication\Content_Article;
 
-use Jet\Mvc_Controller_REST;
-use Jet\Mvc_Controller_REST_Router;
+use Jet\MVC_Controller_REST;
+use Jet\MVC_Controller_REST_Router;
 
 /**
  *
  */
-class Controller_Main extends Mvc_Controller_REST
+class Controller_Main extends MVC_Controller_REST
 {
 
 	/**
@@ -25,11 +25,11 @@ class Controller_Main extends Mvc_Controller_REST
 	protected ?Content_Article $article = null;
 
 	/**
-	 * @return Mvc_Controller_REST_Router
+	 * @return MVC_Controller_REST_Router
 	 */
-	public function getControllerRouter(): Mvc_Controller_REST_Router
+	public function getControllerRouter(): MVC_Controller_REST_Router
 	{
-		$router = new Mvc_Controller_REST_Router(
+		$router = new MVC_Controller_REST_Router(
 			$this,
 			[
 				'get'    => Main::ACTION_GET_ARTICLE,

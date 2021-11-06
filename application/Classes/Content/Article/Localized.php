@@ -14,7 +14,7 @@ use Jet\DataModel_Related_1toN;
 use Jet\DataModel_IDController_Passive;
 
 use Jet\Locale;
-use Jet\Mvc;
+use Jet\MVC;
 use Jet\Data_Text;
 use Jet\Form;
 use Jet\Form_Field_Input;
@@ -188,7 +188,7 @@ class Content_Article_Localized extends DataModel_Related_1toN
 	 */
 	public function getURL(): string
 	{
-		return Mvc::getPage()->getURL( [$this->getURIFragment()], [] );
+		return MVC::getPage()->getURL( [$this->getURIFragment()], [] );
 	}
 
 	/**

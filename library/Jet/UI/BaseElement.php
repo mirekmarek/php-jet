@@ -87,9 +87,9 @@ abstract class UI_BaseElement extends BaseObject
 	}
 
 	/**
-	 * @return Mvc_View
+	 * @return MVC_View
 	 */
-	public function getView(): Mvc_View
+	public function getView(): MVC_View
 	{
 
 		$view = UI::getView();

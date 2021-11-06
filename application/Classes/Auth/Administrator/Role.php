@@ -13,8 +13,8 @@ use Jet\Data_Forest;
 use Jet\Data_Tree;
 use Jet\Form_Field_Input;
 use Jet\Tr;
-use Jet\Mvc;
-use Jet\Mvc_Page;
+use Jet\MVC;
+use Jet\MVC_Page;
 use Jet\Form;
 
 /**
@@ -355,13 +355,13 @@ class Auth_Administrator_Role extends DataModel implements Auth_Role_Interface
 
 	/**
 	 *
-	 * @return Mvc_Page[]
+	 * @return MVC_Page[]
 	 */
 	public static function getAclActionValuesList_Pages(): array
 	{
 		$pages = [];
 
-		foreach( Mvc::getPages( Application_Admin::getBaseId(), Mvc::getLocale() ) as $page ) {
+		foreach( MVC::getPages( Application_Admin::getBaseId(), MVC::getLocale() ) as $page ) {
 			$pages[$page->getId()] = $page->getName();
 		}
 

@@ -879,11 +879,11 @@ class Form extends BaseObject
 	}
 
 	/**
-	 * @return Mvc_View
+	 * @return MVC_View
 	 */
-	public function getView(): Mvc_View
+	public function getView(): MVC_View
 	{
-		return Factory_Mvc::getViewInstance( $this->getViewsDir() );
+		return Factory_MVC::getViewInstance( $this->getViewsDir() );
 	}
 
 

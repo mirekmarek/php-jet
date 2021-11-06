@@ -54,9 +54,9 @@ class Mailing_Email_Template extends BaseObject
 	protected string $view_dir = '';
 
 	/**
-	 * @var ?Mvc_View
+	 * @var ?MVC_View
 	 */
-	protected ?Mvc_View $__view = null;
+	protected ?MVC_View $__view = null;
 
 
 	/**
@@ -95,12 +95,12 @@ class Mailing_Email_Template extends BaseObject
 
 
 	/**
-	 * @return Mvc_View
+	 * @return MVC_View
 	 */
-	public function getView(): Mvc_View
+	public function getView(): MVC_View
 	{
 		if( !$this->__view ) {
-			$this->__view = Factory_Mvc::getViewInstance( $this->getViewDir() );
+			$this->__view = Factory_MVC::getViewInstance( $this->getViewDir() );
 		}
 
 		return $this->__view;

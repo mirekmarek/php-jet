@@ -15,7 +15,7 @@ use Jet\Form_Field_Checkbox;
 use Jet\Form_Field_Input;
 use Jet\IO_Dir;
 use Jet\IO_File;
-use Jet\Mvc_Cache;
+use Jet\MVC_Cache;
 use Jet\Tr;
 use ReflectionClass;
 use ReflectionMethod;
@@ -45,7 +45,7 @@ class Modules_Manifest extends Application_Module_Manifest
 		$ok = true;
 		try {
 			$this->create_saveManifest();
-			Mvc_Cache::reset();
+			MVC_Cache::reset();
 		} catch( Exception $e ) {
 			$ok = false;
 			Application::handleError( $e );
@@ -356,7 +356,7 @@ class Modules_Manifest extends Application_Module_Manifest
 						$_class = $parent;
 					}
 
-					if( !in_array( 'Jet\Mvc_Controller', $parents ) ) {
+					if( !in_array( 'Jet\MVC_Controller', $parents ) ) {
 						continue;
 					}
 

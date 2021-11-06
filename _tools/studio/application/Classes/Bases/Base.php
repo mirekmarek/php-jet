@@ -10,24 +10,24 @@ namespace JetStudio;
 
 use Jet\Exception;
 use Jet\IO_Dir;
-use Jet\Mvc_Layout;
-use Jet\Mvc_Base;
+use Jet\MVC_Layout;
+use Jet\MVC_Base;
 use Jet\Form;
 use Jet\Form_Field_Input;
 use Jet\Form_Field_Checkbox;
 use Jet\Form_Field_Hidden;
-use Jet\SysConf_Jet_Mvc_View;
+use Jet\SysConf_Jet_MVC_View;
 use Jet\Tr;
-use Jet\Factory_Mvc;
+use Jet\Factory_MVC;
 use Jet\Locale;
-use Jet\Mvc;
-use Jet\Mvc_Base_LocalizedData_Interface;
+use Jet\MVC;
+use Jet\MVC_Base_LocalizedData_Interface;
 use Jet\IO_File;
 
 /**
  *
  */
-class Bases_Base extends Mvc_Base
+class Bases_Base extends MVC_Base
 {
 	const PARAMS_COUNT = 5;
 
@@ -420,7 +420,7 @@ class Bases_Base extends Mvc_Base
 						continue;
 					}
 
-					$meta_tag = Factory_Mvc::getBaseLocalizedMetaTagInstance();
+					$meta_tag = Factory_MVC::getBaseLocalizedMetaTagInstance();
 
 					$meta_tag->setAttribute( $attribute );
 					$meta_tag->setAttributeValue( $attribute_value );
@@ -477,9 +477,9 @@ class Bases_Base extends Mvc_Base
 	}
 
 	/**
-	 * @return Mvc_Base_LocalizedData_Interface|bool
+	 * @return MVC_Base_LocalizedData_Interface|bool
 	 */
-	public function catchAddLocaleForm(): Mvc_Base_LocalizedData_Interface|bool
+	public function catchAddLocaleForm(): MVC_Base_LocalizedData_Interface|bool
 	{
 		$form = $this->getAddLocaleForm();
 
@@ -554,7 +554,7 @@ class Bases_Base extends Mvc_Base
 			$homepage = Pages_Page::createPage(
 				$this->getId(),
 				$locale,
-				Mvc::HOMEPAGE_ID,
+				MVC::HOMEPAGE_ID,
 				'Homepage'
 			);
 
@@ -672,7 +672,7 @@ class Bases_Base extends Mvc_Base
 				$homepage = Pages_Page::createPage(
 					$this->id,
 					$locale,
-					Mvc::HOMEPAGE_ID,
+					MVC::HOMEPAGE_ID,
 					'Homepage'
 				);
 
@@ -716,11 +716,11 @@ class Bases_Base extends Mvc_Base
 	 */
 	public function getLayoutsList(): array
 	{
-		$list = IO_Dir::getList( $this->getLayoutsPath(), '*.' . SysConf_Jet_Mvc_View::getScriptFileSuffix(), false, true );
+		$list = IO_Dir::getList( $this->getLayoutsPath(), '*.' . SysConf_Jet_MVC_View::getScriptFileSuffix(), false, true );
 
 		$res = [];
 
-		$len = strlen( SysConf_Jet_Mvc_View::getScriptFileSuffix() ) + 1;
+		$len = strlen( SysConf_Jet_MVC_View::getScriptFileSuffix() ) + 1;
 		$len *= -1;
 
 		foreach( $list as $name ) {
@@ -740,16 +740,16 @@ class Bases_Base extends Mvc_Base
 	public function getLayoutOutputPositions( string $layout_script_name ): array
 	{
 		$res = [
-			Mvc_Layout::DEFAULT_OUTPUT_POSITION => Tr::_( 'Main position' )
+			MVC_Layout::DEFAULT_OUTPUT_POSITION => Tr::_( 'Main position' )
 		];
 
-		$layout_file_path = $this->getLayoutsPath() . $layout_script_name . '.' . SysConf_Jet_Mvc_View::getScriptFileSuffix();
+		$layout_file_path = $this->getLayoutsPath() . $layout_script_name . '.' . SysConf_Jet_MVC_View::getScriptFileSuffix();
 
 		if( IO_File::isReadable( $layout_file_path ) ) {
 			$layout = IO_File::read( $layout_file_path );
 
 			if( preg_match_all(
-				'/<' . Mvc_Layout::TAG_POSITION . '[ ]+name="([a-zA-Z0-9\-_ ]*)"[^\/]*\/>/i',
+				'/<' . MVC_Layout::TAG_POSITION . '[ ]+name="([a-zA-Z0-9\-_ ]*)"[^\/]*\/>/i',
 				$layout,
 				$matches
 			) ) {

@@ -11,13 +11,13 @@ namespace JetApplication\Installer;
 use Exception;
 use Jet\Http_Request;
 use Jet\Http_Headers;
-use Jet\Mvc;
-use Jet\Mvc_Base;
-use Jet\Factory_Mvc;
-use Jet\Mvc_Base_Interface;
+use Jet\MVC;
+use Jet\MVC_Base;
+use Jet\Factory_MVC;
+use Jet\MVC_Base_Interface;
 use Jet\Form;
 use Jet\Form_Field_Input;
-use Jet\Mvc_Base_LocalizedData_MetaTag;
+use Jet\MVC_Base_LocalizedData_MetaTag;
 use Jet\Tr;
 use Jet\UI_messages;
 use Jet\SysConf_URI;
@@ -42,7 +42,7 @@ class Installer_Step_CreateBases_Controller extends Installer_Step_Controller
 	 */
 	public static function basesCreated() : bool
 	{
-		return count( Mvc::getBases() ) == 3;
+		return count( MVC::getBases() ) == 3;
 	}
 
 	/**
@@ -67,7 +67,7 @@ class Installer_Step_CreateBases_Controller extends Installer_Step_Controller
 
 			$URL = $_SERVER['HTTP_HOST'] . SysConf_URI::getBase();
 
-			$web = Factory_Mvc::getBaseInstance();
+			$web = Factory_MVC::getBaseInstance();
 			$web->setName( 'Example Web' );
 			$web->setId( Application_Web::getBaseId() );
 
@@ -75,7 +75,7 @@ class Installer_Step_CreateBases_Controller extends Installer_Step_Controller
 			$ld->setTitle( Tr::_( 'PHP Jet Example Web', [], null, $default_locale ) );
 			$ld->setURLs( [$URL] );
 
-			$meta_tag = new Mvc_Base_LocalizedData_MetaTag();
+			$meta_tag = new MVC_Base_LocalizedData_MetaTag();
 			$meta_tag->setAttribute( 'attribute' );
 			$meta_tag->setAttributeValue( 'example' );
 			$meta_tag->setContent( 'Example tag' );
@@ -99,7 +99,7 @@ class Installer_Step_CreateBases_Controller extends Installer_Step_Controller
 			] );
 
 
-			$admin = Factory_Mvc::getBaseInstance();
+			$admin = Factory_MVC::getBaseInstance();
 			$admin->setIsSecret( true );
 			$admin->setName( 'Example Administration' );
 			$admin->setId( Application_Admin::getBaseId() );
@@ -123,7 +123,7 @@ class Installer_Step_CreateBases_Controller extends Installer_Step_Controller
 			] );
 
 
-			$rest = Factory_Mvc::getBaseInstance();
+			$rest = Factory_MVC::getBaseInstance();
 			$rest->setIsSecret( true );
 			$rest->setName( 'Example REST API' );
 			$rest->setId( Application_REST::getBaseId() );
@@ -161,7 +161,7 @@ class Installer_Step_CreateBases_Controller extends Installer_Step_Controller
 		}
 
 		/**
-		 * @var Mvc_Base_Interface $base
+		 * @var MVC_Base_Interface $base
 		 */
 
 
@@ -175,7 +175,7 @@ class Installer_Step_CreateBases_Controller extends Installer_Step_Controller
 
 			} else {
 				/**
-				 * @var Mvc_Base[] $bases
+				 * @var MVC_Base[] $bases
 				 */
 				$bases[Application_REST::getBaseId()]->setInitializer( [
 					Application_REST::class,

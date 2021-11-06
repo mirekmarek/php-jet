@@ -2,13 +2,13 @@
 
 namespace JetApplicationModule\Content\Images\Admin;
 
-use Jet\Mvc_View;
+use Jet\MVC_View;
 use Jet\UI;
 use Jet\Tr;
-use Jet\Mvc;
+use Jet\MVC;
 
 /**
- * @var Mvc_View $this
+ * @var MVC_View $this
  */
 
 $dialog = UI::dialog( 'dialog_select_image', Tr::_( 'Select image' ), 1100 );
@@ -34,7 +34,7 @@ $dialog = UI::dialog( 'dialog_select_image', Tr::_( 'Select image' ), 1100 );
 <?= $dialog->start() ?>
 	<div style="display: inline-block;height: 500px">
 		<iframe
-				src="<?= Mvc::getPage( 'dialog-select-image' )->getURLPath() ?>"
+				src="<?= MVC::getPage( 'dialog-select-image' )->getURLPath() ?>"
 				id="dialog_select_image_frame"
 				style="width: 750px;height: 500px;"
 		></iframe>

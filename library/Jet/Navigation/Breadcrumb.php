@@ -79,11 +79,11 @@ class Navigation_Breadcrumb extends BaseObject
 	}
 
 	/**
-	 * @param Mvc_Page_Interface $page
+	 * @param MVC_Page_Interface $page
 	 *
 	 * @return Navigation_Breadcrumb_Item
 	 */
-	public static function addPage( Mvc_Page_Interface $page ): Navigation_Breadcrumb_Item
+	public static function addPage( MVC_Page_Interface $page ): Navigation_Breadcrumb_Item
 	{
 		if( static::$items === null ) {
 			static::setByPage();
@@ -131,12 +131,12 @@ class Navigation_Breadcrumb extends BaseObject
 
 
 	/**
-	 * @param Mvc_Page_Interface|null $page (optional)
+	 * @param MVC_Page_Interface|null $page (optional)
 	 */
-	public static function setByPage( Mvc_Page_Interface $page = null ): void
+	public static function setByPage( MVC_Page_Interface $page = null ): void
 	{
 		if( !$page ) {
-			$page = Mvc::getPage();
+			$page = MVC::getPage();
 		}
 
 		static::$items = [];

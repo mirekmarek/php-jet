@@ -14,8 +14,8 @@ use Jet\Application as Jet_Application;
 use Jet\Http_Request;
 use Jet\IO_File;
 use Jet\Locale;
-use Jet\Mvc_Layout;
-use Jet\Mvc_View;
+use Jet\MVC_Layout;
+use Jet\MVC_View;
 use Jet\SysConf_Path;
 use Jet\Tr;
 use Jet\UI_messages;
@@ -27,9 +27,9 @@ class Application extends Jet_Application
 {
 
 	/**
-	 * @var ?Mvc_Layout
+	 * @var ?MVC_Layout
 	 */
-	protected static ?Mvc_Layout $layout = null;
+	protected static ?MVC_Layout $layout = null;
 
 	/**
 	 * @var string
@@ -159,36 +159,36 @@ class Application extends Jet_Application
 	}
 
 	/**
-	 * @return Mvc_View
+	 * @return MVC_View
 	 */
-	public static function getGeneralView(): Mvc_View
+	public static function getGeneralView(): MVC_View
 	{
-		return new Mvc_View( SysConf_Path::getBase() . 'application/views/' );
+		return new MVC_View( SysConf_Path::getBase() . 'application/views/' );
 	}
 
 	/**
 	 * @param string|null $part
 	 *
-	 * @return Mvc_View
+	 * @return MVC_View
 	 */
-	public static function getView( ?string $part = null ): Mvc_View
+	public static function getView( ?string $part = null ): MVC_View
 	{
 		if( !$part ) {
 			$part = static::getCurrentPart();
 		}
-		return new Mvc_View( SysConf_Path::getApplication() . 'Parts/' . $part . '/views/' );
+		return new MVC_View( SysConf_Path::getApplication() . 'Parts/' . $part . '/views/' );
 	}
 
 	/**
 	 * @param string $script
 	 *
-	 * @return Mvc_Layout
+	 * @return MVC_Layout
 	 */
-	public static function getLayout( string $script = 'default' ): Mvc_Layout
+	public static function getLayout( string $script = 'default' ): MVC_Layout
 	{
 		if( !static::$layout ) {
-			static::$layout = new Mvc_Layout( SysConf_Path::getBase() . 'application/layouts/', $script );
-			Mvc_Layout::setCurrentLayout( static::$layout );
+			static::$layout = new MVC_Layout( SysConf_Path::getBase() . 'application/layouts/', $script );
+			MVC_Layout::setCurrentLayout( static::$layout );
 		}
 
 		return static::$layout;

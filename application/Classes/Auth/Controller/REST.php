@@ -10,7 +10,7 @@ namespace JetApplication;
 
 use Jet\BaseObject;
 use Jet\Auth_Controller_Interface;
-use Jet\Mvc_Page_Interface;
+use Jet\MVC_Page_Interface;
 
 use Jet\Debug;
 use Jet\Http_Headers;
@@ -220,11 +220,11 @@ class Auth_Controller_REST extends BaseObject implements Auth_Controller_Interfa
 
 
 	/**
-	 * @param Mvc_Page_Interface $page
+	 * @param MVC_Page_Interface $page
 	 *
 	 * @return bool
 	 */
-	public function checkPageAccess( Mvc_Page_Interface $page ): bool
+	public function checkPageAccess( MVC_Page_Interface $page ): bool
 	{
 
 		$current_user = $this->getCurrentUser();

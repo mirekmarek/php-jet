@@ -9,6 +9,6 @@ namespace Jet;
 
 require 'init/init.php';
 
-Mvc_Cache::reset();
+MVC_Cache::reset();
 
 echo 'Done'.PHP_EOL.PHP_EOL;

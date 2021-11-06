@@ -28,9 +28,9 @@ class Navigation_Breadcrumb_Item extends BaseObject
 
 	/**
 	 *
-	 * @var ?Mvc_Page_Interface
+	 * @var ?MVC_Page_Interface
 	 */
-	protected ?Mvc_Page_Interface $page = null;
+	protected ?MVC_Page_Interface $page = null;
 
 	/**
 	 * @var int
@@ -50,17 +50,17 @@ class Navigation_Breadcrumb_Item extends BaseObject
 
 	/**
 	 *
-	 * @return Mvc_Page_Interface|null
+	 * @return MVC_Page_Interface|null
 	 */
-	public function getPage(): Mvc_Page_Interface|null
+	public function getPage(): MVC_Page_Interface|null
 	{
 		return $this->page;
 	}
 
 	/**
-	 * @param Mvc_Page_Interface $page
+	 * @param MVC_Page_Interface $page
 	 */
-	public function setPage( Mvc_Page_Interface $page ): void
+	public function setPage( MVC_Page_Interface $page ): void
 	{
 		$this->page = $page;
 		$this->URL = $page->getURL();

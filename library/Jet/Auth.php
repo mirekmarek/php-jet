@@ -99,11 +99,11 @@ class Auth extends BaseObject
 	}
 
 	/**
-	 * @param Mvc_Page_Interface $page
+	 * @param MVC_Page_Interface $page
 	 *
 	 * @return bool
 	 */
-	public static function checkPageAccess( Mvc_Page_Interface $page ): bool
+	public static function checkPageAccess( MVC_Page_Interface $page ): bool
 	{
 		return static::getController()->checkPageAccess( $page );
 	}

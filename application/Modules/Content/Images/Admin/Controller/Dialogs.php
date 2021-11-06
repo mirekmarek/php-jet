@@ -8,12 +8,12 @@
 
 namespace JetApplicationModule\Content\Images\Admin;
 
-use Jet\Mvc_Controller_Default;
+use Jet\MVC_Controller_Default;
 
 /**
  *
  */
-class Controller_Dialogs extends Mvc_Controller_Default
+class Controller_Dialogs extends MVC_Controller_Default
 {
 
 	/**

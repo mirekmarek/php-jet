@@ -10,10 +10,10 @@ namespace JetApplication\Installer;
 
 use Jet\Http_Request;
 use Jet\Http_Headers;
-use Jet\Factory_Mvc;
-use Jet\Mvc_Layout;
+use Jet\Factory_MVC;
+use Jet\MVC_Layout;
 use Jet\Locale;
-use Jet\Mvc_View;
+use Jet\MVC_View;
 use Jet\SysConf_Jet_Translator;
 use Jet\Session;
 use Jet\Translator;
@@ -65,9 +65,9 @@ class Installer
 	protected static string $base_path = '';
 
 	/**
-	 * @var ?Mvc_Layout
+	 * @var ?MVC_Layout
 	 */
-	protected static ?Mvc_Layout $layout = null;
+	protected static ?MVC_Layout $layout = null;
 
 	/**
 	 * @param array $steps
@@ -393,13 +393,13 @@ class Installer
 	}
 
 	/**
-	 * @return Mvc_Layout
+	 * @return MVC_Layout
 	 */
-	public static function getLayout(): Mvc_Layout
+	public static function getLayout(): MVC_Layout
 	{
 
 		if( !static::$layout ) {
-			static::$layout = Factory_Mvc::getLayoutInstance( static::getBasePath() . 'layout/', 'default' );
+			static::$layout = Factory_MVC::getLayoutInstance( static::getBasePath() . 'layout/', 'default' );
 		}
 
 		return static::$layout;
@@ -451,11 +451,11 @@ class Installer
 	}
 
 	/**
-	 * @return Mvc_View
+	 * @return MVC_View
 	 */
-	public static function getView(): Mvc_View
+	public static function getView(): MVC_View
 	{
-		return new Mvc_View( static::getBasePath() . 'views/' );
+		return new MVC_View( static::getBasePath() . 'views/' );
 	}
 
 

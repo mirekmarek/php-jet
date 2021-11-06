@@ -22,11 +22,11 @@ class UI
 
 
 	/**
-	 * @return Mvc_View
+	 * @return MVC_View
 	 */
-	public static function getView(): Mvc_View
+	public static function getView(): MVC_View
 	{
-		return Factory_Mvc::getViewInstance( SysConf_Jet_UI::getViewsDir() );
+		return Factory_MVC::getViewInstance( SysConf_Jet_UI::getViewsDir() );
 	}
 
 

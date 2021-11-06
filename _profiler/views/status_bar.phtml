@@ -7,7 +7,7 @@
  */
 
 use Jet\Debug_Profiler_Run;
-use Jet\SysConf_Jet_Mvc;
+use Jet\SysConf_Jet_MVC;
 use Jet\SysConf_Jet_Autoloader;
 use Jet\SysConf_Jet_PackageCreator_CSS;
 use Jet\SysConf_Jet_PackageCreator_JavaScript;
@@ -58,7 +58,7 @@ $show_cache_state = function( string $title, bool $state ) {
 			</div>
 			<div style="display:table-cell;padding: 0 5px 0 0;border: none;"><b>Cache state:</b></div>
 			<div style="display:table-cell;padding: 0 5px 0 0;border: none;"><?php $show_cache_state('Autoloader', SysConf_Jet_Autoloader::getCacheEnabled() ); ?></div>
-			<div style="display:table-cell;padding: 0 5px 0 0;border: none;"><?php $show_cache_state('MVC', SysConf_Jet_Mvc::getCacheEnabled() ); ?></div>
+			<div style="display:table-cell;padding: 0 5px 0 0;border: none;"><?php $show_cache_state('MVC', SysConf_Jet_MVC::getCacheEnabled() ); ?></div>
 			<div style="display:table-cell;padding: 0 5px 0 0;border: none;"><b>Packager state:</b></div>
 			<div style="display:table-cell;padding: 0 5px 0 0;border: none;"><?php $show_cache_state('JS', SysConf_Jet_PackageCreator_JavaScript::getEnabled() ); ?></div>
 			<div style="display:table-cell;padding: 0 5px 0 0;border: none;"><?php $show_cache_state('CSS', SysConf_Jet_PackageCreator_CSS::getEnabled() ); ?></div>
