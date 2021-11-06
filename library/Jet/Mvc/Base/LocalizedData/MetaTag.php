@@ -46,7 +46,7 @@ class Mvc_Base_LocalizedData_MetaTag extends BaseObject implements Mvc_Base_Loca
 	 *
 	 * @return static
 	 */
-	public static function createByData( Mvc_Base_LocalizedData_Interface $localized_data, array $data ): static
+	public static function _createByData( Mvc_Base_LocalizedData_Interface $localized_data, array $data ): static
 	{
 		/**
 		 * @var Mvc_Base_LocalizedData_MetaTag $meta_tag

@@ -20,7 +20,7 @@ interface Mvc_Base_LocalizedData_MetaTag_Interface
 	 *
 	 * @return static
 	 */
-	public static function createByData( Mvc_Base_LocalizedData_Interface $localized_data, array $data ): static;
+	public static function _createByData( Mvc_Base_LocalizedData_Interface $localized_data, array $data ): static;
 
 	/**
 	 * @return Mvc_Base_LocalizedData_Interface

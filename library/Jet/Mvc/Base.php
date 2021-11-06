@@ -221,7 +221,12 @@ class Mvc_Base extends BaseObject implements Mvc_Base_Interface
 		foreach( $data['localized_data'] as $locale_str => $localized_data ) {
 			$locale = new Locale( $locale_str );
 
-			$this->localized_data[$locale_str] = Mvc_Base_LocalizedData::createByData( $this, $locale, $localized_data );
+			/**
+			 * @var Mvc_Base_LocalizedData_Interface $ld_class_name
+			 */
+			$ld_class_name = Factory_Mvc::getBaseLocalizedClassName();
+
+			$this->localized_data[$locale_str] = $ld_class_name::_createByData( $this, $locale, $localized_data );
 
 		}
 		unset( $data['localized_data'] );

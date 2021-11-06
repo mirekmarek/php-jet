@@ -20,7 +20,7 @@ interface Mvc_Page_MetaTag_Interface
 	 *
 	 * @return static
 	 */
-	public static function createByData( Mvc_Page_Interface $page, array $data ): static;
+	public static function _createByData( Mvc_Page_Interface $page, array $data ): static;
 
 	/**
 	 * @param Mvc_Page_Interface $page

@@ -71,7 +71,7 @@ class Mvc_Base_LocalizedData extends BaseObject implements Mvc_Base_LocalizedDat
 	 *
 	 * @return static
 	 */
-	public static function createByData( Mvc_Base_Interface $base, Locale $locale, array $data ): static
+	public static function _createByData( Mvc_Base_Interface $base, Locale $locale, array $data ): static
 	{
 		/**
 		 * @var Mvc_Base_LocalizedData $ld
@@ -93,9 +93,15 @@ class Mvc_Base_LocalizedData extends BaseObject implements Mvc_Base_LocalizedDat
 	{
 		$meta_tags = [];
 
+		$class_name = Factory_Mvc::getBaseLocalizedMetaTagClassName();
+
+		/**
+		 * @var Mvc_Base_LocalizedData_MetaTag_Interface $class_name
+		 */
+
 		if( isset( $data['default_meta_tags'] ) ) {
 			foreach( $data['default_meta_tags'] as $m_data ) {
-				$meta_tags[] = Mvc_Base_LocalizedData_MetaTag::createByData( $this, $m_data );
+				$meta_tags[] = $class_name::_createByData( $this, $m_data );
 			}
 
 			$this->setDefaultMetaTags( $meta_tags );

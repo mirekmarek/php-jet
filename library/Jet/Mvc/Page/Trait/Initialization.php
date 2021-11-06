@@ -251,17 +251,26 @@ trait Mvc_Page_Trait_Initialization
 
 		if( isset( $data['meta_tags'] ) ) {
 
+			/**
+			 * @var Mvc_Page_MetaTag_Interface $class_name
+			 */
+			$class_name = Factory_Mvc::getPageMetaTagClassName();
+
 			foreach( $data['meta_tags'] as $i => $m_dat ) {
-				$this->meta_tags[] = Mvc_Page_MetaTag::createByData( $this, $m_dat );
+				$this->meta_tags[] = $class_name::_createByData( $this, $m_dat );
 			}
 
 			unset( $data['meta_tags'] );
 		}
 
 		if( isset( $data['contents'] ) ) {
+			/**
+			 * @var Mvc_Page_Content_Interface $class_name
+			 */
+			$class_name = Factory_Mvc::getPageContentClassName();
 
 			foreach( $data['contents'] as $i => $c_dat ) {
-				$this->content[] = Mvc_Page_Content::createByData( $this, $c_dat );
+				$this->content[] = $class_name::_createByData( $this, $c_dat );
 			}
 
 			unset( $data['contents'] );

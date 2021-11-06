@@ -21,7 +21,7 @@ interface Mvc_Page_Content_Interface
 	 *
 	 * @return Mvc_Page_Content_Interface
 	 */
-	public static function createByData( Mvc_Page_Interface $page, array $data ): Mvc_Page_Content_Interface;
+	public static function _createByData( Mvc_Page_Interface $page, array $data ): Mvc_Page_Content_Interface;
 
 	/**
 	 * @param Mvc_Page_Interface $page
