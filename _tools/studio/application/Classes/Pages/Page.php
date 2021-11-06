@@ -14,6 +14,7 @@ use Jet\Form_Field_Select;
 use Jet\Form_Field_Textarea;
 use Jet\Form_Field_Hidden;
 use Jet\IO_Dir;
+use Jet\Mvc;
 use Jet\Mvc_Layout;
 use Jet\Mvc_Page;
 use Jet\Form;
@@ -277,7 +278,7 @@ class Pages_Page extends Mvc_Page
 				$SSL_required_field
 			];
 
-			if( $this->getId() != static::HOMEPAGE_ID ) {
+			if( $this->getId() != Mvc::HOMEPAGE_ID ) {
 				$relative_path_fragment_field = new Form_Field_Input( 'relative_path_fragment', 'URL:', rawurldecode( $page->getRelativePathFragment() ) );
 				$relative_path_fragment_field->setIsRequired( true );
 				$relative_path_fragment_field->setCatcher( function( $value ) use ( $page, $relative_path_fragment_field ) {

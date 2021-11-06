@@ -29,7 +29,7 @@ trait Mvc_Page_Trait_Initialization
 	 *
 	 * @return array
 	 */
-	public static function getRelativePathMap( Mvc_Base_Interface $base, Locale $locale ): array
+	public static function _getRelativePathMap( Mvc_Base_Interface $base, Locale $locale ): array
 	{
 		$base_id = $base->getId();
 
@@ -90,7 +90,7 @@ trait Mvc_Page_Trait_Initialization
 		$base_id = $base->getId();
 		$locale_str = $locale->toString();
 		$key = $base_id . ':' . $locale_str;
-		$parent_page_id = Mvc_Page::HOMEPAGE_ID;
+		$parent_page_id = Mvc::HOMEPAGE_ID;
 
 		Debug_Profiler::blockStart( 'Loading module pages' );
 		Debug_Profiler::message( 'base: ' . $base_id . ' locale: ' . $locale_str );
@@ -155,7 +155,7 @@ trait Mvc_Page_Trait_Initialization
 
 		$page_id = static::loadMaps_getPageId( $page_data_file_path );
 		if( !$parent_page_id ) {
-			$page_id = Mvc_Page::HOMEPAGE_ID;
+			$page_id = Mvc::HOMEPAGE_ID;
 		}
 
 
@@ -222,7 +222,7 @@ trait Mvc_Page_Trait_Initialization
 	 *
 	 * @return static
 	 */
-	public static function createByData( Mvc_Base_Interface $base, Locale $locale, array $data ): static
+	public static function _createByData( Mvc_Base_Interface $base, Locale $locale, array $data ): static
 	{
 		/**
 		 * @var Mvc_Page $page

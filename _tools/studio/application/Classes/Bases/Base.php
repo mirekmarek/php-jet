@@ -20,7 +20,7 @@ use Jet\SysConf_Jet_Mvc_View;
 use Jet\Tr;
 use Jet\Factory_Mvc;
 use Jet\Locale;
-use Jet\Mvc_Page;
+use Jet\Mvc;
 use Jet\Mvc_Base_LocalizedData_Interface;
 use Jet\IO_File;
 
@@ -554,7 +554,7 @@ class Bases_Base extends Mvc_Base
 			$homepage = Pages_Page::createPage(
 				$this->getId(),
 				$locale,
-				Mvc_Page::HOMEPAGE_ID,
+				Mvc::HOMEPAGE_ID,
 				'Homepage'
 			);
 
@@ -672,7 +672,7 @@ class Bases_Base extends Mvc_Base
 				$homepage = Pages_Page::createPage(
 					$this->id,
 					$locale,
-					Pages_Page::HOMEPAGE_ID,
+					Mvc::HOMEPAGE_ID,
 					'Homepage'
 				);
 

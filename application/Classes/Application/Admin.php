@@ -10,8 +10,8 @@ namespace JetApplication;
 
 use Jet\Factory_Mvc;
 use Jet\Logger;
-use Jet\Mvc_Base;
-use Jet\Mvc_Page;
+use Jet\Mvc;
+use Jet\Mvc_Base_Interface;
 use Jet\Mvc_Router;
 use Jet\Auth;
 use Jet\SysConf_Jet_ErrorPages;
@@ -32,11 +32,11 @@ class Application_Admin
 	}
 
 	/**
-	 * @return Mvc_Base
+	 * @return Mvc_Base_Interface
 	 */
-	public static function getBase(): Mvc_Base
+	public static function getBase(): Mvc_Base_Interface
 	{
-		return Mvc_Base::get( static::getBaseId() );
+		return Mvc::getBase( static::getBaseId() );
 	}
 
 	/**
@@ -61,7 +61,7 @@ class Application_Admin
 	public static function requireDialog( string $dialog_id, array $options = [] ): null|string
 	{
 
-		$page = Mvc_Page::get( 'dialog-' . $dialog_id );
+		$page = Mvc::getPage( 'dialog-' . $dialog_id );
 
 		if(
 			!$page ||

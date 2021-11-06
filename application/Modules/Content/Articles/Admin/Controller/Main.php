@@ -11,7 +11,7 @@ namespace JetApplicationModule\Content\Articles\Admin;
 use JetApplication\Content_Article;
 
 use Jet\Mvc_Controller_Default;
-use Jet\Mvc_Page;
+use Jet\Mvc;
 
 use Jet\UI_messages;
 
@@ -209,7 +209,7 @@ class Controller_Main extends Mvc_Controller_Default
 			}
 		}
 
-		Http_Headers::movedTemporary( Mvc_Page::get( Main::ADMIN_MAIN_PAGE )->getURLPath() );
+		Http_Headers::movedTemporary( Mvc::getPage( Main::ADMIN_MAIN_PAGE )->getURLPath() );
 	}
 
 

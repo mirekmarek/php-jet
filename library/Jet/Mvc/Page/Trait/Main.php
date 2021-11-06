@@ -75,53 +75,13 @@ trait Mvc_Page_Trait_Main
 
 	/**
 	 *
-	 * @param string|null $page_id (optional, null = current)
-	 * @param Locale|null $locale (optional, null = current)
-	 * @param string|null $base_id (optional, null = current)
-	 *
-	 * @return static|null
-	 */
-	public static function get( string|null $page_id=null, Locale|null $locale = null, string|null $base_id = null ): static|null
-	{
-		if( !$page_id ) {
-			if( !Mvc::page() ) {
-				return null;
-			}
-			$page_id = Mvc::page()->getId();
-		}
-
-		if( !$locale ) {
-			$locale = Mvc::locale();
-			if( !$locale ) {
-				return null;
-			}
-		}
-		
-		if( !$base_id ) {
-			if( !Mvc::base() ) {
-				return null;
-			}
-			$base_id = Mvc::base()->getId();
-		}
-		
-		/**
-		 * @var Mvc_Page_Interface $page_class_name
-		 */
-		$page_class_name = Factory_Mvc::getPageClassName();
-		
-		/** @noinspection PhpIncompatibleReturnTypeInspection */
-		return $page_class_name::_load( $page_id, $locale, $base_id );
-	}
-
-	/**
-	 *
 	 * @param string $page_id
 	 * @param Locale $locale
 	 * @param string $base_id
 	 *
 	 * @return static|null
 	 */
-	public static function _load( string $page_id, Locale $locale, string $base_id ): static|null
+	public static function _get( string $page_id, Locale $locale, string $base_id ): static|null
 	{
 		$key = $base_id . ':' . $locale . ':' . $page_id;
 
@@ -129,7 +89,13 @@ trait Mvc_Page_Trait_Main
 			return static::$pages[$key];
 		}
 
-		$base = Factory_Mvc::getBaseInstance()::get( $base_id );
+		$base_class_name = Factory_Mvc::getBaseClassName();
+
+		/**
+		 * @var Mvc_Base_Interface $base_class_name
+		 */
+
+		$base = $base_class_name::_get( $base_id );
 
 		$maps = static::loadMaps( $base, $locale );
 
@@ -181,7 +147,7 @@ trait Mvc_Page_Trait_Main
 			}
 		}
 
-		$page = static::createByData( $base, $locale, $data );
+		$page = static::_createByData( $base, $locale, $data );
 		$page->setDataFilePath( $data_file_path );
 
 		static::$pages[$key] = $page;
@@ -191,49 +157,6 @@ trait Mvc_Page_Trait_Main
 		return static::$pages[$key];
 	}
 	
-
-	/**
-	 *
-	 * @param string $base_id
-	 * @param Locale $locale
-	 *
-	 * @return static[]
-	 */
-	public static function getList( string $base_id, Locale $locale ): array
-	{
-		$base_class_name = Factory_Mvc::getBaseClassName();
-
-		/**
-		 * @var Mvc_Base_Interface $base_class_name
-		 */
-		$base = $base_class_name::get( $base_id );
-
-		/**
-		 * @var Mvc_Page $homepage
-		 */
-		$homepage = $base->getHomepage( $locale );
-
-		$result = [];
-
-		$homepage->_getList( $result );
-
-		return $result;
-	}
-
-	/**
-	 * @param array $result
-	 */
-	protected function _getList( array &$result )
-	{
-		$result[] = $this;
-		foreach( $this->getChildren() as $child ) {
-			/**
-			 * @var Mvc_Page $child
-			 */
-			$child->_getList( $result );
-		}
-	}
-
 
 	/**
 	 * @return string
@@ -261,7 +184,7 @@ trait Mvc_Page_Trait_Main
 		/**
 		 * @var Mvc_Base_Interface $base_class_name
 		 */
-		return $base_class_name::get( $this->base_id );
+		return $base_class_name::_get( $this->base_id );
 	}
 
 	/**
@@ -479,7 +402,7 @@ trait Mvc_Page_Trait_Main
 	 */
 	public function isCurrent(): bool
 	{
-		$current_page = Mvc::page();
+		$current_page = Mvc::getPage();
 
 		if(
 			$current_page &&
@@ -498,7 +421,7 @@ trait Mvc_Page_Trait_Main
 	 */
 	public function isInCurrentPath(): bool
 	{
-		$current_page = Mvc::page();
+		$current_page = Mvc::getPage();
 
 		if(
 			!$current_page ||
@@ -541,7 +464,7 @@ trait Mvc_Page_Trait_Main
 	 */
 	public function getDataDirPath( bool $actualized = false ): string
 	{
-		if($actualized && $this->id!=Mvc_Page::HOMEPAGE_ID) {
+		if($actualized && $this->id!=Mvc::HOMEPAGE_ID) {
 			return dirname($this->_data_file_path, 2).'/'.rawurldecode( $this->getRelativePathFragment() ) . '/';
 		}
 

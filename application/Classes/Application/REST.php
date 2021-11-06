@@ -9,7 +9,8 @@
 namespace JetApplication;
 
 use Jet\Logger;
-use Jet\Mvc_Base;
+use Jet\Mvc;
+use Jet\Mvc_Base_Interface;
 use Jet\Mvc_Router;
 use Jet\Auth;
 
@@ -27,11 +28,11 @@ class Application_REST
 	}
 
 	/**
-	 * @return Mvc_Base
+	 * @return Mvc_Base_Interface
 	 */
-	public static function getBase(): Mvc_Base
+	public static function getBase(): Mvc_Base_Interface
 	{
-		return Mvc_Base::get( static::getBaseId() );
+		return Mvc::getBase( static::getBaseId() );
 	}
 
 	/**

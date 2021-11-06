@@ -23,8 +23,6 @@ require_once 'Page/Content.php';
  */
 class Mvc_Page extends BaseObject implements Mvc_Page_Interface
 {
-	const HOMEPAGE_ID = '_homepage_';
-
 	use Mvc_Page_Trait_Main;
 	use Mvc_Page_Trait_Initialization;
 	use Mvc_Page_Trait_Tree;

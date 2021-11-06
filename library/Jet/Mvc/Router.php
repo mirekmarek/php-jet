@@ -200,7 +200,7 @@ class Mvc_Router extends BaseObject implements Mvc_Router_Interface
 
 
 		Debug_Profiler::blockStart( 'Seeking for base' );
-		$base_URLs_map = $base_class_name::getUrlMap();
+		$base_URLs_map = $base_class_name::_getUrlMap();
 
 		$current_base_URL = null;
 		$founded_url = null;
@@ -209,7 +209,7 @@ class Mvc_Router extends BaseObject implements Mvc_Router_Interface
 
 			if( str_starts_with( $this->request_URL . '/', $URL ) ) {
 
-				$this->base = $base_class_name::get( $d[0] );
+				$this->base = $base_class_name::_get( $d[0] );
 				$this->locale = new Locale( $d[1] );
 
 				$founded_url = $URL;
@@ -226,7 +226,7 @@ class Mvc_Router extends BaseObject implements Mvc_Router_Interface
 		Debug_Profiler::blockEnd( 'Seeking for base' );
 
 		if( !$this->base ) {
-			$this->base = $base_class_name::getDefaultBase();
+			$this->base = Mvc::getDefaultBase();
 			if( !$this->base ) {
 
 				throw new Mvc_Page_Exception(
@@ -302,7 +302,7 @@ class Mvc_Router extends BaseObject implements Mvc_Router_Interface
 
 
 		Debug_Profiler::blockStart( 'Load page maps' );
-		$map = $page_class_name::getRelativePathMap( $this->base, $this->locale );
+		$map = $page_class_name::_getRelativePathMap( $this->base, $this->locale );
 		Debug_Profiler::blockEnd( 'Load page maps' );
 
 
@@ -317,7 +317,7 @@ class Mvc_Router extends BaseObject implements Mvc_Router_Interface
 			}
 		}
 
-		$page_id = Mvc_Page::HOMEPAGE_ID;
+		$page_id = Mvc::HOMEPAGE_ID;
 
 
 		foreach( $relative_URIs as $i => $URI ) {
@@ -336,7 +336,7 @@ class Mvc_Router extends BaseObject implements Mvc_Router_Interface
 			break;
 		}
 
-		$this->page = $page_class_name::get( $page_id, $this->locale, $this->base->getId() );
+		$this->page = $page_class_name::_get( $page_id, $this->locale, $this->base->getId() );
 
 		$this->resolve_decodePath();
 

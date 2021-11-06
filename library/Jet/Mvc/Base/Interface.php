@@ -18,29 +18,7 @@ interface Mvc_Base_Interface
 	 *
 	 * @return static[]
 	 */
-	public static function getAllBases(): array;
-
-	/**
-	 * @param array $data
-	 *
-	 * @return static
-	 */
-	public static function createByData( array $data ): static;
-
-
-	/**
-	 * @return array
-	 */
-	public static function getUrlMap(): array;
-
-
-	/**
-	 *
-	 * @param ?string $id
-	 *
-	 * @return static|null
-	 */
-	public static function get( ?string $id=null ): static|null;
+	public static function _getBases(): array;
 
 	/**
 	 *
@@ -48,13 +26,21 @@ interface Mvc_Base_Interface
 	 *
 	 * @return static|null
 	 */
-	public static function _load( string $id ): static|null;
+	public static function _get( string $id ): static|null;
+
 
 	/**
+	 * @param array $data
 	 *
-	 * @return static|null
+	 * @return static
 	 */
-	public static function getDefaultBase(): static|null;
+	public static function _createByData( array $data ): static;
+
+
+	/**
+	 * @return array
+	 */
+	public static function _getUrlMap(): array;
 
 
 	/**

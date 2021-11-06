@@ -181,7 +181,7 @@ class Content_Article extends DataModel
 	public function getLocalized( Locale $locale = null ): Content_Article_Localized
 	{
 		if( !$locale ) {
-			$locale = Mvc::locale();
+			$locale = Mvc::getLocale();
 		}
 		return $this->localized[$locale->toString()];
 	}
@@ -204,7 +204,7 @@ class Content_Article extends DataModel
 	{
 		$list = static::fetchInstances(
 			[
-				'article_localized.locale' => Mvc::locale(),
+				'article_localized.locale' => Mvc::getLocale(),
 			]
 		);
 		$list->getQuery()->setOrderBy( '-date_time' );

@@ -11,6 +11,7 @@ namespace JetApplication\Installer;
 use Exception;
 use Jet\Http_Request;
 use Jet\Http_Headers;
+use Jet\Mvc;
 use Jet\Mvc_Base;
 use Jet\Factory_Mvc;
 use Jet\Mvc_Base_Interface;
@@ -41,7 +42,7 @@ class Installer_Step_CreateBases_Controller extends Installer_Step_Controller
 	 */
 	public static function basesCreated() : bool
 	{
-		return count( Mvc_Base::getAllBases() ) == 3;
+		return count( Mvc::getBases() ) == 3;
 	}
 
 	/**

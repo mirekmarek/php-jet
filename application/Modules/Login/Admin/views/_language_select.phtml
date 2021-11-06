@@ -1,18 +1,16 @@
 <?php
-
 use Jet\UI;
 use Jet\Mvc;
-use Jet\Mvc_Page;
 
 ?>
 <div style="position: absolute;top:15px; right: 15px;">
-	<?php foreach( Mvc::base()->getLocales() as $locale ): ?>
-		<?php if( $locale->toString() == Mvc::locale()->toString() ): ?>
+	<?php foreach( Mvc::getBase()->getLocales() as $locale ): ?>
+		<?php if( $locale->toString() == Mvc::getLocale()->toString() ): ?>
 			<?= UI::flag( $locale ) ?>
 		<?php else:
-			$equal_page = Mvc_Page::get( locale: $locale );
+			$equal_page = Mvc::getPage( locale: $locale );
 			if( !$equal_page ) {
-				$equal_page = Mvc_Page::get( Mvc_Page::HOMEPAGE_ID, $locale );
+				$equal_page = Mvc::getHomePage( locale: $locale );
 			}
 			?>
 			<a href="<?= $equal_page->getURL() ?>"><?= UI::flag( $locale ) ?></a>

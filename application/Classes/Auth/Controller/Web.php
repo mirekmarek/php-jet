@@ -123,7 +123,7 @@ class Auth_Controller_Web extends BaseObject implements Auth_Controller_Interfac
 	public function handleLogin(): void
 	{
 
-		$page = Mvc::page();
+		$page = Mvc::getPage();
 
 
 		$action = 'login';

@@ -135,7 +135,7 @@ class Mvc_Base extends BaseObject implements Mvc_Base_Interface
 
 			$base_data['id'] = $id;
 
-			$base = static::createByData( $data );
+			$base = static::_createByData( $data );
 
 			foreach( $base->getLocales() as $locale ) {
 				$l_data = $base->getLocalizedData( $locale );
@@ -168,7 +168,7 @@ class Mvc_Base extends BaseObject implements Mvc_Base_Interface
 	/**
 	 * @return array
 	 */
-	public static function getUrlMap(): array
+	public static function _getUrlMap(): array
 	{
 		return static::getMaps()['URL'];
 	}
@@ -179,13 +179,13 @@ class Mvc_Base extends BaseObject implements Mvc_Base_Interface
 	 *
 	 * @throws Mvc_Page_Exception
 	 */
-	public static function getAllBases(): array
+	public static function _getBases(): array
 	{
 		$map = static::getMaps()['files'];
 
 		foreach( $map as $id => $path ) {
 			if( !isset( static::$bases[$id] ) ) {
-				static::get( $id );
+				static::_get( $id );
 			}
 		}
 
@@ -198,7 +198,7 @@ class Mvc_Base extends BaseObject implements Mvc_Base_Interface
 	 *
 	 * @return static
 	 */
-	public static function createByData( array $data ): static
+	public static function _createByData( array $data ): static
 	{
 
 		/**
@@ -235,36 +235,13 @@ class Mvc_Base extends BaseObject implements Mvc_Base_Interface
 
 	}
 
-
-	/**
-	 *
-	 * @param ?string $id
-	 *
-	 * @return static|null
-	 */
-	public static function get( ?string $id=null ): static|null
-	{
-		if( !$id ) {
-			/** @noinspection PhpIncompatibleReturnTypeInspection */
-			return Mvc::base();
-		}
-
-		/**
-		 * @var Mvc_Base_Interface $base_class_name
-		 */
-		$base_class_name = Factory_Mvc::getBaseClassName();
-
-		/** @noinspection PhpIncompatibleReturnTypeInspection */
-		return $base_class_name::_load( $id );
-	}
-
 	/**
 	 *
 	 * @param string $id
 	 *
 	 * @return static|null
 	 */
-	public static function _load( string $id ): static|null
+	public static function _get( string $id ): static|null
 	{
 		if( isset( static::$bases[$id] ) ) {
 			return static::$bases[$id];
@@ -279,7 +256,7 @@ class Mvc_Base extends BaseObject implements Mvc_Base_Interface
 
 		$base_data['id'] = $id;
 
-		static::$bases[$id] = static::createByData( $data );
+		static::$bases[$id] = static::_createByData( $data );
 
 		return static::$bases[$id];
 	}
@@ -634,22 +611,6 @@ class Mvc_Base extends BaseObject implements Mvc_Base_Interface
 
 	}
 
-	/**
-	 *
-	 * @return static|null
-	 */
-	public static function getDefaultBase(): static|null
-	{
-		$bases = static::getAllBases();
-
-		foreach( $bases as $base ) {
-			if( $base->getIsDefault() ) {
-				return $base;
-			}
-		}
-
-		return null;
-	}
 
 	/**
 	 * @return bool
@@ -675,7 +636,7 @@ class Mvc_Base extends BaseObject implements Mvc_Base_Interface
 	public function getHomepage( Locale|null $locale = null ): Mvc_Page_Interface
 	{
 		if( !$locale ) {
-			$locale = Mvc::locale();
+			$locale = Mvc::getLocale();
 		}
 
 		/**
@@ -683,7 +644,7 @@ class Mvc_Base extends BaseObject implements Mvc_Base_Interface
 		 */
 		$class_name = Factory_Mvc::getPageClassName();
 
-		return $class_name::get( Mvc_Page::HOMEPAGE_ID, $locale, $this->getId() );
+		return $class_name::_get( Mvc::HOMEPAGE_ID, $locale, $this->getId() );
 	}
 
 	/**

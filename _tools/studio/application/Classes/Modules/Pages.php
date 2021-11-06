@@ -14,7 +14,7 @@ use Jet\Form_Field_Input;
 use Jet\Form_Field_Select;
 use Jet\IO_Dir;
 use Jet\IO_File;
-use Jet\Mvc_Base;
+use Jet\Mvc;
 use Jet\Mvc_Layout;
 use Jet\SysConf_Jet_Modules;
 use Jet\SysConf_Jet_Mvc;
@@ -49,7 +49,7 @@ class Modules_Pages extends BaseObject
 	 */
 	protected function read(): void
 	{
-		foreach(Mvc_Base::getAllBases() as $base ) {
+		foreach( Mvc::getBases() as $base ) {
 			$base_id = $base->getId();
 			$locale = $base->getDefaultLocale();
 
@@ -73,7 +73,7 @@ class Modules_Pages extends BaseObject
 
 				$page_data['relative_path_fragment'] = rawurlencode( basename( $dir_path ) );
 
-				$page = Pages_Page::createByData( $base, $locale, $page_data );
+				$page = Pages_Page::_createByData( $base, $locale, $page_data );
 				$page->setDataFilePath( $page_data_file_path );
 
 				if(!isset($this->pages[$base_id])) {

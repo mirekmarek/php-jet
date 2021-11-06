@@ -5,6 +5,7 @@ use Jet\Mvc_View;
 use Jet\Mvc_Page;
 use Jet\SysConf_URI;
 use Jet\UI;
+use JetApplication\Application_Admin;
 
 /**
  * @var Mvc_View $this
@@ -12,8 +13,8 @@ use Jet\UI;
  */
 $pages = $this->getRaw( 'page_tree_current' );
 
-$admin_page = Mvc_Page::get( Mvc_Page::HOMEPAGE_ID, null, 'admin' );
-$secret_area_page = Mvc_Page::get( 'secret_area' );
+$admin_page = Mvc::getHomePage( base_id: Application_Admin::getBaseId() );
+$secret_area_page = Mvc::getPage( 'secret_area' );
 
 
 $show_menu = function( $pages, $level = 0 ) use ( &$show_menu ) {
@@ -26,7 +27,7 @@ $show_menu = function( $pages, $level = 0 ) use ( &$show_menu ) {
 	}
 
 
-	$current_page_key = Mvc::page()->getKey();
+	$current_page_key = Mvc::getPage()->getKey();
 	$padding = 10 + ($level * 25);
 
 	foreach( $pages as $page ):

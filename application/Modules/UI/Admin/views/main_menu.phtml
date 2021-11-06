@@ -1,6 +1,5 @@
 <?php
 
-use Jet\Mvc_Page;
 use Jet\UI;
 use Jet\Navigation_MenuSet;
 use Jet\Auth;
@@ -11,7 +10,7 @@ use Jet\Mvc;
 ?>
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-	<a class="navbar-brand" href="<?= Mvc_Page::get( Mvc_Page::HOMEPAGE_ID )->getURLPath() ?>">JetApplication</a>
+	<a class="navbar-brand" href="<?= Mvc::getHomePage()->getURLPath() ?>">JetApplication</a>
 
 	<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#mainNavBar"
 	        aria-controls="mainNavBar" aria-expanded="false" aria-label="">
@@ -51,9 +50,9 @@ use Jet\Mvc;
 					<span><?= UI::flag( Locale::getCurrentLocale() ) ?></span>
 				</a>
 				<div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-					<?php foreach( Mvc::base()->getLocales() as $locale ): ?>
+					<?php foreach( Mvc::getBase()->getLocales() as $locale ): ?>
 						<a class="dropdown-item"
-						   href="<?= Mvc::base()->getHomepage($locale)->getURLPath() ?>">
+						   href="<?= Mvc::getBase()->getHomepage($locale)->getURLPath() ?>">
 							<?= UI::flag( $locale ) ?>
 							<?= $locale->getName( $locale ) ?>
 						</a>
@@ -70,10 +69,10 @@ use Jet\Mvc;
 				<div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
 
 					<?php if(
-						Mvc_Page::get( 'change_password' ) &&
-						Mvc_Page::get( 'change_password' )->accessAllowed()
+						Mvc::getPage( 'change_password' ) &&
+						Mvc::getPage( 'change_password' )->accessAllowed()
 					): ?>
-						<a class="dropdown-item" href="<?= Mvc_Page::get( 'change_password' )->getURL() ?>">
+						<a class="dropdown-item" href="<?= Mvc::getPage( 'change_password' )->getURL() ?>">
 							<?= UI::icon( 'cog' ) ?>
 							<?= Tr::_( 'Change password' ) ?>
 						</a>
@@ -81,7 +80,7 @@ use Jet\Mvc;
 					<?php endif; ?>
 
 					<a class="dropdown-item"
-					   href="<?= Mvc_Page::get( Mvc_Page::HOMEPAGE_ID )->getURL( [], ['logout' => 'logout'] ) ?>">
+					   href="<?= Mvc::getHomePage()->getURL( [], ['logout' => 'logout'] ) ?>">
 						<?= UI::icon( 'sign-out-alt' ) ?>
 						<?= Tr::_( 'Logout' ) ?>
 					</a>

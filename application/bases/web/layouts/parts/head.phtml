@@ -8,10 +8,10 @@ use Jet\SysConf_URI;
  * @var Mvc_Layout $this
  */
 ?>
-<title><?= Mvc::base()->getLocalizedData( Mvc::locale() )->getTitle() ?>
-	: <?= Mvc::page()->getTitle() ?></title>
+<title><?= Mvc::getBase()->getLocalizedData( Mvc::getLocale() )->getTitle() ?>
+	: <?= Mvc::getPage()->getTitle() ?></title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-<meta http-equiv="content-language" content="<?= Mvc::locale()->getLanguage() ?>"/>
+<meta http-equiv="content-language" content="<?= Mvc::getLocale()->getLanguage() ?>"/>
 
 <jet_layout_meta_tags/>
 <jet_layout_css/>

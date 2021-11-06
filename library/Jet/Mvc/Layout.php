@@ -449,7 +449,7 @@ class Mvc_Layout extends Mvc_View_Abstract
 		$dat = [];
 		$dat[static::TAG_META_TAGS] = '';
 
-		if( ($page = Mvc::page()) ) {
+		if( ($page = Mvc::getPage()) ) {
 
 			foreach( $page->getMetaTags() as $mt ) {
 				$dat[static::TAG_META_TAGS] .= PHP_EOL . "\t" . $mt;

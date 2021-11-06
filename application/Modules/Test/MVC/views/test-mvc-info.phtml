@@ -10,15 +10,15 @@ use Jet\Tr;
 		<table class="table">
 			<tr>
 				<td><?= Tr::_( 'Current base id:' ) ?></td>
-				<td><?= Mvc::base()->getId(); ?></td>
+				<td><?= Mvc::getBase()->getId(); ?></td>
 			</tr>
 			<tr>
 				<td><?= Tr::_( 'Current locale:' ) ?></td>
-				<td><?= Mvc::locale(); ?></td>
+				<td><?= Mvc::getLocale(); ?></td>
 			</tr>
 			<tr>
 				<td><?= Tr::_( 'Current page id:' ) ?></td>
-				<td><?= Mvc::page()->getId(); ?></td>
+				<td><?= Mvc::getPage()->getId(); ?></td>
 			</tr>
 		</table>
 

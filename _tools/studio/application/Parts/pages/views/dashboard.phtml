@@ -2,6 +2,7 @@
 namespace JetStudio;
 
 use Jet\UI;
+use Jet\Mvc;
 
 if( Pages::getCurrentPage() ) {
 	return;
@@ -16,7 +17,7 @@ $bases = Bases::getBases();
 		<h5><?= $base->getName() ?></h5>
 		<table class="table table-striped">
 			<?php foreach( $base->getLocales() as $locale ):
-				$link = Pages::getActionUrl( '', [], Pages_Page::HOMEPAGE_ID, $locale, $base->getId() );
+				$link = Pages::getActionUrl( '', [], Mvc::HOMEPAGE_ID, $locale, $base->getId() );
 				?>
 				<tr>
 					<td style="width: 30px"><a href="<?= $link ?>"><?= UI::flag( $locale ) ?></a></td>

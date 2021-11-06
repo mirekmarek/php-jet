@@ -11,7 +11,7 @@ namespace Jet;
 /**
  *
  */
-class Mvc_Controller_REST_Router extends BaseObject implements Mvc_Controller_Router_Interface
+class Mvc_Controller_REST_Router extends Mvc_Controller_Router
 {
 
 	/**

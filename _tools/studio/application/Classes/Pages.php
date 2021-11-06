@@ -117,7 +117,7 @@ class Pages extends BaseObject implements Application_Part
 			$locale = static::getCurrentLocale();
 		}
 
-		return Pages_Page::get( $page_id, $locale, $base_id );
+		return Pages_Page::_get( $page_id, $locale, $base_id );
 	}
 
 	/**

@@ -41,7 +41,7 @@ $tree->setRendererNormal(
 	function( Data_Tree_Node $node ) use ( $router ) {
 		if( $node->getIsRoot() ):
 			?>
-			<a href="<?= Mvc::page()->getURLPath(); ?>"
+			<a href="<?= Mvc::getPage()->getURLPath(); ?>"
 			   style="font-style: italic;"><?= $node->getLabel(); ?></a>
 		<?php
 		else:

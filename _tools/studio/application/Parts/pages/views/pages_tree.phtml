@@ -7,10 +7,11 @@ use Jet\Data_Tree_Node;
 use Jet\UI_tree;
 use Jet\UI;
 use Jet\Tr;
+use Jet\Mvc;
 
 $UI_tree = new UI_tree();
 $UI_tree->setData( Pages::getCurrentPageTree() );
-$UI_tree->setRootId( Pages_Page::HOMEPAGE_ID );
+$UI_tree->setRootId( Mvc::HOMEPAGE_ID );
 //$UI_tree->setShowAll(true);
 $UI_tree->setSelectedId( Pages::getCurrentPageId() );
 

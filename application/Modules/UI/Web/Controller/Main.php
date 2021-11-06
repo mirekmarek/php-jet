@@ -10,7 +10,6 @@ namespace JetApplicationModule\UI\Web;
 
 use Jet\Mvc_Controller_Default;
 use Jet\Mvc;
-use Jet\Mvc_Page;
 use Jet\Mvc_Page_Content_Interface;
 use Jet\Http_Request;
 use Jet\Auth;
@@ -46,7 +45,7 @@ class Controller_Main extends Mvc_Controller_Default
 	{
 		Auth::logout();
 
-		Http_Headers::movedTemporary( Mvc_Page::get( Mvc_Page::HOMEPAGE_ID )->getURL() );
+		Http_Headers::movedTemporary( Mvc::getHomePage()->getURL() );
 	}
 
 
@@ -56,7 +55,7 @@ class Controller_Main extends Mvc_Controller_Default
 	public function main_menu_Action(): void
 	{
 
-		$this->view->setVar( 'page_tree_current', [Mvc::base()->getHomepage( Mvc::locale() )] );
+		$this->view->setVar( 'page_tree_current', [Mvc::getBase()->getHomepage( Mvc::getLocale() )] );
 
 		$this->output( 'main-menu' );
 	}
@@ -66,7 +65,7 @@ class Controller_Main extends Mvc_Controller_Default
 	 */
 	public function secret_area_menu_Action(): void
 	{
-		$this->view->setVar( 'page_tree_current', [Mvc_Page::get( 'secret_area' )] );
+		$this->view->setVar( 'page_tree_current', [Mvc::getPage( 'secret_area' )] );
 
 		$this->output( 'secret-area-menu' );
 	}

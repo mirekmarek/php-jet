@@ -75,7 +75,7 @@ class Mvc_Page_MetaTag extends BaseObject implements Mvc_Page_MetaTag_Interface
 	public function getPage(): Mvc_Page_Interface
 	{
 		if( !$this->__page ) {
-			return Mvc::page();
+			return Mvc::getPage();
 		}
 
 		return $this->__page;

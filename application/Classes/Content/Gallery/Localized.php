@@ -168,7 +168,7 @@ class Content_Gallery_Localized extends DataModel_Related_1toN
 	public function getURL( Mvc_Page_Interface $base_page = null ) : string
 	{
 		if( !$base_page ) {
-			$base_page = Mvc::page();
+			$base_page = Mvc::getPage();
 
 		}
 		return $base_page->getURL( [$this->getURIFragment()], [] );

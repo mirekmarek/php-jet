@@ -136,7 +136,7 @@ class Navigation_Breadcrumb extends BaseObject
 	public static function setByPage( Mvc_Page_Interface $page = null ): void
 	{
 		if( !$page ) {
-			$page = Mvc::page();
+			$page = Mvc::getPage();
 		}
 
 		static::$items = [];

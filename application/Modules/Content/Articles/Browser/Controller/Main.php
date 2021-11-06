@@ -68,7 +68,7 @@ class Controller_Main extends Mvc_Controller_Default
 			$this->router->addAction( 'detail' )
 				->setResolver( function() use ( $path ) {
 
-					$current_article = Content_Article::resolveArticleByURL( $path, Mvc::locale() );
+					$current_article = Content_Article::resolveArticleByURL( $path, Mvc::getLocale() );
 
 					if( !$current_article ) {
 						return false;
@@ -96,7 +96,7 @@ class Controller_Main extends Mvc_Controller_Default
 			$page_no,
 			$this->public_list_items_per_page,
 			function( $page_no ) {
-				return Mvc::page()->getURLPath( ['page:' . $page_no] );
+				return Mvc::getPage()->getURLPath( ['page:' . $page_no] );
 			}
 		);
 

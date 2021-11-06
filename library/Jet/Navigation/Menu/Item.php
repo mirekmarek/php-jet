@@ -414,12 +414,7 @@ class Navigation_Menu_Item extends BaseObject
 	 */
 	public function getTargetPage(): Mvc_Page_Interface|null
 	{
-		/**
-		 * @var Mvc_Page $page_class
-		 */
-		$page_class = Factory_Mvc::getPageClassName();
-
-		return $page_class::get( $this->page_id, $this->locale, $this->base_id );
+		return Mvc::getPage( $this->page_id, $this->locale, $this->base_id );
 	}
 
 }

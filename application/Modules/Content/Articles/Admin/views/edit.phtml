@@ -34,7 +34,7 @@ $form->setDefaultFieldWidth( [Form::LJ_SIZE_MEDIUM => 9] );
 
 <div class="row toolbar" id="main-toolbar">
 	<div class="col-md-12">
-		<?= UI::button_goBack()->setUrl( Mvc::page()->getURLPath() ) ?>
+		<?= UI::button_goBack()->setUrl( Mvc::getPage()->getURLPath() ) ?>
 
 		<?php if( !$form->getIsReadonly() ): ?>
 			<?= UI::button_save() ?>

@@ -19,7 +19,7 @@ interface Mvc_Page_Interface
 	 *
 	 * @return array
 	 */
-	public static function getRelativePathMap( Mvc_Base_Interface $base, Locale $locale ): array;
+	public static function _getRelativePathMap( Mvc_Base_Interface $base, Locale $locale ): array;
 
 
 	/**
@@ -29,17 +29,7 @@ interface Mvc_Page_Interface
 	 *
 	 * @return static
 	 */
-	public static function createByData( Mvc_Base_Interface $base, Locale $locale, array $data ): static;
-
-	/**
-	 *
-	 * @param string|null $page_id (optional, null = current)
-	 * @param Locale|null $locale (optional, null = current)
-	 * @param string|null $base_id (optional, null = current)
-	 *
-	 * @return static|null
-	 */
-	public static function get( string|null $page_id=null, Locale|null $locale = null, string|null $base_id = null ): static|null;
+	public static function _createByData( Mvc_Base_Interface $base, Locale $locale, array $data ): static;
 
 	/**
 	 *
@@ -49,16 +39,7 @@ interface Mvc_Page_Interface
 	 *
 	 * @return static|null
 	 */
-	public static function _load( string $page_id, Locale $locale, string $base_id ): static|null;
-	
-	/**
-	 *
-	 * @param string $base_id
-	 * @param Locale $locale
-	 *
-	 * @return static[]
-	 */
-	public static function getList( string $base_id, Locale $locale ): array;
+	public static function _get( string $page_id, Locale $locale, string $base_id ): static|null;
 
 	/**
 	 * @return string

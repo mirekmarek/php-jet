@@ -15,7 +15,7 @@ use Jet\Http_Headers;
 use Jet\Http_Request;
 use Jet\Mvc_Page_Content_Interface;
 
-use Jet\Mvc_Page;
+use Jet\Mvc;
 
 /**
  *
@@ -47,7 +47,7 @@ class Controller_Main extends Mvc_Controller_Default
 	{
 		Auth::logout();
 
-		Http_Headers::movedTemporary( Mvc_Page::get( Mvc_Page::HOMEPAGE_ID )->getURL() );
+		Http_Headers::movedTemporary( Mvc::getHomePage()->getURL() );
 	}
 
 	/**
