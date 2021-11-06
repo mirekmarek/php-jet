@@ -20,6 +20,11 @@ class Factory_Db
 	protected static string $default_backend = Db_Backend_PDO::class;
 
 	/**
+	 * @var string
+	 */
+	protected static string $default_backend_config = Db_Backend_PDO_Config::class;
+
+	/**
 	 * @return string
 	 */
 	public static function getDefaultBackend(): string
@@ -35,16 +40,32 @@ class Factory_Db
 		static::$default_backend = $default_backend;
 	}
 
+	/**
+	 * @return string
+	 */
+	public static function getDefaultBackendConfig(): string
+	{
+		return static::$default_backend_config;
+	}
+
+	/**
+	 * @param string $default_backend_config
+	 */
+	public static function setDefaultBackendConfig( string $default_backend_config ): void
+	{
+		static::$default_backend_config = $default_backend_config;
+	}
+
 
 	/**
 	 *
-	 * @param array $config_data (optional)
+	 * @param array $config_data
 	 *
 	 * @return Db_Backend_Config|Db_Backend_PDO_Config
 	 */
 	public static function getBackendConfigInstance( array $config_data = [] ): Db_Backend_Config|Db_Backend_PDO_Config
 	{
-		$config_class = static::$default_backend . '_Config';
+		$config_class = static::$default_backend_config;
 
 		return new $config_class( $config_data );
 	}

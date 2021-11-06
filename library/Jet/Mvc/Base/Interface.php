@@ -36,11 +36,19 @@ interface Mvc_Base_Interface
 
 	/**
 	 *
+	 * @param ?string $id
+	 *
+	 * @return static|null
+	 */
+	public static function get( ?string $id=null ): static|null;
+
+	/**
+	 *
 	 * @param string $id
 	 *
 	 * @return static|null
 	 */
-	public static function get( string $id ): static|null;
+	public static function _load( string $id ): static|null;
 
 	/**
 	 *

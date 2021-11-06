@@ -83,7 +83,6 @@ trait Mvc_Page_Trait_Main
 	 */
 	public static function get( string|null $page_id=null, Locale|null $locale = null, string|null $base_id = null ): static|null
 	{
-
 		if( !$page_id ) {
 			if( !Mvc::page() ) {
 				return null;
@@ -97,16 +96,33 @@ trait Mvc_Page_Trait_Main
 				return null;
 			}
 		}
-
-
+		
 		if( !$base_id ) {
 			if( !Mvc::base() ) {
 				return null;
 			}
-
 			$base_id = Mvc::base()->getId();
 		}
+		
+		/**
+		 * @var Mvc_Page_Interface $page_class_name
+		 */
+		$page_class_name = Factory_Mvc::getPageClassName();
+		
+		/** @noinspection PhpIncompatibleReturnTypeInspection */
+		return $page_class_name::_load( $page_id, $locale, $base_id );
+	}
 
+	/**
+	 *
+	 * @param string $page_id
+	 * @param Locale $locale
+	 * @param string $base_id
+	 *
+	 * @return static|null
+	 */
+	public static function _load( string $page_id, Locale $locale, string $base_id ): static|null
+	{
 		$key = $base_id . ':' . $locale . ':' . $page_id;
 
 		if( isset( static::$pages[$key] ) ) {
@@ -174,7 +190,7 @@ trait Mvc_Page_Trait_Main
 
 		return static::$pages[$key];
 	}
-
+	
 
 	/**
 	 *
@@ -533,3 +549,4 @@ trait Mvc_Page_Trait_Main
 	}
 
 }
+

@@ -249,7 +249,23 @@ class Mvc_Base extends BaseObject implements Mvc_Base_Interface
 			return Mvc::base();
 		}
 
+		/**
+		 * @var Mvc_Base_Interface $base_class_name
+		 */
+		$base_class_name = Factory_Mvc::getBaseClassName();
 
+		/** @noinspection PhpIncompatibleReturnTypeInspection */
+		return $base_class_name::_load( $id );
+	}
+
+	/**
+	 *
+	 * @param string $id
+	 *
+	 * @return static|null
+	 */
+	public static function _load( string $id ): static|null
+	{
 		if( isset( static::$bases[$id] ) ) {
 			return static::$bases[$id];
 		}
@@ -267,7 +283,7 @@ class Mvc_Base extends BaseObject implements Mvc_Base_Interface
 
 		return static::$bases[$id];
 	}
-
+	
 
 	/**
 	 *

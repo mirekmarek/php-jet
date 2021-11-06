@@ -43,6 +43,16 @@ interface Mvc_Page_Interface
 
 	/**
 	 *
+	 * @param string $page_id 
+	 * @param Locale $locale
+	 * @param string $base_id
+	 *
+	 * @return static|null
+	 */
+	public static function _load( string $page_id, Locale $locale, string $base_id ): static|null;
+	
+	/**
+	 *
 	 * @param string $base_id
 	 * @param Locale $locale
 	 *
