@@ -15,4 +15,5 @@ return [
 	'REST API' => '',
 	'Bases has been created' => '',
 	'Create bases' => '',
+	'Base has been created' => '',
 ];
