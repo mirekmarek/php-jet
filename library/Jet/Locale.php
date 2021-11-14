@@ -33,13 +33,13 @@ class Locale extends BaseObject
 	const DATE_TIME_FORMAT_MEDIUM = PHP_IntlDateFormatter::MEDIUM;
 
 	/**
-	 * Long style (January 12, 1952 or 3:30:32pm)
+	 * Long style (January 12, 1952, 3:30:32pm)
 	 * @link http://php.net/manual/en/intl.intldateformatter-constants.php
 	 */
 	const DATE_TIME_FORMAT_LONG = PHP_IntlDateFormatter::LONG;
 
 	/**
-	 * Completely specified style (Tuesday, April 12, 1952 AD or 3:30:42pm PST)
+	 * Completely specified style (Tuesday, April 12, 1952 AD, 3:30:42pm PST)
 	 * @link http://php.net/manual/en/intl.intldateformatter-constants.php
 	 */
 	const DATE_TIME_FORMAT_FULL = PHP_IntlDateFormatter::FULL;

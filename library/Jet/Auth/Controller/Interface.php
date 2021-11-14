@@ -70,3 +70,4 @@ interface Auth_Controller_Interface
 	public function checkPageAccess( MVC_Page_Interface $page ): bool;
 
 }
+
