@@ -82,7 +82,7 @@ class Auth extends BaseObject
 	 *
 	 * @return bool
 	 */
-	public static function getCurrentUserHasPrivilege( string $privilege, mixed $value ): bool
+	public static function getCurrentUserHasPrivilege( string $privilege, mixed $value=null ): bool
 	{
 		return static::getController()->getCurrentUserHasPrivilege( $privilege, $value );
 	}

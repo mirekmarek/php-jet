@@ -224,7 +224,7 @@ class Auth_Controller_Web extends BaseObject implements Auth_Controller_Interfac
 	 *
 	 * @return bool
 	 */
-	public function getCurrentUserHasPrivilege( string $privilege, mixed $value ): bool
+	public function getCurrentUserHasPrivilege( string $privilege, mixed $value=null ): bool
 	{
 		$current_user = $this->getCurrentUser();
 

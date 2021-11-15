@@ -94,7 +94,7 @@ interface Auth_Role_Interface
 	 * @param string $privilege
 	 * @param array $values
 	 */
-	public function setPrivilege( string $privilege, array $values );
+	public function setPrivilege( string $privilege, array $values ) : void;
 
 	/**
 	 * Example:
@@ -116,6 +116,6 @@ interface Auth_Role_Interface
 	 *
 	 * @return bool
 	 */
-	public function hasPrivilege( string $privilege, mixed $value ): bool;
+	public function hasPrivilege( string $privilege, mixed $value=null ): bool;
 
 }

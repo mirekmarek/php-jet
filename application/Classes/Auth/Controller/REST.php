@@ -192,7 +192,7 @@ class Auth_Controller_REST extends BaseObject implements Auth_Controller_Interfa
 	 *
 	 * @return bool
 	 */
-	public function getCurrentUserHasPrivilege( string $privilege, mixed $value ): bool
+	public function getCurrentUserHasPrivilege( string $privilege, mixed $value=null ): bool
 	{
 		$current_user = $this->getCurrentUser();
 

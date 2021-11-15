@@ -122,7 +122,7 @@ class Auth_Visitor_Role_Privilege extends DataModel_Related_1toN implements Auth
 	/**
 	 * @param array $values
 	 */
-	public function setValues( array $values )
+	public function setValues( array $values ) : void
 	{
 		$this->values = $values;
 	}

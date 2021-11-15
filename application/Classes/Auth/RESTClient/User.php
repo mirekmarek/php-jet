@@ -482,7 +482,7 @@ class Auth_RESTClient_User extends DataModel implements Auth_User_Interface
 	 *
 	 * @return bool
 	 */
-	public function hasPrivilege( string $privilege, mixed $value ): bool
+	public function hasPrivilege( string $privilege, mixed $value=null ): bool
 	{
 
 		foreach( $this->roles as $role ) {

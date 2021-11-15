@@ -32,7 +32,7 @@ interface Auth_Role_Privilege_Interface
 	/**
 	 * @param array $values
 	 */
-	public function setValues( array $values );
+	public function setValues( array $values ) : void;
 
 	/**
 	 * @param mixed $value

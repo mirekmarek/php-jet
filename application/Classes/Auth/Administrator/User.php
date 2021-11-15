@@ -614,7 +614,7 @@ class Auth_Administrator_User extends DataModel implements Auth_User_Interface
 	 *
 	 * @return bool
 	 */
-	public function hasPrivilege( string $privilege, mixed $value ): bool
+	public function hasPrivilege( string $privilege, mixed $value=null ): bool
 	{
 
 		if( $this->getIsSuperuser() ) {

@@ -51,7 +51,7 @@ interface Auth_Controller_Interface
 	 *
 	 * @return bool
 	 */
-	public function getCurrentUserHasPrivilege( string $privilege, mixed $value ): bool;
+	public function getCurrentUserHasPrivilege( string $privilege, mixed $value=null ): bool;
 
 	/**
 	 * @param string $module_name

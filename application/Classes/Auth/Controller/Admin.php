@@ -220,7 +220,7 @@ class Auth_Controller_Admin extends BaseObject implements Auth_Controller_Interf
 	 *
 	 * @return bool
 	 */
-	public function getCurrentUserHasPrivilege( string $privilege, mixed $value ): bool
+	public function getCurrentUserHasPrivilege( string $privilege, mixed $value=null ): bool
 	{
 		$current_user = $this->getCurrentUser();
 

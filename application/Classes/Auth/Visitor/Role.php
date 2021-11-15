@@ -266,10 +266,14 @@ class Auth_Visitor_Role extends DataModel implements Auth_Role_Interface
 	 *
 	 * @return bool
 	 */
-	public function hasPrivilege( string $privilege, mixed $value ): bool
+	public function hasPrivilege( string $privilege, mixed $value=null ): bool
 	{
 		if( !isset( $this->privileges[$privilege] ) ) {
 			return false;
+		}
+
+		if($value===null) {
+			return true;
 		}
 
 		return $this->privileges[$privilege]->hasValue( $value );
