@@ -183,22 +183,23 @@ class Auth_RESTClient_User extends DataModel implements Auth_User_Interface
 
 	/**
 	 * @param string $password
+	 * @param bool $encrypt_password
 	 */
-	public function setPassword( string $password ): void
+	public function setPassword( string $password, bool $encrypt_password=true ): void
 	{
 		if( $password ) {
-			$this->password = $this->encryptPassword( $password );
+			$this->password = $encrypt_password ? $this->encryptPassword( $password ) : $password;
 		}
 	}
 
 	/**
-	 * @param string $password
+	 * @param string $plain_password
 	 *
 	 * @return string
 	 */
-	public function encryptPassword( string $password ): string
+	public function encryptPassword( string $plain_password ): string
 	{
-		return password_hash( $password, PASSWORD_DEFAULT );
+		return password_hash( $plain_password, PASSWORD_DEFAULT );
 	}
 
 	/**
@@ -518,19 +519,11 @@ class Auth_RESTClient_User extends DataModel implements Auth_User_Interface
 	 *
 	 * @return bool
 	 */
-	public function usernameExists( string $username ): bool
+	public static function usernameExists( string $username ): bool
 	{
-		if( $this->getIsNew() ) {
-			$q = [
-				'username' => $username,
-			];
-		} else {
-			$q = [
-				'username' => $username,
-				'AND',
-				'id!='     => $this->id,
-			];
-		}
+		$q = [
+			'username' => $username,
+		];
 
 		return (bool)static::getBackendInstance()->getCount( static::createQuery( $q ) );
 	}
@@ -549,7 +542,7 @@ class Auth_RESTClient_User extends DataModel implements Auth_User_Interface
 
 
 		$email_template = new Mailing_Email_Template(
-			'rest-client/user_password_reset',
+			template_id: 'rest-client/user_password_reset',
 			locale: $this->getLocale()
 		);
 
@@ -709,7 +702,14 @@ class Auth_RESTClient_User extends DataModel implements Auth_User_Interface
 			function( Form_Field_Input $field ) {
 				$username = $field->getValue();
 
-				if( $this->usernameExists( $username ) ) {
+				if(
+					!$this->getIsNew() &&
+					$this->username==$username
+				) {
+					return true;
+				}
+
+				if( static::usernameExists( $username ) ) {
 					$field->setCustomError(
 						Tr::_(
 							'Sorry, but username %USERNAME% is registered.', ['USERNAME' => $username]
@@ -810,7 +810,7 @@ class Auth_RESTClient_User extends DataModel implements Auth_User_Interface
 	public function sendWelcomeEmail( string $password ): void
 	{
 		$email_template = new Mailing_Email_Template(
-			'rest-client/user_welcome',
+			template_id: 'rest-client/user_welcome',
 			locale: $this->getLocale()
 		);
 

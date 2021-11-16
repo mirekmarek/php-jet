@@ -47,6 +47,13 @@ interface Auth_User_Interface
 	public static function getGetByUsername( string $username ): Auth_User_Interface|null;
 
 	/**
+	 * @param string $username
+	 *
+	 * @return bool
+	 */
+	public static function usernameExists( string $username ): bool;
+
+	/**
 	 * @return string|int
 	 */
 	public function getId(): string|int;
@@ -63,23 +70,17 @@ interface Auth_User_Interface
 	public function setUsername( string $username ): void;
 
 	/**
-	 * @param string $username
-	 *
-	 * @return bool
+	 * @param string $password
+	 * @param bool $encrypt_password
 	 */
-	public function usernameExists( string $username ): bool;
+	public function setPassword( string $password, bool $encrypt_password=true ): void;
 
 	/**
-	 * @param string $password
-	 */
-	public function setPassword( string $password ): void;
-
-	/**
-	 * @param string $password
+	 * @param string $plain_password
 	 *
 	 * @return string
 	 */
-	public function encryptPassword( string $password ): string;
+	public function encryptPassword( string $plain_password ): string;
 
 	/**
 	 * @param string $plain_password
