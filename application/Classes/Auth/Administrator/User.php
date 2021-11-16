@@ -62,16 +62,8 @@ class Auth_Administrator_User extends DataModel implements Auth_User_Interface
 		type: DataModel::TYPE_STRING,
 		do_not_export: true,
 		max_len: 255,
-		form_field_is_required: true,
 		is_key: true,
-		form_field_type: Form::TYPE_REGISTRATION_PASSWORD,
-		form_field_label: 'Password',
-		form_field_options: ['password_confirmation_label' => 'Confirm password'],
-		form_field_error_messages: [
-			Form_Field_RegistrationPassword::ERROR_CODE_EMPTY           => 'Please enter password',
-			Form_Field_RegistrationPassword::ERROR_CODE_CHECK_EMPTY     => 'Please enter confirm password',
-			Form_Field_RegistrationPassword::ERROR_CODE_CHECK_NOT_MATCH => 'Passwords do not match'
-		]
+		form_field_type: false,
 	)]
 	protected string $password = '';
 
@@ -875,7 +867,6 @@ class Auth_Administrator_User extends DataModel implements Auth_User_Interface
 			if( !in_array( $field->getName(), [
 				'username',
 				'locale',
-				'password',
 				'email'
 			] ) ) {
 				$form->removeField( $field->getName() );
@@ -884,11 +875,19 @@ class Auth_Administrator_User extends DataModel implements Auth_User_Interface
 
 		$form->getField( 'locale' )->setDefaultValue( Locale::getCurrentLocale() );
 
-		/**
-		 * @var Form_Field_RegistrationPassword $pwd
-		 */
-		$pwd = $form->getField( 'password' );
+		$pwd = new Form_Field_RegistrationPassword(name: 'password', label: 'Password', is_required: true);
 		$pwd->setPasswordConfirmationLabel( 'Confirm password' );
+		$pwd->setErrorMessages([
+			Form_Field_RegistrationPassword::ERROR_CODE_EMPTY           => 'Please enter password',
+			Form_Field_RegistrationPassword::ERROR_CODE_CHECK_EMPTY     => 'Please enter confirm password',
+			Form_Field_RegistrationPassword::ERROR_CODE_CHECK_NOT_MATCH => 'Passwords do not match'
+		]);
+
+		$pwd->setCatcher(function($value) {
+			$this->setPassword($value);
+		});
+
+		$form->addField($pwd);
 
 		return $form;
 	}

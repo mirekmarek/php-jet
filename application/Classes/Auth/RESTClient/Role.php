@@ -328,6 +328,10 @@ class Auth_RESTClient_Role extends DataModel implements Auth_Role_Interface
 
 		foreach( $modules as $module_name => $module_info ) {
 
+			if(!str_ends_with($module_name, '.REST')) {
+				continue;
+			}
+
 			$module = Application_Modules::moduleInstance( $module_name );
 
 			$actions = $module->getModuleManifest()->getACLActions();

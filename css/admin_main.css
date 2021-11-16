@@ -79,6 +79,10 @@ html, body {
 	margin-bottom: 10px;
 }
 
+.breadcrumb-item b {
+	padding-left: 5px;
+}
+
 
 #__progress__ {
 	z-index: 9999999999;

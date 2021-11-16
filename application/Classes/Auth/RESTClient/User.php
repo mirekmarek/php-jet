@@ -65,14 +65,7 @@ class Auth_RESTClient_User extends DataModel implements Auth_User_Interface
 		max_len: 255,
 		form_field_is_required: true,
 		is_key: true,
-		form_field_type: Form::TYPE_REGISTRATION_PASSWORD,
-		form_field_label: 'Password',
-		form_field_options: ['password_confirmation_label' => 'Confirm password'],
-		form_field_error_messages: [
-			Form_Field_RegistrationPassword::ERROR_CODE_EMPTY           => 'Please enter password',
-			Form_Field_RegistrationPassword::ERROR_CODE_CHECK_EMPTY     => 'Please enter confirm password',
-			Form_Field_RegistrationPassword::ERROR_CODE_CHECK_NOT_MATCH => 'Passwords do not match'
-		]
+		form_field_type: false
 	)]
 	protected string $password = '';
 
@@ -675,27 +668,6 @@ class Auth_RESTClient_User extends DataModel implements Auth_User_Interface
 		$form->addField( $roles );
 
 
-		if( $this->getIsNew() ) {
-			/**
-			 * @var Form_Field_RegistrationPassword $password_field
-			 */
-			$password_field = $form->getField( 'password' );
-			$password_field->setIsRequired( true );
-			$password_field->setPasswordStrengthCheckCallback( [
-				$this,
-				'verifyPasswordStrength'
-			] );
-			$password_field->setErrorMessages(
-				[
-					Form_Field_RegistrationPassword::ERROR_CODE_WEAK_PASSWORD => 'Password is not strong enough',
-				]
-			);
-
-		} else {
-			$form->removeField( 'password' );
-		}
-
-
 		$form->getField( 'username' )->setValidator(
 			function( Form_Field_Input $field ) {
 				$username = $field->getValue();
@@ -735,11 +707,6 @@ class Auth_RESTClient_User extends DataModel implements Auth_User_Interface
 			$form = $this->_getForm();
 			$form->setName( '_user' );
 
-			if( $form->fieldExists( 'password' ) ) {
-				$form->removeField( 'password' );
-			}
-
-
 			$this->_form_edit = $form;
 		}
 
@@ -761,18 +728,10 @@ class Auth_RESTClient_User extends DataModel implements Auth_User_Interface
 	public function getAddForm(): Form
 	{
 		if( !$this->_form_add ) {
-
 			$form = $this->_getForm();
 			$form->setName( 'add_user' );
 
-			if( $form->fieldExists( 'password' ) ) {
-				$form->removeField( 'password' );
-			}
-
-
 			$this->_form_add = $form;
-
-
 		}
 
 		return $this->_form_add;

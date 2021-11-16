@@ -869,37 +869,6 @@ class Auth_Visitor_User extends DataModel implements Auth_User_Interface
 		return $form;
 	}
 
-	/**
-	 *
-	 * @return Form
-	 */
-	public function getRegistrationForm(): Form
-	{
-		$form = $this->_getForm();
-		$form->setName( 'register_user' );
-
-		foreach( $form->getFields() as $field ) {
-			if( !in_array( $field->getName(), [
-				'username',
-				'locale',
-				'password',
-				'email'
-			] ) ) {
-				$form->removeField( $field->getName() );
-			}
-		}
-
-		$form->getField( 'locale' )->setDefaultValue( Locale::getCurrentLocale() );
-
-		/**
-		 * @var Form_Field_RegistrationPassword $pwd
-		 */
-		$pwd = $form->getField( 'password' );
-		$pwd->setPasswordConfirmationLabel( 'Confirm password' );
-
-		return $form;
-	}
-
 
 	/**
 	 *
@@ -910,11 +879,6 @@ class Auth_Visitor_User extends DataModel implements Auth_User_Interface
 		if( !$this->_form_edit ) {
 			$form = $this->_getForm();
 			$form->setName( '_user' );
-
-			if( $form->fieldExists( 'password' ) ) {
-				$form->removeField( 'password' );
-			}
-
 
 			$this->_form_edit = $form;
 		}
@@ -937,14 +901,8 @@ class Auth_Visitor_User extends DataModel implements Auth_User_Interface
 	public function getAddForm(): Form
 	{
 		if( !$this->_form_add ) {
-
 			$form = $this->_getForm();
 			$form->setName( 'add_user' );
-
-			if( $form->fieldExists( 'password' ) ) {
-				$form->removeField( 'password' );
-			}
-
 
 			$this->_form_add = $form;
 
