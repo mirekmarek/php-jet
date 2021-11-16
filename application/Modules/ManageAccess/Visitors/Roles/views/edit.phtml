@@ -18,7 +18,7 @@ $role = $this->getRaw( 'role' );
 $form = $this->getRaw( 'form' );
 $available_privileges_list = $this->getRaw( 'available_privileges_list' );
 
-$form->setDefaultLabelWidth( [Form::LJ_SIZE_MEDIUM => 2] );
+$form->setDefaultLabelWidth( [Form::LJ_SIZE_MEDIUM => 1] );
 $form->setDefaultFieldWidth( [Form::LJ_SIZE_MEDIUM => 4] );
 
 ?>
@@ -36,6 +36,7 @@ $form->setDefaultFieldWidth( [Form::LJ_SIZE_MEDIUM => 4] );
 		<div class="container-fluid">
 			<div class="row main-row">
 				<div class="col-md-12 main-col">
+					<?= $form->field( 'id' ) ?>
 					<?= $form->field( 'name' ) ?>
 					<?= $form->field( 'description' ) ?>
 

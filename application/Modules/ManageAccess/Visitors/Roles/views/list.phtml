@@ -23,13 +23,13 @@ $filter_form = $this->getRaw( 'filter_form' );
 $c_edit = $grid->getColumn( '_edit_' );
 $c_edit->setRenderer(
 	function( Role $item ) use ( $router ) {
+		if( ($delete_uri = $router->action( 'delete' )->URI( $item->getId() )) ):
+			echo UI::button_delete(' ')->setUrl( $delete_uri )->setSize( UI_button::SIZE_EXTRA_SMALL );
+			echo '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+		endif;
 
 		if( ($edit_uri = $router->action( 'edit' )->URI( $item->getId() )) ):
 			echo UI::button_edit()->setUrl( $edit_uri )->setSize( UI_button::SIZE_EXTRA_SMALL );
-		endif;
-		echo '&nbsp;';
-		if( ($delete_uri = $router->action( 'delete' )->URI( $item->getId() )) ):
-			echo UI::button_delete()->setUrl( $delete_uri )->setSize( UI_button::SIZE_EXTRA_SMALL );
 		endif;
 	}
 );

@@ -26,6 +26,13 @@ interface Auth_Role_Interface
 	 */
 	public static function getList(): iterable;
 
+	/**
+	 * @param string $id
+	 *
+	 * @return bool
+	 */
+	public static function idExists( string $id ): bool;
+
 
 	/**
 	 * @return string

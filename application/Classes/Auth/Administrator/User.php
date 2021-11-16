@@ -672,11 +672,9 @@ class Auth_Administrator_User extends DataModel implements Auth_User_Interface
 	 */
 	public static function usernameExists( string $username ): bool
 	{
-		$q = [
+		return (bool)static::getBackendInstance()->getCount( static::createQuery( [
 			'username' => $username,
-		];
-
-		return (bool)static::getBackendInstance()->getCount( static::createQuery( $q ) );
+		] ) );
 	}
 
 
@@ -828,26 +826,10 @@ class Auth_Administrator_User extends DataModel implements Auth_User_Interface
 		] );
 		$form->addField( $roles );
 
+		$form->removeField( 'password' );
 
 		if( $this->getIsNew() ) {
-			/**
-			 * @var Form_Field_RegistrationPassword $password_field
-			 */
-			$password_field = $form->getField( 'password' );
-			$password_field->setIsRequired( true );
-			$password_field->setPasswordStrengthCheckCallback( [
-				$this,
-				'verifyPasswordStrength'
-			] );
-			$password_field->setErrorMessages(
-				[
-					Form_Field_RegistrationPassword::ERROR_CODE_WEAK_PASSWORD => 'Password is not strong enough',
-				]
-			);
-
 			$form->getField( 'password_is_valid' )->setDefaultValue( false );
-		} else {
-			$form->removeField( 'password' );
 		}
 
 

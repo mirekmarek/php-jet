@@ -16,7 +16,6 @@ use Jet\SysConf_URI;
 use Jet\Tr;
 use Jet\DataModel_IDController_AutoIncrement;
 use Jet\DataModel_IDController_UniqueString;
-use Jet\DataModel_IDController_Name;
 use Jet\DataModel_IDController_Passive;
 
 /**
@@ -31,7 +30,6 @@ class DataModels extends BaseObject implements Application_Part
 	protected static array $id_controllers = [
 		DataModel_IDController_AutoIncrement::class => 'AutoIncrement',
 		DataModel_IDController_UniqueString::class  => 'UniqueString',
-		DataModel_IDController_Name::class          => 'Name',
 		DataModel_IDController_Passive::class       => 'Passive',
 	];
 

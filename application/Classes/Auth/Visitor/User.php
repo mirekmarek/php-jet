@@ -691,11 +691,9 @@ class Auth_Visitor_User extends DataModel implements Auth_User_Interface
 	 */
 	public static function usernameExists( string $username ): bool
 	{
-		$q = [
+		return (bool)static::getBackendInstance()->getCount( static::createQuery( [
 			'username' => $username,
-		];
-
-		return (bool)static::getBackendInstance()->getCount( static::createQuery( $q ) );
+		] ) );
 	}
 
 

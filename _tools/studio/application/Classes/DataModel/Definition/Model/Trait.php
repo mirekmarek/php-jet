@@ -1123,7 +1123,6 @@ trait DataModel_Definition_Model_Trait
 				$id_controller_option = 'id_property_name';
 				break;
 			case 'Jet\DataModel_IDController_UniqueString':
-			case 'Jet\DataModel_IDController_Name':
 				$id_property = new DataModel_Definition_Property_Id( $model->getClassName(), $id_property_name );
 				$id_controller_option = 'id_property_name';
 				break;

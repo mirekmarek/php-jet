@@ -6,11 +6,12 @@ namespace JetApplication;
 use Jet\Application_Modules;
 use Jet\DataModel;
 use Jet\DataModel_Definition;
-use Jet\DataModel_IDController_Name;
+use Jet\DataModel_IDController_Passive;
 use Jet\DataModel_Related_MtoN_Iterator;
 use Jet\Auth_Role_Interface;
 use Jet\Data_Forest;
 use Jet\Data_Tree;
+use Jet\Form_Field_Input;
 use Jet\Tr;
 use Jet\MVC;
 use Jet\MVC_Page;
@@ -22,7 +23,7 @@ use Jet\Form_Field;
  */
 #[DataModel_Definition(
 	name: 'role',
-	id_controller_class: DataModel_IDController_Name::class,
+	id_controller_class: DataModel_IDController_Passive::class,
 	database_table_name: 'roles_rest_clients'
 )]
 class Auth_RESTClient_Role extends DataModel implements Auth_Role_Interface
@@ -36,7 +37,12 @@ class Auth_RESTClient_Role extends DataModel implements Auth_Role_Interface
 	#[DataModel_Definition(
 		type: DataModel::TYPE_ID,
 		is_id: true,
-		form_field_type: false
+		form_field_type: Form::TYPE_INPUT,
+		form_field_label: 'ID',
+		form_field_is_required: true,
+		form_field_error_messages: [
+			Form_Field_Input::ERROR_CODE_EMPTY => 'Please enter ID'
+		]
 	)]
 	protected string $id = '';
 
@@ -142,6 +148,19 @@ class Auth_RESTClient_Role extends DataModel implements Auth_Role_Interface
 		return $list;
 	}
 
+
+	/**
+	 *
+	 * @param string $id
+	 *
+	 * @return bool
+	 */
+	public static function idExists( string $id ): bool
+	{
+		return (bool)static::getBackendInstance()->getCount( static::createQuery( [
+			'id' => $id,
+		] ) );
+	}
 
 	/**
 	 * @return string
@@ -406,6 +425,27 @@ class Auth_RESTClient_Role extends DataModel implements Auth_Role_Interface
 
 
 		$form = $this->getCommonForm();
+		if( $this->getIsNew() ) {
+			$form->field('id')->setValidator(
+				function( Form_Field_Input $field ) {
+					$id = $field->getValue();
+
+					if( static::idExists( $id ) ) {
+						$field->setCustomError(
+							Tr::_(
+								'Sorry, but ID %ID% is used.', ['ID' => $id]
+							)
+						);
+
+						return false;
+					}
+
+					return true;
+				}
+			);
+		} else {
+			$form->field('id')->setIsReadonly(true);
+		}
 
 		$form->field( '/privileges/module_action/values' )->setSelectOptions( static::getAclActionValuesList_ModulesActions() );
 		$form->field( '/privileges/module_action/values' )->setLabel( 'Modules and actions' );

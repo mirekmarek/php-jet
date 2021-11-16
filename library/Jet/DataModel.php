@@ -17,7 +17,7 @@ namespace Jet;
  * #[DataModel_Definition(database_table_name: 'some_table_name')]
  *
  * #[DataModel_Definition(id_controller_class: Id_Controller_Class::class)]
- *      - You can create your ID class or use one of those: DataModel_IDController_UniqueString, DataModel_IDController_Name, DataModel_IDController_AutoIncrement, DataModel_IDController_Passive
+ *      - You can create your ID class or use one of those: DataModel_IDController_UniqueString, DataModel_IDController_AutoIncrement, DataModel_IDController_Passive
  *
  * #[DataModel_Definition(id_controller_options: ['option'=>'value', 'next_option'=>123])]
  *      - A practical example: #[DataModel_Definition(id_controller_options: ['id_property_name'=>'some_id_property_name'])]
