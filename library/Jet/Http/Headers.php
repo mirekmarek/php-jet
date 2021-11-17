@@ -77,7 +77,7 @@ class Http_Headers
 	 */
 	public static function response( int $code, array $headers = [], string $custom_response_message='' ): void
 	{
-		$header = static::getResponseHeader( $code, $custom_response_message );
+		$header = static::createResponseHeader( $code, $custom_response_message );
 
 		static::sendHeader( $header, true, $code );
 
@@ -102,7 +102,7 @@ class Http_Headers
 	 *
 	 * @return string
 	 */
-	public static function getResponseHeader( int $http_code, string $custom_response_message='' ): string
+	protected static function createResponseHeader( int $http_code, string $custom_response_message='' ): string
 	{
 		if($custom_response_message) {
 			$message = $custom_response_message;
@@ -120,7 +120,7 @@ class Http_Headers
 	 *
 	 * @return string
 	 */
-	public static function getResponseMessage( int $http_code ): string
+	protected static function getResponseMessage( int $http_code ): string
 	{
 		$response_messages = SysConf_Jet_Http::getResponseMessages();
 
@@ -140,7 +140,7 @@ class Http_Headers
 	 * @param int $http_response_code
 	 *
 	 */
-	public static function sendHeader( string $header, bool $replace = true, int $http_response_code = 0 ): void
+	protected static function sendHeader( string $header, bool $replace = true, int $http_response_code = 0 ): void
 	{
 		$f_name = SysConf_Jet_Http::getHeaderFunctionName();
 
@@ -203,24 +203,6 @@ class Http_Headers
 	}
 
 
-	/**
-	 * See other - 303
-	 *
-	 * @param string $target_URL target URL
-	 * @param array $headers (optional, default: none)
-	 * @param bool $application_end (optional, default: true)
-	 */
-	public static function seeOther( string $target_URL, array $headers = [], bool $application_end = true ): void
-	{
-		static::redirect(
-			static::CODE_303_SEE_OTHER,
-			$target_URL,
-			$headers,
-			$application_end
-		);
-	}
-
-
 
 	/**
 	 * Reload current page
@@ -252,31 +234,23 @@ class Http_Headers
 	 */
 	public static function sendDownloadFileHeaders( string $file_name, string $file_mime, int $file_size, bool $force_download = false ): void
 	{
-
-		$date = gmdate( 'D, d M Y H:i:s' );
+		$headers = [
+			'Content-Type' => $file_mime,
+			'Content-Length' => $file_size,
+			'Cache-Control' => 'public, must-revalidate, max-age=0',
+			'Pragma' => 'public',
+			'Expires' => 'Tue, 01 February 2011 07:00:00 GMT',
+			'Last-Modified' => gmdate( 'D, d M Y H:i:s' ) . ' GMT' ,
+		];
 
 		if( $force_download ) {
-			static::sendHeader( 'Content-Description: File Transfer' );
-			static::sendHeader( 'Cache-Control: public, must-revalidate, max-age=0' );
-			static::sendHeader( 'Pragma: public' );
-			static::sendHeader( 'Expires: Sat, 26 Jul 1997 05:00:00 GMT' );
-			static::sendHeader( 'Last-Modified: ' . $date . ' GMT' );
-			static::sendHeader( 'Content-Type: application/force-download' );
-			static::sendHeader( 'Content-Type: application/octet-stream' );
-			static::sendHeader( 'Content-Type: application/download' );
-			static::sendHeader( 'Content-Type: ' . $file_mime );
-			static::sendHeader( 'Content-Disposition: attachment; filename="' . $file_name . '";' );
-			static::sendHeader( 'Content-Transfer-Encoding: binary' );
-			static::sendHeader( 'Content-Length: ' . $file_size );
+			$headers['Content-Disposition'] = 'attachment; filename="' . $file_name . '";';
+			$headers['Content-Transfer-Encoding'] = 'binary';
 		} else {
-			static::sendHeader( 'Content-Type: ' . $file_mime );
-			static::sendHeader( 'Cache-Control: public, must-revalidate, max-age=0' );
-			static::sendHeader( 'Pragma: public' );
-			static::sendHeader( 'Expires: Sat, 26 Jul 1997 05:00:00 GMT' );
-			static::sendHeader( 'Last-Modified: ' . $date . ' GMT' );
-			static::sendHeader( 'Content-Length: ' . $file_size );
-			static::sendHeader( 'Content-Disposition: inline; filename="' . $file_name . '";' );
+			$headers['Content-Transfer-Encoding'] = 'inline; filename="' . $file_name . '";';
 		}
+
+		static::response(static::CODE_200_OK, $headers);
 	}
 
 }

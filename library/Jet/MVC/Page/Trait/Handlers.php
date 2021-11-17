@@ -63,19 +63,10 @@ trait MVC_Page_Trait_Handlers
 		 * @var MVC_Page_Trait_Handlers|MVC_Page $this
 		 */
 
-		foreach( $this->getHttpHeaders() as $header => $value ) {
-			if( is_int( $header ) ) {
-				Http_Headers::sendHeader( $value );
-			} else {
-				if( is_array( $value ) ) {
-					$value = implode( '; ', $value );
-				}
-
-				Http_Headers::sendHeader( $header . ': ' . $value );
-			}
-
-		}
-
+		Http_Headers::response(
+			code: Http_Headers::CODE_200_OK,
+			headers: $this->getHttpHeaders()
+		);
 	}
 
 	/**
