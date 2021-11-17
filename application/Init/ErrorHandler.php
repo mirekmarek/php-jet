@@ -19,11 +19,13 @@ require SysConf_Path::getLibrary() . 'Jet/Debug/ErrorHandler.php';
 
 
 require SysConf_Path::getApplication() . 'ErrorHandlers/Log.php';
+require SysConf_Path::getApplication() . 'ErrorHandlers/HTTPHeader.php';
 require SysConf_Path::getApplication() . 'ErrorHandlers/Display.php';
 require SysConf_Path::getApplication() . 'ErrorHandlers/ErrorPage.php';
 
 
 ErrorHandler_Log::register();
+ErrorHandler_HTTPHeader::register();
 
 if( SysConf_Jet_Debug::getDevelMode() ) {
 	ErrorHandler_Display::register();

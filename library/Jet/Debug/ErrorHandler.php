@@ -175,29 +175,23 @@ class Debug_ErrorHandler
 
 		$error_displayed = false;
 
-		if( $error->isFatal() ) {
-			if( php_sapi_name() != 'cli' ) {
-				/** @noinspection PhpUsageOfSilenceOperatorInspection */
-				@header( 'HTTP/1.1 500 Internal Server Error' );
-			}
-		}
-
 		foreach( static::$handlers as $handler ) {
-
 			$handler->handle( $error );
 			if( $handler->errorDisplayed() ) {
 				$error_displayed = true;
 			}
 		}
 
-		if($error->isFatal()) {
-			if( !$error_displayed ) {
-				if( Debug::getOutputIsHTML() ) {
-					echo '<pre>' . $error . '</pre>';
+		if(
+			!$error_displayed &&
+			$error->isFatal() &&
+			SysConf_Jet_Debug::getDevelMode()
+		) {
+			if( Debug::getOutputIsHTML() ) {
+				echo '<pre>' . $error . '</pre>';
 
-				} else {
-					echo $error;
-				}
+			} else {
+				echo $error;
 			}
 
 			die();
