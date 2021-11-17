@@ -64,22 +64,22 @@ class ErrorHandler_Display extends Debug_ErrorHandler_Handler
 			<hr/>
 			<?= static::encode( $e->getMessage() ) ?>
 			<hr/>
-			<table cellSpacing="0" cellPadding="2" border="1" style="border-collapse:collapse;collapse;background-color: #c9c9c9;">
+			<table style="border-collapse:collapse;collapse;background-color: #c9c9c9;">
 				<tr>
-					<td>script:</td>
-					<td><?= $e->getFile() ?></td>
+					<td style="padding: 2px;">script:</td>
+					<td style="padding: 2px;"><?= $e->getFile() ?></td>
 				</tr>
 				<tr>
-					<td>line:</td>
-					<td><?= $e->getLine() ?></td>
+					<td style="padding: 2px;">line:</td>
+					<td style="padding: 2px;"><?= $e->getLine() ?></td>
 				</tr>
 				<tr>
-					<td>time:</td>
-					<td><?= $e->getDate() ?> <?= $e->getTime() ?></td>
+					<td style="padding: 2px;">time:</td>
+					<td style="padding: 2px;"><?= $e->getDate() ?> <?= $e->getTime() ?></td>
 				</tr>
 				<tr>
-					<td>URL:</td>
-					<td><?= static::encode( $e->getRequestURL() ) ?></td>
+					<td style="padding: 2px;">URL:</td>
+					<td style="padding: 2px;"><?= static::encode( $e->getRequestURL() ) ?></td>
 				</tr>
 			</table>
 			<br/>
@@ -88,11 +88,11 @@ class ErrorHandler_Display extends Debug_ErrorHandler_Handler
 
 				<br/><strong>Debug backtrace:</strong><br/>
 
-				<table border="1" cellSpacing="0" cellpadding="2" style="border-collapse:collapse;background-color: #999999;">
+				<table style="border-collapse:collapse;background-color: #999999;">
 					<tr>
-						<th align="left">File</th>
-						<th align="left">Line</th>
-						<th align="left">Call</th>
+						<th style="text-align: left;padding: 5px;">File</th>
+						<th style="text-align: left;padding: 5px;">Line</th>
+						<th style="text-align: left;padding: 5px;">Call</th>
 					</tr>
 
 					<?php
@@ -102,9 +102,9 @@ class ErrorHandler_Display extends Debug_ErrorHandler_Handler
 						$i++;
 						?>
 						<tr style="<?= $row_style ?>">
-							<td valign="top"><?= $d->getFile() ?></td>
-							<td valign="top"><?= $d->getLine() ?></td>
-							<td valign="top"><?= self::encode( $d->getCall() ) ?></td>
+							<td style="text-align: left;padding: 5px;vertical-align: top"><?= $d->getFile() ?></td>
+							<td style="text-align: left;padding: 5px;vertical-align: top"><?= $d->getLine() ?></td>
+							<td style="text-align: left;padding: 5px;vertical-align: top"><?= self::encode( $d->getCall() ) ?></td>
 						</tr>
 					<?php endforeach; ?>
 				</table>
