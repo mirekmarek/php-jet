@@ -236,13 +236,13 @@ class REST extends BaseObject
 	                                     string $http_message = 'OK' )
 	{
 
-		Http_Headers::sendHeader( 'HTTP/1.1 ' . $http_code . ' ' . $http_message, true, $http_code );
+		$http_headers['Content-Type'] = 'application/json;charset=' . SysConf_Jet_Main::getCharset();
 
-		Http_Headers::sendHeader( 'Content-type:application/json;charset=' . SysConf_Jet_Main::getCharset() );
-
-		foreach( $http_headers as $header => $header_value ) {
-			Http_Headers::sendHeader( $header . ': ' . $header_value );
-		}
+		Http_Headers::response(
+			code: $http_code,
+			headers: $http_headers,
+			custom_response_message: $http_message
+		);
 
 		echo $response_text;
 		Application::end();

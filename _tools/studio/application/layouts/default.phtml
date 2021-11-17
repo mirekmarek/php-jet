@@ -90,7 +90,7 @@ use Jet\UI;
 					</a>
 					<div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
 						<?php foreach( Application::getLocales() as $locale ): ?>
-								<a class="dropdown-item" href="<?=Http_Request::currentURI(['std_locale'=>$locale->toString()])?>">
+								<a class="dropdown-item" href="<?=Http_Request::currentURI(['std_locale' =>$locale->toString()])?>">
 									<?=UI::flag( $locale )?>
 									<?=$locale->getName( $locale )?>
 								</a>

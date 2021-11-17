@@ -126,8 +126,8 @@ class Http_Request extends BaseObject
 	 *
 	 * @return string
 	 */
-	public static function currentURI( array $set_GET_params = [],
-	                                   array $unset_GET_params = [],
+	public static function currentURI( array   $set_GET_params = [],
+	                                   array   $unset_GET_params = [],
 	                                   ?string $set_anchor = null ): string
 	{
 		if(
@@ -198,29 +198,28 @@ class Http_Request extends BaseObject
 			[$request_URI] = explode( '?', $request_URI );
 		}
 
-		if( $force_SSL ) {
-			$_SERVER['SERVER_PORT'] = '443';
-
-			return static::baseSSLURL() . $request_URI;
-		} else {
-			return static::baseURL() . $request_URI;
-		}
+		return static::baseURL($force_SSL) . $request_URI;
 	}
 
 	/**
-	 *
-	 *
+	 * @param bool $force_SSL
 	 * @return string
 	 */
-	public static function baseURL(): string
+	public static function baseURL( bool $force_SSL = false ): string
 	{
 		$scheme = 'http';
 		$host = $_SERVER['HTTP_HOST'];
 		$port = '';
 
-		if( static::isHttps() ) {
+		if(
+			static::isHttps() ||
+			$force_SSL
+		) {
 			$scheme = 'https';
-			if( $_SERVER['SERVER_PORT'] != '443' ) {
+			if(
+				$_SERVER['SERVER_PORT'] != '443' &&
+				!$force_SSL
+			) {
 				$port = ':' . $_SERVER['SERVER_PORT'];
 			}
 		} else {
@@ -232,23 +231,6 @@ class Http_Request extends BaseObject
 		return $scheme . '://' . $host . $port;
 	}
 
-	/**
-	 *
-	 *
-	 * @return string
-	 */
-	public static function baseSSLURL(): string
-	{
-		$host = $_SERVER['HTTP_HOST'];
-		$port = '';
-
-		$scheme = 'https';
-		if( $_SERVER['SERVER_PORT'] != '443' ) {
-			$port = ':' . $_SERVER['SERVER_PORT'];
-		}
-
-		return $scheme . '://' . $host . $port;
-	}
 
 
 	/**

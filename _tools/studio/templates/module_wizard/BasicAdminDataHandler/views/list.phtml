@@ -24,12 +24,12 @@ $router = $this->getController()->getControllerRouter();
 $c_edit = $grid->getColumn( '_edit_' );
 $c_edit->setRenderer(
 	function( %<DATA_MODEL_CLASS_ALIAS>% $item ) use ( $router ) {
+		if( ( $delete_uri = $router->action('delete')->URI( $item->%<ITEM_ID_GETTER>%() ) ) ):
+			echo UI::button_delete(' ')->setUrl( $delete_uri )->setSize( UI_button::SIZE_EXTRA_SMALL);
+			echo '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+		endif;
 		if( ( $edit_uri = $router->action('edit')->URI( $item->%<ITEM_ID_GETTER>%() ) ) ):
 			echo UI::button_edit()->setUrl( $edit_uri )->setSize( UI_button::SIZE_EXTRA_SMALL);
-		endif;
-		echo '&nbsp;';
-		if( ( $delete_uri = $router->action('delete')->URI( $item->%<ITEM_ID_GETTER>%() ) ) ):
-			echo UI::button_delete()->setUrl( $delete_uri )->setSize( UI_button::SIZE_EXTRA_SMALL);
 		endif;
 
 	}

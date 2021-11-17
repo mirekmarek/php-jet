@@ -18,21 +18,15 @@ class AJAX
 	 * @param mixed $response_data (will be encoded by json_encode)
 	 * @param array $http_headers
 	 * @param int $http_code
-	 * @param string $http_message
 	 */
-	public static function response( mixed $response_data, array $http_headers = [], int $http_code = 200, string $http_message = 'OK' ): void
+	public static function response( mixed $response_data, array $http_headers = [], int $http_code = 200 ): void
 	{
 		if( ob_get_level() ) {
 			ob_end_clean();
 		}
 		Debug::setOutputIsJSON( true );
 
-		header( 'HTTP/1.1 ' . $http_code . ' ' . $http_message );
-		header( 'Content-type:text/json;charset=UTF-8' );
-
-		foreach( $http_headers as $header => $header_value ) {
-			header( $header . ': ' . $header_value );
-		}
+		Http_Headers::response($http_code, $http_headers);
 
 		echo json_encode( $response_data );
 		Application::end();

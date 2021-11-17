@@ -176,8 +176,12 @@ class Auth_Controller_REST extends BaseObject implements Auth_Controller_Interfa
 			'error_msg'  => $message,
 		];
 
-		header( 'WWW-Authenticate: Basic realm="Login"' );
-		Http_Headers::authorizationRequired();
+		Http_Headers::response(
+			Http_Headers::CODE_401_UNAUTHORIZED,
+			[
+				'WWW-Authenticate' => 'Basic realm="Login"'
+			]
+		);
 
 		echo json_encode( $error );
 

@@ -69,32 +69,15 @@ class Http_Headers
 	const CODE_599_NETWORK_CONNECT_TIMEOUT_ERROR = 599;
 
 
-
 	/**
-	 *
-	 * @param array $headers (optional)
-	 */
-	public static function responseOK( array $headers = [] ): void
-	{
-		static::response( static::CODE_200_OK, $headers );
-	}
-
-	/**
-	 *
 	 * @param int $code
-	 * @param array $headers (optional)
+	 * @param array $headers
+	 * @param string $custom_response_message
 	 *
-	 * @return bool
 	 */
-	public static function response( int $code, array $headers = [] ): bool
+	public static function response( int $code, array $headers = [], string $custom_response_message='' ): void
 	{
-
-
-		$header = static::getResponseHeader( $code );
-		if( !$header ) {
-			return false;
-		}
-
+		$header = static::getResponseHeader( $code, $custom_response_message );
 
 		static::sendHeader( $header, true, $code );
 
@@ -111,21 +94,20 @@ class Http_Headers
 			}
 
 		}
-
-		return true;
 	}
 
 	/**
-	 *
 	 * @param int $http_code
+	 * @param string $custom_response_message
 	 *
-	 * @return string|bool
+	 * @return string
 	 */
-	public static function getResponseHeader( int $http_code ): string|bool
+	public static function getResponseHeader( int $http_code, string $custom_response_message='' ): string
 	{
-		$message = static::getResponseMessage( $http_code );
-		if( !$message ) {
-			return false;
+		if($custom_response_message) {
+			$message = $custom_response_message;
+		} else {
+			$message = static::getResponseMessage( $http_code );
 		}
 
 		return 'HTTP/' . SysConf_Jet_Http::getHttpVersion() . ' ' . $http_code . ' ' . $message;
@@ -136,14 +118,14 @@ class Http_Headers
 	 *
 	 * @param int $http_code
 	 *
-	 * @return string|bool
+	 * @return string
 	 */
-	public static function getResponseMessage( int $http_code ): string|bool
+	public static function getResponseMessage( int $http_code ): string
 	{
 		$response_messages = SysConf_Jet_Http::getResponseMessages();
 
 		if( !isset( $response_messages[$http_code] ) ) {
-			return false;
+			throw new Http_Request_Exception('Unknown HTTP response code '.$http_code.' - response message is not defined');
 		}
 
 		return $response_messages[$http_code];
@@ -164,6 +146,8 @@ class Http_Headers
 
 		$f_name( $header, $replace, $http_response_code );
 	}
+
+
 
 	/**
 	 * @param int $http_code
@@ -236,67 +220,6 @@ class Http_Headers
 		);
 	}
 
-
-	/**
-	 * Page not found - 404
-	 *
-	 * @param array $headers (optional, default: none)
-	 */
-	public static function notFound( array $headers = [] ): void
-	{
-		static::response( static::CODE_404_NOT_FOUND, $headers );
-	}
-
-	/**
-	 * Page not found - 304
-	 *
-	 * @param array $headers (optional, default: none)
-	 */
-	public static function notModified( array $headers = [] ): void
-	{
-		static::response( static::CODE_304_NOT_MODIFIED, $headers );
-	}
-
-
-	/**
-	 * Authorization required - 401
-	 *
-	 * @param array $headers (optional, default: none)
-	 */
-	public static function authorizationRequired( array $headers = [] ): void
-	{
-		static::response( static::CODE_401_UNAUTHORIZED, $headers );
-	}
-
-	/**
-	 * Bad request - 400
-	 *
-	 * @param array $headers (optional, default: none)
-	 */
-	public static function badRequest( array $headers = [] ): void
-	{
-		static::response( static::CODE_400_BAD_REQUEST, $headers );
-	}
-
-	/**
-	 * Forbidden - 403
-	 *
-	 * @param array $headers (optional, default: none)
-	 */
-	public static function forbidden( array $headers = [] ): void
-	{
-		static::response( static::CODE_403_FORBIDDEN, $headers );
-	}
-
-	/**
-	 * Internal server error - 500
-	 *
-	 * @param array $headers (optional)
-	 */
-	public static function internalServerError( array $headers = [] ): void
-	{
-		static::response( static::CODE_500_INTERNAL_SERVER_ERROR, $headers );
-	}
 
 
 	/**

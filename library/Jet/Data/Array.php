@@ -43,31 +43,6 @@ class Data_Array extends BaseObject implements BaseObject_Interface_Serializable
 		return $this->data;
 	}
 
-	/**
-	 *
-	 * @param array $data
-	 */
-	public function appendData( array $data ): void
-	{
-		$this->data = array_merge( $this->data, $data );
-	}
-
-	/**
-	 *
-	 * @param array $data
-	 */
-	public function setData( array $data ): void
-	{
-		$this->data = $data;
-	}
-
-	/**
-	 *
-	 */
-	public function clearData(): void
-	{
-		$this->data = [];
-	}
 
 	/**
 	 *
