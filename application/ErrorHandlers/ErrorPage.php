@@ -40,10 +40,8 @@ class ErrorHandler_ErrorPage extends Debug_ErrorHandler_Handler
 			$error->isFatal() &&
 			Debug::getOutputIsHTML()
 		) {
-			if( class_exists( 'Jet\ErrorPages', false ) ) {
-				if( ErrorPages::display( 500 ) ) {
-					$this->displayed = true;
-				}
+			if( ErrorPages::display( 500 ) ) {
+				$this->displayed = true;
 			}
 		}
 
