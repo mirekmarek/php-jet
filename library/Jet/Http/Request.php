@@ -102,11 +102,12 @@ class Http_Request extends BaseObject
 	/**
 	 *
 	 */
-	public static function hidePHPRequestData(): void
+	protected static function hidePHPRequestData(): void
 	{
 		$_GET = new Http_Request_Trap();
 		$_POST = new Http_Request_Trap();
 		$_REQUEST = new Http_Request_Trap();
+
 	}
 
 	/**
