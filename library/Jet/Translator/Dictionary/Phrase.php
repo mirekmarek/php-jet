@@ -45,26 +45,12 @@ class Translator_Dictionary_Phrase extends BaseObject
 		$this->translation = $translation;
 		$this->is_translated = $is_translated;
 		if( !$hash ) {
-			$hash = static::generateHash( $phrase );
+			$hash = Translator::getBackend()->generateHash( $phrase );
 		}
 
 		$this->hash = (string)$hash;
 	}
 
-	/**
-	 *
-	 * @param string $phrase
-	 *
-	 * @return string
-	 */
-	public static function generateHash( string $phrase ): string
-	{
-		if( strlen( $phrase ) < 255 ) {
-			return $phrase;
-		}
-
-		return md5( $phrase );
-	}
 
 	/**
 	 * @return string

@@ -75,7 +75,7 @@ class Translator_Dictionary extends BaseObject
 	 */
 	public function getTranslation( string $phrase_txt, bool $auto_append_unknown_phrase = true ): string
 	{
-		$hash = Translator_Dictionary_Phrase::generateHash( $phrase_txt );
+		$hash = Translator::getBackend()->generateHash( $phrase_txt );
 		if( isset( $this->phrases[$hash] ) ) {
 			return $this->phrases[$hash]->getTranslation();
 		}

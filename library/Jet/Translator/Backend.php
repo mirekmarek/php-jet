@@ -40,4 +40,19 @@ abstract class Translator_Backend extends BaseObject
 	abstract public function saveDictionary( Translator_Dictionary $dictionary, ?string $file_path = null ): void;
 
 
+	/**
+	 *
+	 * @param string $phrase
+	 *
+	 * @return string
+	 */
+	public function generateHash( string $phrase ): string
+	{
+		if( strlen( $phrase ) < 255 ) {
+			return $phrase;
+		}
+
+		return md5( $phrase );
+	}
+
 }

@@ -15,35 +15,19 @@ class Translator_Backend_PHPFiles extends Translator_Backend
 {
 
 	/**
-	 * @var ?string
-	 */
-	protected ?string $dictionaries_base_path = null;
-
-	/**
-	 * @var ?string
-	 */
-	protected ?string $_current_file = null;
-
-	/**
+	 * @param string $namespace
+	 *
+	 * @param Locale $locale
+	 *
 	 * @return string
 	 */
-	public function getDictionariesBasePath(): string
+	protected function _getFilePath( string $namespace, Locale $locale ): string
 	{
-		if( !$this->dictionaries_base_path ) {
-			$this->dictionaries_base_path = SysConf_Path::getDictionaries();
-		}
+		$namespace = str_replace( '/', '.', $namespace );
 
-		return $this->dictionaries_base_path;
+		return SysConf_Path::getDictionaries() . $locale . '/' . $namespace . '.php';
+
 	}
-
-	/**
-	 * @param string $dictionaries_base_path
-	 */
-	public function setDictionariesBasePath( string $dictionaries_base_path ): void
-	{
-		$this->dictionaries_base_path = $dictionaries_base_path;
-	}
-
 
 	/**
 	 *
@@ -79,33 +63,12 @@ class Translator_Backend_PHPFiles extends Translator_Backend
 	}
 
 	/**
-	 * @param string $namespace
-	 *
-	 * @param Locale $locale
-	 *
-	 * @return string
-	 */
-	protected function _getFilePath( string $namespace, Locale $locale ): string
-	{
-		$namespace = str_replace( '/', '.', $namespace );
-
-		return $this->getDictionariesBasePath() . $locale . '/' . $namespace . '.php';
-
-	}
-
-	/**
 	 *
 	 * @param Translator_Dictionary $dictionary
 	 * @param ?string $file_path (optional, default: by configuration)
 	 */
 	public function saveDictionary( Translator_Dictionary $dictionary, ?string $file_path = null ): void
 	{
-		if( !$file_path ) {
-			$file_path = $this->_getFilePath(
-				$dictionary->getNamespace(), $dictionary->getLocale()
-			);
-		}
-
 		$data = [];
 		foreach( $dictionary->getPhrases() as $phrase ) {
 			$key = $phrase->getPhrase();
@@ -114,6 +77,12 @@ class Translator_Backend_PHPFiles extends Translator_Backend
 			} else {
 				$data[$key] = '';
 			}
+		}
+
+		if( !$file_path ) {
+			$file_path = $this->_getFilePath(
+				$dictionary->getNamespace(), $dictionary->getLocale()
+			);
 		}
 
 		IO_File::writeDataAsPhp( $file_path, $data );

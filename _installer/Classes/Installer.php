@@ -17,8 +17,8 @@ use Jet\MVC_View;
 use Jet\SysConf_Jet_Translator;
 use Jet\Session;
 use Jet\Translator;
-use Jet\Translator_Backend_PHPFiles;
 use Jet\Tr;
+use Jet\SysConf_Path;
 
 
 require 'Step/Controller.php';
@@ -357,12 +357,7 @@ class Installer
 	{
 
 		SysConf_Jet_Translator::setAutoAppendUnknownPhrase(true);
-
-		/**
-		 * @var Translator_Backend_PHPFiles $backend
-		 */
-		$backend = Translator::getBackend();
-		$backend->setDictionariesBasePath( static::getBasePath() . 'dictionaries/' );
+		SysConf_Path::setDictionaries( static::getBasePath() . 'dictionaries/' );
 
 		Locale::setCurrentLocale( static::getCurrentLocale() );
 		Translator::setCurrentLocale( static::getCurrentLocale() );

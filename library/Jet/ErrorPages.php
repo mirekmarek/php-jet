@@ -163,7 +163,7 @@ class ErrorPages extends BaseObject
 			return false;
 		}
 
-		$path = SysConf_Jet_ErrorPages::getErrorPagesDir() . $code . '.phtml';
+		$path = SysConf_Jet_ErrorPages::getErrorPagesDir() . $code . '.'.SysConf_Jet_MVC_View::getScriptFileSuffix();
 
 		if(
 			is_file( $path ) &&
