@@ -172,7 +172,7 @@ class IO_File
 			$is_new = true;
 		}
 
-		$flags = $append ? FILE_APPEND : null;
+		$flags = $append ? FILE_APPEND|LOCK_EX : LOCK_EX;
 
 		if( !file_put_contents( $file_path, $data, $flags ) ) {
 			$error = static::_getLastError();
