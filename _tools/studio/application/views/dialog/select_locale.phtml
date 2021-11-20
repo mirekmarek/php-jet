@@ -75,7 +75,7 @@ use Jet\Tr;
 </script>
 
 <?php
-$dialog = UI::dialog('dialog_select_locale', Tr::_('Select locale', [], Tr::COMMON_NAMESPACE), 600);
+$dialog = UI::dialog('dialog_select_locale', Tr::_('Select locale', [], Tr::COMMON_DICTIONARY), 600);
 
 echo $dialog->start();
 ?>
@@ -88,7 +88,7 @@ echo $dialog->start();
 		<input
 				type="text"
 				class="form-control"
-				placeholder="<?=Tr::_('Search for locale ...', [], Tr::COMMON_NAMESPACE)?>"
+				placeholder="<?=Tr::_('Search for locale ...', [], Tr::COMMON_DICTIONARY)?>"
 				id="search_locale_value"
 				onkeyup="Dialog_SelectLocale.search();"
 		>

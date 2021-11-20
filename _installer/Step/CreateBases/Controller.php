@@ -200,7 +200,7 @@ class Installer_Step_CreateBases_Controller extends Installer_Step_Controller
 					}
 
 				} catch( Exception $e ) {
-					UI_messages::danger( Tr::_( 'Something went wrong: %error%', ['error' => $e->getMessage()], Tr::COMMON_NAMESPACE ) );
+					UI_messages::danger( Tr::_( 'Something went wrong: %error%', ['error' => $e->getMessage()], Tr::COMMON_DICTIONARY ) );
 				}
 
 

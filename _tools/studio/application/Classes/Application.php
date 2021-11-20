@@ -109,32 +109,32 @@ class Application extends Jet_Application
 	{
 		return [
 			'bases'         => [
-				'label' => Tr::_( 'Bases', [], Tr::COMMON_NAMESPACE ),
+				'label' => Tr::_( 'Bases', [], Tr::COMMON_DICTIONARY ),
 				'icon'  => 'compass',
 				'class' => 'Bases',
 			],
 			'pages'         => [
-				'label' => Tr::_( 'Pages', [], Tr::COMMON_NAMESPACE ),
+				'label' => Tr::_( 'Pages', [], Tr::COMMON_DICTIONARY ),
 				'icon'  => 'file-code',
 				'class' => 'Pages',
 			],
 			'data_model'    => [
-				'label' => Tr::_( 'DataModel', [], Tr::COMMON_NAMESPACE ),
+				'label' => Tr::_( 'DataModel', [], Tr::COMMON_DICTIONARY ),
 				'icon'  => 'database',
 				'class' => 'DataModels',
 			],
 			'menus'         => [
-				'label' => Tr::_( 'Menus', [], Tr::COMMON_NAMESPACE ),
+				'label' => Tr::_( 'Menus', [], Tr::COMMON_DICTIONARY ),
 				'icon'  => 'sitemap',
 				'class' => 'Menus',
 			],
 			'modules'       => [
-				'label' => Tr::_( 'Modules', [], Tr::COMMON_NAMESPACE ),
+				'label' => Tr::_( 'Modules', [], Tr::COMMON_DICTIONARY ),
 				'icon'  => 'boxes',
 				'class' => 'Modules',
 			],
 			'module_wizard' => [
-				'label' => Tr::_( 'Module wizard', [], Tr::COMMON_NAMESPACE ),
+				'label' => Tr::_( 'Module wizard', [], Tr::COMMON_DICTIONARY ),
 				'icon'  => 'magic',
 				'class' => 'ModuleWizards',
 			],
@@ -147,7 +147,7 @@ class Application extends Jet_Application
 	public static function setCurrentPart( string $part ): void
 	{
 		static::$current_part = $part;
-		Tr::setCurrentNamespace( $part );
+		Tr::setCurrentDictionary( $part );
 	}
 
 	/**
@@ -255,7 +255,7 @@ class Application extends Jet_Application
 		$error_message = Tr::_( 'Something went wrong!<br/><br/>%error%',
 			[
 				'error' => $e->getMessage()
-			], Tr::COMMON_NAMESPACE );
+			], Tr::COMMON_DICTIONARY );
 
 		if( $form ) {
 			$form->setCommonMessage( UI_messages::createDanger( $error_message ) );

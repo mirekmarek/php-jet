@@ -148,7 +148,7 @@ class ModuleWizards extends BaseObject implements Application_Part
 		$wizard = ModuleWizards::getCurrentWizard();
 
 		if( $wizard ) {
-			Tr::setCurrentNamespace( $wizard->getTrNamespace() );
+			Tr::setCurrentDictionary( $wizard->getTrNamespace() );
 			$wizard->init();
 
 			$wizard->handleAction();

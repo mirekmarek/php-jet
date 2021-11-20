@@ -207,7 +207,7 @@ class Installer
 
 		static::getLayout()->setVar( 'steps', static::$step_controllers );
 
-		Translator::setCurrentNamespace( Translator::COMMON_NAMESPACE );
+		Translator::setCurrentDictionary( Translator::COMMON_DICTIONARY );
 		echo static::getLayout()->render();
 
 		exit();
@@ -361,7 +361,7 @@ class Installer
 
 		Locale::setCurrentLocale( static::getCurrentLocale() );
 		Translator::setCurrentLocale( static::getCurrentLocale() );
-		Translator::setCurrentNamespace( static::getCurrentStepName() );
+		Translator::setCurrentDictionary( static::getCurrentStepName() );
 
 	}
 
@@ -459,14 +459,14 @@ class Installer
 	 */
 	public static function buttonBack(): string
 	{
-		$ns = Tr::getCurrentNamespace();
+		$ns = Tr::getCurrentDictionary();
 
-		Tr::setCurrentNamespace( Tr::COMMON_NAMESPACE );
+		Tr::setCurrentDictionary( Tr::COMMON_DICTIONARY );
 		$view = static::getView();
 
 		$res = $view->render( 'button/back' );
 
-		Tr::setCurrentNamespace( $ns );
+		Tr::setCurrentDictionary( $ns );
 
 		return $res;
 	}
@@ -476,14 +476,14 @@ class Installer
 	 */
 	public static function buttonNext(): string
 	{
-		$ns = Tr::getCurrentNamespace();
+		$ns = Tr::getCurrentDictionary();
 
-		Tr::setCurrentNamespace( Tr::COMMON_NAMESPACE );
+		Tr::setCurrentDictionary( Tr::COMMON_DICTIONARY );
 		$view = static::getView();
 
 		$res = $view->render( 'button/next' );
 
-		Tr::setCurrentNamespace( $ns );
+		Tr::setCurrentDictionary( $ns );
 
 		return $res;
 	}
@@ -493,14 +493,14 @@ class Installer
 	 */
 	public static function buttonNextSkipIt(): string
 	{
-		$ns = Tr::getCurrentNamespace();
+		$ns = Tr::getCurrentDictionary();
 
-		Tr::setCurrentNamespace( Tr::COMMON_NAMESPACE );
+		Tr::setCurrentDictionary( Tr::COMMON_DICTIONARY );
 		$view = static::getView();
 
 		$res = $view->render( 'button/skip' );
 
-		Tr::setCurrentNamespace( $ns );
+		Tr::setCurrentDictionary( $ns );
 
 		return $res;
 	}
@@ -511,14 +511,14 @@ class Installer
 	 */
 	public static function continueForm(): string
 	{
-		$ns = Tr::getCurrentNamespace();
+		$ns = Tr::getCurrentDictionary();
 
-		Tr::setCurrentNamespace( Tr::COMMON_NAMESPACE );
+		Tr::setCurrentDictionary( Tr::COMMON_DICTIONARY );
 		$view = static::getView();
 
 		$res = $view->render( 'continue' );
 
-		Tr::setCurrentNamespace( $ns );
+		Tr::setCurrentDictionary( $ns );
 
 		return $res;
 	}

@@ -21,7 +21,7 @@ class Translator_Dictionary extends BaseObject
 	/**
 	 * @var string
 	 */
-	protected string $namespace = '';
+	protected string $name = '';
 
 	/**
 	 * @var Translator_Dictionary_Phrase[]
@@ -34,13 +34,31 @@ class Translator_Dictionary extends BaseObject
 	protected bool $save_required = false;
 
 	/**
-	 * @param string $namespace
+	 * @param string $name
 	 * @param Locale|null $locale
 	 */
-	public function __construct( string $namespace = '', Locale $locale = null )
+	public function __construct( string $name = '', Locale $locale = null )
 	{
-		$this->namespace = $namespace;
+		$this->setName( $name );
 		$this->locale = $locale;
+	}
+
+	/**
+	 * @param string $name
+	 * @throws Translator_Exception
+	 */
+	protected function setName( string $name ) : void
+	{
+		if(
+			!$name ||
+			$name[0]=='.' ||
+			str_contains($name, '/') ||
+			str_contains($name, '\\')
+		) {
+			throw new Translator_Exception('Illegal dictionary name ');
+		}
+
+		$this->name = $name;
 	}
 
 	/**
@@ -54,9 +72,9 @@ class Translator_Dictionary extends BaseObject
 	/**
 	 * @return string
 	 */
-	public function getNamespace(): string
+	public function getName(): string
 	{
-		return $this->namespace;
+		return $this->name;
 	}
 
 	/**

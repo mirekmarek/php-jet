@@ -25,7 +25,7 @@ if(
 	}
 
 	if($ok) {
-		Tr::setCurrentNamespace( 'menus' );
+		Tr::setCurrentDictionary( 'menus' );
 
 		UI_messages::info( Tr::_( 'Menu item <b>%name%</b> has been deleted', [
 			'name' => $menu_item->getId()

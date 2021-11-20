@@ -87,7 +87,7 @@ class Installer_Step_SelectDbType_Controller extends Installer_Step_Controller
 				$db_config->saveConfigFile();
 				$data_model_config->saveConfigFile();
 			} catch( Exception $e ) {
-				UI_messages::danger( Tr::_( 'Something went wrong: %error%', ['error' => $e->getMessage()], Tr::COMMON_NAMESPACE ) );
+				UI_messages::danger( Tr::_( 'Something went wrong: %error%', ['error' => $e->getMessage()], Tr::COMMON_DICTIONARY ) );
 				Http_Headers::reload();
 			}
 

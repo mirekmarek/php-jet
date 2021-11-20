@@ -15,35 +15,32 @@ class Translator_Backend_Default extends Translator_Backend
 {
 
 	/**
-	 * @param string $namespace
+	 * @param string $dictionary
 	 *
 	 * @param Locale $locale
 	 *
 	 * @return string
 	 */
-	protected function _getFilePath( string $namespace, Locale $locale ): string
+	protected function _getFilePath( string $dictionary, Locale $locale ): string
 	{
-		$namespace = str_replace( '/', '.', $namespace );
-
-		return SysConf_Path::getDictionaries() . $locale . '/' . $namespace . '.php';
-
+		return SysConf_Path::getDictionaries() . $locale . '/' . $dictionary . '.php';
 	}
 
 	/**
 	 *
-	 * @param string $namespace
+	 * @param string $dictionary
 	 * @param Locale $locale
 	 * @param ?string $file_path (optional, default: by configuration)
 	 *
 	 * @return Translator_Dictionary
 	 */
-	public function loadDictionary( string $namespace, Locale $locale, ?string $file_path = null ): Translator_Dictionary
+	public function loadDictionary( string $dictionary, Locale $locale, ?string $file_path = null ): Translator_Dictionary
 	{
 		if( !$file_path ) {
-			$file_path = $this->_getFilePath( $namespace, $locale );
+			$file_path = $this->_getFilePath( $dictionary, $locale );
 		}
 
-		$dictionary = new Translator_Dictionary( $namespace, $locale );
+		$dictionary = new Translator_Dictionary( $dictionary, $locale );
 
 		if( is_readable( $file_path ) ) {
 			$data = require $file_path;
@@ -81,7 +78,7 @@ class Translator_Backend_Default extends Translator_Backend
 
 		if( !$file_path ) {
 			$file_path = $this->_getFilePath(
-				$dictionary->getNamespace(), $dictionary->getLocale()
+				$dictionary->getName(), $dictionary->getLocale()
 			);
 		}
 

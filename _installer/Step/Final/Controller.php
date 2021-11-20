@@ -45,7 +45,7 @@ class Installer_Step_Final_Controller extends Installer_Step_Controller
 			try {
 				IO_File::write( $install_symptom_file_path, Data_DateTime::now()->toString() );
 			} catch( Exception $e ) {
-				UI_messages::danger( Tr::_( 'Something went wrong: %error%', ['error' => $e->getMessage()], Tr::COMMON_NAMESPACE ) );
+				UI_messages::danger( Tr::_( 'Something went wrong: %error%', ['error' => $e->getMessage()], Tr::COMMON_DICTIONARY ) );
 				$OK = false;
 			}
 		}

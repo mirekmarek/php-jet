@@ -70,7 +70,7 @@ class Installer_Step_ConfigureStudio_Controller extends Installer_Step_Controlle
 
 			} catch( Exception $e ) {
 
-				UI_messages::danger( Tr::_( 'Something went wrong: %error%', ['error' => $e->getMessage()], Tr::COMMON_NAMESPACE ) );
+				UI_messages::danger( Tr::_( 'Something went wrong: %error%', ['error' => $e->getMessage()], Tr::COMMON_DICTIONARY ) );
 				$ok = false;
 			}
 

@@ -97,7 +97,7 @@ class Installer_Step_ConfigureDb_Controller extends Installer_Step_Controller
 				$this->main_config->saveConfigFile();
 			} catch( Exception $e ) {
 				$ok = false;
-				UI_messages::danger( Tr::_( 'Something went wrong: %error%', ['error' => $e->getMessage()], Tr::COMMON_NAMESPACE ) );
+				UI_messages::danger( Tr::_( 'Something went wrong: %error%', ['error' => $e->getMessage()], Tr::COMMON_DICTIONARY ) );
 			}
 
 			if( $ok ) {

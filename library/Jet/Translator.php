@@ -14,7 +14,7 @@ namespace Jet;
 class Translator extends BaseObject
 {
 
-	const COMMON_NAMESPACE = '_COMMON_';
+	const COMMON_DICTIONARY = '_COMMON_';
 
 	/**
 	 *
@@ -25,7 +25,7 @@ class Translator extends BaseObject
 	/**
 	 * @var string
 	 */
-	protected static string $current_namespace = self::COMMON_NAMESPACE;
+	protected static string $current_dictionary = self::COMMON_DICTIONARY;
 
 	/**
 	 * @var ?Locale
@@ -76,18 +76,18 @@ class Translator extends BaseObject
 	 *
 	 * @return string
 	 */
-	public static function getCurrentNamespace(): string
+	public static function getCurrentDictionary(): string
 	{
-		return static::$current_namespace;
+		return static::$current_dictionary;
 	}
 
 	/**
 	 *
-	 * @param string $current_namespace
+	 * @param string $current_dictionary
 	 */
-	public static function setCurrentNamespace( string $current_namespace ): void
+	public static function setCurrentDictionary( string $current_dictionary ): void
 	{
-		static::$current_namespace = $current_namespace;
+		static::$current_dictionary = $current_dictionary;
 	}
 
 	/**
@@ -127,14 +127,14 @@ class Translator extends BaseObject
 	 *
 	 * @param string $text
 	 * @param array $data (optional) - data that replace parts of text; input array('KEY1'=>'value1') replaces %KEY1% in text for value1
-	 * @param string|null $namespace (optional)
+	 * @param string|null $dictionary (optional)
 	 * @param Locale|null $locale (optional) - target locale
 	 *
 	 * @return string
 	 */
-	public static function _( string $text, array $data = [], string|null $namespace = null, Locale|null $locale = null ) : string
+	public static function _( string $text, array $data = [], string|null $dictionary = null, Locale|null $locale = null ) : string
 	{
-		return static::getTranslation( $text, $data, $namespace, $locale );
+		return static::getTranslation( $text, $data, $dictionary, $locale );
 	}
 
 	/**
@@ -143,22 +143,22 @@ class Translator extends BaseObject
 	 *
 	 * @param string $phrase
 	 * @param array $data (optional) - data that replace parts of text; input array('KEY1'=>'value1') replaces %KEY1% in text for value1
-	 * @param string|null $namespace (optional)
+	 * @param string|null $dictionary (optional)
 	 * @param Locale|null $locale (optional) - target locale
 	 *
 	 * @return string
 	 */
-	public static function getTranslation( string $phrase,
-	                                       array $data = [],
-	                                       string|null $namespace = null,
+	public static function getTranslation( string      $phrase,
+	                                       array       $data = [],
+	                                       string|null $dictionary = null,
 	                                       Locale|null $locale = null ): string
 	{
 		if(!trim($phrase)) {
 			return $phrase;
 		}
 
-		if( !$namespace ) {
-			$namespace = static::$current_namespace;
+		if( !$dictionary ) {
+			$dictionary = static::$current_dictionary;
 		}
 
 		if( $locale === null ) {
@@ -166,7 +166,7 @@ class Translator extends BaseObject
 		}
 
 		if(
-			!$namespace ||
+			!$dictionary ||
 			!$locale
 		) {
 			return Data_Text::replaceData( $phrase, $data );
@@ -176,9 +176,7 @@ class Translator extends BaseObject
 			$locale = new Locale( $locale );
 		}
 
-		$dictionary = static::loadDictionary( $namespace, $locale );
-
-		$translation = $dictionary->getTranslation( $phrase, SysConf_Jet_Translator::getAutoAppendUnknownPhrase() );
+		$translation = static::loadDictionary( $dictionary, $locale )->getTranslation( $phrase, SysConf_Jet_Translator::getAutoAppendUnknownPhrase() );
 
 
 		if( $data ) {
@@ -191,23 +189,23 @@ class Translator extends BaseObject
 
 	/**
 	 *
-	 * @param string $namespace
+	 * @param string $dictionary
 	 * @param Locale $locale
 	 * @param bool $force_load (optional, default: false)
 	 *
 	 * @return Translator_Dictionary
 	 */
-	public static function loadDictionary( string $namespace,
+	public static function loadDictionary( string $dictionary,
 	                                       Locale $locale,
-	                                       bool $force_load = false ): Translator_Dictionary
+	                                       bool   $force_load = false ): Translator_Dictionary
 	{
-		$dictionary_key = $namespace . ':' . $locale;
+		$dictionary_key = $dictionary . ':' . $locale;
 
 		if(
 			!isset( static::$dictionaries[$dictionary_key] ) ||
 			$force_load
 		) {
-			static::$dictionaries[$dictionary_key] = static::getBackend()->loadDictionary( $namespace, $locale );
+			static::$dictionaries[$dictionary_key] = static::getBackend()->loadDictionary( $dictionary, $locale );
 		}
 
 		return static::$dictionaries[$dictionary_key];

@@ -128,7 +128,7 @@ class Controller_Main extends MVC_Controller_Default
 
 
 		Navigation_Breadcrumb::addURL(
-			Tr::_( 'Change password', [], Tr::COMMON_NAMESPACE )
+			Tr::_( 'Change password', [], Tr::COMMON_DICTIONARY )
 		);
 
 		if( $form->catchInput() && $form->validate() ) {
