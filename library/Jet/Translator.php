@@ -179,12 +179,7 @@ class Translator extends BaseObject
 		$translation = static::loadDictionary( $dictionary, $locale )->getTranslation( $phrase, SysConf_Jet_Translator::getAutoAppendUnknownPhrase() );
 
 
-		if( $data ) {
-			$translation = Data_Text::replaceData( $translation, $data );
-		}
-
-		return $translation;
-
+		return static::getBackend()->updateTranslation( $translation, $data );
 	}
 
 	/**

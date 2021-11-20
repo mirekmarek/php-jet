@@ -41,6 +41,21 @@ abstract class Translator_Backend extends BaseObject
 
 
 	/**
+	 * @param string $translation
+	 * @param array $data
+	 *
+	 * @return string
+	 */
+	public function updateTranslation( string $translation, array $data ) : string
+	{
+		if(!$data) {
+			return $translation;
+		}
+
+		return Data_Text::replaceData( $translation, $data );
+	}
+
+	/**
 	 *
 	 * @param string $phrase
 	 *
@@ -54,5 +69,4 @@ abstract class Translator_Backend extends BaseObject
 
 		return md5( $phrase );
 	}
-
 }
