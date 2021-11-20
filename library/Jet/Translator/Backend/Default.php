@@ -11,7 +11,7 @@ namespace Jet;
 /**
  *
  */
-class Translator_Backend_PHPFiles extends Translator_Backend
+class Translator_Backend_Default extends Translator_Backend
 {
 
 	/**

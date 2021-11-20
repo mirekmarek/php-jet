@@ -44,12 +44,14 @@ class Translator extends BaseObject
 	public static function getBackend(): Translator_Backend
 	{
 		if( static::$backend === null ) {
-			static::$backend = new Translator_Backend_PHPFiles();
+			static::$backend = new Translator_Backend_Default();
 
-			register_shutdown_function( [
-				static::class,
-				'saveUpdatedDictionaries'
-			] );
+			if(SysConf_Jet_Translator::getAutoAppendUnknownPhrase()) {
+				register_shutdown_function( [
+					static::class,
+					'saveUpdatedDictionaries'
+				] );
+			}
 		}
 
 		return static::$backend;
