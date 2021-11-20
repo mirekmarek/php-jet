@@ -44,8 +44,10 @@ class Session extends BaseObject
 	protected function sessionStart(): void
 	{
 		if( !static::$session_started ) {
-			/** @noinspection PhpUsageOfSilenceOperatorInspection */
-			@session_start();
+			if(session_status() !== PHP_SESSION_ACTIVE) {
+				session_start();
+			}
+
 			static::$session_started = true;
 			if( static::$session_validator ) {
 				$validator = static::$session_validator;
@@ -122,7 +124,7 @@ class Session extends BaseObject
 	{
 		if( $key == '' ) {
 			throw new Session_Exception(
-				'The key must be a non-empty string', Session_Exception::CODE_INVALID_KEY
+				'Key must be a non-empty string', Session_Exception::CODE_INVALID_KEY
 			);
 		}
 	}
