@@ -123,9 +123,12 @@ class Wizard extends ModuleWizard
 			'TXT_LISTING_TITLE_ID'   => 'ID',
 			'TXT_LISTING_TITLE_NAME' => $def_name,
 
-			'LOG_EVENT_CREATED' => $def_name . ' created',
-			'LOG_EVENT_UPDATED' => $def_name . ' updated',
-			'LOG_EVENT_DELETED' => $def_name . ' deleted',
+			'LOG_EVENT_CREATED' => $model_name . '_created',
+			'LOG_EVENT_CREATED_MESSAGE' => $def_name . ' created',
+			'LOG_EVENT_UPDATED' => $model_name . '_updated',
+			'LOG_EVENT_UPDATED_MESSAGE' => $def_name . ' updated',
+			'LOG_EVENT_DELETED' => $model_name . '_deleted',
+			'LOG_EVENT_DELETED_MESSAGE' => $def_name . ' deleted',
 
 			'PAGE_BASE_ID'       => 'admin',
 			'PAGE_ID'            => $page_id,
@@ -202,8 +205,11 @@ class Wizard extends ModuleWizard
 
 		$scope = [
 			'LOG_EVENT_CREATED' => 'Create event:',
+			'LOG_EVENT_CREATED_MESSAGE' => 'Create event - message:',
 			'LOG_EVENT_UPDATED' => 'Update event:',
+			'LOG_EVENT_UPDATED_MESSAGE' => 'Update event - message:',
 			'LOG_EVENT_DELETED' => 'Delete event:',
+			'LOG_EVENT_DELETED_MESSAGE' => 'Delete event - message:',
 		];
 
 		foreach( $scope as $f => $title ) {

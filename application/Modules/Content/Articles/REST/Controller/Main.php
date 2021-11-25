@@ -8,6 +8,7 @@
 
 namespace JetApplicationModule\Content\Articles\REST;
 
+use Jet\Logger;
 use JetApplication\Content_Article;
 
 use Jet\MVC_Controller_REST;
@@ -123,7 +124,14 @@ class Controller_Main extends MVC_Controller_REST
 
 			$article->save();
 
-			$this->logAllowedAction( 'Article created', $article->getId(), $article->getTitle(), $article );
+			Logger::success(
+				event: 'article_created',
+				event_message: 'Article created',
+				context_object_id: $article->getId(),
+				context_object_name: $article->getTitle(),
+				context_object_data: $article
+			);
+
 			$this->responseData( $article );
 		} else {
 			$this->responseValidationError( $form->getValidationErrors() );
@@ -148,7 +156,14 @@ class Controller_Main extends MVC_Controller_REST
 
 			$article->save();
 
-			$this->logAllowedAction( 'Article created', $article->getId(), $article->getTitle(), $article );
+			Logger::success(
+				event: 'article_created',
+				event_message: 'Article created',
+				context_object_id: $article->getId(),
+				context_object_name: $article->getTitle(),
+				context_object_data: $article
+			);
+
 			$this->responseData( $article );
 		} else {
 			$this->responseValidationError( $form->getValidationErrors() );
@@ -164,7 +179,14 @@ class Controller_Main extends MVC_Controller_REST
 		$article = $this->article;
 
 		$article->delete();
-		$this->logAllowedAction( 'Article deleted', $article->getId(), $article->getTitle(), $article );
+
+		Logger::success(
+			event: 'article_deleted',
+			event_message: 'Article deleted',
+			context_object_id: $article->getId(),
+			context_object_name: $article->getTitle(),
+			context_object_data: $article
+		);
 
 		$this->responseOK();
 

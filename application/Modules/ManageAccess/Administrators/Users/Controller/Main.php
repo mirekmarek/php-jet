@@ -8,6 +8,7 @@
 
 namespace JetApplicationModule\ManageAccess\Administrators\Users;
 
+use Jet\Logger;
 use JetApplication\Auth_Administrator_User as User;
 
 use Jet\MVC_Controller_Router_AddEditDelete;
@@ -120,7 +121,14 @@ class Controller_Main extends MVC_Controller_Default
 			$user->setPassword( $password );
 			$user->save();
 
-			$this->logAllowedAction( 'User created', $user->getId(), $user->getUsername(), $user );
+			Logger::success(
+				event: 'admin_user_created',
+				event_message: 'User created',
+				context_object_id: $user->getId(),
+				context_object_name: $user->getUsername(),
+				context_object_data: $user
+			);
+
 
 			$user->sendWelcomeEmail( $password );
 
@@ -165,7 +173,15 @@ class Controller_Main extends MVC_Controller_Default
 		if( $user->catchEditForm() ) {
 
 			$user->save();
-			$this->logAllowedAction( 'User updated', $user->getId(), $user->getUsername(), $user );
+
+
+			Logger::success(
+				event: 'admin_user_updated',
+				event_message: 'User updated',
+				context_object_id: $user->getId(),
+				context_object_name: $user->getUsername(),
+				context_object_data: $user
+			);
 
 			UI_messages::success(
 				Tr::_( 'User <b>%USERNAME%</b> has been updated', ['USERNAME' => $user->getUsername()] )
@@ -216,7 +232,14 @@ class Controller_Main extends MVC_Controller_Default
 
 		if( Http_Request::POST()->getString( 'delete' ) == 'yes' ) {
 			$user->delete();
-			$this->logAllowedAction( 'User deleted', $user->getId(), $user->getUsername(), $user );
+
+			Logger::success(
+				event: 'admin_user_deleted',
+				event_message: 'User deleted',
+				context_object_id: $user->getId(),
+				context_object_name: $user->getUsername(),
+				context_object_data: $user
+			);
 
 			UI_messages::info(
 				Tr::_( 'User <b>%USERNAME%</b> has been deleted', ['USERNAME' => $user->getUsername()] )

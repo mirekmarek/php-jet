@@ -8,6 +8,7 @@
 
 namespace JetApplicationModule\Content\Articles\Admin;
 
+use Jet\Logger;
 use JetApplication\Content_Article;
 
 use Jet\MVC_Controller_Default;
@@ -117,7 +118,13 @@ class Controller_Main extends MVC_Controller_Default
 		if( $article->catchAddForm() ) {
 			$article->save();
 
-			$this->logAllowedAction( 'Article created', $article->getId(), $article->getTitle(), $article );
+			Logger::success(
+				event: 'article_created',
+				event_message: 'Article created',
+				context_object_id: $article->getId(),
+				context_object_name: $article->getTitle(),
+				context_object_data: $article
+			);
 
 			UI_messages::success(
 				Tr::_( 'Article <b>%TITLE%</b> has been created', ['TITLE' => $article->getTitle()] )
@@ -147,7 +154,13 @@ class Controller_Main extends MVC_Controller_Default
 		if( $article->catchEditForm() ) {
 			$article->save();
 
-			$this->logAllowedAction( 'Article updated', $article->getId(), $article->getTitle(), $article );
+			Logger::success(
+				event: 'article_updated',
+				event_message: 'Article updated',
+				context_object_id: $article->getId(),
+				context_object_name: $article->getTitle(),
+				context_object_data: $article
+			);
 
 			UI_messages::success(
 				Tr::_( 'Article <b>%TITLE%</b> has been updated', ['TITLE' => $article->getTitle()] )
@@ -201,7 +214,14 @@ class Controller_Main extends MVC_Controller_Default
 
 				$article->delete();
 
-				$this->logAllowedAction( 'Article deleted', $article->getId(), $article->getTitle(), $article );
+				Logger::success(
+					event: 'article_deleted',
+					event_message: 'Article deleted',
+					context_object_id: $article->getId(),
+					context_object_name: $article->getTitle(),
+					context_object_data: $article
+				);
+
 
 				UI_messages::warning(
 					Tr::_( 'Article <b>%TITLE%</b> has been deleted', ['TITLE' => $article->getTitle()] )

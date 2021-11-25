@@ -91,8 +91,11 @@ $select_data_form->field( 'data_model' )->input()->addJsAction( 'onchange', 'thi
 
 	<legend><?= Tr::_( 'Logger' ) ?></legend>
 	<?= $setup_form->field( 'LOG_EVENT_CREATED' ) ?>
-	<?= $setup_form->field( 'LOG_EVENT_CREATED' ) ?>
+	<?= $setup_form->field( 'LOG_EVENT_CREATED_MESSAGE' ) ?>
+	<?= $setup_form->field( 'LOG_EVENT_UPDATED' ) ?>
+	<?= $setup_form->field( 'LOG_EVENT_UPDATED_MESSAGE' ) ?>
 	<?= $setup_form->field( 'LOG_EVENT_DELETED' ) ?>
+	<?= $setup_form->field( 'LOG_EVENT_DELETED_MESSAGE' ) ?>
 
 	<legend><?= Tr::_( 'ACL' ) ?></legend>
 	<?= $setup_form->field( 'ACL_ENTITY_NAME' ) ?>

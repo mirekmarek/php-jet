@@ -9,27 +9,28 @@ namespace %<NAMESPACE>%;
 
 use %<DATA_MODEL_CLASS_NAME>% as %<DATA_MODEL_CLASS_ALIAS>%;
 
-use Jet\Mvc;
-use Jet\Mvc_Controller_Router_AddEditDelete;
-use Jet\Mvc_Page;
-use Jet\Mvc_Controller_Default;
+use Jet\MVC;
+use Jet\MVC_Controller_Router_AddEditDelete;
+use Jet\MVC_Page;
+use Jet\MVC_Controller_Default;
 use Jet\UI;
 use Jet\UI_messages;
 use Jet\Http_Headers;
 use Jet\Http_Request;
 use Jet\Tr;
 use Jet\Navigation_Breadcrumb;
+use Jet\Logger;
 
 /**
  *
  */
-class Controller_Main extends Mvc_Controller_Default
+class Controller_Main extends MVC_Controller_Default
 {
 
 	/**
-	 * @var ?Mvc_Controller_Router_AddEditDelete
+	 * @var ?MVC_Controller_Router_AddEditDelete
 	 */
-	protected ?Mvc_Controller_Router_AddEditDelete $router = null;
+	protected ?MVC_Controller_Router_AddEditDelete $router = null;
 
 	/**
 	 * @var ?%<DATA_MODEL_CLASS_ALIAS>%
@@ -38,12 +39,12 @@ class Controller_Main extends Mvc_Controller_Default
 
 	/**
 	 *
-	 * @return Mvc_Controller_Router_AddEditDelete
+	 * @return MVC_Controller_Router_AddEditDelete
 	 */
-	public function getControllerRouter() : Mvc_Controller_Router_AddEditDelete
+	public function getControllerRouter() : MVC_Controller_Router_AddEditDelete
 	{
 		if( !$this->router ) {
-			$this->router = new Mvc_Controller_Router_AddEditDelete(
+			$this->router = new MVC_Controller_Router_AddEditDelete(
 				$this,
 				function($id) {
 					return (bool)($this->%<ITEM_VAR_NAME>% = %<DATA_MODEL_CLASS_ALIAS>%::get($id));
@@ -67,9 +68,9 @@ class Controller_Main extends Mvc_Controller_Default
 	protected function _setBreadcrumbNavigation( string $current_label = '' ) : void
 	{
 		/**
-		 * @var Mvc_Page $page
+		 * @var MVC_Page $page
 		 */
-		$page = Mvc::getCurrentPage();
+		$page = MVC::getPage();
 
 		Navigation_Breadcrumb::reset();
 
@@ -114,7 +115,14 @@ class Controller_Main extends Mvc_Controller_Default
 		if( $%<ITEM_VAR_NAME>%->catchAddForm() ) {
 			$%<ITEM_VAR_NAME>%->save();
 
-			$this->logAllowedAction( '%<LOG_EVENT_CREATED>%', $%<ITEM_VAR_NAME>%->%<ITEM_ID_GETTER>%(), $%<ITEM_VAR_NAME>%->%<ITEM_NAME_GETTER>%(), $%<ITEM_VAR_NAME>% );
+			Logger::success(
+				event: '%<LOG_EVENT_CREATED>%',
+				event_message: '%<LOG_EVENT_CREATED_MESSAGE>%',
+				context_object_id: $%<ITEM_VAR_NAME>%->%<ITEM_ID_GETTER>%(),
+				context_object_name: $%<ITEM_VAR_NAME>%->%<ITEM_NAME_GETTER>%(),
+				context_object_data: $%<ITEM_VAR_NAME>%
+			);
+
 
 			UI_messages::success(
 				Tr::_( '%<TXT_MSG_CREATED>%', [ 'ITEM_NAME' => $%<ITEM_VAR_NAME>%->%<ITEM_NAME_GETTER>%() ] )
@@ -144,7 +152,14 @@ class Controller_Main extends Mvc_Controller_Default
 		if( $%<ITEM_VAR_NAME>%->catchEditForm() ) {
 
 			$%<ITEM_VAR_NAME>%->save();
-			$this->logAllowedAction( '%<LOG_EVENT_UPDATED>%', $%<ITEM_VAR_NAME>%->%<ITEM_ID_GETTER>%(), $%<ITEM_VAR_NAME>%->%<ITEM_NAME_GETTER>%(), $%<ITEM_VAR_NAME>% );
+
+			Logger::success(
+				event: '%<LOG_EVENT_UPDATED>%',
+				event_message: '%<LOG_EVENT_UPDATED_MESSAGE>%',
+				context_object_id: $%<ITEM_VAR_NAME>%->%<ITEM_ID_GETTER>%(),
+				context_object_name: $%<ITEM_VAR_NAME>%->%<ITEM_NAME_GETTER>%(),
+				context_object_data: $%<ITEM_VAR_NAME>%
+			);
 
 			UI_messages::success(
 				Tr::_( '%<TXT_MSG_UPDATED>%', [ 'ITEM_NAME' => $%<ITEM_VAR_NAME>%->%<ITEM_NAME_GETTER>%() ] )
@@ -195,7 +210,14 @@ class Controller_Main extends Mvc_Controller_Default
 
 		if( Http_Request::POST()->getString( 'delete' )=='yes' ) {
 			$%<ITEM_VAR_NAME>%->delete();
-			$this->logAllowedAction( '%<LOG_EVENT_DELETED>%', $%<ITEM_VAR_NAME>%->%<ITEM_ID_GETTER>%(), $%<ITEM_VAR_NAME>%->%<ITEM_NAME_GETTER>%(), $%<ITEM_VAR_NAME>% );
+
+			Logger::success(
+				event: '%<LOG_EVENT_DELETED>%',
+				event_message: '%<LOG_EVENT_DELETED_MESSAGE>%',
+				context_object_id: $%<ITEM_VAR_NAME>%->%<ITEM_ID_GETTER>%(),
+				context_object_name: $%<ITEM_VAR_NAME>%->%<ITEM_NAME_GETTER>%(),
+				context_object_data: $%<ITEM_VAR_NAME>%
+			);
 
 			UI_messages::info(
 				Tr::_( '%<TXT_MSG_DELETED>%', [ 'ITEM_NAME' => $%<ITEM_VAR_NAME>%->%<ITEM_NAME_GETTER>%() ] )

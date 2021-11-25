@@ -50,24 +50,26 @@ class Logger
 	 * @param string $context_object_id (optional)
 	 * @param string $context_object_name (optional)
 	 * @param mixed $context_object_data (optional)
-	 * @param Auth_User_Interface|null|bool $current_user
 	 */
-	public static function common( string $event_class,
-	                               string $event,
-	                               string $event_message,
-	                               string $context_object_id = '',
-	                               string $context_object_name = '',
-	                               mixed $context_object_data = [],
-	                               Auth_User_Interface|null|bool $current_user = null ): void
+	public static function common( string                        $event_class,
+	                               string                        $event,
+	                               string                        $event_message,
+	                               string                        $context_object_id = '',
+	                               string                        $context_object_name = '',
+	                               mixed                         $context_object_data = []  ): void
 	{
 		$logger = static::getLogger();
 		if( !$logger ) {
 			return;
 		}
 
-		if( $current_user === null ) {
+
+		if(Auth::checkCurrentUser()) {
 			$current_user = Auth::getCurrentUser();
+		} else {
+			$current_user = false;
 		}
+
 
 		$logger->log(
 			$event_class,
@@ -87,14 +89,12 @@ class Logger
 	 * @param string $context_object_id (optional)
 	 * @param string $context_object_name (optional)
 	 * @param mixed $context_object_data (optional)
-	 * @param Auth_User_Interface|null|bool $current_user
 	 */
 	public static function success( string $event,
 	                                string $event_message,
 	                                string $context_object_id = '',
 	                                string $context_object_name = '',
-	                                mixed $context_object_data = [],
-	                                Auth_User_Interface|null|bool $current_user = null ): void
+	                                mixed $context_object_data = [] ): void
 	{
 		static::common(
 			static::EVENT_CLASS_SUCCESS,
@@ -102,8 +102,7 @@ class Logger
 			$event_message,
 			$context_object_id,
 			$context_object_name,
-			$context_object_data,
-			$current_user
+			$context_object_data
 		);
 	}
 
@@ -114,14 +113,12 @@ class Logger
 	 * @param string $context_object_id (optional)
 	 * @param string $context_object_name (optional)
 	 * @param mixed $context_object_data (optional)
-	 * @param Auth_User_Interface|null|bool $current_user
 	 */
 	public static function info( string $event,
 	                             string $event_message,
 	                             string $context_object_id = '',
 	                             string $context_object_name = '',
-	                             mixed $context_object_data = [],
-	                             Auth_User_Interface|null|bool $current_user = null ): void
+	                             mixed $context_object_data = [] ): void
 	{
 		static::common(
 			static::EVENT_CLASS_INFO,
@@ -129,8 +126,7 @@ class Logger
 			$event_message,
 			$context_object_id,
 			$context_object_name,
-			$context_object_data,
-			$current_user
+			$context_object_data
 		);
 	}
 
@@ -141,14 +137,12 @@ class Logger
 	 * @param string $context_object_id (optional)
 	 * @param string $context_object_name (optional)
 	 * @param mixed $context_object_data (optional)
-	 * @param Auth_User_Interface|null|bool $current_user
 	 */
 	public static function warning( string $event,
 	                                string $event_message,
 	                                string $context_object_id = '',
 	                                string $context_object_name = '',
-	                                mixed $context_object_data = [],
-	                                Auth_User_Interface|null|bool $current_user = null ): void
+	                                mixed $context_object_data = [] ): void
 	{
 		static::common(
 			static::EVENT_CLASS_WARNING,
@@ -156,8 +150,7 @@ class Logger
 			$event_message,
 			$context_object_id,
 			$context_object_name,
-			$context_object_data,
-			$current_user
+			$context_object_data
 		);
 	}
 
@@ -168,14 +161,12 @@ class Logger
 	 * @param string $context_object_id (optional)
 	 * @param string $context_object_name (optional)
 	 * @param mixed $context_object_data (optional)
-	 * @param Auth_User_Interface|null|bool $current_user
 	 */
 	public static function danger( string $event,
 	                               string $event_message,
 	                               string $context_object_id = '',
 	                               string $context_object_name = '',
-	                               mixed $context_object_data = [],
-	                               Auth_User_Interface|null|bool $current_user = null ): void
+	                               mixed $context_object_data = [] ): void
 	{
 		static::common(
 			static::EVENT_CLASS_DANGER,
@@ -183,8 +174,7 @@ class Logger
 			$event_message,
 			$context_object_id,
 			$context_object_name,
-			$context_object_data,
-			$current_user
+			$context_object_data
 		);
 	}
 
@@ -195,14 +185,12 @@ class Logger
 	 * @param string $context_object_id (optional)
 	 * @param string $context_object_name (optional)
 	 * @param mixed $context_object_data (optional)
-	 * @param Auth_User_Interface|null|bool $current_user
 	 */
 	public static function fault( string $event,
 	                              string $event_message,
 	                              string $context_object_id = '',
 	                              string $context_object_name = '',
-	                              mixed $context_object_data = [],
-	                              Auth_User_Interface|null|bool $current_user = null ): void
+	                              mixed $context_object_data = [] ): void
 	{
 		static::common(
 			static::EVENT_CLASS_FAULT,
@@ -210,8 +198,7 @@ class Logger
 			$event_message,
 			$context_object_id,
 			$context_object_name,
-			$context_object_data,
-			$current_user
+			$context_object_data
 		);
 	}
 

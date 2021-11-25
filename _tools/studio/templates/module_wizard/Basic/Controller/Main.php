@@ -7,12 +7,12 @@
  */
 namespace %<NAMESPACE>%;
 
-use Jet\Mvc_Controller_Default;
+use Jet\MVC_Controller_Default;
 
 /**
  *
  */
-class Controller_Main extends Mvc_Controller_Default
+class Controller_Main extends MVC_Controller_Default
 {
 
 	/**

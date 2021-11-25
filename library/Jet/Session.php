@@ -28,17 +28,6 @@ class Session extends BaseObject
 	protected string $namespace = '';
 
 	/**
-	 * @param string $namespace
-	 */
-	public function __construct( string $namespace )
-	{
-
-		$this->namespace = $namespace;
-
-		$this->sessionStart();
-	}
-
-	/**
 	 *
 	 */
 	protected function sessionStart(): void
@@ -88,12 +77,32 @@ class Session extends BaseObject
 	}
 
 	/**
+	 * @return string
+	 */
+	public static function getSessionId(): string
+	{
+		return session_id();
+	}
+
+
+	/**
 	 *
 	 */
 	public static function destroy(): void
 	{
 		session_destroy();
 		$_SESSION = [];
+	}
+
+	/**
+	 * @param string $namespace
+	 */
+	public function __construct( string $namespace )
+	{
+
+		$this->namespace = $namespace;
+
+		$this->sessionStart();
 	}
 
 	/**
@@ -179,11 +188,4 @@ class Session extends BaseObject
 		$_SESSION[$this->namespace] = [];
 	}
 
-	/**
-	 * @return string
-	 */
-	public function getSessionId(): string
-	{
-		return session_id();
-	}
 }

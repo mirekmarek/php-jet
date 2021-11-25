@@ -8,6 +8,7 @@
 
 namespace JetApplicationModule\Content\Images\Admin;
 
+use Jet\Logger;
 use JetApplication\Content_Gallery;
 
 use Jet\AJAX;
@@ -198,7 +199,13 @@ class Controller_Main extends MVC_Controller_Default
 		if( $gallery->catchAddForm() ) {
 			$gallery->save();
 
-			$this->logAllowedAction( 'Gallery created', $gallery->getId(), $gallery->getTitle(), $gallery );
+			Logger::success(
+				event: 'gallery_created',
+				event_message: 'Gallery created',
+				context_object_id: $gallery->getId(),
+				context_object_name: $gallery->getTitle(),
+				context_object_data: $gallery
+			);
 
 			UI_messages::success(
 				Tr::_( 'Gallery <b>%TITLE%</b> has been created', ['TITLE' => $gallery->getTitle()] )
@@ -231,7 +238,13 @@ class Controller_Main extends MVC_Controller_Default
 		if( $gallery->catchEditForm() ) {
 			$gallery->save();
 
-			$this->logAllowedAction( 'Gallery updated', $gallery->getId(), $gallery->getTitle(), $gallery );
+			Logger::success(
+				event: 'gallery_updated',
+				event_message: 'Gallery updated',
+				context_object_id: $gallery->getId(),
+				context_object_name: $gallery->getTitle(),
+				context_object_data: $gallery
+			);
 
 			UI_messages::success(
 				Tr::_( 'Gallery <b>%TITLE%</b> has been updated', ['TITLE' => $gallery->getTitle()] )
@@ -281,7 +294,13 @@ class Controller_Main extends MVC_Controller_Default
 
 		$gallery->delete();
 
-		$this->logAllowedAction( 'Gallery deleted', $gallery->getId(), $gallery->getTitle(), $gallery );
+		Logger::success(
+			event: 'gallery_deleted',
+			event_message: 'Gallery deleted',
+			context_object_id: $gallery->getId(),
+			context_object_name: $gallery->getTitle(),
+			context_object_data: $gallery
+		);
 
 		UI_messages::warning(
 			Tr::_( 'Gallery <b>%TITLE%</b> has been deleted', ['TITLE' => $gallery->getTitle()] )
@@ -315,10 +334,11 @@ class Controller_Main extends MVC_Controller_Default
 
 			$result_message .= UI_messages::createSuccess( Tr::_( 'Image %FILE_NAME% uploaded ....', ['FILE_NAME' => implode( ', ', $names )] ) );
 
-			$this->logAllowedAction(
-				'image_uploaded',
-				implode( ', ', $ids ),
-				implode( ', ', $names )
+			Logger::success(
+				event: 'image_uploaded',
+				event_message: 'image uploaded',
+				context_object_id: implode( ', ', $ids ),
+				context_object_name: implode( ', ', $names )
 			);
 
 			$ok = true;
@@ -401,9 +421,14 @@ class Controller_Main extends MVC_Controller_Default
 					);
 
 
-					$this->logAllowedAction(
-						'Image deleted', $image->getId(), $image->getFileName(), $image
+					Logger::success(
+						event: 'image_deleted',
+						event_message: 'Image deleted',
+						context_object_id: $image->getId(),
+						context_object_name: $image->getFileName(),
+						context_object_data: $image
 					);
+
 				}
 			}
 			Http_Headers::reload( ['id' => $gallery->getId()], ['action'] );

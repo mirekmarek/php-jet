@@ -164,8 +164,10 @@ class Auth_Controller_Web extends BaseObject implements Auth_Controller_Interfac
 		$user = $this->getCurrentUser();
 		if( $user ) {
 			Logger::info(
-				static::EVENT_LOGOUT, 'User has ' . $user->getUsername() . ' (id:' . $user->getId() . ') logged off',
-				$user->getId(), $user->getName()
+				event: static::EVENT_LOGOUT,
+				event_message: 'User ' . $user->getUsername() . ' (id:' . $user->getId() . ') logged out',
+				context_object_id: $user->getId(),
+				context_object_name: $user->getName()
 			);
 		}
 
@@ -187,12 +189,9 @@ class Auth_Controller_Web extends BaseObject implements Auth_Controller_Interfac
 
 		if( !$user ) {
 			Logger::warning(
-				static::EVENT_LOGIN_FAILED,
-				'Login failed. Username: \'' . $username . '\'',
-				$username,
-				'',
-				[],
-				false
+				event: static::EVENT_LOGIN_FAILED,
+				event_message: 'Login failed. Username: \'' . $username . '\'',
+				context_object_id: $username,
 			);
 
 			return false;
@@ -207,10 +206,10 @@ class Auth_Controller_Web extends BaseObject implements Auth_Controller_Interfac
 		$this->current_user = $user;
 
 		Logger::success(
-			static::EVENT_LOGIN_SUCCESS,
-			'User ' . $user->getUsername() . ' (id:' . $user->getId() . ') has logged in',
-			$user->getId(),
-			$user->getName()
+			event: static::EVENT_LOGIN_SUCCESS,
+			event_message: 'User ' . $user->getUsername() . ' (id:' . $user->getId() . ') logged in',
+			context_object_id: $user->getId(),
+			context_object_name: $user->getName()
 		);
 
 		return true;

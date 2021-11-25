@@ -7,6 +7,9 @@
  */
 namespace JetApplication;
 
+use Jet\Http_Request;
+use Jet\Session;
+
 require __DIR__.'/config/Path.php';
 require __DIR__.'/config/Jet.php';
 require __DIR__.'/config/URI.php';
@@ -24,3 +27,19 @@ require __DIR__.'/Init/Installation.php';
 //</REMOVE AFTER INSTALLATION> !!!
 
 Application::runMVC();
+
+Session::setSessionValidator(function() : bool {
+
+	if(empty($_SESSION['client_ip'])) {
+		$_SESSION['client_ip'] = Http_Request::clientIP();
+		return true;
+	}
+
+	if($_SESSION['client_ip'] != Http_Request::clientIP()) {
+		return false;
+	}
+
+	// ... check something ...
+
+	return true;
+});

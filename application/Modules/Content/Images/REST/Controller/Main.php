@@ -9,6 +9,7 @@
 namespace JetApplicationModule\Content\Images\REST;
 
 use Jet\Http_Request;
+use Jet\Logger;
 use Jet\MVC_Controller_REST;
 use Jet\MVC_Controller_REST_Router;
 use JetApplication\Content_Gallery;
@@ -216,7 +217,13 @@ class Controller_Main extends MVC_Controller_REST
 
 			$gallery->save();
 
-			$this->logAllowedAction( 'Gallery created', $gallery->getId(), $gallery->getTitle(), $gallery );
+			Logger::success(
+				event: 'gallery_created',
+				event_message: 'Gallery created',
+				context_object_id: $gallery->getId(),
+				context_object_name: $gallery->getTitle(),
+				context_object_data: $gallery
+			);
 
 
 			$this->responseData( $gallery );
@@ -241,7 +248,13 @@ class Controller_Main extends MVC_Controller_REST
 
 			$gallery->save();
 
-			$this->logAllowedAction( 'Gallery updated', $gallery->getId(), $gallery->getTitle(), $gallery );
+			Logger::success(
+				event: 'gallery_updated',
+				event_message: 'Gallery updated',
+				context_object_id: $gallery->getId(),
+				context_object_name: $gallery->getTitle(),
+				context_object_data: $gallery
+			);
 
 			$this->responseData( $gallery );
 		} else {
@@ -256,7 +269,13 @@ class Controller_Main extends MVC_Controller_REST
 	{
 		$gallery = $this->gallery;
 
-		$this->logAllowedAction( 'Gallery deleted', $gallery->getId(), $gallery->getTitle(), $gallery );
+		Logger::success(
+			event: 'gallery_deleted',
+			event_message: 'Gallery deleted',
+			context_object_id: $gallery->getId(),
+			context_object_name: $gallery->getTitle(),
+			context_object_data: $gallery
+		);
 
 		$gallery->delete();
 
@@ -334,10 +353,11 @@ class Controller_Main extends MVC_Controller_REST
 			}
 
 
-			$this->logAllowedAction(
-				'image_uploaded',
-				implode( ', ', $ids ),
-				implode( ', ', $names )
+			Logger::success(
+				event: 'image_uploaded',
+				event_message: 'image uploaded',
+				context_object_id: implode( ', ', $ids ),
+				context_object_name: implode( ', ', $names )
 			);
 
 			$this->responseData( $images[0] );
@@ -355,7 +375,13 @@ class Controller_Main extends MVC_Controller_REST
 
 		$image->delete();
 
-		$this->logAllowedAction( 'Image deleted', $image->getId(), $image->getFileName(), $image );
+		Logger::success(
+			event: 'image_deleted',
+			event_message: 'Image deleted',
+			context_object_id: $image->getId(),
+			context_object_name: $image->getFileName(),
+			context_object_data: $image
+		);
 
 		$this->responseOK();
 	}

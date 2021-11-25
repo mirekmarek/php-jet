@@ -126,30 +126,4 @@ abstract class MVC_Controller extends BaseObject
 	 */
 	abstract public function handleNotAuthorized(): void;
 
-
-	/**
-	 * @param string $action_message
-	 * @param string $context_object_id
-	 * @param string $context_object_name
-	 * @param mixed $context_object_data
-	 */
-	public function logAllowedAction( string $action_message,
-	                                  string $context_object_id = '',
-	                                  string $context_object_name = '',
-	                                  mixed $context_object_data = [] )
-	{
-
-		$module_name = $this->module->getModuleManifest()->getName();
-		$module_action = $this->content->getControllerAction();
-
-		Logger::success(
-			'allowed_action:' . $module_name . ':' . $module_action,
-			$action_message,
-			$context_object_id,
-			$context_object_name,
-			$context_object_data
-		);
-
-	}
-
 }

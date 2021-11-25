@@ -9,6 +9,7 @@
 
 namespace JetApplicationModule\ManageAccess\Administrators\Roles;
 
+use Jet\Logger;
 use JetApplication\Auth_Administrator_Role as Role;
 
 use Jet\MVC_Controller_Router_AddEditDelete;
@@ -109,7 +110,14 @@ class Controller_Main extends MVC_Controller_Default
 
 		if( $role->catchAddForm() ) {
 			$role->save();
-			$this->logAllowedAction( 'Role created', $role->getId(), $role->getName(), $role );
+
+			Logger::success(
+				event: 'admin_role_created',
+				event_message: 'Role created',
+				context_object_id: $role->getId(),
+				context_object_name: $role->getName(),
+				context_object_data: $role
+			);
 
 			UI_messages::success(
 				Tr::_( 'Role <b>%ROLE_NAME%</b> has been created', ['ROLE_NAME' => $role->getName()] )
@@ -138,7 +146,14 @@ class Controller_Main extends MVC_Controller_Default
 
 		if( $role->catchEditForm() ) {
 			$role->save();
-			$this->logAllowedAction( 'Role updated', $role->getId(), $role->getName(), $role );
+
+			Logger::success(
+				event: 'admin_role_updated',
+				event_message: 'Role updated',
+				context_object_id: $role->getId(),
+				context_object_name: $role->getName(),
+				context_object_data: $role
+			);
 
 			UI_messages::success(
 				Tr::_( 'Role <b>%ROLE_NAME%</b> has been updated', ['ROLE_NAME' => $role->getName()] )
@@ -192,7 +207,13 @@ class Controller_Main extends MVC_Controller_Default
 		if( Http_Request::POST()->getString( 'delete' ) == 'yes' ) {
 			$role->delete();
 
-			$this->logAllowedAction( 'Role deleted', $role->getId(), $role->getName(), $role );
+			Logger::success(
+				event: 'admin_role_deleted',
+				event_message: 'Role deleted',
+				context_object_id: $role->getId(),
+				context_object_name: $role->getName(),
+				context_object_data: $role
+			);
 
 			UI_messages::info( Tr::_( 'Role <b>%ROLE_NAME%</b> has been deleted', ['ROLE_NAME' => $role->getName()] ) );
 			Http_Headers::reload( [], [

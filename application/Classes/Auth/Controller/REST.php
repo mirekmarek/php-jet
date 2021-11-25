@@ -103,12 +103,9 @@ class Auth_Controller_REST extends BaseObject implements Auth_Controller_Interfa
 
 			if( !$user ) {
 				Logger::warning(
-					static::EVENT_LOGIN_FAILED,
-					'Login failed. Username: \'' . $_SERVER['PHP_AUTH_USER'] . '\'',
-					$_SERVER['PHP_AUTH_USER'],
-					'',
-					[],
-					false
+					event: static::EVENT_LOGIN_FAILED,
+					event_message: 'Login failed. Username: \'' . $_SERVER['PHP_AUTH_USER'] . '\'',
+					context_object_id: $_SERVER['PHP_AUTH_USER'],
 				);
 
 				$this->responseNotAuthorized( 'Invalid username or password' );
