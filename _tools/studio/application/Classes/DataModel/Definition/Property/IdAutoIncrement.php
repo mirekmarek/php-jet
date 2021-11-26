@@ -35,9 +35,9 @@ class DataModel_Definition_Property_IdAutoIncrement extends Jet_DataModel_Defini
 
 
 	/**
-	 * @return mixed
+	 * @return int
 	 */
-	public function getDefaultValue() : mixed
+	public function getDefaultValue() : int
 	{
 		return 0;
 	}

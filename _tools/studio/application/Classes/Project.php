@@ -109,10 +109,7 @@ class Project extends BaseObject implements Application_Part
 
 		$class_name = $field->getValue();
 
-		if(
-			$field->getIsRequired() &&
-			!$class_name
-		) {
+		if( !$class_name ) {
 			$field->setError( Form_Field::ERROR_CODE_EMPTY );
 			return false;
 		}
@@ -184,10 +181,7 @@ class Project extends BaseObject implements Application_Part
 
 		$controller_name = $field->getValue();
 
-		if(
-			$field->getIsRequired() &&
-			!$controller_name
-		) {
+		if( !$controller_name ) {
 			$field->setError( Form_Field::ERROR_CODE_EMPTY );
 			return false;
 		}

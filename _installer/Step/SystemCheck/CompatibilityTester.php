@@ -386,6 +386,7 @@ class Installer_CompatibilityTester
 			case 'K':
 				$val *= 1024;
 		}
+		/** @noinspection PhpUnnecessaryLocalVariableInspection */
 		$val = $val * 1;
 
 

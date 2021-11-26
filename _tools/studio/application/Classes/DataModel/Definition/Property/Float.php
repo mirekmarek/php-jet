@@ -37,7 +37,7 @@ class DataModel_Definition_Property_Float extends Jet_DataModel_Definition_Prope
 	/**
 	 * @return mixed
 	 */
-	public function getDefaultValue() : mixed
+	public function getDefaultValue() : float
 	{
 		return 0.0;
 	}

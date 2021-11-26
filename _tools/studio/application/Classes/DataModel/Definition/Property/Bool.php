@@ -28,9 +28,9 @@ class DataModel_Definition_Property_Bool extends Jet_DataModel_Definition_Proper
 	}
 
 	/**
-	 * @return mixed
+	 * @return bool
 	 */
-	public function getDefaultValue() : mixed
+	public function getDefaultValue() : bool
 	{
 		return false;
 	}

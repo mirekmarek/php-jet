@@ -164,6 +164,7 @@ class Db_Backend_PDO implements Db_Backend_Interface
 		/**
 		 * @var array $res
 		 */
+		/** @noinspection PhpUnnecessaryLocalVariableInspection */
 		$res =  $this->query( $query, $query_data, function( PDOStatement $stn ) {
 			return $stn->fetchAll( PDO::FETCH_ASSOC );
 		} );
@@ -184,6 +185,7 @@ class Db_Backend_PDO implements Db_Backend_Interface
 		/**
 		 * @var array $res
 		 */
+		/** @noinspection PhpUnnecessaryLocalVariableInspection */
 		$res =  $this->query( $query, $query_data, function( PDOStatement $stn ) use ($key_column) {
 			$result = [];
 
@@ -215,6 +217,7 @@ class Db_Backend_PDO implements Db_Backend_Interface
 		/**
 		 * @var array $res
 		 */
+		/** @noinspection PhpUnnecessaryLocalVariableInspection */
 		$res =  $this->query( $query, $query_data, function( PDOStatement $stn ) use ($column) {
 			$result = [];
 
@@ -245,6 +248,7 @@ class Db_Backend_PDO implements Db_Backend_Interface
 		/**
 		 * @var array $res
 		 */
+		/** @noinspection PhpUnnecessaryLocalVariableInspection */
 		$res =  $this->query( $query, $query_data, function( PDOStatement $stn ) use ($key_column, $value_column) {
 			$result = [];
 

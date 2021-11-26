@@ -21,9 +21,9 @@ class DataModel_Definition_Property_String extends Jet_DataModel_Definition_Prop
 
 
 	/**
-	 * @return mixed
+	 * @return string
 	 */
-	public function getDefaultValue() : mixed
+	public function getDefaultValue() : string
 	{
 		return '';
 	}

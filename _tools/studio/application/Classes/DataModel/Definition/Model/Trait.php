@@ -91,6 +91,9 @@ trait DataModel_Definition_Model_Trait
 		$this->class_name = $_class->getFullClassName();
 
 		foreach( $this->properties as $property ) {
+			/**
+			 * @var DataModel_Definition_Property_Interface $property
+			 */
 			$property->setClass( $_class );
 		}
 	}

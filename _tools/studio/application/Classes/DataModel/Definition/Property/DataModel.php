@@ -117,9 +117,9 @@ class DataModel_Definition_Property_DataModel extends Jet_DataModel_Definition_P
 	}
 
 	/**
-	 * @return mixed
+	 * @return array|null
 	 */
-	public function getDefaultValue() : mixed
+	public function getDefaultValue() : ?array
 	{
 		$related_dm = DataModels::getClass( $this->getDataModelClass() )->getDefinition();
 
