@@ -22,6 +22,7 @@ use Jet\Form_Field_Input;
 use Jet\Form_Field_Checkbox;
 use Jet\Factory_MVC;
 use Jet\MVC_Page_MetaTag_Interface;
+use Jet\SysConf_Jet_MVC;
 use Jet\Tr;
 use Jet\Locale;
 use Jet\MVC_Page_Content_Interface;
@@ -685,6 +686,14 @@ class Pages_Page extends MVC_Page
 				$page->relative_path = $parent->getRelativePath() . '/' . $page->relative_path_fragment . '/';
 			}
 		}
+
+
+		if($parent) {
+			$page->setDataFilePath( $parent->getDataDirPath().rawurldecode( $page->getRelativePathFragment() ).'/'.SysConf_Jet_MVC::getPageDataFileName() );
+		} else {
+			$page->setDataFilePath( Bases::getBase($base_id)->getPagesDataPath($locale).'/'.SysConf_Jet_MVC::getPageDataFileName() );
+		}
+
 
 		return $page;
 	}

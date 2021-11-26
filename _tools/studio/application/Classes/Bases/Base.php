@@ -677,7 +677,6 @@ class Bases_Base extends MVC_Base
 					'Homepage'
 				);
 
-				$homepage->setDataFilePath( $this->getPagesDataPath($locale).'/'.SysConf_Jet_MVC::getPageDataFileName() );
 				$homepage->save();
 
 				$this->create_applyTemplate_errorPages( $homepage );
