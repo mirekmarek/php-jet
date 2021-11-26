@@ -191,7 +191,10 @@ trait DataModel_Trait_Save
 
 			if(is_array($prop)) {
 				foreach($prop as $v) {
-					if( $v instanceof DataModel_Related ) {
+					if(
+						is_object($v) &&
+						$v instanceof DataModel_Related
+					) {
 						$v->actualizeRelations( $main_id, $parent_id );
 					}
 				}
@@ -213,7 +216,10 @@ trait DataModel_Trait_Save
 
 			if(is_array($prop)) {
 				foreach($prop as $v) {
-					if( $v instanceof DataModel_Related ) {
+					if(
+						is_object($v) &&
+						$v instanceof DataModel_Related
+					) {
 						$v->save();
 					}
 				}
