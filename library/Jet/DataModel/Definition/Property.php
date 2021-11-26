@@ -8,6 +8,8 @@
 
 namespace Jet;
 
+use ReflectionObject;
+
 /**
  *
  */
@@ -309,9 +311,15 @@ abstract class DataModel_Definition_Property extends BaseObject implements Form_
 	 */
 	public function getDefaultValue(): mixed
 	{
-		//TODO:
+		$class_name = $this->getDataModelClassName();
 
-		return '';
+		$i = new $class_name();
+
+		$r = new ReflectionObject( $i );
+		$p = $r->getProperty( $this->getName() );
+		$p->setAccessible(true);
+
+		return $p->getValue($i);
 	}
 
 	/**
