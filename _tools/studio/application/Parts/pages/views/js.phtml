@@ -41,6 +41,7 @@ namespace JetStudio;
 
 					$.ajax({
 						url: '<?=Pages::getActionUrl( 'get_module_controllers', [], false )?>&module=' + encodeURIComponent(module_name),
+						dataType: 'json',
 						success: function (result) {
 							$.each(result.controllers, function (name) {
 								controllers.append($('<option></option>').attr('value', name).text(name));
