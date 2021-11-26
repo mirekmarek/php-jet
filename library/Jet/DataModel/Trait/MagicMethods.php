@@ -19,9 +19,6 @@ trait DataModel_Trait_MagicMethods
 	 */
 	public function __wakeup(): void
 	{
-		/**
-		 * @var DataModel $this
-		 */
 		$this->setIsSaved();
 	}
 

@@ -29,9 +29,6 @@ trait DataModel_Trait_Backend
 	 */
 	public function startBackendTransaction(): void
 	{
-		/**
-		 * @var DataModel $this
-		 */
 		if( !$this->getBackendTransactionStarted() ) {
 			static::getBackendInstance()->setTransactionStarter( $this );
 			static::getBackendInstance()->transactionStart();
@@ -51,9 +48,6 @@ trait DataModel_Trait_Backend
 	 */
 	public function commitBackendTransaction(): void
 	{
-		/**
-		 * @var DataModel $this
-		 */
 		if( $this->getBackendTransactionStartedByThisInstance() ) {
 			static::getBackendInstance()->transactionCommit();
 			static::getBackendInstance()->setTransactionStarter( null );

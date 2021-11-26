@@ -60,4 +60,8 @@ class Model_A1_1toN_sub1toN extends DataModel_Related_1toN
 	)]
 	protected string $text = '';
 
+	public function getArrayKeyValue(): string
+	{
+		return $this->id;
+	}
 }

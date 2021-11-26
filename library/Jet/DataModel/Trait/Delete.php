@@ -19,9 +19,6 @@ trait DataModel_Trait_Delete
 	 */
 	public function delete(): void
 	{
-		/**
-		 * @var DataModel $this
-		 */
 		if( $this->getLoadFilter() ) {
 			throw new DataModel_Exception(
 				'Nothing to delete... Object is not completely loaded. (Class: \'' . get_class(

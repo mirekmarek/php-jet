@@ -106,15 +106,10 @@ class DataModel_Definition_Property_DataModel extends Jet_DataModel_Definition_P
 
 			$property_type = $use->getClass();
 
-			switch( $type ) {
-				case DataModels::MODEL_TYPE_RELATED_1TO1:
-					$property_type .= '|null';
-					break;
-
-				case DataModels::MODEL_TYPE_RELATED_1TON:
-					$property_type .= '[]';
-					break;
-			}
+			$property_type .= match ($type) {
+				DataModels::MODEL_TYPE_RELATED_1TO1 => '|null',
+				DataModels::MODEL_TYPE_RELATED_1TON => '[]',
+			};
 		}
 
 

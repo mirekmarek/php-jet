@@ -20,10 +20,6 @@ trait DataModel_Trait_Save
 	 */
 	public function save(): void
 	{
-		/**
-		 * @var DataModel $this
-		 */
-
 		if( $this->getLoadFilter() ) {
 			throw new DataModel_Exception(
 				'Nothing to save... Object is not completely loaded. (Class: \'' . get_class( $this ) . '\', ID:\'' . $this->getIDController() . '\')'

@@ -61,4 +61,11 @@ class Model_A1_1toN extends DataModel_Related_1toN
 	)]
 	protected array $related_1toN = [];
 
+	/**
+	 * @return string
+	 */
+	public function getArrayKeyValue(): string
+	{
+		return $this->id;
+	}
 }

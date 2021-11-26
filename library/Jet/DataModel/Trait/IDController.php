@@ -26,10 +26,6 @@ trait DataModel_Trait_IDController
 	 */
 	public function getIDController(): DataModel_IDController
 	{
-		/**
-		 * @var DataModel $this
-		 */
-
 		if( !$this->_id_controller ) {
 			$this->_id_controller = static::getEmptyIDController();
 
