@@ -16,6 +16,7 @@ use Jet\Form;
 use Jet\Form_Field_Input;
 use Jet\Form_Field_Checkbox;
 use Jet\Form_Field_Hidden;
+use Jet\SysConf_Jet_MVC;
 use Jet\SysConf_Jet_MVC_View;
 use Jet\Tr;
 use Jet\Factory_MVC;
@@ -676,6 +677,7 @@ class Bases_Base extends MVC_Base
 					'Homepage'
 				);
 
+				$homepage->setDataFilePath( $this->getPagesDataPath($locale).'/'.SysConf_Jet_MVC::getPageDataFileName() );
 				$homepage->save();
 
 				$this->create_applyTemplate_errorPages( $homepage );
