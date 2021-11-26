@@ -22,9 +22,9 @@ use Jet\Db_Backend_PDO_Config;
 abstract class Installer_DbDriverConfig extends BaseObject
 {
 	/**
-	 * @var Db_Backend_Config|Db_Backend_PDO_Config
+	 * @var ?Db_Backend_PDO_Config
 	 */
-	protected $connection_config;
+	protected ?Db_Backend_Config $connection_config;
 
 
 	/**

@@ -26,7 +26,7 @@ class DataModel_Backend_MySQL extends DataModel_Backend
 	/**
 	 * @var ?DataModel_Backend_MySQL_Config
 	 */
-	protected $config = null;
+	protected ?DataModel_Backend_Config $config = null;
 
 	/**
 	 *

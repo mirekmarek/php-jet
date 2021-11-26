@@ -27,7 +27,7 @@ class DataModel_Backend_SQLite extends DataModel_Backend
 	/**
 	 * @var ?DataModel_Backend_SQLite_Config
 	 */
-	protected $config = null;
+	protected ?DataModel_Backend_Config $config = null;
 	/**
 	 *
 	 * @var ?Db_Backend_Interface

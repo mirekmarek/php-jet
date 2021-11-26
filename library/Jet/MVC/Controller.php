@@ -22,7 +22,7 @@ abstract class MVC_Controller extends BaseObject
 	 *
 	 * @var Application_Module|null
 	 */
-	protected $module = null;
+	protected ?Application_Module $module = null;
 
 	/**
 	 * @var MVC_View

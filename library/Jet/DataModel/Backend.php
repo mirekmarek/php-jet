@@ -53,7 +53,7 @@ abstract class DataModel_Backend extends BaseObject
 	/**
 	 * @var ?DataModel_Backend_Config
 	 */
-	protected $config = null;
+	protected ?DataModel_Backend_Config $config = null;
 
 	/**
 	 * @param bool $as_hash
