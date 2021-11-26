@@ -231,7 +231,7 @@ abstract class Form_Field extends BaseObject implements JsonSerializable
 			foreach( $default_value as $k => $v ) {
 				if(
 					is_object( $v ) &&
-					$v instanceof DataModel_Interface
+					$v instanceof DataModel
 				) {
 					/**
 					 * @var DataModel $v

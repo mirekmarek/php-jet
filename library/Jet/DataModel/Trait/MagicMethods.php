@@ -30,7 +30,6 @@ trait DataModel_Trait_MagicMethods
 	 */
 	public function __debugInfo(): array
 	{
-		/** @noinspection PhpMultipleClassDeclarationsInspection */
 		$r = parent::__debugInfo();
 
 		$r['_data_model_saved'] = $this->getIsSaved();
@@ -47,7 +46,6 @@ trait DataModel_Trait_MagicMethods
 	 */
 	public function __clone(): void
 	{
-		/** @noinspection PhpMultipleClassDeclarationsInspection */
 		parent::__clone();
 
 		$this->setIsNew();

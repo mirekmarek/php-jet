@@ -46,9 +46,9 @@ abstract class DataModel_Backend extends BaseObject
 
 
 	/**
-	 * @var ?DataModel_Interface
+	 * @var ?DataModel
 	 */
-	protected ?DataModel_Interface $_transaction_starter = null;
+	protected ?DataModel $_transaction_starter = null;
 
 	/**
 	 * @var ?DataModel_Backend_Config
@@ -343,17 +343,17 @@ abstract class DataModel_Backend extends BaseObject
 	}
 
 	/**
-	 * @return DataModel_Interface|null
+	 * @return DataModel|null
 	 */
-	public function getTransactionStarter(): DataModel_Interface|null
+	public function getTransactionStarter(): DataModel|null
 	{
 		return $this->_transaction_starter;
 	}
 
 	/**
-	 * @param ?DataModel_Interface $transaction_starter
+	 * @param ?DataModel $transaction_starter
 	 */
-	public function setTransactionStarter( ?DataModel_Interface $transaction_starter ): void
+	public function setTransactionStarter( ?DataModel $transaction_starter ): void
 	{
 		$this->_transaction_starter = $transaction_starter;
 	}

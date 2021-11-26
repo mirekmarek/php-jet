@@ -129,9 +129,9 @@ class Auth_Visitor_Role_Privilege extends DataModel_Related_1toN implements Auth
 
 	/**
 	 *
-	 * @return null|string|int
+	 * @return string
 	 */
-	public function getArrayKeyValue(): null|string|int
+	public function getArrayKeyValue(): string
 	{
 		return $this->privilege;
 	}

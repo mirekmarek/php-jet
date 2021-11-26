@@ -11,49 +11,63 @@ namespace Jet;
 /**
  *
  */
-abstract class DataModel_Related_1to1 extends BaseObject implements DataModel_Related_1to1_Interface
+abstract class DataModel_Related_1to1 extends DataModel_Related
 {
-	use DataModel_Related_1to1_Trait;
 
 	/**
-	 *
+	 * @return string
 	 */
-	public function afterLoad(): void
+	public static function dataModelDefinitionFactoryClassName(): string
 	{
-
-	}
-
-	/**
-	 *
-	 */
-	public function beforeSave(): void
-	{
-
-	}
-
-	/**
-	 *
-	 */
-	public function afterAdd(): void
-	{
-
-	}
-
-	/**
-	 *
-	 */
-	public function afterUpdate(): void
-	{
-
-	}
-
-	/**
-	 *
-	 */
-	public function afterDelete(): void
-	{
-
+		return 'Related_1to1';
 	}
 
 
+	/**
+	 *
+	 * @param array $where
+	 * @param ?DataModel_PropertyFilter $load_filter
+	 *
+	 * @return array
+	 */
+	public static function fetchRelatedData( array $where,
+	                                         ?DataModel_PropertyFilter $load_filter = null ): array
+	{
+		/**
+		 * @var DataModel_Definition_Model_Related_1toN $definition
+		 * @var DataModel $this
+		 */
+		$definition = static::getDataModelDefinition();
+
+		if( $load_filter ) {
+			if( !$load_filter->getModelAllowed( $definition->getModelName() ) ) {
+				return [];
+			}
+		}
+
+		$query = new DataModel_Query( $definition );
+
+		$select = DataModel_PropertyFilter::getQuerySelect( $definition, $load_filter );
+
+		$query->setSelect( $select );
+		$query->setWhere( $where );
+
+		return DataModel_Backend::get( $definition )->fetchRow( $query );
+	}
+
+
+	/**
+	 *
+	 * @param array $this_data
+	 * @param array  &$related_data
+	 * @param DataModel_PropertyFilter|null $load_filter
+	 *
+	 * @return static
+	 */
+	public static function initRelatedByData( array $this_data,
+	                                          array &$related_data,
+	                                          DataModel_PropertyFilter $load_filter = null ): static
+	{
+		return static::initByData( $this_data, $related_data, $load_filter );
+	}
 }

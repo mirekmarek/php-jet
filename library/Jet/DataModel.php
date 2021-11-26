@@ -97,10 +97,19 @@ namespace Jet;
 /**
  *
  */
-abstract class DataModel extends BaseObject implements DataModel_Interface
+abstract class DataModel extends BaseObject implements BaseObject_Interface_Serializable_JSON
 {
 
-	use DataModel_Trait;
+	use DataModel_Trait_Definition;
+	use DataModel_Trait_IDController;
+	use DataModel_Trait_InternalState;
+	use DataModel_Trait_MagicMethods;
+	use DataModel_Trait_Backend;
+	use DataModel_Trait_Load;
+	use DataModel_Trait_Save;
+	use DataModel_Trait_Delete;
+	use DataModel_Trait_Forms;
+	use DataModel_Trait_Exports;
 
 	const TYPE_ID = 'Id';
 	const TYPE_ID_AUTOINCREMENT = 'IdAutoIncrement';
@@ -121,7 +130,6 @@ abstract class DataModel extends BaseObject implements DataModel_Interface
 
 	public function __construct()
 	{
-
 	}
 
 	/**

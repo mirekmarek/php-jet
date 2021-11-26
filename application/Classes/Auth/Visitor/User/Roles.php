@@ -44,6 +44,9 @@ class Auth_Visitor_User_Roles extends DataModel_Related_1toN
 	 */
 	protected ?Auth_Visitor_Role $_role = null;
 
+	/**
+	 * @return string
+	 */
 	public function getArrayKeyValue(): string
 	{
 		return $this->role_id;

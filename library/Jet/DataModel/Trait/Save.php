@@ -175,7 +175,7 @@ trait DataModel_Trait_Save
 		}
 
 
-		if(!($this instanceof DataModel_Related_Interface)) {
+		if(!($this instanceof DataModel_Related)) {
 			$main_id = $this->getIDController();
 			$parent_id = null;
 		} else {
@@ -188,14 +188,14 @@ trait DataModel_Trait_Save
 
 			if(
 				is_object($prop) &&
-				$prop instanceof DataModel_Related_Interface
+				$prop instanceof DataModel_Related
 			) {
 				$prop->actualizeRelations( $main_id, $parent_id );
 			}
 
 			if(is_array($prop)) {
 				foreach($prop as $v) {
-					if( $v instanceof DataModel_Related_Interface ) {
+					if( $v instanceof DataModel_Related ) {
 						$v->actualizeRelations( $main_id, $parent_id );
 					}
 				}
@@ -210,14 +210,14 @@ trait DataModel_Trait_Save
 
 			if(
 				is_object($prop) &&
-				$prop instanceof DataModel_Related_Interface
+				$prop instanceof DataModel_Related
 			) {
 				$prop->save();
 			}
 
 			if(is_array($prop)) {
 				foreach($prop as $v) {
-					if( $v instanceof DataModel_Related_Interface ) {
+					if( $v instanceof DataModel_Related ) {
 						$v->save();
 					}
 				}

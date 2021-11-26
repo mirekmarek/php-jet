@@ -29,17 +29,11 @@ trait DataModel_Trait_Definition
 		return DataModel_Definition::get( $class_name );
 	}
 
-
 	/**
-	 * @param string $data_model_class_name
-	 *
-	 * @return DataModel_Definition_Model_Main
+	 * @return string
 	 */
-	public static function dataModelDefinitionFactory( string $data_model_class_name ): DataModel_Definition_Model_Main
+	public static function dataModelDefinitionFactoryClassName(): string
 	{
-		$class_name = Factory_DataModel::getModelDefinitionClassNamePrefix() . 'Main';
-
-		return new $class_name( $data_model_class_name );
+		return 'Main';
 	}
-
 }

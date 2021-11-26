@@ -45,10 +45,16 @@ class DataModel_Definition extends BaseObject
 			return static::$__definitions[$class_name];
 		}
 
+
+
 		/**
 		 * @var DataModel $class_name
 		 */
-		$definition = $class_name::dataModelDefinitionFactory( $class_name );
+		$name_suffix = $class_name::dataModelDefinitionFactoryClassName();
+
+		$definition_class_name = Factory_DataModel::getModelDefinitionClassNamePrefix().$name_suffix;
+
+		$definition = new $definition_class_name( $class_name );
 
 		static::$__definitions[$class_name] = $definition;
 		$definition->init();

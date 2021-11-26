@@ -138,9 +138,9 @@ class Auth_Administrator_Role_Privilege extends DataModel_Related_1toN implement
 	}
 
 	/**
-	 * @return string|int|null
+	 * @return string
 	 */
-	public function getArrayKeyValue(): null|string|int
+	public function getArrayKeyValue(): string
 	{
 		return $this->privilege;
 	}

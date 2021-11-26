@@ -83,7 +83,7 @@ trait DataModel_Trait_Forms
 
 				if(
 					is_object( $property ) &&
-					$property instanceof DataModel_Related_Interface
+					$property instanceof DataModel_Related
 				) {
 					foreach( $property->getForm( '', $property_filter )->getFields() as $field ) {
 						$field->setName( '/' . $property_name . '/' . $field->getName() );
@@ -98,7 +98,7 @@ trait DataModel_Trait_Forms
 
 						if(
 							is_object( $v ) &&
-							$v instanceof DataModel_Related_Interface
+							$v instanceof DataModel_Related
 						) {
 							foreach( $v->getForm( '', $property_filter )->getFields() as $field ) {
 								$field->setName( '/' . $property_name . '/' . $k . '/' . $field->getName() );

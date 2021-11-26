@@ -138,9 +138,9 @@ class Auth_RESTClient_Role_Privilege extends DataModel_Related_1toN implements A
 
 	/**
 	 *
-	 * @return null|string|int
+	 * @return string
 	 */
-	public function getArrayKeyValue(): null|string|int
+	public function getArrayKeyValue(): string
 	{
 		return $this->privilege;
 	}

@@ -57,13 +57,16 @@ trait DataModel_Trait_Delete
 
 				$prop = $this->{$property_name};
 
-				if( $prop instanceof DataModel_Related_Interface ) {
+				if(
+					is_object($prop) &&
+					$prop instanceof DataModel_Related
+				) {
 					$prop->delete();
 				}
 
 				if(is_array($prop)) {
 					foreach($prop as $v) {
-						if( $v instanceof DataModel_Related_Interface ) {
+						if( $v instanceof DataModel_Related ) {
 							$v->delete();
 						}
 					}

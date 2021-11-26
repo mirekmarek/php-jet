@@ -11,15 +11,27 @@ namespace Jet;
 /**
  *
  */
-trait DataModel_Related_Trait
+abstract class DataModel_Related extends DataModel
 {
+	/**
+	 *
+	 * @param array $where
+	 * @param DataModel_PropertyFilter|null $load_filter
+	 *
+	 * @return array
+	 */
+	abstract static function fetchRelatedData( array $where, DataModel_PropertyFilter $load_filter = null ): array;
 
-	use DataModel_Trait;
+	/**
+	 *
+	 * @param array $this_data
+	 * @param array  &$related_data
+	 * @param DataModel_PropertyFilter|null $load_filter
+	 *
+	 * @return mixed
+	 */
+	abstract static function initRelatedByData( array $this_data, array &$related_data, DataModel_PropertyFilter $load_filter = null ): mixed;
 
-	public function __construct()
-	{
-
-	}
 
 	/**
 	 * @param DataModel_IDController|null $main_id
@@ -77,14 +89,14 @@ trait DataModel_Related_Trait
 
 			if(
 				is_object($prop) &&
-				$prop instanceof DataModel_Related_Interface
+				$prop instanceof DataModel_Related
 			) {
 				$prop->actualizeRelations( $main_id, $this->getIDController() );
 			}
 
 			if(is_array($prop)) {
 				foreach($prop as $v) {
-					if( $v instanceof DataModel_Related_Interface ) {
+					if( $v instanceof DataModel_Related ) {
 						$v->actualizeRelations( $main_id, $this->getIDController() );
 					}
 				}
@@ -92,7 +104,5 @@ trait DataModel_Related_Trait
 		}
 
 	}
-
-
 
 }

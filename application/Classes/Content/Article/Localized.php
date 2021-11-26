@@ -140,9 +140,9 @@ class Content_Article_Localized extends DataModel_Related_1toN
 
 
 	/**
-	 * @return string|int|null
+	 * @return string
 	 */
-	public function getArrayKeyValue(): null|string|int
+	public function getArrayKeyValue(): string
 	{
 		return $this->locale->toString();
 	}
