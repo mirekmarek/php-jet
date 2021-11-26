@@ -27,9 +27,9 @@ interface DataModel_Interface extends BaseObject_Interface_Serializable_JSON
 	/**
 	 * @param string $data_model_class_name
 	 *
-	 * @return DataModel_Definition_Model_Main|DataModel_Definition_Model_Related_1to1|DataModel_Definition_Model_Related_1toN|DataModel_Definition_Model_Related_MtoN
+	 * @return DataModel_Definition_Model_Main|DataModel_Definition_Model_Related_1to1|DataModel_Definition_Model_Related_1toN
 	 */
-	public static function dataModelDefinitionFactory( string $data_model_class_name ): DataModel_Definition_Model_Main|DataModel_Definition_Model_Related_1to1|DataModel_Definition_Model_Related_1toN|DataModel_Definition_Model_Related_MtoN;
+	public static function dataModelDefinitionFactory( string $data_model_class_name ): DataModel_Definition_Model_Main|DataModel_Definition_Model_Related_1to1|DataModel_Definition_Model_Related_1toN;
 
 
 //-- Id -----------------------------------------
@@ -47,11 +47,6 @@ interface DataModel_Interface extends BaseObject_Interface_Serializable_JSON
 	public function getIDController(): DataModel_IDController;
 
 //-- InternalState ------------------------------
-
-	/**
-	 *
-	 */
-	public function initNewObject(): void;
 
 	/**
 	 *

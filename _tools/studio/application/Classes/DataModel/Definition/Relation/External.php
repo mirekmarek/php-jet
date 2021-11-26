@@ -31,9 +31,9 @@ class DataModel_Definition_Relation_External extends Jet_DataModel_Definition_Re
 	protected ?Form $_edit_form = null;
 
 	/**
-	 * @return DataModel_Definition_Model_Main|DataModel_Definition_Model_Related_1to1|DataModel_Definition_Model_Related_1toN|DataModel_Definition_Model_Related_MtoN
+	 * @return DataModel_Definition_Model_Main|DataModel_Definition_Model_Related_1to1|DataModel_Definition_Model_Related_1toN
 	 */
-	public function getRelatedDataModel(): DataModel_Definition_Model_Main|DataModel_Definition_Model_Related_1to1|DataModel_Definition_Model_Related_1toN|DataModel_Definition_Model_Related_MtoN
+	public function getRelatedDataModel(): DataModel_Definition_Model_Main|DataModel_Definition_Model_Related_1to1|DataModel_Definition_Model_Related_1toN
 	{
 		return DataModels::getClass( $this->getRelatedDataModelClassName() )->getDefinition();
 	}
@@ -96,11 +96,11 @@ class DataModel_Definition_Relation_External extends Jet_DataModel_Definition_Re
 	}
 
 	/**
-	 * @param DataModel_Definition_Model_Main|DataModel_Definition_Model_Related_1to1|DataModel_Definition_Model_Related_1toN|DataModel_Definition_Model_Related_MtoN $related_model
+	 * @param DataModel_Definition_Model_Main|DataModel_Definition_Model_Related_1to1|DataModel_Definition_Model_Related_1toN $related_model
 	 *
 	 * @return Form
 	 */
-	public static function getCreateForm( DataModel_Definition_Model_Main|DataModel_Definition_Model_Related_1to1|DataModel_Definition_Model_Related_1toN|DataModel_Definition_Model_Related_MtoN $related_model ): Form
+	public static function getCreateForm( DataModel_Definition_Model_Main|DataModel_Definition_Model_Related_1to1|DataModel_Definition_Model_Related_1toN $related_model ): Form
 	{
 
 		$model = DataModels::getCurrentModel();
@@ -184,12 +184,12 @@ class DataModel_Definition_Relation_External extends Jet_DataModel_Definition_Re
 	}
 
 	/**
-	 * @param DataModel_Definition_Model_Main|DataModel_Definition_Model_Related_1to1|DataModel_Definition_Model_Related_1toN|DataModel_Definition_Model_Related_MtoN $related_model
+	 * @param DataModel_Definition_Model_Main|DataModel_Definition_Model_Related_1to1|DataModel_Definition_Model_Related_1toN $related_model
 	 * @param Form $form
 	 *
 	 * @return bool|DataModel_Definition_Relation_External
 	 */
-	public static function catchCreateForm( DataModel_Definition_Model_Main|DataModel_Definition_Model_Related_1to1|DataModel_Definition_Model_Related_1toN|DataModel_Definition_Model_Related_MtoN $related_model, Form $form ): bool|DataModel_Definition_Relation_External
+	public static function catchCreateForm( DataModel_Definition_Model_Main|DataModel_Definition_Model_Related_1to1|DataModel_Definition_Model_Related_1toN $related_model, Form $form ): bool|DataModel_Definition_Relation_External
 	{
 		if(
 			!$form->catchInput() ||

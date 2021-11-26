@@ -10,8 +10,6 @@ namespace JetApplication;
 
 use Jet\DataModel;
 use Jet\DataModel_Definition;
-use Jet\DataModel_Related_1toN;
-use Jet\DataModel_Related_1toN_Iterator;
 use Jet\Form_Field_DateTime;
 use Jet\Locale;
 use Jet\Data_DateTime;
@@ -59,13 +57,13 @@ class Content_Article extends DataModel
 	protected ?Data_DateTime $date_time = null;
 
 	/**
-	 * @var Content_Article_Localized[]|DataModel_Related_1toN|DataModel_Related_1toN_Iterator|null
+	 * @var Content_Article_Localized[]
 	 */
 	#[DataModel_Definition(
 		type: DataModel::TYPE_DATA_MODEL,
 		data_model_class: Content_Article_Localized::class
 	)]
-	protected $localized = null;
+	protected array $localized = [];
 
 	/**
 	 * @var ?Form

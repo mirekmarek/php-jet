@@ -10,7 +10,6 @@ namespace JetStudio;
 
 use Jet\DataModel_Definition_Property_Float as Jet_DataModel_Definition_Property_Float;
 use Jet\Form_Field;
-use Jet\Form_Field_Float;
 
 /**
  *
@@ -24,13 +23,6 @@ class DataModel_Definition_Property_Float extends Jet_DataModel_Definition_Prope
 	 */
 	public function getEditFormCustomFields( array &$fields ): void
 	{
-		$default_value_field = new Form_Field_Float( 'default_value', 'Default value', $this->getDefaultValue() );
-		$default_value_field->setCatcher( function( $value ) {
-			$this->default_value = $value;
-		} );
-
-
-		$fields[$default_value_field->getName()] = $default_value_field;
 	}
 
 
@@ -39,11 +31,16 @@ class DataModel_Definition_Property_Float extends Jet_DataModel_Definition_Prope
 	 */
 	public function showEditFormFields(): void
 	{
-		$form = $this->getEditForm();
-
-		echo $form->field( 'default_value' );
 	}
 
+
+	/**
+	 * @return mixed
+	 */
+	public function getDefaultValue() : mixed
+	{
+		return 0.0;
+	}
 
 	/**
 	 *

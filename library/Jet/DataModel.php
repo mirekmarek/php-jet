@@ -56,7 +56,6 @@ namespace Jet;
  *        #[DataModel_Definition(database_column_name: 'some_column_name')]
  *             - property name is default database column name
  *        #[DataModel_Definition(is_id: bool)]
- *        #[DataModel_Definition(default_value: 'some default value')]
  *        #[DataModel_Definition(is_key: bool)]
  *             - default: false (or default is true if is_id is true)
  *        #[DataModel_Definition(key_type: DataModel::KEY_TYPE_*)]
@@ -119,6 +118,11 @@ abstract class DataModel extends BaseObject implements DataModel_Interface
 	const KEY_TYPE_INDEX = 'INDEX';
 	const KEY_TYPE_UNIQUE = 'UNIQUE';
 
+
+	public function __construct()
+	{
+
+	}
 
 	/**
 	 *

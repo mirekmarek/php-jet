@@ -5,13 +5,13 @@ namespace JetApplication;
 use Jet\DataModel;
 use Jet\DataModel_Definition;
 use Jet\DataModel_IDController_Passive;
-use Jet\DataModel_Related_MtoN_Iterator;
 use Jet\Auth_Role_Interface;
 use Jet\Data_Forest;
 use Jet\Data_Tree;
 use Jet\Form;
 use Jet\Form_Field;
 use Jet\Form_Field_Input;
+use Jet\Form_Field_MultiSelect;
 use Jet\MVC_Page_Interface;
 use Jet\Tr;
 
@@ -76,18 +76,8 @@ class Auth_Visitor_Role extends DataModel implements Auth_Role_Interface
 		data_model_class: Auth_Visitor_Role_Privilege::class,
 		form_field_is_required: false
 	)]
-	protected $privileges;
+	protected array $privileges = [];
 
-
-	/**
-	 * @var Auth_Visitor_User[]|DataModel_Related_MtoN_Iterator
-	 */
-	#[DataModel_Definition(
-		type: DataModel::TYPE_DATA_MODEL,
-		data_model_class: Auth_Visitor_Role_Users::class,
-		form_field_type: false
-	)]
-	protected $users;
 
 	/**
 	 * @var ?Form
@@ -205,8 +195,17 @@ class Auth_Visitor_Role extends DataModel implements Auth_Role_Interface
 	 */
 	public function getUsers(): iterable
 	{
-		return $this->users;
+		return Auth_Visitor_User_Roles::getRoleUsers( $this->id );
 	}
+
+	/**
+	 *
+	 */
+	public function afterDelete(): void
+	{
+		Auth_Visitor_User_Roles::roleDeleted($this->id);
+	}
+
 
 	/**
 	 * @return Auth_Visitor_Role_Privilege[]
@@ -247,11 +246,19 @@ class Auth_Visitor_Role extends DataModel implements Auth_Role_Interface
 	 */
 	public function setPrivilege( string $privilege, array $values ): void
 	{
-		if( !isset( $this->privileges[$privilege] ) ) {
-			$this->privileges[$privilege] = new Auth_Visitor_Role_Privilege( $privilege, $values );
+		if($values) {
+			if( !isset( $this->privileges[$privilege] ) ) {
+				$this->privileges[$privilege] = new Auth_Visitor_Role_Privilege( $privilege, $values );
+			} else {
+				$this->privileges[$privilege]->setValues( $values );
+			}
 		} else {
-			$this->privileges[$privilege]->setValues( $values );
+			if(isset($this->privileges[$privilege])) {
+				$this->privileges[$privilege]->delete();
+				unset($this->privileges[$privilege]);
+			}
 		}
+
 	}
 
 	/**
@@ -306,9 +313,11 @@ class Auth_Visitor_Role extends DataModel implements Auth_Role_Interface
 	 */
 	public static function getAvailablePrivilegesList() : array
 	{
-
 		return [
-			static::PRIVILEGE_VISIT_PAGE
+			static::PRIVILEGE_VISIT_PAGE => [
+				'label' => 'Secret area access',
+				'options_getter' => 'getAclActionValuesList_Pages'
+			]
 		];
 	}
 
@@ -336,15 +345,6 @@ class Auth_Visitor_Role extends DataModel implements Auth_Role_Interface
 	 */
 	public function _getForm() : Form
 	{
-		$available_privileges_list = static::getAvailablePrivilegesList();
-
-		foreach( $available_privileges_list as $privilege ) {
-			if( !isset( $this->privileges[$privilege] ) ) {
-				$this->setPrivilege( $privilege, [] );
-			}
-		}
-
-
 		$form = $this->getCommonForm();
 
 		if( $this->getIsNew() ) {
@@ -369,8 +369,27 @@ class Auth_Visitor_Role extends DataModel implements Auth_Role_Interface
 			$form->field('id')->setIsReadonly(true);
 		}
 
-		$form->field( '/privileges/visit_page/values' )->setSelectOptions( static::getAclActionValuesList_Pages() );
-		$form->field( '/privileges/visit_page/values' )->setLabel( 'Secret area access' );
+
+		$available_privileges_list = static::getAvailablePrivilegesList();
+
+		foreach($available_privileges_list as $priv=>$priv_data) {
+
+			$values = isset($this->privileges[$priv]) ? $this->privileges[$priv]->getValues() : [];
+
+			$field = new Form_Field_MultiSelect('/privileges/'.$priv.'/values', $priv_data['label'], $values);
+
+			$field->setSelectOptions($this->{$priv_data['options_getter']}());
+
+			$field->setErrorMessages([
+				Form_Field_MultiSelect::ERROR_CODE_INVALID_VALUE => 'Invalid value'
+			]);
+
+			$field->setCatcher(function($values) use ($priv) {
+				$this->setPrivilege($priv, $values);
+			});
+
+			$form->addField($field);
+		}
 
 
 		return $form;

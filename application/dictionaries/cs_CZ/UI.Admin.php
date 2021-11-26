@@ -4,4 +4,6 @@ return [
 	'Logout' => 'Odhlásit se',
 	'Content' => 'Obsah',
 	'System' => 'Systém',
+	'Test' => '',
+	'Test xxxx' => '',
 ];

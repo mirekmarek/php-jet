@@ -17,10 +17,6 @@ class Config_Definition_Property_Float extends Config_Definition_Property
 	 * @var string
 	 */
 	protected string $_type = Config::TYPE_FLOAT;
-	/**
-	 * @var float
-	 */
-	protected $default_value = 0.0;
 
 	/**
 	 * @var float|null

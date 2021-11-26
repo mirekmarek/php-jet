@@ -13,8 +13,6 @@ use Jet\DataModel_Definition;
 use Jet\DataModel_Fetch_Instances;
 use Jet\DataModel_Query;
 use Jet\DataModel_IDController_UniqueString;
-use Jet\DataModel_Related_1toN;
-use Jet\DataModel_Related_1toN_Iterator;
 
 use Jet\Form;
 use Jet\Form_Field_FileImage;
@@ -77,13 +75,13 @@ class Content_Gallery extends DataModel
 	protected string $id = '';
 
 	/**
-	 * @var Content_Gallery_Localized[]|DataModel_Related_1toN|DataModel_Related_1toN_Iterator
+	 * @var Content_Gallery_Localized[]
 	 */
 	#[DataModel_Definition(
 		type: DataModel::TYPE_DATA_MODEL,
 		data_model_class: Content_Gallery_Localized::class
 	)]
-	protected $localized = null;
+	protected array $localized = [];
 
 
 	/**

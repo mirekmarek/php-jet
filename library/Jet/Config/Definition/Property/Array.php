@@ -18,11 +18,6 @@ class Config_Definition_Property_Array extends Config_Definition_Property
 	 */
 	protected string $_type = Config::TYPE_ARRAY;
 
-	/**
-	 * @var array
-	 */
-	protected $default_value = [];
-
 
 	/**
 	 * @param ?array $definition_data

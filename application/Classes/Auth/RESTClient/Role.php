@@ -7,11 +7,11 @@ use Jet\Application_Modules;
 use Jet\DataModel;
 use Jet\DataModel_Definition;
 use Jet\DataModel_IDController_Passive;
-use Jet\DataModel_Related_MtoN_Iterator;
 use Jet\Auth_Role_Interface;
 use Jet\Data_Forest;
 use Jet\Data_Tree;
 use Jet\Form_Field_Input;
+use Jet\Form_Field_MultiSelect;
 use Jet\Tr;
 use Jet\MVC;
 use Jet\MVC_Page;
@@ -79,18 +79,7 @@ class Auth_RESTClient_Role extends DataModel implements Auth_Role_Interface
 		data_model_class: Auth_RESTClient_Role_Privilege::class,
 		form_field_is_required: false
 	)]
-	protected $privileges;
-
-
-	/**
-	 * @var Auth_RESTClient_User[]|DataModel_Related_MtoN_Iterator
-	 */
-	#[DataModel_Definition(
-		type: DataModel::TYPE_DATA_MODEL,
-		data_model_class: Auth_RESTClient_Role_Users::class,
-		form_field_type: false
-	)]
-	protected $users;
+	protected array $privileges = [];
 
 	/**
 	 * @var ?Form
@@ -203,13 +192,23 @@ class Auth_RESTClient_Role extends DataModel implements Auth_Role_Interface
 		$this->description = $description;
 	}
 
+
 	/**
 	 * @return Auth_RESTClient_User[]
 	 */
 	public function getUsers(): iterable
 	{
-		return $this->users;
+		return Auth_RESTClient_User_Roles::getRoleUsers( $this->id );
 	}
+
+	/**
+	 *
+	 */
+	public function afterDelete(): void
+	{
+		Auth_RESTClient_User_Roles::roleDeleted($this->id);
+	}
+
 
 	/**
 	 * @return Auth_RESTClient_Role_Privilege[]
@@ -248,11 +247,19 @@ class Auth_RESTClient_Role extends DataModel implements Auth_Role_Interface
 	 */
 	public function setPrivilege( string $privilege, array $values ): void
 	{
-		if( !isset( $this->privileges[$privilege] ) ) {
-			$this->privileges[$privilege] = new Auth_RESTClient_Role_Privilege( $privilege, $values );
+		if($values) {
+			if( !isset( $this->privileges[$privilege] ) ) {
+				$this->privileges[$privilege] = new Auth_RESTClient_Role_Privilege( $privilege, $values );
+			} else {
+				$this->privileges[$privilege]->setValues( $values );
+			}
 		} else {
-			$this->privileges[$privilege]->setValues( $values );
+			if(isset($this->privileges[$privilege])) {
+				$this->privileges[$privilege]->delete();
+				unset($this->privileges[$privilege]);
+			}
 		}
+
 	}
 
 	/**
@@ -308,7 +315,10 @@ class Auth_RESTClient_Role extends DataModel implements Auth_Role_Interface
 	{
 
 		return [
-			static::PRIVILEGE_MODULE_ACTION
+			static::PRIVILEGE_MODULE_ACTION => [
+				'label' => 'Modules and actions',
+				'options_getter' => 'getAclActionValuesList_ModulesActions',
+			]
 		];
 	}
 
@@ -419,15 +429,6 @@ class Auth_RESTClient_Role extends DataModel implements Auth_Role_Interface
 	 */
 	public function _getForm(): Form
 	{
-		$available_privileges_list = static::getAvailablePrivilegesList();
-
-		foreach( $available_privileges_list as $privilege ) {
-			if( !isset( $this->privileges[$privilege] ) ) {
-				$this->setPrivilege( $privilege, [] );
-			}
-		}
-
-
 		$form = $this->getCommonForm();
 		if( $this->getIsNew() ) {
 			$form->field('id')->setValidator(
@@ -451,8 +452,26 @@ class Auth_RESTClient_Role extends DataModel implements Auth_Role_Interface
 			$form->field('id')->setIsReadonly(true);
 		}
 
-		$form->field( '/privileges/module_action/values' )->setSelectOptions( static::getAclActionValuesList_ModulesActions() );
-		$form->field( '/privileges/module_action/values' )->setLabel( 'Modules and actions' );
+		$available_privileges_list = static::getAvailablePrivilegesList();
+
+		foreach($available_privileges_list as $priv=>$priv_data) {
+
+			$values = isset($this->privileges[$priv]) ? $this->privileges[$priv]->getValues() : [];
+
+			$field = new Form_Field_MultiSelect('/privileges/'.$priv.'/values', $priv_data['label'], $values);
+
+			$field->setSelectOptions($this->{$priv_data['options_getter']}());
+
+			$field->setErrorMessages([
+				Form_Field_MultiSelect::ERROR_CODE_INVALID_VALUE => 'Invalid value'
+			]);
+
+			$field->setCatcher(function($values) use ($priv) {
+				$this->setPrivilege($priv, $values);
+			});
+
+			$form->addField($field);
+		}
 
 		return $form;
 	}

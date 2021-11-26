@@ -25,11 +25,6 @@ class DataModel_Definition_Property_String extends DataModel_Definition_Property
 	protected int $max_len = 255;
 
 	/**
-	 * @var string
-	 */
-	protected $default_value = '';
-
-	/**
 	 * @var string|bool
 	 */
 	protected string|bool $form_field_type = Form::TYPE_INPUT;

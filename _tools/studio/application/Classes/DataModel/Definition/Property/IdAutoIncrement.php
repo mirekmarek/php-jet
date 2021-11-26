@@ -35,6 +35,15 @@ class DataModel_Definition_Property_IdAutoIncrement extends Jet_DataModel_Defini
 
 
 	/**
+	 * @return mixed
+	 */
+	public function getDefaultValue() : mixed
+	{
+		return 0;
+	}
+
+
+	/**
 	 *
 	 * @param ClassCreator_Class $class
 	 *

@@ -19,11 +19,6 @@ class DataModel_Definition_Property_Id extends DataModel_Definition_Property
 	protected string $type = DataModel::TYPE_ID;
 
 	/**
-	 * @var string
-	 */
-	protected $default_value = '';
-
-	/**
 	 * @var bool
 	 */
 	protected bool $is_id = false;

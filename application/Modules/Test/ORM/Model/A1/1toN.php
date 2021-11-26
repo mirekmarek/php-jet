@@ -59,6 +59,6 @@ class Model_A1_1toN extends DataModel_Related_1toN
 		type: DataModel::TYPE_DATA_MODEL,
 		data_model_class: Model_A1_1toN_sub1toN::class
 	)]
-	protected $related_1toN;
+	protected array $related_1toN = [];
 
 }

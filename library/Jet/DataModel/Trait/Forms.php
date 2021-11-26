@@ -77,13 +77,35 @@ trait DataModel_Trait_Forms
 			if( ($field_creator_method_name = $property_definition->getFormFieldCreatorMethodName()) ) {
 				$created_field = $this->{$field_creator_method_name}( $property_definition, $property_filter );
 			} else {
+				if($property_definition->getFormFieldType()===false) {
+					continue;
+				}
+
 				if(
 					is_object( $property ) &&
-					method_exists( $property, 'getRelatedFormFields' ) &&
-					$property_definition->getFormFieldType() !== false
+					$property instanceof DataModel_Related_Interface
 				) {
-					foreach( $property->getRelatedFormFields( $property_definition, $property_filter ) as $field ) {
+					foreach( $property->getForm( '', $property_filter )->getFields() as $field ) {
+						$field->setName( '/' . $property_name . '/' . $field->getName() );
 						$form_fields[] = $field;
+					}
+
+					continue;
+				}
+
+				if( is_array( $property ) ) {
+					foreach($property as $k=>$v) {
+
+						if(
+							is_object( $v ) &&
+							$v instanceof DataModel_Related_Interface
+						) {
+							foreach( $v->getForm( '', $property_filter )->getFields() as $field ) {
+								$field->setName( '/' . $property_name . '/' . $k . '/' . $field->getName() );
+								$form_fields[] = $field;
+							}
+						}
+
 					}
 
 					continue;

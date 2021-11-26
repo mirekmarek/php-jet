@@ -46,11 +46,6 @@ abstract class Config_Definition_Property extends BaseObject implements Form_Fie
 	protected string $label = '';
 
 	/**
-	 * @var mixed
-	 */
-	protected $default_value = '';
-
-	/**
 	 * @var bool
 	 */
 	protected bool $is_required = false;
@@ -160,24 +155,6 @@ abstract class Config_Definition_Property extends BaseObject implements Form_Fie
 	public function setDescription( string $description ): void
 	{
 		$this->description = $description;
-	}
-
-	/**
-	 * @param Config $config
-	 *
-	 * @return mixed
-	 */
-	public function getDefaultValue( Config $config ): mixed
-	{
-		return $this->default_value;
-	}
-
-	/**
-	 * @param mixed $default_value
-	 */
-	public function setDefaultValue( mixed $default_value ): void
-	{
-		$this->default_value = $default_value;
 	}
 
 	/**

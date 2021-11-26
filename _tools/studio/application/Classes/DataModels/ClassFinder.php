@@ -41,7 +41,6 @@ class DataModels_ClassFinder
 		'Jet\DataModel',
 		'Jet\DataModel_Related_1to1',
 		'Jet\DataModel_Related_1toN',
-		'Jet\DataModel_Related_MtoN',
 	];
 
 	/**
@@ -70,7 +69,7 @@ class DataModels_ClassFinder
 		foreach( $this->classes as $class ) {
 			try {
 				/**
-				 * @var DataModel_Definition_Model_Main|DataModel_Definition_Model_Related_1to1|DataModel_Definition_Model_Related_1toN|DataModel_Definition_Model_Related_MtoN $definition
+				 * @var DataModel_Definition_Model_Main|DataModel_Definition_Model_Related_1to1|DataModel_Definition_Model_Related_1toN $definition
 				 */
 				$definition = DataModel::getDataModelDefinition( $class->getFullClassName() );
 			} catch( DataModel_Exception $e ) {

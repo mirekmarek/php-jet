@@ -71,12 +71,6 @@ abstract class DataModel_Definition_Property extends BaseObject implements Form_
 	protected bool $do_not_export = false;
 
 	/**
-	 *
-	 * @var mixed
-	 */
-	protected $default_value = null;
-
-	/**
 	 * @var array
 	 */
 	protected array $backend_options = [];
@@ -308,17 +302,6 @@ abstract class DataModel_Definition_Property extends BaseObject implements Form_
 		return null;
 	}
 
-	/**
-	 * @param mixed &$property
-	 */
-	public function initPropertyDefaultValue( mixed &$property ): void
-	{
-		if( $property === null ) {
-			$property = $this->getDefaultValue();
-
-			$this->checkValueType( $property );
-		}
-	}
 
 	/**
 	 *
@@ -326,7 +309,9 @@ abstract class DataModel_Definition_Property extends BaseObject implements Form_
 	 */
 	public function getDefaultValue(): mixed
 	{
-		return $this->default_value;
+		//TODO:
+
+		return '';
 	}
 
 	/**

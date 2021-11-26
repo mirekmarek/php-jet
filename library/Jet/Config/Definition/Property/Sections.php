@@ -24,11 +24,6 @@ class Config_Definition_Property_Sections extends Config_Definition_Property
 	protected string $section_creator_method_name = '';
 
 	/**
-	 * @var array
-	 */
-	protected $default_value = [];
-
-	/**
 	 * @param ?array $definition_data
 	 *
 	 */

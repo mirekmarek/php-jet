@@ -15,9 +15,9 @@ trait DataModel_Definition_Model_Related_Trait
 	use DataModel_Definition_Model_Trait;
 
 	/**
-	 * @return DataModel_Definition_Model_Main|DataModel_Definition_Model_Related_1to1|DataModel_Definition_Model_Related_1toN|DataModel_Definition_Model_Related_MtoN
+	 * @return DataModel_Definition_Model_Main|DataModel_Definition_Model_Related_1to1|DataModel_Definition_Model_Related_1toN
 	 */
-	public function getRelevantParentModel(): DataModel_Definition_Model_Main|DataModel_Definition_Model_Related_1to1|DataModel_Definition_Model_Related_1toN|DataModel_Definition_Model_Related_MtoN
+	public function getRelevantParentModel(): DataModel_Definition_Model_Main|DataModel_Definition_Model_Related_1to1|DataModel_Definition_Model_Related_1toN
 	{
 		$parent_class = $this->parent_model_class;
 		if( !$parent_class ) {
@@ -52,9 +52,9 @@ trait DataModel_Definition_Model_Related_Trait
 	}
 
 	/**
-	 * @return DataModel_Definition_Model_Main|DataModel_Definition_Model_Related_1to1|DataModel_Definition_Model_Related_1toN|DataModel_Definition_Model_Related_MtoN
+	 * @return DataModel_Definition_Model_Main|DataModel_Definition_Model_Related_1to1|DataModel_Definition_Model_Related_1toN
 	 */
-	public function getParentModel(): DataModel_Definition_Model_Main|DataModel_Definition_Model_Related_1to1|DataModel_Definition_Model_Related_1toN|DataModel_Definition_Model_Related_MtoN
+	public function getParentModel(): DataModel_Definition_Model_Main|DataModel_Definition_Model_Related_1to1|DataModel_Definition_Model_Related_1toN
 	{
 		return DataModels::getClass( $this->parent_model_class )->getDefinition();
 	}
@@ -69,9 +69,9 @@ trait DataModel_Definition_Model_Related_Trait
 	}
 
 	/**
-	 * @return DataModel_Definition_Model_Main|DataModel_Definition_Model_Related_1to1|DataModel_Definition_Model_Related_1toN|DataModel_Definition_Model_Related_MtoN
+	 * @return DataModel_Definition_Model_Main|DataModel_Definition_Model_Related_1to1|DataModel_Definition_Model_Related_1toN
 	 */
-	public function getMainModel(): DataModel_Definition_Model_Main|DataModel_Definition_Model_Related_1to1|DataModel_Definition_Model_Related_1toN|DataModel_Definition_Model_Related_MtoN
+	public function getMainModel(): DataModel_Definition_Model_Main|DataModel_Definition_Model_Related_1to1|DataModel_Definition_Model_Related_1toN
 	{
 		return DataModels::getClass( $this->main_model_class_name )->getDefinition();
 	}

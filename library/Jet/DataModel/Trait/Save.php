@@ -32,26 +32,19 @@ trait DataModel_Trait_Save
 
 		$this->beforeSave();
 
-
 		$this->startBackendTransaction();
 
 
 		if( $this->getIsNew() ) {
-			$after_method_name = 'afterAdd';
-			$operation = 'save';
+			$this->_save();
+			$this->commitBackendTransaction();
+			$this->afterAdd();
+			$this->setIsSaved();
 		} else {
-			$after_method_name = 'afterUpdate';
-			$operation = 'update';
+			$this->_update();
+			$this->commitBackendTransaction();
+			$this->afterUpdate();
 		}
-
-		$this->{'_' . $operation}();
-
-		$this->commitBackendTransaction();
-
-
-		$this->setIsSaved();
-
-		$this->{$after_method_name}();
 	}
 
 	/**
@@ -119,45 +112,6 @@ trait DataModel_Trait_Save
 
 	/**
 	 *
-	 */
-	protected function _saveRelatedObjects(): void
-	{
-
-		/**
-		 * @var DataModel $this
-		 * @var DataModel_Definition_Model $definition
-		 *
-		 */
-		$definition = static::getDataModelDefinition();
-
-		$is_related = ($this instanceof DataModel_Related_Interface);
-
-		foreach( $definition->getProperties() as $property_name => $property_definition ) {
-
-			/**
-			 * @var object $prop
-			 */
-			$prop = $this->{$property_name};
-
-			if(
-				($prop instanceof DataModel_Related_Interface) ||
-				($prop instanceof DataModel_Related_Iterator_Interface)
-			) {
-				if( $is_related ) {
-					$prop->actualizeParentId( $this->getIDController() );
-				} else {
-					$prop->actualizeMainId( $this->getIDController() );
-				}
-
-				$prop->save();
-			}
-
-
-		}
-	}
-
-	/**
-	 *
 	 * @throws DataModel_Exception
 	 */
 	protected function _update(): void
@@ -195,6 +149,80 @@ trait DataModel_Trait_Save
 		}
 
 		$this->_saveRelatedObjects();
-
 	}
+
+
+	/**
+	 *
+	 */
+	protected function _saveRelatedObjects(): void
+	{
+
+		/**
+		 * @var DataModel $this
+		 * @var DataModel_Definition_Model $definition
+		 *
+		 */
+		$definition = static::getDataModelDefinition();
+
+		$related_properties = [];
+		foreach( $definition->getProperties() as $property_name => $property_definition ) {
+			if(!($property_definition instanceof DataModel_Definition_Property_DataModel)) {
+				continue;
+			}
+
+			$related_properties[] = $property_name;
+		}
+
+
+		if(!($this instanceof DataModel_Related_Interface)) {
+			$main_id = $this->getIDController();
+			$parent_id = null;
+		} else {
+			$main_id = null;
+			$parent_id = $this->getIDController();
+		}
+
+		foreach( $related_properties as $property_name ) {
+			$prop = $this->{$property_name};
+
+			if(
+				is_object($prop) &&
+				$prop instanceof DataModel_Related_Interface
+			) {
+				$prop->actualizeRelations( $main_id, $parent_id );
+			}
+
+			if(is_array($prop)) {
+				foreach($prop as $v) {
+					if( $v instanceof DataModel_Related_Interface ) {
+						$v->actualizeRelations( $main_id, $parent_id );
+					}
+				}
+			}
+		}
+
+
+
+		foreach( $related_properties as $property_name ) {
+
+			$prop = $this->{$property_name};
+
+			if(
+				is_object($prop) &&
+				$prop instanceof DataModel_Related_Interface
+			) {
+				$prop->save();
+			}
+
+			if(is_array($prop)) {
+				foreach($prop as $v) {
+					if( $v instanceof DataModel_Related_Interface ) {
+						$v->save();
+					}
+				}
+			}
+		}
+	}
+
 }

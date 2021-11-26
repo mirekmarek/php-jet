@@ -16,7 +16,7 @@ if( !$set || !$menu || !$item ) {
 
 
 if( $item->catchEditForm() ) {
-	$menu->sortItems();
+	//$menu->sortItems();
 
 	if( $set->save() ) {
 		UI_messages::success( Tr::_( 'Saved ...' ) );

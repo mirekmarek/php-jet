@@ -25,7 +25,14 @@ class DataModel_Definition_Property_Bool extends Jet_DataModel_Definition_Proper
 	 */
 	public function showEditFormFields(): void
 	{
+	}
 
+	/**
+	 * @return mixed
+	 */
+	public function getDefaultValue() : mixed
+	{
+		return false;
 	}
 
 	/**

@@ -2,17 +2,12 @@
 return [
 	'content' => [
 		'label' => 'Content',
-		/*
-		'items' => [
-			'test' => [
-				'label' => 'Test',
-				'URL' => 'http://www.root.cz/',
-				'icon' => 'gears'
-			]
-		]
-		*/
+		'icon' => '',
+		'index' => 1,
 	],
 	'system' => [
-		'label' => 'System'
-	]
+		'label' => 'System',
+		'icon' => '',
+		'index' => 2,
+	],
 ];

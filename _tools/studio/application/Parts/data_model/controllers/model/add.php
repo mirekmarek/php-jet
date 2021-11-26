@@ -13,7 +13,6 @@ $type = $POST->getString( 'type', '', [
 	'Main',
 	'1to1',
 	'1toN',
-	'MtoN'
 ] );
 if( !$type ) {
 	die();

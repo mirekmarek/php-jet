@@ -34,6 +34,13 @@ class DataModel_Definition_Property_Date extends Jet_DataModel_Definition_Proper
 
 	}
 
+	/**
+	 * @return mixed
+	 */
+	public function getDefaultValue() : mixed
+	{
+		return null;
+	}
 
 	/**
 	 *

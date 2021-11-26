@@ -165,11 +165,6 @@ interface DataModel_Definition_Property_Interface
 	 */
 	public function getDefaultValue(): mixed;
 
-	/**
-	 * @param string $default_value
-	 */
-	public function setDefaultValue( string $default_value ): void;
-
 
 	/**
 	 *

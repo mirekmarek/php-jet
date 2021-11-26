@@ -42,15 +42,8 @@ class Model_A1 extends DataModel
 		type: DataModel::TYPE_DATA_MODEL,
 		data_model_class: Model_A1_1toN::class
 	)]
-	protected $related_1toN;
+	protected array $related_1toN = [];
 
-	/**
-	 * @var Model_MtoN[]|Model_B1[]
-	 */
-	#[DataModel_Definition(
-		type: DataModel::TYPE_DATA_MODEL,
-		data_model_class: Model_MtoN::class
-	)]
-	protected $related_MtoN;
+
 
 }

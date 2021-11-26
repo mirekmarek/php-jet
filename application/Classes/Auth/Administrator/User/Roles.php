@@ -8,8 +8,10 @@
 
 namespace JetApplication;
 
+use Jet\DataModel;
 use Jet\DataModel_Definition;
-use Jet\DataModel_Related_MtoN;
+use Jet\DataModel_IDController_Passive;
+use Jet\DataModel_Related_1toN;
 
 /**
  *
@@ -18,18 +20,106 @@ use Jet\DataModel_Related_MtoN;
 	name: 'users_roles',
 	database_table_name: 'users_administrators_roles',
 	parent_model_class: Auth_Administrator_User::class,
-	N_model_class: Auth_Administrator_Role::class
+	id_controller_class: DataModel_IDController_Passive::class
 )]
-class Auth_Administrator_User_Roles extends DataModel_Related_MtoN
+class Auth_Administrator_User_Roles extends DataModel_Related_1toN
 {
 	#[DataModel_Definition(
+		is_id: true,
 		related_to: 'main.id'
 	)]
 	protected int $user_id = 0;
 
+	/**
+	 * @var string
+	 */
 	#[DataModel_Definition(
-		related_to: 'role.id'
+		type: DataModel::TYPE_ID,
+		is_id: true,
+		form_field_type: false
 	)]
 	protected string $role_id = '';
 
+	/**
+	 * @var Auth_Administrator_Role|null
+	 */
+	protected ?Auth_Administrator_Role $_role = null;
+
+	public function getArrayKeyValue(): string
+	{
+		return $this->role_id;
+	}
+
+	/**
+	 * @return int
+	 */
+	public function getUserId(): int
+	{
+		return $this->user_id;
+	}
+
+	/**
+	 * @param int $user_id
+	 */
+	public function setUserId( int $user_id ): void
+	{
+		$this->user_id = $user_id;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getRoleId(): string
+	{
+		return $this->role_id;
+	}
+
+	/**
+	 * @param string $role_id
+	 */
+	public function setRoleId( string $role_id ): void
+	{
+		$this->_role = null;
+		$this->role_id = $role_id;
+	}
+
+
+	/**
+	 * @return Auth_Administrator_Role|null
+	 */
+	public function getRole() : Auth_Administrator_Role|null
+	{
+		if(!$this->_role) {
+			$this->_role = Auth_Administrator_Role::get($this->role_id);
+		}
+		return $this->_role;
+	}
+
+	/**
+	 * @param string $id
+	 */
+	public static function roleDeleted( string $id ) : void
+	{
+		$items = static::fetchInstances(['role_id'=>$id]);
+
+		foreach($items as $item) {
+			$item->delete();
+		}
+	}
+
+	/**
+	 * @param string $id
+	 *
+	 * @return iterable
+	 */
+	public static function getRoleUsers( string $id ) : iterable
+	{
+		$_ids = static::fetchData(['user_id'], ['role_id'=>$id]);
+		$ids = [0];
+		foreach($_ids as $d) {
+			$ids[] = $d['user_id'];
+		}
+
+		return Auth_Administrator_User::fetchInstances(['id'=>$ids]);
+	}
 }

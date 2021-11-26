@@ -10,7 +10,6 @@ namespace JetStudio;
 
 use Jet\DataModel_Definition_Property_String as Jet_DataModel_Definition_Property_String;
 use Jet\Form_Field;
-use Jet\Form_Field_Input;
 use Jet\Form_Field_Int;
 
 /**
@@ -19,6 +18,15 @@ use Jet\Form_Field_Int;
 class DataModel_Definition_Property_String extends Jet_DataModel_Definition_Property_String implements DataModel_Definition_Property_Interface
 {
 	use DataModel_Definition_Property_Trait;
+
+
+	/**
+	 * @return mixed
+	 */
+	public function getDefaultValue() : mixed
+	{
+		return '';
+	}
 
 	/**
 	 * @param Form_Field[] &$fields
@@ -37,14 +45,7 @@ class DataModel_Definition_Property_String extends Jet_DataModel_Definition_Prop
 		} );
 
 
-		$default_value_field = new Form_Field_Input( 'default_value', 'Default value', $this->getDefaultValue() );
-		$default_value_field->setCatcher( function( $value ) {
-			$this->default_value = $value;
-		} );
-
-
 		$fields[$max_len_field->getName()] = $max_len_field;
-		$fields[$default_value_field->getName()] = $default_value_field;
 	}
 
 	/**
@@ -55,7 +56,6 @@ class DataModel_Definition_Property_String extends Jet_DataModel_Definition_Prop
 		$form = $this->getEditForm();
 
 		echo $form->field( 'max_len' );
-		echo $form->field( 'default_value' );
 	}
 
 	/**
@@ -73,14 +73,6 @@ class DataModel_Definition_Property_String extends Jet_DataModel_Definition_Prop
 			'max_len',
 			$this->max_len
 		];
-
-		if( $this->default_value ) {
-			$attributes[] = [
-				'DataModel_Definition',
-				'default_value',
-				$this->default_value
-			];
-		}
 
 		return $this->createClassProperty_main( $class, 'string', 'DataModel::TYPE_STRING', $attributes );
 	}

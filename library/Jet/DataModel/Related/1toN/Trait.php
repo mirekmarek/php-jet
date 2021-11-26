@@ -99,32 +99,21 @@ trait DataModel_Related_1toN_Trait
 	 * @param array  &$related_data
 	 * @param DataModel_PropertyFilter|null $load_filter
 	 *
-	 * @return DataModel_Related_1toN_Iterator
+	 * @return static[]
 	 */
 	public static function initRelatedByData( array $this_data,
 	                                          array &$related_data,
-	                                          DataModel_PropertyFilter $load_filter = null ): DataModel_Related_1toN_Iterator
+	                                          DataModel_PropertyFilter $load_filter = null ): array
 	{
-
-		/**
-		 * @var DataModel_Definition_Model_Related_1toN $data_model_definition
-		 */
-		$data_model_definition = static::getDataModelDefinition();
-
 		$items = [];
 
 		foreach( $this_data as $d ) {
-			$items[] = static::initByData( $d, $related_data, $load_filter );
+			$item = static::initByData( $d, $related_data, $load_filter );
+			$items[$item->getArrayKeyValue()] = $item;
 		}
 
 
-		/**
-		 * @var DataModel_Related_1toN_Iterator $iterator
-		 */
-
-		$iterator_class = $data_model_definition->getIteratorClassName();
-
-		return new $iterator_class( $data_model_definition, $items );
+		return $items;
 	}
 
 	/**
@@ -134,36 +123,4 @@ trait DataModel_Related_1toN_Trait
 	{
 		return null;
 	}
-
-	/**
-	 * @return DataModel_Related_Interface|DataModel_Related_1toN_Iterator|null
-	 */
-	public function createNewRelatedDataModelInstance(): DataModel_Related_Interface|DataModel_Related_1toN_Iterator|null
-	{
-		/**
-		 * @var DataModel_Definition_Model_Related_1toN $data_model_definition
-		 */
-		$data_model_definition = static::getDataModelDefinition();
-
-		$iterator_class = $data_model_definition->getIteratorClassName();
-
-		return new $iterator_class( $data_model_definition );
-	}
-
-	/**
-	 *
-	 * @param DataModel_Definition_Property $parent_property_definition
-	 * @param DataModel_PropertyFilter|null $property_filter
-	 *
-	 * @return Form_Field[]
-	 *
-	 */
-	public function getRelatedFormFields( DataModel_Definition_Property $parent_property_definition,
-	                                      DataModel_PropertyFilter $property_filter = null ): array
-	{
-		$related_form = $this->getForm( '', $property_filter );
-
-		return $related_form->getFields();
-	}
-
 }

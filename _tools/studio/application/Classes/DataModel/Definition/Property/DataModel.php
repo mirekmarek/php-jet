@@ -108,46 +108,11 @@ class DataModel_Definition_Property_DataModel extends Jet_DataModel_Definition_P
 
 			switch( $type ) {
 				case DataModels::MODEL_TYPE_RELATED_1TO1:
-					$class->addUse( new ClassCreator_UseClass( 'Jet', 'DataModel_Related_1to1' ) );
-					$property_type .= '|DataModel_Related_1to1|null';
+					$property_type .= '|null';
 					break;
+
 				case DataModels::MODEL_TYPE_RELATED_1TON:
-
-					$class->addUse( new ClassCreator_UseClass( 'Jet', 'DataModel_Related_1toN' ) );
-
-					$iterator_class = $related_dm->getIteratorClassName();
-
-					if( str_starts_with( $iterator_class, 'Jet\\' ) ) {
-						$iterator_class = substr( $iterator_class, 4 );
-
-						$class->addUse( new ClassCreator_UseClass( 'Jet', $iterator_class ) );
-					}
-
-					$property_type .= '[]|DataModel_Related_1toN|' . $iterator_class;
-					break;
-				case DataModels::MODEL_TYPE_RELATED_MTON:
-					$N_model = $related_dm->getNModel();
-
-					if( $N_model ) {
-						$class->addUse( new ClassCreator_UseClass( 'Jet', 'DataModel_Related_MtoN' ) );
-
-						/*
-						if($N_model->getNamespaceId()!=Project::getCurrentNamespaceId()) {
-
-							$ns = Project::getCurrentNamespace();
-
-							$class->addUse(
-								new ClassCreator_UseClass($ns->getNamespace(), $N_model->getClassName())
-							);
-
-						}
-						*/
-
-						$property_type .= '|DataModel_Related_MtoN|' . $N_model->getClassName() . '[]';
-					} else {
-						$class->addError( 'Unable to get N DataModel definition' );
-					}
-
+					$property_type .= '[]';
 					break;
 			}
 		}
@@ -155,6 +120,27 @@ class DataModel_Definition_Property_DataModel extends Jet_DataModel_Definition_P
 
 		return $this->createClassProperty_main( $class, $property_type, 'DataModel::TYPE_DATA_MODEL', $attributes );
 	}
+
+	/**
+	 * @return mixed
+	 */
+	public function getDefaultValue() : mixed
+	{
+		$related_dm = DataModels::getClass( $this->getDataModelClass() )->getDefinition();
+
+		if( $related_dm ) {
+			switch( $related_dm->getInternalType() ) {
+				case DataModels::MODEL_TYPE_RELATED_1TO1:
+					return null;
+
+				case DataModels::MODEL_TYPE_RELATED_1TON:
+					return [];
+			}
+		}
+
+		return null;
+	}
+
 
 	/**
 	 * @param ClassCreator_Class $class

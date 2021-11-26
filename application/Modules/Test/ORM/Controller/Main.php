@@ -38,8 +38,6 @@ class Controller_Main extends MVC_Controller_Default
 
 			'CountSelect',
 
-			'M2NRelation',
-
 			'ExternalRelation'
 		];
 

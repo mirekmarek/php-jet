@@ -23,14 +23,4 @@ trait DataModel_Trait
 	use DataModel_Trait_Delete;
 	use DataModel_Trait_Forms;
 	use DataModel_Trait_Exports;
-
-	/**
-	 *
-	 */
-	public function __construct()
-	{
-		$this->initNewObject();
-	}
-
-
 }

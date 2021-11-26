@@ -21,7 +21,6 @@ namespace Jet;
  *
  *              description: 'Some description ...',
  *              is_required: true,
- *              default_value: 'some default value',
  *
  *
  *              form_field_type: Form::TYPE_*,
@@ -133,8 +132,6 @@ abstract class Config extends BaseObject
 						Config_Exception::CODE_CONFIG_CHECK_ERROR
 					);
 				}
-
-				$this->{$property_name} = $property_definition->getDefaultValue( $this );
 
 				continue;
 			}

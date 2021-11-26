@@ -27,14 +27,6 @@ trait DataModel_Related_1to1_Trait
 		return new $class_name( $data_model_class_name );
 	}
 
-	/**
-	 * @return DataModel_Related_Interface|null
-	 */
-	public function createNewRelatedDataModelInstance(): DataModel_Related_Interface|null
-	{
-		return null;
-	}
-
 
 	/**
 	 *
@@ -83,33 +75,5 @@ trait DataModel_Related_1to1_Trait
 	{
 		return static::initByData( $this_data, $related_data, $load_filter );
 	}
-
-
-	/**
-	 *
-	 * @param DataModel_Definition_Property $parent_property_definition
-	 * @param DataModel_PropertyFilter|null $property_filter
-	 *
-	 * @return Form_Field[]
-	 */
-	public function getRelatedFormFields( DataModel_Definition_Property $parent_property_definition,
-	                                      DataModel_PropertyFilter $property_filter = null ): array
-	{
-
-		$fields = [];
-
-		$related_form = $this->getForm( '', $property_filter );
-
-		foreach( $related_form->getFields() as $field ) {
-
-			$field->setName( '/' . $parent_property_definition->getName() . '/' . $field->getName() );
-
-			$fields[] = $field;
-		}
-
-
-		return $fields;
-	}
-
 
 }

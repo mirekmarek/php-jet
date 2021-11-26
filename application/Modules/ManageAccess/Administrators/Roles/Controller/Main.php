@@ -129,7 +129,7 @@ class Controller_Main extends MVC_Controller_Default
 
 		$this->view->setVar( 'has_access', true );
 		$this->view->setVar( 'form', $form );
-		$this->view->setVar( 'available_privileges_list', Role::getAvailablePrivilegesList() );
+		$this->view->setVar( 'available_privileges_list', array_keys(Role::getAvailablePrivilegesList() ));
 
 		$this->output( 'edit' );
 	}
@@ -164,7 +164,7 @@ class Controller_Main extends MVC_Controller_Default
 
 		$this->view->setVar( 'form', $form );
 		$this->view->setVar( 'role', $role );
-		$this->view->setVar( 'available_privileges_list', Role::getAvailablePrivilegesList() );
+		$this->view->setVar( 'available_privileges_list', array_keys(Role::getAvailablePrivilegesList()) );
 
 		$this->output( 'edit' );
 	}
@@ -185,7 +185,7 @@ class Controller_Main extends MVC_Controller_Default
 		$this->view->setVar( 'has_access', false );
 		$this->view->setVar( 'form', $form );
 		$this->view->setVar( 'role', $role );
-		$this->view->setVar( 'available_privileges_list', Role::getAvailablePrivilegesList() );
+		$this->view->setVar( 'available_privileges_list', array_keys(Role::getAvailablePrivilegesList()) );
 
 		$form->setIsReadonly();
 

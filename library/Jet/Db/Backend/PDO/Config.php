@@ -22,7 +22,6 @@ class Db_Backend_PDO_Config extends Db_Backend_Config
 	#[Config_Definition(
 		type: Config::TYPE_STRING,
 		description: 'PDO driver',
-		default_value: 'mysql',
 		is_required: true,
 		form_field_type: Form::TYPE_SELECT,
 		form_field_get_select_options_callback: [
@@ -35,7 +34,7 @@ class Db_Backend_PDO_Config extends Db_Backend_Config
 			Form_Field_MultiSelect::ERROR_CODE_INVALID_VALUE => 'Please select driver'
 		]
 	)]
-	protected string $driver = '';
+	protected string $driver = 'mysql';
 
 
 	/**

@@ -36,6 +36,15 @@ class DataModel_Definition_Property_Id extends Jet_DataModel_Definition_Property
 
 
 	/**
+	 * @return mixed
+	 */
+	public function getDefaultValue() : mixed
+	{
+		return '';
+	}
+
+
+	/**
 	 *
 	 * @param ClassCreator_Class $class
 	 *

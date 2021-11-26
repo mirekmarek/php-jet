@@ -115,9 +115,9 @@ class DataModel_Fetch_Instances extends DataModel_Fetch implements Data_Paginato
 	/**
 	 * @param mixed $item
 	 *
-	 * @return DataModel|DataModel_Related_1toN|DataModel_Related_1to1|DataModel_Related_MtoN
+	 * @return DataModel|DataModel_Related_1toN|DataModel_Related_1to1
 	 */
-	protected function _get( mixed $item ): DataModel|DataModel_Related_1toN|DataModel_Related_1to1|DataModel_Related_MtoN
+	protected function _get( mixed $item ): DataModel|DataModel_Related_1toN|DataModel_Related_1to1
 	{
 
 		if( $this->_instances === null ) {

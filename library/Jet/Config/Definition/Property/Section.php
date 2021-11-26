@@ -19,11 +19,6 @@ class Config_Definition_Property_Section extends Config_Definition_Property
 	protected string $_type = Config::TYPE_SECTION;
 
 	/**
-	 * @var array|null
-	 */
-	protected $default_value = null;
-
-	/**
 	 * @var string
 	 */
 	protected string $section_creator_method_name = '';

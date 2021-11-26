@@ -118,33 +118,10 @@ class DataModel_Definition_Model_Related_1toN extends Jet_DataModel_Definition_M
 
 		$class->setAttribute( 'DataModel_Definition', 'parent_model_class', $parent_class->getClassName() . '::class' );
 
-		$iterator_class = $this->getIteratorClassName();
-
-
-		if( $iterator_class != 'Jet\\DataModel_Related_1toN_Iterator' ) {
-
-			if( str_starts_with( $iterator_class, 'Jet\\' ) ) {
-				$iterator_class = substr( $iterator_class, 4 );
-
-				$class->addUse( new ClassCreator_UseClass( 'Jet', $iterator_class ) );
-			}
-
-			$class->setAttribute( 'DataModel_Definition', 'iterator_class', $iterator_class . '::class' );
-		}
-
 		if( $this->getDefaultOrderBy() ) {
 			$class->setAttribute( 'DataModel_Definition', 'default_order_by', $this->getDefaultOrderBy() );
 		}
 
-	}
-
-
-	/**
-	 * @param string $iterator_class
-	 */
-	public function setIteratorClass( string $iterator_class ): void
-	{
-		$this->iterator_class = $iterator_class;
 	}
 
 	/**

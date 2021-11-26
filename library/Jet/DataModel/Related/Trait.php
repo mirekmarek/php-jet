@@ -16,68 +16,83 @@ trait DataModel_Related_Trait
 
 	use DataModel_Trait;
 
+	public function __construct()
+	{
+
+	}
+
 	/**
-	 * @param DataModel_IDController $parent_id
+	 * @param DataModel_IDController|null $main_id
+	 * @param DataModel_IDController|null $parent_id
 	 */
-	public function actualizeParentId( DataModel_IDController $parent_id ): void
+	public function actualizeRelations( ?DataModel_IDController $main_id=null, ?DataModel_IDController $parent_id=null ): void
 	{
 		/**
 		 * @var DataModel_Definition_Model_Related $definition
 		 */
 		$definition = static::getDataModelDefinition();
 
-		foreach( $definition->getParentModelRelationIdProperties() as $property_definition ) {
-			$property_name = $property_definition->getName();
+		if($main_id) {
+			foreach( $definition->getMainModelRelationIdProperties() as $property_definition ) {
+
+				$property_name = $property_definition->getName();
+
+				if($this->{$property_name} === $main_id->getValue( $property_definition->getRelatedToPropertyName() )) {
+					continue;
+				}
+
+				if( $this->getIsSaved()) {
+					$this->setIsNew();
+				}
+
+				$this->{$property_name} = $main_id->getValue( $property_definition->getRelatedToPropertyName() );
+
+			}
+		}
 
 
-			if(
-				$this->getIsSaved() &&
-				$this->{$property_name} != $parent_id->getValue( $property_definition->getRelatedToPropertyName() )
-			) {
-				$this->setIsNew();
+		if($parent_id) {
+			foreach( $definition->getParentModelRelationIdProperties() as $property_definition ) {
+				$property_name = $property_definition->getName();
+
+				if($this->{$property_name} === $parent_id->getValue( $property_definition->getRelatedToPropertyName() )) {
+					continue;
+				}
+
+				if( $this->getIsSaved() ) {
+					$this->setIsNew();
+				}
+
+				$this->{$property_name} = $parent_id->getValue( $property_definition->getRelatedToPropertyName() );
+
+			}
+		}
+
+		foreach( $definition->getProperties() as $property_name => $property_definition ) {
+			if(!($property_definition instanceof DataModel_Definition_Property_DataModel)) {
+				continue;
 			}
 
-			$this->{$property_name} = $parent_id->getValue( $property_definition->getRelatedToPropertyName() );
+			$prop = $this->{$property_name};
 
+			if(
+				is_object($prop) &&
+				$prop instanceof DataModel_Related_Interface
+			) {
+				$prop->actualizeRelations( $main_id, $this->getIDController() );
+			}
+
+			if(is_array($prop)) {
+				foreach($prop as $v) {
+					if( $v instanceof DataModel_Related_Interface ) {
+						$v->actualizeRelations( $main_id, $this->getIDController() );
+					}
+				}
+			}
 		}
 
 	}
 
-	/**
-	 * @param DataModel_IDController $main_id
-	 */
-	public function actualizeMainId( DataModel_IDController $main_id ): void
-	{
-
-		/**
-		 * @var DataModel_Definition_Model_Related $definition
-		 */
-		$definition = static::getDataModelDefinition();
-
-		foreach( $definition->getMainModelRelationIdProperties() as $property_definition ) {
-
-			$property_name = $property_definition->getName();
-
-			if(
-				$this->getIsSaved() &&
-				$this->{$property_name} != $main_id->getValue( $property_definition->getRelatedToPropertyName() )
-			) {
-				$this->setIsNew();
-			}
-
-			$this->{$property_name} = $main_id->getValue( $property_definition->getRelatedToPropertyName() );
-
-		}
-
-		foreach( $definition->getProperties() as $property_definition ) {
-			$property_name = $property_definition->getName();
-
-			if( $this->{$property_name} instanceof DataModel_Related_Interface ) {
-				$this->{$property_name}->actualizeMainId( $main_id );
-			}
-		}
-
-	}
 
 
 }

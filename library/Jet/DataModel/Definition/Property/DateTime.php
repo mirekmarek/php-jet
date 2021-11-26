@@ -19,11 +19,6 @@ class DataModel_Definition_Property_DateTime extends DataModel_Definition_Proper
 	protected string $type = DataModel::TYPE_DATE_TIME;
 
 	/**
-	 * @var null
-	 */
-	protected $default_value = null;
-
-	/**
 	 * @var string|bool
 	 */
 	protected string|bool $form_field_type = Form::TYPE_DATE_TIME;

@@ -54,31 +54,6 @@ class DataModel_Definition_Property_DataModel extends DataModel_Definition_Prope
 
 
 	/**
-	 * @param mixed &$property
-	 */
-	public function initPropertyDefaultValue( mixed &$property ): void
-	{
-		$property = $this->getDefaultValue();
-	}
-
-	/**
-	 *
-	 * @return mixed
-	 */
-	public function getDefaultValue(): mixed
-	{
-		$class_name = $this->getValueDataModelClass();
-
-		/**
-		 * @var DataModel_Related_Interface $default_value
-		 */
-		$default_value = new $class_name();
-
-		return $default_value->createNewRelatedDataModelInstance();
-
-	}
-
-	/**
 	 *
 	 * @return string
 	 */
@@ -99,10 +74,25 @@ class DataModel_Definition_Property_DataModel extends DataModel_Definition_Prope
 			return null;
 		}
 
-		/**
-		 * @var DataModel $property
-		 */
-		return $property->jsonSerialize();
+		if(is_object($property)) {
+			return $property->jsonSerialize();
+		}
+
+		if(is_array($property)) {
+			$res = [];
+
+			foreach($property as $v) {
+				/**
+				 * @var DataModel $v
+				 */
+				$res[] = $v->jsonSerialize();
+			}
+
+			return $res;
+		}
+
+
+		return null;
 	}
 
 	/**

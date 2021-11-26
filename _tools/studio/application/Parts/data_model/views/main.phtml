@@ -48,7 +48,6 @@ $allow_to_create_related = (
 					<?php if( $allow_to_create_related ): ?>
 						<a class="dropdown-item" href="#" onclick="DataModel.create.openDialog('1toN');">1toN</a>
 						<a class="dropdown-item" href="#" onclick="DataModel.create.openDialog('1to1');">1to1</a>
-						<a class="dropdown-item" href="#" onclick="DataModel.create.openDialog('MtoN');">MtoN</a>
 					<?php endif; ?>
 				</div>
 			</div>
@@ -115,8 +114,7 @@ $allow_to_create_related = (
 
 <?= Application::getView()->render( 'model/create/Main/dialog' ); ?>
 
-	<?php if( $allow_to_create_related ): ?>
-	<?= Application::getView()->render( 'model/create/MtoN/dialog' ); ?>
+<?php if( $allow_to_create_related ): ?>
 	<?= Application::getView()->render( 'model/create/1toN/dialog' ); ?>
 	<?= Application::getView()->render( 'model/create/1to1/dialog' ); ?>
 <?php endif; ?>

@@ -483,29 +483,6 @@ trait DataModel_Definition_Model_Trait
 
 			if(
 				$this instanceof DataModel_Definition_Model_Related_1toN
-				||
-				$this instanceof DataModel_Definition_Model_Related_MtoN
-			) {
-
-				$iterator_class_field = new Form_Field_Input( 'iterator_class', 'Iterator class:', $this->getIteratorClassName() );
-				$iterator_class_field->setCatcher( function( $value ) {
-					$this->setIteratorClass( $value );
-				} );
-				$iterator_class_field->setIsRequired( true );
-				$iterator_class_field->setValidationRegexp( '/^[a-z0-9\\\\\_]{2,}$/i' );
-				$iterator_class_field->setErrorMessages( [
-					Form_Field_Input::ERROR_CODE_EMPTY          => 'Please enter iterator class name',
-					Form_Field_Input::ERROR_CODE_INVALID_FORMAT => 'Invalid iterator class name name format'
-				] );
-
-				$fields[$iterator_class_field->getName()] = $iterator_class_field;
-			}
-
-
-			if(
-				$this instanceof DataModel_Definition_Model_Related_1toN
-				||
-				$this instanceof DataModel_Definition_Model_Related_MtoN
 			) {
 				$default_order_by_field = new Form_Field_Hidden( 'default_order_by', '', implode( '|', $this->getDefaultOrderBy() ) );
 				$default_order_by_field->setCatcher( function( $value ) {

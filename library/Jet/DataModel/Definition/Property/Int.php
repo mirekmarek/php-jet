@@ -19,11 +19,6 @@ class DataModel_Definition_Property_Int extends DataModel_Definition_Property
 	protected string $type = DataModel::TYPE_INT;
 
 	/**
-	 * @var int
-	 */
-	protected $default_value = 0;
-
-	/**
 	 * @var string|bool
 	 */
 	protected string|bool $form_field_type = Form::TYPE_INT;

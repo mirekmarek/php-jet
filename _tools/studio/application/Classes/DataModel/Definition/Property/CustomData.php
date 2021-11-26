@@ -32,8 +32,16 @@ class DataModel_Definition_Property_CustomData extends Jet_DataModel_Definition_
 	 */
 	public function showEditFormFields(): void
 	{
-
 	}
+
+	/**
+	 * @return mixed
+	 */
+	public function getDefaultValue() : mixed
+	{
+		return null;
+	}
+
 
 	/**
 	 *

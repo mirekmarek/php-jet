@@ -61,13 +61,12 @@ class DataModel_Backend_MySQL_Config extends DataModel_Backend_Config
 	#[Config_Definition(
 		type: Config::TYPE_STRING,
 		is_required: true,
-		default_value: 'InnoDB',
 		form_field_label: 'Engine: ',
 		form_field_error_messages: [
 			Form_Field::ERROR_CODE_EMPTY => 'Please enter table engine'
 		]
 	)]
-	protected string $engine = '';
+	protected string $engine = 'InnoDB';
 
 	/**
 	 *
@@ -76,13 +75,12 @@ class DataModel_Backend_MySQL_Config extends DataModel_Backend_Config
 	#[Config_Definition(
 		type: Config::TYPE_STRING,
 		is_required: true,
-		default_value: 'utf8',
 		form_field_label: 'Default charset: ',
 		form_field_error_messages: [
 			Form_Field::ERROR_CODE_EMPTY => 'Please enter charset'
 		]
 	)]
-	protected string $default_charset = '';
+	protected string $default_charset = 'utf8';
 
 	/**
 	 *
@@ -91,13 +89,12 @@ class DataModel_Backend_MySQL_Config extends DataModel_Backend_Config
 	#[Config_Definition(
 		type: Config::TYPE_STRING,
 		is_required: true,
-		default_value: 'utf8_general_ci',
 		form_field_label: 'Default collate: ',
 		form_field_error_messages: [
 			Form_Field::ERROR_CODE_EMPTY => 'Please enter default collate'
 		]
 	)]
-	protected string $collate = '';
+	protected string $collate = 'utf8_general_ci';
 
 	/**
 	 * @return array

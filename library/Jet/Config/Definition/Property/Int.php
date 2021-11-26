@@ -19,11 +19,6 @@ class Config_Definition_Property_Int extends Config_Definition_Property
 	protected string $_type = Config::TYPE_INT;
 
 	/**
-	 * @var int
-	 */
-	protected $default_value = 0;
-
-	/**
 	 * @var int|null
 	 */
 	protected int|null $min_value = null;

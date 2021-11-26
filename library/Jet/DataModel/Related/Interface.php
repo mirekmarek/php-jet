@@ -33,21 +33,12 @@ interface DataModel_Related_Interface extends DataModel_Interface
 	 */
 	public static function initRelatedByData( array $this_data, array &$related_data, DataModel_PropertyFilter $load_filter = null ): mixed;
 
-	/**
-	 * @return DataModel_Related_Interface|DataModel_Related_1toN_Iterator|DataModel_Related_MtoN_Iterator|null
-	 */
-	public function createNewRelatedDataModelInstance(): DataModel_Related_Interface|DataModel_Related_1toN_Iterator|DataModel_Related_MtoN_Iterator|null;
-
 
 	/**
-	 * @param DataModel_IDController $parent_id
+	 * @param DataModel_IDController|null $main_id
+	 * @param DataModel_IDController|null $parent_id
 	 */
-	public function actualizeParentId( DataModel_IDController $parent_id ): void;
-
-	/**
-	 * @param DataModel_IDController $main_id
-	 */
-	public function actualizeMainId( DataModel_IDController $main_id ): void;
+	public function actualizeRelations( ?DataModel_IDController $main_id=null, ?DataModel_IDController $parent_id=null );
 
 	/**
 	 *
@@ -58,15 +49,5 @@ interface DataModel_Related_Interface extends DataModel_Interface
 	 *
 	 */
 	public function delete(): void;
-
-	/**
-	 *
-	 * @param DataModel_Definition_Property $parent_property_definition
-	 * @param DataModel_PropertyFilter|null $property_filter
-	 *
-	 * @return Form_Field[]
-	 *
-	 */
-	public function getRelatedFormFields( DataModel_Definition_Property $parent_property_definition, DataModel_PropertyFilter $property_filter = null ): array;
 
 }

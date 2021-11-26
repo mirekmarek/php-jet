@@ -194,9 +194,9 @@ abstract class DataModel_Fetch extends BaseObject implements BaseObject_Interfac
 	/**
 	 * @param mixed $item
 	 *
-	 * @return DataModel|DataModel_Related_1toN|DataModel_Related_1to1|DataModel_Related_MtoN|DataModel_IDController
+	 * @return DataModel|DataModel_Related_1toN|DataModel_Related_1to1|DataModel_IDController
 	 */
-	abstract protected function _get( mixed $item ): DataModel|DataModel_Related_1toN|DataModel_Related_1to1|DataModel_Related_MtoN|DataModel_IDController;
+	abstract protected function _get( mixed $item ): DataModel|DataModel_Related_1toN|DataModel_Related_1to1|DataModel_IDController;
 
 	/**
 	 * @param int $offset
@@ -210,11 +210,11 @@ abstract class DataModel_Fetch extends BaseObject implements BaseObject_Interfac
 	}
 
 	/**
-	 * @return DataModel|DataModel_Related_1toN|DataModel_Related_1to1|DataModel_Related_MtoN|DataModel_IDController
+	 * @return DataModel|DataModel_Related_1toN|DataModel_Related_1to1|DataModel_IDController
 	 * @see Iterator
 	 *
 	 */
-	public function current(): DataModel|DataModel_Related_1toN|DataModel_Related_1to1|DataModel_Related_MtoN|DataModel_IDController
+	public function current(): DataModel|DataModel_Related_1toN|DataModel_Related_1to1|DataModel_IDController
 	{
 		$this->_fetch();
 

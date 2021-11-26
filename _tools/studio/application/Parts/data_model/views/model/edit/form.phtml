@@ -23,26 +23,21 @@ echo $form->start();
 echo $form->field( 'model_name' );
 echo $form->field( 'database_table_name' );
 
-if( !($current instanceof DataModel_Definition_Model_Related_MtoN) ):
-	echo $form->field( 'id_controller_class' );
+echo $form->field( 'id_controller_class' );
 
-	if(
-		$current->getIDControllerDefinition() &&
-		($id_controller_options = $current->getIDControllerDefinition()->getOptionsList())
-	):
-		?>
-		<legend><?= Tr::_( 'ID controller options' ) ?></legend>
-		<?php
-		foreach( $id_controller_options as $id_option ) {
-			echo $form->field( '/id_controller_options/' . $id_option );
-		}
-	endif;
-
-	if( $form->fieldExists( 'iterator_class' ) ):
-		echo $form->field( 'iterator_class' );
-	endif;
-
+if(
+	$current->getIDControllerDefinition() &&
+	($id_controller_options = $current->getIDControllerDefinition()->getOptionsList())
+):
+	?>
+	<legend><?= Tr::_( 'ID controller options' ) ?></legend>
+	<?php
+	foreach( $id_controller_options as $id_option ) {
+		echo $form->field( '/id_controller_options/' . $id_option );
+	}
 endif;
+
+
 
 
 if( $form->fieldExists( 'default_order_by' ) ):

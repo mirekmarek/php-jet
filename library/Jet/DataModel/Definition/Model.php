@@ -192,12 +192,6 @@ abstract class DataModel_Definition_Model extends BaseObject
 		$this->id_controller_class = $this->getClassArgument( 'id_controller_class' );
 
 		if( !$this->id_controller_class ) {
-			if( $this->class_reflection->isSubclassOf( DataModel_Related_MtoN::class ) ) {
-				$this->id_controller_class = DataModel_IDController_Passive::class;
-
-				return;
-			}
-
 			throw new DataModel_Exception(
 				'DataModel \'' . $this->class_name . '\' does not have ID controller class name! Please define attribute #[DataModel_Definition(id_controller_class: SomeClass:class)] ',
 				DataModel_Exception::CODE_DEFINITION_NONSENSE

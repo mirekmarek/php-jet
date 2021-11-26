@@ -187,7 +187,7 @@ class Menus_Menu extends Navigation_Menu
 			$this->getItem( $item_id )->setIndex( $i );
 		}
 
-		$this->sortItems();
+		//$this->sortItems();
 
 		return true;
 	}
@@ -227,7 +227,7 @@ class Menus_Menu extends Navigation_Menu
 
 		unset( $this->items[$id] );
 
-		$this->sortItems();
+		//$this->sortItems();
 	}
 
 	/**

@@ -6,11 +6,9 @@ use Jet\Auth_User_Interface;
 use Jet\DataModel;
 use Jet\DataModel_Definition;
 use Jet\DataModel_IDController_AutoIncrement;
-use Jet\DataModel_Related_MtoN_Iterator;
 use Jet\Form;
 use Jet\Form_Field_Input;
 use Jet\Form_Field_MultiSelect;
-use Jet\Form_Field_RegistrationPassword;
 use Jet\Form_Field_Select;
 use Jet\Data_DateTime;
 use Jet\Locale;
@@ -135,7 +133,6 @@ class Auth_Visitor_User extends DataModel implements Auth_User_Interface
 	 */
 	#[DataModel_Definition(
 		type: DataModel::TYPE_BOOL,
-		default_value: true,
 		form_field_label: 'Password is valid'
 	)]
 	protected bool $password_is_valid = true;
@@ -145,7 +142,6 @@ class Auth_Visitor_User extends DataModel implements Auth_User_Interface
 	 */
 	#[DataModel_Definition(
 		type: DataModel::TYPE_DATE_TIME,
-		default_value: null,
 		form_field_label: 'Password is valid till',
 		form_field_error_messages: [
 			Form_Field_Input::ERROR_CODE_INVALID_FORMAT => 'Invalid date format'
@@ -158,7 +154,6 @@ class Auth_Visitor_User extends DataModel implements Auth_User_Interface
 	 */
 	#[DataModel_Definition(
 		type: DataModel::TYPE_BOOL,
-		default_value: false,
 		form_field_label: 'User is blocked'
 	)]
 	protected bool $user_is_blocked = false;
@@ -168,7 +163,6 @@ class Auth_Visitor_User extends DataModel implements Auth_User_Interface
 	 */
 	#[DataModel_Definition(
 		type: DataModel::TYPE_DATE_TIME,
-		default_value: null,
 		form_field_label: 'User is blocked till',
 		form_field_error_messages: [
 			Form_Field_Input::ERROR_CODE_INVALID_FORMAT => 'Invalid date format'
@@ -181,7 +175,6 @@ class Auth_Visitor_User extends DataModel implements Auth_User_Interface
 	 */
 	#[DataModel_Definition(
 		type: DataModel::TYPE_BOOL,
-		default_value: true,
 		form_field_label: 'User is activated'
 	)]
 	protected bool $user_is_activated = true;
@@ -191,19 +184,18 @@ class Auth_Visitor_User extends DataModel implements Auth_User_Interface
 	 */
 	#[DataModel_Definition(
 		type: DataModel::TYPE_STRING,
-		default_value: '',
 		form_field_type: false
 	)]
 	protected string $user_activation_key = '';
 
 	/**
-	 * @var Auth_Visitor_User_Roles|DataModel_Related_MtoN_Iterator|Auth_Visitor_Role[]
+	 * @var Auth_Visitor_User_Roles[]
 	 */
 	#[DataModel_Definition(
 		type: DataModel::TYPE_DATA_MODEL,
 		data_model_class: Auth_Visitor_User_Roles::class
 	)]
-	protected $roles;
+	protected array $roles = [];
 
 	/**
 	 * @var ?Form
@@ -609,7 +601,16 @@ class Auth_Visitor_User extends DataModel implements Auth_User_Interface
 	 */
 	public function getRoles(): array
 	{
-		return $this->roles;
+		$roles = [];
+
+		foreach($this->roles as $r) {
+			$role = $r->getRole();
+			if($role) {
+				$roles[$role->getId()] = $role;
+			}
+		}
+
+		return $roles;
 	}
 
 	/**
@@ -617,7 +618,12 @@ class Auth_Visitor_User extends DataModel implements Auth_User_Interface
 	 */
 	public function setRoles( array $role_ids ): void
 	{
-		$roles = [];
+		foreach($this->roles as $r) {
+			if(!in_array($r->getRoleId(), $role_ids)) {
+				$r->delete();
+				unset($this->roles[$r->getRoleId()]);
+			}
+		}
 
 		foreach( $role_ids as $role_id ) {
 
@@ -626,9 +632,16 @@ class Auth_Visitor_User extends DataModel implements Auth_User_Interface
 			if( !$role ) {
 				continue;
 			}
-			$roles[] = $role;
+
+			if(!isset($this->roles[$role->getId()])) {
+				$new_item = new Auth_Visitor_User_Roles();
+				$new_item->setUserId($this->getId());
+				$new_item->setRoleId($role->getId());
+
+				$this->roles[$role->getId()] = $new_item;
+				$new_item->save();
+			}
 		}
-		$this->roles->setItems( $roles );
 
 	}
 
@@ -639,13 +652,7 @@ class Auth_Visitor_User extends DataModel implements Auth_User_Interface
 	 */
 	public function hasRole( int|string $role_id ): bool
 	{
-		foreach( $this->roles as $role ) {
-			if( $role->getId() == $role_id ) {
-				return true;
-			}
-		}
-
-		return false;
+		return isset($this->roles[$role_id]);
 	}
 
 	/**
@@ -656,9 +663,8 @@ class Auth_Visitor_User extends DataModel implements Auth_User_Interface
 	 */
 	public function hasPrivilege( string $privilege, mixed $value=null ): bool
 	{
-
 		foreach( $this->roles as $role ) {
-			if( $role->hasPrivilege( $privilege, $value ) ) {
+			if( $role->getRole()?->hasPrivilege( $privilege, $value ) ) {
 				return true;
 			}
 		}
@@ -676,7 +682,7 @@ class Auth_Visitor_User extends DataModel implements Auth_User_Interface
 		$result = [];
 		foreach( $this->roles as $role ) {
 			$result = array_merge(
-				$role->getPrivilegeValues( $privilege ), $result
+				$role->getRole()->getPrivilegeValues( $privilege ), $result
 			);
 		}
 
@@ -829,7 +835,7 @@ class Auth_Visitor_User extends DataModel implements Auth_User_Interface
 
 		$form = $this->getCommonForm();
 
-		$roles = new Form_Field_MultiSelect( 'roles', 'Roles', $this->roles );
+		$roles = new Form_Field_MultiSelect( 'roles', 'Roles', array_keys($this->roles) );
 		$roles->setSelectOptions( Auth_Visitor_Role::getList() );
 		$roles->setCatcher( function( $value ) {
 			$this->setRoles( $value );

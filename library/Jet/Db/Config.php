@@ -25,14 +25,11 @@ class Db_Config extends Config
 		type: Config::TYPE_STRING,
 		description: 'Connection name default value for Db::get() / Db::getConnection()',
 		is_required: true,
-		default_value: 'default',
 		form_field_type: Form::TYPE_SELECT,
 		form_field_get_select_options_callback: [
 			'Db_Config',
 			'getConnectionsList'
-		]
-	)]
-	#[Config_Definition(
+		],
 		form_field_error_messages: [
 			Form_Field::ERROR_CODE_EMPTY => 'Please select default connection',
 			Form_Field_MultiSelect::ERROR_CODE_INVALID_VALUE => 'Please select default connection'

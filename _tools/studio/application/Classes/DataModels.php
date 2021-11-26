@@ -37,7 +37,6 @@ class DataModels extends BaseObject implements Application_Part
 
 	const MODEL_TYPE_RELATED_1TON = 'Related_1toN';
 	const MODEL_TYPE_RELATED_1TO1 = 'Related_1to1';
-	const MODEL_TYPE_RELATED_MTON = 'Related_MtoN';
 
 
 	/**
@@ -46,7 +45,6 @@ class DataModels extends BaseObject implements Application_Part
 	protected static array $types = [
 		self::MODEL_TYPE_RELATED_1TON => 'Related DataModel 1toN',
 		self::MODEL_TYPE_RELATED_1TO1 => 'Related DataModel 1to1',
-		self::MODEL_TYPE_RELATED_MTON => 'Related DataModel MtoN',
 
 	];
 
@@ -259,9 +257,9 @@ class DataModels extends BaseObject implements Application_Part
 	}
 
 	/**
-	 * @return DataModel_Definition_Model_Main|DataModel_Definition_Model_Related_1to1|DataModel_Definition_Model_Related_1toN|DataModel_Definition_Model_Related_MtoN|null
+	 * @return DataModel_Definition_Model_Main|DataModel_Definition_Model_Related_1to1|DataModel_Definition_Model_Related_1toN|null
 	 */
-	public static function getCurrentModel() : DataModel_Definition_Model_Main|DataModel_Definition_Model_Related_1to1|DataModel_Definition_Model_Related_1toN|DataModel_Definition_Model_Related_MtoN|null
+	public static function getCurrentModel() : DataModel_Definition_Model_Main|DataModel_Definition_Model_Related_1to1|DataModel_Definition_Model_Related_1toN|null
 	{
 		$class = static::getCurrentClass();
 		if( !$class ) {

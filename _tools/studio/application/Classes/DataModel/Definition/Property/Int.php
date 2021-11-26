@@ -10,7 +10,6 @@ namespace JetStudio;
 
 use Jet\DataModel_Definition_Property_Int as Jet_DataModel_Definition_Property_Int;
 use Jet\Form_Field;
-use Jet\Form_Field_Int;
 
 /**
  *
@@ -25,13 +24,6 @@ class DataModel_Definition_Property_Int extends Jet_DataModel_Definition_Propert
 	 */
 	public function getEditFormCustomFields( array &$fields ): void
 	{
-		$default_value_field = new Form_Field_Int( 'default_value', 'Default value', $this->getDefaultValue() );
-		$default_value_field->setCatcher( function( $value ) {
-			$this->default_value = $value;
-		} );
-
-
-		$fields[$default_value_field->getName()] = $default_value_field;
 	}
 
 
@@ -40,9 +32,14 @@ class DataModel_Definition_Property_Int extends Jet_DataModel_Definition_Propert
 	 */
 	public function showEditFormFields(): void
 	{
-		$form = $this->getEditForm();
+	}
 
-		echo $form->field( 'default_value' );
+	/**
+	 * @return mixed
+	 */
+	public function getDefaultValue() : mixed
+	{
+		return 0;
 	}
 
 	/**

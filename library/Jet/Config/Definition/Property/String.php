@@ -19,11 +19,6 @@ class Config_Definition_Property_String extends Config_Definition_Property
 	protected string $_type = Config::TYPE_STRING;
 
 	/**
-	 * @var string
-	 */
-	protected $default_value = '';
-
-	/**
 	 * @var string|null
 	 */
 	protected string|null $validation_regexp = null;

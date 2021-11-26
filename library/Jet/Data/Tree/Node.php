@@ -56,7 +56,7 @@ class Data_Tree_Node extends BaseObject implements BaseObject_Interface_Iterator
 	 *
 	 * @var mixed
 	 */
-	protected $data;
+	protected mixed $data;
 
 
 	/**
