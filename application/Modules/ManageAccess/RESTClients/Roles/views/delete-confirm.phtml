@@ -16,21 +16,28 @@ $router = $this->getController()->getControllerRouter();
 $role = $this->getRaw( 'role' );
 ?>
 
-<div class="row">
-	<div class="col-md-12" id="main-col">
+<div class="col d-flex justify-content-center">
 
-		<?= UI::button_goBack() ?>
+	<div class="card" style="margin-top:50px;">
+		<div class="card-body">
+			<p>
+				<?= Tr::_( 'Do you really want to delete this role?' ); ?>
+				<br/>
+				<a href="<?= $router->action( 'edit' )->URI( $role->getId() ); ?>"
+				   style="font-weight: bolder;font-size: 20px;"><?= $role->getName(); ?> (<?= $role->getId(); ?>)</a>
+			</p>
 
-		<p>
-			<?= Tr::_( 'Do you really want to delete this role?' ); ?>
-			<br/>
-			<a href="<?= $router->action( 'edit' )->URI( $role->getId() ); ?>"
-			   style="font-weight: bolder;font-size: 20px;"><?= $role->getName(); ?> (<?= $role->getId(); ?>)</a>
-		</p>
 
-		<form action="<?= Http_Request::currentURI() ?>" method="post">
-			<input type="hidden" name="delete" value="yes">
-			<?= UI::button_delete()->setType( 'submit' ) ?>
-		</form>
+			<div style="display: inline-block;width: 50%">
+				<?= UI::button_goBack() ?>
+			</div>
+			<div style="display: inline-block;width: 45%;text-align: right">
+				<form action="<?= Http_Request::currentURI() ?>" method="post">
+					<input type="hidden" name="delete" value="yes">
+					<?= UI::button_delete()->setType( 'submit' ) ?>
+				</form>
+			</div>
+		</div>
 	</div>
 </div>
+

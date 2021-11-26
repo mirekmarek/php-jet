@@ -17,20 +17,26 @@ $router = $this->getController()->getControllerRouter();
 
 ?>
 
-<div class="row">
-	<div class="col-md-12" id="main-col">
+<div class="col d-flex justify-content-center">
 
-		<?= UI::button_goBack() ?>
-		<p>
-			<?= Tr::_( 'Do you really want to delete this user?' ); ?>
-			<br/>
-			<a href="<?= $router->action( 'edit' )->URI( $user->getId() ); ?>"
-			   style="font-weight: bolder;font-size: 20px;"><?= $user->getName(); ?> (<?= $user->getUsername(); ?>)</a>
-		</p>
+	<div class="card" style="margin-top:50px;">
+		<div class="card-body">
+			<p>
+				<?= Tr::_( 'Do you really want to delete this user?' ); ?>
+				<br/>
+				<a href="<?= $router->action( 'edit' )->URI( $user->getId() ); ?>"
+				   style="font-weight: bolder;font-size: 20px;"><?= $user->getName(); ?> (<?= $user->getUsername(); ?>)</a>
+			</p>
 
-		<form action="<?= Http_Request::currentURI() ?>" method="post">
-			<input type="hidden" name="delete" value="yes">
-			<?= UI::button_delete()->setType( 'submit' ) ?>
-		</form>
+			<div style="display: inline-block;width: 50%">
+				<?= UI::button_goBack() ?>
+			</div>
+			<div style="display: inline-block;width: 45%;text-align: right">
+				<form action="<?= Http_Request::currentURI() ?>" method="post">
+					<input type="hidden" name="delete" value="yes">
+					<?= UI::button_delete()->setType( 'submit' ) ?>
+				</form>
+			</div>
+		</div>
 	</div>
 </div>
