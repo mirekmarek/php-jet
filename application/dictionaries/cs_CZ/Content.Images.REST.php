@@ -21,7 +21,7 @@ return [
 	'Unknown parent' => 'Neznámý rodič',
 	'Select image' => 'Vybrat obrázek',
 	'Dialog - Select image' => 'Dialog - výběr obrázku',
-	'File is too large' => '',
+	'File is too large' => 'Soubor je příliš velký',
 	'Gallery <b>%TITLE%</b> has been created' => 'Galerie <b>%TITLE%</b> byla vytvořena',
 	'Gallery <b>%TITLE%</b> has been updated' => 'Galerie <b>%TITLE%</b> byla uravena',
 	'Gallery <b>%TITLE%</b> has been deleted' => 'Galerie <b>%TITLE%</b> byla smazána',
