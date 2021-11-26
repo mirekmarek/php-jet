@@ -43,8 +43,6 @@ return [
 	'Delete user' => 'Smazat uživatele',
 	'Please enter e-mail address' => 'Prosím zadejte platnou e-mailovou adresu',
 	'Invalid date format' => 'Prosím zadejte platné datum',
-	'- all -' => '',
-	'' => '',
-	' ' => '',
-	'Role:' => '',
+	'- all -' => '- všechny -',
+	'Role:' => 'Role:',
 ];

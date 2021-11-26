@@ -19,7 +19,7 @@ use Jet\DataModel_Related_1toN;
 #[DataModel_Definition(
 	name: 'users_roles',
 	database_table_name: 'users_rest_clients_roles',
-	parent_model_class: Auth_RESTClient_Role::class,
+	parent_model_class: Auth_RESTClient_User::class,
 	id_controller_class: DataModel_IDController_Passive::class
 )]
 class Auth_RESTClient_User_Roles extends DataModel_Related_1toN

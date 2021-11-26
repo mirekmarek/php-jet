@@ -129,7 +129,7 @@ class Listing extends Data_Listing
 	{
 		if( $this->role ) {
 			$this->filter_addWhere( [
-				'role.id' => $this->role,
+				'users_roles.role_id' => $this->role,
 			] );
 		}
 	}
