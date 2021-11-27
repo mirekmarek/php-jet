@@ -13,7 +13,7 @@ use ReflectionClass;
 /**
  *
  */
-class DataModel_Definition_Model_Related extends DataModel_Definition_Model
+abstract class DataModel_Definition_Model_Related extends DataModel_Definition_Model
 {
 
 

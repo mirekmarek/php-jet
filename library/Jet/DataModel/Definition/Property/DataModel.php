@@ -200,12 +200,12 @@ class DataModel_Definition_Property_DataModel extends DataModel_Definition_Prope
 	}
 
 	/**
-	 * @return DataModel_Definition_Model_Related
+	 * @return DataModel_Definition_Model_Related_1to1|DataModel_Definition_Model_Related_1toN
 	 */
-	public function getValueDataModelDefinition() : DataModel_Definition_Model_Related
+	public function getValueDataModelDefinition() : DataModel_Definition_Model_Related_1to1|DataModel_Definition_Model_Related_1toN
 	{
 		/**
-		 * @var DataModel_Definition_Model_Related $definition
+		 * @var DataModel_Definition_Model_Related_1to1|DataModel_Definition_Model_Related_1toN $definition
 		 */
 		/** @noinspection PhpUnnecessaryLocalVariableInspection */
 		$definition = DataModel::getDataModelDefinition( $this->getValueDataModelClass() );
