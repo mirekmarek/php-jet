@@ -8,7 +8,7 @@
 
 namespace JetApplicationModule\Test\REST;
 
-use JetApplication\Application_Web;
+use JetApplication\Content_Gallery;
 
 
 /**
@@ -46,7 +46,7 @@ class Test_Gallery_PutInvalid extends Test_Abstract
 				]
 		];
 
-		foreach( Application_Web::getBase()->getLocales() as $locale_str => $locale ) {
+		foreach( Content_Gallery::getLocales() as $locale_str => $locale ) {
 			$data['localized'][$locale_str] = [
 				'title' => ''
 			];

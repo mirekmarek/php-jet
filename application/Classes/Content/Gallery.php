@@ -238,8 +238,7 @@ class Content_Gallery extends DataModel
 	 */
 	public function afterLoad(): void
 	{
-
-		foreach( Application_Web::getBase()->getLocales() as $lc_str => $locale ) {
+		foreach( static::getLocales() as $lc_str => $locale ) {
 
 			if( !isset( $this->localized[$lc_str] ) ) {
 
@@ -251,6 +250,13 @@ class Content_Gallery extends DataModel
 
 	}
 
+	/**
+	 * @return Locale[]
+	 */
+	public static function getLocales() : array
+	{
+		return Application_Web::getBase()->getLocales();
+	}
 
 	/**
 	 * @return string

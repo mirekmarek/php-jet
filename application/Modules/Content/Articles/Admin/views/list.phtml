@@ -11,7 +11,6 @@ use Jet\UI;
 use Jet\Tr;
 use Jet\Locale;
 use Jet\MVC_View;
-use JetApplication\Application_Web;
 
 /**
  * @var MVC_View $this
@@ -41,7 +40,7 @@ $grid->getColumn( '_edit_' )
 $grid->getColumn( 'title' )
 	->setRenderer(
 		function( Content_Article $item ) use ( $router ) {
-			foreach( Application_Web::getBase()->getLocales() as $locale ):
+			foreach( Content_Article::getLocales() as $locale ):
 				$URI = $router->action( 'edit' )->URI( $item->getId() );
 				$title = $item->getLocalized( $locale )->getTitle();
 
