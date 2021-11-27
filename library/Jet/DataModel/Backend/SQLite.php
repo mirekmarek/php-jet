@@ -923,36 +923,6 @@ class DataModel_Backend_SQLite extends DataModel_Backend
 	/**
 	 * @param DataModel_Query $query
 	 *
-	 * @return mixed
-	 */
-	public function fetchAll( DataModel_Query $query ): mixed
-	{
-		return $this->_fetch( $query, 'fetchAll' );
-	}
-
-	/**
-	 * @param DataModel_Query $query
-	 * @param string $fetch_method
-	 *
-	 * @return mixed
-	 */
-	protected function _fetch( DataModel_Query $query, string $fetch_method ): mixed
-	{
-
-		$data = $this->getDb()->$fetch_method(
-			$this->createSelectQuery( $query )
-		);
-
-		if( !is_array( $data ) ) {
-			return $data;
-		}
-
-		return $this->validateResultData( $query, $fetch_method, $data );
-	}
-
-	/**
-	 * @param DataModel_Query $query
-	 *
 	 * @return string
 	 */
 	public function createSelectQuery( DataModel_Query $query ): string
@@ -1075,6 +1045,36 @@ class DataModel_Backend_SQLite extends DataModel_Backend
 		}
 
 		return $limit_qp;
+	}
+
+	/**
+	 * @param DataModel_Query $query
+	 * @param string $fetch_method
+	 *
+	 * @return mixed
+	 */
+	protected function _fetch( DataModel_Query $query, string $fetch_method ): mixed
+	{
+
+		$data = $this->getDb()->$fetch_method(
+			$this->createSelectQuery( $query )
+		);
+
+		if( !is_array( $data ) ) {
+			return $data;
+		}
+
+		return $this->validateResultData( $query, $fetch_method, $data );
+	}
+
+	/**
+	 * @param DataModel_Query $query
+	 *
+	 * @return mixed
+	 */
+	public function fetchAll( DataModel_Query $query ): mixed
+	{
+		return $this->_fetch( $query, 'fetchAll' );
 	}
 
 	/**
