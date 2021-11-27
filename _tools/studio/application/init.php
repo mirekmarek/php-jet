@@ -7,6 +7,7 @@
  */
 namespace JetStudio;
 
+use Jet\DataModel;
 use Jet\Factory_Application;
 use Jet\Config;
 use Jet\Factory_DataModel;
@@ -51,8 +52,33 @@ SysConf_Path::setConfig( ProjectConf_Path::getConfig() );
 
 Project::setApplicationNamespace('JetApplication');
 
-Factory_DataModel::setPropertyDefinitionClassNamePrefix(__NAMESPACE__.'\DataModel_Definition_Property_');
-Factory_DataModel::setModelDefinitionClassNamePrefix(__NAMESPACE__.'\DataModel_Definition_Model_');
+$property_definition_class_names = [
+	DataModel::TYPE_ID               => DataModel_Definition_Property_Id::class,
+	DataModel::TYPE_ID_AUTOINCREMENT => DataModel_Definition_Property_IdAutoIncrement::class,
+	DataModel::TYPE_STRING           => DataModel_Definition_Property_String::class,
+	DataModel::TYPE_BOOL             => DataModel_Definition_Property_Bool::class,
+	DataModel::TYPE_INT              => DataModel_Definition_Property_Int::class,
+	DataModel::TYPE_FLOAT            => DataModel_Definition_Property_Float::class,
+	DataModel::TYPE_LOCALE           => DataModel_Definition_Property_Locale::class,
+	DataModel::TYPE_DATE             => DataModel_Definition_Property_Date::class,
+	DataModel::TYPE_DATE_TIME        => DataModel_Definition_Property_DateTime::class,
+	DataModel::TYPE_CUSTOM_DATA      => DataModel_Definition_Property_CustomData::class,
+	DataModel::TYPE_DATA_MODEL       => DataModel_Definition_Property_DataModel::class,
+];
+foreach($property_definition_class_names as $type=>$class_name) {
+	Factory_DataModel::setPropertyDefinitionClassName($type, $class_name);
+}
+
+$model_definition_class_names = [
+	'Main'         => DataModel_Definition_Model_Main::class,
+	'Related_1to1' => DataModel_Definition_Model_Related_1to1::class,
+	'Related_1toN' => DataModel_Definition_Model_Related_1to1::class,
+];
+
+foreach($model_definition_class_names as $type=>$class_name) {
+	Factory_DataModel::setModelDefinitionClassName($type, $class_name);
+}
+
 Factory_MVC::setBaseClassName( Bases_Base::class );
 Factory_MVC::setPageClassName( Pages_Page::class );
 Factory_MVC::setPageContentClassName( Pages_Page_Content::class );

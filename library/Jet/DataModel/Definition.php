@@ -39,27 +39,18 @@ class DataModel_Definition extends BaseObject
 	 */
 	public static function get( string $class_name ): DataModel_Definition_Model_Main|DataModel_Definition_Model_Related_1to1|DataModel_Definition_Model_Related_1toN
 	{
+		if( !isset( static::$__definitions[$class_name] ) ) {
+			/**
+			 * @var DataModel $class_name
+			 */
+			$type = $class_name::dataModelDefinitionType();
 
-
-		if( isset( static::$__definitions[$class_name] ) ) {
-			return static::$__definitions[$class_name];
+			static::$__definitions[$class_name] = Factory_DataModel::getModelDefinitionInstance( $type, $class_name );
+			static::$__definitions[$class_name]->init();
 		}
 
 
-
-		/**
-		 * @var DataModel $class_name
-		 */
-		$name_suffix = $class_name::dataModelDefinitionFactoryClassName();
-
-		$definition_class_name = Factory_DataModel::getModelDefinitionClassNamePrefix().$name_suffix;
-
-		$definition = new $definition_class_name( $class_name );
-
-		static::$__definitions[$class_name] = $definition;
-		$definition->init();
-
-		return $definition;
+		return static::$__definitions[$class_name];
 
 	}
 

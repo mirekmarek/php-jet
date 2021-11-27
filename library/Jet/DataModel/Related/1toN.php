@@ -29,7 +29,7 @@ abstract class DataModel_Related_1toN extends DataModel_Related
 	/**
 	 * @return string
 	 */
-	public static function dataModelDefinitionFactoryClassName(): string
+	public static function dataModelDefinitionType(): string
 	{
 		return 'Related_1toN';
 	}

@@ -14,55 +14,62 @@ namespace Jet;
 class Factory_DataModel
 {
 
-	/**
-	 * @var string
-	 */
-	protected static string $backend_class_name_prefix = __NAMESPACE__ . '\DataModel_Backend_';
+	protected static array $backend_class_names = [
+		'MySQL'  => DataModel_Backend_MySQL::class,
+		'SQLite' => DataModel_Backend_SQLite::class,
+	];
+
+	protected static array $backend_config_class_names = [
+		'MySQL'  => DataModel_Backend_MySQL_Config::class,
+		'SQLite' => DataModel_Backend_SQLite_Config::class,
+	];
+
+	protected static array $model_definition_class_names = [
+		'Main'         => DataModel_Definition_Model_Main::class,
+		'Related_1to1' => DataModel_Definition_Model_Related_1to1::class,
+		'Related_1toN' => DataModel_Definition_Model_Related_1to1::class,
+	];
+
+	protected static array $property_definition_class_names = [
+		DataModel::TYPE_ID               => DataModel_Definition_Property_Id::class,
+		DataModel::TYPE_ID_AUTOINCREMENT => DataModel_Definition_Property_IdAutoIncrement::class,
+		DataModel::TYPE_STRING           => DataModel_Definition_Property_String::class,
+		DataModel::TYPE_BOOL             => DataModel_Definition_Property_Bool::class,
+		DataModel::TYPE_INT              => DataModel_Definition_Property_Int::class,
+		DataModel::TYPE_FLOAT            => DataModel_Definition_Property_Float::class,
+		DataModel::TYPE_LOCALE           => DataModel_Definition_Property_Locale::class,
+		DataModel::TYPE_DATE             => DataModel_Definition_Property_Date::class,
+		DataModel::TYPE_DATE_TIME        => DataModel_Definition_Property_DateTime::class,
+		DataModel::TYPE_CUSTOM_DATA      => DataModel_Definition_Property_CustomData::class,
+		DataModel::TYPE_DATA_MODEL       => DataModel_Definition_Property_DataModel::class,
+	];
+
 
 	/**
-	 * @var string
-	 */
-	protected static string $model_definition_class_name_prefix = __NAMESPACE__ . '\DataModel_Definition_Model_';
-
-
-	/**
-	 * @var string
-	 */
-	protected static string $property_definition_class_name_prefix = __NAMESPACE__ . '\DataModel_Definition_Property_';
-
-	/**
+	 * @param string $type
 	 * @return string
+	 * @throws DataModel_Exception
 	 */
-	public static function getModelDefinitionClassNamePrefix(): string
+	public static function getPropertyDefinitionClassName( string $type ) : string
 	{
-		return self::$model_definition_class_name_prefix;
+		if(!isset(static::$property_definition_class_names[$type])) {
+			throw new DataModel_Exception(
+				'Unknown property type \''.$type.'\'',
+				DataModel_Exception::CODE_DEFINITION_NONSENSE
+			);
+		}
+
+		return static::$property_definition_class_names[$type];
 	}
 
 	/**
-	 * @param string $model_definition_class_name_prefix
+	 * @param string $type
+	 * @param string $class_name
 	 */
-	public static function setModelDefinitionClassNamePrefix( string $model_definition_class_name_prefix )
+	public static function setPropertyDefinitionClassName( string $type, string $class_name ) : void
 	{
-		self::$model_definition_class_name_prefix = $model_definition_class_name_prefix;
+		static::$property_definition_class_names[$type] = $class_name;
 	}
-
-
-	/**
-	 * @return string
-	 */
-	public static function getPropertyDefinitionClassNamePrefix(): string
-	{
-		return static::$property_definition_class_name_prefix;
-	}
-
-	/**
-	 * @param string $property_definition_class_name_prefix
-	 */
-	public static function setPropertyDefinitionClassNamePrefix( string $property_definition_class_name_prefix )
-	{
-		static::$property_definition_class_name_prefix = $property_definition_class_name_prefix;
-	}
-
 
 	/**
 	 *
@@ -88,25 +95,78 @@ class Factory_DataModel
 
 		}
 
-		$class_name = static::getPropertyDefinitionClassNamePrefix() . $definition_data['type'];
+		$class_name = static::getPropertyDefinitionClassName( $definition_data['type'] );
 
 		return new $class_name( $data_model_class_name, $name, $definition_data );
 	}
 
+
+
 	/**
+	 * @param string $type
 	 * @return string
+	 * @throws DataModel_Exception
 	 */
-	public static function getBackendClassNamePrefix(): string
+	public static function getModelDefinitionClassName( string $type ) : string
 	{
-		return static::$backend_class_name_prefix;
+		if(!isset(static::$model_definition_class_names[$type])) {
+			throw new DataModel_Exception(
+				'Unknown model type \''.$type.'\'',
+				DataModel_Exception::CODE_DEFINITION_NONSENSE
+			);
+		}
+
+		return static::$model_definition_class_names[$type];
 	}
 
 	/**
-	 * @param string $backend_class_name_prefix
+	 * @param string $type
+	 * @param string $class_name
 	 */
-	public static function setBackendClassNamePrefix( string $backend_class_name_prefix ): void
+	public static function setModelDefinitionClassName( string $type, string $class_name ) : void
 	{
-		static::$backend_class_name_prefix = $backend_class_name_prefix;
+		static::$model_definition_class_names[$type] = $class_name;
+	}
+
+
+	/**
+	 * @param string $type
+	 * @param string $class_name
+	 *
+	 * @return DataModel_Definition_Model|DataModel_Definition_Model_Related
+	 * @throws DataModel_Exception
+	 */
+	public static function getModelDefinitionInstance( string $type, string $class_name ) : DataModel_Definition_Model|DataModel_Definition_Model_Related
+	{
+		$cn = static::getModelDefinitionClassName( $type );
+
+		return new $cn( $class_name );
+	}
+
+
+	/**
+	 * @param string $type
+	 * @return string
+	 */
+	public static function getBackendConfigClassName( string $type ) : string
+	{
+		if(!isset(static::$backend_config_class_names[$type])) {
+			throw new DataModel_Exception(
+				'Unknown backend type \''.$type.'\'',
+				DataModel_Exception::CODE_DEFINITION_NONSENSE
+			);
+		}
+
+		return static::$backend_config_class_names[$type];
+	}
+
+	/**
+	 * @param string $type
+	 * @param string $class_name
+	 */
+	public static function setBackendConfigClassName( string $type, string $class_name ) : void
+	{
+		static::$backend_config_class_names[$type] = $class_name;
 	}
 
 	/**
@@ -118,10 +178,37 @@ class Factory_DataModel
 	 */
 	public static function getBackendConfigInstance( string $type, array $data = [] ): DataModel_Backend_Config
 	{
-		$class_name = static::getBackendClassNamePrefix() . $type . '_Config';
+		$class_name = static::getBackendConfigClassName( $type );
 
 		return new $class_name( $data );
 	}
+
+
+	/**
+	 * @param string $type
+	 * @return string
+	 */
+	public static function getBackendClassName( string $type ) : string
+	{
+		if(!isset(static::$backend_class_names[$type])) {
+			throw new DataModel_Exception(
+				'Unknown backend type \''.$type.'\'',
+				DataModel_Exception::CODE_DEFINITION_NONSENSE
+			);
+		}
+
+		return static::$backend_class_names[$type];
+	}
+
+	/**
+	 * @param string $type
+	 * @param string $class_name
+	 */
+	public static function setBackendClassName( string $type, string $class_name ) : void
+	{
+		static::$backend_class_names[$type] = $class_name;
+	}
+
 
 	/**
 	 * Returns instance of DataModel Backend class
@@ -133,7 +220,7 @@ class Factory_DataModel
 	 */
 	public static function getBackendInstance( string $type, DataModel_Backend_Config $backend_config ): DataModel_Backend
 	{
-		$class_name = static::getBackendClassNamePrefix() . $type;
+		$class_name = static::getBackendClassName( $type );
 
 		return new $class_name( $backend_config );
 	}

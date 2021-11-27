@@ -32,7 +32,7 @@ trait DataModel_Trait_Definition
 	/**
 	 * @return string
 	 */
-	public static function dataModelDefinitionFactoryClassName(): string
+	public static function dataModelDefinitionType(): string
 	{
 		return 'Main';
 	}
