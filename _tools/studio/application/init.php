@@ -72,7 +72,7 @@ foreach($property_definition_class_names as $type=>$class_name) {
 $model_definition_class_names = [
 	'Main'         => DataModel_Definition_Model_Main::class,
 	'Related_1to1' => DataModel_Definition_Model_Related_1to1::class,
-	'Related_1toN' => DataModel_Definition_Model_Related_1to1::class,
+	'Related_1toN' => DataModel_Definition_Model_Related_1toN::class,
 ];
 
 foreach($model_definition_class_names as $type=>$class_name) {

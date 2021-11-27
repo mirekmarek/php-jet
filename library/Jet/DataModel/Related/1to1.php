@@ -34,7 +34,7 @@ abstract class DataModel_Related_1to1 extends DataModel_Related
 	                                         ?DataModel_PropertyFilter $load_filter = null ): array
 	{
 		/**
-		 * @var DataModel_Definition_Model_Related_1toN $definition
+		 * @var DataModel_Definition_Model_Related_1to1 $definition
 		 * @var DataModel $this
 		 */
 		$definition = static::getDataModelDefinition();

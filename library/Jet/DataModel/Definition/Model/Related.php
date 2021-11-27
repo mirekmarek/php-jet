@@ -45,11 +45,6 @@ abstract class DataModel_Definition_Model_Related extends DataModel_Definition_M
 	 */
 	protected array $parent_model_relation_id_properties = [];
 
-	/**
-	 * @var array
-	 */
-	protected array $default_order_by = [];
-
 
 	/**
 	 *
@@ -59,8 +54,6 @@ abstract class DataModel_Definition_Model_Related extends DataModel_Definition_M
 		$this->_initParents();
 		$this->_initProperties();
 		$this->_initKeys();
-
-		$this->default_order_by = $this->getClassArgument( 'default_order_by', [] );
 
 		if( !$this->id_properties ) {
 			throw new DataModel_Exception(
@@ -313,29 +306,13 @@ abstract class DataModel_Definition_Model_Related extends DataModel_Definition_M
 
 	/**
 	 *
-	 * @return DataModel_Definition_Model_Related_1to1|DataModel_Definition_Model_Related_1toN
+	 * @return DataModel_Definition_Model_Related
 	 */
-	public function getParentModelDefinition(): DataModel_Definition_Model_Related_1to1|DataModel_Definition_Model_Related_1toN
+	public function getParentModelDefinition(): DataModel_Definition_Model_Related
 	{
 		return DataModel_Definition::get( $this->parent_model_class );
 	}
 
-
-	/**
-	 * @return array
-	 */
-	public function getDefaultOrderBy(): array
-	{
-		return $this->default_order_by;
-	}
-
-	/**
-	 * @param array $default_order_by
-	 */
-	public function setDefaultOrderBy( array $default_order_by ): void
-	{
-		$this->default_order_by = $default_order_by;
-	}
 
 	/**
 	 * @param string $property_name

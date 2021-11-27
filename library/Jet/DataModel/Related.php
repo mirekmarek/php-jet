@@ -40,7 +40,7 @@ abstract class DataModel_Related extends DataModel
 	public function actualizeRelations( ?DataModel_IDController $main_id=null, ?DataModel_IDController $parent_id=null ): void
 	{
 		/**
-		 * @var DataModel_Definition_Model_Related_1to1|DataModel_Definition_Model_Related_1toN $definition
+		 * @var DataModel_Definition_Model_Related $definition
 		 */
 		$definition = static::getDataModelDefinition();
 
