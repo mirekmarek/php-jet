@@ -32,6 +32,14 @@ abstract class DataModel_Related extends DataModel
 	 */
 	abstract static function initRelatedByData( array $this_data, array &$related_data, DataModel_PropertyFilter $load_filter = null ): mixed;
 
+	/**
+	 * @return string
+	 */
+	public static function dataModelDefinitionType(): string
+	{
+		return 'Related';
+	}
+
 
 	/**
 	 * @param DataModel_IDController|null $main_id
@@ -102,7 +110,5 @@ abstract class DataModel_Related extends DataModel
 				}
 			}
 		}
-
 	}
-
 }
