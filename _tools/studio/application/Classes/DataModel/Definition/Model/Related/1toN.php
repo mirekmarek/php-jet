@@ -156,4 +156,49 @@ class DataModel_Definition_Model_Related_1toN extends Jet_DataModel_Definition_M
 	}
 
 
+	/**
+	 * @param ClassCreator_Class $class
+	 */
+	public function createClass_methods( ClassCreator_Class $class ): void
+	{
+		$id_property_name = '';
+		foreach( $this->getProperties() as $property ) {
+			if(
+				$property->getIsId() &&
+				!$property->getRelatedToClassName()
+			) {
+				$id_property_name = $property->getName();
+				break;
+			}
+		}
+
+		$s_g_method_name = '';
+
+		$get_array_key_value = $class->createMethod( 'getArrayKeyValue' );
+		$get_array_key_value->setReturnType('string');
+
+		if($id_property_name) {
+			$get_array_key_value->line( 1, 'return $this->'.$id_property_name.';' );
+		} else {
+			$get_array_key_value->line( 1, '//TODO: implement ...' );
+			$get_array_key_value->line( 1, 'return \'\';' );
+		}
+
+
+		foreach( $this->getProperties() as $property ) {
+			if(
+				$property->isInherited() &&
+				!$property->isOverload()
+			) {
+				continue;
+			}
+
+			$property->createClassMethods( $class );
+		}
+
+		if( ($id_controller_definition = $this->getIDControllerDefinition()) ) {
+			$id_controller_definition->createClassMethods( $class );
+		}
+	}
+
 }

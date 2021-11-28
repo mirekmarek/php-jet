@@ -340,9 +340,7 @@ trait DataModel_Definition_Model_Trait
 	 */
 	public function createClass_methods( ClassCreator_Class $class ): void
 	{
-		$model = $this;
-
-		foreach( $model->getProperties() as $property ) {
+		foreach( $this->getProperties() as $property ) {
 			if(
 				$property->isInherited() &&
 				!$property->isOverload()
