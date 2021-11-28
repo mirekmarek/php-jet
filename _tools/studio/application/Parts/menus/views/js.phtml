@@ -36,6 +36,7 @@ namespace JetStudio;
 			generateId: function (name) {
 				$.ajax({
 					url: '<?=Menus::getActionUrl( 'menu/generate_id', [], false )?>&name=' + encodeURIComponent(name),
+					dataType: 'json',
 					success: function (result) {
 						$('#create_menu_form__id').val(result.id);
 					}
@@ -60,6 +61,7 @@ namespace JetStudio;
 			generateId: function (name) {
 				$.ajax({
 					url: '<?=Menus::getActionUrl( 'item/generate_id', [], false )?>&name=' + encodeURIComponent(name),
+					dataType: 'json',
 					success: function (result) {
 						$('#create_menu_item_form__id').val(result.id);
 					}

@@ -21,6 +21,7 @@ namespace JetStudio;
 			generateId: function (name) {
 				$.ajax({
 					url: '<?=Pages::getActionUrl( 'generate_id', [], false )?>&name=' + encodeURIComponent(name),
+					dataType: 'json',
 					success: function (result) {
 						$('#page_create_form__id').val(result.id);
 					}
@@ -63,6 +64,7 @@ namespace JetStudio;
 
 					$.ajax({
 						url: '<?=Pages::getActionUrl( 'get_module_controller_actions', [], false )?>&module=' + encodeURIComponent(module_name.val()) + '&controller=' + encodeURIComponent(controller),
+						dataType: 'json',
 						success: function (result) {
 
 							$.each(result.actions, function (name) {

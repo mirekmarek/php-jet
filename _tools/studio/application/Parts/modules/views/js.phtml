@@ -20,6 +20,7 @@ use Jet\Http_Request;
 
 					$.ajax({
 						url: '<?=Modules::getActionUrl( 'page/generate_id' )?>&name=' + encodeURIComponent(name) + '&base_id=' + encodeURIComponent(base_id),
+						dataType: 'json',
 						success: function (result) {
 							$('#add_page_form__page_id').val(result.id);
 						}
@@ -87,6 +88,7 @@ use Jet\Http_Request;
 				generateId: function (name) {
 					$.ajax({
 						url: '<?=Modules::getActionUrl( 'menu_item/generate_id' )?>&name=' + encodeURIComponent(name),
+						dataType: 'json',
 						success: function (result) {
 							$('#create_menu_item_form__id').val(result.id);
 						}
@@ -134,6 +136,7 @@ use Jet\Http_Request;
 			generateId: function (name) {
 				$.ajax({
 					url: '<?=Modules::getActionUrl( 'page/generate_id' )?>&name=' + encodeURIComponent(name),
+					dataType: 'json',
 					success: function (result) {
 						$('#page_create_form__id').val(result.id);
 					}
@@ -154,6 +157,7 @@ use Jet\Http_Request;
 
 					$.ajax({
 						url: '<?=Modules::getActionUrl( 'page/get_module_controllers' )?>&module=' + encodeURIComponent(module_name),
+						dataType: 'json',
 						success: function (result) {
 							$.each(result.controllers, function (name) {
 								controllers.append($('<option></option>').attr('value', name).text(name));
@@ -175,6 +179,7 @@ use Jet\Http_Request;
 
 					$.ajax({
 						url: '<?=Modules::getActionUrl( 'page/get_module_controller_actions' )?>&module=' + encodeURIComponent(module_name.val()) + '&controller=' + encodeURIComponent(controller),
+						dataType: 'json',
 						success: function (result) {
 
 							$.each(result.actions, function (name) {

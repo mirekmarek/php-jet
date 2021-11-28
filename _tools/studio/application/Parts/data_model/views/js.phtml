@@ -25,11 +25,15 @@ namespace JetStudio;
 				class_name = class_name.replace(' ', '_');
 				form.class_name.value = class_name;
 
-				$.ajax(
-					'<?=DataModels::getActionUrl( 'model/generate/script_path' )?>&namespace=' + encodeURIComponent(namespace) + '&class_name=' + class_name
-				).done(function (data) {
-					form.script_path.value = data.path;
+				$.ajax({
+					url: '<?=DataModels::getActionUrl( 'model/generate/script_path' )?>&namespace=' + encodeURIComponent(namespace) + '&class_name=' + class_name,
+					dataType: 'json',
+					success: function (data) {
+						form.script_path.value = data.path;
+						$('#base_create_form__id').val(result.id);
+					}
 				});
+
 
 			},
 

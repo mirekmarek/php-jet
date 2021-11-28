@@ -22,6 +22,7 @@ namespace JetStudio;
 			generateId: function (name) {
 				$.ajax({
 					url: '<?=Bases::getActionUrl( 'generate_id', [], false )?>&name=' + encodeURIComponent(name),
+					dataType: 'json',
 					success: function (result) {
 						$('#base_create_form__id').val(result.id);
 					}
