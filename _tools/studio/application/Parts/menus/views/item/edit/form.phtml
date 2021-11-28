@@ -26,7 +26,7 @@ $form->setDefaultFieldWidth( [
 $tabs = UI::tabsJS( 'create_menu_item_target_tabs', [
 	'tab_direct_mvc'  => Tr::_( 'MVC link' ),
 	'tab_direct_link' => Tr::_( 'Direct link' ),
-] );
+], $item->getUrl() ? 'tab_direct_link' : 'tab_direct_mvc' );
 
 
 ?>

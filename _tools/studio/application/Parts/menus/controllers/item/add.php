@@ -18,9 +18,7 @@ if( !$set || !$menu ) {
 	die();
 }
 
-if(
-($new_item = Menus_Menu_Item::catchCreateForm())
-) {
+if( ($new_item = Menus_Menu_Item::catchCreateForm()) ) {
 
 	$menu->addMenuItem( $new_item );
 

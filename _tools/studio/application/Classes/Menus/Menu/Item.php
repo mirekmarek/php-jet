@@ -452,4 +452,33 @@ class Menus_Menu_Item extends Navigation_Menu_Item
 		return $menu_item;
 	}
 
+
+
+
+	/**
+	 * @return string
+	 */
+	public function getLabel(): string
+	{
+		return $this->label;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getIcon(): string
+	{
+		return $this->icon;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getUrl(): string
+	{
+		return $this->URL ? : '';
+	}
+
+
+
 }
