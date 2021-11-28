@@ -38,20 +38,21 @@ $c_edit->setCssStyle( 'width:200px;' );
 
 $grid->getColumn( '%<ID_PROPERTY>%' )->setCssStyle( 'width:120px;' );
 
-$grid->getColumn( '%<NAME_PROPERTY>%' )->setRenderer(
-	function( %<DATA_MODEL_CLASS_ALIAS>% $item ) use ( $router ) {
-		$edit_uri = $router->action('edit')->URI( $item->%<ITEM_ID_GETTER>%() );
-		?>
-		<a href="<?=$edit_uri;?>"><?=$item->%<ITEM_NAME_GETTER>%();?></a>
-		<?php
-	}
-);
-
 $grid->getColumn( '%<ID_PROPERTY>%' )->setRenderer(
 	function( %<DATA_MODEL_CLASS_ALIAS>% $item ) use ( $router ) {
 		$edit_uri = $router->action('edit')->URI( $item->%<ITEM_ID_GETTER>%() );
 		?>
 		<a href="<?=$edit_uri;?>"><?=$item->%<ITEM_ID_GETTER>%();?></a>
+		<?php
+	}
+);
+
+
+$grid->getColumn( '%<NAME_PROPERTY>%' )->setRenderer(
+	function( %<DATA_MODEL_CLASS_ALIAS>% $item ) use ( $router ) {
+		$edit_uri = $router->action('edit')->URI( $item->%<ITEM_ID_GETTER>%() );
+		?>
+		<a href="<?=$edit_uri;?>"><?=$item->%<ITEM_NAME_GETTER>%();?></a>
 		<?php
 	}
 );

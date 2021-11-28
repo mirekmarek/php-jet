@@ -289,19 +289,13 @@ class Wizard extends ModuleWizard
 
 			if(
 				$property->getType() != DataModel::TYPE_DATA_MODEL &&
-				$property->getType() != DataModel::TYPE_CUSTOM_DATA
+				$property->getType() != DataModel::TYPE_CUSTOM_DATA &&
+				$property->getType() != DataModel::TYPE_ID &&
+				$property->getType() != DataModel::TYPE_ID_AUTOINCREMENT
 			) {
 				$name_properties[$property->getName()] = $property->getName();
 			}
 
-			/*
-			if(
-				$property->getType()!=DataModel::TYPE_DATA_MODEL &&
-				$property->getType()!=DataModel::TYPE_CUSTOM_DATA
-			) {
-				$grid_properties[$property->getName()] = $property->getName();
-			}
-			*/
 		}
 
 
