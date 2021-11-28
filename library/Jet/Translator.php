@@ -44,7 +44,7 @@ class Translator extends BaseObject
 	public static function getBackend(): Translator_Backend
 	{
 		if( static::$backend === null ) {
-			static::$backend = new Translator_Backend_Default();
+			static::$backend = Factory_Translator::getDefaultBackendInstance();
 
 			if(SysConf_Jet_Translator::getAutoAppendUnknownPhrase()) {
 				register_shutdown_function( [

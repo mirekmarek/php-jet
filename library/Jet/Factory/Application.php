@@ -19,6 +19,10 @@ class Factory_Application
 	 */
 	protected static string $module_manifest_class_name = Application_Module_Manifest::class;
 
+	/**
+	 * @var string
+	 */
+	protected static string $default_handler_class_name = Application_Modules_Handler_Default::class;
 
 	/**
 	 * @return string
@@ -42,6 +46,32 @@ class Factory_Application
 	public static function getModuleManifestInstance(): Application_Module_Manifest
 	{
 		$class_name = static::getModuleManifestClassName();
+
+		return new $class_name();
+	}
+
+	/**
+	 * @return string
+	 */
+	public static function getDefaultHandlerClassName(): string
+	{
+		return self::$default_handler_class_name;
+	}
+
+	/**
+	 * @param string $default_handler_class_name
+	 */
+	public static function setDefaultHandlerClassName( string $default_handler_class_name ): void
+	{
+		self::$default_handler_class_name = $default_handler_class_name;
+	}
+
+	/**
+	 * @return Application_Modules_Handler
+	 */
+	public static function getDefaultHandlerInstance(): Application_Modules_Handler
+	{
+		$class_name = static::getDefaultHandlerClassName();
 
 		return new $class_name();
 	}
