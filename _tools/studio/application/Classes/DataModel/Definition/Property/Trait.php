@@ -940,9 +940,6 @@ trait DataModel_Definition_Property_Trait
 	): ClassCreator_Class_Property
 	{
 		$declared_type = $property_type;
-		if( $data_model_type == 'DataModel::TYPE_DATA_MODEL' ) {
-			$declared_type = '';
-		}
 
 		$property = new ClassCreator_Class_Property( $this->getName(), $property_type, $declared_type );
 

@@ -9,6 +9,6 @@ $form = DataModels::getCurrentKey()->getEditForm();
 <?= UI::button_save()
 	->setOnclick( "$('#" . $form->getId() . "').submit()" )
 ?>
-
+<?=$this->render('model/edit/toolbar/generate')?>
 <?= UI::button_delete()
 	->setOnclick( 'DataModel.key.delete.openDialog()' ); ?>

@@ -10,8 +10,8 @@ $form = DataModels::getCurrentRelation()->getEditForm();
 <?= UI::button_save()
 	->setOnclick( "$('#" . $form->getId() . "').submit()" )
 ?>
-
-	<?php if( DataModels::getCurrentRelation() ): ?>
+<?=$this->render('model/edit/toolbar/generate')?>
+<?php if( DataModels::getCurrentRelation() ): ?>
 	<?= UI::button_delete()
 		->setOnclick( 'DataModel.relation.delete.openDialog()' ) ?>
 <?php endif; ?>

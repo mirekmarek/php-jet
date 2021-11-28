@@ -306,9 +306,9 @@ abstract class DataModel_Definition_Model_Related extends DataModel_Definition_M
 
 	/**
 	 *
-	 * @return DataModel_Definition_Model_Related
+	 * @return DataModel_Definition_Model_Related|DataModel_Definition_Model_Main
 	 */
-	public function getParentModelDefinition(): DataModel_Definition_Model_Related
+	public function getParentModelDefinition(): DataModel_Definition_Model_Related|DataModel_Definition_Model_Main
 	{
 		return DataModel_Definition::get( $this->parent_model_class );
 	}

@@ -2,6 +2,7 @@
 
 namespace JetStudio;
 
+use Jet\DataModel_Definition_Model_Related;
 use Jet\Form;
 use Jet\Tr;
 use Jet\UI;
@@ -17,6 +18,27 @@ $form->setDefaultFieldWidth( [
 	Form::LJ_SIZE_MEDIUM => 10
 ] );
 
+if($current instanceof DataModel_Definition_Model_Related):
+	$main = $current->getMainModelDefinition();
+	$parent = $current->getParentModelDefinition();
+	?>
+<div class="card">
+	<div class="card-body">
+		<table>
+			<tr>
+				<td><?=Tr::_('Main DataModel:')?></td>
+				<td><a href="?class=<?=$main->getClassName()?>"><?=$main->getClassName()?> (<?=$main->getModelName()?>)</a></td>
+			</tr>
+			<tr>
+				<td><?=Tr::_('Parent DataModel:')?></td>
+				<td><a href="?class=<?=$parent->getClassName()?>"><?=$parent->getClassName()?> (<?=$parent->getModelName()?>)</a></td>
+			</tr>
+		</table>
+	</div>
+</div>
+<br>
+<?php
+endif;
 
 echo $form->start();
 

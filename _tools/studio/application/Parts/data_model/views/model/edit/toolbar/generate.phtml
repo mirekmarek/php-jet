@@ -1,0 +1,35 @@
+<?php
+namespace JetStudio;
+
+use Jet\Tr;
+
+if( !DataModels::getCurrentModel() ) {
+	return;
+}
+
+$class = DataModels::getCurrentModel()->createClass();
+
+$errors = [];
+
+if( $class ) {
+	$errors = $class->getErrors();
+}
+?>
+<?php if( $class && !$errors ): ?>
+	<div class="dropdown" style="display: inline-block">
+		<button type="button" class="btn btn-light dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
+		        aria-expanded="false">
+			<?= Tr::_( 'Generate' ) ?>
+		</button>
+		<div class="dropdown-menu" style="padding: 10px;">
+			<a class="dropdown-item"
+			   href="<?= DataModels::getActionUrl( 'model/generate/database_table' ) ?>"><?= Tr::_( 'Database table' ) ?></a>
+			<a class="dropdown-item" href="#"
+			   onclick="DataModel.edit.showSQLCreate();"><?= Tr::_( 'Show SQL - create' ) ?></a>
+			<a class="dropdown-item" href="#"
+			   onclick="DataModel.edit.showSQLUpdate();"><?= Tr::_( 'Show SQL - update' ) ?></a>
+		</div>
+	</div>
+<?php endif; ?>
+
+

@@ -153,7 +153,10 @@ class ClassCreator_Class_Property extends BaseObject
 		$type = $this->type;
 		$declared_type = $this->declared_type;
 
-		if( $this->default_value === null ) {
+		if(
+			$this->default_value === null &&
+			$this->type != 'mixed'
+		) {
 			if( str_contains( $type, '|' ) ) {
 				$type .= '|null';
 
