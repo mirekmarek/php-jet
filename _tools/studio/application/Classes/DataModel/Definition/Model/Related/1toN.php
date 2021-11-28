@@ -172,8 +172,6 @@ class DataModel_Definition_Model_Related_1toN extends Jet_DataModel_Definition_M
 			}
 		}
 
-		$s_g_method_name = '';
-
 		$get_array_key_value = $class->createMethod( 'getArrayKeyValue' );
 		$get_array_key_value->setReturnType('string');
 
