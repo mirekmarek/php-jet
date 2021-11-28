@@ -53,25 +53,25 @@ class Factory_Application
 	/**
 	 * @return string
 	 */
-	public static function getDefaultHandlerClassName(): string
+	public static function getDefaultModuleHandlerClassName(): string
 	{
 		return self::$default_handler_class_name;
 	}
 
 	/**
-	 * @param string $default_handler_class_name
+	 * @param string $class_name
 	 */
-	public static function setDefaultHandlerClassName( string $default_handler_class_name ): void
+	public static function setDefaultModuleHandlerClassName( string $class_name ): void
 	{
-		self::$default_handler_class_name = $default_handler_class_name;
+		self::$default_handler_class_name = $class_name;
 	}
 
 	/**
 	 * @return Application_Modules_Handler
 	 */
-	public static function getDefaultHandlerInstance(): Application_Modules_Handler
+	public static function getDefaultModuleHandlerInstance(): Application_Modules_Handler
 	{
-		$class_name = static::getDefaultHandlerClassName();
+		$class_name = static::getDefaultModuleHandlerClassName();
 
 		return new $class_name();
 	}

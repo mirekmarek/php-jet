@@ -24,11 +24,11 @@ class Factory_Translator
 	}
 
 	/**
-	 * @param string $default_backend_class_name
+	 * @param string $class_name
 	 */
-	public static function setDefaultBackendClassName( string $default_backend_class_name ): void
+	public static function setDefaultBackendClassName( string $class_name ): void
 	{
-		self::$default_backend_class_name = $default_backend_class_name;
+		self::$default_backend_class_name = $class_name;
 	}
 
 	/**

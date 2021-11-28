@@ -25,7 +25,7 @@ class Application_Modules extends BaseObject
 	public static function getHandler(): Application_Modules_Handler
 	{
 		if( !static::$handler ) {
-			static::$handler = Factory_Application::getDefaultHandlerInstance();
+			static::$handler = Factory_Application::getDefaultModuleHandlerInstance();
 		}
 
 		return static::$handler;
