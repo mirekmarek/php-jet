@@ -64,7 +64,7 @@ abstract class MVC_View_Abstract extends BaseObject
 	/**
 	 * @param string $scripts_dir
 	 */
-	protected function setScriptsDir( string $scripts_dir ): void
+	public function setScriptsDir( string $scripts_dir ): void
 	{
 		$this->_scripts_dir = $scripts_dir;
 	}
@@ -84,7 +84,7 @@ abstract class MVC_View_Abstract extends BaseObject
 	 *
 	 * @throws MVC_View_Exception
 	 */
-	protected function setScriptName( string $script_name ): void
+	public function setScriptName( string $script_name ): void
 	{
 		if( str_contains( $script_name, '.' ) ) {
 			throw new MVC_View_Exception( 'Illegal script file name', MVC_View_Exception::CODE_INVALID_VIEW_NAME );
