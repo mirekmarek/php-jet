@@ -99,6 +99,11 @@ interface MVC_Page_Interface
 	public function isInCurrentPath(): bool;
 
 	/**
+	 * @param string $page_id
+	 */
+	public function setParentId( string $page_id ) : void;
+
+	/**
 	 *
 	 * @return static|null
 	 */
