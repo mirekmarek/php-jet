@@ -98,7 +98,7 @@ class Form_Field_FileImage extends Form_Field_File
 				try {
 					$image = new Data_Image( $path );
 					$image->createThumbnail( $path, $this->maximal_width, $this->maximal_height );
-				} catch( Data_Image_Exception $e ) {
+				} /** @noinspection PhpUnusedLocalVariableInspection */ catch( Data_Image_Exception $e ) {
 					return false;
 				}
 			}

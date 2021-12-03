@@ -67,7 +67,7 @@ trait MVC_Page_Trait_URL
 			$_path_fragments = $path_fragments;
 			$path_fragments = [];
 			$p = '';
-			foreach( $_path_fragments as $i => $p ) {
+			foreach( $_path_fragments as $p ) {
 				if( !$p ) {
 					continue;
 				}

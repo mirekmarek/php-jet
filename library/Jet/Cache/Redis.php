@@ -79,7 +79,7 @@ class Cache_Redis
 			if( !$this->client->connect( $this->host, $this->port ) ) {
 				$ok = false;
 			}
-		} catch( RedisException $e ) {
+		} /** @noinspection PhpUnusedLocalVariableInspection */ catch( RedisException $e ) {
 			$ok = false;
 		}
 

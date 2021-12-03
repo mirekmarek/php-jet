@@ -259,8 +259,6 @@ class MVC_Base extends BaseObject implements MVC_Base_Interface
 
 		$data = require $map[$id];
 
-		$base_data['id'] = $id;
-
 		static::$bases[$id] = static::_createByData( $data );
 
 		return static::$bases[$id];

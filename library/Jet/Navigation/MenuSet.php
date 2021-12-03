@@ -68,7 +68,7 @@ class Navigation_MenuSet extends BaseObject
 	{
 		$files = IO_Dir::getList( SysConf_Path::getMenus(), '*.php', false );
 
-		foreach( $files as $path => $name ) {
+		foreach( $files as $name ) {
 			$name = pathinfo( $name )['filename'];
 			static::get( $name );
 		}

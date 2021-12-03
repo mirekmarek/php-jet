@@ -202,7 +202,6 @@ class MVC_Router extends BaseObject implements MVC_Router_Interface
 		Debug_Profiler::blockStart( 'Seeking for base' );
 		$base_URLs_map = $base_class_name::_getUrlMap();
 
-		$current_base_URL = null;
 		$founded_url = null;
 
 		foreach( $base_URLs_map as $URL => $d ) {
@@ -320,7 +319,7 @@ class MVC_Router extends BaseObject implements MVC_Router_Interface
 		$page_id = MVC::HOMEPAGE_ID;
 
 
-		foreach( $relative_URIs as $i => $URI ) {
+		foreach( $relative_URIs as $URI ) {
 
 			if( !isset( $map[$URI] ) ) {
 				continue;

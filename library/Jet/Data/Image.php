@@ -229,8 +229,6 @@ class Data_Image extends BaseObject
 			$new_height = $this->height;
 		}
 
-
-		$image = null;
 		$image = match ($this->img_type) {
 			self::TYPE_JPG => imagecreatefromjpeg( $this->path ),
 			self::TYPE_GIF => imagecreatefromgif( $this->path ),

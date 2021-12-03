@@ -128,7 +128,7 @@ trait BaseObject_Trait
 			if( is_object( $val ) ) {
 				try {
 					$this->{$key} = clone $val;
-				} catch( Error $e ) {
+				} /** @noinspection PhpUnusedLocalVariableInspection */ catch( Error $e ) {
 				}
 			}
 		}

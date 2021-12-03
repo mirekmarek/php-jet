@@ -256,7 +256,7 @@ trait MVC_Page_Trait_Initialization
 			 */
 			$class_name = Factory_MVC::getPageMetaTagClassName();
 
-			foreach( $data['meta_tags'] as $i => $m_dat ) {
+			foreach( $data['meta_tags'] as $m_dat ) {
 				$this->meta_tags[] = $class_name::_createByData( $this, $m_dat );
 			}
 
@@ -269,7 +269,7 @@ trait MVC_Page_Trait_Initialization
 			 */
 			$class_name = Factory_MVC::getPageContentClassName();
 
-			foreach( $data['contents'] as $i => $c_dat ) {
+			foreach( $data['contents'] as $c_dat ) {
 				$this->content[] = $class_name::_createByData( $this, $c_dat );
 			}
 

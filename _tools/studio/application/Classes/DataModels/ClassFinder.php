@@ -10,6 +10,8 @@ namespace JetStudio;
 
 use Jet\DataModel;
 use Jet\DataModel_Exception;
+use Jet\DataModel_Related_1to1;
+use Jet\DataModel_Related_1toN;
 use Jet\IO_File;
 use Jet\IO_Dir;
 use ReflectionClass;
@@ -38,9 +40,9 @@ class DataModels_ClassFinder
 	 * @var string[]
 	 */
 	protected array $parent_classes = [
-		'Jet\DataModel',
-		'Jet\DataModel_Related_1to1',
-		'Jet\DataModel_Related_1toN',
+		DataModel::class,
+		DataModel_Related_1to1::class,
+		DataModel_Related_1toN::class
 	];
 
 	/**

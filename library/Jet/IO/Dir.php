@@ -193,7 +193,6 @@ class IO_Dir
 	public static function remove( string $dir_path ): void
 	{
 
-		$e = null;
 		$dh = opendir( $dir_path );
 
 		if( $dh === false ) {

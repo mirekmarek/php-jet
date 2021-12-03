@@ -401,11 +401,6 @@ class Data_Tree extends BaseObject implements BaseObject_Interface_IteratorCount
 	{
 		$this->__parent_map = [];
 
-		/**
-		 * @var array $root_item
-		 */
-		$root_item = null;
-
 		$ids = [];
 
 		foreach( $items as $item ) {
