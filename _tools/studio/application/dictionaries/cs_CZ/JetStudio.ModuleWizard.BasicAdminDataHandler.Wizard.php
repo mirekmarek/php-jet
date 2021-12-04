@@ -67,4 +67,6 @@ return [
 	'Create' => 'Vytvořit',
 	'Update event:' => 'Událost úprava:',
 	'Update event - message:' => 'Událost úprava - zpráva:',
+	'Invalid module name format' => 'Neplatný formát názvu modulu',
+	'Module with the same name already exists' => 'Modul se stejným jménem již existuje',
 ];

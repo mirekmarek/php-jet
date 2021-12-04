@@ -134,4 +134,6 @@ return [
 	'Module <b>%module%</b> has been installed' => '',
 	'Activate' => '',
 	'Module <b>%module%</b> has been activated' => '',
+	'Invalid module name format' => '',
+	'Module with the same name already exists' => '',
 ];

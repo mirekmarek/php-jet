@@ -46,5 +46,6 @@ return [
 	'Please select target menu' => 'Prosím zvolte cílové menu',
 	'Menu' => 'Menu',
 	'Please select base' => 'Prosím vyberte bázi',
-	'There are some problems ... Please check the form.' => '',
+	'There are some problems ... Please check the form.' => 'Něco nesedí ... Prosím překontrolujte formulář.',
+	'Please enter menu item label' => 'Prosím zadejte popis položky menu',
 ];

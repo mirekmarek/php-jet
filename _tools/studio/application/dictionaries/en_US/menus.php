@@ -51,4 +51,5 @@ return [
 	'Menu item <b>%name%</b> has been deleted' => '',
 	'Items:' => '',
 	'Please select base' => '',
+	'Please enter menu item label' => '',
 ];

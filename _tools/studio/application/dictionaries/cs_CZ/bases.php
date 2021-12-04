@@ -44,4 +44,6 @@ return [
 	'URL conflicts with base <b>%base_name%</b> <b>%locale%</b>' => 'URL koliduje s bází <b>%base_name%</b> <b>%locale%</b>',
 	'Locale is not active' => 'Lokalizace není aktuální',
 	'Parameters:' => 'Parametry:',
+	'Invalid URL format' => 'Neplatný formát URL',
+	'Please enter at least one URL' => 'Prosím zadejte alespoň jednu URL',
 ];

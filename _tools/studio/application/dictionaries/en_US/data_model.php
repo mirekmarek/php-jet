@@ -171,4 +171,8 @@ return [
 	'Class <strong>%class%</strong> has been created' => '',
 	'Main DataModel:' => '',
 	'Parent DataModel:' => '',
+	'Property with the same name already exists' => '',
+	'DataModel with the same class name already exists' => '',
+	'Invalid key name format' => '',
+	'Key with the same name already exists' => '',
 ];
