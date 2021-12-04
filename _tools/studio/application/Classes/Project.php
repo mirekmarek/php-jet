@@ -11,7 +11,6 @@ namespace JetStudio;
 use Jet\BaseObject;
 use Jet\MVC;
 use Jet\Locale;
-use Jet\Form_Field_Input;
 use Jet\Data_Text;
 use Jet\Form_Field;
 
@@ -132,35 +131,23 @@ class Project extends BaseObject implements Application_Part
 
 	/**
 	 * @param Form_Field $field
-	 * @param Form_Field_Input|null $class_name_field
 	 *
 	 * @return bool
 	 */
-	public static function validateMethodName( Form_Field $field, Form_Field_Input $class_name_field = null ): bool
+	public static function validateMethodName( Form_Field $field ): bool
 	{
-		if( !$field->getIsRequired() ) {
-			return true;
-		}
-
-
 		$method_name = $field->getValue();
 
-		if(
-		!$method_name
-		) {
-			$field->setError( Form_Field::ERROR_CODE_EMPTY );
-			$class_name_field?->setCustomError( $field->getErrorMessage( Form_Field::ERROR_CODE_EMPTY ) );
-			return false;
-		}
+		if($method_name) {
+			if(
+				!preg_match( '/^([a-zA-Z1-9_]{3,})$/', $method_name ) ||
+				str_contains( $method_name, '__' )
+			) {
+				$field->setError( Form_Field::ERROR_CODE_INVALID_FORMAT );
 
-		if(
-			!preg_match( '/^([a-zA-Z1-9_]{3,})$/', $method_name ) ||
-			str_contains( $method_name, '__' )
-		) {
-			$field->setError( Form_Field::ERROR_CODE_INVALID_FORMAT );
-			$class_name_field?->setCustomError( $field->getErrorMessage( Form_Field::ERROR_CODE_INVALID_FORMAT ) );
+				return false;
+			}
 
-			return false;
 		}
 
 		return true;

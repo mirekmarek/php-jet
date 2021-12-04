@@ -98,6 +98,9 @@ trait DataModel_Definition_Property_Trait
 	}
 
 
+
+
+
 	/**
 	 * @return Form
 	 */
@@ -110,7 +113,8 @@ trait DataModel_Definition_Property_Trait
 			$name_field->setIsRequired( true );
 			$name_field->setErrorMessages( [
 				Form_Field_Input::ERROR_CODE_EMPTY          => 'Please enter property name',
-				Form_Field_Input::ERROR_CODE_INVALID_FORMAT => 'Invalid property name format'
+				Form_Field_Input::ERROR_CODE_INVALID_FORMAT => 'Invalid property name format',
+				'property_is_not_unique' => 'Property with the same name already exists',
 			] );
 			$name_field->setCatcher( function( $value ) {
 				//$this->name = $value;
@@ -188,27 +192,10 @@ trait DataModel_Definition_Property_Trait
 				$form->field( 'type' )->setIsReadonly( true );
 			}
 
-			if(
-			$this->isInherited()
-			) {
+			if( $this->isInherited() ) {
 				if( !$this->isOverload() ) {
-					/*
-					foreach( $form->getFields() as $field ) {
-						$field->setIsReadonly( true );
-					}
-					*/
 					$form->setIsReadonly();
 				}
-
-				/*
-				$overload_field = new Form_Field_Checkbox('overload', 'Overload this property', $this->isOverload());
-				$overload_field->setCatcher( function($value) {
-					$this->setOverload( $value );
-				} );
-
-				$form->addField( $overload_field );
-				*/
-
 			}
 
 			$form->setAction( DataModels::getActionUrl( 'property/edit' ) );
@@ -340,6 +327,17 @@ trait DataModel_Definition_Property_Trait
 			$this->setFormSetterName( $value );
 		} );
 
+		$fields[$form_field_creator_method_name_filed->getName()] = $form_field_creator_method_name_filed;
+		$fields[$form_field_type_field->getName()] = $form_field_type_field;
+		$fields[$form_field_is_required_filed->getName()] = $form_field_is_required_filed;
+		$fields[$form_field_label_filed->getName()] = $form_field_label_filed;
+		$fields[$form_field_validation_regexp_filed->getName()] = $form_field_validation_regexp_filed;
+		$fields[$form_field_min_value_filed->getName()] = $form_field_min_value_filed;
+		$fields[$form_field_max_value_filed->getName()] = $form_field_max_value_filed;
+		$fields[$form_setter_name_filed->getName()] = $form_setter_name_filed;
+		$fields[$form_field_get_select_options_callback_filed_class_name->getName()] = $form_field_get_select_options_callback_filed_class_name;
+		$fields[$form_field_get_select_options_callback_filed_method->getName()] = $form_field_get_select_options_callback_filed_method;
+
 
 		/**
 		 * @var Form_Field_Input[] $form_error_message_fields
@@ -347,10 +345,13 @@ trait DataModel_Definition_Property_Trait
 		$form_error_message_fields = [];
 
 		$current_messages = $this->getFormFieldErrorMessages();
+
 		foreach( DataModel_Definition_Property::getFormErrorCodes() as $code => $ec_data ) {
 			$default_value = '';
 			if( $current_messages && isset( $current_messages[$code] ) ) {
 				$default_value = $current_messages[$code];
+
+				unset($current_messages[$code]);
 			}
 
 			$form_error_message_fields[$code] = new Form_Field_Input( 'form_field_error_messages/' . $code, $ec_data['label'], $default_value );
@@ -367,21 +368,39 @@ trait DataModel_Definition_Property_Trait
 		}
 
 
-		$fields[$form_field_creator_method_name_filed->getName()] = $form_field_creator_method_name_filed;
-		$fields[$form_field_type_field->getName()] = $form_field_type_field;
-		$fields[$form_field_is_required_filed->getName()] = $form_field_is_required_filed;
-		$fields[$form_field_label_filed->getName()] = $form_field_label_filed;
-		$fields[$form_field_validation_regexp_filed->getName()] = $form_field_validation_regexp_filed;
-		$fields[$form_field_min_value_filed->getName()] = $form_field_min_value_filed;
-		$fields[$form_field_max_value_filed->getName()] = $form_field_max_value_filed;
-		$fields[$form_setter_name_filed->getName()] = $form_setter_name_filed;
-		$fields[$form_field_get_select_options_callback_filed_class_name->getName()] = $form_field_get_select_options_callback_filed_class_name;
-		$fields[$form_field_get_select_options_callback_filed_method->getName()] = $form_field_get_select_options_callback_filed_method;
-
-
 		foreach( DataModel_Definition_Property::getFormErrorCodes() as $code => $ec_data ) {
 			$field = $form_error_message_fields[$code];
 			$fields[$field->getName()] = $field;
+		}
+
+		$custom_count = count($current_messages)+3;
+
+		$c_codes = array_keys($current_messages);
+		$c_messages = array_values($current_messages);
+
+		for($c=1,$i=0;$c<=$custom_count;$c++,$i++) {
+
+			$custom_code_field = new Form_Field_Input( 'form_field_error_messages/custom_code_'.$c , '', $c_codes[$i]??'' );
+			$custom_message_field = new Form_Field_Input( 'form_field_error_messages/custom_message_'.$c , '', $c_messages[$i]??'' );
+
+			$custom_message_field->setCatcher(function( $value ) use ($custom_code_field, $custom_message_field) {
+				$code = $custom_code_field->getValue();
+				$message = $custom_message_field->getValue();
+
+				if($code && $message) {
+					$messages = $this->getFormFieldErrorMessages();
+					if( !$messages || !is_array( $messages ) ) {
+						$messages = [];
+					}
+					$messages[$code] = $message;
+
+					$this->setFormFieldErrorMessages( $messages );
+
+				}
+			});
+
+			$fields[$custom_code_field->getName()] = $custom_code_field;
+			$fields[$custom_message_field->getName()] = $custom_message_field;
 		}
 
 	}
@@ -429,194 +448,6 @@ trait DataModel_Definition_Property_Trait
 		$this->__edit_form = null;
 
 		return $result;
-	}
-
-	/**
-	 *
-	 */
-	public function showEditForm(): void
-	{
-		$form = $this->getEditForm();
-		$form->setDefaultLabelWidth( [Form::LJ_SIZE_MEDIUM => 3] );
-		$form->setDefaultFieldWidth( [Form::LJ_SIZE_MEDIUM => 9] );
-
-		echo $form->start();
-
-		$default_fields = [
-			//'overload',
-
-			'type',
-			'name',
-			'database_column_name',
-
-			'is_id',
-			'is_key',
-			'is_do_not_export',
-
-		];
-
-		foreach( $default_fields as $fn ) {
-			if( !$form->fieldExists( $fn ) ) {
-				continue;
-			}
-
-			echo $form->field( $fn );
-		}
-
-
-		$this->showEditFormFields();
-
-		$this->showEditForm_formFieldDefinition();
-
-
-		echo $form->end();
-	}
-
-	/**
-	 *
-	 */
-	public function showEditForm_formFieldDefinition(): void
-	{
-		if( $this->getRelatedToClassName() ) {
-			return;
-		}
-
-		$form = $this->getEditForm();
-
-
-		if( $this->getType() == DataModel::TYPE_DATA_MODEL ) {
-
-			$related_model = DataModels::getClass( $this->getDataModelClass() );
-
-			if( $related_model ) {
-				echo '<legend>' . Tr::_( 'Form definition' ) . '</legend>';
-
-				$type = $form->field( 'form_field_type' );
-				echo $type;
-			}
-
-			return;
-		}
-
-		echo '<legend>' . Tr::_( 'Form field definition' ) . '</legend>';
-
-
-		$fields = [
-			'form_field_type',
-			'form_field_is_required',
-			'form_field_label',
-			'form_field_validation_regexp',
-			'form_field_min_value',
-			'form_field_max_value',
-			'form_field_get_select_options_callback',
-			'form_setter_name',
-			'form_field_creator_method_name',
-		];
-
-		$selected_form_field_type = $form->field( 'form_field_type' )->getValue();
-
-		$ff_types = DataModel_Definition_Property::getFormFieldTypes();
-		$selected_property_data = [
-			'required_options'        => [],
-			'required_error_messages' => [],
-		];
-
-		if( isset( $ff_types[$selected_form_field_type] ) ) {
-			$selected_property_data = $ff_types[$selected_form_field_type];
-		}
-
-		foreach( $fields as $f ) {
-			if( $f == 'form_field_get_select_options_callback' ) {
-				if(
-					!$form->fieldExists( $f . '_class_name' ) ||
-					!$form->fieldExists( $f . '_method' )
-				) {
-					continue;
-				}
-
-				$field_class_name = $form->field( $f . '_class_name' );
-				$field_method = $form->field( $f . '_method' );
-
-				$field_class_name->row()
-					->addCustomCssClass( 'ffd-property-' . $this->getName() )
-					->addCustomCssClass( 'ffd-option-' . $f );
-
-				if( !in_array( $f, $selected_property_data['required_options'] ) ) {
-					$field_class_name->row()->addCustomCssStyle( 'display:none' );
-				}
-
-				?>
-				<?= $field_class_name->row()->start() ?>
-				<?= $field_class_name->label() ?>
-				<?= $field_class_name->error() ?>
-				<div class="col-md-9">
-					<div class="input-group" style="padding-left: 15px;margin-right: 15px;">
-						<span class="input-group-prepend"><span class="input-group-text"> </span></span>
-						<?= $field_class_name->input() ?>
-						<span class="input-group-prepend"><span class="input-group-text">::</span></span>
-						<?= $field_method->input() ?>
-						<span class="input-group-append"><span class="input-group-text">()</span></span>
-					</div>
-				</div>
-				<?= $field_class_name->row()->end() ?>
-				<?php
-
-			}
-
-			if( !$form->fieldExists( $f ) ) {
-				continue;
-			}
-
-			$field = $form->field( $f );
-
-			if(
-				$f == 'form_field_type'
-			) {
-				$field->input()->addJsAction( 'onchange', "DataModel.property.edit.selectFormFieldType('" . $this->getName() . "', this.value)" );
-			} else {
-				$field->row()
-					->addCustomCssClass( 'ffd-property-' . $this->getName() )
-					->addCustomCssClass( 'ffd-option-' . $f );
-
-				if( !in_array( $f, $selected_property_data['required_options'] ) ) {
-					$field->row()->addCustomCssStyle( 'display:none' );
-				}
-			}
-
-			echo $field;
-		}
-
-		echo '<legend>' . Tr::_( 'Form field error messages' ) . '</legend>';
-
-		foreach( DataModel_Definition_Property::getFormErrorCodes() as $code => $ec_data ) {
-			$f = 'form_field_error_messages/' . $code;
-
-			if( !$form->fieldExists( $f ) ) {
-				continue;
-			}
-
-			$field = $form->field( $f );
-
-			$field->row()
-				->addCustomCssClass( 'ffd-em-property-' . $this->getName() )
-				->addCustomCssClass( 'ffd-em-' . $code );
-
-			if( !in_array( $code, $selected_property_data['required_error_messages'] ) ) {
-				$field->row()->addCustomCssStyle( 'display:none' );
-			} else {
-				if( $code == Form_Field_Input::ERROR_CODE_EMPTY ) {
-					if( $this->form_field_is_required ) {
-						$field->setIsRequired( true );
-					}
-				} else {
-					$field->setIsRequired( true );
-				}
-			}
-
-			echo $field;
-		}
-
-
 	}
 
 
@@ -873,6 +704,13 @@ trait DataModel_Definition_Property_Trait
 		$this->form_setter_name = $form_setter_name;
 	}
 
+	/**
+	 * @return bool
+	 */
+	public function getFormFieldIsRequired() : bool
+	{
+		return $this->form_field_is_required;
+	}
 
 	/**
 	 * @param bool $form_field_is_required
@@ -1062,10 +900,14 @@ trait DataModel_Definition_Property_Trait
 					if( !$v ) {
 						unset( $error_messages[$k] );
 					} else {
-						$class->addUse( new ClassCreator_UseClass( 'Jet', $field_class ) );
+						if(!isset($constants[$k])) {
+							$e_msg[$k] = $v;
+						} else {
+							$class->addUse( new ClassCreator_UseClass( 'Jet', $field_class ) );
 
-						$constant = $field_class . '::' . $constants[$k];
-						$e_msg[$constant] = $v;
+							$constant = $field_class . '::' . $constants[$k];
+							$e_msg[$constant] = $v;
+						}
 					}
 				}
 

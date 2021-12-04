@@ -44,9 +44,6 @@ use Jet\Form_Field_RadioButton;
 use Jet\Form_Field_Textarea;
 use Jet\Form_Field_WYSIWYG;
 
-use Jet\Form_Field_RegistrationUsername;
-use Jet\Form_Field_RegistrationEmail;
-use Jet\Form_Field_RegistrationPassword;
 use Jet\Form_Field_Password;
 
 use Jet\Form_Field_File;
@@ -267,73 +264,6 @@ class Controller_Main extends MVC_Controller_Default
 		$wysiwyg_field = new Form_Field_WYSIWYG( 'wysiwyg', 'WYSIWYG' );
 
 
-		$registration_user_name_field = new Form_Field_RegistrationUsername(
-			'registration_user_name_field', 'Registration - username'
-		);
-		$registration_user_name_field->setErrorMessages(
-			[
-				Form_Field_RegistrationUsername::ERROR_CODE_EMPTY               => 'Please enter username',
-				Form_Field_RegistrationUsername::ERROR_CODE_USER_ALREADY_EXISTS => 'Sorry, but username is already used',
-			]
-		);
-		$registration_user_name_field->setUserExistsCheckCallback(
-			function( $user_name ) {
-				return !in_array(
-					$user_name, [
-						'exists1',
-						'exists2',
-						'some username',
-					]
-				);
-			}
-		);
-
-		$registration_email_field = new Form_Field_RegistrationEmail(
-			'registration_email_field', 'Registration - e-mail'
-		);
-		$registration_email_field->setErrorMessages(
-			[
-				Form_Field_RegistrationEmail::ERROR_CODE_EMPTY               => 'Please enter e-mail',
-				Form_Field_RegistrationEmail::ERROR_CODE_INVALID_FORMAT      => 'Please enter e-mail',
-				Form_Field_RegistrationEmail::ERROR_CODE_USER_ALREADY_EXISTS => 'Sorry, but e-mail is already used',
-
-			]
-		);
-		$registration_email_field->setUserExistsCheckCallback(
-			function( $user_name ) {
-				return !in_array(
-					$user_name, [
-						'exists1@domain.tld',
-						'exists2@domain.tld',
-						'some.user.name@domain.tld',
-					]
-				);
-			}
-		);
-
-
-		$registration_password_field = new Form_Field_RegistrationPassword(
-			'registration_password_field', 'Registration - password'
-		);
-		$registration_password_field->setPasswordConfirmationLabel( 'Registration - Confirm password' );
-		$registration_password_field->setPasswordStrengthCheckCallback(
-			function( $password ) {
-				if( $password == 'stupidpassword' ) {
-					return false;
-				}
-
-				return true;
-			}
-		);
-
-		$registration_password_field->setErrorMessages(
-			[
-				Form_Field_RegistrationPassword::ERROR_CODE_EMPTY           => 'Please enter password',
-				Form_Field_RegistrationPassword::ERROR_CODE_CHECK_EMPTY     => 'Please confirm password',
-				Form_Field_RegistrationPassword::ERROR_CODE_CHECK_NOT_MATCH => 'Password does not match the confirm password',
-				Form_Field_RegistrationPassword::ERROR_CODE_WEAK_PASSWORD   => 'Your password is weak. Please enter some better password.',
-			]
-		);
 
 		$password_field = new Form_Field_Password( 'password_field', 'Password' );
 
@@ -459,17 +389,6 @@ class Controller_Main extends MVC_Controller_Default
 				'text_form', [
 					$textarea_field,
 					$wysiwyg_field,
-				]
-			),
-		];
-
-		$forms['registration_form'] = [
-			'title' => Tr::_( 'Registration form' ),
-			'form'  => new Form(
-				'registration_form', [
-					$registration_user_name_field,
-					$registration_email_field,
-					$registration_password_field,
 				]
 			),
 		];

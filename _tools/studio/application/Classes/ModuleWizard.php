@@ -125,7 +125,8 @@ abstract class ModuleWizard extends BaseObject
 		$module_name->setIsRequired( true );
 		$module_name->setErrorMessages( [
 			Form_Field_Input::ERROR_CODE_EMPTY          => 'Please enter module name',
-			Form_Field_Input::ERROR_CODE_INVALID_FORMAT => 'Invalid module name format'
+			Form_Field_Input::ERROR_CODE_INVALID_FORMAT => 'Invalid module name format',
+			'module_name_is_not_unique' => 'Module with the same name already exists',
 		] );
 		$module_name->setValidator( function( Form_Field_Input $field ) {
 			$name = $field->getValue();
@@ -182,7 +183,7 @@ abstract class ModuleWizard extends BaseObject
 	{
 		if( !$this->setup_form ) {
 			$this->setup_form = $this->generateSetupForm();
-			$this->setup_form->setCustomTranslatorNamespace( $this->getTrNamespace() );
+			$this->setup_form->setCustomTranslatorDictionary( $this->getTrNamespace() );
 
 			$this->setup_form->setAction( ModuleWizards::getActionUrl( 'create' ) );
 		}

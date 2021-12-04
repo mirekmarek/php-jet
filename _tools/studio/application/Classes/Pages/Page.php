@@ -23,7 +23,6 @@ use Jet\Form_Field_Checkbox;
 use Jet\Factory_MVC;
 use Jet\MVC_Page_MetaTag_Interface;
 use Jet\SysConf_Jet_MVC;
-use Jet\Tr;
 use Jet\Locale;
 use Jet\MVC_Page_Content_Interface;
 
@@ -108,6 +107,7 @@ class Pages_Page extends MVC_Page
 			$id_field->setErrorMessages( [
 				Form_Field_Input::ERROR_CODE_EMPTY          => 'Please enter page identifier',
 				Form_Field_Input::ERROR_CODE_INVALID_FORMAT => 'Invalid page identifier format',
+				'page_id_is_not_unique'                     => 'Page with the identifier already exists',
 			] );
 			$id_field->setValidator( function( Form_Field_Input $field ) {
 				$id = $field->getValue();
@@ -126,14 +126,8 @@ class Pages_Page extends MVC_Page
 					return false;
 				}
 
-				if(
-				Pages::exists( $id )
-				) {
-					$field->setCustomError(
-						Tr::_( 'Page with the identifier already exists' ),
-						'base_id_is_not_unique'
-					);
-
+				if( Pages::exists( $id ) ) {
+					$field->setError( 'page_id_is_not_unique' );
 					return false;
 				}
 
@@ -288,7 +282,8 @@ class Pages_Page extends MVC_Page
 				} );
 				$relative_path_fragment_field->setIsRequired( true );
 				$relative_path_fragment_field->setErrorMessages( [
-					Form_Field_Input::ERROR_CODE_EMPTY => 'Please enter URL part'
+					Form_Field_Input::ERROR_CODE_EMPTY => 'Please enter URL part',
+					'uri_is_not_unique' => 'URL conflicts with page <b>%page%</b>',
 				] );
 				$relative_path_fragment_field->setValidator( function( Form_Field_Input $field ) use ( $page ) {
 					$value = $field->getValue();
@@ -318,12 +313,9 @@ class Pages_Page extends MVC_Page
 							}
 
 							if( $ch->getRelativePathFragment() == $value ) {
-								$field->setCustomError(
-									Tr::_( 'URL conflicts with page <b>%page%</b>', [
-										'page' => $ch->getName()
-									] ),
-									'uri_is_not_unique'
-								);
+								$field->setError('uri_is_not_unique', [
+									'page' => $ch->getName()
+								]);
 
 								return false;
 							}
@@ -910,7 +902,7 @@ class Pages_Page extends MVC_Page
 
 
 			$output_callback_class = Pages_Page_Content::getField__output_callback_class( '' );
-			$output_callback_method = Pages_Page_Content::getField__output_callback_method( $output_callback_class, '' );
+			$output_callback_method = Pages_Page_Content::getField__output_callback_method( '' );
 
 			$fields = [
 				$content_kind,

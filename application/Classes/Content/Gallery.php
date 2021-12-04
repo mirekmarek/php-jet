@@ -447,6 +447,11 @@ class Content_Gallery extends DataModel
 		if( !$this->_form_edit ) {
 			$this->_form_edit = $this->getCommonForm();
 
+
+			$this->_form_add->getField( 'parent_id' )->setErrorMessages([
+				'unknown_parent' => 'Unknown parent',
+			]);
+
 			$this->_form_edit->getField( 'parent_id' )->setValidator( function( Form_Field_Hidden $field ) {
 
 				$parent_id = $field->getValue();
@@ -455,7 +460,7 @@ class Content_Gallery extends DataModel
 				}
 
 				if( !Content_Gallery::get( $parent_id ) ) {
-					$field->setCustomError( Tr::_( 'Unknown parent' ), 'UNKNOWN_PARENT' );
+					$field->setError('unknown_parent');
 					return false;
 				}
 				return true;
@@ -484,6 +489,11 @@ class Content_Gallery extends DataModel
 		if( !$this->_form_add ) {
 
 			$this->_form_add = $this->getCommonForm();
+
+			$this->_form_add->getField( 'parent_id' )->setErrorMessages([
+				'unknown_parent' => 'Unknown parent',
+			]);
+
 			$this->_form_add->getField( 'parent_id' )->setValidator( function( Form_Field_Hidden $field ) {
 
 				$parent_id = $field->getValue();
@@ -492,7 +502,8 @@ class Content_Gallery extends DataModel
 				}
 
 				if( !Content_Gallery::get( $parent_id ) ) {
-					$field->setCustomError( Tr::_( 'Unknown parent' ), 'UNKNOWN_PARENT' );
+					$field->setError('unknown_parent');
+
 					return false;
 				}
 				return true;

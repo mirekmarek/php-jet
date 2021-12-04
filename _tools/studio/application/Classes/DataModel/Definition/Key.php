@@ -17,7 +17,6 @@ use Jet\Form;
 use Jet\Form_Field_Input;
 use Jet\Form_Field_MultiSelect;
 use Jet\Form_Field_Select;
-use Jet\Tr;
 
 /**
  *
@@ -171,10 +170,7 @@ class DataModel_Definition_Key extends Jet_DataModel_Definition_Key
 				$exists
 			)
 		) {
-			$field->setCustomError(
-				Tr::_( 'Key with the same name already exists' ),
-				'key_is_not_unique'
-			);
+			$field->setError( 'key_is_not_unique' );
 
 			return false;
 		}
@@ -210,6 +206,7 @@ class DataModel_Definition_Key extends Jet_DataModel_Definition_Key
 			$name_field->setErrorMessages( [
 				Form_Field_Input::ERROR_CODE_EMPTY          => 'Please enter key name',
 				Form_Field_Input::ERROR_CODE_INVALID_FORMAT => 'Invalid key name format',
+				'key_is_not_unique'                         => 'Key with the same name already exists',
 			] );
 			$name_field->setValidator( function( Form_Field_Input $field ) {
 				return DataModel_Definition_Key::checkKeyName( $field );
@@ -294,6 +291,7 @@ class DataModel_Definition_Key extends Jet_DataModel_Definition_Key
 			$name_field->setErrorMessages( [
 				Form_Field_Input::ERROR_CODE_EMPTY          => 'Please enter key name',
 				Form_Field_Input::ERROR_CODE_INVALID_FORMAT => 'Invalid key name format',
+				'key_is_not_unique'                         => 'Key with the same name already exists',
 			] );
 			$name_field->setCatcher( function( $value ) {
 				$this->setName( $value );

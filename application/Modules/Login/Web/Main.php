@@ -11,11 +11,9 @@ namespace JetApplicationModule\Login\Web;
 use Jet\Application_Module;
 
 use Jet\Auth;
-
 use Jet\Form;
 use Jet\Form_Field_Input;
 use Jet\Form_Field_Password;
-use Jet\Form_Field_RegistrationPassword;
 
 
 use JetApplication\Auth_Visitor_User as Visitor;
@@ -71,32 +69,39 @@ class Main extends Application_Module
 	 */
 	public function getChangePasswordForm() : Form
 	{
-		$user = new Visitor();
-
 		$current_password = new Form_Field_Password( 'current_password', 'Current password' );
 		$current_password->setIsRequired( true );
 		$current_password->setErrorMessages(
 			[
-				Form_Field_RegistrationPassword::ERROR_CODE_EMPTY => 'Please enter new password',
+				Form_Field_Password::ERROR_CODE_EMPTY => 'Please enter new password',
+
 			]
 		);
 
-		$new_password = new Form_Field_RegistrationPassword( 'password', 'New password' );
-		$new_password->setPasswordConfirmationLabel( 'Confirm new password' );
-
-		$new_password->setPasswordStrengthCheckCallback( [
-			$user,
-			'verifyPasswordStrength'
-		] );
-
+		$new_password = new Form_Field_Password( 'password', 'New password' );
 		$new_password->setIsRequired( true );
 		$new_password->setErrorMessages(
 			[
-				Form_Field_RegistrationPassword::ERROR_CODE_EMPTY           => 'Please enter new password',
-				Form_Field_RegistrationPassword::ERROR_CODE_CHECK_EMPTY     => 'Please confirm new password',
-				Form_Field_RegistrationPassword::ERROR_CODE_CHECK_NOT_MATCH => 'Password confirmation do not match',
-				Form_Field_RegistrationPassword::ERROR_CODE_WEAK_PASSWORD   => 'Password is not strong enough',
+				Form_Field_Password::ERROR_CODE_EMPTY           => 'Please enter new password',
+				Form_Field_Password::ERROR_CODE_WEAK_PASSWORD   => 'Password is not strong enough',
 			]
+		);
+
+		$new_password->setValidator( function( Form_Field_Password $field ) : bool {
+			if(!Visitor::verifyPasswordStrength($field->getValue())) {
+				$field->setError(Form_Field_Password::ERROR_CODE_WEAK_PASSWORD);
+				return false;
+			}
+
+			return true;
+		} );
+
+
+		$new_password_check = $new_password->generateCheckField(
+			field_name: 'password_check',
+			field_label: 'Confirm new password',
+			error_message_empty: 'Please confirm new password',
+			error_message_not_match: 'Password confirmation do not match'
 		);
 
 
@@ -104,9 +109,9 @@ class Main extends Application_Module
 			'change_password', [
 				$current_password,
 				$new_password,
+				$new_password_check,
 			]
 		);
-
 	}
 
 	/**
@@ -114,34 +119,45 @@ class Main extends Application_Module
 	 */
 	public function getMustChangePasswordForm() : Form
 	{
-
-		$password = new Form_Field_RegistrationPassword( 'password', 'New password: ' );
-		$form = new Form(
-			'change_password', [
-				$password,
-			]
-		);
-
-		/**
-		 * @var Visitor $user
-		 */
-		$user = Auth::getCurrentUser();
-		$password->setPasswordStrengthCheckCallback( function( $password ) use ( $user ) {
-			return $user->verifyPasswordStrength( $password );
-		} );
-
+		$password = new Form_Field_Password( 'password', 'New password: ' );
+		$password->setIsRequired( true );
 		$password->setErrorMessages(
 			[
-				Form_Field_RegistrationPassword::ERROR_CODE_EMPTY           => 'Please enter new password',
-				Form_Field_RegistrationPassword::ERROR_CODE_CHECK_EMPTY     => 'Please confirm new password',
-				Form_Field_RegistrationPassword::ERROR_CODE_CHECK_NOT_MATCH => 'Password confirmation do not match',
-				Form_Field_RegistrationPassword::ERROR_CODE_WEAK_PASSWORD   => 'Password is not strong enough',
+				Form_Field_Password::ERROR_CODE_EMPTY           => 'Please enter new password',
+				Form_Field_Password::ERROR_CODE_WEAK_PASSWORD   => 'Password is not strong enough',
+				'current_password_used'                         => 'Please enter <strong>new</strong> password',
 			]
 		);
-		$password->setIsRequired( true );
-		$password->setPasswordConfirmationLabel( 'Confirm new password' );
 
-		return $form;
+		$password->setValidator( function( Form_Field_Password $field ) : bool {
+			if(!Visitor::verifyPasswordStrength($field->getValue())) {
+				$field->setError(Form_Field_Password::ERROR_CODE_WEAK_PASSWORD);
+				return false;
+			}
+
+			if(Auth::getCurrentUser()->verifyPassword($field->getValue())) {
+				$field->setError('current_password_used');
+				return false;
+			}
+
+			return true;
+		} );
+
+
+		$password_check = $password->generateCheckField(
+			field_name: 'password_check',
+			field_label: 'Confirm new password',
+			error_message_empty: 'Please confirm new password',
+			error_message_not_match: 'Password confirmation do not match'
+		);
+
+
+		return new Form(
+			'change_password', [
+				$password,
+				$password_check
+			]
+		);
 	}
 
 

@@ -21,9 +21,6 @@ use Jet\Form_Field_Month;
 use Jet\Form_Field_MultiSelect;
 use Jet\Form_Field_Password;
 use Jet\Form_Field_RadioButton;
-use Jet\Form_Field_RegistrationEmail;
-use Jet\Form_Field_RegistrationPassword;
-use Jet\Form_Field_RegistrationUsername;
 use Jet\Form_Field_Search;
 use Jet\Form_Field_Select;
 use Jet\Form_Field_Checkbox;
@@ -80,18 +77,6 @@ class DataModel_Definition_Property
 		],
 		Form_Field_File::ERROR_CODE_FILE_IS_TOO_LARGE                   => [
 			'label' => Form_Field_File::ERROR_CODE_FILE_IS_TOO_LARGE
-		],
-		Form_Field_RegistrationUsername::ERROR_CODE_USER_ALREADY_EXISTS => [
-			'label' => Form_Field_RegistrationUsername::ERROR_CODE_USER_ALREADY_EXISTS
-		],
-		Form_Field_RegistrationPassword::ERROR_CODE_CHECK_EMPTY         => [
-			'label' => Form_Field_RegistrationPassword::ERROR_CODE_CHECK_EMPTY
-		],
-		Form_Field_RegistrationPassword::ERROR_CODE_CHECK_NOT_MATCH     => [
-			'label' => Form_Field_RegistrationPassword::ERROR_CODE_CHECK_NOT_MATCH
-		],
-		Form_Field_RegistrationPassword::ERROR_CODE_WEAK_PASSWORD       => [
-			'label' => Form_Field_RegistrationPassword::ERROR_CODE_WEAK_PASSWORD
 		]
 	];
 
@@ -453,57 +438,6 @@ class DataModel_Definition_Property
 			],
 		],
 
-
-		Form::TYPE_REGISTRATION_USER_NAME => [
-			'label'                   => Form::TYPE_REGISTRATION_USER_NAME,
-			'type'                    => 'Form::TYPE_REGISTRATION_USER_NAME',
-			'required_options'        => [
-				'form_field_is_required',
-				'form_field_label',
-				'form_setter_name',
-				'form_field_validation_regexp',
-				'form_field_creator_method_name',
-			],
-			'required_error_messages' => [
-				Form_Field_RegistrationUsername::ERROR_CODE_EMPTY,
-				Form_Field_RegistrationUsername::ERROR_CODE_INVALID_FORMAT,
-				Form_Field_RegistrationUsername::ERROR_CODE_USER_ALREADY_EXISTS,
-			],
-		],
-
-		Form::TYPE_REGISTRATION_EMAIL => [
-			'label'                   => Form::TYPE_REGISTRATION_EMAIL,
-			'type'                    => 'Form::TYPE_REGISTRATION_EMAIL',
-			'required_options'        => [
-				'form_field_is_required',
-				'form_field_label',
-				'form_setter_name',
-				'form_field_creator_method_name',
-			],
-			'required_error_messages' => [
-				Form_Field_RegistrationEmail::ERROR_CODE_EMPTY,
-				Form_Field_RegistrationEmail::ERROR_CODE_INVALID_FORMAT,
-				Form_Field_RegistrationEmail::ERROR_CODE_USER_ALREADY_EXISTS,
-			],
-		],
-
-		Form::TYPE_REGISTRATION_PASSWORD => [
-			'label'                   => Form::TYPE_REGISTRATION_PASSWORD,
-			'type'                    => 'Form::TYPE_REGISTRATION_PASSWORD',
-			'required_options'        => [
-				'form_field_is_required',
-				'form_field_label',
-				'form_setter_name',
-				'form_field_creator_method_name',
-			],
-			'required_error_messages' => [
-				Form_Field_RegistrationPassword::ERROR_CODE_EMPTY,
-				Form_Field_RegistrationPassword::ERROR_CODE_CHECK_EMPTY,
-				Form_Field_RegistrationPassword::ERROR_CODE_CHECK_NOT_MATCH,
-				Form_Field_RegistrationPassword::ERROR_CODE_WEAK_PASSWORD,
-			],
-		],
-
 	];
 
 
@@ -601,10 +535,7 @@ class DataModel_Definition_Property
 				$exists
 			)
 		) {
-			$field->setCustomError(
-				Tr::_( 'Property with the same name already exists' ),
-				'property_is_not_unique'
-			);
+			$field->setError( 'property_is_not_unique' );
 
 			return false;
 		}
@@ -625,7 +556,8 @@ class DataModel_Definition_Property
 			$property_name->setIsRequired( true );
 			$property_name->setErrorMessages( [
 				Form_Field_Input::ERROR_CODE_EMPTY          => 'Please enter property name',
-				Form_Field_Input::ERROR_CODE_INVALID_FORMAT => 'Invalid property name format'
+				Form_Field_Input::ERROR_CODE_INVALID_FORMAT => 'Invalid property name format',
+				'property_is_not_unique' => 'Property with the same name already exists',
 			] );
 			$property_name->setValidator( function( Form_Field_Input $field ) {
 				return DataModel_Definition_Property::checkPropertyName( $field );

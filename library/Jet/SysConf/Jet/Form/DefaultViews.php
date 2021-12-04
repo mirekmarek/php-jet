@@ -195,27 +195,6 @@ class SysConf_Jet_Form_DefaultViews
 			'input' => 'field/input/range',
 		],
 
-		Form::TYPE_REGISTRATION_EMAIL => [
-			'field' => 'field',
-			'row_start' => 'field/row/start',
-			'row_end' => 'field/row/end',
-			'input_container_start' => 'field/input/container/start',
-			'input_container_end' => 'field/input/container/end',
-			'error' => 'field/error',
-			'label' => 'field/label',
-			'input' => 'field/input/registration-email',
-		],
-
-		Form::TYPE_REGISTRATION_USER_NAME => [
-			'field' => 'field',
-			'row_start' => 'field/row/start',
-			'row_end' => 'field/row/end',
-			'input_container_start' => 'field/input/container/start',
-			'input_container_end' => 'field/input/container/end',
-			'error' => 'field/error',
-			'label' => 'field/label',
-			'input' => 'field/input/registration-username',
-		],
 
 		Form::TYPE_SEARCH => [
 			'field' => 'field',
@@ -303,17 +282,6 @@ class SysConf_Jet_Form_DefaultViews
 			'error' => 'field/error',
 			'label' => 'field/label',
 			'input' => 'field/input/wysiwyg',
-		],
-
-		Form::TYPE_REGISTRATION_PASSWORD => [
-			'field' => 'field-registration-password',
-			'row_start' => 'field/row/start',
-			'row_end' => 'field/row/end',
-			'input_container_start' => 'field/input/container/start',
-			'input_container_end' => 'field/input/container/end',
-			'error' => 'field/error',
-			'label' => 'field/label',
-			'input' => 'field/input/registration-password',
 		]
 	];
 

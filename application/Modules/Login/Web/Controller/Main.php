@@ -90,23 +90,19 @@ class Controller_Main extends MVC_Controller_Default
 			 */
 			$user = Auth::getCurrentUser();
 
-			if( !$user->verifyPassword( $data['password'] ) ) {
-				$user->setPassword( $data['password'] );
-				$user->setPasswordIsValid( true );
-				$user->setPasswordIsValidTill( null );
-				$user->save();
+			$user->setPassword( $data['password'] );
+			$user->setPasswordIsValid( true );
+			$user->setPasswordIsValidTill( null );
+			$user->save();
 
-				Logger::info(
-					event: 'password_changed',
-					event_message: 'User ' . $user->getUsername() . ' (id:' . $user->getId() . ') changed password',
-					context_object_id: $user->getId(),
-					context_object_data: $user->getUsername()
-				);
+			Logger::info(
+				event: 'password_changed',
+				event_message: 'User ' . $user->getUsername() . ' (id:' . $user->getId() . ') changed password',
+				context_object_id: $user->getId(),
+				context_object_data: $user->getUsername()
+			);
 
-				Http_Headers::reload();
-			} else {
-				$form->getField( 'password' )->setCustomError( Tr::_( 'Please enter <strong>new</strong> password' ) );
-			}
+			Http_Headers::reload();
 		}
 
 		$this->view->setVar( 'form', $form );

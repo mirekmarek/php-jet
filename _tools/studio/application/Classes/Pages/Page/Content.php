@@ -281,20 +281,19 @@ class Pages_Page_Content extends MVC_Page_Content
 	}
 
 	/**
-	 * @param Form_Field_Input $output_callback_class_field
 	 * @param string $default_value
 	 *
 	 * @return Form_Field_Input
 	 */
-	public static function getField__output_callback_method( Form_Field_Input $output_callback_class_field, string $default_value ): Form_Field_Input
+	public static function getField__output_callback_method( string $default_value ): Form_Field_Input
 	{
 		$output_callback_method = new Form_Field_Input( 'output_callback_method', 'Output callback method:', $default_value );
 		$output_callback_method->setErrorMessages( [
 			Form_Field_Input::ERROR_CODE_EMPTY          => 'Please enter method name',
 			Form_Field_Input::ERROR_CODE_INVALID_FORMAT => 'Invalid method name format'
 		] );
-		$output_callback_method->setValidator( function( Form_Field $filed ) use ( $output_callback_class_field ) {
-			return Project::validateMethodName( $filed, $output_callback_class_field );
+		$output_callback_method->setValidator( function( Form_Field $filed ) {
+			return Project::validateMethodName( $filed );
 		} );
 
 		return $output_callback_method;
@@ -408,7 +407,7 @@ class Pages_Page_Content extends MVC_Page_Content
 
 					$output_callback_class = static::getField__output_callback_class( $callback[0] );
 					$output_callback_class->setIsRequired( true );
-					$output_callback_method = static::getField__output_callback_method( $output_callback_class, $callback[1] );
+					$output_callback_method = static::getField__output_callback_method( $callback[1] );
 					$output_callback_class->setIsRequired( true );
 
 					$output_callback_method->setCatcher( function() use ( $output_callback_class, $output_callback_method ) {

@@ -57,9 +57,6 @@ class Form extends BaseObject
 	const TYPE_TEXTAREA = 'Textarea';
 	const TYPE_WYSIWYG = 'WYSIWYG';
 
-	const TYPE_REGISTRATION_USER_NAME = 'RegistrationUsername';
-	const TYPE_REGISTRATION_EMAIL = 'RegistrationEmail';
-	const TYPE_REGISTRATION_PASSWORD = 'RegistrationPassword';
 	const TYPE_PASSWORD = 'Password';
 
 	const TYPE_FILE = 'File';
@@ -165,7 +162,7 @@ class Form extends BaseObject
 	/**
 	 * @var string|null
 	 */
-	protected string|null $custom_translator_namespace = null;
+	protected string|null $custom_translator_dictionary = null;
 
 	/**
 	 * @var Locale|null
@@ -661,7 +658,11 @@ class Form extends BaseObject
 		$this->is_valid = true;
 		$this->validation_errors = [];
 		foreach( $this->fields as $field ) {
-			if( !$field->validate() ) {
+			$field->validate();
+		}
+
+		foreach( $this->fields as $field ) {
+			if(!$field->isValid()) {
 				$this->is_valid = false;
 				$this->validation_errors[$field->getName()] = $field->getLastErrorMessage();
 			}
@@ -794,10 +795,10 @@ class Form extends BaseObject
 			return $phrase;
 		}
 		if( $this->do_not_translate_texts ) {
-			return $phrase;
+			return Data_Text::replaceData($phrase, $data);
 		}
 
-		return Tr::_( $phrase, $data, $this->custom_translator_namespace, $this->custom_translator_locale );
+		return Tr::_( $phrase, $data, $this->custom_translator_dictionary, $this->custom_translator_locale );
 	}
 
 	/**
@@ -819,17 +820,17 @@ class Form extends BaseObject
 	/**
 	 * @return null|string
 	 */
-	public function getCustomTranslatorNamespace(): null|string
+	public function getCustomTranslatorDictionary(): null|string
 	{
-		return $this->custom_translator_namespace;
+		return $this->custom_translator_dictionary;
 	}
 
 	/**
-	 * @param null|string $custom_translator_namespace
+	 * @param null|string $custom_translator_dictionary
 	 */
-	public function setCustomTranslatorNamespace( null|string $custom_translator_namespace ): void
+	public function setCustomTranslatorDictionary( null|string $custom_translator_dictionary ): void
 	{
-		$this->custom_translator_namespace = $custom_translator_namespace;
+		$this->custom_translator_dictionary = $custom_translator_dictionary;
 	}
 
 	/**

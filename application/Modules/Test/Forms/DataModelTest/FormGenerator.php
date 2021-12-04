@@ -15,8 +15,8 @@ use Jet\Form;
 use Jet\Form_Field;
 use Jet\Form_Field_Float;
 use Jet\Form_Field_MultiSelect;
-use Jet\Form_Field_RegistrationPassword;
 use Jet\DataModel_IDController_UniqueString;
+use Jet\Form_Field_Password;
 
 /**
  *
@@ -187,27 +187,14 @@ class DataModelTest_FormGenerator extends DataModel
 	#[DataModel_Definition(
 		type: DataModel::TYPE_STRING,
 		max_len: 255,
-		form_field_label: 'Password (user registration): ',
-		form_field_type: Form::TYPE_REGISTRATION_PASSWORD,
+		form_field_label: 'Password: ',
+		form_field_type: Form::TYPE_PASSWORD,
 		form_field_options: [],
 		form_field_error_messages: [
-			Form_Field_RegistrationPassword::ERROR_CODE_EMPTY           => 'Please enter password',
-			Form_Field_RegistrationPassword::ERROR_CODE_CHECK_EMPTY     => 'Please enter confirm password',
-			Form_Field_RegistrationPassword::ERROR_CODE_CHECK_NOT_MATCH => 'Passwords do not match'
+			Form_Field_Password::ERROR_CODE_EMPTY           => 'Please enter password',
 		]
 	)]
 	protected string $password = '';
-
-	/**
-	 * @var string
-	 */
-	#[DataModel_Definition(
-		type: DataModel::TYPE_STRING,
-		max_len: 255,
-		form_field_label: 'Password: ',
-		form_field_type: Form::TYPE_PASSWORD
-	)]
-	protected string $password_nc = '';
 
 	/**
 	 * @return array
@@ -414,22 +401,5 @@ class DataModelTest_FormGenerator extends DataModel
 	{
 		$this->password = $password;
 	}
-
-	/**
-	 * @return string
-	 */
-	public function getPasswordNc(): string
-	{
-		return $this->password_nc;
-	}
-
-	/**
-	 * @param string $password_nc
-	 */
-	public function setPasswordNc( string $password_nc ): void
-	{
-		$this->password_nc = $password_nc;
-	}
-
 
 }

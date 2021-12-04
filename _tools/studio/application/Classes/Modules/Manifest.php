@@ -16,7 +16,6 @@ use Jet\Form_Field_Input;
 use Jet\IO_Dir;
 use Jet\IO_File;
 use Jet\MVC_Cache;
-use Jet\Tr;
 use ReflectionClass;
 use ReflectionMethod;
 
@@ -123,7 +122,8 @@ class Modules_Manifest extends Application_Module_Manifest
 			$module_name->setIsRequired( true );
 			$module_name->setErrorMessages( [
 				Form_Field_Input::ERROR_CODE_EMPTY          => 'Please enter module name',
-				Form_Field_Input::ERROR_CODE_INVALID_FORMAT => 'Invalid module name format'
+				Form_Field_Input::ERROR_CODE_INVALID_FORMAT => 'Invalid module name format',
+				'module_name_is_not_unique' => 'Module with the same name already exists',
 			] );
 			$module_name->setValidator( function( Form_Field_Input $field ) {
 				$name = $field->getValue();
@@ -283,11 +283,6 @@ class Modules_Manifest extends Application_Module_Manifest
 	public static function checkModuleName( Form_Field_Input $field, string $name, string $old_module_name = '' ): bool
 	{
 
-		if( !$name ) {
-			$field->setError( Form_Field_Input::ERROR_CODE_EMPTY );
-			return false;
-		}
-
 		if(
 			!preg_match( '/^[a-z0-9.]{3,}$/i', $name ) ||
 			str_contains( $name, '..' ) ||
@@ -295,7 +290,6 @@ class Modules_Manifest extends Application_Module_Manifest
 			$name[strlen( $name ) - 1] == '.'
 		) {
 			$field->setError( Form_Field_Input::ERROR_CODE_INVALID_FORMAT );
-
 			return false;
 		}
 
@@ -311,11 +305,7 @@ class Modules_Manifest extends Application_Module_Manifest
 				Modules::exists( $name )
 			)
 		) {
-			$field->setCustomError(
-				Tr::_( 'Module with the same name already exists' ),
-				'module_name_is_not_unique'
-			);
-
+			$field->setError('module_name_is_not_unique');
 			return false;
 		}
 

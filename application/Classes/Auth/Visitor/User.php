@@ -19,7 +19,7 @@ use Jet\Form_Field_Select;
 use Jet\Data_DateTime;
 use Jet\Locale;
 use Jet\Mailing_Email_Template;
-use Jet\Tr;
+
 
 
 /**
@@ -55,7 +55,8 @@ class Auth_Visitor_User extends DataModel implements Auth_User_Interface
 		is_unique: true,
 		form_field_label: 'Username',
 		form_field_error_messages: [
-			Form_Field_Input::ERROR_CODE_EMPTY => 'Please enter username'
+			Form_Field_Input::ERROR_CODE_EMPTY => 'Please enter username',
+			'exists' => 'Sorry, but username %USERNAME% is registered.'
 		]
 	)]
 	protected string $username = '';
@@ -821,7 +822,7 @@ class Auth_Visitor_User extends DataModel implements Auth_User_Interface
 	 *
 	 * @return bool
 	 */
-	public function verifyPasswordStrength( string $password ): bool
+	public static function verifyPasswordStrength( string $password ): bool
 	{
 		if( strlen( $password ) < 5 ) {
 			return false;
@@ -864,12 +865,7 @@ class Auth_Visitor_User extends DataModel implements Auth_User_Interface
 				}
 
 				if( static::usernameExists( $username ) ) {
-					$field->setCustomError(
-						Tr::_(
-							'Sorry, but username %USERNAME% is registered.', ['USERNAME' => $username]
-						)
-					);
-
+					$field->setError('exists', ['USERNAME' => $username]);
 					return false;
 				}
 

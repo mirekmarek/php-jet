@@ -122,7 +122,7 @@ class Modules_MenuItems extends BaseObject
 		if( !$this->menu_item_create_form ) {
 
 			$form = Menus_Menu_Item::getCreateForm();
-			$form->setCustomTranslatorNamespace( 'menus' );
+			$form->setCustomTranslatorDictionary( 'menus' );
 
 			$target_menus = ['' => ''];
 			foreach( Menus::getSets() as $set ) {

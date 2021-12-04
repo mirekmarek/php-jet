@@ -12,7 +12,7 @@ use Jet\Data_Array;
 use Jet\Exception;
 use Jet\Form;
 use Jet\Form_Field_Input;
-use Jet\Form_Field_RegistrationPassword;
+use Jet\Form_Field_Password;
 use Jet\IO_File;
 use Jet\SysConf_Path;
 use Jet\Tr;
@@ -39,18 +39,23 @@ class Installer_Step_ConfigureStudio_Controller extends Installer_Step_Controlle
 			Form_Field_Input::ERROR_CODE_EMPTY => 'Please enter username'
 		] );
 
-		$password = new Form_Field_RegistrationPassword( 'password', 'Password:' );
-		$password->setPasswordConfirmationLabel( 'Confirm password:' );
+
+
+		$password = new Form_Field_Password( 'password', 'Password:' );
 		$password->setErrorMessages( [
-			Form_Field_RegistrationPassword::ERROR_CODE_EMPTY           => 'Please enter password',
-			Form_Field_RegistrationPassword::ERROR_CODE_CHECK_EMPTY     => 'Please confirm password',
-			Form_Field_RegistrationPassword::ERROR_CODE_CHECK_NOT_MATCH => 'Password confirmation do not match',
-			Form_Field_RegistrationPassword::ERROR_CODE_WEAK_PASSWORD   => 'Password is not strong enough',
+			Form_Field_Password::ERROR_CODE_EMPTY           => 'Please enter password',
 		] );
+		$password_check = $password->generateCheckField(
+			field_name: 'password_check',
+			field_label: 'Confirm password:',
+			error_message_empty: 'Please confirm password',
+			error_message_not_match: 'Password confirmation do not match'
+		);
 
 		$form = new Form( 'studio_config_form', [
 			$username,
-			$password
+			$password,
+			$password_check
 		] );
 
 		if(

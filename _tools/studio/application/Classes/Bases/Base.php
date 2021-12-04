@@ -174,15 +174,13 @@ class Bases_Base extends MVC_Base
 							$e_ld = $e_base->getLocalizedData( $locale );
 
 							if( in_array( $value, $e_ld->getURLs() ) ) {
-								$field->setCustomError(
-									Tr::_(
-										'URL conflicts with base <b>%base_name%</b> <b>%locale%</b>',
-										[
-											'base_name' => $e_base->getName(),
-											'locale'    => $locale->getName()
-										]
-									),
-									'url_is_not_unique'
+
+								$field->setError(
+									'url_is_not_unique',
+									[
+										'base_name' => $e_base->getName(),
+										'locale'    => $locale->getName()
+									]
 								);
 
 								return false;
@@ -196,12 +194,11 @@ class Bases_Base extends MVC_Base
 				$u = 0;
 				foreach( $ld->getURLs() as $URL ) {
 					$ld_URL_field = new Form_Field_Input( '/' . $locale . '/URLs/' . $u, '', $URL );
-					if( $u == 0 ) {
-						//$ld_URL_field->setIsRequired(true);
-						$ld_URL_field->setErrorMessages( [
-							Form_Field_Input::ERROR_CODE_EMPTY => 'Please enter at least one URL'
-						] );
-					}
+					$ld_URL_field->setErrorMessages( [
+						Form_Field_Input::ERROR_CODE_EMPTY => 'Please enter at least one URL',
+						'url_is_not_unique'                         => 'URL conflicts with base <b>%base_name%</b> <b>%locale%</b>',
+						'url_is_not_unique_in_self'                 => 'URL conflicts with locale <b>%locale%</b>',
+					] );
 
 					$ld_URL_field->setValidator( function( Form_Field_Input $field ) use ( $u, &$URL_validate ) {
 						return $URL_validate( $field, $u );
@@ -214,6 +211,11 @@ class Bases_Base extends MVC_Base
 
 				for( $c = 0; $c < 3; $c++ ) {
 					$ld_URL_field = new Form_Field_Input( '/' . $locale . '/URLs/' . $u, '' );
+					$ld_URL_field->setErrorMessages([
+						'url_is_not_unique'                         => 'URL conflicts with base <b>%base_name%</b> <b>%locale%</b>',
+						'url_is_not_unique_in_self'                 => 'URL conflicts with locale <b>%locale%</b>',
+					]);
+
 					$ld_URL_field->setValidator( function( Form_Field_Input $field ) use ( $u, &$URL_validate ) {
 						return $URL_validate( $field, $u );
 					} );
@@ -344,15 +346,7 @@ class Bases_Base extends MVC_Base
 							$known_URL_locale = $known_URL['locale'];
 
 							$e_field = $form->field( '/' . $locale . '/URLs/' . $u );
-							$e_field->setCustomError(
-								Tr::_(
-									'URL conflicts with locale <b>%locale%</b>',
-									[
-										'locale' => $known_URL_locale->getName()
-									]
-								),
-								'url_is_not_unique'
-							);
+							$e_field->setError( 'url_is_not_unique_in_self', [ 'locale' => $known_URL_locale->getName() ]);
 
 							$error = true;
 						}

@@ -431,12 +431,7 @@ trait DataModel_Definition_Model_Trait
 			$model_name_field->setCatcher( function( $value ) {
 				$this->setModelName( $value );
 			} );
-			$model_name_field->setValidator( function( Form_Field_Input $field ) {
-				/**
-				 * @var DataModel_Definition_Model_Interface $this
-				 */
-				return DataModels::checkModelName( $field, $this );
-			} );
+			$model_name_field->setValidationRegexp('/^[a-z0-9_]{2,}$/i');
 
 
 			$database_table_name_field = new Form_Field_Input( 'database_table_name', 'Table name:', $this->database_table_name );
@@ -444,13 +439,61 @@ trait DataModel_Definition_Model_Trait
 				$this->setDatabaseTableName( $value );
 			} );
 			$database_table_name_field->setErrorMessages( [
-				Form_Field_Input::ERROR_CODE_INVALID_FORMAT => 'Invalid DataModel table name name format'
+				Form_Field_Input::ERROR_CODE_INVALID_FORMAT => 'Invalid DataModel table name name format',
+				'data_model_table_is_not_unique' => 'DataModel with the same table name already exists',
 			] );
 			$database_table_name_field->setValidator( function( Form_Field_Input $field ) {
-				/**
-				 * @var DataModel_Definition_Model_Interface $this
-				 */
-				return DataModels::checkTableName( $field, $this );
+
+
+				$name = $field->getValue();
+
+				if( !$name ) {
+					return true;
+				}
+
+
+				if(
+					!preg_match( '/^[a-z0-9_]{2,}$/i', $name ) ||
+					str_contains( $name, '__' )
+				) {
+					$field->setError( Form_Field_Input::ERROR_CODE_INVALID_FORMAT );
+
+					return false;
+				}
+
+				$exists = false;
+
+				$m_class = DataModels::getClass($this->getClassName());
+
+				foreach( DataModels::getClasses() as $class ) {
+					if(
+						$class->isDescendantOf( $m_class ) ||
+						$m_class->isDescendantOf($class)
+					) {
+						continue;
+					}
+
+					$m = $class->getDefinition();
+
+					if(
+						$class->getFullClassName() != $this->getClassName() &&
+						(
+							$m->getDatabaseTableName() == $name ||
+							$m->getModelName() == $name
+						)
+					) {
+						$exists = true;
+						break;
+					}
+				}
+
+				if( $exists ) {
+					$field->setError('data_model_table_is_not_unique');
+
+					return false;
+				}
+
+				return true;
 			} );
 
 
@@ -899,10 +942,31 @@ trait DataModel_Definition_Model_Trait
 		$class_name->setIsRequired( true );
 		$class_name->setErrorMessages( [
 			Form_Field_Input::ERROR_CODE_EMPTY          => Tr::_( 'Please enter DataModel class name' ),
-			Form_Field_Input::ERROR_CODE_INVALID_FORMAT => Tr::_( 'Invalid DataModel class name format' )
+			Form_Field_Input::ERROR_CODE_INVALID_FORMAT => Tr::_( 'Invalid DataModel class name format' ),
+			'data_model_class_is_not_unique'            => Tr::_( 'DataModel with the same class name already exists' ),
 		] );
 		$class_name->setValidator( function( Form_Field_Input $field ) {
-			return DataModels::checkClassName( $field );
+			$name = $field->getValue();
+
+			if(
+				!preg_match( '/^[a-z0-9_]{2,}$/i', $name ) ||
+				str_contains( $name, '__' )
+			) {
+				$field->setError( Form_Field_Input::ERROR_CODE_INVALID_FORMAT );
+
+				return false;
+			}
+
+			foreach( DataModels::getClasses() as $class ) {
+
+				if( $class->getFullClassName() == $name ) {
+					$field->setError( 'data_model_class_is_not_unique' );
+
+					return false;
+				}
+			}
+
+			return true;
 		} );
 
 
@@ -912,9 +976,7 @@ trait DataModel_Definition_Model_Trait
 			Form_Field_Input::ERROR_CODE_INVALID_FORMAT => Tr::_( 'Invalid DataModel name format' )
 		] );
 		$model_name->setIsRequired( true );
-		$model_name->setValidator( function( Form_Field_Input $field ) {
-			return DataModels::checkModelName( $field );
-		} );
+		$model_name->setValidationRegexp('/^[a-z0-9_]{2,}$/i');
 
 
 		$script_path = new Form_Field_Input( 'script_path', Tr::_( 'Script path:' ), '' );

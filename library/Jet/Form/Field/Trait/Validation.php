@@ -82,17 +82,19 @@ trait Form_Field_Trait_Validation
 	 */
 	public function validate(): bool
 	{
-
-		$validator = $this->getValidator();
-		if( $validator ) {
-			return $validator( $this );
-		}
-
 		if( !$this->checkValueIsNotEmpty() ) {
 			return false;
 		}
 
 		if( !$this->validateFormat() ) {
+			return false;
+		}
+
+		$validator = $this->getValidator();
+		if(
+			$validator &&
+			!$validator( $this )
+		) {
 			return false;
 		}
 
@@ -115,39 +117,34 @@ trait Form_Field_Trait_Validation
 	 *
 	 * @param array $error_messages
 	 *
-	 * @throws Form_Exception
 	 */
 	public function setErrorMessages( array $error_messages ): void
 	{
 
 		foreach( $error_messages as $key => $message ) {
-			if( !array_key_exists( $key, $this->error_messages ) ) {
-				throw new Form_Exception( 'Unknown form field error code: ' . $key . '! Field: ' . $this->_name );
-			}
-
 			$this->error_messages[$key] = $message;
 		}
 	}
 
 	/**
-	 *
 	 * @param string $code
+	 * @param array $data
 	 *
 	 * @return string|bool
 	 */
-	public function getErrorMessage( string $code ): string|bool
+	public function getErrorMessage( string $code, array $data=[] ): string|bool
 	{
 		$message = $this->error_messages[$code] ?? false;
 
-		return $this->_( $message );
+		return $this->_( $message, $data );
 
 	}
 
 	/**
-	 *
 	 * @param string $code
+	 * @param array $data
 	 */
-	public function setError( string $code ): void
+	public function setError( string $code, array $data = [] ): void
 	{
 		/**
 		 * @var Form_Field $this
@@ -158,26 +155,7 @@ trait Form_Field_Trait_Validation
 		$this->is_valid = false;
 		$form->setIsNotValid();
 		$this->last_error_code = $code;
-		$this->last_error_message = $this->getErrorMessage( $code );
-	}
-
-	/**
-	 *
-	 * @param string $error_message
-	 * @param string $code
-	 */
-	public function setCustomError( string $error_message, string $code = 'custom' ): void
-	{
-		/**
-		 * @var Form_Field $this
-		 * @var Form $form
-		 */
-		$form = $this->_form;
-
-		$this->is_valid = false;
-		$form->setIsNotValid();
-		$this->last_error_code = $code;
-		$this->last_error_message = $error_message;
+		$this->last_error_message = $this->getErrorMessage( $code, $data );
 	}
 
 	/**

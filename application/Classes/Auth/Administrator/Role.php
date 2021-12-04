@@ -48,7 +48,8 @@ class Auth_Administrator_Role extends DataModel implements Auth_Role_Interface
 		form_field_label: 'ID',
 		form_field_is_required: true,
 		form_field_error_messages: [
-			Form_Field_Input::ERROR_CODE_EMPTY => 'Please enter ID'
+			Form_Field_Input::ERROR_CODE_EMPTY => 'Please enter ID',
+			'exists' => 'Sorry, but ID %ID% is used.'
 		]
 	)]
 	protected string $id = '';
@@ -445,12 +446,7 @@ class Auth_Administrator_Role extends DataModel implements Auth_Role_Interface
 					$id = $field->getValue();
 
 					if( static::idExists( $id ) ) {
-						$field->setCustomError(
-							Tr::_(
-								'Sorry, but ID %ID% is used.', ['ID' => $id]
-							)
-						);
-
+						$field->setError('exists', ['ID' => $id]);
 						return false;
 					}
 

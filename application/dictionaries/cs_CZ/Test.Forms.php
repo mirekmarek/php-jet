@@ -85,7 +85,6 @@ return [
 	'Select: '                                                  => 'Výběr:',
 	'Multi Select: '                                            => 'Výběr více možností:',
 	'Radio Button: '                                            => 'Radio Button: ',
-	'Password (user registration): '                            => 'Heslo (pro registraci uživatele):',
 	'Password: '                                                => 'Heslo:',
 	'Float: '                                                   => 'Desetinné číslo:',
 ];

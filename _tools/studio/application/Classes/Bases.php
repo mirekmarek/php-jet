@@ -169,14 +169,10 @@ class Bases extends BaseObject implements Application_Part
 			$id_field->setErrorMessages( [
 				Form_Field_Input::ERROR_CODE_EMPTY          => 'Please enter base identifier',
 				Form_Field_Input::ERROR_CODE_INVALID_FORMAT => 'Invalid identifier format',
+				'base_id_is_not_unique'                     => 'Base with the identifier already exists',
 			] );
 			$id_field->setValidator( function( Form_Field_Input $field ) {
 				$id = $field->getValue();
-
-				if( !$id ) {
-					$field->setError( Form_Field_Input::ERROR_CODE_EMPTY );
-					return false;
-				}
 
 				if(
 					!preg_match( '/^[a-zA-Z0-9\-]{2,}$/i', $id ) ||
@@ -187,13 +183,8 @@ class Bases extends BaseObject implements Application_Part
 					return false;
 				}
 
-				if(
-				Bases::exists( $id )
-				) {
-					$field->setCustomError(
-						Tr::_( 'Base with the identifier already exists' ),
-						'base_id_is_not_unique'
-					);
+				if( Bases::exists( $id ) ) {
+					$field->setError('base_id_is_not_unique');
 
 					return false;
 				}
@@ -209,19 +200,15 @@ class Bases extends BaseObject implements Application_Part
 			$base_url_field->setErrorMessages( [
 				Form_Field_Input::ERROR_CODE_EMPTY          => 'Please enter base URL',
 				Form_Field_Input::ERROR_CODE_INVALID_FORMAT => 'Invalid URL format',
+				'url_is_not_unique'                         => 'URL conflicts with base <b>%base_name%</b> <b>%locale%</b>',
+				'url_is_not_unique_in_self'                 => 'URL conflicts with locale <b>%locale%</b>',
 			] );
 
 			$base_url_field->setValidator( function( Form_Field_Input $field ) {
 				$base_url = $field->getValue();
 
-				if( !$base_url ) {
-					$field->setError( Form_Field_Input::ERROR_CODE_EMPTY );
-					return false;
-				}
 
-				if(
-				!preg_match( '/^[a-z0-9\-\/.]{2,}$/i', $base_url )
-				) {
+				if( !preg_match( '/^[a-z0-9\-\/.]{2,}$/i', $base_url ) ) {
 					$field->setError( Form_Field_Input::ERROR_CODE_INVALID_FORMAT );
 
 					return false;
@@ -234,17 +221,10 @@ class Bases extends BaseObject implements Application_Part
 						$e_ld = $e_base->getLocalizedData( $locale );
 
 						if( in_array( $base_url, $e_ld->getURLs() ) ) {
-							$field->setCustomError(
-								Tr::_(
-									'URL conflicts with base <b>%base_name%</b> <b>%locale%</b>',
-									[
-										'base_name' => $e_base->getName(),
-										'locale'    => $locale->getName()
-									]
-								),
-								'url_is_not_unique'
-							);
-
+							$field->setError('url_is_not_unique', [
+								'base_name' => $e_base->getName(),
+								'locale'    => $locale->getName()
+							]);
 							return false;
 						}
 					}

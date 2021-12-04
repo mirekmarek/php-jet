@@ -15,12 +15,11 @@ use Jet\DataModel_IDController_AutoIncrement;
 use Jet\Form;
 use Jet\Form_Field_Input;
 use Jet\Form_Field_MultiSelect;
-use Jet\Form_Field_RegistrationPassword;
+use Jet\Form_Field_Password;
 use Jet\Form_Field_Select;
 use Jet\Data_DateTime;
 use Jet\Locale;
 use Jet\Mailing_Email_Template;
-use Jet\Tr;
 
 /**
  *
@@ -46,16 +45,17 @@ class Auth_Administrator_User extends DataModel implements Auth_User_Interface
 
 	/**
 	 * @var string
-	 */
+	 */ 
 	#[DataModel_Definition(
 		type: DataModel::TYPE_STRING,
-		max_len: 100,
-		form_field_is_required: true,
 		is_key: true,
-		is_unique: true,
+		max_len: 100,
+		form_field_type: Form::TYPE_INPUT,
+		form_field_is_required: true,
 		form_field_label: 'Username',
 		form_field_error_messages: [
-			Form_Field_Input::ERROR_CODE_EMPTY => 'Please enter username'
+			Form_Field_Input::ERROR_CODE_EMPTY => 'Please enter username',
+			'exists' => 'Sorry, but username %USERNAME% is registered.'
 		]
 	)]
 	protected string $username = '';
@@ -803,7 +803,7 @@ class Auth_Administrator_User extends DataModel implements Auth_User_Interface
 	 *
 	 * @return bool
 	 */
-	public function verifyPasswordStrength( string $password ): bool
+	public static function verifyPasswordStrength( string $password ): bool
 	{
 		if( strlen( $password ) < 5 ) {
 			return false;
@@ -852,12 +852,7 @@ class Auth_Administrator_User extends DataModel implements Auth_User_Interface
 				}
 
 				if( static::usernameExists( $username ) ) {
-					$field->setCustomError(
-						Tr::_(
-							'Sorry, but username %USERNAME% is registered.', ['USERNAME' => $username]
-						)
-					);
-
+					$field->setError('exists', ['USERNAME' => $username]);
 					return false;
 				}
 
@@ -890,19 +885,24 @@ class Auth_Administrator_User extends DataModel implements Auth_User_Interface
 
 		$form->getField( 'locale' )->setDefaultValue( Locale::getCurrentLocale() );
 
-		$pwd = new Form_Field_RegistrationPassword(name: 'password', label: 'Password', is_required: true);
-		$pwd->setPasswordConfirmationLabel( 'Confirm password' );
+		$pwd = new Form_Field_Password(name: 'password', label: 'Password', is_required: true);
 		$pwd->setErrorMessages([
-			Form_Field_RegistrationPassword::ERROR_CODE_EMPTY           => 'Please enter password',
-			Form_Field_RegistrationPassword::ERROR_CODE_CHECK_EMPTY     => 'Please enter confirm password',
-			Form_Field_RegistrationPassword::ERROR_CODE_CHECK_NOT_MATCH => 'Passwords do not match'
+			Form_Field_Password::ERROR_CODE_EMPTY           => 'Please enter password',
 		]);
 
 		$pwd->setCatcher(function($value) {
 			$this->setPassword($value);
 		});
-
 		$form->addField($pwd);
+
+		$pwd_check = $pwd->generateCheckField(
+			field_name: 'password_check',
+			field_label: 'Confirm password',
+			error_message_empty: 'Please enter confirm password',
+			error_message_not_match: 'Passwords do not match'
+		);
+		$form->addField($pwd_check);
+
 
 		return $form;
 	}

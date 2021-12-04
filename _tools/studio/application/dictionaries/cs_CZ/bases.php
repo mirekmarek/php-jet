@@ -41,6 +41,7 @@ return [
 	'There are some problems ... Please check the form.' => 'Něco je špatně ... Prosím překontrolujte formulář.',
 	'Base with the identifier already exists' => 'Báze se stejným id již existuje',
 	'URL conflicts with locale <b>%locale%</b>' => 'URL koliduje s lokalizací <b>%locale%</b>',
+	'URL conflicts with base <b>%base_name%</b> <b>%locale%</b>' => 'URL koliduje s bází <b>%base_name%</b> <b>%locale%</b>',
 	'Locale is not active' => 'Lokalizace není aktuální',
 	'Parameters:' => 'Parametry:',
 ];
