@@ -176,4 +176,5 @@ return [
 	'Invalid DataModel table name name format' => 'Neplatný formát názvu databázové tabulky DataModelu',
 	'Invalid key name format' => 'Neplatný formát názvu klíče',
 	'Key with the same name already exists' => 'Klíč se stejným jménem již existuje',
+	'Create / update database table' => 'Vytvořit / aktualizovat databázovou tabulku',
 ];
