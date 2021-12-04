@@ -595,6 +595,10 @@ class Form extends BaseObject
 					);
 				}
 			}
+
+			foreach($field->getErrorMessages() as $code=>$message) {
+				$this->_($message);
+			}
 		}
 	}
 
