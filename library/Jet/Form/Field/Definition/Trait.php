@@ -177,7 +177,7 @@ trait Form_Field_Definition_Trait
 	/**
 	 * @return array
 	 */
-	public function getFormFieldOptions(): array
+	public function getFormFieldProperties(): array
 	{
 
 		if(
@@ -297,7 +297,7 @@ trait Form_Field_Definition_Trait
 		);
 
 		$field->setErrorMessages( $this->getFormFieldErrorMessages() );
-		$field->setOptions( $this->getFormFieldOptions() );
+		$field->setup( $this->getFormFieldProperties() );
 
 		$select_options = $this->getFormFieldSelectOptions();
 		if( $select_options ) {

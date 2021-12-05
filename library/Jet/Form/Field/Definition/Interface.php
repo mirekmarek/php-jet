@@ -100,7 +100,7 @@ interface Form_Field_Definition_Interface
 	/**
 	 * @return array
 	 */
-	public function getFormFieldOptions(): array;
+	public function getFormFieldProperties(): array;
 
 
 	/**
