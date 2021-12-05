@@ -14,4 +14,4 @@ js/packages/**
 _tools/studio/css/packages/**
 _tools/studio/js/packages/**
 /cleanup.sh
-/images/
+/images/test_uploads
