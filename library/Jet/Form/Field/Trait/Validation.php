@@ -75,35 +75,6 @@ trait Form_Field_Trait_Validation
 	 */
 	abstract public function getRequiredErrorCodes(): array;
 
-
-	/**
-	 *
-	 * @return bool
-	 */
-	public function validate(): bool
-	{
-		if( !$this->checkValueIsNotEmpty() ) {
-			return false;
-		}
-
-		if( !$this->validateFormat() ) {
-			return false;
-		}
-
-		$validator = $this->getValidator();
-		if(
-			$validator &&
-			!$validator( $this )
-		) {
-			return false;
-		}
-
-		$this->setIsValid();
-
-		return true;
-	}
-
-
 	/**
 	 *
 	 * @return array
@@ -210,55 +181,6 @@ trait Form_Field_Trait_Validation
 		$this->validation_regexp = $validation_regexp;
 	}
 
-	/**
-	 *
-	 * @return bool
-	 */
-	public function checkValueIsNotEmpty(): bool
-	{
-		if(
-			$this->_value === '' &&
-			$this->is_required
-		) {
-			$this->setError( self::ERROR_CODE_EMPTY );
-
-			return false;
-		}
-
-		return true;
-	}
-
-	/**
-	 *
-	 * @return bool
-	 */
-	protected function validateFormat(): bool
-	{
-
-		if( !$this->validation_regexp ) {
-			return true;
-		}
-
-		if(
-			!$this->is_required &&
-			$this->_value === ''
-		) {
-			return true;
-		}
-
-		if( $this->validation_regexp[0] != '/' ) {
-			$res = preg_match( '/' . $this->validation_regexp . '/', $this->_value );
-		} else {
-			$res = preg_match( $this->validation_regexp, $this->_value );
-		}
-
-		if(!$res) {
-			$this->setError( self::ERROR_CODE_INVALID_FORMAT );
-			return false;
-		}
-
-		return true;
-	}
 
 	/**
 	 *
@@ -277,6 +199,53 @@ trait Form_Field_Trait_Validation
 	public function isValid(): bool
 	{
 		return $this->is_valid;
+	}
+
+	/**
+	 *
+	 * @return bool
+	 */
+	public function validate(): bool
+	{
+		if(
+			$this->is_required &&
+			$this->_value === ''
+		) {
+			$this->setError( self::ERROR_CODE_EMPTY );
+
+			return false;
+		}
+
+
+		if(
+			$this->validation_regexp &&
+			$this->_value!==''
+		) {
+
+			if( $this->validation_regexp[0] != '/' ) {
+				$res = preg_match( '/' . $this->validation_regexp . '/', $this->_value );
+			} else {
+				$res = preg_match( $this->validation_regexp, $this->_value );
+			}
+
+			if(!$res) {
+				$this->setError( self::ERROR_CODE_INVALID_FORMAT );
+				return false;
+			}
+		}
+
+
+
+		$validator = $this->getValidator();
+		if(
+			$validator &&
+			!$validator( $this )
+		) {
+			return false;
+		}
+
+		$this->setIsValid();
+		return true;
 	}
 
 }

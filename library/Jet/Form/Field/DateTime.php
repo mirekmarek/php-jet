@@ -49,6 +49,14 @@ class Form_Field_DateTime extends Form_Field_Input
 	 */
 	public function validate(): bool
 	{
+		if(
+			$this->is_required &&
+			$this->_value === ''
+		) {
+			$this->setError( self::ERROR_CODE_EMPTY );
+
+			return false;
+		}
 
 		if( $this->_value ) {
 
@@ -60,15 +68,17 @@ class Form_Field_DateTime extends Form_Field_Input
 
 				return false;
 			}
-		} else {
-			if( $this->is_required ) {
-				$this->setError( self::ERROR_CODE_EMPTY );
-				return false;
-			}
+		}
+
+		$validator = $this->getValidator();
+		if(
+			$validator &&
+			!$validator( $this )
+		) {
+			return false;
 		}
 
 		$this->setIsValid();
-
 		return true;
 	}
 

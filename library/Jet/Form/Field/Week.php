@@ -36,20 +36,31 @@ class Form_Field_Week extends Form_Field_Input
 	public function validate(): bool
 	{
 		if(
-			!$this->is_required &&
+			$this->is_required &&
 			$this->_value === ''
 		) {
-			return true;
-		}
-
-		if( !preg_match( '/^[0-9]+-W[0-9]{1,2}$/i', $this->_value ) ) {
-			$this->setError( self::ERROR_CODE_INVALID_FORMAT );
+			$this->setError( self::ERROR_CODE_EMPTY );
 
 			return false;
 		}
 
-		$this->setIsValid();
+		if($this->_value) {
+			if( !preg_match( '/^[0-9]+-W[0-9]{1,2}$/i', $this->_value ) ) {
+				$this->setError( self::ERROR_CODE_INVALID_FORMAT );
 
+				return false;
+			}
+		}
+
+		$validator = $this->getValidator();
+		if(
+			$validator &&
+			!$validator( $this )
+		) {
+			return false;
+		}
+
+		$this->setIsValid();
 		return true;
 	}
 

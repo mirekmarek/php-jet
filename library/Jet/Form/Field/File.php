@@ -302,6 +302,51 @@ class Form_Field_File extends Form_Field
 		}
 	}
 
+
+	protected function validate_checkFileSize( string $path, string $file_name ) : bool
+	{
+		$res = true;
+
+		if( !$path ) {
+			$res = false;
+		} else {
+			if( $this->maximal_file_size ) {
+				$file_size = IO_File::getSize( $path );
+				if( $file_size > $this->maximal_file_size ) {
+					$res = false;
+				}
+			}
+		}
+
+		if(
+			!$res &&
+			$this->allow_multiple_upload
+		) {
+			$this->addMultipleUploadError( $file_name, static::ERROR_CODE_FILE_IS_TOO_LARGE );
+		}
+
+		return $res;
+	}
+
+	protected function validate_checkMimeType ( string $path, string $file_name ) : bool
+	{
+		if( $this->allowed_mime_types ) {
+			if( !in_array(
+				IO_File::getMimeType( $path ),
+				$this->allowed_mime_types
+			) ) {
+				if( $this->allow_multiple_upload ) {
+					$this->addMultipleUploadError( $file_name, static::ERROR_CODE_DISALLOWED_FILE_TYPE );
+				}
+
+				return false;
+			}
+		}
+
+		return true;
+	}
+
+
 	/**
 	 * validate value
 	 *
@@ -309,87 +354,49 @@ class Form_Field_File extends Form_Field
 	 */
 	public function validate(): bool
 	{
-		if( !$this->_has_value ) {
-			if( $this->is_required ) {
-				$this->setError( self::ERROR_CODE_EMPTY );
-
-				return false;
-			}
-
-			return true;
+		if(
+			!$this->_has_value &&
+			$this->is_required
+		) {
+			$this->setError( self::ERROR_CODE_EMPTY );
+			return false;
 		}
 
-		$check_file_size = function( $path, $file_name ) {
-			$res = true;
 
-			if( !$path ) {
-				$res = false;
-			} else {
-				if( $this->maximal_file_size ) {
-					$file_size = IO_File::getSize( $path );
-					if( $file_size > $this->maximal_file_size ) {
-						$res = false;
+		if($this->_has_value) {
+			if( is_array( $this->_value ) ) {
+				foreach( $this->_value as $i => $path ) {
+					if(
+						!$this->validate_checkFileSize( $path, $this->file_name[$i] ) ||
+						!$this->validate_checkMimeType( $path, $this->file_name[$i] )
+					) {
+						$this->unsetFile( $i );
 					}
 				}
-			}
+			} else {
+				if( !$this->validate_checkFileSize( $this->_value, $this->file_name ) ) {
+					$this->setError( self::ERROR_CODE_FILE_IS_TOO_LARGE );
+					return false;
+				}
 
-			if(
-				!$res &&
-				$this->allow_multiple_upload
-			) {
-				$this->addMultipleUploadError( $file_name, static::ERROR_CODE_FILE_IS_TOO_LARGE );
-			}
-
-			return $res;
-		};
-
-		$check_mime_type = function( $path, $file_name ) {
-			if( $this->allowed_mime_types ) {
-				if( !in_array(
-					IO_File::getMimeType( $path ), $this->allowed_mime_types
-				)
-				) {
-					if( $this->allow_multiple_upload ) {
-						$this->addMultipleUploadError( $file_name, static::ERROR_CODE_DISALLOWED_FILE_TYPE );
-					}
-
+				if( !$this->validate_checkMimeType( $this->_value, $this->file_name ) ) {
+					$this->setError( self::ERROR_CODE_DISALLOWED_FILE_TYPE );
 					return false;
 				}
 			}
-
-			return true;
-		};
-
-		if( !is_array( $this->_value ) ) {
-			if( !$check_file_size( $this->_value, $this->file_name ) ) {
-				$this->setError( self::ERROR_CODE_FILE_IS_TOO_LARGE );
-
-				return false;
-			}
-
-			if( !$check_mime_type( $this->_value, $this->file_name ) ) {
-				$this->setError( self::ERROR_CODE_DISALLOWED_FILE_TYPE );
-
-				return false;
-			}
-
-			$this->setIsValid();
-
-			return true;
-		} else {
-			foreach( $this->_value as $i => $path ) {
-				if(
-					!$check_file_size( $path, $this->file_name[$i] ) ||
-					!$check_mime_type( $path, $this->file_name[$i] )
-				) {
-					$this->unsetFile( $i );
-				}
-			}
-
-			$this->setIsValid();
-
-			return true;
 		}
+
+		$validator = $this->getValidator();
+		if(
+			$validator &&
+			!$validator( $this )
+		) {
+			return false;
+		}
+
+		$this->setIsValid();
+		return true;
+
 	}
 
 	/**

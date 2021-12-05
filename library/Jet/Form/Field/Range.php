@@ -98,12 +98,12 @@ class Form_Field_Range extends Form_Field_Input
 	{
 
 		if(
-			!$this->is_required &&
-			$this->_value_raw === ''
+			$this->is_required &&
+			$this->_value === ''
 		) {
-			$this->setIsValid();
+			$this->setError( self::ERROR_CODE_EMPTY );
 
-			return true;
+			return false;
 		}
 
 		$this->_value = (int)$this->_value_raw;
@@ -126,8 +126,15 @@ class Form_Field_Range extends Form_Field_Input
 			return false;
 		}
 
-		$this->setIsValid();
+		$validator = $this->getValidator();
+		if(
+			$validator &&
+			!$validator( $this )
+		) {
+			return false;
+		}
 
+		$this->setIsValid();
 		return true;
 
 	}

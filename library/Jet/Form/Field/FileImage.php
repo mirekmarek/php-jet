@@ -78,6 +78,23 @@ class Form_Field_FileImage extends Form_Field_File
 		return $this->maximal_width;
 	}
 
+	protected function validate_checkDimensions( string $path ) : bool
+	{
+		if(
+			$this->maximal_width &&
+			$this->maximal_height
+		) {
+			try {
+				$image = new Data_Image( $path );
+				$image->createThumbnail( $path, $this->maximal_width, $this->maximal_height );
+			} /** @noinspection PhpUnusedLocalVariableInspection */ catch( Data_Image_Exception $e ) {
+				return false;
+			}
+		}
+
+		return true;
+	}
+
 
 	/**
 	 * validate value
@@ -86,36 +103,40 @@ class Form_Field_FileImage extends Form_Field_File
 	 */
 	public function validate(): bool
 	{
-		if( !parent::validate() ) {
+		if(
+			!$this->_has_value &&
+			$this->is_required
+		) {
+			$this->setError( self::ERROR_CODE_EMPTY );
 			return false;
 		}
 
-		$check_dimensions = function( $path ) {
-			if(
-				$this->maximal_width &&
-				$this->maximal_height
-			) {
-				try {
-					$image = new Data_Image( $path );
-					$image->createThumbnail( $path, $this->maximal_width, $this->maximal_height );
-				} /** @noinspection PhpUnusedLocalVariableInspection */ catch( Data_Image_Exception $e ) {
-					return false;
-				}
-			}
 
-			return true;
-		};
 
-		if( $this->_value ) {
+		if($this->_has_value) {
 			if( is_array( $this->_value ) ) {
 				foreach( $this->_value as $i => $path ) {
-					if( !$check_dimensions( $path ) ) {
+					if(
+						!$this->validate_checkFileSize( $path, $this->file_name[$i] ) ||
+						!$this->validate_checkMimeType( $path, $this->file_name[$i] ) ||
+						!$this->validate_checkDimensions( $path )
+					) {
 						$this->unsetFile( $i );
 					}
-
 				}
+
 			} else {
-				if( !$check_dimensions( $this->_value ) ) {
+				if( !$this->validate_checkFileSize( $this->_value, $this->file_name ) ) {
+					$this->setError( self::ERROR_CODE_FILE_IS_TOO_LARGE );
+					return false;
+				}
+
+				if( !$this->validate_checkMimeType( $this->_value, $this->file_name ) ) {
+					$this->setError( self::ERROR_CODE_DISALLOWED_FILE_TYPE );
+					return false;
+				}
+
+				if( !$this->validate_checkDimensions( $this->_value ) ) {
 					$this->setError( self::ERROR_CODE_DISALLOWED_FILE_TYPE );
 					return false;
 				}
@@ -123,8 +144,15 @@ class Form_Field_FileImage extends Form_Field_File
 		}
 
 
-		$this->setIsValid();
+		$validator = $this->getValidator();
+		if(
+			$validator &&
+			!$validator( $this )
+		) {
+			return false;
+		}
 
+		$this->setIsValid();
 		return true;
 	}
 

@@ -35,20 +35,32 @@ class Form_Field_Url extends Form_Field_Input
 	public function validate(): bool
 	{
 		if(
-			!$this->is_required &&
+			$this->is_required &&
 			$this->_value === ''
 		) {
-			return true;
-		}
-
-		if( !filter_var( $this->_value, FILTER_VALIDATE_URL ) ) {
-			$this->setError( self::ERROR_CODE_INVALID_FORMAT );
+			$this->setError( self::ERROR_CODE_EMPTY );
 
 			return false;
 		}
 
-		$this->setIsValid();
+		if( $this->_value ) {
+			if( !filter_var( $this->_value, FILTER_VALIDATE_URL ) ) {
+				$this->setError( self::ERROR_CODE_INVALID_FORMAT );
 
+				return false;
+			}
+		}
+
+
+		$validator = $this->getValidator();
+		if(
+			$validator &&
+			!$validator( $this )
+		) {
+			return false;
+		}
+
+		$this->setIsValid();
 		return true;
 	}
 

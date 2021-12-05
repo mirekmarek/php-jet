@@ -36,21 +36,34 @@ class Form_Field_Color extends Form_Field_Input
 	public function validate(): bool
 	{
 		if(
-			!$this->is_required &&
+			$this->is_required &&
 			$this->_value === ''
 		) {
-			return true;
+			$this->setError( self::ERROR_CODE_EMPTY );
+
+			return false;
 		}
 
 
-		if( !preg_match( '/^#[a-f0-9]{6}$/i', $this->_value ) ) {
+
+		if(
+			$this->_value!=='' &&
+			!preg_match( '/^#[a-f0-9]{6}$/i', $this->_value )
+		) {
 			$this->setError( self::ERROR_CODE_INVALID_FORMAT );
 
 			return false;
 		}
 
-		$this->setIsValid();
+		$validator = $this->getValidator();
+		if(
+			$validator &&
+			!$validator( $this )
+		) {
+			return false;
+		}
 
+		$this->setIsValid();
 		return true;
 	}
 

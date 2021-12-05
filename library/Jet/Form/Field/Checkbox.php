@@ -42,22 +42,21 @@ class Form_Field_Checkbox extends Form_Field
 		$data->set( $this->_name, $this->_value );
 	}
 
-	/**
-	 * @return bool
-	 */
-	public function checkValueIsNotEmpty(): bool
-	{
-		return true;
-	}
-
 
 	/**
 	 * @return bool
 	 */
 	public function validate(): bool
 	{
-		$this->setIsValid();
+		$validator = $this->getValidator();
+		if(
+			$validator &&
+			!$validator( $this )
+		) {
+			return false;
+		}
 
+		$this->setIsValid();
 		return true;
 	}
 

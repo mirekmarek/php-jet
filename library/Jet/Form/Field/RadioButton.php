@@ -53,20 +53,34 @@ class Form_Field_RadioButton extends Form_Field
 	 */
 	public function validate(): bool
 	{
-		if( $this->_value === null && !$this->is_required ) {
-			return true;
-		}
-
-		$options = $this->select_options;
-
-		if( !isset( $options[$this->_value] ) ) {
-			$this->setError( self::ERROR_CODE_INVALID_VALUE );
+		if(
+			$this->is_required &&
+			$this->_value === ''
+		) {
+			$this->setError( self::ERROR_CODE_EMPTY );
 
 			return false;
 		}
 
-		$this->setIsValid();
+		if($this->_value) {
+			$options = $this->select_options;
 
+			if( !isset( $options[$this->_value] ) ) {
+				$this->setError( self::ERROR_CODE_INVALID_VALUE );
+
+				return false;
+			}
+		}
+
+		$validator = $this->getValidator();
+		if(
+			$validator &&
+			!$validator( $this )
+		) {
+			return false;
+		}
+
+		$this->setIsValid();
 		return true;
 	}
 

@@ -35,6 +35,15 @@ class Form_Field_MultiSelect extends Form_Field
 	 */
 	public function validate(): bool
 	{
+		if(
+			$this->is_required &&
+			$this->_value === ''
+		) {
+			$this->setError( self::ERROR_CODE_EMPTY );
+
+			return false;
+		}
+
 		$options = $this->select_options;
 		if( !$this->_value ) {
 			$this->_value = [];
@@ -53,29 +62,18 @@ class Form_Field_MultiSelect extends Form_Field
 		}
 
 
-		$this->setIsValid();
-
-		return true;
-	}
-
-
-	/**
-	 *
-	 * @return bool
-	 */
-	public function checkValueIsNotEmpty(): bool
-	{
+		$validator = $this->getValidator();
 		if(
-			!$this->_value &&
-			$this->is_required
+			$validator &&
+			!$validator( $this )
 		) {
-			$this->setError( self::ERROR_CODE_EMPTY );
-
 			return false;
 		}
 
+		$this->setIsValid();
 		return true;
 	}
+
 
 
 	/**

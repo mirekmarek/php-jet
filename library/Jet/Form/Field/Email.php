@@ -34,20 +34,32 @@ class Form_Field_Email extends Form_Field_Input
 	public function validate(): bool
 	{
 		if(
-			!$this->is_required &&
+			$this->is_required &&
 			$this->_value === ''
 		) {
-			return true;
+			$this->setError( self::ERROR_CODE_EMPTY );
+
+			return false;
 		}
 
-		if( !filter_var( $this->_value, FILTER_VALIDATE_EMAIL ) ) {
+		if(
+			$this->_value &&
+			!filter_var( $this->_value, FILTER_VALIDATE_EMAIL )
+		) {
 			$this->setError( self::ERROR_CODE_INVALID_FORMAT );
 
 			return false;
 		}
 
-		$this->setIsValid();
+		$validator = $this->getValidator();
+		if(
+			$validator &&
+			!$validator( $this )
+		) {
+			return false;
+		}
 
+		$this->setIsValid();
 		return true;
 	}
 

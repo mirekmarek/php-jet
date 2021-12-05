@@ -36,6 +36,17 @@ class Form_Field_Select extends Form_Field
 
 		$options = $this->select_options;
 
+		if(
+			$this->is_required &&
+			$this->_value === '' &&
+			array_key_exists('', $options)
+		) {
+			$this->setError( self::ERROR_CODE_EMPTY );
+
+			return false;
+		}
+
+
 		if( !isset( $options[$this->_value] ) ) {
 
 			$this->setError( self::ERROR_CODE_INVALID_VALUE );
@@ -43,8 +54,15 @@ class Form_Field_Select extends Form_Field
 			return false;
 		}
 
-		$this->setIsValid();
+		$validator = $this->getValidator();
+		if(
+			$validator &&
+			!$validator( $this )
+		) {
+			return false;
+		}
 
+		$this->setIsValid();
 		return true;
 	}
 
