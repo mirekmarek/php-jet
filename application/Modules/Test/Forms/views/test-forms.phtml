@@ -79,10 +79,8 @@ MVC_Layout::getCurrentLayout()->requireJavascriptFile( SysConf_URI::getJs() . 'J
 </style>
 
 <h2><?= Tr::_( 'Form test' ) ?></h2>
-<p>
-	<?php foreach($forms
 
-	as $form_name => $d):
+<?php foreach($forms as $form_name => $d):
 	/**
 	 * @var Form $form
 	 */
@@ -98,7 +96,7 @@ MVC_Layout::getCurrentLayout()->requireJavascriptFile( SysConf_URI::getJs() . 'J
 		</div>
 	</fieldset>
 <?php endforeach; ?>
-</p>
+
 
 
 <div id="__progress__">

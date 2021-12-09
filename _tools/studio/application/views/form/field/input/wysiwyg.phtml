@@ -68,6 +68,8 @@ if( !$init_generator ) {
 			$editor_config['readonly'] = 1;
 		}
 
+		/** @noinspection JSUnresolvedVariable */
+		/** @noinspection BadExpressionStatementJS */
 		return '<script type="text/javascript">'
 			. 'tinymce.init(' . json_encode( $editor_config ) . ')'
 			. '</script>' . PHP_EOL;
