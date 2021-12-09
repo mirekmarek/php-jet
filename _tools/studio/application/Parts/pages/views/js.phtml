@@ -44,11 +44,11 @@ namespace JetStudio;
 						url: '<?=Pages::getActionUrl( 'get_module_controllers', [], false )?>&module=' + encodeURIComponent(module_name),
 						dataType: 'json',
 						success: function (result) {
-							$.each(result.controllers, function (name) {
+							$.each(result['controllers'], function (name) {
 								controllers.append($('<option></option>').attr('value', name).text(name));
 							});
 
-							controllers.val(result.default_controller);
+							controllers.val(result['default_controller']);
 
 							$.each(result.actions, function (name) {
 								controller_action.append($('<option></option>').attr('value', name).text(name));

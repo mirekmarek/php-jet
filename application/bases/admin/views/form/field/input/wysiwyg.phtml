@@ -69,7 +69,7 @@ if( !$init_generator ) {
 		}
 
 		return '<script type="text/javascript">'
-			. 'tinymce.init(' . json_encode( $editor_config ) . ');'
+			. 'tinymce.init(' . json_encode( $editor_config ) . ')'
 			. '</script>' . PHP_EOL;
 
 	};

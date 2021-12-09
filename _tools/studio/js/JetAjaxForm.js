@@ -76,14 +76,14 @@ let JetAjaxForm = {
 						return;
 					}
 
-					if(response.snippets) {
-						JetAjaxForm.applySnippets(form, response.snippets);
+					if(response['snippets']) {
+						JetAjaxForm.applySnippets(form, response['snippets']);
 					}
 
-					if( response.result==='ok' ) {
-						handlers.onSuccess(form, response.data);
+					if( response['result']==='ok' ) {
+						handlers.onSuccess(form, response['data']);
 					} else {
-						handlers.onFormError(form, response.data);
+						handlers.onFormError(form, response['data']);
 					}
 
 				} else {
@@ -180,19 +180,19 @@ let JetAjaxForm = {
 							return;
 						}
 
-						if(response.snippets) {
-							JetAjaxForm.applySnippets(form, response.snippets);
+						if(response['snippets']) {
+							JetAjaxForm.applySnippets(form, response['snippets']);
 						}
 
-						if( response.result==='ok' ) {
-							handlers.onSuccess(response.data);
+						if( response['result']==='ok' ) {
+							handlers.onSuccess(response['data']);
 
 							setTimeout(function () {
 								upload( i+1 );
 							}, 1000);
 
 						} else {
-							handlers.onFormError(response.data);
+							handlers.onFormError(response['data']);
 						}
 
 

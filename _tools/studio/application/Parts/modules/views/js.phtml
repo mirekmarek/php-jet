@@ -61,9 +61,9 @@ use Jet\Http_Request;
 				},
 				removeContent: function (base_id, page_id, index) {
 					const form = $('#delete_content_form')[0]
-					form.base.value = base_id;
-					form.page.value = page_id;
-					form.index.value = index;
+					form['base'].value = base_id;
+					form['page'].value = page_id;
+					form['index'].value = index;
 
 					$('#delete_content').modal('show');
 				}
@@ -159,13 +159,13 @@ use Jet\Http_Request;
 						url: '<?=Modules::getActionUrl( 'page/get_module_controllers' )?>&module=' + encodeURIComponent(module_name),
 						dataType: 'json',
 						success: function (result) {
-							$.each(result.controllers, function (name) {
+							$.each(result['controllers'], function (name) {
 								controllers.append($('<option></option>').attr('value', name).text(name));
 							});
 
-							controllers.val(result.default_controller);
+							controllers.val(result['default_controller']);
 
-							$.each(result.actions, function (name) {
+							$.each(result['actions'], function (name) {
 								controller_action.append($('<option></option>').attr('value', name).text(name));
 							});
 						}

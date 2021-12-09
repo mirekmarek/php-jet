@@ -21,16 +21,15 @@ namespace JetStudio;
 
 			generateScriptPath: function (form) {
 				let namespace = form.namespace.value;
-				let class_name = form.class_name.value;
+				let class_name = form['class_name'].value;
 				class_name = class_name.replace(' ', '_');
-				form.class_name.value = class_name;
+				form['class_name'].value = class_name;
 
 				$.ajax({
 					url: '<?=DataModels::getActionUrl( 'model/generate/script_path' )?>&namespace=' + encodeURIComponent(namespace) + '&class_name=' + class_name,
 					dataType: 'json',
 					success: function (data) {
-						form.script_path.value = data.path;
-						$('#base_create_form__id').val(result.id);
+						form['script_path'].value = data['path'];
 					}
 				});
 
@@ -38,11 +37,11 @@ namespace JetStudio;
 			},
 
 			generateModelName: function (form) {
-				let class_name = form.class_name.value;
+				let class_name = form['class_name'].value;
 				let model_name = class_name.toLowerCase();
 				model_name = model_name.replace('\\', '_');
 
-				form.model_name.value = model_name;
+				form['model_name'].value = model_name;
 			}
 		},
 
@@ -107,7 +106,7 @@ namespace JetStudio;
 
 					new_values = new_values.join('|');
 
-					$('#edit_model_form__default_order_by').val(new_values);
+					values_field.val(new_values);
 
 					DataModel.edit.defaultOrderBy.actualizeSelected();
 				},
@@ -137,7 +136,7 @@ namespace JetStudio;
 
 					new_values = new_values.join('|');
 
-					$('#edit_model_form__default_order_by').val(new_values);
+					values_field.val(new_values);
 
 					$('.order_by_options_item_selected[data-id="' + id + '"]').data('sort', sort);
 
@@ -164,9 +163,10 @@ namespace JetStudio;
 							id = values[i];
 							sort = id.substr(0, 1);
 							id = id.substr(1);
-							label = $('.order_by_options_item[data-id="' + id + '"]').data('label');
+							let obo = $('.order_by_options_item[data-id="' + id + '"]');
+							label = obo.data('label');
 
-							$('.order_by_options_item[data-id="' + id + '"]').hide();
+							obo.hide();
 
 							html += '<div'
 								+ ' class="list-group-item order_by_options_item_selected"'
@@ -300,15 +300,15 @@ namespace JetStudio;
 
 					let i;
 					let required_option;
-					for (i in d.required_options) {
-						required_option = d.required_options[i];
+					for (i in d['required_options']) {
+						required_option = d['required_options'][i];
 
 						$('.ffd-property-' + property_id + '.ffd-option-' + required_option).show();
 					}
 
 					let required_em;
-					for (i in d.required_error_messages) {
-						required_em = d.required_error_messages[i];
+					for (i in d['required_error_messages']) {
+						required_em = d['required_error_messages'][i];
 
 						$('.ffd-em-property-' + property_id + '.ffd-em-' + required_em).show();
 					}
