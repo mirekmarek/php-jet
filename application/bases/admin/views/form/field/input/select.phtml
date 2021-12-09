@@ -57,10 +57,8 @@ if( $field->getIsRequired() ) {
 			$text = str_pad('', ($label->getDepth()*36), '&nbsp;', STR_PAD_LEFT).$text;
 		}
 
-		if( ((string)$val) == ((string)$value) ) {
-			echo '<option value="' . Data_Text::htmlSpecialChars( $val ) . '" ' . $css . ' selected="selected">' . $text . '</option>' . PHP_EOL;
-		} else {
-			echo '<option value="' . Data_Text::htmlSpecialChars( $val ) . '" ' . $css . '>' . $text . '</option>' . PHP_EOL;
-		}
+		$selected = ( ((string)$val) == ((string)$value) ) ? ' selected="selected"' : '';
+
+		?><option value="<?=Data_Text::htmlSpecialChars( $val )?>" <?=$css?><?=$selected?>><?=Data_Text::htmlSpecialChars( $label )?></option><?php
 	endforeach; ?>
 </select>

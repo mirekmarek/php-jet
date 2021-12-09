@@ -69,11 +69,8 @@ if( $field->getIsRequired() ) {
 				$css .= ' style="' . $style . '"';
 			}
 		}
+		$selected = $selected ? ' selected="selected"' : '';
 
-		if( $selected ) {
-			echo '<option value="' . Data_Text::htmlSpecialChars( $val ) . '" ' . $css . ' selected="selected">' . Data_Text::htmlSpecialChars( $label ) . '</option>' . PHP_EOL;
-		} else {
-			echo '<option value="' . Data_Text::htmlSpecialChars( $val ) . '" ' . $css . '>' . Data_Text::htmlSpecialChars( $label ) . '</option>' . PHP_EOL;
-		}
+		?><option value="<?=Data_Text::htmlSpecialChars( $val )?>" <?=$css?><?=$selected?>><?=Data_Text::htmlSpecialChars( $label )?></option><?php
 	endforeach; ?>
 </select>

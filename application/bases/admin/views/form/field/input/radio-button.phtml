@@ -29,10 +29,12 @@ $attrs = $r->getStdInputFieldAttributes('radio');
 ?>
 <?php foreach( $field->getSelectOptions() as $key => $option ):
 	$attrs['value'] = Data_Text::htmlSpecialChars( $key );
+
+	$checked = ($key==$field->getValue()) ? 'checked="checked"' : '';
 	?>
 
 	<div class="<?= $container_class ?>">
-		<input <?=$r->renderAttributes($attrs)?>/>
+		<input <?=$r->renderAttributes($attrs)?><?=$checked?>/>
 		<label class="form-check-label" for="<?= $field->getId() ?>"><?= $option ?></label>
 	</div>
 <?php endforeach; ?>

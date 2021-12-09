@@ -98,7 +98,7 @@ function showRunBlock( Debug_Profiler_Run_Block $block, int $level=0)
 
 		<div class="run_block_main_info">
 			<?php if(!$is_root): ?>
-			<legend><?= $block->getLabel(); ?></legend>
+			<div class="run_block_title"><?= $block->getLabel(); ?></div>
 			<?php endif; ?>
 			<table>
 				<tr>
@@ -194,13 +194,13 @@ function showRunBlock( Debug_Profiler_Run_Block $block, int $level=0)
 		<div>
 			<a href="javascript:toggleDisplay('run_block_details_backtrace_<?= $id; ?>');">Backtrace</a>
 			<div class="run_block_details_backtrace" id="run_block_details_backtrace_<?= $id; ?>" style="display: none;padding-left: 20px">
-				<legend>Block start backtrace:</legend>
+				<div class="run_block_title">Block start backtrace:</div>
 				<ul>
 					<?php foreach ($block->getBacktraceStart() as $bt): ?>
 						<li><?= $bt; ?></li>
 					<?php endforeach; ?>
 				</ul>
-				<legend>Block end backtrace:</legend>
+				<div class="run_block_title">Block end backtrace:</div>
 				<ul>
 					<?php foreach ($block->getBacktraceEnd() as $bt): ?>
 						<li><?= $bt; ?></li>
@@ -284,6 +284,10 @@ function showRunBlock( Debug_Profiler_Run_Block $block, int $level=0)
 
 		.run_block_details {
 
+		}
+
+		.run_block_title {
+			font-weight: bolder;
 		}
 
 	</style>
