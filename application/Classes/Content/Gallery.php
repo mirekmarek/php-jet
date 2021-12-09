@@ -448,7 +448,7 @@ class Content_Gallery extends DataModel
 			$this->_form_edit = $this->getCommonForm();
 
 
-			$this->_form_add->getField( 'parent_id' )->setErrorMessages([
+			$this->_form_edit->getField( 'parent_id' )->setErrorMessages([
 				'unknown_parent' => 'Unknown parent',
 			]);
 

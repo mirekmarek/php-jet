@@ -132,9 +132,9 @@ class DataModel_Query extends BaseObject
 	}
 
 	/**
-	 * @return DataModel_Query_Select
+	 * @return ?DataModel_Query_Select
 	 */
-	public function getSelect(): DataModel_Query_Select
+	public function getSelect(): ?DataModel_Query_Select
 	{
 		return $this->select;
 	}
