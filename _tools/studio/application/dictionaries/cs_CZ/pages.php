@@ -86,4 +86,6 @@ return [
 	'Invalid class name format' => 'Neplatný formát názvu třídy',
 	'Invalid action name format' => 'Neplatný formát názvu akce',
 	'Invalid method name format' => 'Neplatný formát názvu metody',
+	'Please enter valid class name' => 'Prosím zadejte platný název třídy',
+	'Please enter valid method name' => 'Prosím zadejte platný název metody',
 ];
