@@ -49,7 +49,6 @@ class ErrorHandler_Display extends Debug_ErrorHandler_Handler
 		return true;
 	}
 
-
 	/**
 	 *
 	 * @param Debug_ErrorHandler_Error $e
@@ -58,28 +57,81 @@ class ErrorHandler_Display extends Debug_ErrorHandler_Handler
 	public function display( Debug_ErrorHandler_Error $e ): void
 	{
 		?>
+		<style>
+			.dbg-error {
+				background-color: #c9ffc9;
+				padding:5px;
+				border: 1px solid black;
+				font-family: 'Arial CE', Arial, sans-serif;
+			}
+
+			.dbg-error h2 {
+				padding:0;
+				margin:5px;
+			}
+
+			.dbg-error div.error {
+				padding: 10px;
+				margin-top: 10px;
+				margin-bottom: 10px;
+				border-top: 1px solid black;
+				border-bottom: 1px solid black;
+			}
+
+			.dbg-error table.error-info {
+				border-collapse:collapse;
+				background-color: #c9c9c9;
+			}
+
+			.dbg-error table.error-info td {
+				padding: 5px;
+			}
+
+			.dbg-error table.backtrace  {
+				border-collapse:collapse;
+				background-color: #999999;
+			}
+
+			.dbg-error table.backtrace th {
+				text-align: left;
+				padding: 5px;
+			}
+
+			.dbg-error table.backtrace .row1 td,
+			.dbg-error table.backtrace .row2 td {
+				padding: 5px;
+			}
+
+			.dbg-error table.backtrace .row1 {
+				background-color:#f0f0f0;
+			}
+
+			.dbg-error table.backtrace .row2 {
+				background-color:#c9c9c9;
+			}
+		</style>
 		<br/>
-		<div style="background-color: #c9ffc9;padding:5px;border: 1px solid black; font-family: 'Arial CE', Arial, sans-serif;">
-			<h2 style="padding:0;margin:0;"><?= static::encode( $e->getTxt() ) ?></h2>
-			<hr/>
+		<div class="dbg-error">
+			<h2><?= static::encode( $e->getTxt() ) ?></h2>
+			<div class="error">
 			<?= static::encode( $e->getMessage() ) ?>
-			<hr/>
-			<table style="border-collapse:collapse;collapse;background-color: #c9c9c9;">
+			</div>
+			<table class="error-info">
 				<tr>
-					<td style="padding: 2px;">script:</td>
-					<td style="padding: 2px;"><?= $e->getFile() ?></td>
+					<td>script:</td>
+					<td><?= $e->getFile() ?></td>
 				</tr>
 				<tr>
-					<td style="padding: 2px;">line:</td>
-					<td style="padding: 2px;"><?= $e->getLine() ?></td>
+					<td>line:</td>
+					<td><?= $e->getLine() ?></td>
 				</tr>
 				<tr>
-					<td style="padding: 2px;">time:</td>
-					<td style="padding: 2px;"><?= $e->getDate() ?> <?= $e->getTime() ?></td>
+					<td>time:</td>
+					<td><?= $e->getDate() ?> <?= $e->getTime() ?></td>
 				</tr>
 				<tr>
-					<td style="padding: 2px;">URL:</td>
-					<td style="padding: 2px;"><?= static::encode( $e->getRequestURL() ) ?></td>
+					<td>URL:</td>
+					<td><?= static::encode( $e->getRequestURL() ) ?></td>
 				</tr>
 			</table>
 			<br/>
@@ -88,25 +140,29 @@ class ErrorHandler_Display extends Debug_ErrorHandler_Handler
 
 				<br/><strong>Debug backtrace:</strong><br/>
 
-				<table style="border-collapse:collapse;background-color: #999999;">
+				<table class="backtrace">
+					<thead>
 					<tr>
-						<th style="text-align: left;padding: 5px;">File</th>
-						<th style="text-align: left;padding: 5px;">Line</th>
-						<th style="text-align: left;padding: 5px;">Call</th>
+						<th>File</th>
+						<th>Line</th>
+						<th>Call</th>
 					</tr>
 
+					</thead>
+
+					<tbody>
 					<?php
 					$i = 0;
 					foreach( $e->getBacktrace() as $d ):
-						$row_style = 'background-color:' . (($i % 2 ? '#f0f0f0' : '#c9c9c9'));
 						$i++;
 						?>
-						<tr style="<?= $row_style ?>">
-							<td style="text-align: left;padding: 5px;vertical-align: top"><?= $d->getFile() ?></td>
-							<td style="text-align: left;padding: 5px;vertical-align: top"><?= $d->getLine() ?></td>
-							<td style="text-align: left;padding: 5px;vertical-align: top"><?= self::encode( $d->getCall() ) ?></td>
+						<tr class="row<?=($i % 2)?1:2?>">
+							<td><?= $d->getFile() ?></td>
+							<td><?= $d->getLine() ?></td>
+							<td><?= self::encode( $d->getCall() ) ?></td>
 						</tr>
 					<?php endforeach; ?>
+					</tbody>
 				</table>
 			<?php endif; ?>
 
