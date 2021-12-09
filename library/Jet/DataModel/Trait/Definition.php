@@ -34,6 +34,6 @@ trait DataModel_Trait_Definition
 	 */
 	public static function dataModelDefinitionType(): string
 	{
-		return 'Main';
+		return DataModel::MODEL_TYPE_MAIN;
 	}
 }

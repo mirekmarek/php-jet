@@ -890,7 +890,7 @@ class Pages_Page extends MVC_Page
 			$output_position_order = Pages_Page_Content::getField__output_position_order( 0 );
 
 			$module_name = Pages_Page_Content::getField__module_name( '' );
-			$controller_name = Pages_Page_Content::getField__controller_name( 'Main' );
+			$controller_name = Pages_Page_Content::getField__controller_name( MVC::MAIN_CONTROLLER_NAME );
 			$controller_action = Pages_Page_Content::getField__controller_action( 'default' );
 
 

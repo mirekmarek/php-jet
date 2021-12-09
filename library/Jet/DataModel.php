@@ -111,6 +111,11 @@ abstract class DataModel extends BaseObject implements BaseObject_Interface_Seri
 	use DataModel_Trait_Forms;
 	use DataModel_Trait_Exports;
 
+	const MODEL_TYPE_MAIN = 'Main';
+	const MODEL_TYPE_RELATED_1TON = 'Related_1toN';
+	const MODEL_TYPE_RELATED_1TO1 = 'Related_1to1';
+
+
 	const TYPE_ID = 'Id';
 	const TYPE_ID_AUTOINCREMENT = 'IdAutoIncrement';
 	const TYPE_STRING = 'String';

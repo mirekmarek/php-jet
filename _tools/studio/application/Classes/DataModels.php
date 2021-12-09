@@ -10,6 +10,7 @@ namespace JetStudio;
 
 use Jet\Autoloader;
 use Jet\BaseObject;
+use Jet\DataModel;
 use Jet\Http_Request;
 use Jet\SysConf_URI;
 use Jet\Tr;
@@ -32,18 +33,13 @@ class DataModels extends BaseObject implements Application_Part
 		DataModel_IDController_Passive::class       => 'Passive',
 	];
 
-	const MODEL_TYPE_MAIN = 'Main';
-
-	const MODEL_TYPE_RELATED_1TON = 'Related_1toN';
-	const MODEL_TYPE_RELATED_1TO1 = 'Related_1to1';
-
 
 	/**
 	 * @var array
 	 */
 	protected static array $types = [
-		self::MODEL_TYPE_RELATED_1TON => 'Related DataModel 1toN',
-		self::MODEL_TYPE_RELATED_1TO1 => 'Related DataModel 1to1',
+		DataModel::MODEL_TYPE_RELATED_1TON => 'Related DataModel 1toN',
+		DataModel::MODEL_TYPE_RELATED_1TO1 => 'Related DataModel 1to1',
 
 	];
 

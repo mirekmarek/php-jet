@@ -31,7 +31,7 @@ abstract class DataModel_Related_1toN extends DataModel_Related
 	 */
 	public static function dataModelDefinitionType(): string
 	{
-		return 'Related_1toN';
+		return DataModel::MODEL_TYPE_RELATED_1TON;
 	}
 
 	/**

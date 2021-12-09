@@ -11,6 +11,7 @@ namespace JetStudio;
 use Jet\DataModel_Definition_Model_Related_1to1 as Jet_DataModel_Definition_Model_Related_1to1;
 use Jet\Form;
 use Jet\Tr;
+use Jet\DataModel;
 
 /**
  */
@@ -22,7 +23,7 @@ class DataModel_Definition_Model_Related_1to1 extends Jet_DataModel_Definition_M
 	/**
 	 * @var string
 	 */
-	protected string $internal_type = DataModels::MODEL_TYPE_RELATED_1TO1;
+	protected string $internal_type = DataModel::MODEL_TYPE_RELATED_1TO1;
 
 	/**
 	 * @var ?Form
@@ -35,7 +36,7 @@ class DataModel_Definition_Model_Related_1to1 extends Jet_DataModel_Definition_M
 	public static function getCreateForm(): Form
 	{
 		if( !static::$create_form ) {
-			static::$create_form = DataModel_Definition_Model_Trait::getCreateForm_Related( '1to1' );
+			static::$create_form = DataModel_Definition_Model_Trait::getCreateForm_Related( Datamodel::MODEL_TYPE_RELATED_1TO1 );
 		}
 
 		return static::$create_form;
@@ -80,9 +81,9 @@ class DataModel_Definition_Model_Related_1to1 extends Jet_DataModel_Definition_M
 
 		$class->addUse( new ClassCreator_UseClass( 'Jet', 'DataModel' ) );
 		$class->addUse( new ClassCreator_UseClass( 'Jet', 'DataModel_Definition' ) );
-		$class->addUse( new ClassCreator_UseClass( 'Jet', 'DataModel_Related_1to1' ) );
+		$class->addUse( new ClassCreator_UseClass( 'Jet', 'DataModel_'.Datamodel::MODEL_TYPE_RELATED_1TO1 ) );
 
-		$class->setExtends( $this->createClass_getExtends( $class, 'DataModel_Related_1to1' ) );
+		$class->setExtends( $this->createClass_getExtends( $class, 'DataModel_'.Datamodel::MODEL_TYPE_RELATED_1TO1 ) );
 
 		return $class;
 	}

@@ -8,6 +8,7 @@
 
 namespace JetStudio;
 
+use Jet\DataModel;
 use Jet\BaseObject_Exception;
 use Jet\DataModel_Definition_Property_DataModel as Jet_DataModel_Definition_Property_DataModel;
 use Jet\Form_Field;
@@ -115,10 +116,10 @@ class DataModel_Definition_Property_DataModel extends Jet_DataModel_Definition_P
 
 
 			switch($type) {
-				case DataModels::MODEL_TYPE_RELATED_1TO1:
+				case DataModel::MODEL_TYPE_RELATED_1TO1:
 					$property_type = $use->getClass();
 				break;
-				case DataModels::MODEL_TYPE_RELATED_1TON:
+				case DataModel::MODEL_TYPE_RELATED_1TON:
 					$property_type = 'array';
 					$default_value = [];
 				break;
@@ -141,10 +142,10 @@ class DataModel_Definition_Property_DataModel extends Jet_DataModel_Definition_P
 
 		if( $related_dm ) {
 			switch( $related_dm->getInternalType() ) {
-				case DataModels::MODEL_TYPE_RELATED_1TO1:
+				case DataModel::MODEL_TYPE_RELATED_1TO1:
 					return null;
 
-				case DataModels::MODEL_TYPE_RELATED_1TON:
+				case DataModel::MODEL_TYPE_RELATED_1TON:
 					return [];
 			}
 		}

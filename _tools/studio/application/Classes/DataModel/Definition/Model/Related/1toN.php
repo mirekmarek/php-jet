@@ -23,7 +23,7 @@ class DataModel_Definition_Model_Related_1toN extends Jet_DataModel_Definition_M
 	/**
 	 * @var string
 	 */
-	protected string $internal_type = DataModels::MODEL_TYPE_RELATED_1TON;
+	protected string $internal_type = DataModel::MODEL_TYPE_RELATED_1TON;
 
 
 	/**
@@ -37,7 +37,7 @@ class DataModel_Definition_Model_Related_1toN extends Jet_DataModel_Definition_M
 	public static function getCreateForm(): Form
 	{
 		if( !static::$create_form ) {
-			static::$create_form = DataModel_Definition_Model_Trait::getCreateForm_Related( '1toN' );
+			static::$create_form = DataModel_Definition_Model_Trait::getCreateForm_Related( DataModel::MODEL_TYPE_RELATED_1TON );
 		}
 
 		return static::$create_form;
@@ -81,9 +81,9 @@ class DataModel_Definition_Model_Related_1toN extends Jet_DataModel_Definition_M
 
 		$class->addUse( new ClassCreator_UseClass( 'Jet', 'DataModel' ) );
 		$class->addUse( new ClassCreator_UseClass( 'Jet', 'DataModel_Definition' ) );
-		$class->addUse( new ClassCreator_UseClass( 'Jet', 'DataModel_Related_1toN' ) );
+		$class->addUse( new ClassCreator_UseClass( 'Jet', 'DataModel_'.DataModel::MODEL_TYPE_RELATED_1TON ) );
 
-		$class->setExtends( $this->createClass_getExtends( $class, 'DataModel_Related_1toN' ) );
+		$class->setExtends( $this->createClass_getExtends( $class, 'DataModel_'.DataModel::MODEL_TYPE_RELATED_1TON ) );
 
 		return $class;
 	}

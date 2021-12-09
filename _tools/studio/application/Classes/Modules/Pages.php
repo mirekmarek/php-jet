@@ -216,7 +216,7 @@ class Modules_Pages extends BaseObject
 
 		$content = new Pages_Page_Content();
 		$content->setModuleName( $this->module_manifest->getName() );
-		$content->setControllerName( 'Main' );
+		$content->setControllerName( MVC::MAIN_CONTROLLER_NAME );
 		$content->setControllerAction( 'default' );
 		$content->setOutputPosition( MVC_Layout::DEFAULT_OUTPUT_POSITION );
 

@@ -1,0 +1,20 @@
+<?php
+
+namespace JetStudio;
+
+use Jet\DataModel;
+use Jet\UI;
+use Jet\Tr;
+
+$dialog = UI::dialog( 'dialog_create_new_data_model_'.DataModel::MODEL_TYPE_RELATED_1TON, Tr::_( 'Create a new DataModel - Related 1toN' ), 3400 );
+
+echo $dialog->start();
+?>
+	<div id="create_model_form_area_<?=DataModel::MODEL_TYPE_RELATED_1TON?>">
+		<?php require 'form.phtml'; ?>
+	</div>
+	<?php
+echo $dialog->footer();
+echo UI::button_save( Tr::_( 'Create' ) )->setOnclick( "DataModel.create.createSend('".DataModel::MODEL_TYPE_RELATED_1TON."')" );
+echo $dialog->end();
+

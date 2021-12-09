@@ -25,9 +25,9 @@ class Factory_DataModel
 	];
 
 	protected static array $model_definition_class_names = [
-		'Main'         => DataModel_Definition_Model_Main::class,
-		'Related_1to1' => DataModel_Definition_Model_Related_1to1::class,
-		'Related_1toN' => DataModel_Definition_Model_Related_1toN::class,
+		DataModel::MODEL_TYPE_MAIN         => DataModel_Definition_Model_Main::class,
+		DataMOdel::MODEL_TYPE_RELATED_1TO1 => DataModel_Definition_Model_Related_1to1::class,
+		DataModel::MODEL_TYPE_RELATED_1TON => DataModel_Definition_Model_Related_1toN::class,
 	];
 
 	protected static array $property_definition_class_names = [

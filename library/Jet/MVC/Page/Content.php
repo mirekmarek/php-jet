@@ -32,7 +32,7 @@ class MVC_Page_Content extends BaseObject implements MVC_Page_Content_Interface
 	 *
 	 * @var string
 	 */
-	protected string $controller_name = 'Main';
+	protected string $controller_name = MVC::MAIN_CONTROLLER_NAME;
 
 	/**
 	 * @var string

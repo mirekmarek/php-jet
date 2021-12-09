@@ -310,7 +310,7 @@ class MVC_Layout extends MVC_View_Abstract
 
 			$module_name = $properties['module'];
 			$action = $properties['action'] ?? '';
-			$controller_name = $properties['controller'] ?? 'Main';
+			$controller_name = $properties['controller'] ?? MVC::MAIN_CONTROLLER_NAME;
 			$parameters = [];
 			$is_cacheable = strtolower( $properties['is_cacheable'] ?? 'false' ) == 'true';
 

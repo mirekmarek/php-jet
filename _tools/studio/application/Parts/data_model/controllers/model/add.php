@@ -3,26 +3,23 @@
 namespace JetStudio;
 
 use Jet\AJAX;
+use Jet\DataModel;
 use Jet\Http_Request;
 use Jet\Tr;
 use Jet\UI_messages;
 
 $POST = Http_Request::POST();
 
-$type = $POST->getString( 'type', '', [
-	'Main',
-	'1to1',
-	'1toN',
+$type = $POST->getString( key: 'type', valid_values: [
+	DataModel::MODEL_TYPE_MAIN,
+	Datamodel::MODEL_TYPE_RELATED_1TO1,
+	Datamodel::MODEL_TYPE_RELATED_1TON,
 ] );
 if( !$type ) {
 	die();
 }
 
-if( $type != 'Main' ) {
-	$class_name = __NAMESPACE__ . '\\DataModel_Definition_Model_Related_' . $type;
-} else {
-	$class_name = __NAMESPACE__ . '\\DataModel_Definition_Model_Main';
-}
+$class_name = __NAMESPACE__ . '\\DataModel_Definition_Model_'.$type;
 
 
 /**

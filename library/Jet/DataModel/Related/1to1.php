@@ -19,7 +19,7 @@ abstract class DataModel_Related_1to1 extends DataModel_Related
 	 */
 	public static function dataModelDefinitionType(): string
 	{
-		return 'Related_1to1';
+		return DataModel::MODEL_TYPE_RELATED_1TO1;
 	}
 
 

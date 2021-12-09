@@ -10,6 +10,7 @@ namespace JetStudio;
 
 use Jet\DataModel_Definition_Model_Main as Jet_DataModel_Definition_Model_Main;
 use Jet\Form;
+use Jet\DataModel;
 
 /**
  */
@@ -22,7 +23,7 @@ class DataModel_Definition_Model_Main extends Jet_DataModel_Definition_Model_Mai
 	/**
 	 * @var string
 	 */
-	protected string $internal_type = DataModels::MODEL_TYPE_MAIN;
+	protected string $internal_type = DataModel::MODEL_TYPE_MAIN;
 
 	/**
 	 *

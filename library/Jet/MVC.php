@@ -15,6 +15,8 @@ class MVC
 {
 	const HOMEPAGE_ID = '_homepage_';
 
+	const MAIN_CONTROLLER_NAME = 'Main';
+
 	/**
 	 *
 	 * @var ?MVC_Router_Interface

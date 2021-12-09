@@ -430,9 +430,9 @@ class Application_Modules_Handler_Default extends Application_Modules_Handler
 		$module_dir = $module_manifest->getModuleDir();
 
 		/** @noinspection PhpIncludeInspection */
-		require_once $module_dir . 'Main.php';
+		require_once $module_dir . Application_Module::MAIN_CLASS_NAME.'.php';
 
-		$class_name = $module_manifest->getNamespace() . 'Main';
+		$class_name = $module_manifest->getNamespace() . Application_Module::MAIN_CLASS_NAME;
 
 		$module = new $class_name( $module_manifest );
 

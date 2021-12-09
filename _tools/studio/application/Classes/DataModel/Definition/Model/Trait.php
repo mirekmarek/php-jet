@@ -1032,11 +1032,11 @@ trait DataModel_Definition_Model_Trait
 	{
 		$fields = static::getCreateForm_mainFields();
 
-		$create_form = new Form( 'create_data_model_form_Main', $fields );
+		$create_form = new Form( 'create_data_model_form_'.DataModel::MODEL_TYPE_MAIN, $fields );
 		$create_form->setDoNotTranslateTexts( true );
 		$create_form->setAction( DataModels::getActionUrl( 'model/add' ) );
 
-		$create_form->field( 'type' )->setDefaultValue( 'Main' );
+		$create_form->field( 'type' )->setDefaultValue( DataModel::MODEL_TYPE_MAIN );
 
 		return $create_form;
 	}

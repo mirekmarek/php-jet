@@ -2,7 +2,7 @@
 
 namespace JetStudio;
 
-use Jet\UI;
+use Jet\DataModel;use Jet\UI;
 use Jet\Tr;
 use Jet\UI_messages;
 
@@ -44,10 +44,10 @@ $allow_to_create_related = (
 					<?= UI::icon( 'plus' ) ?> <?= Tr::_( 'Create a new DataModel' ) ?>
 				</button>
 				<div class="dropdown-menu" style="padding: 10px;">
-					<a class="dropdown-item" href="#" onclick="DataModel.create.openDialog('Main');">Main</a>
+					<a class="dropdown-item" href="#" onclick="DataModel.create.openDialog('<?=DataModel::MODEL_TYPE_MAIN?>');">Main</a>
 					<?php if( $allow_to_create_related ): ?>
-						<a class="dropdown-item" href="#" onclick="DataModel.create.openDialog('1toN');">1toN</a>
-						<a class="dropdown-item" href="#" onclick="DataModel.create.openDialog('1to1');">1to1</a>
+						<a class="dropdown-item" href="#" onclick="DataModel.create.openDialog('<?=DataModel::MODEL_TYPE_RELATED_1TON?>');">1toN</a>
+						<a class="dropdown-item" href="#" onclick="DataModel.create.openDialog('<?=DataModel::MODEL_TYPE_RELATED_1TO1?>');">1to1</a>
 					<?php endif; ?>
 				</div>
 			</div>
@@ -112,11 +112,11 @@ $allow_to_create_related = (
 	</div>
 
 
-<?= Application::getView()->render( 'model/create/Main/dialog' ); ?>
+<?= Application::getView()->render( 'model/create/'.DataModel::MODEL_TYPE_MAIN.'/dialog' ); ?>
 
 <?php if( $allow_to_create_related ): ?>
-	<?= Application::getView()->render( 'model/create/1toN/dialog' ); ?>
-	<?= Application::getView()->render( 'model/create/1to1/dialog' ); ?>
+	<?= Application::getView()->render( 'model/create/'.DataModel::MODEL_TYPE_RELATED_1TON.'/dialog' ); ?>
+	<?= Application::getView()->render( 'model/create/'.DataModel::MODEL_TYPE_RELATED_1TO1.'/dialog' ); ?>
 <?php endif; ?>
 
 <?= Application::getView()->render( 'property/create/dialog' ); ?>
