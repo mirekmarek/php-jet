@@ -21,7 +21,7 @@ $blocks = $run->getBlocks();
  */
 function formatBytes(int $b) : string
 {
-	return round(($b / 1024), 3) . "&nbsp;KiB";
+	return round(($b / 1024), 3) . '&nbsp;KiB';
 }
 
 /**
@@ -32,7 +32,7 @@ function formatDuration(float $duration) : string
 {
 	$duration = round($duration * 1000, 3);
 
-	return $duration . "&nbsp;ms";
+	return $duration . '&nbsp;ms';
 }
 
 /**

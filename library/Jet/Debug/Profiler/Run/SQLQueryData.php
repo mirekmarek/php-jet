@@ -17,12 +17,12 @@ class Debug_Profiler_Run_SQLQueryData
 	/**
 	 * @var string
 	 */
-	protected string $block_id = "";
+	protected string $block_id = '';
 
 	/**
 	 * @var string
 	 */
-	protected string $query = "";
+	protected string $query = '';
 
 	/**
 	 * @var array

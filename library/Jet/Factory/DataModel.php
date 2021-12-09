@@ -26,7 +26,7 @@ class Factory_DataModel
 
 	protected static array $model_definition_class_names = [
 		DataModel::MODEL_TYPE_MAIN         => DataModel_Definition_Model_Main::class,
-		DataMOdel::MODEL_TYPE_RELATED_1TO1 => DataModel_Definition_Model_Related_1to1::class,
+		DataModel::MODEL_TYPE_RELATED_1TO1 => DataModel_Definition_Model_Related_1to1::class,
 		DataModel::MODEL_TYPE_RELATED_1TON => DataModel_Definition_Model_Related_1toN::class,
 	];
 

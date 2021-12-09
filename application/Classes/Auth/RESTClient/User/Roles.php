@@ -40,9 +40,9 @@ class Auth_RESTClient_User_Roles extends DataModel_Related_1toN
 	protected string $role_id = '';
 
 	/**
-	 * @var Auth_RESTCLient_Role|null
+	 * @var Auth_RESTClient_Role|null
 	 */
-	protected ?Auth_RESTCLient_Role $_role = null;
+	protected ?Auth_RESTClient_Role $_role = null;
 
 	public function getArrayKeyValue(): string
 	{
@@ -84,12 +84,12 @@ class Auth_RESTClient_User_Roles extends DataModel_Related_1toN
 
 
 	/**
-	 * @return Auth_RESTCLient_Role|null
+	 * @return Auth_RESTClient_Role|null
 	 */
-	public function getRole() : Auth_RESTCLient_Role|null
+	public function getRole() : Auth_RESTClient_Role|null
 	{
 		if(!$this->_role) {
-			$this->_role = Auth_RESTCLient_Role::get($this->role_id);
+			$this->_role = Auth_RESTClient_Role::get($this->role_id);
 		}
 		return $this->_role;
 	}

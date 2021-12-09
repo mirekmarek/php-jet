@@ -92,7 +92,7 @@ class DataModel_Backend_MySQL extends DataModel_Backend
 
 		$db = $this->getDbWrite();
 
-		$database = $db->fetchOne( "SELECT DATABASE()" );
+		$database = $db->fetchOne( 'SELECT DATABASE()' );
 
 		return (bool)$db->fetchOne( "SELECT 
 			count(*)

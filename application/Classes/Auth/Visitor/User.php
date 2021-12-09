@@ -848,7 +848,7 @@ class Auth_Visitor_User extends DataModel implements Auth_User_Interface
 			$this->setRoles( $value );
 		} );
 		$roles->setErrorMessages( [
-			Form_Field_MultiSelect::ERROR_CODE_INVALID_VALUE => "Please select role",
+			Form_Field_MultiSelect::ERROR_CODE_INVALID_VALUE => 'Please select role',
 		] );
 		$form->addField( $roles );
 

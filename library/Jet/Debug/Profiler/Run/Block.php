@@ -17,7 +17,7 @@ class Debug_Profiler_Run_Block
 	/**
 	 * @var string
 	 */
-	protected string $id = "";
+	protected string $id = '';
 
 	/**
 	 * @var bool
@@ -27,7 +27,7 @@ class Debug_Profiler_Run_Block
 	/**
 	 * @var string
 	 */
-	protected string $label = "";
+	protected string $label = '';
 
 	/**
 	 * @var float

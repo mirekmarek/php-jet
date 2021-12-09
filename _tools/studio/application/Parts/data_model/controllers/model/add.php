@@ -12,8 +12,8 @@ $POST = Http_Request::POST();
 
 $type = $POST->getString( key: 'type', valid_values: [
 	DataModel::MODEL_TYPE_MAIN,
-	Datamodel::MODEL_TYPE_RELATED_1TO1,
-	Datamodel::MODEL_TYPE_RELATED_1TON,
+	DataModel::MODEL_TYPE_RELATED_1TO1,
+	DataModel::MODEL_TYPE_RELATED_1TON,
 ] );
 if( !$type ) {
 	die();

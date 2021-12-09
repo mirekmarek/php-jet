@@ -214,7 +214,7 @@ class Client
 			$this->response_data = json_decode( $this->response_body, true );
 
 			if( !is_array( $this->response_data ) ) {
-				$this->error_message = "JSON parse error";
+				$this->error_message = 'JSON parse error';
 			} else {
 
 				switch( $this->response_status ) {

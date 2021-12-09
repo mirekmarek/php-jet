@@ -7,14 +7,14 @@
  */
 namespace Jet;
 
-$module_name = require "init/init_modules.php";
+$module_name = require 'init/init_modules.php';
 
 echo "Uninstalling module '{$module_name}' ... " . PHP_EOL;
 
 try {
 	Application_Modules::uninstallModule($module_name);
 } catch (Exception $e) {
-	echo "An error occurred: " . $e->getMessage() . "\n\n";
+	echo 'An error occurred: ' . $e->getMessage() . "\n\n";
 	die();
 }
 

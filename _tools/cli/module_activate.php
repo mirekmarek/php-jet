@@ -7,7 +7,7 @@
  */
 namespace Jet;
 
-$module_name = require "init/init_modules.php";
+$module_name = require 'init/init_modules.php';
 
 echo "Activating module '{$module_name}' ... " . PHP_EOL;
 

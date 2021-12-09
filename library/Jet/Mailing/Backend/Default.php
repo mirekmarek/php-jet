@@ -56,7 +56,7 @@ class Mailing_Backend_Default extends Mailing_Backend_Abstract
 		$eol = PHP_EOL;
 
 		if($email->getSenderName()) {
-			$headers['From'] = mb_encode_mimeheader($email->getSenderName() . "<" . $email->getSenderEmail() . ">");
+			$headers['From'] = mb_encode_mimeheader($email->getSenderName() . '<' . $email->getSenderEmail() . '>' );
 		} else {
 			$headers['From'] = mb_encode_mimeheader($email->getSenderEmail());
 		}
@@ -97,14 +97,14 @@ class Mailing_Backend_Default extends Mailing_Backend_Abstract
 
 
 
-		$message = "This is a MIME encoded message." . $eol;
+		$message = 'This is a MIME encoded message.' . $eol;
 		$message .= $eol . "--$boundary_1" . $eol;
-		$message .= "Content-Type: multipart/related; boundary=" . $boundary_2 . ";" . $eol;
+		$message .= 'Content-Type: multipart/related; boundary=' . $boundary_2 . ';' . $eol;
 		$message .= $eol . "--$boundary_2" . $eol;
-		$message .= "Content-Type: multipart/alternative; boundary=" . $boundary_3 . ";" . $eol;
+		$message .= 'Content-Type: multipart/alternative; boundary=' . $boundary_3 . ';' . $eol;
 		$message .= $eol . "--$boundary_3" . $eol;
 
-		$message .= "Content-type: text/plain;charset=utf-8" . $eol;
+		$message .= 'Content-type: text/plain;charset=utf-8' . $eol;
 		$message .= $eol;
 		$message .= $email->getBodyTxt() . $eol;
 
@@ -112,7 +112,7 @@ class Mailing_Backend_Default extends Mailing_Backend_Abstract
 		$message .= $eol . "--$boundary_3" . $eol;
 
 
-		$message .= "Content-type: text/html;charset=utf-8" . $eol;
+		$message .= 'Content-type: text/html;charset=utf-8' . $eol;
 		$message .= $eol;
 		$message .= $email->getBodyHtml() . $eol;
 
@@ -128,7 +128,7 @@ class Mailing_Backend_Default extends Mailing_Backend_Abstract
 
 			$message .= $eol . "--$boundary_2" . $eol;
 			$message .= 'Content-type: ' . $image_info['mime'] . $eol;
-			$message .= 'Content-ID: <' . $image_id . ">" . $eol;
+			$message .= 'Content-ID: <' . $image_id . '>' . $eol;
 			$message .= 'Content-Transfer-Encoding: base64' . $eol;
 			$message .= 'Content-Disposition: inline; filename="' . mb_encode_mimeheader( $filename ) . '""' . $eol;
 			$message .= $eol;

@@ -36,7 +36,7 @@ class DataModel_Definition_Model_Related_1to1 extends Jet_DataModel_Definition_M
 	public static function getCreateForm(): Form
 	{
 		if( !static::$create_form ) {
-			static::$create_form = DataModel_Definition_Model_Trait::getCreateForm_Related( Datamodel::MODEL_TYPE_RELATED_1TO1 );
+			static::$create_form = DataModel_Definition_Model_Trait::getCreateForm_Related( DataModel::MODEL_TYPE_RELATED_1TO1 );
 		}
 
 		return static::$create_form;
@@ -81,9 +81,9 @@ class DataModel_Definition_Model_Related_1to1 extends Jet_DataModel_Definition_M
 
 		$class->addUse( new ClassCreator_UseClass( 'Jet', 'DataModel' ) );
 		$class->addUse( new ClassCreator_UseClass( 'Jet', 'DataModel_Definition' ) );
-		$class->addUse( new ClassCreator_UseClass( 'Jet', 'DataModel_'.Datamodel::MODEL_TYPE_RELATED_1TO1 ) );
+		$class->addUse( new ClassCreator_UseClass( 'Jet', 'DataModel_'.DataModel::MODEL_TYPE_RELATED_1TO1 ) );
 
-		$class->setExtends( $this->createClass_getExtends( $class, 'DataModel_'.Datamodel::MODEL_TYPE_RELATED_1TO1 ) );
+		$class->setExtends( $this->createClass_getExtends( $class, 'DataModel_'.DataModel::MODEL_TYPE_RELATED_1TO1 ) );
 
 		return $class;
 	}
