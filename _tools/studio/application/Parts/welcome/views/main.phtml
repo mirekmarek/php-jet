@@ -6,7 +6,7 @@ use Jet\UI;
 ?>
 
 
-<div align="center" style="margin-top: 50px;">
+<div style="margin-top: 50px;text-align: center;">
 	<?php foreach( Application::getParts() as $part => $p ): ?>
 		<div class="card" style="width: 200px; padding: 10px;margin: 20px;display: inline-block;">
 			<div style="margin: 10px;"><?= UI::icon( $p['icon'] )->setSize( 40 ) ?></div>

@@ -123,7 +123,7 @@ if( !$delete_content_action_creator ) {
 			<div class="card">
 				<div class="card-header" data-toggle="collapse"
 				     data-target="#content_<?= $base_id ?>_<?= $page_id ?>_<?= $i ?>">
-					<table width="100%">
+					<table style="width: 100%">
 						<tr>
 							<td style="width: 100px"><?= $content->getOutputPositionOrder() ?>.</td>
 
@@ -146,7 +146,7 @@ if( !$delete_content_action_creator ) {
 										<?php endif; ?>
 									</td>
 									<td>
-										<table border="0">
+										<table>
 											<tr>
 												<td><?= $label ?></td>
 												<td>&nbsp;&nbsp;->&nbsp;&nbsp;</td>
@@ -163,7 +163,7 @@ if( !$delete_content_action_creator ) {
 									?>
 									<td style="width: 200px;"><b><?= Tr::_( 'Controller class: ' ) ?></b></td>
 									<td>
-										<table border="0">
+										<table>
 											<tr>
 												<td><?= $content->getControllerClass() ?></td>
 												<td>&nbsp;&nbsp;->&nbsp;&nbsp;</td>
@@ -192,7 +192,7 @@ if( !$delete_content_action_creator ) {
 									break;
 
 							} ?>
-							<td align="right">
+							<td style="text-align: right">
 								<?= UI::button_delete( Tr::_( 'Delete this content' ) )->setOnclick( $delete_content_action_creator( $i ) )->setSize( UI_button::SIZE_EXTRA_SMALL ) ?>
 							</td>
 						</tr>

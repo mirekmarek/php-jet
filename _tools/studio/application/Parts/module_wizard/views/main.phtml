@@ -34,7 +34,7 @@ $wizard = ModuleWizards::getCurrentWizard();
 							<td>
 								<b><?= $wizard->getTitle() ?></b>
 								<p><?= $wizard->getDescription() ?></p>
-								<div align="right">
+								<div style="text-align: right;">
 									<?= UI::button( Tr::_( 'Create' ) )->setClass( 'info' )->setUrl( Http_Request::currentURI( ['wizard' => $wizard->getName()] ) ) ?>
 								</div>
 							</td>

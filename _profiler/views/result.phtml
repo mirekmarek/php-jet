@@ -106,13 +106,13 @@ function showRunBlock( Debug_Profiler_Run_Block $block, int $level=0)
 					<td><?= formatDuration($block->getDuration()); ?></td>
 				</tr>
 				<tr>
-					<td valign="top">Memory usage diff:</td>
+					<td style="vertical-align: top;">Memory usage diff:</td>
 					<td>
 						<?= formatBytes($block->getMemoryUsageDiff()); ?>&nbsp;<span style="font-size: 10px;">( <?= formatBytes($block->getMemoryStart()); ?> -> <?= formatBytes($block->getMemoryEnd()); ?>)</span>
 					</td>
 				</tr>
 				<tr>
-					<td valign="top">Memory peak diff:</td>
+					<td style="vertical-align: top;">Memory peak diff:</td>
 					<td>
 						<?= formatBytes($block->getMemoryPeakDiff()); ?>&nbsp;<span style="font-size: 10px;">( <?= formatBytes($block->getMemoryPeakStart()); ?> -> <?= formatBytes($block->getMemoryPeakEnd()); ?>)</span>
 					</td>
@@ -166,15 +166,15 @@ function showRunBlock( Debug_Profiler_Run_Block $block, int $level=0)
 						$total_duration = $total_duration + $q->getDuration();
 						?>
 						<tr>
-							<td valign="top"><?= formatQuery($q->getQuery(), $q->getQueryParams()); ?></td>
-							<td valign="top"><?= formatDuration($q->getDuration()); ?></td>
-							<td valign="top"><?= $q->getRowsCount(); ?></td>
+							<td style="vertical-align: top;"><?= formatQuery($q->getQuery(), $q->getQueryParams()); ?></td>
+							<td style="vertical-align: top;"><?= formatDuration($q->getDuration()); ?></td>
+							<td style="vertical-align: top;"><?= $q->getRowsCount(); ?></td>
 							<?php /* <td valign="top">
 							Usage:&nbsp;<?=formatBytes( $q->getMemoryUsageDiff() );?>
 							<br/>
 							Peak&nbsp;usage:&nbsp;<?=formatBytes( $q->getMemoryPeakDiff() );?>
 						</td> */ ?>
-							<td valign="top"><?= implode('<br/>', $q->getBacktrace()); ?></td>
+							<td style="vertical-align: top;"><?= implode('<br/>', $q->getBacktrace()); ?></td>
 						</tr>
 					<?php endforeach; ?>
 					</tbody>
@@ -230,7 +230,7 @@ function showRunBlock( Debug_Profiler_Run_Block $block, int $level=0)
 	<link rel="stylesheet" type="text/css" href="//stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"/>
 	<link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css"/>
 
-	<style type="text/css">
+	<style>
 		.run_block {
 			border: 1px solid #aaaaaa;
 			margin-bottom: 5px;;
@@ -308,7 +308,7 @@ function showRunBlock( Debug_Profiler_Run_Block $block, int $level=0)
 		<table class="table">
 			<tr>
 				<td>Run id:</td>
-				<td width="100%"><?= $run->getId(); ?></td>
+				<td style="width: 100%"><?= $run->getId(); ?></td>
 			</tr>
 			<tr>
 				<td>Request URL:</td>
@@ -358,15 +358,15 @@ function showRunBlock( Debug_Profiler_Run_Block $block, int $level=0)
 				?>
 				<tr>
 					<td><a href="#run_block_<?= $q->getBlockId(); ?>"><?= $blocks[$q->getBlockId()]->getLabel(); ?></a></td>
-					<td valign="top"><?= formatQuery($q->getQuery(), $q->getQueryParams()); ?></td>
-					<td valign="top"><?= formatDuration($q->getDuration()); ?></td>
-					<td valign="top"><?= $q->getRowsCount(); ?></td>
+					<td style="vertical-align: top;"><?= formatQuery($q->getQuery(), $q->getQueryParams()); ?></td>
+					<td style="vertical-align: top;"><?= formatDuration($q->getDuration()); ?></td>
+					<td style="vertical-align: top;"><?= $q->getRowsCount(); ?></td>
 					<?php /*<td valign="top">
 									Usage:&nbsp;<?=formatBytes( $q->getMemoryUsageDiff() );?>
 									<br/>
 									Peak&nbsp;usage:&nbsp;<?=formatBytes( $q->getMemoryPeakDiff() );?>
 							</td>*/ ?>
-					<td valign="top">
+					<td style="vertical-align: top;">
 						<ul>
 							<li><?= implode('</li><li>', $q->getBacktrace()); ?></li>
 						</ul>
