@@ -139,4 +139,5 @@ return [
 	'System' => 'System',
 	'Invalid module name format' => 'Neplatný formát názvu modulu',
 	'Module with the same name already exists' => 'Modul se stejným jménem již existuje',
+	'Please enter menu item label' => '',
 ];

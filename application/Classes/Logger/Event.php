@@ -16,12 +16,15 @@ use Jet\Auth_User_Interface;
 
 use Jet\Data_DateTime;
 use Jet\Http_Request;
+use Jet\Logger;
+use Jet\Tr;
+use Jet\UI_messages;
 
 /**
  *
  */
 #[DataModel_Definition(
-	name: 'Auth_Event',
+	name: 'logger_event',
 	id_controller_class: DataModel_IDController_AutoIncrement::class,
 	id_controller_options: ['id_property_name' => 'id']
 )]
@@ -211,6 +214,19 @@ abstract class Logger_Event extends DataModel
 		return $this->event_class;
 	}
 
+	public function getEventClassReadable() : string
+	{
+		return match ($this->getEventClass()) {
+			Logger::EVENT_CLASS_DANGER => UI_messages::createDanger( Tr::_( 'danger' ) )->setCloseable(false),
+			Logger::EVENT_CLASS_FAULT => UI_messages::createWarning( Tr::_( 'fault' ) )->setCloseable(false),
+			Logger::EVENT_CLASS_INFO => UI_messages::createInfo( Tr::_( 'info' ) )->setCloseable(false),
+			Logger::EVENT_CLASS_SUCCESS => UI_messages::createSuccess( Tr::_( 'success' ) )->setCloseable(false),
+			Logger::EVENT_CLASS_WARNING => UI_messages::createWarning( Tr::_( 'warning' ) )->setCloseable(false),
+			default => '?? '.$this->getEventClass().' ??',
+		};
+
+	}
+
 	/**
 	 * @return string
 	 */
@@ -282,4 +298,57 @@ abstract class Logger_Event extends DataModel
 	{
 		return $this->user_username;
 	}
+
+	/**
+	 * @param string $id
+	 *
+	 * @return static|null
+	 */
+	public static function get( string $id ): static|null
+	{
+		return static::load( $id );
+	}
+
+	/**
+	 *
+	 * @param ?string $search
+	 *
+	 * @return Auth_Administrator_Role[]
+	 */
+	public static function getList( ?string $search = '' ): iterable
+	{
+
+		$where = [];
+		if( $search ) {
+			$search = '%' . $search . '%';
+
+			$where[] = [
+				'event *'        => $search,
+				'OR',
+				'event_class *' => $search,
+				'OR',
+				'event_message *' => $search,
+			];
+		}
+
+
+		$list = static::fetchInstances(
+			$where,
+			[
+				'id',
+				'date_time',
+				'event_class',
+				'event',
+				'event_message',
+				'context_object_id',
+				'context_object_name',
+				'user_id',
+				'user_username',
+			] );
+		
+		$list->getQuery()->setOrderBy( '-id' );
+
+		return $list;
+	}
+
 }
