@@ -1,0 +1,157 @@
+<?php
+namespace JetApplicationModule\EventViewer\Admin;
+
+use Jet\Http_Request;
+use Jet\Locale;
+use Jet\Logger;
+use Jet\UI_messages;
+use JetApplication\Logger_Admin_Event as Event;
+
+use Jet\UI;
+use Jet\UI_dataGrid;
+
+use Jet\Tr;
+use Jet\MVC_View;
+use Jet\Form;
+
+/**
+ * @var MVC_View     $this
+ * @var UI_dataGrid  $grid
+ * @var Form         $filter_form
+ */
+$grid = $this->getRaw( 'grid' );
+$filter_form = $this->getRaw( 'filter_form' );
+
+$getViewURL = function(Event $item ) {
+	return Http_Request::currentURI(['id'=>$item->getId()]);
+};
+
+$grid->getColumn( 'id' )->setCssStyle( 'width:120px;' );
+
+$grid->getColumn( 'id' )->setRenderer(
+	function( Event $item ) use ($getViewURL) {
+		?>
+		<a href="<?=$getViewURL($item);?>"><?=$item->getId();?></a>
+		<?php
+	}
+);
+
+$grid->getColumn( 'date_time' )->setRenderer(
+	function( Event $item ) use ($getViewURL) {
+		?>
+		<?=Locale::dateAndTime($item->getDateTime());?>
+		<?php
+	}
+);
+
+$grid->getColumn( 'event_class' )->setRenderer(
+	function( Event $item ) use ($getViewURL) {
+		echo $item->getEventClassReadable();
+	}
+);
+
+
+$grid->getColumn( 'event' )->setRenderer(
+	function( Event $item ) use ( $getViewURL ) {
+		?>
+		<a href="<?=$getViewURL($item);?>"><?=$item->getEvent();?></a>
+		<?php
+	}
+);
+
+
+$grid->getColumn( 'event_message' )->setRenderer(
+	function( Event $item ) use ( $getViewURL ) {
+		?>
+		<a href="<?=$getViewURL($item);?>"><?=$item->getEventMessage();?></a>
+		<?php
+	}
+);
+
+$grid->getColumn( 'context_object_id' )->setRenderer(
+	function( Event $item ) use ($getViewURL) {
+		?>
+		<?=$item->getContextObjectId();?>
+		<?php
+	}
+);
+
+$grid->getColumn( 'context_object_name' )->setRenderer(
+	function( Event $item ) use ($getViewURL) {
+		?>
+		<?=$item->getContextObjectName();?>
+		<?php
+	}
+);
+
+$grid->getColumn( 'user_id' )->setRenderer(
+	function( Event $item ) use ($getViewURL) {
+		?>
+		<?=$item->getUserId();?>
+		<?php
+	}
+);
+
+$grid->getColumn( 'user_username' )->setRenderer(
+	function( Event $item ) use ($getViewURL) {
+		?>
+		<?=$item->getUserUsername();?>
+		<?php
+	}
+);
+
+
+?>
+
+<?=$filter_form->start()?>
+<div class="row toolbar">
+
+	<div class="col-md-3 col-sm-12">
+		<?=UI::searchField( 'search', $filter_form->field('search')->getValue() )?>
+	</div>
+	<div class="col-md-9 col-sm-12">
+		<table>
+			<tr>
+				<td nowrap=""><?= $filter_form->field( 'date_time_from' )->label() ?></td>
+				<td><?= $filter_form->field( 'date_time_from' )->input()?></td>
+				<td></td>
+				<td nowrap=""><?= $filter_form->field( 'date_time_till' )->label() ?></td>
+				<td><?= $filter_form->field( 'date_time_till' )->input()?></td>
+			</tr>
+			<tr>
+				<td nowrap=""><?= $filter_form->field( 'event_class' )->label() ?></td>
+				<td><?= $filter_form->field( 'event_class' )->input()?></td>
+				<td></td>
+				<td nowrap=""><?= $filter_form->field( 'event' )->label() ?></td>
+				<td><?= $filter_form->field( 'event' )->input()?></td>
+			</tr>
+			<tr>
+				<td nowrap=""><?= $filter_form->field( 'user_id' )->label() ?></td>
+				<td><?= $filter_form->field( 'user_id' )->input()?></td>
+
+				<td></td>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td nowrap=""><?= $filter_form->field( 'context_object_id' )->label() ?></td>
+				<td><?= $filter_form->field( 'context_object_id' )->input()?></td>
+
+				<td></td>
+				<td></td>
+				<td></td>
+
+				<td><?=UI::button(Tr::_('Filter'))->setClass('primary')->setType('submit')?></td>
+			</tr>
+		</table>
+
+	</div>
+
+</div>
+<?=$filter_form->end()?>
+
+<div class="row">
+	<div class="col-md-12">
+		<?=$grid->render();?>
+	</div>
+</div>
