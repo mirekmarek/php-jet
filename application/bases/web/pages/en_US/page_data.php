@@ -1,7 +1,5 @@
 <?php
 
-use JetApplication\PageStaticContent;
-
 return [
 	'name'               => 'Homepage',
 	'title'              => 'Homepage',

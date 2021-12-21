@@ -22,7 +22,7 @@ return [
 	'Till:' => 'Do:',
 	'Filter' => 'Filtrovat',
 	'Event:' => 'Událost:',
-	'User ID:' => 'Uživatke - ID:',
+	'User ID:' => 'Uživatel - ID:',
 	'Context object ID:' => 'Kontextový objekt - ID:',
 	'ID:' => 'ID:',
 	'Date and time:' => 'Datum a čas:',
