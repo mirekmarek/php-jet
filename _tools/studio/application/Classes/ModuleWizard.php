@@ -67,7 +67,9 @@ abstract class ModuleWizard extends BaseObject
 	public function getName(): string
 	{
 		if( !$this->_name ) {
-			$this->_name = substr( get_called_class(), 23, -7 );
+			$ns = explode('\\', static::class );
+
+			$this->_name = $ns[2];
 		}
 
 		return $this->_name;
@@ -86,9 +88,7 @@ abstract class ModuleWizard extends BaseObject
 	 */
 	public function getTrNamespace(): string
 	{
-		$ns = get_called_class();
-
-		return str_replace( '\\', '.', $ns );
+		return 'module-wizard.'.$this->getName();
 	}
 
 	/**
