@@ -85,7 +85,7 @@ class Pages_Page extends MVC_Page
 	protected static ?Form $create_form = null;
 
 
-
+	protected static bool $_translate = false;
 
 
 	/**

@@ -74,6 +74,11 @@ trait MVC_Page_Trait_Main
 	protected string $_data_file_path = '';
 
 	/**
+	 * @var bool
+	 */
+	protected static bool $_translate = true;
+
+	/**
 	 *
 	 * @param string $page_id
 	 * @param Locale $locale
@@ -120,7 +125,10 @@ trait MVC_Page_Trait_Main
 		$data['relative_path_fragment'] = basename( $data['relative_path'] );
 		$data['parent_id'] = $maps['parent_map'][$page_id];
 
-		if(isset($maps['translator_namespace'][$page_id])) {
+		if(
+			static::$_translate &&
+			isset($maps['translator_namespace'][$page_id])
+		) {
 
 			$translator_namespace = $maps['translator_namespace'][$page_id];
 
