@@ -56,20 +56,17 @@ $allow_to_create_related = (
 			<?php if( DataModels::getCurrentModel() ): ?>
 				<?= UI::button_create( Tr::_( 'Property' ) )
 					->setOnclick( 'DataModel.property.create.openDialog()' )
-					->setIcon( 'plus' )
-					->setClass( 'success' );
+					->setIcon( 'plus' );
 				?>
 
 				<?= UI::button_create( Tr::_( 'External relation' ) )
 					->setOnclick( 'DataModel.relation.create.openDialog()' )
-					->setIcon( 'plus' )
-					->setClass( 'success' );
+					->setIcon( 'plus' );
 				?>
 
 				<?= UI::button_create( Tr::_( 'Key' ) )
 					->setOnclick( 'DataModel.key.create.openDialog()' )
-					->setIcon( 'plus' )
-					->setClass( 'success' );
+					->setIcon( 'plus' );
 				?>
 
 			<?php endif; ?>
