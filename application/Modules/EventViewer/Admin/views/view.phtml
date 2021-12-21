@@ -70,7 +70,7 @@ $event = $this->getRaw( 'event' );
 			<?php if(($context_data=json_decode($event->getContextObjectData(), true))) :?>
 			<tr>
 				<td nowrap=""><?=Tr::_('Context object:')?></td>
-				<td><pre><?php echo (new Data_Array($context_data))->export();?></pre></td>
+				<td><pre><?php echo (is_array($context_data)) ? (new Data_Array($context_data))->export() : $context_data;?></pre></td>
 			</tr>
 			<?php endif; ?>
 		</table>

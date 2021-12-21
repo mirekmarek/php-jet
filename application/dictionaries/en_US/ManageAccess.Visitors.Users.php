@@ -33,4 +33,6 @@ return [
 	'Role:' => '',
 	'Please enter e-mail address' => '',
 	'Invalid date format' => '',
+	'Sorry, but username %USERNAME% is registered.' => '',
+	'User <b>%USERNAME%</b> has been created' => '',
 ];

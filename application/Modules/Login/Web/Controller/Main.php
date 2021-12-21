@@ -99,7 +99,7 @@ class Controller_Main extends MVC_Controller_Default
 				event: 'password_changed',
 				event_message: 'User ' . $user->getUsername() . ' (id:' . $user->getId() . ') changed password',
 				context_object_id: $user->getId(),
-				context_object_data: $user->getUsername()
+				context_object_name: $user->getUsername()
 			);
 
 			Http_Headers::reload();

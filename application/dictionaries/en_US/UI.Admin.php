@@ -4,4 +4,5 @@ return [
 	'Logout' => '',
 	'Content' => '',
 	'System' => '',
+	'Logs and statistics' => '',
 ];

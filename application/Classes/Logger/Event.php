@@ -217,11 +217,11 @@ abstract class Logger_Event extends DataModel
 	public function getEventClassReadable() : string
 	{
 		return match ($this->getEventClass()) {
-			Logger::EVENT_CLASS_DANGER => UI_messages::createDanger( Tr::_( 'danger' ) )->setCloseable(false),
-			Logger::EVENT_CLASS_FAULT => UI_messages::createWarning( Tr::_( 'fault' ) )->setCloseable(false),
-			Logger::EVENT_CLASS_INFO => UI_messages::createInfo( Tr::_( 'info' ) )->setCloseable(false),
-			Logger::EVENT_CLASS_SUCCESS => UI_messages::createSuccess( Tr::_( 'success' ) )->setCloseable(false),
-			Logger::EVENT_CLASS_WARNING => UI_messages::createWarning( Tr::_( 'warning' ) )->setCloseable(false),
+			Logger::EVENT_CLASS_DANGER => '<span class="badge badge-danger">'. Tr::_( 'danger' ) .'</span>',
+			Logger::EVENT_CLASS_FAULT => '<span class="badge badge-warning">'. Tr::_( 'fault' ) .'</span>',
+			Logger::EVENT_CLASS_INFO => '<span class="badge badge-info">'. Tr::_( 'info' ) .'</span>',
+			Logger::EVENT_CLASS_SUCCESS => '<span class="badge badge-success">'. Tr::_( 'success' ) .'</span>',
+			Logger::EVENT_CLASS_WARNING => '<span class="badge badge-warning">'. Tr::_( 'warning' ) .'</span>',
 			default => '?? '.$this->getEventClass().' ??',
 		};
 
