@@ -17,6 +17,6 @@ $form = $page->getEditForm_content();
 ?>
 <?= UI::button_save()->setOnclick( "$('#{$form->getId()}').submit()" ) ?>
 
-<?= UI::button_create( Tr::_( 'Add content' ) )->setOnclick( 'Pages.editPage.content.addContent()' )->setClass( 'primary' ) ?>
+<?= UI::button_create( Tr::_( 'Add content' ) )->setOnclick( 'Pages.editPage.content.addContent()' ) ?>
 
 
