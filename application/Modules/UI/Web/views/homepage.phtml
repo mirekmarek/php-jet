@@ -1,0 +1,63 @@
+<?php
+use Jet\MVC;
+use Jet\MVC_View;
+use Jet\MVC_Page;
+use Jet\SysConf_URI;
+use Jet\Tr;
+use JetApplication\Application_Admin;
+
+/**
+ * @var MVC_View $this
+ * @var MVC_Page[] $pages
+ */
+$pages = $this->getRaw( 'page_tree_current' );
+
+$admin_page = MVC::getHomePage( base_id: Application_Admin::getBaseId() );
+$secret_area_page = MVC::getPage( 'secret_area' );
+?>
+
+<h1><?= Tr::_('Welcome!')?></h1>
+
+<p><?= Tr::_('This is a sample <a href="https://www.php-jet.net">PHP Jet</a> framework application.')?></p>
+
+<p><?= Tr::_('This application can serve as the basis of your project or product and above all demonstrates the basic capability of the Jet framework. So simply create a full-fledged online application easily, quickly and without restrictions.')?></p>
+<br>
+
+<h2><?= Tr::_('Also try ...')?></h2>
+<div>
+	<div style="float: left;margin: 10px;width: 65px;"><i style="font-size: 3rem" class="fas fa-tools"></i></div>
+	<a href="<?= SysConf_URI::getBase() ?>_tools/studio/" rel="nofollow" target="_blank" style="font-size: 1.5rem">Jet Studio</a>
+	<br>
+	<?= Tr::_('A development tool that will make your work incredibly easy. It can be said that it will rid you of annoying routines and it keep fun and creative things for you.')?>
+</div>
+<div style="clear: both"></div>
+<br>
+
+<?php if( $admin_page ): ?>
+	<div>
+		<div style="float: left;margin: 10px;width: 65px;"><i style="font-size: 3rem" class="fas fa-users-cog"></i></div>
+		<a href="<?= $admin_page->getURL() ?>" rel="nofollow" style="font-size: 1.5rem"><?= $admin_page->getMenuTitle() ?></a>
+		<br/>
+		<?= Tr::_('Of course, every online application needs its own administration. Here is a small example of what the one built with the Jet framework might look like.')?>
+	</div>
+	<div style="clear: both"></div>
+	<br>
+<?php endif; ?>
+
+
+
+<?php if( $secret_area_page ): ?>
+	<div>
+		<div style="float: left;margin: 10px;width: 65px;"><i style="font-size: 3rem" class="fas fa-user-secret"></i></div>
+		<a href="<?= $secret_area_page->getURL() ?>" rel="nofollow" target="_blank" style="font-size: 1.5rem"><?= $secret_area_page->getMenuTitle() ?></a>
+		<br/>
+		<?= Tr::_('And last but not least, you will need various password-protected sections etc. Of course it\'s not missing in this sample example application. <br/>You can create access in the administration.')?>
+	</div>
+	<div style="clear: both"></div>
+	<br>
+<?php endif; ?>
+<br>
+<p><?= Tr::_('I believe you will enjoy PHP Jet, and most importantly, it will help you create a number of amazing things by your skills, creativity and ideas.')?></p>
+<p><?= Tr::_('So good luck :-)')?><br>
+Mirek Marek
+</p>

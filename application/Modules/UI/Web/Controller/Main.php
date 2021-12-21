@@ -14,6 +14,7 @@ use Jet\MVC_Page_Content_Interface;
 use Jet\Http_Request;
 use Jet\Auth;
 use Jet\Http_Headers;
+use Jet\Translator;
 
 
 /**
@@ -35,6 +36,15 @@ class Controller_Main extends MVC_Controller_Default
 		if( $GET->exists( 'logout' ) ) {
 			$this->logout_Action();
 		}
+	}
+
+	/**
+	 *
+	 */
+	public function homepage_Action(): void
+	{
+		Translator::setCurrentDictionary( Translator::getCurrentDictionary().'.homepage' );
+		$this->output( 'homepage' );
 	}
 
 

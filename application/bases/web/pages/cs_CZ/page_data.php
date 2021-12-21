@@ -8,11 +8,11 @@ return [
 	'icon' => 'home',
 	'menu_title' => 'Hlavní stránka',
 	'breadcrumb_title' => 'Hlavní stránka',
+	'order' => 0,
 	'is_secret' => false,
+	'layout_script_name' => 'default',
 	'http_headers' => [
 	],
-	'layout_script_name' => 'default',
-	'order' => 0,
 	'parameters' => [
 	],
 	'meta_tags' => [
@@ -34,23 +34,14 @@ return [
 	],
 	'contents' => [
 		[
+			'module_name' => 'UI.Web',
+			'controller_name' => 'Main',
+			'controller_action' => 'homepage',
 			'parameters' => [
 			],
-			'output' => [
-				'JetApplication\\PageStaticContent',
-				'get',
-			],
-			'is_cacheable' => false,
-			'output_position' => '',
+			'is_cacheable' => true,
+			'output_position' => '__main__',
 			'output_position_order' => 1,
-		],
-		[
-			'parameters' => [
-			],
-			'output' => '<hr/>&copy; Miroslav Marek',
-			'is_cacheable' => false,
-			'output_position' => '',
-			'output_position_order' => 2,
 		],
 	],
 ];

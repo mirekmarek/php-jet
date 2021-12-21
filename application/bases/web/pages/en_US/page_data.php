@@ -26,19 +26,17 @@ return [
 			'content'         => 'Meta 3 content'
 		],
 	],
-	'contents'           => [
+	'contents' => [
 		[
+			'module_name' => 'UI.Web',
+			'controller_name' => 'Main',
+			'controller_action' => 'homepage',
+			'parameters' => [
+			],
+			'is_cacheable' => true,
+			'output_position' => '__main__',
 			'output_position_order' => 1,
-			'output'                => [
-				PageStaticContent::class,
-				'get'
-			]
 		],
-		[
-			'output_position_order' => 2,
-			'output'                => '<hr/>&copy; Miroslav Marek'
-		]
-
-	]
+	],
 ];
 

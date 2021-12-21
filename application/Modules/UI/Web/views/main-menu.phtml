@@ -1,21 +1,14 @@
 <?php
-
 use Jet\MVC;
 use Jet\MVC_View;
 use Jet\MVC_Page;
-use Jet\SysConf_URI;
 use Jet\UI;
-use JetApplication\Application_Admin;
 
 /**
  * @var MVC_View $this
  * @var MVC_Page[] $pages
  */
 $pages = $this->getRaw( 'page_tree_current' );
-
-$admin_page = MVC::getHomePage( base_id: Application_Admin::getBaseId() );
-$secret_area_page = MVC::getPage( 'secret_area' );
-
 
 $show_menu = function( $pages, $level = 0 ) use ( &$show_menu ) {
 	/**
@@ -61,23 +54,11 @@ $show_menu = function( $pages, $level = 0 ) use ( &$show_menu ) {
 	endforeach;
 
 };
-
 ?>
 <div class="card bg-light text-dark">
 	<div class="card-body">
 		<ul class="list-group list-group-flush">
 			<?php $show_menu( $pages ); ?>
 		</ul>
-
-		<?php if( $secret_area_page ): ?>
-			<a href="<?= $secret_area_page->getURL() ?>" rel="nofollow"><?= $secret_area_page->getMenuTitle() ?></a>
-			<br/>
-		<?php endif; ?>
-
-		<?php if( $admin_page ): ?>
-			<a href="<?= $admin_page->getURL() ?>" rel="nofollow"><?= $admin_page->getMenuTitle() ?></a><br/>
-		<?php endif; ?>
-
-		<a href="<?= SysConf_URI::getBase() ?>_tools/studio/" rel="nofollow" target="_blank">Jet Studio</a><br/>
 	</div>
 </div>
