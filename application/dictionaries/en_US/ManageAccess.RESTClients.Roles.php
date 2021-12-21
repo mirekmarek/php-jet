@@ -15,4 +15,7 @@ return [
 	'Privileges' => '',
 	'Modules and actions' => '',
 	'Edit role <b>%ROLE_NAME%</b>' => '',
+	'Please enter ID' => '',
+	'Sorry, but ID %ID% is used.' => '',
+	'Role <b>%ROLE_NAME%</b> has been created' => '',
 ];
