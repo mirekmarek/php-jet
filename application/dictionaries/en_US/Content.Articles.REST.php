@@ -5,4 +5,5 @@ return [
 	'Update article' => '',
 	'Delete article' => '',
 	'Articles - REST API' => '',
+	'Articles' => '',
 ];

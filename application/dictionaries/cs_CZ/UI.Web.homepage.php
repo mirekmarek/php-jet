@@ -9,4 +9,5 @@ return [
 	'And last but not least, you will need various password-protected sections etc. Of course it\'s not missing in this sample example application. <br/>You can create access in the administration.' => 'A v neposlední řadě budete potřebovat různé zaheslované sekce a podobně. Ani to v ukázkové aplikaci neschází.<br/>Přístup si můžete zařídit v administraci.',
 	'I believe you will enjoy PHP Jet, and most importantly, it will help you create a number of amazing things by your skills, creativity and ideas.' => 'Věřím, že se vám PHP Jet bude líbit a co je hlavní že s jeho pomocí díky vašim schopnostem a kreativitě vytvoříte řadu úžasných věcí.',
 	'So good luck :-)' => 'Tak hodně zdaru :-)',
+	'Ups ... I forgot about the REST API. Of course, PHP Jet can do that as well. There is a sample server and client.' => 'Jaj ... Zapomněl jsem na REST API. To PHP Jet umí samozřejmě také. K dispozici je ukázka serveru i klienta.',
 ];

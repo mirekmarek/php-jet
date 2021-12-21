@@ -28,4 +28,11 @@ return [
 	'Update admin_event' => '',
 	'Delete admin_event' => '',
 	'Event viewer - Admin' => '',
+	'View event <b>%ITEM_NAME%</b>' => '',
+	'ID:' => '',
+	'Date and time:' => '',
+	'Remote IP:' => '',
+	'User name:' => '',
+	'Context object name:' => '',
+	'Context object:' => '',
 ];

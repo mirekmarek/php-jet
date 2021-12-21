@@ -8,4 +8,5 @@ return [
 	'Update image' => '',
 	'Delete image' => '',
 	'Images - REST API' => '',
+	'Images' => '',
 ];
