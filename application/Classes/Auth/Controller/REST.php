@@ -19,8 +19,6 @@ use Jet\Data_DateTime;
 
 use Jet\Logger;
 
-use JetApplication\Auth_RESTClient_User as RESTClient;
-
 /**
  *
  */
@@ -69,9 +67,9 @@ class Auth_Controller_REST extends BaseObject implements Auth_Controller_Interfa
 
 	/**
 	 *
-	 * @return RESTClient|bool
+	 * @return Auth_RESTClient_User|bool
 	 */
-	public function getCurrentUser(): RESTClient|bool
+	public function getCurrentUser(): Auth_RESTClient_User|bool
 	{
 
 		if( $this->current_user !== null ) {
@@ -100,26 +98,9 @@ class Auth_Controller_REST extends BaseObject implements Auth_Controller_Interfa
 		) {
 			$this->responseNotAuthorized( 'Please enter username and password' );
 		} else {
-			$user = RESTClient::getByIdentity( $_SERVER['PHP_AUTH_USER'], $_SERVER['PHP_AUTH_PW'] );
-
-			if( !$user ) {
-				$this->current_user = false;
-
-				Logger::warning(
-					event: static::EVENT_LOGIN_FAILED,
-					event_message: 'Login failed. Username: \'' . Data_Text::htmlSpecialChars($_SERVER['PHP_AUTH_USER']) . '\'',
-					context_object_id: Data_Text::htmlSpecialChars($_SERVER['PHP_AUTH_USER']),
-				);
-
-				$this->responseNotAuthorized( 'Invalid username or password' );
+			if($this->login( $_SERVER['PHP_AUTH_USER'], $_SERVER['PHP_AUTH_PW'] )) {
+				return $this->current_user;
 			}
-
-			/**
-			 * @var Auth_RESTClient_User $user
-			 */
-			$this->current_user = $user;
-
-			return $this->current_user;
 		}
 
 		return false;
@@ -150,10 +131,19 @@ class Auth_Controller_REST extends BaseObject implements Auth_Controller_Interfa
 	 */
 	public function login( string $username, string $password ): bool
 	{
-
-		$user = RESTClient::getByIdentity( $username, $password );
+		$user = Auth_RESTClient_User::getByIdentity( $username, $password );
 
 		if( !$user ) {
+			$this->current_user = false;
+
+			Logger::warning(
+				event: static::EVENT_LOGIN_FAILED,
+				event_message: 'Login failed. Username: \'' . Data_Text::htmlSpecialChars($_SERVER['PHP_AUTH_USER']) . '\'',
+				context_object_id: Data_Text::htmlSpecialChars($_SERVER['PHP_AUTH_USER']),
+			);
+
+			$this->responseNotAuthorized( 'Invalid username or password' );
+
 			return false;
 		}
 
