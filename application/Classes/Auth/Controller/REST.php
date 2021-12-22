@@ -10,6 +10,7 @@ namespace JetApplication;
 
 use Jet\BaseObject;
 use Jet\Auth_Controller_Interface;
+use Jet\Data_Text;
 use Jet\MVC_Page_Interface;
 
 use Jet\Debug;
@@ -106,8 +107,8 @@ class Auth_Controller_REST extends BaseObject implements Auth_Controller_Interfa
 
 				Logger::warning(
 					event: static::EVENT_LOGIN_FAILED,
-					event_message: 'Login failed. Username: \'' . $_SERVER['PHP_AUTH_USER'] . '\'',
-					context_object_id: $_SERVER['PHP_AUTH_USER'],
+					event_message: 'Login failed. Username: \'' . Data_Text::htmlSpecialChars($_SERVER['PHP_AUTH_USER']) . '\'',
+					context_object_id: Data_Text::htmlSpecialChars($_SERVER['PHP_AUTH_USER']),
 				);
 
 				$this->responseNotAuthorized( 'Invalid username or password' );
