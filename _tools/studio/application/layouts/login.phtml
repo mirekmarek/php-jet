@@ -44,7 +44,7 @@ use Jet\UI;
 					<?php foreach( Application::getLocales() as $locale ): ?>
 						<a class="dropdown-item" href="<?=Http_Request::currentURI(['std_locale' =>$locale->toString()])?>">
 							<?=UI::flag( $locale )?>
-							<?=$locale->getName( $locale )?>
+							<?=$locale->getLanguageName( $locale )?>
 						</a>
 					<?php endforeach; ?>
 				</div>

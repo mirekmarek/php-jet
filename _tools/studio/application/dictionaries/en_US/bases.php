@@ -43,4 +43,7 @@ return [
 	'Locale is not active' => '',
 	'Locale <b>%locale%</b> has been added' => '',
 	'Parameters:' => '',
+	'Base with the identifier already exists' => '',
+	'URL conflicts with base <b>%base_name%</b> <b>%locale%</b>' => '',
+	'URL conflicts with locale <b>%locale%</b>' => '',
 ];

@@ -71,7 +71,7 @@ use Jet\UI;
 										continue;
 									}
 									?>
-									<a href="<?=$hp->getURL()?>" target="_blank"><?=UI::flag($locale)?> <?=$locale->getName()?></a>
+									<a href="<?=$hp->getURL()?>" target="_blank"><?=UI::flag($locale)?> <?=$locale->getLanguageName($locale)?></a>
 								<?php endforeach; ?>
 							</div>
 						<?php endforeach; ?>

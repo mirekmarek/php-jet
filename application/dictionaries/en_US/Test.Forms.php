@@ -85,4 +85,8 @@ return [
 	'Radio Button: ' => '',
 	'Password: ' => '',
 	'Form sent, but is not valid' => '',
+	'Please enter time' => '',
+	'Please enter week' => '',
+	'Please enter month' => '',
+	'Please select color' => '',
 ];
