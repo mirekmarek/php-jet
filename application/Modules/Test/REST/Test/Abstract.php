@@ -38,11 +38,14 @@ abstract class Test_Abstract
 	/**
 	 * Test_Abstract constructor.
 	 *
-	 * @param string $id
 	 * @param array $data
 	 */
-	public function __construct( string $id, array $data )
+	public function __construct( array $data )
 	{
+		$id = explode( '\\', static::class);
+
+		$id = substr($id[count($id)-1], 5);
+
 		$this->id = $id;
 
 		$this->client = new Client();
@@ -123,7 +126,7 @@ abstract class Test_Abstract
 		<pre><?= is_string( $this->client->requestBody() ) ? $this->client->requestBody() : print_r( $this->client->requestBody(), true ) ?></pre>
 		<h4><?= Tr::_( 'Data' ) ?></h4>
 		<pre><?= var_export( $this->client->requestData(), true ) ?></pre>
-	<?php endif; ?>
+		<?php endif; ?>
 
 
 		<h3><?= Tr::_( 'Response' ) ?></h3>

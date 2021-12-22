@@ -111,6 +111,7 @@ class Controller_Main extends MVC_Controller_Default
 			'images'    => []
 		];
 
+
 		$init_data = function() use ( &$data, $client ) {
 			if( $client->get( 'article' ) ) {
 				$data['articles'] = $client->responseData()['items'];
@@ -136,54 +137,54 @@ class Controller_Main extends MVC_Controller_Default
 			[
 				'title' => 'Articles',
 				'tests' => [
-					'Article_GetList',
-					'Article_GetListSortAndPagination',
+					Test_Article_GetList::class,
+					Test_Article_GetListSortAndPagination::class,
 
-					'Article_GetOne',
-					'Article_GetUnknown',
+					Test_Article_GetOne::class,
+					Test_Article_GetUnknown::class,
 
-					'Article_Post',
-					'Article_PostInvalid',
+					Test_Article_Post::class,
+					Test_Article_PostInvalid::class,
 
-					'Article_Put',
-					'Article_PutInvalid',
+					Test_Article_Put::class,
+					Test_Article_PutInvalid::class,
 
-					'Article_Delete',
-					'Article_DeleteInvalid',
+					Test_Article_Delete::class,
+					Test_Article_DeleteInvalid::class,
 
 				]
 			],
 			[
 				'title' => 'Images',
 				'tests' => [
-					'Gallery_GetList',
-					'Gallery_GetTree',
-					'Gallery_GetListSortAndPagination',
+					Test_Gallery_GetList::class,
+					Test_Gallery_GetTree::class,
+					Test_Gallery_GetListSortAndPagination::class,
 
-					'Gallery_GetOne',
-					'Gallery_GetUnknown',
+					Test_Gallery_GetOne::class,
+					Test_Gallery_GetUnknown::class,
 
-					'Gallery_Post',
-					'Gallery_PostInvalid',
+					Test_Gallery_Post::class,
+					Test_Gallery_PostInvalid::class,
 
-					'Gallery_Put',
-					'Gallery_PutInvalid',
+					Test_Gallery_Put::class,
+					Test_Gallery_PutInvalid::class,
 
-					'Gallery_Delete',
-					'Gallery_DeleteInvalid',
+					Test_Gallery_Delete::class,
+					Test_Gallery_DeleteInvalid::class,
 
-					'Gallery_GetImages',
-					'Gallery_GetImagesUnknown',
+					Test_Gallery_GetImages::class,
+					Test_Gallery_GetImagesUnknown::class,
 
-					'Gallery_ImagePost',
-					'Gallery_ImagePostInvalidType',
+					Test_Gallery_ImagePost::class,
+					Test_Gallery_ImagePostInvalidType::class,
 
-					'Gallery_GetImage',
-					'Gallery_GetImageUnknown',
-					'Gallery_GetImageThb',
+					Test_Gallery_GetImage::class,
+					Test_Gallery_GetImageUnknown::class,
+					Test_Gallery_GetImageThb::class,
 
-					'Gallery_DeleteImage',
-					'Gallery_DeleteImageInvalid'
+					Test_Gallery_DeleteImage::class,
+					Test_Gallery_DeleteImageInvalid::class,
 
 				]
 			]
@@ -194,10 +195,14 @@ class Controller_Main extends MVC_Controller_Default
 
 			$test_instances = [];
 
-			foreach( $tests_data['tests'] as $test ) {
-				$class_name = __NAMESPACE__ . '\\Test_' . $test;
-				$test_instances[$test] = new $class_name( $test, $data );
-				$all_tests[$test] = $test_instances[$test];
+			foreach( $tests_data['tests'] as $class_name ) {
+				/**
+				 * @var Test_Abstract $test
+				 */
+				$test = new $class_name( $data );
+
+				$test_instances[$test->getId()] = $test;
+				$all_tests[$test->getId()] = $test_instances[$test->getId()];
 
 			}
 

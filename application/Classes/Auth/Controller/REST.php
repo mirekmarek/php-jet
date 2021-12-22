@@ -30,9 +30,9 @@ class Auth_Controller_REST extends BaseObject implements Auth_Controller_Interfa
 
 	/**
 	 *
-	 * @var ?Auth_RESTClient_User
+	 * @var Auth_RESTClient_User|null|bool
 	 */
-	protected ?Auth_RESTClient_User $current_user = null;
+	protected Auth_RESTClient_User|null|bool $current_user = null;
 
 	/**
 	 *
@@ -102,6 +102,8 @@ class Auth_Controller_REST extends BaseObject implements Auth_Controller_Interfa
 			$user = RESTClient::getByIdentity( $_SERVER['PHP_AUTH_USER'], $_SERVER['PHP_AUTH_PW'] );
 
 			if( !$user ) {
+				$this->current_user = false;
+
 				Logger::warning(
 					event: static::EVENT_LOGIN_FAILED,
 					event_message: 'Login failed. Username: \'' . $_SERVER['PHP_AUTH_USER'] . '\'',
