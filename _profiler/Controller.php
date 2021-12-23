@@ -9,7 +9,10 @@
 use Jet\Debug;
 use Jet\Debug_Profiler;
 use Jet\Debug_Profiler_Run;
-use Jet\SysConf_Jet_IO;
+use Jet\IO_Dir;
+use Jet\IO_Dir_Exception;
+use Jet\IO_File;
+use Jet\IO_File_Exception;
 use Jet\SysConf_Path;
 
 $controller = new class {
@@ -19,6 +22,8 @@ $controller = new class {
 	protected string $GET_param_run_id = 'JPR';
 
 	protected string $dir;
+
+	protected string $save_error = '';
 
 	public function __construct()
 	{
@@ -30,7 +35,11 @@ $controller = new class {
 			log_SQL_queries: true,
 			saver:
 				function(Debug_Profiler_Run $run) {
-					$this->saveRun($run);
+					try {
+						$this->saveRun($run);
+					} catch( IO_Dir_Exception|IO_File_Exception $exception ) {
+						$this->save_error = $exception->getMessage();
+					}
 				},
 			displayer:
 				function(Debug_Profiler_Run $run) {
@@ -43,9 +52,8 @@ $controller = new class {
 	protected function getRunDirPath() : string {
 		$dir = $this->dir;
 
-		if( !file_exists( $dir ) ) {
-			mkdir( $dir );
-			chmod( $dir, SysConf_Jet_IO::getDirMod() );
+		if(!IO_Dir::exists($dir)) {
+			IO_Dir::create($dir);
 		}
 
 		return $dir;
@@ -65,8 +73,7 @@ $controller = new class {
 	{
 		$file_path = $this->getRunFilePath( $run->getId() );
 
-		file_put_contents( $file_path, serialize( $run ) );
-		chmod( $file_path, SysConf_Jet_IO::getDirMod() );
+		IO_File::write($file_path, serialize($run));
 	}
 
 
@@ -92,6 +99,14 @@ $controller = new class {
 
 	public function statusBarDisplayer( Debug_Profiler_Run $run ) : void
 	{
+		if($this->save_error) {
+			if( !Debug::getOutputIsJSON() ) {
+				require __DIR__ . '/views/status_bar_error.phtml';
+			}
+
+			return;
+		}
+
 		$URL = '?'.$this->GET_param_run_id.'=' . $run->getId();
 
 		if( Debug::getOutputIsXML() ) {
