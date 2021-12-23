@@ -25,10 +25,6 @@ class DataModel_Fetch_Instances extends DataModel_Fetch implements Data_Paginato
 	 */
 	protected ?array $_instances = null;
 
-	/**
-	 * @var array
-	 */
-	protected array $_where = [];
 
 	/**
 	 * @return array|DataModel_PropertyFilter
@@ -65,10 +61,11 @@ class DataModel_Fetch_Instances extends DataModel_Fetch implements Data_Paginato
 		}
 
 		$this->data = [];
+		$this->_instances = [];
 
 		$ids = DataModel_Backend::get( $this->data_model_definition )->fetchAll( $this->query );
 
-		$this->_where = [];
+		$where = [];
 		foreach( $ids as $id_data ) {
 			$id = clone $this->empty_id_instance;
 
@@ -82,14 +79,18 @@ class DataModel_Fetch_Instances extends DataModel_Fetch implements Data_Paginato
 				$id_where[$k] = $id_data[$k];
 			}
 
-			if($this->_where) {
-				$this->_where[] = 'OR';
+			if($where) {
+				$where[] = 'OR';
 			}
-			$this->_where[] = $id_where;
+			$where[] = $id_where;
 
 			$id_str = (string)$id;
 
 			$this->data[$id_str] = $id_str;
+		}
+
+		if(!$this->data) {
+			return;
 		}
 
 		/**
@@ -100,7 +101,7 @@ class DataModel_Fetch_Instances extends DataModel_Fetch implements Data_Paginato
 
 		$this->_instances = $class_name::fetch(
 			[
-				$model_name => $this->_where
+				$model_name => $where
 			],
 			null,
 			function( $item ) {
@@ -119,9 +120,11 @@ class DataModel_Fetch_Instances extends DataModel_Fetch implements Data_Paginato
 	 */
 	public function toArray(): array
 	{
+		$this->_fetch();
+
 		$result = [];
 
-		foreach( $this as $key => $val ) {
+		foreach( $this->_instances as $key => $val ) {
 			$result[$key] = $val->jsonSerialize();
 		}
 
