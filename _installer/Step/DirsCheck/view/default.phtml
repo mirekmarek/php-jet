@@ -11,7 +11,7 @@ use Jet\Tr;
  */
 ?>
 
-	<table class="table table-stripped">
+	<table class="table table-striped">
 		<tbody>
 		<?php foreach( $this->getRaw( 'dirs' ) as $dir => $dir_data ):
 
@@ -21,19 +21,23 @@ use Jet\Tr;
 
 			if( !$dir_data['is_writeable'] ) {
 				if( $dir_data['is_required'] ) {
-					$icon = UI::icon( 'frown-open' );
+					$icon = UI::icon( 'frown-open' ).' '.Tr::_('Directory is not writeable');
 					$css_class = 'danger';
 				} else {
-					$icon = UI::icon( 'meh' );
+					$icon = UI::icon( 'meh' ).' '.Tr::_('Directory is not writeable');
 					$css_class = 'warning';
 
-					$comment = '<br/><br/>' . Tr::_( $dir_data['comment']??'' );
+					$comment = $dir_data['comment']??'';
+					if($comment) {
+						$comment = '<br/><br/>' . $comment;
+					}
 				}
 			}
 			?>
 			<tr class="<?= $css_class; ?>">
-				<td><?= $icon ?></td>
-				<td><?= htmlspecialchars( $dir ); ?><?= $comment; ?></td>
+				<td nowrap=""><?= $icon ?></td>
+				<td>&nbsp;&nbsp;&nbsp;</td>
+				<td style="width: 100%"><?= htmlspecialchars( $dir ); ?><?= $comment; ?></td>
 			</tr>
 		<?php endforeach; ?>
 		</tbody>
