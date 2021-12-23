@@ -50,11 +50,6 @@ class DataModel_Fetch_Instances extends DataModel_Fetch implements Data_Paginato
 					$this->data_model_definition, $load_filter
 				);
 			}
-
-			$this->query->setSelect(
-				DataModel_PropertyFilter::getQuerySelect( $this->data_model_definition, $load_filter )
-			);
-
 		}
 
 		$this->load_filter = $load_filter;
@@ -71,31 +66,52 @@ class DataModel_Fetch_Instances extends DataModel_Fetch implements Data_Paginato
 
 		$this->data = [];
 
-		$l = DataModel_Backend::get( $this->data_model_definition )->fetchAll( $this->query );
+		$ids = DataModel_Backend::get( $this->data_model_definition )->fetchAll( $this->query );
 
 		$this->_where = [];
-		foreach( $l as $item ) {
-			$l_id = clone $this->empty_id_instance;
+		foreach( $ids as $id_data ) {
+			$id = clone $this->empty_id_instance;
 
-			$where = [];
-			foreach( $l_id->getPropertyNames() as $k ) {
-				$l_id->setValue( $k, $item[$k] );
+			$id_where = [];
+			foreach( $id->getPropertyNames() as $k ) {
+				$id->setValue( $k, $id_data[$k] );
 
-				if($where) {
-					$where[] = 'AND';
+				if($id_where) {
+					$id_where[] = 'AND';
 				}
-				$where[$k] = $item[$k];
+				$id_where[$k] = $id_data[$k];
 			}
 
 			if($this->_where) {
 				$this->_where[] = 'OR';
 			}
-			$this->_where[] = $where;
+			$this->_where[] = $id_where;
 
-			$i_id_str = (string)$l_id;
+			$id_str = (string)$id;
 
-			$this->data[$i_id_str] = $i_id_str;
+			$this->data[$id_str] = $id_str;
 		}
+
+		/**
+		 * @var DataModel $class_name
+		 */
+		$class_name = $this->data_model_definition->getClassName();
+		$model_name = $this->data_model_definition->getModelName();
+
+		$this->_instances = $class_name::fetch(
+			[
+				$model_name => $this->_where
+			],
+			null,
+			function( $item ) {
+				/**
+				 * @var DataModel $item
+				 */
+				return $item->getIDController()->toString();
+			},
+			$this->load_filter
+		);
+
 	}
 
 	/**
@@ -119,32 +135,7 @@ class DataModel_Fetch_Instances extends DataModel_Fetch implements Data_Paginato
 	 */
 	protected function _get( mixed $item ): DataModel|DataModel_Related_1toN|DataModel_Related_1to1
 	{
-
-		if( $this->_instances === null ) {
-
-			/**
-			 * @var DataModel $class_name
-			 */
-			$class_name = $this->data_model_definition->getClassName();
-			$model_name = $this->data_model_definition->getModelName();
-
-			$this->_instances = $class_name::fetch(
-				[
-					$model_name => $this->_where
-				],
-				null,
-				function( $item ) {
-					/**
-					 * @var DataModel $item
-					 */
-					return $item->getIDController()->toString();
-				},
-				$this->load_filter
-			);
-		}
-
 		return $this->_instances[$item];
 	}
-
 
 }

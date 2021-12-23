@@ -43,16 +43,16 @@ class DataModel_Fetch_IDs extends DataModel_Fetch implements BaseObject_Interfac
 
 		$this->data = [];
 
-		$l = DataModel_Backend::get( $this->data_model_definition )->fetchAll( $this->query );
+		$ids = DataModel_Backend::get( $this->data_model_definition )->fetchAll( $this->query );
 
-		foreach( $l as $item ) {
-			$l_id = clone $this->empty_id_instance;
+		foreach( $ids as $id_data ) {
+			$id = clone $this->empty_id_instance;
 
-			foreach( $l_id->getPropertyNames() as $k ) {
-				$l_id->setValue( $k, $item[$k] );
+			foreach( $id->getPropertyNames() as $k ) {
+				$id->setValue( $k, $id_data[$k] );
 			}
 
-			$this->data[(string)$l_id] = $l_id;
+			$this->data[(string)$id] = $id;
 		}
 	}
 
