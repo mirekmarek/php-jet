@@ -83,10 +83,6 @@ class Installer_Step_DirsCheck_Controller extends Installer_Step_Controller
 				'is_required'  => true,
 				'is_writeable' => false,
 			],
-			SysConf_Path::getDictionaries()                                 => [
-				'is_required'  => true,
-				'is_writeable' => false,
-			],
 			SysConf_Path::getConfig()                                       => [
 				'is_required'  => false,
 				'is_writeable' => false,

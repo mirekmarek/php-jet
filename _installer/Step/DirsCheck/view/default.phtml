@@ -27,7 +27,7 @@ use Jet\Tr;
 					$icon = UI::icon( 'meh' );
 					$css_class = 'warning';
 
-					$comment = '<br/><br/>' . Tr::_( $dir_data['comment'] );
+					$comment = '<br/><br/>' . Tr::_( $dir_data['comment']??'' );
 				}
 			}
 			?>
