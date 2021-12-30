@@ -52,6 +52,9 @@ $controller = new class {
 	protected function getRunDirPath() : string {
 		$dir = $this->dir;
 
+		require_once SysConf_Path::getLibrary().'Jet/IO/File.php';
+		require_once SysConf_Path::getLibrary().'Jet/IO/Dir.php';
+
 		if(!IO_Dir::exists($dir)) {
 			IO_Dir::create($dir);
 		}
@@ -124,9 +127,6 @@ $controller = new class {
 			return;
 		}
 
-
-		require_once SysConf_Path::getLibrary().'Jet/IO/File.php';
-		require_once SysConf_Path::getLibrary().'Jet/IO/Dir.php';
 
 		$run = $this->readRun( $_GET[$this->GET_param_run_id] );
 
