@@ -124,7 +124,10 @@ $controller = new class {
 			return;
 		}
 
-		require_once SysConf_Path::getApplication().'/Init/Autoloader.php';
+
+		require_once SysConf_Path::getLibrary().'Jet/IO/File.php';
+		require_once SysConf_Path::getLibrary().'Jet/IO/Dir.php';
+
 		$run = $this->readRun( $_GET[$this->GET_param_run_id] );
 
 		if( !$run ) {

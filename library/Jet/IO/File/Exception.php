@@ -8,6 +8,8 @@
 
 namespace Jet;
 
+require_once __DIR__.'/../../Exception.php';
+
 /**
  *
  */
