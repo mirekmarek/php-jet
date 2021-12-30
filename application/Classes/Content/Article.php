@@ -17,6 +17,7 @@ use Jet\MVC;
 use Jet\Data_Paginator_DataSource;
 use Jet\DataModel_IDController_UniqueString;
 use Jet\Form;
+use Jet\MVC_Cache;
 
 
 /**
@@ -317,4 +318,27 @@ class Content_Article extends DataModel
 		return $this->getAddForm()->catch();
 	}
 
+	/**
+	 *
+	 */
+	public function afterUpdate(): void
+	{
+		MVC_Cache::reset();
+	}
+
+	/**
+	 *
+	 */
+	public function afterDelete(): void
+	{
+		MVC_Cache::reset();
+	}
+
+	/**
+	 *
+	 */
+	public function afterAdd(): void
+	{
+		MVC_Cache::reset();
+	}
 }

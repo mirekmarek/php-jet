@@ -1,26 +1,37 @@
 <?php
 return [
-	'id'                 => 'articles',
-	'order'              => 1,
-	'name'               => 'Articles',
-	'title'              => 'Articles',
-	'menu_title'         => 'Articles',
-	'breadcrumb_title'   => 'Articles',
-	'icon'               => 'newspaper',
+	'id' => 'articles',
+	'name' => 'Articles',
+	'is_active' => true,
+	'SSL_required' => false,
+	'title' => 'Articles',
+	'icon' => 'newspaper',
+	'menu_title' => 'Articles',
+	'breadcrumb_title' => 'Articles',
+	'order' => 1,
+	'is_secret' => false,
 	'layout_script_name' => 'default',
-	'meta_tags'          => [
+	'http_headers' => [
+	],
+	'parameters' => [
+	],
+	'meta_tags' => [
 		[
-			'attribute'       => 'name',
+			'attribute' => 'name',
 			'attribute_value' => 'description',
-			'content'         => 'Articles'
+			'content' => 'Articles',
 		],
 	],
-	'contents'           => [
+	'contents' => [
 		[
-			'module_name'           => 'Content.Articles.Browser',
-			'controller_name'       => 'Main',
-			'controller_action'     => 'default',
-			'output_position_order' => 1
-		]
-	]
+			'module_name' => 'Content.Articles.Browser',
+			'controller_name' => 'Main',
+			'controller_action' => 'list',
+			'parameters' => [
+			],
+			'is_cacheable' => true,
+			'output_position' => '__main__',
+			'output_position_order' => 1,
+		],
+	],
 ];

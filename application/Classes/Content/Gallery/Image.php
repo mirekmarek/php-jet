@@ -15,6 +15,7 @@ use Jet\IO_Dir;
 use Jet\DataModel;
 use Jet\DataModel_Definition;
 use Jet\DataModel_IDController_UniqueString;
+use Jet\MVC_Cache;
 
 #[DataModel_Definition(
 	name: 'image',
@@ -393,6 +394,8 @@ class Content_Gallery_Image extends DataModel
 		if( IO_Dir::exists( $path ) ) {
 			IO_Dir::remove( $path );
 		}
+
+		MVC_Cache::reset();
 	}
 
 

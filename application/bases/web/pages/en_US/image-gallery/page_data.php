@@ -1,13 +1,13 @@
 <?php
 return [
 	'id' => 'images',
-	'name' => 'Obrázky',
+	'name' => 'Images',
 	'is_active' => true,
 	'SSL_required' => false,
-	'title' => 'Obrázky',
+	'title' => 'Images',
 	'icon' => 'images',
-	'menu_title' => 'Obrázky',
-	'breadcrumb_title' => 'Obrázky',
+	'menu_title' => 'Images',
+	'breadcrumb_title' => 'Images',
 	'order' => 2,
 	'is_secret' => false,
 	'layout_script_name' => 'default',
@@ -19,7 +19,7 @@ return [
 		[
 			'attribute' => 'name',
 			'attribute_value' => 'description',
-			'content' => 'Obrázky',
+			'content' => 'Images',
 		],
 	],
 	'contents' => [

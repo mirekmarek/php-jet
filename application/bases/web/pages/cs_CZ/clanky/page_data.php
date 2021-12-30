@@ -26,11 +26,11 @@ return [
 		[
 			'module_name' => 'Content.Articles.Browser',
 			'controller_name' => 'Main',
-			'controller_action' => 'default',
+			'controller_action' => 'list',
 			'parameters' => [
 			],
-			'is_cacheable' => false,
-			'output_position' => '',
+			'is_cacheable' => true,
+			'output_position' => '__main__',
 			'output_position_order' => 1,
 		],
 	],

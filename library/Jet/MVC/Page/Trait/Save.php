@@ -84,6 +84,8 @@ trait MVC_Page_Trait_Save
 		$data = $this->toArray();
 
 		IO_File::writeDataAsPhp( $this->getDataFilePath(), $data );
+
+		MVC_Cache::reset();
 	}
 
 }

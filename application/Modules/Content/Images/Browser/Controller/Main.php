@@ -42,6 +42,8 @@ class Controller_Main extends MVC_Controller_Default
 
 			$this->gallery = $gallery;
 			MVC::getRouter()->setUsedUrlPath( $path );
+
+			MVC::getPage()->setCacheContext( $gallery->getId() );
 		}
 
 

@@ -76,6 +76,8 @@ class Controller_Main extends MVC_Controller_Default
 					$this->article = $current_article;
 					MVC::getRouter()->setUsedUrlPath( $path );
 
+					MVC::getPage()->setCacheContext($current_article->getId());
+
 					return true;
 
 				} );

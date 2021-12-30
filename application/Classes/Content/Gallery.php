@@ -18,6 +18,7 @@ use Jet\Form;
 use Jet\Form_Field_FileImage;
 use Jet\Form_Field_Hidden;
 
+use Jet\MVC_Cache;
 use Jet\SysConf_Path;
 use Jet\Tr;
 use Jet\Data_Tree;
@@ -604,6 +605,7 @@ class Content_Gallery extends DataModel
 
 		$this->_images = null;
 
+		MVC_Cache::reset();
 
 		return $new_images;
 
@@ -624,5 +626,29 @@ class Content_Gallery extends DataModel
 		}
 
 		parent::delete();
+	}
+
+	/**
+	 *
+	 */
+	public function afterUpdate(): void
+	{
+		MVC_Cache::reset();
+	}
+
+	/**
+	 *
+	 */
+	public function afterDelete(): void
+	{
+		MVC_Cache::reset();
+	}
+
+	/**
+	 *
+	 */
+	public function afterAdd(): void
+	{
+		MVC_Cache::reset();
 	}
 }

@@ -79,4 +79,5 @@ return [
 	'Please enter controller class action name' => '',
 	'Invalid action name format' => '',
 	'Invalid method name format' => '',
+	'URL conflicts with page <b>%page%</b>' => '',
 ];
