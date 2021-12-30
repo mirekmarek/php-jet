@@ -84,7 +84,7 @@ $controller = new class {
 		$run = null;
 		if( file_exists( $file_path ) ) {
 
-			$run = unserialize( file_get_contents( $file_path ) );
+			$run = unserialize( IO_File::read( $file_path ) );
 
 			if(
 				!is_object( $run ) ||
@@ -124,6 +124,7 @@ $controller = new class {
 			return;
 		}
 
+		require_once SysConf_Path::getApplication().'/Init/Autoloader.php';
 		$run = $this->readRun( $_GET[$this->GET_param_run_id] );
 
 		if( !$run ) {
