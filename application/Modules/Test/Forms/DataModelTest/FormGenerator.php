@@ -399,7 +399,7 @@ class DataModelTest_FormGenerator extends DataModel
 	 */
 	public function setPassword( string $password ): void
 	{
-		$this->password = $password;
+		$this->password = password_hash( $password, PASSWORD_DEFAULT );
 	}
 
 }

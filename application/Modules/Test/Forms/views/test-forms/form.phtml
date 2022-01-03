@@ -2,9 +2,7 @@
 
 use Jet\Form;
 use Jet\Tr;
-use Jet\Form_Field_FileImage;
 use Jet\MVC_View;
-use Jet\SysConf_URI;
 
 /**
  * @var MVC_View $this
@@ -17,37 +15,7 @@ $form = $this->getRaw( 'form' );
 ?>
 <?= $form->start() ?>
 
-<?= $form->message() ?>
-
 <?php foreach( $form->getFields() as $field ) echo $field; ?>
-
-<?php if( $form->getIsValid() ): ?>
-	<div class="row">
-		<div class="offset-md-4">
-			<hr>
-			<?= Tr::_( 'Form sent:' ) ?>
-
-			<?php if( $form->getName() == 'upload_image_form' ):
-				$image_field = $form->getField( 'upload_image' );
-				/**
-				 * @var Form_Field_FileImage $image_field
-				 */
-				?>
-				<img src="<?= SysConf_URI::getImages() ?>test_uploads/<?= $image_field->getFileName() ?>" alt="test"/>
-			<?php else: ?>
-				<table class="table table-bordered">
-					<?php foreach( $form->getValues() as $k => $v ): ?>
-						<tr>
-							<td><?= $k ?>:</td>
-							<td><?= is_array( $v ) ? implode( ',', $v ) : $v ?></td>
-						</tr>
-					<?php endforeach; ?>
-				</table>
-			<?php endif; ?>
-		</div>
-	</div>
-<?php endif; ?>
-
 
 <?php if( !$form->getIsReadonly() ): ?>
 	<div class="row">
@@ -59,6 +27,5 @@ $form = $this->getRaw( 'form' );
 		</div>
 	</div>
 <?php endif; ?>
-
 
 <?= $form->end() ?>

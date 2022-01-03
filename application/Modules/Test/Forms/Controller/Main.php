@@ -385,6 +385,7 @@ class Controller_Main extends MVC_Controller_Default
 
 		$forms['text_form'] = [
 			'title' => Tr::_( 'Text form' ),
+			'do_now_rewrite_form_snippet' => true,
 			'form'  => new Form(
 				'text_form', [
 					$textarea_field,
@@ -446,11 +447,18 @@ class Controller_Main extends MVC_Controller_Default
 				if( Http_Request::POST()->exists( 'ajax' ) ) {
 					$this->view->setVar( 'form', $form );
 
+					$snippets = [];
+
+					if(empty($d['do_now_rewrite_form_snippet'])) {
+						$snippets['form_area_' . $form->getId()] = $this->view->render( 'test-forms/form' );
+					}
+
+					$snippets['form_message_area_' . $form->getId()] = $this->view->render( 'test-forms/message' );
+					$snippets['form_sent_area_' . $form->getId()] = $this->view->render( 'test-forms/sent' );
+
 					AJAX::formResponse(
 						$form->getIsValid(),
-						[
-							'form_area_' . $form->getId() => $this->view->render( 'test-forms/form' )
-						]
+						$snippets
 					);
 				}
 			}

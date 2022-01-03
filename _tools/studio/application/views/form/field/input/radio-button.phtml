@@ -26,15 +26,23 @@ if($field->getIsReadonly()) {
 
 $attrs = $r->getStdInputFieldAttributes('radio');
 
-?>
-<?php foreach( $field->getSelectOptions() as $key => $option ):
-	$attrs['value'] = Data_Text::htmlSpecialChars( $key );
+$c = 0;
+foreach( $field->getSelectOptions() as $key => $option ):
+	$c++;
 
-	$checked = ($key==$field->getValue()) ? 'checked="checked"' : '';
+	$_attrs = $attrs;
+
+	$id = $field->getId().'__'.$c;
+
+	$_attrs['id'] = $id;
+	$_attrs['value'] = Data_Text::htmlSpecialChars( $key );
+
+	if($key==$field->getValue()) {
+		$_attrs['checked'] = 'checked';
+	}
 	?>
-
 	<div class="<?= $container_class ?>">
-		<input <?=$r->renderAttributes($attrs)?><?=$checked?>/>
-		<label class="form-check-label" for="<?= $field->getId() ?>"><?= $option ?></label>
+		<input <?=$r->renderAttributes($_attrs)?>/>
+		<label class="form-check-label" for="<?= $id ?>"><?= $option ?></label>
 	</div>
 <?php endforeach; ?>

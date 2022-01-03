@@ -222,48 +222,26 @@ let JetAjaxForm = {
 
 
 	applySnippets: function( form, snippets ) {
+		JetAjaxForm.WYSIWYG.beforeApplySnippets( form );
+
 		for(let el_id in snippets) {
-
-			JetAjaxForm.WYSIWYG.beforeApplySnippet( form );
-
-			const snippet = snippets[el_id];
-
-			document.getElementById(el_id).innerHTML = snippet;
-
-			const parser = new DOMParser();
-			const snippet_doc = parser.parseFromString(snippet, "text/html");
-			const scripts = snippet_doc.getElementsByTagName('script');
-
-			if(scripts) {
-				for(let i=0; i<scripts.length; i++) {
-					eval( scripts[i].innerText );
-				}
-			}
+			document.getElementById(el_id).innerHTML = snippets[el_id];
+			JetAjaxForm.WYSIWYG.afterApplySnippet( form, snippets[el_id] );
 		}
 
 	},
 
 	WYSIWYG: {
 		beforeSend: function( form ) {
-			/*
 			if(window['tinyMCE']) {
 				tinyMCE.triggerSave();
 			}
-			*/
 		},
 
-		beforeApplySnippet: function( form ) {
-			/*
-			if(window['tinyMCE']) {
-				var editor;
-				for(var input_id in form.elements) {
-					editor = tinymce.get(form.elements[input_id].id);
-					if(editor) {
-						tinymce.remove( editor );
-					}
-				}
-			}
-			*/
+		beforeApplySnippets: function( form ) {
+		},
+
+		afterApplySnippet: function( form, snippet ) {
 		}
 	},
 

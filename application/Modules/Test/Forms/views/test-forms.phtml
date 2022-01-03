@@ -91,9 +91,18 @@ MVC_Layout::getCurrentLayout()->requireJavascriptFile( SysConf_URI::getJs() . 'J
 	<fieldset style="margin-bottom: 40px">
 		<legend><?= $d['title'] ?></legend>
 
+		<div id="form_message_area_<?= $form->getId() ?>">
+			<?= $this->render( 'test-forms/message' ); ?>
+		</div>
+
 		<div id="form_area_<?= $form->getId() ?>">
 			<?= $this->render( 'test-forms/form' ); ?>
 		</div>
+
+		<div id="form_sent_area_<?= $form->getId() ?>">
+			<?= $this->render( 'test-forms/sent' ); ?>
+		</div>
+
 	</fieldset>
 <?php endforeach; ?>
 
