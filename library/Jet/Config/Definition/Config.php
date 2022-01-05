@@ -76,7 +76,7 @@ class Config_Definition_Config extends BaseObject
 
 		$this->class_reflection = new ReflectionClass( $class_name );
 
-		$this->class_arguments = Attributes::getClassArguments( $this->class_reflection, 'Jet\Config_Definition' );
+		$this->class_arguments = Attributes::getClassDefinition( $this->class_reflection, Config_Definition::class );
 
 		$this->name = $this->getClassArgument( 'name' );
 		if( !$this->name ) {
@@ -86,7 +86,7 @@ class Config_Definition_Config extends BaseObject
 			);
 		}
 
-		$properties_definition_data = Attributes::getPropertiesDefinition( $this->class_reflection, 'Jet\Config_Definition' );
+		$properties_definition_data = Attributes::getClassPropertyDefinition( $this->class_reflection, Config_Definition::class );
 
 		if(
 		!$properties_definition_data

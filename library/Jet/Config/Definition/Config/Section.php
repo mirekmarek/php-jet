@@ -30,7 +30,7 @@ class Config_Definition_Config_Section extends Config_Definition_Config
 		$this->class_name = $class_name;
 		$this->class_reflection = new ReflectionClass( $class_name );
 
-		$properties_definition_data = Attributes::getPropertiesDefinition( $this->class_reflection, 'Jet\Config_Definition' );
+		$properties_definition_data = Attributes::getClassPropertyDefinition( $this->class_reflection, Config_Definition::class );
 
 		if( !$properties_definition_data ) {
 			throw new Config_Exception(

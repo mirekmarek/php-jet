@@ -139,7 +139,14 @@ abstract class DataModel_Definition_Model extends BaseObject
 		$this->class_name = $data_model_class_name;
 		$this->class_reflection = new ReflectionClass( $data_model_class_name );
 
-		$this->class_arguments = Attributes::getClassArguments( $this->class_reflection, 'Jet\DataModel_Definition' );
+		$this->class_arguments = Attributes::getClassDefinition(
+			$this->class_reflection,
+			DataModel_Definition::class,
+			[
+				'key' => 'keys',
+				'relation' => 'relations'
+			]
+		);
 
 
 		$this->model_name = $this->_getModelNameDefinition();
@@ -274,7 +281,7 @@ abstract class DataModel_Definition_Model extends BaseObject
 
 		$reflection = $class_name ? new ReflectionClass( $class_name ) : $this->class_reflection;
 
-		$properties_definition_data = Attributes::getPropertiesDefinition( $reflection, 'Jet\DataModel_Definition' );
+		$properties_definition_data = Attributes::getClassPropertyDefinition( $reflection, DataModel_Definition::class );
 
 		if(
 		!$properties_definition_data

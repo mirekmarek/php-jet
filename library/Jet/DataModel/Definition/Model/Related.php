@@ -364,7 +364,7 @@ abstract class DataModel_Definition_Model_Related extends DataModel_Definition_M
 
 			$reflection = new ReflectionClass( $class_name );
 
-			$properties_definition_data = Attributes::getPropertiesDefinition( $reflection, 'Jet\DataModel_Definition' );
+			$properties_definition_data = Attributes::getClassPropertyDefinition( $reflection, DataModel_Definition::class );
 
 			if( !$properties_definition_data ) {
 				throw new DataModel_Exception(

@@ -13,10 +13,13 @@ use ReflectionClass;
 
 class Attributes
 {
-
-	public static function getPropertiesDefinition( ReflectionClass $reflection, string $attribute_name ): array
+	/**
+	 * @param ReflectionClass $reflection
+	 *
+	 * @return ReflectionClass[]
+	 */
+	protected static function getClasses( ReflectionClass $reflection ) : array
 	{
-
 		$classes = [$reflection->getName() => $reflection];
 
 		if( ($parent = $reflection->getParentClass()) ) {
@@ -25,14 +28,17 @@ class Attributes
 			} while( ($parent = $parent->getParentClass()) );
 		}
 
-		$classes = array_reverse( $classes );
+		return array_reverse( $classes );
+	}
+
+	public static function getClassPropertyDefinition( ReflectionClass $class, string $attribute_name ): array
+	{
+
+		$classes = static::getClasses( $class );
 
 		$properties_definition_data = [];
 
 		foreach( $classes as $class ) {
-			/**
-			 * @var ReflectionClass $class
-			 */
 			foreach( $class->getProperties() as $property ) {
 
 				$attributes = $property->getAttributes( $attribute_name );
@@ -49,13 +55,13 @@ class Attributes
 					}
 				}
 
-				$_name = $property->getName();
+				$property_name = $property->getName();
 
-				if( !isset( $properties_definition_data[$_name] ) ) {
-					$properties_definition_data[$_name] = $attrs;
+				if( !isset( $properties_definition_data[$property_name] ) ) {
+					$properties_definition_data[$property_name] = $attrs;
 				} else {
 					foreach( $attrs as $k => $v ) {
-						$properties_definition_data[$_name][$k] = $v;
+						$properties_definition_data[$property_name][$k] = $v;
 					}
 				}
 			}
@@ -64,41 +70,24 @@ class Attributes
 		return $properties_definition_data;
 	}
 
-	public static function getClassArguments( ReflectionClass $reflection, string $attribute_name ): array
+	public static function getClassDefinition( ReflectionClass $class, string $attribute_name, array $aliases=[] ): array
 	{
-
-		$classes = [$reflection->getName() => $reflection];
-
-		if( ($parent = $reflection->getParentClass()) ) {
-			do {
-				$classes[$parent->getName()] = $parent;
-			} while( ($parent = $parent->getParentClass()) );
-		}
-
-		$classes = array_reverse( $classes );
+		$classes = static::getClasses( $class );
 
 		$class_arguments = [];
 
 		foreach( $classes as $class ) {
-			/**
-			 * @var ReflectionClass $class
-			 */
 			foreach( $class->getAttributes( $attribute_name ) as $attribute ) {
 
 				foreach( $attribute->getArguments() as $k => $v ) {
-					if( $k == 'relation' ) {
-						if( !isset( $class_arguments['relations'] ) ) {
-							$class_arguments['relations'] = [];
-						}
-						$class_arguments['relations'][] = $v;
-						continue;
-					}
+					if(isset($aliases[$k])) {
+						$alias_to = $aliases[$k];
 
-					if( $k == 'key' ) {
-						if( !isset( $class_arguments['keys'] ) ) {
-							$class_arguments['keys'] = [];
+						if( !isset( $class_arguments[$alias_to] ) ) {
+							$class_arguments[$alias_to] = [];
 						}
-						$class_arguments['keys'][] = $v;
+						$class_arguments[$alias_to][] = $v;
+
 						continue;
 					}
 
