@@ -87,7 +87,7 @@ class Db extends BaseObject
 	 *
 	 * @return Db_Backend_Interface
 	 */
-	public static function create( string $connection_name, array $connection_config_data ): Db_Backend_Interface
+	public static function createConnection( string $connection_name, array $connection_config_data ): Db_Backend_Interface
 	{
 		if( isset( static::$connections[$connection_name] ) ) {
 			return static::$connections[$connection_name];
