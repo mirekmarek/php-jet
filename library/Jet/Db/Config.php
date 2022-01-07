@@ -71,7 +71,7 @@ class Db_Config extends Config
 			$connections[$name] = $name;
 		}
 
-		return array_combine( $connections, $connections );
+		return $connections;
 	}
 
 	/**
@@ -139,9 +139,9 @@ class Db_Config extends Config
 	/**
 	 * @param array $data
 	 *
-	 * @return Db_Backend_Config|Db_Backend_PDO_Config
+	 * @return Db_Backend_Config
 	 */
-	public function connectionConfigCreator( array $data ): Db_Backend_Config|Db_Backend_PDO_Config
+	public function connectionConfigCreator( array $data ): Db_Backend_Config
 	{
 		return Factory_Db::getBackendConfigInstance( $data );
 	}

@@ -61,9 +61,9 @@ class Factory_Db
 	 *
 	 * @param array $config_data
 	 *
-	 * @return Db_Backend_Config|Db_Backend_PDO_Config
+	 * @return Db_Backend_Config
 	 */
-	public static function getBackendConfigInstance( array $config_data = [] ): Db_Backend_Config|Db_Backend_PDO_Config
+	public static function getBackendConfigInstance( array $config_data = [] ): Db_Backend_Config
 	{
 		$config_class = static::$default_backend_config;
 
