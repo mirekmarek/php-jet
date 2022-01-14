@@ -25,7 +25,7 @@ class Config_Section extends Config
 	protected ?Config_Definition_Config_Section $definition = null;
 
 
-	/** @noinspection PhpMissingParentConstructorInspection */
+
 	/**
 	 * @param array|null $data
 	 */
@@ -37,9 +37,9 @@ class Config_Section extends Config
 	}
 
 	/**
-	 * @return Config_Definition_Config
+	 * @return Config_Definition_Config_Section
 	 */
-	public function getDefinition(): Config_Definition_Config
+	public function getDefinition(): Config_Definition_Config_Section
 	{
 		if( !$this->definition ) {
 			$this->definition = Config_Definition::getSectionConfigDefinition( static::class );
