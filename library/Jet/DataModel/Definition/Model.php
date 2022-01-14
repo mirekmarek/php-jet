@@ -81,23 +81,6 @@ abstract class DataModel_Definition_Model extends BaseObject
 	 */
 	protected array $relations = [];
 
-
-	/**
-	 * @param array $data
-	 *
-	 * @return static
-	 */
-	public static function __set_state( array $data ): static
-	{
-		$i = new static();
-
-		foreach( $data as $key => $val ) {
-			$i->{$key} = $val;
-		}
-
-		return $i;
-	}
-
 	/**
 	 *
 	 * @param string $data_model_class_name (optional)

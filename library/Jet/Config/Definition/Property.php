@@ -52,22 +52,6 @@ abstract class Config_Definition_Property extends BaseObject implements Form_Fie
 
 
 	/**
-	 * @param array $data
-	 *
-	 * @return static
-	 */
-	public static function __set_state( array $data ): static
-	{
-		$i = new static( $data['_configuration_class'], $data['name'] );
-
-		foreach( $data as $key => $val ) {
-			$i->{$key} = $val;
-		}
-
-		return $i;
-	}
-
-	/**
 	 *
 	 * @param string|Config $configuration_class_name
 	 * @param string $name

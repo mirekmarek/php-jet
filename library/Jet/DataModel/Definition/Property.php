@@ -77,24 +77,6 @@ abstract class DataModel_Definition_Property extends BaseObject implements Form_
 	 */
 	protected array $backend_options = [];
 
-
-	/**
-	 * @param array $data
-	 *
-	 * @return static
-	 */
-	public static function __set_state( array $data ): static
-	{
-
-		$i = new static( $data['data_model_class_name'], $data['name'] );
-
-		foreach( $data as $key => $val ) {
-			$i->{$key} = $val;
-		}
-
-		return $i;
-	}
-
 	/**
 	 * @param string $data_model_class_name
 	 * @param string $name

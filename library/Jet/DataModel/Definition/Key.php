@@ -31,18 +31,6 @@ class DataModel_Definition_Key extends BaseObject
 	 */
 	protected array $property_names = [];
 
-
-	/**
-	 * @param array $data
-	 *
-	 * @return static
-	 */
-	public static function __set_state( array $data ): static
-	{
-		return new static( $data['name'], $data['type'], $data['property_names'] );
-
-	}
-
 	/**
 	 * @param string $name
 	 * @param string $type
