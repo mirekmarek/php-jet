@@ -21,13 +21,13 @@ class Db_Config extends Config
 	 * @var string
 	 */
 	#[Config_Definition(
+		form_field_label: 'Default connection:',
 		type: Config::TYPE_STRING,
-		label: 'Default connection:',
-		description: 'Connection name - default value for Db::get()',
+		description: 'Connection name default value for Db::get() / Db::getConnection()',
 		is_required: true,
 		form_field_type: Form::TYPE_SELECT,
 		form_field_get_select_options_callback: [
-			Db_Config::class,
+			'Db_Config',
 			'getConnectionsList'
 		],
 		form_field_error_messages: [

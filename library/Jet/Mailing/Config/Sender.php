@@ -11,7 +11,7 @@ namespace Jet;
 /**
  *
  */
-#[Config_Definition(name: 'mailing')]
+#[Config_Definition]
 class Mailing_Config_Sender extends Config_Section
 {
 

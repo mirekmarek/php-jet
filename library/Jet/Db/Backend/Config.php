@@ -11,7 +11,7 @@ namespace Jet;
 /**
  *
  */
-#[Config_Definition(name: 'db')]
+#[Config_Definition]
 abstract class Db_Backend_Config extends Config_Section
 {
 	/**
