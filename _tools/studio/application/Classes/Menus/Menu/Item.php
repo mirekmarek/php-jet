@@ -118,7 +118,7 @@ class Menus_Menu_Item extends Navigation_Menu_Item
 			}
 			$base_id = new Form_Field_Select( 'base_id', 'Base:', '' );
 			$base_id->setSelectOptions( $bases );
-			$base_id->setIsRequired( true );
+			$base_id->setIsRequired( false );
 			$base_id->setErrorMessages( [
 				Form_Field_Select::ERROR_CODE_EMPTY         => 'Please select base',
 				Form_Field_Select::ERROR_CODE_INVALID_VALUE => 'Please select base',
@@ -269,7 +269,7 @@ class Menus_Menu_Item extends Navigation_Menu_Item
 			}
 			$base_id = new Form_Field_Select( 'base_id', 'Base:', $this->getBaseId() );
 			$base_id->setSelectOptions( $bases );
-			$base_id->setIsRequired( true );
+			$base_id->setIsRequired( false );
 			$base_id->setErrorMessages( [
 				Form_Field_Select::ERROR_CODE_EMPTY         => 'Please select base',
 				Form_Field_Select::ERROR_CODE_INVALID_VALUE => 'Please select base',

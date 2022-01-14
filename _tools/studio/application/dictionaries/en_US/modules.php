@@ -136,4 +136,11 @@ return [
 	'Module <b>%module%</b> has been activated' => '',
 	'Invalid module name format' => '',
 	'Module with the same name already exists' => '',
+	'Please enter menu item label' => '',
+	'There are some problems ... Please check the form.' => '',
+	'Invalid controller name format' => '',
+	'Please select controller' => '',
+	'Please select controller action' => '',
+	'URL conflicts with page <b>%page%</b>' => '',
+	'Module <b>%module%</b> has been deactivated' => '',
 ];

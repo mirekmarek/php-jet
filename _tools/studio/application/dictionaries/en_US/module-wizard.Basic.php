@@ -13,4 +13,5 @@ return [
 	'Copyright:' => '',
 	'Create' => '',
 	'Invalid module name format' => '',
+	'Module with the same name already exists' => '',
 ];
