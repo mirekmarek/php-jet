@@ -18,7 +18,7 @@ namespace Jet;
  * Properties:
  *           #[Config_Definition(
  *              type: Config::TYPE_*,
- *
+ *              label: 'Some label:',*
  *              description: 'Some description ...',
  *              is_required: true,
  *
@@ -26,6 +26,7 @@ namespace Jet;
  *              form_field_type: Form::TYPE_*,
  *                  - (optional, default: autodetect)
  *              form_field_label: 'Some form filed label:',
+ *                  - (optional, default value: label)
  *              form_field_options: ['option1' => 'Option 1', 'option2' => 'Option 1', 'option3'=>'Option 3' ]
  *                  - optional
  *              form_field_error_messages: [Form_Field_*::ERROR_CODE_* => 'Message' ]

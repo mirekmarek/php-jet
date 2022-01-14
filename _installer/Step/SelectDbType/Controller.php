@@ -44,15 +44,15 @@ class Installer_Step_SelectDbType_Controller extends Installer_Step_Controller
 	public function main(): void
 	{
 
-		$db_type_field = new Form_Field_Select( 'type', 'Please database type: ' );
+		$db_type_field = new Form_Field_Select( 'type', 'Database type:' );
 		$db_type_field->setSelectOptions( DataModel_Backend::getBackendTypes( true ) );
 		$db_type_field->setDefaultValue( static::getSelectedBackendType()['type'] );
 		$db_type_field->setIsRequired( true );
 
 		$db_type_field->setErrorMessages(
 			[
-				Form_Field_Select::ERROR_CODE_INVALID_VALUE => 'Please database type',
-				Form_Field_Select::ERROR_CODE_EMPTY         => 'Please database type',
+				Form_Field_Select::ERROR_CODE_INVALID_VALUE => 'Please select database type',
+				Form_Field_Select::ERROR_CODE_EMPTY         => 'Please select database type',
 			]
 		);
 

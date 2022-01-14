@@ -50,11 +50,6 @@ abstract class Config_Definition_Property extends BaseObject implements Form_Fie
 	 */
 	protected bool $is_required = false;
 
-	/**
-	 * @var string
-	 */
-	protected string $error_message = '';
-
 
 	/**
 	 * @param array $data
@@ -129,6 +124,10 @@ abstract class Config_Definition_Property extends BaseObject implements Form_Fie
 		if( $this->is_required ) {
 			$this->form_field_is_required = true;
 		}
+
+		if(!$this->form_field_label) {
+			$this->form_field_label = $this->label;
+		}
 	}
 
 	/**
@@ -177,22 +176,6 @@ abstract class Config_Definition_Property extends BaseObject implements Form_Fie
 	/**
 	 * @return string
 	 */
-	public function getErrorMessage(): string
-	{
-		return $this->error_message;
-	}
-
-	/**
-	 * @param string $error_message
-	 */
-	public function setErrorMessage( string $error_message ): void
-	{
-		$this->error_message = $error_message;
-	}
-
-	/**
-	 * @return string
-	 */
 	public function getLabel(): string
 	{
 		return $this->label;
@@ -204,6 +187,7 @@ abstract class Config_Definition_Property extends BaseObject implements Form_Fie
 	public function setLabel( string $label ): void
 	{
 		$this->label = $label;
+		$this->form_field_label = $label;
 	}
 
 	/**

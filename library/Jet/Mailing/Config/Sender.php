@@ -21,8 +21,8 @@ class Mailing_Config_Sender extends Config_Section
 	 */
 	#[Config_Definition(
 		type: Config::TYPE_STRING,
+		label: 'E-mail:',
 		is_required: true,
-		form_field_label: 'E-mail:',
 		form_field_type: Form::TYPE_EMAIL,
 		form_field_error_messages: [
 			Form_Field_Email::ERROR_CODE_EMPTY          => 'Please enter valid email address',
@@ -36,8 +36,8 @@ class Mailing_Config_Sender extends Config_Section
 	 * @var string
 	 */
 	#[Config_Definition(
-		form_field_label: 'Name:',
 		type: Config::TYPE_STRING,
+		label: 'Name:',
 		is_required: false
 	)]
 	protected string $name = '';

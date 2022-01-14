@@ -22,12 +22,12 @@ class DataModel_Config extends Config
 	#[Config_Definition(
 		type: Config::TYPE_STRING,
 		is_required: true,
+		label: 'Default backend type: ',
 		form_field_type: Form::TYPE_SELECT,
 		form_field_get_select_options_callback: [
 			'DataModel_Config',
 			'getBackendTypesList'
 		],
-		form_field_label: 'Default backend type: ',
 		form_field_error_messages: [
 			Form_Field::ERROR_CODE_EMPTY => 'Please select backend type',
 			Form_Field_MultiSelect::ERROR_CODE_INVALID_VALUE => 'Please select backend type'

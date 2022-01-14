@@ -21,6 +21,7 @@ class Db_Backend_PDO_Config extends Db_Backend_Config
 	 */
 	#[Config_Definition(
 		type: Config::TYPE_STRING,
+		label: 'Driver',
 		description: 'PDO driver',
 		is_required: true,
 		form_field_type: Form::TYPE_SELECT,
@@ -28,7 +29,6 @@ class Db_Backend_PDO_Config extends Db_Backend_Config
 			self::class,
 			'getDrivers'
 		],
-		form_field_label: 'Driver',
 		form_field_error_messages: [
 			Form_Field::ERROR_CODE_EMPTY => 'Please select driver',
 			Form_Field_MultiSelect::ERROR_CODE_INVALID_VALUE => 'Please select driver'
@@ -43,8 +43,8 @@ class Db_Backend_PDO_Config extends Db_Backend_Config
 	 */
 	#[Config_Definition(
 		type: Config::TYPE_STRING,
+		label: 'DSN',
 		is_required: true,
-		form_field_label: 'DSN',
 		form_field_error_messages: [
 			Form_Field::ERROR_CODE_EMPTY => 'Please enter connection DSN'
 		]
@@ -56,8 +56,8 @@ class Db_Backend_PDO_Config extends Db_Backend_Config
 	 * @var string
 	 */
 	#[Config_Definition(
-		form_field_label: 'Username',
 		type: Config::TYPE_STRING,
+		label: 'Username',
 		is_required: false
 	)]
 	protected string $username = '';
@@ -67,9 +67,9 @@ class Db_Backend_PDO_Config extends Db_Backend_Config
 	 * @var string
 	 */
 	#[Config_Definition(
-		form_field_type: Form::TYPE_PASSWORD,
-		form_field_label: 'Password',
 		type: Config::TYPE_STRING,
+		label: 'Password',
+		form_field_type: Form::TYPE_PASSWORD,
 		is_required: false
 	)]
 	protected string $password = '';
