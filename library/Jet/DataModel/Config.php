@@ -25,7 +25,7 @@ class DataModel_Config extends Config
 		label: 'Default backend type: ',
 		form_field_type: Form::TYPE_SELECT,
 		form_field_get_select_options_callback: [
-			'DataModel_Config',
+			DataModel_Config::class,
 			'getBackendTypesList'
 		],
 		form_field_error_messages: [
