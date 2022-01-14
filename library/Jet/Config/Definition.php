@@ -31,7 +31,9 @@ class Config_Definition extends BaseObject
 	 */
 	public static function getMainConfigDefinition( string $class_name ): Config_Definition_Config
 	{
-		return new Config_Definition_Config( $class_name );
+		$definition_class_name = Factory_Config::getMainConfigDefinitionClassName();
+
+		return new $definition_class_name( $class_name );
 	}
 
 
@@ -42,6 +44,8 @@ class Config_Definition extends BaseObject
 	 */
 	public static function getSectionConfigDefinition( string $class_name ): Config_Definition_Config_Section
 	{
-		return new Config_Definition_Config_Section( $class_name );
+		$definition_class_name = Factory_Config::getConfigSectionDefinitionClassName();
+
+		return new $definition_class_name( $class_name );
 	}
 }

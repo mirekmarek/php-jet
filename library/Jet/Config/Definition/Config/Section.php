@@ -53,11 +53,11 @@ class Config_Definition_Config_Section extends Config_Definition_Config
 
 			}
 
-			$class_name = __NAMESPACE__ . '\\' . static::BASE_PROPERTY_DEFINITION_CLASS_NAME . '_' . $definition_data['type'];
+			$definition_class_name = Factory_Config::getPropertyDefinitionClassName( $definition_data['type'] );
 
 			unset( $definition_data['type'] );
 
-			$property = new $class_name( $class_name, $property_name, $definition_data );
+			$property = new $definition_class_name( $this->class_name, $property_name, $definition_data );
 
 			$this->properties_definition[$property_name] = $property;
 
