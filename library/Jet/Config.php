@@ -159,19 +159,11 @@ abstract class Config extends BaseObject
 	 */
 	public function getPropertiesDefinition(): array
 	{
-		if( $this->properties_definition !== null ) {
-			return $this->properties_definition;
+		if( $this->properties_definition === null ) {
+			$this->properties_definition = $this->getDefinition()->getPropertiesDefinition();
 		}
 
-		$definition = $this->getDefinition()->getPropertiesDefinition();
-
-		foreach( $definition as $property ) {
-			$property->setConfiguration( $this );
-		}
-
-		$this->properties_definition = $definition;
-
-		return $definition;
+		return $this->properties_definition;
 	}
 
 

@@ -20,10 +20,6 @@ abstract class Config_Definition_Property extends BaseObject implements Form_Fie
 	 */
 	protected string $_type;
 
-	/**
-	 * @var Config
-	 */
-	protected Config $_configuration;
 
 	/**
 	 * @var string
@@ -53,32 +49,17 @@ abstract class Config_Definition_Property extends BaseObject implements Form_Fie
 
 	/**
 	 *
-	 * @param string|Config $configuration_class_name
+	 * @param string $configuration_class_name
 	 * @param string $name
 	 * @param ?array $definition_data (optional)
 	 *
 	 */
-	public function __construct( string|Config $configuration_class_name, string $name, ?array $definition_data = null )
+	public function __construct( string $configuration_class_name, string $name, ?array $definition_data = null )
 	{
-		if( is_object( $configuration_class_name ) ) {
-			$this->setConfiguration( $configuration_class_name );
-		} else {
-			$this->_configuration_class = $configuration_class_name;
-		}
-
-
+		$this->_configuration_class = $configuration_class_name;
 		$this->name = $name;
 
 		$this->setUp( $definition_data );
-	}
-
-	/**
-	 * @param Config $configuration
-	 */
-	public function setConfiguration( Config $configuration ): void
-	{
-		$this->_configuration = $configuration;
-		$this->_configuration_class = get_class( $configuration );
 	}
 
 	/**
