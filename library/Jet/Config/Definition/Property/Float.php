@@ -66,7 +66,7 @@ class Config_Definition_Property_Float extends Config_Definition_Property
 	/**
 	 * @param float $min_value
 	 */
-	public function setMinValue( float $min_value )
+	public function setMinValue( float $min_value ) : void
 	{
 		$this->min_value = $min_value;
 		$this->form_field_min_value = $this->min_value;
@@ -83,7 +83,7 @@ class Config_Definition_Property_Float extends Config_Definition_Property
 	/**
 	 * @param float $max_value
 	 */
-	public function setMaxValue( float $max_value )
+	public function setMaxValue( float $max_value ) : void
 	{
 		$this->max_value = $max_value;
 		$this->form_field_max_value = $this->max_value;

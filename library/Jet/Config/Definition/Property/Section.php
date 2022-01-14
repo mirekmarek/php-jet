@@ -44,24 +44,6 @@ class Config_Definition_Property_Section extends Config_Definition_Property
 		}
 	}
 
-
-	/**
-	 * @param Config $config
-	 *
-	 * @return Config_Section
-	 */
-	public function getDefaultValue( Config $config ): Config_Section
-	{
-		/**
-		 * @var Config_Section $section
-		 */
-		$section = $config->{$this->section_creator_method_name}( [] );
-		$section->setConfig( $config );
-
-		return $section;
-	}
-
-
 	/**
 	 *
 	 * @param array $value
