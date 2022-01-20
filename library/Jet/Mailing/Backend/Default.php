@@ -119,7 +119,10 @@ class Mailing_Backend_Default extends Mailing_Backend_Abstract
 		$message .= $eol . "--$boundary_3--" . $eol;
 
 		foreach( $email->getImages() as $image_id => $image_path ) {
-			$image_info = @getimagesize( $image_path );
+			$image_info = Debug_ErrorHandler::doItSilent(function() use ($image_path) {
+				 return getimagesize( $image_path );
+			});
+
 			if( !$image_info ) {
 				continue;
 			}

@@ -164,8 +164,10 @@ class Cache_Redis
 			return null;
 		}
 
-		/** @noinspection PhpUsageOfSilenceOperatorInspection */
-		$data = @unserialize( $data );
+		$data = Debug_ErrorHandler::doItSilent(function() use ($data) {
+			return unserialize( $data );
+		});
+
 
 		if( !$data ) {
 			return null;

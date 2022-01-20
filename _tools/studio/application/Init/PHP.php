@@ -18,7 +18,6 @@ if( SysConf_Jet_Main::getTimezone() ) {
 ini_set( 'default_charset', SysConf_Jet_Main::getCharset() );
 
 if( function_exists( 'ini_set' ) ) {
-	/** @noinspection PhpUsageOfSilenceOperatorInspection */
-	@ini_set( 'error_log', SysConf_Path::getLogs() . 'php_errors_' . @date( 'Y-m-d' ) . '.log' );
+	ini_set( 'error_log', SysConf_Path::getLogs() . 'php_errors_' . date( 'Y-m-d' ) . '.log' );
 }
 //Debug_Profiler::blockEnd('INIT - PHP');

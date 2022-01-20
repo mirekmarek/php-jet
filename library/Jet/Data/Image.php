@@ -73,8 +73,9 @@ class Data_Image extends BaseObject
 			);
 		}
 
-		/** @noinspection PhpUsageOfSilenceOperatorInspection */
-		$image_dat = @getimagesize( $path );
+		$image_dat = Debug_ErrorHandler::doItSilent(function() use ($path) {
+			return getimagesize( $path );
+		});
 
 		if( !$image_dat ) {
 			throw new Data_Image_Exception(
@@ -213,6 +214,7 @@ class Data_Image extends BaseObject
 	 *
 	 * @return Data_Image
 	 *
+	 * @throws Data_Image_Exception
 	 * @throws static
 	 */
 	public function saveAs( string $target_path, ?int $new_width = null, ?int $new_height = null, ?int $target_img_type = null ): static

@@ -13,4 +13,7 @@ return [
 	'Unknown parent' => '',
 	'Please enter title' => '',
 	'Delete selected images' => '',
+	'Gallery <b>%TITLE%</b> has been created' => '',
+	'Image %FILE_NAME% uploaded ....' => '',
+	'File <b>%file_name%</b>: %error_message%' => '',
 ];

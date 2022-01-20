@@ -20,7 +20,9 @@ class Cache
 	public static function resetOPCache(): void
 	{
 		if( function_exists( 'opcache_reset' ) ) {
-			opcache_reset();
+			Debug_ErrorHandler::doItSilent(function() {
+				opcache_reset();
+			});
 		}
 	}
 

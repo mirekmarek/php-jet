@@ -89,4 +89,6 @@ return [
 	'Please enter week' => '',
 	'Please enter month' => '',
 	'Please select color' => '',
+	'Form sent and is valid' => '',
+	'Form sent:' => '',
 ];

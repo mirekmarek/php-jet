@@ -38,6 +38,11 @@ class Debug_ErrorHandler
 	];
 
 	/**
+	 * @var bool
+	 */
+	protected static bool $is_silenced = false;
+
+	/**
 	 * @param string $path
 	 */
 	public static function addIgnoreNonFatalErrorsPath( string $path ): void
@@ -142,6 +147,10 @@ class Debug_ErrorHandler
 					break;
 				}
 			}
+
+			if(static::$is_silenced) {
+				$error->setIsSilenced( true );
+			}
 		}
 
 		static::_handleError( $error );
@@ -208,5 +217,19 @@ class Debug_ErrorHandler
 		static::$last_error = null;
 
 		return $last_error;
+	}
+
+	/**
+	 * @param callable $operation
+	 *
+	 * @return mixed
+	 */
+	public static function doItSilent( callable $operation ) : mixed
+	{
+		static::$is_silenced = true;
+		$result = $operation();
+		static::$is_silenced = false;
+
+		return $result;
 	}
 }

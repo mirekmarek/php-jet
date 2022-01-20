@@ -225,10 +225,10 @@ class Debug_ErrorHandler_Error
 	public function __construct()
 	{
 
-		/** @noinspection PhpUsageOfSilenceOperatorInspection */
-		$this->date = @date( 'Y-m-d' );
-		/** @noinspection PhpUsageOfSilenceOperatorInspection */
-		$this->time = @date( 'H:i:s' );
+		Debug_ErrorHandler::doItSilent(function() {
+			$this->date = date( 'Y-m-d' );
+			$this->time = date( 'H:i:s' );
+		});
 
 		$this->request_URL = $this->getCurrentURL();
 	}

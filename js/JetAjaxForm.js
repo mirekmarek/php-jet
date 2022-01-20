@@ -234,7 +234,7 @@ let JetAjaxForm = {
 	WYSIWYG: {
 		beforeSend: function( form ) {
 			if(window['tinyMCE']) {
-				tinyMCE.triggerSave();
+				window['tinyMCE']['triggerSave']();
 			}
 		},
 

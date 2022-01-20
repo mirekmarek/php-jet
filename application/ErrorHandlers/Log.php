@@ -8,6 +8,7 @@
 
 namespace JetApplication;
 
+use Jet\Debug_ErrorHandler;
 use Jet\Debug_ErrorHandler_Handler;
 use Jet\Debug_ErrorHandler_Error;
 use Jet\SysConf_Path;
@@ -45,24 +46,23 @@ class ErrorHandler_Log extends Debug_ErrorHandler_Handler
 		$dir = $this->getLogDir();
 
 
-		/** @noinspection PhpUsageOfSilenceOperatorInspection */
-		$log_fn = $dir . '/' . @date( 'Y-m-d' ) . '.log';
+		Debug_ErrorHandler::doItSilent(function() use ($dir, $message) {
+			$log_fn = $dir . '/' . date( 'Y-m-d' ) . '.log';
 
-		/** @noinspection PhpUsageOfSilenceOperatorInspection */
-		if( !@file_put_contents(
-			$log_fn,
-			$message . '_________________________________________________________________________________________' . PHP_EOL . PHP_EOL . PHP_EOL,
-			FILE_APPEND
-		)
-		) {
-			echo 'Warning! Log  file\'' . $log_fn . '\' is not writable!';
-			echo $message;
+			if( !file_put_contents(
+				$log_fn,
+				$message . '_________________________________________________________________________________________' . PHP_EOL . PHP_EOL . PHP_EOL,
+				FILE_APPEND
+			)) {
+				echo 'Warning! Log  file\'' . $log_fn . '\' is not writable!';
+				echo $message;
 
-			return;
-		}
+				return;
+			}
 
-		/** @noinspection PhpUsageOfSilenceOperatorInspection */
-		@chmod( $log_fn, 0666 );
+			chmod( $log_fn, 0666 );
+
+		});
 	}
 
 	/**
