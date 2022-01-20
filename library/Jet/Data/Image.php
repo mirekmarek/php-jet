@@ -172,11 +172,11 @@ class Data_Image extends BaseObject
 	 * @param int $maximal_height
 	 * @param int|null $target_img_type
 	 *
-	 * @return Data_Image
+	 * @return static
 	 *
 	 * @throws Data_Image_Exception
 	 */
-	public function createThumbnail( string $target_path, int $maximal_width, int $maximal_height, ?int $target_img_type = null ): Data_Image
+	public function createThumbnail( string $target_path, int $maximal_width, int $maximal_height, ?int $target_img_type = null ): static
 	{
 
 		if( $this->width >= $this->height ) {
@@ -213,9 +213,9 @@ class Data_Image extends BaseObject
 	 *
 	 * @return Data_Image
 	 *
-	 * @throws Data_Image_Exception
+	 * @throws static
 	 */
-	public function saveAs( string $target_path, ?int $new_width = null, ?int $new_height = null, ?int $target_img_type = null ): Data_Image
+	public function saveAs( string $target_path, ?int $new_width = null, ?int $new_height = null, ?int $target_img_type = null ): static
 	{
 		if( !$target_img_type ) {
 			$target_img_type = $this->img_type;
@@ -274,7 +274,7 @@ class Data_Image extends BaseObject
 
 		IO_File::chmod( $target_path );
 
-		return new self( $target_path );
+		return new static( $target_path );
 	}
 
 

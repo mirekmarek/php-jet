@@ -17,9 +17,9 @@ class Data_DateTime extends DateTime
 {
 
 	/**
-	 * @return Data_DateTime
+	 * @return static
 	 */
-	public static function now(): Data_DateTime
+	public static function now(): static
 	{
 		return new static( date( 'Y-m-d\TH:i:s' ) );
 	}
