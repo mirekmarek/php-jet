@@ -38,11 +38,6 @@ class Debug_ErrorHandler
 	];
 
 	/**
-	 * @var bool
-	 */
-	protected static bool $is_silenced = false;
-
-	/**
 	 * @param string $path
 	 */
 	public static function addIgnoreNonFatalErrorsPath( string $path ): void
@@ -132,8 +127,6 @@ class Debug_ErrorHandler
 	{
 		$error = Debug_ErrorHandler_Error::newError( $code, $message, $file, $line );
 
-		static::$last_error = $error;
-
 		if( !$error->isFatal() ) {
 
 			foreach( static::$ignore_non_fatal_errors_paths as $path_part ) {
@@ -148,10 +141,20 @@ class Debug_ErrorHandler
 				}
 			}
 
-			if(static::$is_silenced) {
-				$error->setIsSilenced( true );
+			$backtrace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
+
+			foreach($backtrace as $bt) {
+				if(
+					($bt['class']??'')==static::class &&
+					($bt['function']??'')=='doItSilent'
+				) {
+					$error->setIsSilenced(true);
+					break;
+				}
 			}
 		}
+
+		static::$last_error = $error;
 
 		static::_handleError( $error );
 	}
@@ -208,6 +211,14 @@ class Debug_ErrorHandler
 	}
 
 	/**
+	 *
+	 */
+	public static function resetLastError() : void
+	{
+		static::$last_error = null;
+	}
+
+	/**
 	 * @return Debug_ErrorHandler_Error|null
 	 */
 	public static function getLastError(): Debug_ErrorHandler_Error|null
@@ -226,10 +237,6 @@ class Debug_ErrorHandler
 	 */
 	public static function doItSilent( callable $operation ) : mixed
 	{
-		static::$is_silenced = true;
-		$result = $operation();
-		static::$is_silenced = false;
-
-		return $result;
+		return $operation();
 	}
 }

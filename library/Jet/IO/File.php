@@ -68,6 +68,7 @@ class IO_File
 	 */
 	public static function getSize( string $file_path ): int
 	{
+		static::_resetLastError();
 
 		$size = filesize( $file_path );
 
@@ -162,6 +163,7 @@ class IO_File
 	 */
 	protected static function _write( string $file_path, mixed $data, bool $append ): void
 	{
+		static::_resetLastError();
 
 		$is_new = false;
 		if( !file_exists( $file_path ) ) {
@@ -202,6 +204,8 @@ class IO_File
 	 */
 	public static function chmod( string $file_path, ?int $chmod_mask = null ): void
 	{
+		static::_resetLastError();
+
 		$chmod_mask = ($chmod_mask === null) ? SysConf_Jet_IO::getFileMod() : $chmod_mask;
 
 		if( !chmod( $file_path, $chmod_mask ) ) {
@@ -240,6 +244,8 @@ class IO_File
 	 */
 	public static function read( string $file_path ): string
 	{
+		static::_resetLastError();
+
 		static::$http_response_header = null;
 		$data = file_get_contents( $file_path );
 
@@ -338,6 +344,7 @@ class IO_File
 	 */
 	public static function copy( string $source_path, string $target_path, bool $overwrite_if_exists = true ): void
 	{
+		static::_resetLastError();
 
 		if( file_exists( $target_path ) ) {
 			if( $overwrite_if_exists ) {
@@ -370,6 +377,8 @@ class IO_File
 	 */
 	public static function delete( string $file_path ): void
 	{
+		static::_resetLastError();
+
 		if( !unlink( $file_path ) ) {
 			$error = static::_getLastError();
 			throw new IO_File_Exception(
@@ -458,6 +467,7 @@ class IO_File
 	                             ?int $file_size = null,
 	                             bool $force_download = false ): void
 	{
+		static::_resetLastError();
 
 		if( !static::isReadable( $file_path ) ) {
 			throw new IO_File_Exception(
@@ -490,11 +500,21 @@ class IO_File
 
 
 	/**
+	 *
+	 */
+	protected static function _resetLastError() : void
+	{
+		if( class_exists( Debug_ErrorHandler::class, false ) ) {
+			Debug_ErrorHandler::resetLastError();
+		}
+	}
+
+	/**
 	 * @return array|null
 	 */
 	protected static function _getLastError(): array|null
 	{
-		if( class_exists( __NAMESPACE__ . '\Debug_ErrorHandler', false ) ) {
+		if( class_exists( Debug_ErrorHandler::class, false ) ) {
 			$e = Debug_ErrorHandler::getLastError();
 			if( !$e ) {
 				return null;

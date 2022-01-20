@@ -89,6 +89,7 @@ class IO_Dir
 	 */
 	public static function copy( string $source_path, string $target_path, bool $overwrite_if_exists = true ): void
 	{
+		static::_resetLastError();
 
 		if( !self::exists( $source_path ) ) {
 			throw new IO_Dir_Exception(
@@ -146,6 +147,7 @@ class IO_Dir
 	 */
 	public static function create( string $dir_path, bool $overwrite_if_exists = false ): void
 	{
+		static::_resetLastError();
 
 		if( static::exists( $dir_path ) ) {
 			if( $overwrite_if_exists ) {
@@ -192,6 +194,7 @@ class IO_Dir
 	 */
 	public static function remove( string $dir_path ): void
 	{
+		static::_resetLastError();
 
 		$dh = opendir( $dir_path );
 
@@ -267,6 +270,8 @@ class IO_Dir
 	                                bool $get_dirs = true,
 	                                bool $get_files = true ): array
 	{
+		static::_resetLastError();
+
 		$last_char = substr( $dir_path, -1 );
 
 		if(
@@ -355,13 +360,22 @@ class IO_Dir
 		return static::getList( $dir_path, $mask, true, false );
 	}
 
+	/**
+	 *
+	 */
+	protected static function _resetLastError() : void
+	{
+		if( class_exists( Debug_ErrorHandler::class, false ) ) {
+			Debug_ErrorHandler::resetLastError();
+		}
+	}
 
 	/**
 	 * @return array|null
 	 */
 	protected static function _getLastError(): array|null
 	{
-		if( class_exists( __NAMESPACE__ . '\\Debug_ErrorHandler', false ) ) {
+		if( class_exists( Debug_ErrorHandler::class, false ) ) {
 			$e = Debug_ErrorHandler::getLastError();
 			if( !$e ) {
 				return null;
