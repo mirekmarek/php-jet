@@ -64,14 +64,16 @@ use Jet\UI;
 					<div class="dropdown-menu" aria-labelledby="navbarDropdown">
 						<?php foreach( Bases::getBases() as $base ): ?>
 							<div class="dropdown-item">
-								<b><?=$base->getName()?></b>
+								<div style="display: inline-block;width: 250px;"><?=$base->getName()?></div>
 								<?php foreach( $base->getLocales() as $locale ):
 									$hp = $base->getHomepage($locale);
 									if(!$hp) {
 										continue;
 									}
 									?>
+								<div style="display: inline-block;width: 100px;">
 									<a href="<?=$hp->getURL()?>" target="_blank"><?=UI::flag($locale)?> <?=$locale->getLanguageName($locale)?></a>
+								</div>
 								<?php endforeach; ?>
 							</div>
 						<?php endforeach; ?>
