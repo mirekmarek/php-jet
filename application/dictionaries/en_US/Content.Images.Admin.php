@@ -16,4 +16,12 @@ return [
 	'Gallery <b>%TITLE%</b> has been created' => '',
 	'Image %FILE_NAME% uploaded ....' => '',
 	'File <b>%file_name%</b>: %error_message%' => '',
+	'Get galley data' => '',
+	'Add new gallery' => '',
+	'Update gallery' => '',
+	'Delete gallery' => '',
+	'Add new image' => '',
+	'Update image' => '',
+	'Delete image' => '',
+	'Images - Admin' => '',
 ];

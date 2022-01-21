@@ -16,55 +16,9 @@ class Data_Forest extends BaseObject implements BaseObject_Interface_IteratorCou
 
 	/**
 	 *
-	 * @var string|null
-	 */
-	protected string|null $label_key = null;
-
-	/**
-	 *
-	 * @var string|null
-	 */
-	protected string|null $id_key = null;
-
-	/**
-	 *
 	 * @var Data_Tree[]
 	 */
 	protected array $trees = [];
-
-	/**
-	 * @return string
-	 */
-	public function getLabelKey(): string
-	{
-		return $this->label_key;
-	}
-
-	/**
-	 * @param string $label_key
-	 */
-	public function setLabelKey( string $label_key ): void
-	{
-		$this->label_key = $label_key;
-	}
-
-	/**
-	 *
-	 * @return string
-	 */
-	public function getIdKey(): string
-	{
-		return $this->id_key;
-	}
-
-	/**
-	 *
-	 * @param string $id_key
-	 */
-	public function setIdKey( string $id_key ): void
-	{
-		$this->id_key = $id_key;
-	}
 
 
 	/**
@@ -82,12 +36,6 @@ class Data_Forest extends BaseObject implements BaseObject_Interface_IteratorCou
 				'Tree \'' . $tree_id . '\' already exists in the forest', Data_Tree_Exception::CODE_TREE_ALREADY_IN_FOREST
 			);
 		}
-
-		if( !$this->id_key ) {
-			$this->id_key = $tree->getIdKey();
-			$this->label_key = $tree->getLabelKey();
-		}
-
 
 		$this->trees[$tree_id] = $tree;
 	}

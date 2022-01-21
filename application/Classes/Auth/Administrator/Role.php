@@ -342,8 +342,6 @@ class Auth_Administrator_Role extends DataModel implements Auth_Role_Interface
 	{
 
 		$forest = new Data_Forest();
-		$forest->setLabelKey( 'name' );
-		$forest->setIdKey( 'id' );
 
 		$modules = Application_Modules::activatedModulesList();
 

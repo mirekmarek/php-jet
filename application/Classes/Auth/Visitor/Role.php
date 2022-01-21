@@ -404,8 +404,6 @@ class Auth_Visitor_Role extends DataModel implements Auth_Role_Interface
 	{
 
 		$forest = new Data_Forest();
-		$forest->setIdKey( 'id' );
-		$forest->setLabelKey( 'name' );
 
 
 		$base = Application_Web::getBase();

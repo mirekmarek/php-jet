@@ -11,4 +11,9 @@ return [
 	'Annotation' => '',
 	'Text' => '',
 	'Article <b>%TITLE%</b> has been updated' => '',
+	'Get article data' => '',
+	'Add new article' => '',
+	'Update article' => '',
+	'Delete article' => '',
+	'Articles - Admin' => '',
 ];
