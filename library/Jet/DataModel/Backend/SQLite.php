@@ -68,7 +68,7 @@ class DataModel_Backend_SQLite extends DataModel_Backend
 
 		$db = $this->getDb();
 
-		if( $db->fetchOne( "SELECT name FROM sqlite_master WHERE type='table' AND name='{$table_name}';" ) ) {
+		if( $db->fetchOne( "SELECT name FROM sqlite_master WHERE type='table' AND name='$table_name';" ) ) {
 			return true;
 		}
 

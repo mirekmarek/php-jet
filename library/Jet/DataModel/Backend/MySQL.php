@@ -99,7 +99,7 @@ class DataModel_Backend_MySQL extends DataModel_Backend
 		FROM 
 			information_schema.TABLES
 		WHERE 
-			(TABLE_SCHEMA = '{$database}') AND (TABLE_NAME = '{$table_name}')" );
+			(TABLE_SCHEMA = '$database') AND (TABLE_NAME = '$table_name')" );
 
 	}
 

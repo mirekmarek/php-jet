@@ -9,7 +9,7 @@ namespace Jet;
 
 $module_name = require 'init/init_modules.php';
 
-echo "Uninstalling module '{$module_name}' ... " . PHP_EOL;
+echo "Uninstalling module '$module_name' ... " . PHP_EOL;
 
 try {
 	Application_Modules::uninstallModule($module_name);

@@ -10,14 +10,14 @@ namespace Jet;
 require 'init.php';
 
 if (!isset($argv[1])) {
-	die("Usage: {$argv[0]} ModuleName" . PHP_EOL);
+	die("Usage: $argv[0] ModuleName" . PHP_EOL);
 }
 
 $module_name = $argv[1];
 
 
 if (!Application_Modules::moduleExists( $module_name)) {
-	echo "Module '{$module_name}' doesn't exist " . PHP_EOL . PHP_EOL;
+	echo "Module '$module_name' doesn't exist " . PHP_EOL . PHP_EOL;
 	exit(20);
 }
 /**

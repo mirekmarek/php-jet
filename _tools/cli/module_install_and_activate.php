@@ -9,7 +9,7 @@ namespace Jet;
 
 $module_name = require 'init/init_modules.php';
 
-echo "Installing module '{$module_name}' ... " . PHP_EOL;
+echo "Installing module '$module_name' ... " . PHP_EOL;
 
 try {
 	Application_Modules::installModule($module_name);
@@ -18,7 +18,7 @@ try {
 }
 
 
-echo "Activating module '{$module_name}' ... " . PHP_EOL;
+echo "Activating module '$module_name' ... " . PHP_EOL;
 
 try {
 	Application_Modules::activateModule($module_name);

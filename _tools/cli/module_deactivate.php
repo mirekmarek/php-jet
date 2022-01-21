@@ -9,7 +9,7 @@ namespace Jet;
 
 $module_name = require 'init/init_modules.php';
 
-echo "Deactivating module '{$module_name}' ... " . PHP_EOL;
+echo "Deactivating module '$module_name' ... " . PHP_EOL;
 
 try {
 	Application_Modules::deactivateModule($module_name);
