@@ -52,4 +52,7 @@ return [
 	'Items:' => '',
 	'Please select base' => '',
 	'Please enter menu item label' => '',
+	'Menu set <strong>%set%</strong> has been created' => '',
+	'Menu <b>%name%</b> has been deleted' => '',
+	'Saved ...' => '',
 ];

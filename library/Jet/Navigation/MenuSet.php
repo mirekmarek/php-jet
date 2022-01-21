@@ -48,6 +48,17 @@ class Navigation_MenuSet extends BaseObject
 
 	/**
 	 * @param string $name
+	 *
+	 * @return bool
+	 */
+	public static function exists( string $name ) : bool
+	{
+		$file_path = SysConf_Path::getMenus() . $name . '.php';
+		return IO_File::exists($file_path);
+	}
+
+	/**
+	 * @param string $name
 	 * @param string|null|bool $translator_namespace
 	 *
 	 * @return Navigation_MenuSet

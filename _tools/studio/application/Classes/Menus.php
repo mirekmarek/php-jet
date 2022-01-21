@@ -228,6 +228,10 @@ class Menus extends BaseObject implements Application_Part
 	 */
 	public static function getSet( string $name ): Menus_MenuSet|null
 	{
+		if(!Menus_MenuSet::exists($name)) {
+			return null;
+		}
+
 		return Menus_MenuSet::get( $name );
 	}
 
