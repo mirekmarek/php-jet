@@ -8,6 +8,8 @@
 
 namespace Jet;
 
+use JsonSerializable;
+
 /**
  *
  */
@@ -58,8 +60,8 @@ class Data_Array extends BaseObject implements BaseObject_Interface_Serializable
 
 		$target = &$this->data;
 
-		if( $key[0] === self::PATH_DELIMITER ) {
-			$path = explode( self::PATH_DELIMITER, trim( $key, self::PATH_DELIMITER ) );
+		if( $key[0] === static::PATH_DELIMITER ) {
+			$path = explode( static::PATH_DELIMITER, trim( $key, static::PATH_DELIMITER ) );
 
 			if( !$path ) {
 				return false;
@@ -108,8 +110,8 @@ class Data_Array extends BaseObject implements BaseObject_Interface_Serializable
 
 		$target = &$this->data;
 
-		if( $key[0] === self::PATH_DELIMITER ) {
-			$path = explode( self::PATH_DELIMITER, trim( $key, self::PATH_DELIMITER ) );
+		if( $key[0] === static::PATH_DELIMITER ) {
+			$path = explode( static::PATH_DELIMITER, trim( $key, static::PATH_DELIMITER ) );
 
 
 			if( !$path ) {
@@ -150,8 +152,8 @@ class Data_Array extends BaseObject implements BaseObject_Interface_Serializable
 
 		$target = &$this->data;
 
-		if( $key[0] === self::PATH_DELIMITER ) {
-			$path = explode( self::PATH_DELIMITER, trim( $key, self::PATH_DELIMITER ) );
+		if( $key[0] === static::PATH_DELIMITER ) {
+			$path = explode( static::PATH_DELIMITER, trim( $key, static::PATH_DELIMITER ) );
 
 			if( !$path ) {
 				return;
@@ -211,8 +213,8 @@ class Data_Array extends BaseObject implements BaseObject_Interface_Serializable
 
 		$target = &$this->data;
 
-		if( $key[0] === self::PATH_DELIMITER ) {
-			$path = explode( self::PATH_DELIMITER, trim( $key, self::PATH_DELIMITER ) );
+		if( $key[0] === static::PATH_DELIMITER ) {
+			$path = explode( static::PATH_DELIMITER, trim( $key, static::PATH_DELIMITER ) );
 
 			if( !$path ) {
 				return false;
@@ -298,13 +300,11 @@ class Data_Array extends BaseObject implements BaseObject_Interface_Serializable
 
 	/**
 	 *
-	 * @param array $comments
-	 *
 	 * @return string
 	 */
-	public function export( array $comments = [] ): string
+	public function export(): string
 	{
-		$result = static::_export( $this->data, 0, '', $comments );
+		$result = static::_export( $this->data );
 
 		$result .= ';' . PHP_EOL;
 
@@ -315,11 +315,10 @@ class Data_Array extends BaseObject implements BaseObject_Interface_Serializable
 	 * @param array $data
 	 * @param int $level
 	 * @param string $path
-	 * @param array $comments
 	 *
 	 * @return string
 	 */
-	public static function _export( array $data, int $level = 0, string $path = '', array $comments = [] ): string
+	public static function _export( array $data, int $level = 0, string $path = '' ): string
 	{
 		$result = '';
 		$next_level = $level + 1;
@@ -327,13 +326,8 @@ class Data_Array extends BaseObject implements BaseObject_Interface_Serializable
 		$indent = str_pad( '', $level, "\t" );
 
 
-		$comment = '';
-		if( isset( $comments[$path] ) ) {
-			$comment .= "\t" . '/* ' . $comments[$path] . ' */';
-		}
 
-
-		$result .= '[' . $comment . PHP_EOL;
+		$result .= '[' . PHP_EOL;
 
 		$my_root_path = $path . static::PATH_DELIMITER;
 
@@ -341,10 +335,6 @@ class Data_Array extends BaseObject implements BaseObject_Interface_Serializable
 
 			$my_path = $my_root_path . $key;
 
-			$comment = '';
-			if( isset( $comments[$my_path] ) ) {
-				$comment .= "\t" . '/* ' . $comments[$my_path] . ' */';
-			}
 
 			if( is_int( $key ) ) {
 				$result .= $indent . "\t";
@@ -354,11 +344,11 @@ class Data_Array extends BaseObject implements BaseObject_Interface_Serializable
 			}
 
 			if( is_array( $value ) ) {
-				$result .= static::_export( $value, $next_level, $my_path, $comments ) . '';
+				$result .= static::_export( $value, $next_level, $my_path  ) . '';
 			} else if( is_object( $value ) ) {
 				$class_name = get_class( $value );
 
-				if( is_subclass_of( $value, '\JsonSerializable' ) ) {
+				if( is_subclass_of( $value, JsonSerializable::class ) ) {
 					$object_values = $value->jsonSerialize();
 				} else {
 					$object_values = get_object_vars( $value );
@@ -366,10 +356,10 @@ class Data_Array extends BaseObject implements BaseObject_Interface_Serializable
 
 
 				$result .= $class_name . '::__set_state( ' . static::_export(
-						$object_values, $next_level, $my_path, $comments
+						$object_values, $next_level, $my_path
 					) . ' )';
 			} else {
-				$result .= var_export( $value, true ) . $comment;
+				$result .= var_export( $value, true );
 			}
 
 			$result .= ',' . PHP_EOL;
