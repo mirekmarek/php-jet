@@ -126,7 +126,7 @@ class Data_Tree_Node extends BaseObject implements BaseObject_Interface_Iterator
 	 * @throws Data_Tree_Exception
 	 *
 	 */
-	public function appendChild( Data_Tree_Node $node ): void
+	public function _appendChild( Data_Tree_Node $node ): void
 	{
 
 		$id = $node->getId();
@@ -178,7 +178,7 @@ class Data_Tree_Node extends BaseObject implements BaseObject_Interface_Iterator
 	/**
 	 * @param string $parent_id
 	 */
-	public function setParentId( string $parent_id ): void
+	public function _setParentId( string $parent_id ): void
 	{
 		$this->real_parent_id = $parent_id;
 		$this->parent_id = $parent_id;
@@ -193,14 +193,6 @@ class Data_Tree_Node extends BaseObject implements BaseObject_Interface_Iterator
 	}
 
 	/**
-	 * @param string $real_parent_id
-	 */
-	public function setRealParentId( string $real_parent_id ): void
-	{
-		$this->real_parent_id = $real_parent_id;
-	}
-
-	/**
 	 *
 	 * @return Data_Tree_Node|null
 	 */
@@ -212,7 +204,7 @@ class Data_Tree_Node extends BaseObject implements BaseObject_Interface_Iterator
 	/**
 	 * @param Data_Tree_Node $_parent
 	 */
-	public function setParent( Data_Tree_Node $_parent ): void
+	public function _setParent( Data_Tree_Node $_parent ): void
 	{
 		$this->_parent = $_parent;
 		$this->parent_id = $_parent->getId();
@@ -244,7 +236,7 @@ class Data_Tree_Node extends BaseObject implements BaseObject_Interface_Iterator
 	/**
 	 * @param bool $is_root
 	 */
-	public function setIsRoot( bool $is_root ): void
+	public function _setIsRoot( bool $is_root ): void
 	{
 		$this->is_root = $is_root;
 	}
@@ -260,7 +252,7 @@ class Data_Tree_Node extends BaseObject implements BaseObject_Interface_Iterator
 	/**
 	 * @param bool $is_orphan
 	 */
-	public function setIsOrphan( bool $is_orphan ): void
+	public function _setIsOrphan( bool $is_orphan ): void
 	{
 		$this->is_orphan = $is_orphan;
 	}

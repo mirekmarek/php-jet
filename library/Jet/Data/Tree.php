@@ -520,7 +520,7 @@ class Data_Tree extends BaseObject implements BaseObject_Interface_IteratorCount
 	{
 		if( !$this->root_node ) {
 			$this->root_node = new $this->nodes_class_name( $this, null );
-			$this->root_node->setIsRoot( true );
+			$this->root_node->_setIsRoot( true );
 		}
 
 		return $this->root_node;
@@ -531,7 +531,7 @@ class Data_Tree extends BaseObject implements BaseObject_Interface_IteratorCount
 	 */
 	public function setRootNode( Data_Tree_Node $node ): void
 	{
-		$node->setIsRoot( true );
+		$node->_setIsRoot( true );
 		$this->root_node = $node;
 	}
 
@@ -582,7 +582,7 @@ class Data_Tree extends BaseObject implements BaseObject_Interface_IteratorCount
 		 */
 		$new_node = new $this->nodes_class_name( $this, $item_data );
 		$new_node->setId( $id );
-		$new_node->setParentId( $parent_id );
+		$new_node->_setParentId( $parent_id );
 		$new_node->setLabel( $this->getNodeData_label( $item_data ) );
 
 		$parent = $this->getNode( $new_node->getParentId() );
@@ -593,7 +593,7 @@ class Data_Tree extends BaseObject implements BaseObject_Interface_IteratorCount
 			}
 
 			if( $this->adopt_orphans ) {
-				$new_node->setIsOrphan( true );
+				$new_node->_setIsOrphan( true );
 
 				$parent = $this->getRootNode();
 			} else {
@@ -605,11 +605,11 @@ class Data_Tree extends BaseObject implements BaseObject_Interface_IteratorCount
 			}
 		}
 
-		$new_node->setParent( $parent );
+		$new_node->_setParent( $parent );
 
 		$this->nodes[$id] = $new_node;
 
-		$parent->appendChild( $new_node );
+		$parent->_appendChild( $new_node );
 
 		return $this->nodes[$id];
 	}
