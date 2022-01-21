@@ -37,7 +37,7 @@ $this->setVar( 'page', Pages::getCurrentPage() );
 				</div>
 			</div>
 		</div>
-		<div class="col-md-9" style="padding: 0px;">
+		<div class="col-md-9" style="padding: 0;">
 			<?= UI::button_create( Tr::_( 'Create a new page' ) )->setOnclick( 'Pages.createPage.openDialog()' ) ?>
 			<?= $this->render( 'page/toolbar' ); ?>
 		</div>
@@ -45,10 +45,10 @@ $this->setVar( 'page', Pages::getCurrentPage() );
 
 
 	<div class="row" id="main-col">
-		<div class="col-md-3" style="padding: 0px;">
+		<div class="col-md-3" style="padding: 0;">
 			<?= $this->render( 'pages_tree' ); ?>
 		</div>
-		<div class="col-md-9" style="padding: 0px;">
+		<div class="col-md-9" style="padding: 0;">
 			<?= $this->render( 'page/edit' ); ?>
 		</div>
 	</div>

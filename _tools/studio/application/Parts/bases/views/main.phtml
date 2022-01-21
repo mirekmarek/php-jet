@@ -9,24 +9,24 @@ use Jet\Tr;
 
 <?php if( Bases::getCurrentBase() ): ?>
 	<div class="row" id="main-toolbar">
-		<div class="col-md-3" style="padding: 0px;">
+		<div class="col-md-3" style="padding: 0;">
 			<div class="toolbar">
 
 				<?= UI::button_create( Tr::_( 'Create a new Base' ) )->setOnclick( 'Bases.createBase.openDialog()' ) ?>
 			</div>
 		</div>
-		<div class="col-md-9" style="padding: 0px;">
+		<div class="col-md-9" style="padding: 0;">
 			<?= Application::getView()->render( 'base_edit/toolbar' ); ?>
 		</div>
 	</div>
 
 	<div class="row" id="main-col">
 		<div class="col-md-3">
-			<div style="padding: 0px;">
+			<div style="padding: 0;">
 				<?= Application::getView()->render( 'bases_list' ); ?>
 			</div>
 		</div>
-		<div class="col-md-9" style="padding: 0px;">
+		<div class="col-md-9" style="padding: 0;">
 			<?= Application::getView()->render( 'base_edit/edit' ); ?>
 		</div>
 	</div>

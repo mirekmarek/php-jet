@@ -19,10 +19,10 @@ $what_to_edit = Modules::getCurrentWhatToEdit();
 
 <?php if( Modules::getCurrentModule() ): ?>
 	<div class="row" id="main-col">
-		<div class="col-md-3" style="padding: 0px;">
+		<div class="col-md-3" style="padding: 0;">
 			<?= Application::getView()->render( 'models_list' ); ?>
 		</div>
-		<div class="col-md-9" style="padding: 0px">
+		<div class="col-md-9" style="padding: 0">
 			<div class="container-fluid">
 				<?= Application::getView()->render( $what_to_edit . '/edit/form' ); ?>
 			</div>

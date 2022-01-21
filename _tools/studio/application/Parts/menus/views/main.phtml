@@ -34,10 +34,10 @@ use Jet\Tr;
 	</div>
 
 	<div class="row" id="main-col">
-		<div class="col-md-3" style="padding: 0px;">
+		<div class="col-md-3" style="padding: 0;">
 			<?= Application::getView()->render( 'tree' ); ?>
 		</div>
-		<div class="col-md-9" style="padding: 0px;">
+		<div class="col-md-9" style="padding: 0;">
 			<div class="container-fluid">
 				<?= Application::getGeneralView()->render( 'messages' ); ?>
 				<?php require $what . '/edit.phtml'; ?>
@@ -46,7 +46,7 @@ use Jet\Tr;
 	</div>
 <?php else: ?>
 	<div class="row">
-		<div class="col-md-12" style="padding: 0px;">
+		<div class="col-md-12" style="padding: 0;">
 			<div class="toolbar">
 				<?= UI::button_create( Tr::_( 'Create a new menu set' ) )->setOnclick( 'Menus.createSet.openDialog();' ); ?>
 			</div>
