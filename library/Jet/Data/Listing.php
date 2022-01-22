@@ -40,19 +40,15 @@ abstract class Data_Listing extends BaseObject
 	protected string $default_sort = '';
 
 	/**
-	 * @var string
-	 */
-	protected string $sort = '';
-
-	/**
 	 * @var array
 	 */
 	protected array $grid_columns = [];
 
 	/**
-	 * @var array
+	 * @var string
 	 */
-	protected array $grid_columns_schema = [];
+	protected string $sort = '';
+
 
 	/**
 	 * @var ?UI_dataGrid
@@ -106,10 +102,18 @@ abstract class Data_Listing extends BaseObject
 	{
 		$this->catchGetParams();
 		$this->pagination_catchGetParams();
-		$this->catchSortGetParams();
+		$this->sort_catchGetParams();
 
 		$this->catchFilterForm();
 
+	}
+
+	/**
+	 * @param array $grid_columns
+	 */
+	public function setGridColumns( array $grid_columns ): void
+	{
+		$this->grid_columns = $grid_columns;
 	}
 
 	/**
@@ -120,25 +124,6 @@ abstract class Data_Listing extends BaseObject
 		return $this->grid_columns;
 	}
 
-	/**
-	 * @param array $grid_columns_schema
-	 */
-	public function setGridColumnsSchema( array $grid_columns_schema ): void
-	{
-		$this->grid_columns_schema = $grid_columns_schema;
-	}
-
-	/**
-	 * @return array
-	 */
-	public function getGridColumnsSchema(): array
-	{
-		if( !$this->grid_columns_schema ) {
-			$this->grid_columns_schema = array_keys( $this->getGridColumns() );
-		}
-
-		return $this->grid_columns_schema;
-	}
 
 
 	/**
@@ -209,7 +194,7 @@ abstract class Data_Listing extends BaseObject
 				$filter->catchForm( $form );
 			}
 
-			$this->setPageNo( 1 );
+			$this->pagination_setPageNo( 1 );
 
 			Http_Headers::movedTemporary( $this->getURI() );
 		}
@@ -260,7 +245,7 @@ abstract class Data_Listing extends BaseObject
 	/**
 	 * @param int $page_no
 	 */
-	protected function setPageNo( int $page_no ): void
+	protected function pagination_setPageNo( int $page_no ): void
 	{
 		$this->pagination_page_no = $page_no;
 		$this->setGetParam( SysConf_Jet_Data_Listing::getPaginationPageNoGetParam(), $page_no );
@@ -269,7 +254,7 @@ abstract class Data_Listing extends BaseObject
 	/**
 	 * @param int $items_per_page
 	 */
-	protected function setItemsPerPage( int $items_per_page ): void
+	protected function pagination_setItemsPerPage( int $items_per_page ): void
 	{
 
 		if( $items_per_page > SysConf_Jet_Data_Listing::getPaginationMaxItemsPerPage() ) {
@@ -290,12 +275,12 @@ abstract class Data_Listing extends BaseObject
 
 		$param = SysConf_Jet_Data_Listing::getPaginationPageNoGetParam();
 		if( $GET->exists( $param ) ) {
-			$this->setPageNo( $GET->getInt( $param ) );
+			$this->pagination_setPageNo( $GET->getInt( $param ) );
 		}
 
 		$param = SysConf_Jet_Data_Listing::getPaginationItemsPerPageParam();
 		if( $GET->exists( $param ) ) {
-			$this->setItemsPerPage( $GET->getInt( $param ) );
+			$this->pagination_setItemsPerPage( $GET->getInt( $param ) );
 		}
 	}
 
@@ -322,7 +307,7 @@ abstract class Data_Listing extends BaseObject
 	/**
 	 * @param string $sort_by
 	 */
-	protected function setSort( string $sort_by ): void
+	protected function sort_setSort( string $sort_by ): void
 	{
 		$sort_column = $sort_by;
 
@@ -346,20 +331,20 @@ abstract class Data_Listing extends BaseObject
 	/**
 	 *
 	 */
-	protected function catchSortGetParams(): void
+	protected function sort_catchGetParams(): void
 	{
 		$GET = Http_Request::GET();
 
 		$param = SysConf_Jet_Data_Listing::getSortGetParam();
 		if( $GET->exists( $param ) ) {
-			$this->setSort( $GET->getString( $param ) );
+			$this->sort_setSort( $GET->getString( $param ) );
 		}
 	}
 
 	/**
 	 * @return string
 	 */
-	protected function getSortBy(): string
+	protected function sort_getSortBy(): string
 	{
 		return $this->sort ? : $this->default_sort;
 	}
@@ -411,7 +396,7 @@ abstract class Data_Listing extends BaseObject
 		$list = $this->getList();
 
 		$list->getQuery()->setWhere( $this->getWhere() );
-		$list->getQuery()->setOrderBy( $this->getSortBy() );
+		$list->getQuery()->setOrderBy( $this->sort_getSortBy() );
 
 		return $list;
 	}
@@ -421,10 +406,13 @@ abstract class Data_Listing extends BaseObject
 	 */
 	protected function getGrid_createColumns(): void
 	{
-		foreach( $this->getGridColumnsSchema() as $column_id ) {
-			$column_definition = $this->getGridColumns()[$column_id];
+		foreach( $this->getGridColumns() as $column_id=>$column_definition ) {
 
-			$column = $this->grid->addColumn( $column_id, Tr::_( $column_definition['title'] ) );
+			$column = $this->grid->addColumn(
+				$column_id,
+				Tr::_( $column_definition['title'] )
+			);
+			
 			if( !empty( $column_definition['disallow_sort'] ) ) {
 				$column->setAllowSort( false );
 			}
@@ -445,7 +433,7 @@ abstract class Data_Listing extends BaseObject
 
 			$this->grid->setPaginator( $this->getGrid_createPaginator() );
 			$this->grid->setSortUrlCreator( $this->getGrid_getSortURLCreator() );
-			$this->grid->setSortBy( $this->getSortBy() );
+			$this->grid->setSortBy( $this->sort_getSortBy() );
 			$this->grid->setData( $this->getGrid_prepareList() );
 
 		}
