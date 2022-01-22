@@ -35,6 +35,11 @@ class Listing extends Data_Listing
 	];
 
 	/**
+	 * @var string
+	 */
+	protected string $default_sort = 'name';
+
+	/**
 	 *
 	 */
 	protected function initFilters(): void
@@ -44,7 +49,7 @@ class Listing extends Data_Listing
 			{
 				if( $this->search ) {
 					$search = '%' . $this->search . '%';
-					$this->listing->filter_addWhere( [
+					$this->listing->addWhere( [
 						'name *'        => $search,
 						'OR',
 						'description *' => $search,

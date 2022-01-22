@@ -104,11 +104,11 @@ abstract class Data_Listing extends BaseObject
 	 */
 	public function handle(): void
 	{
-		$this->filter_catchGetParams();
+		$this->catchGetParams();
 		$this->pagination_catchGetParams();
-		$this->sort_catchGetParams();
+		$this->catchSortGetParams();
 
-		$this->filter_catchForm();
+		$this->catchFilterForm();
 
 	}
 
@@ -142,33 +142,30 @@ abstract class Data_Listing extends BaseObject
 
 
 	/**
-	 * @param string $p
-	 * @param mixed $v
+	 * @param string $parameter
+	 * @param mixed $value
 	 */
-	public function setGetParam( string $p, mixed $v ): void
+	public function setGetParam( string $parameter, mixed $value ): void
 	{
-		$this->get_param_values[$p] = $v;
+		$this->get_param_values[$parameter] = $value;
 	}
 
 	/**
-	 * @param string $p
+	 * @param string $parameter
 	 */
-	public function unsetGetParam( string $p ): void
+	public function unsetGetParam( string $parameter ): void
 	{
-		unset( $this->get_param_values[$p] );
+		unset( $this->get_param_values[$parameter] );
 	}
 
 
 	/**
-	 * @param array|null $get_params
 	 *
 	 * @return string
 	 */
-	public function getURI( array $get_params = null ): string
+	public function getURI(): string
 	{
-		if( $get_params === null ) {
-			$get_params = $this->get_param_values;
-		}
+		$get_params = $this->get_param_values;
 
 		foreach( $get_params as $k => $v ) {
 			if( !$v ) {
@@ -183,7 +180,7 @@ abstract class Data_Listing extends BaseObject
 	/**
 	 * @return Form
 	 */
-	public function filter_getForm(): Form
+	public function getFilterForm(): Form
 	{
 		if( !$this->filter_form ) {
 			$this->filter_form = new Form( 'filter_form', [] );
@@ -200,9 +197,9 @@ abstract class Data_Listing extends BaseObject
 	/**
 	 *
 	 */
-	public function filter_catchForm(): void
+	protected function catchFilterForm(): void
 	{
-		$form = $this->filter_getForm();
+		$form = $this->getFilterForm();
 
 		if(
 			$form->catchInput() &&
@@ -212,7 +209,7 @@ abstract class Data_Listing extends BaseObject
 				$filter->catchForm( $form );
 			}
 
-			$this->pagination_setPageNo( 1 );
+			$this->setPageNo( 1 );
 
 			Http_Headers::movedTemporary( $this->getURI() );
 		}
@@ -223,7 +220,7 @@ abstract class Data_Listing extends BaseObject
 	/**
 	 *
 	 */
-	public function filter_catchGetParams(): void
+	protected function catchGetParams(): void
 	{
 		foreach( $this->filters as $filter ) {
 			$filter->catchGetParams();
@@ -234,7 +231,7 @@ abstract class Data_Listing extends BaseObject
 	/**
 	 * @param array $where
 	 */
-	public function filter_addWhere( array $where ): void
+	public function addWhere( array $where ): void
 	{
 		if( $this->filter_where ) {
 			$this->filter_where[] = 'AND';
@@ -246,7 +243,7 @@ abstract class Data_Listing extends BaseObject
 	/**
 	 * @return array
 	 */
-	public function filter_getWhere(): array
+	public function getWhere(): array
 	{
 		if( $this->filter_where === null ) {
 			$this->filter_where = [];
@@ -263,7 +260,7 @@ abstract class Data_Listing extends BaseObject
 	/**
 	 * @param int $page_no
 	 */
-	public function pagination_setPageNo( int $page_no ): void
+	protected function setPageNo( int $page_no ): void
 	{
 		$this->pagination_page_no = $page_no;
 		$this->setGetParam( SysConf_Jet_Data_Listing::getPaginationPageNoGetParam(), $page_no );
@@ -272,7 +269,7 @@ abstract class Data_Listing extends BaseObject
 	/**
 	 * @param int $items_per_page
 	 */
-	public function pagination_setItemsPerPage( int $items_per_page ): void
+	protected function setItemsPerPage( int $items_per_page ): void
 	{
 
 		if( $items_per_page > SysConf_Jet_Data_Listing::getPaginationMaxItemsPerPage() ) {
@@ -293,12 +290,12 @@ abstract class Data_Listing extends BaseObject
 
 		$param = SysConf_Jet_Data_Listing::getPaginationPageNoGetParam();
 		if( $GET->exists( $param ) ) {
-			$this->pagination_setPageNo( $GET->getInt( $param ) );
+			$this->setPageNo( $GET->getInt( $param ) );
 		}
 
 		$param = SysConf_Jet_Data_Listing::getPaginationItemsPerPageParam();
 		if( $GET->exists( $param ) ) {
-			$this->pagination_setItemsPerPage( $GET->getInt( $param ) );
+			$this->setItemsPerPage( $GET->getInt( $param ) );
 		}
 	}
 
@@ -325,7 +322,7 @@ abstract class Data_Listing extends BaseObject
 	/**
 	 * @param string $sort_by
 	 */
-	public function sort_setSort( string $sort_by ): void
+	protected function setSort( string $sort_by ): void
 	{
 		$sort_column = $sort_by;
 
@@ -349,13 +346,13 @@ abstract class Data_Listing extends BaseObject
 	/**
 	 *
 	 */
-	protected function sort_catchGetParams(): void
+	protected function catchSortGetParams(): void
 	{
 		$GET = Http_Request::GET();
 
 		$param = SysConf_Jet_Data_Listing::getSortGetParam();
 		if( $GET->exists( $param ) ) {
-			$this->sort_setSort( $GET->getString( $param ) );
+			$this->setSort( $GET->getString( $param ) );
 		}
 	}
 
@@ -413,7 +410,7 @@ abstract class Data_Listing extends BaseObject
 	{
 		$list = $this->getList();
 
-		$list->getQuery()->setWhere( $this->filter_getWhere() );
+		$list->getQuery()->setWhere( $this->getWhere() );
 		$list->getQuery()->setOrderBy( $this->getSortBy() );
 
 		return $list;

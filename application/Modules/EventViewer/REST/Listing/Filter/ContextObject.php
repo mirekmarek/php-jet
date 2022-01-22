@@ -57,7 +57,7 @@ class Listing_filter_contextObject extends Data_Listing_Filter {
 	public function generateWhere(): void
 	{
 		if( $this->context_object_id ) {
-			$this->listing->filter_addWhere( [
+			$this->listing->addWhere( [
 				'context_object_id' => $this->context_object_id,
 			] );
 		}

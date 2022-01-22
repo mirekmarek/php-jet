@@ -92,13 +92,13 @@ class Listing_filter_DateTime extends Data_Listing_Filter {
 	public function generateWhere(): void
 	{
 		if( $this->date_time_from ) {
-			$this->listing->filter_addWhere( [
+			$this->listing->addWhere( [
 				'date_time >=' => $this->date_time_from,
 			] );
 		}
 
 		if( $this->date_time_till ) {
-			$this->listing->filter_addWhere( [
+			$this->listing->addWhere( [
 				'date_time <=' => $this->date_time_till,
 			] );
 		}

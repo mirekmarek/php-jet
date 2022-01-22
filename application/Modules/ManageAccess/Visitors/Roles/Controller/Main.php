@@ -88,10 +88,9 @@ class Controller_Main extends MVC_Controller_Default
 		$this->_setBreadcrumbNavigation();
 
 		$listing = new Listing();
-		$listing->setDefaultSort( 'name' );
 		$listing->handle();
 
-		$this->view->setVar( 'filter_form', $listing->filter_getForm() );
+		$this->view->setVar( 'filter_form', $listing->getFilterForm() );
 		$this->view->setVar( 'grid', $listing->getGrid() );
 
 		$this->output( 'list' );

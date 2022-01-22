@@ -98,7 +98,7 @@ class Controller_Main extends MVC_Controller_Default
 		$listing = new Listing();
 		$listing->handle();
 
-		$this->view->setVar( 'filter_form', $listing->filter_getForm() );
+		$this->view->setVar( 'filter_form', $listing->getFilterForm() );
 		$this->view->setVar( 'grid', $listing->getGrid() );
 
 		$this->output( 'list' );

@@ -45,7 +45,7 @@ class Listing extends Data_Listing
 			{
 				if( $this->search ) {
 					$search = '%' . $this->search . '%';
-					$this->listing->filter_addWhere( [
+					$this->listing->addWhere( [
 						'article_localized.title *'      => $search,
 						'OR',
 						'article_localized.annotation *' => $search,

@@ -58,7 +58,7 @@ class Listing_Filter_Event extends Data_Listing_Filter {
 	public function generateWhere(): void
 	{
 		if( $this->event ) {
-			$this->listing->filter_addWhere( [
+			$this->listing->addWhere( [
 				'event' => $this->event,
 			] );
 		}

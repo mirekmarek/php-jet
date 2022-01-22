@@ -69,7 +69,7 @@ class Listing_Filter_Role extends Data_Listing_Filter {
 	public function generateWhere(): void
 	{
 		if( $this->role ) {
-			$this->listing->filter_addWhere( [
+			$this->listing->addWhere( [
 				'users_roles.role_id' => $this->role,
 			] );
 		}

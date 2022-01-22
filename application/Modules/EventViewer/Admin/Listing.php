@@ -40,12 +40,12 @@ class Listing extends Data_Listing {
 	 */
 	protected function initFilters(): void
 	{
-		$this->filters['search'] = new Listing_Filter_Search($this);
-		$this->filters['event_class'] = new Listing_Filter_EventClass($this);
-		$this->filters['event'] = new Listing_Filter_Event($this);
-		$this->filters['date_time'] = new Listing_Filter_DateTime($this);
-		$this->filters['user'] = new Listing_Filter_User($this);
-		$this->filters['context_object'] = new Listing_Filter_ContextObject($this);
+		$this->filters['search']         = new Listing_Filter_Search( $this );
+		$this->filters['event_class']    = new Listing_Filter_EventClass( $this );
+		$this->filters['event']          = new Listing_Filter_Event( $this );
+		$this->filters['date_time']      = new Listing_Filter_DateTime( $this );
+		$this->filters['user']           = new Listing_Filter_User( $this );
+		$this->filters['context_object'] = new Listing_Filter_ContextObject( $this );
 	}
 
 

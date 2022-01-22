@@ -60,7 +60,7 @@ class Listing_filter_User extends Data_Listing_Filter {
 	public function generateWhere(): void
 	{
 		if( $this->user_id ) {
-			$this->listing->filter_addWhere( [
+			$this->listing->addWhere( [
 				'user_id' => $this->user_id,
 			] );
 		}
