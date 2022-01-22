@@ -33,4 +33,5 @@ return [
 	'Please enter e-mail address' => '',
 	'Invalid date format' => '',
 	'User <b>%USERNAME%</b> has been created' => '',
+	'User <b>%USERNAME%</b> has been updated' => '',
 ];

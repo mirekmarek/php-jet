@@ -5,8 +5,9 @@
  * @license
  * @author  Miroslav Marek
  */
-namespace JetApplicationModule\EventViewer\Web;
+namespace JetApplicationModule\EventViewer\REST;
 
+use Jet\Data_Listing_Filter;
 use Jet\Form;
 use Jet\Form_Field_Input;
 use Jet\Http_Request;
@@ -14,7 +15,7 @@ use Jet\Http_Request;
 /**
  *
  */
-trait Listing_filter_event {
+class Listing_Filter_Event extends Data_Listing_Filter {
 
 
 	/**
@@ -26,27 +27,25 @@ trait Listing_filter_event {
 	/**
 	 *
 	 */
-	protected function filter_event_catchGetParams(): void
+	public function catchGetParams(): void
 	{
 		$this->event = Http_Request::GET()->getString( 'event' );
-		$this->setGetParam( 'event', $this->event );
+		$this->listing->setGetParam( 'event', $this->event );
 	}
 
 	/**
 	 * @param Form $form
 	 */
-	public function filter_event_catchForm( Form $form ): void
+	public function catchForm( Form $form ): void
 	{
-		$value = $form->field( 'event' )->getValue();
-
-		$this->event = $value;
-		$this->setGetParam( 'event', $value );
+		$this->event = $form->field( 'event' )->getValue();
+		$this->listing->setGetParam( 'event', $this->event );
 	}
 
 	/**
 	 * @param Form $form
 	 */
-	protected function filter_event_getForm( Form $form ): void
+	public function generateFormFields( Form $form ): void
 	{
 		$field = new Form_Field_Input( 'event', 'Event:', $this->event );
 
@@ -56,10 +55,10 @@ trait Listing_filter_event {
 	/**
 	 *
 	 */
-	protected function filter_event_getWhere(): void
+	public function generateWhere(): void
 	{
 		if( $this->event ) {
-			$this->filter_addWhere( [
+			$this->listing->filter_addWhere( [
 				'event' => $this->event,
 			] );
 		}

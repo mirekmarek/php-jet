@@ -65,11 +65,22 @@ abstract class Data_Listing extends BaseObject
 	protected ?array $filter_where = null;
 
 	/**
+	 * @var Data_Listing_Filter[]
+	 */
+	protected array $filters = [];
+
+	/**
 	 *
 	 */
 	public function __construct()
 	{
+		$this->initFilters();
 	}
+
+	/**
+	 *
+	 */
+	abstract protected function initFilters() : void;
 
 	/**
 	 * @return string
@@ -134,7 +145,7 @@ abstract class Data_Listing extends BaseObject
 	 * @param string $p
 	 * @param mixed $v
 	 */
-	protected function setGetParam( string $p, mixed $v ): void
+	public function setGetParam( string $p, mixed $v ): void
 	{
 		$this->get_param_values[$p] = $v;
 	}
@@ -142,7 +153,7 @@ abstract class Data_Listing extends BaseObject
 	/**
 	 * @param string $p
 	 */
-	protected function unsetGetParam( string $p ): void
+	public function unsetGetParam( string $p ): void
 	{
 		unset( $this->get_param_values[$p] );
 	}
@@ -153,7 +164,7 @@ abstract class Data_Listing extends BaseObject
 	 *
 	 * @return string
 	 */
-	protected function getURI( array $get_params = null ): string
+	public function getURI( array $get_params = null ): string
 	{
 		if( $get_params === null ) {
 			$get_params = $this->get_param_values;
@@ -179,7 +190,7 @@ abstract class Data_Listing extends BaseObject
 			$this->filter_form->setAction( $this->getURI() );
 
 			foreach( $this->filters as $filter ) {
-				$this->{"filter_{$filter}_getForm"}( $this->filter_form );
+				$filter->generateFormFields( $this->filter_form );
 			}
 		}
 
@@ -198,7 +209,7 @@ abstract class Data_Listing extends BaseObject
 			$form->validate()
 		) {
 			foreach( $this->filters as $filter ) {
-				$this->{"filter_{$filter}_catchForm"}( $form );
+				$filter->catchForm( $form );
 			}
 
 			$this->pagination_setPageNo( 1 );
@@ -215,19 +226,8 @@ abstract class Data_Listing extends BaseObject
 	public function filter_catchGetParams(): void
 	{
 		foreach( $this->filters as $filter ) {
-			$this->{"filter_{$filter}_catchGetParams"}();
+			$filter->catchGetParams();
 		}
-	}
-
-	/**
-	 *
-	 */
-	protected function filter_setupWhere(): void
-	{
-		foreach( $this->filters as $filter ) {
-			$this->{"filter_{$filter}_setupWhere"}();
-		}
-
 	}
 
 
@@ -252,7 +252,7 @@ abstract class Data_Listing extends BaseObject
 			$this->filter_where = [];
 
 			foreach( $this->filters as $filter ) {
-				$this->{"filter_{$filter}_getWhere"}( $this->filter_form );
+				$filter->generateWhere();
 			}
 
 		}

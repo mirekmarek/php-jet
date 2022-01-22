@@ -2,7 +2,7 @@
 
 /**
  *
- * @copyright Copyright (c) 2011-2021 Miroslav Marek <mirek.marek@web-jet.cz>
+ * @copyright Copyright (c) 2011-2022 Miroslav Marek <mirek.marek@web-jet.cz>
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek@web-jet.cz>
  */
@@ -16,7 +16,7 @@ use Jet\Http_Request;
 /**
  *
  */
-trait Data_Listing_Filter_search
+abstract class Data_Listing_Filter_Search extends Data_Listing_Filter
 {
 
 	/**
@@ -27,30 +27,34 @@ trait Data_Listing_Filter_search
 	/**
 	 *
 	 */
-	protected function filter_search_catchGetParams(): void
+	public function catchGetParams(): void
 	{
 		$this->search = Http_Request::GET()->getString( 'search' );
-		$this->setGetParam( 'search', $this->search );
+		$this->listing->setGetParam( 'search', $this->search );
 	}
 
 	/**
 	 * @param Form $form
 	 */
-	public function filter_search_catchForm( Form $form ): void
+	public function catchForm( Form $form ): void
 	{
-		$value = $form->field( 'search' )->getValue();
+		$this->search = $form->field( 'search' )->getValue();
 
-		$this->search = $value;
-		$this->setGetParam( 'search', $value );
+		$this->listing->setGetParam( 'search', $this->search );
 	}
 
 	/**
 	 * @param Form $form
 	 */
-	protected function filter_search_getForm( Form $form ): void
+	public function generateFormFields( Form $form ): void
 	{
 		$search = new Form_Field_Search( 'search', '', $this->search );
 		$form->addField( $search );
 	}
+
+	/**
+	 *
+	 */
+	abstract public function generateWhere() : void;
 
 }

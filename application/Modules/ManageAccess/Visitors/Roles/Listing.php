@@ -13,15 +13,13 @@ use Jet\DataModel_Fetch_Instances;
 use JetApplication\Auth_Visitor_Role as Role;
 
 use Jet\Data_Listing;
-use Jet\Data_Listing_Filter_search;
+use Jet\Data_Listing_Filter_Search;
 
 /**
  *
  */
 class Listing extends Data_Listing
 {
-
-	use Data_Listing_Filter_search;
 
 	/**
 	 * @var array
@@ -37,11 +35,26 @@ class Listing extends Data_Listing
 	];
 
 	/**
-	 * @var array
+	 *
 	 */
-	protected array $filters = [
-		'search'
-	];
+	protected function initFilters(): void
+	{
+		$this->filters['search'] = new class($this) extends Data_Listing_Filter_Search {
+			public function generateWhere(): void
+			{
+				if( $this->search ) {
+					$search = '%' . $this->search . '%';
+					$this->listing->filter_addWhere( [
+						'name *'        => $search,
+						'OR',
+						'description *' => $search,
+					] );
+				}
+
+			}
+		};
+	}
+
 
 	/**
 	 * @return Role[]|DataModel_Fetch_Instances
@@ -52,21 +65,4 @@ class Listing extends Data_Listing
 		return Role::getList();
 	}
 
-	/**
-	 *
-	 */
-	protected function filter_search_getWhere(): void
-	{
-		if( !$this->search ) {
-			return;
-		}
-
-		$search = '%' . $this->search . '%';
-		$this->filter_addWhere( [
-			'name *'        => $search,
-			'OR',
-			'description *' => $search,
-		] );
-
-	}
 }

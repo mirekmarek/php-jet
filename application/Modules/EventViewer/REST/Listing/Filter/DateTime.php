@@ -5,9 +5,10 @@
  * @license
  * @author  Miroslav Marek
  */
-namespace JetApplicationModule\EventViewer\Admin;
+namespace JetApplicationModule\EventViewer\REST;
 
 use Jet\Data_DateTime;
+use Jet\Data_Listing_Filter;
 use Jet\Form;
 use Jet\Form_Field_DateTime;
 use Jet\Http_Request;
@@ -15,12 +16,16 @@ use Jet\Http_Request;
 /**
  *
  */
-trait Listing_filter_dateTime {
+class Listing_filter_DateTime extends Data_Listing_Filter {
 
 	protected ?Data_DateTime $date_time_from = null;
 	protected ?Data_DateTime $date_time_till = null;
 
 
+	/**
+	 * @param string|null $date_time
+	 * @return Data_DateTime|null
+	 */
 	protected function getDateTime( ?string $date_time ) : ?Data_DateTime {
 		if(!$date_time) {
 			return null;
@@ -37,33 +42,33 @@ trait Listing_filter_dateTime {
 	/**
 	 *
 	 */
-	protected function filter_dateTime_catchGetParams(): void
+	public function catchGetParams(): void
 	{
 		$this->date_time_from = $this->getDateTime(Http_Request::GET()->getString( 'date_time_from' ));
-		$this->setGetParam( 'date_time_from', ($this->date_time_from?->toString())?:'' );
+		$this->listing->setGetParam( 'date_time_from', ($this->date_time_from?->toString())?:'' );
 
 		$this->date_time_till = $this->getDateTime(Http_Request::GET()->getString( 'date_time_till' ));
-		$this->setGetParam( 'date_time_till', ($this->date_time_till?->toString())?:'' );
+		$this->listing->setGetParam( 'date_time_till', ($this->date_time_till?->toString())?:'' );
 		
 	}
 
 	/**
 	 * @param Form $form
 	 */
-	public function filter_dateTime_catchForm( Form $form ): void
+	public function catchForm( Form $form ): void
 	{
 		$this->date_time_from = $this->getDateTime($form->field( 'date_time_from' )->getValue());
 		$this->date_time_till = $this->getDateTime($form->field( 'date_time_till' )->getValue());
 
 
-		$this->setGetParam( 'date_time_from', ($this->date_time_from?->toString())?:'' );
-		$this->setGetParam( 'date_time_till', ($this->date_time_till?->toString())?:'' );
+		$this->listing->setGetParam( 'date_time_from', ($this->date_time_from?->toString())?:'' );
+		$this->listing->setGetParam( 'date_time_till', ($this->date_time_till?->toString())?:'' );
 	}
 
 	/**
 	 * @param Form $form
 	 */
-	protected function filter_dateTime_getForm( Form $form ): void
+	public function generateFormFields( Form $form ): void
 	{
 		$date_time_form = new Form_Field_DateTime( 'date_time_from', 'From:', $this->date_time_from );
 		$date_time_form->setErrorMessages([
@@ -84,16 +89,16 @@ trait Listing_filter_dateTime {
 	/**
 	 *
 	 */
-	protected function filter_dateTime_getWhere(): void
+	public function generateWhere(): void
 	{
 		if( $this->date_time_from ) {
-			$this->filter_addWhere( [
+			$this->listing->filter_addWhere( [
 				'date_time >=' => $this->date_time_from,
 			] );
 		}
 
 		if( $this->date_time_till ) {
-			$this->filter_addWhere( [
+			$this->listing->filter_addWhere( [
 				'date_time <=' => $this->date_time_till,
 			] );
 		}

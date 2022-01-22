@@ -10,7 +10,6 @@ namespace %<NAMESPACE>%;
 use %<DATA_MODEL_CLASS_NAME>% as %<DATA_MODEL_CLASS_ALIAS>%;
 
 use Jet\Data_Listing;
-use Jet\Data_Listing_Filter_search;
 use Jet\DataModel_Fetch_Instances;
 
 /**
@@ -18,7 +17,6 @@ use Jet\DataModel_Fetch_Instances;
  */
 class Listing extends Data_Listing {
 
-	use Data_Listing_Filter_search;
 
 	/**
 	 * @var array
@@ -33,11 +31,12 @@ class Listing extends Data_Listing {
 	];
 
 	/**
-	 * @var string[]
+	 *
 	 */
-	protected array $filters = [
-		'search',
-	];
+	protected function initFilters(): void
+	{
+		$this->filters['search'] = new Listing_Filter_Search($this);
+	}
 
 	/**
 	 * @return %<DATA_MODEL_CLASS_ALIAS>%[]|DataModel_Fetch_Instances
@@ -47,19 +46,4 @@ class Listing extends Data_Listing {
 		return %<DATA_MODEL_CLASS_ALIAS>%::getList();
 	}
 
-	/**
-	 *
-	 */
-	protected function filter_search_getWhere() : void
-	{
-		if(!$this->search) {
-			return;
-		}
-
-		$search = '%'.$this->search.'%';
-		$this->filter_addWhere([
-			'%<NAME_PROPERTY>% *'   => $search,
-		]);
-
-	}
 }
