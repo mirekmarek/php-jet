@@ -412,7 +412,7 @@ abstract class Data_Listing extends BaseObject
 				$column_id,
 				Tr::_( $column_definition['title'] )
 			);
-			
+
 			if( !empty( $column_definition['disallow_sort'] ) ) {
 				$column->setAllowSort( false );
 			}
