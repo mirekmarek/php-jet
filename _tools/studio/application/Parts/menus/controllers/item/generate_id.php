@@ -11,7 +11,7 @@ $id = Project::generateIdentifier( $name, function( $id ) {
 	return Menus::menuItemExists( $id );
 } );
 
-AJAX::response(
+AJAX::commonResponse(
 	[
 		'id' => $id
 	]

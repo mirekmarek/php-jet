@@ -30,7 +30,7 @@ $snippets = [
 	'add_page_form_area' => Application::getView()->render( 'page/create/form' )
 ];
 
-AJAX::formResponse(
+AJAX::operationResponse(
 	$ok,
 	$snippets,
 	$data

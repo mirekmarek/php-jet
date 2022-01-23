@@ -30,7 +30,7 @@ if( ($new_page = Pages_Page::catchCreateForm()) ) {
 
 }
 
-AJAX::formResponse(
+AJAX::operationResponse(
 	$ok,
 	[
 		$form->getId() . '_form_area' => Application::getView()->render( 'page/create/form' )

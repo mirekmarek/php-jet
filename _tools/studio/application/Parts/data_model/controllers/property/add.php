@@ -40,7 +40,7 @@ if( ($new_property = DataModel_Definition_Property::catchCreateForm( $current ))
 
 $snippets['property_add_form_area'] = Application::getView()->render( 'property/create/form' );
 
-AJAX::formResponse(
+AJAX::operationResponse(
 	$ok,
 	$snippets,
 	$data

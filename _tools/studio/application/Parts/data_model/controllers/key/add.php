@@ -33,7 +33,7 @@ if( ($new_key = DataModel_Definition_Key::catchCreateForm()) ) {
 
 $snippets['key_add_form_area'] = Application::getView()->render( 'key/create/form' );
 
-AJAX::formResponse(
+AJAX::operationResponse(
 	$ok,
 	$snippets,
 	$data

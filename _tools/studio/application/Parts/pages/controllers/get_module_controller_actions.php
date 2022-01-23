@@ -11,7 +11,7 @@ $module_name = $GET->getString( 'module' );
 $controller = $GET->getString( 'controller' );
 
 
-AJAX::response(
+AJAX::commonResponse(
 	[
 		'actions' => Pages_Page::getModuleControllerActions( $module_name, $controller )
 	]

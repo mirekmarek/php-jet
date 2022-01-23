@@ -40,7 +40,7 @@ if( ($new_item = Menus_Menu_Item::catchCreateForm()) ) {
 
 }
 
-AJAX::formResponse(
+AJAX::operationResponse(
 	$ok,
 	[
 		$form->getId() . '_form_area' => Application::getView()->render( 'item/create/form' )

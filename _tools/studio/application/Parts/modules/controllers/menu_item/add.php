@@ -44,7 +44,7 @@ if(
 
 $snippets['create_menu_item_form_area'] = Application::getView()->render( 'menu_item/create/form' );
 
-AJAX::formResponse(
+AJAX::operationResponse(
 	$ok,
 	$snippets,
 	$data

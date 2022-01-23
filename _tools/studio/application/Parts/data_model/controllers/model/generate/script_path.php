@@ -12,4 +12,4 @@ $class_name = $GET->getString( 'class_name' );
 
 $path = DataModels::generateScriptPath( $namespace, $class_name );
 
-AJAX::response( ['path' => $path] );
+AJAX::commonResponse( ['path' => $path] );

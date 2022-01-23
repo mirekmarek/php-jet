@@ -32,7 +32,7 @@ if( ($new_set = Menus_MenuSet::catchCreateForm()) ) {
 	}
 }
 
-AJAX::formResponse(
+AJAX::operationResponse(
 	$ok,
 	[
 		'set_create_form_area' => Application::getView()->render( 'set/create/form' )

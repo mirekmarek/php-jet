@@ -456,7 +456,7 @@ class Controller_Main extends MVC_Controller_Default
 					$snippets['form_message_area_' . $form->getId()] = $this->view->render( 'test-forms/message' );
 					$snippets['form_sent_area_' . $form->getId()] = $this->view->render( 'test-forms/sent' );
 
-					AJAX::formResponse(
+					AJAX::operationResponse(
 						$form->getIsValid(),
 						$snippets
 					);

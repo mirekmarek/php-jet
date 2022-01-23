@@ -28,7 +28,7 @@ if( ($new_base = Bases::catchCreateForm()) ) {
 
 }
 
-AJAX::formResponse(
+AJAX::operationResponse(
 	$ok,
 	[
 		$form->getId() . '_form_area' => Application::getView()->render( 'create_base/form' )

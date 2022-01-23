@@ -53,7 +53,7 @@ if( ($new_model = $class_name::catchCreateForm()) ) {
 	}
 }
 
-AJAX::formResponse(
+AJAX::operationResponse(
 	$ok,
 	[
 		'create_model_form_area_' . $type => Application::getView()->render( 'model/create/' . $type . '/form' )

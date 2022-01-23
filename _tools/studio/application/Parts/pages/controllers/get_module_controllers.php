@@ -18,7 +18,7 @@ foreach( $controllers as $default_controller ) {
 	break;
 }
 
-AJAX::response(
+AJAX::commonResponse(
 	[
 		'controllers'        => $controllers,
 		'default_controller' => $default_controller,

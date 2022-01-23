@@ -45,7 +45,7 @@ if(
 
 $snippets['content_create_form_area'] = $view->render( 'page/content/create/form' );
 
-AJAX::formResponse(
+AJAX::operationResponse(
 	$ok,
 	$snippets,
 	$data

@@ -11,7 +11,7 @@ $id = Project::generateIdentifier( $name, function( $id ) {
 	return false;
 } );
 
-AJAX::response(
+AJAX::commonResponse(
 	[
 		'id' => $id
 	]

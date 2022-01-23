@@ -10,7 +10,7 @@ $base_id = Http_Request::GET()->getString( 'base_id' );
 
 $id = Modules_Pages::generatePageId( $name, $base_id );
 
-AJAX::response(
+AJAX::commonResponse(
 	[
 		'id' => $id
 	]

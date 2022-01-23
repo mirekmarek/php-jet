@@ -12,7 +12,7 @@ $id = Project::generateIdentifier( $name, function( $id ) {
 } );
 
 
-AJAX::response(
+AJAX::commonResponse(
 	[
 		'id' => $id
 	]
