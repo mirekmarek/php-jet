@@ -466,7 +466,7 @@ class Auth_RESTClient_Role extends DataModel implements Auth_Role_Interface
 				Form_Field_MultiSelect::ERROR_CODE_INVALID_VALUE => 'Invalid value'
 			]);
 
-			$field->setCatcher(function($values) use ($priv) {
+			$field->setFieldValueCatcher(function( $values) use ($priv) {
 				$this->setPrivilege($priv, $values);
 			});
 

@@ -119,8 +119,8 @@ trait DataModel_Trait_Forms
 				continue;
 			}
 
-			if(!$created_field->getCatcher()) {
-				$created_field->setCatcher(
+			if(!$created_field->getFieldValueCatcher()) {
+				$created_field->setFieldValueCatcher(
 					function( $value ) use ( $property_definition, &$property ) {
 						$property_definition->catchFormField( $this, $property, $value );
 					}

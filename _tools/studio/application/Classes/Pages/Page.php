@@ -189,12 +189,12 @@ class Pages_Page extends MVC_Page
 			$name_field->setErrorMessages( [
 				Form_Field_Input::ERROR_CODE_EMPTY => 'Please enter page name'
 			] );
-			$name_field->setCatcher( function( $value ) use ( $page ) {
+			$name_field->setFieldValueCatcher( function( $value ) use ( $page ) {
 				$page->setName( $value );
 			} );
 
 			$order_field = new Form_Field_Int( 'order', 'Order:', $page->getOrder() );
-			$order_field->setCatcher( function( $value ) use ( $page ) {
+			$order_field->setFieldValueCatcher( function( $value ) use ( $page ) {
 				$page->setOrder( $value );
 			} );
 
@@ -203,31 +203,31 @@ class Pages_Page extends MVC_Page
 			$title_field->setErrorMessages( [
 				Form_Field_Input::ERROR_CODE_EMPTY => 'Please enter page title'
 			] );
-			$title_field->setCatcher( function( $value ) use ( $page ) {
+			$title_field->setFieldValueCatcher( function( $value ) use ( $page ) {
 				$page->setTitle( $value );
 			} );
 
 
 			$menu_title_field = new Form_Field_Input( 'menu_title', 'Menu item title:', $page->getMenuTitle() );
-			$menu_title_field->setCatcher( function( $value ) use ( $page ) {
+			$menu_title_field->setFieldValueCatcher( function( $value ) use ( $page ) {
 				$page->setMenuTitle( $value );
 			} );
 
 
 			$breadcrumb_title_field = new Form_Field_Input( 'breadcrumb_title', 'Breadcrumb title:', $page->getBreadcrumbTitle() );
-			$breadcrumb_title_field->setCatcher( function( $value ) use ( $page ) {
+			$breadcrumb_title_field->setFieldValueCatcher( function( $value ) use ( $page ) {
 				$page->setBreadcrumbTitle( $value );
 			} );
 
 
 			$icon_field = new Form_Field_Input( 'icon', 'Icon:', $page->getIcon() );
-			$icon_field->setCatcher( function( $value ) use ( $page ) {
+			$icon_field->setFieldValueCatcher( function( $value ) use ( $page ) {
 				$page->setIcon( $value );
 			} );
 
 
 			$is_secret_field = new Form_Field_Checkbox( 'is_secret', 'is secret', $page->getIsSecret() );
-			$is_secret_field->setCatcher( function( $value ) use ( $page ) {
+			$is_secret_field->setFieldValueCatcher( function( $value ) use ( $page ) {
 				if( !$page->isSecretByDefault() ) {
 					$page->setIsSecret( $value );
 				}
@@ -239,7 +239,7 @@ class Pages_Page extends MVC_Page
 
 
 			$is_active_field = new Form_Field_Checkbox( 'is_active', 'is active', $page->getIsActive() );
-			$is_active_field->setCatcher( function( $value ) use ( $page ) {
+			$is_active_field->setFieldValueCatcher( function( $value ) use ( $page ) {
 				if( !$page->getIsDeactivatedByDefault() ) {
 					$page->setIsActive( $value );
 				}
@@ -250,7 +250,7 @@ class Pages_Page extends MVC_Page
 			}
 
 			$SSL_required_field = new Form_Field_Checkbox( 'SSL_required', 'SSL required', $page->getSSLRequired() );
-			$SSL_required_field->setCatcher( function( $value ) use ( $page ) {
+			$SSL_required_field->setFieldValueCatcher( function( $value ) use ( $page ) {
 				if( !$page->isSSLRequiredByDefault() ) {
 					$page->setSSLRequired( $value );
 				}
@@ -276,7 +276,7 @@ class Pages_Page extends MVC_Page
 			if( $this->getId() != MVC::HOMEPAGE_ID ) {
 				$relative_path_fragment_field = new Form_Field_Input( 'relative_path_fragment', 'URL:', rawurldecode( $page->getRelativePathFragment() ) );
 				$relative_path_fragment_field->setIsRequired( true );
-				$relative_path_fragment_field->setCatcher( function( $value ) use ( $page, $relative_path_fragment_field ) {
+				$relative_path_fragment_field->setFieldValueCatcher( function( $value ) use ( $page, $relative_path_fragment_field ) {
 					$value = rawurlencode($value);
 					$page->setRelativePathFragment( $value );
 				} );
@@ -433,7 +433,7 @@ class Pages_Page extends MVC_Page
 			$form->catchInput() &&
 			$form->validate()
 		) {
-			$form->catchData();
+			$form->catchFieldValues();
 
 			$this->catchEditForm_metaTags( $form );
 			$this->catchEditForm_httpHeaders( $form );
@@ -550,7 +550,7 @@ class Pages_Page extends MVC_Page
 			$layout_script_name_field->setErrorMessages( [
 				Form_Field_Select::ERROR_CODE_INVALID_VALUE => 'Invalid value'
 			] );
-			$layout_script_name_field->setCatcher( function( $value ) use ( $page ) {
+			$layout_script_name_field->setFieldValueCatcher( function( $value ) use ( $page ) {
 				$page->setLayoutScriptName( $value );
 			} );
 			$layouts = $base->getLayoutsList();
@@ -627,7 +627,7 @@ class Pages_Page extends MVC_Page
 			return false;
 		}
 
-		$form->catchData();
+		$form->catchFieldValues();
 
 		$this->output = '';
 
@@ -750,7 +750,7 @@ class Pages_Page extends MVC_Page
 			$output = $this->getOutput();
 
 			$output_field = new Form_Field_Textarea( 'output', 'Static page content:', is_string( $output ) ? $output : '' );
-			$output_field->setCatcher( function( $value ) use ( $output_field ) {
+			$output_field->setFieldValueCatcher( function( $value ) use ( $output_field ) {
 				$value = $output_field->getValueRaw();
 
 				$this->content = [];
@@ -784,7 +784,7 @@ class Pages_Page extends MVC_Page
 			$form->catchInput() &&
 			$form->validate()
 		) {
-			$form->catchData();
+			$form->catchFieldValues();
 
 			return true;
 		}
@@ -816,7 +816,7 @@ class Pages_Page extends MVC_Page
 				Form_Field_Input::ERROR_CODE_INVALID_FORMAT => 'Please enter valid method name'
 			] );
 
-			$output_callback_method_field->setCatcher( function( $value ) use ( $output_callback_class_field, $output_callback_method_field ) {
+			$output_callback_method_field->setFieldValueCatcher( function( $value ) use ( $output_callback_class_field, $output_callback_method_field ) {
 
 				$this->content = [];
 
@@ -861,7 +861,7 @@ class Pages_Page extends MVC_Page
 			$form->catchInput() &&
 			$form->validate()
 		) {
-			$form->catchData();
+			$form->catchFieldValues();
 
 			return true;
 		}

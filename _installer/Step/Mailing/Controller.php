@@ -46,7 +46,7 @@ class Installer_Step_Mailing_Controller extends Installer_Step_Controller
 			$form->catchInput() &&
 			$form->validate()
 		) {
-			$form->catchData();
+			$form->catchFieldValues();
 
 
 			try {

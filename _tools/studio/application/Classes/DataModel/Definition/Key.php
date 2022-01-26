@@ -293,7 +293,7 @@ class DataModel_Definition_Key extends Jet_DataModel_Definition_Key
 				Form_Field_Input::ERROR_CODE_INVALID_FORMAT => 'Invalid key name format',
 				'key_is_not_unique'                         => 'Key with the same name already exists',
 			] );
-			$name_field->setCatcher( function( $value ) {
+			$name_field->setFieldValueCatcher( function( $value ) {
 				$this->setName( $value );
 			} );
 			$old_name = $this->getName();
@@ -308,7 +308,7 @@ class DataModel_Definition_Key extends Jet_DataModel_Definition_Key
 				Form_Field_Select::ERROR_CODE_EMPTY         => 'Please select key type',
 				Form_Field_Select::ERROR_CODE_INVALID_VALUE => 'Please select key type',
 			] );
-			$type_field->setCatcher( function( $value ) {
+			$type_field->setFieldValueCatcher( function( $value ) {
 				$this->setType( $value );
 			} );
 
@@ -319,7 +319,7 @@ class DataModel_Definition_Key extends Jet_DataModel_Definition_Key
 				Form_Field_MultiSelect::ERROR_CODE_EMPTY         => 'Please select some property',
 				Form_Field_MultiSelect::ERROR_CODE_INVALID_VALUE => 'Please select some property',
 			] );
-			$properties_field->setCatcher( function( $value ) {
+			$properties_field->setFieldValueCatcher( function( $value ) {
 				$this->setPropertyNames( $value );
 			} );
 
@@ -352,7 +352,7 @@ class DataModel_Definition_Key extends Jet_DataModel_Definition_Key
 			return false;
 		}
 
-		$form->catchData();
+		$form->catchFieldValues();
 
 		return true;
 	}

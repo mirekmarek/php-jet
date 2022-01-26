@@ -131,7 +131,7 @@ class Modules_Manifest extends Application_Module_Manifest
 
 				return Modules_Manifest::checkModuleName( $field, $name, $old_module_name );
 			} );
-			$module_name->setCatcher( function( $value ) {
+			$module_name->setFieldValueCatcher( function( $value ) {
 				$this->setName( $value );
 			} );
 
@@ -141,28 +141,28 @@ class Modules_Manifest extends Application_Module_Manifest
 			$module_label->setErrorMessages( [
 				Form_Field_Input::ERROR_CODE_EMPTY => 'Please enter module label'
 			] );
-			$module_label->setCatcher( function( $value ) {
+			$module_label->setFieldValueCatcher( function( $value ) {
 				$this->setLabel( $value );
 			} );
 
 
 			$vendor = new Form_Field_Input( 'vendor', 'Vendor:', $this->getVendor() );
-			$vendor->setCatcher( function( $value ) {
+			$vendor->setFieldValueCatcher( function( $value ) {
 				$this->setVendor( $value );
 			} );
 
 			$version = new Form_Field_Input( 'version', 'Version:', $this->getVersion() );
-			$version->setCatcher( function( $value ) {
+			$version->setFieldValueCatcher( function( $value ) {
 				$this->setVersion( $value );
 			} );
 
 			$description = new Form_Field_Input( 'description', 'Description:', $this->getDescription() );
-			$description->setCatcher( function( $value ) {
+			$description->setFieldValueCatcher( function( $value ) {
 				$this->setDescription( $value );
 			} );
 
 			$is_mandatory = new Form_Field_Checkbox( 'is_mandatory', 'Is mandatory', $this->isMandatory() );
-			$is_mandatory->setCatcher( function( $value ) {
+			$is_mandatory->setFieldValueCatcher( function( $value ) {
 				$this->setIsMandatory( $value );
 			} );
 
@@ -233,7 +233,7 @@ class Modules_Manifest extends Application_Module_Manifest
 			return false;
 		}
 
-		$form->catchData();
+		$form->catchFieldValues();
 		$this->catchEditForm_ACLAction( $form );
 
 

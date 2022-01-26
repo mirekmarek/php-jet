@@ -142,7 +142,7 @@ abstract class DataModel_Definition_Id_Abstract
 		$id_property_name->setErrorMessages( [
 			Form_Field_Select::ERROR_CODE_INVALID_VALUE => 'Please select ID property'
 		] );
-		$id_property_name->setCatcher( function( $value ) {
+		$id_property_name->setFieldValueCatcher( function( $value ) {
 			$this->model->setIDControllerOption( 'id_property_name', $value );
 		} );
 

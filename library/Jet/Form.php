@@ -758,14 +758,14 @@ class Form extends BaseObject
 	 *
 	 * @return bool
 	 */
-	public function catchData(): bool
+	public function catchFieldValues(): bool
 	{
 		if( !$this->is_valid ) {
 			return false;
 		}
 
 		foreach( $this->fields as $field ) {
-			$field->catchData();
+			$field->catchFieldValue();
 		}
 
 		return true;
@@ -777,7 +777,7 @@ class Form extends BaseObject
 			$this->catchInput() &&
 			$this->validate()
 		) {
-			$this->catchData();
+			$this->catchFieldValues();
 			return true;
 		}
 

@@ -58,28 +58,28 @@ class Bases_Base extends MVC_Base
 			$name_field->setErrorMessages( [
 				Form_Field_Input::ERROR_CODE_EMPTY => 'Please enter base name'
 			] );
-			$name_field->setCatcher( function( $value ) {
+			$name_field->setFieldValueCatcher( function( $value ) {
 				$this->setName( $value );
 			} );
 
 
 			$is_secret_field = new Form_Field_Checkbox( 'is_secret', 'is secret', $this->getIsSecret() );
-			$is_secret_field->setCatcher( function( $value ) {
+			$is_secret_field->setFieldValueCatcher( function( $value ) {
 				$this->setIsSecret( $value );
 			} );
 
 			$is_default_field = new Form_Field_Checkbox( 'is_default', 'is default', $this->getIsDefault() );
-			$is_default_field->setCatcher( function( $value ) {
+			$is_default_field->setFieldValueCatcher( function( $value ) {
 				$this->setIsDefault( $value );
 			} );
 
 			$is_active_field = new Form_Field_Checkbox( 'is_active', 'is active', $this->getIsActive() );
-			$is_active_field->setCatcher( function( $value ) {
+			$is_active_field->setFieldValueCatcher( function( $value ) {
 				$this->setIsActive( $value );
 			} );
 
 			$SSL_required_field = new Form_Field_Checkbox( 'SSL_required', 'SSL required', $this->getSSLRequired() );
-			$SSL_required_field->setCatcher( function( $value ) {
+			$SSL_required_field->setFieldValueCatcher( function( $value ) {
 				$this->setSSLRequired( $value );
 			} );
 
@@ -115,7 +115,7 @@ class Bases_Base extends MVC_Base
 
 
 				$ld_is_active_field = new Form_Field_Checkbox( '/' . $locale . '/is_active', 'is active', $ld->getIsActive() );
-				$ld_is_active_field->setCatcher( function( $value ) use ( $ld ) {
+				$ld_is_active_field->setFieldValueCatcher( function( $value ) use ( $ld ) {
 					if( $this->getIsActive() ) {
 						$ld->setIsActive( $value );
 					}
@@ -129,7 +129,7 @@ class Bases_Base extends MVC_Base
 
 
 				$ld_SSL_required_field = new Form_Field_Checkbox( '/' . $locale . '/SSL_required', 'SSL required', $ld->getSSLRequired() );
-				$ld_SSL_required_field->setCatcher( function( $value ) use ( $ld ) {
+				$ld_SSL_required_field->setFieldValueCatcher( function( $value ) use ( $ld ) {
 					if( !$this->getSSLRequired() ) {
 						$ld->setSSLRequired( $value );
 					}
@@ -141,7 +141,7 @@ class Bases_Base extends MVC_Base
 
 
 				$ld_title_field = new Form_Field_Input( '/' . $locale . '/title', 'Title:', $ld->getTitle() );
-				$ld_title_field->setCatcher( function( $value ) use ( $ld ) {
+				$ld_title_field->setFieldValueCatcher( function( $value ) use ( $ld ) {
 					$ld->setTitle( $value );
 				} );
 				$fields[] = $ld_title_field;
@@ -366,7 +366,7 @@ class Bases_Base extends MVC_Base
 			}
 
 
-			$form->catchData();
+			$form->catchFieldValues();
 
 			$initializer_class = $form->getField( 'initializer_class' )->getValue();
 			$initializer_method = $form->getField( 'initializer_method' )->getValue();

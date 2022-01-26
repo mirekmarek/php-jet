@@ -428,14 +428,14 @@ trait DataModel_Definition_Model_Trait
 				Form_Field_Input::ERROR_CODE_EMPTY          => 'Please enter DataModel name',
 				Form_Field_Input::ERROR_CODE_INVALID_FORMAT => 'Invalid DataModel name format'
 			] );
-			$model_name_field->setCatcher( function( $value ) {
+			$model_name_field->setFieldValueCatcher( function( $value ) {
 				$this->setModelName( $value );
 			} );
 			$model_name_field->setValidationRegexp('/^[a-z0-9_]{2,}$/i');
 
 
 			$database_table_name_field = new Form_Field_Input( 'database_table_name', 'Table name:', $this->database_table_name );
-			$database_table_name_field->setCatcher( function( $value ) {
+			$database_table_name_field->setFieldValueCatcher( function( $value ) {
 				$this->setDatabaseTableName( $value );
 			} );
 			$database_table_name_field->setErrorMessages( [
@@ -502,7 +502,7 @@ trait DataModel_Definition_Model_Trait
 			$id_controller_class_field->setErrorMessages( [
 				Form_Field_Select::ERROR_CODE_INVALID_VALUE => 'Please select ID controller class'
 			] );
-			$id_controller_class_field->setCatcher( function( $value ) {
+			$id_controller_class_field->setFieldValueCatcher( function( $value ) {
 				$this->setIDControllerClassName( $value );
 			} );
 			$id_controller_class_field->setSelectOptions(
@@ -529,7 +529,7 @@ trait DataModel_Definition_Model_Trait
 				$this instanceof DataModel_Definition_Model_Related_1toN
 			) {
 				$default_order_by_field = new Form_Field_Hidden( 'default_order_by', '', implode( '|', $this->getDefaultOrderBy() ) );
-				$default_order_by_field->setCatcher( function( $value ) {
+				$default_order_by_field->setFieldValueCatcher( function( $value ) {
 					if( !$value ) {
 						$value = [];
 					} else {
@@ -564,7 +564,7 @@ trait DataModel_Definition_Model_Trait
 			return false;
 		}
 
-		$form->catchData();
+		$form->catchFieldValues();
 
 		return true;
 	}
@@ -995,7 +995,7 @@ trait DataModel_Definition_Model_Trait
 		$id_controller_class->setErrorMessages( [
 			Form_Field_Select::ERROR_CODE_INVALID_VALUE => Tr::_( 'Please select ID controller class' )
 		] );
-		$id_controller_class->setCatcher( function( $value ) {
+		$id_controller_class->setFieldValueCatcher( function( $value ) {
 			$this->setIDControllerClassName( $value );
 		} );
 		$id_controller_class->setSelectOptions(

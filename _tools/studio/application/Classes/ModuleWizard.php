@@ -118,7 +118,7 @@ abstract class ModuleWizard extends BaseObject
 	public function generateSetupForm_mainFields( array &$fields ): void
 	{
 		$module_name = new Form_Field_Input( 'NAME', 'Name:', '' );
-		$module_name->setCatcher( function( $value ) {
+		$module_name->setFieldValueCatcher( function( $value ) {
 			$this->module_name = $value;
 		} );
 
@@ -137,7 +137,7 @@ abstract class ModuleWizard extends BaseObject
 		$fields[] = $module_name;
 
 		$module_label = new Form_Field_Input( 'LABEL', 'Label:' );
-		$module_label->setCatcher( function( $value ) {
+		$module_label->setFieldValueCatcher( function( $value ) {
 			$this->values['LABEL'] = $value;
 		} );
 		$module_label->setIsRequired( true );
@@ -148,27 +148,27 @@ abstract class ModuleWizard extends BaseObject
 
 
 		$description = new Form_Field_Input( 'DESCRIPTION', 'Description:' );
-		$description->setCatcher( function( $value ) {
+		$description->setFieldValueCatcher( function( $value ) {
 			$this->values['DESCRIPTION'] = $value;
 		} );
 		$fields[] = $description;
 
 
 		$author = new Form_Field_Input( 'AUTHOR', 'Author:' );
-		$author->setCatcher( function( $value ) {
+		$author->setFieldValueCatcher( function( $value ) {
 			$this->values['AUTHOR'] = $value;
 		} );
 		$fields[] = $author;
 
 		$license = new Form_Field_Input( 'LICENSE', 'License:' );
-		$license->setCatcher( function( $value ) {
+		$license->setFieldValueCatcher( function( $value ) {
 			$this->values['LICENSE'] = $value;
 		} );
 		$fields[] = $license;
 
 
 		$copyright = new Form_Field_Input( 'COPYRIGHT', 'Copyright:' );
-		$copyright->setCatcher( function( $value ) {
+		$copyright->setFieldValueCatcher( function( $value ) {
 			$this->values['COPYRIGHT'] = $value;
 		} );
 		$fields[] = $copyright;
@@ -200,7 +200,7 @@ abstract class ModuleWizard extends BaseObject
 		$form = $this->getSetupForm();
 
 		if( $form->catchInput() && $form->validate() ) {
-			$form->catchData();
+			$form->catchFieldValues();
 
 			return true;
 		}

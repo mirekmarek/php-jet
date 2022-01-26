@@ -225,41 +225,41 @@ class Menus_Menu_Item extends Navigation_Menu_Item
 			$label->setErrorMessages( [
 				Form_Field_Input::ERROR_CODE_EMPTY => 'Please enter menu item label',
 			] );
-			$label->setCatcher( function( $value ) {
+			$label->setFieldValueCatcher( function( $value ) {
 				$this->setLabel( $value );
 			} );
 
 
 			$icon = new Form_Field_Input( 'icon', 'Icon:', $this->getIcon() );
-			$icon->setCatcher( function( $value ) {
+			$icon->setFieldValueCatcher( function( $value ) {
 				$this->setIcon( $value );
 			} );
 
 			$index = new Form_Field_Int( 'index', 'Index:', $this->getIndex() );
-			$index->setCatcher( function( $value ) {
+			$index->setFieldValueCatcher( function( $value ) {
 				$this->setIndex( $value );
 			} );
 
 
 			$separator_before = new Form_Field_Checkbox( 'separator_before', 'Separator before', $this->getSeparatorBefore() );
-			$separator_before->setCatcher( function( $value ) {
+			$separator_before->setFieldValueCatcher( function( $value ) {
 				$this->setSeparatorBefore( $value );
 			} );
 
 			$separator_after = new Form_Field_Checkbox( 'separator_after', 'Separator after', $this->getSeparatorAfter() );
-			$separator_after->setCatcher( function( $value ) {
+			$separator_after->setFieldValueCatcher( function( $value ) {
 				$this->setSeparatorAfter( $value );
 			} );
 
 
 			$URL = new Form_Field_Input( 'URL', 'URL:', $this->getUrl() );
-			$URL->setCatcher( function( $value ) {
+			$URL->setFieldValueCatcher( function( $value ) {
 				$this->setURL( $value );
 			} );
 
 
 			$page_id = new Form_Field_Input( 'page_id', 'Page ID:', $this->getPageId() );
-			$page_id->setCatcher( function( $value ) {
+			$page_id->setFieldValueCatcher( function( $value ) {
 				$this->setPageId( $value );
 			} );
 
@@ -275,12 +275,12 @@ class Menus_Menu_Item extends Navigation_Menu_Item
 				Form_Field_Select::ERROR_CODE_INVALID_VALUE => 'Please select base',
 			] );
 
-			$base_id->setCatcher( function( $value ) {
+			$base_id->setFieldValueCatcher( function( $value ) {
 				$this->setBaseId( $value );
 			} );
 
 			$locale = new Form_Field_Input( 'locale', 'Locale:', $this->getLocale() );
-			$locale->setCatcher( function( $value ) {
+			$locale->setFieldValueCatcher( function( $value ) {
 				$this->setLocale( $value );
 			} );
 
@@ -347,7 +347,7 @@ class Menus_Menu_Item extends Navigation_Menu_Item
 			return false;
 		}
 
-		$form->catchData();
+		$form->catchFieldValues();
 
 		$this->setUrlParts( static::catchURLParts( $form ) );
 		$this->setGetParams( static::catchGETParams( $form ) );

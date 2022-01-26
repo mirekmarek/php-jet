@@ -825,7 +825,7 @@ class Auth_Administrator_User extends DataModel implements Auth_User_Interface
 
 		$roles = new Form_Field_MultiSelect( 'roles', 'Roles', array_keys($this->roles) );
 		$roles->setSelectOptions( Auth_Administrator_Role::getList() );
-		$roles->setCatcher( function( $value ) {
+		$roles->setFieldValueCatcher( function( $value ) {
 			$this->setRoles( $value );
 		} );
 		$roles->setErrorMessages( [
@@ -890,7 +890,7 @@ class Auth_Administrator_User extends DataModel implements Auth_User_Interface
 			Form_Field_Password::ERROR_CODE_EMPTY           => 'Please enter password',
 		]);
 
-		$pwd->setCatcher(function($value) {
+		$pwd->setFieldValueCatcher(function( $value) {
 			$this->setPassword($value);
 		});
 		$form->addField($pwd);

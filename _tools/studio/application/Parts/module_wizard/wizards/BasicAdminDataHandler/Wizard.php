@@ -216,7 +216,7 @@ class Wizard extends ModuleWizard
 
 			$field = new Form_Field_Input( $f, $title );
 			$field->setIsRequired( true );
-			$field->setCatcher( function( $value ) use ( $f ) {
+			$field->setFieldValueCatcher( function( $value ) use ( $f ) {
 				$this->values[$f] = $value;
 			} );
 			$field->setErrorMessages( [
@@ -242,7 +242,7 @@ class Wizard extends ModuleWizard
 			Form_Field_Input::ERROR_CODE_INVALID_FORMAT => 'Please enter valid entity name',
 		] );
 
-		$acl_entity_name->setCatcher( function( $value ) {
+		$acl_entity_name->setFieldValueCatcher( function( $value ) {
 			$this->values['ACL_ENTITY_NAME'] = $value;
 		} );
 		$fields[] = $acl_entity_name;
@@ -254,7 +254,7 @@ class Wizard extends ModuleWizard
 			Form_Field_Input::ERROR_CODE_EMPTY          => 'Please enter valid constant name',
 			Form_Field_Input::ERROR_CODE_INVALID_FORMAT => 'Please enter valid constant name',
 		] );
-		$acl_constant_name->setCatcher( function( $value ) {
+		$acl_constant_name->setFieldValueCatcher( function( $value ) {
 			$this->values['ACL_ENTITY_CONST_NAME'] = $value;
 		} );
 		$fields[] = $acl_constant_name;
@@ -301,7 +301,7 @@ class Wizard extends ModuleWizard
 
 		$item_var_name = new Form_Field_Input( 'ITEM_VAR_NAME', 'Item variable name:' );
 		$item_var_name->setIsRequired( true );
-		$item_var_name->setCatcher( function( $value ) {
+		$item_var_name->setFieldValueCatcher( function( $value ) {
 			$this->values['ITEM_VAR_NAME'] = $value;
 		} );
 		$item_var_name->setValidationRegexp( '/^[a-z0-9\_]{2,}$/i' );
@@ -313,7 +313,7 @@ class Wizard extends ModuleWizard
 
 
 		$id_property_field = new Form_Field_Select( 'ID_PROPERTY', 'ID property:' );
-		$id_property_field->setCatcher( function( $value ) {
+		$id_property_field->setFieldValueCatcher( function( $value ) {
 			$this->values['ID_PROPERTY'] = $value;
 		} );
 		$id_property_field->setIsRequired( true );
@@ -326,7 +326,7 @@ class Wizard extends ModuleWizard
 
 		$item_id_getter = new Form_Field_Input( 'ITEM_ID_GETTER', 'ID getter:' );
 		$item_id_getter->setIsRequired( true );
-		$item_id_getter->setCatcher( function( $value ) {
+		$item_id_getter->setFieldValueCatcher( function( $value ) {
 			$this->values['ITEM_ID_GETTER'] = $value;
 		} );
 		$item_id_getter->setValidationRegexp( '/^[a-z0-9\_]{2,}$/i' );
@@ -338,7 +338,7 @@ class Wizard extends ModuleWizard
 
 
 		$name_property_field = new Form_Field_Select( 'NAME_PROPERTY', 'Name property:' );
-		$name_property_field->setCatcher( function( $value ) {
+		$name_property_field->setFieldValueCatcher( function( $value ) {
 			$this->values['NAME_PROPERTY'] = $value;
 		} );
 		$name_property_field->setIsRequired( true );
@@ -352,7 +352,7 @@ class Wizard extends ModuleWizard
 
 		$item_name_getter = new Form_Field_Input( 'ITEM_NAME_GETTER', 'Name getter:' );
 		$item_name_getter->setIsRequired( true );
-		$item_name_getter->setCatcher( function( $value ) {
+		$item_name_getter->setFieldValueCatcher( function( $value ) {
 			$this->values['ITEM_NAME_GETTER'] = $value;
 		} );
 		$item_name_getter->setValidationRegexp( '/^[a-z0-9\_]{2,}$/i' );
@@ -369,7 +369,7 @@ class Wizard extends ModuleWizard
 
 		$data_model_class_alias = new Form_Field_Input( 'DATA_MODEL_CLASS_ALIAS', 'DataModel class alias:' );
 		$data_model_class_alias->setIsRequired( true );
-		$data_model_class_alias->setCatcher( function( $value ) {
+		$data_model_class_alias->setFieldValueCatcher( function( $value ) {
 			$this->values['DATA_MODEL_CLASS_ALIAS'] = $value;
 		} );
 		$data_model_class_alias->setValidationRegexp( '/^[a-z0-9\_]{2,}$/i' );
@@ -382,7 +382,7 @@ class Wizard extends ModuleWizard
 
 		$data_model_class_alias = new Form_Field_Input( 'DATA_MODEL_CLASS_ALIAS', 'DataModel class alias:' );
 		$data_model_class_alias->setIsRequired( true );
-		$data_model_class_alias->setCatcher( function( $value ) {
+		$data_model_class_alias->setFieldValueCatcher( function( $value ) {
 			$this->values['DATA_MODEL_CLASS_ALIAS'] = $value;
 		} );
 		$data_model_class_alias->setValidationRegexp( '/^[a-z0-9\_]{2,}$/i' );
@@ -408,7 +408,7 @@ class Wizard extends ModuleWizard
 		}
 
 		$page_base_id_field = new Form_Field_Select( 'PAGE_BASE_ID', 'Base:' );
-		$page_base_id_field->setCatcher( function( $value ) {
+		$page_base_id_field->setFieldValueCatcher( function( $value ) {
 			$this->values['PAGE_BASE_ID'] = $value;
 		} );
 		$page_base_id_field->setIsRequired( true );
@@ -435,7 +435,7 @@ class Wizard extends ModuleWizard
 
 		$page_id_field = new Form_Field_Input( 'PAGE_ID', 'ID:' );
 		$page_id_field->setIsRequired( true );
-		$page_id_field->setCatcher( function( $value ) {
+		$page_id_field->setFieldValueCatcher( function( $value ) {
 			$this->values['PAGE_ID'] = $value;
 		} );
 		$page_id_field->setErrorMessages( [
@@ -446,7 +446,7 @@ class Wizard extends ModuleWizard
 
 		$page_title_field = new Form_Field_Input( 'PAGE_TITLE', 'Title:' );
 		$page_title_field->setIsRequired( true );
-		$page_title_field->setCatcher( function( $value ) {
+		$page_title_field->setFieldValueCatcher( function( $value ) {
 			$this->values['PAGE_TITLE'] = $value;
 		} );
 		$page_title_field->setErrorMessages( [
@@ -456,7 +456,7 @@ class Wizard extends ModuleWizard
 
 
 		$page_icon_field = new Form_Field_Input( 'PAGE_ICON', 'Icon:' );
-		$page_icon_field->setCatcher( function( $value ) {
+		$page_icon_field->setFieldValueCatcher( function( $value ) {
 			$this->values['PAGE_ICON'] = $value;
 		} );
 		$fields[] = $page_icon_field;
@@ -464,7 +464,7 @@ class Wizard extends ModuleWizard
 
 		$page_relative_path_fragment_field = new Form_Field_Input( 'PAGE_PATH_FRAGMENT', 'URL:' );
 		$page_relative_path_fragment_field->setIsRequired( true );
-		$page_relative_path_fragment_field->setCatcher( function( $value ) {
+		$page_relative_path_fragment_field->setFieldValueCatcher( function( $value ) {
 			$this->values['PAGE_PATH_FRAGMENT'] = $value;
 		} );
 		$page_relative_path_fragment_field->setErrorMessages( [
@@ -490,7 +490,7 @@ class Wizard extends ModuleWizard
 		}
 
 		$menu_item_target_menu_id_field = new Form_Field_Select( 'TARGET_MENU', 'Target menu:' );
-		$menu_item_target_menu_id_field->setCatcher( function( $value ) {
+		$menu_item_target_menu_id_field->setFieldValueCatcher( function( $value ) {
 			[
 				$this->values['TARGET_MENU_SET_ID'],
 				$this->values['TARGET_MENU_ID']
@@ -506,7 +506,7 @@ class Wizard extends ModuleWizard
 
 		$menu_item_id_field = new Form_Field_Input( 'MENU_ITEM_ID', 'ID:' );
 		$menu_item_id_field->setIsRequired( true );
-		$menu_item_id_field->setCatcher( function( $value ) {
+		$menu_item_id_field->setFieldValueCatcher( function( $value ) {
 			$this->values['MENU_ITEM_ID'] = $value;
 		} );
 		$menu_item_id_field->setErrorMessages( [
@@ -545,7 +545,7 @@ class Wizard extends ModuleWizard
 
 			$field = new Form_Field_Input( $f, $title );
 			$field->setIsRequired( true );
-			$field->setCatcher( function( $value ) use ( $f, $field ) {
+			$field->setFieldValueCatcher( function( $value ) use ( $f, $field ) {
 				$this->values[$f] = $field->getValueRaw();
 			} );
 			$field->setErrorMessages( [
@@ -578,7 +578,7 @@ class Wizard extends ModuleWizard
 			}
 
 			$data_model_field = new Form_Field_Select( 'data_model', 'Select DataModel:', $this->data_model_class_name );
-			$data_model_field->setCatcher( function( $value ) {
+			$data_model_field->setFieldValueCatcher( function( $value ) {
 				$this->data_model_class_name = $value;
 			} );
 			$data_model_field->setIsRequired( true );

@@ -312,19 +312,19 @@ class Pages_Page_Content extends MVC_Page_Content
 			$fields = [];
 
 			$is_cacheable = Pages_Page_Content::getField__is_cacheable( $this->isCacheable() );
-			$is_cacheable->setCatcher( function( $value ) {
+			$is_cacheable->setFieldValueCatcher( function( $value ) {
 				$this->setIsCacheable( $value );
 			} );
 			$fields[] = $is_cacheable;
 
 			$output_position = static::getField__output_position( $this->getOutputPosition(), $page );
-			$output_position->setCatcher( function( $value ) {
+			$output_position->setFieldValueCatcher( function( $value ) {
 				$this->setOutputPosition( $value );
 			} );
 			$fields[] = $output_position;
 
 			$output_position_order = static::getField__output_position_order( $this->getOutputPositionOrder() );
-			$output_position_order->setCatcher( function( $value ) {
+			$output_position_order->setFieldValueCatcher( function( $value ) {
 				$this->setOutputPositionOrder( $value );
 			} );
 			$fields[] = $output_position_order;
@@ -357,21 +357,21 @@ class Pages_Page_Content extends MVC_Page_Content
 				case static::CONTENT_KIND_MODULE:
 					$module_name = static::getField__module_name( $this->getModuleName() );
 					$module_name->setIsRequired( true );
-					$module_name->setCatcher( function( $value ) {
+					$module_name->setFieldValueCatcher( function( $value ) {
 						$this->setModuleName( $value );
 					} );
 					$fields[] = $module_name;
 
 					$controller_name = static::getField__controller_name( $this->getControllerName(), $this->getModuleName() );
 					$controller_name->setIsRequired( true );
-					$controller_name->setCatcher( function( $value ) {
+					$controller_name->setFieldValueCatcher( function( $value ) {
 						$this->setControllerName( $value );
 					} );
 					$fields[] = $controller_name;
 
 					$controller_action = static::getField__controller_action( $this->getControllerAction(), $this->getModuleName(), $this->getControllerName() );
 					$controller_action->setIsRequired( true );
-					$controller_action->setCatcher( function( $value ) {
+					$controller_action->setFieldValueCatcher( function( $value ) {
 						$this->setControllerAction( $value );
 					} );
 					$fields[] = $controller_action;
@@ -380,7 +380,7 @@ class Pages_Page_Content extends MVC_Page_Content
 				case static::CONTENT_KIND_CLASS:
 					$controller_class = static::getField__controller_class( $this->getControllerClass() );
 					$controller_class->setIsRequired( true );
-					$controller_class->setCatcher( function( $value ) {
+					$controller_class->setFieldValueCatcher( function( $value ) {
 						$this->setControllerClass( $value );
 					} );
 					$fields[] = $controller_class;
@@ -388,7 +388,7 @@ class Pages_Page_Content extends MVC_Page_Content
 
 					$controller_class_action = static::getField__controller_class_action( $this->getControllerAction() );
 					$controller_class_action->setIsRequired( true );
-					$controller_class_action->setCatcher( function( $value ) {
+					$controller_class_action->setFieldValueCatcher( function( $value ) {
 						$this->setControllerAction( $value );
 					} );
 					$fields[] = $controller_class_action;
@@ -396,7 +396,7 @@ class Pages_Page_Content extends MVC_Page_Content
 					break;
 				case static::CONTENT_KIND_STATIC:
 					$output = static::getField__output( $this->getOutput() );
-					$output->setCatcher( function( $value ) {
+					$output->setFieldValueCatcher( function( $value ) {
 						$this->setOutput( $value );
 					} );
 					$fields[] = $output;
@@ -410,7 +410,7 @@ class Pages_Page_Content extends MVC_Page_Content
 					$output_callback_method = static::getField__output_callback_method( $callback[1] );
 					$output_callback_class->setIsRequired( true );
 
-					$output_callback_method->setCatcher( function() use ( $output_callback_class, $output_callback_method ) {
+					$output_callback_method->setFieldValueCatcher( function() use ( $output_callback_class, $output_callback_method ) {
 
 						$class = $output_callback_class->getValue();
 						$method = $output_callback_method->getValue();

@@ -167,7 +167,7 @@ class Menus_MenuSet extends Navigation_MenuSet
 
 			$menu_set_name = new Form_Field_Input( 'menu_set_name', 'Menu set name:', $this->getName() );
 			$menu_set_name->setIsReadonly( true );
-			$menu_set_name->setCatcher( function( $name ) {
+			$menu_set_name->setFieldValueCatcher( function( $name ) {
 			} );
 
 			$form = new Form( 'menu_set_edit_form', [$menu_set_name] );
@@ -192,7 +192,7 @@ class Menus_MenuSet extends Navigation_MenuSet
 			return false;
 		}
 
-		$form->catchData();
+		$form->catchFieldValues();
 
 		$items_sort = Http_Request::POST()->getRaw( 'items_sort', [] );
 		$i = 0;

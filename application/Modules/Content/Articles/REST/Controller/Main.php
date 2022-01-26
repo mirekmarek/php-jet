@@ -120,7 +120,7 @@ class Controller_Main extends MVC_Controller_REST
 		$form->catchInput( $data, true );
 
 		if( $form->validate() ) {
-			$form->catchData();
+			$form->catchFieldValues();
 
 			$article->save();
 
@@ -152,7 +152,7 @@ class Controller_Main extends MVC_Controller_REST
 
 		if( $form->validate() ) {
 
-			$form->catchData();
+			$form->catchFieldValues();
 
 			$article->save();
 

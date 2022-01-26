@@ -241,7 +241,7 @@ abstract class Config extends BaseObject
 				}
 
 			} else {
-				$created_field->setCatcher(
+				$created_field->setFieldValueCatcher(
 					function( $value ) use ( $property_definition, &$property ) {
 						$property_definition->catchFormField( $this, $property, $value );
 					}

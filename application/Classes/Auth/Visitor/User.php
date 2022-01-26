@@ -844,7 +844,7 @@ class Auth_Visitor_User extends DataModel implements Auth_User_Interface
 
 		$roles = new Form_Field_MultiSelect( 'roles', 'Roles', array_keys($this->roles) );
 		$roles->setSelectOptions( Auth_Visitor_Role::getList() );
-		$roles->setCatcher( function( $value ) {
+		$roles->setFieldValueCatcher( function( $value ) {
 			$this->setRoles( $value );
 		} );
 		$roles->setErrorMessages( [

@@ -88,7 +88,7 @@ abstract class Form_Field extends BaseObject implements JsonSerializable
 	/**
 	 * @var callable
 	 */
-	protected $catcher;
+	protected $field_value_catcher;
 
 	/**
 	 * Options for Select, MultiSelect, RadioButtons and so on ...
@@ -378,28 +378,28 @@ abstract class Form_Field extends BaseObject implements JsonSerializable
 	/**
 	 * @return callable|null
 	 */
-	public function getCatcher(): callable|null
+	public function getFieldValueCatcher(): callable|null
 	{
-		return $this->catcher;
+		return $this->field_value_catcher;
 	}
 
 	/**
-	 * @param callable $catcher
+	 * @param callable $field_value_catcher
 	 */
-	public function setCatcher( callable $catcher ): void
+	public function setFieldValueCatcher( callable $field_value_catcher ): void
 	{
-		$this->catcher = $catcher;
+		$this->field_value_catcher = $field_value_catcher;
 	}
 
 	/**
 	 *
 	 */
-	public function catchData(): void
+	public function catchFieldValue(): void
 	{
 		if(
 			$this->getIsReadonly() ||
 			!$this->getHasValue() ||
-			!($catcher = $this->getCatcher())
+			!($catcher = $this->getFieldValueCatcher())
 		) {
 			return;
 		}

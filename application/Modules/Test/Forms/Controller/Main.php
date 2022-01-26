@@ -279,7 +279,7 @@ class Controller_Main extends MVC_Controller_Default
 				Form_Field_FileImage::ERROR_CODE_FILE_IS_TOO_LARGE    => 'Maximal file size is 2MiB',
 			]
 		);
-		$upload_image_field->setCatcher(
+		$upload_image_field->setFieldValueCatcher(
 			function( $tmp_file ) use ( $upload_image_field ) {
 
 				$target_dir = SysConf_Path::getImages() . 'test_uploads/';
@@ -305,7 +305,7 @@ class Controller_Main extends MVC_Controller_Default
 				Form_Field_File::ERROR_CODE_FILE_IS_TOO_LARGE    => 'Maximal file size is 2MiB',
 			]
 		);
-		$upload_file_field->setCatcher(
+		$upload_file_field->setFieldValueCatcher(
 			function( $tmp_file ) use ( $upload_file_field ) {
 
 				/*
@@ -438,7 +438,7 @@ class Controller_Main extends MVC_Controller_Default
 			if( $form->catchInput() ) {
 				$form->validate();
 				if( $form->getIsValid() ) {
-					$form->catchData();
+					$form->catchFieldValues();
 					$form->setCommonMessage( UI_messages::createSuccess( Tr::_( 'Form sent and is valid' ) ) );
 				} else {
 					$form->setCommonMessage( UI_messages::createDanger( Tr::_( 'Form sent, but is not valid' ) ) );
@@ -486,7 +486,7 @@ class Controller_Main extends MVC_Controller_Default
 
 			$form->validate();
 			if( $form->getIsValid() ) {
-				$form->catchData();
+				$form->catchFieldValues();
 				$form->setCommonMessage( UI_messages::createSuccess( Tr::_( 'Form sent and is valid' ) ) );
 
 				$this->view->setVar( 'data_model', $obj );

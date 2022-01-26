@@ -133,18 +133,18 @@ class Menus_Menu extends Navigation_Menu
 			$label->setErrorMessages( [
 				Form_Field_Input::ERROR_CODE_EMPTY => 'Please enter menu label',
 			] );
-			$label->setCatcher( function( $value ) {
+			$label->setFieldValueCatcher( function( $value ) {
 				$this->setLabel( $value );
 			} );
 
 
 			$icon = new Form_Field_Input( 'icon', 'Icon:', $this->getIcon() );
-			$icon->setCatcher( function( $value ) {
+			$icon->setFieldValueCatcher( function( $value ) {
 				$this->setIcon( $value );
 			} );
 
 			$index = new Form_Field_Int( 'index', 'Index:', $this->getIndex() );
-			$index->setCatcher( function( $value ) {
+			$index->setFieldValueCatcher( function( $value ) {
 				$this->setIndex( $value );
 			} );
 
@@ -177,7 +177,7 @@ class Menus_Menu extends Navigation_Menu
 			return false;
 		}
 
-		$form->catchData();
+		$form->catchFieldValues();
 
 
 		$items_sort = Http_Request::POST()->getRaw( 'items_sort', [] );

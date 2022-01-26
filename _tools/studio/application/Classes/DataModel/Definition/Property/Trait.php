@@ -116,7 +116,7 @@ trait DataModel_Definition_Property_Trait
 				Form_Field_Input::ERROR_CODE_INVALID_FORMAT => 'Invalid property name format',
 				'property_is_not_unique' => 'Property with the same name already exists',
 			] );
-			$name_field->setCatcher( function( $value ) {
+			$name_field->setFieldValueCatcher( function( $value ) {
 				//$this->name = $value;
 			} );
 			$old_name = $this->getName();
@@ -135,29 +135,29 @@ trait DataModel_Definition_Property_Trait
 			] );
 
 			$database_column_name_field = new Form_Field_Input( 'database_column_name', 'Custom column name:', $this->database_column_name );
-			$database_column_name_field->setCatcher( function( $value ) {
+			$database_column_name_field->setFieldValueCatcher( function( $value ) {
 				$this->database_column_name = $value;
 			} );
 
 
 			$is_id_filed = new Form_Field_Checkbox( 'is_id', 'Is ID', $this->getIsId() );
-			$is_id_filed->setCatcher( function( $value ) {
+			$is_id_filed->setFieldValueCatcher( function( $value ) {
 				$this->is_id = $value;
 			} );
 
 			$is_key_filed = new Form_Field_Checkbox( 'is_key', 'Is key (index)', $this->getIsKey() );
-			$is_key_filed->setCatcher( function( $value ) {
+			$is_key_filed->setFieldValueCatcher( function( $value ) {
 				$this->is_key = $value;
 			} );
 
 			$is_unique_filed = new Form_Field_Checkbox( 'is_unique', 'Is unique (index)', $this->getIsUnique() );
-			$is_unique_filed->setCatcher( function( $value ) {
+			$is_unique_filed->setFieldValueCatcher( function( $value ) {
 				$this->is_unique = $value;
 			} );
 
 
 			$is_do_not_export_filed = new Form_Field_Checkbox( 'is_do_not_export', 'Do not export to XML or JSON', $this->doNotExport() );
-			$is_do_not_export_filed->setCatcher( function( $value ) {
+			$is_do_not_export_filed->setFieldValueCatcher( function( $value ) {
 				$this->do_not_export = $value;
 			} );
 
@@ -213,7 +213,7 @@ trait DataModel_Definition_Property_Trait
 	public function getEditForm_getFormDefinitionFields( array &$fields ): void
 	{
 		$form_field_creator_method_name_filed = new Form_Field_Input( 'form_field_creator_method_name', 'Field creator method:', $this->getFormFieldCreatorMethodName() );
-		$form_field_creator_method_name_filed->setCatcher( function( $value ) {
+		$form_field_creator_method_name_filed->setFieldValueCatcher( function( $value ) {
 			$this->setFormFieldCreatorMethodName( $value );
 		} );
 
@@ -223,7 +223,7 @@ trait DataModel_Definition_Property_Trait
 			$form_field_type = 'false';
 		}
 		$form_field_type_field = new Form_Field_Select( 'form_field_type', 'Form field type:', $form_field_type );
-		$form_field_type_field->setCatcher( function( $value ) {
+		$form_field_type_field->setFieldValueCatcher( function( $value ) {
 			if( $value === 'false' ) {
 				$value = false;
 			}
@@ -258,30 +258,30 @@ trait DataModel_Definition_Property_Trait
 
 
 		$form_field_is_required_filed = new Form_Field_Checkbox( 'form_field_is_required', 'Is required', $this->getFormFieldIsRequired() );
-		$form_field_is_required_filed->setCatcher( function( $value ) {
+		$form_field_is_required_filed->setFieldValueCatcher( function( $value ) {
 			$this->setFormFieldIsRequired( $value );
 		} );
 
 		$form_field_label_filed = new Form_Field_Input( 'form_field_label', 'Label:', $this->getFormFieldLabel() );
-		$form_field_label_filed->setCatcher( function( $value ) {
+		$form_field_label_filed->setFieldValueCatcher( function( $value ) {
 			$this->setFormFieldLabel( $value );
 		} );
 
 
 		$form_field_validation_regexp_filed = new Form_Field_Input( 'form_field_validation_regexp', 'Validation reg. exp:', $this->getFormFieldValidationRegexp() );
-		$form_field_validation_regexp_filed->setCatcher( function( $value ) {
+		$form_field_validation_regexp_filed->setFieldValueCatcher( function( $value ) {
 			$this->setFormFieldValidationRegexp( $value );
 		} );
 
 		$form_field_min_value_filed = new Form_Field_Input( 'form_field_min_value', 'Minimal value:', $this->getFormFieldMinValue() );
-		$form_field_min_value_filed->setCatcher( function( $value ) {
+		$form_field_min_value_filed->setFieldValueCatcher( function( $value ) {
 			if( $value !== '' ) {
 				$this->setFormFieldMinValue( $value );
 			}
 		} );
 
 		$form_field_max_value_filed = new Form_Field_Input( 'form_field_max_value', 'Maximal value:', $this->getFormFieldMaxValue() );
-		$form_field_max_value_filed->setCatcher( function( $value ) {
+		$form_field_max_value_filed->setFieldValueCatcher( function( $value ) {
 			if( $value !== '' ) {
 				$this->setFormFieldMaxValue( $value );
 			}
@@ -309,7 +309,7 @@ trait DataModel_Definition_Property_Trait
 
 		$form_field_get_select_options_callback_filed_class_name = new Form_Field_Input( 'form_field_get_select_options_callback_class_name', 'Select options callback:', $_callback[0] );
 		$form_field_get_select_options_callback_filed_method = new Form_Field_Input( 'form_field_get_select_options_callback_method', '', $_callback[1] );
-		$form_field_get_select_options_callback_filed_method->setCatcher( function( $value ) use ( $form_field_get_select_options_callback_filed_class_name ) {
+		$form_field_get_select_options_callback_filed_method->setFieldValueCatcher( function( $value ) use ( $form_field_get_select_options_callback_filed_class_name ) {
 			if( $form_field_get_select_options_callback_filed_class_name->getValue() && $value ) {
 				$this->setFormFieldGetSelectOptionsCallback( [
 					$form_field_get_select_options_callback_filed_class_name->getValue(),
@@ -323,7 +323,7 @@ trait DataModel_Definition_Property_Trait
 
 
 		$form_setter_name_filed = new Form_Field_Input( 'form_setter_name', 'Custom value setter method:', $this->getFormSetterName() );
-		$form_setter_name_filed->setCatcher( function( $value ) {
+		$form_setter_name_filed->setFieldValueCatcher( function( $value ) {
 			$this->setFormSetterName( $value );
 		} );
 
@@ -355,7 +355,7 @@ trait DataModel_Definition_Property_Trait
 			}
 
 			$form_error_message_fields[$code] = new Form_Field_Input( 'form_field_error_messages/' . $code, $ec_data['label'], $default_value );
-			$form_error_message_fields[$code]->setCatcher( function( $value ) use ( $code ) {
+			$form_error_message_fields[$code]->setFieldValueCatcher( function( $value ) use ( $code ) {
 				$messages = $this->getFormFieldErrorMessages();
 				if( !$messages || !is_array( $messages ) ) {
 					$messages = [];
@@ -383,7 +383,7 @@ trait DataModel_Definition_Property_Trait
 			$custom_code_field = new Form_Field_Input( 'form_field_error_messages/custom_code_'.$c , '', $c_codes[$i]??'' );
 			$custom_message_field = new Form_Field_Input( 'form_field_error_messages/custom_message_'.$c , '', $c_messages[$i]??'' );
 
-			$custom_message_field->setCatcher(function( $value ) use ($custom_code_field, $custom_message_field) {
+			$custom_message_field->setFieldValueCatcher(function( $value ) use ($custom_code_field, $custom_message_field) {
 				$code = $custom_code_field->getValue();
 				$message = $custom_message_field->getValue();
 
@@ -442,7 +442,7 @@ trait DataModel_Definition_Property_Trait
 			$result = $new_property;
 		}
 
-		$form->catchData();
+		$form->catchFieldValues();
 
 
 		$this->__edit_form = null;

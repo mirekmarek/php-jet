@@ -213,7 +213,7 @@ class Controller_Main extends MVC_Controller_REST
 		$form->catchInput( $this->getRequestData(), true );
 
 		if( $form->validate() ) {
-			$form->catchData();
+			$form->catchFieldValues();
 
 			$gallery->save();
 
@@ -244,7 +244,7 @@ class Controller_Main extends MVC_Controller_REST
 		$form->catchInput( $this->getRequestData(), true );
 
 		if( $form->validate() ) {
-			$form->catchData();
+			$form->catchFieldValues();
 
 			$gallery->save();
 
