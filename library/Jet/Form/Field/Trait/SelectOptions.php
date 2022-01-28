@@ -44,7 +44,7 @@ trait Form_Field_Trait_SelectOptions
 				$v = new Form_Field_Select_Option($v);
 			} else {
 				if(!($v instanceof Form_Field_Select_Option_Interface)) {
-					throw new Form_Exception('Option must be instance of class which implements interface Jet\Form_Field_Select_Option_Interface');
+					$v = new Form_Field_Select_Option((string)$v);
 				}
 			}
 			
