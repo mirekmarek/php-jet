@@ -221,6 +221,13 @@ class Controller_Main extends MVC_Controller_Default
 				'o4' => 'Option 4',
 			]
 		);
+		
+		$select_options = $select_field->getSelectOptions();
+		$select_options['o1']->setSelectOptionCssStyle('background-color:#f9f9f9');
+		$select_options['o2']->setSelectOptionCssStyle('background-color:#e9e9e9');
+		$select_options['o3']->setSelectOptionCssStyle('background-color:#d9d9d9');
+		$select_options['o4']->setSelectOptionCssStyle('background-color:#c9c9c9');
+		
 		$select_field->setErrorMessages(
 			[
 				Form_Field_Select::ERROR_CODE_INVALID_VALUE => 'Invalid value',
@@ -237,6 +244,13 @@ class Controller_Main extends MVC_Controller_Default
 				'o4' => 'Option 4',
 			]
 		);
+		
+		$select_options = $multi_select_field->getSelectOptions();
+		$select_options['o1']->setSelectOptionCssStyle('background-color:#f9f9f9');
+		$select_options['o2']->setSelectOptionCssStyle('background-color:#e9e9e9');
+		$select_options['o3']->setSelectOptionCssStyle('background-color:#d9d9d9');
+		$select_options['o4']->setSelectOptionCssStyle('background-color:#c9c9c9');
+		
 		$multi_select_field->setErrorMessages(
 			[
 				Form_Field_Select::ERROR_CODE_INVALID_VALUE => 'Invalid value',
@@ -254,6 +268,13 @@ class Controller_Main extends MVC_Controller_Default
 				'o4' => 'Option 4',
 			]
 		);
+		
+		$select_options = $radio_field->getSelectOptions();
+		$select_options['o1']->setSelectOptionCssStyle('background-color:#f9f9f9');
+		$select_options['o2']->setSelectOptionCssStyle('background-color:#e9e9e9');
+		$select_options['o3']->setSelectOptionCssStyle('background-color:#d9d9d9');
+		$select_options['o4']->setSelectOptionCssStyle('background-color:#c9c9c9');
+		
 		$radio_field->setErrorMessages(
 			[
 				Form_Field_Select::ERROR_CODE_INVALID_VALUE => 'Invalid value',

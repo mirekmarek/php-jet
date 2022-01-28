@@ -90,13 +90,6 @@ abstract class Form_Field extends BaseObject implements JsonSerializable
 	 */
 	protected $field_value_catcher;
 
-	/**
-	 * Options for Select, MultiSelect, RadioButtons and so on ...
-	 *
-	 * @var array
-	 */
-	protected array $select_options = [];
-
 
 	/**
 	 *
@@ -322,40 +315,19 @@ abstract class Form_Field extends BaseObject implements JsonSerializable
 			if( !$this->objectHasProperty( $o_k ) ) {
 				throw new Form_Exception( 'Unknown form field option: ' . $o_k );
 			}
-
-			$this->{$o_k} = $o_v;
-		}
-	}
-
-	/**
-	 * Options for Select, MultiSelect and so on ...
-	 *
-	 * @return array
-	 */
-	public function getSelectOptions(): array
-	{
-		return $this->select_options;
-	}
-
-	/**
-	 * Options for Select, MultiSelect and so on ...
-	 *
-	 * @param array|Iterator $options
-	 */
-	public function setSelectOptions( array|Iterator $options ): void
-	{
-		if( is_object( $options ) ) {
-
-			$_o = $options;
-			$options = [];
-
-			foreach( $_o as $k => $v ) {
-				$options[$k] = $v;
+			
+			if($o_k=='select_options') {
+				/**
+				 * @var Form_Field_Select $this
+				 */
+				$this->setSelectOptions( $o_v );
+			} else {
+				$this->{$o_k} = $o_v;
 			}
-		}
 
-		$this->select_options = $options;
+		}
 	}
+
 
 
 	/**

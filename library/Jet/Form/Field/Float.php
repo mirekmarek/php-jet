@@ -75,7 +75,7 @@ class Form_Field_Float extends Form_Field_Input
 	/**
 	 * @param float $max
 	 */
-	public function setMaxValue( float $max )
+	public function setMaxValue( float $max ) : void
 	{
 		$this->max_value = $max;
 	}
@@ -91,7 +91,7 @@ class Form_Field_Float extends Form_Field_Input
 	/**
 	 * @param float $step
 	 */
-	public function setStep( float $step )
+	public function setStep( float $step ) : void
 	{
 		$this->step = $step;
 	}
@@ -108,7 +108,7 @@ class Form_Field_Float extends Form_Field_Input
 	/**
 	 * @param int $places
 	 */
-	public function setPlaces( int $places )
+	public function setPlaces( int $places ) : void
 	{
 		$this->places = $places;
 	}

@@ -3,7 +3,6 @@
 use Jet\MVC_View;
 use Jet\Form_Renderer;
 use Jet\Form_Field_Select;
-use Jet\Form_Field_Select_Option_Interface;
 use Jet\Data_Text;
 
 /**
@@ -60,15 +59,7 @@ if( $field->getIsRequired() ) {
 			}
 		}
 
-		$css = '';
-		if( $label instanceof Form_Field_Select_Option_Interface ) {
-			if( ($class = $label->getSelectOptionCssClass()) ) {
-				$css .= ' class="' . $class . '"';
-			}
-			if( ($style = $label->getSelectOptionCssStyle()) ) {
-				$css .= ' style="' . $style . '"';
-			}
-		}
+		$css = $label->getSelectOptionCss();
 
 		$selected = $selected ? ' selected="selected"' : '';
 

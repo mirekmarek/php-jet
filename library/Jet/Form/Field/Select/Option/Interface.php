@@ -34,5 +34,15 @@ interface Form_Field_Select_Option_Interface
 	 * @return string
 	 */
 	public function getSelectOptionCssClass(): string;
-
+	
+	/**
+	 * @return string
+	 */
+	public function getSelectOptionCss(): string;
+	
+	/**
+	 * @return string
+	 */
+	public function __toString(): string;
+	
 }

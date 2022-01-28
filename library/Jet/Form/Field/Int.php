@@ -55,7 +55,7 @@ class Form_Field_Int extends Form_Field_Input
 	/**
 	 * @param int $min
 	 */
-	public function setMinValue( int $min )
+	public function setMinValue( int $min ) : void
 	{
 		$this->min_value = $min;
 	}
@@ -71,7 +71,7 @@ class Form_Field_Int extends Form_Field_Input
 	/**
 	 * @param int $max
 	 */
-	public function setMaxValue( int $max )
+	public function setMaxValue( int $max ) : void
 	{
 		$this->max_value = $max;
 	}
@@ -87,7 +87,7 @@ class Form_Field_Int extends Form_Field_Input
 	/**
 	 * @param int $step
 	 */
-	public function setStep( int $step )
+	public function setStep( int $step ) : void
 	{
 		$this->step = $step;
 	}

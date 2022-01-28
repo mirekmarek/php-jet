@@ -16,7 +16,8 @@ use JsonSerializable;
  */
 class Data_Tree_Node extends BaseObject implements BaseObject_Interface_IteratorCountable, BaseObject_Interface_Serializable_JSON, Form_Field_Select_Option_Interface
 {
-
+	use Form_Field_Select_Option_Trait;
+	
 	/**
 	 *
 	 * @var ?Data_Tree
@@ -92,16 +93,6 @@ class Data_Tree_Node extends BaseObject implements BaseObject_Interface_Iterator
 	 * @var ?int
 	 */
 	protected ?int $_max_depth = null;
-
-	/**
-	 * @var string
-	 */
-	protected string $select_option_css_style = '';
-
-	/**
-	 * @var string
-	 */
-	protected string $select_option_css_class = '';
 
 	/**
 	 * @var ?array
@@ -653,42 +644,5 @@ class Data_Tree_Node extends BaseObject implements BaseObject_Interface_Iterator
 		}
 
 	}
-
-	//- Form_Field_Select_Option_Interface --------------------------------------------------------
-	//- Form_Field_Select_Option_Interface --------------------------------------------------------
-	//- Form_Field_Select_Option_Interface --------------------------------------------------------
-	//- Form_Field_Select_Option_Interface --------------------------------------------------------
-	//- Form_Field_Select_Option_Interface --------------------------------------------------------
-
-	/**
-	 * @return string
-	 */
-	public function getSelectOptionCssStyle(): string
-	{
-		return $this->select_option_css_style;
-	}
-
-	/**
-	 * @param string $css_style
-	 */
-	public function setSelectOptionCssStyle( string $css_style ): void
-	{
-		$this->select_option_css_style = $css_style;
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getSelectOptionCssClass(): string
-	{
-		return $this->select_option_css_class;
-	}
-
-	/**
-	 * @param string $css_class
-	 */
-	public function setSelectOptionCssClass( string $css_class ): void
-	{
-		$this->select_option_css_class = $css_class;
-	}
+	
 }

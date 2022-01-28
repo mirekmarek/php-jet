@@ -301,6 +301,9 @@ trait Form_Field_Definition_Trait
 
 		$select_options = $this->getFormFieldSelectOptions();
 		if( $select_options ) {
+			/**
+			 * @var Form_Field_Trait_SelectOptions $field
+			 */
 			$field->setSelectOptions( $select_options );
 		}
 

@@ -11,23 +11,14 @@ namespace Jet;
 /**
  *
  */
-class Form_Field_Select_Option extends BaseObject
+class Form_Field_Select_Option extends BaseObject implements Form_Field_Select_Option_Interface
 {
+	use Form_Field_Select_Option_Trait;
 
 	/**
 	 * @var string
 	 */
 	protected string $option = '';
-
-	/**
-	 * @var string
-	 */
-	protected string $class = '';
-
-	/**
-	 * @var string
-	 */
-	protected string $style = '';
 
 	/**
 	 *
@@ -37,41 +28,7 @@ class Form_Field_Select_Option extends BaseObject
 	{
 		$this->option = $option;
 	}
-
-
-	/**
-	 * @param string $css_style
-	 */
-	public function setSelectOptionCssStyle( string $css_style )
-	{
-		$this->style = $css_style;
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getSelectOptionCssStyle(): string
-	{
-		return $this->style;
-	}
-
-
-	/**
-	 * @param string $css_class
-	 */
-	public function setSelectOptionCssClass( string $css_class )
-	{
-		$this->class = $css_class;
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getSelectOptionCssClass(): string
-	{
-		return $this->class;
-	}
-
+	
 	/**
 	 * @return string
 	 */
@@ -79,5 +36,4 @@ class Form_Field_Select_Option extends BaseObject
 	{
 		return $this->option;
 	}
-
 }

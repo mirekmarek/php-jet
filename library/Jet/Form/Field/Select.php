@@ -13,6 +13,8 @@ namespace Jet;
  */
 class Form_Field_Select extends Form_Field
 {
+	use Form_Field_Trait_SelectOptions;
+	
 	const ERROR_CODE_INVALID_VALUE = 'invalid_value';
 
 	/**

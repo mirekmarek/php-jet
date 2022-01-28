@@ -3,7 +3,6 @@
 use Jet\MVC_View;
 use Jet\Form_Renderer;
 use Jet\Form_Field_Select;
-use Jet\Form_Field_Select_Option_Interface;
 use Jet\Data_Text;
 use Jet\Data_Tree_Node;
 
@@ -41,16 +40,8 @@ if( $field->getIsRequired() ) {
 ?>
 <select  <?=$r->renderAttributes($attrs)?>>
 	<?php foreach( $field->getSelectOptions() as $val => $label ):
-
-		$css = '';
-		if( $label instanceof Form_Field_Select_Option_Interface ) {
-			if( ($class = $label->getSelectOptionCssClass()) ) {
-				$css .= ' class="' . $class . '"';
-			}
-			if( ($style = $label->getSelectOptionCssStyle()) ) {
-				$css .= ' style="' . $style . '"';
-			}
-		}
+	    
+	    $css = $label->getSelectOptionCss();
 
 		$text = Data_Text::htmlSpecialChars( $label );
 		if($label instanceof Data_Tree_Node) {

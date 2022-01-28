@@ -615,9 +615,18 @@ class Pages_Page extends MVC_Page
 			if( $form->fieldExists( '/content/' . $i . '/module_name' ) ) {
 				$selected_module = $form->field( '/content/' . $i . '/module_name' )->getValue();
 				$selected_controller = $form->field( '/content/' . $i . '/controller_name' )->getValue();
-
-				$form->field( '/content/' . $i . '/controller_name' )->setSelectOptions( static::getModuleControllers( $selected_module ) );
-				$form->field( '/content/' . $i . '/controller_action' )->setSelectOptions( static::getModuleControllerActions( $selected_module, $selected_controller ) );
+				
+				/**
+				 * @var Form_Field_Select $controller_name_field
+				 */
+				$controller_name_field = $form->field( '/content/' . $i . '/controller_name' );
+				$controller_name_field->setSelectOptions( static::getModuleControllers( $selected_module ) );
+				
+				/**
+				 * @var Form_Field_Select $controller_action_field
+				 */
+				$controller_action_field = $form->field( '/content/' . $i . '/controller_action' );
+				$controller_action_field->setSelectOptions( static::getModuleControllerActions( $selected_module, $selected_controller ) );
 			}
 
 			$i++;
@@ -964,9 +973,18 @@ class Pages_Page extends MVC_Page
 
 				$selected_module = $form->field( 'module_name' )->getValue();
 				$selected_controller = $form->field( 'controller_name' )->getValue();
-
-				$form->field( 'controller_name' )->setSelectOptions( static::getModuleControllers( $selected_module ) );
-				$form->field( 'controller_action' )->setSelectOptions( static::getModuleControllerActions( $selected_module, $selected_controller ) );
+				
+				/**
+				 * @var Form_Field_Select $controller_name_field
+				 */
+				$controller_name_field = $form->field( 'controller_name' );
+				$controller_name_field->setSelectOptions( static::getModuleControllers( $selected_module ) );
+				
+				/**
+				 * @var Form_Field_Select $controller_action_field
+				 */
+				$controller_action_field = $form->field( 'controller_action' );
+				$controller_action_field->setSelectOptions( static::getModuleControllerActions( $selected_module, $selected_controller ) );
 
 				break;
 			case Pages_Page_Content::CONTENT_KIND_CLASS:
