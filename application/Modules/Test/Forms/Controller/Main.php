@@ -311,8 +311,6 @@ class Controller_Main extends MVC_Controller_Default
 
 				IO_File::copy( $tmp_file, $target_path );
 
-				$upload_image_field->setUploadedFilePath( $target_path );
-
 			}
 		);
 

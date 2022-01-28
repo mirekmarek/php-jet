@@ -53,11 +53,6 @@ class Form_Field_File extends Form_Field
 	protected string|array|null $file_name = null;
 
 	/**
-	 * @var string|array|null
-	 */
-	protected string|array|null $uploaded_file_path = null;
-
-	/**
 	 * @var bool
 	 */
 	protected bool $allow_multiple_upload = false;
@@ -120,26 +115,6 @@ class Form_Field_File extends Form_Field
 	public function getFileName(): string|array
 	{
 		return $this->file_name;
-	}
-
-	/**
-	 * @return string|array
-	 */
-	public function getUploadedFilePath(): string|array
-	{
-		if( !$this->uploaded_file_path ) {
-			return $this->getTmpFilePath();
-		}
-
-		return $this->uploaded_file_path;
-	}
-
-	/**
-	 * @param string $uploaded_file_path
-	 */
-	public function setUploadedFilePath( string $uploaded_file_path ): void
-	{
-		$this->uploaded_file_path = $uploaded_file_path;
 	}
 
 	/**
