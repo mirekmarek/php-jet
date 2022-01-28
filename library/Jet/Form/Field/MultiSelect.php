@@ -123,5 +123,33 @@ class Form_Field_MultiSelect extends Form_Field
 
 		return $codes;
 	}
+	
+	/**
+	 * @param string $option_key
+	 *
+	 * @return bool
+	 */
+	public function optionIsSelected( string $option_key ) : bool
+	{
+		$value = $this->getValue();
+		
+		if(
+			is_array( $value ) &&
+			!empty( $value )
+		) {
+			foreach( $value as $val_in ) {
+				if( $option_key == (string)$val_in ) {
+					return true;
+				}
+			}
+		} else {
+			if( $option_key == $value ) {
+				return true;
+			}
+		}
+		
+		return false;
+	}
+	
 
 }

@@ -18,9 +18,7 @@ if( !$r->getBaseCssClasses() ) {
 }
 
 $field = $r->getField();
-$value = $field->getValue();
 
-//var_dump($value);die();
 if( $field->getLastErrorCode() ) {
 	$r->addCustomCssClass( 'is-invalid' );
 }
@@ -40,29 +38,10 @@ if( $field->getIsRequired() ) {
 ?>
 <select name="<?= $field->getTagNameValue() ?>[]" <?=$r->renderAttributes($attrs)?>>
 	<?php foreach( $field->getSelectOptions() as $val => $label ):
-
-		$selected = false;
-
-		if(
-			is_array( $value ) &&
-			!empty( $value )
-		) {
-			foreach( $value as $val_in ) {
-				if( (string)$val == (string)$val_in ) {
-					$selected = true;
-					break;
-				}
-			}
-		} else {
-			if( $val == $value ) {
-				$selected = true;
-			}
-		}
-	    
-	    $css = $label->getSelectOptionCss();
-
-		$selected = $selected ? ' selected="selected"' : '';
-
+		
+		$css = $label->getSelectOptionCss();
+		$selected = $field->optionIsSelected($val) ? ' selected="selected"' : '';
+		
 		?><option value="<?=Data_Text::htmlSpecialChars( $val )?>" <?=$css?><?=$selected?>><?=Data_Text::htmlSpecialChars( $label )?></option><?php
 	endforeach; ?>
 </select>

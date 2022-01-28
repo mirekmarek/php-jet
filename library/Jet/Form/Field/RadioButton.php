@@ -102,4 +102,14 @@ class Form_Field_RadioButton extends Form_Field
 
 		return $codes;
 	}
+	
+	/**
+	 * @param string $option_key
+	 *
+	 * @return bool
+	 */
+	public function optionIsSelected( string $option_key ) : bool
+	{
+		return $option_key == $this->getValue();
+	}
 }

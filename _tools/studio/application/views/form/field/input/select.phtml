@@ -48,7 +48,7 @@ if( $field->getIsRequired() ) {
 			$text = str_pad('', ($label->getDepth()*36), '&nbsp;', STR_PAD_LEFT).$text;
 		}
 
-		$selected = ( ((string)$val) == ((string)$value) ) ? ' selected="selected"' : '';
+		$selected = $field->optionIsSelected($val) ? ' selected="selected"' : '';
 
 		?><option value="<?=Data_Text::htmlSpecialChars( $val )?>" <?=$css?><?=$selected?>><?=Data_Text::htmlSpecialChars( $label )?></option><?php
 	endforeach; ?>
