@@ -13,10 +13,6 @@ namespace Jet;
  */
 class Form_Field_WYSIWYG extends Form_Field
 {
-	/**
-	 * @var callable
-	 */
-	protected static $default_initialize_code_generator;
 
 	/**
 	 * @var string
