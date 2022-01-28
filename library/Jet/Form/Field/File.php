@@ -426,13 +426,11 @@ class Form_Field_File extends Form_Field
 	 *
 	 * to: object[property][sub_property]
 	 *
-	 * @param string|null $name
-	 *
 	 * @return string
 	 */
-	public function getTagNameValue( string|null $name = null ): string
+	public function getTagNameValue(): string
 	{
-		$name = parent::getTagNameValue( $name );
+		$name = parent::getTagNameValue();
 
 		if( !str_ends_with( $name, ']' ) ) {
 			$name .= '[]';

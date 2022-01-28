@@ -741,7 +741,7 @@ class Form extends BaseObject
 		foreach( $this->fields as $key => $field ) {
 			if(
 				$field->getIsReadonly() ||
-				!$field->getHasValue()
+				!$field->hasValue()
 			) {
 				continue;
 			}

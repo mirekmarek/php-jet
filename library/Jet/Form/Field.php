@@ -144,15 +144,11 @@ abstract class Form_Field extends BaseObject implements JsonSerializable
 	 *
 	 * to: object[property][sub_property]
 	 *
-	 * @param string|null $name
-	 *
 	 * @return string
 	 */
-	public function getTagNameValue( ?string $name = null ): string
+	public function getTagNameValue(): string
 	{
-		if( !$name ) {
-			$name = $this->getName();
-		}
+		$name = $this->getName();
 
 		if( $name[0] != '/' ) {
 			return $name;
@@ -370,7 +366,7 @@ abstract class Form_Field extends BaseObject implements JsonSerializable
 	{
 		if(
 			$this->getIsReadonly() ||
-			!$this->getHasValue() ||
+			!$this->hasValue() ||
 			!($catcher = $this->getFieldValueCatcher())
 		) {
 			return;
@@ -383,7 +379,7 @@ abstract class Form_Field extends BaseObject implements JsonSerializable
 	 *
 	 * @return bool
 	 */
-	public function getHasValue(): bool
+	public function hasValue(): bool
 	{
 		return $this->_has_value;
 	}
