@@ -246,10 +246,10 @@ class Controller_Main extends MVC_Controller_Default
 		);
 		
 		$select_options = $multi_select_field->getSelectOptions();
-		$select_options['o1']->setSelectOptionCssStyle('background-color:#f9f9f9');
-		$select_options['o2']->setSelectOptionCssStyle('background-color:#e9e9e9');
-		$select_options['o3']->setSelectOptionCssStyle('background-color:#d9d9d9');
-		$select_options['o4']->setSelectOptionCssStyle('background-color:#c9c9c9');
+		$select_options['o1']->setSelectOptionCssStyle('color:#000000');
+		$select_options['o2']->setSelectOptionCssStyle('color:#a0a0a0');
+		$select_options['o3']->setSelectOptionCssStyle('color:#b0b0b0');
+		$select_options['o4']->setSelectOptionCssStyle('color:#c0c0c0');
 		
 		$multi_select_field->setErrorMessages(
 			[
