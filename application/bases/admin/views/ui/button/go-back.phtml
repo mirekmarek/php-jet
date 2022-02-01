@@ -34,8 +34,9 @@ if( !$URL ) {
 
 $label = trim($b->getLabel());
 $label = $label ? '&nbsp;'.$label : '';
+$id = $b->getId() ? ' id="'.$b->getId().'"' : '';
+$icon = $b->getIcon() ? UI::icon( $b->getIcon() ) : '';
+$class = 'btn btn-'.$b->getClass().' btn-'.$b->getSize();
 
 
-?><a href="<?= $URL ?>" class="btn btn-<?= $b->getClass() ?> btn-<?= $b->getSize() ?>" <?= $b->getJsActions() ?>><?php
-	if( $b->getIcon() ) echo UI::icon( $b->getIcon() );
-	?><?=$label ?></a>
+?><a href="<?=$URL?>"<?=$id?> class="<?=$class?>" <?= $b->getJsActions() ?>><?=$icon?><?=$label?></a><?php

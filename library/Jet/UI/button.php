@@ -44,6 +44,11 @@ class UI_button extends UI_BaseElement
 	 * @var string
 	 */
 	protected string $icon = '';
+	
+	/**
+	 * @var string
+	 */
+	protected string $id = '';
 
 
 	/**
@@ -204,6 +209,27 @@ class UI_button extends UI_BaseElement
 	{
 		return $this->url;
 	}
+	
+	/**
+	 * @return string
+	 */
+	public function getId(): string
+	{
+		return $this->id;
+	}
+	
+	/**
+	 * @param string $id
+	 *
+	 * @return $this
+	 */
+	public function setId( string $id ): static
+	{
+		$this->id = $id;
+		
+		return $this;
+	}
 
 
+	
 }
