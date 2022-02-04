@@ -606,12 +606,12 @@ class Form extends BaseObject
 	 * catch values from input ($_POST is default)
 	 * and return true if the form has been sent ...
 	 *
-	 * @param array|null $input_data
+	 * @param Data_Array|array|null $input_data
 	 * @param bool $force_catch
 	 *
 	 * @return bool
 	 */
-	public function catchInput( array|null $input_data = null, bool $force_catch = false ): bool
+	public function catchInput( Data_Array|array|null $input_data = null, bool $force_catch = false ): bool
 	{
 
 		$this->is_valid = false;
