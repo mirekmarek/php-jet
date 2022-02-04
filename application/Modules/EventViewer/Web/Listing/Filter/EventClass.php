@@ -53,6 +53,11 @@ class Listing_Filter_EventClass extends Data_Listing_Filter {
 		];
 
 		$field->setSelectOptions( $options );
+		$field->getSelectOptions()[Logger::EVENT_CLASS_SUCCESS]->setSelectOptionCssClass('text-success');
+		$field->getSelectOptions()[Logger::EVENT_CLASS_INFO]->setSelectOptionCssClass('text-info');
+		$field->getSelectOptions()[Logger::EVENT_CLASS_WARNING]->setSelectOptionCssClass('text-warning');
+		$field->getSelectOptions()[Logger::EVENT_CLASS_DANGER]->setSelectOptionCssClass('text-danger');
+		$field->getSelectOptions()[Logger::EVENT_CLASS_FAULT]->setSelectOptionCssClass('text-danger');
 
 
 		$form->addField( $field );
