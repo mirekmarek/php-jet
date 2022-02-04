@@ -25,23 +25,18 @@ class Installer_Step_InstallModules_Controller extends Installer_Step_Controller
 	 */
 	protected string $label = 'Modules installation';
 
-	/**
-	 * @var Application_Module_Manifest[]|null
-	 */
-	protected array|null $all_modules = null;
-
-	/**
-	 * @var array
-	 */
-	protected array $selected_modules = [];
 
 	public function main(): void
 	{
-		$this->all_modules = Application_Modules::allModulesList();
+		$all_modules = Application_Modules::allModulesList();
+		$modules_scope = [];
+		foreach($all_modules as $module) {
+			$modules_scope[$module->getName()] = $module->getLabel();
+		}
 
 
 		$modules_field = new Form_Field_MultiSelect( 'modules' );
-		$modules_field->setSelectOptions( $this->all_modules );
+		$modules_field->setSelectOptions( $modules_scope );
 		$modules_field->setErrorMessages(
 			[
 				Form_Field_MultiSelect::ERROR_CODE_EMPTY         => 'Please select module',
@@ -53,7 +48,7 @@ class Installer_Step_InstallModules_Controller extends Installer_Step_Controller
 			'modules_select_form', [$modules_field,]
 		);
 
-		$this->view->setVar( 'modules', $this->all_modules );
+		$this->view->setVar( 'modules', $all_modules );
 
 
 		$this->catchContinue();
@@ -62,25 +57,28 @@ class Installer_Step_InstallModules_Controller extends Installer_Step_Controller
 			$form->catchInput() &&
 			$form->validate()
 		) {
-			$this->selected_modules = [];
+			$selected_modules = $modules_field->getValue();
 
-			foreach( $this->all_modules as $m ) {
-				if( $m->isMandatory() ) {
-					$this->selected_modules[] = $m->getName();
+			foreach( $all_modules as $m ) {
+				if(
+					$m->isMandatory() &&
+					!$m->isInstalled() &&
+					!in_array($m->getName(), $selected_modules)
+				) {
+					$selected_modules[] = $m->getName();
 				}
 			}
 
 
-			$this->selected_modules = array_merge( $this->selected_modules, $modules_field->getValue() );
 
 			$result = [];
 
 			$OK = true;
 
-			foreach( $this->selected_modules as $module_name ) {
+			foreach( $selected_modules as $module_name ) {
 				$result[$module_name] = true;
 
-				if( $this->all_modules[$module_name]->isActivated() ) {
+				if( $all_modules[$module_name]->isActivated() ) {
 					continue;
 				}
 

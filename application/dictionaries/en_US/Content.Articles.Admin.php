@@ -16,4 +16,5 @@ return [
 	'Update article' => '',
 	'Delete article' => '',
 	'Articles - Admin' => '',
+	'Article <b>%TITLE%</b> has been created' => '',
 ];
