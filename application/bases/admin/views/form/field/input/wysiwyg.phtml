@@ -2,16 +2,15 @@
 
 use Jet\MVC_Layout;
 use Jet\MVC_View;
-use Jet\Data_Text;
-use Jet\Form_Renderer;
+use Jet\Form_Renderer_Field_Input;
 use Jet\Form_Field_WYSIWYG;
 
 /**
  * @var MVC_View $this
- * @var Form_Renderer $r
+ * @var Form_Renderer_Field_Input $r
  * @var Form_Field_WYSIWYG $field
  */
-$r = $this->getRaw( 'element' );
+$r = $this->getRaw( 'renderer' );
 $field = $r->getField();
 
 
@@ -21,6 +20,7 @@ $editor_config = $field->getEditorConfig();
 $init_generator = $field->getEditorInitializeCodeGenerator();
 
 
+//-----------------------------------------------------------------------------------
 if( !$CSS ) {
 	$CSS = [
 		'' => [
@@ -77,7 +77,7 @@ if( !$init_generator ) {
 	};
 }
 
-
+//-----------------------------------------------------------------------------------
 /*
 if(!$CSS) {
 	$CSS = [
@@ -107,6 +107,7 @@ if(!$init_generator) {
 	};
 }
 */
+//-----------------------------------------------------------------------------------
 
 
 foreach( $CSS as $media => $files ) {
@@ -117,22 +118,7 @@ foreach( $CSS as $media => $files ) {
 foreach( $JS as $URI ) {
 	MVC_Layout::getCurrentLayout()->requireJavascriptFile( $URI );
 }
-
-$attrs = [
-	'name' => $field->getTagNameValue(),
-	'id' => $field->getId(),
-];
-
-if( $field->getPlaceholder() ) {
-	$attrs['placeholder'] = Data_Text::htmlSpecialChars( $field->getPlaceholder() );
-}
-if( $field->getIsReadonly() ) {
-	$attrs['readonly'] = 'readonly';
-}
-if( $field->getIsRequired() ) {
-	$attrs['required'] = 'required';
-}
 ?>
-<textarea <?=$r->renderAttributes($attrs)?>><?= $field->getValueRaw() ?></textarea>
+<textarea <?=$r->renderAttributes()?>><?= $field->getValueRaw() ?></textarea>
 
 <?= $init_generator( $field, $editor_config ); ?>

@@ -72,6 +72,11 @@ class Form extends BaseObject
 	 * @var string
 	 */
 	protected string $end_view_script = '';
+	
+	/**
+	 * @var string
+	 */
+	protected string $message_view_script = '';
 
 	/**
 	 *
@@ -190,14 +195,14 @@ class Form extends BaseObject
 	protected array $default_field_width = [self::LJ_SIZE_MEDIUM => 8];
 
 	/**
-	 * @var ?Form_Renderer_Pair
+	 * @var ?Form_Renderer_Form_Tag
 	 */
-	protected ?Form_Renderer_Pair $_form_tag = null;
+	protected ?Form_Renderer_Form_Tag $_form_tag = null;
 
 	/**
-	 * @var ?Form_Renderer_Single
+	 * @var ?Form_Renderer_Form_Message
 	 */
-	protected ?Form_Renderer_Single $_message_tag = null;
+	protected ?Form_Renderer_Form_Message $_message_tag = null;
 
 	/**
 	 * @return string
@@ -236,6 +241,26 @@ class Form extends BaseObject
 	public function setEndViewScript( string $end_view_script ): void
 	{
 		$this->end_view_script = $end_view_script;
+	}
+	
+	/**
+	 * @return string
+	 */
+	public function getMessageViewScript(): string
+	{
+		if( !$this->message_view_script ) {
+			$this->message_view_script = SysConf_Jet_Form_DefaultViews::get('Form', 'message');
+		}
+		
+		return $this->message_view_script;
+	}
+	
+	/**
+	 * @param string $message_view_script
+	 */
+	public function setMessageViewScript( string $message_view_script ): void
+	{
+		$this->message_view_script = $message_view_script;
 	}
 
 
@@ -709,14 +734,6 @@ class Form extends BaseObject
 	}
 
 	/**
-	 * @return Data_Array
-	 */
-	public function getRawData(): Data_Array
-	{
-		return $this->raw_data;
-	}
-
-	/**
 	 *
 	 * @return array|bool
 	 */
@@ -883,17 +900,14 @@ class Form extends BaseObject
 
 
 	/**
-	 * @return Form_Renderer_Pair
+	 * @return Form_Renderer_Form_Tag
 	 */
-	public function tag(): Form_Renderer_Pair
+	public function tag(): Form_Renderer_Form_Tag
 	{
 		if( !$this->_form_tag ) {
 			$this->checkFieldsHasErrorMessages();
 
-			$this->_form_tag = Factory_Form::gerRendererPairInstance( $this );
-
-			$this->_form_tag->setViewScriptStart( $this->getStartViewScript() );
-			$this->_form_tag->setViewScriptEnd( $this->getEndViewScript() );
+			$this->_form_tag = Factory_Form::getRendererFormTagInstance(  $this );
 		}
 
 		return $this->_form_tag;
@@ -917,13 +931,12 @@ class Form extends BaseObject
 
 	/**
 	 *
-	 * @return Form_Renderer_Single
+	 * @return Form_Renderer_Form_Message
 	 */
-	public function message(): Form_Renderer_Single
+	public function message(): Form_Renderer_Form_Message
 	{
 		if( !$this->_message_tag ) {
-			$this->_message_tag = Factory_Form::gerRendererSingleInstance( $this );
-			$this->_message_tag->setViewScript( 'message' );
+			$this->_message_tag = Factory_Form::getRendererFormMessageInstance( $this );
 		}
 
 		return $this->_message_tag;

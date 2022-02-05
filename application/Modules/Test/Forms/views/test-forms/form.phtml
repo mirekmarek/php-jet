@@ -11,6 +11,12 @@ use Jet\MVC_View;
 
 $form = $this->getRaw( 'form' );
 
+$form->setDefaultLabelWidth([
+	Form::LJ_SIZE_MEDIUM => 3
+] );
+$form->setDefaultFieldWidth([
+	Form::LJ_SIZE_MEDIUM => 9
+]);
 //$form->setIsReadonly();
 ?>
 <?= $form->start() ?>
@@ -19,7 +25,7 @@ $form = $this->getRaw( 'form' );
 
 <?php if( !$form->getIsReadonly() ): ?>
 	<div class="row">
-		<div class="offset-md-4">
+		<div class="offset-md-3">
 			<input type="submit" class="btn btn-light" value="<?= Tr::_( 'Submit' ) ?>"/>
 
 			<input type="button" class="btn btn-light" value="<?= Tr::_( 'Submit (AJAX)' ) ?>"

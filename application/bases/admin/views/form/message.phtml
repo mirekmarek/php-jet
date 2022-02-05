@@ -1,17 +1,17 @@
 <?php
 
 use Jet\MVC_View;
-use Jet\Form_Renderer;
+use Jet\Form_Renderer_Form_Message;
 
 /**
  * @var MVC_View $this
- * @var Form_Renderer $r
+ * @var Form_Renderer_Form_Message $r
  */
-$r = $this->getRaw( 'element' );
+$r = $this->getRaw( 'renderer' );
 $form = $r->getForm();
 
 if( !$form->getCommonMessage() ) {
 	return;
 }
 ?>
-<div <?=$r->renderAttributes([])?>><?= $form->getCommonMessage() ?></div>
+<div <?=$r->renderAttributes()?>><?= $form->getCommonMessage() ?></div>

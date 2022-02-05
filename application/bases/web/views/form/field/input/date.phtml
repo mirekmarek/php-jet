@@ -1,29 +1,25 @@
 <?php
 
 use Jet\MVC_View;
-use Jet\Form_Renderer;
+use Jet\Form_Renderer_Field_Input;
 
 
 /**
  * @var MVC_View $this
- * @var Form_Renderer $r
+ * @var Form_Renderer_Field_Input $r
  */
-$r = $this->getRaw( 'element' );
+$r = $this->getRaw( 'renderer' );
+$field = $r->getField();
+
+$r->setFieldType('date');
 
 if( !$r->getBaseCssClasses() ) {
 	$r->setBaseCssClass( 'form-control' );
 }
 
-$field = $r->getField();
 if( $field->getLastErrorCode() ) {
 	$r->addCustomCssClass( 'is-invalid' );
 }
 
-$value = '';
-
-if( $field->getValue() ) {
-	$date = new DateTime( $field->getValue() );
-	$value = $date->format( 'Y-m-d' );
-}
 ?>
-<input <?=$r->renderAttributes( $r->getStdInputFieldAttributes('date') )?>/>
+<input <?=$r->renderAttributes()?>/>

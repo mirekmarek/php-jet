@@ -1,13 +1,15 @@
 <?php
 
 use Jet\MVC_View;
-use Jet\Form_Renderer;
+use Jet\Form_Renderer_Field_Input;
 
 /**
  * @var MVC_View $this
- * @var Form_Renderer $r
+ * @var Form_Renderer_Field_Input $r
  */
-$r = $this->getRaw( 'element' );
+$r = $this->getRaw( 'renderer' );
+
+$r->setFieldType('color');
 
 if( !$r->getBaseCssClasses() ) {
 	$r->setBaseCssClass( 'form-control' );
@@ -20,4 +22,4 @@ if( $field->getLastErrorCode() ) {
 }
 
 ?>
-<input <?=$r->renderAttributes( $r->getStdInputFieldAttributes('color') )?>/>
+<input <?=$r->renderAttributes()?>/>

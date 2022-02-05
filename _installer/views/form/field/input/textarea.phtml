@@ -1,14 +1,13 @@
 <?php
 
 use Jet\MVC_View;
-use Jet\Form_Renderer;
-use Jet\Data_Text;
+use Jet\Form_Renderer_Field_Input;
 
 /**
  * @var MVC_View $this
- * @var Form_Renderer $r
+ * @var Form_Renderer_Field_Input $r
  */
-$r = $this->getRaw( 'element' );
+$r = $this->getRaw( 'renderer' );
 
 if( !$r->getBaseCssClasses() ) {
 	$r->setBaseCssClass( 'form-control' );
@@ -18,20 +17,5 @@ $field = $r->getField();
 if( $field->getLastErrorCode() ) {
 	$r->addCustomCssClass( 'is-invalid' );
 }
-
-$attrs = [
-	'name' => $field->getTagNameValue(),
-	'id' => $field->getId(),
-];
-
-if( $field->getPlaceholder() ) {
-	$attrs['placeholder'] = Data_Text::htmlSpecialChars( $field->getPlaceholder() );
-}
-if( $field->getIsReadonly() ) {
-	$attrs['readonly'] = 'readonly';
-}
-if( $field->getIsRequired() ) {
-	$attrs['required'] = 'required';
-}
 ?>
-<textarea <?=$r->renderAttributes($attrs)?>><?= $field->getValueRaw() ?></textarea>
+<textarea <?=$r->renderAttributes()?>><?= $field->getValueRaw() ?></textarea>

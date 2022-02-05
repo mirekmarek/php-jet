@@ -1,52 +1,38 @@
 <?php
 
 use Jet\MVC_View;
-use Jet\Form_Renderer;
+use Jet\Form_Renderer_Field_Input;
 use Jet\Form_Field_File;
-use Jet\Data_Text;
 
 /**
  * @var MVC_View $this
- * @var Form_Renderer $r
+ * @var Form_Renderer_Field_Input $r
+ * @var Form_Field_File $field
  */
-$r = $this->getRaw( 'element' );
+$r = $this->getRaw( 'renderer' );
+$field = $r->getField();
+
+$r->setFieldType('file');
 
 if( !$r->getBaseCssClasses() ) {
 	$r->setBaseCssClass( 'form-control' );
 }
 
-/**
- * @var Form_Field_File $field
- */
-$field = $r->getField();
 if( $field->getLastErrorCode() ) {
 	$r->addCustomCssClass( 'is-invalid' );
 }
 
-$attrs = [
-	'type' => 'file',
-	'name' => $field->getTagNameValue(),
-	'id' => $field->getId(),
-];
-
-if( $field->getIsReadonly() ) {
-	$attrs['disabled'] = 'disabled';
-}
-if( $field->getIsRequired() ) {
-	$attrs['required'] = 'required';
-}
-if( $field->getPlaceholder() ) {
-	$attrs['placeholder'] = Data_Text::htmlSpecialChars( $field->getPlaceholder() );
-}
+$attrs = [];
 
 if( $field->getAllowMultipleUpload() ) {
 	$attrs['multiple'] = 'multiple';
 }
 if( $field->getAllowedMimeTypes() ) {
-	$attrs['accept'] = 'images/*';
+	$attrs['accept'] = implode( '|', $field->getAllowedMimeTypes() );
 }
 
 $attrs['value'] = '';
 
+$r->setCustomTagAttributes($attrs);
 ?>
-<input <?=$r->renderAttributes($attrs)?>/>
+<input <?=$r->renderAttributes()?>/>

@@ -11,7 +11,7 @@ namespace Jet;
 /**
  *
  */
-class Form_Renderer_Single extends Form_Renderer
+abstract class Form_Renderer_Single extends Form_Renderer
 {
 	/**
 	 * @var ?string

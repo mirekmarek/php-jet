@@ -1,11 +1,12 @@
 <?php
 use Jet\MVC_View;
-use Jet\Form_Renderer;
+use Jet\Form_Renderer_Form_Tag;
+
 /**
  * @var MVC_View $this
- * @var Form_Renderer $r
+ * @var Form_Renderer_Form_Tag $r
  */
-$r = $this->getRaw( 'element' );
+$r = $this->getRaw( 'renderer' );
 $form = $r->getForm();
 
 
@@ -13,32 +14,8 @@ if(!$r->getBaseCssClasses()) {
 	$r->setBaseCssClass('form-horizontal');
 }
 
-$attrs = [
-	'name' => $form->getName(),
-	'id' => $form->getId(),
-	'method' => $form->getMethod(),
-];
-
-if($form->getAction()) {
-	$attrs['action'] = $form->getAction();
-}
-if($form->getTarget()) {
-	$attrs['target'] = $form->getTarget();
-}
-if($form->getEnctype()) {
-	$attrs['enctype'] = $form->getEnctype();
-}
-if($form->getAcceptCharset()) {
-	$attrs['accept-charset'] = $form->getAcceptCharset();
-}
-if($form->getNovalidate()) {
-	$attrs['novalidate'] = 'novalidate';
-}
-if(!$form->getAutocomplete()) {
-	$attrs['autocomplete'] = 'off';
-}
 ?>
-<form <?=$r->renderAttributes($attrs)?>>
+<form <?=$r->renderAttributes()?>>
 <?php if( !$form->getIsReadonly() ): ?>
 	<input type="hidden" name="<?=$form->getSentKey()?>" value="<?=$form->getName();?>">
 <?php endif; ?>

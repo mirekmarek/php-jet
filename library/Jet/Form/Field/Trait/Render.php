@@ -62,29 +62,29 @@ trait Form_Field_Trait_Render
 
 
 	/**
-	 * @return ?Form_Renderer_Pair
+	 * @return ?Form_Renderer_Field_Row
 	 */
-	protected ?Form_Renderer_Pair $_tag_row = null;
+	protected ?Form_Renderer_Field_Row $_tag_row = null;
 
 	/**
-	 * @return ?Form_Renderer_Single
+	 * @return ?Form_Renderer_Field_Label
 	 */
-	protected ?Form_Renderer_Single $_tag_label = null;
+	protected ?Form_Renderer_Field_Label $_tag_label = null;
 
 	/**
-	 * @return ?Form_Renderer_Single
+	 * @return ?Form_Renderer_Field_Error
 	 */
-	protected ?Form_Renderer_Single $_tag_error = null;
+	protected ?Form_Renderer_Field_Error $_tag_error = null;
 
 	/**
-	 * @return ?Form_Renderer_Pair
+	 * @return ?Form_Renderer_Field_Container
 	 */
-	protected ?Form_Renderer_Pair $_tag_container = null;
+	protected ?Form_Renderer_Field_Container $_tag_container = null;
 
 	/**
-	 * @return ?Form_Renderer_Single
+	 * @return ?Form_Renderer_Field_Input
 	 */
-	protected ?Form_Renderer_Single $_tag_input = null;
+	protected ?Form_Renderer_Field_Input $_tag_input = null;
 
 
 	/**
@@ -305,14 +305,12 @@ trait Form_Field_Trait_Render
 	}
 
 	/**
-	 * @return Form_Renderer_Pair
+	 * @return Form_Renderer_Field_Row
 	 */
-	public function row(): Form_Renderer_Pair
+	public function row(): Form_Renderer_Field_Row
 	{
 		if( !$this->_tag_row ) {
-			$this->_tag_row = Factory_Form::gerRendererPairInstance( $this->_form, $this );
-			$this->_tag_row->setViewScriptStart( $this->getRowStartViewScript() );
-			$this->_tag_row->setViewScriptEnd( $this->getRowEndViewScript() );
+			$this->_tag_row = Factory_Form::getRendererFieldRowInstance( $this );
 		}
 
 		return $this->_tag_row;
@@ -320,26 +318,12 @@ trait Form_Field_Trait_Render
 
 
 	/**
-	 * @return Form_Renderer_Pair
+	 * @return Form_Renderer_Field_Container
 	 */
-	public function container(): Form_Renderer_Pair
+	public function container(): Form_Renderer_Field_Container
 	{
-		/**
-		 * @var Form_Field_Trait_Render|Form_Field $this
-		 */
-
 		if( !$this->_tag_container ) {
-			$this->_tag_container = Factory_Form::gerRendererPairInstance( $this->_form, $this );
-			$this->_tag_container->setViewScriptStart( $this->getInputContainerStartViewScript() );
-			$this->_tag_container->setViewScriptEnd( $this->getInputContainerEndViewScript() );
-
-			/**
-			 * @var Form $form
-			 */
-			$form = $this->_form;
-
-			$this->_tag_container->setWidth( $form->getDefaultFieldWidth() );
-
+			$this->_tag_container = Factory_Form::getRendererFieldContainerInstance( $this );
 		}
 
 		return $this->_tag_container;
@@ -347,60 +331,36 @@ trait Form_Field_Trait_Render
 
 
 	/**
-	 * @return Form_Renderer_Single
+	 * @return Form_Renderer_Field_Error
 	 */
-	public function error(): Form_Renderer_Single
+	public function error(): Form_Renderer_Field_Error
 	{
 		if( !$this->_tag_error ) {
-			$this->_tag_error = Factory_Form::gerRendererSingleInstance( $this->_form, $this );
-			$this->_tag_error->setViewScript( $this->getErrorViewScript() );
+			$this->_tag_error = Factory_Form::getRendererFieldErrorInstance( $this );
 		}
 
 		return $this->_tag_error;
 	}
 
 	/**
-	 * @return Form_Renderer_Single
+	 * @return Form_Renderer_Field_Label
 	 */
-	public function label(): Form_Renderer_Single
+	public function label(): Form_Renderer_Field_Label
 	{
-		/**
-		 * @var Form_Field_Trait_Render|Form_Field $this
-		 */
-
 		if( !$this->_tag_label ) {
-			$this->_tag_label = Factory_Form::gerRendererSingleInstance( $this->_form, $this );
-			$this->_tag_label->setViewScript( $this->getLabelViewScript() );
-			/**
-			 * @var Form $form
-			 */
-			$form = $this->_form;
-
-			$this->_tag_label->setWidth( $form->getDefaultLabelWidth() );
+			$this->_tag_label = Factory_Form::getRendererFieldLabelInstance( $this );
 		}
 
 		return $this->_tag_label;
 	}
 
 	/**
-	 * @return Form_Renderer_Single
+	 * @return Form_Renderer_Field_Input
 	 */
-	public function input(): Form_Renderer_Single
+	public function input(): Form_Renderer_Field_Input
 	{
-		/**
-		 * @var Form_Field_Trait_Render|Form_Field $this
-		 */
-
 		if( !$this->_tag_input ) {
-			$this->_tag_input = Factory_Form::gerRendererSingleInstance( $this->_form, $this );
-			$this->_tag_input->setViewScript( $this->getInputViewScript() );
-
-			/**
-			 * @var Form $form
-			 */
-			$form = $this->_form;
-
-			$this->_tag_input->setWidth( $form->getDefaultFieldWidth() );
+			$this->_tag_input = Factory_Form::getRendererFieldInputInstance( $this );
 		}
 
 		return $this->_tag_input;

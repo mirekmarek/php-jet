@@ -151,5 +151,12 @@ class Form_Field_MultiSelect extends Form_Field
 		return false;
 	}
 	
-
+	
+	/**
+	 * @return string
+	 */
+	public function getTagNameValue() : string
+	{
+		return parent::getTagNameValue().'[]';
+	}
 }

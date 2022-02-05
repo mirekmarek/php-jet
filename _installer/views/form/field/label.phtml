@@ -1,13 +1,13 @@
 <?php
 
 use Jet\MVC_View;
-use Jet\Form_Renderer;
+use Jet\Form_Renderer_Field_Label;
 
 /**
  * @var MVC_View $this
- * @var Form_Renderer $r
+ * @var Form_Renderer_Field_Label $r
  */
-$r = $this->getRaw( 'element' );
+$r = $this->getRaw( 'renderer' );
 
 if( !$r->getBaseCssClasses() ) {
 	$r->setBaseCssClass( 'col-form-label' );
@@ -17,11 +17,17 @@ $r->setWidthCssClassesCreator(function( $size, $width ) {
 	return 'col-' . $size . '-' . $width;
 });
 
-$attrs = [
+$r->setCustomTagAttributes([
 	'for' => $r->getField()->getId()
-]
+]);
+
 ?>
-<label <?=$r->renderAttributes($attrs)?>><?php
-	if( $r->getField()->getIsRequired() ) echo '<em class="form-required">*</em> ';
+<label <?=$r->renderAttributes()?>><?php
+	
+	if( $r->getField()->getIsRequired() ):
+		?><em class="form-required">*</em><?php
+    endif;
+    
 	echo $r->getField()->getLabel();
+	
 ?></label>
