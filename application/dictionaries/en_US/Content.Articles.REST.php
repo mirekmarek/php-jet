@@ -6,4 +6,6 @@ return [
 	'Delete article' => '',
 	'Articles - REST API' => '',
 	'Articles' => '',
+	'Invalid date format' => '',
+	'Please enter title' => '',
 ];

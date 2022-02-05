@@ -511,9 +511,7 @@ class Form extends BaseObject
 	public function addField( Form_Field $field ): void
 	{
 		$field->setForm( $this );
-
 		$key = $field->getName();
-		$field->setForm( $this );
 		$this->fields[$key] = $field;
 
 	}
@@ -558,16 +556,6 @@ class Form extends BaseObject
 		if( isset( $this->fields[$field_name] ) ) {
 			unset( $this->fields[$field_name] );
 		}
-	}
-
-	/**
-	 * @param string $name
-	 * @param Form_Field $field
-	 */
-	public function setField( string $name, Form_Field $field ): void
-	{
-		$this->fields[$name] = $field;
-		$field->setForm( $this );
 	}
 
 	/**
@@ -668,7 +656,9 @@ class Form extends BaseObject
 		foreach( $this->fields as $field ) {
 			if(!$field->isValid()) {
 				$this->is_valid = false;
-				$this->validation_errors[$field->getName()] = $field->getLastErrorMessage();
+				foreach($field->getAllErrors() as $error) {
+					$this->validation_errors[] = $error;
+				}
 			}
 		}
 
@@ -711,7 +701,7 @@ class Form extends BaseObject
 	}
 
 	/**
-	 * @return array
+	 * @return Form_ValidationError[]
 	 */
 	public function getValidationErrors(): array
 	{

@@ -40,7 +40,12 @@ trait Form_Field_Trait_Validation
 	 * @var bool
 	 */
 	protected bool $is_valid = false;
-
+	
+	/**
+	 * @var Form_ValidationError[]
+	 */
+	protected array $errors = [];
+	
 	/**
 	 *
 	 * @var string
@@ -122,11 +127,24 @@ trait Form_Field_Trait_Validation
 		 * @var Form $form
 		 */
 		$form = $this->_form;
-
+		
+		$message = $this->getErrorMessage( $code, $data );
+		
 		$this->is_valid = false;
 		$form->setIsNotValid();
+		
+		$this->errors[] = new Form_ValidationError($this, $code, $message);
+		
 		$this->last_error_code = $code;
-		$this->last_error_message = $this->getErrorMessage( $code, $data );
+		$this->last_error_message = $message;
+	}
+	
+	/**
+	 * @return Form_ValidationError[]
+	 */
+	public function getAllErrors() : array
+	{
+		return $this->errors;
 	}
 
 	/**
@@ -188,6 +206,7 @@ trait Form_Field_Trait_Validation
 	protected function setIsValid(): void
 	{
 		$this->is_valid = true;
+		$this->errors = [];
 		$this->last_error_code = false;
 		$this->last_error_message = false;
 	}
