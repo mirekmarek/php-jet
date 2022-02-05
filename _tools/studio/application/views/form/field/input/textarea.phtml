@@ -18,4 +18,4 @@ if( $field->getLastErrorCode() ) {
 	$r->addCustomCssClass( 'is-invalid' );
 }
 ?>
-<textarea <?=$r->renderAttributes()?>><?= $field->getValueRaw() ?></textarea>
+<textarea <?=$r->renderTagAttributes()?>><?= $field->getValueRaw() ?></textarea>

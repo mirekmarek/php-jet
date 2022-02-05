@@ -15,7 +15,7 @@ if(!$r->getBaseCssClasses()) {
 }
 
 ?>
-<form <?=$r->renderAttributes()?>>
+<form <?=$r->renderTagAttributes()?>>
 <?php if( !$form->getIsReadonly() ): ?>
 	<input type="hidden" name="<?=$form->getSentKey()?>" value="<?=$form->getName();?>">
 <?php endif; ?>

@@ -48,7 +48,7 @@ foreach( $field->getSelectOptions() as $key => $option ):
 	}
 	?>
 	<div class="<?= $container_class ?>">
-		<input <?=$r->renderAttributes()?>/>
+		<input <?=$r->renderTagAttributes()?>/>
 		<label for="<?= $id ?>" <?=$option->getSelectOptionCss()?>><?= $option ?></label>
 	</div>
 <?php endforeach; ?>

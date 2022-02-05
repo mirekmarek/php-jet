@@ -19,6 +19,6 @@ if( !$r->getBaseCssClasses() ) {
 	$r->setBaseCssClass( 'error' );
 }
 ?>
-<div <?=$r->renderAttributes()?>>
+<div <?=$r->renderTagAttributes()?>>
 	<?= $field->getLastErrorMessage(); ?>
 </div>

@@ -35,7 +35,7 @@ if($field->getValue()) {
 $r->setCustomTagAttributes($attrs);
 ?>
 <div class="<?= implode(' ', $r->getCssClasses()) ?>">
-	<input <?=$r->renderAttributes()?>/>
+	<input <?=$r->renderTagAttributes()?>/>
 
 	<label class="form-check-label" for="<?= $field->getId() ?>"><?= $r->getField()->getLabel() ?></label>
 </div>

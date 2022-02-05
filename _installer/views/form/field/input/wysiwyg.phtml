@@ -119,6 +119,6 @@ foreach( $JS as $URI ) {
 	MVC_Layout::getCurrentLayout()->requireJavascriptFile( $URI );
 }
 ?>
-<textarea <?=$r->renderAttributes()?>><?= $field->getValueRaw() ?></textarea>
+<textarea <?=$r->renderTagAttributes()?>><?= $field->getValueRaw() ?></textarea>
 
 <?= $init_generator( $field, $editor_config ); ?>

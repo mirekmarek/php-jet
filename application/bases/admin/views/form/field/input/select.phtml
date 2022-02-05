@@ -24,7 +24,7 @@ if( $field->getLastErrorCode() ) {
 	$r->addCustomCssClass( 'is-invalid' );
 }
 ?>
-<select <?=$r->renderAttributes()?>>
+<select <?=$r->renderTagAttributes()?>>
 	<?php foreach( $field->getSelectOptions() as $val => $label ):
 		
 		$css = $label->getSelectOptionCss();

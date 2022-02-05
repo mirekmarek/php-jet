@@ -22,7 +22,7 @@ $r->setCustomTagAttributes([
 ]);
 
 ?>
-<label <?=$r->renderAttributes()?>><?php
+<label <?=$r->renderTagAttributes()?>><?php
 	
 	if( $r->getField()->getIsRequired() ):
 		?><em class="form-required">*</em><?php

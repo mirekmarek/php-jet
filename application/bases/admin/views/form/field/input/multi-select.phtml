@@ -27,7 +27,7 @@ $r->setCustomTagAttributes([
 ]);
 
 ?>
-<select <?=$r->renderAttributes()?>>
+<select <?=$r->renderTagAttributes()?>>
 	<?php foreach( $field->getSelectOptions() as $val => $label ):
 		
 		$css = $label->getSelectOptionCss();

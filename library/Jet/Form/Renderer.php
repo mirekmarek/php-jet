@@ -50,11 +50,6 @@ abstract class Form_Renderer extends BaseObject
 	protected array|null $width = null;
 
 	/**
-	 * @var array
-	 */
-	protected array $custom_data_attributes = [];
-
-	/**
 	 * @var ?callable
 	 */
 	protected $width_css_classes_creator = null;
@@ -63,6 +58,11 @@ abstract class Form_Renderer extends BaseObject
 	 * @var array
 	 */
 	protected array $tag_attributes = [];
+	
+	/**
+	 * @var array
+	 */
+	protected array $custom_data_attributes = [];
 	
 	/**
 	 * @var array
@@ -364,7 +364,7 @@ abstract class Form_Renderer extends BaseObject
 	}
 
 
-	public function renderAttributes() : string
+	public function renderTagAttributes() : string
 	{
 		$attributes = $this->generateTagAttributes();
 
