@@ -70,6 +70,11 @@ abstract class Form_Renderer extends BaseObject
 	 */
 	protected string|null $view_dir = null;
 	
+	/**
+	 * @var MVC_View|null
+	 */
+	protected ?MVC_View $view = null;
+	
 	
 	
 	
@@ -87,6 +92,9 @@ abstract class Form_Renderer extends BaseObject
 	public function setViewDir( string $views_dir ): void
 	{
 		$this->view_dir = $views_dir;
+		
+		$this->view?->setScriptsDir( $this->view_dir );
+		
 	}
 	
 	
@@ -95,12 +103,14 @@ abstract class Form_Renderer extends BaseObject
 	 */
 	public function getView(): MVC_View
 	{
-		$view = Factory_MVC::getViewInstance( $this->getViewDir() );
+		if(!$this->view) {
+			$this->view = Factory_MVC::getViewInstance( $this->getViewDir() );
+			
+			$this->view->setVar( 'renderer', $this );
+			
+		}
 		
-		$view->setVar( 'renderer', $this );
-		
-		return $view;
-		
+		return $this->view;
 	}
 	
 	
