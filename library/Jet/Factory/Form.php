@@ -46,6 +46,7 @@ class Factory_Form
 	protected static string $renderer_field_container_class_name = Form_Renderer_Field_Container::class;
 	protected static string $renderer_field_error_class_name = Form_Renderer_Field_Error::class;
 	protected static string $renderer_field_input_class_name = Form_Renderer_Field_Input::class;
+	protected static string $renderer_field_WYSIWYG_class_name = Form_Renderer_Field_WYSIWYG::class;
 	protected static string $renderer_field_label_class_name = Form_Renderer_Field_Label::class;
 	protected static string $renderer_field_row_class_name = Form_Renderer_Field_Row::class;
 	
@@ -283,6 +284,35 @@ class Factory_Form
 		return new $class_name($field);
 	}
 	
+	
+	
+	/**
+	 * @return string
+	 */
+	public static function getRendererFieldWYSIWYGClassName(): string
+	{
+		return static::$renderer_field_WYSIWYG_class_name;
+	}
+	
+	/**
+	 * @param string $renderer_field_input_class_name
+	 */
+	public static function setRendererFieldWYSIWYGClassName( string $renderer_field_input_class_name ): void
+	{
+		static::$renderer_field_WYSIWYG_class_name = $renderer_field_input_class_name;
+	}
+	
+	/**
+	 * @param Form_Field $field
+	 *
+	 * @return Form_Renderer_Field_WYSIWYG
+	 */
+	public static function getRendererFieldWYSIWYGInstance( Form_Field $field ): Form_Renderer_Field_WYSIWYG
+	{
+		$class_name = static::getRendererFieldWYSIWYGClassName();
+		
+		return new $class_name($field);
+	}
 	
 	
 	
