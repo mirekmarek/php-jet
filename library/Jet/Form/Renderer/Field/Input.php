@@ -24,6 +24,13 @@ class Form_Renderer_Field_Input extends Form_Renderer_Single
 	 */
 	protected string $input_type = '';
 	
+	
+	/**
+	 * @var bool
+	 */
+	protected bool $has_value_attribute = true;
+	
+	
 	/**
 	 *
 	 * @param Form_Field $field
@@ -83,6 +90,24 @@ class Form_Renderer_Field_Input extends Form_Renderer_Single
 		$this->input_type = $input_type;
 	}
 	
+	/**
+	 * @return bool
+	 */
+	public function hasValueAttribute(): bool
+	{
+		return $this->has_value_attribute;
+	}
+	
+	/**
+	 * @param bool $has_value_attribute
+	 */
+	public function setHasValueAttribute( bool $has_value_attribute ): void
+	{
+		$this->has_value_attribute = $has_value_attribute;
+	}
+	
+	
+	
 	
 	/**
 	 *
@@ -97,7 +122,10 @@ class Form_Renderer_Field_Input extends Form_Renderer_Single
 		
 		$this->_tag_attributes['name'] = $field->getTagNameValue();
 		$this->_tag_attributes['id'] = $field->getId();
-		$this->_tag_attributes['value'] = $field->getValue();
+		
+		if($this->hasValueAttribute()) {
+			$this->_tag_attributes['value'] = $field->getValue();
+		}
 		
 		if( $field->getPlaceholder() ) {
 			$this->_tag_attributes['placeholder'] = Data_Text::htmlSpecialChars( $field->getPlaceholder() );

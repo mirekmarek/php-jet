@@ -152,7 +152,7 @@ abstract class Form_Field extends BaseObject implements JsonSerializable
 	{
 		return $this->_type;
 	}
-
+	
 	/**
 	 * @return Form
 	 */

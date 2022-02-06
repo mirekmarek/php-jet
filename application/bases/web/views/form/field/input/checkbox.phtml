@@ -20,19 +20,16 @@ if( $field->getLastErrorCode() ) {
 
 $r->setInputType('checkbox');
 
-$attrs = [
-	'value' => 1
-];
+$r->setCustomTagAttribute('value', 1);
 
 if($field->getIsReadonly()) {
-	$attrs['disabled'] = 'disabled';
+	$r->setCustomTagAttribute('disabled', 'disabled');
 }
 
 if($field->getValue()) {
-	$attrs['checked'] = 'checked';
+	$r->setCustomTagAttribute('checked', 'checked');
 }
 
-$r->setCustomTagAttributes($attrs);
 ?>
 <div class="<?= implode(' ', $r->getCssClasses()) ?>">
 	<input <?=$r->renderTagAttributes()?>/>

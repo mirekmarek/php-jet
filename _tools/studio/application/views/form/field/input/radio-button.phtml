@@ -14,6 +14,7 @@ $r = $this->getRaw( 'renderer' );
 $field = $r->getField();
 
 $r->setInputType('radio');
+$r->setHasValueAttribute( false );
 
 $value = $field->getValue();
 if( $field->getLastErrorCode() ) {
@@ -33,15 +34,14 @@ foreach( $field->getSelectOptions() as $key => $option ):
 	
 	$id = $field->getId().'__'.$c;
 	
-	$attrs = [];
-	$attrs['id'] = $id;
-	$attrs['value'] = Data_Text::htmlSpecialChars( $key );
+	$r->setCustomTagAttribute('id', $id);
+	$r->setCustomTagAttribute('value', Data_Text::htmlSpecialChars( $key ));
 	
 	if($field->optionIsSelected($key)) {
-		$attrs['checked'] = 'checked';
+	    $r->setCustomTagAttribute('checked', 'checked');
+	} else {
+		$r->unsetCustomTagAttribute('checked');
 	}
-	
-	$r->setCustomTagAttributes($attrs);
 	
 	if(!$option->getSelectOptionCssClass()) {
 		$option->setSelectOptionCssClass('form-check-label');

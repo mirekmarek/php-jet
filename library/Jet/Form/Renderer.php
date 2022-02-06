@@ -52,7 +52,7 @@ abstract class Form_Renderer extends BaseObject
 	/**
 	 * @var array
 	 */
-	protected array $custom_data_attributes = [];
+	protected array $data_attributes = [];
 	
 	/**
 	 * @var array
@@ -270,17 +270,75 @@ abstract class Form_Renderer extends BaseObject
 	{
 		return $this->custom_css_styles;
 	}
-
-	public function addCustomDataAttribute( $attr, $value ) : static
+	
+	/**
+	 * @param string $attr
+	 * @param string $value
+	 * @return $this
+	 */
+	public function setDataAttribute( string $attr, string $value ) : static
 	{
-		$this->custom_data_attributes[$attr] = $value;
+		$this->data_attributes[$attr] = $value;
 
 		return $this;
 	}
-
-	public function getCustomDataAttributes() : array
+	
+	/**
+	 * @param string $attr
+	 * @return $this
+	 */
+	public function unsetDataAttribute( string $attr ) : static
 	{
-		return $this->custom_data_attributes;
+		if(isset( $this->data_attributes[$attr])) {
+			unset( $this->data_attributes[$attr]);
+		}
+		
+		return $this;
+	}
+	
+	/**
+	 * @return array
+	 */
+	public function getDataAttributes() : array
+	{
+		return $this->data_attributes;
+	}
+	
+	
+	
+	/**
+	 * @param string $attr
+	 * @param string $value
+	 *
+	 * @return $this
+	 */
+	public function setCustomTagAttribute( string $attr, string $value ) : static
+	{
+		$this->custom_tag_attributes[$attr] = $value;
+		
+		return $this;
+	}
+	
+	/**
+	 * @param string $attr
+	 *
+	 * @return $this
+	 */
+	public function unsetCustomTagAttribute( string $attr ) : static
+	{
+		if(isset($this->custom_tag_attributes[$attr])) {
+			unset($this->custom_tag_attributes[$attr]);
+		}
+		
+		return $this;
+	}
+	
+	/**
+	 * @return array
+	 */
+	public function getCustomTagAttributes(): array
+	{
+		return $this->custom_tag_attributes;
 	}
 	
 	
@@ -291,14 +349,6 @@ abstract class Form_Renderer extends BaseObject
 	{
 	}
 	
-	
-	/**
-	 * @param array $custom_attributes
-	 */
-	public function setCustomTagAttributes(  array $custom_attributes ) : void
-	{
-		$this->custom_tag_attributes = $custom_attributes;
-	}
 	
 	/**
 	 *
@@ -337,11 +387,12 @@ abstract class Form_Renderer extends BaseObject
 	 */
 	protected function generateTagAttributes_CustomDataAttributes() : void
 	{
-		foreach($this->getCustomDataAttributes() as $attr=>$value) {
+		foreach( $this->getDataAttributes() as $attr=> $value) {
 			$this->_tag_attributes['data-'.$attr] = addslashes(Data_Text::htmlSpecialChars($value));
 		}
-		
 	}
+	
+	
 	
 	/**
 	 * @return array
@@ -369,9 +420,13 @@ abstract class Form_Renderer extends BaseObject
 	public function renderTagAttributes() : string
 	{
 		$attributes = $this->generateTagAttributes();
-
 		$res = '';
 		foreach($attributes as $attr=>$value) {
+			if(is_array($value)) {
+				var_dump($attr);
+				die();
+			}
+			
 			$res .= ' '.$attr.'="'.$value.'"';
 		}
 

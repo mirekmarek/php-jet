@@ -5,15 +5,15 @@ use Jet\Form_Renderer_Field;
 
 /**
  * @var MVC_View $this
- * @var Form_Renderer_Field $f
+ * @var Form_Renderer_Field $r
  */
-$f = $this->getRaw( 'renderer' );
+$r = $this->getRaw( 'renderer' );
 
 echo
-	$f->row()->start() .
-		$f->label() .
-		$f->container()->start() .
-			$f->input() .
-			$f->error() .
-		$f->container()->end() .
-	$f->row()->end();
+	$r->row()->start() .
+		$r->label() .
+		$r->container()->start() .
+			$r->input() .
+			$r->error() .
+		$r->container()->end() .
+	$r->row()->end();

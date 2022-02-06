@@ -14,6 +14,8 @@ use Jet\Data_Tree_Node;
 $r = $this->getRaw( 'renderer' );
 $field = $r->getField();
 
+$r->setHasValueAttribute( false );
+
 
 if( !$r->getBaseCssClasses() ) {
 	$r->setBaseCssClass( 'form-control' );

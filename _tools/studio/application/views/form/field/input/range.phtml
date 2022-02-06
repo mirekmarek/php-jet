@@ -22,20 +22,16 @@ if( $field->getLastErrorCode() ) {
 	$r->addCustomCssClass( 'is-invalid' );
 }
 
-$attrs = [];
-
 if( $field->getMinValue() !== null ) {
-	$attrs['min'] = $field->getMinValue();
+	$r->setCustomTagAttribute('min', $field->getMinValue());
 }
 
 if( $field->getMaxValue() !== null ) {
-	$attrs['max'] = $field->getMaxValue();
+	$r->setCustomTagAttribute('max', $field->getMaxValue());
 }
 
 if($field->getStep()!==null) {
-	$attrs['step'] = $field->getStep();
+	$r->setCustomTagAttribute('step', $field->getStep());
 }
-
-$r->setCustomTagAttributes($attrs);
 ?>
 <input <?=$r->renderTagAttributes()?>/>
