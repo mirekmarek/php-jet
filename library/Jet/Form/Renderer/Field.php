@@ -82,7 +82,7 @@ class Form_Renderer_Field extends Form_Renderer_Single
 	public function row(): Form_Renderer_Field_Row
 	{
 		if( !$this->_renderer_row ) {
-			$this->_renderer_row = Factory_Form::getRendererFieldRowInstance( $this->field );
+			$this->_renderer_row = Factory_Form::getRendererFieldInstance( $this->field, 'row' );
 		}
 		
 		return $this->_renderer_row;
@@ -95,7 +95,7 @@ class Form_Renderer_Field extends Form_Renderer_Single
 	public function container(): Form_Renderer_Field_Container
 	{
 		if( !$this->_renderer_container ) {
-			$this->_renderer_container = Factory_Form::getRendererFieldContainerInstance( $this->field );
+			$this->_renderer_container = Factory_Form::getRendererFieldInstance( $this->field, 'container' );
 		}
 		
 		return $this->_renderer_container;
@@ -108,7 +108,7 @@ class Form_Renderer_Field extends Form_Renderer_Single
 	public function error(): Form_Renderer_Field_Error
 	{
 		if( !$this->_renderer_error ) {
-			$this->_renderer_error = Factory_Form::getRendererFieldErrorInstance( $this->field );
+			$this->_renderer_error = Factory_Form::getRendererFieldInstance( $this->field, 'error' );
 		}
 		
 		return $this->_renderer_error;
@@ -120,7 +120,7 @@ class Form_Renderer_Field extends Form_Renderer_Single
 	public function label(): Form_Renderer_Field_Label
 	{
 		if( !$this->_renderer_label ) {
-			$this->_renderer_label = Factory_Form::getRendererFieldLabelInstance( $this->field );
+			$this->_renderer_label = Factory_Form::getRendererFieldInstance( $this->field, 'label' );
 		}
 		
 		return $this->_renderer_label;
@@ -132,12 +132,7 @@ class Form_Renderer_Field extends Form_Renderer_Single
 	public function input(): Form_Renderer_Field_Input
 	{
 		if( !$this->_renderer_input ) {
-			
-			if($this->field->getType()==Form_Field::TYPE_WYSIWYG) {
-				$this->_renderer_input = Factory_Form::getRendererFieldWYSIWYGInstance( $this->field );
-			} else {
-				$this->_renderer_input = Factory_Form::getRendererFieldInputInstance( $this->field );
-			}
+			$this->_renderer_input = Factory_Form::getRendererFieldInstance( $this->field, 'input' );
 		}
 		
 		return $this->_renderer_input;

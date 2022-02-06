@@ -42,7 +42,7 @@ trait Form_Field_Trait_Render
 	public function renderer() : Form_Renderer_Field
 	{
 		if(!$this->_renderer) {
-			$this->_renderer = Factory_Form::getRendererFieldInstance( $this );
+			$this->_renderer = Factory_Form::getRendererFieldInstance( $this, 'field' );
 		}
 		
 		return $this->_renderer;

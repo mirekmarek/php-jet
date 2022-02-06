@@ -20,4 +20,5 @@ return [
 	'Role <b>%ROLE_NAME%</b> has been created' => '',
 	'Users' => '',
 	'Username' => '',
+	'Role <b>%ROLE_NAME%</b> has been updated' => '',
 ];
