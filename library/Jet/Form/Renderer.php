@@ -292,7 +292,7 @@ abstract class Form_Renderer extends BaseObject
 	/**
 	 *
 	 */
-	abstract function generateTagAttributes_Standard() : void;
+	abstract protected function generateTagAttributes_Standard() : void;
 	
 	
 	/**

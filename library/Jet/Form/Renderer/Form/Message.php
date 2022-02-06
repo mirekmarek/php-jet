@@ -28,7 +28,7 @@ class Form_Renderer_Form_Message extends Form_Renderer_Single
 	/**
 	 *
 	 */
-	public function generateTagAttributes_Standard() : void
+	protected function generateTagAttributes_Standard() : void
 	{
 	}
 	

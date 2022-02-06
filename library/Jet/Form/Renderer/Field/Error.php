@@ -27,7 +27,7 @@ class Form_Renderer_Field_Error extends Form_Renderer_Single
 	/**
 	 *
 	 */
-	public function generateTagAttributes_Standard() : void
+	protected function generateTagAttributes_Standard() : void
 	{
 	}
 	

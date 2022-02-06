@@ -27,7 +27,7 @@ class Form_Renderer_Field_Row extends Form_Renderer_Pair
 	/**
 	 *
 	 */
-	public function generateTagAttributes_Standard() : void
+	protected function generateTagAttributes_Standard() : void
 	{
 	}
 	

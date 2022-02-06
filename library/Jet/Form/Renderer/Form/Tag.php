@@ -29,7 +29,7 @@ class Form_Renderer_Form_Tag extends Form_Renderer_Pair
 	/**
 	 *
 	 */
-	public function generateTagAttributes_Standard() : void
+	protected function generateTagAttributes_Standard() : void
 	{
 		$form = $this->form;
 		

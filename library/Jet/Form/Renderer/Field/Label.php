@@ -29,7 +29,7 @@ class Form_Renderer_Field_Label extends Form_Renderer_Single
 	/**
 	 *
 	 */
-	public function generateTagAttributes_Standard() : void
+	protected function generateTagAttributes_Standard() : void
 	{
 		$this->tag_attributes['for'] = $this->field->getId();
 	}
