@@ -389,7 +389,7 @@ class Factory_Form
 	 *
 	 * @param $class_name
 	 */
-	public static function setRendererFieldClassName( string $field_type, string $element, $class_name ): void
+	public static function setRendererFieldClassName( string $field_type, string $element, string $class_name ): void
 	{
 		static::$field_renderer_class_names[$field_type][$element] = $class_name;
 	}
