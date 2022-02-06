@@ -25,8 +25,8 @@ class Form_Renderer_Field_Container extends Form_Renderer_Pair
 	public function __construct( Form_Field $field )
 	{
 		$this->field = $field;
-		$this->view_script_start = SysConf_Jet_Form_DefaultViews::get($field->getType(), 'input_start');
-		$this->view_script_end = SysConf_Jet_Form_DefaultViews::get($field->getType(), 'input_end');
+		$this->view_script_start = SysConf_Jet_Form_DefaultViews::get($field->getType(), 'container_start');
+		$this->view_script_end = SysConf_Jet_Form_DefaultViews::get($field->getType(), 'container_end');
 	}
 	
 	/**
