@@ -15,6 +15,11 @@ class Form_Renderer_Field_Container extends Form_Renderer_Pair
 {
 	
 	/**
+	 * @var Form_Field
+	 */
+	protected Form_Field $field;
+	
+	/**
 	 * @param Form_Field $field
 	 */
 	public function __construct( Form_Field $field )
@@ -22,6 +27,14 @@ class Form_Renderer_Field_Container extends Form_Renderer_Pair
 		$this->field = $field;
 		$this->view_script_start = SysConf_Jet_Form_DefaultViews::get($field->getType(), 'input_start');
 		$this->view_script_end = SysConf_Jet_Form_DefaultViews::get($field->getType(), 'input_end');
+	}
+	
+	/**
+	 * @return Form_Field
+	 */
+	public function getField(): Form_Field
+	{
+		return $this->field;
 	}
 	
 	/**

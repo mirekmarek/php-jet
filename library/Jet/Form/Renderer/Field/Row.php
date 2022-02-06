@@ -13,6 +13,10 @@ namespace Jet;
  */
 class Form_Renderer_Field_Row extends Form_Renderer_Pair
 {
+	/**
+	 * @var Form_Field
+	 */
+	protected Form_Field $field;
 	
 	/**
 	 * @param Form_Field $field
@@ -23,6 +27,15 @@ class Form_Renderer_Field_Row extends Form_Renderer_Pair
 		
 		$this->view_script_start = SysConf_Jet_Form_DefaultViews::get( $field->getType() , 'row_start');
 		$this->view_script_end = SysConf_Jet_Form_DefaultViews::get($field->getType(), 'row_end');
+	}
+	
+	
+	/**
+	 * @return Form_Field
+	 */
+	public function getField(): Form_Field
+	{
+		return $this->field;
 	}
 	
 	/**

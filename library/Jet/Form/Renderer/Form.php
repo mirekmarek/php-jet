@@ -14,6 +14,10 @@ namespace Jet;
 class Form_Renderer_Form extends Form_Renderer_Pair
 {
 	
+	/**
+	 * @var Form
+	 */
+	protected Form $form;
 	
 	/**
 	 * @var array
@@ -46,6 +50,15 @@ class Form_Renderer_Form extends Form_Renderer_Pair
 		$this->view_script_end = SysConf_Jet_Form_DefaultViews::get('Form', 'end');
 	}
 	
+	/**
+	 * @return Form
+	 */
+	public function getForm(): Form
+	{
+		return $this->form;
+	}
+	
+	
 	
 	/**
 	 *
@@ -54,28 +67,28 @@ class Form_Renderer_Form extends Form_Renderer_Pair
 	{
 		$form = $this->form;
 		
-		$this->tag_attributes['name'] = $form->getName();
-		$this->tag_attributes['id'] = $form->getId();
-		$this->tag_attributes['method'] = $form->getMethod();
+		$this->_tag_attributes['name'] = $form->getName();
+		$this->_tag_attributes['id'] = $form->getId();
+		$this->_tag_attributes['method'] = $form->getMethod();
 		
 		
 		if($form->getAction()) {
-			$this->tag_attributes['action'] = $form->getAction();
+			$this->_tag_attributes['action'] = $form->getAction();
 		}
 		if($form->getTarget()) {
-			$this->tag_attributes['target'] = $form->getTarget();
+			$this->_tag_attributes['target'] = $form->getTarget();
 		}
 		if($form->getEnctype()) {
-			$this->tag_attributes['enctype'] = $form->getEnctype();
+			$this->_tag_attributes['enctype'] = $form->getEnctype();
 		}
 		if($form->getAcceptCharset()) {
-			$this->tag_attributes['accept-charset'] = $form->getAcceptCharset();
+			$this->_tag_attributes['accept-charset'] = $form->getAcceptCharset();
 		}
 		if($form->getNovalidate()) {
-			$this->tag_attributes['novalidate'] = 'novalidate';
+			$this->_tag_attributes['novalidate'] = 'novalidate';
 		}
 		if(!$form->getAutocomplete()) {
-			$this->tag_attributes['autocomplete'] = 'off';
+			$this->_tag_attributes['autocomplete'] = 'off';
 		}
 	}
 	

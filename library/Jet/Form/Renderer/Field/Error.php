@@ -15,6 +15,11 @@ class Form_Renderer_Field_Error extends Form_Renderer_Single
 {
 	
 	/**
+	 * @var Form_Field
+	 */
+	protected Form_Field $field;
+	
+	/**
 	 *
 	 * @param Form_Field $field
 	 */
@@ -22,6 +27,14 @@ class Form_Renderer_Field_Error extends Form_Renderer_Single
 	{
 		$this->field = $field;
 		$this->view_script = SysConf_Jet_Form_DefaultViews::get($field->getType(), 'error');
+	}
+	
+	/**
+	 * @return Form_Field
+	 */
+	public function getField(): Form_Field
+	{
+		return $this->field;
 	}
 	
 	/**

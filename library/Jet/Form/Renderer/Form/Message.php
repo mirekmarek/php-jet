@@ -15,6 +15,11 @@ class Form_Renderer_Form_Message extends Form_Renderer_Single
 {
 	
 	/**
+	 * @var Form
+	 */
+	protected Form $form;
+	
+	/**
 	 * @param Form $form
 	 */
 	public function __construct( Form $form )
@@ -22,6 +27,15 @@ class Form_Renderer_Form_Message extends Form_Renderer_Single
 		$this->form = $form;
 		$this->view_dir = $form->renderer()->getViewDir();
 		$this->view_script = SysConf_Jet_Form_DefaultViews::get('Form', 'message');
+	}
+	
+	
+	/**
+	 * @return Form
+	 */
+	public function getForm(): Form
+	{
+		return $this->form;
 	}
 	
 }

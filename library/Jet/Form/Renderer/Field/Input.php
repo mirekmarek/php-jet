@@ -15,6 +15,11 @@ class Form_Renderer_Field_Input extends Form_Renderer_Single
 {
 	
 	/**
+	 * @var Form_Field
+	 */
+	protected Form_Field $field;
+	
+	/**
 	 * @var string
 	 */
 	protected string $input_type = '';
@@ -27,6 +32,14 @@ class Form_Renderer_Field_Input extends Form_Renderer_Single
 	{
 		$this->field = $field;
 		$this->view_script = SysConf_Jet_Form_DefaultViews::get($field->getType(), 'input');
+	}
+	
+	/**
+	 * @return Form_Field
+	 */
+	public function getField(): Form_Field
+	{
+		return $this->field;
 	}
 	
 	/**
@@ -79,24 +92,24 @@ class Form_Renderer_Field_Input extends Form_Renderer_Single
 		$field = $this->getField();
 		
 		if($this->input_type) {
-			$this->tag_attributes['type'] = $this->input_type;
+			$this->_tag_attributes['type'] = $this->input_type;
 		}
 		
-		$this->tag_attributes['name'] = $field->getTagNameValue();
-		$this->tag_attributes['id'] = $field->getId();
-		$this->tag_attributes['value'] = $field->getValue();
+		$this->_tag_attributes['name'] = $field->getTagNameValue();
+		$this->_tag_attributes['id'] = $field->getId();
+		$this->_tag_attributes['value'] = $field->getValue();
 		
 		if( $field->getPlaceholder() ) {
-			$this->tag_attributes['placeholder'] = Data_Text::htmlSpecialChars( $field->getPlaceholder() );
+			$this->_tag_attributes['placeholder'] = Data_Text::htmlSpecialChars( $field->getPlaceholder() );
 		}
 		if( $field->getIsReadonly() ) {
-			$this->tag_attributes['readonly'] = 'readonly';
+			$this->_tag_attributes['readonly'] = 'readonly';
 		}
 		if( $field->getIsRequired() ) {
-			$this->tag_attributes['required'] = 'required';
+			$this->_tag_attributes['required'] = 'required';
 		}
 		if( $field->getValidationRegexp() ) {
-			$this->tag_attributes['pattern'] = $field->getValidationRegexp();
+			$this->_tag_attributes['pattern'] = $field->getValidationRegexp();
 		}
 
 	}

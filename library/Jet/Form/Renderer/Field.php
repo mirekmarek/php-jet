@@ -15,6 +15,11 @@ class Form_Renderer_Field extends Form_Renderer_Single
 {
 	
 	/**
+	 * @var Form_Field
+	 */
+	protected Form_Field $field;
+	
+	/**
 	 * @return ?Form_Renderer_Field_Row
 	 */
 	protected ?Form_Renderer_Field_Row $_renderer_row = null;
@@ -48,6 +53,15 @@ class Form_Renderer_Field extends Form_Renderer_Single
 		$this->field = $field;
 		$this->view_script = SysConf_Jet_Form_DefaultViews::get( $field->getType() , 'field');
 	}
+	
+	/**
+	 * @return Form_Field
+	 */
+	public function getField(): Form_Field
+	{
+		return $this->field;
+	}
+	
 	
 	
 	/**

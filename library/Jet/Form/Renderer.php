@@ -20,16 +20,6 @@ abstract class Form_Renderer extends BaseObject
 	
 	
 	/**
-	 * @var ?Form
-	 */
-	protected ?Form $form = null;
-
-	/**
-	 * @var ?Form_Field
-	 */
-	protected ?Form_Field $field = null;
-	
-	/**
 	 * @var array
 	 */
 	protected array $js_actions = [];
@@ -62,17 +52,18 @@ abstract class Form_Renderer extends BaseObject
 	/**
 	 * @var array
 	 */
-	protected array $tag_attributes = [];
-	
-	/**
-	 * @var array
-	 */
 	protected array $custom_data_attributes = [];
 	
 	/**
 	 * @var array
 	 */
 	protected array $custom_tag_attributes = [];
+	
+	
+	/**
+	 * @var array
+	 */
+	protected array $_tag_attributes = [];
 	
 	/**
 	 * @var ?string
@@ -146,25 +137,6 @@ abstract class Form_Renderer extends BaseObject
 	{
 		$this->width_css_classes_creator = $width_css_classes_creator;
 	}
-
-
-
-	/**
-	 * @return Form
-	 */
-	public function getForm(): Form
-	{
-		return $this->form;
-	}
-
-	/**
-	 * @return Form_Field
-	 */
-	public function getField(): Form_Field
-	{
-		return $this->field;
-	}
-
 
 	/**
 	 * @param string $event
@@ -335,7 +307,7 @@ abstract class Form_Renderer extends BaseObject
 	{
 		$classes = $this->getCssClasses();
 		if($classes) {
-			$this->tag_attributes['class'] = implode(' ', $classes);
+			$this->_tag_attributes['class'] = implode(' ', $classes);
 		}
 	}
 	
@@ -346,7 +318,7 @@ abstract class Form_Renderer extends BaseObject
 	{
 		$styles = $this->getCssStyles();
 		if($styles) {
-			$this->tag_attributes['style'] = implode(';', $styles);
+			$this->_tag_attributes['style'] = implode(';', $styles);
 		}
 	}
 	
@@ -356,7 +328,7 @@ abstract class Form_Renderer extends BaseObject
 	protected function generateTagAttributes_JsActions() : void
 	{
 		foreach( $this->getJsActions() as $event => $handler ) {
-			$this->tag_attributes[$event] = $handler;
+			$this->_tag_attributes[$event] = $handler;
 		}
 	}
 	
@@ -366,14 +338,17 @@ abstract class Form_Renderer extends BaseObject
 	protected function generateTagAttributes_CustomDataAttributes() : void
 	{
 		foreach($this->getCustomDataAttributes() as $attr=>$value) {
-			$this->tag_attributes['data-'.$attr] = addslashes(Data_Text::htmlSpecialChars($value));
+			$this->_tag_attributes['data-'.$attr] = addslashes(Data_Text::htmlSpecialChars($value));
 		}
 		
 	}
 	
+	/**
+	 * @return array
+	 */
 	public function generateTagAttributes() : array
 	{
-		$this->tag_attributes = [];
+		$this->_tag_attributes = [];
 		
 		$this->generateTagAttributes_Standard();
 		$this->generateTagAttributes_CssClasses();
@@ -382,13 +357,15 @@ abstract class Form_Renderer extends BaseObject
 		$this->generateTagAttributes_CustomDataAttributes();
 		
 		foreach($this->custom_tag_attributes as $key=>$val) {
-			$this->tag_attributes[$key] = $val;
+			$this->_tag_attributes[$key] = $val;
 		}
 		
-		return $this->tag_attributes;
+		return $this->_tag_attributes;
 	}
-
-
+	
+	/**
+	 * @return string
+	 */
 	public function renderTagAttributes() : string
 	{
 		$attributes = $this->generateTagAttributes();

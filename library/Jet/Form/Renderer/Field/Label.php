@@ -15,12 +15,25 @@ class Form_Renderer_Field_Label extends Form_Renderer_Single
 {
 	
 	/**
+	 * @var Form_Field
+	 */
+	protected Form_Field $field;
+	
+	/**
 	 * @param Form_Field $field
 	 */
 	public function __construct( Form_Field $field )
 	{
 		$this->field = $field;
 		$this->view_script = SysConf_Jet_Form_DefaultViews::get($field->getType(), 'label');
+	}
+	
+	/**
+	 * @return Form_Field
+	 */
+	public function getField(): Form_Field
+	{
+		return $this->field;
 	}
 	
 	/**
@@ -52,7 +65,7 @@ class Form_Renderer_Field_Label extends Form_Renderer_Single
 	 */
 	protected function generateTagAttributes_Standard() : void
 	{
-		$this->tag_attributes['for'] = $this->field->getId();
+		$this->_tag_attributes['for'] = $this->field->getId();
 	}
 	
 }
