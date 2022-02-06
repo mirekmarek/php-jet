@@ -5,7 +5,7 @@ namespace JetStudio;
 use Jet\MVC_Layout;
 use Jet\Tr;
 use Jet\UI;
-use Jet\Form;
+use Jet\Form_Renderer;
 use Jet\UI_button;
 use Jet\MVC_View;
 
@@ -17,11 +17,11 @@ use Jet\MVC_View;
 $page = $this->getRaw( 'page' );
 
 $form = $page->getEditForm_content();
-$form->setDefaultLabelWidth( [
-	Form::LJ_SIZE_MEDIUM => 3
+$form->renderer()->setDefaultLabelWidth( [
+	Form_Renderer::LJ_SIZE_MEDIUM => 3
 ] );
-$form->setDefaultFieldWidth( [
-	Form::LJ_SIZE_MEDIUM => 7
+$form->renderer()->setDefaultFieldWidth( [
+	Form_Renderer::LJ_SIZE_MEDIUM => 7
 ] );
 
 /**
@@ -298,9 +298,9 @@ if( !$delete_content_action_creator ) {
 <?php endforeach; ?>
 
 	<?php
-$form->setDefaultLabelWidth( [
-	Form::LJ_SIZE_MEDIUM => 2
+$form->renderer()->setDefaultLabelWidth( [
+	Form_Renderer::LJ_SIZE_MEDIUM => 2
 ] );
-$form->setDefaultFieldWidth( [
-	Form::LJ_SIZE_MEDIUM => 6
+$form->renderer()->setDefaultFieldWidth( [
+	Form_Renderer::LJ_SIZE_MEDIUM => 6
 ] );

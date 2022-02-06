@@ -29,7 +29,7 @@ class Config_Definition_Property_Array extends Config_Definition_Property
 		parent::setUp( $definition_data );
 
 		if( $this->form_field_type === null ) {
-			$this->form_field_type = Form::TYPE_MULTI_SELECT;
+			$this->form_field_type = Form_Field::TYPE_MULTI_SELECT;
 		}
 	}
 

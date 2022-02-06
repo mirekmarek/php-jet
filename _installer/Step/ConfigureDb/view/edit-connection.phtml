@@ -2,6 +2,7 @@
 namespace JetApplication\Installer;
 
 use Jet\Form;
+use Jet\Form_Renderer;
 use Jet\MVC_View;
 
 /**
@@ -9,7 +10,7 @@ use Jet\MVC_View;
  * @var Form $form
  */
 $form = $this->getRaw( 'form' );
-$form->setDefaultLabelWidth( [Form::LJ_SIZE_MEDIUM => 2] );
+$form->renderer()->setDefaultLabelWidth( [Form_Renderer::LJ_SIZE_MEDIUM => 2] );
 
 ?>
 <?= $form->start() ?>

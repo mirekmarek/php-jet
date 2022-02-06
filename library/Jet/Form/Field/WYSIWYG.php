@@ -17,7 +17,7 @@ class Form_Field_WYSIWYG extends Form_Field
 	/**
 	 * @var string
 	 */
-	protected string $_type = Form::TYPE_WYSIWYG;
+	protected string $_type = Form_Field::TYPE_WYSIWYG;
 	
 	/**
 	 * @var array
@@ -59,16 +59,5 @@ class Form_Field_WYSIWYG extends Form_Field
 		return $codes;
 	}
 	
-	/**
-	 * @return Form_Renderer_Field_WYSIWYG
-	 */
-	public function input(): Form_Renderer_Field_WYSIWYG
-	{
-		if( !$this->_tag_input ) {
-			$this->_tag_input = Factory_Form::getRendererFieldWYSIWYGInstance( $this );
-		}
-		
-		return $this->_tag_input;
-	}
 	
 }

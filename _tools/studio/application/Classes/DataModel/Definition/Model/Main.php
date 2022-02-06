@@ -11,6 +11,7 @@ namespace JetStudio;
 use Jet\DataModel_Definition_Model_Main as Jet_DataModel_Definition_Model_Main;
 use Jet\Form;
 use Jet\DataModel;
+use Jet\DataModel_IDController_AutoIncrement;
 
 /**
  */
@@ -29,7 +30,7 @@ class DataModel_Definition_Model_Main extends Jet_DataModel_Definition_Model_Mai
 	 *
 	 * @var string
 	 */
-	protected string $id_controller_class = 'Jet\DataModel_IDController_AutoIncrement';
+	protected string $id_controller_class = DataModel_IDController_AutoIncrement::class;
 
 
 	/**
@@ -77,6 +78,7 @@ class DataModel_Definition_Model_Main extends Jet_DataModel_Definition_Model_Mai
 		$model = $this;
 
 		$class->addUse( new ClassCreator_UseClass( 'Jet', 'Form' ) );
+		$class->addUse( new ClassCreator_UseClass( 'Jet', 'Form_Field' ) );
 
 
 		$_form_edit = new ClassCreator_Class_Property( '_form_edit', 'Form', 'Form' );

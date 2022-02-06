@@ -16,7 +16,7 @@ class Form_Field_Textarea extends Form_Field
 	/**
 	 * @var string
 	 */
-	protected string $_type = Form::TYPE_TEXTAREA;
+	protected string $_type = Form_Field::TYPE_TEXTAREA;
 
 	/**
 	 * @var array

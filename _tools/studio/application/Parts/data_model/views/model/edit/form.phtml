@@ -3,7 +3,7 @@
 namespace JetStudio;
 
 use Jet\DataModel_Definition_Model_Related;
-use Jet\Form;
+use Jet\Form_Renderer;
 use Jet\Tr;
 use Jet\UI;
 
@@ -11,11 +11,11 @@ $current = DataModels::getCurrentModel();
 
 $form = $current->getEditForm();
 
-$form->setDefaultLabelWidth( [
-	Form::LJ_SIZE_MEDIUM => 2
+$form->renderer()->setDefaultLabelWidth( [
+	Form_Renderer::LJ_SIZE_MEDIUM => 2
 ] );
-$form->setDefaultFieldWidth( [
-	Form::LJ_SIZE_MEDIUM => 10
+$form->renderer()->setDefaultFieldWidth( [
+	Form_Renderer::LJ_SIZE_MEDIUM => 10
 ] );
 
 if($current instanceof DataModel_Definition_Model_Related):

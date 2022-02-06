@@ -19,6 +19,9 @@ use Jet\Form_Field_Input;
 use Jet\Form_Field_Select;
 use Jet\IO_File;
 use Jet\Tr;
+use Jet\DataModel_IDController_AutoIncrement;
+use Jet\DataModel_IDController_UniqueString;
+use Jet\DataModel_IDController_Passive;
 
 /**
  */
@@ -1158,15 +1161,15 @@ trait DataModel_Definition_Model_Trait
 
 
 		switch( $id_controller_class ) {
-			case 'Jet\DataModel_IDController_AutoIncrement':
+			case DataModel_IDController_AutoIncrement::class:
 				$id_property = new DataModel_Definition_Property_IdAutoIncrement( $model->getClassName(), $id_property_name );
 				$id_controller_option = 'id_property_name';
 				break;
-			case 'Jet\DataModel_IDController_UniqueString':
+			case DataModel_IDController_UniqueString::class:
 				$id_property = new DataModel_Definition_Property_Id( $model->getClassName(), $id_property_name );
 				$id_controller_option = 'id_property_name';
 				break;
-			case 'Jet\DataModel_IDController_Passive':
+			case DataModel_IDController_Passive::class:
 				$id_property = new DataModel_Definition_Property_Id( $model->getClassName(), $id_property_name );
 				$id_controller_option = '';
 				break;

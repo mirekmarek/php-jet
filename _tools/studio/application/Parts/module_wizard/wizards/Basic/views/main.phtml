@@ -1,7 +1,7 @@
 <?php
 namespace JetStudio\ModuleWizard\Basic;
 
-use Jet\Form;
+use Jet\Form_Renderer;
 use Jet\MVC_View;
 use Jet\Tr;
 use Jet\UI;
@@ -15,11 +15,11 @@ $wizard = $this->getRaw( 'wizard' );
 
 $setup_form = $wizard->getSetupForm();
 
-$setup_form->setDefaultLabelWidth( [
-	Form::LJ_SIZE_MEDIUM => 2
+$setup_form->renderer()->setDefaultLabelWidth( [
+	Form_Renderer::LJ_SIZE_MEDIUM => 2
 ] );
-$setup_form->setDefaultFieldWidth( [
-	Form::LJ_SIZE_MEDIUM => 10
+$setup_form->renderer()->setDefaultFieldWidth( [
+	Form_Renderer::LJ_SIZE_MEDIUM => 10
 ] );
 
 ?>

@@ -18,7 +18,7 @@ class Form_Field_Range extends Form_Field_Input
 	/**
 	 * @var string
 	 */
-	protected string $_type = Form::TYPE_RANGE;
+	protected string $_type = Form_Field::TYPE_RANGE;
 
 	/**
 	 * @var array

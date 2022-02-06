@@ -11,7 +11,7 @@ use Jet\Form_Renderer_Field_Input;
 $r = $this->getRaw( 'renderer' );
 $field = $r->getField();
 
-$r->setFieldType('date');
+$r->setInputType('date');
 
 if( !$r->getBaseCssClasses() ) {
 	$r->setBaseCssClass( 'form-control' );

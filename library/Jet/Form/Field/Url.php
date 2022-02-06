@@ -16,7 +16,7 @@ class Form_Field_Url extends Form_Field_Input
 	/**
 	 * @var string
 	 */
-	protected string $_type = Form::TYPE_URL;
+	protected string $_type = Form_Field::TYPE_URL;
 
 
 	/**

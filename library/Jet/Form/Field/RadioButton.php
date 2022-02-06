@@ -20,7 +20,7 @@ class Form_Field_RadioButton extends Form_Field
 	/**
 	 * @var string
 	 */
-	protected string $_type = Form::TYPE_RADIO_BUTTON;
+	protected string $_type = Form_Field::TYPE_RADIO_BUTTON;
 
 	/**
 	 * @var array

@@ -17,7 +17,7 @@ class Form_Field_Checkbox extends Form_Field
 	/**
 	 * @var string
 	 */
-	protected string $_type = Form::TYPE_CHECKBOX;
+	protected string $_type = Form_Field::TYPE_CHECKBOX;
 
 	/**
 	 * @var array

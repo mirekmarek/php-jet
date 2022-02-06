@@ -4,6 +4,7 @@ use Jet\UI;
 use JetApplication\Auth_Visitor_Role;
 use JetApplication\Auth_Visitor_User;
 use Jet\Form;
+use Jet\Form_Renderer;
 use Jet\Tr;
 use Jet\MVC;
 use Jet\MVC_View;
@@ -18,8 +19,8 @@ $role = $this->getRaw( 'role' );
 $form = $this->getRaw( 'form' );
 $available_privileges_list = $this->getRaw( 'available_privileges_list' );
 
-$form->setDefaultLabelWidth( [Form::LJ_SIZE_MEDIUM => 1] );
-$form->setDefaultFieldWidth( [Form::LJ_SIZE_MEDIUM => 4] );
+$form->renderer()->setDefaultLabelWidth( [Form_Renderer::LJ_SIZE_MEDIUM => 1] );
+$form->renderer()->setDefaultFieldWidth( [Form_Renderer::LJ_SIZE_MEDIUM => 4] );
 
 ?>
 <?= $form->start() ?>

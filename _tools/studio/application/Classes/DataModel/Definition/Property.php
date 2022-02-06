@@ -90,18 +90,18 @@ class DataModel_Definition_Property
 			'required_error_messages' => [],
 		],
 
-		Form::TYPE_HIDDEN => [
-			'label'                   => Form::TYPE_HIDDEN,
-			'type'                    => 'Form::TYPE_HIDDEN',
+		Form_Field::TYPE_HIDDEN => [
+			'label'                   => Form_Field::TYPE_HIDDEN,
+			'type'                    => 'Form_Field::TYPE_HIDDEN',
 			'required_options'        => [
 				'form_field_creator_method_name',
 			],
 			'required_error_messages' => [],
 		],
 
-		Form::TYPE_INPUT => [
-			'label'                   => Form::TYPE_INPUT,
-			'type'                    => 'Form::TYPE_INPUT',
+		Form_Field::TYPE_INPUT => [
+			'label'                   => Form_Field::TYPE_INPUT,
+			'type'                    => 'Form_Field::TYPE_INPUT',
 			'required_options'        => [
 				'form_field_is_required',
 				'form_field_label',
@@ -115,9 +115,9 @@ class DataModel_Definition_Property
 			],
 		],
 
-		Form::TYPE_TEXTAREA => [
-			'label'                   => Form::TYPE_TEXTAREA,
-			'type'                    => 'Form::TYPE_TEXTAREA',
+		Form_Field::TYPE_TEXTAREA => [
+			'label'                   => Form_Field::TYPE_TEXTAREA,
+			'type'                    => 'Form_Field::TYPE_TEXTAREA',
 			'required_options'        => [
 				'form_field_is_required',
 				'form_field_label',
@@ -128,9 +128,9 @@ class DataModel_Definition_Property
 				Form_Field_Textarea::ERROR_CODE_EMPTY
 			],
 		],
-		Form::TYPE_WYSIWYG  => [
-			'label'                   => Form::TYPE_WYSIWYG,
-			'type'                    => 'Form::TYPE_WYSIWYG',
+		Form_Field::TYPE_WYSIWYG  => [
+			'label'                   => Form_Field::TYPE_WYSIWYG,
+			'type'                    => 'Form_Field::TYPE_WYSIWYG',
 			'required_options'        => [
 				'form_field_is_required',
 				'form_field_label',
@@ -141,9 +141,9 @@ class DataModel_Definition_Property
 				Form_Field_WYSIWYG::ERROR_CODE_EMPTY
 			],
 		],
-		Form::TYPE_INT      => [
-			'label'                   => Form::TYPE_INT,
-			'type'                    => 'Form::TYPE_INT',
+		Form_Field::TYPE_INT      => [
+			'label'                   => Form_Field::TYPE_INT,
+			'type'                    => 'Form_Field::TYPE_INT',
 			'required_options'        => [
 				'form_field_is_required',
 				'form_field_label',
@@ -157,9 +157,9 @@ class DataModel_Definition_Property
 				Form_Field_Int::ERROR_CODE_OUT_OF_RANGE,
 			],
 		],
-		Form::TYPE_FLOAT    => [
-			'label'                   => Form::TYPE_FLOAT,
-			'type'                    => 'Form::TYPE_FLOAT',
+		Form_Field::TYPE_FLOAT    => [
+			'label'                   => Form_Field::TYPE_FLOAT,
+			'type'                    => 'Form_Field::TYPE_FLOAT',
 			'required_options'        => [
 				'form_field_is_required',
 				'form_field_label',
@@ -173,9 +173,9 @@ class DataModel_Definition_Property
 				Form_Field_Float::ERROR_CODE_OUT_OF_RANGE,
 			],
 		],
-		Form::TYPE_RANGE    => [
-			'label'                   => Form::TYPE_RANGE,
-			'type'                    => 'Form::TYPE_RANGE',
+		Form_Field::TYPE_RANGE    => [
+			'label'                   => Form_Field::TYPE_RANGE,
+			'type'                    => 'Form_Field::TYPE_RANGE',
 			'required_options'        => [
 				'form_field_is_required',
 				'form_field_label',
@@ -190,9 +190,9 @@ class DataModel_Definition_Property
 			],
 		],
 
-		Form::TYPE_DATE      => [
-			'label'                   => Form::TYPE_DATE,
-			'type'                    => 'Form::TYPE_DATE',
+		Form_Field::TYPE_DATE      => [
+			'label'                   => Form_Field::TYPE_DATE,
+			'type'                    => 'Form_Field::TYPE_DATE',
 			'required_options'        => [
 				'form_field_is_required',
 				'form_field_label',
@@ -204,9 +204,9 @@ class DataModel_Definition_Property
 				Form_Field_Date::ERROR_CODE_INVALID_FORMAT,
 			],
 		],
-		Form::TYPE_DATE_TIME => [
-			'label'                   => Form::TYPE_DATE_TIME,
-			'type'                    => 'Form::TYPE_DATE_TIME',
+		Form_Field::TYPE_DATE_TIME => [
+			'label'                   => Form_Field::TYPE_DATE_TIME,
+			'type'                    => 'Form_Field::TYPE_DATE_TIME',
 			'required_options'        => [
 				'form_field_is_required',
 				'form_field_label',
@@ -218,9 +218,9 @@ class DataModel_Definition_Property
 				Form_Field_Time::ERROR_CODE_INVALID_FORMAT,
 			],
 		],
-		Form::TYPE_MONTH     => [
-			'label'                   => Form::TYPE_MONTH,
-			'type'                    => 'Form::TYPE_MONTH',
+		Form_Field::TYPE_MONTH     => [
+			'label'                   => Form_Field::TYPE_MONTH,
+			'type'                    => 'Form_Field::TYPE_MONTH',
 			'required_options'        => [
 				'form_field_is_required',
 				'form_field_label',
@@ -232,9 +232,9 @@ class DataModel_Definition_Property
 				Form_Field_Month::ERROR_CODE_INVALID_FORMAT,
 			],
 		],
-		Form::TYPE_WEEK      => [
-			'label'                   => Form::TYPE_WEEK,
-			'type'                    => 'Form::TYPE_WEEK',
+		Form_Field::TYPE_WEEK      => [
+			'label'                   => Form_Field::TYPE_WEEK,
+			'type'                    => 'Form_Field::TYPE_WEEK',
 			'required_options'        => [
 				'form_field_is_required',
 				'form_field_label',
@@ -246,9 +246,9 @@ class DataModel_Definition_Property
 				Form_Field_Week::ERROR_CODE_INVALID_FORMAT,
 			],
 		],
-		Form::TYPE_TIME      => [
-			'label'                   => Form::TYPE_TIME,
-			'type'                    => 'Form::TYPE_TIME',
+		Form_Field::TYPE_TIME      => [
+			'label'                   => Form_Field::TYPE_TIME,
+			'type'                    => 'Form_Field::TYPE_TIME',
 			'required_options'        => [
 				'form_field_is_required',
 				'form_field_label',
@@ -261,9 +261,9 @@ class DataModel_Definition_Property
 			],
 		],
 
-		Form::TYPE_EMAIL => [
-			'label'                   => Form::TYPE_EMAIL,
-			'type'                    => 'Form::TYPE_EMAIL',
+		Form_Field::TYPE_EMAIL => [
+			'label'                   => Form_Field::TYPE_EMAIL,
+			'type'                    => 'Form_Field::TYPE_EMAIL',
 			'required_options'        => [
 				'form_field_is_required',
 				'form_field_label',
@@ -275,9 +275,9 @@ class DataModel_Definition_Property
 				Form_Field_Email::ERROR_CODE_INVALID_FORMAT,
 			],
 		],
-		Form::TYPE_TEL   => [
-			'label'                   => Form::TYPE_TEL,
-			'type'                    => 'Form::TYPE_TEL',
+		Form_Field::TYPE_TEL   => [
+			'label'                   => Form_Field::TYPE_TEL,
+			'type'                    => 'Form_Field::TYPE_TEL',
 			'required_options'        => [
 				'form_field_is_required',
 				'form_field_label',
@@ -290,9 +290,9 @@ class DataModel_Definition_Property
 			],
 		],
 
-		Form::TYPE_URL    => [
-			'label'                   => Form::TYPE_URL,
-			'type'                    => 'Form::TYPE_URL',
+		Form_Field::TYPE_URL    => [
+			'label'                   => Form_Field::TYPE_URL,
+			'type'                    => 'Form_Field::TYPE_URL',
 			'required_options'        => [
 				'form_field_is_required',
 				'form_field_label',
@@ -304,9 +304,9 @@ class DataModel_Definition_Property
 				Form_Field_Url::ERROR_CODE_INVALID_FORMAT,
 			],
 		],
-		Form::TYPE_SEARCH => [
-			'label'                   => Form::TYPE_SEARCH,
-			'type'                    => 'Form::TYPE_SEARCH',
+		Form_Field::TYPE_SEARCH => [
+			'label'                   => Form_Field::TYPE_SEARCH,
+			'type'                    => 'Form_Field::TYPE_SEARCH',
 			'required_options'        => [
 				'form_field_is_required',
 				'form_field_label',
@@ -319,9 +319,9 @@ class DataModel_Definition_Property
 			],
 		],
 
-		Form::TYPE_COLOR => [
-			'label'                   => Form::TYPE_COLOR,
-			'type'                    => 'Form::TYPE_COLOR',
+		Form_Field::TYPE_COLOR => [
+			'label'                   => Form_Field::TYPE_COLOR,
+			'type'                    => 'Form_Field::TYPE_COLOR',
 			'required_options'        => [
 				'form_field_is_required',
 				'form_field_label',
@@ -334,9 +334,9 @@ class DataModel_Definition_Property
 			],
 		],
 
-		Form::TYPE_SELECT       => [
-			'label'                   => Form::TYPE_SELECT,
-			'type'                    => 'Form::TYPE_SELECT',
+		Form_Field::TYPE_SELECT       => [
+			'label'                   => Form_Field::TYPE_SELECT,
+			'type'                    => 'Form_Field::TYPE_SELECT',
 			'required_options'        => [
 				'form_field_is_required',
 				'form_field_label',
@@ -349,9 +349,9 @@ class DataModel_Definition_Property
 				Form_Field_Select::ERROR_CODE_INVALID_VALUE,
 			],
 		],
-		Form::TYPE_MULTI_SELECT => [
-			'label'                   => Form::TYPE_MULTI_SELECT,
-			'type'                    => 'Form::TYPE_MULTI_SELECT',
+		Form_Field::TYPE_MULTI_SELECT => [
+			'label'                   => Form_Field::TYPE_MULTI_SELECT,
+			'type'                    => 'Form_Field::TYPE_MULTI_SELECT',
 			'required_options'        => [
 				'form_field_is_required',
 				'form_field_label',
@@ -365,9 +365,9 @@ class DataModel_Definition_Property
 			],
 		],
 
-		Form::TYPE_CHECKBOX     => [
-			'label'                   => Form::TYPE_CHECKBOX,
-			'type'                    => 'Form::TYPE_CHECKBOX',
+		Form_Field::TYPE_CHECKBOX     => [
+			'label'                   => Form_Field::TYPE_CHECKBOX,
+			'type'                    => 'Form_Field::TYPE_CHECKBOX',
 			'required_options'        => [
 				'form_field_is_required',
 				'form_field_label',
@@ -378,9 +378,9 @@ class DataModel_Definition_Property
 				Form_Field_Checkbox::ERROR_CODE_EMPTY
 			],
 		],
-		Form::TYPE_RADIO_BUTTON => [
-			'label'                   => Form::TYPE_RADIO_BUTTON,
-			'type'                    => 'Form::TYPE_RADIO_BUTTON',
+		Form_Field::TYPE_RADIO_BUTTON => [
+			'label'                   => Form_Field::TYPE_RADIO_BUTTON,
+			'type'                    => 'Form_Field::TYPE_RADIO_BUTTON',
 			'required_options'        => [
 				'form_field_is_required',
 				'form_field_label',
@@ -395,9 +395,9 @@ class DataModel_Definition_Property
 		],
 
 
-		Form::TYPE_PASSWORD => [
-			'label'                   => Form::TYPE_PASSWORD,
-			'type'                    => 'Form::TYPE_PASSWORD',
+		Form_Field::TYPE_PASSWORD => [
+			'label'                   => Form_Field::TYPE_PASSWORD,
+			'type'                    => 'Form_Field::TYPE_PASSWORD',
 			'required_options'        => [
 				'form_field_is_required',
 				'form_field_label',
@@ -409,9 +409,9 @@ class DataModel_Definition_Property
 			],
 		],
 
-		Form::TYPE_FILE       => [
-			'label'                   => Form::TYPE_FILE,
-			'type'                    => 'Form::TYPE_FILE',
+		Form_Field::TYPE_FILE       => [
+			'label'                   => Form_Field::TYPE_FILE,
+			'type'                    => 'Form_Field::TYPE_FILE',
 			'required_options'        => [
 				'form_field_is_required',
 				'form_field_label',
@@ -423,9 +423,9 @@ class DataModel_Definition_Property
 				Form_Field_File::ERROR_CODE_FILE_IS_TOO_LARGE,
 			],
 		],
-		Form::TYPE_FILE_IMAGE => [
-			'label'                   => Form::TYPE_FILE_IMAGE,
-			'type'                    => 'Form::TYPE_FILE_IMAGE',
+		Form_Field::TYPE_FILE_IMAGE => [
+			'label'                   => Form_Field::TYPE_FILE_IMAGE,
+			'type'                    => 'Form_Field::TYPE_FILE_IMAGE',
 			'required_options'        => [
 				'form_field_is_required',
 				'form_field_label',

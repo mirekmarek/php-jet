@@ -1,7 +1,7 @@
 <?php
 namespace JetStudio\ModuleWizard\BasicAdminDataHandler;
 
-use Jet\Form;
+use Jet\Form_Renderer;
 use Jet\MVC_View;
 use Jet\Tr;
 use Jet\UI;
@@ -16,19 +16,19 @@ $select_data_form = $wizard->getSelectDataModelForm();
 
 $setup_form = $wizard->getSetupForm();
 
-$select_data_form->setDefaultLabelWidth( [
-	Form::LJ_SIZE_MEDIUM => 3
+$select_data_form->renderer()->setDefaultLabelWidth( [
+	Form_Renderer::LJ_SIZE_MEDIUM => 3
 ] );
-$select_data_form->setDefaultFieldWidth( [
-	Form::LJ_SIZE_MEDIUM => 10
+$select_data_form->renderer()->setDefaultFieldWidth( [
+	Form_Renderer::LJ_SIZE_MEDIUM => 10
 ] );
 
 
-$setup_form->setDefaultLabelWidth( [
-	Form::LJ_SIZE_MEDIUM => 4
+$setup_form->renderer()->setDefaultLabelWidth( [
+	Form_Renderer::LJ_SIZE_MEDIUM => 4
 ] );
-$setup_form->setDefaultFieldWidth( [
-	Form::LJ_SIZE_MEDIUM => 8
+$setup_form->renderer()->setDefaultFieldWidth( [
+	Form_Renderer::LJ_SIZE_MEDIUM => 8
 ] );
 
 

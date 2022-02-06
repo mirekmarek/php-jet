@@ -18,7 +18,7 @@ class Form_Field_Time extends Form_Field_Input
 	/**
 	 * @var string
 	 */
-	protected string $_type = Form::TYPE_TIME;
+	protected string $_type = Form_Field::TYPE_TIME;
 
 	/**
 	 * @var array

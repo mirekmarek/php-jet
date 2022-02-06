@@ -16,6 +16,7 @@ use Jet\Form_Field_Input;
 use Jet\IO_Dir;
 use Jet\IO_File;
 use Jet\MVC_Cache;
+use Jet\MVC_Controller;
 use ReflectionClass;
 use ReflectionMethod;
 
@@ -346,7 +347,7 @@ class Modules_Manifest extends Application_Module_Manifest
 						$_class = $parent;
 					}
 
-					if( !in_array( 'Jet\MVC_Controller', $parents ) ) {
+					if( !in_array( MVC_Controller::class, $parents ) ) {
 						continue;
 					}
 

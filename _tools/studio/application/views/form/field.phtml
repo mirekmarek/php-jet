@@ -1,13 +1,13 @@
 <?php
 
 use Jet\MVC_View;
-use Jet\Form_Field;
+use Jet\Form_Renderer_Field;
 
 /**
  * @var MVC_View $this
- * @var Form_Field $f
+ * @var Form_Renderer_Field $f
  */
-$f = $this->getRaw( 'field' );
+$f = $this->getRaw( 'renderer' );
 
 echo
 	$f->row()->start() .

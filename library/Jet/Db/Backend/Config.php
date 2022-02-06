@@ -23,7 +23,7 @@ abstract class Db_Backend_Config extends Config_Section
 		label: 'Driver',
 		description: 'PDO driver',
 		is_required: true,
-		form_field_type: Form::TYPE_SELECT,
+		form_field_type: Form_Field::TYPE_SELECT,
 		form_field_get_select_options_callback: [
 			self::class,
 			'getDrivers'

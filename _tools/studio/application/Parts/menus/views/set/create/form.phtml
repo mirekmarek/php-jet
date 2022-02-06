@@ -4,7 +4,7 @@ namespace JetStudio;
 
 $form = Menus_MenuSet::getCreateForm();
 
-$form->tag()->addJsAction( 'onsubmit', 'Menus.createSet.createSend();return false;' );
+$form->renderer()->addJsAction( 'onsubmit', 'Menus.createSet.createSend();return false;' );
 
 echo $form->start();
 echo $form->getCommonMessage();

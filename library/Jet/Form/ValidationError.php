@@ -27,6 +27,8 @@ class Form_ValidationError extends BaseObject implements BaseObject_Interface_Se
 	
 	/**
 	 * @param Form_Field $field
+	 * @param string $code
+	 * @param string $message
 	 */
 	public function __construct( Form_Field $field, string $code, string $message )
 	{

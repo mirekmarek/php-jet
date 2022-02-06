@@ -26,7 +26,7 @@ class Config_Definition_Property_String extends Config_Definition_Property
 	/**
 	 * @var string|bool
 	 */
-	protected string|bool $form_field_type = Form::TYPE_INPUT;
+	protected string|bool $form_field_type = Form_Field::TYPE_INPUT;
 
 	/**
 	 * @param ?array $definition_data
@@ -42,7 +42,7 @@ class Config_Definition_Property_String extends Config_Definition_Property
 		}
 
 		if( $this->form_field_type === null ) {
-			$this->form_field_type = Form::TYPE_INPUT;
+			$this->form_field_type = Form_Field::TYPE_INPUT;
 		}
 
 	}

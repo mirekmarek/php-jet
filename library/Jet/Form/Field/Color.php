@@ -17,7 +17,7 @@ class Form_Field_Color extends Form_Field_Input
 	/**
 	 * @var string
 	 */
-	protected string $_type = Form::TYPE_COLOR;
+	protected string $_type = Form_Field::TYPE_COLOR;
 
 	/**
 	 * @var array

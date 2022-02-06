@@ -16,7 +16,7 @@ class Form_Field_Hidden extends Form_Field
 	/**
 	 * @var string
 	 */
-	protected string $_type = Form::TYPE_HIDDEN;
+	protected string $_type = Form_Field::TYPE_HIDDEN;
 
 	/**
 	 * @var array

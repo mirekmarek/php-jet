@@ -14,22 +14,14 @@ namespace Jet;
 class Form_Renderer_Form_Message extends Form_Renderer_Single
 {
 	
-	
 	/**
 	 * @param Form $form
 	 */
 	public function __construct( Form $form )
 	{
 		$this->form = $form;
-		$this->view_script = $form->getMessageViewScript();
-	}
-	
-	
-	/**
-	 *
-	 */
-	protected function generateTagAttributes_Standard() : void
-	{
+		$this->view_dir = $form->renderer()->getViewDir();
+		$this->view_script = SysConf_Jet_Form_DefaultViews::get('Form', 'message');
 	}
 	
 }

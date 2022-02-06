@@ -20,7 +20,7 @@ class Form_Field_MultiSelect extends Form_Field
 	/**
 	 * @var string
 	 */
-	protected string $_type = Form::TYPE_MULTI_SELECT;
+	protected string $_type = Form_Field::TYPE_MULTI_SELECT;
 
 	/**
 	 * @var array

@@ -20,7 +20,7 @@ class Form_Field_FileImage extends Form_Field_File
 	/**
 	 * @var string
 	 */
-	protected string $_type = Form::TYPE_FILE_IMAGE;
+	protected string $_type = Form_Field::TYPE_FILE_IMAGE;
 
 	/**
 	 * @var array

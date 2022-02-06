@@ -20,7 +20,7 @@ class Form_Field_Select extends Form_Field
 	/**
 	 * @var string
 	 */
-	protected string $_type = Form::TYPE_SELECT;
+	protected string $_type = Form_Field::TYPE_SELECT;
 
 	/**
 	 * @var array

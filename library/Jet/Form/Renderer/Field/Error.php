@@ -21,14 +21,19 @@ class Form_Renderer_Field_Error extends Form_Renderer_Single
 	public function __construct( Form_Field $field )
 	{
 		$this->field = $field;
-		$this->view_script = $field->getErrorViewScript();
+		$this->view_script = SysConf_Jet_Form_DefaultViews::get($field->getType(), 'error');
 	}
 	
 	/**
-	 *
+	 * @return string
 	 */
-	protected function generateTagAttributes_Standard() : void
+	public function getViewDir(): string
 	{
+		if(!$this->view_dir) {
+			return $this->field->renderer()->getViewDir();
+		}
+		
+		return $this->view_dir;
 	}
 	
 }

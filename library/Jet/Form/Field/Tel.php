@@ -16,7 +16,7 @@ class Form_Field_Tel extends Form_Field_Input
 	/**
 	 * @var string
 	 */
-	protected string $_type = Form::TYPE_TEL;
+	protected string $_type = Form_Field::TYPE_TEL;
 
 	/**
 	 * @var array

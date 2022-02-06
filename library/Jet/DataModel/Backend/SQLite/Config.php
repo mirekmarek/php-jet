@@ -22,7 +22,7 @@ class DataModel_Backend_SQLite_Config extends DataModel_Backend_Config
 		type: Config::TYPE_STRING,
 		label: 'Connection: ',
 		is_required: true,
-		form_field_type: Form::TYPE_SELECT,
+		form_field_type: Form_Field::TYPE_SELECT,
 		form_field_get_select_options_callback: [
 			DataModel_Backend_SQLite_Config::class,
 			'getDbConnectionsList'

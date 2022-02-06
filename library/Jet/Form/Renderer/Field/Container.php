@@ -20,18 +20,33 @@ class Form_Renderer_Field_Container extends Form_Renderer_Pair
 	public function __construct( Form_Field $field )
 	{
 		$this->field = $field;
-		$this->view_script_start = $field->getInputContainerStartViewScript();
-		$this->view_script_end = $field->getInputContainerEndViewScript();
-		
-		$this->setWidth( $field->getForm()->getDefaultFieldWidth() );
-		
+		$this->view_script_start = SysConf_Jet_Form_DefaultViews::get($field->getType(), 'input_container_start');
+		$this->view_script_end = SysConf_Jet_Form_DefaultViews::get($field->getType(), 'input_container_end');
 	}
 	
 	/**
-	 *
+	 * @return array|null
 	 */
-	protected function generateTagAttributes_Standard() : void
+	public function getWidth(): array|null
 	{
+		if(!$this->width) {
+			return $this->field->getForm()->renderer()->getDefaultFieldWidth();
+		}
+		
+		return $this->width;
+	}
+	
+	
+	/**
+	 * @return string
+	 */
+	public function getViewDir(): string
+	{
+		if(!$this->view_dir) {
+			return $this->field->renderer()->getViewDir();
+		}
+		
+		return $this->view_dir;
 	}
 	
 }

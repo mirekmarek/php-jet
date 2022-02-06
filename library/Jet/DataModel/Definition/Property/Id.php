@@ -26,7 +26,7 @@ class DataModel_Definition_Property_Id extends DataModel_Definition_Property
 	/**
 	 * @var string|bool
 	 */
-	protected string|bool $form_field_type = Form::TYPE_HIDDEN;
+	protected string|bool $form_field_type = Form_Field::TYPE_HIDDEN;
 
 	/**
 	 *

@@ -10,7 +10,7 @@ use Jet\Form_Renderer_Field_Input;
 $r = $this->getRaw( 'renderer' );
 $field = $r->getField();
 
-$r->setFieldType('datetime-local');
+$r->setInputType('datetime-local');
 
 if( !$r->getBaseCssClasses() ) {
 	$r->setBaseCssClass( 'form-control' );

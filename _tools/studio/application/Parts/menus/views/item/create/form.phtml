@@ -2,7 +2,7 @@
 
 namespace JetStudio;
 
-use Jet\Form;
+use Jet\Form_Renderer;
 use Jet\Tr;
 use Jet\UI;
 
@@ -10,8 +10,8 @@ $form = Menus_Menu_Item::getCreateForm();
 
 $form->getField( 'label' )->input()->addJsAction( 'onkeyup', 'Menus.createMenuItem.generateId(this.value);' );
 
-$form->setDefaultLabelWidth( [Form::LJ_SIZE_MEDIUM => 3] );
-$form->setDefaultFieldWidth( [Form::LJ_SIZE_MEDIUM => 9] );
+$form->renderer()->setDefaultLabelWidth( [Form_Renderer::LJ_SIZE_MEDIUM => 3] );
+$form->renderer()->setDefaultFieldWidth( [Form_Renderer::LJ_SIZE_MEDIUM => 9] );
 
 echo $form->start();
 echo $form->getCommonMessage();

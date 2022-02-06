@@ -10,7 +10,7 @@ use Jet\Form_Renderer_Field_Input;
 $r = $this->getRaw( 'renderer' );
 $field = $r->getField();
 
-$r->setFieldType('url');
+$r->setInputType('url');
 
 if( !$r->getBaseCssClasses() ) {
 	$r->setBaseCssClass( 'form-control' );

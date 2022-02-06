@@ -17,7 +17,7 @@ class Form_Field_Input extends Form_Field
 	/**
 	 * @var string
 	 */
-	protected string $_type = Form::TYPE_INPUT;
+	protected string $_type = Form_Field::TYPE_INPUT;
 
 	/**
 	 * @var array

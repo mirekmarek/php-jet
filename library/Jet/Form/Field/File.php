@@ -21,7 +21,7 @@ class Form_Field_File extends Form_Field
 	/**
 	 * @var string
 	 */
-	protected string $_type = Form::TYPE_FILE;
+	protected string $_type = Form_Field::TYPE_FILE;
 
 	/**
 	 * @var array

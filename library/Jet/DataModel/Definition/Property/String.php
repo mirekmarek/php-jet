@@ -27,7 +27,7 @@ class DataModel_Definition_Property_String extends DataModel_Definition_Property
 	/**
 	 * @var string|bool
 	 */
-	protected string|bool $form_field_type = Form::TYPE_INPUT;
+	protected string|bool $form_field_type = Form_Field::TYPE_INPUT;
 
 	/**
 	 * @param array $definition_data
@@ -67,14 +67,14 @@ class DataModel_Definition_Property_String extends DataModel_Definition_Property
 	public function getFormFieldType(): string
 	{
 
-		if( $this->form_field_type != Form::TYPE_INPUT ) {
+		if( $this->form_field_type != Form_Field::TYPE_INPUT ) {
 			return $this->form_field_type;
 		}
 
 		if( $this->max_len <= 255 ) {
-			return Form::TYPE_INPUT;
+			return Form_Field::TYPE_INPUT;
 		} else {
-			return Form::TYPE_TEXTAREA;
+			return Form_Field::TYPE_TEXTAREA;
 		}
 	}
 

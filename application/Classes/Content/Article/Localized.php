@@ -16,7 +16,7 @@ use Jet\DataModel_IDController_Passive;
 use Jet\Locale;
 use Jet\MVC;
 use Jet\Data_Text;
-use Jet\Form;
+use Jet\Form_Field;
 use Jet\Form_Field_Input;
 
 /**
@@ -106,7 +106,7 @@ class Content_Article_Localized extends DataModel_Related_1toN
 		type: DataModel::TYPE_STRING,
 		max_len: 655360,
 		form_field_label: 'Text',
-		form_field_type: Form::TYPE_WYSIWYG
+		form_field_type: Form_Field::TYPE_WYSIWYG
 	)]
 	protected string $text = '';
 

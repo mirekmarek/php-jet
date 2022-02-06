@@ -1,7 +1,7 @@
 <?php
 namespace JetStudio;
 
-use Jet\Form;
+use Jet\Form_Renderer;
 use Jet\MVC_View;
 
 /**
@@ -13,11 +13,11 @@ $page = $this->getRaw( 'page' );
 
 $form = $page->getEditForm_content();
 
-$form->setDefaultLabelWidth( [
-	Form::LJ_SIZE_MEDIUM => 2
+$form->renderer()->setDefaultLabelWidth( [
+	Form_Renderer::LJ_SIZE_MEDIUM => 2
 ] );
-$form->setDefaultFieldWidth( [
-	Form::LJ_SIZE_MEDIUM => 6
+$form->renderer()->setDefaultFieldWidth( [
+	Form_Renderer::LJ_SIZE_MEDIUM => 6
 ] );
 
 ?>

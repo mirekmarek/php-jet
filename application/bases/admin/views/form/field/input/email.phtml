@@ -8,7 +8,7 @@ use Jet\Form_Renderer_Field_Input;
  * @var Form_Renderer_Field_Input $r
  */
 $r = $this->getRaw( 'renderer' );
-$r->setFieldType('email');
+$r->setInputType('email');
 $field = $r->getField();
 
 if( !$r->getBaseCssClasses() ) {

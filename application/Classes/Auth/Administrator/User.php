@@ -13,6 +13,7 @@ use Jet\DataModel;
 use Jet\DataModel_Definition;
 use Jet\DataModel_IDController_AutoIncrement;
 use Jet\Form;
+use Jet\Form_Field;
 use Jet\Form_Field_Input;
 use Jet\Form_Field_MultiSelect;
 use Jet\Form_Field_Password;
@@ -50,7 +51,7 @@ class Auth_Administrator_User extends DataModel implements Auth_User_Interface
 		type: DataModel::TYPE_STRING,
 		is_key: true,
 		max_len: 100,
-		form_field_type: Form::TYPE_INPUT,
+		form_field_type: Form_Field::TYPE_INPUT,
 		form_field_is_required: true,
 		form_field_label: 'Username',
 		form_field_error_messages: [

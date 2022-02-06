@@ -22,6 +22,7 @@ use Jet\Tr;
 use Jet\MVC;
 use Jet\MVC_Page;
 use Jet\Form;
+use Jet\Form_Field;
 
 /**
  *
@@ -44,7 +45,7 @@ class Auth_Administrator_Role extends DataModel implements Auth_Role_Interface
 	#[DataModel_Definition(
 		type: DataModel::TYPE_ID,
 		is_id: true,
-		form_field_type: Form::TYPE_INPUT,
+		form_field_type: Form_Field::TYPE_INPUT,
 		form_field_label: 'ID',
 		form_field_is_required: true,
 		form_field_error_messages: [

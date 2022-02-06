@@ -22,7 +22,7 @@ class DataModel_Backend_MySQL_Config extends DataModel_Backend_Config
 		type: Config::TYPE_STRING,
 		label: 'Connection - read: ',
 		is_required: true,
-		form_field_type: Form::TYPE_SELECT,
+		form_field_type: Form_Field::TYPE_SELECT,
 		form_field_get_select_options_callback: [
 			DataModel_Backend_MySQL_Config::class,
 			'getDbConnectionsList'
@@ -42,7 +42,7 @@ class DataModel_Backend_MySQL_Config extends DataModel_Backend_Config
 		type: Config::TYPE_STRING,
 		is_required: true,
 		label: 'Connection - write: ',
-		form_field_type: Form::TYPE_SELECT,
+		form_field_type: Form_Field::TYPE_SELECT,
 		form_field_get_select_options_callback: [
 			DataModel_Backend_MySQL_Config::class,
 			'getDbConnectionsList'

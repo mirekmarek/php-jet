@@ -22,7 +22,7 @@ class Config_Definition_Property_Bool extends Config_Definition_Property
 	/**
 	 * @var string|bool
 	 */
-	protected string|bool $form_field_type = Form::TYPE_CHECKBOX;
+	protected string|bool $form_field_type = Form_Field::TYPE_CHECKBOX;
 
 	/**
 	 * @param ?array $definition_data
@@ -34,7 +34,7 @@ class Config_Definition_Property_Bool extends Config_Definition_Property
 		parent::setUp( $definition_data );
 
 		if( $this->form_field_type === null ) {
-			$this->form_field_type = Form::TYPE_CHECKBOX;
+			$this->form_field_type = Form_Field::TYPE_CHECKBOX;
 		}
 	}
 

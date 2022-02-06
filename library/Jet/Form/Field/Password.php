@@ -20,7 +20,7 @@ class Form_Field_Password extends Form_Field
 	/**
 	 * @var string
 	 */
-	protected string $_type = Form::TYPE_PASSWORD;
+	protected string $_type = Form_Field::TYPE_PASSWORD;
 
 	/**
 	 * @var bool

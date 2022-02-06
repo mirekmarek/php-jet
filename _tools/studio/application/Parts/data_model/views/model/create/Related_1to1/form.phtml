@@ -2,12 +2,12 @@
 
 namespace JetStudio;
 
-use Jet\Form;
+use Jet\Form_Renderer;
 
 $form = DataModel_Definition_Model_Related_1to1::getCreateForm();
 
-$form->setDefaultLabelWidth( [Form::LJ_SIZE_MEDIUM => 4] );
-$form->setDefaultFieldWidth( [Form::LJ_SIZE_MEDIUM => 8] );
+$form->renderer()->setDefaultLabelWidth( [Form_Renderer::LJ_SIZE_MEDIUM => 4] );
+$form->renderer()->setDefaultFieldWidth( [Form_Renderer::LJ_SIZE_MEDIUM => 8] );
 
 $form->field( 'namespace' )->input()->addJsAction( 'onchange', 'DataModel.create.generateScriptPath(this.form)' );
 $form->field( 'class_name' )->input()->addJsAction( 'onkeyup', 'DataModel.create.generateScriptPath(this.form);DataModel.create.generateModelName(this.form);' );

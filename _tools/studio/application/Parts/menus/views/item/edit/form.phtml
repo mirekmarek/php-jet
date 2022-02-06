@@ -2,7 +2,7 @@
 namespace JetStudio;
 
 use Jet\Tr;
-use Jet\Form;
+use Jet\Form_Renderer;
 use Jet\MVC_View;
 use Jet\UI;
 
@@ -16,11 +16,11 @@ $item = $this->getRaw( 'item' );
 $form = $item->getEditForm();
 
 
-$form->setDefaultLabelWidth( [
-	Form::LJ_SIZE_MEDIUM => 2
+$form->renderer()->setDefaultLabelWidth( [
+	Form_Renderer::LJ_SIZE_MEDIUM => 2
 ] );
-$form->setDefaultFieldWidth( [
-	Form::LJ_SIZE_MEDIUM => 6
+$form->renderer()->setDefaultFieldWidth( [
+	Form_Renderer::LJ_SIZE_MEDIUM => 6
 ] );
 
 $tabs = UI::tabsJS( 'create_menu_item_target_tabs', [

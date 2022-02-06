@@ -12,6 +12,7 @@ use Jet\Cache;
 use Jet\DataModel;
 use Jet\Exception;
 use Jet\Form;
+use Jet\Form_Field;
 use Jet\Form_Field_Checkbox;
 use Jet\Form_Field_Input;
 use Jet\Form_Field_Select;
@@ -833,6 +834,7 @@ trait DataModel_Definition_Property_Trait
 
 		if( $this->form_field_type!==false ) {
 			$class->addUse( (new ClassCreator_UseClass( 'Jet', 'Form' )) );
+			$class->addUse( (new ClassCreator_UseClass( 'Jet', 'Form_Field' )) );
 
 			if($this->form_field_type) {
 				$property->setAttribute( 'DataModel_Definition', 'form_field_type', DataModel_Definition_Property::getFormFieldTypes()[$this->form_field_type]['type'] );
@@ -883,9 +885,9 @@ trait DataModel_Definition_Property_Trait
 
 				if(!$field_type) {
 					if( $this->max_len <= 255 ) {
-						$field_type = Form::TYPE_INPUT;
+						$field_type = Form_Field::TYPE_INPUT;
 					} else {
-						$field_type = Form::TYPE_TEXTAREA;
+						$field_type = Form_Field::TYPE_TEXTAREA;
 					}
 				}
 

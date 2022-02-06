@@ -2,6 +2,7 @@
 namespace JetApplication\Installer;
 
 use Jet\Form;
+use Jet\Form_Renderer;
 use Jet\Mailing;
 use Jet\MVC_View;
 use Jet\Tr;
@@ -13,7 +14,7 @@ use Jet\Tr;
 
 
 $form = $this->getRaw( 'form' );
-$form->setDefaultLabelWidth( [Form::LJ_SIZE_MEDIUM => 1] );
+$form->renderer()->setDefaultLabelWidth( [Form_Renderer::LJ_SIZE_MEDIUM => 1] );
 $config = Mailing::getConfig();
 ?>
 <h3><?= Tr::_( 'Set the mail sender' ) ?></h3>

@@ -18,7 +18,7 @@ class Form_Field_Date extends Form_Field_Input
 	/**
 	 * @var string
 	 */
-	protected string $_type = Form::TYPE_DATE;
+	protected string $_type = Form_Field::TYPE_DATE;
 
 	/**
 	 * @var array

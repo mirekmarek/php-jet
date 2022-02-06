@@ -23,7 +23,7 @@ class Mailing_Config_Sender extends Config_Section
 		type: Config::TYPE_STRING,
 		label: 'E-mail:',
 		is_required: true,
-		form_field_type: Form::TYPE_EMAIL,
+		form_field_type: Form_Field::TYPE_EMAIL,
 		form_field_error_messages: [
 			Form_Field_Email::ERROR_CODE_EMPTY          => 'Please enter valid email address',
 			Form_Field_Email::ERROR_CODE_INVALID_FORMAT => 'Please enter valid email address'

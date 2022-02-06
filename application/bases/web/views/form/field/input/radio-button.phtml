@@ -13,7 +13,7 @@ use Jet\Data_Text;
 $r = $this->getRaw( 'renderer' );
 $field = $r->getField();
 
-$r->setFieldType('radio');
+$r->setInputType('radio');
 
 $value = $field->getValue();
 if( $field->getLastErrorCode() ) {

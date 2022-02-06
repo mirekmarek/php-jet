@@ -4,6 +4,7 @@ namespace JetApplicationModule\Content\Articles\Admin;
 use Jet\MVC;
 use Jet\MVC_View;
 use Jet\Form;
+use Jet\Form_Renderer;
 
 use Jet\UI;
 use JetApplication\Application_Admin;
@@ -16,8 +17,8 @@ use JetApplication\Content_Article;
 
 $form = $this->getRaw( 'form' );
 
-$form->setDefaultLabelWidth( [Form::LJ_SIZE_MEDIUM => 2] );
-$form->setDefaultFieldWidth( [Form::LJ_SIZE_MEDIUM => 9] );
+$form->renderer()->setDefaultLabelWidth( [Form_Renderer::LJ_SIZE_MEDIUM => 2] );
+$form->renderer()->setDefaultFieldWidth( [Form_Renderer::LJ_SIZE_MEDIUM => 9] );
 
 //$form->field( 'text' )->input()->addCustomCssStyle( 'height:400px' );
 

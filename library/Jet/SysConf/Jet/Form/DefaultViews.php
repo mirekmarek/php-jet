@@ -20,7 +20,7 @@ class SysConf_Jet_Form_DefaultViews
 			'message' => 'message',
 		],
 		
-		Form::TYPE_CHECKBOX => [
+		Form_Field::TYPE_CHECKBOX => [
 			'field' => 'field',
 			'row_start' => 'field/row/start',
 			'row_end' => 'field/row/end',
@@ -31,7 +31,7 @@ class SysConf_Jet_Form_DefaultViews
 			'input' => 'field/input/checkbox',
 		],
 
-		Form::TYPE_COLOR => [
+		Form_Field::TYPE_COLOR => [
 			'field' => 'field',
 			'row_start' => 'field/row/start',
 			'row_end' => 'field/row/end',
@@ -42,7 +42,7 @@ class SysConf_Jet_Form_DefaultViews
 			'input' => 'field/input/color',
 		],
 
-		Form::TYPE_DATE => [
+		Form_Field::TYPE_DATE => [
 			'field' => 'field',
 			'row_start' => 'field/row/start',
 			'row_end' => 'field/row/end',
@@ -53,7 +53,7 @@ class SysConf_Jet_Form_DefaultViews
 			'input' => 'field/input/date',
 		],
 
-		Form::TYPE_DATE_TIME => [
+		Form_Field::TYPE_DATE_TIME => [
 			'field' => 'field',
 			'row_start' => 'field/row/start',
 			'row_end' => 'field/row/end',
@@ -64,7 +64,7 @@ class SysConf_Jet_Form_DefaultViews
 			'input' => 'field/input/date-time',
 		],
 
-		Form::TYPE_EMAIL => [
+		Form_Field::TYPE_EMAIL => [
 			'field' => 'field',
 			'row_start' => 'field/row/start',
 			'row_end' => 'field/row/end',
@@ -75,7 +75,7 @@ class SysConf_Jet_Form_DefaultViews
 			'input' => 'field/input/email',
 		],
 
-		Form::TYPE_FILE => [
+		Form_Field::TYPE_FILE => [
 			'field' => 'field',
 			'row_start' => 'field/row/start',
 			'row_end' => 'field/row/end',
@@ -86,7 +86,7 @@ class SysConf_Jet_Form_DefaultViews
 			'input' => 'field/input/file',
 		],
 
-		Form::TYPE_FILE_IMAGE => [
+		Form_Field::TYPE_FILE_IMAGE => [
 			'field' => 'field',
 			'row_start' => 'field/row/start',
 			'row_end' => 'field/row/end',
@@ -97,7 +97,7 @@ class SysConf_Jet_Form_DefaultViews
 			'input' => 'field/input/file-image',
 		],
 
-		Form::TYPE_FLOAT => [
+		Form_Field::TYPE_FLOAT => [
 			'field' => 'field',
 			'row_start' => 'field/row/start',
 			'row_end' => 'field/row/end',
@@ -108,7 +108,7 @@ class SysConf_Jet_Form_DefaultViews
 			'input' => 'field/input/float',
 		],
 
-		Form::TYPE_HIDDEN => [
+		Form_Field::TYPE_HIDDEN => [
 			'field' => 'field',
 			'row_start' => 'field/row/start',
 			'row_end' => 'field/row/end',
@@ -119,7 +119,7 @@ class SysConf_Jet_Form_DefaultViews
 			'input' => 'field/input/hidden',
 		],
 
-		Form::TYPE_INPUT => [
+		Form_Field::TYPE_INPUT => [
 			'field' => 'field',
 			'row_start' => 'field/row/start',
 			'row_end' => 'field/row/end',
@@ -130,7 +130,7 @@ class SysConf_Jet_Form_DefaultViews
 			'input' => 'field/input/input',
 		],
 
-		Form::TYPE_INT => [
+		Form_Field::TYPE_INT => [
 			'field' => 'field',
 			'row_start' => 'field/row/start',
 			'row_end' => 'field/row/end',
@@ -141,7 +141,7 @@ class SysConf_Jet_Form_DefaultViews
 			'input' => 'field/input/int',
 		],
 
-		Form::TYPE_MONTH => [
+		Form_Field::TYPE_MONTH => [
 			'field' => 'field',
 			'row_start' => 'field/row/start',
 			'row_end' => 'field/row/end',
@@ -152,7 +152,7 @@ class SysConf_Jet_Form_DefaultViews
 			'input' => 'field/input/month',
 		],
 
-		Form::TYPE_MULTI_SELECT => [
+		Form_Field::TYPE_MULTI_SELECT => [
 			'field' => 'field',
 			'row_start' => 'field/row/start',
 			'row_end' => 'field/row/end',
@@ -163,7 +163,7 @@ class SysConf_Jet_Form_DefaultViews
 			'input' => 'field/input/multi-select',
 		],
 
-		Form::TYPE_PASSWORD => [
+		Form_Field::TYPE_PASSWORD => [
 			'field' => 'field',
 			'row_start' => 'field/row/start',
 			'row_end' => 'field/row/end',
@@ -174,7 +174,7 @@ class SysConf_Jet_Form_DefaultViews
 			'input' => 'field/input/password',
 		],
 
-		Form::TYPE_RADIO_BUTTON => [
+		Form_Field::TYPE_RADIO_BUTTON => [
 			'field' => 'field',
 			'row_start' => 'field/row/start',
 			'row_end' => 'field/row/end',
@@ -185,7 +185,7 @@ class SysConf_Jet_Form_DefaultViews
 			'input' => 'field/input/radio-button',
 		],
 
-		Form::TYPE_RANGE => [
+		Form_Field::TYPE_RANGE => [
 			'field' => 'field',
 			'row_start' => 'field/row/start',
 			'row_end' => 'field/row/end',
@@ -197,7 +197,7 @@ class SysConf_Jet_Form_DefaultViews
 		],
 
 
-		Form::TYPE_SEARCH => [
+		Form_Field::TYPE_SEARCH => [
 			'field' => 'field',
 			'row_start' => 'field/row/start',
 			'row_end' => 'field/row/end',
@@ -208,7 +208,7 @@ class SysConf_Jet_Form_DefaultViews
 			'input' => 'field/input/search',
 		],
 
-		Form::TYPE_SELECT => [
+		Form_Field::TYPE_SELECT => [
 			'field' => 'field',
 			'row_start' => 'field/row/start',
 			'row_end' => 'field/row/end',
@@ -219,7 +219,7 @@ class SysConf_Jet_Form_DefaultViews
 			'input' => 'field/input/select',
 		],
 
-		Form::TYPE_TEL => [
+		Form_Field::TYPE_TEL => [
 			'field' => 'field',
 			'row_start' => 'field/row/start',
 			'row_end' => 'field/row/end',
@@ -230,7 +230,7 @@ class SysConf_Jet_Form_DefaultViews
 			'input' => 'field/input/tel',
 		],
 
-		Form::TYPE_TEXTAREA => [
+		Form_Field::TYPE_TEXTAREA => [
 			'field' => 'field',
 			'row_start' => 'field/row/start',
 			'row_end' => 'field/row/end',
@@ -241,7 +241,7 @@ class SysConf_Jet_Form_DefaultViews
 			'input' => 'field/input/textarea',
 		],
 
-		Form::TYPE_TIME => [
+		Form_Field::TYPE_TIME => [
 			'field' => 'field',
 			'row_start' => 'field/row/start',
 			'row_end' => 'field/row/end',
@@ -252,7 +252,7 @@ class SysConf_Jet_Form_DefaultViews
 			'input' => 'field/input/time',
 		],
 
-		Form::TYPE_URL => [
+		Form_Field::TYPE_URL => [
 			'field' => 'field',
 			'row_start' => 'field/row/start',
 			'row_end' => 'field/row/end',
@@ -263,7 +263,7 @@ class SysConf_Jet_Form_DefaultViews
 			'input' => 'field/input/url',
 		],
 
-		Form::TYPE_WEEK => [
+		Form_Field::TYPE_WEEK => [
 			'field' => 'field',
 			'row_start' => 'field/row/start',
 			'row_end' => 'field/row/end',
@@ -274,7 +274,7 @@ class SysConf_Jet_Form_DefaultViews
 			'input' => 'field/input/week',
 		],
 
-		Form::TYPE_WYSIWYG => [
+		Form_Field::TYPE_WYSIWYG => [
 			'field' => 'field',
 			'row_start' => 'field/row/start',
 			'row_end' => 'field/row/end',

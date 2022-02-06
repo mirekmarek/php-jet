@@ -12,7 +12,7 @@ use Jet\Form_Field_Int;
 $r = $this->getRaw( 'renderer' );
 $field = $r->getField();
 
-$r->setFieldType('number');
+$r->setInputType('number');
 
 if( !$r->getBaseCssClasses() ) {
 	$r->setBaseCssClass( 'form-control' );

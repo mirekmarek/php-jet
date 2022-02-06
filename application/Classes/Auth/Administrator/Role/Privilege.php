@@ -13,7 +13,7 @@ use Jet\DataModel;
 use Jet\DataModel_Definition;
 use Jet\DataModel_IDController_AutoIncrement;
 use Jet\DataModel_Related_1toN;
-use Jet\Form;
+use Jet\Form_Field;
 use Jet\Form_Field_Select;
 
 /**
@@ -62,7 +62,7 @@ class Auth_Administrator_Role_Privilege extends DataModel_Related_1toN implement
 	 */
 	#[DataModel_Definition(
 		type: DataModel::TYPE_CUSTOM_DATA,
-		form_field_type: Form::TYPE_MULTI_SELECT,
+		form_field_type: Form_Field::TYPE_MULTI_SELECT,
 		form_field_error_messages: [
 			Form_Field_Select::ERROR_CODE_INVALID_VALUE => 'Invalid value'
 		]

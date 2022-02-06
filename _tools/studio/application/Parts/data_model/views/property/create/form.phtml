@@ -4,7 +4,7 @@ namespace JetStudio;
 
 $form = DataModel_Definition_Property::getCreateForm();
 
-$form->tag()->addJsAction( 'onsubmit', 'DataModel.property.create.createSend();return false;' );
+$form->renderer()->addJsAction( 'onsubmit', 'DataModel.property.create.createSend();return false;' );
 
 echo $form->getCommonMessage();
 

@@ -30,7 +30,7 @@ class Config_Definition_Property_Int extends Config_Definition_Property
 	/**
 	 * @var string|bool
 	 */
-	protected string|bool $form_field_type = Form::TYPE_INT;
+	protected string|bool $form_field_type = Form_Field::TYPE_INT;
 
 	/**
 	 * @param ?array $definition_data
@@ -50,7 +50,7 @@ class Config_Definition_Property_Int extends Config_Definition_Property
 		}
 
 		if( $this->form_field_type === null ) {
-			$this->form_field_type = Form::TYPE_INT;
+			$this->form_field_type = Form_Field::TYPE_INT;
 		}
 	}
 

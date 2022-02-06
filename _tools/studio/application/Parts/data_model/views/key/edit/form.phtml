@@ -2,7 +2,7 @@
 
 namespace JetStudio;
 
-use Jet\Form;
+use Jet\Form_Renderer;
 use Jet\MVC_View;
 
 /**
@@ -13,11 +13,11 @@ $key = DataModels::getCurrentKey();
 
 $form = $key->getEditForm();
 
-$form->setDefaultLabelWidth( [
-	Form::LJ_SIZE_MEDIUM => 2
+$form->renderer()->setDefaultLabelWidth( [
+	Form_Renderer::LJ_SIZE_MEDIUM => 2
 ] );
-$form->setDefaultFieldWidth( [
-	Form::LJ_SIZE_MEDIUM => 10
+$form->renderer()->setDefaultFieldWidth( [
+	Form_Renderer::LJ_SIZE_MEDIUM => 10
 ] );
 
 

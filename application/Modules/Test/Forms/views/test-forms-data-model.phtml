@@ -2,6 +2,7 @@
 namespace JetApplicationModule\Test\Forms;
 
 use Jet\Form;
+use Jet\Form_Renderer;
 use Jet\MVC_View;
 use Jet\Tr;
 
@@ -30,11 +31,11 @@ $getters = [
 	'getPassword',
 ];
 
-$form->setDefaultLabelWidth([
-	Form::LJ_SIZE_MEDIUM => 3
+$form->renderer()->setDefaultLabelWidth([
+	Form_Renderer::LJ_SIZE_MEDIUM => 3
 ] );
-$form->setDefaultFieldWidth([
-	Form::LJ_SIZE_MEDIUM => 9
+$form->renderer()->setDefaultFieldWidth([
+	Form_Renderer::LJ_SIZE_MEDIUM => 9
 ]);
 
 ?>

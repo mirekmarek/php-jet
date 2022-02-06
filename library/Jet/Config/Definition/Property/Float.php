@@ -31,7 +31,7 @@ class Config_Definition_Property_Float extends Config_Definition_Property
 	/**
 	 * @var string|bool
 	 */
-	protected string|bool $form_field_type = Form::TYPE_FLOAT;
+	protected string|bool $form_field_type = Form_Field::TYPE_FLOAT;
 
 	/**
 	 * @param array|null $definition_data
@@ -51,7 +51,7 @@ class Config_Definition_Property_Float extends Config_Definition_Property
 		}
 
 		if( $this->form_field_type === null ) {
-			$this->form_field_type = Form::TYPE_FLOAT;
+			$this->form_field_type = Form_Field::TYPE_FLOAT;
 		}
 	}
 

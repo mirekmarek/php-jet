@@ -11,7 +11,6 @@ namespace JetApplicationModule\Test\Forms;
 use Jet\DataModel;
 use Jet\DataModel_Definition;
 use Jet\Data_DateTime;
-use Jet\Form;
 use Jet\Form_Field;
 use Jet\Form_Field_Float;
 use Jet\Form_Field_MultiSelect;
@@ -126,7 +125,7 @@ class DataModelTest_FormGenerator extends DataModel
 		type: DataModel::TYPE_STRING,
 		max_len: 655360,
 		form_field_label: 'WYSIWYG:',
-		form_field_type: Form::TYPE_WYSIWYG
+		form_field_type: Form_Field::TYPE_WYSIWYG
 	)]
 	protected string $HTML = '';
 
@@ -136,7 +135,7 @@ class DataModelTest_FormGenerator extends DataModel
 	#[DataModel_Definition(
 		type: DataModel::TYPE_STRING,
 		form_field_label: 'Select: ',
-		form_field_type: Form::TYPE_SELECT,
+		form_field_type: Form_Field::TYPE_SELECT,
 		form_field_get_select_options_callback: [
 		self::class,
 		'getSelectOptions'
@@ -153,7 +152,7 @@ class DataModelTest_FormGenerator extends DataModel
 	#[DataModel_Definition(
 		type: DataModel::TYPE_CUSTOM_DATA,
 		form_field_label: 'Multi Select: ',
-		form_field_type: Form::TYPE_MULTI_SELECT,
+		form_field_type: Form_Field::TYPE_MULTI_SELECT,
 		form_field_get_select_options_callback: [
 		self::class,
 		'getSelectOptions'
@@ -170,7 +169,7 @@ class DataModelTest_FormGenerator extends DataModel
 	#[DataModel_Definition(
 		type: DataModel::TYPE_CUSTOM_DATA,
 		form_field_label: 'Radio Button: ',
-		form_field_type: Form::TYPE_RADIO_BUTTON,
+		form_field_type: Form_Field::TYPE_RADIO_BUTTON,
 		form_field_get_select_options_callback: [
 		self::class,
 		'getSelectOptions'
@@ -188,7 +187,7 @@ class DataModelTest_FormGenerator extends DataModel
 		type: DataModel::TYPE_STRING,
 		max_len: 255,
 		form_field_label: 'Password: ',
-		form_field_type: Form::TYPE_PASSWORD,
+		form_field_type: Form_Field::TYPE_PASSWORD,
 		form_field_options: [],
 		form_field_error_messages: [
 			Form_Field_Password::ERROR_CODE_EMPTY           => 'Please enter password',

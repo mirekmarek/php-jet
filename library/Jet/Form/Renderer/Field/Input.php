@@ -17,7 +17,7 @@ class Form_Renderer_Field_Input extends Form_Renderer_Single
 	/**
 	 * @var string
 	 */
-	protected string $field_type = '';
+	protected string $input_type = '';
 	
 	/**
 	 *
@@ -26,27 +26,48 @@ class Form_Renderer_Field_Input extends Form_Renderer_Single
 	public function __construct( Form_Field $field )
 	{
 		$this->field = $field;
-		$this->view_script = $field->getInputViewScript();
+		$this->view_script = SysConf_Jet_Form_DefaultViews::get($field->getType(), 'input');
+	}
+	
+	/**
+	 * @return array|null
+	 */
+	public function getWidth(): array|null
+	{
+		if(!$this->width) {
+			return $this->field->getForm()->renderer()->getDefaultFieldWidth();
+		}
 		
-		$this->setWidth( $field->getForm()->getDefaultFieldWidth() );
+		return $this->width;
+	}
+	
+	/**
+	 * @return string
+	 */
+	public function getViewDir(): string
+	{
+		if(!$this->view_dir) {
+			return $this->field->renderer()->getViewDir();
+		}
 		
+		return $this->view_dir;
 	}
 	
 	
 	/**
 	 * @return string
 	 */
-	public function getFieldType(): string
+	public function getInputType(): string
 	{
-		return $this->field_type;
+		return $this->input_type;
 	}
 	
 	/**
-	 * @param string $field_type
+	 * @param string $input_type
 	 */
-	public function setFieldType( string $field_type ): void
+	public function setInputType( string $input_type ): void
 	{
-		$this->field_type = $field_type;
+		$this->input_type = $input_type;
 	}
 	
 	
@@ -57,8 +78,8 @@ class Form_Renderer_Field_Input extends Form_Renderer_Single
 	{
 		$field = $this->getField();
 		
-		if($this->field_type) {
-			$this->tag_attributes['type'] = $this->field_type;
+		if($this->input_type) {
+			$this->tag_attributes['type'] = $this->input_type;
 		}
 		
 		$this->tag_attributes['name'] = $field->getTagNameValue();

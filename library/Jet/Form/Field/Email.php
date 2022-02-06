@@ -16,7 +16,7 @@ class Form_Field_Email extends Form_Field_Input
 	/**
 	 * @var string
 	 */
-	protected string $_type = Form::TYPE_EMAIL;
+	protected string $_type = Form_Field::TYPE_EMAIL;
 
 	/**
 	 * @var array

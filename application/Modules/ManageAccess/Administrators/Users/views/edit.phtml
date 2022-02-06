@@ -6,6 +6,7 @@ use JetApplication\Auth_Administrator_User as User;
 use Jet\UI;
 use Jet\MVC_View;
 use Jet\Form;
+use Jet\Form_Renderer;
 use Jet\Tr;
 
 /**
@@ -16,8 +17,8 @@ use Jet\Tr;
 $form = $this->getRaw( 'form' );
 
 $form->setAutocomplete( false );
-$form->setDefaultLabelWidth( [Form::LJ_SIZE_MEDIUM => 1] );
-$form->setDefaultFieldWidth( [Form::LJ_SIZE_MEDIUM => 4] );
+$form->renderer()->setDefaultLabelWidth( [Form_Renderer::LJ_SIZE_MEDIUM => 1] );
+$form->renderer()->setDefaultFieldWidth( [Form_Renderer::LJ_SIZE_MEDIUM => 4] );
 
 $user = $this->getRaw( 'user' );
 $router = $this->getController()->getControllerRouter();

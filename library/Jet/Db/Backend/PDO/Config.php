@@ -24,7 +24,7 @@ class Db_Backend_PDO_Config extends Db_Backend_Config
 		label: 'Driver',
 		description: 'PDO driver',
 		is_required: true,
-		form_field_type: Form::TYPE_SELECT,
+		form_field_type: Form_Field::TYPE_SELECT,
 		form_field_get_select_options_callback: [
 			self::class,
 			'getDrivers'
@@ -69,7 +69,7 @@ class Db_Backend_PDO_Config extends Db_Backend_Config
 	#[Config_Definition(
 		type: Config::TYPE_STRING,
 		label: 'Password',
-		form_field_type: Form::TYPE_PASSWORD,
+		form_field_type: Form_Field::TYPE_PASSWORD,
 		is_required: false
 	)]
 	protected string $password = '';

@@ -78,7 +78,7 @@ namespace Jet;
  *                     return $form_field
  *                 }
  *
- *          #[DataModel_Definition(form_field_type: Form::TYPE_*)]
+ *          #[DataModel_Definition(form_field_type: Form_Field::TYPE_*)]
  *             - default: autodetect
  *          #[DataModel_Definition(form_field_is_required: bool)]
  *             - default: false

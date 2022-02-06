@@ -115,7 +115,7 @@ abstract class DataModel_Definition_Property extends BaseObject implements Form_
 
 			if( $this->is_id ) {
 				if( !isset( $definition_data['form_field_type'] ) ) {
-					$this->form_field_type = Form::TYPE_HIDDEN;
+					$this->form_field_type = Form_Field::TYPE_HIDDEN;
 				}
 			}
 

@@ -17,7 +17,7 @@ class Form_Field_Week extends Form_Field_Input
 	/**
 	 * @var string
 	 */
-	protected string $_type = Form::TYPE_WEEK;
+	protected string $_type = Form_Field::TYPE_WEEK;
 
 	/**
 	 * @var array

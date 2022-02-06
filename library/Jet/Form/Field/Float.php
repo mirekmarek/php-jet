@@ -18,7 +18,7 @@ class Form_Field_Float extends Form_Field_Input
 	/**
 	 * @var string
 	 */
-	protected string $_type = Form::TYPE_FLOAT;
+	protected string $_type = Form_Field::TYPE_FLOAT;
 
 	/**
 	 * @var array

@@ -13,6 +13,11 @@ namespace Jet;
  */
 abstract class Form_Renderer extends BaseObject
 {
+	const LJ_SIZE_EXTRA_SMALL = 'xs';
+	const LJ_SIZE_SMALL = 'sm';
+	const LJ_SIZE_MEDIUM = 'md';
+	const LJ_SIZE_LARGE = 'lg';
+	
 	
 	/**
 	 * @var ?Form
@@ -68,7 +73,30 @@ abstract class Form_Renderer extends BaseObject
 	 * @var array
 	 */
 	protected array $custom_tag_attributes = [];
-
+	
+	/**
+	 * @var ?string
+	 */
+	protected string|null $view_dir = null;
+	
+	
+	
+	
+	/**
+	 * @return string
+	 */
+	public function getViewDir(): string
+	{
+		return $this->view_dir;
+	}
+	
+	/**
+	 * @param string $views_dir
+	 */
+	public function setViewDir( string $views_dir ): void
+	{
+		$this->view_dir = $views_dir;
+	}
 	
 	
 	/**
@@ -76,12 +104,7 @@ abstract class Form_Renderer extends BaseObject
 	 */
 	public function getView(): MVC_View
 	{
-		
-		$view = $this->field
-			?
-			$this->field->getView()
-			:
-			$this->form->getView();
+		$view = Factory_MVC::getViewInstance( $this->getViewDir() );
 		
 		$view->setVar( 'renderer', $this );
 		
@@ -232,9 +255,9 @@ abstract class Form_Renderer extends BaseObject
 		$class_creator = $this->getWidthCssClassesCreator();
 
 
-		if( $class_creator && $this->width ) {
-			foreach( $this->width as $size => $width ) {
-				$css_classes[] = $class_creator( $size, $width );
+		if( $class_creator && ($width=$this->getWidth()) ) {
+			foreach( $width as $size => $w ) {
+				$css_classes[] = $class_creator( $size, $w );
 			}
 		}
 
@@ -292,7 +315,9 @@ abstract class Form_Renderer extends BaseObject
 	/**
 	 *
 	 */
-	abstract protected function generateTagAttributes_Standard() : void;
+	protected function generateTagAttributes_Standard() : void
+	{
+	}
 	
 	
 	/**

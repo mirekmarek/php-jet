@@ -3,7 +3,7 @@
 namespace JetStudio;
 
 use Jet\DataModel;
-use Jet\Form;
+use Jet\Form_Renderer;
 use Jet\Form_Field_Input;
 use Jet\Tr;
 
@@ -11,8 +11,8 @@ $current = DataModels::getCurrentProperty();
 
 
 $form = $current->getEditForm();
-$form->setDefaultLabelWidth( [Form::LJ_SIZE_MEDIUM => 3] );
-$form->setDefaultFieldWidth( [Form::LJ_SIZE_MEDIUM => 9] );
+$form->renderer()->setDefaultLabelWidth( [Form_Renderer::LJ_SIZE_MEDIUM => 3] );
+$form->renderer()->setDefaultFieldWidth( [Form_Renderer::LJ_SIZE_MEDIUM => 9] );
 
 echo $form->start();
 
@@ -177,7 +177,7 @@ if( !$current->getRelatedToClassName() ):
 			$custom_code_field = $form->getField( 'form_field_error_messages/custom_code_'.$c );
 			$custom_message_field = $form->getField( 'form_field_error_messages/custom_message_'.$c );
 
-			$custom_code_field->container()->setWidth( $form->getDefaultLabelWidth() );
+			$custom_code_field->container()->setWidth( $form->renderer()->getDefaultLabelWidth() );
 
 			echo
 				$custom_message_field->row()->start() .

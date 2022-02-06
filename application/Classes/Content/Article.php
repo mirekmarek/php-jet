@@ -10,6 +10,7 @@ namespace JetApplication;
 
 use Jet\DataModel;
 use Jet\DataModel_Definition;
+use Jet\Form_Field;
 use Jet\Form_Field_DateTime;
 use Jet\Locale;
 use Jet\Data_DateTime;
@@ -49,7 +50,7 @@ class Content_Article extends DataModel
 	 */
 	#[DataModel_Definition(
 		type: DataModel::TYPE_DATE_TIME,
-		form_field_type: Form::TYPE_DATE_TIME,
+		form_field_type: Form_Field::TYPE_DATE_TIME,
 		form_field_label: '',
 		form_field_error_messages: [
 			Form_Field_DateTime::ERROR_CODE_INVALID_FORMAT => 'Invalid date format'

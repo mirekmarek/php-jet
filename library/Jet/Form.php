@@ -13,71 +13,13 @@ namespace Jet;
  */
 class Form extends BaseObject
 {
-	const LJ_SIZE_EXTRA_SMALL = 'xs';
-	const LJ_SIZE_SMALL = 'sm';
-	const LJ_SIZE_MEDIUM = 'md';
-	const LJ_SIZE_LARGE = 'lg';
-
-
 	const METHOD_POST = 'POST';
 	const METHOD_GET = 'GET';
 
 	const ENCTYPE_URL_ENCODED = 'application/x-www-form-urlencoded';
 	const ENCTYPE_FORM_DATA = 'multipart/form-data';
 	const ENCTYPE_TEXT_PLAIN = 'text/plain';
-
-	const TYPE_HIDDEN = 'Hidden';
-
-	const TYPE_INPUT = 'Input';
-
-	const TYPE_INT = 'Int';
-	const TYPE_FLOAT = 'Float';
-	const TYPE_RANGE = 'Range';
-
-	const TYPE_DATE = 'Date';
-	const TYPE_DATE_TIME = 'DateTime';
-	const TYPE_MONTH = 'Month';
-	const TYPE_WEEK = 'Week';
-	const TYPE_TIME = 'Time';
-
-	const TYPE_EMAIL = 'Email';
-	const TYPE_TEL = 'Tel';
-
-	const TYPE_URL = 'Url';
-	const TYPE_SEARCH = 'Search';
-
-	const TYPE_COLOR = 'Color';
-
-	const TYPE_SELECT = 'Select';
-	const TYPE_MULTI_SELECT = 'MultiSelect';
-
-	const TYPE_CHECKBOX = 'Checkbox';
-	const TYPE_RADIO_BUTTON = 'RadioButton';
-
-	const TYPE_TEXTAREA = 'Textarea';
-	const TYPE_WYSIWYG = 'WYSIWYG';
-
-	const TYPE_PASSWORD = 'Password';
-
-	const TYPE_FILE = 'File';
-	const TYPE_FILE_IMAGE = 'FileImage';
-
-
-	/**
-	 * @var string
-	 */
-	protected string $start_view_script = '';
-
-	/**
-	 * @var string
-	 */
-	protected string $end_view_script = '';
 	
-	/**
-	 * @var string
-	 */
-	protected string $message_view_script = '';
-
 	/**
 	 *
 	 * @var string $name
@@ -94,8 +36,8 @@ class Form extends BaseObject
 	 * @var string $name
 	 */
 	protected string $id = '';
+	
 	/**
-	 * POST (default) or GET
 	 *
 	 * @var string
 	 */
@@ -180,89 +122,10 @@ class Form extends BaseObject
 	protected bool $is_readonly = false;
 
 	/**
-	 * @var ?string
+	 * @var ?Form_Renderer_Form
 	 */
-	protected string|null $views_dir = null;
-
-	/**
-	 * @var array
-	 */
-	protected array $default_label_width = [self::LJ_SIZE_MEDIUM => 4];
-
-	/**
-	 * @var array
-	 */
-	protected array $default_field_width = [self::LJ_SIZE_MEDIUM => 8];
-
-	/**
-	 * @var ?Form_Renderer_Form_Tag
-	 */
-	protected ?Form_Renderer_Form_Tag $_form_tag = null;
-
-	/**
-	 * @var ?Form_Renderer_Form_Message
-	 */
-	protected ?Form_Renderer_Form_Message $_message_tag = null;
-
-	/**
-	 * @return string
-	 */
-	public function getStartViewScript(): string
-	{
-		if( !$this->start_view_script ) {
-			$this->start_view_script = SysConf_Jet_Form_DefaultViews::get('Form', 'start');
-		}
-		return $this->start_view_script;
-	}
-
-	/**
-	 * @param string $start_view_script
-	 */
-	public function setStartViewScript( string $start_view_script ): void
-	{
-		$this->start_view_script = $start_view_script;
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getEndViewScript(): string
-	{
-		if( !$this->end_view_script ) {
-			$this->end_view_script = SysConf_Jet_Form_DefaultViews::get('Form', 'end');
-		}
-
-		return $this->end_view_script;
-	}
-
-	/**
-	 * @param string $end_view_script
-	 */
-	public function setEndViewScript( string $end_view_script ): void
-	{
-		$this->end_view_script = $end_view_script;
-	}
+	protected ?Form_Renderer_Form $_renderer = null;
 	
-	/**
-	 * @return string
-	 */
-	public function getMessageViewScript(): string
-	{
-		if( !$this->message_view_script ) {
-			$this->message_view_script = SysConf_Jet_Form_DefaultViews::get('Form', 'message');
-		}
-		
-		return $this->message_view_script;
-	}
-	
-	/**
-	 * @param string $message_view_script
-	 */
-	public function setMessageViewScript( string $message_view_script ): void
-	{
-		$this->message_view_script = $message_view_script;
-	}
-
 
 	/**
 	 * constructor
@@ -496,39 +359,6 @@ class Form extends BaseObject
 	{
 		return $this->name;
 	}
-
-	/**
-	 * @return array
-	 */
-	public function getDefaultLabelWidth(): array
-	{
-		return $this->default_label_width;
-	}
-
-	/**
-	 * @param array $default_label_width
-	 */
-	public function setDefaultLabelWidth( array $default_label_width ): void
-	{
-		$this->default_label_width = $default_label_width;
-	}
-
-	/**
-	 * @return array
-	 */
-	public function getDefaultFieldWidth(): array
-	{
-		return $this->default_field_width;
-	}
-
-	/**
-	 * @param array $default_field_width
-	 */
-	public function setDefaultFieldWidth( array $default_field_width ): void
-	{
-		$this->default_field_width = $default_field_width;
-	}
-
 
 	/**
 	 * @param Form_Field $field
@@ -871,46 +701,17 @@ class Form extends BaseObject
 	}
 
 	/**
-	 * @return string
+	 * @return Form_Renderer_Form
 	 */
-	public function getViewsDir(): string
+	public function renderer(): Form_Renderer_Form
 	{
-		if( !$this->views_dir ) {
-			$this->views_dir = SysConf_Jet_Form::getDefaultViewsDir();
-		}
-
-		return $this->views_dir;
-	}
-
-	/**
-	 * @param string $views_dir
-	 */
-	public function setViewsDir( string $views_dir ): void
-	{
-		$this->views_dir = $views_dir;
-	}
-
-	/**
-	 * @return MVC_View
-	 */
-	public function getView(): MVC_View
-	{
-		return Factory_MVC::getViewInstance( $this->getViewsDir() );
-	}
-
-
-	/**
-	 * @return Form_Renderer_Form_Tag
-	 */
-	public function tag(): Form_Renderer_Form_Tag
-	{
-		if( !$this->_form_tag ) {
+		if( !$this->_renderer ) {
 			$this->checkFieldsHasErrorMessages();
 
-			$this->_form_tag = Factory_Form::getRendererFormTagInstance(  $this );
+			$this->_renderer = Factory_Form::getRendererFormTagInstance(  $this );
 		}
 
-		return $this->_form_tag;
+		return $this->_renderer;
 	}
 
 	/**
@@ -918,7 +719,7 @@ class Form extends BaseObject
 	 */
 	public function start(): string
 	{
-		return $this->tag()->start();
+		return $this->renderer()->start();
 	}
 
 	/**
@@ -926,7 +727,7 @@ class Form extends BaseObject
 	 */
 	public function end(): string
 	{
-		return $this->_form_tag->end();
+		return $this->renderer()->end();
 	}
 
 	/**
@@ -935,11 +736,7 @@ class Form extends BaseObject
 	 */
 	public function message(): Form_Renderer_Form_Message
 	{
-		if( !$this->_message_tag ) {
-			$this->_message_tag = Factory_Form::getRendererFormMessageInstance( $this );
-		}
-
-		return $this->_message_tag;
+		return $this->renderer()->message();
 	}
 
 

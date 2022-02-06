@@ -20,15 +20,21 @@ class Form_Renderer_Field_Row extends Form_Renderer_Pair
 	public function __construct( Form_Field $field )
 	{
 		$this->field = $field;
-		$this->view_script_start = $field->getRowStartViewScript();
-		$this->view_script_end = $field->getRowEndViewScript();
+		
+		$this->view_script_start = SysConf_Jet_Form_DefaultViews::get( $field->getType() , 'row_start');
+		$this->view_script_end = SysConf_Jet_Form_DefaultViews::get($field->getType(), 'row_end');
 	}
 	
 	/**
-	 *
+	 * @return string
 	 */
-	protected function generateTagAttributes_Standard() : void
+	public function getViewDir(): string
 	{
+		if(!$this->view_dir) {
+			return $this->field->renderer()->getViewDir();
+		}
+		
+		return $this->view_dir;
 	}
 	
 }

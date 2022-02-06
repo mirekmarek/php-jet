@@ -23,7 +23,7 @@ namespace Jet;
  *              is_required: true,
  *
  *
- *              form_field_type: Form::TYPE_*,
+ *              form_field_type: Form_Field::TYPE_*,
  *                  - (optional, default: autodetect)
  *              form_field_label: 'Some form filed label:',
  *                  - (optional, default value: label)

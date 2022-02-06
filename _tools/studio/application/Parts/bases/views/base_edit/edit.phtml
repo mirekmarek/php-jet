@@ -4,7 +4,7 @@ namespace JetStudio;
 use Jet\Locale;
 use Jet\Tr;
 use Jet\UI;
-use Jet\Form;
+use Jet\Form_Renderer;
 
 $base = Bases::getCurrentBase();
 
@@ -14,11 +14,11 @@ if( !$base ) {
 
 $form = $base->getEditForm();
 
-$form->setDefaultLabelWidth( [
-	Form::LJ_SIZE_MEDIUM => 1
+$form->renderer()->setDefaultLabelWidth( [
+	Form_Renderer::LJ_SIZE_MEDIUM => 1
 ] );
-$form->setDefaultFieldWidth( [
-	Form::LJ_SIZE_MEDIUM => 8
+$form->renderer()->setDefaultFieldWidth( [
+	Form_Renderer::LJ_SIZE_MEDIUM => 8
 ] );
 
 
