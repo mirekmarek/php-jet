@@ -1,13 +1,14 @@
 <?php
 
+use Jet\Locale;
 use Jet\MVC_View;
 use Jet\Form_Renderer_Field_Input_Number;
-use Jet\Form_Field_Int;
+use Jet\Form_Field_Range;
 
 /**
  * @var MVC_View $this
  * @var Form_Renderer_Field_Input_Number $r
- * @var Form_Field_Int $field
+ * @var Form_Field_Range $field
  */
 $r = $this->getRaw( 'renderer' );
 $field = $r->getField();
@@ -23,4 +24,12 @@ if( $field->getLastErrorCode() ) {
 }
 
 ?>
-<input <?=$r->renderTagAttributes()?>/>
+<div class="input-group">
+	<div class="input-group-prepend">
+		<span class="input-group-text"><?=Locale::int($field->getMinValue())?></span>
+	</div>
+	<input <?=$r->renderTagAttributes()?>/>
+	<div class="input-group-append">
+		<span class="input-group-text"><?=Locale::int($field->getMaxValue())?></span>
+	</div>
+</div>
