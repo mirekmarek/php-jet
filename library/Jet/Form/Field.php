@@ -112,7 +112,7 @@ abstract class Form_Field extends BaseObject implements JsonSerializable
 	protected string $help_text = '';
 	
 	/**
-	 * @var []
+	 * @var array
 	 */
 	protected array $help_data = [];
 
