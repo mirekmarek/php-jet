@@ -91,4 +91,7 @@ return [
 	'Please enter week' => 'Prosím vyberte týden',
 	'Please enter month' => 'Prosím zvolte měsíc',
 	'Please select color' => 'Prosím vyberte barvu',
+	'Format: NNN NN' => 'Formát: NNN NN',
+	'Minimal value: %min%, maximal value: %max%' => 'Minimální hodnota: %min%, maximální hodnota: %max%',
+	'Any number ...' => 'Libovolné číslo ...',
 ];

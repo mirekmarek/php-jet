@@ -8,6 +8,7 @@
 
 namespace JetApplicationModule\Test\Forms;
 
+use Jet\Locale;
 use Jet\MVC_Controller_Default;
 
 use Jet\Http_Request;
@@ -72,6 +73,7 @@ class Controller_Main extends MVC_Controller_Default
 		$validated_input_field = new Form_Field_Input( 'validated_input', 'Validated input' );
 		$validated_input_field->setIsRequired( true );
 		$validated_input_field->setPlaceholder( 'Enter ZIP code (NNN NN)' );
+		$validated_input_field->setHelpText( 'Format: NNN NN' );
 		$validated_input_field->setValidationRegexp( '/^[0-9]{3} [0-9]{2}$/' );
 		$validated_input_field->setErrorMessages(
 			[
@@ -85,6 +87,12 @@ class Controller_Main extends MVC_Controller_Default
 		$int_field->setMinValue( 10 );
 		$int_field->setMaxValue( 100 );
 		$int_field->setStep( 10 );
+		$int_field->setHelpText('Minimal value: %min%, maximal value: %max%');
+		$int_field->setHelpData([
+			'min' => Locale::int($int_field->getMinValue()),
+			'max' => Locale::int($int_field->getMaxValue()),
+		]);
+		
 		$int_field->setErrorMessages(
 			[
 				Form_Field_Int::ERROR_CODE_EMPTY        => 'Field is required',
@@ -98,6 +106,13 @@ class Controller_Main extends MVC_Controller_Default
 		$float_field->setMinValue( -0.10 );
 		$float_field->setMaxValue( 3.50 );
 		$float_field->setStep( 0.1 );
+		$float_field->setHelpText('Minimal value: %min%, maximal value: %max%');
+		$float_field->setHelpData([
+			'min' => Locale::float($float_field->getMinValue()),
+			'max' => Locale::float($float_field->getMaxValue()),
+		]);
+		
+		
 		$float_field->setErrorMessages(
 			[
 				Form_Field_Float::ERROR_CODE_EMPTY        => 'Field is required',

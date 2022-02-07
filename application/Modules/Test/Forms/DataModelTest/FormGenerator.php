@@ -90,6 +90,7 @@ class DataModelTest_FormGenerator extends DataModel
 	#[DataModel_Definition(
 		type: DataModel::TYPE_INT,
 		form_field_label: 'Int: ',
+		form_field_help_text: 'Any number ...',
 		form_field_min_value: 0,
 		form_field_max_value: 999,
 		form_field_error_messages: [

@@ -74,7 +74,16 @@ trait Form_Field_Trait_Render
 	{
 		return $this->renderer()->error();
 	}
-
+	
+	
+	/**
+	 * @return Form_Renderer_Field_Help
+	 */
+	public function help(): Form_Renderer_Field_Help
+	{
+		return $this->renderer()->help();
+	}
+	
 	/**
 	 * @return Form_Renderer_Field_Label
 	 */

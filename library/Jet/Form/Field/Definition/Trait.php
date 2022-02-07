@@ -35,7 +35,19 @@ trait Form_Field_Definition_Trait
 	 * @var string
 	 */
 	protected string $form_field_label = '';
-
+	
+	/**
+	 *
+	 * @var string
+	 */
+	protected string $form_field_help_text = '';
+	
+	/**
+	 *
+	 * @var array
+	 */
+	protected array $form_field_help_data = [];
+	
 	/**
 	 * @var ?string
 	 */
@@ -200,7 +212,21 @@ trait Form_Field_Definition_Trait
 		) {
 			$this->form_field_options['max_value'] = $this->form_field_max_value;
 		}
-
+		
+		if(
+			$this->form_field_help_text &&
+			!array_key_exists( 'help_text', $this->form_field_options )
+		) {
+			$this->form_field_options['help_text'] = $this->form_field_help_text;
+		}
+		
+		if(
+			$this->form_field_help_data &&
+			!array_key_exists( 'help_data', $this->form_field_options )
+		) {
+			$this->form_field_options['help_data'] = $this->form_field_help_data;
+		}
+		
 
 		return $this->form_field_options;
 	}
@@ -228,6 +254,40 @@ trait Form_Field_Definition_Trait
 	{
 		$this->form_field_label = $label;
 	}
+	
+	/**
+	 * @return string
+	 */
+	public function getFormFieldHelpText(): string
+	{
+		return $this->form_field_help_text;
+	}
+	
+	/**
+	 * @param string $form_field_help_text
+	 */
+	public function setFormFieldHelpText( string $form_field_help_text ): void
+	{
+		$this->form_field_help_text = $form_field_help_text;
+	}
+	
+	/**
+	 * @return array
+	 */
+	public function getFormFieldHelpData(): array
+	{
+		return $this->form_field_help_data;
+	}
+	
+	/**
+	 * @param array $form_field_help_data
+	 */
+	public function setFormFieldHelpData( array $form_field_help_data ): void
+	{
+		$this->form_field_help_data = $form_field_help_data;
+	}
+	
+	
 
 	/**
 	 * @return array

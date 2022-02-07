@@ -91,4 +91,7 @@ return [
 	'Please select color' => '',
 	'Form sent and is valid' => '',
 	'Form sent:' => '',
+	'Format: NNN NN' => '',
+	'Minimal value: %min%, maximal value: %max%' => '',
+	'Any number ...' => '',
 ];

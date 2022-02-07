@@ -105,6 +105,16 @@ abstract class Form_Field extends BaseObject implements JsonSerializable
 	 * @var string
 	 */
 	protected string $label = '';
+	
+	/**
+	 * @var string
+	 */
+	protected string $help_text = '';
+	
+	/**
+	 * @var []
+	 */
+	protected array $help_data = [];
 
 	/**
 	 * @var string
@@ -306,6 +316,40 @@ abstract class Form_Field extends BaseObject implements JsonSerializable
 	{
 		$this->label = $label;
 	}
+	
+	/**
+	 * @return string
+	 */
+	public function getHelpText(): string
+	{
+		return $this->_( $this->help_text, $this->help_data );
+	}
+	
+	/**
+	 * @param string $help_text
+	 */
+	public function setHelpText( string $help_text ): void
+	{
+		$this->help_text = $help_text;
+	}
+	
+	/**
+	 * @return mixed
+	 */
+	public function getHelpData(): array
+	{
+		return $this->help_data;
+	}
+	
+	/**
+	 * @param mixed $help_data
+	 */
+	public function setHelpData( array $help_data ): void
+	{
+		$this->help_data = $help_data;
+	}
+	
+	
 
 
 	/**

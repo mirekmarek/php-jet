@@ -113,7 +113,31 @@ interface Form_Field_Definition_Interface
 	 * @return string
 	 */
 	public function getFormFieldLabel(): string;
-
+	
+	/**
+	 * @param string $help_text
+	 *
+	 */
+	public function setFormFieldHelpText( string $help_text ): void;
+	
+	/**
+	 * @return string
+	 */
+	public function getFormFieldHelpText(): string;
+	
+	
+	/**
+	 * @param array $help_data
+	 *
+	 */
+	public function setFormFieldHelpData( array $help_data ): void;
+	
+	/**
+	 * @return array
+	 */
+	public function getFormFieldHelpData(): array;
+	
+	
 	/**
 	 * @param array $messages
 	 *

@@ -1,0 +1,23 @@
+<?php
+
+use Jet\MVC_View;
+use Jet\Form_Renderer_Field_Error;
+
+/**
+ * @var MVC_View $this
+ * @var Form_Renderer_Field_Error $r
+ */
+$r = $this->getRaw( 'renderer' );
+
+$field = $r->getField();
+$help_text = $field->getHelpText();
+
+if( !$help_text ) {
+	return;
+}
+
+if( !$r->getBaseCssClasses() ) {
+	$r->setBaseCssClass( 'form-text text-muted' );
+}
+?>
+<small <?=$r->renderTagAttributes()?>><?=$help_text?></small>
