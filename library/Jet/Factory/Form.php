@@ -46,7 +46,7 @@ class Factory_Form
 			'field'     => Form_Renderer_Field::class,
 			'container' => Form_Renderer_Field_Container::class,
 			'error'     => Form_Renderer_Field_Error::class,
-			'input'     => Form_Renderer_Field_Input::class,
+			'input'     => Form_Renderer_Field_Input_Common::class,
 			'label'     => Form_Renderer_Field_Label::class,
 			'row'       => Form_Renderer_Field_Row::class,
 		],
@@ -54,7 +54,7 @@ class Factory_Form
 			'field'     => Form_Renderer_Field::class,
 			'container' => Form_Renderer_Field_Container::class,
 			'error'     => Form_Renderer_Field_Error::class,
-			'input'     => Form_Renderer_Field_Input::class,
+			'input'     => Form_Renderer_Field_Input_Common::class,
 			'label'     => Form_Renderer_Field_Label::class,
 			'row'       => Form_Renderer_Field_Row::class,
 		],
@@ -62,7 +62,7 @@ class Factory_Form
 			'field'     => Form_Renderer_Field::class,
 			'container' => Form_Renderer_Field_Container::class,
 			'error'     => Form_Renderer_Field_Error::class,
-			'input'     => Form_Renderer_Field_Input::class,
+			'input'     => Form_Renderer_Field_Input_Common::class,
 			'label'     => Form_Renderer_Field_Label::class,
 			'row'       => Form_Renderer_Field_Row::class,
 		],
@@ -70,7 +70,7 @@ class Factory_Form
 			'field'     => Form_Renderer_Field::class,
 			'container' => Form_Renderer_Field_Container::class,
 			'error'     => Form_Renderer_Field_Error::class,
-			'input'     => Form_Renderer_Field_Input::class,
+			'input'     => Form_Renderer_Field_Input_Common::class,
 			'label'     => Form_Renderer_Field_Label::class,
 			'row'       => Form_Renderer_Field_Row::class,
 		],
@@ -78,7 +78,7 @@ class Factory_Form
 			'field'     => Form_Renderer_Field::class,
 			'container' => Form_Renderer_Field_Container::class,
 			'error'     => Form_Renderer_Field_Error::class,
-			'input'     => Form_Renderer_Field_Input::class,
+			'input'     => Form_Renderer_Field_Input_Common::class,
 			'label'     => Form_Renderer_Field_Label::class,
 			'row'       => Form_Renderer_Field_Row::class,
 		],
@@ -86,7 +86,7 @@ class Factory_Form
 			'field'     => Form_Renderer_Field::class,
 			'container' => Form_Renderer_Field_Container::class,
 			'error'     => Form_Renderer_Field_Error::class,
-			'input'     => Form_Renderer_Field_Input::class,
+			'input'     => Form_Renderer_Field_Input_Common::class,
 			'label'     => Form_Renderer_Field_Label::class,
 			'row'       => Form_Renderer_Field_Row::class,
 		],
@@ -94,7 +94,7 @@ class Factory_Form
 			'field'     => Form_Renderer_Field::class,
 			'container' => Form_Renderer_Field_Container::class,
 			'error'     => Form_Renderer_Field_Error::class,
-			'input'     => Form_Renderer_Field_Input::class,
+			'input'     => Form_Renderer_Field_Input_Common::class,
 			'label'     => Form_Renderer_Field_Label::class,
 			'row'       => Form_Renderer_Field_Row::class,
 		],
@@ -102,7 +102,7 @@ class Factory_Form
 			'field'     => Form_Renderer_Field::class,
 			'container' => Form_Renderer_Field_Container::class,
 			'error'     => Form_Renderer_Field_Error::class,
-			'input'     => Form_Renderer_Field_Input::class,
+			'input'     => Form_Renderer_Field_Input_Common::class,
 			'label'     => Form_Renderer_Field_Label::class,
 			'row'       => Form_Renderer_Field_Row::class,
 		],
@@ -110,7 +110,7 @@ class Factory_Form
 			'field'     => Form_Renderer_Field::class,
 			'container' => Form_Renderer_Field_Container::class,
 			'error'     => Form_Renderer_Field_Error::class,
-			'input'     => Form_Renderer_Field_Input::class,
+			'input'     => Form_Renderer_Field_Input_Common::class,
 			'label'     => Form_Renderer_Field_Label::class,
 			'row'       => Form_Renderer_Field_Row::class,
 		],
@@ -118,7 +118,7 @@ class Factory_Form
 			'field'     => Form_Renderer_Field::class,
 			'container' => Form_Renderer_Field_Container::class,
 			'error'     => Form_Renderer_Field_Error::class,
-			'input'     => Form_Renderer_Field_Input::class,
+			'input'     => Form_Renderer_Field_Input_Common::class,
 			'label'     => Form_Renderer_Field_Label::class,
 			'row'       => Form_Renderer_Field_Row::class,
 		],
@@ -126,7 +126,7 @@ class Factory_Form
 			'field'     => Form_Renderer_Field::class,
 			'container' => Form_Renderer_Field_Container::class,
 			'error'     => Form_Renderer_Field_Error::class,
-			'input'     => Form_Renderer_Field_Input::class,
+			'input'     => Form_Renderer_Field_Input_Common::class,
 			'label'     => Form_Renderer_Field_Label::class,
 			'row'       => Form_Renderer_Field_Row::class,
 		],
@@ -134,7 +134,7 @@ class Factory_Form
 			'field'     => Form_Renderer_Field::class,
 			'container' => Form_Renderer_Field_Container::class,
 			'error'     => Form_Renderer_Field_Error::class,
-			'input'     => Form_Renderer_Field_Input::class,
+			'input'     => Form_Renderer_Field_Input_Common::class,
 			'label'     => Form_Renderer_Field_Label::class,
 			'row'       => Form_Renderer_Field_Row::class,
 		],
@@ -142,7 +142,7 @@ class Factory_Form
 			'field'     => Form_Renderer_Field::class,
 			'container' => Form_Renderer_Field_Container::class,
 			'error'     => Form_Renderer_Field_Error::class,
-			'input'     => Form_Renderer_Field_Input::class,
+			'input'     => Form_Renderer_Field_Input_Common::class,
 			'label'     => Form_Renderer_Field_Label::class,
 			'row'       => Form_Renderer_Field_Row::class,
 		],
@@ -150,7 +150,7 @@ class Factory_Form
 			'field'     => Form_Renderer_Field::class,
 			'container' => Form_Renderer_Field_Container::class,
 			'error'     => Form_Renderer_Field_Error::class,
-			'input'     => Form_Renderer_Field_Input::class,
+			'input'     => Form_Renderer_Field_Input_Common::class,
 			'label'     => Form_Renderer_Field_Label::class,
 			'row'       => Form_Renderer_Field_Row::class,
 		],
@@ -158,7 +158,7 @@ class Factory_Form
 			'field'     => Form_Renderer_Field::class,
 			'container' => Form_Renderer_Field_Container::class,
 			'error'     => Form_Renderer_Field_Error::class,
-			'input'     => Form_Renderer_Field_Input::class,
+			'input'     => Form_Renderer_Field_Input_Common::class,
 			'label'     => Form_Renderer_Field_Label::class,
 			'row'       => Form_Renderer_Field_Row::class,
 		],
@@ -166,7 +166,7 @@ class Factory_Form
 			'field'     => Form_Renderer_Field::class,
 			'container' => Form_Renderer_Field_Container::class,
 			'error'     => Form_Renderer_Field_Error::class,
-			'input'     => Form_Renderer_Field_Input::class,
+			'input'     => Form_Renderer_Field_Input_Select::class,
 			'label'     => Form_Renderer_Field_Label::class,
 			'row'       => Form_Renderer_Field_Row::class,
 		],
@@ -174,7 +174,7 @@ class Factory_Form
 			'field'     => Form_Renderer_Field::class,
 			'container' => Form_Renderer_Field_Container::class,
 			'error'     => Form_Renderer_Field_Error::class,
-			'input'     => Form_Renderer_Field_Input::class,
+			'input'     => Form_Renderer_Field_Input_MultiSelect::class,
 			'label'     => Form_Renderer_Field_Label::class,
 			'row'       => Form_Renderer_Field_Row::class,
 		],
@@ -182,7 +182,7 @@ class Factory_Form
 			'field'     => Form_Renderer_Field::class,
 			'container' => Form_Renderer_Field_Container::class,
 			'error'     => Form_Renderer_Field_Error::class,
-			'input'     => Form_Renderer_Field_Input::class,
+			'input'     => Form_Renderer_Field_Input_Checkbox::class,
 			'label'     => Form_Renderer_Field_Label::class,
 			'row'       => Form_Renderer_Field_Row::class,
 		],
@@ -190,7 +190,7 @@ class Factory_Form
 			'field'     => Form_Renderer_Field::class,
 			'container' => Form_Renderer_Field_Container::class,
 			'error'     => Form_Renderer_Field_Error::class,
-			'input'     => Form_Renderer_Field_Input::class,
+			'input'     => Form_Renderer_Field_Input_RadioButton::class,
 			'label'     => Form_Renderer_Field_Label::class,
 			'row'       => Form_Renderer_Field_Row::class,
 		],
@@ -198,7 +198,7 @@ class Factory_Form
 			'field'     => Form_Renderer_Field::class,
 			'container' => Form_Renderer_Field_Container::class,
 			'error'     => Form_Renderer_Field_Error::class,
-			'input'     => Form_Renderer_Field_Input::class,
+			'input'     => Form_Renderer_Field_Input_Textarea::class,
 			'label'     => Form_Renderer_Field_Label::class,
 			'row'       => Form_Renderer_Field_Row::class,
 		],
@@ -206,7 +206,7 @@ class Factory_Form
 			'field'     => Form_Renderer_Field::class,
 			'container' => Form_Renderer_Field_Container::class,
 			'error'     => Form_Renderer_Field_Error::class,
-			'input'     => Form_Renderer_Field_WYSIWYG::class,
+			'input'     => Form_Renderer_Field_Input_WYSIWYG::class,
 			'label'     => Form_Renderer_Field_Label::class,
 			'row'       => Form_Renderer_Field_Row::class,
 		],
@@ -214,7 +214,7 @@ class Factory_Form
 			'field'     => Form_Renderer_Field::class,
 			'container' => Form_Renderer_Field_Container::class,
 			'error'     => Form_Renderer_Field_Error::class,
-			'input'     => Form_Renderer_Field_Input::class,
+			'input'     => Form_Renderer_Field_Input_Common::class,
 			'label'     => Form_Renderer_Field_Label::class,
 			'row'       => Form_Renderer_Field_Row::class,
 		],
@@ -222,7 +222,7 @@ class Factory_Form
 			'field'     => Form_Renderer_Field::class,
 			'container' => Form_Renderer_Field_Container::class,
 			'error'     => Form_Renderer_Field_Error::class,
-			'input'     => Form_Renderer_Field_Input::class,
+			'input'     => Form_Renderer_Field_Input_File::class,
 			'label'     => Form_Renderer_Field_Label::class,
 			'row'       => Form_Renderer_Field_Row::class,
 		],
@@ -230,7 +230,7 @@ class Factory_Form
 			'field'     => Form_Renderer_Field::class,
 			'container' => Form_Renderer_Field_Container::class,
 			'error'     => Form_Renderer_Field_Error::class,
-			'input'     => Form_Renderer_Field_Input::class,
+			'input'     => Form_Renderer_Field_Input_File::class,
 			'label'     => Form_Renderer_Field_Label::class,
 			'row'       => Form_Renderer_Field_Row::class,
 		],
@@ -386,8 +386,7 @@ class Factory_Form
 	/**
 	 * @param string $field_type
 	 * @param string $element
-	 *
-	 * @param $class_name
+	 * @param string $class_name
 	 */
 	public static function setRendererFieldClassName( string $field_type, string $element, string $class_name ): void
 	{
@@ -397,15 +396,9 @@ class Factory_Form
 	/**
 	 * @param Form_Field $field
 	 * @param string $element
-	 * @return Form_Renderer_Field|Form_Renderer_Field_Row|Form_Renderer_Field_Label|Form_Renderer_Field_Container|Form_Renderer_Field_Input|Form_Renderer_Field_Error
+	 * @return Form_Renderer
 	 */
-	public static function getRendererFieldInstance( Form_Field $field, string $element ):
-					Form_Renderer_Field|
-					Form_Renderer_Field_Row|
-					Form_Renderer_Field_Label|
-					Form_Renderer_Field_Container|
-					Form_Renderer_Field_Input|
-					Form_Renderer_Field_Error
+	public static function getRendererFieldInstance( Form_Field $field, string $element ): Form_Renderer
 	{
 		$class_name = static::getRendererFieldClassName( $field->getType(), $element );
 		

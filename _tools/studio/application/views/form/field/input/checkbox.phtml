@@ -1,11 +1,11 @@
 <?php
 
 use Jet\MVC_View;
-use Jet\Form_Renderer_Field_Input;
+use Jet\Form_Renderer_Field_Input_Checkbox;
 
 /**
  * @var MVC_View $this
- * @var Form_Renderer_Field_Input $r
+ * @var Form_Renderer_Field_Input_Checkbox $r
  */
 $r = $this->getRaw( 'renderer' );
 $field = $r->getField();
@@ -17,19 +17,6 @@ if( !$r->getBaseCssClasses() ) {
 if( $field->getLastErrorCode() ) {
 	$r->addCustomCssClass( 'is-invalid' );
 }
-
-$r->setInputType('checkbox');
-
-$r->setCustomTagAttribute('value', 1);
-
-if($field->getIsReadonly()) {
-	$r->setCustomTagAttribute('disabled', 'disabled');
-}
-
-if($field->getValue()) {
-	$r->setCustomTagAttribute('checked', 'checked');
-}
-
 ?>
 <div class="<?= implode(' ', $r->getCssClasses()) ?>">
 	<input <?=$r->renderTagAttributes()?>/>

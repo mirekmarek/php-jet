@@ -82,6 +82,7 @@ class Form_Renderer_Field extends Form_Renderer_Single
 	public function row(): Form_Renderer_Field_Row
 	{
 		if( !$this->_renderer_row ) {
+			/** @noinspection PhpFieldAssignmentTypeMismatchInspection */
 			$this->_renderer_row = Factory_Form::getRendererFieldInstance( $this->field, 'row' );
 		}
 		
@@ -95,6 +96,7 @@ class Form_Renderer_Field extends Form_Renderer_Single
 	public function container(): Form_Renderer_Field_Container
 	{
 		if( !$this->_renderer_container ) {
+			/** @noinspection PhpFieldAssignmentTypeMismatchInspection */
 			$this->_renderer_container = Factory_Form::getRendererFieldInstance( $this->field, 'container' );
 		}
 		
@@ -108,6 +110,7 @@ class Form_Renderer_Field extends Form_Renderer_Single
 	public function error(): Form_Renderer_Field_Error
 	{
 		if( !$this->_renderer_error ) {
+			/** @noinspection PhpFieldAssignmentTypeMismatchInspection */
 			$this->_renderer_error = Factory_Form::getRendererFieldInstance( $this->field, 'error' );
 		}
 		
@@ -120,6 +123,7 @@ class Form_Renderer_Field extends Form_Renderer_Single
 	public function label(): Form_Renderer_Field_Label
 	{
 		if( !$this->_renderer_label ) {
+			/** @noinspection PhpFieldAssignmentTypeMismatchInspection */
 			$this->_renderer_label = Factory_Form::getRendererFieldInstance( $this->field, 'label' );
 		}
 		
@@ -132,6 +136,7 @@ class Form_Renderer_Field extends Form_Renderer_Single
 	public function input(): Form_Renderer_Field_Input
 	{
 		if( !$this->_renderer_input ) {
+			/** @noinspection PhpFieldAssignmentTypeMismatchInspection */
 			$this->_renderer_input = Factory_Form::getRendererFieldInstance( $this->field, 'input' );
 		}
 		

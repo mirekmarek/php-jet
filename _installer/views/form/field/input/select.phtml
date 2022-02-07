@@ -1,20 +1,18 @@
 <?php
 
 use Jet\MVC_View;
-use Jet\Form_Renderer_Field_Input;
+use Jet\Form_Renderer_Field_Input_Select;
 use Jet\Form_Field_Select;
 use Jet\Data_Text;
 use Jet\Data_Tree_Node;
 
 /**
  * @var MVC_View $this
- * @var Form_Renderer_Field_Input $r
+ * @var Form_Renderer_Field_Input_Select $r
  * @var Form_Field_Select $field
  */
 $r = $this->getRaw( 'renderer' );
 $field = $r->getField();
-
-$r->setHasValueAttribute( false );
 
 
 if( !$r->getBaseCssClasses() ) {

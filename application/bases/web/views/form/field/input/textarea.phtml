@@ -1,14 +1,13 @@
 <?php
 
 use Jet\MVC_View;
-use Jet\Form_Renderer_Field_Input;
+use Jet\Form_Renderer_Field_Input_Textarea;
 
 /**
  * @var MVC_View $this
- * @var Form_Renderer_Field_Input $r
+ * @var Form_Renderer_Field_Input_Textarea $r
  */
 $r = $this->getRaw( 'renderer' );
-$r->setHasValueAttribute( false );
 
 if( !$r->getBaseCssClasses() ) {
 	$r->setBaseCssClass( 'form-control' );

@@ -1,19 +1,16 @@
 <?php
 
 use Jet\MVC_View;
-use Jet\Form_Renderer_Field_Input;
+use Jet\Form_Renderer_Field_Input_File;
 use Jet\Form_Field_File;
 
 /**
  * @var MVC_View $this
- * @var Form_Renderer_Field_Input $r
+ * @var Form_Renderer_Field_Input_File $r
  * @var Form_Field_File $field
  */
 $r = $this->getRaw( 'renderer' );
 $field = $r->getField();
-
-$r->setInputType('file');
-$r->setHasValueAttribute( false );
 
 if( !$r->getBaseCssClasses() ) {
 	$r->setBaseCssClass( 'form-control' );
@@ -22,13 +19,5 @@ if( !$r->getBaseCssClasses() ) {
 if( $field->getLastErrorCode() ) {
 	$r->addCustomCssClass( 'is-invalid' );
 }
-
-if( $field->getAllowMultipleUpload() ) {
-	$r->setCustomTagAttribute('multiple', 'multiple');
-}
-if( $field->getAllowedMimeTypes() ) {
-	$r->setCustomTagAttribute('accept', implode( '|', $field->getAllowedMimeTypes() ));
-}
-
 ?>
 <input <?=$r->renderTagAttributes()?>/>

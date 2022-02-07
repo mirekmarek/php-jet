@@ -11,7 +11,7 @@ namespace Jet;
 /**
  *
  */
-class Form_Renderer_Field_WYSIWYG extends Form_Renderer_Field_Input
+class Form_Renderer_Field_Input_WYSIWYG extends Form_Renderer_Field_Input_Textarea
 {
 	
 	/**

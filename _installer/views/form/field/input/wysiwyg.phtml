@@ -1,18 +1,16 @@
 <?php
 
 use Jet\MVC_View;
-use Jet\Form_Renderer_Field_WYSIWYG;
+use Jet\Form_Renderer_Field_Input_WYSIWYG;
 use Jet\Form_Field_WYSIWYG;
 
 /**
  * @var MVC_View $this
- * @var Form_Renderer_Field_WYSIWYG $r
+ * @var Form_Renderer_Field_Input_WYSIWYG $r
  * @var Form_Field_WYSIWYG $field
  */
 $r = $this->getRaw( 'renderer' );
 $field = $r->getField();
-
-$r->setHasValueAttribute( false );
 
 
 

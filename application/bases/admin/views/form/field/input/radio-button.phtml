@@ -1,47 +1,26 @@
 <?php
-
 use Jet\MVC_View;
-use Jet\Form_Renderer_Field_Input;
-use Jet\Form_Field_Select;
-use Jet\Data_Text;
+use Jet\Form_Renderer_Field_Input_RadioButton;
+use Jet\Form_Field_RadioButton;
 
 /**
  * @var MVC_View $this
- * @var Form_Renderer_Field_Input $r
- * @var Form_Field_Select $field
+ * @var Form_Renderer_Field_Input_RadioButton $r
+ * @var Form_Field_RadioButton $field
  */
 $r = $this->getRaw( 'renderer' );
 $field = $r->getField();
-
-$r->setInputType('radio');
-$r->setHasValueAttribute( false );
 
 $value = $field->getValue();
 if( $field->getLastErrorCode() ) {
 	$r->addCustomCssClass( 'is-invalid' );
 }
 
-$container_class = 'radio';
-if($field->getIsReadonly()) {
-	$container_class = 'radio disabled';
-}
+$container_class = ($field->getIsReadonly()) ? 'radio disabled' : 'radio';
 
 
-$c = 0;
 foreach( $field->getSelectOptions() as $key => $option ):
-	$c++;
-	
-	
-	$id = $field->getId().'__'.$c;
-	
-	$r->setCustomTagAttribute('id', $id);
-	$r->setCustomTagAttribute('value', Data_Text::htmlSpecialChars( $key ));
-	
-	if($field->optionIsSelected($key)) {
-	    $r->setCustomTagAttribute('checked', 'checked');
-	} else {
-		$r->unsetCustomTagAttribute('checked');
-	}
+	$r->setCurrentOption( $key, $option );
 	
 	if(!$option->getSelectOptionCssClass()) {
 		$option->setSelectOptionCssClass('form-check-label');
@@ -49,6 +28,6 @@ foreach( $field->getSelectOptions() as $key => $option ):
 	?>
 	<div class="<?= $container_class ?>">
 		<input <?=$r->renderTagAttributes()?>/>
-		<label for="<?= $id ?>" <?=$option->getSelectOptionCss()?>><?= $option ?></label>
+		<label for="<?= $r->getFieldId() ?>" <?=$option->getSelectOptionCss()?>><?= $option ?></label>
 	</div>
 <?php endforeach; ?>
