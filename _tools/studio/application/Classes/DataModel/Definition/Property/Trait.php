@@ -267,7 +267,12 @@ trait DataModel_Definition_Property_Trait
 		$form_field_label_filed->setFieldValueCatcher( function( $value ) {
 			$this->setFormFieldLabel( $value );
 		} );
-
+		
+		$form_field_help_text_filed = new Form_Field_Input( 'form_field_help_text', 'Help text:', $this->getFormFieldHelpText() );
+		$form_field_help_text_filed->setFieldValueCatcher( function( $value ) {
+			$this->setFormFieldHelpText( $value );
+		} );
+		
 
 		$form_field_validation_regexp_filed = new Form_Field_Input( 'form_field_validation_regexp', 'Validation reg. exp:', $this->getFormFieldValidationRegexp() );
 		$form_field_validation_regexp_filed->setFieldValueCatcher( function( $value ) {
@@ -332,6 +337,7 @@ trait DataModel_Definition_Property_Trait
 		$fields[$form_field_type_field->getName()] = $form_field_type_field;
 		$fields[$form_field_is_required_filed->getName()] = $form_field_is_required_filed;
 		$fields[$form_field_label_filed->getName()] = $form_field_label_filed;
+		$fields[$form_field_help_text_filed->getName()] = $form_field_help_text_filed;
 		$fields[$form_field_validation_regexp_filed->getName()] = $form_field_validation_regexp_filed;
 		$fields[$form_field_min_value_filed->getName()] = $form_field_min_value_filed;
 		$fields[$form_field_max_value_filed->getName()] = $form_field_max_value_filed;
@@ -847,7 +853,11 @@ trait DataModel_Definition_Property_Trait
 			if($this->getFormFieldLabel()) {
 				$property->setAttribute( 'DataModel_Definition', 'form_field_label', $this->getFormFieldLabel() );
 			}
-
+			
+			if($this->getFormFieldHelpText()) {
+				$property->setAttribute( 'DataModel_Definition', 'form_field_help_text', $this->getFormFieldHelpText() );
+			}
+			
 			if( $this->getFormFieldValidationRegexp() ) {
 				$property->setAttribute( 'DataModel_Definition', 'form_field_validation_regexp', $this->getFormFieldValidationRegexp() );
 			}

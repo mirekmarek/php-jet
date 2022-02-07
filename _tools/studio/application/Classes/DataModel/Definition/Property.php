@@ -105,6 +105,7 @@ class DataModel_Definition_Property
 			'required_options'        => [
 				'form_field_is_required',
 				'form_field_label',
+				'form_field_help_text',
 				'form_field_validation_regexp',
 				'form_setter_name',
 				'form_field_creator_method_name',
@@ -121,6 +122,7 @@ class DataModel_Definition_Property
 			'required_options'        => [
 				'form_field_is_required',
 				'form_field_label',
+				'form_field_help_text',
 				'form_setter_name',
 				'form_field_creator_method_name',
 			],
@@ -134,6 +136,7 @@ class DataModel_Definition_Property
 			'required_options'        => [
 				'form_field_is_required',
 				'form_field_label',
+				'form_field_help_text',
 				'form_setter_name',
 				'form_field_creator_method_name',
 			],
@@ -147,6 +150,7 @@ class DataModel_Definition_Property
 			'required_options'        => [
 				'form_field_is_required',
 				'form_field_label',
+				'form_field_help_text',
 				'form_field_min_value',
 				'form_field_max_value',
 				'form_setter_name',
@@ -163,6 +167,7 @@ class DataModel_Definition_Property
 			'required_options'        => [
 				'form_field_is_required',
 				'form_field_label',
+				'form_field_help_text',
 				'form_field_min_value',
 				'form_field_max_value',
 				'form_setter_name',
@@ -179,6 +184,7 @@ class DataModel_Definition_Property
 			'required_options'        => [
 				'form_field_is_required',
 				'form_field_label',
+				'form_field_help_text',
 				'form_field_min_value',
 				'form_field_max_value',
 				'form_setter_name',
@@ -196,6 +202,7 @@ class DataModel_Definition_Property
 			'required_options'        => [
 				'form_field_is_required',
 				'form_field_label',
+				'form_field_help_text',
 				'form_setter_name',
 				'form_field_creator_method_name',
 			],
@@ -210,6 +217,7 @@ class DataModel_Definition_Property
 			'required_options'        => [
 				'form_field_is_required',
 				'form_field_label',
+				'form_field_help_text',
 				'form_setter_name',
 				'form_field_creator_method_name',
 			],
@@ -224,6 +232,7 @@ class DataModel_Definition_Property
 			'required_options'        => [
 				'form_field_is_required',
 				'form_field_label',
+				'form_field_help_text',
 				'form_setter_name',
 				'form_field_creator_method_name',
 			],
@@ -238,6 +247,7 @@ class DataModel_Definition_Property
 			'required_options'        => [
 				'form_field_is_required',
 				'form_field_label',
+				'form_field_help_text',
 				'form_setter_name',
 				'form_field_creator_method_name',
 			],
@@ -252,6 +262,7 @@ class DataModel_Definition_Property
 			'required_options'        => [
 				'form_field_is_required',
 				'form_field_label',
+				'form_field_help_text',
 				'form_setter_name',
 				'form_field_creator_method_name',
 			],
@@ -267,6 +278,7 @@ class DataModel_Definition_Property
 			'required_options'        => [
 				'form_field_is_required',
 				'form_field_label',
+				'form_field_help_text',
 				'form_setter_name',
 				'form_field_creator_method_name',
 			],
@@ -281,6 +293,7 @@ class DataModel_Definition_Property
 			'required_options'        => [
 				'form_field_is_required',
 				'form_field_label',
+				'form_field_help_text',
 				'form_setter_name',
 				'form_field_creator_method_name',
 			],
@@ -296,6 +309,7 @@ class DataModel_Definition_Property
 			'required_options'        => [
 				'form_field_is_required',
 				'form_field_label',
+				'form_field_help_text',
 				'form_setter_name',
 				'form_field_creator_method_name',
 			],
@@ -310,6 +324,7 @@ class DataModel_Definition_Property
 			'required_options'        => [
 				'form_field_is_required',
 				'form_field_label',
+				'form_field_help_text',
 				'form_setter_name',
 				'form_field_creator_method_name',
 			],
@@ -325,6 +340,7 @@ class DataModel_Definition_Property
 			'required_options'        => [
 				'form_field_is_required',
 				'form_field_label',
+				'form_field_help_text',
 				'form_setter_name',
 				'form_field_creator_method_name',
 			],
@@ -340,6 +356,7 @@ class DataModel_Definition_Property
 			'required_options'        => [
 				'form_field_is_required',
 				'form_field_label',
+				'form_field_help_text',
 				'form_setter_name',
 				'form_field_get_select_options_callback',
 				'form_field_creator_method_name',
@@ -355,6 +372,7 @@ class DataModel_Definition_Property
 			'required_options'        => [
 				'form_field_is_required',
 				'form_field_label',
+				'form_field_help_text',
 				'form_setter_name',
 				'form_field_get_select_options_callback',
 				'form_field_creator_method_name',
@@ -371,6 +389,7 @@ class DataModel_Definition_Property
 			'required_options'        => [
 				'form_field_is_required',
 				'form_field_label',
+				'form_field_help_text',
 				'form_setter_name',
 				'form_field_creator_method_name',
 			],
@@ -384,6 +403,7 @@ class DataModel_Definition_Property
 			'required_options'        => [
 				'form_field_is_required',
 				'form_field_label',
+				'form_field_help_text',
 				'form_setter_name',
 				'form_field_get_select_options_callback',
 				'form_field_creator_method_name',
@@ -401,6 +421,7 @@ class DataModel_Definition_Property
 			'required_options'        => [
 				'form_field_is_required',
 				'form_field_label',
+				'form_field_help_text',
 				'form_setter_name',
 				'form_field_creator_method_name',
 			],
@@ -415,6 +436,7 @@ class DataModel_Definition_Property
 			'required_options'        => [
 				'form_field_is_required',
 				'form_field_label',
+				'form_field_help_text',
 				'form_setter_name',
 				'form_field_creator_method_name',
 			],
@@ -429,6 +451,7 @@ class DataModel_Definition_Property
 			'required_options'        => [
 				'form_field_is_required',
 				'form_field_label',
+				'form_field_help_text',
 				'form_setter_name',
 				'form_field_creator_method_name',
 			],

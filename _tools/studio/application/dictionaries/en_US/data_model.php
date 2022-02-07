@@ -178,4 +178,5 @@ return [
 	'Invalid DataModel table name name format' => '',
 	'DataModel with the same table name already exists' => '',
 	'Create / update database table' => '',
+	'Help text:' => '',
 ];
