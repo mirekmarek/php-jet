@@ -11,7 +11,6 @@ use Jet\Form_Field_RadioButton;
 $r = $this->getRaw( 'renderer' );
 $field = $r->getField();
 
-$value = $field->getValue();
 if( $field->getLastErrorCode() ) {
 	$r->addCustomCssClass( 'is-invalid' );
 }
