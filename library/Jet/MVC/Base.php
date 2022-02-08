@@ -671,7 +671,10 @@ class MVC_Base extends BaseObject implements MVC_Base_Interface
 		$data = get_object_vars( $this );
 
 		foreach( $data as $k => $v ) {
-			if( $k[0] == '_' ) {
+			if(
+				$k[0] == '_' ||
+				$v===null
+			) {
 				unset( $data[$k] );
 			}
 		}
