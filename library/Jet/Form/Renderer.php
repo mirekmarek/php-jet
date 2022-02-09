@@ -239,7 +239,15 @@ abstract class Form_Renderer extends BaseObject
 
 		if( $class_creator && ($width=$this->getWidth()) ) {
 			foreach( $width as $size => $w ) {
-				$css_classes[] = $class_creator( $size, $w );
+				$_classes = $class_creator( $size, $w );
+				if($_classes) {
+					$_classes = explode(' ', $_classes);
+					foreach($_classes as $class) {
+						if($class) {
+							$css_classes[] = $class;
+						}
+					}
+				}
 			}
 		}
 
