@@ -39,7 +39,7 @@ class Form_Renderer_Field_Input_WYSIWYG extends Form_Renderer_Field_Input_Textar
 	 * @param string $URI
 	 * @param string $media
 	 */
-	public function appendWYSIWYGEditorCSSFile( string $URI, string $media = 'screen' ): void
+	public function appendEditorCSSFile( string $URI, string $media = '' ): void
 	{
 		if( !isset( $this->editor_CSS_files[$media] ) ) {
 			$this->editor_CSS_files[$media] = [];
@@ -54,14 +54,6 @@ class Form_Renderer_Field_Input_WYSIWYG extends Form_Renderer_Field_Input_Textar
 	public function getEditorCSSFiles(): array
 	{
 		return $this->editor_CSS_files;
-	}
-	
-	/**
-	 * @param array $editor_CSS_files
-	 */
-	public function setEditorCSSFiles( array $editor_CSS_files ): void
-	{
-		$this->editor_CSS_files = $editor_CSS_files;
 	}
 	
 	/**
@@ -81,11 +73,11 @@ class Form_Renderer_Field_Input_WYSIWYG extends Form_Renderer_Field_Input_Textar
 	}
 	
 	/**
-	 * @param array $editor_JavaScript_files
+	 * @param array $editor_config
 	 */
-	public function setEditorJavaScriptFiles( array $editor_JavaScript_files ): void
+	public function setEditorConfig( array $editor_config ): void
 	{
-		$this->editor_JavaScript_files = $editor_JavaScript_files;
+		$this->editor_config = $editor_config;
 	}
 	
 	/**
@@ -94,14 +86,6 @@ class Form_Renderer_Field_Input_WYSIWYG extends Form_Renderer_Field_Input_Textar
 	public function getEditorConfig(): array|null
 	{
 		return $this->editor_config;
-	}
-	
-	/**
-	 * @param array $editor_config
-	 */
-	public function setEditorConfig( array $editor_config ): void
-	{
-		$this->editor_config = $editor_config;
 	}
 	
 	

@@ -16,16 +16,18 @@ $field = $r->getField();
 
 //-----------------------------------------------------------------------------------
 
-/** @noinspection PhpStatementHasEmptyBodyInspection */
-if( !$r->getEditorCSSFiles() ) {
-	//$r->appendWYSIWYGEditorCSSFile( URI: '//cdn.tiny.cloud/1/no-api-key/tinymce/5/skins/lightgray/skin.min.css', media: '');
-}
-
-if( !$r->getEditorJavaScriptFiles() ) {
-	$r->setEditorJavaScriptFiles([
-	    '//cdn.tiny.cloud/1/no-api-key/tinymce/5/tinymce.min.js',
-	]);
-}
+//$r->appendEditorCSSFile( '//cdn.tiny.cloud/1/no-api-key/tinymce/5/skins/lightgray/skin.min.css');
+$r->appendEditorJavaScriptFile('//cdn.tiny.cloud/1/no-api-key/tinymce/5/tinymce.min.js',);
+$r->setEditorInitializeCodeGenerator( function( Form_Field_WYSIWYG $field, array $editor_config ) : string {
+	
+	$editor_config['selector'] = '#' . $field->getId();
+	
+	if( $field->getIsReadonly() ) {
+		$editor_config['readonly'] = 1;
+	}
+	
+	return 'tinymce.init(' . json_encode( $editor_config ) . ')';
+} );
 
 if( !$r->getEditorConfig() ) {
 	$r->setEditorConfig([
@@ -51,36 +53,14 @@ if( !$r->getEditorConfig() ) {
     ]);
 }
 
-if( !$r->getEditorInitializeCodeGenerator() ) {
-	$r->setEditorInitializeCodeGenerator( function( Form_Field_WYSIWYG $field, array $editor_config ) {
-	    
-	    $editor_config['selector'] = '#' . $field->getId();
-	    
-	    if( $field->getIsReadonly() ) {
-		    $editor_config['readonly'] = 1;
-	    }
-	    
-	    /** @noinspection JSUnresolvedVariable */
-	    /** @noinspection BadExpressionStatementJS */
-	    return '<script>'
-		    . 'tinymce.init(' . json_encode( $editor_config ) . ')'
-		    . '</script>' . PHP_EOL;
-	    
-    } );
-}
-
 
 //-----------------------------------------------------------------------------------
 /*
-if( !$r->getEditorCSSFiles() ) {
-	$r->appendWYSIWYGEditorCSSFile( URI: '//cdnjs.cloudflare.com/ajax/libs/summernote/0.8.9/summernote.css', media: '');
-}
-
-if( !$r->getEditorJavaScriptFiles() ) {
-	$r->setEditorJavaScriptFiles([
-	    '//cdnjs.cloudflare.com/ajax/libs/summernote/0.8.9/summernote.js'
-	]);
-}
+$r->appendEditorCSSFile( '//cdnjs.cloudflare.com/ajax/libs/summernote/0.8.9/summernote.css');
+$r->appendEditorJavaScriptFile('//cdnjs.cloudflare.com/ajax/libs/summernote/0.8.9/summernote.js');
+$r->setEditorInitializeCodeGenerator( function( Form_Field_WYSIWYG $field, array $editor_config ) : string {
+    return '$("#'.$field->getId().'").summernote('.json_encode($editor_config).');';
+});
 
 if( !$r->getEditorConfig() ) {
 	$r->setEditorConfig([
@@ -88,18 +68,9 @@ if( !$r->getEditorConfig() ) {
 	]);
 }
 
-if( !$r->getEditorInitializeCodeGenerator() ) {
-	
-	$r->setEditorInitializeCodeGenerator( function( Form_Field_WYSIWYG $field, array $editor_config ) {
-	    return '<script type="text/javascript">'
-		    .'$("#'.$field->getId().'").summernote('.json_encode($editor_config).');'
-		    .'</script>'.PHP_EOL;
-	});
-}
 */
 //-----------------------------------------------------------------------------------
 
 ?>
 <textarea <?=$r->renderTagAttributes()?>><?= $field->getValueRaw() ?></textarea>
-
-<?= $r->generateEditorInitializeCode(); ?>
+<script><?= $r->generateEditorInitializeCode(); ?></script>
