@@ -324,5 +324,28 @@ class SysConf_Jet_Form_DefaultViews
 	{
 		static::$views[$element][$view] = $value;
 	}
+	
+	public static function registerNewFieldType( string $field_type, array $views = [] ) : void
+	{
+		$default_views = [
+			'field' => 'field',
+			'row_start' => 'field/row/start',
+			'row_end' => 'field/row/end',
+			'container_start' => 'field/container/start',
+			'container_end' => 'field/container/end',
+			'error' => 'field/error',
+			'help' => 'field/help',
+			'label' => 'field/label',
+			'input' => 'field/input/input',
+		];
+		
+		foreach($default_views as $element=>$view) {
+			if(!isset($views[$element])) {
+				$views[$element] = $view;
+			}
+		}
+		
+		static::$views[$field_type] = $views;
+	}
 
 }

@@ -431,4 +431,32 @@ class Factory_Form
 		
 		return new $class_name( $field );
 	}
+	
+	/**
+	 * @param string $field_type
+	 * @param string $field_class_name
+	 * @param array $renderers
+	 */
+	public static function registerNewFieldType( string $field_type, string $field_class_name, array $renderers = [] )
+	{
+		
+		$default_renderers = [
+			'field'     => Form_Renderer_Field::class,
+			'container' => Form_Renderer_Field_Container::class,
+			'error'     => Form_Renderer_Field_Error::class,
+			'help'      => Form_Renderer_Field_Help::class,
+			'input'     => Form_Renderer_Field_Input_Common::class,
+			'label'     => Form_Renderer_Field_Label::class,
+			'row'       => Form_Renderer_Field_Row::class,
+		];
+		
+		foreach($default_renderers as $element => $class_name) {
+			if(!isset($renderers[$element])) {
+				$renderers[$element] = $class_name;
+			}
+		}
+		
+		static::$field_class_names[$field_type] = $field_class_name;
+		static::$field_renderer_class_names[$field_type] = $renderers;
+	}
 }

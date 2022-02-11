@@ -17,10 +17,21 @@ use JetApplication\Content_Article;
 
 $form = $this->getRaw( 'form' );
 
-$form->renderer()->setDefaultLabelWidth( [Form_Renderer::LJ_SIZE_MEDIUM => 2] );
-$form->renderer()->setDefaultFieldWidth( [Form_Renderer::LJ_SIZE_MEDIUM => 9] );
+$form->renderer()->setDefaultLabelWidth( [
+	Form_Renderer::LJ_SIZE_EXTRA_SMALL => 12,
+	Form_Renderer::LJ_SIZE_SMALL => 12,
+	Form_Renderer::LJ_SIZE_MEDIUM => 2,
+	Form_Renderer::LJ_SIZE_LARGE => 2
+] );
+$form->renderer()->setDefaultFieldWidth( [
+	Form_Renderer::LJ_SIZE_EXTRA_SMALL => 12,
+	Form_Renderer::LJ_SIZE_SMALL => 12,
+	Form_Renderer::LJ_SIZE_MEDIUM => 10,
+	Form_Renderer::LJ_SIZE_LARGE => 8
+] );
 
 //$form->field( 'text' )->input()->addCustomCssStyle( 'height:400px' );
+
 
 
 ?>

@@ -17,7 +17,7 @@ $field = $r->getField();
 //-----------------------------------------------------------------------------------
 
 //$r->appendEditorCSSFile( '//cdn.tiny.cloud/1/no-api-key/tinymce/5/skins/lightgray/skin.min.css');
-$r->appendEditorJavaScriptFile('//cdn.tiny.cloud/1/no-api-key/tinymce/5/tinymce.min.js',);
+$r->appendEditorJavaScriptFile('//cdn.tiny.cloud/1/no-api-key/tinymce/5/tinymce.min.js');
 $r->setEditorInitializeCodeGenerator( function( Form_Field_WYSIWYG $field, array $editor_config ) : string {
 	
 	$editor_config['selector'] = '#' . $field->getId();
