@@ -286,34 +286,7 @@ namespace JetStudio;
 			},
 
 			edit: {
-				form_field_types: <?=json_encode( DataModel_Definition_Property::getFormFieldTypes() )?>,
 				selectFormFieldType: function (property_id, selected_type) {
-
-					$('.ffd-property-' + property_id).hide();
-					$('.ffd-em-property-' + property_id).hide();
-
-					if (!DataModel.property.edit.form_field_types[selected_type]) {
-						return;
-					}
-
-					let d = DataModel.property.edit.form_field_types[selected_type];
-
-					let i;
-					let required_option;
-					for (i in d['required_options']) {
-						required_option = d['required_options'][i];
-
-						$('.ffd-property-' + property_id + '.ffd-option-' + required_option).show();
-					}
-
-					let required_em;
-					for (i in d['required_error_messages']) {
-						required_em = d['required_error_messages'][i];
-
-						$('.ffd-em-property-' + property_id + '.ffd-em-' + required_em).show();
-					}
-
-
 				},
 
 				save: function (property_id) {

@@ -10,6 +10,7 @@ namespace JetStudio\ModuleWizard\BasicAdminDataHandler;
 
 use Jet\DataModel;
 use Jet\Form;
+use Jet\Form_Field;
 use Jet\Form_Field_Input;
 use Jet\Form_Field_Select;
 use Jet\Http_Headers;
@@ -220,7 +221,7 @@ class Wizard extends ModuleWizard
 				$this->values[$f] = $value;
 			} );
 			$field->setErrorMessages( [
-				Form_Field_Select::ERROR_CODE_EMPTY => 'Please enter event name',
+				Form_Field::ERROR_CODE_EMPTY => 'Please enter event name',
 			] );
 			$fields[] = $field;
 
@@ -238,8 +239,8 @@ class Wizard extends ModuleWizard
 		$acl_entity_name->setIsRequired( true );
 		$acl_entity_name->setValidationRegexp( '/^[a-z0-9\_]{2,}$/i' );
 		$acl_entity_name->setErrorMessages( [
-			Form_Field_Input::ERROR_CODE_EMPTY          => 'Please enter valid entity name',
-			Form_Field_Input::ERROR_CODE_INVALID_FORMAT => 'Please enter valid entity name',
+			Form_Field::ERROR_CODE_EMPTY          => 'Please enter valid entity name',
+			Form_Field::ERROR_CODE_INVALID_FORMAT => 'Please enter valid entity name',
 		] );
 
 		$acl_entity_name->setFieldValueCatcher( function( $value ) {
@@ -251,8 +252,8 @@ class Wizard extends ModuleWizard
 		$acl_constant_name->setIsRequired( true );
 		$acl_constant_name->setValidationRegexp( '/^[a-z0-9\_]{2,}$/i' );
 		$acl_constant_name->setErrorMessages( [
-			Form_Field_Input::ERROR_CODE_EMPTY          => 'Please enter valid constant name',
-			Form_Field_Input::ERROR_CODE_INVALID_FORMAT => 'Please enter valid constant name',
+			Form_Field::ERROR_CODE_EMPTY          => 'Please enter valid constant name',
+			Form_Field::ERROR_CODE_INVALID_FORMAT => 'Please enter valid constant name',
 		] );
 		$acl_constant_name->setFieldValueCatcher( function( $value ) {
 			$this->values['ACL_ENTITY_CONST_NAME'] = $value;
@@ -306,8 +307,8 @@ class Wizard extends ModuleWizard
 		} );
 		$item_var_name->setValidationRegexp( '/^[a-z0-9\_]{2,}$/i' );
 		$item_var_name->setErrorMessages( [
-			Form_Field_Input::ERROR_CODE_EMPTY          => 'Please variable name',
-			Form_Field_Input::ERROR_CODE_INVALID_FORMAT => 'Please variable name',
+			Form_Field::ERROR_CODE_EMPTY          => 'Please variable name',
+			Form_Field::ERROR_CODE_INVALID_FORMAT => 'Please variable name',
 		] );
 		$fields[] = $item_var_name;
 
@@ -318,8 +319,8 @@ class Wizard extends ModuleWizard
 		} );
 		$id_property_field->setIsRequired( true );
 		$id_property_field->setErrorMessages( [
-			Form_Field_Select::ERROR_CODE_EMPTY         => 'Please select ID property',
-			Form_Field_Select::ERROR_CODE_INVALID_VALUE => 'Please select ID property',
+			Form_Field::ERROR_CODE_EMPTY         => 'Please select ID property',
+			Form_Field::ERROR_CODE_INVALID_VALUE => 'Please select ID property',
 		] );
 		$id_property_field->setSelectOptions( $id_properties );
 		$fields[] = $id_property_field;
@@ -331,8 +332,8 @@ class Wizard extends ModuleWizard
 		} );
 		$item_id_getter->setValidationRegexp( '/^[a-z0-9\_]{2,}$/i' );
 		$item_id_getter->setErrorMessages( [
-			Form_Field_Input::ERROR_CODE_EMPTY          => 'Please getter method name',
-			Form_Field_Input::ERROR_CODE_INVALID_FORMAT => 'Please getter method name',
+			Form_Field::ERROR_CODE_EMPTY          => 'Please getter method name',
+			Form_Field::ERROR_CODE_INVALID_FORMAT => 'Please getter method name',
 		] );
 		$fields[] = $item_id_getter;
 
@@ -343,8 +344,8 @@ class Wizard extends ModuleWizard
 		} );
 		$name_property_field->setIsRequired( true );
 		$name_property_field->setErrorMessages( [
-			Form_Field_Select::ERROR_CODE_EMPTY         => 'Please select name property',
-			Form_Field_Select::ERROR_CODE_INVALID_VALUE => 'Please select name property',
+			Form_Field::ERROR_CODE_EMPTY         => 'Please select name property',
+			Form_Field::ERROR_CODE_INVALID_VALUE => 'Please select name property',
 		] );
 		$name_property_field->setSelectOptions( $name_properties );
 		$fields[] = $name_property_field;
@@ -357,8 +358,8 @@ class Wizard extends ModuleWizard
 		} );
 		$item_name_getter->setValidationRegexp( '/^[a-z0-9\_]{2,}$/i' );
 		$item_name_getter->setErrorMessages( [
-			Form_Field_Input::ERROR_CODE_EMPTY          => 'Please getter method name',
-			Form_Field_Input::ERROR_CODE_INVALID_FORMAT => 'Please getter method name',
+			Form_Field::ERROR_CODE_EMPTY          => 'Please getter method name',
+			Form_Field::ERROR_CODE_INVALID_FORMAT => 'Please getter method name',
 		] );
 		$fields[] = $item_name_getter;
 
@@ -374,8 +375,8 @@ class Wizard extends ModuleWizard
 		} );
 		$data_model_class_alias->setValidationRegexp( '/^[a-z0-9\_]{2,}$/i' );
 		$data_model_class_alias->setErrorMessages( [
-			Form_Field_Input::ERROR_CODE_EMPTY          => 'Please enter class alias',
-			Form_Field_Input::ERROR_CODE_INVALID_FORMAT => 'Please enter class alias',
+			Form_Field::ERROR_CODE_EMPTY          => 'Please enter class alias',
+			Form_Field::ERROR_CODE_INVALID_FORMAT => 'Please enter class alias',
 		] );
 		$fields[] = $data_model_class_alias;
 
@@ -387,8 +388,8 @@ class Wizard extends ModuleWizard
 		} );
 		$data_model_class_alias->setValidationRegexp( '/^[a-z0-9\_]{2,}$/i' );
 		$data_model_class_alias->setErrorMessages( [
-			Form_Field_Input::ERROR_CODE_EMPTY          => 'Please enter class alias',
-			Form_Field_Input::ERROR_CODE_INVALID_FORMAT => 'Please enter class alias',
+			Form_Field::ERROR_CODE_EMPTY          => 'Please enter class alias',
+			Form_Field::ERROR_CODE_INVALID_FORMAT => 'Please enter class alias',
 		] );
 		$fields[] = $data_model_class_alias;
 
@@ -413,8 +414,8 @@ class Wizard extends ModuleWizard
 		} );
 		$page_base_id_field->setIsRequired( true );
 		$page_base_id_field->setErrorMessages( [
-			Form_Field_Select::ERROR_CODE_EMPTY         => 'Please select base',
-			Form_Field_Select::ERROR_CODE_INVALID_VALUE => 'Please select base',
+			Form_Field::ERROR_CODE_EMPTY         => 'Please select base',
+			Form_Field::ERROR_CODE_INVALID_VALUE => 'Please select base',
 		] );
 		$page_base_id_field->setSelectOptions( $bases_list );
 		$fields[] = $page_base_id_field;
@@ -427,7 +428,7 @@ class Wizard extends ModuleWizard
 			$this->page_name = $value;
 		} );
 		$page_name_field->setErrorMessages([
-			Form_Field_Select::ERROR_CODE_EMPTY => 'Please enter page name',
+			Form_Field::ERROR_CODE_EMPTY => 'Please enter page name',
 		]);
 		$fields[] = $page_name_field;
 		*/
@@ -439,7 +440,7 @@ class Wizard extends ModuleWizard
 			$this->values['PAGE_ID'] = $value;
 		} );
 		$page_id_field->setErrorMessages( [
-			Form_Field_Select::ERROR_CODE_EMPTY => 'Please enter page ID',
+			Form_Field::ERROR_CODE_EMPTY => 'Please enter page ID',
 		] );
 		$fields[] = $page_id_field;
 
@@ -450,7 +451,7 @@ class Wizard extends ModuleWizard
 			$this->values['PAGE_TITLE'] = $value;
 		} );
 		$page_title_field->setErrorMessages( [
-			Form_Field_Select::ERROR_CODE_EMPTY => 'Please enter page title',
+			Form_Field::ERROR_CODE_EMPTY => 'Please enter page title',
 		] );
 		$fields[] = $page_title_field;
 
@@ -468,7 +469,7 @@ class Wizard extends ModuleWizard
 			$this->values['PAGE_PATH_FRAGMENT'] = $value;
 		} );
 		$page_relative_path_fragment_field->setErrorMessages( [
-			Form_Field_Select::ERROR_CODE_EMPTY => 'Please enter page URL',
+			Form_Field::ERROR_CODE_EMPTY => 'Please enter page URL',
 		] );
 		$fields[] = $page_relative_path_fragment_field;
 
@@ -498,8 +499,8 @@ class Wizard extends ModuleWizard
 		} );
 		$menu_item_target_menu_id_field->setIsRequired( true );
 		$menu_item_target_menu_id_field->setErrorMessages( [
-			Form_Field_Select::ERROR_CODE_EMPTY         => 'Please select menu',
-			Form_Field_Select::ERROR_CODE_INVALID_VALUE => 'Please select menu',
+			Form_Field::ERROR_CODE_EMPTY         => 'Please select menu',
+			Form_Field::ERROR_CODE_INVALID_VALUE => 'Please select menu',
 		] );
 		$menu_item_target_menu_id_field->setSelectOptions( $menus_list );
 		$fields[] = $menu_item_target_menu_id_field;
@@ -510,7 +511,7 @@ class Wizard extends ModuleWizard
 			$this->values['MENU_ITEM_ID'] = $value;
 		} );
 		$menu_item_id_field->setErrorMessages( [
-			Form_Field_Select::ERROR_CODE_EMPTY => 'Please enter menu item ID',
+			Form_Field::ERROR_CODE_EMPTY => 'Please enter menu item ID',
 		] );
 		$fields[] = $menu_item_id_field;
 
@@ -549,7 +550,7 @@ class Wizard extends ModuleWizard
 				$this->values[$f] = $field->getValueRaw();
 			} );
 			$field->setErrorMessages( [
-				Form_Field_Select::ERROR_CODE_EMPTY => 'Please enter text',
+				Form_Field::ERROR_CODE_EMPTY => 'Please enter text',
 			] );
 			$fields[] = $field;
 
@@ -577,14 +578,15 @@ class Wizard extends ModuleWizard
 				$data_model_list[$model->getClassName()] = $label;
 			}
 
-			$data_model_field = new Form_Field_Select( 'data_model', 'Select DataModel:', $this->data_model_class_name );
+			$data_model_field = new Form_Field_Select( 'data_model', 'Select DataModel:' );
+			$data_model_field->setDefaultValue( $this->data_model_class_name );
 			$data_model_field->setFieldValueCatcher( function( $value ) {
 				$this->data_model_class_name = $value;
 			} );
 			$data_model_field->setIsRequired( true );
 			$data_model_field->setErrorMessages( [
-				Form_Field_Select::ERROR_CODE_EMPTY         => 'Please select DataModel',
-				Form_Field_Select::ERROR_CODE_INVALID_VALUE => 'Please select DataModel',
+				Form_Field::ERROR_CODE_EMPTY         => 'Please select DataModel',
+				Form_Field::ERROR_CODE_INVALID_VALUE => 'Please select DataModel',
 			] );
 			$data_model_field->setSelectOptions( $data_model_list );
 			$fields[] = $data_model_field;

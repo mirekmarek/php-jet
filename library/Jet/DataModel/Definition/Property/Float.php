@@ -19,11 +19,6 @@ class DataModel_Definition_Property_Float extends DataModel_Definition_Property
 	protected string $type = DataModel::TYPE_FLOAT;
 
 	/**
-	 * @var string|bool
-	 */
-	protected string|bool $form_field_type = Form_Field::TYPE_FLOAT;
-
-	/**
 	 * @param array $definition_data
 	 *
 	 * @throws DataModel_Exception
@@ -35,14 +30,7 @@ class DataModel_Definition_Property_Float extends DataModel_Definition_Property
 		}
 
 		parent::setUp( $definition_data );
-
-		if( $this->form_field_min_value !== null ) {
-			$this->form_field_min_value = (float)$this->form_field_min_value;
-		}
-		if( $this->form_field_max_value !== null ) {
-			$this->form_field_max_value = (float)$this->form_field_max_value;
-		}
-
+		
 	}
 
 	/**
@@ -52,5 +40,14 @@ class DataModel_Definition_Property_Float extends DataModel_Definition_Property
 	{
 		$value = (float)$value;
 	}
-
+	
+	
+	/**
+	 * @return string
+	 */
+	public function getDefaultFormFieldType(): string
+	{
+		return Form_Field::TYPE_FLOAT;
+	}
+	
 }

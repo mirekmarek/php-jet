@@ -15,6 +15,8 @@ use Jet\DataModel_Query;
 use Jet\DataModel_IDController_UniqueString;
 
 use Jet\Form;
+use Jet\Form_Definition;
+use Jet\Form_Field;
 use Jet\Form_Field_FileImage;
 use Jet\Form_Field_Hidden;
 
@@ -64,6 +66,9 @@ class Content_Gallery extends DataModel
 	#[DataModel_Definition(
 		type: DataModel::TYPE_ID
 	)]
+	#[Form_Definition(
+		type: Form_Field::TYPE_HIDDEN
+	)]
 	protected string $parent_id = '';
 
 	/**
@@ -82,6 +87,7 @@ class Content_Gallery extends DataModel
 		type: DataModel::TYPE_DATA_MODEL,
 		data_model_class: Content_Gallery_Localized::class
 	)]
+	#[Form_Definition(is_sub_forms: true)]
 	protected array $localized = [];
 
 
@@ -446,7 +452,7 @@ class Content_Gallery extends DataModel
 	public function getEditForm(): Form
 	{
 		if( !$this->_form_edit ) {
-			$this->_form_edit = $this->getCommonForm();
+			$this->_form_edit = $this->createForm('gallery_edit');
 
 
 			$this->_form_edit->getField( 'parent_id' )->setErrorMessages([
@@ -489,7 +495,7 @@ class Content_Gallery extends DataModel
 	{
 		if( !$this->_form_add ) {
 
-			$this->_form_add = $this->getCommonForm();
+			$this->_form_add = $this->createForm('gallery_add');
 
 			$this->_form_add->getField( 'parent_id' )->setErrorMessages([
 				'unknown_parent' => 'Unknown parent',
@@ -533,9 +539,9 @@ class Content_Gallery extends DataModel
 			$image_field->setIsRequired( true );
 			$image_field->setErrorMessages(
 				[
-					Form_Field_FileImage::ERROR_CODE_EMPTY                => 'Please select image',
-					Form_Field_FileImage::ERROR_CODE_FILE_IS_TOO_LARGE    => 'File is too large',
-					Form_Field_FileImage::ERROR_CODE_DISALLOWED_FILE_TYPE => 'Uploaded file is not supported image',
+					Form_Field::ERROR_CODE_EMPTY                => 'Please select image',
+					Form_Field::ERROR_CODE_FILE_IS_TOO_LARGE    => 'File is too large',
+					Form_Field::ERROR_CODE_DISALLOWED_FILE_TYPE => 'Uploaded file is not supported image',
 				]
 			);
 			$image_field->setMaximalSize(

@@ -11,18 +11,21 @@ namespace Jet;
 /**
  *
  */
-class Form_Field_Tel extends Form_Field_Input
+class Form_Field_Tel extends Form_Field_Input implements Form_Field_Part_RegExp_Interface
 {
+	use Form_Field_Part_RegExp_Trait;
+	
 	/**
 	 * @var string
 	 */
 	protected string $_type = Form_Field::TYPE_TEL;
-
+	
 	/**
 	 * @var array
 	 */
 	protected array $error_messages = [
-		self::ERROR_CODE_EMPTY          => '',
-		self::ERROR_CODE_INVALID_FORMAT => '',
+		Form_Field::ERROR_CODE_EMPTY        => '',
+		Form_Field::ERROR_CODE_INVALID_FORMAT => '',
 	];
+	
 }

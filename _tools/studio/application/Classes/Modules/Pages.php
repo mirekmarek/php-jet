@@ -10,6 +10,7 @@ namespace JetStudio;
 
 use Jet\BaseObject;
 use Jet\Form;
+use Jet\Form_Field;
 use Jet\Form_Field_Input;
 use Jet\Form_Field_Select;
 use Jet\IO_Dir;
@@ -148,24 +149,24 @@ class Modules_Pages extends BaseObject
 				$bases[$base->getId()] = $base->getName();
 			}
 
-			$base_id = new Form_Field_Select( 'base_id', 'Base: ', '' );
+			$base_id = new Form_Field_Select( 'base_id', 'Base: ' );
 			$base_id->setSelectOptions( $bases );
 			$base_id->setIsRequired( true );
 			$base_id->setErrorMessages( [
-				Form_Field_Select::ERROR_CODE_EMPTY         => 'Please select base',
-				Form_Field_Select::ERROR_CODE_INVALID_VALUE => 'Please select base',
+				Form_Field::ERROR_CODE_EMPTY         => 'Please select base',
+				Form_Field::ERROR_CODE_INVALID_VALUE => 'Please select base',
 			] );
 
-			$page_name = new Form_Field_Input( 'page_name', 'Page name:', '' );
+			$page_name = new Form_Field_Input( 'page_name', 'Page name:' );
 			$page_name->setIsRequired( true );
 			$page_name->setErrorMessages( [
-				Form_Field_Input::ERROR_CODE_EMPTY => 'Please enter page name'
+				Form_Field::ERROR_CODE_EMPTY => 'Please enter page name'
 			] );
 
-			$page_id = new Form_Field_Input( 'page_id', 'Page ID:', '' );
+			$page_id = new Form_Field_Input( 'page_id', 'Page ID:' );
 			$page_id->setIsRequired( true );
 			$page_id->setErrorMessages( [
-				Form_Field_Input::ERROR_CODE_EMPTY => 'Please enter page ID'
+				Form_Field::ERROR_CODE_EMPTY => 'Please enter page ID'
 			] );
 
 

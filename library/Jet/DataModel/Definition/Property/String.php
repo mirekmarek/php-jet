@@ -25,11 +25,6 @@ class DataModel_Definition_Property_String extends DataModel_Definition_Property
 	protected int $max_len = 255;
 
 	/**
-	 * @var string|bool
-	 */
-	protected string|bool $form_field_type = Form_Field::TYPE_INPUT;
-
-	/**
 	 * @param array $definition_data
 	 *
 	 * @throws DataModel_Exception
@@ -60,22 +55,14 @@ class DataModel_Definition_Property_String extends DataModel_Definition_Property
 	{
 		return $this->max_len;
 	}
-
+	
+	
 	/**
 	 * @return string
 	 */
-	public function getFormFieldType(): string
+	public function getDefaultFormFieldType(): string
 	{
-
-		if( $this->form_field_type != Form_Field::TYPE_INPUT ) {
-			return $this->form_field_type;
-		}
-
-		if( $this->max_len <= 255 ) {
-			return Form_Field::TYPE_INPUT;
-		} else {
-			return Form_Field::TYPE_TEXTAREA;
-		}
+		return ($this->max_len<=255) ? Form_Field::TYPE_INPUT : Form_Field::TYPE_TEXTAREA;
 	}
-
+	
 }

@@ -8,51 +8,39 @@
 
 namespace JetApplicationModule\Test\Forms;
 
-use Jet\DataModel;
-use Jet\DataModel_Definition;
+use Jet\BaseObject;
+
 use Jet\Data_DateTime;
+
+use Jet\Form_Definition;
+use Jet\Form_Definition_Interface;
+use Jet\Form_Definition_Trait;
+
 use Jet\Form_Field;
-use Jet\Form_Field_Float;
-use Jet\Form_Field_MultiSelect;
-use Jet\DataModel_IDController_UniqueString;
-use Jet\Form_Field_Password;
+use Jet\Locale;
 
-/**
- *
- */
-#[DataModel_Definition(
-	name: 'data_model_test_form_generator',
-	database_table_name: 'data_model_test_form_generator',
-	id_controller_class: DataModel_IDController_UniqueString::class
-)]
-class DataModelTest_FormGenerator extends DataModel
+
+class DefinitionTest_FormGenerator extends BaseObject implements Form_Definition_Interface
 {
-
-	/**
-	 * @var string
-	 */
-	#[DataModel_Definition(
-		type: DataModel::TYPE_ID,
-		is_id: true
-	)]
-	protected string $id = '';
+	
+	use Form_Definition_Trait;
 
 	/**
 	 * @var bool
 	 */
-	#[DataModel_Definition(
-		type: DataModel::TYPE_BOOL,
-		form_field_label: 'Checkbox'
+	#[Form_Definition(
+		type: Form_Field::TYPE_CHECKBOX,
+		label: 'Checkbox'
 	)]
 	protected bool $checkbox = false;
 
 	/**
 	 * @var ?Data_DateTime
 	 */
-	#[DataModel_Definition(
-		type: DataModel::TYPE_DATE,
-		form_field_label: 'Date: ',
-		form_field_error_messages: [
+	#[Form_Definition(
+		type: Form_Field::TYPE_DATE,
+		label: 'Date: ',
+		error_messages: [
 			Form_Field::ERROR_CODE_INVALID_FORMAT => 'Invalid date format'
 		]
 	)]
@@ -61,10 +49,10 @@ class DataModelTest_FormGenerator extends DataModel
 	/**
 	 * @var ?Data_DateTime
 	 */
-	#[DataModel_Definition(
-		type: DataModel::TYPE_DATE_TIME,
-		form_field_label: 'Date and time: ',
-		form_field_error_messages: [
+	#[Form_Definition(
+		type: Form_Field::TYPE_DATE_TIME,
+		label: 'Date and time: ',
+		error_messages: [
 			Form_Field::ERROR_CODE_INVALID_FORMAT => 'Invalid date format'
 		]
 	)]
@@ -73,13 +61,13 @@ class DataModelTest_FormGenerator extends DataModel
 	/**
 	 * @var float
 	 */
-	#[DataModel_Definition(
-		type: DataModel::TYPE_FLOAT,
-		form_field_label: 'Float: ',
-		form_field_min_value: 0,
-		form_field_max_value: 999,
-		form_field_error_messages: [
-			Form_Field_Float::ERROR_CODE_OUT_OF_RANGE => 'Number is out of range (0-999)'
+	#[Form_Definition(
+		type: Form_Field::TYPE_FLOAT,
+		label: 'Float: ',
+		min_value: 0,
+		max_value: 999,
+		error_messages: [
+			Form_Field::ERROR_CODE_OUT_OF_RANGE => 'Number is out of range (0-999)'
 		]
 	)]
 	protected float $float = 0;
@@ -87,14 +75,14 @@ class DataModelTest_FormGenerator extends DataModel
 	/**
 	 * @var int
 	 */
-	#[DataModel_Definition(
-		type: DataModel::TYPE_INT,
-		form_field_label: 'Int: ',
-		form_field_help_text: 'Any number ...',
-		form_field_min_value: 0,
-		form_field_max_value: 999,
-		form_field_error_messages: [
-			Form_Field_Float::ERROR_CODE_OUT_OF_RANGE => 'Number is out of range (0-999)'
+	#[Form_Definition(
+		type: Form_Field::TYPE_INT,
+		label: 'Int: ',
+		help_text: 'Any number ...',
+		min_value: 0,
+		max_value: 999,
+		error_messages: [
+			Form_Field::ERROR_CODE_OUT_OF_RANGE => 'Number is out of range (0-999)'
 		]
 	)]
 	protected int $int = 0;
@@ -102,47 +90,42 @@ class DataModelTest_FormGenerator extends DataModel
 	/**
 	 * @var string
 	 */
-	#[DataModel_Definition(
-		type: DataModel::TYPE_STRING,
-		max_len: 255,
-		form_field_label: 'Text: '
+	#[Form_Definition(
+		type: Form_Field::TYPE_INPUT,
+		label: 'Text: '
 	)]
 	protected string $text = '';
 
 	/**
 	 * @var string
 	 */
-	#[DataModel_Definition(
-		type: DataModel::TYPE_STRING,
-		max_len: 65536,
-		form_field_label: 'Long text:'
+	#[Form_Definition(
+		type: Form_Field::TYPE_TEXTAREA,
+		label: 'Long text:'
 	)]
 	protected string $long_text = '';
 
 	/**
 	 * @var string
 	 */
-	#[DataModel_Definition(
-		type: DataModel::TYPE_STRING,
-		max_len: 655360,
-		form_field_label: 'WYSIWYG:',
-		form_field_type: Form_Field::TYPE_WYSIWYG
+	#[Form_Definition(
+		type: Form_Field::TYPE_WYSIWYG,
+		label: 'WYSIWYG:',
 	)]
 	protected string $HTML = '';
 
 	/**
 	 * @var string
 	 */
-	#[DataModel_Definition(
-		type: DataModel::TYPE_STRING,
-		form_field_label: 'Select: ',
-		form_field_type: Form_Field::TYPE_SELECT,
-		form_field_get_select_options_callback: [
-		self::class,
-		'getSelectOptions'
-	],
-		form_field_error_messages: [
-			Form_Field_MultiSelect::ERROR_CODE_INVALID_VALUE => 'Invalid value'
+	#[Form_Definition(
+		type: Form_Field::TYPE_SELECT,
+		label: 'Select: ',
+		select_options_creator: [
+			self::class,
+			'getSelectOptions'
+		],
+		error_messages: [
+			Form_Field::ERROR_CODE_INVALID_VALUE => 'Invalid value'
 		]
 	)]
 	protected string $select = '';
@@ -150,51 +133,61 @@ class DataModelTest_FormGenerator extends DataModel
 	/**
 	 * @var array
 	 */
-	#[DataModel_Definition(
-		type: DataModel::TYPE_CUSTOM_DATA,
-		form_field_label: 'Multi Select: ',
-		form_field_type: Form_Field::TYPE_MULTI_SELECT,
-		form_field_get_select_options_callback: [
-		self::class,
-		'getSelectOptions'
-	],
-		form_field_error_messages: [
-			Form_Field_MultiSelect::ERROR_CODE_INVALID_VALUE => 'Invalid value'
+	#[Form_Definition(
+		type: Form_Field::TYPE_MULTI_SELECT,
+		label: 'Multi Select: ',
+		select_options_creator: [
+			self::class,
+			'getSelectOptions'
+		],
+		error_messages: [
+			Form_Field::ERROR_CODE_INVALID_VALUE => 'Invalid value'
 		]
 	)]
 	protected array $multi_select = [];
 
 	/**
-	 * @var array
+	 * @var string
 	 */
-	#[DataModel_Definition(
-		type: DataModel::TYPE_CUSTOM_DATA,
-		form_field_label: 'Radio Button: ',
-		form_field_type: Form_Field::TYPE_RADIO_BUTTON,
-		form_field_get_select_options_callback: [
-		self::class,
-		'getSelectOptions'
-	],
-		form_field_error_messages: [
-			Form_Field_MultiSelect::ERROR_CODE_INVALID_VALUE => 'Invalid value'
+	#[Form_Definition(
+		type: Form_Field::TYPE_RADIO_BUTTON,
+		label: 'Radio Button: ',
+		select_options_creator: [
+			self::class,
+			'getSelectOptions'
+		],
+		error_messages: [
+			Form_Field::ERROR_CODE_INVALID_VALUE => 'Invalid value'
 		]
 	)]
-	protected array $radio_button = [];
+	protected string $radio_button = '';
 
 	/**
 	 * @var string
 	 */
-	#[DataModel_Definition(
-		type: DataModel::TYPE_STRING,
-		max_len: 255,
-		form_field_label: 'Password: ',
-		form_field_type: Form_Field::TYPE_PASSWORD,
-		form_field_options: [],
-		form_field_error_messages: [
-			Form_Field_Password::ERROR_CODE_EMPTY           => 'Please enter password',
+	#[Form_Definition(
+		type: Form_Field::TYPE_PASSWORD,
+		label: 'Password: ',
+		error_messages: [
+			Form_Field::ERROR_CODE_EMPTY => 'Please enter password',
 		]
 	)]
 	protected string $password = '';
+	
+	
+	/**
+	 * @var DefinitionTest_FormGenerator_Sub1[]
+	 */
+	#[Form_Definition(
+		is_sub_forms: true
+	)]
+	protected array $sub_entities = [];
+	
+	#[Form_Definition(
+		is_sub_form: true
+	)]
+	protected DefinitionTest_FormGenerator_Sub2 $sub_entity;
+	
 
 	/**
 	 * @return array
@@ -209,7 +202,34 @@ class DataModelTest_FormGenerator extends DataModel
 			'value5' => 'Option 5',
 		];
 	}
-
+	
+	/**
+	 * @return Locale[]
+	 */
+	public static function getLocales() : array
+	{
+		$res = [];
+		
+		$res[] = new Locale('cs_CZ');
+		$res[] = new Locale('en_US');
+		$res[] = new Locale('de_DE');
+		$res[] = new Locale('sk_SK');
+		
+		return $res;
+	}
+	
+	/**
+	 *
+	 */
+	public function __construct()
+	{
+		foreach(static::getLocales() as $locale) {
+			$this->sub_entities[$locale->toString()] = new DefinitionTest_FormGenerator_Sub1();
+		}
+		
+		$this->sub_entity = new DefinitionTest_FormGenerator_Sub2();
+	}
+	
 	/**
 	 * @return string
 	 */
@@ -371,19 +391,19 @@ class DataModelTest_FormGenerator extends DataModel
 	}
 
 	/**
-	 * @return array
+	 * @return string
 	 */
-	public function getRadioButton(): array
+	public function getRadioButton(): string
 	{
 		return $this->radio_button;
 	}
 
 	/**
-	 * @param array $radio_button
+	 * @param ?string $value
 	 */
-	public function setRadioButton( array $radio_button ): void
+	public function setRadioButton( ?string $value ): void
 	{
-		$this->radio_button = $radio_button;
+		$this->radio_button = $value ? : '';
 	}
 
 	/**
@@ -401,5 +421,22 @@ class DataModelTest_FormGenerator extends DataModel
 	{
 		$this->password = password_hash( $password, PASSWORD_DEFAULT );
 	}
+	
+	/**
+	 * @return DefinitionTest_FormGenerator_Sub1[]
+	 */
+	public function getSubEntities(): array
+	{
+		return $this->sub_entities;
+	}
+	
+	/**
+	 * @return DefinitionTest_FormGenerator_Sub2
+	 */
+	public function getSubEntity(): DefinitionTest_FormGenerator_Sub2
+	{
+		return $this->sub_entity;
+	}
 
+	
 }

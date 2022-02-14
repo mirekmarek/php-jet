@@ -461,7 +461,7 @@ class Installer
 	{
 		$ns = Tr::getCurrentDictionary();
 
-		Tr::setCurrentDictionary( Tr::COMMON_DICTIONARY );
+		Tr::setCurrentDictionary( Translator::COMMON_DICTIONARY );
 		$view = static::getView();
 
 		$res = $view->render( 'button/back' );
@@ -478,7 +478,7 @@ class Installer
 	{
 		$ns = Tr::getCurrentDictionary();
 
-		Tr::setCurrentDictionary( Tr::COMMON_DICTIONARY );
+		Tr::setCurrentDictionary( Translator::COMMON_DICTIONARY );
 		$view = static::getView();
 
 		$res = $view->render( 'button/next' );
@@ -495,7 +495,7 @@ class Installer
 	{
 		$ns = Tr::getCurrentDictionary();
 
-		Tr::setCurrentDictionary( Tr::COMMON_DICTIONARY );
+		Tr::setCurrentDictionary( Translator::COMMON_DICTIONARY );
 		$view = static::getView();
 
 		$res = $view->render( 'button/skip' );
@@ -513,7 +513,7 @@ class Installer
 	{
 		$ns = Tr::getCurrentDictionary();
 
-		Tr::setCurrentDictionary( Tr::COMMON_DICTIONARY );
+		Tr::setCurrentDictionary( Translator::COMMON_DICTIONARY );
 		$view = static::getView();
 
 		$res = $view->render( 'continue' );

@@ -16,7 +16,7 @@ return [
 		],
 		[
 			'module_name'           => 'Test.Forms',
-			'controller_action'     => 'test_forms_data_model',
+			'controller_action'     => 'test_forms_generated',
 			'output_position_order' => 2
 		],
 

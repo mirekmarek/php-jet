@@ -51,7 +51,10 @@ class Form_Renderer_Field_Input_Common extends Form_Renderer_Field_Input
 		if( $field->getIsRequired() ) {
 			$this->_tag_attributes['required'] = 'required';
 		}
-		if( $field->getValidationRegexp() ) {
+		if(
+			$field instanceof Form_Field_Part_RegExp_Interface &&
+			$field->getValidationRegexp()
+		) {
 			$this->_tag_attributes['pattern'] = $field->getValidationRegexp();
 		}
 		

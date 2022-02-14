@@ -10,6 +10,7 @@ namespace JetStudio;
 
 use Jet\BaseObject;
 use Jet\Form;
+use Jet\Form_Field;
 use Jet\Form_Field_Select;
 use Jet\IO_Dir;
 use Jet\IO_File;
@@ -135,11 +136,11 @@ class Modules_MenuItems extends BaseObject
 			}
 
 
-			$target_menu = new Form_Field_Select( 'target_menu', 'Menu', '' );
+			$target_menu = new Form_Field_Select( 'target_menu', 'Menu' );
 			$target_menu->setIsRequired( true );
 			$target_menu->setErrorMessages( [
-				Form_Field_Select::ERROR_CODE_EMPTY         => 'Please select target menu',
-				Form_Field_Select::ERROR_CODE_INVALID_VALUE => 'Please select target menu'
+				Form_Field::ERROR_CODE_EMPTY         => 'Please select target menu',
+				Form_Field::ERROR_CODE_INVALID_VALUE => 'Please select target menu'
 			] );
 			$target_menu->setSelectOptions( $target_menus );
 

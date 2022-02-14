@@ -47,17 +47,17 @@ class Menus_Menu extends Navigation_Menu
 	{
 		if( !static::$create_form ) {
 
-			$label = new Form_Field_Input( 'label', 'Menu label:', '' );
+			$label = new Form_Field_Input( 'label', 'Menu label:' );
 			$label->setIsRequired( true );
 			$label->setErrorMessages( [
-				Form_Field_Input::ERROR_CODE_EMPTY => 'Please enter menu label',
+				Form_Field::ERROR_CODE_EMPTY => 'Please enter menu label',
 			] );
 
 
-			$id = new Form_Field_Input( 'id', 'Menu identifier:', '' );
+			$id = new Form_Field_Input( 'id', 'Menu identifier:' );
 			$id->setIsRequired( true );
 			$id->setErrorMessages( [
-				Form_Field_Input::ERROR_CODE_EMPTY => 'Please enter menu identifier',
+				Form_Field::ERROR_CODE_EMPTY => 'Please enter menu identifier',
 			] );
 			$id->setValidator( function( Form_Field $field ) {
 				if( !$field->getValue() ) {
@@ -73,8 +73,9 @@ class Menus_Menu extends Navigation_Menu
 				return true;
 			} );
 
-			$icon = new Form_Field_Input( 'icon', 'Icon:', '' );
-			$index = new Form_Field_Int( 'index', 'Index:', 0 );
+			$icon = new Form_Field_Input( 'icon', 'Icon:' );
+			$index = new Form_Field_Int( 'index', 'Index:' );
+			$index->setDefaultValue( 0 );
 
 
 			$fields = [
@@ -125,25 +126,29 @@ class Menus_Menu extends Navigation_Menu
 	public function getEditForm(): Form
 	{
 		if( !$this->__edit_form ) {
-			$id = new Form_Field_Input( 'id', 'Menu identifier:', $this->getId() );
+			$id = new Form_Field_Input( 'id', 'Menu identifier:' );
+			$id->setDefaultValue( $this->getId() );
 			$id->setIsReadonly( true );
 
-			$label = new Form_Field_Input( 'label', 'Menu label:', $this->getLabel() );
+			$label = new Form_Field_Input( 'label', 'Menu label:' );
+			$label->setDefaultValue( $this->getLabel() );
 			$label->setIsRequired( true );
 			$label->setErrorMessages( [
-				Form_Field_Input::ERROR_CODE_EMPTY => 'Please enter menu label',
+				Form_Field::ERROR_CODE_EMPTY => 'Please enter menu label',
 			] );
 			$label->setFieldValueCatcher( function( $value ) {
 				$this->setLabel( $value );
 			} );
 
 
-			$icon = new Form_Field_Input( 'icon', 'Icon:', $this->getIcon() );
+			$icon = new Form_Field_Input( 'icon', 'Icon:' );
+			$icon->setDefaultValue( $this->getIcon() );
 			$icon->setFieldValueCatcher( function( $value ) {
 				$this->setIcon( $value );
 			} );
 
-			$index = new Form_Field_Int( 'index', 'Index:', $this->getIndex() );
+			$index = new Form_Field_Int( 'index', 'Index:' );
+			$index->setDefaultValue( $this->getIndex() );
 			$index->setFieldValueCatcher( function( $value ) {
 				$this->setIndex( $value );
 			} );

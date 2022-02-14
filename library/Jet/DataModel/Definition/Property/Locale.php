@@ -19,11 +19,6 @@ class DataModel_Definition_Property_Locale extends DataModel_Definition_Property
 	protected string $type = DataModel::TYPE_LOCALE;
 
 	/**
-	 * @var string|bool
-	 */
-	protected string|bool $form_field_type = Form_Field::TYPE_SELECT;
-
-	/**
 	 * @param mixed $value
 	 */
 	public function checkValueType( mixed &$value ): void
@@ -50,5 +45,13 @@ class DataModel_Definition_Property_Locale extends DataModel_Definition_Property
 		}
 
 		return (string)$property;
+	}
+	
+	/**
+	 * @return string
+	 */
+	public function getDefaultFormFieldType(): string
+	{
+		return Form_Field::TYPE_SELECT;
 	}
 }

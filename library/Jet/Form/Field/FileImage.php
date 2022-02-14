@@ -11,46 +11,82 @@ namespace Jet;
 /**
  *
  */
-class Form_Field_FileImage extends Form_Field_File
+class Form_Field_FileImage extends Form_Field implements Form_Field_Part_File_Interface
 {
-	const ERROR_CODE_FILE_IS_TOO_LARGE = 'file_is_too_large';
-	const ERROR_CODE_DISALLOWED_FILE_TYPE = 'disallowed_file_type';
-
-
+	use Form_Field_Part_File_Trait;
+	
+	
 	/**
 	 * @var string
 	 */
 	protected string $_type = Form_Field::TYPE_FILE_IMAGE;
+	
 
 	/**
-	 * @var array
+	 * @var ?int
 	 */
-	protected array $error_messages = [
-		self::ERROR_CODE_EMPTY                => '',
-		self::ERROR_CODE_FILE_IS_TOO_LARGE    => '',
-		self::ERROR_CODE_DISALLOWED_FILE_TYPE => '',
-	];
-
-	/**
-	 * @var array
-	 */
-	protected array $allowed_mime_types = [
-		'image/pjpeg',
-		'image/jpeg',
-		'image/jpg',
-		'image/gif',
-		'image/png',
-	];
-
-	/**
-	 * @var null|int
-	 */
+	#[Form_Definition_FieldOption(
+		type: Form_Definition_FieldOption::TYPE_INT,
+		label: 'Maximal image width',
+		getter: 'getMaximalWidth',
+		setter: 'setMaximalWidth',
+	)]
 	protected int|null $maximal_width = null;
 
 	/**
-	 * @var null|int
+	 * @var ?int
 	 */
+	#[Form_Definition_FieldOption(
+		type: Form_Definition_FieldOption::TYPE_INT,
+		label: 'Maximal image height',
+		getter: 'getMaximalHeight',
+		setter: 'setMaximalHeight',
+	)]
 	protected int|null $maximal_height = null;
+	
+	/**
+	 * @return array
+	 */
+	public function getAllowedMimeTypes(): array
+	{
+		if(!$this->allowed_mime_types) {
+			return [
+				'image/pjpeg',
+				'image/jpeg',
+				'image/jpg',
+				'image/gif',
+				'image/png',
+			];
+		}
+		
+		return $this->allowed_mime_types;
+	}
+	
+	/**
+	 * @param string $name
+	 */
+	public function setName( string $name ): void
+	{
+		$this->_name = $name;
+	}
+	
+	/**
+	 * @param int|null $maximal_width
+	 */
+	public function setMaximalWidth( ?int $maximal_width ): void
+	{
+		$this->maximal_width = $maximal_width;
+	}
+	
+	/**
+	 * @param int|null $maximal_height
+	 */
+	public function setMaximalHeight( ?int $maximal_height ): void
+	{
+		$this->maximal_height = $maximal_height;
+	}
+	
+	
 
 	/**
 	 * @param int $maximal_width
@@ -107,7 +143,7 @@ class Form_Field_FileImage extends Form_Field_File
 			!$this->_has_value &&
 			$this->is_required
 		) {
-			$this->setError( self::ERROR_CODE_EMPTY );
+			$this->setError( Form_Field::ERROR_CODE_EMPTY );
 			return false;
 		}
 
@@ -127,56 +163,28 @@ class Form_Field_FileImage extends Form_Field_File
 
 			} else {
 				if( !$this->validate_checkFileSize( $this->_value, $this->file_name ) ) {
-					$this->setError( self::ERROR_CODE_FILE_IS_TOO_LARGE );
+					$this->setError( Form_Field::ERROR_CODE_FILE_IS_TOO_LARGE );
 					return false;
 				}
 
 				if( !$this->validate_checkMimeType( $this->_value, $this->file_name ) ) {
-					$this->setError( self::ERROR_CODE_DISALLOWED_FILE_TYPE );
+					$this->setError( Form_Field::ERROR_CODE_DISALLOWED_FILE_TYPE );
 					return false;
 				}
 
 				if( !$this->validate_checkDimensions( $this->_value ) ) {
-					$this->setError( self::ERROR_CODE_DISALLOWED_FILE_TYPE );
+					$this->setError( Form_Field::ERROR_CODE_DISALLOWED_FILE_TYPE );
 					return false;
 				}
 			}
 		}
 
 
-		$validator = $this->getValidator();
-		if(
-			$validator &&
-			!$validator( $this )
-		) {
+		if(!$this->validate_validator()) {
 			return false;
 		}
 
 		$this->setIsValid();
 		return true;
 	}
-
-
-	/**
-	 * @return array
-	 */
-	public function getRequiredErrorCodes(): array
-	{
-		$codes = [];
-
-		if( $this->is_required ) {
-			$codes[] = self::ERROR_CODE_EMPTY;
-		}
-
-		if( $this->maximal_file_size ) {
-			$codes[] = self::ERROR_CODE_FILE_IS_TOO_LARGE;
-		}
-
-		if( $this->allowed_mime_types ) {
-			$codes[] = self::ERROR_CODE_DISALLOWED_FILE_TYPE;
-		}
-
-		return $codes;
-	}
-
 }

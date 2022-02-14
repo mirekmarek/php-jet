@@ -48,7 +48,8 @@ abstract class Data_Listing_Filter_Search extends Data_Listing_Filter
 	 */
 	public function generateFormFields( Form $form ): void
 	{
-		$search = new Form_Field_Search( 'search', '', $this->search );
+		$search = new Form_Field_Search( 'search', '' );
+		$search->setDefaultValue( $this->search );
 		$form->addField( $search );
 	}
 

@@ -67,15 +67,7 @@ interface DataModel_Definition_Property_Interface
 	 * @return bool|DataModel_Definition_Property_Interface
 	 */
 	public function catchEditForm(): bool|DataModel_Definition_Property_Interface;
-
-
-
-	/**
-	 *
-	 */
-	public function showEditFormFields(): void;
-
-
+	
 	/**
 	 * @return string
 	 */
@@ -145,16 +137,6 @@ interface DataModel_Definition_Property_Interface
 	 * @param bool $is_unique
 	 */
 	public function setIsUnique( bool $is_unique ): void;
-
-	/**
-	 * @return bool
-	 */
-	public function getFormFieldIsRequired() : bool;
-
-	/**
-	 *
-	 */
-	public function setFormFieldIsRequired( bool $is_required ) : void;
 
 
 	/**

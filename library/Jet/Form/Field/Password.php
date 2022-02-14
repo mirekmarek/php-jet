@@ -14,25 +14,40 @@ namespace Jet;
 class Form_Field_Password extends Form_Field
 {
 
-	const ERROR_CODE_CHECK_NOT_MATCH = 'check_not_match';
-	const ERROR_CODE_WEAK_PASSWORD = 'weak_password';
 
 	/**
 	 * @var string
 	 */
 	protected string $_type = Form_Field::TYPE_PASSWORD;
+	
+	/**
+	 * @var array
+	 */
+	protected array $error_messages = [
+		Form_Field::ERROR_CODE_EMPTY => ''
+	];
 
 	/**
 	 * @var bool
 	 */
 	protected bool $is_required = true;
-
+	
 	/**
-	 * @var array
+	 * @return bool
 	 */
-	protected array $error_messages = [
-		self::ERROR_CODE_EMPTY => '',
-	];
+	public function validate(): bool
+	{
+		if(
+			!$this->validate_required() ||
+			!$this->validate_validator()
+		) {
+			return false;
+		}
+		
+		$this->setIsValid();
+		return true;
+	}
+	
 
 	/**
 	 * @return array
@@ -42,7 +57,7 @@ class Form_Field_Password extends Form_Field
 		$codes = [];
 
 		if( $this->is_required ) {
-			$codes[] = self::ERROR_CODE_EMPTY;
+			$codes[] = Form_Field::ERROR_CODE_EMPTY;
 		}
 
 		return $codes;
@@ -69,7 +84,7 @@ class Form_Field_Password extends Form_Field
 		$password_check->setIsRequired( true );
 
 		$password_check->setErrorMessages( [
-			self::ERROR_CODE_EMPTY     => $error_message_empty,
+			Form_Field::ERROR_CODE_EMPTY     => $error_message_empty,
 			self::ERROR_CODE_CHECK_NOT_MATCH => $error_message_not_match,
 		] );
 

@@ -10,6 +10,7 @@ namespace JetApplicationModule\ManageAccess\RESTClients\Users;
 
 use Jet\Data_Listing_Filter;
 use Jet\Form;
+use Jet\Form_Field;
 use Jet\Form_Field_Select;
 use Jet\Http_Request;
 use Jet\Tr;
@@ -39,9 +40,10 @@ class Listing_Filter_Role extends Data_Listing_Filter {
 	 */
 	public function generateFormFields( Form $form ): void
 	{
-		$field = new Form_Field_Select( 'role', 'Role:', $this->role );
+		$field = new Form_Field_Select( 'role', 'Role:' );
+		$field->setDefaultValue( $this->role );
 		$field->setErrorMessages( [
-			Form_Field_Select::ERROR_CODE_INVALID_VALUE => ' '
+			Form_Field::ERROR_CODE_INVALID_VALUE => ' '
 		] );
 		$options = [0 => Tr::_( '- all -' )];
 

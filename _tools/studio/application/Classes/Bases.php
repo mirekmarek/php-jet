@@ -10,6 +10,7 @@ namespace JetStudio;
 
 use Jet\BaseObject;
 use Jet\Form;
+use Jet\Form_Field;
 use Jet\Form_Field_Hidden;
 use Jet\Form_Field_Input;
 use Jet\Http_Request;
@@ -161,14 +162,14 @@ class Bases extends BaseObject implements Application_Part
 			$name_field = new Form_Field_Input( 'name', 'Name:' );
 			$name_field->setIsRequired( true );
 			$name_field->setErrorMessages( [
-				Form_Field_Input::ERROR_CODE_EMPTY => 'Please enter base name'
+				Form_Field::ERROR_CODE_EMPTY => 'Please enter base name'
 			] );
 
 			$id_field = new Form_Field_Input( 'id', 'Identifier:' );
 			$id_field->setIsRequired( true );
 			$id_field->setErrorMessages( [
-				Form_Field_Input::ERROR_CODE_EMPTY          => 'Please enter base identifier',
-				Form_Field_Input::ERROR_CODE_INVALID_FORMAT => 'Invalid identifier format',
+				Form_Field::ERROR_CODE_EMPTY          => 'Please enter base identifier',
+				Form_Field::ERROR_CODE_INVALID_FORMAT => 'Invalid identifier format',
 				'base_id_is_not_unique'                     => 'Base with the identifier already exists',
 			] );
 			$id_field->setValidator( function( Form_Field_Input $field ) {
@@ -178,7 +179,7 @@ class Bases extends BaseObject implements Application_Part
 					!preg_match( '/^[a-zA-Z0-9\-]{2,}$/i', $id ) ||
 					str_contains( $id, '--' )
 				) {
-					$field->setError( Form_Field_Input::ERROR_CODE_INVALID_FORMAT );
+					$field->setError( Form_Field::ERROR_CODE_INVALID_FORMAT );
 
 					return false;
 				}
@@ -193,13 +194,14 @@ class Bases extends BaseObject implements Application_Part
 
 			} );
 
-			$locales_field = new Form_Field_Hidden( 'locales', '', implode( ',', Project::getDefaultLocales( true ) ) );
+			$locales_field = new Form_Field_Hidden( 'locales', '' );
+			$locales_field->setDefaultValue( implode( ',', Project::getDefaultLocales( true ) ) );
 
 			$base_url_field = new Form_Field_Input( 'base_url', 'Base URL:' );
 			$base_url_field->setIsRequired( true );
 			$base_url_field->setErrorMessages( [
-				Form_Field_Input::ERROR_CODE_EMPTY          => 'Please enter base URL',
-				Form_Field_Input::ERROR_CODE_INVALID_FORMAT => 'Invalid URL format',
+				Form_Field::ERROR_CODE_EMPTY          => 'Please enter base URL',
+				Form_Field::ERROR_CODE_INVALID_FORMAT => 'Invalid URL format',
 				'url_is_not_unique'                         => 'URL conflicts with base <b>%base_name%</b> <b>%locale%</b>',
 				'url_is_not_unique_in_self'                 => 'URL conflicts with locale <b>%locale%</b>',
 			] );
@@ -209,7 +211,7 @@ class Bases extends BaseObject implements Application_Part
 
 
 				if( !preg_match( '/^[a-z0-9\-\/.]{2,}$/i', $base_url ) ) {
-					$field->setError( Form_Field_Input::ERROR_CODE_INVALID_FORMAT );
+					$field->setError( Form_Field::ERROR_CODE_INVALID_FORMAT );
 
 					return false;
 				}

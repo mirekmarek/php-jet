@@ -405,12 +405,7 @@ abstract class DataModel_Definition_Model_Related extends DataModel_Definition_M
 
 		$parent_id_property_data['is_key'] = true;
 		$parent_id_property_data['is_id'] = true;
-
-
-		if( isset( $property_definition_data['form_field_type'] ) ) {
-			$parent_id_property_data['form_field_type'] = $property_definition_data['form_field_type'];
-		}
-
+		
 		$this_id_property = Factory_DataModel::getPropertyDefinitionInstance(
 			$this->class_name,
 			$property_name,

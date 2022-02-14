@@ -20,11 +20,6 @@ class Config_Definition_Property_Bool extends Config_Definition_Property
 	protected string $_type = Config::TYPE_BOOL;
 
 	/**
-	 * @var string|bool
-	 */
-	protected string|bool $form_field_type = Form_Field::TYPE_CHECKBOX;
-
-	/**
 	 * @param ?array $definition_data
 	 *
 	 * @throws Config_Exception
@@ -32,10 +27,6 @@ class Config_Definition_Property_Bool extends Config_Definition_Property
 	public function setUp( ?array $definition_data = null ): void
 	{
 		parent::setUp( $definition_data );
-
-		if( $this->form_field_type === null ) {
-			$this->form_field_type = Form_Field::TYPE_CHECKBOX;
-		}
 	}
 
 	/**

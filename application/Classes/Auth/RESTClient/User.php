@@ -14,9 +14,9 @@ use Jet\DataModel_Definition;
 use Jet\DataModel_Fetch_Instances;
 use Jet\DataModel_IDController_AutoIncrement;
 use Jet\Form;
+use Jet\Form_Definition;
 use Jet\Form_Field_Input;
-use Jet\Form_Field_MultiSelect;
-use Jet\Form_Field_Select;
+use Jet\Form_Field;
 use Jet\Data_DateTime;
 use Jet\Locale;
 use Jet\Mailing_Email_Template;
@@ -39,7 +39,6 @@ class Auth_RESTClient_User extends DataModel implements Auth_User_Interface
 	#[DataModel_Definition(
 		type: DataModel::TYPE_ID_AUTOINCREMENT,
 		is_id: true,
-		form_field_type: false
 	)]
 	protected int $id = 0;
 
@@ -48,14 +47,16 @@ class Auth_RESTClient_User extends DataModel implements Auth_User_Interface
 	 */
 	#[DataModel_Definition(
 		type: DataModel::TYPE_STRING,
-		max_len: 100,
-		form_field_is_required: true,
 		is_key: true,
-		is_unique: true,
-		form_field_label: 'Username',
-		form_field_error_messages: [
-			Form_Field_Input::ERROR_CODE_EMPTY => 'Please enter username',
-			'exists' => 'Sorry, but username %USERNAME% is registered.',
+		max_len: 100,
+	)]
+	#[Form_Definition(
+		type: Form_Field::TYPE_INPUT,
+		is_required: true,
+		label: 'Username',
+		error_messages: [
+			Form_Field::ERROR_CODE_EMPTY => 'Please enter username',
+			'exists' => 'Sorry, but username %USERNAME% is registered.'
 		]
 	)]
 	protected string $username = '';
@@ -67,9 +68,7 @@ class Auth_RESTClient_User extends DataModel implements Auth_User_Interface
 		type: DataModel::TYPE_STRING,
 		do_not_export: true,
 		max_len: 255,
-		form_field_is_required: true,
 		is_key: true,
-		form_field_type: false
 	)]
 	protected string $password = '';
 
@@ -79,11 +78,14 @@ class Auth_RESTClient_User extends DataModel implements Auth_User_Interface
 	#[DataModel_Definition(
 		type: DataModel::TYPE_STRING,
 		max_len: 255,
-		form_field_label: 'E-mail',
-		form_field_is_required: true,
-		form_field_error_messages: [
-			Form_Field_Input::ERROR_CODE_EMPTY          => 'Please enter e-mail address',
-			Form_Field_Input::ERROR_CODE_INVALID_FORMAT => 'Please enter e-mail address'
+	)]
+	#[Form_Definition(
+		type: Form_Field::TYPE_EMAIL,
+		label: 'E-mail',
+		is_required: true,
+		error_messages: [
+			Form_Field::ERROR_CODE_EMPTY          => 'Please enter e-mail address',
+			Form_Field::ERROR_CODE_INVALID_FORMAT => 'Please enter e-mail address'
 		]
 	)]
 	protected string $email = '';
@@ -93,16 +95,19 @@ class Auth_RESTClient_User extends DataModel implements Auth_User_Interface
 	 */
 	#[DataModel_Definition(
 		type: DataModel::TYPE_LOCALE,
-		form_field_label: 'Locale',
-		form_field_is_required: true,
-		form_field_error_messages: [
-		Form_Field_Select::ERROR_CODE_INVALID_VALUE => 'Please select locale',
-		Form_Field_Select::ERROR_CODE_EMPTY         => 'Please select locale'
-	],
-		form_field_get_select_options_callback: [
+	)]
+	#[Form_Definition(
+		type: Form_Field::TYPE_SELECT,
+		label: 'Locale',
+		is_required: true,
+		error_messages: [
+			Form_Field::ERROR_CODE_INVALID_VALUE => 'Please select locale',
+			Form_Field::ERROR_CODE_EMPTY         => 'Please select locale'
+		],
+		select_options_creator: [
 			self::class,
 			'getLocales'
-		]
+		],
 	)]
 	protected ?Locale $locale = null;
 
@@ -112,7 +117,10 @@ class Auth_RESTClient_User extends DataModel implements Auth_User_Interface
 	#[DataModel_Definition(
 		type: DataModel::TYPE_STRING,
 		max_len: 65536,
-		form_field_label: 'Description'
+	)]
+	#[Form_Definition(
+		type: Form_Field::TYPE_TEXTAREA,
+		label: 'Description',
 	)]
 	protected string $description = '';
 
@@ -121,7 +129,10 @@ class Auth_RESTClient_User extends DataModel implements Auth_User_Interface
 	 */
 	#[DataModel_Definition(
 		type: DataModel::TYPE_BOOL,
-		form_field_label: 'User is blocked'
+	)]
+	#[Form_Definition(
+		type: Form_Field::TYPE_CHECKBOX,
+		label: 'User is blocked',
 	)]
 	protected bool $user_is_blocked = false;
 
@@ -130,9 +141,12 @@ class Auth_RESTClient_User extends DataModel implements Auth_User_Interface
 	 */
 	#[DataModel_Definition(
 		type: DataModel::TYPE_DATE_TIME,
-		form_field_label: 'User is blocked till',
-		form_field_error_messages: [
-			Form_Field_Input::ERROR_CODE_INVALID_FORMAT => 'Invalid date format'
+	)]
+	#[Form_Definition(
+		type: Form_Field::TYPE_DATE_TIME,
+		label: 'User is blocked till',
+		error_messages: [
+			Form_Field::ERROR_CODE_INVALID_FORMAT => 'Invalid date format'
 		]
 	)]
 	protected ?Data_DateTime $user_is_blocked_till = null;
@@ -144,6 +158,18 @@ class Auth_RESTClient_User extends DataModel implements Auth_User_Interface
 	#[DataModel_Definition(
 		type: DataModel::TYPE_DATA_MODEL,
 		data_model_class: Auth_RESTClient_User_Roles::class
+	)]
+	#[Form_Definition(
+		type: Form_Field::TYPE_MULTI_SELECT,
+		use_array_keys: true,
+		label: 'Roles',
+		select_options_creator: [
+			Auth_RESTClient_Role::class,
+			'getList'
+		],
+		error_messages: [
+			Form_Field::ERROR_CODE_INVALID_VALUE => 'Please select role',
+		]
 	)]
 	protected array $roles = [];
 
@@ -672,19 +698,8 @@ class Auth_RESTClient_User extends DataModel implements Auth_User_Interface
 	public function _getForm(): Form
 	{
 
-		$form = $this->getCommonForm();
-
-		$roles = new Form_Field_MultiSelect( 'roles', 'Roles', array_keys($this->roles) );
-		$roles->setSelectOptions( Auth_RESTClient_Role::getList() );
-		$roles->setFieldValueCatcher( function( $value ) {
-			$this->setRoles( $value );
-		} );
-		$roles->setErrorMessages( [
-			Form_Field_MultiSelect::ERROR_CODE_INVALID_VALUE => 'Please select role',
-		] );
-		$form->addField( $roles );
-
-
+		$form = $this->createForm('user_edit');
+		
 		$form->getField( 'username' )->setValidator(
 			function( Form_Field_Input $field ) {
 				$username = $field->getValue();

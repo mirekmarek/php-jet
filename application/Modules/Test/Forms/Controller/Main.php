@@ -16,6 +16,9 @@ use Jet\SysConf_Path;
 use Jet\Tr;
 
 use Jet\Form;
+
+use Jet\Form_Field;
+
 use Jet\Form_Field_Input;
 
 use Jet\Form_Field_Int;
@@ -77,8 +80,8 @@ class Controller_Main extends MVC_Controller_Default
 		$validated_input_field->setValidationRegexp( '/^[0-9]{3} [0-9]{2}$/' );
 		$validated_input_field->setErrorMessages(
 			[
-				Form_Field_Input::ERROR_CODE_EMPTY          => 'Please enter ZIP code',
-				Form_Field_Float::ERROR_CODE_INVALID_FORMAT => 'Invalid format',
+				Form_Field::ERROR_CODE_EMPTY          => 'Please enter ZIP code',
+				Form_Field::ERROR_CODE_INVALID_FORMAT => 'Invalid format',
 			]
 		);
 
@@ -95,8 +98,8 @@ class Controller_Main extends MVC_Controller_Default
 		
 		$int_field->setErrorMessages(
 			[
-				Form_Field_Int::ERROR_CODE_EMPTY        => 'Field is required',
-				Form_Field_Int::ERROR_CODE_OUT_OF_RANGE => 'Out of range',
+				Form_Field::ERROR_CODE_EMPTY        => 'Field is required',
+				Form_Field::ERROR_CODE_OUT_OF_RANGE => 'Out of range',
 			]
 		);
 
@@ -115,8 +118,8 @@ class Controller_Main extends MVC_Controller_Default
 		
 		$float_field->setErrorMessages(
 			[
-				Form_Field_Float::ERROR_CODE_EMPTY        => 'Field is required',
-				Form_Field_Float::ERROR_CODE_OUT_OF_RANGE => 'Out of range',
+				Form_Field::ERROR_CODE_EMPTY        => 'Field is required',
+				Form_Field::ERROR_CODE_OUT_OF_RANGE => 'Out of range',
 			]
 		);
 
@@ -128,8 +131,8 @@ class Controller_Main extends MVC_Controller_Default
 		$range_field->setStep( 10 );
 		$range_field->setErrorMessages(
 			[
-				Form_Field_Range::ERROR_CODE_EMPTY        => 'Field is required',
-				Form_Field_Range::ERROR_CODE_OUT_OF_RANGE => 'Out of range',
+				Form_Field::ERROR_CODE_EMPTY        => 'Field is required',
+				Form_Field::ERROR_CODE_OUT_OF_RANGE => 'Out of range',
 			]
 		);
 
@@ -138,8 +141,8 @@ class Controller_Main extends MVC_Controller_Default
 		$date_field->setIsRequired( true );
 		$date_field->setErrorMessages(
 			[
-				Form_Field_Date::ERROR_CODE_EMPTY          => 'Please enter date',
-				Form_Field_Date::ERROR_CODE_INVALID_FORMAT => 'Please enter date',
+				Form_Field::ERROR_CODE_EMPTY          => 'Please enter date',
+				Form_Field::ERROR_CODE_INVALID_FORMAT => 'Please enter date',
 			]
 		);
 		$date_field->setPlaceholder( 'Date' );
@@ -149,8 +152,8 @@ class Controller_Main extends MVC_Controller_Default
 		$date_time_field->setIsRequired( true );
 		$date_time_field->setErrorMessages(
 			[
-				Form_Field_Date::ERROR_CODE_EMPTY          => 'Please enter date and time',
-				Form_Field_Date::ERROR_CODE_INVALID_FORMAT => 'Please enter date and time',
+				Form_Field::ERROR_CODE_EMPTY          => 'Please enter date and time',
+				Form_Field::ERROR_CODE_INVALID_FORMAT => 'Please enter date and time',
 			]
 		);
 		$date_time_field->setPlaceholder( 'Date and time' );
@@ -159,24 +162,24 @@ class Controller_Main extends MVC_Controller_Default
 		$time_field = new Form_Field_Time( 'time', 'Time' );
 		$time_field->setErrorMessages(
 			[
-				Form_Field_Time::ERROR_CODE_EMPTY          => 'Please enter time',
-				Form_Field_Time::ERROR_CODE_INVALID_FORMAT => 'Invalid format',
+				Form_Field::ERROR_CODE_EMPTY          => 'Please enter time',
+				Form_Field::ERROR_CODE_INVALID_FORMAT => 'Invalid format',
 			]
 		);
 
 		$week_field = new Form_Field_Week( 'week', 'Week' );
 		$week_field->setErrorMessages(
 			[
-				Form_Field_Week::ERROR_CODE_EMPTY          => 'Please enter week',
-				Form_Field_Week::ERROR_CODE_INVALID_FORMAT => 'Invalid format',
+				Form_Field::ERROR_CODE_EMPTY          => 'Please enter week',
+				Form_Field::ERROR_CODE_INVALID_FORMAT => 'Invalid format',
 			]
 		);
 
 		$month_field = new Form_Field_Month( 'month', 'Month' );
 		$month_field->setErrorMessages(
 			[
-				Form_Field_Month::ERROR_CODE_EMPTY          => 'Please enter month',
-				Form_Field_Month::ERROR_CODE_INVALID_FORMAT => 'Invalid format',
+				Form_Field::ERROR_CODE_EMPTY          => 'Please enter month',
+				Form_Field::ERROR_CODE_INVALID_FORMAT => 'Invalid format',
 			]
 		);
 
@@ -185,8 +188,8 @@ class Controller_Main extends MVC_Controller_Default
 		$email_field->setIsRequired( true );
 		$email_field->setErrorMessages(
 			[
-				Form_Field_Email::ERROR_CODE_EMPTY          => 'Please enter e-mail address',
-				Form_Field_Email::ERROR_CODE_INVALID_FORMAT => 'Please enter e-mail address',
+				Form_Field::ERROR_CODE_EMPTY          => 'Please enter e-mail address',
+				Form_Field::ERROR_CODE_INVALID_FORMAT => 'Please enter e-mail address',
 			]
 		);
 		$date_time_field->setPlaceholder( 'E-mail address' );
@@ -196,8 +199,8 @@ class Controller_Main extends MVC_Controller_Default
 		$url_field->setIsRequired( true );
 		$url_field->setErrorMessages(
 			[
-				Form_Field_Email::ERROR_CODE_EMPTY          => 'Please enter URL address',
-				Form_Field_Email::ERROR_CODE_INVALID_FORMAT => 'Please enter URL address',
+				Form_Field::ERROR_CODE_EMPTY          => 'Please enter URL address',
+				Form_Field::ERROR_CODE_INVALID_FORMAT => 'Please enter URL address',
 			]
 		);
 		$url_field->setPlaceholder( 'URL address' );
@@ -209,8 +212,8 @@ class Controller_Main extends MVC_Controller_Default
 		$tel_field->setPlaceholder( 'Telephone number' );
 		$tel_field->setErrorMessages(
 			[
-				Form_Field_Tel::ERROR_CODE_EMPTY          => 'Please enter telephone number',
-				Form_Field_Tel::ERROR_CODE_INVALID_FORMAT => 'Please enter telephone number',
+				Form_Field::ERROR_CODE_EMPTY          => 'Please enter telephone number',
+				Form_Field::ERROR_CODE_INVALID_FORMAT => 'Please enter telephone number',
 			]
 		);
 
@@ -221,8 +224,8 @@ class Controller_Main extends MVC_Controller_Default
 		$color_field = new Form_Field_Color( 'color', 'Color' );
 		$color_field->setErrorMessages(
 			[
-				Form_Field_Color::ERROR_CODE_EMPTY          => 'Please select color',
-				Form_Field_Color::ERROR_CODE_INVALID_FORMAT => 'Invalid format',
+				Form_Field::ERROR_CODE_EMPTY          => 'Please select color',
+				Form_Field::ERROR_CODE_INVALID_FORMAT => 'Invalid format',
 			]
 		);
 
@@ -245,7 +248,7 @@ class Controller_Main extends MVC_Controller_Default
 		
 		$select_field->setErrorMessages(
 			[
-				Form_Field_Select::ERROR_CODE_INVALID_VALUE => 'Invalid value',
+				Form_Field::ERROR_CODE_INVALID_VALUE => 'Invalid value',
 			]
 		);
 
@@ -268,7 +271,7 @@ class Controller_Main extends MVC_Controller_Default
 		
 		$multi_select_field->setErrorMessages(
 			[
-				Form_Field_Select::ERROR_CODE_INVALID_VALUE => 'Invalid value',
+				Form_Field::ERROR_CODE_INVALID_VALUE => 'Invalid value',
 			]
 		);
 
@@ -292,7 +295,7 @@ class Controller_Main extends MVC_Controller_Default
 		
 		$radio_field->setErrorMessages(
 			[
-				Form_Field_Select::ERROR_CODE_INVALID_VALUE => 'Invalid value',
+				Form_Field::ERROR_CODE_INVALID_VALUE => 'Invalid value',
 			]
 		);
 
@@ -302,6 +305,7 @@ class Controller_Main extends MVC_Controller_Default
 
 
 		$password_field = new Form_Field_Password( 'password_field', 'Password' );
+		$password_field->setIsRequired( false );
 
 
 		$upload_image_field = new Form_Field_FileImage( 'upload_image', 'Upload image' );
@@ -310,9 +314,9 @@ class Controller_Main extends MVC_Controller_Default
 		$upload_image_field->setMaximalFileSize( 2 * 1024 * 1024 );
 		$upload_image_field->setErrorMessages(
 			[
-				Form_Field_FileImage::ERROR_CODE_EMPTY                => 'Please select image',
-				Form_Field_FileImage::ERROR_CODE_DISALLOWED_FILE_TYPE => 'Unsupported file type',
-				Form_Field_FileImage::ERROR_CODE_FILE_IS_TOO_LARGE    => 'Maximal file size is 2MiB',
+				Form_Field::ERROR_CODE_EMPTY                => 'Please select image',
+				Form_Field::ERROR_CODE_DISALLOWED_FILE_TYPE => 'Unsupported file type',
+				Form_Field::ERROR_CODE_FILE_IS_TOO_LARGE    => 'Maximal file size is 2MiB',
 			]
 		);
 		$upload_image_field->setFieldValueCatcher(
@@ -334,9 +338,9 @@ class Controller_Main extends MVC_Controller_Default
 		$upload_file_field->setMaximalFileSize( 2 * 1024 * 1024 );
 		$upload_file_field->setErrorMessages(
 			[
-				Form_Field_File::ERROR_CODE_EMPTY                => 'Please select file',
-				Form_Field_File::ERROR_CODE_DISALLOWED_FILE_TYPE => 'Unsupported file type',
-				Form_Field_File::ERROR_CODE_FILE_IS_TOO_LARGE    => 'Maximal file size is 2MiB',
+				Form_Field::ERROR_CODE_EMPTY                => 'Please select file',
+				Form_Field::ERROR_CODE_DISALLOWED_FILE_TYPE => 'Unsupported file type',
+				Form_Field::ERROR_CODE_FILE_IS_TOO_LARGE    => 'Maximal file size is 2MiB',
 			]
 		);
 		$upload_file_field->setFieldValueCatcher(
@@ -509,12 +513,12 @@ class Controller_Main extends MVC_Controller_Default
 	/**
 	 *
 	 */
-	public function test_forms_data_model_Action(): void
+	public function test_forms_generated_Action(): void
 	{
 
-		$obj = new DataModelTest_FormGenerator();
+		$obj = new DefinitionTest_FormGenerator();
 
-		$form = $obj->getCommonForm();
+		$form = $obj->createForm('generated_form');
 
 		if( $form->catchInput() ) {
 
@@ -523,15 +527,38 @@ class Controller_Main extends MVC_Controller_Default
 				$form->catchFieldValues();
 				$form->setCommonMessage( UI_messages::createSuccess( Tr::_( 'Form sent and is valid' ) ) );
 
-				$this->view->setVar( 'data_model', $obj );
+				$this->view->setVar( 'test_object', $obj );
 			} else {
 				$form->setCommonMessage( UI_messages::createDanger( Tr::_( 'Form sent, but is not valid' ) ) );
 			}
 
 		}
 		$this->view->setVar( 'form', $form );
-
-
-		$this->output( 'test-forms-data-model' );
+		
+		$this->view->setVar( 'main_getters', [
+			'getLongText',
+			'getText',
+			'getDate',
+			'getDateTime',
+			'getHTML',
+			'getCheckbox',
+			'getFloat',
+			'getInt',
+			'getSelect',
+			'getMultiSelect',
+			'getRadioButton',
+			'getPassword',
+		] );
+		
+		$this->view->setVar( 'sub_entities_getters', [
+			'getTitle',
+			'getText'
+		]);
+		
+		$this->view->setVar( 'sub_entity_getters', [
+			'getSomeText',
+		]);
+		
+		$this->output( 'test-forms-generated' );
 	}
 }

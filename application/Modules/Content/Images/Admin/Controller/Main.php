@@ -8,6 +8,7 @@
 
 namespace JetApplicationModule\Content\Images\Admin;
 
+use Jet\Form_Field;
 use Jet\Logger;
 use JetApplication\Content_Gallery;
 
@@ -374,7 +375,7 @@ class Controller_Main extends MVC_Controller_Default
 					]
 				);
 
-				if( $code == Form_Field_FileImage::ERROR_CODE_FILE_IS_TOO_LARGE ) {
+				if( $code == Form_Field::ERROR_CODE_FILE_IS_TOO_LARGE ) {
 					$error_message .= Tr::_(
 						'<br/>The maximum size of one uploaded file is: <b>%max_upload_size%</b>',
 						['max_upload_size' => Locale::getCurrentLocale()->formatSize( IO_File::getMaxUploadSize() )]

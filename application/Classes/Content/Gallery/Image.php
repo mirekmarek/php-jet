@@ -47,8 +47,6 @@ class Content_Gallery_Image extends DataModel
 	 */
 	#[DataModel_Definition(
 		type: DataModel::TYPE_INT,
-		form_field_min_value: 1,
-		form_field_type: false
 	)]
 	protected int $offset = 0;
 
@@ -58,8 +56,6 @@ class Content_Gallery_Image extends DataModel
 	#[DataModel_Definition(
 		type: DataModel::TYPE_STRING,
 		max_len: 255,
-		form_field_is_required: true,
-		form_field_type: false
 	)]
 	protected string $file_name = '';
 
@@ -69,8 +65,6 @@ class Content_Gallery_Image extends DataModel
 	#[DataModel_Definition(
 		type: DataModel::TYPE_STRING,
 		max_len: 255,
-		form_field_is_required: true,
-		form_field_type: false
 	)]
 	protected string $file_mime_type = '';
 
@@ -79,8 +73,6 @@ class Content_Gallery_Image extends DataModel
 	 */
 	#[DataModel_Definition(
 		type: DataModel::TYPE_INT,
-		form_field_min_value: 1,
-		form_field_type: false
 	)]
 	protected int $file_size = 0;
 
@@ -89,8 +81,6 @@ class Content_Gallery_Image extends DataModel
 	 */
 	#[DataModel_Definition(
 		type: DataModel::TYPE_INT,
-		form_field_min_value: 1,
-		form_field_type: false
 	)]
 	protected int $image_size_w = 0;
 
@@ -99,8 +89,6 @@ class Content_Gallery_Image extends DataModel
 	 */
 	#[DataModel_Definition(
 		type: DataModel::TYPE_INT,
-		form_field_min_value: 1,
-		form_field_type: false
 	)]
 	protected int $image_size_h = 0;
 

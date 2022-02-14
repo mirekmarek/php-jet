@@ -18,12 +18,15 @@ class Form_Field_Checkbox extends Form_Field
 	 * @var string
 	 */
 	protected string $_type = Form_Field::TYPE_CHECKBOX;
-
+	
+	
 	/**
 	 * @var array
 	 */
-	protected array $error_messages = [];
-
+	protected array $error_messages = [
+		Form_Field::ERROR_CODE_EMPTY          => '',
+		Form_Field::ERROR_CODE_INVALID_FORMAT => '',
+	];
 
 	/**
 	 * @param Data_Array $data
@@ -48,11 +51,7 @@ class Form_Field_Checkbox extends Form_Field
 	 */
 	public function validate(): bool
 	{
-		$validator = $this->getValidator();
-		if(
-			$validator &&
-			!$validator( $this )
-		) {
+		if(!$this->validate_validator()) {
 			return false;
 		}
 

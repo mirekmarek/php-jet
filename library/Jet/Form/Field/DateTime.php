@@ -20,13 +20,13 @@ class Form_Field_DateTime extends Form_Field_Input
 	 * @var string
 	 */
 	protected string $_type = Form_Field::TYPE_DATE_TIME;
-
+	
 	/**
 	 * @var array
 	 */
 	protected array $error_messages = [
-		self::ERROR_CODE_EMPTY          => '',
-		self::ERROR_CODE_INVALID_FORMAT => '',
+		Form_Field::ERROR_CODE_EMPTY          => '',
+		Form_Field::ERROR_CODE_INVALID_FORMAT => '',
 	];
 
 	/**
@@ -41,8 +41,28 @@ class Form_Field_DateTime extends Form_Field_Input
 		}
 
 	}
-
+	
 	/**
+	 * @return bool
+	 */
+	protected function validate_format() : bool
+	{
+		if( $this->_value ) {
+			
+			$check = DateTime::createFromFormat( 'Y-m-d\TH:i', $this->_value );
+			$check_c = DateTime::createFromFormat( 'Y-m-d\TH:i:s', $this->_value );
+			
+			if( !$check && !$check_c ) {
+				$this->setError( Form_Field::ERROR_CODE_INVALID_FORMAT );
+				
+				return false;
+			}
+		}
+		
+		return true;
+	}
+		
+		/**
 	 * validate value
 	 *
 	 * @return bool
@@ -50,39 +70,19 @@ class Form_Field_DateTime extends Form_Field_Input
 	public function validate(): bool
 	{
 		if(
-			$this->is_required &&
-			$this->_value === ''
-		) {
-			$this->setError( self::ERROR_CODE_EMPTY );
-
-			return false;
-		}
-
-		if( $this->_value ) {
-
-			$check = DateTime::createFromFormat( 'Y-m-d\TH:i', $this->_value );
-			$check_c = DateTime::createFromFormat( 'Y-m-d\TH:i:s', $this->_value );
-
-			if( !$check && !$check_c ) {
-				$this->setError( self::ERROR_CODE_INVALID_FORMAT );
-
-				return false;
-			}
-		}
-
-		$validator = $this->getValidator();
-		if(
-			$validator &&
-			!$validator( $this )
+			!$this->validate_required() ||
+			!$this->validate_format() ||
+			!$this->validate_validator()
 		) {
 			return false;
 		}
-
+		
 		$this->setIsValid();
 		return true;
 	}
-
-
+	
+	
+	
 	/**
 	 * @return array
 	 */
@@ -91,11 +91,23 @@ class Form_Field_DateTime extends Form_Field_Input
 		$codes = [];
 
 		if( $this->is_required ) {
-			$codes[] = self::ERROR_CODE_EMPTY;
+			$codes[] = Form_Field::ERROR_CODE_EMPTY;
 		}
-		$codes[] = self::ERROR_CODE_INVALID_FORMAT;
+		$codes[] = Form_Field::ERROR_CODE_INVALID_FORMAT;
 
 		return $codes;
 	}
-
+	
+	/**
+	 * @return Data_DateTime|null
+	 */
+	public function getValue(): ?Data_DateTime
+	{
+		if(!$this->_value) {
+			return null;
+		} else {
+			return new Data_DateTime($this->_value);
+		}
+	}
+	
 }

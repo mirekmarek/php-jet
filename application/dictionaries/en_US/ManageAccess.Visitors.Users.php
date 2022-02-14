@@ -35,4 +35,5 @@ return [
 	'Invalid date format' => '',
 	'Sorry, but username %USERNAME% is registered.' => '',
 	'User <b>%USERNAME%</b> has been created' => '',
+	'User <b>%USERNAME%</b> has been updated' => '',
 ];

@@ -1,0 +1,157 @@
+<?php
+/**
+ *
+ * @copyright Copyright (c) 2011-2022 Miroslav Marek <mirek.marek@web-jet.cz>
+ * @license http://www.php-jet.net/license/license.txt
+ * @author Miroslav Marek <mirek.marek@web-jet.cz>
+ */
+
+namespace Jet;
+
+/**
+ *
+ */
+trait Form_Field_Part_NumberRangeInt_Trait
+{
+	
+	#[Form_Definition_FieldOption(
+		type: Form_Definition_FieldOption::TYPE_INT,
+		label: 'Minimal value',
+		getter: 'getMinValue',
+		setter: 'setMinValue',
+	)]
+	protected ?int $min_value = null;
+	
+	#[Form_Definition_FieldOption(
+		type: Form_Definition_FieldOption::TYPE_INT,
+		label: 'Maximal value',
+		getter: 'getMaxValue',
+		setter: 'setMaxValue',
+	)]
+	protected ?int $max_value = null;
+	
+	#[Form_Definition_FieldOption(
+		type: Form_Definition_FieldOption::TYPE_INT,
+		label: 'Step',
+		getter: 'getStep',
+		setter: 'setStep',
+	)]
+	protected ?int $step = null;
+	
+	
+	/**
+	 * @return ?int
+	 */
+	public function getMinValue(): ?int
+	{
+		return $this->min_value;
+	}
+	
+	/**
+	 * @param ?int $min
+	 */
+	public function setMinValue( ?int $min ) : void
+	{
+		$this->min_value = $min;
+	}
+	
+	/**
+	 * @return ?int
+	 */
+	public function getMaxValue(): ?int
+	{
+		return $this->max_value;
+	}
+	
+	/**
+	 * @param ?int $max
+	 */
+	public function setMaxValue( ?int $max ) : void
+	{
+		$this->max_value = $max;
+	}
+	
+	/**
+	 * @return ?int
+	 */
+	public function getStep(): ?int
+	{
+		return $this->step;
+	}
+	
+	/**
+	 * @param ?int $step
+	 */
+	public function setStep( ?int $step ) : void
+	{
+		$this->step = $step;
+	}
+	
+	/**
+	 * @return bool
+	 */
+	protected function validate_range() : bool
+	{
+		if(
+			$this->min_value !== null &&
+			$this->_value < $this->min_value
+		) {
+			$this->setError( Form_Field::ERROR_CODE_OUT_OF_RANGE );
+			
+			return false;
+		}
+		
+		if(
+			$this->max_value !== null &&
+			$this->_value > $this->max_value
+		) {
+			$this->setError( Form_Field::ERROR_CODE_OUT_OF_RANGE );
+			
+			return false;
+		}
+		
+		return true;
+	}
+	
+	
+	/**
+	 * @return bool
+	 */
+	public function validate(): bool
+	{
+		
+		if(
+			!$this->validate_required() ||
+			!$this->validate_range() ||
+			!$this->validate_validator()
+		) {
+			return false;
+		}
+		
+		$this->setIsValid();
+		return true;
+		
+	}
+	
+	/**
+	 * @return array
+	 */
+	public function getRequiredErrorCodes(): array
+	{
+		$codes = [];
+		
+		if( $this->is_required ) {
+			$codes[] = Form_Field::ERROR_CODE_EMPTY;
+		}
+		
+		if(
+			$this->min_value !== null ||
+			$this->max_value !== null
+		) {
+			$codes[] = Form_Field::ERROR_CODE_OUT_OF_RANGE;
+		}
+		
+		return $codes;
+	}
+	
+}

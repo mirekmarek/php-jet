@@ -33,12 +33,13 @@ class DataModel_Definition_Property_String extends Jet_DataModel_Definition_Prop
 	 */
 	public function getEditFormCustomFields( array &$fields ): void
 	{
-		$max_len_field = new Form_Field_Int( 'max_len', 'Maximal string length:', $this->getMaxLen() );
+		$max_len_field = new Form_Field_Int( 'max_len', 'Maximal string length:' );
+		$max_len_field->setDefaultValue( $this->getMaxLen() );
 		$max_len_field->setMinValue( 1 );
 		$max_len_field->setIsRequired( true );
 		$max_len_field->setErrorMessages( [
-			Form_Field_Int::ERROR_CODE_EMPTY => 'Please enter maximal string length',
-			Form_Field_Int::ERROR_CODE_OUT_OF_RANGE => 'Minimal value is 1, maximal is unlimited'
+			Form_Field::ERROR_CODE_EMPTY => 'Please enter maximal string length',
+			Form_Field::ERROR_CODE_OUT_OF_RANGE => 'Minimal value is 1, maximal is unlimited'
 		] );
 		$max_len_field->setFieldValueCatcher( function( $value ) {
 			$this->max_len = $value;

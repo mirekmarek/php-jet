@@ -10,6 +10,7 @@ namespace JetStudio;
 
 use Jet\Exception;
 use Jet\Form;
+use Jet\Form_Field;
 use Jet\Form_Field_Input;
 use Jet\Navigation_Menu;
 use Jet\Http_Request;
@@ -113,10 +114,10 @@ class Menus_MenuSet extends Navigation_MenuSet
 	{
 		if( !static::$create_form ) {
 
-			$menu_set_name = new Form_Field_Input( 'menu_set_name', 'Menu set name:', '' );
+			$menu_set_name = new Form_Field_Input( 'menu_set_name', 'Menu set name:' );
 			$menu_set_name->setIsRequired( true );
 			$menu_set_name->setErrorMessages( [
-				Form_Field_Input::ERROR_CODE_EMPTY => 'Please enter menu set name',
+				Form_Field::ERROR_CODE_EMPTY => 'Please enter menu set name',
 			] );
 
 			$fields = [
@@ -165,7 +166,8 @@ class Menus_MenuSet extends Navigation_MenuSet
 	{
 		if( !$this->__edit_form ) {
 
-			$menu_set_name = new Form_Field_Input( 'menu_set_name', 'Menu set name:', $this->getName() );
+			$menu_set_name = new Form_Field_Input( 'menu_set_name', 'Menu set name:' );
+			$menu_set_name->setDefaultValue( $this->getName() );
 			$menu_set_name->setIsReadonly( true );
 			$menu_set_name->setFieldValueCatcher( function( $name ) {
 			} );

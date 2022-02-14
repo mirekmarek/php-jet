@@ -13,6 +13,7 @@ use Jet\IO_Dir;
 use Jet\MVC_Layout;
 use Jet\MVC_Base;
 use Jet\Form;
+use Jet\Form_Field;
 use Jet\Form_Field_Input;
 use Jet\Form_Field_Checkbox;
 use Jet\Form_Field_Hidden;
@@ -53,32 +54,37 @@ class Bases_Base extends MVC_Base
 	public function getEditForm(): Form
 	{
 		if( !$this->__edit_form ) {
-			$name_field = new Form_Field_Input( 'name', 'Name:', $this->getName() );
+			$name_field = new Form_Field_Input( 'name', 'Name:' );
+			$name_field->setDefaultValue( $this->getName() );
 			$name_field->setIsRequired( true );
 			$name_field->setErrorMessages( [
-				Form_Field_Input::ERROR_CODE_EMPTY => 'Please enter base name'
+				Form_Field::ERROR_CODE_EMPTY => 'Please enter base name'
 			] );
 			$name_field->setFieldValueCatcher( function( $value ) {
 				$this->setName( $value );
 			} );
 
 
-			$is_secret_field = new Form_Field_Checkbox( 'is_secret', 'is secret', $this->getIsSecret() );
+			$is_secret_field = new Form_Field_Checkbox( 'is_secret', 'is secret' );
+			$is_secret_field->setDefaultValue( $this->getIsSecret() );
 			$is_secret_field->setFieldValueCatcher( function( $value ) {
 				$this->setIsSecret( $value );
 			} );
 
-			$is_default_field = new Form_Field_Checkbox( 'is_default', 'is default', $this->getIsDefault() );
+			$is_default_field = new Form_Field_Checkbox( 'is_default', 'is default' );
+			$is_default_field->setDefaultValue( $this->getIsDefault() );
 			$is_default_field->setFieldValueCatcher( function( $value ) {
 				$this->setIsDefault( $value );
 			} );
 
-			$is_active_field = new Form_Field_Checkbox( 'is_active', 'is active', $this->getIsActive() );
+			$is_active_field = new Form_Field_Checkbox( 'is_active', 'is active' );
+			$is_active_field->setDefaultValue( $this->getIsActive() );
 			$is_active_field->setFieldValueCatcher( function( $value ) {
 				$this->setIsActive( $value );
 			} );
 
-			$SSL_required_field = new Form_Field_Checkbox( 'SSL_required', 'SSL required', $this->getSSLRequired() );
+			$SSL_required_field = new Form_Field_Checkbox( 'SSL_required', 'SSL required' );
+			$SSL_required_field->setDefaultValue( $this->getSSLRequired() );
 			$SSL_required_field->setFieldValueCatcher( function( $value ) {
 				$this->setSSLRequired( $value );
 			} );
@@ -97,8 +103,10 @@ class Bases_Base extends MVC_Base
 			}
 
 
-			$initializer_class_field = new Form_Field_Input( 'initializer_class', 'Initializer:', $initializer_class );
-			$initializer_class_method = new Form_Field_Input( 'initializer_method', '', $initializer_method );
+			$initializer_class_field = new Form_Field_Input( 'initializer_class', 'Initializer:',  );
+			$initializer_class_field->setDefaultValue( $initializer_class );
+			$initializer_class_method = new Form_Field_Input( 'initializer_method', '',  );
+			$initializer_class_method->setDefaultValue( $initializer_method );
 
 			$fields = [
 				$name_field,
@@ -114,7 +122,8 @@ class Bases_Base extends MVC_Base
 				$ld = $this->getLocalizedData( $locale );
 
 
-				$ld_is_active_field = new Form_Field_Checkbox( '/' . $locale . '/is_active', 'is active', $ld->getIsActive() );
+				$ld_is_active_field = new Form_Field_Checkbox( '/' . $locale . '/is_active', 'is active' );
+				$ld_is_active_field->setDefaultValue( $ld->getIsActive() );
 				$ld_is_active_field->setFieldValueCatcher( function( $value ) use ( $ld ) {
 					if( $this->getIsActive() ) {
 						$ld->setIsActive( $value );
@@ -128,7 +137,8 @@ class Bases_Base extends MVC_Base
 				$fields[] = $ld_is_active_field;
 
 
-				$ld_SSL_required_field = new Form_Field_Checkbox( '/' . $locale . '/SSL_required', 'SSL required', $ld->getSSLRequired() );
+				$ld_SSL_required_field = new Form_Field_Checkbox( '/' . $locale . '/SSL_required', 'SSL required' );
+				$ld_SSL_required_field->setDefaultValue( $ld->getSSLRequired() );
 				$ld_SSL_required_field->setFieldValueCatcher( function( $value ) use ( $ld ) {
 					if( !$this->getSSLRequired() ) {
 						$ld->setSSLRequired( $value );
@@ -140,7 +150,8 @@ class Bases_Base extends MVC_Base
 				$fields[] = $ld_SSL_required_field;
 
 
-				$ld_title_field = new Form_Field_Input( '/' . $locale . '/title', 'Title:', $ld->getTitle() );
+				$ld_title_field = new Form_Field_Input( '/' . $locale . '/title', 'Title:' );
+				$ld_title_field->setDefaultValue( $ld->getTitle() );
 				$ld_title_field->setFieldValueCatcher( function( $value ) use ( $ld ) {
 					$ld->setTitle( $value );
 				} );
@@ -193,9 +204,10 @@ class Bases_Base extends MVC_Base
 
 				$u = 0;
 				foreach( $ld->getURLs() as $URL ) {
-					$ld_URL_field = new Form_Field_Input( '/' . $locale . '/URLs/' . $u, '', $URL );
+					$ld_URL_field = new Form_Field_Input( '/' . $locale . '/URLs/' . $u, '' );
+					$ld_URL_field->setDefaultValue( $URL );
 					$ld_URL_field->setErrorMessages( [
-						Form_Field_Input::ERROR_CODE_EMPTY => 'Please enter at least one URL',
+						Form_Field::ERROR_CODE_EMPTY => 'Please enter at least one URL',
 						'url_is_not_unique'                         => 'URL conflicts with base <b>%base_name%</b> <b>%locale%</b>',
 						'url_is_not_unique_in_self'                 => 'URL conflicts with locale <b>%locale%</b>',
 					] );
@@ -228,15 +240,18 @@ class Bases_Base extends MVC_Base
 				$m = 0;
 				foreach( $ld->getDefaultMetaTags() as $meta_tag ) {
 
-					$ld_meta_tag_attribute = new Form_Field_Input( '/' . $locale . '/meta_tag/' . $m . '/attribute', 'Attribute:', $meta_tag->getAttribute() );
+					$ld_meta_tag_attribute = new Form_Field_Input( '/' . $locale . '/meta_tag/' . $m . '/attribute', 'Attribute:' );
+					$ld_meta_tag_attribute->setDefaultValue( $meta_tag->getAttribute() );
 					$fields[] = $ld_meta_tag_attribute;
 
 
-					$ld_meta_tag_attribute_value = new Form_Field_Input( '/' . $locale . '/meta_tag/' . $m . '/attribute_value', 'Attribute value:', $meta_tag->getAttributeValue() );
+					$ld_meta_tag_attribute_value = new Form_Field_Input( '/' . $locale . '/meta_tag/' . $m . '/attribute_value', 'Attribute value:' );
+					$ld_meta_tag_attribute_value->setDefaultValue( $meta_tag->getAttributeValue() );
 					$fields[] = $ld_meta_tag_attribute_value;
 
 
-					$ld_meta_tag_content = new Form_Field_Input( '/' . $locale . '/meta_tag/' . $m . '/content', 'Attribute value:', $meta_tag->getContent() );
+					$ld_meta_tag_content = new Form_Field_Input( '/' . $locale . '/meta_tag/' . $m . '/content', 'Attribute value:' );
+					$ld_meta_tag_content->setDefaultValue( $meta_tag->getContent() );
 					$fields[] = $ld_meta_tag_content;
 
 					$m++;
@@ -244,15 +259,15 @@ class Bases_Base extends MVC_Base
 
 				for( $c = 0; $c < 5; $c++ ) {
 
-					$ld_meta_tag_attribute = new Form_Field_Input( '/' . $locale . '/meta_tag/' . $m . '/attribute', 'Attribute:', '' );
+					$ld_meta_tag_attribute = new Form_Field_Input( '/' . $locale . '/meta_tag/' . $m . '/attribute', 'Attribute:' );
 					$fields[] = $ld_meta_tag_attribute;
 
 
-					$ld_meta_tag_attribute_value = new Form_Field_Input( '/' . $locale . '/meta_tag/' . $m . '/attribute_value', 'Attribute value:', '' );
+					$ld_meta_tag_attribute_value = new Form_Field_Input( '/' . $locale . '/meta_tag/' . $m . '/attribute_value', 'Attribute value:' );
 					$fields[] = $ld_meta_tag_attribute_value;
 
 
-					$ld_meta_tag_content = new Form_Field_Input( '/' . $locale . '/meta_tag/' . $m . '/content', 'Attribute value:', '' );
+					$ld_meta_tag_content = new Form_Field_Input( '/' . $locale . '/meta_tag/' . $m . '/content', 'Attribute value:' );
 					$fields[] = $ld_meta_tag_content;
 
 					$m++;
@@ -262,10 +277,12 @@ class Bases_Base extends MVC_Base
 				$i = 0;
 				foreach( $ld->getParameters() as $key => $val ) {
 
-					$param_key = new Form_Field_Input( '/'.$locale.'/params/' . $i . '/key', '', $key );
+					$param_key = new Form_Field_Input( '/'.$locale.'/params/' . $i . '/key', '' );
+					$param_key->setDefaultValue( $key );
 					$fields[] = $param_key;
 
-					$param_value = new Form_Field_Input( '/'.$locale.'/params/' . $i . '/value', '', $val );
+					$param_value = new Form_Field_Input( '/'.$locale.'/params/' . $i . '/value', '' );
+					$param_value->setDefaultValue( $val );
 					$fields[] = $param_value;
 
 					$i++;
@@ -273,10 +290,10 @@ class Bases_Base extends MVC_Base
 
 				for( $c = 0; $c < static::PARAMS_COUNT; $c++ ) {
 
-					$param_key = new Form_Field_Input( '/'.$locale.'/params/' . $i . '/key', '', '' );
+					$param_key = new Form_Field_Input( '/'.$locale.'/params/' . $i . '/key', '' );
 					$fields[] = $param_key;
 
-					$param_value = new Form_Field_Input( '/'.$locale.'/params/' . $i . '/value', '', '' );
+					$param_value = new Form_Field_Input( '/'.$locale.'/params/' . $i . '/value', '' );
 					$fields[] = $param_value;
 
 					$i++;
@@ -355,7 +372,7 @@ class Bases_Base extends MVC_Base
 
 				if( !count( $URLs[$locale_str] ) ) {
 					$field = $form->field( '/' . $locale_str . '/URLs/0' );
-					$field->setError( Form_Field_Input::ERROR_CODE_EMPTY );
+					$field->setError( Form_Field::ERROR_CODE_EMPTY );
 
 					$error = true;
 				}
@@ -572,7 +589,8 @@ class Bases_Base extends MVC_Base
 	public function getSortLocalesForm(): Form
 	{
 		if( !$this->__sort_locales_form ) {
-			$locale_field = new Form_Field_Hidden( 'locales', '', implode( ',', $this->getLocales( true ) ) );
+			$locale_field = new Form_Field_Hidden( 'locales', ''  );
+			$locale_field->setDefaultValue( implode( ',', $this->getLocales( true ) ) );
 
 			$form = new Form( 'sort_locales_form', [$locale_field] );
 			$form->setAction( Bases::getActionUrl( 'locale/sort' ) );

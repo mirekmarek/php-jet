@@ -41,6 +41,9 @@ class Form_Renderer_Field_Input_Number extends Form_Renderer_Field_Input
 		$this->_tag_attributes['id'] = $field->getId();
 		$this->_tag_attributes['value'] = $field->getValue();
 		
+		/**
+		 * @var Form_Field|Form_Field_Part_NumberRangeFloat_Interface|Form_Field_Part_NumberRangeInt_Interface $field
+		 */
 		
 		if( $field->getPlaceholder() ) {
 			$this->_tag_attributes['placeholder'] = Data_Text::htmlSpecialChars( $field->getPlaceholder() );

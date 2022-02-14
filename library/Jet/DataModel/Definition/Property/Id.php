@@ -24,15 +24,20 @@ class DataModel_Definition_Property_Id extends DataModel_Definition_Property
 	protected bool $is_id = false;
 
 	/**
-	 * @var string|bool
-	 */
-	protected string|bool $form_field_type = Form_Field::TYPE_HIDDEN;
-
-	/**
 	 *
 	 * @param mixed $value
 	 */
 	public function checkValueType( mixed &$value ): void
 	{
 	}
+	
+	
+	/**
+	 * @return string
+	 */
+	public function getDefaultFormFieldType(): string
+	{
+		return '';
+	}
+	
 }

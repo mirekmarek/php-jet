@@ -17,13 +17,9 @@ class Form_Field_Textarea extends Form_Field
 	 * @var string
 	 */
 	protected string $_type = Form_Field::TYPE_TEXTAREA;
-
-	/**
-	 * @var array
-	 */
+	
 	protected array $error_messages = [
-		self::ERROR_CODE_EMPTY          => '',
-		self::ERROR_CODE_INVALID_FORMAT => '',
+		Form_Field::ERROR_CODE_EMPTY => ''
 	];
 
 	/**
@@ -34,13 +30,27 @@ class Form_Field_Textarea extends Form_Field
 		$codes = [];
 
 		if( $this->is_required ) {
-			$codes[] = self::ERROR_CODE_EMPTY;
+			$codes[] = Form_Field::ERROR_CODE_EMPTY;
 		}
-
-		if( $this->validation_regexp ) {
-			$codes[] = self::ERROR_CODE_INVALID_FORMAT;
-		}
-
+		
 		return $codes;
 	}
+	
+	
+	/**
+	 * @return bool
+	 */
+	public function validate(): bool
+	{
+		if(
+			!$this->validate_required() ||
+			!$this->validate_validator()
+		) {
+			return false;
+		}
+		
+		$this->setIsValid();
+		return true;
+	}
+	
 }

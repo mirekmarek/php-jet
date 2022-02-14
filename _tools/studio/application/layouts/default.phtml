@@ -7,6 +7,7 @@ use Jet\Http_Request;
 use Jet\Locale;
 use Jet\SysConf_URI;
 use Jet\Tr;
+use Jet\Translator;
 use Jet\UI;
 
 ?>
@@ -133,7 +134,7 @@ use Jet\UI;
 		<div class="loading text-center">
 	        <div id="__progress_prc__"></div>
 	        <i class="fa fa-spinner fa-spin fa-3x fa-fw"></i>
-	        <span class="sr-only"><?=Tr::_('Loading ...', [], Tr::COMMON_DICTIONARY);?></span>
+	        <span class="sr-only"><?=Tr::_('Loading ...', [], Translator::COMMON_DICTIONARY);?></span>
 	    </div>
 	</div>
 

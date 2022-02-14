@@ -18,7 +18,7 @@ class UI
 	/**
 	 * @var string
 	 */
-	protected static string $translator_namespace = Tr::COMMON_DICTIONARY;
+	protected static string $translator_namespace = Translator::COMMON_DICTIONARY;
 
 
 	/**

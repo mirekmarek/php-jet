@@ -13,10 +13,8 @@ use ReflectionObject;
 /**
  *
  */
-abstract class DataModel_Definition_Property extends BaseObject implements Form_Field_Definition_Interface
+abstract class DataModel_Definition_Property extends BaseObject
 {
-	use Form_Field_Definition_Trait;
-
 
 	/**
 	 * @var string
@@ -112,13 +110,6 @@ abstract class DataModel_Definition_Property extends BaseObject implements Form_
 
 				$this->{$key} = $val;
 			}
-
-			if( $this->is_id ) {
-				if( !isset( $definition_data['form_field_type'] ) ) {
-					$this->form_field_type = Form_Field::TYPE_HIDDEN;
-				}
-			}
-
 		}
 
 	}
@@ -309,6 +300,11 @@ abstract class DataModel_Definition_Property extends BaseObject implements Form_
 	 * @param mixed &$value
 	 */
 	abstract public function checkValueType( mixed &$value ): void;
+	
+	/**
+	 * @return string
+	 */
+	abstract public function getDefaultFormFieldType() : string;
 
 	/**
 	 * @param string $backend_type
@@ -343,30 +339,6 @@ abstract class DataModel_Definition_Property extends BaseObject implements Form_
 	/**
 	 * @return string
 	 */
-	public function getFormFieldName(): string
-	{
-		return $this->name;
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getFormFieldContextClassName(): string
-	{
-		return $this->data_model_class_name;
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getFormFieldContextPropertyName(): string
-	{
-		return $this->name;
-	}
-
-	/**
-	 * @return string
-	 */
 	public function getType(): string
 	{
 		return $this->type;
@@ -393,6 +365,5 @@ abstract class DataModel_Definition_Property extends BaseObject implements Form_
 	public function getAllRelatedPropertyDefinitions( array &$related_definitions ): void
 	{
 	}
-
-
+	
 }

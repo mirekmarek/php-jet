@@ -16,9 +16,11 @@ use Jet\MVC_Base;
 use Jet\Factory_MVC;
 use Jet\MVC_Base_Interface;
 use Jet\Form;
+use Jet\Form_Field;
 use Jet\Form_Field_Input;
 use Jet\MVC_Base_LocalizedData_MetaTag;
 use Jet\Tr;
+use Jet\Translator;
 use Jet\UI_messages;
 use Jet\SysConf_URI;
 
@@ -200,7 +202,7 @@ class Installer_Step_CreateBases_Controller extends Installer_Step_Controller
 					}
 
 				} catch( Exception $e ) {
-					UI_messages::danger( Tr::_( 'Something went wrong: %error%', ['error' => $e->getMessage()], Tr::COMMON_DICTIONARY ) );
+					UI_messages::danger( Tr::_( 'Something went wrong: %error%', ['error' => $e->getMessage()], Translator::COMMON_DICTIONARY ) );
 				}
 
 
@@ -219,11 +221,13 @@ class Installer_Step_CreateBases_Controller extends Installer_Step_Controller
 
 				$URL = rtrim( $URL, '/' );
 
-				$URL_field = new Form_Field_Input( '/' . $base->getId() . '/' . $locale . '/URL', 'URL ', $URL, true );
+				$URL_field = new Form_Field_Input( '/' . $base->getId() . '/' . $locale . '/URL', 'URL ' );
+				$URL_field->setDefaultValue($URL);
+				$URL_field->setIsRequired(true);
 
 				$URL_field->setErrorMessages(
 					[
-						Form_Field_Input::ERROR_CODE_EMPTY => 'Please enter URL',
+						Form_Field::ERROR_CODE_EMPTY => 'Please enter URL',
 					]
 				);
 

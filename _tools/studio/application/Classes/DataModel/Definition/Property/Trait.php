@@ -9,7 +9,7 @@
 namespace JetStudio;
 
 use Jet\Cache;
-use Jet\DataModel;
+
 use Jet\Exception;
 use Jet\Form;
 use Jet\Form_Field;
@@ -19,7 +19,6 @@ use Jet\Form_Field_Select;
 use Jet\IO_File;
 use Jet\Tr;
 use Jet\UI;
-use ReflectionClass;
 
 
 /**
@@ -110,11 +109,12 @@ trait DataModel_Definition_Property_Trait
 
 		if( !$this->__edit_form ) {
 
-			$name_field = new Form_Field_Input( 'name', 'Property name:', $this->name );
+			$name_field = new Form_Field_Input( 'name', 'Property name:' );
+			$name_field->setDefaultValue( $this->name );
 			$name_field->setIsRequired( true );
 			$name_field->setErrorMessages( [
-				Form_Field_Input::ERROR_CODE_EMPTY          => 'Please enter property name',
-				Form_Field_Input::ERROR_CODE_INVALID_FORMAT => 'Invalid property name format',
+				Form_Field::ERROR_CODE_EMPTY          => 'Please enter property name',
+				Form_Field::ERROR_CODE_INVALID_FORMAT => 'Invalid property name format',
 				'property_is_not_unique' => 'Property with the same name already exists',
 			] );
 			$name_field->setFieldValueCatcher( function( $value ) {
@@ -127,37 +127,43 @@ trait DataModel_Definition_Property_Trait
 			$name_field->setIsReadonly( true );
 
 
-			$type_field = new Form_Field_Select( 'type', 'Type:', $this->getType() );
+			$type_field = new Form_Field_Select( 'type', 'Type:' );
+			$type_field->setDefaultValue( $this->getType() );
 			$type_field->setSelectOptions( DataModel_Definition_Property::getPropertyTypes() );
 			$type_field->setIsRequired( true );
 			$type_field->setErrorMessages( [
-				Form_Field_Input::ERROR_CODE_EMPTY          => 'Please select property type',
-				Form_Field_Select::ERROR_CODE_INVALID_VALUE => 'Please select property type'
+				Form_Field::ERROR_CODE_EMPTY          => 'Please select property type',
+				Form_Field::ERROR_CODE_INVALID_VALUE => 'Please select property type'
 			] );
 
-			$database_column_name_field = new Form_Field_Input( 'database_column_name', 'Custom column name:', $this->database_column_name );
+			$database_column_name_field = new Form_Field_Input( 'database_column_name', 'Custom column name:' );
+			$database_column_name_field->setDefaultValue( $this->database_column_name );
 			$database_column_name_field->setFieldValueCatcher( function( $value ) {
 				$this->database_column_name = $value;
 			} );
 
 
-			$is_id_filed = new Form_Field_Checkbox( 'is_id', 'Is ID', $this->getIsId() );
+			$is_id_filed = new Form_Field_Checkbox( 'is_id', 'Is ID' );
+			$is_id_filed->setDefaultValue( $this->getIsId() );
 			$is_id_filed->setFieldValueCatcher( function( $value ) {
 				$this->is_id = $value;
 			} );
 
-			$is_key_filed = new Form_Field_Checkbox( 'is_key', 'Is key (index)', $this->getIsKey() );
+			$is_key_filed = new Form_Field_Checkbox( 'is_key', 'Is key (index)' );
+			$is_key_filed->setDefaultValue( $this->getIsKey() );
 			$is_key_filed->setFieldValueCatcher( function( $value ) {
 				$this->is_key = $value;
 			} );
 
-			$is_unique_filed = new Form_Field_Checkbox( 'is_unique', 'Is unique (index)', $this->getIsUnique() );
+			$is_unique_filed = new Form_Field_Checkbox( 'is_unique', 'Is unique (index)' );
+			$is_unique_filed->setDefaultValue( $this->getIsUnique() );
 			$is_unique_filed->setFieldValueCatcher( function( $value ) {
 				$this->is_unique = $value;
 			} );
 
 
-			$is_do_not_export_filed = new Form_Field_Checkbox( 'is_do_not_export', 'Do not export to XML or JSON', $this->doNotExport() );
+			$is_do_not_export_filed = new Form_Field_Checkbox( 'is_do_not_export', 'Do not export to XML or JSON' );
+			$is_do_not_export_filed->setDefaultValue( $this->doNotExport() );
 			$is_do_not_export_filed->setFieldValueCatcher( function( $value ) {
 				$this->do_not_export = $value;
 			} );
@@ -177,9 +183,7 @@ trait DataModel_Definition_Property_Trait
 				$is_do_not_export_filed->getName()     => $is_do_not_export_filed,
 
 			];
-
-
-			$this->getEditForm_getFormDefinitionFields( $fields );
+			
 			$this->getEditFormCustomFields( $fields );
 
 			$form = new Form( 'property_edit_form_' . $this->getName(), $fields );
@@ -208,9 +212,7 @@ trait DataModel_Definition_Property_Trait
 		return $this->__edit_form;
 	}
 
-	/**
-	 * @param array $fields
-	 */
+	/*
 	public function getEditForm_getFormDefinitionFields( array &$fields ): void
 	{
 		$form_field_creator_method_name_filed = new Form_Field_Input( 'form_field_creator_method_name', 'Field creator method:', $this->getFormFieldCreatorMethodName() );
@@ -237,7 +239,7 @@ trait DataModel_Definition_Property_Trait
 		}
 		$form_field_type_field->setSelectOptions( $so );
 		$form_field_type_field->setErrorMessages( [
-			Form_Field_Select::ERROR_CODE_INVALID_VALUE => 'Please select type'
+			Form_Field::ERROR_CODE_INVALID_VALUE => 'Please select type'
 		] );
 
 
@@ -313,7 +315,7 @@ trait DataModel_Definition_Property_Trait
 			$_callback[0] = substr($_callback[0], strrpos($_callback[0], '\\')+1).'::class';
 		}
 
-		$form_field_get_select_options_callback_filed_class_name = new Form_Field_Input( 'form_field_get_select_options_callback_class_name', 'Select options callback:', $_callback[0] );
+		$form_field_get_select_options_callback_filed_class_name = new Form_Field_Input( 'form_field_get_select_options_callback_class_name', 'Select 'options' callback:', $_callback[0] );
 		$form_field_get_select_options_callback_filed_method = new Form_Field_Input( 'form_field_get_select_options_callback_method', '', $_callback[1] );
 		$form_field_get_select_options_callback_filed_method->setFieldValueCatcher( function( $value ) use ( $form_field_get_select_options_callback_filed_class_name ) {
 			if( $form_field_get_select_options_callback_filed_class_name->getValue() && $value ) {
@@ -346,9 +348,7 @@ trait DataModel_Definition_Property_Trait
 		$fields[$form_field_get_select_options_callback_filed_method->getName()] = $form_field_get_select_options_callback_filed_method;
 
 
-		/**
 		 * @var Form_Field_Input[] $form_error_message_fields
-		 */
 		$form_error_message_fields = [];
 
 		$current_messages = $this->getFormFieldErrorMessages();
@@ -409,8 +409,8 @@ trait DataModel_Definition_Property_Trait
 			$fields[$custom_code_field->getName()] = $custom_code_field;
 			$fields[$custom_message_field->getName()] = $custom_message_field;
 		}
-
 	}
+	*/
 
 	/**
 	 * @return bool|DataModel_Definition_Property_Interface
@@ -676,99 +676,7 @@ trait DataModel_Definition_Property_Trait
 	{
 		$this->do_not_export = $do_not_export;
 	}
-
-
-
-	/**
-	 * @param string|bool $type
-	 */
-	public function setFormFieldType( string|bool $type ): void
-	{
-		$this->form_field_type = $type;
-	}
-
-	/**
-	 * @param string $form_field_creator_method_name
-	 */
-	public function setFormFieldCreatorMethodName( string $form_field_creator_method_name ): void
-	{
-		$this->form_field_creator_method_name = $form_field_creator_method_name;
-	}
-
-	/**
-	 * @param callable|array|null $form_field_get_select_options_callback
-	 */
-	public function setFormFieldGetSelectOptionsCallback( callable|array|null $form_field_get_select_options_callback ): void
-	{
-		$this->form_field_get_select_options_callback = $form_field_get_select_options_callback;
-	}
-
-	/**
-	 * @param string $form_setter_name
-	 */
-	public function setFormSetterName( string $form_setter_name ): void
-	{
-		$this->form_setter_name = $form_setter_name;
-	}
-
-	/**
-	 * @return bool
-	 */
-	public function getFormFieldIsRequired() : bool
-	{
-		return $this->form_field_is_required;
-	}
-
-	/**
-	 * @param bool $form_field_is_required
-	 */
-	public function setFormFieldIsRequired( bool $form_field_is_required ): void
-	{
-		$this->form_field_is_required = $form_field_is_required;
-	}
-
-	/**
-	 * @param null|string $form_field_validation_regexp
-	 */
-	public function setFormFieldValidationRegexp( ?string $form_field_validation_regexp ): void
-	{
-		$this->form_field_validation_regexp = $form_field_validation_regexp;
-	}
-
-	/**
-	 * @param float|int|null $form_field_min_value
-	 */
-	public function setFormFieldMinValue( float|int|null $form_field_min_value ): void
-	{
-		$this->form_field_min_value = $form_field_min_value;
-	}
-
-	/**
-	 * @param float|int|null $form_field_max_value
-	 */
-	public function setFormFieldMaxValue( float|int|null $form_field_max_value ): void
-	{
-		$this->form_field_max_value = $form_field_max_value;
-	}
-
-
-	/**
-	 * @param array $options
-	 */
-	public function setFormFieldOptions( array $options ): void
-	{
-		$this->form_field_options = $options;
-	}
-
-	/**
-	 * @param string $label
-	 */
-	public function setFormFieldLabel( string $label ): void
-	{
-		$this->form_field_label = $label;
-	}
-
-
+	
 	/**
 	 *
 	 * @param ClassCreator_Class $class
@@ -838,6 +746,7 @@ trait DataModel_Definition_Property_Trait
 			$property->setAttribute( $a[0], $a[1], $a[2] );
 		}
 
+		/*
 		if( $this->form_field_type!==false ) {
 			$class->addUse( (new ClassCreator_UseClass( 'Jet', 'Form' )) );
 			$class->addUse( (new ClassCreator_UseClass( 'Jet', 'Form_Field' )) );
@@ -932,7 +841,8 @@ trait DataModel_Definition_Property_Trait
 		} else {
 			$property->setAttribute( 'DataModel_Definition', 'form_field_type', false );
 		}
-
+		*/
+		
 		return $property;
 	}
 

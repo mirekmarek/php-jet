@@ -11,9 +11,8 @@ namespace Jet;
 /**
  *
  */
-abstract class Config_Definition_Property extends BaseObject implements Form_Field_Definition_Interface
+abstract class Config_Definition_Property extends BaseObject
 {
-	use Form_Field_Definition_Trait;
 
 	/**
 	 * @var string
@@ -30,16 +29,6 @@ abstract class Config_Definition_Property extends BaseObject implements Form_Fie
 	 * @var string
 	 */
 	protected string $name = '';
-
-	/**
-	 * @var string
-	 */
-	protected string $description = '';
-
-	/**
-	 * @var string
-	 */
-	protected string $label = '';
 
 	/**
 	 * @var bool
@@ -86,13 +75,6 @@ abstract class Config_Definition_Property extends BaseObject implements Form_Fie
 
 
 		$this->is_required = (bool)$this->is_required;
-		if( $this->is_required ) {
-			$this->form_field_is_required = true;
-		}
-
-		if(!$this->form_field_label) {
-			$this->form_field_label = $this->label;
-		}
 	}
 
 	/**
@@ -104,22 +86,6 @@ abstract class Config_Definition_Property extends BaseObject implements Form_Fie
 		return $this->name;
 	}
 
-	/**
-	 *
-	 * @return string
-	 */
-	public function getDescription(): string
-	{
-		return $this->description;
-	}
-
-	/**
-	 * @param string $description
-	 */
-	public function setDescription( string $description ): void
-	{
-		$this->description = $description;
-	}
 
 	/**
 	 * @return bool
@@ -135,24 +101,6 @@ abstract class Config_Definition_Property extends BaseObject implements Form_Fie
 	public function setIsRequired( bool $is_required ): void
 	{
 		$this->is_required = $is_required;
-		$this->form_field_is_required = $is_required;
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getLabel(): string
-	{
-		return $this->label;
-	}
-
-	/**
-	 * @param string $label
-	 */
-	public function setLabel( string $label ): void
-	{
-		$this->label = $label;
-		$this->form_field_label = $label;
 	}
 
 	/**
@@ -195,32 +143,7 @@ abstract class Config_Definition_Property extends BaseObject implements Form_Fie
 	 * @throws Config_Exception
 	 */
 	abstract protected function checkValue( mixed $value ): void;
-
-	/**
-	 * @return string
-	 */
-	public function getFormFieldName(): string
-	{
-		return $this->name;
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getFormFieldContextClassName(): string
-	{
-		return $this->_configuration_class;
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getFormFieldContextPropertyName(): string
-	{
-		return $this->name;
-	}
-
-
+	
 	/**
 	 * @return string
 	 */

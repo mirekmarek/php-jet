@@ -13,11 +13,12 @@ use Jet\DataModel_Definition;
 use Jet\DataModel_Related_1toN;
 use Jet\DataModel_IDController_Passive;
 
+use Jet\Form_Definition;
+
 use Jet\Locale;
 use Jet\MVC;
 use Jet\Data_Text;
 use Jet\Form_Field;
-use Jet\Form_Field_Input;
 
 /**
  *
@@ -42,7 +43,6 @@ class Content_Article_Localized extends DataModel_Related_1toN
 	#[DataModel_Definition(
 		type: DataModel::TYPE_ID,
 		is_id: true,
-		form_field_type: false,
 		related_to: 'main.id',
 		do_not_export: true
 	)]
@@ -54,7 +54,6 @@ class Content_Article_Localized extends DataModel_Related_1toN
 	#[DataModel_Definition(
 		type: DataModel::TYPE_LOCALE,
 		is_id: true,
-		form_field_type: false,
 		do_not_export: true
 	)]
 	protected Locale|null $locale;
@@ -66,8 +65,6 @@ class Content_Article_Localized extends DataModel_Related_1toN
 	#[DataModel_Definition(
 		type: DataModel::TYPE_STRING,
 		max_len: 255,
-		form_field_is_required: true,
-		form_field_type: false,
 		is_key: true
 	)]
 	protected string $URI_fragment = '';
@@ -79,10 +76,13 @@ class Content_Article_Localized extends DataModel_Related_1toN
 	#[DataModel_Definition(
 		type: DataModel::TYPE_STRING,
 		max_len: 100,
-		form_field_is_required: true,
-		form_field_label: 'Title',
-		form_field_error_messages: [
-			Form_Field_Input::ERROR_CODE_EMPTY => 'Please enter title'
+	)]
+	#[Form_Definition(
+		type: Form_Field::TYPE_INPUT,
+		is_required: true,
+		label: 'Title',
+		error_messages: [
+			Form_Field::ERROR_CODE_EMPTY => 'Please enter title'
 		]
 	)]
 	protected string $title = '';
@@ -94,7 +94,10 @@ class Content_Article_Localized extends DataModel_Related_1toN
 	#[DataModel_Definition(
 		type: DataModel::TYPE_STRING,
 		max_len: 65536,
-		form_field_label: 'Annotation'
+	)]
+	#[Form_Definition(
+		type: Form_Field::TYPE_TEXTAREA,
+		label: 'Annotation',
 	)]
 	protected string $annotation = '';
 
@@ -105,8 +108,10 @@ class Content_Article_Localized extends DataModel_Related_1toN
 	#[DataModel_Definition(
 		type: DataModel::TYPE_STRING,
 		max_len: 655360,
-		form_field_label: 'Text',
-		form_field_type: Form_Field::TYPE_WYSIWYG
+	)]
+	#[Form_Definition(
+		type: Form_Field::TYPE_WYSIWYG,
+		label: 'Text',
 	)]
 	protected string $text = '';
 

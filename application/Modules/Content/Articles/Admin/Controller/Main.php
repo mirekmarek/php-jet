@@ -189,7 +189,7 @@ class Controller_Main extends MVC_Controller_Default
 		Navigation_Breadcrumb::addURL( $article->getTitle() );
 
 
-		$form = $article->getCommonForm();
+		$form = $article->createForm('view_article');
 		$form->setIsReadonly();
 
 		$this->view->setVar( 'form', $form );

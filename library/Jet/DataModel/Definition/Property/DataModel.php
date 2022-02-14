@@ -149,20 +149,6 @@ class DataModel_Definition_Property_DataModel extends DataModel_Definition_Prope
 	}
 
 	/**
-	 * @param BaseObject $object_instance
-	 * @param mixed &$property
-	 * @param mixed $value
-	 */
-	public function catchFormField( BaseObject $object_instance, mixed &$property, mixed $value ): void
-	{
-
-		if( ($method_name = $this->getFormSetterName()) ) {
-			$object_instance->{$method_name}( $value );
-		}
-
-	}
-
-	/**
 	 *
 	 * @param array|DataModel_Definition_Property_DataModel[] &$related_definitions
 	 *
@@ -212,6 +198,12 @@ class DataModel_Definition_Property_DataModel extends DataModel_Definition_Prope
 
 		return $definition;
 	}
-
-
+	
+	/**
+	 * @return string
+	 */
+	public function getDefaultFormFieldType() : string
+	{
+		return '';
+	}
 }

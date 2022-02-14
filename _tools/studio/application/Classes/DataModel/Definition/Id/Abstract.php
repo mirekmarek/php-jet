@@ -137,10 +137,11 @@ abstract class DataModel_Definition_Id_Abstract
 			$id_properties = ['' => ''];
 		}
 
-		$id_property_name = new Form_Field_Select( 'id_property_name', 'ID property:', $this->model->getIDControllerOption( 'id_property_name', $default_id_property ) );
+		$id_property_name = new Form_Field_Select( 'id_property_name', 'ID property:' );
+		$id_property_name->setDefaultValue( $this->model->getIDControllerOption( 'id_property_name', $default_id_property ) );
 		$id_property_name->setSelectOptions( $id_properties );
 		$id_property_name->setErrorMessages( [
-			Form_Field_Select::ERROR_CODE_INVALID_VALUE => 'Please select ID property'
+			Form_Field::ERROR_CODE_INVALID_VALUE => 'Please select ID property'
 		] );
 		$id_property_name->setFieldValueCatcher( function( $value ) {
 			$this->model->setIDControllerOption( 'id_property_name', $value );

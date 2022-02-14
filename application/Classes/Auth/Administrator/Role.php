@@ -16,6 +16,7 @@ use Jet\DataModel_IDController_Passive;
 use Jet\Auth_Role_Interface;
 use Jet\Data_Forest;
 use Jet\Data_Tree;
+use Jet\Form_Definition;
 use Jet\Form_Field_Input;
 use Jet\Form_Field_MultiSelect;
 use Jet\Tr;
@@ -45,11 +46,13 @@ class Auth_Administrator_Role extends DataModel implements Auth_Role_Interface
 	#[DataModel_Definition(
 		type: DataModel::TYPE_ID,
 		is_id: true,
-		form_field_type: Form_Field::TYPE_INPUT,
-		form_field_label: 'ID',
-		form_field_is_required: true,
-		form_field_error_messages: [
-			Form_Field_Input::ERROR_CODE_EMPTY => 'Please enter ID',
+	)]
+	#[Form_Definition(
+		type: Form_Field::TYPE_INPUT,
+		label: 'ID',
+		is_required: true,
+		error_messages: [
+			Form_Field::ERROR_CODE_EMPTY => 'Please enter ID',
 			'exists' => 'Sorry, but ID %ID% is used.'
 		]
 	)]
@@ -61,11 +64,15 @@ class Auth_Administrator_Role extends DataModel implements Auth_Role_Interface
 	#[DataModel_Definition(
 		type: DataModel::TYPE_STRING,
 		max_len: 100,
-		form_field_is_required: true,
-		form_field_label: 'Name',
-		form_field_error_messages: [
-			Form_Field_Input::ERROR_CODE_EMPTY => 'Please enter a name'
+	)]
+	#[Form_Definition(
+		type: Form_Field::TYPE_INPUT,
+		is_required: true,
+		label: 'Name',
+		error_messages: [
+			Form_Field::ERROR_CODE_EMPTY => 'Please enter a name'
 		]
+		
 	)]
 	protected string $name = '';
 
@@ -75,7 +82,10 @@ class Auth_Administrator_Role extends DataModel implements Auth_Role_Interface
 	#[DataModel_Definition(
 		type: DataModel::TYPE_STRING,
 		max_len: 65536,
-		form_field_label: 'Description'
+	)]
+	#[Form_Definition(
+		type: Form_Field::TYPE_TEXTAREA,
+		label: 'Description',
 	)]
 	protected string $description = '';
 
@@ -86,7 +96,6 @@ class Auth_Administrator_Role extends DataModel implements Auth_Role_Interface
 	#[DataModel_Definition(
 		type: DataModel::TYPE_DATA_MODEL,
 		data_model_class: Auth_Administrator_Role_Privilege::class,
-		form_field_is_required: false
 	)]
 	protected array $privileges = [];
 
@@ -437,7 +446,7 @@ class Auth_Administrator_Role extends DataModel implements Auth_Role_Interface
 	{
 
 
-		$form = $this->getCommonForm();
+		$form = $this->createForm('role_edit');
 
 		if( $this->getIsNew() ) {
 			$form->field('id')->setValidator(
@@ -462,12 +471,13 @@ class Auth_Administrator_Role extends DataModel implements Auth_Role_Interface
 
 			$values = isset($this->privileges[$priv]) ? $this->privileges[$priv]->getValues() : [];
 
-			$field = new Form_Field_MultiSelect('/privileges/'.$priv.'/values', $priv_data['label'], $values);
+			$field = new Form_Field_MultiSelect( '/privileges/'.$priv.'/values', $priv_data['label'] );
+			$field->setDefaultValue($values);
 
 			$field->setSelectOptions($this->{$priv_data['options_getter']}());
 
 			$field->setErrorMessages([
-				Form_Field_MultiSelect::ERROR_CODE_INVALID_VALUE => 'Invalid value'
+				Form_Field::ERROR_CODE_INVALID_VALUE => 'Invalid value'
 			]);
 
 			$field->setFieldValueCatcher(function( $values) use ($priv) {

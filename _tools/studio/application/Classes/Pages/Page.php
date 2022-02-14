@@ -18,6 +18,7 @@ use Jet\MVC;
 use Jet\MVC_Layout;
 use Jet\MVC_Page;
 use Jet\Form;
+use Jet\Form_Field;
 use Jet\Form_Field_Input;
 use Jet\Form_Field_Checkbox;
 use Jet\Factory_MVC;
@@ -99,21 +100,21 @@ class Pages_Page extends MVC_Page
 			$name_field = new Form_Field_Input( 'name', 'Name:' );
 			$name_field->setIsRequired( true );
 			$name_field->setErrorMessages( [
-				Form_Field_Input::ERROR_CODE_EMPTY => 'Please enter page name'
+				Form_Field::ERROR_CODE_EMPTY => 'Please enter page name'
 			] );
 
 			$id_field = new Form_Field_Input( 'id', 'Identifier:' );
 			$id_field->setIsRequired( true );
 			$id_field->setErrorMessages( [
-				Form_Field_Input::ERROR_CODE_EMPTY          => 'Please enter page identifier',
-				Form_Field_Input::ERROR_CODE_INVALID_FORMAT => 'Invalid page identifier format',
+				Form_Field::ERROR_CODE_EMPTY          => 'Please enter page identifier',
+				Form_Field::ERROR_CODE_INVALID_FORMAT => 'Invalid page identifier format',
 				'page_id_is_not_unique'                     => 'Page with the identifier already exists',
 			] );
 			$id_field->setValidator( function( Form_Field_Input $field ) {
 				$id = $field->getValue();
 
 				if( !$id ) {
-					$field->setError( Form_Field_Input::ERROR_CODE_EMPTY );
+					$field->setError( Form_Field::ERROR_CODE_EMPTY );
 					return false;
 				}
 
@@ -121,7 +122,7 @@ class Pages_Page extends MVC_Page
 					!preg_match( '/^[a-zA-Z0-9\-]{2,}$/i', $id ) ||
 					str_contains( $id, '--' )
 				) {
-					$field->setError( Form_Field_Input::ERROR_CODE_INVALID_FORMAT );
+					$field->setError( Form_Field::ERROR_CODE_INVALID_FORMAT );
 
 					return false;
 				}
@@ -184,49 +185,56 @@ class Pages_Page extends MVC_Page
 
 			$page = $this;
 
-			$name_field = new Form_Field_Input( 'name', 'Name:', $page->getName() );
+			$name_field = new Form_Field_Input( 'name', 'Name:' );
+			$name_field->setDefaultValue( $page->getName() );
 			$name_field->setIsRequired( true );
 			$name_field->setErrorMessages( [
-				Form_Field_Input::ERROR_CODE_EMPTY => 'Please enter page name'
+				Form_Field::ERROR_CODE_EMPTY => 'Please enter page name'
 			] );
 			$name_field->setFieldValueCatcher( function( $value ) use ( $page ) {
 				$page->setName( $value );
 			} );
 
-			$order_field = new Form_Field_Int( 'order', 'Order:', $page->getOrder() );
+			$order_field = new Form_Field_Int( 'order', 'Order:' );
+			$order_field->setDefaultValue( $page->getOrder() );
 			$order_field->setFieldValueCatcher( function( $value ) use ( $page ) {
 				$page->setOrder( $value );
 			} );
 
-			$title_field = new Form_Field_Input( 'title', 'Title:', $page->getTitle() );
+			$title_field = new Form_Field_Input( 'title', 'Title:' );
+			$title_field->setDefaultValue( $page->getTitle() );
 			$title_field->setIsRequired( true );
 			$title_field->setErrorMessages( [
-				Form_Field_Input::ERROR_CODE_EMPTY => 'Please enter page title'
+				Form_Field::ERROR_CODE_EMPTY => 'Please enter page title'
 			] );
 			$title_field->setFieldValueCatcher( function( $value ) use ( $page ) {
 				$page->setTitle( $value );
 			} );
 
 
-			$menu_title_field = new Form_Field_Input( 'menu_title', 'Menu item title:', $page->getMenuTitle() );
+			$menu_title_field = new Form_Field_Input( 'menu_title', 'Menu item title:' );
+			$menu_title_field->setDefaultValue( $page->getMenuTitle() );
 			$menu_title_field->setFieldValueCatcher( function( $value ) use ( $page ) {
 				$page->setMenuTitle( $value );
 			} );
 
 
-			$breadcrumb_title_field = new Form_Field_Input( 'breadcrumb_title', 'Breadcrumb title:', $page->getBreadcrumbTitle() );
+			$breadcrumb_title_field = new Form_Field_Input( 'breadcrumb_title', 'Breadcrumb title:' );
+			$breadcrumb_title_field->setDefaultValue( $page->getBreadcrumbTitle() );
 			$breadcrumb_title_field->setFieldValueCatcher( function( $value ) use ( $page ) {
 				$page->setBreadcrumbTitle( $value );
 			} );
 
 
-			$icon_field = new Form_Field_Input( 'icon', 'Icon:', $page->getIcon() );
+			$icon_field = new Form_Field_Input( 'icon', 'Icon:' );
+			$icon_field->setDefaultValue( $page->getIcon() );
 			$icon_field->setFieldValueCatcher( function( $value ) use ( $page ) {
 				$page->setIcon( $value );
 			} );
 
 
-			$is_secret_field = new Form_Field_Checkbox( 'is_secret', 'is secret', $page->getIsSecret() );
+			$is_secret_field = new Form_Field_Checkbox( 'is_secret', 'is secret' );
+			$is_secret_field->setDefaultValue( $page->getIsSecret() );
 			$is_secret_field->setFieldValueCatcher( function( $value ) use ( $page ) {
 				if( !$page->isSecretByDefault() ) {
 					$page->setIsSecret( $value );
@@ -238,7 +246,8 @@ class Pages_Page extends MVC_Page
 			}
 
 
-			$is_active_field = new Form_Field_Checkbox( 'is_active', 'is active', $page->getIsActive() );
+			$is_active_field = new Form_Field_Checkbox( 'is_active', 'is active' );
+			$is_active_field->setDefaultValue( $page->getIsActive() );
 			$is_active_field->setFieldValueCatcher( function( $value ) use ( $page ) {
 				if( !$page->getIsDeactivatedByDefault() ) {
 					$page->setIsActive( $value );
@@ -249,7 +258,8 @@ class Pages_Page extends MVC_Page
 				$is_active_field->setDefaultValue( false );
 			}
 
-			$SSL_required_field = new Form_Field_Checkbox( 'SSL_required', 'SSL required', $page->getSSLRequired() );
+			$SSL_required_field = new Form_Field_Checkbox( 'SSL_required', 'SSL required' );
+			$SSL_required_field->setDefaultValue( $page->getSSLRequired() );
 			$SSL_required_field->setFieldValueCatcher( function( $value ) use ( $page ) {
 				if( !$page->isSSLRequiredByDefault() ) {
 					$page->setSSLRequired( $value );
@@ -274,7 +284,8 @@ class Pages_Page extends MVC_Page
 			];
 
 			if( $this->getId() != MVC::HOMEPAGE_ID ) {
-				$relative_path_fragment_field = new Form_Field_Input( 'relative_path_fragment', 'URL:', rawurldecode( $page->getRelativePathFragment() ) );
+				$relative_path_fragment_field = new Form_Field_Input( 'relative_path_fragment', 'URL:' );
+				$relative_path_fragment_field->setDefaultValue( rawurldecode( $page->getRelativePathFragment() ) );
 				$relative_path_fragment_field->setIsRequired( true );
 				$relative_path_fragment_field->setFieldValueCatcher( function( $value ) use ( $page, $relative_path_fragment_field ) {
 					$value = rawurlencode($value);
@@ -282,7 +293,7 @@ class Pages_Page extends MVC_Page
 				} );
 				$relative_path_fragment_field->setIsRequired( true );
 				$relative_path_fragment_field->setErrorMessages( [
-					Form_Field_Input::ERROR_CODE_EMPTY => 'Please enter URL part',
+					Form_Field::ERROR_CODE_EMPTY => 'Please enter URL part',
 					'uri_is_not_unique' => 'URL conflicts with page <b>%page%</b>',
 				] );
 				$relative_path_fragment_field->setValidator( function( Form_Field_Input $field ) use ( $page ) {
@@ -301,7 +312,7 @@ class Pages_Page extends MVC_Page
 
 
 					if( !$value ) {
-						$field->setError( Form_Field_Input::ERROR_CODE_EMPTY );
+						$field->setError( Form_Field::ERROR_CODE_EMPTY );
 						return false;
 					}
 
@@ -334,15 +345,18 @@ class Pages_Page extends MVC_Page
 			$m = 0;
 			foreach( $page->getMetaTags() as $meta_tag ) {
 
-				$ld_meta_tag_attribute = new Form_Field_Input( '/meta_tag/' . $m . '/attribute', 'Attribute:', $meta_tag->getAttribute() );
+				$ld_meta_tag_attribute = new Form_Field_Input( '/meta_tag/' . $m . '/attribute', 'Attribute:' );
+				$ld_meta_tag_attribute->setDefaultValue( $meta_tag->getAttribute() );
 				$fields[] = $ld_meta_tag_attribute;
 
 
-				$ld_meta_tag_attribute_value = new Form_Field_Input( '/meta_tag/' . $m . '/attribute_value', 'Attribute value:', $meta_tag->getAttributeValue() );
+				$ld_meta_tag_attribute_value = new Form_Field_Input( '/meta_tag/' . $m . '/attribute_value', 'Attribute value:' );
+				$ld_meta_tag_attribute_value->setDefaultValue( $meta_tag->getAttributeValue() );
 				$fields[] = $ld_meta_tag_attribute_value;
 
 
-				$ld_meta_tag_content = new Form_Field_Input( '/meta_tag/' . $m . '/content', 'Attribute value:', $meta_tag->getContent() );
+				$ld_meta_tag_content = new Form_Field_Input( '/meta_tag/' . $m . '/content', 'Attribute value:' );
+				$ld_meta_tag_content->setDefaultValue( $meta_tag->getContent() );
 				$fields[] = $ld_meta_tag_content;
 
 				$m++;
@@ -350,15 +364,15 @@ class Pages_Page extends MVC_Page
 
 			for( $c = 0; $c < 5; $c++ ) {
 
-				$ld_meta_tag_attribute = new Form_Field_Input( '/meta_tag/' . $m . '/attribute', 'Attribute:', '' );
+				$ld_meta_tag_attribute = new Form_Field_Input( '/meta_tag/' . $m . '/attribute', 'Attribute:' );
 				$fields[] = $ld_meta_tag_attribute;
 
 
-				$ld_meta_tag_attribute_value = new Form_Field_Input( '/meta_tag/' . $m . '/attribute_value', 'Attribute value:', '' );
+				$ld_meta_tag_attribute_value = new Form_Field_Input( '/meta_tag/' . $m . '/attribute_value', 'Attribute value:' );
 				$fields[] = $ld_meta_tag_attribute_value;
 
 
-				$ld_meta_tag_content = new Form_Field_Input( '/meta_tag/' . $m . '/content', 'Attribute value:', '' );
+				$ld_meta_tag_content = new Form_Field_Input( '/meta_tag/' . $m . '/content', 'Attribute value:' );
 				$fields[] = $ld_meta_tag_content;
 
 				$m++;
@@ -371,14 +385,15 @@ class Pages_Page extends MVC_Page
 					continue;
 				}
 
-				$http_header_field = new Form_Field_Input( '/http_headers/' . $u, '', $header );
+				$http_header_field = new Form_Field_Input( '/http_headers/' . $u, '' );
+				$http_header_field->setDefaultValue( $header );
 				$fields[] = $http_header_field;
 
 				$u++;
 			}
 
 			for( $c = 0; $c < 3; $c++ ) {
-				$http_header_field = new Form_Field_Input( '/http_headers/' . $u, '', '' );
+				$http_header_field = new Form_Field_Input( '/http_headers/' . $u, '' );
 				$fields[] = $http_header_field;
 
 				$u++;
@@ -388,10 +403,12 @@ class Pages_Page extends MVC_Page
 			$i = 0;
 			foreach( $this->parameters as $key => $val ) {
 
-				$param_key = new Form_Field_Input( '/params/' . $i . '/key', '', $key );
+				$param_key = new Form_Field_Input( '/params/' . $i . '/key', '' );
+				$param_key->setDefaultValue( $key );
 				$fields[] = $param_key;
 
-				$param_value = new Form_Field_Input( '/params/' . $i . '/value', '', $val );
+				$param_value = new Form_Field_Input( '/params/' . $i . '/value', '' );
+				$param_value->setDefaultValue( $val );
 				$fields[] = $param_value;
 
 				$i++;
@@ -399,10 +416,10 @@ class Pages_Page extends MVC_Page
 
 			for( $c = 0; $c < static::PARAMS_COUNT; $c++ ) {
 
-				$param_key = new Form_Field_Input( '/params/' . $i . '/key', '', '' );
+				$param_key = new Form_Field_Input( '/params/' . $i . '/key', '' );
 				$fields[] = $param_key;
 
-				$param_value = new Form_Field_Input( '/params/' . $i . '/value', '', '' );
+				$param_value = new Form_Field_Input( '/params/' . $i . '/value', '' );
 				$fields[] = $param_value;
 
 				$i++;
@@ -546,9 +563,10 @@ class Pages_Page extends MVC_Page
 			 */
 			$base = $this->getBase();
 
-			$layout_script_name_field = new Form_Field_Select( 'layout_script_name', 'Layout script name:', $page->getLayoutScriptName() );
+			$layout_script_name_field = new Form_Field_Select( 'layout_script_name', 'Layout script name:' );
+			$layout_script_name_field->setDefaultValue( $page->getLayoutScriptName() );
 			$layout_script_name_field->setErrorMessages( [
-				Form_Field_Select::ERROR_CODE_INVALID_VALUE => 'Invalid value'
+				Form_Field::ERROR_CODE_INVALID_VALUE => 'Invalid value'
 			] );
 			$layout_script_name_field->setFieldValueCatcher( function( $value ) use ( $page ) {
 				$page->setLayoutScriptName( $value );
@@ -758,7 +776,8 @@ class Pages_Page extends MVC_Page
 
 			$output = $this->getOutput();
 
-			$output_field = new Form_Field_Textarea( 'output', 'Static page content:', is_string( $output ) ? $output : '' );
+			$output_field = new Form_Field_Textarea( 'output', 'Static page content:' );
+			$output_field->setDefaultValue( is_string( $output ) ? $output : '' );
 			$output_field->setFieldValueCatcher( function( $value ) use ( $output_field ) {
 				$value = $output_field->getValueRaw();
 
@@ -811,18 +830,20 @@ class Pages_Page extends MVC_Page
 
 			$output = $this->getOutput();
 
-			$output_callback_class_field = new Form_Field_Input( 'output_callback_class', 'Output callback class:', is_array( $output ) && isset( $output[0] ) ? $output[0] : '' );
+			$output_callback_class_field = new Form_Field_Input( 'output_callback_class', 'Output callback class:' );
+			$output_callback_class_field->setDefaultValue( is_array( $output ) && isset( $output[0] ) ? $output[0] : '' );
 			$output_callback_class_field->setIsRequired( true );
 			$output_callback_class_field->setErrorMessages( [
-				Form_Field_Input::ERROR_CODE_EMPTY          => 'Please enter class name',
-				Form_Field_Input::ERROR_CODE_INVALID_FORMAT => 'Please enter valid class name'
+				Form_Field::ERROR_CODE_EMPTY          => 'Please enter class name',
+				Form_Field::ERROR_CODE_INVALID_FORMAT => 'Please enter valid class name'
 			] );
 
-			$output_callback_method_field = new Form_Field_Input( 'output_callback_method', 'Output callback method:', is_array( $output ) && isset( $output[1] ) ? $output[1] : '' );
+			$output_callback_method_field = new Form_Field_Input( 'output_callback_method', 'Output callback method:' );
+			$output_callback_method_field->setDefaultValue( is_array( $output ) && isset( $output[1] ) ? $output[1] : '' );
 			$output_callback_method_field->setIsRequired( true );
 			$output_callback_method_field->setErrorMessages( [
-				Form_Field_Input::ERROR_CODE_EMPTY          => 'Please enter method name',
-				Form_Field_Input::ERROR_CODE_INVALID_FORMAT => 'Please enter valid method name'
+				Form_Field::ERROR_CODE_EMPTY          => 'Please enter method name',
+				Form_Field::ERROR_CODE_INVALID_FORMAT => 'Please enter valid method name'
 			] );
 
 			$output_callback_method_field->setFieldValueCatcher( function( $value ) use ( $output_callback_class_field, $output_callback_method_field ) {
@@ -891,7 +912,8 @@ class Pages_Page extends MVC_Page
 
 		if( !$this->__create_content_form ) {
 
-			$content_kind = new Form_Field_Hidden( 'content_kind', '', Pages_Page_Content::CONTENT_KIND_MODULE );
+			$content_kind = new Form_Field_Hidden( 'content_kind' );
+			$content_kind->setDefaultValue( Pages_Page_Content::CONTENT_KIND_MODULE );
 
 
 			$is_cacheable = Pages_Page_Content::getField__is_cacheable( false );
@@ -936,10 +958,10 @@ class Pages_Page extends MVC_Page
 
 			for( $c = 0; $c < Pages_Page_Content::PARAMS_COUNT; $c++ ) {
 
-				$param_key = new Form_Field_Input( '/params/' . $c . '/key', '', '' );
+				$param_key = new Form_Field_Input( '/params/' . $c . '/key', '' );
 				$fields[] = $param_key;
 
-				$param_value = new Form_Field_Input( '/params/' . $c . '/value', '', '' );
+				$param_value = new Form_Field_Input( '/params/' . $c . '/value', '' );
 				$fields[] = $param_value;
 			}
 

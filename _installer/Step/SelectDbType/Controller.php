@@ -10,10 +10,12 @@ namespace JetApplication\Installer;
 
 use Exception;
 use Jet\Form;
+use Jet\Form_Field;
 use Jet\Form_Field_Select;
 use Jet\Db_Config;
 use Jet\DataModel_Config;
 use Jet\Http_Headers;
+use Jet\Translator;
 use Jet\UI_messages;
 use Jet\Tr;
 use Jet\DataModel_Backend;
@@ -51,8 +53,8 @@ class Installer_Step_SelectDbType_Controller extends Installer_Step_Controller
 
 		$db_type_field->setErrorMessages(
 			[
-				Form_Field_Select::ERROR_CODE_INVALID_VALUE => 'Please select database type',
-				Form_Field_Select::ERROR_CODE_EMPTY         => 'Please select database type',
+				Form_Field::ERROR_CODE_INVALID_VALUE => 'Please select database type',
+				Form_Field::ERROR_CODE_EMPTY         => 'Please select database type',
 			]
 		);
 
@@ -87,7 +89,7 @@ class Installer_Step_SelectDbType_Controller extends Installer_Step_Controller
 				$db_config->saveConfigFile();
 				$data_model_config->saveConfigFile();
 			} catch( Exception $e ) {
-				UI_messages::danger( Tr::_( 'Something went wrong: %error%', ['error' => $e->getMessage()], Tr::COMMON_DICTIONARY ) );
+				UI_messages::danger( Tr::_( 'Something went wrong: %error%', ['error' => $e->getMessage()], Translator::COMMON_DICTIONARY ) );
 				Http_Headers::reload();
 			}
 

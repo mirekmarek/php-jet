@@ -9,6 +9,7 @@
 namespace JetStudio;
 
 use Jet\Form;
+use Jet\Form_Field;
 use Jet\Form_Field_Input;
 use Jet\Form_Field_Password;
 use Jet\Http_Headers;
@@ -110,13 +111,13 @@ class AccessControl
 		$username_field = new Form_Field_Input( 'username', 'Username: ' );
 		$username_field->setErrorMessages(
 			[
-				Form_Field_Input::ERROR_CODE_EMPTY => 'Please enter username',
+				Form_Field::ERROR_CODE_EMPTY => 'Please enter username',
 			]
 		);
 		$password_field = new Form_Field_Password( 'password', 'Password:' );
 		$password_field->setErrorMessages(
 			[
-				Form_Field_Input::ERROR_CODE_EMPTY => 'Please enter password',
+				Form_Field::ERROR_CODE_EMPTY => 'Please enter password',
 			]
 		);
 

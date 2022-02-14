@@ -11,78 +11,70 @@ namespace Jet;
 /**
  *
  */
-class Form_Field_Select extends Form_Field
+class Form_Field_Select extends Form_Field implements Form_Field_Part_Select_Interface
 {
-	use Form_Field_Trait_SelectOptions;
+	use Form_Field_Part_Select_Trait;
 	
-	const ERROR_CODE_INVALID_VALUE = 'invalid_value';
-
 	/**
 	 * @var string
 	 */
 	protected string $_type = Form_Field::TYPE_SELECT;
-
+	
 	/**
 	 * @var array
 	 */
 	protected array $error_messages = [
-		self::ERROR_CODE_EMPTY         => '',
-		self::ERROR_CODE_INVALID_VALUE => '',
+		Form_Field::ERROR_CODE_EMPTY        => '',
+		Form_Field::ERROR_CODE_INVALID_VALUE => '',
 	];
-
+	
+	/**
+	 * @return bool
+	 */
+	protected function validate_required(): bool
+	{
+		if(
+			$this->is_required &&
+			$this->_value === '' &&
+			array_key_exists('', $this->getSelectOptions())
+		) {
+			$this->setError( Form_Field::ERROR_CODE_EMPTY );
+			
+			return false;
+		}
+		
+		return true;
+	}
+	
+	/**
+	 * @return bool
+	 */
+	protected function validate_value(): bool
+	{
+		if( !isset( $this->getSelectOptions()[$this->_value] ) ) {
+			$this->setError( Form_Field::ERROR_CODE_INVALID_VALUE );
+			
+			return false;
+		}
+		
+		return true;
+	}
+	
 	/**
 	 * @return bool
 	 */
 	public function validate(): bool
 	{
-
-		$options = $this->select_options;
-
 		if(
-			$this->is_required &&
-			$this->_value === '' &&
-			array_key_exists('', $options)
-		) {
-			$this->setError( self::ERROR_CODE_EMPTY );
-
-			return false;
-		}
-
-
-		if( !isset( $options[$this->_value] ) ) {
-
-			$this->setError( self::ERROR_CODE_INVALID_VALUE );
-
-			return false;
-		}
-
-		$validator = $this->getValidator();
-		if(
-			$validator &&
-			!$validator( $this )
+			!$this->validate_required() ||
+			!$this->validate_value() ||
+			!$this->validate_validator()
 		) {
 			return false;
 		}
-
+		
 		$this->setIsValid();
 		return true;
-	}
-
-	/**
-	 * @return array
-	 */
-	public function getRequiredErrorCodes(): array
-	{
-		$codes = [];
-
-		$codes[] = self::ERROR_CODE_INVALID_VALUE;
-
-		if( $this->is_required ) {
-			$codes[] = self::ERROR_CODE_EMPTY;
-		}
-
-
-		return $codes;
 	}
 	
 	/**
@@ -94,4 +86,5 @@ class Form_Field_Select extends Form_Field
 	{
 		return $option_key == $this->getValue();
 	}
+	
 }

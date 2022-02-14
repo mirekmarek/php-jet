@@ -12,6 +12,7 @@ use Exception;
 use Jet\Data_DateTime;
 use Jet\IO_File;
 use Jet\SysConf_Path;
+use Jet\Translator;
 use Jet\UI_messages;
 use Jet\Tr;
 
@@ -45,7 +46,7 @@ class Installer_Step_Final_Controller extends Installer_Step_Controller
 			try {
 				IO_File::write( $install_symptom_file_path, Data_DateTime::now()->toString() );
 			} catch( Exception $e ) {
-				UI_messages::danger( Tr::_( 'Something went wrong: %error%', ['error' => $e->getMessage()], Tr::COMMON_DICTIONARY ) );
+				UI_messages::danger( Tr::_( 'Something went wrong: %error%', ['error' => $e->getMessage()], Translator::COMMON_DICTIONARY ) );
 				$OK = false;
 			}
 		}

@@ -47,7 +47,8 @@ class Listing_Filter_Event extends Data_Listing_Filter {
 	 */
 	public function generateFormFields( Form $form ): void
 	{
-		$field = new Form_Field_Input( 'event', 'Event:', $this->event );
+		$field = new Form_Field_Input( 'event', 'Event:' );
+		$field->setDefaultValue( $this->event );
 
 		$form->addField( $field );
 	}

@@ -9,6 +9,7 @@ namespace JetApplicationModule\EventViewer\Admin;
 
 use Jet\Data_Listing_Filter;
 use Jet\Form;
+use Jet\Form_Field;
 use Jet\Form_Field_Select;
 use Jet\Http_Request;
 use Jet\Logger;
@@ -39,9 +40,11 @@ class Listing_Filter_EventClass extends Data_Listing_Filter {
 	 */
 	public function generateFormFields( Form $form ): void
 	{
-		$field = new Form_Field_Select( 'event_class', 'Event class:', $this->event_class );
+		$field = new Form_Field_Select( 'event_class', 'Event class:' );
+		$field->setDefaultValue( $this->event_class );
+		
 		$field->setErrorMessages( [
-			Form_Field_Select::ERROR_CODE_INVALID_VALUE => ' '
+			Form_Field::ERROR_CODE_INVALID_VALUE => ' '
 		] );
 		$options = [
 			''                          => Tr::_( '- all -' ),

@@ -11,6 +11,7 @@ namespace JetStudio;
 
 use Jet\DataModel;
 use Jet\Form;
+use Jet\Form_Field;
 use Jet\Form_Field_Hidden;
 use Jet\Form_Field_Select;
 use Jet\DataModel_Query;
@@ -86,7 +87,7 @@ class DataModel_Definition_Relation_External extends Jet_DataModel_Definition_Re
 		$select_field = new Form_Field_Select( 'related_model', 'Select related DataModel:' );
 		$select_field->setSelectOptions( $classes );
 		$select_field->setErrorMessages( [
-			Form_Field_Select::ERROR_CODE_INVALID_VALUE => 'Please select related model'
+			Form_Field::ERROR_CODE_INVALID_VALUE => 'Please select related model'
 		] );
 
 		return new Form( 'add_relation_select_related_model_form', [
@@ -107,18 +108,19 @@ class DataModel_Definition_Relation_External extends Jet_DataModel_Definition_Re
 
 		$fields = [];
 
-		$related_model_class_name = new Form_Field_Hidden( 'related_model_class_name', '', $related_model->getClassName() );
+		$related_model_class_name = new Form_Field_Hidden( 'related_model_class_name', '' );
+		$related_model_class_name->setDefaultValue( $related_model->getClassName() );
 		$fields[] = $related_model_class_name;
 
-		$relation_type = new Form_Field_Select( 'join_type', 'Relation type: ', '' );
+		$relation_type = new Form_Field_Select( 'join_type', 'Relation type: ' );
 		$relation_type->setSelectOptions( [
 			DataModel_Query::JOIN_TYPE_LEFT_JOIN       => 'LEFT JOIN',
 			DataModel_Query::JOIN_TYPE_LEFT_OUTER_JOIN => 'LEFT OUTER JOIN'
 
 		] );
 		$relation_type->setErrorMessages( [
-			Form_Field_Select::ERROR_CODE_EMPTY         => 'Please select relation type',
-			Form_Field_Select::ERROR_CODE_INVALID_VALUE => 'Please select relation type'
+			Form_Field::ERROR_CODE_EMPTY         => 'Please select relation type',
+			Form_Field::ERROR_CODE_INVALID_VALUE => 'Please select relation type'
 		] );
 
 		$fields[] = $relation_type;
@@ -162,10 +164,11 @@ class DataModel_Definition_Relation_External extends Jet_DataModel_Definition_Re
 
 			$selected_property = '';
 
-			$glue = new Form_Field_Select( 'glue_' . $related_property->getName(), $related_model->getModelName() . '.' . $related_property->getName() . ' < - > ', $selected_property );
+			$glue = new Form_Field_Select( 'glue_' . $related_property->getName(), $related_model->getModelName() . '.' . $related_property->getName() . ' < - > ' );
+			$glue->setDefaultValue( $selected_property );
 			$glue->setErrorMessages( [
-				Form_Field_Select::ERROR_CODE_EMPTY         => 'Please select related property',
-				Form_Field_Select::ERROR_CODE_INVALID_VALUE => 'Please select related property'
+				Form_Field::ERROR_CODE_EMPTY         => 'Please select related property',
+				Form_Field::ERROR_CODE_INVALID_VALUE => 'Please select related property'
 			] );
 
 
@@ -251,15 +254,16 @@ class DataModel_Definition_Relation_External extends Jet_DataModel_Definition_Re
 			$related_model = $this->getRelatedDataModel();
 
 
-			$relation_type = new Form_Field_Select( 'join_type', 'Relation type: ', $this->getJoinType() );
+			$relation_type = new Form_Field_Select( 'join_type', 'Relation type: ' );
+			$relation_type->setDefaultValue( $this->getJoinType() );
 			$relation_type->setSelectOptions( [
 				DataModel_Query::JOIN_TYPE_LEFT_JOIN       => 'LEFT JOIN',
 				DataModel_Query::JOIN_TYPE_LEFT_OUTER_JOIN => 'LEFT OUTER JOIN'
 
 			] );
 			$relation_type->setErrorMessages( [
-				Form_Field_Select::ERROR_CODE_EMPTY         => 'Please select relation type',
-				Form_Field_Select::ERROR_CODE_INVALID_VALUE => 'Please select relation type'
+				Form_Field::ERROR_CODE_EMPTY         => 'Please select relation type',
+				Form_Field::ERROR_CODE_INVALID_VALUE => 'Please select relation type'
 			] );
 
 			$fields[] = $relation_type;
@@ -310,10 +314,11 @@ class DataModel_Definition_Relation_External extends Jet_DataModel_Definition_Re
 					}
 				}
 
-				$glue = new Form_Field_Select( 'glue_' . $related_property->getName(), $related_model->getModelName() . '.' . $related_property->getName() . ' < - > ', $selected_property );
+				$glue = new Form_Field_Select( 'glue_' . $related_property->getName(), $related_model->getModelName() . '.' . $related_property->getName() . ' < - > ' );
+				$glue->setDefaultValue( $selected_property );
 				$glue->setErrorMessages( [
-					Form_Field_Select::ERROR_CODE_EMPTY         => 'Please select related property',
-					Form_Field_Select::ERROR_CODE_INVALID_VALUE => 'Please select related property'
+					Form_Field::ERROR_CODE_EMPTY         => 'Please select related property',
+					Form_Field::ERROR_CODE_INVALID_VALUE => 'Please select related property'
 				] );
 
 

@@ -10,8 +10,8 @@ namespace JetApplication;
 
 use Jet\DataModel;
 use Jet\DataModel_Definition;
+use Jet\Form_Definition;
 use Jet\Form_Field;
-use Jet\Form_Field_DateTime;
 use Jet\Locale;
 use Jet\Data_DateTime;
 use Jet\MVC;
@@ -50,10 +50,12 @@ class Content_Article extends DataModel
 	 */
 	#[DataModel_Definition(
 		type: DataModel::TYPE_DATE_TIME,
-		form_field_type: Form_Field::TYPE_DATE_TIME,
-		form_field_label: '',
-		form_field_error_messages: [
-			Form_Field_DateTime::ERROR_CODE_INVALID_FORMAT => 'Invalid date format'
+	)]
+	#[Form_Definition(
+		type: Form_Field::TYPE_DATE_TIME,
+		label: '',
+		error_messages: [
+			Form_Field::ERROR_CODE_INVALID_FORMAT => 'Invalid date format'
 		]
 	)]
 	protected ?Data_DateTime $date_time = null;
@@ -65,6 +67,7 @@ class Content_Article extends DataModel
 		type: DataModel::TYPE_DATA_MODEL,
 		data_model_class: Content_Article_Localized::class
 	)]
+	#[Form_Definition(is_sub_forms:true)]
 	protected array $localized = [];
 
 	/**
@@ -284,7 +287,7 @@ class Content_Article extends DataModel
 	public function getEditForm(): Form
 	{
 		if( $this->_form_edit === null ) {
-			$this->_form_edit = $this->getCommonForm();
+			$this->_form_edit = $this->createForm('article_edit');
 		}
 
 		return $this->_form_edit;
@@ -305,7 +308,7 @@ class Content_Article extends DataModel
 	public function getAddForm(): Form
 	{
 		if( !$this->_form_add ) {
-			$this->_form_add = $this->getCommonForm();
+			$this->_form_add = $this->createForm('article_add');
 		}
 
 		return $this->_form_add;

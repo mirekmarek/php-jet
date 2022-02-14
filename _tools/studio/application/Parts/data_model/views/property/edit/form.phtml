@@ -2,16 +2,13 @@
 
 namespace JetStudio;
 
-use Jet\DataModel;
 use Jet\Form_Renderer;
-use Jet\Form_Field_Input;
-use Jet\Tr;
 
 $current = DataModels::getCurrentProperty();
 
 
 $form = $current->getEditForm();
-$form->renderer()->setDefaultLabelWidth( [Form_Renderer::LJ_SIZE_MEDIUM => 3] );
+$form->renderer()->setDefaultLabelWidth( [Form_Renderer::LJ_SIZE_MEDIUM => 2] );
 $form->renderer()->setDefaultFieldWidth( [Form_Renderer::LJ_SIZE_MEDIUM => 9] );
 
 echo $form->start();
@@ -26,19 +23,6 @@ $default_fields = [
 	'is_do_not_export',
 ];
 
-$form_gen_fields = [
-	'form_field_type',
-	'form_field_is_required',
-	'form_field_label',
-    'form_field_help_text',
-	'form_field_validation_regexp',
-	'form_field_min_value',
-	'form_field_max_value',
-	'form_field_get_select_options_callback',
-	'form_setter_name',
-	'form_field_creator_method_name',
-];
-
 
 foreach( $default_fields as $fn ) {
 	if( !$form->fieldExists( $fn ) ) {
@@ -50,149 +34,6 @@ foreach( $default_fields as $fn ) {
 
 
 $current->showEditFormFields();
-
-
-if( !$current->getRelatedToClassName() ):
-	if( $current->getType() == DataModel::TYPE_DATA_MODEL ):
-
-		$related_model = DataModels::getClass( $current->getDataModelClass() );
-
-		if( $related_model ):
-			?>
-			<legend><?=Tr::_( 'Form definition' )?></legend>
-			<?=$form->field( 'form_field_type' );?>
-			<?php
-		endif;
-	else:
-		?>
-		<legend><?=Tr::_( 'Form field definition')?></legend>
-		<?php
-		$selected_form_field_type = $form->field( 'form_field_type' )->getValue();
-
-		$ff_types = DataModel_Definition_Property::getFormFieldTypes();
-		$selected_property_data = [
-			'required_options'        => [],
-			'required_error_messages' => [],
-		];
-
-		if( isset( $ff_types[$selected_form_field_type] ) ) {
-			$selected_property_data = $ff_types[$selected_form_field_type];
-		}
-
-		foreach( $form_gen_fields as $f ):
-			if( $f == 'form_field_get_select_options_callback' ):
-				if(
-					!$form->fieldExists( $f . '_class_name' ) ||
-					!$form->fieldExists( $f . '_method' )
-				) {
-					continue;
-				}
-
-				$field_class_name = $form->field( $f . '_class_name' );
-				$field_method = $form->field( $f . '_method' );
-
-				$field_class_name->row()
-					->addCustomCssClass( 'ffd-property-' . $current->getName() )
-					->addCustomCssClass( 'ffd-option-' . $f );
-
-				if( !in_array( $f, $selected_property_data['required_options'] ) ) {
-					$field_class_name->row()->addCustomCssStyle( 'display:none' );
-				}
-
-				?>
-				<?= $field_class_name->row()->start() ?>
-				<?= $field_class_name->label() ?>
-				<?= $field_class_name->error() ?>
-				<div class="col-md-9">
-					<div class="input-group" style="padding-left: 15px;margin-right: 15px;">
-						<span class="input-group-prepend"><span class="input-group-text"> </span></span>
-						<?= $field_class_name->input() ?>
-						<span class="input-group-prepend"><span class="input-group-text">::</span></span>
-						<?= $field_method->input() ?>
-						<span class="input-group-append"><span class="input-group-text">()</span></span>
-					</div>
-				</div>
-				<?= $field_class_name->row()->end() ?>
-				<?php
-				continue;
-			endif;
-
-			if( !$form->fieldExists( $f ) ):
-				continue;
-			endif;
-
-			$field = $form->field( $f );
-
-			if( $f == 'form_field_type' ):
-				$field->input()->addJsAction( 'onchange', "DataModel.property.edit.selectFormFieldType('" . $current->getName() . "', this.value)" );
-			else:
-				$field->row()
-					->addCustomCssClass( 'ffd-property-' . $current->getName() )
-					->addCustomCssClass( 'ffd-option-' . $f );
-
-				if( !in_array( $f, $selected_property_data['required_options'] ) ):
-					$field->row()->addCustomCssStyle( 'display:none' );
-				endif;
-			endif;
-
-			echo $field;
-		endforeach;
-
-		?>
-		<legend><?=Tr::_( 'Form field error messages' )?></legend>
-		<?php
-		foreach( DataModel_Definition_Property::getFormErrorCodes() as $code => $ec_data ):
-			$f = 'form_field_error_messages/' . $code;
-
-			if( !$form->fieldExists( $f ) ) {
-				continue;
-			}
-
-			$field = $form->field( $f );
-
-			$field->row()
-				->addCustomCssClass( 'ffd-em-property-' . $current->getName() )
-				->addCustomCssClass( 'ffd-em-' . $code );
-
-			if( !in_array( $code, $selected_property_data['required_error_messages'] ) ) {
-				$field->row()->addCustomCssStyle( 'display:none' );
-			} else {
-				if( $code == Form_Field_Input::ERROR_CODE_EMPTY ) {
-					if( $current->getFormFieldIsRequired() ) {
-						$field->setIsRequired( true );
-					}
-				} else {
-					$field->setIsRequired( true );
-				}
-			}
-
-			echo $field;
-		endforeach;
-
-
-		for($c=1;$c<=99;$c++):
-			if(!$form->fieldExists('form_field_error_messages/custom_code_'.$c)) {
-				break;
-			}
-
-			$custom_code_field = $form->getField( 'form_field_error_messages/custom_code_'.$c );
-			$custom_message_field = $form->getField( 'form_field_error_messages/custom_message_'.$c );
-
-			$custom_code_field->container()->setWidth( $form->renderer()->getDefaultLabelWidth() );
-
-			echo
-				$custom_message_field->row()->start() .
-					$custom_code_field->container()->start() .
-						$custom_code_field->input() .
-					$custom_code_field->container()->end() .
-					$custom_message_field->container()->start() .
-						$custom_message_field->input() .
-						$custom_message_field->error() .
-					$custom_message_field->container()->end() .
-				$custom_message_field->row()->end();
-		endfor;
-	endif;
-endif;
 
 
 echo $form->end();

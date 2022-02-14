@@ -11,23 +11,21 @@ namespace Jet;
 /**
  *
  */
-class Form_Field_RadioButton extends Form_Field
+class Form_Field_RadioButton extends Form_Field implements Form_Field_Part_Select_Interface
 {
-	use Form_Field_Trait_SelectOptions;
-	
-	const ERROR_CODE_INVALID_VALUE = 'invalid_value';
+	use Form_Field_Part_Select_Trait;
 
 	/**
 	 * @var string
 	 */
 	protected string $_type = Form_Field::TYPE_RADIO_BUTTON;
-
+	
 	/**
 	 * @var array
 	 */
 	protected array $error_messages = [
-		self::ERROR_CODE_EMPTY         => '',
-		self::ERROR_CODE_INVALID_VALUE => '',
+		Form_Field::ERROR_CODE_EMPTY        => '',
+		Form_Field::ERROR_CODE_INVALID_VALUE => '',
 	];
 
 
@@ -49,59 +47,43 @@ class Form_Field_RadioButton extends Form_Field
 			$this->_value = null;
 		}
 	}
+	
+	/**
+	 * @return bool
+	 */
+	protected function validate_value(): bool
+	{
+		if($this->_value) {
+			$options = $this->getSelectOptions();
+			
+			if( !isset( $options[$this->_value] ) ) {
+				$this->setError( Form_Field::ERROR_CODE_INVALID_VALUE );
+				
+				return false;
+			}
+		}
+		
+		return true;
+	}
 
 	/**
 	 * @return bool
 	 */
 	public function validate(): bool
 	{
+		
 		if(
-			$this->is_required &&
-			$this->_value === ''
-		) {
-			$this->setError( self::ERROR_CODE_EMPTY );
-
-			return false;
-		}
-
-		if($this->_value) {
-			$options = $this->select_options;
-
-			if( !isset( $options[$this->_value] ) ) {
-				$this->setError( self::ERROR_CODE_INVALID_VALUE );
-
-				return false;
-			}
-		}
-
-		$validator = $this->getValidator();
-		if(
-			$validator &&
-			!$validator( $this )
+			!$this->validate_required() ||
+			!$this->validate_value() ||
+			!$this->validate_validator()
 		) {
 			return false;
 		}
-
+		
 		$this->setIsValid();
 		return true;
 	}
 
-	/**
-	 * @return array
-	 */
-	public function getRequiredErrorCodes(): array
-	{
-		$codes = [];
-
-		$codes[] = self::ERROR_CODE_INVALID_VALUE;
-
-		if( $this->is_required ) {
-			$codes[] = self::ERROR_CODE_EMPTY;
-		}
-
-
-		return $codes;
-	}
 	
 	/**
 	 * @param string $option_key

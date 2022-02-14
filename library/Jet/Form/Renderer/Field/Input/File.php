@@ -25,6 +25,10 @@ class Form_Renderer_Field_Input_File extends Form_Renderer_Field_Input
 		$this->_tag_attributes['name'] = $field->getTagNameValue();
 		$this->_tag_attributes['id'] = $field->getId();
 		
+		/**
+		 * @var Form_Field_Part_File_Interface $field
+		 */
+		
 		
 		if( $field->getIsReadonly() ) {
 			$this->_tag_attributes['readonly'] = 'readonly';

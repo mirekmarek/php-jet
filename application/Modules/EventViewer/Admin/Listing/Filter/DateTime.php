@@ -10,6 +10,7 @@ namespace JetApplicationModule\EventViewer\Admin;
 use Jet\Data_DateTime;
 use Jet\Data_Listing_Filter;
 use Jet\Form;
+use Jet\Form_Field;
 use Jet\Form_Field_DateTime;
 use Jet\Http_Request;
 
@@ -70,16 +71,18 @@ class Listing_filter_DateTime extends Data_Listing_Filter {
 	 */
 	public function generateFormFields( Form $form ): void
 	{
-		$date_time_form = new Form_Field_DateTime( 'date_time_from', 'From:', $this->date_time_from );
+		$date_time_form = new Form_Field_DateTime( 'date_time_from', 'From:' );
+		$date_time_form->setDefaultValue( $this->date_time_from );
 		$date_time_form->setErrorMessages([
-			Form_Field_DateTime::ERROR_CODE_INVALID_FORMAT => ' '
+			Form_Field::ERROR_CODE_INVALID_FORMAT => ' '
 		]);
 
 		$form->addField( $date_time_form );
 
-		$date_time_till = new Form_Field_DateTime( 'date_time_till', 'Till:', $this->date_time_till );
+		$date_time_till = new Form_Field_DateTime( 'date_time_till', 'Till:' );
+		$date_time_till->setDefaultValue( $this->date_time_till );
 		$date_time_till->setErrorMessages([
-			Form_Field_DateTime::ERROR_CODE_INVALID_FORMAT => ' '
+			Form_Field::ERROR_CODE_INVALID_FORMAT => ' '
 		]);
 
 		$form->addField( $date_time_till );

@@ -20,16 +20,19 @@ class DataModel_Backend_SQLite_Config extends DataModel_Backend_Config
 	 */
 	#[Config_Definition(
 		type: Config::TYPE_STRING,
+		is_required: true,
+	)]
+	#[Form_Definition(
+		type: Form_Field::TYPE_SELECT,
 		label: 'Connection: ',
 		is_required: true,
-		form_field_type: Form_Field::TYPE_SELECT,
-		form_field_get_select_options_callback: [
+		select_options_creator: [
 			DataModel_Backend_SQLite_Config::class,
 			'getDbConnectionsList'
 		],
-		form_field_error_messages: [
+		error_messages: [
 			Form_Field::ERROR_CODE_EMPTY => 'Please select database connection',
-			Form_Field_MultiSelect::ERROR_CODE_INVALID_VALUE => 'Please select database connection'
+			Form_Field::ERROR_CODE_INVALID_VALUE => 'Please select database connection'
 		]
 	)]
 	protected string $connection = '';

@@ -11,6 +11,7 @@ namespace JetStudio;
 use Jet\Application_Module_Manifest;
 use Jet\Exception;
 use Jet\Form;
+use Jet\Form_Field;
 use Jet\Form_Field_Checkbox;
 use Jet\Form_Field_Input;
 use Jet\IO_Dir;
@@ -119,11 +120,12 @@ class Modules_Manifest extends Application_Module_Manifest
 	{
 		if( !$this->__edit_form ) {
 
-			$module_name = new Form_Field_Input( 'module_name', 'Name:', $this->getName() );
+			$module_name = new Form_Field_Input( 'module_name', 'Name:' );
+			$module_name->setDefaultValue( $this->getName() );
 			$module_name->setIsRequired( true );
 			$module_name->setErrorMessages( [
-				Form_Field_Input::ERROR_CODE_EMPTY          => 'Please enter module name',
-				Form_Field_Input::ERROR_CODE_INVALID_FORMAT => 'Invalid module name format',
+				Form_Field::ERROR_CODE_EMPTY          => 'Please enter module name',
+				Form_Field::ERROR_CODE_INVALID_FORMAT => 'Invalid module name format',
 				'module_name_is_not_unique' => 'Module with the same name already exists',
 			] );
 			$module_name->setValidator( function( Form_Field_Input $field ) {
@@ -137,40 +139,47 @@ class Modules_Manifest extends Application_Module_Manifest
 			} );
 
 
-			$module_label = new Form_Field_Input( 'module_label', 'Label:', $this->getLabel() );
+			$module_label = new Form_Field_Input( 'module_label', 'Label:' );
+			$module_label->setDefaultValue( $this->getLabel() );
 			$module_label->setIsRequired( true );
 			$module_label->setErrorMessages( [
-				Form_Field_Input::ERROR_CODE_EMPTY => 'Please enter module label'
+				Form_Field::ERROR_CODE_EMPTY => 'Please enter module label'
 			] );
 			$module_label->setFieldValueCatcher( function( $value ) {
 				$this->setLabel( $value );
 			} );
 
 
-			$vendor = new Form_Field_Input( 'vendor', 'Vendor:', $this->getVendor() );
+			$vendor = new Form_Field_Input( 'vendor', 'Vendor:' );
+			$vendor->setDefaultValue( $this->getVendor() );
 			$vendor->setFieldValueCatcher( function( $value ) {
 				$this->setVendor( $value );
 			} );
 
-			$version = new Form_Field_Input( 'version', 'Version:', $this->getVersion() );
+			$version = new Form_Field_Input( 'version', 'Version:'  );
+			$version->setDefaultValue( $this->getVersion() );
 			$version->setFieldValueCatcher( function( $value ) {
 				$this->setVersion( $value );
 			} );
 
-			$description = new Form_Field_Input( 'description', 'Description:', $this->getDescription() );
+			$description = new Form_Field_Input( 'description', 'Description:' );
+			$description->setDefaultValue( $this->getDescription() );
 			$description->setFieldValueCatcher( function( $value ) {
 				$this->setDescription( $value );
 			} );
 
-			$is_mandatory = new Form_Field_Checkbox( 'is_mandatory', 'Is mandatory', $this->isMandatory() );
+			$is_mandatory = new Form_Field_Checkbox( 'is_mandatory', 'Is mandatory' );
+			$is_mandatory->setDefaultValue( $this->isMandatory() );
 			$is_mandatory->setFieldValueCatcher( function( $value ) {
 				$this->setIsMandatory( $value );
 			} );
 
-			$is_active = new Form_Field_Checkbox( 'is_active', 'Is active', $this->isActivated() );
+			$is_active = new Form_Field_Checkbox( 'is_active', 'Is active' );
+			$is_active->setDefaultValue( $this->isActivated() );
 			$is_active->setIsReadonly( true );
 
-			$is_installed = new Form_Field_Checkbox( 'is_installed', 'Is installed', $this->isInstalled() );
+			$is_installed = new Form_Field_Checkbox( 'is_installed', 'Is installed',  );
+			$is_installed->setDefaultValue( $this->isInstalled() );
 			$is_installed->setIsReadonly( true );
 
 
@@ -189,10 +198,12 @@ class Modules_Manifest extends Application_Module_Manifest
 			$m = 0;
 			foreach( $this->getACLActions( false ) as $action => $description ) {
 
-				$acl_action = new Form_Field_Input( '/ACL_action/' . $m . '/action', 'Action:', $action );
+				$acl_action = new Form_Field_Input( '/ACL_action/' . $m . '/action', 'Action:' );
+				$acl_action->setDefaultValue( $action );
 				$fields[] = $acl_action;
 
-				$acl_action_description = new Form_Field_Input( '/ACL_action/' . $m . '/description', 'Label:', $description );
+				$acl_action_description = new Form_Field_Input( '/ACL_action/' . $m . '/description', 'Label:' );
+				$acl_action_description->setDefaultValue( $description );
 				$fields[] = $acl_action_description;
 
 				$m++;
@@ -200,10 +211,10 @@ class Modules_Manifest extends Application_Module_Manifest
 
 			for( $c = 0; $c < 8; $c++ ) {
 
-				$acl_action = new Form_Field_Input( '/ACL_action/' . $m . '/action', 'Action:', '' );
+				$acl_action = new Form_Field_Input( '/ACL_action/' . $m . '/action', 'Action:' );
 				$fields[] = $acl_action;
 
-				$acl_action_description = new Form_Field_Input( '/ACL_action/' . $m . '/description', 'Label:', '' );
+				$acl_action_description = new Form_Field_Input( '/ACL_action/' . $m . '/description', 'Label:' );
 				$fields[] = $acl_action_description;
 
 				$m++;
@@ -290,7 +301,7 @@ class Modules_Manifest extends Application_Module_Manifest
 			$name[0] == '.' ||
 			$name[strlen( $name ) - 1] == '.'
 		) {
-			$field->setError( Form_Field_Input::ERROR_CODE_INVALID_FORMAT );
+			$field->setError( Form_Field::ERROR_CODE_INVALID_FORMAT );
 			return false;
 		}
 

@@ -20,17 +20,20 @@ abstract class Db_Backend_Config extends Config_Section
 	 */
 	#[Config_Definition(
 		type: Config::TYPE_STRING,
-		label: 'Driver',
-		description: 'PDO driver',
 		is_required: true,
-		form_field_type: Form_Field::TYPE_SELECT,
-		form_field_get_select_options_callback: [
+	)]
+	#[Form_Definition(
+		type: Form_Field::TYPE_SELECT,
+		label: 'Driver',
+		help_text: 'PDO driver',
+		is_required: true,
+		select_options_creator: [
 			self::class,
 			'getDrivers'
 		],
-		form_field_error_messages: [
+		error_messages: [
 			Form_Field::ERROR_CODE_EMPTY => 'Please select driver',
-			Form_Field_MultiSelect::ERROR_CODE_INVALID_VALUE => 'Please select driver'
+			Form_Field::ERROR_CODE_INVALID_VALUE => 'Please select driver'
 		]
 	)]
 	protected string $driver = 'mysql';
@@ -42,9 +45,13 @@ abstract class Db_Backend_Config extends Config_Section
 	 */
 	#[Config_Definition(
 		type: Config::TYPE_STRING,
+		is_required: true,
+	)]
+	#[Form_Definition(
+		type: Form_Field::TYPE_INPUT,
 		label: 'Connection name',
 		is_required: true,
-		form_field_error_messages: [
+		error_messages: [
 			Form_Field::ERROR_CODE_EMPTY => 'Please enter connection name'
 		]
 	)]

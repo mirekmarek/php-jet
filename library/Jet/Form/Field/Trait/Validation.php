@@ -17,23 +17,12 @@ trait Form_Field_Trait_Validation
 	/**
 	 * @var array
 	 */
-	protected array $error_messages = [
-		self::ERROR_CODE_EMPTY          => '',
-		self::ERROR_CODE_INVALID_FORMAT => '',
-	];
+	protected array $error_messages = [];
 
 	/**
 	 * @var callable
 	 */
 	protected $validator;
-
-
-	/**
-	 * validation regexp
-	 *
-	 * @var string
-	 */
-	protected string $validation_regexp = '';
 
 	/**
 	 *
@@ -167,41 +156,6 @@ trait Form_Field_Trait_Validation
 
 	/**
 	 *
-	 * @param bool $raw
-	 *
-	 * @return string
-	 */
-	public function getValidationRegexp( bool $raw = false ): string
-	{
-		if( $raw ) {
-			return $this->validation_regexp;
-		}
-
-		$regexp = $this->validation_regexp;
-
-		if(
-			isset( $regexp[0] ) &&
-			$regexp[0] == '/'
-		) {
-			$regexp = substr( $regexp, 1 );
-			$regexp = substr( $regexp, 0, strrpos( $regexp, '/' ) );
-		}
-
-		return $regexp;
-	}
-
-	/**
-	 *
-	 * @param string $validation_regexp
-	 */
-	public function setValidationRegexp( string $validation_regexp ): void
-	{
-		$this->validation_regexp = $validation_regexp;
-	}
-
-
-	/**
-	 *
 	 */
 	protected function setIsValid(): void
 	{
@@ -219,42 +173,32 @@ trait Form_Field_Trait_Validation
 	{
 		return $this->is_valid;
 	}
-
+	
 	/**
-	 *
 	 * @return bool
 	 */
-	public function validate(): bool
+	protected function validate_required() : bool
 	{
 		if(
 			$this->is_required &&
-			$this->_value === ''
+			(
+				$this->_value === '' ||
+				$this->_value === null
+			)
 		) {
-			$this->setError( self::ERROR_CODE_EMPTY );
-
+			$this->setError( Form_Field::ERROR_CODE_EMPTY );
+			
 			return false;
 		}
 
-
-		if(
-			$this->validation_regexp &&
-			$this->_value!==''
-		) {
-
-			if( $this->validation_regexp[0] != '/' ) {
-				$res = preg_match( '/' . $this->validation_regexp . '/', $this->_value );
-			} else {
-				$res = preg_match( $this->validation_regexp, $this->_value );
-			}
-
-			if(!$res) {
-				$this->setError( self::ERROR_CODE_INVALID_FORMAT );
-				return false;
-			}
-		}
-
-
-
+		return true;
+	}
+	
+	/**
+	 * @return bool
+	 */
+	protected function validate_validator() : bool
+	{
 		$validator = $this->getValidator();
 		if(
 			$validator &&
@@ -262,9 +206,14 @@ trait Form_Field_Trait_Validation
 		) {
 			return false;
 		}
-
-		$this->setIsValid();
+		
 		return true;
 	}
+
+	/**
+	 *
+	 * @return bool
+	 */
+	abstract public function validate(): bool;
 
 }

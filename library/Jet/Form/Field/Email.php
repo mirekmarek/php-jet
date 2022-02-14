@@ -17,15 +17,32 @@ class Form_Field_Email extends Form_Field_Input
 	 * @var string
 	 */
 	protected string $_type = Form_Field::TYPE_EMAIL;
-
+	
 	/**
 	 * @var array
 	 */
 	protected array $error_messages = [
-		self::ERROR_CODE_EMPTY          => '',
-		self::ERROR_CODE_INVALID_FORMAT => '',
+		Form_Field::ERROR_CODE_EMPTY          => '',
+		Form_Field::ERROR_CODE_INVALID_FORMAT => '',
 	];
-
+	
+	/**
+	 * @return bool
+	 */
+	protected function validate_email() : bool
+	{
+		if(
+			$this->_value &&
+			!filter_var( $this->_value, FILTER_VALIDATE_EMAIL )
+		) {
+			$this->setError( Form_Field::ERROR_CODE_INVALID_FORMAT );
+			
+			return false;
+		}
+		
+		return true;
+	}
+	
 	/**
 	 * validate value
 	 *
@@ -33,33 +50,17 @@ class Form_Field_Email extends Form_Field_Input
 	 */
 	public function validate(): bool
 	{
+		
 		if(
-			$this->is_required &&
-			$this->_value === ''
-		) {
-			$this->setError( self::ERROR_CODE_EMPTY );
-
-			return false;
-		}
-
-		if(
-			$this->_value &&
-			!filter_var( $this->_value, FILTER_VALIDATE_EMAIL )
-		) {
-			$this->setError( self::ERROR_CODE_INVALID_FORMAT );
-
-			return false;
-		}
-
-		$validator = $this->getValidator();
-		if(
-			$validator &&
-			!$validator( $this )
+			!$this->validate_required() ||
+			!$this->validate_email() ||
+			!$this->validate_validator()
 		) {
 			return false;
 		}
-
+		
 		$this->setIsValid();
+		
 		return true;
 	}
 
@@ -72,9 +73,9 @@ class Form_Field_Email extends Form_Field_Input
 		$codes = [];
 
 		if( $this->is_required ) {
-			$codes[] = self::ERROR_CODE_EMPTY;
+			$codes[] = Form_Field::ERROR_CODE_EMPTY;
 		}
-		$codes[] = self::ERROR_CODE_INVALID_FORMAT;
+		$codes[] = Form_Field::ERROR_CODE_INVALID_FORMAT;
 
 		return $codes;
 	}

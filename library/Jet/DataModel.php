@@ -66,38 +66,13 @@ namespace Jet;
  *             - Do not export property into the JSON result
  *        #[DataModel_Definition(backend_options: ['BackendType'=>['option'=>'value','option'=>'value']])]
  *
- *
- *
- *        Form field options (optional):
- *          #[DataModel_Definition(form_field_creator_method_name: 'someMethodName')]
- *                 Creator example:
- *                 public function myFieldCreator( DataModel_Definition_Property_Abstract $property_definition ) {
- *                     $form_field: $property_definition->getFormField();
- *                     $form_field->setLabel( 'Some special label' );
- *                     // ... do something with form field
- *                     return $form_field
- *                 }
- *
- *          #[DataModel_Definition(form_field_type: Form_Field::TYPE_*)]
- *             - default: autodetect
- *          #[DataModel_Definition(form_field_is_required: bool)]
- *             - default: false
- *          #[DataModel_Definition(form_field_label: 'field label:')]
- *          #[DataModel_Definition(form_field_options: ['option'=>'value','option'=>'value'])]
- *          #[DataModel_Definition(form_field_validation_regexp: '/some_regexp/')]
- *          #[DataModel_Definition(form_field_min_value: 1)]
- *          #[DataModel_Definition(form_field_max_value: 999)]
- *          #[DataModel_Definition(form_field_error_messages: ['error_code'=>'message','error_code'=>'message'])]
- *          #[DataModel_Definition(form_field_get_select_options_callback: callable)]
- *          #[DataModel_Definition(form_setter_name: 'setSomething')]
- *
  */
 
 
 /**
  *
  */
-abstract class DataModel extends BaseObject implements BaseObject_Interface_Serializable_JSON
+abstract class DataModel extends BaseObject implements BaseObject_Interface_Serializable_JSON, Form_Definition_Interface
 {
 
 	use DataModel_Trait_Definition;
@@ -108,8 +83,9 @@ abstract class DataModel extends BaseObject implements BaseObject_Interface_Seri
 	use DataModel_Trait_Load;
 	use DataModel_Trait_Save;
 	use DataModel_Trait_Delete;
-	use DataModel_Trait_Forms;
 	use DataModel_Trait_Exports;
+	
+	use Form_Definition_Trait;
 
 	const MODEL_TYPE_MAIN = 'Main';
 	const MODEL_TYPE_RELATED_1TON = 'Related_1toN';

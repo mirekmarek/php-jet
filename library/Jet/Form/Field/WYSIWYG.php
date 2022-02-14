@@ -23,9 +23,8 @@ class Form_Field_WYSIWYG extends Form_Field
 	 * @var array
 	 */
 	protected array $error_messages = [
-		self::ERROR_CODE_EMPTY => ''
+		Form_Field::ERROR_CODE_EMPTY        => '',
 	];
-
 
 	/**
 	 *
@@ -44,6 +43,24 @@ class Form_Field_WYSIWYG extends Form_Field
 		}
 
 	}
+	
+	
+	/**
+	 * @return bool
+	 */
+	public function validate(): bool
+	{
+		if(
+			!$this->validate_required() ||
+			!$this->validate_validator()
+		) {
+			return false;
+		}
+		
+		$this->setIsValid();
+		return true;
+	}
+	
 
 	/**
 	 * @return array
@@ -53,7 +70,7 @@ class Form_Field_WYSIWYG extends Form_Field
 		$codes = [];
 
 		if( $this->is_required ) {
-			$codes[] = self::ERROR_CODE_EMPTY;
+			$codes[] = Form_Field::ERROR_CODE_EMPTY;
 		}
 
 		return $codes;

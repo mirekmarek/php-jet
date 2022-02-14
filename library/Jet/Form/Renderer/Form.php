@@ -115,10 +115,14 @@ class Form_Renderer_Form extends Form_Renderer_Pair
 	
 	/**
 	 * @param array $default_label_width
+	 *
+	 * @return $this
 	 */
-	public function setDefaultLabelWidth( array $default_label_width ): void
+	public function setDefaultLabelWidth( array $default_label_width ): static
 	{
 		$this->default_label_width = $default_label_width;
+		
+		return $this;
 	}
 	
 	/**
@@ -131,10 +135,14 @@ class Form_Renderer_Form extends Form_Renderer_Pair
 	
 	/**
 	 * @param array $default_field_width
+	 *
+	 * @return $this
 	 */
-	public function setDefaultFieldWidth( array $default_field_width ): void
+	public function setDefaultFieldWidth( array $default_field_width ): static
 	{
 		$this->default_field_width = $default_field_width;
+		
+		return $this;
 	}
 	
 }

@@ -10,6 +10,7 @@ namespace Jet;
 
 use Iterator;
 use JsonSerializable;
+use ReflectionClass;
 
 /**
  *
@@ -59,7 +60,14 @@ abstract class Form_Field extends BaseObject implements JsonSerializable
 
 	const ERROR_CODE_EMPTY = 'empty';
 	const ERROR_CODE_INVALID_FORMAT = 'invalid_format';
+	const ERROR_CODE_INVALID_VALUE = 'invalid_value';
+	const ERROR_CODE_OUT_OF_RANGE = 'out_of_range';
+	const ERROR_CODE_FILE_IS_TOO_LARGE = 'file_is_too_large';
+	const ERROR_CODE_DISALLOWED_FILE_TYPE = 'disallowed_file_type';
+	const ERROR_CODE_CHECK_NOT_MATCH = 'check_not_match';
+	const ERROR_CODE_WEAK_PASSWORD = 'weak_password';
 
+	
 	/**
 	 * @var string
 	 */
@@ -136,23 +144,23 @@ abstract class Form_Field extends BaseObject implements JsonSerializable
 	 * @var callable
 	 */
 	protected $field_value_catcher;
+	
+	
+	/**
+	 * @var Form_Definition_FieldOption[][]
+	 */
+	protected static array $field_options_definition = [];
 
-
+	
 	/**
 	 *
 	 * @param string $name
 	 * @param string $label
-	 * @param mixed $default_value
-	 * @param bool $is_required
 	 */
-	public function __construct( string $name, string $label = '', mixed $default_value = '', bool $is_required = false )
+	public function __construct( string $name, string $label = '' )
 	{
-
 		$this->_name = $name;
-		$this->default_value = $default_value;
 		$this->label = $label;
-		$this->setIsRequired( $is_required );
-		$this->setDefaultValue( $default_value );
 	}
 	
 	/**
@@ -385,36 +393,7 @@ abstract class Form_Field extends BaseObject implements JsonSerializable
 	{
 		$this->is_required = (bool)$required;
 	}
-
-
-	/**
-	 * Set field options (parameters)
-	 *
-	 * @param array $properties
-	 *
-	 * @throws Form_Exception
-	 */
-	public function setup( array $properties ): void
-	{
-		foreach( $properties as $o_k => $o_v ) {
-			if( !$this->objectHasProperty( $o_k ) ) {
-				throw new Form_Exception( 'Unknown form field option: ' . $o_k );
-			}
-			
-			if($o_k=='select_options') {
-				/**
-				 * @var Form_Field_Select $this
-				 */
-				$this->setSelectOptions( $o_v );
-			} else {
-				$this->{$o_k} = $o_v;
-			}
-
-		}
-	}
-
-
-
+	
 	/**
 	 * @return bool
 	 */
@@ -553,5 +532,27 @@ abstract class Form_Field extends BaseObject implements JsonSerializable
 			$this->_value = $this->default_value;
 		}
 	}
+	
+	/**
+	 * @return Form_Definition_FieldOption[]
+	 */
+	public static function getFieldOptionsDefinition() : array
+	{
+		$class = static::class;
+		
+		if(!array_key_exists($class, static::$field_options_definition)) {
+			$properties = Attributes::getClassPropertyDefinition( new ReflectionClass($class), Form_Definition_FieldOption::class );
+			static::$field_options_definition[$class] = [];
+			
+			foreach($properties as $option_name=>$def_data) {
+				static::$field_options_definition[$class][$option_name] = new Form_Definition_FieldOption();
+				static::$field_options_definition[$class][$option_name]->setup($class, $option_name, $def_data);
+				
+			}
 
+			
+		}
+		return static::$field_options_definition[$class];
+	}
+	
 }

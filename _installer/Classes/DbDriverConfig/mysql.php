@@ -10,6 +10,7 @@ namespace JetApplication\Installer;
 
 use Jet\Db;
 use Jet\Form;
+use Jet\Form_Field;
 use Jet\Form_Field_Input;
 use Jet\Form_Field_Password;
 use Jet\Db_Config;
@@ -92,34 +93,40 @@ class Installer_DbDriverConfig_mysql extends Installer_DbDriverConfig
 			}
 
 
-			$username = new Form_Field_Input( 'username', 'Username:', $this->connection_config->getUsername() );
+			$username = new Form_Field_Input( 'username', 'Username:' );
+			$username->setDefaultValue( $this->connection_config->getUsername() );
 			$username->setIsRequired( true );
 			$username->setErrorMessages(
 				[
-					Form_Field_Input::ERROR_CODE_EMPTY => 'Please enter username',
+					Form_Field::ERROR_CODE_EMPTY => 'Please enter username',
 				]
 			);
 
-			$password = new Form_Field_Password( 'password', 'Password:', $this->connection_config->getPassword() );
+			$password = new Form_Field_Password( 'password', 'Password:' );
+			$password->setDefaultValue( $this->connection_config->getPassword() );
 			$password->setIsRequired( true );
 			$password->setErrorMessages(
 				[
-					Form_Field_Input::ERROR_CODE_EMPTY => 'Please enter the password',
+					Form_Field::ERROR_CODE_EMPTY => 'Please enter the password',
 				]
 			);
 
-			$dbname = new Form_Field_Input( 'dbname', 'Database:', $DSN_data['dbname'] );
+			$dbname = new Form_Field_Input( 'dbname', 'Database:' );
+			$dbname->setDefaultValue( $DSN_data['dbname'] );
 			$dbname->setIsRequired( true );
 			$dbname->setErrorMessages(
 				[
-					Form_Field_Input::ERROR_CODE_EMPTY => 'Please enter the name of the database',
+					Form_Field::ERROR_CODE_EMPTY => 'Please enter the name of the database',
 				]
 			);
 
 
-			$host = new Form_Field_Input( 'host', 'Host:', $DSN_data['host'] );
-			$port = new Form_Field_Input( 'port', 'Port:', $DSN_data['port'] );
-			$unix_socket = new Form_Field_Input( 'unix_socket', 'Unix socket path:', $DSN_data['unix_socket'] );
+			$host = new Form_Field_Input( 'host', 'Host:' );
+			$host->setDefaultValue( $DSN_data['host'] );
+			$port = new Form_Field_Input( 'port', 'Port:' );
+			$port->setDefaultValue( $DSN_data['port'] );
+			$unix_socket = new Form_Field_Input( 'unix_socket', 'Unix socket path:' );
+			$unix_socket->setDefaultValue( $DSN_data['unix_socket'] );
 
 
 			$form = new Form(

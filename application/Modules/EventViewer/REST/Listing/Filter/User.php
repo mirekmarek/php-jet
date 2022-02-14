@@ -49,7 +49,8 @@ class Listing_filter_User extends Data_Listing_Filter {
 	 */
 	public function generateFormFields( Form $form ): void
 	{
-		$field = new Form_Field_Input( 'user_id', 'User ID:', $this->user_id );
+		$field = new Form_Field_Input( 'user_id', 'User ID:' );
+		$field->setDefaultValue( $this->user_id );
 
 		$form->addField( $field );
 	}

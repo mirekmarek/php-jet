@@ -10,6 +10,7 @@ namespace JetApplication\Installer;
 
 use Jet\Db;
 use Jet\Form;
+use Jet\Form_Field;
 use Jet\Form_Field_Input;
 use Jet\Db_Config;
 use Jet\Factory_Db;
@@ -69,11 +70,12 @@ class Installer_DbDriverConfig_sqlite extends Installer_DbDriverConfig
 				$dp = $dp[1];
 			}
 
-			$data_path = new Form_Field_Input( 'data_path', 'Data path:', $dp );
+			$data_path = new Form_Field_Input( 'data_path', 'Data path:' );
+			$data_path->setDefaultValue( $dp );
 			$data_path->setIsRequired( true );
 			$data_path->setErrorMessages(
 				[
-					Form_Field_Input::ERROR_CODE_EMPTY => 'Please enter username',
+					Form_Field::ERROR_CODE_EMPTY => 'Please enter username',
 				]
 			);
 

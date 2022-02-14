@@ -12,6 +12,7 @@ use Jet\Application_Module;
 
 use Jet\Auth;
 use Jet\Form;
+use Jet\Form_Field;
 use Jet\Form_Field_Input;
 use Jet\Form_Field_Password;
 
@@ -36,13 +37,13 @@ class Main extends Application_Module
 		$username_field = new Form_Field_Input( 'username', 'Username: ' );
 		$username_field->setErrorMessages(
 			[
-				Form_Field_Input::ERROR_CODE_EMPTY => 'Please enter username',
+				Form_Field::ERROR_CODE_EMPTY => 'Please enter username',
 			]
 		);
 		$password_field = new Form_Field_Password( 'password', 'Password:' );
 		$password_field->setErrorMessages(
 			[
-				Form_Field_Input::ERROR_CODE_EMPTY => 'Please enter password',
+				Form_Field::ERROR_CODE_EMPTY => 'Please enter password',
 			]
 		);
 
@@ -73,7 +74,7 @@ class Main extends Application_Module
 		$current_password->setIsRequired( true );
 		$current_password->setErrorMessages(
 			[
-				Form_Field_Password::ERROR_CODE_EMPTY => 'Please enter new password',
+				Form_Field::ERROR_CODE_EMPTY => 'Please enter new password',
 
 			]
 		);
@@ -82,14 +83,14 @@ class Main extends Application_Module
 		$new_password->setIsRequired( true );
 		$new_password->setErrorMessages(
 			[
-				Form_Field_Password::ERROR_CODE_EMPTY           => 'Please enter new password',
-				Form_Field_Password::ERROR_CODE_WEAK_PASSWORD   => 'Password is not strong enough',
+				Form_Field::ERROR_CODE_EMPTY         => 'Please enter new password',
+				Form_Field::ERROR_CODE_WEAK_PASSWORD => 'Password is not strong enough',
 			]
 		);
 
 		$new_password->setValidator( function( Form_Field_Password $field ) : bool {
 			if(!Visitor::verifyPasswordStrength($field->getValue())) {
-				$field->setError(Form_Field_Password::ERROR_CODE_WEAK_PASSWORD);
+				$field->setError( Form_Field::ERROR_CODE_WEAK_PASSWORD);
 				return false;
 			}
 
@@ -123,15 +124,15 @@ class Main extends Application_Module
 		$password->setIsRequired( true );
 		$password->setErrorMessages(
 			[
-				Form_Field_Password::ERROR_CODE_EMPTY           => 'Please enter new password',
-				Form_Field_Password::ERROR_CODE_WEAK_PASSWORD   => 'Password is not strong enough',
-				'current_password_used'                         => 'Please enter <strong>new</strong> password',
+				Form_Field::ERROR_CODE_EMPTY         => 'Please enter new password',
+				Form_Field::ERROR_CODE_WEAK_PASSWORD => 'Password is not strong enough',
+				'current_password_used'              => 'Please enter <strong>new</strong> password',
 			]
 		);
 
 		$password->setValidator( function( Form_Field_Password $field ) : bool {
 			if(!Visitor::verifyPasswordStrength($field->getValue())) {
-				$field->setError(Form_Field_Password::ERROR_CODE_WEAK_PASSWORD);
+				$field->setError( Form_Field::ERROR_CODE_WEAK_PASSWORD);
 				return false;
 			}
 

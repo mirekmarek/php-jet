@@ -36,7 +36,6 @@ class Auth_Administrator_User_Roles extends DataModel_Related_1toN
 	#[DataModel_Definition(
 		type: DataModel::TYPE_ID,
 		is_id: true,
-		form_field_type: false
 	)]
 	protected string $role_id = '';
 

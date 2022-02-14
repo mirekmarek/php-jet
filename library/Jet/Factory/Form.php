@@ -298,8 +298,6 @@ class Factory_Form
 	 * @param string $type
 	 * @param string $name
 	 * @param string $label
-	 * @param mixed $default_value
-	 * @param bool $is_required
 	 *
 	 * @return Form_Field
 	 * @throws Form_Exception
@@ -307,15 +305,11 @@ class Factory_Form
 	 */
 	public static function getFieldInstance( string $type,
 	                                         string $name,
-	                                         string $label = '',
-	                                         mixed  $default_value = '',
-	                                         bool   $is_required = false ): Form_Field
+	                                         string $label = '' ): Form_Field
 	{
 		$class_name = static::getFieldClassName( $type );
 		
-		return new $class_name(
-			$name, $label, $default_value, $is_required
-		);
+		return new $class_name( name: $name, label: $label );
 	}
 	
 	/**

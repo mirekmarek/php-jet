@@ -18,10 +18,6 @@ class DataModel_Definition_Property_DateTime extends DataModel_Definition_Proper
 	 */
 	protected string $type = DataModel::TYPE_DATE_TIME;
 
-	/**
-	 * @var string|bool
-	 */
-	protected string|bool $form_field_type = Form_Field::TYPE_DATE_TIME;
 
 	/**
 	 * @param mixed &$value
@@ -60,5 +56,14 @@ class DataModel_Definition_Property_DateTime extends DataModel_Definition_Proper
 
 		return (string)$property;
 	}
-
+	
+	
+	/**
+	 * @return string
+	 */
+	public function getDefaultFormFieldType(): string
+	{
+		return Form_Field::TYPE_DATE_TIME;
+	}
+	
 }

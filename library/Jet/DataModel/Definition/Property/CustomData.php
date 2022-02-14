@@ -19,11 +19,6 @@ class DataModel_Definition_Property_CustomData extends DataModel_Definition_Prop
 	protected string $type = DataModel::TYPE_CUSTOM_DATA;
 
 	/**
-	 * @var string|bool
-	 */
-	protected string|bool $form_field_type = Form_Field::TYPE_MULTI_SELECT;
-
-	/**
 	 * @param array $definition_data
 	 *
 	 * @throws DataModel_Exception
@@ -63,4 +58,14 @@ class DataModel_Definition_Property_CustomData extends DataModel_Definition_Prop
 			$value = [$value];
 		}
 	}
+	
+	
+	/**
+	 * @return string
+	 */
+	public function getDefaultFormFieldType(): string
+	{
+		return '';
+	}
+	
 }

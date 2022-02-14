@@ -75,16 +75,16 @@ class Menus_Menu_Item extends Navigation_Menu_Item
 	{
 		if( !static::$create_form ) {
 
-			$label = new Form_Field_Input( 'label', 'Menu item label:', '' );
+			$label = new Form_Field_Input( 'label', 'Menu item label:' );
 			$label->setErrorMessages( [
-				Form_Field_Input::ERROR_CODE_EMPTY => 'Please enter menu item label',
+				Form_Field::ERROR_CODE_EMPTY => 'Please enter menu item label',
 			] );
 
 
-			$id = new Form_Field_Input( 'id', 'Menu item identifier:', '' );
+			$id = new Form_Field_Input( 'id', 'Menu item identifier:' );
 			$id->setIsRequired( true );
 			$id->setErrorMessages( [
-				Form_Field_Input::ERROR_CODE_EMPTY => 'Please enter menu item identifier',
+				Form_Field::ERROR_CODE_EMPTY => 'Please enter menu item identifier',
 			] );
 			$id->setValidator( function( Form_Field $field ) {
 				if( !$field->getValue() ) {
@@ -100,32 +100,33 @@ class Menus_Menu_Item extends Navigation_Menu_Item
 				return true;
 			} );
 
-			$icon = new Form_Field_Input( 'icon', 'Icon:', '' );
-			$index = new Form_Field_Int( 'index', 'Index:', 0 );
+			$icon = new Form_Field_Input( 'icon', 'Icon:' );
+			$index = new Form_Field_Int( 'index', 'Index:' );
+			$index->setDefaultValue(0);
 
-			$separator_before = new Form_Field_Checkbox( 'separator_before', 'Separator before', false );
-			$separator_after = new Form_Field_Checkbox( 'separator_after', 'Separator after', false );
+			$separator_before = new Form_Field_Checkbox( 'separator_before', 'Separator before' );
+			$separator_after = new Form_Field_Checkbox( 'separator_after', 'Separator after' );
 
 
-			$URL = new Form_Field_Input( 'URL', 'URL:', '' );
+			$URL = new Form_Field_Input( 'URL', 'URL:' );
 
-			$page_id = new Form_Field_Input( 'page_id', 'Page ID:', '' );
+			$page_id = new Form_Field_Input( 'page_id', 'Page ID:' );
 
 
 			$bases = ['' => ''];
 			foreach( Bases::getBases() as $base ) {
 				$bases[$base->getId()] = $base->getName();
 			}
-			$base_id = new Form_Field_Select( 'base_id', 'Base:', '' );
+			$base_id = new Form_Field_Select( 'base_id', 'Base:' );
 			$base_id->setSelectOptions( $bases );
 			$base_id->setIsRequired( false );
 			$base_id->setErrorMessages( [
-				Form_Field_Select::ERROR_CODE_EMPTY         => 'Please select base',
-				Form_Field_Select::ERROR_CODE_INVALID_VALUE => 'Please select base',
+				Form_Field::ERROR_CODE_EMPTY         => 'Please select base',
+				Form_Field::ERROR_CODE_INVALID_VALUE => 'Please select base',
 			] );
 
 
-			$locale = new Form_Field_Input( 'locale', 'Locale:', '' );
+			$locale = new Form_Field_Input( 'locale', 'Locale:' );
 
 
 			$fields = [
@@ -146,17 +147,17 @@ class Menus_Menu_Item extends Navigation_Menu_Item
 
 
 			for( $c = 0; $c < static::URL_PARTS_COUNT; $c++ ) {
-				$URL_part = new Form_Field_Input( '/URL_parts/' . $c, '', '' );
+				$URL_part = new Form_Field_Input( '/URL_parts/' . $c, '' );
 				$fields[] = $URL_part;
 			}
 
 
 			for( $c = 0; $c < static::GET_PARAMS_COUNT; $c++ ) {
 
-				$GET_param_key = new Form_Field_Input( '/GET_params/' . $c . '/key', '', '' );
+				$GET_param_key = new Form_Field_Input( '/GET_params/' . $c . '/key', '' );
 				$fields[] = $GET_param_key;
 
-				$GET_param_value = new Form_Field_Input( '/GET_params/' . $c . '/value', '', '' );
+				$GET_param_value = new Form_Field_Input( '/GET_params/' . $c . '/value', '' );
 				$fields[] = $GET_param_value;
 			}
 
@@ -218,47 +219,55 @@ class Menus_Menu_Item extends Navigation_Menu_Item
 	public function getEditForm(): Form
 	{
 		if( !$this->__edit_form ) {
-			$id = new Form_Field_Input( 'id', 'Menu item identifier:', $this->getId() );
+			$id = new Form_Field_Input( 'id', 'Menu item identifier:' );
+			$id->setDefaultValue( $this->getId() );
 			$id->setIsReadonly( true );
 
-			$label = new Form_Field_Input( 'label', 'Menu item label:', $this->getLabel() );
+			$label = new Form_Field_Input( 'label', 'Menu item label:' );
+			$label->setDefaultValue( $this->getLabel() );
 			$label->setErrorMessages( [
-				Form_Field_Input::ERROR_CODE_EMPTY => 'Please enter menu item label',
+				Form_Field::ERROR_CODE_EMPTY => 'Please enter menu item label',
 			] );
 			$label->setFieldValueCatcher( function( $value ) {
 				$this->setLabel( $value );
 			} );
 
 
-			$icon = new Form_Field_Input( 'icon', 'Icon:', $this->getIcon() );
+			$icon = new Form_Field_Input( 'icon', 'Icon:' );
+			$icon->setDefaultValue( $this->getIcon() );
 			$icon->setFieldValueCatcher( function( $value ) {
 				$this->setIcon( $value );
 			} );
 
-			$index = new Form_Field_Int( 'index', 'Index:', $this->getIndex() );
+			$index = new Form_Field_Int( 'index', 'Index:' );
+			$index->setDefaultValue( $this->getIndex() );
 			$index->setFieldValueCatcher( function( $value ) {
 				$this->setIndex( $value );
 			} );
 
 
-			$separator_before = new Form_Field_Checkbox( 'separator_before', 'Separator before', $this->getSeparatorBefore() );
+			$separator_before = new Form_Field_Checkbox( 'separator_before', 'Separator before' );
+			$separator_before->setDefaultValue( $this->getSeparatorBefore() );
 			$separator_before->setFieldValueCatcher( function( $value ) {
 				$this->setSeparatorBefore( $value );
 			} );
 
-			$separator_after = new Form_Field_Checkbox( 'separator_after', 'Separator after', $this->getSeparatorAfter() );
+			$separator_after = new Form_Field_Checkbox( 'separator_after', 'Separator after' );
+			$separator_after->setDefaultValue( $this->getSeparatorAfter() );
 			$separator_after->setFieldValueCatcher( function( $value ) {
 				$this->setSeparatorAfter( $value );
 			} );
 
 
-			$URL = new Form_Field_Input( 'URL', 'URL:', $this->getUrl() );
+			$URL = new Form_Field_Input( 'URL', 'URL:' );
+			$URL->setDefaultValue( $this->getUrl() );
 			$URL->setFieldValueCatcher( function( $value ) {
 				$this->setURL( $value );
 			} );
 
 
-			$page_id = new Form_Field_Input( 'page_id', 'Page ID:', $this->getPageId() );
+			$page_id = new Form_Field_Input( 'page_id', 'Page ID:' );
+			$page_id->setDefaultValue( $this->getPageId() );
 			$page_id->setFieldValueCatcher( function( $value ) {
 				$this->setPageId( $value );
 			} );
@@ -267,19 +276,21 @@ class Menus_Menu_Item extends Navigation_Menu_Item
 			foreach( Bases::getBases() as $base ) {
 				$bases[$base->getId()] = $base->getName();
 			}
-			$base_id = new Form_Field_Select( 'base_id', 'Base:', $this->getBaseId() );
+			$base_id = new Form_Field_Select( 'base_id', 'Base:' );
+			$base_id->setDefaultValue( $this->getBaseId() );
 			$base_id->setSelectOptions( $bases );
 			$base_id->setIsRequired( false );
 			$base_id->setErrorMessages( [
-				Form_Field_Select::ERROR_CODE_EMPTY         => 'Please select base',
-				Form_Field_Select::ERROR_CODE_INVALID_VALUE => 'Please select base',
+				Form_Field::ERROR_CODE_EMPTY         => 'Please select base',
+				Form_Field::ERROR_CODE_INVALID_VALUE => 'Please select base',
 			] );
 
 			$base_id->setFieldValueCatcher( function( $value ) {
 				$this->setBaseId( $value );
 			} );
 
-			$locale = new Form_Field_Input( 'locale', 'Locale:', $this->getLocale() );
+			$locale = new Form_Field_Input( 'locale', 'Locale:' );
+			$locale->setDefaultValue( $this->getLocale() );
 			$locale->setFieldValueCatcher( function( $value ) {
 				$this->setLocale( $value );
 			} );
@@ -304,7 +315,8 @@ class Menus_Menu_Item extends Navigation_Menu_Item
 			for( $c = 0; $c < static::URL_PARTS_COUNT; $c++ ) {
 				$URL_part_value = $URL_parts[$c] ?? '';
 
-				$URL_part = new Form_Field_Input( '/URL_parts/' . $c, '', $URL_part_value );
+				$URL_part = new Form_Field_Input( '/URL_parts/' . $c, '' );
+				$URL_part->setDefaultValue( $URL_part_value );
 				$fields[] = $URL_part;
 			}
 
@@ -316,10 +328,12 @@ class Menus_Menu_Item extends Navigation_Menu_Item
 				$key = $GET_params_keys[$c] ?? '';
 				$value = $GET_params_values[$c] ?? '';
 
-				$GET_param_key = new Form_Field_Input( '/GET_params/' . $c . '/key', '', $key );
+				$GET_param_key = new Form_Field_Input( '/GET_params/' . $c . '/key', '' );
+				$GET_param_key->setDefaultValue( $key );
 				$fields[] = $GET_param_key;
 
-				$GET_param_value = new Form_Field_Input( '/GET_params/' . $c . '/value', '', $value );
+				$GET_param_value = new Form_Field_Input( '/GET_params/' . $c . '/value', '' );
+				$GET_param_value->setDefaultValue( $value );
 				$fields[] = $GET_param_value;
 			}
 

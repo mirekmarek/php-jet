@@ -24,6 +24,7 @@ class Mailing_Config extends Config
 		type: Config::TYPE_SECTIONS,
 		section_creator_method_name: 'createSenderConfigInstance'
 	)]
+	#[Form_Definition(is_sub_forms: true)]
 	protected array|null $senders = null;
 
 

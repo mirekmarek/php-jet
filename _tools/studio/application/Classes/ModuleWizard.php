@@ -12,6 +12,7 @@ use Jet\BaseObject;
 use Jet\Data_Text;
 use Jet\Exception;
 use Jet\Form;
+use Jet\Form_Field;
 use Jet\Form_Field_Input;
 use Jet\Http_Headers;
 use Jet\Http_Request;
@@ -117,15 +118,15 @@ abstract class ModuleWizard extends BaseObject
 	 */
 	public function generateSetupForm_mainFields( array &$fields ): void
 	{
-		$module_name = new Form_Field_Input( 'NAME', 'Name:', '' );
+		$module_name = new Form_Field_Input( 'NAME', 'Name:' );
 		$module_name->setFieldValueCatcher( function( $value ) {
 			$this->module_name = $value;
 		} );
 
 		$module_name->setIsRequired( true );
 		$module_name->setErrorMessages( [
-			Form_Field_Input::ERROR_CODE_EMPTY          => 'Please enter module name',
-			Form_Field_Input::ERROR_CODE_INVALID_FORMAT => 'Invalid module name format',
+			Form_Field::ERROR_CODE_EMPTY          => 'Please enter module name',
+			Form_Field::ERROR_CODE_INVALID_FORMAT => 'Invalid module name format',
 			'module_name_is_not_unique' => 'Module with the same name already exists',
 		] );
 		$module_name->setValidator( function( Form_Field_Input $field ) {
@@ -142,7 +143,7 @@ abstract class ModuleWizard extends BaseObject
 		} );
 		$module_label->setIsRequired( true );
 		$module_label->setErrorMessages( [
-			Form_Field_Input::ERROR_CODE_EMPTY => 'Please enter module label'
+			Form_Field::ERROR_CODE_EMPTY => 'Please enter module label'
 		] );
 		$fields[] = $module_label;
 

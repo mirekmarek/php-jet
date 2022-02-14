@@ -63,7 +63,11 @@ class Pages_Page_Content extends MVC_Page_Content
 	 */
 	public static function getField__is_cacheable( bool $default_value ): Form_Field_Checkbox
 	{
-		return new Form_Field_Checkbox( 'is_cacheable', 'Is cacheable', $default_value );
+		$chb = new Form_Field_Checkbox( 'is_cacheable', 'Is cacheable' );
+		
+		$chb->setDefaultValue( $default_value );
+		
+		return $chb;
 	}
 
 
@@ -81,12 +85,13 @@ class Pages_Page_Content extends MVC_Page_Content
 		 */
 		$base = $page->getBase();
 
-		$output_position = new Form_Field_Select( 'output_position', 'Output position:', $default_value );
+		$output_position = new Form_Field_Select( 'output_position', 'Output position:' );
+		$output_position->setDefaultValue( $default_value );
 		$output_position->setIsRequired( true );
 		$output_position->setSelectOptions( $base->getLayoutOutputPositions( $page->getLayoutScriptName() ) );
 		$output_position->setErrorMessages( [
-			Form_Field_Select::ERROR_CODE_EMPTY         => 'Please select output position',
-			Form_Field_Select::ERROR_CODE_INVALID_VALUE => 'Please select output position'
+			Form_Field::ERROR_CODE_EMPTY         => 'Please select output position',
+			Form_Field::ERROR_CODE_INVALID_VALUE => 'Please select output position'
 		] );
 
 		return $output_position;
@@ -100,8 +105,10 @@ class Pages_Page_Content extends MVC_Page_Content
 	 */
 	public static function getField__output_position_order( int $default_value ): Form_Field_Int
 	{
-		return new Form_Field_Int( 'output_position_order', 'Output position order:', $default_value );
-
+		$pos_order = new Form_Field_Int( 'output_position_order', 'Output position order:' );
+		$pos_order->setDefaultValue( $default_value );
+		
+		return  $pos_order;
 	}
 
 	/**
@@ -120,10 +127,11 @@ class Pages_Page_Content extends MVC_Page_Content
 
 		asort( $modules );
 
-		$module_name = new Form_Field_Select( 'module_name', 'Module name:', $default_value );
+		$module_name = new Form_Field_Select( 'module_name', 'Module name:' );
+		$module_name->setDefaultValue( $default_value );
 		$module_name->setErrorMessages( [
-			Form_Field_Select::ERROR_CODE_EMPTY         => 'Please select module name',
-			Form_Field_Select::ERROR_CODE_INVALID_VALUE => 'Please select module name'
+			Form_Field::ERROR_CODE_EMPTY         => 'Please select module name',
+			Form_Field::ERROR_CODE_INVALID_VALUE => 'Please select module name'
 		] );
 		$module_name->setSelectOptions( $modules );
 
@@ -139,10 +147,12 @@ class Pages_Page_Content extends MVC_Page_Content
 	 */
 	public static function getField__controller_name( string $default_value, string $module_name = '' ): Form_Field_Select
 	{
-		$controller_name = new Form_Field_Select( 'controller_name', 'Controller name:', $default_value, true );
+		$controller_name = new Form_Field_Select( 'controller_name', 'Controller name:' );
+		$controller_name->setDefaultValue( $default_value );
+		$controller_name->setIsRequired( true );
 		$controller_name->setErrorMessages( [
-			Form_Field_Select::ERROR_CODE_EMPTY         => 'Please select controller',
-			Form_Field_Select::ERROR_CODE_INVALID_VALUE => 'Invalid controller name format'
+			Form_Field::ERROR_CODE_EMPTY         => 'Please select controller',
+			Form_Field::ERROR_CODE_INVALID_VALUE => 'Invalid controller name format'
 		] );
 
 		$select_options = [];
@@ -171,10 +181,11 @@ class Pages_Page_Content extends MVC_Page_Content
 	                                                    string $module_name = '',
 	                                                    string $controller = '' ): Form_Field_Select
 	{
-		$controller_action = new Form_Field_Select( 'controller_action', 'Controller action:', $default_value );
+		$controller_action = new Form_Field_Select( 'controller_action', 'Controller action:' );
+		$controller_action->setDefaultValue( $default_value );
 		$controller_action->setErrorMessages( [
-			Form_Field_Select::ERROR_CODE_EMPTY         => 'Please select controller action',
-			Form_Field_Select::ERROR_CODE_INVALID_VALUE => 'Please select controller action'
+			Form_Field::ERROR_CODE_EMPTY         => 'Please select controller action',
+			Form_Field::ERROR_CODE_INVALID_VALUE => 'Please select controller action'
 		] );
 
 		$select_options = [];
@@ -206,10 +217,11 @@ class Pages_Page_Content extends MVC_Page_Content
 	 */
 	public static function getField__controller_class( string $default_value ): Form_Field_Input
 	{
-		$controller_class = new Form_Field_Input( 'controller_class', 'Custom controller class:', $default_value );
+		$controller_class = new Form_Field_Input( 'controller_class', 'Custom controller class:' );
+		$controller_class->setDefaultValue( $default_value );
 		$controller_class->setErrorMessages( [
-			Form_Field_Input::ERROR_CODE_EMPTY          => 'Please enter controller class',
-			Form_Field_Input::ERROR_CODE_INVALID_FORMAT => 'Invalid class name format'
+			Form_Field::ERROR_CODE_EMPTY          => 'Please enter controller class',
+			Form_Field::ERROR_CODE_INVALID_FORMAT => 'Invalid class name format'
 		] );
 		$controller_class->setValidator( function( Form_Field $filed ) {
 			return Project::validateClassName( $filed );
@@ -225,10 +237,11 @@ class Pages_Page_Content extends MVC_Page_Content
 	 */
 	public static function getField__controller_class_action( string $default_value ): Form_Field_Input
 	{
-		$controller_class_action = new Form_Field_Input( 'controller_class_action', 'Controller action:', $default_value );
+		$controller_class_action = new Form_Field_Input( 'controller_class_action', 'Controller action:' );
+		$controller_class_action->setDefaultValue( $default_value );
 		$controller_class_action->setErrorMessages( [
-			Form_Field_Input::ERROR_CODE_EMPTY          => 'Please enter controller class action name',
-			Form_Field_Input::ERROR_CODE_INVALID_FORMAT => 'Invalid action name format'
+			Form_Field::ERROR_CODE_EMPTY          => 'Please enter controller class action name',
+			Form_Field::ERROR_CODE_INVALID_FORMAT => 'Invalid action name format'
 		] );
 		$controller_class_action->setValidator( function( Form_Field $filed ) {
 			return Project::validateMethodName( $filed );
@@ -245,7 +258,8 @@ class Pages_Page_Content extends MVC_Page_Content
 	 */
 	public static function getField__output( string $default_value ): Form_Field_Textarea
 	{
-		$output = new Form_Field_Textarea( 'output', 'Static output:', $default_value );
+		$output = new Form_Field_Textarea( 'output', 'Static output:' );
+		$output->setDefaultValue( $default_value );
 		$output->setValidator( function( Form_Field_Textarea $field ) {
 			$value = $field->getValueRaw();
 
@@ -255,7 +269,7 @@ class Pages_Page_Content extends MVC_Page_Content
 			return true;
 		} );
 		$output->setErrorMessages( [
-			Form_Field_Input::ERROR_CODE_EMPTY => 'Please enter static output'
+			Form_Field::ERROR_CODE_EMPTY => 'Please enter static output'
 		] );
 
 		return $output;
@@ -268,10 +282,11 @@ class Pages_Page_Content extends MVC_Page_Content
 	 */
 	public static function getField__output_callback_class( string $default_value ): Form_Field_Input
 	{
-		$output_callback_class = new Form_Field_Input( 'output_callback_class', 'Output callback class:', $default_value );
+		$output_callback_class = new Form_Field_Input( 'output_callback_class', 'Output callback class:' );
+		$output_callback_class->setDefaultValue( $default_value );
 		$output_callback_class->setErrorMessages( [
-			Form_Field_Input::ERROR_CODE_EMPTY          => 'Please enter class name',
-			Form_Field_Input::ERROR_CODE_INVALID_FORMAT => 'Invalid class name format'
+			Form_Field::ERROR_CODE_EMPTY          => 'Please enter class name',
+			Form_Field::ERROR_CODE_INVALID_FORMAT => 'Invalid class name format'
 		] );
 		$output_callback_class->setValidator( function( Form_Field $filed ) {
 			return Project::validateClassName( $filed );
@@ -287,10 +302,11 @@ class Pages_Page_Content extends MVC_Page_Content
 	 */
 	public static function getField__output_callback_method( string $default_value ): Form_Field_Input
 	{
-		$output_callback_method = new Form_Field_Input( 'output_callback_method', 'Output callback method:', $default_value );
+		$output_callback_method = new Form_Field_Input( 'output_callback_method', 'Output callback method:' );
+		$output_callback_method->setDefaultValue( $default_value );
 		$output_callback_method->setErrorMessages( [
-			Form_Field_Input::ERROR_CODE_EMPTY          => 'Please enter method name',
-			Form_Field_Input::ERROR_CODE_INVALID_FORMAT => 'Invalid method name format'
+			Form_Field::ERROR_CODE_EMPTY          => 'Please enter method name',
+			Form_Field::ERROR_CODE_INVALID_FORMAT => 'Invalid method name format'
 		] );
 		$output_callback_method->setValidator( function( Form_Field $filed ) {
 			return Project::validateMethodName( $filed );
@@ -332,10 +348,12 @@ class Pages_Page_Content extends MVC_Page_Content
 			$i = 0;
 			foreach( $this->parameters as $key => $val ) {
 
-				$param_key = new Form_Field_Input( '/params/' . $i . '/key', '', $key );
+				$param_key = new Form_Field_Input( '/params/' . $i . '/key' );
+				$param_key->setDefaultValue( $key );
 				$fields[] = $param_key;
 
-				$param_value = new Form_Field_Input( '/params/' . $i . '/value', '', $val );
+				$param_value = new Form_Field_Input( '/params/' . $i . '/value' );
+				$param_value->setDefaultValue( $val );
 				$fields[] = $param_value;
 
 				$i++;
@@ -343,10 +361,10 @@ class Pages_Page_Content extends MVC_Page_Content
 
 			for( $c = 0; $c < static::PARAMS_COUNT; $c++ ) {
 
-				$param_key = new Form_Field_Input( '/params/' . $i . '/key', '', '' );
+				$param_key = new Form_Field_Input( '/params/' . $i . '/key', '' );
 				$fields[] = $param_key;
 
-				$param_value = new Form_Field_Input( '/params/' . $i . '/value', '', '' );
+				$param_value = new Form_Field_Input( '/params/' . $i . '/value', '' );
 				$fields[] = $param_value;
 
 				$i++;

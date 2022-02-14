@@ -46,7 +46,8 @@ class Listing_filter_contextObject extends Data_Listing_Filter {
 	 */
 	public function generateFormFields( Form $form ): void
 	{
-		$field = new Form_Field_Input( 'context_object_id', 'Context object ID:', $this->context_object_id );
+		$field = new Form_Field_Input( 'context_object_id', 'Context object ID:' );
+		$field->setDefaultValue( $this->context_object_id );
 
 		$form->addField( $field );
 	}
