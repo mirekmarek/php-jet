@@ -23,4 +23,5 @@ return [
 	'Something went wrong: %error%' => 'Něco se nepovedlo: %error%',
 	'Data path:' => 'Cesta k datovému souboru:',
 	'Charset:' => 'Znaková sada:',
+	'Path:' => 'Cesta:',
 ];

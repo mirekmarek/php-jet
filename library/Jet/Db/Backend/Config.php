@@ -352,4 +352,47 @@ abstract class Db_Backend_Config extends Config_Section
 		$this->unix_socket = $unix_socket;
 	}
 	
+	/**
+	 * @return array
+	 */
+	public function toArray(): array
+	{
+		$res = [
+			'driver' => $this->driver,
+			'name' => $this->name,
+		];
+		
+		$entries = $this->getEntriesSchema();
+		
+		foreach($entries as $key=>$val) {
+			$res[$key] = $this->{$key};
+		}
+		
+		return $res;
+	}
+	
+	
+	/**
+	 *
+	 */
+	public function initDefault() : void
+	{
+		$entries = $this->getEntriesSchema();
+		
+		foreach($entries as $key=>$val) {
+			$this->{$key} = $val;
+		}
+	}
+	
+	/**
+	 * @return array
+	 */
+	public function getEntriesSchema() : array
+	{
+		$method = $this->driver.'_getEntriesSchema';
+		
+		return $this->{$method}();
+	}
+	
+	
 }
