@@ -10,6 +10,38 @@ namespace Jet;
 
 trait Db_Backend_PDO_Config_sqlite {
 	
+	/**
+	 *
+	 * @var string
+	 */
+	#[Config_Definition(
+		type: Config::TYPE_STRING,
+		is_required: false
+	)]
+	#[Form_Definition(
+		type: Form_Field::TYPE_INPUT,
+		label: 'Path:',
+		is_required: false
+	)]
+	protected string $path = '';
+	
+	/**
+	 * @return string
+	 */
+	public function getPath(): string
+	{
+		return $this->path;
+	}
+	
+	/**
+	 * @param string $path
+	 */
+	public function setPath( string $path ): void
+	{
+		$this->path = $path;
+	}
+
+	
 	protected function sqlite_getDnsEntries() : array
 	{
 		return [$this->path];

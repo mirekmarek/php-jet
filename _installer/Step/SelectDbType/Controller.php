@@ -80,7 +80,7 @@ class Installer_Step_SelectDbType_Controller extends Installer_Step_Controller
 			$db_connection_config->setDriver( $driver );
 			$db_connection_config->setName('default');
 			$db_connection_config->initDefault();
-			$db_config->addConnection($db_connection_config->getName(), $db_connection_config);
+			$db_config->addConnection( $db_connection_config );
 
 
 			try {

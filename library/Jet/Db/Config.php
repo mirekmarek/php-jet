@@ -120,13 +120,12 @@ class Db_Config extends Config
 
 
 	/**
-	 * @param string $connection_name
 	 * @param Db_Backend_Config $connection_configuration
 	 *
 	 */
-	public function addConnection( string $connection_name, Db_Backend_Config $connection_configuration ): void
+	public function addConnection( Db_Backend_Config $connection_configuration ): void
 	{
-		$this->connections[$connection_name] = $connection_configuration;
+		$this->connections[$connection_configuration->getName()] = $connection_configuration;
 	}
 
 	/**

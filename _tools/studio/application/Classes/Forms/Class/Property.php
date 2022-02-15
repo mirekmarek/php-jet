@@ -301,7 +301,7 @@ class Forms_Class_Property
 				$fields[] = $message_field;
 			}
 			
-		} else {
+		} /** @noinspection PhpStatementHasEmptyBodyInspection */ else {
 			//TODO:
 		}
 		

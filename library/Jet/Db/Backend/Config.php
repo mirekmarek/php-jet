@@ -133,53 +133,6 @@ abstract class Db_Backend_Config extends Config_Section
 	
 	
 	/**
-	 *
-	 * @var string
-	 */
-	#[Config_Definition(
-		type: Config::TYPE_STRING,
-		is_required: false
-	)]
-	#[Form_Definition(
-		type: Form_Field::TYPE_INPUT,
-		label: 'Unix socket path:',
-		is_required: false
-	)]
-	protected string $unix_socket = '';
-	
-	
-	/**
-	 *
-	 * @var string
-	 */
-	#[Config_Definition(
-		type: Config::TYPE_STRING,
-		is_required: false
-	)]
-	#[Form_Definition(
-		type: Form_Field::TYPE_INPUT,
-		label: 'Charset:',
-		is_required: false
-	)]
-	protected string $charset = '';
-	
-	/**
-	 *
-	 * @var string
-	 */
-	#[Config_Definition(
-		type: Config::TYPE_STRING,
-		is_required: false
-	)]
-	#[Form_Definition(
-		type: Form_Field::TYPE_INPUT,
-		label: 'Path:',
-		is_required: false
-	)]
-	protected string $path = '';
-	
-	
-	/**
 	 * @return array
 	 */
 	public static function getDrivers(): array
@@ -303,54 +256,7 @@ abstract class Db_Backend_Config extends Config_Section
 	{
 		$this->port = $port;
 	}
-	
-	/**
-	 * @return string
-	 */
-	public function getCharset(): string
-	{
-		return $this->charset;
-	}
-	
-	/**
-	 * @param string $charset
-	 */
-	public function setCharset( string $charset ): void
-	{
-		$this->charset = $charset;
-	}
-	
-	/**
-	 * @return string
-	 */
-	public function getPath(): string
-	{
-		return $this->path;
-	}
-	
-	/**
-	 * @param string $path
-	 */
-	public function setPath( string $path ): void
-	{
-		$this->path = $path;
-	}
-	
-	/**
-	 * @return string
-	 */
-	public function getUnixSocket(): string
-	{
-		return $this->unix_socket;
-	}
-	
-	/**
-	 * @param string $unix_socket
-	 */
-	public function setUnixSocket( string $unix_socket ): void
-	{
-		$this->unix_socket = $unix_socket;
-	}
+
 	
 	/**
 	 * @return array
