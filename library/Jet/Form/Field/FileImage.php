@@ -21,6 +21,15 @@ class Form_Field_FileImage extends Form_Field implements Form_Field_Part_File_In
 	 */
 	protected string $_type = Form_Field::TYPE_FILE_IMAGE;
 	
+	
+	/**
+	 * @var array
+	 */
+	protected array $error_messages = [
+		Form_Field::ERROR_CODE_EMPTY                => '',
+		Form_Field::ERROR_CODE_FILE_IS_TOO_LARGE    => '',
+		Form_Field::ERROR_CODE_DISALLOWED_FILE_TYPE => '',
+	];
 
 	/**
 	 * @var ?int

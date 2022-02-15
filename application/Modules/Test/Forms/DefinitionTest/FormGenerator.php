@@ -176,6 +176,33 @@ class DefinitionTest_FormGenerator extends BaseObject implements Form_Definition
 	
 	
 	/**
+	 * @var string
+	 */
+	#[Form_Definition(
+		type: Form_Field::TYPE_FILE,
+		label: 'File: ',
+		error_messages: [
+			Form_Field::ERROR_CODE_FILE_IS_TOO_LARGE    => 'File is too large',
+			Form_Field::ERROR_CODE_DISALLOWED_FILE_TYPE => 'Unsupported file type',
+		]
+	)]
+	protected string $file = '';
+	
+	/**
+	 * @var string
+	 */
+	#[Form_Definition(
+		type: Form_Field::TYPE_FILE_IMAGE,
+		label: 'Image: ',
+		error_messages: [
+			Form_Field::ERROR_CODE_FILE_IS_TOO_LARGE    => 'File is too large',
+			Form_Field::ERROR_CODE_DISALLOWED_FILE_TYPE => 'Unsupported file type',
+		]
+	)]
+	protected string $file_image = '';
+	
+	
+	/**
 	 * @var DefinitionTest_FormGenerator_Sub1[]
 	 */
 	#[Form_Definition(

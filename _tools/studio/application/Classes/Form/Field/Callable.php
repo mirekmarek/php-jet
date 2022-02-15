@@ -22,6 +22,8 @@ class Form_Field_Callable extends Form_Field
 {
 	const ERROR_CODE_NOT_CALLABLE = 'not_callable';
 	
+	protected string $class_context = '';
+	
 	protected string $_type = 'callable';
 	
 	protected string $method_arguments = '';
@@ -110,6 +112,14 @@ class Form_Field_Callable extends Form_Field
 		if(!is_array($value) || count($value)!=2 ) {
 			return '';
 		}
+		
+		if(
+			$this->class_context &&
+			$value[0]==$this->class_context
+		) {
+			return 'self';
+		}
+		
 		return $value[0];
 	}
 	
@@ -121,6 +131,23 @@ class Form_Field_Callable extends Form_Field
 		}
 		return $value[1];
 	}
+	
+	/**
+	 * @return string
+	 */
+	public function getClassContext(): string
+	{
+		return $this->class_context;
+	}
+	
+	/**
+	 * @param string $class_context
+	 */
+	public function setClassContext( string $class_context ): void
+	{
+		$this->class_context = $class_context;
+	}
+	
 	
 	
 	/**

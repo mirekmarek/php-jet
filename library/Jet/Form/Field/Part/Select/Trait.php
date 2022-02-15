@@ -21,7 +21,7 @@ trait Form_Field_Part_Select_Trait
 	 */
 	#[Form_Definition_FieldOption(
 		type: Form_Definition_FieldOption::TYPE_CALLABLE,
-		label: 'Select options',
+		label: 'Select options creator',
 		getter: 'getSelectOptionsCreator',
 		setter: 'setSelectOptionsCreator',
 	)]

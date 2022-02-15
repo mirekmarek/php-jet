@@ -1,0 +1,46 @@
+<?php
+
+use Jet\Data_Text;
+use Jet\MVC_View;
+use JetStudio\Form_Field_AssocArray;
+use JetStudio\Form_Renderer_Field_Input_AssocArray;
+
+/**
+ * @var MVC_View $this
+ * @var Form_Renderer_Field_Input_AssocArray $r
+ * @var Form_Field_AssocArray $field
+ */
+$r = $this->getRaw( 'renderer' );
+$field = $r->getField();
+$value = $field->getValue();
+
+if( !$r->getBaseCssClasses() ) {
+	$r->setBaseCssClass( 'form-control' );
+}
+
+if( $field->getLastErrorCode() ) {
+	$r->addCustomCssClass( 'is-invalid' );
+}
+
+?>
+
+<div>
+	<?php foreach($value as $key=>$val): ?>
+		<div class="input-group">
+			<span class="input-group-prepend"><span class="input-group-text"> </span></span>
+			<input <?=$r->renderTagAttributes()?> name="<?=$field->getTagNameValue()?>[key][]" value="<?= Data_Text::htmlSpecialChars($key)?>"/>
+			<span class="input-group-prepend"><span class="input-group-text"><?=$field->getAssocChar()?></span></span>
+			<input <?=$r->renderTagAttributes()?> name="<?=$field->getTagNameValue()?>[value][]" value="<?= Data_Text::htmlSpecialChars($val)?>"/>
+			<span class="input-group-append"><span class="input-group-text"></span></span>
+		</div>
+	<?php endforeach; ?>
+	<?php for($c=0;$c<$field->getNewRowsCount();$c++): ?>
+		<div class="input-group">
+			<span class="input-group-prepend"><span class="input-group-text"> </span></span>
+			<input <?=$r->renderTagAttributes()?> name="<?=$field->getTagNameValue()?>[key][]" value=""/>
+			<span class="input-group-prepend"><span class="input-group-text"><?=$field->getAssocChar()?></span></span>
+			<input <?=$r->renderTagAttributes()?> name="<?=$field->getTagNameValue()?>[value][]" value=""/>
+			<span class="input-group-append"><span class="input-group-text"></span></span>
+		</div>
+	<?php endfor; ?>
+</div>

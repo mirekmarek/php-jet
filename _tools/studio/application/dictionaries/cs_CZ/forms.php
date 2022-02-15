@@ -32,4 +32,13 @@ return [
 	'ERROR_CODE_INVALID_VALUE' => '',
 	'ERROR_CODE_INVALID_FORMAT' => '',
 	'Error messages' => '',
+	'Is not callable' => '',
+	'Select options creator' => '',
+	'Allowed mime types' => '',
+	'Maximal file size' => '',
+	'Allow multiple upload' => '',
+	'ERROR_CODE_FILE_IS_TOO_LARGE' => '',
+	'ERROR_CODE_DISALLOWED_FILE_TYPE' => '',
+	'Maximal image width' => '',
+	'Maximal image height' => '',
 ];

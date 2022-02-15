@@ -1,0 +1,51 @@
+<?php
+
+use Jet\Data_Text;
+use Jet\MVC_View;
+use JetStudio\Form_Field_AssocArray;
+use JetStudio\Form_Renderer_Field_Input_AssocArray;
+
+/**
+ * @var MVC_View $this
+ * @var Form_Renderer_Field_Input_AssocArray $r
+ * @var Form_Field_AssocArray $field
+ */
+$r = $this->getRaw( 'renderer' );
+$field = $r->getField();
+$value = $field->getValue();
+
+if( !$r->getBaseCssClasses() ) {
+	$r->setBaseCssClass( 'form-control' );
+}
+
+if( $field->getLastErrorCode() ) {
+	$r->addCustomCssClass( 'is-invalid' );
+}
+
+?>
+
+<div>
+	<?php foreach($value as $tag): ?>
+		<div class="input-group">
+			<span class="input-group-prepend"><span class="input-group-text">&lt;meta</span></span>
+			<input <?=$r->renderTagAttributes()?> name="<?=$field->getTagNameValue()?>[attribute][]" value="<?= Data_Text::htmlSpecialChars($tag['attribute'])?>"/>
+			<span class="input-group-prepend"><span class="input-group-text"> =" </span></span>
+			<input <?=$r->renderTagAttributes()?> name="<?=$field->getTagNameValue()?>[attribute_value][]" value="<?= Data_Text::htmlSpecialChars($tag['attribute_value'])?>"/>
+			<span class="input-group-prepend"><span class="input-group-text">" content="</span></span>
+			<input <?=$r->renderTagAttributes()?> name="<?=$field->getTagNameValue()?>[content][]" value="<?= Data_Text::htmlSpecialChars($tag['content'])?>"/>
+			<span class="input-group-append"><span class="input-group-text">"&gt;</span></span>
+		</div>
+	<?php endforeach; ?>
+	
+	<?php for($c=0;$c<$field->getNewRowsCount();$c++): ?>
+		<div class="input-group">
+			<span class="input-group-prepend"><span class="input-group-text">&lt;meta</span></span>
+			<input <?=$r->renderTagAttributes()?> name="<?=$field->getTagNameValue()?>[attribute][]" value=""/>
+			<span class="input-group-prepend"><span class="input-group-text"> =" </span></span>
+			<input <?=$r->renderTagAttributes()?> name="<?=$field->getTagNameValue()?>[attribute_value][]" value=""/>
+			<span class="input-group-prepend"><span class="input-group-text">" content="</span></span>
+			<input <?=$r->renderTagAttributes()?> name="<?=$field->getTagNameValue()?>[content][]" value=""/>
+			<span class="input-group-append"><span class="input-group-text">"&gt;</span></span>
+		</div>
+	<?php endfor; ?>
+</div>

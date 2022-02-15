@@ -22,12 +22,12 @@ if( $field->getLastErrorCode() ) {
 }
 ?>
 
-<div style="clear: both">
+<div>
 	<div class="input-group">
 		<span class="input-group-prepend"><span class="input-group-text"> </span></span>
 		<input <?=$r->renderTagAttributes()?> name="<?=$field->getTagNameValue()?>[class]" id="<?=$field->getId()?>_class" value="<?=$field->getValue_class()?>"/>
 		<span class="input-group-prepend"><span class="input-group-text">::</span></span>
 		<input <?=$r->renderTagAttributes()?> name="<?=$field->getTagNameValue()?>[method]" id="<?=$field->getId()?>_method" value="<?=$field->getValue_method()?>"/>
-		<div class="input-group-append"><span class="input-group-text">( <?=$field->getMethodArguments()?> ):<?=$field->getMethodReturnType()?></span>
+		<span class="input-group-append"><span class="input-group-text">( <?=$field->getMethodArguments()?> ):<?=$field->getMethodReturnType()?></span></span>
 	</div>
 </div>

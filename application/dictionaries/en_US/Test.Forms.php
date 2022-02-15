@@ -97,4 +97,7 @@ return [
 	'Title' => '',
 	'Some text' => '',
 	'Text' => '',
+	'File is too large' => '',
+	'File: ' => '',
+	'Image: ' => '',
 ];

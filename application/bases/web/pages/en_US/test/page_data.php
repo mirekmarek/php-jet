@@ -12,10 +12,22 @@ return [
 	'is_secret' => false,
 	'layout_script_name' => 'default',
 	'http_headers' => [
+		'df gdf gd',
+		'dfs gsdfg dfs gdf',
 	],
 	'parameters' => [
 	],
 	'meta_tags' => [
+		[
+			'attribute' => 'meta1',
+			'attribute_value' => 'meta1v',
+			'content' => 'meta1content',
+		],
+		[
+			'attribute' => 'meta2',
+			'attribute_value' => 'meta2v',
+			'content' => 'meta2content',
+		],
 	],
 	'contents' => [
 		[

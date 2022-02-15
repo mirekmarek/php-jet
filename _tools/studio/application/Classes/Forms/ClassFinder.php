@@ -69,13 +69,18 @@ class Forms_ClassFinder
 	 */
 	protected function readDir( string $dir ): void
 	{
+		
 		$dirs = IO_Dir::getList( $dir, '*', true, false );
 		$files = IO_Dir::getList( $dir, '*.php', false, true );
 
 		foreach( $files as $path => $name ) {
 			$file_data = IO_File::read( $path );
 
-			if( !str_contains( $file_data, 'DataModel' ) ) {
+			if(
+				!str_contains( $file_data, 'Form_Definition' ) &&
+				!str_contains( $file_data, 'DataModel' )
+			) {
+
 				continue;
 			}
 
@@ -83,19 +88,14 @@ class Forms_ClassFinder
 
 			foreach( $parser->classes as $class ) {
 				$full_name = $parser->namespace->namespace . '\\' . $class->name;
+
 				if( isset( $this->classes[$full_name] ) ) {
 					continue;
 				}
 
 				$reflection = new ReflectionClass( $full_name );
-
-				$parent_class = $reflection->getParentClass();
-
-				if( !$parent_class ) {
-					continue;
-				}
-
-				$interfaces = $reflection->getParentClass()->getInterfaceNames();
+				
+				$interfaces = $reflection->getInterfaceNames();
 
 				if( !array_intersect( $interfaces, $this->interfaces ) ) {
 					continue;
@@ -109,7 +109,6 @@ class Forms_ClassFinder
 				);
 
 				$this->classes[$cl->getFullClassName()] = $cl;
-				$this->parent_classes[] = $cl->getFullClassName();
 
 				$this->_new_founded = true;
 

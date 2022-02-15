@@ -229,70 +229,52 @@ class Bases_Base extends MVC_Base
 
 					$u++;
 				}
-
-				$m = 0;
+				
+				
+				$meta_tags = [];
 				foreach( $ld->getDefaultMetaTags() as $meta_tag ) {
-
-					$ld_meta_tag_attribute = new Form_Field_Input( '/' . $locale . '/meta_tag/' . $m . '/attribute', 'Attribute:' );
-					$ld_meta_tag_attribute->setDefaultValue( $meta_tag->getAttribute() );
-					$fields[] = $ld_meta_tag_attribute;
-
-
-					$ld_meta_tag_attribute_value = new Form_Field_Input( '/' . $locale . '/meta_tag/' . $m . '/attribute_value', 'Attribute value:' );
-					$ld_meta_tag_attribute_value->setDefaultValue( $meta_tag->getAttributeValue() );
-					$fields[] = $ld_meta_tag_attribute_value;
-
-
-					$ld_meta_tag_content = new Form_Field_Input( '/' . $locale . '/meta_tag/' . $m . '/content', 'Attribute value:' );
-					$ld_meta_tag_content->setDefaultValue( $meta_tag->getContent() );
-					$fields[] = $ld_meta_tag_content;
-
-					$m++;
+					$meta_tags[] = [
+						'attribute'=> $meta_tag->getAttribute(),
+						'attribute_value' => $meta_tag->getAttributeValue(),
+						'content' => $meta_tag->getContent()
+					];
 				}
-
-				for( $c = 0; $c < 5; $c++ ) {
-
-					$ld_meta_tag_attribute = new Form_Field_Input( '/' . $locale . '/meta_tag/' . $m . '/attribute', 'Attribute:' );
-					$fields[] = $ld_meta_tag_attribute;
-
-
-					$ld_meta_tag_attribute_value = new Form_Field_Input( '/' . $locale . '/meta_tag/' . $m . '/attribute_value', 'Attribute value:' );
-					$fields[] = $ld_meta_tag_attribute_value;
-
-
-					$ld_meta_tag_content = new Form_Field_Input( '/' . $locale . '/meta_tag/' . $m . '/content', 'Attribute value:' );
-					$fields[] = $ld_meta_tag_content;
-
-					$m++;
-				}
-
-
-				$i = 0;
-				foreach( $ld->getParameters() as $key => $val ) {
-
-					$param_key = new Form_Field_Input( '/'.$locale.'/params/' . $i . '/key', '' );
-					$param_key->setDefaultValue( $key );
-					$fields[] = $param_key;
-
-					$param_value = new Form_Field_Input( '/'.$locale.'/params/' . $i . '/value', '' );
-					$param_value->setDefaultValue( $val );
-					$fields[] = $param_value;
-
-					$i++;
-				}
-
-				for( $c = 0; $c < static::PARAMS_COUNT; $c++ ) {
-
-					$param_key = new Form_Field_Input( '/'.$locale.'/params/' . $i . '/key', '' );
-					$fields[] = $param_key;
-
-					$param_value = new Form_Field_Input( '/'.$locale.'/params/' . $i . '/value', '' );
-					$fields[] = $param_value;
-
-					$i++;
-				}
-
-
+				
+				$meta_tags_field = new Form_Field_MetaTags( '/' . $locale . '/meta_tags', '');
+				$meta_tags_field->setNewRowsCount( 5 );
+				$meta_tags_field->setDefaultValue( $meta_tags );
+				$meta_tags_field->setFieldValueCatcher(function($value) use ($ld) {
+					
+					$meta_tags = [];
+					foreach($value as $meta_tag) {
+						
+						$attribute = $meta_tag['attribute'];
+						$attribute_value = $meta_tag['attribute_value'];
+						$content = $meta_tag['content'];
+						
+						$meta_tag = Factory_MVC::getBaseLocalizedMetaTagInstance();
+						
+						$meta_tag->setAttribute( $attribute );
+						$meta_tag->setAttributeValue( $attribute_value );
+						$meta_tag->setContent( $content );
+						
+						$meta_tags[] = $meta_tag;
+					}
+					
+					$ld->setDefaultMetaTags( $meta_tags );
+				});
+				
+				$fields[] = $meta_tags_field;
+				
+				
+				$params_field = new Form_Field_AssocArray('/'.$locale.'/params', '');
+				$params_field->setAssocChar('=');
+				$params_field->setNewRowsCount(static::PARAMS_COUNT);
+				$params_field->setDefaultValue( $ld->getParameters() );
+				$params_field->setFieldValueCatcher(function($value) use ($ld) {
+					$ld->setParameters( $value );
+				});
+				$fields[] = $params_field;
 			}
 
 			$form = new Form(
@@ -396,49 +378,6 @@ class Bases_Base extends MVC_Base
 					}
 				}
 				$ld->setURLs( $URLs );
-
-
-				$meta_tags = [];
-				foreach( $ld_data['meta_tag'] as $mt_d ) {
-					$attribute = $mt_d['attribute'];
-					$attribute_value = $mt_d['attribute_value'];
-					$content = $mt_d['content'];
-
-					if(
-						!$attribute && !$attribute_value && !$content
-					) {
-						continue;
-					}
-
-					$meta_tag = Factory_MVC::getBaseLocalizedMetaTagInstance();
-
-					$meta_tag->setAttribute( $attribute );
-					$meta_tag->setAttributeValue( $attribute_value );
-					$meta_tag->setContent( $content );
-
-					$meta_tags[] = $meta_tag;
-				}
-
-
-				$ld->setDefaultMetaTags( $meta_tags );
-
-				$params = [];
-				foreach( $ld_data['params'] as $param ) {
-					$key = $param['key'];
-					$value = $param['value'];
-
-					if(
-						!$key && !$value
-					) {
-						continue;
-					}
-
-					$params[$key] = $value;
-				}
-
-
-				$ld->setParameters( $params );
-
 			}
 
 			return true;

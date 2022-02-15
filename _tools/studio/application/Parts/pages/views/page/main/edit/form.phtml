@@ -86,37 +86,7 @@ $form->renderer()->setDefaultFieldWidth( [
 		<label class="control-label"><?= Tr::_( 'Meta Tags:' ); ?></label>
 	</div>
 </div>
-
-<div class="row" style="margin-bottom: 40px;">
-	<div class="col-md-2"></div>
-	<div class="col-md-10">
-		<table>
-			<?php for( $m = 0; $m < Pages_Page::MAX_META_TAGS_COUNT; $m++ ):
-				if( !$form->fieldExists( '/meta_tag/' . $m . '/attribute' ) ) {
-					break;
-				}
-
-				?>
-				<tr>
-					<td style="padding: 6px 6px 6px 15px;">
-						<div class="input-group">
-							<span class="input-group-prepend"><span
-										class="input-group-text">&lt;meta&nbsp;</span></span>
-							<?= $form->field( '/meta_tag/' . $m . '/attribute' )->input() ?>
-							<span class="input-group-prepend"><span class="input-group-text">="</span></span>
-							<?= $form->field( '/meta_tag/' . $m . '/attribute_value' )->input() ?>
-							<span class="input-group-prepend"><span
-										class="input-group-text">&nbsp;&nbsp;content="</span></span>
-							<?= $form->field( '/meta_tag/' . $m . '/content' )->input() ?>
-							<span class="input-group-append"><span class="input-group-text">"/&gt;</span></span>
-						</div>
-					</td>
-				</tr>
-			<?php endfor; ?>
-		</table>
-
-	</div>
-</div>
+<?=$form->field('meta_tags')?>
 
 <div class="form-group row">
 	<div class="col-md-2">
@@ -126,37 +96,7 @@ $form->renderer()->setDefaultFieldWidth( [
 	</div>
 </div>
 
-<div class="row" style="margin-bottom: 40px;">
-	<div class="col-md-2"></div>
-	<div class="col-md-10">
-		<table>
-			<?php
-			$i = 0;
-			while( $form->fieldExists( '/params/' . $i . '/key' ) ):
-				$field_key = $form->getField( '/params/' . $i . '/key' );
-				$field_value = $form->getField( '/params/' . $i . '/value' );
-				?>
-			<tr>
-				<td style="padding: 6px 6px 6px 15px;">
-				<div class="input-group">
-					<span class="input-group-prepend" style="font-weight: bolder"><span
-								class="input-group-text"> </span></span>
-					<?= $field_key->input() ?>
-					<span class="input-group-prepend" style="font-weight: bolder"><span
-								class="input-group-text">=</span></span>
-					<?= $field_value->input() ?>
-					<span class="input-group-append" style="font-weight: bolder"><span class="input-group-text"> </span></span>
-				</div>
-				</td>
-			</tr>
-				<?php
-				$i++;
-			endwhile; ?>
-
-		</table>
-
-	</div>
-</div>
+<?=$form->field('params')?>
 
 
 <div class="form-group row">
@@ -167,40 +107,7 @@ $form->renderer()->setDefaultFieldWidth( [
 	</div>
 </div>
 
+<?=$form->field('http_headers')?>
 
-<div class="row" style="margin-bottom: 40px;">
-	<div class="col-md-2"></div>
-	<div class="col-md-10">
-		<table>
-			<?php for( $u = 0; $u < Pages_Page::MAX_HTTP_HEADERS_COUNT; $u++ ):
-				if( !$form->fieldExists( '/http_headers/' . $u ) ) {
-					break;
-				}
-
-				$field = $form->field( '/http_headers/' . $u );
-				$field->input()->addCustomCssStyle( 'width: 400px' );
-				?>
-				<tr>
-					<td></td>
-					<td style="padding-left: 15px;">
-						<?= $field->row()->start() ?>
-						<?= $field->error() ?>
-						<div class="input-group">
-									<span class="input-group-prepend">
-										<span class="input-group-text"></span>
-									</span>
-							<?= $field->input() ?>
-							<span class="input-group-append">
-										<span class="input-group-text"></span>
-									</span>
-						</div>
-						<?= $field->row()->end() ?>
-					</td>
-				</tr>
-			<?php endfor; ?>
-
-		</table>
-	</div>
-</div>
 
 <?= $form->end() ?>

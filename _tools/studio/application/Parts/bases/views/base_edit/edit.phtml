@@ -113,37 +113,7 @@ $sort_dialog = UI::dialog( 'locales_sort_dialog', Tr::_( 'Sort locales' ), 600 )
 				</div>
 			</div>
 
-			<div class="row">
-				<div class="col-md-1"></div>
-				<div class="col-md-8">
-					<table style="width: 100%">
-						<?php for( $m = 0; $m < 100; $m++ ):
-							if( !$form->fieldExists( '/' . $locale . '/meta_tag/' . $m . '/attribute' ) ) {
-								break;
-							}
-
-							?>
-							<tr>
-								<td style="padding: 6px 6px 6px 15px;">
-									<div class="input-group">
-										<span class="input-group-prepend"><span
-													class="input-group-text">&lt;meta&nbsp;</span></span>
-										<?= $form->field( '/' . $locale . '/meta_tag/' . $m . '/attribute' )->input() ?>
-										<span class="input-group-prepend"><span
-													class="input-group-text">="</span></span>
-										<?= $form->field( '/' . $locale . '/meta_tag/' . $m . '/attribute_value' )->input() ?>
-										<span class="input-group-prepend"><span class="input-group-text">&nbsp;&nbsp;content="</span></span>
-										<?= $form->field( '/' . $locale . '/meta_tag/' . $m . '/content' )->input() ?>
-										<span class="input-group-append"><span
-													class="input-group-text">"/&gt;</span></span>
-									</div>
-								</td>
-							</tr>
-						<?php endfor; ?>
-					</table>
-
-				</div>
-			</div>
+			<?=$form->field('/' . $locale . '/meta_tags')?>
 
 			<br>
 			<div class="form-group row">
@@ -153,38 +123,8 @@ $sort_dialog = UI::dialog( 'locales_sort_dialog', Tr::_( 'Sort locales' ), 600 )
 					<label class="control-label"><?= Tr::_( 'Parameters:' ); ?></label>
 				</div>
 			</div>
-			<div class="row" style="margin-bottom: 40px;">
-				<div class="col-md-1"></div>
-				<div class="col-md-8">
-					<table>
-						<?php
-						$i = 0;
-						while( $form->fieldExists( '/' . $locale . '/params/' . $i . '/key' ) ):
-							$field_key = $form->getField( '/' . $locale . '/params/' . $i . '/key' );
-							$field_value = $form->getField( '/' . $locale . '/params/' . $i . '/value' );
-							?>
-							<tr>
-								<td style="padding: 6px 6px 6px 15px;">
-									<div class="input-group">
-									<span class="input-group-prepend" style="font-weight: bolder"><span
-										class="input-group-text"> </span></span>
-												<?= $field_key->input() ?>
-										<span class="input-group-prepend" style="font-weight: bolder"><span
-													class="input-group-text">=</span></span>
-										<?= $field_value->input() ?>
-										<span class="input-group-append" style="font-weight: bolder"><span class="input-group-text"> </span></span>
-									</div>
-								</td>
-							</tr>
-							<?php
-							$i++;
-						endwhile; ?>
-
-					</table>
-
-				</div>
-			</div>
-
+			
+			<?=$form->field('/' . $locale . '/params')?>
 
 		</fieldset>
 

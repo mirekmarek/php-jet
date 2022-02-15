@@ -265,43 +265,18 @@ abstract class Form_Field extends BaseObject implements JsonSerializable
 	 */
 	public function setDefaultValue( mixed $default_value ): void
 	{
-
 		$this->default_value = $default_value;
-
-		if( $default_value instanceof DataModel_IDController ) {
-			$default_value = $default_value->toString();
-		}
-
+		
 		if(
-			is_array( $default_value ) ||
-			(
-				is_object( $default_value ) &&
-				$default_value instanceof Iterator
-			)
+			is_object( $default_value ) &&
+			$default_value instanceof Iterator
 		) {
 			$this->_value = [];
 			foreach( $default_value as $k => $v ) {
-				if(
-					is_object( $v ) &&
-					$v instanceof DataModel
-				) {
-					/**
-					 * @var DataModel $v
-					 */
-					$v = $v->getIDController()->toString();
-				}
-				if( is_array( $v ) ) {
-					$v = $k;
-				}
-
-				$this->_value[] = trim( Data_Text::htmlSpecialChars( (string)$v ) );
+				$this->_value[$k] = $v;
 			}
 		} else {
-			if( is_string( $default_value ) ) {
-				$this->_value = trim( Data_Text::htmlSpecialChars( $default_value ) );
-			} else {
-				$this->_value = $default_value;
-			}
+			$this->_value = $default_value;
 		}
 
 		$this->_value_raw = $default_value;

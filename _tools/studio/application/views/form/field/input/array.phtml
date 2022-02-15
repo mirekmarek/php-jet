@@ -1,0 +1,42 @@
+<?php
+
+use Jet\Data_Text;
+use Jet\MVC_View;
+use JetStudio\Form_Field_Array;
+use JetStudio\Form_Renderer_Field_Input_Array;
+
+/**
+ * @var MVC_View $this
+ * @var Form_Renderer_Field_Input_Array $r
+ * @var Form_Field_Array $field
+ */
+$r = $this->getRaw( 'renderer' );
+$field = $r->getField();
+$value = $field->getValue();
+
+if( !$r->getBaseCssClasses() ) {
+	$r->setBaseCssClass( 'form-control' );
+}
+
+if( $field->getLastErrorCode() ) {
+	$r->addCustomCssClass( 'is-invalid' );
+}
+
+?>
+
+<div>
+	<?php foreach($value as $val): ?>
+		<div class="input-group">
+			<span class="input-group-prepend"><span class="input-group-text"><?=$field->getPrependText()?></span></span>
+			<input <?=$r->renderTagAttributes()?> name="<?=$field->getTagNameValue()?>[]" value="<?= Data_Text::htmlSpecialChars($val)?>"/>
+			<span class="input-group-append"><span class="input-group-text"><?=$field->getAppendText()?></span></span>
+		</div>
+	<?php endforeach; ?>
+	<?php for($c=0;$c<$field->getNewRowsCount();$c++): ?>
+		<div class="input-group">
+			<span class="input-group-prepend"><span class="input-group-text"><?=$field->getPrependText()?></span></span>
+			<input <?=$r->renderTagAttributes()?> name="<?=$field->getTagNameValue()?>[]" value=""/>
+			<span class="input-group-append"><span class="input-group-text"><?=$field->getAppendText()?></span></span>
+		</div>
+	<?php endfor; ?>
+</div>

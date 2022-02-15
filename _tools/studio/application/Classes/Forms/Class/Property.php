@@ -11,6 +11,8 @@ namespace JetStudio;
 use Jet\Factory_Form;
 use Jet\Form;
 use Jet\Form_Definition_Field;
+use Jet\Form_Definition_SubForm;
+use Jet\Form_Definition_SubForms;
 use Jet\Form_Field;
 use Jet\Form_Field_Checkbox;
 use Jet\Form_Definition_FieldOption;
@@ -31,16 +33,16 @@ class Forms_Class_Property
 	
 	protected ?ReflectionProperty $reflection = null;
 	
-	protected ?Form_Definition_Field $field_definition = null;
+	protected null|Form_Definition_Field|Form_Definition_SubForm|Form_Definition_SubForms $field_definition = null;
 	
 	protected ?Form $select_type_form = null;
 	
 	/**
 	 * @param string $name
 	 * @param ReflectionProperty|null $reflection
-	 * @param Form_Definition_Field|null $field_definition
+	 * @param null|Form_Definition_Field|Form_Definition_SubForm|Form_Definition_SubForms $field_definition
 	 */
-	public function __construct( string $name, ?ReflectionProperty $reflection, ?Form_Definition_Field $field_definition )
+	public function __construct( string $name, ?ReflectionProperty $reflection,null|Form_Definition_Field|Form_Definition_SubForm|Form_Definition_SubForms $field_definition )
 	{
 		$this->name = $name;
 		$this->reflection = $reflection;
@@ -64,9 +66,9 @@ class Forms_Class_Property
 	}
 	
 	/**
-	 * @return Form_Definition_Field|null
+	 * @return null|Form_Definition_Field|Form_Definition_SubForm|Form_Definition_SubForms
 	 */
-	public function getFieldDefinition(): ?Form_Definition_Field
+	public function getFieldDefinition(): null|Form_Definition_Field|Form_Definition_SubForm|Form_Definition_SubForms
 	{
 		return $this->field_definition;
 	}
@@ -212,24 +214,44 @@ class Forms_Class_Property
 						$fields[] = $spec_field;
 						break;
 					case Form_Definition_FieldOption::TYPE_CALLABLE:
-						//TODO:
+
+						$spec_field = new Form_Field_Callable('/other/'.$field_option->getName(), $field_option->getLabel() );
+						$spec_field->setClassContext( Forms::getCurrentClassName() );
+						$spec_field->setErrorMessages([
+							Form_Field_Callable::ERROR_CODE_NOT_CALLABLE => 'Is not callable'
+						]);
+						
+						if($default_value!==null) {
+							$spec_field->setDefaultValue($default_value);
+						}
+						
+						$fields[] = $spec_field;
 						break;
 					case Form_Definition_FieldOption::TYPE_ARRAY:
-						//TODO:
+						$spec_field = new Form_Field_Array('/other/'.$field_option->getName(), $field_option->getLabel() );
+						
+						if($default_value!==null) {
+							$spec_field->setDefaultValue($default_value);
+						}
+						
+						$fields[] = $spec_field;
 						break;
 					case Form_Definition_FieldOption::TYPE_ASSOC_ARRAY:
-						//TODO:
+						$spec_field = new Form_Field_AssocArray('/other/'.$field_option->getName(), $field_option->getLabel() );
+						
+						if($default_value!==null) {
+							$spec_field->setDefaultValue($default_value);
+						}
+						
+						$fields[] = $spec_field;
 						break;
 						
 				}
 				
-				/*
-				*/
-				
 			}
 			
 			$_constants = (new ReflectionClass( Form_Field::class ))->getConstants();
-			$_field = Factory_Form::getFieldInstance( $type, '', '' );
+			$_field = Factory_Form::getFieldInstance( $type, '' );
 			
 			$constants = [];
 			foreach($_constants as $constant=>$value) {
@@ -282,14 +304,6 @@ class Forms_Class_Property
 		} else {
 			//TODO:
 		}
-		
-		/*
-		//TODO: custom properties
-		//TODO: $error_messages = [];
-		*/
-		
-		
-		
 		
 		
 		$form = new Form('definition_form', $fields);
