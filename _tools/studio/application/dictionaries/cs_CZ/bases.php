@@ -46,4 +46,6 @@ return [
 	'Parameters:' => 'Parametry:',
 	'Invalid URL format' => 'Neplatný formát URL',
 	'Please enter at least one URL' => 'Prosím zadejte alespoň jednu URL',
+	'Please enter initializer' => 'Prosím zadejte inicializátor',
+	'Initializer is not callable' => 'Inicializátor není volatelný',
 ];

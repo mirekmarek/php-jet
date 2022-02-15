@@ -440,11 +440,6 @@ abstract class Form_Renderer extends BaseObject
 		$attributes = $this->generateTagAttributes();
 		$res = '';
 		foreach($attributes as $attr=>$value) {
-			if(is_array($value)) {
-				var_dump($attr);
-				die();
-			}
-			
 			$res .= ' '.$attr.'="'.$value.'"';
 		}
 

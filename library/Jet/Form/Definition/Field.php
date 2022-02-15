@@ -125,6 +125,17 @@ class Form_Definition_Field extends BaseObject
 	}
 	
 	/**
+	 * @param string $option
+	 * @param mixed|string $default_value
+	 *
+	 * @return mixed
+	 */
+	public function getOtherOption( string $option, mixed $default_value='' ) : mixed
+	{
+		return $this->other_options[$option]??$default_value;
+	}
+	
+	/**
 	 * @return object
 	 */
 	public function getContextObject(): object
@@ -185,10 +196,15 @@ class Form_Definition_Field extends BaseObject
 	}
 	
 	/**
+	 * @param bool $get_defined
 	 * @return string
 	 */
-	public function getSetterName(): string
+	public function getSetterName( bool $get_defined=false ): string
 	{
+		if($get_defined) {
+			return $this->setter_name;
+		}
+		
 		if($this->setter_name) {
 			return $this->setter_name;
 		}

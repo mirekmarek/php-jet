@@ -16,9 +16,9 @@ $page = $this->getRaw( 'page' );
 $dialog = UI::dialog( 'delete_content', Tr::_( 'Delete this content' ), 600 );
 
 echo $dialog->start();
-?>
-<?= Tr::_( 'Do You really want to delete this content item ?' ); ?>
-	<?php
+
+echo Tr::_( 'Do You really want to delete this content item ?' );
+
 echo $dialog->footer();
 echo UI::button_delete()->setOnclick( 'Pages.editPage.content.deleteContentSend();' );
 echo $dialog->end();

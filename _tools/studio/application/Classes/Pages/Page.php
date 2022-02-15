@@ -829,45 +829,28 @@ class Pages_Page extends MVC_Page
 		if( !$this->__edit_form_callback ) {
 
 			$output = $this->getOutput();
-
-			$output_callback_class_field = new Form_Field_Input( 'output_callback_class', 'Output callback class:' );
-			$output_callback_class_field->setDefaultValue( is_array( $output ) && isset( $output[0] ) ? $output[0] : '' );
-			$output_callback_class_field->setIsRequired( true );
-			$output_callback_class_field->setErrorMessages( [
-				Form_Field::ERROR_CODE_EMPTY          => 'Please enter class name',
-				Form_Field::ERROR_CODE_INVALID_FORMAT => 'Please enter valid class name'
+			
+			
+			$output_callback = new Form_Field_Callable( 'output_callback', 'Output callback:' );
+			$output_callback->setMethodArguments( 'Jet\MVC_Page $page' );
+			$output_callback->setMethodReturnType( 'string' );
+			$output_callback->setDefaultValue( $output );
+			$output_callback->setErrorMessages( [
+				Form_Field::ERROR_CODE_EMPTY => 'Please enter callback',
+				Form_Field_Callable::ERROR_CODE_NOT_CALLABLE => 'Callback is not callable'
 			] );
-
-			$output_callback_method_field = new Form_Field_Input( 'output_callback_method', 'Output callback method:' );
-			$output_callback_method_field->setDefaultValue( is_array( $output ) && isset( $output[1] ) ? $output[1] : '' );
-			$output_callback_method_field->setIsRequired( true );
-			$output_callback_method_field->setErrorMessages( [
-				Form_Field::ERROR_CODE_EMPTY          => 'Please enter method name',
-				Form_Field::ERROR_CODE_INVALID_FORMAT => 'Please enter valid method name'
-			] );
-
-			$output_callback_method_field->setFieldValueCatcher( function( $value ) use ( $output_callback_class_field, $output_callback_method_field ) {
-
+			$output_callback->setIsRequired(true);
+			$output_callback->setFieldValueCatcher( function($value) {
 				$this->content = [];
-
-				$class = $output_callback_class_field->getValue();
-				$method = $output_callback_method_field->getValue();
-
-				if( $class && $method ) {
-					$this->setOutput( [
-						$class,
-						$method
-					] );
-				} else {
-					$this->setOutput( '' );
-				}
+				
+				$this->setOutput( $value );
 			} );
-
+			
+			
 			$form = new Form(
 				'page_edit_form_callback',
 				[
-					$output_callback_class_field,
-					$output_callback_method_field
+					$output_callback,
 				]
 			);
 
@@ -932,8 +915,7 @@ class Pages_Page extends MVC_Page
 			$output = Pages_Page_Content::getField__output( '' );
 
 
-			$output_callback_class = Pages_Page_Content::getField__output_callback_class( '' );
-			$output_callback_method = Pages_Page_Content::getField__output_callback_method( '' );
+			$output_callback = Pages_Page_Content::getField__output_callback( '' );
 
 			$fields = [
 				$content_kind,
@@ -951,8 +933,7 @@ class Pages_Page extends MVC_Page
 
 				$output,
 
-				$output_callback_class,
-				$output_callback_method
+				$output_callback,
 			];
 
 
@@ -1029,8 +1010,7 @@ class Pages_Page extends MVC_Page
 				$form->removeField( 'controller_name' );
 				$form->removeField( 'controller_action' );
 
-				$form->field( 'output_callback_class' )->setIsRequired( true );
-				$form->field( 'output_callback_method' )->setIsRequired( true );
+				$form->field( 'output_callback' )->setIsRequired( true );
 				break;
 
 		}
@@ -1082,12 +1062,7 @@ class Pages_Page extends MVC_Page
 				$content->setOutput( $form->field( 'output' )->getValue() );
 				break;
 			case Pages_Page_Content::CONTENT_KIND_CALLBACK:
-				$class = $form->field( 'output_callback_class' )->getValue();
-				$method = $form->field( 'output_callback_method' )->getValue();
-				$content->setOutput( [
-					$class,
-					$method
-				] );
+				$content->setOutput( $form->field( 'output_callback' )->getValue() );
 				break;
 
 		}

@@ -90,23 +90,17 @@ class Bases_Base extends MVC_Base
 			} );
 
 
-			$initializer_class = '';
-			$initializer_method = '';
-			$initializer = $this->getInitializer();
-
-			if(
-				is_array( $initializer ) &&
-				count( $initializer ) == 2
-			) {
-				$initializer_class = $initializer[0];
-				$initializer_method = $initializer[1];
-			}
-
-
-			$initializer_class_field = new Form_Field_Input( 'initializer_class', 'Initializer:',  );
-			$initializer_class_field->setDefaultValue( $initializer_class );
-			$initializer_class_method = new Form_Field_Input( 'initializer_method', '',  );
-			$initializer_class_method->setDefaultValue( $initializer_method );
+			$initializer_field = new Form_Field_Callable( 'initializer', 'Initializer:' );
+			$initializer_field->setMethodArguments( 'Jet\MVC_Router $router' );
+			$initializer_field->setDefaultValue($this->getInitializer());
+			$initializer_field->setErrorMessages([
+				Form_Field::ERROR_CODE_EMPTY => 'Please enter initializer',
+				Form_Field_Callable::ERROR_CODE_NOT_CALLABLE => 'Initializer is not callable'
+			]);
+			$initializer_field->setIsRequired(true);
+			$initializer_field->setFieldValueCatcher( function($value) {
+				$this->setInitializer( $value );
+			} );
 
 			$fields = [
 				$name_field,
@@ -114,8 +108,7 @@ class Bases_Base extends MVC_Base
 				$is_secret_field,
 				$is_active_field,
 				$SSL_required_field,
-				$initializer_class_field,
-				$initializer_class_method
+				$initializer_field
 			];
 
 			foreach( $this->getLocales() as $locale ) {
@@ -384,20 +377,6 @@ class Bases_Base extends MVC_Base
 
 
 			$form->catchFieldValues();
-
-			$initializer_class = $form->getField( 'initializer_class' )->getValue();
-			$initializer_method = $form->getField( 'initializer_method' )->getValue();
-
-			if(
-				$initializer_class &&
-				$initializer_method
-			) {
-				$this->setInitializer( [
-					$initializer_class,
-					$initializer_method
-				] );
-			}
-
 
 			$data = $form->getValues();
 

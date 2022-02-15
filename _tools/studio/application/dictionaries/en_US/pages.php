@@ -80,4 +80,10 @@ return [
 	'Invalid action name format' => '',
 	'Invalid method name format' => '',
 	'URL conflicts with page <b>%page%</b>' => '',
+	'Please enter valid class name' => '',
+	'Please enter valid method name' => '',
+	'Please enter callback' => '',
+	'Callback is not callable' => '',
+	'Output callback:' => '',
+	'There are some problems ... Please check the form.' => '',
 ];

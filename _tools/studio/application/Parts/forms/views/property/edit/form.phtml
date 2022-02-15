@@ -1,0 +1,33 @@
+<?php
+
+namespace JetStudio;
+
+use Jet\MVC_View;
+use Jet\Form_Renderer;
+
+/**
+ * @var MVC_View $this
+ */
+
+$current = Forms::getCurrentProperty();
+
+$type_form = $current->getSelectTypeForm();
+
+$type_form->renderer()
+	->setDefaultLabelWidth( [Form_Renderer::LJ_SIZE_MEDIUM => 2] )
+	->setDefaultFieldWidth( [Form_Renderer::LJ_SIZE_MEDIUM => 9] );
+
+
+?>
+<?=$type_form->start()?>
+<?=$type_form->field('type')?>
+<?=$type_form->end()?>
+
+<div id="field_definition_form">
+	<?php if($current->getFieldDefinition()):
+	
+		$this->setVar('definition_form', $current->getDefinitionForm() );
+		
+		require __DIR__.'/form/field_definition.phtml';
+	endif ?>
+</div>

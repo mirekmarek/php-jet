@@ -453,4 +453,12 @@ class Factory_Form
 		static::$field_class_names[$field_type] = $field_class_name;
 		static::$field_renderer_class_names[$field_type] = $renderers;
 	}
+	
+	/**
+	 * @return array
+	 */
+	public static function getRegisteredFieldTypes() : array
+	{
+		return array_keys( static::$field_class_names );
+	}
 }

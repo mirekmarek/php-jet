@@ -46,4 +46,6 @@ return [
 	'Base with the identifier already exists' => '',
 	'URL conflicts with base <b>%base_name%</b> <b>%locale%</b>' => '',
 	'URL conflicts with locale <b>%locale%</b>' => '',
+	'Please enter initializer' => '',
+	'Initializer is not callable' => '',
 ];

@@ -88,4 +88,7 @@ return [
 	'Invalid method name format' => 'Neplatný formát názvu metody',
 	'Please enter valid class name' => 'Prosím zadejte platný název třídy',
 	'Please enter valid method name' => 'Prosím zadejte platný název metody',
+	'Please enter callback' => 'Prosím zadejte callback',
+	'Callback is not callable' => 'Callback není volatelý',
+	'Output callback:' => 'Callback výstupu:',
 ];

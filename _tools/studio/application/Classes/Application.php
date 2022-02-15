@@ -124,6 +124,11 @@ class Application extends Jet_Application
 				'icon'  => 'database',
 				'class' => 'DataModels',
 			],
+			'forms'    => [
+				'label' => Tr::_( 'Forms', [], Translator::COMMON_DICTIONARY ),
+				'icon'  => 'pencil-ruler',
+				'class' => 'Forms',
+			],
 			'menus'         => [
 				'label' => Tr::_( 'Menus', [], Translator::COMMON_DICTIONARY ),
 				'icon'  => 'sitemap',

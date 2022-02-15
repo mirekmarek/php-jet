@@ -1,0 +1,26 @@
+<?php
+namespace JetStudio;
+
+$list = Forms::getClasses();
+
+?>
+<table class="table table-striped">
+	<?php foreach( $list as $item ): ?>
+		<tr>
+			<?php if( $item->getFullClassName() == Forms::getCurrentClassName() ): ?>
+				<td>
+					<?php require 'list/item.phtml'; ?>
+				</td>
+			<?php endif; ?>
+		</tr>
+	<?php endforeach; ?>
+	
+	<?php foreach( $list as $item ): ?>
+		<tr>
+			<?php if( $item->getFullClassName() != Forms::getCurrentClassName() ): ?>
+				<td><a href="?class=<?= $item->getFullClassName() ?>"><?= $item->getFullClassName() ?></a></td>
+			<?php endif; ?>
+		</tr>
+	<?php endforeach; ?>
+
+</table>

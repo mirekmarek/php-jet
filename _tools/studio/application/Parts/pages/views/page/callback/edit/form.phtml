@@ -14,26 +14,16 @@ $page = $this->getRaw( 'page' );
 $form = $page->getEditForm_callback();
 
 $form->renderer()->setDefaultLabelWidth( [
-	Form_Renderer::LJ_SIZE_MEDIUM => 2
+	Form_Renderer::LJ_SIZE_MEDIUM => 1
 ] );
 $form->renderer()->setDefaultFieldWidth( [
-	Form_Renderer::LJ_SIZE_MEDIUM => 6
+	Form_Renderer::LJ_SIZE_MEDIUM => 8
 ] );
 
 
-$class_field = $form->field( 'output_callback_class' );
-$method_field = $form->field( 'output_callback_method' );
 ?>
 <?= $form->start() ?>
 
-<?= $class_field->row()->start() ?>
-<div class="input-group" style="padding-left: 15px;margin-right: 15px;">
-	<span class="input-group-prepend"><span class="input-group-text"></span></span>
-	<?= $class_field->input() ?>
-	<span class="input-group-prepend"><span class="input-group-text">::</span></span>
-	<?= $method_field->input() ?>
-	<span class="input-group-append"><span class="input-group-text">( Jet\MVC_Page $page )</span></span>
-</div>
-<?= $class_field->row()->end() ?>
+<?=$form->field('output_callback');?>
 
 <?= $form->end() ?>

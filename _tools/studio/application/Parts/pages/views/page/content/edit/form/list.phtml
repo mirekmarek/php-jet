@@ -18,7 +18,7 @@ $page = $this->getRaw( 'page' );
 
 $form = $page->getEditForm_content();
 $form->renderer()->setDefaultLabelWidth( [
-	Form_Renderer::LJ_SIZE_MEDIUM => 3
+	Form_Renderer::LJ_SIZE_MEDIUM => 2
 ] );
 $form->renderer()->setDefaultFieldWidth( [
 	Form_Renderer::LJ_SIZE_MEDIUM => 7
@@ -209,7 +209,7 @@ if( !$delete_content_action_creator ) {
 					?>
 					<hr/>
 					<div class="form-group row">
-						<label class="col-md-3 control-label"><?= Tr::_( 'Parameters:' ) ?></label>
+						<label class="col-md-2 control-label"><?= Tr::_( 'Parameters:' ) ?></label>
 						<div class="col-md-7">
 							<?php
 							$i = 0;
@@ -266,24 +266,7 @@ if( !$delete_content_action_creator ) {
 
 							break;
 						case Pages_Page_Content::CONTENT_KIND_CALLBACK:
-							$class_field = $form->field( $f_prefix . 'output_callback_class' );
-							$method_field = $form->field( $f_prefix . 'output_callback_method' );
-							?>
-							<div style="width: 1000px;margin: 10px;">
-								<?= $class_field->row()->start() ?>
-								<?= $class_field->error() ?>
-								<?= $method_field->error() ?>
-								<div class="input-group">
-									<span class="input-group-prepend">
-									</span>
-									<?= $class_field->input() ?>
-									<span class="input-group-prepend"><span class="input-group-text">::</span></span>
-									<?= $method_field->input() ?>
-									<span class="input-group-append"><span class="input-group-text">( Jet\MVC_Page $page, Jet\MVC_Page_Content $content )</span></span>
-								</div>
-								<?= $class_field->row()->end() ?>
-							</div>
-							<?php
+							echo $form->field( $f_prefix . 'output_callback' );
 							break;
 
 					} ?>
