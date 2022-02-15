@@ -9,6 +9,7 @@
 namespace JetApplication\Installer;
 
 use Exception;
+use Jet\Db_Backend_PDO_Config;
 use Jet\Form;
 use Jet\Form_Field;
 use Jet\Form_Field_Select;
@@ -72,18 +73,15 @@ class Installer_Step_SelectDbType_Controller extends Installer_Step_Controller
 			$driver = static::getSelectedBackendType()['driver'];
 
 			$data_model_config = new DataModel_Config();
+			$data_model_config->setBackendType( static::getSelectedBackendType()['type'] );
+			
 			$db_config = new Db_Config();
+			$db_connection_config = new Db_Backend_PDO_Config();
+			$db_connection_config->setDriver( $driver );
+			$db_connection_config->setName('default');
+			$db_connection_config->initDefault();
+			$db_config->addConnection($db_connection_config->getName(), $db_connection_config);
 
-			require Installer::getBasePath() . 'Classes/DbDriverConfig.php';
-			require Installer::getBasePath() . 'Classes/DbDriverConfig/' . $driver . '.php';
-
-			$class_name = __NAMESPACE__ . '\\Installer_DbDriverConfig_' . $driver;
-
-			/**
-			 * @var Installer_DbDriverConfig $driver_config
-			 */
-			$driver_config = new $class_name();
-			$driver_config->initialize( $db_config, $data_model_config );
 
 			try {
 				$db_config->saveConfigFile();

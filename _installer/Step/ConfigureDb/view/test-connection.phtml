@@ -19,10 +19,9 @@ $config = $this->getRaw( 'config' );
 
 <h3><?= Tr::_( 'Connection \'%CONNECTION%\' Test', ['CONNECTION' => $this->getString( 'connection_name' )] ); ?></h3>
 
-<?= $config->getDsn() ?>: <?= $config->getName() ?>
 
 <?php if( $this->getBool( 'OK' ) ): ?>
-	<?= UI_messages::createSuccess( Tr::_( 'OK! Database connection works correctly.' ) ) ?>
+	<?= UI_messages::createInfo( Tr::_( 'OK! Database connection works correctly.' ) ) ?>
 <?php else: ?>
 	<?= UI_messages::createDanger( Tr::_( 'Error connecting to database:' ) . $this->getString( 'error_message' ) ) ?>
 <?php endif; ?>

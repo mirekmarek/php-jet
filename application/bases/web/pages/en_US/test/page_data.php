@@ -12,8 +12,6 @@ return [
 	'is_secret' => false,
 	'layout_script_name' => 'default',
 	'http_headers' => [
-		'df gdf gd',
-		'dfs gsdfg dfs gdf',
 	],
 	'parameters' => [
 	],

@@ -293,16 +293,7 @@ class Pages_Page_Content extends MVC_Page_Content
 
 		return $output_callback;
 	}
-
-	/**
-	 * @param string $default_value
-	 *
-	 * @return Form_Field_Input
-	 */
-	public static function getField__output_callback_method( string $default_value ): Form_Field_Input
-	{
-	}
-
+	
 
 	/**
 	 * @param Pages_Page $page

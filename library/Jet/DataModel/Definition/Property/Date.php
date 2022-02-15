@@ -35,9 +35,11 @@ class DataModel_Definition_Property_Date extends DataModel_Definition_Property
 		if( !is_object( $value ) ) {
 			$value = new Data_DateTime( $value );
 			$value->setTime( 0, 0 );
+			$value->setOnlyDate(true);
 		} else {
 			if( !$value instanceof Data_DateTime ) {
 				$value = new Data_DateTime();
+				$value->setOnlyDate(true);
 			}
 		}
 	}

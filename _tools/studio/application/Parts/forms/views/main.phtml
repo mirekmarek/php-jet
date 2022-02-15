@@ -6,6 +6,7 @@ namespace JetStudio;
 $what_to_edit = '';
 
 $class = Forms::getCurrentClass();
+$what_to_edit = Forms::getCurrentWhatToEdit();
 
 
 ?>
@@ -29,11 +30,7 @@ $class = Forms::getCurrentClass();
 			<?= Application::getView()->render( 'list' ); ?>
 		</div>
 		<div class="col-md-8" style="padding: 10px">
-			<?php
-			echo Application::getGeneralView()->render( 'messages' );
-			
-			$what_to_edit = Forms::getCurrentWhatToEdit();
-			?>
+			<?=Application::getGeneralView()->render( 'messages' );?>
 			<div class="container-fluid">
 				<?php require $what_to_edit . '/edit/form.phtml'; ?>
 			</div>

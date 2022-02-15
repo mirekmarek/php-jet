@@ -15,78 +15,9 @@ use PDO;
  */
 class Db_Backend_PDO_Config extends Db_Backend_Config
 {
-	/**
-	 *
-	 * @var string
-	 */
-	#[Config_Definition(
-		type: Config::TYPE_STRING,
-		is_required: true,
-	)]
-	#[Form_Definition(
-		type: Form_Field::TYPE_SELECT,
-		label: 'Driver',
-		help_text: 'PDO driver',
-		is_required: true,
-		select_options_creator: [
-			self::class,
-			'getDrivers'
-		],
-		error_messages: [
-			Form_Field::ERROR_CODE_EMPTY => 'Please select driver',
-			Form_Field::ERROR_CODE_INVALID_VALUE => 'Please select driver'
-		]
-	)]
-	protected string $driver = 'mysql';
-
-
-	/**
-	 *
-	 * @var string
-	 */
-	#[Config_Definition(
-		type: Config::TYPE_STRING,
-		is_required: true,
-	)]
-	#[Form_Definition(
-		type: Form_Field::TYPE_INPUT,
-		label: 'DSN',
-		is_required: true,
-		error_messages: [
-			Form_Field::ERROR_CODE_EMPTY => 'Please enter connection DSN'
-		]
-	)]
-	protected string $DSN = '';
-
-	/**
-	 *
-	 * @var string
-	 */
-	#[Config_Definition(
-		type: Config::TYPE_STRING,
-		is_required: false
-	)]
-	#[Form_Definition(
-		type: Form_Field::TYPE_INPUT,
-		label: 'Username',
-		is_required: false
-	)]
-	protected string $username = '';
-
-	/**
-	 *
-	 * @var string
-	 */
-	#[Config_Definition(
-		type: Config::TYPE_STRING,
-		is_required: false
-	)]
-	#[Form_Definition(
-		type: Form_Field::TYPE_PASSWORD,
-		label: 'Password',
-		is_required: false
-	)]
-	protected string $password = '';
+	
+	protected ?string $dsn = null;
+	
 
 	/**
 	 * @return array
@@ -99,53 +30,76 @@ class Db_Backend_PDO_Config extends Db_Backend_Config
 	}
 
 	/**
-	 *
-	 * @return string
-	 */
-	public function getUsername(): string
-	{
-		return $this->username;
-	}
-
-	/**
-	 * @param string $username
-	 */
-	public function setUsername( string $username ): void
-	{
-		$this->username = $username;
-	}
-
-	/**
-	 *
-	 * @return string
-	 */
-	public function getPassword(): string
-	{
-		return $this->password;
-	}
-
-	/**
-	 * @param string $password
-	 */
-	public function setPassword( string $password ): void
-	{
-		$this->password = $password;
-	}
-
-	/**
 	 * @return string
 	 */
 	public function getDsn(): string
 	{
-		return $this->driver . ':' . $this->DSN;
+		if(!$this->dsn) {
+			$method = $this->driver.'_getDnsEntries';
+			
+			$entries =  $this->{$method}();
+			$dsn = [];
+			
+			foreach($entries as $key ) {
+				$val = $this->{$key};
+				if($val) {
+					$dsn[] = $key.'='.$val;
+				}
+			}
+
+			$this->dsn = $this->driver.':'.implode(';', $dsn);
+		}
+		
+		return $this->dsn;
+	}
+	
+	/**
+	 *
+	 */
+	public function initDefault() : void
+	{
+		$entries = $this->getEntriesSchema();
+
+		foreach($entries as $key=>$val) {
+			$this->{$key} = $val;
+		}
+	}
+	
+	/**
+	 * @return array
+	 */
+	public function getEntriesSchema() : array
+	{
+		$method = $this->driver.'_getEntriesSchema';
+		
+		return $this->{$method}();
+	}
+	
+	protected function mysql_getDnsEntries() : array
+	{
+		if($this->unix_socket) {
+			return ['unix_socket', 'dbname', 'charset'];
+		}
+		
+		return ['host', 'port', 'dbname', 'charset'];
+	}
+	
+	protected function mysql_getEntriesSchema() : array
+	{
+		return ['host' => 'localhost', 'port'=>3306, 'dbname'=>'', 'username'=>'', 'password'=>'', 'charset'=>'utf8', 'unix_socket'=>''];
+	}
+	
+	protected function sqlite_getDnsEntries() : array
+	{
+		return ['path'];
+	}
+	
+	protected function sqlite_getEntriesSchema() : array
+	{
+		return ['path'=>SysConf_Path::getData() . 'database.sq3'];
 	}
 
-	/**
-	 * @param string $DSN
-	 */
-	public function setDSN( string $DSN ): void
-	{
-		$this->DSN = $DSN;
-	}
+	
+	//TODO: other ...
 
 }

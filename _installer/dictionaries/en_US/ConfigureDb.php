@@ -22,4 +22,8 @@ return [
 	'Username' => '',
 	'Password' => '',
 	'Data path:' => '',
+	'Host' => '',
+	'DB name:' => '',
+	'UNIX socket:' => '',
+	'Charset:' => '',
 ];

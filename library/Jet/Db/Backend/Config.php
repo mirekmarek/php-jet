@@ -37,8 +37,7 @@ abstract class Db_Backend_Config extends Config_Section
 		]
 	)]
 	protected string $driver = 'mysql';
-
-
+	
 	/**
 	 *
 	 * @var string
@@ -56,7 +55,137 @@ abstract class Db_Backend_Config extends Config_Section
 		]
 	)]
 	protected string $name = 'default';
-
+	
+	/**
+	 *
+	 * @var string
+	 */
+	#[Config_Definition(
+		type: Config::TYPE_STRING,
+		is_required: false
+	)]
+	#[Form_Definition(
+		type: Form_Field::TYPE_INPUT,
+		label: 'Username:',
+		is_required: false
+	)]
+	protected string $username = '';
+	
+	/**
+	 *
+	 * @var string
+	 */
+	#[Config_Definition(
+		type: Config::TYPE_STRING,
+		is_required: false
+	)]
+	#[Form_Definition(
+		type: Form_Field::TYPE_PASSWORD,
+		label: 'Password:',
+		is_required: false
+	)]
+	protected string $password = '';
+	
+	/**
+	 *
+	 * @var string
+	 */
+	#[Config_Definition(
+		type: Config::TYPE_STRING,
+		is_required: false
+	)]
+	#[Form_Definition(
+		type: Form_Field::TYPE_INPUT,
+		label: 'Database:',
+		is_required: false
+	)]
+	protected string $dbname = '';
+	
+	/**
+	 *
+	 * @var string
+	 */
+	#[Config_Definition(
+		type: Config::TYPE_STRING,
+		is_required: false
+	)]
+	#[Form_Definition(
+		type: Form_Field::TYPE_INPUT,
+		label: 'Host:',
+		is_required: false
+	)]
+	protected string $host = '';
+	
+	/**
+	 *
+	 * @var int
+	 */
+	#[Config_Definition(
+		type: Config::TYPE_INT,
+		is_required: false
+	)]
+	#[Form_Definition(
+		type: Form_Field::TYPE_INT,
+		label: 'Port:',
+		is_required: false
+	)]
+	protected int $port = 0;
+	
+	
+	/**
+	 *
+	 * @var string
+	 */
+	#[Config_Definition(
+		type: Config::TYPE_STRING,
+		is_required: false
+	)]
+	#[Form_Definition(
+		type: Form_Field::TYPE_INPUT,
+		label: 'Unix socket path:',
+		is_required: false
+	)]
+	protected string $unix_socket = '';
+	
+	
+	/**
+	 *
+	 * @var string
+	 */
+	#[Config_Definition(
+		type: Config::TYPE_STRING,
+		is_required: false
+	)]
+	#[Form_Definition(
+		type: Form_Field::TYPE_INPUT,
+		label: 'Charset:',
+		is_required: false
+	)]
+	protected string $charset = '';
+	
+	/**
+	 *
+	 * @var string
+	 */
+	#[Config_Definition(
+		type: Config::TYPE_STRING,
+		is_required: false
+	)]
+	#[Form_Definition(
+		type: Form_Field::TYPE_INPUT,
+		label: 'Path:',
+		is_required: false
+	)]
+	protected string $path = '';
+	
+	
+	/**
+	 * @return array
+	 */
+	public static function getDrivers(): array
+	{
+		return [];
+	}
 
 	/**
 	 * @return string
@@ -73,15 +202,8 @@ abstract class Db_Backend_Config extends Config_Section
 	{
 		$this->name = $name;
 	}
-
-	/**
-	 * @return array
-	 */
-	public static function getDrivers(): array
-	{
-		return [];
-	}
-
+	
+	
 	/**
 	 * @param string $driver
 	 */
@@ -98,6 +220,136 @@ abstract class Db_Backend_Config extends Config_Section
 	{
 		return $this->driver;
 	}
-
-
+	
+	
+	/**
+	 *
+	 * @return string
+	 */
+	public function getUsername(): string
+	{
+		return $this->username;
+	}
+	
+	/**
+	 * @param string $username
+	 */
+	public function setUsername( string $username ): void
+	{
+		$this->username = $username;
+	}
+	
+	/**
+	 *
+	 * @return string
+	 */
+	public function getPassword(): string
+	{
+		return $this->password;
+	}
+	
+	/**
+	 * @param string $password
+	 */
+	public function setPassword( string $password ): void
+	{
+		$this->password = $password;
+	}
+	
+	/**
+	 * @return string
+	 */
+	public function getDbname(): string
+	{
+		return $this->dbname;
+	}
+	
+	/**
+	 * @param string $dbname
+	 */
+	public function setDbname( string $dbname ): void
+	{
+		$this->dbname = $dbname;
+	}
+	
+	/**
+	 * @return string
+	 */
+	public function getHost(): string
+	{
+		return $this->host;
+	}
+	
+	/**
+	 * @param string $host
+	 */
+	public function setHost( string $host ): void
+	{
+		$this->host = $host;
+	}
+	
+	/**
+	 * @return int
+	 */
+	public function getPort(): int
+	{
+		return $this->port;
+	}
+	
+	/**
+	 * @param int $port
+	 */
+	public function setPort( int $port ): void
+	{
+		$this->port = $port;
+	}
+	
+	/**
+	 * @return string
+	 */
+	public function getCharset(): string
+	{
+		return $this->charset;
+	}
+	
+	/**
+	 * @param string $charset
+	 */
+	public function setCharset( string $charset ): void
+	{
+		$this->charset = $charset;
+	}
+	
+	/**
+	 * @return string
+	 */
+	public function getPath(): string
+	{
+		return $this->path;
+	}
+	
+	/**
+	 * @param string $path
+	 */
+	public function setPath( string $path ): void
+	{
+		$this->path = $path;
+	}
+	
+	/**
+	 * @return string
+	 */
+	public function getUnixSocket(): string
+	{
+		return $this->unix_socket;
+	}
+	
+	/**
+	 * @param string $unix_socket
+	 */
+	public function setUnixSocket( string $unix_socket ): void
+	{
+		$this->unix_socket = $unix_socket;
+	}
+	
 }

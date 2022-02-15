@@ -76,21 +76,16 @@ class Installer_Step_ConfigureDb_Controller extends Installer_Step_Controller
 	 */
 	protected function configure( Db_Backend_PDO_Config $connection_config )
 	{
-		$driver = $connection_config->getDriver();
-
-		require Installer::getBasePath() . 'Classes/DbDriverConfig.php';
-		require Installer::getBasePath() . 'Classes/DbDriverConfig/' . $driver . '.php';
-
-		$class_name = __NAMESPACE__ . '\\Installer_DbDriverConfig_' . $driver;
-
-		/**
-		 * @var Installer_DbDriverConfig $driver_config
-		 */
-		$driver_config = new $class_name( $connection_config );
-
-		$form = $driver_config->getForm();
-
-		if( $driver_config->catchForm() ) {
+		$form = $connection_config->createForm('connection_config');
+		$entries = $connection_config->getEntriesSchema();
+		
+		foreach($form->getFields() as $field) {
+			if(!isset($entries[$field->getName()])) {
+				$form->removeField( $field->getName() );
+			}
+		}
+		
+		if( $form->catch() ) {
 
 			$ok = true;
 
