@@ -2,7 +2,7 @@
 namespace JetStudio;
 use Jet\Http_Request;
 
-if( Forms::getCurrentClass() ): ?>
+if( !Forms::getCurrentProperty() ): ?>
 	<b class="badge badge-info" style="font-size: 20px;"><?= Forms::getCurrentClass()->getFullClassName() ?></b>
 <?php else: ?>
 	<a href="<?= Http_Request::currentURI( [], [
