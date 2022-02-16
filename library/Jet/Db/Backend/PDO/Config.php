@@ -19,7 +19,11 @@ class Db_Backend_PDO_Config extends Db_Backend_Config
 	use Db_Backend_PDO_Config_mysql;
 	use Db_Backend_PDO_Config_sqlite;
 	
-	protected ?string $dsn = null;
+	#[Config_Definition(
+		type: Config::TYPE_STRING,
+		is_required: false,
+	)]
+	protected string $dsn = '';
 	
 	/**
 	 * @return array
@@ -29,6 +33,14 @@ class Db_Backend_PDO_Config extends Db_Backend_Config
 		$drivers = PDO::getAvailableDrivers();
 
 		return array_combine( $drivers, $drivers );
+	}
+	
+	/**
+	 * @param string $dsn
+	 */
+	public function setDsn( string $dsn ) : void
+	{
+		$this->dsn = $dsn;
 	}
 
 	/**

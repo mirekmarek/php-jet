@@ -300,5 +300,25 @@ abstract class Db_Backend_Config extends Config_Section
 		return $this->{$method}();
 	}
 	
+	/**
+	 * @param string $form_name
+	 *
+	 * @return Form
+	 * @throws Form_Definition_Exception
+	 */
+	public function createForm( string $form_name ): Form
+	{
+		$form = parent::createForm($form_name);
+		
+		$entries = $this->getEntriesSchema();
+		
+		foreach($form->getFields() as $field) {
+			if(!isset($entries[$field->getName()])) {
+				$form->removeField( $field->getName() );
+			}
+		}
+		
+		return $form;
+	}
 	
 }

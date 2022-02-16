@@ -77,13 +77,6 @@ class Installer_Step_ConfigureDb_Controller extends Installer_Step_Controller
 	protected function configure( Db_Backend_PDO_Config $connection_config )
 	{
 		$form = $connection_config->createForm('connection_config');
-		$entries = $connection_config->getEntriesSchema();
-		
-		foreach($form->getFields() as $field) {
-			if(!isset($entries[$field->getName()])) {
-				$form->removeField( $field->getName() );
-			}
-		}
 		
 		if( $form->catch() ) {
 

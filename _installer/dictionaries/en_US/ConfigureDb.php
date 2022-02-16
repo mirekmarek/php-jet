@@ -26,4 +26,5 @@ return [
 	'DB name:' => '',
 	'UNIX socket:' => '',
 	'Charset:' => '',
+	'Path:' => '',
 ];
