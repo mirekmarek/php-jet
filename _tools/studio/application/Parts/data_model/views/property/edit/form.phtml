@@ -2,7 +2,7 @@
 
 namespace JetStudio;
 
-use Jet\Form_Renderer;
+use Jet\Form_Renderer;use Jet\Tr;use Jet\UI;
 
 $current = DataModels::getCurrentProperty();
 
@@ -23,7 +23,6 @@ $default_fields = [
 	'is_do_not_export',
 ];
 
-
 foreach( $default_fields as $fn ) {
 	if( !$form->fieldExists( $fn ) ) {
 		continue;
@@ -34,6 +33,15 @@ foreach( $default_fields as $fn ) {
 
 
 $current->showEditFormFields();
+
+?>
+	<div class="row">
+		<div class="col-md-2"></div>
+		<div class="col-md-9">
+			<?=UI::button(Tr::_('Form field definition'))->setUrl(Forms::getDefinitionUrl( DataModels::getCurrentClassName(), $current->getName() ))->setClass('info')?><br><br>
+		</div>
+	</div>
+	<?php
 
 
 echo $form->end();

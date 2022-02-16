@@ -152,6 +152,23 @@ class Forms {
 		return SysConf_URI::getBase() . 'forms.php?' . http_build_query( $get_params );
 	}
 	
+	/**
+	 * @param string $class
+	 * @param string $property
+	 * @return string
+	 */
+	public static function getDefinitionUrl( string $class, string $property ): string
+	{
+		
+		$get_params = [];
+		
+		$get_params['class'] = $class;
+		$get_params['property'] = $property;
+		
+		
+		return SysConf_URI::getBase() . 'forms.php?' . http_build_query( $get_params );
+	}
+	
 	
 	/**
 	 * @param string $name
