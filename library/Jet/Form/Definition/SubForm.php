@@ -137,7 +137,7 @@ class Form_Definition_SubForm extends BaseObject
 		
 		$creator = $this->getCreator();
 		if($creator) {
-			$creator( $sub_fields );
+			$sub_fields = $creator( $sub_fields );
 		}
 		
 		foreach($sub_fields as $field) {

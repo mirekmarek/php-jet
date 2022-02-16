@@ -100,4 +100,6 @@ return [
 	'File is too large' => '',
 	'File: ' => '',
 	'Image: ' => '',
+	'Select:' => '',
+	'Sub entity' => '',
 ];

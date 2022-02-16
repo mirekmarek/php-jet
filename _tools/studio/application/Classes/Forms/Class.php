@@ -260,7 +260,7 @@ class Forms_Class
 				continue;
 			}
 			
-			$p = new Forms_Class_Property( $property->getName(), $property, $form_definition[$property->getName()]??null );
+			$p = new Forms_Class_Property( $this, $property->getName(), $property, $form_definition[$property->getName()]??null );
 			
 			$properties[$p->getName()] = $p;
 		}

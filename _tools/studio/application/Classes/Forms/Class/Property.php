@@ -8,6 +8,8 @@
 
 namespace JetStudio;
 
+use Jet\Cache;
+use Jet\Exception;
 use Jet\Factory_Form;
 use Jet\Form;
 use Jet\Form_Definition_Field;
@@ -21,6 +23,7 @@ use Jet\Form_Field_Hidden;
 use Jet\Form_Field_Input;
 use Jet\Form_Field_Int;
 use Jet\Form_Field_Select;
+use Jet\IO_File;
 use Jet\Tr;
 
 use ReflectionClass;
@@ -29,7 +32,9 @@ use ReflectionProperty;
 
 class Forms_Class_Property
 {
-	protected string $name = '';
+	protected Forms_Class $class;
+	
+	protected string $name;
 	
 	protected ?ReflectionProperty $reflection = null;
 	
@@ -37,13 +42,17 @@ class Forms_Class_Property
 	
 	protected ?Form $select_type_form = null;
 	
+	protected ?Form $definition_form = null;
+	
 	/**
+	 * @param Forms_Class $class
 	 * @param string $name
 	 * @param ReflectionProperty|null $reflection
 	 * @param null|Form_Definition_Field|Form_Definition_SubForm|Form_Definition_SubForms $field_definition
 	 */
-	public function __construct( string $name, ?ReflectionProperty $reflection,null|Form_Definition_Field|Form_Definition_SubForm|Form_Definition_SubForms $field_definition )
+	public function __construct( Forms_Class $class, string $name, ?ReflectionProperty $reflection,null|Form_Definition_Field|Form_Definition_SubForm|Form_Definition_SubForms $field_definition )
 	{
+		$this->class = $class;
 		$this->name = $name;
 		$this->reflection = $reflection;
 		$this->field_definition = $field_definition;
@@ -90,12 +99,27 @@ class Forms_Class_Property
 			$constants[$value] = 'Form_Field::'.$constant;
 		}
 		
+		$types = [];
 		foreach(Factory_Form::getRegisteredFieldTypes() as $type) {
 			$types[$type] = $constants[$type]??$type;
 		}
 		
 		
 		return $types;
+	}
+	
+	public static function getErrorCodesScope() : array
+	{
+		$_constants = (new ReflectionClass( Form_Field::class ))->getConstants();
+		
+		$constants = [];
+		foreach($_constants as $constant=>$value) {
+			if(str_starts_with($constant, 'ERROR')) {
+				$constants[$value] = $constant;
+			}
+		}
+
+		return $constants;
 	}
 	
 	/**
@@ -155,7 +179,12 @@ class Forms_Class_Property
 		$setter_name_field->setDefaultValue( $def->getSetterName( true ) );
 		$fields[] = $setter_name_field;
 		
-		$creator_field = new Form_Field_Input('/main/creator', 'Creator:');
+		$creator_field = new Form_Field_Callable('/main/creator', 'Creator:');
+		$creator_field->setErrorMessages([
+			Form_Field_Callable::ERROR_CODE_NOT_CALLABLE => 'Is not callable'
+		]);
+		$creator_field->setMethodReturnType('Form_Field');
+		$creator_field->setMethodArguments('Form_Field $pre_created_field');
 		$creator_field->setDefaultValue( $def->getCreator() );
 		$fields[] = $creator_field;
 		
@@ -207,14 +236,10 @@ class Forms_Class_Property
 			
 		}
 		
-		$_constants = (new ReflectionClass( Form_Field::class ))->getConstants();
-		$_field = Factory_Form::getFieldInstance( $type, '' );
+		$base_error_codes = static::getErrorCodesScope();
 		
-		$constants = [];
-		foreach($_constants as $constant=>$value) {
-			
-			$constants[$value] = $constant;
-		}
+		
+		$_field = Factory_Form::getFieldInstance( $type, '' );
 		$defined_error_messages = $def->getErrorMessages();
 		
 		$predefined_error_codes = array_keys($_field->getErrorMessages());
@@ -225,7 +250,7 @@ class Forms_Class_Property
 			$code_field = new Form_Field_Hidden( '/error_messages/'.$i.'/code' );
 			$code_field->setDefaultValue( $error_code );
 			
-			$message_field = new Form_Field_Input( '/error_messages/'.$i.'/message', $constants[$error_code] ?? $error_code );
+			$message_field = new Form_Field_Input( '/error_messages/'.$i.'/message', $base_error_codes[$error_code] ?? $error_code );
 			$message_field->setDefaultValue( $defined_error_messages[$error_code]??'' );
 			
 			if( isset($defined_error_messages[$error_code]) ) {
@@ -238,7 +263,7 @@ class Forms_Class_Property
 		
 		foreach($defined_error_messages as $error_code=>$message) {
 			$i++;
-			$code_field = new Form_Field_Hidden( '/error_messages/'.$i.'/code' );
+			$code_field = new Form_Field_Input( '/error_messages/'.$i.'/code' );
 			$code_field->setDefaultValue( $error_code );
 			
 			
@@ -277,7 +302,12 @@ class Forms_Class_Property
 		$fields = [];
 		
 		
-		$creator_field = new Form_Field_Input('/main/creator', 'Creator:');
+		$creator_field = new Form_Field_Callable('/main/creator', 'Creator:');
+		$creator_field->setErrorMessages([
+			Form_Field_Callable::ERROR_CODE_NOT_CALLABLE => 'Is not callable'
+		]);
+		$creator_field->setMethodReturnType('Form_Field[]');
+		$creator_field->setMethodArguments('Form_Field[] $pre_created_fields');
 		$creator_field->setDefaultValue( $def->getCreator() );
 		$fields[] = $creator_field;
 		
@@ -299,7 +329,12 @@ class Forms_Class_Property
 		$fields = [];
 		
 		
-		$creator_field = new Form_Field_Input('/main/creator', 'Creator:');
+		$creator_field = new Form_Field_Callable('/main/creator', 'Creator:');
+		$creator_field->setErrorMessages([
+			Form_Field_Callable::ERROR_CODE_NOT_CALLABLE => 'Is not callable'
+		]);
+		$creator_field->setMethodReturnType('Form_Field[]');
+		$creator_field->setMethodArguments('Form_Field[] $pre_created_fields');
 		$creator_field->setDefaultValue( $def->getCreator() );
 		$fields[] = $creator_field;
 		
@@ -321,17 +356,21 @@ class Forms_Class_Property
 		$def=$this->getFieldDefinition();
 		
 		if($def) {
-			if($def instanceof Form_Definition_Field ) {
-				return $this->getDefinitionForm_Field( $def );
+			if(!$this->definition_form) {
+				if($def instanceof Form_Definition_Field ) {
+					$this->definition_form = $this->getDefinitionForm_Field( $def );
+				}
+				
+				if($def instanceof Form_Definition_SubForm ) {
+					$this->definition_form = $this->getDefinitionForm_SubForm( $def );
+				}
+				
+				if($def instanceof Form_Definition_SubForms ) {
+					$this->definition_form = $this->getDefinitionForm_SubForms( $def );
+				}
 			}
 			
-			if($def instanceof Form_Definition_SubForm ) {
-				return $this->getDefinitionForm_SubForm( $def );
-			}
-			
-			if($def instanceof Form_Definition_SubForms ) {
-				return $this->getDefinitionForm_SubForms( $def );
-			}
+			return $this->definition_form;
 		}
 		
 		
@@ -361,4 +400,263 @@ class Forms_Class_Property
 		
 		return $types[$type]??$type;
 	}
+	
+	/**
+	 * @param array $data
+	 * @return bool
+	 */
+	public function update( array $data ) : bool
+	{
+		$ok = true;
+		try {
+			
+			
+			$new_attribute = null;
+			
+			if($this->field_definition instanceof Form_Definition_Field) {
+				$new_attribute = $this->generateAttribute_Field($data);
+			}
+			
+			if($this->field_definition instanceof Form_Definition_SubForm) {
+				$new_attribute = $this->generateAttribute_SubForm($data);
+			}
+			
+			if($this->field_definition instanceof Form_Definition_SubForms) {
+				$new_attribute = $this->generateAttribute_SubForms($data);
+			}
+			
+			
+			$script = IO_File::read( $this->class->getScriptPath() );
+			$parser = new ClassParser( $script );
+			
+			$parser_property = $parser->classes[$this->class->getClassName()]->properties[$this->name];
+			$new_str = $parser_property->toString();
+			
+			
+			
+			$is_first = true;
+			
+			
+			foreach( $parser_property->attributes as $attribute ) {
+				if($attribute->name!='Form_Definition') {
+					continue;
+				}
+				
+				if($is_first) {
+					$new_str = str_replace($attribute->toString(), trim($new_attribute->toString(1)), $new_str );
+					
+					$is_first = false;
+				} else {
+					$new_str = str_replace($attribute->toString(), '', $new_str );
+				}
+			}
+
+			
+			$parser_property->replace($new_str);
+			
+			
+			$use_field = new ClassCreator_UseClass( 'Jet', 'Form_Field' );
+			$use_definition = new ClassCreator_UseClass( 'Jet', 'Form_Definition' );
+			
+			$parser->actualize_setUse([
+				$use_field,
+				$use_definition
+			]);
+			
+			IO_File::write(
+				$this->class->getScriptPath(),
+				$parser->toString()
+			);
+			
+			Cache::resetOPCache();
+			
+		} catch( Exception $e ) {
+			$ok = false;
+			Application::handleError( $e );
+		}
+		
+		return $ok;
+	}
+	
+	protected function generateAttribute_Field( array $data, ?string $force_type=null ) : ClassCreator_Attribute
+	{
+		$new_attribute = new ClassCreator_Attribute('Form_Definition');
+		
+		$type = $force_type ? : $this->field_definition->getType();
+		$type_scope = static::getTypesScope();
+		
+		
+		$new_attribute->setArgument('type', $type_scope[$type]??$type );
+		
+		if(isset($data['main'])) {
+			foreach($data['main'] as $key=>$val) {
+				if($val==='' || $val===[] || $val==['','']) {
+					continue;
+				}
+				
+				$new_attribute->setArgument($key, $val);
+			}
+		}
+		
+		if(isset($data['other'])) {
+			foreach($data['other'] as $key=>$val) {
+				if($val==='' || $val===[] || $val==['','']) {
+					continue;
+				}
+				
+				$new_attribute->setArgument($key, $val);
+			}
+			
+		}
+		
+		if(isset($data['error_messages'])) {
+			$error_messages = [];
+			$base_error_codes = static::getErrorCodesScope();
+			foreach($data['error_messages'] as $err) {
+				$code = $err['code'];
+				$message = $err['message'];
+				
+				if(!$code) {
+					continue;
+				}
+				
+				if($message=='') {
+					continue;
+				}
+				
+				
+				$error_messages[isset($base_error_codes[$code])?('Form_Field::'.$base_error_codes[$code]):$code] = $message;
+			}
+			
+			$new_attribute->setArgument('error_messages', $error_messages );
+		}
+		
+		return $new_attribute;
+	}
+	
+	protected function generateAttribute_SubForm( array $data) : ClassCreator_Attribute
+	{
+		$new_attribute = new ClassCreator_Attribute('Form_Definition');
+		
+		$new_attribute->setArgument('is_sub_form', true );
+		
+		if(isset($data['main'])) {
+			foreach($data['main'] as $key=>$val) {
+				if($val==='' || $val===[] || $val==['','']) {
+					continue;
+				}
+				
+				$new_attribute->setArgument($key, $val);
+			}
+		}
+		
+		if(isset($data['other'])) {
+			foreach($data['other'] as $key=>$val) {
+				if($val==='' || $val===[] || $val==['','']) {
+					continue;
+				}
+				
+				$new_attribute->setArgument($key, $val);
+			}
+			
+		}
+		
+		return $new_attribute;
+	}
+	
+	protected function generateAttribute_SubForms( array $data) : ClassCreator_Attribute
+	{
+		$new_attribute = new ClassCreator_Attribute('Form_Definition');
+		
+		$new_attribute->setArgument('is_sub_forms', true );
+		
+		if(isset($data['main'])) {
+			foreach($data['main'] as $key=>$val) {
+				if($val==='' || $val===[] || $val==['','']) {
+					continue;
+				}
+				
+				$new_attribute->setArgument($key, $val);
+			}
+		}
+		
+		if(isset($data['other'])) {
+			foreach($data['other'] as $key=>$val) {
+				if($val==='' || $val===[] || $val==['','']) {
+					continue;
+				}
+				
+				$new_attribute->setArgument($key, $val);
+			}
+			
+		}
+		
+		return $new_attribute;
+	}
+	
+	
+	
+	/**
+	 * @param array $data
+	 * @return bool
+	 */
+	public function setType( array $data ) : bool
+	{
+		$ok = true;
+		try {
+			
+			if(empty($data['type'])) {
+				return true;
+			}
+			
+			$new_attribute = match ($data['type']) {
+				'__sub_form__' => $this->generateAttribute_SubForm( $data ),
+				'__sub_forms__' => $this->generateAttribute_SubForms( $data ),
+				default => $this->generateAttribute_Field( $data, $data['type'] ),
+			};
+			
+			$script = IO_File::read( $this->class->getScriptPath() );
+			$parser = new ClassParser( $script );
+			
+			$parser_property = $parser->classes[$this->class->getClassName()]->properties[$this->name];
+			$new_str = $parser_property->toString();
+			
+			
+			foreach( $parser_property->attributes as $attribute ) {
+				if($attribute->name!='Form_Definition') {
+					continue;
+				}
+				
+				$new_str = str_replace($attribute->toString(), '', $new_str );
+			}
+			
+			$parser->insertBefore(
+				$parser_property->declaration_start,
+				trim($new_attribute->toString(1)).ClassCreator_Class::getNl().ClassCreator_Class::getIndentation()
+			);
+			
+			
+			$use_field = new ClassCreator_UseClass( 'Jet', 'Form_Field' );
+			$use_definition = new ClassCreator_UseClass( 'Jet', 'Form_Definition' );
+			
+			$parser->actualize_setUse([
+				$use_field,
+				$use_definition
+			]);
+			
+			IO_File::write(
+				$this->class->getScriptPath(),
+				$parser->toString()
+			);
+			
+			Cache::resetOPCache();
+			
+		} catch( Exception $e ) {
+			$ok = false;
+			Application::handleError( $e );
+		}
+		
+		return $ok;
+	}
+	
 }

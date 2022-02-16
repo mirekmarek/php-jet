@@ -94,4 +94,12 @@ return [
 	'Format: NNN NN' => 'Formát: NNN NN',
 	'Minimal value: %min%, maximal value: %max%' => 'Minimální hodnota: %min%, maximální hodnota: %max%',
 	'Any number ...' => 'Libovolné číslo ...',
+	'File is too large' => 'Soubor je příliš velký',
+	'File: ' => 'Soubor:',
+	'Image: ' => 'Obrázek:',
+	'Title' => 'Titulek:',
+	'Text' => 'Test:',
+	'Some text' => 'Nějaký text:',
+	'Select:' => 'Výběr:',
+	'Sub entity' => 'Podřízená entita',
 ];

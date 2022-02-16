@@ -50,7 +50,7 @@ foreach( $form->getFields() as $field ) {
 	<?= $form->field( '/sub_entities/' . $locale . '/text' ) ?>
 <?php endforeach; ?>
 
-<h3>Sub entity</h3>
+<h3><?=Tr::_('Sub entity')?></h3>
 <?= $form->field( '/sub_entity/some_text' ); ?>
 
 <div class="row">
@@ -100,7 +100,7 @@ foreach( $form->getFields() as $field ) {
 			<?php
 			$sub_entity = $test_object->getSubEntity();
 			?>
-			<h4>Sub entity</h4>
+			<h3><?=Tr::_('Sub entity')?></h3>
 			<table class="table table-bordered">
 				
 				<?php foreach( $sub_entity_getters as $getter ):

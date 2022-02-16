@@ -85,8 +85,16 @@ class Form_Field_Callable extends Form_Field
 			!empty($this->_value[0]) &&
 			!empty($this->_value[1])
 		) {
+			$test_value = $this->_value;
 			if(
-				!($class_path=Autoloader::getScriptPath($this->_value[0])) ||
+				$this->class_context &&
+				$test_value[0]=='self::class'
+			) {
+				$test_value[0] = $this->class_context;
+			}
+			
+			if(
+				!($class_path=Autoloader::getScriptPath($test_value[0])) ||
 				!IO_File::exists($class_path)
 			) {
 				$this->setError( static::ERROR_CODE_NOT_CALLABLE );
@@ -94,7 +102,7 @@ class Form_Field_Callable extends Form_Field
 				return false;
 			}
 			
-			if(!is_callable( $this->_value )) {
+			if(!is_callable( $test_value )) {
 				$this->setError( static::ERROR_CODE_NOT_CALLABLE );
 				
 				return false;
@@ -117,7 +125,7 @@ class Form_Field_Callable extends Form_Field
 			$this->class_context &&
 			$value[0]==$this->class_context
 		) {
-			return 'self';
+			return 'self::class';
 		}
 		
 		return $value[0];
