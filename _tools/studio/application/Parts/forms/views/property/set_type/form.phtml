@@ -1,0 +1,32 @@
+<?php
+
+namespace JetStudio;
+
+use Jet\Form_Renderer;
+use Jet\MVC_View;
+
+/**
+ * @var MVC_View $this
+ */
+
+$form = Forms::getCurrentProperty()->getSetTypeForm();
+if(!$form) {
+	return;
+}
+
+$fields = $form->getFields();
+
+
+$form->renderer()
+	->setDefaultLabelWidth( [Form_Renderer::LJ_SIZE_MEDIUM => 2] )
+	->setDefaultFieldWidth( [Form_Renderer::LJ_SIZE_MEDIUM => 9] );
+
+
+echo $form->start();
+
+foreach($fields as $field) {
+	echo $field;
+}
+
+
+echo $form->end();

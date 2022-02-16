@@ -210,11 +210,18 @@ class DefinitionTest_FormGenerator extends BaseObject implements Form_Definition
 	)]
 	protected array $sub_entities = [];
 	
+	/**
+	 * @var DefinitionTest_FormGenerator_Sub2
+	 */
 	#[Form_Definition(
 		is_sub_form: true
 	)]
 	protected DefinitionTest_FormGenerator_Sub2 $sub_entity;
 	
+	/**
+	 * @var string
+	 */
+	protected string $no_field = '';
 
 	/**
 	 * @return array

@@ -1,0 +1,19 @@
+<?php
+
+namespace JetStudio;
+
+use Jet\MVC_View;
+use Jet\UI;
+
+/**
+ * @var MVC_View $this
+ */
+
+$form = Forms::getCurrentProperty()->getDefinitionForm();
+if(!$form) {
+	return;
+}
+
+echo UI::button_save()
+	->setOnclick( "$('#" . $form->getId() . "').submit()" );
+

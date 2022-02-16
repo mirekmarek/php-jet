@@ -219,7 +219,7 @@ class Forms {
 		
 		$get_params['action'] = $action;
 		
-		return SysConf_URI::getBase() . 'data_model.php?' . http_build_query( $get_params );
+		return SysConf_URI::getBase() . 'forms.php?' . http_build_query( $get_params );
 	}
 	
 	
@@ -304,25 +304,5 @@ class Forms {
 		
 		return $current->getName();
 	}
-
-	
-	
-	/**
-	 * @return string|null
-	 */
-	public static function getCurrentWhatToEdit(): string|null
-	{
-		if( !static::getCurrentClass() ) {
-			return null;
-		}
-
-		if( static::getCurrentProperty() ):
-			return 'property';
-		else:
-			return 'class';
-		endif;
-	}
-	
-	
 	
 }

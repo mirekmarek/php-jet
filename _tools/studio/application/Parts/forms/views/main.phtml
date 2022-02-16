@@ -1,14 +1,12 @@
 <?php
-
 namespace JetStudio;
 
 
 $what_to_edit = '';
 
 $class = Forms::getCurrentClass();
-$what_to_edit = Forms::getCurrentWhatToEdit();
 
-
+$property = Forms::getCurrentProperty();
 ?>
 
 <div class="row toolbar" id="main-toolbar">
@@ -18,9 +16,15 @@ $what_to_edit = Forms::getCurrentWhatToEdit();
 	<div class="col-md-3 text-right" style="padding: 0 10px 0 0;">
 	</div>
 	<div class="col-md-8" style="padding: 0">
-		<?php if( $what_to_edit ): ?>
-		
-		<?php endif; ?>
+		<?php
+		if($property) {
+			if($property->getFieldDefinition()) {
+				require 'property/edit/toolbar.phtml';
+			} else {
+				require 'property/set_type/toolbar.phtml';
+			}
+		}
+		?>
 	</div>
 </div>
 
@@ -32,7 +36,16 @@ $what_to_edit = Forms::getCurrentWhatToEdit();
 		<div class="col-md-8" style="padding: 10px">
 			<?=Application::getGeneralView()->render( 'messages' );?>
 			<div class="container-fluid">
-				<?php require $what_to_edit . '/edit/form.phtml'; ?>
+				
+				<?php
+				if($property) {
+					if($property->getFieldDefinition()) {
+						require 'property/edit/form.phtml';
+					} else {
+						require 'property/set_type/form.phtml';
+					}
+				}
+				?>
 			</div>
 		</div>
 	<?php else: ?>

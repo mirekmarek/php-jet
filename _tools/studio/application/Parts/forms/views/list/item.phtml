@@ -1,9 +1,8 @@
 <?php
 namespace JetStudio;
-?>
-<?php use Jet\Http_Request;
+use Jet\Http_Request;
 
-if( Forms::getCurrentWhatToEdit() == 'form' ): ?>
+if( Forms::getCurrentClass() ): ?>
 	<b class="badge badge-info" style="font-size: 20px;"><?= Forms::getCurrentClass()->getFullClassName() ?></b>
 <?php else: ?>
 	<a href="<?= Http_Request::currentURI( [], [
@@ -18,5 +17,4 @@ if( Forms::getCurrentWhatToEdit() == 'form' ): ?>
 		</td>
 	</tr>
 </table>
-
 
