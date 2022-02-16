@@ -18,6 +18,7 @@ class Db_Backend_PDO_Config extends Db_Backend_Config
 	
 	use Db_Backend_PDO_Config_mysql;
 	use Db_Backend_PDO_Config_sqlite;
+	use Db_Backend_PDO_Config_another;
 	
 	#[Config_Definition(
 		type: Config::TYPE_STRING,
@@ -50,6 +51,10 @@ class Db_Backend_PDO_Config extends Db_Backend_Config
 	{
 		if(!$this->dsn) {
 			$method = $this->driver.'_getDnsEntries';
+			
+			if(!method_exists($this, $method)) {
+				return '';
+			}
 			
 			$entries =  $this->{$method}();
 			$dsn = [];

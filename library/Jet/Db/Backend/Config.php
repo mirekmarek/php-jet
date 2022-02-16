@@ -297,6 +297,10 @@ abstract class Db_Backend_Config extends Config_Section
 	{
 		$method = $this->driver.'_getEntriesSchema';
 		
+		if(!method_exists($this, $method)) {
+			$method = 'another_getEntriesSchema';
+		}
+		
 		return $this->{$method}();
 	}
 	
