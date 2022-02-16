@@ -20,7 +20,7 @@ class Listing_Filter_Search extends Data_Listing_Filter_Search {
 	{
 		if($this->search) {
 			$search = '%'.$this->search.'%';
-			$this->listing->filter_addWhere([
+			$this->listing->addWhere([
 				'%<NAME_PROPERTY>% *'   => $search,
 			]);
 		}

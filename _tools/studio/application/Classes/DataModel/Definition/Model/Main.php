@@ -92,7 +92,7 @@ class DataModel_Definition_Model_Main extends Jet_DataModel_Definition_Model_Mai
 		$getEditForm = $class->createMethod( 'getEditForm' );
 		$getEditForm->setReturnType( 'Form' );
 		$getEditForm->line( 1, 'if(!$this->_form_edit) {' );
-		$getEditForm->line( 2, '$this->_form_edit = $this->getCommonForm(\'edit_form\');' );
+		$getEditForm->line( 2, '$this->_form_edit = $this->createForm(\'edit_form\');' );
 		$getEditForm->line( 1, '}' );
 		$getEditForm->line( 1, '' );
 		$getEditForm->line( 1, 'return $this->_form_edit;' );
@@ -105,7 +105,7 @@ class DataModel_Definition_Model_Main extends Jet_DataModel_Definition_Model_Mai
 		$getAddForm = $class->createMethod( 'getAddForm' );
 		$getAddForm->setReturnType( 'Form' );
 		$getAddForm->line( 1, 'if(!$this->_form_add) {' );
-		$getAddForm->line( 2, '$this->_form_add = $this->getCommonForm(\'add_form\');' );
+		$getAddForm->line( 2, '$this->_form_add = $this->createForm(\'add_form\');' );
 		$getAddForm->line( 1, '}' );
 		$getAddForm->line( 1, '' );
 		$getAddForm->line( 1, 'return $this->_form_add;' );
