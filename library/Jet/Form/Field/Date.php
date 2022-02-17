@@ -19,7 +19,15 @@ class Form_Field_Date extends Form_Field_Input
 	 * @var string
 	 */
 	protected string $_type = Form_Field::TYPE_DATE;
-
+	
+	/**
+	 * @var array
+	 */
+	protected array $error_messages = [
+		Form_Field::ERROR_CODE_EMPTY        => '',
+		Form_Field::ERROR_CODE_OUT_OF_RANGE => '',
+	];
+	
 
 	/**
 	 * @param Data_Array $data

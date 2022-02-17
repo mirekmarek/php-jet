@@ -35,4 +35,5 @@ return [
 	'ERROR_CODE_FILE_IS_TOO_LARGE' => '',
 	'ERROR_CODE_DISALLOWED_FILE_TYPE' => '',
 	'ERROR_CODE_INVALID_VALUE' => '',
+	'There are some problems ... Please check the form.' => '',
 ];
