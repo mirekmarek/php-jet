@@ -19,14 +19,6 @@ class Form_Field_Checkbox extends Form_Field
 	 */
 	protected string $_type = Form_Field::TYPE_CHECKBOX;
 	
-	
-	/**
-	 * @var array
-	 */
-	protected array $error_messages = [
-		Form_Field::ERROR_CODE_EMPTY          => '',
-		Form_Field::ERROR_CODE_INVALID_FORMAT => '',
-	];
 
 	/**
 	 * @param Data_Array $data
