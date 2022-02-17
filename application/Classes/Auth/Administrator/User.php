@@ -221,7 +221,7 @@ class Auth_Administrator_User extends DataModel implements Auth_User_Interface
 	)]
 	#[Form_Definition(
 		type: Form_Field::TYPE_MULTI_SELECT,
-		use_array_keys: true,
+		default_value_getter_name: 'getRoleIds',
 		label: 'Roles',
 		select_options_creator: [
 			Auth_Administrator_Role::class,
@@ -612,6 +612,16 @@ class Auth_Administrator_User extends DataModel implements Auth_User_Interface
 
 		return $roles;
 	}
+	
+	
+	/**
+	 * @return array
+	 */
+	public function getRoleIds() : array
+	{
+		return array_keys($this->getRoles());
+	}
+	
 
 	/**
 	 * @param array $role_ids

@@ -73,6 +73,11 @@ class Form_Definition_Field extends BaseObject
 	/**
 	 * @var string
 	 */
+	protected string $default_value_getter_name = '';
+	
+	/**
+	 * @var string
+	 */
 	protected string $setter_name = '';
 	
 	/**
@@ -207,6 +212,14 @@ class Form_Definition_Field extends BaseObject
 		}
 		
 		$this->creator = $creator;
+	}
+	
+	/**
+	 * @return string
+	 */
+	public function getDefaultValueGetterName(): string
+	{
+		return $this->default_value_getter_name;
 	}
 	
 	/**
@@ -355,7 +368,15 @@ class Form_Definition_Field extends BaseObject
 		}
 		
 		$field->setIsRequired( $this->getIsRequired() );
-		$field->setDefaultValue( $this->property );
+		
+		
+		if(($default_value_getter = $this->getDefaultValueGetterName())) {
+			$default_value = $this->context_object->{$default_value_getter}();
+		} else {
+			$default_value = $this->property;
+		}
+		
+		$field->setDefaultValue( $default_value );
 		
 		$form_fields[] = $field;
 	}

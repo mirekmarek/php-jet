@@ -19,14 +19,6 @@ class Form_Field_MultiSelect extends Form_Field implements Form_Field_Part_Selec
 	 * @var string
 	 */
 	protected string $_type = Form_Field::TYPE_MULTI_SELECT;
-	
-	#[Form_Definition_FieldOption(
-		type: Form_Definition_FieldOption::TYPE_BOOL,
-		label: 'Use array keys as value',
-		getter: 'getUseArrayKeys',
-		setter: 'setUseArrayKeys'
-	)]
-	protected bool $use_array_keys = false;
 
 	/**
 	 * @var array
@@ -35,38 +27,8 @@ class Form_Field_MultiSelect extends Form_Field implements Form_Field_Part_Selec
 		Form_Field::ERROR_CODE_EMPTY         => '',
 		Form_Field::ERROR_CODE_INVALID_VALUE => '',
 	];
-	
-	/**
-	 * @return bool
-	 */
-	public function getUseArrayKeys(): bool
-	{
-		return $this->use_array_keys;
-	}
-	
-	/**
-	 * @param bool $use_array_keys
-	 */
-	public function setUseArrayKeys( bool $use_array_keys ): void
-	{
-		$this->use_array_keys = $use_array_keys;
-	}
-	
-	/**
-	 *
-	 * @param mixed $default_value
-	 */
-	public function setDefaultValue( mixed $default_value ): void
-	{
-		if($this->use_array_keys) {
-			$default_value = array_keys( $default_value );
-		}
 		
-		parent::setDefaultValue( $default_value );
-	}
-		
-		
-		/**
+	/**
 	 *
 	 * @param Data_Array $data
 	 */
