@@ -26,4 +26,5 @@ return [
 	'Please select field type' => '',
 	'Field type:' => '',
 	'Saved ...' => '',
+	'There are some problems ... Please check the form.' => '',
 ];

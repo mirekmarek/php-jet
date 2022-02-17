@@ -184,14 +184,28 @@ class Form_Definition_Field extends BaseObject
 	 */
 	public function getCreator(): ?callable
 	{
-		return $this->creator;
+		$creator = $this->creator;
+		
+		if(is_array($creator) && $creator[0]==='this') {
+			$creator[0] = $this->context_object;
+		}
+		
+		return $creator;
 	}
 	
 	/**
-	 * @param ?callable $creator
+	 * @param null|callable|array $creator
 	 */
-	public function setCreator( ?callable $creator ): void
+	public function setCreator( null|callable|array $creator ): void
 	{
+		if(
+			is_array($creator) &&
+			is_object($creator[0]) &&
+			get_class($creator[0])==get_class($this->context_object)
+		) {
+			$creator[0] = 'this';
+		}
+		
 		$this->creator = $creator;
 	}
 	

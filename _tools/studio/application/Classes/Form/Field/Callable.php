@@ -86,11 +86,26 @@ class Form_Field_Callable extends Form_Field
 			!empty($this->_value[1])
 		) {
 			$test_value = $this->_value;
+			
 			if(
-				$this->class_context &&
-				$test_value[0]=='self::class'
+				$this->class_context
 			) {
-				$test_value[0] = $this->class_context;
+				if($test_value[0]=='this') {
+					if(!method_exists($this->class_context, $test_value[1])) {
+						$this->setError( static::ERROR_CODE_NOT_CALLABLE );
+						
+						return false;
+					}
+					
+					$this->setIsValid();
+					
+					return true;
+					
+				}
+				
+				if($test_value[0]=='self::class') {
+					$test_value[0] = $this->class_context;
+				}
 			}
 			
 			if(
