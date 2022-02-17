@@ -304,6 +304,7 @@ class Forms_Class_Property
 		
 		
 		$creator_field = new Form_Field_Callable('/main/creator', 'Creator:');
+		$creator_field->setClassContext( $this->class->getFullClassName() );
 		$creator_field->setErrorMessages([
 			Form_Field_Callable::ERROR_CODE_NOT_CALLABLE => 'Is not callable'
 		]);
@@ -331,6 +332,7 @@ class Forms_Class_Property
 		
 		
 		$creator_field = new Form_Field_Callable('/main/creator', 'Creator:');
+		$creator_field->setClassContext( $this->class->getFullClassName() );
 		$creator_field->setErrorMessages([
 			Form_Field_Callable::ERROR_CODE_NOT_CALLABLE => 'Is not callable'
 		]);

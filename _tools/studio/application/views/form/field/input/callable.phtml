@@ -20,14 +20,21 @@ if( !$r->getBaseCssClasses() ) {
 if( $field->getLastErrorCode() ) {
 	$r->addCustomCssClass( 'is-invalid' );
 }
+
+$class_placeholder = $field->_('class name');
+if($field->getClassContext()) {
+	$class_placeholder = $field->_('class name or self::class or this');
+}
+
+$method_placeholder = $field->_('method name');
 ?>
 
 <div>
 	<div class="input-group">
 		<span class="input-group-prepend"><span class="input-group-text"> </span></span>
-		<input <?=$r->renderTagAttributes()?> name="<?=$field->getTagNameValue()?>[class]" id="<?=$field->getId()?>_class" value="<?=$field->getValue_class()?>"/>
+		<input <?=$r->renderTagAttributes()?> name="<?=$field->getTagNameValue()?>[class]" id="<?=$field->getId()?>_class" value="<?=$field->getValue_class()?>" placeholder="<?=$class_placeholder?>"/>
 		<span class="input-group-prepend"><span class="input-group-text">::</span></span>
-		<input <?=$r->renderTagAttributes()?> name="<?=$field->getTagNameValue()?>[method]" id="<?=$field->getId()?>_method" value="<?=$field->getValue_method()?>"/>
+		<input <?=$r->renderTagAttributes()?> name="<?=$field->getTagNameValue()?>[method]" id="<?=$field->getId()?>_method" value="<?=$field->getValue_method()?>" placeholder="<?=$method_placeholder?>"/>
 		<span class="input-group-append"><span class="input-group-text">( <?=$field->getMethodArguments()?> ):<?=$field->getMethodReturnType()?></span></span>
 	</div>
 </div>

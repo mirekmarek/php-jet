@@ -27,4 +27,10 @@ return [
 	'Field type:' => '',
 	'Saved ...' => '',
 	'There are some problems ... Please check the form.' => '',
+	'class name' => '',
+	'class name or "self::class" or "this"' => '',
+	'method name' => '',
+	'class name or self::class or "this"' => '',
+	'class name or \"self::class\" or \"this\"' => '',
+	'class name or self::class or this' => '',
 ];
