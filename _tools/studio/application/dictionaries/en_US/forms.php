@@ -33,4 +33,6 @@ return [
 	'class name or self::class or "this"' => '',
 	'class name or \"self::class\" or \"this\"' => '',
 	'class name or self::class or this' => '',
+	'Default value getter method name:' => '',
+	'Places' => '',
 ];

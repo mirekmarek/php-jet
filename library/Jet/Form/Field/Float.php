@@ -38,6 +38,10 @@ class Form_Field_Float extends Form_Field_Input implements Form_Field_Part_Numbe
 		if($this->_value!=='') {
 			$this->_value_raw = str_replace( ',', '.', $this->_value_raw );
 			$this->_value = (float)$this->_value_raw;
+			
+			if($this->places>0) {
+				$this->_value = round($this->_value, $this->places);
+			}
 		}
 	}
 }

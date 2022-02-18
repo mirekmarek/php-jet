@@ -102,4 +102,5 @@ return [
 	'Image: ' => '',
 	'Select:' => '',
 	'Sub entity' => '',
+	'Float:' => '',
 ];

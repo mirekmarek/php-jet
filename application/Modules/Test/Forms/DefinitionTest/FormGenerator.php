@@ -63,9 +63,12 @@ class DefinitionTest_FormGenerator extends BaseObject implements Form_Definition
 	 */
 	#[Form_Definition(
 		type: Form_Field::TYPE_FLOAT,
-		label: 'Float: ',
+		label: 'Float:',
+		is_required: false,
 		min_value: 0,
 		max_value: 999,
+		step: 0.0001,
+		places: 4,
 		error_messages: [
 			Form_Field::ERROR_CODE_OUT_OF_RANGE => 'Number is out of range (0-999)'
 		]

@@ -37,9 +37,12 @@ trait Form_Field_Part_NumberRangeFloat_Trait
 	)]
 	protected float $step = 0.01;
 	
-	/**
-	 * @var null|int
-	 */
+	#[Form_Definition_FieldOption(
+		type: Form_Definition_FieldOption::TYPE_INT,
+		label: 'Places',
+		getter: 'getPlaces',
+		setter: 'setPlaces',
+	)]
 	protected null|int $places = null;
 	
 	/**

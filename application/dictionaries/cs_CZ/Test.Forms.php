@@ -102,4 +102,5 @@ return [
 	'Some text' => 'Nějaký text:',
 	'Select:' => 'Výběr:',
 	'Sub entity' => 'Podřízená entita',
+	'Float:' => '',
 ];

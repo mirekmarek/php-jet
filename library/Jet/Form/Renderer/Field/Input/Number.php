@@ -67,6 +67,13 @@ class Form_Renderer_Field_Input_Number extends Form_Renderer_Field_Input
 			$this->_tag_attributes['step'] = $field->getStep();
 		}
 		
+		if(
+			$field instanceof Form_Field_Part_NumberRangeFloat_Interface &&
+			$field->getPlaces()!==null
+		) {
+			$this->_tag_attributes['places'] = $field->getPlaces();
+		}
+		
 	}
 	
 }
