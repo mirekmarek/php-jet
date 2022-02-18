@@ -295,5 +295,122 @@ class Mailing_Email extends BaseObject
 	{
 		return Mailing::sendEmail( $this );
 	}
+	
+	
+	/**
+	 * @param string|null $message
+	 * @param string|null $header
+	 *
+	 * @throws IO_File_Exception
+	 */
+	public function prepareMessage( ?string &$message, ?string &$header ) : void
+	{
+		
+		$subject = $this->getSubject();
+		
+		$boundary_1 = uniqid( 'MP' );
+		$boundary_2 = $boundary_1 . 'SP1';
+		$boundary_3 = $boundary_1 . 'SP2';
+		
+		$eol = PHP_EOL;
+		
+		if($this->getSenderName()) {
+			$headers['From'] = mb_encode_mimeheader($this->getSenderName() . '<' . $this->getSenderEmail() . '>' );
+		} else {
+			$headers['From'] = mb_encode_mimeheader($this->getSenderEmail());
+		}
+		$headers['Subject'] = mb_encode_mimeheader($subject);
+		$headers['Reply-To'] = mb_encode_mimeheader($this->getSenderEmail());
+		$headers['MIME-Version'] = '1.0';
+		$headers['Content-Type'] = 'multipart/mixed; boundary=' . $boundary_1 . ';';
+		
+		foreach($this->getCustomHeaders() as $h=>$v ) {
+			$headers[$h] = $v;
+		}
+		
+		if($this->getToCopy()) {
+			$cc = $this->getToCopy();
+			
+			if(is_array($cc)) {
+				$cc = implode(', ', $cc);
+			}
+			
+			$headers['Cc'] = $cc;
+		}
+		
+		if($this->getToCopy()) {
+			$bcc = $this->getToHiddenCopy();
+			
+			if(is_array($bcc)) {
+				$bcc = implode(', ', $bcc);
+			}
+			
+			$headers['Bcc'] = $bcc;
+		}
+		
+		$header = '';
+		foreach( $headers as $h => $v ) {
+			$header .= $h . ': ' . $v . $eol;
+		}
+		
+		
+		
+		
+		$message = 'This is a MIME encoded message.' . $eol;
+		$message .= $eol . "--$boundary_1" . $eol;
+		$message .= 'Content-Type: multipart/related; boundary=' . $boundary_2 . ';' . $eol;
+		$message .= $eol . "--$boundary_2" . $eol;
+		$message .= 'Content-Type: multipart/alternative; boundary=' . $boundary_3 . ';' . $eol;
+		$message .= $eol . "--$boundary_3" . $eol;
+		
+		$message .= 'Content-type: text/plain;charset=utf-8' . $eol;
+		$message .= $eol;
+		$message .= $this->getBodyTxt() . $eol;
+		
+		
+		$message .= $eol . "--$boundary_3" . $eol;
+		
+		
+		$message .= 'Content-type: text/html;charset=utf-8' . $eol;
+		$message .= $eol;
+		$message .= $this->getBodyHtml() . $eol;
+		
+		$message .= $eol . "--$boundary_3--" . $eol;
+		
+		foreach( $this->getImages() as $image_id => $image_path ) {
+			$image_info = Debug_ErrorHandler::doItSilent(function() use ($image_path) {
+				return getimagesize( $image_path );
+			});
+			
+			if( !$image_info ) {
+				continue;
+			}
+			
+			$filename = basename( $image_path );
+			
+			$message .= $eol . "--$boundary_2" . $eol;
+			$message .= 'Content-type: ' . $image_info['mime'] . $eol;
+			$message .= 'Content-ID: <' . $image_id . '>' . $eol;
+			$message .= 'Content-Transfer-Encoding: base64' . $eol;
+			$message .= 'Content-Disposition: inline; filename="' . mb_encode_mimeheader( $filename ) . '""' . $eol;
+			$message .= $eol;
+			$message .= chunk_split( base64_encode( IO_File::read( $image_path ) ) );
+			
+		}
+		
+		$message .= "--$boundary_2--" . $eol;
+		
+		foreach( $this->getAttachments() as $file_path => $filename ) {
+			$message .= $eol . "--$boundary_1" . $eol;
+			$message .= 'Content-Type: application/octet-stream; name="' . mb_encode_mimeheader( $filename ) . '"' . $eol;
+			$message .= 'Content-Transfer-Encoding: base64' . $eol;
+			$message .= 'Content-Disposition: attachment' . $eol;
+			$message .= chunk_split( base64_encode( IO_File::read( $file_path ) ) );
+		}
+		
+		
+		$message .= "--$boundary_1--" . $eol;
+	}
+	
 
 }

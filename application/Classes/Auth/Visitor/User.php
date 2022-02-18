@@ -676,7 +676,9 @@ class Auth_Visitor_User extends DataModel implements Auth_User_Interface
 	{
 		foreach($this->roles as $r) {
 			if(!in_array($r->getRoleId(), $role_ids)) {
-				$r->delete();
+				if($r->getIsSaved()) {
+					$r->delete();
+				}
 				unset($this->roles[$r->getRoleId()]);
 			}
 		}
@@ -695,7 +697,9 @@ class Auth_Visitor_User extends DataModel implements Auth_User_Interface
 				$new_item->setRoleId($role->getId());
 
 				$this->roles[$role->getId()] = $new_item;
-				$new_item->save();
+				if($this->getIsSaved()) {
+					$new_item->save();
+				}
 			}
 		}
 
