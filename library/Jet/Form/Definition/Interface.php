@@ -19,11 +19,13 @@ interface Form_Definition_Interface
 	/**
 	 *
 	 * @param string $form_name
+	 * @param array $only_fields=[]
+	 * @param array $exclude_fields=[]
 	 *
 	 * @return Form
 	 * @throws Form_Definition_Exception
 	 *
 	 */
-	public function createForm( string $form_name ): Form;
+	public function createForm( string $form_name, array $only_fields=[], array $exclude_fields=[] ): Form;
 
 }

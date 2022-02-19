@@ -306,13 +306,14 @@ abstract class Db_Backend_Config extends Config_Section
 	
 	/**
 	 * @param string $form_name
-	 *
+	 * @param array $only_fields
+	 * @param array $exclude_fields
 	 * @return Form
 	 * @throws Form_Definition_Exception
 	 */
-	public function createForm( string $form_name ): Form
+	public function createForm( string $form_name, array $only_fields=[], array $exclude_fields=[]  ): Form
 	{
-		$form = parent::createForm($form_name);
+		$form = parent::createForm($form_name, $only_fields, $exclude_fields);
 		
 		$entries = $this->getEntriesSchema();
 		

@@ -53,12 +53,13 @@ trait Form_Definition_Trait
 	
 	/**
 	 * @param string $form_name
-	 *
+	 * @param array $only_fields
+	 * @param array $exclude_fields
 	 * @return Form
 	 *
 	 * @throws Form_Definition_Exception
 	 */
-	public function createForm( string $form_name ): Form
+	public function createForm( string $form_name, array $only_fields=[], array $exclude_fields=[]  ): Form
 	{
 		$form_fields = [];
 		
@@ -80,6 +81,65 @@ trait Form_Definition_Trait
 				$definition->createFormField( $form_fields );
 			}
 		}
+		
+		$filter = function( Form_Field $field, array $by ) : bool
+		{
+			$name = $field->getName();
+			if($name[0]!='/') {
+				return in_array($name, $by) || in_array('*', $by);
+			}
+			
+			$name = explode('/', $name);
+			
+			foreach($by as $filter_item) {
+				
+				if($filter_item[0]!='/') {
+					continue;
+				}
+				
+				$pass = true;
+
+				$filter_item = explode('/', $filter_item);
+				
+				foreach($filter_item as $i=>$filter_item_part) {
+					if(!isset($name[$i])) {
+						$pass = false;
+						break;
+					}
+					
+					if(
+						$filter_item_part!='*' &&
+						$name[$i]!=$filter_item_part
+					) {
+						$pass = false;
+						break;
+					}
+				}
+				
+				if($pass) {
+					return true;
+				}
+			}
+			
+			return false;
+		};
+		
+		if($only_fields) {
+			foreach( $form_fields as $i => $field ) {
+				if( !$filter($field, $only_fields) ) {
+					unset($form_fields[$i]);
+				}
+			}
+		}
+		
+		if($exclude_fields) {
+			foreach( $form_fields as $i => $field ) {
+				if( $filter($field, $exclude_fields) ) {
+					unset($form_fields[$i]);
+				}
+			}
+		}
+		
 		
 		return new Form( $form_name, $form_fields );
 		

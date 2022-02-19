@@ -517,8 +517,14 @@ class Controller_Main extends MVC_Controller_Default
 	{
 
 		$obj = new DefinitionTest_FormGenerator();
-
-		$form = $obj->createForm('generated_form');
+		
+		//$only_fields = ['*','/sub_entities/*/title'];
+		//$exclude_fields = [];
+		
+		$only_fields = [];
+		$exclude_fields = [];
+		
+		$form = $obj->createForm('generated_form', $only_fields, $exclude_fields);
 
 		if( $form->catchInput() ) {
 

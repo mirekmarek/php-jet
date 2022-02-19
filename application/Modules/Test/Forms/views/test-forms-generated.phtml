@@ -43,15 +43,20 @@ foreach( $form->getFields() as $field ) {
 	}
 }
 ?>
-
 <?php foreach( DefinitionTest_FormGenerator::getLocales() as $locale ): ?>
 	<h3><?= UI::locale( $locale ) ?> <?= $locale->getName( $locale ) ?></h3>
-	<?= $form->field( '/sub_entities/' . $locale . '/title' ) ?>
-	<?= $form->field( '/sub_entities/' . $locale . '/text' ) ?>
+	<?php if($form->fieldExists( '/sub_entities/' . $locale . '/title' )): ?>
+		<?= $form->field( '/sub_entities/' . $locale . '/title' ) ?>
+	<?php endif; ?>
+	<?php if($form->fieldExists( '/sub_entities/' . $locale . '/text' )): ?>
+		<?= $form->field( '/sub_entities/' . $locale . '/text' ) ?>
+	<?php endif; ?>
 <?php endforeach; ?>
 
+<?php if($form->fieldExists('/sub_entity/some_text')): ?>
 <h3><?=Tr::_('Sub entity')?></h3>
 <?= $form->field( '/sub_entity/some_text' ); ?>
+<?php endif; ?>
 
 <div class="row">
 	<div class="offset-md-3">
