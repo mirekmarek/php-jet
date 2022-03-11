@@ -86,4 +86,7 @@ return [
 	'Callback is not callable' => '',
 	'Output callback:' => '',
 	'There are some problems ... Please check the form.' => '',
+	'Source module: ' => '',
+	'class name' => '',
+	'method name' => '',
 ];

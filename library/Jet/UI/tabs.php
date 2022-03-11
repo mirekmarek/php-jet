@@ -11,7 +11,7 @@ namespace Jet;
 /**
  *
  */
-class UI_tabs extends UI_BaseElement
+class UI_tabs extends UI_Renderer_Single
 {
 
 	/**
@@ -48,22 +48,11 @@ class UI_tabs extends UI_BaseElement
 		foreach( $this->tabs as $id => $tab ) {
 			$tab->setIsSelected( $id == $this->selected_tab_id );
 		}
+		$this->view_script = SysConf_Jet_UI_DefaultViews::get('tabs');
 
 	}
 
-	/**
-	 * @return string
-	 */
-	public function getViewScript(): string
-	{
-		if( !$this->view_script ) {
-			$this->view_script = SysConf_Jet_UI_DefaultViews::get('tabs');
-		}
-
-		return $this->view_script;
-	}
-
-
+	
 	/**
 	 * @param string $id
 	 *

@@ -11,7 +11,7 @@ namespace Jet;
 /**
  *
  */
-class UI_tabsJS extends UI_BaseElement
+class UI_tabsJS extends UI_Renderer_Pair
 {
 
 	/**
@@ -28,16 +28,6 @@ class UI_tabsJS extends UI_BaseElement
 	 * @var string
 	 */
 	protected string $selected_tab_id;
-
-	/**
-	 * @var string
-	 */
-	protected string $content_start_view_script = '';
-
-	/**
-	 * @var string
-	 */
-	protected string $content_end_view_script = '';
 
 
 	/**
@@ -65,7 +55,9 @@ class UI_tabsJS extends UI_BaseElement
 		foreach( $this->tabs as $id => $tab ) {
 			$tab->setIsSelected( $id == $this->selected_tab_id );
 		}
-
+		
+		$this->view_script_start = SysConf_Jet_UI_DefaultViews::get('tabs-js', 'start');
+		$this->view_script_end = SysConf_Jet_UI_DefaultViews::get('tabs-js', 'end');
 	}
 
 
@@ -104,74 +96,4 @@ class UI_tabsJS extends UI_BaseElement
 	{
 		return $this->tabs;
 	}
-
-	/**
-	 * @return string
-	 */
-	public function getViewScript(): string
-	{
-		if( !$this->view_script ) {
-			$this->view_script = SysConf_Jet_UI_DefaultViews::get('tabs-js');
-		}
-
-		return $this->view_script;
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getContentStartViewScript(): string
-	{
-		if( !$this->content_start_view_script ) {
-			$this->content_start_view_script = SysConf_Jet_UI_DefaultViews::get('tabs-js', 'content_start');
-		}
-
-		return $this->content_start_view_script;
-	}
-
-	/**
-	 * @param string $script
-	 */
-	public function setContentStartViewScript( string $script ): void
-	{
-		$this->content_start_view_script = $script;
-	}
-
-
-	/**
-	 * @return string
-	 */
-	public function getContentEndViewScript(): string
-	{
-		if( !$this->content_end_view_script ) {
-			$this->content_end_view_script = SysConf_Jet_UI_DefaultViews::get('tabs-js', 'content_end');
-		}
-
-		return $this->content_end_view_script;
-	}
-
-	/**
-	 * @param string $script
-	 */
-	public function setContentEndViewScript( string $script ): void
-	{
-		$this->content_end_view_script = $script;
-	}
-
-	/**
-	 * @return string
-	 */
-	public function contentStart(): string
-	{
-		return $this->getView()->render( $this->getContentStartViewScript() );
-	}
-
-	/**
-	 * @return string
-	 */
-	public function contentEnd(): string
-	{
-		return $this->getView()->render( $this->getContentEndViewScript() );
-	}
-
 }

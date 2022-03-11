@@ -12,7 +12,7 @@ namespace Jet;
 /**
  *
  */
-class UI_button extends UI_BaseElement
+class UI_button extends UI_Renderer_Single
 {
 
 	const SIZE_LARGE = 'lg';
@@ -44,11 +44,6 @@ class UI_button extends UI_BaseElement
 	 * @var string
 	 */
 	protected string $icon = '';
-	
-	/**
-	 * @var string
-	 */
-	protected string $id = '';
 
 
 	/**
@@ -62,21 +57,9 @@ class UI_button extends UI_BaseElement
 	public function __construct( string $label )
 	{
 		$this->label = $label;
+		$this->view_script = SysConf_Jet_UI_DefaultViews::get('button' );
 	}
-
-	/**
-	 * @return string
-	 */
-	public function getViewScript(): string
-	{
-		if( !$this->view_script ) {
-			$this->view_script = SysConf_Jet_UI_DefaultViews::get('button' );
-		}
-
-		return $this->view_script;
-	}
-
-
+	
 	/**
 	 * @param string $label
 	 *
@@ -184,7 +167,7 @@ class UI_button extends UI_BaseElement
 	 */
 	public function setOnclick( string $onclick ): static
 	{
-		$this->setJsAction( 'onclick', $onclick );
+		$this->addJsAction( 'onclick', $onclick );
 
 		return $this;
 	}
@@ -209,27 +192,4 @@ class UI_button extends UI_BaseElement
 	{
 		return $this->url;
 	}
-	
-	/**
-	 * @return string
-	 */
-	public function getId(): string
-	{
-		return $this->id;
-	}
-	
-	/**
-	 * @param string $id
-	 *
-	 * @return $this
-	 */
-	public function setId( string $id ): static
-	{
-		$this->id = $id;
-		
-		return $this;
-	}
-
-
-	
 }

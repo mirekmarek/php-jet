@@ -14,14 +14,17 @@ $res = '';
 $style = '';
 
 if( $i->getSize() ) {
-	$style .= 'font-size:' . $i->getSize() . 'px;';
+	$i->addCustomCssStyle( 'font-size:' . $i->getSize() . 'px;' );
 }
 if( $i->getWidth() ) {
-	$style .= 'width:' . $i->getWidth() . 'px;';
+	$i->addCustomCssStyle( 'width:' . $i->getWidth() . 'px;' );
 }
 if( $i->getColor() ) {
-	$style .= 'color:' . $i->getColor() . ';';
+	$i->addCustomCssStyle( 'color:' . $i->getColor() . ';' );
 }
 
+$i->setBaseCssClass('fa fa-'. $i->getIcon() );
+$i->setCustomTagAttribute('title', $i->getTitle());
+
 $tag = $i->getTag();
-?><<?= $tag ?> class="fa fa-<?= $i->getIcon() ?>" style="<?= $style ?>" title="<?= $i->getTitle() ?>" <?= $i->getJsActions() ?>></<?= $tag ?>>
+?><<?=$tag.$i->renderTagAttributes()?>></<?= $tag ?>>

@@ -13,17 +13,11 @@ namespace Jet;
  */
 class UI_button_delete extends UI_button
 {
-
-	/**
-	 * @return string
-	 */
-	public function getViewScript(): string
+	
+	public function __construct( string $label )
 	{
-		if( !$this->view_script ) {
-			$this->view_script = SysConf_Jet_UI_DefaultViews::get('button/delete' );
-		}
-
-		return $this->view_script;
+		parent::__construct( $label );
+		$this->view_script = SysConf_Jet_UI_DefaultViews::get('button/delete' );
 	}
 
 }

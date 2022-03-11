@@ -8,7 +8,14 @@ use Jet\MVC_View;
  * @var UI_tabsJS_tab $t
  */
 $t = $this->getRaw( 'element' );
+
+if($t->getIsSelected()) {
+	$t->setBaseCssClass('tab-pane fade show active');
+} else {
+	$t->setBaseCssClass('tab-pane fade');
+}
+
+$t->addCustomCssStyle('padding-top: 10px;');
 ?>
-<div id="<?= $t->getId() ?>" class="tab-pane fade<?= $t->getIsSelected() ? ' show active' : '' ?>"
-     style="padding-top: 10px;">
+<div <?=$t->renderTagAttributes()?>>
 

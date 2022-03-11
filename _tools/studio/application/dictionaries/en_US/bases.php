@@ -48,4 +48,6 @@ return [
 	'URL conflicts with locale <b>%locale%</b>' => '',
 	'Please enter initializer' => '',
 	'Initializer is not callable' => '',
+	'class name' => '',
+	'method name' => '',
 ];

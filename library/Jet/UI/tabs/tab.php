@@ -11,14 +11,8 @@ namespace Jet;
 /**
  *
  */
-class UI_tabs_tab extends UI_BaseElement
+class UI_tabs_tab extends UI_Renderer_Single
 {
-
-
-	/**
-	 * @var string
-	 */
-	protected string $id = '';
 
 	/**
 	 * @var string
@@ -46,18 +40,7 @@ class UI_tabs_tab extends UI_BaseElement
 		$this->id = $id;
 		$this->title = $title;
 		$this->tab_url_creator = $tab_url_creator;
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getViewScript(): string
-	{
-		if( !$this->view_script ) {
-			$this->view_script = SysConf_Jet_UI_DefaultViews::get('tabs/tab' );
-		}
-
-		return $this->view_script;
+		$this->view_script = SysConf_Jet_UI_DefaultViews::get('tabs/tab' );
 	}
 
 	/**
@@ -74,22 +57,6 @@ class UI_tabs_tab extends UI_BaseElement
 	public function setIsSelected( bool $is_selected ): void
 	{
 		$this->is_selected = $is_selected;
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getId(): string
-	{
-		return $this->id;
-	}
-
-	/**
-	 * @param string $id
-	 */
-	public function setId( string $id ): void
-	{
-		$this->id = $id;
 	}
 
 	/**
@@ -118,4 +85,12 @@ class UI_tabs_tab extends UI_BaseElement
 		return $creator( $this->id );
 	}
 
+	protected function generateTagAttributes_Standard(): void
+	{
+		parent::generateTagAttributes_Standard();
+		
+		$this->_tag_attributes['href'] = $this->getUrl();
+	}
+	
+	
 }

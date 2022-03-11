@@ -11,7 +11,7 @@ namespace Jet;
 /**
  *
  */
-class UI_locale extends UI_BaseElement
+class UI_locale extends UI_Renderer_Single
 {
 
 	/**
@@ -26,20 +26,9 @@ class UI_locale extends UI_BaseElement
 	public function __construct( Locale $locale )
 	{
 		$this->locale = $locale;
+		$this->view_script = SysConf_Jet_UI_DefaultViews::get('locale');
 	}
-
-	/**
-	 * @return string
-	 */
-	public function getViewScript(): string
-	{
-		if( !$this->view_script ) {
-			$this->view_script = SysConf_Jet_UI_DefaultViews::get('locale');
-		}
-
-		return $this->view_script;
-	}
-
+	
 	/**
 	 * @return Locale
 	 */

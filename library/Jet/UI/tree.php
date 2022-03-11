@@ -56,16 +56,16 @@ class UI_tree extends BaseObject
 	protected $renderer_normal;
 
 
+	public function __construct()
+	{
+		$this->view_script = SysConf_Jet_UI_DefaultViews::get('tree');
+	}
 
 	/**
 	 * @return string
 	 */
 	public function getViewScript(): string
 	{
-		if( !$this->view_script ) {
-			$this->view_script = SysConf_Jet_UI_DefaultViews::get('tree');
-		}
-
 		return $this->view_script;
 	}
 

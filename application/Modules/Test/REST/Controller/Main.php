@@ -9,6 +9,7 @@
 namespace JetApplicationModule\Test\REST;
 
 use Jet\Form;
+use Jet\Form_Field;
 use Jet\Form_Field_Input;
 use Jet\Form_Field_Password;
 use Jet\Http_Headers;
@@ -56,7 +57,16 @@ class Controller_Main extends MVC_Controller_Default
 	{
 
 		$username_field = new Form_Field_Input( 'username', 'Username:' );
+		$username_field->setIsRequired(true);
+		$username_field->setErrorMessages([
+			Form_Field::ERROR_CODE_EMPTY => 'Please enter username'
+		]);
 		$password_field = new Form_Field_Password( 'password', 'Password:' );
+		$password_field->setIsRequired(true);
+		$password_field->setErrorMessages([
+			Form_Field::ERROR_CODE_EMPTY => 'Please enter password'
+		]);
+		
 		$form = new Form( 'login_form', [
 			$username_field,
 			$password_field

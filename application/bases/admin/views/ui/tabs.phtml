@@ -9,8 +9,10 @@ use Jet\MVC_View;
  */
 $t = $this->getRaw( 'element' );
 
+$t->setBaseCssClass('nav nav-tabs');
+$t->addCustomCssStyle('margin-top: 10px;');
 ?>
-<ul class="nav nav-tabs" style="margin-top: 10px;">
+<ul <?=$t->renderTagAttributes()?>>
 	<?php foreach( $t->getTabs() as $tab ):
 		echo $tab;
 	endforeach; ?>

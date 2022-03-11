@@ -9,7 +9,10 @@ use Jet\MVC_View;
  */
 $t = $this->getRaw( 'element' );
 
+if($t->getIsSelected()) {
+	$t->setBaseCssClass('nav-link active');
+} else {
+	$t->setBaseCssClass('nav-link');
+}
 ?>
-<li class="nav-item"><a href="<?= $t->getUrl(); ?>"
-                        class="nav-link <?= ($t->getIsSelected() ? 'active' : '') ?>" <?= $t->getJsActions() ?>><?= $t->getTitle() ?></a>
-</li>
+<li class="nav-item"><a <?=$t->renderTagAttributes()?>><?= $t->getTitle() ?></a></li>

@@ -12,7 +12,7 @@ namespace Jet;
 /**
  *
  */
-class UI_messages_message extends UI_BaseElement
+class UI_messages_message extends UI_Renderer_Single
 {
 
 	/**
@@ -52,20 +52,9 @@ class UI_messages_message extends UI_BaseElement
 		$this->class = $class;
 		$this->message = $message;
 		$this->context = $context;
+		$this->view_script = SysConf_Jet_UI_DefaultViews::get('messages/message' );
 	}
-
-	/**
-	 * @return string
-	 */
-	public function getViewScript(): string
-	{
-		if( !$this->view_script ) {
-			$this->view_script = SysConf_Jet_UI_DefaultViews::get('messages/message' );
-		}
-
-		return $this->view_script;
-	}
-
+	
 	/**
 	 * @return string
 	 */

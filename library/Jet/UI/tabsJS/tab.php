@@ -11,14 +11,9 @@ namespace Jet;
 /**
  *
  */
-class UI_tabsJS_tab extends UI_BaseElement
+class UI_tabsJS_tab extends UI_Renderer_Single
 {
-
-	/**
-	 * @var string
-	 */
-	protected string $id = '';
-
+	
 	/**
 	 * @var string
 	 */
@@ -28,16 +23,11 @@ class UI_tabsJS_tab extends UI_BaseElement
 	 * @var bool
 	 */
 	protected bool $is_selected = false;
-
+	
 	/**
-	 * @var string
+	 * @var UI_tabsJS_content
 	 */
-	protected string $content_start_view_script = '';
-
-	/**
-	 * @var string
-	 */
-	protected string $content_end_view_script = '';
+	protected UI_tabsJS_content $content;
 
 	/**
 	 *
@@ -46,8 +36,11 @@ class UI_tabsJS_tab extends UI_BaseElement
 	 */
 	public function __construct( string $id, string $title )
 	{
-		$this->id = $id;
+		$this->id = $id.'_tab';
 		$this->title = $title;
+		$this->view_script = SysConf_Jet_UI_DefaultViews::get('tabs-js', 'tab');
+		
+		$this->content = new UI_tabsJS_content( $id, $this );
 	}
 
 
@@ -67,21 +60,6 @@ class UI_tabsJS_tab extends UI_BaseElement
 		$this->is_selected = $is_selected;
 	}
 
-	/**
-	 * @return string
-	 */
-	public function getId(): string
-	{
-		return $this->id;
-	}
-
-	/**
-	 * @param string $id
-	 */
-	public function setId( string $id ): void
-	{
-		$this->id = $id;
-	}
 
 	/**
 	 * @return string
@@ -98,75 +76,14 @@ class UI_tabsJS_tab extends UI_BaseElement
 	{
 		$this->title = $title;
 	}
-
+	
 	/**
-	 * @return string
+	 * @return UI_tabsJS_content
 	 */
-	public function getViewScript(): string
+	public function content(): UI_tabsJS_content
 	{
-		if( !$this->view_script ) {
-			$this->view_script = SysConf_Jet_UI_DefaultViews::get('tabs-js/tab');
-		}
-
-		return $this->view_script;
+		return $this->content;
 	}
-
-
-	/**
-	 * @return string
-	 */
-	public function getContentStartViewScript(): string
-	{
-		if( !$this->content_start_view_script ) {
-			$this->content_start_view_script = SysConf_Jet_UI_DefaultViews::get('tabs-js/tab', 'content_start');
-		}
-
-		return $this->content_start_view_script;
-	}
-
-	/**
-	 * @param string $script
-	 */
-	public function setContentStartViewScript( string $script ): void
-	{
-		$this->content_start_view_script = $script;
-	}
-
-
-	/**
-	 * @return string
-	 */
-	public function getContentEndViewScript(): string
-	{
-		if( !$this->content_end_view_script ) {
-			$this->content_end_view_script = SysConf_Jet_UI_DefaultViews::get('tabs-js/tab', 'content_end');
-		}
-
-		return $this->content_end_view_script;
-	}
-
-	/**
-	 * @param string $script
-	 */
-	public function setContentEndViewScript( string $script ): void
-	{
-		$this->content_end_view_script = $script;
-	}
-
-	/**
-	 * @return string
-	 */
-	public function contentStart(): string
-	{
-		return $this->getView()->render( $this->getContentStartViewScript() );
-	}
-
-	/**
-	 * @return string
-	 */
-	public function contentEnd(): string
-	{
-		return $this->getView()->render( $this->getContentEndViewScript() );
-	}
-
+	
+	
 }

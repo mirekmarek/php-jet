@@ -38,4 +38,6 @@ return [
 	'Logout' => '',
 	'REST API Tests - client login' => '',
 	'Sign In' => '',
+	'Please enter username' => '',
+	'Please enter password' => '',
 ];

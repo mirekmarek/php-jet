@@ -9,4 +9,5 @@ return [
 	'Delete image' => '',
 	'Images - REST API' => '',
 	'Images' => '',
+	'Galleries' => '',
 ];

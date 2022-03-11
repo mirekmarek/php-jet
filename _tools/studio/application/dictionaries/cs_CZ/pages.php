@@ -91,4 +91,7 @@ return [
 	'Please enter callback' => 'Prosím zadejte callback',
 	'Callback is not callable' => 'Callback není volatelý',
 	'Output callback:' => 'Callback výstupu:',
+	'class name' => 'název třídy',
+	'method name' => 'název metody',
+	'Source module: ' => 'Zdrojový modul:',
 ];

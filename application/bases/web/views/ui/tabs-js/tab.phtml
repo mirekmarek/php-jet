@@ -9,6 +9,15 @@ use Jet\MVC_View;
  */
 $t = $this->getRaw( 'element' );
 
+if($t->getIsSelected()) {
+	$t->setBaseCssClass('nav-link active');
+	
+} else {
+	$t->setBaseCssClass('nav-link');
+}
+
+$t->setDataAttribute('toggle', 'tab');
+$t->setCustomTagAttribute('href', '#'.$t->content()->getId());
+
 ?>
-<li class="nav-item"><a class="nav-link <?= ($t->getIsSelected() ? 'active' : '') ?>" data-toggle="tab"
-                        href="#<?= $t->getId() ?>" <?= $t->getJsActions() ?>><?= $t->getTitle() ?></a></li>
+<li class="nav-item"><a <?=$t->renderTagAttributes()?>><?= $t->getTitle() ?></a></li>

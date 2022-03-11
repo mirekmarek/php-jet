@@ -11,13 +11,8 @@ namespace Jet;
 /**
  *
  */
-class UI_searchField extends BaseObject
+class UI_searchField extends UI_Renderer_Single
 {
-
-	/**
-	 * @var string|null
-	 */
-	protected ?string $view_script = null;
 
 	/**
 	 * @var string
@@ -42,28 +37,7 @@ class UI_searchField extends BaseObject
 	{
 		$this->name = $name;
 		$this->value = $value;
-	}
-
-
-	/**
-	 * @return string
-	 */
-	public function getViewScript(): string
-	{
-		if( !$this->view_script ) {
-			$this->view_script = SysConf_Jet_UI_DefaultViews::get('search-field');
-		}
-
-		return $this->view_script;
-	}
-
-
-	/**
-	 * @param string $view_script
-	 */
-	public function setViewScript( string $view_script ): void
-	{
-		$this->view_script = $view_script;
+		$this->view_script = SysConf_Jet_UI_DefaultViews::get('search-field');
 	}
 
 	/**
@@ -91,7 +65,7 @@ class UI_searchField extends BaseObject
 			return '';
 		}
 
-		return UI::_( $this->placeholder );
+		return $this->placeholder;
 	}
 
 	/**
@@ -105,42 +79,17 @@ class UI_searchField extends BaseObject
 
 		return $this;
 	}
-
-
-	/**
-	 * @return MVC_View
-	 */
-	public function getView(): MVC_View
+	
+	protected function generateTagAttributes_Standard(): void
 	{
-
-		$view = UI::getView();
-		$view->setVar( 'element', $this );
-
-		return $view;
+		parent::generateTagAttributes_Standard();
+		
+		$this->_tag_attributes['name'] = $this->name;
+		$this->_tag_attributes['value'] = $this->value;
+		
+		if($this->placeholder) {
+			$this->_tag_attributes['placeholder'] = $this->placeholder;
+		}
+		
 	}
-
-	/**
-	 * @return string
-	 */
-	public function getAction(): string
-	{
-		return Http_Request::currentURI();
-	}
-
-	/**
-	 * @return string
-	 */
-	public function __toString(): string
-	{
-		return $this->toString();
-	}
-
-	/**
-	 * @return string
-	 */
-	public function toString(): string
-	{
-		return $this->getView()->render( $this->getViewScript() );
-	}
-
 }

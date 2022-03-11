@@ -232,7 +232,8 @@ class Pages extends BaseObject implements Application_Part
 				$tree_data[] = [
 					'id' => $page->getId(),
 					'parent_id' => $parent->getId(),
-					'name' => $page->getName()
+					'name' => $page->getName(),
+					'module_name' => $page->getSourceModuleName(),
 				];
 			}
 

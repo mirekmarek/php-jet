@@ -12,5 +12,9 @@ $f = $this->getRaw( 'element' );
 
 $title = $f->getLocale()->getRegionName() . ' - ' . $f->getLocale()->getLanguageName();
 $region = strtolower( $f->getLocale()->getRegion() );
+
+$f->setBaseCssClass('flag flag-'.$region);
+$f->setCustomTagAttribute('title', $title);
+
 ?>
-<span class="flag flag-<?= $region ?>" title="<?= $title ?>" <?= $f->getJsActions() ?>></span> <?= $f->getLocale()->getLanguageName() ?>
+<span <?=$f->renderTagAttributes()?> ></span> <?= $f->getLocale()->getLanguageName() ?>

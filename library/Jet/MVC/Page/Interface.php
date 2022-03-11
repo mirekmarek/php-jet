@@ -77,7 +77,17 @@ interface MVC_Page_Interface
 	 * @param string $id
 	 */
 	public function setId( string $id );
-
+	
+	/**
+	 * @return string
+	 */
+	public function getSourceModuleName(): string;
+	
+	/**
+	 * @param string $source_module_name
+	 */
+	public function setSourceModuleName( string $source_module_name ): void;
+	
 	/**
 	 * @return string
 	 */

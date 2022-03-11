@@ -10,6 +10,12 @@ use Jet\MVC_View;
  */
 $f = $this->getRaw( 'element' );
 
+if(!$f->getPlaceholder()) {
+	$f->setPlaceholder(UI::_('Search for...'));
+}
+
+$f->setBaseCssClass('form-control');
+$f->setCustomTagAttribute('type', 'text');
 ?>
 
 <div class="input-group">
@@ -19,10 +25,7 @@ $f = $this->getRaw( 'element' );
 			<?= UI::icon( 'times' ) ?>
 		</button>
 	</div>
-
-	<input type="text" class="form-control" placeholder="<?=$f->getPlaceholder()?:UI::_('Search for...')?>" name="<?= $f->getName() ?>"
-	       value="<?= $f->getValue() ?>">
-
+	<input <?=$f->renderTagAttributes()?>/>
 	<div class="input-group-append">
 		<button class="btn btn-outline-secondary" type="submit">
 			<?= UI::icon( 'search' ) ?>

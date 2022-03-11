@@ -28,7 +28,12 @@ trait MVC_Page_Trait_Main
 	 * @var string
 	 */
 	protected string $id = '';
-
+	
+	/**
+	 * @var string
+	 */
+	protected string $_source_module_name = '';
+	
 	/**
 	 *
 	 * @var string
@@ -144,7 +149,8 @@ trait MVC_Page_Trait_Main
 				}
 			}
 		}
-
+		
+		$module_name = null;
 		if(isset($maps['module'][$page_id])) {
 			$module_name = $maps['module'][$page_id];
 
@@ -157,6 +163,9 @@ trait MVC_Page_Trait_Main
 
 		$page = static::_createByData( $base, $locale, $data );
 		$page->setDataFilePath( $data_file_path );
+		if($module_name) {
+			$page->setSourceModuleName( $module_name );
+		}
 
 		static::$pages[$key] = $page;
 
@@ -236,6 +245,24 @@ trait MVC_Page_Trait_Main
 	{
 		$this->id = $id;
 	}
+	
+	/**
+	 * @return string
+	 */
+	public function getSourceModuleName(): string
+	{
+		return $this->_source_module_name;
+	}
+	
+	/**
+	 * @param string $_source_module_name
+	 */
+	public function setSourceModuleName( string $_source_module_name ): void
+	{
+		$this->_source_module_name = $_source_module_name;
+	}
+	
+	
 
 	/**
 	 * @return string

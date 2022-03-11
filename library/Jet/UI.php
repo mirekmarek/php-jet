@@ -14,7 +14,7 @@ namespace Jet;
  */
 class UI
 {
-
+	
 	/**
 	 * @var string
 	 */

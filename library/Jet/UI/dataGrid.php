@@ -65,6 +65,11 @@ class UI_dataGrid extends BaseObject
 	 * @var string
 	 */
 	protected string $custom_footer = '';
+	
+	public function __construct()
+	{
+		$this->view_script = SysConf_Jet_UI_DefaultViews::get('data-grid');
+	}
 
 
 	/**
@@ -252,10 +257,6 @@ class UI_dataGrid extends BaseObject
 	 */
 	public function getViewScript(): string
 	{
-		if( !$this->view_script ) {
-			$this->view_script = SysConf_Jet_UI_DefaultViews::get('data-grid');
-		}
-
 		return $this->view_script;
 	}
 

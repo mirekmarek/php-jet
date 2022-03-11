@@ -15,16 +15,13 @@ class SysConf_Jet_UI_DefaultViews
 {
 	protected static array $views = [
 		'tabs-js' => [
-			'main' => 'tabs-js',
-			'content_start' => 'tabs-js/content-start',
-			'content_end' => 'tabs-js/content-end',
+			'start' => 'tabs-js/start',
+			'end' => 'tabs-js/end',
+			'tab' => 'tabs-js/tab',
+			'content/start' => 'tabs-js/tab/content-start',
+			'content/end' => 'tabs-js/tab/content-end',
 		],
 
-		'tabs-js/tab' => [
-			'main' => 'tabs-js/tab',
-			'content_start' => 'tabs-js/tab/content-start',
-			'content_end' => 'tabs-js/tab/content-end',
-		],
 		'tabs' => [
 			'main' => 'tabs',
 		],
