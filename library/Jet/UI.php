@@ -18,32 +18,22 @@ class UI
 	/**
 	 * @var string
 	 */
-	protected static string $translator_namespace = Translator::COMMON_DICTIONARY;
-
-
-	/**
-	 * @return MVC_View
-	 */
-	public static function getView(): MVC_View
-	{
-		return Factory_MVC::getViewInstance( SysConf_Jet_UI::getViewsDir() );
-	}
-
-
+	protected static string $translator_dictionary = Translator::COMMON_DICTIONARY;
+	
 	/**
 	 * @return string
 	 */
-	public static function getTranslatorNamespace(): string
+	public static function getTranslatorDictionary(): string
 	{
-		return static::$translator_namespace;
+		return static::$translator_dictionary;
 	}
 
 	/**
-	 * @param string $translator_namespace
+	 * @param string $translator_dictionary
 	 */
-	public static function setTranslatorNamespace( string $translator_namespace ): void
+	public static function setTranslatorDictionary( string $translator_dictionary ): void
 	{
-		static::$translator_namespace = $translator_namespace;
+		static::$translator_dictionary = $translator_dictionary;
 	}
 
 	/**
@@ -54,7 +44,7 @@ class UI
 	 */
 	public static function _( string $text, array $data = [] ): string
 	{
-		return Tr::_( $text, $data, static::getTranslatorNamespace() );
+		return Tr::_( $text, $data, static::getTranslatorDictionary() );
 	}
 
 	/**

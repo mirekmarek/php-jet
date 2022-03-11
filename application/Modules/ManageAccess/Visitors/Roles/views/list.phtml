@@ -33,8 +33,8 @@ $c_edit->setRenderer(
 		endif;
 	}
 );
-$c_edit->setCssStyle( 'width:180px;' );
-$grid->getColumn( 'id' )->setCssStyle( 'width:120px;' );
+$c_edit->addCustomCssStyle( 'width:180px;' );
+$grid->getColumn( 'id' )->addCustomCssStyle( 'width:120px;' );
 
 
 $grid->getColumn( 'id' )->setRenderer(

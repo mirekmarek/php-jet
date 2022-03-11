@@ -11,7 +11,7 @@ namespace Jet;
 /**
  *
  */
-class UI_dataGrid_column extends BaseObject
+class UI_dataGrid_column extends UI_Renderer_Single
 {
 
 	/**
@@ -22,35 +22,33 @@ class UI_dataGrid_column extends BaseObject
 	 * @var string
 	 */
 	protected string $title = '';
+	
 	/**
 	 * @var callable
 	 */
 	protected $renderer;
+	
 	/**
 	 * @var bool
 	 */
 	protected bool $allow_sort = true;
+	
 	/**
-	 * @var string
+	 * @var UI_dataGrid
 	 */
-	protected string $css_style = '';
+	private UI_dataGrid $grid;
+	
 	/**
-	 * @var string
-	 */
-	protected string $css_class = '';
-	/**
-	 * @var ?UI_dataGrid
-	 */
-	private ?UI_dataGrid $grid = null;
-
-	/**
+	 * @param UI_dataGrid $grid
 	 * @param string $name
 	 * @param string $title
 	 */
-	public function __construct( string $name, string $title )
+	public function __construct( UI_dataGrid $grid, string $name, string $title )
 	{
+		$this->grid = $grid;
 		$this->name = $name;
 		$this->title = $title;
+		$this->view_script = SysConf_Jet_UI_DefaultViews::get('data-grid', 'header/column');
 	}
 
 	/**
@@ -59,14 +57,6 @@ class UI_dataGrid_column extends BaseObject
 	public function getGrid(): UI_dataGrid
 	{
 		return $this->grid;
-	}
-
-	/**
-	 * @param UI_dataGrid $grid
-	 */
-	public function setGrid( UI_dataGrid $grid ): void
-	{
-		$this->grid = $grid;
 	}
 
 	/**
@@ -120,46 +110,6 @@ class UI_dataGrid_column extends BaseObject
 		return $this;
 	}
 
-	/**
-	 * @return string
-	 */
-	public function getCssClass(): string
-	{
-		return $this->css_class;
-	}
-
-	/**
-	 * @param string $css_class
-	 *
-	 * @return $this
-	 */
-	public function setCssClass( string $css_class ): static
-	{
-		$this->css_class = $css_class;
-
-		return $this;
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getCssStyle(): string
-	{
-		return $this->css_style;
-	}
-
-	/**
-	 * @param string $css_style
-	 *
-	 * @return $this
-	 */
-	public function setCssStyle( string $css_style ): static
-	{
-		$this->css_style = $css_style;
-
-		return $this;
-
-	}
 
 	/**
 	 * @return bool

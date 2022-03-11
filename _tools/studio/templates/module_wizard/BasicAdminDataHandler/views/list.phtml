@@ -34,9 +34,9 @@ $c_edit->setRenderer(
 
 	}
 );
-$c_edit->setCssStyle( 'width:200px;' );
+$c_edit->addCustomCssStyle( 'width:200px;' );
 
-$grid->getColumn( '%<ID_PROPERTY>%' )->setCssStyle( 'width:120px;' );
+$grid->getColumn( '%<ID_PROPERTY>%' )->addCustomCssStyle( 'width:120px;' );
 
 $grid->getColumn( '%<ID_PROPERTY>%' )->setRenderer(
 	function( %<DATA_MODEL_CLASS_ALIAS>% $item ) use ( $router ) {

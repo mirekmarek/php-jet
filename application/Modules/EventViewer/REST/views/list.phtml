@@ -24,7 +24,7 @@ $getViewURL = function(Event $item ) {
 	return Http_Request::currentURI(['id'=>$item->getId()]);
 };
 
-$grid->getColumn( 'id' )->setCssStyle( 'width:120px;' );
+$grid->getColumn( 'id' )->addCustomCssStyle( 'width:120px;' );
 
 $grid->getColumn( 'id' )->setRenderer(
 	function( Event $item ) use ($getViewURL) {

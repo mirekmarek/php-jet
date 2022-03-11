@@ -7,19 +7,17 @@ use Jet\MVC_View;
  * @var MVC_View $this
  * @var UI_dataGrid $grid
  */
-$grid = $this->getRaw( 'grid' );
+$grid = $this->getRaw( 'element' );
 
 ?>
 <table class="table table-striped">
 	<thead>
-	<?= $grid->getCustomHeader() ?>
-	<?= $grid->renderHeader(); ?>
+	<?= $grid->header(); ?>
 	</thead>
 	<tbody>
-	<?= $grid->renderBody() ?>
+	<?= $grid->body() ?>
 	</tbody>
 	<tfoot>
-	<?= $grid->getCustomFooter() ?>
-	<?= $grid->renderPaginator() ?>
+	<?= $grid->footer() ?>
 	</tfoot>
 </table>

@@ -25,7 +25,7 @@ $delete_uri = $router->action( 'delete' )->URI();
 
 $grid->getColumn( '_edit_' )
 	->setAllowSort( false )
-	->setCssStyle( 'width:30px;' )
+	->addCustomCssStyle( 'width:30px;' )
 	->setRenderer(
 		function( Content_Article $item ) use ( $delete_uri ) {
 			if( $delete_uri ):
@@ -50,7 +50,7 @@ $grid->getColumn( 'title' )
 	);
 
 $grid->getColumn( 'date_time' )
-	->setCssStyle( 'width:200px;' )
+	->addCustomCssStyle( 'width:200px;' )
 	->setRenderer(
 		function( Content_Article $item ) {
 			echo Locale::dateAndTime( $item->getDateTime() );
@@ -58,7 +58,7 @@ $grid->getColumn( 'date_time' )
 	);
 
 if( $delete_uri && count( $grid->getData() ) ) {
-	$grid->setCustomFooter( '
+	$grid->footer()->setPrepend( '
 		<tr>
 			<td colspan="' . count( $grid->getColumns() ) . '" class="toolbar">
 				' . UI::button_delete()->setType( 'submit' )->setSize( UI_button::SIZE_EXTRA_SMALL ) . '

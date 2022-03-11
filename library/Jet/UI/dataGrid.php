@@ -11,7 +11,7 @@ namespace Jet;
 /**
  *
  */
-class UI_dataGrid extends BaseObject
+class UI_dataGrid extends UI_Renderer_Single
 {
 	/**
 	 * @var UI_dataGrid_column[]
@@ -33,42 +33,34 @@ class UI_dataGrid extends BaseObject
 	 */
 	protected string $sort_by = '';
 
-
-	/**
-	 * @var string
-	 */
-	protected string $view_script = '';
-	/**
-	 * @var string
-	 */
-	protected string $view_script_header = '';
-	/**
-	 * @var string
-	 */
-	protected string $view_script_body = '';
-	/**
-	 * @var string
-	 */
-	protected string $view_script_paginator = '';
-
 	/**
 	 * @var callable
 	 */
 	protected $sort_url_creator;
-
+	
+	
 	/**
-	 * @var string
+	 * @var UI_dataGrid_header
 	 */
-	protected string $custom_header = '';
-
+	protected UI_dataGrid_header $header;
+	
 	/**
-	 * @var string
+	 * @var UI_dataGrid_body
 	 */
-	protected string $custom_footer = '';
+	protected UI_dataGrid_body $body;
+	
+	/**
+	 * @var UI_dataGrid_footer
+	 */
+	protected UI_dataGrid_footer $footer;
+	
 	
 	public function __construct()
 	{
 		$this->view_script = SysConf_Jet_UI_DefaultViews::get('data-grid');
+		$this->header = new UI_dataGrid_header( $this );
+		$this->body = new UI_dataGrid_body( $this );
+		$this->footer = new UI_dataGrid_footer( $this );
 	}
 
 
@@ -80,8 +72,7 @@ class UI_dataGrid extends BaseObject
 	 */
 	public function addColumn( string $name, string $title ): UI_dataGrid_column
 	{
-		$this->columns[$name] = new UI_dataGrid_column( $name, $title );
-		$this->columns[$name]->setGrid( $this );
+		$this->columns[$name] = new UI_dataGrid_column( $this, $name, $title );
 
 		return $this->columns[$name];
 	}
@@ -223,205 +214,18 @@ class UI_dataGrid extends BaseObject
 	}
 
 
-	/**
-	 * @return string
-	 */
-	public function __toString(): string
+	public function header() : UI_dataGrid_header
 	{
-		return $this->toString();
+		return $this->header;
 	}
-
-	/**
-	 * @return string
-	 */
-	public function toString(): string
+	
+	public function body() : UI_dataGrid_body
 	{
-		return $this->render();
+		return $this->body;
 	}
-
-
-	/**
-	 * @return MVC_View
-	 */
-	protected function getView(): MVC_View
+	
+	public function footer() : UI_dataGrid_footer
 	{
-		$view = UI::getView();
-		$view->setVar( 'grid', $this );
-
-		return $view;
+		return $this->footer;
 	}
-
-
-	/**
-	 * @return string
-	 */
-	public function getViewScript(): string
-	{
-		return $this->view_script;
-	}
-
-	/**
-	 * @param string $view_script
-	 *
-	 * @return $this
-	 */
-	public function setViewScript( string $view_script ): static
-	{
-		$this->view_script = $view_script;
-
-		return $this;
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getViewScriptHeader(): string
-	{
-		if( !$this->view_script_header ) {
-			$this->view_script_header = SysConf_Jet_UI_DefaultViews::get('data-grid', 'header');
-		}
-
-		return $this->view_script_header;
-	}
-
-	/**
-	 * @param string $view_script_header
-	 *
-	 * @return $this
-	 */
-	public function setViewScriptHeader( string $view_script_header ): static
-	{
-		$this->view_script_header = $view_script_header;
-
-		return $this;
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getViewScriptBody(): string
-	{
-		if( !$this->view_script_body ) {
-			$this->view_script_body = SysConf_Jet_UI_DefaultViews::get('data-grid', 'body');
-		}
-
-		return $this->view_script_body;
-	}
-
-	/**
-	 * @param string $view_script_body
-	 *
-	 * @return $this
-	 */
-	public function setViewScriptBody( string $view_script_body ): static
-	{
-		$this->view_script_body = $view_script_body;
-
-		return $this;
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getViewScriptPaginator(): string
-	{
-		if( !$this->view_script_paginator ) {
-			$this->view_script_paginator = SysConf_Jet_UI_DefaultViews::get('data-grid', 'paginator');
-		}
-
-		return $this->view_script_paginator;
-	}
-
-	/**
-	 * @param string $view_script_paginator
-	 *
-	 * @return $this
-	 */
-	public function setViewScriptPaginator( string $view_script_paginator ): static
-	{
-		$this->view_script_paginator = $view_script_paginator;
-
-		return $this;
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getCustomHeader(): string
-	{
-		return $this->custom_header;
-	}
-
-	/**
-	 * @param string $custom_header
-	 *
-	 * @return $this
-	 */
-	public function setCustomHeader( string $custom_header ): static
-	{
-		$this->custom_header = $custom_header;
-
-		return $this;
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getCustomFooter(): string
-	{
-		return $this->custom_footer;
-	}
-
-	/**
-	 * @param string $custom_footer
-	 *
-	 * @return $this
-	 */
-	public function setCustomFooter( string $custom_footer ): static
-	{
-		$this->custom_footer = $custom_footer;
-
-		return $this;
-	}
-
-
-	/**
-	 * @return string
-	 */
-	public function render(): string
-	{
-		return $this->getView()->render( $this->getViewScript() );
-	}
-
-	/**
-	 *
-	 * @return string
-	 */
-	public function renderHeader(): string
-	{
-		return $this->getView()->render( $this->getViewScriptHeader() );
-	}
-
-	/**
-	 *
-	 * @return string
-	 */
-	public function renderBody(): string
-	{
-		return $this->getView()->render( $this->getViewScriptBody() );
-	}
-
-	/**
-	 *
-	 * @return string
-	 */
-	public function renderPaginator(): string
-	{
-		if( !$this->paginator ) {
-			return '';
-		}
-
-		return $this->getView()->render( $this->getViewScriptPaginator() );
-	}
-
 }

@@ -1,17 +1,18 @@
 <?php
 
-use Jet\UI_dataGrid;
+use Jet\UI_dataGrid_body;
 use Jet\MVC_View;
 
 /**
  * @var MVC_View $this
- * @var UI_dataGrid $grid
+ * @var UI_dataGrid_body $body
  */
-$grid = $this->getRaw( 'grid' );
+$body = $this->getRaw( 'element' );
+$grid = $body->getGrid();
 ?>
 
 <?php foreach( $grid->getData() as $i => $item ): ?>
-	<tr>
+	<tr <?=$body->renderTagAttributes()?>>
 		<?php foreach( $grid->getColumns() as $column ):
 			$callback = $column->getRenderer();
 			?>
@@ -21,4 +22,3 @@ $grid = $this->getRaw( 'grid' );
 		<?php endforeach; ?>
 	</tr>
 <?php endforeach; ?>
-

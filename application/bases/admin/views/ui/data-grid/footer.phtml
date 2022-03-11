@@ -1,14 +1,15 @@
 <?php
 
-use Jet\UI_dataGrid;
+use Jet\UI_dataGrid_footer;
 use Jet\UI;
 use Jet\MVC_View;
 
 /**
  * @var MVC_View $this
- * @var UI_dataGrid $grid
+ * @var UI_dataGrid_footer $footer
  */
-$grid = $this->getRaw( 'grid' );
+$footer = $this->getRaw( 'element' );
+$grid = $footer->getGrid();
 
 $paginator = $grid->getPaginator();
 
@@ -31,7 +32,7 @@ if( $e_index > count( $pages ) ) {
 }
 
 ?>
-
+<?=$footer->getPrepend()?>
 <tr>
 	<td colspan="<?= count( $grid->getColumns() ); ?>">
 		<div style="float: right; padding: 5px;">
@@ -94,5 +95,5 @@ if( $e_index > count( $pages ) ) {
 
 	</td>
 </tr>
-
+<?=$footer->getAppend()?>
 

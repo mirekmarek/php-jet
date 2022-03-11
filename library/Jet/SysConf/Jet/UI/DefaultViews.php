@@ -73,8 +73,9 @@ class SysConf_Jet_UI_DefaultViews
 		'data-grid' => [
 			'main' => 'data-grid',
 			'header' => 'data-grid/header',
+			'header/column' => 'data-grid/header/column',
 			'body' => 'data-grid/body',
-			'paginator' => 'data-grid/paginator',
+			'footer' => 'data-grid/footer',
 		],
 		'tree' => [
 			'main' => 'tree',

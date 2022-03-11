@@ -1,42 +1,19 @@
 <?php
 
-use Jet\UI_dataGrid;
-use Jet\UI;
+use Jet\UI_dataGrid_header;
 use Jet\MVC_View;
 
 /**
  * @var MVC_View $this
- * @var UI_dataGrid $grid
+ * @var UI_dataGrid_header $header
  */
-$grid = $this->getRaw( 'grid' );
+$header = $this->getRaw( 'element' );
+$grid = $header->getGrid();
 ?>
-<tr>
+<?=$header->getPrepend()?>
+<tr <?=$header->renderTagAttributes()?>>
 	<?php foreach( $grid->getColumns() as $column ):
-		$style = $column->getCssStyle() ? ' style="' . $column->getCssStyle() . '"' : '';
-		$class = $column->getCssClass() ? ' class="' . $column->getCssClass() . '"' : '';
-		?>
-		<th<?= $class; ?><?= $style; ?> nowrap="">
-
-			<?php if( $column->getAllowSort() ): ?>
-				<?php if( $column->isSortByAsc() ): ?>
-					<?= UI::icon( 'sort-amount-down-alt' )->setSize( 11 ) ?>
-				<?php else: ?>
-					<a href="<?= $grid->getSortURL( $column->getName() ); ?>">
-						<?= UI::icon( 'sort-amount-down-alt' )->setSize( 11 ) ?>
-					</a>
-				<?php endif; ?>
-			<?php endif; ?>
-			<?= $column->getTitle(); ?>
-
-			<?php if( $column->getAllowSort() ): ?>
-				<?php if( $column->isSortByDesc() ): ?>
-					<?= UI::icon( 'sort-amount-down' )->setSize( 11 ) ?>
-				<?php else: ?>
-					<a href="<?= $grid->getSortURL( $column->getName(), true ); ?>">
-						<?= UI::icon( 'sort-amount-down' )->setSize( 11 ) ?>
-					</a>
-				<?php endif; ?>
-			<?php endif; ?>
-		</th>
-	<?php endforeach; ?>
+		echo $column;
+	endforeach; ?>
 </tr>
+<?=$header->getAppend()?>
