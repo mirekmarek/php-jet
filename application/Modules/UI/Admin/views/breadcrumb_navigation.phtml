@@ -1,29 +1,39 @@
 <?php
-
+use Jet\UI;
 use Jet\Navigation_Breadcrumb;
+use Jet\Navigation_Breadcrumb_Item;
 
+
+Navigation_Breadcrumb::shift(1);
 $items = Navigation_Breadcrumb::getItems();
+
+$title = function( Navigation_Breadcrumb_Item $item ) : string {
+	$page = $item->getPage();
+	$res = '';
+	if($page) {
+		$res .= '<span>'.UI::icon( $page->getIcon() ) . '&nbsp;</span>';
+	}
+	$res .= $item->getTitle();
+	
+	return $res;
+};
+
+$showItem = function( Navigation_Breadcrumb_Item $item ) use ($title) : void {
+	if( !$item->getIsLast() ): ?>
+		<a href="<?= $item->getURL(); ?>"><?=$title($item)?></a>
+	<?php else: ?>
+		<?=$title($item)?>
+	<?php endif;
+};
 ?>
 <nav aria-label="breadcrumb">
 	<ol class="breadcrumb" style="margin-bottom: 0;">
-		<?php foreach( $items as $item ): ?>
-			<?php if( $item->getIsActive() ): ?>
-				<li class="breadcrumb-item active">
-					<?php if( !$item->getIsLast() ): ?>
-						<a href="<?= $item->getURL(); ?>"><?= $item->getTitle(); ?></a>
-					<?php else: ?>
-						<?= $item->getTitle(); ?>
-					<?php endif; ?>
-				</li>
+		<?php foreach( $items as $item ):
+			if( $item->getIsActive() ): ?>
+				<li class="breadcrumb-item active"><?php $showItem($item) ?></li>
 			<?php else: ?>
-				<li class="breadcrumb-item">
-					<?php if( !$item->getIsLast() ): ?>
-						<a href="<?= $item->getURL(); ?>"><?= $item->getTitle(); ?></a>
-					<?php else: ?>
-						<?= $item->getTitle(); ?>
-					<?php endif; ?>
-				</li>
-			<?php endif; ?>
-		<?php endforeach; ?>
+				<li class="breadcrumb-item"><?php $showItem($item) ?></li>
+			<?php endif;
+		endforeach; ?>
 	</ol>
 </nav>

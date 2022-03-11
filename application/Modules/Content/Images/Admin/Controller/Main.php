@@ -25,7 +25,7 @@ use Jet\Locale;
 use Jet\IO_File;
 
 use JetApplication\Content_Gallery_Image;
-use JetApplicationModule\UI\Admin\Main as UI_module;
+
 
 /**
  *
@@ -126,8 +126,6 @@ class Controller_Main extends MVC_Controller_Default
 	 */
 	protected function _setBreadcrumbNavigation( ?Content_Gallery $gallery = null, string $current_label = '' ): void
 	{
-		UI_module::initBreadcrumb();
-
 		if( $gallery ) {
 
 			foreach( $gallery->getPath() as $gallery ) {

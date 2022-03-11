@@ -36,4 +36,6 @@ return [
 	'Sorry, but username %USERNAME% is registered.' => '',
 	'User <b>%USERNAME%</b> has been created' => '',
 	'User <b>%USERNAME%</b> has been updated' => '',
+	'Delete user account <b>%USERNAME%</b>' => '',
+	'Do you really want to delete this user?' => '',
 ];

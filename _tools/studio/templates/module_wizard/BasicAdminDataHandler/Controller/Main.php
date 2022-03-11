@@ -9,11 +9,8 @@ namespace %<NAMESPACE>%;
 
 use %<DATA_MODEL_CLASS_NAME>% as %<DATA_MODEL_CLASS_ALIAS>%;
 
-use Jet\MVC;
 use Jet\MVC_Controller_Router_AddEditDelete;
-use Jet\MVC_Page;
 use Jet\MVC_Controller_Default;
-use Jet\UI;
 use Jet\UI_messages;
 use Jet\Http_Headers;
 use Jet\Http_Request;
@@ -62,35 +59,12 @@ class Controller_Main extends MVC_Controller_Default
 		return $this->router;
 	}
 
-	/**
-	 * @param string $current_label
-	 */
-	protected function _setBreadcrumbNavigation( string $current_label = '' ) : void
-	{
-		/**
-		 * @var MVC_Page $page
-		 */
-		$page = MVC::getPage();
-
-		Navigation_Breadcrumb::reset();
-
-		Navigation_Breadcrumb::addURL(
-			UI::icon( $page->getIcon() ) . '&nbsp;&nbsp;' . $page->getBreadcrumbTitle(),
-			$page->getURL()
-		);
-
-		if( $current_label ) {
-			Navigation_Breadcrumb::addURL( $current_label );
-		}
-	}
 
 	/**
 	 *
 	 */
 	public function listing_Action() : void
 	{
-		$this->_setBreadcrumbNavigation();
-
 		$listing = new Listing();
 		$listing->handle();
 
@@ -105,7 +79,7 @@ class Controller_Main extends MVC_Controller_Default
 	 */
 	public function add_Action() : void
 	{
-		$this->_setBreadcrumbNavigation( Tr::_( '%<TXT_BTN_NEW>%' ) );
+		Navigation_Breadcrumb::addURL( Tr::_( '%<TXT_BTN_NEW>%' ) );
 
 		$%<ITEM_VAR_NAME>% = new %<DATA_MODEL_CLASS_ALIAS>%();
 
@@ -145,7 +119,7 @@ class Controller_Main extends MVC_Controller_Default
 	{
 		$%<ITEM_VAR_NAME>% = $this->%<ITEM_VAR_NAME>%;
 
-		$this->_setBreadcrumbNavigation( Tr::_( '%<TXT_BN_EDIT>%', [ 'ITEM_NAME' => $%<ITEM_VAR_NAME>%->%<ITEM_NAME_GETTER>%() ] ) );
+		Navigation_Breadcrumb::addURL( Tr::_( '%<TXT_BN_EDIT>%', [ 'ITEM_NAME' => $%<ITEM_VAR_NAME>%->%<ITEM_NAME_GETTER>%() ] ) );
 
 		$form = $%<ITEM_VAR_NAME>%->getEditForm();
 
@@ -182,7 +156,7 @@ class Controller_Main extends MVC_Controller_Default
 	{
 		$%<ITEM_VAR_NAME>% = $this->%<ITEM_VAR_NAME>%;
 
-		$this->_setBreadcrumbNavigation(
+		Navigation_Breadcrumb::addURL(
 			Tr::_( '%<TXT_BN_DETAIL>%', [ 'ITEM_NAME' => $%<ITEM_VAR_NAME>%->%<ITEM_NAME_GETTER>%() ] )
 		);
 
@@ -204,7 +178,7 @@ class Controller_Main extends MVC_Controller_Default
 	{
 		$%<ITEM_VAR_NAME>% = $this->%<ITEM_VAR_NAME>%;
 
-		$this->_setBreadcrumbNavigation(
+		Navigation_Breadcrumb::addURL(
 			Tr::_( '%<TXT_BN_DELETE>%', [ 'ITEM_NAME' => $%<ITEM_VAR_NAME>%->%<ITEM_NAME_GETTER>%() ] )
 		);
 

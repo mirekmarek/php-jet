@@ -14,8 +14,6 @@ use Jet\Tr;
 use Jet\MVC_Controller_Default;
 use Jet\Http_Headers;
 use Jet\Auth;
-use Jet\Navigation_Breadcrumb;
-use Jet\Translator;
 use Jet\UI_messages;
 
 
@@ -124,13 +122,7 @@ class Controller_Main extends MVC_Controller_Default
 
 		$form = $module->getChangePasswordForm();
 
-		Navigation_Breadcrumb::reset();
-
-
-		Navigation_Breadcrumb::addURL(
-			Tr::_( 'Change password', [], Translator::COMMON_DICTIONARY )
-		);
-
+		
 		if( $form->catchInput() && $form->validate() ) {
 			$data = $form->getValues();
 			/**

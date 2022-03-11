@@ -23,8 +23,6 @@ use Jet\Http_Request;
 use Jet\Tr;
 use Jet\Navigation_Breadcrumb;
 
-use JetApplicationModule\UI\Admin\Main as UI_module;
-
 /**
  *
  */
@@ -67,26 +65,11 @@ class Controller_Main extends MVC_Controller_Default
 		return $this->router;
 	}
 
-
-	/**
-	 * @param string $current_label
-	 */
-	protected function _setBreadcrumbNavigation( string $current_label = '' ): void
-	{
-		UI_module::initBreadcrumb();
-
-		if( $current_label ) {
-			Navigation_Breadcrumb::addURL( $current_label );
-		}
-	}
-
 	/**
 	 *
 	 */
 	public function listing_Action(): void
 	{
-		$this->_setBreadcrumbNavigation();
-
 		$listing = new Listing();
 		$listing->handle();
 
@@ -101,7 +84,7 @@ class Controller_Main extends MVC_Controller_Default
 	 */
 	public function add_Action(): void
 	{
-		$this->_setBreadcrumbNavigation( Tr::_( 'Create a new Role' ) );
+		Navigation_Breadcrumb::addURL( Tr::_( 'Create a new Role' ) );
 
 		$role = new Role();
 
@@ -138,8 +121,8 @@ class Controller_Main extends MVC_Controller_Default
 	public function edit_Action(): void
 	{
 		$role = $this->role;
-
-		$this->_setBreadcrumbNavigation( Tr::_( 'Edit role <b>%ROLE_NAME%</b>', ['ROLE_NAME' => $role->getName()] ) );
+		
+		Navigation_Breadcrumb::addURL( Tr::_( 'Edit role <b>%ROLE_NAME%</b>', ['ROLE_NAME' => $role->getName()] ) );
 
 		$form = $role->getEditForm();
 
@@ -174,8 +157,8 @@ class Controller_Main extends MVC_Controller_Default
 	public function view_Action(): void
 	{
 		$role = $this->role;
-
-		$this->_setBreadcrumbNavigation(
+		
+		Navigation_Breadcrumb::addURL(
 			Tr::_( 'Role detail <b>%ROLE_NAME%</b>', ['ROLE_NAME' => $role->getName()] )
 		);
 
@@ -198,8 +181,8 @@ class Controller_Main extends MVC_Controller_Default
 	public function delete_action(): void
 	{
 		$role = $this->role;
-
-		$this->_setBreadcrumbNavigation(
+		
+		Navigation_Breadcrumb::addURL(
 			Tr::_( 'Delete role <b>%ROLE_NAME%</b>', ['ROLE_NAME' => $role->getName()] )
 		);
 

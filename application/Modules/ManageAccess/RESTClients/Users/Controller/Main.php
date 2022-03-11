@@ -19,8 +19,6 @@ use Jet\Http_Request;
 use Jet\Tr;
 use Jet\Navigation_Breadcrumb;
 
-use JetApplicationModule\UI\Admin\Main as UI_module;
-
 /**
  *
  */
@@ -77,23 +75,10 @@ class Controller_Main extends MVC_Controller_Default
 	}
 
 	/**
-	 * @param string $current_label
-	 */
-	protected function _setBreadcrumbNavigation( string $current_label = '' ): void
-	{
-		UI_module::initBreadcrumb();
-
-		if( $current_label ) {
-			Navigation_Breadcrumb::addURL( $current_label );
-		}
-	}
-
-	/**
 	 *
 	 */
 	public function listing_Action(): void
 	{
-		$this->_setBreadcrumbNavigation();
 
 		$listing = new Listing();
 		$listing->handle();
@@ -109,7 +94,7 @@ class Controller_Main extends MVC_Controller_Default
 	 */
 	public function add_Action(): void
 	{
-		$this->_setBreadcrumbNavigation( Tr::_( 'Create a new User' ) );
+		Navigation_Breadcrumb::addURL( Tr::_( 'Create a new User' ) );
 
 		$user = new User();
 
@@ -164,8 +149,8 @@ class Controller_Main extends MVC_Controller_Default
 	public function edit_Action(): void
 	{
 		$user = $this->user;
-
-		$this->_setBreadcrumbNavigation( Tr::_( 'Edit user account <b>%USERNAME%</b>', ['USERNAME' => $user->getUsername()] ) );
+		
+		Navigation_Breadcrumb::addURL( Tr::_( 'Edit user account <b>%USERNAME%</b>', ['USERNAME' => $user->getUsername()] ) );
 
 		$form = $user->getEditForm();
 
@@ -201,8 +186,8 @@ class Controller_Main extends MVC_Controller_Default
 	public function view_Action(): void
 	{
 		$user = $this->user;
-
-		$this->_setBreadcrumbNavigation(
+		
+		Navigation_Breadcrumb::addURL(
 			Tr::_( 'User account detail <b>%USERNAME%</b>', ['USERNAME' => $user->getUsername()] )
 		);
 
@@ -223,8 +208,8 @@ class Controller_Main extends MVC_Controller_Default
 	public function delete_Action(): void
 	{
 		$user = $this->user;
-
-		$this->_setBreadcrumbNavigation(
+		
+		Navigation_Breadcrumb::addURL(
 			Tr::_( 'Delete user account <b>%USERNAME%</b>', ['USERNAME' => $user->getUsername()] )
 		);
 

@@ -23,8 +23,6 @@ use Jet\Http_Request;
 use Jet\Navigation_Breadcrumb;
 use Jet\MVC_Controller_Router_AddEditDelete;
 
-use JetApplicationModule\UI\Admin\Main as UI_module;
-
 /**
  *
  */
@@ -75,24 +73,10 @@ class Controller_Main extends MVC_Controller_Default
 	}
 
 	/**
-	 * @param string $current_label
-	 */
-	protected function _setBreadcrumbNavigation( string $current_label = '' ): void
-	{
-		UI_module::initBreadcrumb();
-
-		if( $current_label ) {
-			Navigation_Breadcrumb::addURL( $current_label );
-		}
-	}
-
-	/**
 	 *
 	 */
 	public function listing_Action(): void
 	{
-		$this->_setBreadcrumbNavigation();
-
 		$listing = new Listing();
 		$listing->handle();
 
@@ -107,7 +91,7 @@ class Controller_Main extends MVC_Controller_Default
 	 */
 	public function add_Action(): void
 	{
-		$this->_setBreadcrumbNavigation( Tr::_( 'Create a new Article' ) );
+		Navigation_Breadcrumb::addURL( Tr::_( 'Create a new Article' ) );
 
 		$article = new Content_Article();
 
@@ -145,8 +129,8 @@ class Controller_Main extends MVC_Controller_Default
 	public function edit_Action(): void
 	{
 		$article = $this->article;
-
-		$this->_setBreadcrumbNavigation( Tr::_( 'Edit article <b>%TITLE%</b>', ['TITLE' => $article->getTitle()] ) );
+		
+		Navigation_Breadcrumb::addURL( Tr::_( 'Edit article <b>%TITLE%</b>', ['TITLE' => $article->getTitle()] ) );
 
 
 		$form = $article->getEditForm();
@@ -181,12 +165,10 @@ class Controller_Main extends MVC_Controller_Default
 	public function view_Action(): void
 	{
 		$article = $this->article;
-
-		$this->_setBreadcrumbNavigation(
+		
+		Navigation_Breadcrumb::addURL(
 			Tr::_( 'Article detail <b>%TITLE%</b>', ['TITLE' => $article->getTitle()] )
 		);
-
-		Navigation_Breadcrumb::addURL( $article->getTitle() );
 
 
 		$form = $article->createForm('view_article');
