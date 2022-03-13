@@ -18,6 +18,8 @@ use Jet\Data_DateTime;
 use Jet\Http_Request;
 use Jet\Logger;
 use Jet\Tr;
+use Jet\UI;
+use Jet\UI_badge;
 
 /**
  *
@@ -216,11 +218,11 @@ abstract class Logger_Event extends DataModel
 	public function getEventClassReadable() : string
 	{
 		return match ($this->getEventClass()) {
-			Logger::EVENT_CLASS_DANGER => '<span class="badge badge-danger">'. Tr::_( 'danger' ) .'</span>',
-			Logger::EVENT_CLASS_FAULT => '<span class="badge badge-warning">'. Tr::_( 'fault' ) .'</span>',
-			Logger::EVENT_CLASS_INFO => '<span class="badge badge-info">'. Tr::_( 'info' ) .'</span>',
-			Logger::EVENT_CLASS_SUCCESS => '<span class="badge badge-success">'. Tr::_( 'success' ) .'</span>',
-			Logger::EVENT_CLASS_WARNING => '<span class="badge badge-warning">'. Tr::_( 'warning' ) .'</span>',
+			Logger::EVENT_CLASS_DANGER => UI::badge(UI_badge::DANGER, Tr::_( 'danger' )),
+			Logger::EVENT_CLASS_FAULT => UI::badge(UI_badge::WARNING, Tr::_( 'fault' )),
+			Logger::EVENT_CLASS_INFO => UI::badge(UI_badge::INFO, Tr::_( 'info' )),
+			Logger::EVENT_CLASS_SUCCESS => UI::badge(UI_badge::SUCCESS, Tr::_( 'success' )),
+			Logger::EVENT_CLASS_WARNING => UI::badge(UI_badge::WARNING, Tr::_( 'warning' )),
 			default => '?? '.$this->getEventClass().' ??',
 		};
 

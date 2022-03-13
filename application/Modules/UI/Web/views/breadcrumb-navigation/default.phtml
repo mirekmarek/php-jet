@@ -4,6 +4,7 @@ use Jet\MVC;
 use Jet\MVC_View;
 use Jet\Navigation_Breadcrumb;
 use Jet\UI;
+use Jet\UI_badge;
 
 /**
  * @var MVC_View $this
@@ -14,9 +15,9 @@ $items = Navigation_Breadcrumb::getItems();
 	<ol class="breadcrumb">
 		<?php foreach( MVC::getBase()->getActiveLocales() as $locale ): ?>
 			<li style="margin-right: 20px;">
-				<?php if( $locale->toString() == MVC::getLocale()->toString() ): ?>
-					<span class="badge badge-info"><?= UI::flag( $locale ) ?>&nbsp;<?= $locale->getLanguageName( $locale ) ?></span>
-				<?php else:
+				<?php if( $locale->toString() == MVC::getLocale()->toString() ):
+					echo UI::badge( UI_badge::INFO, UI::flag( $locale ).'&nbsp;'.$locale->getLanguageName( $locale ));
+				else:
 					$eq_page = MVC::getPage( locale: $locale );
 					if( !$eq_page ) {
 						$eq_page = MVC::getHomePage( locale: $locale );

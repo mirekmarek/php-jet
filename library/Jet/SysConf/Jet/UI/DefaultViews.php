@@ -58,7 +58,9 @@ class SysConf_Jet_UI_DefaultViews
 		'locale' => [
 			'main' => 'locale',
 		],
-
+		'badge' => [
+			'main' => 'badge',
+		],
 		'locale-label' => [
 			'main' => 'locale-label',
 		],

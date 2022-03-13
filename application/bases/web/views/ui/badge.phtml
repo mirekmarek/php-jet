@@ -1,0 +1,15 @@
+<?php
+
+use Jet\UI_badge;
+use Jet\MVC_View;
+
+/**
+ * @var MVC_View $this
+ * @var UI_badge $b
+ */
+$b = $this->getRaw( 'element' );
+
+$b->setBaseCssClass('badge badge-'.$b->getType() );
+
+?>
+<span <?=$b->renderTagAttributes()?> ><?=$b->getText()?></span>

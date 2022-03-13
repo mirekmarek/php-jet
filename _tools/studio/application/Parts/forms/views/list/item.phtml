@@ -1,10 +1,12 @@
 <?php
 namespace JetStudio;
 use Jet\Http_Request;
+use Jet\UI;
+use Jet\UI_badge;
 
-if( !Forms::getCurrentProperty() ): ?>
-	<b class="badge badge-info" style="font-size: 20px;"><?= Forms::getCurrentClass()->getFullClassName() ?></b>
-<?php else: ?>
+if( !Forms::getCurrentProperty() ):
+	echo UI::badge(UI_badge::INFO, Forms::getCurrentClass()->getFullClassName())->addCustomCssStyle('font-size:20px;');
+else: ?>
 	<a href="<?= Http_Request::currentURI( [], [
 		'property',
 	] ) ?>" style="font-weight: bolder;font-size: 20px;"><?= Forms::getCurrentClass()->getFullClassName() ?></a>

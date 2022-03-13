@@ -4,6 +4,8 @@ namespace JetStudio;
 
 use Jet\Http_Request;
 use Jet\Tr;
+use Jet\UI;
+use Jet\UI_badge;
 
 $current = DataModels::getCurrentModel();
 
@@ -21,9 +23,9 @@ $current_property_name = DataModels::getCurrentPropertyName();
 	<?php foreach( $current->getProperties() as $property ): ?>
 		<tr class="<?= $property->getHeadCssClass() ?>">
 			<td>
-				<?php if( $current_property_name == $property->getName() ): ?>
-					<b class="badge badge-info"><?= $property->getName() ?></b>
-				<?php else: ?>
+				<?php if( $current_property_name == $property->getName() ):
+					echo UI::badge(UI_badge::INFO, $property->getName());
+				else: ?>
 					<a href="<?= Http_Request::currentURI( ['property' => $property->getName()], [
 						'key',
 						'relation'

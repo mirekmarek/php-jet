@@ -3,6 +3,8 @@ namespace JetStudio;
 
 use Jet\Http_Request;
 use Jet\Tr;
+use Jet\UI;
+use Jet\UI_badge;
 
 $current = DataModels::getCurrentModel();
 
@@ -24,9 +26,9 @@ $current_relation_name = DataModels::getCurrentRelationName();
 	<?php foreach( $current->getExternalRelations() as $relation ): ?>
 		<tr>
 			<td>
-				<?php if( $current_relation_name == $relation->getName() ): ?>
-					<b class="badge badge-info"><?= $relation->getName() ?></b>
-				<?php else: ?>
+				<?php if( $current_relation_name == $relation->getName() ):
+					echo UI::badge(UI_badge::INFO, $relation->getName());
+				else: ?>
 					<a href="<?= Http_Request::currentURI( ['relation' => $relation->getName()], [
 						'property',
 						'key'

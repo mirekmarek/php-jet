@@ -4,6 +4,7 @@ namespace JetStudio;
 
 
 use Jet\Data_Tree_Node;
+use Jet\UI_badge;
 use Jet\UI_tree;
 use Jet\UI;
 use Jet\Tr;
@@ -31,7 +32,9 @@ $renderer = function( Data_Tree_Node $node ) {
 			]);
 	}
 
-	if( !$page->getIsActive() ): echo '<span class="badge badge-danger">' . UI::icon( 'times' )->setTitle( Tr::_( 'Is not active' ) ) . '</span>'; endif;
+	if( !$page->getIsActive() ):
+		echo UI::badge(UI_badge::DANGER, UI::icon( 'times' )->setTitle( Tr::_( 'Is not active' ) ));
+	endif;
 	?>
 	<a href="<?= $edit_url ?>" style="font-size: 16px;"><?= $node->getLabel() ?></a>
 

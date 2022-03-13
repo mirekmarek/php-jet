@@ -5,6 +5,8 @@ namespace JetStudio;
 use Jet\Http_Request;
 use Jet\MVC_View;
 use Jet\Tr;
+use Jet\UI;
+use Jet\UI_badge;
 
 /**
  * @var MVC_View $this
@@ -40,9 +42,9 @@ $current_page = Modules::getCurrentPage();
 			<?php foreach( $pages[$base_id] as $page ): ?>
 			<tr>
 				<td style="padding-left: 50px;">
-					<?php if( $current_page && $current_page->getFullId() == $page->getFullId() ): ?>
-						<b class="badge badge-info"><?= $page->getName() ?></b>
-					<?php else: ?>
+					<?php if( $current_page && $current_page->getFullId() == $page->getFullId() ):
+						echo UI::badge(UI_badge::INFO, $page->getName());
+					else: ?>
 						<a href="<?= Http_Request::currentURI( ['page' => $page->getFullId()], [
 							'menu_item',
 							'action'

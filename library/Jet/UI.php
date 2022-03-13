@@ -199,4 +199,16 @@ class UI
 	{
 		return new UI_searchField( $name, $value );
 	}
+	
+	
+	/**
+	 * @param string $type
+	 * @param string $text
+	 * @return UI_badge
+	 */
+	public static function badge( string $type, string $text ): UI_badge
+	{
+		return new UI_badge( $type, $text );
+	}
+	
 }
