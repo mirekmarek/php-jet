@@ -8,7 +8,9 @@
 
 namespace JetApplicationModule\Content\Images\Admin;
 
+use Jet\Form;
 use Jet\Form_Field;
+use Jet\Form_Field_Search;
 use Jet\Logger;
 use JetApplication\Content_Gallery;
 
@@ -155,7 +157,15 @@ class Controller_Main extends MVC_Controller_Default
 		} else {
 			$this->view->setVar( 'galleries', Content_Gallery::getTree() );
 		}
+		
+		$search_field = new Form_Field_Search('search', '');
+		$search_field->setDefaultValue($search);
+		
+		$search_form = new Form('search', [
+			$search_field
+		]);
 
+		$this->view->setVar( 'search_form', $search_form );
 		$this->view->setVar( 'search', $search );
 
 		return $search;

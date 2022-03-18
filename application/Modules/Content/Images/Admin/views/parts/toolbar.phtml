@@ -15,6 +15,7 @@ use Jet\UI_button;
  * @var Content_Gallery $gallery
  * @var Form $upload_form
  * @var Form $edit_form
+ * @var Form $search_form
  */
 $gallery = $this->getRaw( 'gallery' );
 $router = $this->getController()->getControllerRouter();
@@ -22,11 +23,12 @@ $router = $this->getController()->getControllerRouter();
 $parent_id = $gallery ? $gallery->getId() : '';
 
 $edit_form = $this->getRaw( 'edit_form' );
+$search_form = $this->getRaw( 'search_form' );
 ?>
 <div class="row toolbar" id="main-toolbar">
 	<div class="col-xs-12 col-md-3">
 		<form method="get">
-			<?= UI::searchField( 'search', $this->getRaw( 'search' ) ) ?>
+			<?= $search_form->field('search') ?>
 		</form>
 	</div>
 	<div class="col-xs-12 col-md-9">

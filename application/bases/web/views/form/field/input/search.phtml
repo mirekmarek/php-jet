@@ -2,10 +2,12 @@
 
 use Jet\MVC_View;
 use Jet\Form_Renderer_Field_Input;
+use Jet\Form_Field_Search;
 
 /**
  * @var MVC_View $this
  * @var Form_Renderer_Field_Input $r
+ * @var Form_Field_Search $field
  */
 $r = $this->getRaw( 'renderer' );
 $field = $r->getField();
@@ -19,5 +21,17 @@ if( !$r->getBaseCssClasses() ) {
 if( $field->getLastErrorCode() ) {
 	$r->addCustomCssClass( 'is-invalid' );
 }
+
+$field->searchButton()->addCustomCssClass('btn-outline-secondary');
+$field->resetButton()->addCustomCssClass('btn-outline-secondary');
 ?>
-<input <?=$r->renderTagAttributes()?>/>
+<div class="input-group">
+	<div class="input-group-prepend">
+		<?=$field->resetButton()?>
+	</div>
+	<input <?=$r->renderTagAttributes()?>/>
+	<div class="input-group-append">
+		<?=$field->searchButton()?>
+	</div>
+</div>
+

@@ -187,19 +187,6 @@ class UI
 	{
 		return new UI_tabsJS( $id, $tabs, $selected_tab_id );
 	}
-
-
-	/**
-	 * @param string $name
-	 * @param string $value
-	 *
-	 * @return UI_searchField
-	 */
-	public static function searchField( string $name, string $value ): UI_searchField
-	{
-		return new UI_searchField( $name, $value );
-	}
-	
 	
 	/**
 	 * @param string $type

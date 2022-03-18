@@ -105,7 +105,7 @@ $grid->getColumn( 'user_username' )->setRenderer(
 <div class="row toolbar">
 
 	<div class="col-md-3 col-sm-12">
-		<?=UI::searchField( 'search', $filter_form->field('search')->getValue() )?>
+		<?= $filter_form->field( 'search' ) ?>
 	</div>
 	<div class="col-md-9 col-sm-12">
 		<table>
