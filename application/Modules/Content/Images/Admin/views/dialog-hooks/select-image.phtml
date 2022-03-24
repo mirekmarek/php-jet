@@ -6,12 +6,13 @@ use Jet\MVC_View;
 use Jet\UI;
 use Jet\Tr;
 use Jet\MVC;
+use Jet\UI_dialog;
 
 /**
  * @var MVC_View $this
  */
 
-$dialog = UI::dialog( 'dialog_select_image', Tr::_( 'Select image' ), 1100 );
+$dialog = UI::dialog( 'dialog_select_image', Tr::_( 'Select image' ), UI_dialog::SIZE_EXTRA_LARGE );
 ?>
 	<script type="text/javascript">
 		const dialog_select_image = {

@@ -14,6 +14,6 @@ $page = $this->getRaw( 'page' );
 
 $form = $page->getEditForm_callback();
 
-echo UI::button_save()->setOnclick( "$('#{$form->getId()}').submit()" );
+echo UI::button_save()->setOnClick( "$('#{$form->getId()}').submit()" );
 
 

@@ -5,6 +5,7 @@ namespace JetStudio;
 use Jet\MVC_View;
 use Jet\UI;
 use Jet\Tr;
+use Jet\UI_dialog;
 
 /**
  * @var MVC_View $this
@@ -15,7 +16,7 @@ if( !DataModels::getCurrentModel() ) {
 	return;
 }
 
-$dialog = UI::dialog( 'delete_key', Tr::_( 'Delete key' ), 600 );
+$dialog = UI::dialog( 'delete_key', Tr::_( 'Delete key' ), UI_dialog::SIZE_LARGE );
 
 echo $dialog->start();
 ?>

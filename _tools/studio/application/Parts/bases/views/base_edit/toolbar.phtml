@@ -13,9 +13,9 @@ if( !$base ) {
 $form = $base->getEditForm();
 ?>
 <div class="toolbar" id="main-toolbar">
-	<?= UI::button_save()->setOnclick( "$('#{$form->getId()}').submit()" ) ?>
+	<?= UI::button_save()->setOnClick( "$('#{$form->getId()}').submit()" ) ?>
 
-	<?= UI::button_create( Tr::_( 'Add locale' ) )->setOnclick( 'Bases.editBase.addLocale()' ) ?>
-	<?= UI::button_edit( Tr::_( 'Sort locales' ) )->setOnclick( 'Bases.editBase.sortLocales()' ) ?>
+	<?= UI::button_create( Tr::_( 'Add locale' ) )->setOnClick( 'Bases.editBase.addLocale()' ) ?>
+	<?= UI::button_edit( Tr::_( 'Sort locales' ) )->setOnClick( 'Bases.editBase.sortLocales()' ) ?>
 </div>
 

@@ -5,6 +5,7 @@ namespace JetStudio;
 use Jet\Tr;
 use Jet\MVC_View;
 use Jet\UI;
+use Jet\UI_dialog;
 
 /**
  * @var MVC_View $this
@@ -29,9 +30,9 @@ echo $view->render( 'page/toolbar' );
 
 Application::setCurrentPart( $app_part );
 
-echo UI::button_delete( Tr::_( 'Delete this page' ) )->setOnclick( "$('#page_delete_dialog').modal('show')" );
+echo UI::button_delete( Tr::_( 'Delete this page' ) )->setOnClick( "$('#page_delete_dialog').modal('show')" );
 
-$delete_dialog = UI::dialog( 'page_delete_dialog', Tr::_( 'Delete this page?' ), 500 );
+$delete_dialog = UI::dialog( 'page_delete_dialog', Tr::_( 'Delete this page?' ) );
 
 echo $delete_dialog->start();
 echo Tr::_( 'Do you really want to delete this page?' );

@@ -14,6 +14,6 @@ $item = $this->getRaw( 'item' );
 
 $form = $item->getEditForm();
 ?>
-<?= UI::button_save()->setOnclick( "$('#" . $form->getId() . "').submit()" ) ?>
+<?= UI::button_save()->setOnClick( "$('#" . $form->getId() . "').submit()" ) ?>
 
-<?= UI::button_delete( Tr::_( 'Delete this menu item' ) )->setOnclick( "$('#delete_menu_item_dialog').modal('show')" ) ?>
+<?= UI::button_delete( Tr::_( 'Delete this menu item' ) )->setOnClick( "$('#delete_menu_item_dialog').modal('show')" ) ?>

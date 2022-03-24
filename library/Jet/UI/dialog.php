@@ -13,6 +13,10 @@ namespace Jet;
  */
 class UI_dialog extends UI_Renderer_Pair
 {
+	const SIZE_SMALL = 'small';
+	const SIZE_DEFAULT = 'default';
+	const SIZE_LARGE = 'large';
+	const SIZE_EXTRA_LARGE = 'extra_large';
 
 	/**
 	 * @var string
@@ -20,9 +24,9 @@ class UI_dialog extends UI_Renderer_Pair
 	protected string $title = '';
 
 	/**
-	 * @var int
+	 * @var string
 	 */
-	protected int $width = 0;
+	protected string $size = self::SIZE_DEFAULT;
 
 	/**
 	 * @var string
@@ -34,13 +38,13 @@ class UI_dialog extends UI_Renderer_Pair
 	 *
 	 * @param string $id
 	 * @param string $title
-	 * @param int $width
+	 * @param string $size
 	 */
-	public function __construct( string $id, string $title, int $width )
+	public function __construct( string $id, string $title, string $size=self::SIZE_DEFAULT )
 	{
 		$this->id = $id;
 		$this->title = $title;
-		$this->width = $width;
+		$this->size = $size;
 		$this->view_script_start = SysConf_Jet_UI_DefaultViews::get('dialog', 'start');
 		$this->view_script_footer = SysConf_Jet_UI_DefaultViews::get('dialog', 'footer');
 		$this->view_script_end = SysConf_Jet_UI_DefaultViews::get('dialog', 'end');
@@ -73,11 +77,11 @@ class UI_dialog extends UI_Renderer_Pair
 	}
 
 	/**
-	 * @return int
+	 * @return string
 	 */
-	public function getWidth(): int
+	public function getSize(): string
 	{
-		return $this->width;
+		return $this->size;
 	}
 
 	/**

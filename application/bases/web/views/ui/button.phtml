@@ -22,7 +22,7 @@ $icon = $b->getIcon() ? UI::icon( $b->getIcon() ) : '';
 $b->setBaseCssClass( 'btn btn-'.$b->getClass().' btn-'.$b->getSize() );
 
 if( $b->getUrl() ):
-	?><a href="<?= $b->getUrl() ?>" <?=$b->renderTagAttributes()?>><?=$icon.$label?></a><?php
+	?><a href="<?= $b->getUrl() ?>" <?=$b->renderTagAttributes()?>><?=$icon.$label?></a> <?php
 else:
-	?><button type="<?= $b->getType() ?>" <?=$b->renderTagAttributes()?>><?=$icon.$label?></button><?php
+	?><button type="<?= $b->getType() ?>" <?=$b->renderTagAttributes()?>><?=$icon.$label?></button> <?php
 endif;

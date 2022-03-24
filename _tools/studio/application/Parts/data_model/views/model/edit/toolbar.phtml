@@ -16,7 +16,7 @@ $form = DataModels::getCurrentModel()->getEditForm();
 ?>
 
 <?= UI::button_save()
-	->setOnclick( "$('#" . $form->getId() . "').submit()" )
+	->setOnClick( "$('#" . $form->getId() . "').submit()" )
 ?>
 
 <?=$this->render('model/edit/toolbar/generate')?>

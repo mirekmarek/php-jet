@@ -26,7 +26,7 @@ use Jet\Tr;
 	?>
 	<div class="row toolbar" id="main-toolbar">
 		<div class="col-md-3">
-			<?= UI::button_create( Tr::_( 'Create a new menu set' ) )->setOnclick( 'Menus.createSet.openDialog();' ); ?>
+			<?= UI::button_create( Tr::_( 'Create a new menu set' ) )->setOnClick( 'Menus.createSet.openDialog();' ); ?>
 		</div>
 		<div class="col-md-9">
 			<?php require $what . '/toolbar.phtml'; ?>
@@ -48,7 +48,7 @@ use Jet\Tr;
 	<div class="row">
 		<div class="col-md-12" style="padding: 0;">
 			<div class="toolbar">
-				<?= UI::button_create( Tr::_( 'Create a new menu set' ) )->setOnclick( 'Menus.createSet.openDialog();' ); ?>
+				<?= UI::button_create( Tr::_( 'Create a new menu set' ) )->setOnClick( 'Menus.createSet.openDialog();' ); ?>
 			</div>
 			<div style="padding: 10px;">
 				<?= Application::getGeneralView()->render( 'messages' ); ?>

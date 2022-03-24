@@ -8,6 +8,6 @@ $set = Menus::getCurrentMenuSet();
 
 $form = $set->getEditForm();
 ?>
-<?= UI::button_save()->setOnclick( "$('#" . $form->getId() . "').submit()" ) ?>
+<?= UI::button_save()->setOnClick( "$('#" . $form->getId() . "').submit()" ) ?>
 
-<?= UI::button_create( Tr::_( 'Create a new menu' ) )->setOnclick( 'Menus.createMenu.openDialog();' ) ?>
+<?= UI::button_create( Tr::_( 'Create a new menu' ) )->setOnClick( 'Menus.createMenu.openDialog();' ) ?>

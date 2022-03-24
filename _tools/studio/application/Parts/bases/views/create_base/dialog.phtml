@@ -5,8 +5,9 @@ namespace JetStudio;
 use Jet\Tr;
 use Jet\UI;
 use Jet\Locale;
+use Jet\UI_dialog;
 
-$dialog = UI::dialog( 'dialog_create_new_base', Tr::_( 'Create a new Base' ), 600 );
+$dialog = UI::dialog( 'dialog_create_new_base', Tr::_( 'Create a new Base' ), UI_dialog::SIZE_LARGE );
 
 echo $dialog->start();
 ?>
@@ -50,10 +51,10 @@ echo $dialog->start();
 		</table>
 
 	</div>
-<?= UI::button_create( Tr::_( 'Add locale' ) )->setOnclick( 'Bases.createBase.addLocale.openDialog()' ); ?>
+<?= UI::button_create( Tr::_( 'Add locale' ) )->setOnClick( 'Bases.createBase.addLocale.openDialog()' ); ?>
 
 	<?php
 echo $dialog->footer();
-echo UI::button_save( Tr::_( 'Create' ) )->setOnclick( 'Bases.createBase.createSend()' );
+echo UI::button_save( Tr::_( 'Create' ) )->setOnClick( 'Bases.createBase.createSend()' );
 echo $dialog->end();
 

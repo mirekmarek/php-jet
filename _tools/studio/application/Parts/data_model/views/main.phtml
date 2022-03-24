@@ -5,6 +5,7 @@ namespace JetStudio;
 use Jet\DataModel;
 use Jet\UI;
 use Jet\Tr;
+use Jet\UI_dialog;
 use Jet\UI_messages;
 
 if( ($problematic_classes = DataModels::getProblematicClasses()) ) {
@@ -56,17 +57,17 @@ $allow_to_create_related = (
 		<div class="col-md-3 text-right" style="padding: 0 10px 0 0;">
 			<?php if( DataModels::getCurrentModel() ): ?>
 				<?= UI::button_create( Tr::_( 'Property' ) )
-					->setOnclick( 'DataModel.property.create.openDialog()' )
+					->setOnClick( 'DataModel.property.create.openDialog()' )
 					->setIcon( 'plus' );
 				?>
 
 				<?= UI::button_create( Tr::_( 'External relation' ) )
-					->setOnclick( 'DataModel.relation.create.openDialog()' )
+					->setOnClick( 'DataModel.relation.create.openDialog()' )
 					->setIcon( 'plus' );
 				?>
 
 				<?= UI::button_create( Tr::_( 'Key' ) )
-					->setOnclick( 'DataModel.key.create.openDialog()' )
+					->setOnClick( 'DataModel.key.create.openDialog()' )
 					->setIcon( 'plus' );
 				?>
 
@@ -123,17 +124,17 @@ $allow_to_create_related = (
 <?= Application::getView()->render( 'relation/create/dialog' ); ?>
 
 	<?php
-$dialog_SQL_create = UI::dialog( 'dialog_SQL_create', Tr::_( 'SQL - create' ), 800 );
+$dialog_SQL_create = UI::dialog( 'dialog_SQL_create', Tr::_( 'SQL - create' ), UI_dialog::SIZE_LARGE );
 echo $dialog_SQL_create->start();
 ?><textarea id="SQL_create_result" style="width: 100%;height: 400px;"></textarea><?php
 echo $dialog_SQL_create->end();
 
-$dialog_SQL_update = UI::dialog( 'dialog_SQL_update', Tr::_( 'SQL - update' ), 800 );
+$dialog_SQL_update = UI::dialog( 'dialog_SQL_update', Tr::_( 'SQL - update' ), UI_dialog::SIZE_LARGE );
 echo $dialog_SQL_update->start();
 ?><textarea id="SQL_update_result" style="width: 100%;height: 400px;"></textarea><?php
 echo $dialog_SQL_update->end();
 
-$dialog_class_source = UI::dialog( 'dialog_class_source', Tr::_( 'Class source code' ), 800 );
+$dialog_class_source = UI::dialog( 'dialog_class_source', Tr::_( 'Class source code' ), UI_dialog::SIZE_LARGE );
 echo $dialog_class_source->start();
 ?><textarea id="class_source_result" style="width: 100%;height: 400px;"></textarea><?php
 echo $dialog_class_source->end();

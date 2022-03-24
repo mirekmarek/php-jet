@@ -178,7 +178,7 @@ class UI_button extends UI_Renderer_Single
 	 *
 	 * @return $this
 	 */
-	public function setOnclick( string $onclick ): static
+	public function setOnClick( string $onclick ): static
 	{
 		$this->addJsAction( 'onclick', $onclick );
 

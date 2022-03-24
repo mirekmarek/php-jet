@@ -37,7 +37,7 @@ $search_form = $this->getRaw( 'search_form' );
 		endif;
 
 		if( $edit_form && !$edit_form->getIsReadonly() ):
-			echo UI::button_save()->setOnclick( "$('#" . $edit_form->getId() . "').submit()" );
+			echo UI::button_save()->setOnClick( "$('#" . $edit_form->getId() . "').submit()" );
 		endif;
 
 		if( $gallery && !$gallery->getIsNew() ):

@@ -4,6 +4,7 @@ namespace JetStudio;
 use Jet\Tr;
 use Jet\UI;
 use Jet\Form_Renderer;
+use Jet\UI_dialog;
 
 
 $menu = Menus::getCurrentMenu();
@@ -17,7 +18,7 @@ $form->renderer()->setDefaultFieldWidth( [
 	Form_Renderer::LJ_SIZE_MEDIUM => 6
 ] );
 
-$delete_menu_dialog = UI::dialog( 'delete_menu_dialog', Tr::_( 'Delete menu' ), 600 );
+$delete_menu_dialog = UI::dialog( 'delete_menu_dialog', Tr::_( 'Delete menu' ), UI_dialog::SIZE_LARGE );
 
 ?>
 

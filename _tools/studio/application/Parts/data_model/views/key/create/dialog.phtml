@@ -4,13 +4,14 @@ namespace JetStudio;
 
 use Jet\UI;
 use Jet\Tr;
+use Jet\UI_dialog;
 
 $current_model = DataModels::getCurrentModel();
 if( !$current_model ) {
 	return;
 }
 
-$dialog = UI::dialog( 'dialog_create_new_key', Tr::_( 'Create a new Key' ), 600 );
+$dialog = UI::dialog( 'dialog_create_new_key', Tr::_( 'Create a new Key' ), UI_dialog::SIZE_LARGE );
 
 
 echo $dialog->start();
@@ -21,6 +22,6 @@ echo $dialog->start();
 	<?php
 
 echo $dialog->footer();
-echo UI::button_save( Tr::_( 'Create' ) )->setOnclick( 'DataModel.key.create.createSend()' );
+echo UI::button_save( Tr::_( 'Create' ) )->setOnClick( 'DataModel.key.create.createSend()' );
 echo $dialog->end();
 

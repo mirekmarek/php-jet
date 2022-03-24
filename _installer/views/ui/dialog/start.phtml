@@ -9,20 +9,12 @@ use Jet\MVC_View;
  */
 $d = $this->getRaw( 'element' );
 
-$size_class = '';
-$w = $d->getWidth();
-
-if( $w <= 300 ) {
-	$size_class = 'modal-sm';
-}
-
-if( $w >= 500 ) {
-	$size_class = 'modal-lg';
-}
-
-if( $w >= 800 ) {
-	$size_class = 'modal-xl';
-}
+$size_class = match ($d->getSize()) {
+	UI_dialog::SIZE_DEFAULT => '',
+	UI_dialog::SIZE_SMALL => 'modal-sm',
+	UI_dialog::SIZE_LARGE => 'modal-lg',
+	UI_dialog::SIZE_EXTRA_LARGE => 'modal-xl',
+};
 
 ?>
 <div class="modal fade" id="<?= $d->getId() ?>" role="dialog">

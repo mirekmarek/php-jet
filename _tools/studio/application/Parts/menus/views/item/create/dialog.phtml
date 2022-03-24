@@ -4,8 +4,9 @@ namespace JetStudio;
 
 use Jet\UI;
 use Jet\Tr;
+use Jet\UI_dialog;
 
-$dialog = UI::dialog( 'dialog_create_new_menu_item', Tr::_( 'Create a new Menu item' ), 700 );
+$dialog = UI::dialog( 'dialog_create_new_menu_item', Tr::_( 'Create a new Menu item' ), UI_dialog::SIZE_LARGE );
 
 echo $dialog->start();
 ?>
@@ -14,6 +15,6 @@ echo $dialog->start();
 	</div>
 	<?php
 echo $dialog->footer();
-echo UI::button_save( Tr::_( 'Create' ) )->setOnclick( 'Menus.createMenuItem.createSend()' );
+echo UI::button_save( Tr::_( 'Create' ) )->setOnClick( 'Menus.createMenuItem.createSend()' );
 echo $dialog->end();
 

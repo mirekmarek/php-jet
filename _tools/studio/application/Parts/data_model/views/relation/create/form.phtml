@@ -6,6 +6,7 @@ use Jet\MVC_View;
 use Jet\Form;
 use Jet\Tr;
 use Jet\UI;
+use Jet\UI_dialog;
 
 /**
  * @var MVC_View $this
@@ -32,9 +33,9 @@ foreach( $related->getProperties() as $property ) {
 	echo $form->field( 'glue_' . $property->getName() );
 }
 
-echo UI::dialog( '', '', 600 )->footer();
+echo UI::dialog( '', '', UI_dialog::SIZE_LARGE )->footer();
 echo $form->end();
 
-echo UI::button_save( Tr::_( 'Create' ) )->setOnclick( 'DataModel.relation.create.createSend();return false;' );
+echo UI::button_save( Tr::_( 'Create' ) )->setOnClick( 'DataModel.relation.create.createSend();return false;' );
 
 

@@ -5,6 +5,7 @@ namespace JetStudio;
 use Jet\MVC_View;
 use Jet\UI;
 use Jet\Tr;
+use Jet\UI_dialog;
 
 /**
  * @var MVC_View $this
@@ -16,7 +17,7 @@ if( !DataModels::getCurrentModel() ) {
 }
 
 
-$dialog = UI::dialog( 'delete_relation', Tr::_( 'Delete relation' ), 600 );
+$dialog = UI::dialog( 'delete_relation', Tr::_( 'Delete relation' ), UI_dialog::SIZE_LARGE );
 
 echo $dialog->start();
 ?>

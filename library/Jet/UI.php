@@ -121,13 +121,13 @@ class UI
 	/**
 	 * @param string $id
 	 * @param string $title
-	 * @param int $width
+	 * @param string $size
 	 *
 	 * @return UI_dialog
 	 */
-	public static function dialog( string $id, string $title, int $width ): UI_dialog
+	public static function dialog( string $id, string $title, string $size=UI_dialog::SIZE_DEFAULT ): UI_dialog
 	{
-		return new UI_dialog( $id, $title, $width );
+		return new UI_dialog( $id, $title, $size );
 	}
 
 	/**

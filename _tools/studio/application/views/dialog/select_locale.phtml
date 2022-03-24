@@ -5,6 +5,8 @@ use Jet\Translator;
 use Jet\UI;
 use Jet\Locale;
 use Jet\Tr;
+use Jet\UI_dialog;
+
 ?>
 <script type="text/javascript">
 	const Dialog_SelectLocale = {
@@ -76,7 +78,7 @@ use Jet\Tr;
 </script>
 
 <?php
-$dialog = UI::dialog('dialog_select_locale', Tr::_('Select locale', [], Translator::COMMON_DICTIONARY), 600);
+$dialog = UI::dialog('dialog_select_locale', Tr::_('Select locale', [], Translator::COMMON_DICTIONARY), UI_dialog::SIZE_LARGE);
 
 echo $dialog->start();
 ?>

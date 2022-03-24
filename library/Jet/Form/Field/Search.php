@@ -38,7 +38,7 @@ class Form_Field_Search extends Form_Field_Input implements Form_Field_Part_RegE
 			$this->reset_button = UI::button(' ');
 			$this->reset_button->setIcon( 'times' );
 			$this->reset_button->setType( UI_button::TYPE_BUTTON );
-			$this->reset_button->setOnclick('this.form.'.$this->getTagNameValue().'.value=\'\';this.form.submit();');
+			$this->reset_button->setOnClick('this.form.'.$this->getTagNameValue().'.value=\'\';this.form.submit();');
 		}
 		
 		return $this->reset_button;

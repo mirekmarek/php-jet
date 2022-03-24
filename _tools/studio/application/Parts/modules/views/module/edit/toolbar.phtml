@@ -20,7 +20,7 @@ $form = $current->getEditForm();
 
 ?>
 
-<?= UI::button_save()->setOnclick( "$('#" . $form->getId() . "').submit()" ) ?>
+<?= UI::button_save()->setOnClick( "$('#" . $form->getId() . "').submit()" ) ?>
 
 <?php if( $current->isInstalled() ):
 	if( !$current->isMandatory() ):
@@ -43,6 +43,6 @@ else:
 	<?= UI::button( Tr::_( 'Install and activate' ) )->setUrl( Modules::getActionUrl( 'install_activate' ) )->setClass( UI_button::CLASS_SUCCESS ) ?>
 <?php endif; ?>
 
-<?= UI::button_create( Tr::_( 'Add page' ) )->setOnclick( 'Modules.editModule.addPage.openDialog()' ) ?>
-<?= UI::button_create( Tr::_( 'Add menu item' ) )->setOnclick( 'Modules.editModule.addMenuItem.openDialog()' ) ?>
+<?= UI::button_create( Tr::_( 'Add page' ) )->setOnClick( 'Modules.editModule.addPage.openDialog()' ) ?>
+<?= UI::button_create( Tr::_( 'Add menu item' ) )->setOnClick( 'Modules.editModule.addMenuItem.openDialog()' ) ?>
 

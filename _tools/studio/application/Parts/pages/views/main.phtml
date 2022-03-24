@@ -38,7 +38,7 @@ $this->setVar( 'page', Pages::getCurrentPage() );
 			</div>
 		</div>
 		<div class="col-md-9" style="padding: 0;">
-			<?= UI::button_create( Tr::_( 'Create a new page' ) )->setOnclick( 'Pages.createPage.openDialog()' ) ?>
+			<?= UI::button_create( Tr::_( 'Create a new page' ) )->setOnClick( 'Pages.createPage.openDialog()' ) ?>
 			<?= $this->render( 'page/toolbar' ); ?>
 		</div>
 	</div>

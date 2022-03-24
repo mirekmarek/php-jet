@@ -5,6 +5,7 @@ use Jet\Locale;
 use Jet\Tr;
 use Jet\UI;
 use Jet\Form_Renderer;
+use Jet\UI_dialog;
 
 $base = Bases::getCurrentBase();
 
@@ -25,7 +26,7 @@ $form->renderer()->setDefaultFieldWidth( [
 $add_locale_form = $base->getAddLocaleForm();
 $sort_locales_form = $base->getSortLocalesForm();
 
-$sort_dialog = UI::dialog( 'locales_sort_dialog', Tr::_( 'Sort locales' ), 600 );
+$sort_dialog = UI::dialog( 'locales_sort_dialog', Tr::_( 'Sort locales' ), UI_dialog::SIZE_LARGE );
 ?>
 <?= $form->start() ?>
 

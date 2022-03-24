@@ -4,8 +4,9 @@ namespace JetStudio;
 
 use Jet\Tr;
 use Jet\UI;
+use Jet\UI_dialog;
 
-$delete_menu_item_dialog = UI::dialog( 'delete_menu_item_dialog', Tr::_( 'Delete menu' ), 600 );
+$delete_menu_item_dialog = UI::dialog( 'delete_menu_item_dialog', Tr::_( 'Delete menu' ), UI_dialog::SIZE_LARGE );
 
 echo $delete_menu_item_dialog->start();
 echo Tr::_( 'Do you really want to delete this menu item?' );
