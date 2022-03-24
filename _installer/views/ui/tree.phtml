@@ -1,5 +1,6 @@
 <?php
 
+use Jet\UI_icon;
 use Jet\UI_tree;
 use Jet\UI;
 use Jet\Data_Tree_Node;
@@ -12,7 +13,7 @@ use Jet\MVC_View;
 $tree = $this->getRaw( 'element' );
 
 $icon_width = 22;
-$icon_size = 16;
+$icon_size = UI_icon::SIZE_SMALL;
 ?>
 <div class="tree">
 	<?php foreach( $tree->getData() as $node ):
@@ -44,7 +45,7 @@ $icon_size = 16;
 				<div class="tree-row-icon-container"
 				     style="padding-left: <?= $padding; ?>px;"><?= UI::icon( $icon )->setSize( $icon_size )->setTag(
 						'div'
-					)->setWidth( $icon_width ) ?></div>
+					) ?></div>
 				<div class="tree-row-node-container"><?= $display_callback( $node, $node->getData() ); ?></div>
 			</div>
 		</div>

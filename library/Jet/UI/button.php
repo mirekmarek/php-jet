@@ -27,10 +27,10 @@ class UI_button extends UI_Renderer_Single
 	const CLASS_LIGHT = 'light';
 	const CLASS_DARK = 'dark';
 	const CLASS_LINK = 'link';
-
-	const SIZE_LARGE = 'lg';
-	const SIZE_NORMAL = 'normal';
+	
 	const SIZE_SMALL = 'sm';
+	const SIZE_NORMAL = 'normal';
+	const SIZE_LARGE = 'lg';
 	const SIZE_EXTRA_SMALL = 'xs';
 
 	/**

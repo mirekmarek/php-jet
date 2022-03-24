@@ -2,6 +2,7 @@
 namespace JetStudio;
 
 use Jet\UI;
+use Jet\UI_icon;
 
 ?>
 
@@ -9,7 +10,7 @@ use Jet\UI;
 <div style="margin-top: 50px;text-align: center;">
 	<?php foreach( Application::getParts() as $part => $p ): ?>
 		<div class="card" style="width: 200px; padding: 10px;margin: 20px;display: inline-block;">
-			<div style="margin: 10px;"><?= UI::icon( $p['icon'] )->setSize( 40 ) ?></div>
+			<div style="margin: 10px;"><?= UI::icon( $p['icon'] )->setSize( UI_icon::SIZE_EXTRA_LARGE ) ?></div>
 			<a href="<?= $part ?>.php"><?= $p['label'] ?></a>
 		</div>
 	<?php endforeach; ?>

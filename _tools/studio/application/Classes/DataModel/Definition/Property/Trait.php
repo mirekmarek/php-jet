@@ -19,7 +19,7 @@ use Jet\Form_Field_Select;
 use Jet\IO_File;
 use Jet\Tr;
 use Jet\UI;
-
+use Jet\UI_icon;
 
 /**
  *
@@ -296,42 +296,36 @@ trait DataModel_Definition_Property_Trait
 
 		if( $this->getRelatedToPropertyName() ) {
 			$icon .= UI::icon( 'arrows-alt-h' )
-				->setSize( 12 )
-				->setWidth( 24 )
+				->setSize( UI_icon::SIZE_EXTRA_SMALL )
 				->setTitle( Tr::_( 'Related to parent models' ) );
 		}
 
 		if( $this->getIsId() ) {
 			$icon .= UI::icon( 'magic' )
-				->setSize( 12 )
-				->setWidth( 24 )
+				->setSize( UI_icon::SIZE_EXTRA_SMALL )
 				->setTitle( Tr::_( 'Is ID' ) );
 		}
 
 		if( $this->getIsKey() ) {
 			$icon .= UI::icon( 'key' )
-				->setSize( 12 )
-				->setWidth( 24 )
+				->setSize( UI_icon::SIZE_EXTRA_SMALL )
 				->setTitle( Tr::_( 'Is key' ) );
 		}
 
 		if( $this->isInherited() ) {
 
 			$icon .= UI::icon( 'angle-double-up' )
-				->setSize( 12 )
-				->setWidth( 24 )
+				->setSize( UI_icon::SIZE_EXTRA_SMALL )
 				->setTitle( Tr::_( 'Is inherited' ) );
 
 
 			if( $this->isOverload() ) {
 				$icon .= UI::icon( 'check' )
-					->setSize( 12 )
-					->setWidth( 24 )
+					->setSize( UI_icon::SIZE_EXTRA_SMALL )
 					->setTitle( Tr::_( 'Overloaded' ) );
 			} else {
 				$icon .= UI::icon( 'times' )
-					->setSize( 12 )
-					->setWidth( 24 )
+					->setSize( UI_icon::SIZE_EXTRA_SMALL )
 					->setTitle( Tr::_( 'Not overloaded' ) );
 			}
 		}

@@ -31,7 +31,7 @@ use Jet\MVC;
 								<div class="dropdown-divider"></div>
 							<?php endif; ?>
 							<a class="dropdown-item"
-							   href="<?= $item->getUrl() ?>"><?= UI::icon( $item->getIcon() )->setWidth( 20 ) ?> <?= $item->getLabel() ?></a>
+							   href="<?= $item->getUrl() ?>"><?= UI::icon( $item->getIcon() ) ?> <?= $item->getLabel() ?></a>
 							<?php if( $item->getSeparatorAfter() ): ?>
 								<div class="dropdown-divider"></div>
 							<?php endif; ?>

@@ -13,16 +13,17 @@ $res = '';
 
 $style = '';
 
-if( $i->getSize() ) {
-	$i->addCustomCssStyle( 'font-size:' . $i->getSize() . 'px;' );
-}
-if( $i->getWidth() ) {
-	$i->addCustomCssStyle( 'width:' . $i->getWidth() . 'px;' );
-}
-if( $i->getColor() ) {
-	$i->addCustomCssStyle( 'color:' . $i->getColor() . ';' );
-}
+$font_size = match($i->getSize()) {
+	UI_icon::SIZE_EXTRA_SMALL => 0.5,
+	UI_icon::SIZE_SMALL => 0.75,
+	UI_icon::SIZE_NORMAL => 1,
+	UI_icon::SIZE_LARGE => 1.5,
+	UI_icon::SIZE_EXTRA_LARGE => 2,
+	UI_icon::SIZE_ULTRA_LARGE => 3
+};
 
+
+$i->addCustomCssStyle( 'font-size:' . $font_size . 'rem;' );
 $i->setBaseCssClass('fa fa-'. $i->getIcon() );
 $i->setCustomTagAttribute('title', $i->getTitle());
 

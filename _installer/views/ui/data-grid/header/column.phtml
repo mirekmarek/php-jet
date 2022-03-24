@@ -2,6 +2,7 @@
 
 use Jet\UI_dataGrid_column;
 use Jet\UI;
+use Jet\UI_icon;
 use Jet\MVC_View;
 
 /**
@@ -16,10 +17,10 @@ $column->setCustomTagAttribute('nowrap', 'nowrap');
 <th <?=$column->renderTagAttributes()?>>
 	<?php if( $column->getAllowSort() ):
 		if( $column->isSortByAsc() ):
-			echo UI::icon( 'sort-amount-down-alt' )->setSize( 11 );
+			echo UI::icon( 'sort-amount-down-alt' )->setSize( UI_icon::SIZE_EXTRA_SMALL );
 		else: ?>
 			<a href="<?= $grid->getSortURL( $column->getName() ); ?>">
-				<?= UI::icon( 'sort-amount-down-alt' )->setSize( 11 ) ?>
+				<?= UI::icon( 'sort-amount-down-alt' )->setSize( UI_icon::SIZE_EXTRA_SMALL ) ?>
 			</a>
 		<?php endif;
 	endif;
@@ -28,10 +29,10 @@ $column->setCustomTagAttribute('nowrap', 'nowrap');
 	
 	if( $column->getAllowSort() ):
 		if( $column->isSortByDesc() ):
-			echo UI::icon( 'sort-amount-down' )->setSize( 11 );
+			echo UI::icon( 'sort-amount-down' )->setSize( UI_icon::SIZE_EXTRA_SMALL );
 		else: ?>
 			<a href="<?= $grid->getSortURL( $column->getName(), true ); ?>">
-				<?= UI::icon( 'sort-amount-down' )->setSize( 11 ) ?>
+				<?= UI::icon( 'sort-amount-down' )->setSize( UI_icon::SIZE_EXTRA_SMALL ) ?>
 			</a>
 		<?php endif;
 	endif; ?>

@@ -4,6 +4,7 @@ namespace JetApplicationModule\Content\Images\Browser;
 use Jet\UI;
 use Jet\MVC_Layout;
 use Jet\MVC_View;
+use Jet\UI_icon;
 use JetApplication\Content_Gallery;
 use JetApplication\Content_Gallery_Image;
 
@@ -22,7 +23,7 @@ MVC_Layout::getCurrentLayout()->requireJavascriptFile( 'https://cdnjs.cloudflare
 	<?php foreach( $gallery->getChildren() as $gallery ): ?>
 		<a href="<?= $gallery->getLocalized()->getURL() ?>" class="img-thumbnail"
 		   style="width: 120px;height: 120px;text-align: center;overflow: hidden;margin: 3px;border:none;">
-			<?= UI::icon( 'folder' )->setSize( 80 ) ?>
+			<?= UI::icon( 'folder' )->setSize( UI_icon::SIZE_ULTRA_LARGE ) ?>
 			<br/>
 			<?= $gallery->getTitle(); ?>
 		</a>

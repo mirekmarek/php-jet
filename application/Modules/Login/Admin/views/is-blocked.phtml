@@ -2,6 +2,7 @@
 
 use Jet\Tr;
 use Jet\UI;
+use Jet\UI_icon;
 
 ?>
 
@@ -15,7 +16,7 @@ use Jet\UI;
 		<table>
 			<tr>
 				<td style="padding: 5px;">
-					<?= UI::icon( 'times-circle' )->setSize( 50 ) ?>
+					<?= UI::icon( 'times-circle' )->setSize( UI_icon::SIZE_EXTRA_LARGE ) ?>
 				</td>
 				<td>
 					<?= Tr::_( '<b>Your account is blocked!</b><br/>Please contact your system administrator.' ); ?>
