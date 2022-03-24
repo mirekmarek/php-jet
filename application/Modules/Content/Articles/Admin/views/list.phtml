@@ -61,7 +61,7 @@ if( $delete_uri && count( $grid->getData() ) ) {
 	$grid->footer()->setPrepend( '
 		<tr>
 			<td colspan="' . count( $grid->getColumns() ) . '" class="toolbar">
-				' . UI::button_delete()->setType( 'submit' )->setSize( UI_button::SIZE_EXTRA_SMALL ) . '
+				' . UI::button_delete()->setType( UI_button::TYPE_SUBMIT )->setSize( UI_button::SIZE_EXTRA_SMALL ) . '
 			</td>
 		</tr>
 	' );

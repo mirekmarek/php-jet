@@ -4,6 +4,7 @@ namespace JetStudio;
 use Jet\Http_Request;
 use Jet\Tr;
 use Jet\UI;
+use Jet\UI_button;
 
 $wizard = ModuleWizards::getCurrentWizard();
 ?>
@@ -35,7 +36,7 @@ $wizard = ModuleWizards::getCurrentWizard();
 								<b><?= $wizard->getTitle() ?></b>
 								<p><?= $wizard->getDescription() ?></p>
 								<div style="text-align: right;">
-									<?= UI::button( Tr::_( 'Create' ) )->setClass( 'info' )->setUrl( Http_Request::currentURI( ['wizard' => $wizard->getName()] ) ) ?>
+									<?= UI::button( Tr::_( 'Create' ) )->setClass( UI_button::CLASS_INFO )->setUrl( Http_Request::currentURI( ['wizard' => $wizard->getName()] ) ) ?>
 								</div>
 							</td>
 						</tr>

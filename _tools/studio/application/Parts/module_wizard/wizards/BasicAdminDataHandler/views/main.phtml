@@ -5,6 +5,7 @@ use Jet\Form_Renderer;
 use Jet\MVC_View;
 use Jet\Tr;
 use Jet\UI;
+use Jet\UI_button;
 
 /**
  * @var MVC_View $this
@@ -102,7 +103,7 @@ $select_data_form->field( 'data_model' )->input()->addJsAction( 'onchange', 'thi
 	<?= $setup_form->field( 'ACL_ENTITY_CONST_NAME' ) ?>
 
 	<div style="text-align: right">
-		<?= UI::button_save( Tr::_( 'Create' ) )->setClass( 'primary' )->setIcon( 'magic' ) ?>
+		<?= UI::button_save( Tr::_( 'Create' ) )->setClass( UI_button::CLASS_PRIMARY )->setIcon( 'magic' ) ?>
 	</div>
 	<?= $setup_form->end() ?>
 <?php endif; ?>

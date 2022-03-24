@@ -17,7 +17,7 @@ class UI_button_save extends UI_button
 	/**
 	 * @var string
 	 */
-	protected string $type = 'submit';
+	protected string $type = UI_button::TYPE_SUBMIT;
 	
 	public function __construct( string $label )
 	{

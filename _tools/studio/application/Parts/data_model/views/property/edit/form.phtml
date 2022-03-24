@@ -2,7 +2,10 @@
 
 namespace JetStudio;
 
-use Jet\Form_Renderer;use Jet\Tr;use Jet\UI;
+use Jet\UI;
+use Jet\UI_button;
+use Jet\Form_Renderer;
+use Jet\Tr;
 
 $current = DataModels::getCurrentProperty();
 
@@ -38,7 +41,7 @@ $current->showEditFormFields();
 	<div class="row">
 		<div class="col-md-2"></div>
 		<div class="col-md-9">
-			<?=UI::button(Tr::_('Form field definition'))->setUrl(Forms::getDefinitionUrl( DataModels::getCurrentClassName(), $current->getName() ))->setClass('info')?><br><br>
+			<?=UI::button(Tr::_('Form field definition'))->setUrl(Forms::getDefinitionUrl( DataModels::getCurrentClassName(), $current->getName() ))->setClass( UI_button::CLASS_INFO )?><br><br>
 		</div>
 	</div>
 	<?php

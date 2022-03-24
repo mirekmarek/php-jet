@@ -6,6 +6,7 @@ use Jet\Form_Renderer;
 use Jet\MVC_View;
 use Jet\Tr;
 use Jet\UI;
+use Jet\UI_button;
 
 /**
  * @var MVC_View $this
@@ -60,7 +61,7 @@ foreach( $form->getFields() as $field ) {
 
 <div class="row">
 	<div class="offset-md-3">
-		<?= UI::button( Tr::_( 'Submit' ) )->setType( 'submit' ) ?>
+		<?= UI::button( Tr::_( 'Submit' ) )->setType( UI_button::TYPE_SUBMIT ) ?>
 	</div>
 </div>
 

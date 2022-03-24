@@ -14,6 +14,19 @@ namespace Jet;
  */
 class UI_button extends UI_Renderer_Single
 {
+	const TYPE_BUTTON = 'button';
+	const TYPE_SUBMIT = 'submit';
+	const TYPE_RESET = 'reset';
+	
+	const CLASS_PRIMARY = 'primary';
+	const CLASS_SECONDARY = 'secondary';
+	const CLASS_SUCCESS = 'success';
+	const CLASS_DANGER = 'danger';
+	const CLASS_WARNING = 'warning';
+	const CLASS_INFO = 'info';
+	const CLASS_LIGHT = 'light';
+	const CLASS_DARK = 'dark';
+	const CLASS_LINK = 'link';
 
 	const SIZE_LARGE = 'lg';
 	const SIZE_NORMAL = 'normal';
@@ -23,7 +36,7 @@ class UI_button extends UI_Renderer_Single
 	/**
 	 * @var string
 	 */
-	protected string $type = 'button';
+	protected string $type = self::TYPE_BUTTON;
 
 	/**
 	 * @var string

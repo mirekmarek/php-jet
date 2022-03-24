@@ -36,8 +36,8 @@ class Form_Field_Search extends Form_Field_Input implements Form_Field_Part_RegE
 	{
 		if(!$this->reset_button) {
 			$this->reset_button = UI::button(' ');
-			$this->reset_button->setIcon('times');
-			$this->reset_button->setType('button');
+			$this->reset_button->setIcon( 'times' );
+			$this->reset_button->setType( UI_button::TYPE_BUTTON );
 			$this->reset_button->setOnclick('this.form.'.$this->getTagNameValue().'.value=\'\';this.form.submit();');
 		}
 		
@@ -48,8 +48,8 @@ class Form_Field_Search extends Form_Field_Input implements Form_Field_Part_RegE
 	{
 		if(!$this->search_button) {
 			$this->search_button = UI::button(' ');
-			$this->search_button->setIcon('search');
-			$this->search_button->setType('submit');
+			$this->search_button->setIcon( 'search' );
+			$this->search_button->setType( UI_button::TYPE_SUBMIT );
 		}
 		
 		return $this->search_button;

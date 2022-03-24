@@ -1,6 +1,7 @@
 <?php
 namespace JetApplicationModule\ManageAccess\Administrators\Users;
 
+use Jet\UI_button;
 use JetApplication\Auth_Administrator_User as User;
 
 use Jet\Http_Request;
@@ -34,7 +35,7 @@ $router = $this->getController()->getControllerRouter();
 			<div style="display: inline-block;width: 45%;text-align: right">
 				<form action="<?= Http_Request::currentURI() ?>" method="post">
 					<input type="hidden" name="delete" value="yes">
-					<?= UI::button_delete()->setType( 'submit' ) ?>
+					<?= UI::button_delete()->setType( UI_button::TYPE_SUBMIT ) ?>
 				</form>
 			</div>
 		</div>

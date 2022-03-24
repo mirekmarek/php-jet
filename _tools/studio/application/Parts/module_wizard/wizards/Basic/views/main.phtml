@@ -2,6 +2,7 @@
 namespace JetStudio\ModuleWizard\Basic;
 
 use Jet\Form_Renderer;
+use Jet\UI_button;
 use Jet\MVC_View;
 use Jet\Tr;
 use Jet\UI;
@@ -35,7 +36,7 @@ $setup_form->renderer()->setDefaultFieldWidth( [
 <?= $setup_form->field( 'COPYRIGHT' ) ?>
 
 <div style="text-align: right">
-	<?= UI::button_save( Tr::_( 'Create' ) )->setClass( 'primary' )->setIcon( 'magic' ) ?>
+	<?= UI::button_save( Tr::_( 'Create' ) )->setClass( UI_button::CLASS_PRIMARY )->setIcon( 'magic' ) ?>
 </div>
 <?= $setup_form->end() ?>
 

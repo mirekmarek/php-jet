@@ -4,6 +4,7 @@ namespace JetStudio;
 use Jet\Tr;
 use Jet\UI;
 use Jet\MVC_View;
+use Jet\UI_button;
 
 /**
  * @var MVC_View $this
@@ -25,21 +26,21 @@ $form = $current->getEditForm();
 	if( !$current->isMandatory() ):
 		if( $current->isActivated() ):
 			?>
-			<?= UI::button( Tr::_( 'Deactivate' ) )->setUrl( Modules::getActionUrl( 'deactivate' ) )->setClass( 'danger' ) ?>
+			<?= UI::button( Tr::_( 'Deactivate' ) )->setUrl( Modules::getActionUrl( 'deactivate' ) )->setClass( UI_button::CLASS_DANGER ) ?>
 		<?php
 		else:
 			?>
-			<?= UI::button( Tr::_( 'Activate' ) )->setUrl( Modules::getActionUrl( 'activate' ) )->setClass( 'success' ) ?>
+			<?= UI::button( Tr::_( 'Activate' ) )->setUrl( Modules::getActionUrl( 'activate' ) )->setClass( UI_button::CLASS_SUCCESS ) ?>
 		<?php
 		endif;
 		?>
-		<?= UI::button( Tr::_( 'Uninstall' ) )->setUrl( Modules::getActionUrl( 'uninstall' ) )->setClass( 'danger' ) ?>
+		<?= UI::button( Tr::_( 'Uninstall' ) )->setUrl( Modules::getActionUrl( 'uninstall' ) )->setClass( UI_button::CLASS_DANGER ) ?>
 	<?php
 	endif;
 else:
 	?>
-	<?= UI::button( Tr::_( 'Install' ) )->setUrl( Modules::getActionUrl( 'install' ) )->setClass( 'info' ) ?>
-	<?= UI::button( Tr::_( 'Install and activate' ) )->setUrl( Modules::getActionUrl( 'install_activate' ) )->setClass( 'success' ) ?>
+	<?= UI::button( Tr::_( 'Install' ) )->setUrl( Modules::getActionUrl( 'install' ) )->setClass( UI_button::CLASS_INFO ) ?>
+	<?= UI::button( Tr::_( 'Install and activate' ) )->setUrl( Modules::getActionUrl( 'install_activate' ) )->setClass( UI_button::CLASS_SUCCESS ) ?>
 <?php endif; ?>
 
 <?= UI::button_create( Tr::_( 'Add page' ) )->setOnclick( 'Modules.editModule.addPage.openDialog()' ) ?>

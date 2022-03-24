@@ -3,6 +3,7 @@ namespace JetApplicationModule\EventViewer\Web;
 
 use Jet\Http_Request;
 use Jet\Locale;
+use Jet\UI_button;
 use JetApplication\Logger_Web_Event as Event;
 
 use Jet\UI;
@@ -139,7 +140,7 @@ $grid->getColumn( 'user_username' )->setRenderer(
 				<td></td>
 				<td></td>
 
-				<td><?=UI::button(Tr::_('Filter'))->setClass('primary')->setType('submit')?></td>
+				<td><?=UI::button(Tr::_('Filter'))->setClass( UI_button::CLASS_PRIMARY )->setType( UI_button::TYPE_SUBMIT )?></td>
 			</tr>
 		</table>
 

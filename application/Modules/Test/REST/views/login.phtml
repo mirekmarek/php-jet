@@ -5,6 +5,7 @@ use Jet\MVC_View;
 use Jet\Form;
 use Jet\UI;
 use Jet\Tr;
+use Jet\UI_button;
 
 /**
  *
@@ -55,7 +56,7 @@ $client = $this->getRaw( 'client' );
 					echo $form->getField( 'password' );
 					?>
 					<div class="text-right">
-						<?= UI::button( Tr::_( 'Sign In' ) )->setType( 'submit' )->setClass( 'primary' ); ?>
+						<?= UI::button( Tr::_( 'Sign In' ) )->setType( UI_button::TYPE_SUBMIT )->setClass( UI_button::CLASS_PRIMARY ); ?>
 					</div>
 
 					<?php

@@ -2,6 +2,7 @@
 
 namespace JetApplicationModule\Content\Images\Admin;
 
+use Jet\UI_button;
 use JetApplication\Content_Gallery;
 
 use Jet\Form_Field_FileImage;
@@ -50,7 +51,7 @@ if( count( $images ) ): ?>
 		</div>
 
 		<?php if( $delete_uri ): ?>
-			<?= UI::button_delete( Tr::_( 'Delete selected images' ) )->setType( 'submit' ) ?>
+			<?= UI::button_delete( Tr::_( 'Delete selected images' ) )->setType( UI_button::TYPE_SUBMIT ) ?>
 		<?php endif; ?>
 	</form>
 <?php endif;
