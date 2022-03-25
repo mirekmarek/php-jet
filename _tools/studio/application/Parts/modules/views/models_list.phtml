@@ -5,25 +5,26 @@ use Jet\Http_Request;
 use Jet\Tr;
 use Jet\UI;
 use Jet\UI_badge;
+use Jet\UI_icon;
 
 
 $showIcons = function( Modules_Manifest $module ) {
 	if( $module->isMandatory() ):
-		echo UI::badge(UI_badge::INFO, UI::icon( 'exclamation-triangle' )->setTitle( Tr::_( 'Is mandatory' ) ));
+		echo UI::badge(UI_badge::INFO, UI::icon( 'exclamation-triangle' )->setTitle( Tr::_( 'Is mandatory' ) )->setSize(UI_icon::SIZE_SMALL) );
 	endif;
 	
 	if( $module->isInstalled() ):
-		echo UI::badge(UI_badge::SUCCESS,  UI::icon( 'check' )->setTitle( Tr::_( 'Is installed' ) ) );
+		echo UI::badge(UI_badge::SUCCESS,  UI::icon( 'check' )->setTitle( Tr::_( 'Is installed' ) )->setSize(UI_icon::SIZE_SMALL)  );
 	else:
-		echo UI::badge(UI_badge::DANGER,  UI::icon( 'times' )->setTitle( Tr::_( 'Is not installed' ) ) );
+		echo UI::badge(UI_badge::DANGER,  UI::icon( 'times' )->setTitle( Tr::_( 'Is not installed' ) )->setSize(UI_icon::SIZE_SMALL)  );
 	endif;
 	
 	echo '&nbsp;';
 	
 	if( $module->isActivated() ):
-		echo UI::badge(UI_badge::SUCCESS,  UI::icon( 'check' )->setTitle( Tr::_( 'Is activated' ) ) );
+		echo UI::badge(UI_badge::SUCCESS,  UI::icon( 'check' )->setTitle( Tr::_( 'Is activated' ) )->setSize(UI_icon::SIZE_SMALL)  );
 	else:
-		echo UI::badge(UI_badge::DANGER,  UI::icon( 'times' )->setTitle( Tr::_( 'Is not activated' ) ) );
+		echo UI::badge(UI_badge::DANGER,  UI::icon( 'times' )->setTitle( Tr::_( 'Is not activated' ) )->setSize(UI_icon::SIZE_SMALL)  );
 	endif;
 	
 };
