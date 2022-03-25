@@ -1,27 +1,31 @@
 <?php
 return [
-	'id'                 => '_homepage_',
-	'name'               => 'Administrace - hlavní stránka',
-	'is_active'          => true,
-	'SSL_required'       => false,
-	'title'              => 'Administrace',
-	'icon'               => '',
-	'menu_title'         => 'Administrace',
-	'breadcrumb_title'   => 'Administrace',
-	'is_secret'          => false,
-	'http_headers'       => [
-	],
+	'id' => '_homepage_',
+	'name' => 'Administrace - hlavní stránka',
+	'is_active' => true,
+	'SSL_required' => false,
+	'title' => 'Administrace',
+	'icon' => '',
+	'menu_title' => 'Administrace',
+	'breadcrumb_title' => 'Administrace',
+	'order' => 0,
+	'is_secret' => false,
 	'layout_script_name' => 'default',
-	'meta_tags'          => [
+	'http_headers' => [
 	],
-	'contents'           => [
+	'parameters' => [
+	],
+	'meta_tags' => [
+	],
+	'contents' => [
 		[
-			'module_name'           => 'UI.Admin',
-			'controller_name'       => 'Main',
-			'controller_action'     => 'default',
-			'parameters'            => [
+			'module_name' => 'UI.Admin',
+			'controller_name' => 'Main',
+			'controller_action' => 'default',
+			'parameters' => [
 			],
-			'output_position'       => '__main__',
+			'is_cacheable' => false,
+			'output_position' => '__main__',
 			'output_position_order' => 1,
 		],
 	],
