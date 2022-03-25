@@ -27,8 +27,8 @@ $search_form = $this->getRaw( 'search_form' );
 ?>
 <div class="row toolbar" id="main-toolbar">
 	<div class="col-xs-12 col-md-3">
-		<form method="get">
-			<?= $search_form->field('search') ?>
+		<form method="get" style="display: inline; margin: 0;">
+			<?= $search_form->field('search')->input() ?>
 		</form>
 	</div>
 	<div class="col-xs-12 col-md-9">
