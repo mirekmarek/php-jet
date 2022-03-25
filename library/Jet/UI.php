@@ -198,4 +198,15 @@ class UI
 		return new UI_badge( $type, $text );
 	}
 	
+	/**
+	 * @param Data_Tree $data
+	 * @return UI_tree
+	 */
+	public static function tree( Data_Tree $data ) : UI_tree
+	{
+		$tree = new UI_tree();
+		$tree->setData( $data );
+		
+		return $tree;
+	}
 }

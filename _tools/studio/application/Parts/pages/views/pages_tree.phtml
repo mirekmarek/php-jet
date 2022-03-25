@@ -5,13 +5,11 @@ namespace JetStudio;
 
 use Jet\Data_Tree_Node;
 use Jet\UI_badge;
-use Jet\UI_tree;
 use Jet\UI;
 use Jet\Tr;
 use Jet\MVC;
 
-$UI_tree = new UI_tree();
-$UI_tree->setData( Pages::getCurrentPageTree() );
+$UI_tree = UI::tree( Pages::getCurrentPageTree() );
 $UI_tree->setRootId( MVC::HOMEPAGE_ID );
 //$UI_tree->setShowAll(true);
 $UI_tree->setSelectedId( Pages::getCurrentPageId() );

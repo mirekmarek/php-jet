@@ -55,16 +55,7 @@ class UI_tree extends UI_Renderer_Single
 	{
 		$this->view_script = SysConf_Jet_UI_DefaultViews::get('tree');
 	}
-
-	/**
-	 * @return string
-	 */
-	public function getViewScript(): string
-	{
-		return $this->view_script;
-	}
-
-
+	
 	/**
 	 * @param Data_Tree_Node $node
 	 *

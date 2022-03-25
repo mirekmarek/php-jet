@@ -1,6 +1,7 @@
 <?php
 namespace JetApplicationModule\Content\Images\Admin;
 
+use Jet\UI;
 use Jet\UI_tree;
 
 use Jet\Data_Tree;
@@ -15,9 +16,7 @@ use Jet\MVC_View;
 $galleries = $this->getRaw( 'galleries' );
 $router = $this->getController()->getControllerRouter();
 
-$tree = new UI_tree();
-
-$tree->setData( $galleries );
+$tree = UI::tree( $galleries );
 $tree->setSelectedId( $this->getRaw( 'selected_id' ) );
 
 $tree->setRendererOpened(
