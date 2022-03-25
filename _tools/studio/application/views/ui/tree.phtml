@@ -1,10 +1,10 @@
 <?php
 
+use Jet\UI_icon;
 use Jet\UI_tree;
 use Jet\UI;
 use Jet\Data_Tree_Node;
 use Jet\MVC_View;
-use Jet\UI_icon;
 
 /**
  * @var MVC_View $this
@@ -42,10 +42,9 @@ $icon_size = UI_icon::SIZE_SMALL;
 		?>
 		<div class="tree-row-container">
 			<div class="tree-row<?= $tree->getSelectedId() == $node->getId() ? ' selected' : '' ?>">
-				<div class="tree-row-icon-container"
-				     style="padding-left: <?= $padding; ?>px;"><?= UI::icon( $icon )->setSize( $icon_size )->setTag(
-						'div'
-					) ?></div>
+				<div class="tree-row-icon-container" style="padding-left: <?= $padding; ?>px;">
+					<?= UI::icon( $icon )->setSize( $icon_size )?>
+				</div>
 				<div class="tree-row-node-container"><?= $display_callback( $node, $node->getData() ); ?></div>
 			</div>
 		</div>

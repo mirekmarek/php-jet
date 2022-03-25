@@ -27,17 +27,11 @@ legend {
 
 
 .tree {
-	width: 100%;
-	padding-left: 6px;
-	padding-top: 6px;
-	padding-bottom: 6px;
-	color: #111111
+	padding: 2px;
 }
 
 .tree-row-container {
-	width: 100%;
 	display: table;
-	padding: 2px;
 }
 
 .tree-row {
@@ -46,15 +40,25 @@ legend {
 
 .tree-row-icon-container {
 	display: table-cell;
-	width: 20px;
+}
+
+.tree-row-icon-container span {
+	margin: 3px;
 }
 
 .tree-row-node-container {
 	display: table-cell;
 }
 
-.tree-row-node-container a {
-	color: #222222;
+.tree-node {
+}
+
+.tree-node-selected {
+	font-weight: bolder;
+}
+
+.tree-node-opened {
+	font-style: italic;
 }
 
 .selected a {

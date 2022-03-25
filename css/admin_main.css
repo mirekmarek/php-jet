@@ -25,6 +25,10 @@ html, body {
 	display: table-cell;
 }
 
+.tree-row-icon-container span {
+	margin: 3px;
+}
+
 .tree-row-node-container {
 	display: table-cell;
 }
