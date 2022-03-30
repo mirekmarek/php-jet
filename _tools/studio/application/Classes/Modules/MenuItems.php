@@ -93,11 +93,11 @@ class Modules_MenuItems extends BaseObject
 	/**
 	 *
 	 * @param string $menu_set_name
-	 * @param ?string $translator_namespace
+	 * @param ?string $translator_dictionary
 	 *
 	 * @return Menus_Menu_Item[]
 	 */
-	public function getMenuItems( string $menu_set_name, ?string $translator_namespace = null ): array
+	public function getMenuItems( string $menu_set_name, ?string $translator_dictionary = null ): array
 	{
 		if( !isset( $this->menu_items[$menu_set_name] ) ) {
 			return [];

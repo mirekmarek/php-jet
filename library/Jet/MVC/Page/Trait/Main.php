@@ -132,10 +132,10 @@ trait MVC_Page_Trait_Main
 
 		if(
 			static::$_translate &&
-			isset($maps['translator_namespace'][$page_id])
+			isset($maps['translator_dictionary'][$page_id])
 		) {
 
-			$translator_namespace = $maps['translator_namespace'][$page_id];
+			$translator_dictionary = $maps['translator_dictionary'][$page_id];
 
 			$translate_fields = [
 				'name',
@@ -145,7 +145,7 @@ trait MVC_Page_Trait_Main
 			];
 			foreach( $translate_fields as $tf ) {
 				if( !empty( $data[$tf] ) ) {
-					$data[$tf] = Tr::_( $data[$tf], [], $translator_namespace, $locale );
+					$data[$tf] = Tr::_( $data[$tf], [], $translator_dictionary, $locale );
 				}
 			}
 		}

@@ -58,13 +58,13 @@ trait MVC_Page_Trait_Initialization
 				static::$maps[$key] = $map;
 			} else {
 				static::$maps[$key] = [
-					'pages_files_map'      => [],
-					'relative_path_map'    => [],
-					'children_map'         => [],
-					'parent_map'           => [],
-					'parents_map'          => [],
-					'translator_namespace' => [],
-					'module'               => [],
+					'pages_files_map'       => [],
+					'relative_path_map'     => [],
+					'children_map'          => [],
+					'parent_map'            => [],
+					'parents_map'           => [],
+					'translator_dictionary' => [],
+					'module'                => [],
 				];
 
 				static::loadMaps_readDir( $key, $base->getPagesDataPath( $locale ) );
@@ -128,7 +128,7 @@ trait MVC_Page_Trait_Initialization
 				static::$maps[$key]['children_map'][$page_id] = [];
 				static::$maps[$key]['parent_map'][$page_id] = $parent_page_id;
 				static::$maps[$key]['parents_map'][$page_id] = [$parent_page_id];
-				static::$maps[$key]['translator_namespace'][$page_id] = $manifest->getName();
+				static::$maps[$key]['translator_dictionary'][$page_id] = $manifest->getName();
 				static::$maps[$key]['module'][$page_id] = $manifest->getName();
 
 			}

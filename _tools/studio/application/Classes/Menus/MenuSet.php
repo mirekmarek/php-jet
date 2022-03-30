@@ -38,7 +38,7 @@ class Menus_MenuSet extends Navigation_MenuSet
 	 */
 	public function __construct( string $name = '' )
 	{
-		$this->translator_namespace = false;
+		$this->translator_dictionary = false;
 
 		if( $name ) {
 			$this->setName( $name );
@@ -211,16 +211,16 @@ class Menus_MenuSet extends Navigation_MenuSet
 
 	/**
 	 * @param string $name
-	 * @param string|null|bool $translator_namespace
+	 * @param string|null|bool $translator_dictionary
 	 *
 	 * @return Menus_MenuSet
 	 */
-	public static function get( string $name, string|null|bool $translator_namespace = null ): Menus_MenuSet
+	public static function get( string $name, string|null|bool $translator_dictionary = null ): Menus_MenuSet
 	{
-		$translator_namespace = false;
+		$translator_dictionary = false;
 
 		/** @noinspection PhpIncompatibleReturnTypeInspection */
-		return parent::get( $name, $translator_namespace );
+		return parent::get( $name, $translator_dictionary );
 	}
 
 	/**

@@ -446,12 +446,12 @@ class MVC_Page_Content extends BaseObject implements MVC_Page_Content_Interface
 		} else {
 			Debug_Profiler::message( 'Dispatch:' . $this->getPage()->getKey() . '|' . $module_name . ':' . get_class( $controller ) . ':' . $controller_action );
 
-			$translator_namespace = Translator::getCurrentDictionary();
+			$translator_dictionary = Translator::getCurrentDictionary();
 			Translator::setCurrentDictionary( $module_name );
 
 			$controller->dispatch();
 
-			Translator::setCurrentDictionary( $translator_namespace );
+			Translator::setCurrentDictionary( $translator_dictionary );
 		}
 
 		Debug_Profiler::blockEnd( 'Dispatch ' . $block_name );

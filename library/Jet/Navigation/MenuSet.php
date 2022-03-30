@@ -27,7 +27,7 @@ class Navigation_MenuSet extends BaseObject
 	/**
 	 * @var string|null
 	 */
-	protected string|null $translator_namespace = '';
+	protected string|null $translator_dictionary = '';
 
 	/**
 	 * @var Navigation_Menu[]
@@ -59,14 +59,14 @@ class Navigation_MenuSet extends BaseObject
 
 	/**
 	 * @param string $name
-	 * @param string|null|bool $translator_namespace
+	 * @param string|null|bool $translator_dictionary
 	 *
 	 * @return Navigation_MenuSet
 	 */
-	public static function get( string $name, string|null|bool $translator_namespace = null ): Navigation_MenuSet
+	public static function get( string $name, string|null|bool $translator_dictionary = null ): Navigation_MenuSet
 	{
 		if( !isset( static::$_sets[$name] ) ) {
-			static::$_sets[$name] = new static( $name, $translator_namespace );
+			static::$_sets[$name] = new static( $name, $translator_dictionary );
 		}
 
 		return static::$_sets[$name];
@@ -90,12 +90,12 @@ class Navigation_MenuSet extends BaseObject
 
 	/**
 	 * @param string $name
-	 * @param string|null|bool $translator_namespace
+	 * @param string|null|bool $translator_dictionary
 	 */
-	public function __construct( string $name, string|null|bool $translator_namespace = null )
+	public function __construct( string $name, string|null|bool $translator_dictionary = null )
 	{
 		$this->setName( $name );
-		$this->translator_namespace = $translator_namespace;
+		$this->translator_dictionary = $translator_dictionary;
 		$this->init();
 	}
 
@@ -122,11 +122,11 @@ class Navigation_MenuSet extends BaseObject
 	 */
 	protected function _( string $text ): string
 	{
-		if( $this->translator_namespace === false ) {
+		if( $this->translator_dictionary === false ) {
 			return $text;
 		}
 
-		return Tr::_( $text, [], $this->translator_namespace );
+		return Tr::_( $text, [], $this->translator_dictionary );
 	}
 
 	/**
@@ -178,7 +178,7 @@ class Navigation_MenuSet extends BaseObject
 
 			$menu_data = require $items_file_path;
 
-			$translator_namespace = $manifest->getName();
+			$translator_dictionary = $manifest->getName();
 
 			foreach($menu_data as $menu_id=>$menu_items_data) {
 				$menu = $this->getMenu( $menu_id );
@@ -190,7 +190,7 @@ class Navigation_MenuSet extends BaseObject
 					$label = '';
 
 					if( !empty( $menu_item_data['label'] ) ) {
-						$label = Tr::_( $menu_item_data['label'], [], $translator_namespace );
+						$label = Tr::_( $menu_item_data['label'], [], $translator_dictionary );
 					}
 
 					$menu_item = new Navigation_Menu_Item( $item_id, $label );
