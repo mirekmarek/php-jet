@@ -62,8 +62,6 @@ abstract class MVC_Controller_REST extends MVC_Controller
 	/**
 	 * @param string|int $code
 	 * @param mixed $data
-	 *
-	 * @throws MVC_Controller_Exception
 	 */
 	public function responseError( string|int $code, mixed $data = null ): void
 	{
