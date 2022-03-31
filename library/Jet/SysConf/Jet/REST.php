@@ -38,27 +38,27 @@ class SysConf_Jet_REST
 	 * @var array
 	 */
 	protected static array $errors = [
-		REST::ERR_CODE_AUTHORIZATION_REQUIRED => [
+		RESTServer::ERR_CODE_AUTHORIZATION_REQUIRED => [
 			Http_Headers::CODE_401_UNAUTHORIZED,
 			'Access denied! Authorization required! ',
 		],
-		REST::ERR_CODE_ACCESS_DENIED          => [
+		RESTServer::ERR_CODE_ACCESS_DENIED          => [
 			Http_Headers::CODE_401_UNAUTHORIZED,
 			'Access denied! Insufficient permissions! ',
 		],
-		REST::ERR_CODE_VALIDATION_ERROR       => [
+		RESTServer::ERR_CODE_VALIDATION_ERROR       => [
 			Http_Headers::CODE_400_BAD_REQUEST,
 			'Validation error',
 		],
-		REST::ERR_CODE_REQUEST_ERROR          => [
+		RESTServer::ERR_CODE_REQUEST_ERROR          => [
 			Http_Headers::CODE_400_BAD_REQUEST,
 			'Bad request'
 		],
-		REST::ERR_CODE_UNKNOWN_ITEM           => [
+		RESTServer::ERR_CODE_UNKNOWN_ITEM           => [
 			Http_Headers::CODE_404_NOT_FOUND,
 			'Unknown item'
 		],
-		REST::ERR_CODE_COMMON                 => [
+		RESTServer::ERR_CODE_COMMON                 => [
 			Http_Headers::CODE_400_BAD_REQUEST,
 			'Common error'
 		],

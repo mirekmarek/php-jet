@@ -183,17 +183,17 @@ class MVC_Controller_REST_Router extends MVC_Controller_Router
 			return false;
 		}
 
-		switch( REST::getRequestMethod() ) {
-			case REST::REQUEST_METHOD_GET:
+		switch( RESTServer::getRequestMethod() ) {
+			case RESTServer::REQUEST_METHOD_GET:
 				$resolver = $this->getResolverGet();
 				break;
-			case REST::REQUEST_METHOD_POST:
+			case RESTServer::REQUEST_METHOD_POST:
 				$resolver = $this->getResolverPost();
 				break;
-			case REST::REQUEST_METHOD_PUT:
+			case RESTServer::REQUEST_METHOD_PUT:
 				$resolver = $this->getResolverPut();
 				break;
-			case REST::REQUEST_METHOD_DELETE:
+			case RESTServer::REQUEST_METHOD_DELETE:
 				$resolver = $this->getResolverDelete();
 				break;
 			default:
