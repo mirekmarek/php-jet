@@ -1,12 +1,43 @@
 <?php
-
 use Jet\UI;
 use Jet\Navigation_MenuSet;
+use Jet\Navigation_Menu;
+use Jet\Navigation_Menu_Item;
 use Jet\Auth;
 use Jet\Tr;
 use Jet\Locale;
 use Jet\MVC;
 
+$showMenu = function( Navigation_Menu $menu, callable $separator_renderer, callable $item_renderer ) {
+	$separator_allowed = false;
+	
+	$count = count($menu->getItems());
+	$i=0;
+	foreach( $menu->getItems() as $item ) {
+		$i++;
+		$is_last = $i==$count;
+		
+		if( $item->getSeparatorBefore() ) {
+			if($separator_allowed) {
+				$separator_renderer();
+			}
+			
+			$separator_allowed = false;
+		}
+		
+		$item_renderer( $item );
+		$separator_allowed = true;
+		
+		if($is_last) {
+			break;
+		}
+		
+		if( $item->getSeparatorAfter() ) {
+			$separator_renderer();
+			$separator_allowed = false;
+		}
+	}
+}
 ?>
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -26,16 +57,17 @@ use Jet\MVC;
 						<?= $menu->getLabel() ?> <span class="caret"></span>
 					</a>
 					<div class="dropdown-menu" aria-labelledby="navbarDropdown">
-						<?php foreach( $menu->getItems() as $item ): ?>
-							<?php if( $item->getSeparatorBefore() ): ?>
-								<div class="dropdown-divider"></div>
-							<?php endif; ?>
-							<a class="dropdown-item"
-							   href="<?= $item->getUrl() ?>"><?= UI::icon( $item->getIcon() ) ?> <?= $item->getLabel() ?></a>
-							<?php if( $item->getSeparatorAfter() ): ?>
-								<div class="dropdown-divider"></div>
-							<?php endif; ?>
-						<?php endforeach; ?>
+						<?php
+						$showMenu(
+							menu: $menu,
+							separator_renderer: function() {
+								?><div class="dropdown-divider"></div><?php
+							},
+							item_renderer: function( Navigation_Menu_Item $item) {
+								?><a class="dropdown-item" href="<?= $item->getUrl() ?>"><?= UI::icon( $item->getIcon() ) ?> <?= $item->getLabel() ?></a><?php
+							}
+						);
+						?>
 					</div>
 
 				</li>

@@ -1,8 +1,40 @@
 <?php
-
 use Jet\Navigation_MenuSet;
+use Jet\Navigation_Menu;
+use Jet\Navigation_Menu_Item;
 use Jet\UI;
 use Jet\UI_icon;
+
+$showMenu = function( Navigation_Menu $menu, callable $separator_renderer, callable $item_renderer ) {
+	$separator_allowed = false;
+	
+	$count = count($menu->getItems());
+	$i=0;
+	foreach( $menu->getItems() as $item ) {
+		$i++;
+		$is_last = $i==$count;
+		
+		if( $item->getSeparatorBefore() ) {
+			if($separator_allowed) {
+				$separator_renderer();
+			}
+			
+			$separator_allowed = false;
+		}
+		
+		$item_renderer( $item );
+		$separator_allowed = true;
+		
+		if($is_last) {
+			break;
+		}
+		
+		if( $item->getSeparatorAfter() ) {
+			$separator_renderer();
+			$separator_allowed = false;
+		}
+	}
+}
 
 ?>
 <br>
@@ -15,19 +47,22 @@ use Jet\UI_icon;
 			<div class="col-md-2">
 				<h3><?= $menu->getLabel() ?></h3>
 				<hr/>
-				<?php foreach( $menu->getItems() as $item ): ?>
-					<div style="margin: 10px">
-						<?php if( $item->getSeparatorBefore() ): ?>
-							<hr/><?php endif; ?>
-						<a href="<?= $item->getUrl() ?>">
-							<?= UI::icon( $item->getIcon() )->setSize( UI_icon::SIZE_LARGE ) ?>
-							<span style="position: relative;top:-5px"><?= $item->getLabel() ?></span>
-						</a>
-						<?php if( $item->getSeparatorAfter() ): ?>
-							<hr/><?php endif; ?>
-					</div>
-				<?php endforeach; ?>
-
+				<?php
+				$showMenu(
+					menu: $menu,
+					separator_renderer: function() {
+						?><div style="margin: 10px"><hr/></div><?php
+					},
+					item_renderer: function( Navigation_Menu_Item $item) {
+						?><div style="margin: 10px">
+							<a href="<?= $item->getUrl() ?>">
+								<div style="display: inline-block;width: 30px;text-align: center"><?= UI::icon( $item->getIcon() )->setSize( UI_icon::SIZE_LARGE ) ?></div>
+								<span style="position: relative;top:-5px"><?= $item->getLabel() ?></span>
+							</a>
+						</div><?php
+					}
+				);
+				?>
 			</div>
 		<?php endforeach; ?>
 
