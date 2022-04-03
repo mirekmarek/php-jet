@@ -10,4 +10,9 @@ return [
 	'Images - REST API' => '',
 	'Images' => '',
 	'Galleries' => '',
+	'Unknown parent' => '',
+	'Please enter title' => '',
+	'File is too large' => '',
+	'Please select image' => '',
+	'Uploaded file is not supported image' => '',
 ];
