@@ -52,36 +52,6 @@ abstract class DataModel_IDController extends BaseObject
 
 	}
 
-	/**
-	 * @param array|string|int $id_data
-	 *
-	 * @throws DataModel_IDController_Exception
-	 */
-	public function init( array|string|int $id_data ): void
-	{
-
-		$given_id_keys = [];
-		if( !is_array( $id_data ) ) {
-			foreach( $this->values as $key => $val ) {
-				$this->values[$key] = $id_data;
-				$given_id_keys[] = $key;
-				break;
-			}
-		} else {
-			foreach( $this->values as $key => $val ) {
-				if( isset( $id_data[$key] ) ) {
-					$this->values[$key] = $id_data[$key];
-					$given_id_keys[] = $key;
-				}
-			}
-		}
-
-		if( ($missing_keys = array_diff( array_keys( $this->values ), $given_id_keys )) ) {
-			throw new DataModel_IDController_Exception( 'ID value missing: ' . implode( ', ', $missing_keys ) );
-		}
-
-	}
-
 
 	/**
 	 * @return string
