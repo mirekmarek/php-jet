@@ -20,10 +20,23 @@ use Jet\DataModel_IDController_UniqueString;
 	name: 'model_c1',
 	database_table_name: 'model_c1',
 	id_controller_class: DataModel_IDController_UniqueString::class,
+	id_controller_options: [
+		'id_property_name' => 'id'
+	],
+	key: [
+		'name' => 'my_key',
+		'property_names' => [
+			'id',
+			'text'
+		],
+		'type' => DataModel::KEY_TYPE_INDEX
+	],
 	relation: [
 		'related_to_class_name' => Model_A1::class,
-		'join_by_properties'    => ['id' => 'id'],
-		'join_type'             => DataModel_Query::JOIN_TYPE_LEFT_OUTER_JOIN
+		'join_by_properties' => [
+			'id' => 'id'
+		],
+		'join_type' => DataModel_Query::JOIN_TYPE_LEFT_OUTER_JOIN
 	]
 )]
 class Model_C1 extends DataModel
