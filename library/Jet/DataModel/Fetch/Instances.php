@@ -100,17 +100,16 @@ class DataModel_Fetch_Instances extends DataModel_Fetch implements Data_Paginato
 		$model_name = $this->data_model_definition->getModelName();
 
 		$this->_instances = $class_name::fetch(
-			[
+			where_per_model: [
 				$model_name => $where
 			],
-			null,
-			function( $item ) {
+			item_key_generator: function( $item ) {
 				/**
 				 * @var DataModel $item
 				 */
 				return $item->getIDController()->toString();
 			},
-			$this->load_filter
+			load_filter: $this->load_filter
 		);
 
 	}
