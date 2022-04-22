@@ -25,12 +25,5 @@ class DataModel_Definition_Property_Bool extends DataModel_Definition_Property
 	{
 		$value = (bool)$value;
 	}
-	
-	/**
-	 * @return string
-	 */
-	public function getDefaultFormFieldType(): string
-	{
-		return Form_Field::TYPE_CHECKBOX;
-	}
+
 }

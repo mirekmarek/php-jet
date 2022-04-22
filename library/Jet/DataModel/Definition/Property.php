@@ -300,11 +300,6 @@ abstract class DataModel_Definition_Property extends BaseObject
 	 * @param mixed &$value
 	 */
 	abstract public function checkValueType( mixed &$value ): void;
-	
-	/**
-	 * @return string
-	 */
-	abstract public function getDefaultFormFieldType() : string;
 
 	/**
 	 * @param string $backend_type

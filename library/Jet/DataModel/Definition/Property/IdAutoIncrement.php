@@ -31,13 +31,4 @@ class DataModel_Definition_Property_IdAutoIncrement extends DataModel_Definition
 	{
 	}
 	
-	
-	/**
-	 * @return string
-	 */
-	public function getDefaultFormFieldType(): string
-	{
-		return '';
-	}
-	
 }

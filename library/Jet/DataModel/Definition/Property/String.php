@@ -55,14 +55,4 @@ class DataModel_Definition_Property_String extends DataModel_Definition_Property
 	{
 		return $this->max_len;
 	}
-	
-	
-	/**
-	 * @return string
-	 */
-	public function getDefaultFormFieldType(): string
-	{
-		return ($this->max_len<=255) ? Form_Field::TYPE_INPUT : Form_Field::TYPE_TEXTAREA;
-	}
-	
 }

@@ -63,13 +63,4 @@ class DataModel_Definition_Property_Date extends DataModel_Definition_Property
 		return (string)$property;
 	}
 	
-	
-	/**
-	 * @return string
-	 */
-	public function getDefaultFormFieldType(): string
-	{
-		return Form_Field::TYPE_DATE;
-	}
-	
 }

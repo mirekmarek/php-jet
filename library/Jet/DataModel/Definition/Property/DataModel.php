@@ -198,12 +198,4 @@ class DataModel_Definition_Property_DataModel extends DataModel_Definition_Prope
 
 		return $definition;
 	}
-	
-	/**
-	 * @return string
-	 */
-	public function getDefaultFormFieldType() : string
-	{
-		return '';
-	}
 }

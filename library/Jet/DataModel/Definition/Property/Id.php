@@ -31,13 +31,4 @@ class DataModel_Definition_Property_Id extends DataModel_Definition_Property
 	{
 	}
 	
-	
-	/**
-	 * @return string
-	 */
-	public function getDefaultFormFieldType(): string
-	{
-		return '';
-	}
-	
 }

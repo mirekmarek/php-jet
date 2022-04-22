@@ -59,13 +59,4 @@ class DataModel_Definition_Property_CustomData extends DataModel_Definition_Prop
 		}
 	}
 	
-	
-	/**
-	 * @return string
-	 */
-	public function getDefaultFormFieldType(): string
-	{
-		return '';
-	}
-	
 }

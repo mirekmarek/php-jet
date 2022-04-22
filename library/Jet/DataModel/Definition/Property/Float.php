@@ -41,13 +41,4 @@ class DataModel_Definition_Property_Float extends DataModel_Definition_Property
 		$value = (float)$value;
 	}
 	
-	
-	/**
-	 * @return string
-	 */
-	public function getDefaultFormFieldType(): string
-	{
-		return Form_Field::TYPE_FLOAT;
-	}
-	
 }

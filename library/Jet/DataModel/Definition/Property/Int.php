@@ -40,13 +40,4 @@ class DataModel_Definition_Property_Int extends DataModel_Definition_Property
 		$value = (int)$value;
 	}
 	
-	
-	/**
-	 * @return string
-	 */
-	public function getDefaultFormFieldType(): string
-	{
-		return Form_Field::TYPE_INT;
-	}
-	
 }

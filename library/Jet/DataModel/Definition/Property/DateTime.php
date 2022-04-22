@@ -57,13 +57,4 @@ class DataModel_Definition_Property_DateTime extends DataModel_Definition_Proper
 		return (string)$property;
 	}
 	
-	
-	/**
-	 * @return string
-	 */
-	public function getDefaultFormFieldType(): string
-	{
-		return Form_Field::TYPE_DATE_TIME;
-	}
-	
 }
