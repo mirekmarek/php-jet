@@ -260,14 +260,6 @@ abstract class DataModel_Definition_Property extends BaseObject
 		return $this->is_id;
 	}
 
-	/**
-	 * @return bool
-	 */
-	public function getCanBeFormField(): bool
-	{
-		return true;
-	}
-
 
 	/**
 	 * @return int|null
