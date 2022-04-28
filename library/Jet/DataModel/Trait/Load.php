@@ -440,24 +440,36 @@ trait DataModel_Trait_Load
 
 		return $items;
 	}
-
-
+	
+	
 	/**
 	 * @param array $select
 	 * @param array $where
-	 * @param null|string|array $order_by
+	 * @param array|string|null $group_by
+	 * @param array|null $having
+	 * @param string|array|null $order_by
 	 * @param string $fetch_method
 	 *
 	 * @return mixed
 	 */
 	public static function fetchData( array $select,
-	                                  array $where,
+	                                  array $where = [],
+	                                  null|array|string $group_by = null,
+	                                  null|array $having = null,
 	                                  null|string|array $order_by = null,
 	                                  string $fetch_method = 'fetchAll' ): mixed
 	{
 		$query = static::createQuery( $where );
 
 		$query->setSelect( $select );
+		if( $group_by ) {
+			$query->setGroupBy( $group_by );
+		}
+		
+		if($having) {
+			$query->setHaving( $having );
+		}
+		
 		if( $order_by ) {
 			$query->setOrderBy( $order_by );
 		}
