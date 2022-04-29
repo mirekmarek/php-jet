@@ -154,9 +154,11 @@ trait MVC_Page_Trait_Main
 		if(isset($maps['module'][$page_id])) {
 			$module_name = $maps['module'][$page_id];
 
-			foreach( $data['contents'] as $i => $content ) {
-				if( empty( $content['module_name'] ) ) {
-					$data['contents'][$i]['module_name'] = $module_name;
+			if(isset($data['contents'])) {
+				foreach( $data['contents'] as $i => $content ) {
+					if( empty( $content['module_name'] ) ) {
+						$data['contents'][$i]['module_name'] = $module_name;
+					}
 				}
 			}
 		}
