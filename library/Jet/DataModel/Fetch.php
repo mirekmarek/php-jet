@@ -150,65 +150,14 @@ abstract class DataModel_Fetch extends BaseObject implements BaseObject_Interfac
 	{
 		return $this->getCount();
 	}
-
-	/**
-	 * @param mixed $offset
-	 *
-	 * @return bool
-	 * @see ArrayAccess
-	 *
-	 */
-	public function offsetExists( mixed $offset ): bool
-	{
-		$this->_fetch();
-
-		return array_key_exists( $offset, $this->data );
-	}
-
-	/**
-	 * Do nothing - DataModel_FetchAll is readonly
-	 *
-	 * @param mixed $offset
-	 * @param mixed $value
-	 * @see ArrayAccess
-	 *
-	 */
-	public function offsetSet( mixed $offset, mixed $value ): void
-	{
-	}
-
-	/**
-	 * @param mixed $offset
-	 *
-	 * @return DataModel
-	 * @see ArrayAccess
-	 *
-	 */
-	public function offsetGet( mixed $offset ): DataModel
-	{
-		$this->_fetch();
-
-		return $this->_get( $this->data[$offset] );
-	}
-
+	
 	/**
 	 * @param mixed $item
 	 *
 	 * @return DataModel|DataModel_Related_1toN|DataModel_Related_1to1|DataModel_IDController
 	 */
 	abstract protected function _get( mixed $item ): DataModel|DataModel_Related_1toN|DataModel_Related_1to1|DataModel_IDController;
-
-	/**
-	 * @param int $offset
-	 * @see ArrayAccess
-	 *
-	 */
-	public function offsetUnset( mixed $offset ): void
-	{
-		$this->_fetch();
-		unset( $this->data[$offset] );
-	}
-
+	
 	/**
 	 * @return DataModel|DataModel_Related_1toN|DataModel_Related_1to1|DataModel_IDController
 	 * @see Iterator

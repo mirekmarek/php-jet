@@ -12,7 +12,7 @@ namespace Jet;
  *
  *
  */
-class DataModel_Fetch_Instances extends DataModel_Fetch implements Data_Paginator_DataSource, BaseObject_Interface_ArrayEmulator
+class DataModel_Fetch_Instances extends DataModel_Fetch implements Data_Paginator_DataSource, BaseObject_Interface_IteratorCountable
 {
 
 	/**
