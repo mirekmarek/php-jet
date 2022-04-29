@@ -448,42 +448,237 @@ trait DataModel_Trait_Load
 	 * @param array|string|null $group_by
 	 * @param array|null $having
 	 * @param string|array|null $order_by
+	 * @param int|null $limit
+	 * @param int|null $offset
 	 * @param string $fetch_method
-	 *
 	 * @return mixed
 	 */
-	public static function fetchData( array $select,
-	                                  array $where = [],
-	                                  null|array|string $group_by = null,
-	                                  null|array $having = null,
-	                                  null|string|array $order_by = null,
-	                                  string $fetch_method = 'fetchAll' ): mixed
+	protected static function dataFetch(
+		string            $fetch_method,
+		array             $select,
+		array             $where = [],
+		null|array|string $group_by = null,
+		null|array        $having = null,
+		null|string|array $order_by = null,
+		null|int          $limit = null,
+		null|int          $offset = null,
+	): mixed
 	{
 		$query = static::createQuery( $where );
-
+		
 		$query->setSelect( $select );
 		if( $group_by ) {
 			$query->setGroupBy( $group_by );
 		}
 		
-		if($having) {
+		if( $having ) {
 			$query->setHaving( $having );
 		}
 		
 		if( $order_by ) {
 			$query->setOrderBy( $order_by );
 		}
-
+		
+		if( $limit !== null ) {
+			$query->setLimit( $limit, $offset );
+		}
+		
 		/**
 		 * @var DataModel_Backend $backend
 		 */
 		$backend = static::getBackendInstance();
-
+		
 		return $backend->{$fetch_method}( $query );
-
 	}
-
-
+	
+	/**
+	 * @param array $select
+	 * @param array $where
+	 * @param array|string|null $group_by
+	 * @param array|null $having
+	 * @param string|array|null $order_by
+	 * @param int|null $limit
+	 * @param int|null $offset
+	 *
+	 * @return mixed
+	 */
+	public static function dataFetchAll( array $select,
+	                                     array $where = [],
+	                                     null|array|string $group_by = null,
+	                                     null|array $having = null,
+	                                     null|string|array $order_by = null,
+	                                     null|int $limit=null,
+	                                     null|int $offset=null
+	): mixed
+	{
+		return static::dataFetch(
+			'fetchAll',
+			$select,
+			$where,
+			$group_by,
+			$having,
+			$order_by,
+			$limit,
+			$offset
+		);
+	}
+	
+	/**
+	 * @param array $select
+	 * @param array $where
+	 * @param array|string|null $group_by
+	 * @param array|null $having
+	 * @param string|array|null $order_by
+	 * @param int|null $limit
+	 * @param int|null $offset
+	 * @return mixed
+	 */
+	public static function dataFetchAssoc( array $select,
+	                                       array $where = [],
+	                                       null|array|string $group_by = null,
+	                                       null|array $having = null,
+	                                       null|string|array $order_by = null,
+	                                       null|int $limit=null,
+	                                       null|int $offset=null
+	): mixed
+	{
+		return static::dataFetch(
+			'fetchAssoc',
+			$select,
+			$where,
+			$group_by,
+			$having,
+			$order_by,
+			$limit,
+			$offset
+		);
+	}
+	
+	
+	/**
+	 * @param array $select
+	 * @param array $where
+	 * @param array|string|null $group_by
+	 * @param array|null $having
+	 * @param string|array|null $order_by
+	 * @param int|null $limit
+	 * @param int|null $offset
+	 * @return mixed
+	 */
+	public static function dataFetchCol( array $select,
+	                                       array $where = [],
+	                                       null|array|string $group_by = null,
+	                                       null|array $having = null,
+	                                       null|string|array $order_by = null,
+	                                       null|int $limit=null,
+	                                       null|int $offset=null
+	): mixed
+	{
+		return static::dataFetch(
+			'fetchCol',
+			$select,
+			$where,
+			$group_by,
+			$having,
+			$order_by,
+			$limit,
+			$offset
+		);
+	}
+	
+	
+	/**
+	 * @param array $select
+	 * @param array $where
+	 * @param array|string|null $group_by
+	 * @param array|null $having
+	 * @param string|array|null $order_by
+	 * @param int|null $limit
+	 * @param int|null $offset
+	 * @return mixed
+	 */
+	public static function dataFetchPairs( array $select,
+	                                     array $where = [],
+	                                     null|array|string $group_by = null,
+	                                     null|array $having = null,
+	                                     null|string|array $order_by = null,
+	                                     null|int $limit=null,
+	                                     null|int $offset=null
+	): mixed
+	{
+		return static::dataFetch(
+			'fetchPairs',
+			$select,
+			$where,
+			$group_by,
+			$having,
+			$order_by,
+			$limit,
+			$offset
+		);
+	}
+	
+	/**
+	 * @param array $select
+	 * @param array $where
+	 * @param array|string|null $group_by
+	 * @param array|null $having
+	 * @param string|array|null $order_by
+	 * @param int|null $limit
+	 * @param int|null $offset
+	 * @return mixed
+	 */
+	public static function dataFetchRow( array $select,
+	                                       array $where = [],
+	                                       null|array|string $group_by = null,
+	                                       null|array $having = null,
+	                                       null|string|array $order_by = null,
+	                                       null|int $limit=null,
+	                                       null|int $offset=null
+	): mixed
+	{
+		return static::dataFetch(
+			'fetchRow',
+			$select,
+			$where,
+			$group_by,
+			$having,
+			$order_by,
+			$limit,
+			$offset
+		);
+	}
+	
+	/**
+	 * @param array $select
+	 * @param array $where
+	 * @param array|string|null $group_by
+	 * @param array|null $having
+	 * @param string|array|null $order_by
+	 * @param int|null $limit
+	 * @param int|null $offset
+	 * @return mixed
+	 */
+	public static function dataFetchOne( array $select,
+	                                     array $where = [],
+	                                     null|array|string $group_by = null,
+	                                     null|array $having = null,
+	                                     null|string|array $order_by = null,
+	                                     null|int $limit=null,
+	                                     null|int $offset=null
+	): mixed
+	{
+		return static::dataFetch(
+			'fetchOne',
+			$select,
+			$where,
+			$group_by,
+			$having,
+			$order_by,
+			$limit,
+			$offset
+		);
+	}
 	/**
 	 *
 	 * @param array $where

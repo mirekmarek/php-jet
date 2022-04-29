@@ -112,10 +112,9 @@ class Auth_RESTClient_User_Roles extends DataModel_Related_1toN
 	 */
 	public static function getRoleUsers( string $id ) : iterable
 	{
-		$ids = static::fetchData(
+		$ids = static::dataFetchCol(
 			select:['user_id'],
-			where: ['role_id'=>$id],
-			fetch_method: 'fetchCol'
+			where: ['role_id'=>$id]
 		);
 		if(!$ids) {
 			return [];
