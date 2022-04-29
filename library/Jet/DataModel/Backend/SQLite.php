@@ -33,6 +33,49 @@ class DataModel_Backend_SQLite extends DataModel_Backend
 	 * @var ?Db_Backend_Interface
 	 */
 	private ?Db_Backend_Interface $_db = null;
+	
+	
+	
+	/**
+	 * @return string
+	 */
+	public function getType() : string
+	{
+		return DataModel_Backend::TYPE_SQLITE;
+	}
+	
+	/**
+	 * @return string
+	 */
+	public function getTitle(): string
+	{
+		return 'SQLite';
+	}
+	
+	/**
+	 * @return bool
+	 */
+	public function isAvailable(): bool
+	{
+		return in_array(
+			Db::DRIVER_SQLITE,
+			Db_Backend_PDO_Config::getDrivers()
+		);
+	}
+	
+	
+	/**
+	 * @return Db_Backend_Config|null
+	 */
+	public function prepareDefaultDbConnectionConfig() : ?Db_Backend_Config
+	{
+		$db_connection_config = new Db_Backend_PDO_Config();
+		$db_connection_config->setDriver( Db::DRIVER_SQLITE );
+		$db_connection_config->setName('default');
+		$db_connection_config->initDefault();
+		
+		return $db_connection_config;
+	}
 
 
 	/**
@@ -229,7 +272,7 @@ class DataModel_Backend_SQLite extends DataModel_Backend
 	 */
 	protected function _getSQLType( DataModel_Definition_Property $column ): string
 	{
-		$backend_options = $column->getBackendOptions( 'SQLite' );
+		$backend_options = $column->getBackendOptions( DataModel_Backend::TYPE_SQLITE );
 
 		$name = $column->getName();
 
@@ -1169,5 +1212,4 @@ class DataModel_Backend_SQLite extends DataModel_Backend
 
 		return unserialize( $data );
 	}
-
 }

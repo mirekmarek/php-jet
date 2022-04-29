@@ -27,8 +27,8 @@ class DataModel_Config extends Config
 		type: Form_Field::TYPE_SELECT,
 		label: 'Default backend type: ',
 		select_options_creator: [
-			DataModel_Config::class,
-			'getBackendTypesList'
+			DataModel_Backend::class,
+			'getAvlBackendTypes'
 		],
 		error_messages: [
 			Form_Field::ERROR_CODE_EMPTY => 'Please select backend type',
@@ -36,7 +36,7 @@ class DataModel_Config extends Config
 		]
 		
 	)]
-	protected string $backend_type = 'MySQL';
+	protected string $backend_type = DataModel_Backend::TYPE_MYSQL;
 
 
 	/**
@@ -50,34 +50,7 @@ class DataModel_Config extends Config
 	)]
 	protected DataModel_Backend_Config $backend_config;
 
-
-	/**
-	 * @return array
-	 */
-	public static function getBackendTypesList(): array
-	{
-		return static::getAvailableHandlersList( __DIR__ . '/Backend/' );
-	}
-
-	/**
-	 *
-	 * @param string $base_directory
-	 *
-	 * @return array
-	 */
-	public static function getAvailableHandlersList( string $base_directory ): array
-	{
-		$res = IO_Dir::getSubdirectoriesList( $base_directory );
-		foreach( $res as $path => $dir ) {
-			if( $dir == 'Config' ) {
-				unset( $res[$path] );
-			}
-		}
-
-		return array_combine( $res, $res );
-	}
-
-
+	
 	/**
 	 * @return string
 	 */

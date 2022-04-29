@@ -36,7 +36,7 @@ abstract class Db_Backend_Config extends Config_Section
 			Form_Field::ERROR_CODE_INVALID_VALUE => 'Please select driver'
 		]
 	)]
-	protected string $driver = 'mysql';
+	protected string $driver = Db::DRIVER_MYSQL;
 	
 	/**
 	 *

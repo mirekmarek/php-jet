@@ -13,19 +13,15 @@ namespace Jet;
  */
 abstract class DataModel_Backend extends BaseObject
 {
+	const TYPE_MYSQL = 'MySQL';
+	const TYPE_SQLITE = 'SQLite';
+	
 	/**
 	 * @var array[]
 	 */
 	protected static array $backend_types = [
-		'MySQL'  => [
-			'title'  => 'MySQL / MariaDB',
-			'driver' => Db::DRIVER_MYSQL
-		],
-		'SQLite' => [
-			'title'  => 'SQLite',
-			'driver' => Db::DRIVER_SQLITE
-		]
-
+		self::TYPE_MYSQL,
+		self::TYPE_SQLITE,
 	];
 
 	/**
@@ -54,52 +50,53 @@ abstract class DataModel_Backend extends BaseObject
 	 * @var ?DataModel_Backend_Config
 	 */
 	protected ?DataModel_Backend_Config $config = null;
-
-	/**
-	 * @param bool $as_hash
-	 *
-	 * @return array
-	 */
-	public static function getBackendTypes( bool $as_hash = false ): array
-	{
-
-		$drivers = Db_Backend_PDO_Config::getDrivers();
-
-		foreach( static::$backend_types as $type => $data ) {
-			if( !in_array( $data['driver'], $drivers ) ) {
-				unset( static::$backend_types[$type] );
-			} else {
-				static::$backend_types[$type]['type'] = $type;
-			}
-		}
-
-		if( $as_hash ) {
-			$types = [];
-
-			foreach( static::$backend_types as $type => $d ) {
-				$types[$type] = $d['title'];
-			}
-
-			return $types;
-
-		}
-
-		return static::$backend_types;
-
-	}
-
+	
 	/**
 	 * @param string $type
-	 * @param string $driver
-	 * @param string $title
+	 * @param string $class_name
+	 * @param string $config_class_name
 	 */
-	public static function addBackendType( string $type, string $driver, string $title ): void
+	public static function addBackendType( string $type, string $class_name, string $config_class_name ): void
 	{
-		static::$backend_types[$type] = [
-			'title'  => $title,
-			'driver' => $driver
-		];
+		if(!in_array($type, static::$backend_types)) {
+			static::$backend_types[] = $type;
+		}
+		
+		Factory_DataModel::setBackendClassName($type, $class_name);
+		Factory_DataModel::setBackendConfigClassName($type, $config_class_name);
 	}
+	
+	
+	/**
+	 * @return array
+	 */
+	public static function getAllBackendTypes() : array
+	{
+		$list = [];
+		foreach( static::$backend_types as $type) {
+			$backend = Factory_DataModel::getBackendInstance( $type );
+			$list[$type] = $backend->getTitle();
+		}
+		
+		return $list;
+	}
+	
+	/**
+	 * @return array
+	 */
+	public static function getAvlBackendTypes() : array
+	{
+		$list = [];
+		foreach( static::$backend_types as $type) {
+			$backend = Factory_DataModel::getBackendInstance( $type );
+			if($backend->isAvailable()) {
+				$list[$type] = $backend->getTitle();
+			}
+		}
+		
+		return $list;
+	}
+	
 
 
 	/**
@@ -213,12 +210,34 @@ abstract class DataModel_Backend extends BaseObject
 
 	/**
 	 *
-	 * @param DataModel_Backend_Config $config
+	 * @param ?DataModel_Backend_Config $config
 	 */
-	public function __construct( DataModel_Backend_Config $config )
+	public function __construct( ?DataModel_Backend_Config $config=null )
 	{
-		$this->config = $config;
+		if($config) {
+			$this->config = $config;
+		}
 	}
+	
+	/**
+	 * @return string
+	 */
+	abstract public function getType() : string;
+	
+	/**
+	 * @return string
+	 */
+	abstract public function getTitle() : string;
+	
+	/**
+	 * @return bool
+	 */
+	abstract public function isAvailable() : bool;
+	
+	/**
+	 * @return Db_Backend_Config|null
+	 */
+	abstract public function prepareDefaultDbConnectionConfig() : ?Db_Backend_Config;
 
 	/**
 	 * @param DataModel_Query $query

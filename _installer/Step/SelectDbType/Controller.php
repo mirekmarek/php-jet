@@ -9,7 +9,7 @@
 namespace JetApplication\Installer;
 
 use Exception;
-use Jet\Db_Backend_PDO_Config;
+use Jet\Factory_DataModel;
 use Jet\Form;
 use Jet\Form_Field;
 use Jet\Form_Field_Select;
@@ -48,8 +48,8 @@ class Installer_Step_SelectDbType_Controller extends Installer_Step_Controller
 	{
 
 		$db_type_field = new Form_Field_Select( 'type', 'Database type:' );
-		$db_type_field->setSelectOptions( DataModel_Backend::getBackendTypes( true ) );
-		$db_type_field->setDefaultValue( static::getSelectedBackendType()['type'] );
+		$db_type_field->setSelectOptions( DataModel_Backend::getAvlBackendTypes() );
+		$db_type_field->setDefaultValue( static::getSelectedBackendType() );
 		$db_type_field->setIsRequired( true );
 
 		$db_type_field->setErrorMessages(
@@ -68,19 +68,19 @@ class Installer_Step_SelectDbType_Controller extends Installer_Step_Controller
 			$select_db_type_form->catchInput() &&
 			$select_db_type_form->validate()
 		) {
-			static::setSelectedDbType( $db_type_field->getValue() );
-
-			$driver = static::getSelectedBackendType()['driver'];
-
+			$backend = Factory_DataModel::getBackendInstance( $db_type_field->getValue() );
+			
+			static::setSelectedDbType( $backend->getType() );
+			
+			
 			$data_model_config = new DataModel_Config();
-			$data_model_config->setBackendType( static::getSelectedBackendType()['type'] );
+			$data_model_config->setBackendType( $backend->getType() );
 			
 			$db_config = new Db_Config();
-			$db_connection_config = new Db_Backend_PDO_Config();
-			$db_connection_config->setDriver( $driver );
-			$db_connection_config->setName('default');
-			$db_connection_config->initDefault();
-			$db_config->addConnection( $db_connection_config );
+			$db_connection_config = $backend->prepareDefaultDbConnectionConfig();
+			if($db_connection_config) {
+				$db_config->addConnection( $db_connection_config );
+			}
 
 
 			try {
@@ -104,13 +104,13 @@ class Installer_Step_SelectDbType_Controller extends Installer_Step_Controller
 
 
 	/**
-	 * @return array
+	 * @return string
 	 */
-	public static function getSelectedBackendType(): array
+	public static function getSelectedBackendType(): string
 	{
 		$session = Installer::getSession();
 
-		$types = DataModel_Backend::getBackendTypes();
+		$types = DataModel_Backend::getAvlBackendTypes();
 
 		if( !$session->getValueExists( 'backend_type' ) ) {
 			[$default] = array_keys( $types );
@@ -127,7 +127,7 @@ class Installer_Step_SelectDbType_Controller extends Installer_Step_Controller
 	public static function setSelectedDbType( string $type ): void
 	{
 
-		if( !isset( DataModel_Backend::getBackendTypes()[$type] ) ) {
+		if( !isset( DataModel_Backend::getAvlBackendTypes()[$type] ) ) {
 			return;
 		}
 
@@ -142,13 +142,13 @@ class Installer_Step_SelectDbType_Controller extends Installer_Step_Controller
 	{
 		return ['ConfigureDb'];
 
-		/*
-		if( static::getSelectedBackendType()['driver']!=Db::DRIVER_SQLITE )
+/*
+		if( static::getSelectedBackendType()!=DataModel_Backend::TYPE_SQLITE )
 		{
 			return [ 'ConfigureDb' ];
 		}
 
 		return false;
-		*/
+*/
 	}
 }

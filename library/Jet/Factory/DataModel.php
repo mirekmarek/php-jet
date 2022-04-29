@@ -15,13 +15,13 @@ class Factory_DataModel
 {
 
 	protected static array $backend_class_names = [
-		'MySQL'  => DataModel_Backend_MySQL::class,
-		'SQLite' => DataModel_Backend_SQLite::class,
+		DataModel_Backend::TYPE_MYSQL  => DataModel_Backend_MySQL::class,
+		DataModel_Backend::TYPE_SQLITE => DataModel_Backend_SQLite::class,
 	];
 
 	protected static array $backend_config_class_names = [
-		'MySQL'  => DataModel_Backend_MySQL_Config::class,
-		'SQLite' => DataModel_Backend_SQLite_Config::class,
+		DataModel_Backend::TYPE_MYSQL  => DataModel_Backend_MySQL_Config::class,
+		DataModel_Backend::TYPE_SQLITE => DataModel_Backend_SQLite_Config::class,
 	];
 
 	protected static array $model_definition_class_names = [
@@ -214,11 +214,11 @@ class Factory_DataModel
 	 * Returns instance of DataModel Backend class
 	 *
 	 * @param string $type
-	 * @param DataModel_Backend_Config $backend_config
+	 * @param ?DataModel_Backend_Config $backend_config
 	 *
 	 * @return DataModel_Backend
 	 */
-	public static function getBackendInstance( string $type, DataModel_Backend_Config $backend_config ): DataModel_Backend
+	public static function getBackendInstance( string $type, ?DataModel_Backend_Config $backend_config=null ): DataModel_Backend
 	{
 		$class_name = static::getBackendClassName( $type );
 

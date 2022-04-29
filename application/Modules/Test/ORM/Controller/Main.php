@@ -8,6 +8,7 @@
 
 namespace JetApplicationModule\Test\ORM;
 
+use Jet\DataModel_Backend;
 use Jet\DataModel_Backend_MySQL;
 use Jet\DataModel_Backend_MySQL_Config;
 use Jet\DataModel_Backend_SQLite;
@@ -27,8 +28,8 @@ class Controller_Main extends MVC_Controller_Default
 	{
 		$backends = [];
 
-		$backends['MySQL'] = new DataModel_Backend_MySQL( (new DataModel_Backend_MySQL_Config()) );
-		$backends['SQLite'] = new DataModel_Backend_SQLite( (new DataModel_Backend_SQLite_Config()) );
+		$backends[DataModel_Backend::TYPE_MYSQL] = new DataModel_Backend_MySQL( (new DataModel_Backend_MySQL_Config()) );
+		$backends[DataModel_Backend::TYPE_SQLITE] = new DataModel_Backend_SQLite( (new DataModel_Backend_SQLite_Config()) );
 
 		$_tests = [
 			'BasicSelect',
