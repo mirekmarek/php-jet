@@ -506,7 +506,7 @@ class Forms_Class_Property
 		
 		if(isset($data['other'])) {
 			foreach($data['other'] as $key=>$val) {
-				if($val==='' || $val===[] || $val==['','']) {
+				if($val==='' || $val===[] || $val===['','']) {
 					continue;
 				}
 				
@@ -548,7 +548,7 @@ class Forms_Class_Property
 		
 		if(isset($data['main'])) {
 			foreach($data['main'] as $key=>$val) {
-				if($val==='' || $val===[] || $val==['','']) {
+				if($val==='' || $val===[] || $val===['','']) {
 					continue;
 				}
 				
@@ -558,7 +558,7 @@ class Forms_Class_Property
 		
 		if(isset($data['other'])) {
 			foreach($data['other'] as $key=>$val) {
-				if($val==='' || $val===[] || $val==['','']) {
+				if($val==='' || $val===[] || $val===['','']) {
 					continue;
 				}
 				
@@ -578,7 +578,7 @@ class Forms_Class_Property
 		
 		if(isset($data['main'])) {
 			foreach($data['main'] as $key=>$val) {
-				if($val==='' || $val===[] || $val==['','']) {
+				if($val==='' || $val===[] || $val===['','']) {
 					continue;
 				}
 				
@@ -588,7 +588,7 @@ class Forms_Class_Property
 		
 		if(isset($data['other'])) {
 			foreach($data['other'] as $key=>$val) {
-				if($val==='' || $val===[] || $val==['','']) {
+				if($val==='' || $val===[] || $val===['','']) {
 					continue;
 				}
 				
