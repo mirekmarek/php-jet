@@ -48,4 +48,7 @@ return [
 	'Please enter at least one URL' => 'Prosím zadejte alespoň jednu URL',
 	'Please enter initializer' => 'Prosím zadejte inicializátor',
 	'Initializer is not callable' => 'Inicializátor není volatelný',
+	'Please select at least one locale' => 'Prosím vyberte alespoň jednu lokalizaci',
+	'class name' => '',
+	'method name' => '',
 ];

@@ -493,15 +493,13 @@ class Forms_Class_Property
 		$type = $force_type ? : $this->field_definition->getType();
 		$type_scope = static::getTypesScope();
 		
-		
 		$new_attribute->setArgument('type', $type_scope[$type]??$type );
 		
 		if(isset($data['main'])) {
 			foreach($data['main'] as $key=>$val) {
-				if($val==='' || $val===[] || $val==['','']) {
+				if($val==='' || $val===[] || $val===['','']) {
 					continue;
 				}
-				
 				$new_attribute->setArgument($key, $val);
 			}
 		}

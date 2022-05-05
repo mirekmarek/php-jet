@@ -50,4 +50,5 @@ return [
 	'Initializer is not callable' => '',
 	'class name' => '',
 	'method name' => '',
+	'Please select at least one locale' => '',
 ];

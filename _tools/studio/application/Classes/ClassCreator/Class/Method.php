@@ -47,6 +47,16 @@ class ClassCreator_Class_Method extends BaseObject
 	 * @var string
 	 */
 	protected string $return_type = '';
+	
+	/**
+	 * @var string
+	 */
+	protected string $return_type_for_doc = '';
+	
+	/**
+	 * @var bool
+	 */
+	protected bool $return_type_no_inspection = false;
 
 	/**
 	 * @var array
@@ -142,7 +152,48 @@ class ClassCreator_Class_Method extends BaseObject
 
 		return $this;
 	}
-
+	
+	
+	/**
+	 * @param string $return_type_for_doc
+	 */
+	public function setReturnTypeForDoc( string $return_type_for_doc ): void
+	{
+		$this->return_type_for_doc = $return_type_for_doc;
+	}
+	
+	
+	
+	/**
+	 * @return string
+	 */
+	public function getReturnTypeForDoc() : string
+	{
+		
+		if($this->return_type_for_doc) {
+			return $this->return_type_for_doc;
+		}
+		
+		return $this->return_type;
+	}
+	
+	/**
+	 * @return bool
+	 */
+	public function getReturnTypeNoInspection(): bool
+	{
+		return $this->return_type_no_inspection;
+	}
+	
+	/**
+	 * @param bool $return_type_no_inspection
+	 */
+	public function setReturnTypeNoInspection( bool $return_type_no_inspection ): void
+	{
+		$this->return_type_no_inspection = $return_type_no_inspection;
+	}
+	
+	
 
 	/**
 	 * @param string $name
@@ -196,8 +247,13 @@ class ClassCreator_Class_Method extends BaseObject
 		foreach( $this->parameters as $param ) {
 			$res .= $ident . ' * ' . $param->createClass_getAsAnnotation() . $nl;
 		}
-		if( $this->getReturnType() ) {
-			$res .= $ident . ' * @return ' . $this->getReturnType() . $nl;
+		
+		if( $this->getReturnTypeForDoc() ) {
+			if($this->getReturnTypeNoInspection()) {
+				$res .= $ident . ' * @noinspection PhpDocSignatureInspection' . $nl;
+			}
+			$res .= $ident . ' * @return ' . $this->getReturnTypeForDoc() . $nl;
+			
 		}
 		$res .= $ident . ' */' . $nl;
 

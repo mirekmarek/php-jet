@@ -121,14 +121,16 @@ class DataModel_Definition_Model_Main extends Jet_DataModel_Definition_Model_Mai
 		$get->setReturnType( 'static|null' );
 		$get->line( 1, 'return static::load( $id );' );
 
+		$class->addUse( new ClassCreator_UseClass('Jet', 'DataModel_Fetch_Instances') );
+		
 		$getList = $class->createMethod( 'getList' );
 		$getList->setIsStatic( true );
 		$getList->setReturnType( 'iterable' );
+		$getList->setReturnTypeNoInspection( true );
+		$getList->setReturnTypeForDoc( 'static[]|DataModel_Fetch_Instances' );
 		$getList->line( 1, '$where = [];' );
 		$getList->line( 1, '' );
-		$getList->line( 1, '$list = static::fetchInstances( $where );' );
-		$getList->line( 1, '' );
-		$getList->line( 1, 'return $list;' );
+		$getList->line( 1, 'return static::fetchInstances( $where );' );
 
 		foreach( $model->getProperties() as $property ) {
 			if(
