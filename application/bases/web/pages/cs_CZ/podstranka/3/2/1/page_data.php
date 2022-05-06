@@ -2,8 +2,8 @@
 $content = require __DIR__ . '/../../../common_content.php';
 
 return [
-    'id' => 'subpage_3_2_1',
-    'name' => 'Podstránka 3-2-1',
+	'id' => 'subpage_3_2_1',
+	'name' => 'Podstránka 3-2-1',
 	'title' => 'Podstránka 3-2-1',
 	'menu_title' => 'Podstránka 3-2-1',
 	'breadcrumb_title' => 'Podstránka 3-2-1',
@@ -24,5 +24,5 @@ return [
 				'content' => 'Meta 3 content'
 			],
 	],
-    'contents' => $content
+	'contents' => $content
 ];
