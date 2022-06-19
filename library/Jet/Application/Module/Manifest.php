@@ -19,8 +19,6 @@ class Application_Module_Manifest extends BaseObject
 	 */
 	protected string $_name = '';
 
-	//--------------------------------------------------------------------------
-
 	/**
 	 * @var string
 	 */
@@ -88,40 +86,11 @@ class Application_Module_Manifest extends BaseObject
 
 		$this->_name = $module_name;
 
-		$manifest_data = $this->readManifestData();
+		$manifest_data = Application_Modules::readManifestData( $module_name );
 		$this->checkManifestData( $manifest_data );
 		$this->setupProperties( $manifest_data );
 
 
-	}
-
-	/**
-	 * @return array
-	 *
-	 * @throws Application_Modules_Exception
-	 */
-	protected function readManifestData(): array
-	{
-		$module_dir = $this->getModuleDir();
-
-		if( !IO_Dir::exists( $module_dir ) ) {
-			throw new Application_Modules_Exception(
-				'Directory \'' . $module_dir . '\' does not exist',
-				Application_Modules_Exception::CODE_MODULE_DOES_NOT_EXIST
-			);
-		}
-
-
-		$manifest_file = $module_dir . SysConf_Jet_Modules::getManifestFileName();
-
-		if( !IO_File::isReadable( $manifest_file ) ) {
-			throw new Application_Modules_Exception(
-				'Module manifest file \'' . $manifest_file . '\' does not exist or is not readable. ',
-				Application_Modules_Exception::CODE_MANIFEST_IS_NOT_READABLE
-			);
-		}
-
-		return require $manifest_file;
 	}
 
 	/**
@@ -324,10 +293,7 @@ class Application_Module_Manifest extends BaseObject
 	 */
 	public function saveDatafile(): void
 	{
-		IO_File::writeDataAsPhp(
-			$this->getModuleDir() . SysConf_Jet_Modules::getManifestFileName(),
-			$this->toArray()
-		);
+		Application_Modules::saveManifest( $this );
 	}
-
+	
 }

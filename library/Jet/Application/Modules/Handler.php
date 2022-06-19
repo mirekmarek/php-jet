@@ -120,5 +120,18 @@ abstract class Application_Modules_Handler extends BaseObject
 	 *
 	 */
 	abstract public function moduleInstance( string $module_name ): Application_Module;
+	
+	
+	/**
+	 * @param string $module_name
+	 *
+	 * @return array
+	 */
+	abstract public function readManifestData( string $module_name ) : array;
+	
+	/**
+	 * @param Application_Module_Manifest $manifest
+	 */
+	abstract public function saveManifest( Application_Module_Manifest $manifest ) : void;
 
 }

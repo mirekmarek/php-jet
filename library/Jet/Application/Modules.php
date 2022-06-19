@@ -179,6 +179,23 @@ class Application_Modules extends BaseObject
 	{
 		return static::getHandler()->moduleInstance( $module_name );
 	}
-
+	
+	/**
+	 * @param string $module_name
+	 *
+	 * @return array
+	 */
+	public static function readManifestData( string $module_name ) : array
+	{
+		return static::getHandler()->readManifestData( $module_name );
+	}
+	
+	/**
+	 * @param Application_Module_Manifest $manifest
+	 */
+	public static function saveManifest( Application_Module_Manifest $manifest ) : void
+	{
+		static::getHandler()->saveManifest( $manifest );
+	}
 
 }

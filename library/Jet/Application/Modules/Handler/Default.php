@@ -427,7 +427,7 @@ class Application_Modules_Handler_Default extends Application_Modules_Handler
 
 		$module_manifest = $this->moduleManifest( $module_name );
 
-		$module_dir = $module_manifest->getModuleDir();
+		$module_dir = $this->getModuleDir( $module_name );
 
 		/** @noinspection PhpIncludeInspection */
 		require_once $module_dir . Application_Module::MAIN_CLASS_NAME.'.php';
@@ -502,5 +502,47 @@ class Application_Modules_Handler_Default extends Application_Modules_Handler
 
 		MVC_Cache::reset();
 	}
-
+	
+	/**
+	 * @param string $module_name
+	 *
+	 * @return array
+	 */
+	public function readManifestData( string $module_name ) : array
+	{
+		$module_dir = $this->getModuleDir( $module_name );
+		
+		if( !IO_Dir::exists( $module_dir ) ) {
+			throw new Application_Modules_Exception(
+				'Directory \'' . $module_dir . '\' does not exist',
+				Application_Modules_Exception::CODE_MODULE_DOES_NOT_EXIST
+			);
+		}
+		
+		
+		$manifest_file = $module_dir . SysConf_Jet_Modules::getManifestFileName();
+		
+		if( !IO_File::isReadable( $manifest_file ) ) {
+			throw new Application_Modules_Exception(
+				'Module manifest file \'' . $manifest_file . '\' does not exist or is not readable. ',
+				Application_Modules_Exception::CODE_MANIFEST_IS_NOT_READABLE
+			);
+		}
+		
+		return require $manifest_file;
+		
+	}
+	
+	/**
+	 * @param Application_Module_Manifest $manifest
+	 */
+	public function saveManifest( Application_Module_Manifest $manifest ) : void
+	{
+		IO_File::writeDataAsPhp(
+			$manifest->getModuleDir() . SysConf_Jet_Modules::getManifestFileName(),
+			$manifest->toArray()
+		);
+		
+	}
+	
 }
