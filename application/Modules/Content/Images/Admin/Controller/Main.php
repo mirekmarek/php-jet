@@ -358,12 +358,11 @@ class Controller_Main extends MVC_Controller_Default
 					. 'The maximum number of uploaded files is: <b>%max_file_uploads%</b><br/>';
 
 				$result_message .= UI_messages::createDanger( Tr::_( $error_message, [
-					'max_upload_size'  => Locale::getCurrentLocale()->formatSize( IO_File::getMaxUploadSize() ),
-					'max_file_uploads' => Locale::getCurrentLocale()->formatInt( IO_File::getMaxFileUploads() )
+					'max_upload_size'  => Locale::size( IO_File::getMaxUploadSize() ),
+					'max_file_uploads' => Locale::int( IO_File::getMaxFileUploads() )
 				] ) );
 			}
 		}
-
 
 		/**
 		 * @var Form_Field_FileImage $files_field
