@@ -9,7 +9,6 @@
 namespace JetApplicationModule\Content\Images\Admin;
 
 use Jet\Form;
-use Jet\Form_Field;
 use Jet\Form_Field_Search;
 use Jet\Logger;
 use JetApplication\Content_Gallery;
@@ -371,26 +370,8 @@ class Controller_Main extends MVC_Controller_Default
 		 */
 		$files_field = $upload_form->field( 'file' );
 
-		foreach( $files_field->getMultipleUploadErrors() as $file_name => $errors ):
-
-			foreach( $errors as $code => $error_message ):
-
-				$error_message = Tr::_(
-					'File <b>%file_name%</b>: %error_message%',
-					[
-						'file_name'     => $file_name,
-						'error_message' => $error_message
-					]
-				);
-
-				if( $code == Form_Field::ERROR_CODE_FILE_IS_TOO_LARGE ) {
-					$error_message .= Tr::_(
-						'<br/>The maximum size of one uploaded file is: <b>%max_upload_size%</b>',
-						['max_upload_size' => Locale::getCurrentLocale()->formatSize( IO_File::getMaxUploadSize() )]
-					);
-
-				}
-
+		foreach( $files_field->getProblematicFiles() as $file ):
+			foreach( $file->getErrors() as $code => $error_message ):
 				$result_message .= UI_messages::createDanger( $error_message );
 			endforeach;
 		endforeach;

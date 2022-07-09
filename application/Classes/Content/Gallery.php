@@ -540,8 +540,8 @@ class Content_Gallery extends DataModel
 			$image_field->setErrorMessages(
 				[
 					Form_Field::ERROR_CODE_EMPTY                => 'Please select image',
-					Form_Field::ERROR_CODE_FILE_IS_TOO_LARGE    => 'File is too large',
-					Form_Field::ERROR_CODE_DISALLOWED_FILE_TYPE => 'Uploaded file is not supported image',
+					Form_Field::ERROR_CODE_FILE_IS_TOO_LARGE    => '%file_name%: File is too large (%file_size%). Maximal file size is %max_file_size%',
+					Form_Field::ERROR_CODE_DISALLOWED_FILE_TYPE => '%file_name%: Unsupported file type',
 				]
 			);
 			$image_field->setMaximalSize(
@@ -584,23 +584,14 @@ class Content_Gallery extends DataModel
 		 */
 		$img_field = $form->getField( 'file' );
 
-		$tmp_file_paths = $img_field->getTmpFilePath();
-		$file_names = $img_field->getFileName();
 
 		$new_images = [];
 
 		try {
-			if( is_array( $tmp_file_paths ) ) {
-				foreach( $tmp_file_paths as $i => $tmp_file_path ) {
-					$new_images[] = $this->addImage(
-						$tmp_file_path,
-						$file_names[$i]
-					);
-				}
-			} else {
+			foreach($img_field->getValidFiles() as $file) {
 				$new_images[] = $this->addImage(
-					$tmp_file_paths,
-					$file_names
+					$file->getTmpFilePath(),
+					$file->getFileName()
 				);
 			}
 		} catch( Exception $e ) {

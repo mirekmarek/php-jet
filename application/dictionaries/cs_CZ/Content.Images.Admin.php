@@ -30,4 +30,7 @@ return [
 	'You are uploading too large files<br/><br/>The maximum size of one uploaded file is: <b>%max_upload_size%</b><br/>The maximum number of uploaded files is: <b>%max_file_uploads%</b><br/>' => 'Nahráváte příliš velké soubory<br/><br/>Maximální velikost jednoho nahrávaného souboru je: <b>%max_upload_size%</b><br/>Maximální počet nahrávaných souborů je: <b>%max_file_uploads%</b><br/>',
 	'Image <b>%TITLE%</b> has been deleted' => 'Obrázek <b>%TITLE%</b> byl smazán',
 	'Images - Admin' => 'Obrázky - administrace',
+	'%file_name%: Unsupported file type' => '%file_name%: Nepodporovaný typ souboru',
+	'%file_name%: File is too large (%file_size%). Maximal file size is %max_file_size%' => '%file_name%: Soubor je příliš velký (%file_size%). Maximální velikost souboru je %max_file_size%',
+	
 ];

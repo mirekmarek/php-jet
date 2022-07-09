@@ -46,22 +46,6 @@ trait Form_Field_Part_File_Trait
 		setter: 'setAllowMultipleUpload',
 	)]
 	protected bool $allow_multiple_upload = false;
-
-	
-	/**
-	 * @var string|array|null
-	 */
-	protected string|array|null $tmp_file_path = null;
-	
-	/**
-	 * @var string|array|null
-	 */
-	protected string|array|null $file_name = null;
-	
-	/**
-	 * @var array
-	 */
-	protected array $multiple_upload_errors = [];
 	
 	/**
 	 * set form instance
@@ -112,11 +96,39 @@ trait Form_Field_Part_File_Trait
 	}
 	
 	/**
-	 * @return string|array
+	 * @return Form_Field_File_UploadedFile[]
 	 */
-	public function getFileName(): string|array
+	public function getAllFiles(): array
 	{
-		return $this->file_name;
+		return $this->_value_raw;
+	}
+	
+	
+	/**
+	 * @return Form_Field_File_UploadedFile[]
+	 */
+	public function getValidFiles(): array
+	{
+		return $this->_value;
+	}
+	
+	/**
+	 * @return Form_Field_File_UploadedFile[]
+	 */
+	public function getProblematicFiles() : array
+	{
+		$res = [];
+		
+		foreach($this->_value_raw as $file) {
+			/**
+			 * @var Form_Field_File_UploadedFile $file
+			 */
+			if($file->hasError()) {
+				$res[$file->getFileName()] = $file;
+			}
+		}
+		
+		return $res;
 	}
 	
 	/**
@@ -135,45 +147,13 @@ trait Form_Field_Part_File_Trait
 		$this->allow_multiple_upload = $allow_multiple_upload;
 	}
 	
-	
-	/**
-	 * @return array
-	 */
-	public function getMultipleUploadErrors(): array
-	{
-		return $this->multiple_upload_errors;
-	}
-	
-	/**
-	 * @param string $file_name
-	 * @param string $error_code
-	 */
-	public function addMultipleUploadError( string $file_name, string $error_code ): void
-	{
-		if( !isset( $this->multiple_upload_errors[$file_name] ) ) {
-			$this->multiple_upload_errors[$file_name] = [];
-		}
-		
-		$this->multiple_upload_errors[$file_name][$error_code] = $this->getErrorMessage( $error_code );
-		
-	}
-	
-	/**
-	 * @return string|array
-	 */
-	public function getTmpFilePath(): string|array
-	{
-		return $this->tmp_file_path;
-	}
-	
 	/**
 	 *
 	 * @param Data_Array $data
 	 */
 	public function catchInput( Data_Array $data ): void
 	{
-		
-		$this->_value = null;
+		$this->_value = [];
 		$this->_has_value = false;
 		
 		if( array_key_exists( $this->_name, $_FILES ) ) {
@@ -205,7 +185,6 @@ trait Form_Field_Part_File_Trait
 		
 		if( $this->_has_value ) {
 			if(
-				$this->getAllowMultipleUpload() &&
 				is_array( $_FILES[$this->_name]['tmp_name'] )
 			) {
 				$this->catchInput_multiple();
@@ -222,36 +201,27 @@ trait Form_Field_Part_File_Trait
 	protected function catchInput_multiple(): void
 	{
 		
-		if( $this->_has_value ) {
+		$_files = $_FILES[$this->_name];
+		
+		$names = $_files['name'];
+		$tmp_names = $_files['tmp_name'];
+		$errors = $_files['error'];
+		
+		
+		foreach( $names as $i => $name ) {
+			$file = new Form_Field_File_UploadedFile(
+				file_name: $name,
+				tmp_file_path: $tmp_names[$i],
+			);
 			
-			$_files = $_FILES[$this->_name];
+			$this->_value_raw[$name] = $file;
 			
-			$names = $_files['name'];
-			$types = $_files['type'];
-			$tmp_names = $_files['tmp_name'];
-			$errors = $_files['error'];
-			$sizes = $_files['size'];
-			
-			
-			$files = [];
-			
-			foreach( $names as $i => $name ) {
-				$files[$i] = [
-					'name'     => $name,
-					'type'     => $types[$i],
-					'tmp_name' => $tmp_names[$i],
-					'error'    => $errors[$i],
-					'size'     => $sizes[$i]
-				];
+			if($errors[$i]) {
+				$file->setError( '', $errors[$i]);
+			} else {
+				$this->_value[$name] = $file;
 			}
 			
-			$this->_value_raw = $files;
-			$this->_value = $tmp_names;
-			$this->tmp_file_path = $tmp_names;
-			$this->file_name = $names;
-			
-		} else {
-			$this->_value_raw = null;
 		}
 	}
 	
@@ -260,61 +230,77 @@ trait Form_Field_Part_File_Trait
 	 */
 	protected function catchInput_single(): void
 	{
+
+		$file_data = $_FILES[$this->_name];
 		
-		if( $this->_has_value ) {
-			$file_data = $_FILES[$this->_name];
-			
-			$this->_value_raw = $file_data;
-			$this->_value = $file_data['tmp_name'];
-			$this->tmp_file_path = $file_data['tmp_name'];
-			$this->file_name = $file_data['name'];
-			
-			if( is_array( $this->tmp_file_path ) ) {
-				$this->tmp_file_path = $this->tmp_file_path[0];
-				$this->_value = $this->tmp_file_path;
-				$this->file_name = $this->file_name[0];
-			}
-		} else {
-			$this->_value_raw = null;
-		}
+		$name = $file_data['name'];
+		
+		$file = new Form_Field_File_UploadedFile(
+			file_name: $name,
+			tmp_file_path: $file_data['tmp_name'],
+		);
+		
+		$files = [
+			$name => $file
+		];
+		
+		$this->_value_raw = $files;
+		$this->_value = $files;
 	}
 	
 	
-	protected function validate_checkFileSize( string $path, string $file_name ) : bool
+	/**
+	 * @param Form_Field_File_UploadedFile $file
+	 * @return bool
+	 * @throws IO_File_Exception
+	 */
+	protected function validate_checkFileSize( Form_Field_File_UploadedFile $file ) : bool
 	{
-		$res = true;
 		
-		if( !$path ) {
-			$res = false;
+		if( !$file->getTmpFilePath() ) {
+			return false;
 		} else {
 			if( $this->maximal_file_size ) {
-				$file_size = IO_File::getSize( $path );
-				if( $file_size > $this->maximal_file_size ) {
-					$res = false;
+				if( $file->getSize() > $this->maximal_file_size ) {
+					$file->setError( static::ERROR_CODE_FILE_IS_TOO_LARGE, $this->getErrorMessage(
+						static::ERROR_CODE_FILE_IS_TOO_LARGE,
+						[
+							'file_name' => $file->getFileName(),
+							'file_size' => Locale::size( $file->getSize() ),
+							'max_file_size' => Locale::size( $this->maximal_file_size)
+						]
+					) );
+					
+					return false;
 				}
 			}
 		}
-		
-		if(
-			!$res &&
-			$this->allow_multiple_upload
-		) {
-			$this->addMultipleUploadError( $file_name, static::ERROR_CODE_FILE_IS_TOO_LARGE );
-		}
-		
-		return $res;
+
+		return true;
 	}
 	
-	protected function validate_checkMimeType ( string $path, string $file_name ) : bool
+	/**
+	 * @param Form_Field_File_UploadedFile $file
+	 * @return bool
+	 */
+	protected function validate_checkMimeType ( Form_Field_File_UploadedFile $file ) : bool
 	{
-		if( $this->allowed_mime_types ) {
+		$allowed_mime_types = $this->getAllowedMimeTypes();
+		
+		if( $allowed_mime_types ) {
+			$file_mime_type = $file->getMimeType();
+			
 			if( !in_array(
-				IO_File::getMimeType( $path ),
-				$this->allowed_mime_types
+				$file_mime_type,
+				$allowed_mime_types
 			) ) {
-				if( $this->allow_multiple_upload ) {
-					$this->addMultipleUploadError( $file_name, static::ERROR_CODE_DISALLOWED_FILE_TYPE );
-				}
+				$file->setError( static::ERROR_CODE_DISALLOWED_FILE_TYPE, $this->getErrorMessage(
+					static::ERROR_CODE_DISALLOWED_FILE_TYPE,
+					[
+						'file_name' => $file->getFileName(),
+						'file_mime_type' => $file_mime_type
+					]
+				) );
 				
 				return false;
 			}
@@ -325,7 +311,6 @@ trait Form_Field_Part_File_Trait
 	
 	
 	/**
-	 * validate value
 	 *
 	 * @return bool
 	 */
@@ -341,24 +326,13 @@ trait Form_Field_Part_File_Trait
 		
 		
 		if($this->_has_value) {
-			if( is_array( $this->_value ) ) {
-				foreach( $this->_value as $i => $path ) {
-					if(
-						!$this->validate_checkFileSize( $path, $this->file_name[$i] ) ||
-						!$this->validate_checkMimeType( $path, $this->file_name[$i] )
-					) {
-						$this->unsetFile( $i );
-					}
-				}
-			} else {
-				if( !$this->validate_checkFileSize( $this->_value, $this->file_name ) ) {
-					$this->setError( Form_Field::ERROR_CODE_FILE_IS_TOO_LARGE );
-					return false;
-				}
-				
-				if( !$this->validate_checkMimeType( $this->_value, $this->file_name ) ) {
-					$this->setError( Form_Field::ERROR_CODE_DISALLOWED_FILE_TYPE );
-					return false;
+
+			foreach( $this->_value as $name=>$file ) {
+				if(
+					!$this->validate_checkFileSize( $file ) ||
+					!$this->validate_checkMimeType( $file )
+				) {
+					unset($this->_value[$name]);
 				}
 			}
 		}
@@ -371,18 +345,7 @@ trait Form_Field_Part_File_Trait
 		return true;
 		
 	}
-	
-	/**
-	 * @param int $index
-	 */
-	protected function unsetFile( int $index ): void
-	{
-		unset( $this->_value_raw[$index] );
-		unset( $this->_value[$index] );
-		unset( $this->tmp_file_path[$index] );
-		unset( $this->file_name[$index] );
-		
-	}
+
 	
 	/**
 	 * @return string

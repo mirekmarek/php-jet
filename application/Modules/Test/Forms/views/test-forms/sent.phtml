@@ -1,9 +1,12 @@
 <?php
+
 use Jet\Form;
 use Jet\Tr;
+use Jet\Form_Field_File;
 use Jet\Form_Field_FileImage;
 use Jet\MVC_View;
 use Jet\SysConf_URI;
+use Jet\UI_messages;
 
 /**
  * @var MVC_View $this
@@ -19,23 +22,62 @@ $form = $this->getRaw( 'form' );
 			<hr>
 			<?= Tr::_( 'Form sent:' ) ?>
 
-			<?php if( $form->getName() == 'upload_image_form' ):
-				$image_field = $form->getField( 'upload_image' );
-				/**
-				 * @var Form_Field_FileImage $image_field
-				 */
-				?>
-				<img src="<?= SysConf_URI::getImages() ?>test_uploads/<?= $image_field->getFileName() ?>" alt="test"/>
-			<?php else: ?>
-				<table class="table table-bordered">
-					<?php foreach( $form->getValues() as $k => $v ): ?>
-						<tr>
-							<td><?= $k ?>:</td>
-							<td><?= is_array( $v ) ? implode( ',', $v ) : $v ?></td>
-						</tr>
-					<?php endforeach; ?>
-				</table>
-			<?php endif; ?>
+			<table class="table table-bordered">
+				<?php foreach( $form->getFields() as $field ):
+					$v = $field->getValue()
+					?>
+				<tr>
+					<td><?= $field->getName() ?>:</td>
+					<td>
+					
+					
+					<?php
+					switch(get_class($field)):
+						case Form_Field_FileImage::class:
+							/**
+							 * @var Form_Field_FileImage $field
+							 */
+							?>
+							<div>
+								<?php foreach( $field->getAllFiles() as $file ):
+									if( $file->hasError() ):
+										foreach($file->getErrors() as $err_code=>$err_msg):
+											echo UI_messages::createDanger($err_msg);
+										endforeach;
+									else: ?>
+										<img src="<?= SysConf_URI::getImages() ?>test_uploads/<?= $file->getFileName() ?>" alt="test" style="margin: 10px"/>
+									<?php endif;
+								endforeach; ?>
+							</div>
+							<?php
+							break;
+						case Form_Field_File::class:
+							/**
+							 * @var Form_Field_File $field
+							 */
+							?>
+							<div>
+								<?php foreach( $field->getAllFiles() as $file ):
+									if( $file->hasError() ):
+										foreach($file->getErrors() as $err_code=>$err_msg):
+											echo UI_messages::createDanger($err_msg);
+										endforeach;
+									else: ?>
+										<div><?=$file->getFileName()?></div>
+									<?php endif;
+								endforeach; ?>
+							</div>
+							<?php
+						break;
+						default:
+							echo is_array( $v ) ? implode( ',', $v ) : $v;
+						break;
+					endswitch;
+					?>
+					</td>
+				</tr>
+				<?php endforeach; ?>
+			</table>
 		</div>
 	</div>
 <?php endif; ?>

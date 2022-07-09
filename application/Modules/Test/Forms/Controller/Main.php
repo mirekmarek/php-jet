@@ -8,6 +8,7 @@
 
 namespace JetApplicationModule\Test\Forms;
 
+use Jet\Form_Field_File_UploadedFile;
 use Jet\Locale;
 use Jet\MVC_Controller_Default;
 
@@ -309,55 +310,75 @@ class Controller_Main extends MVC_Controller_Default
 
 
 		$upload_image_field = new Form_Field_FileImage( 'upload_image', 'Upload image' );
+		
+		$image_catcher = function( array $files ) {
+			/**
+			 * @var Form_Field_File_UploadedFile[] $files
+			 */
+			
+			$target_dir = SysConf_Path::getImages() . 'test_uploads/';
+			
+			IO_Dir::create( $target_dir );
+			
+			foreach($files as $file) {
+				
+				IO_File::copy(
+					$file->getTmpFilePath(),
+					$target_dir . $file->getFileName()
+				);
+			}
+		};
+		
+		$upload_image_field->setAllowMultipleUpload( true );
 		$upload_image_field->setIsRequired( true );
 		$upload_image_field->setMaximalSize( 200, 150 );
 		$upload_image_field->setMaximalFileSize( 2 * 1024 * 1024 );
 		$upload_image_field->setErrorMessages(
 			[
 				Form_Field::ERROR_CODE_EMPTY                => 'Please select image',
-				Form_Field::ERROR_CODE_DISALLOWED_FILE_TYPE => 'Unsupported file type',
-				Form_Field::ERROR_CODE_FILE_IS_TOO_LARGE    => 'Maximal file size is 2MiB',
+				Form_Field::ERROR_CODE_DISALLOWED_FILE_TYPE => '%file_name%: Unsupported file type',
+				Form_Field::ERROR_CODE_FILE_IS_TOO_LARGE    => '%file_name%: File is too large (%file_size%). Maximal file size is %max_file_size%',
 			]
 		);
-		$upload_image_field->setFieldValueCatcher(
-			function( $tmp_file ) use ( $upload_image_field ) {
+		
+		$upload_image_field->setFieldValueCatcher( $image_catcher );
 
-				$target_dir = SysConf_Path::getImages() . 'test_uploads/';
-
-				IO_Dir::create( $target_dir );
-
-				$target_path = $target_dir . $upload_image_field->getFileName();
-
-				IO_File::copy( $tmp_file, $target_path );
-
-			}
-		);
-
+		
+		
+		
+		
 		$upload_file_field = new Form_Field_File( 'upload_file', 'Upload file' );
+		
+		$upload_file_field->setAllowMultipleUpload( true );
 		$upload_file_field->setIsRequired( true );
 		$upload_file_field->setMaximalFileSize( 2 * 1024 * 1024 );
 		$upload_file_field->setErrorMessages(
 			[
 				Form_Field::ERROR_CODE_EMPTY                => 'Please select file',
-				Form_Field::ERROR_CODE_DISALLOWED_FILE_TYPE => 'Unsupported file type',
-				Form_Field::ERROR_CODE_FILE_IS_TOO_LARGE    => 'Maximal file size is 2MiB',
+				Form_Field::ERROR_CODE_DISALLOWED_FILE_TYPE => '%file_name%: Unsupported file type',
+				Form_Field::ERROR_CODE_FILE_IS_TOO_LARGE    => '%file_name%: File is too large (%file_size%). Maximal file size is %max_file_size%',
 			]
 		);
 		$upload_file_field->setFieldValueCatcher(
-			function( $tmp_file ) use ( $upload_file_field ) {
+			function( array $files ) {
+				/**
+				 * @var Form_Field_File_UploadedFile[] $files
+				 */
 
 				/*
-				$target_dir = SysConf_Path::BASE().'test_uploads/';
+				$target_dir = SysConf_Path::getTmp().'test_uploads/';
 
 				IO_Dir::create($target_dir);
 
-				$target_path = $target_dir.$upload_file_field->getFileName();
-
-				IO_File::copy( $tmp_file, $target_path );
-
-				$upload_file_field->setUploadedFilePath($target_path);
+				foreach( $files as $file ) {
+					
+					IO_File::copy(
+						$file->getTmpFilePath(),
+						$target_dir.$file->getFileName()
+					);
+				}
 				*/
-
+				
 			}
 		);
 

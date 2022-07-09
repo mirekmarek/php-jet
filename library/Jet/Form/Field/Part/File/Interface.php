@@ -35,11 +35,6 @@ interface Form_Field_Part_File_Interface
 	public function setAllowedMimeTypes( array $allowed_mime_types ): void;
 	
 	/**
-	 * @return string|array
-	 */
-	public function getFileName(): string|array;
-	
-	/**
 	 * @return bool
 	 */
 	public function getAllowMultipleUpload(): bool;
@@ -51,18 +46,18 @@ interface Form_Field_Part_File_Interface
 	
 	
 	/**
-	 * @return array
+	 * @return Form_Field_File_UploadedFile[]
 	 */
-	public function getMultipleUploadErrors(): array;
+	public function getAllFiles(): array;
+	
 	
 	/**
-	 * @param string $file_name
-	 * @param string $error_code
+	 * @return Form_Field_File_UploadedFile[]
 	 */
-	public function addMultipleUploadError( string $file_name, string $error_code ): void;
+	public function getValidFiles(): array;
 	
 	/**
-	 * @return string|array
+	 * @return Form_Field_File_UploadedFile[]
 	 */
-	public function getTmpFilePath(): string|array;
+	public function getProblematicFiles() : array;
 }

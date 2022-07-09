@@ -27,4 +27,6 @@ return [
 	'You are uploading too large files<br/><br/>The maximum size of one uploaded file is: <b>%max_upload_size%</b><br/>The maximum number of uploaded files is: <b>%max_file_uploads%</b><br/>' => '',
 	'Image <b>%TITLE%</b> has been deleted' => '',
 	'Gallery <b>%TITLE%</b> has been updated' => '',
+	'%file_name%: File is too large (%file_size%). Maximal file size is %max_file_size%' => '',
+	'%file_name%: Unsupported file type' => '',
 ];

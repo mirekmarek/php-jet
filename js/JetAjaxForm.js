@@ -196,6 +196,7 @@ let JetAjaxForm = {
 							}, 500);
 
 						} else {
+							handlers.hideProgressIndicator();
 							handlers.onFormError(response['data']);
 						}
 

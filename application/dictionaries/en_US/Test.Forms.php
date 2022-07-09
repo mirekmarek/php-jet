@@ -103,4 +103,6 @@ return [
 	'Select:' => '',
 	'Sub entity' => '',
 	'Float:' => '',
+	'%file_name%: File is too large (%file_size%). Maximal file size is %max_file_size%' => '',
+	'%file_name%: Unsupported file type' => '',
 ];
