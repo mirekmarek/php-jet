@@ -1,5 +1,4 @@
-# php-jet
-PHP Jet Framework
+# PHP Jet Framework
 
 PHP Jet is a powerful PHP8 framework. Of course, it includes **MVC architecture**, **ORM**, **modularity** and so on, but above all, it offers **incredible performance, flexibility and freedom**.
 
