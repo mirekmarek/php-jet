@@ -14,3 +14,5 @@ PHP Jet is not only a library of classes, but includes **integrated development 
 This framework is developed for applications operated in the **European Union**. For this reason, it places great emphasis on the development of **localizable and cross-border applications**.
 
 This is **not a new** experimental project, but a practically used and **mature framework** that leverages more than twenty years of experience with the development of online applications of the author of this framework.
+
+Project website and documentation: https://www.php-jet.net/
