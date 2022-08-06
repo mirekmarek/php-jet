@@ -29,7 +29,7 @@ return [
 			'controller_action' => 'default',
 			'parameters' => [
 			],
-			'is_cacheable' => true,
+			'is_cacheable' => false,
 			'output_position' => '__main__',
 			'output_position_order' => 1,
 		],
