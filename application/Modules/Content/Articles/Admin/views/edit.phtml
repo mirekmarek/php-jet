@@ -1,6 +1,7 @@
 <?php
 namespace JetApplicationModule\Content\Articles\Admin;
 
+use Jet\Locale;
 use Jet\MVC;
 use Jet\MVC_View;
 use Jet\Form;
@@ -8,7 +9,6 @@ use Jet\Form_Renderer;
 
 use Jet\UI;
 use JetApplication\Application_Admin;
-use JetApplication\Content_Article;
 
 /**
  * @var MVC_View $this
@@ -58,16 +58,18 @@ $form->renderer()->setDefaultFieldWidth( [
 	<div class="col-md-12" id="main-col">
 
 		<?= $form->field( 'date_time' ) ?>
-
-		<?php foreach( Content_Article::getLocales() as $locale ):
-
-			$form->field( '/localized/' . $locale . '/text' )->input()->addCustomCssStyle( 'height:400px' );
+		
+		<?php foreach( $form->getSubFormPrefixes('/localized') as $locale => $prefix ):
+			$locale = new Locale($locale);
+			
+			$form->field( $prefix . 'text' )->input()->addCustomCssStyle( 'height:400px' );
+			
 			?>
 			<legend><?= UI::flag( $locale ) ?>&nbsp;<?= $locale->getName() ?></legend>
-			<?= $form->field( '/localized/' . $locale . '/title' ) ?>
-			<?= $form->field( '/localized/' . $locale . '/annotation' ) ?>
-			<?= $form->field( '/localized/' . $locale . '/text' ) ?>
-
+			<?= $form->field( $prefix . 'title' ) ?>
+			<?= $form->field( $prefix . 'annotation' ) ?>
+			<?= $form->field( $prefix . 'text' ) ?>
+		
 		<?php endforeach; ?>
 	</div>
 </div>

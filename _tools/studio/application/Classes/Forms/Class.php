@@ -267,4 +267,15 @@ class Forms_Class
 		
 		return $properties;
 	}
+	
+	public function generateViewScript( string $form_variable_name='form', string $form_view_property_name='form', bool $subform_is_localized=true ) : string
+	{
+		$view = Application::getView('forms');
+		$view->setVar('class', $this);
+		$view->setVar('form_variable_name', $form_variable_name);
+		$view->setVar('form_view_property_name', $form_view_property_name);
+		$view->setVar('subform_is_localized', $subform_is_localized);
+		
+		return $view->render('view_script_generator');
+	}
 }

@@ -16,8 +16,10 @@ use Jet\Form_Field_Select;
 use Jet\Http_Headers;
 use Jet\Http_Request;
 
+use Jet\IO_File;
 use JetStudio\DataModel_Definition_Model_Main;
 use JetStudio\DataModels;
+use JetStudio\Forms;
 use JetStudio\Menus;
 use JetStudio\ModuleWizard;
 use JetStudio\ModuleWizards;
@@ -290,14 +292,12 @@ class Wizard extends ModuleWizard
 
 			if(
 				$property->getType() != DataModel::TYPE_DATA_MODEL &&
-				$property->getType() != DataModel::TYPE_CUSTOM_DATA &&
-				$property->getType() != DataModel::TYPE_ID &&
-				$property->getType() != DataModel::TYPE_ID_AUTOINCREMENT
+				$property->getType() != DataModel::TYPE_CUSTOM_DATA
 			) {
 				$name_properties[$property->getName()] = $property->getName();
 			}
-
 		}
+		
 
 
 		$item_var_name = new Form_Field_Input( 'ITEM_VAR_NAME', 'Item variable name:' );
@@ -615,4 +615,22 @@ class Wizard extends ModuleWizard
 			Http_Headers::reload( ['data_model' => $data_model_id] );
 		}
 	}
+	
+	
+	/**
+	 * @param string $target_dir
+	 */
+	public function create_generateFiles( string $target_dir ) : void
+	{
+		$form_class = Forms::getClass( $this->data_model_class_name );
+		if($form_class) {
+			$target_file = $target_dir.'/views/edit.phtml';
+			
+			IO_File::write(
+				$target_file,
+				$form_class->generateViewScript()
+			);
+		}
+	}
+	
 }

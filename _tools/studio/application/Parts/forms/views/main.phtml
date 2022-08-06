@@ -2,12 +2,26 @@
 namespace JetStudio;
 
 
+use Jet\Tr;use Jet\UI;
+use Jet\UI_button;
+use Jet\UI_dialog;
+
 $what_to_edit = '';
 
 $class = Forms::getCurrentClass();
 
 $property = Forms::getCurrentProperty();
+
+$generate_view_script_dialog = UI::dialog('generate_view_script_dialog', Tr::_('Generated view script'), UI_dialog::SIZE_EXTRA_LARGE);
 ?>
+<script type="text/javascript">
+	const Forms = {
+		generateViewScript: () => {
+			$('#generated_form_view_script').load( '<?=Forms::getActionUrl('generate_view_script')?>' );
+			$('#generate_view_script_dialog').modal('show');
+		},
+	};
+</script>
 
 <div class="row toolbar" id="main-toolbar">
 	
@@ -25,6 +39,7 @@ $property = Forms::getCurrentProperty();
 			}
 		}
 		?>
+		<?=UI::button( Tr::_('Generate view script') )->setClass(UI_button::CLASS_LIGHT)->setOnClick('Forms.generateViewScript();')?>
 	</div>
 </div>
 
@@ -54,3 +69,7 @@ $property = Forms::getCurrentProperty();
 		</div>
 	<?php endif; ?>
 </div>
+
+<?=$generate_view_script_dialog->start()?>
+<textarea style="width: 100%;height: 500px;" id="generated_form_view_script"></textarea>
+<?=$generate_view_script_dialog->end()?>

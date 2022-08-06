@@ -183,6 +183,32 @@ class Form extends BaseObject
 
 		return $this->fields;
 	}
+	
+	/**
+	 * @param string $field_name
+	 * @return array
+	 */
+	public function getSubFormPrefixes( string $field_name ) : array
+	{
+		if(!str_ends_with($field_name, '/')) {
+			$field_name .= '/';
+		}
+		
+		$prefixes = [];
+		
+		foreach( $this->fields as $name=>$field ) {
+			if(!str_starts_with($name, $field_name )) {
+				continue;
+			}
+			
+			$name = substr($name, strlen($field_name));
+			$name = explode('/', $name);
+			
+			$prefixes[$name[0]] = $field_name.$name[0].'/';
+		}
+		
+		return $prefixes;
+	}
 
 	/**
 	 * set form fields

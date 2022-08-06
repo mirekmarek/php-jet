@@ -1,0 +1,122 @@
+<?php
+namespace JetStudio;
+
+use Jet\Form_Definition_Interface;
+use Jet\MVC_View;
+
+/**
+ * @var MVC_View $this
+ * @var Forms_Class $class;
+ */
+
+$class = $this->getRaw('class');
+$subform_is_localized = $this->getBool('subform_is_localized');
+$form_variable_name = $this->getString('form_variable_name');
+$form_view_property_name = $this->getString('form_view_property_name');
+
+
+$NL = ClassCreator_Class::getNl();
+$IDENT = ClassCreator_Class::getIndentation();
+
+$class_name = $class->getFullClassName();
+
+
+/**
+ * @var Form_Definition_Interface $obj
+ */
+$obj = new $class_name();
+$form = $obj->createForm('');
+
+$view_script = '<?php'.$NL;
+$view_script .= $NL;
+$view_script .= 'use Jet\MVC;'.$NL;
+$view_script .= 'use Jet\MVC_View;'.$NL;
+$view_script .= 'use Jet\Form;'.$NL;
+$view_script .= 'use Jet\Form_Renderer;'.$NL;
+$view_script .= 'use Jet\UI;'.$NL;
+if($subform_is_localized) {
+	$view_script .= 'use Jet\Locale;'.$NL;
+}
+$view_script .= $NL;
+$view_script .= '/**'.$NL;
+$view_script .= '* @var MVC_View $this'.$NL;
+$view_script .= '* @var Form $form'.$NL;
+$view_script .= '*/'.$NL;
+$view_script .= $NL;
+$view_script .= '$'.$form_variable_name.' = $this->getRaw( \''.$form_view_property_name.'\' );'.$NL;
+$view_script .= $NL;
+$view_script .= '$'.$form_variable_name.'->renderer()->setDefaultLabelWidth( ['.$NL;
+$view_script .= $IDENT.'Form_Renderer::LJ_SIZE_EXTRA_SMALL => 12,'.$NL;
+$view_script .= $IDENT.'Form_Renderer::LJ_SIZE_SMALL => 12,'.$NL;
+$view_script .= $IDENT.'Form_Renderer::LJ_SIZE_MEDIUM => 2,'.$NL;
+$view_script .= $IDENT.'Form_Renderer::LJ_SIZE_LARGE => 2'.$NL;
+$view_script .= '] );'.$NL;
+$view_script .= $NL;
+$view_script .= '$'.$form_variable_name.'->renderer()->setDefaultFieldWidth( ['.$NL;
+$view_script .= $IDENT.'Form_Renderer::LJ_SIZE_EXTRA_SMALL => 12,'.$NL;
+$view_script .= $IDENT.'Form_Renderer::LJ_SIZE_SMALL => 12,'.$NL;
+$view_script .= $IDENT.'Form_Renderer::LJ_SIZE_MEDIUM => 10,'.$NL;
+$view_script .= $IDENT.'Form_Renderer::LJ_SIZE_LARGE => 8'.$NL;
+$view_script .= '] );'.$NL;
+$view_script .= '?>'.$NL;
+$view_script .= $NL;
+$view_script .= $NL;
+
+$view_script .= '<?= $'.$form_variable_name.'->start(); ?>'.$NL;
+$view_script .= $NL;
+
+$view_script .= '<div class="row toolbar" id="main-toolbar">'.$NL;
+$view_script .= $IDENT.'<div class="col-md-12">'.$NL;
+$view_script .= $IDENT.$IDENT.'<?= UI::button_goBack()->setUrl( MVC::getPage()->getURLPath() ) ?>'.$NL;
+$view_script .= $IDENT.$IDENT.'<?php if( !$form->getIsReadonly() ): ?>'.$NL;
+$view_script .= $IDENT.$IDENT.$IDENT.'<?= UI::button_save() ?>'.$NL;
+$view_script .= $IDENT.$IDENT.'<?php endif; ?>'.$NL;
+$view_script .= $IDENT.'</div>'.$NL;
+$view_script .= '</div>'.$NL;
+$view_script .= $NL;
+
+$view_script .= '<div class="row">'.$NL;
+$view_script .= $IDENT.'<div class="col-md-12" id="main-col">'.$NL;
+$view_script .= $NL;
+
+
+$fields = $form->getFields( as_multidimensional_array: true );
+
+foreach( $fields as $field_name=>$field ) {
+	
+	if(!is_array($field)) {
+		$view_script .= $IDENT.$IDENT.'<?= $'.$form_variable_name.'->field( \''.$field_name.'\' ) ?>'.$NL;
+	} else {
+		$sub_forms = $field;
+		$_key = array_keys($sub_forms);
+		if(!$_key) {
+			continue;
+		}
+		
+		$_key = $_key[0];
+		
+		$sub_fields = $sub_forms[$_key];
+		
+		if($subform_is_localized) {
+			$view_script .= $IDENT.$IDENT.'<?php foreach( $'.$form_variable_name.'->getSubFormPrefixes(\'/'.$field_name.'\') as $locale => $prefix ):'.$NL;
+			$view_script .= $IDENT.$IDENT.$IDENT.'$locale = new Locale( $locale ); ?>'.$NL;
+			$view_script .= $IDENT.$IDENT.$IDENT.'<legend><?= UI::flag( $locale ) ?>&nbsp;<?= $locale->getName() ?></legend>'.$NL;
+		} else {
+			$view_script .= $IDENT.$IDENT.'<?php foreach( $'.$form_variable_name.'->getSubFormPrefixes(\'/'.$field_name.'\') as $key => $prefix ): ?>'.$NL;
+		}
+		
+		foreach($sub_fields as $sub_field_name=>$sub_field) {
+			if(!is_array($sub_field)) {
+				$view_script .= $IDENT.$IDENT.$IDENT.'<?= $'.$form_variable_name.'->field( $prefix.\''.$sub_field_name.'\' ) ?>'.$NL;
+			}
+		}
+		
+		$view_script .= $IDENT.$IDENT.'<?php endforeach; ?>'.$NL;
+	}
+}
+
+$view_script .= $IDENT.'</div>'.$NL;
+$view_script .= '</div>'.$NL;
+$view_script .= '<?= $'.$form_variable_name.'->end(); ?>'.$NL;
+
+echo $view_script;

@@ -284,6 +284,7 @@ abstract class ModuleWizard extends BaseObject
 			$this->create_applyValues( $target_dir );
 			$this->create_page( $target_dir );
 			$this->create_menuItem( $target_dir );
+			$this->create_generateFiles( $target_dir );
 
 		} catch( Exception $e ) {
 			Application::handleError( $e );
@@ -344,6 +345,11 @@ abstract class ModuleWizard extends BaseObject
 
 
 		}
+	}
+	
+	public function create_generateFiles( string $target_dir ) : void
+	{
+	
 	}
 
 		/**
