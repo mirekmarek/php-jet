@@ -48,7 +48,8 @@ To run Jet (or your projects already built on Jet), it is necessary to create su
 
 Below you will find an example of how such a server block should look:
 
-`server {
+```
+server {
     listen 80;
     listen [::]:80;
     listen 443 ssl;
@@ -83,7 +84,8 @@ Below you will find an example of how such a server block should look:
         include snippets/fastcgi-php.conf;
         fastcgi_pass unix:/var/run/php/php8.0-fpm.sock;
     }
-}`
+}
+```
 
 Notes on the NGINX "server block":
 
