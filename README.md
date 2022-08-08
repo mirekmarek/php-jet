@@ -16,7 +16,7 @@ This is **not a new** experimental project, but a practically used and **mature 
 
 Project website and documentation: https://www.php-jet.net/
 
-##Installation
+## Installation
 
 PHP Jet is distributed as one package which includes everything:
 * PHP Jet library
@@ -34,14 +34,14 @@ All you have to do to try PHP Jet is:
 * Open virtual domain (for example https://jet.lc/) in your web browser and install example application.
 * Let's start to discover the world of PHP Jet ;-)
 
-###Apache web server
+### Apache web server
 You probably know how to create apache virtual. If not then check [documentation](https://httpd.apache.org/docs/2.4/vhosts/index.html).
 
 PHP Jet needs nothing more than**mod_rewrite enabled**to run with the Apache web server (see documentation of your system).
 
 And watch out for a possible catch with the necessity to enable [AllowOverride All](https://httpd.apache.org/docs/current/mod/core.html)!
 
-###NGINX web server
+### NGINX web server
 If you are not familiar with NGINX server blocks then check out NGINX [documentation](https://www.nginx.com/resources/wiki/start/topics/examples/server_blocks/).
 
 To run Jet (or your projects already built on Jet), it is necessary to create such a server block.
