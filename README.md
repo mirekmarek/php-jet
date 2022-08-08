@@ -16,6 +16,8 @@ This is **not a new** experimental project, but a practically used and **mature 
 
 Project website and documentation: https://www.php-jet.net/
 
+![Promo image](promo.png "PHP Jet")
+
 ## Installation
 
 PHP Jet is distributed as one package which includes everything:
