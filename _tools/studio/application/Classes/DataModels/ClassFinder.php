@@ -107,16 +107,17 @@ class DataModels_ClassFinder
 				}
 
 				$reflection = new ReflectionClass( $full_name );
-
-				$parent_class = $reflection->getParentClass();
-
-				if( !$parent_class ) {
-					continue;
+				
+				
+				$is_dm = false;
+				foreach($this->parent_classes as $dm_class) {
+					if($reflection->isSubclassOf($dm_class)) {
+						$is_dm = true;
+						break;
+					}
 				}
-
-				$parent = $reflection->getParentClass()->getName();
-
-				if( !in_array( $parent, $this->parent_classes ) ) {
+				
+				if(!$is_dm) {
 					continue;
 				}
 
