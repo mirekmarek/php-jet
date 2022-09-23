@@ -160,7 +160,19 @@ class UI_dataGrid extends UI_Renderer_Single
 
 		return $creator( $column_name, $desc );
 	}
-
+	
+	
+	/**
+	 * @param string $name
+	 *
+	 * @return bool
+	 */
+	public function hasColumn( string $name ) : bool
+	{
+		return isset($this->columns[$name]);
+	}
+	
+	
 	/**
 	 * @param string $name
 	 *
