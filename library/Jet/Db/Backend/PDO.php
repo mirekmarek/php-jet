@@ -37,9 +37,15 @@ class Db_Backend_PDO implements Db_Backend_Interface
 
 		$this->config = $config;
 
-		$this->pdo = new PDO( $config->getDsn(), $config->getUsername(), $config->getPassword() );
-
-		$this->pdo->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION );
+		$this->pdo = new PDO(
+			dsn: $config->getDsn(),
+			username: $config->getUsername(),
+			password: $config->getPassword(),
+			options: [
+				PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+				PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC
+			]
+		);
 
 	}
 

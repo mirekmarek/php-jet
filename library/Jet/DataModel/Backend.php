@@ -409,13 +409,36 @@ abstract class DataModel_Backend extends BaseObject
 
 			/**
 			 * @var DataModel_Query_Select_Item $item
-			 * @var DataModel_Definition_Property $property
+			 * @var DataModel_Definition_Property $key_property
 			 */
-			$property = $item->getItem();
+			$key_property = null;
+			$value_property = null;
+			
+			foreach( $query->getSelect() as $item ) {
+				if(!$key_property) {
+					$key_property = $item->getItem();
+					continue;
+				}
+				if(!$value_property) {
+					$value_property = $item->getItem();
+					continue;
+				}
+				
+				break;
+			}
 
-			foreach( $data as $i => $d ) {
-				$property->checkValueType( $d );
-				$data[$i] = $d;
+			if(
+				$value_property &&
+				($value_property instanceof DataModel_Definition_Property) &&
+				($key_property instanceof DataModel_Definition_Property)
+			) {
+				$_data = [];
+				foreach( $data as $i => $d ) {
+					$key_property->checkValueType( $i );
+					$value_property->checkValueType( $d );
+					$_data[$i] = $d;
+				}
+				$data = $_data;
 			}
 
 		} else {
