@@ -43,7 +43,7 @@ class Form_Renderer_Field_Container extends Form_Renderer_Pair
 	public function getWidth(): array|null
 	{
 		if(!$this->width) {
-			return $this->field->getForm()->renderer()->getDefaultFieldWidth();
+			return $this->field->input()->getWidth();
 		}
 		
 		return $this->width;
