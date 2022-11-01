@@ -12,7 +12,7 @@ if(isset( $_SERVER['REQUEST_URI'] )) {
 		strpos($base_URI, '.') ||
 		strpos($base_URI, '?')
 	) {
-		$base_URI = dirname($base_URI).'/';
+		$base_URI = substr( $base_URI, 0, strrpos($base_URI, '/')).'/';
 	}
 } else {
 	$base_URI = '/_tools/studio/';
