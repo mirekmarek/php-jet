@@ -143,13 +143,13 @@ class Navigation_MenuSet extends BaseObject
 
 			$root_menu = $this->addMenu(
 				$id,
-				$this->_( $item_data['label'] ),
+				$this->_( $item_data['label']??'' ),
 				$item_data['icon']
 			);
 
 			if( isset( $item_data['items'] ) ) {
 				foreach( $item_data['items'] as $menu_item_id => $menu_item_data ) {
-					$label = $this->_( $menu_item_data['label'] );
+					$label = $this->_( $menu_item_data['label']??'' );
 					$menu_item = new Navigation_Menu_Item( $menu_item_id, $label );
 					$menu_item->setData( $menu_item_data );
 
