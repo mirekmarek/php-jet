@@ -161,11 +161,6 @@ class MVC_Layout extends MVC_View_Abstract
 			}
 		}
 
-		if( $current_max_position_order !== null ) {
-			$position_order = $current_max_position_order + 0.001;
-		}
-
-
 		$o = new MVC_Layout_OutputPart( $output, $position, $position_order );
 
 		$this->output_parts[] = $o;

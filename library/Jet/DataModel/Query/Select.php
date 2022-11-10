@@ -160,9 +160,9 @@ class DataModel_Query_Select extends BaseObject implements BaseObject_Interface_
 	/**
 	 * @see \Iterator
 	 */
-	public function next(): DataModel_Query_Select_Item|bool
+	public function next(): void
 	{
-		return next( $this->items );
+		next( $this->items );
 	}
 
 	/**

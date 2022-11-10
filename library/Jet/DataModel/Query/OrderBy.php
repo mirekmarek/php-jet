@@ -126,9 +126,9 @@ class DataModel_Query_OrderBy extends BaseObject implements BaseObject_Interface
 	/**
 	 * @see \Iterator
 	 */
-	public function next(): DataModel_Query_OrderBy_Item|bool
+	public function next(): void
 	{
-		return next( $this->items );
+		next( $this->items );
 	}
 
 	/**

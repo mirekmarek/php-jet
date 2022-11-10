@@ -151,9 +151,8 @@ class Data_Forest extends BaseObject implements BaseObject_Interface_IteratorCou
 
 	/**
 	 *
-	 * @return Data_Tree_Node|bool
 	 */
-	public function next(): Data_Tree_Node|bool
+	public function next(): void
 	{
 		$current_tree_id = key( $this->trees );
 
@@ -161,17 +160,15 @@ class Data_Forest extends BaseObject implements BaseObject_Interface_IteratorCou
 
 
 		if( $this->trees[$current_tree_id]->valid() ) {
-			return false;
+			return;
 		}
 
 		$this->trees[$current_tree_id]->rewind();
 		$next_tree = next( $this->trees );
 		if( !$next_tree ) {
-			return false;
+			return;
 		}
 		$next_tree->rewind();
-
-		return $next_tree->current();
 	}
 
 	/**

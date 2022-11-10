@@ -105,11 +105,9 @@ class Http_Request_Trap implements BaseObject_Interface_ArrayEmulator
 	/**
 	 * @throws Http_Request_Exception
 	 */
-	public function next(): mixed
+	public function next(): void
 	{
 		$this->trap();
-
-		return null;
 	}
 
 	/**

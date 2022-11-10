@@ -22,6 +22,8 @@ SysConf_Jet_UI::setViewsDir( __DIR__.'/views/ui/' );
 
 require 'Classes/Installer.php';
 
+require_once 'Classes/IntlMock.php';
+
 SysConf_Jet_PackageCreator_CSS::setEnabled( false );
 SysConf_Jet_PackageCreator_JavaScript::setEnabled( false );
 

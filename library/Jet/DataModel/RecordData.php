@@ -99,9 +99,9 @@ class DataModel_RecordData implements BaseObject_Interface_IteratorCountable
 	/**
 	 * @see \Iterator
 	 */
-	public function next(): DataModel_RecordData_Item|bool
+	public function next(): void
 	{
-		return next( $this->items );
+		next( $this->items );
 	}
 
 	/**

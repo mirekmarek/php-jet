@@ -36,6 +36,12 @@ class Installer_Step_Welcome_Controller extends Installer_Step_Controller
 	 */
 	public function main(): void
 	{
+		if(!extension_loaded( 'intl' )) {
+			$this->render( 'error_intl_ext_not_installed' );
+			
+			return;
+		}
+		
 		$this->catchContinue();
 
 		$translations = [];

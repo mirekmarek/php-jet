@@ -225,9 +225,9 @@ class DataModel_Query_Having extends BaseObject implements BaseObject_Interface_
 	/**
 	 * @see \Iterator
 	 */
-	public function next(): DataModel_Query_Having_Expression|string|bool
+	public function next(): void
 	{
-		return next( $this->expressions );
+		next( $this->expressions );
 	}
 
 	/**

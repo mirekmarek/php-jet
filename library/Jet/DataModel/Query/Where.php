@@ -216,9 +216,9 @@ class DataModel_Query_Where extends BaseObject implements BaseObject_Interface_I
 	/**
 	 * @see \Iterator
 	 */
-	public function next(): DataModel_Query_Where_Expression|DataModel_Query_Where|string|bool
+	public function next(): void
 	{
-		return next( $this->expressions );
+		next( $this->expressions );
 	}
 
 	/**
