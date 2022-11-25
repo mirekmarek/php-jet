@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *
  * @copyright Copyright (c) Miroslav Marek <mirek.marek@web-jet.cz>

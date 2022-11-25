@@ -30,8 +30,8 @@ class Locale {
 }
 
 class IntlDateFormatter {
-	const SHORT = '';
-	const MEDIUM = '';
+	const SHORT = 0;
+	const MEDIUM = 0;
 	const LONG = '';
 	const FULL = '';
 	const GREGORIAN = '';

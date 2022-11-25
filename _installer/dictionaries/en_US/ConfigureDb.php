@@ -27,4 +27,5 @@ return [
 	'UNIX socket:' => '',
 	'Charset:' => '',
 	'Path:' => '',
+	'Error connecting to database:' => '',
 ];

@@ -45,7 +45,7 @@ class DataModel_Definition_Model_Main extends Jet_DataModel_Definition_Model_Mai
 	public static function getCreateForm(): Form
 	{
 		if( !static::$create_form ) {
-			static::$create_form = DataModel_Definition_Model_Trait::getCreateForm_Main();
+			static::$create_form = static::getCreateForm_Main();
 		}
 
 		return static::$create_form;
@@ -164,12 +164,12 @@ class DataModel_Definition_Model_Main extends Jet_DataModel_Definition_Model_Mai
 			return false;
 		}
 
-		$class = DataModel_Definition_Model_Trait::catchCreateForm_createClass( $form );
+		$class = static::catchCreateForm_createClass( $form );
 
 		$model = new DataModel_Definition_Model_Main();
 		$model->setClass( $class );
-
-		DataModel_Definition_Model_Trait::catchCreateForm_modelMainSetup( $form, $model );
+		
+		static::catchCreateForm_modelMainSetup( $form, $model );
 
 		return $model;
 	}
