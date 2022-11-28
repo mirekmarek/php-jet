@@ -27,9 +27,16 @@ class Controller_Main extends MVC_Controller_Default
 	public function test_orm_Action(): void
 	{
 		$backends = [];
-
-		$backends[DataModel_Backend::TYPE_MYSQL] = new DataModel_Backend_MySQL( (new DataModel_Backend_MySQL_Config()) );
-		$backends[DataModel_Backend::TYPE_SQLITE] = new DataModel_Backend_SQLite( (new DataModel_Backend_SQLite_Config()) );
+		
+		$mysql = new DataModel_Backend_MySQL( (new DataModel_Backend_MySQL_Config()) );
+		if($mysql->isAvailable()) {
+			$backends[DataModel_Backend::TYPE_MYSQL] = $mysql;
+		}
+		
+		$sqlite = new DataModel_Backend_SQLite( (new DataModel_Backend_SQLite_Config()) );
+		if($sqlite->isAvailable()) {
+			$backends[DataModel_Backend::TYPE_SQLITE] = $sqlite;
+		}
 
 		$_tests = [
 			'BasicSelect',

@@ -99,9 +99,9 @@ class DataModel_Query_GroupBy extends BaseObject implements BaseObject_Interface
 	/**
 	 * @see \Iterator
 	 */
-	public function next(): mixed
+	public function next(): void
 	{
-		return next( $this->items );
+		next( $this->items );
 	}
 
 	/**
