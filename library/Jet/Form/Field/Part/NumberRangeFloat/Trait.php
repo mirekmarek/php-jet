@@ -56,7 +56,7 @@ trait Form_Field_Part_NumberRangeFloat_Trait
 	/**
 	 * @param ?float $min
 	 */
-	public function setMinValue( ?float $min )
+	public function setMinValue( ?float $min ) : void
 	{
 		$this->min_value = $min;
 	}

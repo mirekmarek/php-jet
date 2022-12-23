@@ -155,7 +155,6 @@ trait DataModel_Definition_Model_Trait
 
 	/**
 	 * @return DataModel_Definition_Property_Interface[]|\Jet\DataModel_Definition_Property[]
-	 * @noinspection PhpDocSignatureInspection
 	 */
 	public function getProperties(): array
 	{

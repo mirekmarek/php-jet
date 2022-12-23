@@ -167,7 +167,7 @@ class SysConf_Jet_Modules
 	/**
 	 * @param string $installed_modules_list_file_path
 	 */
-	public static function setInstalledModulesListFilePath( string $installed_modules_list_file_path )
+	public static function setInstalledModulesListFilePath( string $installed_modules_list_file_path ) : void
 	{
 		static::$installed_modules_list_file_path = $installed_modules_list_file_path;
 	}
@@ -186,7 +186,7 @@ class SysConf_Jet_Modules
 	/**
 	 * @param string $activated_modules_list_file_path
 	 */
-	public static function setActivatedModulesListFilePath( string $activated_modules_list_file_path )
+	public static function setActivatedModulesListFilePath( string $activated_modules_list_file_path ) : void
 	{
 		static::$activated_modules_list_file_path = $activated_modules_list_file_path;
 	}

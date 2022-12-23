@@ -139,7 +139,7 @@ class DataModel_Class
 	/**
 	 * @param DataModel_Definition_Model_Main|DataModel_Definition_Model_Related_1to1|DataModel_Definition_Model_Related_1toN $definition
 	 */
-	public function setDefinition( DataModel_Definition_Model_Main|DataModel_Definition_Model_Related_1to1|DataModel_Definition_Model_Related_1toN $definition )
+	public function setDefinition( DataModel_Definition_Model_Main|DataModel_Definition_Model_Related_1to1|DataModel_Definition_Model_Related_1toN $definition ) : void
 	{
 		$definition->setClass( $this );
 

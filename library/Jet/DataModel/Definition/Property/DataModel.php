@@ -193,7 +193,7 @@ class DataModel_Definition_Property_DataModel extends DataModel_Definition_Prope
 		/**
 		 * @var DataModel_Definition_Model_Related $definition
 		 */
-		/** @noinspection PhpUnnecessaryLocalVariableInspection */
+
 		$definition = DataModel::getDataModelDefinition( $this->getValueDataModelClass() );
 
 		return $definition;

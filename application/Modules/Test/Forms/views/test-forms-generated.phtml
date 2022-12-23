@@ -80,7 +80,7 @@ foreach( $form->getFields() as $field ) {
 					?>
 					<tr>
 						<td><?= $getter; ?>:</td>
-						<td><?= is_array( $value ) ? var_export( $value ) : $value ?></td>
+						<td><?= is_array( $value ) ? var_export( $value, true ) : $value ?></td>
 					</tr>
 				<?php endforeach; ?>
 			</table>
@@ -96,7 +96,7 @@ foreach( $form->getFields() as $field ) {
 						?>
 						<tr>
 							<td style="width: 200px;"><?= $getter; ?>:</td>
-							<td><?= is_array( $value ) ? var_export( $value ) : $value ?></td>
+							<td><?= is_array( $value ) ? var_export( $value, true ) : $value ?></td>
 						</tr>
 					<?php endforeach; ?>
 				</table>
@@ -114,7 +114,7 @@ foreach( $form->getFields() as $field ) {
 					?>
 					<tr>
 						<td style="width: 200px;"><?= $getter; ?>:</td>
-						<td><?= is_array( $value ) ? var_export( $value ) : $value ?></td>
+						<td><?= is_array( $value ) ? var_export( $value, true ) : $value ?></td>
 					</tr>
 				<?php endforeach; ?>
 			</table>

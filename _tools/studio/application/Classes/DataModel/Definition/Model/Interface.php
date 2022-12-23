@@ -62,7 +62,6 @@ interface DataModel_Definition_Model_Interface
 
 	/**
 	 * @return DataModel_Definition_Property_Interface[]|\Jet\DataModel_Definition_Property[]
-	 * @noinspection PhpDocSignatureInspection
 	 */
 	public function getProperties(): array;
 

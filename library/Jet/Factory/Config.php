@@ -61,7 +61,7 @@ class Factory_Config
 	}
 
 	/**
-	 * @param string class_name
+	 * @param string $class_name
 	 */
 	public static function setMainConfigDefinitionClassName( string $class_name ): void
 	{
@@ -77,7 +77,7 @@ class Factory_Config
 	}
 
 	/**
-	 * @param string class_name
+	 * @param string $class_name
 	 */
 	public static function setConfigSectionDefinitionClassName( string $class_name ): void
 	{

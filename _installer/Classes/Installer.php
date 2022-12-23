@@ -228,8 +228,7 @@ class Installer
 			$step_name = array_shift( $steps );
 
 			$step_base_path = static::getBasePath() . 'Step/' . $step_name . '/';
-
-			/** @noinspection PhpIncludeInspection */
+			
 			require_once $step_base_path . 'Controller.php';
 
 			$class_name = __NAMESPACE__ . '\\Installer_Step_' . $step_name . '_Controller';

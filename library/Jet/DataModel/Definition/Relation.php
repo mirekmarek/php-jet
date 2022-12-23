@@ -124,7 +124,6 @@ abstract class DataModel_Definition_Relation extends BaseObject
 
 	/**
 	 * @return DataModel_Definition_Relation_Join_Condition[]|DataModel_Definition_Relation_Join_Item[]
-	 * @noinspection PhpDocSignatureInspection
 	 */
 	public function getJoinBy() : array
 	{

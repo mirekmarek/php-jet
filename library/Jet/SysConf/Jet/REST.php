@@ -165,7 +165,7 @@ class SysConf_Jet_REST
 	 * @param int $http_code
 	 * @param string $message
 	 */
-	public static function defineError( string $code, int $http_code, string $message )
+	public static function defineError( string $code, int $http_code, string $message ) : void
 	{
 		static::$errors[$code] = [
 			$http_code,

@@ -35,7 +35,7 @@ class Factory_Db
 	/**
 	 * @param string $default_backend_class_name
 	 */
-	public static function setDefaultBackendClassname( string $default_backend_class_name )
+	public static function setDefaultBackendClassname( string $default_backend_class_name ) : void
 	{
 		static::$default_backend_class_name = $default_backend_class_name;
 	}

@@ -82,7 +82,7 @@ function formatQuery(string $query, array $query_data = []) : string
  * @param Debug_Profiler_Run_Block $block
  * @param int $level
  */
-function showRunBlock( Debug_Profiler_Run_Block $block, int $level=0)
+function showRunBlock( Debug_Profiler_Run_Block $block, int $level=0) : void
 {
 	$id = $block->getId();
 	$is_root = $block->getIsRoot();

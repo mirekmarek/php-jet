@@ -17,7 +17,6 @@ trait Form_Definition_Trait
 	/**
 	 * @return Form_Definition_SubForm[]|Form_Definition_SubForms[]|Form_Definition_Field[]
 	 * @throws Form_Definition_Exception
-	 * @noinspection PhpDocSignatureInspection
 	 */
 	public function getFormFieldsDefinition() : array
 	{

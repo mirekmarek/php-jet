@@ -198,7 +198,6 @@ class Navigation_Menu extends BaseObject
 	 * @param bool $check_access
 	 *
 	 * @return Navigation_Menu[]|Navigation_Menu_Item[]
-	 * @noinspection PhpDocSignatureInspection
 	 */
 	public function getItems( bool $check_access = true ): array
 	{

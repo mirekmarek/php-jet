@@ -431,7 +431,7 @@ class Factory_Form
 	 * @param string $field_class_name
 	 * @param array $renderers
 	 */
-	public static function registerNewFieldType( string $field_type, string $field_class_name, array $renderers = [] )
+	public static function registerNewFieldType( string $field_type, string $field_class_name, array $renderers = [] ) : void
 	{
 		
 		$default_renderers = [

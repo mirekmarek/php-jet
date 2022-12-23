@@ -30,7 +30,6 @@ class Project extends BaseObject implements Application_Part
 	 * @param bool $as_string
 	 *
 	 * @return string[]|Locale[]
-	 * @noinspection PhpDocSignatureInspection
 	 */
 	public static function getDefaultLocales( bool $as_string = false ): array
 	{

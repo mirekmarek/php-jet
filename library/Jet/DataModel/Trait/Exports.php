@@ -44,9 +44,6 @@ trait DataModel_Trait_Exports
 
 		$result = [];
 		foreach( $properties as $property_name => $property ) {
-			/**
-			 * @var DataModel_Definition_Property $property
-			 */
 			if( $property->doNotExport() ) {
 				continue;
 			}

@@ -31,7 +31,7 @@ trait DataModel_Trait_Load
 	/**
 	 * @param ?DataModel_PropertyFilter $_load_filter
 	 */
-	protected function setLoadFilter( ?DataModel_PropertyFilter $_load_filter = null )
+	protected function setLoadFilter( ?DataModel_PropertyFilter $_load_filter = null ) : void
 	{
 		$this->_load_filter = $_load_filter;
 	}
@@ -260,10 +260,6 @@ trait DataModel_Trait_Load
 				}
 			}
 
-			/**
-			 * @var DataModel_Definition_Property_DataModel $related_property
-			 * @var DataModel_Related $class_name
-			 */
 			$class_name = $related_property->getValueDataModelClass();
 			$related_dm_definition = DataModel_Definition::get( $class_name );
 
@@ -279,7 +275,10 @@ trait DataModel_Trait_Load
 				}
 				$related_where[$property] = $main_model_id[$related_to];
 			}
-
+			
+			/**
+			 * @var DataModel_Related $class_name
+			 */
 			$_related_data = $class_name::fetchRelatedData( $related_where, $load_filter );
 
 			if( !$_related_data ) {
@@ -388,10 +387,6 @@ trait DataModel_Trait_Load
 				}
 			}
 
-			/**
-			 * @var DataModel_Definition_Property_DataModel $related_property
-			 * @var DataModel_Related $class_name
-			 */
 			$class_name = $related_property->getValueDataModelClass();
 			$related_dm_definition = DataModel_Definition::get( $class_name );
 
@@ -410,7 +405,10 @@ trait DataModel_Trait_Load
 				}
 				$related_where[$property] = $main_model_ids[$related_to];
 			}
-
+			
+			/**
+			 * @var DataModel_Related $class_name
+			 */
 			$_related_data = $class_name::fetchRelatedData( $related_where, $load_filter );
 
 			if( !$_related_data ) {

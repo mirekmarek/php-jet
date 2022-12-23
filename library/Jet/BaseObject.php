@@ -127,7 +127,7 @@ abstract class BaseObject
 			if( is_object( $val ) ) {
 				try {
 					$this->{$key} = clone $val;
-				} /** @noinspection PhpUnusedLocalVariableInspection */ catch( Error $e ) {
+				} catch( Error $e ) {
 				}
 			}
 		}

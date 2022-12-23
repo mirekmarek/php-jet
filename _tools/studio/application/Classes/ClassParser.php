@@ -82,7 +82,7 @@ class ClassParser
 	/**
 	 * @param string $script_data
 	 */
-	public function setScriptData( string $script_data )
+	public function setScriptData( string $script_data ) : void
 	{
 		//debug_print_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
 		//echo 'setScriptData:'.PHP_EOL;

@@ -59,7 +59,7 @@ trait Form_Field_Trait_Validation
 	/**
 	 * @param callable $validator
 	 */
-	public function setValidator( callable $validator )
+	public function setValidator( callable $validator ) : void
 	{
 		$this->validator = $validator;
 	}

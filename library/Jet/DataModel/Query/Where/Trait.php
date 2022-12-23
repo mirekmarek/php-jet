@@ -25,7 +25,7 @@ trait DataModel_Query_Where_Trait
 	 *
 	 * @throws DataModel_Query_Exception
 	 */
-	protected function _determineLogicalOperatorOrSubExpressions( string|array $val )
+	protected function _determineLogicalOperatorOrSubExpressions( string|array $val ) : void
 	{
 		if( is_array( $val ) ) {
 			$this->addSubExpressions( new self( $this->query, $val ) );

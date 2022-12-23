@@ -247,8 +247,7 @@ class Application extends Jet_Application
 		if( !IO_File::exists( $controller ) ) {
 			return;
 		}
-
-		/** @noinspection PhpIncludeInspection */
+		
 		require $controller;
 	}
 

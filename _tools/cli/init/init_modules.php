@@ -24,7 +24,7 @@ if (!Application_Modules::moduleExists( $module_name)) {
  * @param Exception $e
  * @param int $error_code
  */
-function handleException( Exception $e, int $error_code = 100)
+function handleException( Exception $e, int $error_code = 100) : void
 {
 	echo 'ERROR' . PHP_EOL;
 	echo $e->getMessage();
@@ -33,7 +33,7 @@ function handleException( Exception $e, int $error_code = 100)
 }
 
 
-function ok()
+function ok() : void
 {
 	echo 'OK' . PHP_EOL . PHP_EOL;
 	exit(0);
