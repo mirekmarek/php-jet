@@ -94,4 +94,5 @@ return [
 	'class name' => 'název třídy',
 	'method name' => 'název metody',
 	'Source module: ' => 'Zdrojový modul:',
+	'Show this page' => 'Zobrazit tuto stránku',
 ];

@@ -3,6 +3,7 @@ namespace JetStudio;
 
 use Jet\Tr;
 use Jet\MVC_View;
+use Jet\UI;
 
 /**
  * @var MVC_View $this
@@ -15,8 +16,13 @@ $what = $this->getRaw( 'what' );
 
 echo $this->render( 'page/' . $what . '/edit/toolbar' );
 ?>
-
-<?= Tr::_( 'Page' ) ?> <span style="font-weight: bolder"><?= $page->getName() ?></span> <span
-		style="color: #aaaaaa;font-size: 12px;"><?= $page->getId() ?></span>
+&nbsp;&nbsp;
+<?= Tr::_( 'Page' ) ?>
+&nbsp;
+<span style="font-weight: bolder"><?= $page->getName() ?></span>
+&nbsp;
+<span style="color: #aaaaaa;font-size: 12px;"><?= $page->getId() ?></span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<a href="<?=$page->getURL()?>" target="_blank"><?=UI::icon('eye')->setTitle(Tr::_('Show this page'))?> <?=Tr::_('Show this page')?></a>
 
 

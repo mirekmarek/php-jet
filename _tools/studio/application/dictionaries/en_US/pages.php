@@ -89,4 +89,5 @@ return [
 	'Source module: ' => '',
 	'class name' => '',
 	'method name' => '',
+	'Show this page' => '',
 ];
