@@ -49,7 +49,7 @@ trait Db_Backend_PDO_Config_sqlite {
 	
 	protected function sqlite_getEntriesSchema() : array
 	{
-		return ['path'=>SysConf_Path::getData() . 'database.sq3'];
+		return ['path'=>SysConf_Path::getData() . uniqid().'.sq3'];
 	}
 	
 }
