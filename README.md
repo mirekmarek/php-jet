@@ -93,4 +93,4 @@ Notes on the NGINX "server block":
 
 * Of course, you need to set the server_name and root parameters according to the situation on your computer.
 * An example includes the use of SSL certificates intended for local testing offered by NGINX itself. Of course, these must not be used in a production environment.
-* The "location" related to the Jet Studio tool (/_tools/studio/) **should not exist at all in a production server** as well as the tool itself.
+* The "location" related to the Jet Studio tool (/_tools/studio/) **should not exist at all on a production server** as well as the tool itself.
