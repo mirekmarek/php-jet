@@ -1,6 +1,6 @@
 {
   "name": "mirekmarek/php-jet",
-  "description": "PHP Jet is modern, powerful, real-life proven, really fast and secure, small and light-weight framework for PHP8 with great clean and flexible modular architecture containing awesone developing tools. No magic, just clean software engineering.",
+  "description": "PHP Jet is modern, powerful, real-life proven, really fast and secure, small and light-weight framework for PHP8 with great clean and flexible modular architecture containing awesome developing tools. No magic, just clean software engineering.",
   "type": "project",
   "keywords": ["php", "php8", "framework", "mvc", "modularity", "microservices", "orm", "redis", "mysql", "sqlite","localization","multiregional", "deb-tool", "profiler"],
   "homepage": "https://www.php-jet.net/",

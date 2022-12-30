@@ -31,5 +31,9 @@ Autoloader_ApplicationClasses::register();
 require SysConf_Path::getApplication() . 'Autoloaders/ApplicationModules.php';
 Autoloader_ApplicationModules::register();
 
+$composer_autoloader = SysConf_Path::getLibrary().'Composer/autoload.php';
+if(file_exists(stream_resolve_include_path($composer_autoloader))) {
+	include_once $composer_autoloader;
+}
 
 //Debug_Profiler::blockEnd('INIT - Autoloader');
