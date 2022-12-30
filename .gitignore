@@ -15,3 +15,5 @@ _tools/studio/css/packages/**
 _tools/studio/js/packages/**
 /cleanup.sh
 /images/test_uploads
+/library/Composer/
+/composer.lock
