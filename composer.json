@@ -23,10 +23,6 @@
     "ext-mbstring": "*",
     "ext-pdo": "*"
   },
-  "autoload": {
-    "psr-0": {
-    }
-  },
   "config": {
     "vendor-dir": "library/Composer/",
     "autoloader-suffix": "Composer"
