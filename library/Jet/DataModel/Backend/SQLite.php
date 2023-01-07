@@ -1171,12 +1171,7 @@ class DataModel_Backend_SQLite extends DataModel_Backend
 		$data = $this->getDb()->fetchCol(
 			$this->createSelectQuery( $query )
 		);
-
-		if( !is_array( $data ) ) {
-			return $data;
-		}
-
-
+		
 		foreach( $data as $i => $d ) {
 			foreach( $query->getSelect() as $item ) {
 				/**

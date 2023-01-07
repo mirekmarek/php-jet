@@ -45,11 +45,8 @@ class Autoloader_Cache
 	 */
 	public static function load(): array|null
 	{
-		if( !static::$backend ) {
-			return null;
-		}
-
-		return static::$backend->load();
+		return static::$backend?->load();
+		
 	}
 
 	/**

@@ -295,12 +295,9 @@ class DataModels extends BaseObject implements Application_Part
 	public static function getCurrentPropertyName(): string|null
 	{
 		$current = static::getCurrentProperty();
-
-		if( !$current ) {
-			return null;
-		}
-
-		return $current->getName();
+		
+		return $current?->getName();
+		
 	}
 
 

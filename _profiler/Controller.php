@@ -162,6 +162,7 @@ $controller = new class {
 
 
 		/** @noinspection PhpUndefinedFunctionInspection */
+		/** @noinspection PhpConditionAlreadyCheckedInspection */
 		$dot_script = xhprof_generate_dot_script(
 			$run->getXHPData(),
 			$threshold,

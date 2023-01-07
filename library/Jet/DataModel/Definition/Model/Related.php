@@ -87,7 +87,6 @@ abstract class DataModel_Definition_Model_Related extends DataModel_Definition_M
 		$getParent = function( $class_name ): string|null {
 			$def = DataModel_Definition::get( $class_name );
 			if(
-				!$def ||
 				$def instanceof DataModel_Definition_Model_Main
 			) {
 				return null;

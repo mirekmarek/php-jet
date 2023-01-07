@@ -55,11 +55,8 @@ class MVC_Cache
 	 */
 	public static function loadBaseMaps(): array|null
 	{
-		if( !static::$backend ) {
-			return null;
-		}
-
-		return static::$backend->loadBaseMaps();
+		return static::$backend?->loadBaseMaps();
+		
 	}
 
 	/**
@@ -78,11 +75,8 @@ class MVC_Cache
 	 */
 	public static function loadPageMaps( MVC_Base_Interface $base, Locale $locale ): array|null
 	{
-		if( !static::$backend ) {
-			return null;
-		}
-
-		return static::$backend->loadPageMaps( $base, $locale );
+		return static::$backend?->loadPageMaps( $base, $locale );
+		
 	}
 
 	/**
@@ -103,11 +97,8 @@ class MVC_Cache
 	 */
 	public static function loadContentOutput( MVC_Page_Content_Interface $content ): string|null
 	{
-		if( !static::$backend ) {
-			return null;
-		}
-
-		return static::$backend->loadContentOutput( $content );
+		return static::$backend?->loadContentOutput( $content );
+		
 	}
 
 	/**

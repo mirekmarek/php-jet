@@ -243,13 +243,8 @@ class Forms {
 	 */
 	public static function getCurrentPropertyName(): string|null
 	{
-		$current = static::getCurrentProperty();
+		return static::getCurrentProperty()?->getName();
 		
-		if( !$current ) {
-			return null;
-		}
-		
-		return $current->getName();
 	}
 	
 }

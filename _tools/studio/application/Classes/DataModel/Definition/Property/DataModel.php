@@ -62,9 +62,9 @@ class DataModel_Definition_Property_DataModel extends Jet_DataModel_Definition_P
 	{
 
 		$related_class = DataModels::getClass( $this->getDataModelClass() );
-		$related_model = $related_class->getDefinition();
 
-		if( $related_model ) {
+		if( $related_class ) {
+			$related_model = $related_class->getDefinition();
 			?>
 			<div class="card">
 				<div class=" card-body">
@@ -96,34 +96,30 @@ class DataModel_Definition_Property_DataModel extends Jet_DataModel_Definition_P
 		$property_type = '';
 		$default_value = null;
 
-		if( !$related_dm ) {
-			$class->addError( 'Unable to get related DataModel definition (related model ID: ' . $this->getDataModelClass() . ')' );
-		} else {
 
-			$use = ClassCreator_UseClass::createByClassName( $related_dm->getClassName() );
+		$use = ClassCreator_UseClass::createByClassName( $related_dm->getClassName() );
 
-			if( $use->getNamespace() != $class->getNamespace() ) {
-				$class->addUse( $use );
-			}
+		if( $use->getNamespace() != $class->getNamespace() ) {
+			$class->addUse( $use );
+		}
 
-			$attributes[] = [
-				'DataModel_Definition',
-				'data_model_class',
-				$use->getClass() . '::class'
-			];
+		$attributes[] = [
+			'DataModel_Definition',
+			'data_model_class',
+			$use->getClass() . '::class'
+		];
 
-			$type = $related_dm->getInternalType();
+		$type = $related_dm->getInternalType();
 
 
-			switch($type) {
-				case DataModel::MODEL_TYPE_RELATED_1TO1:
-					$property_type = $use->getClass();
-				break;
-				case DataModel::MODEL_TYPE_RELATED_1TON:
-					$property_type = 'array';
-					$default_value = [];
-				break;
-			}
+		switch($type) {
+			case DataModel::MODEL_TYPE_RELATED_1TO1:
+				$property_type = $use->getClass();
+			break;
+			case DataModel::MODEL_TYPE_RELATED_1TON:
+				$property_type = 'array';
+				$default_value = [];
+			break;
 		}
 
 
@@ -138,7 +134,7 @@ class DataModel_Definition_Property_DataModel extends Jet_DataModel_Definition_P
 	 */
 	public function getDefaultValue() : ?array
 	{
-		$related_dm = DataModels::getClass( $this->getDataModelClass() )->getDefinition();
+		$related_dm = DataModels::getClass( $this->getDataModelClass() )?->getDefinition();
 
 		if( $related_dm ) {
 			switch( $related_dm->getInternalType() ) {

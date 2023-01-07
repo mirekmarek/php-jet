@@ -8,9 +8,6 @@ use Jet\UI_messages;
 $property = Forms::getCurrentProperty();
 
 $form = $property->getSetTypeForm();
-if(!$form) {
-	return;
-}
 
 if($form->catchInput() && $form->validate()) {
 	if($property->setType( $form->getValues() )) {

@@ -254,7 +254,6 @@ class Debug_Profiler_Run
 
 		while( $this->__block_stack ) {
 			$block = array_pop( $this->__block_stack );
-			$_labels[] = $block->getLabel();
 			$block->setEnd( $timestamp );
 		}
 

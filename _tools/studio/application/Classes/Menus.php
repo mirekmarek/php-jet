@@ -173,6 +173,7 @@ class Menus extends BaseObject implements Application_Part
 				$id &&
 				($menu = $set->getMenu( $id ))
 			) {
+				/** @noinspection PhpFieldAssignmentTypeMismatchInspection */
 				static::$__current_menu = $menu;
 			}
 		}

@@ -503,7 +503,7 @@ class Locale extends BaseObject
 	 */
 	public function getCalendar(): int
 	{
-		if( $this->_calendar === null ) {
+		if( !$this->_calendar ) {
 			$this->_calendar = self::CALENDAR_GREGORIAN;
 		}
 

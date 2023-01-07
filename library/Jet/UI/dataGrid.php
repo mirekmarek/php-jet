@@ -148,9 +148,12 @@ class UI_dataGrid extends UI_Renderer_Single
 	 */
 	public function getSortURL( string $column_name, bool $desc = false ): string
 	{
+		if(!$this->hasColumn($column_name)) {
+			return '';
+		}
+		
 		$column = $this->getColumn( $column_name );
 		if(
-			!$column ||
 			!$column->getAllowSort()
 		) {
 			return '';

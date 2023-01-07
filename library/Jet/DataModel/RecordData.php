@@ -138,7 +138,7 @@ class DataModel_RecordData implements BaseObject_Interface_IteratorCountable
 	 */
 	public function getIsEmpty(): bool
 	{
-		return !(bool)count( $this->items );
+		return !count( $this->items );
 	}
 
 }

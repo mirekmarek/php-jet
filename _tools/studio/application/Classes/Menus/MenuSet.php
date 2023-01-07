@@ -217,10 +217,8 @@ class Menus_MenuSet extends Navigation_MenuSet
 	 */
 	public static function get( string $name, string|null|bool $translator_dictionary = null ): Menus_MenuSet
 	{
-		$translator_dictionary = false;
-
 		/** @noinspection PhpIncompatibleReturnTypeInspection */
-		return parent::get( $name, $translator_dictionary );
+		return parent::get( name: $name, translator_dictionary: false );
 	}
 
 	/**

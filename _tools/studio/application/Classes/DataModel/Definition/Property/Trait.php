@@ -504,7 +504,7 @@ trait DataModel_Definition_Property_Trait
 				] = explode( ':', $this->getRelatedToClassName() );
 			}
 
-			$related_to_model = DataModels::getClass( $to_model_class_name )->getDefinition();
+			$related_to_model = DataModels::getClass( $to_model_class_name )?->getDefinition();
 			if( $related_to_model ) {
 				$related_to_property = $related_to_model->getProperty( $this->getRelatedToPropertyName() );
 

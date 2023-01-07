@@ -204,10 +204,7 @@ abstract class DataModel_Definition_Model extends BaseObject
 	{
 		$this->database_table_name = $this->getClassArgument( 'database_table_name' );
 
-		if(
-			!is_string( $this->database_table_name ) ||
-			!$this->database_table_name
-		) {
+		if( !$this->database_table_name ) {
 			throw new DataModel_Exception(
 				'DataModel \'' . $this->class_name . '\' does not have database table name! Please define attribute #[DataModel_Definition(database_table_name:\'some_table_name\')] ',
 				DataModel_Exception::CODE_DEFINITION_NONSENSE

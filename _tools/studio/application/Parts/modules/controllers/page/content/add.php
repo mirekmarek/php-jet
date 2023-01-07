@@ -32,6 +32,7 @@ if(
 	$page->addContent( $new_content );
 
 	if( $page->save() ) {
+		$ok = true;
 		$form = $page->getContentCreateForm();
 
 		$form->setCommonMessage(
@@ -39,8 +40,6 @@ if(
 				Tr::_( 'New content has been created' )
 			)
 		);
-
-		$data = [];
 
 		$snippets['content_list_area'] = $view->render( 'page/content/edit/form/list' );
 	} else {

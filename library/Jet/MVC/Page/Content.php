@@ -276,13 +276,7 @@ class MVC_Page_Content extends BaseObject implements MVC_Page_Content_Interface
 		}
 
 		$this->__module_instance = Application_Modules::moduleInstance( $module_name );
-
-		if( !$this->__module_instance ) {
-			$this->__module_instance = false;
-
-			return false;
-		}
-
+		
 		return $this->__module_instance;
 	}
 

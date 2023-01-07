@@ -133,8 +133,6 @@ class MVC_Base extends BaseObject implements MVC_Base_Interface
 
 			$data = require $data_file_path;
 
-			$base_data['id'] = $id;
-
 			$base = static::_createByData( $data );
 
 			foreach( $base->getLocales() as $locale ) {

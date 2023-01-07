@@ -1203,11 +1203,6 @@ class DataModel_Backend_MySQL extends DataModel_Backend
 			$this->createSelectQuery( $query )
 		);
 
-		if( !is_array( $data ) ) {
-			return $data;
-		}
-
-
 		foreach( $data as $i => $d ) {
 			foreach( $query->getSelect() as $item ) {
 				/**

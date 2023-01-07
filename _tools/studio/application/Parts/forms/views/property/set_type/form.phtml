@@ -10,9 +10,6 @@ use Jet\MVC_View;
  */
 
 $form = Forms::getCurrentProperty()->getSetTypeForm();
-if(!$form) {
-	return;
-}
 
 $fields = $form->getFields();
 

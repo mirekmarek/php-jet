@@ -32,8 +32,6 @@ if(
 			)
 		);
 
-		$data = [];
-
 		$snippets['content_list_area'] = $view->render( 'page/content/edit/form/list' );
 	} else {
 		$form->setCommonMessage( implode( '', UI_messages::get() ) );

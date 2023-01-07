@@ -97,7 +97,7 @@ class IO_File
 
 		$extensions_mimes_map = SysConf_Jet_IO::getExtensionsMimesMap();
 
-		if( is_array( $extensions_mimes_map ) ) {
+		if( $extensions_mimes_map ) {
 			$extension = strtolower( pathinfo( $file_path, PATHINFO_EXTENSION ) );
 
 			if( isset( $extensions_mimes_map[$extension] ) ) {
