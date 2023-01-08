@@ -576,7 +576,6 @@ class Pages_Page extends MVC_Page
 		$page->setId( $id );
 		$page->setName( $name );
 		$page->setTitle( $name );
-		$page->setLayoutScriptName( 'default' );
 
 		if( $parent ) {
 			$page->setRelativePathFragment( $id );
@@ -588,6 +587,8 @@ class Pages_Page extends MVC_Page
 			
 			$page->setDataFilePath( $parent->getDataDirPath().rawurldecode( $page->getRelativePathFragment() ).'/'.SysConf_Jet_MVC::getPageDataFileName() );
 		} else {
+			$page->setLayoutScriptName( 'default' );
+			
 			$page->setDataFilePath( Bases::getBase($base_id)->getPagesDataPath($locale).SysConf_Jet_MVC::getPageDataFileName() );
 		}
 
