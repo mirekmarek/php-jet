@@ -97,7 +97,7 @@ namespace JetStudio;
 
 					for (let i = 0; i < values.length; i++) {
 						val = values[i];
-						e_id = val.substr(1);
+						e_id = val.substring(1);
 
 						if (id != e_id) {
 							new_values.push(val);
@@ -124,8 +124,8 @@ namespace JetStudio;
 
 					for (let i = 0; i < values.length; i++) {
 						val = values[i];
-						o_sort = val.substr(0, 1);
-						e_id = val.substr(1);
+						o_sort = val.substring(0, 1);
+						e_id = val.substring(1);
 
 						if (id == e_id) {
 							new_values.push(sort + e_id);
@@ -161,8 +161,8 @@ namespace JetStudio;
 					if (values_field.val()) {
 						for (let i = 0; i < values.length; i++) {
 							id = values[i];
-							sort = id.substr(0, 1);
-							id = id.substr(1);
+							sort = id.substring(0, 1);
+							id = id.substring(1);
 							let obo = $('.order_by_options_item[data-id="' + id + '"]');
 							label = obo.data('label');
 
