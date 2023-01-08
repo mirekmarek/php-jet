@@ -584,12 +584,9 @@ class Pages_Page extends MVC_Page
 			if( $parent->getRelativePath() ) {
 				$page->relative_path = $parent->getRelativePath() . '/' . $page->relative_path_fragment . '/';
 			}
-		}
-
-
-		if($parent) {
-			$page->setDataFilePath( $parent->getDataDirPath().rawurldecode( $page->getRelativePathFragment() ).'/'.SysConf_Jet_MVC::getPageDataFileName() );
 			$page->setLayoutScriptName( $parent->getLayoutScriptName() );
+			
+			$page->setDataFilePath( $parent->getDataDirPath().rawurldecode( $page->getRelativePathFragment() ).'/'.SysConf_Jet_MVC::getPageDataFileName() );
 		} else {
 			$page->setDataFilePath( Bases::getBase($base_id)->getPagesDataPath($locale).SysConf_Jet_MVC::getPageDataFileName() );
 		}
