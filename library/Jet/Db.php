@@ -16,6 +16,7 @@ class Db extends BaseObject
 	const DRIVER_MYSQL = 'mysql';
 	const DRIVER_SQLITE = 'sqlite';
 	const DRIVER_OCI = 'oci';
+	const DRIVER_PGSQL = 'pgsql';
 
 	/**
 	 * @var ?Db_Config
