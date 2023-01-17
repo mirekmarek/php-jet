@@ -36,7 +36,7 @@ $menu_icon = 'sitemap';
 					</td>
 				</tr>
 				<?php foreach( $menu->getItems() as $item ):
-					$label = $item->getLabel() . ' (' . $item->getId() . ')';
+					$label = $item->getTitle();
 					?>
 					<tr>
 						<td style="padding-left: 60px;">

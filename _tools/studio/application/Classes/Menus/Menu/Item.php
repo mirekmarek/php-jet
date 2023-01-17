@@ -14,6 +14,9 @@ use Jet\Form_Field_Int;
 use Jet\Form;
 use Jet\Form_Field_Input;
 use Jet\Form_Field_Select;
+use Jet\Locale;
+use Jet\MVC;
+use Jet\MVC_Page_Interface;
 use Jet\Navigation_Menu_Item;
 
 /**
@@ -465,8 +468,39 @@ class Menus_Menu_Item extends Navigation_Menu_Item
 
 		return $menu_item;
 	}
-
-
+	
+	public function getTargetPage(): MVC_Page_Interface|null
+	{
+		$locale = $this->locale;
+		if(!$locale) {
+			$base = MVC::getBase($this->base_id);
+			if($base) {
+				if($base->getHasLocale( Locale::getCurrentLocale() )) {
+					$locale = Locale::getCurrentLocale();
+				} else {
+					$locale = $base->getDefaultLocale();
+				}
+			}
+		}
+		
+		return MVC::getPage( $this->page_id, $locale, $this->base_id );
+	}
+	
+	public function getTitle(): string
+	{
+		if( $this->label ) {
+			return $this->label.' ('.$this->id.')';
+		}
+		
+		$page = $this->getTargetPage();
+		
+		if( !$page ) {
+			return $this->page_id.':'.$this->locale.':'.$this->base_id.' ('.$this->id.')';
+		}
+		
+		return $page->getMenuTitle().' ('.$this->id.')';
+		
+	}
 
 
 	/**

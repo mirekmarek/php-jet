@@ -42,7 +42,7 @@ $delete_menu_dialog = UI::dialog( 'delete_menu_dialog', Tr::_( 'Delete menu' ), 
 								<td><span class="fa fa-arrows-v" style="font-size:16px;padding-right: 5px"></span></td>
 
 								<td>
-									<a href="<?= Menus::getActionUrl( '', [], null, null, $item->getId() ) ?>"><?= $item->getLabel() ?></a>
+									<a href="<?= Menus::getActionUrl( '', [], null, null, $item->getId() ) ?>"><?= $item->getTitle() ?></a>
 								</td>
 							</tr>
 						</table>
