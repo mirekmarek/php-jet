@@ -13,7 +13,8 @@ namespace Jet;
  */
 class DataModel_Backend_MySQL extends DataModel_Backend
 {
-
+	use DataModel_Backend_Trait_Fetch;
+	
 	/**
 	 * @var array
 	 */

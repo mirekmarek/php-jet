@@ -13,6 +13,7 @@ namespace Jet;
  */
 class DataModel_Backend_PgSQL extends DataModel_Backend
 {
+	use DataModel_Backend_Trait_Fetch;
 	
 	/**
 	 * @var array
@@ -129,7 +130,6 @@ class DataModel_Backend_PgSQL extends DataModel_Backend
 	 */
 	public function helper_tableExists( DataModel_Definition_Model $definition ): bool
 	{
-		//TODO:
 		$table_name = $this->_getTableName( $definition, false );
 		
 		$db = $this->getDbWrite();
@@ -139,9 +139,11 @@ class DataModel_Backend_PgSQL extends DataModel_Backend
 		return (bool)$db->fetchOne( "SELECT
 			count(*)
 		FROM
-			information_schema.TABLES
+			information_schema.tables
 		WHERE
-			(TABLE_SCHEMA = '$database') AND (TABLE_NAME = '$table_name')" );
+			table_schema LIKE 'public' AND
+			table_type LIKE 'BASE TABLE' AND
+			table_name = '$table_name';" );
 		
 	}
 	
@@ -162,13 +164,13 @@ class DataModel_Backend_PgSQL extends DataModel_Backend
 	 */
 	public function helper_getCreateCommand( DataModel_Definition_Model $definition, ?string $force_table_name = null ): string
 	{
-		//TODO:
-		
 		$options = [];
 		
+		/*
 		$options['ENGINE'] = $this->config->getEngine();
 		$options['DEFAULT CHARSET'] = $this->config->getDefaultCharset();
 		$options['COLLATE'] = $this->config->getCollate();
+		*/
 		
 		$_options = [];
 		
@@ -246,15 +248,13 @@ class DataModel_Backend_PgSQL extends DataModel_Backend
 	 */
 	protected function _getColumnName( DataModel_Definition_Property $property_definition, bool $quote = true, bool $add_table_name = true ): string
 	{
-		//TODO:
-		
-		$column_name = $property_definition->getDatabaseColumnName();
+		$column_name = strtolower(substr($property_definition->getDatabaseColumnName(),  0, 59));
 		
 		if( !$quote ) {
 			return $column_name;
 		}
 		
-		$column_name = $this->_quoteName( $column_name );
+		$column_name = '"'.$column_name.'"';
 		
 		if( !$add_table_name ) {
 			return $column_name;
@@ -272,9 +272,7 @@ class DataModel_Backend_PgSQL extends DataModel_Backend
 	 */
 	protected function _quoteName( string $name ): string
 	{
-		//TODO:
-		
-		return '`' . substr( $name, 0, 64 ) . '`';
+		return '"' . substr( $name, 0, 59 ) . '"';
 	}
 	
 	/**
@@ -285,14 +283,13 @@ class DataModel_Backend_PgSQL extends DataModel_Backend
 	 */
 	protected function _getTableName( DataModel_Definition_Model $model_definition, bool $quote = true ): string
 	{
-		//TODO:
-		$table_name = strtolower( $model_definition->getDatabaseTableName() );
+		$table_name = strtolower( substr( $model_definition->getDatabaseTableName(), 0, 63) );
 		
 		if( !$quote ) {
 			return $table_name;
 		}
 		
-		return $this->_quoteName( $table_name );
+		return '"' . substr( $table_name, 0, 63 ) . '"';
 	}
 	
 	/**
@@ -1162,89 +1159,4 @@ class DataModel_Backend_PgSQL extends DataModel_Backend
 		return $this->validateResultData( $query, $fetch_method, $data );
 	}
 	
-	/**
-	 * @param DataModel_Query $query
-	 *
-	 * @return mixed
-	 */
-	public function fetchAll( DataModel_Query $query ): mixed
-	{
-		return $this->_fetch( $query, 'fetchAll' );
-	}
-	
-	/**
-	 * @param DataModel_Query $query
-	 *
-	 * @return mixed
-	 */
-	public function fetchAssoc( DataModel_Query $query ): mixed
-	{
-		return $this->_fetch( $query, 'fetchAssoc' );
-	}
-	
-	/**
-	 * @param DataModel_Query $query
-	 *
-	 * @return mixed
-	 */
-	public function fetchPairs( DataModel_Query $query ): mixed
-	{
-		return $this->_fetch( $query, 'fetchPairs' );
-	}
-	
-	/**
-	 * @param DataModel_Query $query
-	 *
-	 * @return mixed
-	 */
-	public function fetchRow( DataModel_Query $query ): mixed
-	{
-		return $this->_fetch( $query, 'fetchRow' );
-	}
-	
-	/**
-	 * @param DataModel_Query $query
-	 *
-	 * @return mixed
-	 */
-	public function fetchOne( DataModel_Query $query ): mixed
-	{
-		return $this->_fetch( $query, 'fetchOne' );
-	}
-	
-	/**
-	 * @param DataModel_Query $query
-	 *
-	 * @return mixed
-	 */
-	public function fetchCol( DataModel_Query $query ): array
-	{
-		$data = $this->getDbRead()->fetchCol(
-			$this->createSelectQuery( $query )
-		);
-		
-		foreach( $data as $i => $d ) {
-			foreach( $query->getSelect() as $item ) {
-				/**
-				 * @var DataModel_Query_Select_Item $item
-				 * @var DataModel_Definition_Property $property
-				 */
-				$property = $item->getItem();
-				
-				if( !($property instanceof DataModel_Definition_Property) ) {
-					continue;
-				}
-				
-				if( $property->getMustBeSerializedBeforeStore() ) {
-					$data[$i] = $this->unserialize( $data[$i] );
-				}
-				
-				$property->checkValueType( $data[$i] );
-				
-				break;
-			}
-		}
-		
-		return $data;
-	}
 }
