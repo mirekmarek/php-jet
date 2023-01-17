@@ -15,7 +15,8 @@
   "support": {
     "email": "mirek.marek@web-jet.cz",
     "issues": "https://github.com/mirekmarek/php-jet/issues",
-    "source": "https://github.com/mirekmarek/php-jet"
+    "source": "https://github.com/mirekmarek/php-jet",
+    "forum": "https://github.com/mirekmarek/php-jet/discussions"
   },
   "require": {
     "php": ">=8.0",
