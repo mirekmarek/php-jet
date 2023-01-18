@@ -20,7 +20,7 @@ Project website and documentation: https://www.php-jet.net/
 
 ## Quick testing (PHP built-in web server)
 
-It is possible to do quick proof of PHP Jet. 
+It is possible to quickly try PHP Jet. 
 
 All you need to do is:
 * Make sure you have PHP8 installed - PHP Jet requires PHP8 and newer.
