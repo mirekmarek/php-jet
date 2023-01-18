@@ -18,17 +18,35 @@ Project website and documentation: https://www.php-jet.net/
 
 ![Promo image](promo.png "PHP Jet")
 
-## Installation
+## Quick testing (PHP internal web server)
 
-PHP Jet is distributed as one package which includes everything:
+It is possible to do quick proof of PHP Jet. 
+
+All you need to do is:
+* Make sure you have PHP8 installed - PHP Jet requires PHP8 and newer.
+* [Download PHP Jet](https://github.com/mirekmarek/php-jet/releases) and unpack archive to some directory.
+* **OR**
+* Use composer: 
+```composer create-project mirekmarek/php-jet```
+* Navigate to the directory where PHP Jet is
+* Run ```php _playground/start.php```
+* Open URL http://localhost:8000 (if you haven't specified something else during playground start) and proceed installation process.
+
+## Installation (Apache, NGINX)
+
+PHP Jet is [distributed](https://github.com/mirekmarek/php-jet/releases) as one package which includes everything:
 * PHP Jet library
 * Example application
 * Example application installer
 * Profiler
 * Powerful development tool Jet Studio
 
-All you have to do to try PHP Jet is:
+All you have to do to try PHP Jet with "adult" webserver is:
 * Make sure you have PHP8 installed - PHP Jet requires PHP8 and newer.
+* [Download PHP Jet](https://github.com/mirekmarek/php-jet/releases) and unpack archive to some directory.
+* **OR**
+* Use composer:
+  ```composer create-project mirekmarek/php-jet```
 * Create some "virtual domain" in yours hosts file. For example: jet.lc.
 * You can create database (MySQL / MariaDB) for testing if you want. But it is not necessary, because PHP Jet supports SQLite database, and it's good enough for testing.
 * Configure your Apache (add virtual configuration) or NGINX (add server block) webserver.
