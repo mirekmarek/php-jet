@@ -18,7 +18,7 @@ Project website and documentation: https://www.php-jet.net/
 
 ![Promo image](promo.png "PHP Jet")
 
-## Quick testing (PHP internal web server)
+## Quick testing (PHP built-in web server)
 
 It is possible to do quick proof of PHP Jet. 
 
