@@ -384,16 +384,20 @@ class Controller_Main extends MVC_Controller_Default
 
 
 		$forms = [];
+		
+		$common_form = new Form(
+			'common_form', [
+				$input_field,
+				$validated_input_field,
+			]
+		);
+		$common_form->enableCSRFProtection();
 
 		$forms['common_form'] = [
 			'title' => Tr::_( 'Common form' ),
-			'form'  => new Form(
-				'common_form', [
-					$input_field,
-					$validated_input_field,
-				]
-			),
+			'form'  => $common_form,
 		];
+		
 
 		$forms['numbers_form'] = [
 			'title' => Tr::_( 'Number form' ),

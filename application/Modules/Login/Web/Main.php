@@ -53,6 +53,7 @@ class Main extends Application_Module
 				$password_field,
 			]
 		);
+		$form->enableCSRFProtection();
 
 		$form->getField( 'username' )->setIsRequired( true );
 		/**

@@ -54,6 +54,8 @@ abstract class Form_Field extends BaseObject implements JsonSerializable
 	const TYPE_FILE = 'File';
 	const TYPE_FILE_IMAGE = 'FileImage';
 	
+	const TYPE_CSRF_PROTECTION = 'CSRFProtection';
+	
 	
 	use Form_Field_Trait_Validation;
 	use Form_Field_Trait_Render;

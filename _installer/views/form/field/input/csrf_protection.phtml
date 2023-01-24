@@ -1,0 +1,17 @@
+<?php
+
+use Jet\MVC_View;
+use Jet\Form_Renderer_Field_Input;
+
+/**
+ * @var MVC_View $this
+ * @var Form_Renderer_Field_Input $r
+ */
+$r = $this->getRaw( 'renderer' );
+
+$field = $r->getField();
+if( $field->getLastErrorCode() ) {
+	$r->addCustomCssClass( 'is-invalid' );
+}
+?>
+<input type="hidden" name="<?= $field->getTagNameValue() ?>" id="<?= $field->getId() ?>" value="<?= $field->getValue() ?>"/>

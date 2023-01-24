@@ -1,6 +1,7 @@
 <?php
 
 use Jet\Form;
+use Jet\Form_Field;
 use Jet\Form_Renderer;
 use Jet\Tr;
 use Jet\MVC_View;
@@ -22,7 +23,10 @@ $form->renderer()->setDefaultFieldWidth([
 ?>
 <?= $form->start() ?>
 
-<?php foreach( $form->getFields() as $field ) echo $field; ?>
+<?php foreach( $form->getFields() as $field ):
+	echo $field;
+endforeach;
+?>
 
 <?php if( !$form->getIsReadonly() ): ?>
 	<div class="row">

@@ -172,16 +172,44 @@ class Form extends BaseObject
 	{
 		if( $as_multidimensional_array ) {
 			$fields = new Data_Array();
-
+			
 			foreach( $this->fields as $field ) {
+				if($field->getType()==Form_Field::TYPE_CSRF_PROTECTION) {
+					continue;
+				}
 				$fields->set( $field->getName(), $field );
 			}
-
+			
 			return $fields->getRawData();
-
+			
 		}
-
-		return $this->fields;
+		
+		$fields = [];
+		
+		foreach($this->fields as $k=>$field) {
+			if($field->getType()==Form_Field::TYPE_CSRF_PROTECTION) {
+				continue;
+			}
+			
+			$fields[$k] = $field;
+		}
+		
+		return $fields;
+	}
+	
+	/**
+	 * @return Form_Field|null
+	 */
+	public function getCSRFTokenField() : ?Form_Field
+	{
+		foreach($this->fields as $k=>$field) {
+			if($field->getType()==Form_Field::TYPE_CSRF_PROTECTION) {
+				return $field;
+			}
+		}
+		
+		
+		return null;
 	}
 	
 	/**
@@ -384,6 +412,17 @@ class Form extends BaseObject
 	public function getId(): string
 	{
 		return $this->name;
+	}
+	
+	public function enableCSRFProtection() : void
+	{
+		foreach($this->fields as $field) {
+			if($field->getType()==Form_Field::TYPE_CSRF_PROTECTION) {
+				return;
+			}
+		}
+		
+		$this->addField( Factory_Form::getFieldInstance( Form_Field::TYPE_CSRF_PROTECTION, '' ) );
 	}
 
 	/**
@@ -604,7 +643,8 @@ class Form extends BaseObject
 		foreach( $this->fields as $key => $field ) {
 			if(
 				$field->getIsReadonly() ||
-				!$field->hasValue()
+				!$field->hasValue() ||
+				$field->getType()==Form_Field::TYPE_CSRF_PROTECTION
 			) {
 				continue;
 			}

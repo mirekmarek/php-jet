@@ -16,6 +16,7 @@ class Factory_Form
 	
 	protected static array $field_class_names = [
 		Form_Field::TYPE_HIDDEN       => Form_Field_Hidden::class,
+		Form_Field::TYPE_CSRF_PROTECTION => Form_Field_CSRFProtection::class,
 		Form_Field::TYPE_INPUT        => Form_Field_Input::class,
 		Form_Field::TYPE_INT          => Form_Field_Int::class,
 		Form_Field::TYPE_FLOAT        => Form_Field_Float::class,
@@ -43,6 +44,15 @@ class Factory_Form
 	
 	protected static array $field_renderer_class_names = [
 		Form_Field::TYPE_HIDDEN       => [
+			'field'     => Form_Renderer_Field::class,
+			'container' => Form_Renderer_Field_Container::class,
+			'error'     => Form_Renderer_Field_Error::class,
+			'help'      => Form_Renderer_Field_Help::class,
+			'input'     => Form_Renderer_Field_Input_Common::class,
+			'label'     => Form_Renderer_Field_Label::class,
+			'row'       => Form_Renderer_Field_Row::class,
+		],
+		Form_Field::TYPE_CSRF_PROTECTION       => [
 			'field'     => Form_Renderer_Field::class,
 			'container' => Form_Renderer_Field_Container::class,
 			'error'     => Form_Renderer_Field_Error::class,

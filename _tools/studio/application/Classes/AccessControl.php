@@ -127,6 +127,7 @@ class AccessControl
 				$password_field,
 			]
 		);
+		$form->enableCSRFProtection();
 
 		$form->getField( 'username' )->setIsRequired( true );
 		/**

@@ -18,4 +18,7 @@ if(!$r->getBaseCssClasses()) {
 <form <?=$r->renderTagAttributes()?>>
 <?php if( !$form->getIsReadonly() ): ?>
 	<input type="hidden" name="<?=$form->getSentKey()?>" value="<?=$form->getName();?>">
-<?php endif; ?>
+	<?php if(($csrf_field=$form->getCSRFTokenField())):
+		echo $csrf_field;
+	endif;
+endif; ?>

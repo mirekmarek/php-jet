@@ -7,4 +7,5 @@ return [
 	'password' => '',
 	'Logout' => '',
 	'Invalid username or password!' => '',
+	'Please enter username and password' => '',
 ];

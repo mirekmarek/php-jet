@@ -127,6 +127,19 @@ class SysConf_Jet_Form_DefaultViews
 			'label' => 'field/label',
 			'input' => 'field/input/hidden',
 		],
+		
+		Form_Field::TYPE_CSRF_PROTECTION => [
+			'field' => 'field',
+			'row_start' => 'field/row/start',
+			'row_end' => 'field/row/end',
+			'container_start' => 'field/container/start',
+			'container_end' => 'field/container/end',
+			'error' => 'field/error',
+			'help' => 'field/help',
+			'label' => 'field/label',
+			'input' => 'field/input/csrf_protection',
+		],
+		
 
 		Form_Field::TYPE_INPUT => [
 			'field' => 'field',
