@@ -143,4 +143,12 @@ return [
 	'Please select controller action' => '',
 	'URL conflicts with page <b>%page%</b>' => '',
 	'Module <b>%module%</b> has been deactivated' => '',
+	'How to delete module?' => '',
+	'Deleting a module is potential risc operation!' => '',
+	'But it is possible for sure and it is very easy.' => '',
+	'Deactivate module by this tool using <b>"Deactivate" button</b>.' => '',
+	'Uninstall module by this tool using <b>"Uninstall" button</b>.' => '',
+	'Manually delete directory:<br><b>%module_dir%</b>' => '',
+	'This module is <b>marked as mandatory</b>.<br><br>Please change manually this definition in the manifest file:<br><b>%manifest_path%</b>' => '',
+	'And then reload Jet Studio' => '',
 ];

@@ -1,9 +1,11 @@
 <?php
 namespace JetStudio;
 
-use Jet\Tr;
+use Jet\SysConf_Jet_Modules;use Jet\Tr;
 use Jet\Form_Renderer;
 use Jet\MVC_View;
+use Jet\UI;
+use Jet\UI_dialog;
 
 /**
  * @var MVC_View $this
@@ -87,4 +89,55 @@ $form->renderer()->setDefaultFieldWidth( [
 
 <?= $this->render( 'page/create/dialog' ) ?>
 <?= $this->render( 'menu_item/create/dialog' ) ?>
+
+<?php
+$delete_module_info = UI::dialog(
+	id: 'delete_module_info',
+	title: Tr::_('How to delete module?'),
+	size: UI_dialog::SIZE_LARGE
+);
+
+echo $delete_module_info->start();
+
+?>
+<b><?=Tr::_('Deleting a module is potential risc operation!')?></b>
+<br><br>
+<p><?=Tr::_('But it is possible for sure and it is very easy.')?></p>
+
+<ol start="1">
+	<?php if($current->isMandatory()): ?>
+	<li><?=Tr::_('This module is <b>marked as mandatory</b>.<br><br>Please change manually this definition in the manifest file:<br><b>%manifest_path%</b>', [
+			'manifest_path' => $current->getModuleDir().SysConf_Jet_Modules::getManifestFileName()
+		])?>
+		<br><br>
+		<?=Tr::_('And then reload Jet Studio')?>
+		<br><br>
+	</li>
+	<?php endif; ?>
+	
+	<?php if($current->isActivated()):?>
+	<li>
+		<?=Tr::_('Deactivate module by this tool using <b>"Deactivate" button</b>.')?>
+		<br><br>
+	</li>
+	<?php endif; ?>
+	
+	<?php if($current->isInstalled()): ?>
+	<li>
+		<?=Tr::_('Uninstall module by this tool using <b>"Uninstall" button</b>.')?>
+		<br><br>
+	</li>
+	<?php endif; ?>
+	
+	<li>
+		<?=Tr::_('Manually delete directory:<br><b>%module_dir%</b>', [
+				'module_dir'=>$current->getModuleDir()
+		])?>
+		<br><br>
+	</li>
+</ol>
+<?php
+echo $delete_module_info->end();
+
+?>
 
