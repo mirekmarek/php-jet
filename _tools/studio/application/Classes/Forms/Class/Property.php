@@ -95,12 +95,15 @@ class Forms_Class_Property
 		$_constants = (new ReflectionClass( Form_Field::class ))->getConstants();
 		$constants = [];
 		foreach($_constants as $constant=>$value) {
-			
 			$constants[$value] = 'Form_Field::'.$constant;
 		}
 		
 		$types = [];
 		foreach(Factory_Form::getRegisteredFieldTypes() as $type) {
+			if($type==Form_Field::TYPE_CSRF_PROTECTION) {
+				continue;
+			}
+			
 			$types[$type] = $constants[$type]??$type;
 		}
 		
