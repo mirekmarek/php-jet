@@ -1,5 +1,5 @@
 <?php
-use Jet\SysConf_Path;
+namespace Jet;
 
 $base = dirname( __DIR__, 2 ) .'/';
 $library = $base.'library/';

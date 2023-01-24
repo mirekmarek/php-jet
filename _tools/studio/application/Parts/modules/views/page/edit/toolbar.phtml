@@ -29,6 +29,8 @@ echo $view->render( 'page/toolbar' );
 
 Application::setCurrentPart( $app_part );
 
+echo '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+echo '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
 echo UI::button_delete( Tr::_( 'Delete this page' ) )->setOnClick( "$('#page_delete_dialog').modal('show')" );
 
 $delete_dialog = UI::dialog( 'page_delete_dialog', Tr::_( 'Delete this page?' ) );

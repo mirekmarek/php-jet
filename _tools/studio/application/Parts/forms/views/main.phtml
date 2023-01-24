@@ -30,6 +30,7 @@ $generate_view_script_dialog = UI::dialog('generate_view_script_dialog', Tr::_('
 	<div class="col-md-3 text-right" style="padding: 0 10px 0 0;">
 	</div>
 	<div class="col-md-8" style="padding: 0">
+		<?php if( $class ): ?>
 		<?php
 		if($property) {
 			if($property->getFieldDefinition()) {
@@ -40,6 +41,7 @@ $generate_view_script_dialog = UI::dialog('generate_view_script_dialog', Tr::_('
 		}
 		?>
 		<?=UI::button( Tr::_('Generate view script') )->setClass(UI_button::CLASS_LIGHT)->setOnClick('Forms.generateViewScript();')?>
+		<?php endif; ?>
 	</div>
 </div>
 

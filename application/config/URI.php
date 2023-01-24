@@ -1,6 +1,5 @@
 <?php
-use Jet\SysConf_Path;
-use Jet\SysConf_URI;
+namespace Jet;
 
 require_once SysConf_Path::getLibrary().'Jet/SysConf/URI.php';
 

@@ -1,15 +1,5 @@
 <?php
-use Jet\SysConf_Path;
-use Jet\SysConf_Jet_Debug;
-use Jet\SysConf_Jet_MVC;
-use Jet\SysConf_Jet_Translator;
-use Jet\SysConf_Jet_Http;
-use Jet\SysConf_Jet_Mailing;
-use Jet\SysConf_Jet_Autoloader;
-use Jet\SysConf_Jet_PackageCreator_CSS;
-use Jet\SysConf_Jet_PackageCreator_JavaScript;
-
-
+namespace Jet;
 
 require_once SysConf_Path::getLibrary() . 'Jet/SysConf/Jet/Main.php';
 require_once SysConf_Path::getLibrary() . 'Jet/SysConf/Jet/Debug.php';
