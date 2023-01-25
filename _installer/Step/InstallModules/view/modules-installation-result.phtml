@@ -52,7 +52,7 @@ $OK = $this->getBool( 'OK' );
 	</table>
 
 	<?php if( $OK ):
-	echo Installer::continueForm();
+	echo Installer::buttonNext();
 else:
 	echo Installer::buttonBack();
 endif;

@@ -242,7 +242,7 @@ abstract class Installer_Step_Controller
 	 */
 	public function getLabel(): string
 	{
-		return Tr::_( $this->label, [], $this->name );
+		return Tr::_( text: $this->label, dictionary: $this->name );
 	}
 
 	/**
@@ -250,7 +250,7 @@ abstract class Installer_Step_Controller
 	 */
 	public function catchContinue(): void
 	{
-		if( Http_Request::POST()->exists( 'go' ) ) {
+		if( Http_Request::GET()->exists( 'go' ) ) {
 			Installer::goToNext();
 		}
 

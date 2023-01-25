@@ -61,8 +61,8 @@ class Installer_Step_Welcome_Controller extends Installer_Step_Controller
 
 			Installer::setSelectedLocales( [$locale] );
 			Installer::setCurrentLocale( $locale );
-
-			Http_Headers::reload( [], ['locale'] );
+			
+			Installer::goToNext();
 
 		}
 

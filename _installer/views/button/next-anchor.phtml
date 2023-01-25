@@ -1,0 +1,10 @@
+<?php
+namespace JetApplication\Installer;
+
+use Jet\Http_Request;
+use Jet\Tr;
+
+?>
+<a href="<?=Http_Request::currentURI(['go'=>1])?>" class="btn btn-primary">
+	<?=Tr::_( text: 'Continue', dictionary: Tr::COMMON_DICTIONARY );?> <i class="fa fa-chevron-right"></i>
+</a>

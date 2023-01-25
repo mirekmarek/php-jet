@@ -458,16 +458,7 @@ class Installer
 	 */
 	public static function buttonBack(): string
 	{
-		$ns = Tr::getCurrentDictionary();
-
-		Tr::setCurrentDictionary( Translator::COMMON_DICTIONARY );
-		$view = static::getView();
-
-		$res = $view->render( 'button/back' );
-
-		Tr::setCurrentDictionary( $ns );
-
-		return $res;
+		return static::getView()->render( 'button/back' );
 	}
 
 	/**
@@ -475,53 +466,18 @@ class Installer
 	 */
 	public static function buttonNext(): string
 	{
-		$ns = Tr::getCurrentDictionary();
-
-		Tr::setCurrentDictionary( Translator::COMMON_DICTIONARY );
-		$view = static::getView();
-
-		$res = $view->render( 'button/next' );
-
-		Tr::setCurrentDictionary( $ns );
-
-		return $res;
+		return static::getView()->render( 'button/next-anchor' );
 	}
-
+	
 	/**
 	 * @return string
 	 */
-	public static function buttonNextSkipIt(): string
+	public static function buttonNextSubmit(): string
 	{
-		$ns = Tr::getCurrentDictionary();
-
-		Tr::setCurrentDictionary( Translator::COMMON_DICTIONARY );
-		$view = static::getView();
-
-		$res = $view->render( 'button/skip' );
-
-		Tr::setCurrentDictionary( $ns );
-
-		return $res;
+		return static::getView()->render( 'button/next-submit-button' );
 	}
-
-	/**
-	 *
-	 * @return string
-	 */
-	public static function continueForm(): string
-	{
-		$ns = Tr::getCurrentDictionary();
-
-		Tr::setCurrentDictionary( Translator::COMMON_DICTIONARY );
-		$view = static::getView();
-
-		$res = $view->render( 'continue' );
-
-		Tr::setCurrentDictionary( $ns );
-
-		return $res;
-	}
-
+	
+	
 	/**
 	 * @return string
 	 */
