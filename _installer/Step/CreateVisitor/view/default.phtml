@@ -1,0 +1,28 @@
+<?php
+
+namespace JetApplication\Installer;
+
+use Jet\Form;
+use Jet\Form_Renderer;
+use Jet\MVC_View;
+
+/**
+ * @var MVC_View $this
+ * @var Form $form
+ */
+
+$form = $this->getRaw( 'form' );
+$form->renderer()->setDefaultLabelWidth( [Form_Renderer::LJ_SIZE_MEDIUM => 2] );
+$form->renderer()->setDefaultFieldWidth( [Form_Renderer::LJ_SIZE_MEDIUM => 4] );
+?>
+<?= $form->start() ?>
+<?= $form->message() ?>
+
+<?= $form->field( 'locale' ) ?>
+<?= $form->field( 'username' ) ?>
+<?= $form->field( 'password' ) ?>
+<?= $form->field( 'password_check' ) ?>
+<?= $form->field( 'email' ) ?>
+
+<?= Installer::buttonNextSubmit(); ?>
+<?= $form->end() ?>

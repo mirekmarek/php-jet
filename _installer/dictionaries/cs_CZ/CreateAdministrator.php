@@ -17,5 +17,5 @@ return [
 	'Password is not strong enough' => 'Heslo není dostatečně složité',
 	'Locale' => 'Jazyk',
 	'Sorry, but username %USERNAME% is registered.' => 'Litujeme, ale uživatelské jméno %USERNAME% je již používáno',
-	'Please enter e-mail address' => '',
+	'Please enter e-mail address' => 'Prosím zadejte e-mailovou adresu',
 ];
