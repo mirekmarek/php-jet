@@ -142,5 +142,5 @@ interface Db_Backend_Interface
 	public function lastInsertId( string $name = null ) : string;
 
 	
-	public function escapeString( string $string ) : string;
+	public function quoteString( string $string ) : string;
 }

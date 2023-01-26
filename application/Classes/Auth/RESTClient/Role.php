@@ -173,7 +173,16 @@ class Auth_RESTClient_Role extends DataModel implements Auth_Role_Interface
 	{
 		return $this->id;
 	}
+	
+	/**
+	 * @param string $id
+	 */
+	public function setId( string $id ): void
+	{
+		$this->id = $id;
+	}
 
+	
 
 	/**
 	 * @return string

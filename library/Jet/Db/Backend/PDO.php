@@ -334,7 +334,7 @@ class Db_Backend_PDO implements Db_Backend_Interface
 		return $this->pdo->lastInsertId( $name );
 	}
 	
-	public function escapeString( string $string ): string
+	public function quoteString( string $string ): string
 	{
 		return $this->pdo->quote( $string );
 	}

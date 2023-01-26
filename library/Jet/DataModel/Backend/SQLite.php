@@ -501,8 +501,7 @@ class DataModel_Backend_SQLite extends DataModel_Backend
 			$value = (string)$value;
 		}
 		
-
-		return "'" . $this->getDb()->escapeString( $value ) . "'";
+		return $this->getDb()->quoteString( $value );
 	}
 
 	/**
