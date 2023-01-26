@@ -60,8 +60,7 @@ class DataModel_Backend_SQLite extends DataModel_Backend
 		return in_array(
 			Db::DRIVER_SQLITE,
 			Db_Backend_PDO_Config::getDrivers()
-		) &&
-			class_exists( SQLite3::class, false );
+		);
 	}
 	
 	
@@ -501,8 +500,9 @@ class DataModel_Backend_SQLite extends DataModel_Backend
 		if( is_object( $value ) ) {
 			$value = (string)$value;
 		}
+		
 
-		return "'" . SQLite3::escapeString( $value ) . "'";
+		return "'" . $this->getDb()->escapeString( $value ) . "'";
 	}
 
 	/**
