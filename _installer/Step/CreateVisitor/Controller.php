@@ -20,6 +20,8 @@ class Installer_Step_CreateVisitor_Controller extends Installer_Step_Controller
 	const MAIN_ROLE_ID = 'main';
 	const MAIN_ROLE_NAME = 'Main';
 	
+	protected string $icon = 'users';
+	
 	/**
 	 * @var string
 	 */

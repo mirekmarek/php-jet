@@ -12,6 +12,8 @@ use Jet\MVC_Layout;
 use Jet\MVC_View;
 use Jet\Tr;
 use Jet\Http_Request;
+use Jet\UI;
+use Jet\UI_icon;
 
 /**
  *
@@ -22,6 +24,11 @@ abstract class Installer_Step_Controller
 	 * @var string
 	 */
 	protected string $name = '';
+	
+	/**
+	 * @var string
+	 */
+	protected string $icon = '';
 
 	/**
 	 * @var string
@@ -89,6 +96,28 @@ abstract class Installer_Step_Controller
 	{
 		return $this->name;
 	}
+	
+	/**
+	 * @return string
+	 */
+	public function getIcon( string $size = UI_icon::SIZE_NORMAL ): string
+	{
+		if(!$this->icon) {
+			return '';
+		}
+		
+		return UI::icon($this->icon)->setSize( $size );
+	}
+	
+	/**
+	 * @param string $icon
+	 */
+	public function setIcon( string $icon ): void
+	{
+		$this->icon = $icon;
+	}
+	
+	
 
 	/**
 	 *

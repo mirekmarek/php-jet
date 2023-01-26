@@ -16,7 +16,8 @@ use Jet\Form_Field_Checkbox;
  */
 class Installer_Step_SelectLocales_Controller extends Installer_Step_Controller
 {
-
+	protected string $icon = 'language';
+	
 	/**
 	 * @var string
 	 */

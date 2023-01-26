@@ -25,7 +25,8 @@ use Jet\UI_messages;
  */
 class Installer_Step_ConfigureStudio_Controller extends Installer_Step_Controller
 {
-
+	protected string $icon = 'laptop-code';
+	
 	/**
 	 * @var string
 	 */

@@ -19,7 +19,8 @@ use Jet\Exception;
  */
 class Installer_Step_InstallModules_Controller extends Installer_Step_Controller
 {
-
+	protected string $icon = 'boxes-stacked';
+	
 	/**
 	 * @var string
 	 */

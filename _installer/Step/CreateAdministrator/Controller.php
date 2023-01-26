@@ -15,6 +15,7 @@ use JetApplication\Auth_Administrator_User;
  */
 class Installer_Step_CreateAdministrator_Controller extends Installer_Step_Controller
 {
+	protected string $icon = 'user-secret';
 
 	/**
 	 * @var string

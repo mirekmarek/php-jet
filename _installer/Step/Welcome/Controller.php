@@ -18,6 +18,8 @@ use Jet\Http_Request;
 class Installer_Step_Welcome_Controller extends Installer_Step_Controller
 {
 
+	protected string $icon = 'door-open';
+	
 	/**
 	 * @var string
 	 */

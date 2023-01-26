@@ -3,6 +3,7 @@ namespace JetApplication\Installer;
 
 use Jet\MVC_Layout;
 use Jet\Tr;
+use Jet\UI_icon;
 use Jet\UI_messages;
 use Jet\SysConf_URI;
 
@@ -104,22 +105,22 @@ $this->requireCssFile( SysConf_URI::getCss() . 'flags.css' );
 				<?php if( $step->getIsPast() ): ?>
 				<div class="step step-prev<?= $class; ?>">
 					<?php if( $step->getIsAvailable() ): ?>
-						<a href="<?= $step->getURL(); ?>"><?= $step->getLabel(); ?></a>
+						<a href="<?= $step->getURL(); ?>"><?=$step->getIcon()?> <?= $step->getLabel(); ?></a>
 					<?php else: ?>
-						<?= $step->getLabel(); ?>
+						<?=$step->getIcon()?> <?= $step->getLabel(); ?>
 					<?php endif; ?>
 				</div>
 			<?php endif; ?>
 				<?php if( $step->getIsCurrent() ): ?>
-				<div class="step step-current<?= $class; ?>"><?= $step->getLabel(); ?></div>
+				<div class="step step-current<?= $class; ?>"><?=$step->getIcon()?> <?= $step->getLabel(); ?></div>
 			<?php endif; ?>
 				<?php if( $step->getIsFuture() ): ?>
-				<div class="step step-next<?= $class; ?>"><?= $step->getLabel(); ?></div>
+				<div class="step step-next<?= $class; ?>"><?=$step->getIcon()?> <?= $step->getLabel(); ?></div>
 			<?php endif; ?>
 			<?php endforeach; ?>
 		</div>
-		<div class="col-md-10 main">
-			<h1><?= Installer::getCurrentStepController()->getLabel() ?></h1>
+		<div class="col-md-10 main" style="padding-top: 10px;">
+			<h1><?= Installer::getCurrentStepController()->getIcon( UI_icon::SIZE_EXTRA_LARGE ) ?> <?= Installer::getCurrentStepController()->getLabel() ?></h1>
 			<hr/>
 			<div id="system-messages-area">
 				<?php

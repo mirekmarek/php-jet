@@ -35,6 +35,7 @@ use JetApplication\Logger_REST_Event;
  */
 class Installer_Step_CreateDB_Controller extends Installer_Step_Controller
 {
+	protected string $icon = 'square-plus';
 
 	/**
 	 * @var string

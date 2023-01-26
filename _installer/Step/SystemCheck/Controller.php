@@ -16,6 +16,8 @@ require 'CompatibilityTester.php';
 class Installer_Step_SystemCheck_Controller extends Installer_Step_Controller
 {
 
+	protected string $icon = 'list-check';
+	
 	/**
 	 * @var string
 	 */

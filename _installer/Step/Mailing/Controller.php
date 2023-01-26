@@ -22,6 +22,7 @@ use Jet\Tr;
  */
 class Installer_Step_Mailing_Controller extends Installer_Step_Controller
 {
+	protected string $icon = 'at';
 
 	/**
 	 * @var string

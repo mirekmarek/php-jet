@@ -33,6 +33,7 @@ use JetApplication\Application_REST;
  */
 class Installer_Step_CreateBases_Controller extends Installer_Step_Controller
 {
+	protected string $icon = 'wand-sparkles';
 
 	/**
 	 * @var string

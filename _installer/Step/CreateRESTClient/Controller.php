@@ -20,6 +20,8 @@ class Installer_Step_CreateRESTClient_Controller extends Installer_Step_Controll
 	const MAIN_ROLE_ID = 'main';
 	const MAIN_ROLE_NAME = 'Main';
 	
+	protected string $icon = 'server';
+	
 	/**
 	 * @var string
 	 */

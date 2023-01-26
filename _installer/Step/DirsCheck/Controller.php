@@ -20,6 +20,11 @@ use JetApplication\Application_REST;
  */
 class Installer_Step_DirsCheck_Controller extends Installer_Step_Controller
 {
+	
+	/**
+	 * @var string
+	 */
+	protected string $icon = 'folder-open';
 
 	/**
 	 * @var string

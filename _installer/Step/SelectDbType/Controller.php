@@ -27,6 +27,7 @@ use Jet\DataModel_Backend;
 class Installer_Step_SelectDbType_Controller extends Installer_Step_Controller
 {
 
+	protected string $icon = 'database';
 
 	/**
 	 * @var string

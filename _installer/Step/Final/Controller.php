@@ -22,7 +22,8 @@ use Jet\Tr;
  */
 class Installer_Step_Final_Controller extends Installer_Step_Controller
 {
-
+	protected string $icon = 'flag-checkered';
+	
 	/**
 	 * @var string
 	 */
