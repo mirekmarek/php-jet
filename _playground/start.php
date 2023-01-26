@@ -1,10 +1,28 @@
 <?php
+function errorMessage( string $message ) : void
+{
+	
+	$border_char = '*';
+	$ident = "\t";
+	
+	$line = $ident.str_pad('', strlen($message)+8, $border_char).PHP_EOL;
+	
+	$pad = str_pad('', 3, $border_char);
+	
+	echo PHP_EOL.PHP_EOL;
+	echo $line;
+	echo "$ident$pad $message $pad".PHP_EOL;
+	echo $line;
+	echo PHP_EOL;
+	
+}
 
 if(PHP_VERSION_ID<80000) {
-	echo PHP_EOL.PHP_EOL.'Sorry, but PHP Jet requires PHP 8.0 and newer. Your PHP version is: '.phpversion().PHP_EOL.PHP_EOL;
+	errorMessage( 'Sorry, but PHP Jet requires PHP 8.0 and newer. Your PHP version is: '.phpversion() );
 	
 	die();
 }
+
 
 $host = 'localhost';
 $port = 8000;
@@ -14,21 +32,62 @@ $dir = dirname(__DIR__);
 $router = __DIR__.DIRECTORY_SEPARATOR.'router.php';
 
 
-echo PHP_EOL.PHP_EOL;
-echo 'Please enter test server host address od press ENTER.'.PHP_EOL.PHP_EOL;
-$_host = trim(readline('Host ('.$host.' is default): '));
-
-if($_host) {
-	$host = $_host;
+while(true) {
+	echo PHP_EOL.PHP_EOL;
+	echo 'Please enter test server host address or press ENTER.'.PHP_EOL.PHP_EOL;
+	$_host = trim(readline('Host ('.$host.' is default): '));
+	
+	
+	if($_host) {
+		if(!filter_var( $_host, FILTER_VALIDATE_DOMAIN, FILTER_FLAG_HOSTNAME )) {
+			
+			errorMessage( 'Please enter valid host name or IP address' );
+			
+			continue;
+		}
+		
+		$host = $_host;
+	}
+	
+	
+	break;
 }
 
 
-echo PHP_EOL.PHP_EOL;
-echo 'Please enter test server TCP port od press ENTER.'.PHP_EOL.PHP_EOL;
-$_port = (int)readline('TCP port ('.$port.' is default): ');
-
-if($_port>0) {
-	$port = $_port;
+while(true) {
+	echo PHP_EOL.PHP_EOL;
+	echo 'Please enter test server TCP port od press ENTER.'.PHP_EOL.PHP_EOL;
+	$_port = readline('TCP port ('.$port.' is default): ');
+	
+	if($_port) {
+		if(!filter_var($_port, FILTER_VALIDATE_INT)) {
+			errorMessage( 'Please enter number' );
+			
+			continue;
+		}
+		
+		$_port = (int)$_port;
+		
+		$min = 2000;
+		$max = 65535;
+		
+		if($_port>$max) {
+			errorMessage( 'Maximal value is '.$max );
+			
+			continue;
+		}
+		
+		if($_port<$min) {
+			errorMessage( 'Minimal value is '.$min );
+			
+			continue;
+		}
+		
+		$port = $_port;
+	}
+	
+	break;
+	
 }
 
 echo PHP_EOL.PHP_EOL;
