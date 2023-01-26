@@ -23,6 +23,10 @@ if(PHP_VERSION_ID<80000) {
 	die();
 }
 
+if( PHP_SAPI!='cli' ) {
+	errorMessage( 'For command line usage only' );
+}
+
 
 $host = 'localhost';
 $port = 8000;
@@ -95,7 +99,7 @@ echo 'Starting test server http://'.$host.':'.$port.PHP_EOL.PHP_EOL;
 
 
 
-$command = "php -S $host:$port $router -t $dir";
+$command = PHP_BINARY." -S $host:$port $router -t $dir";
 
 putenv('PHP_CLI_SERVER_WORKERS='.$workers);
 
