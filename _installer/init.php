@@ -41,6 +41,8 @@ Installer::setSteps(
 		'Mailing',
 		'InstallModules',
 		'CreateAdministrator',
+		'CreateVisitor',
+		'CreateRESTClient',
 		'ConfigureStudio',
 		'Final',
 	]
