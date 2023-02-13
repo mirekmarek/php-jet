@@ -18,6 +18,7 @@ class Db_Backend_PDO_Config extends Db_Backend_Config
 	
 	use Db_Backend_PDO_Config_mysql;
 	use Db_Backend_PDO_Config_sqlite;
+	use Db_Backend_PDO_Config_pgsql;
 	use Db_Backend_PDO_Config_another;
 	
 	#[Config_Definition(
