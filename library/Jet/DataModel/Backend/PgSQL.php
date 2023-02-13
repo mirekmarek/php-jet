@@ -164,13 +164,12 @@ class DataModel_Backend_PgSQL extends DataModel_Backend
 	 */
 	public function helper_getCreateCommand( DataModel_Definition_Model $definition, ?string $force_table_name = null ): string
 	{
+		/*
 		$options = [];
 		
-		/*
 		$options['ENGINE'] = $this->config->getEngine();
 		$options['DEFAULT CHARSET'] = $this->config->getDefaultCharset();
 		$options['COLLATE'] = $this->config->getCollate();
-		*/
 		
 		$_options = [];
 		
@@ -179,6 +178,8 @@ class DataModel_Backend_PgSQL extends DataModel_Backend
 		}
 		
 		$_options = implode( ' ', $_options );
+		*/
+		$_options = '';
 		
 		
 		$_columns = [];
@@ -300,7 +301,6 @@ class DataModel_Backend_PgSQL extends DataModel_Backend
 	 */
 	protected function _getSQLType( DataModel_Definition_Property $column ): string
 	{
-		//TODO:
 		$backend_options = $column->getBackendOptions( DataModel_Backend::TYPE_PGSQL );
 		
 		$name = $column->getName();
@@ -316,46 +316,40 @@ class DataModel_Backend_PgSQL extends DataModel_Backend
 		
 		switch( $column->getType() ) {
 			case DataModel::TYPE_ID:
-				return 'varchar(64) COLLATE utf8_bin NOT NULL DEFAULT \'\'';
+				return 'varchar(64) NOT NULL DEFAULT \'\'';
 			case DataModel::TYPE_ID_AUTOINCREMENT:
 				if( $column->getRelatedToPropertyName() ) {
-					return 'bigint UNSIGNED';
+					return 'bigint';
 					
 				} else {
-					return 'bigint UNSIGNED auto_increment';
+					return 'bigserial';
 				}
 			
 			
 			case DataModel::TYPE_STRING:
 				$max_len = (int)$column->getMaxLen();
 				
-				if( $max_len <= 512 ) {
+
 					if( $column->getIsId() ) {
-						return 'varchar(' . ($max_len) . ') COLLATE utf8_bin NOT NULL  DEFAULT \'\'';
+						return 'varchar(' . ($max_len) . ') NOT NULL  DEFAULT \'\'';
 					} else {
 						return 'varchar(' . ($max_len) . ') DEFAULT ' . $this->_getValue( $default_value );
 					}
-				}
-				
-				if( $max_len <= 65535 ) {
-					return 'text';
-				}
-				
-				return 'longtext';
+					
 			case DataModel::TYPE_BOOL:
-				return 'tinyint(1) DEFAULT ' . ($default_value ? 1 : 0);
+				return 'smallint DEFAULT ' . ($default_value ? 1 : 0);
 			case DataModel::TYPE_INT:
 				return 'int DEFAULT ' . (int)$default_value;
 			case DataModel::TYPE_FLOAT:
-				return 'float DEFAULT ' . (float)$default_value;
+				return 'real DEFAULT ' . (float)$default_value;
 			case DataModel::TYPE_LOCALE:
-				return 'varchar(20) COLLATE utf8_bin NOT NULL';
+				return 'varchar(20) NOT NULL';
 			case DataModel::TYPE_DATE:
 				return 'date DEFAULT NULL';
 			case DataModel::TYPE_DATE_TIME:
-				return 'datetime DEFAULT NULL';
+				return 'TIMESTAMP WITHOUT TIME ZONE DEFAULT NULL';
 			case DataModel::TYPE_CUSTOM_DATA:
-				return 'longtext';
+				return 'text';
 			default:
 				throw new DataModel_Exception(
 					'Unknown column type \'' . $column->getType() . '\'! Column \'' . $name . '\' ',
@@ -372,7 +366,6 @@ class DataModel_Backend_PgSQL extends DataModel_Backend
 	 */
 	protected function _getValue( mixed $value ): float|int|string
 	{
-		//TODO:
 		if( $value instanceof DataModel_Definition_Property ) {
 			return $this->_getColumnName( $value );
 		}
@@ -408,6 +401,7 @@ class DataModel_Backend_PgSQL extends DataModel_Backend
 		}
 		
 		
+		//TODO:
 		return "'" . addslashes( $value ) . "'";
 	}
 	
@@ -426,7 +420,6 @@ class DataModel_Backend_PgSQL extends DataModel_Backend
 	 */
 	public function helper_getDropCommand( DataModel_Definition_Model $definition ): string
 	{
-		//TODO:
 		$table_name = $this->_getTableName( $definition, false );
 		$ui_prefix = '_d' . date( 'YmdHis' );
 		
@@ -467,7 +460,6 @@ class DataModel_Backend_PgSQL extends DataModel_Backend
 	 */
 	public function helper_getUpdateCommand( DataModel_Definition_Model $definition ): array
 	{
-		//TODO:
 		$table_name = $this->_getTableName( $definition );
 		
 		$exists_cols = $this->getDbWrite()->fetchCol( 'DESCRIBE ' . $table_name . '' );
@@ -598,20 +590,30 @@ class DataModel_Backend_PgSQL extends DataModel_Backend
 	 */
 	public function createInsertQuery( DataModel_RecordData $record ): string
 	{
-		//TODO:
 		$data_model_definition = $record->getDataModelDefinition();
 		
 		$table_name = $this->_getTableName( $data_model_definition );
 		
-		$set = [];
+		$columns = [];
+		$values = [];
 		
-		foreach( $this->_getRecord( $record ) as $k => $v ) {
-			$set[] = $k . '=' . $v;
+		foreach( $record as $item ) {
+			if(
+				$item->getPropertyDefinition()->getType() == DataModel::TYPE_ID_AUTOINCREMENT &&
+				!$item->getPropertyDefinition()->getRelatedToPropertyName()
+			) {
+				continue;
+			}
+			
+			$columns[] = $this->_getColumnName( $item->getPropertyDefinition(), true, false );
+			$values[] = $this->_getValue( $item->getValue() );
+			
 		}
 		
-		$set = implode( ',' . PHP_EOL, $set );
+		$columns = implode( ',' . PHP_EOL, $columns );
+		$values = implode( ',' . PHP_EOL, $values );
 		
-		return 'INSERT INTO ' . $table_name . ' SET ' . PHP_EOL . $set;
+		return 'INSERT INTO ' . $table_name . ' (' . $columns . ') VALUES (' . $values . ')';
 	}
 	
 	/**
@@ -634,7 +636,6 @@ class DataModel_Backend_PgSQL extends DataModel_Backend
 	 */
 	public function createUpdateQuery( DataModel_RecordData $record, DataModel_Query $where ): string
 	{
-		//TODO:
 		$data_model_definition = $record->getDataModelDefinition();
 		$table_name = $this->_getTableName( $data_model_definition );
 		
@@ -661,7 +662,6 @@ class DataModel_Backend_PgSQL extends DataModel_Backend
 	 */
 	protected function _getSqlQueryWherePart( DataModel_Query_Where $query = null, int $level = 0 ): string
 	{
-		//TODO:
 		if( !$query ) {
 			return '';
 		}
@@ -716,7 +716,6 @@ class DataModel_Backend_PgSQL extends DataModel_Backend
 	 */
 	protected function _getSQLQueryWherePart_handleExpression( string $item, string $operator, mixed $value ): string
 	{
-		//TODO:
 		$res = '';
 		
 		if( is_array( $value ) ) {
@@ -747,7 +746,6 @@ class DataModel_Backend_PgSQL extends DataModel_Backend
 	 */
 	protected function _getSQLQueryWherePart_handleOperator( string $operator, mixed $value ): string
 	{
-		//TODO:
 		$value = $this->_getValue( $value );
 		
 		$res = '';
@@ -869,7 +867,6 @@ class DataModel_Backend_PgSQL extends DataModel_Backend
 	 */
 	protected function _getSQLQueryJoinPart( DataModel_Query $query ): string
 	{
-		//TODO:
 		$join_qp = '';
 		
 		foreach( $query->getRelations() as $relation ) {
@@ -930,7 +927,6 @@ class DataModel_Backend_PgSQL extends DataModel_Backend
 	 */
 	protected function _getSqlQueryHavingPart( DataModel_Query_Having $query = null, int $level = 0 ): string
 	{
-		//TODO:
 		if( !$query ) {
 			return '';
 		}
@@ -985,7 +981,6 @@ class DataModel_Backend_PgSQL extends DataModel_Backend
 	 */
 	public function createSelectQuery( DataModel_Query $query ): string
 	{
-		//TODO:
 		return 'SELECT' . PHP_EOL
 			. "\t" . $this->_getSQLQuerySelectPart( $query ) . PHP_EOL
 			. 'FROM' . PHP_EOL
@@ -1007,7 +1002,6 @@ class DataModel_Backend_PgSQL extends DataModel_Backend
 	 */
 	protected function _getSQLQuerySelectPart( DataModel_Query $query ): string
 	{
-		//TODO:
 		$columns_qp = [];
 		
 		
@@ -1043,7 +1037,6 @@ class DataModel_Backend_PgSQL extends DataModel_Backend
 	 */
 	protected function _getSqlQueryGroupPart( DataModel_Query $query = null ): string
 	{
-		//TODO:
 		$group_by = $query->getGroupBy();
 		if( !$group_by ) {
 			return '';
@@ -1077,7 +1070,6 @@ class DataModel_Backend_PgSQL extends DataModel_Backend
 	 */
 	protected function _getSqlQueryOrderByPart( DataModel_Query $query ): string
 	{
-		//TODO:
 		$order_by = $query->getOrderBy();
 		
 		if( !$order_by ) {
@@ -1122,7 +1114,6 @@ class DataModel_Backend_PgSQL extends DataModel_Backend
 	 */
 	protected function _getSqlQueryLimitPart( DataModel_Query $query ): string
 	{
-		//TODO:
 		$limit_qp = '';
 		
 		$offset = (int)$query->getOffset();
@@ -1130,7 +1121,7 @@ class DataModel_Backend_PgSQL extends DataModel_Backend
 		
 		if( $limit ) {
 			if( $offset ) {
-				$limit_qp = PHP_EOL . 'LIMIT ' . $offset . ',' . $limit . PHP_EOL;
+				$limit_qp = PHP_EOL . 'LIMIT ' . $limit . ' OFFSET ' . $offset . PHP_EOL;
 			} else {
 				$limit_qp = PHP_EOL . 'LIMIT ' . $limit . PHP_EOL;
 			}
