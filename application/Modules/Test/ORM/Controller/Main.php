@@ -8,11 +8,9 @@
 
 namespace JetApplicationModule\Test\ORM;
 
+use Jet\Config;
 use Jet\DataModel_Backend;
-use Jet\DataModel_Backend_MySQL;
-use Jet\DataModel_Backend_MySQL_Config;
-use Jet\DataModel_Backend_SQLite;
-use Jet\DataModel_Backend_SQLite_Config;
+use Jet\Factory_DataModel;
 use Jet\MVC_Controller_Default;
 
 /**
@@ -28,32 +26,34 @@ class Controller_Main extends MVC_Controller_Default
 	{
 		$backends = [];
 		
-		$mysql = new DataModel_Backend_MySQL( (new DataModel_Backend_MySQL_Config()) );
-		if($mysql->isAvailable()) {
-			$backends[DataModel_Backend::TYPE_MYSQL] = $mysql;
+		Config::setBeTolerant(true);
+		foreach( DataModel_Backend::getAllBackendTypes() as $type=>$type_label ) {
+			$config = Factory_DataModel::getBackendConfigInstance( $type );
+			$backend = Factory_DataModel::getBackendInstance( $type, $config );
+			if($backend->isAvailable()) {
+				$backends[$type] = $backend;
+			}
 		}
 		
-		$sqlite = new DataModel_Backend_SQLite( (new DataModel_Backend_SQLite_Config()) );
-		if($sqlite->isAvailable()) {
-			$backends[DataModel_Backend::TYPE_SQLITE] = $sqlite;
-		}
-
 		$_tests = [
-			'BasicSelect',
-			'BasicSelectWhere',
-			'SimpleInternalRelation',
-			'SimpleInternalSubRelation',
+			Test_BasicSelect::class,
+			Test_BasicSelectWhere::class,
+			Test_SimpleInternalRelation::class,
+			Test_SimpleInternalSubRelation::class,
 
-			'CountSelect',
+			Test_CountSelect::class,
 
-			'ExternalRelation'
+			Test_ExternalRelation::class
 		];
 
 		$tests = [];
-		foreach( $_tests as $test ) {
-
-			$class_name = __NAMESPACE__ . '\\Test_' . $test;
-			$tests[$test] = new $class_name( $test );
+		foreach( $_tests as $class_name ) {
+			/**
+			 * @var Test_Abstract $test
+			 */
+			$test = new $class_name();
+			
+			$tests[$test->getId()] = $test;
 		}
 
 		$this->view->setVar( 'backends', $backends );

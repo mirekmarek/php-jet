@@ -25,19 +25,23 @@ $tests = $this->getRaw( 'tests' );
 	<h1><?= Tr::_( 'ORM tests' ) ?></h1>
 	<?php
 
-foreach( $backends as $backend_name => $backend ) {
+foreach( $backends as $backend ) {
 	?>
-	<h2><?= $backend_name ?></h2>
+	<hr>
+	<h2><?= $backend->getTitle() ?></h2>
+	<hr>
 	<?php
 	DataModel_Backend::setCustomBackend( Model_A1::class, $backend );
+	DataModel_Backend::setCustomBackend( Model_C1::class, $backend );
 
-	foreach( $tests as $t ) {
+	foreach( $tests as $t ):
 		?>
 		<h3><?= $t->getTitle() ?></h3>
 
 		<pre><?php $t->test(); ?></pre>
 		<?php
-
-
-	}
+	endforeach;
+	?>
+	<br><br>
+	<?php
 }

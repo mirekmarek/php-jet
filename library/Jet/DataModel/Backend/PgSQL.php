@@ -401,8 +401,7 @@ class DataModel_Backend_PgSQL extends DataModel_Backend
 		}
 		
 		
-		//TODO:
-		return "'" . addslashes( $value ) . "'";
+		return $this->getDbRead()->quoteString( $value );
 	}
 	
 	/**

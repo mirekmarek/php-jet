@@ -16,6 +16,11 @@ use Jet\DataModel_Query_Select_Item_Expression;
  */
 class Test_SimpleInternalRelation extends Test_Abstract
 {
+	public function getId(): string
+	{
+		return 'SimpleInternalRelation';
+	}
+	
 	/**
 	 * @return string
 	 */

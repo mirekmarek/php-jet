@@ -16,29 +16,23 @@ use Jet\Tr;
 abstract class Test_Abstract
 {
 	/**
-	 * @var string
-	 */
-	protected string $id = '';
-
-	/**
 	 *
-	 * @param string $id
 	 */
-	public function __construct( string $id )
+	public function __construct()
 	{
-		$this->id = $id;
-
 	}
 
 	/**
 	 * @return string
 	 */
-	public function getId(): string
-	{
-		return $this->id;
-	}
-
-
+	abstract public function getId(): string;
+	
+	/**
+	 * @return string
+	 */
+	abstract protected function _getTitle() : string;
+	
+	
 	/**
 	 * @return string
 	 */
@@ -47,11 +41,7 @@ abstract class Test_Abstract
 		return Tr::_( $this->_getTitle() );
 	}
 
-	/**
-	 * @return string
-	 */
-	abstract protected function _getTitle() : string;
-
+	
 	/**
 	 *
 	 */

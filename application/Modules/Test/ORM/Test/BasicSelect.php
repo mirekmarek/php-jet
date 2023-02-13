@@ -13,6 +13,11 @@ namespace JetApplicationModule\Test\ORM;
  */
 class Test_BasicSelect extends Test_Abstract
 {
+	public function getId(): string
+	{
+		return 'BasicSelect';
+	}
+	
 	/**
 	 * @return string
 	 */

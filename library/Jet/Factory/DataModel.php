@@ -17,11 +17,13 @@ class Factory_DataModel
 	protected static array $backend_class_names = [
 		DataModel_Backend::TYPE_MYSQL  => DataModel_Backend_MySQL::class,
 		DataModel_Backend::TYPE_SQLITE => DataModel_Backend_SQLite::class,
+		DataModel_Backend::TYPE_PGSQL  => DataModel_Backend_PgSQL::class,
 	];
 
 	protected static array $backend_config_class_names = [
 		DataModel_Backend::TYPE_MYSQL  => DataModel_Backend_MySQL_Config::class,
 		DataModel_Backend::TYPE_SQLITE => DataModel_Backend_SQLite_Config::class,
+		DataModel_Backend::TYPE_PGSQL  => DataModel_Backend_PgSQL_Config::class,
 	];
 
 	protected static array $model_definition_class_names = [

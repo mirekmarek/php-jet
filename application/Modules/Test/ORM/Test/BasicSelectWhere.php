@@ -15,6 +15,11 @@ use Jet\DataModel_Query_Select_Item_Expression;
  */
 class Test_BasicSelectWhere extends Test_Abstract
 {
+	public function getId(): string
+	{
+		return 'BasicSelectWhere';
+	}
+	
 	/**
 	 * @return string
 	 */
