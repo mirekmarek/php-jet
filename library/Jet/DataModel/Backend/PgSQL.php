@@ -153,7 +153,16 @@ class DataModel_Backend_PgSQL extends DataModel_Backend
 	 */
 	public function helper_create( DataModel_Definition_Model $definition ): void
 	{
-		$this->getDbWrite()->execute( $this->helper_getCreateCommand( $definition ) );
+		$queries = explode('CREATE INDEX', $this->helper_getCreateCommand( $definition ));
+		
+		foreach($queries as $i=>$q) {
+			if($i==0) {
+				$this->getDbWrite()->execute( $q );
+			} else {
+				$this->getDbWrite()->execute( 'CREATE INDEX'.$q );
+			}
+
+		}
 	}
 	
 	/**
@@ -164,23 +173,7 @@ class DataModel_Backend_PgSQL extends DataModel_Backend
 	 */
 	public function helper_getCreateCommand( DataModel_Definition_Model $definition, ?string $force_table_name = null ): string
 	{
-		/*
-		$options = [];
-		
-		$options['ENGINE'] = $this->config->getEngine();
-		$options['DEFAULT CHARSET'] = $this->config->getDefaultCharset();
-		$options['COLLATE'] = $this->config->getCollate();
-		
-		$_options = [];
-		
-		foreach( $options as $o => $v ) {
-			$_options[] = $o . '=' . $v;
-		}
-		
-		$_options = implode( ' ', $_options );
-		*/
 		$_options = '';
-		
 		
 		$_columns = [];
 		
@@ -192,9 +185,20 @@ class DataModel_Backend_PgSQL extends DataModel_Backend
 			$_columns[] = "\t" . $this->_getColumnName( $property, true, false ) . ' ' . $this->_getSQLType( $property );
 		}
 		
-		$_keys = [];
+		$table_name = $force_table_name ? : $this->_getTableName( $definition );
+		
+		$create_index_query = [];
+		$keys = [];
+		
+		$has_ai = false;
+		foreach( $definition->getProperties() as $property ) {
+			if( $property->getType() == DataModel::TYPE_ID_AUTOINCREMENT ) {
+				$has_ai = true;
+				break;
+			}
+		}
+		
 		foreach( $definition->getKeys() as $key_name => $key ) {
-			
 			$key_columns = [];
 			foreach( $key->getPropertyNames() as $property_name ) {
 				$property = $definition->getProperty( $property_name );
@@ -203,41 +207,35 @@ class DataModel_Backend_PgSQL extends DataModel_Backend
 			
 			$key_columns = implode( ', ', $key_columns );
 			
+			
 			switch( $key->getType() ) {
 				case DataModel::KEY_TYPE_PRIMARY:
-					foreach( $key->getPropertyNames() as $property_name ) {
-						$property = $definition->getProperty( $property_name );
-						
-						if(
-							$property->getType() == DataModel::TYPE_ID_AUTOINCREMENT &&
-							!$property->getRelatedToPropertyName()
-						) {
-							$key_columns = $this->_getColumnName( $property, true, false );
-							break;
-						}
+					if( !$has_ai ) {
+						$keys[] = PHP_EOL . "\t" . ',PRIMARY KEY (' . $key_columns . ')';
 					}
-					
-					$_keys[$key_name] = PHP_EOL . "\t" . ',PRIMARY KEY (' . $key_columns . ')';
 					break;
 				case DataModel::KEY_TYPE_INDEX:
-					$_keys[$key_name] = PHP_EOL . "\t" . ',KEY ' . $this->_quoteName( $key_name ) . ' (' . $key_columns . ')';
+					$create_index_query[] = PHP_EOL . 'CREATE INDEX IF NOT EXISTS ' . $this->_quoteName(
+							'_k_' . $key_name
+						) . ' ON ' . $table_name . ' (' . $key_columns . ');';
 					break;
 				default:
-					$_keys[$key_name] = PHP_EOL . "\t" . ',' . $key->getType() . ' KEY ' . $this->_quoteName(
-							$key_name
-						) . ' (' . $key_columns . ')';
+					$create_index_query[] = PHP_EOL . 'CREATE ' . $key->getType() . ' INDEX IF NOT EXISTS ' . $this->_quoteName(
+							'_k_' . $key_name
+						) . ' ON ' . $table_name . ' (' . $key_columns . ');';
 					break;
 			}
 		}
 		
-		$table_name = $force_table_name ? : $this->_getTableName( $definition );
+		$create_index_query = implode( PHP_EOL, $create_index_query );
 		
 		$q = 'CREATE TABLE IF NOT EXISTS ' . $table_name . ' (' . PHP_EOL;
 		$q .= implode( ',' . PHP_EOL, $_columns );
-		$q .= implode( '', $_keys );
-		$q .= PHP_EOL . ') ' . $_options . ';' . PHP_EOL . PHP_EOL;
+		$q .= implode( '', $keys );
+		$q .= PHP_EOL . ') ' . $_options . ';' . $create_index_query . PHP_EOL . PHP_EOL;
 		
 		return $q;
+		
 	}
 	
 	/**
@@ -329,13 +327,16 @@ class DataModel_Backend_PgSQL extends DataModel_Backend
 			case DataModel::TYPE_STRING:
 				$max_len = (int)$column->getMaxLen();
 				
-
+				if($max_len>65536) {
+					return 'text';
+				} else {
 					if( $column->getIsId() ) {
 						return 'varchar(' . ($max_len) . ') NOT NULL  DEFAULT \'\'';
 					} else {
 						return 'varchar(' . ($max_len) . ') DEFAULT ' . $this->_getValue( $default_value );
 					}
-					
+				}
+				
 			case DataModel::TYPE_BOOL:
 				return 'smallint DEFAULT ' . ($default_value ? 1 : 0);
 			case DataModel::TYPE_INT:
@@ -445,14 +446,6 @@ class DataModel_Backend_PgSQL extends DataModel_Backend
 	}
 	
 	/**
-	 *
-	 */
-	public function transactionStart(): void
-	{
-		$this->getDbWrite()->beginTransaction();
-	}
-	
-	/**
 	 * @param DataModel_Definition_Model $definition
 	 *
 	 * @return array
@@ -549,14 +542,32 @@ class DataModel_Backend_PgSQL extends DataModel_Backend
 		return $_record;
 	}
 	
+	
+	/**
+	 *
+	 */
+	public function transactionStart(): void
+	{
+		$this->getDbWrite('BEGIN;');
+		//TODO:
+		/*
+		$this->getDbWrite()->beginTransaction();
+		*/
+	}
+	
+	
 	/**
 	 *
 	 */
 	public function transactionRollback(): void
 	{
+		$this->getDbWrite('ROLLBACK;');
+		//TODO:
+		/*
 		if( $this->getDbWrite()->inTransaction() ) {
 			$this->getDbWrite()->rollBack();
 		}
+		*/
 	}
 	
 	/**
@@ -564,9 +575,13 @@ class DataModel_Backend_PgSQL extends DataModel_Backend
 	 */
 	public function transactionCommit(): void
 	{
+		$this->getDbWrite('COMMIT;');
+		//TODO:
+		/*
 		if( $this->getDbWrite()->inTransaction() ) {
 			$this->getDbWrite()->commit();
 		}
+		*/
 	}
 	
 	/**
@@ -578,7 +593,12 @@ class DataModel_Backend_PgSQL extends DataModel_Backend
 	{
 		$this->getDbWrite()->execute( $this->createInsertQuery( $record ) );
 		
-		return $this->getDbWrite()->lastInsertId();
+		$last_insert_id = $this->getDbWrite()->lastInsertId();
+		if(!$last_insert_id) {
+			$last_insert_id = 0;
+		}
+		
+		return $last_insert_id;
 	}
 	
 	/**
@@ -833,18 +853,16 @@ class DataModel_Backend_PgSQL extends DataModel_Backend
 	 */
 	public function createCountQuery( DataModel_Query $query ): string
 	{
-		
-		$id_properties = [];
-		foreach( $query->getDataModelDefinition()->getIdProperties() as $id_property ) {
-			$id_properties[] = $this->_getColumnName( $id_property );
+		if( !$query->getSelect() ) {
+			$id_properties = [];
+			foreach( $query->getDataModelDefinition()->getIdProperties() as $id_property ) {
+				$id_properties[] = $id_property;
+			}
+			
+			$query->setSelect( $id_properties );
 		}
 		
-		$id_properties = implode( ', ', $id_properties );
-		
-		return 'SELECT count(DISTINCT ' . $id_properties . ') FROM' . PHP_EOL
-			. "\t" . $this->_getSQLQueryTableName( $query )
-			. $this->_getSQLQueryJoinPart( $query ) . $this->_getSqlQueryWherePart( $query->getWhere() )
-			. $this->_getSqlQueryHavingPart( $query->getHaving() );
+		return 'SELECT count(*) FROM (' . $this->createSelectQuery( $query ) . ') AS cnt';
 	}
 	
 	/**

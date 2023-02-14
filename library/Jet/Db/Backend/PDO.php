@@ -9,6 +9,7 @@
 namespace Jet;
 
 use PDO;
+use PDOException;
 use PDOStatement;
 
 /**
@@ -331,7 +332,12 @@ class Db_Backend_PDO implements Db_Backend_Interface
 
 	public function lastInsertId( string $name = null ): string
 	{
-		return $this->pdo->lastInsertId( $name );
+		try {
+			return $this->pdo->lastInsertId( $name );
+		} catch( PDOException $e ) {
+			return false;
+		}
+		
 	}
 	
 	public function quoteString( string $string ): string

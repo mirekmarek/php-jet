@@ -2,6 +2,7 @@
 
 namespace JetApplication\Installer;
 
+use Jet\DataModel_Helper;
 use Jet\Tr;
 use Jet\MVC_View;
 
@@ -26,6 +27,8 @@ use Jet\MVC_View;
 				<?php else: ?>
 					<td>
 						<div class="error"><?= $state; ?></div>
+						<br>
+						<pre><?=DataModel_Helper::getCreateCommand( $class )?></pre>
 					</td>
 				<?php endif; ?>
 			</tr>
