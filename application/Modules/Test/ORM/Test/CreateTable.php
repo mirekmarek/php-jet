@@ -8,14 +8,16 @@
 
 namespace JetApplicationModule\Test\ORM;
 
+use Jet\DataModel_Helper;
+
 /**
  *
  */
-class Test_BasicSelect extends Test_Abstract
+class Test_CreateTable extends Test_Abstract
 {
 	public function getId(): string
 	{
-		return 'BasicSelect';
+		return 'CreateTable';
 	}
 	
 	/**
@@ -23,7 +25,7 @@ class Test_BasicSelect extends Test_Abstract
 	 */
 	protected function _getTitle() : string
 	{
-		return 'Basic SELECT';
+		return 'CREATE TABLE';
 	}
 
 	/**
@@ -31,15 +33,6 @@ class Test_BasicSelect extends Test_Abstract
 	 */
 	public function test() : void
 	{
-
-		$q = Model_A1::createQuery();
-		
-		$q->setLimit(limit: 100, offset: 500);
-
-		echo $q->setSelect( [
-			'id',
-			'text'
-		] );
-
+		echo DataModel_Helper::getCreateCommand( Model_A1::class );
 	}
 }

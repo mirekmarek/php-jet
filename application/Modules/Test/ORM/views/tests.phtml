@@ -26,22 +26,21 @@ $tests = $this->getRaw( 'tests' );
 	<?php
 
 foreach( $backends as $backend ) {
+	DataModel_Backend::setCustomBackend( Model_A1::class, $backend );
+	DataModel_Backend::setCustomBackend( Model_A1_1toN::class, $backend );
+	DataModel_Backend::setCustomBackend( Model_A1_1toN_sub1toN::class, $backend );
+	DataModel_Backend::setCustomBackend( Model_B1::class, $backend );
+	DataModel_Backend::setCustomBackend( Model_C1::class, $backend );
+	
 	?>
 	<hr>
 	<h2><?= $backend->getTitle() ?></h2>
 	<hr>
-	<?php
-	DataModel_Backend::setCustomBackend( Model_A1::class, $backend );
-	DataModel_Backend::setCustomBackend( Model_C1::class, $backend );
-
-	foreach( $tests as $t ):
-		?>
+	<?php foreach( $tests as $t ): ?>
 		<h3><?= $t->getTitle() ?></h3>
 
 		<pre><?php $t->test(); ?></pre>
-		<?php
-	endforeach;
-	?>
+	<?php endforeach; ?>
 	<br><br>
 	<?php
 }

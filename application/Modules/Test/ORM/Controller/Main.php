@@ -36,6 +36,8 @@ class Controller_Main extends MVC_Controller_Default
 		}
 		
 		$_tests = [
+			Test_CreateTable::class,
+			
 			Test_BasicSelect::class,
 			Test_BasicSelectWhere::class,
 			Test_SimpleInternalRelation::class,
