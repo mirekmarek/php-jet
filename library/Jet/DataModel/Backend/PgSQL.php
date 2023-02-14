@@ -548,7 +548,6 @@ class DataModel_Backend_PgSQL extends DataModel_Backend
 	 */
 	public function transactionStart(): void
 	{
-		$this->getDbWrite('BEGIN;');
 		//TODO:
 		/*
 		$this->getDbWrite()->beginTransaction();
@@ -561,7 +560,6 @@ class DataModel_Backend_PgSQL extends DataModel_Backend
 	 */
 	public function transactionRollback(): void
 	{
-		$this->getDbWrite('ROLLBACK;');
 		//TODO:
 		/*
 		if( $this->getDbWrite()->inTransaction() ) {
@@ -575,7 +573,6 @@ class DataModel_Backend_PgSQL extends DataModel_Backend
 	 */
 	public function transactionCommit(): void
 	{
-		$this->getDbWrite('COMMIT;');
 		//TODO:
 		/*
 		if( $this->getDbWrite()->inTransaction() ) {
