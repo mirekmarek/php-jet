@@ -98,6 +98,8 @@ abstract class Installer_Step_Controller
 	}
 	
 	/**
+	 * @param string $size
+	 *
 	 * @return string
 	 */
 	public function getIcon( string $size = UI_icon::SIZE_NORMAL ): string

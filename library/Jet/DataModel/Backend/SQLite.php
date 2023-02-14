@@ -8,8 +8,6 @@
 
 namespace Jet;
 
-use SQLite3;
-
 /**
  *
  */

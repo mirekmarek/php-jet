@@ -8,7 +8,6 @@
 
 namespace JetApplication\Installer;
 
-use Jet\Http_Headers;
 use Jet\Locale;
 use Jet\Http_Request;
 
