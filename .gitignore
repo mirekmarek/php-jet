@@ -17,4 +17,3 @@ cleanup.sh
 images/test_uploads
 library/Composer/
 composer.lock
-application/bases/web/pages/
