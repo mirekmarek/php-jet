@@ -1,0 +1,25 @@
+<?php
+use Jet\UI;
+use Jet\Locale;
+use Jet\MVC;
+
+
+?>
+
+
+<li class="nav-item dropdown">
+	<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+	   aria-haspopup="true" aria-expanded="false">
+		<span><?= UI::flag( Locale::getCurrentLocale() ) ?></span>
+	</a>
+	<div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+		<?php foreach( MVC::getBase()->getLocales() as $locale ): ?>
+			<a class="dropdown-item"
+			   href="<?= MVC::getBase()->getHomepage($locale)->getURLPath() ?>">
+				<?= UI::flag( $locale ) ?>
+				<?= $locale->getName( $locale ) ?>
+			</a>
+		<?php endforeach; ?>
+	</div>
+</li>
+

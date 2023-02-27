@@ -8,13 +8,17 @@
 
 namespace JetApplicationModule\Login\Web;
 
+use Jet\Http_Request;
 use Jet\Logger;
+use Jet\MVC;
+use Jet\MVC_Page_Content_Interface;
 use Jet\Session;
 use Jet\Tr;
 use Jet\MVC_Controller_Default;
 use Jet\Http_Headers;
 use Jet\Auth;
 
+use Jet\UI_messages;
 use JetApplication\Auth_Visitor_User as User;
 
 /**
@@ -22,6 +26,28 @@ use JetApplication\Auth_Visitor_User as User;
  */
 class Controller_Main extends MVC_Controller_Default
 {
+	/**
+	 *
+	 * @param MVC_Page_Content_Interface $content
+	 */
+	public function __construct( MVC_Page_Content_Interface $content )
+	{
+		parent::__construct( $content );
+		
+		if( Http_Request::GET()->exists( 'logout' ) ) {
+			$this->logout_Action();
+		}
+	}
+	
+	/**
+	 *
+	 */
+	public function logout_Action(): void
+	{
+		Auth::logout();
+		
+		Http_Headers::movedTemporary( MVC::getHomePage()->getURL() );
+	}
 
 	/**
 	 *
@@ -108,5 +134,52 @@ class Controller_Main extends MVC_Controller_Default
 		$this->view->setVar( 'form', $form );
 
 		$this->output( 'must-change-password' );
+	}
+	
+	public function current_user_bar_Action() : void
+	{
+		$this->output( 'current-user-bar' );
+	}
+	
+	
+	/**
+	 *
+	 */
+	public function change_password_Action(): void
+	{
+		/**
+		 * @var Main $module
+		 */
+		$module = $this->getModule();
+		
+		$form = $module->getChangePasswordForm();
+		
+		if( $form->catch() ) {
+			/**
+			 * @var User $user
+			 */
+			$user = Auth::getCurrentUser();
+			
+			
+			$user->setPassword( $form->field('password')->getValue() );
+			$user->setPasswordIsValid( true );
+			$user->setPasswordIsValidTill( null );
+			$user->save();
+			UI_messages::success( Tr::_( 'Your password has been changed' ), 'password_change' );
+			
+			Logger::info(
+				event: 'password_changed',
+				event_message: 'User ' . $user->getUsername() . ' (id:' . $user->getId() . ') changed password',
+				context_object_id: $user->getId(),
+				context_object_name: $user->getUsername()
+			);
+			
+			
+			Http_Headers::reload();
+		}
+		
+		$this->view->setVar( 'form', $form );
+		
+		$this->output( 'change-password' );
 	}
 }

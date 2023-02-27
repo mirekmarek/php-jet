@@ -76,9 +76,21 @@ class Main extends Application_Module
 		$current_password->setErrorMessages(
 			[
 				Form_Field::ERROR_CODE_EMPTY => 'Please enter new password',
-
+				'current_password_not_match' => 'Current password do not match',
 			]
 		);
+		
+		$current_password->setValidator( function( Form_Field_Password $field ) : bool {
+			$user = Auth::getCurrentUser();
+			if(!$user->verifyPassword($field->getValue())) {
+				
+				$field->setError('current_password_not_match');
+				return false;
+				
+			}
+			
+			return true;
+		} );
 
 		$new_password = new Form_Field_Password( 'password', 'New password' );
 		$new_password->setIsRequired( true );

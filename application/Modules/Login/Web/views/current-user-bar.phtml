@@ -1,0 +1,39 @@
+<?php
+
+use Jet\Auth;
+use Jet\UI;
+use Jet\MVC;
+use Jet\Tr;
+
+$user = Auth::getCurrentUser();
+?>
+
+
+<nav class="breadcrumb">
+<?php if($user): ?>
+	<?= UI::icon( 'user' ) ?>
+	&nbsp;
+	<?= Auth::getCurrentUser()->getUsername() ?>
+	
+	&nbsp;&nbsp;&nbsp;&nbsp;
+	
+	<a href="<?= MVC::getHomePage()->getURL( [], ['logout' => 'logout'] ) ?>">
+		<?= UI::icon( 'sign-out-alt' ) ?>
+		<?= Tr::_( 'Logout' ) ?>
+	</a>
+	
+	<?php if(
+		($page = MVC::getPage( 'change-password' )) &&
+		$page->accessAllowed()
+	): ?>
+		&nbsp;&nbsp;&nbsp;&nbsp;
+	
+		<a href="<?=$page->getURL() ?>">
+			<?= UI::icon( 'cog' ) ?>
+			<?= Tr::_( 'Change password' ) ?>
+		</a>
+	<?php endif; ?>
+<?php endif; ?>
+	&nbsp;
+</nav>
+

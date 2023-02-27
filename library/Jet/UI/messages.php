@@ -70,6 +70,7 @@ class UI_messages extends BaseObject
 					/**
 					 * @var UI_messages_message $msg
 					 */
+					
 					if( $msg->getContext() == $context ) {
 						$messages[] = $msg;
 					} else {
@@ -122,7 +123,7 @@ class UI_messages extends BaseObject
 	 */
 	public static function success( string $message, string $context = '' ): void
 	{
-		static::set( static::C_SUCCESS, $message );
+		static::set( static::C_SUCCESS, $message, $context );
 	}
 
 	/**

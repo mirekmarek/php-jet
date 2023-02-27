@@ -45,7 +45,7 @@ class Controller_Main extends MVC_Controller_Default
 			$this->router = new MVC_Controller_Router_AddEditDelete(
 				$this,
 				function( $id ) {
-					return (bool)($this->user = User::get( $id ));
+					return (bool)($this->user = User::get( (int)$id ));
 				},
 				[
 					'listing' => Main::ACTION_GET_USER,

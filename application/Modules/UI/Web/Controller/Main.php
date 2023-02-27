@@ -10,10 +10,6 @@ namespace JetApplicationModule\UI\Web;
 
 use Jet\MVC_Controller_Default;
 use Jet\MVC;
-use Jet\MVC_Page_Content_Interface;
-use Jet\Http_Request;
-use Jet\Auth;
-use Jet\Http_Headers;
 use Jet\Translator;
 
 
@@ -23,20 +19,6 @@ use Jet\Translator;
 class Controller_Main extends MVC_Controller_Default
 {
 
-	/**
-	 *
-	 * @param MVC_Page_Content_Interface $content
-	 */
-	public function __construct( MVC_Page_Content_Interface $content )
-	{
-		parent::__construct( $content );
-
-		$GET = Http_Request::GET();
-
-		if( $GET->exists( 'logout' ) ) {
-			$this->logout_Action();
-		}
-	}
 
 	/**
 	 *
@@ -46,18 +28,7 @@ class Controller_Main extends MVC_Controller_Default
 		Translator::setCurrentDictionary( Translator::getCurrentDictionary().'.homepage' );
 		$this->output( 'homepage' );
 	}
-
-
-	/**
-	 *
-	 */
-	public function logout_Action(): void
-	{
-		Auth::logout();
-
-		Http_Headers::movedTemporary( MVC::getHomePage()->getURL() );
-	}
-
+	
 
 	/**
 	 *
@@ -90,4 +61,5 @@ class Controller_Main extends MVC_Controller_Default
 		$this->output( 'breadcrumb-navigation/' . $view );
 
 	}
+	
 }

@@ -8,7 +8,10 @@
 
 namespace JetApplicationModule\Login\Admin;
 
+use Jet\Http_Request;
 use Jet\Logger;
+use Jet\MVC;
+use Jet\MVC_Page_Content_Interface;
 use Jet\Session;
 use Jet\Tr;
 use Jet\MVC_Controller_Default;
@@ -24,6 +27,31 @@ use JetApplication\Auth_Administrator_User as User;
  */
 class Controller_Main extends MVC_Controller_Default
 {
+	/**
+	 *
+	 * @param MVC_Page_Content_Interface $content
+	 */
+	public function __construct( MVC_Page_Content_Interface $content )
+	{
+		parent::__construct( $content );
+		
+		$GET = Http_Request::GET();
+		
+		if( $GET->exists( 'logout' ) ) {
+			$this->logout_Action();
+		}
+	}
+	
+	
+	/**
+	 *
+	 */
+	public function logout_Action(): void
+	{
+		Auth::logout();
+		
+		Http_Headers::movedTemporary( MVC::getHomePage()->getURL() );
+	}
 
 	/**
 	 *
@@ -123,31 +151,26 @@ class Controller_Main extends MVC_Controller_Default
 		$form = $module->getChangePasswordForm();
 
 		
-		if( $form->catchInput() && $form->validate() ) {
-			$data = $form->getValues();
+		if( $form->catch() ) {
+
 			/**
 			 * @var User $user
 			 */
 			$user = Auth::getCurrentUser();
+			
+			$user->setPassword( $form->field('password')->getValue() );
+			$user->setPasswordIsValid( true );
+			$user->setPasswordIsValidTill( null );
+			$user->save();
 
-			if( !$user->verifyPassword( $data['current_password'] ) ) {
-				UI_messages::danger( Tr::_( 'Current password do not match' ) );
-			} else {
+			Logger::info(
+				event: 'password_changed',
+				event_message: 'User ' . $user->getUsername() . ' (id:' . $user->getId() . ') changed password',
+				context_object_id: $user->getId(),
+				context_object_name: $user->getUsername()
+			);
 
-				$user->setPassword( $data['password'] );
-				$user->setPasswordIsValid( true );
-				$user->setPasswordIsValidTill( null );
-				$user->save();
-
-				Logger::info(
-					event: 'password_changed',
-					event_message: 'User ' . $user->getUsername() . ' (id:' . $user->getId() . ') changed password',
-					context_object_id: $user->getId(),
-					context_object_name: $user->getUsername()
-				);
-
-				UI_messages::success( Tr::_( 'Your password has been changed' ) );
-			}
+			UI_messages::success( Tr::_( 'Your password has been changed' ) );
 
 
 			Http_Headers::reload();
@@ -158,4 +181,8 @@ class Controller_Main extends MVC_Controller_Default
 		$this->output( 'change-password' );
 	}
 
+	public function current_user_bar_Action() : void
+	{
+		$this->output( 'current-user-bar' );
+	}
 }
