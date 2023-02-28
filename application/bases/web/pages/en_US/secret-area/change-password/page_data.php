@@ -19,5 +19,15 @@ return [
 	'meta_tags' => [
 	],
 	'contents' => [
+		[
+			'module_name' => 'Login.Web',
+			'controller_name' => 'Main',
+			'controller_action' => 'change_password',
+			'parameters' => [
+			],
+			'is_cacheable' => false,
+			'output_position' => '__main__',
+			'output_position_order' => 1,
+		],
 	],
 ];

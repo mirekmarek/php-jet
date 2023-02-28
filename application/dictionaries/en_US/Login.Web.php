@@ -17,4 +17,7 @@ return [
 	'Confirm new password' => '',
 	'Logout' => '',
 	'Change password' => '',
+	'Current password do not match' => '',
+	'Current password' => '',
+	'New password' => '',
 ];
