@@ -42,11 +42,11 @@ class Controller_Main extends MVC_Controller_Default
 	{
 		if( !$this->router ) {
 			$this->router = new MVC_Controller_Router_AddEditDelete(
-				$this,
-				function($id) {
+				controller: $this,
+				item_catcher: function($id) : bool {
 					return (bool)($this->%<ITEM_VAR_NAME>% = %<DATA_MODEL_CLASS_ALIAS>%::get($id));
 				},
-				[
+				actions_map: [
 					'listing'=> Main::ACTION_GET_%<ACL_ENTITY_CONST_NAME>%,
 					'view'   => Main::ACTION_GET_%<ACL_ENTITY_CONST_NAME>%,
 					'add'    => Main::ACTION_ADD_%<ACL_ENTITY_CONST_NAME>%,

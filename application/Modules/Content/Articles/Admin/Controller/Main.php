@@ -47,11 +47,11 @@ class Controller_Main extends MVC_Controller_Default
 	{
 		if( !$this->router ) {
 			$this->router = new MVC_Controller_Router_AddEditDelete(
-				$this,
-				function( $id ) {
+				controller: $this,
+				item_catcher: function( $id ) : bool {
 					return (bool)($this->article = Content_Article::get( $id ));
 				},
-				[
+				actions_map: [
 					'listing' => Main::ACTION_GET_ARTICLE,
 					'view'    => Main::ACTION_GET_ARTICLE,
 					'add'     => Main::ACTION_ADD_ARTICLE,

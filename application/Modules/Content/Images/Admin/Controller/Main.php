@@ -53,11 +53,11 @@ class Controller_Main extends MVC_Controller_Default
 	{
 		if( !$this->router ) {
 			$this->router = new MVC_Controller_Router_AddEditDelete(
-				$this,
-				function( $id ) {
+				controller: $this,
+				item_catcher: function( $id ) : bool {
 					return (bool)($this->gallery = Content_Gallery::get( $id ));
 				},
-				[
+				actions_map: [
 					'listing' => Main::ACTION_GET_GALLERY,
 					'view'    => Main::ACTION_GET_GALLERY,
 					'add'     => Main::ACTION_ADD_GALLERY,
