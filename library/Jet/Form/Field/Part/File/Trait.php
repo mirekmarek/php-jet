@@ -207,6 +207,7 @@ trait Form_Field_Part_File_Trait
 		$tmp_names = $_files['tmp_name'];
 		$errors = $_files['error'];
 		
+		$this->_value_raw = [];
 		
 		foreach( $names as $i => $name ) {
 			$file = new Form_Field_File_UploadedFile(
