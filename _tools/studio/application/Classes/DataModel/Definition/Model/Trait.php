@@ -880,11 +880,12 @@ trait DataModel_Definition_Model_Trait
 		return $ok;
 
 	}
-
+	
 	/**
+	 * @param string $relation_property_name
 	 * @return bool
 	 */
-	public function create(): bool
+	public function create( string $relation_property_name='' ): bool
 	{
 		$ok = true;
 		try {
@@ -906,8 +907,13 @@ trait DataModel_Definition_Model_Trait
 
 				$parent_class_name = $this->getRelevantParentModel()->getClassName();
 				$parent_class = DataModels::getClass( $parent_class_name );
+				
+				$relation_property_name = $relation_property_name?:$this->getModelName();
 
-				$property = new DataModel_Definition_Property_DataModel( $parent_class_name, $this->getModelName() );
+				$property = new DataModel_Definition_Property_DataModel(
+					data_model_class_name: $parent_class_name,
+					name: $relation_property_name
+				);
 
 				$property->setDataModelClass( $class->getFullName() );
 
@@ -1059,7 +1065,20 @@ trait DataModel_Definition_Model_Trait
 
 		$current_class = DataModels::getCurrentClass();
 		$current_model = DataModels::getCurrentModel();
-
+		
+		$relation_property_name = new Form_Field_Input('relation_property_name', Tr::_('Relation property name:'));
+		$relation_property_name->setIsRequired( true );
+		$relation_property_name->setErrorMessages([
+			Form_Field_Input::ERROR_CODE_EMPTY => Tr::_('Please enter property name'),
+			Form_Field_Input::ERROR_CODE_INVALID_FORMAT => Tr::_('Please enter valid property name')
+		]);
+		$relation_property_name->setValidator( function( Form_Field_Input $field ) {
+			return DataModel_Definition_Property::checkPropertyNameFormat( $field );
+		} );
+		
+		$fields['relation_property_name'] = $relation_property_name;
+		
+		
 		$fields['model_name']->setDefaultValue( $current_model->getModelName() . '_' );
 		$fields['class_name']->setDefaultValue( $current_class->getClassName() . '_' );
 

@@ -178,4 +178,6 @@ return [
 	'Key with the same name already exists' => 'Klíč se stejným jménem již existuje',
 	'Create / update database table' => 'Vytvořit / aktualizovat databázovou tabulku',
 	'Help text:' => 'Nápověda - text:',
+	'Relation property name:' => 'Název propojující vlastnosti:',
+	'Please enter valid property name' => 'Prosím zadejte platný název vlastnosti',
 ];

@@ -63,7 +63,13 @@ class DataModel_Definition_Model_Related_1to1 extends Jet_DataModel_Definition_M
 
 		static::catchCreateForm_modelMainSetup( $form, $model );
 		static::catchCreateForm_relatedModelSetup( $form, $model );
-
+		
+		$relation_property_name = $form->field('relation_property_name')->getValue();
+		
+		if( !$model->create($relation_property_name) ) {
+			return false;
+		}
+		
 		return $model;
 	}
 

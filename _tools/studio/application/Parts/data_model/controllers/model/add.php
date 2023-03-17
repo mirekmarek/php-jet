@@ -4,6 +4,7 @@ namespace JetStudio;
 
 use Jet\AJAX;
 use Jet\DataModel;
+use Jet\Form;
 use Jet\Http_Request;
 use Jet\Tr;
 use Jet\UI_messages;
@@ -24,6 +25,7 @@ $class_name = __NAMESPACE__ . '\\DataModel_Definition_Model_'.$type;
 
 /**
  * @var DataModel_Definition_Model_Interface $class_name
+ * @var Form $form
  */
 $form = $class_name::getCreateForm();
 
@@ -32,26 +34,21 @@ $ok = false;
 $data = [];
 
 if( ($new_model = $class_name::catchCreateForm()) ) {
-	/**
-	 * @var DataModel_Definition_Model_Interface $new_model
-	 */
-	if( $new_model->create() ) {
+	UI_messages::success(
+		Tr::_( 'Class <strong>%class%</strong> has been created', [
+			'class' => $new_model->getClassName()
+		] )
+	);
 
-		UI_messages::success(
-			Tr::_( 'Class <strong>%class%</strong> has been created', [
-				'class' => $new_model->getClassName()
-			] )
-		);
+	$ok = true;
+	$data['new_class_name'] = $new_model->getClassName();
 
-		$ok = true;
-		$data['new_class_name'] = $new_model->getClassName();
+} else {
+	$message = implode( '', UI_messages::get() );
 
-	} else {
-		$message = implode( '', UI_messages::get() );
-
-		$form->setCommonMessage( $message );
-	}
+	$form->setCommonMessage( $message );
 }
+
 
 AJAX::operationResponse(
 	$ok,

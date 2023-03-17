@@ -170,7 +170,11 @@ class DataModel_Definition_Model_Main extends Jet_DataModel_Definition_Model_Mai
 		$model->setClass( $class );
 		
 		static::catchCreateForm_modelMainSetup( $form, $model );
-
+		
+		if( !$model->create() ) {
+			return false;
+		}
+		
 		return $model;
 	}
 

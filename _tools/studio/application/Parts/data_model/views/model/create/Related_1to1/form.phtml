@@ -6,11 +6,17 @@ use Jet\Form_Renderer;
 
 $form = DataModel_Definition_Model_Related_1to1::getCreateForm();
 
+$current_model = DataModels::getCurrentModel();
+
 $form->renderer()->setDefaultLabelWidth( [Form_Renderer::LJ_SIZE_MEDIUM => 4] );
 $form->renderer()->setDefaultFieldWidth( [Form_Renderer::LJ_SIZE_MEDIUM => 8] );
 
 $form->field( 'namespace' )->input()->addJsAction( 'onchange', 'DataModel.create.generateScriptPath(this.form)' );
-$form->field( 'class_name' )->input()->addJsAction( 'onkeyup', 'DataModel.create.generateScriptPath(this.form);DataModel.create.generateModelName(this.form);' );
+$form->field( 'class_name' )->input()->addJsAction( 'onkeyup',
+	'DataModel.create.generateScriptPath(this.form);'
+	.'DataModel.create.generateModelName(this.form);'
+	.'DataModel.create.generateRelationPropertyName(this.form, \''.$current_model->getModelName().'\');'
+);
 
 
 echo $form->start();
@@ -19,6 +25,7 @@ echo $form->field( 'type' );
 echo $form->field( 'namespace' );
 echo $form->field( 'class_name' );
 echo $form->field( 'model_name' );
+echo $form->field( 'relation_property_name' );
 echo $form->field( 'script_path' );
 
 echo $form->field( 'id_controller_class' );

@@ -179,4 +179,6 @@ return [
 	'DataModel with the same table name already exists' => '',
 	'Create / update database table' => '',
 	'Help text:' => '',
+	'Relation property name:' => '',
+	'Please enter valid property name' => '',
 ];
