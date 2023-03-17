@@ -4,10 +4,13 @@ namespace JetStudio;
 
 use Jet\Form_Renderer;
 use Jet\MVC_View;
+use Jet\Tr;
 
 /**
  * @var MVC_View $this
  */
+
+$types = Forms_Class_Property::getTypesList();
 
 $form = Forms::getCurrentProperty()->getSetTypeForm();
 
@@ -20,10 +23,33 @@ $form->renderer()
 
 
 echo $form->start();
-
-foreach($fields as $field) {
-	echo $field;
-}
-
-
+echo $form->field('type');
 echo $form->end();
+?>
+<script>
+	function selectType( type ) {
+		$('#<?=$form->field('type')->getId()?>').val( type );
+		$('#<?=$form->getId()?>').submit();
+	}
+</script>
+<h2><?=Tr::_('Select form field type please')?></h2>
+<table class="table table-striped">
+	<?php foreach($types as $type=>$type_label):
+		if(!$type) {
+			continue;
+		}
+		?>
+	<tr>
+		<?php if(str_starts_with($type_label, 'Form_Field::TYPE_')):
+			$type_label_readable = substr($type_label, strlen('Form_Field::TYPE_'));
+			?>
+			<td nowrap=""><a href="" onclick="selectType('<?=$type?>'); return false;"><?=$type_label_readable;?></a></td>
+			<td class="text-secondary" nowrap=""><?=$type_label?></td>
+		<?php else: ?>
+			<td colspan="2" nowrap=""><a href="" onclick="selectType('<?=$type?>'); return false;"><?=$type_label?></a></td>
+		<?php endif; ?>
+			<td style="width: 100%"></td>
+		
+	</tr>
+	<?php endforeach; ?>
+</table>

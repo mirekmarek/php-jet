@@ -1,16 +1,3 @@
 <?php
-
 namespace JetStudio;
-
-use Jet\MVC_View;
-use Jet\UI;
-
-/**
- * @var MVC_View $this
- */
-
-$form = Forms::getCurrentProperty()->getSetTypeForm();
-
-echo UI::button_save()
-	->setOnClick( "$('#" . $form->getId() . "').submit()" );
 

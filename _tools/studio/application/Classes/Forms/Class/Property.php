@@ -22,7 +22,6 @@ use Jet\Form_Field_Float;
 use Jet\Form_Field_Hidden;
 use Jet\Form_Field_Input;
 use Jet\Form_Field_Int;
-use Jet\Form_Field_Select;
 use Jet\IO_File;
 use Jet\Tr;
 
@@ -111,6 +110,22 @@ class Forms_Class_Property
 		return $types;
 	}
 	
+	public static function getTypesList() : array
+	{
+		$types = [
+			'' => Tr::_('- none -'),
+			'__sub_form__' => Tr::_('- Sub form -'),
+			'__sub_forms__' => Tr::_('- Sub forms -'),
+		];
+		
+		
+		foreach(static::getTypesScope() as $type=>$label) {
+			$types[$type] = $label;
+		}
+
+		return $types;
+	}
+	
 	public static function getErrorCodesScope() : array
 	{
 		$_constants = (new ReflectionClass( Form_Field::class ))->getConstants();
@@ -130,22 +145,7 @@ class Forms_Class_Property
 	 */
 	public function getSetTypeForm() : Form
 	{
-		$types = [
-			'' => Tr::_('- none -'),
-			'__sub_form__' => Tr::_('- Sub form -'),
-			'__sub_forms__' => Tr::_('- Sub forms -'),
-		];
-		
-
-		foreach(static::getTypesScope() as $type=>$label) {
-			$types[$type] = $label;
-		}
-		
-		$type_field = new Form_Field_Select('type', 'Field type:');
-		$type_field->setErrorMessages([
-			Form_Field::ERROR_CODE_INVALID_VALUE => 'Please select field type'
-		]);
-		$type_field->setSelectOptions( $types );
+		$type_field = new Form_Field_Hidden('type');
 	
 		$form = new Form('select_field_type', [$type_field]);
 		
