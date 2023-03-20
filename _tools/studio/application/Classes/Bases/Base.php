@@ -159,7 +159,7 @@ class Bases_Base extends MVC_Base
 					$value = strtolower( $value );
 					$value = str_replace( 'http://', '', $value );
 					$value = str_replace( 'https://', '', $value );
-					$value = preg_replace( '/[^a-z0-9-.\/]/i', '', $value );
+					$value = preg_replace( '/[^a-z0-9-.\/:]/i', '', $value );
 					$value = preg_replace( '~([/]{2,})~', '/', $value );
 					//$value = preg_replace( '~([-]{2,})~', '-', $value );
 					$value = preg_replace( '~([.]{2,})~', '.', $value );
