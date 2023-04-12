@@ -15,7 +15,7 @@ $list = Forms::getClasses();
 <table class="table table-striped">
 	<?php foreach( $list as $item ):
 		if( $item->getFullClassName() == Forms::getCurrentClassName() ): ?>
-		<tr>
+		<tr class="class_list_item" data-name="<?=$item->getFullClassName()?>">
 			<td>
 				<?php require 'list/item.phtml'; ?>
 			</td>

@@ -4,6 +4,40 @@ namespace JetStudio;
 <!--suppress JSUnresolvedFunction -->
 <script type="text/javascript">
 	const DataModel = {
+		search: {
+			reset: function () {
+				$('#class_search').val('');
+
+				$('.class_list_item').show();
+			},
+			search: function () {
+
+				let value = $('#class_search').val();
+
+				if (!value) {
+					Modules.search.reset();
+					return;
+				}
+
+				value = value.toLowerCase();
+
+				$('.class_list_item').each(function (index, row) {
+					row = $(row);
+
+					const name = row.data('name').toLowerCase();
+
+					if (
+						name.includes(value)
+					) {
+						row.show();
+					} else {
+						row.hide();
+					}
+
+				});
+
+			}
+		},
 		create: {
 			openDialog: function (type) {
 				$('#dialog_create_new_data_model_' + type).modal('show');

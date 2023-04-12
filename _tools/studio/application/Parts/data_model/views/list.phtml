@@ -1,26 +1,35 @@
 <?php
 namespace JetStudio;
 
+use Jet\Tr;
+
 $list = DataModels::getClasses();
 
 ?>
-<table class="table table-striped">
-	<?php foreach( $list as $item ): ?>
-		<tr>
-			<?php if( $item->getFullClassName() == DataModels::getCurrentClassName() ): ?>
-				<td>
-					<?php require 'list/item.phtml'; ?>
-				</td>
-			<?php endif; ?>
-		</tr>
-	<?php endforeach; ?>
+<?=Application_UI::search(
+	id: 'class_search',
+	placeholder: Tr::_('Search for class ...'),
+	search_action: 'DataModel.search.search()',
+	search_reset_action: 'DataModel.search.reset()') ?>
 
-	<?php foreach( $list as $item ): ?>
-		<tr>
-			<?php if( $item->getFullClassName() != DataModels::getCurrentClassName() ): ?>
-				<td><a href="?class=<?= $item->getFullClassName() ?>"><?= $item->getFullClassName() ?></a></td>
-			<?php endif; ?>
+
+<table class="table table-striped">
+	<?php foreach( $list as $item ):
+		if( $item->getFullClassName() == DataModels::getCurrentClassName() ): ?>
+		<tr class="class_list_item" data-name="<?=$item->getFullClassName()?>">
+			<td>
+				<?php require 'list/item.phtml'; ?>
+			</td>
 		</tr>
-	<?php endforeach; ?>
+		<?php endif;
+	endforeach; ?>
+
+	<?php foreach( $list as $item ):
+		if( $item->getFullClassName() != DataModels::getCurrentClassName() ): ?>
+		<tr class="class_list_item" data-name="<?=$item->getFullClassName()?>">
+			<td><a href="?class=<?= $item->getFullClassName() ?>"><?= $item->getFullClassName() ?></a></td>
+		</tr>
+		<?php endif;
+	endforeach; ?>
 
 </table>
