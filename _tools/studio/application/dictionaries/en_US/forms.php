@@ -38,4 +38,5 @@ return [
 	'Generate view script' => '',
 	'Generated view script' => '',
 	'Select form field type please' => '',
+	'Search for class ...' => '',
 ];

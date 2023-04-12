@@ -41,4 +41,5 @@ return [
 	'Generate view script' => 'Generovat view skript',
 	'Generated view script' => 'Vygenerovaný view skript',
 	'Select form field type please' => 'Vyberte typ formulářového pole prosím',
+	'Search for class ...' => 'Hledat třídu ...',
 ];

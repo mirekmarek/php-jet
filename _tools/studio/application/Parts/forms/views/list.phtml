@@ -1,26 +1,34 @@
 <?php
 namespace JetStudio;
 
+use Jet\Tr;
+
 $list = Forms::getClasses();
 
 ?>
+<?=Application_UI::search(
+	id: 'class_search',
+	placeholder: Tr::_('Search for class ...'),
+	search_action: 'Forms.search.search()',
+	search_reset_action: 'Forms.search.reset()') ?>
+
 <table class="table table-striped">
-	<?php foreach( $list as $item ): ?>
+	<?php foreach( $list as $item ):
+		if( $item->getFullClassName() == Forms::getCurrentClassName() ): ?>
 		<tr>
-			<?php if( $item->getFullClassName() == Forms::getCurrentClassName() ): ?>
-				<td>
-					<?php require 'list/item.phtml'; ?>
-				</td>
-			<?php endif; ?>
+			<td>
+				<?php require 'list/item.phtml'; ?>
+			</td>
 		</tr>
-	<?php endforeach; ?>
+		<?php endif;
+	endforeach; ?>
 	
-	<?php foreach( $list as $item ): ?>
-		<tr>
-			<?php if( $item->getFullClassName() != Forms::getCurrentClassName() ): ?>
-				<td><a href="?class=<?= $item->getFullClassName() ?>"><?= $item->getFullClassName() ?></a></td>
-			<?php endif; ?>
+	<?php foreach( $list as $item ):
+		if( $item->getFullClassName() != Forms::getCurrentClassName() ): ?>
+		<tr class="class_list_item" data-name="<?=$item->getFullClassName()?>">
+			<td><a href="?class=<?= $item->getFullClassName() ?>"><?= $item->getFullClassName() ?></a></td>
 		</tr>
-	<?php endforeach; ?>
+		<?php endif;
+	endforeach; ?>
 
 </table>
