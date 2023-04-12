@@ -11,6 +11,7 @@ namespace JetStudio;
 use Jet\Form;
 use Jet\Form_Field;
 use Jet\Form_Field_Checkbox;
+use Jet\Form_Field_Hidden;
 use Jet\Form_Field_Input;
 use Jet\Form_Field_Int;
 use Jet\Form_Field_Select;
@@ -26,7 +27,7 @@ class Pages_Page_Content extends MVC_Page_Content
 	const CONTENT_KIND_CLASS = 'class';
 	const CONTENT_KIND_STATIC = 'static';
 	const CONTENT_KIND_CALLBACK = 'callback';
-	const PARAMS_COUNT = 5;
+	const PARAMS_COUNT = 3;
 
 	/**
 	 * @var ?Form
@@ -114,26 +115,16 @@ class Pages_Page_Content extends MVC_Page_Content
 	/**
 	 * @param string $default_value
 	 *
-	 * @return Form_Field_Select
+	 * @return Form_Field_Hidden
 	 */
-	public static function getField__module_name( string $default_value ): Form_Field_Select
+	public static function getField__module_name( string $default_value ): Form_Field_Hidden
 	{
-		$modules = [
-			'' => ''
-		];
-		foreach( Modules::getModules() as $module ) {
-			$modules[$module->getName()] = $module->getName() . ' (' . $module->getLabel() . ')';
-		}
-
-		asort( $modules );
-
-		$module_name = new Form_Field_Select( 'module_name', 'Module name:' );
+		$module_name = new Form_Field_Hidden( 'module_name', 'Module name:' );
 		$module_name->setDefaultValue( $default_value );
 		$module_name->setErrorMessages( [
 			Form_Field::ERROR_CODE_EMPTY         => 'Please select module name',
 			Form_Field::ERROR_CODE_INVALID_VALUE => 'Please select module name'
 		] );
-		$module_name->setSelectOptions( $modules );
 
 		return $module_name;
 	}

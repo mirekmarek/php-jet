@@ -30,18 +30,65 @@ namespace JetStudio;
 		},
 		editPage: {
 			content: {
-				moduleSelected: function (module_name, ids) {
-					let controllers = $('#' + ids['controller_name']);
-					let controller_action = $('#' + ids['controller_action']);
+				moduleSearch: {
+					reset: function() {
+						$('#create_page_content_module_search').val('');
+
+						$('.create_page_content_module_row').show();
+					},
+					search: function() {
+
+						let value = $('#create_page_content_module_search').val();
+
+						if(!value) {
+							Pages.editPage.content.moduleSearch.reset();
+							return;
+						}
+
+						value = value.toLowerCase();
+
+						$('.create_page_content_module_row').each( function (index, row) {
+							row = $(row);
+
+							const name = row.data('name').toLowerCase();
+							const label = row.data('label').toLowerCase();
+
+							if(
+								name.includes( value ) ||
+								label.includes( value )
+							) {
+								row.show();
+							} else {
+								row.hide();
+							}
+
+						} );
+
+					}
+				},
+
+				moduleSelected: function (module_name, row) {
+					let controllers = $('#create_page_content_form__controller_name');
+					let controller_action = $('#create_page_content_form__controller_action');
+					let module_name_input = $("#create_page_content_form__module_name");
+					let controller_area = $('#create_page_content_module_controller')[0];
+
+					$('.create_page_content_module_row').removeClass('table-success');
+					$(row).addClass('table-success');
+
+
+					module_name_input.val(module_name);
 
 					controllers.empty();
 					controller_action.empty();
 
-					$('#create_page_content_form__controller_name').removeClass('is-invalid');
-					$('#create_page_content_form__controller_action').removeClass('is-invalid');
+					controller_area.style.visibility='hidden';
+
+					controllers.removeClass('is-invalid');
+					controller_action.removeClass('is-invalid');
 
 					$.ajax({
-						url: '<?=Pages::getActionUrl( 'get_module_controllers', [], false )?>&module=' + encodeURIComponent(module_name),
+						url: '<?=Modules::getActionUrl( 'page/get_module_controllers' )?>&module=' + encodeURIComponent(module_name),
 						dataType: 'json',
 						success: function (result) {
 							$.each(result['controllers'], function (name) {
@@ -50,20 +97,23 @@ namespace JetStudio;
 
 							controllers.val(result['default_controller']);
 
-							$.each(result.actions, function (name) {
+							$.each(result['actions'], function (name) {
 								controller_action.append($('<option></option>').attr('value', name).text(name));
 							});
+
+							controller_area.style.visibility='visible';
+
 						}
 					});
 				},
-				controllerSelected: function (controller, ids) {
-					let module_name = $('#' + ids['module_mame']);
-					let controller_action = $('#' + ids['controller_action']);
+				controllerSelected: function (controller) {
+					let module_name = $("#create_page_content_form__module_name");
+					let controller_action = $('#create_page_content_form__controller_action');
 
 					controller_action.empty();
 
 					$.ajax({
-						url: '<?=Pages::getActionUrl( 'get_module_controller_actions', [], false )?>&module=' + encodeURIComponent(module_name.val()) + '&controller=' + encodeURIComponent(controller),
+						url: '<?=Modules::getActionUrl( 'page/get_module_controller_actions' )?>&module=' + encodeURIComponent(module_name.val()) + '&controller=' + encodeURIComponent(controller),
 						dataType: 'json',
 						success: function (result) {
 
@@ -72,8 +122,6 @@ namespace JetStudio;
 							});
 						}
 					});
-
-					console.debug(module_name, ids);
 				},
 
 				addContent: function () {
@@ -81,8 +129,6 @@ namespace JetStudio;
 				},
 
 				createSend: function () {
-
-					<?php if(Pages::getCurrentPage()): ?>
 					JetAjaxForm.submit(
 						'create_page_content_form',
 						{
@@ -90,7 +136,6 @@ namespace JetStudio;
 							}
 						}
 					);
-					<?php endif; ?>
 				},
 
 				deleteContent: function (index) {

@@ -90,4 +90,7 @@ return [
 	'class name' => '',
 	'method name' => '',
 	'Show this page' => '',
+	'Module:' => '',
+	'Search for module ...' => '',
+	'Module controller:' => '',
 ];

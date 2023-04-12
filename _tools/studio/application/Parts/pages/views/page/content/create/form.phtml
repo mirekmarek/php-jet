@@ -5,6 +5,8 @@ namespace JetStudio;
 use Jet\Form_Renderer;
 use Jet\Tr;
 use Jet\MVC_View;
+use Jet\Translator;
+use Jet\UI;
 
 /**
  * @var MVC_View $this
@@ -92,22 +94,80 @@ $form_id = $form->getId();
 		<div id="tab_content_module<?= $tabs_suffix ?>"
 		     class="tab-pane fade<?= $selected_content_kind == Pages_Page_Content::CONTENT_KIND_MODULE ? ' show active' : '' ?>"
 		     style="padding-top: 10px;min-height: 400px;">
-			<?php
-			$ids = [
-				'module_mame'       => $form->field( 'module_name' )->getId(),
-				'controller_name'   => $form->field( 'controller_name' )->getId(),
-				'controller_action' => $form->field( 'controller_action' )->getId(),
-			];
+			
+			<div class="row">
+				<div class="col-6">
+					<div class="card">
+						<div class="card-header"><?=Tr::_('Module:')?></div>
+						<div class="card-body">
+							<div class="input-group" style="margin-bottom: 5px;">
+						<span class="input-group-btn">
+							<button class="btn btn-default" type="button" onclick="Pages.editPage.content.moduleSearch.reset();">
+								<?=UI::icon( 'times' )?>
+							</button>
+						</span>
+								<input
+										type="text"
+										class="form-control"
+										placeholder="<?=Tr::_('Search for module ...')?>"
+										id="create_page_content_module_search"
+										onkeyup="Pages.editPage.content.moduleSearch.search();"
+								>
+								<span class="input-group-btn">
+							<button class="btn btn-default" type="submit" onclick="Pages.editPage.content.moduleSearch.search();">
+								<?=UI::icon( 'search' )?>
+							</button>
+						</span>
+							</div>
 
-			$ids = str_replace( '"', "'", json_encode( $ids ) );
 
-			$form->field( 'module_name' )->input()->addJsAction( 'onchange', 'Pages.editPage.content.moduleSelected(this.value,' . $ids . ')' );
-			$form->field( 'controller_name' )->input()->addJsAction( 'onchange', 'Pages.editPage.content.controllerSelected(this.value,' . $ids . ')' );
-
-			echo $form->field( 'module_name' );
-			echo $form->field( 'controller_name' );
-			echo $form->field( 'controller_action' );
-			?>
+							<div style="height: 250px;overflow: auto;">
+								<table class="table table-striped">
+									<?php foreach(Modules::getModules() as $module): ?>
+										<tr
+												class="create_page_content_module_row"
+												id="create_page_content_module_row_<?=$module->getName()?>"
+												onclick="Pages.editPage.content.moduleSelected('<?=$module->getName()?>', this )"
+												data-name="<?=$module->getName()?>"
+												data-label="<?=$module->getLabel()?>"
+										>
+											<td><a href="#"><?=$module->getName()?></a></td>
+											<td><a href="#"><?=$module->getLabel()?></a></td>
+										</tr>
+									<?php endforeach; ?>
+								</table>
+								
+								<?=$form->field( 'module_name' );?>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-6">
+					<div class="card" id="create_page_content_module_controller" style="visibility: hidden;">
+						<div class="card-header"><?=Tr::_('Module controller:')?></div>
+						<div class="card-body">
+							<?php
+							$form->field( 'controller_name' )->input()->addJsAction( 'onchange', 'Pages.editPage.content.controllerSelected(this.value)' );
+							$form->field( 'controller_name' )->label()->setWidth([
+								Form_Renderer::LJ_SIZE_MEDIUM => 12
+							]);
+							$form->field( 'controller_name' )->input()->setWidth([
+								Form_Renderer::LJ_SIZE_MEDIUM => 12
+							]);
+							$form->field( 'controller_action' )->label()->setWidth([
+								Form_Renderer::LJ_SIZE_MEDIUM => 12
+							]);
+							$form->field( 'controller_action' )->input()->setWidth([
+								Form_Renderer::LJ_SIZE_MEDIUM => 12
+							]);
+							
+							echo $form->field( 'controller_name' );
+							echo $form->field( 'controller_action' );
+							?>
+						</div>
+					</div>
+				</div>
+			</div>
 		</div>
 
 		<div id="tab_content_class<?= $tabs_suffix ?>"

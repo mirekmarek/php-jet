@@ -95,4 +95,7 @@ return [
 	'method name' => 'název metody',
 	'Source module: ' => 'Zdrojový modul:',
 	'Show this page' => 'Zobrazit tuto stránku',
+	'Module:' => 'Modul:',
+	'Module controller:' => 'Kontroler modulu:',
+	'Search for module ...' => 'Hledat modul ...',
 ];
