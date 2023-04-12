@@ -29,6 +29,12 @@ $showIcons = function( Modules_Manifest $module ) {
 	
 };
 ?>
+<?=Application_UI::search(
+		id: 'module_search',
+		placeholder: Tr::_('Search for module ...'),
+		search_action: 'Modules.search.search()',
+		search_reset_action: 'Modules.search.reset()') ?>
+
 <table class="table table-striped">
 	<?php
 	$module = Modules::getCurrentModule();
@@ -64,7 +70,10 @@ $showIcons = function( Modules_Manifest $module ) {
 			continue;
 		}
 		?>
-		<tr>
+		<tr class="module_list_item"
+		    data-name="<?=$module->getName()?>"
+		    data-label="<?=$module->getLabel()?>"
+			>
 			<td style="width: 100px;">
 				<?php $showIcons( $module ); ?>
 			</td>

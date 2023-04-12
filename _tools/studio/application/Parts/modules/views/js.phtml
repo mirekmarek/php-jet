@@ -8,6 +8,42 @@ use Jet\Http_Request;
 <script type="text/javascript">
 
 	const Modules = {
+		search: {
+			reset: function () {
+				$('#module_search').val('');
+
+				$('.module_list_item').show();
+			},
+			search: function () {
+
+				let value = $('#module_search').val();
+
+				if (!value) {
+					Modules.search.reset();
+					return;
+				}
+
+				value = value.toLowerCase();
+
+				$('.module_list_item').each(function (index, row) {
+					row = $(row);
+
+					const name = row.data('name').toLowerCase();
+					const label = row.data('label').toLowerCase();
+
+					if (
+						name.includes(value) ||
+						label.includes(value)
+					) {
+						row.show();
+					} else {
+						row.hide();
+					}
+
+				});
+
+			},
+		},
 		editModule: {
 			addPage: {
 				openDialog: function () {

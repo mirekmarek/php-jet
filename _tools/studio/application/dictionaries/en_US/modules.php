@@ -151,4 +151,5 @@ return [
 	'Manually delete directory:<br><b>%module_dir%</b>' => '',
 	'This module is <b>marked as mandatory</b>.<br><br>Please change manually this definition in the manifest file:<br><b>%manifest_path%</b>' => '',
 	'And then reload Jet Studio' => '',
+	'Search for module ...' => '',
 ];

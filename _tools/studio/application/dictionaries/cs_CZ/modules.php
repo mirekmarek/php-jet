@@ -148,4 +148,5 @@ return [
 	'And then reload Jet Studio' => 'A pak obnovte tuto stránku Jet Studia',
 	'Deleting a module is potential risc operation!' => 'Smazání modulu je potencionálně riziková operace!',
 	'How to delete module?' => 'Jak smazat modul?',
+	'Search for module ...' => 'Hledat modul ...',
 ];
