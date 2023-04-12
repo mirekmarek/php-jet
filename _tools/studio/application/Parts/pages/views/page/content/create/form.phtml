@@ -99,27 +99,13 @@ $form_id = $form->getId();
 					<div class="card">
 						<div class="card-header"><?=Tr::_('Module:')?></div>
 						<div class="card-body">
-							<div class="input-group" style="margin-bottom: 5px;">
-						<span class="input-group-btn">
-							<button class="btn btn-default" type="button" onclick="Pages.editPage.content.moduleSearch.reset();">
-								<?=UI::icon( 'times' )?>
-							</button>
-						</span>
-								<input
-										type="text"
-										class="form-control"
-										placeholder="<?=Tr::_('Search for module ...')?>"
-										id="create_page_content_module_search"
-										onkeyup="Pages.editPage.content.moduleSearch.search();"
-								>
-								<span class="input-group-btn">
-							<button class="btn btn-default" type="submit" onclick="Pages.editPage.content.moduleSearch.search();">
-								<?=UI::icon( 'search' )?>
-							</button>
-						</span>
-							</div>
-
-
+							
+							<?=Application_UI::search(
+									id: 'create_page_content_module_search',
+									placeholder: Tr::_('Search for module ...'),
+									search_action: 'Pages.editPage.content.moduleSearch.search();',
+									search_reset_action: 'Pages.editPage.content.moduleSearch.reset();') ?>
+							
 							<div style="height: 250px;overflow: auto;">
 								<table class="table table-striped">
 									<?php foreach(Modules::getModules() as $module): ?>

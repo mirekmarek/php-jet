@@ -82,25 +82,11 @@ $dialog = UI::dialog('dialog_select_locale', Tr::_('Select locale', [], Translat
 
 echo $dialog->start();
 ?>
-	<div class="input-group" style="margin-bottom: 5px;">
-		<span class="input-group-btn">
-			<button class="btn btn-default" type="button" onclick="Dialog_SelectLocale.resetSearch();">
-				<?=UI::icon( 'times' )?>
-			</button>
-		</span>
-		<input
-				type="text"
-				class="form-control"
-				placeholder="<?=Tr::_('Search for locale ...', [], Translator::COMMON_DICTIONARY)?>"
-				id="search_locale_value"
-				onkeyup="Dialog_SelectLocale.search();"
-		>
-		<span class="input-group-btn">
-			<button class="btn btn-default" type="submit" onclick="Dialog_SelectLocale.search();">
-				<?=UI::icon( 'search' )?>
-			</button>
-		</span>
-	</div>
+	<?=Application_UI::search(
+		id: 'search_locale_value',
+		placeholder: Tr::_('Search for locale ...', dictionary:  Translator::COMMON_DICTIONARY),
+		search_action: 'Dialog_SelectLocale.search();',
+		search_reset_action: 'Dialog_SelectLocale.resetSearch();') ?>
 
 
 	<div style="height: 400px;overflow: auto">

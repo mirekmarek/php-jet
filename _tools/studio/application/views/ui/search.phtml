@@ -1,0 +1,28 @@
+<?php
+use Jet\MVC_View;
+use Jet\UI;
+
+/**
+ * @var MVC_View $this
+ */
+?>
+<div class="input-group" style="margin-bottom: 5px;">
+	<span class="input-group-btn">
+		<button class="btn btn-default" type="button" onclick="<?=$this->getRaw('search_reset_action')?>">
+			<?=UI::icon( 'times' )?>
+		</button>
+	</span>
+	
+	<input
+		type="text"
+		class="form-control"
+		placeholder="<?=$this->getRaw('placeholder')?>"
+		id="<?=$this->getRaw('id')?>"
+		onkeyup="<?=$this->getRaw('search_action')?>"
+	>
+	<span class="input-group-btn">
+		<button class="btn btn-default" type="submit" onclick="<?=$this->getRaw('search_action')?>">
+			<?=UI::icon( 'search' )?>
+		</button>
+	</span>
+</div>
