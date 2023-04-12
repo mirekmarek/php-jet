@@ -86,8 +86,8 @@ $allow_to_create_related = (
 				<?= Application::getView()->render( 'list' ); ?>
 			</div>
 			<div class="col-md-8" style="padding: 10px">
+				<?= Application_UI::messages(); ?>
 				<?php
-				echo Application::getGeneralView()->render( 'messages' );
 
 				foreach( $warnings as $warning ) {
 					echo '<div style="padding: 5px">' . UI_messages::createWarning( $warning ) . '</div>';

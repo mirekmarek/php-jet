@@ -35,9 +35,9 @@ $sort_dialog = UI::dialog( 'locales_sort_dialog', Tr::_( 'Sort locales' ), UI_di
 	<legend style="margin-top: 10px"><?= Tr::_( 'Base' ) ?> <span
 				style="font-weight: bolder"><?= $base->getName() ?></span> <span
 				style="color: #aaaaaa;font-size: 12px;"><?= $base->getId() ?></span></legend>
-
-
-	<?= Application::getGeneralView()->render( 'messages' ); ?>
+	
+	
+	<?= Application_UI::messages(); ?>
 
 	<fieldset style="margin-bottom: 40px;">
 		<?= $form->field( 'name' ) ?>

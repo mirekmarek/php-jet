@@ -21,7 +21,7 @@ $wizard = ModuleWizards::getCurrentWizard();
 		</div>
 		<div class="row">
 			<div class="offset-md-3 col-md-6">
-				<?= Application::getGeneralView()->render( 'messages' ); ?>
+				<?= Application_UI::messages(); ?>
 				<?= $wizard->getView()->render( 'main' ); ?>
 			</div>
 		</div>

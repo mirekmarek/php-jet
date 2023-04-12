@@ -30,7 +30,7 @@ $form->renderer()->setDefaultFieldWidth( [
 <?= $form->start() ?>
 <input type="hidden" name="generate" value="0"/>
 
-<?= Application::getGeneralView()->render( 'messages' ); ?>
+<?= Application_UI::messages(); ?>
 
 <legend>
 	<?= Tr::_( 'Module' ) ?>

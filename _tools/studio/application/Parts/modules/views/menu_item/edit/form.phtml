@@ -18,7 +18,7 @@ $view = Application::getView();
 
 $view->setVar( 'item', $menu_item );
 
-echo Application::getGeneralView()->render( 'messages' );
+echo Application_UI::messages();
 echo $view->render( 'item/edit/form' );
 
 echo $this->render( 'menu_item/delete/dialog' );

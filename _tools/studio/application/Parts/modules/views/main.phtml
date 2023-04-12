@@ -31,7 +31,7 @@ $what_to_edit = Modules::getCurrentWhatToEdit();
 <?php else: ?>
 	<div class="row" id="main-col">
 		<div class="col-md-12">
-			<?= Application::getGeneralView()->render( 'messages' ); ?>
+			<?= Application_UI::messages(); ?>
 			<?= Application::getView()->render( 'models_list' ); ?>
 		</div>
 	</div>

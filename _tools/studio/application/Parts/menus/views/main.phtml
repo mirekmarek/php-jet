@@ -39,7 +39,7 @@ use Jet\Tr;
 		</div>
 		<div class="col-md-9" style="padding: 0;">
 			<div class="container-fluid">
-				<?= Application::getGeneralView()->render( 'messages' ); ?>
+				<?= Application_UI::messages(); ?>
 				<?php require $what . '/edit.phtml'; ?>
 			</div>
 		</div>
@@ -51,7 +51,7 @@ use Jet\Tr;
 				<?= UI::button_create( Tr::_( 'Create a new menu set' ) )->setOnClick( 'Menus.createSet.openDialog();' ); ?>
 			</div>
 			<div style="padding: 10px;">
-				<?= Application::getGeneralView()->render( 'messages' ); ?>
+				<?= Application_UI::messages(); ?>
 
 				<?= Application::getView()->render( 'tree' ); ?>
 			</div>
