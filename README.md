@@ -48,7 +48,7 @@ All you have to do to try PHP Jet with "adult" webserver is:
 * Use composer:
   ```composer create-project mirekmarek/php-jet```
 * Create some "virtual domain" in yours hosts file. For example: jet.lc.
-* You can create database (MySQL / MariaDB) for testing if you want. But it is not necessary, because PHP Jet supports SQLite database, and it's good enough for testing.
+* You can create database (MySQL / MariaDB, PostgreSQL or MS SQL) for testing if you want. But it is not necessary, because PHP Jet supports SQLite database, and it's good enough for testing.
 * Configure your Apache (add virtual configuration) or NGINX (add server block) webserver.
 * Unpack package contains Jet and its example application into the directory which is the root directory of apache virtual / nginx server block.
 * Open virtual domain (for example https://jet.lc/) in your web browser and install example application.
