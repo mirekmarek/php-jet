@@ -1082,46 +1082,42 @@ class DataModel_Backend_MSSQL extends DataModel_Backend
 	{
 		$order_by = $query->getOrderBy();
 		
-		
-		if( !$order_by ) {
-			return '';
-		}
-		
 		$order_qp = [];
 		
-		foreach( $order_by as $ob ) {
-			/**
-			 * @var DataModel_Query_OrderBy_Item $ob
-			 */
-			$item = $ob->getItem();
-			if( $item instanceof DataModel_Definition_Property ) {
-				$item = $this->_getColumnName( $item );
-			} else if( $item instanceof DataModel_Query_Select_Item ) {
-				$item = $this->_quoteName( $item->getSelectAs() );
+		if($order_by) {
+			foreach( $order_by as $ob ) {
+				/**
+				 * @var DataModel_Query_OrderBy_Item $ob
+				 */
+				$item = $ob->getItem();
+				if( $item instanceof DataModel_Definition_Property ) {
+					$item = $this->_getColumnName( $item );
+				} else if( $item instanceof DataModel_Query_Select_Item ) {
+					$item = $this->_quoteName( $item->getSelectAs() );
+				}
+				$order_by_desc = $ob->getDesc();
+				
+				
+				/** @var string $item */
+				if( $order_by_desc ) {
+					$order_qp[] = $item . ' DESC';
+				} else {
+					$order_qp[] = $item . ' ASC';
+				}
 			}
-			$order_by_desc = $ob->getDesc();
-			
-			
-			/** @var string $item */
-			if( $order_by_desc ) {
-				$order_qp[] = $item . ' DESC';
-			} else {
-				$order_qp[] = $item . ' ASC';
+		}
+		
+		if(
+			!$order_qp &&
+			$query->getLimit()
+		) {
+			foreach($query->getDataModelDefinition()->getIdProperties() as $property) {
+				$order_qp[] = $this->_getColumnName( $property );
 			}
 		}
 		
 		if( !$order_qp ) {
-			
-			if( $query->getLimit() ) {
-				$order_qp = [];
-				foreach($query->getDataModelDefinition()->getIdProperties() as $property) {
-					$order_qp[] = $this->_getColumnName( $property );
-				}
-				
-				if( !$order_qp ) {
-					return '';
-				}
-			}
+			return '';
 		}
 		
 		return PHP_EOL . 'ORDER BY' . PHP_EOL . "\t" . implode( ',' . PHP_EOL . "\t", $order_qp ) . PHP_EOL;
