@@ -15,4 +15,5 @@ return [
 	'username' => '',
 	'password' => '',
 	'Invalid username or password!' => '',
+	'Logout' => '',
 ];

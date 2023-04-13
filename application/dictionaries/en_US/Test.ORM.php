@@ -8,4 +8,5 @@ return [
 	'Count query' => '',
 	'MtoN relation' => '',
 	'External relation' => '',
+	'CREATE TABLE' => '',
 ];

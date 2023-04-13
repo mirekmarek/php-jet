@@ -5,13 +5,12 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek@web-jet.cz>
  */
-
 namespace Jet;
 
 /**
  *
  */
-class DataModel_Backend_PgSQL_Config extends DataModel_Backend_Config
+class DataModel_Backend_MSSQL_Config extends DataModel_Backend_Config
 {
 	
 	/**
@@ -27,7 +26,7 @@ class DataModel_Backend_PgSQL_Config extends DataModel_Backend_Config
 		label: 'Connection - read: ',
 		is_required: true,
 		select_options_creator: [
-			DataModel_Backend_PgSQL_Config::class,
+			DataModel_Backend_MSSQL_Config::class,
 			'getDbConnectionsList'
 		],
 		error_messages: [
@@ -67,7 +66,7 @@ class DataModel_Backend_PgSQL_Config extends DataModel_Backend_Config
 	 */
 	public static function getDbConnectionsList(): array
 	{
-		return Db_Config::getConnectionsList( Db::DRIVER_PGSQL );
+		return Db_Config::getConnectionsList( Db::DRIVER_MSSQL );
 	}
 	
 

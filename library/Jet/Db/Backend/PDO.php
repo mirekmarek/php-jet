@@ -77,7 +77,11 @@ class Db_Backend_PDO implements Db_Backend_Interface
 
 		$statement = $this->statements[$q_hash];
 
-		$statement->execute( $query_params );
+		try {
+			$statement->execute( $query_params );
+		} catch( PDOException $e ) {
+			throw new Db_Exception( $e->getMessage()."\n\nSQL query:\n\n".$query );
+		}
 
 		return $statement;
 	}

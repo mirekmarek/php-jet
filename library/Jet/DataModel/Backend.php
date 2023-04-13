@@ -15,6 +15,7 @@ abstract class DataModel_Backend extends BaseObject
 {
 	const TYPE_MYSQL = 'MySQL';
 	const TYPE_PGSQL = 'PgSQL';
+	const TYPE_MSSQL = 'MSSQL';
 	const TYPE_SQLITE = 'SQLite';
 	
 	/**
@@ -23,6 +24,7 @@ abstract class DataModel_Backend extends BaseObject
 	protected static array $backend_types = [
 		self::TYPE_MYSQL,
 		self::TYPE_PGSQL,
+		self::TYPE_MSSQL,
 		self::TYPE_SQLITE,
 	];
 
