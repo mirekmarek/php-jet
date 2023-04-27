@@ -210,6 +210,9 @@ class Http_Request extends BaseObject
 	{
 		$scheme = 'http';
 		$host = $_SERVER['HTTP_HOST'];
+		if(str_contains($host, ':')) {
+			[$host] = explode(':', $host);
+		}
 		$port = '';
 
 		if(

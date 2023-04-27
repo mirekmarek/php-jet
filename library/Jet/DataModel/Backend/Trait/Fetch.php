@@ -65,33 +65,44 @@ trait DataModel_Backend_Trait_Fetch {
 	 */
 	public function fetchCol( DataModel_Query $query ): array
 	{
-		$data = $this->getDbRead()->fetchCol(
-			$this->createSelectQuery( $query )
-		);
-		
-		foreach( $data as $i => $d ) {
-			foreach( $query->getSelect() as $item ) {
-				/**
-				 * @var DataModel_Query_Select_Item $item
-				 * @var DataModel_Definition_Property $property
-				 */
-				$property = $item->getItem();
-				
-				if( !($property instanceof DataModel_Definition_Property) ) {
-					continue;
-				}
-				
-				if( $property->getMustBeSerializedBeforeStore() ) {
-					$data[$i] = $this->unserialize( $data[$i] );
-				}
-				
-				$property->checkValueType( $data[$i] );
-				
-				break;
+		$property_name = null;
+		$property_definition = null;
+		foreach( $query->getSelect() as $property_name=>$pd ) {
+			/**
+			 * @var DataModel_Query_Select_Item $pd
+			 * @var DataModel_Definition_Property $property
+			 */
+			$property = $pd->getItem();
+			
+			if( !($property instanceof DataModel_Definition_Property) ) {
+				continue;
 			}
+			
+			$property_definition = $property;
+			break;
 		}
 		
-		return $data;
+		if(!$property_definition) {
+			[];
+		}
+		
+		
+		$data = $this->_fetch( $query, 'fetchAll' );
+		$result = [];
+		
+		foreach( $data as $i => $d ) {
+			$value = $d[$property_name];
+			
+			if( $property_definition->getMustBeSerializedBeforeStore() ) {
+				$value = $this->unserialize( $value );
+			}
+			
+			$property_definition->checkValueType( $value );
+			
+			$result[] = $value;
+		}
+		
+		return $result;
 	}
 	
 }
