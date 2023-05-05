@@ -23,11 +23,11 @@ use Jet\MVC_Page_Content;
  */
 class Pages_Page_Content extends MVC_Page_Content
 {
-	const CONTENT_KIND_MODULE = 'module';
-	const CONTENT_KIND_CLASS = 'class';
-	const CONTENT_KIND_STATIC = 'static';
-	const CONTENT_KIND_CALLBACK = 'callback';
-	const PARAMS_COUNT = 3;
+	public const CONTENT_KIND_MODULE = 'module';
+	public const CONTENT_KIND_CLASS = 'class';
+	public const CONTENT_KIND_STATIC = 'static';
+	public const CONTENT_KIND_CALLBACK = 'callback';
+	public const PARAMS_COUNT = 3;
 
 	/**
 	 * @var ?Form

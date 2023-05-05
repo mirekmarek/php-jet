@@ -15,7 +15,7 @@ class DataModel_Backend_SQLite extends DataModel_Backend
 {
 	use DataModel_Backend_Trait_Fetch;
 	
-	const PRIMARY_KEY_NAME = 'PRIMARY';
+	public const PRIMARY_KEY_NAME = 'PRIMARY';
 	/**
 	 * @var array
 	 */

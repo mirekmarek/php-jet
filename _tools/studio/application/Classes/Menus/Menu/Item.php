@@ -24,9 +24,9 @@ use Jet\Navigation_Menu_Item;
  */
 class Menus_Menu_Item extends Navigation_Menu_Item
 {
-
-	const URL_PARTS_COUNT = 5;
-	const GET_PARAMS_COUNT = 5;
+	
+	public const URL_PARTS_COUNT = 5;
+	public const GET_PARAMS_COUNT = 5;
 
 
 	/**

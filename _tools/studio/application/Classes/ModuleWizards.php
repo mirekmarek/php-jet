@@ -20,7 +20,7 @@ use Jet\Tr;
  */
 class ModuleWizards extends BaseObject implements Application_Part
 {
-	const WIZARD_NAMESPACE = 'JetStudio\ModuleWizard';
+	public const WIZARD_NAMESPACE = 'JetStudio\ModuleWizard';
 
 
 	/**

@@ -13,8 +13,8 @@ namespace Jet;
  */
 class Translator extends BaseObject
 {
-
-	const COMMON_DICTIONARY = '_COMMON_';
+	
+	public const COMMON_DICTIONARY = '_COMMON_';
 
 	/**
 	 *

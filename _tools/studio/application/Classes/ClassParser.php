@@ -13,9 +13,9 @@ namespace JetStudio;
  */
 class ClassParser
 {
-	const VISIBILITY_PUBLIC = 'public';
-	const VISIBILITY_PROTECTED = 'protected';
-	const VISIBILITY_PRIVATE = 'private';
+	public const VISIBILITY_PUBLIC = 'public';
+	public const VISIBILITY_PROTECTED = 'protected';
+	public const VISIBILITY_PRIVATE = 'private';
 
 
 	/**

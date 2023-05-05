@@ -24,8 +24,8 @@ use Jet\Logger;
  */
 class Auth_Controller_REST extends BaseObject implements Auth_Controller_Interface
 {
-	const EVENT_LOGIN_FAILED = 'login_failed';
-	const EVENT_LOGIN_SUCCESS = 'login_success';
+	public const EVENT_LOGIN_FAILED = 'login_failed';
+	public const EVENT_LOGIN_SUCCESS = 'login_success';
 
 	/**
 	 *

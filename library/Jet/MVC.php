@@ -13,9 +13,9 @@ namespace Jet;
  */
 class MVC
 {
-	const HOMEPAGE_ID = '_homepage_';
-
-	const MAIN_CONTROLLER_NAME = 'Main';
+	public const HOMEPAGE_ID = '_homepage_';
+	
+	public const MAIN_CONTROLLER_NAME = 'Main';
 
 	/**
 	 *

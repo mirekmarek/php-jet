@@ -32,10 +32,10 @@ use Jet\MVC_Page_Content_Interface;
  */
 class Pages_Page extends MVC_Page
 {
-	const MAX_META_TAGS_COUNT = 100;
-	const MAX_HTTP_HEADERS_COUNT = 100;
-
-	const PARAMS_COUNT = 5;
+	public const MAX_META_TAGS_COUNT = 100;
+	public const MAX_HTTP_HEADERS_COUNT = 100;
+	
+	public const PARAMS_COUNT = 5;
 
 	/**
 	 * @var bool

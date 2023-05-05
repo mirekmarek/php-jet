@@ -13,14 +13,14 @@ namespace Jet;
  */
 class UI_badge extends UI_Renderer_Single
 {
-	const PRIMARY = 'primary';
-	const SECONDARY = 'secondary';
-	const WARNING = 'warning';
-	const INFO = 'info';
-	const SUCCESS = 'success';
-	const DANGER = 'danger';
-	const LIGHT = 'light';
-	const DARK = 'dark';
+	public const PRIMARY = 'primary';
+	public const SECONDARY = 'secondary';
+	public const WARNING = 'warning';
+	public const INFO = 'info';
+	public const SUCCESS = 'success';
+	public const DANGER = 'danger';
+	public const LIGHT = 'light';
+	public const DARK = 'dark';
 	
 	protected string $text;
 	

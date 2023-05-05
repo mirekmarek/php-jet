@@ -15,7 +15,7 @@ require_once 'Content/Interface.php';
  */
 class MVC_Page_Content extends BaseObject implements MVC_Page_Content_Interface
 {
-	const DEFAULT_CONTROLLER_ACTION = 'default';
+	public const DEFAULT_CONTROLLER_ACTION = 'default';
 
 	/**
 	 * @var ?MVC_Page_Interface

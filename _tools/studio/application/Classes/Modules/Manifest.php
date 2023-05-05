@@ -26,7 +26,7 @@ use ReflectionMethod;
  */
 class Modules_Manifest extends Application_Module_Manifest
 {
-	const MAX_ACL_ACTION_COUNT = 100;
+	public const MAX_ACL_ACTION_COUNT = 100;
 
 	/**
 	 * @var ?Form

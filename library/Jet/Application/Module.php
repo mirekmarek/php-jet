@@ -13,7 +13,7 @@ namespace Jet;
  */
 abstract class Application_Module extends BaseObject
 {
-	const MAIN_CLASS_NAME = 'Main';
+	public const MAIN_CLASS_NAME = 'Main';
 
 	/**
 	 *

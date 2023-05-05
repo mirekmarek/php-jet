@@ -30,7 +30,7 @@ use Jet\IO_File;
  */
 class Bases_Base extends MVC_Base
 {
-	const PARAMS_COUNT = 5;
+	public const PARAMS_COUNT = 5;
 
 	/**
 	 * @var ?Form

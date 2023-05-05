@@ -15,9 +15,9 @@ use Jet\Application_Module;
  */
 class Main extends Application_Module
 {
-	const ACTION_GET_ARTICLE = 'get_article';
-	const ACTION_ADD_ARTICLE = 'add_article';
-	const ACTION_UPDATE_ARTICLE = 'update_article';
-	const ACTION_DELETE_ARTICLE = 'delete_article';
+	public const ACTION_GET_ARTICLE = 'get_article';
+	public const ACTION_ADD_ARTICLE = 'add_article';
+	public const ACTION_UPDATE_ARTICLE = 'update_article';
+	public const ACTION_DELETE_ARTICLE = 'delete_article';
 
 }

@@ -36,8 +36,8 @@ use Jet\Form_Field;
 class Auth_Administrator_Role extends DataModel implements Auth_Role_Interface
 {
 
-	const PRIVILEGE_VISIT_PAGE = 'visit_page';
-	const PRIVILEGE_MODULE_ACTION = 'module_action';
+	public const PRIVILEGE_VISIT_PAGE = 'visit_page';
+	public const PRIVILEGE_MODULE_ACTION = 'module_action';
 
 
 	/**

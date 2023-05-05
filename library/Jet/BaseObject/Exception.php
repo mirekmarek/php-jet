@@ -14,7 +14,7 @@ namespace Jet;
 class BaseObject_Exception extends Exception
 {
 
-	const CODE_UNDEFINED_PROPERTY = 1;
-	const CODE_ACCESS_PROTECTED_PROPERTY = 2;
+	public const CODE_UNDEFINED_PROPERTY = 1;
+	public const CODE_ACCESS_PROTECTED_PROPERTY = 2;
 
 }

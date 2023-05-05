@@ -13,11 +13,11 @@ namespace Jet;
  */
 class Logger
 {
-	const EVENT_CLASS_SUCCESS = 'success';
-	const EVENT_CLASS_INFO = 'info';
-	const EVENT_CLASS_WARNING = 'warning';
-	const EVENT_CLASS_DANGER = 'danger';
-	const EVENT_CLASS_FAULT = 'fault';
+	public const EVENT_CLASS_SUCCESS = 'success';
+	public const EVENT_CLASS_INFO = 'info';
+	public const EVENT_CLASS_WARNING = 'warning';
+	public const EVENT_CLASS_DANGER = 'danger';
+	public const EVENT_CLASS_FAULT = 'fault';
 
 
 	/**

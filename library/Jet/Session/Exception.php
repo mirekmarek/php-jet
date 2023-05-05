@@ -14,6 +14,6 @@ namespace Jet;
 class Session_Exception extends Exception
 {
 
-	const CODE_INVALID_KEY = 1;
+	public const CODE_INVALID_KEY = 1;
 
 }

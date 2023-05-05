@@ -14,9 +14,9 @@ namespace Jet;
 class Mailing_Email_Template extends BaseObject
 {
 
-	const SUBJECT_VIEW = 'subject';
-	const BODY_TXT_VIEW = 'body_txt';
-	const BODY_HTML_VIEW = 'body_html';
+	public const SUBJECT_VIEW = 'subject';
+	public const BODY_TXT_VIEW = 'body_txt';
+	public const BODY_HTML_VIEW = 'body_html';
 
 	/**
 	 * @var string

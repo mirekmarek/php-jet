@@ -29,14 +29,14 @@ namespace Jet;
 abstract class Config extends BaseObject implements Form_Definition_Interface
 {
 	use Form_Definition_Trait;
-
-	const TYPE_STRING = 'String';
-	const TYPE_BOOL = 'Bool';
-	const TYPE_INT = 'Int';
-	const TYPE_FLOAT = 'Float';
-	const TYPE_ARRAY = 'Array';
-	const TYPE_SECTION = 'Section';
-	const TYPE_SECTIONS = 'Sections';
+	
+	public const TYPE_STRING = 'String';
+	public const TYPE_BOOL = 'Bool';
+	public const TYPE_INT = 'Int';
+	public const TYPE_FLOAT = 'Float';
+	public const TYPE_ARRAY = 'Array';
+	public const TYPE_SECTION = 'Section';
+	public const TYPE_SECTIONS = 'Sections';
 
 
 	/**

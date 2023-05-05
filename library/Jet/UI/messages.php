@@ -13,10 +13,10 @@ namespace Jet;
  */
 class UI_messages extends BaseObject
 {
-	const C_SUCCESS = 'success';
-	const C_INFO = 'info';
-	const C_WARNING = 'warning';
-	const C_DANGER = 'danger';
+	public const C_SUCCESS = 'success';
+	public const C_INFO = 'info';
+	public const C_WARNING = 'warning';
+	public const C_DANGER = 'danger';
 
 	/**
 	 * @var UI_messages_message[]|null

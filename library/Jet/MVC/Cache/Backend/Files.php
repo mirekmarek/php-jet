@@ -20,7 +20,7 @@ require_once SysConf_Path::getLibrary() . 'Jet/MVC/Cache/Backend.php';
 class MVC_Cache_Backend_Files extends Cache_Files implements MVC_Cache_Backend
 {
 
-	const KEY_PREFIX = 'mvc_';
+	public const KEY_PREFIX = 'mvc_';
 
 	/**
 	 * @return bool

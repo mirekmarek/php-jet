@@ -13,5 +13,5 @@ namespace Jet;
  */
 class MVC_View_Exception extends Exception
 {
-	const CODE_INVALID_VIEW_NAME = 4;
+	public const CODE_INVALID_VIEW_NAME = 4;
 }

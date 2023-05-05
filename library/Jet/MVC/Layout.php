@@ -13,18 +13,18 @@ namespace Jet;
  */
 class MVC_Layout extends MVC_View_Abstract
 {
-	const TAG_POSITION = 'jet_layout_position';
-	const TAG_MAIN_POSITION = 'jet_layout_main_position';
-
-	const TAG_JAVASCRIPT = 'jet_layout_javascripts';
-	const TAG_CSS = 'jet_layout_css';
-
-	const TAG_META_TAGS = 'jet_layout_meta_tags';
-
-	const TAG_MODULE = 'jet_module';
-
-
-	const DEFAULT_OUTPUT_POSITION = '__main__';
+	public const TAG_POSITION = 'jet_layout_position';
+	public const TAG_MAIN_POSITION = 'jet_layout_main_position';
+	
+	public const TAG_JAVASCRIPT = 'jet_layout_javascripts';
+	public const TAG_CSS = 'jet_layout_css';
+	
+	public const TAG_META_TAGS = 'jet_layout_meta_tags';
+	
+	public const TAG_MODULE = 'jet_module';
+	
+	
+	public const DEFAULT_OUTPUT_POSITION = '__main__';
 
 	/**
 	 * @var MVC_Layout|null

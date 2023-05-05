@@ -13,10 +13,10 @@ namespace Jet;
  */
 abstract class Form_Renderer extends BaseObject
 {
-	const LJ_SIZE_EXTRA_SMALL = 'xs';
-	const LJ_SIZE_SMALL = 'sm';
-	const LJ_SIZE_MEDIUM = 'md';
-	const LJ_SIZE_LARGE = 'lg';
+	public const LJ_SIZE_EXTRA_SMALL = 'xs';
+	public const LJ_SIZE_SMALL = 'sm';
+	public const LJ_SIZE_MEDIUM = 'md';
+	public const LJ_SIZE_LARGE = 'lg';
 	
 	
 	/**

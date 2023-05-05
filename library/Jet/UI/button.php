@@ -14,24 +14,24 @@ namespace Jet;
  */
 class UI_button extends UI_Renderer_Single
 {
-	const TYPE_BUTTON = 'button';
-	const TYPE_SUBMIT = 'submit';
-	const TYPE_RESET = 'reset';
+	public const TYPE_BUTTON = 'button';
+	public const TYPE_SUBMIT = 'submit';
+	public const TYPE_RESET = 'reset';
 	
-	const CLASS_PRIMARY = 'primary';
-	const CLASS_SECONDARY = 'secondary';
-	const CLASS_SUCCESS = 'success';
-	const CLASS_DANGER = 'danger';
-	const CLASS_WARNING = 'warning';
-	const CLASS_INFO = 'info';
-	const CLASS_LIGHT = 'light';
-	const CLASS_DARK = 'dark';
-	const CLASS_LINK = 'link';
+	public const CLASS_PRIMARY = 'primary';
+	public const CLASS_SECONDARY = 'secondary';
+	public const CLASS_SUCCESS = 'success';
+	public const CLASS_DANGER = 'danger';
+	public const CLASS_WARNING = 'warning';
+	public const CLASS_INFO = 'info';
+	public const CLASS_LIGHT = 'light';
+	public const CLASS_DARK = 'dark';
+	public const CLASS_LINK = 'link';
 	
-	const SIZE_SMALL = 'sm';
-	const SIZE_NORMAL = 'normal';
-	const SIZE_LARGE = 'lg';
-	const SIZE_EXTRA_SMALL = 'xs';
+	public const SIZE_SMALL = 'sm';
+	public const SIZE_NORMAL = 'normal';
+	public const SIZE_LARGE = 'lg';
+	public const SIZE_EXTRA_SMALL = 'xs';
 
 	/**
 	 * @var string

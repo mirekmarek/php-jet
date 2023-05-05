@@ -15,11 +15,11 @@ use Jet\Application_Module;
  */
 class Main extends Application_Module
 {
-	const ADMIN_MAIN_PAGE = 'rest-clients-users';
-
-	const ACTION_GET_USER = 'get_user';
-	const ACTION_ADD_USER = 'add_user';
-	const ACTION_UPDATE_USER = 'update_user';
-	const ACTION_DELETE_USER = 'delete_user';
+	public const ADMIN_MAIN_PAGE = 'rest-clients-users';
+	
+	public const ACTION_GET_USER = 'get_user';
+	public const ACTION_ADD_USER = 'add_user';
+	public const ACTION_UPDATE_USER = 'update_user';
+	public const ACTION_DELETE_USER = 'delete_user';
 
 }

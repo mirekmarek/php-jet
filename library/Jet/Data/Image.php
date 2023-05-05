@@ -13,9 +13,9 @@ namespace Jet;
  */
 class Data_Image extends BaseObject
 {
-	const TYPE_GIF = 1;
-	const TYPE_JPG = 2;
-	const TYPE_PNG = 3;
+	public const TYPE_GIF = 1;
+	public const TYPE_JPG = 2;
+	public const TYPE_PNG = 3;
 
 	/**
 	 * @var string

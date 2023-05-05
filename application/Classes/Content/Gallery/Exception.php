@@ -15,6 +15,6 @@ use Jet\Exception;
  */
 class Content_Gallery_Exception extends Exception
 {
-	const CODE_IMAGE_ALREADY_EXIST = 1;
-	const CODE_ILLEGAL_THUMBNAIL_DIMENSION = 100;
+	public const CODE_IMAGE_ALREADY_EXIST = 1;
+	public const CODE_ILLEGAL_THUMBNAIL_DIMENSION = 100;
 }

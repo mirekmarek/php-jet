@@ -14,12 +14,12 @@ namespace Jet;
  */
 class UI_icon extends UI_Renderer_Single
 {
-	const SIZE_EXTRA_SMALL = 'xs';
-	const SIZE_SMALL = 'sm';
-	const SIZE_NORMAL = 'normal';
-	const SIZE_LARGE = 'lg';
-	const SIZE_EXTRA_LARGE = 'xl';
-	const SIZE_ULTRA_LARGE = 'ul';
+	public const SIZE_EXTRA_SMALL = 'xs';
+	public const SIZE_SMALL = 'sm';
+	public const SIZE_NORMAL = 'normal';
+	public const SIZE_LARGE = 'lg';
+	public const SIZE_EXTRA_LARGE = 'xl';
+	public const SIZE_ULTRA_LARGE = 'ul';
 	
 	/**
 	 * @var string

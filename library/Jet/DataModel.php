@@ -86,27 +86,27 @@ abstract class DataModel extends BaseObject implements BaseObject_Interface_Seri
 	use DataModel_Trait_Exports;
 	
 	use Form_Definition_Trait;
-
-	const MODEL_TYPE_MAIN = 'Main';
-	const MODEL_TYPE_RELATED_1TON = 'Related_1toN';
-	const MODEL_TYPE_RELATED_1TO1 = 'Related_1to1';
-
-
-	const TYPE_ID = 'Id';
-	const TYPE_ID_AUTOINCREMENT = 'IdAutoIncrement';
-	const TYPE_STRING = 'String';
-	const TYPE_BOOL = 'Bool';
-	const TYPE_INT = 'Int';
-	const TYPE_FLOAT = 'Float';
-	const TYPE_LOCALE = 'Locale';
-	const TYPE_DATE = 'Date';
-	const TYPE_DATE_TIME = 'DateTime';
-	const TYPE_CUSTOM_DATA = 'CustomData';
-	const TYPE_DATA_MODEL = 'DataModel';
-
-	const KEY_TYPE_PRIMARY = 'PRIMARY';
-	const KEY_TYPE_INDEX = 'INDEX';
-	const KEY_TYPE_UNIQUE = 'UNIQUE';
+	
+	public const MODEL_TYPE_MAIN = 'Main';
+	public const MODEL_TYPE_RELATED_1TON = 'Related_1toN';
+	public const MODEL_TYPE_RELATED_1TO1 = 'Related_1to1';
+	
+	
+	public const TYPE_ID = 'Id';
+	public const TYPE_ID_AUTOINCREMENT = 'IdAutoIncrement';
+	public const TYPE_STRING = 'String';
+	public const TYPE_BOOL = 'Bool';
+	public const TYPE_INT = 'Int';
+	public const TYPE_FLOAT = 'Float';
+	public const TYPE_LOCALE = 'Locale';
+	public const TYPE_DATE = 'Date';
+	public const TYPE_DATE_TIME = 'DateTime';
+	public const TYPE_CUSTOM_DATA = 'CustomData';
+	public const TYPE_DATA_MODEL = 'DataModel';
+	
+	public const KEY_TYPE_PRIMARY = 'PRIMARY';
+	public const KEY_TYPE_INDEX = 'INDEX';
+	public const KEY_TYPE_UNIQUE = 'UNIQUE';
 
 
 	public function __construct()

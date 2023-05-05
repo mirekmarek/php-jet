@@ -18,56 +18,56 @@ use ReflectionClass;
 abstract class Form_Field extends BaseObject implements JsonSerializable
 {
 	
-	const TYPE_HIDDEN = 'Hidden';
+	public const TYPE_HIDDEN = 'Hidden';
 	
-	const TYPE_INPUT = 'Input';
+	public const TYPE_INPUT = 'Input';
 	
-	const TYPE_INT = 'Int';
-	const TYPE_FLOAT = 'Float';
-	const TYPE_RANGE = 'Range';
+	public const TYPE_INT = 'Int';
+	public const TYPE_FLOAT = 'Float';
+	public const TYPE_RANGE = 'Range';
 	
-	const TYPE_DATE = 'Date';
-	const TYPE_DATE_TIME = 'DateTime';
-	const TYPE_MONTH = 'Month';
-	const TYPE_WEEK = 'Week';
-	const TYPE_TIME = 'Time';
+	public const TYPE_DATE = 'Date';
+	public const TYPE_DATE_TIME = 'DateTime';
+	public const TYPE_MONTH = 'Month';
+	public const TYPE_WEEK = 'Week';
+	public const TYPE_TIME = 'Time';
 	
-	const TYPE_EMAIL = 'Email';
-	const TYPE_TEL = 'Tel';
+	public const TYPE_EMAIL = 'Email';
+	public const TYPE_TEL = 'Tel';
 	
-	const TYPE_URL = 'Url';
-	const TYPE_SEARCH = 'Search';
+	public const TYPE_URL = 'Url';
+	public const TYPE_SEARCH = 'Search';
 	
-	const TYPE_COLOR = 'Color';
+	public const TYPE_COLOR = 'Color';
 	
-	const TYPE_SELECT = 'Select';
-	const TYPE_MULTI_SELECT = 'MultiSelect';
+	public const TYPE_SELECT = 'Select';
+	public const TYPE_MULTI_SELECT = 'MultiSelect';
 	
-	const TYPE_CHECKBOX = 'Checkbox';
-	const TYPE_RADIO_BUTTON = 'RadioButton';
+	public const TYPE_CHECKBOX = 'Checkbox';
+	public const TYPE_RADIO_BUTTON = 'RadioButton';
 	
-	const TYPE_TEXTAREA = 'Textarea';
-	const TYPE_WYSIWYG = 'WYSIWYG';
+	public const TYPE_TEXTAREA = 'Textarea';
+	public const TYPE_WYSIWYG = 'WYSIWYG';
 	
-	const TYPE_PASSWORD = 'Password';
+	public const TYPE_PASSWORD = 'Password';
 	
-	const TYPE_FILE = 'File';
-	const TYPE_FILE_IMAGE = 'FileImage';
+	public const TYPE_FILE = 'File';
+	public const TYPE_FILE_IMAGE = 'FileImage';
 	
-	const TYPE_CSRF_PROTECTION = 'CSRFProtection';
+	public const TYPE_CSRF_PROTECTION = 'CSRFProtection';
 	
 	
 	use Form_Field_Trait_Validation;
 	use Form_Field_Trait_Render;
 
-	const ERROR_CODE_EMPTY = 'empty';
-	const ERROR_CODE_INVALID_FORMAT = 'invalid_format';
-	const ERROR_CODE_INVALID_VALUE = 'invalid_value';
-	const ERROR_CODE_OUT_OF_RANGE = 'out_of_range';
-	const ERROR_CODE_FILE_IS_TOO_LARGE = 'file_is_too_large';
-	const ERROR_CODE_DISALLOWED_FILE_TYPE = 'disallowed_file_type';
-	const ERROR_CODE_CHECK_NOT_MATCH = 'check_not_match';
-	const ERROR_CODE_WEAK_PASSWORD = 'weak_password';
+	public const ERROR_CODE_EMPTY = 'empty';
+	public const ERROR_CODE_INVALID_FORMAT = 'invalid_format';
+	public const ERROR_CODE_INVALID_VALUE = 'invalid_value';
+	public const ERROR_CODE_OUT_OF_RANGE = 'out_of_range';
+	public const ERROR_CODE_FILE_IS_TOO_LARGE = 'file_is_too_large';
+	public const ERROR_CODE_DISALLOWED_FILE_TYPE = 'disallowed_file_type';
+	public const ERROR_CODE_CHECK_NOT_MATCH = 'check_not_match';
+	public const ERROR_CODE_WEAK_PASSWORD = 'weak_password';
 
 	
 	/**

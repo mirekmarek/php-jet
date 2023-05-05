@@ -30,12 +30,12 @@ use JetApplication\Auth_Administrator_User as Administrator;
  */
 class Auth_Controller_Admin extends BaseObject implements Auth_Controller_Interface
 {
-	const LOGIN_FORM_MODULE_NAME = 'Login.Admin';
-
-
-	const EVENT_LOGIN_FAILED = 'login_failed';
-	const EVENT_LOGIN_SUCCESS = 'login_success';
-	const EVENT_LOGOUT = 'logout';
+	public const LOGIN_FORM_MODULE_NAME = 'Login.Admin';
+	
+	
+	public const EVENT_LOGIN_FAILED = 'login_failed';
+	public const EVENT_LOGIN_SUCCESS = 'login_success';
+	public const EVENT_LOGOUT = 'logout';
 
 	/**
 	 *
@@ -127,7 +127,7 @@ class Auth_Controller_Admin extends BaseObject implements Auth_Controller_Interf
 		if( $user ) {
 			if( $user->isBlocked() ) {
 				$action = 'is_blocked';
-			} else if( !$user->getPasswordIsValid() ) {
+			} elseif( !$user->getPasswordIsValid() ) {
 				$action = 'must_change_password';
 			}
 		}

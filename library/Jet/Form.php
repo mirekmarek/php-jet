@@ -13,12 +13,12 @@ namespace Jet;
  */
 class Form extends BaseObject
 {
-	const METHOD_POST = 'POST';
-	const METHOD_GET = 'GET';
+	public const METHOD_POST = 'POST';
+	public const METHOD_GET = 'GET';
 
-	const ENCTYPE_URL_ENCODED = 'application/x-www-form-urlencoded';
-	const ENCTYPE_FORM_DATA = 'multipart/form-data';
-	const ENCTYPE_TEXT_PLAIN = 'text/plain';
+	public const ENCTYPE_URL_ENCODED = 'application/x-www-form-urlencoded';
+	public const ENCTYPE_FORM_DATA = 'multipart/form-data';
+	public const ENCTYPE_TEXT_PLAIN = 'text/plain';
 	
 	/**
 	 *

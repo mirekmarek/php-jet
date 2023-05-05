@@ -13,8 +13,8 @@ namespace Jet;
  */
 class Db_Exception extends Exception
 {
-
-	const CODE_UNKNOWN_CONNECTION = 1;
-	const CODE_CONFIG_ERROR = 3;
+	
+	public const CODE_UNKNOWN_CONNECTION = 1;
+	public const CODE_CONFIG_ERROR = 3;
 
 }

@@ -20,7 +20,7 @@ require_once SysConf_Path::getLibrary() . 'Jet/Autoloader/Cache/Backend.php';
 class Autoloader_Cache_Backend_Files extends Cache_Files implements Autoloader_Cache_Backend
 {
 
-	const KEY = 'autoloader_class_map';
+	public const KEY = 'autoloader_class_map';
 
 	/**
 	 * @return bool

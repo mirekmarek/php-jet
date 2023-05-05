@@ -14,7 +14,7 @@ namespace Jet;
 class MVC_Controller_Exception extends Exception
 {
 
-	const CODE_UNKNOWN_ACL_ACTION = 1;
-	const CODE_INVALID_RESPONSE_CODE = 2;
+	public const CODE_UNKNOWN_ACL_ACTION = 1;
+	public const CODE_INVALID_RESPONSE_CODE = 2;
 
 }

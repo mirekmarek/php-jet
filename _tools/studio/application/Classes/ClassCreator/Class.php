@@ -16,9 +16,9 @@ use Jet\BaseObject_Exception;
  */
 class ClassCreator_Class extends BaseObject
 {
-	const VISIBILITY_PUBLIC = 'public';
-	const VISIBILITY_PROTECTED = 'protected';
-	const VISIBILITY_PRIVATE = 'private';
+	public const VISIBILITY_PUBLIC = 'public';
+	public const VISIBILITY_PROTECTED = 'protected';
+	public const VISIBILITY_PRIVATE = 'private';
 
 	protected static string $indentation = "\t";
 	protected static string $nl = "\n";

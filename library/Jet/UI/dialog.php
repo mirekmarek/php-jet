@@ -13,10 +13,10 @@ namespace Jet;
  */
 class UI_dialog extends UI_Renderer_Pair
 {
-	const SIZE_SMALL = 'small';
-	const SIZE_DEFAULT = 'default';
-	const SIZE_LARGE = 'large';
-	const SIZE_EXTRA_LARGE = 'extra_large';
+	public const SIZE_SMALL = 'small';
+	public const SIZE_DEFAULT = 'default';
+	public const SIZE_LARGE = 'large';
+	public const SIZE_EXTRA_LARGE = 'extra_large';
 
 	/**
 	 * @var string

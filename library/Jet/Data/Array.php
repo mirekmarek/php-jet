@@ -15,8 +15,8 @@ use JsonSerializable;
  */
 class Data_Array extends BaseObject implements BaseObject_Interface_Serializable_JSON
 {
-
-	const PATH_DELIMITER = '/';
+	
+	public const PATH_DELIMITER = '/';
 
 
 	/**
@@ -345,7 +345,7 @@ class Data_Array extends BaseObject implements BaseObject_Interface_Serializable
 
 			if( is_array( $value ) ) {
 				$result .= static::_export( $value, $next_level, $my_path  ) . '';
-			} else if( is_object( $value ) ) {
+			} elseif( is_object( $value ) ) {
 				$class_name = get_class( $value );
 
 				if( is_subclass_of( $value, JsonSerializable::class ) ) {

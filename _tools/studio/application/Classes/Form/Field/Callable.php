@@ -20,7 +20,7 @@ use Jet\SysConf_Jet_Form_DefaultViews;
  */
 class Form_Field_Callable extends Form_Field
 {
-	const ERROR_CODE_NOT_CALLABLE = 'not_callable';
+	public const ERROR_CODE_NOT_CALLABLE = 'not_callable';
 	
 	protected string $class_context = '';
 	

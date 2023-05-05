@@ -13,17 +13,17 @@ namespace Jet;
  */
 class RESTServer extends BaseObject
 {
-	const REQUEST_METHOD_GET = 'GET';
-	const REQUEST_METHOD_POST = 'POST';
-	const REQUEST_METHOD_PUT = 'PUT';
-	const REQUEST_METHOD_DELETE = 'DELETE';
+	public const REQUEST_METHOD_GET = 'GET';
+	public const REQUEST_METHOD_POST = 'POST';
+	public const REQUEST_METHOD_PUT = 'PUT';
+	public const REQUEST_METHOD_DELETE = 'DELETE';
 
-	const ERR_CODE_AUTHORIZATION_REQUIRED = 'authorization_required';
-	const ERR_CODE_ACCESS_DENIED = 'access_denied';
-	const ERR_CODE_VALIDATION_ERROR = 'validation_error';
-	const ERR_CODE_REQUEST_ERROR = 'bad_request';
-	const ERR_CODE_UNKNOWN_ITEM = 'unknown_item';
-	const ERR_CODE_COMMON = 'common_error';
+	public const ERR_CODE_AUTHORIZATION_REQUIRED = 'authorization_required';
+	public const ERR_CODE_ACCESS_DENIED = 'access_denied';
+	public const ERR_CODE_VALIDATION_ERROR = 'validation_error';
+	public const ERR_CODE_REQUEST_ERROR = 'bad_request';
+	public const ERR_CODE_UNKNOWN_ITEM = 'unknown_item';
+	public const ERR_CODE_COMMON = 'common_error';
 	
 	
 	

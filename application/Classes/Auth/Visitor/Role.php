@@ -31,7 +31,7 @@ use Jet\MVC_Page_Interface;
 )]
 class Auth_Visitor_Role extends DataModel implements Auth_Role_Interface
 {
-	const PRIVILEGE_VISIT_PAGE = 'visit_page';
+	public const PRIVILEGE_VISIT_PAGE = 'visit_page';
 
 
 	/**

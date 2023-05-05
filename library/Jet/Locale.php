@@ -25,38 +25,38 @@ class Locale extends BaseObject
 	 * Most abbreviated style, only essential data (12/13/52 or 3:30pm)
 	 * @link http://php.net/manual/en/intl.intldateformatter-constants.php
 	 */
-	const DATE_TIME_FORMAT_SHORT = PHP_IntlDateFormatter::SHORT;
+	public const DATE_TIME_FORMAT_SHORT = PHP_IntlDateFormatter::SHORT;
 
 	/**
 	 * Medium style (Jan 12, 1952)
 	 * @link http://php.net/manual/en/intl.intldateformatter-constants.php
 	 */
-	const DATE_TIME_FORMAT_MEDIUM = PHP_IntlDateFormatter::MEDIUM;
+	public const DATE_TIME_FORMAT_MEDIUM = PHP_IntlDateFormatter::MEDIUM;
 
 	/**
 	 * Long style (January 12, 1952, 3:30:32pm)
 	 * @link http://php.net/manual/en/intl.intldateformatter-constants.php
 	 */
-	const DATE_TIME_FORMAT_LONG = PHP_IntlDateFormatter::LONG;
+	public const DATE_TIME_FORMAT_LONG = PHP_IntlDateFormatter::LONG;
 
 	/**
 	 * Completely specified style (Tuesday, April 12, 1952 AD, 3:30:42pm PST)
 	 * @link http://php.net/manual/en/intl.intldateformatter-constants.php
 	 */
-	const DATE_TIME_FORMAT_FULL = PHP_IntlDateFormatter::FULL;
+	public const DATE_TIME_FORMAT_FULL = PHP_IntlDateFormatter::FULL;
 
 
 	/**
 	 * Gregorian Calendar
 	 * @link http://php.net/manual/en/intl.intldateformatter-constants.php
 	 */
-	const CALENDAR_GREGORIAN = PHP_IntlDateFormatter::GREGORIAN;
+	public const CALENDAR_GREGORIAN = PHP_IntlDateFormatter::GREGORIAN;
 
 	/**
 	 * Non-Gregorian Calendar
 	 * @link http://php.net/manual/en/intl.intldateformatter-constants.php
 	 */
-	const CALENDAR_TRADITIONAL = PHP_IntlDateFormatter::TRADITIONAL;
+	public const CALENDAR_TRADITIONAL = PHP_IntlDateFormatter::TRADITIONAL;
 
 
 	/**

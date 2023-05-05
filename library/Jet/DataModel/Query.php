@@ -13,26 +13,26 @@ namespace Jet;
  */
 class DataModel_Query extends BaseObject
 {
-	const L_O_OR = 'OR';
-	const L_O_AND = 'AND';
-
-	const O_EQUAL = '=';
-	const O_NOT_EQUAL = '!=';
-	const O_LIKE = '*';
-	const O_NOT_LIKE = '!*';
-	const O_GREATER_THAN = '>';
-	const O_LESS_THAN = '<';
-	const O_GREATER_THAN_OR_EQUAL = '>=';
-	const O_LESS_THAN_OR_EQUAL = '<=';
-
-
-	const JOIN_TYPE_LEFT_JOIN = 'LEFT_JOIN';
-	const JOIN_TYPE_LEFT_OUTER_JOIN = 'LEFT_OUTER_JOIN';
+	public const L_O_OR = 'OR';
+	public const L_O_AND = 'AND';
+	
+	public const O_EQUAL = '=';
+	public const O_NOT_EQUAL = '!=';
+	public const O_LIKE = '*';
+	public const O_NOT_LIKE = '!*';
+	public const O_GREATER_THAN = '>';
+	public const O_LESS_THAN = '<';
+	public const O_GREATER_THAN_OR_EQUAL = '>=';
+	public const O_LESS_THAN_OR_EQUAL = '<=';
+	
+	
+	public const JOIN_TYPE_LEFT_JOIN = 'LEFT_JOIN';
+	public const JOIN_TYPE_LEFT_OUTER_JOIN = 'LEFT_OUTER_JOIN';
 
 	/**
 	 * @var array
 	 */
-	const AVAILABLE_OPERATORS = [
+	public const AVAILABLE_OPERATORS = [
 		self::O_NOT_EQUAL,
 		self::O_NOT_LIKE,
 		self::O_GREATER_THAN_OR_EQUAL,

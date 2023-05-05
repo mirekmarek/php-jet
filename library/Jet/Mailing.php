@@ -13,7 +13,7 @@ namespace Jet;
  */
 class Mailing extends BaseObject
 {
-	const DEFAULT_SENDER_ID = 'default';
+	public const DEFAULT_SENDER_ID = 'default';
 
 	/**
 	 * @var ?Mailing_Config

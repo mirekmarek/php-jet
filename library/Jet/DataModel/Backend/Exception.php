@@ -13,6 +13,6 @@ namespace Jet;
  */
 class DataModel_Backend_Exception extends Exception
 {
-	const CODE_BACKEND_ERROR = 100;
+	public const CODE_BACKEND_ERROR = 100;
 
 }
