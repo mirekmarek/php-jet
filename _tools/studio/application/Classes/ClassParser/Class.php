@@ -269,9 +269,6 @@ class ClassParser_Class extends ClassParser_Element
 					break;
 				case T_CONST:
 					if(
-						$class->_public_token ||
-						$class->_protected_token ||
-						$class->_private_token ||
 						$class->_static_token ||
 						$class->_abstract_token
 

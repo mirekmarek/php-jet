@@ -38,6 +38,9 @@ class ClassParser_Class_Constant extends ClassParser_Class_Element
 
 		$searching_for_value = false;
 		$got_value = false;
+		$class->_public_token = null;
+		$class->_private_token = null;
+		$class->_protected_token = null;
 
 		do {
 			if( !($token = $const->nextToken()) ) {

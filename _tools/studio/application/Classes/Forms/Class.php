@@ -182,7 +182,7 @@ class Forms_Class
 			
 			$getParent = function( Forms_Class $class ) use ( &$getParent ) {
 				if( $class->getExtends() ) {
-					$e_class = DataModels::getClass( $class->getExtends() );
+					$e_class = Forms::getClass( $class->getExtends() );
 					if( $e_class ) {
 						$this->_parents[] = $e_class->getFullClassName();
 						$getParent( $e_class );
