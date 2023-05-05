@@ -88,7 +88,7 @@ class Content_Gallery_Image_Thumbnail extends BaseObject implements BaseObject_I
 	/**
 	 * @param bool $regenerate
 	 */
-	public function generate( bool $regenerate = false )
+	public function generate( bool $regenerate = false ) : void
 	{
 		if( $this->generated ) {
 			return;

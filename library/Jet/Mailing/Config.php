@@ -58,7 +58,7 @@ class Mailing_Config extends Config
 	 * @param Mailing_Config_Sender $sender_configuration
 	 *
 	 */
-	public function addSender( string $id, Mailing_Config_Sender $sender_configuration )
+	public function addSender( string $id, Mailing_Config_Sender $sender_configuration ) : void
 	{
 		$this->senders[$id] = $sender_configuration;
 	}
@@ -66,7 +66,7 @@ class Mailing_Config extends Config
 	/**
 	 * @param string $id
 	 */
-	public function deleteSender( string $id )
+	public function deleteSender( string $id ) : void
 	{
 		if( isset( $this->senders[$id] ) ) {
 			unset( $this->senders[$id] );

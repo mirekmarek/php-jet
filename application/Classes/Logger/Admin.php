@@ -34,7 +34,7 @@ class Logger_Admin extends BaseObject implements Logger_Interface
 	                     string $context_object_id = '',
 	                     string $context_object_name = '',
 	                     mixed $context_object_data = [],
-	                     Auth_User_Interface|bool $current_user = false )
+	                     Auth_User_Interface|bool $current_user = false ) : void
 	{
 		Logger_Admin_Event::log(
 			$event_class,

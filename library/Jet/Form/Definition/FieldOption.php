@@ -43,7 +43,8 @@ class Form_Definition_FieldOption extends BaseObject
 	 * @param string $name
 	 * @param array $definition
 	 */
-	public function setup( string $field_class, string $name, array $definition ) {
+	public function setup( string $field_class, string $name, array $definition ) : void
+	{
 		$this->name = $name;
 		
 		foreach($definition as $key=>$val) {

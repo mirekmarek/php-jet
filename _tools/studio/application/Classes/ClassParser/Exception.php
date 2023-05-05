@@ -32,7 +32,7 @@ class ClassParser_Exception extends Exception
 	/**
 	 * @param string $invalid_source_code
 	 */
-	public function setInvalidSourceCode( string $invalid_source_code )
+	public function setInvalidSourceCode( string $invalid_source_code ) : void
 	{
 		$this->invalid_source_code = $invalid_source_code;
 	}

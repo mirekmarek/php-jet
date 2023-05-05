@@ -470,7 +470,7 @@ class Auth_Visitor_Role extends DataModel implements Auth_Role_Interface
 	 * @param MVC_Page_Interface $page
 	 * @param                    $data
 	 */
-	protected static function _getPagesTree( MVC_Page_Interface $page, &$data )
+	protected static function _getPagesTree( MVC_Page_Interface $page, &$data ) : void
 	{
 
 		if( $page->getIsSecret() ) {

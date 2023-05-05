@@ -98,7 +98,7 @@ class Navigation_Breadcrumb_Item extends BaseObject
 	 *
 	 * @param string $URL
 	 */
-	public function setURL( string $URL )
+	public function setURL( string $URL ) : void
 	{
 		$this->URL = $URL;
 	}

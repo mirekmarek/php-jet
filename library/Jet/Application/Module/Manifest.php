@@ -98,7 +98,7 @@ class Application_Module_Manifest extends BaseObject
 	 *
 	 * @throws Application_Modules_Exception
 	 */
-	protected function checkManifestData( array $manifest_data )
+	protected function checkManifestData( array $manifest_data ) : void
 	{
 		if( empty( $manifest_data['label'] ) ) {
 			throw new Application_Modules_Exception(
@@ -114,7 +114,7 @@ class Application_Module_Manifest extends BaseObject
 	 *
 	 * @throws Application_Modules_Exception
 	 */
-	protected function setupProperties( array $manifest_data )
+	protected function setupProperties( array $manifest_data ) : void
 	{
 
 		foreach( $manifest_data as $key => $val ) {

@@ -77,7 +77,7 @@ abstract class DataModel_Definition_Relation extends BaseObject
 	/**
 	 * @param string $related_to_class_name
 	 */
-	public function setRelatedToClass( string $related_to_class_name )
+	public function setRelatedToClass( string $related_to_class_name ) : void
 	{
 		$this->related_data_model_class_name = $related_to_class_name;
 	}

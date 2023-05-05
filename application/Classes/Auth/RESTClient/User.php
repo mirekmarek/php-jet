@@ -431,7 +431,7 @@ class Auth_RESTClient_User extends DataModel implements Auth_User_Interface
 	/**
 	 * @param string|Data_DateTime|null $till
 	 */
-	public function block( string|Data_DateTime|null $till = null )
+	public function block( string|Data_DateTime|null $till = null ) : void
 	{
 		$this->user_is_blocked = true;
 		if( !$till ) {
@@ -448,7 +448,7 @@ class Auth_RESTClient_User extends DataModel implements Auth_User_Interface
 	/**
 	 *
 	 */
-	public function unBlock()
+	public function unBlock() : void
 	{
 		$this->user_is_blocked = false;
 		$this->user_is_blocked_till = null;

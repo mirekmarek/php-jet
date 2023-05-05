@@ -118,7 +118,7 @@ class Application_Modules_Handler_Default extends Application_Modules_Handler
 	 * @param string $base_dir
 	 * @param string $module_name_prefix
 	 */
-	protected function _readModulesList( string $base_dir, string $module_name_prefix )
+	protected function _readModulesList( string $base_dir, string $module_name_prefix ) : void
 	{
 		$modules = IO_Dir::getSubdirectoriesList( $base_dir );
 

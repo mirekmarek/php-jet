@@ -143,7 +143,7 @@ class Data_Tree_Node extends BaseObject implements BaseObject_Interface_Iterator
 	/**
 	 * @param string $id
 	 */
-	public function setId( string $id )
+	public function setId( string $id ) : void
 	{
 		$this->id = $id;
 	}
@@ -260,7 +260,7 @@ class Data_Tree_Node extends BaseObject implements BaseObject_Interface_Iterator
 	/**
 	 * @param mixed $data
 	 */
-	public function setData( mixed $data )
+	public function setData( mixed $data ) : void
 	{
 		$this->data = $data;
 	}

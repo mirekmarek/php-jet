@@ -203,7 +203,7 @@ class Wizard extends ModuleWizard
 	/**
 	 * @param array $fields
 	 */
-	public function generateSetupForm_logger( array &$fields )
+	public function generateSetupForm_logger( array &$fields ) : void
 	{
 
 		$scope = [

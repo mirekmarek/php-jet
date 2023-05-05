@@ -216,7 +216,7 @@ class RESTServer_Backend_Default extends BaseObject implements RESTServer_Backen
 	protected function _response( string $response_text,
 								  array $http_headers = [],
 								  int $http_code = 200,
-								  string $http_message = 'OK' )
+								  string $http_message = 'OK' ) : void
 	{
 		
 		$http_headers['Content-Type'] = 'application/json;charset=' . SysConf_Jet_Main::getCharset();

@@ -310,7 +310,7 @@ class DefinitionTest_FormGenerator extends BaseObject implements Form_Definition
 	/**
 	 * @param ?Data_DateTime $date
 	 */
-	public function setDate( ?Data_DateTime $date )
+	public function setDate( ?Data_DateTime $date ) : void
 	{
 		$this->date = $date;
 	}

@@ -101,7 +101,7 @@ class Form_Field_FileImage extends Form_Field implements Form_Field_Part_File_In
 	 * @param int $maximal_width
 	 * @param int $maximal_height
 	 */
-	public function setMaximalSize( int $maximal_width, int $maximal_height )
+	public function setMaximalSize( int $maximal_width, int $maximal_height ) : void
 	{
 		$this->maximal_width = $maximal_width;
 		$this->maximal_height = $maximal_height;

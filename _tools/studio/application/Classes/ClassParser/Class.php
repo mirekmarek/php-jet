@@ -113,7 +113,7 @@ class ClassParser_Class extends ClassParser_Element
 	/**
 	 * @param ClassParser $parser
 	 */
-	public static function parse( ClassParser $parser )
+	public static function parse( ClassParser $parser ) : void
 	{
 		$class = new static( $parser );
 

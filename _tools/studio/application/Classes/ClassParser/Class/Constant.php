@@ -29,7 +29,7 @@ class ClassParser_Class_Constant extends ClassParser_Class_Element
 	 * @param ClassParser $parser
 	 * @param ClassParser_Class $class
 	 */
-	public static function parse( ClassParser $parser, ClassParser_Class $class )
+	public static function parse( ClassParser $parser, ClassParser_Class $class ) : void
 	{
 		$const = new static( $parser, $class );
 
