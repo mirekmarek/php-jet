@@ -1,104 +1,22 @@
 <?php
 namespace JetApplicationModule\EventViewer\REST;
 
-use Jet\Http_Request;
-use Jet\Locale;
 use Jet\UI_button;
-use JetApplication\Logger_REST_Event as Event;
-
 use Jet\UI;
-use Jet\UI_dataGrid;
-
 use Jet\Tr;
 use Jet\MVC_View;
-use Jet\Form;
 
 /**
- * @var MVC_View     $this
- * @var UI_dataGrid  $grid
- * @var Form         $filter_form
+ * @var MVC_View  $this
+ * @var Listing   $listing
  */
-$grid = $this->getRaw( 'grid' );
-$filter_form = $this->getRaw( 'filter_form' );
+$listing = $this->getRaw('listing');
 
-$getViewURL = function(Event $item ) {
-	return Http_Request::currentURI(['id'=>$item->getId()]);
-};
-
-$grid->getColumn( 'id' )->addCustomCssStyle( 'width:120px;' );
-
-$grid->getColumn( 'id' )->setRenderer(
-	function( Event $item ) use ($getViewURL) {
-		?>
-		<a href="<?=$getViewURL($item);?>"><?=$item->getId();?></a>
-		<?php
-	}
-);
-
-$grid->getColumn( 'date_time' )->setRenderer(
-	function( Event $item ) use ($getViewURL) {
-		?>
-		<?=Locale::dateAndTime($item->getDateTime());?>
-		<?php
-	}
-);
-
-$grid->getColumn( 'event_class' )->setRenderer(
-	function( Event $item ) use ($getViewURL) {
-		echo $item->getEventClassReadable();
-	}
-);
+$grid = $listing->getGrid();
+$filter_form = $listing->getFilterForm();
 
 
-$grid->getColumn( 'event' )->setRenderer(
-	function( Event $item ) use ( $getViewURL ) {
-		?>
-		<a href="<?=$getViewURL($item);?>"><?=$item->getEvent();?></a>
-		<?php
-	}
-);
-
-
-$grid->getColumn( 'event_message' )->setRenderer(
-	function( Event $item ) use ( $getViewURL ) {
-		?>
-		<a href="<?=$getViewURL($item);?>"><?=$item->getEventMessage();?></a>
-		<?php
-	}
-);
-
-$grid->getColumn( 'context_object_id' )->setRenderer(
-	function( Event $item ) use ($getViewURL) {
-		?>
-		<?=$item->getContextObjectId();?>
-		<?php
-	}
-);
-
-$grid->getColumn( 'context_object_name' )->setRenderer(
-	function( Event $item ) use ($getViewURL) {
-		?>
-		<?=$item->getContextObjectName();?>
-		<?php
-	}
-);
-
-$grid->getColumn( 'user_id' )->setRenderer(
-	function( Event $item ) use ($getViewURL) {
-		?>
-		<?=$item->getUserId();?>
-		<?php
-	}
-);
-
-$grid->getColumn( 'user_username' )->setRenderer(
-	function( Event $item ) use ($getViewURL) {
-		?>
-		<?=$item->getUserUsername();?>
-		<?php
-	}
-);
-
+$grid->getColumn( Listing_Column_ID::KEY )->addCustomCssStyle( 'width:120px;' );
 
 ?>
 
@@ -106,39 +24,25 @@ $grid->getColumn( 'user_username' )->setRenderer(
 <div class="row toolbar">
 
 	<div class="col-md-3 col-sm-12">
-		<?= $filter_form->field( 'search' )->input() ?>
+		<?=$listing->filter(Listing_Filter_Search::KEY)->renderForm()?>
 	</div>
 	<div class="col-md-9 col-sm-12">
 		<table>
 			<tr>
-				<td nowrap=""><?= $filter_form->field( 'date_time_from' )->label() ?></td>
-				<td><?= $filter_form->field( 'date_time_from' )->input()?></td>
-				<td></td>
-				<td nowrap=""><?= $filter_form->field( 'date_time_till' )->label() ?></td>
-				<td><?= $filter_form->field( 'date_time_till' )->input()?></td>
+				<?=$listing->filter(Listing_Filter_DateTime::KEY)->renderForm()?>
 			</tr>
 			<tr>
-				<td nowrap=""><?= $filter_form->field( 'event_class' )->label() ?></td>
-				<td><?= $filter_form->field( 'event_class' )->input()?></td>
+				<?=$listing->filter(Listing_Filter_EventClass::KEY)->renderForm()?>
 				<td></td>
-				<td nowrap=""><?= $filter_form->field( 'event' )->label() ?></td>
-				<td><?= $filter_form->field( 'event' )->input()?></td>
+				<?=$listing->filter(Listing_Filter_Event::KEY)->renderForm()?>
 			</tr>
 			<tr>
-				<td nowrap=""><?= $filter_form->field( 'user_id' )->label() ?></td>
-				<td><?= $filter_form->field( 'user_id' )->input()?></td>
-
-				<td></td>
-				<td></td>
-				<td></td>
+				<?=$listing->filter(Listing_Filter_User::KEY)->renderForm()?>
+				<td colspan="3"></td>
 			</tr>
 			<tr>
-				<td nowrap=""><?= $filter_form->field( 'context_object_id' )->label() ?></td>
-				<td><?= $filter_form->field( 'context_object_id' )->input()?></td>
-
-				<td></td>
-				<td></td>
-				<td></td>
+				<?=$listing->filter(Listing_Filter_ContextObject::KEY)->renderForm()?>
+				<td colspan="3"></td>
 
 				<td><?=UI::button(Tr::_('Filter'))->setClass( UI_button::CLASS_PRIMARY )->setType( UI_button::TYPE_SUBMIT )?></td>
 			</tr>

@@ -1,0 +1,14 @@
+<?php
+namespace JetApplicationModule\EventViewer\Web;
+
+use Jet\MVC_View;
+
+/**
+ * @var MVC_View $this
+ * @var Listing  $listing
+ */
+$listing = $this->getRaw( 'listing' );
+$filter_form = $listing->getFilterForm();
+?>
+<td nowrap=""><?= $filter_form->field( 'user_id' )->label() ?></td>
+<td><?= $filter_form->field( 'user_id' )->input()?></td>

@@ -7,7 +7,7 @@
  */
 namespace JetApplicationModule\EventViewer\Admin;
 
-use Jet\Data_Listing_Filter;
+use Jet\DataListing_Filter;
 use Jet\Form;
 use Jet\Form_Field_Input;
 use Jet\Http_Request;
@@ -15,35 +15,29 @@ use Jet\Http_Request;
 /**
  *
  */
-class Listing_filter_contextObject extends Data_Listing_Filter {
+class Listing_Filter_ContextObject extends DataListing_Filter {
 
+	public const KEY = 'context_object';
 
-	/**
-	 * @var string
-	 */
 	protected string $context_object_id = '';
-
-	/**
-	 *
-	 */
-	public function catchGetParams(): void
+	
+	public function getKey(): string
+	{
+		return static::KEY;
+	}
+	
+	public function catchParams(): void
 	{
 		$this->context_object_id = Http_Request::GET()->getString( 'context_object_id' );
-		$this->listing->setGetParam( 'context_object_id', $this->context_object_id );
+		$this->listing->setParam( 'context_object_id', $this->context_object_id );
 	}
 
-	/**
-	 * @param Form $form
-	 */
 	public function catchForm( Form $form ): void
 	{
 		$this->context_object_id = $form->field( 'context_object_id' )->getValue();
-		$this->listing->setGetParam( 'context_object_id', $this->context_object_id );
+		$this->listing->setParam( 'context_object_id', $this->context_object_id );
 	}
 
-	/**
-	 * @param Form $form
-	 */
 	public function generateFormFields( Form $form ): void
 	{
 		$field = new Form_Field_Input( 'context_object_id', 'Context object ID:' );
@@ -52,16 +46,12 @@ class Listing_filter_contextObject extends Data_Listing_Filter {
 		$form->addField( $field );
 	}
 
-	/**
-	 *
-	 */
 	public function generateWhere(): void
 	{
 		if( $this->context_object_id ) {
-			$this->listing->addWhere( [
+			$this->listing->addFilterWhere( [
 				'context_object_id' => $this->context_object_id,
 			] );
 		}
 	}
-
 }

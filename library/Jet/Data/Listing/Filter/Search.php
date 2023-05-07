@@ -15,6 +15,7 @@ use Jet\Http_Request;
 
 /**
  *
+ * @deprecated
  */
 abstract class Data_Listing_Filter_Search extends Data_Listing_Filter
 {

@@ -3,6 +3,7 @@ namespace JetApplicationModule\EventViewer\Admin;
 
 use Jet\Data_Array;
 use Jet\Locale;
+use Jet\UI_button;
 use JetApplication\Logger_Admin_Event as Event;
 
 use Jet\UI;
@@ -15,13 +16,27 @@ use Jet\Tr;
  */
 
 $event = $this->getRaw( 'event' );
+
+$prev_item_url = $this->getRaw('prev_item_url');
+$next_item_url = $this->getRaw('next_item_url');
 ?>
 
 
 
 <div class="row toolbar" id="main-toolbar">
 	<div class="col-md-12">
-		<?=UI::button_goBack()?>
+		<?=UI::button_goBack()->setUrl( $this->getString( 'list_uri' ))?>
+		
+		<div style="width: 80px;display: inline-block;text-align: right">
+		<?php if($prev_item_url): ?>
+			<?=UI::button('')->setIcon('chevron-left')->setUrl($prev_item_url)->setClass(UI_button::CLASS_INFO)?>
+		<?php endif; ?>
+		</div>
+		
+
+		<?php if($next_item_url): ?>
+			<?=UI::button('')->setIcon('chevron-right')->setUrl($next_item_url)->setClass(UI_button::CLASS_INFO)?>
+		<?php endif; ?>
 	</div>
 </div>
 

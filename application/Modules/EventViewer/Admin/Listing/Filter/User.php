@@ -7,7 +7,7 @@
  */
 namespace JetApplicationModule\EventViewer\Admin;
 
-use Jet\Data_Listing_Filter;
+use Jet\DataListing_Filter;
 use Jet\Form;
 use Jet\Form_Field_Input;
 use Jet\Http_Request;
@@ -15,38 +15,31 @@ use Jet\Http_Request;
 /**
  *
  */
-class Listing_filter_User extends Data_Listing_Filter {
+class Listing_Filter_User extends DataListing_Filter {
 
+	public const KEY = 'user';
 
-	/**
-	 * @var string
-	 */
 	protected string $user_id = '';
-
-
-	/**
-	 *
-	 */
-	public function catchGetParams(): void
+	
+	public function getKey(): string
+	{
+		return static::KEY;
+	}
+	
+	public function catchParams(): void
 	{
 		$this->user_id = Http_Request::GET()->getString( 'user_id' );
-		$this->listing->setGetParam( 'user_id', $this->user_id );
+		$this->listing->setParam( 'user_id', $this->user_id );
 	}
 
-	/**
-	 * @param Form $form
-	 */
 	public function catchForm( Form $form ): void
 	{
 		$value = $form->field( 'user_id' )->getValue();
 
 		$this->user_id = $value;
-		$this->listing->setGetParam( 'user_id', $value );
+		$this->listing->setParam( 'user_id', $value );
 	}
 
-	/**
-	 * @param Form $form
-	 */
 	public function generateFormFields( Form $form ): void
 	{
 		$field = new Form_Field_Input( 'user_id', 'User ID:' );
@@ -55,13 +48,10 @@ class Listing_filter_User extends Data_Listing_Filter {
 		$form->addField( $field );
 	}
 
-	/**
-	 *
-	 */
 	public function generateWhere(): void
 	{
 		if( $this->user_id ) {
-			$this->listing->addWhere( [
+			$this->listing->addFilterWhere( [
 				'user_id' => $this->user_id,
 			] );
 		}

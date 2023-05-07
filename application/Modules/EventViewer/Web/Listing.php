@@ -7,57 +7,89 @@
  */
 namespace JetApplicationModule\EventViewer\Web;
 
-use Jet\Data_Listing;
+use Jet\DataListing;
 use Jet\DataModel_Fetch_Instances;
-
+use Jet\MVC_View;
 use JetApplication\Logger_Web_Event as Event;
 
 
 /**
  *
  */
-class Listing extends Data_Listing {
-
-	/**
-	 * @var array
-	 */
-	protected array $grid_columns = [
-		'id'                  => ['title' => 'ID'],
-		'date_time'           => ['title' => 'Date time'],
-		'event_class'         => ['title' => 'Event class'],
-		'event'               => ['title' => 'Event'],
-		'event_message'       => ['title' => 'Event message'],
-		'context_object_id'   => ['title' => 'Context object ID'],
-		'context_object_name' => ['title' => 'Context object name'],
-		'user_id'             => ['title' => 'User ID'],
-		'user_username'       => ['title' => 'User name'],
-	];
-
-	protected string $default_sort = '-id';
-
-	/**
-	 *
-	 */
-	protected function initFilters(): void
+class Listing extends DataListing {
+	
+	protected Controller_Main $controller;
+	protected MVC_View $column_view;
+	protected MVC_View $filter_view;
+	
+	public function __construct( Controller_Main $controller, MVC_View $column_view, MVC_View $filter_view )
 	{
-		$this->filters['search']         = new Listing_Filter_Search( $this );
-		$this->filters['event_class']    = new Listing_Filter_EventClass( $this );
-		$this->filters['event']          = new Listing_Filter_Event( $this );
-		$this->filters['date_time']      = new Listing_Filter_DateTime( $this );
-		$this->filters['user']           = new Listing_Filter_User( $this );
-		$this->filters['context_object'] = new Listing_Filter_ContextObject( $this );
+		$column_view->setController( $controller );
+		$filter_view->setController( $controller );
+		
+		$this->column_view = $column_view;
+		$this->filter_view = $filter_view;
+		
+		$this->addColumn( new Listing_Column_ID() );
+		$this->addColumn( new Listing_Column_DateTime() );
+		$this->addColumn( new Listing_Column_EventClass() );
+		$this->addColumn( new Listing_Column_Event() );
+		$this->addColumn( new Listing_Column_EventMessage() );
+		$this->addColumn( new Listing_Column_ContextObjectId() );
+		$this->addColumn( new Listing_Column_ContextObjectName() );
+		$this->addColumn( new Listing_Column_UserId() );
+		$this->addColumn( new Listing_Column_UserName() );
+		
+		$this->setDefaultSort( '-id' );
+		
+		$this->addFilter( new Listing_Filter_Search() );
+		$this->addFilter( new Listing_Filter_EventClass() );
+		$this->addFilter( new Listing_Filter_Event() );
+		$this->addFilter( new Listing_Filter_DateTime() );
+		$this->addFilter( new Listing_Filter_User() );
+		$this->addFilter( new Listing_Filter_ContextObject() );
+		
 	}
-
-
-	/**
-	 * @return Event[]|DataModel_Fetch_Instances
-	 * @noinspection PhpDocSignatureInspection
-	 */
-	protected function getList() : DataModel_Fetch_Instances
+	
+	
+	protected function getItemList(): DataModel_Fetch_Instances
 	{
 		/** @noinspection PhpIncompatibleReturnTypeInspection */
 		return Event::getList();
 	}
-
-
+	
+	protected function getIdList(): array
+	{
+		$ids = Event::fetchIDs( $this->getFilterWhere() );
+		$ids->getQuery()->setOrderBy( $this->getQueryOrderBy() );
+		
+		return $ids->toArray();
+	}
+	
+	public function itemGetter( int|string $id ): mixed
+	{
+		return Event::get( $id );
+	}
+	
+	public function getFilterView(): MVC_View
+	{
+		return $this->filter_view;
+	}
+	
+	public function getColumnView(): MVC_View
+	{
+		return $this->column_view;
+	}
+	
+	public function getItemURI( int $item_id ) : string
+	{
+		$this->setParam('id', $item_id );
+		
+		$URI = $this->getURI();
+		
+		$this->unsetParam('id');
+		
+		return $URI;
+	}
+	
 }

@@ -10,6 +10,7 @@ namespace Jet;
 
 /**
  *
+ * @deprecated
  */
 abstract class Data_Listing extends BaseObject
 {

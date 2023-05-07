@@ -7,7 +7,7 @@
  */
 namespace JetApplicationModule\EventViewer\Web;
 
-use Jet\Data_Listing_Filter;
+use Jet\DataListing_Filter;
 use Jet\Form;
 use Jet\Form_Field;
 use Jet\Form_Field_Select;
@@ -18,26 +18,23 @@ use Jet\Tr;
 /**
  *
  */
-class Listing_Filter_EventClass extends Data_Listing_Filter {
+class Listing_Filter_EventClass extends DataListing_Filter {
 
+	public const KEY = 'event_class';
 
-	/**
-	 * @var string
-	 */
 	protected string $event_class = '';
-
-	/**
-	 *
-	 */
-	public function catchGetParams(): void
+	
+	public function getKey(): string
+	{
+		return static::KEY;
+	}
+	
+	public function catchParams(): void
 	{
 		$this->event_class = Http_Request::GET()->getString( 'event_class' );
-		$this->listing->setGetParam( 'event_class', $this->event_class );
+		$this->listing->setParam( 'event_class', $this->event_class );
 	}
-
-	/**
-	 * @param Form $form
-	 */
+	
 	public function generateFormFields( Form $form ): void
 	{
 		$field = new Form_Field_Select( 'event_class', 'Event class:' );
@@ -65,23 +62,17 @@ class Listing_Filter_EventClass extends Data_Listing_Filter {
 
 		$form->addField( $field );
 	}
-
-	/**
-	 * @param Form $form
-	 */
+	
 	public function catchForm( Form $form ): void
 	{
 		$this->event_class = $form->field( 'event_class' )->getValue();
-		$this->listing->setGetParam( 'event_class', $this->event_class );
+		$this->listing->setParam( 'event_class', $this->event_class );
 	}
-
-	/**
-	 *
-	 */
+	
 	public function generateWhere(): void
 	{
 		if( $this->event_class ) {
-			$this->listing->addWhere( [
+			$this->listing->addFilterWhere( [
 				'event_class' => $this->event_class,
 			] );
 		}
