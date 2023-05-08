@@ -29,7 +29,7 @@ $router = $this->getController()->getControllerRouter();
 
 <div class="row toolbar" id="main-toolbar">
 	<div class="col-md-12">
-		<?= UI::button_goBack() ?>
+		<?= UI::button_goBack($this->getString( 'list_url' )) ?>
 
 		<?php if( !$form->getIsReadonly() ): ?>
 			<?= UI::button_save() ?>

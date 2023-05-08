@@ -9,65 +9,70 @@
 
 namespace JetApplicationModule\ManageAccess\Visitors\Roles;
 
+use Jet\MVC_View;
 use Jet\DataModel_Fetch_Instances;
 use JetApplication\Auth_Visitor_Role as Role;
 
-use Jet\Data_Listing;
-use Jet\Data_Listing_Filter_Search;
+use Jet\DataListing;
+
 
 /**
  *
  */
-class Listing extends Data_Listing
+class Listing extends DataListing
 {
-
-	/**
-	 * @var array
-	 */
-	protected array $grid_columns = [
-		'_edit_'      => [
-			'title'         => '',
-			'disallow_sort' => true
-		],
-		'id'          => ['title' => 'ID'],
-		'name'        => ['title' => 'Name'],
-		'description' => ['title' => 'Description'],
-	];
-
-	/**
-	 * @var string
-	 */
-	protected string $default_sort = 'name';
-
-	/**
-	 *
-	 */
-	protected function initFilters(): void
+	protected Controller_Main $controller;
+	protected MVC_View $column_view;
+	protected MVC_View $filter_view;
+	
+	
+	public function __construct( Controller_Main $controller, MVC_View $column_view, MVC_View $filter_view )
 	{
-		$this->filters['search'] = new class($this) extends Data_Listing_Filter_Search {
-			public function generateWhere(): void
-			{
-				if( $this->search ) {
-					$search = '%' . $this->search . '%';
-					$this->listing->addWhere( [
-						'name *'        => $search,
-						'OR',
-						'description *' => $search,
-					] );
-				}
-
-			}
-		};
+		$column_view->setController( $controller );
+		$filter_view->setController( $controller );
+		
+		$this->column_view = $column_view;
+		$this->filter_view = $filter_view;
+		
+		$this->addColumn( new Listing_Column_Edit() );
+		$this->addColumn( new Listing_Column_ID() );
+		$this->addColumn( new Listing_Column_Name() );
+		$this->addColumn( new Listing_Column_Description() );
+		
+		$this->setDefaultSort('+name');
+		
+		$this->addFilter( new Listing_Filter_Search() );
+		
 	}
-
-
+	
+	
 	/**
 	 * @return Role[]|DataModel_Fetch_Instances
 	 * @noinspection PhpDocSignatureInspection
 	 */
-	protected function getList(): DataModel_Fetch_Instances
+	protected function getItemList(): DataModel_Fetch_Instances
 	{
 		return Role::getList();
 	}
-
+	
+	protected function getIdList(): array
+	{
+		return [];
+	}
+	
+	public function getFilterView(): MVC_View
+	{
+		return $this->filter_view;
+	}
+	
+	public function getColumnView(): MVC_View
+	{
+		return $this->column_view;
+	}
+	
+	public function itemGetter( int|string $id ): mixed
+	{
+		return Role::get( $id );
+	}
+	
 }

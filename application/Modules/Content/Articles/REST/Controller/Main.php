@@ -91,8 +91,6 @@ class Controller_Main extends MVC_Controller_REST
 	 */
 	public function list_Action(): void
 	{
-
-		/** @noinspection PhpParamsInspection */
 		$this->responseData(
 			$this->handleDataPagination(
 				$this->handleOrderBy(

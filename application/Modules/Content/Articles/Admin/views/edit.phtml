@@ -2,7 +2,6 @@
 namespace JetApplicationModule\Content\Articles\Admin;
 
 use Jet\Locale;
-use Jet\MVC;
 use Jet\MVC_View;
 use Jet\Form;
 use Jet\Form_Renderer;
@@ -46,7 +45,7 @@ $form->renderer()->setDefaultFieldWidth( [
 
 <div class="row toolbar" id="main-toolbar">
 	<div class="col-md-12">
-		<?= UI::button_goBack()->setUrl( MVC::getPage()->getURLPath() ) ?>
+		<?= UI::button_goBack()->setUrl($this->getString( 'list_url' )) ?>
 
 		<?php if( !$form->getIsReadonly() ): ?>
 			<?= UI::button_save() ?>

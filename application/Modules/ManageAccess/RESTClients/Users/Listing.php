@@ -9,45 +9,63 @@
 namespace JetApplicationModule\ManageAccess\RESTClients\Users;
 
 use Jet\DataModel_Fetch_Instances;
+use Jet\MVC_View;
 use JetApplication\Auth_RESTClient_User as User;
 
-use Jet\Data_Listing;
+use Jet\DataListing;
 
 /**
  *
  */
-class Listing extends Data_Listing
+class Listing extends DataListing
 {
-
-
-	/**
-	 * @var array
-	 */
-	protected array $grid_columns = [
-		'_edit_'   => [
-			'title'         => '',
-			'disallow_sort' => true
-		],
-		'id'       => ['title' => 'ID'],
-		'username' => ['title' => 'Username'],
-	];
-
-
-	/**
-	 *
-	 */
-	protected function initFilters(): void
+	
+	protected Controller_Main $controller;
+	protected MVC_View $column_view;
+	protected MVC_View $filter_view;
+	
+	
+	public function __construct( Controller_Main $controller, MVC_View $column_view, MVC_View $filter_view )
 	{
-		$this->filters['search'] = new Listing_Filter_Search($this);
-		$this->filters['role'] = new Listing_Filter_Role($this);
+		$column_view->setController( $controller );
+		$filter_view->setController( $controller );
+		
+		$this->column_view = $column_view;
+		$this->filter_view = $filter_view;
+		
+		$this->addColumn( new Listing_Column_Edit() );
+		$this->addColumn( new Listing_Column_ID() );
+		$this->addColumn( new Listing_Column_UserName() );
+		
+		
+		$this->addFilter( new Listing_Filter_Search() );
+		$this->addFilter( new Listing_Filter_Role() );
+		
 	}
-
-	/**
-	 * @return User[]|DataModel_Fetch_Instances
-	 * @noinspection PhpDocSignatureInspection
-	 */
-	protected function getList(): DataModel_Fetch_Instances
+	
+	
+	protected function getItemList(): DataModel_Fetch_Instances
 	{
 		return User::getList();
+	}
+	
+	protected function getIdList(): array
+	{
+		return [];
+	}
+	
+	public function getFilterView(): MVC_View
+	{
+		return $this->filter_view;
+	}
+	
+	public function getColumnView(): MVC_View
+	{
+		return $this->column_view;
+	}
+	
+	public function itemGetter( int|string $id ): mixed
+	{
+		return User::get( $id );
 	}
 }

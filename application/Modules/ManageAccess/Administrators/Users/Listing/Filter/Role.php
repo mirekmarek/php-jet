@@ -8,7 +8,7 @@
 
 namespace JetApplicationModule\ManageAccess\Administrators\Users;
 
-use Jet\Data_Listing_Filter;
+use Jet\DataListing_Filter;
 use Jet\Form;
 use Jet\Form_Field;
 use Jet\Form_Field_Select;
@@ -18,26 +18,23 @@ use Jet\Tr;
 use JetApplication\Auth_Administrator_Role as Role;
 
 
-class Listing_Filter_Role extends Data_Listing_Filter {
+class Listing_Filter_Role extends DataListing_Filter {
 
-	/**
-	 * @var string
-	 */
+	public const KEY = 'role';
+	
 	protected string $role = '';
-
-
-	/**
-	 *
-	 */
-	public function catchGetParams(): void
+	
+	public function getKey(): string
 	{
-		$this->role = Http_Request::GET()->getString( 'role' );
-		$this->listing->setGetParam( 'role', $this->role );
+		return static::KEY;
 	}
 
-	/**
-	 * @param Form $form
-	 */
+	public function catchParams(): void
+	{
+		$this->role = Http_Request::GET()->getString( 'role' );
+		$this->listing->setParam( 'role', $this->role );
+	}
+
 	public function generateFormFields( Form $form ): void
 	{
 		$field = new Form_Field_Select( 'role', 'Role:' );
@@ -56,24 +53,19 @@ class Listing_Filter_Role extends Data_Listing_Filter {
 		$form->addField( $field );
 	}
 
-	/**
-	 * @param Form $form
-	 */
 	public function catchForm( Form $form ): void
 	{
 		$this->role = $form->field( 'role' )->getValue();
-		$this->listing->setGetParam( 'role', $this->role );
+		$this->listing->setParam( 'role', $this->role );
 	}
 
-	/**
-	 *
-	 */
 	public function generateWhere(): void
 	{
 		if( $this->role ) {
-			$this->listing->addWhere( [
+			$this->listing->addFilterWhere( [
 				'users_roles.role_id' => $this->role,
 			] );
 		}
 	}
+	
 }

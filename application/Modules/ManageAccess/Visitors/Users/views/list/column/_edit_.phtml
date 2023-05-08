@@ -1,0 +1,26 @@
+<?php
+namespace JetApplicationModule\ManageAccess\Visitors\Users;
+
+use JetApplication\Auth_Administrator_User as User;
+
+use Jet\UI;
+use Jet\UI_button;
+
+use Jet\MVC_View;
+
+/**
+ * @var MVC_View $this
+ * @var User $item
+ */
+
+$item = $this->getRaw('item');
+$router = $this->getController()->getControllerRouter();
+
+if( ($delete_uri = $router->action( 'delete' )->URI( $item->getId() )) ):
+	echo UI::button_delete(' ')->setUrl( $delete_uri )->setSize( UI_button::SIZE_EXTRA_SMALL );
+	echo '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+endif;
+
+if( ($edit_uri = $router->action( 'edit' )->URI( $item->getId() )) ):
+	echo UI::button_edit()->setUrl( $edit_uri )->setSize( UI_button::SIZE_EXTRA_SMALL );
+endif;

@@ -1,0 +1,20 @@
+<?php
+namespace JetApplicationModule\Content\Articles\Admin;
+
+use Jet\MVC_View;
+use JetApplication\Content_Article;
+
+/**
+ * @var MVC_View $this
+ * @var Content_Article $item
+ */
+
+$item = $this->getRaw('item');
+$router = $this->getController()->getControllerRouter();
+
+$delete_uri = $router->action( 'delete' )->URI();
+if( $delete_uri ):
+	?>
+	<input type="checkbox" name="selected[]" value="<?= $item->getId() ?>"/>
+	<?php
+endif;

@@ -30,7 +30,7 @@ $role = $this->getRaw( 'role' );
 
 
 			<div style="display: inline-block;width: 50%">
-				<?= UI::button_goBack() ?>
+				<?= UI::button_goBack()->setUrl($this->getString( 'list_url' )) ?>
 			</div>
 			<div style="display: inline-block;width: 45%;text-align: right">
 				<form action="<?= Http_Request::currentURI() ?>" method="post">

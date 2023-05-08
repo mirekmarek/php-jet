@@ -1,71 +1,29 @@
 <?php
 namespace JetApplicationModule\Content\Articles\Admin;
 
-use JetApplication\Content_Article;
-
-use Jet\Form;
-use Jet\UI_button;
-use Jet\UI_dataGrid;
 use Jet\UI;
 
 use Jet\Tr;
-use Jet\Locale;
 use Jet\MVC_View;
 
 /**
  * @var MVC_View $this
- * @var UI_dataGrid $grid
- * @var Form $filter_form
+ * @var Listing $listing
  */
+$listing = $this->getRaw( 'listing' );
+$grid = $listing->getGrid();
+$filter_form = $listing->getFilterForm();
+
 $router = $this->getController()->getControllerRouter();
-$grid = $this->getRaw( 'grid' );
-$filter_form = $this->getRaw( 'filter_form' );
 
 $delete_uri = $router->action( 'delete' )->URI();
 
-$grid->getColumn( '_edit_' )
-	->setAllowSort( false )
-	->addCustomCssStyle( 'width:30px;' )
-	->setRenderer(
-		function( Content_Article $item ) use ( $delete_uri ) {
-			if( $delete_uri ):
-				?>
-				<input type="checkbox" name="selected[]" value="<?= $item->getId() ?>"/>
-			<?php
-			endif;
-		}
-	);
+$grid->getColumn( 'date_time' )->addCustomCssStyle( 'width:200px;' );
+$grid->getColumn( '_edit_' )->addCustomCssStyle( 'width:30px;' );
 
 
-$grid->getColumn( 'title' )
-	->setRenderer(
-		function( Content_Article $item ) use ( $router ) {
-			foreach( Content_Article::getLocales() as $locale ):
-				$URI = $router->action( 'edit' )->URI( $item->getId() );
-				$title = $item->getLocalized( $locale )->getTitle();
+$grid->footer()->setPrepend( $this->render('list/footer') );
 
-				echo UI::flag( $locale ) . '&nbsp;<a href="' . $URI . '">' . $title . '</a><br/>';
-			endforeach;
-		}
-	);
-
-$grid->getColumn( 'date_time' )
-	->addCustomCssStyle( 'width:200px;' )
-	->setRenderer(
-		function( Content_Article $item ) {
-			echo Locale::dateAndTime( $item->getDateTime() );
-		}
-	);
-
-if( $delete_uri && count( $grid->getData() ) ) {
-	$grid->footer()->setPrepend( '
-		<tr>
-			<td colspan="' . count( $grid->getColumns() ) . '" class="toolbar">
-				' . UI::button_delete()->setType( UI_button::TYPE_SUBMIT )->setSize( UI_button::SIZE_EXTRA_SMALL ) . '
-			</td>
-		</tr>
-	' );
-}
 
 ?>
 <?= $filter_form->start() ?>
@@ -77,7 +35,7 @@ if( $delete_uri && count( $grid->getData() ) ) {
 	</div>
 
 	<div class="col-xs-7 col-md-3">
-		<?= $filter_form->field( 'search' )->input() ?>
+		<?=$listing->filter(Listing_Filter_Search::KEY)->renderForm()?>
 	</div>
 </div>
 <?= $filter_form->end() ?>

@@ -13,6 +13,7 @@ use JetApplication\Content_Article;
 
 use Jet\MVC_Controller_Default;
 use Jet\MVC;
+use Jet\MVC_View;
 
 use Jet\UI_messages;
 
@@ -29,20 +30,12 @@ use Jet\MVC_Controller_Router_AddEditDelete;
 class Controller_Main extends MVC_Controller_Default
 {
 
-	/**
-	 * @var ?MVC_Controller_Router_AddEditDelete
-	 */
 	protected ?MVC_Controller_Router_AddEditDelete $router = null;
 
-	/**
-	 * @var ?Content_Article
-	 */
 	protected ?Content_Article $article = null;
-
-	/**
-	 *
-	 * @return MVC_Controller_Router_AddEditDelete
-	 */
+	
+	protected ?Listing $listing = null;
+	
 	public function getControllerRouter(): MVC_Controller_Router_AddEditDelete
 	{
 		if( !$this->router ) {
@@ -71,26 +64,43 @@ class Controller_Main extends MVC_Controller_Default
 
 		return $this->router;
 	}
-
-	/**
-	 *
-	 */
+	
+	protected function getListing() : Listing
+	{
+		if(!$this->listing) {
+			$this->listing = new Listing(
+				controller:  $this,
+				column_view: new MVC_View( $this->view->getScriptsDir().'list/column/' ),
+				filter_view: new MVC_View( $this->view->getScriptsDir().'list/filter/' )
+			);
+		}
+		
+		return $this->listing;
+	}
+	
 	public function listing_Action(): void
 	{
-		$listing = new Listing();
+		$listing = $this->getListing();
 		$listing->handle();
-
-		$this->view->setVar( 'filter_form', $listing->getFilterForm() );
-		$this->view->setVar( 'grid', $listing->getGrid() );
+		
+		$this->view->setVar( 'listing', $listing );
 
 		$this->output( 'list' );
 	}
-
-	/**
-	 *
-	 */
+	
+	protected function handleListingOnDetail() : void
+	{
+		$listing = $this->getListing();
+		$listing->handle();
+		
+		$list_uri = $listing->getURI();
+		Navigation_Breadcrumb::getItems()[1]->setURL( $list_uri );
+		$this->view->setVar( 'list_url', $list_uri );
+	}
+	
 	public function add_Action(): void
 	{
+		$this->handleListingOnDetail();
 		Navigation_Breadcrumb::addURL( Tr::_( 'Create a new Article' ) );
 
 		$article = new Content_Article();
@@ -128,6 +138,7 @@ class Controller_Main extends MVC_Controller_Default
 	 */
 	public function edit_Action(): void
 	{
+		$this->handleListingOnDetail();
 		$article = $this->article;
 		
 		Navigation_Breadcrumb::addURL( Tr::_( 'Edit article <b>%TITLE%</b>', ['TITLE' => $article->getTitle()] ) );
@@ -184,6 +195,7 @@ class Controller_Main extends MVC_Controller_Default
 	 */
 	public function delete_action(): void
 	{
+		$this->handleListingOnDetail();
 		$POST = Http_Request::POST();
 
 		if( is_array( $ids = $POST->getRaw( 'selected' ) ) ) {

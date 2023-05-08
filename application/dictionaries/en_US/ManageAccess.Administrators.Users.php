@@ -34,4 +34,6 @@ return [
 	'Invalid date format' => '',
 	'User <b>%USERNAME%</b> has been updated' => '',
 	'User <b>%USERNAME%</b> has been created' => '',
+	'Delete user account <b>%USERNAME%</b>' => '',
+	'Do you really want to delete this user?' => '',
 ];

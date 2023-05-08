@@ -12,6 +12,7 @@ namespace JetApplication;
 use Jet\Application_Modules;
 use Jet\DataModel;
 use Jet\DataModel_Definition;
+use Jet\DataModel_Fetch_Instances;
 use Jet\DataModel_IDController_Passive;
 use Jet\Auth_Role_Interface;
 use Jet\Data_Forest;
@@ -125,7 +126,8 @@ class Auth_Administrator_Role extends DataModel implements Auth_Role_Interface
 	 *
 	 * @param ?string $search
 	 *
-	 * @return Auth_Administrator_Role[]
+	 * @return static[]|DataModel_Fetch_Instances
+	 * @noinspection PhpDocSignatureInspection
 	 */
 	public static function getList( ?string $search = '' ): iterable
 	{
@@ -152,7 +154,10 @@ class Auth_Administrator_Role extends DataModel implements Auth_Role_Interface
 			] );
 
 		$list->getQuery()->setOrderBy( 'name' );
-
+		
+		/**
+		 * @var static[]|DataModel_Fetch_Instances $list
+		 */
 		return $list;
 	}
 

@@ -9,63 +9,61 @@
 namespace JetApplicationModule\Content\Articles\Admin;
 
 use JetApplication\Content_Article;
-
-use Jet\Data_Listing;
-use Jet\Data_Listing_Filter_Search;
+use Jet\MVC_View;
+use Jet\DataListing;
 use Jet\DataModel_Fetch_Instances;
 
 /**
  *
  */
-class Listing extends Data_Listing
+class Listing extends DataListing
 {
-
-	/**
-	 * @var array
-	 */
-	protected array $grid_columns = [
-		'_edit_'    => [
-			'title'         => '',
-			'disallow_sort' => true
-		],
-		'title'     => [
-			'title'         => 'Title',
-			'disallow_sort' => true
-		],
-		'date_time' => ['title' => 'Date and time'],
-	];
-
-	/**
-	 *
-	 */
-	protected function initFilters(): void
+	
+	protected Controller_Main $controller;
+	protected MVC_View $column_view;
+	protected MVC_View $filter_view;
+	
+	
+	public function __construct( Controller_Main $controller, MVC_View $column_view, MVC_View $filter_view )
 	{
-		$this->filters['search'] = new class($this) extends Data_Listing_Filter_Search {
-			public function generateWhere(): void
-			{
-				if( $this->search ) {
-					$search = '%' . $this->search . '%';
-					$this->listing->addWhere( [
-						'article_localized.title *'      => $search,
-						'OR',
-						'article_localized.annotation *' => $search,
-						'OR',
-						'article_localized.text *'       => $search,
-					] );
-				}
-
-			}
-		};
+		$column_view->setController( $controller );
+		$filter_view->setController( $controller );
+		
+		$this->column_view = $column_view;
+		$this->filter_view = $filter_view;
+		
+		$this->addColumn( new Listing_Column_Edit() );
+		$this->addColumn( new Listing_Column_Title() );
+		$this->addColumn( new Listing_Column_DateTime() );
+		
+		
+		$this->addFilter( new Listing_Filter_Search() );
+		
 	}
-
-
-	/**
-	 * @return Content_Article[]|DataModel_Fetch_Instances
-	 * @noinspection PhpDocSignatureInspection
-	 */
-	protected function getList(): DataModel_Fetch_Instances
+	
+	
+	protected function getItemList(): DataModel_Fetch_Instances
 	{
 		return Content_Article::getList();
 	}
-
+	
+	protected function getIdList(): array
+	{
+		return [];
+	}
+	
+	public function getFilterView(): MVC_View
+	{
+		return $this->filter_view;
+	}
+	
+	public function getColumnView(): MVC_View
+	{
+		return $this->column_view;
+	}
+	
+	public function itemGetter( int|string $id ): mixed
+	{
+		return Content_Article::get( $id );
+	}
 }

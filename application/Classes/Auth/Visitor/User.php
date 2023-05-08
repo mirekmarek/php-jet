@@ -11,6 +11,7 @@ namespace JetApplication;
 use Jet\Auth_User_Interface;
 use Jet\DataModel;
 use Jet\DataModel_Definition;
+use Jet\DataModel_Fetch_Instances;
 use Jet\DataModel_IDController_AutoIncrement;
 use Jet\Form;
 use Jet\Form_Definition;
@@ -308,7 +309,8 @@ class Auth_Visitor_User extends DataModel implements Auth_User_Interface
 	 * @param string|null $role_id (optional)
 	 * @param string $search
 	 *
-	 * @return Auth_Visitor_User[]
+	 * @return Auth_Visitor_User[]|DataModel_Fetch_Instances
+	 * @noinspection PhpDocSignatureInspection
 	 */
 	public static function getList( string|null $role_id = null, string $search = '' ): iterable
 	{

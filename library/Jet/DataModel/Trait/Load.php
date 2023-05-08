@@ -682,7 +682,8 @@ trait DataModel_Trait_Load
 	 * @param array $where
 	 * @param array $load_filter (optional)
 	 *
-	 * @return DataModel_Fetch_Instances
+	 * @return DataModel_Fetch_Instances|static[]
+	 * @noinspection PhpDocSignatureInspection
 	 */
 	public static function fetchInstances( array $where = [], array $load_filter = [] ): DataModel_Fetch_Instances
 	{

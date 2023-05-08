@@ -1,0 +1,18 @@
+<?php
+namespace JetApplicationModule\ManageAccess\Administrators\Roles;
+
+use JetApplication\Auth_Administrator_Role as Role;
+
+use Jet\MVC_View;
+
+/**
+ * @var MVC_View $this
+ * @var Role $item
+ */
+
+$item = $this->getRaw('item');
+$router = $this->getController()->getControllerRouter();
+
+$edit_uri = $router->action( 'edit' )->URI( $item->getId() );
+?>
+<a href="<?= $edit_uri; ?>"><?= $item->getId(); ?></a>

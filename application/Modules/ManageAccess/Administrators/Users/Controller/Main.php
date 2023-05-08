@@ -12,8 +12,9 @@ use Jet\Logger;
 use JetApplication\Auth_Administrator_User as User;
 
 use Jet\MVC_Controller_Router_AddEditDelete;
-use Jet\UI_messages;
 use Jet\MVC_Controller_Default;
+use Jet\MVC_View;
+use Jet\UI_messages;
 use Jet\Http_Headers;
 use Jet\Http_Request;
 use Jet\Tr;
@@ -25,20 +26,12 @@ use Jet\Navigation_Breadcrumb;
 class Controller_Main extends MVC_Controller_Default
 {
 
-	/**
-	 * @var ?MVC_Controller_Router_AddEditDelete
-	 */
 	protected ?MVC_Controller_Router_AddEditDelete $router = null;
 
-	/**
-	 * @var ?User
-	 */
 	protected ?User $user = null;
-
-	/**
-	 *
-	 * @return MVC_Controller_Router_AddEditDelete
-	 */
+	
+	protected ?Listing $listing = null;
+	
 	public function getControllerRouter(): MVC_Controller_Router_AddEditDelete
 	{
 		if( !$this->router ) {
@@ -73,20 +66,40 @@ class Controller_Main extends MVC_Controller_Default
 
 		return $this->router;
 	}
+	
+	protected function getListing() : Listing
+	{
+		if(!$this->listing) {
+			$this->listing = new Listing(
+				controller:  $this,
+				column_view: new MVC_View( $this->view->getScriptsDir().'list/column/' ),
+				filter_view: new MVC_View( $this->view->getScriptsDir().'list/filter/' )
+			);
+		}
+		
+		return $this->listing;
+	}
+	
 
-	/**
-	 *
-	 */
 	public function listing_Action(): void
 	{
 
-		$listing = new Listing();
+		$listing = $this->getListing();
 		$listing->handle();
 
-		$this->view->setVar( 'filter_form', $listing->getFilterForm() );
-		$this->view->setVar( 'grid', $listing->getGrid() );
+		$this->view->setVar( 'listing', $listing );
 
 		$this->output( 'list' );
+	}
+	
+	protected function handleListingOnDetail() : void
+	{
+		$listing = $this->getListing();
+		$listing->handle();
+		
+		$list_uri = $listing->getURI();
+		Navigation_Breadcrumb::getItems()[1]->setURL( $list_uri );
+		$this->view->setVar( 'list_url', $list_uri );
 	}
 
 	/**
@@ -94,6 +107,7 @@ class Controller_Main extends MVC_Controller_Default
 	 */
 	public function add_Action(): void
 	{
+		$this->handleListingOnDetail();
 		Navigation_Breadcrumb::addURL( Tr::_( 'Create a new User' ) );
 
 		$user = new User();
@@ -149,6 +163,7 @@ class Controller_Main extends MVC_Controller_Default
 	 */
 	public function edit_Action(): void
 	{
+		$this->handleListingOnDetail();
 		$user = $this->user;
 		
 		Navigation_Breadcrumb::addURL( Tr::_( 'Edit user account <b>%USERNAME%</b>', ['USERNAME' => $user->getUsername()] ) );
@@ -187,6 +202,8 @@ class Controller_Main extends MVC_Controller_Default
 	 */
 	public function view_Action(): void
 	{
+		$this->handleListingOnDetail();
+		
 		$user = $this->user;
 		
 		Navigation_Breadcrumb::addURL(
@@ -209,6 +226,8 @@ class Controller_Main extends MVC_Controller_Default
 	 */
 	public function delete_Action(): void
 	{
+		$this->handleListingOnDetail();
+		
 		$user = $this->user;
 		
 		Navigation_Breadcrumb::addURL(

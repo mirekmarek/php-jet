@@ -10,6 +10,7 @@ namespace JetApplication;
 
 use Jet\DataModel;
 use Jet\DataModel_Definition;
+use Jet\DataModel_Fetch_Instances;
 use Jet\Form_Definition;
 use Jet\Form_Field;
 use Jet\Locale;
@@ -135,10 +136,10 @@ class Content_Article extends DataModel
 	 *
 	 * @param string $search
 	 *
-	 * @return Content_Article[]
+	 * @return DataModel_Fetch_Instances|static[]
+	 * @noinspection PhpDocSignatureInspection
 	 */
 	public static function getList( string $search = '' ): iterable
-
 	{
 
 		$where = [];
@@ -154,7 +155,7 @@ class Content_Article extends DataModel
 				'article_localized.annotation *' => $search,
 			];
 		}
-
+		
 		return static::fetchInstances(
 			$where,
 			[
