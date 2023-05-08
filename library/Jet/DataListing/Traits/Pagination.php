@@ -8,6 +8,8 @@
 
 namespace Jet;
 
+use Jet\SysConf\Jet\SysConf_Jet_DataListing;
+
 /**
  *
  */
@@ -20,18 +22,18 @@ trait DataListing_Traits_Pagination
 	protected function setPageNo( int $page_no ): void
 	{
 		$this->pagination_page_no = $page_no;
-		$this->setParam( SysConf_Jet_Data_Listing::getPaginationPageNoGetParam(), $page_no );
+		$this->setParam( SysConf_Jet_DataListing::getPaginationPageNoGetParam(), $page_no );
 	}
 	
 	protected function setItemsPerPage( int $items_per_page ): void
 	{
 		
-		if( $items_per_page > SysConf_Jet_Data_Listing::getPaginationMaxItemsPerPage() ) {
-			$items_per_page = SysConf_Jet_Data_Listing::getPaginationMaxItemsPerPage();
+		if( $items_per_page > SysConf_Jet_DataListing::getPaginationMaxItemsPerPage() ) {
+			$items_per_page = SysConf_Jet_DataListing::getPaginationMaxItemsPerPage();
 		}
 		
 		$this->pagination_items_per_page = $items_per_page;
-		$this->setParam( SysConf_Jet_Data_Listing::getPaginationItemsPerPageParam(), $items_per_page );
+		$this->setParam( SysConf_Jet_DataListing::getPaginationItemsPerPageParam(), $items_per_page );
 	}
 	
 	
@@ -39,12 +41,12 @@ trait DataListing_Traits_Pagination
 	{
 		$GET = Http_Request::GET();
 		
-		$param = SysConf_Jet_Data_Listing::getPaginationPageNoGetParam();
+		$param = SysConf_Jet_DataListing::getPaginationPageNoGetParam();
 		if( $GET->exists( $param ) ) {
 			$this->setPageNo( $GET->getInt( $param ) );
 		}
 		
-		$param = SysConf_Jet_Data_Listing::getPaginationItemsPerPageParam();
+		$param = SysConf_Jet_DataListing::getPaginationItemsPerPageParam();
 		if( $GET->exists( $param ) ) {
 			$this->setItemsPerPage( $GET->getInt( $param ) );
 		}
@@ -58,7 +60,7 @@ trait DataListing_Traits_Pagination
 	protected function getItemsPerPage(): int
 	{
 		if( !$this->pagination_items_per_page ) {
-			return SysConf_Jet_Data_Listing::getPaginationDefaultItemsPerPage();
+			return SysConf_Jet_DataListing::getPaginationDefaultItemsPerPage();
 		}
 		
 		return $this->pagination_items_per_page;

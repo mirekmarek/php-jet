@@ -8,6 +8,8 @@
 
 namespace Jet;
 
+use Jet\SysConf\Jet\SysConf_Jet_DataListing;
+
 /**
  *
  */
@@ -45,14 +47,14 @@ trait DataListing_Traits_Sort
 		}
 		
 		$this->sort = $sort_by;
-		$this->setParam( SysConf_Jet_Data_Listing::getSortGetParam(), $sort_by );
+		$this->setParam( SysConf_Jet_DataListing::getSortGetParam(), $sort_by );
 	}
 	
 	protected function catchSortParams(): void
 	{
 		$GET = Http_Request::GET();
 		
-		$param = SysConf_Jet_Data_Listing::getSortGetParam();
+		$param = SysConf_Jet_DataListing::getSortGetParam();
 		if( $GET->exists( $param ) ) {
 			$this->setSort( $GET->getString( $param ) );
 		}

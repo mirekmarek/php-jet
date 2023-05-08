@@ -9,6 +9,8 @@
 namespace Jet;
 
 
+use Jet\SysConf\Jet\SysConf_Jet_DataListing;
+
 /**
  *
  */
@@ -71,7 +73,7 @@ abstract class DataListing extends BaseObject
 	{
 		return function( $page_no ) {
 			$params = $this->params;
-			$params[SysConf_Jet_Data_Listing::getPaginationPageNoGetParam()] = (int)$page_no;
+			$params[SysConf_Jet_DataListing::getPaginationPageNoGetParam()] = (int)$page_no;
 			
 			return Http_Request::currentURI( $params );
 		};
@@ -81,7 +83,7 @@ abstract class DataListing extends BaseObject
 	{
 		return function( $column_name, $desc ) {
 			$params = $this->params;
-			$params[SysConf_Jet_Data_Listing::getSortGetParam()] = ($desc ? '-' : '') . $column_name;
+			$params[SysConf_Jet_DataListing::getSortGetParam()] = ($desc ? '-' : '') . $column_name;
 			
 			return Http_Request::currentURI( $params );
 		};
