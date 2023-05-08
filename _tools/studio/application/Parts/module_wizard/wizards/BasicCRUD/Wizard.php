@@ -8,7 +8,6 @@
 
 namespace JetStudio\ModuleWizard\BasicCRUD;
 
-use Jet\Data_Text;
 use Jet\DataModel;
 use Jet\Form;
 use Jet\Form_Field;
