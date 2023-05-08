@@ -8,11 +8,12 @@
 
 namespace JetApplicationModule\ManageAccess\Administrators\Users;
 
-use Jet\DataModel_Fetch_Instances;
-use Jet\MVC_View;
 use JetApplication\Auth_Administrator_User as User;
 
+use Jet\DataModel_Fetch_Instances;
+use Jet\MVC_View;
 use Jet\DataListing;
+
 
 /**
  *
