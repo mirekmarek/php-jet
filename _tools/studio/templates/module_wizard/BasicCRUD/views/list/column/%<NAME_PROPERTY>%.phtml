@@ -1,0 +1,17 @@
+<?php
+namespace %<NAMESPACE>%;
+
+use %<DATA_MODEL_CLASS_NAME>% as %<DATA_MODEL_CLASS_ALIAS>%;
+
+use Jet\MVC_View;
+
+/**
+ * @var MVC_View $this
+ * @var %<DATA_MODEL_CLASS_ALIAS>% $item
+ */
+$item = $this->getRaw('item');
+$router = $this->getController()->getControllerRouter();
+
+$edit_uri = $router->action( 'edit' )->URI( $item->getId() );
+?>
+<a href="<?= $edit_uri; ?>"><?= $item->%<ITEM_NAME_GETTER>%(); ?></a>

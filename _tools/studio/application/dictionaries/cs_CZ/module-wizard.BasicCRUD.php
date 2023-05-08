@@ -1,6 +1,6 @@
 <?php
 return [
-	'Basic administration module for DataModel' => 'Základní administrační modul pro zvolený DataModel',
+	'Basic CRUD module for DataModel' => 'Základní CRUD modul pro zvolený DataModel',
 	'Create basic module which allows to create, edit and delete data entity' => 'Vytvoří základní modul pro přidávání, úpravu a mazání záznamů určité datové entity',
 	'Please enter module name' => 'Prosím zadejte název modulu',
 	'Please enter module label' => 'Prosím zadejte popisek modulu',

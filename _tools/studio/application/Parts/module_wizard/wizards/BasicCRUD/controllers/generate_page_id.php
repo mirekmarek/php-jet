@@ -6,7 +6,7 @@
  * @author Miroslav Marek <mirek.marek@web-jet.cz>
  */
 
-namespace JetStudio\ModuleWizard\BasicAdminDataHandler;
+namespace JetStudio\ModuleWizard\BasicCRUD;
 
 use Jet\AJAX;
 use Jet\Http_Request;

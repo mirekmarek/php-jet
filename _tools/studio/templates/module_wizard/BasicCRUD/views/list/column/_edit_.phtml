@@ -1,0 +1,26 @@
+<?php
+namespace %<NAMESPACE>%;
+
+use %<DATA_MODEL_CLASS_NAME>% as %<DATA_MODEL_CLASS_ALIAS>%;
+
+use Jet\MVC_View;
+use Jet\UI;
+use Jet\UI_button;
+
+/**
+ * @var MVC_View $this
+ * @var %<DATA_MODEL_CLASS_ALIAS>% $item
+ */
+$item = $this->getRaw('item');
+$router = $this->getController()->getControllerRouter();
+
+$edit_uri = $router->action( 'edit' )->URI( $item->getId() );
+
+if( ($delete_uri = $router->action( 'delete' )->URI( $item->getId() )) ):
+	echo UI::button_delete(' ')->setUrl( $delete_uri )->setSize( UI_button::SIZE_EXTRA_SMALL );
+	echo '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+endif;
+
+if( ($edit_uri = $router->action( 'edit' )->URI( $item->getId() )) ):
+	echo UI::button_edit()->setUrl( $edit_uri )->setSize( UI_button::SIZE_EXTRA_SMALL );
+endif;

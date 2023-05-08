@@ -6,8 +6,9 @@
  * @author Miroslav Marek <mirek.marek@web-jet.cz>
  */
 
-namespace JetStudio\ModuleWizard\BasicAdminDataHandler;
+namespace JetStudio\ModuleWizard\BasicCRUD;
 
+use Jet\Data_Text;
 use Jet\DataModel;
 use Jet\Form;
 use Jet\Form_Field;
@@ -34,7 +35,7 @@ class Wizard extends ModuleWizard
 	/**
 	 * @var string
 	 */
-	protected string $title = 'Basic administration module for DataModel';
+	protected string $title = 'Basic CRUD module for DataModel';
 
 	/**
 	 * @var string

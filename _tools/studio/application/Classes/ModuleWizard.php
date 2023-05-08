@@ -265,6 +265,11 @@ abstract class ModuleWizard extends BaseObject
 	{
 		return ProjectConf_Path::getTemplates() . 'module_wizard/' . $this->getName();
 	}
+	
+	public function getTargetDir() : string
+	{
+		return SysConf_Path::getModules() . str_replace( '.', DIRECTORY_SEPARATOR, $this->module_name );
+	}
 
 	/**
 	 * @return bool
@@ -276,7 +281,7 @@ abstract class ModuleWizard extends BaseObject
 
 		try {
 			$source_dir = $this->getModuleTemplateDir();
-			$target_dir = SysConf_Path::getModules() . str_replace( '.', DIRECTORY_SEPARATOR, $this->module_name );
+			$target_dir = $this->getTargetDir();
 
 
 			IO_Dir::copy( $source_dir, $target_dir );
@@ -358,20 +363,34 @@ abstract class ModuleWizard extends BaseObject
 	protected function create_applyValues( string $dir ): void
 	{
 		$list = IO_Dir::getFilesList( $dir );
-
+		
+		$values = [];
+		
+		foreach( $this->values as $k => $v ) {
+			$values['<' . $k . '>'] = $v;
+		}
+		
+		$rename = [];
+		
 		foreach( $list as $path => $name ) {
 			$script = IO_File::read( $path );
-
-			$values = [];
-
-			foreach( $this->values as $k => $v ) {
-				$values['<' . $k . '>'] = $v;
-			}
-
+			
 			$script = Data_Text::replaceData( $script, $values );
 
 			IO_File::write( $path, $script );
+			
+			if(str_contains($name, '%<')) {
+				$rename[] = $path;
+			}
 		}
+		
+		foreach($rename as $old_path ) {
+			$new_path = Data_Text::replaceData( $old_path, $values );
+			
+			IO_File::rename( $old_path, $new_path );
+		}
+		
+		
 
 		$list = IO_Dir::getSubdirectoriesList( $dir );
 		foreach( $list as $path => $name ) {

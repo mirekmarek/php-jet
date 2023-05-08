@@ -6,15 +6,11 @@
  * @author Miroslav Marek <mirek.marek@web-jet.cz>
  */
 
-namespace JetStudio\ModuleWizard\BasicAdminDataHandler;
+namespace JetStudio\ModuleWizard\BasicCRUD;
 
 /**
  * @var Wizard $this
  */
 
-if(
-	$this->catchSetupForm() &&
-	$this->create()
-) {
-	$this->redirectToModuleEditing();
-}
+$this->catchSelectModelForm();
+
