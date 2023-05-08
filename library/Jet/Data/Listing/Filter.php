@@ -16,6 +16,8 @@ use Jet\Http_Request;
 /**
  *
  * @deprecated
+ * Use DataListing which is better and more powerful.
+ * This one will be removed in v2024.05
  */
 abstract class Data_Listing_Filter
 {
