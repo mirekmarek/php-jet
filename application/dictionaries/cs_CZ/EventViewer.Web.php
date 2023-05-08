@@ -30,4 +30,5 @@ return [
 	'User name:' => 'Uživatel - jméno:',
 	'Context object name:' => 'Kontextový objekt - název:',
 	'Context object:' => 'Kontextový objekt:',
+	'Export to CSV file' => 'Exportovat do CSV souboru',
 ];

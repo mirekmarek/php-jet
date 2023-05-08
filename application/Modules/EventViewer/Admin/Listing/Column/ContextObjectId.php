@@ -9,6 +9,7 @@ namespace JetApplicationModule\EventViewer\Admin;
 
 use Jet\DataListing_Column;
 use Jet\Tr;
+use JetApplication\Logger_Admin_Event as Event;
 
 class Listing_Column_ContextObjectId extends DataListing_Column
 {
@@ -22,5 +23,19 @@ class Listing_Column_ContextObjectId extends DataListing_Column
 	public function getTitle(): string
 	{
 		return Tr::_('Context object ID');
+	}
+	
+	public function getExportHeader(): string
+	{
+		return $this->getKey();
+	}
+	
+	/**
+	 * @param Event $item
+	 * @return string
+	 */
+	public function getExportData( mixed $item ): string
+	{
+		return $item->getContextObjectId();
 	}
 }

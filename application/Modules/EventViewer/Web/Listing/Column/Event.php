@@ -9,6 +9,7 @@ namespace JetApplicationModule\EventViewer\Web;
 
 use Jet\DataListing_Column;
 use Jet\Tr;
+use JetApplication\Logger_Web_Event as Event;
 
 class Listing_Column_Event extends DataListing_Column
 {
@@ -23,4 +24,19 @@ class Listing_Column_Event extends DataListing_Column
 	{
 		return Tr::_('Event');
 	}
+	
+	public function getExportHeader(): string
+	{
+		return $this->getKey();
+	}
+	
+	/**
+	 * @param Event $item
+	 * @return string
+	 */
+	public function getExportData( mixed $item ): string
+	{
+		return $item->getEvent();
+	}
+	
 }

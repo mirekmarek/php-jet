@@ -1,8 +1,8 @@
 <?php
 /**
  *
- * @copyright 
- * @license  
+ * @copyright
+ * @license
  * @author  Miroslav Marek
  */
 namespace JetApplicationModule\EventViewer\Admin;
@@ -20,12 +20,14 @@ use Jet\Navigation_Breadcrumb;
  */
 class Controller_Main extends MVC_Controller_Default
 {
-
+	
 	protected ?Event $event = null;
 	
 	protected ?Listing $listing = null;
-
-
+	
+	protected string $export_key = '';
+	
+	
 	public function resolve(): bool|string
 	{
 		$GET = Http_Request::GET();
@@ -35,7 +37,15 @@ class Controller_Main extends MVC_Controller_Default
 		) {
 			return 'view';
 		}
-
+		
+		if(
+			($export_key=$GET->getString('export')) &&
+			$this->getListing()->exportExists($export_key)
+		)  {
+			$this->export_key = $export_key;
+			return 'export';
+		}
+		
 		return 'listing';
 	}
 	
@@ -53,23 +63,22 @@ class Controller_Main extends MVC_Controller_Default
 		
 		return $this->listing;
 	}
-
-	/**
-	 *
-	 */
+	
 	public function listing_Action() : void
 	{
 		$listing = $this->getListing();
 		
 		$this->view->setVar( 'listing', $listing );
-
+		
 		$this->output( 'list' );
 	}
-
-
-	/**
-	 *
-	 */
+	
+	public function export_Action() : void
+	{
+		$this->listing->export( $this->export_key )->export();
+	}
+	
+	
 	public function view_Action() : void
 	{
 		$event = $this->event;
@@ -86,11 +95,11 @@ class Controller_Main extends MVC_Controller_Default
 		
 		Navigation_Breadcrumb::getItems()[1]->setURL( $list_uri );
 		Navigation_Breadcrumb::addURL( Tr::_( 'View event <b>%ITEM_NAME%</b>', [ 'ITEM_NAME' => '['.$event->getId().'] '.$event->getEventMessage() ] ) );
-
+		
 		$this->view->setVar( 'list_url', $list_uri );
 		$this->view->setVar( 'event', $event );
-
+		
 		$this->output( 'view' );
 	}
-
+	
 }

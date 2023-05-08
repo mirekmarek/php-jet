@@ -11,6 +11,9 @@ namespace Jet;
 
 abstract class DataListing_Export extends DataListing_ElementBase
 {
+	abstract public function getKey() : string;
+	
+	abstract public function getTitle() : string;
 	
 	public function export( array $column_keys=[] ): void
 	{
@@ -45,8 +48,11 @@ abstract class DataListing_Export extends DataListing_ElementBase
 		}
 		
 		$ids = $this->listing->getAllIds();
-		if( count( $ids ) > $this->listing->getExportLimit() ) {
-			$ids = array_slice( $ids, 0, $this->listing->getExportLimit() );
+		
+		if($this->listing->getExportLimit()>0) {
+			if( count( $ids ) > $this->listing->getExportLimit() ) {
+				$ids = array_slice( $ids, 0, $this->listing->getExportLimit() );
+			}
 		}
 		
 		$data = [];
@@ -71,10 +77,6 @@ abstract class DataListing_Export extends DataListing_ElementBase
 		
 		Application::end();
 	}
-	
-	abstract public function getTitle() : string;
-	
-	abstract public function getKey() : string;
 	
 	abstract protected function formatData( array $export_header, array $data ): void;
 	

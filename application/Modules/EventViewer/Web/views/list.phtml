@@ -25,6 +25,8 @@ $grid->getColumn( Listing_Column_ID::KEY )->addCustomCssStyle( 'width:120px;' );
 
 	<div class="col-md-3 col-sm-12">
 		<?=$listing->filter(Listing_Filter_Search::KEY)->renderForm()?>
+		
+		<?php require 'list/export.phtml'; ?>
 	</div>
 	<div class="col-md-9 col-sm-12">
 		<table>

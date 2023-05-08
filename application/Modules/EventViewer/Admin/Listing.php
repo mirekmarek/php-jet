@@ -49,6 +49,7 @@ class Listing extends DataListing {
 		$this->addFilter( new Listing_Filter_User() );
 		$this->addFilter( new Listing_Filter_ContextObject() );
 		
+		$this->addExport( new Listing_Export_CSV() );
 	}
 	
 	

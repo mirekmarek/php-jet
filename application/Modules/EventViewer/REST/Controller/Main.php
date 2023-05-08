@@ -25,6 +25,8 @@ class Controller_Main extends MVC_Controller_Default
 	
 	protected ?Listing $listing = null;
 	
+	protected string $export_key = '';
+	
 	
 	public function resolve(): bool|string
 	{
@@ -34,6 +36,14 @@ class Controller_Main extends MVC_Controller_Default
 			($this->event=Event::get($event_id))
 		) {
 			return 'view';
+		}
+		
+		if(
+			($export_key=$GET->getString('export')) &&
+			$this->getListing()->exportExists($export_key)
+		)  {
+			$this->export_key = $export_key;
+			return 'export';
 		}
 		
 		return 'listing';
@@ -54,9 +64,6 @@ class Controller_Main extends MVC_Controller_Default
 		return $this->listing;
 	}
 	
-	/**
-	 *
-	 */
 	public function listing_Action() : void
 	{
 		$listing = $this->getListing();
@@ -66,10 +73,12 @@ class Controller_Main extends MVC_Controller_Default
 		$this->output( 'list' );
 	}
 	
+	public function export_Action() : void
+	{
+		$this->listing->export( $this->export_key )->export();
+	}
 	
-	/**
-	 *
-	 */
+	
 	public function view_Action() : void
 	{
 		$event = $this->event;

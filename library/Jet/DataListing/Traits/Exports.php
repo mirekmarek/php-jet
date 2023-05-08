@@ -13,8 +13,7 @@ namespace Jet;
  */
 trait DataListing_Traits_Exports
 {
-	//TODO: sysconf
-	protected int $export_limit = 500;
+	protected int $export_limit = -1;
 	
 	/**
 	 * @var DataListing_Export[]
@@ -29,14 +28,20 @@ trait DataListing_Traits_Exports
 		return $this->exports;
 	}
 	
-	public function exportExists( string $type ) : bool
+	public function addExport( DataListing_Export $export ) : void
 	{
-		return isset($this->exports[$type]);
+		$this->exports[$export->getKey()] = $export;
+		$export->setListing( $this );
 	}
 	
-	public function export( string $type ) : void
+	public function exportExists( string $key ) : bool
 	{
-		$this->exports[$type]->export();
+		return isset($this->exports[$key]);
+	}
+	
+	public function export( string $key ) : DataListing_Export
+	{
+		return $this->exports[$key];
 	}
 	
 	public function getExportTypes() : array
