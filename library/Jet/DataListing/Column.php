@@ -22,6 +22,11 @@ abstract class DataListing_Column extends DataListing_ElementBase
 	
 	abstract public function getTitle(): string;
 	
+	public function getIcon() : string
+	{
+		return '';
+	}
+	
 	public function isMandatory() : bool
 	{
 		return false;

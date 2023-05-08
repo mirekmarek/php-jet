@@ -15,6 +15,11 @@ abstract class DataListing_Operation extends DataListing_ElementBase
 	
 	abstract public function getTitle(): string;
 	
+	public function getIcon() : string
+	{
+		return '';
+	}
+	
 	abstract public function getOperationGetParams() : array;
 	
 	abstract public function isPrepared(): bool;

@@ -57,8 +57,6 @@ class Controller_Main extends MVC_Controller_Default
 				column_view: new MVC_View( $this->view->getScriptsDir().'list/column/' ),
 				filter_view: new MVC_View( $this->view->getScriptsDir().'list/filter/' )
 			);
-			
-			$this->listing->handle();
 		}
 		
 		return $this->listing;
@@ -67,6 +65,7 @@ class Controller_Main extends MVC_Controller_Default
 	public function listing_Action() : void
 	{
 		$listing = $this->getListing();
+		$listing->handle();
 		
 		$this->view->setVar( 'listing', $listing );
 		
@@ -75,7 +74,9 @@ class Controller_Main extends MVC_Controller_Default
 	
 	public function export_Action() : void
 	{
-		$this->listing->export( $this->export_key )->export();
+		$listing = $this->getListing();
+		$listing->handle();
+		$listing->export( $this->export_key )->export();
 	}
 	
 	
@@ -83,6 +84,7 @@ class Controller_Main extends MVC_Controller_Default
 	{
 		$event = $this->event;
 		$listing = $this->getListing();
+		$listing->handle();
 		
 		$list_uri = $listing->getURI();
 		

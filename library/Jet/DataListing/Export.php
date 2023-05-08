@@ -15,6 +15,11 @@ abstract class DataListing_Export extends DataListing_ElementBase
 	
 	abstract public function getTitle() : string;
 	
+	public function getIcon() : string
+	{
+		return '';
+	}
+	
 	public function export( array $column_keys=[] ): void
 	{
 		if(!$column_keys) {
