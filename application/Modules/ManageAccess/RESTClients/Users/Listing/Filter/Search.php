@@ -6,7 +6,7 @@
  * @author Miroslav Marek <mirek.marek@web-jet.cz>
  */
 
-namespace JetApplicationModule\ManageAccess\RESTClients\Users;
+namespace JetApplicationModule\Admin\ManageAccess\RESTClients\Users;
 
 use Jet\DataListing_Filter_Search;
 

@@ -6,7 +6,7 @@
  * @author Miroslav Marek <mirek.marek@web-jet.cz>
  */
 
-namespace JetApplicationModule\ManageAccess\Administrators\Users;
+namespace JetApplicationModule\Admin\ManageAccess\Administrators\Users;
 
 use Jet\Logger;
 use JetApplication\Auth_Administrator_User as User;

@@ -6,7 +6,7 @@
  * @author Miroslav Marek <mirek.marek@web-jet.cz>
  */
 
-namespace JetApplicationModule\ManageAccess\Visitors\Users;
+namespace JetApplicationModule\Admin\ManageAccess\Visitors\Users;
 
 use Jet\DataListing_Filter;
 use Jet\Form;

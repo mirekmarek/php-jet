@@ -7,7 +7,7 @@
  * @author Miroslav Marek <mirek.marek@web-jet.cz>
  */
 
-namespace JetApplicationModule\ManageAccess\RESTClients\Roles;
+namespace JetApplicationModule\Admin\ManageAccess\RESTClients\Roles;
 
 use Jet\MVC_View;
 use Jet\DataModel_Fetch_Instances;

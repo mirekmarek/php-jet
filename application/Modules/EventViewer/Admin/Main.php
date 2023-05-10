@@ -5,7 +5,7 @@
  * @license  
  * @author  Miroslav Marek
  */
-namespace JetApplicationModule\EventViewer\Admin;
+namespace JetApplicationModule\Admin\EventViewer\Admin;
 
 use Jet\Application_Module;
 

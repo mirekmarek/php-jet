@@ -6,7 +6,7 @@
  * @author Miroslav Marek <mirek.marek@web-jet.cz>
  */
 
-namespace JetApplicationModule\ManageAccess\Visitors\Users;
+namespace JetApplicationModule\Admin\ManageAccess\Visitors\Users;
 
 use Jet\Logger;
 use JetApplication\Auth_Visitor_User as User;

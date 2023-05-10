@@ -5,7 +5,7 @@
  * @license
  * @author  Miroslav Marek
  */
-namespace JetApplicationModule\ManageAccess\Visitors\Roles;
+namespace JetApplicationModule\Admin\ManageAccess\Visitors\Roles;
 
 use Jet\DataListing_Column;
 use Jet\Tr;

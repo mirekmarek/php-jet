@@ -9,9 +9,6 @@
 
 namespace Jet;
 
-use Jet\Form;
-use Jet\Form_Field_Search;
-use Jet\Http_Request;
 
 /**
  *

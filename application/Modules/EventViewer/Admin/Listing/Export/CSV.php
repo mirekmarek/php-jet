@@ -5,7 +5,7 @@
  * @license
  * @author  Miroslav Marek
  */
-namespace JetApplicationModule\EventViewer\Admin;
+namespace JetApplicationModule\Admin\EventViewer\Admin;
 
 use Jet\DataListing_Export_CSV;
 use Jet\Tr;

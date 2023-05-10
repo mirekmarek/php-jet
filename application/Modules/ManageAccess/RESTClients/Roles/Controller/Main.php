@@ -7,7 +7,7 @@
  * @author Miroslav Marek <mirek.marek@web-jet.cz>
  */
 
-namespace JetApplicationModule\ManageAccess\RESTClients\Roles;
+namespace JetApplicationModule\Admin\ManageAccess\RESTClients\Roles;
 
 use Jet\Logger;
 use JetApplication\Auth_RESTClient_Role as Role;

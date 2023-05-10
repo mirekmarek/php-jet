@@ -5,7 +5,7 @@
  * @license
  * @author  Miroslav Marek
  */
-namespace JetApplicationModule\EventViewer\REST;
+namespace JetApplicationModule\Admin\EventViewer\REST;
 
 use Jet\Http_Request;
 use Jet\MVC_View;

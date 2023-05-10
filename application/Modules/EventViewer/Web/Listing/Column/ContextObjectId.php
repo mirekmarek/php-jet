@@ -5,7 +5,7 @@
  * @license
  * @author  Miroslav Marek
  */
-namespace JetApplicationModule\EventViewer\Web;
+namespace JetApplicationModule\Admin\EventViewer\Web;
 
 use Jet\DataListing_Column;
 use Jet\Tr;

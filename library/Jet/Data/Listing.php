@@ -8,8 +8,6 @@
 
 namespace Jet;
 
-use Jet\SysConf\Jet\SysConf_Jet_DataListing;
-
 /**
  *
  * @deprecated

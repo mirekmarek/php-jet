@@ -7,7 +7,7 @@
  * @author Miroslav Marek <mirek.marek@web-jet.cz>
  */
 
-namespace JetApplicationModule\ManageAccess\Administrators\Roles;
+namespace JetApplicationModule\Admin\ManageAccess\Administrators\Roles;
 
 use Jet\Logger;
 use JetApplication\Auth_Administrator_Role as Role;
