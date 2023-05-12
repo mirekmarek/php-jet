@@ -5,7 +5,7 @@
  * @license
  * @author  Miroslav Marek
  */
-namespace JetApplicationModule\Admin\EventViewer\Admin;
+namespace JetApplicationModule\EventViewer\Admin;
 
 use Jet\Http_Request;
 use Jet\MVC_View;
@@ -52,10 +52,14 @@ class Controller_Main extends MVC_Controller_Default
 	protected function getListing() : Listing
 	{
 		if(!$this->listing) {
+			$column_view = new MVC_View( $this->view->getScriptsDir().'list/column/' );
+			$column_view->setController( $this );
+			$filter_view = new MVC_View( $this->view->getScriptsDir().'list/filter/' );
+			$filter_view->setController( $this );
+			
 			$this->listing = new Listing(
-				controller:  $this,
-				column_view: new MVC_View( $this->view->getScriptsDir().'list/column/' ),
-				filter_view: new MVC_View( $this->view->getScriptsDir().'list/filter/' )
+				column_view: $column_view,
+				filter_view: $filter_view
 			);
 		}
 		

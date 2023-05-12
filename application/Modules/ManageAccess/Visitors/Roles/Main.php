@@ -6,7 +6,7 @@
  * @author Miroslav Marek <mirek.marek@web-jet.cz>
  */
 
-namespace JetApplicationModule\Admin\ManageAccess\Visitors\Roles;
+namespace JetApplicationModule\ManageAccess\Visitors\Roles;
 
 use Jet\Application_Module;
 

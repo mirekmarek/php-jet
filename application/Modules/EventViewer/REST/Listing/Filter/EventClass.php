@@ -5,7 +5,7 @@
  * @license
  * @author  Miroslav Marek
  */
-namespace JetApplicationModule\Admin\EventViewer\REST;
+namespace JetApplicationModule\EventViewer\REST;
 
 use Jet\DataListing_Filter;
 use Jet\Form;

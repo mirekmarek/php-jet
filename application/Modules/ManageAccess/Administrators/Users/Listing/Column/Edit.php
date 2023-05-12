@@ -5,7 +5,7 @@
  * @license
  * @author  Miroslav Marek
  */
-namespace JetApplicationModule\Admin\ManageAccess\Administrators\Users;
+namespace JetApplicationModule\ManageAccess\Administrators\Users;
 
 use Jet\DataListing_Column;
 

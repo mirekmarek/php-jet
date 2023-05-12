@@ -1,5 +1,5 @@
 <?php
-namespace JetApplicationModule\Admin\ManageAccess\RESTClients\Users;
+namespace JetApplicationModule\ManageAccess\RESTClients\Users;
 
 use JetApplication\Auth_RESTClient_User as User;
 
@@ -29,7 +29,7 @@ $router = $this->getController()->getControllerRouter();
 
 <div class="row toolbar" id="main-toolbar">
 	<div class="col-md-12">
-		<?= UI::button_goBack($this->getString( 'list_url' )) ?>
+		<?= UI::button_goBack()->setUrl($this->getString( 'list_url' )) ?>
 
 		<?php if( !$form->getIsReadonly() ): ?>
 			<?= UI::button_save() ?>

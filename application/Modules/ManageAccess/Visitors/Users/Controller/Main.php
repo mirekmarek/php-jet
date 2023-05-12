@@ -6,7 +6,7 @@
  * @author Miroslav Marek <mirek.marek@web-jet.cz>
  */
 
-namespace JetApplicationModule\Admin\ManageAccess\Visitors\Users;
+namespace JetApplicationModule\ManageAccess\Visitors\Users;
 
 use Jet\Logger;
 use JetApplication\Auth_Visitor_User as User;
@@ -70,10 +70,14 @@ class Controller_Main extends MVC_Controller_Default
 	protected function getListing() : Listing
 	{
 		if(!$this->listing) {
+			$column_view = new MVC_View( $this->view->getScriptsDir().'list/column/' );
+			$column_view->setController( $this );
+			$filter_view = new MVC_View( $this->view->getScriptsDir().'list/filter/' );
+			$filter_view->setController( $this );
+			
 			$this->listing = new Listing(
-				controller:  $this,
-				column_view: new MVC_View( $this->view->getScriptsDir().'list/column/' ),
-				filter_view: new MVC_View( $this->view->getScriptsDir().'list/filter/' )
+				column_view: $column_view,
+				filter_view: $filter_view
 			);
 		}
 		

@@ -5,7 +5,7 @@
  * @license
  * @author  Miroslav Marek
  */
-namespace JetApplicationModule\Admin\EventViewer\Admin;
+namespace JetApplicationModule\EventViewer\Admin;
 
 use Jet\DataListing_Filter;
 use Jet\Form;

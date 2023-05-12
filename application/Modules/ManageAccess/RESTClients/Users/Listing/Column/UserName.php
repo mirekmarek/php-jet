@@ -5,7 +5,7 @@
  * @license
  * @author  Miroslav Marek
  */
-namespace JetApplicationModule\Admin\ManageAccess\RESTClients\Users;
+namespace JetApplicationModule\ManageAccess\RESTClients\Users;
 
 use Jet\DataListing_Column;
 use Jet\Tr;
