@@ -50,10 +50,11 @@ class Controller_Main extends MVC_Controller_Default
 		if( !$this->router ) {
 			$this->router = new MVC_Controller_Router( $this );
 
-			$path = MVC::getRouter()->getUrlPath();
 
 			$this->router->addAction( 'list' )
-				->setResolver( function() use ( $path ) {
+				->setResolver( function() {
+					$path = MVC::getRouter()->getUrlPath();
+				
 					if( $path == '' ) {
 						return true;
 					}
@@ -66,7 +67,9 @@ class Controller_Main extends MVC_Controller_Default
 					return false;
 				} );
 			$this->router->addAction( 'detail' )
-				->setResolver( function() use ( $path ) {
+				->setResolver( function() {
+					$path = MVC::getRouter()->getUrlPath();
+					
 					if( $path == '' ) {
 						return false;
 					}
