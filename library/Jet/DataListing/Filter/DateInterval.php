@@ -7,15 +7,7 @@
  * @author Miroslav Marek <mirek.marek@web-jet.cz>
  */
 
-namespace Jet\DataListing\Filter;
-
-
-use Jet\Data_DateTime;
-use Jet\DataListing_Filter;
-use Jet\Form;
-use Jet\Form_Field;
-use Jet\Form_Field_Date;
-use Jet\Http_Request;
+namespace Jet;
 
 /**
  *
