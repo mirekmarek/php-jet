@@ -8,38 +8,32 @@
 
 namespace JetApplicationModule\ManageAccess\Administrators\Users;
 
-use Jet\DataListing_Filter;
-use Jet\Form;
-use Jet\Form_Field;
+use Jet\DataListing_Filter_OptionSelect;
 use Jet\Form_Field_Select;
-use Jet\Http_Request;
 use Jet\Tr;
 
 
-class Listing_Filter_IsBlocked extends DataListing_Filter {
+class Listing_Filter_IsBlocked extends DataListing_Filter_OptionSelect {
 
 	public const KEY = 'is_blocked';
-	
-	protected string $is_blocked = '';
 	
 	public function getKey(): string
 	{
 		return static::KEY;
 	}
-
-	public function catchParams(): void
+	
+	public function getParamName() : string
 	{
-		$this->is_blocked = Http_Request::GET()->getString( 'is_blocked' );
-		$this->listing->setParam( 'is_blocked', $this->is_blocked );
+		return 'is_blocked';
 	}
-
-	public function generateFormFields( Form $form ): void
+	
+	public function getFormFieldLabel() : string
 	{
-		$field = new Form_Field_Select( 'is_blocked', 'Is blocked:' );
-		$field->setDefaultValue( $this->is_blocked );
-		$field->setErrorMessages( [
-			Form_Field::ERROR_CODE_INVALID_VALUE => ' '
-		] );
+		return 'Is blocked:';
+	}
+	
+	protected function setFieldSelectOptions( Form_Field_Select $field ): void
+	{
 		$options = [
 			'' => Tr::_( '- all -' ),
 			'yes' => Tr::_( 'Yes' ),
@@ -47,22 +41,13 @@ class Listing_Filter_IsBlocked extends DataListing_Filter {
 		];
 
 		$field->setSelectOptions( $options );
-
-
-		$form->addField( $field );
-	}
-
-	public function catchForm( Form $form ): void
-	{
-		$this->is_blocked = $form->field( 'is_blocked' )->getValue();
-		$this->listing->setParam( 'is_blocked', $this->is_blocked );
 	}
 
 	public function generateWhere(): void
 	{
-		if( $this->is_blocked ) {
+		if( $this->selected_value ) {
 			$this->listing->addFilterWhere( [
-				'user_is_blocked' => $this->is_blocked=='yes',
+				'user_is_blocked' => $this->selected_value=='yes',
 			] );
 		}
 	}
