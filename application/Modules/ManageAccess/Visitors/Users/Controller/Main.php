@@ -64,7 +64,7 @@ class Controller_Main extends MVC_Controller_Default
 				} );
 			
 			foreach($this->getListing()->getOperations() as $operation) {
-				$this->router->addAction( 'bulk_'.$operation->getKey(), Main::ACTION_UPDATE_USER  )
+				$this->router->addAction( 'bulk_operation_'.$operation->getKey(), Main::ACTION_UPDATE_USER  )
 					->setResolver(function() use ($operation) {
 						return Http_Request::GET()->getString( 'bulk_operation' ) == $operation->getKey();
 					})
@@ -276,7 +276,7 @@ class Controller_Main extends MVC_Controller_Default
 		$this->output( 'delete-confirm' );
 	}
 	
-	public function bulk_block_Action() : void
+	public function bulk_operation_block_Action() : void
 	{
 		$this->getListing()->operation( Listing_Operation_Block::KEY )->perform();
 		
@@ -285,7 +285,7 @@ class Controller_Main extends MVC_Controller_Default
 		] );
 	}
 	
-	public function bulk_unblock_Action() : void
+	public function bulk_operation_unblock_Action() : void
 	{
 		$this->getListing()->operation( Listing_Operation_Unblock::KEY )->perform();
 		

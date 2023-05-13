@@ -22,7 +22,7 @@ $grid = $listing->getGrid();
 <tr>
 	<td colspan="<?=count( $grid->getColumns() )?>" class="toolbar">
 		<?php foreach($listing->getOperations() as $operation):
-			$URI = $router->getAction('bulk_'.$operation->getKey())->URI();
+			$URI = $router->getAction('bulk_operation_'.$operation->getKey())->URI();
 			if(!$URI) {
 				continue;
 			}
