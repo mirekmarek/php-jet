@@ -7,7 +7,7 @@
  */
 namespace JetApplicationModule\EventViewer\Admin;
 
-use Jet\DataListing\Filter\DataListing_Filter_OptionSelect;
+use Jet\DataListing_Filter_OptionSelect;
 use Jet\Form_Field_Select;
 use Jet\Logger;
 use Jet\Tr;
@@ -27,6 +27,11 @@ class Listing_Filter_EventClass extends DataListing_Filter_OptionSelect {
 	public function getParamName() : string
 	{
 		return 'event_class';
+	}
+	
+	public function getFormFieldLabel() : string
+	{
+		return 'Event class:';
 	}
 	
 	protected function setFieldSelectOptions( Form_Field_Select $field ) : void

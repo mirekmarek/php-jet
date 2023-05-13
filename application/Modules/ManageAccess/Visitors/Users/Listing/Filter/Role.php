@@ -8,62 +8,47 @@
 
 namespace JetApplicationModule\ManageAccess\Visitors\Users;
 
-use Jet\DataListing_Filter;
-use Jet\Form;
-use Jet\Form_Field;
+use Jet\DataListing_Filter_OptionSelect;
 use Jet\Form_Field_Select;
-use Jet\Http_Request;
 use Jet\Tr;
 
 use JetApplication\Auth_Visitor_Role as Role;
 
 
-class Listing_Filter_Role extends DataListing_Filter {
-
-	public const KEY = 'role';
+class Listing_Filter_Role extends DataListing_Filter_OptionSelect {
 	
-	protected string $role = '';
+	public const KEY = 'role';
 	
 	public function getKey(): string
 	{
 		return static::KEY;
 	}
-
-	public function catchParams(): void
+	
+	public function getParamName() : string
 	{
-		$this->role = Http_Request::GET()->getString( 'role' );
-		$this->listing->setParam( 'role', $this->role );
+		return 'role';
 	}
-
-	public function generateFormFields( Form $form ): void
+	
+	public function getFormFieldLabel() : string
 	{
-		$field = new Form_Field_Select( 'role', 'Role:' );
-		$field->setDefaultValue( $this->role );
-		$field->setErrorMessages( [
-			Form_Field::ERROR_CODE_INVALID_VALUE => ' '
-		] );
+		return 'Role:';
+	}
+	
+	protected function setFieldSelectOptions( Form_Field_Select $field ) : void
+	{
 		$options = [0 => Tr::_( '- all -' )];
-
+		
 		foreach( Role::getList() as $role ) {
 			$options[$role->getId()] = $role->getName();
 		}
 		$field->setSelectOptions( $options );
-
-
-		$form->addField( $field );
 	}
-
-	public function catchForm( Form $form ): void
-	{
-		$this->role = $form->field( 'role' )->getValue();
-		$this->listing->setParam( 'role', $this->role );
-	}
-
+	
 	public function generateWhere(): void
 	{
-		if( $this->role ) {
+		if( $this->selected_value ) {
 			$this->listing->addFilterWhere( [
-				'users_roles.role_id' => $this->role,
+				'users_roles.role_id' => $this->selected_value,
 			] );
 		}
 	}

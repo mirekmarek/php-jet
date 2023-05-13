@@ -7,14 +7,8 @@
  * @author Miroslav Marek <mirek.marek@web-jet.cz>
  */
 
-namespace Jet\DataListing\Filter;
+namespace Jet;
 
-
-use Jet\DataListing_Filter;
-use Jet\Form;
-use Jet\Form_Field;
-use Jet\Form_Field_Select;
-use Jet\Http_Request;
 
 /**
  *
@@ -26,6 +20,8 @@ abstract class DataListing_Filter_OptionSelect extends DataListing_Filter {
 	
 	abstract public function getParamName() : string;
 	
+	abstract public function getFormFieldLabel() : string;
+	
 	abstract protected function setFieldSelectOptions( Form_Field_Select $field ) : void;
 	
 	public function catchParams(): void
@@ -36,7 +32,7 @@ abstract class DataListing_Filter_OptionSelect extends DataListing_Filter {
 	
 	public function generateFormFields( Form $form ): void
 	{
-		$field = new Form_Field_Select( $this->getParamName(), 'Event class:' );
+		$field = new Form_Field_Select( $this->getParamName(), $this->getFormFieldLabel() );
 		$field->setDefaultValue( $this->selected_value );
 		
 		$field->setErrorMessages( [
