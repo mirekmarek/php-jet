@@ -36,6 +36,7 @@ $grid->getColumn( 'id' )->addCustomCssStyle( 'width:120px;' );
 		<table>
 			<tr>
 				<?=$listing->filter(Listing_Filter_Role::KEY)->renderForm()?>
+				<?=$listing->filter(Listing_Filter_IsBlocked::KEY)->renderForm()?>
 			</tr>
 		</table>
 	

@@ -45,4 +45,10 @@ return [
 	'Invalid date format' => 'Prosím zadejte platné datum',
 	'- all -' => '- všechny -',
 	'Role:' => 'Role:',
+	'Is blocked' => '',
+	'User is not blocked' => '',
+	'User is blocked till %till_date%' => '',
+	'Yes' => '',
+	'No' => '',
+	'Is blocked:' => '',
 ];

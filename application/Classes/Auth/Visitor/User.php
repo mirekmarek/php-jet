@@ -341,15 +341,6 @@ class Auth_Visitor_User extends DataModel implements Auth_User_Interface
 
 
 		$list = static::fetchInstances( $where );
-		$list->setLoadFilter(
-			[
-				'id',
-				'username',
-				'first_name',
-				'surname',
-				'locale',
-			]
-		);
 		$list->getQuery()->setOrderBy( 'username' );
 
 		return $list;

@@ -38,4 +38,6 @@ return [
 	'User <b>%USERNAME%</b> has been updated' => '',
 	'Delete user account <b>%USERNAME%</b>' => '',
 	'Do you really want to delete this user?' => '',
+	'Is blocked' => '',
+	'User is blocked till %till_date%' => '',
 ];
