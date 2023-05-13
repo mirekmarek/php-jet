@@ -40,4 +40,12 @@ return [
 	'Do you really want to delete this user?' => '',
 	'Is blocked' => '',
 	'User is blocked till %till_date%' => '',
+	'Yes' => '',
+	'No' => '',
+	'Is blocked:' => '',
+	'User is not blocked' => '',
+	'Block filtered users' => '',
+	'Unblock filtered users' => '',
+	'The filtered users have been blocked' => '',
+	'The filtered users have been unblocked' => '',
 ];

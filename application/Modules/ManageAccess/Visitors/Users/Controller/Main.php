@@ -280,6 +280,11 @@ class Controller_Main extends MVC_Controller_Default
 	{
 		$this->getListing()->operation( Listing_Operation_Block::KEY )->perform();
 		
+		UI_messages::info(
+			Tr::_( 'The filtered users have been blocked' )
+		);
+		
+		
 		Http_Headers::reload( unset_GET_params: [
 			'bulk_operation'
 		] );
@@ -288,6 +293,10 @@ class Controller_Main extends MVC_Controller_Default
 	public function bulk_operation_unblock_Action() : void
 	{
 		$this->getListing()->operation( Listing_Operation_Unblock::KEY )->perform();
+		
+		UI_messages::info(
+			Tr::_( 'The filtered users have been unblocked' )
+		);
 		
 		Http_Headers::reload( unset_GET_params: [
 			'bulk_operation'

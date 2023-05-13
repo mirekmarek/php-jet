@@ -53,4 +53,6 @@ return [
 	'Is blocked:' => 'Je zablokován:',
 	'Block filtered users' => 'Zablokovat vyfiltrované uživatele',
 	'Unblock filtered users' => 'Odblokovat vyfiltrované uživatele',
+	'The filtered users have been blocked' => 'Vydiltrovaní uživatelé byli zablokováni',
+	'The filtered users have been unblocked' => 'Vydiltrovaní uživatelé byli odblokováni',
 ];
