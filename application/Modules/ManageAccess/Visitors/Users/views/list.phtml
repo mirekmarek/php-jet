@@ -19,6 +19,7 @@ $router = $this->getController()->getControllerRouter();
 $grid->getColumn( '_edit_' )->addCustomCssStyle( 'width:200px;' );
 $grid->getColumn( 'id' )->addCustomCssStyle( 'width:120px;' );
 
+$grid->footer()->setPrepend( $this->render('list/bulk_operations') );
 ?>
 
 <?= $filter_form->start() ?>

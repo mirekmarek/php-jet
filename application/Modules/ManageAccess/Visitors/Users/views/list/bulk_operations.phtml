@@ -1,0 +1,36 @@
+<?php
+namespace JetApplicationModule\ManageAccess\Visitors\Users;
+
+use Jet\UI;
+
+use Jet\MVC_View;
+use Jet\UI_button;
+
+/**
+ * @var MVC_View $this
+ * @var Listing $listing
+ */
+$listing = $this->getRaw( 'listing' );
+
+if(!$listing->getFilterWhere()) {
+	return;
+}
+
+$router = $this->getController()->getControllerRouter();
+$grid = $listing->getGrid();
+?>
+<tr>
+	<td colspan="<?=count( $grid->getColumns() )?>" class="toolbar">
+		<?php foreach($listing->getOperations() as $operation):
+			$URI = $router->getAction('bulk_'.$operation->getKey())->URI();
+			if(!$URI) {
+				continue;
+			}
+			
+			echo UI::button( $operation->getTitle() )->setUrl($URI)->setIcon($operation->getIcon())->setClass( UI_button::CLASS_INFO );
+			
+		endforeach; ?>
+	</td>
+</tr>
+
+

@@ -20,10 +20,6 @@ abstract class DataListing_Operation extends DataListing_ElementBase
 		return '';
 	}
 	
-	abstract public function getOperationGetParams() : array;
-	
-	abstract public function isPrepared(): bool;
-	
 	abstract public function perform(): void;
 	
 }
