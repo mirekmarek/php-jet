@@ -58,36 +58,6 @@ abstract class DataListing extends BaseObject
 		return $list;
 	}
 	
-	public function createPaginator(): Data_Paginator
-	{
-		return new Data_Paginator(
-			$this->getPageNo(),
-			$this->getItemsPerPage(),
-			$this->getPaginatorURLCreator()
-		);
-	}
-	
-	protected function getPaginatorURLCreator(): callable
-	{
-		return function( $page_no ) {
-			$params = $this->params;
-			$params[SysConf_Jet_DataListing::getPaginationPageNoGetParam()] = (int)$page_no;
-			
-			return Http_Request::currentURI( $params );
-		};
-	}
-	
-	protected function getSortURLCreator(): callable
-	{
-		return function( $column_name, $desc ) {
-			$params = $this->params;
-			$params[SysConf_Jet_DataListing::getSortGetParam()] = ($desc ? '-' : '') . $column_name;
-			
-			return Http_Request::currentURI( $params );
-		};
-	}
-	
-	
 	
 	public function getAllIds(): array
 	{

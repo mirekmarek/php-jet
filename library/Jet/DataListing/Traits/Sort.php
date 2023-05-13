@@ -93,4 +93,14 @@ trait DataListing_Traits_Sort
 		return '';
 	}
 	
+	protected function getSortURLCreator(): callable
+	{
+		return function( $column_name, $desc ) {
+			$params = $this->params;
+			$params[SysConf_Jet_DataListing::getSortGetParam()] = ($desc ? '-' : '') . $column_name;
+			
+			return Http_Request::currentURI( $params );
+		};
+	}
+	
 }

@@ -64,6 +64,23 @@ trait DataListing_Traits_Pagination
 		return $this->pagination_items_per_page;
 	}
 	
+	public function createPaginator(): Data_Paginator
+	{
+		return new Data_Paginator(
+			$this->getPageNo(),
+			$this->getItemsPerPage(),
+			$this->getPaginatorURLCreator()
+		);
+	}
 	
-	
+	protected function getPaginatorURLCreator(): callable
+	{
+		return function( $page_no ) {
+			$params = $this->params;
+			$params[SysConf_Jet_DataListing::getPaginationPageNoGetParam()] = (int)$page_no;
+			
+			return Http_Request::currentURI( $params );
+		};
+	}
+
 }
