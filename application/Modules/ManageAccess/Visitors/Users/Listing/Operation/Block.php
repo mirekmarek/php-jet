@@ -45,8 +45,8 @@ class Listing_Operation_Block extends DataListing_Operation
 			$user->save();
 			
 			Logger::success(
-				event: 'user_blocked',
-				event_message: 'User '.$user->getUsername().' ('.$user->getId().') has been blocked',
+				event: 'visitor_blocked',
+				event_message: 'Visitor '.$user->getUsername().' ('.$user->getId().') has been blocked',
 				context_object_id: $user->getId(),
 				context_object_name: $user->getUsername()
 			);

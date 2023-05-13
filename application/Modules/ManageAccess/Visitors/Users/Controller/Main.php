@@ -278,7 +278,9 @@ class Controller_Main extends MVC_Controller_Default
 	
 	public function bulk_operation_block_Action() : void
 	{
-		$this->getListing()->operation( Listing_Operation_Block::KEY )->perform();
+		$listing = $this->getListing();
+		$listing->handle();
+		$listing->operation( Listing_Operation_Block::KEY )->perform();
 		
 		UI_messages::info(
 			Tr::_( 'The filtered users have been blocked' )
@@ -292,7 +294,9 @@ class Controller_Main extends MVC_Controller_Default
 	
 	public function bulk_operation_unblock_Action() : void
 	{
-		$this->getListing()->operation( Listing_Operation_Unblock::KEY )->perform();
+		$listing = $this->getListing();
+		$listing->handle();
+		$listing->operation( Listing_Operation_Unblock::KEY )->perform();
 		
 		UI_messages::info(
 			Tr::_( 'The filtered users have been unblocked' )

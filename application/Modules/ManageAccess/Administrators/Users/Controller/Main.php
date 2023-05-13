@@ -62,6 +62,19 @@ class Controller_Main extends MVC_Controller_Default
 						'action' => 'reset_password'
 					] );
 				} );
+			
+			foreach($this->getListing()->getOperations() as $operation) {
+				$this->router->addAction( 'bulk_operation_'.$operation->getKey(), Main::ACTION_UPDATE_USER  )
+					->setResolver(function() use ($operation) {
+						return Http_Request::GET()->getString( 'bulk_operation' ) == $operation->getKey();
+					})
+					->setURICreator( function() use ($operation) {
+						return Http_Request::currentURI( [
+							'bulk_operation' => $operation->getKey()
+						] );
+					} );
+			}
+			
 		}
 
 		return $this->router;
@@ -264,5 +277,36 @@ class Controller_Main extends MVC_Controller_Default
 
 		$this->output( 'delete-confirm' );
 	}
-
+	
+	public function bulk_operation_block_Action() : void
+	{
+		$listing = $this->getListing();
+		$listing->handle();
+		$listing->operation( Listing_Operation_Block::KEY )->perform();
+		
+		UI_messages::info(
+			Tr::_( 'The filtered users have been blocked' )
+		);
+		
+		
+		Http_Headers::reload( unset_GET_params: [
+			'bulk_operation'
+		] );
+	}
+	
+	public function bulk_operation_unblock_Action() : void
+	{
+		$listing = $this->getListing();
+		$listing->handle();
+		$listing->operation( Listing_Operation_Unblock::KEY )->perform();
+		
+		UI_messages::info(
+			Tr::_( 'The filtered users have been unblocked' )
+		);
+		
+		Http_Headers::reload( unset_GET_params: [
+			'bulk_operation'
+		] );
+	}
+	
 }

@@ -107,7 +107,7 @@ class Controller_Main extends MVC_Controller_Default
 			$role->save();
 			
 			Logger::success(
-				event: 'admin_role_created',
+				event: 'rest_client_role_created',
 				event_message: 'Role created',
 				context_object_id: $role->getId(),
 				context_object_name: $role->getName(),
@@ -144,7 +144,7 @@ class Controller_Main extends MVC_Controller_Default
 			$role->save();
 			
 			Logger::success(
-				event: 'admin_role_updated',
+				event: 'rest_client_role_updated',
 				event_message: 'Role updated',
 				context_object_id: $role->getId(),
 				context_object_name: $role->getName(),
@@ -206,7 +206,7 @@ class Controller_Main extends MVC_Controller_Default
 			$role->delete();
 			
 			Logger::success(
-				event: 'admin_role_deleted',
+				event: 'rest_client_role_deleted',
 				event_message: 'Role deleted',
 				context_object_id: $role->getId(),
 				context_object_name: $role->getName(),

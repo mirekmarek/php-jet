@@ -35,22 +35,30 @@ class Listing extends DataListing
 		$this->addColumn( new Listing_Column_UserName() );
 		$this->addColumn( new Listing_Column_FirstName() );
 		$this->addColumn( new Listing_Column_Surname() );
+		$this->addColumn( new Listing_Column_IsBlocked() );
 		
 		
 		$this->addFilter( new Listing_Filter_Search() );
 		$this->addFilter( new Listing_Filter_Role() );
+		$this->addFilter( new Listing_Filter_IsBlocked() );
+		
+		$this->addOperation( new Listing_Operation_Block() );
+		$this->addOperation( new Listing_Operation_Unblock() );
 		
 	}
-
+	
 	
 	protected function getItemList(): DataModel_Fetch_Instances
 	{
-		return User::getList();
+		return User::fetchInstances();
 	}
 	
 	protected function getIdList(): array
 	{
-		return [];
+		$ids = User::fetchIDs( $this->getFilterWhere() );
+		$ids->getQuery()->setOrderBy( $this->getQueryOrderBy() );
+
+		return $ids->toArray();
 	}
 	
 	public function getFilterView(): MVC_View

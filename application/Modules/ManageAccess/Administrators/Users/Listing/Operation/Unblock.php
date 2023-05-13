@@ -6,13 +6,13 @@
  * @author Miroslav Marek <mirek.marek@web-jet.cz>
  */
 
-namespace JetApplicationModule\ManageAccess\Visitors\Users;
+namespace JetApplicationModule\ManageAccess\Administrators\Users;
 
 use Jet\DataListing_Operation;
 use Jet\Logger;
 use Jet\Tr;
 
-use JetApplication\Auth_Visitor_User as User;
+use JetApplication\Auth_Administrator_User as User;
 
 class Listing_Operation_Unblock extends DataListing_Operation
 {
@@ -46,8 +46,8 @@ class Listing_Operation_Unblock extends DataListing_Operation
 			$user->save();
 			
 			Logger::success(
-				event: 'visitor_unblocked',
-				event_message: 'Visitor '.$user->getUsername().' ('.$user->getId().') has been unblocked',
+				event: 'admin_unblocked',
+				event_message: 'Administrator '.$user->getUsername().' ('.$user->getId().') has been unblocked',
 				context_object_id: $user->getId(),
 				context_object_name: $user->getUsername()
 			);

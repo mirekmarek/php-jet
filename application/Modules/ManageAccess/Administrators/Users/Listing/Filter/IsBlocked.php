@@ -6,7 +6,7 @@
  * @author Miroslav Marek <mirek.marek@web-jet.cz>
  */
 
-namespace JetApplicationModule\ManageAccess\RESTClients\Users;
+namespace JetApplicationModule\ManageAccess\Administrators\Users;
 
 use Jet\DataListing_Filter;
 use Jet\Form;
@@ -15,14 +15,12 @@ use Jet\Form_Field_Select;
 use Jet\Http_Request;
 use Jet\Tr;
 
-use JetApplication\Auth_RESTClient_Role as Role;
 
+class Listing_Filter_IsBlocked extends DataListing_Filter {
 
-class Listing_Filter_Role extends DataListing_Filter {
-
-	public const KEY = 'role';
+	public const KEY = 'is_blocked';
 	
-	protected string $role = '';
+	protected string $is_blocked = '';
 	
 	public function getKey(): string
 	{
@@ -31,22 +29,23 @@ class Listing_Filter_Role extends DataListing_Filter {
 
 	public function catchParams(): void
 	{
-		$this->role = Http_Request::GET()->getString( 'role' );
-		$this->listing->setParam( 'role', $this->role );
+		$this->is_blocked = Http_Request::GET()->getString( 'is_blocked' );
+		$this->listing->setParam( 'is_blocked', $this->is_blocked );
 	}
 
 	public function generateFormFields( Form $form ): void
 	{
-		$field = new Form_Field_Select( 'role', 'Role:' );
-		$field->setDefaultValue( $this->role );
+		$field = new Form_Field_Select( 'is_blocked', 'Is blocked:' );
+		$field->setDefaultValue( $this->is_blocked );
 		$field->setErrorMessages( [
 			Form_Field::ERROR_CODE_INVALID_VALUE => ' '
 		] );
-		$options = [0 => Tr::_( '- all -' )];
+		$options = [
+			'' => Tr::_( '- all -' ),
+			'yes' => Tr::_( 'Yes' ),
+			'no' => Tr::_( 'No' ),
+		];
 
-		foreach( Role::getList() as $role ) {
-			$options[$role->getId()] = $role->getName();
-		}
 		$field->setSelectOptions( $options );
 
 
@@ -55,15 +54,15 @@ class Listing_Filter_Role extends DataListing_Filter {
 
 	public function catchForm( Form $form ): void
 	{
-		$this->role = $form->field( 'role' )->getValue();
-		$this->listing->setParam( 'role', $this->role );
+		$this->is_blocked = $form->field( 'is_blocked' )->getValue();
+		$this->listing->setParam( 'is_blocked', $this->is_blocked );
 	}
 
 	public function generateWhere(): void
 	{
-		if( $this->role ) {
+		if( $this->is_blocked ) {
 			$this->listing->addFilterWhere( [
-				'users_roles.role_id' => $this->role,
+				'user_is_blocked' => $this->is_blocked=='yes',
 			] );
 		}
 	}
