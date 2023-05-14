@@ -99,7 +99,7 @@ trait DataListing_Traits_Filters
 		$this->filter_where[] = $where;
 	}
 	
-	public function getDefaultFilterWhere() : array
+	protected function getDefaultFilterWhere() : array
 	{
 		return [];
 	}
