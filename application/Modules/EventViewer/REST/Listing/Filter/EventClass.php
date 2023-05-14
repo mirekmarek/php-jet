@@ -34,6 +34,7 @@ class Listing_Filter_EventClass extends DataListing_Filter_OptionSelect {
 		return 'Event class:';
 	}
 	
+	
 	protected function setFieldSelectOptions( Form_Field_Select $field ) : void
 	{
 		$options = [
@@ -46,11 +47,13 @@ class Listing_Filter_EventClass extends DataListing_Filter_OptionSelect {
 		];
 		
 		$field->setSelectOptions( $options );
-		$field->getSelectOptions()[Logger::EVENT_CLASS_SUCCESS]->setSelectOptionCssClass('text-success');
-		$field->getSelectOptions()[Logger::EVENT_CLASS_INFO]->setSelectOptionCssClass('text-info');
-		$field->getSelectOptions()[Logger::EVENT_CLASS_WARNING]->setSelectOptionCssClass('text-warning');
-		$field->getSelectOptions()[Logger::EVENT_CLASS_DANGER]->setSelectOptionCssClass('text-danger');
-		$field->getSelectOptions()[Logger::EVENT_CLASS_FAULT]->setSelectOptionCssClass('text-danger');
+		
+		$options = $field->getSelectOptions();
+		$options[Logger::EVENT_CLASS_SUCCESS]->setSelectOptionCssClass('text-success');
+		$options[Logger::EVENT_CLASS_INFO]->setSelectOptionCssClass('text-info');
+		$options[Logger::EVENT_CLASS_WARNING]->setSelectOptionCssClass('text-warning');
+		$options[Logger::EVENT_CLASS_DANGER]->setSelectOptionCssClass('text-danger');
+		$options[Logger::EVENT_CLASS_FAULT]->setSelectOptionCssClass('text-danger');
 	}
 	
 	public function generateWhere(): void
