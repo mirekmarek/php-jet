@@ -104,11 +104,13 @@ class Db_Backend_PDO implements Db_Backend_Interface
 
 		if(!$result_handler) {
 			$result = $statement;
+			$count = -1;
 		} else {
 			$result = $result_handler( $statement );
+			$count = count($result);
 		}
 
-		Debug_Profiler::SQLQueryDone( $statement->rowCount() );
+		Debug_Profiler::SQLQueryDone( $count );
 
 		return $result;
 	}
