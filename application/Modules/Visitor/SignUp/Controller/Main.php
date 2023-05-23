@@ -41,12 +41,15 @@ class Controller_Main extends MVC_Controller_Default
 		
 		
 		if( $form->catch() ) {
+			$password = $form->field('password')->getValue();
+			
 			$user->save();
 			$user->setRoles([static::MAIN_ROLE_ID]);
+			$user->sendWelcomeEmail( $password );
 			
 			Auth::login(
 				$user->getUsername(),
-				$form->field('password')->getValue()
+				$password
 			);
 			
 			Http_Headers::reload();
