@@ -1,6 +1,7 @@
 <?php
 
 use Jet\Auth;
+use Jet\Http_Request;
 use Jet\UI;
 use Jet\MVC;
 use Jet\Tr;
@@ -17,7 +18,7 @@ $user = Auth::getCurrentUser();
 	
 	&nbsp;&nbsp;&nbsp;&nbsp;
 	
-	<a href="<?= MVC::getHomePage()->getURL( [], ['logout' => 'logout'] ) ?>">
+	<a href="<?= Http_Request::currentURI(['logout' => 'logout'] ) ?>">
 		<?= UI::icon( 'sign-out-alt' ) ?>
 		<?= Tr::_( 'Logout' ) ?>
 	</a>

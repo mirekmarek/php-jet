@@ -87,7 +87,9 @@ class Auth_Visitor_User extends DataModel implements Auth_User_Interface
 		is_required: true,
 		error_messages: [
 			Form_Field::ERROR_CODE_EMPTY          => 'Please enter e-mail address',
-			Form_Field::ERROR_CODE_INVALID_FORMAT => 'Please enter e-mail address'
+			Form_Field::ERROR_CODE_INVALID_FORMAT => 'Please enter e-mail address',
+			'exists' => 'E-mail %EMAIL%is already in use.'
+			
 		]
 	)]
 	protected string $email = '';
@@ -764,7 +766,21 @@ class Auth_Visitor_User extends DataModel implements Auth_User_Interface
 			'username' => $username,
 		] ) );
 	}
-
+	
+	
+	/**
+	 *
+	 * @param string $email
+	 *
+	 * @return bool
+	 */
+	public static function emailExists( string $email ): bool
+	{
+		return (bool)static::getBackendInstance()->getCount( static::createQuery( [
+			'email' => $email,
+		] ) );
+	}
+	
 
 	/**
 	 *
@@ -917,7 +933,27 @@ class Auth_Visitor_User extends DataModel implements Auth_User_Interface
 				return true;
 			}
 		);
-
+		
+		$form->getField( 'email' )->setValidator(
+			function( Form_Field_Input $field ) {
+				$email = $field->getValue();
+				
+				if(
+					!$this->getIsNew() &&
+					$this->email==$email
+				) {
+					return true;
+				}
+				
+				if( static::emailExists( $email ) ) {
+					$field->setError('exists', ['EMAIL' => $email]);
+					return false;
+				}
+				
+				return true;
+			}
+		);
+		
 
 		return $form;
 	}
@@ -966,6 +1002,46 @@ class Auth_Visitor_User extends DataModel implements Auth_User_Interface
 		return $form;
 	}
 	
+	/**
+	 *
+	 * @return Form
+	 */
+	public function getSignUpForm(): Form
+	{
+		$form = $this->_getForm();
+		$form->setName( 'sign_up_user' );
+		
+		foreach( $form->getFields() as $field ) {
+			if( !in_array( $field->getName(), [
+				'username',
+				'email'
+			] ) ) {
+				$form->removeField( $field->getName() );
+			}
+		}
+		
+		$pwd = new Form_Field_Password( name: 'password', label: 'Password' );
+		$pwd->setIsRequired( true );
+		$pwd->setErrorMessages([
+			Form_Field::ERROR_CODE_EMPTY           => 'Please enter password',
+		]);
+		
+		$pwd->setFieldValueCatcher(function( $value) {
+			$this->setPassword($value);
+		});
+		$form->addField($pwd);
+		
+		$pwd_check = $pwd->generateCheckField(
+			field_name: 'password_check',
+			field_label: 'Confirm password',
+			error_message_empty: 'Please enter confirm password',
+			error_message_not_match: 'Passwords do not match'
+		);
+		$form->addField($pwd_check);
+		
+		
+		return $form;
+	}
 
 	/**
 	 *

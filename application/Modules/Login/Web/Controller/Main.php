@@ -33,7 +33,7 @@ class Controller_Main extends MVC_Controller_Default
 	public function __construct( MVC_Page_Content_Interface $content )
 	{
 		parent::__construct( $content );
-		
+
 		if( Http_Request::GET()->exists( 'logout' ) ) {
 			$this->logout_Action();
 		}
@@ -45,7 +45,7 @@ class Controller_Main extends MVC_Controller_Default
 	public function logout_Action(): void
 	{
 		Auth::logout();
-		
+
 		Http_Headers::movedTemporary( MVC::getHomePage()->getURL() );
 	}
 
