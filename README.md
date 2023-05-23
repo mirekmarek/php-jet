@@ -1,6 +1,10 @@
-# PHP Jet Framework
+![Promo image](images/jet-logo.svg "PHP Jet")
 
-PHP Jet is a powerful **PHP8** framework. Of course, it includes **modularity / microservices / micro-app architecture**, **MVC architecture**, **ORM (MySQL/MariaDB, SQLite, PostgreSQL and MS SQL support, Oracle support development in progress)**, **REST API server** and so on, but above all, it offers **incredible performance, flexibility and freedom**.
+PHP Jet is a powerful **PHP8** framework aimed at maximizing the efficiency of developing all kinds of online applications.
+
+This framework allows you to work much faster and create much higher quality projects. With PHP Jet you can create both small projects and large scale projects for which it is primarily designed.
+
+Of course, it includes **modularity / microservices / micro-app architecture**, **MVC architecture**, **ORM (MySQL/MariaDB, SQLite, PostgreSQL and MS SQL support, Oracle support development in progress)**, **REST API server** and so on, but above all, it offers **incredible performance, flexibility and freedom**.
 
 It is a modern framework that will **help you, make your work very efficiently** and **not limit** you.
 
@@ -16,7 +20,7 @@ This is **not a new** experimental project, but a practically used and **mature 
 
 Project website and documentation: https://www.php-jet.net/
 
-![Promo image](promo.png "PHP Jet")
+![Promo image](images/promo.png "PHP Jet")
 
 ## Quick testing (PHP built-in web server)
 
