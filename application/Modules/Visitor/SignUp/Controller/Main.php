@@ -47,10 +47,7 @@ class Controller_Main extends MVC_Controller_Default
 			$user->setRoles([static::MAIN_ROLE_ID]);
 			$user->sendWelcomeEmail( $password );
 			
-			Auth::login(
-				$user->getUsername(),
-				$password
-			);
+			Auth::loginUser( $user );
 			
 			Http_Headers::reload();
 		}

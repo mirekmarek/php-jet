@@ -8,6 +8,7 @@
 
 namespace JetApplication;
 
+use Jet\Auth_User_Interface;
 use Jet\BaseObject;
 use Jet\Auth_Controller_Interface;
 
@@ -212,7 +213,16 @@ class Auth_Controller_Admin extends BaseObject implements Auth_Controller_Interf
 
 		return true;
 	}
-
+	
+	
+	/**
+	 * @param Auth_User_Interface $user
+	 * @return bool
+	 */
+	public function loginUser( Auth_User_Interface $user ) : bool
+	{
+		return false;
+	}
 
 	/**
 	 *

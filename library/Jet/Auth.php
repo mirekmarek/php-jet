@@ -60,6 +60,15 @@ class Auth extends BaseObject
 	}
 
 	/**
+	 * @param Auth_User_Interface $user
+	 * @return bool
+	 */
+	public static function loginUser( Auth_User_Interface $user ): bool
+	{
+		return static::getController()->loginUser( $user );
+	}
+
+	/**
 	 */
 	public static function logout(): void
 	{

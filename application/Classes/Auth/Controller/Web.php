@@ -8,6 +8,7 @@
 
 namespace JetApplication;
 
+use Jet\Auth_User_Interface;
 use Jet\BaseObject;
 use Jet\Auth_Controller_Interface;
 
@@ -197,21 +198,35 @@ class Auth_Controller_Web extends BaseObject implements Auth_Controller_Interfac
 			return false;
 		}
 
+		return $this->loginUser( $user );
+	}
+	
+	/**
+	 * @param Auth_User_Interface $user
+	 * @return bool
+	 */
+	public function loginUser( Auth_User_Interface $user ) : bool
+	{
+		if(!$user instanceof Visitor) {
+			return false;
+		}
+		
+		
 		/**
 		 * @var Visitor $user
 		 */
 		$session = $this->getSession();
 		$session->setValue( 'user_id', $user->getId() );
-
+		
 		$this->current_user = $user;
-
+		
 		Logger::success(
 			event: static::EVENT_LOGIN_SUCCESS,
 			event_message: 'User ' . $user->getUsername() . ' (id:' . $user->getId() . ') logged in',
 			context_object_id: $user->getId(),
 			context_object_name: $user->getName()
 		);
-
+		
 		return true;
 	}
 

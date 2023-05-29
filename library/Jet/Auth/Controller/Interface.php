@@ -27,6 +27,12 @@ interface Auth_Controller_Interface
 	 * @return bool
 	 */
 	public function login( string $username, string $password ): bool;
+	
+	/**
+	 * @param Auth_User_Interface $user
+	 * @return bool
+	 */
+	public function loginUser( Auth_User_Interface $user ) : bool;
 
 	/**
 	 *
