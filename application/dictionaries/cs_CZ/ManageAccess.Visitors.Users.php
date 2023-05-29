@@ -46,7 +46,7 @@ return [
 	'- all -' => '- všechny -',
 	'Role:' => 'Role:',
 	'Is blocked' => 'Je zablokován',
-	'User is not blocked' => 'Uživatel je zablokován',
+	'User is not blocked' => 'Není zablokován',
 	'User is blocked till %till_date%' => 'Uživatel je zablokován do %till_date%',
 	'Yes' => 'Ano',
 	'No' => 'Ne',
@@ -55,4 +55,5 @@ return [
 	'Unblock filtered users' => 'Odblokovat vyfiltrované uživatele',
 	'The filtered users have been blocked' => 'Vyfiltrovaní uživatelé byli zablokováni',
 	'The filtered users have been unblocked' => 'Vyfiltrovaní uživatelé byli odblokováni',
+	'E-mail %EMAIL%is already in use.' => '',
 ];

@@ -40,7 +40,7 @@ return [
 	'- all -' => '- všechny -',
 	'Role:' => 'Role:',
 	'Is blocked' => 'Je zablokován',
-	'User is not blocked' => 'Uživatel je zablokován',
+	'User is not blocked' => 'Není zablokován',
 	'User is blocked till %till_date%' => 'Uživatel je zablokován do %till_date%',
 	'Yes' => 'Ano',
 	'No' => 'Ne',
