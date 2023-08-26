@@ -1,118 +1,47 @@
 ![Promo image](images/jet-logo.svg "PHP Jet")
 
-PHP Jet is a powerful **PHP8** framework aimed at maximizing the efficiency of developing all kinds of online applications.
 
-This framework allows you to work much faster and create much higher quality projects. With PHP Jet you can create both small projects and large scale projects for which it is primarily designed.
+# 🧰 Everything you need
 
-Of course, it includes **modularity / microservices / micro-app architecture**, **MVC architecture**, **ORM (MySQL/MariaDB, SQLite, PostgreSQL and MS SQL support, Oracle support development in progress)**, **REST API server** and so on, but above all, it offers **incredible performance, flexibility and freedom**.
+Completely [unique MVC](https://www.php-jet.net/doc/mvc-in-general/jet-mvc) that will make your work much easier, flexible and powerful [ORM](https://www.php-jet.net/doc/orm-datamodel), perfect forms, all ready for international environment, support for [authentication and authorization](https://www.php-jet.net/doc/auth-authentication-and-authorization) including roles and rights, REST, AJAX, server-side UI generation and [many more](https://www.php-jet.net/doc/) ...
 
-It is a modern framework that will **help you, make your work very efficiently** and **not limit** you.
+Last but not least, the whole system is modular and built on the principle of [micro-applications - application modules](https://www.php-jet.net/doc/application-modules). This will quite fundamentally improve your productivity, testing and deployment, work organization, code reusability and so on.
 
-It is a field-proven framework that has been developed for 12 years and practically used in various kinds of online applications and has recently been fully adapted to PHP8.
+# 🪛 Integrated tools
 
-Framework places great emphasis not only on security and speed, but also on flexibility and adaptability.
+Of course, there is not only an integrated profiler, but also a comprehensive sample application, a pre-made admin panel, a pre-made installer and above all the unique and powerful Jet Studio tool that will make your work much easier.
 
-PHP Jet is not only a library of classes, but includes **integrated development tools** such as **Jet Profiler** and **Jet Studio**, which **make work incredibly efficient and easy**.
 
-This framework is developed for applications operated in the **European Union**. For this reason, it places great emphasis on the development of **localizable and cross-border applications**.
+# 🙂 Small and simple
 
-This is **not a new** experimental project, but a practically used and **mature framework** that leverages more than twenty years of experience with the development of online applications of the author of this framework.
+Despite the fact that PHP Jet already includes everything you need in the base, including unique tools, everything remains as simple, small, easy to understand as possible. KISS - Keep It Simple and Straightforward.
 
-Project website and documentation: https://www.php-jet.net/
+The best solution is always the simplest.
+
+
+#  🛈 Detailed documentation
+
+Detailed and always up-to-date [documentation](https://www.php-jet.net/doc) is available. A large number of video tutorials will be produced in the near future.
+
+# ⚛ Modern
+
+PHP Jet is fully customized for PHP 8. It uses typing, attributes and so on. It is fully future-ready.
+
+
+# 🚀 Very powerful and safe
+
+PHP Jet is developed by people with experience in banking, telecommunications, e-commerce and so on. So it puts a lot of emphasis on performance and security.
+
+
+# 👍 Proven by practice
+
+The framework was not developed by theorists, but by people from real practice, by people with decades of experience, by people who are constantly working on specific commercial projects and therefore know the real needs from real practice.
+
+
+# 🤝 Stable
+We know how important stability is. We know what it means to be accountable to our clients and users of our software. PHP Jet is already mature and will not change spontaneously. No unpleasant surprises await you.
+
+
+# [For a quick introduction to PHP Jet, click here](https://www.php-jet.net/getting-started/)
 
 ![Promo image](images/promo.png "PHP Jet")
-
-## Quick testing (PHP built-in web server)
-
-It is possible to quickly try PHP Jet. 
-
-All you need to do is:
-* Make sure you have PHP8 installed - PHP Jet requires PHP8 and newer.
-* [Download PHP Jet](https://github.com/mirekmarek/php-jet/releases) and unpack archive to some directory.
-* **OR**
-* Use composer: 
-```composer create-project mirekmarek/php-jet```
-* Navigate to the directory where PHP Jet is
-* Run ```php _playground/start.php```
-* Open URL http://localhost:8000 (if you haven't specified something else during playground start) and proceed installation process.
-
-## Installation (Apache, NGINX)
-
-PHP Jet is [distributed](https://github.com/mirekmarek/php-jet/releases) as one package which includes everything:
-* PHP Jet library
-* Example application
-* Example application installer
-* Profiler
-* Powerful development tool Jet Studio
-
-All you have to do to try PHP Jet with "adult" webserver is:
-* Make sure you have PHP8 installed - PHP Jet requires PHP8 and newer.
-* [Download PHP Jet](https://github.com/mirekmarek/php-jet/releases) and unpack archive to some directory.
-* **OR**
-* Use composer:
-  ```composer create-project mirekmarek/php-jet```
-* Create some "virtual domain" in yours hosts file. For example: jet.lc.
-* You can create database (MySQL / MariaDB, PostgreSQL or MS SQL) for testing if you want. But it is not necessary, because PHP Jet supports SQLite database, and it's good enough for testing.
-* Configure your Apache (add virtual configuration) or NGINX (add server block) webserver.
-* Unpack package contains Jet and its example application into the directory which is the root directory of apache virtual / nginx server block.
-* Open virtual domain (for example https://jet.lc/) in your web browser and install example application.
-* Let's start to discover the world of PHP Jet ;-)
-
-### Apache web server
-You probably know how to create apache virtual. If not then check [documentation](https://httpd.apache.org/docs/2.4/vhosts/index.html).
-
-PHP Jet needs nothing more than**mod_rewrite enabled**to run with the Apache web server (see documentation of your system).
-
-And watch out for a possible catch with the necessity to enable [AllowOverride All](https://httpd.apache.org/docs/current/mod/core.html)!
-
-### NGINX web server
-If you are not familiar with NGINX server blocks then check out NGINX [documentation](https://www.nginx.com/resources/wiki/start/topics/examples/server_blocks/).
-
-To run Jet (or your projects already built on Jet), it is necessary to create such a server block.
-
-Below you will find an example of how such a server block should look:
-
-```
-server {
-    listen 80;
-    listen [::]:80;
-    listen 443 ssl;
-    listen [::]:443 ssl;
-    ssl_certificate /etc/ssl/certs/ssl-cert-snakeoil.pem;
-    ssl_certificate_key /etc/ssl/private/ssl-cert-snakeoil.key;
-
-    server_name jet.lc;
-    root /home/user/projects/Jet;
-
-    index index.html;
-
-    location ~ /\.ht {
-        deny all;
-    }
-    
-    location ~ ^/(css|js|images)/ {
-        try_files $uri $uri/ =404;
-    }
-    location / {
-        include fastcgi_params;
-        fastcgi_param SCRIPT_FILENAME $document_root/application/bootstrap.php;
-        fastcgi_pass unix:/var/run/php/php8.0-fpm.sock;
-    }
-
-
-    location ~ ^/_tools/studio/(css|js|images)/ {
-        try_files $uri $uri/ =404;
-    }
-    location /_tools/studio/ {
-        include fastcgi_params;
-        include snippets/fastcgi-php.conf;
-        fastcgi_pass unix:/var/run/php/php8.0-fpm.sock;
-    }
-}
-```
-
-Notes on the NGINX "server block":
-
-* Of course, you need to set the server_name and root parameters according to the situation on your computer.
-* An example includes the use of SSL certificates intended for local testing offered by NGINX itself. Of course, these must not be used in a production environment.
-* The "location" related to the Jet Studio tool (/_tools/studio/) **should not exist at all on a production server** as well as the tool itself.
