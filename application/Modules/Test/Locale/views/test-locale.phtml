@@ -1,31 +1,48 @@
 <?php
 
+use Jet\Http_Request;
 use Jet\Locale;
+use Jet\MVC_View;
 use Jet\Tr;
 use Jet\Data_DateTime;
 use Jet\UI;
 
+/**
+ * @var MVC_View $this
+ * @var Locale $locale
+ */
+
 $now = Data_DateTime::now();
+
+$locale = $this->getRaw('locale');
 ?>
+
+<div class="card">
+	<div class="card-body">
+		<?=UI::flag($locale)?> <?=$locale->getName()?> / <?=$locale->getName( $locale )?>
+	</div>
+</div>
+
+<br>
 
 <legend><?= Tr::_( 'Date' ) ?></legend>
 
 <table class="table">
 	<tr>
 		<td style="width: 20%"><?= Tr::_( 'Short: ' ) ?></td>
-		<td><?= Locale::date( $now, Locale::DATE_TIME_FORMAT_SHORT ); ?></td>
+		<td><?= $locale->formatDate( $now, Locale::DATE_TIME_FORMAT_SHORT ); ?></td>
 	</tr>
 	<tr>
 		<td><?= Tr::_( 'Medium: ' ) ?></td>
-		<td><?= Locale::date( $now, Locale::DATE_TIME_FORMAT_MEDIUM ); ?></td>
+		<td><?= $locale->formatDate( $now, Locale::DATE_TIME_FORMAT_MEDIUM ); ?></td>
 	</tr>
 	<tr>
 		<td><?= Tr::_( 'Long: ' ) ?></td>
-		<td><?= Locale::date( $now, Locale::DATE_TIME_FORMAT_LONG ); ?></td>
+		<td><?= $locale->formatDate( $now, Locale::DATE_TIME_FORMAT_LONG ); ?></td>
 	</tr>
 	<tr>
 		<td><?= Tr::_( 'Full: ' ) ?></td>
-		<td><?= Locale::date( $now, Locale::DATE_TIME_FORMAT_FULL ); ?></td>
+		<td><?= $locale->formatDate( $now, Locale::DATE_TIME_FORMAT_FULL ); ?></td>
 	</tr>
 
 	<tr>
@@ -40,19 +57,19 @@ $now = Data_DateTime::now();
 <table class="table">
 	<tr>
 		<td style="width: 20%"><?= Tr::_( 'Short: ' ) ?></td>
-		<td><?= Locale::time( $now, Locale::DATE_TIME_FORMAT_SHORT ); ?></td>
+		<td><?= $locale->formatTime( $now, Locale::DATE_TIME_FORMAT_SHORT ); ?></td>
 	</tr>
 	<tr>
 		<td><?= Tr::_( 'Medium: ' ) ?></td>
-		<td><?= Locale::time( $now, Locale::DATE_TIME_FORMAT_MEDIUM ); ?></td>
+		<td><?= $locale->formatTime( $now, Locale::DATE_TIME_FORMAT_MEDIUM ); ?></td>
 	</tr>
 	<tr>
 		<td><?= Tr::_( 'Long: ' ) ?></td>
-		<td><?= Locale::time( $now, Locale::DATE_TIME_FORMAT_LONG ); ?></td>
+		<td><?= $locale->formatTime( $now, Locale::DATE_TIME_FORMAT_LONG ); ?></td>
 	</tr>
 	<tr>
 		<td><?= Tr::_( 'Full: ' ) ?></td>
-		<td><?= Locale::time( $now, Locale::DATE_TIME_FORMAT_FULL ); ?></td>
+		<td><?= $locale->formatTime( $now, Locale::DATE_TIME_FORMAT_FULL ); ?></td>
 	</tr>
 
 	<tr>
@@ -68,19 +85,19 @@ $now = Data_DateTime::now();
 <table class="table">
 	<tr>
 		<td style="width: 20%"><?= Tr::_( 'Short: ' ) ?></td>
-		<td><?= Locale::dateAndTime( $now, Locale::DATE_TIME_FORMAT_SHORT, Locale::DATE_TIME_FORMAT_SHORT ); ?></td>
+		<td><?= $locale->formatDateAndTime( $now, Locale::DATE_TIME_FORMAT_SHORT, Locale::DATE_TIME_FORMAT_SHORT ); ?></td>
 	</tr>
 	<tr>
 		<td><?= Tr::_( 'Medium: ' ) ?></td>
-		<td><?= Locale::dateAndTime( $now, Locale::DATE_TIME_FORMAT_MEDIUM, Locale::DATE_TIME_FORMAT_MEDIUM ); ?></td>
+		<td><?= $locale->formatDateAndTime( $now, Locale::DATE_TIME_FORMAT_MEDIUM, Locale::DATE_TIME_FORMAT_MEDIUM ); ?></td>
 	</tr>
 	<tr>
 		<td><?= Tr::_( 'Long: ' ) ?></td>
-		<td><?= Locale::dateAndTime( $now, Locale::DATE_TIME_FORMAT_LONG, Locale::DATE_TIME_FORMAT_LONG ); ?></td>
+		<td><?= $locale->formatDateAndTime( $now, Locale::DATE_TIME_FORMAT_LONG, Locale::DATE_TIME_FORMAT_LONG ); ?></td>
 	</tr>
 	<tr>
 		<td><?= Tr::_( 'Full: ' ) ?></td>
-		<td><?= Locale::dateAndTime( $now, Locale::DATE_TIME_FORMAT_FULL, Locale::DATE_TIME_FORMAT_FULL ); ?></td>
+		<td><?= $locale->formatDateAndTime( $now, Locale::DATE_TIME_FORMAT_FULL, Locale::DATE_TIME_FORMAT_FULL ); ?></td>
 	</tr>
 
 	<tr>
@@ -95,33 +112,33 @@ $now = Data_DateTime::now();
 <table class="table">
 	<tr>
 		<td style="width: 20%"><?= Tr::_( 'Integer: ' ) ?></td>
-		<td><?= Locale::int( 1234567898765321 ); ?></td>
+		<td><?= $locale->formatInt( 1234567898765321 ); ?></td>
 	</tr>
 
 	<tr>
 		<td><?= Tr::_( 'Float: ' ) ?></td>
-		<td><?= Locale::float( pi(), 2, 20 ); ?></td>
+		<td><?= $locale->formatFloat( pi(), 2, 20 ); ?></td>
 	</tr>
 	<tr>
 		<td><?= Tr::_( 'Float: ' ) ?></td>
-		<td><?= Locale::float( 1980, 2, 20 ); ?></td>
+		<td><?= $locale->formatFloat( 1980, 2, 20 ); ?></td>
 	</tr>
 	<tr>
 		<td><?= Tr::_( 'File size: ' ) ?></td>
-		<td><?= Locale::size( 5046586572 ); ?></td>
+		<td><?= $locale->formatSize( 5046586572 ); ?></td>
 	</tr>
 
 	<tr>
 		<td><?= Tr::_( 'Price: ' ) ?></td>
-		<td><?= Locale::currency( 10.95, 'USD' ); ?></td>
+		<td><?= $locale->formatCurrency( 10.95, 'USD' ); ?></td>
 	</tr>
 	<tr>
 		<td><?= Tr::_( 'Price: ' ) ?></td>
-		<td><?= Locale::currency( 225.70, 'CZK' ); ?></td>
+		<td><?= $locale->formatCurrency( 225.70, 'CZK' ); ?></td>
 	</tr>
 	<tr>
 		<td><?= Tr::_( 'Price: ' ) ?></td>
-		<td><?= Locale::currency( 11.81, 'EUR' ); ?></td>
+		<td><?= $locale->formatCurrency( 11.81, 'EUR' ); ?></td>
 	</tr>
 
 </table>
@@ -159,7 +176,13 @@ $now = Data_DateTime::now();
 		<tr>
 			<td><?= UI::flag( $l ) ?></td>
 
-			<td><?= $l ?></td>
+			<td>
+				<?php if($l->toString()==$locale->toString()): ?>
+				<b><?=$l;?></b>
+				<?php else: ?>
+				<a href="<?= Http_Request::currentURI(['locale' =>$l->toString()])?>"><?= $l ?></a>
+				<?php endif; ?>
+			</td>
 			<td><?= $l->getName( $current_locale ) ?></td>
 			<td><?= $l->getName( $l ) ?></td>
 
