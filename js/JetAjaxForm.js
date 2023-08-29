@@ -144,7 +144,7 @@ let JetAjaxForm = {
 					info += percent+'%';
 				}
 
-				$('#__progress_prc__').html( info );
+				document.getElementById('__progress_prc__').innerHTML = info;
 			};
 
 
