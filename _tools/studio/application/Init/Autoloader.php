@@ -19,22 +19,9 @@ require SysConf_Path::getLibrary() . 'Jet/Autoloader.php';
 
 
 Autoloader::initialize();
-
-
-require SysConf_Path::getApplication() . 'Autoloaders/Jet.php';
-Autoloader_Jet::register();
-
-require SysConf_Path::getApplication() . 'Autoloaders/StudioClasses.php';
-Autoloader_StudioClasses::register();
-
-require SysConf_Path::getApplication() . 'Autoloaders/ModuleWizards.php';
-Autoloader_ModuleWizards::register();
-
-require SysConf_Path::getApplication() . 'Autoloaders/ProjectClasses.php';
-Autoloader_ProjectClasses::register();
-
-require SysConf_Path::getApplication() . 'Autoloaders/ProjectModules.php';
-Autoloader_ProjectModules::register();
+Autoloader::registerLibraryAutoloaders();
+Autoloader::registerApplicationAutoloaders();
+Autoloader::initComposerAutoloader();
 
 
 //Debug_Profiler::blockEnd('INIT - Autoloader');

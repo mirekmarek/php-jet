@@ -14,9 +14,15 @@ use Jet\SysConf_Jet_Modules;
 /**
  *
  */
-class Autoloader_ProjectModules extends Autoloader_Loader
+return new class extends Autoloader_Loader
 {
-
+	/**
+	 * @return string
+	 */
+	public function getAutoloaderCode() : string
+	{
+		return 'application/Modules';
+	}
 	/**
 	 *
 	 * @param string $root_namespace
@@ -40,4 +46,4 @@ class Autoloader_ProjectModules extends Autoloader_Loader
 
 		return $module_path . $class_name . '.php';
 	}
-}
+};

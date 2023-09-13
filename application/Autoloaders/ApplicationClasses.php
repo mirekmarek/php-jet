@@ -6,16 +6,21 @@
  * @author Miroslav Marek <mirek.marek@web-jet.cz>
  */
 
-namespace JetApplication;
-
 use Jet\Autoloader_Loader;
 use Jet\SysConf_Path;
 
 /**
  *
  */
-class Autoloader_ApplicationClasses extends Autoloader_Loader
+return new class extends Autoloader_Loader
 {
+	/**
+	 * @return string
+	 */
+	public function getAutoloaderCode() : string
+	{
+		return 'application/Classes';
+	}
 
 	/**
 	 *
@@ -32,9 +37,7 @@ class Autoloader_ApplicationClasses extends Autoloader_Loader
 			return false;
 		}
 
-		$class_name = str_replace( '_', DIRECTORY_SEPARATOR, $class_name );
-
-		return SysConf_Path::getApplication() . 'Classes/' . $class_name . '.php';
+		return SysConf_Path::getApplication() . 'Classes/' . $this->classNameToPath( $class_name );
 
 	}
-}
+};

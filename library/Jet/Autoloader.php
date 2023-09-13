@@ -13,6 +13,8 @@ require_once 'Autoloader/Exception.php';
 require_once 'Autoloader/Loader.php';
 require_once 'Autoloader/Cache.php';
 require_once 'Autoloader/Cache/Backend.php';
+require_once 'IO/Dir.php';
+require_once 'IO/File.php';
 
 /**
  *
@@ -42,8 +44,52 @@ class Autoloader
 	 * @var bool
 	 */
 	protected static bool $save_class_map = false;
+	
+	/**
+	 * @var string
+	 */
+	protected static string $application_autoloaders_dir_name = 'Autoloaders';
+	
+	/**
+	 * @var string
+	 */
+	protected static string $library_autoloader_file_name = 'JetAutoloader.php';
+	
+	/**
+	 * @return string
+	 */
+	public static function getApplicationAutoloadersDirName(): string
+	{
+		return self::$application_autoloaders_dir_name;
+	}
+	
+	/**
+	 * @param string $application_autoloaders_dir_name
+	 */
+	public static function setApplicationAutoloadersDirName( string $application_autoloaders_dir_name ): void
+	{
+		self::$application_autoloaders_dir_name = $application_autoloaders_dir_name;
+	}
+	
+	/**
+	 * @return string
+	 */
+	public static function getLibraryAutoloaderFileName(): string
+	{
+		return self::$library_autoloader_file_name;
+	}
+	
+	/**
+	 * @param string $library_autoloader_file_name
+	 */
+	public static function setLibraryAutoloaderFileName( string $library_autoloader_file_name ): void
+	{
+		self::$library_autoloader_file_name = $library_autoloader_file_name;
+	}
 
 
+	
+	
 	/**
 	 *
 	 */
@@ -62,7 +108,57 @@ class Autoloader
 		], true, true );
 
 	}
-
+	
+	/**
+	 * @param string|null $dir
+	 * @return void
+	 */
+	public static function registerLibraryAutoloaders( ?string $dir=null ) : void
+	{
+		if(!$dir) {
+			$dir = SysConf_Path::getLibrary();
+		}
+		
+		$dirs = IO_Dir::getSubdirectoriesList( $dir );
+		foreach($dirs as $path=>$name) {
+			$path .= static::getLibraryAutoloaderFileName();
+			if(!IO_File::exists($path)) {
+				continue;
+			}
+			
+			$loader = require $path;
+			static::register( $loader );
+		}
+	}
+	
+	/**
+	 * @param string|null $dir
+	 * @return void
+	 */
+	public static function  registerApplicationAutoloaders( ?string $dir=null ) : void
+	{
+		if(!$dir) {
+			$dir = SysConf_Path::getApplication().static::getApplicationAutoloadersDirName();
+		}
+		
+		$files = IO_Dir::getFilesList( $dir, '*.php' );
+		foreach($files as $path=>$name) {
+			$loader = require $path;
+			static::register( $loader );
+		}
+	}
+	
+	/**
+	 * @return void
+	 */
+	public static function initComposerAutoloader() : void
+	{
+		$composer_autoloader = SysConf_Path::getLibrary().'Composer/autoload.php';
+		if( file_exists( $composer_autoloader) ) {
+			include_once $composer_autoloader;
+		}
+	}
+	
 	/**
 	 * @param string $class_name
 	 * @param ?string $loader_name
@@ -171,6 +267,6 @@ class Autoloader
 	 */
 	public static function register( Autoloader_Loader $loader ): void
 	{
-		static::$loaders[get_class( $loader )] = $loader;
+		static::$loaders[$loader->getAutoloaderCode()] = $loader;
 	}
 }

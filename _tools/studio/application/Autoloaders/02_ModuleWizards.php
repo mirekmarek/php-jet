@@ -9,13 +9,19 @@
 namespace JetStudio;
 
 use Jet\Autoloader_Loader;
-use Jet\SysConf_Path;
 
 /**
  *
  */
-class Autoloader_StudioClasses extends Autoloader_Loader
+return new class extends Autoloader_Loader
 {
+	/**
+	 * @return string
+	 */
+	public function getAutoloaderCode() : string
+	{
+		return 'JetStudio/ModuleWizards';
+	}
 
 	/**
 	 *
@@ -27,16 +33,15 @@ class Autoloader_StudioClasses extends Autoloader_Loader
 	 */
 	public function getScriptPath( string $root_namespace, string $namespace, string $class_name ): bool|string
 	{
-
-		if(
-			$namespace != 'JetStudio'
-		) {
+		if( !str_starts_with( $namespace, 'JetStudio\ModuleWizard\\' ) ) {
 			return false;
 		}
 
-		$class_name = str_replace( '_', DIRECTORY_SEPARATOR, $class_name );
+		$path = substr( $namespace, 23 ) . '\\' . $class_name;
+		$path = str_replace( '_', DIRECTORY_SEPARATOR, $path );
+		$path = str_replace( '\\', DIRECTORY_SEPARATOR, $path );
 
-		return SysConf_Path::getApplication() . 'Classes/' . $class_name . '.php';
+		return ModuleWizards::getBasePath() . $path . '.php';
 
 	}
-}
+};

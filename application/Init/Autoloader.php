@@ -17,23 +17,9 @@ use Jet\SysConf_Path;
 
 require_once SysConf_Path::getLibrary() . 'Jet/Autoloader.php';
 
-
 Autoloader::initialize();
-
-
-require SysConf_Path::getApplication() . 'Autoloaders/Jet.php';
-Autoloader_Jet::register();
-
-require SysConf_Path::getApplication() . 'Autoloaders/ApplicationClasses.php';
-Autoloader_ApplicationClasses::register();
-
-
-require SysConf_Path::getApplication() . 'Autoloaders/ApplicationModules.php';
-Autoloader_ApplicationModules::register();
-
-$composer_autoloader = SysConf_Path::getLibrary().'Composer/autoload.php';
-if( file_exists( $composer_autoloader) ) {
-	include_once $composer_autoloader;
-}
+Autoloader::registerLibraryAutoloaders();
+Autoloader::registerApplicationAutoloaders();
+Autoloader::initComposerAutoloader();
 
 //Debug_Profiler::blockEnd('INIT - Autoloader');

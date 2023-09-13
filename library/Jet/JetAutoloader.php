@@ -6,16 +6,22 @@
  * @author Miroslav Marek <mirek.marek@web-jet.cz>
  */
 
-namespace JetStudio;
-
 use Jet\Autoloader_Loader;
+use Jet\SysConf_Path;
 
 /**
  *
  */
-class Autoloader_ModuleWizards extends Autoloader_Loader
+return new class extends Autoloader_Loader
 {
-
+	/**
+	 * @return string
+	 */
+	public function getAutoloaderCode() : string
+	{
+		return 'library/Jet';
+	}
+	
 	/**
 	 *
 	 * @param string $root_namespace
@@ -26,16 +32,11 @@ class Autoloader_ModuleWizards extends Autoloader_Loader
 	 */
 	public function getScriptPath( string $root_namespace, string $namespace, string $class_name ): bool|string
 	{
-		if( !str_starts_with( $namespace, 'JetStudio\ModuleWizard\\' ) ) {
+		if( $root_namespace != 'Jet' ) {
 			return false;
 		}
-
-		$path = substr( $namespace, 23 ) . '\\' . $class_name;
-		$path = str_replace( '_', DIRECTORY_SEPARATOR, $path );
-		$path = str_replace( '\\', DIRECTORY_SEPARATOR, $path );
-
-		return ModuleWizards::getBasePath() . $path . '.php';
-
+		
+		return SysConf_Path::getLibrary() . 'Jet/' . $this->classNameToPath( $class_name );
+		
 	}
-}
-
+};

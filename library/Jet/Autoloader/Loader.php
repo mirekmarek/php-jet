@@ -25,6 +25,11 @@ abstract class Autoloader_Loader
 
 		return $loader;
 	}
+	
+	/**
+	 * @return string
+	 */
+	abstract public function getAutoloaderCode() : string;
 
 	/**
 	 *
@@ -35,4 +40,13 @@ abstract class Autoloader_Loader
 	 * @return bool|string
 	 */
 	abstract public function getScriptPath( string $root_namespace, string $namespace, string $class_name ): bool|string;
+	
+	/**
+	 * @param string $class_name
+	 * @return string
+	 */
+	public function classNameToPath( string $class_name ) : string
+	{
+		return str_replace( '_', DIRECTORY_SEPARATOR, $class_name ) . '.php';
+	}
 }

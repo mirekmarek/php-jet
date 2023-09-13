@@ -9,13 +9,20 @@
 namespace JetStudio;
 
 use Jet\Autoloader_Loader;
+use Jet\SysConf_Path;
 
 /**
  *
  */
-class Autoloader_ProjectClasses extends Autoloader_Loader
+return new class extends Autoloader_Loader
 {
-
+	/**
+	 * @return string
+	 */
+	public function getAutoloaderCode() : string
+	{
+		return 'JetStudio/Classes';
+	}
 	/**
 	 *
 	 * @param string $root_namespace
@@ -26,12 +33,14 @@ class Autoloader_ProjectClasses extends Autoloader_Loader
 	 */
 	public function getScriptPath( string $root_namespace, string $namespace, string $class_name ): bool|string
 	{
-		if( $root_namespace != Project::getApplicationNamespace() ) {
+
+		if(
+			$namespace != 'JetStudio'
+		) {
 			return false;
 		}
 
-		$class_name = str_replace( '_', DIRECTORY_SEPARATOR, $class_name );
+		return SysConf_Path::getApplication() . 'Classes/' . $this->classNameToPath($class_name);
 
-		return ProjectConf_Path::getApplicationClasses() . $class_name . '.php';
 	}
-}
+};
