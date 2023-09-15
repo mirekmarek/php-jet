@@ -25,19 +25,27 @@ return new class extends Autoloader_Loader
 
 	/**
 	 *
-	 * @param string $root_namespace
-	 * @param string $namespace
 	 * @param string $class_name
 	 *
 	 * @return bool|string
 	 */
-	public function getScriptPath( string $root_namespace, string $namespace, string $class_name ): bool|string
+	public function getScriptPath( string $class_name ): bool|string
 	{
-		if( $root_namespace != SysConf_Jet_Modules::getModuleRootNamespace() ) {
+		$modules_namespace = SysConf_Jet_Modules::getModuleRootNamespace().'\\';
+		
+		if(!str_starts_with($class_name, $modules_namespace)) {
 			return false;
 		}
-
-		$module_name = str_replace( '\\', '.', substr( $namespace, strlen( $root_namespace ) + 1 ) );
+		
+		$module_and_class_name = substr( $class_name, strlen($modules_namespace) );
+		
+		$module_name_end = strrpos( $module_and_class_name, '\\' );
+		
+		$module_name = substr( $module_and_class_name, 0, $module_name_end );
+		$class_name = substr( $module_and_class_name, $module_name_end+1 );
+		
+		$module_name = str_replace( '\\', '.', $module_name );
+		
 
 		if( !Application_Modules::moduleIsActivated( $module_name ) ) {
 			return false;

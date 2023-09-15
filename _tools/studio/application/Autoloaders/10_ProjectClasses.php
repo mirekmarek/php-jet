@@ -6,9 +6,9 @@
  * @author Miroslav Marek <mirek.marek@web-jet.cz>
  */
 
-namespace JetStudio;
-
 use Jet\Autoloader_Loader;
+use JetStudio\Project;
+use JetStudio\ProjectConf_Path;
 
 /**
  *
@@ -20,23 +20,23 @@ return new class extends Autoloader_Loader
 	 */
 	public function getAutoloaderName() : string
 	{
-		return 'application/Classes';
+		return 'JetStudio/application/Classes';
 	}
 
 	/**
 	 *
-	 * @param string $root_namespace
-	 * @param string $namespace
 	 * @param string $class_name
 	 *
 	 * @return bool|string
 	 */
-	public function getScriptPath( string $root_namespace, string $namespace, string $class_name ): bool|string
+	public function getScriptPath( string $class_name ): bool|string
 	{
-		if( $root_namespace != Project::getApplicationNamespace() ) {
+		$root_namespace = Project::getApplicationNamespace().'\\';
+		
+		if( !str_starts_with($class_name, $root_namespace ) ) {
 			return false;
 		}
-
-		return ProjectConf_Path::getApplicationClasses() . $this->classNameToPath( $class_name );
+		
+		return ProjectConf_Path::getApplicationClasses() . $this->classNameToPath( substr($class_name, strlen($root_namespace)) );
 	}
 };

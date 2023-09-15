@@ -14,6 +14,8 @@ use Jet\SysConf_Path;
  */
 return new class extends Autoloader_Loader
 {
+	public const ROOT_NAMESPACE = 'JetApplication\\';
+	
 	/**
 	 * @return string
 	 */
@@ -24,20 +26,17 @@ return new class extends Autoloader_Loader
 
 	/**
 	 *
-	 * @param string $root_namespace
-	 * @param string $namespace
 	 * @param string $class_name
 	 *
 	 * @return bool|string
 	 */
-	public function getScriptPath( string $root_namespace, string $namespace, string $class_name ): bool|string
+	public function getScriptPath( string $class_name ): bool|string
 	{
-
-		if( $root_namespace != 'JetApplication' ) {
+		if( !str_starts_with($class_name, static::ROOT_NAMESPACE ) ) {
 			return false;
 		}
-
-		return SysConf_Path::getApplication() . 'Classes/' . $this->classNameToPath( $class_name );
+		
+		return SysConf_Path::getApplication() . 'Classes/' . $this->classNameToPath( substr($class_name, strlen(static::ROOT_NAMESPACE)) );
 
 	}
 };

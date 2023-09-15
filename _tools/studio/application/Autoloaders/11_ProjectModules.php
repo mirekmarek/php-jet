@@ -6,10 +6,9 @@
  * @author Miroslav Marek <mirek.marek@web-jet.cz>
  */
 
-namespace JetStudio;
-
 use Jet\Autoloader_Loader;
 use Jet\SysConf_Jet_Modules;
+use Jet\Application_Modules;
 
 /**
  *
@@ -21,29 +20,32 @@ return new class extends Autoloader_Loader
 	 */
 	public function getAutoloaderName() : string
 	{
-		return 'application/Modules';
+		return 'JetStudio/application/Modules';
 	}
 	/**
 	 *
-	 * @param string $root_namespace
-	 * @param string $namespace
 	 * @param string $class_name
 	 *
 	 * @return bool|string
 	 */
-	public function getScriptPath( string $root_namespace, string $namespace, string $class_name ): bool|string
+	public function getScriptPath( string $class_name ): bool|string
 	{
-		if( $root_namespace != SysConf_Jet_Modules::getModuleRootNamespace() ) {
+		$modules_namespace = SysConf_Jet_Modules::getModuleRootNamespace().'\\';
+		
+		if(!str_starts_with($class_name, $modules_namespace)) {
 			return false;
 		}
-
-		$namespace = substr( $namespace, strlen( $root_namespace ) + 1 );
-
-		$module_path = ProjectConf_Path::getApplicationModules() . $namespace . '/';
-
-		$module_path = str_replace( '\\', '/', $module_path );
-		$class_name = str_replace( '_', '/', $class_name );
-
-		return $module_path . $class_name . '.php';
+		
+		$module_and_class_name = substr( $class_name, strlen($modules_namespace) );
+		
+		$module_name_end = strrpos( $module_and_class_name, '\\' );
+		
+		$module_name = substr( $module_and_class_name, 0, $module_name_end );
+		$class_name = substr( $module_and_class_name, $module_name_end+1 );
+		
+		$module_name = str_replace( '\\', '.', $module_name );
+		
+		
+		return Application_Modules::getModuleDir( $module_name ) . $this->classNameToPath( $class_name );
 	}
 };

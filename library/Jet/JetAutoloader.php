@@ -24,19 +24,18 @@ return new class extends Autoloader_Loader
 	
 	/**
 	 *
-	 * @param string $root_namespace
-	 * @param string $namespace
 	 * @param string $class_name
 	 *
 	 * @return bool|string
 	 */
-	public function getScriptPath( string $root_namespace, string $namespace, string $class_name ): bool|string
+	public function getScriptPath( string $class_name ): bool|string
 	{
-		if( $root_namespace != 'Jet' ) {
+		
+		if(!str_starts_with($class_name, 'Jet\\')) {
 			return false;
 		}
 		
-		return SysConf_Path::getLibrary() . 'Jet/' . $this->classNameToPath( $class_name );
+		return SysConf_Path::getLibrary() . $this->classNameToPath( $class_name );
 		
 	}
 };

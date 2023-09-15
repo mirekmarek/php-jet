@@ -6,8 +6,6 @@
  * @author Miroslav Marek <mirek.marek@web-jet.cz>
  */
 
-namespace JetStudio;
-
 use Jet\Autoloader_Loader;
 use Jet\SysConf_Path;
 
@@ -16,6 +14,9 @@ use Jet\SysConf_Path;
  */
 return new class extends Autoloader_Loader
 {
+	public const MAIN_ROOT_NAMESPACE = 'JetStudio\\';
+	public const WIZARDS_ROOT_NAMESPACE = 'JetStudio\\ModuleWizard\\';
+	
 	/**
 	 * @return string
 	 */
@@ -23,24 +24,23 @@ return new class extends Autoloader_Loader
 	{
 		return 'JetStudio/Classes';
 	}
+	
 	/**
 	 *
-	 * @param string $root_namespace
-	 * @param string $namespace
 	 * @param string $class_name
 	 *
 	 * @return bool|string
 	 */
-	public function getScriptPath( string $root_namespace, string $namespace, string $class_name ): bool|string
+	public function getScriptPath( string $class_name ): bool|string
 	{
-
 		if(
-			$namespace != 'JetStudio'
+			!str_starts_with( $class_name, static::MAIN_ROOT_NAMESPACE ) ||
+			str_starts_with( $class_name, static::WIZARDS_ROOT_NAMESPACE )
 		) {
 			return false;
 		}
 
-		return SysConf_Path::getApplication() . 'Classes/' . $this->classNameToPath($class_name);
+		return SysConf_Path::getApplication() . 'Classes/' . $this->classNameToPath( substr($class_name, strlen(static::MAIN_ROOT_NAMESPACE)) );
 
 	}
 };
