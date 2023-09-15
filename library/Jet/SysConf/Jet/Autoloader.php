@@ -15,13 +15,18 @@ class SysConf_Jet_Autoloader
 {
 
 	protected static bool $cache_enabled = false;
-
+	
+	protected static string $application_autoloaders_dir_name = 'Autoloaders';
+	
+	protected static string $library_autoloader_file_name = 'JetAutoloader.php';
+	
+	
 	/**
 	 * @return bool
 	 */
 	public static function getCacheEnabled(): bool
 	{
-		return self::$cache_enabled;
+		return static::$cache_enabled;
 	}
 
 	/**
@@ -29,7 +34,40 @@ class SysConf_Jet_Autoloader
 	 */
 	public static function setCacheEnabled( bool $cache_enabled ): void
 	{
-		self::$cache_enabled = $cache_enabled;
+		static::$cache_enabled = $cache_enabled;
 	}
+	
+	/**
+	 * @return string
+	 */
+	public static function getApplicationAutoloadersDirName(): string
+	{
+		return static::$application_autoloaders_dir_name;
+	}
+	
+	/**
+	 * @param string $application_autoloaders_dir_name
+	 */
+	public static function setApplicationAutoloadersDirName( string $application_autoloaders_dir_name ): void
+	{
+		static::$application_autoloaders_dir_name = $application_autoloaders_dir_name;
+	}
+	
+	/**
+	 * @return string
+	 */
+	public static function getLibraryAutoloaderFileName(): string
+	{
+		return static::$library_autoloader_file_name;
+	}
+	
+	/**
+	 * @param string $library_autoloader_file_name
+	 */
+	public static function setLibraryAutoloaderFileName( string $library_autoloader_file_name ): void
+	{
+		static::$library_autoloader_file_name = $library_autoloader_file_name;
+	}
+	
 
 }

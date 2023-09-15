@@ -13,6 +13,7 @@ require_once 'Autoloader/Exception.php';
 require_once 'Autoloader/Loader.php';
 require_once 'Autoloader/Cache.php';
 require_once 'Autoloader/Cache/Backend.php';
+require_once 'SysConf/Jet/Autoloader.php';
 require_once 'IO/Dir.php';
 require_once 'IO/File.php';
 
@@ -44,50 +45,6 @@ class Autoloader
 	 * @var bool
 	 */
 	protected static bool $save_class_map = false;
-	
-	/**
-	 * @var string
-	 */
-	protected static string $application_autoloaders_dir_name = 'Autoloaders';
-	
-	/**
-	 * @var string
-	 */
-	protected static string $library_autoloader_file_name = 'JetAutoloader.php';
-	
-	/**
-	 * @return string
-	 */
-	public static function getApplicationAutoloadersDirName(): string
-	{
-		return self::$application_autoloaders_dir_name;
-	}
-	
-	/**
-	 * @param string $application_autoloaders_dir_name
-	 */
-	public static function setApplicationAutoloadersDirName( string $application_autoloaders_dir_name ): void
-	{
-		self::$application_autoloaders_dir_name = $application_autoloaders_dir_name;
-	}
-	
-	/**
-	 * @return string
-	 */
-	public static function getLibraryAutoloaderFileName(): string
-	{
-		return self::$library_autoloader_file_name;
-	}
-	
-	/**
-	 * @param string $library_autoloader_file_name
-	 */
-	public static function setLibraryAutoloaderFileName( string $library_autoloader_file_name ): void
-	{
-		self::$library_autoloader_file_name = $library_autoloader_file_name;
-	}
-
-
 	
 	
 	/**
@@ -121,7 +78,7 @@ class Autoloader
 		
 		$dirs = IO_Dir::getSubdirectoriesList( $dir );
 		foreach($dirs as $path=>$name) {
-			$path .= static::getLibraryAutoloaderFileName();
+			$path .= SysConf_Jet_Autoloader::getLibraryAutoloaderFileName();
 			if(!IO_File::exists($path)) {
 				continue;
 			}
@@ -138,7 +95,7 @@ class Autoloader
 	public static function  registerApplicationAutoloaders( ?string $dir=null ) : void
 	{
 		if(!$dir) {
-			$dir = SysConf_Path::getApplication().static::getApplicationAutoloadersDirName();
+			$dir = SysConf_Path::getApplication().SysConf_Jet_Autoloader::getApplicationAutoloadersDirName();
 		}
 		
 		$files = IO_Dir::getFilesList( $dir, '*.php' );
