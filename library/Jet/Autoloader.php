@@ -224,6 +224,6 @@ class Autoloader
 	 */
 	public static function register( Autoloader_Loader $loader ): void
 	{
-		static::$loaders[$loader->getAutoloaderCode()] = $loader;
+		static::$loaders[$loader->getAutoloaderName()] = $loader;
 	}
 }

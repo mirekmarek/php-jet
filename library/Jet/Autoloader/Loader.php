@@ -29,7 +29,7 @@ abstract class Autoloader_Loader
 	/**
 	 * @return string
 	 */
-	abstract public function getAutoloaderCode() : string;
+	abstract public function getAutoloaderName() : string;
 
 	/**
 	 *

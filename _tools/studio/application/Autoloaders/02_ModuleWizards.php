@@ -18,7 +18,7 @@ return new class extends Autoloader_Loader
 	/**
 	 * @return string
 	 */
-	public function getAutoloaderCode() : string
+	public function getAutoloaderName() : string
 	{
 		return 'JetStudio/ModuleWizards';
 	}
