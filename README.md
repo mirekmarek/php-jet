@@ -1,5 +1,4 @@
-![Promo image](images/jet-logo.svg "PHP Jet")
-
+[![Watch the video](images/jet-logo.svg)](https://www.youtube.com/embed/y_15mc6kyfk?si=fmW9aOthoW2lzHwu)
 
 # 🧰 Everything you need
 
