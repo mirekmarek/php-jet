@@ -20,4 +20,5 @@ return [
 	'Current password do not match' => '',
 	'Current password' => '',
 	'New password' => '',
+	'Please enter username and password' => '',
 ];
