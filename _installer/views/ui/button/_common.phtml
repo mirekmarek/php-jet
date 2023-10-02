@@ -1,0 +1,35 @@
+<?php
+
+use Jet\Data_Text;
+use Jet\UI_button;
+use Jet\UI;
+use Jet\MVC_View;
+
+/**
+ * @var MVC_View $this
+ * @var UI_button $b
+ */
+$b = $this->getRaw( 'element' );
+
+$label = trim($b->getLabel());
+$label = $label ? '&nbsp;'.$label : '';
+$icon = $b->getIcon() ? UI::icon( $b->getIcon() ) : '';
+
+$b->setBaseCssClass( 'btn btn-'.$b->getClass().' btn-'.$b->getSize() );
+
+if( ($post_data=$b->getPostData()) ):
+	?>
+	<form action="<?=Data_Text::htmlSpecialChars($b->getUrl())?>" method="post">
+		<?php foreach($post_data as $k=>$v): ?>
+		<input type="hidden" name="<?= Data_Text::htmlSpecialChars($k)?>" value="<?= Data_Text::htmlSpecialChars($v)?>"/>
+		<?php endforeach; ?>
+		<button type="submit" <?=$b->renderTagAttributes()?>><?=$icon.$label?></button>
+	</form>
+	<?php
+else:
+	if( $b->getUrl() ):
+		?><a href="<?= $b->getUrl() ?>" <?=$b->renderTagAttributes()?>><?=$icon.$label?></a> <?php
+	else:
+		?><button type="<?= $b->getType() ?>" <?=$b->renderTagAttributes()?>><?=$icon.$label?></button> <?php
+	endif;
+endif;

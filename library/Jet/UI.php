@@ -56,6 +56,23 @@ class UI
 	{
 		return new UI_button( $label );
 	}
+	
+	
+	/**
+	 * @param string $label
+	 * @param array $post_data
+	 *
+	 * @return UI_button
+	 */
+	public static function button_POSTAction( string $label, array $post_data ): UI_button
+	{
+		$button = new UI_button( $label );
+		
+		$button->setPostData( $post_data );
+		
+		return $button;
+	}
+	
 
 	/**
 	 * @param string $label

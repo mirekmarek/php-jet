@@ -1,0 +1,38 @@
+<?php
+namespace JetApplicationModule\Test\UI;
+
+use Jet\MVC_View;
+use Jet\Tr;
+use Jet\UI;
+use Jet\UI_button;
+
+/**
+ * @var MVC_View   $this
+ */
+?>
+
+<div>
+	<?=UI::button_POSTAction( Tr::_('POST action test'), [
+		'action' => 'test',
+		'value_1' => '" dirty string><script>alert(\'AAA\')</script>',
+		'value_2' => 1,
+		'value_3' => 3.14
+	] )
+		->setClass(UI_button::CLASS_PRIMARY)
+		->setIcon('bolt')
+		->setUrl('#POSTactionTest');?>
+	
+	<?php if($POST_action_data = $this->getRaw('POST_action_data')): ?>
+	<br><br>
+	<b><?=Tr::_('POST Action data')?></b><br>
+	<table class="table table-striped">
+		<?php foreach($POST_action_data as $k=>$v): ?>
+		<tr>
+			<td><?=$k?></td>
+			<td><?=$v?></td>
+		</tr>
+		<?php endforeach; ?>
+	</table>
+	<?php endif; ?>
+	<hr>
+</div>

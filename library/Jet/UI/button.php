@@ -63,6 +63,11 @@ class UI_button extends UI_Renderer_Single
 	 * @var string
 	 */
 	protected string $url = '';
+	
+	/**
+	 * @var array|null
+	 */
+	protected ?array $post_data = null;
 
 	/**
 	 * @param string $label
@@ -205,4 +210,26 @@ class UI_button extends UI_Renderer_Single
 	{
 		return $this->url;
 	}
+	
+	/**
+	 * @return array|null
+	 */
+	public function getPostData(): ?array
+	{
+		return $this->post_data;
+	}
+	
+	/**
+	 * @param array|null $post_data
+	 *
+	 * @return $this
+	 */
+	public function setPostData( ?array $post_data ): static
+	{
+		$this->post_data = $post_data;
+		
+		return $this;
+	}
+	
+	
 }

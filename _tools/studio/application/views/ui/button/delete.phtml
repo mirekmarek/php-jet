@@ -22,14 +22,4 @@ if( !$b->getClass() ) {
 	$b->setClass( UI_button::CLASS_DANGER );
 }
 
-$label = trim($b->getLabel());
-$label = $label ? '&nbsp;'.$label : '';
-$icon = $b->getIcon() ? UI::icon( $b->getIcon() ) : '';
-
-$b->setBaseCssClass( 'btn btn-'.$b->getClass().' btn-'.$b->getSize() );
-
-if( $b->getUrl() ):
-	?><a href="<?= $b->getUrl() ?>" <?=$b->renderTagAttributes()?>><?=$icon.$label?></a> <?php
-else:
-	?><button type="<?= $b->getType() ?>" <?=$b->renderTagAttributes()?>><?=$icon.$label?></button> <?php
-endif;
+require '_common.phtml';
