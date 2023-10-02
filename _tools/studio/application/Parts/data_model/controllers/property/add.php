@@ -3,7 +3,6 @@
 namespace JetStudio;
 
 use Jet\AJAX;
-use Jet\Http_Request;
 use Jet\UI_messages;
 use Jet\Tr;
 
@@ -11,34 +10,29 @@ $current = DataModels::getCurrentClass();
 
 $ok = false;
 $data = [];
-$snippets = [];
+$snippets = ['add_property_form_message'=>''];
 
 
-if( ($new_property = DataModel_Definition_Property::catchCreateForm( $current )) ) {
+if( ($new_properties = DataModel_Definition_Property::catchCreateForm( $current )) ) {
 
-	$form = DataModel_Definition_Property::getCreateForm();
-	$form->getField( 'type' )->setDefaultValue( $new_property->getType() );
+	$ok = true;
+	foreach($new_properties as $new_property) {
 
-	if( $new_property->add( $current ) ) {
+		if( $new_property->add( $current ) ) {
+			UI_messages::success(
+				Tr::_( 'Property <strong>%property%</strong> has been created', [
+					'property' => $new_property->getName()
+				] )
+			);
+		} else {
 
-		UI_messages::success(
-			Tr::_( 'Property <strong>%property%</strong> has been created', [
-				'property' => $new_property->getName()
-			] )
-		);
-
-		$ok = true;
-		$data['location'] = Http_Request::currentURI( ['property' => $new_property->getName()], ['action'] );
-
-	} else {
-		$message = implode( '', UI_messages::get() );
-
-		$form->setCommonMessage( $message );
+			die('Error ???');
+			$ok = false;
+			
+			$snippets['add_property_form_message'] .= implode( '', UI_messages::get() );
+		}
 	}
 }
-
-
-$snippets['property_add_form_area'] = Application::getView()->render( 'property/create/form' );
 
 AJAX::operationResponse(
 	$ok,

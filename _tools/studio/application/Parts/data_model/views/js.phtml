@@ -322,7 +322,7 @@ namespace JetStudio;
 						'<?=DataModel_Definition_Property::getCreateForm()->getId()?>',
 						{
 							onSuccess: function (form, response_data) {
-								location = response_data.location;
+								location.reload();
 							}
 						}
 					);

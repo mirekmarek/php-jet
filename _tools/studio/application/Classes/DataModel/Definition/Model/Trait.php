@@ -1022,7 +1022,7 @@ trait DataModel_Definition_Model_Trait
 			Form_Field::ERROR_CODE_INVALID_FORMAT => 'Invalid property name format'
 		] );
 		$id_property_name->setValidator( function( Form_Field_Input $field ) {
-			return DataModel_Definition_Property::checkPropertyNameFormat( $field );
+			return DataModel_Definition_Property::checkPropertyNameFormat( $field->getValue(), $field );
 		} );
 
 
@@ -1073,7 +1073,7 @@ trait DataModel_Definition_Model_Trait
 			Form_Field_Input::ERROR_CODE_INVALID_FORMAT => Tr::_('Please enter valid property name')
 		]);
 		$relation_property_name->setValidator( function( Form_Field_Input $field ) {
-			return DataModel_Definition_Property::checkPropertyNameFormat( $field );
+			return DataModel_Definition_Property::checkPropertyNameFormat( $field->getValue(), $field );
 		} );
 		
 		$fields['relation_property_name'] = $relation_property_name;
@@ -1131,7 +1131,7 @@ trait DataModel_Definition_Model_Trait
 				Form_Field::ERROR_CODE_INVALID_FORMAT => Tr::_( 'Invalid property name format' )
 			] );
 			$field->setValidator( function( Form_Field_Input $field ) {
-				return DataModel_Definition_Property::checkPropertyNameFormat( $field );
+				return DataModel_Definition_Property::checkPropertyNameFormat( $field->getValue(), $field );
 			} );
 
 		}

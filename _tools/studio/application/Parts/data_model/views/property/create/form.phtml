@@ -2,6 +2,10 @@
 
 namespace JetStudio;
 
+use Jet\Tr;
+use Jet\UI;
+use Jet\UI_button;
+
 $form = DataModel_Definition_Property::getCreateForm();
 
 $form->renderer()->addJsAction( 'onsubmit', 'DataModel.property.create.createSend();return false;' );
@@ -9,8 +13,80 @@ $form->renderer()->addJsAction( 'onsubmit', 'DataModel.property.create.createSen
 echo $form->getCommonMessage();
 
 echo $form->start();
-echo $form->field( 'property_name' );
-echo $form->field( 'type' );
+
+?>
+<script>
+	const DataModelCreateProperty = {
+		addRow: () => {
+			let add_property_form_table = document.getElementById('add_property_form_table');
+			
+			let new_property_row = document.getElementById('new_property_row');
+			
+			let new_row = add_property_form_table.insertRow(add_property_form_table.rows.length-2);
+			new_row.innerHTML = document.getElementById('new_property_row').innerHTML;
+
+			setTimeout(() => {
+				new_row.querySelector('input').focus();
+			}, 10);
+		},
+		
+		removeRow: ( button ) => {
+			let add_property_form_table = document.getElementById('add_property_form_table');
+			let row = button.parentElement.parentElement;
+
+			add_property_form_table.deleteRow( row.rowIndex );
+		},
+
+		onLastRowBlur: ( input, e ) => {
+			if(e['key']!=='Tab') {
+				return;
+			}
+			
+			let add_property_form_table = document.getElementById('add_property_form_table');
+			let row = input.parentElement.parentElement;
+			
+			
+			let last_index = add_property_form_table.rows.length-3;
+			
+			if(row.rowIndex==last_index) {
+				DataModelCreateProperty.addRow();
+			}
+		}
+	};
+</script>
+
+<div id="add_property_form_message"></div>
+
+<table class="table table" id="add_property_form_table">
+	<thead>
+	<tr>
+		<td style="width: 70px;"></td>
+		<th nowrap=""><?=$form->field( 'property_name[]' )->label()?></th>
+		<th><?=$form->field( 'type[]' )->label()?></th>
+	</tr>
+	</thead>
+	<tbody>
+	<tr>
+		<td></td>
+		<td><?=$form->field( 'property_name[]' )->input()?></td>
+		<td><?=$form->field( 'type[]' )->input()->addJsAction('onkeydown', 'DataModelCreateProperty.onLastRowBlur(this, event)' )?></td>
+	</tr>
+	<tr id="new_property_row" style="display: none">
+		<td><?=UI::button(' ')->setIcon('trash')->setOnClick( 'DataModelCreateProperty.removeRow(this)' )?></td>
+		<td><?=$form->field( 'property_name[]' )->input()?></td>
+		<td><?=$form->field( 'type[]' )->input()->addJsAction('onkeydown', 'DataModelCreateProperty.onLastRowBlur(this, event)' )?></td>
+	</tr>
+	</tbody>
+	<tfoot>
+	<tr>
+		<td></td>
+		<td colspan="2">
+			<?=UI::button_create(Tr::_('add'))->setOnClick( 'DataModelCreateProperty.addRow()' )->setClass(UI_button::CLASS_SUCCESS);?>
+		</td>
+	</tr>
+	</tfoot>
+</table>
+<?php
 
 echo $form->end();
 

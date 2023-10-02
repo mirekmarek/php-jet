@@ -182,4 +182,5 @@ return [
 	'Relation property name:' => '',
 	'Please enter valid property name' => '',
 	'Search for class ...' => '',
+	'add' => '',
 ];

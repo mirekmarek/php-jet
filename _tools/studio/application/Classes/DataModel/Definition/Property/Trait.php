@@ -122,7 +122,7 @@ trait DataModel_Definition_Property_Trait
 			} );
 			$old_name = $this->getName();
 			$name_field->setValidator( function( Form_Field_Input $field ) use ( $old_name ) {
-				return DataModel_Definition_Property::checkPropertyName( $field, $old_name );
+				return DataModel_Definition_Property::checkPropertyName( $field->getName(), $field, $old_name );
 			} );
 			$name_field->setIsReadonly( true );
 
@@ -622,6 +622,7 @@ trait DataModel_Definition_Property_Trait
 			Application::handleError( $e );
 		}
 
+		
 		return $ok;
 	}
 
@@ -663,6 +664,7 @@ trait DataModel_Definition_Property_Trait
 			}
 
 			$parser->actualize_setUse( $created_class->getUse() );
+			
 
 			IO_File::write(
 				$class->getScriptPath(),
@@ -670,7 +672,6 @@ trait DataModel_Definition_Property_Trait
 			);
 
 			Cache::resetOPCache();
-
 
 		} catch( Exception $e ) {
 			$ok = false;

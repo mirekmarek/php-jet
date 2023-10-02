@@ -8,10 +8,12 @@
 
 namespace JetStudio;
 
+use Jet\Data_Text;
 use Jet\Form;
 use Jet\Form_Field;
 use Jet\Form_Field_Input;
 use Jet\Form_Field_Select;
+use Jet\Http_Request;
 use Jet\Tr;
 use Jet\DataModel;
 
@@ -59,21 +61,20 @@ class DataModel_Definition_Property
 	}
 
 	/**
-	 * @param Form_Field_Input $field
+	 * @param string $name
+	 * @param Form_Field_Input|null $field
 	 *
 	 * @return bool
 	 */
-	public static function checkPropertyNameFormat( Form_Field_Input $field ): bool
+	public static function checkPropertyNameFormat( string $name, ?Form_Field_Input $field=null ): bool
 	{
-		$name = $field->getValue();
-
 		if( !$name ) {
-			$field->setError( Form_Field::ERROR_CODE_EMPTY );
+			$field?->setError( Form_Field::ERROR_CODE_EMPTY );
 			return false;
 		}
 
 		if( !preg_match( '/^[a-z0-9_]{2,}$/i', $name ) ) {
-			$field->setError( Form_Field::ERROR_CODE_INVALID_FORMAT );
+			$field?->setError( Form_Field::ERROR_CODE_INVALID_FORMAT );
 
 			return false;
 		}
@@ -82,17 +83,17 @@ class DataModel_Definition_Property
 	}
 
 	/**
-	 * @param Form_Field_Input $field
+	 * @param string $name
+	 * @param Form_Field_Input|null $field
 	 * @param string $old_name
 	 *
 	 * @return bool
 	 */
-	public static function checkPropertyName( Form_Field_Input $field, string $old_name = '' ): bool
+	public static function checkPropertyName( string $name, ?Form_Field_Input $field=null, string $old_name = '' ): bool
 	{
-		if( !static::checkPropertyNameFormat( $field ) ) {
+		if( !static::checkPropertyNameFormat( $name, $field ) ) {
 			return false;
 		}
-		$name = $field->getValue();
 
 		$exists = false;
 
@@ -117,7 +118,7 @@ class DataModel_Definition_Property
 				$exists
 			)
 		) {
-			$field->setError( 'property_is_not_unique' );
+			$field?->setError( 'property_is_not_unique' );
 
 			return false;
 		}
@@ -133,7 +134,7 @@ class DataModel_Definition_Property
 	public static function getCreateForm(): Form
 	{
 		if( !static::$create_form ) {
-			$property_name = new Form_Field_Input( 'property_name', 'Property name:' );
+			$property_name = new Form_Field_Input( 'property_name[]', 'Property name:' );
 
 			$property_name->setIsRequired( true );
 			$property_name->setErrorMessages( [
@@ -142,10 +143,10 @@ class DataModel_Definition_Property
 				'property_is_not_unique' => 'Property with the same name already exists',
 			] );
 			$property_name->setValidator( function( Form_Field_Input $field ) {
-				return DataModel_Definition_Property::checkPropertyName( $field );
+				return DataModel_Definition_Property::checkPropertyName( $field->getValue(), $field );
 			} );
 
-			$type = new Form_Field_Select( 'type', 'Type:' );
+			$type = new Form_Field_Select( 'type[]', 'Type:' );
 			$types = static::getPropertyTypes();
 			unset( $types[DataModel::TYPE_DATA_MODEL] );
 
@@ -177,35 +178,52 @@ class DataModel_Definition_Property
 	/**
 	 * @param DataModel_Class $class
 	 *
-	 * @return bool|DataModel_Definition_Property_Interface
+	 * @return DataModel_Definition_Property_Interface[]
 	 */
-	public static function catchCreateForm( DataModel_Class $class ): bool|DataModel_Definition_Property_Interface
+	public static function catchCreateForm( DataModel_Class $class ): array
 	{
-		$form = static::getCreateForm();
-		if(
-			!$form->catchInput() ||
-			!$form->validate()
-		) {
-			return false;
+		$new_properties = [];
+
+		$POST = Http_Request::POST();
+		
+		$names = $POST->getRaw('property_name');
+		$types = $POST->getRaw('type');
+		
+		$all_types = static::getPropertyTypes();
+		unset( $all_types[DataModel::TYPE_DATA_MODEL] );
+		
+		
+		foreach($names as $i=>$property_name) {
+			$type = $types[$i];
+			
+			if(!isset($all_types[$type])) {
+				continue;
+			}
+			
+			$property_name = trim($property_name);
+			$property_name = Data_Text::removeAccents($property_name);
+			$property_name = str_replace(' ', '_', $property_name);
+			
+			if(
+				!$property_name ||
+				!DataModel_Definition_Property::checkPropertyName( $property_name )
+			) {
+				continue;
+			}
+			
+			$class_name = DataModel_Definition_Property::class.'_'.$type;
+
+			/**
+			 * @var DataModel_Definition_Property_Interface $new_property ;
+			 */
+			$new_property = new $class_name( $class->getFullClassName(), $property_name );
+			
+			$class->getDefinition()->addProperty( $new_property );
+			
+			$new_properties[] = $new_property;
 		}
 
-
-		$property_name = $form->field( 'property_name' )->getValue();
-		$type = $form->field( 'type' )->getValue();
-
-
-		$class_name = __NAMESPACE__ . '\\DataModel_Definition_Property_' . $type;
-
-		/**
-		 * @var DataModel_Definition_Property_Interface $new_property ;
-		 */
-		$new_property = new $class_name( $class->getFullClassName(), $property_name );
-
-		$class->getDefinition()->addProperty( $new_property );
-
-		static::$create_form = null;
-
-		return $new_property;
+		return $new_properties;
 	}
 
 

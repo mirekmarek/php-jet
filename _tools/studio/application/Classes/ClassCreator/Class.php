@@ -359,7 +359,7 @@ class ClassCreator_Class extends BaseObject
 	public function addMethod( ClassCreator_Class_Method $method ): void
 	{
 		if( isset( $this->methods[$method->getName()] ) ) {
-			$this->addError( 'Method ' . $method->getName() . ' already defined' );
+			return;
 		}
 
 		$this->methods[$method->getName()] = $method;
