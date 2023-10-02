@@ -61,7 +61,7 @@ class DataModel_Definition_Property_Bool extends Jet_DataModel_Definition_Proper
 		$setter = $class->createMethod( 'set' . $s_g_method_name );
 		$setter->addParameter( 'value' )
 			->setType( 'bool' );
-		$setter->line( 1, '$this->' . $this->getName() . ' = (bool)$value;' );
+		$setter->line( 1, '$this->' . $this->getName() . ' = $value;' );
 
 
 		$getter = $class->createMethod( 'get' . $s_g_method_name );
