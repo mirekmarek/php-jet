@@ -73,16 +73,7 @@ class DataModel_Definition_Property_Date extends Jet_DataModel_Definition_Proper
 		$setter->addParameter( 'value' )
 			->setType( 'Data_DateTime|string|null' );
 
-		$setter->line( 1, 'if( $value===null ) {' );
-		$setter->line( 2, '$this->' . $this->getName() . ' = null;' );
-		$setter->line( 2, 'return;' );
-		$setter->line( 1, '}' );
-		$setter->line( 1, '' );
-		$setter->line( 1, 'if( !( $value instanceof Data_DateTime ) ) {' );
-		$setter->line( 2, '$value = new Data_DateTime( (string)$value );' );
-		$setter->line( 1, '}' );
-		$setter->line( 1, '' );
-		$setter->line( 1, '$this->' . $this->getName() . ' = $value;' );
+		$setter->line( 1, '$this->' . $this->getName() . ' = Data_DateTime::catchDate( $value );' );
 
 
 		$getter = $class->createMethod( 'get' . $s_g_method_name );
