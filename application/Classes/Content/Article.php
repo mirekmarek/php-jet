@@ -202,10 +202,7 @@ class Content_Article extends DataModel
 	 */
 	public function setDateTime( Data_DateTime|string $date_time ): void
 	{
-		if( !($date_time instanceof Data_DateTime) ) {
-			$date_time = new Data_DateTime( $date_time );
-		}
-		$this->date_time = $date_time;
+		$this->date_time = Data_DateTime::catchDateTime( $date_time );
 	}
 
 	/**

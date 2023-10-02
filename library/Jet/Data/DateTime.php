@@ -26,6 +26,52 @@ class Data_DateTime extends DateTime
 	}
 	
 	/**
+	 * @param Data_DateTime|string|null $value
+	 * @return static|null
+	 */
+	public static function catchDateTime( Data_DateTime|string|null $value ) : ?static
+	{
+		if(
+			$value==='' ||
+			$value===null
+		) {
+			return null;
+		}
+		
+		if(
+			!($value instanceof Data_DateTime)
+		) {
+			$value = new static( (string)$value );
+		}
+		
+		return $value;
+	}
+	
+	
+	/**
+	 * @param Data_DateTime|string|null $value
+	 * @return static|null
+	 */
+	public static function catchDate( Data_DateTime|string|null $value ) : ?static
+	{
+		if(
+			$value==='' ||
+			$value===null
+		) {
+			return null;
+		}
+		
+		if( !($value instanceof Data_DateTime) ) {
+			$value = new static( (string)$value );
+		}
+		
+		$value->setOnlyDate( true );
+		$value->setTime( 0, 0 );
+		return $value;
+	}
+	
+	
+	/**
 	 * @return bool
 	 */
 	public function isOnlyDate(): bool

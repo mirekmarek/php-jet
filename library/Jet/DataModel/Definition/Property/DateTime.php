@@ -24,21 +24,7 @@ class DataModel_Definition_Property_DateTime extends DataModel_Definition_Proper
 	 */
 	public function checkValueType( mixed &$value ): void
 	{
-		if( $value === '' ) {
-			$value = null;
-		}
-
-		if( $value === null ) {
-			return;
-		}
-
-		if( !is_object( $value ) ) {
-			$value = new Data_DateTime( $value );
-		} else {
-			if( !$value instanceof Data_DateTime ) {
-				$value = new Data_DateTime();
-			}
-		}
+		$value = Data_DateTime::catchDateTime( $value );
 	}
 
 
