@@ -11,12 +11,9 @@ return [
 	'order' => 103,
 	'is_secret' => false,
 	'layout_script_name' => 'default',
-	'http_headers' => [
-	],
-	'parameters' => [
-	],
-	'meta_tags' => [
-	],
+	'http_headers' => [],
+	'parameters' => [],
+	'meta_tags' => [],
 	'contents' => [
 		[
 			'module_name' => 'Test.UI',
