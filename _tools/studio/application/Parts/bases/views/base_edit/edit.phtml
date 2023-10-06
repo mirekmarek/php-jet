@@ -30,11 +30,29 @@ $sort_dialog = UI::dialog( 'locales_sort_dialog', Tr::_( 'Sort locales' ), UI_di
 ?>
 <?= $form->start() ?>
 
+<script>
+	function copyBaseIDtoClipboard()
+	{
+		const id_input = document.getElementById("base_id_to_cb");
+		id_input.select();
+		document.execCommand("copy");
+	}
+</script>
+
+
+
 <div class="container-fluid" id="main-edit-area">
 
-	<legend style="margin-top: 10px"><?= Tr::_( 'Base' ) ?> <span
-				style="font-weight: bolder"><?= $base->getName() ?></span> <span
-				style="color: #aaaaaa;font-size: 12px;"><?= $base->getId() ?></span></legend>
+	<legend style="margin-top: 10px"><?= Tr::_( 'Base' ) ?>
+		<span style="font-weight: bolder"><?= $base->getName() ?></span>
+		
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		<a href="#" onclick="copyPageIDtoClipboard();" class="entity-id">
+			ID: <?=UI::icon('clipboard')?>
+			<input id="page_id_to_cb" readonly value="<?= $base->getId() ?>"/>
+		</a>
+		
+	</legend>
 	
 	
 	<?= Application_UI::messages(); ?>

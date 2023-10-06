@@ -156,3 +156,14 @@ legend {
 .main-toolbar-sticky + .main-col {
 }
 
+.entity-id {
+	color: #999999;
+	font-weight: bolder
+
+}
+
+.entity-id input {
+	background-color: transparent;
+	border: none;
+	font-weight: bolder
+}
