@@ -83,4 +83,17 @@ trait DataModel_Trait_Delete
 
 		$this->afterDelete();
 	}
+	
+	/**
+	 * @param array $where
+	 * @return void
+	 */
+	public static function dataDelete( array $where ) : void
+	{
+		$backend = static::getBackendInstance();
+
+		$query = static::createQuery( $where );
+		
+		$backend->delete( $query );
+	}
 }
