@@ -10,6 +10,7 @@ namespace JetApplication;
 
 use Jet\DataModel;
 use Jet\DataModel_Definition;
+use Jet\DataModel_Fetch_Instances;
 use Jet\DataModel_IDController_AutoIncrement;
 
 use Jet\Auth_User_Interface;
@@ -314,7 +315,8 @@ abstract class Logger_Event extends DataModel
 	 *
 	 * @param ?string $search
 	 *
-	 * @return Auth_Administrator_Role[]
+	 * @return DataModel_Fetch_Instances|static[]
+	 * @noinspection PhpDocSignatureInspection
 	 */
 	public static function getList( ?string $search = '' ): iterable
 	{
