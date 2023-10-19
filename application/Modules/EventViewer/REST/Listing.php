@@ -51,7 +51,6 @@ class Listing extends DataListing {
 	
 	protected function getItemList(): DataModel_Fetch_Instances
 	{
-		/** @noinspection PhpIncompatibleReturnTypeInspection */
 		return Event::getList();
 	}
 	
