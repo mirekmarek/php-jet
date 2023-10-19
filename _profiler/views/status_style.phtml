@@ -1,0 +1,86 @@
+<?php
+/**
+ *
+ * @copyright Copyright (c) Miroslav Marek <mirek.marek@web-jet.cz>
+ * @license http://www.php-jet.net/license/license.txt
+ * @author Miroslav Marek <mirek.marek@web-jet.cz>
+ */
+?>
+<style>
+	#__profiler__ {
+		/*
+		position: fixed;
+		top: 5px;
+		right: 5px;
+		 */
+		margin-top: 50px;
+		background-image: linear-gradient(180deg, #b7b7b7, #e1e1e1);
+		padding: 5px;
+		font-family: Helvetica, Arial, sans-serif;
+		border: 1px inset #ffffff;
+		font-size:14px;
+		display: grid;
+		align-items: center;
+		width: 50%;
+		min-width: 1000px;
+	}
+
+	#__profiler__.__error {
+		grid-template-columns: 30px 100px 1fr;
+	}
+
+	#__profiler__.__result {
+		grid-template-columns: 30px 120px 1fr 1fr 1fr 2fr 2fr;
+	}
+	
+	#__profiler__>div {
+		padding: 5px;
+	}
+
+	
+	#__profiler__ .__title, #__profiler__ .__title a {
+		color: #000000;
+		text-align: center;
+	}
+
+	#__profiler__ .__close_btn {
+		font-weight: bolder;
+		font-size: 20px;
+		cursor: pointer;
+		text-align: center;
+	}
+
+	#__profiler__ .__error_msg {
+		color: red;
+		font-weight: bolder;
+		padding: 10px;
+	}
+
+	#__profiler__ .__state {
+		display: grid;
+		grid-template-columns: 1fr 1fr 1fr 1fr;
+		align-items: center;
+		background-color: #eeeeee;
+	}
+	
+	#__profiler__ .__state_title {
+		padding: 5px;
+	}
+	
+	#__profiler__ .__state_yes {
+		text-align: center;
+		background-color: #009900;
+		color: #0f0f0f;
+		font-weight: bolder;
+		margin: 2px;
+	}
+	
+	#__profiler__ .__state_no {
+		text-align: center;
+		background-color: #990000;
+		color: #b9b9b9;
+		font-weight: bolder;
+		margin: 2px;
+	}
+	
+</style>

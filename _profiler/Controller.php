@@ -102,8 +102,10 @@ $controller = new class {
 
 	public function statusBarDisplayer( Debug_Profiler_Run $run ) : void
 	{
+
 		if($this->save_error) {
 			if( !Debug::getOutputIsJSON() ) {
+				require __DIR__ . '/views/status_style.phtml';
 				require __DIR__ . '/views/status_bar_error.phtml';
 			}
 
@@ -116,6 +118,7 @@ $controller = new class {
 			echo '<!-- profiler: ' . $URL . ' -->';
 		} else {
 			if( !Debug::getOutputIsJSON() ) {
+				require __DIR__ . '/views/status_style.phtml';
 				require __DIR__ . '/views/status_bar.phtml';
 			}
 		}

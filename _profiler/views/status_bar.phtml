@@ -24,44 +24,42 @@ $memory = $root_block->getMemoryUsageDiff()/1024;
 
 $show_cache_state = function( string $title, bool $state ) {
 	?>
-	<div style="display: table;">
-		<div style="display:table-row;background: none;border: none;">
-			<div style="display: table-cell;padding-right: 5px;padding-left: 5px;"><?=$title?></div>
-			<?php if($state): ?>
-				<div style="display: table-cell;background-color: #009900; color: #0f0f0f;padding-left: 10px; padding-right: 10px;font-weight: bolder;">YES</div>
-			<?php else: ?>
-				<div style="display: table-cell;background-color: #990000; color: #b9b9b9;padding-left: 10px; padding-right: 10px;font-weight: bolder;">NO</div>
-			<?php endif; ?>
-		</div>
-	</div>
-	<?php
+	<div class="__state_title"><?=$title?></div>
+	<?php if($state): ?>
+		<div class="__state_yes">YES</div>
+	<?php else: ?>
+		<div class="__state_no">NO</div>
+	<?php endif;
 };
 
 ?>
-<div id="__profiler__" style="position: fixed; top: 0;right: 0;background-color: #c9c9c9;padding: 5px;font-family: Helvetica, Arial, sans-serif;border: 1px inset #ffffff;font-size:14px;">
-	<div style="display: table">
-		<div style="display: table-row">
-			<div style="display:table-cell;padding: 0 20px 0 0;border: none;">
-				<span onclick="document.getElementById('__profiler__').style.display='none';">X</span>
-			</div>
-			<div style="display:table-cell;padding: 0 20px 0 0;border: none;">
-				<a href="<?=$URL?>" target="_blank" style="text-decoration: underline;font-weight: bolder;color: #000000;">PROFILER</a>
-			</div>
-			<div style="display:table-cell;padding: 0 20px 0 0;border: none;">
-				Duration: <b><?=$duration?> ms</b>
-			</div>
-			<div style="display:table-cell;padding: 0 20px 0 0;border: none;">
-				Memory: <b><?=round($memory, 3)?> KiB</b>
-			</div>
-			<div style="display:table-cell;padding: 0 20px 0 0;border: none;">
-				SQL queries count: <b><?=count($run->getSqlQueries())?></b>
-			</div>
-			<div style="display:table-cell;padding: 0 5px 0 0;border: none;"><b>Cache state:</b></div>
-			<div style="display:table-cell;padding: 0 5px 0 0;border: none;"><?php $show_cache_state('Autoloader', SysConf_Jet_Autoloader::getCacheEnabled() ); ?></div>
-			<div style="display:table-cell;padding: 0 5px 0 0;border: none;"><?php $show_cache_state('MVC', SysConf_Jet_MVC::getCacheEnabled() ); ?></div>
-			<div style="display:table-cell;padding: 0 5px 0 0;border: none;"><b>Packager state:</b></div>
-			<div style="display:table-cell;padding: 0 5px 0 0;border: none;"><?php $show_cache_state('JS', SysConf_Jet_PackageCreator_JavaScript::getEnabled() ); ?></div>
-			<div style="display:table-cell;padding: 0 5px 0 0;border: none;"><?php $show_cache_state('CSS', SysConf_Jet_PackageCreator_CSS::getEnabled() ); ?></div>
+<div id="__profiler__" class="__result">
+	<div class="__close_btn" onclick="document.getElementById('__profiler__').style.display='none';">&#x2715;</div>
+	<div class="__title"><a href="<?=$URL?>" target="_blank"><b>PROFILER</b><br>Show details</a></div>
+	<div>
+		Duration:<br>
+		<b><?=$duration?> ms</b>
+	</div>
+	<div>
+		Memory usage:<br>
+		<b><?=round($memory, 3)?> KiB</b>
+	</div>
+	<div>
+		SQL:<br>
+		<b><?=count($run->getSqlQueries())?> queries</b>
+	</div>
+	<div>
+		Cache state:<br>
+		<div class="__state">
+			<?php $show_cache_state('Autoloader', SysConf_Jet_Autoloader::getCacheEnabled() ); ?>
+			<?php $show_cache_state('MVC', SysConf_Jet_MVC::getCacheEnabled() ); ?>
+		</div>
+	</div>
+	<div>
+		Packager state:<br>
+		<div class="__state">
+			<?php $show_cache_state('JS', SysConf_Jet_PackageCreator_JavaScript::getEnabled() ); ?>
+			<?php $show_cache_state('CSS', SysConf_Jet_PackageCreator_CSS::getEnabled() ); ?>
 		</div>
 	</div>
 </div>
