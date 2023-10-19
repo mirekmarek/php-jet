@@ -14,4 +14,5 @@ return [
 	'Confirm password' => 'Potvrďte heslo',
 	'E-mail' => 'E-mail',
 	'Visitor account has already been created' => 'Návštěvnický účet byl již vytvořen',
+	'E-mail %EMAIL%is already in use.' => '',
 ];
