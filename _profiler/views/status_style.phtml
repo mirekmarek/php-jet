@@ -7,13 +7,16 @@
  */
 ?>
 <style>
+	#__profiler__spacer__ {
+		height: 80px;
+	}
+	
 	#__profiler__ {
-		/*
 		position: fixed;
-		top: 5px;
-		right: 5px;
-		 */
-		margin-top: 50px;
+		bottom: 5px;
+		left: 5px;
+		height: 70px;
+		width: 1000px;
 		background-image: linear-gradient(180deg, #b7b7b7, #e1e1e1);
 		padding: 5px;
 		font-family: Helvetica, Arial, sans-serif;
@@ -21,8 +24,7 @@
 		font-size:14px;
 		display: grid;
 		align-items: center;
-		width: 50%;
-		min-width: 1000px;
+
 	}
 
 	#__profiler__.__error {
@@ -84,3 +86,10 @@
 	}
 	
 </style>
+<script>
+	function __profiler__close()
+	{
+		document.getElementById('__profiler__').style.display='none';
+		document.getElementById('__profiler__spacer__').style.display='none';
+	}
+</script>

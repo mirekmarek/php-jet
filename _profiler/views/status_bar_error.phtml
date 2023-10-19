@@ -7,10 +7,14 @@
  */
 $prefix = '__profiler__';
 ?>
+<div id="__profiler__spacer__">
+
+</div>
+
 <div id="__profiler__" class="__error">
-	<div class="__close_btn" onclick="document.getElementById('__profiler__').style.display='none';">&#x2715;</div>
+	<div class="__close_btn" onclick="__profiler__close();">&#x2715;</div>
 	<div class="__title">
-		PROFILER ERROR
+		<b>PROFILER ERROR</b>
 	</div>
 	<div class="__error_msg">
 		<?=$this->save_error;?>

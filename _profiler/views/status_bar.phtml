@@ -33,8 +33,11 @@ $show_cache_state = function( string $title, bool $state ) {
 };
 
 ?>
+<div id="__profiler__spacer__">
+
+</div>
 <div id="__profiler__" class="__result">
-	<div class="__close_btn" onclick="document.getElementById('__profiler__').style.display='none';">&#x2715;</div>
+	<div class="__close_btn" onclick="__profiler__close();">&#x2715;</div>
 	<div class="__title"><a href="<?=$URL?>" target="_blank"><b>PROFILER</b><br>Show details</a></div>
 	<div>
 		Duration:<br>
