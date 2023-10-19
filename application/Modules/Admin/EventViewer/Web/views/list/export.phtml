@@ -1,0 +1,28 @@
+<?php
+namespace JetApplicationModule\Admin\EventViewer\Web;
+
+use Jet\Http_Request;
+use Jet\MVC_View;
+use Jet\UI;
+use Jet\UI_button;
+
+/**
+ * @var MVC_View  $this
+ * @var Listing   $listing
+ */
+$listing = $this->getRaw('listing');
+
+$exports = $listing->getExports();
+
+if(!$exports) {
+	return;
+}
+?>
+<br>
+<?php foreach($exports as $export):?>
+	<?=UI::button($export->getTitle())
+		->setUrl(Http_Request::currentURI(['export'=>$export->getKey()]))
+		->setClass(UI_button::CLASS_INFO)
+	?>
+<?php endforeach; ?>
+

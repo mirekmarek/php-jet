@@ -46,7 +46,7 @@ return [
 				'text_id' => 'lorem',
 			],
 			'output' => [
-				'JetApplication\\PageStaticContent',
+				JetApplication\PageStaticContent::class,
 				'get',
 			],
 			'is_cacheable' => false,

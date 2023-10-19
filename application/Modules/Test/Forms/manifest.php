@@ -1,6 +1,6 @@
 <?php
 return [
 	'vendor'      => 'Miroslav Marek',
-	'label'       => 'Test Module - Forms',
+	'label'       => 'Tests / Forms',
 	'description' => '',
 ];

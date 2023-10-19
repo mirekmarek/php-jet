@@ -1,0 +1,15 @@
+<?php
+namespace JetApplicationModule\Web\Visitor\SignUp;
+
+use Jet\MVC_Page_Interface;
+use Jet\MVC_View;use Jet\Tr;
+use Jet\UI;
+
+/**
+ * @var MVC_View   $this
+ * @var MVC_Page_Interface $page
+ */
+
+$page = $this->getRaw('page');
+?>
+<a href="<?=$page->getURL()?>"><?=UI::icon('user-plus')?> <?=Tr::_('Sign up')?></a>

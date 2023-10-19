@@ -1,0 +1,18 @@
+<?php
+namespace JetApplicationModule\Admin\ManageAccess\Administrators\Users;
+
+use JetApplication\Auth_Administrator_User as User;
+
+use Jet\MVC_View;
+
+/**
+ * @var MVC_View $this
+ * @var User $item
+ */
+
+$item = $this->getRaw('item');
+$router = $this->getController()->getControllerRouter();
+
+$edit_uri = $router->action( 'edit' )->URI( $item->getId() );
+?>
+<a href="<?= $edit_uri; ?>"><?= $item->getUsername(); ?></a>

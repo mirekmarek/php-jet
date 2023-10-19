@@ -1,0 +1,15 @@
+<?php
+namespace JetApplicationModule\Admin\ManageAccess\Visitors\Roles;
+
+use JetApplication\Auth_Visitor_Role as Role;
+
+use Jet\MVC_View;
+
+/**
+ * @var MVC_View $this
+ * @var Role $item
+ */
+
+$item = $this->getRaw('item');
+?>
+<?= $item->getDescription(); ?>

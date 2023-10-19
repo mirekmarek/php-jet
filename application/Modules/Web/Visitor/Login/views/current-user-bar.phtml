@@ -1,0 +1,29 @@
+<?php
+
+use Jet\Auth;
+use Jet\Http_Request;
+use Jet\UI;
+use Jet\MVC;
+use Jet\Tr;
+
+?>
+
+
+<?= UI::icon( 'user' ) ?><?= Auth::getCurrentUser()->getUsername() ?>
+
+&nbsp;&nbsp;
+<a href="<?= Http_Request::currentURI(['logout' => 'logout'] ) ?>">
+	<?= UI::icon( 'sign-out-alt' ) ?>
+	<?= Tr::_( 'Logout' ) ?>
+</a>
+
+<?php if(
+	($page = MVC::getPage( 'change-password' )) &&
+	$page->accessAllowed()
+): ?>
+	&nbsp;&nbsp;
+	<a href="<?=$page->getURL() ?>">
+		<?= UI::icon( 'cog' ) ?>
+		<?= Tr::_( 'Change password' ) ?>
+	</a>
+<?php endif; ?>

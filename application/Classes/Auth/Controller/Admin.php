@@ -31,7 +31,7 @@ use JetApplication\Auth_Administrator_User as Administrator;
  */
 class Auth_Controller_Admin extends BaseObject implements Auth_Controller_Interface
 {
-	public const LOGIN_FORM_MODULE_NAME = 'Login.Admin';
+	public const LOGIN_FORM_MODULE_NAME = 'Admin.Login';
 	
 	
 	public const EVENT_LOGIN_FAILED = 'login_failed';

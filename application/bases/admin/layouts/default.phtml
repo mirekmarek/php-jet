@@ -45,7 +45,8 @@ require_once 'parts/init_libs.php';
 
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-	<a class="navbar-brand" href="<?= MVC::getHomePage()->getURLPath() ?>">JetApplication</a>
+	<a href="<?= MVC::getHomePage()->getURLPath() ?>"><img src="https://php-jet.net/images/logo-st.svg" style="width: 140px;height: auto"></a>
+	<a class="navbar-brand" href="<?= MVC::getHomePage()->getURLPath() ?>">Example Admin</a>
 
 	<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#mainNavBar"
 	        aria-controls="mainNavBar" aria-expanded="false" aria-label="">
@@ -54,23 +55,23 @@ require_once 'parts/init_libs.php';
 
 	<div class="collapse navbar-collapse" id="mainNavBar">
 		<ul class="nav navbar-nav">
-			<jet_module module="UI.Admin" action="main_menu"/>
+			<jet_module module="Admin.UI" action="main_menu"/>
 		</ul>
 
 		<ul class="navbar-nav ml-auto">
-			<jet_module module="UI.Admin" action="select_locale"/>
-			<jet_module module="Login.Admin" action="current_user_bar"/>
+			<jet_module module="Admin.UI" action="select_locale"/>
+			<jet_module module="Admin.Login" action="current_user_bar"/>
 		</ul>
 	</div>
 </nav>
 
 
-<jet_module module="UI.Admin" action="breadcrumb_navigation"/>
+<jet_module module="Admin.UI" action="breadcrumb_navigation"/>
 
 <div class="container-fluid">
 	<div class="row">
 		<div class="col-md-12" id="system-messages-area">
-			<jet_module module="UI.Admin" action="messages"/>
+			<jet_module module="Admin.UI" action="messages"/>
 		</div>
 	</div>
 

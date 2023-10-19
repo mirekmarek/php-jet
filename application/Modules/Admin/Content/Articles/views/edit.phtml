@@ -1,0 +1,75 @@
+<?php
+namespace JetApplicationModule\Admin\Content\Articles;
+
+use Jet\Locale;
+use Jet\MVC_View;
+use Jet\Form;
+use Jet\Form_Renderer;
+
+use Jet\UI;
+use JetApplication\Application_Admin;
+
+/**
+ * @var MVC_View $this
+ * @var Form $form
+ */
+
+$form = $this->getRaw( 'form' );
+
+$form->renderer()->setDefaultLabelWidth( [
+	Form_Renderer::LJ_SIZE_EXTRA_SMALL => 12,
+	Form_Renderer::LJ_SIZE_SMALL => 12,
+	Form_Renderer::LJ_SIZE_MEDIUM => 2,
+	Form_Renderer::LJ_SIZE_LARGE => 2
+] );
+$form->renderer()->setDefaultFieldWidth( [
+	Form_Renderer::LJ_SIZE_EXTRA_SMALL => 12,
+	Form_Renderer::LJ_SIZE_SMALL => 12,
+	Form_Renderer::LJ_SIZE_MEDIUM => 10,
+	Form_Renderer::LJ_SIZE_LARGE => 8
+] );
+
+//$form->field( 'text' )->input()->addCustomCssStyle( 'height:400px' );
+
+
+
+?>
+
+<?= Application_Admin::requireDialog( 'select-image' ); ?>
+
+<script type="text/javascript">
+
+</script>
+
+<?= $form->start(); ?>
+
+<div class="row toolbar" id="main-toolbar">
+	<div class="col-md-12">
+		<?= UI::button_goBack()->setUrl($this->getString( 'list_url' )) ?>
+
+		<?php if( !$form->getIsReadonly() ): ?>
+			<?= UI::button_save() ?>
+		<?php endif; ?>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-md-12" id="main-col">
+
+		<?= $form->field( 'date_time' ) ?>
+		
+		<?php foreach( $form->getSubFormPrefixes('/localized') as $locale => $prefix ):
+			$locale = new Locale($locale);
+			
+			$form->field( $prefix . 'text' )->input()->addCustomCssStyle( 'height:400px' );
+			
+			?>
+			<legend><?= UI::flag( $locale ) ?>&nbsp;<?= $locale->getName() ?></legend>
+			<?= $form->field( $prefix . 'title' ) ?>
+			<?= $form->field( $prefix . 'annotation' ) ?>
+			<?= $form->field( $prefix . 'text' ) ?>
+		
+		<?php endforeach; ?>
+	</div>
+</div>
+<?= $form->end(); ?>

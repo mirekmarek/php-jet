@@ -19,7 +19,7 @@ return [
 	],
 	'contents' => [
 		[
-			'module_name' => 'UI.Admin',
+			'module_name' => 'Admin.UI',
 			'controller_name' => 'Main',
 			'controller_action' => 'default',
 			'parameters' => [

@@ -6,7 +6,7 @@ return [
 	'meta_tags'          => [],
 	'contents'           => [
 		[
-			'module_name'           => 'UI.Admin',
+			'module_name'           => 'Admin.UI',
 			'controller_action'     => 'default',
 			'output_position_order' => 0
 		]

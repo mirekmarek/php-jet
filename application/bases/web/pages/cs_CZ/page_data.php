@@ -34,7 +34,7 @@ return [
 	],
 	'contents' => [
 		[
-			'module_name' => 'UI.Web',
+			'module_name' => 'Web.UI',
 			'controller_name' => 'Main',
 			'controller_action' => 'homepage',
 			'parameters' => [

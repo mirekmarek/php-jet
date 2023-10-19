@@ -17,4 +17,5 @@ return [
 	'Edit' => '',
 	'Go back' => '',
 	'Change password' => '',
+	'Example Application' => '',
 ];

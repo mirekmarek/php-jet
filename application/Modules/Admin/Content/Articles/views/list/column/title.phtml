@@ -1,0 +1,22 @@
+<?php
+namespace JetApplicationModule\Admin\Content\Articles;
+
+use Jet\UI;
+
+use Jet\MVC_View;
+use JetApplication\Content_Article;
+
+/**
+ * @var MVC_View $this
+ * @var Content_Article $item
+ */
+
+$item = $this->getRaw('item');
+$router = $this->getController()->getControllerRouter();
+
+foreach( Content_Article::getLocales() as $locale ):
+	$URI = $router->action( 'edit' )->URI( $item->getId() );
+	$title = $item->getLocalized( $locale )->getTitle();
+	
+	echo UI::flag( $locale ) . '&nbsp;<a href="' . $URI . '">' . $title . '</a><br/>';
+endforeach;

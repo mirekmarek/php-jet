@@ -24,7 +24,7 @@ return [
 	],
 	'contents' => [
 		[
-			'module_name' => 'Content.Images.Browser',
+			'module_name' => 'Web.Images',
 			'controller_name' => 'Main',
 			'controller_action' => 'default',
 			'parameters' => [

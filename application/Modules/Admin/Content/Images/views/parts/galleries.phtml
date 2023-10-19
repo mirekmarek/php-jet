@@ -1,0 +1,16 @@
+<?php
+
+namespace JetApplicationModule\Admin\Content\Images;
+
+use Jet\MVC_View;
+
+/**
+ * @var MVC_View $this
+ */
+
+$search = $this->getRaw( 'search' );
+
+if( $search )
+	require 'galleries/search-result.phtml';
+else
+	require 'galleries/tree.phtml';

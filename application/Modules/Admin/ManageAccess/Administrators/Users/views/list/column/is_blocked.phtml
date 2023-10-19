@@ -1,0 +1,32 @@
+<?php
+namespace JetApplicationModule\Admin\ManageAccess\Administrators\Users;
+
+use Jet\Locale;
+use Jet\Tr;
+use Jet\UI;
+use Jet\UI_badge;
+use JetApplication\Auth_Administrator_User as User;
+
+use Jet\MVC_View;
+
+/**
+ * @var MVC_View $this
+ * @var User $item
+ */
+
+$item = $this->getRaw('item');
+
+if($item->isBlocked()):
+	if(($till=$item->isBlockedTill())):
+		echo UI::badge(
+			UI_badge::DANGER,
+			Tr::_('User is blocked till %till_date%', [
+				'till_date'=>Locale::dateAndTime($till)
+			])
+		);
+	else:
+		echo UI::badge( UI_badge::DANGER, Tr::_('User is blocked' ) );
+	endif;
+else:
+	echo UI::badge( UI_badge::INFO, Tr::_('User is not blocked' ) );
+endif;

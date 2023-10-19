@@ -7,7 +7,7 @@ return [
 	'Header' => 'Hlavička',
 	'Body' => 'Tělo',
 	'Data' => 'Data',
-	'REST tests' => 'Testy REST',
+	'REST API tests' => 'Testy REST API',
 	'Get list (sort and pagination)' => 'Seznam s řazením a stránkováním (GET)',
 	'Add (POST) - valid' => 'Přidat (POST) - platné',
 	'Add (POST) - invalid (error simulation)' => 'Přidat (POST) - neplatné (simulace chyby)',

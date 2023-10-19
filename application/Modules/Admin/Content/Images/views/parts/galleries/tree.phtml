@@ -1,0 +1,56 @@
+<?php
+namespace JetApplicationModule\Admin\Content\Images;
+
+use Jet\UI;
+
+use Jet\Data_Tree;
+use Jet\Data_Tree_Node;
+use Jet\MVC;
+use Jet\MVC_View;
+
+/**
+ * @var MVC_View $this
+ * @var Data_Tree $galleries
+ */
+$galleries = $this->getRaw( 'galleries' );
+$router = $this->getController()->getControllerRouter();
+
+$tree = UI::tree( $galleries );
+$tree->setSelectedId( $this->getRaw( 'selected_id' ) );
+
+$tree->setRendererOpened(
+	function( Data_Tree_Node $node ) use ( $router ) {
+		?>
+		<a href="<?= $router->action( 'edit' )->URI( $node->getId() ); ?>"><?= $node->getLabel(); ?></a>
+		<?php
+	}
+);
+
+
+$tree->setRendererSelected(
+	function( Data_Tree_Node $node ) {
+		?>
+		<strong><?= $node->getLabel(); ?></strong>
+		<?php
+	}
+);
+
+$tree->setRendererNormal(
+	function( Data_Tree_Node $node ) use ( $router ) {
+		if( $node->getIsRoot() ):
+			?>
+			<a href="<?= MVC::getPage()->getURLPath(); ?>"
+			   style="font-style: italic;"><?= $node->getLabel(); ?></a>
+		<?php
+		else:
+			?>
+			<a href="<?= $router->action( 'edit' )->URI( $node->getId() ); ?>"
+			   style="font-style: italic;"><?= $node->getLabel(); ?></a>
+		<?php
+		endif;
+	}
+);
+
+?>
+
+<?= $tree->render() ?>

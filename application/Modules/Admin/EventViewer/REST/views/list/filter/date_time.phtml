@@ -1,0 +1,17 @@
+<?php
+namespace JetApplicationModule\Admin\EventViewer\REST;
+
+use Jet\MVC_View;
+
+/**
+ * @var MVC_View $this
+ * @var Listing  $listing
+ */
+$listing = $this->getRaw( 'listing' );
+$filter_form = $listing->getFilterForm();
+?>
+<td nowrap=""><?= $filter_form->field( 'date_time_from' )->label() ?></td>
+<td><?= $filter_form->field( 'date_time_from' )->input()?></td>
+<td></td>
+<td nowrap=""><?= $filter_form->field( 'date_time_till' )->label() ?></td>
+<td><?= $filter_form->field( 'date_time_till' )->input()?></td>

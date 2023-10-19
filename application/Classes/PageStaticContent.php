@@ -9,14 +9,9 @@
 namespace JetApplication;
 
 use Jet\BaseObject;
-use Jet\IO_File;
 use Jet\MVC_Page_Content_Interface;
 use Jet\MVC_Page_Interface;
-use Jet\SysConf_Path;
 
-/**
- *
- */
 class PageStaticContent extends BaseObject
 {
 	/**
@@ -27,22 +22,6 @@ class PageStaticContent extends BaseObject
 	 */
 	public static function get( MVC_Page_Interface $page, MVC_Page_Content_Interface $page_content = null ) : string
 	{
-
-		$root_dir = SysConf_Path::getApplication() . 'texts/staticContent/';
-
-		if(
-			$page_content &&
-			($text_id = $page_content->getParameter( 'text_id' ))
-		) {
-			$file_path = $root_dir . $page->getLocale() . '/' . $text_id . '.html';
-		} else {
-			$file_path = $root_dir . $page->getLocale() . '/' . $page->getBase()->getId() . '/' . $page->getId() . '.html';
-		}
-
-		if( !IO_File::exists( $file_path ) ) {
-			return '';
-		}
-
-		return IO_File::read( $file_path );
+		return 'Static content test '.$page->getKey();
 	}
 }

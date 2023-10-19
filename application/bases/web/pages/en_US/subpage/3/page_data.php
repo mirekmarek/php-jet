@@ -1,7 +1,5 @@
 <?php
 
-use JetApplication\PageStaticContent;
-
 return [
 	'id'                 => 'subpage_3',
 	'order'              => 3,
@@ -47,7 +45,7 @@ return [
 				'text_id' => 'lorem',
 			],
 			'output'                => [
-				PageStaticContent::class,
+				JetApplication\PageStaticContent::class,
 				'get'
 			],
 			'output_position'       => '',

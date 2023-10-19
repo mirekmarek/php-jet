@@ -17,19 +17,26 @@ require 'parts/init_libs.php';
 </head>
 <body>
 <div class="container-fluid">
-	<div class="page-header card text-white bg-dark">
-		<div class="card-body">
-			<h1><?= Tr::_( 'Hello WORLD!' ) ?></h1>
-			<small><?= Tr::_( 'PHP Jet Example Application' ); ?></small>
+	<div class="text-white bg-dark" style="display: grid;grid-template-columns: 200px 1fr;align-items: center">
+		<div><img src="https://php-jet.net/images/logo-st.svg" style="width: 180px;height: auto"></div>
+		<div style="padding: 10px;">
+			<b><?= Tr::_( 'Hello WORLD!' ) ?></b><br>
+			<small><?= Tr::_( 'Example Application' ); ?></small>
 		</div>
 	</div>
 	
 	<div class="row no-gutters">
 		<div class="col-md-10">
-			<jet_module module="UI.Web" action="breadcrumbNavigation" view="default" is_cacheable="true"/>
+			<jet_module module="Web.UI" action="breadcrumbNavigation" view="default" is_cacheable="true"/>
 		</div>
 		<div class="col-md-2">
-			<jet_module module="Visitor.SignUp" action="sign_up_link"/>
+			<nav aria-label="breadcrumb">
+				<ol class="breadcrumb">
+					<li class="text-right">
+						<jet_module module="Web.Visitor.SignUp" action="sign_up_link"/>
+					</li>
+				</ol>
+			</nav>
 		</div>
 	</div>
 	
@@ -37,7 +44,7 @@ require 'parts/init_libs.php';
 
 	<div class="row">
 		<div class="col-md-3">
-			<jet_module module="UI.Web" action="main_menu" is_cacheable="true"/>
+			<jet_module module="Web.UI" action="main_menu" is_cacheable="true"/>
 			<jet_layout_position name="left"/>
 		</div>
 		<div class="col-md-7" style="padding-top: 10px;padding-bottom: 20px;">

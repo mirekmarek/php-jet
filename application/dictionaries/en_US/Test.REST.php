@@ -1,7 +1,7 @@
 <?php
 return [
 	'Article' => '',
-	'REST tests' => '',
+	'REST API tests' => '',
 	'Get list' => '',
 	'Get data - unknown (error simulation)' => '',
 	'Get data' => '',

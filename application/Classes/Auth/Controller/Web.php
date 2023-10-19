@@ -32,7 +32,7 @@ use JetApplication\Auth_Visitor_User as Visitor;
  */
 class Auth_Controller_Web extends BaseObject implements Auth_Controller_Interface
 {
-	public const LOGIN_FORM_MODULE_NAME = 'Login.Web';
+	public const LOGIN_FORM_MODULE_NAME = 'Web.Visitor.Login';
 
 
 	public const EVENT_LOGIN_FAILED = 'login_failed';
