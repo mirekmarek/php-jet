@@ -25,7 +25,7 @@ class Mailing_Backend_Default extends Mailing_Backend_Abstract
 
 		$subject = $email->getSubject();
 		
-		$email->prepareMessage( $message, $header );
+		$this->prepareMessage( $email, $message, $header );
 
 		$to = $email->getTo();
 
