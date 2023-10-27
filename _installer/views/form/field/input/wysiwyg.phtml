@@ -17,6 +17,7 @@ $field = $r->getField();
 //-----------------------------------------------------------------------------------
 
 //$r->appendEditorCSSFile( '//cdn.tiny.cloud/1/no-api-key/tinymce/5/skins/lightgray/skin.min.css');
+/*
 $r->appendEditorJavaScriptFile('//cdn.tiny.cloud/1/no-api-key/tinymce/5/tinymce.min.js');
 $r->setEditorInitializeCodeGenerator( function( Form_Field_WYSIWYG $field, array $editor_config ) : string {
 	
@@ -31,7 +32,7 @@ $r->setEditorInitializeCodeGenerator( function( Form_Field_WYSIWYG $field, array
 
 if( !$r->getEditorConfig() ) {
 	$r->setEditorConfig([
-
+		
 		'mode'                    => 'exact',
 		//'theme'                   => 'silver',
 		//'skin'                    => false,
@@ -40,7 +41,7 @@ if( !$r->getEditorConfig() ) {
 		'entity_encoding'         => 'raw',
 		'convert_urls'            => false,
 		'verify_html'             => true,
-
+		
 		'force_br_newlines' => false,
 		'force_p_newlines'  => false,
 		'forced_root_block' => '',
@@ -52,12 +53,12 @@ if( !$r->getEditorConfig() ) {
 		//'content_css' => '/css/wysiwyg.css',
 	]);
 }
-
+*/
 
 //-----------------------------------------------------------------------------------
-/*
-$r->appendEditorCSSFile( '//cdnjs.cloudflare.com/ajax/libs/summernote/0.8.9/summernote.css');
-$r->appendEditorJavaScriptFile('//cdnjs.cloudflare.com/ajax/libs/summernote/0.8.9/summernote.js');
+
+$r->appendEditorCSSFile( '//cdnjs.cloudflare.com/ajax/libs/summernote/0.8.9/summernote-bs4.css');
+$r->appendEditorJavaScriptFile('//cdnjs.cloudflare.com/ajax/libs/summernote/0.8.9/summernote-bs4.js');
 $r->setEditorInitializeCodeGenerator( function( Form_Field_WYSIWYG $field, array $editor_config ) : string {
     return '$("#'.$field->getId().'").summernote('.json_encode($editor_config).');';
 });
@@ -68,7 +69,6 @@ if( !$r->getEditorConfig() ) {
 	]);
 }
 
-*/
 //-----------------------------------------------------------------------------------
 
 ?>
