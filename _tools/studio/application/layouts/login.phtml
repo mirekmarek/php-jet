@@ -6,6 +6,7 @@ require_once 'parts/init_libs.php';
 use Jet\Http_Request;
 use Jet\Locale;
 use Jet\SysConf_URI;
+use Jet\Tr;
 use Jet\UI;
 ?>
 <!DOCTYPE html>
@@ -33,6 +34,20 @@ use Jet\UI;
 
 	<div class="collapse navbar-collapse" id="mainNavBar">
 		<ul class="nav navbar-nav">
+			<li class="nav-item">
+				<a class="nav-link"  href="<?=Tr::_( 'https://www.php-jet.net/doc/', dictionary: 'welcome' )?>" target="_blank">
+					<?=UI::icon( 'book' )?>
+					<?=Tr::_( 'PHP Jet Documentation', dictionary: 'welcome' )?>
+				</a>
+			</li>
+			
+			<li class="nav-item">
+				<a class="nav-link"  href="<?=Tr::_( 'https://questions.php-jet.net/', dictionary: 'welcome' )?>" target="_blank">
+					<?=UI::icon( 'comments' )?>
+					<?=Tr::_( 'Ask a question', dictionary: 'welcome' )?>
+				</a>
+			</li>
+			
 		</ul>
 
 		<ul class="navbar-nav ml-auto">

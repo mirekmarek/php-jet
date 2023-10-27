@@ -78,8 +78,22 @@ use Jet\UI;
 						<?php endforeach; ?>
 					</div>
 				</li>
-
-
+				
+				<li class="nav-item">
+					<a class="nav-link"  href="<?=Tr::_( 'https://www.php-jet.net/doc/', dictionary: 'welcome' )?>" target="_blank">
+						<?=UI::icon( 'book' )?>
+						<?=Tr::_( 'PHP Jet Documentation', dictionary: 'welcome' )?>
+					</a>
+				</li>
+				
+				<li class="nav-item">
+					<a class="nav-link"  href="<?=Tr::_( 'https://questions.php-jet.net/', dictionary: 'welcome' )?>" target="_blank">
+						<?=UI::icon( 'comments' )?>
+						<?=Tr::_( 'Ask a question', dictionary: 'welcome' )?>
+					</a>
+				</li>
+				
+				
 			</ul>
 
 			<ul class="navbar-nav ml-auto">
