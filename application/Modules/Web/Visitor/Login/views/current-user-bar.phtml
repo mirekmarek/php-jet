@@ -3,8 +3,8 @@
 use Jet\Auth;
 use Jet\Http_Request;
 use Jet\UI;
-use Jet\MVC;
 use Jet\Tr;
+use JetApplication\Application_Web_Pages;
 
 ?>
 
@@ -18,7 +18,7 @@ use Jet\Tr;
 </a>
 
 <?php if(
-	($page = MVC::getPage( 'change-password' )) &&
+	($page = Application_Web_Pages::changePassword()) &&
 	$page->accessAllowed()
 ): ?>
 	&nbsp;&nbsp;

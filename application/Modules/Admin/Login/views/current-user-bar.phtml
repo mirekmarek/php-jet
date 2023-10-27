@@ -3,6 +3,7 @@ use Jet\UI;
 use Jet\Auth;
 use Jet\Tr;
 use Jet\MVC;
+use JetApplication\Application_Web_Pages;
 
 ?>
 
@@ -15,10 +16,10 @@ use Jet\MVC;
 	<div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
 		
 		<?php if(
-			MVC::getPage( 'change_password' ) &&
-			MVC::getPage( 'change_password' )->accessAllowed()
+			($change_password_page = Application_Web_Pages::changePassword()) &&
+			$change_password_page->accessAllowed()
 		): ?>
-			<a class="dropdown-item" href="<?= MVC::getPage( 'change_password' )->getURL() ?>">
+			<a class="dropdown-item" href="<?=$change_password_page->getURL() ?>">
 				<?= UI::icon( 'cog' ) ?>
 				<?= Tr::_( 'Change password' ) ?>
 			</a>

@@ -111,3 +111,34 @@ html, body {
 	line-height: .5;
 	border-radius: .2rem;
 }
+
+.select-image-widget {
+	width: 210px;
+	height: 210px;
+	background-repeat: no-repeat;
+	background-position: center 10px;
+	position: relative;
+
+	border: 1px solid #c9c9c9;
+	border-radius: 5px;
+}
+
+.select-image-widget-no-image {
+	font-size: 100px;
+	position: absolute;
+	left: 55px;
+	top: 30px;
+	color: #a2a2a2;
+}
+
+.select-image-widget-button-select {
+	position: absolute;
+	bottom: 5px;
+	left: 5px;
+}
+
+.select-image-widget-button-unselect {
+	position: absolute;
+	bottom: 5px;
+	right: 5px;
+}

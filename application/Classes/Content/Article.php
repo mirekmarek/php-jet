@@ -101,15 +101,20 @@ class Content_Article extends DataModel
 	public function afterLoad(): void
 	{
 
+		$localized = [];
 		foreach( static::getLocales() as $lc_str => $locale ) {
 
 			if( !isset( $this->localized[$lc_str] ) ) {
-
-				$this->localized[$lc_str] = new Content_Article_Localized( $this->getId(), $locale );
+				
+				$localized[$lc_str] = new Content_Article_Localized( $this->getId(), $locale );
+			} else {
+				$localized[$lc_str] = $this->localized[$lc_str];
 			}
-
-			$this->localized[$lc_str]->setArticle( $this );
+			
+			$localized[$lc_str]->setArticle( $this );
 		}
+		
+		$this->localized = $localized;
 
 	}
 
@@ -246,38 +251,53 @@ class Content_Article extends DataModel
 	}
 
 	/**
+	 * @param Locale|null $locale
 	 * @return string
 	 */
-	public function getUrl(): string
+	public function getUrl( ?Locale $locale=null ): string
 	{
-		return $this->getLocalized()->getURL();
+		return $this->getLocalized($locale)->getURL();
 	}
 
 	/**
+	 * @param Locale|null $locale
 	 * @return string
 	 */
-	public function getTitle(): string
+	public function getTitle( ?Locale $locale=null ): string
 	{
-		return $this->getLocalized()->getTitle();
-	}
-
-
-	/**
-	 * @return string
-	 */
-	public function getAnnotation(): string
-	{
-		return $this->getLocalized()->getAnnotation();
+		return $this->getLocalized($locale)->getTitle();
 	}
 
 
 	/**
+	 * @param Locale|null $locale
 	 * @return string
 	 */
-	public function getText(): string
+	public function getAnnotation( ?Locale $locale=null ): string
 	{
-		return $this->getLocalized()->getText();
+		return $this->getLocalized($locale)->getAnnotation();
 	}
+	
+	
+	/**
+	 * @param Locale|null $locale
+	 * @return string
+	 */
+	public function getText( ?Locale $locale=null ): string
+	{
+		return $this->getLocalized($locale)->getText();
+	}
+	
+	
+	/**
+	 * @param Locale|null $locale
+	 * @return string
+	 */
+	public function getTitleImage( ?Locale $locale=null ): string
+	{
+		return $this->getLocalized($locale)->getTitleImage();
+	}
+	
 
 	/**
 	 * @return Form

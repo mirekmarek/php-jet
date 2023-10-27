@@ -18,4 +18,5 @@ return [
 	'Go back' => '',
 	'Change password' => '',
 	'Example Application' => '',
+	'Select image' => '',
 ];

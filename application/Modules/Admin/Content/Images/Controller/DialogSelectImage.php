@@ -8,19 +8,17 @@
 
 namespace JetApplicationModule\Admin\Content\Images;
 
-use Jet\MVC_Controller_Default;
-
 /**
  *
  */
-class Controller_Dialogs extends MVC_Controller_Default
+class Controller_DialogSelectImage extends Controller_Main
 {
-
-	/**
-	 *
-	 */
-	public function select_image_Action(): void
+	
+	public function _initGalleries(): string
 	{
-
+		$this->view->setVar('select_image_mode', true);
+		
+		return parent::_initGalleries();
 	}
+	
 }

@@ -10,8 +10,8 @@ namespace JetApplicationModule\Web\Visitor\SignUp;
 use Jet\Auth;
 use Jet\Http_Headers;
 use Jet\Locale;
-use Jet\MVC;
 use Jet\MVC_Controller_Default;
+use JetApplication\Application_Web_Pages;
 use JetApplication\Auth_Visitor_User;
 
 /**
@@ -63,7 +63,7 @@ class Controller_Main extends MVC_Controller_Default
 			return;
 		}
 		
-		$page = MVC::getPage('sign-up');
+		$page = Application_Web_Pages::signUp();
 		if(!$page) {
 			return;
 		}

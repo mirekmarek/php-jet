@@ -1,13 +1,32 @@
 <?php
-return  [
-	'id'                     => 'dialog-select-image',
-	'name'                   => 'Dialog - Select image',
-	'title'                  => 'Select image',
-	'icon'                   => 'images',
-	'contents'               => [
+return [
+	'id' => 'dialog-select-image',
+	'name' => 'Dialog - Select image',
+	'is_active' => true,
+	'SSL_required' => false,
+	'title' => 'Select image',
+	'icon' => 'images',
+	'menu_title' => 'Select image',
+	'breadcrumb_title' => 'Select image',
+	'order' => 0,
+	'is_secret' => false,
+	'layout_script_name' => 'dialog',
+	'http_headers' => [
+	],
+	'parameters' => [
+	],
+	'meta_tags' => [
+	],
+	'contents' => [
 		[
-			'controller_name'   => 'Dialogs',
-			'controller_action' => 'select_image'
-		]
-	]
+			'module_name' => 'Admin.Content.Images',
+			'controller_name' => 'DialogSelectImage',
+			'controller_action' => 'default',
+			'parameters' => [
+			],
+			'is_cacheable' => false,
+			'output_position' => '__main__',
+			'output_position_order' => 1,
+		],
+	],
 ];

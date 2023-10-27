@@ -9,11 +9,14 @@
 namespace JetApplicationModule\Admin\Content\Images;
 
 use Jet\Application_Module;
+use Jet\Factory_MVC;
+use Jet\Form_Field;
+use JetApplication\Application_Admin_Services_ImageManager;
 
 /**
  *
  */
-class Main extends Application_Module
+class Main extends Application_Module implements Application_Admin_Services_ImageManager
 {
 	public const ADMIN_MAIN_PAGE = 'images';
 	
@@ -25,5 +28,19 @@ class Main extends Application_Module
 	public const ACTION_ADD_IMAGE = 'add_image';
 	public const ACTION_UPDATE_IMAGE = 'update_image';
 	public const ACTION_DELETE_IMAGE = 'delete_image';
-
+	
+	public function includeSelectImageDialog(): string
+	{
+		$view = Factory_MVC::getViewInstance( $this->getViewsDir() );
+		return $view->render('dialog/select-image/hook');
+	}
+	
+	public function renderSelectImageWidget( Form_Field $form_field ) : string
+	{
+		$view = Factory_MVC::getViewInstance( $this->getViewsDir() );
+		$view->setVar('form_field', $form_field);
+		
+		return $view->render('widget/select-image');
+		
+	}
 }

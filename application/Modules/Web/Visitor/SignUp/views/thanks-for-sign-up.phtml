@@ -1,17 +1,17 @@
 <?php
 namespace JetApplicationModule\Web\Visitor\SignUp;
 
-use Jet\MVC;
 use Jet\MVC_View;
 use Jet\Tr;
 use Jet\UI;
 use Jet\UI_icon;
+use JetApplication\Application_Web_Pages;
 
 /**
  * @var MVC_View $this
  */
 
-$secret_area_page = MVC::getPage( 'secret_area' );
+$secret_area_page = Application_Web_Pages::secretArea();
 ?>
 <h1><?=UI::icon('user-plus')->setSize(UI_icon::SIZE_EXTRA_LARGE)?> <?=Tr::_('Thank you for your sign up')?></h1>
 

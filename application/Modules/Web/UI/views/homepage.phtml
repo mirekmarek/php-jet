@@ -1,20 +1,17 @@
 <?php
-use Jet\MVC;
 use Jet\MVC_View;
-use Jet\MVC_Page;
 use Jet\SysConf_URI;
 use Jet\Tr;
 use JetApplication\Application_Admin;
+use JetApplication\Application_Web_Pages;
 
 /**
  * @var MVC_View $this
- * @var MVC_Page[] $pages
  */
-$pages = $this->getRaw( 'page_tree_current' );
 
-$admin_page = MVC::getHomePage( base_id: Application_Admin::getBaseId() );
-$secret_area_page = MVC::getPage( 'secret_area' );
-$rest_api_test_page = MVC::getPage( 'rest' );
+$admin_page = Application_Admin::getHomePage();
+$secret_area_page = Application_Web_Pages::secretArea();
+$rest_api_test_page = Application_Web_Pages::RESTAPITest();
 ?>
 
 <h1><?= Tr::_('Welcome!')?></h1>

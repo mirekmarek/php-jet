@@ -378,6 +378,8 @@ class Controller_Main extends MVC_Controller_Default
 		$this->view->setVar( 'gallery', $gallery );
 		$this->view->setVar( 'upload_form', $upload_form );
 
+		$this->_initGalleries();
+		
 		AJAX::operationResponse(
 			$ok,
 			[

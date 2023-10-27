@@ -18,4 +18,5 @@ return [
 	'Change password' => 'Změnit heslo',
 	'Content' => 'Obsah',
 	'System' => 'Systém',
+	'Select image' => 'Vybrat obrázek',
 ];

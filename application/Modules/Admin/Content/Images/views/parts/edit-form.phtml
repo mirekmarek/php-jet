@@ -16,8 +16,18 @@ use JetApplication\Content_Gallery;
 
 $edit_form = $this->getRaw( 'edit_form' );
 
-$edit_form->renderer()->setDefaultLabelWidth( [Form_Renderer::LJ_SIZE_MEDIUM => 1] );
-$edit_form->renderer()->setDefaultFieldWidth( [Form_Renderer::LJ_SIZE_MEDIUM => 5] );
+$edit_form->renderer()->setDefaultLabelWidth(
+	[
+		Form_Renderer::LJ_SIZE_SMALL => 3,
+		Form_Renderer::LJ_SIZE_MEDIUM => 3,
+	]
+);
+$edit_form->renderer()->setDefaultFieldWidth(
+	[
+		Form_Renderer::LJ_SIZE_SMALL => 8,
+		Form_Renderer::LJ_SIZE_MEDIUM => 8
+	]
+);
 
 echo $edit_form->start();
 
@@ -27,7 +37,7 @@ foreach( Content_Gallery::getLocales() as $locale ):
 	echo $field->row()->start();
 	?>
 	<label for="<?= $field->getId() ?>"
-	       class="col-md-1 col-form-label"><?= UI::flag( $locale ) ?> <?= $locale->getLanguageName() ?></label>
+	       class="col-md-2 col-form-label"><?= UI::flag( $locale ) ?> <?= $locale->getLanguageName() ?></label>
 	<?php
 
 	echo $field->container()->start();

@@ -11,6 +11,7 @@ namespace JetApplicationModule\Web\UI;
 use Jet\MVC_Controller_Default;
 use Jet\MVC;
 use Jet\Translator;
+use JetApplication\Application_Web_Pages;
 
 
 /**
@@ -46,9 +47,12 @@ class Controller_Main extends MVC_Controller_Default
 	 */
 	public function secret_area_menu_Action(): void
 	{
-		$this->view->setVar( 'page_tree_current', [MVC::getPage( 'secret_area' )] );
-
-		$this->output( 'secret-area-menu' );
+		$secret_area_page = Application_Web_Pages::secretArea();
+		if($secret_area_page) {
+			$this->view->setVar( 'page_tree_current', [$secret_area_page] );
+			
+			$this->output( 'secret-area-menu' );
+		}
 	}
 
 	/**

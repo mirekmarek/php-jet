@@ -21,4 +21,5 @@ return [
 	'Select image' => 'Vyberte obrázek',
 	'Invalid date format' => 'Neplatný formát datumu',
 	'Articles - Admin' => 'Články - administrace',
+	'Title image' => 'Titulní obrázek',
 ];

@@ -1,13 +1,13 @@
 <?php
 return [
 	'id' => 'sign-up',
-	'name' => 'Registrace',
+	'name' => 'Sign up',
 	'is_active' => true,
 	'SSL_required' => false,
-	'title' => 'Registrace',
+	'title' => 'Sign up',
 	'icon' => '',
-	'menu_title' => 'Registrace',
-	'breadcrumb_title' => 'Registrace',
+	'menu_title' => 'Sign up',
+	'breadcrumb_title' => 'Sign up',
 	'order' => 0,
 	'is_secret' => false,
 	'layout_script_name' => 'default',

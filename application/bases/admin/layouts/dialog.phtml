@@ -1,5 +1,6 @@
 <?php
 
+use Jet\MVC;
 use Jet\Tr;
 use Jet\SysConf_URI;
 
@@ -10,71 +11,51 @@ require_once 'parts/init_libs.php';
 <head>
 	<title><?= $this->getString( 'page_title', 'JetApplication admin' ) ?></title>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-
+	
 	<jet_layout_meta_tags/>
 	<jet_layout_css/>
 	<jet_layout_javascripts/>
-
+	
 	<link rel="icon" href="<?= SysConf_URI::getImages() ?>favicon.png" type="image/png">
 </head>
 <body>
 <script type="text/javascript">
 	$(document).ready(function () {
-
-
-		const toolbar = $('#main-toolbar');
-
-		if (!toolbar.offset()) {
+		const main_toolbar = document.getElementById("main-toolbar");
+		if (!main_toolbar) {
 			return;
 		}
+		const main_col = document.getElementById("main-col");
+		const main_toolbar_initial_offset = main_toolbar.offsetTop;
+		const main_toolbar_height = main_toolbar.offsetHeight;
+		const main_col_initial_padding_top = main_col.style.paddingTop;
 
-		const toolbar_offset = toolbar.offset().top;
-		const main_menu_h = 51;
-		const scroll_limit = toolbar_offset - main_menu_h;
-
-		$(window).scroll(function (event) {
-
-			const w_s = $(this).scrollTop();
-
-			if (w_s >= scroll_limit) {
-				toolbar.css({
-					position: 'fixed',
-					top: (main_menu_h) + 'px'
-				});
-
-				$('.main-col').css({
-					'margin-top': (main_menu_h) + 'px'
-				});
+		window.onscroll = function () {
+			if (window.scrollY > main_toolbar_initial_offset) {
+				main_toolbar.classList.add("main-toolbar-sticky");
+				main_col.style.paddingTop = main_toolbar_height + 'px';
 			} else {
-				toolbar.css({
-					position: 'relative',
-					width: '100%',
-					top: 'auto'
-				});
-				$('.main-col').css({
-					'margin-top': '0px'
-				});
-
+				main_toolbar.classList.remove("main-toolbar-sticky");
+				main_col.style.paddingTop = main_col_initial_padding_top;
 			}
-		});
+		};
 	});
-
-
 </script>
-<div class="container" id="container" style="width: 100%;min-height: 100%;height: 100%;">
 
+
+<div class="container-fluid">
 	<div class="row">
 		<div class="col-md-12" id="system-messages-area">
 			<jet_module module="Admin.UI" action="messages"/>
 		</div>
 	</div>
-
+	
 	<jet_layout_main_position/>
 </div>
 
 
 <div id="__progress__">
-
+	
 	<div class="loading text-center">
 		<div id="__progress_prc__"></div>
 		<i class="fa fa-spinner fa-spin fa-3x fa-fw"></i>

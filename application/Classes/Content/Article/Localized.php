@@ -116,6 +116,22 @@ class Content_Article_Localized extends DataModel_Related_1toN
 	protected string $text = '';
 
 	/**
+	 * @var string
+	 */ 
+	#[DataModel_Definition(
+		type: DataModel::TYPE_STRING,
+		max_len: 255
+	)]
+	#[Form_Definition(
+		type: Form_Field::TYPE_HIDDEN,
+		label: 'Title image',
+		is_required: false,
+		error_messages: [
+		]
+	)]
+	protected string $title_image = '';
+
+	/**
 	 *
 	 * @param string|null $article_id
 	 * @param Locale|null $locale
@@ -354,6 +370,22 @@ class Content_Article_Localized extends DataModel_Related_1toN
 	public function setText( string $text ): void
 	{
 		$this->text = $text;
+	}
+
+	/**
+	 * @param string $value
+	 */
+	public function setTitleImage( string $value ) : void
+	{
+		$this->title_image = $value;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getTitleImage() : string
+	{
+		return $this->title_image;
 	}
 
 }

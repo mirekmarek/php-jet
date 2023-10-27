@@ -7,7 +7,7 @@ use Jet\Form;
 use Jet\Form_Renderer;
 
 use Jet\UI;
-use JetApplication\Application_Admin;
+use JetApplication\Application_Admin_Services;
 
 /**
  * @var MVC_View $this
@@ -32,14 +32,10 @@ $form->renderer()->setDefaultFieldWidth( [
 //$form->field( 'text' )->input()->addCustomCssStyle( 'height:400px' );
 
 
+$image_manager = Application_Admin_Services::ImageManager();
 
 ?>
-
-<?= Application_Admin::requireDialog( 'select-image' ); ?>
-
-<script type="text/javascript">
-
-</script>
+<?= $image_manager?->includeSelectImageDialog(); ?>
 
 <?= $form->start(); ?>
 
@@ -63,8 +59,19 @@ $form->renderer()->setDefaultFieldWidth( [
 			
 			$form->field( $prefix . 'text' )->input()->addCustomCssStyle( 'height:400px' );
 			
+			$image_field = $form->field($prefix . 'title_image');
 			?>
 			<legend><?= UI::flag( $locale ) ?>&nbsp;<?= $locale->getName() ?></legend>
+		
+			<?php if($image_manager): ?>
+			<?=$image_field->row()->start()?>
+				<?=$image_field->label()?>
+				<?=$image_field->container()->start()?>
+					<?= $image_manager->renderSelectImageWidget( $image_field ); ?>
+				<?=$image_field->container()->end()?>
+			<?=$image_field->row()->end()?>
+			<?php endif; ?>
+		
 			<?= $form->field( $prefix . 'title' ) ?>
 			<?= $form->field( $prefix . 'annotation' ) ?>
 			<?= $form->field( $prefix . 'text' ) ?>

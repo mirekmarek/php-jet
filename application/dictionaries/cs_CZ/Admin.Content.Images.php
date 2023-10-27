@@ -32,5 +32,5 @@ return [
 	'Images - Admin' => 'Obrázky - administrace',
 	'%file_name%: Unsupported file type' => '%file_name%: Nepodporovaný typ souboru',
 	'%file_name%: File is too large (%file_size%). Maximal file size is %max_file_size%' => '%file_name%: Soubor je příliš velký (%file_size%). Maximální velikost souboru je %max_file_size%',
-	
+	'Select this image' => 'Vybrat tento obrázek',
 ];

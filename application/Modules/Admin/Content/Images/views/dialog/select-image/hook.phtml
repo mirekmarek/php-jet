@@ -1,0 +1,65 @@
+<?php
+
+namespace JetApplicationModule\Admin\Content\Images;
+
+use Jet\MVC_View;
+use Jet\UI;
+use Jet\Tr;
+use Jet\MVC;
+use Jet\UI_dialog;
+
+/**
+ * @var MVC_View $this
+ */
+
+$dialog = UI::dialog( 'dialog_select_image', Tr::_( 'Select image' ), UI_dialog::SIZE_EXTRA_LARGE );
+?>
+<script type="text/javascript">
+	function dialogSelectImage_select( image ) {
+		dialogSelectImage.select( image );
+	}
+	
+	const dialogSelectImage = {
+		open: function (onSelect) {
+			dialogSelectImage.onSelect = onSelect;
+			$('#dialog_select_image').modal('show');
+		},
+
+		close: function () {
+			$('#dialog_select_image').modal('hide');
+		},
+
+		select: function ( image ) {
+			dialogSelectImage.onSelect( image );
+			dialogSelectImage.close();
+		}
+	};
+	
+	const selectImage = {
+		select: function(id) {
+			dialogSelectImage.open(function( image ) {
+				$('#'+id).val(image.id);
+				$('#select_image_'+id)[0].style.backgroundImage = "url('"+image['thb_URI']+"')";
+				$('#select_image_unselect_btn_'+id).show();
+				$('#select_image_no_image_'+id).hide();
+			});
+		},
+		unselect: function(id) {
+			$('#'+id).val('');
+			$('#select_image_'+id)[0].style.backgroundImage = "";
+			$('#select_image_unselect_btn_'+id).hide();
+			$('#select_image_no_image_'+id).show();
+		}
+	};
+</script>
+
+
+<?= $dialog->start() ?>
+	<div style="display: inline-block;height: 500px;width: 100%">
+		<iframe
+				src="<?= MVC::getPage( 'dialog-select-image' )->getURLPath() ?>"
+				id="dialog_select_image_frame"
+				style="width: 100%;height: 500px;border: none;"
+		></iframe>
+	</div>
+<?= $dialog->end() ?>
