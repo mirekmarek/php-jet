@@ -191,7 +191,7 @@ class Mailing_MIME_Part {
 			}
 			
 			if($this->description) {
-				$res .= 'Content-Description: '.$this->description.static::$eol;
+				$res .= 'Content-Description: "'.$this->description.'"'.static::$eol;
 			}
 			
 			if($this->disposition) {
