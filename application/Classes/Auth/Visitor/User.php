@@ -382,7 +382,18 @@ class Auth_Visitor_User extends DataModel implements Auth_User_Interface
 
 		return $user;
 	}
-
+	
+	/**
+	 * @param string $email
+	 * @return static|null
+	 */
+	public static function getByEmail( string $email ): static|null
+	{
+		return static::load( [
+			'email' => $email,
+		] );
+	}
+	
 	/**
 	 * @param string $plain_password
 	 *

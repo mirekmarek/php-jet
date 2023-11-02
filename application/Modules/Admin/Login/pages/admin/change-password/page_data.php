@@ -1,5 +1,5 @@
 <?php return [
-	'id'                     => 'change_password',
+	'id'                     => 'change-password',
 	'title'                  => 'Change password',
 	'contents'               => [
 		[

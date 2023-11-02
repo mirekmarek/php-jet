@@ -1,0 +1,12 @@
+<?php
+use Jet\MVC_View;
+
+/**
+ * @var MVC_View $this
+ */
+?>
+<h1>PHP Jet Example App - user password reset request</h1>
+
+<p>A request to reset your password has been made. <b>If you have not requested a password reset, please contact us immediately.</b></p>
+
+<p>Otherwise, <b>enter the code</b> <b style="font-size: 20px;letter-spacing: 5px;border: 1px solid black;padding: 10px;"><?=$this->getString('code')?></b> into the form on the website and follow the instructions.</ p>

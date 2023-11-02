@@ -4,6 +4,7 @@ use Jet\Tr;
 use Jet\UI;
 use Jet\Form;
 use Jet\MVC_View;
+use JetApplication\Application_Web_Pages;
 
 /**
  * @var MVC_View $this
@@ -14,6 +15,7 @@ $form = $this->getRaw( 'login_form' );
 $form->field( 'username' )->setPlaceholder( 'username' );
 $form->field( 'password' )->setPlaceholder( 'password' );
 
+$password_reset_page = Application_Web_Pages::resetPassword();
 ?>
 
 <div class="col-md-6 offset-md-3 col-sm-8 offset-sm-2">
@@ -44,9 +46,16 @@ $form->field( 'password' )->setPlaceholder( 'password' );
 				</div>
 				<?= $form->field( 'password' )->input() ?>
 			</div>
-
-			<div class="text-right">
-				<input type="submit" class="btn btn-primary" value="<?= Tr::_( 'Sign In' ) ?>"/>
+			
+			<div style="display: grid;grid-template-columns: 1fr 1fr;">
+				<div>
+					<?php if($password_reset_page): ?>
+					<a href="<?=$password_reset_page->getURL()?>"><?=Tr::_('I forget my password')?></a>
+					<?php endif ?>
+				</div>
+				<div class="text-right">
+					<input type="submit" class="btn btn-primary" value="<?= Tr::_( 'Sign In' ) ?>"/>
+				</div>
 			</div>
 		</div>
 		<?= $form->end() ?>

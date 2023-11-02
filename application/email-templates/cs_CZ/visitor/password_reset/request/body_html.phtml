@@ -1,0 +1,12 @@
+<?php
+use Jet\MVC_View;
+
+/**
+ * @var MVC_View $this
+ */
+?>
+<h1>Ukázková aplikace PHP Jet – požadavek na resetování hesla uživatele</h1>
+
+<p>Byla podána žádost o resetování hesla. <b>Pokud jste o reset hesla nepožádali, okamžitě nás kontaktujte.</b></p>
+
+<p>V opačném případě <b>zadejte kód</b> <b style="font-size: 20px;letter-spacing: 5px;border: 1px solid black;padding: 10px;"><?=$this->getString('code')?></b> do formuláře na webu a postupujte podle pokynů.</ p>

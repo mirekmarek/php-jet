@@ -21,4 +21,5 @@ return [
 	'Current password' => '',
 	'New password' => '',
 	'Please enter username and password' => '',
+	'I forget my password' => '',
 ];

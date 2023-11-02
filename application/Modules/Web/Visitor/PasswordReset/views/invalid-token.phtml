@@ -1,0 +1,37 @@
+<?php
+
+
+use Jet\Form;
+use Jet\MVC_View;
+use Jet\UI;
+use Jet\UI_icon;
+use Jet\Tr;
+
+/**
+ * @var MVC_View $this
+ * @var Form $form
+ */
+
+$form = $this->getRaw('form');
+?>
+
+<div class="login-container">
+	<div class="card">
+		<h5 class="card-header">
+			<?= UI::icon( 'user' )->setSize( UI_icon::SIZE_NORMAL ) ?> <?= Tr::_( 'Password reset' ) ?>
+		</h5>
+		
+		<div class="card-body">
+			<h2><?=Tr::_('Validation code has expired')?></h2>
+			
+			<p><?=Tr::_('Sorry, but the deadline for entering the validation code has passed. If you want, we can send you a new code.')?></p>
+			
+			<?=$form->start()?>
+				<?=$form->field('email')?>
+				<div class="text-left">
+					<input type="submit" class="btn btn-primary" value="<?= Tr::_( 'Send me the reset code' ) ?>"/>
+				</div>
+			<?=$form->end()?>
+		</div>
+	</div>
+</div>

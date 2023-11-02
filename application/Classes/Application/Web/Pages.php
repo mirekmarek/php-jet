@@ -16,8 +16,14 @@ class Application_Web_Pages
 {
 	public static function changePassword() : ?MVC_Page_Interface
 	{
-		return static::getPage('change_password');
+		return static::getPage('change-password');
 	}
+	
+	public static function resetPassword() : ?MVC_Page_Interface
+	{
+		return static::getPage('password-reset');
+	}
+	
 	
 	public static function signUp() : ?MVC_Page_Interface
 	{
