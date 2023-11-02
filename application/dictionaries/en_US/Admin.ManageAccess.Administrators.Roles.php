@@ -22,4 +22,5 @@ return [
 	'Please enter ID' => '',
 	'Sorry, but ID %ID% is used.' => '',
 	'Role <b>%ROLE_NAME%</b> has been created' => '',
+	'Admin / Role management / Administrators' => '',
 ];

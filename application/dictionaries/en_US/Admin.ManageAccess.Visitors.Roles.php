@@ -22,4 +22,5 @@ return [
 	'Sorry, but ID %ID% is used.' => '',
 	'Role <b>%ROLE_NAME%</b> has been created' => '',
 	'Role <b>%ROLE_NAME%</b> has been updated' => '',
+	'Admin / Role management / Visitors' => '',
 ];

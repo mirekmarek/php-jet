@@ -21,4 +21,5 @@ return [
 	'Users' => '',
 	'Username' => '',
 	'Role <b>%ROLE_NAME%</b> has been updated' => '',
+	'Admin / Role management / REST clients' => '',
 ];

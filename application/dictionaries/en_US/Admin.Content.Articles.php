@@ -19,4 +19,5 @@ return [
 	'Article <b>%TITLE%</b> has been created' => '',
 	'Article <b>%TITLE%</b> has been deleted' => '',
 	'Title image' => '',
+	'Admin / Content / Articles' => '',
 ];

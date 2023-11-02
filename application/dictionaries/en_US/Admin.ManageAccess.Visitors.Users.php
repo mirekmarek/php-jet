@@ -48,4 +48,5 @@ return [
 	'Unblock filtered users' => '',
 	'The filtered users have been blocked' => '',
 	'The filtered users have been unblocked' => '',
+	'Admin / User management / Visitors' => '',
 ];

@@ -22,4 +22,5 @@ return [
 	'Invalid date format' => 'Neplatný formát datumu',
 	'Articles - Admin' => 'Články - administrace',
 	'Title image' => 'Titulní obrázek',
+	'Admin / Content / Articles' => '',
 ];

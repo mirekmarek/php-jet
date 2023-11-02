@@ -35,4 +35,5 @@ return [
 	'User <b>%USERNAME%</b> has been created' => '',
 	'User <b>%USERNAME%</b> has been updated' => '',
 	'Password has been re-generated' => '',
+	'Admin / User management / REST clients' => '',
 ];
