@@ -17,4 +17,5 @@ return [
 	'Invalid username or password!' => '',
 	'Logout' => '',
 	'Please enter username and password' => '',
+	'Current password do not match' => '',
 ];
