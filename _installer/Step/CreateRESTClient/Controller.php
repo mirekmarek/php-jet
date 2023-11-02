@@ -76,14 +76,12 @@ class Installer_Step_CreateRESTClient_Controller extends Installer_Step_Controll
 		$role->setId( $id );
 		$role->setName($name);
 		
-		$avl_privileges = Auth_RESTClient_Role::getAvailablePrivilegesList();
+		$avl_privileges = Auth_RESTClient_Role::getAvailablePrivilegesList( false );
 		
 		foreach($avl_privileges as $privilege=>$privilege_data) {
-			$options_getter = $privilege_data['options_getter'];
-			
 			$values = [];
 			
-			foreach(Auth_RESTClient_Role::{$options_getter}() as $val=>$node) {
+			foreach($privilege_data->getOptions() as $val=>$node) {
 				$values[] = $val;
 			}
 			

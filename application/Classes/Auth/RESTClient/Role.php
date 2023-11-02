@@ -19,6 +19,7 @@ use Jet\Data_Tree;
 use Jet\Form_Definition;
 use Jet\Form_Field_Input;
 use Jet\Form_Field_MultiSelect;
+use Jet\Locale;
 use Jet\Tr;
 use Jet\MVC;
 use Jet\MVC_Page;
@@ -329,29 +330,35 @@ class Auth_RESTClient_Role extends DataModel implements Auth_Role_Interface
 
 		return $this->privileges[$privilege]->hasValue( $value );
 	}
-
+	
 	/**
-	 *
-	 *
-	 * @return array
+	 * @param bool $translate
+	 * @param Locale|null $translate_locale
+	 * @return Auth_AvailablePrivilegeProvider[]
 	 */
-	public static function getAvailablePrivilegesList(): array
+	public static function getAvailablePrivilegesList( bool $translate = true, ?Locale $translate_locale=null ): array
 	{
+		$module_action = new Auth_AvailablePrivilegeProvider(
+			privilege:      static::PRIVILEGE_MODULE_ACTION,
+			label:          'Modules and actions',
+			options_getter:  function() use ($translate, $translate_locale) {
+				return static::getAclActionValuesList_ModulesActions( $translate, $translate_locale );
+			}
+		);
 
 		return [
-			static::PRIVILEGE_MODULE_ACTION => [
-				'label' => 'Modules and actions',
-				'options_getter' => 'getAclActionValuesList_ModulesActions',
-			]
+			$module_action->getPrivilege() => $module_action
 		];
 	}
-
-
+	
+	
 	/**
+	 * @param bool $translate
+	 * @param Locale|null $translate_locale
 	 *
 	 * @return Data_Forest
 	 */
-	public static function getAclActionValuesList_ModulesActions(): Data_Forest
+	public static function getAclActionValuesList_ModulesActions( bool $translate = true, ?Locale $translate_locale=null ): Data_Forest
 	{
 
 		$forest = new Data_Forest();
@@ -366,7 +373,7 @@ class Auth_RESTClient_Role extends DataModel implements Auth_Role_Interface
 
 			$module = Application_Modules::moduleInstance( $module_name );
 
-			$actions = $module->getModuleManifest()->getACLActions();
+			$actions = $module->getModuleManifest()->getACLActions( $translate, $translate_locale );
 
 			if( !$actions ) {
 				continue;
@@ -386,7 +393,12 @@ class Auth_RESTClient_Role extends DataModel implements Auth_Role_Interface
 
 
 			$tree = new Data_Tree();
-			$tree->getRootNode()->setLabel( Tr::_( $module_info->getLabel(), [], $module_info->getName() ) . ' (' . $module_name . ')' );
+			$tree->getRootNode()->setLabel(
+				$translate ?
+					Tr::_( text: $module_info->getLabel(), dictionary: $module_info->getName(), locale: $translate_locale ) . ' (' . $module_name . ')'
+				:
+					$module_info->getLabel() . ' (' . $module_name . ')'
+			);
 			$tree->getRootNode()->setId( $module_name );
 
 
@@ -475,10 +487,10 @@ class Auth_RESTClient_Role extends DataModel implements Auth_Role_Interface
 
 			$values = isset($this->privileges[$priv]) ? $this->privileges[$priv]->getValues() : [];
 
-			$field = new Form_Field_MultiSelect('/privileges/'.$priv.'/values', $priv_data['label']);
+			$field = new Form_Field_MultiSelect('/privileges/'.$priv.'/values', $priv_data->getLabel());
 			$field->setDefaultValue( $values );
-
-			$field->setSelectOptions($this->{$priv_data['options_getter']}());
+			
+			$field->setSelectOptions($priv_data->getOptions());
 
 			$field->setErrorMessages([
 				Form_Field::ERROR_CODE_INVALID_VALUE => 'Invalid value'

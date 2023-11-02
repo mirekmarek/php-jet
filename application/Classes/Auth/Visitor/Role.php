@@ -19,6 +19,7 @@ use Jet\Form_Definition;
 use Jet\Form_Field;
 use Jet\Form_Field_Input;
 use Jet\Form_Field_MultiSelect;
+use Jet\Locale;
 use Jet\MVC_Page_Interface;
 
 /**
@@ -329,21 +330,7 @@ class Auth_Visitor_Role extends DataModel implements Auth_Role_Interface
 
 		return $this->privileges[$privilege]->hasValue( $value );
 	}
-
-	/**
-	 *
-	 *
-	 * @return array
-	 */
-	public static function getAvailablePrivilegesList() : array
-	{
-		return [
-			static::PRIVILEGE_VISIT_PAGE => [
-				'label' => 'Secret area access',
-				'options_getter' => 'getAclActionValuesList_Pages'
-			]
-		];
-	}
+	
 
 	/**
 	 * @return string
@@ -395,10 +382,10 @@ class Auth_Visitor_Role extends DataModel implements Auth_Role_Interface
 
 			$values = isset($this->privileges[$priv]) ? $this->privileges[$priv]->getValues() : [];
 
-			$field = new Form_Field_MultiSelect('/privileges/'.$priv.'/values', $priv_data['label']);
+			$field = new Form_Field_MultiSelect('/privileges/'.$priv.'/values', $priv_data->getLabel());
 			$field->setDefaultValue( $values );
 
-			$field->setSelectOptions($this->{$priv_data['options_getter']}());
+			$field->setSelectOptions($priv_data->getOptions());
 
 			$field->setErrorMessages([
 				Form_Field::ERROR_CODE_INVALID_VALUE => 'Invalid value'
@@ -414,7 +401,27 @@ class Auth_Visitor_Role extends DataModel implements Auth_Role_Interface
 
 		return $form;
 	}
-
+	
+	/**
+	 * @param bool $translate
+	 * @param Locale|null $translate_locale
+	 * @return Auth_AvailablePrivilegeProvider[]
+	 */
+	public static function getAvailablePrivilegesList( bool $translate = true, ?Locale $translate_locale=null ): array
+	{
+		$visit_page = new Auth_AvailablePrivilegeProvider(
+			privilege:      static::PRIVILEGE_VISIT_PAGE,
+			label:          'Administration sections',
+			options_getter: function() {
+				return static::getAclActionValuesList_Pages();
+			}
+		);
+		
+		return [
+			$visit_page->getPrivilege() => $visit_page
+		];
+	}
+	
 	/**
 	 *
 	 * @return Data_Forest
