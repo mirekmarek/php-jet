@@ -5,6 +5,7 @@ use Jet\SysConf_Jet_Modules;use Jet\Tr;
 use Jet\Form_Renderer;
 use Jet\MVC_View;
 use Jet\UI;
+use Jet\UI_button;
 use Jet\UI_dialog;
 
 /**
@@ -139,5 +140,22 @@ echo $delete_module_info->start();
 <?php
 echo $delete_module_info->end();
 
+
+$clone_module_dialog = UI::dialog(
+	id: 'clone_module_dialog',
+	title: Tr::_('Clone module'),
+	size: UI_dialog::SIZE_LARGE
+);
+
+echo $clone_module_dialog->start();
+
+?>
+<div id="clone_module_form_area">
+	<?php require __DIR__.'/../clone/form.phtml'; ?>
+</div>
+<?php
+echo $clone_module_dialog->footer();
+	echo UI::button(Tr::_('Clone'))->setOnClick("Modules.cloneModule.clone();")->setClass(UI_button::CLASS_PRIMARY)->setIcon('clone');
+echo $clone_module_dialog->end();
 ?>
 

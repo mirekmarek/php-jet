@@ -44,6 +44,27 @@ use Jet\Http_Request;
 
 			}
 		},
+
+		cloneModule: {
+			openDialog: function () {
+				$('#clone_module_dialog').modal('show');
+			},
+			
+			clone: function () {
+				JetAjaxForm.submit(
+					'clone_module_form',
+					{
+						onSuccess: function (form, response_data) {
+							if(response_data['redirect']) {
+								location = response_data['redirect'];
+							}
+						}
+					}
+				);
+				
+			}
+		},
+		
 		editModule: {
 			addPage: {
 				openDialog: function () {
@@ -305,7 +326,6 @@ use Jet\Http_Request;
 				$('#delete_page').modal('show');
 			}
 		}
-
 	}
 
 </script>

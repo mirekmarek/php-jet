@@ -149,4 +149,9 @@ return [
 	'Deleting a module is potential risc operation!' => 'Smazání modulu je potencionálně riziková operace!',
 	'How to delete module?' => 'Jak smazat modul?',
 	'Search for module ...' => 'Hledat modul ...',
+	'Clone this module' => 'Klonovat tento modul',
+	'Clone module' => 'Klonovat modul   ',
+	'New module name:' => 'Nový název modulu:',
+	'Clone' => 'Klonovat',
+	'Module %new_module_name% has been cloned' => 'Modul %new_module_name% byl naklonován',
 ];

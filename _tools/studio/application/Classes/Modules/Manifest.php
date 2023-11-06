@@ -28,11 +28,10 @@ class Modules_Manifest extends Application_Module_Manifest
 {
 	public const MAX_ACL_ACTION_COUNT = 100;
 
-	/**
-	 * @var ?Form
-	 */
 	protected ?Form $__edit_form = null;
-
+	
+	protected ?Form $__clone_form = null;
+	
 	protected ?Modules_MenuItems $__menu_items = null;
 
 	protected ?Modules_Pages $__pages = null;
@@ -112,10 +111,7 @@ class Modules_Manifest extends Application_Module_Manifest
 		$this->ACL_actions = $ACL_actions;
 	}
 
-	/**
-	 *
-	 * @return Form
-	 */
+
 	public function getEditForm(): Form
 	{
 		if( !$this->__edit_form ) {
@@ -232,9 +228,6 @@ class Modules_Manifest extends Application_Module_Manifest
 		return $this->__edit_form;
 	}
 
-	/**
-	 * @return bool
-	 */
 	public function catchEditForm(): bool
 	{
 		$form = $this->getEditForm();
@@ -433,6 +426,84 @@ class Modules_Manifest extends Application_Module_Manifest
 		}
 
 		return $this->__pages;
+	}
+	
+	
+	public function getCloneForm(): Form
+	{
+		if( !$this->__clone_form ) {
+			
+			$module_name = new Form_Field_Input( 'module_name', 'New module name:' );
+			$module_name->setDefaultValue( $this->getName() );
+			$module_name->setIsRequired( true );
+			$module_name->setErrorMessages( [
+				Form_Field::ERROR_CODE_EMPTY          => 'Please enter module name',
+				Form_Field::ERROR_CODE_INVALID_FORMAT => 'Invalid module name format',
+				'module_name_is_not_unique' => 'Module with the same name already exists',
+			] );
+			$module_name->setValidator( function( Form_Field_Input $field ) {
+				$name = $field->getValue();
+				
+				return Modules_Manifest::checkModuleName( $field, $name );
+			} );
+			
+			
+			$module_label = new Form_Field_Input( 'module_label', 'Label:' );
+			$module_label->setDefaultValue( $this->getLabel() );
+			$module_label->setIsRequired( true );
+			$module_label->setErrorMessages( [
+				Form_Field::ERROR_CODE_EMPTY => 'Please enter module label'
+			] );
+			
+			
+			$vendor = new Form_Field_Input( 'vendor', 'Vendor:' );
+			$vendor->setDefaultValue( $this->getVendor() );
+			$vendor->setFieldValueCatcher( function( $value ) {
+				$this->setVendor( $value );
+			} );
+			
+			$version = new Form_Field_Input( 'version', 'Version:'  );
+			$version->setDefaultValue( $this->getVersion() );
+			$version->setFieldValueCatcher( function( $value ) {
+				$this->setVersion( $value );
+			} );
+			
+			
+			
+			$fields = [
+				$module_name,
+				$module_label,
+				$vendor,
+				$version,
+			];
+			
+			$form = new Form( 'clone_module_form', $fields );
+			
+			$form->setAction( Modules::getActionUrl( 'clone' ) );
+			
+			$this->__clone_form = $form;
+		}
+		
+		return $this->__clone_form;
+	}
+	
+	public function catchCloneForm(): bool|static
+	{
+		$form = $this->getCloneForm();
+		if(
+			!$form->catchInput() ||
+			!$form->validate()
+		) {
+			return false;
+		}
+		
+		$new_manifest = clone $this;
+		$new_manifest->setName( $form->field('module_name')->getValue() );
+		$new_manifest->setLabel( $form->field('module_label')->getValue() );
+		$new_manifest->setVendor( $form->field('vendor')->getValue() );
+		$new_manifest->setVersion( $form->field('version')->getValue() );
+		
+		return $new_manifest;
 	}
 
 }

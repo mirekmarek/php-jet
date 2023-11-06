@@ -11,6 +11,8 @@ namespace JetStudio;
 use Jet\Application_Modules;
 use Jet\BaseObject;
 use Jet\Http_Request;
+use Jet\IO_Dir;
+use Jet\IO_File;
 use Jet\SysConf_URI;
 
 /**
@@ -308,6 +310,41 @@ class Modules extends BaseObject implements Application_Part
 		else:
 			return 'module';
 		endif;
+	}
+	
+	public static function clone( Modules_Manifest $old, Modules_Manifest $new ): void
+	{
+		IO_Dir::copy(
+			$old->getModuleDir(),
+			$new->getModuleDir()
+		);
+		
+		$old_ns = rtrim( $old->getNamespace(), '\\');
+		$new_ns = rtrim( $new->getNamespace(), '\\');
+		
+		$replaceNs = null;
+		$replaceNs = function( string $dir ) use ( &$replaceNs, $old_ns, $new_ns ) {
+			$files = IO_Dir::getFilesList( $dir, '*.ph*' );
+			
+			foreach($files as $path=>$name) {
+				$script = IO_File::read( $path );
+				
+				$script = str_replace($old_ns, $new_ns, $script);
+				
+				IO_File::write( $path, $script );
+			}
+			
+			$dirs = IO_Dir::getSubdirectoriesList( $dir );
+			
+			foreach($dirs as $path=>$name) {
+				$replaceNs( $path );
+			}
+		};
+		
+		$replaceNs( $new->getModuleDir() );
+		
+		$new->create_saveManifest();
+		
 	}
 
 }
