@@ -35,19 +35,21 @@ $showIcons = function( Modules_Manifest $module ) {
 		search_action: 'Modules.search.search()',
 		search_reset_action: 'Modules.search.reset()') ?>
 
+<div style="max-width: 100% !important;overflow: hidden">
+
+
 <table class="table table-striped">
 	<?php
 	$module = Modules::getCurrentModule();
 	if( $module ):
 		?>
 		<tr>
-			<td style="width: 100px;">
+			<td style="width: 70px;">
 				<?php $showIcons( $module ); ?>
 			</td>
 			<td>
-
 				<?php if( !Modules::getCurrentMenuItem() && !Modules::getCurrentPage() ):
-					echo UI::badge(UI_badge::INFO, $module->getName())->addCustomCssStyle('font-size: 20px;');
+					echo UI::badge(UI_badge::INFO, $module->getName())->addCustomCssStyle('font-size: 16px;');
 				else: ?>
 					<a href="<?= Http_Request::currentURI( [], [
 						'menu_item',
@@ -74,7 +76,7 @@ $showIcons = function( Modules_Manifest $module ) {
 		    data-name="<?=$module->getName()?>"
 		    data-label="<?=$module->getLabel()?>"
 			>
-			<td style="width: 100px;">
+			<td style="width: 70px;">
 				<?php $showIcons( $module ); ?>
 			</td>
 			<td>
@@ -88,3 +90,4 @@ $showIcons = function( Modules_Manifest $module ) {
 		</tr>
 	<?php endforeach; ?>
 </table>
+</div>
