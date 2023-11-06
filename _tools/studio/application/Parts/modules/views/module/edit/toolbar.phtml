@@ -47,7 +47,7 @@ else:
 <?= UI::button_create( Tr::_( 'Add menu item' ) )->setOnClick( 'Modules.editModule.addMenuItem.openDialog()' ) ?>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-<?=UI::button( Tr::_( 'Clone this module' ) )->setOnClick( "Modules.cloneModule.openDialog();" )->setClass(UI_button::CLASS_PRIMARY)->setIcon('clone');?>
+<?=UI::button( Tr::_( 'Clone this module' ) )->setOnClick( 'Modules.cloneModule.openDialog();' )->setClass(UI_button::CLASS_PRIMARY)->setIcon('clone');?>
 &nbsp;&nbsp;&nbsp;
 <?= UI::button_delete( Tr::_('Delete this module') )->setOnClick("$('#delete_module_info').modal('show');"); ?>
 

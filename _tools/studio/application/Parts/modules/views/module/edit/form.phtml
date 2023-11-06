@@ -155,7 +155,7 @@ echo $clone_module_dialog->start();
 </div>
 <?php
 echo $clone_module_dialog->footer();
-	echo UI::button(Tr::_('Clone'))->setOnClick("Modules.cloneModule.clone();")->setClass(UI_button::CLASS_PRIMARY)->setIcon('clone');
+	echo UI::button(Tr::_('Clone'))->setOnClick('Modules.cloneModule.clone();')->setClass(UI_button::CLASS_PRIMARY)->setIcon('clone');
 echo $clone_module_dialog->end();
 ?>
 
