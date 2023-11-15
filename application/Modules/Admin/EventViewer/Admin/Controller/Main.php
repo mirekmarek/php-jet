@@ -9,7 +9,7 @@ namespace JetApplicationModule\Admin\EventViewer\Admin;
 
 use Jet\Http_Request;
 use Jet\MVC_View;
-use JetApplication\Logger_Admin_Event as Event;
+use JetApplicationModule\Admin\Logger\Event as Event;
 
 use Jet\MVC_Controller_Default;
 use Jet\Tr;

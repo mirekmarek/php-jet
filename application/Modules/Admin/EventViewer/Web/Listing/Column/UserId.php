@@ -9,7 +9,7 @@ namespace JetApplicationModule\Admin\EventViewer\Web;
 
 use Jet\DataListing_Column;
 use Jet\Tr;
-use JetApplication\Logger_Web_Event as Event;
+use JetApplicationModule\Web\Logger\Event as Event;
 
 class Listing_Column_UserId extends DataListing_Column
 {

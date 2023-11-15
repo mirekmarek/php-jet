@@ -9,7 +9,7 @@ namespace JetApplicationModule\Admin\EventViewer\REST;
 
 use Jet\DataListing_Column;
 use Jet\Tr;
-use JetApplication\Logger_REST_Event as Event;
+use JetApplicationModule\REST\Logger\Event as Event;
 
 class Listing_Column_EventMessage extends DataListing_Column
 {

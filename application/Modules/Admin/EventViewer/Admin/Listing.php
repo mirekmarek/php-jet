@@ -10,8 +10,7 @@ namespace JetApplicationModule\Admin\EventViewer\Admin;
 use Jet\DataListing;
 use Jet\DataModel_Fetch_Instances;
 use Jet\MVC_View;
-use JetApplication\Logger_Admin_Event as Event;
-
+use JetApplicationModule\Admin\Logger\Event as Event;
 
 /**
  *

@@ -155,8 +155,8 @@ class Controller_Main extends MVC_Controller_REST
 			$article->save();
 
 			Logger::success(
-				event: 'article_created',
-				event_message: 'Article created',
+				event: 'article_updated',
+				event_message: 'Article updated',
 				context_object_id: $article->getId(),
 				context_object_name: $article->getTitle(),
 				context_object_data: $article

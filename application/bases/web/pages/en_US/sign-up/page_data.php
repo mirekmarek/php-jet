@@ -20,7 +20,7 @@ return [
 	],
 	'contents' => [
 		[
-			'module_name' => 'Web.Visitor.SignUp',
+			'module_name' => 'Web.Auth.SignUp',
 			'controller_name' => 'Main',
 			'controller_action' => 'default',
 			'parameters' => [

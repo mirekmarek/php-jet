@@ -1,0 +1,34 @@
+<?php
+namespace JetApplicationModule\Web\Auth\SignUp;
+
+use Jet\Form;
+use Jet\Form_Renderer;
+use Jet\MVC_View;
+use Jet\Tr;
+use Jet\UI;
+use Jet\UI_button;
+use Jet\UI_icon;
+
+/**
+ * @var MVC_View $this
+ * @var Form $form
+ */
+
+$form = $this->getRaw( 'form' );
+$form->renderer()->setDefaultLabelWidth( [Form_Renderer::LJ_SIZE_MEDIUM => 12] );
+$form->renderer()->setDefaultFieldWidth( [Form_Renderer::LJ_SIZE_MEDIUM => 12] );
+
+?>
+<h1><?=UI::icon('user-plus')->setSize(UI_icon::SIZE_EXTRA_LARGE)?> <?=Tr::_('Sign up')?></h1>
+
+<?= $form->start() ?>
+<?= $form->message() ?>
+
+<?= $form->field( 'username' ) ?>
+<?= $form->field( 'email' ) ?>
+<?= $form->field( 'password' ) ?>
+<?= $form->field( 'password_check' ) ?>
+
+<?=UI::button( Tr::_('Sign up') )->setClass(UI_button::CLASS_SUCCESS)->setType(UI_button::TYPE_SUBMIT)?>
+
+<?= $form->end() ?>

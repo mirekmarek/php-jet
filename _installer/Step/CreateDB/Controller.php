@@ -26,9 +26,6 @@ use JetApplication\Auth_RESTClient_Role_Privilege;
 use JetApplication\Auth_RESTClient_User;
 use JetApplication\Auth_RESTClient_User_Roles;
 
-use JetApplication\Logger_Admin_Event;
-use JetApplication\Logger_Web_Event;
-use JetApplication\Logger_REST_Event;
 
 /**
  *
@@ -74,10 +71,6 @@ class Installer_Step_CreateDB_Controller extends Installer_Step_Controller
 			Auth_RESTClient_Role_Privilege::class,
 			Auth_RESTClient_User::class,
 			Auth_RESTClient_User_Roles::class,
-
-			Logger_Admin_Event::class,
-			Logger_Web_Event::class,
-			Logger_REST_Event::class,
 		];
 
 		$result = [];

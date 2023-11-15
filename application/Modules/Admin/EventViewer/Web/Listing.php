@@ -10,7 +10,7 @@ namespace JetApplicationModule\Admin\EventViewer\Web;
 use Jet\DataListing;
 use Jet\DataModel_Fetch_Instances;
 use Jet\MVC_View;
-use JetApplication\Logger_Web_Event as Event;
+use JetApplicationModule\Web\Logger\Event as Event;
 
 
 /**

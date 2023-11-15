@@ -9,7 +9,6 @@ namespace JetApplicationModule\Admin\EventViewer\Admin;
 
 use Jet\DataListing_Column;
 use Jet\Tr;
-use JetApplication\Logger_Admin_Event as Event;
 
 class Listing_Column_DateTime extends DataListing_Column
 {
@@ -32,7 +31,8 @@ class Listing_Column_DateTime extends DataListing_Column
 	}
 	
 	/**
-	 * @param Event $item
+	 * @noinspection PhpFullyQualifiedNameUsageInspection
+	 * @var \JetApplicationModule\Admin\Logger\Event $item
 	 * @return string
 	 */
 	public function getExportData( mixed $item ): string

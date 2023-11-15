@@ -20,7 +20,7 @@ return [
 	],
 	'contents' => [
 		[
-			'module_name' => 'Web.Visitor.Login',
+			'module_name' => 'Web.Auth.Login',
 			'controller_name' => 'Main',
 			'controller_action' => 'change_password',
 			'parameters' => [

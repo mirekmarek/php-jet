@@ -46,8 +46,13 @@ class Application_Web
 	 */
 	public static function init( MVC_Router $router ): void
 	{
-		Logger::setLogger( new Logger_Web() );
-		Auth::setController( new Auth_Controller_Web() );
+		Logger::setLoggerProvider( function() : ?Application_Web_Services_Logger {
+			return Application_Web_Services::Logger();
+		} );
+		
+		Auth::setControllerProvider( function() : Application_Web_Services_Auth_Controller {
+			return Application_Web_Services::AuthController();
+		} );
 
 		SysConf_Jet_UI::setViewsDir( $router->getBase()->getViewsPath() . 'ui/' );
 		SysConf_Jet_Form::setDefaultViewsDir( $router->getBase()->getViewsPath() . 'form/' );

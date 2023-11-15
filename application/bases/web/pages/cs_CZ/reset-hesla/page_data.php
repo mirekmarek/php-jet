@@ -20,7 +20,7 @@ return [
 	],
 	'contents' => [
 		[
-			'module_name' => 'Web.Visitor.PasswordReset',
+			'module_name' => 'Web.Auth.PasswordReset',
 			'controller_name' => 'Main',
 			'controller_action' => 'enter_email',
 			'parameters' => [

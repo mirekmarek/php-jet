@@ -10,7 +10,7 @@ namespace JetApplicationModule\Admin\EventViewer\REST;
 use Jet\DataListing;
 use Jet\DataModel_Fetch_Instances;
 use Jet\MVC_View;
-use JetApplication\Logger_REST_Event as Event;
+use JetApplicationModule\REST\Logger\Event as Event;
 
 
 /**
