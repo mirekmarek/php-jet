@@ -14,6 +14,7 @@ namespace Jet;
 class SysConf_Jet_Modules
 {
 	protected static string $install_directory = '_install';
+	protected static string $install_dictionaries_directory = 'dictionaries';
 	protected static string $install_script = 'install.php';
 	protected static string $uninstall_script = 'uninstall.php';
 	protected static string $views_dir = 'views';
@@ -39,7 +40,25 @@ class SysConf_Jet_Modules
 	{
 		static::$install_directory = $install_directory;
 	}
+	
+	/**
+	 * @return string
+	 */
+	public static function getInstallDictionariesDirectory(): string
+	{
+		return static::$install_dictionaries_directory;
+	}
+	
+	/**
+	 * @param string $install_dictionaries_directory
+	 */
+	public static function setInstallDictionariesDirectory( string $install_dictionaries_directory ): void
+	{
+		static::$install_dictionaries_directory = $install_dictionaries_directory;
+	}
 
+	
+	
 	/**
 	 * @return string
 	 */

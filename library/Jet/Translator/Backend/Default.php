@@ -84,6 +84,54 @@ class Translator_Backend_Default extends Translator_Backend
 
 		IO_File::writeDataAsPhp( $file_path, $data );
 	}
+	
+	public function installApplicationModuleDictionaries( Application_Module_Manifest $module ) : void
+	{
+		$files = IO_Dir::getFilesList( $module->getModuleInstallDictionariesDirPath(), '*.php' );
+		foreach($files as $path=>$file_name) {
+			$locale = new Locale( substr($file_name, 0, -4) );
+			if(!$locale->toString()) {
+				continue;
+			}
+			
+			$dictionary = $this->loadDictionary( $module->getName(), $locale, $path );
+			$this->saveDictionary( $dictionary );
+		}
+	}
+	
+	public function collectApplicationModuleDictionaries( Application_Module_Manifest $module ) : void
+	{
+		$locales = IO_Dir::getSubdirectoriesList( SysConf_Path::getDictionaries() );
 
+		foreach($locales as $path=>$locale_str) {
+			$locale = new Locale($locale_str);
+
+			$dictionary = $this->loadDictionary( $module->getName(), $locale );
+
+			if(count($dictionary->getPhrases())) {
+				$this->saveDictionary(
+					$dictionary,
+					$module->getModuleInstallDictionariesDirPath().$locale.'.php'
+				);
+			}
+		}
+
+	}
+	
+	public function uninstallApplicationModuleDictionaries( Application_Module_Manifest $module ) : void
+	{
+		$locales = IO_Dir::getSubdirectoriesList( SysConf_Path::getDictionaries() );
+		
+		foreach($locales as $locale_str) {
+			$locale = new Locale( $locale_str );
+			
+			$file_path = $this->_getFilePath( $module->getName(), $locale );
+			
+			if(IO_File::exists($file_path)) {
+				IO_File::delete( $file_path );
+			}
+		}
+	}
+	
 
 }

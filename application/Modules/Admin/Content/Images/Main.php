@@ -11,6 +11,7 @@ namespace JetApplicationModule\Admin\Content\Images;
 use Jet\Application_Module;
 use Jet\Factory_MVC;
 use Jet\Form_Field;
+use Jet\Translator;
 use JetApplication\Application_Admin_Services_ImageManager;
 
 /**
@@ -32,7 +33,15 @@ class Main extends Application_Module implements Application_Admin_Services_Imag
 	public function includeSelectImageDialog(): string
 	{
 		$view = Factory_MVC::getViewInstance( $this->getViewsDir() );
-		return $view->render('dialog/select-image/hook');
+		
+		$dictionary = Translator::getCurrentDictionary();
+		Translator::setCurrentDictionary( $this->module_manifest->getName() );
+		
+		$res = $view->render('dialog/select-image/hook');
+		
+		Translator::setCurrentDictionary($dictionary);
+		
+		return $res;
 	}
 	
 	public function renderSelectImageWidget( Form_Field $form_field ) : string
@@ -40,7 +49,13 @@ class Main extends Application_Module implements Application_Admin_Services_Imag
 		$view = Factory_MVC::getViewInstance( $this->getViewsDir() );
 		$view->setVar('form_field', $form_field);
 		
-		return $view->render('widget/select-image');
+		$dictionary = Translator::getCurrentDictionary();
+		Translator::setCurrentDictionary( $this->module_manifest->getName() );
 		
+		$res = $view->render('widget/select-image');
+		
+		Translator::setCurrentDictionary($dictionary);
+		
+		return $res;
 	}
 }

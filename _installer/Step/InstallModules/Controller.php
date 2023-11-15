@@ -13,6 +13,7 @@ use Jet\Form;
 use Jet\Form_Field;
 use Jet\Form_Field_MultiSelect;
 use Jet\Exception;
+use Jet\SysConf_Path;
 
 /**
  *
@@ -76,6 +77,9 @@ class Installer_Step_InstallModules_Controller extends Installer_Step_Controller
 
 			$OK = true;
 
+			$tr_dir = SysConf_Path::getDictionaries();
+			SysConf_Path::setDictionaries(__APP_DICTIONARIES__);
+			
 			foreach( $selected_modules as $module_name ) {
 				$result[$module_name] = true;
 
@@ -103,6 +107,8 @@ class Installer_Step_InstallModules_Controller extends Installer_Step_Controller
 				}
 
 			}
+			
+			SysConf_Path::setDictionaries( $tr_dir );
 
 			if( !$result ) {
 				Installer::goToNext();

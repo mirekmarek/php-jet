@@ -206,5 +206,20 @@ class Translator extends BaseObject
 		return static::$dictionaries[$dictionary_key];
 	}
 
-
+	public static function installApplicationModuleDictionaries( Application_Module_Manifest $module ) : void
+	{
+		static::getBackend()->installApplicationModuleDictionaries( $module );
+	}
+	
+	
+	public static function collectApplicationModuleDictionaries( Application_Module_Manifest $module ) : void
+	{
+		static::getBackend()->collectApplicationModuleDictionaries( $module );
+	}
+	
+	public static function uninstallApplicationModuleDictionaries( Application_Module_Manifest $module ) : void
+	{
+		static::getBackend()->uninstallApplicationModuleDictionaries( $module );
+	}
+	
 }

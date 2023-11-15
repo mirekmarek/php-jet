@@ -139,7 +139,18 @@ class Application_Module_Manifest extends BaseObject
 	{
 		return Application_Modules::getModuleDir( $this->_name );
 	}
-
+	
+	public function getModuleInstallDirPath() : string
+	{
+		return $this->getModuleDir() . SysConf_Jet_Modules::getInstallDirectory() . '/';
+	}
+	
+	public function getModuleInstallDictionariesDirPath() : string
+	{
+		return $this->getModuleDir() . SysConf_Jet_Modules::getInstallDirectory() . '/'.SysConf_Jet_Modules::getInstallDictionariesDirectory().'/';
+	}
+	
+	
 	/**
 	 * @return string
 	 */

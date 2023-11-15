@@ -45,9 +45,9 @@ else:
 
 <?= UI::button_create( Tr::_( 'Add page' ) )->setOnClick( 'Modules.editModule.addPage.openDialog()' ) ?>
 <?= UI::button_create( Tr::_( 'Add menu item' ) )->setOnClick( 'Modules.editModule.addMenuItem.openDialog()' ) ?>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<?= UI::button( Tr::_( 'Collect dictionaries' ) )->setOnClick( "$('#collect_dictionaries_info').modal('show');" )->setIcon('file-arrow-down') ?>
+&nbsp;&nbsp;&nbsp;
 <?=UI::button( Tr::_( 'Clone this module' ) )->setOnClick( 'Modules.cloneModule.openDialog();' )->setClass(UI_button::CLASS_PRIMARY)->setIcon('clone');?>
 &nbsp;&nbsp;&nbsp;
-<?= UI::button_delete( Tr::_('Delete this module') )->setOnClick("$('#delete_module_info').modal('show');"); ?>
+<?= UI::button_delete( ' ' )->setOnClick("$('#delete_module_info').modal('show');"); ?>
 

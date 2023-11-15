@@ -355,6 +355,7 @@ class Installer
 	{
 
 		SysConf_Jet_Translator::setAutoAppendUnknownPhrase(true);
+		define('__APP_DICTIONARIES__',SysConf_Path::getDictionaries());
 		SysConf_Path::setDictionaries( static::getBasePath() . 'dictionaries/' );
 
 		Locale::setCurrentLocale( static::getCurrentLocale() );

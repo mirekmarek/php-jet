@@ -35,7 +35,7 @@ if($image_id) {
 	<div class="select-image-widget-no-image fa fa-image" id="select_image_no_image_<?=$form_field->getId()?>" style="display: <?=$image?'none':''?>">
 	</div>
 
-	<?=UI::button(Tr::_('Select image', dictionary: Tr::COMMON_DICTIONARY))
+	<?=UI::button(Tr::_('Select image'))
 		->setClass(UI_button::CLASS_SECONDARY)
 		->addCustomCssClass('select-image-widget-button-select')
 		->setOnClick("selectImage.select('{$form_field->getId()}');")?>

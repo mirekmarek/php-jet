@@ -37,29 +37,30 @@ abstract class Application_Module extends BaseObject
 	{
 		return $this->module_manifest;
 	}
-
+	
+	
 	/**
 	 * @throws Application_Modules_Exception
 	 */
 	public function install(): void
 	{
-		$module_dir = $this->module_manifest->getModuleDir();
-		$install_script = $module_dir . SysConf_Jet_Modules::getInstallDirectory() . '/' . SysConf_Jet_Modules::getInstallScript();
-
-		if( file_exists( $install_script ) ) {
-			try {
-
+		try {
+			$install_script = $this->module_manifest->getModuleInstallDirPath() . SysConf_Jet_Modules::getInstallScript();
+			
+			if( file_exists( $install_script ) ) {
 				$module_instance = $this;
-
+				
 				require_once $install_script;
-
-			} catch( \Exception $e ) {
-
-				throw new Application_Modules_Exception(
-					'Error while processing installation script: ' . get_class( $e ) . '::' . $e->getMessage(),
-					Application_Modules_Exception::CODE_FAILED_TO_INSTALL_MODULE
-				);
 			}
+			
+			Translator::installApplicationModuleDictionaries( $this->module_manifest );
+
+		} catch( \Exception $e ) {
+
+			throw new Application_Modules_Exception(
+				'Error while processing installation script: ' . get_class( $e ) . '::' . $e->getMessage(),
+				Application_Modules_Exception::CODE_FAILED_TO_INSTALL_MODULE
+			);
 		}
 
 	}
@@ -70,24 +71,25 @@ abstract class Application_Module extends BaseObject
 	 */
 	public function uninstall(): void
 	{
-		$module_dir = $this->module_manifest->getModuleDir();
-
-		$uninstall_script = $module_dir . SysConf_Jet_Modules::getInstallDirectory() . '/' . SysConf_Jet_Modules::getUninstallScript();
-
-		if( file_exists( $uninstall_script ) ) {
-			try {
-
+		
+		try {
+			$uninstall_script = $this->module_manifest->getModuleInstallDirPath() . SysConf_Jet_Modules::getUninstallScript();
+			
+			if( file_exists( $uninstall_script ) ) {
 				$module_instance = $this;
-
+				
 				require_once $uninstall_script;
-
-			} catch( \Exception $e ) {
-				throw new Application_Modules_Exception(
-					'Error while processing uninstall script: ' . get_class( $e ) . '::' . $e->getMessage(),
-					Application_Modules_Exception::CODE_FAILED_TO_UNINSTALL_MODULE
-				);
 			}
+			
+			Translator::uninstallApplicationModuleDictionaries( $this->module_manifest );
+
+		} catch( \Exception $e ) {
+			throw new Application_Modules_Exception(
+				'Error while processing uninstall script: ' . get_class( $e ) . '::' . $e->getMessage(),
+				Application_Modules_Exception::CODE_FAILED_TO_UNINSTALL_MODULE
+			);
 		}
+
 	}
 
 

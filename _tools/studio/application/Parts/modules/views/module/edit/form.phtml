@@ -1,7 +1,9 @@
 <?php
 namespace JetStudio;
 
-use Jet\SysConf_Jet_Modules;use Jet\Tr;
+use Jet\SysConf_Jet_Modules;
+use Jet\SysConf_Path;
+use Jet\Tr;
 use Jet\Form_Renderer;
 use Jet\MVC_View;
 use Jet\UI;
@@ -139,6 +141,35 @@ echo $delete_module_info->start();
 </ol>
 <?php
 echo $delete_module_info->end();
+
+
+
+
+$collect_dictionaries_info = UI::dialog(
+	id: 'collect_dictionaries_info',
+	title: Tr::_('Collect module dictionaries'),
+	size: UI_dialog::SIZE_LARGE
+);
+
+echo $collect_dictionaries_info->start();
+
+echo Tr::_('<b>Warning!</b><br>
+<br>
+This function uploads all current translation dictionaries from the %DICT_DIR% directory to the module installation directory %INSTALL_DIR%.<br>
+<br>
+This will allow dictionaries to be updated for further distribution and installation of the module.<br>
+<br>
+<b>But it is necessary to warn you that the existing installation dictionaries will be overwritten.</b>', [
+	'DICT_DIR' => '<br><br><i>'.SysConf_Path::getDictionaries().'</i><br><br>',
+	'INSTALL_DIR' => '<br><br><i>'.$current->getModuleInstallDictionariesDirPath().'</i><br>',
+]);
+
+echo $collect_dictionaries_info->footer();
+echo UI::button(Tr::_('OK - let\'s do it!'))->setClass(UI_button::CLASS_DANGER)->setUrl(Modules::getActionUrl('collect_dictionaries'));
+echo $collect_dictionaries_info->end();
+
+
+
 
 
 $clone_module_dialog = UI::dialog(

@@ -69,4 +69,11 @@ abstract class Translator_Backend extends BaseObject
 
 		return md5( $phrase );
 	}
+	
+	abstract public function installApplicationModuleDictionaries( Application_Module_Manifest $module ) : void;
+	
+	abstract public function collectApplicationModuleDictionaries( Application_Module_Manifest $module ) : void;
+	
+	abstract public function uninstallApplicationModuleDictionaries( Application_Module_Manifest $module ) : void;
+	
 }

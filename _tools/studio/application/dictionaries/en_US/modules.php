@@ -157,4 +157,15 @@ return [
 	'New module name:' => '',
 	'Clone' => '',
 	'Module %new_module_name% has been cloned' => '',
+	'Collect dictionaries' => '',
+	'Collect module dictionaries' => '',
+	'<b>Warning!</b><br>
+<br>
+This function uploads all current translation dictionaries from the %DICT_DIR% directory to the module installation directory %INSTALL_DIR%.<br>
+<br>
+This will allow dictionaries to be updated for further distribution and installation of the module.<br>
+<br>
+<b>But it is necessary to warn you that the existing installation dictionaries will be overwritten.</b>' => '',
+	'OK - let\'s do it!' => '',
+	'Module dictionaries has been collected' => '',
 ];
