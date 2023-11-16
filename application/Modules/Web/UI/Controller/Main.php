@@ -26,7 +26,6 @@ class Controller_Main extends MVC_Controller_Default
 	 */
 	public function homepage_Action(): void
 	{
-		Translator::setCurrentDictionary( Translator::getCurrentDictionary().'.homepage' );
 		$this->output( 'homepage' );
 	}
 	
