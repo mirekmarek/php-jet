@@ -1,15 +1,14 @@
 <?php
 /**
  *
- * @copyright
- * @license
- * @author  Miroslav Marek
+ * @copyright Copyright (c) Miroslav Marek <mirek.marek@web-jet.cz>
+ * @license http://www.php-jet.net/license/license.txt
+ * @author Miroslav Marek <mirek.marek@web-jet.cz>
  */
 namespace JetApplicationModule\Admin\EventViewer\Web;
 
 use Jet\DataListing_Column;
 use Jet\Tr;
-use JetApplicationModule\Web\Logger\Event as Event;
 
 class Listing_Column_Event extends DataListing_Column
 {

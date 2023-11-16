@@ -1,0 +1,4 @@
+<?php
+return [
+	'Date:' => 'Datum:',
+];

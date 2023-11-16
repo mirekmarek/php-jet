@@ -1,15 +1,14 @@
 <?php
 /**
  *
- * @copyright
- * @license
- * @author  Miroslav Marek
+ * @copyright Copyright (c) Miroslav Marek <mirek.marek@web-jet.cz>
+ * @license http://www.php-jet.net/license/license.txt
+ * @author Miroslav Marek <mirek.marek@web-jet.cz>
  */
 namespace JetApplicationModule\Admin\EventViewer\Web;
 
 use Jet\Http_Request;
 use Jet\MVC_View;
-use JetApplicationModule\Web\Logger\Event as Event;
 
 use Jet\MVC_Controller_Default;
 use Jet\Tr;
