@@ -23,7 +23,7 @@ class Application_REST_Services
 		return static::findService( Application_REST_Services_Auth_Controller::class, true );
 	}
 	
-	protected static function findService( string $service_interface, bool $service_is_mandatory=false ) : mixed
+	public static function findService( string $service_interface, bool $service_is_mandatory=false ) : mixed
 	{
 		$modules = Application_Modules::activatedModulesList();
 		foreach($modules as $manifest) {
