@@ -17,3 +17,5 @@ cleanup.sh
 images/test_uploads
 library/Composer/
 composer.lock
+application/dictionaries/**/*.php
+!application/dictionaries/**/_COMMON_.php
