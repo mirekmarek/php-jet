@@ -10,7 +10,6 @@ namespace JetApplicationModule\Web\UI;
 
 use Jet\MVC_Controller_Default;
 use Jet\MVC;
-use Jet\Translator;
 use JetApplication\Application_Web_Pages;
 
 

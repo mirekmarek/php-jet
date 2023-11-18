@@ -89,6 +89,22 @@ class Translator extends BaseObject
 	{
 		static::$current_dictionary = $current_dictionary;
 	}
+	
+	/**
+	 *
+	 * @param string $dictionary
+	 * @param callable $action
+	 */
+	public static function setCurrentDictionaryTemporary( string $dictionary, callable $action ): void
+	{
+		$current_dictionary = static::$current_dictionary;
+		static::$current_dictionary = $dictionary;
+		
+		$action();
+		
+		static::$current_dictionary  =$current_dictionary;
+	}
+	
 
 	/**
 	 *

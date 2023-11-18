@@ -34,12 +34,13 @@ class Main extends Application_Module implements Application_Admin_Services_Imag
 	{
 		$view = Factory_MVC::getViewInstance( $this->getViewsDir() );
 		
-		$dictionary = Translator::getCurrentDictionary();
-		Translator::setCurrentDictionary( $this->module_manifest->getName() );
-		
-		$res = $view->render('dialog/select-image/hook');
-		
-		Translator::setCurrentDictionary($dictionary);
+		$res = '';
+		Translator::setCurrentDictionaryTemporary(
+			$this->module_manifest->getName(),
+			function() use ($view, &$res) {
+				$res = $view->render('dialog/select-image/hook');
+			}
+		);
 		
 		return $res;
 	}
@@ -49,12 +50,13 @@ class Main extends Application_Module implements Application_Admin_Services_Imag
 		$view = Factory_MVC::getViewInstance( $this->getViewsDir() );
 		$view->setVar('form_field', $form_field);
 		
-		$dictionary = Translator::getCurrentDictionary();
-		Translator::setCurrentDictionary( $this->module_manifest->getName() );
-		
-		$res = $view->render('widget/select-image');
-		
-		Translator::setCurrentDictionary($dictionary);
+		$res = '';
+		Translator::setCurrentDictionaryTemporary(
+			$this->module_manifest->getName(),
+			function() use ($view, &$res) {
+				$res = $view->render('widget/select-image');
+			}
+		);
 		
 		return $res;
 	}
