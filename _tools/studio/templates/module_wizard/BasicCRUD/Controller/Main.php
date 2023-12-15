@@ -11,7 +11,7 @@ use %<DATA_MODEL_CLASS_NAME>% as %<DATA_MODEL_CLASS_ALIAS>%;
 
 use Jet\MVC_Controller_Router_AddEditDelete;
 use Jet\MVC_Controller_Default;
-use Jet\MVC_View;
+use Jet\Factory_MVC;
 use Jet\UI_messages;
 use Jet\Http_Headers;
 use Jet\Http_Request;
@@ -40,11 +40,11 @@ class Controller_Main extends MVC_Controller_Default
 					return (bool)($this->%<ITEM_VAR_NAME>% = %<DATA_MODEL_CLASS_ALIAS>%::get($id));
 				},
 				actions_map: [
-					'listing'=> Main::ACTION_GET_%<ACL_ENTITY_CONST_NAME>%,
-					'view'   => Main::ACTION_GET_%<ACL_ENTITY_CONST_NAME>%,
-					'add'    => Main::ACTION_ADD_%<ACL_ENTITY_CONST_NAME>%,
-					'edit'   => Main::ACTION_UPDATE_%<ACL_ENTITY_CONST_NAME>%,
-					'delete' => Main::ACTION_DELETE_%<ACL_ENTITY_CONST_NAME>%,
+					'listing'=> Main::ACTION_GET,
+					'view'   => Main::ACTION_GET,
+					'add'    => Main::ACTION_ADD,
+					'edit'   => Main::ACTION_UPDATE,
+					'delete' => Main::ACTION_DELETE,
 				]
 			);
 		}
@@ -56,10 +56,10 @@ class Controller_Main extends MVC_Controller_Default
 	protected function getListing() : Listing
 	{
 		if(!$this->listing) {
-			$column_view = new MVC_View( $this->view->getScriptsDir().'list/column/' );
+			$column_view = Factory_MVC::getViewInstance( $this->view->getScriptsDir().'list/column/' );
 			$column_view->setController( $this );
 			
-			$filter_view = new MVC_View( $this->view->getScriptsDir().'list/filter/' );
+			$filter_view = Factory_MVC::getViewInstance( $this->view->getScriptsDir().'list/filter/' );
 			$filter_view->setController( $this );
 			
 			$this->listing = new Listing(

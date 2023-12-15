@@ -8,10 +8,10 @@
 
 namespace JetApplicationModule\Admin\ManageAccess\RESTClients\Users;
 
+use Jet\Factory_MVC;
 use JetApplication\Auth_RESTClient_User as User;
 
 use Jet\Logger;
-use Jet\MVC_View;
 use Jet\MVC_Controller_Router_AddEditDelete;
 use Jet\UI_messages;
 use Jet\MVC_Controller_Default;
@@ -41,15 +41,15 @@ class Controller_Main extends MVC_Controller_Default
 					return (bool)($this->user = User::get( (int)$id ));
 				},
 				actions_map: [
-					'listing' => Main::ACTION_GET_USER,
-					'view'    => Main::ACTION_GET_USER,
-					'add'     => Main::ACTION_ADD_USER,
-					'edit'    => Main::ACTION_UPDATE_USER,
-					'delete'  => Main::ACTION_DELETE_USER,
+					'listing' => Main::ACTION_GET,
+					'view'    => Main::ACTION_GET,
+					'add'     => Main::ACTION_ADD,
+					'edit'    => Main::ACTION_UPDATE,
+					'delete'  => Main::ACTION_DELETE,
 				]
 			);
 
-			$this->router->addAction( 'reset_password', Main::ACTION_UPDATE_USER )
+			$this->router->addAction( 'reset_password', Main::ACTION_UPDATE )
 				->setResolver( function() {
 					return (
 						Http_Request::GET()->getString( 'action' ) == 'reset_password' &&
@@ -64,7 +64,7 @@ class Controller_Main extends MVC_Controller_Default
 				} );
 			
 			foreach($this->getListing()->getOperations() as $operation) {
-				$this->router->addAction( 'bulk_operation_'.$operation->getKey(), Main::ACTION_UPDATE_USER  )
+				$this->router->addAction( 'bulk_operation_'.$operation->getKey(), Main::ACTION_UPDATE  )
 					->setResolver(function() use ($operation) {
 						return Http_Request::GET()->getString( 'bulk_operation' ) == $operation->getKey();
 					})
@@ -83,9 +83,9 @@ class Controller_Main extends MVC_Controller_Default
 	protected function getListing() : Listing
 	{
 		if(!$this->listing) {
-			$column_view = new MVC_View( $this->view->getScriptsDir().'list/column/' );
+			$column_view = Factory_MVC::getViewInstance( $this->view->getScriptsDir().'list/column/' );
 			$column_view->setController( $this );
-			$filter_view = new MVC_View( $this->view->getScriptsDir().'list/filter/' );
+			$filter_view = Factory_MVC::getViewInstance( $this->view->getScriptsDir().'list/filter/' );
 			$filter_view->setController( $this );
 			
 			$this->listing = new Listing(

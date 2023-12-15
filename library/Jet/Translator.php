@@ -94,15 +94,19 @@ class Translator extends BaseObject
 	 *
 	 * @param string $dictionary
 	 * @param callable $action
+	 *
+	 * @return mixed
 	 */
-	public static function setCurrentDictionaryTemporary( string $dictionary, callable $action ): void
+	public static function setCurrentDictionaryTemporary( string $dictionary, callable $action ): mixed
 	{
 		$current_dictionary = static::$current_dictionary;
 		static::$current_dictionary = $dictionary;
 		
-		$action();
+		$res = $action();
 		
 		static::$current_dictionary  =$current_dictionary;
+		
+		return $res;
 	}
 	
 

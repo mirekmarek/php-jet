@@ -8,12 +8,12 @@
 
 namespace JetApplicationModule\Admin\Content\Articles;
 
+use Jet\Factory_MVC;
 use Jet\Logger;
 use JetApplication\Content_Article;
 
 use Jet\MVC_Controller_Default;
 use Jet\MVC;
-use Jet\MVC_View;
 
 use Jet\UI_messages;
 
@@ -45,11 +45,11 @@ class Controller_Main extends MVC_Controller_Default
 					return (bool)($this->article = Content_Article::get( $id ));
 				},
 				actions_map: [
-					'listing' => Main::ACTION_GET_ARTICLE,
-					'view'    => Main::ACTION_GET_ARTICLE,
-					'add'     => Main::ACTION_ADD_ARTICLE,
-					'edit'    => Main::ACTION_UPDATE_ARTICLE,
-					'delete'  => Main::ACTION_DELETE_ARTICLE,
+					'listing' => Main::ACTION_GET,
+					'view'    => Main::ACTION_GET,
+					'add'     => Main::ACTION_ADD,
+					'edit'    => Main::ACTION_UPDATE,
+					'delete'  => Main::ACTION_DELETE,
 				]
 			);
 
@@ -68,10 +68,10 @@ class Controller_Main extends MVC_Controller_Default
 	protected function getListing() : Listing
 	{
 		if(!$this->listing) {
-			$column_view = new MVC_View( $this->view->getScriptsDir().'list/column/' );
+			$column_view = Factory_MVC::getViewInstance( $this->view->getScriptsDir().'list/column/' );
 			$column_view->setController( $this );
 			
-			$filter_view = new MVC_View( $this->view->getScriptsDir().'list/filter/' );
+			$filter_view = Factory_MVC::getViewInstance( $this->view->getScriptsDir().'list/filter/' );
 			$filter_view->setController( $this );
 			
 			$this->listing = new Listing(

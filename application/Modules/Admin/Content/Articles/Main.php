@@ -17,9 +17,9 @@ class Main extends Application_Module
 {
 	public const ADMIN_MAIN_PAGE = 'articles';
 	
-	public const ACTION_GET_ARTICLE = 'get_article';
-	public const ACTION_ADD_ARTICLE = 'add_article';
-	public const ACTION_UPDATE_ARTICLE = 'update_article';
-	public const ACTION_DELETE_ARTICLE = 'delete_article';
+	public const ACTION_GET = 'get_article';
+	public const ACTION_ADD = 'add_article';
+	public const ACTION_UPDATE = 'update_article';
+	public const ACTION_DELETE = 'delete_article';
 
 }

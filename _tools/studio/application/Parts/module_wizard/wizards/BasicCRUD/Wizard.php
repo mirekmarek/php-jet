@@ -104,7 +104,6 @@ class Wizard extends ModuleWizard
 			'DATA_MODEL_CLASS_ALIAS' => $class_alias,
 
 			'ACL_ENTITY_NAME'       => $var_name,
-			'ACL_ENTITY_CONST_NAME' => strtoupper( $var_name ),
 
 			'ITEM_VAR_NAME' => $var_name,
 
@@ -249,19 +248,7 @@ class Wizard extends ModuleWizard
 			$this->values['ACL_ENTITY_NAME'] = $value;
 		} );
 		$fields[] = $acl_entity_name;
-
-		$acl_constant_name = new Form_Field_Input( 'ACL_ENTITY_CONST_NAME', 'ACL constant name:' );
-		$acl_constant_name->setIsRequired( true );
-		$acl_constant_name->setValidationRegexp( '/^[a-z0-9\_]{2,}$/i' );
-		$acl_constant_name->setErrorMessages( [
-			Form_Field::ERROR_CODE_EMPTY          => 'Please enter valid constant name',
-			Form_Field::ERROR_CODE_INVALID_FORMAT => 'Please enter valid constant name',
-		] );
-		$acl_constant_name->setFieldValueCatcher( function( $value ) {
-			$this->values['ACL_ENTITY_CONST_NAME'] = $value;
-		} );
-		$fields[] = $acl_constant_name;
-
+		
 	}
 
 	/**

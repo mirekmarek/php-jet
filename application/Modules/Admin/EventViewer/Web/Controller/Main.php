@@ -7,8 +7,8 @@
  */
 namespace JetApplicationModule\Admin\EventViewer\Web;
 
+use Jet\Factory_MVC;
 use Jet\Http_Request;
-use Jet\MVC_View;
 
 use Jet\MVC_Controller_Default;
 use Jet\Tr;
@@ -51,9 +51,9 @@ class Controller_Main extends MVC_Controller_Default
 	protected function getListing() : Listing
 	{
 		if(!$this->listing) {
-			$column_view = new MVC_View( $this->view->getScriptsDir().'list/column/' );
+			$column_view = Factory_MVC::getViewInstance( $this->view->getScriptsDir().'list/column/' );
 			$column_view->setController( $this );
-			$filter_view = new MVC_View( $this->view->getScriptsDir().'list/filter/' );
+			$filter_view = Factory_MVC::getViewInstance( $this->view->getScriptsDir().'list/filter/' );
 			$filter_view->setController( $this );
 			
 			$this->listing = new Listing(

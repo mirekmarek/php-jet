@@ -17,10 +17,10 @@ class Main extends Application_Module
 {
 	public const ADMIN_MAIN_PAGE = 'rest-clients-roles';
 	
-	public const ACTION_GET_ROLE = 'get_role';
-	public const ACTION_ADD_ROLE = 'add_role';
-	public const ACTION_UPDATE_ROLE = 'update_role';
-	public const ACTION_DELETE_ROLE = 'delete_role';
+	public const ACTION_GET = 'get_role';
+	public const ACTION_ADD = 'add_role';
+	public const ACTION_UPDATE = 'update_role';
+	public const ACTION_DELETE = 'delete_role';
 
 
 }

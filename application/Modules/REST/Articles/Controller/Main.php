@@ -33,11 +33,11 @@ class Controller_Main extends MVC_Controller_REST
 		$router = new MVC_Controller_REST_Router(
 			$this,
 			[
-				'get'    => Main::ACTION_GET_ARTICLE,
-				'list'   => Main::ACTION_GET_ARTICLE,
-				'add'    => Main::ACTION_ADD_ARTICLE,
-				'update' => Main::ACTION_UPDATE_ARTICLE,
-				'delete' => Main::ACTION_DELETE_ARTICLE,
+				'get'    => Main::ACTION_GET,
+				'list'   => Main::ACTION_GET,
+				'add'    => Main::ACTION_ADD,
+				'update' => Main::ACTION_UPDATE,
+				'delete' => Main::ACTION_DELETE,
 			]
 		);
 

@@ -17,10 +17,10 @@ class Main extends Application_Module
 {
 	public const ADMIN_MAIN_PAGE = 'administrators-users';
 	
-	public const ACTION_GET_USER = 'get_user';
-	public const ACTION_ADD_USER = 'add_user';
-	public const ACTION_UPDATE_USER = 'update_user';
-	public const ACTION_DELETE_USER = 'delete_user';
+	public const ACTION_GET = 'get_user';
+	public const ACTION_ADD = 'add_user';
+	public const ACTION_UPDATE = 'update_user';
+	public const ACTION_DELETE = 'delete_user';
 
 
 }

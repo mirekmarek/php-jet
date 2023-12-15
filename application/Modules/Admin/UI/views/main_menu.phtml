@@ -35,7 +35,12 @@ $showMenu = function( Navigation_Menu $menu, callable $separator_renderer, calla
 	}
 }
 ?>
-	<?php foreach( Navigation_MenuSet::get( 'admin' )->getMenus() as $menu ): ?>
+	<?php foreach( Navigation_MenuSet::get( 'admin' )->getMenus() as $menu ):
+		if(!$menu->getItems()) {
+			continue;
+		}
+		
+		?>
 		<li class="nav-item dropdown">
 			<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
 			   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -49,7 +54,10 @@ $showMenu = function( Navigation_Menu $menu, callable $separator_renderer, calla
 						?><div class="dropdown-divider"></div><?php
 					},
 					item_renderer: function( Navigation_Menu_Item $item) {
-						?><a class="dropdown-item" href="<?= $item->getUrl() ?>"><?= UI::icon( $item->getIcon() ) ?> <?= $item->getLabel() ?></a><?php
+						?><a class="dropdown-item" href="<?= $item->getUrl() ?>">
+						<div style="display: inline-block;width: 30px;"><?= UI::icon( $item->getIcon() ) ?></div>
+						
+						<?= $item->getLabel() ?></a><?php
 					}
 				);
 				?>

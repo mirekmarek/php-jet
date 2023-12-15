@@ -181,4 +181,5 @@ return [
 	'Relation property name:' => 'Název propojující vlastnosti:',
 	'Please enter valid property name' => 'Prosím zadejte platný název vlastnosti',
 	'Search for class ...' => 'Hledat třídu ...',
+	'add' => '',
 ];

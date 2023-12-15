@@ -32,17 +32,15 @@ class Main extends Application_Module implements Application_Admin_Services_Imag
 	
 	public function includeSelectImageDialog(): string
 	{
-		$view = Factory_MVC::getViewInstance( $this->getViewsDir() );
 		
-		$res = '';
-		Translator::setCurrentDictionaryTemporary(
+		return Translator::setCurrentDictionaryTemporary(
 			$this->module_manifest->getName(),
-			function() use ($view, &$res) {
-				$res = $view->render('dialog/select-image/hook');
+			function() {
+				$view = Factory_MVC::getViewInstance( $this->getViewsDir() );
+				return $view->render('dialog/select-image/hook');
 			}
 		);
 		
-		return $res;
 	}
 	
 	public function renderSelectImageWidget( Form_Field $form_field ) : string
@@ -50,14 +48,11 @@ class Main extends Application_Module implements Application_Admin_Services_Imag
 		$view = Factory_MVC::getViewInstance( $this->getViewsDir() );
 		$view->setVar('form_field', $form_field);
 		
-		$res = '';
-		Translator::setCurrentDictionaryTemporary(
+		return Translator::setCurrentDictionaryTemporary(
 			$this->module_manifest->getName(),
 			function() use ($view, &$res) {
-				$res = $view->render('widget/select-image');
+				return $view->render('widget/select-image');
 			}
 		);
-		
-		return $res;
 	}
 }
