@@ -53,7 +53,10 @@ foreach($_menus as $menu) {
 	<div style="display: grid;grid-template-columns: 20% repeat(<?=count($menus)?>, 1fr) 20%">
 		<div></div>
 		<?php foreach( $menus as $menu ): ?>
-			<div style="padding-left: 10px;padding-right: 10px;"><h5><?=$menu->getLabel()?></h5></div>
+			<div style="padding-left: 10px;padding-right: 10px;">
+				<h3><?=$menu->getLabel()?></h3>
+				<div class="dropdown-divider"></div>
+			</div>
 		<?php endforeach; ?>
 		<div></div>
 	</div>
