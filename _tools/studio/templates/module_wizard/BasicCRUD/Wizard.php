@@ -25,36 +25,18 @@ use JetStudio\ModuleWizard;
 use JetStudio\ModuleWizards;
 use JetStudio\Bases;
 
-/**
- *
- */
+
 class Wizard extends ModuleWizard
 {
 
-	/**
-	 * @var string
-	 */
 	protected string $title = 'Basic CRUD module for DataModel';
-
-	/**
-	 * @var string
-	 */
+	
 	protected string $description = 'Create basic module which allows to create, edit and delete data entity';
-
-	/**
-	 * @var string
-	 */
+	
 	protected string $data_model_class_name = '';
-
-	/**
-	 * @var ?Form
-	 */
+	
 	protected ?Form $select_data_model_form = null;
-
-
-	/**
-	 *
-	 */
+	
 	public function init(): void
 	{
 		$data_model_list = [];
@@ -145,18 +127,12 @@ class Wizard extends ModuleWizard
 		];
 
 	}
-
-	/**
-	 * @return string
-	 */
+	
 	public function getDataModelClassname(): string
 	{
 		return $this->data_model_class_name;
 	}
-
-	/**
-	 * @return Form
-	 */
+	
 	public function getSetupForm(): Form
 	{
 		parent::getSetupForm();
@@ -169,10 +145,7 @@ class Wizard extends ModuleWizard
 
 		return $this->setup_form;
 	}
-
-	/**
-	 * @return Form
-	 */
+	
 	public function generateSetupForm(): Form
 	{
 		$fields = [];
@@ -198,10 +171,7 @@ class Wizard extends ModuleWizard
 
 		return $form;
 	}
-
-	/**
-	 * @param array $fields
-	 */
+	
 	public function generateSetupForm_logger( array &$fields ) : void
 	{
 
@@ -230,10 +200,7 @@ class Wizard extends ModuleWizard
 
 	}
 
-
-	/**
-	 * @param array $fields
-	 */
+	
 	public function generateSetupForm_ACL( array &$fields ): void
 	{
 		$acl_entity_name = new Form_Field_Input( 'ACL_ENTITY_NAME', 'ACL entity name:' );
@@ -250,10 +217,7 @@ class Wizard extends ModuleWizard
 		$fields[] = $acl_entity_name;
 		
 	}
-
-	/**
-	 * @param array $fields
-	 */
+	
 	public function generateSetupForm_dataModel( array &$fields ): void
 	{
 
@@ -382,10 +346,7 @@ class Wizard extends ModuleWizard
 
 
 	}
-
-	/**
-	 * @param array $fields
-	 */
+	
 	public function generateSetupForm_page( array &$fields ): void
 	{
 
@@ -461,11 +422,7 @@ class Wizard extends ModuleWizard
 		$fields[] = $page_relative_path_fragment_field;
 
 	}
-
-
-	/**
-	 * @param array $fields
-	 */
+	
 	public function generateSetupForm_menuItem( array &$fields ): void
 	{
 		$menus_list = ['' => ''];
@@ -506,9 +463,6 @@ class Wizard extends ModuleWizard
 	}
 
 
-	/**
-	 * @param array $fields
-	 */
 	public function generateSetupForm_texts( array &$fields ): void
 	{
 
@@ -543,11 +497,7 @@ class Wizard extends ModuleWizard
 
 		}
 	}
-
-
-	/**
-	 * @return Form
-	 */
+	
 	public function getSelectDataModelForm(): Form
 	{
 
@@ -589,10 +539,7 @@ class Wizard extends ModuleWizard
 		return $this->select_data_model_form;
 
 	}
-
-	/**
-	 *
-	 */
+	
 	public function catchSelectModelForm(): void
 	{
 		$form = $this->getSelectDataModelForm();
@@ -604,9 +551,6 @@ class Wizard extends ModuleWizard
 	}
 	
 	
-	/**
-	 * @param string $target_dir
-	 */
 	public function create_generateFiles( string $target_dir ) : void
 	{
 		$form_class = Forms::getClass( $this->data_model_class_name );

@@ -11,7 +11,6 @@ namespace JetStudio;
 use Jet\BaseObject;
 use Jet\Http_Request;
 use Jet\IO_Dir;
-use Jet\SysConf_Path;
 use Jet\SysConf_URI;
 use Jet\Tr;
 
@@ -40,7 +39,7 @@ class ModuleWizards extends BaseObject implements Application_Part
 	public static function getBasePath(): string
 	{
 		if( !static::$base_path ) {
-			static::$base_path = SysConf_Path::getApplication() . 'Parts/module_wizard/wizards/';
+			static::$base_path = ProjectConf_Path::getTemplates() . 'module_wizard/';
 		}
 
 		return static::$base_path;
@@ -99,9 +98,9 @@ class ModuleWizards extends BaseObject implements Application_Part
 	public static function getList(): array
 	{
 		$base_path = static::getBasePath();
-
 		$list = IO_Dir::getList( $base_path, '*', true, false );
-
+		
+		
 		$res = [];
 
 		foreach( $list as $path => $name ) {

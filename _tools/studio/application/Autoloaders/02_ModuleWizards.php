@@ -35,7 +35,7 @@ return new class extends Autoloader_Loader
 		if( !str_starts_with( $class_name, static::ROOT_NAMESPACE ) ) {
 			return false;
 		}
-
+		
 		return ModuleWizards::getBasePath() . $this->classNameToPath( substr($class_name, strlen(static::ROOT_NAMESPACE)) );
 
 	}
