@@ -28,6 +28,7 @@ class Form_Renderer_Field_Input_MultiSelect extends Form_Renderer_Field_Input
 		
 		if( $field->getIsReadonly() ) {
 			$this->_tag_attributes['readonly'] = 'readonly';
+			$this->_tag_attributes['disabled'] = 'disabled';
 		}
 		if( $field->getIsRequired() ) {
 			$this->_tag_attributes['required'] = 'required';
