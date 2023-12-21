@@ -36,7 +36,7 @@ class Form_Field_Int extends Form_Field_Input implements Form_Field_Part_NumberR
 		parent::catchInput( $data );
 		
 		if($this->_value!=='') {
-			$this->_value = (float)$this->_value_raw;
+			$this->_value = (int)$this->_value_raw;
 		}
 	}
 }
