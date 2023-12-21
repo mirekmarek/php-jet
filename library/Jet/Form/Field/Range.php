@@ -37,6 +37,8 @@ class Form_Field_Range extends Form_Field_Input implements Form_Field_Part_Numbe
 		
 		if($this->_value!=='') {
 			$this->_value = (float)$this->_value_raw;
+		} else {
+			$this->_value = $this->default_value;
 		}
 	}
 	

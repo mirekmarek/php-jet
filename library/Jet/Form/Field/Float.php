@@ -42,6 +42,8 @@ class Form_Field_Float extends Form_Field_Input implements Form_Field_Part_Numbe
 			if($this->places>0) {
 				$this->_value = round($this->_value, $this->places);
 			}
+		} else {
+			$this->_value = $this->default_value;
 		}
 	}
 }
