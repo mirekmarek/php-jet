@@ -90,7 +90,7 @@ class Controller_Main extends MVC_Controller_Default
 		$int_field->setIsRequired( true );
 		$int_field->setMinValue( 10 );
 		$int_field->setMaxValue( 100 );
-		$int_field->setStep( 10 );
+		$int_field->setStep( 1 );
 		$int_field->setHelpText('Minimal value: %min%, maximal value: %max%');
 		$int_field->setHelpData([
 			'min' => Locale::int($int_field->getMinValue()),
@@ -109,7 +109,7 @@ class Controller_Main extends MVC_Controller_Default
 		$float_field->setIsRequired( true );
 		$float_field->setMinValue( -0.10 );
 		$float_field->setMaxValue( 3.50 );
-		$float_field->setStep( 0.1 );
+		$float_field->setStep( 0.01 );
 		$float_field->setHelpText('Minimal value: %min%, maximal value: %max%');
 		$float_field->setHelpData([
 			'min' => Locale::float($float_field->getMinValue()),
