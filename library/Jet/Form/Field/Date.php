@@ -24,8 +24,8 @@ class Form_Field_Date extends Form_Field_Input
 	 * @var array
 	 */
 	protected array $error_messages = [
-		Form_Field::ERROR_CODE_EMPTY          => '',
-		Form_Field::ERROR_CODE_INVALID_FORMAT => '',
+		Form_Field::ERROR_CODE_EMPTY        => '',
+		Form_Field::ERROR_CODE_OUT_OF_RANGE => '',
 	];
 	
 

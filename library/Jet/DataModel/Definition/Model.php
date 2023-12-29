@@ -118,7 +118,7 @@ abstract class DataModel_Definition_Model extends BaseObject
 	 */
 	protected function _mainInit( string $data_model_class_name ): void
 	{
-
+		
 		$this->class_name = $data_model_class_name;
 		$this->class_reflection = new ReflectionClass( $data_model_class_name );
 
@@ -130,8 +130,8 @@ abstract class DataModel_Definition_Model extends BaseObject
 				'relation' => 'relations'
 			]
 		);
-
-
+		
+		
 		$this->model_name = $this->_getModelNameDefinition();
 
 		$this->_initIDController();

@@ -58,9 +58,25 @@ class DataModel_Relations extends BaseObject
 	{
 		if( !array_key_exists( $data_model_class_name, static::$relations ) ) {
 			static::$relations[$data_model_class_name] = [];
-
+			
 			DataModel_Definition::get( $data_model_class_name )->initRelations();
+			
+			$parents = array_keys( class_parents( $data_model_class_name ) );
+			
+			if(
+				isset($parents[0]) &&
+				!str_starts_with($parents[0], DataModel::class)
+			) {
+				$parent_relations = static::get( $parents[0] );
+				
+				foreach($parent_relations as $model_name=>$relation) {
+					if(!isset(static::$relations[$data_model_class_name][$model_name])) {
+						static::$relations[$data_model_class_name][$model_name] = $relation;
+					}
+				}
+			}
 		}
+		
 
 		return static::$relations[$data_model_class_name];
 	}
