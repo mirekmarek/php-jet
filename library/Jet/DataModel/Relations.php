@@ -26,7 +26,7 @@ class DataModel_Relations extends BaseObject
 	 */
 	public static function add( string $data_model_class_name,
 	                            DataModel_Definition_Relation $relation,
-	                            bool $ignore_if_exists = false ): void
+	                            bool $ignore_if_exists = true ): void
 	{
 		if( !isset( static::$relations[$data_model_class_name] ) ) {
 			static::$relations[$data_model_class_name] = [];
