@@ -56,6 +56,13 @@ class ErrorHandler_Display extends Debug_ErrorHandler_Handler
 	 */
 	public function display( Debug_ErrorHandler_Error $e ): void
 	{
+		if($e->isFatal()) {
+			while (ob_get_level())
+			{
+				ob_end_clean();
+			}
+		}
+		
 		?>
 		<style>
 			.dbg-error {

@@ -38,7 +38,7 @@ class Form_Field_Int extends Form_Field_Input implements Form_Field_Part_NumberR
 		if($this->_value!=='') {
 			$this->_value = (int)$this->_value_raw;
 		} else {
-			$this->_value = $this->default_value;
+			$this->_value = null;
 		}
 	}
 }
