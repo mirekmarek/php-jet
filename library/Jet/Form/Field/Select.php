@@ -24,8 +24,8 @@ class Form_Field_Select extends Form_Field implements Form_Field_Part_Select_Int
 	 * @var array
 	 */
 	protected array $error_messages = [
-		Form_Field::ERROR_CODE_EMPTY        => '',
-		Form_Field::ERROR_CODE_INVALID_VALUE => '',
+		Form_Field::ERROR_CODE_EMPTY        => 'Please enter a value',
+		Form_Field::ERROR_CODE_INVALID_VALUE => 'Invalid value',
 	];
 	
 	/**

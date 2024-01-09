@@ -26,9 +26,9 @@ class Form_Field_FileImage extends Form_Field implements Form_Field_Part_File_In
 	 * @var array
 	 */
 	protected array $error_messages = [
-		Form_Field::ERROR_CODE_EMPTY                => '',
-		Form_Field::ERROR_CODE_FILE_IS_TOO_LARGE    => '',
-		Form_Field::ERROR_CODE_DISALLOWED_FILE_TYPE => '',
+		Form_Field::ERROR_CODE_EMPTY                => 'Please select file',
+		Form_Field::ERROR_CODE_FILE_IS_TOO_LARGE    => 'File is too large',
+		Form_Field::ERROR_CODE_DISALLOWED_FILE_TYPE => 'Unsupported file type',
 	];
 
 	/**

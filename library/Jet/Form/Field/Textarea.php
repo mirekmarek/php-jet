@@ -19,7 +19,7 @@ class Form_Field_Textarea extends Form_Field
 	protected string $_type = Form_Field::TYPE_TEXTAREA;
 	
 	protected array $error_messages = [
-		Form_Field::ERROR_CODE_EMPTY => ''
+		Form_Field::ERROR_CODE_EMPTY => 'Please enter a value'
 	];
 
 	/**

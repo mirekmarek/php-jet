@@ -24,8 +24,8 @@ class Form_Field_Range extends Form_Field_Input implements Form_Field_Part_Numbe
 	 * @var array
 	 */
 	protected array $error_messages = [
-		Form_Field::ERROR_CODE_EMPTY        => '',
-		Form_Field::ERROR_CODE_OUT_OF_RANGE => '',
+		Form_Field::ERROR_CODE_EMPTY        => 'Please enter a value',
+		Form_Field::ERROR_CODE_OUT_OF_RANGE => 'Out of range',
 	];
 	
 	/**

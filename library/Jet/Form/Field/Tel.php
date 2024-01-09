@@ -24,8 +24,8 @@ class Form_Field_Tel extends Form_Field_Input implements Form_Field_Part_RegExp_
 	 * @var array
 	 */
 	protected array $error_messages = [
-		Form_Field::ERROR_CODE_EMPTY        => '',
-		Form_Field::ERROR_CODE_INVALID_FORMAT => '',
+		Form_Field::ERROR_CODE_EMPTY        => 'Please enter a value',
+		Form_Field::ERROR_CODE_INVALID_FORMAT => 'Invalid value',
 	];
 	
 }

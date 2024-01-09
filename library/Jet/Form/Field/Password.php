@@ -24,7 +24,7 @@ class Form_Field_Password extends Form_Field
 	 * @var array
 	 */
 	protected array $error_messages = [
-		Form_Field::ERROR_CODE_EMPTY => ''
+		Form_Field::ERROR_CODE_EMPTY => 'Please enter a value'
 	];
 
 	/**

@@ -24,8 +24,8 @@ class Form_Field_Month extends Form_Field
 	 * @var array
 	 */
 	protected array $error_messages = [
-		Form_Field::ERROR_CODE_EMPTY        => '',
-		Form_Field::ERROR_CODE_INVALID_FORMAT => '',
+		Form_Field::ERROR_CODE_EMPTY        => 'Please enter a value',
+		Form_Field::ERROR_CODE_INVALID_FORMAT => 'Invalid value',
 	];
 	
 	
