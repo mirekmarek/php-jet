@@ -61,18 +61,23 @@ abstract class Form_Renderer_Single extends Form_Renderer
 		return $this->render();
 	}
 	
+	/**
+	 * @return Closure|null
+	 */
 	public function getCustomRenderer(): ?Closure
 	{
 		return $this->custom_renderer;
 	}
 	
+	/**
+	 * @param Closure|null $custom_renderer
+	 * @return void
+	 */
 	public function setCustomRenderer( ?Closure $custom_renderer ): void
 	{
 		$this->custom_renderer = $custom_renderer;
 	}
 	
-	
-
 	/**
 	 * @return string
 	 */
@@ -81,9 +86,7 @@ abstract class Form_Renderer_Single extends Form_Renderer
 		if($this->custom_renderer) {
 			ob_start();
 			$this->custom_renderer->call( $this );
-			$res = ob_get_clean();
-			
-			return $res;
+			return ob_get_clean();
 		} else {
 			return $this->renderByView();
 		}
