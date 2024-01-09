@@ -93,7 +93,12 @@ class DataModel_Query extends BaseObject
 	 * @var int|null
 	 */
 	protected int|null $limit = null;
-
+	
+	/**
+	 * @var bool
+	 */
+	protected bool $raw_mode = false;
+	
 	/**
 	 *
 	 * @param DataModel_Definition_Model $main_data_model_definition
@@ -269,7 +274,24 @@ class DataModel_Query extends BaseObject
 	{
 		return $this->offset;
 	}
+	
+	/**
+	 * @return bool
+	 */
+	public function getRawMode(): bool
+	{
+		return $this->raw_mode;
+	}
+	
+	/**
+	 * @param bool $raw_mode
+	 */
+	public function setRawMode( bool $raw_mode ): void
+	{
+		$this->raw_mode = $raw_mode;
+	}
 
+	
 
 	/**
 	 * @return DataModel_Definition_Relation[]

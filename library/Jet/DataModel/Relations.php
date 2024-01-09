@@ -67,13 +67,19 @@ class DataModel_Relations extends BaseObject
 				isset($parents[0]) &&
 				!str_starts_with($parents[0], DataModel::class)
 			) {
-				$parent_relations = static::get( $parents[0] );
 				
-				foreach($parent_relations as $model_name=>$relation) {
-					if(!isset(static::$relations[$data_model_class_name][$model_name])) {
-						static::$relations[$data_model_class_name][$model_name] = $relation;
+				try {
+					$parent_relations = static::get( $parents[0] );
+					foreach($parent_relations as $model_name=>$relation) {
+						if(!isset(static::$relations[$data_model_class_name][$model_name])) {
+							static::$relations[$data_model_class_name][$model_name] = $relation;
+						}
 					}
+				} catch( DataModel_Exception $e ) {
+				
 				}
+				
+				
 			}
 		}
 		

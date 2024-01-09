@@ -1160,6 +1160,11 @@ class DataModel_Backend_MSSQL extends DataModel_Backend
 			return $data;
 		}
 		
+		if($query->getRawMode()) {
+			return $data;
+		}
+		
+		
 		return $this->validateResultData( $query, $fetch_method, $data );
 	}
 	

@@ -1106,7 +1106,11 @@ class DataModel_Backend_SQLite extends DataModel_Backend
 		if( !is_array( $data ) ) {
 			return $data;
 		}
-
+		
+		if($query->getRawMode()) {
+			return $data;
+		}
+		
 		return $this->validateResultData( $query, $fetch_method, $data );
 	}
 
