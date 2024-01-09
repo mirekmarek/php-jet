@@ -418,6 +418,7 @@ class Forms_Class_Property
 	 */
 	public function update( array $data ) : bool
 	{
+		
 		$ok = true;
 		try {
 			
@@ -500,7 +501,7 @@ class Forms_Class_Property
 		
 		if(isset($data['main'])) {
 			foreach($data['main'] as $key=>$val) {
-				if($val==='' || $val===[] || $val===['','']) {
+				if($val==='' || $val===[] || $val===['',''] || $val===null) {
 					continue;
 				}
 				$new_attribute->setArgument($key, $val);
@@ -509,7 +510,7 @@ class Forms_Class_Property
 		
 		if(isset($data['other'])) {
 			foreach($data['other'] as $key=>$val) {
-				if($val==='' || $val===[] || $val===['','']) {
+				if($val==='' || $val===[] || $val===['',''] || $val===null) {
 					continue;
 				}
 				
