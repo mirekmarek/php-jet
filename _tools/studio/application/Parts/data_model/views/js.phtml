@@ -9,8 +9,10 @@ namespace JetStudio;
 				$('#class_search').val('');
 
 				$('.class_list_item').show();
+				$('#current-item').show();
 			},
 			search: function () {
+				$('#current-item').hide();
 
 				let value = $('#class_search').val();
 
@@ -80,7 +82,7 @@ namespace JetStudio;
 
 			generateRelationPropertyName: function ( form, current_model_name ) {
 				let name = form['model_name'].value;
-				
+
 				if(name.startsWith(current_model_name+'_')) {
 					name = name.substring( current_model_name.length+1 );
 				}
