@@ -16,4 +16,5 @@ return [
 	'E-mail' => '',
 	'Sorry, but username %USERNAME% is registered.' => '',
 	'Please enter e-mail address' => '',
+	'Invalid value' => '',
 ];

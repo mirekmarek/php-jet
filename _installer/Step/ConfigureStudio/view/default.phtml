@@ -3,7 +3,6 @@
 namespace JetApplication\Installer;
 
 use Jet\Form;
-use Jet\Form_Renderer;
 use Jet\MVC_View;
 
 /**
@@ -12,15 +11,17 @@ use Jet\MVC_View;
  */
 
 $form = $this->getRaw( 'form' );
-$form->renderer()->setDefaultLabelWidth( [Form_Renderer::LJ_SIZE_MEDIUM => 2] );
-$form->renderer()->setDefaultFieldWidth( [Form_Renderer::LJ_SIZE_MEDIUM => 4] );
 ?>
 <?= $form->start() ?>
 <?= $form->message() ?>
+	
+	<div style="display: grid;grid-template-columns: 160px 400px;gap: 10px;">
+		<?= $form->field( 'username' ) ?>
+		<?= $form->field( 'password' ) ?>
+		<?= $form->field( 'password_check' ) ?>
+		<div></div>
+		<div><?= Installer::buttonNextSubmit(); ?></div>
+	</div>
 
-<?= $form->field( 'username' ) ?>
-<?= $form->field( 'password' ) ?>
-<?= $form->field( 'password_check' ) ?>
 
-<?= Installer::buttonNextSubmit(); ?>
 <?= $form->end() ?>

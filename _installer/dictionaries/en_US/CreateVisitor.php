@@ -14,5 +14,6 @@ return [
 	'Confirm password' => '',
 	'E-mail' => '',
 	'Visitor account has already been created' => '',
-	'E-mail %EMAIL%is already in use.' => '',
+	'E-mail %EMAIL% is already in use.' => '',
+	'Invalid value' => '',
 ];

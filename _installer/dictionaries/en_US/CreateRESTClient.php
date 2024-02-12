@@ -13,4 +13,6 @@ return [
 	'Password' => '',
 	'Confirm password' => '',
 	'E-mail' => '',
+	'Invalid value' => '',
+	'REST Client account has already been created' => '',
 ];

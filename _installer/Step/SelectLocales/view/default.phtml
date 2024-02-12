@@ -2,7 +2,6 @@
 namespace JetApplication\Installer;
 
 use Jet\Form;
-use Jet\Form_Renderer;
 use Jet\MVC_View;
 
 /**
@@ -10,8 +9,6 @@ use Jet\MVC_View;
  * @var Form $form
  */
 $form = $this->getRaw( 'form' );
-$form->renderer()->setDefaultLabelWidth( [Form_Renderer::LJ_SIZE_MEDIUM => 0] );
-$form->renderer()->setDefaultFieldWidth( [Form_Renderer::LJ_SIZE_MEDIUM => 6] );
 ?>
 
 <?= $form->start() ?>
@@ -19,5 +16,8 @@ $form->renderer()->setDefaultFieldWidth( [Form_Renderer::LJ_SIZE_MEDIUM => 6] );
 	<?= $field ?>
 <?php endforeach; ?>
 
-<?= Installer::buttonNextSubmit(); ?>
+<div style="padding: 10px 10px 10px 15px;">
+	<?= Installer::buttonNextSubmit(); ?>
+</div>
+
 <?= $form->end() ?>

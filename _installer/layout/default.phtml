@@ -34,21 +34,33 @@ $this->requireCssFile( SysConf_URI::getCss() . 'flags.css' );
 			height: 100%;
 		}
 
-		header {
-			background-color: #000000;
-			color: #ffffff;
-			font-size: 16px;
-			font-weight: bolder;
-			padding: 10px;
-			margin-left: -15px;
-			margin-right: -15px;
-			margin-bottom: 20px;
+		.main-container {
+			display: grid;
+			grid-template-columns: 1fr 5fr;
+			grid-template-rows: 70px calc(100vh - 70px)
 		}
-
 
 		.progress-area {
 			background-color: #5c5c5c;
+			padding: 10px;
 		}
+		
+		.header {
+			background-color: #000000;
+			color: #ffffff;
+			text-align: left;
+			padding-left: 30px;
+			padding-top: 10px;
+			font-size: 14px;
+		}
+		
+		.step-title {
+			background-color: #000000;
+			color: #ffffff;
+			padding-top: 15px;
+			font-size: 30px;
+		}
+		
 
 		.step {
 			padding: 5px;
@@ -80,7 +92,8 @@ $this->requireCssFile( SysConf_URI::getCss() . 'flags.css' );
 
 		.main {
 			background-color: #ffffff;
-			min-height: 100%;
+			overflow: auto;
+			padding: 30px;
 		}
 
 	</style>
@@ -89,14 +102,17 @@ $this->requireCssFile( SysConf_URI::getCss() . 'flags.css' );
 <body>
 
 
-<div class="container-fluid">
-	<div class="row h-100">
-		<div class="col-md-2 progress-area">
-			<header>
-				<img src="https://php-jet.net/images/logo-st.svg" style="width: 180px;height: auto"><br>
-				<?= Tr::_( 'Example Project Installer' ); ?>
-			</header>
-
+<div class="main-container">
+	<div class="header">
+		<img src="https://php-jet.net/images/logo-st.svg" style="width: auto;height: 30px"><br>
+		<?= Tr::_( 'Example Project Installer' ); ?>
+	</div>
+	<div class="step-title">
+		<?= Installer::getCurrentStepController()->getIcon( UI_icon::SIZE_EXTRA_LARGE ) ?> <?= Installer::getCurrentStepController()->getLabel() ?>
+	</div>
+	
+	<div class="progress-area">
+		<div class="steps">
 			<?php foreach( $steps as $step ):
 				$class = '';
 				if( $step->getIsSubStep() ) {
@@ -119,24 +135,21 @@ $this->requireCssFile( SysConf_URI::getCss() . 'flags.css' );
 				<div class="step step-next<?= $class; ?>"><?=$step->getIcon()?> <?= $step->getLabel(); ?></div>
 			<?php endif; ?>
 			<?php endforeach; ?>
-		</div>
-		<div class="col-md-10 main" style="padding-top: 10px;">
-			<h1><?= Installer::getCurrentStepController()->getIcon( UI_icon::SIZE_EXTRA_LARGE ) ?> <?= Installer::getCurrentStepController()->getLabel() ?></h1>
-			<hr/>
-			<div id="system-messages-area">
-				<?php
-				foreach( UI_messages::get() as $msg ):
-					echo $msg;
-				endforeach;
-				?>
-			</div>
-
-			<jet_layout_main_position/>
 			
-			<br><br><br><br>
 		</div>
 	</div>
-
+	<div class="main">
+		<div id="system-messages-area">
+			<?php
+			foreach( UI_messages::get() as $msg ):
+				echo $msg;
+			endforeach;
+			?>
+		</div>
+		
+		<jet_layout_main_position/>
+		
+	</div>
 </div>
 
 </body>

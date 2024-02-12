@@ -6,4 +6,6 @@ return [
 	'E-mail:' => '',
 	'Name:' => '',
 	'Something went wrong: %error%' => '',
+	'Please enter a value' => '',
+	'Invalid value' => '',
 ];

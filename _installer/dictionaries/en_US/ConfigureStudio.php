@@ -8,4 +8,5 @@ return [
 	'Username:' => '',
 	'Password:' => '',
 	'Confirm password:' => '',
+	'Invalid value' => '',
 ];

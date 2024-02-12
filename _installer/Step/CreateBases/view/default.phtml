@@ -4,7 +4,6 @@ namespace JetApplication\Installer;
 use Jet\MVC_View;
 use Jet\MVC_Base;
 use Jet\Form;
-use Jet\Form_Renderer;
 use Jet\UI;
 
 /**
@@ -14,8 +13,6 @@ use Jet\UI;
  */
 
 $main_form = $this->getRaw( 'main_form' );
-
-$main_form->renderer()->setDefaultLabelWidth( [Form_Renderer::LJ_SIZE_MEDIUM => 2] );
 
 $bases = $this->getRaw( 'bases' );
 ?>
@@ -34,7 +31,7 @@ $bases = $this->getRaw( 'bases' );
 			<div style="margin-bottom: 25px" class="input-group">
 				<span class="input-group-prepend">
 					<span class="input-group-text" style="display: inline-block;width: 150px"> <?= UI::locale( $locale ); ?></span>
-					<span class="input-group-text"> http://</span>
+					<span class="input-group-text"> https://</span>
 				</span>
 				<?= $field->input() ?>
 				<div class="input-group-append"><span class="input-group-text"></span></div>

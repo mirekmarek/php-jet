@@ -16,4 +16,5 @@ return [
 	'Bases has been created' => '',
 	'Create bases' => '',
 	'Base has been created' => '',
+	'Invalid value' => '',
 ];

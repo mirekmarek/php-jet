@@ -88,7 +88,7 @@ class Auth_Visitor_User extends DataModel implements Auth_User_Interface
 		error_messages: [
 			Form_Field::ERROR_CODE_EMPTY          => 'Please enter e-mail address',
 			Form_Field::ERROR_CODE_INVALID_FORMAT => 'Please enter e-mail address',
-			'exists' => 'E-mail %EMAIL%is already in use.'
+			'exists' => 'E-mail %EMAIL% is already in use.'
 			
 		]
 	)]
