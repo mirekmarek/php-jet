@@ -98,4 +98,6 @@ return [
 	'Module:' => 'Modul:',
 	'Module controller:' => 'Kontroler modulu:',
 	'Search for module ...' => 'Hledat modul ...',
+	'Please enter a value' => '',
+	'Out of range' => '',
 ];

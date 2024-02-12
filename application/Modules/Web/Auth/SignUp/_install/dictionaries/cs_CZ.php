@@ -11,7 +11,7 @@ return [
 	'Password' => 'Heslo',
 	'Confirm password' => 'Potvrzení hesla',
 	'E-mail' => 'E-mail',
-	'E-mail %EMAIL%is already in use.' => 'E-mail %EMAIL%is je již používán.',
+	'E-mail %EMAIL% is already in use.' => 'E-mail %EMAIL%is je již používán.',
 	'Thank you for your sign up' => 'Děkujeme za vaši registraci',
 	'Continue' => 'Pokračovat',
 ];

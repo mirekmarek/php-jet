@@ -55,6 +55,6 @@ return [
 	'Unblock filtered users' => 'Odblokovat vyfiltrované uživatele',
 	'The filtered users have been blocked' => 'Vyfiltrovaní uživatelé byli zablokováni',
 	'The filtered users have been unblocked' => 'Vyfiltrovaní uživatelé byli odblokováni',
-	'E-mail %EMAIL%is already in use.' => '',
+	'E-mail %EMAIL% is already in use.' => '',
 	'Admin / User management / Visitors' => '',
 ];

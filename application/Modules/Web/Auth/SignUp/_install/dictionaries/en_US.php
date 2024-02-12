@@ -12,7 +12,7 @@ return [
 	'Password' => '',
 	'Confirm password' => '',
 	'E-mail' => '',
-	'E-mail %EMAIL%is already in use.' => '',
+	'E-mail %EMAIL% is already in use.' => '',
 	'Thank you for your sign up' => '',
 	'Continue' => '',
 ];

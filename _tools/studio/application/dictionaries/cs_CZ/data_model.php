@@ -182,4 +182,5 @@ return [
 	'Please enter valid property name' => 'Prosím zadejte platný název vlastnosti',
 	'Search for class ...' => 'Hledat třídu ...',
 	'add' => '',
+	'Please enter a value' => '',
 ];

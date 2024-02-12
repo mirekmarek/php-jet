@@ -172,4 +172,5 @@ To umožní aktualizovat slovníky pro další distribuci a instalaci modulu.<br
 ',
 	'OK - let\'s do it!' => 'Rozumím, jde se na to!',
 	'Module dictionaries has been collected' => 'Překladové slovníky modulu byly posbírány',
+	'Please enter a value' => '',
 ];
