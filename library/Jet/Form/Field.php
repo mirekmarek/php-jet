@@ -140,6 +140,11 @@ abstract class Form_Field extends BaseObject implements JsonSerializable
 	 * @var bool
 	 */
 	protected bool $is_readonly = false;
+	
+	/**
+	 * @var bool
+	 */
+	protected bool $do_not_translate_label = false;
 
 
 	/**
@@ -290,6 +295,10 @@ abstract class Form_Field extends BaseObject implements JsonSerializable
 	 */
 	public function getLabel(): string
 	{
+		if($this->getDoNotTranslateLabel()) {
+			return $this->label;
+		}
+		
 		return $this->_( $this->label );
 	}
 
@@ -491,6 +500,24 @@ abstract class Form_Field extends BaseObject implements JsonSerializable
 	{
 		return $this->_form->_( $phrase, $data );
 	}
+	
+	/**
+	 * @return bool
+	 */
+	public function getDoNotTranslateLabel(): bool
+	{
+		return $this->do_not_translate_label;
+	}
+	
+	/**
+	 * @param bool $do_not_translate_label
+	 */
+	public function setDoNotTranslateLabel( bool $do_not_translate_label ): void
+	{
+		$this->do_not_translate_label = $do_not_translate_label;
+	}
+	
+	
 
 	/**
 	 *

@@ -119,12 +119,14 @@ trait Form_Field_Part_File_Trait
 	{
 		$res = [];
 		
-		foreach($this->_value_raw as $file) {
-			/**
-			 * @var Form_Field_File_UploadedFile $file
-			 */
-			if($file->hasError()) {
-				$res[$file->getFileName()] = $file;
+		if( is_array( $this->_value_raw ) ) {
+			foreach($this->_value_raw as $file) {
+				/**
+				 * @var Form_Field_File_UploadedFile $file
+				 */
+				if($file->hasError()) {
+					$res[$file->getFileName()] = $file;
+				}
 			}
 		}
 		
