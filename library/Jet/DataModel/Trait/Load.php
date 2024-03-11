@@ -326,11 +326,21 @@ trait DataModel_Trait_Load
 
 		$main_select = DataModel_PropertyFilter::getQuerySelect( $this_definition, $load_filter );
 		$query->setSelect( $main_select );
-
+		
+		if( isset( $where_per_model[''] ) ) {
+			$where_per_model[$this_definition->getModelName()] = $where_per_model[''];
+		}
+		
+		if( isset( $where_per_model['this'] ) ) {
+			$where_per_model[$this_definition->getModelName()] = $where_per_model['this'];
+		}
+		
 
 		if( isset( $where_per_model[$this_definition->getModelName()] ) ) {
 			$query->setWhere( $where_per_model[$this_definition->getModelName()] );
 		}
+		
+		
 
 		if( $order_by ) {
 			$query->setOrderBy( $order_by );
