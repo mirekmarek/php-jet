@@ -73,8 +73,9 @@ class Debug_Profiler_Run
 				!isset( $_SERVER['REQUEST_URI'] )
 			) {
 				$this->request_URL = 'unknown';
+			} else {
+				$this->request_URL = $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
 			}
-			$this->request_URL = $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
 		}
 
 		$this->date_and_time = date( 'Y-m-d H:i:s' );
