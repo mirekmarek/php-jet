@@ -31,6 +31,7 @@ class Http_Request_Trap implements BaseObject_Interface_ArrayEmulator
 	 * @return mixed
 	 *
 	 * @throws Http_Request_Exception
+	 * @noinspection PhpMixedReturnTypeCanBeReducedInspection
 	 */
 	public function __get( string $name ): mixed
 	{
@@ -84,6 +85,7 @@ class Http_Request_Trap implements BaseObject_Interface_ArrayEmulator
 
 	/**
 	 * @throws Http_Request_Exception
+	 * @noinspection PhpMixedReturnTypeCanBeReducedInspection
 	 */
 	public function current(): mixed
 	{
@@ -161,6 +163,7 @@ class Http_Request_Trap implements BaseObject_Interface_ArrayEmulator
 	 * @return mixed
 	 *
 	 * @throws Http_Request_Exception
+	 * @noinspection PhpMixedReturnTypeCanBeReducedInspection
 	 */
 	public function offsetGet( mixed $offset ): mixed
 	{

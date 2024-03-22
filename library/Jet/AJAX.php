@@ -13,7 +13,7 @@ namespace Jet;
  */
 class AJAX
 {
-	
+
 	/**
 	 * @param mixed $response_data (will be encoded by json_encode)
 	 * @param array $http_headers
@@ -24,16 +24,16 @@ class AJAX
 		while (ob_get_level()) {
 			ob_end_clean();
 		}
-		
+
 		Debug::setOutputIsJSON( true );
-		
+
 		Http_Headers::response($http_code, $http_headers);
-		
+
 		echo json_encode( $response_data );
 		Application::end();
-		
+
 	}
-	
+
 	/**
 	 * @param bool $success
 	 * @param array $snippets
@@ -41,14 +41,14 @@ class AJAX
 	 */
 	public static function operationResponse( bool $success, array $snippets = [], array $data = [] ): void
 	{
-		
+
 		$response = [
 			'result'   => $success ? 'ok' : 'error',
 			'data'     => $data,
 			'snippets' => $snippets
 		];
-		
-		
+
+
 		static::commonResponse( $response );
 	}
 	
@@ -59,7 +59,7 @@ class AJAX
 		}
 		
 		echo $snippet;
-		
+	
 		Application::end();
 		
 	}

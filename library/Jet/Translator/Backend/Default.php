@@ -133,5 +133,44 @@ class Translator_Backend_Default extends Translator_Backend
 		}
 	}
 	
+	/**
+	 * @return Locale[]
+	 */
+	public function getKnownLocales() : array
+	{
+		$res = [];
+		
+		$dirs = IO_Dir::getSubdirectoriesList( SysConf_Path::getDictionaries() );
+		
+		foreach($dirs as $path=>$name) {
+			$locale = new Locale($name);
+			if(
+				$locale->getRegion() &&
+				$locale->getLanguage()
+			) {
+				$res[$locale->toString()] = $locale;
+			}
+			
+		}
+		
+		return $res;
+	}
+	
+	public function getKnownDictionaries( Locale $locale ) : array
+	{
+		$res = [];
+		
+		$dir = SysConf_Path::getDictionaries() . $locale . '/';
+		
+		
+		$files = IO_Dir::getFilesList($dir, '*.php');
+		foreach($files as $path=>$name) {
+			$name = substr($name, 0, -4);
+			$res[$name] = $name;
+		}
+		
+		return $res;
+	}
+	
 
 }

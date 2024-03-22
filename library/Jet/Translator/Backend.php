@@ -70,6 +70,13 @@ abstract class Translator_Backend extends BaseObject
 		return md5( $phrase );
 	}
 	
+	/**
+	 * @return Locale[]
+	 */
+	abstract public function getKnownLocales() : array;
+	
+	abstract public function getKnownDictionaries( Locale $locale ) : array;
+	
 	abstract public function installApplicationModuleDictionaries( Application_Module_Manifest $module ) : void;
 	
 	abstract public function collectApplicationModuleDictionaries( Application_Module_Manifest $module ) : void;

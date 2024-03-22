@@ -118,6 +118,22 @@ class Translator_Dictionary extends BaseObject
 			$this->save_required = true;
 		}
 	}
+	
+	/**
+	 * @param Translator_Dictionary_Phrase $phrase
+	 * @param bool $save_required
+	 *
+	 */
+	public function removePhrase( Translator_Dictionary_Phrase $phrase, bool $save_required = true ): void
+	{
+		if(isset($this->phrases[$phrase->getHash()])) {
+			unset($this->phrases[$phrase->getHash()]);
+		}
+
+		if( $save_required ) {
+			$this->save_required = true;
+		}
+	}
 
 	/**
 	 * @return bool

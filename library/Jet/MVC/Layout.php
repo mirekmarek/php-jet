@@ -42,6 +42,11 @@ class MVC_Layout extends MVC_View_Abstract
 	 * @var array
 	 */
 	protected array $virtual_positions = [];
+	
+	/**
+	 * @var MVC_Layout_OutputPostprocessor[]
+	 */
+	protected array $postprocessors = [];
 
 
 	/**
@@ -239,6 +244,8 @@ class MVC_Layout extends MVC_View_Abstract
 
 		$this->handleJavascripts( $result );
 		$this->handleCss( $result );
+		
+		$result = $this->performPostprocess( $result );
 
 		$this->output_parts = [];
 
@@ -599,8 +606,32 @@ class MVC_Layout extends MVC_View_Abstract
 		}
 
 		$result = $this->_replaceTagByValue( $result, static::TAG_CSS, $snippet );
-
-
+		
+	}
+	
+	public function addOutputPostprocessor( MVC_Layout_OutputPostprocessor $postprocessor ) : void
+	{
+		$this->postprocessors[$postprocessor->getId()] = $postprocessor;
+	}
+	
+	public function getPostprocessor( string $id ) : ?MVC_Layout_OutputPostprocessor
+	{
+		return $this->postprocessors[$id]??null;
+	}
+	
+	public function removePostprocessor( string $id ) : void
+	{
+		if(isset($this->postprocessors[$id])) {
+			unset( $this->postprocessors[$id] );
+		}
 	}
 
+	public function performPostprocess( $output ) : string
+	{
+		foreach($this->postprocessors as $postprocessor) {
+			$output = $postprocessor->process( $output );
+		}
+		
+		return $output;
+	}
 }

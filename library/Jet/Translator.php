@@ -141,6 +141,15 @@ class Translator extends BaseObject
 			}
 		}
 	}
+	
+	/**
+	 *
+	 */
+	public static function saveDictionary( Translator_Dictionary $dictionary ): void
+	{
+		static::getBackend()->saveDictionary( $dictionary );
+	}
+	
 
 	/**
 	 * Gets translation of given text
@@ -241,5 +250,19 @@ class Translator extends BaseObject
 	{
 		static::getBackend()->uninstallApplicationModuleDictionaries( $module );
 	}
+	
+	/**
+	 * @return Locale[]
+	 */
+	public static function getKnownLocales() : array
+	{
+		return static::getBackend()->getKnownLocales();
+	}
+	
+	public static function getKnownDictionaries( Locale $locale ) : array
+	{
+		return static::getBackend()->getKnownDictionaries( $locale );
+	}
+	
 	
 }
