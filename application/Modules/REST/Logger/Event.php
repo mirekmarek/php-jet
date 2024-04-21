@@ -16,6 +16,8 @@ use Jet\Auth_User_Interface;
 
 use Jet\Data_DateTime;
 use Jet\Http_Request;
+use Jet\Form_Field;
+use Jet\Form_Definition;
 
 
 #[DataModel_Definition(
@@ -43,12 +45,18 @@ class Event extends DataModel
 		max_len: 255,
 		is_key: true
 	)]
+	#[Form_Definition(
+		type: Form_Field::TYPE_INPUT
+	)]
 	protected string $event_class = '';
 	
 	#[DataModel_Definition(
 		type: DataModel::TYPE_STRING,
 		max_len: 255,
 		is_key: true
+	)]
+	#[Form_Definition(
+		type: Form_Field::TYPE_SELECT
 	)]
 	protected string $event = '';
 	

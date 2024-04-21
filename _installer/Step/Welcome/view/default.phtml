@@ -13,13 +13,18 @@ use Jet\UI;
 
 
 <?php foreach( Installer::getAvailableLocales() as $locale ): ?>
-	<div style="padding: 10px">
-		<?= UI::flag( $locale ) ?>&nbsp;&nbsp;<b><?= $locale->getLanguageName( $locale ) ?></b>
-		<br/>
-		<a href="?locale=<?= $locale ?>" style="text-decoration: underline"><?= Tr::_(
-			text: 'Please choose your language',
-			dictionary: Installer::getCurrentStepName(),
-			locale: $locale
-		) ?></a>
+	<div style="padding: 10px; display: flex;align-items: center;gap: 10px;">
+		<div style="font-size: 1.6rem">
+			<?= UI::flag( $locale ) ?>
+		</div>
+		<div>
+			<b><?= $locale->getLanguageName( $locale ) ?></b>
+			<br/>
+			<a href="?locale=<?= $locale ?>" style="text-decoration: underline"><?= Tr::_(
+					text: 'Please choose your language',
+					dictionary: Installer::getCurrentStepName(),
+					locale: $locale
+				) ?></a>
+		</div>
 	</div>
 <?php endforeach; ?>

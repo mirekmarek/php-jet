@@ -626,7 +626,7 @@ class MVC_Layout extends MVC_View_Abstract
 		}
 	}
 
-	public function performPostprocess( $output ) : string
+	public function performPostprocess( string $output ) : string
 	{
 		foreach($this->postprocessors as $postprocessor) {
 			$output = $postprocessor->process( $output );

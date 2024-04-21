@@ -39,4 +39,6 @@ return [
 	'Generated view script' => '',
 	'Select form field type please' => '',
 	'Search for class ...' => '',
+	'Please enter a value' => '',
+	'Invalid value' => '',
 ];

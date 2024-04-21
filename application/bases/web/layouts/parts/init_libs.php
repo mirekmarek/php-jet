@@ -9,7 +9,6 @@ use Jet\SysConf_URI;
 
 $this->requireMainCssFile( 'https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css' );
 $this->requireMainCssFile( 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css' );
-$this->requireMainCssFile( SysConf_URI::getCss() . 'flags.css' );
 $this->requireMainCssFile( SysConf_URI::getCss() . 'web_main.css?v=20231027' );
 
 

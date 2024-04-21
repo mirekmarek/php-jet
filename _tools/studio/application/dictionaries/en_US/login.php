@@ -8,4 +8,5 @@ return [
 	'Logout' => '',
 	'Invalid username or password!' => '',
 	'Please enter username and password' => '',
+	'Invalid value' => '',
 ];
