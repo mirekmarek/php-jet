@@ -24,5 +24,6 @@ if( SysConf_Jet_Main::getTimezone() ) {
 if( function_exists( 'ini_set' ) ) {
 	ini_set( 'default_charset', SysConf_Jet_Main::getCharset() );
 	ini_set( 'error_log', SysConf_Path::getLogs() . 'php_errors_' . date( 'Y-m-d' ) . '.log' );
+	ini_set( 'session.cookie_httponly', true);
 }
 //Debug_Profiler::blockEnd('INIT - PHP');

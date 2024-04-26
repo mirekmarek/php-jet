@@ -18,7 +18,7 @@ if($request_URI) {
 
 	while( ($r_path = implode('/', $URI_path_parts )) ) {
 
-		if( file_exists( $_SERVER['DOCUMENT_ROOT'].$r_path.'/application/bootstrap.php' ) ) {
+		if( file_exists( $_SERVER['DOCUMENT_ROOT'].'/'.$r_path.'/application/bootstrap.php' ) ) {
 			$base_URI = '/'.$r_path.'/';
 			break;
 		}
