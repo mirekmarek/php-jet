@@ -57,8 +57,8 @@ if( !$r->getEditorConfig() ) {
 
 //-----------------------------------------------------------------------------------
 
-$r->appendEditorCSSFile( '//cdnjs.cloudflare.com/ajax/libs/summernote/0.8.9/summernote-bs4.css');
-$r->appendEditorJavaScriptFile('//cdnjs.cloudflare.com/ajax/libs/summernote/0.8.9/summernote-bs4.js');
+$r->appendEditorCSSFile( '//cdnjs.cloudflare.com/ajax/libs/summernote/0.8.20/summernote-bs4.css');
+$r->appendEditorJavaScriptFile('//cdnjs.cloudflare.com/ajax/libs/summernote/0.8.20/summernote-bs4.js');
 $r->setEditorInitializeCodeGenerator( function( Form_Field_WYSIWYG $field, array $editor_config ) : string {
     return '$("#'.$field->getId().'").summernote('.json_encode($editor_config).');';
 });
