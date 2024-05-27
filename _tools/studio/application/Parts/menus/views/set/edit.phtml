@@ -29,17 +29,12 @@ $form->renderer()->setDefaultFieldWidth( [
 	<div class="col-md-6">
 		<div id="items_sort_area">
 			<?php foreach( $set->getMenus() as $item ): ?>
-				<div class="list-group-item menu-item-sort-item" data-id="<?= $item->getId() ?>">
+				<div class="list-group-item menu-item-sort-item" data-id="<?= $item->getId() ?>" style="display: flex;align-items: center;gap: 10px;">
 					<input type="hidden" name="items_sort[]" value="<?= $item->getId() ?>">
-					<table>
-						<tr>
-							<td><span class="fa fa-arrows-v" style="font-size:16px;padding-right: 5px"></span></td>
 
-							<td>
-								<a href="<?= Menus::getActionUrl( '', [], null, $item->getId() ) ?>"><?= UI::icon( 'sitemap' ) ?> <?= $item->getLabel() ?></a>
-							</td>
-						</tr>
-					</table>
+					<div><span class="fa fa-arrows-v" style="font-size:16px;padding-right: 5px"></span></div>
+					<div><a href="<?= Menus::getActionUrl( '', [], null, $item->getId() ) ?>"><?= UI::icon( 'sitemap' ) ?> <?= $item->getLabel() ?></a></div>
+
 				</div>
 			<?php endforeach; ?>
 		</div>

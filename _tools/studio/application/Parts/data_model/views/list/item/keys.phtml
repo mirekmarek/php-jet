@@ -17,10 +17,13 @@ if(
 
 $current_key_name = DataModels::getCurrentKeyName();
 ?>
-<table style="width: 100%">
+<table class="table table-striped">
+	<thead>
 	<tr>
-		<td><b><?= Tr::_( 'Custom keys and indexes' ) ?></b></td>
+		<th colspan="3"><?= Tr::_( 'Custom keys and indexes' ) ?></th>
 	</tr>
+	</thead>
+
 	<?php foreach( $current->getCustomKeys() as $key ): ?>
 		<tr>
 			<td>

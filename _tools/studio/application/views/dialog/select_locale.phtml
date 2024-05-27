@@ -89,8 +89,8 @@ echo $dialog->start();
 		search_reset_action: 'Dialog_SelectLocale.resetSearch();') ?>
 
 
-	<div style="height: 400px;overflow: auto">
-		<table style="width: 100%">
+	<div style="height: 400px;overflow: auto;margin-top: 20px;">
+		<table class="table table-striped">
 		<?php
 		$current_locale = Locale::getCurrentLocale();
 		foreach( Locale::getAllLocalesList() as $l=>$name ):
@@ -105,7 +105,7 @@ echo $dialog->start();
 				style="cursor: pointer;"
 				onclick="Dialog_SelectLocale.select('<?=$l?>');"
 			>
-				<td style="padding: 5px;"><?=UI::flag($l)?></td>
+				<td style="padding: 5px;font-size: 30px;"><?=UI::flag($l)?></td>
 
 				<td><?=$l?></td>
 				<td><?=$l->getName($current_locale)?></td>

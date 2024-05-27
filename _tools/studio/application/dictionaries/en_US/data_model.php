@@ -183,4 +183,6 @@ return [
 	'Please enter valid property name' => '',
 	'Search for class ...' => '',
 	'add' => '',
+	'Please enter a value' => '',
+	'Invalid value' => '',
 ];

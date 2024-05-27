@@ -3,6 +3,8 @@
 namespace JetStudio;
 
 use Jet\MVC_View;
+use Jet\Tr;
+use Jet\UI;
 
 /**
  * @var MVC_View $this
@@ -15,6 +17,11 @@ $form = $page->getEditForm_static_content();
 
 $form->field( 'output' )->input()->addCustomCssStyle( 'height: 700px' );
 
+?>
+<div class="toolbar">
+	<?= UI::button_save( Tr::_('Stave content settings') )->setOnClick( "$('#{$form->getId()}').submit()" ) ?>
+</div>
+<?php
 echo $form->start();
 echo $form->field( 'output' )->input();
 echo $form->end();

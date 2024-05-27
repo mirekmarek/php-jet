@@ -18,10 +18,12 @@ if(
 $current_relation_name = DataModels::getCurrentRelationName();
 
 ?>
-<table style="width: 100%">
+<table class="table table-striped">
+	<thead>
 	<tr>
-		<td><b><?= Tr::_( 'External relations' ) ?></b></td>
+		<th colspan="3"><?= Tr::_( 'External relations' ) ?></th>
 	</tr>
+	</thead>
 
 	<?php foreach( $current->getExternalRelations() as $relation ): ?>
 		<tr>

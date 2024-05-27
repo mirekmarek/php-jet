@@ -16,26 +16,18 @@ $what = $this->getRaw( 'what' );
 
 echo $this->render( 'page/' . $what . '/edit/toolbar' );
 ?>
-&nbsp;&nbsp;
+
 <?= Tr::_( 'Page' ) ?>
-&nbsp;
+
 <span style="font-weight: bolder"><?= $page->getName() ?></span>
-&nbsp;
-<script>
-	function copyPageIDtoClipboard()
-	{
-		const id_input = document.getElementById("page_id_to_cb");
-		id_input.select();
-		document.execCommand("copy");
-	}
-</script>
+
 
 <a href="#" onclick="copyPageIDtoClipboard();" class="entity-id">
 	ID: <?=UI::icon('clipboard')?>
 	<input id="page_id_to_cb" readonly value="<?= $page->getId() ?>"/>
 </a>
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
 <a href="<?=$page->getURL()?>" target="_blank"><?=UI::icon('eye')->setTitle(Tr::_('Show this page'))?> <?=Tr::_('Show this page')?></a>
 
 

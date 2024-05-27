@@ -35,17 +35,10 @@ $delete_menu_dialog = UI::dialog( 'delete_menu_dialog', Tr::_( 'Delete menu' ), 
 		<div class="col-md-6">
 			<div id="items_sort_area">
 				<?php foreach( $menu->getMenuItems() as $item ): ?>
-					<div class="list-group-item menu-item-sort-item" data-id="<?= $item->getId() ?>">
+					<div class="list-group-item menu-item-sort-item" data-id="<?= $item->getId() ?>" style="display: flex;align-items: center;gap: 10px;">
 						<input type="hidden" name="items_sort[]" value="<?= $item->getId() ?>">
-						<table>
-							<tr>
-								<td><span class="fa fa-arrows-v" style="font-size:16px;padding-right: 5px"></span></td>
-
-								<td>
-									<a href="<?= Menus::getActionUrl( '', [], null, null, $item->getId() ) ?>"><?= $item->getTitle() ?></a>
-								</td>
-							</tr>
-						</table>
+						<div><span class="fa fa-arrows-v" style="font-size:16px;padding-right: 5px"></span></div>
+						<div><a href="<?= Menus::getActionUrl( '', [], null, null, $item->getId() ) ?>"><?= $item->getTitle() ?></a></div>
 					</div>
 				<?php endforeach; ?>
 			</div>

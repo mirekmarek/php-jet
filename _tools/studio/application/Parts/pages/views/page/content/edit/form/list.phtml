@@ -123,9 +123,9 @@ if( !$delete_content_action_creator ) {
 			<div class="card">
 				<div class="card-header" data-toggle="collapse"
 				     data-target="#content_<?= $base_id ?>_<?= $page_id ?>_<?= $i ?>">
-					<table style="width: 100%">
-						<tr>
-							<td style="width: 100px"><?= $content->getOutputPositionOrder() ?>.</td>
+					<div style="display: grid;grid-template-columns: 100px 200px 1fr 1fr;align-items: center;gap: 5px;">
+						
+							<div><?= $content->getOutputPositionOrder() ?>.</div>
 
 							<?php switch( $content->getContentKind() ) {
 								case Pages_Page_Content::CONTENT_KIND_MODULE:
@@ -138,67 +138,58 @@ if( !$delete_content_action_creator ) {
 									}
 
 									?>
-									<td style="width: 200px;">
+									<div>
 										<?php if( $known ): ?>
 											<b><?= Tr::_( 'Module: ' ) ?></b>
 										<?php else: ?>
 											<b style="color: #ff0000"><?= Tr::_( 'Unknown Module: ' ) ?></b>
 										<?php endif; ?>
-									</td>
-									<td>
-										<table>
-											<tr>
-												<td><?= $label ?></td>
-												<td>&nbsp;&nbsp;->&nbsp;&nbsp;</td>
-												<td><?= $content->getControllerName() ?></td>
-												<td>&nbsp;&nbsp;->&nbsp;&nbsp;</td>
-												<td><?= $content->getControllerAction() ?></td>
-											</tr>
-										</table>
-									</td>
+									</div>
+									<div style="display: flex;align-items: center;gap: 10px;">
+
+										<div><?= $label ?></div>
+										<div>-></div>
+										<div><?= $content->getControllerName() ?></div>
+										<div>-></div>
+										<div><?= $content->getControllerAction() ?></div>
+
+									</div>
 
 									<?php
 									break;
 								case Pages_Page_Content::CONTENT_KIND_CLASS:
 									?>
-									<td style="width: 200px;"><b><?= Tr::_( 'Controller class: ' ) ?></b></td>
-									<td>
-										<table>
-											<tr>
-												<td><?= $content->getControllerClass() ?></td>
-												<td>&nbsp;&nbsp;->&nbsp;&nbsp;</td>
-												<td><?= $content->getControllerAction() ?></td>
-											</tr>
-										</table>
-									</td>
+									<div><b><?= Tr::_( 'Controller class: ' ) ?></b></div>
+									<div style="display: flex;align-items: center;gap: 10px;">
+										<div><?= $content->getControllerClass() ?></div>
+										<div>-></div>
+										<div><?= $content->getControllerAction() ?></div>
+									</div>
 									<?php
 									break;
 								case Pages_Page_Content::CONTENT_KIND_STATIC:
 									?>
-									<td style="width: 200px;"><b><?= Tr::_( 'Static:' ) ?></b></td>
-									<td>
+									<div><b><?= Tr::_( 'Static:' ) ?></b></div>
+									<div>
 										<?= substr( strip_tags( $content->getOutput() ), 0, 100 ) . ' ...' ?>
-									</td>
+									</div>
 									<?php
 									break;
 								case Pages_Page_Content::CONTENT_KIND_CALLBACK:
 									$callback = $content->getOutput();
 									?>
-									<td style="width: 200px;"><b><?= Tr::_( 'Callback:' ) ?></b></td>
-									<td>
+									<div><b><?= Tr::_( 'Callback:' ) ?></b></div>
+									<div>
 										<?= $callback[0] ?>::<?= $callback[1] ?><span style="color: #c9c9c9">( Jet\MVC_Page $page, Jet\MVC_Page_Content $content )</span>
-									</td>
+									</div>
 									<?php
 									break;
 
 							} ?>
-							<td style="text-align: right">
+							<div style="text-align: right">
 								<?= UI::button_delete( Tr::_( 'Delete this content' ) )->setOnClick( $delete_content_action_creator( $i ) )->setSize( UI_button::SIZE_EXTRA_SMALL ) ?>
-							</td>
-						</tr>
-					</table>
-
-
+							</div>
+					</div>
 				</div>
 
 				<div class="card-body collapse" id="content_<?= $base_id ?>_<?= $page_id ?>_<?= $i ?>">

@@ -56,34 +56,28 @@ $form->renderer()->setDefaultFieldWidth( [
 	<div class="col-md-2"></div>
 	<div class="col-md-6">
 		<fieldset style="margin-bottom: 40px;">
-			<table>
-				<thead>
-				<tr>
-					<th><?= Tr::_( 'Action' ) ?></th>
-					<th><?= Tr::_( 'Description' ) ?></th>
-				</tr>
-				</thead>
-				<tbody>
+			<div style="display: grid;grid-template-columns: 1fr 1fr;align-items: center;gap: 5px;">
+				<b><?= Tr::_( 'Action' ) ?></b>
+				<b><?= Tr::_( 'Description' ) ?></b>
 				<?php for( $m = 0; $m < Modules_Manifest::MAX_ACL_ACTION_COUNT; $m++ ):
 					$prefix = '/ACL_action/' . $m;
-
+					
 					if( !$form->fieldExists( $prefix . '/action' ) ) {
 						break;
 					}
-
+					
 					$action = $form->field( $prefix . '/action' );
 					$action->input()->addCustomCssStyle( 'width:300px;' );
 					$description = $form->field( $prefix . '/description' );
 					$description->input()->addCustomCssStyle( 'width:300px;' );
-
+					
 					?>
-					<tr>
-						<td style="padding: 5px;"><?= $action->input() ?></td>
-						<td style="padding: 5px;"><?= $description->input() ?></td>
-					</tr>
+
+					<div><?= $action->input() ?></div>
+					<div><?= $description->input() ?></div>
+
 				<?php endfor; ?>
-				</tbody>
-			</table>
+			</div>
 		</fieldset>
 	</div>
 </div>

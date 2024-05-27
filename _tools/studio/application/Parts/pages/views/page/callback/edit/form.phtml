@@ -3,6 +3,8 @@ namespace JetStudio;
 
 use Jet\Form_Renderer;
 use Jet\MVC_View;
+use Jet\Tr;
+use Jet\UI;
 
 /**
  * @var MVC_View $this
@@ -19,11 +21,16 @@ $form->renderer()->setDefaultLabelWidth( [
 $form->renderer()->setDefaultFieldWidth( [
 	Form_Renderer::LJ_SIZE_MEDIUM => 8
 ] );
-
-
 ?>
+<div class="toolbar">
+	<?= UI::button_save( Tr::_('Stave content settings') )->setOnClick( "$('#{$form->getId()}').submit()" ) ?>
+</div>
 <?= $form->start() ?>
 
-<?=$form->field('output_callback');?>
+<div style="display: grid;align-items: center;grid-template-columns: 150px 1fr;gap: 10px;">
+	<div><?=$form->field('output_callback')->getLabel()?></div>
+	<?=$form->field('output_callback')->input();?>
+</div>
+
 
 <?= $form->end() ?>

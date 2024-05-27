@@ -5,6 +5,7 @@ use Jet\UI;
 use Jet\Tr;
 use Jet\MVC;
 
+
 $this->setVar( 'what', Pages::whatToEdit() );
 $this->setVar( 'page', Pages::getCurrentPage() );
 
@@ -13,7 +14,7 @@ $this->setVar( 'page', Pages::getCurrentPage() );
 
 <?php if( Pages::getCurrentPage() ): ?>
 	<div class="row toolbar" id="main-toolbar">
-		<div class="col-md-3">
+		<div class="col-md-3" style="display: grid;grid-template-columns: 1fr 1fr;">
 			<div class="dropdown" style="display: inline-block">
 				<button class="btn btn-light dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true"
 				        aria-expanded="false">
@@ -36,9 +37,14 @@ $this->setVar( 'page', Pages::getCurrentPage() );
 					<?php endforeach; ?>
 				</div>
 			</div>
+			
+			<div style="text-align: right">
+				<?= UI::button_create( Tr::_( 'Create a new page' ) )
+					->setOnClick( 'Pages.createPage.openDialog()' )?>
+			</div>
 		</div>
-		<div class="col-md-9" style="padding: 0;">
-			<?= UI::button_create( Tr::_( 'Create a new page' ) )->setOnClick( 'Pages.createPage.openDialog()' ) ?>
+		<div class="col-md-9" style="display: flex;align-items: center;gap: 15px;">
+			
 			<?= $this->render( 'page/toolbar' ); ?>
 		</div>
 	</div>

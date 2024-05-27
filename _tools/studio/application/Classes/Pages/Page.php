@@ -195,7 +195,7 @@ class Pages_Page extends MVC_Page
 				$page->setName( $value );
 			} );
 
-			$order_field = new Form_Field_Int( 'order', 'Order:' );
+			$order_field = new Form_Field_Int( 'order', 'Page order:' );
 			$order_field->setDefaultValue( $page->getOrder() );
 			$order_field->setFieldValueCatcher( function( $value ) use ( $page ) {
 				$page->setOrder( $value );
@@ -396,6 +396,30 @@ class Pages_Page extends MVC_Page
 			});
 			$fields[] = $params_field;
 			
+			
+			/**
+			 * @var Bases_Base $base
+			 */
+			$base = $this->getBase();
+			
+			$layout_script_name_field = new Form_Field_Select( 'layout_script_name', 'Layout script name:' );
+			$layout_script_name_field->setDefaultValue( $page->getLayoutScriptName() );
+			$layout_script_name_field->setErrorMessages( [
+				Form_Field::ERROR_CODE_INVALID_VALUE => 'Invalid value'
+			] );
+			$layout_script_name_field->setFieldValueCatcher( function( $value ) use ( $page ) {
+				$page->setLayoutScriptName( $value );
+			} );
+			$layouts = $base->getLayoutsList();
+			if( !$layouts ) {
+				$layouts = ['' => ''];
+			}
+			
+			$layout_script_name_field->setSelectOptions( $layouts );
+			
+			$fields[] = $layout_script_name_field;
+			
+			
 			$form = new Form(
 				'page_edit_form_main',
 				$fields
@@ -437,30 +461,8 @@ class Pages_Page extends MVC_Page
 	{
 		if( !$this->__edit_form_content ) {
 
-			$page = $this;
-			/**
-			 * @var Bases_Base $base
-			 */
-			$base = $this->getBase();
 
-			$layout_script_name_field = new Form_Field_Select( 'layout_script_name', 'Layout script name:' );
-			$layout_script_name_field->setDefaultValue( $page->getLayoutScriptName() );
-			$layout_script_name_field->setErrorMessages( [
-				Form_Field::ERROR_CODE_INVALID_VALUE => 'Invalid value'
-			] );
-			$layout_script_name_field->setFieldValueCatcher( function( $value ) use ( $page ) {
-				$page->setLayoutScriptName( $value );
-			} );
-			$layouts = $base->getLayoutsList();
-			if( !$layouts ) {
-				$layouts = ['' => ''];
-			}
-
-			$layout_script_name_field->setSelectOptions( $layouts );
-
-			$fields = [
-				$layout_script_name_field
-			];
+			$fields = [];
 
 			$form = new Form(
 				'page_edit_form_content',

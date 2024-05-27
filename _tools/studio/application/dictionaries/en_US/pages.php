@@ -69,7 +69,7 @@ return [
 	'Invalid controller name format' => '',
 	'Please select controller' => '',
 	'Please select controller action' => '',
-	'Order:' => '',
+	'Page order:' => '',
 	'Please enter class name' => '',
 	'Is cacheable' => '',
 	'Please enter method name' => '',
@@ -93,4 +93,7 @@ return [
 	'Module:' => '',
 	'Search for module ...' => '',
 	'Module controller:' => '',
+	'Please enter a value' => '',
+	'Out of range' => '',
+	'Stave content settings' => '',
 ];

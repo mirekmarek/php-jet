@@ -12,16 +12,18 @@ $list = Forms::getClasses();
 	search_action: 'Forms.search.search()',
 	search_reset_action: 'Forms.search.reset()') ?>
 
-<table class="table table-striped">
-	<?php foreach( $list as $item ):
-		if( $item->getFullClassName() == Forms::getCurrentClassName() ): ?>
-		<tr class="class_list_item" data-name="<?=$item->getFullClassName()?>">
-			<td>
+<?php foreach( $list as $item ):
+	if( $item->getFullClassName() == Forms::getCurrentClassName() ): ?>
+		<div class="card" id="current-item" style="border-right: none;margin-bottom: 10px;margin-left: 10px;" >
+			<div class="card-body">
 				<?php require 'list/item.phtml'; ?>
-			</td>
-		</tr>
-		<?php endif;
-	endforeach; ?>
+			</div>
+		</div>
+	<?php endif;
+endforeach; ?>
+
+
+<table class="table table-striped">
 	
 	<?php foreach( $list as $item ):
 		if( $item->getFullClassName() != Forms::getCurrentClassName() ): ?>

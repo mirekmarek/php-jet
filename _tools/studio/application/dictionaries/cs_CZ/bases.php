@@ -51,4 +51,5 @@ return [
 	'Please select at least one locale' => 'Prosím vyberte alespoň jednu lokalizaci',
 	'class name' => '',
 	'method name' => '',
+	'Invalid value' => '',
 ];

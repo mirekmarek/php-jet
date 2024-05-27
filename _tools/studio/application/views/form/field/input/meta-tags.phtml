@@ -24,7 +24,7 @@ if( $field->getLastErrorCode() ) {
 
 ?>
 
-<div>
+<div style="display: grid;grid-template-columns: 1fr;grid-gap: 10px;">
 	<?php foreach($value as $tag): ?>
 		<div class="input-group">
 			<span class="input-group-prepend"><span class="input-group-text">&lt;meta</span></span>
@@ -35,6 +35,7 @@ if( $field->getLastErrorCode() ) {
 			<input <?=$r->renderTagAttributes()?> name="<?=$field->getTagNameValue()?>[content][]" value="<?= Data_Text::htmlSpecialChars($tag['content'])?>"/>
 			<span class="input-group-append"><span class="input-group-text">"&gt;</span></span>
 		</div>
+		
 	<?php endforeach; ?>
 	
 	<?php for($c=0;$c<$field->getNewRowsCount();$c++): ?>

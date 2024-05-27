@@ -13,9 +13,11 @@ use Jet\Http_Request;
 				$('#module_search').val('');
 
 				$('.module_list_item').show();
+				$('#current-item').show();
 			},
 			search: function () {
-
+				$('#current-item').hide();
+				
 				let value = $('#module_search').val();
 
 				if (!value) {

@@ -168,4 +168,5 @@ This will allow dictionaries to be updated for further distribution and installa
 <b>But it is necessary to warn you that the existing installation dictionaries will be overwritten.</b>' => '',
 	'OK - let\'s do it!' => '',
 	'Module dictionaries has been collected' => '',
+	'Please enter a value' => '',
 ];

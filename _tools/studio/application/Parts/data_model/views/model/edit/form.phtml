@@ -24,16 +24,12 @@ if($current instanceof DataModel_Definition_Model_Related):
 	?>
 <div class="card">
 	<div class="card-body">
-		<table>
-			<tr>
-				<td><?=Tr::_('Main DataModel:')?></td>
-				<td><a href="?class=<?=$main->getClassName()?>"><?=$main->getClassName()?> (<?=$main->getModelName()?>)</a></td>
-			</tr>
-			<tr>
-				<td><?=Tr::_('Parent DataModel:')?></td>
-				<td><a href="?class=<?=$parent->getClassName()?>"><?=$parent->getClassName()?> (<?=$parent->getModelName()?>)</a></td>
-			</tr>
-		</table>
+		<div style="display: grid;grid-template-columns: 150px 1fr;gap: 10px;align-items: center">
+			<div><?=Tr::_('Main DataModel:')?></div>
+			<div><a href="?class=<?=$main->getClassName()?>"><?=$main->getClassName()?> (<?=$main->getModelName()?>)</a></div>
+			<div><?=Tr::_('Parent DataModel:')?></div>
+			<div><a href="?class=<?=$parent->getClassName()?>"><?=$parent->getClassName()?> (<?=$parent->getModelName()?>)</a></div>
+		</div>
 	</div>
 </div>
 <br>

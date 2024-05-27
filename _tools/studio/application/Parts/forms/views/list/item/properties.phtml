@@ -16,10 +16,12 @@ if( !$current ) {
 $current_property_name = Forms::getCurrentPropertyName();
 ?>
 
-<table style="width: 100%">
+<table class="table table-striped">
+	<thead>
 	<tr>
-		<td colspan="3"><b><?= Tr::_( 'Properties' ) ?></b></td>
+		<th colspan="3"><?= Tr::_( 'Properties' ) ?></th>
 	</tr>
+	</thead>
 	<?php foreach( $current->getProperties() as $property ): ?>
 		<tr>
 			<td>

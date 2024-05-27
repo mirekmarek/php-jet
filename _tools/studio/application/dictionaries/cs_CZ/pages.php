@@ -82,7 +82,7 @@ return [
 	'Please enter class name' => 'Prosím zadejte název třídy',
 	'Please enter method name' => 'Prosím zadejte název metody',
 	'Is cacheable' => 'Je kešovatelný',
-	'Order:' => 'Pořadí:',
+	'Page order:' => 'Pořadí stránky:',
 	'Invalid class name format' => 'Neplatný formát názvu třídy',
 	'Invalid action name format' => 'Neplatný formát názvu akce',
 	'Invalid method name format' => 'Neplatný formát názvu metody',
@@ -98,6 +98,7 @@ return [
 	'Module:' => 'Modul:',
 	'Module controller:' => 'Kontroler modulu:',
 	'Search for module ...' => 'Hledat modul ...',
-	'Please enter a value' => '',
-	'Out of range' => '',
+	'Please enter a value' => 'Prosím zadejte hodnotu',
+	'Out of range' => 'Mimo rozsah',
+	'Stave content settings' => 'Uložit nastavení obsahu',
 ];

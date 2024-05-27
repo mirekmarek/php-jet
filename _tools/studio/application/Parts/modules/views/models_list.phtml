@@ -9,8 +9,13 @@ use Jet\UI_icon;
 
 
 $showIcons = function( Modules_Manifest $module ) {
+	echo '<div style="display: grid;grid-template-columns: 20px 20px 20px;gap: 5px; align-items: center">';
+	
+
 	if( $module->isMandatory() ):
 		echo UI::badge(UI_badge::INFO, UI::icon( 'exclamation-triangle' )->setTitle( Tr::_( 'Is mandatory' ) )->setSize(UI_icon::SIZE_SMALL) );
+	else:
+		echo '<div></div>';
 	endif;
 	
 	if( $module->isInstalled() ):
@@ -19,14 +24,13 @@ $showIcons = function( Modules_Manifest $module ) {
 		echo UI::badge(UI_badge::DANGER,  UI::icon( 'times' )->setTitle( Tr::_( 'Is not installed' ) )->setSize(UI_icon::SIZE_SMALL)  );
 	endif;
 	
-	echo '&nbsp;';
-	
 	if( $module->isActivated() ):
 		echo UI::badge(UI_badge::SUCCESS,  UI::icon( 'check' )->setTitle( Tr::_( 'Is activated' ) )->setSize(UI_icon::SIZE_SMALL)  );
 	else:
 		echo UI::badge(UI_badge::DANGER,  UI::icon( 'times' )->setTitle( Tr::_( 'Is not activated' ) )->setSize(UI_icon::SIZE_SMALL)  );
 	endif;
 	
+	echo '</div>';
 };
 ?>
 <?=Application_UI::search(
@@ -38,35 +42,33 @@ $showIcons = function( Modules_Manifest $module ) {
 <div style="max-width: 100% !important;overflow: hidden">
 
 
+<?php if( ($module = Modules::getCurrentModule()) ): ?>
+	<div class="card" id="current-item" style="border-right: none;margin-bottom: 10px;margin-left: 10px;" >
+		<div class="card-body">
+			<div style="display: flex;align-items: center;gap: 10px;">
+			<?php $showIcons( $module ); ?>
+			
+			<?php if( !Modules::getCurrentMenuItem() && !Modules::getCurrentPage() ):
+				echo UI::badge(UI_badge::INFO, $module->getName())->addCustomCssStyle('font-size: 16px;');
+			else: ?>
+				<a href="<?= Http_Request::currentURI( [], [
+					'menu_item',
+					'page',
+					'action'
+				] ) ?>" style="font-weight: bolder;font-size: 20px;"><?= $module->getName() ?></a>
+			<?php endif; ?>
+			</div>
+			
+
+			<span style="font-size: 12px;"><?= $module->getLabel() ?></span>
+			<?php require 'menu_item/list.phtml' ?>
+			<?php require 'page/list.phtml' ?>
+		</div>
+	</div>
+<?php endif; ?>
+
+
 <table class="table table-striped">
-	<?php
-	$module = Modules::getCurrentModule();
-	if( $module ):
-		?>
-		<tr>
-			<td style="width: 70px;">
-				<?php $showIcons( $module ); ?>
-			</td>
-			<td>
-				<?php if( !Modules::getCurrentMenuItem() && !Modules::getCurrentPage() ):
-					echo UI::badge(UI_badge::INFO, $module->getName())->addCustomCssStyle('font-size: 16px;');
-				else: ?>
-					<a href="<?= Http_Request::currentURI( [], [
-						'menu_item',
-						'page',
-						'action'
-					] ) ?>" style="font-weight: bolder;font-size: 20px;"><?= $module->getName() ?></a>
-				<?php endif; ?>
-				<br/>
-				<span style="font-size: 12px;"><?= $module->getLabel() ?></span>
-				<?php require 'menu_item/list.phtml' ?>
-				<?php require 'page/list.phtml' ?>
-				<br>
-			</td>
-		</tr>
-	<?php endif; ?>
-
-
 	<?php foreach( Modules::getModules() as $module ):
 		if( $module->getName() == Modules::getCurrentModuleName() ) {
 			continue;
@@ -76,15 +78,17 @@ $showIcons = function( Modules_Manifest $module ) {
 		    data-name="<?=$module->getName()?>"
 		    data-label="<?=$module->getLabel()?>"
 			>
-			<td style="width: 70px;">
-				<?php $showIcons( $module ); ?>
-			</td>
 			<td>
-				<a href="<?= Http_Request::currentURI( ['module' => $module->getName()], [
-					'menu_item',
-					'page',
-					'action'
-				] ) ?>"><?= $module->getName() ?></a><br/>
+				<div style="display: flex;align-items: center;gap: 10px;">
+					<?php $showIcons( $module ); ?>
+
+					<a href="<?= Http_Request::currentURI( ['module' => $module->getName()], [
+						'menu_item',
+						'page',
+						'action'
+					] ) ?>"><?= $module->getName() ?></a>
+				</div>
+				
 				<span style="font-size: 12px;"><?= $module->getLabel() ?></span>
 			</td>
 		</tr>

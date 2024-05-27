@@ -3,6 +3,8 @@ namespace JetStudio;
 
 use Jet\Form_Renderer;
 use Jet\MVC_View;
+use Jet\Tr;
+use Jet\UI;
 
 /**
  * @var MVC_View $this
@@ -21,11 +23,16 @@ $form->renderer()->setDefaultFieldWidth( [
 ] );
 
 ?>
+<div class="toolbar">
+	<?= UI::button_create( Tr::_( 'Add content' ) )
+		->setOnClick( 'Pages.editPage.content.addContent()' )?>
+	
+	<?= UI::button_save( Tr::_('Stave content settings') )->setOnClick( "$('#{$form->getId()}').submit()" ) ?>
+</div>
+
+
 <?= $form->start() ?>
 <div style="min-height: 600px;margin-bottom: 40px;">
-	<div style="padding: 10px;">
-		<?= $form->field( 'layout_script_name' ) ?>
-	</div>
 	<div id="content_list_area">
 		<?= $this->render( 'page/content/edit/form/list' ); ?>
 	</div>

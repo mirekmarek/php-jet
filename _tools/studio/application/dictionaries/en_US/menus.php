@@ -55,4 +55,7 @@ return [
 	'Menu set <strong>%set%</strong> has been created' => '',
 	'Menu <b>%name%</b> has been deleted' => '',
 	'Saved ...' => '',
+	'Invalid value' => '',
+	'Please enter a value' => '',
+	'Out of range' => '',
 ];

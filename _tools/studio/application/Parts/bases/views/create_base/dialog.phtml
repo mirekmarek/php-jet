@@ -19,7 +19,7 @@ echo $dialog->start();
 
 	<legend><?= Tr::_( 'Locales' ) ?></legend>
 	<div id="selected_locales_area">
-		<table style="width: 100%">
+		<table class="table table-striped">
 			<?php
 			$current_locale = Locale::getCurrentLocale();
 			$default_locales = Project::getDefaultLocales( true );
@@ -40,7 +40,7 @@ echo $dialog->start();
 						style="cursor: pointer;display: <?= $display; ?>"
 						onclick="Bases.createBase.addLocale.unSelect('<?= $l ?>');"
 				>
-					<td style="padding: 5px;"><?= UI::flag( $l ) ?></td>
+					<td style="padding: 5px;font-size: 30px;"><?= UI::flag( $l ) ?></td>
 
 					<td><?= $l ?></td>
 					<td><?= $l->getName( $current_locale ) ?></td>

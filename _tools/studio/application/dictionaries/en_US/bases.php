@@ -51,4 +51,6 @@ return [
 	'class name' => '',
 	'method name' => '',
 	'Please select at least one locale' => '',
+	'Invalid value' => '',
+	'Please enter a value' => '',
 ];

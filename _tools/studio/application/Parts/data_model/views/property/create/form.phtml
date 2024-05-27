@@ -4,7 +4,6 @@ namespace JetStudio;
 
 use Jet\Tr;
 use Jet\UI;
-use Jet\UI_button;
 
 $form = DataModel_Definition_Property::getCreateForm();
 
@@ -81,7 +80,7 @@ echo $form->start();
 	<tr>
 		<td></td>
 		<td colspan="2">
-			<?=UI::button_create(Tr::_('add'))->setOnClick( 'DataModelCreateProperty.addRow()' )->setClass(UI_button::CLASS_SUCCESS);?>
+			<?=UI::button_create(Tr::_('add'))->setOnClick( 'DataModelCreateProperty.addRow()' );?>
 		</td>
 	</tr>
 	</tfoot>

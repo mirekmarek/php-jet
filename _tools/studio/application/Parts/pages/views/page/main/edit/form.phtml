@@ -25,14 +25,14 @@ $form->renderer()->setDefaultFieldWidth( [
 ?>
 <?= $form->start() ?>
 
-<fieldset style="margin-bottom: 40px;">
+
 	<?= $form->field( 'name' ) ?>
 
 	<?= $form->field( 'is_secret' ) ?>
 	<?= $form->field( 'is_active' ) ?>
 	<?= $form->field( 'SSL_required' ) ?>
+	<?= $form->field( 'layout_script_name' ) ?>
 	<?= $form->field( 'order' ) ?>
-
 	<?= $form->field( 'title' ) ?>
 	<?= $form->field( 'menu_title' ) ?>
 	<?= $form->field( 'breadcrumb_title' ) ?>
@@ -76,38 +76,40 @@ $form->renderer()->setDefaultFieldWidth( [
 		</div>
 	<?php endif; ?>
 
-
-</fieldset>
+	
 
 <div class="form-group row">
 	<div class="col-md-2">
-	</div>
-	<div class="col-md-5">
 		<label class="control-label"><?= Tr::_( 'Meta Tags:' ); ?></label>
 	</div>
+	<div class="col-md-9">
+		<?=$form->field('meta_tags')->input()?>
+	</div>
 </div>
-<?=$form->field('meta_tags')?>
+
 
 <div class="form-group row">
 	<div class="col-md-2">
-	</div>
-	<div class="col-md-5">
 		<label class="control-label"><?= Tr::_( 'Parameters:' ); ?></label>
 	</div>
+	<div class="col-md-9">
+		<?=$form->field('params')->input()?>
+	</div>
 </div>
 
-<?=$form->field('params')?>
+
 
 
 <div class="form-group row">
 	<div class="col-md-2">
-	</div>
-	<div class="col-md-5">
 		<label class="control-label"><?= Tr::_( 'HTTP headers:' ); ?></label>
+	</div>
+	<div class="col-md-9">
+		<?=$form->field('http_headers')->input()?>
 	</div>
 </div>
 
-<?=$form->field('http_headers')?>
+
 
 
 <?= $form->end() ?>
