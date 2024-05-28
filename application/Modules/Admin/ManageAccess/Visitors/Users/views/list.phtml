@@ -14,6 +14,9 @@ $listing = $this->getRaw( 'listing' );
 $grid = $listing->getGrid();
 $filter_form = $listing->getFilterForm();
 
+$filter_form->renderer()->setDefaultLabelWidth([]);
+$filter_form->renderer()->setDefaultFieldWidth([]);
+
 $router = $this->getController()->getControllerRouter();
 
 $grid->getColumn( '_edit_' )->addCustomCssStyle( 'width:200px;' );
@@ -23,26 +26,13 @@ $grid->footer()->setPrepend( $this->render('list/bulk_operations') );
 ?>
 
 <?= $filter_form->start() ?>
-<div class="row toolbar">
+<div class="row toolbar" style="display: flex;gap: 20px;align-items: center;">
 	<?php if( ($add_uri = $router->action( 'add' )->URI()) ): ?>
-		<div class="col-md-2 col-sm-12">
-			<?= UI::button_create( Tr::_( 'Create a new User' ) )->setUrl( $add_uri ) ?>
-		</div>
+		<?= UI::button_create( Tr::_( 'Create a new User' ) )->setUrl( $add_uri ) ?>
 	<?php endif; ?>
-	
-	<div class="col-md-3 col-sm-12">
-		<?=$listing->filter(Listing_Filter_Search::KEY)->renderForm()?>
-	</div>
-	<div class="col-md-4 col-sm-12">
-		<table>
-			<tr>
-				<?=$listing->filter(Listing_Filter_Role::KEY)->renderForm()?>
-				<?=$listing->filter(Listing_Filter_IsBlocked::KEY)->renderForm()?>
-			</tr>
-		</table>
-	
-	</div>
-
+	<?=$listing->filter(Listing_Filter_Search::KEY)->renderForm()?>
+	<?=$listing->filter(Listing_Filter_Role::KEY)->renderForm()?>
+	<?=$listing->filter(Listing_Filter_IsBlocked::KEY)->renderForm()?>
 </div>
 <?= $filter_form->end() ?>
 

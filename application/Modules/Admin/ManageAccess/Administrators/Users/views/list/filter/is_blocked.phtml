@@ -10,7 +10,8 @@ use Jet\MVC_View;
 $listing = $this->getRaw( 'listing' );
 $filter_form = $listing->getFilterForm();
 ?>
-
-<td nowrap=""><?= $filter_form->field( 'is_blocked' )->label() ?></td>
-<td><?= $filter_form->field( 'is_blocked' )->input()->addJsAction( 'onchange', 'this.form.submit()' ) ?></td>
+<div style="display: grid;align-items: center;gap: 10px;grid-template-columns: 120px 120px;">
+	<?= $filter_form->field( 'is_blocked' )->label() ?>
+	<div><?= $filter_form->field( 'is_blocked' )->input()->addJsAction( 'onchange', 'this.form.submit()' ) ?></div>
+</div>
 

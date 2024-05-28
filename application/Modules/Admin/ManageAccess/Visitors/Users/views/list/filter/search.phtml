@@ -10,5 +10,6 @@ use Jet\MVC_View;
 $listing = $this->getRaw( 'listing' );
 $filter_form = $listing->getFilterForm();
 ?>
-
-<?= $filter_form->field( 'search' )->input() ?>
+<div style="width: 350px">
+	<?= $filter_form->field( 'search' )->input() ?>
+</div>
