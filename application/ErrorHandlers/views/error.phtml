@@ -1,0 +1,83 @@
+<?php
+use Jet\Debug_ErrorHandler_Error;
+use JetApplication\ErrorHandler_Display;
+
+$encode = function( string $html ): string {
+	return nl2br( htmlspecialchars( $html, ENT_QUOTES ) );
+};
+
+
+/**
+ * @var Debug_ErrorHandler_Error $error
+ * @var ErrorHandler_Display $handler
+ */
+
+$id = uniqid();
+
+$showCode = function( $file, $line ) use ($handler) : void {
+	?>
+	<div class="dbg-code">
+		<?php
+		$from_line = $line-10;
+		$to_line = $line+10;
+		
+		foreach($handler->highlightPhpCode( file_get_contents($file), true ) as $line_no=>$line_code):
+			if($line_no<$from_line) {
+				continue;
+			}
+			if($line_no>$to_line) {
+				break;
+			}
+			?>
+			<div class="<?=(($line==$line_no)?'dbg-code-current-line-no':'dbg-code-line-no')?>"><?=$line_no?>:</div>
+			<div class="<?=(($line==$line_no)?'dbg-code-current-line':'')?>"><?=$line_code?></div>
+		<?php
+		endforeach;
+		?>
+	</div>
+	<?php
+};
+
+?>
+<div class="dbg-error">
+	<div class="dbg-error-header">
+		<div class="dbg-error-header-type">
+			<?= $encode( $error->getTxt() ) ?>
+		</div>
+		<div class="dbg-error-header-message">
+			<?= $encode( $error->getMessage() ) ?>
+		</div>
+	</div>
+
+
+
+	<div class="dbg-bt-title">Debug backtrace</div>
+	
+	<div class="dbg-bt">
+		<div class="dbg-bt-lines" id="dbg-lines-<?=$id?>">
+			<div id="dbg_bt_l_<?=$id?>_main" class="dbg-bt-line dbg-bt-line-selected" data-line="main" onclick="dbg.showBt('<?=$id?>', this);">
+				<?=$error->getFile()?> : <?=$error->getLine()?>
+			</div>
+			<?php foreach( $error->getBacktrace() as $i => $d ):?>
+				<div id="dbg_bt_l_<?=$id?>_<?=$i?>" class="dbg-bt-line" data-line="<?=$i?>" onclick="dbg.showBt('<?=$id?>', this);">
+					<?= $d->getFile() ?> : <?= $d->getLine() ?><br>
+					<div class="dbg-bt-line-call"><?=$d->getCall()?></div>
+				</div>
+			<?php endforeach; ?>
+		</div>
+		<div class="dbg-bt-codes" id="dbg-codes-<?=$id?>">
+			<div id="dbg_bt_c_<?=$id?>_main" class="dbg-bt-code dbg-bt-code-selected">
+				<?php $showCode( $error->getFile(), $error->getLine() );?>
+			</div>
+			<?php foreach( $error->getBacktrace() as $i => $d ):?>
+				<div id="dbg_bt_c_<?=$id?>_<?=$i?>" class="dbg-bt-code">
+					<?php $showCode( $d->getFile(), $d->getLine() );?>
+				</div>
+			<?php endforeach; ?>
+		</div>
+	</div>
+
+
+
+</div><br/>
+

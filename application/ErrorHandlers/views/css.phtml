@@ -1,0 +1,250 @@
+<style>
+.dbg-error {
+	padding:5px;
+	font-family: Verdana, sans-serif;
+}
+
+#dbg-warnings-btn {
+	font-family: Verdana, sans-serif;
+	position: fixed;
+	top:0px;
+	left: 0px;
+	background-color: #ff3535;
+	color: white;
+	padding: 10px;
+	font-weight: bold;
+	cursor: pointer;
+}
+
+#dbg-warnings-dialog {
+	position: absolute;
+	left: 10px;
+	top: 10px;
+	width: calc(100vw - 40px);
+	height: calc(100vh - 40px);
+	background-color: white;
+	padding: 10px;
+	overflow: auto;
+	border: 1px solid #808080;
+	border-radius: 5px;
+	font-family: Verdana, sans-serif;
+	box-shadow: 0px 0px 13px 1px rgba(0,0,0,0.52);
+	z-index: 999999;
+}
+
+.dbg-warnings-dialog-title {
+	display: grid;
+	grid-template-columns: 1fr 1fr 40px;
+	margin-bottom: 10px;
+}
+
+.dbg-warnings-dialog-title b {
+	font-size: 25px;
+}
+
+.dbg-warnings-dialog-title button {
+	background-color: transparent;
+	border: none;
+	font-weight: bold;
+	font-size: 25px;
+}
+
+
+.dbg-error-header {
+	border: 1px solid #c9c9c9;
+	padding: 10px;
+	border-radius: 5px;
+	background-image: linear-gradient(to bottom, #cdffcd, #a2c9a2);
+}
+
+.dbg-error-header-type {
+	opacity: 0.5;
+	font-size: 15px;
+}
+
+.dbg-error-header-message {
+	font-weight: bolder;
+	font-size: 22px;
+}
+
+
+
+.dbg-code {
+	padding: 5px;
+	display: grid;
+	grid-template-columns: 50px 1fr;
+	gap: 0px;
+	background-color: #2b2b2b;
+	align-items: center;
+}
+
+
+.dbg-code-hl-html {
+	color: #d5b969;
+	font-family: Verdana, sans-serif;
+}
+.dbg-code-hl-comment {
+	color: #8f8f8f;
+	font-family: Verdana, sans-serif;
+}
+.dbg-code-hl-doc-comment {
+	color: #626262;
+	font-family: Verdana, sans-serif;
+}
+
+.dbg-code-hl-general {
+	color: #fec46a;
+	font-family: Verdana, sans-serif;
+}
+.dbg-code-hl-variable {
+	color: #9876aa;
+	font-family: Verdana, sans-serif;
+}
+.dbg-code-hl-string {
+	color: #6a8759;
+	font-family: Verdana, sans-serif;
+}
+.dbg-code-hl-keyword {
+	color: #007700; font-weight: bold;
+	font-family: Verdana, sans-serif;
+}
+
+
+.dbg-code-line-no {
+	padding: 1px;
+	color: #797878;
+	background-color: #313335;
+}
+
+
+.dbg-code-current-line {
+	padding: 1px;
+	background-color: #3e4042;
+}
+
+.dbg-code-current-line-no {
+	padding: 1px;
+	font-weight: bold;
+	background-color: #3e4042;
+	color: #bbbbbb;
+}
+
+.dbg-bt {
+	display: grid;
+	grid-template-columns: 2fr 3fr;
+	gap: 0px;
+	border: 1px solid #c9c9c9;
+	padding: 10px;
+	border-radius: 5px;
+	background-image: linear-gradient(to bottom, #e1e1e1, #b0b0b0);
+}
+
+
+.dbg-bt-lines {
+
+}
+
+.dbg-bt-line {
+	cursor: pointer;
+	padding: 10px;
+}
+
+.dbg-bt-line-selected {
+	background-color: #2b2b2b;
+	color: #ececec;
+	font-weight: bolder;
+	border-bottom-left-radius: 5px;
+	border-top-left-radius: 5px;
+}
+
+
+.dbg-bt-codes {
+	background-color: #2b2b2b;
+	padding: 10px;
+	border-bottom-right-radius: 5px;
+	border-top-right-radius: 5px;
+}
+
+.dbg-bt-code {
+	display: none;
+}
+
+.dbg-bt-code-selected {
+	display: block;
+}
+
+
+.dbg-bt-line-call {
+	color: #5c5c5c;
+	font-weight: bolder;
+}
+
+.dbg-warnings {
+	display: grid;
+	grid-template-columns: 1fr 4fr;
+}
+
+#dbg-warnings-list {
+	height: calc(100vh - 120px);
+	overflow: auto;
+}
+
+#dbg-warnings-details {
+	height: calc(100vh - 120px);
+	overflow: auto;
+	border: 1px solid #5c5c5c;
+}
+
+.dbg-warnings-list-item {
+	padding: 5px;
+	cursor: pointer;
+	margin-bottom: 10px;
+}
+
+.dbg-warnings-list-item-selected {
+	background-color: #5c5c5c;
+	padding: 10px;
+	font-weight: bolder;
+	color: #dadada;
+}
+
+.dbg-warnings-details-item {
+	display: none;
+}
+
+.dbg-warnings-list-details-selected {
+	display: block;
+}
+
+.dbg-links {
+	display: flex;
+	gap: 15px;
+	align-items: center;
+	font-family: Verdana, sans-serif;
+}
+
+.dbg-links a {
+	text-decoration: none;
+	color: #5c5c5c;
+	font-size: 15px;
+}
+
+.dbg-fata-error-title {
+	font-size: 30px;
+	font-weight: bolder;
+	font-family: Verdana, sans-serif;
+}
+
+.dbg-fata-error {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	margin-bottom: 20px;
+	align-items: center;
+}
+
+.dbg-bt-title {
+	margin-top: 10px;
+	margin-bottom: 6px;
+	font-size: 25px;
+}
+</style>
