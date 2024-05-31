@@ -9,5 +9,5 @@ return [
 	'And last but not least, you will need various password-protected sections etc. Of course it\'s not missing in this sample example application. <br/>You can create access in the administration.' => '',
 	'Ups ... I forgot about the REST API. Of course, PHP Jet can do that as well. There is a sample server and client.' => '',
 	'I believe you will enjoy PHP Jet, and most importantly, it will help you create a number of amazing things by your skills, creativity and ideas.' => '',
-	'So good luck :-)' => '',
+	'So good luck &#128522;' => '',
 ];

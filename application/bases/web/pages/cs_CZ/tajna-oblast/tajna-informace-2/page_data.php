@@ -13,7 +13,7 @@ return [
 		[
 			'output_position_order' => 1,
 			'output'                => <<<EOT
-<h2>:-)</h2>
+<h2>&#128526;</h2>
 <img src="http://assets1.bigthink.com/system/tinymce_assets/7239/original/pixar-yeti.jpeg"/>
 EOT
 		],

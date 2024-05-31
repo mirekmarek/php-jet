@@ -24,7 +24,7 @@ return [
 		[
 			'parameters' => [
 			],
-			'output' => '<h2>:-)</h2>
+			'output' => '<h2>&#128526;</h2>
 <img src="https://cdn.images.express.co.uk/img/dynamic/galleries/x701/146831.jpg"/>',
 			'is_cacheable' => false,
 			'output_position' => '',

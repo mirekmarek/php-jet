@@ -13,7 +13,7 @@ return [
 		[
 			'output_position_order' => 1,
 			'output'                => <<<EOT
-<h2>:-)</h2>
+<h2>&#128526;</h2>
 <img src="https://cdn.images.express.co.uk/img/dynamic/galleries/x701/146831.jpg"/>
 EOT
 		],

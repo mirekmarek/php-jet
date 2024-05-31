@@ -23,7 +23,7 @@ return [
 		[
 			'parameters'            => [
 			],
-			'output'                => '<h2>:-)</h2>
+			'output'                => '<h2>&#128526;</h2>
 <img src="http://assets1.bigthink.com/system/tinymce_assets/7239/original/pixar-yeti.jpeg"/>',
 			'output_position'       => '',
 			'output_position_order' => 1,
