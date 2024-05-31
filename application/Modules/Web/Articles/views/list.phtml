@@ -17,7 +17,11 @@ $paginator = $this->getRaw( 'paginator' );
 ?>
 
 <?php foreach( $articles_list as $article ):
-	$thb = Application_Web_Services::ImageManager()?->generateThbURI( $article->getTitleImage(), 100, 100 );
+	if($article->getTitleImage()) {
+		$thb = Application_Web_Services::ImageManager()?->generateThbURI( $article->getTitleImage(), 100, 100 );
+	} else {
+		$thb = null;
+	}
 	$url = $article->getUrl();
 	?>
 	<div style="display: grid;grid-template-columns: 120px 1fr;align-items: center">
