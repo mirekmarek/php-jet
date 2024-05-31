@@ -67,26 +67,6 @@ class Db_Backend_PDO implements Db_Backend_Interface
 		return $this->config;
 	}
 
-	protected function _q( string $query, array $query_params = [] ) : PDOStatement
-	{
-		$q_hash = md5($query);
-
-		if(!isset($this->statements[$q_hash])) {
-			$this->statements[$q_hash] = $this->pdo->prepare( $query );
-		}
-
-		$statement = $this->statements[$q_hash];
-
-		try {
-			$statement->execute( $query_params );
-		} catch( PDOException $e ) {
-			throw new Db_Exception( $e->getMessage()."\n\nSQL query:\n\n".$query );
-		}
-
-		return $statement;
-	}
-
-
 	/**
 	 * @param string $query
 	 * @param array $query_params
@@ -99,12 +79,30 @@ class Db_Backend_PDO implements Db_Backend_Interface
 
 		Debug_Profiler::SQLQueryStart( $query, $query_params );
 
-		$statement = $this->_q($query, $query_params);
+		
+		try {
+			if($query_params) {
+				$q_hash = md5($query);
+				
+				if(!isset($this->statements[$q_hash])) {
+					$this->statements[$q_hash] = $this->pdo->prepare( $query );
+				}
+				$statement = $this->statements[$q_hash];
+				
+				$statement->execute( $query_params );
+				
+			} else {
+				$statement = $this->pdo->query( $query );
+			}
+		} catch( PDOException $e ) {
+			throw new Db_Exception( $e->getMessage()."\n\nSQL query:\n\n".$query );
+		}
+		
 
 
 		if(!$result_handler) {
 			$result = $statement;
-			$count = -1;
+			$count = $statement->rowCount();
 		} else {
 			$result = $result_handler( $statement );
 			$count = count($result);
@@ -127,10 +125,26 @@ class Db_Backend_PDO implements Db_Backend_Interface
 	public function execute( string $query, array $query_data = [] ): int
 	{
 		Debug_Profiler::SQLQueryStart( $query, $query_data );
-
-		$statement = $this->_q($query, $query_data);
-
-		$count = $statement->rowCount();
+	
+		try {
+			if($query_data) {
+				$q_hash = md5($query);
+				
+				if(!isset($this->statements[$q_hash])) {
+					$this->statements[$q_hash] = $this->pdo->prepare( $query );
+				}
+				$statement = $this->statements[$q_hash];
+				
+				$statement->execute( $query_data );
+				$count = $statement->rowCount();
+				
+			} else {
+				$count = $this->pdo->exec( $query );
+			}
+		} catch( PDOException $e ) {
+			throw new Db_Exception( $e->getMessage()."\n\nSQL query:\n\n".$query );
+		}
+		
 
 		Debug_Profiler::SQLQueryDone( $count );
 
