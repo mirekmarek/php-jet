@@ -27,6 +27,11 @@ if( PHP_SAPI!='cli' ) {
 	errorMessage( 'For command line usage only' );
 }
 
+if(str_ends_with(getcwd(), '_playground')) {
+	$dir = dirname(getcwd());
+	chdir( $dir );
+}
+
 
 $host = 'localhost';
 $port = 8000;
