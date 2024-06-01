@@ -8,4 +8,6 @@ return [
 	'E-mail:'                          => 'E-mail:',
 	'Set the mail sender'              => 'Nastavte odesílatele mailů',
 	'Something went wrong: %error%'    => 'Něco se nepovedlo: %error%',
+	'Please enter a value'             => 'Prosím zadejte hodnotu',
+	'Invalid value'                    => 'Neplatná hodnota',
 ];

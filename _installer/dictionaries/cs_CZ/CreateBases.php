@@ -12,4 +12,5 @@ return [
 	'PHP Jet Example Administration' => 'PHP Jet Ukázková administrace',
 	'PHP Jet Example REST API'       => 'PHP Jet Ukázkové REST API',
 	'Something went wrong: %error%'  => 'Něco se nepovedlo: %error%',
+	'Invalid value'                  => 'Neplatná hodnota',
 ];
