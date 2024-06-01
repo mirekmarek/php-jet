@@ -1,4 +1,6 @@
 <?php
+
+use Jet\Debug_CodeHighlighter_PHP;
 use Jet\Debug_ErrorHandler_Error;
 use JetApplication\ErrorHandler_Display;
 
@@ -14,14 +16,17 @@ $encode = function( string $html ): string {
 
 $id = uniqid();
 
+
+
 $showCode = function( $file, $line ) use ($handler) : void {
+	$highlighter = new Debug_CodeHighlighter_PHP();
 	?>
 	<div class="dbg-code">
 		<?php
 		$from_line = $line-10;
 		$to_line = $line+10;
 		
-		foreach($handler->highlightPhpCode( file_get_contents($file), true ) as $line_no=>$line_code):
+		foreach($highlighter->highlight( file_get_contents($file), true ) as $line_no=>$line_code):
 			if($line_no<$from_line) {
 				continue;
 			}
