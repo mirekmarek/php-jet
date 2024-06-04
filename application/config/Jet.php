@@ -20,7 +20,7 @@ SysConf_Jet_Debug::setDevelMode( true );
 
 if( SysConf_Jet_Debug::getDevelMode() ) {
 	//Dev configuration
-	SysConf_Jet_Debug::setProfilerEnabled( false );
+	SysConf_Jet_Debug::setProfilerEnabled( true );
 
 	SysConf_Jet_PackageCreator_CSS::setEnabled( false );
 	SysConf_Jet_PackageCreator_JavaScript::setEnabled( false );
