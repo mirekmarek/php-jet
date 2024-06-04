@@ -421,12 +421,12 @@ class MVC_Page_Content extends BaseObject implements MVC_Page_Content_Interface
 		$block_name = $module_name . ':' . $controller_action;
 
 
-		Debug_Profiler::blockStart( 'Dispatch ' . $block_name );
+		Debug_Profiler::blockStart( $block_name );
 
 		if( $this->loadOutputCache() ) {
 			Debug_Profiler::message( 'Loaded from cache' );
 
-			Debug_Profiler::blockEnd( 'Dispatch ' . $block_name );
+			Debug_Profiler::blockEnd( $block_name );
 			return;
 		}
 
@@ -448,7 +448,7 @@ class MVC_Page_Content extends BaseObject implements MVC_Page_Content_Interface
 			Translator::setCurrentDictionary( $translator_dictionary );
 		}
 
-		Debug_Profiler::blockEnd( 'Dispatch ' . $block_name );
+		Debug_Profiler::blockEnd( $block_name );
 
 	}
 

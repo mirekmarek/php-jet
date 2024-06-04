@@ -30,7 +30,7 @@ class Debug_Profiler_Run_SQLQueryData
 	protected array $query_params = [];
 
 	/**
-	 * @var array
+	 * @var Debug_Profiler_Run_BacktraceItem[]
 	 */
 	protected array $backtrace = [];
 
@@ -109,7 +109,7 @@ class Debug_Profiler_Run_SQLQueryData
 	}
 
 	/**
-	 * @return array
+	 * @return Debug_Profiler_Run_BacktraceItem[]
 	 */
 	public function getBacktrace(): array
 	{

@@ -102,11 +102,9 @@ $controller = new class {
 
 	public function statusBarDisplayer( Debug_Profiler_Run $run ) : void
 	{
-
 		if($this->save_error) {
 			if( !Debug::getOutputIsJSON() ) {
-				require __DIR__ . '/views/status_style.phtml';
-				require __DIR__ . '/views/status_bar_error.phtml';
+				require __DIR__ . '/views/status-bar/error.phtml';
 			}
 
 			return;
@@ -118,8 +116,7 @@ $controller = new class {
 			echo '<!-- profiler: ' . $URL . ' -->';
 		} else {
 			if( !Debug::getOutputIsJSON() ) {
-				require __DIR__ . '/views/status_style.phtml';
-				require __DIR__ . '/views/status_bar.phtml';
+				require __DIR__ . '/views/status-bar.phtml';
 			}
 		}
 	}
@@ -136,6 +133,43 @@ $controller = new class {
 		if( !$run ) {
 			return;
 		}
+		
+		
+		if(
+			($bt_type=$_GET['show_bt']??'') &&
+			($bt_id=$_GET['id']??null)!==null
+		) {
+			$bt = null;
+			switch($bt_type) {
+				case 'run_block_bt_start':
+					$bt = $run->getBlock($bt_id)?->getBacktraceStart();
+					break;
+				case 'run_block_bt_end':
+					$bt = $run->getBlock($bt_id)?->getBacktraceEnd();
+					break;
+				case 'run_block_message_bt':
+					[$block_id, $message_i] = explode(':', $bt_id);
+					
+					$bt = $run->getBlock( $block_id )?->getMessages()[(int)$message_i]?->getBacktrace();
+					
+					break;
+				case 'run_block_sql_query_bt':
+					[$block_id, $q_i] = explode(':', $bt_id);
+					
+					$bt = $run->getBlock( $block_id )?->getSQLQueries()[(int)$q_i]?->getBacktrace();
+					break;
+				case 'run_sql_query_bt':
+					$bt = $run->getSqlQueries()[(int)$bt_id]?->getBacktrace();
+					break;
+			}
+			
+			if($bt) {
+				require __DIR__ . '/views/result/bt.phtml';
+			}
+			
+			die();
+		}
+		
 
 		if( isset( $_GET['callgraph'] ) ) {
 			$this->showCallGraph( $run );

@@ -60,12 +60,12 @@ class Debug_Profiler_Run_Block
 	protected int $memory_peak_end = 0;
 
 	/**
-	 * @var array
+	 * @var Debug_Profiler_Run_BacktraceItem[]
 	 */
 	protected array $backtrace_start = [];
 
 	/**
-	 * @var array
+	 * @var Debug_Profiler_Run_BacktraceItem[]
 	 */
 	protected array $backtrace_end = [];
 
@@ -172,7 +172,7 @@ class Debug_Profiler_Run_Block
 	}
 
 	/**
-	 * @return array
+	 * @return Debug_Profiler_Run_BacktraceItem[]
 	 */
 	public function getBacktraceEnd(): array
 	{
@@ -180,7 +180,7 @@ class Debug_Profiler_Run_Block
 	}
 
 	/**
-	 * @return array
+	 * @return Debug_Profiler_Run_BacktraceItem[]
 	 */
 	public function getBacktraceStart(): array
 	{
@@ -245,9 +245,9 @@ class Debug_Profiler_Run_Block
 	}
 
 	/**
-	 * @return Debug_Profiler_Run_Block
+	 * @return ?Debug_Profiler_Run_Block
 	 */
-	public function getParentBlock(): Debug_Profiler_Run_Block
+	public function getParentBlock(): ?Debug_Profiler_Run_Block
 	{
 		return $this->parent_block;
 	}

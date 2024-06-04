@@ -1,0 +1,66 @@
+<?php
+/**
+ *
+ * @copyright Copyright (c) Miroslav Marek <mirek.marek@web-jet.cz>
+ * @license http://www.php-jet.net/license/license.txt
+ * @author Miroslav Marek <mirek.marek@web-jet.cz>
+ */
+
+use Jet\Debug_Profiler_Run_BacktraceItem;
+use Jet\Debug_CodeHighlighter_PHP;
+use Jet\SysConf_Path;
+
+require SysConf_Path::getLibrary().'Jet/Debug/CodeHighlighter/PHP.php';
+
+function showCode( string $file, string|int $line ) : void {
+	$highlighter = new Debug_CodeHighlighter_PHP();
+	?>
+	<div class="dbg-code">
+		<?php
+		$from_line = $line-10;
+		$to_line = $line+10;
+		
+		foreach($highlighter->highlight( file_get_contents($file), true ) as $line_no=>$line_code):
+			if($line_no<$from_line) {
+				continue;
+			}
+			if($line_no>$to_line) {
+				break;
+			}
+			?>
+			<div class="<?=(($line==$line_no)?'dbg-code-current-line-no':'dbg-code-line-no')?>"><?=$line_no?>:</div>
+			<div class="<?=(($line==$line_no)?'dbg-code-current-line':'')?>"><?=$line_code?></div>
+		<?php
+		endforeach;
+		?>
+	</div>
+	<?php
+}
+
+/**
+ * @var Debug_Profiler_Run_BacktraceItem[] $bt
+ */
+
+?>
+
+<div class="backtrace">
+	<div class="dbg-bt">
+		<div class="dbg-bt-lines" id="dbg-lines">
+			<?php foreach( $bt as $i => $d ):?>
+				<div id="dbg_bt_l_<?=$i?>" class="dbg-bt-line<?=$i==0? ' dbg-bt-line-selected':''?>" data-line="<?=$i?>" onclick="ProfilerResult.showBt(this);">
+					<?= $d->getFile() ?> : <?= $d->getLine() ?><br>
+					<div class="dbg-bt-line-call"><?=$d->getCall()?></div>
+				</div>
+			<?php endforeach; ?>
+		</div>
+		<div class="dbg-bt-codes" id="dbg-codes">
+			<?php foreach( $bt as $i => $d ):?>
+				<div id="dbg_bt_c_<?=$i?>" class="dbg-bt-code<?=$i==0? ' dbg-bt-code-selected':''?>">
+					<?php showCode( $d->getFile(), $d->getLine() );?>
+				</div>
+			<?php endforeach; ?>
+		</div>
+	</div>
+</div>
+
+

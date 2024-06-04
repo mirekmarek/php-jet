@@ -9,6 +9,7 @@
 use Jet\Debug_Profiler_Run;
 use Jet\Debug_Profiler_Run_Block;
 
+
 /**
  * @var Debug_Profiler_Run $run
  */
@@ -82,7 +83,7 @@ function formatQuery(string $query, array $query_data = []) : string
  * @param Debug_Profiler_Run_Block $block
  * @param int $level
  */
-function showRunBlock( Debug_Profiler_Run_Block $block, int $level=0) : void
+function showRunBlockTree( Debug_Profiler_Run_Block $block, int $level=0) : void
 {
 	$id = $block->getId();
 	$is_root = $block->getIsRoot();
@@ -94,125 +95,19 @@ function showRunBlock( Debug_Profiler_Run_Block $block, int $level=0) : void
 	$next_level = $level+1;
 	?>
 
-	<div id="run_block_<?= $id; ?>" class="run_block run_block-<?=$level?>" >
+	<div id="run_block_tree_<?= $id; ?>" class="run-block-tree-item run-block-tree-item-<?=$level?><?=$level==0?' run-block-tree-item-selected':''?>" onclick="ProfilerResult.showRumBlock('<?=$id?>');">
 
-		<div class="run_block_main_info">
-			<?php if(!$is_root): ?>
-			<div class="run_block_title"><?= $block->getLabel(); ?></div>
-			<?php endif; ?>
-			<table>
-				<tr>
-					<td>Duration:</td>
-					<td><?= formatDuration($block->getDuration()); ?></td>
-				</tr>
-				<tr>
-					<td style="vertical-align: top;">Memory usage diff:</td>
-					<td>
-						<?= formatBytes($block->getMemoryUsageDiff()); ?>&nbsp;<span style="font-size: 10px;">( <?= formatBytes($block->getMemoryStart()); ?> -> <?= formatBytes($block->getMemoryEnd()); ?>)</span>
-					</td>
-				</tr>
-				<tr>
-					<td style="vertical-align: top;">Memory peak diff:</td>
-					<td>
-						<?= formatBytes($block->getMemoryPeakDiff()); ?>&nbsp;<span style="font-size: 10px;">( <?= formatBytes($block->getMemoryPeakStart()); ?> -> <?= formatBytes($block->getMemoryPeakEnd()); ?>)</span>
-					</td>
-				</tr>
-			</table>
-
-		</div>
-
-
-
-		<?php if ($block->getMessages()): ?>
-		<div>
-			<a href="javascript:toggleDisplay('run_block_details_messages_<?= $id; ?>');">Messages</a>
-			<div class="run_block_details_backtrace" id="run_block_details_messages_<?= $id; ?>" style="display: none">
-				<ul>
-					<?php foreach ($block->getMessages() as $msg):
-						$backtrace = $msg->getBacktrace();
-						?>
-						<li>
-							<?= $msg->getText(); ?>
-							<span style="font-size: 10px;"><br/>( <?=array_shift($backtrace); ?> )</span>
-						</li>
-					<?php endforeach; ?>
-				</ul>
+		<div class="run-block-tree-item-basic-info">
+			<div class="run-block-tree-item-basic-info-title"><?= $block->getLabel(); ?></div>
+			<div class="run-block-tree-item-basic-info-resources">
+				<div><?= formatDuration($block->getDuration()); ?></div>
+				<div><?= formatBytes($block->getMemoryUsageDiff()); ?></div>
 			</div>
 		</div>
-		<?php endif; ?>
-
-		<?php if ($block->getSQLQueries()): ?>
-		<div>
-			<a href="javascript:toggleDisplay('run_block_details_queries_<?= $id; ?>');">SQL queries</a>
-			<div class="run_block_details_backtrace" id="run_block_details_queries_<?= $id; ?>" style="display: none">
-				<table class="table table-striped">
-					<thead>
-					<tr>
-						<th>Query</th>
-						<th>Duration</th>
-						<th nowrap>Rows count</th>
-						<?php /*<td nowrap>Memory diff</td>*/ ?>
-						<th>Backtrace</th>
-
-					</tr>
-					</thead>
-					<tbody>
-
-					<?php
-					$total_count = 0;
-					$total_duration = 0;
-					foreach ($block->getSQLQueries() as $q):
-						$total_count++;
-						$total_duration = $total_duration + $q->getDuration();
-						?>
-						<tr>
-							<td style="vertical-align: top;"><?= formatQuery($q->getQuery(), $q->getQueryParams()); ?></td>
-							<td style="vertical-align: top;"><?= formatDuration($q->getDuration()); ?></td>
-							<td style="vertical-align: top;"><?= $q->getRowsCount(); ?></td>
-							<?php /* <td valign="top">
-							Usage:&nbsp;<?=formatBytes( $q->getMemoryUsageDiff() );?>
-							<br/>
-							Peak&nbsp;usage:&nbsp;<?=formatBytes( $q->getMemoryPeakDiff() );?>
-						</td> */ ?>
-							<td style="vertical-align: top;"><?= implode('<br/>', $q->getBacktrace()); ?></td>
-						</tr>
-					<?php endforeach; ?>
-					</tbody>
-					<tfoot>
-					<tr>
-						<th>Total count: <?= $total_count; ?></th>
-						<th><?= formatDuration($total_duration); ?></th>
-					</tr>
-					</tfoot>
-				</table>
-			</div>
-		</div>
-		<?php endif; ?>
-
-
-		<?php if (!$is_root && !$block->getIsAnonymous()): ?>
-		<div>
-			<a href="javascript:toggleDisplay('run_block_details_backtrace_<?= $id; ?>');">Backtrace</a>
-			<div class="run_block_details_backtrace" id="run_block_details_backtrace_<?= $id; ?>" style="display: none;padding-left: 20px">
-				<div class="run_block_title">Block start backtrace:</div>
-				<ul>
-					<?php foreach ($block->getBacktraceStart() as $bt): ?>
-						<li><?= $bt; ?></li>
-					<?php endforeach; ?>
-				</ul>
-				<div class="run_block_title">Block end backtrace:</div>
-				<ul>
-					<?php foreach ($block->getBacktraceEnd() as $bt): ?>
-						<li><?= $bt; ?></li>
-					<?php endforeach; ?>
-				</ul>
-			</div>
-		</div>
-		<?php endif; ?>
-
+		
 		<?php if (($children = $block->getChildren())): ?>
 			<?php foreach ($children as $child): ?>
-				<?php showRunBlock($child, $next_level); ?>
+				<?php showRunBlockTree($child, $next_level); ?>
 			<?php endforeach; ?>
 		<?php endif; ?>
 
@@ -223,172 +118,238 @@ function showRunBlock( Debug_Profiler_Run_Block $block, int $level=0) : void
 	<?php
 }
 
+
+function showRunBlock( Debug_Profiler_Run_Block $block, int $level=0 ) : void
+{
+	$id = $block->getId();
+	$is_root = $block->getIsRoot();
+	
+	if($block->getIsAnonymous() && $block->getDuration()*1000<1) {
+		return;
+	}
+	
+	$next_level = $level+1;
+	
+	$path = [];
+	
+	$parent = $block;
+	while( ($parent = $parent->getParentBlock()) ) {
+		$path[] = $parent;
+	}
+	
+	$path = array_reverse( $path );
+	
+	?>
+
+	<div id="run_block_<?= $id; ?>" class="run-block-detail run-block-detail-<?=$level?> <?=$level==0?' run-block-detail-selected':''?>">
+
+		<div class="run-block-title">
+			<?php foreach($path as $parent): ?>
+				<a href="#" onclick="ProfilerResult.showRumBlock('<?=$parent->getId()?>');return false"><?=$parent->getLabel()?></a>
+				<span> / </span>
+			<?php endforeach; ?>
+			
+			<?= $block->getLabel(); ?>
+		</div>
+		
+		<div class="run-block-main-info">
+			<div>Duration:</div>
+			<div><?= formatDuration($block->getDuration()); ?></div>
+			<div></div>
+	
+			<div>Memory usage diff:</div>
+			<div><?= formatBytes($block->getMemoryUsageDiff()); ?></div>
+			<div><?= formatBytes($block->getMemoryStart()); ?> 🡒 <?= formatBytes($block->getMemoryEnd()); ?></div>
+	
+			<div style="vertical-align: top;">Memory peak diff:</div>
+			<div><?= formatBytes($block->getMemoryPeakDiff()); ?></div>
+			<div><?= formatBytes($block->getMemoryPeakStart()); ?> 🡒 <?= formatBytes($block->getMemoryPeakEnd()); ?></div>
+
+		</div>
+		
+		<?php if(!$block->getIsRoot() && !$block->getIsAnonymous() ): ?>
+		<button type="button" onclick="ProfilerResult.showRunBlockBtStart('<?=$id?>');" class="bt-btn">	&#x1F50E; Where does the block start?</button>
+		<button type="button" onclick="ProfilerResult.showRunBlockBtEnd('<?=$id?>');" class="bt-btn">&#x1F50E; Where does the block end?</button>
+		<?php endif; ?>
+		
+		
+		<?php if ($block->getMessages()): ?>
+		<div class="run-block-messages">
+			<div class="run-block-messages-title">
+				Messages
+			</div>
+			<div class="run-block-messages-items">
+
+				<?php foreach ($block->getMessages() as $i=>$msg):
+					$backtrace = $msg->getBacktrace();
+					?>
+					<div class="run-block-messages-item">
+						<?= $msg->getText(); ?>
+
+						<br><br>
+						<button type="button" onclick="ProfilerResult.showMessageBt('<?=$block->getId()?>','<?=$i?>');" class="bt-btn">	&#x1F50E; Where's the message coming from?</button>
+					</div>
+				<?php endforeach; ?>
+			</div>
+		</div>
+		<?php endif; ?>
+		
+		<?php if ($block->getSQLQueries()):
+			$number_of_queries = 0;
+			$queries_duration = 0;
+			foreach ($block->getSQLQueries() as $q) {
+				$number_of_queries++;
+				$queries_duration = $queries_duration + $q->getDuration();
+			}
+			
+			?>
+			<div class="run-block-sql-queries">
+				<div class="run-block-sql-queries-title">SQL queries</div>
+				
+				<div class="run-block-sql-queries-summary">
+					<div>Number of executed SQL queries:</div>
+					<div><?=$number_of_queries?></div>
+					
+					<div>Duration of executed SQL queries:</div>
+					<div><?= formatDuration($queries_duration); ?></div>
+				</div>
+				
+				
+				
+				<div class="run-block-sql-queries-items">
+					<?php foreach ($block->getSQLQueries() as $i=>$q): ?>
+					<div class="run-block-sql-queries-item">
+						<div class="run-block-sql-queries-item-query"><?= formatQuery($q->getQuery(), $q->getQueryParams()); ?></div>
+						
+						<div class="run-block-sql-queries-item-info">
+							<div>Duration: <?= formatDuration($q->getDuration()); ?></div>
+							<div>Rows count: <?= $q->getRowsCount(); ?></div>
+							<div>
+								<button type="button" onclick="ProfilerResult.showBlockSQLQueryBt('<?=$block->getId()?>','<?=$i?>');" class="bt-btn">&#x1F50E; Where's the query coming from?</button>
+							</div>
+						</div>
+					</div>
+					<?php endforeach; ?>
+				</div>
+			</div>
+		<?php endif; ?>
+	</div>
+	
+	<?php
+	if (($children = $block->getChildren())) {
+		foreach( $children as $child ) {
+			showRunBlock( $child, $next_level );
+		}
+	}
+}
+
 ?>
 <html>
 <head>
 
-	<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css"/>
-	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"/>
-
-	<style>
-		.run_block {
-			border: 1px solid #aaaaaa;
-			margin-bottom: 5px;;
-		}
-
-		.run_block-0 {
-			margin-left: 50px;
-			background-color: #bbbbbb;
-		}
-
-		.run_block-1 {
-			margin-left: 50px;
-			background-color: #cccccc;
-		}
-
-		.run_block-2 {
-			margin-left: 50px;
-			background-color: #dddddd;
-		}
-
-		.run_block-3 {
-			margin-left: 50px;
-			background-color: #eeeeee;
-		}
-
-		.run_block-4 {
-			margin-left: 50px;
-			background-color: #ffffff;
-		}
-
-
-		.run_block a {
-			margin-left: 5px;
-		}
-
-		.run_block_children {
-			margin-left: 10px;;
-			margin-bottom: 5px;
-			padding: 5px;
-			border: 2px solid #999999;
-
-		}
-
-		.run_block_main_info {
-			padding: 10px;
-		}
-
-		.run_block_main_info td {
-			padding: 5px;
-		}
-
-		.run_block_details {
-
-		}
-
-		.run_block_title {
-			font-weight: bolder;
-		}
-
-	</style>
-
-	<script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
-
-	<script type="text/javascript">
-		function toggleDisplay(id) {
-			$('#'+id).toggle();
-		}
-
-	</script>
 </head>
 <body>
-<div style="background: #0f0f0f;color: #c9c9c9;display: grid;align-items: center;grid-template-columns: 160px 1fr;">
-	<div style="padding: 10px;"><img src="https://php-jet.net/images/logo-st.svg" style="width: 120px;height: auto"></div>
-	<div><b>Profiler result</b></div>
-</div>
+
+	<?php require 'result/css.phtml'; ?>
+	<?php require 'result/js.phtml'; ?>
+
+	<div class="header">
+		<div class="header-logo"><img src="https://php-jet.net/images/logo-st.svg"></div>
+		<div class="header-title">Profiler result</div>
+	</div>
 	
+	<div class="basic-info">
+		<div class="basic-info-table">
+			<div>Run id:</div>
+			<div><?= $run->getId(); ?></div>
+	
+			<div>Request URL:</div>
+			<div><?= $run->getRequestURL(); ?></div>
+	
+			<div>Date and time:</div>
+			<div><?= $run->getDateAndTime(); ?></div>
+		</div>
+		
+		<div>
+			<?php if ($run->getXHPData()): ?>
+				<a href="?JPR=<?= $run->getId(); ?>&callgraph" target="_blank" class="xhprof-link">&#x1f441; XHProf Call Graph</a>
+			<?php else: ?>
+				<strong class="xhprof-na">XHProf data not available</strong>
+			<?php endif; ?>
+		</div>
+	</div>
 
-	<div class="container-full" style="padding: 10px;">
+	<div id="nav-tabs">
+		<button id="run-blocks-tab" type="button" class="nav-tab nav-tab-selected" onclick="ProfilerResult.selectTab('run-blocks')">Run blocks</button>
+		<button id="sql-queries-tab" type="button" class="nav-tab" onclick="ProfilerResult.selectTab('sql-queries')">SQL queries (<?=count( $run->getSqlQueries() )?>)</button>
+	</div>
 
-		<table class="table">
-			<tr>
-				<td>Run id:</td>
-				<td style="width: 100%"><?= $run->getId(); ?></td>
-			</tr>
-			<tr>
-				<td>Request URL:</td>
-				<td><?= $run->getRequestURL(); ?></td>
-			</tr>
-			<tr>
-				<td nowrap="">Date and time:</td>
-				<td><?= $run->getDateAndTime(); ?></td>
-			</tr>
-		</table>
+	<div id="nab-tabs-content">
+		<div id="run-blocks-content" class="nab-tab-content nab-tab-content-selected">
+			<div class="run-blocks">
+				<div class="run-blocks-tree" id="run-blocks-tree">
+					<?php showRunBlockTree($blocks[0]); ?>
+				</div>
+				<div class="run-blocks-details" id="run-blocks-details">
+					<?php showRunBlock($blocks[0]); ?>
+				</div>
+			</div>
+		</div>
 
-		<hr/>
-		<?php if ($run->getXHPData()): ?>
-			<a href="?JPR=<?= $run->getId(); ?>&callgraph" target="_blank" style="font-weight: bolder">XHProf Call Graph</a>
-		<?php else: ?>
-			<strong>XHProf data not available</strong>
-		<?php endif; ?>
-
-
-		<hr/>
-		<h2>Run blocks</h2>
-		<?php showRunBlock($blocks[0]); ?>
-
-		<hr/>
-
-		<h2>SQL queries overview</h2>
-		<table class="table table-striped">
-			<thead>
-			<tr>
-				<th>Block</th>
-				<th>Query</th>
-				<th>Duration</th>
-				<th>Rows&nbsp;count</th>
-				<?php /*<td nowrap>Memory diff</td>*/ ?>
-				<th>Backtrace</th>
-
-			</tr>
-			</thead>
-			<tbody>
-
+		<div id="sql-queries-content" class="nab-tab-content">
 			<?php
-			$total_count = 0;
-			$total_duration = 0;
-			foreach ($run->getSqlQueries() as $q):
-				$total_count++;
-				$total_duration = $total_duration + $q->getDuration();
-				?>
-				<tr>
-					<td><a href="#run_block_<?= $q->getBlockId(); ?>"><?= $blocks[$q->getBlockId()]->getLabel(); ?></a></td>
-					<td style="vertical-align: top;"><?= formatQuery($q->getQuery(), $q->getQueryParams()); ?></td>
-					<td style="vertical-align: top;"><?= formatDuration($q->getDuration()); ?></td>
-					<td style="vertical-align: top;"><?= $q->getRowsCount(); ?></td>
-					<?php /*<td valign="top">
-									Usage:&nbsp;<?=formatBytes( $q->getMemoryUsageDiff() );?>
-									<br/>
-									Peak&nbsp;usage:&nbsp;<?=formatBytes( $q->getMemoryPeakDiff() );?>
-							</td>*/ ?>
-					<td style="vertical-align: top;">
-						<ul>
-							<li><?= implode('</li><li>', $q->getBacktrace()); ?></li>
-						</ul>
-					</td>
-				</tr>
-			<?php endforeach; ?>
-			</tbody>
-			<tfoot>
-			<tr>
-				<th></th>
-				<th>Total count: <?= $total_count; ?></th>
-				<th><?= formatDuration($total_duration); ?></th>
-			</tr>
-			</tfoot>
-		</table>
+			$number_of_queries = 0;
+			$queries_duration = 0;
+			foreach ($run->getSqlQueries() as $q) {
+				$number_of_queries++;
+				$queries_duration = $queries_duration + $q->getDuration();
+			} ?>
+
+			<div class="sql-queries-summary">
+				<div>Number of executed SQL queries:</div>
+				<div><?=$number_of_queries?></div>
+				<div>Duration of executed SQL queries:</div>
+				<div><?= formatDuration($queries_duration); ?></div>
+			</div>
+			
+			
+			<div>
+				
+				<?php foreach ($run->getSqlQueries() as $i=>$q):?>
+					<div class="sql-queries-item">
+						<div class="sql-queries-item-query"><?= formatQuery($q->getQuery(), $q->getQueryParams()); ?></div>
+						
+						<div class="sql-queries-item-info">
+							<div>Duration: <?= formatDuration($q->getDuration()); ?></div>
+							<div>Rows count: <?= $q->getRowsCount(); ?></div>
+							<div>
+								<button type="button" onclick="ProfilerResult.showSQLQueryBt('<?=$i?>');" class="bt-btn">&#x1F50E; Where's the query coming from?</button>
+							</div>
+							<div>Run block <button type="button" onclick="ProfilerResult.showRumBlock('<?= $q->getBlockId(); ?>');ProfilerResult.selectTab('run-blocks');"><?= $blocks[$q->getBlockId()]->getLabel(); ?></button></div>
+						</div>
+					</div>
+
+
+				<?php endforeach; ?>
+			</div>
+		</div>
+	</div>
+
+
+	<div id="backtraces-dialog" style="display:none;">
+		<div class="backtraces-dialog-title">
+			<b>🛈</b>
+			
+			<button type="button" onclick="document.getElementById('backtraces-dialog').style.display='none';">&#x2715;</button>
+		</div>
+		
+		<div id="backtraces">
+		
+		</div>
 
 	</div>
+
+	
 
 </body>
 </html>

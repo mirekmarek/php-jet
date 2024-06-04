@@ -23,6 +23,11 @@ class Debug_Profiler_Run
 	 * @var string
 	 */
 	protected string $request_URL = '';
+	
+	/**
+	 * @var string
+	 */
+	protected string $root_dir = '';
 
 	/**
 	 * @var string
@@ -73,16 +78,19 @@ class Debug_Profiler_Run
 				!isset( $_SERVER['REQUEST_URI'] )
 			) {
 				$this->request_URL = 'unknown';
+				$this->root_dir = getcwd();
 			} else {
 				$this->request_URL = $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+				$this->root_dir = $_SERVER['DOCUMENT_ROOT'];
 			}
 		}
+		
 
 		$this->date_and_time = date( 'Y-m-d H:i:s' );
 
 		srand();
 		$this->id = md5( $this->request_URL . microtime( true ) . rand() . rand() . rand() );
-		$root_block = new Debug_Profiler_Run_Block( 'root', 0 );
+		$root_block = new Debug_Profiler_Run_Block( 'Application', 0 );
 		$this->blocks[] = $root_block;
 		$this->__root_block = $root_block;
 		$this->__block_stack[] = $root_block;
@@ -148,6 +156,27 @@ class Debug_Profiler_Run
 	{
 		return $this->blocks;
 	}
+	
+	public function getBlock( string $id ) : ?Debug_Profiler_Run_Block
+	{
+		foreach($this->blocks as $b) {
+			if($b->getId()==$id) {
+				return $b;
+			}
+		}
+		
+		return null;
+	}
+	
+	/**
+	 * @return string
+	 */
+	public function getRootDir(): string
+	{
+		return $this->root_dir;
+	}
+	
+	
 
 	/**
 	 * @return string
@@ -328,7 +357,7 @@ class Debug_Profiler_Run
 	 *
 	 * @param int $shift (optional, default: 0)
 	 *
-	 * @return array
+	 * @return Debug_Profiler_Run_BacktraceItem[]
 	 */
 	public static function getBacktrace( int $shift = 0 ): array
 	{
@@ -343,15 +372,7 @@ class Debug_Profiler_Run
 		$backtrace = [];
 
 		foreach( $_backtrace as $bt ) {
-			if( !isset( $bt['file'] ) ) {
-				$backtrace[] = '?';
-			} else {
-				$file = $bt['file'];
-
-				$file = '~/'.substr($file, strlen(SysConf_Path::getBase()));
-
-				$backtrace[] = $file . ':' . $bt['line'];
-			}
+			$backtrace[] = new Debug_Profiler_Run_BacktraceItem( $bt );
 		}
 
 		return $backtrace;

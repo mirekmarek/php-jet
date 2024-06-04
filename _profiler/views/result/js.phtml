@@ -1,0 +1,79 @@
+<?php
+/**
+ *
+ * @copyright Copyright (c) Miroslav Marek <mirek.marek@web-jet.cz>
+ * @license http://www.php-jet.net/license/license.txt
+ * @author Miroslav Marek <mirek.marek@web-jet.cz>
+ */
+
+use Jet\Debug_Profiler_Run;
+
+/**
+ * @var Debug_Profiler_Run $run
+ */
+?>
+<script type="text/javascript">
+	const ProfilerResult = {
+		showRumBlock: ( block_id ) => {
+
+			document.getElementById('run-blocks-tree').querySelector('.run-block-tree-item-selected').classList.remove('run-block-tree-item-selected');
+			document.getElementById('run-blocks-details').querySelector('.run-block-detail-selected').classList.remove('run-block-detail-selected');
+
+			document.getElementById('run_block_tree_'+block_id).classList.add('run-block-tree-item-selected');
+			document.getElementById('run_block_'+block_id).classList.add('run-block-detail-selected');
+
+			event.stopPropagation();
+		},
+		
+		selectTab: ( target_id ) => {
+			document.getElementById('nav-tabs').querySelector('.nav-tab-selected').classList.remove('nav-tab-selected');
+			document.getElementById('nab-tabs-content').querySelector('.nab-tab-content-selected').classList.remove('nab-tab-content-selected');
+
+			document.getElementById( target_id+'-tab' ).classList.add( 'nav-tab-selected' );
+			document.getElementById( target_id+'-content' ).classList.add('nab-tab-content-selected');
+		},
+
+		showRunBlockBtStart: ( block_id ) => {
+			ProfilerResult._showBackTrace( 'run_block_bt_start', block_id );
+		},
+
+		showRunBlockBtEnd: ( block_id ) => {
+			ProfilerResult._showBackTrace( 'run_block_bt_end', block_id );
+		},
+
+		showMessageBt: ( block_id, message_index ) => {
+			ProfilerResult._showBackTrace( 'run_block_message_bt', block_id+':'+message_index );
+		},
+
+		showBlockSQLQueryBt: ( block_id, query_index ) => {
+			ProfilerResult._showBackTrace( 'run_block_sql_query_bt', block_id+':'+query_index );
+		},
+
+		showSQLQueryBt: ( query_index ) => {
+			ProfilerResult._showBackTrace( 'run_sql_query_bt', query_index );
+		},
+		
+		
+		_showBackTrace: async ( type, id ) => {
+
+			const response = await fetch("?JPR=<?=$run->getId()?>&show_bt="+type+'&id='+id);
+			
+			document.getElementById('backtraces').innerHTML = await response.text();
+			
+			document.getElementById('backtraces-dialog').style.display='block';
+			
+		},
+
+		showBt: ( line ) => {
+			const line_id = line.dataset.line;
+
+			document.getElementById('dbg-lines').querySelector('.dbg-bt-line-selected').classList.remove('dbg-bt-line-selected');
+			document.getElementById('dbg-codes').querySelector('.dbg-bt-code-selected').classList.remove('dbg-bt-code-selected');
+
+			document.getElementById('dbg_bt_c_'+line_id).classList.add('dbg-bt-code-selected');
+			document.getElementById('dbg_bt_l_'+line_id).classList.add('dbg-bt-line-selected');
+		}
+		
+	};
+
+</script>

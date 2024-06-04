@@ -8,6 +8,8 @@
 
 namespace Jet;
 
+require_once 'ErrorHandler/Error/BacktraceItem.php';
+require_once 'Profiler/Run/BacktraceItem.php';
 require_once 'Profiler/Run/SQLQueryData.php';
 require_once 'Profiler/Run/Block/Message.php';
 require_once 'Profiler/Run/Block.php';
