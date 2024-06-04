@@ -17,6 +17,7 @@ use Jet\MVC_Router;
 use Jet\Auth;
 use Jet\SysConf_Jet_ErrorPages;
 use Jet\SysConf_Jet_Form;
+use Jet\SysConf_Jet_MVC;
 use Jet\SysConf_Jet_UI;
 
 /**
@@ -46,6 +47,8 @@ class Application_Web
 	 */
 	public static function init( MVC_Router $router ): void
 	{
+		SysConf_Jet_MVC::setUseModulePages( false );
+		
 		Logger::setLoggerProvider( function() : ?Application_Web_Services_Logger {
 			return Application_Web_Services::Logger();
 		} );
