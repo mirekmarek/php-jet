@@ -1,0 +1,121 @@
+<?php
+/**
+ *
+ * @copyright Copyright (c) Miroslav Marek <mirek.marek@web-jet.cz>
+ * @license http://www.php-jet.net/license/license.txt
+ * @author Miroslav Marek <mirek.marek@web-jet.cz>
+ */
+
+use Jet\Debug_Profiler_Run_Block;
+
+/**
+ * @var Debug_Profiler_Run_Block $block
+ */
+
+$id = $block->getId();
+$is_root = $block->getIsRoot();
+$level = $block->getLevel();
+
+$path = [];
+
+$parent = $block;
+while( ($parent = $parent->getParentBlock()) ) {
+	$path[] = $parent;
+}
+
+$path = array_reverse( $path );
+
+?>
+<div id="run_block_<?= $id; ?>" class="run-block-detail run-block-detail-<?=$level?> <?=$level==0?' run-block-detail-selected':''?>">
+	
+	<div class="run-block-title">
+		<?php foreach($path as $parent): ?>
+			<a href="#" onclick="ProfilerResult.showRumBlock('<?=$parent->getId()?>');return false"><?=$parent->getLabel()?></a>
+			<span> / </span>
+		<?php endforeach; ?>
+		
+		<?= $block->getLabel(); ?>
+	</div>
+	
+	<div class="run-block-main-info">
+		<div>Duration:</div>
+		<div><?= $this->formatDuration($block->getDuration()); ?></div>
+		<div></div>
+		
+		<div>Memory usage diff:</div>
+		<div><?= $this->formatBytes($block->getMemoryUsageDiff()); ?></div>
+		<div><?= $this->formatBytes($block->getMemoryStart()); ?> 🡒 <?= $this->formatBytes($block->getMemoryEnd()); ?></div>
+		
+		<div style="vertical-align: top;">Memory peak diff:</div>
+		<div><?= $this->formatBytes($block->getMemoryPeakDiff()); ?></div>
+		<div><?= $this->formatBytes($block->getMemoryPeakStart()); ?> 🡒 <?= $this->formatBytes($block->getMemoryPeakEnd()); ?></div>
+	
+	</div>
+	
+	<?php if(!$block->getIsRoot() && !$block->getIsAnonymous() ): ?>
+		<button type="button" onclick="ProfilerResult.showRunBlockBtStart('<?=$id?>');" class="bt-btn">	&#x1F50E; Where does the block start?</button>
+		<button type="button" onclick="ProfilerResult.showRunBlockBtEnd('<?=$id?>');" class="bt-btn">&#x1F50E; Where does the block end?</button>
+	<?php endif; ?>
+	
+	
+	<?php if ($block->getMessages()): ?>
+		<div class="run-block-messages">
+			<div class="run-block-messages-title">
+				Messages
+			</div>
+			<div class="run-block-messages-items">
+				
+				<?php foreach ($block->getMessages() as $i=>$msg):
+					$backtrace = $msg->getBacktrace();
+					?>
+					<div class="run-block-messages-item">
+						<?= $msg->getText(); ?>
+						
+						<br><br>
+						<button type="button" onclick="ProfilerResult.showMessageBt('<?=$block->getId()?>','<?=$i?>');" class="bt-btn">	&#x1F50E; Where's the message coming from?</button>
+					</div>
+				<?php endforeach; ?>
+			</div>
+		</div>
+	<?php endif; ?>
+	
+	<?php if ($block->getSQLQueries()):
+		$number_of_queries = 0;
+		$queries_duration = 0;
+		foreach ($block->getSQLQueries() as $q) {
+			$number_of_queries++;
+			$queries_duration = $queries_duration + $q->getDuration();
+		}
+		
+		?>
+		<div class="run-block-sql-queries">
+			<div class="run-block-sql-queries-title">SQL queries</div>
+			
+			<div class="run-block-sql-queries-summary">
+				<div>Number of executed SQL queries:</div>
+				<div><?=$number_of_queries?></div>
+				
+				<div>Duration of executed SQL queries:</div>
+				<div><?= $this->formatDuration($queries_duration); ?></div>
+			</div>
+			
+			
+			
+			<div class="run-block-sql-queries-items">
+				<?php foreach ($block->getSQLQueries() as $i=>$q): ?>
+					<div class="run-block-sql-queries-item">
+						<div class="run-block-sql-queries-item-query"><?= $this->formatQuery($q->getQuery(), $q->getQueryParams()); ?></div>
+						
+						<div class="run-block-sql-queries-item-info">
+							<div>Duration: <?=$this->SQLQueryDuration( $q )?></div>
+							<div>Rows count: <?= $q->getRowsCount(); ?></div>
+							<div>
+								<button type="button" onclick="ProfilerResult.showBlockSQLQueryBt('<?=$block->getId()?>','<?=$i?>');" class="bt-btn">&#x1F50E; Where's the query coming from?</button>
+							</div>
+						</div>
+					</div>
+				<?php endforeach; ?>
+			</div>
+		</div>
+	<?php endif; ?>
+</div>

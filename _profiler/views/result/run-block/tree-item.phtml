@@ -1,0 +1,35 @@
+<?php
+/**
+ *
+ * @copyright Copyright (c) Miroslav Marek <mirek.marek@web-jet.cz>
+ * @license http://www.php-jet.net/license/license.txt
+ * @author Miroslav Marek <mirek.marek@web-jet.cz>
+ */
+
+use Jet\Debug_Profiler_Run_Block;
+
+/**
+ * @var Debug_Profiler_Run_Block $block
+ */
+
+$id = $block->getId();
+$is_root = $block->getIsRoot();
+
+?>
+<div id="run_block_tree_<?= $id; ?>" class="run-block-tree-item run-block-tree-item-<?=$block->getLevel()?><?=$block->getLevel()==0?' run-block-tree-item-selected':''?>" onclick="ProfilerResult.showRumBlock('<?=$id?>');">
+	
+	<div class="run-block-tree-item-basic-info">
+		<div class="run-block-tree-item-basic-info-title"><?= $block->getLabel(); ?></div>
+		<div class="run-block-tree-item-basic-info-resources">
+			<div><?= $this->blockDuration( $block ); ?></div>
+			<div><?= $this->getMemoryUsageDiff( $block ); ?></div>
+		</div>
+	</div>
+	
+	<?php if (($children = $block->getChildren())):
+		foreach ($children as $child):
+			$this->showRunBlockTree( $child );
+		endforeach;
+	endif; ?>
+</div>
+

@@ -8,6 +8,7 @@
 
 use Jet\Debug_Profiler_Run;
 use Jet\Debug_Profiler_Run_Block;
+use Jet\Debug_Profiler_Run_SQLQueryData;
 
 
 /**
@@ -16,232 +17,165 @@ use Jet\Debug_Profiler_Run_Block;
 
 $blocks = $run->getBlocks();
 
-/**
- * @param int $b
- * @return string
- */
-function formatBytes(int $b) : string
-{
-	return round(($b / 1024), 3) . '&nbsp;KiB';
-}
+$renderer = new class($run) {
+	
+	/**
+	 * @var Debug_Profiler_Run_Block[]
+	 */
+	public array $slowest_block = [];
+	/**
+	 * @var Debug_Profiler_Run_Block[]
+	 */
+	public array $hungriest_block = [];
+	
+	public ?Debug_Profiler_Run_SQLQueryData $slowest_sql_query = null;
+	public int $number_of_queries = 0;
+	public float $queries_duration = 0.0;
+	
+	
+	public function __construct( Debug_Profiler_Run $run )
+	{
+		$this->slowest_block = [];
+		foreach($run->getBlocks() as $block) {
+			$level = $block->getLevel();
+			
+			if(
+				!isset($this->slowest_block[$level]) ||
+				$block->getDuration()> $this->slowest_block[$level]->getDuration()
+			) {
+				$this->slowest_block[$level] = $block;
+			}
+			
+			if(
+				!isset($this->hungriest_block[$level]) ||
+				$block->getMemoryUsageDiff()> $this->hungriest_block[$level]->getMemoryUsageDiff()
+			) {
+				$this->hungriest_block[$level] = $block;
+			}
+			
+		}
+		
+		foreach( $run->getSqlQueries() as $query ) {
+			if( $this->slowest_sql_query===null ) {
+				$this->slowest_sql_query = $query;
+				continue;
+			}
+			
+			if( $query->getDuration() > $this->slowest_sql_query->getDuration() ) {
+				$this->slowest_sql_query = $query;
+			}
+		}
 
-/**
- * @param float $duration
- * @return string
- */
-function formatDuration(float $duration) : string
-{
-	$duration = round($duration * 1000, 3);
 
-	return $duration . '&nbsp;ms';
-}
-
-/**
- * @param string $query
- * @param array $query_data
- *
- * @return string
- */
-function formatQuery(string $query, array $query_data = []) : string
-{
-
-	if (!$query_data) {
-		return $query;
+		$this->number_of_queries = 0;
+		$this->queries_duration = 0.0;
+		
+		foreach ($run->getSqlQueries() as $q) {
+			$this->number_of_queries++;
+			$this->queries_duration += $q->getDuration();
+		}
 	}
-
-
-	$replacements = [];
-
-	foreach ($query_data as $key => $value) {
-
-		if ($value === null) {
-			$value = 'NULL';
+	
+	public function blockDuration( Debug_Profiler_Run_Block $block ) : string
+	{
+		$level = $block->getLevel();
+		
+		if(
+			!$block->getIsRoot() &&
+			$this->slowest_block[$level]->getId()==$block->getId()
+		) {
+			return '<span class="warning">'.$this->formatDuration( $block->getDuration() ).'</span>';
+			
 		} else {
-			if (is_bool($value)) {
-				$value = $value ? 1 : 0;
+			return $this->formatDuration( $block->getDuration() );
+		}
+	}
+	
+	public function getMemoryUsageDiff( Debug_Profiler_Run_Block $block ) : string
+	{
+		$level = $block->getLevel();
+		
+		if(
+			!$block->getIsRoot() &&
+			$this->slowest_block[$level]->getId()==$block->getId()
+		) {
+			return '<span class="warning">'.$this->formatBytes( $block->getMemoryUsageDiff() ).'</span>';
+			
+		} else {
+			return $this->formatBytes( $block->getMemoryUsageDiff() );
+		}
+		
+	}
+	
+	public function SQLQueryDuration( Debug_Profiler_Run_SQLQueryData $q ) : string
+	{
+		if($q->getDuration()>=$this->slowest_sql_query->getDuration()*0.8):
+			return '<span class="warning">'.$this->formatDuration($q->getDuration()).'</span>';
+		else:
+			return $this->formatDuration($q->getDuration());
+		endif;
+	}
+	
+	protected function formatBytes(int $b) : string
+	{
+		return round(($b / 1024), 3) . '&nbsp;KiB';
+	}
+	
+	public function formatDuration(float $duration) : string
+	{
+		$duration = round($duration * 1000, 3);
+		
+		return $duration . '&nbsp;ms';
+	}
+	
+	public function formatQuery(string $query, array $query_data = []) : string
+	{
+		
+		if (!$query_data) {
+			return $query;
+		}
+		
+		
+		$replacements = [];
+		
+		foreach ($query_data as $key => $value) {
+			
+			if ($value === null) {
+				$value = 'NULL';
 			} else {
-				if( !(is_int($value) || is_float($value)) ) {
-					$value = "'".addslashes((string)$value)."'";
+				if (is_bool($value)) {
+					$value = $value ? 1 : 0;
+				} else {
+					if( !(is_int($value) || is_float($value)) ) {
+						$value = "'".addslashes((string)$value)."'";
+					}
 				}
 			}
-		}
-
-		$replacements[':' . $key] = $value;
-	}
-
-	krsort($replacements, SORT_STRING);
-
-	return str_replace(
-		array_keys($replacements),
-		array_values($replacements),
-		$query
-	);
-
-}
-
-/**
- * @param Debug_Profiler_Run_Block $block
- * @param int $level
- */
-function showRunBlockTree( Debug_Profiler_Run_Block $block, int $level=0) : void
-{
-	$id = $block->getId();
-	$is_root = $block->getIsRoot();
-
-	if($block->getIsAnonymous() && $block->getDuration()*1000<1) {
-		return;
-	}
-
-	$next_level = $level+1;
-	?>
-
-	<div id="run_block_tree_<?= $id; ?>" class="run-block-tree-item run-block-tree-item-<?=$level?><?=$level==0?' run-block-tree-item-selected':''?>" onclick="ProfilerResult.showRumBlock('<?=$id?>');">
-
-		<div class="run-block-tree-item-basic-info">
-			<div class="run-block-tree-item-basic-info-title"><?= $block->getLabel(); ?></div>
-			<div class="run-block-tree-item-basic-info-resources">
-				<div><?= formatDuration($block->getDuration()); ?></div>
-				<div><?= formatBytes($block->getMemoryUsageDiff()); ?></div>
-			</div>
-		</div>
-		
-		<?php if (($children = $block->getChildren())): ?>
-			<?php foreach ($children as $child): ?>
-				<?php showRunBlockTree($child, $next_level); ?>
-			<?php endforeach; ?>
-		<?php endif; ?>
-
-	</div>
-
-
-
-	<?php
-}
-
-
-function showRunBlock( Debug_Profiler_Run_Block $block, int $level=0 ) : void
-{
-	$id = $block->getId();
-	$is_root = $block->getIsRoot();
-	
-	if($block->getIsAnonymous() && $block->getDuration()*1000<1) {
-		return;
-	}
-	
-	$next_level = $level+1;
-	
-	$path = [];
-	
-	$parent = $block;
-	while( ($parent = $parent->getParentBlock()) ) {
-		$path[] = $parent;
-	}
-	
-	$path = array_reverse( $path );
-	
-	?>
-
-	<div id="run_block_<?= $id; ?>" class="run-block-detail run-block-detail-<?=$level?> <?=$level==0?' run-block-detail-selected':''?>">
-
-		<div class="run-block-title">
-			<?php foreach($path as $parent): ?>
-				<a href="#" onclick="ProfilerResult.showRumBlock('<?=$parent->getId()?>');return false"><?=$parent->getLabel()?></a>
-				<span> / </span>
-			<?php endforeach; ?>
 			
-			<?= $block->getLabel(); ?>
-		</div>
-		
-		<div class="run-block-main-info">
-			<div>Duration:</div>
-			<div><?= formatDuration($block->getDuration()); ?></div>
-			<div></div>
-	
-			<div>Memory usage diff:</div>
-			<div><?= formatBytes($block->getMemoryUsageDiff()); ?></div>
-			<div><?= formatBytes($block->getMemoryStart()); ?> 🡒 <?= formatBytes($block->getMemoryEnd()); ?></div>
-	
-			<div style="vertical-align: top;">Memory peak diff:</div>
-			<div><?= formatBytes($block->getMemoryPeakDiff()); ?></div>
-			<div><?= formatBytes($block->getMemoryPeakStart()); ?> 🡒 <?= formatBytes($block->getMemoryPeakEnd()); ?></div>
-
-		</div>
-		
-		<?php if(!$block->getIsRoot() && !$block->getIsAnonymous() ): ?>
-		<button type="button" onclick="ProfilerResult.showRunBlockBtStart('<?=$id?>');" class="bt-btn">	&#x1F50E; Where does the block start?</button>
-		<button type="button" onclick="ProfilerResult.showRunBlockBtEnd('<?=$id?>');" class="bt-btn">&#x1F50E; Where does the block end?</button>
-		<?php endif; ?>
-		
-		
-		<?php if ($block->getMessages()): ?>
-		<div class="run-block-messages">
-			<div class="run-block-messages-title">
-				Messages
-			</div>
-			<div class="run-block-messages-items">
-
-				<?php foreach ($block->getMessages() as $i=>$msg):
-					$backtrace = $msg->getBacktrace();
-					?>
-					<div class="run-block-messages-item">
-						<?= $msg->getText(); ?>
-
-						<br><br>
-						<button type="button" onclick="ProfilerResult.showMessageBt('<?=$block->getId()?>','<?=$i?>');" class="bt-btn">	&#x1F50E; Where's the message coming from?</button>
-					</div>
-				<?php endforeach; ?>
-			</div>
-		</div>
-		<?php endif; ?>
-		
-		<?php if ($block->getSQLQueries()):
-			$number_of_queries = 0;
-			$queries_duration = 0;
-			foreach ($block->getSQLQueries() as $q) {
-				$number_of_queries++;
-				$queries_duration = $queries_duration + $q->getDuration();
-			}
-			
-			?>
-			<div class="run-block-sql-queries">
-				<div class="run-block-sql-queries-title">SQL queries</div>
-				
-				<div class="run-block-sql-queries-summary">
-					<div>Number of executed SQL queries:</div>
-					<div><?=$number_of_queries?></div>
-					
-					<div>Duration of executed SQL queries:</div>
-					<div><?= formatDuration($queries_duration); ?></div>
-				</div>
-				
-				
-				
-				<div class="run-block-sql-queries-items">
-					<?php foreach ($block->getSQLQueries() as $i=>$q): ?>
-					<div class="run-block-sql-queries-item">
-						<div class="run-block-sql-queries-item-query"><?= formatQuery($q->getQuery(), $q->getQueryParams()); ?></div>
-						
-						<div class="run-block-sql-queries-item-info">
-							<div>Duration: <?= formatDuration($q->getDuration()); ?></div>
-							<div>Rows count: <?= $q->getRowsCount(); ?></div>
-							<div>
-								<button type="button" onclick="ProfilerResult.showBlockSQLQueryBt('<?=$block->getId()?>','<?=$i?>');" class="bt-btn">&#x1F50E; Where's the query coming from?</button>
-							</div>
-						</div>
-					</div>
-					<?php endforeach; ?>
-				</div>
-			</div>
-		<?php endif; ?>
-	</div>
-	
-	<?php
-	if (($children = $block->getChildren())) {
-		foreach( $children as $child ) {
-			showRunBlock( $child, $next_level );
+			$replacements[':' . $key] = $value;
 		}
+		
+		krsort($replacements, SORT_STRING);
+		
+		return str_replace(
+			array_keys($replacements),
+			array_values($replacements),
+			$query
+		);
+		
 	}
-}
+	
+	public function showRunBlockTree( Debug_Profiler_Run_Block $block ) : void
+	{
+		require __DIR__.'/result/run-block/tree-item.phtml';
+	}
+	
+	public function showRunBlock( Debug_Profiler_Run_Block $block ) : void
+	{
+		require __DIR__.'/result/run-block/item.phtml';
+	}
+	
+};
 
 ?>
 <html>
@@ -288,28 +222,22 @@ function showRunBlock( Debug_Profiler_Run_Block $block, int $level=0 ) : void
 		<div id="run-blocks-content" class="nab-tab-content nab-tab-content-selected">
 			<div class="run-blocks">
 				<div class="run-blocks-tree" id="run-blocks-tree">
-					<?php showRunBlockTree($blocks[0]); ?>
+					<?php $renderer->showRunBlockTree($blocks[0]); ?>
 				</div>
 				<div class="run-blocks-details" id="run-blocks-details">
-					<?php showRunBlock($blocks[0]); ?>
+					<?php foreach($run->getBlocks() as $block):
+						$renderer->showRunBlock( $block );
+					endforeach; ?>
 				</div>
 			</div>
 		</div>
 
 		<div id="sql-queries-content" class="nab-tab-content">
-			<?php
-			$number_of_queries = 0;
-			$queries_duration = 0;
-			foreach ($run->getSqlQueries() as $q) {
-				$number_of_queries++;
-				$queries_duration = $queries_duration + $q->getDuration();
-			} ?>
-
 			<div class="sql-queries-summary">
 				<div>Number of executed SQL queries:</div>
-				<div><?=$number_of_queries?></div>
+				<div><?=$renderer->number_of_queries?></div>
 				<div>Duration of executed SQL queries:</div>
-				<div><?= formatDuration($queries_duration); ?></div>
+				<div><?= $renderer->formatDuration($renderer->queries_duration); ?></div>
 			</div>
 			
 			
@@ -317,10 +245,12 @@ function showRunBlock( Debug_Profiler_Run_Block $block, int $level=0 ) : void
 				
 				<?php foreach ($run->getSqlQueries() as $i=>$q):?>
 					<div class="sql-queries-item">
-						<div class="sql-queries-item-query"><?= formatQuery($q->getQuery(), $q->getQueryParams()); ?></div>
+						<div class="sql-queries-item-query"><?= $renderer->formatQuery($q->getQuery(), $q->getQueryParams()); ?></div>
 						
 						<div class="sql-queries-item-info">
-							<div>Duration: <?= formatDuration($q->getDuration()); ?></div>
+							<div>Duration:
+								<?=$renderer->SQLQueryDuration( $q )?>
+							</div>
 							<div>Rows count: <?= $q->getRowsCount(); ?></div>
 							<div>
 								<button type="button" onclick="ProfilerResult.showSQLQueryBt('<?=$i?>');" class="bt-btn">&#x1F50E; Where's the query coming from?</button>
@@ -339,14 +269,12 @@ function showRunBlock( Debug_Profiler_Run_Block $block, int $level=0 ) : void
 	<div id="backtraces-dialog" style="display:none;">
 		<div class="backtraces-dialog-title">
 			<b>🛈</b>
-			
 			<button type="button" onclick="document.getElementById('backtraces-dialog').style.display='none';">&#x2715;</button>
 		</div>
 		
 		<div id="backtraces">
 		
 		</div>
-
 	</div>
 
 	
