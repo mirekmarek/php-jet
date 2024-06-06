@@ -33,7 +33,8 @@
 	}
 	
 	.basic-info {
-		display: flex;
+		display: grid;
+		grid-template-columns: 1fr 200px;
 		align-items: center;
 		gap: 10px;
 		margin: 10px;
@@ -45,7 +46,7 @@
 	
 	.basic-info-table {
 		display: grid;
-		grid-template-columns: 150px 300px;
+		grid-template-columns: 150px 1fr;
 		gap: 15px;
 		align-items: center;
 	}
