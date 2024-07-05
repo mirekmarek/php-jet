@@ -388,7 +388,10 @@ class DataModel_Backend_PgSQL extends DataModel_Backend
 		}
 		
 		if( $value instanceof Data_DateTime ) {
-			$value = $value->format( 'Y-m-d H:i:s' );
+			$value = $value->isOnlyDate() ?
+				$value->format( 'Y-m-d' )
+				:
+				$value->format( 'Y-m-d H:i:s' );
 		}
 		
 		if(
@@ -548,7 +551,6 @@ class DataModel_Backend_PgSQL extends DataModel_Backend
 	 */
 	public function transactionStart(): void
 	{
-		//TODO:
 		/*
 		$this->getDbWrite()->beginTransaction();
 		*/
@@ -560,7 +562,6 @@ class DataModel_Backend_PgSQL extends DataModel_Backend
 	 */
 	public function transactionRollback(): void
 	{
-		//TODO:
 		/*
 		if( $this->getDbWrite()->inTransaction() ) {
 			$this->getDbWrite()->rollBack();
@@ -573,7 +574,6 @@ class DataModel_Backend_PgSQL extends DataModel_Backend
 	 */
 	public function transactionCommit(): void
 	{
-		//TODO:
 		/*
 		if( $this->getDbWrite()->inTransaction() ) {
 			$this->getDbWrite()->commit();

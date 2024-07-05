@@ -390,7 +390,10 @@ class DataModel_Backend_MSSQL extends DataModel_Backend
 		}
 		
 		if( $value instanceof Data_DateTime ) {
-			$value = $value->format( 'Y-m-d H:i:s' );
+			$value = $value->isOnlyDate() ?
+				$value->format( 'Y-m-d' )
+				:
+				$value->format( 'Y-m-d H:i:s' );
 		}
 		
 		if(
