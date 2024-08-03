@@ -63,7 +63,10 @@ trait DataModel_Trait_Delete
 
 				if(is_array($prop)) {
 					foreach($prop as $v) {
-						if( $v instanceof DataModel_Related ) {
+						if(
+							$v instanceof DataModel_Related &&
+							$v->getIsSaved()
+						) { 
 							$v->delete();
 						}
 					}
