@@ -66,7 +66,7 @@ trait DataModel_Trait_Delete
 						if(
 							$v instanceof DataModel_Related &&
 							$v->getIsSaved()
-						) { 
+						) {
 							$v->delete();
 						}
 					}

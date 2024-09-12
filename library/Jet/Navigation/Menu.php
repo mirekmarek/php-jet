@@ -261,12 +261,8 @@ class Navigation_Menu extends BaseObject
 				 * @var Navigation_Menu|Navigation_Menu_Item $a
 				 * @var Navigation_Menu|Navigation_Menu_Item $b
 				 */
-
-				if( $a->getIndex() == $b->getIndex() ) {
-					return 0;
-				}
-
-				return ($a->getIndex() < $b->getIndex()) ? -1 : 1;
+				
+				return $a->getIndex() <=> $b->getIndex();
 			}
 		);
 

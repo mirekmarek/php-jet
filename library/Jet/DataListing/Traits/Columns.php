@@ -59,14 +59,7 @@ trait DataListing_Traits_Columns
 		}
 		
 		uasort($columns, function( DataListing_Column $a, DataListing_Column $b ) : int {
-			if($a->getIndex()<$b->getIndex()) {
-				return -1;
-			}
-			if($a->getIndex()>$b->getIndex()) {
-				return 1;
-			}
-			
-			return 0;
+			return $a->getIndex() <=> $b->getIndex();
 		});
 		
 		return $columns;
@@ -85,14 +78,7 @@ trait DataListing_Traits_Columns
 		}
 		
 		uasort($columns, function( DataListing_Column $a, DataListing_Column $b ) : int {
-			if($a->getIndex()<$b->getIndex()) {
-				return -1;
-			}
-			if($a->getIndex()>$b->getIndex()) {
-				return 1;
-			}
-			
-			return 0;
+			return $a->getIndex() <=> $b->getIndex();
 		});
 		
 		return $columns;

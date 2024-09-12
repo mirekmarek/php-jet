@@ -105,14 +105,7 @@ trait MVC_Page_Trait_Tree
 			uasort(
 				$this->__children,
 				function( MVC_Page $a, MVC_Page $b ) {
-					$a_order = $a->getOrder();
-					$b_order = $b->getOrder();
-
-					if( $a_order == $b_order ) {
-						return 0;
-					}
-
-					return ($a_order < $b_order) ? -1 : 1;
+					return $a->getOrder() <=> $b->getOrder();
 				}
 			);
 
