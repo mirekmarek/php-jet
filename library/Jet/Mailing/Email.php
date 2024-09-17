@@ -8,6 +8,7 @@
 
 namespace Jet;
 
+
 /**
  *
  */
@@ -40,12 +41,12 @@ class Mailing_Email extends BaseObject
 	protected string $sender_email;
 
 	/**
-	 * @var array
+	 * @var Mailing_Email_File[]
 	 */
 	protected array $attachments = [];
 
 	/**
-	 * @var array
+	 * @var Mailing_Email_File[]
 	 */
 	protected array $images = [];
 
@@ -212,17 +213,34 @@ class Mailing_Email extends BaseObject
 	{
 		$public_url = str_replace( '/', '\\/', SysConf_URI::getImages() );
 
-		if( preg_match_all( '/src=["]' . $public_url . '(.*)["]/Ui', $this->body_html, $matches, PREG_SET_ORDER ) ) {
+		if( preg_match_all( '/src="' . $public_url . '(.*)"/Ui', $this->body_html, $matches, PREG_SET_ORDER ) ) {
 
 			foreach( $matches as $m ) {
 				$orig = $m[0];
-				$image = $m[1];
+				$src = $m[1];
 
 				$id = 'i_' . uniqid();
-
-				$this->addImage( $id, SysConf_Path::getImages() . $image );
-
-				$this->body_html = str_replace( $orig, 'src="cid:' . $id . '"', $this->body_html );
+				
+				$src_decoded = rawurldecode( $src );
+				
+				$paths = [
+					$src,
+					$src_decoded,
+					SysConf_Path::getImages() . $src_decoded
+				];
+				
+				
+				foreach($paths as $path) {
+					if(IO_File::isReadable($path)) {
+						$image_data = IO_File::read( $path );
+						
+						$image_data = 'data:'.IO_File::getMimeType($path).';base64,'.base64_encode( $image_data );
+						
+						$this->body_html = str_replace( $orig, 'src="' . $image_data . '"', $this->body_html );
+						
+						break;
+					}
+				}
 			}
 
 		}
@@ -239,12 +257,26 @@ class Mailing_Email extends BaseObject
 		if( !$file_name ) {
 			$file_name = basename( $file_path );
 		}
+		
+		$file = new Mailing_Email_File( $file_name );
+		$file->setPath( $file_path );
 
-		$this->attachments[$file_name] = $file_path;
+		$this->attachments[$file->getId()] =  $file;
+	}
+	
+	public function addAttachmentsData( string $file_name, string $file_mime_type, string $file_data ) : void
+	{
+		$file = new Mailing_Email_File( $file_name );
+		$file->setData( $file_data );
+		$file->setFileName( $file_name );
+		$file->setFileMimeType( $file_mime_type );
+		
+		$this->attachments[$file->getId()] =  $file;
+		
 	}
 
 	/**
-	 * @return array
+	 * @return Mailing_Email_File[]
 	 */
 	public function getAttachments(): array
 	{
@@ -258,11 +290,24 @@ class Mailing_Email extends BaseObject
 	 */
 	public function addImage( string $cid, string $path ): void
 	{
-		$this->images[$cid] = $path;
+		$image = new Mailing_Email_File( $cid );
+		$image->setPath( $path );
+		
+		$this->images[$cid] = $image;
+	}
+	
+	public function addImageData( string $cid, string $file_name, string $file_mime_type, string $file_data ) : void
+	{
+		$image = new Mailing_Email_File( $cid );
+		$image->setFileName( $file_name );
+		$image->setFileMimeType( $file_mime_type );
+		$image->setData( $file_data );
+		
+		$this->images[$cid] = $image;
 	}
 
 	/**
-	 * @return array
+	 * @return Mailing_Email_File[]
 	 */
 	public function getImages(): array
 	{

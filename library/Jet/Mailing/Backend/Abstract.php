@@ -25,8 +25,6 @@ abstract class Mailing_Backend_Abstract
 	 * @param Mailing_Email $email
 	 * @param string|null $message
 	 * @param string|null $header
-	 *
-	 * @throws IO_File_Exception
 	 */
 	public function prepareMessage( Mailing_Email $email, ?string &$message, ?string &$header ) : void
 	{
@@ -57,30 +55,27 @@ abstract class Mailing_Backend_Abstract
 		
 		
 		$image_parts = [];
-		foreach( $email->getImages() as $image_id => $image_path ) {
-			$image_info = Debug_ErrorHandler::doItSilent(function() use ($image_path) {
-				return getimagesize( $image_path );
-			});
+		foreach( $email->getImages() as $image ) {
 			
-			if( !$image_info ) {
-				continue;
-			}
+			$mime_type = $image->getFileMiteType();
 			
-			$filename = basename( $image_path );
+			$filename = $image->getFileName();
 			
 			$image_part = new Mailing_MIME_Part();
-			$image_part->setContentType( $image_info['mime'] );
-			$image_part->setId( $image_id );
+			
+			$image_part->setContentType( $mime_type );
 			$image_part->setEncoding('base64');
 			$image_part->setDisposition('inline');
+			
+			$image_part->setId( $image->getId() );
 			$image_part->setFilename( mb_encode_mimeheader( $filename ) );
-			$image_part->setBody( chunk_split( base64_encode( IO_File::read( $image_path ) ) ) );
+			$image_part->setBody( chunk_split( base64_encode( $image->getData() ) ) );
 			
 			$image_parts[] = $image_part;
 		}
 		
 		$attachments_parts = [];
-		foreach( $email->getAttachments() as $file_name=>$file_path ) {
+		foreach( $email->getAttachments() as $file ) {
 			
 			$attachments_part = new Mailing_MIME_Part();
 			
@@ -88,9 +83,9 @@ abstract class Mailing_Backend_Abstract
 			$attachments_part->setEncoding('base64');
 			$attachments_part->setDisposition('attachment');
 			
-			$attachments_part->setName( mb_encode_mimeheader( $file_name ) );
-			$attachments_part->setFilename( mb_encode_mimeheader( $file_name ) );
-			$attachments_part->setBody( chunk_split( base64_encode( IO_File::read( $file_path ) ) ) );
+			$attachments_part->setName( mb_encode_mimeheader( $file->getFileName() ) );
+			$attachments_part->setFilename( mb_encode_mimeheader( $file->getFileName() ) );
+			$attachments_part->setBody( chunk_split( base64_encode( $file->getData() ) ) );
 			
 			$attachments_parts[] = $attachments_part;
 		}
