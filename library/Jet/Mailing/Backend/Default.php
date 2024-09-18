@@ -33,6 +33,7 @@ class Mailing_Backend_Default extends Mailing_Backend_Abstract
 			$to = implode(', ', $to);
 		}
 
+
 		return mail( $to, $subject, $message, $header );
 
 	}

@@ -151,9 +151,6 @@ class Mailing_Email extends BaseObject
 		$this->to_hidden_copy = $to_hidden_copy;
 	}
 
-
-
-
 	/**
 	 * @return string
 	 */
