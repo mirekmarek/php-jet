@@ -52,7 +52,9 @@ abstract class DataListing_Export extends DataListing_ElementBase
 			}
 		}
 		
+		
 		$ids = $this->listing->getAllIds();
+		
 		
 		if($this->listing->getExportLimit()>0) {
 			if( count( $ids ) > $this->listing->getExportLimit() ) {

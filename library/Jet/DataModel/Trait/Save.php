@@ -34,8 +34,8 @@ trait DataModel_Trait_Save
 		if( $this->getIsNew() ) {
 			$this->_save();
 			$this->commitBackendTransaction();
-			$this->afterAdd();
 			$this->setIsSaved();
+			$this->afterAdd();
 		} else {
 			$this->_update();
 			$this->commitBackendTransaction();

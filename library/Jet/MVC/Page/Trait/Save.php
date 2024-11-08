@@ -71,20 +71,21 @@ trait MVC_Page_Trait_Save
 		if(!$this->getDataFilePath()) {
 			return;
 		}
-
+		
 		$curr_data_dir_path = $this->getDataDirPath( true );
 		$old_data_dir_path = $this->getDataDirPath();
 
 		if( $curr_data_dir_path != $old_data_dir_path ) {
-			IO_Dir::rename( $old_data_dir_path, $curr_data_dir_path );
-
+			if(IO_Dir::exists($old_data_dir_path)) {
+				IO_Dir::rename( $old_data_dir_path, $curr_data_dir_path );
+			}
+			
 			$this->setDataFilePath( $this->getDataFilePath( true ) );
 		}
-
+		
 		$data = $this->toArray();
 
 		IO_File::writeDataAsPhp( $this->getDataFilePath(), $data );
-
 		MVC_Cache::reset();
 	}
 

@@ -70,7 +70,23 @@ class Debug_ErrorHandler
 			static::class,
 			'handleException'
 		] );
-
+		
+		register_shutdown_function( function() {
+			$error = error_get_last();
+			if(
+				!$error ||
+				$error['type']!=E_ERROR
+			) {
+				return;
+			}
+			
+			static::handleError(
+				$error['type'],
+				$error['message'],
+				$error['file'],
+				$error['line']
+			);
+		} );
 	}
 
 
