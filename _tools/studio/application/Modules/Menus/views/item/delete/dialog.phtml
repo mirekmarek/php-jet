@@ -1,0 +1,20 @@
+<?php
+
+namespace JetStudioModule\Menus;
+
+use Jet\MVC_View;
+use Jet\Tr;
+use Jet\UI;
+use Jet\UI_dialog;
+
+/**
+ * @var MVC_View $this
+ */
+
+$delete_menu_item_dialog = UI::dialog( 'delete_menu_item_dialog', Tr::_( 'Delete menu' ), UI_dialog::SIZE_LARGE );
+
+echo $delete_menu_item_dialog->start();
+echo Tr::_( 'Do you really want to delete this menu item?' );
+echo $delete_menu_item_dialog->footer();
+echo UI::button_delete()->setUrl( Main::getActionUrl( 'item_delete' ) );
+echo $delete_menu_item_dialog->end();

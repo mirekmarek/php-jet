@@ -659,6 +659,63 @@ class MVC_Base extends BaseObject implements MVC_Base_Interface
 
 		MVC_Cache::reset();
 	}
+	
+	public function getLayoutsList(): array
+	{
+		$list = IO_Dir::getList( $this->getLayoutsPath(), '*.' . SysConf_Jet_MVC_View::getScriptFileSuffix(), false, true );
+		
+		$res = [];
+		
+		$len = strlen( SysConf_Jet_MVC_View::getScriptFileSuffix() ) + 1;
+		$len *= -1;
+		
+		foreach( $list as $name ) {
+			$name = substr( $name, 0, $len );
+			
+			$res[$name] = $name;
+		}
+		
+		return $res;
+	}
+	
+	public function getLayoutOutputPositions( string $layout_script_name ): array
+	{
+		$res = [
+			MVC_Layout::DEFAULT_OUTPUT_POSITION => Tr::_( 'Main position' )
+		];
+		
+		$layout_file_path = $this->getLayoutsPath() . $layout_script_name . '.' . SysConf_Jet_MVC_View::getScriptFileSuffix();
+		
+		if( IO_File::isReadable( $layout_file_path ) ) {
+			$layout = IO_File::read( $layout_file_path );
+			
+			if( preg_match_all(
+				'/<' . MVC_Layout::TAG_POSITION . '[ ]+name="([a-zA-Z0-9\-_ ]*)"[^\/]*\/>/i',
+				$layout,
+				$matches
+			) ) {
+				
+				foreach( $matches[1] as $p ) {
+					$res[$p] = $p;
+				}
+			}
+			
+		}
+		
+		return $res;
+	}
+	
+	public static function exists( string $base_id ): bool
+	{
+		foreach( static::_getBases() as $base ) {
+			if( $base->getId() == $base_id ) {
+				return true;
+			}
+		}
+		
+		return false;
+	}
+	
 
 	/**
 	 * @return array

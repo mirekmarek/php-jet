@@ -1,0 +1,14 @@
+<?php
+namespace JetStudioModule\DataModel;
+
+use Jet\UI;
+
+$form = DataModels::getCurrentKey()->getEditForm();
+?>
+
+<?= UI::button_save()
+	->setOnClick( "$('#" . $form->getId() . "').submit()" )
+?>
+<?=$this->render('model/edit/toolbar/generate')?>
+<?= UI::button_delete()
+	->setOnClick( 'DataModel.key.delete.openDialog()' ); ?>

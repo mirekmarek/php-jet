@@ -1,0 +1,21 @@
+<?php
+namespace JetStudioModule\Menus;
+
+use Jet\MVC_View;
+use Jet\Tr;
+use Jet\UI;
+
+/**
+ * @var MVC_View $this
+ * @var Menu_Item $item
+ */
+
+$item = $this->getRaw( 'item' );
+
+$form = $item->getEditForm();
+?>
+<?= UI::button_save()->setOnClick( "$('#" . $form->getId() . "').submit()" ) ?>
+
+<?php if(!$this->getBool('plugin_mode')):
+echo UI::button_delete( Tr::_( 'Delete this menu item' ) )->setOnClick( "$('#delete_menu_item_dialog').modal('show')" );
+endif; ?>

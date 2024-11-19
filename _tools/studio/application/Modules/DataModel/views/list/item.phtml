@@ -1,0 +1,34 @@
+<?php
+namespace JetStudioModule\DataModel;
+?>
+<?php use Jet\Http_Request;use Jet\UI;use Jet\UI_badge;
+
+if( DataModels::getCurrentWhatToEdit() == 'model' ):
+	echo UI::badge(UI_badge::INFO,DataModels::getCurrentClass()->getFullClassName() )->addCustomCssStyle('font-size: 20px;');
+else: ?>
+	<a href="<?= Http_Request::currentURI( [], [
+		'key',
+		'property',
+		'relation'
+	] ) ?>" style="font-weight: bolder;font-size: 20px;"><?= DataModels::getCurrentClass()->getFullClassName() ?></a>
+<?php endif; ?>
+<br/>
+<table style="width: 100%;margin-top: 5px;" class="table table-striped">
+	<tr style="background: transparent">
+		<td style="border:none">
+			<?php require 'item/properties.phtml' ?>
+		</td>
+	</tr>
+	<tr style="background: transparent">
+		<td style="border:none">
+			<?php require 'item/relations.phtml' ?>
+		</td>
+	</tr>
+	<tr style="background: transparent">
+		<td style="border:none">
+			<?php require 'item/keys.phtml' ?>
+		</td>
+	</tr>
+</table>
+
+

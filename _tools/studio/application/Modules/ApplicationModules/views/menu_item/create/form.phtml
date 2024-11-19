@@ -1,0 +1,32 @@
+<?php
+namespace JetStudioModule\ApplicationModules;
+
+$module = Main::getCurrentModule();
+
+$form = $module->getMenuItems()->getCreateMenuItemForm();
+
+$form->getField( 'label' )->input()->addJsAction( 'onkeyup', 'Modules.editModule.addMenuItem.generateId(this.value);' );
+
+echo $form->start();
+echo $form->getCommonMessage();
+
+echo $form->field( 'target_menu' );
+
+echo $form->field( 'label' );
+echo $form->field( 'id' );
+echo $form->field( 'icon' );
+echo $form->field( 'index' );
+
+
+echo $form->field( 'separator_before' );
+echo $form->field( 'separator_after' );
+
+echo $form->field( 'URL' );
+
+echo $form->field( 'base_id' );
+echo $form->field( 'page_id' );
+echo $form->field( 'locale' );
+
+
+echo $form->end();
+

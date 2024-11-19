@@ -5,6 +5,7 @@ require_once 'parts/init_libs.php';
 
 use Jet\Http_Request;
 use Jet\Locale;
+use Jet\MVC;
 use Jet\SysConf_URI;
 use Jet\Tr;
 use Jet\Translator;
@@ -57,14 +58,14 @@ use Jet\UI;
 		</button>
 		<div class="collapse navbar-collapse" id="mainNavBar">
 			<ul class="nav navbar-nav">
-
+				
 				<li class="nav-item dropdown">
 					<a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 						<?=UI::icon('eye')?>
 						<span class="caret"></span>
 					</a>
 					<div class="dropdown-menu" aria-labelledby="navbarDropdown">
-						<?php foreach( Bases::getBases() as $base ): ?>
+						<?php foreach( MVC::getBases() as $base ): ?>
 							<div class="dropdown-item">
 								<div style="display: inline-block;width: 250px;"><?=$base->getName()?></div>
 								<?php foreach( $base->getLocales() as $locale ):
@@ -78,18 +79,19 @@ use Jet\UI;
 						<?php endforeach; ?>
 					</div>
 				</li>
+
 				
 				<li class="nav-item">
-					<a class="nav-link"  href="<?=Tr::_( 'https://www.php-jet.net/doc/', dictionary: 'welcome' )?>" target="_blank">
+					<a class="nav-link"  href="<?=Tr::_( 'https://www.php-jet.net/doc/')?>" target="_blank">
 						<?=UI::icon( 'book' )?>
-						<?=Tr::_( 'PHP Jet Documentation', dictionary: 'welcome' )?>
+						<?=Tr::_( 'PHP Jet Documentation' )?>
 					</a>
 				</li>
 				
 				<li class="nav-item">
-					<a class="nav-link"  href="<?=Tr::_( 'https://questions.php-jet.net/', dictionary: 'welcome' )?>" target="_blank">
+					<a class="nav-link"  href="<?=Tr::_( 'https://questions.php-jet.net/')?>" target="_blank">
 						<?=UI::icon( 'comments' )?>
-						<?=Tr::_( 'Ask a question', dictionary: 'welcome' )?>
+						<?=Tr::_( 'Ask a question' )?>
 					</a>
 				</li>
 				
@@ -104,7 +106,7 @@ use Jet\UI;
 						<span class="caret"></span>
 					</a>
 					<div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-						<?php foreach( Application::getLocales() as $locale ): ?>
+						<?php foreach( JetStudio::getLocales() as $locale ): ?>
 								<a class="dropdown-item" href="<?=Http_Request::currentURI(['std_locale' =>$locale->toString()])?>">
 									<?=UI::flag( $locale )?>
 									<?=$locale->getName( $locale )?>
@@ -114,9 +116,9 @@ use Jet\UI;
 				</li>
 
 				<li class="nav-item">
-					<a class="nav-link"  href="logout.php">
+					<a class="nav-link"  href="?logout=logout">
 						<?=UI::icon( 'sign-out-alt' )?>
-						<?=Tr::_( 'Logout',[], 'login' )?>
+						<?=Tr::_( 'Logout' )?>
 					</a>
 				</li>
 
@@ -126,22 +128,24 @@ use Jet\UI;
 	</nav>
 
 
-	<?php if(Application::getCurrentPart()!='welcome'):
-		$parts = [];
-		foreach( Application::getParts() as $part=>$p ) {
-			$parts[$part] = UI::icon($p['icon']).' '.$p['label'];
+	<?php
+	if(JetStudio::getCurrentModule()?->getManifest()->getUrlPathPart()):
+		$tabs = [];
+	
+		foreach( JetStudio::getModuleManifests() as $m ) {
+			if($m->getUrlPathPart()) {
+				$tabs[$m->getName()] = UI::icon($m->getIcon()).' '.$m->getLabelTranslated();
+			}
 		}
 
-		echo UI::tabs( $parts, function($part) {return $part.'.php';}, Application::getCurrentPart() );
+		echo UI::tabs( $tabs, function( $tab) {
+			return JetStudio::getModuleManifest($tab)->getURL();
+			}, JetStudio::getCurrentModule()?->getName()??'' );
 	endif; ?>
+	
+	<jet_layout_main_position/>
 
-	<div class="container-fluid">
-		<jet_layout_main_position/>
-	</div>
-
-	<?=Application_UI::dialog_selectLocale()?>
-
-
+	
 	<div id="__progress__">
 		<div class="loading text-center">
 			<div id="__progress_prc__"></div>

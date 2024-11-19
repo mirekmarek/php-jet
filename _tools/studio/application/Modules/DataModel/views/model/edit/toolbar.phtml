@@ -1,0 +1,22 @@
+<?php
+namespace JetStudioModule\DataModel;
+
+use Jet\UI;
+use Jet\MVC_View;
+
+/**
+ * @var MVC_View $this
+ */
+
+if( !DataModels::getCurrentModel() ) {
+	return;
+}
+
+$form = DataModels::getCurrentModel()->getEditForm();
+?>
+
+<?= UI::button_save()
+	->setOnClick( "$('#" . $form->getId() . "').submit()" )
+?>
+
+<?=$this->render('model/edit/toolbar/generate')?>

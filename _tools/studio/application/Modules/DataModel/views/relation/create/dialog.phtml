@@ -1,0 +1,34 @@
+<?php
+
+namespace JetStudioModule\DataModel;
+
+use Jet\UI;
+use Jet\Tr;
+use Jet\UI_dialog;
+
+$current_model = DataModels::getCurrentModel();
+if(
+!$current_model
+) {
+	return;
+}
+
+$dialog = UI::dialog( 'dialog_create_new_relation', Tr::_( 'Create a External Relation' ), UI_dialog::SIZE_LARGE );
+
+$select_related_form = DataModel_Definition_Relation_External::getSelectRelatedModelForm();
+$select_related_form->field( 'related_model' )->input()->addJsAction( 'onchange', 'DataModel.relation.create.selectModel(this.options[this.selectedIndex].value)' );
+
+echo $dialog->start();
+
+echo $select_related_form->start();
+echo $select_related_form->field( 'related_model' );
+echo $select_related_form->end();
+
+?>
+	<div id="create_relation_form_area">
+
+	</div>
+	<?php
+
+echo $dialog->end();
+

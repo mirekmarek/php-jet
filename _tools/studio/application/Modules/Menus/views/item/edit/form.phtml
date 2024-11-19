@@ -1,0 +1,95 @@
+<?php
+namespace JetStudioModule\Menus;
+
+use Jet\Tr;
+use Jet\Form_Renderer;
+use Jet\MVC_View;
+use Jet\UI;
+
+/**
+ * @var MVC_View $this
+ * @var Menu_Item $item
+ */
+
+$item = $this->getRaw( 'item' );
+
+$form = $item->getEditForm();
+
+
+$form->renderer()->setDefaultLabelWidth( [
+	Form_Renderer::LJ_SIZE_MEDIUM => 2
+] );
+$form->renderer()->setDefaultFieldWidth( [
+	Form_Renderer::LJ_SIZE_MEDIUM => 6
+] );
+
+$tabs = UI::tabsJS( 'create_menu_item_target_tabs', [
+	'tab_direct_mvc'  => Tr::_( 'MVC link' ),
+	'tab_direct_link' => Tr::_( 'Direct link' ),
+], $item->getUrl() ? 'tab_direct_link' : 'tab_direct_mvc' );
+
+
+?>
+<?= $form->start() ?>
+
+<?= $form->getCommonMessage(); ?>
+<?= $form->field( 'id' ) ?>
+<?= $form->field( 'label' ) ?>
+<?= $form->field( 'icon' ) ?>
+<?= $form->field( 'index' ) ?>
+
+<?= $form->field( 'separator_before' ) ?>
+<?= $form->field( 'separator_after' ) ?>
+
+<?= $tabs->start() ?>
+
+<?= $tabs->tab( 'tab_direct_mvc' )->content()->start() ?>
+<?= $form->field( 'base_id' ) ?>
+<?= $form->field( 'page_id' ) ?>
+<?= $form->field( 'locale' ) ?>
+
+<div class="form-group row">
+	<label class="col-md-2 control-label"><?= Tr::_( 'Custom URL parts:' ) ?></label>
+	<div class="col-md-6">
+		<?php for( $c = 0; $c < Menu_Item::URL_PARTS_COUNT; $c++ ):
+			$field = $form->getField( '/URL_parts/' . $c );
+			?>
+			<div class="input-group">
+				<span class="input-group-prepend" style="font-weight: bolder"><span
+							class="input-group-text">/</span></span>
+				<?= $field->input() ?>
+				<span class="input-group-append" style="font-weight: bolder"><span
+							class="input-group-text">/</span></span>
+			</div>
+		<?php endfor; ?>
+	</div>
+</div>
+
+<div class="form-group row">
+	<label class="col-md-2 control-label"><?= Tr::_( 'GET parameter:' ) ?></label>
+	<div class="col-md-6">
+		<?php for( $c = 0; $c < Menu_Item::GET_PARAMS_COUNT; $c++ ):
+			$field_key = $form->getField( '/GET_params/' . $c . '/key' );
+			$field_value = $form->getField( '/GET_params/' . $c . '/value' );
+			?>
+			<div class="input-group">
+				<span class="input-group-prepend" style="font-weight: bolder"><span
+							class="input-group-text"> </span></span>
+				<?= $field_key->input() ?>
+				<span class="input-group-prepend" style="font-weight: bolder"><span
+							class="input-group-text">=</span></span>
+				<?= $field_value->input() ?>
+				<span class="input-group-append" style="font-weight: bolder"><span
+							class="input-group-text"> </span></span>
+			</div>
+		<?php endfor; ?>
+	</div>
+</div>
+
+<?= $tabs->tab( 'tab_direct_mvc' )->content()->end() ?>
+<?= $tabs->tab( 'tab_direct_link' )->content()->start() ?>
+<?= $form->field( 'URL' ) ?>
+<?= $tabs->tab( 'tab_direct_link' )->content()->end() ?>
+<?= $tabs->end() ?>
+
+<?= $form->end() ?>

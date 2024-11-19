@@ -1,0 +1,115 @@
+<?php
+namespace JetStudioModule\Pages;
+
+use Jet\Tr;
+use Jet\Form_Renderer;
+use Jet\MVC_View;
+
+/**
+ * @var MVC_View $this
+ * @var Page $page
+ */
+
+$page = $this->getRaw( 'page' );
+
+$form = $page->getEditForm_main();
+
+$form->renderer()->setDefaultLabelWidth( [
+	Form_Renderer::LJ_SIZE_MEDIUM => 2
+] );
+$form->renderer()->setDefaultFieldWidth( [
+	Form_Renderer::LJ_SIZE_MEDIUM => 6
+] );
+
+
+?>
+<?= $form->start() ?>
+
+
+	<?= $form->field( 'name' ) ?>
+
+	<?= $form->field( 'is_secret' ) ?>
+	<?= $form->field( 'is_active' ) ?>
+	<?= $form->field( 'SSL_required' ) ?>
+	<?= $form->field( 'layout_script_name' ) ?>
+	<?= $form->field( 'order' ) ?>
+	<?= $form->field( 'title' ) ?>
+	<?= $form->field( 'menu_title' ) ?>
+	<?= $form->field( 'breadcrumb_title' ) ?>
+	<?= $form->field( 'icon' ) ?>
+
+	<?php if( $form->fieldExists( 'relative_path_fragment' ) ):
+		$field = $form->field( 'relative_path_fragment' );
+
+		$parent = $page->getParent();
+		if( $parent ) {
+			$parent_URL = $parent->getURL();
+		} else {
+			$parent_URL = $page->getBase()->getHomepage( $page->getLocale() )->getURL();
+		}
+		?>
+		<?= $field->row()->start() ?>
+		<?= $field->label() ?>
+
+		<?= $field->container()->start() ?>
+		<div class="input-group">
+			<span class="input-group-prepend" style="font-weight: bolder"><span
+						class="input-group-text"><?= rtrim( $parent_URL, '/' ) ?>/</span></span>
+			<?= $field->input() ?>
+			<?= $field->error() ?>
+		</div>
+		<?= $field->container()->end() ?>
+
+		<?= $field->row()->end() ?>
+	<?php else: ?>
+		<div class="row">
+			<label class="col-md-2 control-label">URL:</label>
+			<div class="col-md-5">
+				<div class="input-group">
+					<span class="input-group-prepend" style=""><span class="input-group-text"> </span></span>
+					<span class="input-group-prepend" style="bolder;border-left: none;border-right: none;"><span
+								class="input-group-text"><?= $page->getURL() ?></span></span>
+					<span class="input-group-append" style=""><span class="input-group-text"></span></span>
+				</div>
+			</div>
+
+		</div>
+	<?php endif; ?>
+
+	
+
+<div class="form-group row">
+	<div class="col-md-2">
+		<label class="control-label"><?= Tr::_( 'Meta Tags:' ); ?></label>
+	</div>
+	<div class="col-md-9">
+		<?=$form->field('meta_tags')->input()?>
+	</div>
+</div>
+
+
+<div class="form-group row">
+	<div class="col-md-2">
+		<label class="control-label"><?= Tr::_( 'Parameters:' ); ?></label>
+	</div>
+	<div class="col-md-9">
+		<?=$form->field('params')->input()?>
+	</div>
+</div>
+
+
+
+
+<div class="form-group row">
+	<div class="col-md-2">
+		<label class="control-label"><?= Tr::_( 'HTTP headers:' ); ?></label>
+	</div>
+	<div class="col-md-9">
+		<?=$form->field('http_headers')->input()?>
+	</div>
+</div>
+
+
+
+
+<?= $form->end() ?>

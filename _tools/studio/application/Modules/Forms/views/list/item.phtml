@@ -1,0 +1,22 @@
+<?php
+namespace JetStudioModule\Forms;
+use Jet\Http_Request;
+use Jet\UI;
+use Jet\UI_badge;
+
+if( !Main::getCurrentProperty() ):
+	echo UI::badge(UI_badge::INFO, Main::getCurrentClass()->getFullClassName())->addCustomCssStyle('font-size:20px;');
+else: ?>
+	<a href="<?= Http_Request::currentURI( [], [
+		'property',
+	] ) ?>" style="font-weight: bolder;font-size: 20px;"><?= Main::getCurrentClass()->getFullClassName() ?></a>
+<?php endif; ?>
+<br/>
+<table style="width: 100%;margin-top: 5px;">
+	<tr style="background: transparent">
+		<td style="border:none">
+			<?php require 'item/properties.phtml' ?>
+		</td>
+	</tr>
+</table>
+

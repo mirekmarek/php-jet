@@ -40,7 +40,18 @@ interface MVC_Page_Interface
 	 * @return static|null
 	 */
 	public static function _get( string $page_id, Locale $locale, string $base_id ): static|null;
-
+	
+	/**
+	 * @param Application_Module_Manifest $module_manifest
+	 * @return MVC_Page_Interface[]
+	 */
+	public static function getModulePages( Application_Module_Manifest $module_manifest ) : array;
+	
+	/**
+	 * @param Application_Module_Manifest $module_manifest
+	 */
+	public function saveModulePage( Application_Module_Manifest $module_manifest ) : void;
+	
 	/**
 	 * @return string
 	 */

@@ -1,0 +1,83 @@
+<?php
+namespace JetStudioModule\Menus;
+?>
+<!--suppress JSUnresolvedFunction -->
+<script type="text/javascript">
+	const Menus = {
+		createSet: {
+			openDialog: function () {
+				$('#dialog_create_new_menu_set').modal('show');
+			},
+			createSend: function () {
+				JetAjaxForm.submit(
+					'<?=MenuSet::getCreateForm()->getId()?>',
+					{
+						onSuccess: function (form, response_data) {
+							location = '?set=' + encodeURIComponent(response_data['new_set'])
+						}
+					}
+				);
+			}
+		},
+		createMenu: {
+			openDialog: function () {
+				$('#dialog_create_new_menu').modal('show');
+			},
+			createSend: function () {
+				JetAjaxForm.submit(
+					'<?=Menu::getCreateForm()->getId()?>',
+					{
+						onSuccess: function (form, response_data) {
+							location = '?set=<?=Main::getCurrentMenuSetName()?>&menu=' + encodeURIComponent(response_data['new_menu_id'])
+						}
+					}
+				);
+			},
+			generateId: function (name) {
+				$.ajax({
+					url: '<?=Main::getActionUrl( 'menu_generate_id', [], false )?>&name=' + encodeURIComponent(name),
+					dataType: 'json',
+					success: function (result) {
+						$('#create_menu_form__id').val(result.id);
+					}
+				});
+			}
+
+		},
+		createMenuItem: {
+			openDialog: function () {
+				$('#dialog_create_new_menu_item').modal('show');
+			},
+			createSend: function () {
+				JetAjaxForm.submit(
+					'<?=Menu_Item::getCreateForm()->getId()?>',
+					{
+						onSuccess: function (form, response_data) {
+							location = '?set=<?=Main::getCurrentMenuSetName()?>&menu=<?=Main::getCurrentMenuId()?>&item=' + encodeURIComponent(response_data['new_menu_item_id'])
+						}
+					}
+				);
+			},
+			generateId: function (name) {
+				$.ajax({
+					url: '<?=Main::getActionUrl( 'item_generate_id', [], false )?>&name=' + encodeURIComponent(name),
+					dataType: 'json',
+					success: function (result) {
+						$('#create_menu_item_form__id').val(result.id);
+					}
+				});
+			}
+
+		},
+
+		initSort: function () {
+			$('#items_sort_area').sortable({
+				stop: function () {
+				}
+
+			});
+		}
+
+
+	}
+</script>

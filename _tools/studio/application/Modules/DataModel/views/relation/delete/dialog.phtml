@@ -1,0 +1,29 @@
+<?php
+
+namespace JetStudioModule\DataModel;
+
+use Jet\MVC_View;
+use Jet\UI;
+use Jet\Tr;
+use Jet\UI_dialog;
+
+/**
+ * @var MVC_View $this
+ * @var DataModel_Definition_Relation_External $relation
+ */
+
+if( !DataModels::getCurrentModel() ) {
+	return;
+}
+
+
+$dialog = UI::dialog( 'delete_relation', Tr::_( 'Delete relation' ), UI_dialog::SIZE_LARGE );
+
+echo $dialog->start();
+?>
+<?= Tr::_( 'Do You really want to delete relation?', [] ); ?>
+	<?php
+echo $dialog->footer();
+echo UI::button_delete()->setUrl( DataModels::getActionUrl( 'relation_delete' ) );
+echo $dialog->end();
+

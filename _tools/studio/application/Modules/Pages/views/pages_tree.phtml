@@ -1,0 +1,59 @@
+<?php
+
+namespace JetStudioModule\Pages;
+
+
+use Jet\Data_Tree_Node;
+use Jet\UI_badge;
+use Jet\UI;
+use Jet\Tr;
+use Jet\MVC;
+use JetStudio\JetStudio;
+
+$UI_tree = UI::tree( Main::getCurrentPageTree() );
+$UI_tree->setRootId( MVC::HOMEPAGE_ID );
+//$UI_tree->setShowAll(true);
+$UI_tree->setSelectedId( Main::getCurrentPageId() );
+
+$renderer = function( Data_Tree_Node $node ) {
+
+	$page = Main::getPage( $node->getId() );
+	
+	$edit_url = Main::getActionUrl( '', [], $node->getId() );
+	
+	$node_data = $node->getData();
+	$module = $node_data['module_name']??'';
+
+	if( !$page->getIsActive() ):
+		echo UI::badge(UI_badge::DANGER, UI::icon( 'times' )->setTitle( Tr::_( 'Is not active' ) ));
+	endif;
+	?>
+	<a href="<?= $edit_url ?>" style="font-size: 16px;"><?= $node->getLabel() ?></a>
+
+	<span style="font-size: 11px;">
+	<?php
+
+	if( $page->getIsSecret() ): echo '&nbsp;&nbsp;' . UI::icon( 'user-secret' )->setTitle( Tr::_( 'Is secret' ) ); endif;
+	if( $page->getSSLRequired() ): echo '&nbsp;&nbsp;' . UI::icon( 'lock' )->setTitle( Tr::_( 'SSL required' ) ); endif;
+
+	if( $page->getOutput() ):
+		echo '&nbsp;&nbsp;' . UI::icon( 'file' )->setTitle( Tr::_( 'Is static page' ) );
+	endif;
+	?>
+	</span>
+	<?php
+	if($module):
+		$module_edit_url = JetStudio::getModule_ApplicationModules()?->getEditModuleURL( $module )??'';
+		?>
+		<br><small class="text-info"><?=Tr::_('Source module: ')?><a href="<?=$module_edit_url;?>" class="text-primary"><?=$module?></a></small>
+		<?php
+	endif;
+
+};
+
+$UI_tree->setRendererNormal( $renderer );
+$UI_tree->setRendererOpened( $renderer );
+$UI_tree->setRendererSelected( $renderer );
+
+
+echo $UI_tree->render();

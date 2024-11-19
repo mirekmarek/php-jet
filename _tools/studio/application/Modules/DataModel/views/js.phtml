@@ -1,0 +1,370 @@
+<?php
+namespace JetStudioModule\DataModel;
+?>
+<!--suppress JSUnresolvedFunction -->
+<script type="text/javascript">
+	const DataModel = {
+		search: {
+			reset: function () {
+				$('#class_search').val('');
+
+				$('.class_list_item').show();
+				$('#current-item').show();
+			},
+			search: function () {
+				$('#current-item').hide();
+
+				let value = $('#class_search').val();
+
+				if (!value) {
+					Modules.search.reset();
+					return;
+				}
+
+				value = value.toLowerCase();
+
+				$('.class_list_item').each(function (index, row) {
+					row = $(row);
+
+					const name = row.data('name').toLowerCase();
+
+					if (
+						name.includes(value)
+					) {
+						row.show();
+					} else {
+						row.hide();
+					}
+
+				});
+
+			}
+		},
+		create: {
+			openDialog: function (type) {
+				$('#dialog_create_new_data_model_' + type).modal('show');
+			},
+			createSend: function (type) {
+				JetAjaxForm.submit(
+					'create_data_model_form_' + type,
+					{
+						onSuccess: function (form, response_data) {
+							location = '?class=' + encodeURIComponent(response_data['new_class_name'])
+						}
+					}
+				);
+			},
+
+			generateScriptPath: function (form) {
+				let namespace = form.namespace.value;
+				let class_name = form['class_name'].value;
+				class_name = class_name.replace(' ', '_');
+				form['class_name'].value = class_name;
+
+				$.ajax({
+					url: '<?=DataModels::getActionUrl( 'model_generate_script_path' )?>&namespace=' + encodeURIComponent(namespace) + '&class_name=' + class_name,
+					dataType: 'json',
+					success: function (data) {
+						form['script_path'].value = data['path'];
+					}
+				});
+
+
+			},
+
+			generateModelName: function (form) {
+				let class_name = form['class_name'].value;
+				let model_name = class_name.toLowerCase();
+				model_name = model_name.replace('\\', '_');
+
+				form['model_name'].value = model_name;
+			},
+
+			generateRelationPropertyName: function ( form, current_model_name ) {
+				let name = form['model_name'].value;
+				
+				if(name.startsWith(current_model_name+'_')) {
+					name = name.substring( current_model_name.length+1 );
+				}
+
+				form['relation_property_name'].value = name;
+			}
+		},
+
+		edit: {
+			showSQLCreate: function () {
+				$.ajax(
+					'<?=DataModels::getActionUrl( 'model_generate_SQL_create' )?>'
+				).done(function (data) {
+					$('#SQL_create_result').val(data);
+					$('#dialog_SQL_create').modal('show');
+				});
+			},
+
+			showSQLUpdate: function () {
+				$.ajax(
+					'<?=DataModels::getActionUrl( 'model_generate_SQL_update' )?>'
+				).done(function (data) {
+					$('#SQL_update_result').val(data);
+					$('#dialog_SQL_update').modal('show');
+				});
+			},
+
+			defaultOrderBy: {
+				selectItem: function (id) {
+					let values_field = $('#edit_model_form__default_order_by');
+					let values = values_field.val();
+
+					if (values.length) {
+						values = values.split('|');
+					} else {
+						values = [];
+					}
+
+					values.push('+' + id);
+					values = values.join('|');
+
+					$('.order_by_options_item[data-id="' + id + '"]').hide();
+
+					values_field.val(values);
+
+					DataModel.edit.defaultOrderBy.actualizeSelected();
+				},
+
+				unSelectItem: function (id) {
+					$('.order_by_options_item[data-id="' + id + '"]').show();
+					let values_field = $('#edit_model_form__default_order_by');
+
+					let values = values_field.val().split('|');
+
+					let val = '';
+					let e_id = '';
+					let new_values = [];
+
+					for (let i = 0; i < values.length; i++) {
+						val = values[i];
+						e_id = val.substring(1);
+
+						if (id != e_id) {
+							new_values.push(val);
+						}
+					}
+
+					new_values = new_values.join('|');
+
+					values_field.val(new_values);
+
+					DataModel.edit.defaultOrderBy.actualizeSelected();
+				},
+
+
+				setSort: function (id, sort) {
+					let values_field = $('#edit_model_form__default_order_by');
+
+					let values = values_field.val().split('|');
+
+					let val = '';
+					let e_id = '';
+					let o_sort = '';
+					let new_values = [];
+
+					for (let i = 0; i < values.length; i++) {
+						val = values[i];
+						o_sort = val.substring(0, 1);
+						e_id = val.substring(1);
+
+						if (id == e_id) {
+							new_values.push(sort + e_id);
+						} else {
+							new_values.push(val);
+						}
+					}
+
+					new_values = new_values.join('|');
+
+					values_field.val(new_values);
+
+					$('.order_by_options_item_selected[data-id="' + id + '"]').data('sort', sort);
+
+					DataModel.edit.defaultOrderBy.actualizeSelected();
+				},
+
+
+				actualizeSelected: function () {
+					let values_field = $('#edit_model_form__default_order_by');
+					if (!values_field.length) {
+						return;
+					}
+
+					let values = values_field.val().split('|');
+					let selected_area = $('#order_by_options_selected');
+
+					let html = '';
+					let id = '';
+					let label = '';
+					let sort = '';
+
+					if (values_field.val()) {
+						for (let i = 0; i < values.length; i++) {
+							id = values[i];
+							sort = id.substring(0, 1);
+							id = id.substring(1);
+							let obo = $('.order_by_options_item[data-id="' + id + '"]');
+							label = obo.data('label');
+
+							obo.hide();
+
+							html += '<div'
+								+ ' class="list-group-item order_by_options_item_selected"'
+								+ ' data-id="' + id + '"'
+								+ ' data-sort="' + sort + '"'
+								+ '>';
+
+							html += '<i class="property-option-move ui-sortable-handle" style="cursor: ns-resize"><span class="fa fa-arrows-v" style="font-size:16px;padding-right: 5px"></span></i>';
+
+							html += '<span class="fa fa-minus" style="font-size:16px;padding-right: 5px" onclick="DataModel.edit.defaultOrderBy.unSelectItem(\'' + id + '\')"></span>';
+
+							if (sort == '-') {
+								html += '<span class="fa fa-sort-alpha-up" style="font-size:16px;padding-right: 5px" onclick="DataModel.edit.defaultOrderBy.setSort(\'' + id + '\',\'+\')"></span>';
+							} else {
+								html += '<span class="fa fa-sort-alpha-down" style="font-size:16px;padding-right: 5px" onclick="DataModel.edit.defaultOrderBy.setSort(\'' + id + '\',\'-\')"></span>';
+							}
+							html += label;
+							html += '</div>';
+						}
+					}
+
+					selected_area.html(html);
+
+					selected_area.sortable({
+						handle: 'i.property-option-move',
+						stop: function () {
+
+							let new_values = [];
+
+							selected_area.find('.order_by_options_item_selected').each(function (i, item) {
+								let id = $(item).data('id');
+								let sort = $(item).data('sort');
+
+								new_values.push(sort + id);
+							});
+
+							$('#edit_model_form__default_order_by').val(new_values.join('|'));
+						}
+
+					});
+
+				}
+			}
+		},
+
+
+		key: {
+			create: {
+				openDialog: function () {
+					$('#dialog_create_new_key').modal('show');
+				},
+				createSend: function () {
+					JetAjaxForm.submit(
+						'key_add_form',
+						{
+							onSuccess: function (form, response_data) {
+								location.reload();
+							}
+						}
+					);
+				}
+			},
+
+			delete: {
+				openDialog: function () {
+					$('#delete_key').modal('show');
+				}
+			}
+		},
+
+		relation: {
+			create: {
+				openDialog: function () {
+					$('#dialog_create_new_relation').modal('show');
+				},
+
+				selectModel: function (related_model_id) {
+					$('#create_relation_form_area').load(
+						'<?=DataModels::getActionUrl( 'relation_add_form' )?>&related_model=' + related_model_id
+					);
+				},
+				createSend: function () {
+					JetAjaxForm.submit(
+						'create_external_relation_form',
+						{
+							onSuccess: function (form, response_data) {
+								location.reload();
+							}
+						}
+					);
+				}
+
+			},
+
+			delete: {
+				openDialog: function () {
+					$('#delete_relation').modal('show');
+				}
+			}
+		},
+
+		property: {
+			create: {
+				openDialog: function () {
+					$('#dialog_create_new_property').modal('show');
+				},
+				createSend: function () {
+					JetAjaxForm.submit(
+						'<?=DataModel_Definition_Property::getCreateForm()->getId()?>',
+						{
+							onSuccess: function (form, response_data) {
+								location.reload();
+							}
+						}
+					);
+				}
+			},
+
+			edit: {
+				selectFormFieldType: function (property_id, selected_type) {
+				},
+
+				save: function (property_id) {
+					JetAjaxForm.submit(
+						'property_edit_form_' + property_id,
+						{
+							onSuccess: function (form, response_data) {
+								let id_controller_field = $('#edit_model_form__id_controller_class');
+								if (id_controller_field.length) {
+									id_controller_field.val(response_data['id_controller_class']);
+								}
+
+								let header = $('#property_panel_' + property_id);
+								header.removeClass('panel-default');
+								header.removeClass('panel-primary');
+								header.removeClass('panel-success');
+								header.removeClass('panel-info');
+								header.removeClass('panel-warning');
+								header.removeClass('panel-danger');
+
+								header.addClass('panel-' + response_data['head_css_class']);
+							}
+						}
+					);
+
+				}
+			}
+
+		}
+	};
+
+	$(document).ready(function () {
+		DataModel.edit.defaultOrderBy.actualizeSelected()
+	});
+</script>

@@ -1,0 +1,70 @@
+<?php
+namespace JetStudioModule\Bases;
+
+use Jet\UI;
+use Jet\Tr;
+use Jet\UI_badge;
+
+?>
+<table class="table table-striped">
+	<tbody>
+	<?php
+
+	foreach( Main::getBases() as $base ): ?>
+		<tr>
+			<td nowrap="" class="<?= ($base->getId() == Main::getCurrentBaseId()) ? 'bg-info' : '' ?>">
+				<div>
+					<?php if( $base->getId() == Main::getCurrentBaseId() ): ?>
+						<strong><?= $base->getName() ?></strong>
+					<?php else: ?>
+						<a href="<?= Main::getActionUrl( '', [], $base->getId() ) ?>"><?= $base->getName() ?></a>
+					<?php endif; ?>
+				</div>
+				<div style="font-weight: bolder;font-size: 14px;">
+					<?php
+					if( !$base->getIsActive() ):
+						echo UI::badge(UI_badge::DANGER, UI::icon( 'times' )->setTitle( Tr::_( 'Is not active' ) ));
+					else:
+						echo UI::badge(UI_badge::SUCCESS, UI::icon( 'check' )->setTitle( Tr::_( 'Is active' ) ));
+					endif;
+					if( $base->getIsDefault() ): echo '&nbsp;&nbsp;' . Tr::_( 'default' ); endif;
+					if( $base->getIsSecret() ): echo '&nbsp;&nbsp;' . UI::icon( 'user-secret' )->setTitle( Tr::_( 'Is secret' ) ); endif;
+					if( $base->getSSLRequired() ): echo '&nbsp;&nbsp;' . UI::icon( 'lock' )->setTitle( Tr::_( 'SSL required' ) ); endif;
+
+					foreach( $base->getLocales() as $locale ) {
+						$ld_data = $base->getLocalizedData( $locale );
+
+						echo '&nbsp;&nbsp;&nbsp;&nbsp;';
+						
+						$b_type = UI_badge::SUCCESS;
+						$b_title = '';
+
+						if( !$ld_data->getIsActive() ):
+							$b_type = UI_badge::DANGER;
+							
+							$b_title .= UI::icon( 'times' )->setTitle( Tr::_( 'Locale is not active' ) );
+						else:
+							$b_title .= UI::icon( 'check' )->setTitle( Tr::_( 'Locale is active' ) );
+						endif;
+						
+						$b_title .= '&nbsp;&nbsp;';
+						$b_title .= UI::flag( $locale );
+						
+						if( !$base->getSSLRequired() ):
+							if( $ld_data->getSSLRequired() ):
+								$b_title .= '&nbsp;&nbsp;' . UI::icon( 'lock' )->setTitle( Tr::_( 'Locale requires SSL' ) );
+							endif;
+						endif;
+						
+						echo UI::badge($b_type, $b_title );
+						
+
+					}
+					?>
+				</div>
+			</td>
+		</tr>
+	<?php endforeach; ?>
+	</tbody>
+</table>
+

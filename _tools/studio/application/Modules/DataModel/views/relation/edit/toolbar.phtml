@@ -1,0 +1,17 @@
+<?php
+
+namespace JetStudioModule\DataModel;
+
+use Jet\UI;
+
+$form = DataModels::getCurrentRelation()->getEditForm();
+?>
+
+<?= UI::button_save()
+	->setOnClick( "$('#" . $form->getId() . "').submit()" )
+?>
+<?=$this->render('model/edit/toolbar/generate')?>
+<?php if( DataModels::getCurrentRelation() ): ?>
+	<?= UI::button_delete()
+		->setOnClick( 'DataModel.relation.delete.openDialog()' ) ?>
+<?php endif; ?>

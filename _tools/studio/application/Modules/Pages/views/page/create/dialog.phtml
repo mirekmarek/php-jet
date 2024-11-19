@@ -1,0 +1,22 @@
+<?php
+
+namespace JetStudioModule\Pages;
+
+use Jet\Tr;
+use Jet\UI;
+use Jet\UI_dialog;
+
+$dialog = UI::dialog( 'dialog_create_new_page', Tr::_( 'Create a new Page' ), UI_dialog::SIZE_LARGE );
+
+echo $dialog->start();
+?>
+	<div id="<?= Page::getCreateForm()->getId() ?>_form_area">
+		<?php
+		require 'form.phtml';
+		?>
+	</div>
+	<?php
+echo $dialog->footer();
+echo UI::button_save( Tr::_( 'Create' ) )->setOnClick( 'Pages.createPage.createSend()' );
+echo $dialog->end();
+

@@ -1,0 +1,33 @@
+<?php
+namespace JetStudioModule\Pages;
+
+use Jet\Tr;
+use Jet\MVC_View;
+use Jet\UI;
+
+/**
+ * @var MVC_View $this
+ * @var Page $page
+ */
+
+$page = $this->getRaw( 'page' );
+$what = $this->getRaw( 'what' );
+
+
+echo $this->render( 'page/' . $what . '/edit/toolbar' );
+?>
+
+<?= Tr::_( 'Page' ) ?>
+
+<span style="font-weight: bolder"><?= $page->getName() ?></span>
+
+
+<a href="#" onclick="copyPageIDtoClipboard();" class="entity-id">
+	ID: <?=UI::icon('clipboard')?>
+	<input id="page_id_to_cb" readonly value="<?= $page->getId() ?>"/>
+</a>
+
+
+<a href="<?=$page->getURL()?>" target="_blank"><?=UI::icon('eye')->setTitle(Tr::_('Show this page'))?> <?=Tr::_('Show this page')?></a>
+
+

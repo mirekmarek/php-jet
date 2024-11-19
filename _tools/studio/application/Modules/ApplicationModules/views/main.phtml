@@ -1,0 +1,56 @@
+<?php
+namespace JetStudioModule\ApplicationModules;
+
+use Jet\Http_Request;
+use JEt\MVC_View;
+use JetStudio\JetStudio;
+
+/**
+ * @var MVC_View $this
+ */
+
+$what_to_edit = Main::getCurrentWhatToEdit();
+
+?>
+<?= $this->render( 'js' ); ?>
+
+<div style="display: grid;grid-template-columns: 1fr 3fr;gap: 10px">
+	<div style="padding-top: 10px">
+		<?= $this->render( 'models_list' ); ?>
+	</div>
+	<div>
+		<?php switch($what_to_edit):
+			case 'module':
+				?>
+				<div class="toolbar" id="main-toolbar">
+					<?= $this->render( $what_to_edit . '/edit/toolbar' ); ?>
+				</div>
+				<div id="main-col">
+					<br>
+					<?= $this->render( $what_to_edit . '/edit/form' ); ?>
+				</div>
+				<?php
+				break;
+			case 'page':
+				echo JetStudio::getModule_Pages()?->editPage( Main::getCurrentPage() )??'';
+				break;
+			case 'menu_item':
+				echo JetStudio::getModule_Menus()?->editMenuItem(
+					Http_Request::GET()->getString( 'set' ),
+					Http_Request::GET()->getString( 'menu' ),
+					Http_Request::GET()->getString( 'item' )
+				)??'';
+				break;
+			default:
+				var_dump($what_to_edit);
+		endswitch; ?>
+		
+	</div>
+</div>
+
+<?php
+echo $this->render('menu_item/create/dialog');
+echo $this->render('page/create/dialog');
+
+
+

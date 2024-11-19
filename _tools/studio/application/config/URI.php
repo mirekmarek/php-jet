@@ -6,17 +6,31 @@ require_once SysConf_Path::getLibrary().'Jet/SysConf/URI.php';
 
 
 
-if(isset( $_SERVER['REQUEST_URI'] )) {
-	$base_URI = $_SERVER['REQUEST_URI'];
-	if(
-		strpos($base_URI, '.') ||
-		strpos($base_URI, '?')
-	) {
-		$base_URI = substr( $base_URI, 0, strrpos($base_URI, '/')).'/';
-	}
-} else {
-	$base_URI = '/_tools/studio/';
+//- It is better to hardcode value for the production system
+// Set $base_URI (if necessary) and remove code below:
+$request_URI = $_SERVER['REQUEST_URI'] ?? '/';
+if( ($pos=strpos($request_URI, '?'))!==false ) {
+	$request_URI = substr($request_URI, 0, $pos-1);
 }
+$request_URI = trim( $request_URI, '/' );
+$base_URI = '/_tools/studio/';
+
+if($request_URI) {
+	$URI_path_parts = explode( '/', $request_URI );
+	
+	while( ($r_path = implode('/', $URI_path_parts )) ) {
+		if( file_exists( $_SERVER['DOCUMENT_ROOT'].'/'.$r_path.'/application/Classes/JetStudio.php' ) ) {
+			$base_URI = '/'.$r_path.'/';
+			break;
+		}
+		
+		array_pop($URI_path_parts);
+	}
+}
+//----------------------------------------------------------------
+
+
+
 
 SysConf_URI::setBase($base_URI);
 SysConf_URI::setCss($base_URI.'css/');

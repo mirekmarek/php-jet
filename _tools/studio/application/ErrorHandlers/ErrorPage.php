@@ -38,12 +38,11 @@ class ErrorHandler_ErrorPage extends Debug_ErrorHandler_Handler
 	{
 		if(
 			$error->isFatal() &&
-			Debug::getOutputIsHTML()
+			Debug::getOutputIsHTML() &&
+			class_exists(ErrorPages::class, false)
 		) {
-			if( class_exists( ErrorPages::class, false ) ) {
-				if( ErrorPages::display( 500 ) ) {
-					$this->displayed = true;
-				}
+			if( ErrorPages::display( 500 ) ) {
+				$this->displayed = true;
 			}
 		}
 

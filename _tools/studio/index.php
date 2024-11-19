@@ -1,9 +1,21 @@
 <?php
 namespace JetStudio;
 
+use Jet\Translator;
+
 require 'application/init.php';
 
-Application::setCurrentPart( 'welcome' );
-Application::handleAction();
-Application::output( Application::getView()->render('main') );
-Application::renderLayout();
+$acm = JetStudio::getModule_AccessControl();
+if($acm) {
+	Translator::setCurrentDictionary( $acm->getManifest()->getDictionaryName() );
+	$acm->handleAccessControl();
+}
+
+JetStudio::getCurrentModule()?->handle();
+
+
+/*
+
+
+Factory_MVC::setBaseClassName( Bases_Base::class );
+*/

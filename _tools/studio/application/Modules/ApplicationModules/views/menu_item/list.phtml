@@ -1,0 +1,74 @@
+<?php
+namespace JetStudioModule\ApplicationModules;
+
+use Jet\Http_Request;
+use Jet\Navigation_MenuSet;
+use Jet\Tr;
+use Jet\MVC_View;
+use Jet\UI;
+use Jet\UI_badge;
+
+/**
+ * @var MVC_View $this
+ */
+
+$module = Main::getCurrentModule();
+
+if( !$module ) {
+	return;
+}
+
+$menu_items = $module->getMenuItems();
+if(!$menu_items->getList()) {
+	return;
+}
+
+$current_menu_item = Main::getCurrentMenuItem();
+?>
+<div class="card card-body" style="margin: 10px;">
+	<h5><?= Tr::_( 'Menu items' ) ?></h5>
+
+	<table class="table table-striped">
+		<?php foreach( Navigation_MenuSet::getList() as $set_id => $set ):
+			
+			if( !$menu_items->getList( $set->getName() ) ) {
+				continue;
+			}
+			
+			foreach( $set->getMenus() as $menu_id => $menu ):
+				if( !($items = $menu_items->getList( $set->getName(), $menu->getId() )) ) {
+					continue;
+				}
+				?>
+				<tr>
+					<td style="font-size: 10px;padding-left: 20px;"><b><?= $set_id ?> / <?= $menu_id ?></b></td>
+				</tr>
+				<?php
+				
+				foreach( $items as $item ):
+					?>
+					<tr>
+						<td style="padding-left: 50px;">
+							<?php if( $current_menu_item && $current_menu_item->getId(true) == $item->getId(true) ):
+								echo UI::badge(UI_badge::INFO, $item->getId());
+							else:
+								?>
+								<a href="<?= Http_Request::currentURI( [
+										'set' => $set_id,
+										'menu' => $menu_id,
+										'item' => $item->getId(false)
+								], [
+									'base',
+									'locale',
+									'page',
+									'action'
+								] ) ?>"><?= $item->getId() ?></a>
+							<?php endif; ?>
+						</td>
+					</tr>
+				<?php
+				endforeach;
+			endforeach;
+		endforeach; ?>
+	</table>
+</div>

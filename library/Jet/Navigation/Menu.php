@@ -284,6 +284,10 @@ class Navigation_Menu extends BaseObject
 			$menu['items'] = [];
 
 			foreach( $this->items as $item ) {
+				if($item->getSourceModuleName()) {
+					continue;
+				}
+				
 				$item_id = $item->getId();
 
 				$menu_item = $item->toArray();

@@ -1,0 +1,37 @@
+<?php
+namespace JetStudioModule\Forms;
+
+use Jet\Tr;
+use JetStudio\JetStudio_UI;
+
+$list = Main::getClasses();
+
+?>
+<?=JetStudio_UI::search(
+	id: 'class_search',
+	placeholder: Tr::_('Search for class ...'),
+	search_action: 'Forms.search.search()',
+	search_reset_action: 'Forms.search.reset()') ?>
+
+<?php foreach( $list as $item ):
+	if( $item->getFullClassName() == Main::getCurrentClassName() ): ?>
+		<div class="card" id="current-item" style="border-right: none;margin-bottom: 10px;margin-left: 10px;" >
+			<div class="card-body">
+				<?php require 'list/item.phtml'; ?>
+			</div>
+		</div>
+	<?php endif;
+endforeach; ?>
+
+
+<table class="table table-striped">
+	
+	<?php foreach( $list as $item ):
+		if( $item->getFullClassName() != Main::getCurrentClassName() ): ?>
+		<tr class="class_list_item" data-name="<?=$item->getFullClassName()?>">
+			<td><a href="?class=<?= $item->getFullClassName() ?>"><?= $item->getFullClassName() ?></a></td>
+		</tr>
+		<?php endif;
+	endforeach; ?>
+
+</table>

@@ -1,0 +1,278 @@
+<?php
+
+namespace JetStudioModule\Pages;
+
+use Jet\Application_Modules;
+use Jet\MVC_Layout;
+use Jet\Tr;
+use Jet\UI;
+use Jet\Form_Renderer;
+use Jet\UI_button;
+use Jet\MVC_View;
+
+/**
+ * @var MVC_View $this
+ * @var Page $page
+ */
+
+$page = $this->getRaw( 'page' );
+
+$form = $page->getEditForm_content();
+$form->renderer()->setDefaultLabelWidth( [
+	Form_Renderer::LJ_SIZE_MEDIUM => 2
+] );
+$form->renderer()->setDefaultFieldWidth( [
+	Form_Renderer::LJ_SIZE_MEDIUM => 7
+] );
+
+$base = $page->getBase();
+
+$positions = [];
+$known_positions = $base->getLayoutOutputPositions( $page->getLayoutScriptName() );
+
+$i = 0;
+foreach( $page->getContent() as $content ) {
+
+	$position = $content->getOutputPosition();
+	if( !$position ) {
+		$position = MVC_Layout::DEFAULT_OUTPUT_POSITION;
+	}
+	if( !isset( $positions[$position] ) ) {
+		if( isset( $known_positions[$position] ) ) {
+			$known = true;
+			$label = $known_positions[$position];
+		} else {
+			$known = false;
+			$label = $position;
+		}
+
+		$positions[$position] = [
+			'known'   => $known,
+			'label'   => $label,
+			'content' => []
+		];
+	}
+
+	$positions[$position]['content'][$i] = $content;
+
+	$i++;
+}
+
+foreach( $positions as $position => $pd ) {
+	uasort(
+		$positions[$position]['content'],
+		function( Page_Content $a, Page_Content $b ) {
+			$a_p = $a->getOutputPositionOrder();
+			$b_p = $b->getOutputPositionOrder();
+
+			if( $a_p == $b_p ) {
+				return 0;
+			}
+
+			if( $a_p > $b_p ) {
+				return 1;
+			}
+
+			return -1;
+		}
+	);
+}
+
+$modules = [];
+
+foreach( Application_Modules::allModulesList() as $module ) {
+	$modules[$module->getName()] = $module->getLabel() . ' (' . $module->getName() . ')';
+}
+
+
+$base_id = $page->getBaseId();
+$page_id = $page->getId();
+
+$delete_content_action_creator = $this->getRaw( 'delete_content_action_creator' );
+
+if( !$delete_content_action_creator ) {
+	$delete_content_action_creator = function( $i ) {
+		return "Pages.editPage.content.deleteContent($i);";
+	};
+}
+
+
+?>
+
+	<?php foreach( $positions as $position => $pd ): ?>
+
+
+	<?php if( $pd['known'] ): ?>
+		<h5><?= Tr::_( 'Position: %position%', ['position' => $pd['label']] ) ?></h5>
+	<?php else: ?>
+		<h5 style="color: #ff0000"><?= Tr::_( '! Unknown position: %position%', ['position' => $pd['label']] ) ?></h5>
+	<?php endif; ?>
+
+	<?php foreach( $pd['content'] as $i => $content ):
+		/**
+		 * @var Page_Content $content
+		 */
+
+
+		$f_prefix = '/content/' . $i . '/';
+
+		?>
+		<div>
+			<div class="card">
+				<div class="card-header" data-toggle="collapse"
+				     data-target="#content_<?= $base_id ?>_<?= $page_id ?>_<?= $i ?>">
+					<div style="display: grid;grid-template-columns: 100px 200px 1fr 1fr;align-items: center;gap: 5px;">
+						
+							<div><?= $content->getOutputPositionOrder() ?>.</div>
+
+							<?php switch( $content->getContentKind() ) {
+								case Page_Content::CONTENT_KIND_MODULE:
+									$known = isset( $modules[$content->getModuleName()] );
+
+									if( $known ) {
+										$label = $modules[$content->getModuleName()];
+									} else {
+										$label = $content->getModuleName();
+									}
+
+									?>
+									<div>
+										<?php if( $known ): ?>
+											<b><?= Tr::_( 'Module: ' ) ?></b>
+										<?php else: ?>
+											<b style="color: #ff0000"><?= Tr::_( 'Unknown Module: ' ) ?></b>
+										<?php endif; ?>
+									</div>
+									<div style="display: flex;align-items: center;gap: 10px;">
+
+										<div><?= $label ?></div>
+										<div>-></div>
+										<div><?= $content->getControllerName() ?></div>
+										<div>-></div>
+										<div><?= $content->getControllerAction() ?></div>
+
+									</div>
+
+									<?php
+									break;
+								case Page_Content::CONTENT_KIND_CLASS:
+									?>
+									<div><b><?= Tr::_( 'Controller class: ' ) ?></b></div>
+									<div style="display: flex;align-items: center;gap: 10px;">
+										<div><?= $content->getControllerClass() ?></div>
+										<div>-></div>
+										<div><?= $content->getControllerAction() ?></div>
+									</div>
+									<?php
+									break;
+								case Page_Content::CONTENT_KIND_STATIC:
+									?>
+									<div><b><?= Tr::_( 'Static:' ) ?></b></div>
+									<div>
+										<?= substr( strip_tags( $content->getOutput() ), 0, 100 ) . ' ...' ?>
+									</div>
+									<?php
+									break;
+								case Page_Content::CONTENT_KIND_CALLBACK:
+									$callback = $content->getOutput();
+									?>
+									<div><b><?= Tr::_( 'Callback:' ) ?></b></div>
+									<div>
+										<?= $callback[0] ?>::<?= $callback[1] ?><span style="color: #c9c9c9">( Jet\MVC_Page $page, Jet\MVC_Page_Content $content )</span>
+									</div>
+									<?php
+									break;
+
+							} ?>
+							<div style="text-align: right">
+								<?= UI::button_delete( Tr::_( 'Delete this content' ) )->setOnClick( $delete_content_action_creator( $i ) )->setSize( UI_button::SIZE_EXTRA_SMALL ) ?>
+							</div>
+					</div>
+				</div>
+
+				<div class="card-body collapse" id="content_<?= $base_id ?>_<?= $page_id ?>_<?= $i ?>">
+					<?php
+					echo $form->field( $f_prefix . 'output_position' );
+					echo $form->field( $f_prefix . 'output_position_order' );
+					echo $form->field( $f_prefix . 'is_cacheable' );
+					?>
+					<hr/>
+					<div class="form-group row">
+						<label class="col-md-2 control-label"><?= Tr::_( 'Parameters:' ) ?></label>
+						<div class="col-md-7">
+							<?php
+							$i = 0;
+							while( $form->fieldExists( $f_prefix . 'params/' . $i . '/key' ) ):
+								$field_key = $form->getField( $f_prefix . 'params/' . $i . '/key' );
+								$field_value = $form->getField( $f_prefix . 'params/' . $i . '/value' );
+								?>
+								<div class="input-group">
+									<span class="input-group-prepend" style="font-weight: bolder"><span
+												class="input-group-text"> </span></span>
+									<?= $field_key->input() ?>
+									<span class="input-group-prepend" style="font-weight: bolder"><span
+												class="input-group-text">=</span></span>
+									<?= $field_value->input() ?>
+									<span class="input-group-append" style="font-weight: bolder"><span
+												class="input-group-text"> </span></span>
+								</div>
+								<?php
+								$i++;
+							endwhile; ?>
+						</div>
+					</div>
+					<hr/>
+
+
+					<?php switch( $content->getContentKind() ) {
+						case Page_Content::CONTENT_KIND_MODULE:
+							$ids = [
+								'module_mame'       => $form->field( $f_prefix . 'module_name' )->getId(),
+								'controller_name'   => $form->field( $f_prefix . 'controller_name' )->getId(),
+								'controller_action' => $form->field( $f_prefix . 'controller_action' )->getId(),
+							];
+
+							$ids = str_replace( '"', "'", json_encode( $ids ) );
+
+							$form->field( $f_prefix . 'module_name' )->input()->addJsAction( 'onchange', 'Pages.editPage.content.moduleSelected(this.value,' . $ids . ')' );
+							$form->field( $f_prefix . 'controller_name' )->input()->addJsAction( 'onchange', 'Pages.editPage.content.controllerSelected(this.value,' . $ids . ')' );
+
+
+							echo $form->field( $f_prefix . 'module_name' );
+							echo $form->field( $f_prefix . 'controller_name' );
+							echo $form->field( $f_prefix . 'controller_action' );
+
+							break;
+						case Page_Content::CONTENT_KIND_CLASS:
+							echo $form->field( $f_prefix . 'controller_class' );
+							echo $form->field( $f_prefix . 'controller_class_action' );
+
+							break;
+						case Page_Content::CONTENT_KIND_STATIC:
+							$form->field( $f_prefix . 'output' )->input()->addCustomCssStyle( 'height: 400px' );
+
+							echo $form->field( $f_prefix . 'output' )->input();
+
+							break;
+						case Page_Content::CONTENT_KIND_CALLBACK:
+							echo $form->field( $f_prefix . 'output_callback' );
+							break;
+
+					} ?>
+
+				</div>
+			</div>
+
+		</div>
+
+	<?php endforeach; ?>
+
+<?php endforeach; ?>
+
+	<?php
+$form->renderer()->setDefaultLabelWidth( [
+	Form_Renderer::LJ_SIZE_MEDIUM => 2
+] );
+$form->renderer()->setDefaultFieldWidth( [
+	Form_Renderer::LJ_SIZE_MEDIUM => 6
+] );

@@ -1,0 +1,88 @@
+<?php
+namespace JetStudioModule\Pages;
+
+use Jet\UI;
+use Jet\Tr;
+use Jet\MVC;
+use Jet\MVC_View;
+
+/**
+ * @var MVC_View $this
+ */
+
+$this->setVar( 'what', Main::whatToEdit() );
+$this->setVar( 'page', Main::getCurrentPage() );
+
+?>
+<?= $this->render( 'js' ); ?>
+
+<?php if( Main::getCurrentPage() ):
+	if($this->getBool('plugin_mode')):
+		?>
+		<div class="toolbar" id="main-toolbar">
+			<?= $this->render( 'page/toolbar' ); ?>
+		</div>
+		<div id="main-col">
+			<?= $this->render( 'page/edit' ); ?>
+		</div>
+	
+		<?php
+		return;
+	endif;
+	
+	?>
+	<div class="toolbar" id="main-toolbar" style="display: grid;grid-template-columns: 1fr 3fr;gap: 10px;">
+		<div style="display: grid;grid-template-columns: 1fr 1fr;">
+			<div class="dropdown" style="display: inline-block">
+				<button class="btn btn-light dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true"
+				        aria-expanded="false">
+					<?= UI::flag( Main::getCurrentLocale() ) ?>
+					<span style="font-weight: bolder;font-size: 16px;"><?= Main::getCurrentBase()->getName() ?></span>
+				</button>
+				<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+					<?php foreach( MVC::getBases() as $base ): ?>
+						<div class="dropdown-item" style="padding-bottom: 10px;">
+							<strong><?= $base->getName() ?></strong>
+							<?php foreach( $base->getLocales() as $locale ):
+								$link = Main::getActionUrl( '', [], MVC::HOMEPAGE_ID, $locale, $base->getId() );
+								?>
+								<div style="width: 300px;padding: 10px;">
+									<a href="<?= $link ?>"><?= UI::flag( $locale ) ?></a>
+									<a href="<?= $link ?>"><?= $locale->getName() ?></a>
+								</div>
+							<?php endforeach; ?>
+						</div>
+					<?php endforeach; ?>
+				</div>
+			</div>
+
+			<div style="text-align: right">
+				<?= UI::button_create( Tr::_( 'Create a new page' ) )
+					->setOnClick( 'Pages.createPage.openDialog()' )?>
+			</div>
+		</div>
+		<div style="display: flex;align-items: center;gap: 15px;">
+			<?= $this->render( 'page/toolbar' ); ?>
+		</div>
+		
+	</div>
+
+
+	<div id="main-col" style="display: grid;grid-template-columns: 1fr 3fr;gap: 10px;">
+		<div>
+			<?= $this->render( 'pages_tree' ); ?>
+		</div>
+		<div>
+			<?= $this->render( 'page/edit' ); ?>
+		</div>
+	</div>
+
+
+<?php else: ?>
+	<div style="padding: 10px;">
+		<?= $this->render( 'dashboard' ); ?>
+	</div>
+<?php endif; ?>
+
+
+<?= $this->render( 'page/create/dialog' ); ?>

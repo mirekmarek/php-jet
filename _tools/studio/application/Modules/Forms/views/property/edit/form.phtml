@@ -1,0 +1,100 @@
+<?php
+
+namespace JetStudioModule\Forms;
+
+use Jet\Form_Field;
+use Jet\Form_Renderer;
+use Jet\MVC_View;
+use Jet\Tr;
+
+/**
+ * @var MVC_View $this
+ */
+
+$form = Main::getCurrentProperty()->getDefinitionForm();
+if(!$form) {
+	return;
+}
+
+$fields = $form->getFields(true);
+
+
+$form->renderer()
+	->setDefaultLabelWidth( [Form_Renderer::LJ_SIZE_MEDIUM => 2] )
+	->setDefaultFieldWidth( [Form_Renderer::LJ_SIZE_MEDIUM => 9] );
+
+
+echo $form->start();
+
+?>
+<div class="row">
+	<label class="col-md-2"><?=Tr::_('Type:')?></label>
+	<div class="col-md-9">
+		<b><?=Main::getCurrentProperty()->getTypeName()?></b>
+	</div>
+</div>
+<?php
+
+foreach($fields['main'] as $field) {
+	echo $field;
+}
+
+if(isset($fields['other'])) {
+	foreach($fields['other'] as $field) {
+		echo $field;
+	}
+}
+
+
+if(isset($fields['error_messages'])): ?>
+<fieldset>
+	<legend><?=Tr::_('Error messages')?></legend>
+	<?php
+	$form->renderer()
+		->setDefaultLabelWidth( [Form_Renderer::LJ_SIZE_MEDIUM => 3] )
+		->setDefaultFieldWidth( [Form_Renderer::LJ_SIZE_MEDIUM => 6] );
+	
+	/** @noinspection PhpParamsInspection */
+	foreach( array_keys( $fields['error_messages']) as $i):
+		$code_field = $form->getField( '/error_messages/'.$i.'/code' );
+		$message_field = $form->getField( '/error_messages/'.$i.'/message' );
+		
+		if($code_field->getType()==Form_Field::TYPE_HIDDEN) {
+			echo $code_field;
+			echo $message_field;
+			
+			continue;
+		}
+		
+		$code_field->container()->setWidth([
+			Form_Renderer::LJ_SIZE_MEDIUM => 3
+		]);
+		
+		$message_field->container()->setWidth([
+			Form_Renderer::LJ_SIZE_MEDIUM => 6
+		]);
+		?>
+		<div class="row">
+			
+			<?=$code_field->container()->start()?>
+			<?=$code_field->input()?>
+			<?=$code_field->help()?>
+			<?=$code_field->error()?>
+			<?=$code_field->container()->end()?>
+			
+			<?=$message_field->container()->start()?>
+			<?=$message_field->input()?>
+			<?=$message_field->help()?>
+			<?=$message_field->error()?>
+			<?=$message_field->container()->end()?>
+		
+		</div>
+	<?php
+	
+	endforeach;
+	?>
+</fieldset>
+<?php
+endif;
+
+echo $form->end();

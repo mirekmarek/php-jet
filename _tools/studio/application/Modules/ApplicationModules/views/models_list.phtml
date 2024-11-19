@@ -1,0 +1,116 @@
+<?php
+namespace JetStudioModule\ApplicationModules;
+
+use Jet\MVC_View;
+use Jet\Http_Request;
+use Jet\Tr;
+use Jet\UI;
+use Jet\UI_badge;
+use Jet\UI_icon;
+use JetStudio\JetStudio_UI;
+
+
+
+$showIcons = function( Modules_Manifest $module ) {
+	if( $module->isMandatory() ):
+		echo UI::badge(UI_badge::INFO, UI::icon( 'exclamation-triangle' )->setTitle( Tr::_( 'Is mandatory' ) )->setSize(UI_icon::SIZE_SMALL) );
+	endif;
+	
+	if( $module->isInstalled() ):
+		echo UI::badge(UI_badge::SUCCESS,  UI::icon( 'check' )->setTitle( Tr::_( 'Is installed' ) )->setSize(UI_icon::SIZE_SMALL)  );
+	else:
+		echo UI::badge(UI_badge::DANGER,  UI::icon( 'times' )->setTitle( Tr::_( 'Is not installed' ) )->setSize(UI_icon::SIZE_SMALL)  );
+	endif;
+	
+	echo '&nbsp;';
+	
+	if( $module->isActivated() ):
+		echo UI::badge(UI_badge::SUCCESS,  UI::icon( 'check' )->setTitle( Tr::_( 'Is activated' ) )->setSize(UI_icon::SIZE_SMALL)  );
+	else:
+		echo UI::badge(UI_badge::DANGER,  UI::icon( 'times' )->setTitle( Tr::_( 'Is not activated' ) )->setSize(UI_icon::SIZE_SMALL)  );
+	endif;
+	
+};
+
+/**
+ * @var MVC_View $this
+ */
+
+?>
+<?=JetStudio_UI::search(
+		id: 'module_search',
+		placeholder: Tr::_('Search for module ...'),
+		search_action: 'Modules.search.search()',
+		search_reset_action: 'Modules.search.reset()') ?>
+
+<div style="max-width: 100% !important;overflow: hidden">
+	
+	
+	<?php
+	$module = Main::getCurrentModule();
+	if( $module ):
+		?>
+	<div class="card" id="current-item" style="border-right: none;margin-bottom: 10px;margin-left: 10px;" >
+		<div class="card-body">
+
+			<div style="display: grid;grid-template-columns: 80px 1fr;align-items: center;gap: 10px;">
+				<div>
+					<?php $showIcons( $module ); ?>
+				</div>
+				<div>
+					<?php if( !Main::getCurrentMenuItem() && !Main::getCurrentPage() ):
+						echo UI::badge(UI_badge::INFO, $module->getName())->addCustomCssStyle('font-size: 16px;');
+					else: ?>
+						<a href="<?= Http_Request::currentURI( unset_GET_params: [
+							'menu',
+							'set',
+							'item',
+							'menu',
+							'base',
+							'locale',
+							'page',
+							'action'
+						] ) ?>" style="font-weight: bolder;font-size: 20px;"><?= $module->getName() ?></a>
+					<?php endif; ?>
+					<br/>
+					<span style="font-size: 12px;"><?= $module->getLabel() ?></span>
+					<br>
+				</div>
+				
+			</div>
+			
+			<?php
+			echo $this->render('menu_item/list');
+			echo $this->render('page/list');
+			?>
+			
+		</div>
+	</div>
+	<?php endif; ?>
+
+
+<table class="table table-striped">
+	<?php foreach( Main::getModules() as $module ):
+		if( $module->getName() == Main::getCurrentModuleName() ) {
+			continue;
+		}
+		?>
+		<tr class="module_list_item"
+		    data-name="<?=$module->getName()?>"
+		    data-label="<?=$module->getLabel()?>"
+			>
+			<td style="width: 80px;">
+				<?php $showIcons( $module ); ?>
+			</td>
+			<td>
+				<a href="<?= Http_Request::currentURI( ['module' => $module->getName()], [
+					'menu_item',
+					'page',
+					'action'
+				] ) ?>"><?= $module->getName() ?></a><br/>
+				<span style="font-size: 12px;"><?= $module->getLabel() ?></span>
+			</td>
+		</tr>
+	<?php endforeach; ?>
+</table>
+</div>

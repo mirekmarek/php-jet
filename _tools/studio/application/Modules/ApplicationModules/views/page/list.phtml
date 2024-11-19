@@ -1,0 +1,70 @@
+<?php
+namespace JetStudioModule\ApplicationModules;
+
+use Jet\Http_Request;
+use Jet\MVC;
+use Jet\MVC_View;
+use Jet\Tr;
+use Jet\UI;
+use Jet\UI_badge;
+
+/**
+ * @var MVC_View $this
+ */
+
+$current = Main::getCurrentModule();
+
+if(
+	!$current
+) {
+	return;
+}
+
+$pages = $current->getPages();
+$bases = MVC::getBases();
+$pages = $pages->getList();
+
+if(!$pages) {
+	return;
+}
+
+$current_page = Main::getCurrentPage();
+?>
+<div class="card card-body" style="margin: 10px;">
+	<h5><?= Tr::_( 'Pages' ) ?></h5>
+
+	<table class="table table-striped">
+		<?php foreach( $bases as $base_id => $base ):
+			
+			if( empty( $pages[$base_id] ) ) {
+				continue;
+			}
+			?>
+			<tr>
+				<td style="font-size: 10px;padding-left: 20px;"><b><?= MVC::getBase( $base_id )->getName() ?></b></td>
+			</tr>
+			<?php foreach( $pages[$base_id] as $page ): ?>
+			<tr>
+				<td style="padding-left: 50px;">
+					<?php if( $current_page && $current_page->getKey() == $page->getKey() ):
+						echo UI::badge(UI_badge::INFO, $page->getName());
+					else: ?>
+						<a href="<?= Http_Request::currentURI( [
+							'base' => $page->getBaseId(),
+							'locale' => $page->getLocale(),
+							'page' => $page->getId(),
+						], [
+							'menu',
+							'set',
+							'item',
+							'menu',
+							'action'
+						] ) ?>"><?= $page->getName() ?></a>
+					<?php endif; ?>
+				</td>
+			</tr>
+		<?php endforeach; ?>
+		<?php endforeach; ?>
+	</table>
+
+</div>

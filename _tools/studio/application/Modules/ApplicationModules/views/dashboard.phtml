@@ -1,0 +1,19 @@
+<?php
+namespace JetStudioModule\ApplicationModules;
+
+use JEt\MVC_View;
+use JetStudio\JetStudio_UI;
+
+/**
+ * @var MVC_View $this
+ */
+
+$what_to_edit = Main::getCurrentWhatToEdit();
+
+?>
+<?= $this->render( 'js' ); ?>
+
+<div id="main-col" style="padding: 10px;">
+	<?= JetStudio_UI::messages(); ?>
+	<?= $this->render( 'models_list' ); ?>
+</div>

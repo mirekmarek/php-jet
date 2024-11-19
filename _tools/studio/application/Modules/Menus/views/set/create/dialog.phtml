@@ -1,0 +1,20 @@
+<?php
+
+namespace JetStudioModule\Menus;
+
+use Jet\UI;
+use Jet\Tr;
+use Jet\UI_dialog;
+
+$dialog = UI::dialog( 'dialog_create_new_menu_set', Tr::_( 'Create a new menu set' ), UI_dialog::SIZE_LARGE );
+
+echo $dialog->start();
+?>
+	<div id="set_create_form_area">
+		<?php require 'form.phtml'; ?>
+	</div>
+	<?php
+echo $dialog->footer();
+echo UI::button_save( Tr::_( 'Create' ) )->setOnClick( 'Menus.createSet.createSend()' );
+echo $dialog->end();
+

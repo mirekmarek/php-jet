@@ -1,0 +1,112 @@
+<?php
+namespace JetStudioModule\Forms;
+
+
+use Jet\Tr;
+use Jet\UI;
+use Jet\UI_button;
+use Jet\UI_dialog;
+use Jet\MVC_View;
+use JetStudio\JetStudio_UI;
+
+/**
+ * @var MVC_View $this
+ */
+
+$what_to_edit = '';
+
+$class = Main::getCurrentClass();
+
+$property = Main::getCurrentProperty();
+
+$generate_view_script_dialog = UI::dialog('generate_view_script_dialog', Tr::_('Generated view script'), UI_dialog::SIZE_EXTRA_LARGE);
+?>
+<script type="text/javascript">
+	const Forms = {
+		search: {
+			reset: function () {
+				$('#class_search').val('');
+
+				$('.class_list_item').show();
+			},
+			search: function () {
+
+				let value = $('#class_search').val();
+
+				if (!value) {
+					Modules.search.reset();
+					return;
+				}
+
+				value = value.toLowerCase();
+
+				$('.class_list_item').each(function (index, row) {
+					row = $(row);
+
+					const name = row.data('name').toLowerCase();
+
+					if (
+						name.includes(value)
+					) {
+						row.show();
+					} else {
+						row.hide();
+					}
+
+				});
+
+			}
+		},
+		generateViewScript: () => {
+			$('#generated_form_view_script').load( '<?=Main::getActionUrl('generate_view_script')?>' );
+			$('#generate_view_script_dialog').modal('show');
+		},
+	};
+</script>
+
+<div style="display: grid;grid-template-columns: 1fr 2fr;gap: 10px">
+	<div>
+		<?= $this->render( 'list' ); ?>
+	</div>
+	<div>
+		<div class="toolbar" id="main-toolbar">
+			<?php if( $class ): ?>
+				<?php
+				if($property) {
+					if($property->getFieldDefinition()) {
+						require 'property/edit/toolbar.phtml';
+					} else {
+						require 'property/set_type/toolbar.phtml';
+					}
+				}
+				?>
+				<?=UI::button( Tr::_('Generate view script') )->setClass(UI_button::CLASS_LIGHT)->setOnClick('Forms.generateViewScript();')?>
+			<?php endif; ?>
+		</div>
+		
+		<div id="main-col">
+			<br>
+			<div class="container-fluid">
+			<?= JetStudio_UI::messages(); ?>
+			
+			<?php
+			if($class) {
+				if($property) {
+					if($property->getFieldDefinition()) {
+						require 'property/edit/form.phtml';
+					} else {
+						require 'property/set_type/form.phtml';
+					}
+				}
+			}
+			?>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+
+<?=$generate_view_script_dialog->start()?>
+<textarea style="width: 100%;height: 500px;" id="generated_form_view_script"></textarea>
+<?=$generate_view_script_dialog->end()?>

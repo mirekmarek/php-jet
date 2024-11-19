@@ -1,0 +1,38 @@
+<?php
+namespace JetStudioModule\ApplicationModules;
+
+use Jet\Form_Renderer;
+use Jet\MVC_View;
+use JetStudio\JetStudio_UI;
+
+/**
+ * @var MVC_View $this
+ */
+
+$current = Main::getCurrentModule();
+
+if( !$current ) {
+	return;
+}
+
+$form = $current->getCloneForm();
+
+$form->renderer()->setDefaultLabelWidth( [
+	Form_Renderer::LJ_SIZE_MEDIUM => 12
+] );
+$form->renderer()->setDefaultFieldWidth( [
+	Form_Renderer::LJ_SIZE_MEDIUM => 12
+] );
+?>
+
+<?= $form->start() ?>
+<input type="hidden" name="generate" value="0"/>
+
+<?= JetStudio_UI::messages(); ?>
+
+<?= $form->field( 'module_name' ) ?>
+<?= $form->field( 'module_label' ) ?>
+<?= $form->field( 'vendor' ) ?>
+<?= $form->field( 'version' ) ?>
+
+<?= $form->end() ?>

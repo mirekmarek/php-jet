@@ -1,0 +1,167 @@
+<?php
+namespace JetStudioModule\Pages;
+?>
+
+<script type="text/javascript">
+	function copyPageIDtoClipboard()
+	{
+		const id_input = document.getElementById("page_id_to_cb");
+		id_input.select();
+		document.execCommand("copy");
+	}
+	
+	const Pages = {
+		
+		createPage: {
+			openDialog: function () {
+				$('#dialog_create_new_page').modal('show');
+			},
+			createSend: function () {
+				JetAjaxForm.submit(
+					'<?=Page::getCreateForm()->getId()?>',
+					{
+						onSuccess: function (form, response_data) {
+							location = '?base=<?=Main::getCurrentBaseId()?>&locale=<?=Main::getCurrentLocale()?>&page=' + encodeURIComponent(response_data['new_page_id'])
+						}
+					}
+				);
+			},
+			generateId: function (name) {
+				$.ajax({
+					url: '<?=Main::getActionUrl( 'generate_id', [], false )?>&name=' + encodeURIComponent(name),
+					dataType: 'json',
+					success: function (result) {
+						$('#page_create_form__id').val(result.id);
+					}
+				});
+			}
+		},
+		editPage: {
+			content: {
+				moduleSearch: {
+					reset: function() {
+						$('#create_page_content_module_search').val('');
+
+						$('.create_page_content_module_row').show();
+					},
+					search: function() {
+
+						let value = $('#create_page_content_module_search').val();
+
+						if(!value) {
+							Pages.editPage.content.moduleSearch.reset();
+							return;
+						}
+
+						value = value.toLowerCase();
+
+						$('.create_page_content_module_row').each( function (index, row) {
+							row = $(row);
+
+							const name = row.data('name').toLowerCase();
+							const label = row.data('label').toLowerCase();
+
+							if(
+								name.includes( value ) ||
+								label.includes( value )
+							) {
+								row.show();
+							} else {
+								row.hide();
+							}
+
+						} );
+
+					}
+				},
+
+				moduleSelected: function (module_name, row) {
+					let controllers = $('#create_page_content_form__controller_name');
+					let controller_action = $('#create_page_content_form__controller_action');
+					let module_name_input = $("#create_page_content_form__module_name");
+					let controller_area = $('#create_page_content_module_controller')[0];
+
+					$('.create_page_content_module_row').removeClass('table-info');
+					$(row).addClass('table-info');
+
+
+					module_name_input.val(module_name);
+
+					controllers.empty();
+					controller_action.empty();
+
+					controller_area.style.visibility='hidden';
+
+					controllers.removeClass('is-invalid');
+					controller_action.removeClass('is-invalid');
+
+					$.ajax({
+						url: '<?=Main::getActionUrl( 'get_module_controllers' )?>&module=' + encodeURIComponent(module_name),
+						dataType: 'json',
+						success: function (result) {
+							$.each(result['controllers'], function (name) {
+								controllers.append($('<option></option>').attr('value', name).text(name));
+							});
+
+							controllers.val(result['default_controller']);
+
+							$.each(result['actions'], function (name) {
+								controller_action.append($('<option></option>').attr('value', name).text(name));
+							});
+
+							controller_area.style.visibility='visible';
+
+						}
+					});
+				},
+				controllerSelected: function (controller) {
+					let module_name = $("#create_page_content_form__module_name");
+					let controller_action = $('#create_page_content_form__controller_action');
+
+					controller_action.empty();
+
+					$.ajax({
+						url: '<?=Main::getActionUrl( 'get_module_controller_actions' )?>&module=' + encodeURIComponent(module_name.val()) + '&controller=' + encodeURIComponent(controller),
+						dataType: 'json',
+						success: function (result) {
+
+							$.each(result['actions'], function (name) {
+								controller_action.append($('<option></option>').attr('value', name).text(name));
+							});
+						}
+					});
+				},
+
+				addContent: function () {
+					$('#dialog_create_new_page_content').modal('show');
+				},
+
+				createSend: function () {
+					JetAjaxForm.submit(
+						'create_page_content_form',
+						{
+							onSuccess: function (form, response_data) {
+							}
+						}
+					);
+				},
+
+				deleteContent: function (index) {
+					$('#delete_content_form__index').val(index);
+					$('#delete_content').modal('show');
+				},
+
+				deleteContentSend: function () {
+					$('#delete_content_form').submit();
+				}
+			}
+		},
+
+		deletePage: {
+			openDialog: function () {
+				$('#delete_page').modal('show');
+			}
+		}
+
+	}
+</script>

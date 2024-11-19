@@ -1,0 +1,80 @@
+<?php
+namespace JetStudioModule\Menus;
+
+use Jet\Tr;
+use Jet\UI;
+use JetStudio\JetStudio;
+
+$sets = Main::getSets();
+
+$set_icon = 'folder';
+$menu_icon = 'sitemap';
+?>
+<table class="table table-striped">
+	<?php foreach( $sets as $set ): ?>
+		<?php if( $set->getName() == Main::getCurrentMenuSetName() ): ?>
+			<tr>
+				<td>
+					<?php if( Main::getCurrentMenuId() ): ?>
+						<a href="<?= Main::getActionUrl( '', [], $set->getName(), false, false ) ?>"><b><?= UI::icon( $set_icon ) ?> <?= $set->getName() ?></b></a>
+					<?php else: ?>
+						<b><?= UI::icon( $set_icon ) ?> <?= $set->getName() ?></b>
+					<?php endif; ?>
+				</td>
+			</tr>
+			<?php foreach( $set->getMenus() as $menu ):
+				/**
+				 * @var Menu $menu
+				 */
+				?>
+				<?php if( $menu->getId() == Main::getCurrentMenuId() ): ?>
+				<tr>
+					<td style="padding-left: 30px;">
+						<?php if( Main::getCurrentMenuItemId() ): ?>
+							<a href="<?= Main::getActionUrl( '', [], $set->getName(), $menu->getId(), false ) ?>"><b><?= UI::icon( $menu_icon ) ?> <?= $menu->getLabel() ?></b></a>
+						<?php else: ?>
+							<b><?= UI::icon( $menu_icon ) ?> <?= $menu->getLabel() ?></b>
+						<?php endif; ?>
+					</td>
+				</tr>
+				<?php foreach( $menu->getItems() as $item ):
+					$label = $item->getTitle();
+					?>
+					<tr>
+						<td style="padding-left: 60px;">
+							<?php if( $item->getId() == Main::getCurrentMenuItemId() ): ?>
+								<b><?= $label ?></b>
+							<?php else: ?>
+								<a href="<?= Main::getActionUrl( '', [], $set->getName(), $menu->getId(), $item->getId() ) ?>"><?= $label ?></a>
+							<?php endif; ?>
+							
+							<?php
+							if($item->getSourceModuleName()):
+								$module_edit_url = JetStudio::getModule_ApplicationModules()?->getEditModuleURL( $item->getSourceModuleName() )??'';
+								?>
+								<br><small class="text-info"><?=Tr::_('Source module: ')?><a href="<?=$module_edit_url;?>" class="text-primary"><?=$item->getSourceModuleName()?></a></small>
+							<?php
+							endif;
+							
+							?>
+						</td>
+					</tr>
+				<?php endforeach; ?>
+			<?php else: ?>
+				<tr>
+					<td style="padding-left: 30px;"><a
+								href="<?= Main::getActionUrl( '', [], $set->getName(), $menu->getId(), false ) ?>"><?= UI::icon( $menu_icon ) ?> <?= $menu->getLabel() ?></a>
+					</td>
+				</tr>
+			<?php endif; ?>
+			<?php endforeach; ?>
+
+		<?php else: ?>
+			<tr>
+				<td>
+					<a href="<?= Main::getActionUrl( '', [], $set->getName(), false, false ) ?>"><?= UI::icon( $set_icon ) ?> <?= $set->getName() ?></a>
+				</td>
+			</tr>
+		<?php endif; ?>
+	<?php endforeach; ?>
+</table>

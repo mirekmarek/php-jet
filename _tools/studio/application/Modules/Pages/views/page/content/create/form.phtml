@@ -1,0 +1,191 @@
+<?php
+
+namespace JetStudioModule\Pages;
+
+use Jet\Application_Modules;
+use Jet\Form_Renderer;
+use Jet\Tr;
+use Jet\MVC_View;
+use JetStudio\JetStudio_UI;
+
+/**
+ * @var MVC_View $this
+ * @var Page $page
+ */
+
+$page = $this->getRaw( 'page' );
+
+$form = $page->getContentCreateForm();
+
+$form->renderer()->setDefaultLabelWidth( [
+	Form_Renderer::LJ_SIZE_MEDIUM => 3
+] );
+$form->renderer()->setDefaultFieldWidth( [
+	Form_Renderer::LJ_SIZE_MEDIUM => 9
+] );
+
+
+$selected_content_kind = $form->field( 'content_kind' )->getValue();
+
+echo $form->start();
+echo $form->getCommonMessage();
+echo $form->field( 'content_kind' );
+
+echo $form->field( 'output_position' );
+echo $form->field( 'output_position_order' );
+echo $form->field( 'is_cacheable' );
+
+
+?>
+	<div class="form-group row">
+		<label class="col-md-3 control-label"><?= Tr::_( 'Parameters:' ) ?></label>
+		<div class="col-md-9">
+			<?php
+			$i = 0;
+			while( $form->fieldExists( '/params/' . $i . '/key' ) ):
+				$field_key = $form->getField( '/params/' . $i . '/key' );
+				$field_value = $form->getField( '/params/' . $i . '/value' );
+				?>
+				<div class="input-group">
+					<span class="input-group-prepend" style="font-weight: bolder"><span
+								class="input-group-text"> </span></span>
+					<?= $field_key->input() ?>
+					<span class="input-group-prepend" style="font-weight: bolder"><span
+								class="input-group-text">=</span></span>
+					<?= $field_value->input() ?>
+					<span class="input-group-append" style="font-weight: bolder"><span class="input-group-text"> </span></span>
+				</div>
+				<?php
+				$i++;
+			endwhile; ?>
+		</div>
+	</div>
+
+	<?php
+
+$tabs_suffix = '_' . $page->getBaseId() . '_' . $page->getId();
+
+$form_id = $form->getId();
+?>
+	<ul class="nav nav-tabs">
+		<li class="nav-item">
+			<a class="nav-link<?= $selected_content_kind == Page_Content::CONTENT_KIND_MODULE ? ' active' : '' ?>"
+			   data-toggle="tab" href="#tab_content_module<?= $tabs_suffix ?>"
+			   onclick="$('#<?= $form_id ?>__content_kind').val('<?= Page_Content::CONTENT_KIND_MODULE ?>')"><?= Tr::_( 'Module' ) ?></a>
+		</li>
+		<li class="nav-item">
+			<a class="nav-link<?= $selected_content_kind == Page_Content::CONTENT_KIND_CLASS ? ' active' : '' ?>"
+			   data-toggle="tab" href="#tab_content_class<?= $tabs_suffix ?>"
+			   onclick="$('#<?= $form_id ?>__content_kind').val('<?= Page_Content::CONTENT_KIND_CLASS ?>')"><?= Tr::_( 'Controller class' ) ?></a>
+		</li>
+		<li class="nav-item">
+			<a class="nav-link<?= $selected_content_kind == Page_Content::CONTENT_KIND_STATIC ? ' active' : '' ?>"
+			   data-toggle="tab" href="#tab_content_static<?= $tabs_suffix ?>"
+			   onclick="$('#<?= $form_id ?>__content_kind').val('<?= Page_Content::CONTENT_KIND_STATIC ?>')"><?= Tr::_( 'Static content' ) ?></a>
+		</li>
+		<li class="nav-item">
+			<a class="nav-link<?= $selected_content_kind == Page_Content::CONTENT_KIND_CALLBACK ? ' active' : '' ?>"
+			   data-toggle="tab" href="#tab_content_callback<?= $tabs_suffix ?>"
+			   onclick="$('#<?= $form_id ?>__content_kind').val('<?= Page_Content::CONTENT_KIND_CALLBACK ?>')"><?= Tr::_( 'Callback' ) ?></a>
+		</li>
+	</ul>
+
+	<div class="tab-content">
+		<div id="tab_content_module<?= $tabs_suffix ?>"
+		     class="tab-pane fade<?= $selected_content_kind == Page_Content::CONTENT_KIND_MODULE ? ' show active' : '' ?>"
+		     style="padding-top: 10px;min-height: 400px;">
+			
+			<div class="row">
+				<div class="col-6">
+					<div class="card">
+						<div class="card-header"><?=Tr::_('Module:')?></div>
+						<div class="card-body">
+							
+							<?=JetStudio_UI::search(
+									id: 'create_page_content_module_search',
+									placeholder: Tr::_('Search for module ...'),
+									search_action: 'Pages.editPage.content.moduleSearch.search();',
+									search_reset_action: 'Pages.editPage.content.moduleSearch.reset();') ?>
+							
+							<div style="height: 250px;overflow: auto;">
+								<table class="table table-striped">
+									<?php foreach(Application_Modules::allModulesList() as $module): ?>
+										<tr
+												class="create_page_content_module_row"
+												id="create_page_content_module_row_<?=$module->getName()?>"
+												onclick="Pages.editPage.content.moduleSelected('<?=$module->getName()?>', this )"
+												data-name="<?=$module->getName()?>"
+												data-label="<?=$module->getLabel()?>"
+										>
+											<td><a href="#"><?=$module->getName()?></a></td>
+											<td><a href="#"><?=$module->getLabel()?></a></td>
+										</tr>
+									<?php endforeach; ?>
+								</table>
+								
+								<?=$form->field( 'module_name' );?>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-6">
+					<div class="card" id="create_page_content_module_controller" style="visibility: hidden;">
+						<div class="card-header"><?=Tr::_('Module controller:')?></div>
+						<div class="card-body">
+							<?php
+							$form->field( 'controller_name' )->input()->addJsAction( 'onchange', 'Pages.editPage.content.controllerSelected(this.value)' );
+							$form->field( 'controller_name' )->label()->setWidth([
+								Form_Renderer::LJ_SIZE_MEDIUM => 12
+							]);
+							$form->field( 'controller_name' )->input()->setWidth([
+								Form_Renderer::LJ_SIZE_MEDIUM => 12
+							]);
+							$form->field( 'controller_action' )->label()->setWidth([
+								Form_Renderer::LJ_SIZE_MEDIUM => 12
+							]);
+							$form->field( 'controller_action' )->input()->setWidth([
+								Form_Renderer::LJ_SIZE_MEDIUM => 12
+							]);
+							
+							echo $form->field( 'controller_name' );
+							echo $form->field( 'controller_action' );
+							?>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div id="tab_content_class<?= $tabs_suffix ?>"
+		     class="tab-pane fade<?= $selected_content_kind == Page_Content::CONTENT_KIND_CLASS ? ' show active' : '' ?>"
+		     style="padding-top: 10px;min-height: 400px;">
+			<?php
+			echo $form->field( 'controller_class' );
+			echo $form->field( 'controller_class_action' );
+			?>
+		</div>
+
+
+		<div id="tab_content_static<?= $tabs_suffix ?>"
+		     class="tab-pane fade<?= $selected_content_kind == Page_Content::CONTENT_KIND_STATIC ? ' show active' : '' ?>"
+		     style="padding-top: 10px;min-height: 400px;">
+			<?php
+			$form->field( 'output' )->input()->addCustomCssStyle( 'height: 380px' );
+			?>
+			<?= $form->field( 'output' )->input() ?>
+		</div>
+
+		<div id="tab_content_callback<?= $tabs_suffix ?>"
+		     class="tab-pane fade<?= $selected_content_kind == Page_Content::CONTENT_KIND_CALLBACK ? ' show active' : '' ?>"
+		     style="padding-top: 10px;min-height: 400px;">
+			<?php
+			$form->field( 'output_callback' )->label()->setWidth([Form_Renderer::LJ_SIZE_MEDIUM=>1]);
+			$form->field( 'output_callback' )->container()->setWidth([Form_Renderer::LJ_SIZE_MEDIUM=>11]);
+			?>
+			<?=$form->field( 'output_callback' )?>
+		</div>
+
+	</div>
+
+	<?php
+echo $form->end();

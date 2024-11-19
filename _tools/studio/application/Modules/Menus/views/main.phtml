@@ -1,0 +1,74 @@
+<?php
+namespace JetStudioModule\Menus;
+
+use Jet\MVC_View;
+use Jet\UI;
+use Jet\Tr;
+use JetStudio\JetStudio_UI;
+
+/**
+ * @var MVC_View $this
+ */
+?>
+<?= $this->render( 'js' ); ?>
+
+<?php if( Main::getCurrentMenuSet() ):
+
+	if( Main::getCurrentMenu() ):
+		if( Main::getCurrentMenuItem() ):
+			$what = 'item';
+			$this->setVar( 'item', Main::getCurrentMenuItem() );
+		else:
+			$what = 'menu';
+		endif;
+	else:
+		$what = 'set';
+	endif;
+	
+	if($this->getBool('plugin_mode')):
+		?>
+		<div class="toolbar" id="main-toolbar">
+			<?php require $what . '/toolbar.phtml'; ?>
+		</div>
+
+		<div id="main-col">
+			<br>
+			<?= JetStudio_UI::messages(); ?>
+			<?php require $what . '/edit.phtml'; ?>
+		</div>
+		<?php
+		return;
+	endif;
+	?>
+	<div class="toolbar" id="main-toolbar" style="display: grid;grid-template-columns: 1fr 3fr;gap: 10px;">
+		<div>
+			<?= UI::button_create( Tr::_( 'Create a new menu set' ) )->setOnClick( 'Menus.createSet.openDialog();' ); ?>
+		</div>
+		<div>
+			<?php require $what . '/toolbar.phtml'; ?>
+		</div>
+	</div>
+
+	<div id="main-col" style="display: grid;grid-template-columns: 1fr 3fr;gap: 10px;">
+		<div>
+			<?= $this->render( 'tree' ); ?>
+		</div>
+		<div>
+			<br>
+			<?= JetStudio_UI::messages(); ?>
+			<?php require $what . '/edit.phtml'; ?>
+		</div>
+	</div>
+<?php else: ?>
+	<div class="toolbar" id="main-toolbar">
+		<?= UI::button_create( Tr::_( 'Create a new menu set' ) )->setOnClick( 'Menus.createSet.openDialog();' ); ?>
+	</div>
+	<div id="main-col">
+		<br>
+		<?= JetStudio_UI::messages(); ?>
+		<?= $this->render( 'tree' ); ?>
+	</div>
+<?php endif; ?>
+
+
+<?= $this->render( 'set/create/dialog' ); ?>

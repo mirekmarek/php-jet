@@ -1,0 +1,24 @@
+<script>
+	const dbg = {
+		showBt: ( error_id, line ) => {
+			const line_id = line.dataset.line;
+			
+			document.getElementById('dbg-lines-'+error_id).querySelector('.dbg-bt-line-selected').classList.remove('dbg-bt-line-selected');
+			document.getElementById('dbg-codes-'+error_id).querySelector('.dbg-bt-code-selected').classList.remove('dbg-bt-code-selected');
+			
+			document.getElementById('dbg_bt_c_'+error_id+'_'+line_id).classList.add('dbg-bt-code-selected');
+			document.getElementById('dbg_bt_l_'+error_id+'_'+line_id).classList.add('dbg-bt-line-selected');
+		},
+		
+		showWarning: ( line ) => {
+			const line_id = line.dataset.line;
+
+			document.getElementById('dbg-warnings-list').querySelector('.dbg-warnings-list-item-selected').classList.remove('dbg-warnings-list-item-selected');
+			document.getElementById('dbg-warnings-details').querySelector('.dbg-warnings-list-details-selected').classList.remove('dbg-warnings-list-details-selected');
+
+			document.getElementById('dbg-w-'+line_id+'-i').classList.add('dbg-warnings-list-item-selected');
+			document.getElementById('dbg-w-'+line_id+'-d').classList.add('dbg-warnings-list-details-selected');
+		
+		}
+	};
+</script>

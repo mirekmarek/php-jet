@@ -94,9 +94,16 @@ trait MVC_Page_Trait_Initialization
 
 		Debug_Profiler::blockStart( 'Loading module pages' );
 		Debug_Profiler::message( 'base: ' . $base_id . ' locale: ' . $locale_str );
+		
+		
+		if( !SysConf_Jet_MVC::getUseNonActiveModulePages() ) {
+			$modules = Application_Modules::activatedModulesList();
+		} else {
+			$modules = Application_Modules::allModulesList();
+		}
+		
 
-
-		foreach( Application_Modules::activatedModulesList() as $manifest ) {
+		foreach( $modules as $manifest ) {
 
 			$root_dir = $manifest->getModuleDir().SysConf_Jet_Modules::getPagesDir().'/'.$base_id.'/';
 
@@ -134,7 +141,44 @@ trait MVC_Page_Trait_Initialization
 			}
 		}
 		Debug_Profiler::blockEnd( 'Loading module pages' );
-
+		
+	}
+	
+	/**
+	 * @param Application_Module_Manifest $module_manifest
+	 * @return MVC_Page_Interface[]
+	 */
+	public static function getModulePages( Application_Module_Manifest $module_manifest ) : array
+	{
+		$pages = [];
+		foreach( MVC::getBases() as $base ) {
+			$root_dir = $module_manifest->getModuleDir().SysConf_Jet_Modules::getPagesDir().'/'.$base->getId().'/';
+			
+			$sub_dirs = IO_Dir::getList($root_dir, get_files: false);
+			foreach($sub_dirs as $dir_path=>$dir_name) {
+				$page_data_file_path = $dir_path . SysConf_Jet_MVC::getPageDataFileName();
+				if(!IO_File::isReadable($page_data_file_path)) {
+					continue;
+				}
+				
+				$page_data = require_once $page_data_file_path;
+				$page_data['relative_path'] = '' . rawurlencode( basename( $dir_path ) ) . '/';
+				
+				$page = static::_createByData( $base, $base->getDefaultLocale(), $page_data );
+				$page->setSourceModuleName( $module_manifest->getName() );
+				$page->setLocale( $base->getDefaultLocale() );
+				
+				$pages[$page->getKey()] = $page;
+			}
+		}
+		
+		return $pages;
+	}
+	
+	public function saveModulePage( Application_Module_Manifest $module_manifest ) : void
+	{
+		$path = $module_manifest->getModuleDir().SysConf_Jet_Modules::getPagesDir().'/'.$this->getBaseId().'/'.rawurldecode($this->getRelativePathFragment()).'/'.SysConf_Jet_MVC::getPageDataFileName();
+		$this->setDataFilePath( $path );
 	}
 
 

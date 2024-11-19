@@ -1,0 +1,21 @@
+<?php
+namespace JetStudio;
+
+use Jet\UI;
+use Jet\UI_icon;
+
+?>
+
+<br><br><br>
+<div style="display: grid;justify-content: center;grid-template-columns: repeat(auto-fit, 200px);gap: 20px;">
+	<?php foreach( JetStudio::getModuleManifests() as $m ):
+		if($m->getUrlPathPart()):
+		?>
+		<div class="card" style="padding: 10px;margin: 20px;text-align: center;">
+			<div style="margin: 10px;"><a href="<?=$m->getURL()?>" style="color: black"><?= UI::icon( $m->getIcon() )->setSize( UI_icon::SIZE_EXTRA_LARGE ) ?></a></div>
+			<a href="<?=$m->getURL()?>"><?= $m->getLabelTranslated() ?></a>
+		</div>
+		<?php
+		endif;
+	endforeach; ?>
+</div>

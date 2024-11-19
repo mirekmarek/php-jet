@@ -1,0 +1,188 @@
+<?php
+namespace JetStudioModule\Bases;
+
+use Jet\Form_Renderer;
+use Jet\Tr;
+use Jet\UI;
+use Jet\Locale;
+use Jet\MVC_View;
+
+/**
+ * @var MVC_View $this
+ */
+
+$form = MVCBase::getCreateForm();
+
+$form->renderer()->setDefaultLabelWidth( [
+	Form_Renderer::LJ_SIZE_MEDIUM => 2
+] );
+$form->renderer()->setDefaultFieldWidth( [
+	Form_Renderer::LJ_SIZE_MEDIUM => 10
+] );
+
+?>
+<script type="text/javascript">
+	const Bases = {
+		createBase: {
+			generateId: function (name) {
+				$.ajax({
+					url: '<?=Main::getActionUrl( 'generate_id', [], false )?>&name=' + encodeURIComponent(name),
+					dataType: 'json',
+					success: function (result) {
+						$('#base_create_form__id').val(result.id);
+					}
+				});
+			},
+			addLocale: {
+				openDialog: function () {
+					Dialog_SelectLocale.open(function (locale_data) {
+
+						let selected_locale = locale_data.locale;
+						let locales_field = $('#base_create_form__locales');
+						let selected_locales;
+
+						if (!locales_field.val()) {
+							selected_locales = selected_locale;
+						} else {
+							selected_locales = locales_field.val().split(',');
+
+							if (selected_locales.indexOf(selected_locale) < 0) {
+								selected_locales.push(selected_locale);
+							}
+
+							selected_locales = selected_locales.join(',');
+						}
+
+
+						locales_field.val(selected_locales);
+
+						Bases.createBase.addLocale._actualize();
+					});
+				},
+
+				unSelect: function (locale) {
+					let locales_field = $('#base_create_form__locales');
+					let selected_locales = locales_field.val().split(',');
+
+					let new_selected_locales = [];
+					for (let i = 0; i < selected_locales.length; i++) {
+
+						if (selected_locales[i] != locale) {
+							new_selected_locales.push(selected_locales[i]);
+						}
+
+					}
+
+					new_selected_locales = new_selected_locales.join(',');
+					locales_field.val(new_selected_locales);
+					Bases.createBase.addLocale._actualize();
+				},
+
+				_actualize: function () {
+					const selected_locales = $('#base_create_form__locales').val().split(',');
+
+					$('.selected-locale-row').each(function (index, row) {
+						row = $(row);
+						const locale = row.data('locale');
+
+						if (selected_locales.indexOf(locale) > -1) {
+							row.show();
+						} else {
+							row.hide();
+						}
+
+					});
+
+				}
+			}
+		}
+	}
+
+</script>
+
+<div id="main-toolbar" style="display: grid;grid-template-columns: 1fr 3fr;" class="toolbar">
+	<div>
+	</div>
+	<div>
+		<b><?=Tr::_('Create a new base')?></b>
+		&nbsp;&nbsp;&nbsp;
+		<?= UI::button_save()->setOnClick( "$('#{$form->getId()}').submit()" ) ?>
+	</div>
+</div>
+<div id="main-edit-area" style="display: grid;grid-template-columns: 1fr 3fr;gap: 5px;">
+	<div>
+		<?= $this->render( 'bases_list' ); ?>
+	</div>
+	
+	<div style="padding: 10px;">
+		<div id="<?= MVCBase::getCreateForm()->getId() ?>_form_area">
+			<?php
+			$form->getField( 'name' )->input()->addJsAction( 'onkeyup', 'Bases.createBase.generateId(this.value);' );
+			
+			echo $form->start();
+			
+			echo $form->getCommonMessage();
+			
+			echo $form->field( 'name' );
+			echo $form->field( 'id' );
+			
+			$base_url = $form->field( 'base_url' );
+			?>
+			<?= $base_url->row()->start() ?>
+			<?= $base_url->label() ?>
+			
+			<?= $base_url->container()->start() ?>
+			<div class="input-group">
+				<span class="input-group-prepend" style="font-weight: bolder"><span class="input-group-text">https://</span></span><?php
+				echo $base_url->input();
+				echo $base_url->error();
+				?></div>
+			<?= $base_url->container()->end() ?>
+			
+			<?= $base_url->row()->end() ?>
+			<?php
+			
+			echo $form->field( 'locales' );
+			
+			echo $form->end();
+			?>
+		</div>
+		
+		<legend><?= Tr::_( 'Locales' ) ?></legend>
+		<div id="selected_locales_area">
+			<table class="table table">
+				<?php
+				$current_locale = Locale::getCurrentLocale();
+				$default_locales = MVCBase::getDefaultLocales( true );
+				
+				foreach( Locale::getAllLocalesList() as $l => $name ):
+					$l = new Locale( $l );
+					
+					$display = 'none';
+					
+					if( in_array( $l->toString(), $default_locales ) ) {
+						$display = '';
+					}
+					?>
+					<tr
+						class="selected-locale-row"
+						data-locale="<?= $l ?>"
+						id="selected_locale_<?= $l ?>"
+						style="cursor: pointer;display: <?= $display; ?>"
+					>
+						<td style="width: 30px"><?=UI::button_delete(' ')->setOnClick("Bases.createBase.addLocale.unSelect('$l');")?></td>
+						<td style="width: 30px;font-size: 20px;"><?= UI::flag( $l ) ?></td>
+						<td style="width: 50px"><?= $l ?></td>
+						<td style="width: 260px"><?= $l->getName( $current_locale ) ?></td>
+						<td style="width: 260px"><?= $l->getName( $l ) ?></td>
+						<td></td>
+					</tr>
+				<?php endforeach; ?>
+			</table>
+		</div>
+		<?= UI::button_create( Tr::_( 'Add locale' ) )->setOnClick( 'Bases.createBase.addLocale.openDialog()' ); ?>
+	</div>
+</div>
+
+
+<?=$this->render('dialog/select_locale');?>

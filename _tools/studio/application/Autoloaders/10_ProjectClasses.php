@@ -7,8 +7,8 @@
  */
 
 use Jet\Autoloader_Loader;
-use JetStudio\Project;
-use JetStudio\ProjectConf_Path;
+use JetStudio\JetStudio;
+use JetStudio\JetStudio_Conf_Path;
 
 /**
  *
@@ -31,12 +31,12 @@ return new class extends Autoloader_Loader
 	 */
 	public function getScriptPath( string $class_name ): bool|string
 	{
-		$root_namespace = Project::getApplicationNamespace().'\\';
+		$root_namespace = JetStudio::getApplicationNamespace().'\\';
 		
 		if( !str_starts_with($class_name, $root_namespace ) ) {
 			return false;
 		}
 		
-		return ProjectConf_Path::getApplicationClasses() . $this->classNameToPath( substr($class_name, strlen($root_namespace)) );
+		return JetStudio_Conf_Path::getApplicationClasses() . $this->classNameToPath( substr($class_name, strlen($root_namespace)) );
 	}
 };

@@ -1,0 +1,57 @@
+<?php
+use Jet\Debug_ErrorHandler_Error;
+use JetApplication\ErrorHandler_Display;
+
+
+/**
+ * @var Debug_ErrorHandler_Error[] $errors
+ * @var ErrorHandler_Display $handler
+ */
+
+require_once 'css.phtml';
+require_once 'js.phtml';
+?>
+
+
+<div id="dbg-warnings-btn" onclick="document.getElementById('dbg-warnings-dialog').style.display='block';">
+	&#9888; PHP Warnings! (<?=count($errors)?>)
+</div>
+
+<div id="dbg-warnings-dialog" style="display:none;">
+	<div class="dbg-warnings-dialog-title">
+		<b>&#9888; PHP Warnings and notices</b>
+		
+		<div class="dbg-links">
+			<?php require 'links.phtml'; ?>
+		</div>
+		
+		<button type="button" onclick="document.getElementById('dbg-warnings-dialog').style.display='none';">&#x2715;</button>
+	</div>
+	
+
+	<div class="dbg-warnings">
+		<div id="dbg-warnings-list">
+			<?php foreach($errors as $i=>$error): ?>
+				<div
+					id="dbg-w-<?=$i?>-i"
+					data-line="<?=$i?>"
+					class="dbg-warnings-list-item<?=($i==0)?' dbg-warnings-list-item-selected':''?>"
+					onclick="dbg.showWarning(this);"
+				>
+					<?=$error->getMessage()?>
+				</div>
+			<?php endforeach; ?>
+		</div>
+		<div id="dbg-warnings-details">
+			<?php foreach($errors as $i=>$error): ?>
+				<div
+						id="dbg-w-<?=$i?>-d"
+						class="dbg-warnings-details-item<?=($i==0)?' dbg-warnings-list-details-selected':''?>"
+				>
+					<?php require 'error.phtml'; ?>
+				</div>
+			<?php endforeach; ?>
+		</div>
+	</div>
+
+</div>

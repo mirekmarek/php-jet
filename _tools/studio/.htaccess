@@ -1,0 +1,5 @@
+RewriteEngine on
+
+RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+
+RewriteRule !(css/|js/|images/.*) index.php

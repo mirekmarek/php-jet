@@ -46,7 +46,6 @@ class ErrorHandler_Log extends Debug_ErrorHandler_Handler
 		$dir = $this->getLogDir();
 
 
-
 		Debug_ErrorHandler::doItSilent(function() use ($dir, $message) {
 			$log_fn = $dir . '/' . date( 'Y-m-d' ) . '.log';
 
@@ -54,8 +53,7 @@ class ErrorHandler_Log extends Debug_ErrorHandler_Handler
 				$log_fn,
 				$message . '_________________________________________________________________________________________' . PHP_EOL . PHP_EOL . PHP_EOL,
 				FILE_APPEND
-			)
-			) {
+			)) {
 				echo 'Warning! Log  file\'' . $log_fn . '\' is not writable!';
 				echo $message;
 
@@ -63,6 +61,7 @@ class ErrorHandler_Log extends Debug_ErrorHandler_Handler
 			}
 
 			chmod( $log_fn, 0666 );
+
 		});
 	}
 

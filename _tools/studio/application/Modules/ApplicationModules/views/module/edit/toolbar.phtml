@@ -1,0 +1,53 @@
+<?php
+namespace JetStudioModule\ApplicationModules;
+
+use Jet\Tr;
+use Jet\UI;
+use Jet\MVC_View;
+use Jet\UI_button;
+
+/**
+ * @var MVC_View $this
+ */
+
+$current = Main::getCurrentModule();
+
+if( !$current ) {
+	return;
+}
+
+$form = $current->getEditForm();
+
+?>
+
+<?= UI::button_save()->setOnClick( "$('#" . $form->getId() . "').submit()" ) ?>
+
+<?php if( $current->isInstalled() ):
+	if( !$current->isMandatory() ):
+		if( $current->isActivated() ):
+			?>
+			<?= UI::button( Tr::_( 'Deactivate' ) )->setUrl( Main::getActionUrl( 'deactivate' ) )->setClass( UI_button::CLASS_DANGER ) ?>
+		<?php
+		else:
+			?>
+			<?= UI::button( Tr::_( 'Activate' ) )->setUrl( Main::getActionUrl( 'activate' ) )->setClass( UI_button::CLASS_SUCCESS ) ?>
+		<?php
+		endif;
+		?>
+		<?= UI::button( Tr::_( 'Uninstall' ) )->setUrl( Main::getActionUrl( 'uninstall' ) )->setClass( UI_button::CLASS_DANGER ) ?>
+	<?php
+	endif;
+else:
+	?>
+	<?= UI::button( Tr::_( 'Install' ) )->setUrl( Main::getActionUrl( 'install' ) )->setClass( UI_button::CLASS_INFO ) ?>
+	<?= UI::button( Tr::_( 'Install and activate' ) )->setUrl( Main::getActionUrl( 'install_activate' ) )->setClass( UI_button::CLASS_SUCCESS ) ?>
+<?php endif; ?>
+
+<?= UI::button_create( Tr::_( 'Add page' ) )->setOnClick( 'Modules.editModule.addPage.openDialog()' ) ?>
+<?= UI::button_create( Tr::_( 'Add menu item' ) )->setOnClick( 'Modules.editModule.addMenuItem.openDialog()' ) ?>
+<?= UI::button( Tr::_( 'Collect dictionaries' ) )->setOnClick( "$('#collect_dictionaries_info').modal('show');" )->setIcon('file-arrow-down') ?>
+&nbsp;&nbsp;&nbsp;
+<?=UI::button( Tr::_( 'Clone this module' ) )->setOnClick( 'Modules.cloneModule.openDialog();' )->setClass(UI_button::CLASS_PRIMARY)->setIcon('clone');?>
+&nbsp;&nbsp;&nbsp;
+<?= UI::button_delete( ' ' )->setOnClick("$('#delete_module_info').modal('show');"); ?>
+

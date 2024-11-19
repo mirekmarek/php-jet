@@ -15,6 +15,7 @@ class SysConf_Jet_MVC
 {
 	protected static string $page_data_file_name = 'page_data.php';
 	protected static bool $use_module_pages = true;
+	protected static bool $use_non_active_module_pages = false;
 	protected static string $base_data_file_name = 'base_data.php';
 	protected static string $base_pages_dir = 'pages';
 	protected static string $base_layouts_dir = 'layouts';
@@ -37,6 +38,18 @@ class SysConf_Jet_MVC
 	{
 		static::$use_module_pages = $use_module_pages;
 	}
+	
+	public static function getUseNonActiveModulePages(): bool
+	{
+		return self::$use_non_active_module_pages;
+	}
+	
+	public static function setUseNonActiveModulePages( bool $use_non_active_module_pages ): void
+	{
+		self::$use_non_active_module_pages = $use_non_active_module_pages;
+	}
+	
+	
 
 	/**
 	 * @return string

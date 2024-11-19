@@ -226,7 +226,25 @@ interface MVC_Base_Interface
 	 * @return MVC_Page_Interface
 	 */
 	public function getHomepage( ?Locale $locale = null ): MVC_Page_Interface;
-
+	
+	/**
+	 * @return array
+	 */
+	public function getLayoutsList(): array;
+	
+	/**
+	 * @param string $layout_script_name
+	 * @return array
+	 */
+	public function getLayoutOutputPositions( string $layout_script_name ): array;
+	
+	/**
+	 * @param string $base_id
+	 * @return bool
+	 */
+	public static function exists( string $base_id ): bool;
+	
+	
 	/**
 	 *
 	 */

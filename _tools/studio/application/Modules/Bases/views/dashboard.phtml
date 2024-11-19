@@ -1,0 +1,16 @@
+<?php
+namespace JetStudioModule\Bases;
+
+use Jet\UI;
+use Jet\Tr;
+use JetStudio\JetStudio_UI;
+
+?>
+<div id="main-toolbar" class="toolbar">
+	<?= UI::button_create( Tr::_( 'Create a new base' ) )->setUrl( Main::getActionUrl('create_new_base') ) ?>
+</div>
+<div id="main-col">
+
+	<?= JetStudio_UI::messages(); ?>
+	<?= $this->render( 'bases_list' ); ?>
+</div>

@@ -107,8 +107,10 @@ legend {
 .toolbar {
 	background-color: #f0f0f0;
 	padding: 6px;
-	height: 46px;
-	margin-bottom: 10px;
+	display: flex;
+	justify-content: left;
+	align-items: center;
+	gap: 10px;
 }
 
 #__progress__ {

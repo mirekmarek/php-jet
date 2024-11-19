@@ -1,0 +1,46 @@
+<?php
+namespace JetStudioModule\Forms;
+
+
+use Jet\Http_Request;
+use Jet\Tr;
+use Jet\UI;
+use Jet\UI_badge;
+
+$current = Main::getCurrentClass();
+
+if( !$current ) {
+	return;
+}
+
+$current_property_name = Main::getCurrentPropertyName();
+?>
+
+<table style="width: 100%">
+	<tr>
+		<td colspan="3"><b><?= Tr::_( 'Properties' ) ?></b></td>
+	</tr>
+	<?php foreach( $current->getProperties() as $property ): ?>
+		<tr>
+			<td>
+				<?php if( $current_property_name == $property->getName() ):
+					echo UI::badge(UI_badge::INFO, $property->getName());
+				else: ?>
+					<a href="<?= Http_Request::currentURI( ['property' => $property->getName()], [
+						'action'
+					] ) ?>"><?= $property->getName() ?></a>
+				<?php endif; ?>
+			</td>
+
+			<td style="width: 200px;font-size: 11px;">
+				<div style="padding-top: 4px;">
+				</div>
+
+			</td>
+			<td style="width: 150px">
+				<?= $property->getIcons() ?>
+			</td>
+		</tr>
+
+	<?php endforeach; ?>
+</table>

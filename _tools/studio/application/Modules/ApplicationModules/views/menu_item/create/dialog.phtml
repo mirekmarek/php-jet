@@ -1,0 +1,26 @@
+<?php
+namespace JetStudioModule\ApplicationModules;
+
+use Jet\Tr;
+use Jet\UI;
+use Jet\MVC_View;
+use Jet\UI_dialog;
+
+/**
+ * @var MVC_View $this
+ */
+
+$add_menu_item_dialog = UI::dialog( 'add_menu_item_dialog', Tr::_( 'Add menu item' ), UI_dialog::SIZE_EXTRA_LARGE );
+
+?>
+
+
+<?= $add_menu_item_dialog->start() ?>
+<div id="create_menu_item_form_area">
+	<?= $this->render( 'menu_item/create/form' ) ?>
+</div>
+<?= $add_menu_item_dialog->footer() ?>
+<?= UI::button_save( Tr::_( 'Add menu item' ) )->setOnClick( 'Modules.editModule.addMenuItem.send()' ) ?>
+<?= $add_menu_item_dialog->end() ?>
+
+

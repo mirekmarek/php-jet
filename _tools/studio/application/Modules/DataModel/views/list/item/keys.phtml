@@ -1,0 +1,38 @@
+<?php
+namespace JetStudioModule\DataModel;
+
+use Jet\Http_Request;
+use Jet\Tr;
+use Jet\UI;
+use Jet\UI_badge;
+
+$current = DataModels::getCurrentModel();
+
+if(
+	!$current ||
+	!$current->getCustomKeys()
+) {
+	return;
+}
+
+$current_key_name = DataModels::getCurrentKeyName();
+?>
+<table style="width: 100%">
+	<tr>
+		<td><b><?= Tr::_( 'Custom keys and indexes' ) ?></b></td>
+	</tr>
+	<?php foreach( $current->getCustomKeys() as $key ): ?>
+		<tr>
+			<td>
+				<?php if( $current_key_name == $key->getName() ):
+					echo UI::badge(UI_badge::INFO, $key->getName());
+				else: ?>
+					<a href="<?= Http_Request::currentURI( ['key' => $key->getName()], [
+						'property',
+						'relation'
+					] ) ?>"><?= $key->getName() ?></a>
+				<?php endif; ?>
+			</td>
+		</tr>
+	<?php endforeach; ?>
+</table>
