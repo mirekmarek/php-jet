@@ -2,7 +2,6 @@
 
 namespace JetStudioModule\DataModel;
 
-use Jet\Form_Renderer;
 use Jet\Tr;
 use Jet\UI;
 use Jet\UI_button;
@@ -12,8 +11,6 @@ $current = DataModels::getCurrentProperty();
 
 
 $form = $current->getEditForm();
-$form->renderer()->setDefaultLabelWidth( [Form_Renderer::LJ_SIZE_MEDIUM => 2] );
-$form->renderer()->setDefaultFieldWidth( [Form_Renderer::LJ_SIZE_MEDIUM => 9] );
 
 echo $form->start();
 
@@ -26,6 +23,10 @@ $default_fields = [
 	'is_key',
 	'is_do_not_export',
 ];
+?>
+<br>
+<div class="form-fields">
+<?php
 
 foreach( $default_fields as $fn ) {
 	if( !$form->fieldExists( $fn ) ) {
@@ -39,16 +40,13 @@ foreach( $default_fields as $fn ) {
 $current->showEditFormFields();
 
 ?>
-	<div class="row">
-		<div class="col-md-2"></div>
-		<div class="col-md-9">
-			<?=UI::button(Tr::_('Form field definition'))->setUrl(
-					JetStudio::getModule_Forms()?->getPropertyEditURL( DataModels::getCurrentClassName(), $current->getName() )??''
-			)->setClass( UI_button::CLASS_INFO )?><br><br>
-
-		</div>
+	<div></div>
+	<div>
+		<?=UI::button(Tr::_('Form field definition'))->setUrl(
+			JetStudio::getModule_Forms()?->getPropertyEditURL( DataModels::getCurrentClassName(), $current->getName() )??''
+		)->setClass( UI_button::CLASS_INFO )?><br><br>
+		
 	</div>
+</div>
 	<?php
-
-
 echo $form->end();

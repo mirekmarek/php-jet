@@ -2,7 +2,6 @@
 
 namespace JetStudioModule\Menus;
 
-use Jet\Form_Renderer;
 use Jet\Tr;
 use Jet\UI;
 
@@ -10,12 +9,12 @@ $form = Menu_Item::getCreateForm();
 
 $form->getField( 'label' )->input()->addJsAction( 'onkeyup', 'Menus.createMenuItem.generateId(this.value);' );
 
-$form->renderer()->setDefaultLabelWidth( [Form_Renderer::LJ_SIZE_MEDIUM => 3] );
-$form->renderer()->setDefaultFieldWidth( [Form_Renderer::LJ_SIZE_MEDIUM => 9] );
 
 echo $form->start();
 echo $form->getCommonMessage();
-
+?>
+<div class="form-fields" style="grid-template-columns: 0.6fr 2fr;">
+<?php
 echo $form->field( 'label' );
 echo $form->field( 'id' );
 echo $form->field( 'icon' );
@@ -23,7 +22,11 @@ echo $form->field( 'index' );
 
 echo $form->field( 'separator_before' );
 echo $form->field( 'separator_after' );
+?>
+</div>
 
+
+<?php
 $tabs = UI::tabsJS( 'create_menu_item_target_tabs', [
 	'tab_direct_mvc'  => Tr::_( 'MVC link' ),
 	'tab_direct_link' => Tr::_( 'Direct link' ),
@@ -32,56 +35,18 @@ $tabs = UI::tabsJS( 'create_menu_item_target_tabs', [
 
 <?= $tabs->start() ?>
 <?= $tabs->tab( 'tab_direct_mvc' )->content()->start() ?>
-	<div style="padding-top: 10px;min-height: 600px;">
+	<div class="form-fields" style="grid-template-columns: 0.6fr 2fr;">
 		<?= $form->field( 'base_id' ) ?>
 		<?= $form->field( 'page_id' ) ?>
 		<?= $form->field( 'locale' ) ?>
-
-		<div class="form-group row">
-			<label class="col-md-3 control-label"><?= Tr::_( 'Custom URL parts:' ) ?></label>
-			<div class="col-md-9">
-				<?php for( $c = 0; $c < Menu_Item::URL_PARTS_COUNT; $c++ ):
-					$field = $form->getField( '/URL_parts/' . $c );
-					?>
-					<div class="input-group">
-						<span class="input-group-prepend" style="font-weight: bolder"><span
-									class="input-group-text">/</span></span>
-						<?= $field->input() ?>
-						<span class="input-group-append" style="font-weight: bolder"><span
-									class="input-group-text">/</span></span>
-					</div>
-				<?php endfor; ?>
-			</div>
-		</div>
-
-
-		<div class="form-group row">
-			<label class="col-md-3 control-label"><?= Tr::_( 'GET parameter:' ) ?></label>
-			<div class="col-md-9">
-				<?php for( $c = 0; $c < Menu_Item::GET_PARAMS_COUNT; $c++ ):
-					$field_key = $form->getField( '/GET_params/' . $c . '/key' );
-					$field_value = $form->getField( '/GET_params/' . $c . '/value' );
-					?>
-					<div class="input-group">
-						<span class="input-group-prepend" style="font-weight: bolder"><span
-									class="input-group-text"> </span></span>
-						<?= $field_key->input() ?>
-						<span class="input-group-prepend" style="font-weight: bolder"><span
-									class="input-group-text">=</span></span>
-						<?= $field_value->input() ?>
-						<span class="input-group-append" style="font-weight: bolder"><span
-									class="input-group-text"> </span></span>
-					</div>
-				<?php endfor; ?>
-			</div>
-		</div>
-
+		<?= $form->field( 'URL_parts' ) ?>
+		<?= $form->field( 'GET_params' ) ?>
 	</div>
 
 <?= $tabs->tab( 'tab_direct_mvc' )->content()->end() ?>
 
 <?= $tabs->tab( 'tab_direct_link' )->content()->start() ?>
-	<div style="padding-top: 10px;min-height: 600px;">
+	<div class="form-fields" style="grid-template-columns: 0.6fr 2fr;">
 		<?= $form->field( 'URL' ) ?>
 	</div>
 <?= $tabs->tab( 'tab_direct_link' )->content()->end() ?>

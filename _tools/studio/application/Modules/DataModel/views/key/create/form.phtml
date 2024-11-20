@@ -9,10 +9,14 @@ $form->field( 'properties' )->input()->addCustomCssStyle( 'height:200px' );
 echo $form->start();
 
 echo $form->getCommonMessage();
-
+?>
+<div class="form-fields" style="grid-template-columns: 0.5fr 2fr;">
+<?php
 echo $form->field( 'name' );
 echo $form->field( 'type' );
 echo $form->field( 'properties' );
-
+?>
+</div>
+<?php
 echo $form->end();
 

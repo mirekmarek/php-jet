@@ -33,6 +33,8 @@ class Main extends JetStudio_Module implements JetStudio_Module_Service_Pages
 	{
 		$this->manifest = $manifest;
 		
+		SysConf_Jet_MVC::setUseNonActiveModulePages( true );
+		
 		Factory_MVC::setPageClassName( Page::class );
 		Factory_MVC::setPageContentClassName( Page_Content::class );
 		SysConf_Jet_MVC::setUseNonActiveModulePages( true );

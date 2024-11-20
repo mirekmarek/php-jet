@@ -2,14 +2,11 @@
 
 namespace JetStudioModule\DataModel;
 
-use Jet\Form_Renderer;
 
 $form = DataModel_Definition_Model_Related_1to1::getCreateForm();
 
 $current_model = DataModels::getCurrentModel();
 
-$form->renderer()->setDefaultLabelWidth( [Form_Renderer::LJ_SIZE_MEDIUM => 4] );
-$form->renderer()->setDefaultFieldWidth( [Form_Renderer::LJ_SIZE_MEDIUM => 8] );
 
 $form->field( 'namespace' )->input()->addJsAction( 'onchange', 'DataModel.create.generateScriptPath(this.form)' );
 $form->field( 'class_name' )->input()->addJsAction( 'onkeyup',
@@ -21,6 +18,9 @@ $form->field( 'class_name' )->input()->addJsAction( 'onkeyup',
 
 echo $form->start();
 echo $form->getCommonMessage();
+?>
+<div class="form-fields" style="grid-template-columns: 0.5fr 2fr">
+<?php
 echo $form->field( 'type' );
 echo $form->field( 'namespace' );
 echo $form->field( 'class_name' );
@@ -38,6 +38,9 @@ foreach( $form->getFields() as $field ) {
 	echo $field;
 }
 
+?>
+</div>
+<?php
 
 echo $form->end();
 

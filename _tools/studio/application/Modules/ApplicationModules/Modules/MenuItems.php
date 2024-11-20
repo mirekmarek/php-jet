@@ -16,6 +16,7 @@ use Jet\IO_File;
 use Jet\Navigation_Menu_Item;
 use Jet\Navigation_MenuSet;
 use Jet\SysConf_Jet_Modules;
+use JetStudio\JetStudio;
 use JetStudioModule\Menus\Menu_Item;
 
 
@@ -84,7 +85,7 @@ class Modules_MenuItems extends BaseObject
 		if( !$this->__menu_item_create_form ) {
 
 			$form = Menu_Item::getCreateForm();
-			$form->setCustomTranslatorDictionary( 'menus' );
+			$form->setCustomTranslatorDictionary( JetStudio::getModule_Menus()->getManifest()->getDictionaryName() );
 
 			$target_menus = ['' => ''];
 			foreach( Navigation_MenuSet::getList() as $set ) {
@@ -155,8 +156,8 @@ class Modules_MenuItems extends BaseObject
 		$menu_item->setBaseId( $form->field( 'base_id' )->getValue() );
 		$menu_item->setLocale( $form->field( 'locale' )->getValue() );
 
-		$menu_item->setUrlParts( Menu_Item::catchURLParts( $form ) );
-		$menu_item->setGetParams( Menu_Item::catchGETParams( $form ) );
+		$menu_item->setUrlParts( $form->field( 'URL_parts' )->getValue() );
+		$menu_item->setGetParams( $form->field( 'GET_params' )->getValue() );
 
 		$this->addMenuItem( $set_name, $menu_item );
 		

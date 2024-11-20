@@ -2,7 +2,6 @@
 
 namespace JetStudioModule\DataModel;
 
-use Jet\Form_Renderer;
 use Jet\MVC_View;
 
 /**
@@ -13,19 +12,15 @@ $key = DataModels::getCurrentKey();
 
 $form = $key->getEditForm();
 
-$form->renderer()->setDefaultLabelWidth( [
-	Form_Renderer::LJ_SIZE_MEDIUM => 2
-] );
-$form->renderer()->setDefaultFieldWidth( [
-	Form_Renderer::LJ_SIZE_MEDIUM => 10
-] );
-
-
 echo $form->start();
-
+?>
+<div class="form-fields">
+<?php
 echo $form->field( 'name' );
 echo $form->field( 'type' );
 echo $form->field( 'properties' );
-
+?>
+</div>
+<?php
 echo $form->end();
 

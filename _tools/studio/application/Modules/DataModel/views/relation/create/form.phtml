@@ -20,19 +20,33 @@ $related = $this->getRaw( 'related' );
 echo $form->start();
 
 echo $form->getCommonMessage();
+?>
+<div class="form-fields" style="grid-template-columns: 1fr 1fr;">
+<?php
 
 echo $form->field( 'related_model_class_name' );
 echo $form->field( 'join_type' );
+?>
+</div>
 
+<div style="display: grid;grid-template-columns: 1fr auto 1fr;gap: 10px;align-items: center">
+<?php
 $form->setDoNotTranslateTexts( true );
-foreach( $related->getProperties() as $property ) {
+foreach( $related->getProperties() as $property ):
 	if( !$form->fieldExists( 'glue_' . $property->getName() ) ) {
 		continue;
 	}
-
-	echo $form->field( 'glue_' . $property->getName() );
-}
-
+	$f = $form->field( 'glue_' . $property->getName() );
+	?>
+	<?=$f->label()?>
+	<div><?=UI::icon('arrows-left-right-to-line')?></div>
+	<div><?=$f->input()?></div>
+	<?php
+endforeach;
+?>
+</div>
+<br>
+<?php
 echo UI::dialog( '', '', UI_dialog::SIZE_LARGE )->footer();
 echo $form->end();
 

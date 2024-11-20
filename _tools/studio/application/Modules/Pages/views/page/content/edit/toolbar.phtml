@@ -1,0 +1,19 @@
+<?php
+namespace JetStudioModule\Pages;
+
+use Jet\MVC_View;
+use Jet\Tr;
+use Jet\UI;
+
+/**
+ * @var MVC_View $this
+ * @var Page $page
+ */
+
+$page = $this->getRaw( 'page' );
+
+$form = $page->getEditForm_content();
+
+?>
+<?= UI::button_save( Tr::_('Stave content settings') )->setOnClick( "$('#{$form->getId()}').submit()" ) ?>
+<?= UI::button_create( Tr::_( 'Add content' ) )->setOnClick( 'Pages.editPage.content.addContent()' )?>

@@ -1,0 +1,18 @@
+<?php
+namespace JetStudioModule\Pages;
+
+use Jet\MVC_View;
+use Jet\Tr;
+use Jet\UI;
+
+/**
+ * @var MVC_View $this
+ * @var Page $page
+ */
+
+$page = $this->getRaw( 'page' );
+
+$form = $page->getEditForm_callback();
+
+?>
+<?= UI::button_save( Tr::_('Stave content settings') )->setOnClick( "$('#{$form->getId()}').submit()" ) ?>

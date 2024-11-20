@@ -20,6 +20,9 @@ $form->field( 'class_name' )->input()->addJsAction( 'onkeyup',
 
 echo $form->start();
 echo $form->getCommonMessage();
+?>
+<div class="form-fields" style="grid-template-columns: 0.5fr 2fr">
+<?php
 echo $form->field( 'type' );
 echo $form->field( 'namespace' );
 echo $form->field( 'class_name' );
@@ -37,6 +40,9 @@ foreach( $form->getFields() as $field ) {
 
 	echo $field;
 }
+?>
+</div>
+<?php
 
 echo $form->end();
 

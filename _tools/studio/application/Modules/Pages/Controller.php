@@ -11,7 +11,6 @@ namespace JetStudioModule\Pages;
 use Jet\AJAX;
 use Jet\Http_Headers;
 use Jet\Http_Request;
-use Jet\SysConf_Jet_MVC;
 use Jet\Tr;
 use Jet\UI_messages;
 use JetStudio\JetStudio;
@@ -21,10 +20,8 @@ class Controller extends JetStudio_Module_Controller {
 	
 	protected function resolve() : string
 	{
-		SysConf_Jet_MVC::setUseNonActiveModulePages( true );
 		
-		
-		$action = Http_Request::GET()->getString('pages_action');
+		$action = Http_Request::GET()->getString('pages_action', 'default');
 		return match ($action) {
 			'content_delete',
 			'add',
@@ -171,6 +168,8 @@ class Controller extends JetStudio_Module_Controller {
 			UI_messages::danger(
 				Tr::_( 'There are some problems ... Please check the form.' )
 			);
+			
+			$this->output('main');
 		}
 		
 	}

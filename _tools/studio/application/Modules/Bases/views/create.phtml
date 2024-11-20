@@ -1,7 +1,6 @@
 <?php
 namespace JetStudioModule\Bases;
 
-use Jet\Form_Renderer;
 use Jet\Tr;
 use Jet\UI;
 use Jet\Locale;
@@ -13,12 +12,7 @@ use Jet\MVC_View;
 
 $form = MVCBase::getCreateForm();
 
-$form->renderer()->setDefaultLabelWidth( [
-	Form_Renderer::LJ_SIZE_MEDIUM => 2
-] );
-$form->renderer()->setDefaultFieldWidth( [
-	Form_Renderer::LJ_SIZE_MEDIUM => 10
-] );
+$form->getField( 'name' )->input()->addJsAction( 'onkeyup', 'Bases.createBase.generateId(this.value);' );
 
 ?>
 <script type="text/javascript">
@@ -116,39 +110,34 @@ $form->renderer()->setDefaultFieldWidth( [
 	
 	<div style="padding: 10px;">
 		<div id="<?= MVCBase::getCreateForm()->getId() ?>_form_area">
-			<?php
-			$form->getField( 'name' )->input()->addJsAction( 'onkeyup', 'Bases.createBase.generateId(this.value);' );
+
+			<?=$form->start()?>
+			<?=$form->getCommonMessage();?>
+
+			<div class="form-fields">
+				<?=$form->field( 'name' );?>
+				<?=$form->field( 'id' );?>
+				
+				<?php
+				$base_url = $form->field( 'base_url' );
+				?>
+				
+				<?= $base_url->label() ?>
+				<div class="input-group">
+					<span class="input-group-prepend" style="font-weight: bolder"><span class="input-group-text">https://</span></span><?php
+					echo $base_url->input();
+					echo $base_url->error();
+					?>
+				</div>
+				
+				<?=$form->field( 'locales' );?>
+				
+			</div>
 			
-			echo $form->start();
-			
-			echo $form->getCommonMessage();
-			
-			echo $form->field( 'name' );
-			echo $form->field( 'id' );
-			
-			$base_url = $form->field( 'base_url' );
-			?>
-			<?= $base_url->row()->start() ?>
-			<?= $base_url->label() ?>
-			
-			<?= $base_url->container()->start() ?>
-			<div class="input-group">
-				<span class="input-group-prepend" style="font-weight: bolder"><span class="input-group-text">https://</span></span><?php
-				echo $base_url->input();
-				echo $base_url->error();
-				?></div>
-			<?= $base_url->container()->end() ?>
-			
-			<?= $base_url->row()->end() ?>
-			<?php
-			
-			echo $form->field( 'locales' );
-			
-			echo $form->end();
-			?>
+			<?=$form->end();?>
 		</div>
 		
-		<legend><?= Tr::_( 'Locales' ) ?></legend>
+		<div class="section-title"><?= Tr::_( 'Locales' ) ?></div>
 		<div id="selected_locales_area">
 			<table class="table table">
 				<?php

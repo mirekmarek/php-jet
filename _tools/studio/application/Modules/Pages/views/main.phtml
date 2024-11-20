@@ -31,7 +31,7 @@ $this->setVar( 'page', Main::getCurrentPage() );
 	endif;
 	
 	?>
-	<div class="toolbar" id="main-toolbar" style="display: grid;grid-template-columns: 1fr 3fr;gap: 10px;">
+	<div class="toolbar main-layout" id="main-toolbar">
 		<div style="display: grid;grid-template-columns: 1fr 1fr;">
 			<div class="dropdown" style="display: inline-block">
 				<button class="btn btn-light dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true"
@@ -68,7 +68,7 @@ $this->setVar( 'page', Main::getCurrentPage() );
 	</div>
 
 
-	<div id="main-col" style="display: grid;grid-template-columns: 1fr 3fr;gap: 10px;">
+	<div id="main-col" class="main-layout">
 		<div>
 			<?= $this->render( 'pages_tree' ); ?>
 		</div>

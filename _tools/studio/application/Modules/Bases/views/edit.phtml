@@ -6,7 +6,6 @@ use Jet\UI;
 use Jet\Tr;
 use JetStudio\JetStudio_UI;
 use Jet\Locale;
-use Jet\Form_Renderer;
 use Jet\UI_dialog;
 
 /**
@@ -16,13 +15,6 @@ use Jet\UI_dialog;
 $base = Main::getCurrentBase();
 
 $form = $base->getEditForm();
-
-$form->renderer()->setDefaultLabelWidth( [
-	Form_Renderer::LJ_SIZE_MEDIUM => 1
-] );
-$form->renderer()->setDefaultFieldWidth( [
-	Form_Renderer::LJ_SIZE_MEDIUM => 8
-] );
 
 
 $add_locale_form = $base->getAddLocaleForm();
@@ -96,10 +88,10 @@ $sort_dialog = UI::dialog( 'locales_sort_dialog', Tr::_( 'Sort locales' ), UI_di
 		<?= $this->render( 'bases_list' ); ?>
 	</div>
 
-	<div>
+	<div style="padding: 10px;">
 		<?= $form->start() ?>
-		<legend style="margin-top: 10px"><?= Tr::_( 'Base' ) ?>
-			<span style="font-weight: bolder"><?= $base->getName() ?></span>
+
+		<div class="section-title"><?= Tr::_( 'Base' ) ?> <span style="font-weight: bolder"><?= $base->getName() ?></span>
 
 			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 			<a href="#" onclick="copyBaseIDtoClipboard();" class="entity-id">
@@ -107,85 +99,63 @@ $sort_dialog = UI::dialog( 'locales_sort_dialog', Tr::_( 'Sort locales' ), UI_di
 				<input id="base_id_to_cb" readonly value="<?= $base->getId() ?>"/>
 			</a>
 
-		</legend>
-		
+		</div>
 		
 		<?= JetStudio_UI::messages(); ?>
 
-		<fieldset style="margin-bottom: 40px;">
+		<div class="form-fields">
 			<?= $form->field( 'name' ) ?>
 			<?= $form->field( 'is_default' ) ?>
 			<?= $form->field( 'is_secret' ) ?>
 			<?= $form->field( 'is_active' ) ?>
 			<?= $form->field( 'SSL_required' ) ?>
 			<?= $form->field( 'initializer' ) ?>
-		</fieldset>
+		</div>
 		
 		<?php foreach( $base->getLocales() as $locale ): ?>
-			<fieldset style="margin-bottom: 40px;">
-				<legend>
-
+			<div>
+				<div class="section-title">
 					<span style="padding-left: 30px;"><?= UI::flag( $locale ) ?></span>
 					<span style="padding-left: 10px;"><?= $locale->getName( Locale::getCurrentLocale() ) ?></span>
 					<span style="padding-left: 10px;font-size: 12px;"><?= $locale ?></span>
 					<span style="padding-left: 10px;font-size: 12px;"><?= $locale->getName( $locale ) ?></span>
+				</div>
 
-				</legend>
-				
-				<?= $form->field( '/' . $locale . '/is_active' ) ?>
-				<?= $form->field( '/' . $locale . '/SSL_required' ) ?>
-				<?= $form->field( '/' . $locale . '/title' ) ?>
 
-				<div class="form-group row">
-					<label class="control-label col-md-1"><?= Tr::_( 'URLs:' ); ?></label>
-					<div class="col-md-5">
-						<div class="container">
+				<div class="form-fields">
+					<?= $form->field( '/' . $locale . '/is_active' ) ?>
+					<?= $form->field( '/' . $locale . '/SSL_required' ) ?>
+					<?= $form->field( '/' . $locale . '/title' ) ?>
+
+					<label class="control-label"><?= Tr::_( 'URLs:' ); ?></label>
+					<div>
+						<?php for( $u = 0; $u < 100; $u++ ):
+							if( !$form->fieldExists( '/' . $locale . '/URLs/' . $u ) ) {
+								break;
+							}
 							
-							
-							<?php for( $u = 0; $u < 100; $u++ ):
-								if( !$form->fieldExists( '/' . $locale . '/URLs/' . $u ) ) {
-									break;
-								}
-								
-								$field = $form->field( '/' . $locale . '/URLs/' . $u );
-								$field->input()->addCustomCssStyle( 'width: 400px' );
-								?>
-								<?= $field->row()->start() ?>
-								<?= $field->error() ?>
-								<div class="input-group">
-											<span class="input-group-prepend">
-												<span class="input-group-text"><?= $base->getSSLRequired() ? 'https://' : 'http://' ?></span>
-											</span>
-									<?= $field->input() ?>
-								</div>
-								<?= $field->row()->end() ?>
-							<?php endfor; ?>
-						</div>
-
+							$field = $form->field( '/' . $locale . '/URLs/' . $u );
+							$field->input()->addCustomCssStyle( 'width: 400px' );
+							?>
+							<?= $field->row()->start() ?>
+							<?= $field->error() ?>
+							<div class="input-group" style="margin: 2px;">
+								<span class="input-group-prepend">
+									<span class="input-group-text"><?= $base->getSSLRequired() ? 'https://' : 'http://' ?></span>
+								</span>
+								<?= $field->input() ?>
+							</div>
+							<?= $field->row()->end() ?>
+						<?php endfor; ?>
+						
 					</div>
+
+					<?=$form->field('/' . $locale . '/meta_tags')?>
+					<?=$form->field('/' . $locale . '/params')?>
 				</div>
-
-
-
-				<div class="form-group row">
-					<label class="control-label col-md-1"><?= Tr::_( 'Default Meta Tags:' ); ?></label>
-					<div class="col-md-10">
-						<?=$form->field('/' . $locale . '/meta_tags')->input()?>
-					</div>
-				</div>
-
-
-				<br>
-				<div class="form-group row">
-					<label class="control-label col-md-1"><?= Tr::_( 'Parameters:' ); ?></label>
-					<div class="col-md-10">
-						<?=$form->field('/' . $locale . '/params')->input()?>
-					</div>
-				</div>
-				
-			</fieldset>
+			</div>
 		<?php endforeach; ?>
-		
+  
 		
 		<?= $form->end() ?>
 		

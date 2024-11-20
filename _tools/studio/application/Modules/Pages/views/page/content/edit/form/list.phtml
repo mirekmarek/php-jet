@@ -6,7 +6,6 @@ use Jet\Application_Modules;
 use Jet\MVC_Layout;
 use Jet\Tr;
 use Jet\UI;
-use Jet\Form_Renderer;
 use Jet\UI_button;
 use Jet\MVC_View;
 
@@ -18,12 +17,7 @@ use Jet\MVC_View;
 $page = $this->getRaw( 'page' );
 
 $form = $page->getEditForm_content();
-$form->renderer()->setDefaultLabelWidth( [
-	Form_Renderer::LJ_SIZE_MEDIUM => 2
-] );
-$form->renderer()->setDefaultFieldWidth( [
-	Form_Renderer::LJ_SIZE_MEDIUM => 7
-] );
+
 
 $base = $page->getBase();
 
@@ -117,20 +111,21 @@ if( !$delete_content_action_creator ) {
 		$f_prefix = '/content/' . $i . '/';
 
 		?>
-		<div>
+		<div style="margin-bottom: 10px">
 			<div class="card">
 				<div class="card-header" data-toggle="collapse"
 				     data-target="#content_<?= $base_id ?>_<?= $page_id ?>_<?= $i ?>">
-					<div style="display: grid;grid-template-columns: 100px 200px 1fr 1fr;align-items: center;gap: 5px;">
+					<div style="display: grid;grid-template-columns: 30px 120px 1fr 200px;align-items: center;gap: 5px;">
 						
 							<div><?= $content->getOutputPositionOrder() ?>.</div>
 
-							<?php switch( $content->getContentKind() ) {
+							<?php switch( $content->getContentKind() ):
 								case Page_Content::CONTENT_KIND_MODULE:
 									$known = isset( $modules[$content->getModuleName()] );
 
 									if( $known ) {
-										$label = $modules[$content->getModuleName()];
+										//$label = $modules[$content->getModuleName()];
+										$label = $content->getModuleName();
 									} else {
 										$label = $content->getModuleName();
 									}
@@ -146,9 +141,9 @@ if( !$delete_content_action_creator ) {
 									<div style="display: flex;align-items: center;gap: 10px;">
 
 										<div><?= $label ?></div>
-										<div>-></div>
+										<div>&gt;</div>
 										<div><?= $content->getControllerName() ?></div>
-										<div>-></div>
+										<div>&gt;</div>
 										<div><?= $content->getControllerAction() ?></div>
 
 									</div>
@@ -160,7 +155,7 @@ if( !$delete_content_action_creator ) {
 									<div><b><?= Tr::_( 'Controller class: ' ) ?></b></div>
 									<div style="display: flex;align-items: center;gap: 10px;">
 										<div><?= $content->getControllerClass() ?></div>
-										<div>-></div>
+										<div>&gt;</div>
 										<div><?= $content->getControllerAction() ?></div>
 									</div>
 									<?php
@@ -178,53 +173,28 @@ if( !$delete_content_action_creator ) {
 									?>
 									<div><b><?= Tr::_( 'Callback:' ) ?></b></div>
 									<div>
-										<?= $callback[0] ?>::<?= $callback[1] ?><span style="color: #c9c9c9">( Jet\MVC_Page $page, Jet\MVC_Page_Content $content )</span>
+										<?= $callback[0] ?>::<?= $callback[1] ?>
+										<span style="color: #c9c9c9">( Jet\MVC_Page $page, Jet\MVC_Page_Content $content )</span>
 									</div>
 									<?php
 									break;
 
-							} ?>
+							endswitch; ?>
 							<div style="text-align: right">
 								<?= UI::button_delete( Tr::_( 'Delete this content' ) )->setOnClick( $delete_content_action_creator( $i ) )->setSize( UI_button::SIZE_EXTRA_SMALL ) ?>
 							</div>
 					</div>
 				</div>
 
-				<div class="card-body collapse" id="content_<?= $base_id ?>_<?= $page_id ?>_<?= $i ?>">
+				<div class="card-body collapse form-fields" id="content_<?= $base_id ?>_<?= $page_id ?>_<?= $i ?>">
 					<?php
 					echo $form->field( $f_prefix . 'output_position' );
 					echo $form->field( $f_prefix . 'output_position_order' );
 					echo $form->field( $f_prefix . 'is_cacheable' );
-					?>
-					<hr/>
-					<div class="form-group row">
-						<label class="col-md-2 control-label"><?= Tr::_( 'Parameters:' ) ?></label>
-						<div class="col-md-7">
-							<?php
-							$i = 0;
-							while( $form->fieldExists( $f_prefix . 'params/' . $i . '/key' ) ):
-								$field_key = $form->getField( $f_prefix . 'params/' . $i . '/key' );
-								$field_value = $form->getField( $f_prefix . 'params/' . $i . '/value' );
-								?>
-								<div class="input-group">
-									<span class="input-group-prepend" style="font-weight: bolder"><span
-												class="input-group-text"> </span></span>
-									<?= $field_key->input() ?>
-									<span class="input-group-prepend" style="font-weight: bolder"><span
-												class="input-group-text">=</span></span>
-									<?= $field_value->input() ?>
-									<span class="input-group-append" style="font-weight: bolder"><span
-												class="input-group-text"> </span></span>
-								</div>
-								<?php
-								$i++;
-							endwhile; ?>
-						</div>
-					</div>
-					<hr/>
+					echo $form->field( $f_prefix . 'params' );
+					
 
-
-					<?php switch( $content->getContentKind() ) {
+					switch( $content->getContentKind() ) {
 						case Page_Content::CONTENT_KIND_MODULE:
 							$ids = [
 								'module_mame'       => $form->field( $f_prefix . 'module_name' )->getId(),
@@ -251,7 +221,7 @@ if( !$delete_content_action_creator ) {
 						case Page_Content::CONTENT_KIND_STATIC:
 							$form->field( $f_prefix . 'output' )->input()->addCustomCssStyle( 'height: 400px' );
 
-							echo $form->field( $f_prefix . 'output' )->input();
+							echo $form->field( $f_prefix . 'output' );
 
 							break;
 						case Page_Content::CONTENT_KIND_CALLBACK:
@@ -268,11 +238,3 @@ if( !$delete_content_action_creator ) {
 	<?php endforeach; ?>
 
 <?php endforeach; ?>
-
-	<?php
-$form->renderer()->setDefaultLabelWidth( [
-	Form_Renderer::LJ_SIZE_MEDIUM => 2
-] );
-$form->renderer()->setDefaultFieldWidth( [
-	Form_Renderer::LJ_SIZE_MEDIUM => 6
-] );

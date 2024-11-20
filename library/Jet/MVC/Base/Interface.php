@@ -238,12 +238,6 @@ interface MVC_Base_Interface
 	 */
 	public function getLayoutOutputPositions( string $layout_script_name ): array;
 	
-	/**
-	 * @param string $base_id
-	 * @return bool
-	 */
-	public static function exists( string $base_id ): bool;
-	
 	
 	/**
 	 *

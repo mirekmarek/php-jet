@@ -69,12 +69,13 @@ class DataModel_Definition_Property_DataModel extends Jet_DataModel_Definition_P
 		if( $related_class ) {
 			$related_model = $related_class->getDefinition();
 			?>
+			<div></div>
+			
 			<div class="card">
 				<div class=" card-body">
 					<?=Tr::_( 'Related DataModel:' )?>&nbsp;&nbsp;<a href="?class=<?=$related_class->getFullClassName()?>"><?=$related_model->getClassName()?> (<?=$related_model->getModelName()?>)</a>
 				</div>
 			</div>
-			<br>
 			<?php
 		}
 	}

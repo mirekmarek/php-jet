@@ -38,9 +38,9 @@ use ReflectionClass;
 use ReflectionProperty;
 
 
-class Forms_Class_Property
+class FormClass_Property
 {
-	protected Forms_Class $class;
+	protected FormClass $class;
 	
 	protected string $name;
 	
@@ -53,12 +53,12 @@ class Forms_Class_Property
 	protected ?Form $__definition_form = null;
 	
 	/**
-	 * @param Forms_Class $class
+	 * @param FormClass $class
 	 * @param string $name
 	 * @param ReflectionProperty|null $reflection
 	 * @param null|Form_Definition_Field|Form_Definition_SubForm|Form_Definition_SubForms $field_definition
 	 */
-	public function __construct( Forms_Class $class, string $name, ?ReflectionProperty $reflection,null|Form_Definition_Field|Form_Definition_SubForm|Form_Definition_SubForms $field_definition )
+	public function __construct( FormClass $class, string $name, ?ReflectionProperty $reflection, null|Form_Definition_Field|Form_Definition_SubForm|Form_Definition_SubForms $field_definition )
 	{
 		$this->class = $class;
 		$this->name = $name;

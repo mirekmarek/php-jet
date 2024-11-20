@@ -184,6 +184,17 @@ class Controller extends JetStudio_Module_Controller
 		}
 	}
 	
+	public function relation_add_form_Action() : void
+	{
+		$related = DataModels::getClass( Http_Request::GET()->getString( 'related_model' ) )->getDefinition();
+		$form = DataModel_Definition_Relation_External::getCreateForm( $related );
+		
+		$this->view->setVar( 'related', $related );
+		$this->view->setVar( 'form', $form );
+		
+		AJAX::snippetResponse( $this->view->render( 'relation/create/form' ) );
+	}
+	
 	public function relation_add_Action(): void
 	{
 		$current = DataModels::getCurrentModel();

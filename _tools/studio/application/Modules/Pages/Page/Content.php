@@ -17,6 +17,7 @@ use Jet\Form_Field_Int;
 use Jet\Form_Field_Select;
 use Jet\Form_Field_Textarea;
 use Jet\MVC_Page_Content;
+use JetStudio\Form_Field_AssocArray;
 use JetStudio\JetStudio;
 use JetStudio\Form_Field_Callable;
 
@@ -30,15 +31,10 @@ class Page_Content extends MVC_Page_Content
 	public const CONTENT_KIND_STATIC = 'static';
 	public const CONTENT_KIND_CALLBACK = 'callback';
 	public const PARAMS_COUNT = 3;
-
-	/**
-	 * @var ?Form
-	 */
+	
 	protected ?Form $__edit_form = null;
 
-	/**
-	 * @return string
-	 */
+
 	public function getContentKind(): string
 	{
 
@@ -58,12 +54,6 @@ class Page_Content extends MVC_Page_Content
 
 	}
 
-	/**
-	 * @param bool $default_value
-	 *
-	 * @return Form_Field_Checkbox
-	 *
-	 */
 	public static function getField__is_cacheable( bool $default_value ): Form_Field_Checkbox
 	{
 		$chb = new Form_Field_Checkbox( 'is_cacheable', 'Is cacheable' );
@@ -73,14 +63,7 @@ class Page_Content extends MVC_Page_Content
 		return $chb;
 	}
 
-
-	/**
-	 * @param string $default_value
-	 * @param Page $page
-	 *
-	 * @return Form_Field_Select
-	 *
-	 */
+	
 	public static function getField__output_position( string $default_value, Page $page ): Form_Field_Select
 	{
 		$base = $page->getBase();
@@ -98,11 +81,6 @@ class Page_Content extends MVC_Page_Content
 	}
 
 
-	/**
-	 * @param int $default_value
-	 *
-	 * @return Form_Field_Int
-	 */
 	public static function getField__output_position_order( int $default_value ): Form_Field_Int
 	{
 		$pos_order = new Form_Field_Int( 'output_position_order', 'Output position order:' );
@@ -111,11 +89,6 @@ class Page_Content extends MVC_Page_Content
 		return  $pos_order;
 	}
 
-	/**
-	 * @param string $default_value
-	 *
-	 * @return Form_Field_Hidden
-	 */
 	public static function getField__module_name( string $default_value ): Form_Field_Hidden
 	{
 		$module_name = new Form_Field_Hidden( 'module_name', 'Module name:' );
@@ -127,14 +100,7 @@ class Page_Content extends MVC_Page_Content
 
 		return $module_name;
 	}
-
-
-	/**
-	 * @param string $default_value
-	 * @param string $module_name
-	 *
-	 * @return Form_Field_Select
-	 */
+	
 	public static function getField__controller_name( string $default_value, string $module_name = '' ): Form_Field_Select
 	{
 		$controller_name = new Form_Field_Select( 'controller_name', 'Controller name:' );
@@ -154,13 +120,6 @@ class Page_Content extends MVC_Page_Content
 	}
 
 
-	/**
-	 * @param string $default_value
-	 * @param string $module_name
-	 * @param string $controller
-	 *
-	 * @return Form_Field_Select
-	 */
 	public static function getField__controller_action( string $default_value = '',
 	                                                    string $module_name = '',
 	                                                    string $controller = '' ): Form_Field_Select
@@ -180,13 +139,8 @@ class Page_Content extends MVC_Page_Content
 		return $controller_action;
 
 	}
+	
 
-
-	/**
-	 * @param string $default_value
-	 *
-	 * @return Form_Field_Input
-	 */
 	public static function getField__controller_class( string $default_value ): Form_Field_Input
 	{
 		$controller_class = new Form_Field_Input( 'controller_class', 'Custom controller class:' );
@@ -201,12 +155,7 @@ class Page_Content extends MVC_Page_Content
 
 		return $controller_class;
 	}
-
-	/**
-	 * @param string $default_value
-	 *
-	 * @return Form_Field_Input
-	 */
+	
 	public static function getField__controller_class_action( string $default_value ): Form_Field_Input
 	{
 		$controller_class_action = new Form_Field_Input( 'controller_class_action', 'Controller action:' );
@@ -221,13 +170,7 @@ class Page_Content extends MVC_Page_Content
 
 		return $controller_class_action;
 	}
-
-
-	/**
-	 * @param string $default_value
-	 *
-	 * @return Form_Field_Textarea
-	 */
+	
 	public static function getField__output( string $default_value ): Form_Field_Textarea
 	{
 		$output = new Form_Field_Textarea( 'output', 'Static output:' );
@@ -246,12 +189,7 @@ class Page_Content extends MVC_Page_Content
 
 		return $output;
 	}
-
-	/**
-	 * @param string|array $default_value
-	 *
-	 * @return Form_Field_Callable
-	 */
+	
 	public static function getField__output_callback( string|array $default_value ): Form_Field_Callable
 	{
 		$output_callback = new Form_Field_Callable( 'output_callback', 'Output callback:' );
@@ -266,12 +204,6 @@ class Page_Content extends MVC_Page_Content
 		return $output_callback;
 	}
 	
-
-	/**
-	 * @param Page $page
-	 *
-	 * @return Form
-	 */
 	public function getEditForm( Page $page ): Form
 	{
 		if( !$this->__edit_form ) {
@@ -295,32 +227,18 @@ class Page_Content extends MVC_Page_Content
 				$this->setOutputPositionOrder( $value );
 			} );
 			$fields[] = $output_position_order;
-
-			$i = 0;
-			foreach( $this->parameters as $key => $val ) {
-
-				$param_key = new Form_Field_Input( '/params/' . $i . '/key' );
-				$param_key->setDefaultValue( $key );
-				$fields[] = $param_key;
-
-				$param_value = new Form_Field_Input( '/params/' . $i . '/value' );
-				$param_value->setDefaultValue( $val );
-				$fields[] = $param_value;
-
-				$i++;
-			}
-
-			for( $c = 0; $c < static::PARAMS_COUNT; $c++ ) {
-
-				$param_key = new Form_Field_Input( '/params/' . $i . '/key', '' );
-				$fields[] = $param_key;
-
-				$param_value = new Form_Field_Input( '/params/' . $i . '/value', '' );
-				$fields[] = $param_value;
-
-				$i++;
-			}
-
+			
+			
+			
+			$params_field = new Form_Field_AssocArray('params', 'Parameters:');
+			$params_field->setAssocChar('=');
+			$params_field->setNewRowsCount(static::PARAMS_COUNT);
+			$params_field->setDefaultValue( $this->parameters );
+			$params_field->setFieldValueCatcher(function($value) {
+				$this->setParameters( $value );
+			});
+			$fields[] = $params_field;
+			
 
 			switch( $this->getContentKind() ) {
 				case static::CONTENT_KIND_MODULE:
@@ -394,37 +312,8 @@ class Page_Content extends MVC_Page_Content
 
 		return $this->__edit_form;
 	}
+	
 
-	/**
-	 * @param Form $form
-	 * @param string $field_prefix
-	 *
-	 * @return array
-	 */
-	public static function catchParams( Form $form, string $field_prefix = '' ): array
-	{
-		$params = [];
-
-		$i = 0;
-		while( $form->fieldExists( $field_prefix . '/params/' . $i . '/key' ) ) {
-
-			$param_key = $form->field( $field_prefix . '/params/' . $i . '/key' )->getValue();
-			$param_value = $form->field( $field_prefix . '/params/' . $i . '/value' )->getValue();
-
-			if( $param_key ) {
-				$params[$param_key] = $param_value;
-			}
-
-			$i++;
-		}
-
-		return $params;
-	}
-
-	/**
-	 * @param array $data
-	 * @return Page_Content
-	 */
 	public static function fromArray( array $data ): Page_Content
 	{
 		$content = new Page_Content();
@@ -435,26 +324,5 @@ class Page_Content extends MVC_Page_Content
 
 		return $content;
 	}
-
-	/*
-	public function toArray(): array
-	{
-
-		//TODO: ???
-		$data = parent::toArray();
-		
-		if( !empty( $data['module_name'] ) ) {
-
-			$module = Modules::getModule( $data['module_name'] );
-
-			if( $module ) {
-				$data['module_name'] = $module->getName();
-			}
-
-		}
-
-		return $data;
-	}
-	*/
 
 }

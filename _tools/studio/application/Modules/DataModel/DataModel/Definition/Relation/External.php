@@ -166,7 +166,7 @@ class DataModel_Definition_Relation_External extends Jet_DataModel_Definition_Re
 
 			$selected_property = '';
 
-			$glue = new Form_Field_Select( 'glue_' . $related_property->getName(), $related_model->getModelName() . '.' . $related_property->getName() . ' < - > ' );
+			$glue = new Form_Field_Select( 'glue_' . $related_property->getName(), $related_model->getModelName() . '.' . $related_property->getName() );
 			$glue->setDefaultValue( $selected_property );
 			$glue->setErrorMessages( [
 				Form_Field::ERROR_CODE_EMPTY         => 'Please select related property',

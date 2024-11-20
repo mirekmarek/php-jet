@@ -79,22 +79,22 @@ class Controller extends JetStudio_Module_Controller
 		$menu = Main::getCurrentMenu();
 		$item = Main::getCurrentMenuItem();
 		
-		if( !$set || !$menu || !$item ) {
-			die();
-		}
-		
-		$menu->deleteMenuItem( $item->getId() );
-		
-		if( $set->save() ) {
-			UI_messages::info( Tr::_( 'Menu item <b>%name%</b> has been deleted', [
-				'name' => $item->getLabel()
-			] ) );
+		if( $set && $menu && $item ) {
+			$menu->deleteMenuItem( $item->getId() );
 			
-			Http_Headers::reload( [], [
-				'action',
-				'item'
-			] );
+			if( $set->save() ) {
+				UI_messages::info( Tr::_( 'Menu item <b>%name%</b> has been deleted', [
+					'name' => $item->getLabel()
+				] ) );
+				
+			}
 		}
+		
+		
+		Http_Headers::reload( [], [
+			'menus_action',
+			'item'
+		] );
 	}
 	
 	public function item_edit_Action() : void

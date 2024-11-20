@@ -4,7 +4,6 @@ namespace JetStudioModule\ApplicationModules;
 use Jet\SysConf_Jet_Modules;
 use Jet\SysConf_Path;
 use Jet\Tr;
-use Jet\Form_Renderer;
 use Jet\MVC_View;
 use Jet\UI;
 use Jet\UI_button;
@@ -23,12 +22,6 @@ if( !$current ) {
 
 $form = $current->getEditForm();
 
-$form->renderer()->setDefaultLabelWidth( [
-	Form_Renderer::LJ_SIZE_MEDIUM => 2
-] );
-$form->renderer()->setDefaultFieldWidth( [
-	Form_Renderer::LJ_SIZE_MEDIUM => 6
-] );
 ?>
 
 <?= $form->start() ?>
@@ -36,56 +29,51 @@ $form->renderer()->setDefaultFieldWidth( [
 
 <?= JetStudio_UI::messages(); ?>
 
-<legend>
+<div class="section-title">
 	<?= Tr::_( 'Module' ) ?>
-	<span style="font-weight: bolder"><?= $current->getLabel() ?></span> <span
-			style="color: #aaaaaa;font-size: 12px;"><?= $current->getName() ?></span>
-</legend>
+	<span style="font-weight: bolder"><?= $current->getLabel() ?></span>
+	<span style="color: #aaaaaa;font-size: 12px;"><?= $current->getName() ?></span>
+</div>
 
 
-<?= $form->field( 'module_name' ) ?>
-<?= $form->field( 'module_label' ) ?>
-<?= $form->field( 'vendor' ) ?>
-<?= $form->field( 'version' ) ?>
-<?= $form->field( 'description' ) ?>
-<?= $form->field( 'is_mandatory' ) ?>
-<?= $form->field( 'is_active' ) ?>
-<?= $form->field( 'is_installed' ) ?>
+<div class="form-fields">
+	<?= $form->field( 'module_name' ) ?>
+	<?= $form->field( 'module_label' ) ?>
+	<?= $form->field( 'vendor' ) ?>
+	<?= $form->field( 'version' ) ?>
+	<?= $form->field( 'description' ) ?>
+	<?= $form->field( 'is_mandatory' ) ?>
+	<?= $form->field( 'is_active' ) ?>
+	<?= $form->field( 'is_installed' ) ?>
 
-<legend><?= Tr::_( 'ACL actions' ) ?></legend>
-<div class="row">
-	<div class="col-md-2"></div>
-	<div class="col-md-6">
-		<fieldset style="margin-bottom: 40px;">
-			<table>
-				<thead>
-				<tr>
-					<th><?= Tr::_( 'Action' ) ?></th>
-					<th><?= Tr::_( 'Description' ) ?></th>
-				</tr>
-				</thead>
-				<tbody>
-				<?php for( $m = 0; $m < Modules_Manifest::MAX_ACL_ACTION_COUNT; $m++ ):
-					$prefix = '/ACL_action/' . $m;
+	
+	<div><?=Tr::_('ACL action')?></div>
+	<div>
+		<div style="display: grid;justify-content:left;grid-template-columns: auto auto;gap: 10px;">
+			<div><?= Tr::_( 'Action' ) ?></div>
+			<div><?= Tr::_( 'Description' ) ?></div>
+			
+			<?php for( $m = 0; $m < Modules_Manifest::MAX_ACL_ACTION_COUNT; $m++ ):
+				$prefix = '/ACL_action/' . $m;
+				
+				if( !$form->fieldExists( $prefix . '/action' ) ) {
+					break;
+				}
+				
+				$action = $form->field( $prefix . '/action' );
+				$action->input()->addCustomCssStyle( 'width:300px;' );
+				$description = $form->field( $prefix . '/description' );
+				$description->input()->addCustomCssStyle( 'width:300px;' );
+				
+				?>
 
-					if( !$form->fieldExists( $prefix . '/action' ) ) {
-						break;
-					}
+				<div><?= $action->input() ?></div>
+				<div><?= $description->input() ?></div>
 
-					$action = $form->field( $prefix . '/action' );
-					$action->input()->addCustomCssStyle( 'width:300px;' );
-					$description = $form->field( $prefix . '/description' );
-					$description->input()->addCustomCssStyle( 'width:300px;' );
+			<?php endfor; ?>
 
-					?>
-					<tr>
-						<td style="padding: 5px;"><?= $action->input() ?></td>
-						<td style="padding: 5px;"><?= $description->input() ?></td>
-					</tr>
-				<?php endfor; ?>
-				</tbody>
-			</table>
-		</fieldset>
+		</div>
+		
 	</div>
 </div>
 

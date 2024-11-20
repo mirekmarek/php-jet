@@ -1,7 +1,6 @@
 <?php
 namespace JetStudioModule\ApplicationModuleWizard\BasicCRUD;
 
-use Jet\Form_Renderer;
 use Jet\MVC_View;
 use Jet\Tr;
 use Jet\UI;
@@ -17,35 +16,22 @@ $select_data_form = $wizard->getSelectDataModelForm();
 
 $setup_form = $wizard->getSetupForm();
 
-$select_data_form->renderer()->setDefaultLabelWidth( [
-	Form_Renderer::LJ_SIZE_MEDIUM => 3
-] );
-$select_data_form->renderer()->setDefaultFieldWidth( [
-	Form_Renderer::LJ_SIZE_MEDIUM => 10
-] );
-
-
-$setup_form->renderer()->setDefaultLabelWidth( [
-	Form_Renderer::LJ_SIZE_MEDIUM => 4
-] );
-$setup_form->renderer()->setDefaultFieldWidth( [
-	Form_Renderer::LJ_SIZE_MEDIUM => 8
-] );
-
-
 $select_data_form->field( 'data_model' )->input()->addJsAction( 'onchange', 'this.form.submit()' );
 
 ?>
-<legend><?= Tr::_( 'DataModel' ) ?></legend>
+<div class="section-title"><?= Tr::_( 'DataModel' ) ?></div>
 <?= $select_data_form->start() ?>
-<?= $select_data_form->field( 'data_model' ) ?>
+<div class="form-fields" style="grid-template-columns: 0.3fr 1fr;">
+	<?= $select_data_form->field( 'data_model' ) ?>
+</div>
 <?= $select_data_form->end() ?>
 
 
 <?php if( $wizard->getDataModelClassName() ): ?>
 	<?= $setup_form->start() ?>
-	<legend><?= Tr::_( 'Main module parameters' ) ?></legend>
+	<div class="section-title"><?= Tr::_( 'Main module parameters' ) ?></div>
 
+	<div class="form-fields" style="grid-template-columns: 0.3fr 1fr;">
 	<?= $setup_form->field( 'NAME' ) ?>
 
 	<?= $setup_form->field( 'LABEL' ) ?>
@@ -55,7 +41,7 @@ $select_data_form->field( 'data_model' )->input()->addJsAction( 'onchange', 'thi
 	<?= $setup_form->field( 'COPYRIGHT' ) ?>
 
 
-	<legend><?= Tr::_( 'DataModel parameters' ) ?></legend>
+	<div class="section-title" style="grid-column: span 2"><?= Tr::_( 'DataModel parameters' ) ?></div>
 	<?= $setup_form->field( 'DATA_MODEL_CLASS_NAME' ) ?>
 	<?= $setup_form->field( 'DATA_MODEL_CLASS_ALIAS' ) ?>
 
@@ -67,18 +53,18 @@ $select_data_form->field( 'data_model' )->input()->addJsAction( 'onchange', 'thi
 	<?= $setup_form->field( 'NAME_PROPERTY' ) ?>
 	<?= $setup_form->field( 'ITEM_NAME_GETTER' ) ?>
 
-	<legend><?= Tr::_( 'Menu item' ) ?></legend>
+	<div class="section-title" style="grid-column: span 2"><?= Tr::_( 'Menu item' ) ?></div>
 	<?= $setup_form->field( 'TARGET_MENU' ) ?>
 	<?= $setup_form->field( 'MENU_ITEM_ID' ) ?>
 
-	<legend><?= Tr::_( 'Page' ) ?></legend>
+	<div class="section-title" style="grid-column: span 2"><?= Tr::_( 'Page' ) ?></div>
 	<?= $setup_form->field( 'PAGE_BASE_ID' ) ?>
 	<?= $setup_form->field( 'PAGE_ID' ) ?>
 	<?= $setup_form->field( 'PAGE_TITLE' ) ?>
 	<?= $setup_form->field( 'PAGE_ICON' ) ?>
 	<?= $setup_form->field( 'PAGE_PATH_FRAGMENT' ) ?>
 
-	<legend><?= Tr::_( 'Texts' ) ?></legend>
+	<div class="section-title" style="grid-column: span 2"><?= Tr::_( 'Texts' ) ?></div>
 	<?= $setup_form->field( 'TXT_MSG_CREATED' ) ?>
 	<?= $setup_form->field( 'TXT_MSG_UPDATED' ) ?>
 	<?= $setup_form->field( 'TXT_MSG_DELETED' ) ?>
@@ -90,7 +76,7 @@ $select_data_form->field( 'data_model' )->input()->addJsAction( 'onchange', 'thi
 	<?= $setup_form->field( 'TXT_DELETE_CONFIRM_QUESTION' ) ?>
 	<?= $setup_form->field( 'TXT_BTN_NEW' ) ?>
 
-	<legend><?= Tr::_( 'Logger' ) ?></legend>
+	<div class="section-title" style="grid-column: span 2"><?= Tr::_( 'Logger' ) ?></div>
 	<?= $setup_form->field( 'LOG_EVENT_CREATED' ) ?>
 	<?= $setup_form->field( 'LOG_EVENT_CREATED_MESSAGE' ) ?>
 	<?= $setup_form->field( 'LOG_EVENT_UPDATED' ) ?>
@@ -98,8 +84,9 @@ $select_data_form->field( 'data_model' )->input()->addJsAction( 'onchange', 'thi
 	<?= $setup_form->field( 'LOG_EVENT_DELETED' ) ?>
 	<?= $setup_form->field( 'LOG_EVENT_DELETED_MESSAGE' ) ?>
 
-	<legend><?= Tr::_( 'ACL' ) ?></legend>
+	<div class="section-title" style="grid-column: span 2"><?= Tr::_( 'ACL' ) ?></div>
 	<?= $setup_form->field( 'ACL_ENTITY_NAME' ) ?>
+	</div>
 
 	<div style="text-align: right">
 		<?= UI::button_save( Tr::_( 'Create' ) )->setClass( UI_button::CLASS_PRIMARY )->setIcon( 'magic' ) ?>

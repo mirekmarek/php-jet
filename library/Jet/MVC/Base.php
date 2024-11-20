@@ -705,17 +705,6 @@ class MVC_Base extends BaseObject implements MVC_Base_Interface
 		return $res;
 	}
 	
-	public static function exists( string $base_id ): bool
-	{
-		foreach( static::_getBases() as $base ) {
-			if( $base->getId() == $base_id ) {
-				return true;
-			}
-		}
-		
-		return false;
-	}
-	
 
 	/**
 	 * @return array

@@ -239,7 +239,10 @@ abstract class Wizard extends BaseObject
 			return false;
 		}
 
-		UI_messages::success( Tr::_( 'Module <b>%NAME%</b> has been created', ['NAME' => $this->module_name], 'module_wizard' ) );
+		UI_messages::success( Tr::_( 'Module <b>%NAME%</b> has been created',
+			['NAME' => $this->module_name],
+			'Module.ApplicationModuleWizard'
+		) );
 
 		return true;
 	}

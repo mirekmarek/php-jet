@@ -3,7 +3,6 @@ namespace JetStudioModule\Menus;
 
 use Jet\Tr;
 use Jet\UI;
-use Jet\Form_Renderer;
 use Jet\UI_dialog;
 use Jet\MVC_View;
 
@@ -16,40 +15,32 @@ $menu = Main::getCurrentMenu();
 $form = $menu->getEditForm();
 
 
-$form->renderer()->setDefaultLabelWidth( [
-	Form_Renderer::LJ_SIZE_MEDIUM => 2
-] );
-$form->renderer()->setDefaultFieldWidth( [
-	Form_Renderer::LJ_SIZE_MEDIUM => 6
-] );
-
 $delete_menu_dialog = UI::dialog( 'delete_menu_dialog', Tr::_( 'Delete menu' ), UI_dialog::SIZE_LARGE );
 
 ?>
 
 <?= $form->start() ?>
 <?= $form->getCommonMessage(); ?>
-<?= $form->field( 'id' ) ?>
-<?= $form->field( 'label' ) ?>
-<?= $form->field( 'icon' ) ?>
-<?= $form->field( 'index' ) ?>
 
-<?php if( $menu->getMenuItems() ): ?>
-	<div class="row">
-		<label class="col-md-2 control-label"><?= Tr::_( 'Items:' ) ?></label>
-		<div class="col-md-6">
-			<div id="items_sort_area">
-				<?php foreach( $menu->getMenuItems() as $item ): ?>
-					<div class="list-group-item menu-item-sort-item" data-id="<?= $item->getId() ?>" style="display: flex;align-items: center;gap: 10px;">
-						<input type="hidden" name="items_sort[]" value="<?= $item->getId() ?>">
-						<div><span class="fa fa-arrows-v" style="font-size:16px;padding-right: 5px"></span></div>
-						<div><a href="<?= Main::getActionUrl( '', [], null, null, $item->getId() ) ?>"><?= $item->getTitle() ?></a></div>
-					</div>
-				<?php endforeach; ?>
-			</div>
+<div class="form-fields">
+	<?= $form->field( 'id' ) ?>
+	<?= $form->field( 'label' ) ?>
+	<?= $form->field( 'icon' ) ?>
+	<?= $form->field( 'index' ) ?>
+
+	<label class="control-label"><?= Tr::_( 'Items:' ) ?></label>
+	<div id="items_sort_area">
+
+	<?php foreach( $menu->getMenuItems() as $item ): ?>
+		<div class="list-group-item menu-item-sort-item" data-id="<?= $item->getId() ?>" style="display: flex;align-items: center;gap: 10px;">
+			<input type="hidden" name="items_sort[]" value="<?= $item->getId() ?>">
+			<div><span class="fa fa-arrows-v" style="font-size:16px;padding-right: 5px"></span></div>
+			<div><a href="<?= Main::getActionUrl( '', [], null, null, $item->getId() ) ?>"><?= $item->getTitle() ?></a></div>
 		</div>
+	<?php endforeach; ?>
 	</div>
-<?php endif; ?>
+	
+</div>
 
 <?= $form->end() ?>
 

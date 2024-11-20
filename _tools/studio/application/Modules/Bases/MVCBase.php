@@ -55,6 +55,18 @@ class MVCBase extends MVC_Base
 		static::$templates_path = $templates_path;
 	}
 	
+	public static function exists( string $base_id ): bool
+	{
+		foreach( static::_getBases() as $base ) {
+			if( $base->getId() == $base_id ) {
+				return true;
+			}
+		}
+		
+		return false;
+	}
+	
+	
 	public static function _createByData( array $data ): static
 	{
 		$base = new static();
@@ -255,7 +267,7 @@ class MVCBase extends MVC_Base
 					];
 				}
 				
-				$meta_tags_field = new Form_Field_MetaTags( '/' . $locale . '/meta_tags', '');
+				$meta_tags_field = new Form_Field_MetaTags( '/' . $locale . '/meta_tags', 'Default Meta Tags:');
 				$meta_tags_field->setNewRowsCount( 5 );
 				$meta_tags_field->setDefaultValue( $meta_tags );
 				$meta_tags_field->setFieldValueCatcher(function($value) use ($ld) {
@@ -282,7 +294,7 @@ class MVCBase extends MVC_Base
 				$fields[] = $meta_tags_field;
 				
 				
-				$params_field = new Form_Field_AssocArray('/'.$locale.'/params', '');
+				$params_field = new Form_Field_AssocArray('/'.$locale.'/params', 'Parameters:');
 				$params_field->setAssocChar('=');
 				$params_field->setNewRowsCount(static::PARAMS_COUNT);
 				$params_field->setDefaultValue( $ld->getParameters() );
@@ -405,7 +417,7 @@ class MVCBase extends MVC_Base
 			$locale_field = new Form_Field_Hidden( 'locale' );
 			
 			$form = new Form( 'add_locale_form', [$locale_field] );
-			$form->setAction( Main::getActionUrl( 'locale/add' ) );
+			$form->setAction( Main::getActionUrl( 'locale_add' ) );
 			
 			$this->__add_locale_form = $form;
 		}
@@ -498,7 +510,7 @@ class MVCBase extends MVC_Base
 			$locale_field->setDefaultValue( implode( ',', $this->getLocales( true ) ) );
 			
 			$form = new Form( 'sort_locales_form', [$locale_field] );
-			$form->setAction( Main::getActionUrl( 'locale/sort' ) );
+			$form->setAction( Main::getActionUrl( 'locale_sort' ) );
 			
 			$this->__sort_locales_form = $form;
 		}

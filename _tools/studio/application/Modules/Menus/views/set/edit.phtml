@@ -3,7 +3,6 @@ namespace JetStudioModule\Menus;
 
 use Jet\Tr;
 use Jet\UI;
-use Jet\Form_Renderer;
 use Jet\MVC_View;
 
 /**
@@ -14,38 +13,29 @@ $set = Main::getCurrentMenuSet();
 
 $form = $set->getEditForm();
 
-
-$form->renderer()->setDefaultLabelWidth( [
-	Form_Renderer::LJ_SIZE_MEDIUM => 2
-] );
-$form->renderer()->setDefaultFieldWidth( [
-	Form_Renderer::LJ_SIZE_MEDIUM => 6
-] );
-
-
 ?>
 
 <?= $form->start() ?>
 <?= $form->getCommonMessage(); ?>
-<?= $form->field( 'menu_set_name' ) ?>
 
-<div class="row">
-	<label class="col-md-2 control-label"><?= Tr::_( 'Menus:' ) ?></label>
-	<div class="col-md-6">
-		<div id="items_sort_area">
-			<?php foreach( $set->getMenus() as $item ): ?>
-				<div class="list-group-item menu-item-sort-item" data-id="<?= $item->getId() ?>" style="display: flex;align-items: center;gap: 10px;">
-					<input type="hidden" name="items_sort[]" value="<?= $item->getId() ?>">
+<div class="form-fields">
+	<?= $form->field( 'menu_set_name' ) ?>
 
-					<div><span class="fa fa-arrows-v" style="font-size:16px;padding-right: 5px"></span></div>
-					<div><a href="<?= Main::getActionUrl( '', [], null, $item->getId() ) ?>"><?= UI::icon( 'sitemap' ) ?> <?= $item->getLabel() ?></a></div>
+	<label class="control-label"><?= Tr::_( 'Menus:' ) ?></label>
+	<div id="items_sort_area">
+		<?php foreach( $set->getMenus() as $item ): ?>
+			<div class="list-group-item menu-item-sort-item" data-id="<?= $item->getId() ?>" style="display: flex;align-items: center;gap: 10px;">
+				<input type="hidden" name="items_sort[]" value="<?= $item->getId() ?>">
 
-				</div>
-			<?php endforeach; ?>
-		</div>
+				<div><span class="fa fa-arrows-v" style="font-size:16px;padding-right: 5px"></span></div>
+				<div><a href="<?= Main::getActionUrl( '', [], null, $item->getId() ) ?>"><?= UI::icon( 'sitemap' ) ?> <?= $item->getLabel() ?></a></div>
+
+			</div>
+		<?php endforeach; ?>
 	</div>
 
 </div>
+
 
 <?= $form->end() ?>
 

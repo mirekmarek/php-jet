@@ -9,10 +9,15 @@ $form->getField( 'label' )->input()->addJsAction( 'onkeyup', 'Menus.createMenu.g
 
 echo $form->start();
 echo $form->getCommonMessage();
-echo $form->field( 'label' );
-echo $form->field( 'id' );
-echo $form->field( 'icon' );
-echo $form->field( 'index' );
-
+?>
+	<div class="form-fields" style="grid-template-columns: 0.6fr 2fr;">
+		<?php
+		echo $form->field( 'label' );
+		echo $form->field( 'id' );
+		echo $form->field( 'icon' );
+		echo $form->field( 'index' );
+		?>
+	</div>
+<?php
 echo $form->end();
 

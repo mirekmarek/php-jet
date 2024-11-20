@@ -9,11 +9,11 @@
 namespace JetStudioModule\Forms;
 
 use Jet\Form_Definition_Interface;
-use JetStudio\ClassFinder;
+use JetStudio\ClassFinder as JS_ClassFinder;
 use JetStudio\ClassMetaInfo;
 use ReflectionClass;
 
-class Forms_ClassFinder extends ClassFinder
+class ClassFinder extends JS_ClassFinder
 {
 	
 	protected array $interfaces = [
@@ -21,7 +21,7 @@ class Forms_ClassFinder extends ClassFinder
 	];
 
 	/**
-	 * @return Forms_Class[]
+	 * @return FormClass[]
 	 */
 	public function getClasses(): array
 	{
@@ -31,7 +31,7 @@ class Forms_ClassFinder extends ClassFinder
 	
 	protected function classMetaInfoFactory( string $path, string $namespace, string $class_name, ReflectionClass $reflection ): ClassMetaInfo
 	{
-		return new Forms_Class(
+		return new FormClass(
 			$path,
 			$namespace,
 			$class_name,

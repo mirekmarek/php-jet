@@ -9,41 +9,27 @@ use JetStudio\JetStudio_UI;
 
 $wizard = ModuleWizards::getCurrentWizard();
 ?>
-<div class="container-fluid">
+<div style="padding-left: 20%;padding-right: 20%;padding-top: 20px;">
 
 	<?php if( $wizard ): ?>
-		<div class="row">
-			<div class="offset-md-2 col-md-8">
-				<br/><br/>
-				<h4><?= $wizard->getTitle() ?></h4>
-				<p><?= $wizard->getDescription() ?></p>
-				<hr/>
-			</div>
-		</div>
-		<div class="row">
-			<div class="offset-md-3 col-md-6">
-				<?= JetStudio_UI::messages(); ?>
-				<?= $wizard->handle(); ?>
-			</div>
+		<h4><?= $wizard->getTitle() ?></h4>
+		<p><?= $wizard->getDescription() ?></p>
+		<hr/>
+		<div>
+			<?= JetStudio_UI::messages(); ?>
+			<?= $wizard->handle(); ?>
 		</div>
 	<?php else: ?>
-		<br/><br/><br/>
-		<div class="row">
-			<div class="offset-md-3 col-md-6">
-				<table class="table table-striped">
-					<?php foreach( ModuleWizards::getList() as $wizard ): ?>
-						<tr>
-							<td>
-								<b><?= $wizard->getTitle() ?></b>
-								<p><?= $wizard->getDescription() ?></p>
-								<div style="text-align: right;">
-									<?= UI::button( Tr::_( 'Create' ) )->setClass( UI_button::CLASS_INFO )->setUrl( Http_Request::currentURI( ['wizard' => $wizard->getName()] ) ) ?>
-								</div>
-							</td>
-						</tr>
-					<?php endforeach; ?>
-				</table>
+		<br>
+		<?php foreach( ModuleWizards::getList() as $wizard ): ?>
+			<div class="card card-body shadow" style="margin-bottom: 60px;">
+				<b><?= $wizard->getTitle() ?></b>
+				<p><?= $wizard->getDescription() ?></p>
+				<div>
+					<?= UI::button( Tr::_( 'Create' ) )->setClass( UI_button::CLASS_INFO )->setUrl( Http_Request::currentURI( ['wizard' => $wizard->getName()] ) ) ?>
+				</div>
 			</div>
-		</div>
+		<?php endforeach; ?>
+		
 	<?php endif; ?>
-</div>
+

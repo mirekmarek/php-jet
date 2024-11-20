@@ -18,6 +18,8 @@ use Jet\Locale;
 use Jet\MVC;
 use Jet\MVC_Page_Interface;
 use Jet\Navigation_Menu_Item;
+use JetStudio\Form_Field_Array;
+use JetStudio\Form_Field_AssocArray;
 use JetStudio\JetStudio;
 
 /**
@@ -29,23 +31,9 @@ class Menu_Item extends Navigation_Menu_Item
 	public const URL_PARTS_COUNT = 5;
 	public const GET_PARAMS_COUNT = 5;
 
-
-
-
-	/**
-	 * @var ?Form
-	 */
 	protected static ?Form $create_form = null;
-
-	/**
-	 * @var ?Form
-	 */
 	protected ?Form $__edit_form = null;
 	
-
-	/**
-	 * @return Form
-	 */
 	public static function getCreateForm(): Form
 	{
 		if( !static::$create_form ) {
@@ -99,11 +87,18 @@ class Menu_Item extends Navigation_Menu_Item
 				Form_Field::ERROR_CODE_EMPTY         => 'Please select base',
 				Form_Field::ERROR_CODE_INVALID_VALUE => 'Please select base',
 			] );
-
-
+			
 			$locale = new Form_Field_Input( 'locale', 'Locale:' );
-
-
+			
+			
+			$GET_params = new Form_Field_AssocArray('GET_params', 'GET parameter:');
+			$GET_params->setAssocChar('=');
+			$GET_params->setNewRowsCount(static::URL_PARTS_COUNT);
+			
+			$URL_parts = new Form_Field_Array('URL_parts', 'Custom URL parts:');
+			$URL_parts->setNewRowsCount( static::URL_PARTS_COUNT );
+			
+			
 			$fields = [
 				$label,
 				$id,
@@ -118,23 +113,11 @@ class Menu_Item extends Navigation_Menu_Item
 				$page_id,
 				$base_id,
 				$locale,
+				
+				$GET_params,
+				$URL_parts
 			];
-
-
-			for( $c = 0; $c < static::URL_PARTS_COUNT; $c++ ) {
-				$URL_part = new Form_Field_Input( '/URL_parts/' . $c, '' );
-				$fields[] = $URL_part;
-			}
-
-
-			for( $c = 0; $c < static::GET_PARAMS_COUNT; $c++ ) {
-
-				$GET_param_key = new Form_Field_Input( '/GET_params/' . $c . '/key', '' );
-				$fields[] = $GET_param_key;
-
-				$GET_param_value = new Form_Field_Input( '/GET_params/' . $c . '/value', '' );
-				$fields[] = $GET_param_value;
-			}
+			
 
 
 			$form = new Form( 'create_menu_item_form', $fields );
@@ -147,10 +130,7 @@ class Menu_Item extends Navigation_Menu_Item
 
 		return static::$create_form;
 	}
-
-	/**
-	 * @return bool|Menu_Item
-	 */
+	
 	public static function catchCreateForm(): bool|Menu_Item
 	{
 		$form = static::getCreateForm();
@@ -179,18 +159,13 @@ class Menu_Item extends Navigation_Menu_Item
 		$menu_item->setBaseId( $form->field( 'base_id' )->getValue() );
 		$menu_item->setLocale( $form->field( 'locale' )->getValue() );
 
-		$menu_item->setUrlParts( static::catchURLParts( $form ) );
-		$menu_item->setGetParams( static::catchGETParams( $form ) );
+		$menu_item->setUrlParts( $form->field( 'URL_parts' )->getValue() );
+		$menu_item->setGetParams( $form->field( 'GET_params' )->getValue() );
 
 		return $menu_item;
 	}
 
 
-	/**
-	 *
-	 * @return Form
-	 *
-	 */
 	public function getEditForm(): Form
 	{
 		if( !$this->__edit_form ) {
@@ -269,6 +244,22 @@ class Menu_Item extends Navigation_Menu_Item
 			$locale->setFieldValueCatcher( function( $value ) {
 				$this->setLocale( $value );
 			} );
+			
+			$GET_params = new Form_Field_AssocArray('GET_params', 'GET parameter:');
+			$GET_params->setAssocChar('=');
+			$GET_params->setNewRowsCount(static::URL_PARTS_COUNT);
+			$GET_params->setDefaultValue( $this->get_params );
+			$GET_params->setFieldValueCatcher(function($value) {
+				$this->setGetParams( $value );
+			});
+			
+			$URL_parts = new Form_Field_Array('URL_parts', 'Custom URL parts:');
+			$URL_parts->setNewRowsCount( static::URL_PARTS_COUNT );
+			$URL_parts->setDefaultValue( $this->getUrlParts() );
+			$URL_parts->setFieldValueCatcher(function($value) {
+				$this->setUrlParts( $value );
+			});
+			
 
 			$fields = [
 				$id,
@@ -284,35 +275,12 @@ class Menu_Item extends Navigation_Menu_Item
 				$page_id,
 				$base_id,
 				$locale,
+				
+				$GET_params,
+				$URL_parts
 			];
 
-			$URL_parts = $this->getUrlParts();
-			for( $c = 0; $c < static::URL_PARTS_COUNT; $c++ ) {
-				$URL_part_value = $URL_parts[$c] ?? '';
-
-				$URL_part = new Form_Field_Input( '/URL_parts/' . $c, '' );
-				$URL_part->setDefaultValue( $URL_part_value );
-				$fields[] = $URL_part;
-			}
-
-
-			$GET_params = $this->getGetParams();
-			$GET_params_keys = array_keys( $GET_params );
-			$GET_params_values = array_values( $GET_params );
-			for( $c = 0; $c < static::GET_PARAMS_COUNT; $c++ ) {
-				$key = $GET_params_keys[$c] ?? '';
-				$value = $GET_params_values[$c] ?? '';
-
-				$GET_param_key = new Form_Field_Input( '/GET_params/' . $c . '/key', '' );
-				$GET_param_key->setDefaultValue( $key );
-				$fields[] = $GET_param_key;
-
-				$GET_param_value = new Form_Field_Input( '/GET_params/' . $c . '/value', '' );
-				$GET_param_value->setDefaultValue( $value );
-				$fields[] = $GET_param_value;
-			}
-
-
+			
 			$form = new Form( 'menu_item_edit_form', $fields );
 			$form->setAction( Main::getActionUrl( 'item_edit' ) );
 			$this->__edit_form = $form;
@@ -330,17 +298,11 @@ class Menu_Item extends Navigation_Menu_Item
 		$form = $this->getEditForm();
 
 		if(
-			!$form->catchInput() ||
-			!$form->validate()
+			!$form->catch()
 		) {
 			return false;
 		}
-
-		$form->catchFieldValues();
-
-		$this->setUrlParts( static::catchURLParts( $form ) );
-		$this->setGetParams( static::catchGETParams( $form ) );
-
+		
 		$form_name = $form->getName();
 
 		$this->__edit_form = null;
@@ -359,50 +321,7 @@ class Menu_Item extends Navigation_Menu_Item
 	{
 		return $this->id;
 	}
-
-	/**
-	 * @param Form $form
-	 * @param string $field_prefix
-	 *
-	 * @return array
-	 */
-	public static function catchURLParts( Form $form, string $field_prefix = '' ): array
-	{
-		$URL_parts = [];
-		for( $c = 0; $c < static::URL_PARTS_COUNT; $c++ ) {
-
-			$URL_part = $form->getField( $field_prefix . '/URL_parts/' . $c )->getValue();
-			if( $URL_part ) {
-				$URL_parts[] = $URL_part;
-			}
-		}
-
-		return $URL_parts;
-	}
-
-
-	/**
-	 * @param Form $form
-	 * @param string $field_prefix
-	 *
-	 * @return array
-	 */
-	public static function catchGETParams( Form $form, string $field_prefix = '' ): array
-	{
-		$GET_params = [];
-		for( $c = 0; $c < static::GET_PARAMS_COUNT; $c++ ) {
-
-			$GET_param_key = $form->field( $field_prefix . '/GET_params/' . $c . '/key' )->getValue();
-			$GET_param_value = $form->field( $field_prefix . '/GET_params/' . $c . '/value' )->getValue();
-
-			if( $GET_param_key && $GET_param_value ) {
-				$GET_params[$GET_param_key] = $GET_param_value;
-			}
-		}
-
-		return $GET_params;
-	}
-
+	
 	
 	public function getTargetPage(): MVC_Page_Interface|null
 	{

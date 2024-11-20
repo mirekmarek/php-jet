@@ -14,8 +14,3 @@ if($acm) {
 JetStudio::getCurrentModule()?->handle();
 
 
-/*
-
-
-Factory_MVC::setBaseClassName( Bases_Base::class );
-*/

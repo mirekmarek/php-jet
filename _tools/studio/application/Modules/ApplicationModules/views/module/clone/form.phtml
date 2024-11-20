@@ -1,7 +1,6 @@
 <?php
 namespace JetStudioModule\ApplicationModules;
 
-use Jet\Form_Renderer;
 use Jet\MVC_View;
 use JetStudio\JetStudio_UI;
 
@@ -17,12 +16,6 @@ if( !$current ) {
 
 $form = $current->getCloneForm();
 
-$form->renderer()->setDefaultLabelWidth( [
-	Form_Renderer::LJ_SIZE_MEDIUM => 12
-] );
-$form->renderer()->setDefaultFieldWidth( [
-	Form_Renderer::LJ_SIZE_MEDIUM => 12
-] );
 ?>
 
 <?= $form->start() ?>
@@ -30,9 +23,11 @@ $form->renderer()->setDefaultFieldWidth( [
 
 <?= JetStudio_UI::messages(); ?>
 
-<?= $form->field( 'module_name' ) ?>
-<?= $form->field( 'module_label' ) ?>
-<?= $form->field( 'vendor' ) ?>
-<?= $form->field( 'version' ) ?>
+<div class="form-fields" style="grid-template-columns: 0.7fr 2fr;">
+	<?= $form->field( 'module_name' ) ?>
+	<?= $form->field( 'module_label' ) ?>
+	<?= $form->field( 'vendor' ) ?>
+	<?= $form->field( 'version' ) ?>
+</div>
 
 <?= $form->end() ?>

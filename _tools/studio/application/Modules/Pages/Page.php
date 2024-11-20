@@ -49,40 +49,13 @@ class Page extends MVC_Page
 	
 	public const PARAMS_COUNT = 5;
 
-	/**
-	 * @var bool
-	 */
 	protected static bool $use_module_pages = false;
-
-	/**
-	 * @var ?Form
-	 */
+	
 	protected ?Form $__edit_form_main = null;
-
-	/**
-	 * @var ?Form
-	 */
 	protected ?Form $__edit_form_content = null;
-
-	/**
-	 * @var ?Form
-	 */
 	protected ?Form $__edit_form_static_content = null;
-
-	/**
-	 * @var ?Form
-	 */
 	protected ?Form $__edit_form_callback = null;
-
-
-	/**
-	 * @var ?Form
-	 */
 	protected ?Form $__delete_content_form = null;
-
-	/**
-	 * @var ?Form
-	 */
 	protected ?Form $__create_content_form = null;
 
 	/**
@@ -90,24 +63,14 @@ class Page extends MVC_Page
 	 * @var Page_Content[]
 	 */
 	protected array $content = [];
-
-
-	/**
-	 * @var ?Form
-	 */
-	protected static ?Form $create_form = null;
-
-
+	
+	protected static ?Form $__create_form = null;
 	protected static bool $_translate = false;
 
 
-	/**
-	 *
-	 * @return Form
-	 */
 	public static function getCreateForm(): Form
 	{
-		if( !static::$create_form ) {
+		if( !static::$__create_form ) {
 
 			$name_field = new Form_Field_Input( 'name', 'Name:' );
 			$name_field->setIsRequired( true );
@@ -158,16 +121,13 @@ class Page extends MVC_Page
 
 			$form->setAction( Main::getActionUrl( 'add' ) );
 
-			static::$create_form = $form;
+			static::$__create_form = $form;
 		}
 
-		return static::$create_form;
+		return static::$__create_form;
 	}
 
-	/**
-	 *
-	 * @return bool|Page
-	 */
+
 	public static function catchCreateForm(): bool|Page
 	{
 		$form = static::getCreateForm();
@@ -186,11 +146,7 @@ class Page extends MVC_Page
 			Main::getCurrentPage()
 		);
 	}
-
-
-	/**
-	 * @return Form
-	 */
+	
 	public function getEditForm_main(): Form
 	{
 		if( !$this->__edit_form_main ) {
@@ -363,7 +319,7 @@ class Page extends MVC_Page
 				];
 			}
 			
-			$meta_tags_field = new Form_Field_MetaTags('meta_tags', '');
+			$meta_tags_field = new Form_Field_MetaTags('meta_tags', 'Meta Tags:');
 			$meta_tags_field->setNewRowsCount( 5 );
 			$meta_tags_field->setDefaultValue( $meta_tags );
 			$meta_tags_field->setFieldValueCatcher(function($value) {
@@ -390,7 +346,7 @@ class Page extends MVC_Page
 			$fields[] = $meta_tags_field;
 			
 			
-			$http_headers_field = new Form_Field_Array('http_headers', '');
+			$http_headers_field = new Form_Field_Array('http_headers', 'HTTP headers:');
 			$http_headers_field->setNewRowsCount( 3 );
 			$http_headers_field->setDefaultValue( $this->http_headers );
 			$http_headers_field->setFieldValueCatcher(function($value) {
@@ -399,7 +355,7 @@ class Page extends MVC_Page
 			$fields[] = $http_headers_field;
 			
 			
-			$params_field = new Form_Field_AssocArray('params', '');
+			$params_field = new Form_Field_AssocArray('params', 'Parameters:');
 			$params_field->setAssocChar('=');
 			$params_field->setNewRowsCount(static::PARAMS_COUNT);
 			$params_field->setDefaultValue( $this->parameters );
@@ -441,10 +397,7 @@ class Page extends MVC_Page
 
 		return $this->__edit_form_main;
 	}
-
-	/**
-	 * @return bool
-	 */
+	
 	public function catchEditForm_main(): bool
 	{
 		$form = $this->getEditForm_main();
@@ -461,11 +414,7 @@ class Page extends MVC_Page
 		return false;
 	}
 	
-
-
-	/**
-	 * @return Form
-	 */
+	
 	public function getEditForm_content(): Form
 	{
 		if( !$this->__edit_form_content ) {
@@ -506,10 +455,7 @@ class Page extends MVC_Page
 
 		return $this->__edit_form_content;
 	}
-
-	/**
-	 * @return bool
-	 */
+	
 	public function catchEditForm_content(): bool
 	{
 		$form = $this->getEditForm_content();
@@ -548,27 +494,12 @@ class Page extends MVC_Page
 		$form->catchFieldValues();
 
 		$this->output = '';
-
-		foreach( $this->content as $i => $content ) {
-			$content->setParameters(
-				Page_Content::catchParams( $form, '/content/' . $i )
-			);
-		}
-
+		
 		$this->sortContent();
 
 		return true;
 	}
-
-	/**
-	 * @param string $base_id
-	 * @param Locale $locale
-	 * @param string $id
-	 * @param string $name
-	 * @param Page|null $parent
-	 *
-	 * @return Page
-	 */
+	
 	public static function createPage( string $base_id,
 	                                   Locale $locale,
 	                                   string $id,
@@ -607,11 +538,7 @@ class Page extends MVC_Page
 		return $page;
 	}
 
-
-
-	/**
-	 * @return Form
-	 */
+	
 	public function getDeleteContentForm(): Form
 	{
 		if( !$this->__delete_content_form ) {
@@ -619,7 +546,7 @@ class Page extends MVC_Page
 
 			$form = new Form( 'delete_content_form', [$index_field] );
 
-			$form->setAction( Main::getActionUrl( 'content/delete' ) );
+			$form->setAction( Main::getActionUrl( 'content_delete' ) );
 
 			$this->__delete_content_form = $form;
 		}
@@ -627,9 +554,6 @@ class Page extends MVC_Page
 		return $this->__delete_content_form;
 	}
 
-	/**
-	 * @return Page_Content|null
-	 */
 	public function catchDeleteContentForm(): Page_Content|null
 	{
 		$form = $this->getDeleteContentForm();
@@ -657,9 +581,6 @@ class Page extends MVC_Page
 	}
 
 
-	/**
-	 * @return Form
-	 */
 	public function getEditForm_static_content(): Form
 	{
 		if( !$this->__edit_form_static_content ) {
@@ -690,10 +611,7 @@ class Page extends MVC_Page
 
 		return $this->__edit_form_static_content;
 	}
-
-	/**
-	 * @return bool
-	 */
+	
 	public function catchEditForm_static_content(): bool
 	{
 		$form = $this->getEditForm_static_content();
@@ -709,11 +627,7 @@ class Page extends MVC_Page
 
 		return false;
 	}
-
-
-	/**
-	 * @return Form
-	 */
+	
 	public function getEditForm_callback(): Form
 	{
 		if( !$this->__edit_form_callback ) {
@@ -752,10 +666,7 @@ class Page extends MVC_Page
 
 		return $this->__edit_form_callback;
 	}
-
-	/**
-	 * @return bool
-	 */
+	
 	public function catchEditForm_callback(): bool
 	{
 		$form = $this->getEditForm_callback();
@@ -771,15 +682,7 @@ class Page extends MVC_Page
 
 		return false;
 	}
-
-
-
-
-
-	/**
-	 *
-	 * @return Form
-	 */
+	
 	public function getContentCreateForm(): Form
 	{
 
@@ -792,6 +695,13 @@ class Page extends MVC_Page
 			$is_cacheable = Page_Content::getField__is_cacheable( false );
 			$output_position = Page_Content::getField__output_position( MVC_Layout::DEFAULT_OUTPUT_POSITION, $this );
 			$output_position_order = Page_Content::getField__output_position_order( 0 );
+			
+			
+			$params_field = new Form_Field_AssocArray('params', 'Parameters:');
+			$params_field->setAssocChar('=');
+			$params_field->setNewRowsCount(static::PARAMS_COUNT);
+			$params_field->setDefaultValue( [] );
+
 
 			$module_name = Page_Content::getField__module_name( '' );
 			$controller_name = Page_Content::getField__controller_name( MVC::MAIN_CONTROLLER_NAME );
@@ -813,6 +723,8 @@ class Page extends MVC_Page
 				$is_cacheable,
 				$output_position,
 				$output_position_order,
+				
+				$params_field,
 
 				$module_name,
 				$controller_name,
@@ -826,30 +738,18 @@ class Page extends MVC_Page
 				$output_callback,
 			];
 
-
-			for( $c = 0; $c < Page_Content::PARAMS_COUNT; $c++ ) {
-
-				$param_key = new Form_Field_Input( '/params/' . $c . '/key', '' );
-				$fields[] = $param_key;
-
-				$param_value = new Form_Field_Input( '/params/' . $c . '/value', '' );
-				$fields[] = $param_value;
-			}
-
+			
 
 			$form = new Form( 'create_page_content_form', $fields );
 
-			$form->setAction( Main::getActionUrl( 'content/add' ) );
+			$form->setAction( Main::getActionUrl( 'content_add' ) );
 
 			$this->__create_content_form = $form;
 		}
 
 		return $this->__create_content_form;
 	}
-
-	/**
-	 * @return bool|Page_Content
-	 */
+	
 	public function catchContentCreateForm(): bool|Page_Content
 	{
 		$form = $this->getContentCreateForm();
@@ -931,10 +831,14 @@ class Page extends MVC_Page
 
 			$output_order++;
 		}
+		
+		$params = $form->field( 'params' )->getValue();
+		
 
 		$content->setIsCacheable( $is_cacheable );
 		$content->setOutputPosition( $output_position );
 		$content->setOutputPositionOrder( $output_order );
+		$content->setParameters( $params );
 
 
 		switch( $form->field( 'content_kind' )->getValue() ) {
@@ -954,10 +858,7 @@ class Page extends MVC_Page
 			case Page_Content::CONTENT_KIND_CALLBACK:
 				$content->setOutput( $form->field( 'output_callback' )->getValue() );
 				break;
-
 		}
-
-		$content->setParameters( Page_Content::catchParams( $form ) );
 
 		$this->__create_content_form = null;
 
@@ -965,14 +866,7 @@ class Page extends MVC_Page
 	}
 
 
-
-
-
-
 	
-	/**
-	 *
-	 */
 	public function sortContent(): void
 	{
 		$i = 0;
@@ -1019,24 +913,15 @@ class Page extends MVC_Page
 				$content->setOutputPositionOrder( $c );
 			}
 		}
-
 	}
-
-
-	/**
-	 * @param MVC_Page_Content_Interface $content
-	 */
+	
 	public function addContent( MVC_Page_Content_Interface $content ): void
 	{
 
 		parent::addContent( $content );
 		$this->sortContent();
 	}
-
-
-	/**
-	 * @param int $index
-	 */
+	
 	public function removeContent( int $index ): void
 	{
 		parent::removeContent( $index );
@@ -1044,10 +929,6 @@ class Page extends MVC_Page
 		$this->sortContent();
 	}
 
-
-	/**
-	 * @return bool
-	 */
 	public function save(): bool
 	{
 		$ok = true;
@@ -1060,10 +941,7 @@ class Page extends MVC_Page
 
 		return $ok;
 	}
-
-	/**
-	 * @return bool
-	 */
+	
 	public function delete(): bool
 	{
 		$ok = true;
@@ -1112,11 +990,7 @@ class Page extends MVC_Page
 		
 		return [];
 	}
-	
-	/**
-	 * @param string $module_name
-	 * @return array
-	 */
+
 	public static function getModuleControllers( string $module_name ): array
 	{
 		if( !Application_Modules::moduleExists( $module_name ) ) {

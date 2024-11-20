@@ -8,7 +8,10 @@ $form->renderer()->addJsAction( 'onsubmit', 'Menus.createSet.createSend();return
 
 echo $form->start();
 echo $form->getCommonMessage();
-echo $form->field( 'menu_set_name' );
-
+?>
+	<div class="form-fields" style="grid-template-columns: 0.6fr 2fr;">
+		<?=$form->field( 'menu_set_name' );?>
+	</div>
+<?php
 echo $form->end();
 

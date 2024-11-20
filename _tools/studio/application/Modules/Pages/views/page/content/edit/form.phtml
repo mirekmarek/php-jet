@@ -1,10 +1,7 @@
 <?php
 namespace JetStudioModule\Pages;
 
-use Jet\Form_Renderer;
 use Jet\MVC_View;
-use Jet\Tr;
-use Jet\UI;
 
 /**
  * @var MVC_View $this
@@ -15,21 +12,7 @@ $page = $this->getRaw( 'page' );
 
 $form = $page->getEditForm_content();
 
-$form->renderer()->setDefaultLabelWidth( [
-	Form_Renderer::LJ_SIZE_MEDIUM => 2
-] );
-$form->renderer()->setDefaultFieldWidth( [
-	Form_Renderer::LJ_SIZE_MEDIUM => 6
-] );
-
 ?>
-<div class="toolbar">
-	<?= UI::button_create( Tr::_( 'Add content' ) )
-		->setOnClick( 'Pages.editPage.content.addContent()' )?>
-	
-	<?= UI::button_save( Tr::_('Stave content settings') )->setOnClick( "$('#{$form->getId()}').submit()" ) ?>
-</div>
-
 
 <?= $form->start() ?>
 <div style="min-height: 600px;margin-bottom: 40px;">

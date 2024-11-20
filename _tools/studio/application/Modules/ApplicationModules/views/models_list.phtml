@@ -14,6 +14,7 @@ use JetStudio\JetStudio_UI;
 $showIcons = function( Modules_Manifest $module ) {
 	if( $module->isMandatory() ):
 		echo UI::badge(UI_badge::INFO, UI::icon( 'exclamation-triangle' )->setTitle( Tr::_( 'Is mandatory' ) )->setSize(UI_icon::SIZE_SMALL) );
+		echo '&nbsp;';
 	endif;
 	
 	if( $module->isInstalled() ):
@@ -99,7 +100,7 @@ $showIcons = function( Modules_Manifest $module ) {
 		    data-name="<?=$module->getName()?>"
 		    data-label="<?=$module->getLabel()?>"
 			>
-			<td style="width: 80px;">
+			<td style="width: 100px;">
 				<?php $showIcons( $module ); ?>
 			</td>
 			<td>

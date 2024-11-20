@@ -2,9 +2,9 @@
 
 namespace JetStudioModule\DataModel;
 
-use Jet\Form_Renderer;
 use Jet\MVC_View;
 use Jet\Tr;
+use Jet\UI;
 
 /**
  * @var MVC_View $this ;
@@ -13,35 +13,43 @@ use Jet\Tr;
 $relation = DataModels::getCurrentRelation();
 
 $form = $relation->getEditForm();
-$form->renderer()->setDefaultLabelWidth( [
-	Form_Renderer::LJ_SIZE_MEDIUM => 3
-] );
-$form->renderer()->setDefaultFieldWidth( [
-	Form_Renderer::LJ_SIZE_MEDIUM => 9
-] );
+
 
 ?>
-	<div class="row">
-		<label class="col-md-3"><?= Tr::_( 'Related model:' ) ?></label>
-		<div class="col-md-9" style="padding: 10px"><a
-					href="?class=<?= $relation->getRelatedDataModelClassName() ?>"><?= $relation->getRelatedDataModelName() . ' (' . $relation->getRelatedDataModelClassName() . ')' ?></a>
+<?=$form->start();?>
+
+<div class="form-fields">
+	<div><?= Tr::_( 'Related model:' ) ?></div>
+	<div>
+		<a href="?class=<?= $relation->getRelatedDataModelClassName() ?>"><?= $relation->getRelatedDataModelName() . ' (' . $relation->getRelatedDataModelClassName() . ')' ?></a>
+	</div>
+	
+	<?=$form->field( 'join_type' );?>
+
+	<div></div>
+	<div>
+		<br>
+		<div style="display: grid;grid-template-columns: 1fr auto 1fr;gap: 10px;align-items: center">
+		<?php
+		$form->setDoNotTranslateTexts( true );
+		foreach( $relation->getRelatedDataModel()->getProperties() as $property ):
+			if( !$form->fieldExists( 'glue_' . $property->getName() ) ) {
+				continue;
+			}
+			
+			$f = $form->field( 'glue_' . $property->getName() );
+			?>
+			<?=$f->label()?>
+			<div><?=UI::icon('arrows-left-right-to-line')?></div>
+			<div><?=$f->input()?></div>
+			<?php
+		endforeach;
+		
+		$form->setDoNotTranslateTexts( false );
+		?>
 		</div>
 	</div>
-	<?php
+</div>
 
-echo $form->start();
-
-echo $form->field( 'join_type' );
-
-$form->setDoNotTranslateTexts( true );
-foreach( $relation->getRelatedDataModel()->getProperties() as $property ) {
-	if( !$form->fieldExists( 'glue_' . $property->getName() ) ) {
-		continue;
-	}
-
-	echo $form->field( 'glue_' . $property->getName() );
-}
-$form->setDoNotTranslateTexts( false );
-
-echo $form->end();
+<?=$form->end();?>
 

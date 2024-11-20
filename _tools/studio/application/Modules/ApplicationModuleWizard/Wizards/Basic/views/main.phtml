@@ -1,7 +1,6 @@
 <?php
 namespace JetStudioModule\ApplicationModuleWizard\Basic;
 
-use Jet\Form_Renderer;
 use Jet\UI_button;
 use Jet\MVC_View;
 use Jet\Tr;
@@ -16,17 +15,11 @@ $wizard = $this->getRaw( 'wizard' );
 
 $setup_form = $wizard->getSetupForm();
 
-$setup_form->renderer()->setDefaultLabelWidth( [
-	Form_Renderer::LJ_SIZE_MEDIUM => 2
-] );
-$setup_form->renderer()->setDefaultFieldWidth( [
-	Form_Renderer::LJ_SIZE_MEDIUM => 10
-] );
-
 ?>
 <?= $setup_form->start() ?>
-<legend><?= Tr::_( 'Main module parameters' ) ?></legend>
+<div class="section-title"><?= Tr::_( 'Main module parameters' ) ?></div>
 
+<div class="form-fields" style="grid-template-columns: 0.3fr 1fr;">
 <?= $setup_form->field( 'NAME' ) ?>
 
 <?= $setup_form->field( 'LABEL' ) ?>
@@ -34,6 +27,7 @@ $setup_form->renderer()->setDefaultFieldWidth( [
 <?= $setup_form->field( 'AUTHOR' ) ?>
 <?= $setup_form->field( 'LICENSE' ) ?>
 <?= $setup_form->field( 'COPYRIGHT' ) ?>
+</div>
 
 <div style="text-align: right">
 	<?= UI::button_save( Tr::_( 'Create' ) )->setClass( UI_button::CLASS_PRIMARY )->setIcon( 'magic' ) ?>

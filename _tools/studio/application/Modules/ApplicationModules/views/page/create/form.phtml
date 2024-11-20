@@ -10,9 +10,13 @@ $form->field( 'base_id' )->input()->addJsAction( 'onchange', 'Modules.editModule
 echo $form->start();
 
 echo $form->getCommonMessage();
-
+?>
+<div class="form-fields" style="grid-template-columns: 20% 1fr;">
+<?php
 echo $form->field( 'base_id' );
 echo $form->field( 'page_name' );
 echo $form->field( 'page_id' );
-
+?>
+</div>
+<?php
 echo $form->end();

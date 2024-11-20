@@ -104,7 +104,7 @@ class DataModels extends BaseObject
 		if( static::$classes === null ) {
 			static::$classes = [];
 
-			$finder = new DataModels_ClassFinder(
+			$finder = new ClassFinder(
 				static::load_getDirs()
 			);
 

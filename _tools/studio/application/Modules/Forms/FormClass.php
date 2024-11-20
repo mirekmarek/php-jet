@@ -12,11 +12,11 @@ use JetStudio\ClassMetaInfo;
 use Jet\Form_Definition_Interface;
 use JetStudio\JetStudio;
 
-class Forms_Class extends ClassMetaInfo
+class FormClass extends ClassMetaInfo
 {
 	
 	/**
-	 * @return Forms_Class_Property[]
+	 * @return FormClass_Property[]
 	 */
 	public function getProperties() : array
 	{
@@ -40,7 +40,7 @@ class Forms_Class extends ClassMetaInfo
 				continue;
 			}
 			
-			$p = new Forms_Class_Property( $this, $property->getName(), $property, $form_definition[$property->getName()]??null );
+			$p = new FormClass_Property( $this, $property->getName(), $property, $form_definition[$property->getName()]??null );
 			
 			$properties[$p->getName()] = $p;
 		}
@@ -62,6 +62,6 @@ class Forms_Class extends ClassMetaInfo
 	
 	public static function get( string $class_name ): ?static
 	{
-		return Forms_Class::get( $class_name );
+		return FormClass::get( $class_name );
 	}
 }

@@ -2,7 +2,6 @@
 
 namespace JetStudioModule\Forms;
 
-use Jet\Form_Renderer;
 use Jet\MVC_View;
 use Jet\Tr;
 
@@ -10,16 +9,12 @@ use Jet\Tr;
  * @var MVC_View $this
  */
 
-$types = Forms_Class_Property::getTypesList();
+$types = FormClass_Property::getTypesList();
 
 $form = Main::getCurrentProperty()->getSetTypeForm();
 
 $fields = $form->getFields();
 
-
-$form->renderer()
-	->setDefaultLabelWidth( [Form_Renderer::LJ_SIZE_MEDIUM => 2] )
-	->setDefaultFieldWidth( [Form_Renderer::LJ_SIZE_MEDIUM => 9] );
 
 
 echo $form->start();

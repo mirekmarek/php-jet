@@ -12,11 +12,11 @@ use Jet\DataModel;
 use Jet\DataModel_Exception;
 use Jet\DataModel_Related_1to1;
 use Jet\DataModel_Related_1toN;
-use JetStudio\ClassFinder;
+use JetStudio\ClassFinder as JS_ClassFinder;
 use JetStudio\ClassMetaInfo;
 use ReflectionClass;
 
-class DataModels_ClassFinder extends ClassFinder
+class ClassFinder extends JS_ClassFinder
 {
 
 	

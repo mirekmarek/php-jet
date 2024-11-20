@@ -1,10 +1,7 @@
 <?php
 namespace JetStudioModule\Pages;
 
-use Jet\Form_Renderer;
 use Jet\MVC_View;
-use Jet\Tr;
-use Jet\UI;
 
 /**
  * @var MVC_View $this
@@ -14,23 +11,12 @@ use Jet\UI;
 $page = $this->getRaw( 'page' );
 
 $form = $page->getEditForm_callback();
-
-$form->renderer()->setDefaultLabelWidth( [
-	Form_Renderer::LJ_SIZE_MEDIUM => 1
-] );
-$form->renderer()->setDefaultFieldWidth( [
-	Form_Renderer::LJ_SIZE_MEDIUM => 8
-] );
 ?>
-<div class="toolbar">
-	<?= UI::button_save( Tr::_('Stave content settings') )->setOnClick( "$('#{$form->getId()}').submit()" ) ?>
-</div>
 <?= $form->start() ?>
 
-<div style="display: grid;align-items: center;grid-template-columns: 150px 1fr;gap: 10px;">
-	<div><?=$form->field('output_callback')->getLabel()?></div>
+<div style="display: grid;align-items: center;grid-template-columns: 150px 1fr;gap: 10px;margin: 20px;">
+	<?=$form->field('output_callback')->getLabel()?>
 	<?=$form->field('output_callback')->input();?>
 </div>
-
 
 <?= $form->end() ?>

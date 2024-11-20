@@ -9,7 +9,9 @@ $form->getField( 'label' )->input()->addJsAction( 'onkeyup', 'Modules.editModule
 
 echo $form->start();
 echo $form->getCommonMessage();
-
+?>
+<div class="form-fields" style="grid-template-columns: 20% 1fr;">
+<?php
 echo $form->field( 'target_menu' );
 
 echo $form->field( 'label' );
@@ -26,7 +28,8 @@ echo $form->field( 'URL' );
 echo $form->field( 'base_id' );
 echo $form->field( 'page_id' );
 echo $form->field( 'locale' );
-
-
+?>
+</div>
+<?php
 echo $form->end();
 

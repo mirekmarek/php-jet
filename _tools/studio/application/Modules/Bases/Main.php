@@ -7,10 +7,13 @@
  */
 namespace JetStudioModule\Bases;
 
+use Jet\Factory_MVC;
+use Jet\Http_Request;
+
 use JetStudio\JetStudio;
 use JetStudio\JetStudio_Module;
 
-use Jet\Http_Request;
+use JetStudio\JetStudio_Module_Manifest;
 
 /**
  *
@@ -18,7 +21,14 @@ use Jet\Http_Request;
 class Main extends JetStudio_Module
 {
 	protected static MVCBase|bool|null $current_base = null;
-
+	
+	public function __construct( JetStudio_Module_Manifest $manifest )
+	{
+		$this->manifest = $manifest;
+		
+		Factory_MVC::setBaseClassName( MVCBase::class );
+	}
+	
 	public static function getActionUrl( string $action, array $custom_get_params = [], ?string $custom_base_id = null ) : string
 	{
 		

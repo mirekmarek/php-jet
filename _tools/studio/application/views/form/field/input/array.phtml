@@ -24,7 +24,7 @@ if( $field->getLastErrorCode() ) {
 
 ?>
 
-<div>
+<div style="display: grid;grid-template-columns: 1fr;grid-gap: 10px;">
 	<?php foreach($value as $val): ?>
 		<div class="input-group">
 			<span class="input-group-prepend"><span class="input-group-text"><?=$field->getPrependText()?></span></span>

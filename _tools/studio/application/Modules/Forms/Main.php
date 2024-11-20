@@ -8,7 +8,6 @@
 
 namespace JetStudioModule\Forms;
 
-use Jet\Application_Modules;
 use Jet\Http_Request;
 use Jet\IO_File;
 use JetStudio\JetStudio;
@@ -18,18 +17,13 @@ use JetStudio\JetStudio_Module_Service_Forms;
 
 class Main extends JetStudio_Module implements JetStudio_Module_Service_Forms
 {
-	protected static Forms_Class|null|bool $current_class = null;
-	protected static Forms_Class_Property|bool|null $current_property = null;
+	protected static FormClass|null|bool $current_class = null;
+	protected static FormClass_Property|bool|null $current_property = null;
 	
 	/**
-	 * @var Forms_Class[]
+	 * @var FormClass[]
 	 */
 	protected static ?array $classes = null;
-	
-	/**
-	 * @var Forms_Namespace[]
-	 */
-	protected static ?array $namespaces = null;
 
 	
 	public function generateViewFile( string $class_name, string $target_file ) : void
@@ -61,7 +55,7 @@ class Main extends JetStudio_Module implements JetStudio_Module_Service_Forms
 	
 	/**
 	 * @param bool $reload
-	 * @return Forms_Class[]
+	 * @return FormClass[]
 	 */
 	public static function load( bool $reload = false ): array
 	{
@@ -72,7 +66,7 @@ class Main extends JetStudio_Module implements JetStudio_Module_Service_Forms
 		if( static::$classes === null ) {
 			static::$classes = [];
 			
-			$finder = new Forms_ClassFinder(
+			$finder = new ClassFinder(
 				static::load_getDirs()
 			);
 			
@@ -85,7 +79,7 @@ class Main extends JetStudio_Module implements JetStudio_Module_Service_Forms
 	}
 	
 	/**
-	 * @return Forms_Class[]
+	 * @return FormClass[]
 	 */
 	public static function getProblematicClasses(): array
 	{
@@ -102,37 +96,10 @@ class Main extends JetStudio_Module implements JetStudio_Module_Service_Forms
 		return $problems;
 	}
 	
-	/**
-	 * @return Forms_Namespace[]
-	 */
-	public static function getNamespaces(): array
-	{
-		
-		if( static::$namespaces === null ) {
-			static::$namespaces = [];
-			$app_ns = new Forms_Namespace(
-				JetStudio::getApplicationNamespace(),
-				JetStudio_Conf_Path::getApplicationClasses()
-			);
-			
-			static::$namespaces[$app_ns->getNamespace()] = $app_ns;
-			
-			foreach( Application_Modules::allModulesList() as $module ) {
-				$ns = new Forms_Namespace(
-					rtrim( $module->getNamespace(), '\\' ),
-					$module->getModuleDir()
-				);
-				
-				static::$namespaces[$ns->getNamespace()] = $ns;
-			}
-		}
-		
-		return static::$namespaces;
-	}
 	
 	
 	/**
-	 * @return Forms_Class[]
+	 * @return FormClass[]
 	 */
 	public static function getClasses(): array
 	{
@@ -171,7 +138,7 @@ class Main extends JetStudio_Module implements JetStudio_Module_Service_Forms
 		return JetStudio::getModuleManifest('Forms')->getURL().'?'.http_build_query( $get_params );
 	}
 	
-	public static function getClass( string $name ): Forms_Class|null
+	public static function getClass( string $name ): FormClass|null
 	{
 		static::load();
 		
@@ -182,7 +149,7 @@ class Main extends JetStudio_Module implements JetStudio_Module_Service_Forms
 		return static::$classes[$name];
 	}
 	
-	public static function getCurrentClass(): Forms_Class|null|bool
+	public static function getCurrentClass(): FormClass|null|bool
 	{
 		if( static::$current_class === null ) {
 			$id = Http_Request::GET()->getString( 'class' );
@@ -210,7 +177,7 @@ class Main extends JetStudio_Module implements JetStudio_Module_Service_Forms
 	}
 	
 	
-	public static function getCurrentProperty() : Forms_Class_Property|null
+	public static function getCurrentProperty() : FormClass_Property|null
 	{
 		if( static::$current_property === null ) {
 			static::$current_property = false;
