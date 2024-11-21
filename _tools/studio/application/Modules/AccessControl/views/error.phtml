@@ -1,12 +1,9 @@
 <?php
-
 namespace JetStudio;
 
 use Jet\UI_messages;
 
-?>
-	<br/><br/><br/><br/><br/>
-	<?php
 foreach( UI_messages::get() as $message ):
+	$message->setCloseable( false );
 	echo $message;
 endforeach;
