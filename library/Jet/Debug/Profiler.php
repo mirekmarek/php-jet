@@ -58,6 +58,9 @@ class Debug_Profiler
 
 		register_shutdown_function(
 			function() use ( $saver, $displayer ) {
+				if(!static::$enabled) {
+					return;
+				}
 
 				$run = Debug_Profiler::getRun();
 				$run->runEnd();
@@ -69,6 +72,11 @@ class Debug_Profiler
 				}
 			}
 		);
+	}
+	
+	public static function disable(): void
+	{
+		static::$enabled = false;
 	}
 
 	/**

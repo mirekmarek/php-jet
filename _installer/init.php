@@ -8,6 +8,7 @@
 namespace JetApplication\Installer;
 
 use Jet\Config;
+use Jet\Debug_Profiler;
 use Jet\SysConf_Jet_Form;
 use Jet\SysConf_Jet_UI;
 use Jet\SysConf_Path;
@@ -54,3 +55,5 @@ Installer::setAvailableLocales(
 		'en_US', 'cs_CZ',
 	]
 );
+
+Debug_Profiler::disable();
