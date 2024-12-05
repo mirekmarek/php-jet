@@ -1,4 +1,4 @@
-<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+<?php
 /**
  *
  * @copyright Copyright (c) Miroslav Marek <mirek.marek@web-jet.cz>
@@ -12,7 +12,7 @@ if(extension_loaded( 'intl' )) {
 }
 
 
-class Locale {
+class LocaleMock {
 	public static function parseLocale(string $locale): ?array
 	{
 		return null;
@@ -29,7 +29,7 @@ class Locale {
 	}
 }
 
-class IntlDateFormatter {
+class IntlDateFormatterMock {
 	public const SHORT = 0;
 	public const MEDIUM = 0;
 	public const LONG = '';
@@ -37,3 +37,8 @@ class IntlDateFormatter {
 	public const GREGORIAN = '';
 	public const TRADITIONAL = '';
 }
+
+/** @noinspection PhpIgnoredClassAliasDeclaration */
+class_alias( LocaleMock::class, Locale::class, false);
+/** @noinspection PhpIgnoredClassAliasDeclaration */
+class_alias( IntlDateFormatterMock::class, IntlDateFormatter::class , false);
