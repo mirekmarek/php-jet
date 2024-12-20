@@ -204,6 +204,10 @@ class Menu extends Navigation_Menu
 	 */
 	public function getMenuItems(): array
 	{
+		uasort($this->items, function( Navigation_Menu_Item $a, Navigation_Menu_Item $b ) {
+			return $a->getIndex() <=> $b->getIndex();
+		});
+		
 		return $this->items;
 	}
 
