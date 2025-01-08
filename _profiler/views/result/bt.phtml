@@ -48,7 +48,7 @@ function showCode( string $file, string|int $line ) : void {
 		<div class="dbg-bt-lines" id="dbg-lines">
 			<?php foreach( $bt as $i => $d ):?>
 				<div id="dbg_bt_l_<?=$i?>" class="dbg-bt-line<?=$i==0? ' dbg-bt-line-selected':''?>" data-line="<?=$i?>" onclick="ProfilerResult.showBt(this);">
-					<?= $d->getFile() ?> : <?= $d->getLine() ?><br>
+					<?= $d->getFileDisplayable() ?> : <?= $d->getLine() ?><br>
 					<div class="dbg-bt-line-call"><?=$d->getCall()?></div>
 				</div>
 			<?php endforeach; ?>

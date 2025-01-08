@@ -65,7 +65,7 @@ $showCode = function( $file, $line ) use ($handler) : void {
 			</div>
 			<?php foreach( $error->getBacktrace() as $i => $d ):?>
 				<div id="dbg_bt_l_<?=$id?>_<?=$i?>" class="dbg-bt-line" data-line="<?=$i?>" onclick="dbg.showBt('<?=$id?>', this);">
-					<?= $d->getFile() ?> : <?= $d->getLine() ?><br>
+					<?= $d->getFileDisplayable() ?> : <?= $d->getLine() ?><br>
 					<div class="dbg-bt-line-call"><?=$d->getCall()?></div>
 				</div>
 			<?php endforeach; ?>

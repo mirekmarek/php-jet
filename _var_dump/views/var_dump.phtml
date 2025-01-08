@@ -1,0 +1,213 @@
+<?php
+
+use Jet\Debug_CodeHighlighter_PHP;
+use Jet\Debug_VarDump;
+
+$encode = function( string $html ): string {
+	return nl2br( htmlspecialchars( $html, ENT_QUOTES ) );
+};
+
+
+/**
+ * @var Debug_VarDump $var_dump
+ */
+
+$id = uniqid();
+
+
+
+$showCode = function( $file, $line ) : void {
+	$highlighter = new Debug_CodeHighlighter_PHP();
+	?>
+	<div class="dbg-code">
+		<?php
+		$from_line = $line-10;
+		$to_line = $line+10;
+		
+		foreach($highlighter->highlight( file_get_contents($file), true ) as $line_no=>$line_code):
+			if($line_no<$from_line) {
+				continue;
+			}
+			if($line_no>$to_line) {
+				break;
+			}
+			?>
+			<div class="<?=(($line==$line_no)?'dbg-code-current-line-no':'dbg-code-line-no')?>"><?=$line_no?>:</div>
+			<div class="<?=(($line==$line_no)?'dbg-code-current-line':'')?>"><?=$line_code?></div>
+		<?php
+		endforeach;
+		?>
+	</div>
+	<?php
+};
+
+
+$varDisplayer = new class {
+	protected int $counter = 0;
+	protected string $id_prefix = '';
+	
+	protected array $displayed_objects = [];
+	
+	public function __construct()
+	{
+		$this->id_prefix = uniqid();
+	}
+	
+	public function show( mixed $var ) : void
+	{
+		$this->counter++;
+		
+		if(is_int($var)) {
+			?>
+			<div class="dbg-var dbg-var-scalar dbg-var-scalar-int"><span>int</span><?=$var?></div>
+			<?php
+		}
+		if(is_float($var)) {
+			?>
+			<div class="dbg-var dbg-var-scalar dbg-var-scalar-float"><span>float</span><?=$var?></div>
+			<?php
+		}
+		if(is_string($var)) {
+			?>
+			<div class="dbg-var dbg-var-scalar dbg-var-scalar-string"><span>string [<?=strlen($var)?>]</span> "<?=$var?>"</div>
+			<?php
+		}
+		if(is_bool($var)) {
+			?>
+			<div class="dbg-var dbg-var-scalar dbg-var-scalar-bool"><span>bool</span> <?=$var?'true':'false'?></div>
+			<?php
+		}
+		
+		if(is_resource($var)) {
+			?>
+			<div class="dbg-var dbg-var-resource"><span>resource</span></div>
+			<?php
+		}
+		
+		if(is_null($var)) {
+			?>
+			<div class="dbg-var dbg-var-null"><span>NULL</span></div>
+			<?php
+		}
+		
+		if(is_callable($var)) {
+			?>
+			<div class="dbg-var dbg-var-callable"><span>callable</span></div>
+			<?php
+		}
+
+		if( is_array( $var ) ) {
+			$this->showArray( $var );
+		}
+		
+		if( is_object( $var ) ) {
+			$this->showObject( $var );
+		}
+	}
+	
+	
+	protected function getVarId() : string
+	{
+		return $this->id_prefix.$this->counter;
+	}
+	
+	public function showArray( array $var ) : void
+	{
+		?>
+		<div class="dbg-var dbg-var-array">
+			<span onclick="document.getElementById('dbg_v_<?=$this->getVarId()?>').classList.toggle('not-active');">Array[<?=count($var)?>]</span>
+			<div id="dbg_v_<?=$this->getVarId()?>" class="not-active">
+				<table class="dbg-var-array-values">
+					<?php foreach($var as $k=>$v): ?>
+					<tr>
+						<td class="dbg-var-array-values-k"><?=$k?></td>
+						<td class="dbg-var-array-values-v">
+							<?php $this->show( $v ); ?>
+						</td>
+					</tr>
+					<?php endforeach; ?>
+				</table>
+			</div>
+		</div>
+		<?php
+	}
+	
+	public function showObject( object $var ) : void
+	{
+		$ref = new ReflectionObject( $var );
+		
+		$id = spl_object_id( $var );
+		
+		if(!in_array($id, $this->displayed_objects)) {
+			$this->displayed_objects[] = $id;
+			$is_recurse = false;
+		} else {
+			$is_recurse = true;
+		}
+		
+		?>
+		<div class="dbg-var dbg-var-object">
+			<span onclick="document.getElementById('dbg_v_<?=$this->getVarId()?>').classList.toggle('not-active');">Object</span>
+			<?=get_class($var)?>
+			
+			<div id="dbg_v_<?=$this->getVarId()?>" class="not-active">
+				<?php if($is_recurse): ?>
+				** RECURSION **
+				<?php else: ?>
+				<table class="dbg-var-object-properties">
+					<?php foreach($ref->getProperties() as $p ):
+						if(str_starts_with($p->getName(), '__')) {
+							continue;
+						}
+						?>
+					<tr>
+						<td class="dbg-var-object-properties-n"><?=$p->getName()?></td>
+						<td class="dbg-var-object-properties-v">
+							<?php
+							$this->show( $p->getValue( $var ) );
+							?>
+						</td>
+					</tr>
+					<?php endforeach; ?>
+				</table>
+				<?php endif; ?>
+			</div>
+			
+		</div>
+		<?php
+	}
+};
+
+
+?>
+<div class="dbg-var-dump">
+	<div class="dbg-var-dump-caption"><?=$var_dump->getCation()?></div>
+	
+	<div class="dbg-var-dump-var">
+		<?php $varDisplayer->show( $var_dump->getVar() ); ?>
+	</div>
+	
+	<div class="dbg-bt-title">Debug backtrace</div>
+	
+	<div class="dbg-bt">
+		<div class="dbg-bt-lines" id="dbg-lines-<?=$id?>">
+			<?php foreach( $var_dump->getBacktrace() as $i => $d ):?>
+				<div id="dbg_bt_l_<?=$id?>_<?=$i?>" class="dbg-bt-line<?=$i==0?' dbg-bt-line-selected':''?>" data-line="<?=$i?>" onclick="varDump.showBt('<?=$id?>', this);">
+					<?= $d->getFileDisplayable() ?> : <?= $d->getLine() ?><br>
+					<div class="dbg-bt-line-call"><?=$d->getCall()?></div>
+				</div>
+			<?php endforeach; ?>
+		</div>
+		<div class="dbg-bt-codes" id="dbg-codes-<?=$id?>">
+			<?php foreach( $var_dump->getBacktrace() as $i => $d ):?>
+				<div id="dbg_bt_c_<?=$id?>_<?=$i?>" class="dbg-bt-code<?=$i==0?' dbg-bt-code-selected':''?>">
+					<?php $showCode( $d->getFile(), $d->getLine() );?>
+				</div>
+			<?php endforeach; ?>
+		</div>
+	</div>
+
+
+
+</div><br/>
+

@@ -81,4 +81,8 @@ class Debug
 	}
 
 
+	public static function varDump( mixed $var, string $caption='' ) : void
+	{
+		new Debug_VarDump( $var, $caption );
+	}
 }

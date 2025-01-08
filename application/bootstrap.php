@@ -14,6 +14,7 @@ require __DIR__.'/config/URI.php';
 require __DIR__.'/Init/Profiler.php';
 require __DIR__.'/Init/PHP.php';
 require __DIR__.'/Init/ErrorHandler.php';
+require __DIR__.'/Init/VarDump.php';
 require __DIR__.'/Init/Cache.php';
 require __DIR__.'/Init/Autoloader.php';
 require __DIR__.'/Init/Factory.php';

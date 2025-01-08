@@ -395,7 +395,7 @@ class Debug_ErrorHandler_Error
 
 
 			foreach( $this->getBacktrace() as $d ) {
-				$output .= $d->getFile();
+				$output .= $d->getFileDisplayable();
 				$output .= "\t" . 'Line: ' . $d->getLine() . PHP_EOL;
 				$output .= "\t" . 'Call: ' . $d->getCall() . PHP_EOL;
 				$output .= '' . PHP_EOL;

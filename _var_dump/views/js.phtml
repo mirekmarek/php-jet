@@ -1,0 +1,24 @@
+<script>
+	const varDump = {
+		showBt: ( vd_id, line ) => {
+			const line_id = line.dataset.line;
+			
+			document.getElementById('dbg-lines-'+vd_id).querySelector('.dbg-bt-line-selected').classList.remove('dbg-bt-line-selected');
+			document.getElementById('dbg-codes-'+vd_id).querySelector('.dbg-bt-code-selected').classList.remove('dbg-bt-code-selected');
+			
+			document.getElementById('dbg_bt_c_'+vd_id+'_'+line_id).classList.add('dbg-bt-code-selected');
+			document.getElementById('dbg_bt_l_'+vd_id+'_'+line_id).classList.add('dbg-bt-line-selected');
+		},
+		
+		showVD: ( line ) => {
+			const line_id = line.dataset.line;
+
+			document.getElementById('dbg-var-dumps-list').querySelector('.dbg-var-dumps-list-item-selected').classList.remove('dbg-var-dumps-list-item-selected');
+			document.getElementById('dbg-var-dumps-details').querySelector('.dbg-var-dumps-list-details-selected').classList.remove('dbg-var-dumps-list-details-selected');
+
+			document.getElementById('dbg-w-'+line_id+'-i').classList.add('dbg-var-dumps-list-item-selected');
+			document.getElementById('dbg-w-'+line_id+'-d').classList.add('dbg-var-dumps-list-details-selected');
+		
+		}
+	};
+</script>

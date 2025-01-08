@@ -82,6 +82,11 @@ class Debug_ErrorHandler_Error_BacktraceItem
 	{
 		return $this->file;
 	}
+	
+	public function getFileDisplayable() : string
+	{
+		return str_replace($_SERVER['DOCUMENT_ROOT']??'', '~', $this->file);
+	}
 
 	/**
 	 * @return int|string

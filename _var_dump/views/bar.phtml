@@ -1,0 +1,54 @@
+<?php
+use Jet\Debug_VarDump;
+
+/**
+ * @var Debug_VarDump[] $var_dumps
+ */
+
+
+require_once 'css.phtml';
+require_once 'js.phtml';
+?>
+
+<div id="dbg-var-dumps-btn" onclick="document.getElementById('dbg-var-dumps-dialog').style.display='block';">
+	&#128065; var dump (<?=count($var_dumps)?>)
+</div>
+
+<div id="dbg-var-dumps-dialog" style="display:none;">
+	<div class="dbg-var-dumps-dialog-title">
+		<b>&#128065; Var dump</b>
+		<div class="dbg-links">
+			<?php require 'links.phtml'; ?>
+		</div>
+		
+		<button type="button" onclick="document.getElementById('dbg-var-dumps-dialog').style.display='none';">&#x2715;</button>
+	</div>
+	
+	
+	<div class="dbg-var-dumps">
+		<div id="dbg-var-dumps-list">
+			<?php foreach( $var_dumps as $i=> $var_dump): ?>
+				<div
+					id="dbg-w-<?=$i?>-i"
+					data-line="<?=$i?>"
+					class="dbg-var-dumps-list-item<?=($i==0)?' dbg-var-dumps-list-item-selected':''?>"
+					onclick="varDump.showVD(this);"
+				>
+					<?=$var_dump->getCation()?>
+				</div>
+			<?php endforeach; ?>
+		</div>
+		<div id="dbg-var-dumps-details">
+			<?php foreach( $var_dumps as $i=> $var_dump): ?>
+				<div
+					id="dbg-w-<?=$i?>-d"
+					class="dbg-var-dumps-details-item<?=($i==0)?' dbg-var-dumps-list-details-selected':''?>"
+				>
+					<?php require 'var_dump.phtml'; ?>
+				</div>
+			<?php endforeach; ?>
+		</div>
+	</div>
+
+</div>
+
