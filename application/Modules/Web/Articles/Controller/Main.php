@@ -8,6 +8,7 @@
 
 namespace JetApplicationModule\Web\Articles;
 
+use Jet\Debug;
 use JetApplication\Content_Article;
 
 use Jet\Http_Headers;
@@ -107,6 +108,9 @@ class Controller_Main extends MVC_Controller_Default
 				return MVC::getPage()->getURLPath( ['page:' . $page_no] );
 			}
 		);
+		
+		Debug::varDump( $paginator, 'Paginator 1' );
+		Debug::varDump( $page_no, 'Page NO' );
 
 		$paginator->setDataSource( Content_Article::getListForCurrentLocale() );
 
@@ -129,7 +133,13 @@ class Controller_Main extends MVC_Controller_Default
 		$this->view->setVar( 'paginator', $paginator );
 
 		$this->output( 'list' );
-
+		
+		Debug::varDump( $articles_list );
+		Debug::varDump([
+			'a' => 'aaaaa',
+			'b' => 'bbbbb',
+			1 => null
+		] );
 	}
 
 	/**
