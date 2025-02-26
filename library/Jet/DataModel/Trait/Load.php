@@ -176,8 +176,6 @@ trait DataModel_Trait_Load
 
 
 	/**
-	 * Loads DataModel.
-	 *
 	 * @param array|string|int|DataModel_IDController $id_or_where
 	 * @param array|DataModel_PropertyFilter|null $load_filter
 	 *
@@ -186,24 +184,45 @@ trait DataModel_Trait_Load
 	public static function load( array|string|int|DataModel_IDController $id_or_where,
 	                             array|DataModel_PropertyFilter|null $load_filter = null ): static|null
 	{
+		$data = static::loadData( $id_or_where, $load_filter );
+		if(!$data) {
+			return null;
+		}
+
+		return static::initByData(
+			$data->getMainData(),
+			$data->getRelatedData()
+		);
+		
+	}
+	
+	/**
+	 * @param array|string|int|DataModel_IDController $id_or_where
+	 * @param array|DataModel_PropertyFilter|null $load_filter
+	 *
+	 * @return ?DataModel_LoadedData
+	 */
+	public static function loadData( array|string|int|DataModel_IDController $id_or_where,
+	                             array|DataModel_PropertyFilter|null $load_filter = null ): ?DataModel_LoadedData
+	{
 		/**
 		 * @var DataModel_Definition_Model $this_definition
 		 */
 		$this_definition = static::getDataModelDefinition();
-
+		
 		if(
 			$load_filter &&
 			!($load_filter instanceof DataModel_PropertyFilter)
 		) {
 			$load_filter = new DataModel_PropertyFilter( $this_definition, $load_filter );
 		}
-
-
+		
+		
 		if( $id_or_where instanceof DataModel_IDController ) {
 			$query = $id_or_where->getQuery();
 		} else {
 			$main_where = [];
-
+			
 			if( !is_array( $id_or_where ) ) {
 				foreach( $this_definition->getIdProperties() as $id_property_name => $id_property_definition ) {
 					$main_where[$id_property_name] = $id_or_where;
@@ -212,64 +231,64 @@ trait DataModel_Trait_Load
 			} else {
 				$main_where = $id_or_where;
 			}
-
+			
 			$query = static::createQuery( $main_where );
-
+			
 		}
-
+		
 		$query->setSelect( DataModel_PropertyFilter::getQuerySelect( $this_definition, $load_filter ) );
-
+		
 		/**
 		 * @var DataModel_Backend $backend
 		 */
 		$backend = static::getBackendInstance();
-
-		$this_data = $backend->fetchRow( $query );
-
-		if( !$this_data ) {
+		
+		$main_data = $backend->fetchRow( $query );
+		
+		if( !$main_data ) {
 			return null;
 		}
-
-
+		
+		
 		$main_model_id = [];
-
+		
 		if( $this_definition instanceof DataModel_Definition_Model_Main ) {
 			foreach( $this_definition->getIdProperties() as $property_name => $property_definition ) {
-				$main_model_id[$property_name] = $this_data[$property_name];
+				$main_model_id[$property_name] = $main_data[$property_name];
 			}
 		}
-
+		
 		if( $this_definition instanceof DataModel_Definition_Model_Related ) {
 			foreach( $this_definition->getMainModelRelationIdProperties() as $property_name => $property_definition ) {
 				$related_to = $property_definition->getRelatedToPropertyName();
-
-				$main_model_id[$related_to] = $this_data[$property_name];
+				
+				$main_model_id[$related_to] = $main_data[$property_name];
 			}
 		}
-
-
+		
+		
 		$related_properties = $this_definition->getAllRelatedPropertyDefinitions();
-
-
+		
+		
 		$related_data = [];
 		foreach( $related_properties as $related_model_name => $related_property ) {
-
+			
 			if( $load_filter ) {
 				if( !$load_filter->getModelAllowed( $related_model_name ) ) {
 					continue;
 				}
 			}
-
+			
 			$class_name = $related_property->getValueDataModelClass();
 			$related_dm_definition = DataModel_Definition::get( $class_name );
-
+			
 			$related_where = [];
-
-
+			
+			
 			foreach( $related_dm_definition->getMainModelRelationIdProperties() as $main_related_property_definition ) {
 				$property = $main_related_property_definition->getName();
 				$related_to = $main_related_property_definition->getRelatedToPropertyName();
-
+				
 				if( $related_where ) {
 					$related_where[] = 'AND';
 				}
@@ -280,21 +299,18 @@ trait DataModel_Trait_Load
 			 * @var DataModel_Related $class_name
 			 */
 			$_related_data = $class_name::fetchRelatedData( $related_where, $load_filter );
-
+			
 			if( !$_related_data ) {
 				$_related_data = [];
 			}
-
+			
 			$related_data[$related_model_name] = $_related_data;
 		}
-
-
-		return static::initByData(
-			$this_data,
-			$related_data
-		);
-
+		
+		return new DataModel_LoadedData( $main_data, $related_data );
 	}
+	
+	
 
 	/**
 	 * @param array $where_per_model

@@ -47,11 +47,12 @@ JetStudio_Conf_Path::setApplicationClasses( $project_application.'Classes/' );
 JetStudio_Conf_Path::setApplicationModules( $project_application.'Modules/' );
 JetStudio_Conf_Path::setBases( $project_base . 'bases/' );
 JetStudio_Conf_Path::setConfig( $project_application . 'config/' );
-JetStudio_Conf_Path::setLogs( $project_application . 'logs/' );
-JetStudio_Conf_Path::setTmp( $project_application . 'tmp/' );
-JetStudio_Conf_Path::setCache( $project_application . 'cache/' );
 JetStudio_Conf_Path::setData( $project_application . 'data/' );
 JetStudio_Conf_Path::setDictionaries( $project_application . 'dictionaries/' );
+
+JetStudio_Conf_Path::setLogs( $project_base . 'logs/' );
+JetStudio_Conf_Path::setTmp( $project_base . 'tmp/' );
+JetStudio_Conf_Path::setCache( $project_base . 'cache/' );
 
 
 SysConf_Path::setModules( JetStudio_Conf_Path::getApplication().'Modules/' );

@@ -1,0 +1,84 @@
+<?php
+namespace JetStudioModule\DataModelExport;
+
+use Jet\Data_Array;
+use Jet\DataModel_ImportExport_MetaInfo;
+use Jet\Http_Request;
+use Jet\Locale;
+use Jet\MVC_View;use Jet\Tr;
+use Jet\UI;
+use Jet\UI_button;
+
+/**
+ * @var MVC_View $this
+ * @var DataModel_ImportExport_MetaInfo[] $imports
+ */
+
+$imports_dir = $this->getRaw('imports_dir');
+$imports = $this->getRaw('imports');
+$selected_import_name = $this->getRaw('selected_import_name');
+
+$selected_import = $imports[$selected_import_name]??null;
+?>
+
+<div style="padding: 2%;display: grid;grid-template-columns: 1fr 1fr;gap: 10px">
+	<div>
+		<h4><?=Tr::_('Imports')?></h4>
+		<p><?=Tr::_('Imports directory: %DIR%', ['DIR'=>$imports_dir])?></p>
+		<table class="table table-striped">
+			<?php foreach($imports as $name=>$import): ?>
+			<tr>
+				<td>
+					<?php if($name==$selected_import_name): ?>
+						<b><?=$name?></b>
+					<?php else: ?>
+						<a href="<?=Http_Request::currentURI(['import'=>$name])?>"><?=$name?></a>
+					<?php endif; ?>
+				</td>
+			</tr>
+			<?php endforeach; ?>
+		</table>
+	</div>
+	
+	<div class="card card-body">
+		<?php if($selected_import): ?>
+		<h4><?=$selected_import_name?></h4>
+		<br>
+		<table class="table table">
+			<tr>
+				<td style="width: 250px;"><?=Tr::_('DataModel Class name:')?></td>
+				<td><b><?=$selected_import->getDataModelClassName()?></b></td>
+			</tr>
+			<tr>
+				<td><?=Tr::_('Records count:')?></td>
+				<td><b><?=$selected_import->getRecordCount()?></b></td>
+			</tr>
+			<tr>
+				<td><?=Tr::_('Source backend type:')?></td>
+				<td><b><?=$selected_import->getSourceBackendType()?></b></td>
+			</tr>
+			<tr>
+				<td><?=Tr::_('Export date and time:')?></td>
+				<td><b><?=Locale::dateAndTime( $selected_import->getExportDateTime() )?></b></td>
+			</tr>
+			<tr>
+				<td><?=Tr::_('Source WHERE:')?></td>
+				<td><pre><?=(new Data_Array($selected_import->getSourceWhere() ))->export();?></pre></td>
+			</tr>
+			<tfoot>
+			<tr>
+				<td></td>
+				<td>
+					<?=UI::button( Tr::_('Perform import') )
+						->setUrl( Http_Request::currentURI(['perform_import'=>'do']) )
+						->setOnClick("$('#__progress__').show();")
+						->setClass(UI_button::CLASS_SUCCESS)
+					?>
+				</td>
+			</tr>
+			</tfoot>
+		</table>
+		<?php endif; ?>
+	</div>
+	
+</div>

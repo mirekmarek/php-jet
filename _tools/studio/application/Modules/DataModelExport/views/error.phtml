@@ -1,0 +1,21 @@
+<?php
+namespace JetStudioModule\DataModelExport;
+
+use Jet\Tr;
+use Jet\UI_messages;
+use Jet\MVC_View;
+
+/**
+ * @var MVC_View $this
+ */
+
+
+?>
+<div style="padding: 10%">
+	<?=UI_messages::createDanger( Tr::_('Error during export') )->setCloseable( false ); ?>
+	
+	<div class="card card-body">
+		<?=$this->getRaw('error'); ?>
+	</div>
+
+</div>

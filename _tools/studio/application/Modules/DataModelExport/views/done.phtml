@@ -1,0 +1,21 @@
+<?php
+namespace JetStudioModule\DataModelExport;
+
+use Jet\Tr;
+use Jet\UI_messages;
+use Jet\MVC_View;
+
+/**
+ * @var MVC_View $this
+ */
+
+
+?>
+<div style="padding: 10%">
+	<?=UI_messages::createSuccess( Tr::_('Export has been successfully completed') )->setCloseable( false ); ?>
+
+	<div class="card card-body">
+		<?=Tr::_('<b>You can find the data in this directory:</b> %DATA%', ['DATA'=>$this->getRaw('where_is_export')]); ?>
+	</div>
+	
+</div>

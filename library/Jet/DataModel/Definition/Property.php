@@ -318,9 +318,11 @@ abstract class DataModel_Definition_Property extends BaseObject
 			return;
 		}
 
-		$property = $data[$this->getName()];
-
-		$this->checkValueType( $property );
+		$value = $data[$this->getName()];
+		
+		$this->checkValueType( $value );
+		
+		$property = $value;
 	}
 
 	/**

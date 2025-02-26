@@ -1,0 +1,32 @@
+<?php
+namespace JetStudioModule\DataModelExport;
+
+use Jet\MVC_View;
+use Jet\Form;
+use Jet\Tr;
+use Jet\UI;
+use Jet\UI_button;
+
+/**
+ * @var MVC_View $this
+ * @var Form $form
+ */
+$form = $this->getRaw('form');
+
+$form->renderer()->addJsAction('onsubmit', "$('#__progress__').show();return true;");
+?>
+
+
+<?=$form->start()?>
+<?=$form->getCommonMessage();?>
+<div style="padding: 2%">
+	<div class="form-fields">
+		<?=$form->field('class')?>
+		<?=$form->field('dir')?>
+		<div></div>
+		<div><?=UI::button(Tr::_('Perform export'))->setClass(UI_button::CLASS_INFO)->setType(UI_button::CLASS_SUCCESS)?></div>
+	</div>
+	
+</div>
+<?=$form->end()?>
+	

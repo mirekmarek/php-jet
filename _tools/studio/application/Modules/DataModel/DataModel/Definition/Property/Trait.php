@@ -339,16 +339,7 @@ trait DataModel_Definition_Property_Trait
 
 		return $icon;
 	}
-
-
-	/**
-	 *
-	 * @param mixed &$value
-	 */
-	public function checkValueType( mixed &$value ): void
-	{
-	}
-
+	
 
 	/**
 	 * @return string
