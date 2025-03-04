@@ -1,0 +1,112 @@
+<?php
+namespace JetStudioModule\SyncProjectDBClient;
+
+use Jet\Http_Request;
+use Jet\MVC_View;
+use Jet\Form;
+use Jet\Tr;
+use Jet\UI;
+use Jet\UI_button;
+use Jet\UI_messages;
+
+/**
+ * @var MVC_View $this
+ * @var ClientConfig $config
+ * @var ?Client $client
+ * @var Form $form
+ */
+
+$client = $this->getRaw('client');
+$config = $this->getRaw('config');
+$form = $this->getRaw('form');
+
+$form->setAutocomplete(false);
+
+$form->field('selected_classes')->input()->addCustomCssStyle('height:500px');
+
+$diffs = $this->getRaw('diffs');
+
+$test_ok = $client?->testConnection();
+?>
+<div style="display: grid;grid-template-columns: 0.7fr 1fr;gap: 10px;">
+	<div class="card card-body" style="margin: 10px;">
+		<?=$form->start()?>
+		<div class="form-fields" style="grid-template-columns: 0.2fr 1fr;">
+			<?php
+			echo $form->field('server_URL');
+			echo $form->field('server_key');
+			echo $form->field('selected_classes');
+			echo $form->field('perform_add');
+			echo $form->field('perform_update');
+			echo $form->field('perform_delete');
+			?>
+			<div></div>
+			<div>
+				<?=UI::button_save(Tr::_('Set'))?>
+			</div>
+		</div>
+		<?=$form->end()?>
+	</div>
+	<div class="card card-body" style="margin: 10px;">
+		<?php if($client):
+			if($test_ok):
+				echo UI_messages::createSuccess( Tr::_('Connection is working') )->setCloseable( false );
+			else:
+				echo UI_messages::createDanger( Tr::_('Connection error: %ERROR%', ['ERROR'=>$client->getErrorMessage()]) );
+			endif;
+			
+			foreach(UI_messages::get('db_sync_client') as $message):
+				echo $message->setCloseable( false );
+			endforeach;
+			
+			if($test_ok):
+				
+				$changes_count = 0;
+				?>
+				<?php foreach($diffs as $class=>$diff):
+					if(!$diff) {
+						continue;
+					}
+				
+					$ch_c = count($diff['add'])+count($diff['update'])+count($diff['delete']);
+					
+					if(!$ch_c) {
+						continue;
+					}
+					
+					$changes_count += $ch_c;
+					?>
+				<div style="padding: 10px;">
+					<h5><?=$class?></h5>
+	
+					<div style="display: grid;grid-template-columns: fit-content(100px) fit-content(200px);gap: 10px;">
+						<?php if(count($diff['add'])): ?>
+						<div><?=Tr::_('Add items:')?></div>
+						<div><?=count($diff['add'])?></div>
+						<?php endif; ?>
+						
+						<?php if(count($diff['update'])): ?>
+						<div><?=Tr::_('Update items:')?></div>
+						<div><?=count($diff['update'])?></div>
+						<?php endif; ?>
+				
+						<?php if(count($diff['delete'])): ?>
+						<div><?=Tr::_('Delete items:')?></div>
+						<div><?=count($diff['delete'])?></div>
+						<?php endif; ?>
+					</div>
+				</div>
+				<?php endforeach;
+				
+				if($changes_count):
+					echo UI::button(Tr::_('Perform synchronization'))->setClass(UI_button::CLASS_PRIMARY)->setUrl( Http_Request::currentURI(['synchronize'=>'synchronize']) );
+				else:
+					echo UI_messages::createSuccess( Tr::_('Everything is up to date') )->setCloseable( false );
+				endif;
+			endif;
+		endif;
+		?>
+		
+	</div>
+</div>
+<?php

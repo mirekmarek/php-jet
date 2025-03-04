@@ -198,4 +198,34 @@ class DataModel_Definition_Property_DataModel extends DataModel_Definition_Prope
 
 		return $definition;
 	}
+	
+	/**
+	 *
+	 * @param mixed &$value
+	 * @return string|int|float|null|bool
+	 */
+	public function getCheckSumData( mixed &$value ): string|int|float|null|bool
+	{
+		if(
+			is_object($value) &&
+			$value instanceof DataModel
+		) {
+			return $value->getCheckSum();
+		}
+		
+		if(is_array($value)) {
+			$ch_s = '';
+			foreach( $value as $v ) {
+				if($v instanceof DataModel) {
+					$ch_s .= $v->getCheckSum();
+				}
+			}
+			
+			return md5( $ch_s );
+		}
+		
+		
+		return '';
+	}
+	
 }

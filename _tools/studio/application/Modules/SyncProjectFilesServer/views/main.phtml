@@ -1,0 +1,52 @@
+<?php
+namespace JetStudioModule\SyncProjectFilesServer;
+
+use Jet\Http_Request;
+use Jet\Locale;
+use Jet\MVC_View;
+use Jet\Tr;
+use Jet\UI;
+use Jet\UI_button;
+
+/**
+ * @var MVC_View $this
+ * @var ServerConfig $config
+ */
+
+$config = $this->getRaw('server_config');
+?>
+<script>
+	function copy( id ) {
+		const input = document.getElementById( id );
+		
+		input.select();
+		input.setSelectionRange(0, 99999);
+		
+		navigator.clipboard.writeText(input.value);
+	}
+</script>
+<div class="card card-body" style="padding: 5%;margin: 10%;">
+	
+	<div style="display: grid;grid-template-columns: 150px 800px 20px;gap: 10px;align-items: center;">
+		
+		<div style="font-weight: bolder"><?=Tr::_('Server URL:')?></div>
+		<div><input type="text" readonly value="<?=$config->getServerURL()?>" class="form-control" id="server_url" style="width: 100%;"></div>
+		<div><?=UI::button()->setIcon('copy')->setOnClick("copy('server_url');")->setClass(UI_button::CLASS_LINK);?></div>
+		
+		<div style="font-weight: bolder"><?=Tr::_('Key:')?></div>
+		<div><input type="text" readonly value="<?=$config->getServerKey()?>" class="form-control" id="server_key" style="width: 100%;"></div>
+		<div><?=UI::button()->setIcon('copy')->setOnClick("copy('server_key');")->setClass(UI_button::CLASS_LINK);?></div>
+
+		<div style="font-weight: bolder"><?=Tr::_('Valid till:')?></div>
+		<div><b><?=$config->getValidTill() ? Locale::dateAndTime($config->getValidTill()) : ''?></b></div>
+		<div></div>
+		
+		<div></div>
+		<div>
+			<?=UI::button(Tr::_('Generate new key'))->setUrl(Http_Request::currentURI(['action'=>'regenerate_key']))?>
+		</div>
+		<div></div>
+		
+	</div>
+	
+</div>

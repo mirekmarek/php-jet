@@ -59,4 +59,15 @@ class DataModel_Definition_Property_CustomData extends DataModel_Definition_Prop
 		}
 	}
 	
+	/**
+	 *
+	 * @param mixed &$value
+	 * @return string|int|float|bool|null
+	 */
+	public function getCheckSumData( mixed &$value ): string|int|float|null|bool
+	{
+		return md5(serialize( $value ) );
+	}
+	
+	
 }

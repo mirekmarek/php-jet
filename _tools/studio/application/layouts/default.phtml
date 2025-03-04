@@ -10,6 +10,8 @@ use Jet\SysConf_URI;
 use Jet\Tr;
 use Jet\Translator;
 use Jet\UI;
+use Jet\UI_button;
+use Jet\UI_icon;
 
 ?>
 <!DOCTYPE html>
@@ -127,21 +129,36 @@ use Jet\UI;
 		</div>
 	</nav>
 
+	<?php if(JetStudio::getCurrentModule()?->getManifest()->getUrlPathPart()): ?>
+	<div>
+		<div class="bg-dark text-white" id="main-menu" style="padding: 5px;font-size: 1.2rem;opacity: 0.9;display: flex;align-items: center;gap: 10px;">
+			<?=UI::button('')->setIcon('bars')->setOnClick("$('#main-menu').toggle(600);$('#main-menu-items').toggle(600);")->setClass(UI_button::CLASS_DARK)?>
+			
+			
+			<?=UI::icon( JetStudio::getCurrentModule()?->getManifest()->getIcon() )?>
+			<span style="font-weight: bolder;"><?=JetStudio::getCurrentModule()?->getManifest()->getLabelTranslated()?></span>
+		</div>
+		<div id="main-menu-items" style="display: none">
+			<div style="padding: 10px;">
+				<?=UI::button('')->setIcon('xmark')->setOnClick("$('#main-menu').toggle(600);$('#main-menu-items').toggle(600);")->setClass(UI_button::CLASS_LIGHT)?>
+			</div>
 
-	<?php
-	if(JetStudio::getCurrentModule()?->getManifest()->getUrlPathPart()):
-		$tabs = [];
-	
-		foreach( JetStudio::getModuleManifests() as $m ) {
-			if($m->getUrlPathPart()) {
-				$tabs[$m->getName()] = UI::icon($m->getIcon()).' '.$m->getLabelTranslated();
-			}
-		}
+			<div style="display: grid;justify-content: center;grid-template-columns: repeat(auto-fit, 200px);gap: 20px;">
+				<?php foreach( JetStudio::getModuleManifests() as $m ):
+					if($m->getUrlPathPart()):
+						?>
+						<div class="card shadow" style="padding: 10px;margin: 20px;text-align: center;">
+							<div style="margin: 10px;"><a href="<?=$m->getURL()?>" style="color: black"><?= UI::icon( $m->getIcon() )->setSize( UI_icon::SIZE_EXTRA_LARGE ) ?></a></div>
+							<a href="<?=$m->getURL()?>"><?=str_replace('-', '<br>', $m->getLabelTranslated())  ?></a>
+						</div>
+					<?php
+					endif;
+				endforeach; ?>
+			</div>
+		</div>
+	</div>
+	<?php endif; ?>
 
-		echo UI::tabs( $tabs, function( $tab) {
-			return JetStudio::getModuleManifest($tab)->getURL();
-			}, JetStudio::getCurrentModule()?->getName()??'' );
-	endif; ?>
 	
 	<jet_layout_main_position/>
 

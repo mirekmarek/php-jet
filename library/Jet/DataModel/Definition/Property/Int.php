@@ -40,4 +40,15 @@ class DataModel_Definition_Property_Int extends DataModel_Definition_Property
 		$value = (int)$value;
 	}
 	
+	
+	/**
+	 *
+	 * @param mixed &$value
+	 * @return string|int|float|bool|null
+	 */
+	public function getCheckSumData( mixed &$value ): string|int|float|null|bool
+	{
+		return $value;
+	}
+	
 }

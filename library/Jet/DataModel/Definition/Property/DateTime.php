@@ -43,4 +43,15 @@ class DataModel_Definition_Property_DateTime extends DataModel_Definition_Proper
 		return (string)$property;
 	}
 	
+	/**
+	 *
+	 * @param mixed &$value
+	 * @return string|int|float|bool|null
+	 */
+	public function getCheckSumData( mixed &$value ): string|int|float|null|bool
+	{
+		return $value?$value->toString():'';
+	}
+	
+	
 }

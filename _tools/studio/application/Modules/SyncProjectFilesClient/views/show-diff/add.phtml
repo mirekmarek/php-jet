@@ -1,0 +1,94 @@
+<?php
+namespace JetStudioModule\SyncProjectFilesClient;
+
+use Jet\Debug;
+use Jet\Debug_CodeHighlighter_PHP;
+use Jet\MVC_View;
+
+/**
+ * @var MVC_View $this
+ */
+
+$file = $this->getString('file');
+$content = $this->getRaw('content');
+
+$highlighter = new Debug_CodeHighlighter_PHP();
+
+?>
+<style>
+	.dbg-code {
+		padding: 5px;
+		display: grid;
+		grid-template-columns: 50px 1fr;
+		gap: 0px;
+		background-color: #2b2b2b;
+		align-items: center;
+	}
+
+
+	.dbg-code-hl-html {
+		color: #d5b969;
+		font-family: Helvetica, Arial, sans-serif;
+	}
+	.dbg-code-hl-comment {
+		color: #8f8f8f;
+		font-family: Helvetica, Arial, sans-serif;
+	}
+	.dbg-code-hl-doc-comment {
+		color: #626262;
+		font-family: Helvetica, Arial, sans-serif;
+	}
+
+	.dbg-code-hl-general {
+		color: #fec46a;
+		font-family: Helvetica, Arial, sans-serif;
+	}
+	.dbg-code-hl-variable {
+		color: #9876aa;
+		font-family: Helvetica, Arial, sans-serif;
+	}
+	.dbg-code-hl-string {
+		color: #6a8759;
+		font-family: Helvetica, Arial, sans-serif;
+	}
+	.dbg-code-hl-keyword {
+		color: #007700; font-weight: bold;
+		font-family: Helvetica, Arial, sans-serif;
+	}
+
+
+	.dbg-code-line-no {
+		padding: 1px;
+		color: #797878;
+		background-color: #313335;
+	}
+
+
+	.dbg-code-current-line {
+		padding: 1px;
+		background-color: #3e4042;
+	}
+
+	.dbg-code-current-line-no {
+		padding: 1px;
+		font-weight: bold;
+		background-color: #3e4042;
+		color: #bbbbbb;
+	}
+	
+</style>
+
+<div style="padding: 10px">
+	<h2><?=$file?></h2>
+
+	<div class="dbg-code">
+		<?php foreach($highlighter->highlight( $content, true ) as $line_no=>$line_code): ?>
+			<div class="dbg-code-line-no"><?=$line_no?>:</div>
+			<div><?=$line_code?></div>
+		<?php
+		endforeach;
+		?>
+	</div>
+
+
+</div>

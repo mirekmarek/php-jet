@@ -141,6 +141,19 @@ abstract class DataModel_IDController extends BaseObject
 	{
 		return implode( ':', $this->values );
 	}
+	
+	public function fromString( string $id ) : static
+	{
+		$id = explode( ':', $id );
+		
+		$i = 0;
+		foreach($this->values as $property_name => $value ) {
+			$this->values[$property_name] = $id[$i];
+			$i++;
+		}
+		
+		return $this;
+	}
 
 	/**
 	 * @param string $property_name

@@ -19,3 +19,4 @@ library/Composer/
 composer.lock
 application/dictionaries/**/*.php
 !application/dictionaries/**/_COMMON_.php
+_tools/studio/tmp/**

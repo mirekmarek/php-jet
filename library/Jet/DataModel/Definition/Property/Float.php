@@ -41,4 +41,15 @@ class DataModel_Definition_Property_Float extends DataModel_Definition_Property
 		$value = (float)$value;
 	}
 	
+	/**
+	 *
+	 * @param mixed &$value
+	 * @return string|int|float|bool|null
+	 */
+	public function getCheckSumData( mixed &$value ): string|int|float|null|bool
+	{
+		return round($value,6);
+	}
+	
+	
 }

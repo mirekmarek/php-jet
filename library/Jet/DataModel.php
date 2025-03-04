@@ -153,4 +153,14 @@ abstract class DataModel extends BaseObject implements BaseObject_Interface_Seri
 
 	}
 
+	public function getCheckSum() : string
+	{
+		$data = '';
+		
+		foreach( static::getDataModelDefinition()->getProperties() as $property_name=>$def ) {
+			$data .= $def->getCheckSumData( $this->{$property_name} );
+		}
+		
+		return md5($data);
+	}
 }

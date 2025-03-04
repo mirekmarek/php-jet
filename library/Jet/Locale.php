@@ -595,7 +595,6 @@ class Locale extends BaseObject
 	public function formatInt( int $number ): string
 	{
 		
-		/** @noinspection PhpExpectedValuesShouldBeUsedInspection */
 		$f = new PHP_NumberFormatter( $this->locale, PHP_NumberFormatter::DECIMAL );
 
 		$f->setAttribute( PHP_NumberFormatter::MIN_FRACTION_DIGITS, 0 );
@@ -615,7 +614,6 @@ class Locale extends BaseObject
 	public function formatFloat( float $number, int $min_fraction_digits = 0, int $max_fraction_digits = 2 ): string
 	{
 		
-		/** @noinspection PhpExpectedValuesShouldBeUsedInspection */
 		$f = new PHP_NumberFormatter( $this->locale, PHP_NumberFormatter::DECIMAL );
 
 		$f->setAttribute( PHP_NumberFormatter::MIN_FRACTION_DIGITS, $min_fraction_digits );

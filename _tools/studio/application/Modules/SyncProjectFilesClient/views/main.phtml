@@ -1,0 +1,185 @@
+<?php
+namespace JetStudioModule\SyncProjectFilesClient;
+
+use Jet\Http_Request;
+use Jet\MVC_View;
+use Jet\Form;
+use Jet\Tr;
+use Jet\UI;
+use Jet\UI_button;
+use Jet\UI_messages;
+
+/**
+ * @var MVC_View $this
+ * @var ClientConfig $config
+ * @var ?Client $client
+ * @var Form $form
+ */
+
+$client = $this->getRaw('client');
+$config = $this->getRaw('config');
+$form = $this->getRaw('form');
+
+$form->setAutocomplete(false);
+
+$form->field( 'allowed_extensions' )->input()->addCustomCssStyle('height: 200px;');
+$form->field( 'blacklist' )->input()->addCustomCssStyle('height: 400px;');
+
+$form->field('allowed_extensions')->setHelpText(
+	'List of file extensions (*.<b>php</b>, *.<b>phtml</b>, *.<b>css</b>, *.<b>js</b>, ...) that will be handled.<br>'
+	. '<br>'
+	. 'Other files will be ignored.<br>'
+	. '<br>'
+	. 'Each file extension on new line'
+);
+
+$form->field('blacklist')->setHelpText(
+	'List of <b>relative paths</b> of files and/or directories that will be excluded from deployment process.<br>'
+	. '<br>'
+	. 'Each relative path on new line'
+);
+
+
+$diff = $this->getRaw('diff');
+
+$test_ok = $client?->testConnection();
+?>
+<script>
+	function selectAll( css_class ) {
+		const chb = document.getElementsByClassName(css_class);
+
+		for (let i = 0; i < chb.length; i++) {
+			chb[i].checked = true;
+		}
+	}
+
+	function unselectAll( css_class ) {
+		const chb = document.getElementsByClassName(css_class);
+
+		for (let i = 0; i < chb.length; i++) {
+			chb[i].checked = false;
+		}
+	}
+
+</script>
+<div style="display: grid;grid-template-columns: 0.7fr 1fr;gap: 10px;">
+	<div class="card card-body" style="margin: 10px;">
+		<?=$form->start()?>
+		<div class="form-fields" style="grid-template-columns: 0.2fr 1fr;">
+			<?php
+			echo $form->field('server_URL');
+			echo $form->field('server_key');
+			echo $form->field('allowed_extensions');
+			echo $form->field('blacklist');
+			?>
+			<div></div>
+			<div>
+				<?=UI::button_save(Tr::_('Set'))?>
+			</div>
+		</div>
+		<?=$form->end()?>
+	</div>
+	<div class="card card-body" style="margin: 10px;">
+		<?php if($client):
+			if($test_ok):
+				echo UI_messages::createSuccess( Tr::_('Connection is working') )->setCloseable( false );
+			else:
+				echo UI_messages::createDanger( Tr::_('Connection error: %ERROR%', ['ERROR'=>$client->getErrorMessage()]) );
+			endif;
+			
+			foreach(UI_messages::get('db_sync_client') as $message):
+				echo $message->setCloseable( false );
+			endforeach;
+			
+			if($test_ok):
+				$changes_count = 0;
+				?>
+				<form method="post" action="<?=Http_Request::currentURI(['synchronize'=>'synchronize'])?>">
+				
+				<?php if(count($diff['add'])): ?>
+					<h3><?=Tr::_('Add files')?></h3>
+					<table class="table table-striped">
+						<?php foreach($diff['add'] as $file):
+							$changes_count++;
+							?>
+						<tr>
+							<td style="width: 20px"><input type="checkbox" name="add[]" value="<?=$file?>" class="add-file"></td>
+							<td style="width: 120px"><a href="<?=Http_Request::currentURI(['show_local'=>$file])?>" target="_blank"><?=Tr::_('Show file')?></a></td>
+							<td><?=$file?></td>
+						</tr>
+						<?php endforeach; ?>
+						<tfoot>
+						<tr>
+							<td></td>
+							<td colspan="2">
+								<?=UI::button(Tr::_('Select all'))->setOnClick("selectAll('add-file');")->setClass(UI_button::CLASS_INFO);?>
+								<?=UI::button(Tr::_('Unselect all'))->setOnClick("unselectAll('add-file');")->setClass(UI_button::CLASS_LIGHT);?>
+							</td>
+						</tr>
+						</tfoot>
+					</table>
+				<?php endif;?>
+				
+				<?php if(count($diff['update'])): ?>
+					<h3><?=Tr::_('Update files')?></h3>
+					<table class="table table-striped">
+						<?php foreach($diff['update'] as $file):
+							$changes_count++;
+							?>
+							<tr>
+								<td style="width: 20px"><input type="checkbox" name="update[]" value="<?=$file?>" class="update-file"></td>
+								<td style="width: 120px"><a href="<?=Http_Request::currentURI(['show_diff'=>$file])?>" target="_blank"><?=Tr::_('Show diff')?></a></td>
+								<td><?=$file?></td>
+							</tr>
+						<?php endforeach; ?>
+						<tfoot>
+						<tr>
+							<td></td>
+							<td colspan="2">
+								<?=UI::button(Tr::_('Select all'))->setOnClick("selectAll('update-file');")->setClass(UI_button::CLASS_INFO);?>
+								<?=UI::button(Tr::_('Unselect all'))->setOnClick("unselectAll('update-file');")->setClass(UI_button::CLASS_LIGHT);?>
+							</td>
+						</tr>
+						</tfoot>
+					</table>
+				<?php endif; ?>
+				
+				<?php if(count($diff['delete'])): ?>
+					<h3><?=Tr::_('Delete files')?></h3>
+					<table class="table table-striped">
+						<?php foreach($diff['delete'] as $file):
+							$changes_count++;
+							?>
+							<tr>
+								<td style="width: 20px"><input type="checkbox" name="delete[]" value="<?=$file?>" class="delete-file"></td>
+								<td style="width: 120px"><a href="<?=Http_Request::currentURI(['show_remote'=>$file])?>" target="_blank"><?=Tr::_('Show file')?></a></td>
+								<td><?=$file?></td>
+							</tr>
+						<?php endforeach; ?>
+
+						<tfoot>
+						<tr>
+							<td></td>
+							<td colspan="2">
+								<?=UI::button(Tr::_('Select all'))->setOnClick("selectAll('delete-file');")->setClass(UI_button::CLASS_INFO);?>
+								<?=UI::button(Tr::_('Unselect all'))->setOnClick("unselectAll('delete-file');")->setClass(UI_button::CLASS_LIGHT);?>
+							</td>
+						</tr>
+						</tfoot>
+					</table>
+				<?php endif; ?>
+					
+					<?php if($changes_count):
+						echo UI::button(Tr::_('Perform synchronization'))->setClass(UI_button::CLASS_PRIMARY)->setType(UI_button::TYPE_SUBMIT);
+					else:
+						echo UI_messages::createSuccess( Tr::_('Everything is up to date') )->setCloseable( false );
+					endif; ?>
+				</form>
+				<?php
+			endif;
+		endif;
+		?>
+		
+	</div>
+</div>
+<?php

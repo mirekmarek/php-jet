@@ -31,4 +31,15 @@ class DataModel_Definition_Property_IdAutoIncrement extends DataModel_Definition
 	{
 	}
 	
+	
+	/**
+	 *
+	 * @param mixed &$value
+	 * @return string|int|float|bool|null
+	 */
+	public function getCheckSumData( mixed &$value ): string|int|float|null|bool
+	{
+		return $value;
+	}
+	
 }
