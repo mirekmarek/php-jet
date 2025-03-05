@@ -32,9 +32,9 @@ class Mailing_Backend_Default extends Mailing_Backend_Abstract
 		if(is_array($to)) {
 			$to = implode(', ', $to);
 		}
-
-
-		return mail( $to, $subject, $message, $header );
+		
+		
+		return mail( $to, $subject, $message, $header, '-f '.$email->getSenderEmail() );
 
 	}
 }
