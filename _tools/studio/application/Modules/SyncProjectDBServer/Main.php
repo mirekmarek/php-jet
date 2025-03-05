@@ -41,8 +41,8 @@ class Main extends JetStudio_Module implements JetStudio_Module_Service_CustomAc
 		$headers = Http_Request::headers();
 		
 		if(
-			!isset($headers['X-JetStudio-SyncDB-Key']) ||
-			$headers['X-JetStudio-SyncDB-Key']!=$config->getServerKey()
+			!isset($headers['X-J-S-Sync-DB-Key']) ||
+			$headers['X-J-S-Sync-DB-Key']!=$config->getServerKey()
 		) {
 			ErrorPages::handleUnauthorized();
 			die();

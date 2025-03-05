@@ -51,7 +51,7 @@ class Client extends BaseObject
 
 		$headers = [];
 		
-		$headers[] = 'X-JetStudio-SyncDB-Key: '.$this->config->getServerKey();
+		$headers[] = 'X-J-S-Sync-DB-Key: '.$this->config->getServerKey();
 		$headers[] = 'Content-Type: application/json';
 		$headers[] = 'Accept: application/json';
 		
@@ -89,11 +89,12 @@ class Client extends BaseObject
 		
 		switch( $this->response_status ) {
 			case self::HTTP_STATUS_OK:
-				$result = true;
 				$this->response_data = json_decode( $this->response_body, true );
 				
 				if( !is_array( $this->response_data ) ) {
 					$this->error_message = 'JSON parse error';
+				} else {
+					$result = true;
 				}
 				break;
 			case 404:

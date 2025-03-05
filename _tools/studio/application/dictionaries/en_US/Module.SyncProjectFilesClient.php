@@ -13,4 +13,12 @@ return [
 	'Set' => '',
 	'Connection is working' => '',
 	'Everything is up to date' => '',
+	'Add files' => '',
+	'Show file' => '',
+	'Select all' => '',
+	'Unselect all' => '',
+	'Update files' => '',
+	'Show diff' => '',
+	'Delete files' => '',
+	'Perform synchronization' => '',
 ];

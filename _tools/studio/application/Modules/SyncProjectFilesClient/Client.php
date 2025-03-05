@@ -56,7 +56,7 @@ class Client extends BaseObject
 
 		$headers = [];
 		
-		$headers[] = 'X-JetStudio-SyncFiles-Key: '.$this->config->getServerKey();
+		$headers[] = 'X-J-S-Sync-Files-Key: '.$this->config->getServerKey();
 		$headers[] = 'Content-Type: application/json';
 		$headers[] = 'Accept: application/json';
 		
@@ -74,7 +74,7 @@ class Client extends BaseObject
 		curl_setopt( $curl_handle, CURLINFO_HEADER_OUT, true );
 		
 		$this->response_body = curl_exec( $curl_handle );
-		
+
 		$this->request = curl_getinfo( $curl_handle, CURLINFO_HEADER_OUT );
 		$this->response_status = curl_getinfo( $curl_handle, CURLINFO_HTTP_CODE );
 		
@@ -94,11 +94,12 @@ class Client extends BaseObject
 		
 		switch( $this->response_status ) {
 			case self::HTTP_STATUS_OK:
-				$result = true;
 				$this->response_data = json_decode( $this->response_body, true );
 				
 				if( !is_array( $this->response_data ) ) {
 					$this->error_message = 'JSON parse error';
+				} else {
+					$result = true;
 				}
 				break;
 			case 404:
@@ -224,7 +225,6 @@ class Client extends BaseObject
 			)) {
 				$this->diff = $this->response_data;
 			}
-			
 		}
 		
 		return $this->diff;
@@ -266,8 +266,6 @@ class Client extends BaseObject
 				return false;
 			}
 			
-			var_dump($this->response_body);
-			die();
 		}
 		
 		foreach($update as $file_path) {

@@ -204,10 +204,10 @@ class Controller extends JetStudio_Module_Controller
 		}
 		
 		foreach( $diff['update'] as $file ) {
-			$diff['backup'][$file] = base64_encode( IO_File::read($file) );
+			$diff['backup'][$file] = base64_encode( IO_File::read(JetStudio_Conf_Path::getRoot().$file) );
 		}
 		foreach( $diff['delete'] as $file ) {
-			$diff['backup'][$file] = base64_encode( IO_File::read($file) );
+			$diff['backup'][$file] = base64_encode( IO_File::read(JetStudio_Conf_Path::getRoot().$file) );
 		}
 
 		
