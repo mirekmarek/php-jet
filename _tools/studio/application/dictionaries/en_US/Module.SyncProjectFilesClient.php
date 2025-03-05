@@ -21,4 +21,5 @@ return [
 	'Show diff' => '',
 	'Delete files' => '',
 	'Perform synchronization' => '',
+	'Connection error: %ERROR%' => '',
 ];

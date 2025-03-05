@@ -67,20 +67,25 @@ class Controller extends JetStudio_Module_Controller
 			]);
 		}
 		
-		$params = $data['params'];
-		switch($data['action']) {
-			case 'test':
-			case 'get_diff':
-			case 'add':
-			case 'update':
-			case 'delete':
-				$this->{$data['action']}( $params );
-				break;
-			default:
-				RESTServer::responseError(RESTServer::ERR_CODE_COMMON, [
-					'error_message' => 'unknown action'
-				]);
-				
+		try {
+			$params = $data['params'];
+			switch($data['action']) {
+				case 'test':
+				case 'get_diff':
+				case 'add':
+				case 'update':
+				case 'delete':
+					$this->{$data['action']}( $params );
+					break;
+				default:
+					RESTServer::responseError(RESTServer::ERR_CODE_COMMON, [
+						'error_message' => 'unknown action'
+					]);
+			}
+		} catch(Error|Exception $e) {
+			RESTServer::responseError(RESTServer::ERR_CODE_COMMON, [
+				'error_message' => $e->getMessage()
+			]);
 		}
 	}
 	
@@ -108,6 +113,8 @@ class Controller extends JetStudio_Module_Controller
 		} catch( Exception|Error $e ) {
 			RESTServer::responseError(RESTServer::ERR_CODE_COMMON, $e->getMessage());
 		}
+		RESTServer::responseOK();
+		
 	}
 	
 	public function update( array $params ): void
@@ -129,6 +136,7 @@ class Controller extends JetStudio_Module_Controller
 		} catch( Exception|Error $e ) {
 			RESTServer::responseError(RESTServer::ERR_CODE_COMMON, $e->getMessage());
 		}
+		RESTServer::responseOK();
 	}
 	
 	public function delete( array $params ): void
@@ -145,6 +153,7 @@ class Controller extends JetStudio_Module_Controller
 		} catch( Exception|Error $e ) {
 			RESTServer::responseError(RESTServer::ERR_CODE_COMMON, $e->getMessage());
 		}
+		RESTServer::responseOK();
 	}
 	
 	public function get_diff( array $params ): void
