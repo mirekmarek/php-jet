@@ -39,6 +39,10 @@ class Controller extends JetStudio_Module_Controller
 				$this->server_config->generate();
 			}
 			
+			if($action=='stop') {
+				$this->server_config->stop();
+			}
+			
 			Http_Headers::reload(unset_GET_params: ['action']);
 		}
 		

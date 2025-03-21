@@ -5,5 +5,6 @@ return [
 	'Generate new key' => 'Generovat nový klíč',
 	'Valid till:' => 'Platné do:',
 	'Synchronize Project DB - Server' => 'Synchronizace databáze - server',
-	'Server URL:' => '',
+	'Server URL:' => 'URL serveru:',
+	'Stop server' => 'Zastavit server',
 ];

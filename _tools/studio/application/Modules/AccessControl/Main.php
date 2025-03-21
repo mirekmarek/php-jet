@@ -31,7 +31,7 @@ class Main extends JetStudio_Module implements JetStudio_Module_Service_AccessCo
 	
 	public function handleAccessControl(): void
 	{
-		if( $_SERVER['REMOTE_ADDR']=='127.0.0.1' || '::1' ) {
+		if( in_array($_SERVER['REMOTE_ADDR'], ['127.0.0.1', '::1']) ) {
 			return;
 		}
 		

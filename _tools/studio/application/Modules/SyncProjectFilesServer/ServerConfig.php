@@ -74,6 +74,14 @@ class ServerConfig extends Config {
 		
 	}
 	
+	public function stop() : void
+	{
+		$cfg_file = $this->getConfigFilePath();
+		if(IO_File::exists($cfg_file)) {
+			IO_File::delete($cfg_file);
+		}
+	}
+	
 	
 	
 	public function getServerUrlPath(): string

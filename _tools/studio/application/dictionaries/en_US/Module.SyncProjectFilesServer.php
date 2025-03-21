@@ -6,4 +6,5 @@ return [
 	'Valid till:' => '',
 	'Generate new key' => '',
 	'Synchronize Project Files - Server' => '',
+	'Stop server' => '',
 ];

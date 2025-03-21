@@ -43,7 +43,10 @@ $config = $this->getRaw('server_config');
 		
 		<div></div>
 		<div>
-			<?=UI::button(Tr::_('Generate new key'))->setUrl(Http_Request::currentURI(['action'=>'regenerate_key']))?>
+			<?=UI::button(Tr::_('Generate new key'))->setUrl(Http_Request::currentURI(['action'=>'regenerate_key']))->setClass(UI_button::CLASS_INFO)?>
+			<?php if($config->getValidTill()): ?>
+			<?=UI::button(Tr::_('Stop server'))->setUrl(Http_Request::currentURI(['action'=>'stop']))->setClass(UI_button::CLASS_DANGER)?>
+			<?php endif; ?>
 		</div>
 		<div></div>
 		
