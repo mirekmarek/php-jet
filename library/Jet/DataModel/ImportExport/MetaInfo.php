@@ -38,7 +38,7 @@ class DataModel_ImportExport_MetaInfo extends BaseObject implements BaseObject_I
 		return json_encode( $this );
 	}
 	
-	public function jsonSerialize(): mixed
+	public function jsonSerialize(): array
 	{
 		$data = get_object_vars( $this );
 		$data['export_date_time'] = $this->export_date_time->toString();

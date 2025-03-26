@@ -419,6 +419,17 @@ class MVC_Router extends BaseObject implements MVC_Router_Interface
 	{
 		return $this->base;
 	}
+	
+	
+	/**
+	 * @param Locale $locale
+	 * @return void
+	 */
+	public function setLocale( Locale $locale ): void
+	{
+		$this->locale = $locale;
+	}
+	
 
 	/**
 	 * @return ?Locale

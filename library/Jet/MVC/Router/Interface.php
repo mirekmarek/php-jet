@@ -45,7 +45,14 @@ interface MVC_Router_Interface
 	 * @return ?MVC_Base_Interface
 	 */
 	public function getBase(): ?MVC_Base_Interface;
-
+	
+	/**
+	 * @param Locale $locale
+	 * @return void
+	 */
+	public function setLocale( Locale $locale ): void;
+	
+	
 	/**
 	 * @return ?Locale
 	 */
