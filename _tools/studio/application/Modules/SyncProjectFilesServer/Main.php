@@ -40,9 +40,11 @@ class Main extends JetStudio_Module implements JetStudio_Module_Service_CustomAc
 		
 		$headers = Http_Request::headers();
 		
+		$key = $headers['X-J-S-Sync-Files-Key'] ?? $headers['x-j-s-sync-files-key'] ?? null;
+		
 		if(
-			!isset($headers['X-J-S-Sync-Files-Key']) ||
-			$headers['X-J-S-Sync-Files-Key']!=$config->getServerKey()
+			!$key ||
+			$key!=$config->getServerKey()
 		) {
 			ErrorPages::handleUnauthorized();
 			die();

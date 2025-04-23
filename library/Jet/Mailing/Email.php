@@ -229,11 +229,14 @@ class Mailing_Email extends BaseObject
 				
 				foreach($paths as $path) {
 					if(IO_File::isReadable($path)) {
+						/*
 						$image_data = IO_File::read( $path );
-						
 						$image_data = 'data:'.IO_File::getMimeType($path).';base64,'.base64_encode( $image_data );
-						
 						$this->body_html = str_replace( $orig, 'src="' . $image_data . '"', $this->body_html );
+						*/
+						
+						$this->body_html = str_replace( $orig, 'src="cid:' . $id . '"', $this->body_html );
+						$this->addImage( $id, $path );
 						
 						break;
 					}
