@@ -80,7 +80,7 @@ class DataModel_Query_Select_Item_Expression extends BaseObject
 	 *
 	 * @return string
 	 */
-	public function toString( callable $property_name_to_backend_column_name_callback = null ): string
+	public function toString( ?callable $property_name_to_backend_column_name_callback = null ): string
 	{
 		if( !$property_name_to_backend_column_name_callback ) {
 			$property_name_to_backend_column_name_callback = function( DataModel_Definition_Property $property ) {

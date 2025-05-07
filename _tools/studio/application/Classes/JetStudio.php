@@ -143,7 +143,7 @@ class JetStudio extends Jet_Application
 	}
 	
 
-	public static function handleError( Exception $e, Form $form = null ): void
+	public static function handleError( Exception $e, ?Form $form = null ): void
 	{
 		$error_message = Tr::_( 'Something went wrong!<br/><br/>%error%',
 			[

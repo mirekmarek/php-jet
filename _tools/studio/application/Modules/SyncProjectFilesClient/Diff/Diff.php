@@ -63,12 +63,12 @@ class Diff
 	/**
 	 * @var array Associative array of the default options available for the diff class and their default value.
 	 */
-	private array $defaultOptions = array(
+	private array $defaultOptions = [
 		'context' => 3,
 		'ignoreNewLines' => false,
 		'ignoreWhitespace' => false,
 		'ignoreCase' => false
-	);
+	];
 
 	/**
 	 * @var array Array of the options that have been applied for generating the diff.
@@ -81,7 +81,7 @@ class Diff
 	 * @param array $a Array containing the lines of the first string to compare.
 	 * @param array $b Array containing the lines for the second string to compare.
 	 */
-	public function __construct(array $a, array $b, array $options=array())
+	public function __construct(array $a, array $b, array $options= [] )
 	{
 		$this->a = $a;
 		$this->b = $b;

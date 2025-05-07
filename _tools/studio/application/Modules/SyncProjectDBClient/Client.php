@@ -7,6 +7,8 @@
  */
 namespace JetStudioModule\SyncProjectDBClient;
 
+use Error;
+use Exception;
 use Jet\BaseObject;
 use Jet\DataModel;
 
@@ -177,7 +179,7 @@ class Client extends BaseObject
 						}
 						unset($data);
 					}
-				} catch( \Error|\Exception $e ) {}
+				} catch( Error|Exception $e ) {}
 				
 				if($this->do(
 					'get_diff',

@@ -242,7 +242,7 @@ trait MVC_Page_Trait_Initialization
 	 *
 	 * @return string
 	 */
-	protected static function loadMaps_getPageId( string $data_file_path, array $parent_page_data = null, string $dir_name = '' ): string
+	protected static function loadMaps_getPageId( string $data_file_path, ?array $parent_page_data = null, string $dir_name = '' ): string
 	{
 
 		if( !IO_File::isReadable( $data_file_path ) ) {

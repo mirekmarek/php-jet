@@ -194,7 +194,7 @@ class Content_Article extends DataModel
 	 *
 	 * @return Content_Article_Localized
 	 */
-	public function getLocalized( Locale $locale = null ): Content_Article_Localized
+	public function getLocalized( ?Locale $locale = null ): Content_Article_Localized
 	{
 		if( !$locale ) {
 			$locale = MVC::getLocale();

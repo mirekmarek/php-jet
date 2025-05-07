@@ -9,7 +9,6 @@ namespace JetStudioModule\SyncProjectFilesClient;
 
 use Jet\BaseObject;
 use Jet\DataModel;
-use Jet\Debug;
 use Jet\IO_Dir;
 use Jet\IO_File;
 use Jet\SysConf_Path;

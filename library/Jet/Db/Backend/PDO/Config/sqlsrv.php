@@ -17,7 +17,8 @@ trait Db_Backend_PDO_Config_sqlsrv
 		
 		return [
 			'Server'    => $this->host.','.$this->port,
-			'Database'  => $this->dbname
+			'Database'  => $this->dbname,
+			'TrustServerCertificate' => 'yes',
 		];
 	}
 	

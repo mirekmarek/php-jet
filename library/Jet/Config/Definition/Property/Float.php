@@ -33,7 +33,7 @@ class Config_Definition_Property_Float extends Config_Definition_Property
 	 *
 	 * @throws Config_Exception
 	 */
-	public function setUp( array $definition_data = null ): void
+	public function setUp( ?array $definition_data = null ): void
 	{
 		parent::setUp( $definition_data );
 	}

@@ -41,7 +41,7 @@ abstract class DataModel_Related_1toN extends DataModel_Related
 	 *
 	 * @return array
 	 */
-	public static function fetchRelatedData( array $where, DataModel_PropertyFilter $load_filter = null ): array
+	public static function fetchRelatedData( array $where, ?DataModel_PropertyFilter $load_filter = null ): array
 	{
 		/**
 		 * @var DataModel_Definition_Model_Related_1toN $definition
@@ -104,7 +104,7 @@ abstract class DataModel_Related_1toN extends DataModel_Related
 	 */
 	public static function initRelatedByData( array $this_data,
 	                                          array &$related_data,
-	                                          DataModel_PropertyFilter $load_filter = null ): array
+	                                          ?DataModel_PropertyFilter $load_filter = null ): array
 	{
 		$items = [];
 

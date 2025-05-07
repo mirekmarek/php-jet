@@ -350,7 +350,7 @@ class Db_Backend_PDO implements Db_Backend_Interface
 		return $this->pdo->inTransaction();
 	}
 
-	public function lastInsertId( string $name = null ): string
+	public function lastInsertId( ?string $name = null ): string
 	{
 		try {
 			return $this->pdo->lastInsertId( $name );

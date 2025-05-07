@@ -66,7 +66,7 @@ abstract class DataModel_Related_1to1 extends DataModel_Related
 	 */
 	public static function initRelatedByData( array $this_data,
 	                                          array &$related_data,
-	                                          DataModel_PropertyFilter $load_filter = null ): static
+	                                          ?DataModel_PropertyFilter $load_filter = null ): static
 	{
 		return static::initByData( $this_data, $related_data, $load_filter );
 	}

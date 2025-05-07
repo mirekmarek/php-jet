@@ -21,7 +21,7 @@ abstract class ClassMetaInfo
 	protected string $error = '';
 	protected bool $is_new = false;
 	
-	public function __construct( string $script_path, string $namespace, string $class_name, ReflectionClass $reflection = null )
+	public function __construct( string $script_path, string $namespace, string $class_name, ?ReflectionClass $reflection = null )
 	{
 		$this->script_path = $script_path;
 		$this->reflection = $reflection;

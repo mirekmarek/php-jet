@@ -20,7 +20,7 @@ abstract class DataModel_Related extends DataModel
 	 *
 	 * @return array
 	 */
-	abstract public static function fetchRelatedData( array $where, DataModel_PropertyFilter $load_filter = null ): array;
+	abstract public static function fetchRelatedData( array $where, ?DataModel_PropertyFilter $load_filter = null ): array;
 
 	/**
 	 *
@@ -30,7 +30,7 @@ abstract class DataModel_Related extends DataModel
 	 *
 	 * @return mixed
 	 */
-	abstract public static function initRelatedByData( array $this_data, array &$related_data, DataModel_PropertyFilter $load_filter = null ): mixed;
+	abstract public static function initRelatedByData( array $this_data, array &$related_data, ?DataModel_PropertyFilter $load_filter = null ): mixed;
 
 	/**
 	 * @return string

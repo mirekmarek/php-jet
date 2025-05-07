@@ -10,8 +10,6 @@ namespace JetStudioModule\SyncProjectFilesClient;
 use Jet\Http_Headers;
 use Jet\Http_Request;
 use Jet\IO_File;
-use Jet\MVC_Layout;
-use Jet\SysConf_Path;
 use Jet\Tr;
 use Jet\UI_messages;
 use JetStudio\JetStudio;

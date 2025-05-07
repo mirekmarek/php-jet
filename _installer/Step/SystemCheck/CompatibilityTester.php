@@ -55,7 +55,8 @@ class Installer_CompatibilityTester
 				 ] as $required_function ) {
 
 			if( !function_exists( $required_function ) ) {
-				trigger_error( 'Error: function \'' . $required_function . '\' is required!', E_USER_ERROR );
+				echo 'Error: function \'' . $required_function . '\' is required!';
+				die();
 			}
 		}
 

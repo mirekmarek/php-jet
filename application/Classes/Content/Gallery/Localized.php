@@ -87,7 +87,7 @@ class Content_Gallery_Localized extends DataModel_Related_1toN
 	 * @param string|null $gallery_id
 	 * @param Locale|null $locale
 	 */
-	public function __construct( string|null $gallery_id = null, Locale $locale = null )
+	public function __construct( string|null $gallery_id = null, ?Locale $locale = null )
 	{
 		parent::__construct();
 		if( $gallery_id ) {
@@ -165,7 +165,7 @@ class Content_Gallery_Localized extends DataModel_Related_1toN
 	 *
 	 * @return string
 	 */
-	public function getURL( MVC_Page_Interface $base_page = null ) : string
+	public function getURL( ?MVC_Page_Interface $base_page = null ) : string
 	{
 		if( !$base_page ) {
 			$base_page = MVC::getPage();

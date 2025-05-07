@@ -62,7 +62,7 @@ trait DataModel_Trait_Load
 	 *
 	 * @return static
 	 */
-	public static function initByData( array $this_data, array $related_data = [], DataModel_PropertyFilter $load_filter = null ): static
+	public static function initByData( array $this_data, array $related_data = [], ?DataModel_PropertyFilter $load_filter = null ): static
 	{
 		/**
 		 * @var DataModel $_this

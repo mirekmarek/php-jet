@@ -20,7 +20,7 @@ class PageStaticContent extends BaseObject
 	 *
 	 * @return string
 	 */
-	public static function get( MVC_Page_Interface $page, MVC_Page_Content_Interface $page_content = null ) : string
+	public static function get( MVC_Page_Interface $page, ?MVC_Page_Content_Interface $page_content = null ) : string
 	{
 		return 'Static content test '.$page->getKey();
 	}

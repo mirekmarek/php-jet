@@ -676,7 +676,7 @@ class DataModel_Backend_PgSQL extends DataModel_Backend
 	 *
 	 * @return string
 	 */
-	protected function _getSqlQueryWherePart( DataModel_Query_Where $query = null, int $level = 0 ): string
+	protected function _getSqlQueryWherePart( ?DataModel_Query_Where $query = null, int $level = 0 ): string
 	{
 		if( !$query ) {
 			return '';
@@ -939,7 +939,7 @@ class DataModel_Backend_PgSQL extends DataModel_Backend
 	 *
 	 * @return string
 	 */
-	protected function _getSqlQueryHavingPart( DataModel_Query_Having $query = null, int $level = 0 ): string
+	protected function _getSqlQueryHavingPart( ?DataModel_Query_Having $query = null, int $level = 0 ): string
 	{
 		if( !$query ) {
 			return '';
@@ -1049,7 +1049,7 @@ class DataModel_Backend_PgSQL extends DataModel_Backend
 	 *
 	 * @return string
 	 */
-	protected function _getSqlQueryGroupPart( DataModel_Query $query = null ): string
+	protected function _getSqlQueryGroupPart( ?DataModel_Query $query = null ): string
 	{
 		$group_by = $query->getGroupBy();
 		if( !$group_by ) {

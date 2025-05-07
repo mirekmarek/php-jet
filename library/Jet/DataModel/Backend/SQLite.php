@@ -625,7 +625,7 @@ class DataModel_Backend_SQLite extends DataModel_Backend
 	 *
 	 * @return string
 	 */
-	protected function _getSqlQueryWherePart( DataModel_Query_Where $query = null, int $level = 0 ): string
+	protected function _getSqlQueryWherePart( ?DataModel_Query_Where $query = null, int $level = 0 ): string
 	{
 		if( !$query ) {
 			return '';

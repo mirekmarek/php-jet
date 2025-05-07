@@ -5,7 +5,7 @@
 use Jet\SysConf_Path;
 use Jet\SysConf_Jet_Main;
 
-error_reporting( E_ALL | E_STRICT );
+error_reporting( E_ALL );
 
 set_include_path(
 	SysConf_Path::getLibrary() . PATH_SEPARATOR . get_include_path()

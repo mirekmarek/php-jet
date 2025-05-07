@@ -133,7 +133,7 @@ class Navigation_Breadcrumb extends BaseObject
 	/**
 	 * @param MVC_Page_Interface|null $page (optional)
 	 */
-	public static function setByPage( MVC_Page_Interface $page = null ): void
+	public static function setByPage( ?MVC_Page_Interface $page = null ): void
 	{
 		if( !$page ) {
 			$page = MVC::getPage();

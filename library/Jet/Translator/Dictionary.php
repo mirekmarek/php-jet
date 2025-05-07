@@ -37,7 +37,7 @@ class Translator_Dictionary extends BaseObject
 	 * @param string $name
 	 * @param Locale|null $locale
 	 */
-	public function __construct( string $name = '', Locale $locale = null )
+	public function __construct( string $name = '', ?Locale $locale = null )
 	{
 		$this->setName( $name );
 		$this->locale = $locale;

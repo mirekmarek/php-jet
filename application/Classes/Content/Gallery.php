@@ -292,7 +292,7 @@ class Content_Gallery extends DataModel
 	 *
 	 * @return Content_Gallery_Localized
 	 */
-	public function getLocalized( Locale $locale = null ): Content_Gallery_Localized
+	public function getLocalized( ?Locale $locale = null ): Content_Gallery_Localized
 	{
 		if( !$locale ) {
 			$locale = MVC::getLocale();
