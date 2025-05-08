@@ -188,7 +188,7 @@ class FormClass_Property
 		$fields[] = $help_text_field;
 		
 		$default_value_getter_name_field = new Form_Field_Input('/main/default_value_getter_name', 'Default value getter method name:');
-		$default_value_getter_name_field->setDefaultValue( $def->getDefaultValueGetterName( true ) );
+		$default_value_getter_name_field->setDefaultValue( $def->getDefaultValueGetterName() );
 		$fields[] = $default_value_getter_name_field;
 		
 		

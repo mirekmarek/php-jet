@@ -198,14 +198,10 @@ class Form_Definition extends BaseObject
 	
 	
 	/**
-	 * @param bool $get_defined
 	 * @return string
 	 */
-	public function getDefaultValueGetterName( bool $get_defined=false ): string
+	public function getDefaultValueGetterName(): string
 	{
-		if($get_defined) {
-			return $this->default_value_getter_name;
-		}
 		
 		if($this->default_value_getter_name) {
 			return $this->default_value_getter_name;
