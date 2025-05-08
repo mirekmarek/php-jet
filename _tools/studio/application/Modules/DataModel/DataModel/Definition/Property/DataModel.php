@@ -114,21 +114,29 @@ class DataModel_Definition_Property_DataModel extends Jet_DataModel_Definition_P
 		];
 
 		$type = $related_dm->getInternalType();
-
-
+		
+		$doc_block_type = '';
+		$doc_block_is_needed = false;
+		
 		switch($type) {
 			case DataModel::MODEL_TYPE_RELATED_1TO1:
 				$property_type = $use->getClass();
+				$doc_block_type = '?'.$use->getClass();
 			break;
 			case DataModel::MODEL_TYPE_RELATED_1TON:
 				$property_type = 'array';
+				$doc_block_type = $use->getClass().'[]';
 				$default_value = [];
+				$doc_block_is_needed = true;
 			break;
 		}
 
 
 		$property = $this->createClassProperty_main( $class, $property_type, 'DataModel::TYPE_DATA_MODEL', $attributes );
 		$property->setDefaultValue( $default_value );
+		$property->setDocBlockType( $doc_block_type );
+		$property->setDocBlockIsNeeded( $doc_block_is_needed );
+
 
 		return $property;
 	}
@@ -161,19 +169,61 @@ class DataModel_Definition_Property_DataModel extends Jet_DataModel_Definition_P
 	 */
 	public function createClassMethods( ClassCreator_Class $class ): array
 	{
+		$related_dm = DataModels::getClass( $this->getDataModelClass() );
+		$related_dm = $related_dm->getDefinition();
+		$type = $related_dm->getInternalType();
 
+		
 		$s_g_method_name = $this->getSetterGetterMethodName();
+		
+		
+		$use = ClassCreator_UseClass::createByClassName( $related_dm->getClassName() );
+		$class_name = $use->getClass();
+		
+		
+		switch($type) {
+			case DataModel::MODEL_TYPE_RELATED_1TO1:
+				$method_return_type = '?'.$related_dm->getClassName();
+				
+				$setter = $class->createMethod( 'set' . $s_g_method_name );
+				$setter->addParameter( 'value' )
+					->setType( '?'.$class_name );
+				$setter->line( 1, '$this->' . $this->getName() . ' = $value;' );
+				
+				
+				$getter = $class->createMethod( 'get' . $s_g_method_name );
+				$getter->setReturnType( '?'.$class_name );
+				$getter->line( 1, 'return $this->' . $this->getName() . ';' );
+				
+				return [
+					'set' . $s_g_method_name,
+					'get' . $s_g_method_name
+				];
+				
+				break;
+			case DataModel::MODEL_TYPE_RELATED_1TON:
 
-		$setter = $class->createMethod( 'set' . $s_g_method_name );
-		$setter->line( 1, '//TODO: implement ...' );
-
-		$getter = $class->createMethod( 'get' . $s_g_method_name );
-		$getter->line( 1, '//TODO: implement ...' );
-
-		return [
-			'set' . $s_g_method_name,
-			'get' . $s_g_method_name
-		];
+				$adder = $class->createMethod( 'add' . $s_g_method_name );
+				$adder->addParameter( 'value' )
+						->setType( $class_name );
+				$adder->line( 1, '$this->' . $this->getName() . '[] = $value;' );
+				
+				
+				$getter = $class->createMethod( 'get' . $s_g_method_name );
+				$getter->setReturnType( 'array' );
+				$getter->setDocBlockIsNeeded( true );
+				$getter->setReturnTypeForDoc( $class_name.'[]' );
+				$getter->line( 1, 'return $this->' . $this->getName() . ';' );
+				
+				return [
+					'add' . $s_g_method_name,
+					'get' . $s_g_method_name
+				];
+				
+				break;
+		}
+		
+		return [];
 	}
 
 }

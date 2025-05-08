@@ -129,6 +129,7 @@ class DataModel_Definition_Model_Main extends Jet_DataModel_Definition_Model_Mai
 			$class->addUse( new ClassCreator_UseClass('Jet', 'DataModel_Fetch_Instances') );
 			
 			$getList = $class->createMethod( 'getList' );
+			$getList->setDocBlockIsNeeded( true );
 			$getList->setIsStatic( true );
 			$getList->setReturnType( 'iterable' );
 			$getList->setReturnTypeNoInspection( true );

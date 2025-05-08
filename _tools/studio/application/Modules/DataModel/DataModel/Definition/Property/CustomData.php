@@ -53,7 +53,9 @@ class DataModel_Definition_Property_CustomData extends Jet_DataModel_Definition_
 	 */
 	public function createClassProperty( ClassCreator_Class $class ): ClassCreator_Class_Property
 	{
-		return $this->createClassProperty_main( $class, 'mixed', 'DataModel::TYPE_CUSTOM_DATA' );
+		$property = $this->createClassProperty_main( $class, 'mixed', 'DataModel::TYPE_CUSTOM_DATA' );
+		$property->setDocBlockIsNeeded( true );
+		return $property;
 	}
 
 	/**

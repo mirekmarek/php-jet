@@ -199,9 +199,10 @@ trait DataModel_Definition_Model_Trait
 
 		return new $class_name( $this );
 	}
-
-
+	
+	
 	/**
+	 * @param bool $non_existing_class
 	 * @return ClassCreator_Class|null
 	 */
 	public function createClass( bool $non_existing_class=false ): ClassCreator_Class|null

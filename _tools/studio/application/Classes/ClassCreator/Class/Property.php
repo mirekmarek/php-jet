@@ -31,6 +31,11 @@ class ClassCreator_Class_Property extends BaseObject
 	 * @var string
 	 */
 	protected string $type = '';
+	
+	/**
+	 * @var string
+	 */
+	protected string $doc_block_type = '';
 
 	/**
 	 * @var string
@@ -118,6 +123,18 @@ class ClassCreator_Class_Property extends BaseObject
 	{
 		$this->type = $type;
 	}
+	
+	public function getDocBlockType(): string
+	{
+		return $this->doc_block_type;
+	}
+	
+	public function setDocBlockType( string $doc_block_type ): void
+	{
+		$this->doc_block_type = $doc_block_type;
+	}
+	
+	
 
 	/**
 	 * @return mixed
@@ -223,7 +240,7 @@ class ClassCreator_Class_Property extends BaseObject
 			ClassCreator_Config::getAddDocBlocksAlways()
 		) {
 			$res .= $ident . '/**' . $nl;
-			$res .= $ident . ' * @var ' . $type . $nl;
+			$res .= $ident . ' * @var ' . ($this->doc_block_type?:$type) . $nl;
 			$res .= $ident . ' */ ' . $nl;
 		}
 
@@ -236,7 +253,7 @@ class ClassCreator_Class_Property extends BaseObject
 				if( count( $this->default_value ) > 0 ) {
 					$res .= $ident . $this->visibility . $declared_type . ' $' . $this->name . ' = ' . Data_Array::_export( $this->default_value, 1 );
 				} else {
-					$res .= $ident . $this->visibility . $declared_type . ' $' . $this->name . ' = [];';
+					$res .= $ident . $this->visibility . $declared_type . ' $' . $this->name . ' = []';
 				}
 			} else {
 				$res .= $ident . $this->visibility . $declared_type . ' $' . $this->name . ' = ' . var_export( $this->default_value, true );
