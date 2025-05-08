@@ -161,12 +161,13 @@ class DataModel_Definition_Model_Related_1toN extends Jet_DataModel_Definition_M
 
 		return $res;
 	}
-
-
+	
+	
 	/**
 	 * @param ClassCreator_Class $class
+	 * @param bool $non_existing_class
 	 */
-	public function createClass_methods( ClassCreator_Class $class ): void
+	public function createClass_methods( ClassCreator_Class $class, bool $non_existing_class ): void
 	{
 		$id_property_name = '';
 		foreach( $this->getProperties() as $property ) {

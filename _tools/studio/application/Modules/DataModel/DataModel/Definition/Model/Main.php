@@ -75,65 +75,68 @@ class DataModel_Definition_Model_Main extends Jet_DataModel_Definition_Model_Mai
 
 	/**
 	 * @param ClassCreator_Class $class
+	 * @param bool $non_existing_class
 	 */
-	public function createClass_methods( ClassCreator_Class $class ): void
+	public function createClass_methods( ClassCreator_Class $class, bool $non_existing_class ): void
 	{
 		$model = $this;
 
-		$class->addUse( new ClassCreator_UseClass( 'Jet', 'Form' ) );
-		$class->addUse( new ClassCreator_UseClass( 'Jet', 'Form_Field' ) );
-
-
-		$_form_edit = new ClassCreator_Class_Property( '_form_edit', 'Form', 'Form' );
-		$_form_edit->setDefaultValue( null );
-		$class->addProperty( $_form_edit );
-
-		$_form_add = new ClassCreator_Class_Property( '_form_add', 'Form', 'Form' );
-		$_form_add->setDefaultValue( null );
-		$class->addProperty( $_form_add );
-
-		$getEditForm = $class->createMethod( 'getEditForm' );
-		$getEditForm->setReturnType( 'Form' );
-		$getEditForm->line( 1, 'if(!$this->_form_edit) {' );
-		$getEditForm->line( 2, '$this->_form_edit = $this->createForm(\'edit_form\');' );
-		$getEditForm->line( 1, '}' );
-		$getEditForm->line( 1, '' );
-		$getEditForm->line( 1, 'return $this->_form_edit;' );
-
-		$catchEditForm = $class->createMethod( 'catchEditForm' );
-		$catchEditForm->setReturnType( 'bool' );
-		$catchEditForm->line( 1, 'return $this->getEditForm()->catch();' );
-
-
-		$getAddForm = $class->createMethod( 'getAddForm' );
-		$getAddForm->setReturnType( 'Form' );
-		$getAddForm->line( 1, 'if(!$this->_form_add) {' );
-		$getAddForm->line( 2, '$this->_form_add = $this->createForm(\'add_form\');' );
-		$getAddForm->line( 1, '}' );
-		$getAddForm->line( 1, '' );
-		$getAddForm->line( 1, 'return $this->_form_add;' );
-
-		$catchAddForm = $class->createMethod( 'catchAddForm' );
-		$catchAddForm->setReturnType( 'bool' );
-		$catchAddForm->line( 1, 'return $this->getAddForm()->catch();' );
-
-
-		$get = $class->createMethod( 'get' );
-		$get->setIsStatic( true );
-		$get->addParameter( 'id' )->setType( 'int|string' );
-		$get->setReturnType( 'static|null' );
-		$get->line( 1, 'return static::load( $id );' );
-
-		$class->addUse( new ClassCreator_UseClass('Jet', 'DataModel_Fetch_Instances') );
-		
-		$getList = $class->createMethod( 'getList' );
-		$getList->setIsStatic( true );
-		$getList->setReturnType( 'iterable' );
-		$getList->setReturnTypeNoInspection( true );
-		$getList->setReturnTypeForDoc( 'static[]|DataModel_Fetch_Instances' );
-		$getList->line( 1, '$where = [];' );
-		$getList->line( 1, '' );
-		$getList->line( 1, 'return static::fetchInstances( $where );' );
+		if($non_existing_class) {
+			$class->addUse( new ClassCreator_UseClass( 'Jet', 'Form' ) );
+			$class->addUse( new ClassCreator_UseClass( 'Jet', 'Form_Field' ) );
+			
+			
+			$_form_edit = new ClassCreator_Class_Property( '_form_edit', 'Form', 'Form' );
+			$_form_edit->setDefaultValue( null );
+			$class->addProperty( $_form_edit );
+			
+			$_form_add = new ClassCreator_Class_Property( '_form_add', 'Form', 'Form' );
+			$_form_add->setDefaultValue( null );
+			$class->addProperty( $_form_add );
+			
+			$getEditForm = $class->createMethod( 'getEditForm' );
+			$getEditForm->setReturnType( 'Form' );
+			$getEditForm->line( 1, 'if(!$this->_form_edit) {' );
+			$getEditForm->line( 2, '$this->_form_edit = $this->createForm(\'edit_form\');' );
+			$getEditForm->line( 1, '}' );
+			$getEditForm->line( 1, '' );
+			$getEditForm->line( 1, 'return $this->_form_edit;' );
+			
+			$catchEditForm = $class->createMethod( 'catchEditForm' );
+			$catchEditForm->setReturnType( 'bool' );
+			$catchEditForm->line( 1, 'return $this->getEditForm()->catch();' );
+			
+			
+			$getAddForm = $class->createMethod( 'getAddForm' );
+			$getAddForm->setReturnType( 'Form' );
+			$getAddForm->line( 1, 'if(!$this->_form_add) {' );
+			$getAddForm->line( 2, '$this->_form_add = $this->createForm(\'add_form\');' );
+			$getAddForm->line( 1, '}' );
+			$getAddForm->line( 1, '' );
+			$getAddForm->line( 1, 'return $this->_form_add;' );
+			
+			$catchAddForm = $class->createMethod( 'catchAddForm' );
+			$catchAddForm->setReturnType( 'bool' );
+			$catchAddForm->line( 1, 'return $this->getAddForm()->catch();' );
+			
+			
+			$get = $class->createMethod( 'get' );
+			$get->setIsStatic( true );
+			$get->addParameter( 'id' )->setType( 'int|string' );
+			$get->setReturnType( 'static|null' );
+			$get->line( 1, 'return static::load( $id );' );
+			
+			$class->addUse( new ClassCreator_UseClass('Jet', 'DataModel_Fetch_Instances') );
+			
+			$getList = $class->createMethod( 'getList' );
+			$getList->setIsStatic( true );
+			$getList->setReturnType( 'iterable' );
+			$getList->setReturnTypeNoInspection( true );
+			$getList->setReturnTypeForDoc( 'static[]|DataModel_Fetch_Instances' );
+			$getList->line( 1, '$where = [];' );
+			$getList->line( 1, '' );
+			$getList->line( 1, 'return static::fetchInstances( $where );' );
+		}
 
 		foreach( $model->getProperties() as $property ) {
 			if(

@@ -31,6 +31,8 @@ use JetStudio\JetStudio;
 trait DataModel_Definition_Property_Trait
 {
 
+	protected DataModel_Class $_class;
+	
 	/**
 	 * @var bool
 	 */
@@ -56,6 +58,7 @@ trait DataModel_Definition_Property_Trait
 	 */
 	public function setClass( DataModel_Class $_class ): void
 	{
+		$this->_class = $_class;
 		$reflection = $_class->getReflection();
 
 		$property_reflection = $reflection->getProperty( $this->getName() );
@@ -600,7 +603,7 @@ trait DataModel_Definition_Property_Trait
 
 			$parser = new ClassParser( $script );
 
-			$parser->actualize_updateProperty(
+			$parser->actualize_updatePropertyAttributes(
 				$class->getClassName(),
 				$this->createClassProperty( $created_class )
 			);

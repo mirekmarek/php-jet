@@ -8,8 +8,9 @@
 
 namespace JetStudioModule\DataModel;
 
+use Error;
+use Exception;
 use Jet\DataModel;
-use Jet\DataModel_Exception;
 use Jet\DataModel_Related_1to1;
 use Jet\DataModel_Related_1toN;
 use JetStudio\ClassFinder as JS_ClassFinder;
@@ -36,8 +37,10 @@ class ClassFinder extends JS_ClassFinder
 				 * @var DataModel_Definition_Model_Main|DataModel_Definition_Model_Related_1to1|DataModel_Definition_Model_Related_1toN $definition
 				 */
 				$definition = DataModel::getDataModelDefinition( $class->getFullClassName() );
-			} catch( DataModel_Exception $e ) {
+			} catch( Exception|Error $e ) {
 				$class->setError( $e->getMessage() );
+				
+				$this->problems[$class->getFullClassName()] = $e->getMessage();
 				continue;
 			}
 			$class->setDefinition( $definition );
@@ -45,7 +48,12 @@ class ClassFinder extends JS_ClassFinder
 
 	}
 	
-	protected function classMetaInfoFactory( string $path, string $namespace, string $class_name, ReflectionClass $reflection ): ClassMetaInfo
+	protected function classMetaInfoFactory(
+		string $path,
+		string $namespace,
+		string $class_name,
+		ReflectionClass $reflection
+	): ClassMetaInfo
 	{
 		return new DataModel_Class(
 			$path,

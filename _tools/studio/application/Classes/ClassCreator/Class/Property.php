@@ -36,11 +36,21 @@ class ClassCreator_Class_Property extends BaseObject
 	 * @var string
 	 */
 	protected string $declared_type = '';
+	
+	/**
+	 * @var string
+	 */
+	protected string $hooks = '';
 
 	/**
 	 * @var mixed
 	 */
 	protected mixed $default_value = null;
+	
+	/**
+	 * @var bool
+	 */
+	protected bool $doc_block_is_needed = false;
 
 
 	/**
@@ -124,6 +134,38 @@ class ClassCreator_Class_Property extends BaseObject
 	{
 		$this->default_value = $default_value;
 	}
+	
+	public function getHooks(): string
+	{
+		return $this->hooks;
+	}
+	
+	public function setHooks( string $hooks ): void
+	{
+		$this->hooks = $hooks;
+	}
+	
+	
+	
+	public function getDocBlockIsNeeded(): bool
+	{
+		return $this->doc_block_is_needed;
+	}
+	
+	public function setDocBlockIsNeeded( bool $doc_block_is_needed ): void
+	{
+		$this->doc_block_is_needed = $doc_block_is_needed;
+	}
+	
+	/**
+	 * @return ClassCreator_Attribute[]
+	 */
+	public function getAttributes(): array
+	{
+		return $this->attributes;
+	}
+	
+	
 
 
 	/**
@@ -176,9 +218,14 @@ class ClassCreator_Class_Property extends BaseObject
 			$declared_type = ' ' . $declared_type;
 		}
 
-		$res .= $ident . '/**' . $nl;
-		$res .= $ident . ' * @var ' . $type . $nl;
-		$res .= $ident . ' */ ' . $nl;
+		if(
+			$this->doc_block_is_needed ||
+			ClassCreator_Config::getAddDocBlocksAlways()
+		) {
+			$res .= $ident . '/**' . $nl;
+			$res .= $ident . ' * @var ' . $type . $nl;
+			$res .= $ident . ' */ ' . $nl;
+		}
 
 		foreach( $this->attributes as $attribute ) {
 			$res .= $attribute->toString( 1 );
@@ -187,16 +234,22 @@ class ClassCreator_Class_Property extends BaseObject
 		if( $this->default_value !== null ) {
 			if( is_array( $this->default_value ) ) {
 				if( count( $this->default_value ) > 0 ) {
-					$res .= $ident . $this->visibility . $declared_type . ' $' . $this->name . ' = ' . Data_Array::_export( $this->default_value, 1 ) . ';';
+					$res .= $ident . $this->visibility . $declared_type . ' $' . $this->name . ' = ' . Data_Array::_export( $this->default_value, 1 );
 				} else {
 					$res .= $ident . $this->visibility . $declared_type . ' $' . $this->name . ' = [];';
 				}
 			} else {
-				$res .= $ident . $this->visibility . $declared_type . ' $' . $this->name . ' = ' . var_export( $this->default_value, true ) . ';';
+				$res .= $ident . $this->visibility . $declared_type . ' $' . $this->name . ' = ' . var_export( $this->default_value, true );
 			}
 
 		} else {
-			$res .= $ident . $this->visibility . $declared_type . ' $' . $this->name . ' = null;';
+			$res .= $ident . $this->visibility . $declared_type . ' $' . $this->name . ' = null';
+		}
+		
+		if($this->hooks) {
+			$res .= $this->hooks;
+		} else {
+			$res .= ';';
 		}
 
 		return $res;

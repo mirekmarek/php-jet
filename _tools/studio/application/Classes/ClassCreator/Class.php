@@ -385,9 +385,11 @@ class ClassCreator_Class extends BaseObject
 
 		$res = '';
 
-		$res .= '/**' . $nl;
-		$res .= ' *' . $nl;
-		$res .= ' */' . $nl;
+		if(ClassCreator_Config::getAddDocBlocksAlways()) {
+			$res .= '/**' . $nl;
+			$res .= ' *' . $nl;
+			$res .= ' */' . $nl;
+		}
 
 		return $res;
 	}
@@ -420,10 +422,12 @@ class ClassCreator_Class extends BaseObject
 		$ident = ClassCreator_Class::getIndentation();
 		$nl = ClassCreator_Class::getNl();
 
-
-		$res .= '/**' . $nl;
-		$res .= ' * ' . $nl;
-		$res .= ' */' . $nl;
+		
+		if(ClassCreator_Config::getAddDocBlocksAlways()) {
+			$res .= '/**' . $nl;
+			$res .= ' * ' . $nl;
+			$res .= ' */' . $nl;
+		}
 
 		$res .= $nl;
 		$res .= 'namespace ' . $this->getNamespace() . ';' . $nl;

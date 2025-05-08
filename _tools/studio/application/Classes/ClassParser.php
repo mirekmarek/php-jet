@@ -547,25 +547,25 @@ class ClassParser
 	 *
 	 * @return string
 	 */
-	public function actualize_updateProperty( string $class_name, ClassCreator_Class_Property $property ): string
+	public function actualize_updatePropertyAttributes( string $class_name, ClassCreator_Class_Property $property ): string
 	{
 		$class = $this->classes[$class_name];
 
 		if( !isset( $class->properties[$property->getName()] ) ) {
 			return '';
 		}
-
-		$property_str = trim( (string)$property );
-		$new_property = $property;
-		$current_property = $class->properties[$new_property->getName()];
-
-		if( $property_str != $current_property->toString() ) {
-			$current_property->replace( $property_str );
-
-			return 'Property ' . $property->getName() . ' updated';
+		
+		$current_property = $class->properties[$property->getName()];
+		
+		$property_attributes = '';
+		foreach($property->getAttributes() as $attribute) {
+			$property_attributes .= $attribute->toString( 1 );
 		}
+		
 
-		return '';
+		$current_property->replaceAttributes( $property_attributes );
+
+		return 'Property attributes ' . $property->getName() . ' updated';
 	}
 
 

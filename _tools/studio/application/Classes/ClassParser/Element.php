@@ -87,6 +87,7 @@ abstract class ClassParser_Element
 
 		$parser->replaceTokens( $this->start_token, $this->end_token, $new_text );
 	}
+	
 
 	/**
 	 * @return string

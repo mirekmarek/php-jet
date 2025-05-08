@@ -11,114 +11,26 @@ namespace Jet;
 /**
  *
  */
-class Form_Definition_SubForms extends BaseObject
+class Form_Definition_SubForms extends Form_Definition
 {
-	/**
-	 * @var object
-	 */
-	protected object $context_object;
-	
-	/**
-	 * @var string
-	 */
-	protected string $property_name;
-	
-	/**
-	 * @var mixed
-	 */
-	protected mixed $property;
-	
-	/**
-	 * @var ?callable
-	 */
-	protected $creator = null;
-	
-	
-	/**
-	 * @var Form_Definition_FieldOption[]
-	 */
-	protected array $other_options_definition = [];
+	protected bool|string $type = 'sub_forms';
+	protected bool $is_sub_forms = true;
 	
 	/**
 	 * @param object $context_object
 	 * @param string $property_name
-	 * @param mixed &$property
 	 * @param array $definition_data
 	 */
-	public function __construct( object $context_object, string $property_name, mixed &$property, array $definition_data )
+	public function __construct( object $context_object, string $property_name, array $definition_data )
 	{
-		$this->context_object = $context_object;
-		$this->property_name = $property_name;
-		$this->property = &$property;
-		
-		foreach($definition_data as $key=>$value) {
-			if($key=='is_sub_forms') {
-				continue;
-			}
-			
-			if(property_exists($this, $key)) {
-				$this->{$key} = $value;
-			} else {
-				throw new Form_Definition_Exception('Form definition '.get_class($context_object).'::'.$property_name.' - unknown option \''.$key.'\'');
-			}
-		}
-		
+		$this->init( $context_object, $property_name, $definition_data );
 	}
 	
 	/**
-	 * @return object
+	 * @param string|bool $type
 	 */
-	public function getContextObject(): object
+	public function setType( string|bool $type ): void
 	{
-		return $this->context_object;
-	}
-	
-	/**
-	 * @return string
-	 */
-	public function getPropertyName(): string
-	{
-		return $this->property_name;
-	}
-	
-	/**
-	 * @return string
-	 */
-	public function getFieldName() : string
-	{
-		return $this->property_name;
-	}
-	
-	
-	
-	/**
-	 * @return ?callable
-	 */
-	public function getCreator(): ?callable
-	{
-		$creator = $this->creator;
-		
-		if(is_array($creator) && $creator[0]==='this') {
-			$creator[0] = $this->context_object;
-		}
-		
-		return $creator;
-	}
-	
-	/**
-	 * @param null|callable|array $creator
-	 */
-	public function setCreator( null|callable|array $creator ): void
-	{
-		if(
-			is_array($creator) &&
-			is_object($creator[0]) &&
-			get_class($creator[0])==get_class($this->context_object)
-		) {
-			$creator[0] = 'this';
-		}
-		
-		$this->creator = $creator;
 	}
 	
 	
@@ -127,17 +39,18 @@ class Form_Definition_SubForms extends BaseObject
 	 */
 	public function createFormFields( string $parent_name, array &$form_fields ): void
 	{
-		if(!$this->property) {
+		$property_value = $this->getDefaultValue();
+		if(!$property_value) {
 			return;
 		}
 		
-		if(!is_iterable($this->property)) {
+		if(!is_iterable($property_value)) {
 			throw new Form_Definition_Exception('Form definition '.get_class($this->context_object).'::'.$this->property_name.' - is not iterable');
 		}
 		
 
 		$sub_fields = [];
-		foreach($this->property as $key=>$sub) {
+		foreach($property_value as $key=>$sub) {
 			if(!($sub instanceof Form_Definition_Interface)) {
 				throw new Form_Definition_Exception('Form definition '.get_class($this->context_object).'::'.$this->property_name.'['.$key.'] - is not sub form creator (interface Form_Definition_Interface is not implemented)');
 			}

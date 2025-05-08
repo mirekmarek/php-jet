@@ -57,6 +57,11 @@ class ClassCreator_Class_Method extends BaseObject
 	 * @var bool
 	 */
 	protected bool $return_type_no_inspection = false;
+	
+	/**
+	 * @var bool
+	 */
+	protected bool $doc_block_is_needed = false;
 
 	/**
 	 * @var array
@@ -193,6 +198,16 @@ class ClassCreator_Class_Method extends BaseObject
 		$this->return_type_no_inspection = $return_type_no_inspection;
 	}
 	
+	public function getDocBlockIsNeeded(): bool
+	{
+		return $this->doc_block_is_needed;
+	}
+	
+	public function setDocBlockIsNeeded( bool $doc_block_is_needed ): void
+	{
+		$this->doc_block_is_needed = $doc_block_is_needed;
+	}
+	
 	
 
 	/**
@@ -242,20 +257,25 @@ class ClassCreator_Class_Method extends BaseObject
 	public function toString( string $ident, string $nl ): string
 	{
 		$res = '';
-
-		$res .= $ident . '/**' . $nl;
-		foreach( $this->parameters as $param ) {
-			$res .= $ident . ' * ' . $param->createClass_getAsAnnotation() . $nl;
-		}
 		
-		if( $this->getReturnTypeForDoc() ) {
-			if($this->getReturnTypeNoInspection()) {
-				$res .= $ident . ' * @noinspection PhpDocSignatureInspection' . $nl;
+		if(
+			$this->doc_block_is_needed ||
+			ClassCreator_Config::getAddDocBlocksAlways()
+		) {
+			$res .= $ident . '/**' . $nl;
+			foreach( $this->parameters as $param ) {
+				$res .= $ident . ' * ' . $param->createClass_getAsAnnotation() . $nl;
 			}
-			$res .= $ident . ' * @return ' . $this->getReturnTypeForDoc() . $nl;
 			
+			if( $this->getReturnTypeForDoc() ) {
+				if($this->getReturnTypeNoInspection()) {
+					$res .= $ident . ' * @noinspection PhpDocSignatureInspection' . $nl;
+				}
+				$res .= $ident . ' * @return ' . $this->getReturnTypeForDoc() . $nl;
+				
+			}
+			$res .= $ident . ' */' . $nl;
 		}
-		$res .= $ident . ' */' . $nl;
 
 		$res .= $ident;
 

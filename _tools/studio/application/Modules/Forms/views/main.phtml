@@ -28,8 +28,10 @@ $generate_view_script_dialog = UI::dialog('generate_view_script_dialog', Tr::_('
 				$('#class_search').val('');
 
 				$('.class_list_item').show();
+				$('#current-item').show();
 			},
 			search: function () {
+				$('#current-item').hide();
 
 				let value = $('#class_search').val();
 

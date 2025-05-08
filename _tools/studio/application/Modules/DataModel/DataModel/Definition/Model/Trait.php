@@ -204,7 +204,7 @@ trait DataModel_Definition_Model_Trait
 	/**
 	 * @return ClassCreator_Class|null
 	 */
-	public function createClass(): ClassCreator_Class|null
+	public function createClass( bool $non_existing_class=false ): ClassCreator_Class|null
 	{
 		if( !$this->class ) {
 			$class = $this->createClass_initClass();
@@ -214,7 +214,7 @@ trait DataModel_Definition_Model_Trait
 			$this->createClass_customKeys( $class );
 			$this->createClass_externalRelations( $class );
 			$this->createClass_properties( $class );
-			$this->createClass_methods( $class );
+			$this->createClass_methods( $class, $non_existing_class );
 
 			$this->class = $class;
 		}
@@ -343,8 +343,9 @@ trait DataModel_Definition_Model_Trait
 
 	/**
 	 * @param ClassCreator_Class $class
+	 * @param bool $non_existing_class
 	 */
-	public function createClass_methods( ClassCreator_Class $class ): void
+	public function createClass_methods( ClassCreator_Class $class, bool $non_existing_class ): void
 	{
 		foreach( $this->getProperties() as $property ) {
 			if(
@@ -893,7 +894,7 @@ trait DataModel_Definition_Model_Trait
 	{
 		$ok = true;
 		try {
-			$class = $this->createClass();
+			$class = $this->createClass( true );
 
 			if( $class->getErrors() ) {
 				throw new DataModel_Exception( implode( '', $class->getErrors() ) );

@@ -34,6 +34,8 @@ class ClassParser_Class_Property extends ClassParser_Class_Element
 	 * @var ?string
 	 */
 	public ?string $value = null;
+	
+	public ?string $hooks = null;
 
 	/**
 	 * @var string
@@ -117,7 +119,10 @@ class ClassParser_Class_Property extends ClassParser_Class_Element
 
 
 		$searching_for_value = false;
+		$searching_for_hooks = false;
 		$got_value = false;
+		
+		$hooks_block_stack = 0;
 
 
 		do {
@@ -126,46 +131,113 @@ class ClassParser_Class_Property extends ClassParser_Class_Element
 			}
 
 			if( $token->ignore() ) {
+				if($searching_for_hooks) {
+					$property->hooks .= $token->text;
+				}
 				continue;
 			}
-
+			
+			
 			switch( $token->id ) {
 				case '=':
-					if( !$searching_for_value ) {
-						$searching_for_value = true;
+					if($searching_for_hooks) {
+						$property->hooks .= '=';
 					} else {
-						$property->parseError();
+						if( !$searching_for_value ) {
+							$searching_for_value = true;
+						} else {
+							$property->parseError();
+						}
 					}
 					break;
 				case ';':
-					if(
-					!$property->name
-					) {
-						$property->parseError();
-					}
-
-					$class->properties[$property->name] = $property;
-
-					$property->end_token = $token;
-					$property->declaration_end = $token;
-
-					$class->_last_doc_comment_token = null;
-					$class->_private_token = null;
-					$class->_protected_token = null;
-					$class->_public_token = null;
-					$class->_static_token = null;
-					return;
-				default:
-					if( $searching_for_value ) {
-						if( $property->value === null ) {
-							$property->value = '';
-						}
-
-						$property->value .= $token->text;
-						$got_value = true;
+					if($searching_for_hooks) {
+						$property->hooks .= ';';
 					} else {
+						if( !$property->name ) {
+							$property->parseError();
+						}
+						
+						$class->properties[$property->name] = $property;
+						
+						$property->end_token = $token;
+						$property->declaration_end = $token;
+						
+						$class->_last_doc_comment_token = null;
+						$class->_private_token = null;
+						$class->_protected_token = null;
+						$class->_public_token = null;
+						$class->_static_token = null;
+						return;
+						
+					}
+					break;
+				case '{':
+					if(!$searching_for_hooks) {
+						if( !$property->name ) {
+							$property->parseError();
+						}
+						
+						if($searching_for_value) {
+							if( $property->value === null ) {
+								$property->value = '';
+							}
+							
+							$property->value .= $token->text;
+							$got_value = true;
+							
+							$searching_for_value = false;
+						}
+						
+						$property->hooks .= ' {';
+						$searching_for_hooks = true;
+					}
+					
+					$hooks_block_stack++;
+					
+					break;
+				case '}':
+					if( !$searching_for_hooks ) {
 						$property->parseError();
 					}
+					
+					$property->hooks .= '}';
+					
+					$hooks_block_stack--;
+					
+					if($hooks_block_stack<1) {
+						
+						$class->properties[$property->name] = $property;
+						
+						$property->end_token = $token;
+						$property->declaration_end = $token;
+						
+						$class->_last_doc_comment_token = null;
+						$class->_private_token = null;
+						$class->_protected_token = null;
+						$class->_public_token = null;
+						$class->_static_token = null;
+						
+						return;
+					}
+
+					break;
+				default:
+					if($searching_for_hooks) {
+						$property->hooks .= $token->text;
+					} else {
+						if( $searching_for_value ) {
+							if( $property->value === null ) {
+								$property->value = '';
+							}
+							
+							$property->value .= $token->text;
+							$got_value = true;
+						} else {
+							$property->parseError();
+						}
+					}
+				break;
 			}
 
 		} while( true );
@@ -191,6 +263,27 @@ class ClassParser_Class_Property extends ClassParser_Class_Element
 
 		echo PHP_EOL . ' Tokens: ' . $this->start_token->index . ' - ' . $this->end_token->index;
 	}
-
+	
+	
+	/**
+	 * @param string $new_text
+	 */
+	public function replaceAttributes( string $new_text ): void
+	{
+		$new_text = trim( $new_text );
+		
+		$start_token = null;
+		$end_token = null;
+		foreach($this->attributes as $attribute) {
+			if(!$start_token) {
+				$start_token = $attribute->start_token;
+			}
+			
+			$end_token = $attribute->end_token;
+		}
+		
+		$this->parser->replaceTokens( $start_token, $end_token, $new_text );
+	}
+	
 
 }

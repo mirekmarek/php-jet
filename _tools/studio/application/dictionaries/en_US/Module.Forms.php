@@ -45,4 +45,7 @@ return [
 	'Forms' => '',
 	'Please enter a value' => '',
 	'Invalid value' => '',
+	'Field definition is missing' => '',
+	'Not defined' => '',
+	'Out of range' => '',
 ];

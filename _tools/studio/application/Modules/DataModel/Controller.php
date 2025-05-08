@@ -385,7 +385,7 @@ class Controller extends JetStudio_Module_Controller
 		
 		header( 'Content-Type: text/plain' );
 		
-		$class = $current->createClass() ?? '';
+		$class = $current->createClass( true ) ?? '';
 		
 		AJAX::snippetResponse( $class );
 	}

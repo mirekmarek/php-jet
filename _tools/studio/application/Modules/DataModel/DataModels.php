@@ -25,6 +25,8 @@ use JetStudio\JetStudio;
  */
 class DataModels extends BaseObject
 {
+	
+	protected static array $problems = [];
 
 	/**
 	 * @var array
@@ -111,27 +113,18 @@ class DataModels extends BaseObject
 			$finder->find();
 
 			static::$classes = $finder->getClasses();
+			
+			static::$problems = $finder->getProblems();
 		}
 
 		return static::$classes;
 	}
 
-	/**
-	 * @return DataModel_Class[]
-	 */
-	public static function getProblematicClasses(): array
+	public static function getProblems(): array
 	{
 		static::load();
-
-		$problems = [];
-
-		foreach( static::$classes as $class ) {
-			if( $class->getError() ) {
-				$problems[] = $class;
-			}
-		}
-
-		return $problems;
+		
+		return static::$problems;
 	}
 
 	/**

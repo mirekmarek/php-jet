@@ -14,10 +14,9 @@ use JetStudio\JetStudio_UI;
  * @var MVC_View $this
  */
 
-if( ($problematic_classes = DataModels::getProblematicClasses()) ) {
+if( DataModels::getProblems() ) {
 
 	require 'problems.phtml';
-
 	return;
 }
 
