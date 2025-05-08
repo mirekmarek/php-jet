@@ -83,7 +83,7 @@ class DataModel_Definition_Model_Main extends Jet_DataModel_Definition_Model_Mai
 
 		if($non_existing_class) {
 			$class->addUse( new ClassCreator_UseClass( 'Jet', 'Form' ) );
-			$class->addUse( new ClassCreator_UseClass( 'Jet', 'Form_Field' ) );
+			//$class->addUse( new ClassCreator_UseClass( 'Jet', 'Form_Field' ) );
 			
 			
 			$_form_edit = new ClassCreator_Class_Property( '_form_edit', 'Form', 'Form' );

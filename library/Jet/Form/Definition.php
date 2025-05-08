@@ -9,6 +9,7 @@
 namespace Jet;
 
 use Attribute;
+use ReflectionClass;
 
 /**
  *
@@ -259,13 +260,9 @@ class Form_Definition extends BaseObject
 	 */
 	protected function getDefaultValue() : mixed
 	{
-		if(($default_value_getter = $this->getDefaultValueGetterName())) {
-			$default_value = $this->context_object->{$default_value_getter}();
-		} else {
-			$default_value = $this->context_object->{$this->property_name};
-		}
-		
-		return $default_value;
+		$ref = new ReflectionClass($this->context_object);
+		$property = $ref->getProperty($this->getPropertyName());
+		return $property->getRawValue( $this->context_object );
 	}
 	
 	/**

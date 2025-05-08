@@ -30,7 +30,7 @@ if( SysConf_Jet_Debug::getDevelMode() ) {
 	SysConf_Jet_Translator::setAutoAppendUnknownPhrase( true );
 } else {
 	//Production configuration
-	SysConf_Jet_Debug::setProfilerEnabled( false );
+	SysConf_Jet_Debug::setProfilerEnabled( true );
 
 	SysConf_Jet_PackageCreator_CSS::setEnabled( true );
 	SysConf_Jet_PackageCreator_JavaScript::setEnabled( true );

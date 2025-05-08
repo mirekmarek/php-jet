@@ -38,7 +38,7 @@ class DataModel_Definition_Property_Locale extends DataModel_Definition_Property
 	 *
 	 * @return mixed
 	 */
-	public function getJsonSerializeValue( mixed &$property ): mixed
+	public function getJsonSerializeValue( mixed $property ): mixed
 	{
 		if( !$property ) {
 			return $property;

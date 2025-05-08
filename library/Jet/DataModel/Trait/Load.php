@@ -80,7 +80,7 @@ trait DataModel_Trait_Load
 
 
 		foreach( $this_definition->getProperties() as $property_name => $property_definition ) {
-			$property_definition->loadPropertyValue( $_this->{$property_name}, $this_data );
+			$property_definition->loadPropertyValue( $_this, $property_name, $this_data );
 		}
 
 		$_this->setIsSaved();

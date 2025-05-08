@@ -1118,12 +1118,16 @@ class DataModel_Backend_SQLite extends DataModel_Backend
 	}
 
 	/**
-	 * @param string $string
+	 * @param ?string $string
 	 *
 	 * @return mixed
 	 */
-	protected function unserialize( string $string ): mixed
+	protected function unserialize( ?string $string ): mixed
 	{
+		if($string===null) {
+			return null;
+		}
+		
 		$data = base64_decode( $string );
 
 		return unserialize( $data );

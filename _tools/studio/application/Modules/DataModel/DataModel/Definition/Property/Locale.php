@@ -11,6 +11,7 @@ namespace JetStudioModule\DataModel;
 use Jet\DataModel_Definition_Property_Locale as Jet_DataModel_Definition_Property_Locale;
 use Jet\Form_Field;
 use JetStudio\ClassCreator_Class;
+use JetStudio\ClassCreator_Config;
 use JetStudio\ClassCreator_UseClass;
 use JetStudio\ClassCreator_Class_Property;
 
@@ -57,7 +58,19 @@ class DataModel_Definition_Property_Locale extends Jet_DataModel_Definition_Prop
 			new ClassCreator_UseClass( 'Jet', 'Locale' )
 		);
 
-		return $this->createClassProperty_main( $class, 'Locale', 'DataModel::TYPE_LOCALE' );
+		$property = $this->createClassProperty_main( $class, 'Locale', 'DataModel::TYPE_LOCALE' );
+		
+		if(ClassCreator_Config::getPreferPropertyHooks()) {
+			$class->addUse( new ClassCreator_UseClass( 'Jet', 'Locale' ) );
+			
+			$property->createStdHook(
+				'null|Locale|string',
+				'$this->' . $this->getName() . ' = ($value instanceof Locale) ? $value : new Locale( $value );',
+			);
+		}
+		
+		
+		return $property;
 	}
 
 	/**
@@ -68,6 +81,10 @@ class DataModel_Definition_Property_Locale extends Jet_DataModel_Definition_Prop
 	public function createClassMethods( ClassCreator_Class $class ): array
 	{
 
+		if(ClassCreator_Config::getPreferPropertyHooks()) {
+			return [];
+		}
+
 		$class->addUse( new ClassCreator_UseClass( 'Jet', 'Locale' ) );
 
 		$s_g_method_name = $this->getSetterGetterMethodName();
@@ -75,11 +92,7 @@ class DataModel_Definition_Property_Locale extends Jet_DataModel_Definition_Prop
 		$setter = $class->createMethod( 'set' . $s_g_method_name );
 		$setter->addParameter( 'value' )
 			->setType( 'Locale|string' );
-		$setter->line( 1, 'if( !( $value instanceof Locale ) ) {' );
-		$setter->line( 2, '$value = new Locale( (string)$value );' );
-		$setter->line( 1, '}' );
-		$setter->line( 1, '' );
-		$setter->line( 1, '$this->' . $this->getName() . ' = $value;' );
+		$setter->line( 1, '$this->' . $this->getName() . ' = ($value instanceof Locale) ? $value : new Locale( $value );' );
 
 
 		$getter = $class->createMethod( 'get' . $s_g_method_name );

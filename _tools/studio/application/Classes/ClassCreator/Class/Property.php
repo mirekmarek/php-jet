@@ -162,6 +162,35 @@ class ClassCreator_Class_Property extends BaseObject
 		$this->hooks = $hooks;
 	}
 	
+	public function createStdHook(
+		string  $set_type,
+		?string $set_code=null
+	) : void
+	{
+		$ident = ClassCreator_Class::getIndentation();
+		$nl = ClassCreator_Class::getNl();
+		
+		$this->setVisibility( ClassCreator_Class::VISIBILITY_PUBLIC );
+		
+		if(!$set_code) {
+			$set_code = "\$this->{$this->getName()} = \$value;";
+		}
+		
+		$hooks = " {{$nl}";
+		$hooks .= "{$ident}{$ident}get{{$nl}";
+		$hooks .= "{$ident}{$ident}{$ident}return \$this->{$this->getName()};{$nl}";
+		$hooks .= "{$ident}{$ident}}{$nl}";
+		$hooks .= "{$ident}{$ident}set( $set_type \$value ){{$nl}";
+		$hooks .= "{$ident}{$ident}{$ident}$set_code{$nl}";
+		$hooks .= "{$ident}{$ident}}{$nl}";
+		$hooks .= "{$ident}}{$nl}";
+		
+		$this->setHooks(
+			$hooks
+		);
+		
+	}
+	
 	
 	
 	public function getDocBlockIsNeeded(): bool

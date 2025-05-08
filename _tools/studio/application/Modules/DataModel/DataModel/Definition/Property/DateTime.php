@@ -11,6 +11,7 @@ namespace JetStudioModule\DataModel;
 use Jet\DataModel_Definition_Property_DateTime as Jet_DataModel_Definition_Property_DateTime;
 use Jet\Form_Field;
 use JetStudio\ClassCreator_Class;
+use JetStudio\ClassCreator_Config;
 use JetStudio\ClassCreator_UseClass;
 use JetStudio\ClassCreator_Class_Property;
 
@@ -58,7 +59,18 @@ class DataModel_Definition_Property_DateTime extends Jet_DataModel_Definition_Pr
 			new ClassCreator_UseClass( 'Jet', 'Data_DateTime' )
 		);
 
-		return $this->createClassProperty_main( $class, 'Data_DateTime', 'DataModel::TYPE_DATE_TIME' );
+		$property = $this->createClassProperty_main( $class, 'Data_DateTime', 'DataModel::TYPE_DATE_TIME' );
+		
+		if(ClassCreator_Config::getPreferPropertyHooks()) {
+			$class->addUse( new ClassCreator_UseClass( 'Jet', 'Data_DateTime' ) );
+			
+			$property->createStdHook(
+				'Data_DateTime|string|null',
+				'$this->' . $this->getName() . ' = Data_DateTime::catchDateTime( $value );'
+			);
+		}
+		
+		return $property;
 	}
 
 	/**
@@ -68,6 +80,9 @@ class DataModel_Definition_Property_DateTime extends Jet_DataModel_Definition_Pr
 	 */
 	public function createClassMethods( ClassCreator_Class $class ): array
 	{
+		if(ClassCreator_Config::getPreferPropertyHooks()) {
+			return [];
+		}
 
 		$class->addUse( new ClassCreator_UseClass( 'Jet', 'Data_DateTime' ) );
 

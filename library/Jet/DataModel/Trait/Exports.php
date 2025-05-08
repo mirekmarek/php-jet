@@ -54,8 +54,8 @@ trait DataModel_Trait_Exports
 			) {
 				continue;
 			}
-
-
+			
+			
 			$result[$property_name] = $property->getJsonSerializeValue( $this->{$property_name} );
 
 		}

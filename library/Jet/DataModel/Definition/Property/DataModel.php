@@ -68,7 +68,7 @@ class DataModel_Definition_Property_DataModel extends DataModel_Definition_Prope
 	 *
 	 * @return array|null
 	 */
-	public function getJsonSerializeValue( mixed &$property ): ?array
+	public function getJsonSerializeValue( mixed $property ): ?array
 	{
 		if( !$property ) {
 			return null;
@@ -126,13 +126,14 @@ class DataModel_Definition_Property_DataModel extends DataModel_Definition_Prope
 	{
 		return false;
 	}
-
+	
 	/**
-	 * @param mixed &$property
+	 * @param object $obj
+	 * @param string $property_name
 	 * @param array $data
-	 *
+	 * @return void
 	 */
-	public function loadPropertyValue( mixed &$property, array $data ): void
+	public function loadPropertyValue( object $obj, string $property_name, array $data ): void
 	{
 	}
 

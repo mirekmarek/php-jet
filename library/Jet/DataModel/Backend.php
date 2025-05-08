@@ -479,11 +479,11 @@ abstract class DataModel_Backend extends BaseObject
 	}
 
 	/**
-	 * @param string $string
+	 * @param ?string $string
 	 *
 	 * @return mixed
 	 */
-	protected function unserialize( string $string ): mixed
+	protected function unserialize( ?string $string ): mixed
 	{
 		if( !$string ) {
 			return null;

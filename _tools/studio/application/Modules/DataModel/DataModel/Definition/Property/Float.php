@@ -12,6 +12,7 @@ use Jet\DataModel_Definition_Property_Float as Jet_DataModel_Definition_Property
 use Jet\Form_Field;
 use JetStudio\ClassCreator_Class;
 use JetStudio\ClassCreator_Class_Property;
+use JetStudio\ClassCreator_Config;
 
 /**
  *
@@ -20,6 +21,15 @@ class DataModel_Definition_Property_Float extends Jet_DataModel_Definition_Prope
 {
 	use DataModel_Definition_Property_Trait;
 
+	public float $test = 0 {
+		get {
+			return $this->test;
+		}
+		set( float $value ) {
+			$this->test = $value;
+		}
+	}
+	
 	/**
 	 * @param Form_Field[] &$fields
 	 */
@@ -52,7 +62,13 @@ class DataModel_Definition_Property_Float extends Jet_DataModel_Definition_Prope
 	 */
 	public function createClassProperty( ClassCreator_Class $class ): ClassCreator_Class_Property
 	{
-		return $this->createClassProperty_main( $class, 'float', 'DataModel::TYPE_FLOAT' );
+		$property = $this->createClassProperty_main( $class, 'float', 'DataModel::TYPE_FLOAT' );
+		
+		if(ClassCreator_Config::getPreferPropertyHooks()) {
+			$property->createStdHook('float');
+		}
+
+		return $property;
 	}
 
 
@@ -63,9 +79,12 @@ class DataModel_Definition_Property_Float extends Jet_DataModel_Definition_Prope
 	 */
 	public function createClassMethods( ClassCreator_Class $class ): array
 	{
-
+		if(ClassCreator_Config::getPreferPropertyHooks()) {
+			return [];
+		}
+		
 		$s_g_method_name = $this->getSetterGetterMethodName();
-
+		
 		$setter = $class->createMethod( 'set' . $s_g_method_name );
 		$setter->addParameter( 'value' )
 			->setType( 'float' );

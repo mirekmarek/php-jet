@@ -12,6 +12,7 @@ use Jet\DataModel_Definition_Property_Int as Jet_DataModel_Definition_Property_I
 use Jet\Form_Field;
 use JetStudio\ClassCreator_Class;
 use JetStudio\ClassCreator_Class_Property;
+use JetStudio\ClassCreator_Config;
 
 /**
  *
@@ -52,7 +53,13 @@ class DataModel_Definition_Property_Int extends Jet_DataModel_Definition_Propert
 	 */
 	public function createClassProperty( ClassCreator_Class $class ): ClassCreator_Class_Property
 	{
-		return $this->createClassProperty_main( $class, 'int', 'DataModel::TYPE_INT' );
+		$property = $this->createClassProperty_main( $class, 'int', 'DataModel::TYPE_INT' );
+		
+		if(ClassCreator_Config::getPreferPropertyHooks()) {
+			$property->createStdHook('int');
+		}
+
+		return $property;
 	}
 
 	/**
@@ -62,6 +69,9 @@ class DataModel_Definition_Property_Int extends Jet_DataModel_Definition_Propert
 	 */
 	public function createClassMethods( ClassCreator_Class $class ): array
 	{
+		if(ClassCreator_Config::getPreferPropertyHooks()) {
+			return [];
+		}
 
 		$s_g_method_name = $this->getSetterGetterMethodName();
 

@@ -13,6 +13,7 @@ use Jet\Form_Field;
 use Jet\Form_Field_Int;
 use JetStudio\ClassCreator_Class;
 use JetStudio\ClassCreator_Class_Property;
+use JetStudio\ClassCreator_Config;
 
 
 /**
@@ -78,7 +79,14 @@ class DataModel_Definition_Property_String extends Jet_DataModel_Definition_Prop
 			$this->max_len
 		];
 
-		return $this->createClassProperty_main( $class, 'string', 'DataModel::TYPE_STRING', $attributes );
+		$property = $this->createClassProperty_main( $class, 'string', 'DataModel::TYPE_STRING', $attributes );
+		
+		if(ClassCreator_Config::getPreferPropertyHooks()) {
+			$property->createStdHook('string');
+		}
+		
+		return $property;
+		
 	}
 
 	/**
@@ -88,6 +96,9 @@ class DataModel_Definition_Property_String extends Jet_DataModel_Definition_Prop
 	 */
 	public function createClassMethods( ClassCreator_Class $class ): array
 	{
+		if(ClassCreator_Config::getPreferPropertyHooks()) {
+			return [];
+		}
 
 		$s_g_method_name = $this->getSetterGetterMethodName();
 

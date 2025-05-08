@@ -6,6 +6,7 @@ use Jet\DataModel_Definition_Property_Bool as Jet_DataModel_Definition_Property_
 use Jet\Form_Field;
 use JetStudio\ClassCreator_Class;
 use JetStudio\ClassCreator_Class_Property;
+use JetStudio\ClassCreator_Config;
 
 /**
  *
@@ -46,8 +47,13 @@ class DataModel_Definition_Property_Bool extends Jet_DataModel_Definition_Proper
 	public function createClassProperty( ClassCreator_Class $class ): ClassCreator_Class_Property
 	{
 
-		return $this->createClassProperty_main( $class, 'bool', 'DataModel::TYPE_BOOL' );
-
+		$property = $this->createClassProperty_main( $class, 'bool', 'DataModel::TYPE_BOOL' );
+		
+		if(ClassCreator_Config::getPreferPropertyHooks()) {
+			$property->createStdHook('bool');
+		}
+		
+		return $property;
 	}
 
 	/**
@@ -57,7 +63,10 @@ class DataModel_Definition_Property_Bool extends Jet_DataModel_Definition_Proper
 	 */
 	public function createClassMethods( ClassCreator_Class $class ): array
 	{
-
+		if(ClassCreator_Config::getPreferPropertyHooks()) {
+			return [];
+		}
+		
 		$s_g_method_name = $this->getSetterGetterMethodName();
 
 		$setter = $class->createMethod( 'set' . $s_g_method_name );
