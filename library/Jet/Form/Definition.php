@@ -211,13 +211,6 @@ class Form_Definition extends BaseObject
 			return $this->default_value_getter_name;
 		}
 		
-		if($this->context_object instanceof BaseObject) {
-			$getter_method_name = $this->context_object->objectGetterMethodName( $this->getPropertyName() );
-			if(method_exists($this->context_object, $getter_method_name)) {
-				return $getter_method_name;
-			}
-		}
-		
 		return '';
 		
 	}
@@ -260,9 +253,14 @@ class Form_Definition extends BaseObject
 	 */
 	protected function getDefaultValue() : mixed
 	{
+		if(($default_value_getter = $this->getDefaultValueGetterName())) {
+			return $this->context_object->{$default_value_getter}();
+		}
+		
 		$ref = new ReflectionClass($this->context_object);
 		$property = $ref->getProperty($this->getPropertyName());
 		return $property->getRawValue( $this->context_object );
+		
 	}
 	
 	/**
