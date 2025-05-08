@@ -474,6 +474,27 @@ class DefinitionTest_FormGenerator extends BaseObject implements Form_Definition
 	{
 		return $this->sub_entity;
 	}
+	
+	public function getFile(): string
+	{
+		return $this->file;
+	}
+	
+	public function setFile( string $file ): void
+	{
+		$this->file = $file;
+	}
+	
+	public function getFileImage(): string
+	{
+		return $this->file_image;
+	}
+	
+	public function setFileImage( string $file_image ): void
+	{
+		$this->file_image = $file_image;
+	}
 
+	
 	
 }
