@@ -8,6 +8,7 @@
 
 namespace JetApplication;
 
+use Jet\IO_File;
 use Jet\Logger;
 
 use Jet\MVC;
@@ -49,6 +50,7 @@ class Application_Web
 	{
 		SysConf_Jet_MVC::setUseModulePages( false );
 		
+		
 		Logger::setLoggerProvider( function() : ?Application_Web_Services_Logger {
 			return Application_Web_Services::Logger();
 		} );
@@ -60,6 +62,14 @@ class Application_Web
 		SysConf_Jet_UI::setViewsDir( $router->getBase()->getViewsPath() . 'ui/' );
 		SysConf_Jet_Form::setDefaultViewsDir( $router->getBase()->getViewsPath() . 'form/' );
 		SysConf_Jet_ErrorPages::setErrorPagesDir( $router->getBase()->getPagesDataPath( $router->getLocale() ) );
+		
+		if($router->tryDirectFiles([
+			'robots.txt',
+			'security.txt'
+		])) {
+			return;
+		}
+		
 	}
 
 }

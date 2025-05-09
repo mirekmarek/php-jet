@@ -145,5 +145,11 @@ interface MVC_Router_Interface
 	 * @return string
 	 */
 	public function getValidUrl(): string;
+	
+	/**
+	 * @param array $allowed_files
+	 * @return bool
+	 */
+	public function tryDirectFiles( array $allowed_files ) : bool;
 
 }

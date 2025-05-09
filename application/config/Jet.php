@@ -16,7 +16,7 @@ SysConf_Jet_Http::setHideRequest( true );
 
 SysConf_Jet_Mailing::setTemplatesDir( SysConf_Path::getApplication().'email-templates/' );
 
-SysConf_Jet_Debug::setDevelMode( true );
+SysConf_Jet_Debug::setDevelMode( false );
 
 if( SysConf_Jet_Debug::getDevelMode() ) {
 	//Dev configuration

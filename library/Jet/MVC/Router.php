@@ -8,6 +8,8 @@
 
 namespace Jet;
 
+use JetApplication\Application;
+
 require_once 'Router/Interface.php';
 
 /**
@@ -175,6 +177,10 @@ class MVC_Router extends BaseObject implements MVC_Router_Interface
 		$this->request_URL = (string)$request_URL;
 
 		if( $this->resolve_seekBaseAndLocale() ) {
+			if($this->getIs404()) {
+				return;
+			}
+			
 			if($this->resolve_seekPage()) {
 				if($this->resolve_authorizePage()) {
 					if($this->resolve_pageResolve()) {
@@ -581,5 +587,28 @@ class MVC_Router extends BaseObject implements MVC_Router_Interface
 	{
 		return $this->valid_url;
 	}
-
+	
+	/**
+	 * @param array $allowed_files
+	 * @return bool
+	 */
+	public function tryDirectFiles( array $allowed_files ) : bool
+	{
+		if(
+			in_array($this->getUrlPath(), $allowed_files)
+		) {
+			$path = $this->getBase()->getPagesDataPath($this->getLocale()).$this->getUrlPath();
+			
+			if(IO_File::isReadable($path)) {
+				echo IO_File::read( $path );
+				Application::end();
+			}
+			
+			$this->setIs404();
+			return true;
+		}
+		
+		return false;
+	}
+	
 }
