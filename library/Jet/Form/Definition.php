@@ -255,7 +255,16 @@ class Form_Definition extends BaseObject
 		
 		$ref = new ReflectionClass($this->context_object);
 		$property = $ref->getProperty($this->getPropertyName());
-		return $property->getRawValue( $this->context_object );
+		
+		if(PHP_VERSION_ID >= 80400) {
+			return $property->getRawValue( $this->context_object );
+		} else {
+			if(PHP_VERSION_ID<80100) {
+				$property->setAccessible(true);
+			}
+			
+			return $property->getValue( $this->context_object );
+		}
 		
 	}
 	

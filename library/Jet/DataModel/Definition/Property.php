@@ -282,9 +282,15 @@ abstract class DataModel_Definition_Property extends BaseObject
 
 		$r = new ReflectionObject( $i );
 		$p = $r->getProperty( $this->getName() );
-		$p->setAccessible(true);
-
-		return $p->getValue($i);
+		
+		if(PHP_VERSION_ID >= 80400) {
+			return $p->getRawValue( $i );
+		} else {
+			if(PHP_VERSION_ID<80100) {
+				$p->setAccessible(true);
+			}
+			return $p->getValue( $i );
+		}
 	}
 
 	/**
@@ -333,7 +339,17 @@ abstract class DataModel_Definition_Property extends BaseObject
 		
 		$r = new ReflectionObject( $obj );
 		$p = $r->getProperty( $property_name );
-		$p->setRawValue( $obj, $value );
+
+		if(PHP_VERSION_ID >= 80400) {
+			$p->setRawValue( $obj, $value );
+		} else {
+			if(PHP_VERSION_ID<80100) {
+				$p->setAccessible(true);
+				$p->setValue( $obj, $value );
+			} else {
+				$p->setValue( $obj, $value );
+			}
+		}
 	}
 
 	/**

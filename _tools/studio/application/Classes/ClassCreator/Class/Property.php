@@ -162,6 +162,7 @@ class ClassCreator_Class_Property extends BaseObject
 		$this->hooks = $hooks;
 	}
 	
+	/** @noinspection PhpUnnecessaryCurlyVarSyntaxInspection */
 	public function createStdHook(
 		string  $set_type,
 		?string $set_code=null
