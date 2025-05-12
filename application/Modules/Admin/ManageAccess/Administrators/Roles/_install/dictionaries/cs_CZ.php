@@ -17,7 +17,7 @@ return [
 	'Role detail <b>%ROLE_NAME%</b>' => 'Detail role <b>%ROLE_NAME%</b>',
 	'Delete role <b>%ROLE_NAME%</b>' => 'Smazat roli <b>%ROLE_NAME%</b>',
 	'Do you really want to delete this role?' => 'Opravdu si přejete smazat tuto roli?',
-	'Administration sections' => 'Sekce administrace',
+	'Admin Panel sections' => 'Sekce administrace',
 	'Modules and actions' => 'Moduly a operace',
 	'Administrator roles management' => 'Správa rolí administrátorů',
 	'Get role data' => 'Získat informace o rolích',

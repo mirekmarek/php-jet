@@ -119,7 +119,7 @@ class Main extends Wizard
 
 			'PAGE_BASE_ID'       => 'admin',
 			'PAGE_ID'            => $page_id,
-			'PAGE_TITLE'         => $def_name . ' administration',
+			'PAGE_TITLE'         => $def_name . ' admín panel',
 			'PAGE_ICON'          => '',
 			'PAGE_PATH_FRAGMENT' => $page_id,
 

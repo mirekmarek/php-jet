@@ -154,4 +154,24 @@ tmp';
 		return $this->blacklist;
 	}
 	
+	public function setServerURL( string $server_URL ): void
+	{
+		$this->server_URL = $server_URL;
+	}
+	
+	public function setServerKey( string $server_key ): void
+	{
+		$this->server_key = $server_key;
+	}
+	
+	public function setAllowedExtensions( string $allowed_extensions ): void
+	{
+		$this->allowed_extensions = $allowed_extensions;
+	}
+	
+	public function setBlacklist( string $blacklist ): void
+	{
+		$this->blacklist = $blacklist;
+	}
+	
 }

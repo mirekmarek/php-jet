@@ -182,6 +182,11 @@ class Auth_Administrator_Role extends DataModel implements Auth_Role_Interface
 	{
 		return $this->id;
 	}
+	
+	public function setId( string $id ): void
+	{
+		$this->id = $id;
+	}
 
 
 	/**
@@ -342,7 +347,7 @@ class Auth_Administrator_Role extends DataModel implements Auth_Role_Interface
 		
 		$visit_page = new Auth_AvailablePrivilegeProvider(
 			privilege:      static::PRIVILEGE_VISIT_PAGE,
-			label:          'Administration sections',
+			label:          'Admin Panel sections',
 			options_getter: function() {
 				return static::getAclActionValuesList_Pages();
 			}

@@ -14,7 +14,7 @@ return [
 	'Please enter a name' => '',
 	'Invalid value' => '',
 	'Privileges' => '',
-	'Administration sections' => '',
+	'Admin Panel sections' => '',
 	'Modules and actions' => '',
 	'Users' => '',
 	'Username' => '',

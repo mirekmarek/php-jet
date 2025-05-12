@@ -555,7 +555,6 @@ trait DataModel_Definition_Model_Trait
 
 
 			$this->__edit_form = new Form( 'edit_model_form', $fields );
-			$this->__edit_form->setAction( DataModels::getActionUrl( 'model_edit' ) );
 
 		}
 

@@ -135,5 +135,35 @@ class ClientConfig extends BaseObject implements Form_Definition_Interface {
 		return $this->perform_delete;
 	}
 	
+	public function setServerURL( string $server_URL ): void
+	{
+		$this->server_URL = $server_URL;
+	}
+	
+	public function setServerKey( string $server_key ): void
+	{
+		$this->server_key = $server_key;
+	}
+	
+	public function setSelectedClasses( array $selected_classes ): void
+	{
+		$this->selected_classes = $selected_classes;
+	}
+	
+	public function setPerformAdd( bool $perform_add ): void
+	{
+		$this->perform_add = $perform_add;
+	}
+	
+	public function setPerformUpdate( bool $perform_update ): void
+	{
+		$this->perform_update = $perform_update;
+	}
+	
+	public function setPerformDelete( bool $perform_delete ): void
+	{
+		$this->perform_delete = $perform_delete;
+	}
+	
 	
 }

@@ -1138,6 +1138,36 @@ class Auth_Visitor_User extends DataModel implements Auth_User_Interface
 		$email->send();
 
 	}
-
-
+	
+	public function getUserIsBlocked(): bool
+	{
+		return $this->user_is_blocked;
+	}
+	
+	public function setUserIsBlocked( bool $user_is_blocked ): void
+	{
+		$this->user_is_blocked = $user_is_blocked;
+	}
+	
+	public function getUserIsBlockedTill(): ?Data_DateTime
+	{
+		return $this->user_is_blocked_till;
+	}
+	
+	public function setUserIsBlockedTill( ?Data_DateTime $user_is_blocked_till ): void
+	{
+		$this->user_is_blocked_till = $user_is_blocked_till;
+	}
+	
+	public function getUserIsActivated(): bool
+	{
+		return $this->user_is_activated;
+	}
+	
+	public function setUserIsActivated( bool $user_is_activated ): void
+	{
+		$this->user_is_activated = $user_is_activated;
+	}
+	
+	
 }

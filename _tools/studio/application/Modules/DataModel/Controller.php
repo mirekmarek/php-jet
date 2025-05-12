@@ -31,6 +31,25 @@ class Controller extends JetStudio_Module_Controller
 	
 	public function default_Action(): void
 	{
+		$current = DataModels::getCurrentModel();
+		
+		if(
+			$current &&
+			$current->getEditForm()->catch()
+		) {
+			
+			if($current->catchEditForm()) {
+				if( $current->save() ) {
+					UI_messages::success( Tr::_( 'Saved ...' ) );
+					Http_Headers::reload( [] );
+				}
+			} else {
+				UI_messages::danger(
+					Tr::_( 'There are some problems ... Please check the form.' )
+				);
+			}
+		}
+		
 		$this->output( 'main' );
 	}
 	
@@ -353,28 +372,6 @@ class Controller extends JetStudio_Module_Controller
 		);
 	}
 	
-	public function model_edit_Action(): void
-	{
-		$current = DataModels::getCurrentModel();
-		
-		if(
-			$current &&
-			$current->catchEditForm()
-		) {
-			
-			if( $current->save() ) {
-				UI_messages::success( Tr::_( 'Saved ...' ) );
-				
-			}
-			
-			Http_Headers::reload( [], ['action'] );
-			
-		} else {
-			UI_messages::danger(
-				Tr::_( 'There are some problems ... Please check the form.' )
-			);
-		}
-	}
 	
 	public function model_generate_class_source_Action(): void
 	{

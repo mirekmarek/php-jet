@@ -1,7 +1,7 @@
 <?php
 return [
-	'name'               => 'Administration - main page',
-	'title'              => 'Administration',
+	'name'               => 'Admin Panel - main page',
+	'title'              => 'Admin Panel',
 	'layout_script_name' => 'default',
 	'meta_tags'          => [],
 	'contents'           => [

@@ -411,7 +411,7 @@ class Auth_Visitor_Role extends DataModel implements Auth_Role_Interface
 	{
 		$visit_page = new Auth_AvailablePrivilegeProvider(
 			privilege:      static::PRIVILEGE_VISIT_PAGE,
-			label:          'Administration sections',
+			label:          'Admin Panel sections',
 			options_getter: function() {
 				return static::getAclActionValuesList_Pages();
 			}

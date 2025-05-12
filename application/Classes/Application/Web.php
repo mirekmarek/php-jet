@@ -8,7 +8,6 @@
 
 namespace JetApplication;
 
-use Jet\IO_File;
 use Jet\Logger;
 
 use Jet\MVC;
@@ -67,6 +66,7 @@ class Application_Web
 			'robots.txt',
 			'security.txt'
 		])) {
+			/** @noinspection PhpUnnecessaryStopStatementInspection */
 			return;
 		}
 		

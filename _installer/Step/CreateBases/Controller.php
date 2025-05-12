@@ -104,11 +104,11 @@ class Installer_Step_CreateBases_Controller extends Installer_Step_Controller
 
 			$admin = Factory_MVC::getBaseInstance();
 			$admin->setIsSecret( true );
-			$admin->setName( 'Example Administration' );
+			$admin->setName( 'Example Admin Panel' );
 			$admin->setId( Application_Admin::getBaseId() );
 
 			$ld = $admin->addLocale( $default_locale );
-			$ld->setTitle( Tr::_( 'PHP Jet Example Administration', [], null, $default_locale ) );
+			$ld->setTitle( Tr::_( 'PHP Jet Example Admin Panel', [], null, $default_locale ) );
 			$ld->setURLs( [$URL . 'admin/'] );
 
 			foreach( Installer::getSelectedLocales() as $locale ) {
@@ -116,7 +116,7 @@ class Installer_Step_CreateBases_Controller extends Installer_Step_Controller
 					continue;
 				}
 				$ld = $admin->addLocale( $locale );
-				$ld->setTitle( Tr::_( 'PHP Jet Example Administration', [], null, $locale ) );
+				$ld->setTitle( Tr::_( 'PHP Jet Example Admin Panel', [], null, $locale ) );
 				$ld->setURLs( [$URL . 'admin/' . $locale->getLanguage() . '/'] );
 			}
 			$admin->setIsActive( true );
