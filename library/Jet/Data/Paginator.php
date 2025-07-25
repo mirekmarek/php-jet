@@ -264,6 +264,13 @@ class Data_Paginator extends BaseObject implements BaseObject_Interface_Serializ
 
 		return $result;
 	}
+	
+	public function getItemsPerPage(): int
+	{
+		return $this->items_per_page;
+	}
+	
+	
 
 	/**
 	 *

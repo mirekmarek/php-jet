@@ -94,7 +94,7 @@ abstract class DataListing_Column extends DataListing_ElementBase
 		return null;
 	}
 	
-	public function getExportData( mixed $item ) : float|int|bool|string|array
+	public function getExportData( mixed $item ) : float|int|bool|string|array|object
 	{
 		return '';
 	}

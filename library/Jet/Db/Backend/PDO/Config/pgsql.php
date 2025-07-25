@@ -25,16 +25,6 @@ trait Db_Backend_PDO_Config_pgsql
 	)]
 	protected string $ssl_mode = '';
 	
-	public function getSslMode(): string
-	{
-		return $this->ssl_mode;
-	}
-	
-	public function setSslMode( string $ssl_mode ): void
-	{
-		$this->ssl_mode = $ssl_mode;
-	}
-	
 	
 	protected function pgsql_getDnsEntries(): array
 	{

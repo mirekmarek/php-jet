@@ -19,6 +19,7 @@ trait Db_Backend_PDO_Config_sqlsrv
 			'Server'    => $this->host.','.$this->port,
 			'Database'  => $this->dbname,
 			'TrustServerCertificate' => 'yes',
+			'MultipleActiveResultSets' => 'False',
 		];
 	}
 	

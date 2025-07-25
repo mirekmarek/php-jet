@@ -33,6 +33,8 @@ class Data_DateTime extends DateTime
 	{
 		if(
 			$value==='' ||
+			$value==='0000-00-00 00:00:00' ||
+			$value==='0000-00-00' ||
 			$value===null
 		) {
 			return null;
@@ -56,6 +58,8 @@ class Data_DateTime extends DateTime
 	{
 		if(
 			$value==='' ||
+			$value==='0000-00-00 00:00:00' ||
+			$value==='0000-00-00' ||
 			$value===null
 		) {
 			return null;
