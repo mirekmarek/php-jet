@@ -52,7 +52,7 @@ Installer::setSteps(
 
 Installer::setAvailableLocales(
 	[
-		'en_US', 'cs_CZ',
+		'en_EU', 'cs_CZ',
 	]
 );
 

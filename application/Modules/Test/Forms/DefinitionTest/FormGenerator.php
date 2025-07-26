@@ -248,7 +248,7 @@ class DefinitionTest_FormGenerator extends BaseObject implements Form_Definition
 		$res = [];
 		
 		$res[] = new Locale('cs_CZ');
-		$res[] = new Locale('en_US');
+		$res[] = new Locale('en_EU');
 		$res[] = new Locale('de_DE');
 		$res[] = new Locale('sk_SK');
 		

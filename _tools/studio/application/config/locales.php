@@ -1,5 +1,5 @@
 <?php
 return [
-	'en_US',
+	'en_EU',
 	'cs_CZ'
 ];

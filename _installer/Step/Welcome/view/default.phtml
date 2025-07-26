@@ -15,7 +15,7 @@ use Jet\UI;
 <?php foreach( Installer::getAvailableLocales() as $locale ): ?>
 	<div style="padding: 10px; display: flex;align-items: center;gap: 10px;">
 		<div style="font-size: 1.6rem">
-			<?= UI::flag( $locale ) ?>
+			<a href="?locale=<?= $locale ?>"><?= UI::flag( $locale ) ?></a>
 		</div>
 		<div>
 			<b><?= $locale->getLanguageName( $locale ) ?></b>
