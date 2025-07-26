@@ -1,5 +1,4 @@
 <?php
-
 /**
  *
  * @copyright Copyright (c) Miroslav Marek <mirek.marek@web-jet.cz>
@@ -11,13 +10,15 @@ namespace JetStudioModule\DataModel;
 
 use Jet\DataModel;
 use Jet\Factory_DataModel;
+use JetStudio\ClassCreator_Config;
 use JetStudio\ClassMetaInfo;
 use JetStudio\JetStudio_Module;
 use JetStudio\JetStudio_Module_Manifest;
 use JetStudio\JetStudio_Module_Service_DataModel;
 use Jet\DataModel_Definition_Model_Main as Jet_DataModel_Definition_Model_Main;
+use JetStudio\JetStudio_Module_Service_SetupModule;
 
-class Main extends JetStudio_Module implements JetStudio_Module_Service_DataModel
+class Main extends JetStudio_Module implements JetStudio_Module_Service_DataModel, JetStudio_Module_Service_SetupModule
 {
 	public function __construct( JetStudio_Module_Manifest $manifest )
 	{
@@ -49,6 +50,17 @@ class Main extends JetStudio_Module implements JetStudio_Module_Service_DataMode
 		foreach($model_definition_class_names as $type=>$class_name) {
 			Factory_DataModel::setModelDefinitionClassName($type, $class_name);
 		}
+		
+		
+		$this->initConfiguration();
+	}
+	
+	protected function initConfiguration(): void
+	{
+		$cfg = $this->getConfig();
+		
+		ClassCreator_Config::setAddDocBlocksAlways( $cfg->getAddDocBlocksAlways() );
+		ClassCreator_Config::setPreferPropertyHooks( $cfg->getPreferPropertyHooks() );
 	}
 	
 	/**
@@ -70,6 +82,18 @@ class Main extends JetStudio_Module implements JetStudio_Module_Service_DataMode
 
 		return $res;
 	}
-
 	
+	
+	public function handleSetup(): string
+	{
+		$view = $this->getView();
+		
+		$config = $this->getConfig();
+		$config->handleCatchSetupForm();
+		
+		$view->setVar('config', $config);
+		
+		
+		return $view->render('setup');
+	}
 }

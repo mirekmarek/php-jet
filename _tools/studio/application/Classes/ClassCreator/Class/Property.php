@@ -168,8 +168,8 @@ class ClassCreator_Class_Property extends BaseObject
 		?string $set_code=null
 	) : void
 	{
-		$ident = ClassCreator_Class::getIndentation();
-		$nl = ClassCreator_Class::getNl();
+		$ident = ClassCreator_Config::getIndentation();
+		$nl = ClassCreator_Config::getNl();
 		
 		$this->setVisibility( ClassCreator_Class::VISIBILITY_PUBLIC );
 		
@@ -236,8 +236,8 @@ class ClassCreator_Class_Property extends BaseObject
 	{
 		$res = '';
 
-		$ident = ClassCreator_Class::getIndentation();
-		$nl = ClassCreator_Class::getNl();
+		$ident = ClassCreator_Config::getIndentation();
+		$nl = ClassCreator_Config::getNl();
 
 		$type = $this->type;
 		$declared_type = $this->declared_type;

@@ -19,10 +19,7 @@ class ClassCreator_Class extends BaseObject
 	public const VISIBILITY_PUBLIC = 'public';
 	public const VISIBILITY_PROTECTED = 'protected';
 	public const VISIBILITY_PRIVATE = 'private';
-
-	protected static string $indentation = "\t";
-	protected static string $nl = "\n";
-
+	
 	/**
 	 * @var string
 	 */
@@ -37,8 +34,7 @@ class ClassCreator_Class extends BaseObject
 	 * @var ClassCreator_Attribute[]
 	 */
 	protected array $attributes = [];
-
-
+	
 	/**
 	 * @var bool
 	 */
@@ -145,39 +141,6 @@ class ClassCreator_Class extends BaseObject
 		}
 
 		return $this->methods[$name];
-	}
-
-
-	/**
-	 * @return string
-	 */
-	public static function getIndentation(): string
-	{
-		return static::$indentation;
-	}
-
-	/**
-	 * @param string $indentation
-	 */
-	public static function setIndentation( string $indentation ): void
-	{
-		static::$indentation = $indentation;
-	}
-
-	/**
-	 * @return string
-	 */
-	public static function getNl(): string
-	{
-		return static::$nl;
-	}
-
-	/**
-	 * @param string $nl
-	 */
-	public static function setNl( string $nl ): void
-	{
-		static::$nl = $nl;
 	}
 
 	/**
@@ -381,7 +344,7 @@ class ClassCreator_Class extends BaseObject
 	 */
 	public function generateClassAnnotation(): string
 	{
-		$nl = ClassCreator_Class::getNl();
+		$nl = ClassCreator_Config::getNl();
 
 		$res = '';
 
@@ -419,8 +382,8 @@ class ClassCreator_Class extends BaseObject
 		asort( $use_str );
 
 
-		$ident = ClassCreator_Class::getIndentation();
-		$nl = ClassCreator_Class::getNl();
+		$ident = ClassCreator_Config::getIndentation();
+		$nl = ClassCreator_Config::getNl();
 
 		
 		if(ClassCreator_Config::getAddDocBlocksAlways()) {

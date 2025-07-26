@@ -24,7 +24,12 @@ class Controller extends JetStudio_Module_Controller
 	
 	protected function resolve(): string
 	{
-		$this->client_config = ClientConfig::get();
+		/**
+		 * @var Config $module_config
+		 */
+		$module_config = $this->module->getConfig();
+		
+		$this->client_config = ClientConfig::get( $module_config );
 		if(
 			$this->client_config->getServerURL() &&
 			$this->client_config->getServerKey() &&

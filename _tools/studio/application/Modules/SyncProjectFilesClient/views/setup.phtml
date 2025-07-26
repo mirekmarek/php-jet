@@ -1,0 +1,41 @@
+<?php
+/**
+ *
+ * @copyright Copyright (c) Miroslav Marek <mirek.marek@web-jet.cz>
+ * @license http://www.php-jet.net/license/license.txt
+ * @author Miroslav Marek <mirek.marek@web-jet.cz>
+ */
+
+namespace JetStudioModule\SyncProjectFilesClient;
+
+use Jet\MVC_View;
+use Jet\UI;
+use Jet\UI_messages;
+
+/**
+ * @var MVC_View $this
+ * @var Config $config
+ */
+
+$config = $this->getRaw('config');
+$form = $config->getSetupForm();
+
+foreach( UI_messages::get(context: 'setup') as $message ):
+	echo $message;
+endforeach;
+
+
+$form->field('allowed_extensions')->input()->addCustomCssStyle('height:500px');
+$form->field('blacklist')->input()->addCustomCssStyle('height:500px');
+
+echo $form->start();
+
+echo $form->field('allowed_extensions');
+echo $form->field('blacklist');
+
+?>
+<div style="padding: 10px 10px 10px 20px;">
+	<?=UI::button_save()?>
+</div>
+<?php
+echo $form->end();

@@ -11,7 +11,31 @@ namespace JetStudio;
 class ClassCreator_Config
 {
 	protected static bool $add_doc_blocks_always = false;
-	protected static bool $prefer_property_hooks = false;
+	protected static bool $prefer_property_hooks = true;
+	protected static string $indentation = "\t";
+	protected static string $nl = "\n";
+	
+	public static function getIndentation(): string
+	{
+		return static::$indentation;
+	}
+	
+	public static function setIndentation( string $indentation ): void
+	{
+		static::$indentation = $indentation;
+	}
+	
+	public static function getNl(): string
+	{
+		return static::$nl;
+	}
+	
+	public static function setNl( string $nl ): void
+	{
+		static::$nl = $nl;
+	}
+	
+	
 	
 	public static function getAddDocBlocksAlways(): bool
 	{

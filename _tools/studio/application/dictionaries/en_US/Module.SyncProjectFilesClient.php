@@ -22,4 +22,5 @@ return [
 	'Delete files' => '',
 	'Perform synchronization' => '',
 	'Connection error: %ERROR%' => '',
+	'Configuration has been saved' => '',
 ];

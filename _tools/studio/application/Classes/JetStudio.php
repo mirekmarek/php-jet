@@ -384,8 +384,24 @@ class JetStudio extends Jet_Application
 		}
 		
 		return null;
-		
 	}
+	
+	/**
+	 * @param string $service_interface_name
+	 * @return JetStudio_Module[]|JetStudio_Module_Service_AccessControl[]
+	 */
+	public static function getServiceModules( string $service_interface_name ) : array
+	{
+		$modules = [];
+		foreach( static::getModuleInstances() as $name=>$module) {
+			if( $module instanceof $service_interface_name ) {
+				$modules[$name] = $module;
+			}
+		}
+		
+		return $modules;
+	}
+	
 	
 	public static function getModule_AccessControl() : null|JetStudio_Module|JetStudio_Module_Service_AccessControl
 	{

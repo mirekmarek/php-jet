@@ -10,7 +10,6 @@ namespace JetStudioModule\Welcome;
 use JetStudio\JetStudio_Module_Controller;
 
 
-
 class Controller extends JetStudio_Module_Controller
 {
 	public function default_Action() : void

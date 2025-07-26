@@ -25,6 +25,7 @@ use Jet\Form_Field_Int;
 use Jet\IO_File;
 use Jet\Tr;
 
+use JetStudio\ClassCreator_Config;
 use JetStudio\JetStudio;
 use JetStudio\Form_Field_Callable;
 use JetStudio\Form_Field_Array;
@@ -32,7 +33,6 @@ use JetStudio\Form_Field_AssocArray;
 use JetStudio\ClassCreator_Attribute;
 use JetStudio\ClassCreator_UseClass;
 use JetStudio\ClassParser;
-use JetStudio\ClassCreator_Class;
 
 use ReflectionClass;
 use ReflectionProperty;
@@ -654,7 +654,7 @@ class FormClass_Property
 			
 			$parser->insertBefore(
 				$parser_property->declaration_start,
-				trim($new_attribute->toString(1)).ClassCreator_Class::getNl().ClassCreator_Class::getIndentation()
+				trim($new_attribute->toString(1)).ClassCreator_Config::getNl().ClassCreator_Config::getIndentation()
 			);
 			
 			

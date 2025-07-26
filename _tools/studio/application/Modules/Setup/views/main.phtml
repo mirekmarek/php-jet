@@ -1,0 +1,144 @@
+<?php
+namespace JetStudioModule\SyncProjectDBClient;
+
+use Jet\Http_Request;
+use Jet\MVC_View;
+use Jet\Form;
+use Jet\Tr;
+use Jet\UI;
+use Jet\UI_icon;
+use JetStudio\JetStudio_Module;
+use JetStudio\JetStudio_Module_Service_SetupModule;
+
+/**
+ * @var MVC_View $this
+ * @var ClientConfig $config
+ * @var ?Client $client
+ * @var Form $form
+ * @var null|JetStudio_Module_Service_SetupModule|JetStudio_Module $selected_module
+ * @var JetStudio_Module_Service_SetupModule[]|JetStudio_Module[] $modules
+ */
+
+$modules = $this->getRaw('modules');
+$selected_module = $this->getRaw( 'selected_module' );
+$selected_module_name = $selected_module?->getName();
+
+
+?>
+<style>
+	.module-list {
+	}
+
+	.module-list-item {
+		margin: 10px;
+		border: 1px solid #c2c2c2;
+		border-radius: 5px;
+		padding: 10px;
+	}
+
+
+	.module-list-item-selected {
+		margin: 10px;
+		border-left: 1px solid #999999;
+		border-top: 1px solid #999999;
+		border-bottom: 1px solid #999999;
+		border-top-left-radius: 5px;
+		border-bottom-left-radius: 5px;
+		padding: 10px;
+		font-weight: bolder;
+		position: relative;
+		left: 11px;
+		background-image: linear-gradient(90deg, #f9f9f9 10%, #ffffff 90%);
+	}
+
+	.signpost {
+		display:grid;
+		grid-template-columns: repeat(8, 1fr);
+		gap: 20px;
+		align-items: center;
+		margin-left: 20px;
+		margin-right: 20px;
+	}
+
+	.signpost-title {
+		margin-left: 20px;
+		margin-right: 20px;
+	}
+
+	.signpost-item {
+		margin: 10px;
+		border: 1px solid #c2c2c2;
+		border-radius: 5px;
+		padding: 10px;
+		text-align: center;
+		color: #2b2b2b;
+		display: grid;
+		grid-template-rows: 40px 50px;
+		overflow: hidden;
+	}
+
+	.signpost-item a {
+		color: #2b2b2b;
+	}
+
+	#setup_area {
+		padding: 20px;
+		border: 1px solid #999999;
+		background-color: #ffffff;
+	}
+	
+	#setup_lj {
+		padding-top: 20px;
+		padding-bottom: 20px;
+		display: grid;
+		grid-template-columns: 1fr 3fr;
+		height: 100%;
+		background-color: #eeeeee;
+	}
+
+
+</style>
+
+<?php if($selected_module): ?>
+	<div id="setup_lj">
+		
+		<div class="module-list">
+			<?php foreach($modules as $module_name=>$module): ?>
+				<?php if($selected_module_name==$module_name): ?>
+					<div class="module-list-item-selected">
+						<?=UI::icon( $module->getManifest()->getIcon()) ?>
+						<b><?=$module->getManifest()->getLabelTranslated()?></b>
+					</div>
+				<?php else: ?>
+					<div class="module-list-item">
+						<a href="<?=Http_Request::currentURI(['id'=>$module_name])?>"><?=UI::icon( $module->getManifest()->getIcon()) ?></a>
+						<a href="<?=Http_Request::currentURI(['id'=>$module_name])?>"><?=$module->getManifest()->getLabelTranslated()?></a>
+					</div>
+				<?php endif; ?>
+			<?php endforeach; ?>
+		</div>
+		
+		
+		<div id="setup_area">
+			<h2><?=UI::icon( $selected_module->getManifest()->getIcon())->setSize(UI_icon::SIZE_EXTRA_LARGE) ?> <?=$selected_module->getManifest()->getLabelTranslated()?></h2>
+			<hr>
+			<?=Tr::setCurrentDictionaryTemporary(
+				dictionary: $selected_module->getManifest()->getDictionaryName(),
+				action: function() use ($selected_module) {
+					return $selected_module->handleSetup();
+				}
+			)?>
+		</div>
+	</div>
+<?php else: ?>
+	<br>
+	<div class="signpost">
+	<?php foreach($modules as $module_name=>$module): ?>
+		<div class="signpost-item">
+			<div><a href="<?=Http_Request::currentURI(['id'=>$module_name])?>"><?=UI::icon( $module->getManifest()->getIcon())->setSize(UI_icon::SIZE_EXTRA_LARGE) ?></a></div>
+			<div><a href="<?=Http_Request::currentURI(['id'=>$module_name])?>"><?=$module->getManifest()->getLabelTranslated()?></a></div>
+		</div>
+	<?php endforeach; ?>
+	</div>
+
+<?php endif; ?>

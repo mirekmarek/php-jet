@@ -66,8 +66,8 @@ class ClassCreator_Attribute extends BaseObject
 	 */
 	public function toString( int $pad = 0 ): string
 	{
-		$nl = ClassCreator_Class::getNl();
-		$ident = ClassCreator_Class::getIndentation();
+		$nl = ClassCreator_Config::getNl();
+		$ident = ClassCreator_Config::getIndentation();
 
 		$pad_str = str_pad( '', $pad * strlen( $ident ), $ident[0] );
 
@@ -124,8 +124,8 @@ class ClassCreator_Attribute extends BaseObject
 			}
 		}
 
-		$nl = ClassCreator_Class::getNl();
-		$ident = ClassCreator_Class::getIndentation();
+		$nl = ClassCreator_Config::getNl();
+		$ident = ClassCreator_Config::getIndentation();
 
 		$tab = '';
 		$tab .= str_repeat( $ident, $level );

@@ -1,0 +1,37 @@
+<?php
+/**
+ *
+ * @copyright Copyright (c) Miroslav Marek <mirek.marek@web-jet.cz>
+ * @license http://www.php-jet.net/license/license.txt
+ * @author Miroslav Marek <mirek.marek@web-jet.cz>
+ */
+
+namespace JetStudioModule\DataModel;
+
+use Jet\MVC_View;
+use Jet\UI;
+use Jet\UI_messages;
+
+/**
+ * @var MVC_View $this
+ * @var Config $config
+ */
+
+$config = $this->getRaw('config');
+$form = $config->getSetupForm();
+
+foreach( UI_messages::get(context: 'setup') as $message ):
+	echo $message;
+endforeach;
+
+
+echo $form->start();
+
+echo $form->field('prefer_property_hooks');
+echo $form->field('add_doc_blocks_always');
+?>
+<div style="padding: 10px 10px 10px 20px;">
+	<?=UI::button_save()?>
+</div>
+<?php
+echo $form->end();

@@ -504,8 +504,8 @@ class ClassParser
 	 */
 	public function actualize_setUse( array $uses ): void
 	{
-		$ident = ClassCreator_Class::getIndentation();
-		$nl = ClassCreator_Class::getNl();
+		$ident = ClassCreator_Config::getIndentation();
+		$nl = ClassCreator_Config::getNl();
 
 		foreach( $uses as $use ) {
 			$use_class = $use->getNamespace() . '\\' . $use->getClass();
@@ -528,8 +528,8 @@ class ClassParser
 	 */
 	public function actualize_addProperty( string $class_name, ClassCreator_Class_Property $property ): string
 	{
-		$ident = ClassCreator_Class::getIndentation();
-		$nl = ClassCreator_Class::getNl();
+		$ident = ClassCreator_Config::getIndentation();
+		$nl = ClassCreator_Config::getNl();
 		$class = $this->classes[$class_name];
 
 		if( isset( $class->properties[$property->getName()] ) ) {
@@ -577,8 +577,8 @@ class ClassParser
 	 */
 	public function actualize_addMethod( string $class_name, ClassCreator_Class_Method $method ): string
 	{
-		$ident = ClassCreator_Class::getIndentation();
-		$nl = ClassCreator_Class::getNl();
+		$ident = ClassCreator_Config::getIndentation();
+		$nl = ClassCreator_Config::getNl();
 		$class = $this->classes[$class_name];
 
 		if( isset( $class->methods[$method->getName()] ) ) {

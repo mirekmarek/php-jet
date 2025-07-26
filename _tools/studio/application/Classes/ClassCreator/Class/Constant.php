@@ -79,8 +79,8 @@ class ClassCreator_Class_Constant extends BaseObject
 	{
 		$res = '';
 
-		$ident = ClassCreator_Class::getIndentation();
-		$nl = ClassCreator_Class::getNl();
+		$ident = ClassCreator_Config::getIndentation();
+		$nl = ClassCreator_Config::getNl();
 
 		$value = $this->value;
 		if( is_array( $value ) ) {

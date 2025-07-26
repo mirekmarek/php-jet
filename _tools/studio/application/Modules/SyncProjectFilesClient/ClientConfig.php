@@ -38,10 +38,7 @@ class ClientConfig extends BaseObject implements Form_Definition_Interface {
 		error_messages: [
 		]
 	)]
-	protected string $allowed_extensions = 'php
-phtml
-js
-css';
+	protected string $allowed_extensions = '';
 	
 	#[Form_Definition(
 		type: Form_Field::TYPE_TEXTAREA,
@@ -50,19 +47,7 @@ css';
 		error_messages: [
 		]
 	)]
-	protected string $blacklist = '_backup
-_installer
-_profiler
-_tools
-_var_dump
-application/config
-application/data
-js/packages
-css/packages
-images
-cache
-logs
-tmp';
+	protected string $blacklist = '';
 	
 	
 	
@@ -83,13 +68,17 @@ tmp';
 		return new Session('SyncProjectFilesClient');
 	}
 	
-	public static function get() : ClientConfig
+	public static function get( Config $module_config ) : ClientConfig
 	{
 		$session = static::getSession();
 		
 		$config = $session->getValue('cfg');
 		if(!$config) {
 			$config = new ClientConfig();
+			
+			$config->setBlacklist( $module_config->getBlacklist() );
+			$config->setAllowedExtensions( $module_config->getAllowedExtensions() );
+			
 			$config->save();
 		} else {
 			$config = unserialize($config);

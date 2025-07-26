@@ -3,7 +3,7 @@ namespace JetStudioModule\Forms;
 
 use Jet\Form_Definition_Interface;
 use Jet\MVC_View;
-use JetStudio\ClassCreator_Class;
+use JetStudio\ClassCreator_Config;
 
 /**
  * @var MVC_View $this
@@ -16,8 +16,8 @@ $form_variable_name = $this->getString('form_variable_name');
 $form_view_property_name = $this->getString('form_view_property_name');
 
 
-$NL = ClassCreator_Class::getNl();
-$IDENT = ClassCreator_Class::getIndentation();
+$NL = ClassCreator_Config::getNl();
+$IDENT = ClassCreator_Config::getIndentation();
 
 $class_name = $class->getFullClassName();
 

@@ -16,6 +16,7 @@ abstract class JetStudio_Module extends BaseObject {
 
 	protected JetStudio_Module_Manifest $manifest;
 	protected ?MVC_View $view = null;
+	protected ?JetStudio_Module_Config $config = null;
 	
 	public function __construct( JetStudio_Module_Manifest $manifest )
 	{
@@ -30,6 +31,16 @@ abstract class JetStudio_Module extends BaseObject {
 	public function getName() : string
 	{
 		return $this->manifest->getName();
+	}
+	
+	public function getConfig() : JetStudio_Module_Config
+	{
+		if(!$this->config) {
+			$config_class_name = str_replace('Main', 'Config', static::class);
+			$this->config = new $config_class_name( $this );
+		}
+		
+		return $this->config;
 	}
 	
 	

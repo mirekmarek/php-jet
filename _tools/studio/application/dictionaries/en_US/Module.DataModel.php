@@ -185,4 +185,8 @@ return [
 	'Please enter a value' => '',
 	'DataModel ORM' => '',
 	'Invalid value' => '',
+	'Add doc blocks always' => '',
+	'Prefer property hooks' => '',
+	'Error during configuration saving: ' => '',
+	'Configuration has been saved' => '',
 ];
