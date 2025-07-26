@@ -1,0 +1,15 @@
+<?php
+namespace JetApplicationModule\Content\Articles\Admin;
+
+use Jet\Locale;
+use Jet\MVC_View;
+use JetApplicationModule\Content\Articles\Entity\Article;
+
+/**
+ * @var MVC_View $this
+ * @var Article $item
+ */
+
+$item = $this->getRaw('item');
+
+echo Locale::dateAndTime( $item->getDateTime() );

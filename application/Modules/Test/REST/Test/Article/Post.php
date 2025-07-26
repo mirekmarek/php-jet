@@ -10,7 +10,7 @@ namespace JetApplicationModule\Test\REST;
 
 use Jet\Data_DateTime;
 
-use JetApplication\Content_Article;
+use JetApplicationModule\Content\Articles\Entity\Article;
 
 
 /**
@@ -41,7 +41,7 @@ class Test_Article_Post extends Test_Abstract
 				]
 		];
 
-		foreach( Content_Article::getLocales() as $locale_str => $locale ) {
+		foreach( Article::getLocales() as $locale_str => $locale ) {
 			$data['localized'][$locale_str] = [
 				'title'      => 'test title (' . $locale->getLanguageName( $locale ) . ') ' . time(),
 				'annotation' => 'annotation annotation',

@@ -24,7 +24,7 @@ return [
 	],
 	'contents' => [
 		[
-			'module_name' => 'Web.Articles',
+			'module_name' => 'Content.Articles.Web',
 			'controller_name' => 'Main',
 			'controller_action' => 'list',
 			'parameters' => [

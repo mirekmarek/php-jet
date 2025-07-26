@@ -367,7 +367,7 @@ class Auth_RESTClient_Role extends DataModel implements Auth_Role_Interface
 
 		foreach( $modules as $module_name => $module_info ) {
 
-			if(!str_starts_with($module_name, 'REST.')) {
+			if(!str_contains($module_name, 'REST')) {
 				continue;
 			}
 

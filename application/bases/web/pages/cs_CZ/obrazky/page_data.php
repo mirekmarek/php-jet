@@ -24,7 +24,7 @@ return [
 	],
 	'contents' => [
 		[
-			'module_name' => 'Web.Images',
+			'module_name' => 'Content.ImageGallery.Web',
 			'controller_name' => 'Main',
 			'controller_action' => 'default',
 			'parameters' => [

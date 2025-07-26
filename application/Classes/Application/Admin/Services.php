@@ -37,7 +37,7 @@ class Application_Admin_Services
 	{
 		$modules = Application_Modules::activatedModulesList();
 		foreach($modules as $manifest) {
-			if(!str_starts_with($manifest->getName(), 'Admin.') ) {
+			if( !str_contains($manifest->getName(), 'Admin') ) {
 				continue;
 			}
 			

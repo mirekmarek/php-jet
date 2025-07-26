@@ -38,7 +38,7 @@ class Application_Web_Services
 	{
 		$modules = Application_Modules::activatedModulesList();
 		foreach($modules as $manifest) {
-			if(!str_starts_with($manifest->getName(), 'Web.') ) {
+			if( !str_contains($manifest->getName(), 'Web') ) {
 				continue;
 			}
 			

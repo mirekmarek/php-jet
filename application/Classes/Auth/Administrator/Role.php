@@ -381,7 +381,7 @@ class Auth_Administrator_Role extends DataModel implements Auth_Role_Interface
 		$modules = Application_Modules::activatedModulesList();
 
 		foreach( $modules as $module_name => $module_info ) {
-			if( !str_starts_with($module_name, 'Admin.') ) {
+			if( !str_contains($module_name, 'Admin') ) {
 				continue;
 			}
 

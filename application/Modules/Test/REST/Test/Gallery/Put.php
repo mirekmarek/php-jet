@@ -8,7 +8,7 @@
 
 namespace JetApplicationModule\Test\REST;
 
-use JetApplication\Content_Gallery;
+use JetApplicationModule\Content\ImageGallery\Entity\Gallery;
 
 
 /**
@@ -48,7 +48,7 @@ class Test_Gallery_Put extends Test_Abstract
 				]
 		];
 
-		foreach( Content_Gallery::getLocales() as $locale_str => $locale ) {
+		foreach( Gallery::getLocales() as $locale_str => $locale ) {
 			$data['localized'][$locale_str] = [
 				'title' => 'test title ' . time()
 			];
