@@ -12,7 +12,7 @@ use Jet\Application_Module;
 use Jet\Application_Service_MetaInfo;
 
 #[Application_Service_MetaInfo(
-	group: Application_Web_Services::GROUP,
+	group: Application_Admin_Services::GROUP,
 	is_mandatory: true,
 	name:  'Login UI',
 	description: ''

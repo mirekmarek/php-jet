@@ -12,7 +12,7 @@ use Jet\Form_Field;
 use Jet\Application_Service_MetaInfo;
 
 #[Application_Service_MetaInfo(
-	group: Application_Web_Services::GROUP,
+	group: Application_Admin_Services::GROUP,
 	is_mandatory: false,
 	name:  'Image gallery manager',
 	description: ''

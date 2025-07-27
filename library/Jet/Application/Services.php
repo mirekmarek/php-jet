@@ -89,15 +89,15 @@ abstract class Application_Services extends BaseObject
 		}
 		
 		if(!isset( static::$services_meta_info[$interface_class_name ])) {
-			throw new Exception('Service '.$interface_class_name.' is not registered');
+			throw new Exception('Unknown service '.$interface_class_name.'');
 		}
 		
 		return static::$services_meta_info[$interface_class_name ];
 	}
 	
-	protected static function _registerService( Application_Service_MetaInfo $service ) : void
+	protected static function _registerService( Application_Service_MetaInfo $service_meta_info ) : void
 	{
-		static::$services_meta_info[$service->getInterfaceClassName()] = $service;
+		static::$services_meta_info[$service_meta_info->getInterfaceClassName()] = $service_meta_info;
 		
 	}
 	
@@ -107,8 +107,8 @@ abstract class Application_Services extends BaseObject
 		
 		static::$services_meta_info = [];
 		
-		foreach($definitions as $manager) {
-			static::_registerService( $manager );
+		foreach($definitions as $service_meta_info) {
+			static::_registerService( $service_meta_info );
 		}
 		
 		uasort( static::$services_meta_info, function( Application_Service_MetaInfo $a, Application_Service_MetaInfo $b ) {

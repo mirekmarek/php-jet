@@ -13,7 +13,7 @@ use Jet\Auth_Controller_Interface;
 use Jet\Application_Service_MetaInfo;
 
 #[Application_Service_MetaInfo(
-	group: Application_Web_Services::GROUP,
+	group: Application_Admin_Services::GROUP,
 	is_mandatory: true,
 	name:  'Authentication and authorization controller',
 	description: ''
