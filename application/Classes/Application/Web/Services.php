@@ -8,51 +8,41 @@
 
 namespace JetApplication;
 
-use Jet\Application_Modules;
-use Jet\Exception;
+use Jet\Application_Module;
+use Jet\Application_Services;
+use Jet\MVC;
+use Jet\SysConf_Path;
 
-class Application_Web_Services
+class Application_Web_Services extends Application_Services
 {
-	public static function ImageManager() : ?Application_Web_Services_ImageManager
-	{
-		return static::findService( Application_Web_Services_ImageManager::class );
-	}
+	public const GROUP = 'Web';
 	
-	public static function Logger() : ?Application_Web_Services_Logger
+	public static function getCfgFilePath(): string
 	{
-		return static::findService( Application_Web_Services_Logger::class );
-	}
-	
-	public static function AuthController() : Application_Web_Services_Auth_Controller
-	{
-		return static::findService( Application_Web_Services_Auth_Controller::class, true );
-	}
-	
-	public static function AuthLoginModule() : Application_Web_Services_Auth_LoginModule
-	{
-		return static::findService( Application_Web_Services_Auth_LoginModule::class, true );
-	}
-	
-	
-	public static function findService( string $service_interface, bool $service_is_mandatory=false ) : mixed
-	{
-		$modules = Application_Modules::activatedModulesList();
-		foreach($modules as $manifest) {
-			if( !str_contains($manifest->getName(), 'Web') ) {
-				continue;
-			}
-			
-			$module = Application_Modules::moduleInstance( $manifest->getName() );
-			
-			if($module instanceof $service_interface) {
-				return $module;
-			}
-		}
+		$base = MVC::getBase();
+		$locale = MVC::getLocale();
 		
-		if($service_is_mandatory) {
-			throw new Exception('Mandatory service '.$service_interface.' is not available');
-		}
-		
-		return null;
+		return SysConf_Path::getConfig().'services/'.$base->getId().'_'.$locale.'.php';
 	}
+	
+	public static function ImageManager() : null|Application_Module|Application_Web_Services_ImageManager
+	{
+		return static::get( Application_Web_Services_ImageManager::class );
+	}
+	
+	public static function Logger() : null|Application_Module|Application_Web_Services_Logger
+	{
+		return static::get( Application_Web_Services_Logger::class );
+	}
+	
+	public static function AuthController() : Application_Module|Application_Web_Services_Auth_Controller
+	{
+		return static::get( Application_Web_Services_Auth_Controller::class );
+	}
+	
+	public static function AuthLoginModule() : Application_Module|Application_Web_Services_Auth_LoginModule
+	{
+		return static::get( Application_Web_Services_Auth_LoginModule::class );
+	}
+	
 }

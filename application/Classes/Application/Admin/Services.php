@@ -8,50 +8,36 @@
 
 namespace JetApplication;
 
-use Jet\Application_Modules;
-use Jet\Exception;
+use Jet\Application_Module;
+use Jet\Application_Services;
+use Jet\SysConf_Path;
 
-class Application_Admin_Services
+class Application_Admin_Services extends Application_Services
 {
-	public static function ImageManager() : ?Application_Admin_Services_ImageManager
+	public const GROUP = 'Admin';
+	
+	public static function getCfgFilePath(): string
 	{
-		return static::findService( Application_Admin_Services_ImageManager::class );
+		return SysConf_Path::getConfig().'services/admin.php';
 	}
 	
-	public static function AuthController() : Application_Admin_Services_Auth_Controller
+	public static function ImageManager() : null|Application_Module|Application_Admin_Services_ImageManager
 	{
-		return static::findService( Application_Admin_Services_Auth_Controller::class, true );
+		return static::get( Application_Admin_Services_ImageManager::class );
 	}
 	
-	public static function AuthLoginModule() : Application_Admin_Services_Auth_LoginModule
+	public static function AuthController() : Application_Module|Application_Admin_Services_Auth_Controller
 	{
-		return static::findService( Application_Admin_Services_Auth_LoginModule::class, true );
+		return static::get( Application_Admin_Services_Auth_Controller::class );
 	}
 	
-	public static function Logger() : ?Application_Admin_Services_Logger
+	public static function AuthLoginModule() : Application_Module|Application_Admin_Services_Auth_LoginModule
 	{
-		return static::findService( Application_Admin_Services_Logger::class );
+		return static::get( Application_Admin_Services_Auth_LoginModule::class );
 	}
 	
-	public static function findService( string $service_interface, bool $service_is_mandatory=false ) : mixed
+	public static function Logger() : null|Application_Module|Application_Admin_Services_Logger
 	{
-		$modules = Application_Modules::activatedModulesList();
-		foreach($modules as $manifest) {
-			if( !str_contains($manifest->getName(), 'Admin') ) {
-				continue;
-			}
-			
-			$module = Application_Modules::moduleInstance( $manifest->getName() );
-			
-			if($module instanceof $service_interface) {
-				return $module;
-			}
-		}
-		
-		if($service_is_mandatory) {
-			throw new Exception('Mandatory service '.$service_interface.' is not available');
-		}
-		
-		return null;
+		return static::get( Application_Admin_Services_Logger::class );
 	}
 }

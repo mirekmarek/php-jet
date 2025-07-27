@@ -10,6 +10,14 @@ namespace JetApplication;
 
 use Jet\Logger_Interface;
 
+use Jet\Application_Service_MetaInfo;
+
+#[Application_Service_MetaInfo(
+	group: Application_Web_Services::GROUP,
+	is_mandatory: false,
+	name:  'Event logger',
+	description: ''
+)]
 interface Application_Web_Services_Logger extends Logger_Interface
 {
 }
