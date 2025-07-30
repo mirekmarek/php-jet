@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection GrazieInspection */
+
 /**
  * Sequence matcher for Diff
  *

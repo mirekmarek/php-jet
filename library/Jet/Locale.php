@@ -40,7 +40,7 @@ class Locale extends BaseObject
 	public const DATE_TIME_FORMAT_LONG = PHP_IntlDateFormatter::LONG;
 
 	/**
-	 * Completely specified style (Tuesday, April 12, 1952 AD, 3:30:42pm PST)
+	 * Completely specified style
 	 * @link http://php.net/manual/en/intl.intldateformatter-constants.php
 	 */
 	public const DATE_TIME_FORMAT_FULL = PHP_IntlDateFormatter::FULL;
