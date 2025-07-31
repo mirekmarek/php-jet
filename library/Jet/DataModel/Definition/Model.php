@@ -295,6 +295,7 @@ abstract class DataModel_Definition_Model extends BaseObject
 		);
 
 		/** @noinspection PhpUnreachableStatementInspection */
+		/** @phpstan-ignore deadCode.unreachable */
 		return null;
 	}
 

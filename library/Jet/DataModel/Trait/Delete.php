@@ -27,10 +27,7 @@ trait DataModel_Trait_Delete
 			);
 		}
 
-		if(
-			!$this->getIDController() ||
-			!$this->getIsSaved()
-		) {
+		if( !$this->getIsSaved() ) {
 			throw new DataModel_Exception(
 				'Nothing to delete... Object was not loaded. (Class: \'' . get_class(
 					$this

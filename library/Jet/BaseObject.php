@@ -8,8 +8,6 @@
 
 namespace Jet;
 
-use Error;
-
 /**
  *
  */
@@ -125,10 +123,7 @@ abstract class BaseObject
 
 		foreach( $properties as $key => $val ) {
 			if( is_object( $val ) ) {
-				try {
-					$this->{$key} = clone $val;
-				} catch( Error $e ) {
-				}
+				$this->{$key} = clone $val;
 			}
 		}
 	}

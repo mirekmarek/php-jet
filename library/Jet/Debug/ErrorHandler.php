@@ -162,7 +162,7 @@ class Debug_ErrorHandler
 			foreach($backtrace as $bt) {
 				if(
 					($bt['class']??'')==static::class &&
-					($bt['function']??'')=='doItSilent'
+					$bt['function']=='doItSilent'
 				) {
 					$error->setIsSilenced(true);
 					break;

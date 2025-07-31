@@ -11,9 +11,9 @@ namespace Jet;
 /** @phpstan-consistent-constructor */
 class Data_Image extends BaseObject
 {
-	public const TYPE_GIF = 1;
-	public const TYPE_JPG = 2;
-	public const TYPE_PNG = 3;
+	public const TYPE_GIF = IMAGETYPE_GIF;
+	public const TYPE_JPG = IMAGETYPE_JPEG;
+	public const TYPE_PNG = IMAGETYPE_PNG;
 
 	/**
 	 * @var string
@@ -232,6 +232,7 @@ class Data_Image extends BaseObject
 			self::TYPE_JPG => imagecreatefromjpeg( $this->path ),
 			self::TYPE_GIF => imagecreatefromgif( $this->path ),
 			self::TYPE_PNG => imagecreatefrompng( $this->path ),
+			default => throw new Data_Image_Exception('Unsupported image type: '.$this->mime_type ),
 		};
 
 		if( !$image ) {

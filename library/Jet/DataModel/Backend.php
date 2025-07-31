@@ -449,7 +449,6 @@ abstract class DataModel_Backend extends BaseObject
 				foreach( $query->getSelect() as $item ) {
 					/**
 					 * @var DataModel_Query_Select_Item $item
-					 * @var DataModel_Definition_Property $property
 					 */
 					$property = $item->getItem();
 

@@ -70,7 +70,6 @@ trait DataModel_Backend_Trait_Fetch {
 		foreach( $query->getSelect() as $property_name=>$pd ) {
 			/**
 			 * @var DataModel_Query_Select_Item $pd
-			 * @var DataModel_Definition_Property $property
 			 */
 			$property = $pd->getItem();
 			
@@ -80,10 +79,6 @@ trait DataModel_Backend_Trait_Fetch {
 			
 			$property_definition = $property;
 			break;
-		}
-		
-		if(!$property_definition) {
-			[];
 		}
 		
 		

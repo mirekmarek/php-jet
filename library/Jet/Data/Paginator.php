@@ -191,10 +191,9 @@ class Data_Paginator extends BaseObject implements BaseObject_Interface_Serializ
 			$this->next_page_URL = $creator( $this->next_page_no );
 		}
 
-		if( $this->pages_count ) {
-			for( $i = 1; $i <= $this->pages_count; $i++ ) {
-				$this->pages_URL[$i] = $creator( $i );
-			}
+
+		for( $i = 1; $i <= $this->pages_count; $i++ ) {
+			$this->pages_URL[$i] = $creator( $i );
 		}
 
 	}

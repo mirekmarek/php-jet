@@ -144,11 +144,6 @@ class Application_Modules_Handler_Default extends Application_Modules_Handler
 
 			$module_manifest = new $manifest_class_name( $module_name );
 
-			if( !$module_manifest ) {
-				continue;
-			}
-
-
 			$this->all_modules_list[] = $module_name;
 
 			$this->module_manifest[$module_name] = $module_manifest;

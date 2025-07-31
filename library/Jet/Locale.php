@@ -658,9 +658,6 @@ class Locale extends BaseObject
 		}
 
 		$dv = pow( 1024, $exp );
-		if( !$dv ) {
-			$dv = 1;
-		}
 
 		$bytes = $bytes / $dv;
 

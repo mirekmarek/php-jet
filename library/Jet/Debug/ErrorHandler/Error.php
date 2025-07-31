@@ -118,16 +118,16 @@ class Debug_ErrorHandler_Error
 	protected bool $is_silenced = false;
 
 	/**
-	 * @var callable
+	 * @var ?callable
 	 */
-	protected static $formatter;
+	protected static $formatter = null;
 
 	/**
 	 * @param callable $formatter
 	 */
 	public static function setFormatter( callable $formatter ): void
 	{
-		self::$formatter = $formatter;
+		static::$formatter = $formatter;
 	}
 
 

@@ -23,9 +23,9 @@ class Navigation_MenuSet extends BaseObject
 	protected string $config_file_path = '';
 
 	/**
-	 * @var string|null
+	 * @var string|null|false
 	 */
-	protected string|null $translator_dictionary = '';
+	protected string|null|false $translator_dictionary = '';
 
 	/**
 	 * @var Navigation_Menu[]
@@ -57,11 +57,11 @@ class Navigation_MenuSet extends BaseObject
 
 	/**
 	 * @param string $name
-	 * @param string|null|bool $translator_dictionary
+	 * @param string|null|false $translator_dictionary
 	 *
 	 * @return Navigation_MenuSet
 	 */
-	public static function get( string $name, string|null|bool $translator_dictionary = null ): Navigation_MenuSet
+	public static function get( string $name, string|null|false $translator_dictionary = null ): Navigation_MenuSet
 	{
 		if( !isset( static::$_sets[$name] ) ) {
 			static::$_sets[$name] = new static( $name, $translator_dictionary );
@@ -88,9 +88,9 @@ class Navigation_MenuSet extends BaseObject
 
 	/**
 	 * @param string $name
-	 * @param string|null|bool $translator_dictionary
+	 * @param string|null|false $translator_dictionary
 	 */
-	public function __construct( string $name, string|null|bool $translator_dictionary = null )
+	public function __construct( string $name, string|null|false $translator_dictionary = null )
 	{
 		$this->setName( $name );
 		$this->translator_dictionary = $translator_dictionary;

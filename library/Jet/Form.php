@@ -530,11 +530,7 @@ class Form extends BaseObject
 				:
 				Http_Request::POST()->getRawData();
 		}
-
-		if( $input_data === false ) {
-			$input_data = [];
-		}
-
+		
 		if( !$input_data instanceof Data_Array ) {
 			$input_data = new Data_Array( $input_data );
 		}

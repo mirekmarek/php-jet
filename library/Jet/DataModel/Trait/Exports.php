@@ -30,15 +30,9 @@ trait DataModel_Trait_Exports
 	 */
 	public function jsonSerialize(): array
 	{
-		/**
-		 * @var DataModel_Definition_Model $definition
-		 */
 		$definition = static::getDataModelDefinition();
 		$properties = $definition->getProperties();
 
-		/**
-		 * @var DataModel_PropertyFilter $load_filter
-		 */
 		$load_filter = $this->getLoadFilter();
 
 		$result = [];

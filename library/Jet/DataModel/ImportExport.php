@@ -70,19 +70,16 @@ class DataModel_ImportExport extends BaseObject
 		
 		if(!IO_File::exists( $meta_info_file_path )) {
 			throw new DataModel_ImportExport_Exception("Meta info file '$meta_info_file_path' does not exist");
-			return;
 		}
 		
 		if(!IO_File::isReadable( $meta_info_file_path )) {
 			throw new DataModel_ImportExport_Exception("Meta info file '$meta_info_file_path' is not readable");
-			return;
 		}
 		
 		try {
 			$meta_info = DataModel_ImportExport_MetaInfo::read( $meta_info_file_path );
 		} catch( Error|\Exception $error ) {
 			throw new DataModel_ImportExport_Exception("Error during meta info file '$meta_info_file_path' reading: '{$error->getMessage()}'");
-			return;
 		}
 		
 		$data_model_class_name = $meta_info->getDataModelClassName();

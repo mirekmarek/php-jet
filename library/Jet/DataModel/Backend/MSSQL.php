@@ -1028,6 +1028,7 @@ class DataModel_Backend_MSSQL extends DataModel_Backend
 				continue;
 			}
 			
+			/** @phpstan-ignore instanceof.alwaysTrue */
 			if( $property instanceof DataModel_Query_Select_Item_Expression ) {
 				$backend_function_call = $property->toString( $mapper );
 				
@@ -1054,11 +1055,9 @@ class DataModel_Backend_MSSQL extends DataModel_Backend
 		$group_by_qp = [];
 		
 		foreach( $group_by as $val ) {
-			/**
-			 * @var DataModel_Query_Select_Item $val
-			 */
 			if( $val instanceof DataModel_Definition_Property ) {
 				$val = $this->_getColumnName( $val );
+				/** @phpstan-ignore instanceof.alwaysTrue */
 			} else if( $val instanceof DataModel_Query_Select_Item ) {
 				$val = $this->_quoteName( $val->getSelectAs() );
 			}
@@ -1082,9 +1081,6 @@ class DataModel_Backend_MSSQL extends DataModel_Backend
 		
 		if($order_by) {
 			foreach( $order_by as $ob ) {
-				/**
-				 * @var DataModel_Query_OrderBy_Item $ob
-				 */
 				$item = $ob->getItem();
 				if( $item instanceof DataModel_Definition_Property ) {
 					$item = $this->_getColumnName( $item );

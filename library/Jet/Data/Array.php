@@ -63,6 +63,7 @@ class Data_Array extends BaseObject implements BaseObject_Interface_Serializable
 		if( $key[0] === static::PATH_DELIMITER ) {
 			$path = explode( static::PATH_DELIMITER, trim( $key, static::PATH_DELIMITER ) );
 
+			/** @phpstan-ignore booleanNot.alwaysFalse */
 			if( !$path ) {
 				return false;
 			}
@@ -112,8 +113,8 @@ class Data_Array extends BaseObject implements BaseObject_Interface_Serializable
 
 		if( $key[0] === static::PATH_DELIMITER ) {
 			$path = explode( static::PATH_DELIMITER, trim( $key, static::PATH_DELIMITER ) );
-
-
+			
+			/** @phpstan-ignore booleanNot.alwaysFalse */
 			if( !$path ) {
 				return;
 			}
@@ -154,7 +155,8 @@ class Data_Array extends BaseObject implements BaseObject_Interface_Serializable
 
 		if( $key[0] === static::PATH_DELIMITER ) {
 			$path = explode( static::PATH_DELIMITER, trim( $key, static::PATH_DELIMITER ) );
-
+			
+			/** @phpstan-ignore booleanNot.alwaysFalse */
 			if( !$path ) {
 				return;
 			}
@@ -215,7 +217,8 @@ class Data_Array extends BaseObject implements BaseObject_Interface_Serializable
 
 		if( $key[0] === static::PATH_DELIMITER ) {
 			$path = explode( static::PATH_DELIMITER, trim( $key, static::PATH_DELIMITER ) );
-
+			
+			/** @phpstan-ignore booleanNot.alwaysFalse */
 			if( !$path ) {
 				return false;
 			}

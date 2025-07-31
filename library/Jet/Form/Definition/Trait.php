@@ -75,6 +75,7 @@ trait Form_Definition_Trait
 				continue;
 			}
 			
+			/** @phpstan-ignore instanceof.alwaysTrue */
 			if($definition instanceof Form_Definition_Field) {
 				$definition->createFormField( $form_fields );
 			}

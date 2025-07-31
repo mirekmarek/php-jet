@@ -23,8 +23,9 @@ abstract class Mailing_Backend_Abstract
 	
 	/**
 	 * @param Mailing_Email $email
-	 * @param string|null $message
-	 * @param string|null $header
+	 * @param-out string $message
+	 * @param-out string $header
+	 * @noinspection PhpDocSignatureIsNotCompleteInspection
 	 */
 	public function prepareMessage( Mailing_Email $email, ?string &$message, ?string &$header ) : void
 	{

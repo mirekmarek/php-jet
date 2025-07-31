@@ -200,11 +200,7 @@ class Translator extends BaseObject
 		) {
 			return Data_Text::replaceData( $phrase, $data );
 		}
-
-		if( is_string( $locale ) ) {
-			$locale = new Locale( $locale );
-		}
-
+		
 		$translation = static::loadDictionary( $dictionary, $locale )->getTranslation( $phrase, SysConf_Jet_Translator::getAutoAppendUnknownPhrase() );
 
 
