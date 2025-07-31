@@ -14,7 +14,7 @@ namespace Jet;
 abstract class PackageCreator_JavaScript extends PackageCreator
 {
 	/**
-	 * @param array $URIs
+	 * @param array<string> $URIs
 	 */
 	abstract public function __construct( array $URIs );
 }

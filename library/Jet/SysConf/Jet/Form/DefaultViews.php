@@ -13,6 +13,9 @@ namespace Jet;
  */
 class SysConf_Jet_Form_DefaultViews
 {
+	/**
+	 * @var array<string,array<string,string>>
+	 */
 	protected static array $views = [
 		'Form' => [
 			'start' => 'start',
@@ -338,6 +341,11 @@ class SysConf_Jet_Form_DefaultViews
 		static::$views[$element][$view] = $value;
 	}
 	
+	/**
+	 * @param string $field_type
+	 * @param array<string,string> $views
+	 * @return void
+	 */
 	public static function registerNewFieldType( string $field_type, array $views = [] ) : void
 	{
 		$default_views = [

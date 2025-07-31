@@ -269,7 +269,7 @@ class Navigation_Menu extends BaseObject
 	}
 
 	/**
-	 * @return array
+	 * @return array<string,mixed>
 	 */
 	public function toArray(): array
 	{

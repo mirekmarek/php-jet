@@ -431,6 +431,9 @@ class Navigation_Menu_Item extends BaseObject
 		return MVC::getPage( $this->page_id, $this->locale, $this->base_id );
 	}
 	
+	/**
+	 * @return array<string,string|int|bool>
+	 */
 	public function toArray(): array
 	{
 		$menu_item = [

@@ -15,12 +15,12 @@ trait MVC_Page_Trait_HttpHeaders
 {
 	/**
 	 *
-	 * @var array
+	 * @var array<string,string>
 	 */
 	protected array $http_headers = [];
 
 	/**
-	 * @return array
+	 * @return array<string,string>
 	 */
 	public function getHttpHeaders(): array
 	{
@@ -34,7 +34,7 @@ trait MVC_Page_Trait_HttpHeaders
 	}
 
 	/**
-	 * @param array $http_headers
+	 * @param array<string,string> $http_headers
 	 */
 	public function setHttpHeaders( array $http_headers ): void
 	{

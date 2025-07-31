@@ -71,7 +71,7 @@ class Http_Headers
 
 	/**
 	 * @param int $code
-	 * @param array $headers
+	 * @param array<string,string> $headers
 	 * @param string $custom_response_message
 	 *
 	 */
@@ -152,7 +152,7 @@ class Http_Headers
 	/**
 	 * @param int $http_code
 	 * @param string $target_URL
-	 * @param array $headers
+	 * @param array<string,string> $headers
 	 * @param bool $application_end
 	 */
 	public static function redirect( int $http_code, string $target_URL, array $headers = [], bool $application_end = true ): void

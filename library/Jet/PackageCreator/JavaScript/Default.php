@@ -15,7 +15,7 @@ class PackageCreator_JavaScript_Default extends PackageCreator_JavaScript
 {
 	/**
 	 *
-	 * @param array $URIs
+	 * @param array<string> $URIs
 	 */
 	public function __construct( array $URIs )
 	{

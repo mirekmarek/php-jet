@@ -25,7 +25,7 @@ interface RESTServer_Backend
 	public function getRequestMethod(): string;
 	
 	/**
-	 * @return array
+	 * @return array<string,mixed>
 	 */
 	public function getRequestData(): array;
 	
@@ -65,13 +65,13 @@ interface RESTServer_Backend
 	public function handleNotAuthorized(): void;
 	
 	/**
-	 * @param array $errors
+	 * @param array<string> $errors
 	 */
 	public function responseValidationError( array $errors ): void;
 	
 	
 	/**
-	 * @param string|array $id
+	 * @param string|array<string,string|int> $id
 	 */
 	public function responseUnknownItem( string|array $id ): void;
 	
@@ -91,7 +91,7 @@ interface RESTServer_Backend
 	/**
 	 *
 	 * @param DataModel_Fetch_Instances $data
-	 * @param array $sort_items_map
+	 * @param array<string,string> $sort_items_map
 	 *
 	 * @return DataModel_Fetch_Instances
 	 */

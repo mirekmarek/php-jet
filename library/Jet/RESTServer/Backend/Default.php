@@ -21,7 +21,7 @@ class RESTServer_Backend_Default extends BaseObject implements RESTServer_Backen
 	protected ?string $request_method = null;
 	
 	/**
-	 * @var ?array
+	 * @var null|array<string|mixed>
 	 */
 	protected ?array $request_data = null;
 	
@@ -56,7 +56,7 @@ class RESTServer_Backend_Default extends BaseObject implements RESTServer_Backen
 	}
 	
 	/**
-	 * @return array
+	 * @return array<string,mixed>
 	 */
 	public function getRequestData(): array
 	{
@@ -178,7 +178,7 @@ class RESTServer_Backend_Default extends BaseObject implements RESTServer_Backen
 	}
 	
 	/**
-	 * @param array $errors
+	 * @param array<string> $errors
 	 */
 	public function responseValidationError( array $errors ): void
 	{
@@ -187,7 +187,7 @@ class RESTServer_Backend_Default extends BaseObject implements RESTServer_Backen
 	
 	
 	/**
-	 * @param string|array $id
+	 * @param string|array<string,string|int> $id
 	 */
 	public function responseUnknownItem( string|array $id ): void
 	{
@@ -209,7 +209,7 @@ class RESTServer_Backend_Default extends BaseObject implements RESTServer_Backen
 	
 	/**
 	 * @param string $response_text
-	 * @param array $http_headers
+	 * @param array<string,string> $http_headers
 	 * @param int $http_code
 	 * @param string $http_message
 	 */
@@ -264,7 +264,7 @@ class RESTServer_Backend_Default extends BaseObject implements RESTServer_Backen
 	/**
 	 *
 	 * @param DataModel_Fetch_Instances $data
-	 * @param array $sort_items_map
+	 * @param array<string,string> $sort_items_map
 	 *
 	 * @return DataModel_Fetch_Instances
 	 */

@@ -15,7 +15,7 @@ abstract class PackageCreator extends BaseObject
 {
 
 	/**
-	 * @var array
+	 * @var array<string>
 	 */
 	protected array $URIs = [];
 

@@ -67,7 +67,7 @@ class RESTServer extends BaseObject
 	}
 
 	/**
-	 * @return array
+	 * @return array<string,mixed>
 	 */
 	public static function getRequestData(): array
 	{
@@ -124,7 +124,7 @@ class RESTServer extends BaseObject
 	}
 
 	/**
-	 * @param array $errors
+	 * @param array<string> $errors
 	 */
 	public static function responseValidationError( array $errors ): void
 	{
@@ -133,7 +133,7 @@ class RESTServer extends BaseObject
 
 
 	/**
-	 * @param string|array $id
+	 * @param string|array<string,string|int> $id
 	 */
 	public static function responseUnknownItem( string|array $id ): void
 	{
@@ -163,7 +163,7 @@ class RESTServer extends BaseObject
 	/**
 	 *
 	 * @param DataModel_Fetch_Instances $data
-	 * @param array $sort_items_map
+	 * @param array<string,string> $sort_items_map
 	 *
 	 * @return DataModel_Fetch_Instances
 	 */

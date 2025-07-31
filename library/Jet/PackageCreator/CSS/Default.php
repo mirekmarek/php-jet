@@ -21,7 +21,7 @@ class PackageCreator_CSS_Default extends PackageCreator_CSS
 	/**
 	 *
 	 * @param string $media
-	 * @param array $URIs
+	 * @param array<string> $URIs
 	 */
 	public function __construct( string $media, array $URIs )
 	{

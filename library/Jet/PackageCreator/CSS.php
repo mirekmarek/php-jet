@@ -15,7 +15,7 @@ abstract class PackageCreator_CSS extends PackageCreator
 {
 	/**
 	 * @param string $media
-	 * @param array $URIs
+	 * @param array<string> $URIs
 	 */
 	abstract public function __construct( string $media, array $URIs );
 }
