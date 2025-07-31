@@ -65,7 +65,7 @@ class UI_button extends UI_Renderer_Single
 	protected string $url = '';
 	
 	/**
-	 * @var array|null
+	 * @var array<string|mixed>|null
 	 */
 	protected ?array $post_data = null;
 
@@ -212,7 +212,7 @@ class UI_button extends UI_Renderer_Single
 	}
 	
 	/**
-	 * @return array|null
+	 * @return array<string,mixed>|null
 	 */
 	public function getPostData(): ?array
 	{
@@ -220,7 +220,7 @@ class UI_button extends UI_Renderer_Single
 	}
 	
 	/**
-	 * @param array|null $post_data
+	 * @param array<string,mixed>|null $post_data
 	 *
 	 * @return $this
 	 */

@@ -155,7 +155,7 @@ class Translator extends BaseObject
 	 * Gets translation of given text
 	 *
 	 * @param string $text
-	 * @param array $data (optional) - data that replace parts of text; input array('KEY1'=>'value1') replaces %KEY1% in text for value1
+	 * @param array<string,string> $data (optional) - data that replace parts of text; input array('KEY1'=>'value1') replaces %KEY1% in text for value1
 	 * @param string|null $dictionary (optional)
 	 * @param Locale|null $locale (optional) - target locale
 	 *
@@ -171,7 +171,7 @@ class Translator extends BaseObject
 	 *
 	 *
 	 * @param string $phrase
-	 * @param array $data (optional) - data that replace parts of text; input array('KEY1'=>'value1') replaces %KEY1% in text for value1
+	 * @param array<string,string> $data (optional) - data that replace parts of text; input array('KEY1'=>'value1') replaces %KEY1% in text for value1
 	 * @param string|null $dictionary (optional)
 	 * @param Locale|null $locale (optional) - target locale
 	 *
@@ -255,6 +255,10 @@ class Translator extends BaseObject
 		return static::getBackend()->getKnownLocales();
 	}
 	
+	/**
+	 * @param Locale $locale
+	 * @return array<string,string>
+	 */
 	public static function getKnownDictionaries( Locale $locale ) : array
 	{
 		return static::getBackend()->getKnownDictionaries( $locale );

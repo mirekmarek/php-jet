@@ -214,7 +214,7 @@ class Form extends BaseObject
 	
 	/**
 	 * @param string $field_name
-	 * @return array
+	 * @return array<string,string>
 	 */
 	public function getSubFormPrefixes( string $field_name ) : array
 	{
@@ -626,7 +626,7 @@ class Form extends BaseObject
 
 	/**
 	 *
-	 * @return array|bool
+	 * @return array<string|mixed>|bool
 	 */
 	public function getValues(): array|bool
 	{

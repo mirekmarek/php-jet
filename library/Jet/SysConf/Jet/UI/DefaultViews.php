@@ -13,6 +13,9 @@ namespace Jet;
  */
 class SysConf_Jet_UI_DefaultViews
 {
+	/**
+	 * @var array<string,array<string,string>>
+	 */
 	protected static array $views = [
 		'tabs-js' => [
 			'start' => 'tabs-js/start',

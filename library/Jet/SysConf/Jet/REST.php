@@ -35,7 +35,7 @@ class SysConf_Jet_REST
 	 * ];
 	 * </code>
 	 *
-	 * @var array
+	 * @var array<string, list<int|string>>
 	 */
 	protected static array $errors = [
 		RESTServer::ERR_CODE_AUTHORIZATION_REQUIRED => [
@@ -145,7 +145,7 @@ class SysConf_Jet_REST
 	}
 
 	/**
-	 * @return array
+	 * @return array<string, list<int|string>>
 	 */
 	public static function getErrors(): array
 	{
@@ -153,7 +153,7 @@ class SysConf_Jet_REST
 	}
 
 	/**
-	 * @param array $errors
+	 * @param array<string, list<int|string>> $errors
 	 */
 	public static function setErrors( array $errors ): void
 	{

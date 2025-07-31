@@ -156,6 +156,10 @@ class Translator_Backend_Default extends Translator_Backend
 		return $res;
 	}
 	
+	/**
+	 * @param Locale $locale
+	 * @return array<string,string>
+	 */
 	public function getKnownDictionaries( Locale $locale ) : array
 	{
 		$res = [];

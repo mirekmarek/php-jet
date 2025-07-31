@@ -55,7 +55,7 @@ abstract class BaseObject
 	/**
 	 * Default serialize rules (don't serialize __* properties)
 	 *
-	 * @return array
+	 * @return string[]
 	 */
 	public function __sleep(): array
 	{
@@ -129,7 +129,7 @@ abstract class BaseObject
 	}
 
 	/**
-	 * @return array
+	 * @return array<string,mixed>
 	 */
 	public function __debugInfo(): array
 	{

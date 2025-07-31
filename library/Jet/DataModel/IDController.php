@@ -29,7 +29,7 @@ abstract class DataModel_IDController extends BaseObject
 	 * array key: ID property name
 	 * array value: ID value
 	 *
-	 * @var array
+	 * @var array<string,string|int>
 	 */
 	protected array $values = [];
 
@@ -194,7 +194,7 @@ abstract class DataModel_IDController extends BaseObject
 	}
 
 	/**
-	 * @return array
+	 * @return string[]
 	 */
 	public function getPropertyNames(): array
 	{

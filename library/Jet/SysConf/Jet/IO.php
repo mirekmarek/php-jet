@@ -15,6 +15,9 @@ class SysConf_Jet_IO
 {
 	protected static int $dir_mod = 0777;
 	protected static int $file_mod = 0666;
+	/**
+	 * @var array<string,string>
+	 */
 	protected static array $extensions_mimes_map = [];
 
 	/**
@@ -50,7 +53,7 @@ class SysConf_Jet_IO
 	}
 
 	/**
-	 * @return array
+	 * @return array<string,string>
 	 */
 	public static function getExtensionsMimesMap(): array
 	{
@@ -58,7 +61,7 @@ class SysConf_Jet_IO
 	}
 
 	/**
-	 * @param array $extensions_mimes_map
+	 * @param array<string,string> $extensions_mimes_map
 	 */
 	public static function setExtensionsMimesMap( array $extensions_mimes_map ): void
 	{

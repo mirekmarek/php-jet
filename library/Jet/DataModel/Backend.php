@@ -72,7 +72,7 @@ abstract class DataModel_Backend extends BaseObject
 	
 	
 	/**
-	 * @return array
+	 * @return array<string,string>
 	 */
 	public static function getAllBackendTypes() : array
 	{
@@ -86,7 +86,7 @@ abstract class DataModel_Backend extends BaseObject
 	}
 	
 	/**
-	 * @return array
+	 * @return array<string,string>
 	 */
 	public static function getAvlBackendTypes() : array
 	{
@@ -397,7 +397,7 @@ abstract class DataModel_Backend extends BaseObject
 	 * @param string $fetch_method
 	 * @param array $data
 	 *
-	 * @return array
+	 * @return array<int,mixed>
 	 */
 	protected function validateResultData( DataModel_Query $query, string $fetch_method, array $data ): array
 	{
@@ -536,7 +536,7 @@ abstract class DataModel_Backend extends BaseObject
 	/**
 	 * @param DataModel_Definition_Model $definition
 	 *
-	 * @return array
+	 * @return array<string>
 	 */
 	abstract public function helper_getUpdateCommand( DataModel_Definition_Model $definition ): array;
 

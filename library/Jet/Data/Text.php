@@ -15,12 +15,7 @@ use Transliterator;
  */
 class Data_Text
 {
-
-	/**
-	 * @var array
-	 */
-	protected static array $_defined_constants = [];
-
+	
 	/**
 	 *
 	 * @param string $text
@@ -51,7 +46,7 @@ class Data_Text
 	 * replaces %PARAM1% for value 1 and %PARAM2% for value 2
 	 *
 	 * @param string $text
-	 * @param array $data
+	 * @param array<string,string> $data
 	 *
 	 * @return string
 	 */

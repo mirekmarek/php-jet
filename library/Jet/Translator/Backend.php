@@ -42,7 +42,7 @@ abstract class Translator_Backend extends BaseObject
 
 	/**
 	 * @param string $translation
-	 * @param array $data
+	 * @param array<string,string> $data
 	 *
 	 * @return string
 	 */
@@ -75,6 +75,10 @@ abstract class Translator_Backend extends BaseObject
 	 */
 	abstract public function getKnownLocales() : array;
 	
+	/**
+	 * @param Locale $locale
+	 * @return array<string,string>
+	 */
 	abstract public function getKnownDictionaries( Locale $locale ) : array;
 	
 	abstract public function installApplicationModuleDictionaries( Application_Module_Manifest $module ) : void;

@@ -38,7 +38,7 @@ class UI
 
 	/**
 	 * @param string $text
-	 * @param array $data
+	 * @param array<string,string> $data
 	 *
 	 * @return string
 	 */
@@ -60,7 +60,7 @@ class UI
 	
 	/**
 	 * @param string $label
-	 * @param array $post_data
+	 * @param array<string,mixed> $post_data
 	 *
 	 * @return UI_button
 	 */
@@ -180,7 +180,7 @@ class UI
 
 
 	/**
-	 * @param array $tabs
+	 * @param array<string,string> $tabs
 	 * @param callable $tab_url_creator
 	 * @param string|null $selected_tab_id
 	 *
@@ -195,7 +195,7 @@ class UI
 
 	/**
 	 * @param string $id
-	 * @param array $tabs
+	 * @param array<string,string> $tabs
 	 * @param string|null $selected_tab_id
 	 *
 	 * @return UI_tabsJS

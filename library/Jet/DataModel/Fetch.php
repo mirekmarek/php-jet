@@ -120,7 +120,7 @@ abstract class DataModel_Fetch extends BaseObject implements BaseObject_Interfac
 	}
 
 	/**
-	 * @return array
+	 * @return array<int,mixed>
 	 */
 	public function jsonSerialize(): array
 	{

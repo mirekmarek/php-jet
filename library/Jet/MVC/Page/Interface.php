@@ -17,7 +17,7 @@ interface MVC_Page_Interface
 	 * @param MVC_Base_Interface $base
 	 * @param Locale $locale
 	 *
-	 * @return array
+	 * @return array<string,string>
 	 */
 	public static function _getRelativePathMap( MVC_Base_Interface $base, Locale $locale ): array;
 

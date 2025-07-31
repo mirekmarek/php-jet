@@ -27,7 +27,7 @@ trait MVC_Page_Trait_Initialization
 	 * @param MVC_Base_Interface $base
 	 * @param Locale $locale
 	 *
-	 * @return array
+	 * @return array<string,string>
 	 */
 	public static function _getRelativePathMap( MVC_Base_Interface $base, Locale $locale ): array
 	{
@@ -44,7 +44,7 @@ trait MVC_Page_Trait_Initialization
 	 * @param MVC_Base_Interface $base
 	 * @param Locale $locale
 	 *
-	 * @return array
+	 * @return array<string,array<string,string>>
 	 */
 	public static function loadMaps( MVC_Base_Interface $base, Locale $locale ): array
 	{

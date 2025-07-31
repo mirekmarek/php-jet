@@ -16,7 +16,10 @@ class SysConf_Jet_Http
 	protected static string $header_function_name = '\header';
 	protected static string $http_version = '1.1';
 	protected static bool $hide_request = true;
-
+	
+	/**
+	 * @var array<int,string>
+	 */
 	protected static array $response_messages = [
 		200 => 'OK',
 		201 => 'Created',
@@ -122,7 +125,7 @@ class SysConf_Jet_Http
 	}
 
 	/**
-	 * @return array
+	 * @return array<int,string>
 	 */
 	public static function getResponseMessages(): array
 	{
@@ -130,7 +133,7 @@ class SysConf_Jet_Http
 	}
 
 	/**
-	 * @param array|string[] $response_messages
+	 * @param array<int,string> $response_messages
 	 */
 	public static function setResponseMessages( array $response_messages ): void
 	{

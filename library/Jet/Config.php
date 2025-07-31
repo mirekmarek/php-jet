@@ -155,7 +155,7 @@ abstract class Config extends BaseObject implements Form_Definition_Interface
 	
 	/**
 	 *
-	 * @return array
+	 * @return array<string,mixed>
 	 */
 	public function toArray(): array
 	{
@@ -219,7 +219,7 @@ abstract class Config extends BaseObject implements Form_Definition_Interface
 
 	/**
 	 *
-	 * @return array
+	 * @return array<string,mixed>
 	 * @throws Config_Exception
 	 *
 	 */
