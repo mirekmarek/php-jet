@@ -137,9 +137,9 @@ interface Db_Backend_Interface
 	/**
 	 * @param string|null $name
 	 *
-	 * @return string
+	 * @return string|false
 	 */
-	public function lastInsertId( ?string $name = null ) : string;
+	public function lastInsertId( ?string $name = null ) : string|false;
 
 	
 	public function quoteString( string $string ) : string;

@@ -367,7 +367,7 @@ abstract class DataModel_Definition_Model_Related extends DataModel_Definition_M
 			);
 		}
 
-		$getRelatedPropertiesDefinitionData = function( string $class_name ) use ($property_name): array {
+		$getRelatedPropertiesDefinitionData = function( string $class_name ) : array {
 			$reflection = new ReflectionClass( $class_name );
 
 			$properties_definition_data = Attributes::getClassPropertyDefinition( $reflection, DataModel_Definition::class );

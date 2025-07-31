@@ -12,7 +12,7 @@ use Error;
 class DataModel_ImportExport extends BaseObject
 {
 	public static function export(
-		string $data_model_class_name,
+		string|DataModel $data_model_class_name,
 		string $target_dir_path,
 		?array $where = null,
 		?DataModel_ImportExport_ExportPreprocessor $preprocessor=null
@@ -31,9 +31,6 @@ class DataModel_ImportExport extends BaseObject
 		$dir = $target_dir_path.'/'.$target_file_name.'/';
 		IO_Dir::create( $dir );
 		
-		/**
-		 * @var DataModel $data_model_class_name
-		 */
 		$data_model_class_name::getBackendInstance()->getType();
 		
 		$ids = $data_model_class_name::fetchIDs( $where );
@@ -88,9 +85,6 @@ class DataModel_ImportExport extends BaseObject
 			return;
 		}
 		
-		/**
-		 * @var DataModel $data_model_class_name
-		 */
 		$data_model_class_name = $meta_info->getDataModelClassName();
 		$definition = DataModel_Definition::get( $data_model_class_name );
 		

@@ -8,11 +8,14 @@
 
 namespace Jet;
 
-/**
- *
- */
+/** @phpstan-consistent-constructor */
 abstract class Debug_ErrorHandler_Handler
 {
+	public function __construct()
+	{
+	
+	}
+	
 	/**
 	 * @return static
 	 */

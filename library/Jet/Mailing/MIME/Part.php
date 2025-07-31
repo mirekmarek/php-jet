@@ -34,7 +34,7 @@ class Mailing_MIME_Part {
 	protected string $body = '';
 	
 	/**
-	 * @var static[]
+	 * @var Mailing_MIME_Part[]
 	 */
 	protected array $parts = [];
 	

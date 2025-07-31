@@ -16,7 +16,7 @@ class DataModel_Query_Where extends BaseObject implements BaseObject_Interface_I
 	use DataModel_Query_Where_Trait;
 
 	/**
-	 * @var DataModel_Query_Where_Expression[]|DataModel_Query_Where[]|string
+	 * @var DataModel_Query_Where_Expression[]|DataModel_Query_Where[]|string[]
 	 */
 	protected array $expressions = [];
 

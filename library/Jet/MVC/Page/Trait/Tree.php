@@ -52,9 +52,6 @@ trait MVC_Page_Trait_Tree
 	 */
 	public function getParent(): static|null
 	{
-		/**
-		 * @var MVC_Page_Interface|MVC_Page_Trait_Tree $this
-		 */
 		if( !$this->parent_id ) {
 			return null;
 		}
@@ -62,7 +59,8 @@ trait MVC_Page_Trait_Tree
 		if( !$this->__parent ) {
 			$this->__parent = static::_get( $this->parent_id, $this->getLocale(), $this->getBase()->getId() );
 		}
-
+		
+		/** @phpstan-ignore return.type */
 		return $this->__parent;
 	}
 
@@ -87,10 +85,6 @@ trait MVC_Page_Trait_Tree
 	 */
 	public function getChildren(): array
 	{
-		/**
-		 * @var MVC_Page_Interface|MVC_Page_Trait_Tree $this
-		 */
-
 		if( $this->__children === null ) {
 			$this->__children = [];
 

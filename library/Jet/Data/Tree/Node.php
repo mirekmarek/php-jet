@@ -399,7 +399,6 @@ class Data_Tree_Node extends BaseObject implements BaseObject_Interface_Iterator
 			'parent_id',
 			'depth',
 			'data',
-			'children',
 			'is_root',
 		];
 

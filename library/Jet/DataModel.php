@@ -69,9 +69,7 @@ namespace Jet;
  */
 
 
-/**
- *
- */
+/** @phpstan-consistent-constructor */
 abstract class DataModel extends BaseObject implements BaseObject_Interface_Serializable_JSON, Form_Definition_Interface
 {
 

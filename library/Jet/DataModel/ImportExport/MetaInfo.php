@@ -8,6 +8,7 @@
 
 namespace Jet;
 
+/** @phpstan-consistent-constructor */
 class DataModel_ImportExport_MetaInfo extends BaseObject implements BaseObject_Interface_Serializable_JSON
 {
 	public const META_INFO_FILE_NAME = 'jet_datamodel_data_export_meta_info.json';
@@ -18,6 +19,11 @@ class DataModel_ImportExport_MetaInfo extends BaseObject implements BaseObject_I
 	protected ?array $source_where;
 	protected int $record_count;
 	protected Data_DateTime $export_date_time;
+	
+	public function __construct()
+	{
+	
+	}
 	
 	public static function fromJSON( string $json ): static
 	{
@@ -58,7 +64,7 @@ class DataModel_ImportExport_MetaInfo extends BaseObject implements BaseObject_I
 	}
 	
 	
-	public function getDataModelClassName(): string
+	public function getDataModelClassName(): string|DataModel
 	{
 		return $this->data_model_class_name;
 	}

@@ -33,10 +33,6 @@ trait MVC_Page_Trait_URL
 	 */
 	protected function _createURL( string|null|bool $schema, array $path_fragments, array $GET_params ): string
 	{
-		/**
-		 * @var MVC_Page|MVC_Page_Trait_URL $this
-		 */
-
 		$base = $this->getBase();
 
 
@@ -161,10 +157,6 @@ trait MVC_Page_Trait_URL
 	 */
 	public function getNonSchemaURL( array $path_fragments = [], array $GET_params = [] ): string
 	{
-		/**
-		 * @var MVC_Page|MVC_Page_Trait_URL $this
-		 */
-
 		return $this->_createURL( '', $path_fragments, $GET_params );
 	}
 

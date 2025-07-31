@@ -36,7 +36,7 @@ class DataModel_Definition_Property_Date extends DataModel_Definition_Property
 	public function getJsonSerializeValue( mixed $property ): mixed
 	{
 		/**
-		 * @var Data_DateTime $property_value
+		 * @var ?Data_DateTime $property
 		 */
 		if( !$property ) {
 			return $property;

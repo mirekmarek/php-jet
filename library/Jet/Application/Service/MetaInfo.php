@@ -11,6 +11,8 @@ namespace Jet;
 use ReflectionClass;
 use Attribute;
 
+/** @phpstan-consistent-constructor */
+
 #[Attribute(Attribute::TARGET_CLASS | Attribute::TARGET_PROPERTY | Attribute::IS_REPEATABLE)]
 class Application_Service_MetaInfo extends BaseObject
 {

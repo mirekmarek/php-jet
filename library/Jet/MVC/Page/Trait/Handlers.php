@@ -15,16 +15,10 @@ trait MVC_Page_Trait_Handlers
 {
 
 	/**
-	 *
-	 *
 	 * @return bool
 	 */
 	public function resolve(): bool
 	{
-		/**
-		 * @var MVC_Page_Trait_Handlers|MVC_Page $this
-		 */
-
 		foreach( $this->getContent() as $content ) {
 			/**
 			 * @var MVC_Page_Content $content
@@ -59,10 +53,6 @@ trait MVC_Page_Trait_Handlers
 	 */
 	public function handleHttpHeaders(): void
 	{
-		/**
-		 * @var MVC_Page_Trait_Handlers|MVC_Page $this
-		 */
-
 		Http_Headers::response(
 			code: Http_Headers::CODE_200_OK,
 			headers: $this->getHttpHeaders()
@@ -74,10 +64,6 @@ trait MVC_Page_Trait_Handlers
 	 */
 	public function render(): string
 	{
-		/**
-		 * @var MVC_Page_Trait_Handlers|MVC_Page $this
-		 */
-
 		if( ($output = $this->getOutput()) ) {
 			if( is_callable( $output ) ) {
 				return $output( $this );

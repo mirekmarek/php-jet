@@ -18,7 +18,7 @@ class MVC_Base extends BaseObject implements MVC_Base_Interface
 {
 
 	/**
-	 * @var MVC_Base[]
+	 * @var static[]
 	 */
 	protected static array $bases = [];
 
@@ -77,7 +77,7 @@ class MVC_Base extends BaseObject implements MVC_Base_Interface
 
 	/**
 	 *
-	 * @var MVC_Base_LocalizedData[]
+	 * @var MVC_Base_LocalizedData_Interface[]
 	 */
 	protected array $localized_data = [];
 
@@ -205,9 +205,10 @@ class MVC_Base extends BaseObject implements MVC_Base_Interface
 		$base = Factory_MVC::getBaseInstance();
 		$base->id = $data['id'];
 		unset( $data['id'] );
-
+		
 		$base->setData( $data );
-
+		
+		/** @phpstan-ignore return.type */
 		return $base;
 	}
 
@@ -258,7 +259,7 @@ class MVC_Base extends BaseObject implements MVC_Base_Interface
 		$data = require $map[$id];
 
 		static::$bases[$id] = static::_createByData( $data );
-
+		
 		return static::$bases[$id];
 	}
 	

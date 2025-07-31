@@ -22,7 +22,12 @@ class Form_Renderer_Field_Input_RadioButton extends Form_Renderer_Field_Input
 	{
 		$this->curr_option_index++;
 		$this->curr_option_key = $option_key;
-		$this->curr_option_is_selected = $this->field->optionIsSelected($option_key);
+		
+		/**
+		 * @var Form_Field_RadioButton $field
+		 */
+		$field = $this->field;
+		$this->curr_option_is_selected = $field->optionIsSelected($option_key);
 	}
 	
 	/**

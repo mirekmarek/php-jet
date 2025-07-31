@@ -114,15 +114,6 @@ class Debug_Profiler_Run
 			);
 		}
 
-		if( extension_loaded( 'tideways' ) ) {
-			/** @noinspection PhpUndefinedConstantInspection */
-			/** @noinspection PhpUndefinedFunctionInspection */
-			tideways_enable(
-				TIDEWAYS_FLAGS_CPU + TIDEWAYS_FLAGS_MEMORY,
-				[
-				]
-			);
-		}
 	}
 
 	/**
@@ -293,12 +284,6 @@ class Debug_Profiler_Run
 		if( extension_loaded( 'xhprof' ) ) {
 			$this->XHP_data = xhprof_disable();
 		}
-
-		if( extension_loaded( 'tideways' ) ) {
-			/** @noinspection PhpUndefinedFunctionInspection */
-			$this->XHP_data = tideways_disable();
-		}
-
 	}
 
 
@@ -357,7 +342,7 @@ class Debug_Profiler_Run
 	 *
 	 * @param int $shift (optional, default: 0)
 	 *
-	 * @return Debug_Profiler_Run_BacktraceItem[]
+	 * @return Debug_ErrorHandler_Error_BacktraceItem[]
 	 */
 	public static function getBacktrace( int $shift = 0 ): array
 	{
@@ -372,7 +357,7 @@ class Debug_Profiler_Run
 		$backtrace = [];
 
 		foreach( $_backtrace as $bt ) {
-			$backtrace[] = new Debug_Profiler_Run_BacktraceItem( $bt );
+			$backtrace[] = new Debug_ErrorHandler_Error_BacktraceItem( $bt );
 		}
 
 		return $backtrace;

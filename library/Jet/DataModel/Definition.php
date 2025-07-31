@@ -33,16 +33,13 @@ class DataModel_Definition extends BaseObject
 	/**
 	 * Returns model definition
 	 *
-	 * @param string $class_name
+	 * @param string|DataModel $class_name
 	 *
 	 * @return DataModel_Definition_Model_Main|DataModel_Definition_Model_Related
 	 */
-	public static function get( string $class_name ): DataModel_Definition_Model_Main|DataModel_Definition_Model_Related
+	public static function get( string|DataModel $class_name ): DataModel_Definition_Model_Main|DataModel_Definition_Model_Related
 	{
 		if( !isset( static::$__definitions[$class_name] ) ) {
-			/**
-			 * @var DataModel $class_name
-			 */
 			$type = $class_name::dataModelDefinitionType();
 
 			static::$__definitions[$class_name] = Factory_DataModel::getModelDefinitionInstance( $type, $class_name );

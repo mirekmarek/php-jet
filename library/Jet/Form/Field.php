@@ -328,7 +328,7 @@ abstract class Form_Field extends BaseObject implements JsonSerializable
 	}
 	
 	/**
-	 * @return mixed
+	 * @return array
 	 */
 	public function getHelpData(): array
 	{
@@ -336,7 +336,7 @@ abstract class Form_Field extends BaseObject implements JsonSerializable
 	}
 	
 	/**
-	 * @param mixed $help_data
+	 * @param array $help_data
 	 */
 	public function setHelpData( array $help_data ): void
 	{

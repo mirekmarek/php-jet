@@ -60,12 +60,12 @@ class Debug_Profiler_Run_Block
 	protected int $memory_peak_end = 0;
 
 	/**
-	 * @var Debug_Profiler_Run_BacktraceItem[]
+	 * @var Debug_ErrorHandler_Error_BacktraceItem[]
 	 */
 	protected array $backtrace_start = [];
 
 	/**
-	 * @var Debug_Profiler_Run_BacktraceItem[]
+	 * @var Debug_ErrorHandler_Error_BacktraceItem[]
 	 */
 	protected array $backtrace_end = [];
 
@@ -172,7 +172,7 @@ class Debug_Profiler_Run_Block
 	}
 
 	/**
-	 * @return Debug_Profiler_Run_BacktraceItem[]
+	 * @return Debug_ErrorHandler_Error_BacktraceItem[]
 	 */
 	public function getBacktraceEnd(): array
 	{
@@ -180,7 +180,7 @@ class Debug_Profiler_Run_Block
 	}
 
 	/**
-	 * @return Debug_Profiler_Run_BacktraceItem[]
+	 * @return Debug_ErrorHandler_Error_BacktraceItem[]
 	 */
 	public function getBacktraceStart(): array
 	{
@@ -311,7 +311,7 @@ class Debug_Profiler_Run_Block
 	 */
 	public function SQLQueryStart( string $query, array $query_params ): Debug_Profiler_Run_SQLQueryData
 	{
-		$q = new Debug_Profiler_Run_SQLqueryData( $this->id, $query, $query_params );
+		$q = new Debug_Profiler_Run_SQLQueryData( $this->id, $query, $query_params );
 
 		$this->SQL_queries[] = $q;
 

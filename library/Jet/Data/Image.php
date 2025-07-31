@@ -8,9 +8,7 @@
 
 namespace Jet;
 
-/**
- *
- */
+/** @phpstan-consistent-constructor */
 class Data_Image extends BaseObject
 {
 	public const TYPE_GIF = 1;
@@ -212,10 +210,9 @@ class Data_Image extends BaseObject
 	 * @param int|null $new_height (optional)
 	 * @param int|null $target_img_type (optional)
 	 *
-	 * @return Data_Image
+	 * @return static
 	 *
 	 * @throws Data_Image_Exception
-	 * @throws static
 	 */
 	public function saveAs( string $target_path, ?int $new_width = null, ?int $new_height = null, ?int $target_img_type = null ): static
 	{

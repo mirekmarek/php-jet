@@ -45,9 +45,6 @@ trait DataModel_Trait_Load
 	public static function createQuery( array $where = [] ): DataModel_Query
 	{
 
-		/**
-		 * @var DataModel $this
-		 */
 		$query = new DataModel_Query( static::getDataModelDefinition() );
 		$query->setWhere( $where );
 
@@ -64,16 +61,12 @@ trait DataModel_Trait_Load
 	 */
 	public static function initByData( array $this_data, array $related_data = [], ?DataModel_PropertyFilter $load_filter = null ): static
 	{
-		/**
-		 * @var DataModel $_this
-		 */
 		$_this = new static();
 		if( $load_filter ) {
 			$_this->setLoadFilter( $load_filter );
 		}
 
 		/**
-		 * @var DataModel $this
 		 * @var DataModel_Definition_Model $this_definition
 		 */
 		$this_definition = static::getDataModelDefinition();
@@ -156,10 +149,6 @@ trait DataModel_Trait_Load
 					unset( $related_data[$related_model_name][$r_i] );
 				}
 			}
-
-			/**
-			 * @var DataModel_Related $class_name
-			 */
 
 			$_this->{$property_name} = $class_name::initRelatedByData(
 				$this_related_data,
@@ -743,7 +732,8 @@ trait DataModel_Trait_Load
 		if( $load_filter ) {
 			$fetch->setLoadFilter( $load_filter );
 		}
-
+		
+		/** @phpstan-ignore return.type */
 		return $fetch;
 	}
 

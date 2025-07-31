@@ -8,8 +8,6 @@
 
 namespace Jet;
 
-use JetApplication\Application;
-
 require_once 'Router/Interface.php';
 
 /**
@@ -300,9 +298,6 @@ class MVC_Router extends BaseObject implements MVC_Router_Interface
 
 		Debug_Profiler::blockStart( 'Seeking for page' );
 
-		/**
-		 * @var MVC_Page_Interface $page_class_name
-		 */
 		$page_class_name = Factory_MVC::getPageClassName();
 
 
@@ -601,7 +596,7 @@ class MVC_Router extends BaseObject implements MVC_Router_Interface
 			
 			if(IO_File::isReadable($path)) {
 				echo IO_File::read( $path );
-				Application::end();
+				die();
 			}
 			
 			$this->setIs404();

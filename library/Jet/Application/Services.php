@@ -13,6 +13,7 @@ namespace Jet;
  */
 abstract class Application_Services extends BaseObject
 {
+	public const GROUP = null;
 	protected static ?array $map = null;
 	/**
 	 * @var Application_Service_MetaInfo[]|null

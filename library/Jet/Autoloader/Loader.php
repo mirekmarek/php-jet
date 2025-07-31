@@ -8,11 +8,12 @@
 
 namespace Jet;
 
-/**
- *
- */
+/** @phpstan-consistent-constructor */
 abstract class Autoloader_Loader
 {
+	public function __construct()
+	{
+	}
 
 	/**
 	 * @return static

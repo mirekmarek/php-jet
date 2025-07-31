@@ -96,6 +96,7 @@ trait MVC_Page_Trait_Main
 		$key = $base_id . ':' . $locale . ':' . $page_id;
 
 		if( isset( static::$pages[$key] ) ) {
+			/** @phpstan-ignore return.type */
 			return static::$pages[$key];
 		}
 
@@ -170,9 +171,9 @@ trait MVC_Page_Trait_Main
 		}
 
 		static::$pages[$key] = $page;
-
-
-
+		
+		
+		/** @phpstan-ignore return.type */
 		return static::$pages[$key];
 	}
 	

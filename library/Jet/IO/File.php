@@ -249,6 +249,7 @@ class IO_File
 		static::$http_response_header = null;
 		$data = file_get_contents( $file_path );
 
+		/** @phpstan-ignore-next-line */
 		if( isset( $http_response_header ) ) {
 			static::$http_response_header = $http_response_header;
 

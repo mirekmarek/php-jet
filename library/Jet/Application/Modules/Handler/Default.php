@@ -275,7 +275,7 @@ class Application_Modules_Handler_Default extends Application_Modules_Handler
 		}
 
 		/**
-		 * @var Application_Modules_Exception $uninstall_exception
+		 * @var ?Application_Modules_Exception $uninstall_exception
 		 */
 		$uninstall_exception = null;
 

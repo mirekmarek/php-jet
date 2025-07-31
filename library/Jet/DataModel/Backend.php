@@ -19,7 +19,7 @@ abstract class DataModel_Backend extends BaseObject
 	public const TYPE_SQLITE = 'SQLite';
 	
 	/**
-	 * @var array[]
+	 * @var string[]
 	 */
 	protected static array $backend_types = [
 		self::TYPE_MYSQL,
@@ -412,8 +412,7 @@ abstract class DataModel_Backend extends BaseObject
 		if( $fetch_pairs ) {
 
 			/**
-			 * @var DataModel_Query_Select_Item $item
-			 * @var DataModel_Definition_Property $key_property
+			 * @var ?DataModel_Definition_Property $key_property
 			 */
 			$key_property = null;
 			$value_property = null;

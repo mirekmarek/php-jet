@@ -233,11 +233,11 @@ class Data_Paginator extends BaseObject implements BaseObject_Interface_Serializ
 
 	/**
 	 *
-	 * @return iterable
+	 * @return array|Data_Paginator_DataSource
 	 * @throws Data_Paginator_Exception
 	 *
 	 */
-	public function getData(): iterable
+	public function getData(): array|Data_Paginator_DataSource
 	{
 		if( $this->data === null ) {
 			throw new Data_Paginator_Exception(

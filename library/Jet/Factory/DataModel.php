@@ -137,10 +137,10 @@ class Factory_DataModel
 	 * @param string $type
 	 * @param string $class_name
 	 *
-	 * @return DataModel_Definition_Model|DataModel_Definition_Model_Related
+	 * @return DataModel_Definition_Model_Main|DataModel_Definition_Model_Related
 	 * @throws DataModel_Exception
 	 */
-	public static function getModelDefinitionInstance( string $type, string $class_name ) : DataModel_Definition_Model|DataModel_Definition_Model_Related
+	public static function getModelDefinitionInstance( string $type, string $class_name ) : DataModel_Definition_Model_Main|DataModel_Definition_Model_Related
 	{
 		$cn = static::getModelDefinitionClassName( $type );
 

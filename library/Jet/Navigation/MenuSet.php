@@ -8,9 +8,7 @@
 
 namespace Jet;
 
-/**
- *
- */
+/** @phpstan-consistent-constructor */
 class Navigation_MenuSet extends BaseObject
 {
 

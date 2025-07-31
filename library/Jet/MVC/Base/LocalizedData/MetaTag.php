@@ -55,7 +55,8 @@ class MVC_Base_LocalizedData_MetaTag extends BaseObject implements MVC_Base_Loca
 		$meta_tag->setLocalizedData( $localized_data );
 
 		$meta_tag->setData( $data );
-
+		
+		/** @phpstan-ignore return.type */
 		return $meta_tag;
 	}
 

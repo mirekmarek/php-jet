@@ -59,9 +59,6 @@ trait DataModel_Trait_Backend
 	 */
 	public function getBackendTransactionStartedByThisInstance(): bool
 	{
-		/**
-		 * @var DataModel $this
-		 */
 		$starter = static::getBackendInstance()->getTransactionStarter();
 		if( !$starter ) {
 			return false;

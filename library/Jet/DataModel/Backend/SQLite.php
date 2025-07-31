@@ -896,9 +896,6 @@ class DataModel_Backend_SQLite extends DataModel_Backend
 			 * @var DataModel_Query_Select_Item $val
 			 */
 			if( $val instanceof DataModel_Definition_Property ) {
-				/**
-				 * @var DataModel_Definition_Property $val
-				 */
 				$val = $this->_getColumnName( $val );
 			} else if( $val instanceof DataModel_Query_Select_Item ) {
 				$val = $val->getSelectAs();
@@ -948,9 +945,6 @@ class DataModel_Backend_SQLite extends DataModel_Backend
 			 * @var DataModel_Query_Having_Expression $qp
 			 */
 
-			/**
-			 * @var DataModel_Definition_Property $prop
-			 */
 			$item = $qp->getProperty()->getSelectAs();
 
 

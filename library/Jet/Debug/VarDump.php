@@ -11,7 +11,6 @@ namespace Jet;
 use Closure;
 
 require_once 'ErrorHandler/Error/BacktraceItem.php';
-require_once 'VarDump/BacktraceItem.php';
 
 
 class Debug_VarDump
@@ -20,7 +19,7 @@ class Debug_VarDump
 	protected mixed $var = [];
 	
 	/**
-	 * @var Debug_VarDump_BacktraceItem[]
+	 * @var Debug_ErrorHandler_Error_BacktraceItem[]
 	 */
 	protected array $backtrace = [];
 	
@@ -66,7 +65,7 @@ class Debug_VarDump
 	}
 	
 	/**
-	 * @return Debug_VarDump_BacktraceItem[]
+	 * @return Debug_ErrorHandler_Error_BacktraceItem[]
 	 */
 	public function getBacktrace(): array
 	{

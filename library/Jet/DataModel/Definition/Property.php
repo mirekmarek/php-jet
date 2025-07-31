@@ -284,6 +284,7 @@ abstract class DataModel_Definition_Property extends BaseObject
 		$p = $r->getProperty( $this->getName() );
 		
 		if(PHP_VERSION_ID >= 80400) {
+			/** @phpstan-ignore-next-line */
 			return $p->getRawValue( $i );
 		} else {
 			if(PHP_VERSION_ID<80100) {
@@ -341,6 +342,7 @@ abstract class DataModel_Definition_Property extends BaseObject
 		$p = $r->getProperty( $property_name );
 
 		if(PHP_VERSION_ID >= 80400) {
+			/** @phpstan-ignore-next-line */
 			$p->setRawValue( $obj, $value );
 		} else {
 			if(PHP_VERSION_ID<80100) {

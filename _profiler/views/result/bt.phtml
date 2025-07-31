@@ -6,7 +6,7 @@
  * @author Miroslav Marek <mirek.marek@web-jet.cz>
  */
 
-use Jet\Debug_Profiler_Run_BacktraceItem;
+use Jet\Debug_ErrorHandler_Error_BacktraceItem;
 use Jet\Debug_CodeHighlighter_PHP;
 use Jet\SysConf_Path;
 
@@ -38,7 +38,7 @@ function showCode( string $file, string|int $line ) : void {
 }
 
 /**
- * @var Debug_Profiler_Run_BacktraceItem[] $bt
+ * @var Debug_ErrorHandler_Error_BacktraceItem[] $bt
  */
 
 ?>

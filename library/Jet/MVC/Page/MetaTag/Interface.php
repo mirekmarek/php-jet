@@ -72,4 +72,9 @@ interface MVC_Page_MetaTag_Interface
 	 * @param string $content
 	 */
 	public function setContent( string $content ): void;
+	
+	/**
+	 * @return array
+	 */
+	public function toArray(): array;
 }

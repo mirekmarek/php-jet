@@ -280,7 +280,8 @@ trait MVC_Page_Trait_Initialization
 		unset( $data['id'] );
 
 		$page->setData( $data );
-
+		
+		/** @phpstan-ignore return.type */
 		return $page;
 	}
 
@@ -289,15 +290,8 @@ trait MVC_Page_Trait_Initialization
 	 */
 	protected function setData( array $data ): void
 	{
-		/**
-		 * @var MVC_Page $this
-		 */
-
 		if( isset( $data['meta_tags'] ) ) {
 
-			/**
-			 * @var MVC_Page_MetaTag_Interface $class_name
-			 */
 			$class_name = Factory_MVC::getPageMetaTagClassName();
 
 			foreach( $data['meta_tags'] as $m_dat ) {
@@ -308,9 +302,6 @@ trait MVC_Page_Trait_Initialization
 		}
 
 		if( isset( $data['contents'] ) ) {
-			/**
-			 * @var MVC_Page_Content_Interface $class_name
-			 */
 			$class_name = Factory_MVC::getPageContentClassName();
 
 			foreach( $data['contents'] as $c_dat ) {
@@ -321,9 +312,6 @@ trait MVC_Page_Trait_Initialization
 		}
 
 		if( !isset( $data['relative_path'] ) ) {
-			/**
-			 * @var MVC_Page $parent
-			 */
 			$parent = $this->getParent();
 			$parent_path = $parent ? $parent->getRelativePath() : '';
 

@@ -37,11 +37,7 @@ trait DataModel_Trait_Delete
 				) . '\', Id:\'' . $this->getIDController() . '\')', DataModel_Exception::CODE_NOTHING_TO_DELETE
 			);
 		}
-
-		/**
-		 * @var DataModel_Backend $backend
-		 * @var DataModel_Definition_Model $definition
-		 */
+		
 		$backend = static::getBackendInstance();
 		$definition = static::getDataModelDefinition();
 

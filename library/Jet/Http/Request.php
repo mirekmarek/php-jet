@@ -50,7 +50,7 @@ class Http_Request extends BaseObject
 
 
 	/**
-	 * @var ?string|null
+	 * @var ?string
 	 */
 	protected static ?string $raw_post_data = null;
 

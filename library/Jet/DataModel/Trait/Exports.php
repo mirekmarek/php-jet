@@ -31,7 +31,6 @@ trait DataModel_Trait_Exports
 	public function jsonSerialize(): array
 	{
 		/**
-		 * @var DataModel $this
 		 * @var DataModel_Definition_Model $definition
 		 */
 		$definition = static::getDataModelDefinition();

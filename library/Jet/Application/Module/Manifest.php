@@ -53,9 +53,9 @@ class Application_Module_Manifest extends BaseObject
 	protected bool $is_mandatory = false;
 
 	/**
-	 * @var callable
+	 * @var ?callable
 	 */
-	protected static $compatibility_checker;
+	protected static $compatibility_checker = null;
 
 	/**
 	 * @return callable

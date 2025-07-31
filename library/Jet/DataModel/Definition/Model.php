@@ -364,9 +364,9 @@ abstract class DataModel_Definition_Model extends BaseObject
 
 	/**
 	 *
-	 * @return string
+	 * @return string|DataModel
 	 */
-	public function getClassName(): string
+	public function getClassName(): string|DataModel
 	{
 		return $this->class_name;
 	}

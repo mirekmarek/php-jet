@@ -45,7 +45,6 @@ abstract class DataModel_Related_1toN extends DataModel_Related
 	{
 		/**
 		 * @var DataModel_Definition_Model_Related_1toN $definition
-		 * @var DataModel $this
 		 */
 		$definition = static::getDataModelDefinition();
 

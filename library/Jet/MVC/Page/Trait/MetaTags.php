@@ -15,7 +15,7 @@ trait MVC_Page_Trait_MetaTags
 {
 	/**
 	 *
-	 * @var MVC_Page_MetaTag[]
+	 * @var MVC_Page_MetaTag_Interface[]
 	 */
 	protected array $meta_tags = [];
 

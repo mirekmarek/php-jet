@@ -55,9 +55,9 @@ class DataModel_Definition_Property_DataModel extends DataModel_Definition_Prope
 
 	/**
 	 *
-	 * @return string
+	 * @return string|DataModel_Related
 	 */
-	public function getValueDataModelClass() : string
+	public function getValueDataModelClass() : string|DataModel_Related
 	{
 		return $this->data_model_class;
 	}

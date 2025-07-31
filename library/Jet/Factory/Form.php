@@ -278,10 +278,10 @@ class Factory_Form
 	
 	/**
 	 * @param string $type
-	 * @return string
+	 * @return string|Form_Field
 	 * @throws Form_Exception
 	 */
-	public static function getFieldClassName( string $type ): string
+	public static function getFieldClassName( string $type ): string|Form_Field
 	{
 		if( !isset( static::$field_class_names[$type] ) ) {
 			throw new Form_Exception(
@@ -331,7 +331,7 @@ class Factory_Form
 	}
 	
 	/**
-	 * @param array|string[] $field_class_names
+	 * @param string[] $field_class_names
 	 */
 	public static function setFieldClassNames( array $field_class_names ): void
 	{

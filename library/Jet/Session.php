@@ -19,9 +19,9 @@ class Session extends BaseObject
 	 */
 	protected static bool $session_started = false;
 	/**
-	 * @var callable
+	 * @var callable|null
 	 */
-	protected static $session_validator;
+	protected static $session_validator = null;
 	/**
 	 * @var string
 	 */

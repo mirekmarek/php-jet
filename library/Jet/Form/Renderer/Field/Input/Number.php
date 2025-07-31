@@ -42,7 +42,7 @@ class Form_Renderer_Field_Input_Number extends Form_Renderer_Field_Input
 		$this->_tag_attributes['value'] = $field->getValue();
 		
 		/**
-		 * @var Form_Field|Form_Field_Part_NumberRangeFloat_Interface|Form_Field_Part_NumberRangeInt_Interface $field
+		 * @var Form_Field_Float|Form_Field_Int $field
 		 */
 		
 		if( $field->getPlaceholder() ) {

@@ -43,6 +43,7 @@ trait Form_Field_Trait_Render
 	{
 		if(!$this->_renderer) {
 			/** @noinspection PhpFieldAssignmentTypeMismatchInspection */
+			/** @phpstan-ignore assign.propertyType */
 			$this->_renderer = Factory_Form::getRendererFieldInstance( $this, 'field' );
 		}
 		

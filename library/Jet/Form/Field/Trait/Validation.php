@@ -112,7 +112,6 @@ trait Form_Field_Trait_Validation
 	public function setError( string $code, array $data = [] ): void
 	{
 		/**
-		 * @var Form_Field $this
 		 * @var Form $form
 		 */
 		$form = $this->_form;
@@ -161,8 +160,8 @@ trait Form_Field_Trait_Validation
 	{
 		$this->is_valid = true;
 		$this->errors = [];
-		$this->last_error_code = false;
-		$this->last_error_message = false;
+		$this->last_error_code = '';
+		$this->last_error_message = '';
 	}
 
 	/**

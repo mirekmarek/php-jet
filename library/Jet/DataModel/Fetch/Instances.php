@@ -93,9 +93,6 @@ class DataModel_Fetch_Instances extends DataModel_Fetch
 			return;
 		}
 
-		/**
-		 * @var DataModel $class_name
-		 */
 		$class_name = $this->data_model_definition->getClassName();
 		$model_name = $this->data_model_definition->getModelName();
 

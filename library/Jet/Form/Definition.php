@@ -257,6 +257,7 @@ class Form_Definition extends BaseObject
 		$property = $ref->getProperty($this->getPropertyName());
 		
 		if(PHP_VERSION_ID >= 80400) {
+			/** @phpstan-ignore-next-line */
 			return $property->getRawValue( $this->context_object );
 		} else {
 			if(PHP_VERSION_ID<80100) {

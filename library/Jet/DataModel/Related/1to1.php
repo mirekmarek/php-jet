@@ -35,7 +35,6 @@ abstract class DataModel_Related_1to1 extends DataModel_Related
 	{
 		/**
 		 * @var DataModel_Definition_Model_Related_1to1 $definition
-		 * @var DataModel $this
 		 */
 		$definition = static::getDataModelDefinition();
 

@@ -8,9 +8,7 @@
 
 namespace Jet;
 
-/**
- *
- */
+/** @phpstan-consistent-constructor */
 class DataModel_Query extends BaseObject
 {
 	public const L_O_OR = 'OR';

@@ -12,9 +12,7 @@ use Throwable;
 
 require_once 'Error/BacktraceItem.php';
 
-/**
- *
- */
+/** @phpstan-consistent-constructor */
 class Debug_ErrorHandler_Error
 {
 	/**

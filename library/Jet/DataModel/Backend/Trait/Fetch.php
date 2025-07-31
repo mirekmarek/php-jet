@@ -61,7 +61,7 @@ trait DataModel_Backend_Trait_Fetch {
 	/**
 	 * @param DataModel_Query $query
 	 *
-	 * @return mixed
+	 * @return array
 	 */
 	public function fetchCol( DataModel_Query $query ): array
 	{

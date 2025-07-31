@@ -55,7 +55,7 @@ class MVC_Base_LocalizedData extends BaseObject implements MVC_Base_LocalizedDat
 
 	/**
 	 *
-	 * @var MVC_Base_LocalizedData_MetaTag[]
+	 * @var MVC_Base_LocalizedData_MetaTag_Interface[]
 	 */
 	protected array $default_meta_tags = [];
 	/**
@@ -69,18 +69,16 @@ class MVC_Base_LocalizedData extends BaseObject implements MVC_Base_LocalizedDat
 	 * @param Locale $locale
 	 * @param array $data
 	 *
-	 * @return static
+	 * @return MVC_Base_LocalizedData_Interface
 	 */
-	public static function _createByData( MVC_Base_Interface $base, Locale $locale, array $data ): static
+	public static function _createByData( MVC_Base_Interface $base, Locale $locale, array $data ): MVC_Base_LocalizedData_Interface
 	{
-		/**
-		 * @var MVC_Base_LocalizedData $ld
-		 */
 		$ld = Factory_MVC::getBaseLocalizedInstance();
 
 		$ld->setBase( $base );
 		$ld->setLocale( $locale );
-
+		
+		/** @phpstan-ignore method.notFound */
 		$ld->setData( $data );
 
 		return $ld;
@@ -237,7 +235,7 @@ class MVC_Base_LocalizedData extends BaseObject implements MVC_Base_LocalizedDat
 
 	/**
 	 *
-	 * @return MVC_Base_LocalizedData_MetaTag[]
+	 * @return MVC_Base_LocalizedData_MetaTag_Interface[]
 	 */
 	public function getDefaultMetaTags(): array
 	{

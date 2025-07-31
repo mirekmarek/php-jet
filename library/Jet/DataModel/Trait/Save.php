@@ -50,7 +50,6 @@ trait DataModel_Trait_Save
 	public static function updateData( array $data, array $where ): void
 	{
 		/**
-		 * @var DataModel $this
 		 * @var DataModel_Backend $backend
 		 */
 
@@ -75,7 +74,6 @@ trait DataModel_Trait_Save
 	{
 
 		/**
-		 * @var DataModel $this
 		 * @var DataModel_Definition_Model $definition
 		 */
 		$definition = static::getDataModelDefinition();
@@ -113,7 +111,6 @@ trait DataModel_Trait_Save
 	protected function _update(): void
 	{
 		/**
-		 * @var DataModel $this
 		 * @var DataModel_Definition_Model $definition
 		 */
 		$definition = static::getDataModelDefinition();
@@ -155,7 +152,6 @@ trait DataModel_Trait_Save
 	{
 
 		/**
-		 * @var DataModel $this
 		 * @var DataModel_Definition_Model $definition
 		 *
 		 */
