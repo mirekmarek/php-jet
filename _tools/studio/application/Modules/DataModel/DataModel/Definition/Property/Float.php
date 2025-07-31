@@ -20,15 +20,6 @@ use JetStudio\ClassCreator_Config;
 class DataModel_Definition_Property_Float extends Jet_DataModel_Definition_Property_Float implements DataModel_Definition_Property_Interface
 {
 	use DataModel_Definition_Property_Trait;
-
-	public float $test = 0 {
-		get {
-			return $this->test;
-		}
-		set( float $value ) {
-			$this->test = $value;
-		}
-	}
 	
 	/**
 	 * @param Form_Field[] &$fields

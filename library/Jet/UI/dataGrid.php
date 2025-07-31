@@ -14,7 +14,7 @@ namespace Jet;
 class UI_dataGrid extends UI_Renderer_Single
 {
 	/**
-	 * @var UI_dataGrid_column[]
+	 * @var array<string,UI_dataGrid_column>
 	 */
 	protected array $columns = [];
 
@@ -24,7 +24,7 @@ class UI_dataGrid extends UI_Renderer_Single
 	protected ?Data_Paginator $paginator = null;
 
 	/**
-	 * @var array
+	 * @var array<int,mixed>
 	 */
 	protected array $data = [];
 
@@ -79,7 +79,7 @@ class UI_dataGrid extends UI_Renderer_Single
 
 	/**
 	 *
-	 * @return UI_dataGrid_column[]
+	 * @return array<string,UI_dataGrid_column>
 	 */
 	public function getColumns(): array
 	{
@@ -109,9 +109,9 @@ class UI_dataGrid extends UI_Renderer_Single
 	}
 
 	/**
-	 * @return iterable
+	 * @return array<int,mixed>|Data_Paginator_DataSource
 	 */
-	public function getData(): iterable
+	public function getData(): mixed
 	{
 		if( $this->paginator ) {
 			return $this->paginator->getData();
@@ -121,16 +121,16 @@ class UI_dataGrid extends UI_Renderer_Single
 	}
 
 	/**
-	 * @param array|DataModel_Fetch_Instances $data
+	 * @param array<int,mixed>|Data_Paginator_DataSource $data
 	 */
-	public function setData( DataModel_Fetch_Instances|array $data ): void
+	public function setData( Data_Paginator_DataSource|array $data ): void
 	{
 		if( $this->paginator ) {
 			if( is_array( $data ) ) {
 				$this->paginator->setData( $data );
 			}
 
-			if( $data instanceof DataModel_Fetch_Instances ) {
+			if( $data instanceof Data_Paginator_DataSource ) {
 				$this->paginator->setDataSource( $data );
 			}
 

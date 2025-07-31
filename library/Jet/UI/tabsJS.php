@@ -32,7 +32,7 @@ class UI_tabsJS extends UI_Renderer_Pair
 
 	/**
 	 * @param string $id
-	 * @param array $tabs
+	 * @param array<string,string> $tabs
 	 * @param string|null $selected_tab_id
 	 */
 	public function __construct( string $id, array $tabs, ?string $selected_tab_id = null )

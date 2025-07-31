@@ -76,12 +76,12 @@ class Navigation_Menu_Item extends BaseObject
 	protected ?Locale $locale = null;
 
 	/**
-	 * @var array
+	 * @var string[]
 	 */
 	protected array $url_parts = [];
 
 	/**
-	 * @var array
+	 * @var array<string,string>
 	 */
 	protected array $get_params = [];
 	
@@ -112,7 +112,7 @@ class Navigation_Menu_Item extends BaseObject
 	
 
 	/**
-	 * @param array $data
+	 * @param array<string,string|int|float|bool> $data
 	 *
 	 * @throws Navigation_Menu_Exception
 	 */
@@ -348,7 +348,7 @@ class Navigation_Menu_Item extends BaseObject
 	}
 
 	/**
-	 * @return array
+	 * @return string[]
 	 */
 	public function getUrlParts(): array
 	{
@@ -356,7 +356,7 @@ class Navigation_Menu_Item extends BaseObject
 	}
 
 	/**
-	 * @param array $url_parts
+	 * @param string[] $url_parts
 	 */
 	public function setUrlParts( array $url_parts ): void
 	{
@@ -390,7 +390,7 @@ class Navigation_Menu_Item extends BaseObject
 	}
 
 	/**
-	 * @return array
+	 * @return array<string,string>
 	 */
 	public function getGetParams(): array
 	{
@@ -398,7 +398,7 @@ class Navigation_Menu_Item extends BaseObject
 	}
 
 	/**
-	 * @param array $get_params
+	 * @param array<string,string> $get_params
 	 */
 	public function setGetParams( array $get_params ): void
 	{

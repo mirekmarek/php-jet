@@ -114,7 +114,7 @@ class UI_tree extends UI_Renderer_Single
 	}
 
 	/**
-	 * @return array|bool
+	 * @return array<string>|bool
 	 */
 	protected function getSelectedPath(): array|bool
 	{

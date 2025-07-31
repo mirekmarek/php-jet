@@ -26,7 +26,7 @@ class UI_tabs extends UI_Renderer_Single
 
 
 	/**
-	 * @param array $tabs
+	 * @param array<string,string> $tabs
 	 * @param callable $tab_url_creator
 	 * @param string|null $selected_tab_id
 	 */

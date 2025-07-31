@@ -20,7 +20,7 @@ abstract class UI_Renderer extends BaseObject
 	protected string $id = '';
 	
 	/**
-	 * @var array
+	 * @var array<string,string>
 	 */
 	protected array $js_actions = [];
 	
@@ -30,28 +30,28 @@ abstract class UI_Renderer extends BaseObject
 	protected string $base_css_class = '';
 	
 	/**
-	 * @var array
+	 * @var string[]
 	 */
 	protected array $custom_css_classes = [];
 	
 	/**
-	 * @var array
+	 * @var string[]
 	 */
 	protected array $custom_css_styles = [];
 	
 	/**
-	 * @var array
+	 * @var array<string,string>
 	 */
 	protected array $data_attributes = [];
 	
 	/**
-	 * @var array
+	 * @var array<string,string>
 	 */
 	protected array $custom_tag_attributes = [];
 	
 	
 	/**
-	 * @var array
+	 * @var array<string,string>
 	 */
 	protected array $_tag_attributes = [];
 	
@@ -151,7 +151,7 @@ abstract class UI_Renderer extends BaseObject
 	
 	/**
 	 *
-	 * @return array
+	 * @return array<string,string>
 	 */
 	public function getJsActions(): array
 	{
@@ -186,7 +186,7 @@ abstract class UI_Renderer extends BaseObject
 	
 	/**
 	 *
-	 * @return array
+	 * @return string[]
 	 */
 	public function getBaseCssClasses(): array
 	{
@@ -199,7 +199,7 @@ abstract class UI_Renderer extends BaseObject
 	
 	/**
 	 *
-	 * @return array
+	 * @return string[]
 	 */
 	public function getCustomCssClasses(): array
 	{
@@ -210,7 +210,7 @@ abstract class UI_Renderer extends BaseObject
 	
 	/**
 	 *
-	 * @return array
+	 * @return string[]
 	 */
 	public function getCssClasses(): array
 	{
@@ -233,7 +233,7 @@ abstract class UI_Renderer extends BaseObject
 	}
 	
 	/**
-	 * @return array
+	 * @return string[]
 	 */
 	public function getCssStyles(): array
 	{
@@ -266,7 +266,7 @@ abstract class UI_Renderer extends BaseObject
 	}
 	
 	/**
-	 * @return array
+	 * @return array<string,string>
 	 */
 	public function getDataAttributes() : array
 	{
@@ -303,7 +303,7 @@ abstract class UI_Renderer extends BaseObject
 	}
 	
 	/**
-	 * @return array
+	 * @return array<string,string>
 	 */
 	public function getCustomTagAttributes(): array
 	{
@@ -367,7 +367,7 @@ abstract class UI_Renderer extends BaseObject
 	
 	
 	/**
-	 * @return array
+	 * @return array<string,string>
 	 */
 	public function generateTagAttributes() : array
 	{
