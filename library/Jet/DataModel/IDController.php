@@ -29,7 +29,7 @@ abstract class DataModel_IDController extends BaseObject
 	 * array key: ID property name
 	 * array value: ID value
 	 *
-	 * @var array<string,string|int>
+	 * @var array<string,string|int|null>
 	 */
 	protected array $values = [];
 

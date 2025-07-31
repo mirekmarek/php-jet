@@ -71,7 +71,7 @@ class Http_Headers
 
 	/**
 	 * @param int $code
-	 * @param array<string,string> $headers
+	 * @param array<string|int,string|array<string>> $headers
 	 * @param string $custom_response_message
 	 *
 	 */
@@ -250,6 +250,7 @@ class Http_Headers
 			$headers['Content-Transfer-Encoding'] = 'inline; filename="' . $file_name . '";';
 		}
 
+		/** @phpstan-ignore argument.type  */
 		static::response(static::CODE_200_OK, $headers);
 	}
 

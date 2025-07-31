@@ -34,19 +34,9 @@ class Mailing_Email_Template extends BaseObject
 	protected string $sender_id;
 
 	/**
-	 * @var array
+	 * @var array<string,string>
 	 */
 	protected array $data = [];
-
-	/**
-	 * @var array
-	 */
-	protected array $attachments = [];
-
-	/**
-	 * @var array
-	 */
-	protected array $images = [];
 
 	/**
 	 * @var string
