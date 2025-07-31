@@ -24,7 +24,7 @@ class DataModel_Query_Select_Item_Expression extends BaseObject
 
 	/**
 	 *
-	 * @var DataModel_Definition_Property[]
+	 * @var DataModel_Definition_Property[]|string[]
 	 */
 	protected array $properties = [];
 
@@ -47,7 +47,7 @@ class DataModel_Query_Select_Item_Expression extends BaseObject
 	}
 
 	/**
-	 * @param DataModel_Definition_Property[] $properties
+	 * @param DataModel_Definition_Property[]|string[] $properties
 	 */
 	public function setProperties( array $properties ): void
 	{
@@ -55,7 +55,7 @@ class DataModel_Query_Select_Item_Expression extends BaseObject
 	}
 
 	/**
-	 * @return DataModel_Definition_Property[]
+	 * @return DataModel_Definition_Property[]|string[]
 	 */
 	public function getProperties(): array
 	{

@@ -60,8 +60,9 @@ class Debug_ErrorHandler
 	 */
 	public static function initialize(): void
 	{
-		Debug::setOutputIsHTML( php_sapi_name() != 'cli' );
+		Debug::setOutputIsHTML( (php_sapi_name() != 'cli') );
 
+		/** @phpstan-ignore argument.type  */
 		set_error_handler( [
 			static::class,
 			'handleError'

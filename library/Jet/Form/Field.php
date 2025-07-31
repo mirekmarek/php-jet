@@ -373,11 +373,11 @@ abstract class Form_Field extends BaseObject implements JsonSerializable
 
 	/**
 	 *
-	 * @param string $required
+	 * @param bool $required
 	 */
-	public function setIsRequired( string $required ): void
+	public function setIsRequired( bool $required ): void
 	{
-		$this->is_required = (bool)$required;
+		$this->is_required = $required;
 	}
 	
 	/**

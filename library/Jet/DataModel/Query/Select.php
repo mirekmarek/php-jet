@@ -57,7 +57,11 @@ class DataModel_Query_Select extends BaseObject implements BaseObject_Interface_
 
 				$properties = [];
 				foreach( $val->getProperties() as $k => $p ) {
-					$properties[$k] = $query->getPropertyAndSetRelation( $p );
+					if(is_string($p)) {
+						$properties[$k] = $query->getPropertyAndSetRelation( $p );
+					} else {
+						$properties[$k] = $p;
+					}
 				}
 				$val->setProperties( $properties );
 
