@@ -55,7 +55,7 @@ trait DataModel_Trait_Load
 
 	/**
 	 * @param array<string,mixed> $this_data
-	 * @param array<string,mixed> $related_data
+	 * @param array<string,array<string,mixed>> $related_data
 	 * @param DataModel_PropertyFilter|null $load_filter
 	 *
 	 * @return static

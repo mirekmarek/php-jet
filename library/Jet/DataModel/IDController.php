@@ -36,7 +36,7 @@ abstract class DataModel_IDController extends BaseObject
 
 	/**
 	 * @param DataModel_Definition_Model $data_model_definition
-	 * @param array $options
+	 * @param array<string,mixed> $options
 	 */
 	public function __construct( DataModel_Definition_Model $data_model_definition, array $options )
 	{
@@ -100,7 +100,7 @@ abstract class DataModel_IDController extends BaseObject
 
 
 	/**
-	 * @param array $options
+	 * @param array<string,mixed> $options
 	 */
 	public function setOptions( array $options ): void
 	{

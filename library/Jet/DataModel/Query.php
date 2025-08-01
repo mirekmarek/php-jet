@@ -28,7 +28,7 @@ class DataModel_Query extends BaseObject
 	public const JOIN_TYPE_LEFT_OUTER_JOIN = 'LEFT_OUTER_JOIN';
 
 	/**
-	 * @var array
+	 * @var array<string>
 	 */
 	public const AVAILABLE_OPERATORS = [
 		self::O_NOT_EQUAL,
@@ -70,7 +70,7 @@ class DataModel_Query extends BaseObject
 
 	/**
 	 *
-	 * @var DataModel_Query_OrderBy|DataModel_Query_OrderBy_Item[]|null
+	 * @var DataModel_Query_OrderBy|array<DataModel_Query_OrderBy_Item>|null
 	 */
 	protected DataModel_Query_OrderBy|array|null $order_by = null;
 
@@ -100,9 +100,10 @@ class DataModel_Query extends BaseObject
 	/**
 	 *
 	 * @param DataModel_Definition_Model $main_data_model_definition
-	 * @param array $where
+	 * @param array<mixed> $where
 	 *
 	 * @return DataModel_Query
+	 * @noinspection PhpPluralMixedCanBeReplacedWithArrayInspection
 	 */
 	public static function createQuery( DataModel_Definition_Model $main_data_model_definition, array $where = [] ): DataModel_Query
 	{
@@ -222,7 +223,7 @@ class DataModel_Query extends BaseObject
 	}
 
 	/**
-	 * @return DataModel_Query_OrderBy|DataModel_Query_OrderBy_Item[]|null
+	 * @return DataModel_Query_OrderBy|array<DataModel_Query_OrderBy_Item>|null
 	 */
 	public function getOrderBy(): DataModel_Query_OrderBy|array|null
 	{

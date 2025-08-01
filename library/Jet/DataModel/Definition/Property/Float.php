@@ -19,7 +19,7 @@ class DataModel_Definition_Property_Float extends DataModel_Definition_Property
 	protected string $type = DataModel::TYPE_FLOAT;
 
 	/**
-	 * @param array $definition_data
+	 * @param array<string,mixed> $definition_data
 	 *
 	 * @throws DataModel_Exception
 	 */

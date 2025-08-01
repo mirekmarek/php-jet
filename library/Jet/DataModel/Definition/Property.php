@@ -91,7 +91,7 @@ abstract class DataModel_Definition_Property extends BaseObject
 	}
 
 	/**
-	 * @param array $definition_data
+	 * @param array<string,mixed> $definition_data
 	 *
 	 * @throws DataModel_Exception
 	 */

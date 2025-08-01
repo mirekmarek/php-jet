@@ -15,14 +15,14 @@ class DataModel_PropertyFilter extends BaseObject
 {
 
 	/**
-	 * @var array
+	 * @var array<string,list<string>>
 	 */
 	protected array $only_properties = [];
 
 	/**
 	 *
 	 * @param DataModel_Definition_Model $model_definition
-	 * @param array $only_properties
+	 * @param array<string> $only_properties
 	 *
 	 * @throws DataModel_Exception
 	 */
@@ -133,7 +133,7 @@ class DataModel_PropertyFilter extends BaseObject
 	/**
 	 * @param string $model_name
 	 *
-	 * @return array
+	 * @return array<string>
 	 */
 	public function getPropertyNames( string $model_name ): array
 	{
