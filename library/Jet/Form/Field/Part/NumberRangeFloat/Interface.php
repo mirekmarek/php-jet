@@ -22,7 +22,7 @@ interface Form_Field_Part_NumberRangeFloat_Interface
 	/**
 	 * @param ?float $min
 	 */
-	public function setMinValue( ?float $min );
+	public function setMinValue( ?float $min ) : void;
 	
 	/**
 	 * @return ?float

@@ -46,7 +46,7 @@ class Data_Text
 	 * replaces %PARAM1% for value 1 and %PARAM2% for value 2
 	 *
 	 * @param string $text
-	 * @param array<string,string> $data
+	 * @param array<string,mixed> $data
 	 *
 	 * @return string
 	 */

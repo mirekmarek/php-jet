@@ -25,7 +25,7 @@ class Debug_Profiler_Run_Block_Message
 	protected float $timestamp = 0.0;
 
 	/**
-	 * @var array
+	 * @var Debug_ErrorHandler_Error_BacktraceItem[]
 	 */
 	protected array $backtrace = [];
 
@@ -42,7 +42,7 @@ class Debug_Profiler_Run_Block_Message
 	}
 
 	/**
-	 * @return array
+	 * @return Debug_ErrorHandler_Error_BacktraceItem[]
 	 */
 	public function getBacktrace(): array
 	{

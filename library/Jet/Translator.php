@@ -155,7 +155,7 @@ class Translator extends BaseObject
 	 * Gets translation of given text
 	 *
 	 * @param string $text
-	 * @param array<string,string> $data (optional) - data that replace parts of text; input array('KEY1'=>'value1') replaces %KEY1% in text for value1
+	 * @param array<string,mixed> $data (optional) - data that replace parts of text; input array('KEY1'=>'value1') replaces %KEY1% in text for value1
 	 * @param string|null $dictionary (optional)
 	 * @param Locale|null $locale (optional) - target locale
 	 *

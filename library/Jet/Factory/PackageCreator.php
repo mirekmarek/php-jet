@@ -52,7 +52,7 @@ class Factory_PackageCreator
 
 	/**
 	 * @param string $media
-	 * @param array $URIs
+	 * @param array<string> $URIs
 	 *
 	 * @return PackageCreator_CSS
 	 */
@@ -63,7 +63,7 @@ class Factory_PackageCreator
 	}
 
 	/**
-	 * @param array $URIs
+	 * @param array<string> $URIs
 	 *
 	 * @return PackageCreator_JavaScript
 	 */

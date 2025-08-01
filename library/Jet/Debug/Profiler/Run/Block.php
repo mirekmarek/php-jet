@@ -305,7 +305,7 @@ class Debug_Profiler_Run_Block
 
 	/**
 	 * @param string $query
-	 * @param array $query_params
+	 * @param array<string,mixed> $query_params
 	 *
 	 * @return Debug_Profiler_Run_SQLQueryData
 	 */

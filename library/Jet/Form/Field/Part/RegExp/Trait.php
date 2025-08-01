@@ -24,7 +24,7 @@ trait Form_Field_Part_RegExp_Trait
 	
 	
 	/**
-	 * @return array
+	 * @return array<string>
 	 */
 	public function getRequiredErrorCodes(): array
 	{

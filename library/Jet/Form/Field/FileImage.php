@@ -54,7 +54,7 @@ class Form_Field_FileImage extends Form_Field implements Form_Field_Part_File_In
 	protected int|null $maximal_height = null;
 	
 	/**
-	 * @return array
+	 * @return array<string>
 	 */
 	public function getAllowedMimeTypes(): array
 	{

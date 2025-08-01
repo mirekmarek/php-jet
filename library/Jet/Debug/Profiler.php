@@ -104,7 +104,7 @@ class Debug_Profiler
 
 	/**
 	 * @param string $query
-	 * @param array $query_params
+	 * @param array<string,mixed> $query_params
 	 */
 	public static function SQLQueryStart( string $query, array $query_params = [] ): void
 	{

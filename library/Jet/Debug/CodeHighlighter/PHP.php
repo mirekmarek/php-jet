@@ -12,6 +12,9 @@ use PhpToken;
 
 class Debug_CodeHighlighter_PHP
 {
+	/**
+	 * @var array<string,string>
+	 */
 	protected array $replace_map = [
 		'<' => '&lt;',
 		'>' => '&gt;',
@@ -21,6 +24,9 @@ class Debug_CodeHighlighter_PHP
 	
 	protected string $css_class_prefix = 'dbg-code-hl-';
 	
+	/**
+	 * @var array<string|int,string>
+	 */
 	protected array $custom_css_class_to_token_map = [];
 	
 	public function getCssClassPrefix(): string
@@ -33,11 +39,18 @@ class Debug_CodeHighlighter_PHP
 		$this->css_class_prefix = $css_class_prefix;
 	}
 	
+	/**
+	 * @return array<string,string>
+	 */
 	public function getReplaceMap(): array
 	{
 		return $this->replace_map;
 	}
 	
+	/**
+	 * @param array<string,string> $replace_map
+	 * @return void
+	 */
 	public function setReplaceMap( array $replace_map ): void
 	{
 		$this->replace_map = $replace_map;
@@ -48,6 +61,9 @@ class Debug_CodeHighlighter_PHP
 		$this->custom_css_class_to_token_map[$token] = $css_class;
 	}
 	
+	/**
+	 * @return array<int|string,string>
+	 */
 	public function getCssClassToTokenMap() : array
 	{
 		$class_prefix = $this->css_class_prefix;
@@ -93,7 +109,7 @@ class Debug_CodeHighlighter_PHP
 	/**
 	 * @param string $source
 	 * @param bool $as_lines
-	 * @return string|array
+	 * @return string|array<string>
 	 */
 	public function highlight( string $source, bool $as_lines = false): string|array
 	{

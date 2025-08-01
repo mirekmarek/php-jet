@@ -17,7 +17,7 @@ class Debug_ErrorHandler_Error
 {
 	/**
 	 *
-	 * @var array
+	 * @var array<int,string>
 	 */
 	protected static array $PHP_errors_txt = [
 		E_ERROR             => 'PHP Error',
@@ -39,7 +39,7 @@ class Debug_ErrorHandler_Error
 	];
 	/**
 	 *
-	 * @var array
+	 * @var array<int>
 	 */
 	protected static array $PHP_fatal_errors = [
 		E_ERROR,
@@ -103,7 +103,7 @@ class Debug_ErrorHandler_Error
 	protected array $backtrace = [];
 
 	/**
-	 * @var array
+	 * @var array<string,mixed>
 	 */
 	protected array $context = [];
 
@@ -234,7 +234,7 @@ class Debug_ErrorHandler_Error
 
 	/**
 	 *
-	 * @param array $debug_backtrace
+	 * @param array<int,array<string,mixed>> $debug_backtrace
 	 *
 	 *
 	 */

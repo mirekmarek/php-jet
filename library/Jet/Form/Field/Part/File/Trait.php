@@ -15,7 +15,7 @@ trait Form_Field_Part_File_Trait
 {
 	
 	/**
-	 * @var array
+	 * @var array<string>
 	 */
 	#[Form_Definition_FieldOption(
 		type: Form_Definition_FieldOption::TYPE_ARRAY,
@@ -80,7 +80,7 @@ trait Form_Field_Part_File_Trait
 	}
 	
 	/**
-	 * @return array
+	 * @return array<string>
 	 */
 	public function getAllowedMimeTypes(): array
 	{
@@ -88,7 +88,7 @@ trait Form_Field_Part_File_Trait
 	}
 	
 	/**
-	 * @param array $allowed_mime_types
+	 * @param array<string> $allowed_mime_types
 	 */
 	public function setAllowedMimeTypes( array $allowed_mime_types ): void
 	{
@@ -364,7 +364,7 @@ trait Form_Field_Part_File_Trait
 	}
 	
 	/**
-	 * @return array
+	 * @return array<string>
 	 */
 	public function getRequiredErrorCodes(): array
 	{

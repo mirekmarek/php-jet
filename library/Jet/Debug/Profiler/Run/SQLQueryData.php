@@ -25,7 +25,7 @@ class Debug_Profiler_Run_SQLQueryData
 	protected string $query = '';
 
 	/**
-	 * @var array
+	 * @var array<string,mixed>
 	 */
 	protected array $query_params = [];
 
@@ -73,7 +73,7 @@ class Debug_Profiler_Run_SQLQueryData
 	/**
 	 * @param string $block_id
 	 * @param string $query
-	 * @param array $query_params
+	 * @param array<string,mixed> $query_params
 	 */
 	public function __construct( string $block_id, string $query, array $query_params )
 	{
@@ -158,7 +158,7 @@ class Debug_Profiler_Run_SQLQueryData
 	}
 
 	/**
-	 * @return array
+	 * @return array<string,mixed>
 	 */
 	public function getQueryParams(): array
 	{

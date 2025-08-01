@@ -13,6 +13,9 @@ namespace Jet;
  */
 class Factory_Config
 {
+	/**
+	 * @var array<string,string>
+	 */
 	protected static array $property_definition_class_names = [
 		Config::TYPE_STRING   => Config_Definition_Property_String::class,
 		Config::TYPE_BOOL     => Config_Definition_Property_Bool::class,

@@ -55,7 +55,7 @@ class Form_Definition extends BaseObject
 	
 	
 	/**
-	 * @var array
+	 * @var array<string,mixed>
 	 */
 	protected array $other_options = [];
 	
@@ -73,6 +73,12 @@ class Form_Definition extends BaseObject
 	{
 	}
 	
+	/**
+	 * @param object $context_object
+	 * @param string $property_name
+	 * @param array<string,mixed> $definition_data
+	 * @return void
+	 */
 	protected function init( object $context_object, string $property_name, array $definition_data ) : void
 	{
 		$this->context_object = $context_object;
@@ -181,7 +187,7 @@ class Form_Definition extends BaseObject
 	}
 	
 	/**
-	 * @param null|callable|array $creator
+	 * @param null|callable|array<int,string> $creator
 	 */
 	public function setCreator( null|callable|array $creator ): void
 	{

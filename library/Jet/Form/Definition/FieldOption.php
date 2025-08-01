@@ -41,7 +41,7 @@ class Form_Definition_FieldOption extends BaseObject
 	/**
 	 * @param string $field_class
 	 * @param string $name
-	 * @param array $definition
+	 * @param array<string,mixed> $definition
 	 */
 	public function setup( string $field_class, string $name, array $definition ) : void
 	{

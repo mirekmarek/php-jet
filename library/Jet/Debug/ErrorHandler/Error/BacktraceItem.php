@@ -34,7 +34,7 @@ class Debug_ErrorHandler_Error_BacktraceItem
 	 */
 	protected string $function = '';
 	/**
-	 * @var array
+	 * @var array<string,mixed>
 	 */
 	protected array $args = [];
 	/**
@@ -45,7 +45,7 @@ class Debug_ErrorHandler_Error_BacktraceItem
 
 	/**
 	 *
-	 * @param array $d
+	 * @param array<string,mixed> $d
 	 */
 	public function __construct( array $d )
 	{
@@ -121,7 +121,7 @@ class Debug_ErrorHandler_Error_BacktraceItem
 	}
 
 	/**
-	 * @return array
+	 * @return array<string,mixed>
 	 */
 	public function getArgs(): array
 	{

@@ -26,7 +26,7 @@ class Form_Field_Textarea extends Form_Field
 	];
 
 	/**
-	 * @return array
+	 * @return array<string>
 	 */
 	public function getRequiredErrorCodes(): array
 	{

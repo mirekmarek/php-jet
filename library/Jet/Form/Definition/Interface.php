@@ -19,8 +19,8 @@ interface Form_Definition_Interface
 	/**
 	 *
 	 * @param string $form_name
-	 * @param array $only_fields=[]
-	 * @param array $exclude_fields=[]
+	 * @param array<string> $only_fields=[]
+	 * @param array<string> $exclude_fields=[]
 	 *
 	 * @return Form
 	 * @throws Form_Definition_Exception

@@ -289,7 +289,7 @@ class Debug_Profiler_Run
 
 	/**
 	 * @param string $query
-	 * @param array $query_params
+	 * @param array<string,mixed> $query_params
 	 */
 	public function SQLQueryStart( string $query, array $query_params ): void
 	{

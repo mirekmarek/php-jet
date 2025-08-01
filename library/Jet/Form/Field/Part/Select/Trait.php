@@ -28,7 +28,7 @@ trait Form_Field_Part_Select_Trait
 	protected $select_options_creator = null;
 	
 	/**
-	 * @var ?array
+	 * @var ?array<Form_Field_Select_Option_Interface>
 	 */
 	#[Form_Definition_FieldOption(
 		type: Form_Definition_FieldOption::TYPE_ASSOC_ARRAY,
@@ -97,7 +97,7 @@ trait Form_Field_Part_Select_Trait
 	
 	
 	/**
-	 * @return array
+	 * @return array<string>
 	 */
 	public function getRequiredErrorCodes(): array
 	{

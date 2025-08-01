@@ -14,6 +14,9 @@ namespace Jet;
 class Factory_Form
 {
 	
+	/**
+	 * @var array<string,string>
+	 */
 	protected static array $field_class_names = [
 		Form_Field::TYPE_HIDDEN       => Form_Field_Hidden::class,
 		Form_Field::TYPE_CSRF_PROTECTION => Form_Field_CSRFProtection::class,
@@ -42,6 +45,9 @@ class Factory_Form
 		Form_Field::TYPE_FILE_IMAGE   => Form_Field_FileImage::class,
 	];
 	
+	/**
+	 * @var array<string,array<string,string>>
+	 */
 	protected static array $field_renderer_class_names = [
 		Form_Field::TYPE_HIDDEN       => [
 			'field'     => Form_Renderer_Field::class,
@@ -323,7 +329,7 @@ class Factory_Form
 	}
 	
 	/**
-	 * @return array
+	 * @return array<string,string>
 	 */
 	public static function getFieldClassNames(): array
 	{
@@ -331,7 +337,7 @@ class Factory_Form
 	}
 	
 	/**
-	 * @param string[] $field_class_names
+	 * @param array<string,string> $field_class_names
 	 */
 	public static function setFieldClassNames( array $field_class_names ): void
 	{
@@ -439,7 +445,7 @@ class Factory_Form
 	/**
 	 * @param string $field_type
 	 * @param string $field_class_name
-	 * @param array $renderers
+	 * @param array<string,string> $renderers
 	 */
 	public static function registerNewFieldType( string $field_type, string $field_class_name, array $renderers = [] ) : void
 	{
@@ -465,7 +471,7 @@ class Factory_Form
 	}
 	
 	/**
-	 * @return array
+	 * @return array<string>
 	 */
 	public static function getRegisteredFieldTypes() : array
 	{

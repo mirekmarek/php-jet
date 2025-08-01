@@ -25,9 +25,9 @@ class Debug_VarDump
 	
 	protected string $caption = '';
 	
-
-	
-	
+	/**
+	 * @var static[]
+	 */
 	public static array $var_dumps = [];
 	
 	public static bool $displayer_registered = false;
@@ -82,6 +82,9 @@ class Debug_VarDump
 		self::$displayer = $displayer;
 	}
 	
+	/**
+	 * @return static[]
+	 */
 	public static function getVarDumps(): array
 	{
 		return self::$var_dumps;

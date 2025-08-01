@@ -59,7 +59,7 @@ class Factory_Db
 
 	/**
 	 *
-	 * @param array $config_data
+	 * @param array<string,mixed> $config_data
 	 *
 	 * @return Db_Backend_Config
 	 */

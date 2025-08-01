@@ -15,6 +15,9 @@ class Form_Field_File_UploadedFile extends BaseObject
 	
 	protected string $tmp_file_path = '';
 	
+	/**
+	 * @var array<string,string>
+	 */
 	protected array $errors = [];
 	
 	/**
@@ -62,7 +65,7 @@ class Form_Field_File_UploadedFile extends BaseObject
 	}
 	
 	/**
-	 * @return array
+	 * @return array<string,string>
 	 */
 	public function getErrors(): array
 	{

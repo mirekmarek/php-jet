@@ -31,7 +31,7 @@ class Debug_ErrorHandler
 	protected static Debug_ErrorHandler_Error|null $last_error = null;
 
 	/**
-	 * @var array
+	 * @var array<string>
 	 */
 	protected static array $ignore_non_fatal_errors_paths = [
 		'/' . __NAMESPACE__ . '/IO/'
@@ -48,7 +48,7 @@ class Debug_ErrorHandler
 	}
 
 	/**
-	 * @return array
+	 * @return array<string>
 	 */
 	public static function getIgnoreNonFatalErrorsPaths(): array
 	{

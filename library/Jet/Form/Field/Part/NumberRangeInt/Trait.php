@@ -134,7 +134,7 @@ trait Form_Field_Part_NumberRangeInt_Trait
 	}
 	
 	/**
-	 * @return array
+	 * @return array<string>
 	 */
 	public function getRequiredErrorCodes(): array
 	{

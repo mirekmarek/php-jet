@@ -157,7 +157,7 @@ trait Form_Field_Part_NumberRangeFloat_Trait
 	}
 	
 	/**
-	 * @return array
+	 * @return array<string>
 	 */
 	public function getRequiredErrorCodes(): array
 	{

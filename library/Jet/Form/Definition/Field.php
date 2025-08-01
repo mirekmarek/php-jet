@@ -33,20 +33,20 @@ class Form_Definition_Field extends Form_Definition
 	
 	/**
 	 *
-	 * @var array
+	 * @var array<string,mixed>
 	 */
 	protected array $help_data = [];
 	
 	/**
 	 *
-	 * @var array
+	 * @var array<string,string>
 	 */
 	protected array $error_messages = [];
 	
 	/**
 	 * @param object $context_object
 	 * @param string $property_name
-	 * @param array $definition_data
+	 * @param array<string,mixed> $definition_data
 	 */
 	public function __construct( object $context_object, string $property_name, array $definition_data )
 	{
@@ -124,7 +124,7 @@ class Form_Definition_Field extends Form_Definition
 	}
 	
 	/**
-	 * @return array
+	 * @return array<string,mixed>
 	 */
 	public function getHelpData(): array
 	{
@@ -132,7 +132,7 @@ class Form_Definition_Field extends Form_Definition
 	}
 	
 	/**
-	 * @param array $help_data
+	 * @param array<string,mixed> $help_data
 	 */
 	public function setHelpData( array $help_data ): void
 	{
@@ -142,7 +142,7 @@ class Form_Definition_Field extends Form_Definition
 	
 	
 	/**
-	 * @return array
+	 * @return array<string,string>
 	 */
 	public function getErrorMessages(): array
 	{
@@ -150,7 +150,7 @@ class Form_Definition_Field extends Form_Definition
 	}
 	
 	/**
-	 * @param array $messages
+	 * @param array<string,string> $messages
 	 *
 	 */
 	public function setErrorMessages( array $messages ): void
@@ -159,7 +159,8 @@ class Form_Definition_Field extends Form_Definition
 	}
 	
 	/**
-	 *
+	 * @param array<Form_Field> &$form_fields
+	 * @return void
 	 */
 	public function createFormField( array &$form_fields ): void
 	{
@@ -183,6 +184,9 @@ class Form_Definition_Field extends Form_Definition
 		$field->setFieldValueCatcher($this->createCatcher());
 		
 		if(($creator=$this->getCreator())) {
+			/**
+			 * @var Form_Field $field
+			 */
 			$field = $creator( $field );
 		}
 		

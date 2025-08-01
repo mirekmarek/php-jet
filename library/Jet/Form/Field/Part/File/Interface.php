@@ -25,12 +25,12 @@ interface Form_Field_Part_File_Interface
 	public function setMaximalFileSize( int|null $maximal_file_size ): void;
 	
 	/**
-	 * @return array
+	 * @return array<string>
 	 */
 	public function getAllowedMimeTypes(): array;
 	
 	/**
-	 * @param array $allowed_mime_types
+	 * @param array<string> $allowed_mime_types
 	 */
 	public function setAllowedMimeTypes( array $allowed_mime_types ): void;
 	

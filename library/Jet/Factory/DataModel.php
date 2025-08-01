@@ -13,27 +13,39 @@ namespace Jet;
  */
 class Factory_DataModel
 {
-
+	
+	/**
+	 * @var array<string,string>
+	 */
 	protected static array $backend_class_names = [
 		DataModel_Backend::TYPE_MYSQL  => DataModel_Backend_MySQL::class,
 		DataModel_Backend::TYPE_SQLITE => DataModel_Backend_SQLite::class,
 		DataModel_Backend::TYPE_PGSQL  => DataModel_Backend_PgSQL::class,
 		DataModel_Backend::TYPE_MSSQL  => DataModel_Backend_MSSQL::class,
 	];
-
+	
+	/**
+	 * @var array<string,string>
+	 */
 	protected static array $backend_config_class_names = [
 		DataModel_Backend::TYPE_MYSQL  => DataModel_Backend_MySQL_Config::class,
 		DataModel_Backend::TYPE_SQLITE => DataModel_Backend_SQLite_Config::class,
 		DataModel_Backend::TYPE_PGSQL  => DataModel_Backend_PgSQL_Config::class,
 		DataModel_Backend::TYPE_MSSQL  => DataModel_Backend_MSSQL_Config::class,
 	];
-
+	
+	/**
+	 * @var array<string,string>
+	 */
 	protected static array $model_definition_class_names = [
 		DataModel::MODEL_TYPE_MAIN         => DataModel_Definition_Model_Main::class,
 		DataModel::MODEL_TYPE_RELATED_1TO1 => DataModel_Definition_Model_Related_1to1::class,
 		DataModel::MODEL_TYPE_RELATED_1TON => DataModel_Definition_Model_Related_1toN::class,
 	];
-
+	
+	/**
+	 * @var array<string,string>
+	 */
 	protected static array $property_definition_class_names = [
 		DataModel::TYPE_ID               => DataModel_Definition_Property_Id::class,
 		DataModel::TYPE_ID_AUTOINCREMENT => DataModel_Definition_Property_IdAutoIncrement::class,
@@ -79,7 +91,7 @@ class Factory_DataModel
 	 *
 	 * @param string $data_model_class_name
 	 * @param string $name
-	 * @param array $definition_data
+	 * @param array<string,mixed> $definition_data
 	 *
 	 * @return DataModel_Definition_Property
 	 * @throws DataModel_Exception
@@ -176,7 +188,7 @@ class Factory_DataModel
 	/**
 	 *
 	 * @param string $type
-	 * @param array $data
+	 * @param array<string,mixed> $data
 	 *
 	 * @return DataModel_Backend_Config
 	 */
