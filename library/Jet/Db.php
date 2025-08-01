@@ -85,7 +85,7 @@ class Db extends BaseObject
 
 	/**
 	 * @param string $connection_name
-	 * @param array $connection_config_data
+	 * @param array<string,mixed> $connection_config_data
 	 *
 	 * @return Db_Backend_Interface
 	 */

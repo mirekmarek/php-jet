@@ -29,7 +29,7 @@ class Db_Backend_PDO_Config extends Db_Backend_Config
 	protected string $dsn = '';
 	
 	/**
-	 * @return array
+	 * @return array<string,string>
 	 */
 	public static function getDrivers(): array
 	{

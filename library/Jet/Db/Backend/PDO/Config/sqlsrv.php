@@ -10,8 +10,10 @@ namespace Jet;
 
 trait Db_Backend_PDO_Config_sqlsrv
 {
-
 	
+	/**
+	 * @return array<string,string|int|bool>
+	 */
 	protected function sqlsrv_getDnsEntries(): array
 	{
 		
@@ -23,6 +25,9 @@ trait Db_Backend_PDO_Config_sqlsrv
 		];
 	}
 	
+	/**
+	 * @return array<string,string|int|bool>
+	 */
 	protected function sqlsrv_getEntriesSchema(): array
 	{
 		return [

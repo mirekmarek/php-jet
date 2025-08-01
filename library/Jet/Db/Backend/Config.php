@@ -133,7 +133,7 @@ abstract class Db_Backend_Config extends Config_Section
 	
 	
 	/**
-	 * @return array
+	 * @return array<string,string>
 	 */
 	public static function getDrivers(): array
 	{
@@ -259,7 +259,7 @@ abstract class Db_Backend_Config extends Config_Section
 
 	
 	/**
-	 * @return array
+	 * @return array<string,string>
 	 */
 	public function toArray(): array
 	{
@@ -291,7 +291,7 @@ abstract class Db_Backend_Config extends Config_Section
 	}
 	
 	/**
-	 * @return array
+	 * @return array<string,string>
 	 */
 	public function getEntriesSchema() : array
 	{
@@ -306,8 +306,8 @@ abstract class Db_Backend_Config extends Config_Section
 	
 	/**
 	 * @param string $form_name
-	 * @param array $only_fields
-	 * @param array $exclude_fields
+	 * @param array<string> $only_fields
+	 * @param array<string> $exclude_fields
 	 * @return Form
 	 * @throws Form_Definition_Exception
 	 */

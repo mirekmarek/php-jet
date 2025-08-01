@@ -26,6 +26,9 @@ trait Db_Backend_PDO_Config_pgsql
 	protected string $ssl_mode = '';
 	
 	
+	/**
+	 * @return array<string,string|int|bool>
+	 */
 	protected function pgsql_getDnsEntries(): array
 	{
 		$rec = [
@@ -43,6 +46,9 @@ trait Db_Backend_PDO_Config_pgsql
 		return $rec;
 	}
 	
+	/**
+	 * @return array<string,string|int|bool>
+	 */
 	protected function pgsql_getEntriesSchema(): array
 	{
 		return [

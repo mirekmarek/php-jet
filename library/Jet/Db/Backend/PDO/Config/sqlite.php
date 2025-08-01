@@ -40,13 +40,19 @@ trait Db_Backend_PDO_Config_sqlite {
 	{
 		$this->path = $path;
 	}
-
 	
+	
+	/**
+	 * @return array<string>
+	 */
 	protected function sqlite_getDnsEntries() : array
 	{
 		return [$this->path];
 	}
 	
+	/**
+	 * @return array<string,string|int|bool>
+	 */
 	protected function sqlite_getEntriesSchema() : array
 	{
 		return ['path'=>SysConf_Path::getData() . uniqid().'.sq3'];

@@ -74,6 +74,9 @@ trait Db_Backend_PDO_Config_mysql
 	}
 	
 	
+	/**
+	 * @return array<string,string|int|bool>
+	 */
 	protected function mysql_getDnsEntries(): array
 	{
 		if( $this->unix_socket ) {
@@ -92,6 +95,9 @@ trait Db_Backend_PDO_Config_mysql
 		];
 	}
 	
+	/**
+	 * @return array<string,string|int|bool>
+	 */
 	protected function mysql_getEntriesSchema(): array
 	{
 		return [

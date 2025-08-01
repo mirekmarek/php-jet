@@ -11,6 +11,9 @@ namespace Jet;
 trait Db_Backend_PDO_Config_another
 {
 	
+	/**
+	 * @return array<string,string|int|bool>
+	 */
 	protected function another_getEntriesSchema(): array
 	{
 		return [

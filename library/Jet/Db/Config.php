@@ -56,7 +56,7 @@ class Db_Config extends Config
 	 *
 	 * @param string $driver_type_filter (optional)
 	 *
-	 * @return array
+	 * @return array<string,string>
 	 */
 	public static function getConnectionsList( string $driver_type_filter = '' ): array
 	{
@@ -140,7 +140,7 @@ class Db_Config extends Config
 	}
 
 	/**
-	 * @param array $data
+	 * @param array<string,mixed> $data
 	 *
 	 * @return Db_Backend_Config
 	 */
