@@ -21,7 +21,7 @@ class Form_Field_CSRFProtection extends Form_Field
 	protected ?Session $session = null;
 	
 	/**
-	 * @return array
+	 * @return array<string>
 	 */
 	public function getRequiredErrorCodes(): array
 	{

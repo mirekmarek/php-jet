@@ -49,7 +49,7 @@ class MVC_Base_LocalizedData extends BaseObject implements MVC_Base_LocalizedDat
 
 	/**
 	 *
-	 * @var array
+	 * @var array<string>
 	 */
 	protected array $URLs = [];
 
@@ -60,14 +60,14 @@ class MVC_Base_LocalizedData extends BaseObject implements MVC_Base_LocalizedDat
 	protected array $default_meta_tags = [];
 	/**
 	 *
-	 * @var array
+	 * @var array<string,mixed>
 	 */
 	protected array $parameters = [];
 
 	/**
 	 * @param MVC_Base_Interface $base
 	 * @param Locale $locale
-	 * @param array $data
+	 * @param array<string,mixed> $data
 	 *
 	 * @return MVC_Base_LocalizedData_Interface
 	 */
@@ -85,7 +85,7 @@ class MVC_Base_LocalizedData extends BaseObject implements MVC_Base_LocalizedDat
 	}
 
 	/**
-	 * @param array $data
+	 * @param array<string,mixed> $data
 	 */
 	protected function setData( array $data ): void
 	{
@@ -180,7 +180,7 @@ class MVC_Base_LocalizedData extends BaseObject implements MVC_Base_LocalizedDat
 	}
 
 	/**
-	 * @return array
+	 * @return array<string>
 	 */
 	public function getURLs(): array
 	{
@@ -188,7 +188,7 @@ class MVC_Base_LocalizedData extends BaseObject implements MVC_Base_LocalizedDat
 	}
 
 	/**
-	 * @param array $URLs
+	 * @param array<string> $URLs
 	 */
 	public function setURLs( array $URLs ): void
 	{
@@ -274,7 +274,7 @@ class MVC_Base_LocalizedData extends BaseObject implements MVC_Base_LocalizedDat
 	}
 
 	/**
-	 * @return array
+	 * @return array<string,mixed>
 	 */
 	public function getParameters(): array
 	{
@@ -282,7 +282,7 @@ class MVC_Base_LocalizedData extends BaseObject implements MVC_Base_LocalizedDat
 	}
 
 	/**
-	 * @param array $parameters
+	 * @param array<string,mixed> $parameters
 	 */
 	public function setParameters( array $parameters ): void
 	{
@@ -325,7 +325,7 @@ class MVC_Base_LocalizedData extends BaseObject implements MVC_Base_LocalizedDat
 
 
 	/**
-	 * @return array
+	 * @return array<string,mixed>
 	 */
 	public function toArray(): array
 	{

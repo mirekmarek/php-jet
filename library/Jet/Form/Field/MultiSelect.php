@@ -21,7 +21,7 @@ class Form_Field_MultiSelect extends Form_Field implements Form_Field_Part_Selec
 	protected string $_type = Form_Field::TYPE_MULTI_SELECT;
 
 	/**
-	 * @var array
+	 * @var array<string,string>
 	 */
 	protected array $error_messages = [
 		Form_Field::ERROR_CODE_EMPTY         => 'Please enter a value',

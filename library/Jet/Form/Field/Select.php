@@ -21,7 +21,7 @@ class Form_Field_Select extends Form_Field implements Form_Field_Part_Select_Int
 	protected string $_type = Form_Field::TYPE_SELECT;
 	
 	/**
-	 * @var array
+	 * @var array<string,string>
 	 */
 	protected array $error_messages = [
 		Form_Field::ERROR_CODE_EMPTY        => 'Please enter a value',

@@ -53,7 +53,7 @@ class Form_Field_Checkbox extends Form_Field
 
 
 	/**
-	 * @return array
+	 * @return array<string>
 	 */
 	public function getRequiredErrorCodes(): array
 	{

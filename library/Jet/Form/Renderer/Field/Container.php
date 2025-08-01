@@ -38,7 +38,7 @@ class Form_Renderer_Field_Container extends Form_Renderer_Pair
 	}
 	
 	/**
-	 * @return array|null
+	 * @return array<string,int>|null
 	 */
 	public function getWidth(): array|null
 	{

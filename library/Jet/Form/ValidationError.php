@@ -80,7 +80,7 @@ class Form_ValidationError extends BaseObject implements BaseObject_Interface_Se
 	}
 	
 	/**
-	 * @return array
+	 * @return array<string,string>
 	 */
 	public function jsonSerialize() : array
 	{

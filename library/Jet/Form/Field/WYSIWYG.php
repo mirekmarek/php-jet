@@ -20,7 +20,7 @@ class Form_Field_WYSIWYG extends Form_Field
 	protected string $_type = Form_Field::TYPE_WYSIWYG;
 	
 	/**
-	 * @var array
+	 * @var array<string,string>
 	 */
 	protected array $error_messages = [
 		Form_Field::ERROR_CODE_EMPTY        => 'Please enter a value',
@@ -63,7 +63,7 @@ class Form_Field_WYSIWYG extends Form_Field
 	
 
 	/**
-	 * @return array
+	 * @return array<string>
 	 */
 	public function getRequiredErrorCodes(): array
 	{

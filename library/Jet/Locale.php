@@ -317,7 +317,7 @@ class Locale extends BaseObject
 	protected int $_calendar = 0;
 
 	/**
-	 * @var array
+	 * @var array<string,PHP_NumberFormatter>
 	 */
 	protected array $_currency_formatter = [];
 

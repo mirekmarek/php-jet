@@ -15,17 +15,17 @@ class Form_Renderer_Field_Input_WYSIWYG extends Form_Renderer_Field_Input_Textar
 {
 	
 	/**
-	 * @var array
+	 * @var array<string,array<string>>
 	 */
 	protected array $editor_CSS_files = [];
 	
 	/**
-	 * @var array
+	 * @var array<string>
 	 */
 	protected array $editor_JavaScript_files = [];
 	
 	/**
-	 * @var array|null
+	 * @var array<string,mixed>|null
 	 */
 	protected array|null $editor_config = null;
 	
@@ -49,7 +49,7 @@ class Form_Renderer_Field_Input_WYSIWYG extends Form_Renderer_Field_Input_Textar
 	}
 	
 	/**
-	 * @return array
+	 * @return array<string,array<string>>
 	 */
 	public function getEditorCSSFiles(): array
 	{
@@ -65,7 +65,7 @@ class Form_Renderer_Field_Input_WYSIWYG extends Form_Renderer_Field_Input_Textar
 	}
 	
 	/**
-	 * @return array
+	 * @return array<string>
 	 */
 	public function getEditorJavaScriptFiles(): array
 	{
@@ -73,7 +73,7 @@ class Form_Renderer_Field_Input_WYSIWYG extends Form_Renderer_Field_Input_Textar
 	}
 	
 	/**
-	 * @param array $editor_config
+	 * @param array<string,mixed> $editor_config
 	 */
 	public function setEditorConfig( array $editor_config ): void
 	{
@@ -81,7 +81,7 @@ class Form_Renderer_Field_Input_WYSIWYG extends Form_Renderer_Field_Input_Textar
 	}
 	
 	/**
-	 * @return array|null
+	 * @return array<string,mixed>|null
 	 */
 	public function getEditorConfig(): array|null
 	{

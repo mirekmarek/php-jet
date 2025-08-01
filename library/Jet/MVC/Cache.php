@@ -51,7 +51,7 @@ class MVC_Cache
 	}
 
 	/**
-	 * @return array|null
+	 * @return array<string,array<string,string|string[]>>|null
 	 */
 	public static function loadBaseMaps(): array|null
 	{
@@ -60,7 +60,7 @@ class MVC_Cache
 	}
 
 	/**
-	 * @param array $map
+	 * @param array<string,array<string,string|string[]>> $map
 	 */
 	public static function saveBaseMaps( array $map ): void
 	{
@@ -71,7 +71,7 @@ class MVC_Cache
 	 * @param MVC_Base_Interface $base
 	 * @param Locale $locale
 	 *
-	 * @return array|null
+	 * @return array<string,array<string,string|string[]>>|null
 	 */
 	public static function loadPageMaps( MVC_Base_Interface $base, Locale $locale ): array|null
 	{
@@ -83,7 +83,7 @@ class MVC_Cache
 	 * @param MVC_Base_Interface $base
 	 * @param Locale $locale
 	 *
-	 * @param array $map
+	 * @param array<string,array<string,string|string[]>> $map
 	 */
 	public static function savePageMaps( MVC_Base_Interface $base, Locale $locale, array $map ): void
 	{

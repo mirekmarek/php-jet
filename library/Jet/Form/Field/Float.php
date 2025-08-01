@@ -21,7 +21,7 @@ class Form_Field_Float extends Form_Field_Input implements Form_Field_Part_Numbe
 	protected string $_type = Form_Field::TYPE_FLOAT;
 	
 	/**
-	 * @var array
+	 * @var array<string,string>
 	 */
 	protected array $error_messages = [
 		Form_Field::ERROR_CODE_EMPTY        => 'Please enter a value',

@@ -242,7 +242,7 @@ class IO_Dir
 	 * @param string $dir_path
 	 * @param string $mask (optional, default: '*', @see glob)
 	 *
-	 * @return array
+	 * @return array<string,string>
 	 * @throws IO_Dir_Exception
 	 */
 	public static function getFilesList( string $dir_path, string $mask = '*' ): array
@@ -262,7 +262,7 @@ class IO_Dir
 	 * @param bool $get_dirs (optional, default: true)
 	 * @param bool $get_files (optional, default: true)
 	 *
-	 * @return array
+	 * @return array<string,string>
 	 * @throws IO_Dir_Exception
 	 */
 	public static function getList( string $dir_path,
@@ -352,7 +352,7 @@ class IO_Dir
 	 * @param string $dir_path
 	 * @param string $mask (optional, default: '*', @see glob)
 	 *
-	 * @return array
+	 * @return array<string,string>
 	 * @throws IO_Dir_Exception
 	 */
 	public static function getSubdirectoriesList( string $dir_path, string $mask = '*' ): array
@@ -371,7 +371,7 @@ class IO_Dir
 	}
 
 	/**
-	 * @return array|null
+	 * @return array<string,string|int>|null
 	 */
 	protected static function _getLastError(): array|null
 	{

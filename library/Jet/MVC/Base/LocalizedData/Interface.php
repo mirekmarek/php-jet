@@ -17,7 +17,7 @@ interface MVC_Base_LocalizedData_Interface
 	/**
 	 * @param MVC_Base_Interface $base
 	 * @param Locale $locale
-	 * @param array $data
+	 * @param array<string,mixed> $data
 	 *
 	 * @return MVC_Base_LocalizedData_Interface
 	 */
@@ -67,12 +67,12 @@ interface MVC_Base_LocalizedData_Interface
 	public function setTitle( string $title ): void;
 
 	/**
-	 * @return array
+	 * @return array<string>
 	 */
 	public function getURLs(): array;
 
 	/**
-	 * @param array $URLs
+	 * @param array<string> $URLs
 	 */
 	public function setURLs( array $URLs ): void;
 
@@ -118,12 +118,12 @@ interface MVC_Base_LocalizedData_Interface
 
 
 	/**
-	 * @return array
+	 * @return array<string,mixed>
 	 */
 	public function getParameters(): array;
 
 	/**
-	 * @param array $parameters
+	 * @param array<string,mixed> $parameters
 	 */
 	public function setParameters( array $parameters ): void;
 
@@ -148,7 +148,7 @@ interface MVC_Base_LocalizedData_Interface
 	public function parameterExists( string $key ): bool;
 
 	/**
-	 * @return array
+	 * @return array<string,mixed>
 	 */
 	public function toArray(): array;
 

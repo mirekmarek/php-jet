@@ -19,7 +19,7 @@ class Form_Field_Hidden extends Form_Field
 	protected string $_type = Form_Field::TYPE_HIDDEN;
 	
 	/**
-	 * @return array
+	 * @return array<string>
 	 */
 	public function getRequiredErrorCodes(): array
 	{

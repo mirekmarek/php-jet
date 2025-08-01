@@ -20,14 +20,14 @@ class Form_Renderer_Form extends Form_Renderer_Pair
 	protected Form $form;
 	
 	/**
-	 * @var array
+	 * @var array<string,int>
 	 */
 	protected array $default_label_width = [
 		Form_Renderer::LJ_SIZE_MEDIUM => 4
 	];
 	
 	/**
-	 * @var array
+	 * @var array<string,int>
 	 */
 	protected array $default_field_width = [
 		Form_Renderer::LJ_SIZE_MEDIUM => 8
@@ -106,7 +106,7 @@ class Form_Renderer_Form extends Form_Renderer_Pair
 	}
 	
 	/**
-	 * @return array
+	 * @return array<string,int>
 	 */
 	public function getDefaultLabelWidth(): array
 	{
@@ -114,7 +114,7 @@ class Form_Renderer_Form extends Form_Renderer_Pair
 	}
 	
 	/**
-	 * @param array $default_label_width
+	 * @param array<string,int> $default_label_width
 	 *
 	 * @return $this
 	 */
@@ -126,7 +126,7 @@ class Form_Renderer_Form extends Form_Renderer_Pair
 	}
 	
 	/**
-	 * @return array
+	 * @return array<string,int>
 	 */
 	public function getDefaultFieldWidth(): array
 	{
@@ -134,7 +134,7 @@ class Form_Renderer_Form extends Form_Renderer_Pair
 	}
 	
 	/**
-	 * @param array $default_field_width
+	 * @param array<string,int> $default_field_width
 	 *
 	 * @return $this
 	 */

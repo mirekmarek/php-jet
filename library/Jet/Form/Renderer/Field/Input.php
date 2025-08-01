@@ -39,7 +39,7 @@ abstract class Form_Renderer_Field_Input extends Form_Renderer_Single
 	}
 	
 	/**
-	 * @return array|null
+	 * @return array<string,int>|null
 	 */
 	public function getWidth(): array|null
 	{

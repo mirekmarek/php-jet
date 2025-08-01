@@ -23,7 +23,7 @@ class MVC_Base extends BaseObject implements MVC_Base_Interface
 	protected static array $bases = [];
 
 	/**
-	 * @var ?array
+	 * @var null|array<string,array<string,string>>
 	 */
 	protected static array|null $maps = null;
 
@@ -87,7 +87,7 @@ class MVC_Base extends BaseObject implements MVC_Base_Interface
 	protected $initializer;
 
 	/**
-	 * @return array
+	 * @return array<string, array<list<string>|string>>
 	 */
 	protected static function getMaps(): array
 	{
@@ -164,7 +164,7 @@ class MVC_Base extends BaseObject implements MVC_Base_Interface
 	}
 
 	/**
-	 * @return array
+	 * @return array<string,string>
 	 */
 	public static function _getUrlMap(): array
 	{
@@ -192,7 +192,7 @@ class MVC_Base extends BaseObject implements MVC_Base_Interface
 
 
 	/**
-	 * @param array $data
+	 * @param array<string,mixed> $data
 	 *
 	 * @return static
 	 */
@@ -213,7 +213,7 @@ class MVC_Base extends BaseObject implements MVC_Base_Interface
 	}
 
 	/**
-	 * @param array $data
+	 * @param array<string,mixed> $data
 	 */
 	protected function setData( array $data ): void
 	{
@@ -320,7 +320,7 @@ class MVC_Base extends BaseObject implements MVC_Base_Interface
 	 *
 	 * @param bool $get_as_string (optional), default: false
 	 *
-	 * @return Locale[]
+	 * @return array<string,Locale|string>
 	 */
 	public function getLocales( bool $get_as_string = false ): array
 	{
@@ -342,7 +342,7 @@ class MVC_Base extends BaseObject implements MVC_Base_Interface
 	 *
 	 * @param bool $get_as_string (optional), default: false
 	 *
-	 * @return Locale[]
+	 * @return array<string,Locale|string>
 	 */
 	public function getActiveLocales( bool $get_as_string = false ): array
 	{
@@ -364,7 +364,7 @@ class MVC_Base extends BaseObject implements MVC_Base_Interface
 	}
 
 	/**
-	 * @param array $order
+	 * @param array<int,string> $order
 	 */
 	public function sortLocales( array $order ): void
 	{
@@ -661,6 +661,9 @@ class MVC_Base extends BaseObject implements MVC_Base_Interface
 		MVC_Cache::reset();
 	}
 	
+	/**
+	 * @return array<string,string>
+	 */
 	public function getLayoutsList(): array
 	{
 		$list = IO_Dir::getList( $this->getLayoutsPath(), '*.' . SysConf_Jet_MVC_View::getScriptFileSuffix(), false, true );
@@ -679,6 +682,10 @@ class MVC_Base extends BaseObject implements MVC_Base_Interface
 		return $res;
 	}
 	
+	/**
+	 * @param string $layout_script_name
+	 * @return array<string,string>
+	 */
 	public function getLayoutOutputPositions( string $layout_script_name ): array
 	{
 		$res = [
@@ -708,7 +715,7 @@ class MVC_Base extends BaseObject implements MVC_Base_Interface
 	
 
 	/**
-	 * @return array
+	 * @return array<string,mixed>
 	 */
 	public function toArray(): array
 	{

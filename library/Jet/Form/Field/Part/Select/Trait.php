@@ -56,7 +56,7 @@ trait Form_Field_Part_Select_Trait
 	}
 	
 	/**
-	 * @param array|Iterator $options
+	 * @param array<string,string|Form_Field_Select_Option|Form_Field_Select_Option_Interface>|Iterator $options
 	 */
 	public function setSelectOptions( array|Iterator $options ): void
 	{

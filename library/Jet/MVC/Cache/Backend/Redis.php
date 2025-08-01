@@ -44,7 +44,7 @@ class MVC_Cache_Backend_Redis implements MVC_Cache_Backend
 
 	/**
 	 * @param string $entity
-	 * @return array|null
+	 * @return array<string,string|string[]>|null
 	 */
 	protected function readMap( string $entity ): array|null
 	{
@@ -57,7 +57,7 @@ class MVC_Cache_Backend_Redis implements MVC_Cache_Backend
 
 	/**
 	 * @param string $entity
-	 * @param array $data
+	 * @param array<string,string|string[]> $data
 	 */
 	protected function writeMap( string $entity, array $data ): void
 	{
@@ -105,7 +105,7 @@ class MVC_Cache_Backend_Redis implements MVC_Cache_Backend
 	}
 
 	/**
-	 * @return array|null
+	 * @return array<string,array<string,string|string[]>>|null
 	 */
 	public function loadBaseMaps(): array|null
 	{
@@ -113,7 +113,7 @@ class MVC_Cache_Backend_Redis implements MVC_Cache_Backend
 	}
 
 	/**
-	 * @param array $map
+	 * @param array<string,array<string,string|string[]>> $map
 	 */
 	public function saveBaseMaps( array $map ): void
 	{
@@ -122,7 +122,7 @@ class MVC_Cache_Backend_Redis implements MVC_Cache_Backend
 
 
 	/**
-	 * @return array|null
+	 * @return array<string,array<string,string|string[]>>|null
 	 */
 	public function loadBasesFilesMap(): array|null
 	{
@@ -130,7 +130,7 @@ class MVC_Cache_Backend_Redis implements MVC_Cache_Backend
 	}
 
 	/**
-	 * @param array $map
+	 * @param array<string,array<string,string|string[]>> $map
 	 */
 	public function saveBasesFilesMap( array $map ): void
 	{
@@ -141,7 +141,7 @@ class MVC_Cache_Backend_Redis implements MVC_Cache_Backend
 	 * @param MVC_Base_Interface $base
 	 * @param Locale $locale
 	 *
-	 * @return array|null
+	 * @return array<string,array<string,string|string[]>>|null
 	 */
 	public function loadPageMaps( MVC_Base_Interface $base, Locale $locale ): array|null
 	{
@@ -152,7 +152,7 @@ class MVC_Cache_Backend_Redis implements MVC_Cache_Backend
 	 * @param MVC_Base_Interface $base
 	 * @param Locale $locale
 	 *
-	 * @param array $map
+	 * @param array<string,array<string,string|string[]>> $map
 	 */
 	public function savePageMaps( MVC_Base_Interface $base, Locale $locale, array $map ): void
 	{

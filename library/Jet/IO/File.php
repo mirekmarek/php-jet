@@ -19,7 +19,7 @@ class IO_File
 {
 
 	/**
-	 * @var ?array
+	 * @var ?array<string>
 	 */
 	protected static ?array $http_response_header = null;
 
@@ -138,7 +138,7 @@ class IO_File
 
 	/**
 	 * @param string $path
-	 * @param array $data
+	 * @param array<string,mixed> $data
 	 * @param bool $reset_cache
 	 *
 	 * @throws IO_File_Exception
@@ -276,7 +276,7 @@ class IO_File
 	}
 
 	/**
-	 * @return array
+	 * @return array<string>
 	 */
 	public static function getHttpResponseHeader(): array
 	{
@@ -511,7 +511,7 @@ class IO_File
 	}
 
 	/**
-	 * @return array|null
+	 * @return array<string,string|int>|null
 	 */
 	protected static function _getLastError(): array|null
 	{

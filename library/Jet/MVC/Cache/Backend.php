@@ -25,12 +25,12 @@ interface MVC_Cache_Backend
 	public function reset(): void;
 
 	/**
-	 * @return array|null
+	 * @return array<string,array<string,string|string[]>>|null
 	 */
 	public function loadBaseMaps(): array|null;
 
 	/**
-	 * @param array $map
+	 * @param array<string,array<string,string|string[]>> $map
 	 */
 	public function saveBaseMaps( array $map ): void;
 
@@ -39,7 +39,7 @@ interface MVC_Cache_Backend
 	 * @param MVC_Base_Interface $base
 	 * @param Locale $locale
 	 *
-	 * @return array|null
+	 * @return array<string,array<string,string|string[]>>|null
 	 */
 	public function loadPageMaps( MVC_Base_Interface $base, Locale $locale ): array|null;
 
@@ -47,7 +47,7 @@ interface MVC_Cache_Backend
 	 * @param MVC_Base_Interface $base
 	 * @param Locale $locale
 	 *
-	 * @param array $map
+	 * @param array<string,array<string,string|string[]>> $map
 	 */
 	public function savePageMaps( MVC_Base_Interface $base, Locale $locale, array $map ): void;
 

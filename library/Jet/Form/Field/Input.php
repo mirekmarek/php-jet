@@ -16,7 +16,7 @@ class Form_Field_Input extends Form_Field implements Form_Field_Part_RegExp_Inte
 	use Form_Field_Part_RegExp_Trait;
 	
 	/**
-	 * @var array
+	 * @var array<string,string>
 	 */
 	protected array $error_messages = [
 		Form_Field::ERROR_CODE_EMPTY        => 'Please enter a value',

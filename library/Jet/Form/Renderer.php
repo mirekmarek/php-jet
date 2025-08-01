@@ -20,7 +20,7 @@ abstract class Form_Renderer extends BaseObject
 	
 	
 	/**
-	 * @var array
+	 * @var array<string,string>
 	 */
 	protected array $js_actions = [];
 
@@ -30,17 +30,17 @@ abstract class Form_Renderer extends BaseObject
 	protected string $base_css_class = '';
 
 	/**
-	 * @var array
+	 * @var array<string>
 	 */
 	protected array $custom_css_classes = [];
 
 	/**
-	 * @var array
+	 * @var array<string>
 	 */
 	protected array $custom_css_styles = [];
 
 	/**
-	 * @var array|null
+	 * @var array<string,int>|null
 	 */
 	protected array|null $width = null;
 
@@ -50,18 +50,18 @@ abstract class Form_Renderer extends BaseObject
 	protected $width_css_classes_creator = null;
 	
 	/**
-	 * @var array
+	 * @var array<string,mixed>
 	 */
 	protected array $data_attributes = [];
 	
 	/**
-	 * @var array
+	 * @var array<string,mixed>
 	 */
 	protected array $custom_tag_attributes = [];
 	
 	
 	/**
-	 * @var array
+	 * @var array<string,mixed>
 	 */
 	protected array $_tag_attributes = [];
 	
@@ -117,7 +117,7 @@ abstract class Form_Renderer extends BaseObject
 	
 
 	/**
-	 * @return array|null
+	 * @return array<string,int>|null
 	 */
 	public function getWidth(): array|null
 	{
@@ -125,7 +125,7 @@ abstract class Form_Renderer extends BaseObject
 	}
 
 	/**
-	 * @param array $width
+	 * @param array<string,int> $width
 	 */
 	public function setWidth( array $width ): void
 	{
@@ -171,7 +171,7 @@ abstract class Form_Renderer extends BaseObject
 
 	/**
 	 *
-	 * @return array
+	 * @return array<string,string>
 	 */
 	public function getJsActions(): array
 	{
@@ -206,7 +206,7 @@ abstract class Form_Renderer extends BaseObject
 
 	/**
 	 *
-	 * @return array
+	 * @return array<string>
 	 */
 	public function getBaseCssClasses(): array
 	{
@@ -219,7 +219,7 @@ abstract class Form_Renderer extends BaseObject
 
 	/**
 	 *
-	 * @return array
+	 * @return array<string>
 	 */
 	public function getCustomCssClasses(): array
 	{
@@ -228,7 +228,7 @@ abstract class Form_Renderer extends BaseObject
 
 	/**
 	 *
-	 * @return array
+	 * @return array<string>
 	 */
 	public function getWidthCssClasses(): array
 	{
@@ -258,7 +258,7 @@ abstract class Form_Renderer extends BaseObject
 
 	/**
 	 *
-	 * @return array
+	 * @return array<string>
 	 */
 	public function getCssClasses(): array
 	{
@@ -282,7 +282,7 @@ abstract class Form_Renderer extends BaseObject
 	}
 
 	/**
-	 * @return array
+	 * @return array<string>
 	 */
 	public function getCssStyles(): array
 	{
@@ -315,7 +315,7 @@ abstract class Form_Renderer extends BaseObject
 	}
 	
 	/**
-	 * @return array
+	 * @return array<string,mixed>
 	 */
 	public function getDataAttributes() : array
 	{
@@ -352,7 +352,7 @@ abstract class Form_Renderer extends BaseObject
 	}
 	
 	/**
-	 * @return array
+	 * @return array<string,mixed>
 	 */
 	public function getCustomTagAttributes(): array
 	{
@@ -413,7 +413,7 @@ abstract class Form_Renderer extends BaseObject
 	
 	
 	/**
-	 * @return array
+	 * @return array<string,mixed>
 	 */
 	public function generateTagAttributes() : array
 	{

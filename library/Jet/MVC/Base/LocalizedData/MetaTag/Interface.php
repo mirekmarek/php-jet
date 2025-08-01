@@ -16,7 +16,7 @@ interface MVC_Base_LocalizedData_MetaTag_Interface
 
 	/**
 	 * @param MVC_Base_LocalizedData_Interface $localized_data
-	 * @param array $data
+	 * @param array<string,string> $data
 	 *
 	 * @return static
 	 */
@@ -73,7 +73,7 @@ interface MVC_Base_LocalizedData_MetaTag_Interface
 	public function setContent( string $content ): void;
 
 	/**
-	 * @return array
+	 * @return array<string,string>
 	 */
 	public function toArray(): array;
 

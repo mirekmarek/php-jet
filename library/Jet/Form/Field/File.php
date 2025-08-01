@@ -21,7 +21,7 @@ class Form_Field_File extends Form_Field implements Form_Field_Part_File_Interfa
 	protected string $_type = Form_Field::TYPE_FILE;
 	
 	/**
-	 * @var array
+	 * @var array<string,string>
 	 */
 	protected array $error_messages = [
 		Form_Field::ERROR_CODE_EMPTY                => 'Please select file',

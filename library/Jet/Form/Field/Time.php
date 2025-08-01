@@ -21,7 +21,7 @@ class Form_Field_Time extends Form_Field_Input
 	protected string $_type = Form_Field::TYPE_TIME;
 	
 	/**
-	 * @var array
+	 * @var array<string,string>
 	 */
 	protected array $error_messages = [
 		Form_Field::ERROR_CODE_EMPTY        => 'Please enter a value',
@@ -70,7 +70,7 @@ class Form_Field_Time extends Form_Field_Input
 	}
 	
 	/**
-	 * @return array
+	 * @return array<string>
 	 */
 	public function getRequiredErrorCodes(): array
 	{
