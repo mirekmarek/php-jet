@@ -141,9 +141,10 @@ class MVC_Controller_Router_Action extends BaseObject
 
 	/**
 	 *
-	 * @param array $arguments
+	 * @param mixed[] $arguments
 	 *
 	 * @return string|bool
+	 * @noinspection PhpPluralMixedCanBeReplacedWithArrayInspection
 	 */
 	public function URI( ...$arguments ): string|bool
 	{

@@ -12,7 +12,7 @@ class MVC_Controller_Router_AddEditDelete extends MVC_Controller_Router
 	 *
 	 * @param MVC_Controller $controller
 	 * @param callable $item_catcher
-	 * @param array $actions_map
+	 * @param array<string,string> $actions_map
 	 */
 	public function __construct( MVC_Controller $controller, callable $item_catcher, array $actions_map = [] )
 	{

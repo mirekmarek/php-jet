@@ -26,7 +26,7 @@ trait MVC_Page_Trait_Tree
 
 
 	/**
-	 * @var array
+	 * @var array<string>
 	 */
 	protected array $children = [];
 
@@ -65,7 +65,7 @@ trait MVC_Page_Trait_Tree
 	}
 
 	/**
-	 * @return array
+	 * @return array<string>
 	 */
 	public function getPath(): array
 	{
@@ -110,7 +110,7 @@ trait MVC_Page_Trait_Tree
 
 
 	/**
-	 * @return array
+	 * @return array<string>
 	 */
 	public function getChildrenKeys(): array
 	{
@@ -124,7 +124,7 @@ trait MVC_Page_Trait_Tree
 	}
 
 	/**
-	 * @return array
+	 * @return array<string>
 	 */
 	public function getChildrenIds(): array
 	{

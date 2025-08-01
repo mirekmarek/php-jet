@@ -47,7 +47,7 @@ class MVC_Page_Content extends BaseObject implements MVC_Page_Content_Interface
 
 	/**
 	 *
-	 * @var array
+	 * @var array<string,mixed>
 	 */
 	protected array $parameters = [];
 
@@ -93,7 +93,7 @@ class MVC_Page_Content extends BaseObject implements MVC_Page_Content_Interface
 
 	/**
 	 * @param MVC_Page_Interface $page
-	 * @param array $data
+	 * @param array<string,mixed> $data
 	 *
 	 * @return MVC_Page_Content_Interface
 	 */
@@ -112,7 +112,7 @@ class MVC_Page_Content extends BaseObject implements MVC_Page_Content_Interface
 
 
 	/**
-	 * @param array $data
+	 * @param array<string,mixed> $data
 	 */
 	protected function setData( array $data ): void
 	{
@@ -303,7 +303,7 @@ class MVC_Page_Content extends BaseObject implements MVC_Page_Content_Interface
 
 
 	/**
-	 * @return array
+	 * @return array<string,mixed>
 	 */
 	public function getParameters(): array
 	{
@@ -311,7 +311,7 @@ class MVC_Page_Content extends BaseObject implements MVC_Page_Content_Interface
 	}
 
 	/**
-	 * @param array $parameters
+	 * @param array<string,mixed> $parameters
 	 */
 	public function setParameters( array $parameters ): void
 	{
@@ -518,7 +518,7 @@ class MVC_Page_Content extends BaseObject implements MVC_Page_Content_Interface
 
 
 	/**
-	 * @return array
+	 * @return array<string,mixed>
 	 */
 	public function toArray(): array
 	{

@@ -26,8 +26,8 @@ trait MVC_Page_Trait_URL
 
 	/**
 	 * @param string|null|bool $schema
-	 * @param array $path_fragments
-	 * @param array $GET_params
+	 * @param array<string> $path_fragments
+	 * @param array<string,mixed> $GET_params
 	 *
 	 * @return string
 	 */
@@ -125,8 +125,8 @@ trait MVC_Page_Trait_URL
 
 	/**
 	 *
-	 * @param array $path_fragments
-	 * @param array $GET_params
+	 * @param array<string> $path_fragments
+	 * @param array<string,mixed> $GET_params
 	 *
 	 * @return string
 	 */
@@ -137,8 +137,8 @@ trait MVC_Page_Trait_URL
 
 	/**
 	 *
-	 * @param array $path_fragments
-	 * @param array $GET_params
+	 * @param array<string> $path_fragments
+	 * @param array<string,mixed> $GET_params
 	 *
 	 * @return string
 	 */
@@ -150,8 +150,8 @@ trait MVC_Page_Trait_URL
 
 	/**
 	 *
-	 * @param array $path_fragments
-	 * @param array $GET_params
+	 * @param array<string> $path_fragments
+	 * @param array<string,mixed> $GET_params
 	 *
 	 * @return string
 	 */
@@ -162,8 +162,8 @@ trait MVC_Page_Trait_URL
 
 	/**
 	 *
-	 * @param array $path_fragments
-	 * @param array $GET_params
+	 * @param array<string> $path_fragments
+	 * @param array<string,mixed> $GET_params
 	 *
 	 * @return string
 	 */
@@ -174,8 +174,8 @@ trait MVC_Page_Trait_URL
 
 	/**
 	 *
-	 * @param array $path_fragments
-	 * @param array $GET_params
+	 * @param array<string> $path_fragments
+	 * @param array<string,mixed> $GET_params
 	 *
 	 * @return string
 	 */

@@ -80,7 +80,7 @@ interface MVC_Router_Interface
 	 * @param string $target_URL
 	 * @param int $http_code
 	 */
-	public function setIsRedirect( string $target_URL, int $http_code = Http_Headers::CODE_302_MOVED_TEMPORARY );
+	public function setIsRedirect( string $target_URL, int $http_code = Http_Headers::CODE_302_MOVED_TEMPORARY ) : void;
 
 	/**
 	 *
@@ -147,7 +147,7 @@ interface MVC_Router_Interface
 	public function getValidUrl(): string;
 	
 	/**
-	 * @param array $allowed_files
+	 * @param array<string> $allowed_files
 	 * @return bool
 	 */
 	public function tryDirectFiles( array $allowed_files ) : bool;

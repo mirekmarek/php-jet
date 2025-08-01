@@ -584,7 +584,7 @@ class MVC_Router extends BaseObject implements MVC_Router_Interface
 	}
 	
 	/**
-	 * @param array $allowed_files
+	 * @param array<string> $allowed_files
 	 * @return bool
 	 */
 	public function tryDirectFiles( array $allowed_files ) : bool

@@ -16,17 +16,17 @@ class Mailing_Email extends BaseObject
 {
 
 	/**
-	 * @var string|array
+	 * @var string|array<string>
 	 */
 	protected string|array $to;
 
 	/**
-	 * @var string|array
+	 * @var string|array<string>
 	 */
 	protected string|array $to_copy = '';
 
 	/**
-	 * @var string|array
+	 * @var string|array<string>
 	 */
 	protected string|array $to_hidden_copy = '';
 
@@ -67,7 +67,7 @@ class Mailing_Email extends BaseObject
 	protected string $body_txt = '';
 
 	/**
-	 * @var array
+	 * @var array<string>
 	 */
 	protected array $custom_headers = [];
 
@@ -104,7 +104,7 @@ class Mailing_Email extends BaseObject
 	}
 
 	/**
-	 * @return array|string
+	 * @return array<string>|string
 	 */
 	public function getTo(): array|string
 	{
@@ -112,7 +112,7 @@ class Mailing_Email extends BaseObject
 	}
 
 	/**
-	 * @param array|string $to
+	 * @param array<string>|string $to
 	 */
 	public function setTo( array|string $to ): void
 	{
@@ -120,7 +120,7 @@ class Mailing_Email extends BaseObject
 	}
 
 	/**
-	 * @return array|string
+	 * @return array<string>|string
 	 */
 	public function getToCopy(): array|string
 	{
@@ -128,7 +128,7 @@ class Mailing_Email extends BaseObject
 	}
 
 	/**
-	 * @param array|string $to_copy
+	 * @param array<string>|string $to_copy
 	 */
 	public function setToCopy( array|string $to_copy ): void
 	{
@@ -136,7 +136,7 @@ class Mailing_Email extends BaseObject
 	}
 
 	/**
-	 * @return array|string
+	 * @return array<string>|string
 	 */
 	public function getToHiddenCopy(): array|string
 	{
@@ -144,7 +144,7 @@ class Mailing_Email extends BaseObject
 	}
 
 	/**
-	 * @param array|string $to_hidden_copy
+	 * @param array<string>|string $to_hidden_copy
 	 */
 	public function setToHiddenCopy( array|string $to_hidden_copy ): void
 	{
@@ -276,7 +276,7 @@ class Mailing_Email extends BaseObject
 	}
 
 	/**
-	 * @return Mailing_Email_File[]
+	 * @return array<Mailing_Email_File>
 	 */
 	public function getAttachments(): array
 	{
@@ -307,7 +307,7 @@ class Mailing_Email extends BaseObject
 	}
 
 	/**
-	 * @return Mailing_Email_File[]
+	 * @return array<Mailing_Email_File>
 	 */
 	public function getImages(): array
 	{
@@ -324,7 +324,7 @@ class Mailing_Email extends BaseObject
 	}
 
 	/**
-	 * @return array
+	 * @return array<string>
 	 */
 	public function getCustomHeaders(): array
 	{

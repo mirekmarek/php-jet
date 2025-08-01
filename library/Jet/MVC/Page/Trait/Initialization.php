@@ -19,7 +19,7 @@ trait MVC_Page_Trait_Initialization
 	protected static array $pages = [];
 
 	/**
-	 * @var array
+	 * @var array<string,array<string,array<string,string|string[]>>>
 	 */
 	protected static array $maps = [];
 
@@ -187,7 +187,7 @@ trait MVC_Page_Trait_Initialization
 	 * @param string $source_dir_path
 	 * @param string $parent_page_id
 	 * @param string $parent_path
-	 * @param array $parents
+	 * @param array<string> $parents
 	 *
 	 * @throws MVC_Page_Exception
 	 */
@@ -236,7 +236,7 @@ trait MVC_Page_Trait_Initialization
 	/**
 	 * @param string $data_file_path
 	 *
-	 * @param array|null $parent_page_data
+	 * @param array<string,mixed>|null $parent_page_data
 	 *
 	 * @param string $dir_name
 	 *
@@ -262,7 +262,7 @@ trait MVC_Page_Trait_Initialization
 	/**
 	 * @param MVC_Base_Interface $base
 	 * @param Locale $locale
-	 * @param array $data
+	 * @param array<string,mixed> $data
 	 *
 	 * @return static
 	 */
@@ -286,7 +286,7 @@ trait MVC_Page_Trait_Initialization
 	}
 
 	/**
-	 * @param array $data
+	 * @param array<string,mixed> $data
 	 */
 	protected function setData( array $data ): void
 	{

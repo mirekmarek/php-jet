@@ -15,13 +15,13 @@ trait MVC_Page_Trait_Parameters
 {
 	/**
 	 *
-	 * @var array
+	 * @var array<string,mixed>
 	 */
 	protected array $parameters = [];
 
 
 	/**
-	 * @return array
+	 * @return array<string,mixed>
 	 */
 	public function getParameters(): array
 	{
@@ -29,7 +29,7 @@ trait MVC_Page_Trait_Parameters
 	}
 
 	/**
-	 * @param array $parameters
+	 * @param array<string,mixed> $parameters
 	 */
 	public function setParameters( array $parameters ): void
 	{

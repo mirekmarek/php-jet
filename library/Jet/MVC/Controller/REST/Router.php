@@ -20,7 +20,7 @@ class MVC_Controller_REST_Router extends MVC_Controller_Router
 	protected ?MVC_Controller $controller = null;
 
 	/**
-	 * @var ?array
+	 * @var ?array<string,string>
 	 */
 	protected ?array $actions_map = null;
 
@@ -52,7 +52,7 @@ class MVC_Controller_REST_Router extends MVC_Controller_Router
 
 	/**
 	 * @param MVC_Controller_REST $controller
-	 * @param array $actions_map
+	 * @param array<string,string> $actions_map
 	 */
 	public function __construct( MVC_Controller_REST $controller, array $actions_map )
 	{

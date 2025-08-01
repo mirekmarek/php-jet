@@ -34,7 +34,8 @@ abstract class MVC_Controller_REST extends MVC_Controller
 	}
 
 	/**
-	 * @return array
+	 * @return mixed[]
+	 * @noinspection PhpPluralMixedCanBeReplacedWithArrayInspection
 	 */
 	public function getRequestData(): array
 	{
@@ -77,7 +78,7 @@ abstract class MVC_Controller_REST extends MVC_Controller
 	}
 
 	/**
-	 * @param array $errors
+	 * @param array<string> $errors
 	 */
 	public function responseValidationError( array $errors ): void
 	{
@@ -86,7 +87,7 @@ abstract class MVC_Controller_REST extends MVC_Controller
 
 
 	/**
-	 * @param string|array $id
+	 * @param string|array<string,string|int> $id
 	 */
 	public function responseUnknownItem( string|array $id ): void
 	{
@@ -116,7 +117,7 @@ abstract class MVC_Controller_REST extends MVC_Controller
 	/**
 	 *
 	 * @param DataModel_Fetch_Instances $data
-	 * @param array $sort_items_map
+	 * @param array<string,string> $sort_items_map
 	 *
 	 * @return DataModel_Fetch_Instances
 	 */

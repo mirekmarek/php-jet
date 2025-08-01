@@ -17,7 +17,7 @@ interface MVC_Page_Content_Interface
 
 	/**
 	 * @param MVC_Page_Interface $page
-	 * @param array $data
+	 * @param array<string,mixed> $data
 	 *
 	 * @return MVC_Page_Content_Interface
 	 */
@@ -81,12 +81,12 @@ interface MVC_Page_Content_Interface
 	public function setControllerAction( string $controller_action ): void;
 
 	/**
-	 * @return array
+	 * @return array<string,mixed>
 	 */
 	public function getParameters(): array;
 
 	/**
-	 * @param array $parameters
+	 * @param array<string,mixed> $parameters
 	 */
 	public function setParameters( array $parameters ): void;
 
@@ -178,7 +178,7 @@ interface MVC_Page_Content_Interface
 	public function dispatch(): void;
 
 	/**
-	 * @return array
+	 * @return array<string,mixed>
 	 */
 	public function toArray(): array;
 

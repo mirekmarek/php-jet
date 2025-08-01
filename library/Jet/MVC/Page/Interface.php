@@ -25,7 +25,7 @@ interface MVC_Page_Interface
 	/**
 	 * @param MVC_Base_Interface $base
 	 * @param Locale $locale
-	 * @param array $data
+	 * @param array<string,mixed> $data
 	 *
 	 * @return static
 	 */
@@ -87,7 +87,7 @@ interface MVC_Page_Interface
 	/**
 	 * @param string $id
 	 */
-	public function setId( string $id );
+	public function setId( string $id ) : void;
 	
 	/**
 	 * @return string
@@ -131,17 +131,17 @@ interface MVC_Page_Interface
 	public function getParent(): static|null;
 
 	/**
-	 * @return array
+	 * @return array<string>
 	 */
 	public function getPath(): array;
 
 	/**
-	 * @return array
+	 * @return array<string>
 	 */
 	public function getChildrenIds(): array;
 
 	/**
-	 * @return array
+	 * @return array<string>
 	 */
 	public function getChildrenKeys(): array;
 
@@ -282,18 +282,16 @@ interface MVC_Page_Interface
 	public function setBreadcrumbTitle( string $breadcrumb_title ): void;
 
 	/**
-	 * @param array $path_fragments
-	 *
-	 * @param array $GET_params
+	 * @param array<string> $path_fragments
+	 * @param array<string,mixed> $GET_params
 	 *
 	 * @return string
 	 */
 	public function getURL( array $path_fragments = [], array $GET_params = [] ): string;
 
 	/**
-	 * @param array $path_fragments
-	 *
-	 * @param array $GET_params
+	 * @param array<string> $path_fragments
+	 * @param array<string,mixed> $GET_params
 	 *
 	 * @return string
 	 */
@@ -301,9 +299,8 @@ interface MVC_Page_Interface
 
 	/**
 	 *
-	 * @param array $path_fragments
-	 *
-	 * @param array $GET_params
+	 * @param array<string> $path_fragments
+	 * @param array<string,mixed> $GET_params
 	 *
 	 * @return string
 	 */
@@ -311,9 +308,8 @@ interface MVC_Page_Interface
 
 	/**
 	 *
-	 * @param array $path_fragments
-	 *
-	 * @param array $GET_params
+	 * @param array<string> $path_fragments
+	 * @param array<string,mixed> $GET_params
 	 *
 	 * @return string
 	 */
@@ -321,9 +317,8 @@ interface MVC_Page_Interface
 
 	/**
 	 *
-	 * @param array $path_fragments
-	 *
-	 * @param array $GET_params
+	 * @param array<string> $path_fragments
+	 * @param array<string,mixed> $GET_params
 	 *
 	 * @return string
 	 */
@@ -352,12 +347,12 @@ interface MVC_Page_Interface
 	public function initializeLayout(): void;
 
 	/**
-	 * @return array
+	 * @return array<string>
 	 */
 	public function getHttpHeaders(): array;
 
 	/**
-	 * @param array $http_headers
+	 * @param array<string> $http_headers
 	 */
 	public function setHttpHeaders( array $http_headers ): void;
 
@@ -385,12 +380,12 @@ interface MVC_Page_Interface
 	public function setMetaTags( array $meta_tags ): void;
 
 	/**
-	 * @return array
+	 * @return array<string,mixed>
 	 */
 	public function getParameters(): array;
 
 	/**
-	 * @param array $parameters
+	 * @param array<string,mixed> $parameters
 	 */
 	public function setParameters( array $parameters ): void;
 

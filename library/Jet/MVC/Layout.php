@@ -39,7 +39,7 @@ class MVC_Layout extends MVC_View_Abstract
 	protected array $output_parts = [];
 
 	/**
-	 * @var array
+	 * @var array<string,string>
 	 */
 	protected array $virtual_positions = [];
 	
@@ -50,22 +50,22 @@ class MVC_Layout extends MVC_View_Abstract
 
 
 	/**
-	 * @var array
+	 * @var array<string>
 	 */
 	protected array $required_main_javascript_files = [];
 
 	/**
-	 * @var array
+	 * @var array<string>
 	 */
 	protected array $required_javascript_files = [];
 
 	/**
-	 * @var string[][]
+	 * @var array<string,string[]>
 	 */
 	protected array $required_main_css_files = [];
 
 	/**
-	 * @var string[][]
+	 * @var array<string,string[]>
 	 */
 	protected array $required_css_files = [];
 
@@ -585,9 +585,6 @@ class MVC_Layout extends MVC_View_Abstract
 
 		$snippet = '';
 		foreach( $CSS_files as $media => $URIs ) {
-			/**
-			 * @var array $URIs
-			 */
 			foreach( $URIs as $URI ) {
 
 				if( $media ) {

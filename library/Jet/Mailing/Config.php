@@ -74,7 +74,7 @@ class Mailing_Config extends Config
 	}
 
 	/**
-	 * @param array $data
+	 * @param array<array<string,string|int|bool>> $data
 	 *
 	 * @return Mailing_Config_Sender
 	 */

@@ -16,7 +16,7 @@ trait MVC_Page_Trait_Save
 
 
 	/**
-	 * @return array
+	 * @return array<string,mixed>
 	 */
 	public function toArray(): array
 	{
