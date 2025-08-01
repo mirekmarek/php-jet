@@ -76,7 +76,8 @@ class Db_Backend_PDO implements Db_Backend_Interface
 	 * @param array<string,mixed> $query_params
 	 * @param ?callable $result_handler
 	 *
-	 * @return iterable
+	 * @return iterable<mixed>
+	 * @noinspection PhpPluralMixedCanBeReplacedWithArrayInspection
 	 */
 	public function query( string $query, array $query_params = [], ?callable $result_handler=null ): iterable
 	{

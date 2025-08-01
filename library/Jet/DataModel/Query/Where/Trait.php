@@ -21,9 +21,10 @@ trait DataModel_Query_Where_Trait
 
 
 	/**
-	 * @param string|array $val
+	 * @param string|array<mixed> $val
 	 *
 	 * @throws DataModel_Query_Exception
+	 * @noinspection PhpPluralMixedCanBeReplacedWithArrayInspection
 	 */
 	protected function _determineLogicalOperatorOrSubExpressions( string|array $val ) : void
 	{

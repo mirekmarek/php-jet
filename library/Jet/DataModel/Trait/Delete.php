@@ -81,8 +81,9 @@ trait DataModel_Trait_Delete
 	}
 	
 	/**
-	 * @param array $where
+	 * @param array<mixed> $where
 	 * @return void
+	 * @noinspection PhpPluralMixedCanBeReplacedWithArrayInspection
 	 */
 	public static function dataDelete( array $where ) : void
 	{

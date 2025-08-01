@@ -144,7 +144,7 @@ class DataModel_Query extends BaseObject
 
 	/**
 	 *
-	 * @param array $items
+	 * @param array<string|int,string|DataModel_Definition_Property|DataModel_Query_Select_Item_Expression> $items
 	 *
 	 * @return DataModel_Query|null
 	 *
@@ -165,9 +165,10 @@ class DataModel_Query extends BaseObject
 	}
 
 	/**
-	 * @param array $where
+	 * @param array<mixed> $where
 	 *
 	 * @return DataModel_Query
+	 * @noinspection PhpPluralMixedCanBeReplacedWithArrayInspection
 	 */
 	public function setWhere( array $where ): DataModel_Query
 	{
@@ -185,9 +186,10 @@ class DataModel_Query extends BaseObject
 	}
 
 	/**
-	 * @param array $having
+	 * @param array<mixed> $having
 	 *
 	 * @return DataModel_Query
+	 * @noinspection PhpPluralMixedCanBeReplacedWithArrayInspection
 	 */
 	public function setHaving( array $having ): DataModel_Query
 	{

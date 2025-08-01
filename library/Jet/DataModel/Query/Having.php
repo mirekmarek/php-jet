@@ -23,9 +23,10 @@ class DataModel_Query_Having extends BaseObject implements BaseObject_Interface_
 	/**
 	 *
 	 * @param DataModel_Query $query
-	 * @param array $having
+	 * @param array<mixed> $having
 	 *
 	 * @throws DataModel_Query_Exception
+	 * @noinspection PhpPluralMixedCanBeReplacedWithArrayInspection
 	 */
 	public function __construct( DataModel_Query $query, array $having = [] )
 	{

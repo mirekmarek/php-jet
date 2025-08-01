@@ -27,7 +27,7 @@ class DataModel_RecordData implements BaseObject_Interface_IteratorCountable
 	/**
 	 *
 	 * @param string $data_model_class_name
-	 * @param array $properties_and_values ( array(property_name => value) )
+	 * @param array<string,mixed> $properties_and_values ( array(property_name => value) )
 	 *
 	 * @return DataModel_RecordData
 	 * @throws DataModel_Exception

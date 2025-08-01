@@ -14,6 +14,9 @@ namespace Jet;
 abstract class Application_Services extends BaseObject
 {
 	public const GROUP = null;
+	/**
+	 * @var null|array<string,array<string,string>>
+	 */
 	protected static ?array $map = null;
 	/**
 	 * @var Application_Service_MetaInfo[]|null

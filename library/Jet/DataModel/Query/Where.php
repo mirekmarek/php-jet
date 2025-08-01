@@ -24,9 +24,10 @@ class DataModel_Query_Where extends BaseObject implements BaseObject_Interface_I
 	/**
 	 *
 	 * @param DataModel_Query $query
-	 * @param array $where
+	 * @param array<mixed> $where
 	 *
 	 * @throws DataModel_Query_Exception
+	 * @noinspection PhpPluralMixedCanBeReplacedWithArrayInspection
 	 */
 	public function __construct( DataModel_Query $query, array $where = [] )
 	{

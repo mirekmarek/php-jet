@@ -44,8 +44,9 @@ trait DataModel_Trait_Save
 	}
 
 	/**
-	 * @param array $data
-	 * @param array $where
+	 * @param array<string,mixed> $data
+	 * @param array<mixed> $where
+	 * @noinspection PhpPluralMixedCanBeReplacedWithArrayInspection
 	 */
 	public static function updateData( array $data, array $where ): void
 	{

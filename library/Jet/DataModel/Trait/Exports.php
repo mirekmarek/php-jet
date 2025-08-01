@@ -26,7 +26,7 @@ trait DataModel_Trait_Exports
 	}
 
 	/**
-	 * @return array
+	 * @return array<string,mixed>
 	 */
 	public function jsonSerialize(): array
 	{

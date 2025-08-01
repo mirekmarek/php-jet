@@ -23,7 +23,7 @@ trait DataModel_Trait_MagicMethods
 	}
 
 	/**
-	 * @return array
+	 * @return array<string,mixed>
 	 */
 	public function __debugInfo(): array
 	{
