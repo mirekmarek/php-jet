@@ -1,6 +1,10 @@
 parameters:
 	level: 6
 	paths:
-		library/Jet
-		application/Classes
-		application/Modules
+		- library/Jet
+		- application/Classes
+		- application/Modules
+		- _installer
+		- _playground
+		- _profiler
+		- _var_dump

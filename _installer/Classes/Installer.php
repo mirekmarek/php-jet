@@ -29,7 +29,7 @@ class Installer
 {
 
 	/**
-	 * @var array
+	 * @var array<string>
 	 */
 	protected static array $steps = [];
 
@@ -69,7 +69,7 @@ class Installer
 	protected static ?MVC_Layout $layout = null;
 
 	/**
-	 * @param array $steps
+	 * @param array<string> $steps
 	 */
 	public static function setSteps( array $steps ): void
 	{
