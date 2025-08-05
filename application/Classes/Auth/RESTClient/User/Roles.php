@@ -108,7 +108,7 @@ class Auth_RESTClient_User_Roles extends DataModel_Related_1toN
 	/**
 	 * @param string $id
 	 *
-	 * @return iterable
+	 * @return Auth_RESTClient_User[]
 	 */
 	public static function getRoleUsers( string $id ) : iterable
 	{

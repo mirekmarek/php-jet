@@ -19,17 +19,17 @@ abstract class Application_Services extends BaseObject
 	 */
 	protected static ?array $map = null;
 	/**
-	 * @var ?array<string,Application_Service_MetaInfo>
+	 * @var array<string,array<string,Application_Service_MetaInfo>>
 	 */
-	protected static ?array $services_meta_info = null;
+	protected static array $services_meta_info = [];
 	
 	/**
-	 * @var ?array<string,string>
+	 * @var array<string,array<string,string>>
 	 */
-	protected static ?array $config = null;
+	protected static array $config = [];
 	
 	/**
-	 * @var array<string,Application_Module>
+	 * @var array<string,array<string,Application_Module>>
 	 */
 	protected static array $services = [];
 	
@@ -40,18 +40,34 @@ abstract class Application_Services extends BaseObject
 		static::_registerServices( static::GROUP );
 	}
 	
+	protected static function _registerServices( string $group ) : void
+	{
+		$definitions = Application_Service_MetaInfo::getServices( $group );
+		
+		static::$services_meta_info[static::class] = [];
+		
+		foreach($definitions as $service_meta_info) {
+			static::registerService( $service_meta_info );
+		}
+		
+		uasort( static::$services_meta_info[static::class], function( Application_Service_MetaInfo $a, Application_Service_MetaInfo $b ) {
+			return strcmp( $a->getName(), $b->getName() );
+		} );
+	}
+	
 	
 	public static function loadCfg() : void
 	{
-		if(static::$config===null) {
+		if(!array_key_exists(static::class, static::$config)) {
+			static::$config[static::class] = [];
+			
 			$path = static::getCfgFilePath();
 			
 			if(!IO_File::exists($path)) {
-				static::$config = [];
 				static::saveCfg();
 			}
 			
-			static::$config = require $path;
+			static::$config[static::class] = require $path;
 		}
 	}
 	
@@ -61,7 +77,7 @@ abstract class Application_Services extends BaseObject
 		
 		IO_File::writeDataAsPhp(
 			static::getCfgFilePath(),
-			static::$config
+			static::$config[static::class]
 		);
 	}
 	
@@ -72,14 +88,14 @@ abstract class Application_Services extends BaseObject
 	{
 		static::loadCfg();
 		
-		return static::$config;
+		return static::$config[static::class];
 	}
 	
 	public static function setServiceConfig( string $interface_class_name, string $module_class_name ) : void
 	{
 		static::loadCfg();
 		
-		static::$config[$interface_class_name] = $module_class_name;
+		static::$config[static::class][$interface_class_name] = $module_class_name;
 	}
 	
 	/**
@@ -87,47 +103,33 @@ abstract class Application_Services extends BaseObject
 	 */
 	public static function getRegisteredServices() : array
 	{
-		if(static::$services_meta_info===null) {
+		if(!array_key_exists(static::class, static::$services_meta_info)) {
 			static::registerServices();
 		}
 		
 		
-		return static::$services_meta_info;
+		return static::$services_meta_info[static::class];
 	}
 	
 	public static function getServiceMetaInfo( string $interface_class_name ) : ?Application_Service_MetaInfo
 	{
-		if(static::$services_meta_info===null) {
+		if(!array_key_exists(static::class, static::$services_meta_info)) {
 			static::registerServices();
 		}
 		
-		if(!isset( static::$services_meta_info[$interface_class_name ])) {
+		if(!isset( static::$services_meta_info[static::class][$interface_class_name ])) {
 			throw new Exception('Unknown service '.$interface_class_name.'');
 		}
 		
-		return static::$services_meta_info[$interface_class_name ];
+		return static::$services_meta_info[static::class][$interface_class_name ];
 	}
 	
-	protected static function _registerService( Application_Service_MetaInfo $service_meta_info ) : void
+	protected static function registerService( Application_Service_MetaInfo $service_meta_info ) : void
 	{
-		static::$services_meta_info[$service_meta_info->getInterfaceClassName()] = $service_meta_info;
+		static::$services_meta_info[static::class][$service_meta_info->getInterfaceClassName()] = $service_meta_info;
 		
 	}
 	
-	protected static function _registerServices( string $group ) : void
-	{
-		$definitions = Application_Service_MetaInfo::getServices( $group );
-		
-		static::$services_meta_info = [];
-		
-		foreach($definitions as $service_meta_info) {
-			static::_registerService( $service_meta_info );
-		}
-		
-		uasort( static::$services_meta_info, function( Application_Service_MetaInfo $a, Application_Service_MetaInfo $b ) {
-			return strcmp( $a->getName(), $b->getName() );
-		} );
-	}
 	
 	
 	/**
@@ -135,12 +137,11 @@ abstract class Application_Services extends BaseObject
 	 */
 	public static function getServicesMetaInfo() : array
 	{
-		if(static::$services_meta_info===null) {
-			static::$services_meta_info=[];
+		if(!array_key_exists(static::class, static::$services_meta_info)) {
 			static::registerServices();
 		}
 		
-		return static::$services_meta_info;
+		return static::$services_meta_info[static::class];
 	}
 	
 	
@@ -212,32 +213,32 @@ abstract class Application_Services extends BaseObject
 	
 	public static function get( string $service_interface ) : ?Application_Module
 	{
-		if(isset( static::$services[$service_interface])) {
-			return static::$services[$service_interface];
+		if(isset( static::$services[static::class][$service_interface])) {
+			return static::$services[static::class][$service_interface];
 		}
 		
 		static::loadCfg();
-		if(!array_key_exists($service_interface, static::$config)) {
+		if(!array_key_exists($service_interface, static::$config[static::class])) {
 			
 			$meta_info = static::getServiceMetaInfo( $service_interface );
 			
 			foreach( static::findServices( $service_interface, $meta_info->getModuleNamePrefix() ) as $service) {
 				
-				static::$config[$service_interface] = $service->getModuleManifest()->getName();
-				static::$services[$service_interface] = $service;
+				static::$config[static::class][$service_interface] = $service->getModuleManifest()->getName();
+				static::$services[static::class][$service_interface] = $service;
 				
 				static::saveCfg();
 				
-				return static::$services[$service_interface];
+				return static::$services[static::class][$service_interface];
 			}
 		}
 		
-		if(array_key_exists($service_interface, static::$config)) {
-			$module_name = static::$config[$service_interface];
+		if(array_key_exists($service_interface, static::$config[static::class])) {
+			$module_name = static::$config[static::class][$service_interface];
 			if(Application_Modules::moduleIsActivated($module_name)) {
 				
 				$service = Application_Modules::moduleInstance( $module_name );
-				static::$services[$service_interface] = $service;
+				static::$services[static::class][$service_interface] = $service;
 				
 				return $service;
 			}

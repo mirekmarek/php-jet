@@ -247,12 +247,14 @@ class Auth_Visitor_Role extends DataModel implements Auth_Role_Interface
 	 *      'privilege' => array('value1', 'value2')
 	 * )
 	 *
-	 * @param array $privileges
+	 * @param array<string,array<string|int|float>> $privileges
 	 */
 	public function setPrivileges( array $privileges ): void
 	{
-		/** @noinspection PhpUndefinedMethodInspection */
-		$this->privileges->clearData();
+		foreach($this->privileges as $privilege) {
+			$privilege->delete();
+		}
+		$this->privileges = [];
 
 		foreach( $privileges as $privilege => $values ) {
 			$this->setPrivilege( $privilege, $values );
@@ -267,7 +269,7 @@ class Auth_Visitor_Role extends DataModel implements Auth_Role_Interface
 	 *
 	 *
 	 * @param string $privilege
-	 * @param array $values
+	 * @param array<string|int|float> $values
 	 */
 	public function setPrivilege( string $privilege, array $values ): void
 	{
@@ -291,7 +293,7 @@ class Auth_Visitor_Role extends DataModel implements Auth_Role_Interface
 	 *
 	 * @param string $privilege
 	 *
-	 * @return array
+	 * @return array<string|int|float>
 	 */
 	public function getPrivilegeValues( string $privilege ): array
 	{
@@ -475,9 +477,9 @@ class Auth_Visitor_Role extends DataModel implements Auth_Role_Interface
 
 	/**
 	 * @param MVC_Page_Interface $page
-	 * @param                    $data
+	 * @param array<string,array<string,mixed>> $data
 	 */
-	protected static function _getPagesTree( MVC_Page_Interface $page, &$data ) : void
+	protected static function _getPagesTree( MVC_Page_Interface $page, array &$data ) : void
 	{
 
 		if( $page->getIsSecret() ) {

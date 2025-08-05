@@ -353,9 +353,6 @@ class Auth_Administrator_User extends DataModel implements Auth_User_Interface
 	public static function getByIdentity( string $username, string $password ): static|null
 	{
 
-		/**
-		 * @var Auth_Administrator_User $user
-		 */
 		$user = static::load(
 			[
 				'username' => $username,
@@ -386,7 +383,7 @@ class Auth_Administrator_User extends DataModel implements Auth_User_Interface
 	/**
 	 * @param string $username
 	 *
-	 * @return static|null;
+	 * @return static|null
 	 */
 	public static function getGetByUsername( string $username ): static|null
 	{
@@ -617,7 +614,7 @@ class Auth_Administrator_User extends DataModel implements Auth_User_Interface
 	
 	
 	/**
-	 * @return array
+	 * @return array<string>
 	 */
 	public function getRoleIds() : array
 	{
@@ -626,7 +623,7 @@ class Auth_Administrator_User extends DataModel implements Auth_User_Interface
 	
 
 	/**
-	 * @param array $role_ids
+	 * @param array<string> $role_ids
 	 */
 	public function setRoles( array $role_ids ): void
 	{
@@ -712,7 +709,7 @@ class Auth_Administrator_User extends DataModel implements Auth_User_Interface
 	/**
 	 * @param string $privilege
 	 *
-	 * @return array
+	 * @return array<string|int|float>
 	 */
 	public function getPrivilegeValues( string $privilege ): array
 	{
@@ -1011,14 +1008,19 @@ class Auth_Administrator_User extends DataModel implements Auth_User_Interface
 
 
 	/**
-	 * @return array
+	 * @param bool $get_as_string
+	 * @return array<string,string|Locale>
 	 */
-	public static function getLocales(): array
+	public static function getLocales( bool $get_as_string=true ): array
 	{
 		$locales = [];
 
 		foreach( Application_Admin::getBase()->getLocales() as $locale_str => $locale ) {
-			$locales[$locale_str] = $locale->getName();
+			if($get_as_string) {
+				$locales[$locale_str] = $locale->getName();
+			} else {
+				$locales[$locale_str] = $locale;
+			}
 		}
 
 		return $locales;

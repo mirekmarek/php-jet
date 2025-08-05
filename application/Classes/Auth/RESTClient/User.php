@@ -238,7 +238,7 @@ class Auth_RESTClient_User extends DataModel implements Auth_User_Interface
 	 * @param string|null $role_id (optional)
 	 * @param string $search
 	 *
-	 * @return Auth_Administrator_User[]|DataModel_Fetch_Instances
+	 * @return Auth_RESTClient_User[]|DataModel_Fetch_Instances
 	 */
 	public static function getList( string|null $role_id = null, string $search = '' ): iterable|DataModel_Fetch_Instances
 	{
@@ -456,7 +456,7 @@ class Auth_RESTClient_User extends DataModel implements Auth_User_Interface
 
 
 	/**
-	 * @return Auth_RESTClient_Role[]
+	 * @return array<string,Auth_RESTClient_Role>
 	 */
 	public function getRoles(): array
 	{
@@ -474,7 +474,7 @@ class Auth_RESTClient_User extends DataModel implements Auth_User_Interface
 	
 	
 	/**
-	 * @return array
+	 * @return array<string>
 	 */
 	public function getRoleIds() : array
 	{
@@ -483,7 +483,7 @@ class Auth_RESTClient_User extends DataModel implements Auth_User_Interface
 	
 
 	/**
-	 * @param array $role_ids
+	 * @param array<string> $role_ids
 	 */
 	public function setRoles( array $role_ids ): void
 	{
@@ -550,7 +550,7 @@ class Auth_RESTClient_User extends DataModel implements Auth_User_Interface
 	/**
 	 * @param string $privilege
 	 *
-	 * @return array
+	 * @return array<string|int|float>
 	 */
 	public function getPrivilegeValues( string $privilege ): array
 	{
@@ -832,17 +832,22 @@ class Auth_RESTClient_User extends DataModel implements Auth_User_Interface
 	{
 		return $this->getAddForm()->catch();
 	}
-
-
+	
+	
 	/**
-	 * @return array
+	 * @param bool $get_as_string
+	 * @return array<string,string|Locale>
 	 */
-	public static function getLocales(): array
+	public static function getLocales( bool $get_as_string=true ): array
 	{
 		$locales = [];
 
 		foreach( Application_REST::getBase()->getLocales() as $locale_str => $locale ) {
-			$locales[$locale_str] = $locale->getName();
+			if($get_as_string) {
+				$locales[$locale_str] = $locale->getName();
+			} else {
+				$locales[$locale_str] = $locale;
+			}
 		}
 
 		return $locales;

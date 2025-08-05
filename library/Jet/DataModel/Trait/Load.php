@@ -730,7 +730,7 @@ trait DataModel_Trait_Load
 	/**
 	 *
 	 * @param array<mixed> $where
-	 * @param array<string,string> $load_filter
+	 * @param array<string> $load_filter
 	 *
 	 * @return DataModel_Fetch_Instances|static[]
 	 * @noinspection PhpDocSignatureInspection

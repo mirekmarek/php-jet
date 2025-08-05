@@ -661,7 +661,7 @@ class Auth_Visitor_User extends DataModel implements Auth_User_Interface
 
 
 	/**
-	 * @return Auth_Visitor_Role[]
+	 * @return array<string,Auth_Visitor_Role>
 	 */
 	public function getRoles(): array
 	{
@@ -678,7 +678,7 @@ class Auth_Visitor_User extends DataModel implements Auth_User_Interface
 	}
 	
 	/**
-	 * @return array
+	 * @return array<string>
 	 */
 	public function getRoleIds() : array
 	{
@@ -686,7 +686,7 @@ class Auth_Visitor_User extends DataModel implements Auth_User_Interface
 	}
 
 	/**
-	 * @param array $role_ids
+	 * @param array<string> $role_ids
 	 */
 	public function setRoles( array $role_ids ): void
 	{
@@ -751,7 +751,7 @@ class Auth_Visitor_User extends DataModel implements Auth_User_Interface
 	/**
 	 * @param string $privilege
 	 *
-	 * @return array
+	 * @return array<string|int|float>
 	 */
 	public function getPrivilegeValues( string $privilege ): array
 	{
@@ -1103,17 +1103,22 @@ class Auth_Visitor_User extends DataModel implements Auth_User_Interface
 	{
 		return $this->getAddForm()->catch();
 	}
-
-
+	
+	
 	/**
-	 * @return array
+	 * @param bool $get_as_string
+	 * @return array<string,string|Locale>
 	 */
-	public static function getLocales(): array
+	public static function getLocales( bool $get_as_string=true ): array
 	{
 		$locales = [];
 
 		foreach( Application_Web::getBase()->getLocales() as $locale_str => $locale ) {
-			$locales[$locale_str] = $locale->getName();
+			if($get_as_string) {
+				$locales[$locale_str] = $locale->getName();
+			} else {
+				$locales[$locale_str] = $locale;
+			}
 		}
 
 		return $locales;

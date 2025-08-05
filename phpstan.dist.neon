@@ -1,0 +1,6 @@
+parameters:
+	level: 7
+	paths:
+		library/Jet
+		application/Classes
+		application/Modules

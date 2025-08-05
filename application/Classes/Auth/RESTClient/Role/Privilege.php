@@ -51,7 +51,7 @@ class Auth_RESTClient_Role_Privilege extends DataModel_Related_1toN implements A
 	protected string $privilege = '';
 
 	/**
-	 * @var array
+	 * @var array<string|int|float>
 	 */
 	#[DataModel_Definition(
 		type: DataModel::TYPE_CUSTOM_DATA,
@@ -61,7 +61,7 @@ class Auth_RESTClient_Role_Privilege extends DataModel_Related_1toN implements A
 
 	/**
 	 * @param string $privilege
-	 * @param array $values
+	 * @param array<string|int|float> $values
 	 */
 	public function __construct( string $privilege = '', array $values = [] )
 	{
@@ -111,7 +111,7 @@ class Auth_RESTClient_Role_Privilege extends DataModel_Related_1toN implements A
 	}
 
 	/**
-	 * @return array
+	 * @return array<string|int|float>
 	 */
 	public function getValues(): array
 	{
@@ -119,7 +119,7 @@ class Auth_RESTClient_Role_Privilege extends DataModel_Related_1toN implements A
 	}
 
 	/**
-	 * @param array $values
+	 * @param array<string|int|float> $values
 	 */
 	public function setValues( array $values ): void
 	{

@@ -29,10 +29,7 @@ class Application_Service_MetaInfo extends BaseObject
 	protected static ?array $definitions = null;
 	
 	
-	/**
-	 * @param list<mixed> ...$definitions
-	 */
-	public function __construct( ...$definitions )
+	public function __construct( string $group = '', bool $is_mandatory=false, string $name = '', string $description = '' )
 	{
 	
 	}
