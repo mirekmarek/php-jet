@@ -38,7 +38,7 @@ class Main extends Application_Admin_Services_Auth_LoginModule
 		$action = 'login';
 		
 		/**
-		 * @var Auth_Administrator_User|bool $user
+		 * @var Auth_Administrator_User|false $user
 		 */
 		$user = $auth_controller->getCurrentUser();
 		

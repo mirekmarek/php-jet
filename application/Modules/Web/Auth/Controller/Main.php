@@ -17,7 +17,6 @@ use JetApplication\Application_Web_Services;
 use JetApplication\Application_Web_Services_Auth_Controller;
 use JetApplication\Application_Web_Services_Auth_LoginModule;
 use JetApplication\Auth_Visitor_Role;
-use JetApplication\Auth_Visitor_User;
 use JetApplication\Auth_Visitor_User as Visitor;
 
 /**
@@ -31,9 +30,9 @@ class Main extends Application_Module implements Application_Web_Services_Auth_C
 	
 	/**
 	 *
-	 * @var Visitor|bool|null
+	 * @var Visitor|false|null
 	 */
-	protected Visitor|bool|null $current_user = null;
+	protected Visitor|false|null $current_user = null;
 	
 	/**
 	 *
@@ -78,9 +77,9 @@ class Main extends Application_Module implements Application_Web_Services_Auth_C
 	/**
 	 * Return current user data or FALSE
 	 *
-	 * @return Visitor|bool
+	 * @return Visitor|false
 	 */
-	public function getCurrentUser(): Visitor|bool
+	public function getCurrentUser(): Visitor|false
 	{
 		if( $this->current_user !== null ) {
 			return $this->current_user;
@@ -205,10 +204,7 @@ class Main extends Application_Module implements Application_Web_Services_Auth_C
 	{
 		$current_user = $this->getCurrentUser();
 		
-		if(
-			!$current_user ||
-			!($current_user instanceof Auth_Visitor_User)
-		) {
+		if( !$current_user ) {
 			return false;
 		}
 		

@@ -66,18 +66,18 @@ class Form_Definition_Field extends Form_Definition
 	
 	
 	/**
-	 * @return string|bool
+	 * @return string|false
 	 */
-	public function getType(): string|bool
+	public function getType(): string|false
 	{
 		return $this->type;
 	}
 	
 	
 	/**
-	 * @param string|bool $type
+	 * @param string|false $type
 	 */
-	public function setType( string|bool $type ): void
+	public function setType( string|false $type ): void
 	{
 		$this->type = $type;
 	}

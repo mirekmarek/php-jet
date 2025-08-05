@@ -368,9 +368,9 @@ class Gallery extends DataModel
 	/**
 	 * @param string $file_name
 	 *
-	 * @return bool|Gallery_Image
+	 * @return false|Gallery_Image
 	 */
-	public function getImageExists( string $file_name ): bool|Gallery_Image
+	public function getImageExists( string $file_name ): false|Gallery_Image
 	{
 
 		foreach( $this->getImages() as $existing_image ) {
@@ -565,9 +565,9 @@ class Gallery extends DataModel
 	/**
 	 * @param bool $force_catch
 	 *
-	 * @return bool|Gallery_Image[]
+	 * @return false|Gallery_Image[]
 	 */
-	public function catchImageUploadForm( bool $force_catch = false ): bool|array
+	public function catchImageUploadForm( bool $force_catch = false ): false|array
 	{
 
 		$form = $this->getImageUploadForm();

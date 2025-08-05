@@ -172,9 +172,9 @@ class MVC_Controller_REST_Router extends MVC_Controller_Router
 
 	/**
 	 *
-	 * @return bool|string
+	 * @return false|string
 	 */
-	public function resolve(): bool|string
+	public function resolve(): false|string
 	{
 		$path = MVC::getRouter()->getUrlPath();
 

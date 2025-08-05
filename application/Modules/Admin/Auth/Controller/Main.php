@@ -17,7 +17,6 @@ use JetApplication\Application_Admin_Services;
 use JetApplication\Application_Admin_Services_Auth_Controller;
 use JetApplication\Application_Admin_Services_Auth_LoginModule;
 use JetApplication\Auth_Administrator_Role;
-use JetApplication\Auth_Administrator_User;
 use JetApplication\Auth_Administrator_User as Administrator;
 
 /**
@@ -32,9 +31,9 @@ class Main extends Application_Module implements Application_Admin_Services_Auth
 	
 	/**
 	 *
-	 * @var Administrator|bool|null
+	 * @var Administrator|false|null
 	 */
-	protected Administrator|bool|null $current_user = null;
+	protected Administrator|false|null $current_user = null;
 	
 	/**
 	 *
@@ -74,9 +73,9 @@ class Main extends Application_Module implements Application_Admin_Services_Auth
 	
 	/**
 	 *
-	 * @return Administrator|bool
+	 * @return Administrator|false
 	 */
-	public function getCurrentUser(): Administrator|bool
+	public function getCurrentUser(): Administrator|false
 	{
 		if( $this->current_user !== null ) {
 			return $this->current_user;
@@ -198,10 +197,7 @@ class Main extends Application_Module implements Application_Admin_Services_Auth
 	{
 		$current_user = $this->getCurrentUser();
 		
-		if(
-			!$current_user ||
-			!($current_user instanceof Auth_Administrator_User)
-		) {
+		if( !$current_user ) {
 			return false;
 		}
 		

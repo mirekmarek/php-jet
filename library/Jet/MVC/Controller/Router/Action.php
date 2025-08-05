@@ -125,9 +125,9 @@ class MVC_Controller_Router_Action extends BaseObject
 
 	/**
 	 *
-	 * @return bool|string
+	 * @return false|string
 	 */
-	public function resolve(): bool|string
+	public function resolve(): false|string
 	{
 		if( !$this->resolver ) {
 			return false;
@@ -143,10 +143,10 @@ class MVC_Controller_Router_Action extends BaseObject
 	 *
 	 * @param mixed[] $arguments
 	 *
-	 * @return string|bool
+	 * @return string|false
 	 * @noinspection PhpPluralMixedCanBeReplacedWithArrayInspection
 	 */
-	public function URI( ...$arguments ): string|bool
+	public function URI( ...$arguments ): string|false
 	{
 		if(!$this->URI_creator) {
 			return false;

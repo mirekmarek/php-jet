@@ -41,9 +41,9 @@ class MVC_Page_Content extends BaseObject implements MVC_Page_Content_Interface
 
 	/**
 	 *
-	 * @var string|bool
+	 * @var string|false
 	 */
-	protected string|bool $controller_action = '';
+	protected string|false $controller_action = '';
 
 	/**
 	 *
@@ -80,9 +80,9 @@ class MVC_Page_Content extends BaseObject implements MVC_Page_Content_Interface
 	protected bool $_skip_dispatch = false;
 
 	/**
-	 * @var Application_Module|bool|null
+	 * @var Application_Module|false|null
 	 */
-	protected Application_Module|bool|null $__module_instance = null;
+	protected Application_Module|false|null $__module_instance = null;
 
 	/**
 	 *
@@ -258,9 +258,9 @@ class MVC_Page_Content extends BaseObject implements MVC_Page_Content_Interface
 	}
 
 	/**
-	 * @return Application_Module|bool
+	 * @return Application_Module|false
 	 */
-	public function getModuleInstance(): Application_Module|bool
+	public function getModuleInstance(): Application_Module|false
 	{
 		if( $this->__module_instance !== null ) {
 			return $this->__module_instance;
@@ -282,9 +282,9 @@ class MVC_Page_Content extends BaseObject implements MVC_Page_Content_Interface
 
 
 	/**
-	 * @return string|bool
+	 * @return string|false
 	 */
-	public function getControllerAction(): string|bool
+	public function getControllerAction(): string|false
 	{
 		if( $this->controller_action === false ) {
 			return false;
@@ -355,9 +355,9 @@ class MVC_Page_Content extends BaseObject implements MVC_Page_Content_Interface
 
 	/**
 	 *
-	 * @return MVC_Controller|bool
+	 * @return MVC_Controller|false
 	 */
-	public function getControllerInstance(): MVC_Controller|bool
+	public function getControllerInstance(): MVC_Controller|false
 	{
 		if( $this->__controller_instance !== null ) {
 			return $this->__controller_instance;

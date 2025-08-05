@@ -62,7 +62,7 @@ interface MVC_Controller_Router_Interface
 
 	/**
 	 *
-	 * @return bool|string
+	 * @return false|string
 	 */
-	public function resolve(): bool|string;
+	public function resolve(): false|string;
 }

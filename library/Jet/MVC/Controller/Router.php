@@ -117,9 +117,9 @@ class MVC_Controller_Router extends BaseObject implements MVC_Controller_Router_
 
 	/**
 	 *
-	 * @return bool|string
+	 * @return false|string
 	 */
-	public function resolve(): bool|string
+	public function resolve(): false|string
 	{
 
 		foreach( $this->actions as $action ) {

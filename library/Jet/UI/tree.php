@@ -114,9 +114,9 @@ class UI_tree extends UI_Renderer_Single
 	}
 
 	/**
-	 * @return array<string>|bool
+	 * @return array<string>
 	 */
-	protected function getSelectedPath(): array|bool
+	protected function getSelectedPath(): array
 	{
 
 		$selected_id = $this->getSelectedId();

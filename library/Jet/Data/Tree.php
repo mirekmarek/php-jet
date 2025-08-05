@@ -340,9 +340,9 @@ class Data_Tree extends BaseObject implements BaseObject_Interface_IteratorCount
 	/**
 	 * @param string $target_node_id
 	 *
-	 * @return array<string>|bool
+	 * @return array<string>|false
 	 */
-	public function getPath( string $target_node_id ): array|bool
+	public function getPath( string $target_node_id ): array|false
 	{
 		$target_node = $this->getNode( $target_node_id );
 

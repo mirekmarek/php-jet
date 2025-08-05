@@ -143,6 +143,7 @@ class IO_File
 	 * @return void
 	 * @throws IO_File_Exception
 	 * @noinspection PhpRedundantDocCommentInspection
+	 * @noinspection PhpPluralMixedCanBeReplacedWithArrayInspection
 	 */
 	public static function writeDataAsPhp( string $path, array $data, bool $reset_cache=true ) : void
 	{

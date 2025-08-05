@@ -66,14 +66,14 @@ interface MVC_Page_Content_Interface
 	public function setModuleName( string $module_name ): void;
 
 	/**
-	 * @return Application_Module|bool
+	 * @return Application_Module|false
 	 */
-	public function getModuleInstance(): Application_Module|bool;
+	public function getModuleInstance(): Application_Module|false;
 
 	/**
-	 * @return string|bool
+	 * @return string|false
 	 */
-	public function getControllerAction(): string|bool;
+	public function getControllerAction(): string|false;
 
 	/**
 	 * @param string $controller_action
@@ -168,9 +168,9 @@ interface MVC_Page_Content_Interface
 
 	/**
 	 *
-	 * @return MVC_Controller|bool
+	 * @return MVC_Controller|false
 	 */
-	public function getControllerInstance(): MVC_Controller|bool;
+	public function getControllerInstance(): MVC_Controller|false;
 
 	/**
 	 *

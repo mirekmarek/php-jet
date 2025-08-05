@@ -13,7 +13,7 @@ namespace Jet;
  */
 class Form_Definition_SubForms extends Form_Definition
 {
-	protected bool|string $type = 'sub_forms';
+	protected false|string $type = 'sub_forms';
 	protected bool $is_sub_forms = true;
 	
 	/**
@@ -27,9 +27,9 @@ class Form_Definition_SubForms extends Form_Definition
 	}
 	
 	/**
-	 * @param string|bool $type
+	 * @param string|false $type
 	 */
-	public function setType( string|bool $type ): void
+	public function setType( string|false $type ): void
 	{
 	}
 	

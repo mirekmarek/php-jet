@@ -120,9 +120,9 @@ class Autoloader
 	 * @param string $class_name
 	 * @param ?string $loader_name
 	 *
-	 * @return string|bool
+	 * @return string|false
 	 */
-	public static function getScriptPath( string $class_name, ?string &$loader_name='' ) : string|bool
+	public static function getScriptPath( string $class_name, ?string &$loader_name='' ) : string|false
 	{
 		$path = false;
 

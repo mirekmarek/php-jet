@@ -36,9 +36,9 @@ abstract class Autoloader_Loader
 	 *
 	 * @param string $class_name
 	 *
-	 * @return bool|string
+	 * @return false|string
 	 */
-	abstract public function getScriptPath( string $class_name ): bool|string;
+	abstract public function getScriptPath( string $class_name ): false|string;
 	
 	/**
 	 * @param string $class_name

@@ -627,9 +627,9 @@ class Form extends BaseObject
 
 	/**
 	 *
-	 * @return array<string|mixed>|bool
+	 * @return array<string|mixed>|false
 	 */
-	public function getValues(): array|bool
+	public function getValues(): array|false
 	{
 		if( !$this->is_valid ) {
 			return false;

@@ -95,9 +95,9 @@ trait Form_Field_Trait_Validation
 	 * @param string $code
 	 * @param array<string,mixed> $data
 	 *
-	 * @return string|bool
+	 * @return string|false
 	 */
-	public function getErrorMessage( string $code, array $data=[] ): string|bool
+	public function getErrorMessage( string $code, array $data=[] ): string|false
 	{
 		$message = $this->error_messages[$code] ?? false;
 

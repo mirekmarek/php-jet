@@ -27,9 +27,9 @@ return new class extends Autoloader_Loader
 	 *
 	 * @param string $class_name
 	 *
-	 * @return bool|string
+	 * @return false|string
 	 */
-	public function getScriptPath( string $class_name ): bool|string
+	public function getScriptPath( string $class_name ): false|string
 	{
 		$modules_namespace = SysConf_Jet_Modules::getModuleRootNamespace().'\\';
 		

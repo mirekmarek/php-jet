@@ -30,9 +30,9 @@ class Main extends Application_Module implements Application_REST_Services_Auth_
 	
 	/**
 	 *
-	 * @var Auth_RESTClient_User|null|bool
+	 * @var Auth_RESTClient_User|null|false
 	 */
-	protected Auth_RESTClient_User|null|bool $current_user = null;
+	protected Auth_RESTClient_User|null|false $current_user = null;
 	
 	/**
 	 *
@@ -68,9 +68,9 @@ class Main extends Application_Module implements Application_REST_Services_Auth_
 	
 	/**
 	 *
-	 * @return Auth_RESTClient_User|bool
+	 * @return Auth_RESTClient_User|false
 	 */
-	public function getCurrentUser(): Auth_RESTClient_User|bool
+	public function getCurrentUser(): Auth_RESTClient_User|false
 	{
 		
 		if( $this->current_user !== null ) {
@@ -201,10 +201,7 @@ class Main extends Application_Module implements Application_REST_Services_Auth_
 	{
 		$current_user = $this->getCurrentUser();
 		
-		if(
-			!$current_user ||
-			!($current_user instanceof Auth_RESTClient_User)
-		) {
+		if( !$current_user ) {
 			return false;
 		}
 		
@@ -234,10 +231,7 @@ class Main extends Application_Module implements Application_REST_Services_Auth_
 		
 		$current_user = $this->getCurrentUser();
 		
-		if(
-			!$current_user ||
-			!($current_user instanceof Auth_RESTClient_User)
-		) {
+		if( !$current_user ) {
 			return false;
 		}
 		

@@ -19,9 +19,9 @@ class Form_Definition extends BaseObject
 {
 	/**
 	 *
-	 * @var string|bool
+	 * @var string|false
 	 */
-	protected string|bool $type = '';
+	protected string|false $type = '';
 	
 	protected bool $is_sub_form = false;
 	protected bool $is_sub_forms = false;
@@ -130,18 +130,18 @@ class Form_Definition extends BaseObject
 	
 	
 	/**
-	 * @return string|bool
+	 * @return string|false
 	 */
-	public function getType(): string|bool
+	public function getType(): string|false
 	{
 		return $this->type;
 	}
 	
 	
 	/**
-	 * @param string|bool $type
+	 * @param string|false $type
 	 */
-	public function setType( string|bool $type ): void
+	public function setType( string|false $type ): void
 	{
 		$this->type = $type;
 	}

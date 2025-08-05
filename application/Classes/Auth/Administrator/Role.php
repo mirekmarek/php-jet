@@ -23,7 +23,6 @@ use Jet\Form_Field_MultiSelect;
 use Jet\Locale;
 use Jet\Tr;
 use Jet\MVC;
-use Jet\MVC_Page;
 use Jet\Form;
 use Jet\Form_Field;
 

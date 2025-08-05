@@ -46,9 +46,9 @@ interface Auth_Controller_Interface
 
 	/**
 	 *
-	 * @return Auth_User_Interface|bool
+	 * @return Auth_User_Interface|false
 	 */
-	public function getCurrentUser(): Auth_User_Interface|bool;
+	public function getCurrentUser(): Auth_User_Interface|false;
 
 	/**
 	 *

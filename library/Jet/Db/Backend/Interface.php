@@ -70,9 +70,9 @@ interface Db_Backend_Interface
 	 * @param string $query
 	 * @param array<string,mixed> $query_data (optional)
 	 *
-	 * @return array<string,mixed>|bool
+	 * @return array<string,mixed>|false
 	 */
-	public function fetchRow( string $query, array $query_data = [] ): array|bool;
+	public function fetchRow( string $query, array $query_data = [] ): array|false;
 
 	/**
 	 *

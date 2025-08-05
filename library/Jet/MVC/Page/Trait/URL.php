@@ -25,13 +25,13 @@ trait MVC_Page_Trait_URL
 
 
 	/**
-	 * @param string|null|bool $schema
+	 * @param string|null|false $schema
 	 * @param array<string> $path_fragments
 	 * @param array<string,mixed> $GET_params
 	 *
 	 * @return string
 	 */
-	protected function _createURL( string|null|bool $schema, array $path_fragments, array $GET_params ): string
+	protected function _createURL( string|null|false $schema, array $path_fragments, array $GET_params ): string
 	{
 		$base = $this->getBase();
 

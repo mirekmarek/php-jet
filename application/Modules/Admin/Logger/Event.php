@@ -109,7 +109,7 @@ class Event extends DataModel
 	                            string $context_object_id = '',
 	                            string $context_object_name = '',
 	                            mixed $context_object_data = [],
-	                            Auth_User_Interface|bool $current_user = false ): static
+	                            Auth_User_Interface|false $current_user = false ): static
 	{
 
 

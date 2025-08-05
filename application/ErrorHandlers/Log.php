@@ -28,9 +28,9 @@ class ErrorHandler_Log extends Debug_ErrorHandler_Handler
 	}
 
 	/**
-	 * @var null|string
+	 * @var null|string|false
 	 */
-	protected ?string $log_dir = null;
+	protected null|string|false $log_dir = null;
 
 	/**
 	 * @param Debug_ErrorHandler_Error $error
@@ -66,17 +66,17 @@ class ErrorHandler_Log extends Debug_ErrorHandler_Handler
 	}
 
 	/**
-	 * @param string $log_dir
+	 * @param string|false $log_dir
 	 */
-	public function setLogDir( string $log_dir ): void
+	public function setLogDir( string|false $log_dir ): void
 	{
 		$this->log_dir = $log_dir;
 	}
 
 	/**
-	 * @return bool|null|string
+	 * @return false|string
 	 */
-	protected function getLogDir(): bool|null|string
+	protected function getLogDir(): false|string
 	{
 		if( !$this->log_dir ) {
 			$this->log_dir = SysConf_Path::getLogs();

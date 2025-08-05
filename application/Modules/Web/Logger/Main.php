@@ -24,7 +24,7 @@ class Main extends Application_Module implements Application_Web_Services_Logger
 	 * @param string|int $context_object_id (optional)
 	 * @param string $context_object_name (optional)
 	 * @param mixed $context_object_data (optional)
-	 * @param Auth_User_Interface|bool $current_user
+	 * @param Auth_User_Interface|false $current_user
 	 */
 	public function log( string $event_class,
 	                     string $event,
@@ -32,7 +32,7 @@ class Main extends Application_Module implements Application_Web_Services_Logger
 	                     string|int $context_object_id = '',
 	                     string $context_object_name = '',
 	                     mixed $context_object_data = [],
-	                     Auth_User_Interface|bool $current_user = false ) : void
+	                     Auth_User_Interface|false $current_user = false ) : void
 	{
 		Event::log(
 			$event_class,
