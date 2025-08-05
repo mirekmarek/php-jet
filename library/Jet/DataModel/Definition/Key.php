@@ -27,14 +27,14 @@ class DataModel_Definition_Key extends BaseObject
 	protected string $type = '';
 
 	/**
-	 * @var array
+	 * @var array<string>
 	 */
 	protected array $property_names = [];
 
 	/**
 	 * @param string $name
 	 * @param string $type
-	 * @param array $property_names
+	 * @param array<string> $property_names
 	 *
 	 * @throws DataModel_Exception
 	 */
@@ -72,7 +72,7 @@ class DataModel_Definition_Key extends BaseObject
 	}
 
 	/**
-	 * @return array
+	 * @return array<string>
 	 */
 	public function getPropertyNames(): array
 	{

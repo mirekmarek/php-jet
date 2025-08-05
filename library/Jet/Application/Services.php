@@ -15,16 +15,22 @@ abstract class Application_Services extends BaseObject
 {
 	public const GROUP = null;
 	/**
-	 * @var null|array<string,array<string,string>>
+	 * @var null|array<string,array<string,Application_Module>>
 	 */
 	protected static ?array $map = null;
 	/**
-	 * @var Application_Service_MetaInfo[]|null
+	 * @var ?array<string,Application_Service_MetaInfo>
 	 */
 	protected static ?array $services_meta_info = null;
 	
+	/**
+	 * @var ?array<string,string>
+	 */
 	protected static ?array $config = null;
 	
+	/**
+	 * @var array<string,Application_Module>
+	 */
 	protected static array $services = [];
 	
 	abstract public static function getCfgFilePath() : string;
@@ -59,6 +65,9 @@ abstract class Application_Services extends BaseObject
 		);
 	}
 	
+	/**
+	 * @return array<string,string>
+	 */
 	public static function getConfig() : array
 	{
 		static::loadCfg();
@@ -74,7 +83,7 @@ abstract class Application_Services extends BaseObject
 	}
 	
 	/**
-	 * @return Application_Service_MetaInfo[]
+	 * @return array<string,Application_Service_MetaInfo>
 	 */
 	public static function getRegisteredServices() : array
 	{
@@ -176,7 +185,7 @@ abstract class Application_Services extends BaseObject
 	 * @param string $service_interface
 	 * @param string|null $module_name_prefix
 	 *
-	 * @return Application_Module[]
+	 * @return array<string,Application_Module>
 	 */
 	public static function findServices( string $service_interface, ?string $module_name_prefix=null ) : array
 	{

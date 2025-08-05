@@ -19,6 +19,9 @@ trait DataListing_Traits_Filters
 	 */
 	protected array $filters = [];
 	
+	/**
+	 * @var list<mixed>|null
+	 */
 	protected ?array $filter_where = null;
 	
 	protected ?Form $filter_form = null;
@@ -90,6 +93,10 @@ trait DataListing_Traits_Filters
 	}
 	
 	
+	/**
+	 * @param list<mixed> $where
+	 * @return void
+	 */
 	public function addFilterWhere( array $where ): void
 	{
 		if( $this->filter_where ) {
@@ -99,11 +106,17 @@ trait DataListing_Traits_Filters
 		$this->filter_where[] = $where;
 	}
 	
+	/**
+	 * @return list<mixed>
+	 */
 	protected function getDefaultFilterWhere() : array
 	{
 		return [];
 	}
 	
+	/**
+	 * @return list<mixed>
+	 */
 	public function getFilterWhere(): array
 	{
 		if( $this->filter_where === null ) {

@@ -21,14 +21,14 @@ class Data_Array extends BaseObject implements BaseObject_Interface_Serializable
 
 	/**
 	 *
-	 * @var array
+	 * @var array<string|int,list<mixed>>
 	 */
 	protected array $data = [];
 
 
 	/**
 	 *
-	 * @param array $data
+	 * @param array<string|int,list<mixed>> $data
 	 */
 	public function __construct( array $data = [] )
 	{
@@ -38,7 +38,7 @@ class Data_Array extends BaseObject implements BaseObject_Interface_Serializable
 
 	/**
 	 *
-	 * @return array
+	 * @return array<string|int,list<mixed>>
 	 */
 	public function getRawData(): array
 	{
@@ -279,7 +279,7 @@ class Data_Array extends BaseObject implements BaseObject_Interface_Serializable
 	 *
 	 * @param string $key
 	 * @param string $default_value (optional, default = '')
-	 * @param array $valid_values (optional)
+	 * @param array<string|int|float> $valid_values (optional)
 	 *
 	 * @return string
 	 */
@@ -315,7 +315,7 @@ class Data_Array extends BaseObject implements BaseObject_Interface_Serializable
 	}
 
 	/**
-	 * @param array $data
+	 * @param array<string|int,list<mixed>> $data
 	 * @param int $level
 	 * @param string $path
 	 *
@@ -346,11 +346,14 @@ class Data_Array extends BaseObject implements BaseObject_Interface_Serializable
 				$result .= $indent . "\t" . '\'' . str_replace( "'", "\\'", $key ) . '\' => ';
 			}
 
+			/** @phpstan-ignore function.alreadyNarrowedType */
 			if( is_array( $value ) ) {
 				$result .= static::_export( $value, $next_level, $my_path  ) . '';
+				/** @phpstan-ignore function.alreadyNarrowedType */
 			} elseif( is_object( $value ) ) {
 				$class_name = get_class( $value );
-
+				
+				/** @phpstan-ignore function.alreadyNarrowedType */
 				if( is_subclass_of( $value, JsonSerializable::class ) ) {
 					$object_values = $value->jsonSerialize();
 				} else {
@@ -383,9 +386,9 @@ class Data_Array extends BaseObject implements BaseObject_Interface_Serializable
 
 		return json_encode( $data );
 	}
-
+	
 	/**
-	 *
+	 * @return array<string,mixed>
 	 */
 	public function jsonSerialize(): array
 	{
@@ -395,9 +398,9 @@ class Data_Array extends BaseObject implements BaseObject_Interface_Serializable
 	}
 
 	/**
-	 * @param array $data
+	 * @param array<string,mixed> $data
 	 *
-	 * @return array
+	 * @return array<string,mixed>
 	 */
 	protected function _jsonSerializeTraverse( array $data ): array
 	{

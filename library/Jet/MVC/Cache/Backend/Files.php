@@ -44,6 +44,7 @@ class MVC_Cache_Backend_Files extends Cache_Files implements MVC_Cache_Backend
 	 */
 	public function loadBaseMaps(): array|null
 	{
+		/** @phpstan-ignore  return.type */
 		return $this->readData( static::KEY_PREFIX . 'base_maps' );
 	}
 
@@ -52,6 +53,7 @@ class MVC_Cache_Backend_Files extends Cache_Files implements MVC_Cache_Backend
 	 */
 	public function saveBaseMaps( array $map ): void
 	{
+		/** @phpstan-ignore  argument.type */
 		$this->writeData( static::KEY_PREFIX . 'base_maps', $map );
 	}
 
@@ -61,6 +63,7 @@ class MVC_Cache_Backend_Files extends Cache_Files implements MVC_Cache_Backend
 	 */
 	public function loadBasesFilesMap(): array|null
 	{
+		/** @phpstan-ignore  return.type */
 		return $this->readData( static::KEY_PREFIX . 'bases_files_map' );
 	}
 
@@ -69,6 +72,7 @@ class MVC_Cache_Backend_Files extends Cache_Files implements MVC_Cache_Backend
 	 */
 	public function saveBasesFilesMap( array $map ): void
 	{
+		/** @phpstan-ignore  argument.type */
 		$this->writeData( static::KEY_PREFIX . 'bases_files_map', $map );
 	}
 
@@ -80,6 +84,7 @@ class MVC_Cache_Backend_Files extends Cache_Files implements MVC_Cache_Backend
 	 */
 	public function loadPageMaps( MVC_Base_Interface $base, Locale $locale ): array|null
 	{
+		/** @phpstan-ignore  return.type */
 		return $this->readData( static::KEY_PREFIX . 'pages_map_' . $base->getId() . '_' . $locale );
 	}
 
@@ -91,6 +96,7 @@ class MVC_Cache_Backend_Files extends Cache_Files implements MVC_Cache_Backend
 	 */
 	public function savePageMaps( MVC_Base_Interface $base, Locale $locale, array $map ): void
 	{
+		/** @phpstan-ignore  argument.type */
 		$this->writeData( static::KEY_PREFIX . 'pages_map_' . $base->getId() . '_' . $locale, $map );
 	}
 

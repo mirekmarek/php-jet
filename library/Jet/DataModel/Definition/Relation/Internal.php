@@ -18,8 +18,8 @@ class DataModel_Definition_Relation_Internal extends DataModel_Definition_Relati
 	/**
 	 * @param string $this_data_model_class_name
 	 * @param string $related_data_model_class_name
-	 * @param array $join_by
-	 * @param array $required_relations
+	 * @param array<string,string> $join_by
+	 * @param array<string> $required_relations
 	 */
 	public function __construct( string $this_data_model_class_name, string $related_data_model_class_name, array $join_by, array $required_relations = [] )
 	{

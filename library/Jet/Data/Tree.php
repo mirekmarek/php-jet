@@ -105,7 +105,7 @@ class Data_Tree extends BaseObject implements BaseObject_Interface_IteratorCount
 	protected array $_iterator_map = [];
 
 	/**
-	 * @var array
+	 * @var array<string,object|array<string,mixed>>
 	 */
 	protected array $__parent_map = [];
 
@@ -319,7 +319,7 @@ class Data_Tree extends BaseObject implements BaseObject_Interface_IteratorCount
 
 	/**
 	 *
-	 * @return array
+	 * @return array<string>
 	 */
 	public function getNodesIds(): array
 	{
@@ -380,7 +380,7 @@ class Data_Tree extends BaseObject implements BaseObject_Interface_IteratorCount
 	/**
 	 * Sets tree data
 	 *
-	 * @param array $data
+	 * @param array<array<string,mixed>> $data
 	 */
 	public function setData( array $data ): void
 	{
@@ -390,7 +390,7 @@ class Data_Tree extends BaseObject implements BaseObject_Interface_IteratorCount
 
 	/**
 	 *
-	 * @param array|Iterator $items
+	 * @param array<array<string,mixed>>|Iterator $items
 	 *
 	 * @throws Data_Tree_Exception
 	 */
@@ -401,9 +401,7 @@ class Data_Tree extends BaseObject implements BaseObject_Interface_IteratorCount
 		$ids = [];
 
 		foreach( $items as $item ) {
-			/**
-			 * @var array $item
-			 */
+
 			$id = $this->getNodeData_id( $item );
 			$parent_id = $this->getNodeData_parentId( $item );
 
@@ -463,7 +461,7 @@ class Data_Tree extends BaseObject implements BaseObject_Interface_IteratorCount
 	}
 
 	/**
-	 * @param array|object $item
+	 * @param array<string,mixed>|object $item
 	 *
 	 * @return string
 	 * @throws Data_Tree_Exception
@@ -486,7 +484,7 @@ class Data_Tree extends BaseObject implements BaseObject_Interface_IteratorCount
 	}
 
 	/**
-	 * @param array|object $item
+	 * @param array<string,mixed>|object $item
 	 *
 	 * @return string
 	 * @throws Data_Tree_Exception
@@ -553,7 +551,7 @@ class Data_Tree extends BaseObject implements BaseObject_Interface_IteratorCount
 
 	/**
 	 *
-	 * @param array|object $item_data
+	 * @param array<string,mixed>|object $item_data
 	 *
 	 * @return Data_Tree_Node|null
 	 * @throws Data_Tree_Exception
@@ -612,7 +610,7 @@ class Data_Tree extends BaseObject implements BaseObject_Interface_IteratorCount
 	}
 
 	/**
-	 * @param object|array $item
+	 * @param object|array<string,mixed> $item
 	 *
 	 * @return string
 	 * @throws Data_Tree_Exception
@@ -636,7 +634,7 @@ class Data_Tree extends BaseObject implements BaseObject_Interface_IteratorCount
 
 	/**
 	 *
-	 * @param Iterator|array $data
+	 * @param Iterator|array<object> $data
 	 */
 	public function setDataSource( Iterator|array $data ): void
 	{
@@ -668,7 +666,7 @@ class Data_Tree extends BaseObject implements BaseObject_Interface_IteratorCount
 	}
 
 	/**
-	 * @return array
+	 * @return array<array<string,mixed>>
 	 */
 	public function jsonSerialize(): array
 	{
@@ -685,7 +683,7 @@ class Data_Tree extends BaseObject implements BaseObject_Interface_IteratorCount
 
 	/**
 	 *
-	 * @return array
+	 * @return array<array<string,mixed>>
 	 */
 	public function toArray(): array
 	{
@@ -716,9 +714,9 @@ class Data_Tree extends BaseObject implements BaseObject_Interface_IteratorCount
 	//- Iterator ----------------------------------------------------------------------------------
 	//- Iterator ----------------------------------------------------------------------------------
 	//- Iterator ----------------------------------------------------------------------------------
-
+	
 	/**
-	 *
+	 * @return Data_Tree_Node[]
 	 */
 	public function getIteratorMap(): array
 	{

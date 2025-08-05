@@ -127,7 +127,7 @@ interface Auth_User_Interface
 	/**
 	 * @param string $privilege
 	 *
-	 * @return array
+	 * @return array<string|int|float>
 	 */
 	public function getPrivilegeValues( string $privilege ): array;
 

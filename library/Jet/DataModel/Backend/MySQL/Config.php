@@ -117,7 +117,7 @@ class DataModel_Backend_MySQL_Config extends DataModel_Backend_Config
 	protected string $collate = 'utf8_general_ci';
 
 	/**
-	 * @return array
+	 * @return array<string,string>
 	 */
 	public static function getDbConnectionsList(): array
 	{

@@ -78,7 +78,7 @@ class DataModel_Config extends Config
 
 
 	/**
-	 * @param array $data
+	 * @param array<string,mixed> $data
 	 *
 	 * @return DataModel_Backend_Config
 	 */

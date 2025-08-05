@@ -36,12 +36,12 @@ abstract class DataModel_Definition_Model extends BaseObject
 	protected string $class_name = '';
 
 	/**
-	 * @var ReflectionClass
+	 * @var ReflectionClass<DataModel|DataModel_Related>
 	 */
 	protected ReflectionClass $class_reflection;
 
 	/**
-	 * @var array
+	 * @var array<string,mixed>
 	 */
 	protected array $class_arguments = [];
 
@@ -53,13 +53,13 @@ abstract class DataModel_Definition_Model extends BaseObject
 
 	/**
 	 *
-	 * @var array
+	 * @var array<string,mixed>
 	 */
 	protected array $id_controller_options = [];
 
 	/**
 	 *
-	 * @var array
+	 * @var array<string>
 	 */
 	protected array $id_properties = [];
 
@@ -254,7 +254,7 @@ abstract class DataModel_Definition_Model extends BaseObject
 	/**
 	 * @param ?string $class_name
 	 *
-	 * @return array
+	 * @return array<string,mixed>
 	 */
 	protected function _getPropertiesDefinitionData( ?string $class_name = null ): array
 	{
@@ -278,7 +278,7 @@ abstract class DataModel_Definition_Model extends BaseObject
 	/**
 	 * @param string $property_name
 	 * @param string $related_to
-	 * @param array $property_definition_data
+	 * @param array<string,mixed> $property_definition_data
 	 *
 	 * @return DataModel_Definition_Property|null
 	 *
@@ -415,7 +415,7 @@ abstract class DataModel_Definition_Model extends BaseObject
 	}
 
 	/**
-	 * @return array
+	 * @return array<string,mixed>
 	 */
 	public function getIDControllerOptions(): array
 	{
@@ -490,7 +490,7 @@ abstract class DataModel_Definition_Model extends BaseObject
 	/**
 	 * @param string $name
 	 * @param string $type
-	 * @param array $key_properties
+	 * @param array<string> $key_properties
 	 *
 	 * @throws DataModel_Exception
 	 */

@@ -12,9 +12,10 @@ use ArrayAccess;
 use Iterator;
 use Countable;
 
-/**
- *
- */
-interface BaseObject_Interface_ArrayEmulator extends ArrayAccess, Iterator, Countable
+/** @phpstan-ignore missingType.generics, missingType.generics */
+interface BaseObject_Interface_ArrayEmulator extends
+	ArrayAccess,
+	Iterator,
+	Countable
 {
 }

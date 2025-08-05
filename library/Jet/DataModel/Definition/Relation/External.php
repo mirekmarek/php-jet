@@ -17,7 +17,7 @@ class DataModel_Definition_Relation_External extends DataModel_Definition_Relati
 
 	/**
 	 * @param string $this_model_class_name
-	 * @param ?array $definition_data
+	 * @param ?array<string,mixed> $definition_data
 	 *
 	 */
 	public function __construct( string $this_model_class_name = '', ?array $definition_data = null )
@@ -30,7 +30,7 @@ class DataModel_Definition_Relation_External extends DataModel_Definition_Relati
 
 	/**
 	 * @param string $this_model_class_name
-	 * @param array $definition_data
+	 * @param array<string,mixed> $definition_data
 	 *
 	 * @throws DataModel_Exception
 	 */

@@ -27,7 +27,7 @@ class Config_Section extends Config
 
 
 	/**
-	 * @param array|null $data
+	 * @param array<string|int,mixed>|null $data
 	 */
 	public function __construct( ?array $data = null )
 	{
@@ -84,7 +84,7 @@ class Config_Section extends Config
 
 	/**
 	 *
-	 * @return array
+	 * @return array<string|int,mixed>
 	 * @throws Config_Exception
 	 *
 	 */

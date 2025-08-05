@@ -25,12 +25,12 @@ interface Auth_Role_Privilege_Interface
 	public function setPrivilege( string $privilege ): void;
 
 	/**
-	 * @return array
+	 * @return array<string|int|float>
 	 */
 	public function getValues(): array;
 
 	/**
-	 * @param array $values
+	 * @param array<string|int|float> $values
 	 */
 	public function setValues( array $values ) : void;
 

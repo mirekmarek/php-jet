@@ -17,7 +17,7 @@ class DataModel_Backend_SQLite extends DataModel_Backend
 	
 	public const PRIMARY_KEY_NAME = 'PRIMARY';
 	/**
-	 * @var array
+	 * @var array<string>
 	 */
 	protected static array $valid_key_types = [
 		DataModel::KEY_TYPE_PRIMARY,
@@ -361,7 +361,7 @@ class DataModel_Backend_SQLite extends DataModel_Backend
 	/**
 	 * @param DataModel_Definition_Model $definition
 	 *
-	 * @return array
+	 * @return array<string>
 	 */
 	public function helper_getUpdateCommand( DataModel_Definition_Model $definition ): array
 	{
@@ -441,7 +441,7 @@ class DataModel_Backend_SQLite extends DataModel_Backend
 	 * @param bool $quote
 	 * @param bool $add_table_name
 	 *
-	 * @return array
+	 * @return array<string,mixed>
 	 */
 	protected function _getRecord( DataModel_RecordData $record, bool $quote = true, bool $add_table_name = false ): array
 	{
@@ -508,7 +508,7 @@ class DataModel_Backend_SQLite extends DataModel_Backend
 	}
 
 	/**
-	 * @param array $data
+	 * @param list<mixed> $data
 	 *
 	 * @return string
 	 */
@@ -1036,6 +1036,7 @@ class DataModel_Backend_SQLite extends DataModel_Backend
 			$item = $ob->getItem();
 			if( $item instanceof DataModel_Definition_Property ) {
 				$item = $this->_getColumnName( $item );
+				/** @phpstan-ignore instanceof.alwaysTrue */
 			} else if( $item instanceof DataModel_Query_Select_Item ) {
 				$item = $item->getSelectAs();
 			}

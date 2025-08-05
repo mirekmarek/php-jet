@@ -25,7 +25,7 @@ class DataModel_Definition_Property_String extends DataModel_Definition_Property
 	protected int $max_len = 255;
 
 	/**
-	 * @param array $definition_data
+	 * @param array<string,mixed> $definition_data
 	 *
 	 * @throws DataModel_Exception
 	 */

@@ -36,7 +36,7 @@ abstract class DataModel_Definition_Relation extends BaseObject
 	protected string $join_type = DataModel_Query::JOIN_TYPE_LEFT_JOIN;
 
 	/**
-	 * @var array
+	 * @var array<string>
 	 */
 	protected array $required_relations = [];
 
@@ -131,7 +131,7 @@ abstract class DataModel_Definition_Relation extends BaseObject
 	}
 
 	/**
-	 * @param array $items
+	 * @param array<string,string> $items
 	 */
 	public function setJoinBy( array $items ): void
 	{
@@ -162,7 +162,7 @@ abstract class DataModel_Definition_Relation extends BaseObject
 	}
 
 	/**
-	 * @return array
+	 * @return array<string>
 	 */
 	public function getRequiredRelations(): array
 	{
@@ -170,7 +170,7 @@ abstract class DataModel_Definition_Relation extends BaseObject
 	}
 
 	/**
-	 * @param array $required_relations
+	 * @param array<string> $required_relations
 	 */
 	public function setRequiredRelations( array $required_relations ): void
 	{

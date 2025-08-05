@@ -21,12 +21,12 @@ class Config_Definition_Config extends BaseObject
 	protected string $class_name = '';
 
 	/**
-	 * @var ReflectionClass
+	 * @var ReflectionClass<Config>
 	 */
 	protected ReflectionClass $class_reflection;
 
 	/**
-	 * @var array
+	 * @var array<string,mixed>
 	 */
 	protected array $class_arguments = [];
 

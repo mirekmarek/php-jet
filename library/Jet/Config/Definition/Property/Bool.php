@@ -20,7 +20,7 @@ class Config_Definition_Property_Bool extends Config_Definition_Property
 	protected string $_type = Config::TYPE_BOOL;
 
 	/**
-	 * @param ?array $definition_data
+	 * @param ?array<string,mixed> $definition_data
 	 *
 	 * @throws Config_Exception
 	 */

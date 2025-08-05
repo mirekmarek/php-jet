@@ -38,7 +38,7 @@ class DataModel_Backend_SQLite_Config extends DataModel_Backend_Config
 	protected string $connection = '';
 
 	/**
-	 * @return array
+	 * @return array<string,string>
 	 */
 	public static function getDbConnectionsList(): array
 	{

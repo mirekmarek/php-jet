@@ -46,7 +46,7 @@ abstract class Config extends BaseObject implements Form_Definition_Interface
 
 	/**
 	 *
-	 * @var array
+	 * @var array<string,mixed>
 	 */
 	protected static array $_config_file_data = [];
 
@@ -85,7 +85,7 @@ abstract class Config extends BaseObject implements Form_Definition_Interface
 
 
 	/**
-	 * @param ?array $data
+	 * @param ?array<string|int,mixed> $data
 	 */
 	public function __construct( ?array $data = null )
 	{
@@ -99,7 +99,7 @@ abstract class Config extends BaseObject implements Form_Definition_Interface
 
 	/**
 	 *
-	 * @param array $data
+	 * @param array<string|int,mixed> $data
 	 *
 	 * @throws Config_Exception
 	 */

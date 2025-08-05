@@ -19,12 +19,12 @@ interface Autoloader_Cache_Backend
 	public function isActive(): bool;
 
 	/**
-	 * @return array|null
+	 * @return array<string,string>|null
 	 */
 	public function load(): array|null;
 
 	/**
-	 * @param array $map
+	 * @param array<string,string> $map
 	 */
 	public function save( array $map ): void;
 

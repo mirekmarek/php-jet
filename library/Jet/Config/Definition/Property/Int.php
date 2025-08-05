@@ -28,7 +28,7 @@ class Config_Definition_Property_Int extends Config_Definition_Property
 	protected int|null $max_value = null;
 
 	/**
-	 * @param ?array $definition_data
+	 * @param ?array<string,mixed> $definition_data
 	 *
 	 * @throws Config_Exception
 	 */

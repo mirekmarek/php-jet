@@ -14,9 +14,9 @@ use ReflectionClass;
 class Attributes
 {
 	/**
-	 * @param ReflectionClass $reflection
+	 * @param ReflectionClass<object> $reflection
 	 *
-	 * @return ReflectionClass[]
+	 * @return array<ReflectionClass<object>>
 	 */
 	protected static function getClasses( ReflectionClass $reflection ) : array
 	{
@@ -30,7 +30,12 @@ class Attributes
 
 		return array_reverse( $classes );
 	}
-
+	
+	/**
+	 * @param ReflectionClass<object> $class
+	 * @param string $attribute_name
+	 * @return array<string,mixed>
+	 */
 	public static function getClassPropertyDefinition( ReflectionClass $class, string $attribute_name ): array
 	{
 
@@ -69,7 +74,13 @@ class Attributes
 
 		return $properties_definition_data;
 	}
-
+	
+	/**
+	 * @param ReflectionClass<object> $class
+	 * @param string $attribute_name
+	 * @param array<string,string> $aliases
+	 * @return array<string,mixed>
+	 */
 	public static function getClassDefinition( ReflectionClass $class, string $attribute_name, array $aliases=[] ): array
 	{
 		$classes = static::getClasses( $class );

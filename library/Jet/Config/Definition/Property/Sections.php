@@ -24,7 +24,7 @@ class Config_Definition_Property_Sections extends Config_Definition_Property
 	protected string $section_creator_method_name = '';
 
 	/**
-	 * @param ?array $definition_data
+	 * @param ?array<string,mixed> $definition_data
 	 *
 	 */
 	public function setUp( ?array $definition_data = null ): void
@@ -46,7 +46,7 @@ class Config_Definition_Property_Sections extends Config_Definition_Property
 
 	/**
 	 *
-	 * @param array $value
+	 * @param list<mixed> $value
 	 * @param Config $config
 	 *
 	 * @return Config_Definition_Property_Section[]

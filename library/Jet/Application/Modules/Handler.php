@@ -27,7 +27,7 @@ abstract class Application_Modules_Handler extends BaseObject
 	/**
 	 *
 	 *
-	 * @return Application_Module_Manifest[]
+	 * @return array<string,Application_Module_Manifest>
 	 * @throws Application_Modules_Exception
 	 *
 	 */
@@ -35,14 +35,14 @@ abstract class Application_Modules_Handler extends BaseObject
 
 	/**
 	 *
-	 * @return Application_Module_Manifest[]
+	 * @return array<string,Application_Module_Manifest>
 	 * @throws Application_Modules_Exception
 	 */
 	abstract public function installedModulesList(): array;
 
 	/**
 	 *
-	 * @return Application_Module_Manifest[]
+	 * @return array<string,Application_Module_Manifest>
 	 */
 	abstract public function activatedModulesList(): array;
 
@@ -125,7 +125,7 @@ abstract class Application_Modules_Handler extends BaseObject
 	/**
 	 * @param string $module_name
 	 *
-	 * @return array
+	 * @return array<string,mixed>
 	 */
 	abstract public function readManifestData( string $module_name ) : array;
 	

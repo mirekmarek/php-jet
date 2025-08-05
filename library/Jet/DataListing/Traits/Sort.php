@@ -64,6 +64,9 @@ trait DataListing_Traits_Sort
 		return $this->sort ? : $this->default_sort;
 	}
 	
+	/**
+	 * @return string|array<string>
+	 */
 	public function getQueryOrderBy(): string|array
 	{
 		$order_by = $this->getGridSortBy();

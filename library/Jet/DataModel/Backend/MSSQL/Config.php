@@ -62,7 +62,7 @@ class DataModel_Backend_MSSQL_Config extends DataModel_Backend_Config
 	
 	
 	/**
-	 * @return array
+	 * @return array<string,string>
 	 */
 	public static function getDbConnectionsList(): array
 	{

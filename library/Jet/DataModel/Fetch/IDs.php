@@ -16,7 +16,7 @@ class DataModel_Fetch_IDs extends DataModel_Fetch
 
 	/**
 	 *
-	 * @return array
+	 * @return array<string>
 	 */
 	public function toArray(): array
 	{

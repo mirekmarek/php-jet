@@ -18,19 +18,6 @@ class DataModel_Definition_Property_Int extends DataModel_Definition_Property
 	 */
 	protected string $type = DataModel::TYPE_INT;
 
-	/**
-	 * @param array $definition_data
-	 *
-	 */
-	public function setUp( array $definition_data ): void
-	{
-
-		if( !$definition_data ) {
-			return;
-		}
-
-		parent::setUp( $definition_data );
-	}
 
 	/**
 	 * @param mixed &$value

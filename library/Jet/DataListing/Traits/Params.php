@@ -13,6 +13,9 @@ namespace Jet;
  */
 trait DataListing_Traits_Params
 {
+	/**
+	 * @var array<string,mixed>
+	 */
 	protected array $params = [];
 	
 	public function setParam( string $parameter, mixed $value ): void

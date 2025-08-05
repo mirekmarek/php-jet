@@ -20,7 +20,7 @@ class Config_Definition_Property_Array extends Config_Definition_Property
 
 
 	/**
-	 * @param ?array $definition_data
+	 * @param ?array<string,mixed> $definition_data
 	 *
 	 * @throws Config_Exception
 	 */

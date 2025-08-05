@@ -44,6 +44,9 @@ trait DataListing_Traits_Exports
 		return $this->exports[$key];
 	}
 	
+	/**
+	 * @return array<string,string>
+	 */
 	public function getExportTypes() : array
 	{
 		$res = [];

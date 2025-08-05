@@ -11,6 +11,15 @@ use Error;
 
 class DataModel_ImportExport extends BaseObject
 {
+	/**
+	 * @param string|DataModel $data_model_class_name
+	 * @param string $target_dir_path
+	 * @param list<mixed>|null $where
+	 * @param DataModel_ImportExport_ExportPreprocessor|null $preprocessor
+	 * @return string
+	 * @throws IO_Dir_Exception
+	 * @throws IO_File_Exception
+	 */
 	public static function export(
 		string|DataModel $data_model_class_name,
 		string $target_dir_path,

@@ -24,7 +24,7 @@ class Config_Definition_Property_String extends Config_Definition_Property
 	protected string|null $validation_regexp = null;
 
 	/**
-	 * @param ?array $definition_data
+	 * @param ?array<string,mixed> $definition_data
 	 *
 	 * @throws Config_Exception
 	 */

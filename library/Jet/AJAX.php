@@ -36,8 +36,8 @@ class AJAX
 
 	/**
 	 * @param bool $success
-	 * @param array $snippets
-	 * @param array $data
+	 * @param array<string,string> $snippets
+	 * @param array<string,mixed> $data
 	 */
 	public static function operationResponse( bool $success, array $snippets = [], array $data = [] ): void
 	{

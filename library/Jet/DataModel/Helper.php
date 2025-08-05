@@ -23,7 +23,11 @@ class DataModel_Helper
 	{
 		$class::getBackendInstance()->helper_create( $class::getDataModelDefinition() );
 	}
-
+	
+	/**
+	 * @param string|DataModel $class
+	 * @return array<string>
+	 */
 	public static function getUpdateCommand( string|DataModel $class ): array
 	{
 		return $class::getBackendInstance()->helper_getUpdateCommand( $class::getDataModelDefinition() );

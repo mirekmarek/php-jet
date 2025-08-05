@@ -88,7 +88,7 @@ class Data_Forest extends BaseObject implements BaseObject_Interface_IteratorCou
 	 *
 	 * @param int|null $max_depth (optional)
 	 *
-	 * @return array
+	 * @return array<array<array<string,mixed>>>
 	 */
 	public function toArray( int|null $max_depth = null ): array
 	{
@@ -118,7 +118,7 @@ class Data_Forest extends BaseObject implements BaseObject_Interface_IteratorCou
 	}
 
 	/**
-	 * @return array
+	 * @return array<array<array<string,mixed>>>
 	 */
 	public function jsonSerialize(): array
 	{

@@ -395,7 +395,7 @@ abstract class DataModel_Backend extends BaseObject
 	/**
 	 * @param DataModel_Query $query
 	 * @param string $fetch_method
-	 * @param array $data
+	 * @param list<mixed> $data
 	 *
 	 * @return array<int,mixed>
 	 */

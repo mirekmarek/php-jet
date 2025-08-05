@@ -44,7 +44,7 @@ abstract class DataModel_Fetch extends BaseObject implements BaseObject_Interfac
 
 	/**
 	 *
-	 * @var ?array
+	 * @var ?list<mixed>
 	 */
 	protected ?array $data = null;
 
@@ -120,7 +120,7 @@ abstract class DataModel_Fetch extends BaseObject implements BaseObject_Interfac
 	}
 
 	/**
-	 * @return array<int,mixed>
+	 * @return list<mixed>
 	 */
 	public function jsonSerialize(): array
 	{
@@ -137,7 +137,8 @@ abstract class DataModel_Fetch extends BaseObject implements BaseObject_Interfac
 	}
 
 	/**
-	 * @return array
+	 * @return array<mixed,mixed>
+	 * @noinspection PhpPluralMixedCanBeReplacedWithArrayInspection
 	 */
 	abstract public function toArray(): array;
 

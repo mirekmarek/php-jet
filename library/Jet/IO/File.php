@@ -135,13 +135,14 @@ class IO_File
 	{
 		static::_write( $file_path, $data, false );
 	}
-
+	
 	/**
 	 * @param string $path
-	 * @param array<string,mixed> $data
+	 * @param array<mixed> $data
 	 * @param bool $reset_cache
-	 *
+	 * @return void
 	 * @throws IO_File_Exception
+	 * @noinspection PhpRedundantDocCommentInspection
 	 */
 	public static function writeDataAsPhp( string $path, array $data, bool $reset_cache=true ) : void
 	{

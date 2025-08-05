@@ -62,13 +62,17 @@ abstract class DataListing_Column extends DataListing_ElementBase
 	}
 	
 	
-	
-	
+	/**
+	 * @return array<string>|string
+	 */
 	public function getOrderByAsc(): array|string
 	{
 		return '+'.$this->getKey();
 	}
 	
+	/**
+	 * @return array<string>|string
+	 */
 	public function getOrderByDesc(): array|string
 	{
 		return '-'.$this->getKey();
@@ -89,11 +93,18 @@ abstract class DataListing_Column extends DataListing_ElementBase
 	{
 	}
 	
+	/**
+	 * @return string|array<string>|null
+	 */
 	public function getExportHeader() : null|string|array
 	{
 		return null;
 	}
 	
+	/**
+	 * @param mixed $item
+	 * @return float|int|bool|string|list<mixed>|object
+	 */
 	public function getExportData( mixed $item ) : float|int|bool|string|array|object
 	{
 		return '';

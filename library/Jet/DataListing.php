@@ -24,10 +24,16 @@ abstract class DataListing extends BaseObject
 	use DataListing_Traits_Pagination;
 	use DataListing_Traits_PrevNext;
 	
+	/**
+	 * @var array<string|int>|null
+	 */
 	protected ?array $all_ids = null;
 	
 	abstract protected function getItemList(): DataModel_Fetch_Instances;
 	
+	/**
+	 * @return array<string|int>
+	 */
 	abstract protected function getIdList() : array;
 	
 	abstract public function getFilterView() : MVC_View;
@@ -59,6 +65,9 @@ abstract class DataListing extends BaseObject
 	}
 	
 	
+	/**
+	 * @return array<string|int>
+	 */
 	public function getAllIds(): array
 	{
 		if( $this->all_ids === null ) {

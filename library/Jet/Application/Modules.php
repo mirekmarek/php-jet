@@ -183,7 +183,7 @@ class Application_Modules extends BaseObject
 	/**
 	 * @param string $module_name
 	 *
-	 * @return array
+	 * @return array<string,mixed>
 	 */
 	public static function readManifestData( string $module_name ) : array
 	{

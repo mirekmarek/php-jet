@@ -40,7 +40,7 @@ abstract class Config_Definition_Property extends BaseObject
 	 *
 	 * @param string $configuration_class_name
 	 * @param string $name
-	 * @param ?array $definition_data (optional)
+	 * @param ?array<string,mixed> $definition_data (optional)
 	 *
 	 */
 	public function __construct( string $configuration_class_name, string $name, ?array $definition_data = null )
@@ -52,7 +52,7 @@ abstract class Config_Definition_Property extends BaseObject
 	}
 
 	/**
-	 * @param ?array $definition_data
+	 * @param ?array<string,mixed> $definition_data
 	 *
 	 * @throws Config_Exception
 	 */

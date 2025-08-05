@@ -17,7 +17,7 @@ namespace Jet;
 abstract class Data_Listing extends BaseObject
 {
 	/**
-	 * @var array
+	 * @var array<string,mixed>
 	 */
 	protected array $get_param_values = [];
 
@@ -43,7 +43,7 @@ abstract class Data_Listing extends BaseObject
 	protected string $default_sort = '';
 
 	/**
-	 * @var array
+	 * @var array<string,array<string,mixed>>
 	 */
 	protected array $grid_columns = [];
 
@@ -59,7 +59,7 @@ abstract class Data_Listing extends BaseObject
 	protected ?UI_dataGrid $grid = null;
 
 	/**
-	 * @var ?array
+	 * @var null|list<mixed>
 	 */
 	protected ?array $filter_where = null;
 
@@ -112,7 +112,7 @@ abstract class Data_Listing extends BaseObject
 	}
 
 	/**
-	 * @param array $grid_columns
+	 * @param array<string,array<string,mixed>> $grid_columns
 	 */
 	public function setGridColumns( array $grid_columns ): void
 	{
@@ -120,7 +120,7 @@ abstract class Data_Listing extends BaseObject
 	}
 
 	/**
-	 * @return array
+	 * @return array<string,array<string,mixed>>
 	 */
 	public function getGridColumns(): array
 	{
@@ -217,7 +217,7 @@ abstract class Data_Listing extends BaseObject
 
 
 	/**
-	 * @param array $where
+	 * @param list<mixed> $where
 	 */
 	public function addWhere( array $where ): void
 	{
@@ -229,7 +229,7 @@ abstract class Data_Listing extends BaseObject
 	}
 
 	/**
-	 * @return array
+	 * @return list<mixed>
 	 */
 	public function getWhere(): array
 	{

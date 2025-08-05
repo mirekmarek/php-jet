@@ -19,7 +19,7 @@ class Data_Paginator extends BaseObject implements BaseObject_Interface_Serializ
 	protected int $items_per_page = 20;
 
 	/**
-	 * @var array|Data_Paginator_DataSource|null
+	 * @var array<list<mixed>>|Data_Paginator_DataSource|null
 	 */
 	protected array|Data_Paginator_DataSource|null $data = null;
 
@@ -95,7 +95,7 @@ class Data_Paginator extends BaseObject implements BaseObject_Interface_Serializ
 	protected string|null $last_page_URL = null;
 
 	/**
-	 * @var array
+	 * @var array<string>
 	 */
 	protected array $pages_URL = [];
 
@@ -215,7 +215,7 @@ class Data_Paginator extends BaseObject implements BaseObject_Interface_Serializ
 
 	/**
 	 *
-	 * @param array|Data_Paginator_DataSource $data
+	 * @param array<list<mixed>>|Data_Paginator_DataSource $data
 	 */
 	public function setData( array|Data_Paginator_DataSource $data ): void
 	{
@@ -232,7 +232,7 @@ class Data_Paginator extends BaseObject implements BaseObject_Interface_Serializ
 
 	/**
 	 *
-	 * @return array|Data_Paginator_DataSource
+	 * @return array<list<mixed>>|Data_Paginator_DataSource
 	 * @throws Data_Paginator_Exception
 	 *
 	 */
@@ -407,7 +407,7 @@ class Data_Paginator extends BaseObject implements BaseObject_Interface_Serializ
 
 
 	/**
-	 * @return array
+	 * @return array<string>
 	 */
 	public function getPagesURL(): array
 	{
@@ -424,7 +424,7 @@ class Data_Paginator extends BaseObject implements BaseObject_Interface_Serializ
 
 	/**
 	 *
-	 * @return array
+	 * @return array<string,mixed>
 	 */
 	public function jsonSerialize(): array
 	{

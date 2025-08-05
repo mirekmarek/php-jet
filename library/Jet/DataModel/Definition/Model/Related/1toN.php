@@ -27,13 +27,13 @@ class DataModel_Definition_Model_Related_1toN extends DataModel_Definition_Model
 
 
 	/**
-	 * @var array
+	 * @var array<string>
 	 */
 	protected array $default_order_by = [];
 
 
 	/**
-	 * @return array
+	 * @return array<string>
 	 */
 	public function getDefaultOrderBy(): array
 	{
@@ -41,7 +41,7 @@ class DataModel_Definition_Model_Related_1toN extends DataModel_Definition_Model
 	}
 
 	/**
-	 * @param array $default_order_by
+	 * @param array<string> $default_order_by
 	 */
 	public function setDefaultOrderBy( array $default_order_by ): void
 	{

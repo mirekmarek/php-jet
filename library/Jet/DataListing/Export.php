@@ -20,6 +20,10 @@ abstract class DataListing_Export extends DataListing_ElementBase
 		return '';
 	}
 	
+	/**
+	 * @param array<string> $column_keys
+	 * @return void
+	 */
 	public function export( array $column_keys=[] ): void
 	{
 		if(!$column_keys) {
@@ -85,6 +89,12 @@ abstract class DataListing_Export extends DataListing_ElementBase
 		Application::end();
 	}
 	
+	/**
+	 * @param array<string> $export_header
+	 * @param array<array<mixed>> $data
+	 * @return void
+	 * @noinspection PhpPluralMixedCanBeReplacedWithArrayInspection
+	 */
 	abstract protected function formatData( array $export_header, array $data ): void;
 	
 }

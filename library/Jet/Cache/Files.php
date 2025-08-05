@@ -32,7 +32,7 @@ abstract class Cache_Files
 
 	/**
 	 * @param string $entity
-	 * @return array|null
+	 * @return list<mixed>|null
 	 */
 	protected function readData( string $entity ): array|null
 	{
@@ -54,7 +54,7 @@ abstract class Cache_Files
 
 	/**
 	 * @param string $entity
-	 * @param array $data
+	 * @param list<mixed> $data
 	 */
 	protected function writeData( string $entity, array $data ): void
 	{

@@ -166,7 +166,7 @@ class Form extends BaseObject
 	 *
 	 * @param bool $as_multidimensional_array (optional, default: false)
 	 *
-	 * @return Form_Field[]
+	 * @return Form_Field[]|array<string,Form_Field>
 	 */
 	public function getFields( bool $as_multidimensional_array = false ): array
 	{
@@ -180,6 +180,7 @@ class Form extends BaseObject
 				$fields->set( $field->getName(), $field );
 			}
 			
+			/** @phpstan-ignore return.type */
 			return $fields->getRawData();
 			
 		}

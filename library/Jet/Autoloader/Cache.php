@@ -41,7 +41,7 @@ class Autoloader_Cache
 	}
 
 	/**
-	 * @return array|null
+	 * @return array<string,string>|null
 	 */
 	public static function load(): array|null
 	{
@@ -50,7 +50,7 @@ class Autoloader_Cache
 	}
 
 	/**
-	 * @param array $map
+	 * @param array<string,string> $map
 	 */
 	public static function save( array $map ): void
 	{

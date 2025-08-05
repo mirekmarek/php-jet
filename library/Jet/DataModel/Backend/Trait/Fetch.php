@@ -11,7 +11,7 @@ trait DataModel_Backend_Trait_Fetch {
 	/**
 	 * @param DataModel_Query $query
 	 *
-	 * @return mixed
+	 * @return list<mixed>
 	 */
 	public function fetchAll( DataModel_Query $query ): mixed
 	{
@@ -21,7 +21,7 @@ trait DataModel_Backend_Trait_Fetch {
 	/**
 	 * @param DataModel_Query $query
 	 *
-	 * @return mixed
+	 * @return array<string,mixed>
 	 */
 	public function fetchAssoc( DataModel_Query $query ): mixed
 	{
@@ -31,7 +31,7 @@ trait DataModel_Backend_Trait_Fetch {
 	/**
 	 * @param DataModel_Query $query
 	 *
-	 * @return mixed
+	 * @return array<string,mixed>
 	 */
 	public function fetchPairs( DataModel_Query $query ): mixed
 	{
@@ -41,7 +41,7 @@ trait DataModel_Backend_Trait_Fetch {
 	/**
 	 * @param DataModel_Query $query
 	 *
-	 * @return mixed
+	 * @return array<string,mixed>
 	 */
 	public function fetchRow( DataModel_Query $query ): mixed
 	{
@@ -61,7 +61,7 @@ trait DataModel_Backend_Trait_Fetch {
 	/**
 	 * @param DataModel_Query $query
 	 *
-	 * @return array
+	 * @return list<mixed>
 	 */
 	public function fetchCol( DataModel_Query $query ): array
 	{

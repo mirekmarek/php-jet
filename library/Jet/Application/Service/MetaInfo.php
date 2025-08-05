@@ -23,9 +23,15 @@ class Application_Service_MetaInfo extends BaseObject
 	protected string $name;
 	protected string $description;
 	
+	/**
+	 * @var ?array<string,Application_Service_MetaInfo>
+	 */
 	protected static ?array $definitions = null;
 	
 	
+	/**
+	 * @param list<mixed> ...$definitions
+	 */
 	public function __construct( ...$definitions )
 	{
 	
@@ -112,6 +118,11 @@ class Application_Service_MetaInfo extends BaseObject
 		return $scope;
 	}
 	
+	/**
+	 * @param ReflectionClass<object> $class
+	 * @param array<string,mixed> $attributes
+	 * @return static
+	 */
 	public static function create( ReflectionClass $class, array $attributes ) : static
 	{
 		$definition = new static();
@@ -128,14 +139,14 @@ class Application_Service_MetaInfo extends BaseObject
 	
 	/**
 	 * @param ?string $group
-	 * @return static[]
+	 * @return array<string,Application_Service_MetaInfo>
 	 */
 	public static function getServices( ?string $group='' ) : array
 	{
 		if(static::$definitions===null) {
 			$finder = new class {
 				/**
-				 * @var Application_Service_MetaInfo[]
+				 * @var array<string,Application_Service_MetaInfo>
 				 */
 				protected array $classes = [];
 				protected string $dir = '';
@@ -191,7 +202,7 @@ class Application_Service_MetaInfo extends BaseObject
 				}
 				
 				/**
-				 * @return Application_Service_MetaInfo[]
+				 * @return array<string,Application_Service_MetaInfo>
 				 */
 				public function getClasses(): array
 				{

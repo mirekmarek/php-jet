@@ -36,7 +36,7 @@ class Autoloader
 
 	/**
 	 *
-	 * @var ?array
+	 * @var ?array<string,string>
 	 */
 	protected static ?array $class_path_map = null;
 

@@ -95,7 +95,7 @@ class Data_Tree_Node extends BaseObject implements BaseObject_Interface_Iterator
 	protected ?int $_max_depth = null;
 
 	/**
-	 * @var ?array
+	 * @var ?array<int>
 	 */
 	protected ?array $_all_children_ids = null;
 
@@ -284,7 +284,7 @@ class Data_Tree_Node extends BaseObject implements BaseObject_Interface_Iterator
 	}
 
 	/**
-	 * @return array
+	 * @return array<int>
 	 */
 	public function getAllChildrenIds(): array
 	{
@@ -389,7 +389,7 @@ class Data_Tree_Node extends BaseObject implements BaseObject_Interface_Iterator
 
 	/**
 	 *
-	 * @return array
+	 * @return array<string,mixed>
 	 */
 	public function jsonSerialize(): array
 	{
@@ -413,7 +413,7 @@ class Data_Tree_Node extends BaseObject implements BaseObject_Interface_Iterator
 
 	/**
 	 *
-	 * @return array
+	 * @return array<string>
 	 */
 	public function __sleep(): array
 	{
@@ -483,7 +483,7 @@ class Data_Tree_Node extends BaseObject implements BaseObject_Interface_Iterator
 	}
 
 	/**
-	 * @param array    &$result
+	 * @param array<int|string,Data_Tree_Node>    &$result
 	 * @param int|null $max_depth
 	 * @param int|null $root_depth
 	 */
@@ -570,7 +570,7 @@ class Data_Tree_Node extends BaseObject implements BaseObject_Interface_Iterator
 	/**
 	 *
 	 *
-	 * @return array
+	 * @return array<string,mixed>
 	 */
 	public function toArray(): array
 	{
@@ -587,7 +587,7 @@ class Data_Tree_Node extends BaseObject implements BaseObject_Interface_Iterator
 	//- Countable ---------------------------------------------------------------------------------
 
 	/**
-	 * @param array &$_result
+	 * @param array<string|int,mixed> &$_result
 	 * @param ?int $max_depth
 	 * @param int $root_depth
 	 */

@@ -13,6 +13,7 @@ use Countable;
 
 /**
  *
+ * @phpstan-ignore missingType.generics
  */
 interface BaseObject_Interface_IteratorCountable extends Iterator, Countable
 {

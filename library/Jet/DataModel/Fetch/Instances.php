@@ -16,7 +16,7 @@ class DataModel_Fetch_Instances extends DataModel_Fetch
 {
 
 	/**
-	 * @var array|DataModel_PropertyFilter|null
+	 * @var array<string>|DataModel_PropertyFilter|null
 	 */
 	protected array|DataModel_PropertyFilter|null $load_filter = null;
 
@@ -27,7 +27,7 @@ class DataModel_Fetch_Instances extends DataModel_Fetch
 
 
 	/**
-	 * @return array|DataModel_PropertyFilter
+	 * @return array<string>|DataModel_PropertyFilter
 	 */
 	public function getLoadFilter(): array|DataModel_PropertyFilter
 	{
@@ -35,7 +35,7 @@ class DataModel_Fetch_Instances extends DataModel_Fetch
 	}
 
 	/**
-	 * @param array|DataModel_PropertyFilter $load_filter
+	 * @param array<string>|DataModel_PropertyFilter $load_filter
 	 */
 	public function setLoadFilter( array|DataModel_PropertyFilter $load_filter ): void
 	{
@@ -112,7 +112,7 @@ class DataModel_Fetch_Instances extends DataModel_Fetch
 	}
 
 	/**
-	 * @return array
+	 * @return array<string,mixed>
 	 */
 	public function toArray(): array
 	{
