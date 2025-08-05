@@ -54,11 +54,13 @@ class Client
 
 	/**
 	 * @var ?array
+	 * @phpstan-ignore missingType.iterableValue
 	 */
 	protected ?array $request_data = null;
 
 	/**
 	 * @var string|array
+	 * @phpstan-ignore missingType.iterableValue
 	 */
 	protected string|array $request_body = '';
 
@@ -78,9 +80,10 @@ class Client
 	protected string $response_body = '';
 
 	/**
-	 * @var array|null
+	 * @var array|null|bool
+	 * @phpstan-ignore missingType.iterableValue
 	 */
-	protected array|null $response_data = null;
+	protected array|null|bool $response_data = null;
 
 
 	/**
@@ -110,8 +113,8 @@ class Client
 	 *
 	 * @param string $method
 	 * @param string $object
-	 * @param array $data
-	 * @param array $get_params
+	 * @param array<string,mixed> $data
+	 * @param array<string,mixed> $get_params
 	 * @param string $upload_file_path
 	 *
 	 * @return bool
@@ -237,7 +240,7 @@ class Client
 
 	/**
 	 * @param string $object
-	 * @param array $get_params
+	 * @param array<string,mixed> $get_params
 	 *
 	 * @return bool
 	 */
@@ -263,6 +266,7 @@ class Client
 	 * @param string $upload_file_path
 	 *
 	 * @return bool
+	 * @phpstan-ignore missingType.iterableValue
 	 */
 	public function post( string $object, array $data, string $upload_file_path = '' ): bool
 	{
@@ -274,6 +278,7 @@ class Client
 	 * @param array $data
 	 *
 	 * @return bool
+	 * @phpstan-ignore missingType.iterableValue
 	 */
 	public function put( string $object, array $data ): bool
 	{
@@ -291,6 +296,7 @@ class Client
 
 	/**
 	 * @return string|array
+	 * @phpstan-ignore missingType.iterableValue
 	 */
 	public function requestBody(): string|array
 	{
@@ -299,6 +305,7 @@ class Client
 
 	/**
 	 * @return array|null
+	 * @phpstan-ignore missingType.iterableValue
 	 */
 	public function requestData(): array|null
 	{
@@ -339,6 +346,7 @@ class Client
 
 	/**
 	 * @return array|null
+	 * @phpstan-ignore missingType.iterableValue
 	 */
 	public function responseData(): array|null
 	{

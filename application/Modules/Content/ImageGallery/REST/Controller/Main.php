@@ -325,7 +325,7 @@ class Controller_Main extends MVC_Controller_REST
 				$max_h
 			] = explode( 'x', $thb );
 
-			$thb = $image->getThumbnail( $max_w, $max_h );
+			$thb = $image->getThumbnail( (int)$max_w, (int)$max_h );
 
 			$this->responseData( $thb );
 		}

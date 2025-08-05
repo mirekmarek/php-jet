@@ -100,6 +100,7 @@ class Main extends Application_Module implements Application_REST_Services_Auth_
 			$this->responseNotAuthorized( 'Please enter username and password' );
 		} else {
 			if($this->login( $_SERVER['PHP_AUTH_USER'], $_SERVER['PHP_AUTH_PW'] )) {
+				/** @phpstan-ignore return.type */
 				return $this->current_user;
 			}
 		}

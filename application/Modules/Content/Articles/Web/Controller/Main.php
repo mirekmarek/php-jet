@@ -60,7 +60,7 @@ class Controller_Main extends MVC_Controller_Default
 						return true;
 					}
 					if( preg_match( '/^page:([0-9]+)$/', $path, $matches ) ) {
-						$this->page_no = $matches[1];
+						$this->page_no = (int)$matches[1];
 						MVC::getRouter()->setUsedUrlPath( $path );
 						return true;
 					}

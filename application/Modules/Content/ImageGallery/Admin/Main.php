@@ -50,7 +50,7 @@ class Main extends Application_Module implements Application_Admin_Services_Imag
 		
 		return Translator::setCurrentDictionaryTemporary(
 			$this->module_manifest->getName(),
-			function() use ($view, &$res) {
+			function() use ($view) {
 				return $view->render('widget/select-image');
 			}
 		);

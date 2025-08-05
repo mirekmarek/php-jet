@@ -19,6 +19,7 @@ use Jet\Form_Field_Password;
 use Jet\MVC;
 use JetApplication\Application_Web_Services_Auth_Controller;
 use JetApplication\Application_Web_Services_Auth_LoginModule;
+use JetApplication\Auth_Visitor_User;
 use JetApplication\Auth_Visitor_User as Visitor;
 
 
@@ -35,6 +36,9 @@ class Main extends Application_Web_Services_Auth_LoginModule
 		
 		$action = 'login';
 		
+		/**
+		 * @var false|Auth_Visitor_User $user
+		 */
 		$user = $auth_controller->getCurrentUser();
 		
 		if( $user ) {

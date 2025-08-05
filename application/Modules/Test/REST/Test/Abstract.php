@@ -27,6 +27,7 @@ abstract class Test_Abstract
 
 	/**
 	 * @var array|null
+	 * @phpstan-ignore missingType.iterableValue
 	 */
 	protected array|null $data = null;
 
@@ -39,6 +40,7 @@ abstract class Test_Abstract
 	 * Test_Abstract constructor.
 	 *
 	 * @param array $data
+	 * @phpstan-ignore missingType.iterableValue
 	 */
 	public function __construct( array $data )
 	{

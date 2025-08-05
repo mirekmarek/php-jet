@@ -176,7 +176,7 @@ class Event extends DataModel
 		return $this->user_username;
 	}
 	
-	public static function get( string $id ): static|null
+	public static function get( int $id ): static|null
 	{
 		return static::load( $id );
 	}

@@ -245,7 +245,7 @@ class Article extends DataModel
 		}
 
 		/**
-		 * @var Article $current_article
+		 * @var static|null $current_article
 		 */
 		return $current_article;
 	}

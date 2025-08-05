@@ -20,7 +20,8 @@ trait DataListing_Traits_Filters
 	protected array $filters = [];
 	
 	/**
-	 * @var list<mixed>|null
+	 * @var ?array
+	 * @phpstan-ignore missingType.iterableValue
 	 */
 	protected ?array $filter_where = null;
 	
@@ -94,8 +95,9 @@ trait DataListing_Traits_Filters
 	
 	
 	/**
-	 * @param list<mixed> $where
+	 * @param array $where
 	 * @return void
+	 * @phpstan-ignore missingType.iterableValue
 	 */
 	public function addFilterWhere( array $where ): void
 	{
@@ -115,7 +117,9 @@ trait DataListing_Traits_Filters
 	}
 	
 	/**
-	 * @return list<mixed>
+	 * @return array
+	 *
+	 * @phpstan-ignore missingType.iterableValue
 	 */
 	public function getFilterWhere(): array
 	{

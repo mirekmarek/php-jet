@@ -39,7 +39,7 @@ class Controller_Main extends MVC_Controller_Default
 		if(
 			!($user_id=$GET->getInt('validate')) ||
 			(!$this->user = User::get( $user_id )) ||
-			($GET->getString('key')!=$this->module->generateKey($this->user))
+			($GET->getString('key')!=$module->generateKey($this->user))
 		) {
 			return 'enter_email';
 		}

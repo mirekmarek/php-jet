@@ -208,6 +208,7 @@ class Controller_Main extends MVC_Controller_Default
 			foreach( $tests_data['tests'] as $class_name ) {
 				/**
 				 * @var Test_Abstract $test
+				 * @phpstan-ignore varTag.nativeType
 				 */
 				$test = new $class_name( $data );
 

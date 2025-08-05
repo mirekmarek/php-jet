@@ -53,12 +53,12 @@ class Gallery extends DataModel
 {
 
 	/**
-	 * @var ?Data_Tree;
+	 * @var ?Data_Tree
 	 */
 	protected static ?Data_Tree $_tree = null;
 
 	/**
-	 * @var Gallery[]
+	 * @var array<string|int,static>
 	 */
 	protected static array $__galleries = [];
 
@@ -94,7 +94,8 @@ class Gallery extends DataModel
 
 
 	/**
-	 * @var iterable|null
+	 * @var iterable<Gallery_Image>|null
+	 * @noinspection PhpDocFieldTypeMismatchInspection
 	 */
 	protected ?iterable $_images = null;
 
@@ -140,13 +141,10 @@ class Gallery extends DataModel
 			$s_id = $id;
 
 
-			/**
-			 * @var Gallery $instance
-			 */
 			if( !($instance = static::load( $id )) ) {
 				return null;
 			}
-
+			
 			static::$__galleries[$s_id] = $instance;
 
 			return $instance;
@@ -286,6 +284,7 @@ class Gallery extends DataModel
 			$this->_children = static::fetchInstances( ['parent_id' => $this->id] );
 		}
 
+		/** @phpstan-ignore return.type */
 		return $this->_children;
 	}
 

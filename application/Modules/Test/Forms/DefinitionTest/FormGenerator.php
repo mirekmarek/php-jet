@@ -134,7 +134,7 @@ class DefinitionTest_FormGenerator extends BaseObject implements Form_Definition
 	protected string $select = '';
 
 	/**
-	 * @var array
+	 * @var array<string,string>
 	 */
 	#[Form_Definition(
 		type: Form_Field::TYPE_MULTI_SELECT,
@@ -227,7 +227,7 @@ class DefinitionTest_FormGenerator extends BaseObject implements Form_Definition
 	protected string $no_field = '';
 
 	/**
-	 * @return array
+	 * @return array<string,string>
 	 */
 	public static function getSelectOptions(): array
 	{
@@ -412,7 +412,7 @@ class DefinitionTest_FormGenerator extends BaseObject implements Form_Definition
 	}
 
 	/**
-	 * @return array
+	 * @return array<string,string>
 	 */
 	public function getMultiSelect(): array
 	{
@@ -420,7 +420,7 @@ class DefinitionTest_FormGenerator extends BaseObject implements Form_Definition
 	}
 
 	/**
-	 * @param array $multi_select
+	 * @param array<string,string> $multi_select
 	 */
 	public function setMultiSelect( array $multi_select ): void
 	{

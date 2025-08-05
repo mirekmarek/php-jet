@@ -35,7 +35,7 @@ class Listing_Column_ID extends DataListing_Column
 	 */
 	public function getExportData( mixed $item ): string
 	{
-		return $item->getId();
+		return (string)$item->getId();
 	}
 	
 }

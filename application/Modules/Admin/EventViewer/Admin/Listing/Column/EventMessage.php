@@ -30,7 +30,7 @@ class Listing_Column_EventMessage extends DataListing_Column
 	}
 	
 	/**
-	 * @var Event $item
+	 * @param Event $item
 	 * @return string
 	 */
 	public function getExportData( mixed $item ): string

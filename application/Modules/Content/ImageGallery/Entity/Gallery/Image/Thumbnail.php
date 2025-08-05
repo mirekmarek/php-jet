@@ -233,10 +233,10 @@ class Gallery_Image_Thumbnail extends BaseObject implements BaseObject_Interface
 	{
 		return $this->getRealImage()->getMimeType();
 	}
-
-
+	
+	
 	/**
-	 *
+	 * @return array<string,string|int>
 	 */
 	public function jsonSerialize(): array
 	{

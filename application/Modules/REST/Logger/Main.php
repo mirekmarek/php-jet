@@ -21,7 +21,7 @@ class Main extends Application_Module implements Application_REST_Services_Logge
 	 * @param string $event_class
 	 * @param string $event
 	 * @param string $event_message
-	 * @param string $context_object_id (optional)
+	 * @param string|int $context_object_id (optional)
 	 * @param string $context_object_name (optional)
 	 * @param mixed $context_object_data (optional)
 	 * @param Auth_User_Interface|bool $current_user
@@ -29,7 +29,7 @@ class Main extends Application_Module implements Application_REST_Services_Logge
 	public function log( string $event_class,
 	                     string $event,
 	                     string $event_message,
-	                     string $context_object_id = '',
+	                     string|int $context_object_id = '',
 	                     string $context_object_name = '',
 	                     mixed $context_object_data = [],
 	                     Auth_User_Interface|bool $current_user = false ) : void

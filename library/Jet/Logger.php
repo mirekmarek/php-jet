@@ -66,14 +66,14 @@ class Logger
 	 * @param string $event_class
 	 * @param string $event
 	 * @param string $event_message
-	 * @param string $context_object_id (optional)
+	 * @param string|int $context_object_id (optional)
 	 * @param string $context_object_name (optional)
 	 * @param mixed $context_object_data (optional)
 	 */
 	public static function common( string                        $event_class,
 	                               string                        $event,
 	                               string                        $event_message,
-	                               string                        $context_object_id = '',
+	                               string|int                    $context_object_id = '',
 	                               string                        $context_object_name = '',
 	                               mixed                         $context_object_data = []  ): void
 	{
@@ -105,13 +105,13 @@ class Logger
 	 *
 	 * @param string $event
 	 * @param string $event_message
-	 * @param string $context_object_id (optional)
+	 * @param string|int $context_object_id (optional)
 	 * @param string $context_object_name (optional)
 	 * @param mixed $context_object_data (optional)
 	 */
 	public static function success( string $event,
 	                                string $event_message,
-	                                string $context_object_id = '',
+	                                string|int $context_object_id = '',
 	                                string $context_object_name = '',
 	                                mixed $context_object_data = [] ): void
 	{
@@ -129,13 +129,13 @@ class Logger
 	 *
 	 * @param string $event
 	 * @param string $event_message
-	 * @param string $context_object_id (optional)
+	 * @param string|int $context_object_id (optional)
 	 * @param string $context_object_name (optional)
 	 * @param mixed $context_object_data (optional)
 	 */
 	public static function info( string $event,
 	                             string $event_message,
-	                             string $context_object_id = '',
+	                             string|int $context_object_id = '',
 	                             string $context_object_name = '',
 	                             mixed $context_object_data = [] ): void
 	{
@@ -153,13 +153,13 @@ class Logger
 	 *
 	 * @param string $event
 	 * @param string $event_message
-	 * @param string $context_object_id (optional)
+	 * @param string|int $context_object_id (optional)
 	 * @param string $context_object_name (optional)
 	 * @param mixed $context_object_data (optional)
 	 */
 	public static function warning( string $event,
 	                                string $event_message,
-	                                string $context_object_id = '',
+	                                string|int $context_object_id = '',
 	                                string $context_object_name = '',
 	                                mixed $context_object_data = [] ): void
 	{
@@ -177,13 +177,13 @@ class Logger
 	 *
 	 * @param string $event
 	 * @param string $event_message
-	 * @param string $context_object_id (optional)
+	 * @param string|int $context_object_id (optional)
 	 * @param string $context_object_name (optional)
 	 * @param mixed $context_object_data (optional)
 	 */
 	public static function danger( string $event,
 	                               string $event_message,
-	                               string $context_object_id = '',
+	                               string|int $context_object_id = '',
 	                               string $context_object_name = '',
 	                               mixed $context_object_data = [] ): void
 	{
@@ -201,13 +201,13 @@ class Logger
 	 *
 	 * @param string $event
 	 * @param string $event_message
-	 * @param string $context_object_id (optional)
+	 * @param string|int $context_object_id (optional)
 	 * @param string $context_object_name (optional)
 	 * @param mixed $context_object_data (optional)
 	 */
 	public static function fault( string $event,
 	                              string $event_message,
-	                              string $context_object_id = '',
+	                              string|int $context_object_id = '',
 	                              string $context_object_name = '',
 	                              mixed $context_object_data = [] ): void
 	{

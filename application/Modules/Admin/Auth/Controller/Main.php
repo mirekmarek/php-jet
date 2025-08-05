@@ -15,6 +15,7 @@ use Jet\MVC_Page_Interface;
 use Jet\Session;
 use JetApplication\Application_Admin_Services;
 use JetApplication\Application_Admin_Services_Auth_Controller;
+use JetApplication\Application_Admin_Services_Auth_LoginModule;
 use JetApplication\Auth_Administrator_Role;
 use JetApplication\Auth_Administrator_User;
 use JetApplication\Auth_Administrator_User as Administrator;
@@ -109,6 +110,9 @@ class Main extends Application_Module implements Application_Admin_Services_Auth
 	public function handleLogin(): void
 	{
 		$module = Application_Admin_Services::AuthLoginModule();
+		/**
+		 * @var Application_Admin_Services_Auth_LoginModule $module
+		 */
 		$module->handleLogin( $this );
 		
 	}
