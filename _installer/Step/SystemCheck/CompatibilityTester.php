@@ -53,7 +53,8 @@ class Installer_CompatibilityTester
 					 'ob_get_contents',
 					 'phpinfo',
 				 ] as $required_function ) {
-
+			
+			/** @phpstan-ignore function.alreadyNarrowedType */
 			if( !function_exists( $required_function ) ) {
 				echo 'Error: function \'' . $required_function . '\' is required!';
 				die();
@@ -68,7 +69,7 @@ class Installer_CompatibilityTester
 	}
 
 	/**
-	 * @param array $tests
+	 * @param array<string> $tests
 	 *
 	 * @return bool
 	 */
@@ -267,6 +268,7 @@ class Installer_CompatibilityTester
 					$na_function_names = [];
 
 					foreach( $functions as $function_name ) {
+						/** @phpstan-ignore function.alreadyNarrowedType */
 						if( !function_exists( $function_name ) ) {
 							$na_function_names[] = Tr::_( '<i>%FUNCTION_NAME%</i> is not available', ['FUNCTION_NAME' => $function_name] );
 							$OK = false;
@@ -366,16 +368,16 @@ class Installer_CompatibilityTester
 	}
 
 	/**
-	 * @param $val
+	 * @param string $val
 	 *
 	 * @return int
 	 */
-	public function getAsBytes( $val ): int
+	public function getAsBytes( string $val ): int
 	{
 		$val = trim( $val );
 
 		$last = strtoupper( $val[strlen( $val ) - 1] );
-		$val = substr( $val, 0, -1 );
+		$val = (int)substr( $val, 0, -1 );
 
 		switch( $last ) {
 			/** @noinspection PhpMissingBreakStatementInspection */

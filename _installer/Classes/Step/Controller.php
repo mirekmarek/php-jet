@@ -253,9 +253,9 @@ abstract class Installer_Step_Controller
 	}
 
 	/**
-	 * @return bool|array
+	 * @return false|array<string>
 	 */
-	public function getStepsAfter(): bool|array
+	public function getStepsAfter(): false|array
 	{
 		return false;
 	}

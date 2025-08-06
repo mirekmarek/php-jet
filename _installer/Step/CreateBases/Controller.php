@@ -14,7 +14,6 @@ use Jet\Http_Headers;
 use Jet\MVC;
 use Jet\MVC_Base;
 use Jet\Factory_MVC;
-use Jet\MVC_Base_Interface;
 use Jet\Form;
 use Jet\Form_Field;
 use Jet\Form_Field_Input;
@@ -162,11 +161,6 @@ class Installer_Step_CreateBases_Controller extends Installer_Step_Controller
 		} else {
 			$bases = $session->getValue( 'bases' );
 		}
-
-		/**
-		 * @var MVC_Base_Interface $base
-		 */
-
 
 		if(
 			Http_Request::GET()->exists( 'create' ) &&

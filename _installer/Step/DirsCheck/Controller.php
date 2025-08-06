@@ -98,6 +98,7 @@ class Installer_Step_DirsCheck_Controller extends Installer_Step_Controller
 		$is_OK = true;
 		foreach( $dirs as $dir => $dir_data ) {
 			$dirs[$dir]['is_writeable'] = IO_Dir::isWritable( $dir );
+			/** @phpstan-ignore booleanAnd.rightAlwaysTrue */
 			if( !$dirs[$dir]['is_writeable'] && $dir_data['is_required'] ) {
 				$is_OK = false;
 			}

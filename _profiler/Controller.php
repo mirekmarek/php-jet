@@ -159,7 +159,9 @@ $controller = new class {
 					$bt = $run->getBlock( $block_id )?->getSQLQueries()[(int)$q_i]?->getBacktrace();
 					break;
 				case 'run_sql_query_bt':
-					$bt = $run->getSqlQueries()[(int)$bt_id]?->getBacktrace();
+					if(isset($run->getSqlQueries()[(int)$bt_id])) {
+						$bt = $run->getSqlQueries()[(int)$bt_id]->getBacktrace();
+					}
 					break;
 			}
 			
@@ -200,6 +202,7 @@ $controller = new class {
 
 		/** @noinspection PhpUndefinedFunctionInspection */
 		/** @noinspection PhpConditionAlreadyCheckedInspection */
+		/** @phpstan-ignore function.notFound */
 		$dot_script = xhprof_generate_dot_script(
 			$run->getXHPData(),
 			$threshold,
@@ -211,9 +214,11 @@ $controller = new class {
 
 
 		/** @noinspection PhpUndefinedFunctionInspection */
+		/** @phpstan-ignore function.notFound */
 		$content = xhprof_generate_image_by_dot($dot_script, $type);
 
 		/** @noinspection PhpUndefinedFunctionInspection */
+		/** @phpstan-ignore function.notFound */
 		xhprof_generate_mime_header($type, strlen($content));
 		echo $content;
 

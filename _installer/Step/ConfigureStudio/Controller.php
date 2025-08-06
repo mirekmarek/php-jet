@@ -68,6 +68,7 @@ class Installer_Step_ConfigureStudio_Controller extends Installer_Step_Controlle
 			$ok = true;
 
 			try {
+				/** @phpstan-ignore argument.type  */
 				$data = new Data_Array( [
 					'username' => $username->getValue(),
 					'password' => password_hash( $password->getValue(), PASSWORD_DEFAULT )

@@ -34,17 +34,17 @@ class Installer
 	protected static array $steps = [];
 
 	/**
-	 * @var Installer_Step_Controller[]
+	 * @var array<string,Installer_Step_Controller>
 	 */
 	protected static array $step_controllers = [];
 
 	/**
-	 * @var Locale[]
+	 * @var array<string,Locale>
 	 */
 	protected static array $available_locales = [];
 
 	/**
-	 * @var array
+	 * @var array<string,Locale>
 	 */
 	protected static array $selected_locales = [];
 
@@ -86,7 +86,7 @@ class Installer
 	}
 
 	/**
-	 * @param array $available_locales
+	 * @param array<string> $available_locales
 	 */
 	public static function setAvailableLocales( array $available_locales ): void
 	{
@@ -102,19 +102,23 @@ class Installer
 	}
 
 	/**
-	 * @return Locale[]
+	 * @return array<string,Locale>
 	 */
 	public static function getSelectedLocales(): array
 	{
 		if( !self::$selected_locales ) {
-			self::$selected_locales = static::getSession()->getValue( 'selected_locales', [static::getCurrentLocale()->toString()] );
+			$current = static::getCurrentLocale();
+			$default = [
+				$current->toString() => $current
+			];
+			self::$selected_locales = static::getSession()->getValue( 'selected_locales', $default );
 		}
 
 		return self::$selected_locales;
 	}
 
 	/**
-	 * @param Locale[] $selected_locales
+	 * @param array<string> $selected_locales
 	 */
 	public static function setSelectedLocales( array $selected_locales ): void
 	{
@@ -373,11 +377,11 @@ class Installer
 	}
 
 	/**
-	 * @param $step_name
+	 * @param string $step_name
 	 *
 	 * @return Installer_Step_Controller|null
 	 */
-	protected static function getStepControllerInstance( $step_name ): Installer_Step_Controller|null
+	protected static function getStepControllerInstance( string $step_name ): Installer_Step_Controller|null
 	{
 		if( !isset( static::$step_controllers[$step_name] ) ) {
 			return null;

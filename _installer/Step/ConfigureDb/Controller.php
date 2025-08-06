@@ -53,15 +53,16 @@ class Installer_Step_ConfigureDb_Controller extends Installer_Step_Controller
 
 		$connection_name = 'default';
 
-		/**
-		 * @var Db_Backend_PDO_Config $connection_config
-		 */
 		$connection_config = $this->main_config->getConnection( $connection_name );
 		if( !$connection_config ) {
 			return;
 		}
-
-
+		
+		
+		/**
+		 * @var Db_Backend_PDO_Config $connection_config
+		 */
+		
 		$GET = Http_Request::GET();
 
 		if( $GET->exists( 'test_connection' ) ) {

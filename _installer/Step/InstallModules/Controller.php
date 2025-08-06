@@ -78,6 +78,7 @@ class Installer_Step_InstallModules_Controller extends Installer_Step_Controller
 			$OK = true;
 
 			$tr_dir = SysConf_Path::getDictionaries();
+			/** @phpstan-ignore constant.notFound */
 			SysConf_Path::setDictionaries(__APP_DICTIONARIES__);
 			
 			foreach( $selected_modules as $module_name ) {

@@ -135,11 +135,11 @@ class Installer_Step_SelectDbType_Controller extends Installer_Step_Controller
 		Installer::getSession()->setValue( 'backend_type', $type );
 
 	}
-
+	
 	/**
-	 * @return array|bool
+	 * @return array<string>|false
 	 */
-	public function getStepsAfter(): array|bool
+	public function getStepsAfter(): array|false
 	{
 		return ['ConfigureDb'];
 
