@@ -75,6 +75,10 @@ class PackageCreator_CSS_Default extends PackageCreator_CSS
 				) {
 					$path = substr( $path, 1, -1 );
 				}
+				
+				if(str_starts_with($path, 'data:')) {
+					continue;
+				}
 
 
 				if( $path[0] == '.' ) {

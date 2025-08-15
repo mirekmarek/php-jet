@@ -2,7 +2,7 @@
   "name": "mirekmarek/php-jet",
   "description": "PHP Jet is modern, powerful, real-life proven, really fast and secure, small and light-weight framework for PHP8 with great clean and flexible modular architecture containing awesome developing tools. No magic, just clean software engineering.",
   "type": "project",
-  "keywords": ["php", "php8", "framework", "mvc", "modularity", "microservices", "orm", "redis", "mysql", "sqlite","localization","multiregional", "deb-tool", "profiler"],
+  "keywords": ["php", "php8", "framework", "mvc", "modularity", "microservices", "orm", "redis", "mysql", "sqlite","localization","multiregional", "dev-tool", "profiler"],
   "homepage": "https://www.php-jet.net/",
   "license": "BSD-3-Clause",
   "authors": [
@@ -16,7 +16,7 @@
     "email": "mirek.marek@web-jet.cz",
     "issues": "https://github.com/mirekmarek/php-jet/issues",
     "source": "https://github.com/mirekmarek/php-jet",
-    "forum": "https://github.com/mirekmarek/php-jet/discussions"
+    "forum": "https://questions.php-jet.net/"
   },
   "require": {
     "php": ">=8.0",

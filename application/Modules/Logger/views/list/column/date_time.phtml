@@ -1,0 +1,16 @@
+<?php
+namespace JetApplicationModule\Logger;
+
+use Jet\MVC_View;
+use Jet\Locale;
+
+/**
+ * @var MVC_View $this
+ * @var Event    $item
+ * @var Listing  $listing
+ */
+$item = $this->getRaw( 'item' );
+$listing = $this->getRaw( 'listing' );
+
+echo Locale::dateAndTime($item->getDateTime());
+

@@ -1,0 +1,14 @@
+<?php
+namespace JetApplicationModule\Logger;
+
+use Jet\MVC_View;
+
+/**
+ * @var MVC_View $this
+ * @var Event    $item
+ * @var Listing  $listing
+ */
+$item = $this->getRaw( 'item' );
+$listing = $this->getRaw( 'listing' );
+?>
+<a href="<?=$listing->getItemURI($item->getId())?>"><?=$item->getId();?></a>
