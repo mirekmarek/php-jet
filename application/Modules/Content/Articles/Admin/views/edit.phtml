@@ -7,7 +7,7 @@ use Jet\Form;
 use Jet\Form_Renderer;
 
 use Jet\UI;
-use JetApplication\Application_Admin_Services;
+use JetApplication\Application_Service_Admin;
 
 /**
  * @var MVC_View $this
@@ -32,7 +32,7 @@ $form->renderer()->setDefaultFieldWidth( [
 //$form->field( 'text' )->input()->addCustomCssStyle( 'height:400px' );
 
 
-$image_manager = Application_Admin_Services::ImageManager();
+$image_manager = Application_Service_Admin::ImageManager();
 
 ?>
 <?= $image_manager?->includeSelectImageDialog(); ?>

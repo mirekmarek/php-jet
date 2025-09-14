@@ -39,24 +39,14 @@ class Translator_Backend_Default extends Translator_Backend
 		if( !$file_path ) {
 			$file_path = $this->_getFilePath( $dictionary, $locale );
 		}
-
-		$dictionary = new Translator_Dictionary( $dictionary, $locale );
-
+		
+		$phrases = [];
+		
 		if( is_readable( $file_path ) ) {
-			$data = require $file_path;
-
-			foreach( $data as $phrase => $translation ) {
-				$is_translated = ($translation !== '');
-
-				$phrase = new Translator_Dictionary_Phrase(
-					$phrase, $translation, $is_translated
-				);
-
-				$dictionary->addPhrase( $phrase, false );
-			}
+			$phrases = require $file_path;
 		}
-
-		return $dictionary;
+		
+		return new Translator_Dictionary( $dictionary, $locale, $phrases );
 	}
 
 	/**
@@ -66,15 +56,7 @@ class Translator_Backend_Default extends Translator_Backend
 	 */
 	public function saveDictionary( Translator_Dictionary $dictionary, ?string $file_path = null ): void
 	{
-		$data = [];
-		foreach( $dictionary->getPhrases() as $phrase ) {
-			$key = $phrase->getPhrase();
-			if( $phrase->getIsTranslated() ) {
-				$data[$key] = $phrase->getTranslationRaw();
-			} else {
-				$data[$key] = '';
-			}
-		}
+		$data = $dictionary->getPhrases();
 
 		if( !$file_path ) {
 			$file_path = $this->_getFilePath(
@@ -159,6 +141,7 @@ class Translator_Backend_Default extends Translator_Backend
 	/**
 	 * @param Locale $locale
 	 * @return array<string,string>
+	 * @throws IO_Dir_Exception
 	 */
 	public function getKnownDictionaries( Locale $locale ) : array
 	{

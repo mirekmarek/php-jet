@@ -12,12 +12,12 @@ use Jet\Application_Module;
 use Jet\Application_Service_MetaInfo;
 
 #[Application_Service_MetaInfo(
-	group: Application_Admin_Services::GROUP,
+	group: Application_Service_Web::GROUP,
 	is_mandatory: true,
 	name:  'Login UI',
 	description: ''
 )]
-abstract class Application_Admin_Services_Auth_LoginModule extends Application_Module
+abstract class Application_Service_Web_Auth_LoginModule extends Application_Module
 {
-	abstract public function handleLogin( Application_Admin_Services_Auth_Controller $auth_controller ): void;
+	abstract public function handleLogin( Application_Service_Web_Auth_Controller $auth_controller ): void;
 }

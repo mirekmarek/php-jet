@@ -13,6 +13,20 @@ use ReflectionClass;
 
 class Attributes
 {
+	
+	/**
+	 * @param ReflectionClass<object> $reflection
+	 * @param array<string,ReflectionClass> $interfaces
+	 */
+	protected static function getInterfaces( ReflectionClass $reflection, array &$interfaces ) : void
+	{
+		$interfaces[$reflection->getName()] = $reflection;
+		
+		foreach($reflection->getInterfaces() as $interface) {
+			static::getInterfaces( $interface, $interfaces );
+		}
+	}
+	
 	/**
 	 * @param ReflectionClass<object> $reflection
 	 *
@@ -21,12 +35,17 @@ class Attributes
 	protected static function getClasses( ReflectionClass $reflection ) : array
 	{
 		$classes = [$reflection->getName() => $reflection];
-
-		if( ($parent = $reflection->getParentClass()) ) {
-			do {
-				$classes[$parent->getName()] = $parent;
-			} while( ($parent = $parent->getParentClass()) );
+		
+		if($reflection->isInterface()) {
+			static::getInterfaces( $reflection, $classes );
+		} else {
+			if( ($parent = $reflection->getParentClass()) ) {
+				do {
+					$classes[$parent->getName()] = $parent;
+				} while( ($parent = $parent->getParentClass()) );
+			}
 		}
+
 
 		return array_reverse( $classes );
 	}

@@ -18,8 +18,8 @@ use Jet\Form_Field_Password;
 
 
 use Jet\MVC;
-use JetApplication\Application_Admin_Services_Auth_Controller;
-use JetApplication\Application_Admin_Services_Auth_LoginModule;
+use JetApplication\Application_Service_Admin_Auth_Controller;
+use JetApplication\Application_Service_Admin_Auth_LoginModule;
 use JetApplication\Auth_Administrator_User;
 use JetApplication\Auth_Administrator_User as Administrator;
 
@@ -27,10 +27,10 @@ use JetApplication\Auth_Administrator_User as Administrator;
 /**
  *
  */
-class Main extends Application_Admin_Services_Auth_LoginModule
+class Main extends Application_Service_Admin_Auth_LoginModule
 {
 	
-	public function handleLogin( Application_Admin_Services_Auth_Controller $auth_controller ): void
+	public function handleLogin( Application_Service_Admin_Auth_Controller $auth_controller ): void
 	{
 		$page = MVC::getPage();
 		

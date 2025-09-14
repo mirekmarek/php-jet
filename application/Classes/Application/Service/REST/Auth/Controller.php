@@ -8,18 +8,15 @@
 
 namespace JetApplication;
 
-use Jet\Form_Field;
 use Jet\Application_Service_MetaInfo;
+use Jet\Auth_Controller_Interface;
 
 #[Application_Service_MetaInfo(
-	group: Application_Admin_Services::GROUP,
-	is_mandatory: false,
-	name:  'Image gallery manager',
+	group: Application_Service_REST::GROUP,
+	is_mandatory: true,
+	name:  'Authentication and authorization controller',
 	description: ''
 )]
-interface Application_Admin_Services_ImageManager
+interface Application_Service_REST_Auth_Controller extends Auth_Controller_Interface
 {
-	public function includeSelectImageDialog() : string;
-	
-	public function renderSelectImageWidget( Form_Field $form_field ) : string;
 }

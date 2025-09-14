@@ -16,14 +16,14 @@ use Jet\Http_Headers;
 use Jet\Logger;
 use Jet\MVC_Page_Interface;
 use JetApplication\Application;
-use JetApplication\Application_REST_Services_Auth_Controller;
+use JetApplication\Application_Service_REST_Auth_Controller;
 use JetApplication\Auth_RESTClient_Role;
 use JetApplication\Auth_RESTClient_User;
 
 /**
  *
  */
-class Main extends Application_Module implements Application_REST_Services_Auth_Controller
+class Main extends Application_Module implements Application_Service_REST_Auth_Controller
 {
 	public const EVENT_LOGIN_FAILED = 'login_failed';
 	public const EVENT_LOGIN_SUCCESS = 'login_success';

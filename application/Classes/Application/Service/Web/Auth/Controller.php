@@ -8,16 +8,15 @@
 
 namespace JetApplication;
 
-use Jet\Application_Module;
 use Jet\Application_Service_MetaInfo;
+use Jet\Auth_Controller_Interface;
 
 #[Application_Service_MetaInfo(
-	group: Application_Web_Services::GROUP,
+	group: Application_Service_Web::GROUP,
 	is_mandatory: true,
-	name:  'Login UI',
+	name:  'Authentication and authorization controller',
 	description: ''
 )]
-abstract class Application_Web_Services_Auth_LoginModule extends Application_Module
+interface Application_Service_Web_Auth_Controller extends Auth_Controller_Interface
 {
-	abstract public function handleLogin( Application_Web_Services_Auth_Controller $auth_controller ): void;
 }

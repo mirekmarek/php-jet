@@ -11,11 +11,13 @@ namespace Jet;
 use Redis;
 use RedisException;
 
+
+require_once 'Abstract.php';
+
 /**
- * Class Cache_Redis
- * @package Jet
+ *
  */
-class Cache_Redis
+class Cache_Redis extends Cache_Abstract
 {
 
 	/**
@@ -136,7 +138,7 @@ class Cache_Redis
 	 * @param string $key
 	 * @param mixed $data
 	 */
-	public function set( string $key, mixed $data ): void
+	protected function set( string $key, mixed $data ): void
 	{
 		if( !$this->connect() ) {
 			return;
@@ -151,7 +153,7 @@ class Cache_Redis
 	 *
 	 * @return mixed
 	 */
-	public function get( string $key ): mixed
+	protected function get( string $key ): mixed
 	{
 
 		if( !$this->connect() ) {
@@ -175,6 +177,75 @@ class Cache_Redis
 
 		return $data;
 	}
-
-
+	
+	
+	protected function readData( string $key ): ?Cache_Record_Data
+	{
+		if(!$this->isActive()) {
+			return null;
+		}
+		
+		$data = $this->get( $key );
+		if( !$data ) {
+			return null;
+		}
+		
+		return new Cache_Record_Data(
+			key: $key,
+			data: $data['data'],
+			timestamp: $data['timestamp'],
+		);
+	}
+	
+	protected function writeData( string $key, mixed $data ): void
+	{
+		if(!$this->isActive()) {
+			return;
+		}
+		
+		$this->set( $key, [
+			'timestamp' => time(),
+			'data' => $data,
+		] );
+	}
+	
+	protected function readHtml( string $key ): ?Cache_Record_HTMLSnippet
+	{
+		if(!$this->isActive()) {
+			return null;
+		}
+		
+		$data = $this->get( $key );
+		if( !$data ) {
+			return null;
+		}
+		
+		return new Cache_Record_HTMLSnippet(
+			key: $key,
+			html: $data['html'],
+			timestamp: $data['timestamp'],
+		);
+	}
+	
+	protected function writeHtml( string $key, string $html ): void
+	{
+		if(!$this->isActive()) {
+			return;
+		}
+		
+		$this->set( $key, [
+			'timestamp' => time(),
+			'html' => $html,
+		] );
+	}
+	
+	public function resetHtmlFiles( string $prefix ): void
+	{
+		$this->deleteItems($prefix);
+	}
+	
+	public function resetHtmlFile( string $key ): void
+	{
+		$this->delete( $key );
+	}
 }

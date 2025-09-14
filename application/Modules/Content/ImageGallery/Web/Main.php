@@ -10,13 +10,13 @@ namespace JetApplicationModule\Content\ImageGallery\Web;
 
 use Exception;
 use Jet\Application_Module;
-use JetApplication\Application_Web_Services_ImageManager;
+use JetApplication\Application_Service_Web_ImageManager;
 use JetApplicationModule\Content\ImageGallery\Entity\Gallery_Image;
 
 /**
  *
  */
-class Main extends Application_Module implements Application_Web_Services_ImageManager
+class Main extends Application_Module implements Application_Service_Web_ImageManager
 {
 	public function generateThbURI( string $image, int $max_w, int $max_h ): string
 	{

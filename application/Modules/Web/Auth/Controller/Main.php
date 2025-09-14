@@ -13,16 +13,16 @@ use Jet\Data_DateTime;
 use Jet\Logger;
 use Jet\MVC_Page_Interface;
 use Jet\Session;
-use JetApplication\Application_Web_Services;
-use JetApplication\Application_Web_Services_Auth_Controller;
-use JetApplication\Application_Web_Services_Auth_LoginModule;
+use JetApplication\Application_Service_Web;
+use JetApplication\Application_Service_Web_Auth_Controller;
+use JetApplication\Application_Service_Web_Auth_LoginModule;
 use JetApplication\Auth_Visitor_Role;
 use JetApplication\Auth_Visitor_User as Visitor;
 
 /**
  *
  */
-class Main extends Application_Module implements Application_Web_Services_Auth_Controller
+class Main extends Application_Module implements Application_Service_Web_Auth_Controller
 {
 	public const EVENT_LOGIN_FAILED = 'login_failed';
 	public const EVENT_LOGIN_SUCCESS = 'login_success';
@@ -112,9 +112,9 @@ class Main extends Application_Module implements Application_Web_Services_Auth_C
 	 */
 	public function handleLogin(): void
 	{
-		$module = Application_Web_Services::AuthLoginModule();
+		$module = Application_Service_Web::AuthLoginModule();
 		/**
-		 * @var Application_Web_Services_Auth_LoginModule $module
+		 * @var Application_Service_Web_Auth_LoginModule $module
 		 */
 		$module->handleLogin( $this );
 	}

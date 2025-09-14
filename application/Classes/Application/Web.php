@@ -50,12 +50,12 @@ class Application_Web
 		SysConf_Jet_MVC::setUseModulePages( false );
 		
 		
-		Logger::setLoggerProvider( function() : ?Application_Web_Services_Logger {
-			return Application_Web_Services::Logger();
+		Logger::setLoggerProvider( function() : ?Application_Service_Web_Logger {
+			return Application_Service_Web::Logger();
 		} );
 		
-		Auth::setControllerProvider( function() : Application_Web_Services_Auth_Controller {
-			return Application_Web_Services::AuthController();
+		Auth::setControllerProvider( function() : Application_Service_Web_Auth_Controller {
+			return Application_Service_Web::AuthController();
 		} );
 
 		SysConf_Jet_UI::setViewsDir( $router->getBase()->getViewsPath() . 'ui/' );

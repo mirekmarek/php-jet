@@ -40,10 +40,10 @@ class Application_REST
 	 */
 	public static function init( MVC_Router $router ): void
 	{
-		if(($logger=Application_REST_Services::Logger())) {
+		if(($logger=Application_Service_REST::Logger())) {
 			Logger::setLogger( $logger );
 		}
-		Auth::setController( Application_REST_Services::AuthController() );
+		Auth::setController( Application_Service_REST::AuthController() );
 	}
 
 }

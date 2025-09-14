@@ -12,11 +12,11 @@ use Jet\Logger_Interface;
 use Jet\Application_Service_MetaInfo;
 
 #[Application_Service_MetaInfo(
-	group: Application_Admin_Services::GROUP,
+	group: Application_Service_Admin::GROUP,
 	is_mandatory: false,
 	name:  'Event logger',
 	description: ''
 )]
-interface Application_Admin_Services_Logger extends Logger_Interface
+interface Application_Service_Admin_Logger extends Logger_Interface
 {
 }

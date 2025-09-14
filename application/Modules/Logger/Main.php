@@ -9,14 +9,14 @@ namespace JetApplicationModule\Logger;
 
 use Jet\Application_Module;
 use Jet\Auth_User_Interface;
-use JetApplication\Application_Admin_Services_Logger;
-use JetApplication\Application_REST_Services_Logger;
-use JetApplication\Application_Web_Services_Logger;
+use JetApplication\Application_Service_Admin_Logger;
+use JetApplication\Application_Service_REST_Logger;
+use JetApplication\Application_Service_Web_Logger;
 
 /**
  *
  */
-class Main extends Application_Module implements Application_Admin_Services_Logger, Application_Web_Services_Logger, Application_REST_Services_Logger
+class Main extends Application_Module implements Application_Service_Admin_Logger, Application_Service_Web_Logger, Application_Service_REST_Logger
 {
 	/**
 	 *

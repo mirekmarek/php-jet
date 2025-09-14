@@ -13,16 +13,16 @@ use Jet\Data_DateTime;
 use Jet\Logger;
 use Jet\MVC_Page_Interface;
 use Jet\Session;
-use JetApplication\Application_Admin_Services;
-use JetApplication\Application_Admin_Services_Auth_Controller;
-use JetApplication\Application_Admin_Services_Auth_LoginModule;
+use JetApplication\Application_Service_Admin;
+use JetApplication\Application_Service_Admin_Auth_Controller;
+use JetApplication\Application_Service_Admin_Auth_LoginModule;
 use JetApplication\Auth_Administrator_Role;
 use JetApplication\Auth_Administrator_User as Administrator;
 
 /**
  *
  */
-class Main extends Application_Module implements Application_Admin_Services_Auth_Controller
+class Main extends Application_Module implements Application_Service_Admin_Auth_Controller
 {
 	
 	public const EVENT_LOGIN_FAILED = 'login_failed';
@@ -108,9 +108,9 @@ class Main extends Application_Module implements Application_Admin_Services_Auth
 	 */
 	public function handleLogin(): void
 	{
-		$module = Application_Admin_Services::AuthLoginModule();
+		$module = Application_Service_Admin::AuthLoginModule();
 		/**
-		 * @var Application_Admin_Services_Auth_LoginModule $module
+		 * @var Application_Service_Admin_Auth_LoginModule $module
 		 */
 		$module->handleLogin( $this );
 		

@@ -36,8 +36,7 @@ class Autoloader_Cache_Backend_Files extends Cache_Files implements Autoloader_C
 	 */
 	public function load(): array|null
 	{
-		/** @phpstan-ignore return.type */
-		return $this->readData( static::KEY );
+		return $this->readData( static::KEY )?->getData();
 	}
 
 
@@ -46,7 +45,6 @@ class Autoloader_Cache_Backend_Files extends Cache_Files implements Autoloader_C
 	 */
 	public function save( array $map ): void
 	{
-		/** @phpstan-ignore argument.type */
 		$this->writeData( static::KEY, $map );
 	}
 

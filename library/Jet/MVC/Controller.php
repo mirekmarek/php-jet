@@ -8,6 +8,8 @@
 
 namespace Jet;
 
+use Closure;
+
 /**
  *
  */
@@ -111,6 +113,52 @@ abstract class MVC_Controller extends BaseObject
 
 		$this->content->output( $output );
 	}
+	
+	public function outputWithCache( string $cache_context, string $view_script, ?int $ttl=null, ?Closure $initializer=null ): void
+	{
+		$this->content->getPage()->setCacheContext( $cache_context );
+		
+		$cache_rec = MVC_Cache::loadContentOutput( $this->content, $ttl );
+		
+		if(!$cache_rec) {
+			Debug_Profiler::message('Cold cache - rendering' );
+			if($initializer) {
+				$initializer();
+			}
+			$output = $this->view->render( $view_script );
+
+			MVC_Cache::saveContentOutput( $this->content, $output );
+			
+		} else {
+			Debug_Profiler::message('Warm cache' );
+			$output = $cache_rec->getHtml();
+		}
+		
+		$this->content->output( $output );
+	}
+	
+	public function outputWithCustomCache( string $custom_cache_key, string $view_script, ?int $ttl=null, ?Closure $initializer=null ): void
+	{
+		
+		$cache_rec = MVC_Cache::loadCustomOutput( $custom_cache_key, $ttl );
+		
+		if(!$cache_rec) {
+			Debug_Profiler::message('Cold cache - rendering' );
+			if($initializer) {
+				$initializer();
+			}
+			$output = $this->view->render( $view_script );
+			
+			MVC_Cache::saveCustomOutput( $custom_cache_key, $output );
+			
+		} else {
+			Debug_Profiler::message('Warm cache' );
+			$output = $cache_rec->getHtml();
+		}
+		
+		$this->content->output( $output );
+	}
+	
 
 
 	/**

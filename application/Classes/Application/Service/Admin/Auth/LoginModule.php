@@ -8,15 +8,16 @@
 
 namespace JetApplication;
 
+use Jet\Application_Module;
 use Jet\Application_Service_MetaInfo;
 
 #[Application_Service_MetaInfo(
-	group: Application_Web_Services::GROUP,
-	is_mandatory: false,
-	name:  'Image gallery manager',
+	group: Application_Service_Admin::GROUP,
+	is_mandatory: true,
+	name:  'Login UI',
 	description: ''
 )]
-interface Application_Web_Services_ImageManager
+abstract class Application_Service_Admin_Auth_LoginModule extends Application_Module
 {
-	public function generateThbURI( string $image, int $max_w, int $max_h ) : string;
+	abstract public function handleLogin( Application_Service_Admin_Auth_Controller $auth_controller ): void;
 }

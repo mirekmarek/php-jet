@@ -1,38 +1,52 @@
 <?php
 /**
- *
  * @copyright Copyright (c) Miroslav Marek <mirek.marek@web-jet.cz>
- * @license http://www.php-jet.net/license/license.txt
+ * @license EUPL 1.2  https://eupl.eu/1.2/en/
  * @author Miroslav Marek <mirek.marek@web-jet.cz>
  */
-
 namespace Jet;
 
 use ReflectionClass;
 use Attribute;
 
 /** @phpstan-consistent-constructor */
-
 #[Attribute(Attribute::TARGET_CLASS | Attribute::TARGET_PROPERTY | Attribute::IS_REPEATABLE)]
-class Application_Service_MetaInfo extends BaseObject
+class Application_Service_MetaInfo
 {
 	protected string $interface_class_name;
 	protected string $group = '';
+	protected bool $multiple_mode = false;
 	protected string $module_name_prefix;
 	protected bool $is_mandatory;
 	protected string $name;
 	protected string $description;
 	
-	/**
-	 * @var ?array<string,Application_Service_MetaInfo>
-	 */
-	protected static ?array $definitions = null;
 	
-	
-	public function __construct( string $group = '', bool $is_mandatory=false, string $name = '', string $description = '' )
+	public function __construct( string $group='', bool $is_mandatory=false, bool $multiple_mode=false, string $name = '', string $description = '', string $module_name_prefix=''  )
 	{
-	
 	}
+	
+	/**
+	 * @param ReflectionClass<BaseObject> $class
+	 * @param array<string,string|bool> $attributes
+	 * @return static
+	 */
+	public static function create( ReflectionClass $class, array $attributes ) : static
+	{
+		$definition = new static();
+		$definition->setInterfaceClassName( $class->getName() );
+		
+		$definition->setGroup( $attributes['group'] );
+		$definition->setIsMandatory( (bool)($attributes['is_mandatory']??false) );
+		$definition->setName( $attributes['name'] );
+		$definition->setDescription( $attributes['description']??'' );
+		$definition->setModuleNamePrefix( $attributes['module_name_prefix']??'' );
+		$definition->setMultipleMode( (bool)($attributes['multiple_mode']??false) );
+		
+		
+		return $definition;
+	}
+	
 	
 	
 	public function getGroup(): string
@@ -76,6 +90,18 @@ class Application_Service_MetaInfo extends BaseObject
 		return $this->is_mandatory;
 	}
 	
+	public function isMultipleMode(): bool
+	{
+		return $this->multiple_mode;
+	}
+	
+	public function setMultipleMode( bool $multiple_mode ): void
+	{
+		$this->multiple_mode = $multiple_mode;
+	}
+	
+	
+	
 	public function setName( string $name ): void
 	{
 		$this->name = $name;
@@ -96,133 +122,6 @@ class Application_Service_MetaInfo extends BaseObject
 		return $this->description;
 	}
 	
-	/**
-	 * @return Application_Module[]
-	 */
-	public function getPossibleModulesScope() : array
-	{
-		$scope = [];
-		if(!$this->is_mandatory) {
-			$scope[''] = '';
-		}
-		
-		$services = Application_Services::findServices( $this->interface_class_name, $this->module_name_prefix );
-		
-		foreach($services as $service) {
-			$scope[$service->getModuleManifest()->getName()] = $service;
-		}
-		
-		return $scope;
-	}
 	
-	/**
-	 * @param ReflectionClass<object> $class
-	 * @param array<string,mixed> $attributes
-	 * @return static
-	 */
-	public static function create( ReflectionClass $class, array $attributes ) : static
-	{
-		$definition = new static();
-		$definition->setInterfaceClassName( $class->getName() );
-		
-		$definition->setGroup( $attributes['group'] );
-		$definition->setIsMandatory( (bool)$attributes['is_mandatory'] );
-		$definition->setName( $attributes['name'] );
-		$definition->setDescription( $attributes['description']??'' );
-		$definition->setModuleNamePrefix( $attributes['module_name_prefix']??'' );
-		
-		return $definition;
-	}
-	
-	/**
-	 * @param ?string $group
-	 * @return array<string,Application_Service_MetaInfo>
-	 */
-	public static function getServices( ?string $group='' ) : array
-	{
-		if(static::$definitions===null) {
-			$finder = new class {
-				/**
-				 * @var array<string,Application_Service_MetaInfo>
-				 */
-				protected array $classes = [];
-				protected string $dir = '';
-				
-				public function __construct()
-				{
-					$this->dir = SysConf_Path::getApplication() . 'Classes/';
-					$this->find();
-				}
-				
-				
-				public function find(): void
-				{
-					$this->readDir( $this->dir );
-					
-					ksort( $this->classes );
-				}
-				
-				protected function readDir( string $dir ): void
-				{
-					$dirs = IO_Dir::getList( $dir, '*', true, false );
-					$files = IO_Dir::getList( $dir, '*.php', false, true );
-					
-					foreach( $files as $path => $name ) {
-						$class = str_replace($this->dir, '', $path);
-						$class = str_replace('.php', '', $class);
-						
-						$class = str_replace('/', '_', $class);
-						$class = str_replace('\\', '_', $class);
-						
-						$class = '\\JetApplication\\'.$class;
-						
-						$reflection = new ReflectionClass( $class );
-						
-						if(
-							$reflection->isInterface() ||
-							$reflection->isAbstract()
-						) {
-							$attributes = Attributes::getClassDefinition(
-								$reflection,
-								Application_Service_MetaInfo::class
-							);
-							
-							if($attributes) {
-								$this->classes[$class] = Application_Service_MetaInfo::create( $reflection, $attributes );
-							}
-						}
-					}
-					
-					foreach( $dirs as $path => $name ) {
-						$this->readDir( $path );
-					}
-				}
-				
-				/**
-				 * @return array<string,Application_Service_MetaInfo>
-				 */
-				public function getClasses(): array
-				{
-					return $this->classes;
-				}
-			};
-			
-			static::$definitions = $finder->getClasses();
-		}
-		
-		if(!$group) {
-			return static::$definitions;
-		}
-		
-		$res = [];
-		
-		foreach(static::$definitions as $ifc_class=>$def) {
-			if($def->getGroup() === $group) {
-				$res[$ifc_class] = $def;
-			}
-		}
-		
-		return $res;
-	}
 	
 }

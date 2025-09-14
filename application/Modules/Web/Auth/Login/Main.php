@@ -17,8 +17,8 @@ use Jet\Form_Field_Password;
 
 
 use Jet\MVC;
-use JetApplication\Application_Web_Services_Auth_Controller;
-use JetApplication\Application_Web_Services_Auth_LoginModule;
+use JetApplication\Application_Service_Web_Auth_Controller;
+use JetApplication\Application_Service_Web_Auth_LoginModule;
 use JetApplication\Auth_Visitor_User;
 use JetApplication\Auth_Visitor_User as Visitor;
 
@@ -26,10 +26,10 @@ use JetApplication\Auth_Visitor_User as Visitor;
 /**
  *
  */
-class Main extends Application_Web_Services_Auth_LoginModule
+class Main extends Application_Service_Web_Auth_LoginModule
 {
 	
-	public function handleLogin( Application_Web_Services_Auth_Controller $auth_controller ): void
+	public function handleLogin( Application_Service_Web_Auth_Controller $auth_controller ): void
 	{
 		$page = MVC::getPage();
 		

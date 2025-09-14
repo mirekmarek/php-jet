@@ -10,6 +10,7 @@ namespace JetApplicationModule\Logger;
 use Jet\DataListing_Filter_OptionSelect;
 use Jet\Form_Field_Select;
 use Jet\MVC;
+use Jet\Tr;
 
 /**
  *
@@ -36,7 +37,10 @@ class Listing_Filter_Base extends DataListing_Filter_OptionSelect {
 	
 	protected function setFieldSelectOptions( Form_Field_Select $field ) : void
 	{
-		$bases = [];
+		$bases = [
+			'' => Tr::_('- all -')
+		];
+		
 		foreach( MVC::getBases() as $base ) {
 			$bases[$base->getId()] = $base->getName();
 		}

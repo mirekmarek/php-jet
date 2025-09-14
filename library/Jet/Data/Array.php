@@ -38,7 +38,7 @@ class Data_Array extends BaseObject implements BaseObject_Interface_Serializable
 
 	/**
 	 *
-	 * @return array<string|int,list<mixed>>
+	 * @return array<string|int,mixed>
 	 */
 	public function getRawData(): array
 	{

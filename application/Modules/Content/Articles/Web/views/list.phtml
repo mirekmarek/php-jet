@@ -1,6 +1,6 @@
 <?php
 use JetApplicationModule\Content\Articles\Entity\Article;
-use JetApplication\Application_Web_Services;
+use JetApplication\Application_Service_Web;
 use Jet\Data_Paginator;
 use Jet\Locale;
 use Jet\MVC_View;
@@ -17,7 +17,7 @@ $paginator = $this->getRaw( 'paginator' );
 
 <?php foreach( $articles_list as $article ):
 	if($article->getTitleImage()) {
-		$thb = Application_Web_Services::ImageManager()?->generateThbURI( $article->getTitleImage(), 100, 100 );
+		$thb = Application_Service_Web::ImageManager()?->generateThbURI( $article->getTitleImage(), 100, 100 );
 	} else {
 		$thb = null;
 	}

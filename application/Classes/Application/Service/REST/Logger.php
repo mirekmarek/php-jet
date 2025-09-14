@@ -8,15 +8,15 @@
 
 namespace JetApplication;
 
+use Jet\Logger_Interface;
 use Jet\Application_Service_MetaInfo;
-use Jet\Auth_Controller_Interface;
 
 #[Application_Service_MetaInfo(
-	group: Application_REST_Services::GROUP,
-	is_mandatory: true,
-	name:  'Authentication and authorization controller',
+	group: Application_Service_REST::GROUP,
+	is_mandatory: false,
+	name:  'Event logger',
 	description: ''
 )]
-interface Application_REST_Services_Auth_Controller extends Auth_Controller_Interface
+interface Application_Service_REST_Logger extends Logger_Interface
 {
 }

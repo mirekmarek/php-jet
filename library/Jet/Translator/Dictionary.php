@@ -24,7 +24,7 @@ class Translator_Dictionary extends BaseObject
 	protected string $name = '';
 
 	/**
-	 * @var Translator_Dictionary_Phrase[]
+	 * @var array<string,string>
 	 */
 	protected array $phrases = [];
 
@@ -36,11 +36,14 @@ class Translator_Dictionary extends BaseObject
 	/**
 	 * @param string $name
 	 * @param Locale|null $locale
+	 * @param array<string,string> $phrases
+	 * @
 	 */
-	public function __construct( string $name = '', ?Locale $locale = null )
+	public function __construct( string $name = '', ?Locale $locale = null, array $phrases = [] )
 	{
 		$this->setName( $name );
 		$this->locale = $locale;
+		$this->phrases = $phrases;
 	}
 
 	/**
@@ -76,9 +79,23 @@ class Translator_Dictionary extends BaseObject
 	{
 		return $this->name;
 	}
+	
+	/**
+	 * @param string $phrase
+	 * @return string
+	 */
+	public function generateHash( string $phrase ): string
+	{
+		if( strlen( $phrase ) < 255 ) {
+			return $phrase;
+		}
+		
+		return md5( $phrase );
+	}
+	
 
 	/**
-	 * @return Translator_Dictionary_Phrase[]
+	 * @return array<string,string>
 	 */
 	public function getPhrases(): array
 	{
@@ -86,53 +103,57 @@ class Translator_Dictionary extends BaseObject
 	}
 
 	/**
-	 * @param string $phrase_txt
+	 * @param string $phrase
 	 * @param bool $auto_append_unknown_phrase (optional)
 	 *
 	 * @return string
 	 */
-	public function getTranslation( string $phrase_txt, bool $auto_append_unknown_phrase = true ): string
+	public function getTranslation( string $phrase, bool $auto_append_unknown_phrase = true ): string
 	{
-		$hash = Translator::getBackend()->generateHash( $phrase_txt );
-		if( isset( $this->phrases[$hash] ) ) {
-			return $this->phrases[$hash]->getTranslation();
+		
+		$hash = $this->generateHash( $phrase );
+		
+		if(array_key_exists( $hash, $this->phrases) ) {
+			$translation = $this->phrases[$hash];
+		} else {
+			$translation = '';
+			$this->phrases[$hash] = '';
+			
+			if( $auto_append_unknown_phrase ) {
+				$this->save_required = true;
+			}
 		}
-
-		$phrase = new Translator_Dictionary_Phrase( $phrase_txt, '', false, $hash );
-		if( $auto_append_unknown_phrase ) {
-			$this->addPhrase( $phrase );
-		}
-
-		return $phrase_txt;
+		
+		return $translation!=='' ?  $translation : $phrase;
 	}
 
 	/**
-	 * @param Translator_Dictionary_Phrase $phrase
-	 * @param bool $save_required
+	 * @param string $phrase
+	 * @param string $translation
 	 *
 	 */
-	public function addPhrase( Translator_Dictionary_Phrase $phrase, bool $save_required = true ): void
+	public function addPhrase( string $phrase, string $translation ): void
 	{
-		$this->phrases[$phrase->getHash()] = $phrase;
-		if( $save_required ) {
-			$this->save_required = true;
-		}
+		$hash = $this->generateHash( $phrase );
+		
+		$this->phrases[$hash] = $translation;
+		$this->save_required = true;
+		
 	}
 	
 	/**
-	 * @param Translator_Dictionary_Phrase $phrase
-	 * @param bool $save_required
+	 * @param string $phrase
 	 *
 	 */
-	public function removePhrase( Translator_Dictionary_Phrase $phrase, bool $save_required = true ): void
+	public function removePhrase( string $phrase ): void
 	{
-		if(isset($this->phrases[$phrase->getHash()])) {
-			unset($this->phrases[$phrase->getHash()]);
-		}
-
-		if( $save_required ) {
+		$hash = $this->generateHash( $phrase );
+		
+		if(isset($this->phrases[$hash])) {
+			unset($this->phrases[$hash]);
 			$this->save_required = true;
 		}
+
 	}
 
 	/**

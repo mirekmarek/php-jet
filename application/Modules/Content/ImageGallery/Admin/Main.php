@@ -12,12 +12,12 @@ use Jet\Application_Module;
 use Jet\Factory_MVC;
 use Jet\Form_Field;
 use Jet\Translator;
-use JetApplication\Application_Admin_Services_ImageManager;
+use JetApplication\Application_Service_Admin_ImageManager;
 
 /**
  *
  */
-class Main extends Application_Module implements Application_Admin_Services_ImageManager
+class Main extends Application_Module implements Application_Service_Admin_ImageManager
 {
 	public const ADMIN_MAIN_PAGE = 'images';
 	

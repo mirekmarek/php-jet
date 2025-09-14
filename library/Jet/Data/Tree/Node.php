@@ -284,7 +284,7 @@ class Data_Tree_Node extends BaseObject implements BaseObject_Interface_Iterator
 	}
 
 	/**
-	 * @return array<int>
+	 * @return array<int|string>
 	 */
 	public function getAllChildrenIds(): array
 	{

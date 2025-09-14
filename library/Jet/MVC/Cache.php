@@ -49,6 +49,15 @@ class MVC_Cache
 	{
 		static::$backend?->reset();
 	}
+	
+	/**
+	 *
+	 */
+	public static function resetOutputCache(): void
+	{
+		static::$backend?->resetOutputCache();
+	}
+
 
 	/**
 	 * @return array<string,array<string,string|string[]>>|null
@@ -92,13 +101,26 @@ class MVC_Cache
 
 	/**
 	 * @param MVC_Page_Content_Interface $content
+	 * @param ?int $ttl
 	 *
-	 * @return string|null
+	 * @return ?Cache_Record_HTMLSnippet
 	 */
-	public static function loadContentOutput( MVC_Page_Content_Interface $content ): string|null
+	public static function loadContentOutput( MVC_Page_Content_Interface $content, ?int $ttl=null ): ?Cache_Record_HTMLSnippet
 	{
-		return static::$backend?->loadContentOutput( $content );
+		$cache_rec =  static::$backend?->loadContentOutput( $content );
 		
+		if(
+			$cache_rec &&
+			$ttl>0
+		) {
+			$age = time() - $cache_rec->getTimestamp();
+			
+			if($age > $ttl) {
+				$cache_rec = null;
+			}
+		}
+		
+		return $cache_rec;
 	}
 
 	/**
@@ -110,6 +132,40 @@ class MVC_Cache
 	{
 		static::$backend?->saveContentOutput( $content, $output );
 	}
-
+	
+	
+	/**
+	 * @param string $key
+	 * @param ?int $ttl
+	 *
+	 * @return ?Cache_Record_HTMLSnippet
+	 */
+	public static function loadCustomOutput( string $key, ?int $ttl=null ): ?Cache_Record_HTMLSnippet
+	{
+		$cache_rec =  static::$backend?->loadCustomOutput( $key );
+		
+		if(
+			$cache_rec &&
+			$ttl>0
+		) {
+			$age = time() - $cache_rec->getTimestamp();
+			
+			if($age > $ttl) {
+				$cache_rec = null;
+			}
+		}
+		
+		return $cache_rec;
+	}
+	
+	/**
+	 * @param string $key
+	 * @param string $output
+	 *
+	 */
+	public static function saveCustomOutput( string $key, string $output ): void
+	{
+		static::$backend?->saveCustomOutput( $key, $output );
+	}
 
 }

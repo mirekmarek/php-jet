@@ -8,10 +8,12 @@
 
 namespace Jet;
 
+require_once 'Abstract.php';
+
 /**
  *
  */
-abstract class Cache_Files
+abstract class Cache_Files extends Cache_Abstract
 {
 
 	/**
@@ -31,16 +33,16 @@ abstract class Cache_Files
 
 
 	/**
-	 * @param string $entity
-	 * @return list<mixed>|null
+	 * @param string $key
+	 * @return ?Cache_Record_Data
 	 */
-	protected function readData( string $entity ): array|null
+	protected function readData( string $key ): ?Cache_Record_Data
 	{
 		if( !$this->isActive() ) {
 			return null;
 		}
 
-		$file_path = $this->getDataFilePath( $entity );
+		$file_path = $this->getDataFilePath( $key );
 
 		if(
 			!is_file( $file_path ) ||
@@ -49,20 +51,22 @@ abstract class Cache_Files
 			return null;
 		}
 
-		return require $file_path;
+		$data = require $file_path;
+		
+		return new Cache_Record_Data( $key, $data, filemtime( $file_path ) );
 	}
 
 	/**
-	 * @param string $entity
-	 * @param list<mixed> $data
+	 * @param string $key
+	 * @param mixed $data
 	 */
-	protected function writeData( string $entity, array $data ): void
+	protected function writeData( string $key, mixed $data ): void
 	{
 		if( !$this->isActive() ) {
 			return;
 		}
 
-		$file_path = $this->getDataFilePath( $entity );
+		$file_path = $this->getDataFilePath( $key );
 
 		IO_File::writeDataAsPhp(
 			$file_path,
@@ -83,9 +87,9 @@ abstract class Cache_Files
 
 	/**
 	 * @param string $key
-	 * @return string|null
+	 * @return ?Cache_Record_HTMLSnippet
 	 */
-	protected function readHtml( string $key ): string|null
+	protected function readHtml( string $key ): ?Cache_Record_HTMLSnippet
 	{
 		if( !$this->isActive() ) {
 			return null;
@@ -100,7 +104,11 @@ abstract class Cache_Files
 			return null;
 		}
 
-		return file_get_contents( $file_path );
+		return new Cache_Record_HTMLSnippet(
+			key: $key,
+			html: file_get_contents( $file_path ),
+			timestamp:filemtime($file_path)
+		);
 	}
 
 	/**

@@ -23,6 +23,8 @@ interface MVC_Cache_Backend
 	 *
 	 */
 	public function reset(): void;
+	
+	public function resetOutputCache() : void;
 
 	/**
 	 * @return array<string,array<string,string|string[]>>|null
@@ -54,9 +56,9 @@ interface MVC_Cache_Backend
 	/**
 	 * @param MVC_Page_Content_Interface $content
 	 *
-	 * @return string|null
+	 * @return ?Cache_Record_HTMLSnippet
 	 */
-	public function loadContentOutput( MVC_Page_Content_Interface $content ): string|null;
+	public function loadContentOutput( MVC_Page_Content_Interface $content ): ?Cache_Record_HTMLSnippet;
 
 	/**
 	 * @param MVC_Page_Content_Interface $content
@@ -64,6 +66,21 @@ interface MVC_Cache_Backend
 	 *
 	 */
 	public function saveContentOutput( MVC_Page_Content_Interface $content, string $output ): void;
-
+	
+	
+	/**
+	 * @param string $key
+	 *
+	 * @return ?Cache_Record_HTMLSnippet
+	 */
+	public function loadCustomOutput( string $key ): ?Cache_Record_HTMLSnippet;
+	
+	/**
+	 * @param string $key
+	 * @param string $output
+	 *
+	 */
+	public function saveCustomOutput( string $key, string $output ): void;
+	
 
 }

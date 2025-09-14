@@ -40,10 +40,10 @@ class Application_Admin
 	
 	public static function init( MVC_Router $router ): void
 	{
-		if(($logger=Application_Admin_Services::Logger())) {
+		if(($logger=Application_Service_Admin::Logger())) {
 			Logger::setLogger( $logger );
 		}
-		Auth::setController( Application_Admin_Services::AuthController() );
+		Auth::setController( Application_Service_Admin::AuthController() );
 
 		SysConf_Jet_UI::setViewsDir( $router->getBase()->getViewsPath() . 'ui/' );
 		SysConf_Jet_Form::setDefaultViewsDir( $router->getBase()->getViewsPath() . 'form/' );
