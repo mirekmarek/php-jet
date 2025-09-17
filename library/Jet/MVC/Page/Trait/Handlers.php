@@ -34,8 +34,15 @@ trait MVC_Page_Trait_Handlers
 
 			$profiler_block = 'Resolve controller ' . $content->getModuleName() . ':' . $content->getControllerName();
 			Debug_Profiler::blockStart( $profiler_block );
+			
+			$action = Tr::setCurrentDictionaryTemporary(
+				dictionary: $controller->getModule()->getModuleManifest()->getName(),
+				action: function() use ( $controller ) {
+					return $controller->resolve();
+				}
+			);
 
-			if( ($action = $controller->resolve()) ) {
+			if( $action ) {
 				if( $action !== true ) {
 					$controller->getContent()->setControllerAction( $action );
 				}

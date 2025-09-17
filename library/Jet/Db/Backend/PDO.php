@@ -40,17 +40,21 @@ class Db_Backend_PDO implements Db_Backend_Interface
 		 */
 
 		$this->config = $config;
-
+		
+		$this->connect();
+	}
+	
+	protected function connect(): void
+	{
 		$this->pdo = new PDO(
-			dsn: $config->getDsn(),
-			username: $config->getUsername(),
-			password: $config->getPassword(),
+			dsn: $this->config->getDsn(),
+			username: $this->config->getUsername(),
+			password: $this->config->getPassword(),
 			options: [
 				PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
 				PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC
 			]
 		);
-
 	}
 
 	/**
@@ -83,9 +87,9 @@ class Db_Backend_PDO implements Db_Backend_Interface
 	{
 
 		Debug_Profiler::SQLQueryStart( $query, $query_params );
-
 		
-		try {
+		$statement = null;
+		$performQuery = function() use ( $query, $query_params, &$statement ) {
 			if($query_params) {
 				$q_hash = md5($query);
 				
@@ -99,8 +103,25 @@ class Db_Backend_PDO implements Db_Backend_Interface
 			} else {
 				$statement = $this->pdo->query( $query );
 			}
+		};
+		
+		try {
+			$performQuery();
 		} catch( PDOException $e ) {
-			throw new Db_Exception( $e->getMessage()."\n\nSQL query:\n\n".$query );
+			if(
+				str_contains( $e->errorInfo[2], 'server has gone away') ||
+				str_contains( $e->errorInfo[2], 'disconnected')
+			) {
+				try {
+					$this->disconnect();
+					$this->connect();
+					$performQuery();
+				} catch(PDOException $e ) {
+					throw new Db_Exception( $e->getMessage()."\n\nSQL query:\n\n".$query );
+				}
+			} else {
+				throw new Db_Exception( $e->getMessage()."\n\nSQL query:\n\n".$query );
+			}
 		}
 		
 
