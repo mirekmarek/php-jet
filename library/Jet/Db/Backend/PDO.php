@@ -38,7 +38,6 @@ class Db_Backend_PDO implements Db_Backend_Interface
 		/**
 		 * @var Db_Backend_PDO_Config $config
 		 */
-
 		$this->config = $config;
 		
 		$this->connect();

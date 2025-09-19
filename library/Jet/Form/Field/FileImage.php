@@ -59,13 +59,7 @@ class Form_Field_FileImage extends Form_Field implements Form_Field_Part_File_In
 	public function getAllowedMimeTypes(): array
 	{
 		if(!$this->allowed_mime_types) {
-			return [
-				'image/pjpeg',
-				'image/jpeg',
-				'image/jpg',
-				'image/gif',
-				'image/png',
-			];
+			$this->allowed_mime_types = Data_Image::getSupportedMimeTypes();
 		}
 		
 		return $this->allowed_mime_types;

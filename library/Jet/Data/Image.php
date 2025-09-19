@@ -14,6 +14,60 @@ class Data_Image extends BaseObject
 	public const TYPE_GIF = IMAGETYPE_GIF;
 	public const TYPE_JPG = IMAGETYPE_JPEG;
 	public const TYPE_PNG = IMAGETYPE_PNG;
+	public const TYPE_WEBP = IMAGETYPE_WEBP;
+	public const TYPE_AVIF = IMAGETYPE_AVIF;
+	
+	protected static array $image_create_function = [
+		self::TYPE_GIF           => 'imagecreatefromgif',
+		self::TYPE_JPG           => 'imagecreatefromjpeg',
+		self::TYPE_PNG           => 'imagecreatefrompng',
+		self::TYPE_WEBP          => 'imagecreatefromwebp',
+		self::TYPE_AVIF          => 'imagecreatefromavif',
+	];
+	
+	protected static array $mime_types = [
+		self::TYPE_GIF => [
+			'image/gif'
+		],
+		self::TYPE_JPG => [
+			'image/pjpeg',
+			'image/jpeg',
+			'image/jpg',
+		],
+		self::TYPE_PNG => [
+			'image/png',
+		],
+		self::TYPE_WEBP => [
+			'image/webp',
+		],
+		self::TYPE_AVIF => [
+			'image/avif',
+		],
+		
+	];
+	
+	protected static array $types_that_has_alpha = [
+		self::TYPE_PNG,
+		self::TYPE_GIF
+	];
+	
+	protected static array $types_that_has_quality = [
+		self::TYPE_JPG,
+		self::TYPE_WEBP,
+		self::TYPE_AVIF
+	];
+	
+	protected static array $types_that_has_extra_param = [
+	];
+	
+	
+	protected static array $image_output_function = [
+		self::TYPE_GIF           => 'imagegif',
+		self::TYPE_JPG           => 'imagejpeg',
+		self::TYPE_PNG           => 'imagepng',
+		self::TYPE_WEBP          => 'imagewebp',
+		self::TYPE_AVIF          => 'imageavif',
+	];
 
 	/**
 	 * @var string
@@ -91,6 +145,28 @@ class Data_Image extends BaseObject
 		] = $image_dat;
 
 		$this->mime_type = $image_dat['mime'];
+	}
+	
+	public static function typeIsSupported( int $type ): bool
+	{
+		if(!isset(static::$image_output_function[$type])) {
+			return false;
+		}
+		
+		$function = static::$image_output_function[$type];
+		return function_exists( $function );
+	}
+	
+	public static function getSupportedMimeTypes(): array
+	{
+		$supported = [];
+		foreach(static::$mime_types as $type => $mime_types) {
+			if(static::typeIsSupported($type)) {
+				$supported = array_merge($supported, $mime_types);
+			}
+		}
+		
+		return $supported;
 	}
 
 	/**
@@ -216,6 +292,7 @@ class Data_Image extends BaseObject
 	 */
 	public function saveAs( string $target_path, ?int $new_width = null, ?int $new_height = null, ?int $target_img_type = null ): static
 	{
+		
 		if( !$target_img_type ) {
 			$target_img_type = $this->img_type;
 		}
@@ -227,27 +304,36 @@ class Data_Image extends BaseObject
 		if( !$new_height ) {
 			$new_height = $this->height;
 		}
-
-		$image = match ($this->img_type) {
-			self::TYPE_JPG => imagecreatefromjpeg( $this->path ),
-			self::TYPE_GIF => imagecreatefromgif( $this->path ),
-			self::TYPE_PNG => imagecreatefrompng( $this->path ),
-			default => throw new Data_Image_Exception('Unsupported image type: '.$this->mime_type ),
-		};
-
-		if( !$image ) {
+		
+		$image_create_function = static::$image_create_function[$this->img_type]??'';
+		
+		if(
+			!$image_create_function ||
+			!function_exists($image_create_function)
+		) {
 			throw new Data_Image_Exception(
-				'File: \'' . $this->path . '\' Unsupported type! Unable to get image size!',
+				'File: \'' . $this->path . '\' Unsupported type! Unable to get image size! ('.$image_create_function.')',
+				Data_Image_Exception::CODE_UNSUPPORTED_IMAGE_TYPE
+			);
+		}
+		
+		
+		$image = Debug_ErrorHandler::doItSilent(function() use ($image_create_function) {
+			return call_user_func( $image_create_function, $this->path );
+		});
+		
+		
+		
+		if(!$image) {
+			throw new Data_Image_Exception(
+				'File: \'' . $this->path . '\' Unsupported type! Unable to get image size! ('.$image_create_function.')',
 				Data_Image_Exception::CODE_UNSUPPORTED_IMAGE_TYPE
 			);
 		}
 
 		$new_image = imagecreatetruecolor( $new_width, $new_height );
 
-		if(
-			$target_img_type == self::TYPE_PNG ||
-			$target_img_type == self::TYPE_GIF
-		) {
+		if( in_array( $target_img_type, static::$types_that_has_alpha, true ) ) {
 			imagealphablending( $new_image, false );
 			imagesavealpha( $new_image, true );
 
@@ -258,16 +344,12 @@ class Data_Image extends BaseObject
 
 		imagecopyresampled( $new_image, $image, 0, 0, 0, 0, $new_width, $new_height, $this->width, $this->height );
 
-		switch( $target_img_type ) {
-			case self::TYPE_JPG:
-				imagejpeg( $new_image, $target_path, $this->image_quality );
-				break;
-			case self::TYPE_GIF:
-				imagegif( $new_image, $target_path );
-				break;
-			case self::TYPE_PNG:
-				imagepng( $new_image, $target_path );
-				break;
+		$output_method = static::$image_output_function[$target_img_type];
+		
+		if( in_array($target_img_type, static::$types_that_has_quality) ) {
+			call_user_func($output_method, $new_image, $target_path, $this->image_quality );
+		} else {
+			call_user_func($output_method, $new_image, $target_path );
 		}
 
 		imagedestroy( $new_image );
