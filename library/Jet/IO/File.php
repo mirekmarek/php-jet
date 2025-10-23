@@ -498,7 +498,7 @@ class IO_File
 		$fp = fopen( $file_path, 'r' );
 		fpassthru( $fp );
 		fclose( $fp );
-
+		Application::end();
 	}
 
 

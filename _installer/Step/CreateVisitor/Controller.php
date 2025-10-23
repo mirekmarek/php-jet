@@ -8,8 +8,8 @@
 
 namespace JetApplication\Installer;
 
-use JetApplication\Auth_Visitor_User;
-use JetApplication\Auth_Visitor_Role;
+use JetApplicationModule\Web\Auth\Entity\Visitor;
+use JetApplicationModule\Web\Auth\Entity\Role;
 
 /**
  *
@@ -36,12 +36,12 @@ class Installer_Step_CreateVisitor_Controller extends Installer_Step_Controller
 		
 		$this->catchContinue();
 
-		if( count( Auth_Visitor_User::getList() ) > 0 ) {
+		if( count( Visitor::getList() ) > 0 ) {
 
 			$this->render( 'created' );
 		} else {
 
-			$user = new Auth_Visitor_User();
+			$user = new Visitor();
 			$form = $user->getRegistrationForm();
 			
 			$form->getField( 'username' )->setDefaultValue( 'visitor' );
@@ -68,15 +68,15 @@ class Installer_Step_CreateVisitor_Controller extends Installer_Step_Controller
 		$id = static::MAIN_ROLE_ID;
 		$name = static::MAIN_ROLE_NAME;
 		
-		if( Auth_Visitor_Role::idExists( $id ) ) {
+		if( Role::idExists( $id ) ) {
 			return;
 		}
 		
-		$role = new Auth_Visitor_Role();
+		$role = new Role();
 		$role->setId( $id );
 		$role->setName($name);
 		
-		$avl_privileges = Auth_Visitor_Role::getAvailablePrivilegesList( false );
+		$avl_privileges = Role::getAvailablePrivilegesList( false );
 		
 		foreach($avl_privileges as $privilege=>$privilege_data) {
 			

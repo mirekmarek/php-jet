@@ -8,7 +8,7 @@
 
 namespace JetApplication\Installer;
 
-use JetApplication\Auth_Administrator_User;
+use JetApplicationModule\Admin\Auth\Entity\Administrator;
 
 /**
  *
@@ -29,12 +29,12 @@ class Installer_Step_CreateAdministrator_Controller extends Installer_Step_Contr
 	{
 		$this->catchContinue();
 
-		if( count( Auth_Administrator_User::getList() ) > 0 ) {
+		if( count( Administrator::getList() ) > 0 ) {
 
 			$this->render( 'created' );
 		} else {
 
-			$administrator = new Auth_Administrator_User();
+			$administrator = new Administrator();
 			$form = $administrator->getRegistrationForm();
 
 			$form->getField( 'username' )->setDefaultValue( 'admin' );

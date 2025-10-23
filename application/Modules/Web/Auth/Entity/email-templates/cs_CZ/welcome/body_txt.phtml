@@ -1,0 +1,28 @@
+<?php
+namespace JetApplication;
+
+use Jet\MVC_View;
+
+/**
+ * @var MVC_View $this
+ * @var Auth_Visitor $user
+ */
+
+$user = $this->getRaw( 'user' );
+?>
+Vítejte v systému!
+
+Zde jsou vaše přihlašovací údaje:
+
+Uživatelské jméno: <?= $user->getUsername() ?>
+
+Heslo: <?= $this->getString( 'password' ) ?>
+
+Vaše jméno: <?= $user->getName() ?>
+
+Váš e-mail: <?= $user->getEmail() ?>
+
+
+Po přihlášení si prosím změňte heslo
+
+Přejeme příjemný den

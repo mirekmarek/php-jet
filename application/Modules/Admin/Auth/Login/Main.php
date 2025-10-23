@@ -20,8 +20,7 @@ use Jet\Form_Field_Password;
 use Jet\MVC;
 use JetApplication\Application_Service_Admin_Auth_Controller;
 use JetApplication\Application_Service_Admin_Auth_LoginModule;
-use JetApplication\Auth_Administrator_User;
-use JetApplication\Auth_Administrator_User as Administrator;
+use JetApplicationModule\Admin\Auth\Entity\Administrator;
 
 
 /**
@@ -38,7 +37,7 @@ class Main extends Application_Service_Admin_Auth_LoginModule
 		$action = 'login';
 		
 		/**
-		 * @var Auth_Administrator_User|false $user
+		 * @var Administrator|false $user
 		 */
 		$user = $auth_controller->getCurrentUser();
 		

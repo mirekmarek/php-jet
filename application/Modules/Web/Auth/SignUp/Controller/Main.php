@@ -12,7 +12,7 @@ use Jet\Http_Headers;
 use Jet\Locale;
 use Jet\MVC_Controller_Default;
 use JetApplication\Application_Web_Pages;
-use JetApplication\Auth_Visitor_User;
+use JetApplicationModule\Web\Auth\Entity\Visitor;
 
 /**
  *
@@ -32,7 +32,7 @@ class Controller_Main extends MVC_Controller_Default
 			return;
 		}
 		
-		$user = new Auth_Visitor_User();
+		$user = new Visitor();
 		$form = $user->getSignUpForm();
 		
 		$user->setLocale( Locale::getCurrentLocale() );

@@ -96,6 +96,17 @@ interface MVC_Base_Interface
 	 * @param bool $is_default
 	 */
 	public function setIsDefault( bool $is_default ): void;
+	
+	/**
+	 * @param bool $redirect_to_default_url
+	 * @return void
+	 */
+	public function setRedirectToDefaultURL( bool $redirect_to_default_url ): void;
+	
+	/**
+	 * @return bool
+	 */
+	public function getRedirectToDefaultURL(): bool;
 
 	/**
 	 * @return bool

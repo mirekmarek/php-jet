@@ -8,25 +8,28 @@
 namespace JetApplicationModule\Web\Auth\PasswordReset;
 
 use Jet\Application_Module;
+use Jet\Application_Module_HasEmailTemplates_Interface;
+use Jet\Application_Module_HasEmailTemplates_Trait;
 use Jet\Auth;
 use Jet\Http_Headers;
 use Jet\Logger;
-use Jet\Mailing_Email_Template;
 use JetApplication\Application_Web;
 use JetApplication\Application_Web_Pages;
-use JetApplication\Auth_Visitor_User as User;
+use JetApplicationModule\Web\Auth\Entity\Visitor;
 
 /**
  *
  */
-class Main extends Application_Module
+class Main extends Application_Module implements Application_Module_HasEmailTemplates_Interface
 {
-	public function generateKey( User $user ) : string
+	use Application_Module_HasEmailTemplates_Trait;
+	
+	public function generateKey( Visitor $user ) : string
 	{
 		return sha1($user->getId().':'.$user->getEmail().':@@#%$sw4$');
 	}
 	
-	public function generateToken( User $user ) : void
+	public function generateToken( Visitor $user ) : void
 	{
 		$token = PasswordResetToken::generate( $user );
 		
@@ -37,8 +40,8 @@ class Main extends Application_Module
 			context_object_name: $user->getUsername()
 		);
 		
-		$email_template = new Mailing_Email_Template(
-			template_id: 'visitor/password_reset/request',
+		$email_template = static::createEmailTemplate(
+			template_id: 'request',
 			locale: $user->getLocale()
 		);
 		$email_template->setVar( 'code', $token->getCode() );
@@ -52,7 +55,7 @@ class Main extends Application_Module
 		
 	}
 	
-	public function passwordReset(User $user, PasswordResetToken $token, string $new_password) : void
+	public function passwordReset( Visitor $user, PasswordResetToken $token, string $new_password) : void
 	{
 		$token->used();
 		$user->setPassword( $new_password );
@@ -64,8 +67,8 @@ class Main extends Application_Module
 			context_object_name: $user->getUsername()
 		);
 		
-		$email_template = new Mailing_Email_Template(
-			template_id: 'visitor/password_reset/done',
+		$email_template = static::createEmailTemplate(
+			template_id: 'done',
 			locale: $user->getLocale()
 		);
 		$email_template->setVar( 'user', $user );

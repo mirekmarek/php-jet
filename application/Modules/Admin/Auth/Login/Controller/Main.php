@@ -19,8 +19,7 @@ use Jet\Http_Headers;
 use Jet\Auth;
 use Jet\UI_messages;
 
-
-use JetApplication\Auth_Administrator_User as User;
+use JetApplicationModule\Admin\Auth\Entity\Administrator;
 
 /**
  *
@@ -114,7 +113,7 @@ class Controller_Main extends MVC_Controller_Default
 		if( $form->catchInput() && $form->validate() ) {
 			$data = $form->getValues();
 			/**
-			 * @var User $user
+			 * @var Administrator $user
 			 */
 			$user = Auth::getCurrentUser();
 
@@ -154,7 +153,7 @@ class Controller_Main extends MVC_Controller_Default
 		if( $form->catch() ) {
 
 			/**
-			 * @var User $user
+			 * @var Administrator $user
 			 */
 			$user = Auth::getCurrentUser();
 			

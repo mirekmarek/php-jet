@@ -46,11 +46,6 @@ return new class extends Autoloader_Loader
 		
 		$module_name = str_replace( '\\', '.', $module_name );
 		
-
-		if( !Application_Modules::moduleIsActivated( $module_name ) ) {
-			return false;
-		}
-
 		return Application_Modules::getModuleDir( $module_name ) . $this->classNameToPath( $class_name );
 
 	}

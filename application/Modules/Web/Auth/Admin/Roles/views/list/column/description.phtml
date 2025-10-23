@@ -1,0 +1,15 @@
+<?php
+namespace JetApplicationModule\Web\Auth\Admin\Roles;
+
+use JetApplicationModule\Web\Auth\Entity\Role;
+
+use Jet\MVC_View;
+
+/**
+ * @var MVC_View $this
+ * @var Role $item
+ */
+
+$item = $this->getRaw('item');
+?>
+<?= $item->getDescription(); ?>

@@ -8,8 +8,8 @@
 
 namespace JetApplication\Installer;
 
-use JetApplication\Auth_RESTClient_User;
-use JetApplication\Auth_RESTClient_Role;
+use JetApplicationModule\REST\Auth\Entity\APIUser;
+use JetApplicationModule\REST\Auth\Entity\Role;
 
 /**
  *
@@ -36,12 +36,12 @@ class Installer_Step_CreateRESTClient_Controller extends Installer_Step_Controll
 		
 		$this->catchContinue();
 
-		if( count( Auth_RESTClient_User::getList() ) > 0 ) {
+		if( count( APIUser::getList() ) > 0 ) {
 
 			$this->render( 'created' );
 		} else {
 
-			$user = new Auth_RESTClient_User();
+			$user = new APIUser();
 			$form = $user->getRegistrationForm();
 			
 			$form->getField( 'username' )->setDefaultValue( 'rest' );
@@ -68,15 +68,15 @@ class Installer_Step_CreateRESTClient_Controller extends Installer_Step_Controll
 		$id = static::MAIN_ROLE_ID;
 		$name = static::MAIN_ROLE_NAME;
 		
-		if( Auth_RESTClient_Role::idExists( $id ) ) {
+		if( Role::idExists( $id ) ) {
 			return;
 		}
 		
-		$role = new Auth_RESTClient_Role();
+		$role = new Role();
 		$role->setId( $id );
 		$role->setName($name);
 		
-		$avl_privileges = Auth_RESTClient_Role::getAvailablePrivilegesList( false );
+		$avl_privileges = Role::getAvailablePrivilegesList( false );
 		
 		foreach($avl_privileges as $privilege=>$privilege_data) {
 			$values = [];

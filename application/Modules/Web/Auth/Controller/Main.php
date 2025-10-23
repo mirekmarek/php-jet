@@ -16,8 +16,8 @@ use Jet\Session;
 use JetApplication\Application_Service_Web;
 use JetApplication\Application_Service_Web_Auth_Controller;
 use JetApplication\Application_Service_Web_Auth_LoginModule;
-use JetApplication\Auth_Visitor_Role;
-use JetApplication\Auth_Visitor_User as Visitor;
+use JetApplicationModule\Web\Auth\Entity\Role;
+use JetApplicationModule\Web\Auth\Entity\Visitor;
 
 /**
  *
@@ -231,7 +231,7 @@ class Main extends Application_Module implements Application_Service_Web_Auth_Co
 	 */
 	public function checkPageAccess( MVC_Page_Interface $page ): bool
 	{
-		return $this->getCurrentUserHasPrivilege( Auth_Visitor_Role::PRIVILEGE_VISIT_PAGE, $page->getKey() );
+		return $this->getCurrentUserHasPrivilege( Role::PRIVILEGE_VISIT_PAGE, $page->getKey() );
 	}
 
 }

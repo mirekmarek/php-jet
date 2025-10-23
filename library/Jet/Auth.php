@@ -35,9 +35,9 @@ class Auth extends BaseObject
 	
 	/**
 	 *
-	 * @return Auth_Controller_Interface
+	 * @return ?Auth_Controller_Interface
 	 */
-	public static function getController(): Auth_Controller_Interface
+	public static function getController(): ?Auth_Controller_Interface
 	{
 		if(
 			!static::$controller &&
@@ -63,7 +63,7 @@ class Auth extends BaseObject
 	 */
 	public static function checkCurrentUser(): bool
 	{
-		return static::getController()->checkCurrentUser();
+		return static::getController()?->checkCurrentUser()??false;
 	}
 
 	/**
@@ -75,7 +75,7 @@ class Auth extends BaseObject
 	 */
 	public static function login( string $username, string $password ): bool
 	{
-		return static::getController()->login( $username, $password );
+		return static::getController()?->login( $username, $password )??false;
 	}
 
 	/**
@@ -84,14 +84,14 @@ class Auth extends BaseObject
 	 */
 	public static function loginUser( Auth_User_Interface $user ): bool
 	{
-		return static::getController()->loginUser( $user );
+		return static::getController()?->loginUser( $user )??false;
 	}
 
 	/**
 	 */
 	public static function logout(): void
 	{
-		static::getController()->logout();
+		static::getController()?->logout();
 	}
 
 	/**
@@ -100,7 +100,7 @@ class Auth extends BaseObject
 	 */
 	public static function getCurrentUser(): Auth_User_Interface|false
 	{
-		return static::getController()->getCurrentUser();
+		return static::getController()?->getCurrentUser()??false;
 	}
 
 	/**
@@ -112,7 +112,7 @@ class Auth extends BaseObject
 	 */
 	public static function getCurrentUserHasPrivilege( string $privilege, mixed $value=null ): bool
 	{
-		return static::getController()->getCurrentUserHasPrivilege( $privilege, $value );
+		return static::getController()?->getCurrentUserHasPrivilege( $privilege, $value )??false;
 	}
 
 	/**
@@ -123,7 +123,7 @@ class Auth extends BaseObject
 	 */
 	public static function checkModuleActionAccess( string $module_name, string $action ): bool
 	{
-		return static::getController()->checkModuleActionAccess( $module_name, $action );
+		return static::getController()?->checkModuleActionAccess( $module_name, $action )??false;
 	}
 
 	/**
@@ -133,7 +133,7 @@ class Auth extends BaseObject
 	 */
 	public static function checkPageAccess( MVC_Page_Interface $page ): bool
 	{
-		return static::getController()->checkPageAccess( $page );
+		return static::getController()?->checkPageAccess( $page )??false;
 	}
 
 	/**
@@ -141,7 +141,7 @@ class Auth extends BaseObject
 	 */
 	public static function handleLogin(): void
 	{
-		static::getController()->handleLogin();
+		static::getController()?->handleLogin();
 	}
 
 }

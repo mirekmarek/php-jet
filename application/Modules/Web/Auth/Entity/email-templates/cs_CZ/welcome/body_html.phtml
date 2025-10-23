@@ -1,0 +1,41 @@
+<?php
+namespace JetApplication;
+
+use Jet\MVC_View;
+use Jet\SysConf_URI;
+
+/**
+ * @var MVC_View $this
+ * @var Auth_Visitor $user
+ */
+
+$user = $this->getRaw( 'user' );
+?>
+<img src="<?= SysConf_URI::getImages() ?>email_images/email_header.jpg"/>
+
+<h1>Vítejte v systému!</h1>
+
+<p>Zde jsou vaše přihlašovací údaje:</p>
+
+<table>
+	<tr>
+		<td>Uživatelské jméno:</td>
+		<td><?= $user->getUsername() ?></td>
+	</tr>
+	<tr>
+		<td>Heslo:</td>
+		<td><?= $this->getString( 'password' ) ?></td>
+	</tr>
+	<tr>
+		<td>Vaše jméno:</td>
+		<td><?= $user->getName() ?></td>
+	</tr>
+	<tr>
+		<td>Váš e-mail:</td>
+		<td><?= $user->getEmail() ?></td>
+	</tr>
+</table>
+
+<p>Po přihlášení si prosím změňte heslo</p>
+
+<p>Přejeme příjemný den</p>

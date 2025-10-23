@@ -8,6 +8,8 @@
 
 namespace Jet;
 
+use ReflectionClass;
+
 /**
  *
  */
@@ -167,6 +169,13 @@ class Application_Modules extends BaseObject
 	public static function deactivateModule( string $module_name ): void
 	{
 		static::getHandler()->deactivateModule( $module_name );
+	}
+	
+	public static function getModuleNameByClassName( string $class_name ): string
+	{
+		$root_ns = SysConf_Jet_Modules::getModuleRootNamespace();
+		$namespace = substr( (new ReflectionClass( static::class ))->getNamespaceName(), strlen($root_ns));
+		return str_replace('\\', '.', $namespace);
 	}
 
 	/**

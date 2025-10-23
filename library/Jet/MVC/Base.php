@@ -38,6 +38,11 @@ class MVC_Base extends BaseObject implements MVC_Base_Interface
 	 * @var string
 	 */
 	protected string $name = '';
+	
+	/**
+	 * @var bool
+	 */
+	protected bool $redirect_to_default_URL = true;
 
 	/**
 	 * @var string|null
@@ -232,6 +237,12 @@ class MVC_Base extends BaseObject implements MVC_Base_Interface
 
 		$data['is_active'] = !empty( $data['is_active'] );
 		$data['is_default'] = !empty( $data['is_default'] );
+		
+		if(!array_key_exists('redirect_to_default_URL', $data)) {
+			$data['redirect_to_default_URL'] = true;
+		}
+		
+		$data['redirect_to_default_URL'] = !empty( $data['redirect_to_default_URL'] );
 
 		foreach( $data as $key => $val ) {
 			$this->{$key} = $val;
@@ -629,7 +640,25 @@ class MVC_Base extends BaseObject implements MVC_Base_Interface
 	{
 		$this->is_default = $is_default;
 	}
-
+	
+	/**
+	 * @param bool $redirect_to_default_url
+	 * @return void
+	 */
+	public function setRedirectToDefaultURL( bool $redirect_to_default_url ): void
+	{
+		$this->redirect_to_default_URL = $redirect_to_default_url;
+	}
+	
+	/**
+	 * @return bool
+	 */
+	public function getRedirectToDefaultURL(): bool
+	{
+		return $this->redirect_to_default_URL;
+	}
+	
+	
 	/**
 	 * @param Locale|null $locale (optional)
 	 *

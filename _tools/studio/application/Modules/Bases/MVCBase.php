@@ -91,6 +91,13 @@ class MVCBase extends MVC_Base
 				$this->setName( $value );
 			} );
 			
+			$redirect_to_default_URL = new Form_Field_Checkbox( 'redirect_to_default_URL', 'Redirect to the default URL' );
+			$redirect_to_default_URL->setDefaultValue( $this->getRedirectToDefaultURL() );
+			$redirect_to_default_URL->setFieldValueCatcher( function( $value ) {
+				$this->setRedirectToDefaultURL( $value );
+			} );
+			
+			
 			
 			$is_secret_field = new Form_Field_Checkbox( 'is_secret', 'is secret' );
 			$is_secret_field->setDefaultValue( $this->getIsSecret() );
@@ -131,6 +138,7 @@ class MVCBase extends MVC_Base
 			
 			$fields = [
 				$name_field,
+				$redirect_to_default_URL,
 				$is_default_field,
 				$is_secret_field,
 				$is_active_field,

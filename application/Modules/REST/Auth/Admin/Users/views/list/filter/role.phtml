@@ -1,0 +1,17 @@
+<?php
+namespace JetApplicationModule\REST\Auth\Admin\Users;
+
+use Jet\MVC_View;
+
+/**
+ * @var MVC_View $this
+ * @var Listing $listing
+ */
+$listing = $this->getRaw( 'listing' );
+$filter_form = $listing->getFilterForm();
+?>
+<div style="display: grid;align-items: center;gap: 10px;grid-template-columns: 120px 300px;">
+	<?= $filter_form->field( 'role' )->label() ?>
+	<div><?= $filter_form->field( 'role' )->input()->addJsAction( 'onchange', 'this.form.submit()' ) ?></div>
+</div>
+

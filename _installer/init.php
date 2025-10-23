@@ -36,7 +36,6 @@ Installer::setSteps(
 		'SystemCheck',
 		'DirsCheck',
 		'SelectDbType',
-		'CreateDB',
 		'SelectLocales',
 		'CreateBases',
 		'Mailing',

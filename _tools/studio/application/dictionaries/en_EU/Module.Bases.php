@@ -54,4 +54,5 @@ return [
 	'Invalid value' => '',
 	'Please enter a value' => '',
 	'MVC Bases' => '',
+	'Redirect to the default URL' => '',
 ];

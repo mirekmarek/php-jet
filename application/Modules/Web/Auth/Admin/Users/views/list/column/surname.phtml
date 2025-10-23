@@ -1,0 +1,15 @@
+<?php
+namespace JetApplicationModule\Web\Auth\Admin\Users;
+
+use JetApplicationModule\Web\Auth\Entity\Visitor;
+
+use Jet\MVC_View;
+
+/**
+ * @var MVC_View $this
+ * @var Visitor $item
+ */
+
+$item = $this->getRaw('item');
+?>
+<?= $item->getSurname(); ?>

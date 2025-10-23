@@ -1,0 +1,24 @@
+<?php
+namespace JetApplication;
+
+use Jet\MVC_View;
+
+/**
+ * @var MVC_View $this
+ * @var Auth_Administrator $user
+ */
+
+$user = $this->getRaw( 'user' );
+?>
+Welcome to the system, Administrator!
+
+This is your user account details:
+
+Username: <?= $user->getUsername() ?>
+Password: <?= $this->getString( 'password' ) ?>
+Your name: <?= $user->getName() ?>
+Your e-mail: <?= $user->getEmail() ?>
+
+Please change your password after sign in
+
+We wish you a nice day

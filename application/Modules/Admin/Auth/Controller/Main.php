@@ -16,8 +16,8 @@ use Jet\Session;
 use JetApplication\Application_Service_Admin;
 use JetApplication\Application_Service_Admin_Auth_Controller;
 use JetApplication\Application_Service_Admin_Auth_LoginModule;
-use JetApplication\Auth_Administrator_Role;
-use JetApplication\Auth_Administrator_User as Administrator;
+use JetApplicationModule\Admin\Auth\Entity\Role;
+use JetApplicationModule\Admin\Auth\Entity\Administrator;
 
 /**
  *
@@ -213,7 +213,7 @@ class Main extends Application_Module implements Application_Service_Admin_Auth_
 	 */
 	public function checkModuleActionAccess( string $module_name, string $action ): bool
 	{
-		return $this->getCurrentUserHasPrivilege( Auth_Administrator_Role::PRIVILEGE_MODULE_ACTION, $module_name . ':' . $action );
+		return $this->getCurrentUserHasPrivilege( Role::PRIVILEGE_MODULE_ACTION, $module_name . ':' . $action );
 	}
 	
 	
@@ -224,7 +224,7 @@ class Main extends Application_Module implements Application_Service_Admin_Auth_
 	 */
 	public function checkPageAccess( MVC_Page_Interface $page ): bool
 	{
-		return $this->getCurrentUserHasPrivilege( Auth_Administrator_Role::PRIVILEGE_VISIT_PAGE, $page->getId() );
+		return $this->getCurrentUserHasPrivilege( Role::PRIVILEGE_VISIT_PAGE, $page->getId() );
 	}
 
 }

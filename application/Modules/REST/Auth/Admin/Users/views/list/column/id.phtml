@@ -1,0 +1,18 @@
+<?php
+namespace JetApplicationModule\REST\Auth\Admin\Users;
+
+use JetApplicationModule\REST\Auth\Entity\APIUser;
+
+use Jet\MVC_View;
+
+/**
+ * @var MVC_View $this
+ * @var APIUser $item
+ */
+
+$item = $this->getRaw('item');
+$router = $this->getController()->getControllerRouter();
+
+$edit_uri = $router->action( 'edit' )->URI( $item->getId() );
+?>
+<a href="<?= $edit_uri; ?>"><?= $item->getId(); ?></a>

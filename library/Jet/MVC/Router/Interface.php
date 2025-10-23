@@ -147,9 +147,9 @@ interface MVC_Router_Interface
 	public function getValidUrl(): string;
 	
 	/**
-	 * @param array<string> $allowed_files
+	 * @param null|array<string> $allowed_files
 	 * @return bool
 	 */
-	public function tryDirectFiles( array $allowed_files ) : bool;
+	public function tryDirectFiles( ?array $allowed_files=null ) : bool;
 
 }

@@ -124,5 +124,13 @@ interface Auth_Role_Interface
 	 * @return bool
 	 */
 	public function hasPrivilege( string $privilege, mixed $value=null ): bool;
+	
+	/**
+	 * @param bool $translate
+	 * @param Locale|null $translate_locale
+	 * @return Auth_AvailablePrivilegeProvider[]
+	 */
+	public static function getAvailablePrivilegesList( bool $translate = true, ?Locale $translate_locale=null ): array;
+	
 
 }

@@ -258,7 +258,10 @@ class MVC_Router extends BaseObject implements MVC_Router_Interface
 			Translator::setCurrentLocale( $this->locale );
 		}
 
-		if( $founded_url != $this->base->getLocalizedData( $this->locale )->getDefaultURL() ) {
+		if(
+			$founded_url != $this->base->getLocalizedData( $this->locale )->getDefaultURL() &&
+			$this->base->getRedirectToDefaultURL()
+		) {
 
 			$redirect_to = (Http_Request::isHttps() ? 'https' : 'http') . '://'
 				. $this->getBase()->getLocalizedData( $this->locale )->getDefaultURL()
@@ -584,17 +587,28 @@ class MVC_Router extends BaseObject implements MVC_Router_Interface
 	}
 	
 	/**
-	 * @param array<string> $allowed_files
+	 * @param null|array<string> $allowed_files
 	 * @return bool
 	 */
-	public function tryDirectFiles( array $allowed_files ) : bool
+	public function tryDirectFiles( ?array $allowed_files=null ) : bool
 	{
+		if($allowed_files===null) {
+			$allowed_files = [];
+			$files = IO_Dir::getFilesList($this->getBase()->getPagesDataPath($this->getLocale()));
+			foreach($files as $file) {
+				if(!str_contains($file, '.php')) {
+					$allowed_files[] = $file;
+				}
+			}
+		}
+		
 		if(
 			in_array($this->getUrlPath(), $allowed_files)
 		) {
 			$path = $this->getBase()->getPagesDataPath($this->getLocale()).$this->getUrlPath();
 			
 			if(IO_File::isReadable($path)) {
+				header('Content-type: '.IO_File::getMimeType($path));
 				echo IO_File::read( $path );
 				die();
 			}

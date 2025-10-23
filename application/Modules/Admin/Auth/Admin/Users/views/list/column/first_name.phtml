@@ -1,0 +1,15 @@
+<?php
+namespace JetApplicationModule\Admin\Auth\Admin\Users;
+
+use JetApplicationModule\Admin\Auth\Entity\Administrator;
+
+use Jet\MVC_View;
+
+/**
+ * @var MVC_View $this
+ * @var Administrator $item
+ */
+
+$item = $this->getRaw('item');
+?>
+<?= $item->getFirstName(); ?>

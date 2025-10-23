@@ -1,0 +1,28 @@
+<?php
+namespace JetApplicationModule\REST\Auth\Entity;
+
+use Jet\MVC_View;
+
+/**
+ * @var MVC_View $this
+ * @var APIUser $user
+ */
+
+$user = $this->getRaw( 'user' );
+?>
+<h1>Vaše heslo k REST API bylo vyresetováno</h1>
+
+<p>Zde jsou vaše přihlašovací údaje:</p>
+
+<table>
+	<tr>
+		<td>Uživatelské jméno:</td>
+		<td><?= $user->getUsername() ?></td>
+	</tr>
+	<tr>
+		<td>Heslo:</td>
+		<td><?= $this->getString( 'password' ) ?></td>
+	</tr>
+</table>
+
+<p>Přejeme příjemný den</p>

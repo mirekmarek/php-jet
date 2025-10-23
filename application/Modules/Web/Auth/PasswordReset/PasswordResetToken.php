@@ -12,7 +12,7 @@ use Jet\DataModel_Definition;
 use Jet\DataModel_IDController_AutoIncrement;
 use Jet\Data_DateTime;
 use Jet\Http_Request;
-use JetApplication\Auth_Visitor_User as User;
+use JetApplicationModule\Web\Auth\Entity\Visitor;
 
 #[DataModel_Definition(
 	name: 'visitor_password_reset_token',
@@ -162,7 +162,7 @@ class PasswordResetToken extends DataModel
 	}
 	
 	
-	public static function generate( User $user ) : static
+	public static function generate( Visitor $user ) : static
 	{
 		static::updateData(
 			data: [

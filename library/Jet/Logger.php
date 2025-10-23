@@ -40,9 +40,9 @@ class Logger
 	}
 
 	/**
-	 * @param Logger_Interface $logger
+	 * @param ?Logger_Interface $logger
 	 */
-	public static function setLogger( Logger_Interface $logger ): void
+	public static function setLogger( ?Logger_Interface $logger ): void
 	{
 		static::$logger = $logger;
 	}

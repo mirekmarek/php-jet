@@ -16,7 +16,7 @@ use Jet\Http_Request;
 use Jet\MVC_Controller_Default;
 use Jet\Tr;
 use Jet\UI_messages;
-use JetApplication\Auth_Visitor_User as User;
+use JetApplicationModule\Web\Auth\Entity\Visitor;
 use JetApplication\Application_Web_Pages;
 
 /**
@@ -25,7 +25,7 @@ use JetApplication\Application_Web_Pages;
 class Controller_Main extends MVC_Controller_Default
 {
 	
-	protected ?User $user;
+	protected ?Visitor $user;
 	protected PasswordResetToken $token;
 	
 	public function resolve(): bool|string
@@ -38,7 +38,7 @@ class Controller_Main extends MVC_Controller_Default
 		
 		if(
 			!($user_id=$GET->getInt('validate')) ||
-			(!$this->user = User::get( $user_id )) ||
+			(!$this->user = Visitor::get( $user_id )) ||
 			($GET->getString('key')!=$module->generateKey($this->user))
 		) {
 			return 'enter_email';
@@ -74,7 +74,7 @@ class Controller_Main extends MVC_Controller_Default
 		$this->view->setVar('form', $form);
 		
 		if($form->catch()) {
-			$user = User::getByEmail( $email_field->getValue() );
+			$user = Visitor::getByEmail( $email_field->getValue() );
 			
 			
 			if($user) {
@@ -137,7 +137,7 @@ class Controller_Main extends MVC_Controller_Default
 		]);
 		
 		$new_password_field->setValidator( function( Form_Field_Input $field ) : bool {
-			if(!User::verifyPasswordStrength($field->getValue())) {
+			if(!Visitor::verifyPasswordStrength($field->getValue())) {
 				$field->setError( Form_Field::ERROR_CODE_WEAK_PASSWORD);
 				return false;
 			}

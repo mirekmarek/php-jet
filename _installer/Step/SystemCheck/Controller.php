@@ -48,8 +48,8 @@ class Installer_Step_SystemCheck_Controller extends Installer_Step_Controller
 				'test_MBStringExtension',
 				'test_INTLExtension',
 
-				'check_GDExtension',
-				'check_MaxUploadFileSize'
+				//'check_GDExtension',
+				//'check_MaxUploadFileSize'
 
 			]
 		);
