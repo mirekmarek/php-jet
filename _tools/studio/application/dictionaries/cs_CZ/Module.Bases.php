@@ -54,4 +54,5 @@ return [
 	'Invalid value' => 'Neplatná hodnota',
 	'Please enter a value' => 'Prosím zadejte hodnotu',
 	'MVC Bases' => 'MVC Báze',
+	'Redirect to the default URL' => 'Přesměrovávat na výchozí URL',
 ];
