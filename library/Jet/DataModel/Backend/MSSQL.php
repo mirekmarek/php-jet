@@ -346,7 +346,7 @@ class DataModel_Backend_MSSQL extends DataModel_Backend
 			case DataModel::TYPE_FLOAT:
 				return 'float DEFAULT ' . (float)$default_value;
 			case DataModel::TYPE_LOCALE:
-				return 'nvarchar(20) NOT NULL';
+				return 'nvarchar(20) DEFAULT NULL';
 			case DataModel::TYPE_DATE:
 				return 'date DEFAULT NULL';
 			case DataModel::TYPE_DATE_TIME:

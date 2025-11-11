@@ -80,6 +80,34 @@ class Data_Text
 			), $flag, SysConf_Jet_Main::getCharset() );
 
 	}
+	
+	public static function emojiToHTMLEntities( string $html ): string
+	{
+		$patterns = [
+			'/[\x{1F600}-\x{1F64F}\x{2700}-\x{27BF}\x{1F680}-\x{1F6FF}\x{24C2}-\x{1F251}\x{1F30D}-\x{1F567}\x{1F900}-\x{1F9FF}\x{1F300}-\x{1F5FF}\x{1FA70}-\x{1FAF6}]/u'
+		];
+		
+		foreach( $patterns as $pattern ) {
+			$matches = [];
+			
+			preg_match_all($pattern, $html, $matches, PREG_SET_ORDER );
+			
+			foreach($matches as $match) {
+				$emoji = $match[0];
+				
+				$utf32 = mb_convert_encoding($emoji, 'UTF-32', 'UTF-8');
+				$hex4 = bin2hex($utf32);
+				$dec = hexdec($hex4);
+				
+				$emoji = '&#'.$dec.';';
+				
+				$html = str_replace( $match, $emoji, $html );
+			}
+			
+		}
+
+		return $html;
+	}
 
 }
 

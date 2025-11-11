@@ -62,10 +62,7 @@ class Application_Web
 		SysConf_Jet_Form::setDefaultViewsDir( $router->getBase()->getViewsPath() . 'form/' );
 		SysConf_Jet_ErrorPages::setErrorPagesDir( $router->getBase()->getPagesDataPath( $router->getLocale() ) );
 		
-		if($router->tryDirectFiles([
-			'robots.txt',
-			'security.txt'
-		])) {
+		if($router->tryDirectFiles()) {
 			/** @noinspection PhpUnnecessaryStopStatementInspection */
 			return;
 		}

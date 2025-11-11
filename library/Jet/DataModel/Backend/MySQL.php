@@ -345,7 +345,7 @@ class DataModel_Backend_MySQL extends DataModel_Backend
 			case DataModel::TYPE_FLOAT:
 				return 'float DEFAULT ' . (float)$default_value;
 			case DataModel::TYPE_LOCALE:
-				return 'varchar(20) COLLATE utf8_bin NOT NULL';
+				return 'varchar(20) COLLATE utf8_bin DEFAULT NULL';
 			case DataModel::TYPE_DATE:
 				return 'date DEFAULT NULL';
 			case DataModel::TYPE_DATE_TIME:

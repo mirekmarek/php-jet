@@ -344,7 +344,7 @@ class DataModel_Backend_PgSQL extends DataModel_Backend
 			case DataModel::TYPE_FLOAT:
 				return 'real DEFAULT ' . (float)$default_value;
 			case DataModel::TYPE_LOCALE:
-				return 'varchar(20) NOT NULL';
+				return 'varchar(20) DEFAULT NULL';
 			case DataModel::TYPE_DATE:
 				return 'date DEFAULT NULL';
 			case DataModel::TYPE_DATE_TIME:

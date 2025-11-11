@@ -36,8 +36,11 @@ class Form_Field_WYSIWYG extends Form_Field
 		$this->_has_value = $data->exists( $this->_name );
 
 		if( $this->_has_value ) {
-			$this->_value_raw = $data->getRaw( $this->_name );
-			$this->_value = trim( $data->getRaw( $this->_name ) );
+			$html = $data->getRaw( $this->_name );
+			
+			$this->_value_raw = $html;
+			$this->_value = Data_Text::emojiToHTMLEntities( trim( $html ) );
+		
 		} else {
 			$this->_value_raw = null;
 		}
