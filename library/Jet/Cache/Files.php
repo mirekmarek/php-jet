@@ -140,7 +140,9 @@ abstract class Cache_Files extends Cache_Abstract
 		$files = IO_Dir::getFilesList( SysConf_Path::getCache(), $prefix . '*.php' );
 
 		foreach( $files as $file_path => $file_name ) {
-			IO_File::delete( $file_path );
+			if( file_exists( $file_path ) ) {
+				unlink( $file_path );
+			}
 		}
 
 		Cache::resetOPCache();
@@ -169,7 +171,9 @@ abstract class Cache_Files extends Cache_Abstract
 		$files = IO_Dir::getFilesList( SysConf_Path::getCache(), $prefix . '*.html' );
 
 		foreach( $files as $file_path => $file_name ) {
-			IO_File::delete( $file_path );
+			if( file_exists( $file_path ) ) {
+				unlink( $file_path );
+			}
 		}
 	}
 
