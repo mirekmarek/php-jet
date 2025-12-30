@@ -190,6 +190,10 @@ class Form_Definition_Field extends Form_Definition
 			$field = $creator( $field );
 		}
 		
+		if(($validator=$this->getValidator())) {
+			$field->setValidator( $validator );
+		}
+		
 		$field->setIsRequired( $this->getIsRequired() );
 		$field->setDefaultValue( $this->getDefaultValue() );
 		

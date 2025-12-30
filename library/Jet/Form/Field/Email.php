@@ -40,6 +40,14 @@ class Form_Field_Email extends Form_Field_Input
 			return false;
 		}
 		
+		$domain = explode('@', $this->_value)[1];
+		
+		if( !checkdnsrr($domain, 'MX') ) {
+			$this->setError( Form_Field::ERROR_CODE_INVALID_FORMAT );
+			return false;
+		}
+		
+		
 		return true;
 	}
 	

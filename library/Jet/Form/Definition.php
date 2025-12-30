@@ -53,6 +53,11 @@ class Form_Definition extends BaseObject
 	 */
 	protected string $setter_name = '';
 	
+	/**
+	 * @var ?callable
+	 */
+	protected $validator = null;
+	
 	
 	/**
 	 * @var array<string,mixed>
@@ -169,6 +174,23 @@ class Form_Definition extends BaseObject
 	public function getFieldName() : string
 	{
 		return $this->property_name;
+	}
+	
+	
+	/**
+	 * @return callable|null
+	 */
+	public function getValidator(): callable|null
+	{
+		return $this->validator;
+	}
+	
+	/**
+	 * @param callable $validator
+	 */
+	public function setValidator( callable $validator ) : void
+	{
+		$this->validator = $validator;
 	}
 	
 	
