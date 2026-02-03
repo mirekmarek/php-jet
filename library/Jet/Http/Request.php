@@ -394,4 +394,30 @@ class Http_Request extends BaseObject
 
 		return static::$headers;
 	}
+	
+	public static function headerValue( string $header_name ) : ?string
+	{
+		$header_name = strtolower( $header_name );
+		
+		foreach(static::headers() as $k=>$v) {
+			if(strtolower($k)==$header_name) {
+				return $v;
+			}
+		}
+		
+		return null;
+	}
+	
+	public static function headerExists( string $header_name ) : bool
+	{
+		$header_name = strtolower( $header_name );
+		
+		foreach(static::headers() as $k=>$v) {
+			if(strtolower($k)==$header_name) {
+				return true;
+			}
+		}
+		
+		return false;
+	}
 }

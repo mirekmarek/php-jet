@@ -15,10 +15,9 @@ class Form_Field_File extends Form_Field implements Form_Field_Part_File_Interfa
 {
 	use Form_Field_Part_File_Trait;
 	
-	/**
-	 * @var string
-	 */
 	protected string $_type = Form_Field::TYPE_FILE;
+	protected string $_validator_type = Validator::TYPE_FILE;
+	protected string $_input_catcher_type = InputCatcher::TYPE_FILE;
 	
 	/**
 	 * @var array<string,string>

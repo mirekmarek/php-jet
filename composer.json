@@ -19,7 +19,7 @@
     "forum": "https://questions.php-jet.net/"
   },
   "require": {
-    "php": ">=8.0",
+    "php": ">=8.2",
     "ext-intl": "*",
     "ext-mbstring": "*",
     "ext-pdo": "*"

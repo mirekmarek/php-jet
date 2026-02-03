@@ -11,6 +11,7 @@ namespace JetStudio;
 use Jet\Data_Array;
 use Jet\Factory_Form;
 use Jet\Form_Field;
+use Jet\InputCatcher;
 use Jet\SysConf_Jet_Form_DefaultViews;
 
 /**
@@ -32,36 +33,58 @@ class Form_Field_Array extends Form_Field
 		return [];
 	}
 	
-	public function catchInput( Data_Array $data ): void
+	public function getInputCatcher() : InputCatcher
 	{
-		$name = (($this->_name[0]=='/') ? $this->_name : '/'.$this->_name);
-		
-		$this->_has_value = $data->exists( $name );
-		
-		$this->_value = null;
-		
-		
-		if( $this->_has_value ) {
-			
-			$values = $data->getRaw( $name );
-			
-			$this->_value = [];
-			
-			foreach($values as $value) {
-				$value = trim($value);
-				if(!$value) {
-					continue;
+		if( !$this->_input_catcher ) {
+			$this->_input_catcher = new class ( $this->getName(), $this->getDefaultValue() ) extends InputCatcher {
+				public function catchInput( Data_Array $data ): void
+				{
+					$name = (($this->name[0]=='/') ? $this->name : '/'.$this->name);
+					
+					$this->value_exists_in_the_input = $data->exists( $name );
+					
+					$this->value = null;
+					
+					
+					if( $this->value_exists_in_the_input ) {
+						
+						$values = $data->getRaw( $name );
+						
+						$this->value = [];
+						
+						foreach($values as $value) {
+							$value = trim($value);
+							if(!$value) {
+								continue;
+							}
+							
+							$this->value[] = $value;
+						}
+						
+						$this->value_raw = $this->value;
+						
+					} else {
+						$this->value_raw = null;
+						$this->value = $this->default_value;
+					}
+					
 				}
 				
-				$this->_value[] = $value;
-			}
-			
-			$this->_value_raw = $this->_value;
-			
-		} else {
-			$this->_value_raw = null;
-			$this->_value = $this->default_value;
+				public function getValue() : array
+				{
+					if(!$this->value) {
+						return [];
+					}
+					return $this->value;
+				}
+				
+				protected function checkValue(): void
+				{
+				}
+			};
 		}
+		
+		return $this->_input_catcher;
 
 	}
 	
@@ -91,15 +114,6 @@ class Form_Field_Array extends Form_Field
 		$this->new_rows_count = $new_rows_count;
 	}
 
-	
-	public function getValue(): mixed
-	{
-		if(!$this->_value) {
-			return [];
-		}
-		
-		return $this->_value;
-	}
 	
 	/**
 	 * @return string

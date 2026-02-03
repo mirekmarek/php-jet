@@ -11,13 +11,11 @@ namespace Jet;
 /**
  *
  */
-class Form_Field_Week extends Form_Field_Input
+class Form_Field_Week extends Form_Field
 {
-
-	/**
-	 * @var string
-	 */
 	protected string $_type = Form_Field::TYPE_WEEK;
+	protected string $_validator_type = Validator::TYPE_WEEK;
+	protected string $_input_catcher_type = InputCatcher::TYPE_STRING;
 	
 	/**
 	 * @var array<string,string>
@@ -27,55 +25,4 @@ class Form_Field_Week extends Form_Field_Input
 		Form_Field::ERROR_CODE_INVALID_FORMAT => 'Invalid value',
 	];
 	
-	/**
-	 * @return bool
-	 */
-	protected function validate_format() : bool
-	{
-		if( $this->_value ) {
-			if( !preg_match( '/^[0-9]+-W[0-9]{1,2}$/i', $this->_value ) ) {
-				$this->setError( Form_Field::ERROR_CODE_INVALID_FORMAT );
-				
-				return false;
-			}
-		}
-		
-		return true;
-	}
-	
-	/**
-	 * validate value
-	 *
-	 * @return bool
-	 */
-	public function validate(): bool
-	{
-		if(
-			!$this->validate_required() ||
-			!$this->validate_format() ||
-			!$this->validate_validator()
-		) {
-			return false;
-		}
-		
-		$this->setIsValid();
-		return true;
-	}
-	
-
-	/**
-	 * @return array<string>
-	 */
-	public function getRequiredErrorCodes(): array
-	{
-		$codes = [];
-
-		if( $this->is_required ) {
-			$codes[] = Form_Field::ERROR_CODE_EMPTY;
-		}
-		$codes[] = Form_Field::ERROR_CODE_INVALID_FORMAT;
-
-		return $codes;
-	}
-
 }

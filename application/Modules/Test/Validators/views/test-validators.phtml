@@ -1,0 +1,91 @@
+<?php
+namespace JetApplicationModule\Test\Validators;
+
+use Jet\Tr;
+use Jet\MVC_View;
+use Jet\UI_messages;
+use Jet\Validator;
+
+/**
+ * @var MVC_View $this
+ * @var ValidatorTest[] $tests
+ */
+
+$tests = $this->getRaw( 'tests' );
+
+
+$doTests = function( Validator $validator, array $values ) : void {
+	?>
+	<table class="table table-striped">
+		<thead>
+		<tr>
+			<th><?=Tr::_('Value')?></th>
+			<th><?=Tr::_('Result')?></th>
+		</tr>
+		</thead>
+		<tbody>
+		<?php foreach($values as $value):
+			$validator->validate( $value );
+		
+			if(is_array($value)) {
+				$value = implode('<br>', $value);
+			}
+			?>
+			<tr>
+				<td style="width: 20%"><?=$value?></td>
+				<td style="width: 80%">
+					<?php if(!$validator->getAllErrors()):
+						echo UI_messages::createSuccess(Tr::_('Valid'))->setCloseable(false);
+					else:
+						echo UI_messages::createInfo(Tr::_('Invalid'))->setCloseable(false);
+						?>
+					<table class="table table">
+					<?php foreach($validator->getAllErrors() as $error): ?>
+						<tr>
+							<td><?=Tr::_('Code:')?></td>
+							<td><?=$error->getCode()?></td>
+						</tr>
+						<tr>
+							<td><?=Tr::_('Message:')?></td>
+							<td><?=$error->getMessage()?></td>
+						</tr>
+						<tr>
+							<td><?=Tr::_('Data:')?></td>
+							<td><pre><?php var_dump($error->getErrorData())?></pre></td>
+						</tr>
+					<?php endforeach; ?>
+					</table>
+					<?php endif; ?>
+				</td>
+			</tr>
+		<?php endforeach; ?>
+		</tbody>
+	</table>
+	<?php
+};
+?>
+
+<h2><?= Tr::_( 'Validator test' ) ?></h2>
+
+<?php foreach($tests as $test):
+	$validator = $test->getValidator();
+	$valid_values = $test->getValidValues();
+	$invalid_values = $test->getInvalidValues();
+	
+	?>
+	<fieldset style="margin-bottom: 40px">
+		<legend><?= $test->getName() ?></legend>
+
+		<h5><?=Tr::_('Valid values')?></h5>
+		<?php
+		$doTests( $validator, $valid_values );
+		?>
+		
+		<h5><?=Tr::_('Invalid values')?></h5>
+		<?php
+		$doTests( $validator, $invalid_values );
+		?>
+
+	</fieldset>
+<?php endforeach; ?>
+

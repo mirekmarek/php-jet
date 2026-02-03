@@ -144,7 +144,6 @@ class Main extends Application_Module implements Application_Service_Admin_Auth_
 	 */
 	public function login( string $username, string $password ): bool
 	{
-		
 		$user = Administrator::getByIdentity( $username, $password );
 		
 		if( !$user ) {

@@ -13,20 +13,11 @@ namespace Jet;
  */
 class Form_Field_CSRFProtection extends Form_Field
 {
-	/**
-	 * @var string
-	 */
 	protected string $_type = Form_Field::TYPE_CSRF_PROTECTION;
+	protected string $_validator_type = Validator::TYPE_NULL;
+	protected string $_input_catcher_type = InputCatcher::TYPE_STRING;
 	
 	protected ?Session $session = null;
-	
-	/**
-	 * @return array<string>
-	 */
-	public function getRequiredErrorCodes(): array
-	{
-		return [];
-	}
 	
 	public function __construct( string $name='', string $label = '' )
 	{
@@ -61,7 +52,7 @@ class Form_Field_CSRFProtection extends Form_Field
 	
 	public function getToken() : string
 	{
-		return $this->getSession()->getValue( 'token' );
+		return $this->getSession()->getValue( 'token', '' );
 	}
 	
 	public function render(): string

@@ -180,8 +180,12 @@ class Form extends BaseObject
 				$fields->set( $field->getName(), $field );
 			}
 			
-			/** @phpstan-ignore return.type */
-			return $fields->getRawData();
+			/** @noinspection PhpUnnecessaryLocalVariableInspection */
+			$fields = $fields->getRawData();
+			/**
+			 * @var array<Form_Field>
+			 */
+			return $fields;
 			
 		}
 		
@@ -572,6 +576,7 @@ class Form extends BaseObject
 
 		foreach( $this->fields as $field ) {
 			if(!$field->isValid()) {
+				
 				$this->is_valid = false;
 				foreach($field->getAllErrors() as $error) {
 					$this->validation_errors[] = $error;

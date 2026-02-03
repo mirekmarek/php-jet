@@ -159,7 +159,7 @@ class Installer_CompatibilityTester
 	 */
 	public function test_PHPVersion(): void
 	{
-		$required_version = '8.0';
+		$required_version = '8.2';
 
 		$this->test(
 			Tr::_( 'PHP version' ),

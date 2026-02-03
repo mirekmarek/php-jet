@@ -94,22 +94,4 @@ trait Form_Field_Part_Select_Trait
 		$this->select_options_creator = $select_options_creator;
 	}
 	
-	
-	
-	/**
-	 * @return array<string>
-	 */
-	public function getRequiredErrorCodes(): array
-	{
-		$codes = [];
-		
-		$codes[] = Form_Field::ERROR_CODE_INVALID_VALUE;
-		
-		if( $this->is_required ) {
-			$codes[] = Form_Field::ERROR_CODE_EMPTY;
-		}
-		
-		
-		return $codes;
-	}
 }

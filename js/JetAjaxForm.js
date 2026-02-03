@@ -226,8 +226,11 @@ let JetAjaxForm = {
 		JetAjaxForm.WYSIWYG.beforeApplySnippets( form );
 
 		for(let el_id in snippets) {
-			document.getElementById(el_id).innerHTML = snippets[el_id];
-			JetAjaxForm.WYSIWYG.afterApplySnippet( form, snippets[el_id] );
+			let el = document.getElementById(el_id);
+			if(el) {
+				el.innerHTML = snippets[el_id];
+				JetAjaxForm.WYSIWYG.afterApplySnippet( form, snippets[el_id] );
+			}
 		}
 
 	},

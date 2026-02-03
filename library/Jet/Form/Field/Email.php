@@ -11,12 +11,11 @@ namespace Jet;
 /**
  *
  */
-class Form_Field_Email extends Form_Field_Input
+class Form_Field_Email extends Form_Field
 {
-	/**
-	 * @var string
-	 */
 	protected string $_type = Form_Field::TYPE_EMAIL;
+	protected string $_validator_type = Validator::TYPE_EMAIL;
+	protected string $_input_catcher_type = InputCatcher::TYPE_STRING;
 	
 	/**
 	 * @var array<string,string>
@@ -25,66 +24,5 @@ class Form_Field_Email extends Form_Field_Input
 		Form_Field::ERROR_CODE_EMPTY          => 'Please enter a value',
 		Form_Field::ERROR_CODE_INVALID_FORMAT => 'Invalid value',
 	];
-	
-	/**
-	 * @return bool
-	 */
-	protected function validate_email() : bool
-	{
-		if(
-			$this->_value &&
-			!filter_var( $this->_value, FILTER_VALIDATE_EMAIL )
-		) {
-			$this->setError( Form_Field::ERROR_CODE_INVALID_FORMAT );
-			
-			return false;
-		}
-		
-		$domain = explode('@', $this->_value)[1];
-		
-		if( !checkdnsrr($domain, 'MX') ) {
-			$this->setError( Form_Field::ERROR_CODE_INVALID_FORMAT );
-			return false;
-		}
-		
-		
-		return true;
-	}
-	
-	/**
-	 * validate value
-	 *
-	 * @return bool
-	 */
-	public function validate(): bool
-	{
-		
-		if(
-			!$this->validate_required() ||
-			!$this->validate_email() ||
-			!$this->validate_validator()
-		) {
-			return false;
-		}
-		
-		$this->setIsValid();
-		
-		return true;
-	}
 
-
-	/**
-	 * @return array<string>
-	 */
-	public function getRequiredErrorCodes(): array
-	{
-		$codes = [];
-
-		if( $this->is_required ) {
-			$codes[] = Form_Field::ERROR_CODE_EMPTY;
-		}
-		$codes[] = Form_Field::ERROR_CODE_INVALID_FORMAT;
-
-		return $codes;
-	}
 }

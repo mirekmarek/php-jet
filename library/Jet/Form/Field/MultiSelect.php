@@ -19,6 +19,8 @@ class Form_Field_MultiSelect extends Form_Field implements Form_Field_Part_Selec
 	 * @var string
 	 */
 	protected string $_type = Form_Field::TYPE_MULTI_SELECT;
+	protected string $_validator_type = Validator::TYPE_OPTIONS;
+	protected string $_input_catcher_type = InputCatcher::TYPE_STRINGS;
 
 	/**
 	 * @var array<string,string>
@@ -28,88 +30,18 @@ class Form_Field_MultiSelect extends Form_Field implements Form_Field_Part_Selec
 		Form_Field::ERROR_CODE_INVALID_VALUE => 'Invalid value',
 	];
 		
-	/**
-	 *
-	 * @param Data_Array $data
-	 */
-	public function catchInput( Data_Array $data ): void
+	
+	public function validate() : bool
 	{
-		$this->_value = null;
-		$this->_has_value = true;
+		$select_options = $this->getSelectOptions();
 		
-		if( $data->exists( $this->_name ) ) {
-			$this->_value_raw = $data->getRaw( $this->_name );
-			
-			if( is_array( $this->_value_raw ) ) {
-				if( !empty( $this->_value_raw ) ) {
-					$this->_value = [];
-					foreach( $this->_value_raw as $item ) {
-						$this->_value[] = $item;
-					}
-				}
-			} else {
-				$this->_value = [$this->_value_raw];
-			}
-		} else {
-			$this->_value_raw = null;
-			$this->_value = [];
-		}
-	}
-	
-	
-	/**
-	 * @return bool
-	 */
-	protected function validate_required(): bool
-	{
-		if(
-			$this->is_required &&
-			!$this->_value
-		) {
-			$this->setError( Form_Field::ERROR_CODE_EMPTY );
-			
-			return false;
-		}
+		/**
+		 * @var Validator_Option|Validator_Options $validator
+		 */
+		$validator = $this->getValidator();
+		$validator->setValidOptions( array_keys($select_options) );
 		
-		return true;
-	}
-	
-	/**
-	 * @return bool
-	 */
-	protected function validate_value(): bool
-	{
-		$options = $this->getSelectOptions();
-		
-		foreach( $this->_value as $item ) {
-			if( !isset( $options[$item] ) ) {
-				$this->setError( Form_Field::ERROR_CODE_INVALID_VALUE );
-				
-				return false;
-			}
-		}
-		
-		return true;
-	}
-	
-	
-	/**
-	 * Validates values
-	 *
-	 * @return bool
-	 */
-	public function validate(): bool
-	{
-		if(
-			!$this->validate_required() ||
-			!$this->validate_value() ||
-			!$this->validate_validator()
-		) {
-			return false;
-		}
-		
-		$this->setIsValid();
-		return true;
+		return parent::validate();
 	}
 	
 	/**

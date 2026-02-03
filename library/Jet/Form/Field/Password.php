@@ -13,56 +13,59 @@ namespace Jet;
  */
 class Form_Field_Password extends Form_Field
 {
-
-
-	/**
-	 * @var string
-	 */
 	protected string $_type = Form_Field::TYPE_PASSWORD;
+	protected string $_validator_type = Validator::TYPE_PASSWORD;
+	protected string $_input_catcher_type = InputCatcher::TYPE_STRING;
+	
+	public const ERROR_CODE_WEAK_PASSWORD =  Validator_Password::ERROR_CODE_WEAK_PASSWORD;
+	
+	#[Form_Definition_FieldOption(
+		type: Form_Definition_FieldOption::TYPE_FLOAT,
+		label: 'Minimal password check score',
+		getter: 'getMinimalScore',
+		setter: 'setMinimalScore',
+	)]
+	protected float $minimal_score = 0;
 	
 	/**
 	 * @var array<string,string>
 	 */
 	protected array $error_messages = [
-		Form_Field::ERROR_CODE_EMPTY => 'Please enter a value'
+		Form_Field::ERROR_CODE_EMPTY => 'Please enter a value',
+		self::ERROR_CODE_WEAK_PASSWORD => 'Week password',
 	];
-
-	/**
-	 * @var bool
-	 */
+	
 	protected bool $is_required = true;
 	
-	/**
-	 * @return bool
-	 */
-	public function validate(): bool
+	public function getMinimalScore(): float
 	{
-		if(
-			!$this->validate_required() ||
-			!$this->validate_validator()
-		) {
-			return false;
-		}
-		
-		$this->setIsValid();
-		return true;
+		return $this->minimal_score;
 	}
 	
-
-	/**
-	 * @return array<string>
-	 */
-	public function getRequiredErrorCodes(): array
+	public function setMinimalScore( float $minimal_score ): void
 	{
-		$codes = [];
-
-		if( $this->is_required ) {
-			$codes[] = Form_Field::ERROR_CODE_EMPTY;
-		}
-
-		return $codes;
+		$this->minimal_score = $minimal_score;
 	}
-
+	
+	public function getValidator() : Validator|Validator_File
+	{
+		if(!$this->validator) {
+			$this->validator = $this->validatorFactory();
+		}
+		
+		/**
+		 * @var Validator_Password $validator;
+		 */
+		$validator = $this->validator;
+		
+		$validator->setIsRequired( true );
+		$validator->setMinimalScore( $this->getMinimalScore() );
+		
+		return $validator;
+	}
+	
+	
+	
 	/**
 	 * @param string $field_name
 	 * @param string $field_label

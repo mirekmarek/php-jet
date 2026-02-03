@@ -17,6 +17,9 @@ class Data_Image extends BaseObject
 	public const TYPE_WEBP = IMAGETYPE_WEBP;
 	public const TYPE_AVIF = IMAGETYPE_AVIF;
 	
+	/**
+	 * @var array<int,string>
+	 */
 	protected static array $image_create_function = [
 		self::TYPE_GIF           => 'imagecreatefromgif',
 		self::TYPE_JPG           => 'imagecreatefromjpeg',
@@ -25,6 +28,9 @@ class Data_Image extends BaseObject
 		self::TYPE_AVIF          => 'imagecreatefromavif',
 	];
 	
+	/**
+	 * @var array<int,array<string>>
+	 */
 	protected static array $mime_types = [
 		self::TYPE_GIF => [
 			'image/gif'
@@ -46,21 +52,32 @@ class Data_Image extends BaseObject
 		
 	];
 	
+	/**
+	 * @var array<int>
+	 */
 	protected static array $types_that_has_alpha = [
 		self::TYPE_PNG,
 		self::TYPE_GIF
 	];
 	
+	/**
+	 * @var array<int>
+	 */
 	protected static array $types_that_has_quality = [
 		self::TYPE_JPG,
 		self::TYPE_WEBP,
 		self::TYPE_AVIF
 	];
 	
+	/**
+	 * @var array<int>
+	 */
 	protected static array $types_that_has_extra_param = [
 	];
 	
-	
+	/**
+	 * @var array<int,string>
+	 */
 	protected static array $image_output_function = [
 		self::TYPE_GIF           => 'imagegif',
 		self::TYPE_JPG           => 'imagejpeg',
@@ -157,6 +174,9 @@ class Data_Image extends BaseObject
 		return function_exists( $function );
 	}
 	
+	/**
+	 * @return array<string>
+	 */
 	public static function getSupportedMimeTypes(): array
 	{
 		$supported = [];

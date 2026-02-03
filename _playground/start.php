@@ -18,7 +18,7 @@ function errorMessage( string $message ) : void
 }
 
 if(PHP_VERSION_ID<80000) {
-	errorMessage( 'Sorry, but PHP Jet requires PHP 8.0 and newer. Your PHP version is: '.phpversion() );
+	errorMessage( 'Sorry, but PHP Jet requires PHP 8.2 and newer. Your PHP version is: '.phpversion() );
 	
 	die();
 }

@@ -8,7 +8,6 @@
 
 namespace JetApplicationModule\Test\Forms;
 
-use Jet\Form_Field_File_UploadedFile;
 use Jet\Locale;
 use Jet\MVC_Controller_Default;
 
@@ -59,6 +58,9 @@ use Jet\IO_File;
 
 use Jet\UI_messages;
 use Jet\AJAX;
+use Jet\Validator_Tel;
+
+use Jet\IO_UploadedFile;
 
 /**
  *
@@ -209,7 +211,11 @@ class Controller_Main extends MVC_Controller_Default
 
 		$tel_field = new Form_Field_Tel( 'tel', 'Telephone number' );
 		$tel_field->setIsRequired( true );
-		$tel_field->setValidationRegexp( '/^[0-9]{9,12}$/' );
+		/**
+		 * @var Validator_Tel $validator
+		 */
+		$validator = $tel_field->getValidator();
+		$validator->setTelNumberWithPrefix( false );
 		$tel_field->setPlaceholder( 'Telephone number' );
 		$tel_field->setErrorMessages(
 			[
@@ -313,7 +319,7 @@ class Controller_Main extends MVC_Controller_Default
 		
 		$image_catcher = function( array $files ) {
 			/**
-			 * @var Form_Field_File_UploadedFile[] $files
+			 * @var IO_UploadedFile[] $files
 			 */
 			
 			$target_dir = SysConf_Path::getImages() . 'test_uploads/';
@@ -362,7 +368,7 @@ class Controller_Main extends MVC_Controller_Default
 		$upload_file_field->setFieldValueCatcher(
 			function( array $files ) {
 				/**
-				 * @var Form_Field_File_UploadedFile[] $files
+				 * @var IO_UploadedFile[] $files
 				 */
 
 				/*

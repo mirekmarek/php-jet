@@ -186,8 +186,8 @@ class Controller_Main extends MVC_Controller_Default
 		$form = $user->getEditForm();
 
 		if( $user->catchEditForm() ) {
-
 			$user->save();
+			
 
 			Logger::success(
 				event: 'rest_user_updated',

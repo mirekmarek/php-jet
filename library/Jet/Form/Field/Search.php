@@ -11,14 +11,13 @@ namespace Jet;
 /**
  *
  */
-class Form_Field_Search extends Form_Field_Input implements Form_Field_Part_RegExp_Interface
+class Form_Field_Search extends Form_Field implements Form_Field_Part_RegExp_Interface
 {
 	use Form_Field_Part_RegExp_Trait;
 	
-	/**
-	 * @var string
-	 */
 	protected string $_type = Form_Field::TYPE_SEARCH;
+	protected string $_validator_type = Validator::TYPE_REGEXP;
+	protected string $_input_catcher_type = InputCatcher::TYPE_STRING;
 	
 	/**
 	 * @var array<string,string>

@@ -8,17 +8,14 @@
 
 namespace Jet;
 
-use DateTime;
-
 /**
  *
  */
-class Form_Field_Time extends Form_Field_Input
+class Form_Field_Time extends Form_Field
 {
-	/**
-	 * @var string
-	 */
 	protected string $_type = Form_Field::TYPE_TIME;
+	protected string $_validator_type = Validator::TYPE_TIME;
+	protected string $_input_catcher_type = InputCatcher::TYPE_STRING;
 	
 	/**
 	 * @var array<string,string>
@@ -27,61 +24,5 @@ class Form_Field_Time extends Form_Field_Input
 		Form_Field::ERROR_CODE_EMPTY        => 'Please enter a value',
 		Form_Field::ERROR_CODE_INVALID_FORMAT => 'Invalid value',
 	];
-	
-	
-	/**
-	 * @return bool
-	 */
-	protected function validate_format() : bool
-	{
-		if($this->_value) {
-			$check = DateTime::createFromFormat( 'Y-m-d H:i', '2011-01-01 ' . $this->_value );
-			$check_c = DateTime::createFromFormat( 'Y-m-d H:i:s', '2011-01-01 ' . $this->_value );
-			
-			if( !$check && !$check_c ) {
-				$this->setError( Form_Field::ERROR_CODE_INVALID_FORMAT );
-				
-				return false;
-			}
-		}
-
-		
-		return true;
-	}
-	
-	
-	/**
-	 * validate value
-	 *
-	 * @return bool
-	 */
-	public function validate(): bool
-	{
-		if(
-			!$this->validate_required() ||
-			!$this->validate_format() ||
-			!$this->validate_validator()
-		) {
-			return false;
-		}
-		
-		$this->setIsValid();
-		return true;
-	}
-	
-	/**
-	 * @return array<string>
-	 */
-	public function getRequiredErrorCodes(): array
-	{
-		$codes = [];
-		
-		if( $this->is_required ) {
-			$codes[] = Form_Field::ERROR_CODE_EMPTY;
-		}
-		$codes[] = Form_Field::ERROR_CODE_INVALID_FORMAT;
-		
-		return $codes;
-	}
 	
 }

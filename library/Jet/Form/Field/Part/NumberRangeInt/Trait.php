@@ -87,71 +87,21 @@ trait Form_Field_Part_NumberRangeInt_Trait
 		$this->step = $step;
 	}
 	
-	/**
-	 * @return bool
-	 */
-	protected function validate_range() : bool
-	{
-		if(
-			$this->min_value !== null &&
-			$this->_value < $this->min_value
-		) {
-			$this->setError( Form_Field::ERROR_CODE_OUT_OF_RANGE );
-			
-			return false;
-		}
-		
-		if(
-			$this->max_value !== null &&
-			$this->_value > $this->max_value
-		) {
-			$this->setError( Form_Field::ERROR_CODE_OUT_OF_RANGE );
-			
-			return false;
-		}
-		
-		return true;
-	}
 	
-	
-	/**
-	 * @return bool
-	 */
-	public function validate(): bool
+	public function getValidator() : Validator
 	{
-		
-		if(
-			!$this->validate_required() ||
-			!$this->validate_range() ||
-			!$this->validate_validator()
-		) {
-			return false;
+		if(!$this->validator) {
+			$this->validator = $this->validatorFactory();
 		}
 		
-		$this->setIsValid();
-		return true;
+		/**
+		 * @var Validator_Int $validator
+		 */
+		$validator = $this->validator;
+		$validator->setMinValue( $this->getMinValue() );
+		$validator->setMaxValue( $this->getMaxValue() );
 		
-	}
-	
-	/**
-	 * @return array<string>
-	 */
-	public function getRequiredErrorCodes(): array
-	{
-		$codes = [];
-		
-		if( $this->is_required ) {
-			$codes[] = Form_Field::ERROR_CODE_EMPTY;
-		}
-		
-		if(
-			$this->min_value !== null ||
-			$this->max_value !== null
-		) {
-			$codes[] = Form_Field::ERROR_CODE_OUT_OF_RANGE;
-		}
-		
-		return $codes;
+		return $validator;
 	}
 	
 }

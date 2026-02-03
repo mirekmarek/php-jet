@@ -15,6 +15,10 @@ class Form_Field_Input extends Form_Field implements Form_Field_Part_RegExp_Inte
 {
 	use Form_Field_Part_RegExp_Trait;
 	
+	protected string $_type = Form_Field::TYPE_INPUT;
+	protected string $_validator_type = Validator::TYPE_REGEXP;
+	protected string $_input_catcher_type = InputCatcher::TYPE_STRING;
+	
 	/**
 	 * @var array<string,string>
 	 */
@@ -23,9 +27,5 @@ class Form_Field_Input extends Form_Field implements Form_Field_Part_RegExp_Inte
 		Form_Field::ERROR_CODE_INVALID_FORMAT => 'Invalid value',
 	];
 	
-	/**
-	 * @var string
-	 */
-	protected string $_type = Form_Field::TYPE_INPUT;
 	
 }

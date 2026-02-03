@@ -20,3 +20,6 @@ composer.lock
 application/dictionaries/**/*.php
 !application/dictionaries/**/_COMMON_.php
 _tools/studio/tmp/**
+/application/config/services/admin.php
+/application/config/services/web_cs_CZ.php
+/application/config/services/web_en_EU.php

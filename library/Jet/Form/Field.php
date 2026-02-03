@@ -60,15 +60,16 @@ abstract class Form_Field extends BaseObject implements JsonSerializable
 	use Form_Field_Trait_Validation;
 	use Form_Field_Trait_Render;
 
-	public const ERROR_CODE_EMPTY = 'empty';
-	public const ERROR_CODE_INVALID_FORMAT = 'invalid_format';
-	public const ERROR_CODE_INVALID_VALUE = 'invalid_value';
-	public const ERROR_CODE_OUT_OF_RANGE = 'out_of_range';
-	public const ERROR_CODE_FILE_IS_TOO_LARGE = 'file_is_too_large';
-	public const ERROR_CODE_DISALLOWED_FILE_TYPE = 'disallowed_file_type';
-	public const ERROR_CODE_CHECK_NOT_MATCH = 'check_not_match';
-	public const ERROR_CODE_WEAK_PASSWORD = 'weak_password';
-
+	public const ERROR_CODE_EMPTY = Validator::ERROR_CODE_EMPTY;
+	public const ERROR_CODE_INVALID_FORMAT = Validator_RegExp::ERROR_CODE_INVALID_FORMAT;
+	public const ERROR_CODE_INVALID_VALUE = Validator_Option::ERROR_CODE_INVALID_VALUE;
+	public const ERROR_CODE_OUT_OF_RANGE = Validator_Int::ERROR_CODE_OUT_OF_RANGE;
+	public const ERROR_CODE_FILE_IS_TOO_LARGE = Validator_File::ERROR_CODE_FILE_IS_TOO_LARGE;
+	public const ERROR_CODE_DISALLOWED_FILE_TYPE = Validator_File::ERROR_CODE_DISALLOWED_FILE_TYPE;
+	public const ERROR_CODE_CHECK_NOT_MATCH = Validator_Password::ERROR_CODE_CHECK_NOT_MATCH;
+	public const ERROR_CODE_WEAK_PASSWORD = Validator_Password::ERROR_CODE_WEAK_PASSWORD;
+	
+	
 	
 	/**
 	 * @var string
@@ -85,25 +86,10 @@ abstract class Form_Field extends BaseObject implements JsonSerializable
 	 * @var ?Form
 	 */
 	protected ?Form $_form = null;
-
-	/**
-	 *
-	 * @var mixed
-	 */
-	protected mixed $_value_raw = null;
-
-	/**
-	 *
-	 * @var mixed
-	 */
-	protected mixed $_value = null;
-
-	/**
-	 *
-	 * @var bool
-	 */
-	protected bool $_has_value = false;
-
+	
+	protected string $_input_catcher_type;
+	
+	protected ?InputCatcher $_input_catcher = null;
 
 	/**
 	 *
@@ -168,6 +154,19 @@ abstract class Form_Field extends BaseObject implements JsonSerializable
 	{
 		$this->_name = $name;
 		$this->label = $label;
+	}
+	
+	public function getInputCatcher() : InputCatcher
+	{
+		if( !$this->_input_catcher ) {
+			$this->_input_catcher = Factory_InputCatcher::getInputCatcherInstance(
+				$this->_input_catcher_type,
+				$this->getName(),
+				$this->getDefaultValue()
+			);
+		}
+		
+		return $this->_input_catcher;
 	}
 	
 	/**
@@ -255,6 +254,7 @@ abstract class Form_Field extends BaseObject implements JsonSerializable
 	public function setName( string $name ): void
 	{
 		$this->_name = $name;
+		$this->getInputCatcher()->setName( $name );
 	}
 
 	/**
@@ -278,15 +278,16 @@ abstract class Form_Field extends BaseObject implements JsonSerializable
 			is_object( $default_value ) &&
 			$default_value instanceof Iterator
 		) {
-			$this->_value = [];
+			$value = [];
 			foreach( $default_value as $k => $v ) {
-				$this->_value[$k] = $v;
+				$value[$k] = $v;
 			}
 		} else {
-			$this->_value = $default_value;
+			$value = $default_value;
 		}
 
-		$this->_value_raw = $default_value;
+		$this->getInputCatcher()->setValue( $value );
+		$this->getInputCatcher()->setDefaultValue( $value );
 	}
 
 	/**
@@ -435,7 +436,7 @@ abstract class Form_Field extends BaseObject implements JsonSerializable
 	 */
 	public function hasValue(): bool
 	{
-		return $this->_has_value;
+		return $this->getInputCatcher()->valueExistsInTheInput();
 	}
 
 	/**
@@ -444,7 +445,7 @@ abstract class Form_Field extends BaseObject implements JsonSerializable
 	 */
 	public function getValue(): mixed
 	{
-		return $this->_value;
+		return $this->getInputCatcher()->getValue();
 	}
 
 	/**
@@ -452,7 +453,8 @@ abstract class Form_Field extends BaseObject implements JsonSerializable
 	 */
 	public function setValue( mixed $value ): void
 	{
-		$this->_value = $value;
+		$this->getInputCatcher()->setValue( $value );
+
 	}
 
 	/**
@@ -460,7 +462,7 @@ abstract class Form_Field extends BaseObject implements JsonSerializable
 	 */
 	public function getValueRaw(): mixed
 	{
-		return $this->_value_raw;
+		return $this->getInputCatcher()->getValueRaw();
 	}
 
 
@@ -525,16 +527,7 @@ abstract class Form_Field extends BaseObject implements JsonSerializable
 	 */
 	public function catchInput( Data_Array $data ): void
 	{
-		$this->_value = null;
-		$this->_has_value = $data->exists( $this->_name );
-
-		if( $this->_has_value ) {
-			$this->_value_raw = $data->getRaw( $this->_name );
-			$this->_value = trim( $data->getString( $this->_name ) );
-		} else {
-			$this->_value_raw = null;
-			$this->_value = $this->default_value;
-		}
+		$this->getInputCatcher()->catchInput( $data );
 	}
 	
 	/**

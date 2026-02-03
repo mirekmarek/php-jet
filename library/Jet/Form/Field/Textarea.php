@@ -13,10 +13,9 @@ namespace Jet;
  */
 class Form_Field_Textarea extends Form_Field
 {
-	/**
-	 * @var string
-	 */
 	protected string $_type = Form_Field::TYPE_TEXTAREA;
+	protected string $_validator_type = Validator::TYPE_REGEXP;
+	protected string $_input_catcher_type = InputCatcher::TYPE_STRING;
 	
 	/**
 	 * @var array<string,string>
@@ -24,57 +23,5 @@ class Form_Field_Textarea extends Form_Field
 	protected array $error_messages = [
 		Form_Field::ERROR_CODE_EMPTY => 'Please enter a value'
 	];
-
-	/**
-	 * @return array<string>
-	 */
-	public function getRequiredErrorCodes(): array
-	{
-		$codes = [];
-
-		if( $this->is_required ) {
-			$codes[] = Form_Field::ERROR_CODE_EMPTY;
-		}
-		
-		return $codes;
-	}
-	
-	/**
-	 *
-	 * @param Data_Array $data
-	 */
-	public function catchInput( Data_Array $data ): void
-	{
-		$this->_value = null;
-		$this->_has_value = $data->exists( $this->_name );
-		
-		if( $this->_has_value ) {
-			$this->_value_raw = $data->getRaw( $this->_name );
-			$this->_value = trim( $data->getString( $this->_name ) );
-			$this->_value = Data_Text::emojiToHTMLEntities( $this->_value );
-		} else {
-			$this->_value_raw = null;
-			$this->_value = $this->default_value;
-		}
-		
-		
-	}
-	
-	
-	/**
-	 * @return bool
-	 */
-	public function validate(): bool
-	{
-		if(
-			!$this->validate_required() ||
-			!$this->validate_validator()
-		) {
-			return false;
-		}
-		
-		$this->setIsValid();
-		return true;
-	}
 	
 }

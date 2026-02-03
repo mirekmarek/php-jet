@@ -17,6 +17,7 @@ class Attributes
 	/**
 	 * @param ReflectionClass<object> $reflection
 	 * @param array<string,ReflectionClass> $interfaces
+	 * @phpstan-ignore missingType.generics
 	 */
 	protected static function getInterfaces( ReflectionClass $reflection, array &$interfaces ) : void
 	{

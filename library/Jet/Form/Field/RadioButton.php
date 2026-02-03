@@ -19,6 +19,8 @@ class Form_Field_RadioButton extends Form_Field implements Form_Field_Part_Selec
 	 * @var string
 	 */
 	protected string $_type = Form_Field::TYPE_RADIO_BUTTON;
+	protected string $_validator_type = Validator::TYPE_OPTION;
+	protected string $_input_catcher_type = InputCatcher::TYPE_STRING;
 	
 	/**
 	 * @var array<string,string>
@@ -27,63 +29,7 @@ class Form_Field_RadioButton extends Form_Field implements Form_Field_Part_Selec
 		Form_Field::ERROR_CODE_EMPTY        => 'Please enter a value',
 		Form_Field::ERROR_CODE_INVALID_VALUE => 'Invalid value',
 	];
-
-
-	/**
-	 * catch value from input (input = most often $_POST)
-	 *
-	 * @param Data_Array $data
-	 */
-	public function catchInput( Data_Array $data ): void
-	{
-		$this->_value = null;
-		$this->_has_value = true;
-
-		if( $data->exists( $this->_name ) ) {
-			$this->_value_raw = $data->getRaw( $this->_name );
-			$this->_value = trim( $data->getString( $this->_name ) );
-		} else {
-			$this->_value_raw = null;
-			$this->_value = null;
-		}
-	}
 	
-	/**
-	 * @return bool
-	 */
-	protected function validate_value(): bool
-	{
-		if($this->_value) {
-			$options = $this->getSelectOptions();
-			
-			if( !isset( $options[$this->_value] ) ) {
-				$this->setError( Form_Field::ERROR_CODE_INVALID_VALUE );
-				
-				return false;
-			}
-		}
-		
-		return true;
-	}
-
-	/**
-	 * @return bool
-	 */
-	public function validate(): bool
-	{
-		
-		if(
-			!$this->validate_required() ||
-			!$this->validate_value() ||
-			!$this->validate_validator()
-		) {
-			return false;
-		}
-		
-		$this->setIsValid();
-		return true;
-	}
-
 	
 	/**
 	 * @param string $option_key
@@ -94,4 +40,18 @@ class Form_Field_RadioButton extends Form_Field implements Form_Field_Part_Selec
 	{
 		return $option_key == $this->getValue();
 	}
+	
+	public function validate() : bool
+	{
+		$select_options = $this->getSelectOptions();
+		
+		/**
+		 * @var Validator_Option|Validator_Options $validator
+		 */
+		$validator = $this->getValidator();
+		$validator->setValidOptions( array_keys($select_options) );
+		
+		return parent::validate();
+	}
+	
 }

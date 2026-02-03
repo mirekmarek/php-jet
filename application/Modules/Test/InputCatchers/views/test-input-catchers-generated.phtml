@@ -1,0 +1,30 @@
+<?php
+namespace JetApplicationModule\Test\InputCatchers;
+
+use Jet\MVC_View;
+use Jet\Tr;
+
+/**
+ * @var MVC_View $this
+ * @var object $test_object
+ */
+
+$input = $this->getRaw( 'input' );
+$test_object = $this->getRaw( 'test_object' );
+?>
+
+<h2><?=Tr::_('Entity input catcher')?></h2>
+<table class="table table-striped">
+	<thead>
+		<tr>
+			<th><?=Tr::_('Input')?></th>
+			<th><?=Tr::_('Entity')?></th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td><pre><?php var_dump($input)?></pre></td>
+			<td><pre><?php var_dump($test_object)?></pre></td>
+		</tr>
+	</tbody>
+</table>

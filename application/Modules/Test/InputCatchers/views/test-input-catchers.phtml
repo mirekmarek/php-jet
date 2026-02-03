@@ -1,0 +1,54 @@
+<?php
+namespace JetApplicationModule\Test\InputCatchers;
+
+use Jet\Data_Array;
+use Jet\Tr;
+use Jet\MVC_View;
+
+/**
+ * @var MVC_View $this
+ * @var InputCatcherTest[] $tests
+ */
+
+$tests = $this->getRaw( 'tests' );
+?>
+
+<h2><?= Tr::_( 'Input catcher test' ) ?></h2>
+
+<?php foreach($tests as $test):
+	$input_catcher = $test->getInputCatcher();
+	$inputs = $test->getInputs();
+	
+	?>
+	<fieldset style="margin-bottom: 40px">
+		<legend><?= $test->getName() ?></legend>
+		
+		<table class="table table-striped">
+			<thead>
+				<tr>
+					<th><?=Tr::_('Raw input')?></th>
+					<th><?=Tr::_('Caught raw value')?></th>
+					<th><?=Tr::_('Caught value')?></th>
+				</tr>
+			</thead>
+			<tbody>
+		<?php foreach($inputs as $input):
+			$input = new Data_Array($input);
+			$input_catcher->catchInput( $input );
+		
+			$value = $input_catcher->getValue();
+			$raw_value = $input_catcher->getValueRaw();
+			?>
+			<tr>
+				<td><pre><?php var_dump( $input->getRaw($input_catcher->getName(), 'input data does not exist') )?></pre></td>
+				<td><pre><?php var_dump( $raw_value ); ?></pre></td>
+				<td><pre><?php var_dump( $value ); ?></pre></td>
+			</tr>
+		<?php endforeach; ?>
+			</tbody>
+		</table>
+	
+	</fieldset>
+<?php endforeach; ?>
+
+

@@ -12,6 +12,7 @@ use Jet\Autoloader;
 use Jet\Data_Array;
 use Jet\Factory_Form;
 use Jet\Form_Field;
+use Jet\InputCatcher;
 use Jet\IO_File;
 use Jet\SysConf_Jet_Form_DefaultViews;
 
@@ -42,37 +43,57 @@ class Form_Field_Callable extends Form_Field
 		return $errors;
 	}
 	
-	public function catchInput( Data_Array $data ): void
+	
+	public function getInputCatcher() : InputCatcher
 	{
-		$this->_value = null;
-		$name = (($this->_name[0]=='/') ? $this->_name : '/'.$this->_name).'/';
-		
-		$this->_has_value = $data->exists( $name.'class' ) && $data->exists( $name.'method' );
-		
-		if( $this->_has_value ) {
-			$this->_value = [
-				trim( $data->getString( $name.'class' ) ),
-				trim( $data->getString( $name.'method' ) )
-			];
-			$this->_value_raw = $this->_value;
-			
-		} else {
-			$this->_value_raw = null;
-			$this->_value = $this->default_value;
+		if( !$this->_input_catcher ) {
+			$this->_input_catcher = new class ( $this->getName(), $this->getDefaultValue() ) extends InputCatcher {
+				public function catchInput( Data_Array $data ): void
+				{
+					$this->value = null;
+					$name = (($this->name[0]=='/') ? $this->name : '/'.$this->name).'/';
+					
+					$this->value_exists_in_the_input = $data->exists( $name.'class' ) && $data->exists( $name.'method' );
+					
+					if( $this->value_exists_in_the_input ) {
+						$this->value = [
+							trim( $data->getString( $name.'class' ) ),
+							trim( $data->getString( $name.'method' ) )
+						];
+						$this->value_raw = $this->value;
+						
+					} else {
+						$this->value_raw = null;
+						$this->value = $this->default_value;
+					}
+					
+				}
+				
+				
+				protected function checkValue(): void
+				{
+				}
+			};
 		}
+		
+		return $this->_input_catcher;
+		
 	}
+	
 	
 	/**
 	 * @return bool
 	 */
 	public function validate(): bool
 	{
+		$value = $this->getValue();
+		
 		if($this->getIsRequired()) {
 			if(
-				!is_array($this->_value) ||
-				count($this->_value)!=2 ||
-				!$this->_value[0] ||
-				!$this->_value[1]
+				!is_array($value) ||
+				count($value)!=2 ||
+				!$value[0] ||
+				!$value[1]
 			) {
 				$this->setError(Form_Field::ERROR_CODE_EMPTY);
 				
@@ -81,11 +102,11 @@ class Form_Field_Callable extends Form_Field
 		}
 		
 		if(
-			is_array($this->_value) &&
-			!empty($this->_value[0]) &&
-			!empty($this->_value[1])
+			is_array($value) &&
+			!empty($value[0]) &&
+			!empty($value[1])
 		) {
-			$test_value = $this->_value;
+			$test_value = $value;
 			
 			if(
 				$this->class_context

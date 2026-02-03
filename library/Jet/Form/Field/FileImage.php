@@ -15,11 +15,9 @@ class Form_Field_FileImage extends Form_Field implements Form_Field_Part_File_In
 {
 	use Form_Field_Part_File_Trait;
 	
-	
-	/**
-	 * @var string
-	 */
 	protected string $_type = Form_Field::TYPE_FILE_IMAGE;
+	protected string $_validator_type = Validator::TYPE_FILE_IMAGE;
+	protected string $_input_catcher_type = InputCatcher::TYPE_FILE;
 	
 	
 	/**
@@ -52,6 +50,16 @@ class Form_Field_FileImage extends Form_Field implements Form_Field_Part_File_In
 		setter: 'setMaximalHeight',
 	)]
 	protected int|null $maximal_height = null;
+	
+	
+	#[Form_Definition_FieldOption(
+		type: Entity_Validator_Definition_ValidatorOption::TYPE_BOOL,
+		label: 'Automatic resize of image mode enabled',
+		getter: 'getAutomaticResizeMode',
+		setter: 'setAutomaticResizeMode',
+	)]
+	protected bool $automatic_resize_mode = true;
+	
 	
 	/**
 	 * @return array<string>
@@ -116,69 +124,43 @@ class Form_Field_FileImage extends Form_Field implements Form_Field_Part_File_In
 	{
 		return $this->maximal_width;
 	}
-
-	protected function validate_checkDimensions( Form_Field_File_UploadedFile $file ) : bool
+	
+	public function getAutomaticResizeMode(): bool
 	{
-		if(
-			$this->maximal_width &&
-			$this->maximal_height
-		) {
-			try {
-				$image = new Data_Image( $file->getTmpFilePath() );
-				$image->createThumbnail( $file->getTmpFilePath(), $this->maximal_width, $this->maximal_height );
-			} catch( Data_Image_Exception $e ) {
-				$file->setError( static::ERROR_CODE_FILE_IS_TOO_LARGE, $this->getErrorMessage(
-					static::ERROR_CODE_FILE_IS_TOO_LARGE,
-					[
-						'file_name' => $file->getFileName(),
-						'file_size' => Locale::size($file->getSize()),
-						'max_file_size' => Locale::size($this->maximal_file_size)
-					]
-				) );
-				
-				return false;
-			}
-		}
-
-		return true;
+		return $this->automatic_resize_mode;
+	}
+	
+	public function setAutomaticResizeMode( bool $automatic_resize_mode ): void
+	{
+		$this->automatic_resize_mode = $automatic_resize_mode;
 	}
 	
 	
-	/**
-	 *
-	 * @return bool
-	 */
-	public function validate(): bool
-	{
-		if(
-			!$this->_has_value &&
-			$this->is_required
-		) {
-			$this->setError( Form_Field::ERROR_CODE_EMPTY );
-			return false;
-		}
-		
-		
-		if($this->_has_value) {
-			
-			foreach( $this->_value as $name=>$file ) {
-				if(
-					!$this->validate_checkFileSize( $file ) ||
-					!$this->validate_checkMimeType( $file ) ||
-					!$this->validate_checkDimensions( $file )
-				) {
-					unset($this->_value[$name]);
-				}
-			}
-		}
-		
-		if(!$this->validate_validator()) {
-			return  false;
-		}
 
+	
+	public function getValidator() : Validator|Validator_FileImage
+	{
+		/**
+		 * @var Validator_FileImage $validator;
+		 */
+		$validator = parent::getValidator();
+		if($this->getAllowedMimeTypes()) {
+			$validator->setAllowedMimeTypes( $this->getAllowedMimeTypes() );
+		}
 		
-		$this->setIsValid();
-		return true;
+		if($this->getMaximalFileSize()) {
+			$validator->setMaximalFileSize( $this->getMaximalFileSize() );
+		}
+		if($this->getMaximalHeight()) {
+			$validator->setMaximalHeight( $this->getMaximalHeight() );
+		}
+		if( $this->getMaximalWidth() ) {
+			$validator->setMaximalWidth( $this->getMaximalWidth() );
+		}
+		$validator->setAutomaticResizeMode( $this->getAutomaticResizeMode() );
 		
+		return $validator;
 	}
+	
+	
 }

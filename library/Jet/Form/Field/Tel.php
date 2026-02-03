@@ -11,14 +11,13 @@ namespace Jet;
 /**
  *
  */
-class Form_Field_Tel extends Form_Field_Input implements Form_Field_Part_RegExp_Interface
+class Form_Field_Tel extends Form_Field
 {
-	use Form_Field_Part_RegExp_Trait;
-	
-	/**
-	 * @var string
-	 */
+	protected string $_validator_type = Validator::TYPE_TEL;
 	protected string $_type = Form_Field::TYPE_TEL;
+	protected string $_input_catcher_type = InputCatcher::TYPE_STRING;
+
+	public const ERROR_CODE_INVALID_TEL_NUMBER_TYPE = Validator_Tel::ERROR_CODE_INVALID_TEL_NUMBER_TYPE;
 	
 	/**
 	 * @var array<string,string>
@@ -26,6 +25,7 @@ class Form_Field_Tel extends Form_Field_Input implements Form_Field_Part_RegExp_
 	protected array $error_messages = [
 		Form_Field::ERROR_CODE_EMPTY        => 'Please enter a value',
 		Form_Field::ERROR_CODE_INVALID_FORMAT => 'Invalid value',
+		self::ERROR_CODE_INVALID_TEL_NUMBER_TYPE => 'Invalid telephone number type',
 	];
 	
 }

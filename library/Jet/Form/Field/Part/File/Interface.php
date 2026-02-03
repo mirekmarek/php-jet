@@ -46,18 +46,18 @@ interface Form_Field_Part_File_Interface
 	
 	
 	/**
-	 * @return Form_Field_File_UploadedFile[]
+	 * @return IO_UploadedFile[]
 	 */
 	public function getAllFiles(): array;
 	
 	
 	/**
-	 * @return Form_Field_File_UploadedFile[]
+	 * @return IO_UploadedFile[]
 	 */
 	public function getValidFiles(): array;
 	
 	/**
-	 * @return Form_Field_File_UploadedFile[]
+	 * @return IO_UploadedFile[]
 	 */
 	public function getProblematicFiles() : array;
 }

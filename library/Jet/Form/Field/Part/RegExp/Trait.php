@@ -22,25 +22,6 @@ trait Form_Field_Part_RegExp_Trait
 	)]
 	protected string $validation_regexp = '';
 	
-	
-	/**
-	 * @return array<string>
-	 */
-	public function getRequiredErrorCodes(): array
-	{
-		$codes = [];
-		
-		if($this->is_required) {
-			$codes[] = Form_Field::ERROR_CODE_EMPTY;
-		}
-		
-		if( $this->validation_regexp ) {
-			$codes[] = Form_Field::ERROR_CODE_INVALID_FORMAT;
-		}
-		
-		return $codes;
-	}
-	
 	/**
 	 *
 	 * @param bool $raw
@@ -74,41 +55,21 @@ trait Form_Field_Part_RegExp_Trait
 	{
 		$this->validation_regexp = $validation_regexp;
 	}
-	/**
-	 *
-	 * @return bool
-	 */
-	public function validate(): bool
+	
+	public function getValidator() : Validator
 	{
-		if(!$this->validate_required()) {
-			return false;
+		if(!$this->validator) {
+			$this->validator = $this->validatorFactory();
 		}
 		
-		
-		if(
-			$this->validation_regexp &&
-			$this->_value!==''
-		) {
-			
-			if( $this->validation_regexp[0] != '/' ) {
-				$res = preg_match( '/' . $this->validation_regexp . '/', $this->_value );
-			} else {
-				$res = preg_match( $this->validation_regexp, $this->_value );
-			}
-			
-			if(!$res) {
-				$this->setError( Form_Field::ERROR_CODE_INVALID_FORMAT );
-				return false;
-			}
+		/**
+		 * @var Validator_RegExp $validator
+		 */
+		$validator = $this->validator;
+		if(method_exists($validator, 'setValidationRegexp')) {
+			$validator->setValidationRegexp( $this->getValidationRegexp() );
 		}
 		
-		
-		
-		if(!$this->validate_validator()) {
-			return false;
-		}
-		
-		$this->setIsValid();
-		return true;
+		return $validator;
 	}
 }

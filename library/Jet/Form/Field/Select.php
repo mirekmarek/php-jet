@@ -15,10 +15,9 @@ class Form_Field_Select extends Form_Field implements Form_Field_Part_Select_Int
 {
 	use Form_Field_Part_Select_Trait;
 	
-	/**
-	 * @var string
-	 */
 	protected string $_type = Form_Field::TYPE_SELECT;
+	protected string $_validator_type = Validator::TYPE_OPTION;
+	protected string $_input_catcher_type = InputCatcher::TYPE_STRING;
 	
 	/**
 	 * @var array<string,string>
@@ -29,55 +28,6 @@ class Form_Field_Select extends Form_Field implements Form_Field_Part_Select_Int
 	];
 	
 	/**
-	 * @return bool
-	 */
-	protected function validate_required(): bool
-	{
-		if(
-			$this->is_required &&
-			$this->_value === '' &&
-			array_key_exists('', $this->getSelectOptions())
-		) {
-			$this->setError( Form_Field::ERROR_CODE_EMPTY );
-			
-			return false;
-		}
-		
-		return true;
-	}
-	
-	/**
-	 * @return bool
-	 */
-	protected function validate_value(): bool
-	{
-		if( !isset( $this->getSelectOptions()[$this->_value] ) ) {
-			$this->setError( Form_Field::ERROR_CODE_INVALID_VALUE );
-			
-			return false;
-		}
-		
-		return true;
-	}
-	
-	/**
-	 * @return bool
-	 */
-	public function validate(): bool
-	{
-		if(
-			!$this->validate_required() ||
-			!$this->validate_value() ||
-			!$this->validate_validator()
-		) {
-			return false;
-		}
-		
-		$this->setIsValid();
-		return true;
-	}
-	
-	/**
 	 * @param string $option_key
 	 *
 	 * @return bool
@@ -86,5 +36,20 @@ class Form_Field_Select extends Form_Field implements Form_Field_Part_Select_Int
 	{
 		return $option_key == $this->getValue();
 	}
+	
+	
+	public function validate() : bool
+	{
+		$select_options = $this->getSelectOptions();
+		
+		/**
+		 * @var Validator_Option|Validator_Options $validator
+		 */
+		$validator = $this->getValidator();
+		$validator->setValidOptions( array_keys($select_options) );
+		
+		return parent::validate();
+	}
+	
 	
 }
