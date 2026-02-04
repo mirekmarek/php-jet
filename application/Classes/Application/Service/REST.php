@@ -18,7 +18,7 @@ class Application_Service_REST
 	
 	protected static ?Application_Service_List $list = null;
 	
-	public static function list(): Application_Service_List
+	public static function getList(): Application_Service_List
 	{
 		if(!static::$list) {
 			static::$list = new Application_Service_List(
@@ -32,11 +32,11 @@ class Application_Service_REST
 	
 	public static function Logger() : null|Application_Module|Application_Service_REST_Logger
 	{
-		return static::list()->get( Application_Service_REST_Logger::class );
+		return static::getList()->get( Application_Service_REST_Logger::class );
 	}
 	
 	public static function AuthController() : Application_Module|Application_Service_REST_Auth_Controller
 	{
-		return static::list()->get( Application_Service_REST_Auth_Controller::class );
+		return static::getList()->get( Application_Service_REST_Auth_Controller::class );
 	}
 }

@@ -51,7 +51,6 @@ trait Validator_Part_RegExp_Trait
 			$this->validation_regexp &&
 			$value!==''
 		) {
-			
 			if( $this->validation_regexp[0] != '/' ) {
 				$res = preg_match( '/' . $this->validation_regexp . '/', $value );
 			} else {

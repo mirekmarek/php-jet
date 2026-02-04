@@ -67,7 +67,7 @@ trait Form_Field_Part_RegExp_Trait
 		 */
 		$validator = $this->validator;
 		if(method_exists($validator, 'setValidationRegexp')) {
-			$validator->setValidationRegexp( $this->getValidationRegexp() );
+			$validator->setValidationRegexp( $this->getValidationRegexp( true ) );
 		}
 		
 		return $validator;

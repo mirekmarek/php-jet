@@ -281,8 +281,8 @@ class Main extends Wizard
 		} );
 		$item_id_getter->setValidationRegexp( '/^[a-z0-9\_]{2,}$/i' );
 		$item_id_getter->setErrorMessages( [
-			Form_Field::ERROR_CODE_EMPTY          => 'Please getter method name',
-			Form_Field::ERROR_CODE_INVALID_FORMAT => 'Please getter method name',
+			Form_Field::ERROR_CODE_EMPTY          => 'Please enter getter method name',
+			Form_Field::ERROR_CODE_INVALID_FORMAT => 'Please enter getter method name',
 		] );
 		$fields[] = $item_id_getter;
 
@@ -307,8 +307,8 @@ class Main extends Wizard
 		} );
 		$item_name_getter->setValidationRegexp( '/^[a-z0-9\_]{2,}$/i' );
 		$item_name_getter->setErrorMessages( [
-			Form_Field::ERROR_CODE_EMPTY          => 'Please getter method name',
-			Form_Field::ERROR_CODE_INVALID_FORMAT => 'Please getter method name',
+			Form_Field::ERROR_CODE_EMPTY          => 'Please enter getter method name',
+			Form_Field::ERROR_CODE_INVALID_FORMAT => 'Please enter getter method name',
 		] );
 		$fields[] = $item_name_getter;
 

@@ -12,7 +12,7 @@ return [
 	'Copyright:' => 'Copyright:',
 	'Please variable name' => 'Prosím zadejte název proměnné',
 	'Please select ID property' => 'Prosím vyberte IS vlastnost',
-	'Please getter method name' => 'Prosím zadejte getter názvu',
+	'Please enter getter method name' => 'Prosím zadejte getter názvu',
 	'Please select name property' => 'Prosím vyberte vlastnost názvu',
 	'Please enter class alias' => 'Prosím zadejte alias názvu třídy',
 	'Please select menu' => 'Prosím vyberte menu',

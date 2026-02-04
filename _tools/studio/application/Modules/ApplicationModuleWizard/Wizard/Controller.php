@@ -49,6 +49,8 @@ abstract class Wizard_Controller extends BaseObject
 			$this->wizard->create()
 		) {
 			$this->wizard->redirectToModuleEditing();
+		} else {
+			$this->output('main');
 		}
 	}
 	

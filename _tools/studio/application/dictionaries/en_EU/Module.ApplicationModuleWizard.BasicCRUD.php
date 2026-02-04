@@ -12,7 +12,7 @@ return [
 	'Copyright:' => '',
 	'Please variable name' => '',
 	'Please select ID property' => '',
-	'Please getter method name' => '',
+	'Please enter getter method name' => '',
 	'Please select name property' => '',
 	'Please enter class alias' => '',
 	'Please select menu' => '',

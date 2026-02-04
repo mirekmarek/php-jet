@@ -21,7 +21,7 @@ class Application_Service_Web
 	
 	protected static ?Application_Service_List $list = null;
 	
-	public static function list( ?MVC_Base $base = null, ?Locale $locale = null ): Application_Service_List
+	public static function getList( ?MVC_Base $base = null, ?Locale $locale = null ): Application_Service_List
 	{
 		$base = $base ? : MVC::getBase();
 		$locale = $locale ? : Locale::getCurrentLocale();
@@ -39,22 +39,22 @@ class Application_Service_Web
 	
 	public static function ImageManager( ?MVC_Base $base = null, ?Locale $locale = null ): null|Application_Module|Application_Service_Web_ImageManager
 	{
-		return static::list( $base, $locale )->get( Application_Service_Web_ImageManager::class );
+		return static::getList( $base, $locale )->get( Application_Service_Web_ImageManager::class );
 	}
 	
 	public static function Logger( ?MVC_Base $base = null, ?Locale $locale = null ): null|Application_Module|Application_Service_Web_Logger
 	{
-		return static::list( $base, $locale )->get( Application_Service_Web_Logger::class );
+		return static::getList( $base, $locale )->get( Application_Service_Web_Logger::class );
 	}
 	
 	public static function AuthController( ?MVC_Base $base = null, ?Locale $locale = null ): Application_Module|Application_Service_Web_Auth_Controller
 	{
-		return static::list( $base, $locale )->get( Application_Service_Web_Auth_Controller::class );
+		return static::getList( $base, $locale )->get( Application_Service_Web_Auth_Controller::class );
 	}
 	
 	public static function AuthLoginModule( ?MVC_Base $base = null, ?Locale $locale = null ): Application_Module|Application_Service_Web_Auth_LoginModule
 	{
-		return static::list( $base, $locale )->get( Application_Service_Web_Auth_LoginModule::class );
+		return static::getList( $base, $locale )->get( Application_Service_Web_Auth_LoginModule::class );
 	}
 	
 }

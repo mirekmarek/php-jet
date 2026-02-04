@@ -167,6 +167,9 @@ abstract class Wizard extends BaseObject
 	public function catchSetupForm(): bool
 	{
 		$form = $this->getSetupForm();
+		
+		$form->catchInput();
+		$form->validate();
 
 		if( $form->catchInput() && $form->validate() ) {
 			$form->catchFieldValues();
