@@ -8,11 +8,13 @@ return [
 	'icon' => '',
 	'menu_title' => 'Tajná oblast',
 	'breadcrumb_title' => 'Tajná oblast',
+	'order' => 0,
 	'is_secret' => true,
+	'layout_script_name' => 'default-secret',
 	'http_headers' => [
 	],
-	'layout_script_name' => 'default-secret',
-	'order' => 0,
+	'parameters' => [
+	],
 	'meta_tags' => [
 		[
 			'attribute' => 'attribute',

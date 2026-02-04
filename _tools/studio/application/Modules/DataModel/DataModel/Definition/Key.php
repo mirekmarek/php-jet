@@ -129,12 +129,12 @@ class DataModel_Definition_Key extends Jet_DataModel_Definition_Key
 	}
 
 	/**
-	 * @param Form_Field_Input $field
+	 * @param Form_Field $field
 	 * @param string $old_name
 	 *
 	 * @return bool
 	 */
-	public static function checkKeyName( Form_Field_Input $field, string $old_name = '' ): bool
+	public static function checkKeyName( Form_Field $field, string $old_name = '' ): bool
 	{
 		$name = $field->getValue();
 
@@ -210,7 +210,7 @@ class DataModel_Definition_Key extends Jet_DataModel_Definition_Key
 				Form_Field::ERROR_CODE_INVALID_FORMAT => 'Invalid key name format',
 				'key_is_not_unique'                         => 'Key with the same name already exists',
 			] );
-			$name_field->setValidator( function( Form_Field_Input $field ) {
+			$name_field->setValidator( function( Form_Field $field ) {
 				return DataModel_Definition_Key::checkKeyName( $field );
 			} );
 
@@ -300,7 +300,7 @@ class DataModel_Definition_Key extends Jet_DataModel_Definition_Key
 				$this->setName( $value );
 			} );
 			$old_name = $this->getName();
-			$name_field->setValidator( function( Form_Field_Input $field ) use ( $old_name ) {
+			$name_field->setValidator( function( Form_Field $field ) use ( $old_name ) {
 				return DataModel_Definition_Key::checkKeyName( $field, $old_name );
 			} );
 

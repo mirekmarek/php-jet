@@ -62,11 +62,11 @@ class DataModel_Definition_Property
 
 	/**
 	 * @param string $name
-	 * @param Form_Field_Input|null $field
+	 * @param Form_Field|null $field
 	 *
 	 * @return bool
 	 */
-	public static function checkPropertyNameFormat( string $name, ?Form_Field_Input $field=null ): bool
+	public static function checkPropertyNameFormat( string $name, ?Form_Field $field=null ): bool
 	{
 		if( !$name ) {
 			$field?->setError( Form_Field::ERROR_CODE_EMPTY );
@@ -89,7 +89,7 @@ class DataModel_Definition_Property
 	 *
 	 * @return bool
 	 */
-	public static function checkPropertyName( string $name, ?Form_Field_Input $field=null, string $old_name = '' ): bool
+	public static function checkPropertyName( string $name, ?Form_Field $field=null, string $old_name = '' ): bool
 	{
 		if( !static::checkPropertyNameFormat( $name, $field ) ) {
 			return false;
@@ -142,7 +142,7 @@ class DataModel_Definition_Property
 				Form_Field::ERROR_CODE_INVALID_FORMAT => 'Invalid property name format',
 				'property_is_not_unique' => 'Property with the same name already exists',
 			] );
-			$property_name->setValidator( function( Form_Field_Input $field ) {
+			$property_name->setValidator( function( Form_Field $field ) {
 				return DataModel_Definition_Property::checkPropertyName( $field->getValue(), $field );
 			} );
 

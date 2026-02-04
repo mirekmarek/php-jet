@@ -17,12 +17,11 @@ use Jet\Auth_Role_Interface;
 use Jet\Data_Forest;
 use Jet\Data_Tree;
 use Jet\Form_Definition;
-use Jet\Form_Field_Input;
+use Jet\Form_Field;
 use Jet\Form_Field_MultiSelect;
 use Jet\Locale;
 use Jet\Tr;
 use Jet\Form;
-use Jet\Form_Field;
 use Jet\Auth_AvailablePrivilegeProvider;
 
 /**
@@ -451,7 +450,7 @@ class Role extends DataModel implements Auth_Role_Interface
 		$form = $this->createForm('role_edit');
 		if( $this->getIsNew() ) {
 			$form->field('id')->setValidator(
-				function( Form_Field_Input $field ) {
+				function( Form_Field $field ) {
 					$id = $field->getValue();
 
 					if( static::idExists( $id ) ) {

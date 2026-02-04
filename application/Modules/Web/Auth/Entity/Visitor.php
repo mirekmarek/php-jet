@@ -15,7 +15,6 @@ use Jet\DataModel_IDController_AutoIncrement;
 use Jet\Form;
 use Jet\Form_Definition;
 use Jet\Form_Field;
-use Jet\Form_Field_Input;
 use Jet\Data_DateTime;
 use Jet\Form_Field_Password;
 use Jet\Locale;
@@ -817,7 +816,7 @@ class Visitor extends DataModel implements Auth_Visitor
 		$form = $this->createForm('user_edit');
 		
 		$form->getField( 'username' )->setValidator(
-			function( Form_Field_Input $field ) {
+			function( Form_Field $field ) {
 				$username = $field->getValue();
 
 				if(
@@ -837,7 +836,7 @@ class Visitor extends DataModel implements Auth_Visitor
 		);
 		
 		$form->getField( 'email' )->setValidator(
-			function( Form_Field_Input $field ) {
+			function( Form_Field $field ) {
 				$email = $field->getValue();
 				
 				if(

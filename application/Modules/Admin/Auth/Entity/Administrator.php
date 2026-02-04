@@ -15,7 +15,6 @@ use Jet\DataModel_IDController_AutoIncrement;
 use Jet\Form;
 use Jet\Form_Definition;
 use Jet\Form_Field;
-use Jet\Form_Field_Input;
 use Jet\Form_Field_Password;
 use Jet\Data_DateTime;
 use Jet\Locale;
@@ -882,7 +881,7 @@ class Administrator extends DataModel implements Auth_Administrator
 
 
 		$form->getField( 'username' )->setValidator(
-			function( Form_Field_Input $field ) {
+			function( Form_Field $field ) {
 				$username = $field->getValue();
 
 				if(

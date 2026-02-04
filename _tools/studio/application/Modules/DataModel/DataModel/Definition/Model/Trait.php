@@ -452,8 +452,7 @@ trait DataModel_Definition_Model_Trait
 				Form_Field::ERROR_CODE_INVALID_FORMAT => 'Invalid DataModel table name name format',
 				'data_model_table_is_not_unique' => 'DataModel with the same table name already exists',
 			] );
-			$database_table_name_field->setValidator( function( Form_Field_Input $field ) {
-
+			$database_table_name_field->setValidator( function( Form_Field $field ) {
 
 				$name = $field->getValue();
 
@@ -962,7 +961,7 @@ trait DataModel_Definition_Model_Trait
 			Form_Field::ERROR_CODE_INVALID_FORMAT => Tr::_( 'Invalid DataModel class name format' ),
 			'data_model_class_is_not_unique'            => Tr::_( 'DataModel with the same class name already exists' ),
 		] );
-		$class_name->setValidator( function( Form_Field_Input $field ) {
+		$class_name->setValidator( function( Form_Field $field ) {
 			$name = $field->getValue();
 
 			if(
@@ -1026,7 +1025,7 @@ trait DataModel_Definition_Model_Trait
 			Form_Field::ERROR_CODE_EMPTY          => 'Please enter property name',
 			Form_Field::ERROR_CODE_INVALID_FORMAT => 'Invalid property name format'
 		] );
-		$id_property_name->setValidator( function( Form_Field_Input $field ) {
+		$id_property_name->setValidator( function( Form_Field $field ) {
 			return DataModel_Definition_Property::checkPropertyNameFormat( $field->getValue(), $field );
 		} );
 
@@ -1077,7 +1076,7 @@ trait DataModel_Definition_Model_Trait
 			Form_Field_Input::ERROR_CODE_EMPTY => Tr::_('Please enter property name'),
 			Form_Field_Input::ERROR_CODE_INVALID_FORMAT => Tr::_('Please enter valid property name')
 		]);
-		$relation_property_name->setValidator( function( Form_Field_Input $field ) {
+		$relation_property_name->setValidator( function( Form_Field $field ) {
 			return DataModel_Definition_Property::checkPropertyNameFormat( $field->getValue(), $field );
 		} );
 		
@@ -1135,7 +1134,7 @@ trait DataModel_Definition_Model_Trait
 				Form_Field::ERROR_CODE_EMPTY          => Tr::_( 'Please enter property name' ),
 				Form_Field::ERROR_CODE_INVALID_FORMAT => Tr::_( 'Invalid property name format' )
 			] );
-			$field->setValidator( function( Form_Field_Input $field ) {
+			$field->setValidator( function( Form_Field $field ) {
 				return DataModel_Definition_Property::checkPropertyNameFormat( $field->getValue(), $field );
 			} );
 

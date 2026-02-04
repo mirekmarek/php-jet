@@ -128,7 +128,7 @@ trait DataModel_Definition_Property_Trait
 				//$this->name = $value;
 			} );
 			$old_name = $this->getName();
-			$name_field->setValidator( function( Form_Field_Input $field ) use ( $old_name ) {
+			$name_field->setValidator( function( Form_Field $field ) use ( $old_name ) {
 				return DataModel_Definition_Property::checkPropertyName( $field->getValue(), $field, $old_name );
 			} );
 			$name_field->setIsReadonly( true );

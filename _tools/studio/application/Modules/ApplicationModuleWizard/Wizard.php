@@ -88,7 +88,7 @@ abstract class Wizard extends BaseObject
 			Form_Field::ERROR_CODE_INVALID_FORMAT => 'Invalid module name format',
 			'module_name_is_not_unique' => 'Module with the same name already exists',
 		] );
-		$module_name->setValidator( function( Form_Field_Input $field ) {
+		$module_name->setValidator( function( Form_Field $field ) {
 			$name = $field->getValue();
 			
 			if(

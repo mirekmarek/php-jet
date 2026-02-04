@@ -85,7 +85,7 @@ class Page extends MVC_Page
 				Form_Field::ERROR_CODE_INVALID_FORMAT => 'Invalid page identifier format',
 				'page_id_is_not_unique'                     => 'Page with the identifier already exists',
 			] );
-			$id_field->setValidator( function( Form_Field_Input $field ) {
+			$id_field->setValidator( function( Form_Field $field ) {
 				$id = $field->getValue();
 
 				if( !$id ) {
@@ -264,7 +264,7 @@ class Page extends MVC_Page
 					Form_Field::ERROR_CODE_EMPTY => 'Please enter URL part',
 					'uri_is_not_unique' => 'URL conflicts with page <b>%page%</b>',
 				] );
-				$relative_path_fragment_field->setValidator( function( Form_Field_Input $field ) use ( $page ) {
+				$relative_path_fragment_field->setValidator( function( Form_Field $field ) use ( $page ) {
 					$value = $field->getValue();
 
 					//$value = Data_Text::removeAccents( $value );

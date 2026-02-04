@@ -14,7 +14,6 @@ use Jet\DataModel_Fetch_Instances;
 use Jet\DataModel_IDController_AutoIncrement;
 use Jet\Form;
 use Jet\Form_Definition;
-use Jet\Form_Field_Input;
 use Jet\Form_Field;
 use Jet\Data_DateTime;
 use Jet\Form_Field_Password;
@@ -716,7 +715,7 @@ class APIUser extends DataModel implements Auth_APIUser
 		$form = $this->createForm('user_edit');
 		
 		$form->getField( 'username' )->setValidator(
-			function( Form_Field_Input $field ) {
+			function( Form_Field $field ) {
 				$username = $field->getValue();
 
 				if(

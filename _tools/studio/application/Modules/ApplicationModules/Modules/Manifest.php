@@ -120,7 +120,7 @@ class Modules_Manifest extends Application_Module_Manifest
 				Form_Field::ERROR_CODE_INVALID_FORMAT => 'Invalid module name format',
 				'module_name_is_not_unique' => 'Module with the same name already exists',
 			] );
-			$module_name->setValidator( function( Form_Field_Input $field ) {
+			$module_name->setValidator( function( Form_Field $field ) {
 				$name = $field->getValue();
 				$old_module_name = $this->getName();
 
@@ -275,13 +275,13 @@ class Modules_Manifest extends Application_Module_Manifest
 
 
 	/**
-	 * @param Form_Field_Input $field
+	 * @param Form_Field $field
 	 * @param string $name
 	 * @param string $old_module_name
 	 *
 	 * @return bool
 	 */
-	public static function checkModuleName( Form_Field_Input $field, string $name, string $old_module_name = '' ): bool
+	public static function checkModuleName( Form_Field $field, string $name, string $old_module_name = '' ): bool
 	{
 
 		if(
@@ -354,7 +354,7 @@ class Modules_Manifest extends Application_Module_Manifest
 				Form_Field::ERROR_CODE_INVALID_FORMAT => 'Invalid module name format',
 				'module_name_is_not_unique' => 'Module with the same name already exists',
 			] );
-			$module_name->setValidator( function( Form_Field_Input $field ) {
+			$module_name->setValidator( function( Form_Field $field ) {
 				$name = $field->getValue();
 				
 				return Modules_Manifest::checkModuleName( $field, $name );

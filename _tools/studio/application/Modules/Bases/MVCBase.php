@@ -185,7 +185,7 @@ class MVCBase extends MVC_Base
 				} );
 				$fields[] = $ld_title_field;
 				
-				$URL_validate = function( Form_Field_Input $field, $index ) use ( $ld ) {
+				$URL_validate = function( Form_Field $field, $index ) use ( $ld ) {
 					$value = $field->getValue();
 					if( !$value ) {
 						return true;
@@ -240,7 +240,7 @@ class MVCBase extends MVC_Base
 						'url_is_not_unique_in_self'                 => 'URL conflicts with locale <b>%locale%</b>',
 					] );
 					
-					$ld_URL_field->setValidator( function( Form_Field_Input $field ) use ( $u, &$URL_validate ) {
+					$ld_URL_field->setValidator( function( Form_Field $field ) use ( $u, &$URL_validate ) {
 						return $URL_validate( $field, $u );
 					} );
 					
@@ -256,7 +256,7 @@ class MVCBase extends MVC_Base
 						'url_is_not_unique_in_self'                 => 'URL conflicts with locale <b>%locale%</b>',
 					]);
 					
-					$ld_URL_field->setValidator( function( Form_Field_Input $field ) use ( $u, &$URL_validate ) {
+					$ld_URL_field->setValidator( function( Form_Field $field ) use ( $u, &$URL_validate ) {
 						return $URL_validate( $field, $u );
 					} );
 					
@@ -643,7 +643,7 @@ class MVCBase extends MVC_Base
 				Form_Field::ERROR_CODE_INVALID_FORMAT => 'Invalid identifier format',
 				'base_id_is_not_unique'                     => 'Base with the identifier already exists',
 			] );
-			$id_field->setValidator( function( Form_Field_Input $field ) {
+			$id_field->setValidator( function( Form_Field $field ) {
 				$id = $field->getValue();
 				
 				if(
@@ -677,7 +677,7 @@ class MVCBase extends MVC_Base
 				'url_is_not_unique_in_self'                 => 'URL conflicts with locale <b>%locale%</b>',
 			] );
 			
-			$base_url_field->setValidator( function( Form_Field_Input $field ) {
+			$base_url_field->setValidator( function( Form_Field $field ) {
 				$base_url = $field->getValue();
 				
 				

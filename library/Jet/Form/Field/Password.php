@@ -47,19 +47,23 @@ class Form_Field_Password extends Form_Field
 		$this->minimal_score = $minimal_score;
 	}
 	
-	public function getValidator() : Validator|Validator_File
+	public function getValidator() : Validator|Validator_Password
 	{
 		if(!$this->validator) {
 			$this->validator = $this->validatorFactory();
 		}
 		
 		/**
-		 * @var Validator_Password $validator;
+		 * @var Validator|Validator_Password $validator;
 		 */
 		$validator = $this->validator;
 		
 		$validator->setIsRequired( true );
-		$validator->setMinimalScore( $this->getMinimalScore() );
+		
+		if( $validator instanceof Validator_Password ) {
+			$validator->setMinimalScore( $this->getMinimalScore() );
+		}
+		
 		
 		return $validator;
 	}

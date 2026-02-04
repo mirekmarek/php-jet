@@ -136,7 +136,7 @@ class Controller_Main extends MVC_Controller_Default
 			Form_Field::ERROR_CODE_WEAK_PASSWORD => 'Password is not strong enough',
 		]);
 		
-		$new_password_field->setValidator( function( Form_Field_Input $field ) : bool {
+		$new_password_field->setValidator( function( Form_Field $field ) : bool {
 			if(!Visitor::verifyPasswordStrength($field->getValue())) {
 				$field->setError( Form_Field::ERROR_CODE_WEAK_PASSWORD);
 				return false;
