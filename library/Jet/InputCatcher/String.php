@@ -14,7 +14,7 @@ class InputCatcher_String extends InputCatcher
 	
 	protected function checkValue() : void
 	{
-		$this->value_raw = $this->encodeString( $this->value_raw );
+		$this->value_raw = $this->value_raw ? $this->encodeString( $this->value_raw ) : $this->value_raw;
 		$this->value = $this->encodeString( $this->value );
 	}
 	
