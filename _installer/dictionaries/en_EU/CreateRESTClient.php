@@ -15,4 +15,6 @@ return [
 	'E-mail' => '',
 	'Invalid value' => '',
 	'REST Client account has already been created' => '',
+	'Week password' => '',
+	'Password verification does not match' => '',
 ];

@@ -9,4 +9,6 @@ return [
 	'Password:' => '',
 	'Confirm password:' => '',
 	'Invalid value' => '',
+	'Week password' => '',
+	'Password verification does not match' => '',
 ];

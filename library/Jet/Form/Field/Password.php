@@ -33,6 +33,7 @@ class Form_Field_Password extends Form_Field
 	protected array $error_messages = [
 		Form_Field::ERROR_CODE_EMPTY => 'Please enter a value',
 		self::ERROR_CODE_WEAK_PASSWORD => 'Week password',
+		self::ERROR_CODE_CHECK_NOT_MATCH => 'Password verification does not match',
 	];
 	
 	protected bool $is_required = true;
