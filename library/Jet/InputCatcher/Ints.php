@@ -33,6 +33,10 @@ class InputCatcher_Ints extends InputCatcher
 	}
 	
 	
+	/**
+	 * @param array<string|mixed>|Data_Array $data
+	 * @return void
+	 */
 	public function catchInput( array|Data_Array $data ): void
 	{
 		if(is_array($data)) {

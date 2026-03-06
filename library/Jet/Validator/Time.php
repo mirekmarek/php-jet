@@ -17,6 +17,9 @@ class Validator_Time extends Validator
 	
 	protected static string $type = self::TYPE_TIME;
 	
+	/**
+	 * @var array<string,int>
+	 */
 	protected static array $formats = [
 		'H:i'   => 5,
 		'H:i:s' => 8,
@@ -67,7 +70,9 @@ class Validator_Time extends Validator
 	}
 	
 	
-	
+	/**
+	 * @return array<string>
+	 */
 	public function getErrorCodeScope(): array
 	{
 		$codes = [];

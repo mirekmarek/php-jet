@@ -19,6 +19,13 @@ class Tester_Spatial_Result extends Tester_Result
 	protected ?float $keyboard_avg_degree = null;
 	protected ?float $keypad_avg_degree = null;
 	
+	/**
+	 * @param string $password
+	 * @param int $begin
+	 * @param int $end
+	 * @param string $token
+	 * @param array<string,mixed> $params
+	 */
 	public function __construct( string $password, int $begin, int $end, string $token, array $params = [] )
 	{
 		parent::__construct( $password, $begin, $end, $token );

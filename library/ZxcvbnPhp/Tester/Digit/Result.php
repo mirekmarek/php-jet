@@ -18,8 +18,8 @@ class Tester_Digit_Result extends Tester_Result
 	public function getEntropy() : float
 	{
 		if( is_null( $this->entropy ) ) {
-			$this->entropy = $this->log( pow( 10, strlen( $this->token ) ) );
+			$this->entropy = (string)$this->log( pow( 10, strlen( $this->token ) ) );
 		}
-		return $this->entropy;
+		return (float)$this->entropy;
 	}
 }

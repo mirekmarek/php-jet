@@ -24,6 +24,11 @@ class Tester_Spatial extends Tester
 		return $matches;
 	}
 	
+	/**
+	 * @param string $password
+	 * @param array<string> $graph
+	 * @return array<array<string,mixed>>
+	 */
 	protected static function graphMatch( string $password, array $graph ) : array
 	{
 		$result = [];
@@ -45,6 +50,7 @@ class Tester_Spatial extends Tester
 				// Consider growing pattern by one character if j hasn't gone over the edge.
 				if( $j < $passwordLength ) {
 					$curChar = $password[$j];
+					/** @phpstan-ignore foreach.emptyArray */
 					foreach( $adjacents as $adj ) {
 						$curDirection += 1;
 						$curCharPos = static::indexOf( $adj, $curChar );
@@ -57,6 +63,7 @@ class Tester_Spatial extends Tester
 								// for example, 'q' is adjacent to the entry '2@'. @ is shifted w/ index 1, 2 is unshifted.
 								$shiftedCount += 1;
 							}
+							/** @phpstan-ignore notIdentical.alwaysTrue */
 							if( $lastDirection !== $foundDirection ) {
 								// adding a turn is correct even in the initial case when last_direction is null:
 								// every spatial pattern starts with a turn.
@@ -70,6 +77,7 @@ class Tester_Spatial extends Tester
 				}
 				
 				// if the current pattern continued, extend j and try to grow again
+				/** @phpstan-ignore if.alwaysFalse */
 				if( $found ) {
 					$j += 1;
 				} // otherwise push the pattern discovered so far, if any...
@@ -105,6 +113,10 @@ class Tester_Spatial extends Tester
 		return strpos( $string, $char );
 	}
 	
+	/**
+	 * @param array<array<string,mixed>> $graph
+	 * @return float
+	 */
 	protected static function calcAverageDegree( array $graph ) : float
 	{
 		$sum = 0;
@@ -119,6 +131,9 @@ class Tester_Spatial extends Tester
 		return $sum / count( array_keys( $graph ) );
 	}
 	
+	/**
+	 * @return array<string,array<string>>
+	 */
 	protected static function getAdjacencyGraphs() : array
 	{
 		$data = file_get_contents( __DIR__ . '/Spatial/Data/adjacency_graphs.json' );

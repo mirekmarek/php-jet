@@ -9,7 +9,7 @@ namespace ZxcvbnPhp;
 
 class Tester_Bruteforce_Result extends Tester_Result
 {
-	public function __construct( string $password, int $begin, int $end, string $token, ?string $cardinality = null )
+	public function __construct( string $password, int $begin, int $end, string $token, ?int $cardinality = null )
 	{
 		parent::__construct( $password, $begin, $end, $token );
 		$this->pattern = 'bruteforce';
@@ -19,8 +19,8 @@ class Tester_Bruteforce_Result extends Tester_Result
 	public function getEntropy() : float
 	{
 		if( $this->entropy===null ) {
-			$this->entropy = $this->log( pow( $this->getCardinality(), strlen( $this->token ) ) );
+			$this->entropy = (string)$this->log( pow( $this->getCardinality(), strlen( $this->token ) ) );
 		}
-		return $this->entropy;
+		return (float)$this->entropy;
 	}
 }

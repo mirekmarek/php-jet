@@ -45,6 +45,10 @@ class Validator_Tel extends Validator
 	protected ?Locale $locale = null;
 	
 	protected string $tel_prefix = '';
+	
+	/**
+	 * @var array<string>
+	 */
 	protected array $patterns = [];
 	
 	#[Entity_Validator_Definition_ValidatorOption(
@@ -55,6 +59,9 @@ class Validator_Tel extends Validator
 	)]
 	protected bool $tel_number_with_prefix = false;
 	
+	/**
+	 * @var array<string>
+	 */
 	#[Entity_Validator_Definition_ValidatorOption(
 		type: Entity_Validator_Definition_ValidatorOption::TYPE_ARRAY,
 		label: 'Telephone number with prefix',
@@ -95,6 +102,9 @@ class Validator_Tel extends Validator
 		return $this->tel_prefix;
 	}
 	
+	/**
+	 * @return array<string>
+	 */
 	public function getPatterns(): array
 	{
 		$this->initData();
@@ -112,11 +122,18 @@ class Validator_Tel extends Validator
 		$this->tel_number_with_prefix = $tel_number_with_prefix;
 	}
 	
+	/**
+	 * @return array<string>
+	 */
 	public function getAllowedTelNumberTypes(): array
 	{
 		return $this->allowed_tel_number_types;
 	}
 	
+	/**
+	 * @param array<string> $allowed_tel_number_types
+	 * @return void
+	 */
 	public function setAllowedTelNumberTypes( array $allowed_tel_number_types ): void
 	{
 		$this->allowed_tel_number_types = $allowed_tel_number_types;

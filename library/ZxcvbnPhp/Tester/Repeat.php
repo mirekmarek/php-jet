@@ -31,6 +31,10 @@ class Tester_Repeat extends Tester
 		return $matches;
 	}
 	
+	/**
+	 * @param string $string
+	 * @return array<string>
+	 */
 	protected static function group( string $string ) : array
 	{
 		$grouped = [];

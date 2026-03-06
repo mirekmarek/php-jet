@@ -23,9 +23,9 @@ class Tester_Repeat_Result extends Tester_Result
 	public function getEntropy() : float
 	{
 		if( is_null( $this->entropy ) ) {
-			$this->entropy = $this->log( $this->getCardinality() * strlen( $this->token ) );
+			$this->entropy = (string)$this->log( $this->getCardinality() * strlen( $this->token ) );
 		}
-		return $this->entropy;
+		return (float)$this->entropy;
 	}
 	
 }

@@ -41,6 +41,11 @@ class Tester_L33t extends Tester_Dictionary
 		return $matches;
 	}
 	
+	/**
+	 * @param string $string
+	 * @param array<string> $map
+	 * @return string
+	 */
 	protected static function translate( string $string, array $map ) : string
 	{
 		$out = '';
@@ -50,6 +55,10 @@ class Tester_L33t extends Tester_Dictionary
 		return $out;
 	}
 	
+	/**
+	 * @param string $password
+	 * @return array<string>
+	 */
 	protected static function getSubstitutions( string $password ) : array
 	{
 		$map = [];

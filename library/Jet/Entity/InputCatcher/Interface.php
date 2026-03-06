@@ -17,6 +17,10 @@ interface Entity_InputCatcher_Interface
 	 */
 	public function getPropertyInputCatchersDefinition() : array;
 	
+	/**
+	 * @param array<string|mixed>|Data_Array $input
+	 * @return void
+	 */
 	public function catchInput( array|Data_Array $input ) : void;
 
 }

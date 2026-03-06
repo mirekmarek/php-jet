@@ -16,7 +16,7 @@ trait Entity_InputCatcher_Trait
 {
 	
 	/**
-	 * @return Entity_InputCatcher_Definition_PropertyInputCatcher[]
+	 * @return array<string,Entity_InputCatcher_Definition_SubEntity_InputCatcher|Entity_InputCatcher_Definition_SubEntity_InputCatchers|Entity_InputCatcher_Definition_PropertyInputCatcher>
 	 */
 	public function getPropertyInputCatchersDefinition() : array
 	{
@@ -95,9 +95,9 @@ trait Entity_InputCatcher_Trait
 				continue;
 			}
 			
+			/** @phpstan-ignore instanceof.alwaysTrue */
 			if($definition instanceof Entity_InputCatcher_Definition_PropertyInputCatcher) {
 				$definition->createInputCatcher()->catchInput( $input );
-				
 			}
 		}
 		

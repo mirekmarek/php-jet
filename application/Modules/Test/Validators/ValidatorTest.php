@@ -14,9 +14,20 @@ class ValidatorTest
 {
 	protected string $name;
 	protected Validator $validator;
+	/**
+	 * @var array<int,mixed>
+	 */
 	protected array $valid_values;
+	/**
+	 * @var array<int,mixed>
+	 */
 	protected array $invalid_values;
 	
+	/**
+	 * @param Validator $validator
+	 * @param array<int,mixed> $valid_values
+	 * @param array<int,mixed> $invalid_values
+	 */
 	public function __construct( Validator $validator, array $valid_values, array $invalid_values )
 	{
 		$this->name = get_class( $validator );
@@ -42,11 +53,17 @@ class ValidatorTest
 		return $this->validator;
 	}
 	
+	/**
+	 * @return array<int,mixed>
+	 */
 	public function getValidValues(): array
 	{
 		return $this->valid_values;
 	}
 	
+	/**
+	 * @return array<int,mixed>
+	 */
 	public function getInvalidValues(): array
 	{
 		return $this->invalid_values;

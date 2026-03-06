@@ -82,7 +82,7 @@ class ErrorPages extends BaseObject
 
 		ErrorPages::display( $code );
 
-		if( !$application_end ) {
+		if( $application_end ) {
 			Application::end();
 		}
 	}

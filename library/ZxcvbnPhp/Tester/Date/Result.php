@@ -18,6 +18,13 @@ class Tester_Date_Result extends Tester_Result
 	public ?int $year = null;
 	public ?string $separator = null;
 	
+	/**
+	 * @param string $password
+	 * @param int $begin
+	 * @param int $end
+	 * @param string $token
+	 * @param array<string,string|int|float|bool> $params
+	 */
 	public function __construct( string $password, int $begin, int $end, string $token, array $params )
 	{
 		parent::__construct( $password, $begin, $end, $token );

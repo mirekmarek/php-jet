@@ -5,18 +5,16 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek@web-jet.cz>
  */
-
 namespace Jet;
 
 use ReflectionClass;
-
 
 /** @phpstan-ignore trait.unused */
 trait Entity_Validator_Trait
 {
 	
 	/**
-	 * @return Entity_Validator_Definition_PropertyValidator[]
+	 * @return array<string,Entity_Validator_Definition_PropertyValidator|Entity_Validator_Definition_SubEntity_Validator|Entity_Validator_Definition_SubEntity_Validators>
 	 */
 	public function getPropertyValidatorsDefinition() : array
 	{

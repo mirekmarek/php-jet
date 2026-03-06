@@ -19,6 +19,7 @@ require __DIR__.'/Init/Cache.php';
 require __DIR__.'/Init/Autoloader.php';
 require __DIR__.'/Init/Factory.php';
 require __DIR__.'/Init/HTTPRequest.php';
+require __DIR__.'/Init/Lock.php';
 
 //<REMOVE AFTER INSTALLATION> !!!
 require __DIR__.'/Init/Installation.php';

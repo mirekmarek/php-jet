@@ -25,7 +25,7 @@ abstract class Tester
 	 *   String to search.
 	 * @param string $regex
 	 *   Regular expression with captures.
-	 * @return array
+	 * @return array<mixed>
 	 *   Array of capture groups. Captures in a group have named indexes: 'begin', 'end', 'token'.
 	 *     e.g. fishfish /(fish)/
 	 *     array(
@@ -39,6 +39,7 @@ abstract class Tester
 	 *       )
 	 *     )
 	 *
+	 * @noinspection PhpPluralMixedCanBeReplacedWithArrayInspection
 	 */
 	protected static function findAll( string $string, string $regex ) : array
 	{
@@ -93,7 +94,7 @@ abstract class Tester
 	}
 	
 	/**
-	 * @return array<string,Tester>
+	 * @return array<string|Tester>
 	 */
 	protected static function getTesters()  :array
 	{

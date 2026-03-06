@@ -9,10 +9,20 @@ namespace ZxcvbnPhp;
 
 class Tester_L33t_Result extends Tester_Dictionary_Result
 {
+	/**
+	 * @var null|array<string,string>
+	 */
 	public ?array $sub = null;
 	public ?string $sub_display = null;
 	
 	
+	/**
+	 * @param string $password
+	 * @param int $begin
+	 * @param int $end
+	 * @param string $token
+	 * @param array<string,mixed> $params
+	 */
 	public function __construct( string $password, int $begin, int $end, string $token, array $params = [] )
 	{
 		parent::__construct( $password, $begin, $end, $token, $params );
@@ -34,7 +44,7 @@ class Tester_L33t_Result extends Tester_Dictionary_Result
 			$uLen = 0;
 			// Count occurrences of substituted and unsubstituted characters in the token.
 			foreach( str_split( $this->token ) as $char ) {
-				if( $char === (string)$subbed ) {
+				if( $char === $subbed ) {
 					$sLen++;
 				}
 				if( $char === (string)$unsubbed ) {
@@ -52,6 +62,11 @@ class Tester_L33t_Result extends Tester_Dictionary_Result
 		return $this->log( $possibilities );
 	}
 	
+	/**
+	 * @param string $string
+	 * @param array<string> $map
+	 * @return string
+	 */
 	protected static function translate( string $string, array $map ) : string
 	{
 		$out = '';

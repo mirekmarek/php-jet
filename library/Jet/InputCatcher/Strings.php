@@ -12,6 +12,10 @@ class InputCatcher_Strings extends InputCatcher
 {
 	protected string $_type = self::TYPE_STRINGS;
 	
+	/**
+	 * @param array<string,mixed>|Data_Array $data
+	 * @return void
+	 */
 	public function catchInput( array|Data_Array $data ): void
 	{
 		if(is_array($data)) {

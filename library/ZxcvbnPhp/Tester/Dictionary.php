@@ -34,6 +34,11 @@ class Tester_Dictionary extends Tester
 	}
 	
 	
+	/**
+	 * @param string $password
+	 * @param array<string,int> $dict
+	 * @return array<array<string,mixed>>
+	 */
 	protected static function dictionaryMatch( string $password, array $dict ) : array
 	{
 		$result = [];
@@ -60,6 +65,9 @@ class Tester_Dictionary extends Tester
 		return $result;
 	}
 	
+	/**
+	 * @return array<string,array<string,int>>
+	 */
 	protected static function getRankedDictionaries() : array
 	{
 		$data = file_get_contents( __DIR__ . '/Dictionary/Data/ranked_frequency_lists.json' );

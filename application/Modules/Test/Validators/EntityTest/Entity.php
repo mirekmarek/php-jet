@@ -42,9 +42,11 @@ class EntityTest_Entity extends BaseObject implements Entity_Validator_Interface
 		]
 	)]
 	protected int $int_valid = 50;
-
-
 	
+	
+	/**
+	 * @var array<EntityTest_Entity_Sub1>
+	 */
 	#[Entity_Validator_Definition(
 		is_sub_validators: true
 	)]
@@ -56,6 +58,9 @@ class EntityTest_Entity extends BaseObject implements Entity_Validator_Interface
 	protected EntityTest_Entity_Sub2 $sub_entity;
 	
 	
+	/**
+	 * @return array<Locale>
+	 */
 	public static function getLocales() : array
 	{
 		$res = [];

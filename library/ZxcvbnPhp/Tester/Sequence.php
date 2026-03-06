@@ -76,7 +76,7 @@ class Tester_Sequence extends Tester
 		return '';
 	}
 	
-	protected static function getSequenceSpace( $pos, bool $reverse = false ) : int
+	protected static function getSequenceSpace( int $pos, bool $reverse = false ) : int
 	{
 		$name = static::getSequenceName( $pos, $reverse );
 		return match ($name) {

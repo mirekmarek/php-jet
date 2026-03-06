@@ -13,8 +13,16 @@ use Jet\InputCatcher;
 class InputCatcherTest {
 	protected string $name;
 	protected InputCatcher $input_catcher;
+	
+	/**
+	 * @var array<array<string,mixed>>
+	 */
 	protected array $inputs;
 	
+	/**
+	 * @param InputCatcher $input_catcher
+	 * @param array<array<string,mixed>> $inputs
+	 */
 	public function __construct( InputCatcher $input_catcher, array $inputs )
 	{
 		$this->name = get_class( $input_catcher );
@@ -37,6 +45,9 @@ class InputCatcherTest {
 		return $this->input_catcher;
 	}
 	
+	/**
+	 * @return array<array<string,mixed>>
+	 */
 	public function getInputs(): array
 	{
 		return $this->inputs;

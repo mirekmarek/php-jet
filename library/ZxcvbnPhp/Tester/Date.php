@@ -24,6 +24,10 @@ class Tester_Date extends Tester
 	}
 	
 	
+	/**
+	 * @param string $password
+	 * @return array<array<string,int|string>>
+	 */
 	protected static function datesWithSeparators( string $password ) : array
 	{
 		$dates = [];
@@ -78,6 +82,10 @@ class Tester_Date extends Tester
 		return $results;
 	}
 	
+	/**
+	 * @param string $password
+	 * @return array<array<string,int|string>>
+	 */
 	protected static function datesWithoutSeparators( string $password ) : array
 	{
 		$dateMatches = [];
@@ -195,6 +203,12 @@ class Tester_Date extends Tester
 		return $dateMatches;
 	}
 	
+	/**
+	 * @param int $day
+	 * @param int $month
+	 * @param int $year
+	 * @return array<int>|false
+	 */
 	protected static function checkDate( int $day, int $month, int $year ) : array|false
 	{
 		// Tolerate both day-month and month-day order

@@ -62,11 +62,11 @@ trait Form_Field_Part_RegExp_Trait
 			$this->validator = $this->validatorFactory();
 		}
 		
-		/**
-		 * @var Validator_RegExp $validator
-		 */
 		$validator = $this->validator;
-		if(method_exists($validator, 'setValidationRegexp')) {
+		if(
+			$validator instanceof Validator_RegExp ||
+			method_exists($validator, 'setValidationRegexp')
+		) {
 			$validator->setValidationRegexp( $this->getValidationRegexp( true ) );
 		}
 		

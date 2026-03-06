@@ -22,8 +22,9 @@ class Tester_Year_Result extends Tester_Result
 	public function getEntropy() : float
 	{
 		if( is_null( $this->entropy ) ) {
-			$this->entropy = $this->log( self::NUM_YEARS );
+			$this->entropy = (string)$this->log( self::NUM_YEARS );
 		}
-		return $this->entropy;
+		
+		return (float)$this->entropy;
 	}
 }

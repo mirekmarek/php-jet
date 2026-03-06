@@ -13,7 +13,7 @@ class Scorer
 	public const SINGLE_GUESS = 0.010; // Lower bound assumption of time to hash based on bcrypt/scrypt/PBKDF2.
 	public const NUM_ATTACKERS = 100; // Assumed number of cores guessing in parallel.
 	
-	public function score( $entropy ) : float
+	public function score( mixed $entropy ) : float
 	{
 		$seconds = (0.5 * pow( 2, $entropy )) * (Scorer::SINGLE_GUESS / Scorer::NUM_ATTACKERS);
 		

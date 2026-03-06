@@ -22,6 +22,9 @@ class Validator_DateTime extends Validator
 		self::ERROR_CODE_INVALID_FORMAT => 'Invalid value',
 	];
 	
+	/**
+	 * @var array<string,int>
+	 */
 	protected static array $formats = [
 		'Y-m-d\TH:i'   => 16,
 		'Y-m-d\TH:i:s' => 19,

@@ -13,6 +13,10 @@ class InputCatcher_File extends InputCatcher
 	protected string $_type = self::TYPE_FILE;
 	
 	
+	/**
+	 * @param array<string,mixed>|Data_Array $data
+	 * @return void
+	 */
 	public function catchInput( array|Data_Array $data ): void
 	{
 		$this->value = [];
@@ -131,6 +135,7 @@ class InputCatcher_File extends InputCatcher
 	 */
 	public static function catchUploadedFiles( string $name ) : array
 	{
+		/** @phpstan-ignore new.static */
 		$catcher = new static( $name, [] );
 		$catcher->catchInput([]);
 		

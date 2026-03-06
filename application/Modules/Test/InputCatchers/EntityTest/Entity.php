@@ -24,8 +24,11 @@ class EntityTest_Entity extends BaseObject implements Entity_InputCatcher_Interf
 		type: InputCatcher::TYPE_INT,
 	)]
 	protected int $int_value = 0;
-
 	
+	
+	/**
+	 * @var array<EntityTest_Entity_Sub1>
+	 */
 	#[Entity_InputCatcher_Definition(
 		is_sub_input_catchers: true,
 		factory_method_name: 'catchInput_Factory_sub_entities'
@@ -44,6 +47,10 @@ class EntityTest_Entity extends BaseObject implements Entity_InputCatcher_Interf
 	}
 	
 	
+	/**
+	 * @param array<string> $array_keys
+	 * @return void
+	 */
 	protected function catchInput_Factory_sub_entities( array $array_keys ) : void
 	{
 		$this->sub_entities = [];

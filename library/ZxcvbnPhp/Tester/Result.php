@@ -16,7 +16,7 @@ abstract class Tester_Result
 	public string $token;
 	public string $pattern;
 	public ?string $entropy;
-	public ?string $cardinality;
+	public ?int $cardinality;
 	
 	public function __construct( string $password, int $begin, int $end, string $token )
 	{
@@ -105,4 +105,6 @@ abstract class Tester_Result
 		
 		return $res;
 	}
+	
+	abstract public function getEntropy() : float;
 }

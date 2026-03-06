@@ -87,6 +87,12 @@ class Searcher
 
 	}
 	
+	/**
+	 * @param array<mixed> $array
+	 * @param int $index
+	 * @return mixed
+	 * @noinspection PhpPluralMixedCanBeReplacedWithArrayInspection
+	 */
 	protected function prevValue( array $array, int $index ) : mixed
 	{
 		$index = $index - 1;

@@ -9,6 +9,11 @@ namespace ZxcvbnPhp;
 
 class Zxcvbn
 {
+	/**
+	 * @param string $password
+	 * @param array<string,mixed> $user_data
+	 * @return Result
+	 */
 	public static function passwordStrength( string $password, array $user_data = [] ): Result
 	{
 		$time_start = microtime( true );

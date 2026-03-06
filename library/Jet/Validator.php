@@ -120,7 +120,7 @@ abstract class Validator extends BaseObject {
 	 */
 	public function generateErrorMessage( string $code, array $data ) : string
 	{
-		return $this->getErrorMessageGenerator()->generateErrorMessage( $code, $data )??'';
+		return $this->getErrorMessageGenerator()->generateErrorMessage( $code, $data );
 	}
 	
 	

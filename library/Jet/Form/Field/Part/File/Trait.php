@@ -47,8 +47,19 @@ trait Form_Field_Part_File_Trait
 	)]
 	protected bool $allow_multiple_upload = false;
 	
+	/**
+	 * @var array<IO_UploadedFile>
+	 */
 	protected array $_all_files;
+	
+	/**
+	 * @var array<IO_UploadedFile>
+	 */
 	protected array $_problematic_files;
+	
+	/**
+	 * @var array<IO_UploadedFile>
+	 */
 	protected array $_valid_files;
 	
 	/**
