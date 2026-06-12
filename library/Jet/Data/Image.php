@@ -372,8 +372,6 @@ class Data_Image extends BaseObject
 			call_user_func($output_method, $new_image, $target_path );
 		}
 
-		imagedestroy( $new_image );
-
 		IO_File::chmod( $target_path );
 
 		return new static( $target_path );

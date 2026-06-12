@@ -85,7 +85,6 @@ class Client extends BaseObject
 		if($this->response_data===false) {
 			$this->error_message = 'CURL_ERR:' . curl_errno( $curl_handle ) . ' - ' . curl_error( $curl_handle );
 			
-			curl_close( $curl_handle );
 			return false;
 		}
 		
@@ -109,8 +108,6 @@ class Client extends BaseObject
 				$this->error_message = 'Unknown error';
 				break;
 		}
-		
-		curl_close( $curl_handle );
 		
 		return $result;
 	}

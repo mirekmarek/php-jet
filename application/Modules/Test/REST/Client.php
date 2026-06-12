@@ -232,8 +232,6 @@ class Client
 
 		}
 
-		curl_close( $curl_handle );
-
 		return $result;
 
 	}

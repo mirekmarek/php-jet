@@ -33,7 +33,7 @@ class ServerConfig extends Config {
 	
 	public function getConfigFilePath() : string
 	{
-		return SysConf_Path::getTmp().'/sync_project_db_server_config.php';
+		return SysConf_Path::getTmp().'/sync_project_file_server_config.php';
 	}
 	
 	public static function get() : static
