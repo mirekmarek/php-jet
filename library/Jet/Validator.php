@@ -180,7 +180,7 @@ abstract class Validator extends BaseObject {
 	
 	
 	
-	protected function setIsValid(): void
+	public function setIsValid(): void
 	{
 		$this->is_valid = true;
 		$this->errors = [];
