@@ -25,29 +25,6 @@ trait Form_Field_Trait_Validation
 	 * @var ?Validator
 	 */
 	protected ?Validator $validator = null;
-
-	/**
-	 *
-	 * @var bool
-	 */
-	protected bool $is_valid = false;
-	
-	/**
-	 * @var Form_ValidationError[]
-	 */
-	protected array $errors = [];
-	
-	/**
-	 *
-	 * @var string
-	 */
-	protected string $last_error_code = '';
-
-	/**
-	 *
-	 * @var string
-	 */
-	protected string $last_error_message = '';
 	
 	public function validatorFactory(): Validator
 	{
@@ -155,7 +132,6 @@ trait Form_Field_Trait_Validation
 	 */
 	public function setErrorMessages( array $error_messages ): void
 	{
-
 		foreach( $error_messages as $key => $message ) {
 			$this->error_messages[$key] = $message;
 		}
@@ -182,6 +158,7 @@ trait Form_Field_Trait_Validation
 	public function setError( string $code, array $data = [] ): void
 	{
 		$this->getValidator()->setError( $code, $data );
+		$this->_form->setIsNotValid();
 	}
 	
 	/**
@@ -189,7 +166,12 @@ trait Form_Field_Trait_Validation
 	 */
 	public function getAllErrors() : array
 	{
-		return $this->errors;
+		$errors = [];
+		foreach($this->getValidator()->getAllErrors() as $error) {
+			$errors[] = new Form_ValidationError( $this, $error->getCode(), $error->getMessage() );
+		}
+		
+		return $errors;
 	}
 
 	/**
@@ -198,7 +180,7 @@ trait Form_Field_Trait_Validation
 	 */
 	public function getLastErrorCode(): string
 	{
-		return $this->last_error_code;
+		return $this->getValidator()->getLastErrorCode();
 	}
 
 	/**
@@ -207,7 +189,7 @@ trait Form_Field_Trait_Validation
 	 */
 	public function getLastErrorMessage(): string
 	{
-		return $this->last_error_message;
+		return $this->getValidator()->getLastErrorMessage();
 	}
 
 	/**
@@ -215,10 +197,7 @@ trait Form_Field_Trait_Validation
 	 */
 	protected function setIsValid(): void
 	{
-		$this->is_valid = true;
-		$this->errors = [];
-		$this->last_error_code = '';
-		$this->last_error_message = '';
+		$this->getValidator()->setIsValid();
 	}
 
 	/**
@@ -227,7 +206,7 @@ trait Form_Field_Trait_Validation
 	 */
 	public function isValid(): bool
 	{
-		return $this->is_valid;
+		return $this->getValidator()->isValid();
 	}
 	
 	/**
@@ -237,26 +216,12 @@ trait Form_Field_Trait_Validation
 	public function validate(): bool
 	{
 		$this->setIsValid();
-		$validator = $this->getValidator();
 		
-		if($validator->validate( $this->getInputCatcher()->getValueRaw() )) {
+		if( $this->getValidator()->validate( $this->getInputCatcher()->getValueRaw() ) ) {
 			return true;
 		}
 		
-		/**
-		 * @var Form $form
-		 */
-		$form = $this->_form;
-		$this->is_valid = false;
-		$form->setIsNotValid();
-		
-		$this->last_error_code = $validator->getLastErrorCode();
-		$this->last_error_message = $validator->getLastErrorMessage();
-		
-		
-		foreach($validator->getAllErrors() as $error) {
-			$this->errors[] = new Form_ValidationError( $this, $error->getCode(), $error->getMessage() );
-		}
+		$this->_form->setIsNotValid();
 		
 		return false;
 	}

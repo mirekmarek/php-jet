@@ -75,11 +75,6 @@ class Form extends BaseObject
 	protected array $fields = [];
 
 	/**
-	 * @var Form_ValidationError[]
-	 */
-	protected array $validation_errors = [];
-
-	/**
 	 * @var bool
 	 */
 	protected bool $is_valid = false;
@@ -569,18 +564,14 @@ class Form extends BaseObject
 
 		$this->common_message = '';
 		$this->is_valid = true;
-		$this->validation_errors = [];
+		
 		foreach( $this->fields as $field ) {
 			$field->validate();
 		}
 
 		foreach( $this->fields as $field ) {
 			if(!$field->isValid()) {
-				
 				$this->is_valid = false;
-				foreach($field->getAllErrors() as $error) {
-					$this->validation_errors[] = $error;
-				}
 			}
 		}
 
@@ -627,7 +618,14 @@ class Form extends BaseObject
 	 */
 	public function getValidationErrors(): array
 	{
-		return $this->validation_errors;
+		$errors = [];
+		foreach($this->getFields() as $field) {
+			foreach($field->getAllErrors() as $error) {
+				$errors[] = $error;
+			}
+		}
+		
+		return $errors;
 	}
 
 	/**

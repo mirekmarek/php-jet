@@ -8,6 +8,9 @@
 
 namespace Jet;
 
+/**
+ * @method getModuleManifest()
+ */
 trait Application_Module_HasEmailTemplates_Trait
 {
 	public function getEmailTemplatesDir(): string
