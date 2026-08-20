@@ -174,7 +174,7 @@ class Application_Modules extends BaseObject
 	public static function getModuleNameByClassName( string $class_name ): string
 	{
 		$root_ns = SysConf_Jet_Modules::getModuleRootNamespace();
-		$namespace = substr( (new ReflectionClass( static::class ))->getNamespaceName(), strlen($root_ns));
+		$namespace = ltrim( substr( (new ReflectionClass( $class_name ))->getNamespaceName(), strlen($root_ns) ), '\\' );
 		return str_replace('\\', '.', $namespace);
 	}
 
