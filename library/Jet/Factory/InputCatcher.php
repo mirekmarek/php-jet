@@ -41,7 +41,7 @@ class Factory_InputCatcher
 		return static::$input_catcher_class_names[$type];
 	}
 	
-	public static function setFieldClassName( string $type, string $class_name ): string
+	public static function setInputCatcherClassName( string $type, string $class_name ): string
 	{
 		return static::$input_catcher_class_names[$type] = $class_name;
 	}

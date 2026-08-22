@@ -49,7 +49,7 @@ class Factory_Validator
 		return static::$validator_class_names[$type];
 	}
 
-	public static function setFieldClassName( string $type, string $class_name ): string
+	public static function setValidatorClassName( string $type, string $class_name ): string
 	{
 		return static::$validator_class_names[$type] = $class_name;
 	}
