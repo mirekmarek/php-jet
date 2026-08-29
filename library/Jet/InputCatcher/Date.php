@@ -10,7 +10,7 @@ namespace Jet;
 
 class InputCatcher_Date extends InputCatcher
 {
-	protected string $_type = self::TYPE_DATE;
+	protected static string $type = self::TYPE_DATE;
 	
 	protected function checkValue() : void
 	{

@@ -66,7 +66,7 @@ abstract class Validator extends BaseObject {
 	
 	public static function getType(): string
 	{
-		return self::$type;
+		return static::$type;
 	}
 	
 	/**

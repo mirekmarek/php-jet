@@ -10,7 +10,7 @@ namespace Jet;
 
 class InputCatcher_StringRaw extends InputCatcher
 {
-	protected string $_type = self::TYPE_STRING_RAW;
+	protected static string $type = self::TYPE_STRING_RAW;
 	
 	protected function checkValue() : void
 	{

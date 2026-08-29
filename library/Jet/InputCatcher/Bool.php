@@ -10,7 +10,7 @@ namespace Jet;
 
 class InputCatcher_Bool extends InputCatcher
 {
-	protected string $_type = self::TYPE_BOOL;
+	protected static string $type = self::TYPE_BOOL;
 	
 	/**
 	 * @param array<string|mixed>|Data_Array $data

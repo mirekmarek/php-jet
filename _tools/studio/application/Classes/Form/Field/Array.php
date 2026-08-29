@@ -8,10 +8,10 @@
 
 namespace JetStudio;
 
-use Jet\Data_Array;
 use Jet\Factory_Form;
+use Jet\Factory_InputCatcher;
+use Jet\Factory_Validator;
 use Jet\Form_Field;
-use Jet\InputCatcher;
 use Jet\SysConf_Jet_Form_DefaultViews;
 
 /**
@@ -21,6 +21,7 @@ class Form_Field_Array extends Form_Field
 {
 	
 	protected string $_type = 'array';
+	protected string $_validator_type = 'array';
 
 	protected int $new_rows_count = 5;
 	
@@ -28,137 +29,54 @@ class Form_Field_Array extends Form_Field
 	
 	protected string $append_text = '';
 	
-	public function getRequiredErrorCodes(): array
-	{
-		return [];
-	}
-	
-	public function getInputCatcher() : InputCatcher
-	{
-		if( !$this->_input_catcher ) {
-			$this->_input_catcher = new class ( $this->getName(), $this->getDefaultValue() ) extends InputCatcher {
-				public function catchInput( Data_Array $data ): void
-				{
-					$name = (($this->name[0]=='/') ? $this->name : '/'.$this->name);
-					
-					$this->value_exists_in_the_input = $data->exists( $name );
-					
-					$this->value = null;
-					
-					
-					if( $this->value_exists_in_the_input ) {
-						
-						$values = $data->getRaw( $name );
-						
-						$this->value = [];
-						
-						foreach($values as $value) {
-							$value = trim($value);
-							if(!$value) {
-								continue;
-							}
-							
-							$this->value[] = $value;
-						}
-						
-						$this->value_raw = $this->value;
-						
-					} else {
-						$this->value_raw = null;
-						$this->value = $this->default_value;
-					}
-					
-				}
-				
-				public function getValue() : array
-				{
-					if(!$this->value) {
-						return [];
-					}
-					return $this->value;
-				}
-				
-				protected function checkValue(): void
-				{
-				}
-			};
-		}
-		
-		return $this->_input_catcher;
-
-	}
-	
-	/**
-	 * @return bool
-	 */
-	public function validate(): bool
-	{
-		$this->setIsValid();
-		
-		return true;
-	}
-	
-	/**
-	 * @return int
-	 */
 	public function getNewRowsCount(): int
 	{
 		return $this->new_rows_count;
 	}
-	
-	/**
-	 * @param int $new_rows_count
-	 */
+
 	public function setNewRowsCount( int $new_rows_count ): void
 	{
 		$this->new_rows_count = $new_rows_count;
 	}
-
 	
-	/**
-	 * @return string
-	 */
 	public function getPrependText(): string
 	{
 		return $this->prepend_text;
 	}
 	
-	/**
-	 * @param string $prepend_text
-	 */
 	public function setPrependText( string $prepend_text ): void
 	{
 		$this->prepend_text = $prepend_text;
 	}
-	
-	/**
-	 * @return string
-	 */
+
 	public function getAppendText(): string
 	{
 		return $this->append_text;
 	}
-	
-	/**
-	 * @param string $append_text
-	 */
+
 	public function setAppendText( string $append_text ): void
 	{
 		$this->append_text = $append_text;
 	}
 	
 	
-	
+	public static function register() : void
+	{
+		Factory_InputCatcher::registerNewInputCatcherType( Validator_Array::getType(), Validator_Array::class );
+		Factory_Validator::registerNewValidatorType( Validator_Array::getType(), Validator_Array::class );
+		
+		Factory_Form::registerNewFieldType(
+			field_type: 'array',
+			field_class_name: Form_Field_Array::class,
+			renderers: [
+				'input' => Form_Renderer_Field_Input_Array::class
+			]
+		);
+		
+		SysConf_Jet_Form_DefaultViews::registerNewFieldType('array', [
+			'input' => 'field/input/array'
+		]);
+	}
 }
 
-Factory_Form::registerNewFieldType(
-	field_type: 'array',
-	field_class_name: Form_Field_Array::class,
-	renderers: [
-		'input' => Form_Renderer_Field_Input_Array::class
-	]
-);
-
-SysConf_Jet_Form_DefaultViews::registerNewFieldType('array', [
-	'input' => 'field/input/array'
-]);
+Form_Field_Array::register();

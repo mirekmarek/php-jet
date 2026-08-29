@@ -8,10 +8,10 @@
 
 namespace JetStudio;
 
-use Jet\Data_Array;
 use Jet\Factory_Form;
+use Jet\Factory_InputCatcher;
+use Jet\Factory_Validator;
 use Jet\Form_Field;
-use Jet\InputCatcher;
 use Jet\SysConf_Jet_Form_DefaultViews;
 
 /**
@@ -21,127 +21,51 @@ class Form_Field_AssocArray extends Form_Field
 {
 	
 	protected string $_type = 'assoc-array';
+	protected string $_validator_type = 'assoc-array';
+	protected string $_input_catcher_type = 'assoc-array';
 
 	protected int $new_rows_count = 5;
 	
 	protected string $assoc_char = '=>';
 	
-	public function getRequiredErrorCodes(): array
-	{
-		return [];
-	}
 	
-	public function getInputCatcher() : InputCatcher
-	{
-		if( !$this->_input_catcher ) {
-			$this->_input_catcher = new class ( $this->getName(), $this->getDefaultValue() ) extends InputCatcher {
-				public function catchInput( Data_Array $data ): void
-				{
-					$name = (($this->name[0]=='/') ? $this->name : '/'.$this->name).'/';
-					
-					$this->value_exists_in_the_input = $data->exists( $name.'key' ) && $data->exists( $name.'value' );
-					
-					$this->value = null;
-					
-					
-					if( $this->value_exists_in_the_input ) {
-						
-						$keys = $data->getRaw( $name.'key' );
-						$values = $data->getRaw( $name.'value' );
-						
-						$this->value = [];
-						
-						foreach($keys as $i=>$key) {
-							$key = trim($key);
-							if(!$key) {
-								continue;
-							}
-							
-							$val = trim($values[$i]);
-							
-							$this->value[$key] = $val;
-						}
-						
-						$this->value_raw = $this->value;
-						
-					} else {
-						$this->value_raw = null;
-						$this->value = $this->default_value;
-					}
-					
-				}
-				
-				public function getValue() : array
-				{
-					if(!$this->value) {
-						return [];
-					}
-					return $this->value;
-				}
-				
-				protected function checkValue(): void
-				{
-				}
-			};
-		}
-		
-		return $this->_input_catcher;
-		
-	}
-	
-	
-	/**
-	 * @return bool
-	 */
-	public function validate(): bool
-	{
-		$this->setIsValid();
-		
-		return true;
-	}
-	
-	/**
-	 * @return int
-	 */
 	public function getNewRowsCount(): int
 	{
 		return $this->new_rows_count;
 	}
 	
-	/**
-	 * @param int $new_rows_count
-	 */
 	public function setNewRowsCount( int $new_rows_count ): void
 	{
 		$this->new_rows_count = $new_rows_count;
 	}
 	
-	/**
-	 * @return string
-	 */
 	public function getAssocChar(): string
 	{
 		return $this->assoc_char;
 	}
 	
-	/**
-	 * @param string $assoc_char
-	 */
 	public function setAssocChar( string $assoc_char ): void
 	{
 		$this->assoc_char = $assoc_char;
 	}
 	
+	public static function register() : void
+	{
+		Factory_InputCatcher::registerNewInputCatcherType( InputCatcher_AssocArray::getType(), InputCatcher_AssocArray::class );
+		Factory_Validator::registerNewValidatorType( Validator_AssocArray::getType(), Validator_AssocArray::class );
+		
+		Factory_Form::registerNewFieldType(
+			field_type: 'assoc-array',
+			field_class_name: Form_Field_AssocArray::class,
+			renderers: [
+				'input' => Form_Renderer_Field_Input_AssocArray::class
+			]
+		);
+		
+		SysConf_Jet_Form_DefaultViews::registerNewFieldType('assoc-array', [
+			'input' => 'field/input/assoc-array'
+		]);
+	}
 }
 
-Factory_Form::registerNewFieldType(
-	field_type: 'assoc-array',
-	field_class_name: Form_Field_AssocArray::class,
-	renderers: [
-		'input' => Form_Renderer_Field_Input_AssocArray::class
-	]
-);
-
-SysConf_Jet_Form_DefaultViews::registerNewFieldType('assoc-array', [
-	'input' => 'field/input/assoc-array'
-]);
+Form_Field_AssocArray::register();

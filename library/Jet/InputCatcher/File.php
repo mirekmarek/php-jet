@@ -10,7 +10,7 @@ namespace Jet;
 
 class InputCatcher_File extends InputCatcher
 {
-	protected string $_type = self::TYPE_FILE;
+	protected static string $type = self::TYPE_FILE;
 	
 	
 	/**

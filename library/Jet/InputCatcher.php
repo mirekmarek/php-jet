@@ -24,7 +24,7 @@ abstract class InputCatcher extends BaseObject
 	public const TYPE_BOOL = 'bool';
 	public const TYPE_FILE = 'file';
 	
-	protected string $_type = '';
+	protected static string $type = '';
 	
 	protected string $name;
 	protected mixed $default_value;
@@ -48,6 +48,12 @@ abstract class InputCatcher extends BaseObject
 		$this->value = $default_value;
 		$this->checkValue();
 	}
+	
+	public static function getType(): string
+	{
+		return static::$type;
+	}
+	
 	
 	
 	public function catchInput( Data_Array $data ): void

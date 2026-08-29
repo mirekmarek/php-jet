@@ -10,7 +10,7 @@ namespace Jet;
 
 class InputCatcher_Int extends InputCatcher
 {
-	protected string $_type = self::TYPE_INT;
+	protected static string $type = self::TYPE_INT;
 	
 	protected function checkValue() : void
 	{

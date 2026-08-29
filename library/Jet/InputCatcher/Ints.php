@@ -10,7 +10,7 @@ namespace Jet;
 
 class InputCatcher_Ints extends InputCatcher
 {
-	protected string $_type = self::TYPE_INTS;
+	protected static string $type = self::TYPE_INTS;
 	
 	
 	#[InputCatcher_Definition_InputCatcherOption(
