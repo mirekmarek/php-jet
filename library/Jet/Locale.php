@@ -9,6 +9,7 @@
 
 namespace Jet;
 
+use Collator;
 use IntlDateFormatter as PHP_IntlDateFormatter;
 use NumberFormatter as PHP_NumberFormatter;
 use Locale as PHP_Locale;
@@ -338,11 +339,36 @@ class Locale extends BaseObject
 		foreach( static::$all_locales as $locale ) {
 			$result[$locale] = PHP_Locale::getDisplayName( $locale, $in_locale );
 		}
-
-		asort( $result );
+		
+		$collator = new Collator( Locale::getCurrentLocale() );
+		
+		$collator->asort($result);
+		
 
 		return $result;
 	}
+	
+	public static function getCountriesList() : array
+	{
+		
+		$all_locales = Locale::getAllLocalesList();
+		$res = [];
+		
+		foreach($all_locales as $locale_code=>$locale_name) {
+			
+			$locale = new Locale( $locale_code );
+			
+			$res[$locale->getRegion()] = $locale->getRegionName();
+		}
+		
+		$collator = new Collator( Locale::getCurrentLocale() );
+		
+		$collator->asort($res);
+		
+		return $res;
+		
+	}
+	
 
 	/**
 	 * @return Locale

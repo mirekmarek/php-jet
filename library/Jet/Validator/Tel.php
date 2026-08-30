@@ -154,6 +154,10 @@ class Validator_Tel extends Validator
 	
 	public function validate_value( mixed $value ): bool
 	{
+		if( !$value ) {
+			return true;
+		}
+		
 		$this->initData();
 		
 		if($this->getTelNumberWithPrefix()) {
