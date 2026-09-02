@@ -63,4 +63,9 @@ class IO_UploadedFile extends BaseObject
 	{
 		return IO_File::getMimeType( $this->tmp_file_path );
 	}
+	
+	public function getExtension() : string
+	{
+		return pathinfo( $this->getFileName(), PATHINFO_EXTENSION );
+	}
 }

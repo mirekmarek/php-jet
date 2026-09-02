@@ -20,7 +20,7 @@ class Validator_Option extends Validator implements Validator_Part_Options_Inter
 	];
 	
 	
-	protected function validate_required( mixed $value ): bool
+	public function validate_required( mixed $value ): bool
 	{
 		if(
 			$value === '' &&

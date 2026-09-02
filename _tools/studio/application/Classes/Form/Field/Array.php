@@ -22,6 +22,7 @@ class Form_Field_Array extends Form_Field
 	
 	protected string $_type = 'array';
 	protected string $_validator_type = 'array';
+	protected string $_input_catcher_type = 'array';
 
 	protected int $new_rows_count = 5;
 	
@@ -62,7 +63,7 @@ class Form_Field_Array extends Form_Field
 	
 	public static function register() : void
 	{
-		Factory_InputCatcher::registerNewInputCatcherType( Validator_Array::getType(), Validator_Array::class );
+		Factory_InputCatcher::registerNewInputCatcherType( InputCatcher_Array::getType(), InputCatcher_Array::class );
 		Factory_Validator::registerNewValidatorType( Validator_Array::getType(), Validator_Array::class );
 		
 		Factory_Form::registerNewFieldType(

@@ -21,7 +21,7 @@ class Validator_Options extends Validator implements Validator_Part_Options_Inte
 	
 	
 	
-	protected function validate_required( mixed $value ): bool
+	public function validate_required( mixed $value ): bool
 	{
 		if( !$value ) {
 			$this->setError( self::ERROR_CODE_EMPTY );

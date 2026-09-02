@@ -194,7 +194,7 @@ abstract class Validator extends BaseObject {
 		return $this->is_valid;
 	}
 	
-	protected function validate_required( mixed $value ) : bool
+	public function validate_required( mixed $value ) : bool
 	{
 		if(
 			$value === '' ||

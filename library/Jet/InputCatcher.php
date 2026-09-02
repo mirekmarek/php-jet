@@ -56,8 +56,12 @@ abstract class InputCatcher extends BaseObject
 	
 	
 	
-	public function catchInput( Data_Array $data ): void
+	public function catchInput( array|Data_Array $data ): void
 	{
+		if(is_array($data)) {
+			$data = new Data_Array($data);
+		}
+		
 		$this->value = null;
 		$this->value_exists_in_the_input = $data->exists( $this->name );
 		
