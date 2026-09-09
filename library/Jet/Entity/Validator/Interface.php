@@ -13,7 +13,7 @@ interface Entity_Validator_Interface
 {
 	
 	/**
-	 * @return Entity_Validator_Definition_PropertyValidator[]
+	 * @return array<string,Entity_Validator_Definition_PropertyValidator|Entity_Validator_Definition_SubEntity_Validator|Entity_Validator_Definition_SubEntity_Validators>
 	 */
 	public function getPropertyValidatorsDefinition() : array;
 	

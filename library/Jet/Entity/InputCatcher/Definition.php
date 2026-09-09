@@ -17,6 +17,9 @@ class Entity_InputCatcher_Definition extends BaseObject
 {
 	protected string|false $type = '';
 	
+	protected bool $is_sub_input_catcher = false;
+	protected bool $is_sub_input_catchers = false;
+	
 	protected object $context_object;
 	protected string $property_name;
 	
@@ -62,6 +65,10 @@ class Entity_InputCatcher_Definition extends BaseObject
 			} else {
 				$this->other_options[$key] = $value;
 			}
+		}
+		
+		if($this->is_sub_input_catchers || $this->is_sub_input_catcher) {
+			return;
 		}
 		
 		$class = Factory_InputCatcher::getInputCatcherClassName( $this->type );

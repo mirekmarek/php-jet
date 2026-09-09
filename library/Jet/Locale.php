@@ -340,7 +340,7 @@ class Locale extends BaseObject
 			$result[$locale] = PHP_Locale::getDisplayName( $locale, $in_locale );
 		}
 		
-		$collator = new Collator( Locale::getCurrentLocale() );
+		$collator = new Collator( $in_locale );
 		
 		$collator->asort($result);
 		
@@ -348,8 +348,11 @@ class Locale extends BaseObject
 		return $result;
 	}
 	
-	public static function getCountriesList() : array
+	public static function getCountriesList( null|Locale $in_locale = null ) : array
 	{
+		if( !$in_locale ) {
+			$in_locale = static::getCurrentLocale();
+		}
 		
 		$all_locales = Locale::getAllLocalesList();
 		$res = [];
@@ -358,10 +361,10 @@ class Locale extends BaseObject
 			
 			$locale = new Locale( $locale_code );
 			
-			$res[$locale->getRegion()] = $locale->getRegionName();
+			$res[$locale->getRegion()] = $locale->getRegionName( $in_locale );
 		}
 		
-		$collator = new Collator( Locale::getCurrentLocale() );
+		$collator = new Collator( $in_locale );
 		
 		$collator->asort($res);
 		

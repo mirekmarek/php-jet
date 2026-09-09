@@ -10,7 +10,7 @@ namespace Jet;
 
 class InputCatcher_Float extends InputCatcher
 {
-	protected static string $type = self::TYPE_STRING;
+	protected static string $type = self::TYPE_FLOAT;
 	
 	#[InputCatcher_Definition_InputCatcherOption(
 		type: InputCatcher_Definition_InputCatcherOption::TYPE_INT,

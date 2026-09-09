@@ -8,9 +8,9 @@
 
 namespace Jet;
 
-class Validator_Options extends Validator implements Validator_Part_Options_Interface
+class Validator_Options extends Validator
 {
-	use Validator_Part_Options_Trait;
+	public const ERROR_CODE_INVALID_VALUE = 'invalid_value';
 	
 	protected static string $type = self::TYPE_OPTIONS;
 	
@@ -19,6 +19,27 @@ class Validator_Options extends Validator implements Validator_Part_Options_Inte
 		self::ERROR_CODE_INVALID_VALUE => 'Invalid value',
 	];
 	
+	/**
+	 * @var array<string|int|float>
+	 */
+	protected array $valid_options = [];
+	
+	/**
+	 * @return array<string|int|float>
+	 */
+	public function getValidOptions(): array
+	{
+		return $this->valid_options;
+	}
+	
+	/**
+	 * @param array<string|int|float> $valid_options
+	 * @return void
+	 */
+	public function setValidOptions( array $valid_options ): void
+	{
+		$this->valid_options = $valid_options;
+	}
 	
 	
 	public function validate_required( mixed $value ): bool

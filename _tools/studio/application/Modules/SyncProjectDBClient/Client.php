@@ -23,7 +23,7 @@ class Client extends BaseObject
 	protected string|array $request_body = '';
 	protected int $response_status = 0;
 	protected string $response_header = '';
-	protected string $response_body = '';
+	protected string|bool $response_body = false;
 	protected array|null $response_data = null;
 	protected string $error_message = '';
 	
@@ -41,16 +41,18 @@ class Client extends BaseObject
 	
 	public function do( string $action, array $params ) : bool
 	{
-		$this->error_message = '';
 		$this->request = '';
-		$this->request_data = null;
-		$this->request_body = '';
+		$this->request_data = [
+			'action' => $action,
+			'params' => $params,
+		];
+		$this->request_body = json_encode( $this->request_data );
 		$this->response_status = 0;
 		$this->response_header = '';
-		$this->response_body = '';
+		$this->response_body = false;
 		$this->response_data = null;
 		$this->error_message = '';
-
+		
 		$headers = [];
 		
 		$headers[] = 'X-J-S-Sync-DB-Key: '.$this->config->getServerKey();
@@ -60,10 +62,7 @@ class Client extends BaseObject
 		$curl_handle = curl_init();
 		curl_setopt( $curl_handle, CURLOPT_URL, $this->config->getServerURL());
 		curl_setopt( $curl_handle, CURLOPT_POST, true );
-		curl_setopt( $curl_handle, CURLOPT_POSTFIELDS, json_encode([
-			'action' => $action,
-			'params' => $params,
-		] ));
+		curl_setopt( $curl_handle, CURLOPT_POSTFIELDS, $this->request_body );
 		curl_setopt( $curl_handle, CURLOPT_HTTPHEADER, $headers );
 		curl_setopt( $curl_handle, CURLOPT_RETURNTRANSFER, true );
 		curl_setopt( $curl_handle, CURLOPT_VERBOSE, true );
@@ -71,6 +70,11 @@ class Client extends BaseObject
 		curl_setopt( $curl_handle, CURLINFO_HEADER_OUT, true );
 		
 		$this->response_body = curl_exec( $curl_handle );
+		if($this->response_body===false) {
+			$this->error_message = 'CURL_ERR:' . curl_errno( $curl_handle ) . ' - ' . curl_error( $curl_handle );
+			
+			return false;
+		}
 		
 		$this->request = curl_getinfo( $curl_handle, CURLINFO_HEADER_OUT );
 		$this->response_status = curl_getinfo( $curl_handle, CURLINFO_HTTP_CODE );
@@ -82,11 +86,6 @@ class Client extends BaseObject
 		
 		$result = false;
 		
-		if($this->response_data===false) {
-			$this->error_message = 'CURL_ERR:' . curl_errno( $curl_handle ) . ' - ' . curl_error( $curl_handle );
-			
-			return false;
-		}
 		
 		switch( $this->response_status ) {
 			case self::HTTP_STATUS_OK:
@@ -137,7 +136,7 @@ class Client extends BaseObject
 		return $this->response_header;
 	}
 	
-	public function getResponseBody(): string
+	public function getResponseBody(): string|bool
 	{
 		return $this->response_body;
 	}
@@ -165,9 +164,7 @@ class Client extends BaseObject
 				$map = [];
 				try {
 					$ids = $class::fetchIDs();
-				
-					$definition = $class::getDataModelDefinition();
-				
+					
 					foreach($ids as $id) {
 						$data = $class::load( $id );
 						
@@ -181,7 +178,6 @@ class Client extends BaseObject
 				if($this->do(
 					'get_diff',
 					[
-						'action' => 'get_diff',
 						'class' => $class,
 						'map' => $map,
 					]
@@ -239,7 +235,7 @@ class Client extends BaseObject
 					}
 				}
 			}
-
+			
 			if($this->config->getPerformDelete()) {
 				foreach($diff['delete'] as $id) {
 					if(!$this->do('delete', [

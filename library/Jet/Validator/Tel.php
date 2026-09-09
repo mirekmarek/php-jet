@@ -26,7 +26,7 @@ class Validator_Tel extends Validator
 	public const TEL_NUMBER_TYPE_PREMIUM = 'premium';
 	public const TEL_NUMBER_TYPE_SHARED = 'shared';
 	public const TEL_NUMBER_TYPE_UAN = 'uan';
-	public const TEL_NUMBER_TYPE_pager = 'pager';
+	public const TEL_NUMBER_TYPE_PAGER = 'pager';
 	public const TEL_NUMBER_TYPE_PERSONAL = 'personal';
 	public const TEL_NUMBER_TYPE_VOIP = 'voip';
 	public const TEL_NUMBER_TYPE_SHORTCODE = 'shortcode';

@@ -19,14 +19,13 @@ class Entity_Validator_PropertyValidator extends BaseObject
 	protected string $property_name;
 	protected string $property_path;
 	protected Validator $validator;
-	protected bool $is_required;
+
 	
-	public function __construct( object $object, string $property_name, Validator $validator, bool $is_required )
+	public function __construct( object $object, string $property_name, Validator $validator )
 	{
 		$this->object = $object;
 		$this->property_name = $property_name;
 		$this->property_path = $property_name;
-		$this->is_required = $is_required;
 		$this->validator = $validator;
 	}
 	
@@ -34,11 +33,7 @@ class Entity_Validator_PropertyValidator extends BaseObject
 	{
 		return $this->object;
 	}
-	
-	public function setObject( object $object ): void
-	{
-		$this->object = $object;
-	}
+
 	
 	public function getPropertyName(): string
 	{

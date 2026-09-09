@@ -9,10 +9,8 @@
 namespace JetApplicationModule\Test\REST;
 
 use Jet\MVC;
-
 use Jet\MVC_Page_Interface;
 use JetApplication\Application_REST;
-
 use CURLFile;
 
 /**
@@ -26,66 +24,66 @@ class Client
 	public const METHOD_PUT = 'PUT';
 	
 	public const HTTP_STATUS_OK = 200;
-
+	
 	/**
 	 * @var string
 	 */
 	protected string $username = '';
-
+	
 	/**
 	 * @var string
 	 */
 	protected string $password = '';
-
+	
 	/**
 	 * @var ?MVC_Page_Interface
 	 */
 	protected ?MVC_Page_Interface $root_page = null;
-
+	
 	/**
 	 * @var string
 	 */
 	protected string $error_message = '';
-
+	
 	/**
 	 * @var string
 	 */
 	protected string $request = '';
-
+	
 	/**
 	 * @var ?array
 	 * @phpstan-ignore missingType.iterableValue
 	 */
 	protected ?array $request_data = null;
-
+	
 	/**
 	 * @var string|array
 	 * @phpstan-ignore missingType.iterableValue
 	 */
 	protected string|array $request_body = '';
-
+	
 	/**
 	 * @var int
 	 */
 	protected int $response_status = 0;
-
+	
 	/**
 	 * @var string
 	 */
 	protected string $response_header = '';
-
+	
 	/**
-	 * @var string
+	 * @var string|bool
 	 */
-	protected string $response_body = '';
-
+	protected string|bool $response_body = false;
+	
 	/**
 	 * @var array|null|bool
 	 * @phpstan-ignore missingType.iterableValue
 	 */
 	protected array|null|bool $response_data = null;
-
-
+	
+	
 	/**
 	 * Client constructor.
 	 *
@@ -96,19 +94,18 @@ class Client
 	{
 		if( !$username ) {
 			$session = Main::getSession();
-
+			
 			$username = $session->getValue( 'username' );
 			$password = $session->getValue( 'password' );
 		}
-
-
+		
 		$this->username = $username;
 		$this->password = $password;
-
+		
 		$this->root_page = Application_REST::getBase()->getHomepage( MVC::getLocale() );
 	}
-
-
+	
+	
 	/**
 	 *
 	 * @param string $method
@@ -125,25 +122,32 @@ class Client
 	                      array $get_params = [],
 	                      string $upload_file_path = '' ): bool
 	{
+		$this->error_message = '';
+		$this->request = '';
+		$this->request_data = null;
+		$this->request_body = '';
+		$this->response_status = 0;
+		$this->response_header = '';
+		$this->response_body = false;
+		$this->response_data = null;
+		
 		$headers = [];
-
+		$temp_handle = null;
+		
 		if( str_ends_with( $object, '/' ) ) {
 			$object = substr( $object, 0, -1 );
 		}
-
-
+		
 		$URL = $this->root_page->getURL( explode( '/', $object ), $get_params );
-
+		
 		$curl_handle = curl_init();
-
-
+		
 		if( $this->username ) {
 			curl_setopt( $curl_handle, CURLOPT_USERPWD, $this->username . ':' . $this->password );
 		}
-
+		
 		curl_setopt( $curl_handle, CURLOPT_URL, $URL );
-
-
+		
 		switch( $method ) {
 			case self::METHOD_GET:
 				curl_setopt( $curl_handle, CURLOPT_HTTPGET, true );
@@ -153,89 +157,76 @@ class Client
 				break;
 			case self::METHOD_POST:
 				curl_setopt( $curl_handle, CURLOPT_POST, true );
-
+				
 				if( $upload_file_path ) {
 					$this->request_body = [
 						'file' => new CURLFile( $upload_file_path )
 					];
-
 				} else {
 					$headers[] = 'Content-Type: application/json';
-
+					
 					$this->request_data = $data;
 					$this->request_body = json_encode( $data );
-
 				}
-
-
+				
 				curl_setopt( $curl_handle, CURLOPT_POSTFIELDS, $this->request_body );
 				$headers[] = 'Expect:';
 				break;
 			case self::METHOD_PUT:
 				$this->request_data = $data;
 				$this->request_body = json_encode( $data );
-
-				$handle = fopen( 'php://temp', 'w+' );
-				fwrite( $handle, $this->request_body );
-				rewind( $handle );
-				$f_stat = fstat( $handle );
+				
+				$temp_handle = fopen( 'php://temp', 'w+' );
+				fwrite( $temp_handle, $this->request_body );
+				rewind( $temp_handle );
+				$f_stat = fstat( $temp_handle );
 				curl_setopt( $curl_handle, CURLOPT_PUT, true );
-				curl_setopt( $curl_handle, CURLOPT_INFILE, $handle );
+				curl_setopt( $curl_handle, CURLOPT_INFILE, $temp_handle );
 				curl_setopt( $curl_handle, CURLOPT_INFILESIZE, $f_stat['size'] );
 				$headers[] = 'Content-Type: application/json';
 				$headers[] = 'Expect:';
 				break;
 		}
-
+		
 		curl_setopt( $curl_handle, CURLOPT_RETURNTRANSFER, true );
 		curl_setopt( $curl_handle, CURLOPT_VERBOSE, true );
 		curl_setopt( $curl_handle, CURLOPT_HEADER, true );
-
-		curl_setopt( $curl_handle, CURLOPT_RETURNTRANSFER, true );
 		curl_setopt( $curl_handle, CURLINFO_HEADER_OUT, true );
 		curl_setopt( $curl_handle, CURLOPT_HTTPHEADER, $headers );
-
-
+		
 		$this->response_body = curl_exec( $curl_handle );
-
+		
+		if( $temp_handle ) {
+			fclose( $temp_handle );
+		}
+		
+		if( $this->response_body === false ) {
+			$this->error_message = 'CURL_ERR:' . curl_errno( $curl_handle ) . ' - ' . curl_error( $curl_handle );
+			return false;
+		}
+		
 		$this->request = curl_getinfo( $curl_handle, CURLINFO_HEADER_OUT );
 		$this->response_status = curl_getinfo( $curl_handle, CURLINFO_HTTP_CODE );
-
-
+		
 		$header_size = curl_getinfo( $curl_handle, CURLINFO_HEADER_SIZE );
 		$this->response_header = substr( $this->response_body, 0, $header_size );
 		$this->response_body = substr( $this->response_body, $header_size );
-
-
+		
 		$result = false;
-
-		if( $this->response_data === false ) {
-			$this->error_message = 'CURL_ERR:' . curl_errno( $curl_handle ) . ' - ' . curl_error( $curl_handle );
-
+		
+		$this->response_data = json_decode( $this->response_body, true );
+		
+		if( !is_array( $this->response_data ) ) {
+			$this->error_message = 'JSON parse error';
 		} else {
-
-			$this->response_data = json_decode( $this->response_body, true );
-
-			if( !is_array( $this->response_data ) ) {
-				$this->error_message = 'JSON parse error';
-			} else {
-
-				switch( $this->response_status ) {
-					case self::HTTP_STATUS_OK:
-						$result = true;
-						break;
-					default:
-						break;
-				}
-
+			if( $this->response_status === self::HTTP_STATUS_OK ) {
+				$result = true;
 			}
-
 		}
-
+		
 		return $result;
-
 	}
-
+	
 	/**
 	 * @param string $object
 	 * @param array<string,mixed> $get_params
@@ -246,7 +237,7 @@ class Client
 	{
 		return $this->exec( static::METHOD_GET, $object, [], $get_params );
 	}
-
+	
 	/**
 	 * @param string $object
 	 *
@@ -256,8 +247,7 @@ class Client
 	{
 		return $this->exec( static::METHOD_DELETE, $object, [], [] );
 	}
-
-
+	
 	/**
 	 * @param string $object
 	 * @param array $data
@@ -270,7 +260,7 @@ class Client
 	{
 		return $this->exec( static::METHOD_POST, $object, $data, [], $upload_file_path );
 	}
-
+	
 	/**
 	 * @param string $object
 	 * @param array $data
@@ -282,8 +272,7 @@ class Client
 	{
 		return $this->exec( static::METHOD_PUT, $object, $data );
 	}
-
-
+	
 	/**
 	 * @return string
 	 */
@@ -291,7 +280,7 @@ class Client
 	{
 		return $this->request;
 	}
-
+	
 	/**
 	 * @return string|array
 	 * @phpstan-ignore missingType.iterableValue
@@ -300,7 +289,7 @@ class Client
 	{
 		return $this->request_body;
 	}
-
+	
 	/**
 	 * @return array|null
 	 * @phpstan-ignore missingType.iterableValue
@@ -309,7 +298,7 @@ class Client
 	{
 		return $this->request_data;
 	}
-
+	
 	/**
 	 * @return string
 	 */
@@ -317,7 +306,7 @@ class Client
 	{
 		return $this->error_message;
 	}
-
+	
 	/**
 	 * @return int
 	 */
@@ -325,7 +314,7 @@ class Client
 	{
 		return $this->response_status;
 	}
-
+	
 	/**
 	 * @return string
 	 */
@@ -333,15 +322,15 @@ class Client
 	{
 		return $this->response_header;
 	}
-
+	
 	/**
 	 * @return string
 	 */
 	public function responseBody(): string
 	{
-		return $this->response_body;
+		return (string) $this->response_body;
 	}
-
+	
 	/**
 	 * @return array|null
 	 * @phpstan-ignore missingType.iterableValue
@@ -350,6 +339,4 @@ class Client
 	{
 		return $this->response_data;
 	}
-
-
 }

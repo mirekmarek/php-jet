@@ -32,17 +32,6 @@ class Entity_Validator_Definition_PropertyValidator extends Entity_Validator_Def
 		$this->init( $context_object, $property_name, $definition_data );
 	}
 	
-	/**
-	 * @param string $option
-	 * @param mixed|string $default_value
-	 *
-	 * @return mixed
-	 */
-	public function getOtherOption( string $option, mixed $default_value='' ) : mixed
-	{
-		return $this->other_options[$option]??$default_value;
-	}
-	
 	public function getType(): string|false
 	{
 		return $this->type;
@@ -62,8 +51,6 @@ class Entity_Validator_Definition_PropertyValidator extends Entity_Validator_Def
 	{
 		$this->is_required = $is_required;
 	}
-	
-	
 	
 	
 	/**
@@ -111,11 +98,12 @@ class Entity_Validator_Definition_PropertyValidator extends Entity_Validator_Def
 			$validator = $creator( $validator );
 		}
 		
+		$validator->setIsRequired( $this->is_required );
+		
 		$property_validator = new Entity_Validator_PropertyValidator(
 			$this->context_object,
 			$this->property_name,
-			$validator,
-			$this->is_required
+			$validator
 		);
 		
 		$validators[$property_validator->getPropertyPath()] = $property_validator;

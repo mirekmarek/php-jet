@@ -56,7 +56,9 @@ abstract class Validator extends BaseObject {
 	/**
 	 * @var array<string,string>
 	 */
-	protected array $error_messages = [];
+	protected array $error_messages = [
+		self::ERROR_CODE_EMPTY        => 'Missing value',
+	];
 	
 	/**
 	 * @var Entity_Validator_Definition_ValidatorOption[][]
