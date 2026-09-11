@@ -1,0 +1,86 @@
+<?php
+
+namespace JetStudioModule\Validators;
+
+use Jet\Form_Field;
+use Jet\MVC_View;
+use Jet\Tr;
+
+/**
+ * @var MVC_View $this
+ */
+
+$form = Main::getCurrentProperty()->getDefinitionForm();
+if(!$form) {
+	return;
+}
+
+$fields = $form->getFields(true);
+
+echo $form->start();
+
+?>
+
+<div class="form-fields">
+	<label><?=Tr::_('Type:')?></label>
+	<div>
+		<b><?=Main::getCurrentProperty()->getTypeName()?></b>
+	</div>
+	
+	<?php
+	foreach($fields['main'] as $field) {
+		echo $field;
+	}
+	
+	if(isset($fields['other'])) {
+		foreach($fields['other'] as $field) {
+			echo $field;
+		}
+	}
+
+
+
+if(isset($fields['error_messages'])): ?>
+	<div></div>
+	<div><br><br></div>
+
+	<div></div>
+	<div class="section-title"><?=Tr::_('Error messages')?></div>
+
+	<div></div>
+	<div style="display: grid;grid-template-columns: auto auto;gap: 10px;">
+	<?php
+	
+	/** @noinspection PhpParamsInspection */
+	foreach( array_keys( $fields['error_messages']) as $i):
+		$code_field = $form->getField( '/error_messages/'.$i.'/code' );
+		$message_field = $form->getField( '/error_messages/'.$i.'/message' );
+		
+		if($code_field->getType()==Form_Field::TYPE_HIDDEN) {
+			echo $code_field;
+			echo $message_field;
+			
+			continue;
+		}
+		
+		?>
+		<div>
+			<?=$code_field->input()?>
+			<?=$code_field->help()?>
+			<?=$code_field->error()?>
+		</div>
+		<div>
+			<?=$message_field->input()?>
+			<?=$message_field->help()?>
+			<?=$message_field->error()?>
+		</div>
+	<?php
+	endforeach;
+	?>
+	</div>
+
+<?php endif; ?>
+</div>
+
+<?php
+echo $form->end();

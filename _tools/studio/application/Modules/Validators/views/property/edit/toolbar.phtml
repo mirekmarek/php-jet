@@ -1,6 +1,6 @@
 <?php
 
-namespace JetStudioModule\Forms;
+namespace JetStudioModule\Validators;
 
 use Jet\MVC_View;
 use Jet\Tr;
@@ -26,12 +26,10 @@ echo UI::button_save()
 	JetStudio::getModule_DataModel()?->getPropertyEditURL( Main::getCurrentClassName(), Main::getCurrentPropertyName() )??''
 )->setClass( UI_button::CLASS_SECONDARY )?>
 
+<?=UI::button(Tr::_('Form field definition'))->setUrl(
+	JetStudio::getModule_Forms()?->getPropertyEditURL( Main::getCurrentClassName(), Main::getCurrentPropertyName() )??''
+)->setClass( UI_button::CLASS_INFO )?>
+
 <?=UI::button(Tr::_('InputCathcer definition'))->setUrl(
 	JetStudio::getModule_InputCatchers()?->getPropertyEditURL( Main::getCurrentClassName(), Main::getCurrentPropertyName() )??''
 )->setClass( UI_button::CLASS_SUCCESS )?>
-
-<?=UI::button(Tr::_('Validator definition'))->setUrl(
-	JetStudio::getModule_Validators()?->getPropertyEditURL( Main::getCurrentClassName(), Main::getCurrentPropertyName() )??''
-)->setClass( UI_button::CLASS_WARNING )?>
-
-

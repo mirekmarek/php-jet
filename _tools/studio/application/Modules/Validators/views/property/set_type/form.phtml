@@ -1,0 +1,50 @@
+<?php
+
+namespace JetStudioModule\Validators;
+
+use Jet\MVC_View;
+use Jet\Tr;
+
+/**
+ * @var MVC_View $this
+ */
+
+$types = ValidatorClass_Property::getTypesList();
+
+$form = Main::getCurrentProperty()->getSetTypeForm();
+
+$fields = $form->getFields();
+
+
+
+echo $form->start();
+echo $form->field('type');
+echo $form->end();
+?>
+<script>
+	function selectType( type ) {
+		$('#<?=$form->field('type')->getId()?>').val( type );
+		$('#<?=$form->getId()?>').submit();
+	}
+</script>
+<h2><?=Tr::_('Select validator type please')?></h2>
+<table class="table table-striped">
+	<?php foreach($types as $type=>$type_label):
+		if(!$type) {
+			continue;
+		}
+		?>
+	<tr>
+		<?php if(str_starts_with($type_label, 'Validator::TYPE_')):
+			$type_label_readable = substr($type_label, strlen('Validator::TYPE_'));
+			?>
+			<td nowrap=""><a href="" onclick="selectType('<?=$type?>'); return false;"><?=$type_label_readable;?></a></td>
+			<td class="text-secondary" nowrap=""><?=$type_label?></td>
+		<?php else: ?>
+			<td colspan="2" nowrap=""><a href="" onclick="selectType('<?=$type?>'); return false;"><?=$type_label?></a></td>
+		<?php endif; ?>
+			<td style="width: 100%"></td>
+		
+	</tr>
+	<?php endforeach; ?>
+</table>

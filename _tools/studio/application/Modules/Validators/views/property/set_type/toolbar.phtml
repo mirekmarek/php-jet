@@ -1,24 +1,10 @@
 <?php
-
-namespace JetStudioModule\Forms;
-
-use Jet\MVC_View;
+namespace JetStudioModule\Validators;
 use Jet\Tr;
 use Jet\UI;
 use Jet\UI_button;
 use JetStudio\JetStudio;
 
-/**
- * @var MVC_View $this
- */
-
-$form = Main::getCurrentProperty()->getDefinitionForm();
-if(!$form) {
-	return;
-}
-
-echo UI::button_save()
-	->setOnClick( "$('#" . $form->getId() . "').submit()" );
 ?>
 &nbsp;&nbsp;&nbsp;
 
@@ -26,12 +12,10 @@ echo UI::button_save()
 	JetStudio::getModule_DataModel()?->getPropertyEditURL( Main::getCurrentClassName(), Main::getCurrentPropertyName() )??''
 )->setClass( UI_button::CLASS_SECONDARY )?>
 
+<?=UI::button(Tr::_('Form field definition'))->setUrl(
+	JetStudio::getModule_Forms()?->getPropertyEditURL( Main::getCurrentClassName(), Main::getCurrentPropertyName() )??''
+)->setClass( UI_button::CLASS_INFO )?>
+
 <?=UI::button(Tr::_('InputCathcer definition'))->setUrl(
 	JetStudio::getModule_InputCatchers()?->getPropertyEditURL( Main::getCurrentClassName(), Main::getCurrentPropertyName() )??''
 )->setClass( UI_button::CLASS_SUCCESS )?>
-
-<?=UI::button(Tr::_('Validator definition'))->setUrl(
-	JetStudio::getModule_Validators()?->getPropertyEditURL( Main::getCurrentClassName(), Main::getCurrentPropertyName() )??''
-)->setClass( UI_button::CLASS_WARNING )?>
-
-

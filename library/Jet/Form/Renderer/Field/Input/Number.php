@@ -39,7 +39,16 @@ class Form_Renderer_Field_Input_Number extends Form_Renderer_Field_Input
 		$this->_tag_attributes['type'] = $this->input_type;
 		$this->_tag_attributes['name'] = $field->getTagNameValue();
 		$this->_tag_attributes['id'] = $field->getId();
-		$this->_tag_attributes['value'] = $field->getValue();
+		
+		if(
+			$field->hasValue() ||
+			(
+				$field->getDefaultValue()!=='' &&
+				$field->getDefaultValue()!==null
+			)
+		) {
+			$this->_tag_attributes['value'] = $field->getValue();
+		}
 		
 		/**
 		 * @var Form_Field_Float|Form_Field_Int $field

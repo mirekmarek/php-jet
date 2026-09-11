@@ -1,3 +1,24 @@
 <?php
 namespace JetStudioModule\Forms;
+use Jet\Tr;
+use Jet\UI;
+use Jet\UI_button;
+use JetStudio\JetStudio;
+
+?>
+&nbsp;&nbsp;&nbsp;
+
+<?=UI::button(Tr::_('ORM definition'))->setUrl(
+	JetStudio::getModule_DataModel()?->getPropertyEditURL( Main::getCurrentClassName(), Main::getCurrentPropertyName() )??''
+)->setClass( UI_button::CLASS_SECONDARY )?>
+
+<?=UI::button(Tr::_('InputCathcer definition'))->setUrl(
+	JetStudio::getModule_InputCatchers()?->getPropertyEditURL( Main::getCurrentClassName(), Main::getCurrentPropertyName() )??''
+)->setClass( UI_button::CLASS_SUCCESS )?>
+
+<?=UI::button(Tr::_('Validator definition'))->setUrl(
+	JetStudio::getModule_Validators()?->getPropertyEditURL( Main::getCurrentClassName(), Main::getCurrentPropertyName() )??''
+)->setClass( UI_button::CLASS_WARNING )?>
+
+
 

@@ -5,5 +5,5 @@ return [
 	'label' => 'Application module wizard',
 	'url_path_part' => 'module-wizard',
 	'icon' => 'magic',
-	'sort_order' => 4,
+	'sort_order' => 6,
 ];

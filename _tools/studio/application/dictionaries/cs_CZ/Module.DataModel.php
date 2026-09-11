@@ -185,4 +185,7 @@ return [
 	'Please enter a value' => 'Prosím zadejte hodnotu',
 	'DataModel ORM' => 'DataModel ORM',
 	'Invalid value' => '',
+	'InputCathcer definition' => '',
+	'Validator definition' => '',
+	'ORM definition' => '',
 ];

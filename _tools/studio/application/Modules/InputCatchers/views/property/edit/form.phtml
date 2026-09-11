@@ -1,0 +1,44 @@
+<?php
+
+namespace JetStudioModule\InputCatchers;
+
+use Jet\MVC_View;
+use Jet\Tr;
+
+/**
+ * @var MVC_View $this
+ */
+
+$form = Main::getCurrentProperty()->getDefinitionForm();
+if(!$form) {
+	return;
+}
+
+$fields = $form->getFields(true);
+
+echo $form->start();
+
+?>
+
+<div class="form-fields">
+	<label><?=Tr::_('Type:')?></label>
+	<div>
+		<b><?=Main::getCurrentProperty()->getTypeName()?></b>
+	</div>
+	
+	<?php
+	foreach($fields['main'] as $field) {
+		echo $field;
+	}
+	
+	if(isset($fields['other'])) {
+		foreach($fields['other'] as $field) {
+			echo $field;
+		}
+	}
+	?>
+
+</div>
+
+<?php
+echo $form->end();

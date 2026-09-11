@@ -428,6 +428,17 @@ class JetStudio extends Jet_Application
 		return static::getServiceModule( JetStudio_Module_Service_Forms::class );
 	}
 	
+	public static function getModule_InputCatchers() : null|JetStudio_Module|JetStudio_Module_Service_InputCatchers
+	{
+		return static::getServiceModule( JetStudio_Module_Service_InputCatchers::class );
+	}
+	
+	public static function getModule_Validators() : null|JetStudio_Module|JetStudio_Module_Service_Validators
+	{
+		return static::getServiceModule( JetStudio_Module_Service_Validators::class );
+	}
+	
+	
 	public static function getModule_Pages() : null|JetStudio_Module|JetStudio_Module_Service_Pages
 	{
 		return static::getServiceModule( JetStudio_Module_Service_Pages::class );

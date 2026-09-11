@@ -5,5 +5,5 @@ return [
 	'label' => 'MVC Pages',
 	'url_path_part' => 'pages',
 	'icon' => 'file-code',
-	'sort_order' => 5,
+	'sort_order' => 6,
 ];

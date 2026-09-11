@@ -9,12 +9,7 @@
 namespace JetStudio;
 
 
-interface JetStudio_Module_Service_DataModel
+interface JetStudio_Module_Service_Validators
 {
-	/**
-	 * @return ClassMetaInfo[]
-	 */
-	public function getDataModelClasses( bool $main_only=true ) : array;
-	
 	public function getPropertyEditURL( string $class_name, string $property_name ) : string;
 }

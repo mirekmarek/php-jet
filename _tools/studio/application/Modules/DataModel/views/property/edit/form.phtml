@@ -2,10 +2,6 @@
 
 namespace JetStudioModule\DataModel;
 
-use Jet\Tr;
-use Jet\UI;
-use Jet\UI_button;
-use JetStudio\JetStudio;
 
 $current = DataModels::getCurrentProperty();
 
@@ -40,13 +36,6 @@ foreach( $default_fields as $fn ) {
 $current->showEditFormFields();
 
 ?>
-	<div></div>
-	<div>
-		<?=UI::button(Tr::_('Form field definition'))->setUrl(
-			JetStudio::getModule_Forms()?->getPropertyEditURL( DataModels::getCurrentClassName(), $current->getName() )??''
-		)->setClass( UI_button::CLASS_INFO )?><br><br>
-		
-	</div>
 </div>
 	<?php
 echo $form->end();

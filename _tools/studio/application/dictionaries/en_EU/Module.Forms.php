@@ -48,4 +48,8 @@ return [
 	'Field definition is missing' => '',
 	'Not defined' => '',
 	'Out of range' => '',
+	'ORM definition' => '',
+	'Form field definition' => '',
+	'InputCathcer definition' => '',
+	'Validator definition' => '',
 ];

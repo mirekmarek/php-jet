@@ -5,5 +5,5 @@ return [
 	'label' => 'Application modules',
 	'url_path_part' => 'modules',
 	'icon' => 'boxes',
-	'sort_order' => 3,
+	'sort_order' => 5,
 ];

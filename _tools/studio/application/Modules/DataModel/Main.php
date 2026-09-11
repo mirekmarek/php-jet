@@ -12,6 +12,7 @@ use Jet\DataModel;
 use Jet\Factory_DataModel;
 use JetStudio\ClassCreator_Config;
 use JetStudio\ClassMetaInfo;
+use JetStudio\JetStudio;
 use JetStudio\JetStudio_Module;
 use JetStudio\JetStudio_Module_Manifest;
 use JetStudio\JetStudio_Module_Service_DataModel;
@@ -95,5 +96,23 @@ class Main extends JetStudio_Module implements JetStudio_Module_Service_DataMode
 		
 		
 		return $view->render('setup');
+	}
+	
+	public static function getDefinitionUrl( string $class, string $property ): string
+	{
+		
+		$get_params = [];
+		
+		$get_params['class'] = $class;
+		$get_params['property'] = $property;
+		
+		
+		return JetStudio::getModuleManifest('DataModel')->getURL().'?'.http_build_query( $get_params );
+	}
+	
+	
+	public function getPropertyEditURL( string $class_name, string $property_name ): string
+	{
+		return Main::getDefinitionUrl( $class_name, $property_name );
 	}
 }

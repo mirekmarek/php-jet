@@ -1,16 +1,34 @@
 <?php
 namespace JetStudioModule\DataModel;
 
+use Jet\Tr;
 use Jet\UI;
+use Jet\UI_button;
+use JetStudio\JetStudio;
 
 $form = DataModels::getCurrentProperty()->getEditForm();
 
 if( $form->getIsReadonly() ) {
 	return;
 }
+
 ?>
 
 <?= UI::button_save()
 	->setOnClick( "$('#" . $form->getId() . "').submit()" )
 ?>
 <?=$this->render('model/edit/toolbar/generate')?>
+&nbsp;&nbsp;&nbsp;
+
+<?=UI::button(Tr::_('Form field definition'))->setUrl(
+	JetStudio::getModule_Forms()?->getPropertyEditURL( DataModels::getCurrentClassName(), DataModels::getCurrentPropertyName() )??''
+)->setClass( UI_button::CLASS_INFO )?>
+
+<?=UI::button(Tr::_('InputCathcer definition'))->setUrl(
+	JetStudio::getModule_InputCatchers()?->getPropertyEditURL( DataModels::getCurrentClassName(), DataModels::getCurrentPropertyName() )??''
+)->setClass( UI_button::CLASS_SUCCESS )?>
+
+<?=UI::button(Tr::_('Validator definition'))->setUrl(
+	JetStudio::getModule_Validators()?->getPropertyEditURL( DataModels::getCurrentClassName(), DataModels::getCurrentPropertyName() )??''
+)->setClass( UI_button::CLASS_WARNING )?>
+

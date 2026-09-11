@@ -43,7 +43,12 @@ class ClassParser_Class extends ClassParser_Element
 	 * @var ?ClassParser_Token
 	 */
 	public ?ClassParser_Token $_static_token = null;
-
+	
+	
+	/**
+	 * @var ClassParser_Attribute[]
+	 */
+	public array $attributes = [];
 
 	/**
 	 * @var bool
@@ -61,14 +66,14 @@ class ClassParser_Class extends ClassParser_Element
 	public string $extends = '';
 
 	/**
-	 * @var array
+	 * @var array<string,ClassParser_Class_ImplementsInterface>
 	 */
 	public array $implements = [];
-
+	
 	/**
-	 * @var ClassParser_Attribute[]
+	 * @var array<string,ClassParser_Class_UseTrait>
 	 */
-	public array $attributes = [];
+	public array $use_traits = [];
 
 	/**
 	 * @var ?ClassParser_Token
@@ -99,6 +104,7 @@ class ClassParser_Class extends ClassParser_Element
 	 * @var ClassParser_Class_Constant[]
 	 */
 	public array $constants = [];
+	
 
 	/**
 	 * @var ClassParser_Class_Property[]
@@ -136,8 +142,6 @@ class ClassParser_Class extends ClassParser_Element
 		}
 
 		$searching_for_extends = false;
-		$searching_for_implements = false;
-		$searching_for_implements_index = 0;
 
 		do {
 
@@ -148,65 +152,41 @@ class ClassParser_Class extends ClassParser_Element
 				continue;
 			}
 
+			
 			switch( $token->id ) {
+				
 				case T_NS_SEPARATOR:
-					if( $searching_for_implements ) {
-						if( !isset( $class->implements[$searching_for_implements_index] ) ) {
-							$class->implements[$searching_for_implements_index] = '';
-						}
-						$class->implements[$searching_for_implements_index] .= $token->text;
+					if( $searching_for_extends ) {
+						$class->extends .= $token->text;
 					} else {
-						if( $searching_for_extends ) {
-							$class->extends .= $token->text;
-						} else {
-							$class->parseError();
-						}
+						$class->parseError();
 					}
 
 					break;
 				case T_STRING:
-					if( $searching_for_implements ) {
-						if( !isset( $class->implements[$searching_for_implements_index] ) ) {
-							$class->implements[$searching_for_implements_index] = '';
-						}
-
-						$class->implements[$searching_for_implements_index] .= $token->text;
+					if( $searching_for_extends ) {
+						$class->extends .= $token->text;
 					} else {
-						if( $searching_for_extends ) {
-							$class->extends .= $token->text;
-						} else {
-							$class->name = $token->text;
-						}
-
+						$class->name = $token->text;
 					}
-
-
+					
 					break;
 				case T_EXTENDS:
 					if(
 						!$class->name ||
-						$searching_for_extends ||
-						$searching_for_implements
+						$searching_for_extends
 					) {
 						$class->parseError();
 					}
 					$searching_for_extends = true;
 					break;
+				
 				case T_IMPLEMENTS:
-					if(
-						!$class->name ||
-						$searching_for_implements
-					) {
-						$class->parseError();
-					}
-					$searching_for_implements = true;
+					$searching_for_extends = false;
+					ClassParser_Class_ImplementsInterface::parse( $parser, $class );
+					
 					break;
-				case ',':
-					if( !$searching_for_implements ) {
-						$class->parseError();
-					}
-					$searching_for_implements_index++;
-					break;
+					
 				case '{':
 					$class->declaration_end = $parser->tokens[$token->index - 1];
 					$class->body_start = $token;
@@ -217,7 +197,7 @@ class ClassParser_Class extends ClassParser_Element
 			}
 
 		} while( true );
-
+		
 
 		do {
 			if( !($token = $class->nextToken()) ) {
@@ -303,7 +283,9 @@ class ClassParser_Class extends ClassParser_Element
 				case T_ATTRIBUTE:
 					ClassParser_Attribute::parse( $parser );
 					break;
-
+				case T_USE:
+					ClassParser_Class_UseTrait::parse( $parser, $class );
+					break;
 				case '}':
 					$class->body_end = $token;
 					$class->end_token = $token;
@@ -375,6 +357,41 @@ class ClassParser_Class extends ClassParser_Element
 			}
 		}
 
+		$this->parser->insertAfter( $after, $code );
+	}
+	
+	
+	public function addImplementsInterface( string $add_interface ) : void
+	{
+		foreach( $this->implements as $implements_interface ) {
+			if($implements_interface->name==$add_interface) {
+				return;
+			}
+		}
+		
+		if($this->implements) {
+			$last_implements_interface = array_values($this->implements)[count($this->implements)-1];
+			
+			$this->parser->insertAfter( $last_implements_interface->end_token, ', '.$add_interface );
+			
+			return;
+		}
+		
+		
+		$this->parser->insertAfter( $this->declaration_end, ' implements '.$add_interface );
+	}
+	
+	
+	public function addUseTrait( string $code ) : void
+	{
+		$after = $this->body_start;
+		
+		foreach( $this->use_traits as $use_trait ) {
+			if( $use_trait->end_token->index > $after->index ) {
+				$after = $use_trait->end_token;
+			}
+		}
+		
 		$this->parser->insertAfter( $after, $code );
 	}
 

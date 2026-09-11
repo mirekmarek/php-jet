@@ -364,8 +364,9 @@ class ClassParser
 	/**
 	 * @param ClassParser_Token $after_token
 	 * @param string $code
+	 * @param bool $debug
 	 */
-	public function insertAfter( ClassParser_Token $after_token, string $code ): void
+	public function insertAfter( ClassParser_Token $after_token, string $code, bool $debug=false ): void
 	{
 		$str = '';
 
@@ -379,6 +380,11 @@ class ClassParser
 				$str .= $code;
 			}
 
+		}
+		
+		if($debug) {
+			echo $str;
+			die();
 		}
 
 		$this->setScriptData( $str );

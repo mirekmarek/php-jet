@@ -87,6 +87,15 @@ abstract class ClassMetaInfo
 		return $this->reflection->getInterfaceNames();
 	}
 	
+	public function getUseTraits()  :array
+	{
+		if( !$this->reflection ) {
+			return [];
+		}
+		return $this->reflection->getTraitNames();
+		
+	}
+	
 	public function isAbstract(): bool
 	{
 		if( !$this->reflection ) {
