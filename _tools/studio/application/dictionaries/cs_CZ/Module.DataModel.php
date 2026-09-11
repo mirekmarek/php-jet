@@ -59,7 +59,6 @@ return [
 	'Custom column name:' => 'Volitelný název sloupečku:',
 	'Is key (index)' => 'Je klíč (index)',
 	'Do not export to XML or JSON' => 'Neexportovat do XML, nebo JSON',
-	'Form field definition' => 'Definice formulářového pole',
 	'Form field type:' => 'Typ formulářového prvku:',
 	'Is required' => 'Je vyžadováno',
 	'Label:' => 'Popisek:',
@@ -185,7 +184,9 @@ return [
 	'Please enter a value' => 'Prosím zadejte hodnotu',
 	'DataModel ORM' => 'DataModel ORM',
 	'Invalid value' => '',
-	'InputCathcer definition' => '',
-	'Validator definition' => '',
-	'ORM definition' => '',
+	'InputCathcer definition' => 'Definice zachytávače vstupu',
+	'ORM definition' => 'Definice ORM',
+	'Form field definition' => 'Definice formulářového pole',
+	'Validator definition' => 'Definice validátoru',
+	
 ];

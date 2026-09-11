@@ -45,4 +45,9 @@ return [
 	'Forms' => 'Formuláře',
 	'Please enter a value' => '',
 	'Invalid value' => '',
+	'InputCathcer definition' => 'Definice zachytávače vstupu',
+	'ORM definition' => 'Definice ORM',
+	'Form field definition' => 'Definice formulářového pole',
+	'Validator definition' => 'Definice validátoru',
+	
 ];
