@@ -10,18 +10,18 @@ require_once 'css.phtml';
 require_once 'js.phtml';
 ?>
 
-<div id="dbg-var-dumps-btn" onclick="document.getElementById('dbg-var-dumps-dialog').style.display='block';">
+<div id="dbg-var-dumps-btn" onclick="document.getElementById('dbg-var-dumps-dialog').showModal();">
 	&#128065; var dump (<?=count($var_dumps)?>)
 </div>
 
-<div id="dbg-var-dumps-dialog" style="display:none;">
+<dialog id="dbg-var-dumps-dialog">
 	<div class="dbg-var-dumps-dialog-title">
 		<b>&#128065; Var dump</b>
 		<div class="dbg-links">
 			<?php require 'links.phtml'; ?>
 		</div>
 		
-		<button type="button" onclick="document.getElementById('dbg-var-dumps-dialog').style.display='none';">&#x2715;</button>
+		<button type="button" onclick="document.getElementById('dbg-var-dumps-dialog').close();">&#x2715;</button>
 	</div>
 	
 	
@@ -50,5 +50,5 @@ require_once 'js.phtml';
 		</div>
 	</div>
 
-</div>
+</dialog>
 

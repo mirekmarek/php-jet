@@ -13,7 +13,7 @@ interface Entity_InputCatcher_Interface
 {
 	
 	/**
-	 * @return Entity_InputCatcher_Definition_PropertyInputCatcher[]
+	 * @return array<string,Entity_InputCatcher_Definition_SubEntity_InputCatcher|Entity_InputCatcher_Definition_SubEntity_InputCatchers|Entity_InputCatcher_Definition_PropertyInputCatcher>
 	 */
 	public function getPropertyInputCatchersDefinition() : array;
 	

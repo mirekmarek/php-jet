@@ -45,7 +45,7 @@ class Application_Service_List {
 	}
 	
 	/**
-	 * @return Application_Service_MetaInfo[]
+	 * @return array<string,Application_Service_MetaInfo>
 	 */
 	public function getServicesMetaInfo() : array
 	{

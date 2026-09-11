@@ -20,7 +20,6 @@ SysConf_Jet_Debug::setDevelMode( true );
 
 if( SysConf_Jet_Debug::getDevelMode() ) {
 	//Dev configuration
-
 	SysConf_Jet_PackageCreator_CSS::setEnabled( false );
 	SysConf_Jet_PackageCreator_JavaScript::setEnabled( false );
 
@@ -28,12 +27,11 @@ if( SysConf_Jet_Debug::getDevelMode() ) {
 	SysConf_Jet_Autoloader::setCacheEnabled( false );
 } else {
 	//Production configuration
-	SysConf_Jet_Debug::setProfilerEnabled( true );
-
 	SysConf_Jet_PackageCreator_CSS::setEnabled( true );
 	SysConf_Jet_PackageCreator_JavaScript::setEnabled( true );
 
 	SysConf_Jet_MVC::setCacheEnabled( true );
+	SysConf_Jet_Autoloader::setCacheEnabled( true );
 }
 
 SysConf_Jet_Debug::setProfilerEnabled( false );
