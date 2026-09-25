@@ -57,4 +57,14 @@ class Application_Service_Web
 		return static::getList( $base, $locale )->get( Application_Service_Web_Auth_LoginModule::class );
 	}
 	
+	public static function CookieConsent( ?MVC_Base $base = null, ?Locale $locale = null ): Application_Module|Application_Service_Web_CookieConsent|null
+	{
+		return static::getList( $base, $locale )->get( Application_Service_Web_CookieConsent::class );
+	}
+	
+	public static function Analytics( ?MVC_Base $base = null, ?Locale $locale = null ): Application_Module|Application_Service_Web_Analytics_Manager|null
+	{
+		return static::getList( $base, $locale )->get( Application_Service_Web_Analytics_Manager::class );
+	}
+	
 }

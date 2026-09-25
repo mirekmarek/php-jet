@@ -3,19 +3,26 @@
 use Jet\MVC_Layout;
 use Jet\MVC;
 use Jet\Tr;
+use JetApplication\Application_Service_Web;
 
 /**
  * @var MVC_Layout $this
  */
 
 require 'parts/init_libs.php';
+
+$analytics = Application_Service_Web::Analytics();
+$cookie_consent = Application_Service_Web::CookieConsent();
 ?>
 <!DOCTYPE html>
 <html lang="<?= MVC::getLocale()->getLanguage() ?>">
 <head>
 	<?php require 'parts/head.phtml'; ?>
+
+	<?=$analytics?->header()?>
 </head>
 <body>
+<?=$analytics?->documentStart()?>
 <div class="container-fluid">
 	<div class="text-white bg-dark" style="display: grid;grid-template-columns: 200px 1fr;align-items: center">
 		<div><img src="https://php-jet.net/images/logo-st.svg" style="width: 180px;height: auto"></div>
@@ -59,5 +66,8 @@ require 'parts/init_libs.php';
 		</div>
 	</div>
 </div>
+
+<?=$analytics?->documentEnd()?>
+<?=$cookie_consent?->renderDialog()?>
 </body>
 </html>

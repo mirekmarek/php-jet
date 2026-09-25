@@ -1,0 +1,204 @@
+<?php
+/**
+ *
+ * @copyright Copyright (c) Miroslav Marek <mirek.marek@web-jet.cz>
+ * @license http://www.php-jet.net/license/license.txt
+ * @author Miroslav Marek <mirek.marek@web-jet.cz>
+ */
+namespace JetApplicationModule\Admin\ControlCentre;
+
+
+use Jet\Application_Module;
+use Jet\Http_Request;
+use Jet\MVC_View;
+use Jet\UI;
+use Jet\UI_icon;
+use JetApplication\Admin_ControlCentre;
+use JetApplication\Admin_ControlCentre_Module_Interface;
+
+/**
+ * @var MVC_View   $this
+ * @var Admin_ControlCentre_Module_Interface|Application_Module|null $selected_module
+ */
+
+$selected_module = $this->getRaw( 'selected_module' );
+$selected_specification_id = $this->getString( 'selected_specification_id' );
+$selected_specification_id = $selected_specification_id ? : null;
+
+$selected_module_name = $selected_module?->getModuleManifest()->getName();
+
+$groups = Admin_ControlCentre::getGroupsList();
+
+
+$modules = [];
+foreach($groups as $group=>$group_title):
+		$modules[$group] = [];
+		
+		foreach(Admin_ControlCentre::getModuleList() as $module_name=>$module):
+			if($module->getControlCentreGroup()==$group) {
+				$modules[$group][$module_name] = $module;
+			}
+		endforeach;
+endforeach;
+?>
+<style>
+	.module-list {
+		background-color: #eeeeee;
+		min-height: calc(100dvh - 150px);
+	}
+	
+	.search {
+		background-color: #eeeeee;
+	}
+
+	.module-list-item {
+		margin: 10px;
+		border: 1px solid #c2c2c2;
+		border-radius: 5px;
+		padding: 10px;
+	}
+	
+	
+	.module-list-item-selected {
+		margin: 10px;
+		border-left: 1px solid #999999;
+		border-top: 1px solid #999999;
+		border-bottom: 1px solid #999999;
+		border-top-left-radius: 5px;
+		border-bottom-left-radius: 5px;
+		padding: 10px;
+		font-weight: bolder;
+		position: relative;
+		left: 11px;
+		background-image: linear-gradient(90deg, #f9f9f9 10%, #ffffff 90%);
+	}
+	
+	.signpost {
+		display:grid;
+		grid-template-columns: repeat(8, 1fr);
+		gap: 20px;
+		align-items: center;
+		margin-left: 20px;
+		margin-right: 20px;
+	}
+	
+	.signpost-title {
+		margin-left: 20px;
+		margin-right: 20px;
+	}
+
+	.signpost-item {
+		margin: 10px;
+		border: 1px solid #c2c2c2;
+		border-radius: 5px;
+		padding: 10px;
+		text-align: center;
+		color: #2b2b2b;
+	}
+	
+	.signpost-item a {
+		color: #2b2b2b;
+	}
+	
+	.specification-select {
+		display: flex;
+		gap: 0px;
+		background-color: #eeeeee;
+	}
+	
+	.specification-select-item-selected {
+		background-color: #ffffff;
+		padding: 10px;
+		margin-left: 5px;
+		margin-right: 5px;
+		border-left: 1px solid #666666;
+		border-top: 1px solid #666666;
+		border-right: 1px solid #666666;
+		position: relative;
+		top: 1px;
+	}
+	
+	.specification-select-item {
+		background-color: #f8f8f8;
+		padding: 10px;
+		margin-left: 5px;
+		margin-right: 5px;
+	}
+	
+</style>
+
+<?php if($selected_module): ?>
+<div style="display: grid;grid-template-columns: 1fr 3fr;grid-template-rows: 40px 1fr;height: 100%">
+	
+	<div class="search"></div>
+
+	<div class="specification-select">
+		<?php if($selected_module->getControlCentreSpecificationMode() ):
+			foreach( $selected_module->getControlCentreSpecificationList() as $s_id=>$s_title):
+				if($s_id==$selected_specification_id): ?>
+					<div class="specification-select-item-selected">
+						<?=$s_title?>
+					</div>
+				<?php else: ?>
+					<div class="specification-select-item">
+						<a href="<?=Http_Request::currentURI(['specification'=>$s_id])?>">
+							<?=$s_title?>
+						</a>
+					</div>
+				<?php endif;
+			endforeach;
+		endif; ?>
+	</div>
+	
+	
+	<div class="module-list">
+		<div class="signpost-title">
+			<h4><?=$groups[$selected_module->getControlCentreGroup()]?></h4>
+			<hr>
+		</div>
+		<?php foreach($modules[$selected_module->getControlCentreGroup()] as $module_name=>$module): ?>
+		<?php if($selected_module_name==$module_name): ?>
+				<div class="module-list-item-selected">
+					<?=UI::icon( $module->getControlCentreIcon()) ?>
+					<b><?=$module->getControlCentreTitleTranslated()?></b>
+				</div>
+		<?php else: ?>
+				<div class="module-list-item">
+					<a href="<?=Http_Request::currentURI(['id'=>$module_name])?>"><?=UI::icon( $module->getControlCentreIcon()) ?></a>
+					<a href="<?=Http_Request::currentURI(['id'=>$module_name])?>"><?=$module->getControlCentreTitleTranslated()?></a>
+				</div>
+		<?php endif; ?>
+		<?php endforeach; ?>
+	</div>
+
+	
+	<div style="padding: 20px;border: 1px solid #999999">
+		<h2><?=UI::icon( $selected_module->getControlCentreIcon())->setSize(UI_icon::SIZE_EXTRA_LARGE) ?> <?=$selected_module->getControlCentreTitleTranslated()?></h2>
+		<hr>
+		<?=$selected_module->handleControlCentre( $selected_specification_id )?>
+	</div>
+</div>
+<?php else: ?>
+<br>
+<?php foreach($groups as $group=>$group_title):
+		if(!$modules[$group]) {
+			continue;
+		}
+		?>
+		<div class="signpost-title">
+		<h4><?=$group_title?></h4>
+		<hr>
+		</div>
+		<div class="signpost">
+			<?php foreach($modules[$group] as $module_name=>$module): ?>
+				<div class="signpost-item">
+					<a href="<?=Http_Request::currentURI(['id'=>$module_name])?>"><?=UI::icon( $module->getControlCentreIcon())->setSize(UI_icon::SIZE_LARGE) ?></a>
+					<br>
+					<a href="<?=Http_Request::currentURI(['id'=>$module_name])?>"><?=$module->getControlCentreTitleTranslated()?></a>
+				</div>
+			<?php endforeach; ?>
+		</div>
+		<br><br>
+<?php endforeach; ?>
+
+<?php endif; ?>

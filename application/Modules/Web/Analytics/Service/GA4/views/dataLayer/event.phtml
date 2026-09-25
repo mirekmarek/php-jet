@@ -1,0 +1,22 @@
+<?php
+/**
+ *
+ * @copyright Copyright (c) Miroslav Marek <mirek.marek@web-jet.cz>
+ * @license http://www.php-jet.net/license/license.txt
+ * @author Miroslav Marek <mirek.marek@web-jet.cz>
+ */
+use Jet\MVC_View;
+
+/**
+ * @var MVC_View $this
+ */
+
+$event = $this->getRaw('event');
+$event_data = $this->getRaw('event_data');
+?>
+
+<script>
+if(window && window['dataLayer']) {
+	window.dataLayer.push({event: '<?=$event?>',  ecommerce: <?=json_encode($event_data)?> });
+}
+</script>

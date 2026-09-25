@@ -348,6 +348,10 @@ class Locale extends BaseObject
 		return $result;
 	}
 	
+	/**
+	 * @param Locale|null $in_locale
+	 * @return array<string, string>
+	 */
 	public static function getCountriesList( null|Locale $in_locale = null ) : array
 	{
 		if( !$in_locale ) {

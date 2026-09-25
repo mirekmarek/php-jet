@@ -1,0 +1,61 @@
+<?php
+/**
+ *
+ * @copyright Copyright (c) Miroslav Marek <mirek.marek@web-jet.cz>
+ * @license http://www.php-jet.net/license/license.txt
+ * @author Miroslav Marek <mirek.marek@web-jet.cz>
+ */
+
+use JetApplication\Web_CookieConsent_Group;
+use JetApplication\Application_Service_Web;
+use Jet\MVC_View;
+
+/**
+ * @var MVC_View $this
+ */
+
+$g_id = $this->getRaw('id');
+
+$cs = Application_Service_Web::CookieConsent();
+?>
+<script async src="https://www.googletagmanager.com/gtag/js?id=<?=$g_id?>"></script>
+<script>
+	window.dataLayer = window.dataLayer || [];
+	function gtag(){dataLayer.push(arguments);}
+
+	gtag('consent', 'default', {
+		'ad_storage': 'denied',
+		'ad_user_data': 'denied',
+		'ad_personalization': 'denied',
+		'analytics_storage': 'denied'
+	});
+
+	<?php if(!$cs->consentRequired()): ?>
+	gtag('consent', 'update', {
+		'ad_storage': '<?=$cs->groupEnabled( Web_CookieConsent_Group::MARKETING)?'granted':'denied'?>',
+		'ad_user_data': '<?=$cs->groupEnabled( Web_CookieConsent_Group::MARKETING)?'granted':'denied'?>',
+		'ad_personalization': '<?=$cs->groupEnabled( Web_CookieConsent_Group::MARKETING)?'granted':'denied'?>',
+		'analytics_storage': '<?=$cs->groupEnabled( Web_CookieConsent_Group::STATS )?'granted':'denied'?>'
+	});
+	<?php endif; ?>
+
+
+	gtag('js', new Date());
+
+	gtag('config', '<?=$g_id?>', {
+	});
+	
+	if(!window['CookieConsentHandlers']) {
+		window['CookieConsentHandlers'] = [];
+	}
+
+	window['CookieConsentHandlers'].push(( state )=>{
+
+		gtag('consent', 'update', {
+			'ad_storage': state.marketing?'granted':'denied',
+			'ad_user_data': state.marketing?'granted':'denied',
+			'ad_personalization': state.marketing?'granted':'denied',
+			'analytics_storage': state.stats?'granted':'denied'
+		});
+	});
+</script>
