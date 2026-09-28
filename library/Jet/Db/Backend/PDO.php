@@ -127,6 +127,7 @@ class Db_Backend_PDO implements Db_Backend_Interface
 
 		if(!$result_handler) {
 			$result = $statement;
+			/** @phpstan-ignore method.nonObject */
 			$count = $statement->rowCount();
 		} else {
 			$result = $result_handler( $statement );
@@ -164,7 +165,7 @@ class Db_Backend_PDO implements Db_Backend_Interface
 				$count = $statement->rowCount();
 				
 			} else {
-				$count = $this->pdo->exec( $query );
+				$count = (int)$this->pdo->exec( $query );
 			}
 		} catch( PDOException $e ) {
 			throw new Db_Exception( $e->getMessage()."\n\nSQL query:\n\n".$query );

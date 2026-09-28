@@ -118,15 +118,13 @@ class Installer
 	}
 
 	/**
-	 * @param array<string> $selected_locales
+	 * @param array<Locale> $selected_locales
 	 */
 	public static function setSelectedLocales( array $selected_locales ): void
 	{
 		self::$selected_locales = [];
 
 		foreach( $selected_locales as $locale ) {
-			$locale = new Locale( $locale );
-
 			self::$selected_locales[$locale->toString()] = $locale;
 		}
 

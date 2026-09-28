@@ -26,14 +26,14 @@ class Data_Text
 	{
 
 		if( !class_exists( '\Transliterator', false ) ) {
-			$text = iconv( SysConf_Jet_Main::getCharset(), 'ASCII//TRANSLIT', $text );
+			$text = (string)iconv( SysConf_Jet_Main::getCharset(), 'ASCII//TRANSLIT', $text );
 
 			return preg_replace( '/[^a-zA-Z0-9]/', '_', $text );
 		} else {
 			/** @noinspection SpellCheckingInspection */
 			$transliterator = Transliterator::create( 'NFD; [:Nonspacing Mark:] Remove; NFC' );
 
-			return $transliterator->transliterate( $text );
+			return (string)$transliterator->transliterate( $text );
 
 		}
 	}

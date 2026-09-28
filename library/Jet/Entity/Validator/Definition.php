@@ -71,7 +71,7 @@ class Entity_Validator_Definition extends BaseObject
 			return;
 		}
 		
-		$class = Factory_Validator::getValidatorClassName( $this->type );
+		$class = Factory_Validator::getValidatorClassName( (string)$this->type );
 		/**
 		 * @var Validator $class
 		 */
@@ -130,6 +130,7 @@ class Entity_Validator_Definition extends BaseObject
 	{
 		$creator = $this->creator;
 		
+		/** @phpstan-ignore booleanAnd.alwaysFalse,identical.alwaysFalse */
 		if(is_array($creator) && $creator[0]==='this') {
 			$creator[0] = $this->context_object;
 		}
@@ -151,6 +152,9 @@ class Entity_Validator_Definition extends BaseObject
 			$creator[0] = 'this';
 		}
 		
+		/**
+		 * @var callable $creator
+		 */
 		$this->creator = $creator;
 	}
 	

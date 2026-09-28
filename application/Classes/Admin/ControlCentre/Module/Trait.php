@@ -8,23 +8,19 @@
 
 namespace JetApplication;
 
-use Jet\Application_Module;
 use Jet\Factory_MVC;
 use Jet\Tr;
 use Jet\Translator;
 
 /**
- * @method getModuleManifest() : Application_Module_Manifest
+ * @var string $control_centre_group;
+ * @var string $control_centre_title;
+ * @var string $control_centre_icon;
+ * @var int $control_centre_priority;
+ * @var bool $control_cnter_specification_mode;
  */
 trait Admin_ControlCentre_Module_Trait {
 	
-	/**
-	 * @var string $control_centre_group;
-	 * @var string $control_centre_title;
-	 * @var string $control_centre_icon;
-	 * @var int $control_centre_priority;
-	 * @var bool $control_cnter_specification_mode;
-	 */
 	
 	public function getControlCentreGroup() : string
 	{
@@ -59,10 +55,7 @@ trait Admin_ControlCentre_Module_Trait {
 	
 	public function getControlCentreTitleTranslated() : string
 	{
-		/**
-		 * @var Application_Module|Admin_ControlCentre_Module_Interface $this
-		 */
-		
+
 		return Translator::setCurrentDictionaryTemporary( $this->getModuleManifest()->getName(), function() : string {
 			return Tr::_( $this->getControlCentreTitle() );
 		} );
@@ -70,9 +63,6 @@ trait Admin_ControlCentre_Module_Trait {
 	
 	public function handleControlCentre( ?string $specification_id=null ) : string
 	{
-		/**
-		 * @var Application_Module|Admin_ControlCentre_Module_Interface $this
-		 */
 		return Translator::setCurrentDictionaryTemporary( $this->getModuleManifest()->getName(), function() use ($specification_id) : string {
 			$page_content = Factory_MVC::getPageContentInstance();
 			
@@ -82,6 +72,7 @@ trait Admin_ControlCentre_Module_Trait {
 			
 			$page_content->dispatch();
 			
+			/** @phpstan-ignore return.type */
 			return $page_content->getOutput();
 		});
 	}

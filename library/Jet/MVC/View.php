@@ -73,6 +73,7 @@ class MVC_View extends MVC_View_Abstract
 			echo '<!-- VIEW END: ' . $this->_script_path . ' -->';
 		}
 
+		/** @phpstan-ignore return.type */
 		return ob_get_clean();
 	}
 

@@ -44,6 +44,9 @@ class Main extends Application_Service_Web_Analytics_Service implements
 	{
 		parent::init( $page );
 		
+		/**
+		 * @var Config_Specific $config
+		 */
 		$config = $this->getSpecificConfig( $this->getSpecificationIdByPage( $page ) );
 		
 		$this->id = $config->getGoogleId();
@@ -67,6 +70,11 @@ class Main extends Application_Service_Web_Analytics_Service implements
 	}
 	
 	
+	/**
+	 * @param string $event
+	 * @param array<string,mixed> $event_data
+	 * @return string
+	 */
 	protected function generateEvent_dataLayer( string $event, array $event_data ) : string {
 		$this->view->setVar('event', $event);
 		$this->view->setVar('event_data', $event_data);
@@ -75,6 +83,11 @@ class Main extends Application_Service_Web_Analytics_Service implements
 	}
 	
 	
+	/**
+	 * @param string $event
+	 * @param array<string,mixed> $event_data
+	 * @return string
+	 */
 	protected function generateEvent_native( string $event, array $event_data ) : string
 	{
 		$this->view->setVar('event', $event);
@@ -83,6 +96,11 @@ class Main extends Application_Service_Web_Analytics_Service implements
 		return $this->view->render('native/event');
 	}
 	
+	/**
+	 * @param string $event
+	 * @param array<string,mixed> $event_data
+	 * @return string
+	 */
 	public function generateEvent( string $event, array $event_data ) : string
 	{
 		if($this->native_mode) {

@@ -30,7 +30,7 @@ class Autoloader
 	protected static bool $is_initialized = false;
 
 	/**
-	 * @var Autoloader_Loader[]
+	 * @var array<string,Autoloader_Loader>
 	 */
 	protected static array $loaders = [];
 

@@ -141,11 +141,14 @@ trait Form_Field_Trait_Validation
 	 * @param string $code
 	 * @param array<string,mixed> $data
 	 *
-	 * @return string|false
+	 * @return string
 	 */
-	public function getErrorMessage( string $code, array $data=[] ): string|false
+	public function getErrorMessage( string $code, array $data=[] ): string
 	{
 		$message = $this->error_messages[$code] ?? false;
+		if($message===false) {
+			$message = $code;
+		}
 
 		return $this->_( $message, $data );
 

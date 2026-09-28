@@ -29,8 +29,13 @@ class Main extends Application_Service_Web_Analytics_Manager
 	public function getServices() : array
 	{
 		if($this->services===null) {
+			
+			/**
+			 * @var array<string,Application_Service_Web_Analytics_Service> $services
+			 */
+			$services = Application_Service_Web::getList()->getList( Application_Service_Web_Analytics_Service::class );
 
-			$this->services = Application_Service_Web::getList()->getList( Application_Service_Web_Analytics_Service::class );
+			$this->services = $services;
 			
 			foreach($this->services as $service) {
 				$service->init( MVC::getPage() );

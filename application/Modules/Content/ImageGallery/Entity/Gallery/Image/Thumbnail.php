@@ -74,7 +74,7 @@ class Gallery_Image_Thumbnail extends BaseObject implements BaseObject_Interface
 
 		$key = $maximal_size_w . 'x' . $maximal_size_h;
 
-		$file_name = $key . pathinfo( $image->getFileName() )['extension'];
+		$file_name = $key . pathinfo( $image->getFileName(), PATHINFO_EXTENSION );
 
 		$this->dir_path = $image->getDirPath() . '_thb_/';
 		$this->path = $this->dir_path . $file_name;
@@ -255,6 +255,6 @@ class Gallery_Image_Thumbnail extends BaseObject implements BaseObject_Interface
 	 */
 	public function toJSON(): string
 	{
-		return json_encode( $this->jsonSerialize() );
+		return json_encode( $this->jsonSerialize(), flags: JSON_THROW_ON_ERROR );
 	}
 }

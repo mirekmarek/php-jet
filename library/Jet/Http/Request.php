@@ -281,7 +281,7 @@ class Http_Request extends BaseObject
 	public static function rawPostData(): string
 	{
 		if( static::$raw_post_data === null ) {
-			static::$raw_post_data = file_get_contents( 'php://input' );
+			static::$raw_post_data = (string)file_get_contents( 'php://input' );
 		}
 
 		return static::$raw_post_data;

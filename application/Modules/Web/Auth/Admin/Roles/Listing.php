@@ -48,6 +48,7 @@ class Listing extends DataListing
 	 */
 	protected function getItemList(): DataModel_Fetch_Instances
 	{
+		/** @phpstan-ignore return.type */
 		return Role::getList();
 	}
 	
@@ -68,7 +69,7 @@ class Listing extends DataListing
 	
 	public function itemGetter( int|string $id ): mixed
 	{
-		return Role::get( $id );
+		return Role::get( (string)$id );
 	}
 	
 }

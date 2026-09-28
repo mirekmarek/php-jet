@@ -1,6 +1,8 @@
 <?php
 namespace Jet;
 
+use RuntimeException;
+
 abstract class DataListing_Export_CSV extends DataListing_Export
 {
 	abstract protected function generateFileName(  ) : string;
@@ -20,6 +22,9 @@ abstract class DataListing_Export_CSV extends DataListing_Export
 		header( 'Cache-Control: max-age=0' );
 		
 		$fp = fopen('php://output', 'w');
+		if(!$fp) {
+			throw new RuntimeException('Unable to open php://output');
+		}
 		
 		fputcsv( $fp, $export_header );
 		

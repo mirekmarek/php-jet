@@ -111,6 +111,7 @@ class DataModel_Query_OrderBy extends BaseObject implements BaseObject_Interface
 	 */
 	public function current(): DataModel_Query_OrderBy_Item
 	{
+		/** @phpstan-ignore return.type */
 		return current( $this->items );
 	}
 
@@ -120,6 +121,7 @@ class DataModel_Query_OrderBy extends BaseObject implements BaseObject_Interface
 	 */
 	public function key(): string
 	{
+		/** @phpstan-ignore return.type */
 		return key( $this->items );
 	}
 

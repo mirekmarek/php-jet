@@ -50,7 +50,9 @@ class Tester_Spatial extends Tester
 				// Consider growing pattern by one character if j hasn't gone over the edge.
 				if( $j < $passwordLength ) {
 					$curChar = $password[$j];
-					/** @phpstan-ignore foreach.emptyArray */
+					/**
+					 * @var array<string> $adjacents
+					 */
 					foreach( $adjacents as $adj ) {
 						$curDirection += 1;
 						$curCharPos = static::indexOf( $adj, $curChar );
@@ -63,7 +65,7 @@ class Tester_Spatial extends Tester
 								// for example, 'q' is adjacent to the entry '2@'. @ is shifted w/ index 1, 2 is unshifted.
 								$shiftedCount += 1;
 							}
-							/** @phpstan-ignore notIdentical.alwaysTrue */
+							
 							if( $lastDirection !== $foundDirection ) {
 								// adding a turn is correct even in the initial case when last_direction is null:
 								// every spatial pattern starts with a turn.
@@ -77,7 +79,7 @@ class Tester_Spatial extends Tester
 				}
 				
 				// if the current pattern continued, extend j and try to grow again
-				/** @phpstan-ignore if.alwaysFalse */
+
 				if( $found ) {
 					$j += 1;
 				} // otherwise push the pattern discovered so far, if any...
@@ -102,7 +104,7 @@ class Tester_Spatial extends Tester
 		return $result;
 	}
 	
-	protected static function indexOf( ?string $string, string $char ) : int
+	protected static function indexOf( ?string $string, string $char ) : int|false
 	{
 		if(
 			!$string ||
@@ -137,6 +139,7 @@ class Tester_Spatial extends Tester
 	protected static function getAdjacencyGraphs() : array
 	{
 		$data = file_get_contents( __DIR__ . '/Spatial/Data/adjacency_graphs.json' );
+		/** @phpstan-ignore argument.type */
 		return json_decode( $data, true );
 	}
 }

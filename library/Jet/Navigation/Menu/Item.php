@@ -432,7 +432,7 @@ class Navigation_Menu_Item extends BaseObject
 	}
 	
 	/**
-	 * @return array<string,string|int|bool>
+	 * @return array<string, array<string>|bool|int|string>
 	 */
 	public function toArray(): array
 	{

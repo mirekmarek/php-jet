@@ -10,7 +10,7 @@ namespace JetApplication;
 
 
 use Jet\Application_Module;
-
+/** @phpstan-ignore trait.unused */
 trait AppConfig_ModuleConfig_ModuleHasConfig_General_Trait
 {
 	/**

@@ -128,7 +128,7 @@ trait MVC_Page_Trait_Main
 		$data['id'] = $page_id;
 		$data['children'] = $maps['children_map'][$page_id];
 		$data['relative_path'] = array_search( $page_id, $maps['relative_path_map'] );
-		$data['relative_path_fragment'] = basename( $data['relative_path'] );
+		$data['relative_path_fragment'] = basename( (string)$data['relative_path'] );
 		$data['parent_id'] = $maps['parent_map'][$page_id];
 
 		if(

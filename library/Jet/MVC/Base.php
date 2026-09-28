@@ -23,7 +23,7 @@ class MVC_Base extends BaseObject implements MVC_Base_Interface
 	protected static array $bases = [];
 
 	/**
-	 * @var null|array<string,array<string,string>>
+	 * @var null|array<string, array<string,array<string>|string>>
 	 */
 	protected static array|null $maps = null;
 
@@ -92,7 +92,7 @@ class MVC_Base extends BaseObject implements MVC_Base_Interface
 	protected $initializer;
 
 	/**
-	 * @return array<string, array<list<string>|string>>
+	 * @return array<string,array<string,array<string>|string>>
 	 */
 	protected static function getMaps(): array
 	{
@@ -141,6 +141,9 @@ class MVC_Base extends BaseObject implements MVC_Base_Interface
 			$base = static::_createByData( $data );
 
 			foreach( $base->getLocales() as $locale ) {
+				/**
+				 * @var Locale $locale
+				 */
 				$l_data = $base->getLocalizedData( $locale );
 
 				foreach( $l_data->getURLs() as $URL ) {
@@ -169,7 +172,7 @@ class MVC_Base extends BaseObject implements MVC_Base_Interface
 	}
 
 	/**
-	 * @return array<string,string>
+	 * @return array<string,array<string>|string>
 	 */
 	public static function _getUrlMap(): array
 	{
@@ -399,6 +402,9 @@ class MVC_Base extends BaseObject implements MVC_Base_Interface
 		$this->localized_data = [];
 
 		foreach( $order as $l ) {
+			/**
+			 * @var string $l
+			 */
 			$this->localized_data[$l] = $o_ld[$l];
 		}
 

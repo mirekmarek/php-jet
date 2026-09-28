@@ -68,7 +68,7 @@ class Listing extends DataListing
 	
 	public function itemGetter( int|string $id ): mixed
 	{
-		return Role::get( $id );
+		return Role::get( (string)$id );
 	}
 	
 }

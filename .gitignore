@@ -23,3 +23,4 @@ _tools/studio/tmp/**
 /application/config/services/admin.php
 /application/config/services/web_cs_CZ.php
 /application/config/services/web_en_EU.php
+/phpstan.phar

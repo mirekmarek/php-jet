@@ -40,7 +40,7 @@ class Main extends Application_Module implements Application_Service_Admin_Logge
 			$event_class,
 			$event,
 			$event_message,
-			$context_object_id,
+			(string)$context_object_id,
 			$context_object_name,
 			$context_object_data,
 			$current_user

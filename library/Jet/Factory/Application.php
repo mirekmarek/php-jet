@@ -46,7 +46,8 @@ class Factory_Application
 	public static function getModuleManifestInstance(): Application_Module_Manifest
 	{
 		$class_name = static::getModuleManifestClassName();
-
+		
+		/** @phpstan-ignore return.type */
 		return new $class_name();
 	}
 
@@ -72,7 +73,8 @@ class Factory_Application
 	public static function getDefaultModuleHandlerInstance(): Application_Modules_Handler
 	{
 		$class_name = static::getDefaultModuleHandlerClassName();
-
+		
+		/** @phpstan-ignore return.type */
 		return new $class_name();
 	}
 

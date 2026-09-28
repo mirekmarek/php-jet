@@ -1004,6 +1004,7 @@ class Visitor extends DataModel implements Auth_Visitor
 		$locales = [];
 
 		foreach( Application_Web::getBase()->getLocales() as $locale_str => $locale ) {
+			/** @var Locale $locale */
 			if($get_as_string) {
 				$locales[$locale_str] = $locale->getName();
 			} else {

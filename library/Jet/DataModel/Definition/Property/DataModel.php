@@ -8,6 +8,8 @@
 
 namespace Jet;
 
+use JsonSerializable;
+
 /**
  *
  */
@@ -75,6 +77,9 @@ class DataModel_Definition_Property_DataModel extends DataModel_Definition_Prope
 		}
 
 		if(is_object($property)) {
+			/**
+			 * @var JsonSerializable $property
+			 */
 			return $property->jsonSerialize();
 		}
 
@@ -172,6 +177,7 @@ class DataModel_Definition_Property_DataModel extends DataModel_Definition_Prope
 			$current = $this->getValueDataModelClass();
 
 			throw new DataModel_Exception(
+				/** @phpstan-ignore binaryOp.invalid,binaryOp.invalid */
 				'Data model name ('.$related_model_name.') collision: ' . $prev . ' vs ' . $current, DataModel_Exception::CODE_DEFINITION_NONSENSE
 			);
 		}
@@ -193,8 +199,8 @@ class DataModel_Definition_Property_DataModel extends DataModel_Definition_Prope
 	{
 		/**
 		 * @var DataModel_Definition_Model_Related $definition
+		 * @phpstan-ignore argument.type
 		 */
-
 		$definition = DataModel::getDataModelDefinition( $this->getValueDataModelClass() );
 
 		return $definition;

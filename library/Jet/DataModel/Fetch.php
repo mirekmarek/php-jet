@@ -116,7 +116,7 @@ abstract class DataModel_Fetch extends BaseObject implements BaseObject_Interfac
 	 */
 	public function toJSON(): string
 	{
-		return json_encode( $this->jsonSerialize() );
+		return json_encode( $this->jsonSerialize(), flags: JSON_THROW_ON_ERROR );
 	}
 
 	/**
@@ -190,6 +190,7 @@ abstract class DataModel_Fetch extends BaseObject implements BaseObject_Interfac
 	{
 		$this->_fetch();
 
+		/** @phpstan-ignore return.type */
 		return $this->_get( $this->data[$offset] );
 	}
 	
@@ -202,6 +203,7 @@ abstract class DataModel_Fetch extends BaseObject implements BaseObject_Interfac
 	public function offsetUnset( mixed $offset ): void
 	{
 		$this->_fetch();
+		/** @phpstan-ignore assign.propertyType */
 		unset( $this->data[$offset] );
 	}
 	

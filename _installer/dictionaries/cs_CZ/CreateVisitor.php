@@ -17,4 +17,5 @@ return [
 	'E-mail %EMAIL% is already in use.' => 'E-mail %EMAIL% je již používán',
 	'Invalid value' => 'Neplatná hodnota',
 	'Week password' => '',
+	'Password verification does not match' => '',
 ];

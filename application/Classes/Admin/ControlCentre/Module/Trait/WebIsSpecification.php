@@ -8,17 +8,18 @@
 
 namespace JetApplication;
 
+use Jet\Locale;
 use Jet\MVC;
 use Jet\MVC_Page_Interface;
 use Jet\UI;
 
-/**
- * @method getModuleManifest() : Application_Module_Manifest
- */
 trait Admin_ControlCentre_Module_Trait_WebIsSpecification
 {
 	use Admin_ControlCentre_Module_Trait;
 	
+	/**
+	 * @return array<string,string>
+	 */
 	public function getControlCentreSpecificationList() : array
 	{
 		$list = [];
@@ -26,6 +27,7 @@ trait Admin_ControlCentre_Module_Trait_WebIsSpecification
 		foreach(MVC::getBases() as $base) {
 			if(!$base->getIsSecret()) {
 				foreach($base->getLocales() as $locale) {
+					/** @var Locale $locale */
 					$list[$base->getId().'_'.$locale] = $base->getName().' - '.UI::flag( $locale );
 				}
 			}

@@ -401,6 +401,7 @@ class DataModel_Backend_PgSQL extends DataModel_Backend
 		}
 		
 		if( is_object( $value ) ) {
+			/** @phpstan-ignore cast.string */
 			$value = (string)$value;
 		}
 		
@@ -595,7 +596,7 @@ class DataModel_Backend_PgSQL extends DataModel_Backend
 			$last_insert_id = 0;
 		}
 		
-		return $last_insert_id;
+		return (int)$last_insert_id;
 	}
 	
 	/**
@@ -711,6 +712,7 @@ class DataModel_Backend_PgSQL extends DataModel_Backend
 			
 			
 			$res .= $tab . $this->_getSQLQueryWherePart_handleExpression(
+					/** @phpstan-ignore argument.type */
 					$this->_getColumnName( $prop ), $qp->getOperator(), $qp->getValue()
 				);
 			
@@ -968,6 +970,7 @@ class DataModel_Backend_PgSQL extends DataModel_Backend
 			
 			/**
 			 * @var DataModel_Query_Having_Expression $qp
+			 * @phpstan-ignore method.notFound
 			 */
 			$item = $qp->getProperty()->getSelectAs();
 			

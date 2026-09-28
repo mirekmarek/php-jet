@@ -53,7 +53,7 @@ class Entity_InputCatcher_Definition_PropertyInputCatcher extends Entity_InputCa
 	{
 		
 		$input_catcher = Factory_InputCatcher::getInputCatcherInstance(
-			type: $this->getType(),
+			type: (string)$this->getType(),
 			name: $this->getPropertyName(),
 			default_value: null
 		);
@@ -69,7 +69,7 @@ class Entity_InputCatcher_Definition_PropertyInputCatcher extends Entity_InputCa
 		
 		if(($creator=$this->getCreator())) {
 			/**
-			 * @var Entity_InputCatcher_PropertyInputCatcher $input_catcher
+			 * @var InputCatcher $input_catcher
 			 */
 			$input_catcher = $creator( $input_catcher );
 		}

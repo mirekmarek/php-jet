@@ -326,7 +326,7 @@ class Locale extends BaseObject
 	 *
 	 * @param null|Locale $in_locale (optional, default: current locale)
 	 *
-	 * @return string[]
+	 * @return array<string,string>
 	 */
 	public static function getAllLocalesList( null|Locale $in_locale = null ) : array
 	{
@@ -337,7 +337,7 @@ class Locale extends BaseObject
 		$result = [];
 
 		foreach( static::$all_locales as $locale ) {
-			$result[$locale] = PHP_Locale::getDisplayName( $locale, $in_locale );
+			$result[$locale] = (string)PHP_Locale::getDisplayName( $locale, $in_locale );
 		}
 		
 		$collator = new Collator( $in_locale );
@@ -569,7 +569,7 @@ class Locale extends BaseObject
 			$this->locale, $format, PHP_IntlDateFormatter::NONE, $this->getTimeZone(), $this->getCalendar()
 		);
 
-		return $fmt->format( $date_and_time );
+		return (string)$fmt->format( $date_and_time );
 	}
 
 	/**
@@ -593,7 +593,7 @@ class Locale extends BaseObject
 			$this->locale, $date_format, $time_format, $this->getTimeZone(), $this->getCalendar()
 		);
 
-		return $fmt->format( $date_and_time );
+		return (string)$fmt->format( $date_and_time );
 	}
 
 
@@ -615,7 +615,7 @@ class Locale extends BaseObject
 			$this->locale, -1, $time_format, $this->getTimeZone(), $this->getCalendar()
 		);
 
-		return $fmt->format( $date_and_time );
+		return (string)$fmt->format( $date_and_time );
 	}
 
 
@@ -633,7 +633,7 @@ class Locale extends BaseObject
 		$f->setAttribute( PHP_NumberFormatter::MIN_FRACTION_DIGITS, 0 );
 		$f->setAttribute( PHP_NumberFormatter::MAX_FRACTION_DIGITS, 0 );
 
-		return $f->format( $number );
+		return (string)$f->format( $number );
 	}
 
 	/**
@@ -652,7 +652,7 @@ class Locale extends BaseObject
 		$f->setAttribute( PHP_NumberFormatter::MIN_FRACTION_DIGITS, $min_fraction_digits );
 		$f->setAttribute( PHP_NumberFormatter::MAX_FRACTION_DIGITS, $max_fraction_digits );
 
-		return $f->format( $number );
+		return (string)$f->format( $number );
 	}
 
 	/**
@@ -706,7 +706,7 @@ class Locale extends BaseObject
 	public function formatCurrency( float|int $value, string $currency ) : string
 	{
 		$f = new PHP_NumberFormatter( $this->locale, PHP_NumberFormatter::CURRENCY );
-		return $f->formatCurrency( $value, $currency );
+		return (string)$f->formatCurrency( $value, $currency );
 	}
 
 	/**
@@ -784,7 +784,7 @@ class Locale extends BaseObject
 			$in_locale = static::getCurrentLocale();
 		}
 
-		return PHP_Locale::getDisplayName( $this->locale, (string)$in_locale );
+		return (string)PHP_Locale::getDisplayName( $this->locale, (string)$in_locale );
 	}
 
 	/**
@@ -804,7 +804,7 @@ class Locale extends BaseObject
 			$in_locale = static::getCurrentLocale();
 		}
 
-		return PHP_Locale::getDisplayLanguage( $this->locale, (string)$in_locale );
+		return (string)PHP_Locale::getDisplayLanguage( $this->locale, (string)$in_locale );
 	}
 
 	/**
@@ -823,9 +823,8 @@ class Locale extends BaseObject
 		if( !$in_locale ) {
 			$in_locale = static::getCurrentLocale();
 		}
-
-
-		return PHP_Locale::getDisplayRegion( $this->locale, (string)$in_locale );
+		
+		return (string)PHP_Locale::getDisplayRegion( $this->locale, (string)$in_locale );
 	}
 
 

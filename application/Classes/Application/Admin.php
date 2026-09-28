@@ -40,7 +40,9 @@ class Application_Admin
 	
 	public static function init( MVC_Router $router ): void
 	{
+		/** @phpstan-ignore argument.type */
 		Logger::setLogger( Application_Service_Admin::Logger() );
+		/** @phpstan-ignore argument.type */
 		Auth::setController( Application_Service_Admin::AuthController() );
 
 		SysConf_Jet_UI::setViewsDir( $router->getBase()->getViewsPath() . 'ui/' );

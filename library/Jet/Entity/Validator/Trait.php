@@ -60,12 +60,18 @@ trait Entity_Validator_Trait
 		foreach( $this->getPropertyValidatorsDefinition() as $property_name => $definition ) {
 
 			if($definition instanceof Entity_Validator_Definition_SubEntity_Validator) {
+				/**
+				 * @var array<string,Entity_Validator_PropertyValidator> $validators
+				 */
 				$definition->createValidators( '/'.$property_name, $validators );
 				
 				continue;
 			}
 			
 			if($definition instanceof Entity_Validator_Definition_SubEntity_Validators) {
+				/**
+				 * @var array<string,Entity_Validator_PropertyValidator> $validators
+				 */
 				$definition->createValidators( '/'.$property_name, $validators );
 				
 				continue;
@@ -73,13 +79,16 @@ trait Entity_Validator_Trait
 			
 			/** @phpstan-ignore instanceof.alwaysTrue */
 			if($definition instanceof Entity_Validator_Definition_PropertyValidator) {
+				/**
+				 * @var array<string,Entity_Validator_PropertyValidator> $validators
+				 */
 				$definition->createValidator( $validators );
 			}
 		}
 		
-		$filter = function( Entity_Validator_PropertyValidator $field, array $by ) : bool
+		$filter = function( Entity_Validator_PropertyValidator $validator, array $by ) : bool
 		{
-			$name = $field->getPropertyPath();
+			$name = $validator->getPropertyPath();
 			if($name[0]!='/') {
 				return in_array($name, $by) || in_array('*', $by);
 			}
@@ -120,21 +129,30 @@ trait Entity_Validator_Trait
 		};
 		
 		if($only_properties) {
-			foreach( $validators as $i => $field ) {
-				if( !$filter($field, $only_properties) ) {
+			/**
+			 * @var array<string,Entity_Validator_PropertyValidator> $validators
+			 */
+			foreach( $validators as $i => $validator ) {
+				if( !$filter($validator, $only_properties) ) {
 					unset($validators[$i]);
 				}
 			}
 		}
 		
 		if($exclude_properties) {
-			foreach( $validators as $i => $field ) {
-				if( $filter($field, $exclude_properties) ) {
+			/**
+			 * @var array<string,Entity_Validator_PropertyValidator> $validators
+			 */
+			foreach( $validators as $i => $validator ) {
+				if( $filter($validator, $exclude_properties) ) {
 					unset($validators[$i]);
 				}
 			}
 		}
 		
+		/**
+		 * @var array<string,Entity_Validator_PropertyValidator> $validators
+		 */
 		return new Entity_Validator( $this, $validators );
 	}
 }

@@ -66,6 +66,7 @@ class Controller_Main extends MVC_Controller_Default
 		if( $form->catchInput() ) {
 			if( $form->validate() ) {
 				$data = $form->getValues();
+				/** @phpstan-ignore offsetAccess.nonOffsetAccessible,offsetAccess.nonOffsetAccessible */
 				if( Auth::login( $data['username'], $data['password'] ) ) {
 					Session::regenerateId();
 					Http_Headers::reload();
@@ -116,7 +117,7 @@ class Controller_Main extends MVC_Controller_Default
 			 * @var Administrator $user
 			 */
 			$user = Auth::getCurrentUser();
-
+			/** @phpstan-ignore offsetAccess.nonOffsetAccessible */
 			$user->setPassword( $data['password'] );
 			$user->setPasswordIsValid( true );
 			$user->setPasswordIsValidTill( null );

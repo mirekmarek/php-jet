@@ -84,6 +84,7 @@ class Http_Headers
 		foreach( $headers as $header => $value ) {
 
 			if( is_int( $header ) ) {
+				/** @phpstan-ignore argument.type */
 				static::sendHeader( $value );
 			} else {
 				if( is_array( $value ) ) {
@@ -143,7 +144,10 @@ class Http_Headers
 	protected static function sendHeader( string $header, bool $replace = true, int $http_response_code = 0 ): void
 	{
 		$f_name = SysConf_Jet_Http::getHeaderFunctionName();
-
+		
+		/**
+		 * @var callable $f_name
+		 */
 		$f_name( $header, $replace, $http_response_code );
 	}
 

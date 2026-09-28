@@ -39,6 +39,9 @@ class DataModel_Definition extends BaseObject
 	 */
 	public static function get( string|DataModel $class_name ): DataModel_Definition_Model_Main|DataModel_Definition_Model_Related
 	{
+		if(is_object($class_name)) {
+			$class_name = get_class( $class_name );
+		}
 		if( !isset( static::$__definitions[$class_name] ) ) {
 			$type = $class_name::dataModelDefinitionType();
 

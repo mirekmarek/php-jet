@@ -92,10 +92,10 @@ class Controller_Main extends MVC_Controller_Default
 		$list_uri = $listing->getURI();
 		
 		if(($prev_item_id = $listing->getPrevItemId( $event->getId() ))) {
-			$this->view->setVar( 'prev_item_url', $listing->getItemURI( $prev_item_id ) );
+			$this->view->setVar( 'prev_item_url', $listing->getItemURI( (int)$prev_item_id ) );
 		}
 		if(($next_item_id = $listing->getNextItemId( $event->getId() ))) {
-			$this->view->setVar( 'next_item_url', $listing->getItemURI( $next_item_id ) );
+			$this->view->setVar( 'next_item_url', $listing->getItemURI( (int)$next_item_id ) );
 		}
 		
 		Navigation_Breadcrumb::getItems()[1]->setURL( $list_uri );

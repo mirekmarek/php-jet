@@ -73,6 +73,7 @@ abstract class DataListing_Export extends DataListing_ElementBase
 			$data_row = [];
 			foreach( $export_columns as $col ) {
 				if( is_array( $col ) ) {
+					/** @phpstan-ignore foreach.nonIterable */
 					foreach( $col[0]->getExportData( $item ) as $d ) {
 						$data_row[] = $d;
 					}

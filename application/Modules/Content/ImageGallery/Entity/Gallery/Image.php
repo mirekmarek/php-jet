@@ -9,6 +9,7 @@
 namespace JetApplicationModule\Content\ImageGallery\Entity;
 
 use Jet\Data_Image;
+use Jet\DataModel_Fetch_Instances;
 use Jet\Http_Request;
 use Jet\IO_File;
 use Jet\IO_Dir;
@@ -130,7 +131,7 @@ class Gallery_Image extends DataModel
 		$offset = ceil( $image->getAllImagesCount() / 1000 );
 		$offset = $offset ? : 1;
 
-		$image->setOffset( $offset );
+		$image->setOffset( (int)$offset );
 
 		$source_image_file = new Data_Image( $source_file_path );
 
@@ -276,7 +277,8 @@ class Gallery_Image extends DataModel
 	 *
 	 * @param string $gallery_id (optional)
 	 *
-	 * @return Gallery_Image[]
+	 * @return DataModel_Fetch_Instances|static[]
+	 * @noinspection PhpDocSignatureInspection
 	 */
 	public static function getList( string $gallery_id = '' ): iterable
 	{

@@ -30,6 +30,9 @@ trait Application_Module_HasEmailTemplates_Trait
 		
 		$current = SysConf_Jet_Mailing::getTemplatesDir();
 		
+		/**
+		 * @var Application_Module_HasEmailTemplates_Interface $module
+		 */
 		SysConf_Jet_Mailing::setTemplatesDir( $module->getEmailTemplatesDir() );
 		
 		$template = new Mailing_Email_Template( template_id: $template_id, locale: $locale );

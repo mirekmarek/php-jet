@@ -10,4 +10,5 @@ return [
 	'Confirm password:' => 'Potvrďte heslo:',
 	'Invalid value' => 'Neplatná hodnota',
 	'Week password' => '',
+	'Password verification does not match' => '',
 ];

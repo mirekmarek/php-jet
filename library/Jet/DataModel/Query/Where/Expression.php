@@ -111,6 +111,7 @@ class DataModel_Query_Where_Expression extends BaseObject
 			$value = '[' . implode( ',', $value ) . ']';
 		}
 
+		/** @phpstan-ignore method.notFound,method.notFound */
 		return $this->property->getDataModelDefinition()->getModelName() . '::' . $this->property->getName() . ' ' . $this->operator . ' \'' . $value . '\'';
 	}
 

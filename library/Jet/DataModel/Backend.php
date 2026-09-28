@@ -138,6 +138,9 @@ abstract class DataModel_Backend extends BaseObject
 			}
 
 			$class_name = $definition->getClassName();
+			/**
+			 * @var string $class_name
+			 */
 			if( isset( static::$custom_backends[$class_name] ) ) {
 				return static::$custom_backends[$class_name];
 			}
@@ -395,7 +398,7 @@ abstract class DataModel_Backend extends BaseObject
 	/**
 	 * @param DataModel_Query $query
 	 * @param string $fetch_method
-	 * @param list<mixed> $data
+	 * @param array<string|int,mixed> $data
 	 *
 	 * @return array<int,mixed>
 	 */

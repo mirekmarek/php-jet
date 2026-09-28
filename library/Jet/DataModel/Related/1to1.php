@@ -58,7 +58,7 @@ abstract class DataModel_Related_1to1 extends DataModel_Related
 
 	/**
 	 *
-	 * @param list<array<string,mixed>>|array<string,mixed> $this_data
+	 * @param array<string,mixed> $this_data
 	 * @param array<string,array<string,mixed>> &$related_data
 	 * @param DataModel_PropertyFilter|null $load_filter
 	 *

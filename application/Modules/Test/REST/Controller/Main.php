@@ -123,18 +123,21 @@ class Controller_Main extends MVC_Controller_Default
 
 
 		$init_data = function() use ( &$data, $client ) {
+			/** @var array<string,mixed> $response_data */
+			$response_data = $client->responseData();
+			
 			if( $client->get( 'article' ) ) {
-				$data['articles'] = $client->responseData()['items'];
+				$data['articles'] = $response_data['items'];
 			}
 
 			if( $client->get( 'gallery' ) ) {
-				$data['galleries'] = $client->responseData()['items'];
+				$data['galleries'] = $response_data['items'];
 
 				if( $data['galleries'] ) {
 					$gallery = $data['galleries'][0];
 
 					if( $client->get( 'gallery/' . $gallery['id'] . '/image' ) ) {
-						$data['images'] = $client->responseData()['items'];
+						$data['images'] = $response_data['items'];
 					}
 				}
 			}

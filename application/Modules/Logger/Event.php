@@ -154,7 +154,7 @@ class Event extends DataModel
 
 		$event_i->context_object_id = $context_object_id;
 		$event_i->context_object_name = $context_object_name;
-		$event_i->context_object_data = json_encode( $context_object_data );
+		$event_i->context_object_data = (string)json_encode( $context_object_data );
 
 		if( $current_user instanceof Auth_User_Interface ) {
 			$event_i->user_id = $current_user->getId();

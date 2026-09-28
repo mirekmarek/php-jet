@@ -27,8 +27,14 @@ if( PHP_SAPI!='cli' ) {
 	errorMessage( 'For command line usage only' );
 }
 
-if(str_ends_with(getcwd(), '_playground')) {
-	$dir = dirname(getcwd());
+$cwd = getcwd();
+if($cwd===false) {
+	errorMessage('Unable to get current working directory');
+}
+$cwd = (string)$cwd;
+
+if(str_ends_with($cwd, '_playground')) {
+	$dir = dirname($cwd);
 	chdir( $dir );
 }
 
@@ -44,7 +50,8 @@ $router = __DIR__.DIRECTORY_SEPARATOR.'router.php';
 while(true) {
 	echo PHP_EOL.PHP_EOL;
 	echo 'Please enter test server host address or press ENTER.'.PHP_EOL.PHP_EOL;
-	$_host = trim(readline('Host ('.$host.' is default): '));
+	$_host = readline('Host ('.$host.' is default): ') ? : '';
+	$_host = trim( $_host );
 	
 	
 	if($_host) {

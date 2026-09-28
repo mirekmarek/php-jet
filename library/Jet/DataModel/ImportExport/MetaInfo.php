@@ -44,7 +44,7 @@ class DataModel_ImportExport_MetaInfo extends BaseObject implements BaseObject_I
 	
 	public function toJSON(): string
 	{
-		return json_encode( $this );
+		return json_encode( $this, flags: JSON_THROW_ON_ERROR );
 	}
 	
 	/**

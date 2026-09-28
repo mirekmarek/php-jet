@@ -107,7 +107,7 @@ class IO_File
 
 		if( !$mime_type ) {
 			$file_info = new finfo( FILEINFO_MIME );
-			$mime_type = $file_info->file( $file_path );
+			$mime_type = (string)$file_info->file( $file_path );
 			unset( $file_info );
 		}
 
@@ -260,6 +260,7 @@ class IO_File
 					stristr( $header, 'content-encoding' ) &&
 					stristr( $header, 'gzip' )
 				) {
+					/** @phpstan-ignore argument.type */
 					$data = gzdecode( $data );
 				}
 			}
@@ -398,8 +399,8 @@ class IO_File
 	public static function getMaxUploadSize(): int
 	{
 
-		$max_upload = ini_get( 'upload_max_filesize' );
-		$max_post = ini_get( 'post_max_size' );
+		$max_upload = (string)ini_get( 'upload_max_filesize' );
+		$max_post = (string)ini_get( 'post_max_size' );
 
 		$units = [''  => 1,
 		          'K' => 1024,
@@ -410,9 +411,9 @@ class IO_File
 		$max_post_unit = substr( $max_post, -1 );
 		$max_upload_unit = substr( $max_upload, -1 );
 
-
-		$max_post = $max_post * $units[$max_post_unit];
-		$max_upload = $max_upload * $units[$max_upload_unit];
+		
+		$max_post = ((int)$max_post) * $units[$max_post_unit];
+		$max_upload = ((int)$max_upload) * $units[$max_upload_unit];
 
 		return min( $max_upload, $max_post );
 	}
@@ -431,16 +432,16 @@ class IO_File
 		];
 
 		$max_file_uploads = (int)ini_get( 'max_file_uploads' );
-		$max_upload = ini_get( 'upload_max_filesize' );
-		$max_post = ini_get( 'post_max_size' );
+		$max_upload = (string)ini_get( 'upload_max_filesize' );
+		$max_post = (string)ini_get( 'post_max_size' );
 
 
 		$max_post_unit = substr( $max_post, -1 );
 		$max_upload_unit = substr( $max_upload, -1 );
 
 
-		$max_post = $max_post * $units[$max_post_unit];
-		$max_upload = $max_upload * $units[$max_upload_unit];
+		$max_post = ((int)$max_post) * $units[$max_post_unit];
+		$max_upload = ((int)$max_upload) * $units[$max_upload_unit];
 
 		if( $max_upload > $max_post ) {
 			$max_upload = $max_post;
@@ -496,6 +497,9 @@ class IO_File
 		);
 
 		$fp = fopen( $file_path, 'r' );
+		if(!$fp) {
+			throw new IO_File_Exception('Unable to open file '.$file_path);
+		}
 		fpassthru( $fp );
 		fclose( $fp );
 		Application::end();

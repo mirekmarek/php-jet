@@ -46,14 +46,15 @@ abstract class Cache_Files extends Cache_Abstract
 
 		if(
 			!is_file( $file_path ) ||
-			!is_readable( $file_path )
+			!is_readable( $file_path ) ||
+			!($m_time=filemtime( $file_path ))
 		) {
 			return null;
 		}
 
 		$data = require $file_path;
 		
-		return new Cache_Record_Data( $key, $data, filemtime( $file_path ) );
+		return new Cache_Record_Data( $key, $data, $m_time );
 	}
 
 	/**
@@ -99,15 +100,17 @@ abstract class Cache_Files extends Cache_Abstract
 
 		if(
 			!is_file( $file_path ) ||
-			!is_readable( $file_path )
+			!is_readable( $file_path ) ||
+			!($html=file_get_contents( $file_path )) ||
+			!($timestamp=filemtime($file_path))
 		) {
 			return null;
 		}
 
 		return new Cache_Record_HTMLSnippet(
 			key: $key,
-			html: file_get_contents( $file_path ),
-			timestamp:filemtime($file_path)
+			html: $html,
+			timestamp: $timestamp
 		);
 	}
 

@@ -66,8 +66,9 @@ class DataModel_Query_Where extends BaseObject implements BaseObject_Interface_I
 				$previous !== DataModel_Query::L_O_AND &&
 				$previous !== DataModel_Query::L_O_OR
 			) {
-
+				
 				throw new DataModel_Query_Exception(
+					/** @phpstan-ignore binaryOp.invalid */
 					'Previous part of the query must be AND or OR. ' . $previous . ' given. Current where dump:' . $this->toString(), DataModel_Query_Exception::CODE_QUERY_NONSENSE
 				);
 			}
@@ -167,6 +168,7 @@ class DataModel_Query_Where extends BaseObject implements BaseObject_Interface_I
 				$previous !== DataModel_Query::L_O_OR
 			) {
 				throw new DataModel_Query_Exception(
+					/** @phpstan-ignore binaryOp.invalid */
 					'Previous part of the query must be Expression. ' . $previous . ' given. Current where dump:' . $this->toString(), DataModel_Query_Exception::CODE_QUERY_NONSENSE
 				);
 			}
@@ -202,6 +204,7 @@ class DataModel_Query_Where extends BaseObject implements BaseObject_Interface_I
 	 */
 	public function current(): DataModel_Query_Where_Expression|DataModel_Query_Where|string
 	{
+		/** @phpstan-ignore return.type */
 		return current( $this->expressions );
 	}
 
@@ -211,6 +214,7 @@ class DataModel_Query_Where extends BaseObject implements BaseObject_Interface_I
 	 */
 	public function key(): string
 	{
+		/** @phpstan-ignore return.type */
 		return key( $this->expressions );
 	}
 

@@ -501,6 +501,7 @@ class DataModel_Backend_SQLite extends DataModel_Backend
 		}
 
 		if( is_object( $value ) ) {
+			/** @phpstan-ignore cast.string */
 			$value = (string)$value;
 		}
 		
@@ -508,9 +509,11 @@ class DataModel_Backend_SQLite extends DataModel_Backend
 	}
 
 	/**
-	 * @param list<mixed> $data
+	 * @param array<mixed,mixed> $data
 	 *
 	 * @return string
+	 * @noinspection PhpRedundantDocCommentInspection
+	 * @noinspection PhpPluralMixedCanBeReplacedWithArrayInspection
 	 */
 	protected function serialize( mixed $data ): string
 	{
@@ -543,7 +546,7 @@ class DataModel_Backend_SQLite extends DataModel_Backend
 
 		$this->getDb()->execute( $this->createInsertQuery( $record ) );
 
-		return $this->getDb()->lastInsertId();
+		return (string)$this->getDb()->lastInsertId();
 	}
 
 	/**
@@ -660,6 +663,7 @@ class DataModel_Backend_SQLite extends DataModel_Backend
 
 
 			$res .= $tab . $this->_getSQLQueryWherePart_handleExpression(
+					/** @phpstan-ignore argument.type */
 					$this->_getColumnName( $prop ), $qp->getOperator(), $qp->getValue()
 				);
 
@@ -941,8 +945,8 @@ class DataModel_Backend_SQLite extends DataModel_Backend
 
 			/**
 			 * @var DataModel_Query_Having_Expression $qp
+			 * @phpstan-ignore method.notFound
 			 */
-
 			$item = $qp->getProperty()->getSelectAs();
 
 

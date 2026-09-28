@@ -114,7 +114,7 @@ class Data_Forest extends BaseObject implements BaseObject_Interface_IteratorCou
 
 		$data = $this->jsonSerialize();
 
-		return json_encode( $data );
+		return (string)json_encode( $data, flags: JSON_THROW_ON_ERROR );
 	}
 
 	/**

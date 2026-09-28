@@ -166,7 +166,7 @@ class Form_Definition_Field extends Form_Definition
 	{
 		
 		$field = Factory_Form::getFieldInstance(
-			type: $this->getType(),
+			type: (string)$this->getType(),
 			name: $this->getFieldName(),
 			label: $this->getLabel()
 		);

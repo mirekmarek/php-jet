@@ -37,6 +37,7 @@ abstract class MVC_Controller extends BaseObject
 	 */
 	public function __construct( MVC_Page_Content_Interface $content )
 	{
+		/** @phpstan-ignore assign.propertyType */
 		$this->module = $content->getModuleInstance();
 		$this->content = $content;
 

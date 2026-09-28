@@ -36,11 +36,11 @@ class Application_Service_MetaInfo
 		$definition = new static();
 		$definition->setInterfaceClassName( $class->getName() );
 		
-		$definition->setGroup( $attributes['group'] );
+		$definition->setGroup( (string)$attributes['group'] );
 		$definition->setIsMandatory( (bool)($attributes['is_mandatory']??false) );
-		$definition->setName( $attributes['name'] );
-		$definition->setDescription( $attributes['description']??'' );
-		$definition->setModuleNamePrefix( $attributes['module_name_prefix']??'' );
+		$definition->setName( (string)$attributes['name'] );
+		$definition->setDescription( (string)($attributes['description']??'') );
+		$definition->setModuleNamePrefix( (string)($attributes['module_name_prefix']??'') );
 		$definition->setMultipleMode( (bool)($attributes['multiple_mode']??false) );
 		
 		

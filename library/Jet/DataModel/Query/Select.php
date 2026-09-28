@@ -65,7 +65,7 @@ class DataModel_Query_Select extends BaseObject implements BaseObject_Interface_
 				}
 				$val->setProperties( $properties );
 
-				$select_as = $key;
+				$select_as = (string)$key;
 
 				$item = new DataModel_Query_Select_Item( $val, $select_as );
 
@@ -150,6 +150,7 @@ class DataModel_Query_Select extends BaseObject implements BaseObject_Interface_
 	 */
 	public function current(): DataModel_Query_Select_Item
 	{
+		/** @phpstan-ignore return.type */
 		return current( $this->items );
 	}
 
@@ -159,6 +160,7 @@ class DataModel_Query_Select extends BaseObject implements BaseObject_Interface_
 	 */
 	public function key(): string
 	{
+		/** @phpstan-ignore return.type */
 		return key( $this->items );
 	}
 

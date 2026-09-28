@@ -325,6 +325,7 @@ class Factory_Form
 	{
 		$class_name = static::getFieldClassName( $type );
 		
+		/** @phpstan-ignore return.type */
 		return new $class_name( name: $name, label: $label );
 	}
 	
@@ -372,6 +373,7 @@ class Factory_Form
 	{
 		$class_name = static::getRendererFormTagClassName();
 		
+		/** @phpstan-ignore return.type */
 		return new $class_name( $form );
 	}
 	
@@ -402,6 +404,7 @@ class Factory_Form
 	{
 		$class_name = static::getRendererFormMessageClassName();
 		
+		/** @phpstan-ignore return.type */
 		return new $class_name( $form );
 	}
 	
@@ -439,6 +442,7 @@ class Factory_Form
 	{
 		$class_name = static::getRendererFieldClassName( $field->getType(), $element );
 		
+		/** @phpstan-ignore return.type */
 		return new $class_name( $field );
 	}
 	

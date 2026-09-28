@@ -190,6 +190,7 @@ class PasswordResetToken extends DataModel
 		$token->generated_by_ip = Http_Request::clientIP();
 		$token->generated_by_user_agent = Http_Request::clientUserAgent();
 		
+		/** @phpstan-ignore argument.type */
 		$token->valid_till = new Data_DateTime( date('Y-m-d H:i:s', strtotime('+'.static::TOKEN_TTL)) );
 		
 		$token->save();

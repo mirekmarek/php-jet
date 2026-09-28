@@ -18,7 +18,7 @@ class Tester_Date extends Tester
 		$matches = [];
 		$dates = static::datesWithoutSeparators( $password ) + static::datesWithSeparators( $password );
 		foreach( $dates as $date ) {
-			$matches[] = new Tester_Date_Result( $password, $date['begin'], $date['end'], $date['token'], $date );
+			$matches[] = new Tester_Date_Result( $password, (int)$date['begin'], (int)$date['end'], (string)$date['token'], $date );
 		}
 		return $matches;
 	}

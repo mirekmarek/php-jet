@@ -66,7 +66,8 @@ class Factory_Db
 	public static function getBackendConfigInstance( array $config_data = [] ): Db_Backend_Config
 	{
 		$config_class = static::$default_backend_config_class_name;
-
+		
+		/** @phpstan-ignore return.type */
 		return new $config_class( $config_data );
 	}
 
@@ -79,7 +80,8 @@ class Factory_Db
 	public static function getBackendInstance( Db_Backend_Config $connection_config ): Db_Backend_Interface
 	{
 		$adapter_class = static::$default_backend_class_name;
-
+		
+		/** @phpstan-ignore return.type */
 		return new $adapter_class( $connection_config );
 	}
 }

@@ -81,7 +81,7 @@ abstract class PackageCreator extends BaseObject
 		$o_URI = $URI;
 
 		if( str_contains( $URI, '?' ) ) {
-			$URI = strstr( $URI, '?', true );
+			$URI = (string)strstr( $URI, '?', true );
 		}
 
 		$public_uri_str_len = strlen( SysConf_URI::getCss() );

@@ -37,7 +37,8 @@ class Factory_Translator
 	public static function getDefaultBackendInstance() : Translator_Backend
 	{
 		$class_name = static::getDefaultBackendClassName();
-
+		
+		/** @phpstan-ignore return.type */
 		return new $class_name();
 	}
 }

@@ -11,8 +11,9 @@ namespace JetApplicationModule\Admin\ControlCentre;
 use Jet\Http_Request;
 use Jet\MVC_Controller_Default;
 use Jet\UI;
-use JetApplication\Admin_ControlCentre;
 use Jet\Navigation_Breadcrumb;
+use JetApplication\Admin_ControlCentre;
+use JetApplication\Admin_ControlCentre_Module_Interface;
 
 
 class Controller_Main extends MVC_Controller_Default
@@ -35,6 +36,9 @@ class Controller_Main extends MVC_Controller_Default
 		$selected_module = $modules[$selected_module_name]??null;
 		
 		if($selected_module) {
+			/**
+			 * @var Admin_ControlCentre_Module_Interface $selected_module
+			 */
 			Navigation_Breadcrumb::addURL( UI::icon( $selected_module->getControlCentreIcon() ).' '.$selected_module->getControlCentreTitle() );
 			
 			$this->view->setVar( 'selected_module', $selected_module );

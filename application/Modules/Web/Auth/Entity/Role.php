@@ -437,7 +437,7 @@ class Role extends DataModel implements Auth_Role_Interface
 
 		$base = Application_Web::getBase();
 		foreach( $base->getLocales() as $locale ) {
-
+			/** @var Locale $locale */
 			$homepage = $base->getHomepage( $locale );
 
 			$tree = new Data_Tree();

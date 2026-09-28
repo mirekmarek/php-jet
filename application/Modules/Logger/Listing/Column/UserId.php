@@ -35,7 +35,7 @@ class Listing_Column_UserId extends DataListing_Column
 	 */
 	public function getExportData( mixed $item ): string
 	{
-		return $item->getUserId();
+		return (string)$item->getUserId();
 	}
 	
 }

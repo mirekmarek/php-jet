@@ -52,7 +52,8 @@ class Config_Definition_Config extends BaseObject
 		}
 
 		$this->class_name = $class_name;
-
+		
+		/** @phpstan-ignore argument.type */
 		$this->class_reflection = new ReflectionClass( $class_name );
 
 		$this->class_arguments = Attributes::getClassDefinition( $this->class_reflection, Config_Definition::class );
@@ -93,7 +94,8 @@ class Config_Definition_Config extends BaseObject
 			unset( $definition_data['type'] );
 
 			$property = new $definition_class_name( $this->class_name, $property_name, $definition_data );
-
+			
+			/** @phpstan-ignore assign.propertyType */
 			$this->properties_definition[$property_name] = $property;
 		}
 

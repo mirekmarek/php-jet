@@ -33,6 +33,7 @@ class Config_Definition extends BaseObject
 	{
 		$definition_class_name = Factory_Config::getMainConfigDefinitionClassName();
 
+		/** @phpstan-ignore return.type */
 		return new $definition_class_name( $class_name );
 	}
 
@@ -45,7 +46,8 @@ class Config_Definition extends BaseObject
 	public static function getSectionConfigDefinition( string $class_name ): Config_Definition_Config_Section
 	{
 		$definition_class_name = Factory_Config::getConfigSectionDefinitionClassName();
-
+		
+		/** @phpstan-ignore return.type */
 		return new $definition_class_name( $class_name );
 	}
 }

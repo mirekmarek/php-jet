@@ -179,7 +179,6 @@ class Controller_Main extends MVC_Controller_REST
 		if( Http_Request::GET()->exists( 'tree' ) ) {
 			$this->responseData( Gallery::getTree() );
 		} else {
-			/** @noinspection PhpParamsInspection */
 			$this->responseData(
 				$this->handleDataPagination(
 					$this->handleOrderBy(
@@ -292,8 +291,7 @@ class Controller_Main extends MVC_Controller_REST
 		$gallery = $this->gallery;
 
 		$list = Gallery_Image::getList( $gallery->getId() );
-
-		/** @noinspection PhpParamsInspection */
+		
 		$this->responseData(
 			$this->handleDataPagination(
 				$this->handleOrderBy(

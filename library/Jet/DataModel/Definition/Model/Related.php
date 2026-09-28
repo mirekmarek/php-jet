@@ -113,7 +113,8 @@ abstract class DataModel_Definition_Model_Related extends DataModel_Definition_M
 			);
 		}
 
-		$this->main_model_class_name = (string)$main_model_class_name;
+		/** @phpstan-ignore assign.propertyType */
+		$this->main_model_class_name = $main_model_class_name;
 
 	}
 
@@ -308,6 +309,7 @@ abstract class DataModel_Definition_Model_Related extends DataModel_Definition_M
 	 */
 	public function getMainModelDefinition(): DataModel_Definition_Model_Main
 	{
+		/** @phpstan-ignore return.type */
 		return DataModel_Definition::get( $this->main_model_class_name );
 	}
 
@@ -368,6 +370,7 @@ abstract class DataModel_Definition_Model_Related extends DataModel_Definition_M
 		}
 
 		$getRelatedPropertiesDefinitionData = function( string $class_name ) : array {
+			/** @phpstan-ignore argument.type */
 			$reflection = new ReflectionClass( $class_name );
 
 			$properties_definition_data = Attributes::getClassPropertyDefinition( $reflection, DataModel_Definition::class );

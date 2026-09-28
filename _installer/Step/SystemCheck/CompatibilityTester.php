@@ -54,7 +54,6 @@ class Installer_CompatibilityTester
 					 'phpinfo',
 				 ] as $required_function ) {
 			
-			/** @phpstan-ignore function.alreadyNarrowedType */
 			if( !function_exists( $required_function ) ) {
 				echo 'Error: function \'' . $required_function . '\' is required!';
 				die();
@@ -268,7 +267,6 @@ class Installer_CompatibilityTester
 					$na_function_names = [];
 
 					foreach( $functions as $function_name ) {
-						/** @phpstan-ignore function.alreadyNarrowedType */
 						if( !function_exists( $function_name ) ) {
 							$na_function_names[] = Tr::_( '<i>%FUNCTION_NAME%</i> is not available', ['FUNCTION_NAME' => $function_name] );
 							$OK = false;
@@ -308,7 +306,7 @@ class Installer_CompatibilityTester
 			'',
 			function( Installer_CompatibilityTester_TestResult $test_result ) {
 
-				$post_max_size_cv = ini_get( 'post_max_size' );
+				$post_max_size_cv = (string)ini_get( 'post_max_size' );
 				$post_max_size = $this->getAsBytes( $post_max_size_cv );
 
 				if( $post_max_size_cv == '0' ) {
@@ -317,7 +315,7 @@ class Installer_CompatibilityTester
 				}
 
 
-				$upload_max_filesize_cv = ini_get( 'upload_max_filesize' );
+				$upload_max_filesize_cv = (string)ini_get( 'upload_max_filesize' );
 				$upload_max_filesize = $this->getAsBytes( $upload_max_filesize_cv );
 
 				if( $post_max_size <= $upload_max_filesize ) {

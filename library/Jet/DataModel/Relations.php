@@ -61,6 +61,7 @@ class DataModel_Relations extends BaseObject
 			
 			DataModel_Definition::get( $data_model_class_name )->initRelations();
 			
+			/** @phpstan-ignore argument.type */
 			$parents = array_keys( class_parents( $data_model_class_name ) );
 			
 			if(

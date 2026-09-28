@@ -272,9 +272,9 @@ class Debug_ErrorHandler_Error
 	}
 
 	/**
-	 * @return int
+	 * @return int|string
 	 */
-	public function getCode(): int
+	public function getCode(): int|string
 	{
 		return $this->code;
 	}

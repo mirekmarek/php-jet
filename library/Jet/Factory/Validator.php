@@ -58,6 +58,7 @@ class Factory_Validator
 	{
 		$class_name = static::getValidatorClassName( $type );
 		
+		/** @phpstan-ignore return.type */
 		return new $class_name();
 	}
 	

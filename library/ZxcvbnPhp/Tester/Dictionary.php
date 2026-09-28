@@ -71,6 +71,6 @@ class Tester_Dictionary extends Tester
 	protected static function getRankedDictionaries() : array
 	{
 		$data = file_get_contents( __DIR__ . '/Dictionary/Data/ranked_frequency_lists.json' );
-		return json_decode( $data, true );
+		return json_decode( (string)$data, true );
 	}
 }

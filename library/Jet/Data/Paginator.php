@@ -210,6 +210,7 @@ class Data_Paginator extends BaseObject implements BaseObject_Interface_Serializ
 		$this->data_items_count = $data->getCount();
 		$this->_calculate();
 
+		/** @phpstan-ignore method.nonObject */
 		$this->data->setPagination( $this->items_per_page, $this->data_index_start );
 	}
 
@@ -419,7 +420,7 @@ class Data_Paginator extends BaseObject implements BaseObject_Interface_Serializ
 	 */
 	public function toJSON(): string
 	{
-		return json_encode( $this->jsonSerialize() );
+		return (string)json_encode( $this->jsonSerialize(), flags: JSON_THROW_ON_ERROR );
 	}
 
 	/**

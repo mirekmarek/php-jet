@@ -84,6 +84,7 @@ class DataModel_Query_GroupBy extends BaseObject implements BaseObject_Interface
 	 */
 	public function current(): DataModel_Query_Select_Item|DataModel_Definition_Property
 	{
+		/** @phpstan-ignore return.type */
 		return current( $this->items );
 	}
 
@@ -93,6 +94,7 @@ class DataModel_Query_GroupBy extends BaseObject implements BaseObject_Interface
 	 */
 	public function key(): string
 	{
+		/** @phpstan-ignore return.type */
 		return key( $this->items );
 	}
 

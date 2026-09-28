@@ -402,6 +402,7 @@ class DataModel_Backend_MySQL extends DataModel_Backend
 		}
 
 		if( is_object( $value ) ) {
+			/** @phpstan-ignore cast.string */
 			$value = (string)$value;
 		}
 
@@ -689,6 +690,7 @@ class DataModel_Backend_MySQL extends DataModel_Backend
 
 
 			$res .= $tab . $this->_getSQLQueryWherePart_handleExpression(
+					/** @phpstan-ignore argument.type */
 					$this->_getColumnName( $prop ), $qp->getOperator(), $qp->getValue()
 				);
 
@@ -950,7 +952,7 @@ class DataModel_Backend_MySQL extends DataModel_Backend
 			/**
 			 * @var DataModel_Query_Having_Expression $qp
 			 */
-
+			/** @phpstan-ignore method.notFound */
 			$item = $qp->getProperty()->getSelectAs();
 
 
@@ -1146,7 +1148,8 @@ class DataModel_Backend_MySQL extends DataModel_Backend
 	/**
 	 * @param DataModel_Query $query
 	 *
-	 * @return list<mixed>
+	 * @return array<mixed>
+	 * @noinspection PhpPluralMixedCanBeReplacedWithArrayInspection
 	 */
 	public function fetchCol( DataModel_Query $query ): array
 	{

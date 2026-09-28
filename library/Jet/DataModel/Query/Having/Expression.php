@@ -37,9 +37,12 @@ class DataModel_Query_Having_Expression extends DataModel_Query_Where_Expression
 	 */
 	public function toString(): string
 	{
+		/** @phpstan-ignore method.notFound */
 		if( $this->property->getItem() instanceof DataModel_Query_Select_Item_Expression ) {
+			/** @phpstan-ignore method.notFound */
 			return $this->property->getItem()->toString() . ' ' . $this->operator . ' \'' . $this->value . '\'';
 		} else {
+			/** @phpstan-ignore method.notFound,method.notFound */
 			return $this->property->getItem()->getDataModelDefinition()->getModelName() . '::' . $this->property->getItem()->getName() . ' ' . $this->operator . ' \'' . $this->value . '\'';
 		}
 	}

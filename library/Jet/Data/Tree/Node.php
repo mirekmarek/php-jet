@@ -95,7 +95,7 @@ class Data_Tree_Node extends BaseObject implements BaseObject_Interface_Iterator
 	protected ?int $_max_depth = null;
 
 	/**
-	 * @var ?array<int>
+	 * @var ?array<int|string>
 	 */
 	protected ?array $_all_children_ids = null;
 
@@ -384,7 +384,7 @@ class Data_Tree_Node extends BaseObject implements BaseObject_Interface_Iterator
 	 */
 	public function toJSON(): string
 	{
-		return json_encode( $this );
+		return (string)json_encode( $this, flags: JSON_THROW_ON_ERROR );
 	}
 
 	/**
@@ -513,6 +513,7 @@ class Data_Tree_Node extends BaseObject implements BaseObject_Interface_Iterator
 			$this->getIteratorMap();
 		}
 
+		/** @phpstan-ignore return.type */
 		return current( $this->_iterator_map );
 	}
 
@@ -578,6 +579,7 @@ class Data_Tree_Node extends BaseObject implements BaseObject_Interface_Iterator
 		$result = [];
 		$this->_toArray( $result, $this->_max_depth, $this->depth );
 
+		/** @phpstan-ignore return.type */
 		return $result;
 	}
 

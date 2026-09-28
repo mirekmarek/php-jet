@@ -12,9 +12,7 @@ use Jet\MVC;
 use Jet\MVC_Page_Interface;
 use Jet\UI;
 
-/**
- * @method getModuleManifest() : Application_Module_Manifest
- */
+/** @phpstan-ignore trait.unused */
 trait Admin_ControlCentre_Module_Trait_BaseIsSpecification
 {
 	use Admin_ControlCentre_Module_Trait;

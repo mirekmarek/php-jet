@@ -117,10 +117,11 @@ trait DataModel_Trait_Load
 			}
 
 			$this_related_data = [];
-
+			
 			foreach( $related_data[$related_model_name] as $r_i => $r_d ) {
 
 				$is_related = true;
+				/** @phpstan-ignore method.notFound */
 				foreach( $related_dm_definition->getMainModelRelationIdProperties() as $glue_property_definition ) {
 					$this_property_name = $glue_property_definition->getName();
 					$related_to = $glue_property_definition->getRelatedToPropertyName();
@@ -132,7 +133,7 @@ trait DataModel_Trait_Load
 				}
 
 				if( $is_related && $this_is_related ) {
-
+					/** @phpstan-ignore method.notFound */
 					foreach( $related_dm_definition->getParentModelRelationIdProperties() as $glue_property_definition ) {
 						$this_property_name = $glue_property_definition->getName();
 						$related_to = $glue_property_definition->getRelatedToPropertyName();
@@ -208,6 +209,9 @@ trait DataModel_Trait_Load
 		) {
 			$load_filter = new DataModel_PropertyFilter( $this_definition, $load_filter );
 		}
+		/**
+		 * @var DataModel_PropertyFilter|null $load_filter
+		 */
 		
 		
 		if( $id_or_where instanceof DataModel_IDController ) {
@@ -277,6 +281,7 @@ trait DataModel_Trait_Load
 			$related_where = [];
 			
 			
+			/** @phpstan-ignore method.notFound */
 			foreach( $related_dm_definition->getMainModelRelationIdProperties() as $main_related_property_definition ) {
 				$property = $main_related_property_definition->getName();
 				$related_to = $main_related_property_definition->getRelatedToPropertyName();
@@ -328,7 +333,10 @@ trait DataModel_Trait_Load
 		) {
 			$load_filter = new DataModel_PropertyFilter( $this_definition, $load_filter );
 		}
-
+		
+		/**
+		 * @var DataModel_PropertyFilter|null $load_filter
+		 */
 
 		$query = static::createQuery();
 
@@ -412,8 +420,8 @@ trait DataModel_Trait_Load
 			if( isset( $where_per_model[$related_dm_definition->getModelName()] ) ) {
 				$related_where = $where_per_model[$related_dm_definition->getModelName()];
 			}
-
-
+			
+			/** @phpstan-ignore method.notFound */
 			foreach( $related_dm_definition->getMainModelRelationIdProperties() as $main_related_property_definition ) {
 				$property = $main_related_property_definition->getName();
 				$related_to = $main_related_property_definition->getRelatedToPropertyName();

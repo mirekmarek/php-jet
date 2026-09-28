@@ -75,6 +75,11 @@ abstract class Application_Service_Web_Analytics_Service extends Application_Mod
 	
 	abstract public function viewHomePage() : string;
 	
+	/**
+	 * @param string $event
+	 * @param array<string,mixed> $event_data
+	 * @return string
+	 */
 	abstract public function customEvent( string $event, array $event_data=[] ) : string;
 	
 	

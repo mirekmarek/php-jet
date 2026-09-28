@@ -351,6 +351,7 @@ class Data_Image extends BaseObject
 			);
 		}
 
+		/** @phpstan-ignore argument.type,argument.type  */
 		$new_image = imagecreatetruecolor( $new_width, $new_height );
 
 		if( in_array( $target_img_type, static::$types_that_has_alpha, true ) ) {
@@ -359,12 +360,15 @@ class Data_Image extends BaseObject
 
 			$transparent = imagecolorallocatealpha( $new_image, 255, 255, 255, 127 );
 
+			/** @phpstan-ignore argument.type */
 			imagefilledrectangle( $new_image, 0, 0, $new_width, $new_height, $transparent );
 		}
 
 		imagecopyresampled( $new_image, $image, 0, 0, 0, 0, $new_width, $new_height, $this->width, $this->height );
 
 		$output_method = static::$image_output_function[$target_img_type];
+		
+		/** @var callable $output_method */
 		
 		if( in_array($target_img_type, static::$types_that_has_quality) ) {
 			call_user_func($output_method, $new_image, $target_path, $this->image_quality );

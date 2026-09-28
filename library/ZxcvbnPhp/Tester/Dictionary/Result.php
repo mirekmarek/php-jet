@@ -26,9 +26,15 @@ class Tester_Dictionary_Result extends Tester_Result
 		parent::__construct( $password, $begin, $end, $token );
 		$this->pattern = 'dictionary';
 		
-		$this->dictionary_name = $params['dictionary_name'] ?? null;
-		$this->matched_word = $params['matched_word'] ?? null;
-		$this->rank = $params['rank'] ?? null;
+		if(isset($params['dictionary_name'])) {
+			$this->dictionary_name = (string)$params['dictionary_name'];
+		}
+		if(isset($params['matched_word'])) {
+			$this->matched_word = (string)$params['matched_word'];
+		}
+		if(isset($params['rank'])) {
+			$this->rank = (float)$params['rank'];
+		}
 	}
 	
 	public function getEntropy() : float

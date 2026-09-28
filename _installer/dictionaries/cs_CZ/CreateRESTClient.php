@@ -16,4 +16,5 @@ return [
 	'REST Client account has already been created' => 'Účet REST klienta byl již vytvořen',
 	'Invalid value' => 'Neplatná hodnota',
 	'Week password' => '',
+	'Password verification does not match' => '',
 ];

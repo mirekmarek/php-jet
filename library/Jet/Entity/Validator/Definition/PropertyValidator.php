@@ -78,7 +78,7 @@ class Entity_Validator_Definition_PropertyValidator extends Entity_Validator_Def
 	{
 		
 		$validator = Factory_Validator::getValidatorInstance(
-			type: $this->getType()
+			type: (string)$this->getType()
 		);
 		
 		$validator->setErrorMessages( $this->getErrorMessages() );
@@ -93,7 +93,7 @@ class Entity_Validator_Definition_PropertyValidator extends Entity_Validator_Def
 		
 		if(($creator=$this->getCreator())) {
 			/**
-			 * @var Entity_Validator_PropertyValidator $validator
+			 * @var Validator $validator
 			 */
 			$validator = $creator( $validator );
 		}

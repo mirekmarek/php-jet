@@ -120,6 +120,7 @@ abstract class DataModel_Definition_Model extends BaseObject
 	{
 		
 		$this->class_name = $data_model_class_name;
+		/** @phpstan-ignore argument.type */
 		$this->class_reflection = new ReflectionClass( $data_model_class_name );
 
 		$this->class_arguments = Attributes::getClassDefinition(
@@ -259,6 +260,7 @@ abstract class DataModel_Definition_Model extends BaseObject
 	protected function _getPropertiesDefinitionData( ?string $class_name = null ): array
 	{
 
+		/** @phpstan-ignore argument.type */
 		$reflection = $class_name ? new ReflectionClass( $class_name ) : $this->class_reflection;
 
 		$properties_definition_data = Attributes::getClassPropertyDefinition( $reflection, DataModel_Definition::class );
@@ -365,9 +367,9 @@ abstract class DataModel_Definition_Model extends BaseObject
 
 	/**
 	 *
-	 * @return string|DataModel
+	 * @return string
 	 */
-	public function getClassName(): string|DataModel
+	public function getClassName(): string
 	{
 		return $this->class_name;
 	}
@@ -403,6 +405,7 @@ abstract class DataModel_Definition_Model extends BaseObject
 	{
 		$id_controller_class = $this->getIDControllerClassName();
 
+		/** @phpstan-ignore return.type */
 		return new $id_controller_class( $this, $this->getIDControllerOptions() );
 	}
 

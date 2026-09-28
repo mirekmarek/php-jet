@@ -76,7 +76,7 @@ class Form_ValidationError extends BaseObject implements BaseObject_Interface_Se
 	{
 		$data = $this->jsonSerialize();
 		
-		return json_encode( $data );
+		return json_encode( $data, flags: JSON_THROW_ON_ERROR );
 	}
 	
 	/**

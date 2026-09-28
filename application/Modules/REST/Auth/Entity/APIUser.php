@@ -842,6 +842,9 @@ class APIUser extends DataModel implements Auth_APIUser
 		$locales = [];
 
 		foreach( Application_REST::getBase()->getLocales() as $locale_str => $locale ) {
+			/**
+			 * @var Locale $locale
+			 */
 			if($get_as_string) {
 				$locales[$locale_str] = $locale->getName();
 			} else {

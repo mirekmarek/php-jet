@@ -112,7 +112,8 @@ class Factory_DataModel
 		}
 
 		$class_name = static::getPropertyDefinitionClassName( $definition_data['type'] );
-
+		
+		/** @phpstan-ignore return.type */
 		return new $class_name( $data_model_class_name, $name, $definition_data );
 	}
 
@@ -155,7 +156,8 @@ class Factory_DataModel
 	public static function getModelDefinitionInstance( string $type, string $class_name ) : DataModel_Definition_Model_Main|DataModel_Definition_Model_Related
 	{
 		$cn = static::getModelDefinitionClassName( $type );
-
+		
+		/** @phpstan-ignore return.type */
 		return new $cn( $class_name );
 	}
 
@@ -195,7 +197,8 @@ class Factory_DataModel
 	public static function getBackendConfigInstance( string $type, array $data = [] ): DataModel_Backend_Config
 	{
 		$class_name = static::getBackendConfigClassName( $type );
-
+		
+		/** @phpstan-ignore return.type */
 		return new $class_name( $data );
 	}
 
@@ -237,7 +240,8 @@ class Factory_DataModel
 	public static function getBackendInstance( string $type, ?DataModel_Backend_Config $backend_config=null ): DataModel_Backend
 	{
 		$class_name = static::getBackendClassName( $type );
-
+		
+		/** @phpstan-ignore return.type */
 		return new $class_name( $backend_config );
 	}
 }

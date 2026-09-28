@@ -131,6 +131,7 @@ class Controller_Main extends MVC_Controller_Default
 			foreach( $gallery->getPath() as $gallery ) {
 				Navigation_Breadcrumb::addURL(
 					$gallery->getTitle(),
+					/** @phpstan-ignore argument.type */
 					$this->getControllerRouter()->action( 'edit' )->URI( $gallery->getId() )
 				);
 			}

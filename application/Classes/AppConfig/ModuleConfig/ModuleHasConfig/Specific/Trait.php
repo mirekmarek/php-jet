@@ -8,24 +8,20 @@
 
 namespace JetApplication;
 
-use Jet\Application_Module;
-
 trait AppConfig_ModuleConfig_ModuleHasConfig_Specific_Trait
 {
 	/**
-	 * @var AppConfig_ModuleConfig_Specific[]
+	 * @var array<string,AppConfig_ModuleConfig_Specific>
 	 */
 	protected array $configs = [];
 	
 	public function getSpecificConfig( string $specification_id ) : AppConfig_ModuleConfig_Specific
 	{
-		/**
-		 * @var Application_Module $this
-		 */
 		if(!isset( $this->configs[$specification_id])) {
 			$class_name = $this->module_manifest->getNamespace().'Config_Specific';
-			
-			$this->configs[$specification_id] = new $class_name( $this->module_manifest, $specification_id );
+			/** @var AppConfig_ModuleConfig_Specific $cfg */
+			$cfg = new $class_name( $this->module_manifest, $specification_id );
+			$this->configs[$specification_id] = $cfg;
 		}
 		
 		return $this->configs[$specification_id];

@@ -278,10 +278,12 @@ class Navigation_MenuSet extends BaseObject
 			$res[$menu_id] = $menu->toArray();
 			
 			foreach($menu->getItems() as $item) {
+				/** @phpstan-ignore method.notFound */
 				if(!$item->getSourceModuleName()) {
 					continue;
 				}
 				
+				/** @phpstan-ignore method.notFound */
 				$module = $item->getSourceModuleName();
 				
 				if(!isset($per_module[$module])) {

@@ -112,6 +112,7 @@ class Controller_Main extends MVC_Controller_Default
 		Debug::varDump( $paginator, 'Paginator 1' );
 		Debug::varDump( $page_no, 'Page NO' );
 
+		/** @phpstan-ignore argument.type */
 		$paginator->setDataSource( Article::getListForCurrentLocale() );
 
 

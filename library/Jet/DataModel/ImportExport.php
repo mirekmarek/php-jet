@@ -31,6 +31,10 @@ class DataModel_ImportExport extends BaseObject
 			$where = [];
 		}
 		
+		if(is_object($data_model_class_name)) {
+			$data_model_class_name = get_class( $data_model_class_name );
+		}
+		
 		$target_dir_path = rtrim($target_dir_path, '/');
 		$target_dir_path = rtrim($target_dir_path, '\\');
 		

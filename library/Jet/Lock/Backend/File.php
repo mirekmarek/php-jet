@@ -10,6 +10,8 @@
 namespace Jet;
 
 
+use RuntimeException;
+
 class Lock_Backend_File extends Lock_Backend
 {
 	protected string $file_path;
@@ -28,7 +30,12 @@ class Lock_Backend_File extends Lock_Backend
 			IO_File::write($this->file_path, '');
 		}
 		
-		$this->fp = fopen( $this->file_path, 'c+');
+		$fp = fopen( $this->file_path, 'c+');
+		if(!$fp) {
+			throw new RuntimeException('Unable to open file '.$this->file_path);
+		}
+		
+		$this->fp = $fp;
 	}
 	
 	

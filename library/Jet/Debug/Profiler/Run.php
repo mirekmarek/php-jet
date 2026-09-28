@@ -78,7 +78,7 @@ class Debug_Profiler_Run
 				!isset( $_SERVER['REQUEST_URI'] )
 			) {
 				$this->request_URL = 'unknown';
-				$this->root_dir = getcwd();
+				$this->root_dir = (string)getcwd();
 			} else {
 				$this->request_URL = $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
 				$this->root_dir = $_SERVER['DOCUMENT_ROOT'];

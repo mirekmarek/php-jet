@@ -8,6 +8,8 @@
 
 namespace Jet;
 
+use RuntimeException;
+
 /**
  *
  */
@@ -135,6 +137,9 @@ class UI_dataGrid extends UI_Renderer_Single
 			}
 
 		} else {
+			if(!is_array( $data )) {
+				throw new RuntimeException('Paginator is not set. Data source must be array in this case.');
+			}
 			$this->data = $data;
 		}
 	}

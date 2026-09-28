@@ -77,9 +77,9 @@ class SysConf_Jet_Http
 
 
 	/**
-	 * @return string
+	 * @return string|callable
 	 */
-	public static function getHeaderFunctionName(): string
+	public static function getHeaderFunctionName(): string|callable
 	{
 		return static::$header_function_name;
 	}

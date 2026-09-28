@@ -51,10 +51,12 @@ class Application_Web
 		
 		
 		Logger::setLoggerProvider( function() : ?Application_Service_Web_Logger {
+			/** @phpstan-ignore return.type */
 			return Application_Service_Web::Logger();
 		} );
 		
 		Auth::setControllerProvider( function() : Application_Service_Web_Auth_Controller {
+			/** @phpstan-ignore return.type */
 			return Application_Service_Web::AuthController();
 		} );
 

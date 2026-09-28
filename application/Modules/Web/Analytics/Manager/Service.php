@@ -33,6 +33,11 @@ abstract class Service {
 	
 	abstract public function catchConversionSourceInfo() : void;
 	
+	/**
+	 * @param string $event
+	 * @param array<string,mixed> $event_data
+	 * @return string
+	 */
 	abstract public function customEvent( string $event, array $event_data=[] ) : string;
 	
 }

@@ -16,7 +16,6 @@ use Jet\Form_Field;
 use Jet\Locale;
 use Jet\Data_DateTime;
 use Jet\MVC;
-use Jet\Data_Paginator_DataSource;
 use Jet\DataModel_IDController_UniqueString;
 use Jet\Form;
 use Jet\MVC_Cache;
@@ -119,10 +118,11 @@ class Article extends DataModel
 	}
 
 	/**
-	 * @return Locale[]
+	 * @return array<string,Locale>
 	 */
 	public static function getLocales() : array
 	{
+		/** @phpstan-ignore return.type */
 		return Application_Web::getBase()->getLocales();
 	}
 
@@ -211,9 +211,9 @@ class Article extends DataModel
 	}
 
 	/**
-	 * @return Article[]|Data_Paginator_DataSource
+	 * @return array<static>|DataModel_Fetch_Instances
 	 */
-	public static function getListForCurrentLocale(): array|Data_Paginator_DataSource
+	public static function getListForCurrentLocale(): array|DataModel_Fetch_Instances
 	{
 		$list = static::fetchInstances(
 			[

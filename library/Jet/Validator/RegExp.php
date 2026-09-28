@@ -56,7 +56,7 @@ class Validator_RegExp extends Validator
 			$regexp[0] == '/'
 		) {
 			$regexp = substr( $regexp, 1 );
-			$regexp = substr( $regexp, 0, strrpos( $regexp, '/' ) );
+			$regexp = substr( $regexp, 0, (int)strrpos( $regexp, '/' ) );
 		}
 		
 		return $regexp;

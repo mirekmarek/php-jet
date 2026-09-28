@@ -50,6 +50,7 @@ class Factory_InputCatcher
 	{
 		$class_name = static::getInputCatcherClassName( $type );
 		
+		/** @phpstan-ignore return.type */
 		return new $class_name( $name, $default_value );
 	}
 	

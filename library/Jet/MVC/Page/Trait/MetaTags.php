@@ -21,7 +21,7 @@ trait MVC_Page_Trait_MetaTags
 
 	/**
 	 *
-	 * @return MVC_Page_MetaTag_Interface[]
+	 * @return array<string,MVC_Page_MetaTag_Interface|MVC_Base_LocalizedData_MetaTag_Interface>
 	 */
 	public function getMetaTags(): array
 	{

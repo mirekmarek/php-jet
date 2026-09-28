@@ -1015,6 +1015,7 @@ class Administrator extends DataModel implements Auth_Administrator
 		$locales = [];
 
 		foreach( Application_Admin::getBase()->getLocales() as $locale_str => $locale ) {
+			/** @var Locale $locale */
 			if($get_as_string) {
 				$locales[$locale_str] = $locale->getName();
 			} else {

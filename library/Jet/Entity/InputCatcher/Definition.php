@@ -71,7 +71,7 @@ class Entity_InputCatcher_Definition extends BaseObject
 			return;
 		}
 		
-		$class = Factory_InputCatcher::getInputCatcherClassName( $this->type );
+		$class = Factory_InputCatcher::getInputCatcherClassName( (string)$this->type );
 		/**
 		 * @var InputCatcher $class
 		 */
@@ -130,6 +130,7 @@ class Entity_InputCatcher_Definition extends BaseObject
 	{
 		$creator = $this->creator;
 		
+		/** @phpstan-ignore booleanAnd.alwaysFalse,identical.alwaysFalse */
 		if(is_array($creator) && $creator[0]==='this') {
 			$creator[0] = $this->context_object;
 		}
@@ -151,6 +152,9 @@ class Entity_InputCatcher_Definition extends BaseObject
 			$creator[0] = 'this';
 		}
 		
+		/**
+		 * @var callable $creator
+		 */
 		$this->creator = $creator;
 	}
 	

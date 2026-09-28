@@ -22,8 +22,14 @@ class Admin_ControlCentre
 	public const GROUP_ANALYTICS = 'analytics';
 	public const GROUP_PAYMENT = 'payment';
 	
+	/**
+	 * @var null|array<string, Admin_ControlCentre_Module_Interface|Application_Module>
+	 */
 	protected static ?array $module_list = null;
 	
+	/**
+	 * @return array<string,string>
+	 */
 	public static function getGroupsList(): array
 	{
 		return [
@@ -47,14 +53,22 @@ class Admin_ControlCentre
 				static::$module_list[ $module_name ] = $module;
 			}
 			
-			uasort( static::$module_list, function( Admin_ControlCentre_Module_Interface $a, Admin_ControlCentre_Module_Interface $b ) {
+			uasort( static::$module_list, function( Admin_ControlCentre_Module_Interface|Application_Module $a, Admin_ControlCentre_Module_Interface|Application_Module $b ) : int {
+				/**
+				 * @var Admin_ControlCentre_Module_Interface $a
+				 * @var Admin_ControlCentre_Module_Interface $b
+				 */
 				return strcmp(
 					Data_Text::removeAccents($a->getControlCentreTitleTranslated()),
 					Data_Text::removeAccents($b->getControlCentreTitleTranslated())
 				);
 			} );
 			
-			uasort( static::$module_list, function( Admin_ControlCentre_Module_Interface $a, Admin_ControlCentre_Module_Interface $b ) {
+			uasort( static::$module_list, function( Admin_ControlCentre_Module_Interface|Application_Module $a, Admin_ControlCentre_Module_Interface|Application_Module $b ) : int {
+				/**
+				 * @var Admin_ControlCentre_Module_Interface $a
+				 * @var Admin_ControlCentre_Module_Interface $b
+				 */
 				return $a->getControlCentrePriority() <=> $b->getControlCentrePriority();
 			} );
 			

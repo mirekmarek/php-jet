@@ -129,6 +129,7 @@ class Application_Service_List {
 	public function get( string $interface_class_name ) : ?Application_Module
 	{
 		if(isset( $this->services[$interface_class_name])) {
+			/** @phpstan-ignore return.type */
 			return $this->services[$interface_class_name];
 		}
 		
@@ -144,14 +145,16 @@ class Application_Service_List {
 				
 				$this->saveCfg();
 				
+				/** @phpstan-ignore return.type */
 				return $this->services[$interface_class_name];
 			}
 		}
 		
 		if(array_key_exists($interface_class_name, $this->config)) {
 			$module_name = $this->config[$interface_class_name];
+			/** @phpstan-ignore argument.type */
 			if(Application_Modules::moduleIsActivated($module_name)) {
-				
+				/** @phpstan-ignore argument.type */
 				$service = Application_Modules::moduleInstance( $module_name );
 				$this->services[$interface_class_name] = $service;
 				
@@ -177,6 +180,7 @@ class Application_Service_List {
 	public function getList( string $interface_class_name ) : array
 	{
 		if(isset( $this->services[$interface_class_name])) {
+			/** @phpstan-ignore return.type */
 			return $this->services[$interface_class_name];
 		}
 		
@@ -191,7 +195,7 @@ class Application_Service_List {
 			
 			foreach( static::findPossibleModules( $interface_class_name, $meta_info->getModuleNamePrefix() ) as $service) {
 				$name = $service->getModuleManifest()->getName();
-				
+				/** @phpstan-ignore offsetAssign.dimType */
 				$this->config[$interface_class_name][] = $name;
 				$this->services[$interface_class_name][$name] = $service;
 			}
@@ -204,6 +208,7 @@ class Application_Service_List {
 		$module_names = $this->config[$interface_class_name];
 		
 		$this->services[$interface_class_name] = [];
+		/** @phpstan-ignore foreach.nonIterable */
 		foreach($module_names as $module_name) {
 			if(Application_Modules::moduleIsActivated($module_name)) {
 				$this->services[$interface_class_name][$module_name] = Application_Modules::moduleInstance( $module_name );
@@ -268,6 +273,7 @@ class Application_Service_List {
 		}
 		
 		if(!$name_prefix) {
+			/** @phpstan-ignore return.type */
 			return static::$possible_service_map[$interface_class_name];
 		}
 		
@@ -279,6 +285,7 @@ class Application_Service_List {
 			}
 		}
 		
+		/** @phpstan-ignore return.type */
 		return $services;
 	}
 	
@@ -325,6 +332,7 @@ class Application_Service_List {
 						
 						$class = $this->root_class_name.$class;
 						
+						/** @phpstan-ignore argument.type */
 						$reflection = new ReflectionClass( $class );
 						
 						if(
@@ -337,6 +345,7 @@ class Application_Service_List {
 							);
 							
 							if($attributes) {
+								/** @phpstan-ignore argument.type */
 								$this->classes[$class] = Application_Service_MetaInfo::create( $reflection, $attributes );
 							}
 						}

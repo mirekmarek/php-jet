@@ -384,11 +384,11 @@ class Data_Array extends BaseObject implements BaseObject_Interface_Serializable
 	{
 		$data = $this->jsonSerialize();
 
-		return json_encode( $data );
+		return (string)json_encode( $data, flags: JSON_THROW_ON_ERROR );
 	}
 	
 	/**
-	 * @return array<string,mixed>
+	 * @return array<string|int,mixed>
 	 */
 	public function jsonSerialize(): array
 	{
@@ -398,9 +398,9 @@ class Data_Array extends BaseObject implements BaseObject_Interface_Serializable
 	}
 
 	/**
-	 * @param array<string,mixed> $data
+	 * @param array<string|int,mixed> $data
 	 *
-	 * @return array<string,mixed>
+	 * @return array<string|int,mixed>
 	 */
 	protected function _jsonSerializeTraverse( array $data ): array
 	{

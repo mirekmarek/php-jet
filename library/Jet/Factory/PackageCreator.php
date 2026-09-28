@@ -59,6 +59,7 @@ class Factory_PackageCreator
 	public static function CSS( string $media, array $URIs ): PackageCreator_CSS
 	{
 		$class_name = static::getCSSClassName();
+		/** @phpstan-ignore return.type */
 		return new $class_name( $media, $URIs );
 	}
 
@@ -70,6 +71,7 @@ class Factory_PackageCreator
 	public static function JavaScript( array $URIs ): PackageCreator_JavaScript
 	{
 		$class_name = static::getJavaScriptClassName();
+		/** @phpstan-ignore return.type */
 		return new $class_name( $URIs );
 	}
 

@@ -14,6 +14,10 @@ use JetApplication\Application_Service_Web;
 class Consent {
 	protected ?Data_DateTime $date_set = null;
 	protected ?Data_DateTime $date_last_update = null;
+	
+	/**
+	 * @var array<string,bool|null>
+	 */
 	protected array $groups = [];
 	
 	public function __construct( string $data='' )
@@ -87,6 +91,9 @@ class Consent {
 		$this->date_last_update = $date_last_update;
 	}
 	
+	/**
+	 * @return array<string>
+	 */
 	public function getEnabledGroups(): array
 	{
 		$groups = [];
@@ -99,6 +106,10 @@ class Consent {
 		return $groups;
 	}
 	
+	/**
+	 * @param array<string> $groups
+	 * @return void
+	 */
 	public function enableGroups( array $groups ): void
 	{
 		foreach($this->groups as $gr=>$state) {
@@ -147,7 +158,7 @@ class Consent {
 			'groups' => $groups
 		];
 		
-		$data = json_encode($data);
+		$data = json_encode($data, flags: JSON_THROW_ON_ERROR);
 		
 		return base64_encode($data);
 	}

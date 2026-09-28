@@ -71,7 +71,7 @@ class Main extends Application_Service_Web_CookieConsent
 	}
 	
 	/**
-	 * @return Web_CookieConsent_Group[]
+	 * @return array<string>
 	 */
 	protected function getEnabledGroups() : array
 	{
@@ -98,6 +98,10 @@ class Main extends Application_Service_Web_CookieConsent
 	}
 	
 	
+	/**
+	 * @param array<string> $group_codes
+	 * @return void
+	 */
 	protected function setEnabledGroups( array $group_codes ) : void
 	{
 		$cookie_data = $this->readCookieData();
@@ -189,6 +193,11 @@ class Main extends Application_Service_Web_CookieConsent
 		
 	}
 	
+	/**
+	 * @param array<string> $enabled_groups
+	 * @param bool $complete_consent
+	 * @return void
+	 */
 	protected function logAgree( array $enabled_groups, bool $complete_consent ) : void
 	{
 		Evidence_Agree::performEvidence( $enabled_groups, $complete_consent );

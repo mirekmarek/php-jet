@@ -36,12 +36,9 @@ trait Form_Field_Part_RegExp_Trait
 		
 		$regexp = $this->validation_regexp;
 		
-		if(
-			isset( $regexp[0] ) &&
-			$regexp[0] == '/'
-		) {
+		if( str_starts_with( $regexp, '/' ) ) {
 			$regexp = substr( $regexp, 1 );
-			$regexp = substr( $regexp, 0, strrpos( $regexp, '/' ) );
+			$regexp = substr( $regexp, 0, (int)strrpos( $regexp, '/' ) );
 		}
 		
 		return $regexp;

@@ -28,6 +28,7 @@ class Config_Definition_Config_Section extends Config_Definition_Config
 		}
 
 		$this->class_name = $class_name;
+		/** @phpstan-ignore argument.type */
 		$this->class_reflection = new ReflectionClass( $class_name );
 
 		$properties_definition_data = Attributes::getClassPropertyDefinition( $this->class_reflection, Config_Definition::class );
@@ -59,6 +60,7 @@ class Config_Definition_Config_Section extends Config_Definition_Config
 
 			$property = new $definition_class_name( $this->class_name, $property_name, $definition_data );
 
+			/** @phpstan-ignore assign.propertyType */
 			$this->properties_definition[$property_name] = $property;
 
 		}

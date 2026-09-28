@@ -59,6 +59,6 @@ class Listing extends DataListing
 	
 	public function itemGetter( int|string $id ): mixed
 	{
-		return Article::get( $id );
+		return Article::get( (string)$id );
 	}
 }

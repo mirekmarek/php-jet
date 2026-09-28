@@ -39,7 +39,7 @@ trait MVC_Page_Trait_URL
 		$URL = $base->getLocalizedData( $this->locale )->getDefaultURL() . $this->relative_path;
 
 		if( $schema === false ) {
-			$URL = strchr( $URL, '/' );
+			$URL = (string)strchr( $URL, '/' );
 		} else {
 			if( $schema === null ) {
 				if( $this->getSSLRequired() ) {
@@ -82,8 +82,8 @@ trait MVC_Page_Trait_URL
 			}
 
 			$path_fragments = implode( '/', $path_fragments );
-
-			if( $URL[strlen( $URL ) - 1] != '/' ) {
+			
+			if( !str_ends_with($URL, '/') ) {
 				$URL .= '/';
 			}
 
@@ -109,6 +109,7 @@ trait MVC_Page_Trait_URL
 		if( $GET_params ) {
 			foreach( $GET_params as $k => $v ) {
 				if( is_object( $v ) ) {
+					/** @phpstan-ignore cast.string */
 					$GET_params[$k] = (string)$v;
 				}
 			}

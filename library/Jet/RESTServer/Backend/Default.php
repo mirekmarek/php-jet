@@ -8,6 +8,8 @@
 
 namespace Jet;
 
+use RuntimeException;
+
 /**
  *
  */
@@ -98,6 +100,14 @@ class RESTServer_Backend_Default extends BaseObject implements RESTServer_Backen
 		return $headers[$header] ?? $default_value;
 	}
 	
+	protected function _jsonEncode( mixed $response ) : string
+	{
+		$response = json_encode( $response );
+		if($response===false) {
+			throw new RuntimeException('Unable to encode response to JSON');
+		}
+		return $response;
+	}
 	
 	/**
 	 * @param string $message
@@ -112,7 +122,7 @@ class RESTServer_Backend_Default extends BaseObject implements RESTServer_Backen
 			$response['message'] = $message;
 		}
 		
-		$this->_response( json_encode( $response ) );
+		$this->_response( $this->_jsonEncode( $response ) );
 		
 	}
 	
@@ -121,7 +131,7 @@ class RESTServer_Backend_Default extends BaseObject implements RESTServer_Backen
 	 */
 	public function responseData( mixed $data ): void
 	{
-		$this->_response( json_encode( $data ) );
+		$this->_response( $this->_jsonEncode( $data ) );
 	}
 	
 	
@@ -160,7 +170,7 @@ class RESTServer_Backend_Default extends BaseObject implements RESTServer_Backen
 		}
 		
 		
-		$this->_response( json_encode( $error ), [], $http_code, $error_message );
+		$this->_response( $this->_jsonEncode( $error ), [], (int)$http_code, (string)$error_message );
 		
 	}
 	

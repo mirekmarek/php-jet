@@ -40,7 +40,7 @@ class Navigation_Menu extends BaseObject
 	protected int $index = 0;
 
 	/**
-	 * @var Navigation_Menu_Item[]|Navigation_Menu[]
+	 * @var array<Navigation_Menu_Item|Navigation_Menu>
 	 */
 	protected array $items = [];
 
@@ -197,7 +197,7 @@ class Navigation_Menu extends BaseObject
 	/**
 	 * @param bool $check_access
 	 *
-	 * @return Navigation_Menu[]|Navigation_Menu_Item[]
+	 * @return array<Navigation_Menu|Navigation_Menu_Item>
 	 */
 	public function getItems( bool $check_access = true ): array
 	{
@@ -284,6 +284,7 @@ class Navigation_Menu extends BaseObject
 			$menu['items'] = [];
 
 			foreach( $this->items as $item ) {
+				/** @phpstan-ignore method.notFound */
 				if($item->getSourceModuleName()) {
 					continue;
 				}

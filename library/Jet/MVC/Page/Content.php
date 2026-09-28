@@ -375,7 +375,7 @@ class MVC_Page_Content extends BaseObject implements MVC_Page_Content_Interface
 
 		}
 
-
+		/** @phpstan-ignore assign.propertyType */
 		$this->__controller_instance = new $controller_class_name( $this );
 
 		return $this->__controller_instance;

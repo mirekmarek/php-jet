@@ -56,7 +56,7 @@ trait Form_Field_Part_Select_Trait
 	}
 	
 	/**
-	 * @param array<string,string|Form_Field_Select_Option|Form_Field_Select_Option_Interface>|Iterator $options
+	 * @param array<string|int,string|Form_Field_Select_Option|Form_Field_Select_Option_Interface>|Iterator $options
 	 */
 	public function setSelectOptions( array|Iterator $options ): void
 	{
@@ -68,6 +68,7 @@ trait Form_Field_Part_Select_Trait
 				$v = new Form_Field_Select_Option($v);
 			} else {
 				if(!($v instanceof Form_Field_Select_Option_Interface)) {
+					/** @phpstan-ignore cast.string */
 					$v = new Form_Field_Select_Option((string)$v);
 				}
 			}

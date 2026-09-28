@@ -32,13 +32,13 @@ class Application_Modules_Handler_Default extends Application_Modules_Handler
 	protected ?array $all_modules_list = null;
 
 	/**
-	 * @var Application_Module_Manifest[]
+	 * @var array<string,Application_Module_Manifest>
 	 */
 	protected array $module_manifest = [];
 
 	/**
 	 *
-	 * @var Application_Module[]
+	 * @var array<string,Application_Module>
 	 */
 	protected array $module_instance = [];
 
@@ -149,6 +149,7 @@ class Application_Modules_Handler_Default extends Application_Modules_Handler
 
 			$module_name = str_replace( '\\', '.', $module_name_prefix . $module_dir );
 
+			/** @var Application_Module_Manifest $module_manifest */
 			$module_manifest = new $manifest_class_name( $module_name );
 
 			$this->all_modules_list[] = $module_name;
@@ -399,7 +400,9 @@ class Application_Modules_Handler_Default extends Application_Modules_Handler
 		if( !isset( $this->module_manifest[$module_name] ) ) {
 			$manifest_class_name = Factory_Application::getModuleManifestClassName();
 
-			$this->module_manifest[$module_name] = new $manifest_class_name( $module_name );
+			/** @var Application_Module_Manifest $manifest */
+			$manifest = new $manifest_class_name( $module_name );
+			$this->module_manifest[$module_name] = $manifest;
 		}
 
 		return $this->module_manifest[$module_name];
@@ -435,6 +438,7 @@ class Application_Modules_Handler_Default extends Application_Modules_Handler
 
 		$class_name = $module_manifest->getNamespace() . Application_Module::MAIN_CLASS_NAME;
 
+		/** @var Application_Module $module */
 		$module = new $class_name( $module_manifest );
 
 		$this->module_instance[$module_name] = $module;

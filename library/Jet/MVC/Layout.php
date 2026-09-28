@@ -122,7 +122,7 @@ class MVC_Layout extends MVC_View_Abstract
 			$result = ob_get_clean();
 		}
 
-		return $result;
+		return (string)$result;
 	}
 
 

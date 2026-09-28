@@ -32,7 +32,11 @@ class Lock {
 	protected static function getLock( string $lock_name ) : Lock_Backend
 	{
 		if(!isset(static::$locks[$lock_name])) {
-			static::$locks[$lock_name] = new static::$lock_backend_class( $lock_name );
+			/**
+			 * @var Lock_Backend $l
+			 */
+			$l = new static::$lock_backend_class( $lock_name );
+			static::$locks[$lock_name] = $l;
 		}
 		
 		return static::$locks[$lock_name];

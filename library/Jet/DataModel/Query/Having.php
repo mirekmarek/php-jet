@@ -75,6 +75,7 @@ class DataModel_Query_Having extends BaseObject implements BaseObject_Interface_
 			) {
 
 				throw new DataModel_Query_Exception(
+					/** @phpstan-ignore binaryOp.invalid */
 					'Previous part of the query must be AND or OR. ' . $previous . ' given. Current having dump:' . $this->toString(), DataModel_Query_Exception::CODE_QUERY_NONSENSE
 				);
 			}
@@ -174,6 +175,7 @@ class DataModel_Query_Having extends BaseObject implements BaseObject_Interface_
 				$previous !== DataModel_Query::L_O_OR
 			) {
 				throw new DataModel_Query_Exception(
+				/** @phpstan-ignore binaryOp.invalid */
 					'Previous part of the query must be Expression. ' . $previous . ' given. Current having dump:' . $this->toString(), DataModel_Query_Exception::CODE_QUERY_NONSENSE
 				);
 			}
@@ -211,6 +213,7 @@ class DataModel_Query_Having extends BaseObject implements BaseObject_Interface_
 	 */
 	public function current(): DataModel_Query_Having_Expression|DataModel_Query_Having|string
 	{
+		/** @phpstan-ignore return.type */
 		return current( $this->expressions );
 	}
 
@@ -220,6 +223,7 @@ class DataModel_Query_Having extends BaseObject implements BaseObject_Interface_
 	 */
 	public function key(): string
 	{
+		/** @phpstan-ignore return.type */
 		return key( $this->expressions );
 	}
 

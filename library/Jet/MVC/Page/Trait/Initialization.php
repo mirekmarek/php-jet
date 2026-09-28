@@ -19,7 +19,7 @@ trait MVC_Page_Trait_Initialization
 	protected static array $pages = [];
 
 	/**
-	 * @var array<string,array<string,array<string,string|string[]>>>
+	 * @var array<string,mixed>
 	 */
 	protected static array $maps = [];
 
@@ -37,6 +37,7 @@ trait MVC_Page_Trait_Initialization
 
 		static::loadMaps( $base, $locale );
 
+		/** @phpstan-ignore return.type */
 		return static::$maps[$key]['relative_path_map'];
 	}
 
@@ -74,6 +75,7 @@ trait MVC_Page_Trait_Initialization
 			}
 		}
 
+		/** @phpstan-ignore return.type */
 		return static::$maps[$key];
 	}
 

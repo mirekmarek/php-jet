@@ -20,4 +20,5 @@ return [
 	'Please enter e-mail address' => 'Prosím zadejte e-mailovou adresu',
 	'Invalid value' => 'Neplatná hodnota',
 	'Week password' => '',
+	'Password verification does not match' => '',
 ];

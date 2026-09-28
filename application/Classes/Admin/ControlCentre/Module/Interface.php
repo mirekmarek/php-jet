@@ -22,6 +22,9 @@ interface Admin_ControlCentre_Module_Interface {
 	
 	public function getControlCentreSpecificationMode() : bool;
 	
+	/**
+	 * @return array<string,string>
+	 */
 	public function getControlCentreSpecificationList() : array;
 	
 	public function handleControlCentre( ?string $specification_id ) : string;

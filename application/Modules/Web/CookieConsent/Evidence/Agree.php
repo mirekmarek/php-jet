@@ -28,6 +28,9 @@ class Evidence_Agree extends Evidence
 	)]
 	protected bool $complete_consent = false;
 	
+	/**
+	 * @return array<string>
+	 */
 	public function getGroups(): array
 	{
 		if(!$this->groups) {
@@ -36,6 +39,10 @@ class Evidence_Agree extends Evidence
 		return explode('|', $this->groups);
 	}
 	
+	/**
+	 * @param array<string> $groups
+	 * @return void
+	 */
 	public function setGroups( array $groups ): void
 	{
 		$this->groups = implode('|', $groups);
@@ -51,6 +58,11 @@ class Evidence_Agree extends Evidence
 		$this->complete_consent = $complete_consent;
 	}
 	
+	/**
+	 * @param array<string> $enabled_groups
+	 * @param bool $complete_consent
+	 * @return void
+	 */
 	public static function performEvidence( array $enabled_groups, bool $complete_consent ) : void
 	{
 		$i = new static();

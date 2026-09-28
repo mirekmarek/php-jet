@@ -9,6 +9,7 @@
 namespace JetApplicationModule\Web\Auth\Login;
 
 use Jet\Auth;
+use Jet\Auth_User_Interface;
 use Jet\Factory_MVC;
 use Jet\Form;
 use Jet\Form_Field;
@@ -121,6 +122,7 @@ class Main extends Application_Service_Web_Auth_LoginModule
 		
 		$current_password->setValidator( function( Form_Field_Password $field ) : bool {
 			$user = Auth::getCurrentUser();
+			/** @var Auth_User_Interface $user */
 			if(!$user->verifyPassword($field->getValue())) {
 				
 				$field->setError('current_password_not_match');
@@ -187,8 +189,10 @@ class Main extends Application_Service_Web_Auth_LoginModule
 				$field->setError( Form_Field::ERROR_CODE_WEAK_PASSWORD);
 				return false;
 			}
-
-			if(Auth::getCurrentUser()->verifyPassword($field->getValue())) {
+			
+			$user = Auth::getCurrentUser();
+			/** @var Auth_User_Interface $user */
+			if($user->verifyPassword($field->getValue())) {
 				$field->setError('current_password_used');
 				return false;
 			}

@@ -21,7 +21,9 @@ use Jet\Application_Service_MetaInfo;
 abstract class Application_Service_Web_CookieConsent extends Application_Module
 {
 	
-	
+	/**
+	 * @var Web_CookieConsent_Group[]|null
+	 */
 	protected ?array $groups = null;
 	
 	/**
@@ -63,7 +65,7 @@ abstract class Application_Service_Web_CookieConsent extends Application_Module
 		}
 		
 		$enabled[] = $group_code;
-		$this->setEnabledGroups($enabled);
+		$this->setEnabledGroups( $enabled );
 	}
 	
 	public function disableGroup( string $group_code ) : void
@@ -87,13 +89,12 @@ abstract class Application_Service_Web_CookieConsent extends Application_Module
 	
 	abstract public function resetConsent() : void;
 	
+	abstract public function consentRequired() : bool;
 	
 	/**
-	 * @return Web_CookieConsent_Group[]
+	 * @return array<string>
 	 */
 	abstract protected function getEnabledGroups() : array;
-	
-	abstract public function consentRequired() : bool;
 	
 	
 	public function denyAll() : void
@@ -107,11 +108,26 @@ abstract class Application_Service_Web_CookieConsent extends Application_Module
 	}
 	
 	
+	/**
+	 * @param array<string> $group_codes
+	 * @return void
+	 */
 	public function enableCustom( array $group_codes ) : void
 	{
 		$this->setEnabledGroups($group_codes);
 	}
+	/**
+	 * @param array<string> $group_codes
+	 * @return void
+	 */
 	
+	abstract protected function setEnabledGroups( array $group_codes ) : void;
+	
+	/**
+	 * @param array<string> $enabled_groups
+	 * @param bool $complete_consent
+	 * @return void
+	 */
 	abstract protected function logAgree( array $enabled_groups, bool $complete_consent ) : void;
 	
 	abstract protected function logDisagree() : void;

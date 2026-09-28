@@ -103,7 +103,7 @@ abstract class Tester_Result
 			$res /= $j++;
 		}
 		
-		return $res;
+		return (int)$res;
 	}
 	
 	abstract public function getEntropy() : float;

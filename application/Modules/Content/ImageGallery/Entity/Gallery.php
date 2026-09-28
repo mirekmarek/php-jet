@@ -155,7 +155,8 @@ class Gallery extends DataModel
 
 	/**
 	 *
-	 * @return Gallery[]
+	 * @return DataModel_Fetch_Instances|static[]
+	 * @noinspection PhpDocSignatureInspection
 	 */
 	public static function getList(): iterable
 	{
@@ -164,7 +165,8 @@ class Gallery extends DataModel
 
 	/**
 	 *
-	 * @return Gallery[]
+	 * @return DataModel_Fetch_Instances|static[]
+	 * @noinspection PhpDocSignatureInspection
 	 */
 	public static function getRootGalleries(): iterable
 	{
@@ -258,10 +260,11 @@ class Gallery extends DataModel
 	}
 
 	/**
-	 * @return Locale[]
+	 * @return array<string,Locale>
 	 */
 	public static function getLocales() : array
 	{
+		/** @phpstan-ignore return.type */
 		return Application_Web::getBase()->getLocales();
 	}
 
@@ -412,12 +415,13 @@ class Gallery extends DataModel
 		$i = 0;
 		while( ($existing_image = $this->getImageExists( $source_file_name )) ) {
 			$i++;
-
+			/** @phpstan-ignore offsetAccess.notFound */
 			$source_file_name = $pi['filename'] . '_' . $i . '.' . $pi['extension'];
 		}
 
 		$image = Gallery_Image::getNewImage( $this, $source_file_path, $source_file_name );
 
+		/** @phpstan-ignore offsetAccess.nonOffsetAccessible */
 		$this->_images[] = $image;
 
 		return $image;

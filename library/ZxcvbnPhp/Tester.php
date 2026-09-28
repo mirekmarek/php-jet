@@ -62,7 +62,7 @@ abstract class Tester
 				],
 			];
 			foreach( $group as $capture ) {
-				$captureBegin = strpos( $match, $capture, $captureBegin );
+				$captureBegin = (int)strpos( $match, $capture, $captureBegin );
 				$captures[] = [
 					'begin' => $matchBegin + $captureBegin,
 					'end'   => $matchBegin + $captureBegin + strlen( $capture ) - 1,

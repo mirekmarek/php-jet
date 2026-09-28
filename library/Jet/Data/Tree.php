@@ -443,6 +443,7 @@ class Data_Tree extends BaseObject implements BaseObject_Interface_IteratorCount
 				$non_exists_parent_ids = array_diff( $parent_ids, $ids );
 
 				foreach( $non_exists_parent_ids as $non_exists_parent_id ) {
+					/** @phpstan-ignore foreach.nonIterable*/
 					foreach( $this->__parent_map[$non_exists_parent_id] as $orphan_id => $orphan_item ) {
 						$this->appendNode( $orphan_item );
 
@@ -473,6 +474,7 @@ class Data_Tree extends BaseObject implements BaseObject_Interface_IteratorCount
 			return $item->{$this->id_getter_method_name}();
 		}
 
+		/** @phpstan-ignore offsetAccess.nonOffsetAccessible */
 		if( !isset( $item[$this->id_key] ) ) {
 			throw new Data_Tree_Exception(
 				'Missing \'' . $this->id_key . '\' key in item data', Data_Tree_Exception::CODE_MISSING_VALUE
@@ -496,6 +498,7 @@ class Data_Tree extends BaseObject implements BaseObject_Interface_IteratorCount
 			return $item->{$this->parent_id_getter_method_name}();
 		}
 
+		/** @phpstan-ignore offsetAccess.nonOffsetAccessible */
 		if( !isset( $item[$this->parent_id_key] ) ) {
 			throw new Data_Tree_Exception(
 				'Missing \'' . $this->parent_id_key . '\' key in item data', Data_Tree_Exception::CODE_MISSING_VALUE
@@ -514,6 +517,7 @@ class Data_Tree extends BaseObject implements BaseObject_Interface_IteratorCount
 	public function getRootNode(): Data_Tree_Node|null
 	{
 		if( !$this->root_node ) {
+			/** @phpstan-ignore assign.propertyType */
 			$this->root_node = new $this->nodes_class_name( $this, null );
 			$this->root_node->_setIsRoot( true );
 		}
@@ -538,9 +542,11 @@ class Data_Tree extends BaseObject implements BaseObject_Interface_IteratorCount
 		if( !isset( $this->__parent_map[$parent_id] ) ) {
 			return;
 		}
-
+		
+		/** @phpstan-ignore foreach.nonIterable */
 		foreach( $this->__parent_map[$parent_id] as $id => $item_data ) {
 			$this->appendNode( $item_data );
+			/** @phpstan-ignore offsetAccess.nonOffsetAccessible */
 			unset( $this->__parent_map[$parent_id][$id] );
 
 			$this->__setData( $id );
@@ -622,6 +628,7 @@ class Data_Tree extends BaseObject implements BaseObject_Interface_IteratorCount
 			return $item->{$this->label_getter_method_name}();
 		}
 
+		/** @phpstan-ignore offsetAccess.nonOffsetAccessible */
 		if( !isset( $item[$this->label_key] ) ) {
 			throw new Data_Tree_Exception(
 				'Missing \'' . $this->label_key . '\' key in item data', Data_Tree_Exception::CODE_MISSING_VALUE
@@ -639,6 +646,7 @@ class Data_Tree extends BaseObject implements BaseObject_Interface_IteratorCount
 	public function setDataSource( Iterator|array $data ): void
 	{
 		$this->use_objects = true;
+		/** @phpstan-ignore argument.type */
 		$this->_setData( $data );
 	}
 
@@ -662,7 +670,7 @@ class Data_Tree extends BaseObject implements BaseObject_Interface_IteratorCount
 
 		$data = $this->jsonSerialize();
 
-		return json_encode( $data );
+		return (string)json_encode( $data, flags: JSON_THROW_ON_ERROR );
 	}
 
 	/**
@@ -747,7 +755,8 @@ class Data_Tree extends BaseObject implements BaseObject_Interface_IteratorCount
 		if( !$this->_iterator_map ) {
 			$this->getIteratorMap();
 		}
-
+		
+		/** @phpstan-ignore return.type */
 		return current( $this->_iterator_map );
 	}
 
@@ -759,7 +768,8 @@ class Data_Tree extends BaseObject implements BaseObject_Interface_IteratorCount
 		if( !$this->_iterator_map ) {
 			$this->getIteratorMap();
 		}
-
+		
+		/** @phpstan-ignore return.type */
 		return key( $this->_iterator_map );
 	}
 

@@ -12,6 +12,7 @@ use Jet\MVC;
 use Jet\MVC_Page_Interface;
 use JetApplication\Application_REST;
 use CURLFile;
+use RuntimeException;
 
 /**
  *
@@ -78,10 +79,10 @@ class Client
 	protected string|bool $response_body = false;
 	
 	/**
-	 * @var array|null|bool
+	 * @var array|null|false
 	 * @phpstan-ignore missingType.iterableValue
 	 */
-	protected array|null|bool $response_data = null;
+	protected array|null|false $response_data = null;
 	
 	
 	/**
@@ -146,6 +147,7 @@ class Client
 			curl_setopt( $curl_handle, CURLOPT_USERPWD, $this->username . ':' . $this->password );
 		}
 		
+		/** @phpstan-ignore argument.type */
 		curl_setopt( $curl_handle, CURLOPT_URL, $URL );
 		
 		switch( $method ) {
@@ -166,7 +168,7 @@ class Client
 					$headers[] = 'Content-Type: application/json';
 					
 					$this->request_data = $data;
-					$this->request_body = json_encode( $data );
+					$this->request_body = (string)json_encode( $data, flags: JSON_THROW_ON_ERROR );
 				}
 				
 				curl_setopt( $curl_handle, CURLOPT_POSTFIELDS, $this->request_body );
@@ -174,12 +176,16 @@ class Client
 				break;
 			case self::METHOD_PUT:
 				$this->request_data = $data;
-				$this->request_body = json_encode( $data );
+				$this->request_body = (string)json_encode( $data, flags: JSON_THROW_ON_ERROR );
 				
 				$temp_handle = fopen( 'php://temp', 'w+' );
+				if($temp_handle===false) {
+					throw new RuntimeException('Unable to create tmp file');
+				}
 				fwrite( $temp_handle, $this->request_body );
 				rewind( $temp_handle );
 				$f_stat = fstat( $temp_handle );
+				/** @var array<string,mixed> $f_stat */
 				curl_setopt( $curl_handle, CURLOPT_PUT, true );
 				curl_setopt( $curl_handle, CURLOPT_INFILE, $temp_handle );
 				curl_setopt( $curl_handle, CURLOPT_INFILESIZE, $f_stat['size'] );
@@ -205,11 +211,14 @@ class Client
 			return false;
 		}
 		
+		/** @phpstan-ignore assign.propertyType */
 		$this->request = curl_getinfo( $curl_handle, CURLINFO_HEADER_OUT );
 		$this->response_status = curl_getinfo( $curl_handle, CURLINFO_HTTP_CODE );
 		
 		$header_size = curl_getinfo( $curl_handle, CURLINFO_HEADER_SIZE );
+		/** @phpstan-ignore argument.type */
 		$this->response_header = substr( $this->response_body, 0, $header_size );
+		/** @phpstan-ignore argument.type */
 		$this->response_body = substr( $this->response_body, $header_size );
 		
 		$result = false;
@@ -332,10 +341,10 @@ class Client
 	}
 	
 	/**
-	 * @return array|null
+	 * @return array|null|false
 	 * @phpstan-ignore missingType.iterableValue
 	 */
-	public function responseData(): array|null
+	public function responseData(): array|null|false
 	{
 		return $this->response_data;
 	}

@@ -38,7 +38,7 @@ class Form_Definition extends BaseObject
 	protected string $property_name;
 	
 	/**
-	 * @var ?callable
+	 * @var null|callable
 	 */
 	protected $creator = null;
 	
@@ -101,7 +101,7 @@ class Form_Definition extends BaseObject
 			return;
 		}
 		
-		$class = Factory_Form::getFieldClassName( $this->type );
+		$class = Factory_Form::getFieldClassName( (string)$this->type );
 		/**
 		 * @var Form_Field $class
 		 */
@@ -201,6 +201,7 @@ class Form_Definition extends BaseObject
 	{
 		$creator = $this->creator;
 		
+		/** @phpstan-ignore booleanAnd.alwaysFalse,identical.alwaysFalse */
 		if(is_array($creator) && $creator[0]==='this') {
 			$creator[0] = $this->context_object;
 		}
@@ -221,6 +222,9 @@ class Form_Definition extends BaseObject
 			$creator[0] = 'this';
 		}
 		
+		/**
+		 * @var callable $creator
+		 */
 		$this->creator = $creator;
 	}
 	

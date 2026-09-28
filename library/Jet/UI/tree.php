@@ -74,7 +74,10 @@ class UI_tree extends UI_Renderer_Single
 
 			$node_path = $tree_data->getPath( $node->getId() );
 
-			if( !in_array( $root_id, $node_path ) ) {
+			if(
+				!$node_path ||
+				!in_array( $root_id, $node_path )
+			) {
 				return false;
 			}
 		}

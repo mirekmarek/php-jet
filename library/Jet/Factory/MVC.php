@@ -40,6 +40,7 @@ class Factory_MVC
 	{
 		$class_name = static::getRouterClassName();
 
+		/** @phpstan-ignore return.type */
 		return new $class_name();
 	}
 
@@ -56,7 +57,8 @@ class Factory_MVC
 	public static function getBaseInstance(): MVC_Base_Interface
 	{
 		$class_name = static::getBaseClassName();
-
+		
+		/** @phpstan-ignore return.type */
 		return new $class_name();
 	}
 
@@ -73,7 +75,8 @@ class Factory_MVC
 	public static function getPageInstance(): MVC_Page_Interface
 	{
 		$class_name = static::getPageClassName();
-
+		
+		/** @phpstan-ignore return.type */
 		return new $class_name();
 	}
 
@@ -90,7 +93,8 @@ class Factory_MVC
 	public static function getPageContentInstance(): MVC_Page_Content_Interface
 	{
 		$class_name = static::getPageContentClassName();
-
+		
+		/** @phpstan-ignore return.type */
 		return new $class_name();
 	}
 
@@ -107,7 +111,8 @@ class Factory_MVC
 	public static function getPageMetaTagInstance(): MVC_Page_MetaTag_Interface
 	{
 		$class_name = static::getPageMetaTagClassName();
-
+		
+		/** @phpstan-ignore return.type */
 		return new $class_name();
 	}
 
@@ -124,7 +129,8 @@ class Factory_MVC
 	public static function getBaseLocalizedInstance( ?Locale $locale = null ): MVC_Base_LocalizedData_Interface
 	{
 		$class_name = static::getBaseLocalizedClassName();
-
+		
+		/** @phpstan-ignore return.type */
 		return new $class_name( $locale );
 	}
 
@@ -141,7 +147,8 @@ class Factory_MVC
 	public static function getBaseLocalizedMetaTagInstance(): MVC_Base_LocalizedData_MetaTag_Interface
 	{
 		$class_name = static::getBaseLocalizedMetaTagClassName();
-
+		
+		/** @phpstan-ignore return.type */
 		return new $class_name();
 	}
 
@@ -158,7 +165,8 @@ class Factory_MVC
 	public static function getViewInstance( string $scripts_dir ): MVC_View
 	{
 		$class_name = static::getViewClassName();
-
+		
+		/** @phpstan-ignore return.type */
 		return new $class_name( $scripts_dir );
 	}
 
@@ -175,7 +183,8 @@ class Factory_MVC
 	public static function getLayoutInstance( string $scripts_dir, string $script_name ): MVC_Layout
 	{
 		$class_name = static::getLayoutClassName();
-
+		
+		/** @phpstan-ignore return.type */
 		return new $class_name( $scripts_dir, $script_name );
 	}
 }

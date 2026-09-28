@@ -40,7 +40,9 @@ class Application_REST
 	 */
 	public static function init( MVC_Router $router ): void
 	{
+		/** @phpstan-ignore argument.type */
 		Logger::setLogger( Application_Service_REST::Logger() );
+		/** @phpstan-ignore argument.type */
 		Auth::setController( Application_Service_REST::AuthController() );
 	}
 

@@ -21,8 +21,8 @@ trait DataModel_Trait_Exports
 	public function toJSON(): string
 	{
 		$data = $this->jsonSerialize();
-
-		return json_encode( $data );
+		
+		return json_encode( $data, flags: JSON_THROW_ON_ERROR );
 	}
 
 	/**

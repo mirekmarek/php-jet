@@ -13,7 +13,6 @@ use Jet\Http_Headers;
 use Jet\Tr;
 use Jet\UI_messages;
 use JetApplication\Admin_ControlCentre_Module_Controller;
-use JetApplication\AppConfig_ModuleConfig_ModuleHasConfig_Specific_Interface;
 
 class Controller_ControlCentre extends Admin_ControlCentre_Module_Controller {
 	
@@ -21,7 +20,7 @@ class Controller_ControlCentre extends Admin_ControlCentre_Module_Controller {
 	{
 		$specification_id = $this->getSpecificationId();
 		/**
-		 * @var AppConfig_ModuleConfig_ModuleHasConfig_Specific_Interface $module
+		 * @var Main $module
 		 */
 		$module = $this->getModule();
 		

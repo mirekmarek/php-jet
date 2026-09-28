@@ -57,14 +57,22 @@ class Application_Service_Web
 		return static::getList( $base, $locale )->get( Application_Service_Web_Auth_LoginModule::class );
 	}
 	
-	public static function CookieConsent( ?MVC_Base $base = null, ?Locale $locale = null ): Application_Module|Application_Service_Web_CookieConsent|null
+	public static function CookieConsent( ?MVC_Base $base = null, ?Locale $locale = null ): Application_Service_Web_CookieConsent|null
 	{
-		return static::getList( $base, $locale )->get( Application_Service_Web_CookieConsent::class );
+		/**
+		 * @var Application_Service_Web_CookieConsent|null $s
+		 */
+		$s = static::getList( $base, $locale )->get( Application_Service_Web_CookieConsent::class );
+		return $s;
 	}
 	
-	public static function Analytics( ?MVC_Base $base = null, ?Locale $locale = null ): Application_Module|Application_Service_Web_Analytics_Manager|null
+	public static function Analytics( ?MVC_Base $base = null, ?Locale $locale = null ): Application_Service_Web_Analytics_Manager|null
 	{
-		return static::getList( $base, $locale )->get( Application_Service_Web_Analytics_Manager::class );
+		/**
+		 * @var Application_Service_Web_Analytics_Manager|null $s
+		 */
+		$s = static::getList( $base, $locale )->get( Application_Service_Web_Analytics_Manager::class );
+		return $s;
 	}
 	
 }

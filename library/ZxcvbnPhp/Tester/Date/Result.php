@@ -29,10 +29,18 @@ class Tester_Date_Result extends Tester_Result
 	{
 		parent::__construct( $password, $begin, $end, $token );
 		$this->pattern = 'date';
-		$this->day = $params['day']??null;
-		$this->month = $params['month']??null;
-		$this->year = $params['year']??null;
-		$this->separator = $params['separator']??null;
+		if(isset($params['day'])) {
+			$this->day = (int)$params['day'];
+		}
+		if(isset($params['month'])) {
+			$this->month = (int)$params['month'];
+		}
+		if(isset($params['year'])) {
+			$this->year = (int)$params['year'];
+		}
+		if(isset($params['separator'])) {
+			$this->separator = (string)$params['separator'];
+		}
 	}
 	
 	public function getEntropy() : float

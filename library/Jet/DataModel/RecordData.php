@@ -84,6 +84,7 @@ class DataModel_RecordData implements BaseObject_Interface_IteratorCountable
 	 */
 	public function current(): DataModel_RecordData_Item
 	{
+		/** @phpstan-ignore return.type */
 		return current( $this->items );
 	}
 
@@ -93,6 +94,7 @@ class DataModel_RecordData implements BaseObject_Interface_IteratorCountable
 	 */
 	public function key(): string
 	{
+		/** @phpstan-ignore return.type */
 		return key( $this->items );
 	}
 

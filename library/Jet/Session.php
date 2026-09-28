@@ -81,7 +81,7 @@ class Session extends BaseObject
 	 */
 	public static function getSessionId(): string
 	{
-		return session_id();
+		return (string)session_id();
 	}
 
 
