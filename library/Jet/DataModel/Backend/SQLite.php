@@ -689,13 +689,30 @@ class DataModel_Backend_SQLite extends DataModel_Backend
 
 		if( is_array( $value ) ) {
 			$sq = [];
-
-			foreach( $value as $v ) {
-
-				$sq[] = "\t\t" . $item . $this->_getSQLQueryWherePart_handleOperator( $operator, $v );
+			
+			switch( $operator ) {
+				case DataModel_Query::O_EQUAL:
+					foreach( $value as $v ) {
+						$sq[] = $this->_getValue( $v );
+					}
+					
+					$res .= $item . ' IN ('. implode( ', ', $sq ) .') ';
+					break;
+				case DataModel_Query::O_NOT_EQUAL:
+					foreach( $value as $v ) {
+						$sq[] = $this->_getValue( $v );
+					}
+					
+					$res .= $item . ' NOT IN ('. implode( ', ', $sq ) .') ';
+					break;
+				default:
+					foreach( $value as $v ) {
+						$sq[] = "\t\t" . $item . $this->_getSQLQueryWherePart_handleOperator( $operator, $v );
+					}
+					
+					$res .= '(' . PHP_EOL . implode( ' OR' . PHP_EOL, $sq ) . PHP_EOL . "\t" . ') ';
+					break;
 			}
-
-			$res .= '(' . PHP_EOL . implode( ' OR' . PHP_EOL, $sq ) . PHP_EOL . "\t" . ') ';
 		} else {
 			$res .= $item . $this->_getSQLQueryWherePart_handleOperator( $operator, $value );
 
