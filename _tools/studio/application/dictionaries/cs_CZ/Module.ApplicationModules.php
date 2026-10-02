@@ -175,4 +175,5 @@ To umožní aktualizovat slovníky pro další distribuci a instalaci modulu.<br
 	'Please enter a value' => 'Prosím zadejte hodnotu',
 	'Application modules' => 'Moduly aplikace',
 	'Logs and statistics' => '',
+	'd0b6ca331e3ce4f6243d193f19927bdb' => '',
 ];

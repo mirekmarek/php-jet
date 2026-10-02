@@ -1,0 +1,64 @@
+<?php
+/**
+ * @copyright Copyright (c) Miroslav Marek <mirek.marek@web-jet.cz>
+ * @license EUPL 1.2  https://eupl.eu/1.2/en/
+ * @author Miroslav Marek <mirek.marek@web-jet.cz>
+ */
+namespace JetApplicationModule\Admin\ControlCentreModule\Services\Web;
+
+use Jet\Form;
+use Jet\MVC_View;
+use Jet\Tr;
+use Jet\UI;
+use Jet\UI_badge;
+use Jet\UI_messages;
+use Jet\Application_Service_List;
+
+/**
+ * @var MVC_View   $this
+ * @var Application_Service_List $services
+ * @var Form $edit_form
+ */
+
+$services = $this->getRaw('services');
+
+$edit_form = $edit_form = $this->getRaw('form');
+
+foreach( UI_messages::get(context: 'CC') as $message ):
+	echo $message;
+endforeach;
+
+?>
+<?=$edit_form->start()?>
+	<div class="toolbar" id="main-toolbar">
+		<?=UI::button_save()?>
+	</div>
+	<div id="main-col">
+	<table class="table table-striped">
+		
+		<?php foreach( $services->getServicesMetaInfo() as $service):
+			$name = 'service_'.md5($service->getInterfaceClassName());
+			?>
+			<tr>
+				<td>
+					<b><?=$service->getName()?></b>
+					<div style="font-size: 0.8rem"><?=$service->getInterfaceClassName()?></div>
+				</td>
+				<td><?=$service->getDescription()?></td>
+				<td>
+					<?php if($service->isMandatory()):
+						echo UI::badge(UI_badge::DANGER, Tr::_('Mandatory'))->addCustomCssStyle('padding: 5px');
+					else:
+						echo UI::badge(UI_badge::INFO, Tr::_('Not mandatory'))->addCustomCssStyle('padding: 5px');
+					endif; ?>
+				</td>
+				<td>
+					<?=$edit_form->field( $name )->input()?>
+				</td>
+
+			</tr>
+			<?=$edit_form->end()?>
+		<?php endforeach; ?>
+	</table>
+	</div>
+<?=$edit_form->end()?>
