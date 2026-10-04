@@ -2,6 +2,7 @@
 
 namespace JetApplication\Installer;
 
+use Jet\Http_Request;
 use Jet\MVC_View;
 use Jet\UI;
 use Jet\Tr;
@@ -17,20 +18,21 @@ use Jet\Tr;
 
 			$icon = UI::icon( 'check' );
 			$css_class = '';
-			$comment = '';
+
+			$comment = $dir_data['comment']??'';
+			if($comment) {
+				$comment = '<br/><br/>' . $comment;
+			}
 
 			if( !$dir_data['is_writeable'] ) {
-				if( $dir_data['is_required'] ) {
+				if( $dir_data['exists'] ) {
 					$icon = UI::icon( 'frown-open' ).' '.Tr::_('Directory is not writeable');
 					$css_class = 'danger';
 				} else {
-					$icon = UI::icon( 'meh' ).' '.Tr::_('Directory is not writeable');
+					
+					$icon = UI::icon( 'meh' ).' '.Tr::_('The directory does not exist and could not be created').'<br><br>'.$dir_data['error_message'];
 					$css_class = 'warning';
 
-					$comment = $dir_data['comment']??'';
-					if($comment) {
-						$comment = '<br/><br/>' . $comment;
-					}
 				}
 			}
 			?>
@@ -44,6 +46,11 @@ use Jet\Tr;
 	</table>
 
 	<br/>
-	<?php if( $this->getBool( 'is_OK' ) ):
-	echo Installer::buttonNext();
-endif; ?>
+	<?php if( $this->getBool( 'is_OK' ) ): ?>
+		<script>
+			setTimeout(()=> {
+				location = '<?=Http_Request::currentURI(['go'=>1])?>';
+			}, 1000);
+		</script>
+		<?=Installer::buttonNext()?>
+	<?php endif; ?>

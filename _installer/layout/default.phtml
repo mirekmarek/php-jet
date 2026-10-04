@@ -19,7 +19,7 @@ $this->requireCssFile( 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.
 ?>
 <html>
 <head>
-	<title><?= Tr::_( 'PHP Jet - Example Project Installer' ); ?></title>
+	<title><?= Tr::_( 'Example Project Installer' ); ?></title>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 	<jet_layout_meta_tags/>
 	<jet_layout_css/>
@@ -38,7 +38,7 @@ $this->requireCssFile( 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.
 		}
 
 		.progress-area {
-			background-color: #5c5c5c;
+			background-color: #264081;
 			padding: 10px;
 		}
 		
@@ -46,9 +46,11 @@ $this->requireCssFile( 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.
 			background-color: #000000;
 			color: #ffffff;
 			text-align: left;
-			padding-left: 30px;
+			padding-left: 10px;
 			padding-top: 10px;
-			font-size: 14px;
+			font-size: 12px;
+			font-weight: bolder;
+			display: flex;align-items: center
 		}
 		
 		.step-title {
@@ -101,7 +103,7 @@ $this->requireCssFile( 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.
 
 <div class="main-container">
 	<div class="header">
-		<img src="https://php-jet.net/images/logo-st.svg" style="width: auto;height: 30px"><br>
+		<img src="https://php-jet.net/images/logo-st.svg" style="width: 140px;height: auto">
 		<?= Tr::_( 'Example Project Installer' ); ?>
 	</div>
 	<div class="step-title">

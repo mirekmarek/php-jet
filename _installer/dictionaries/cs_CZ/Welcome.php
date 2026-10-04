@@ -1,5 +1,5 @@
 <?php
 return [
-	'Welcome' => 'Vítejte',
+	'Welcome'                     => 'Vítejte',
 	'Please choose your language' => 'Prosím, zvolte si Váš jazyk',
 ];

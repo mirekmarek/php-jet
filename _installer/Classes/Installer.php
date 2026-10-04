@@ -11,13 +11,21 @@ namespace JetApplication\Installer;
 use Jet\Http_Request;
 use Jet\Http_Headers;
 use Jet\Factory_MVC;
+use Jet\MVC_Base;
 use Jet\MVC_Layout;
 use Jet\Locale;
 use Jet\MVC_View;
 use Jet\SysConf_Jet_Translator;
 use Jet\Session;
+use Jet\SysConf_URI;
+use Jet\Tr;
 use Jet\Translator;
 use Jet\SysConf_Path;
+use JetApplication\Application_Admin;
+use JetApplication\Application_Exports;
+use JetApplication\Application_REST;
+use JetApplication\Application_Services;
+use JetApplication\Application_Web;
 
 
 require 'Step/Controller.php';
@@ -41,18 +49,29 @@ class Installer
 	/**
 	 * @var array<string,Locale>
 	 */
+	protected static array $available_installer_locales = [];
+	
+	/**
+	 * @var array<string,Locale>
+	 */
 	protected static array $available_locales = [];
 
 	/**
 	 * @var array<string,Locale>
 	 */
 	protected static array $selected_locales = [];
-
+	
 	/**
 	 * @var ?Locale
 	 */
 	protected static ?Locale $current_locale = null;
-
+	
+	/**
+	 * @var ?Locale
+	 */
+	protected static ?Locale $services_locale = null;
+	
+	
 	/**
 	 * @var string
 	 */
@@ -67,6 +86,8 @@ class Installer
 	 * @var ?MVC_Layout
 	 */
 	protected static ?MVC_Layout $layout = null;
+	
+	protected static ?Session $session = null;
 
 	/**
 	 * @param array<string> $steps
@@ -78,40 +99,80 @@ class Installer
 	}
 
 	/**
-	 * @return Locale[]
+	 * @return array<string,Locale>
+	 */
+	public static function getAvailableInstallerLocales(): array
+	{
+		return self::$available_installer_locales;
+	}
+
+	/**
+	 * @param array<string> $locales
+	 */
+	public static function setAvailableInstallerLocales( array $locales ): void
+	{
+		$ls = [];
+
+		foreach( $locales as $locale ) {
+			$locale = new Locale( $locale );
+			$ls[(string)$locale] = $locale;
+		}
+
+		self::$available_installer_locales = $ls;
+	}
+	
+	/**
+	 * @return array<string,Locale>
 	 */
 	public static function getAvailableLocales(): array
 	{
 		return self::$available_locales;
 	}
-
+	
 	/**
-	 * @param array<string> $available_locales
+	 * @param array<string> $locales
 	 */
-	public static function setAvailableLocales( array $available_locales ): void
+	public static function setAvailableLocales( array $locales ): void
 	{
 		$ls = [];
-
-		foreach( $available_locales as $locale ) {
+		
+		foreach( $locales as $locale ) {
 			$locale = new Locale( $locale );
 			$ls[(string)$locale] = $locale;
 		}
-
-
+		foreach(Locale::getAllLocalesList( new Locale('en_EU') ) as $locale=>$l_name) {
+			if(isset($ls[$locale])) {
+				continue;
+			}
+			
+			$locale = new Locale( $locale );
+			$ls[(string)$locale] = $locale;
+		}
+		
 		self::$available_locales = $ls;
 	}
+	
+	public static function getServicesLocale():?Locale
+	{
+		return self::$services_locale;
+	}
+	
+	public static function setServicesLocale( Locale $services_locale ): void
+	{
+		self::$services_locale = $services_locale;
+	}
+	
+	
 
+	
+	
 	/**
 	 * @return array<string,Locale>
 	 */
 	public static function getSelectedLocales(): array
 	{
 		if( !self::$selected_locales ) {
-			$current = static::getCurrentLocale();
-			$default = [
-				$current->toString() => $current
-			];
-			self::$selected_locales = static::getSession()->getValue( 'selected_locales', $default );
+			self::$selected_locales = static::getSession()->getValue( 'selected_locales', [] );
 		}
 
 		return self::$selected_locales;
@@ -125,6 +186,8 @@ class Installer
 		self::$selected_locales = [];
 
 		foreach( $selected_locales as $locale ) {
+			$locale = new Locale( $locale );
+			
 			self::$selected_locales[$locale->toString()] = $locale;
 		}
 
@@ -136,7 +199,11 @@ class Installer
 	 */
 	public static function getSession(): Session
 	{
-		return new Session( '_installer_' );
+		if(!static::$session) {
+			static::$session = new Session( '_installer_' );
+		}
+		
+		return static::$session;
 	}
 
 	/**
@@ -150,7 +217,7 @@ class Installer
 			if( $session->getValueExists( 'current_locale' ) ) {
 				static::$current_locale = $session->getValue( 'current_locale' );
 			} else {
-				foreach( static::$available_locales as $locale ) {
+				foreach( static::$available_installer_locales as $locale ) {
 					static::setCurrentLocale( $locale );
 					break;
 				}
@@ -243,11 +310,9 @@ class Installer
 			static::$step_controllers[$step_name] = $controller;
 
 			$steps_after = $controller->getStepsAfter();
-
-			if( $steps_after ) {
-				foreach( $steps_after as $step_after ) {
-					array_unshift( $steps, $step_after );
-				}
+			
+			foreach( $steps_after as $step_after ) {
+				array_unshift( $steps, $step_after );
 			}
 		}
 
@@ -496,4 +561,125 @@ class Installer
 		static::$base_path = $base_path;
 	}
 
+	
+	public static function initBases() : void
+	{
+		
+		$URL = $_SERVER['HTTP_HOST'] . SysConf_URI::getBase();
+		
+		
+		$web = Factory_MVC::getBaseInstance();
+		$web->setName( 'Web' );
+		$web->setId( Application_Web::getBaseId() );
+		$default_added = false;
+		foreach( Installer::getSelectedLocales() as $locale ) {
+			$web_ld = $web->addLocale( $locale );
+			$web_ld->setTitle( 'Web' );
+			
+			if(!$default_added) {
+				$web_ld->setURLs( [$URL] );
+				
+				$default_added = true;
+				
+			} else {
+				$web_ld->setURLs( [$URL . $locale->getLanguage().'-'.strtolower($locale->getRegion())] );
+			}
+			
+		}
+		$web->setIsDefault( true );
+		$web->setIsActive( true );
+		$web->setInitializer( [
+			Application_Web::class,
+			'init'
+		] );
+		$web->setInitializer( [ Application_Web::class, 'init' ] );
+		$bases[$web->getId()] = $web;
+		
+		
+		
+		
+		$admin = Factory_MVC::getBaseInstance();
+		$admin->setIsSecret( true );
+		$admin->setName( 'Admin panel' );
+		$admin->setId( Application_Admin::getBaseId() );
+		
+		$default_added = false;
+		foreach( Installer::getSelectedLocales() as $locale ) {
+			$admin_ld = $admin->addLocale( $locale );
+			$admin_ld->setTitle( Tr::_( 'Admin panel', [], null, $locale ) );
+			$admin_ld->setURLs( [$URL . 'admin/'] );
+			
+			break;
+		}
+		
+		$admin->setIsActive( true );
+		$admin->setInitializer( [ Application_Admin::class, 'init'] );
+		$admin->setIsSecret( true );
+		$bases[$admin->getId()] = $admin;
+		
+		
+		$rest = Factory_MVC::getBaseInstance();
+		$rest->setIsSecret( true );
+		$rest->setName( 'Rest' );
+		$rest->setId( Application_REST::getBaseId() );
+		$rest_ld = $rest->addLocale( Installer::getServicesLocale() );
+		$rest_ld->setTitle( Tr::_( 'Rest API Server' ) );
+		$rest_ld->setURLs( [$URL . 'rest/'] );
+		$rest->setIsActive( true );
+		$rest->setInitializer( [ Application_REST::class, 'init' ] );
+		$rest->setIsSecret( true );
+		$bases[$rest->getId()] = $rest;
+		
+		
+		
+		$services = Factory_MVC::getBaseInstance();
+		$services->setIsSecret( true );
+		$services->setName( 'Services' );
+		$services->setId( Application_Services::getBaseId() );
+		$services_ld = $services->addLocale( Installer::getServicesLocale() );
+		$services_ld->setTitle( Tr::_( 'Services') );
+		$services_ld->setURLs( [$URL . 'services/'] );
+		$services->setIsActive( true );
+		$services->setInitializer( [ Application_Services::class, 'init' ] );
+		$services->setIsSecret( true );
+		$bases[$services->getId()] = $services;
+		
+		
+		
+		
+		$exports = Factory_MVC::getBaseInstance();
+		$exports->setIsSecret( true );
+		$exports->setName( 'Exports' );
+		$exports->setId( Application_Exports::getBaseId() );
+		$exports_ld = $exports->addLocale( Installer::getServicesLocale() );
+		$exports_ld->setTitle( Tr::_( 'Exports' ) );
+		$exports_ld->setURLs( [$URL . 'exports/'] );
+		$exports->setIsActive( true );
+		$exports->setInitializer( [ Application_Exports::class, 'init' ] );
+		$exports->setIsSecret( true );
+		$bases[$exports->getId()] = $exports;
+		
+		
+
+		
+		Installer::getSession()->setValue( 'bases', $bases );
+		
+	}
+	
+	/**
+	 * @return MVC_Base[]
+	 */
+	public static function getBases() : array
+	{
+		$session = static::getSession();
+		
+		if( !$session->getValueExists( 'bases' ) ) {
+			static::initBases();
+		}
+		$bases = $session->getValue( 'bases' );
+		
+		return $bases;
+		
+	}
+	
 }

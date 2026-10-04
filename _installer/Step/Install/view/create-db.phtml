@@ -1,0 +1,41 @@
+<?php
+
+namespace JetApplication\Installer;
+
+use Jet\DataModel_Helper;
+use Jet\Tr;
+use Jet\MVC_View;
+
+/**
+ * @var MVC_View $this
+ */
+?>
+	<table class="table table-striped">
+		<thead>
+		<tr>
+			<th><?= Tr::_( 'Class' ); ?></th>
+			<th><?= Tr::_( 'Status' ); ?></th>
+		</tr>
+		</thead>
+		<?php foreach( $this->getRaw( 'result' ) as $class => $state ): ?>
+			<tr>
+				<td><?= $class; ?></td>
+				<?php if( $state === true ): ?>
+					<td>
+						<div class="OK">OK</div>
+					</td>
+				<?php else: ?>
+					<td>
+						<div class="error"><?= $state; ?></div>
+						<br>
+						<pre><?=DataModel_Helper::getCreateCommand( $class )?></pre>
+					</td>
+				<?php endif; ?>
+			</tr>
+		<?php endforeach; ?>
+	</table>
+
+
+	<?php if( $this->getBool( 'OK' ) ):
+	echo Installer::buttonNext();
+endif; ?>

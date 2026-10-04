@@ -29,7 +29,7 @@ class Installer_Step_Welcome_Controller extends Installer_Step_Controller
 	 */
 	public function getIsAvailable(): bool
 	{
-		return !Installer_Step_CreateBases_Controller::basesCreated();
+		return true;
 	}
 
 	/**
@@ -47,7 +47,7 @@ class Installer_Step_Welcome_Controller extends Installer_Step_Controller
 
 		$translations = [];
 
-		foreach( Installer::getAvailableLocales() as $locale ) {
+		foreach( Installer::getAvailableInstallerLocales() as $locale ) {
 			$translations[] = $locale->toString();
 		}
 

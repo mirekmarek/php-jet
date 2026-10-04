@@ -53,9 +53,9 @@ class Installer_CompatibilityTester
 					 'ob_get_contents',
 					 'phpinfo',
 				 ] as $required_function ) {
-			
+
 			if( !function_exists( $required_function ) ) {
-				echo 'Error: function \'' . $required_function . '\' is required!';
+				echo 'Error: function \'' . $required_function . '\' is required!', E_USER_ERROR;
 				die();
 			}
 		}

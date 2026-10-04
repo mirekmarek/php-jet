@@ -2,22 +2,155 @@
 namespace JetApplication\Installer;
 
 use Jet\Form;
+use Jet\Locale;
 use Jet\MVC_View;
+use Jet\Tr;
+use Jet\UI;
+use Jet\UI_button;
 
 /**
  * @var MVC_View $this
  * @var Form $form
+ * @var array $slected_locales
  */
 $form = $this->getRaw( 'form' );
+
+$selected_locales = $this->getRaw('selected_locales');
 ?>
 
-<?= $form->start() ?>
-<?php foreach( $form->getFields() as $field ): ?>
-	<?= $field ?>
-<?php endforeach; ?>
+<style>
+	.locale-row {
+		display: grid;grid-template-columns: 50px 40px 80px 1fr;align-items: center;padding: 10px;border-bottom: 1px dotted #c9c9c9;cursor: pointer;
+	}
+</style>
+<script>
+	const Locale = {
+		input_id: '<?=$form->field('selected_locales')->getId()?>',
+		add: ( locale_code ) => {
+			document.getElementById('selected_locale_'+locale_code).style.display = 'block';
+			document.getElementById('selected_locale_'+locale_code).dataset.selected='1';
+			document.getElementById('avl_locale_'+locale_code).style.display = 'none';
+			document.getElementById('avl_locale_'+locale_code).dataset.selected='1';
+			
+			Locale.actualize();
+		},
+		remove: ( locale_code ) => {
+			document.getElementById('avl_locale_'+locale_code).style.display = 'block';
+			document.getElementById('avl_locale_'+locale_code).dataset.selected='0';
+			document.getElementById('selected_locale_'+locale_code).style.display = 'none';
+			document.getElementById('selected_locale_'+locale_code).dataset.selected='0';
 
-<div style="padding: 10px 10px 10px 15px;">
-	<?= Installer::buttonNextSubmit(); ?>
+			Locale.actualize();
+		},
+		
+		actualize: () => {
+			let selected_locales = [];
+			document.getElementById('selected_locales').querySelectorAll('.locale').forEach( ( row ) => {
+				if(row.dataset.selected==='1') {
+					selected_locales.push( row.dataset.code );
+				}
+			} );
+			
+			document.getElementById( Locale.input_id ).value = selected_locales.join(',');
+			
+			document.getElementById('continue').style.display = selected_locales.length>0 ? 'block' : 'none';
+		},
+		
+		search: (q) => {
+			q = q.toLowerCase();
+			
+			document.getElementById('avl_locales').querySelectorAll('.locale').forEach( ( row ) => {
+				if(row.dataset.selected==='1') {
+					return;
+				}
+				
+				console.debug(row.dataset.name, q, row.dataset.name.includes(q));
+				
+				if(!q || row.dataset.name.includes(q)) {
+					row.style.display = 'block';
+				} else {
+					row.style.display = 'none';
+				}
+				
+			} );
+			
+		}
+	};
+</script>
+
+<div style="display: grid;grid-template-columns: 1fr 1fr;gap: 20px;">
+	<div class="card card-body">
+		<h2><?=Tr::_('Available locales')?></h2>
+
+		<div style="display: grid;grid-template-columns: auto 1fr;gap: 10px;align-items: center;margin: 20px;">
+			<div><?=UI::icon('search')?></div>
+			<input type="search" placeholder="<?=Tr::_('Search for locale')?>" class="form-control" onkeydown="Locale.search(this.value)">
+		</div>
+		
+		
+		<div id="avl_locales">
+			<?php foreach( Installer::getAvailableLocales() as $locale_code=> $locale_name ):
+				$locale = new Locale( $locale_code );
+				?>
+				<div
+						class="locale"
+						style="display: <?=!in_array($locale_code, $selected_locales)?'block':'none'?>"
+						id="avl_locale_<?=$locale_code?>"
+						data-selected="<?=in_array($locale_code, $selected_locales)?'1':'0'?>"
+						data-name="<?=mb_strtolower( $locale_name.' '.$locale->getName($locale) )?>"
+				>
+					<div class="locale-row">
+						<div><?=UI::button()->setOnClick("Locale.add('$locale_code');")->setIcon('plus')->setClass(UI_button::CLASS_SUCCESS);?></div>
+						<div><?=UI::flag( $locale )?></div>
+						<div><?=$locale_code?></div>
+						<div><?=$locale_name?></div>
+					</div>
+				</div>
+			<?php endforeach; ?>
+		</div>
+	</div>
+
+
+	<div class="card card-body">
+		<h2><?=Tr::_('Selected locales')?></h2>
+		
+		<div id="selected_locales">
+			<?php foreach( Installer::getAvailableLocales() as $locale_code=> $locale_name ):
+				$locale = new Locale( $locale_code );
+				?>
+				<div
+						class="locale"
+						style="display: <?=in_array($locale_code, $selected_locales)?'block':'none'?>"
+						id="selected_locale_<?=$locale_code?>"
+						data-name="<?=$locale_name?>"
+						data-code="<?=$locale_code?>"
+						data-selected="<?=in_array($locale_code, $selected_locales)?'1':'0'?>"
+				>
+					<div class="locale-row">
+						<div><?=UI::button()->setOnClick("Locale.remove('$locale_code');")->setIcon('minus')->setClass(UI_button::CLASS_INFO);?></div>
+						<div><?=UI::flag( $locale )?></div>
+						<div><?=$locale_code?></div>
+						<div><?=$locale_name?></div>
+					</div>
+				</div>
+			<?php endforeach; ?>
+		</div>
+		
+		<div
+			id="continue"
+			style="display: <?=count($selected_locales)?'block':'none'?>"
+		>
+			<?= $form->start() ?>
+			<?=$form->field('selected_locales')?>
+
+			<div style="padding: 10px 10px 10px 15px;">
+				<?= Installer::buttonNextSubmit(); ?>
+			</div>
+			
+			<?= $form->end() ?>
+			
+		</div>
+		
+	</div>
+	
 </div>
-
-<?= $form->end() ?>

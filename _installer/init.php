@@ -8,7 +8,7 @@
 namespace JetApplication\Installer;
 
 use Jet\Config;
-use Jet\Debug_Profiler;
+use Jet\Locale;
 use Jet\SysConf_Jet_Form;
 use Jet\SysConf_Jet_UI;
 use Jet\SysConf_Path;
@@ -37,17 +37,28 @@ Installer::setSteps(
 		'DirsCheck',
 		'SelectDbType',
 		'SelectLocales',
-		'CreateBases',
+		'ConfigURLs',
+		
+		'Install',
+		
 		'Mailing',
-		'InstallModules',
+		
 		'CreateAdministrator',
 		'CreateVisitor',
 		'CreateRESTClient',
+		
 		'ConfigureStudio',
+		
 		'Final',
 	]
 );
 
+
+Installer::setAvailableInstallerLocales(
+	[
+		'en_EU', 'cs_CZ',
+	]
+);
 
 Installer::setAvailableLocales(
 	[
@@ -55,4 +66,4 @@ Installer::setAvailableLocales(
 	]
 );
 
-Debug_Profiler::disable();
+Installer::setServicesLocale( new Locale( 'en_EU' ) );

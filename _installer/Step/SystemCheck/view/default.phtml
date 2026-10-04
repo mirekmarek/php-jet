@@ -1,6 +1,7 @@
 <?php
 namespace JetApplication\Installer;
 
+use Jet\Http_Request;
 use Jet\MVC_View;
 
 use Jet\UI_messages;
@@ -44,6 +45,13 @@ $tester = $this->getRaw( 'tester' );
 <?php if( $tester->isCompatible() ):
 	if( !$tester->hasWarnings() ):
 		echo UI_messages::createSuccess( Tr::_( 'The system is fully compatible!' ) )->setCloseable( false );
+		?>
+		<script>
+			setTimeout(()=> {
+				location = '<?=Http_Request::currentURI(['go'=>1])?>';
+			}, 1000);
+		</script>
+		<?php
 	else:
 		echo UI_messages::createWarning( Tr::_( 'The system is compatible. Please take care about warnings!' ) )->setCloseable( false );
 	endif;

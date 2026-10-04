@@ -16,6 +16,4 @@ return [
 	'Visitor account has already been created' => '',
 	'E-mail %EMAIL% is already in use.' => '',
 	'Invalid value' => '',
-	'Week password' => '',
-	'Password verification does not match' => '',
 ];

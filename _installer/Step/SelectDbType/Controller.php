@@ -39,7 +39,7 @@ class Installer_Step_SelectDbType_Controller extends Installer_Step_Controller
 	 */
 	public function getIsAvailable(): bool
 	{
-		return !Installer_Step_CreateBases_Controller::basesCreated();
+		return true;
 	}
 
 	/**
@@ -135,11 +135,11 @@ class Installer_Step_SelectDbType_Controller extends Installer_Step_Controller
 		Installer::getSession()->setValue( 'backend_type', $type );
 
 	}
-	
+
 	/**
-	 * @return array<string>|false
+	 * @return array<string>
 	 */
-	public function getStepsAfter(): array|false
+	public function getStepsAfter(): array
 	{
 		return ['ConfigureDb'];
 

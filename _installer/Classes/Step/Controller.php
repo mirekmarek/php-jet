@@ -253,11 +253,11 @@ abstract class Installer_Step_Controller
 	}
 
 	/**
-	 * @return false|array<string>
+	 * @return array<string>
 	 */
-	public function getStepsAfter(): false|array
+	public function getStepsAfter(): array
 	{
-		return false;
+		return [];
 	}
 
 	/**

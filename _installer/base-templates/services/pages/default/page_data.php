@@ -1,7 +1,7 @@
 <?php
 
 return [
-	'name'               => 'REST API',
+	'name'               => 'Services',
 	'layout_script_name' => false,
 	'contents'           => [
 	]

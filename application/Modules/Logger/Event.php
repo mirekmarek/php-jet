@@ -23,7 +23,7 @@ use Jet\Tr;
 
 
 #[DataModel_Definition(
-	database_table_name: 'events_administration',
+	database_table_name: 'events_admin_panel',
 	name: 'logger_event',
 	id_controller_class: DataModel_IDController_AutoIncrement::class,
 	id_controller_options: ['id_property_name' => 'id']

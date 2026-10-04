@@ -18,7 +18,7 @@ class Main extends Application_Module implements Admin_ControlCentre_Module_Inte
 	use Admin_ControlCentre_Module_Trait;
 
 	protected string$control_centre_group = Admin_ControlCentre::GROUP_SYSTEM;
-	protected string $control_centre_title = 'Services - Administration';
+	protected string $control_centre_title = 'Services - Admin panel';
 	protected string $control_centre_icon = 'gears';
 	protected int $control_centre_priority = 99;
 	protected bool $control_cnter_specification_mode = false;

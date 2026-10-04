@@ -15,7 +15,7 @@ if(extension_loaded( 'intl' )) {
 class LocaleMock {
 	/**
 	 * @param string $locale
-	 * @return array<string,string>|null
+	 * @return array<string>|null
 	 */
 	public static function parseLocale(string $locale): ?array
 	{

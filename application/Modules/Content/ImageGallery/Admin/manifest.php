@@ -2,7 +2,7 @@
 return [
 	'vendor' => 'Miroslav Marek',
 
-	'label'       => 'Content / ImageGallery / Administration',
+	'label'       => 'Content / ImageGallery / Admin panel',
 	'description' => '',
 
 	'ACL_actions' => [

@@ -1,6 +1,7 @@
 <?php
 namespace JetApplication\Installer;
 
+use Jet\Http_Request;
 use Jet\MVC_View;
 use Jet\Tr;
 
@@ -29,4 +30,11 @@ $config = $this->getRaw( 'config' );
 
 <?php if( $this->getBool( 'OK' ) ):
 	echo Installer::buttonNext();
+	?>
+	<script>
+		setTimeout(()=> {
+			location = '<?=Http_Request::currentURI(['go'=>1])?>';
+		}, 1000);
+	</script>
+<?php
 endif; ?>

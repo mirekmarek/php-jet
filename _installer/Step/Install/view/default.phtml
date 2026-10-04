@@ -1,0 +1,173 @@
+<?php
+
+namespace JetApplication\Installer;
+
+use Jet\Http_Request;
+use Jet\MVC_View;
+use Jet\Tr;
+use Jet\UI;
+use Jet\UI_icon;
+
+/**
+ * @var MVC_View $this
+ */
+
+$steps = $this->getRaw('steps');
+
+?>
+<style>
+	.loader {
+		transform: rotateZ(45deg);
+		perspective: 1000px;
+		border-radius: 50%;
+		width: 48px;
+		height: 48px;
+		color: #c9c9c9;
+	}
+	.loader:before,
+	.loader:after {
+		content: '';
+		display: block;
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: inherit;
+		height: inherit;
+		border-radius: 50%;
+		transform: rotateX(70deg);
+		animation: 1s spin linear infinite;
+	}
+	.loader:after {
+		color: #264081;
+		transform: rotateY(70deg);
+		animation-delay: .4s;
+	}
+
+	@keyframes rotate {
+		0% {
+			transform: translate(-50%, -50%) rotateZ(0deg);
+		}
+		100% {
+			transform: translate(-50%, -50%) rotateZ(360deg);
+		}
+	}
+
+	@keyframes rotateccw {
+		0% {
+			transform: translate(-50%, -50%) rotate(0deg);
+		}
+		100% {
+			transform: translate(-50%, -50%) rotate(-360deg);
+		}
+	}
+
+	@keyframes spin {
+		0%,
+		100% {
+			box-shadow: .2em 0 0 0 currentcolor;
+		}
+		12% {
+			box-shadow: .2em .2em 0 0 currentcolor;
+		}
+		25% {
+			box-shadow: 0 .2em 0 0 currentcolor;
+		}
+		37% {
+			box-shadow: -.2em .2em 0 0 currentcolor;
+		}
+		50% {
+			box-shadow: -.2em 0 0 0 currentcolor;
+		}
+		62% {
+			box-shadow: -.2em -.2em 0 0 currentcolor;
+		}
+		75% {
+			box-shadow: 0 -.2em 0 0 currentcolor;
+		}
+		87% {
+			box-shadow: .2em -.2em 0 0 currentcolor;
+		}
+	}
+	
+	.intall-step {
+		display: grid;
+		grid-template-columns: 50px 1fr;
+		gap: 10px;
+		align-items: center;
+	}
+
+</style>
+
+<div id="install_result">
+	<div class="step">
+		<div>
+			<div class="loader" id="indicator"></div>
+		</div>
+		<h2><?=Tr::_('Installing ...')?></h2>
+	</div>
+</div>
+
+<div class="step">
+	<div></div>
+	<div id="continue-btn" style="display: none;">
+		<?= Installer::buttonNext() ?>
+	</div>
+</div>
+
+
+
+<script>
+	const Install = {
+		steps: <?=json_encode( $steps ) ?>,
+		
+		do: async () => {
+			let ok = true;
+			const res = document.getElementById('install_result');
+			let step_no = 0;
+			
+			for( let step_code in Install.steps ) {
+				step_no ++;
+				let step = '';
+				step += '<div class="install-step">';
+				step += '<div id="step_'+step_no+'_loader"><div class="loader"></div></div>';
+				step += '<h3>'+Install.steps[step_code]+'</h3>';
+
+				step += '<div></div>';
+				step += '<div id="step_'+step_no+'_error"></div>';
+				step += '<div>';
+				
+				
+				res.innerHTML += step;
+
+				let response = await fetch( '<?=Http_Request::currentURI([''=>''])?>&is='+step_code );
+				
+				response = await response.json();
+				
+				if(response['ok']) {
+					document.getElementById('step_'+step_no+'_loader').innerHTML = '<?=UI::icon('check')->setSize(UI_icon::SIZE_EXTRA_LARGE)?>';
+
+					await new Promise(r => setTimeout(r, 500));
+				} else {
+					document.getElementById('step_'+step_no+'_loader').innerHTML = '<?=UI::icon('triangle-exclamation')->setSize(UI_icon::SIZE_EXTRA_LARGE)?>';
+					document.getElementById('step_'+step_no+'_error').innerHTML = response['error'];
+					
+					ok = false;
+					
+					break;
+				}
+			}
+			
+			
+			document.getElementById('indicator').style.display = 'none';
+			
+			if(ok) {
+				document.getElementById('continue-btn').style.removeProperty('display');
+			}
+			
+		}
+	};
+	
+	setTimeout(()=> {
+		Install.do()
+	}, 1000);
+</script>

@@ -2,7 +2,7 @@
 return [
 	'vendor' => 'Miroslav Marek',
 	'version' => '',
-	'label' => 'Content / Articles / Administration',
+	'label' => 'Content / Articles / Admin panel',
 	'description' => '',
 	'is_mandatory' => false,
 	'ACL_actions' => [

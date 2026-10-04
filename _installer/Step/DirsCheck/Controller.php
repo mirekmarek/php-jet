@@ -8,12 +8,15 @@
 
 namespace JetApplication\Installer;
 
+use Error;
+use Jet\Exception;
 use Jet\IO_Dir;
 use Jet\SysConf_Path;
 
 use JetApplication\Application_Admin;
+use JetApplication\Application_Exports;
+use JetApplication\Application_Services;
 use JetApplication\Application_Web;
-use JetApplication\Application_REST;
 
 /**
  *
@@ -36,7 +39,7 @@ class Installer_Step_DirsCheck_Controller extends Installer_Step_Controller
 	 */
 	public function getIsAvailable(): bool
 	{
-		return !Installer_Step_CreateBases_Controller::basesCreated();
+		return true;
 	}
 
 	/**
@@ -46,60 +49,48 @@ class Installer_Step_DirsCheck_Controller extends Installer_Step_Controller
 	{
 		$this->catchContinue();
 
-		$dirs = [
-			SysConf_Path::getData()   => [
-				'is_required'  => true,
-				'is_writeable' => false,
-			],
-			SysConf_Path::getTmp()    => [
-				'is_required'  => true,
-				'is_writeable' => false,
-			],
-			SysConf_Path::getCache()  => [
-				'is_required'  => true,
-				'is_writeable' => false,
-			],
-			SysConf_Path::getLogs()   => [
-				'is_required'  => true,
-				'is_writeable' => false,
-			],
-			SysConf_Path::getCss()    => [
-				'is_required'  => true,
-				'is_writeable' => false,
-			],
-			SysConf_Path::getJs()     => [
-				'is_required'  => true,
-				'is_writeable' => false,
-			],
-			SysConf_Path::getImages() => [
-				'is_required'  => true,
-				'is_writeable' => false,
-			],
-
-			SysConf_Path::getBases() . Application_Admin::getBaseId() . '/' => [
-				'is_required'  => true,
-				'is_writeable' => false,
-			],
-			SysConf_Path::getBases() . Application_Web::getBaseId() . '/'   => [
-				'is_required'  => true,
-				'is_writeable' => false,
-			],
-			SysConf_Path::getBases() . Application_REST::getBaseId() . '/'  => [
-				'is_required'  => true,
-				'is_writeable' => false,
-			],
-			SysConf_Path::getConfig()                                       => [
-				'is_required'  => true,
-				'is_writeable' => false,
-			],
+		$list = [
+			SysConf_Path::getData() => '',
+			SysConf_Path::getTmp() => '',
+			SysConf_Path::getCache() => '',
+			SysConf_Path::getLogs() => '',
+			SysConf_Path::getCss() => '',
+			SysConf_Path::getJs() => '',
+			SysConf_Path::getImages() => '',
+			SysConf_Path::getBases() . Application_Admin::getBaseId() . '/' => '',
+			SysConf_Path::getBases() . Application_Web::getBaseId() . '/' => '',
+			SysConf_Path::getBases() . Application_Exports::getBaseId() . '/' => '',
+			SysConf_Path::getBases() . Application_Services::getBaseId() . '/' => '',
+			SysConf_Path::getConfig() => '',
 		];
 
+		$dirs = [];
 
 		$is_OK = true;
-		foreach( $dirs as $dir => $dir_data ) {
+		foreach( $list as $dir => $comment ) {
+			$dirs[$dir] = [
+				'exists' => false,
+				'created' => false,
+				'is_writeable' => false,
+				'error_message' => '',
+				'comment' => $comment,
+			];
+			
+			if(!IO_Dir::exists($dir)) {
+				try {
+					IO_Dir::create($dir);
+					/** @phpstan-ignore catch.neverThrown */
+				} catch( Error|Exception $e ) {
+					$dirs[$dir]['error_message'] = $e->getMessage();
+					
+					continue;
+				}
+			}
+			$dirs[$dir]['exists'] = true;
+			$dirs[$dir]['created'] = true;
 			$dirs[$dir]['is_writeable'] = IO_Dir::isWritable( $dir );
-			/** @phpstan-ignore booleanAnd.rightAlwaysTrue */
-			if( !$dirs[$dir]['is_writeable'] && $dir_data['is_required'] ) {
+			
+			if( !$dirs[$dir]['is_writeable'] ) {
 				$is_OK = false;
 			}
 		}

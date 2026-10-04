@@ -35,7 +35,10 @@ class Application_Admin
 
 	public static function getHomePage(): MVC_Page_Interface
 	{
-		return MVC::getHomePage( base_id: Application_Admin::getBaseId() );
+		return MVC::getHomePage(
+			locale: Application_Admin::getBase()->getDefaultLocale(),
+			base_id: Application_Admin::getBaseId(),
+		);
 	}
 	
 	public static function init( MVC_Router $router ): void
