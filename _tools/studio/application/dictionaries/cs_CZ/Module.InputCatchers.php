@@ -1,0 +1,20 @@
+<?php
+return [
+	'Search for class ...' => 'Hledat třídu ...',
+	'Properties' => 'Vlastnosti',
+	'Not defined' => 'Není definováno',
+	'- none -' => '- žádný -',
+	'Saved ...' => 'Uloženo ...',
+	'Type:' => 'Typ:',
+	'Creator:' => 'Vytvářeč:',
+	'class name or self::class or this' => 'název třídy nebo self::class nebo this',
+	'InputCathers' => 'Zachytávače vstupu',
+	'class name' => 'název třídy',
+	'method name' => 'název metody',
+	'- Sub Input Catchers -' => '- podřízené zachytávače -',
+	'Select Input Catcher type please' => 'Prosív vyberte typ zachytávače vstupu',
+	'Is not callable' => 'Není volatelné',
+	'ORM definition' => 'Definice ORM',
+	'Form field definition' => 'Definice formulářového pole',
+	'Validator definition' => 'Definice validátoru',
+];

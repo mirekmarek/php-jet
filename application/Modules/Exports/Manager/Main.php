@@ -51,25 +51,25 @@ class Main extends Application_Service_General_ExportsManager implements
 		return $c;
 	}
 	
+	protected function commonError( string $message ) : void
+	{
+		Http_Headers::response(
+			code: Http_Headers::CODE_503_SERVICE_UNAVAILABLE,
+			headers: [
+				'Content-Type' => 'text/plain; charset=UTF-8'
+			]
+		);
+		
+		echo $message;
+
+		Application::end();
+	}
+	
 	public function handleExports(): void
 	{
 		Logger::setLogger( new ExportLogger() );
 		Auth::setController( new AuthController() );
-		
-		$bases = [];
-		foreach(MVC::getBases() as $base) {
-			foreach($base->getLocales() as $locale) {
-				/** @var Locale $locale */
-				$bases[$base->getId().':'.$locale] = $base->getLocalizedData($locale);
-			}
-		}
-		
-		$base_l = null;
-		if( ($base_key = Http_Request::GET()->getString('base', valid_values: array_keys($bases))) ) {
-			$base_l = $bases[$base_key];
-			Locale::setCurrentLocale( $base_l->getLocale() );
-		}
-		
+		Debug::setOutputIsJSON( true );
 		
 		$URL_path = explode('/', MVC::getRouter()->getUrlPath());
 		
@@ -94,52 +94,48 @@ class Main extends Application_Service_General_ExportsManager implements
 			return;
 		}
 		
-		Debug::setOutputIsJSON( true );
-		
 		
 		if(!$export->isActive()) {
-			Http_Headers::response(
-				code: Http_Headers::CODE_503_SERVICE_UNAVAILABLE,
-				headers: [
-					'Content-Type' => 'text/plain; charset=UTF-8'
-				]
-			);
+			$this->commonError( 'Export deactivated' );
+		}
+		
+		
+		
+		$base_l = null;
+		
+		if($export->getRequiresBaseDesignation()) {
 			
-			echo 'Export deactivated';
-		} else {
-			if( !$export->isAllowedForBase( $base_l ) ) {
-				Http_Headers::response(
-					code: Http_Headers::CODE_503_SERVICE_UNAVAILABLE,
-					headers: [
-						'Content-Type' => 'text/plain; charset=UTF-8'
-					]
-				);
-				
-				echo 'Export is not allowed';
-				
-			} else {
-				try {
-					$export->perform( $base_l );
-				} catch( Error $e) {
-					
-					if(SysConf_Jet_Debug::getDevelMode()) {
-						throw $e;
-					} else {
-						Logger::danger(
-							event: 'export_fault',
-							event_message: 'Problem during export '.$export->getName(),
-							context_object_id: $export->getCode(),
-							context_object_data: [
-								'URL' => Http_Request::currentURL(),
-								'error_message' => $e->getMessage()
-							]
-						);
-						
-					}
-				}
-				
+			$bases = $export->getAllowedBases();
+			
+			if( ($base_key = Http_Request::GET()->getString('base', valid_values: array_keys($bases))) ) {
+				$base_l = $bases[$base_key];
 			}
 			
+			if(!$base_l) {
+				$this->commonError( 'Export is not allowed' );
+			}
+			
+			Locale::setCurrentLocale( $base_l->getLocale() );
+		}
+		
+		
+		try {
+			$export->perform( $base_l );
+		} catch( Error $e) {
+			
+			if(SysConf_Jet_Debug::getDevelMode()) {
+				throw $e;
+			} else {
+				Logger::danger(
+					event: 'export_fault',
+					event_message: 'Problem during export '.$export->getName(),
+					context_object_id: $export->getCode(),
+					context_object_data: [
+						'URL' => Http_Request::currentURL(),
+						'error_message' => $e->getMessage()
+					]
+				);
+			}
 		}
 		
 		

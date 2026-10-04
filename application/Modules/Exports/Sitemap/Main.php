@@ -7,32 +7,24 @@
  */
 namespace JetApplicationModule\Exports\Sitemap;
 
+use Jet\Application_Module;
 use Jet\MVC_Base_LocalizedData_Interface;
 use Jet\MVC_Page_Interface;
 use JetApplication\Exports_Definition;
 use JetApplication\Exports_Generator_XML;
-use JetApplication\Exports_Module;
+use JetApplication\Exports_Provider_Interface;
 use JetApplication\Exports_SitemapUrlPrivoder;
 
 /**
  *
  */
-class Main extends Exports_Module
+class Main extends Application_Module implements Exports_Provider_Interface
 {
-	
-	public function getTitle(): string
-	{
-		return 'Sitemap';
-	}
-	
-	public function isAllowedForBase( MVC_Base_LocalizedData_Interface $base_localized ): bool
-	{
-		return !$base_localized->getBase()->getIsSecret();
-	}
-	
+	protected Exports_Definition $sitemap;
+
 	public function getExportsDefinitions(): array
 	{
-		$def = new Exports_Definition(
+		$this->sitemap = new Exports_Definition(
 			module: $this,
 			name: 'Sitemap',
 			description: '',
@@ -42,14 +34,16 @@ class Main extends Exports_Module
 			}
 		);
 		
+		$this->sitemap->setRequiresBaseDesignation( true );
+		
 		return [
-			$def
+			$this->sitemap
 		];
 	}
 	
 	public function generateSitemap( MVC_Base_LocalizedData_Interface $base ) : void
 	{
-		$xml = new Exports_Generator_XML( $this->getCode(), $base );
+		$xml = new Exports_Generator_XML( $this->sitemap, $base );
 		
 		$xml->start();
 		$xml->tagStart('urlset', [

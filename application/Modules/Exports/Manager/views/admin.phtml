@@ -106,21 +106,23 @@ $schedule_dialog = UI::dialog('schedule_dialog', Tr::_('Schedule export outage')
 				<?=$export->getDescription()?>
 			</td>
 			<td>
-				<div style="justify-content:center;display: grid;grid-template-columns: auto 1fr;gap: 10px;align-items: center">
-					<?php foreach( $export->getAllowedBases() as $base ): ?>
+
+				<?php if($export->getRequiresBaseDesignation()): ?>
+					<div style="justify-content:center;display: grid;grid-template-columns: auto 1fr;gap: 10px;align-items: center">
+						<?php foreach( $export->getAllowedBases() as $base ): ?>
 						<div>
 							<?=UI::flag( $base->getLocale() )?>
 							<?=$base->getBase()->getName()?>:
 						</div>
 						<div>
-							
-							<?php
-							echo UI::button( Tr::_('link'))->setUrl($export->getURL($base))->setIcon('link')->setCustomTagAttribute('target', '_blank')
-								->setClass(UI_button::CLASS_LINK);
-							?>
+							<?=UI::button( Tr::_('link'))->setUrl($export->getURL($base))->setIcon('link')->setCustomTagAttribute('target', '_blank')->setClass(UI_button::CLASS_LINK); ?>
 						</div>
-					<?php endforeach; ?>
-				</div>
+						<?php endforeach; ?>
+					</div>
+				<?php else: ?>
+					<?=UI::button( Tr::_('link'))->setUrl($export->getURL())->setIcon('link')->setCustomTagAttribute('target', '_blank')->setClass(UI_button::CLASS_LINK); ?>
+				<?php endif; ?>
+
 			</td>
 		</tr>
 	<?php endforeach; ?>

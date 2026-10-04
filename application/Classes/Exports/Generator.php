@@ -27,13 +27,13 @@ class Exports_Generator
 
 	protected ?string $tmp_file_path = null;
 	
-	protected string $export_code;
+	protected Exports_Definition $export;
 	
 	protected ?MVC_Base_LocalizedData_Interface $base;
 
-	public function __construct( string $export_code, ?MVC_Base_LocalizedData_Interface $base=null )
+	public function __construct( Exports_Definition $export, ?MVC_Base_LocalizedData_Interface $base=null )
 	{
-		$this->export_code = $export_code;
+		$this->export = $export;
 		$this->base = $base;
 		
 	}
@@ -42,9 +42,9 @@ class Exports_Generator
 	{
 		$this->buffer_mode = true;
 		if( $this->base ) {
-			$this->tmp_file_path = SysConf_Path::getTmp().'export_'.$this->export_code.'_'.$this->base->getBase()->getId().'_'.$this->base->getLocale().'_'.date('YmdHis');
+			$this->tmp_file_path = SysConf_Path::getTmp().'export_'.$this->export->getCode().'_'.$this->base->getBase()->getId().'_'.$this->base->getLocale().'_'.date('YmdHis');
 		} else {
-			$this->tmp_file_path = SysConf_Path::getTmp().'export_'.$this->export_code.'_'.date('YmdHis');
+			$this->tmp_file_path = SysConf_Path::getTmp().'export_'.$this->export->getCode().'_'.date('YmdHis');
 			
 		}
 	}
@@ -54,9 +54,9 @@ class Exports_Generator
 		$this->target_path = Exports::getRootPath().$target_file_name;
 		
 		if( $this->base ) {
-			$this->tmp_file_path = SysConf_Path::getTmp().'export_'.$this->export_code.'_'.$this->base->getBase()->getId().'_'.$this->base->getLocale().'_'.date('YmdHis');
+			$this->tmp_file_path = SysConf_Path::getTmp().'export_'.$this->export->getCode().'_'.$this->base->getBase()->getId().'_'.$this->base->getLocale().'_'.date('YmdHis');
 		} else {
-			$this->tmp_file_path = SysConf_Path::getTmp().'export_'.$this->export_code.'_'.date('YmdHis');
+			$this->tmp_file_path = SysConf_Path::getTmp().'export_'.$this->export->getCode().'_'.date('YmdHis');
 		}
 	}
 

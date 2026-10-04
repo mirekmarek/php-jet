@@ -11,6 +11,8 @@ namespace JetApplication;
 use Closure;
 use Jet\Application_Module;
 use Jet\Data_DateTime;
+use Jet\Locale;
+use Jet\MVC;
 use Jet\MVC_Base_LocalizedData_Interface;
 
 class SysServices_Definition {
@@ -24,7 +26,13 @@ class SysServices_Definition {
 	protected string $service_code = '';
 	protected ?Closure $service = null;
 
-	protected bool $service_requires_base_designation = false;
+	protected bool $requires_base_designation = false;
+	
+	/**
+	 * @var array<MVC_Base_LocalizedData_Interface>|null
+	 */
+	protected ?array $allowed_bases = null;
+	
 
 	protected bool $is_periodically_triggered_service = true;
 	
@@ -39,6 +47,82 @@ class SysServices_Definition {
 		
 		$this->service_code = $service_code;
 		$this->service = $service;
+	}
+	
+	
+	public function getRequiresBaseDesignation(): bool
+	{
+		return $this->requires_base_designation;
+	}
+	
+	public function setRequiresBaseDesignation( bool $requires_base_designation ): void
+	{
+		$this->requires_base_designation = $requires_base_designation;
+	}
+	
+	
+	/**
+	 * @return MVC_Base_LocalizedData_Interface[]
+	 */
+	public function getAllowedBases(): array
+	{
+		if(!$this->requires_base_designation) {
+			return [];
+		}
+		
+		if( $this->allowed_bases===null ) {
+			$this->allowed_bases = [];
+			
+			foreach(MVC::getBases() as $base) {
+				foreach($base->getLocales() as $locale) {
+					/** @var Locale $locale */
+					$b = $base->getLocalizedData( $locale );
+					
+					$this->allowed_bases[] = $b;
+				}
+			}
+		}
+		
+		$bases = [];
+		
+		foreach($this->allowed_bases as $base) {
+			$bases[$base->getBase()->getId().':'.$base->getLocale()] = $base;
+		}
+		
+		return $bases;
+	}
+	
+	
+	
+	/**
+	 * @param MVC_Base_LocalizedData_Interface[] $allowed_bases
+	 * @return void
+	 */
+	public function setAllowedBases( array $allowed_bases ): void
+	{
+		$this->allowed_bases = $allowed_bases;
+	}
+	
+	public function isAllowedForBase( ?MVC_Base_LocalizedData_Interface $base=null ): bool
+	{
+		if(!$base) {
+			if(!$this->getRequiresBaseDesignation()) {
+				return true;
+			} else {
+				return false;
+			}
+		}
+		
+		foreach( $this->getAllowedBases() as $a_b) {
+			if(
+				$a_b->getBase()->getId() === $base->getBase()->getId() &&
+				$a_b->getLocale()->toString()==$base->getLocale()->toString()
+			) {
+				return true;
+			}
+		}
+		
+		return false;
 	}
 	
 	
@@ -73,19 +157,6 @@ class SysServices_Definition {
 		return SysServices::getManager()->serviceIsActive( $this );
 	}
 	
-	
-
-	public function getServiceRequiresBaseDesignation(): bool
-	{
-		return $this->service_requires_base_designation;
-	}
-	
-	public function setServiceRequiresBaseDesignation( bool $service_requires_base_designation ): void
-	{
-		$this->service_requires_base_designation = $service_requires_base_designation;
-	}
-	
-
 	public function getIsPeriodicallyTriggeredService(): bool
 	{
 		return $this->is_periodically_triggered_service;

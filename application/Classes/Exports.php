@@ -8,10 +8,10 @@
 
 namespace JetApplication;
 
-
+use Jet\Application_Module;
 use Jet\Application_Service_List;
 use Jet\SysConf_Path;
-
+use Jet\Tr;
 
 class Exports
 {
@@ -57,36 +57,6 @@ class Exports
 	{
 		static::$root_path = $root_path;
 	}
-
-
-
-	/**
-	 * @return array<string,Exports_Module>
-	 */
-	public static function getExportModulesList() : iterable
-	{
-		$modules = [];
-
-		foreach( Application_Service_List::findPossibleModules(Exports_Module::class, static::getModuleNamePrefix()) as $module) {
-			/**
-			 * @var Exports_Module $module
-			 */
-
-			$modules[$module->getCode()] = $module;
-		}
-
-		return $modules;
-	}
-
-	public static function getExportModule( string $code ) : ?Exports_Module
-	{
-		$modules = static::getExportModulesList();
-		if(!isset( $modules[$code])) {
-			return null;
-		}
-
-		return $modules[$code];
-	}
 	
 	/**
 	 * @return Exports_Definition[]
@@ -94,11 +64,18 @@ class Exports
 	public static function getExportsList() : array
 	{
 		$list = [];
-		
-		foreach(static::getExportModulesList() as $module) {
-			foreach($module->getExportsDefinitions() as $export) {
-				$list[$export->getCode()] = $export;
-			}
+		foreach( Application_Service_List::findPossibleModules(Exports_Provider_Interface::class) as $module) {
+			/**
+			 * @var Exports_Provider_Interface&Application_Module $module
+			 */
+			Tr::setCurrentDictionaryTemporary(
+				dictionary: $module->getModuleManifest()->getName(),
+				action: function() use (&$list, $module) {
+					foreach( $module->getExportsDefinitions() as $sys_service ) {
+						$list[ $sys_service->getCode() ] = $sys_service;
+					}
+				}
+			);
 		}
 
 		return $list;

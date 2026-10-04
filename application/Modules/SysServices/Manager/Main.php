@@ -51,25 +51,25 @@ class Main extends Application_Service_General_SysServices implements
 		return $c;
 	}
 	
+	protected function commonError( string $message ) : void
+	{
+		Http_Headers::response(
+			code: Http_Headers::CODE_503_SERVICE_UNAVAILABLE,
+			headers: [
+				'Content-Type' => 'text/plain; charset=UTF-8'
+			]
+		);
+		
+		echo $message;
+		
+		Application::end();
+	}
+	
 	public function handleSysServices(): void
 	{
 		Logger::setLogger( new SysServicesLogger() );
 		Auth::setController( new AuthController() );
-		
-		$bases = [];
-		foreach(MVC::getBases() as $base) {
-			foreach($base->getLocales() as $locale) {
-				/** @var Locale $locale */
-				$bases[$base->getId().':'.$locale] = $base->getLocalizedData($locale);
-			}
-		}
-		
-		$base_l = null;
-		if( ($base_key = Http_Request::GET()->getString('base', valid_values: array_keys($bases))) ) {
-			$base_l = $bases[$base_key];
-			Locale::setCurrentLocale( $base_l->getLocale() );
-		}
-
+		Debug::setOutputIsJSON( true );
 		
 		$URL_path = explode('/', MVC::getRouter()->getUrlPath());
 		
@@ -98,57 +98,66 @@ class Main extends Application_Service_General_SysServices implements
 		
 		$_SERVER['REQUEST_URI'] = '/'.implode('/', $URL_path);
 		
-		Debug::setOutputIsJSON( true );
-		
 		
 		if(!$service->isActive()) {
-			Http_Headers::response(
-				code: Http_Headers::CODE_503_SERVICE_UNAVAILABLE,
-				headers: [
-					'Content-Type' => 'text/plain; charset=UTF-8'
-				]
-			);
-			
-			echo 'Service deactivated';
-		} else {
-			Http_Headers::response(
-				code: Http_Headers::CODE_200_OK,
-				headers: [
-					'Content-Type' => 'text/plain; charset=UTF-8'
-				]
-			);
-			
-			$lock_name = 'SysService:'.$service_code;
-			if($service->getServiceRequiresBaseDesignation()) {
-				$lock_name .= ':'.$base_l->getBase()->getId().':'.$base_l->getLocale();
-			}
-			
-			if(!Lock::lockIfPossible( $lock_name )) {
-				echo "\n\nLocked - this servise is running right now\n\n";
-				Application::end();
-			}
-			
-			try {
-				set_time_limit(-1);
-				$service->perform();
-				echo "\n\nDONE\n\n";
-			} catch( Error $e) {
-				echo 'Error: '.$e->getMessage();
-				
-				Logger::danger(
-					event: 'system_service_fault',
-					event_message: 'Problem during system service '.$service->getName(),
-					context_object_id: $service->getCode(),
-					context_object_data: [
-						'URL' => Http_Request::currentURL(),
-						'error_message' => $e->getMessage()
-					]
-				);
-			}
-			
-			Lock::unlock( $lock_name );
+			$this->commonError('Service deactivated');
 		}
 		
+		$base_l = null;
+		
+		if($service->getRequiresBaseDesignation()) {
+			
+			$bases = $service->getAllowedBases();
+			
+			if( ($base_key = Http_Request::GET()->getString('base', valid_values: array_keys($bases))) ) {
+				$base_l = $bases[$base_key];
+			}
+			
+			if(!$base_l) {
+				$this->commonError( 'Export is not allowed' );
+			}
+			
+			Locale::setCurrentLocale( $base_l->getLocale() );
+		}
+		
+		
+		
+		Http_Headers::response(
+			code: Http_Headers::CODE_200_OK,
+			headers: [
+				'Content-Type' => 'text/plain; charset=UTF-8'
+			]
+		);
+		
+		$lock_name = 'SysService:'.$service_code;
+		if($service->getRequiresBaseDesignation()) {
+			$lock_name .= ':'.$base_l->getBase()->getId().':'.$base_l->getLocale();
+		}
+		
+		if(!Lock::lockIfPossible( $lock_name )) {
+			echo "\n\nLocked - this servise is running right now\n\n";
+			Application::end();
+		}
+		
+		try {
+			set_time_limit(-1);
+			$service->perform( $base_l );
+			echo "\n\nDONE\n\n";
+		} catch( Error $e) {
+			echo 'Error: '.$e->getMessage();
+			
+			Logger::danger(
+				event: 'system_service_fault',
+				event_message: 'Problem during system service '.$service->getName(),
+				context_object_id: $service->getCode(),
+				context_object_data: [
+					'URL' => Http_Request::currentURL(),
+					'error_message' => $e->getMessage()
+				]
+			);
+		}
+		
+		Lock::unlock( $lock_name );
 		
 		Application::end();
 	}
