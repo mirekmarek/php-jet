@@ -1,13 +1,13 @@
 <?php
 return [
 	'id' => 'control-centre',
-	'name' => 'Control Centre',
+	'name' => 'Control Center',
 	'is_active' => true,
 	'SSL_required' => false,
-	'title' => 'Control Centre',
+	'title' => 'Control Center',
 	'icon' => 'sliders',
-	'menu_title' => 'Control Centre',
-	'breadcrumb_title' => 'Control Centre',
+	'menu_title' => 'Control Center',
+	'breadcrumb_title' => 'Control Center',
 	'order' => 0,
 	'is_secret' => false,
 	'layout_script_name' => '',

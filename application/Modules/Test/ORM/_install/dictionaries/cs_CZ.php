@@ -11,5 +11,5 @@ return [
 	'Simple internal sub relation' => 'Jednoduchá vnitřní podrelace',
 	'Count query' => 'Počítací dotaz',
 	'External relation' => 'Vnější relace',
-	'CREATE TABLE' => '',
+	'CREATE TABLE' => 'CREATE TABLE',
 ];

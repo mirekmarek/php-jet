@@ -1,0 +1,20 @@
+<?php
+return [
+	'Exports' => '',
+	'Schedule export outage' => '',
+	'Invalid value' => '',
+	'Please enter a value' => '',
+	'From date and time:' => '',
+	'Till date and time:' => '',
+	'Schedule' => '',
+	'Key: ' => '',
+	'MVC Base ID: ' => '',
+	'Generate a new key' => '',
+	'Configuration has been saved' => '',
+	'Active' => '',
+	'Schedule outage' => '',
+	'Shutdown now' => '',
+	'link' => '',
+	'Deactivated' => '',
+	'Start now' => '',
+];

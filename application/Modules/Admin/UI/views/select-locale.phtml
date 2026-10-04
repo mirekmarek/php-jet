@@ -1,7 +1,9 @@
 <?php
+
+use Jet\Http_Request;
 use Jet\UI;
 use Jet\Locale;
-use Jet\MVC;
+use JetApplication\Application_Admin;
 
 
 ?>
@@ -13,9 +15,8 @@ use Jet\MVC;
 		<span><?= UI::flag( Locale::getCurrentLocale() ) ?></span>
 	</a>
 	<div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-		<?php foreach( MVC::getBase()->getLocales() as $locale ): ?>
-			<a class="dropdown-item"
-			   href="<?= MVC::getBase()->getHomepage($locale)->getURLPath() ?>">
+		<?php foreach( Application_Admin::getAvlLovales() as $locale ): ?>
+			<a class="dropdown-item" href="<?=Http_Request::currentURI(['set_locale'=>$locale->toString()])?>">
 				<?= UI::flag( $locale ) ?>
 				<?= $locale->getName( $locale ) ?>
 			</a>

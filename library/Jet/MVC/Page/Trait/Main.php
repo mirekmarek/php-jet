@@ -146,7 +146,7 @@ trait MVC_Page_Trait_Main
 			];
 			foreach( $translate_fields as $tf ) {
 				if( !empty( $data[$tf] ) ) {
-					$data[$tf] = Tr::_( $data[$tf], [], $translator_dictionary, $locale );
+					$data[$tf] = Tr::_( $data[$tf], [], $translator_dictionary );
 				}
 			}
 		}

@@ -51,5 +51,5 @@ return [
 	'Unblock filtered users' => 'Odblokovat vyfiltrované uživatele',
 	'The filtered users have been blocked' => 'Vyfiltrovaní uživatelé byli zablokováni',
 	'The filtered users have been unblocked' => 'Vyfiltrovaní uživatelé byli odblokováni',
-	'Admin / User management / REST clients' => '',
+	'Admin / User management / REST clients' => 'Administrace / Správa rolí / REST klienti',
 ];

@@ -26,5 +26,5 @@ return [
 	'Delete role' => 'Smazat roli',
 	'Please enter ID' => 'Prosím zadejte ID',
 	'Sorry, but ID %ID% is used.' => 'Lituji, ale ID %ID% je již použito',
-	'Admin / Role management / Administrators' => '',
+	'Admin / Role management / Administrators' => 'Administrace / Správa rolí / Administrátoři',
 ];

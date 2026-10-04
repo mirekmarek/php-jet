@@ -31,4 +31,9 @@ return [
 	'Context object name:' => 'Kontextový objekt - název:',
 	'Context object:' => 'Kontextový objekt:',
 	'Export to CSV file' => 'Exportovat do CSV souboru',
+	'Base' => 'Báze',
+	'Please enter a value' => 'Prosím zadejte hodnotu',
+	'Invalid value' => 'Naplatná hodnota',
+	'Base:' => 'Báze:',
+	'Event viewer' => 'Prohlížeč událostí',
 ];
