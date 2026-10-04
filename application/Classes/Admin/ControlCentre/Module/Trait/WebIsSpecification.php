@@ -10,8 +10,7 @@ namespace JetApplication;
 
 use Jet\Locale;
 use Jet\MVC;
-use Jet\MVC_Base_Interface;
-use Jet\MVC_Page_Interface;
+use Jet\MVC_Base_LocalizedData_Interface;
 use Jet\UI;
 
 trait Admin_ControlCentre_Module_Trait_WebIsSpecification
@@ -29,7 +28,9 @@ trait Admin_ControlCentre_Module_Trait_WebIsSpecification
 			if(!$base->getIsSecret()) {
 				foreach($base->getLocales() as $locale) {
 					/** @var Locale $locale */
-					$list[$base->getId().':'.$locale] = $base->getName().' - '.UI::flag( $locale );
+					$spoecification_id = $this->getSpecificationIdByBase( $base->getLocalizedData( $locale ) );
+					
+					$list[$spoecification_id] = $base->getName().' - '.UI::flag( $locale );
 				}
 			}
 		}
@@ -37,24 +38,20 @@ trait Admin_ControlCentre_Module_Trait_WebIsSpecification
 		return $list;
 	}
 	
-	public function getSpecificationIdByPage( MVC_Page_Interface $page ) : string
+	public function getSpecificationIdByBase( MVC_Base_LocalizedData_Interface $base ) : string
 	{
-		return $page->getBaseId().':'.$page->getLocale();
+		return $base->getBase()->getId().':'.$base->getLocale();
 	}
 	
-	public function getSpecificationIdByBase( MVC_Base_Interface $base, Locale $locale ) : string
-	{
-		return $base->getId().':'.$locale;
-	}
-	
-	
-	public function getHomepageBySpecificationId( string $specification_id ) : ?MVC_Page_Interface
+	public function getBaseBySpecificationId( string $specification_id ) : ?MVC_Base_LocalizedData_Interface
 	{
 		$specification_id = explode(':', $specification_id);
 		[$base_id, $locale] = $specification_id;
 		$locale = new Locale($locale);
 		
-		return MVC::getPage( page_id: MVC::HOMEPAGE_ID, locale: $locale, base_id: $base_id );
+		$base = MVC::getBase( $base_id );
+		
+		return $base?->getLocalizedData($locale)??null;
 	}
 	
 	

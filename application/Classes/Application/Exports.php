@@ -1,7 +1,8 @@
 <?php
 /**
+ *
  * @copyright Copyright (c) Miroslav Marek <mirek.marek@web-jet.cz>
- * @license EUPL 1.2  https://eupl.eu/1.2/en/
+ * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek@web-jet.cz>
  */
 namespace JetApplication;
@@ -35,7 +36,7 @@ class Application_Exports
 		
 		SysConf_Jet_ErrorPages::setErrorPagesDir( $router->getBase()->getPagesDataPath( $router->getLocale() ) );
 		
-		//TODO: Exports::getManager()?->handleExports();
+		Exports::getManager()?->handleExports();
 		
 		Application::end();
 	}

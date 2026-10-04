@@ -1,0 +1,129 @@
+<?php
+/**
+ *
+ * @copyright Copyright (c) Miroslav Marek <mirek.marek@web-jet.cz>
+ * @license http://www.php-jet.net/license/license.txt
+ * @author Miroslav Marek <mirek.marek@web-jet.cz>
+ */
+namespace JetApplicationModule\Exports\Manager;
+
+
+use Jet\Http_Request;
+use Jet\MVC_View;
+use Jet\Tr;
+use Jet\UI;
+use Jet\UI_button;
+use Jet\UI_dialog;
+use JetApplication\Exports;
+use JetApplication\Exports_Definition;
+use Jet\Form;
+
+/**
+ * @var MVC_View $this
+ * @var Form $schedule_form
+ */
+
+$list = Exports::getExportsList();
+$schedule_form = $this->getRaw('schedule_form');
+
+uasort( $list, function( Exports_Definition $a, Exports_Definition $b ) : int {
+	return strcmp( $a->getName(), $b->getName() );
+} );
+
+$schedule_dialog = UI::dialog('schedule_dialog', Tr::_('Schedule export outage'), UI_dialog::SIZE_LARGE);
+?>
+<form method="post" id="action_form" action="<?=Http_Request::currentURI()?>">
+	<input type="hidden" name="export_action" value="">
+	<input type="hidden" name="export" value="">
+	<input type="hidden" name="plan_id" value="">
+</form>
+<script>
+	const Status = {
+		doAction: ( action, export_code, plan_id ) => {
+			const form = document.getElementById('action_form');
+
+			form.elements['export_action'].value = action;
+			form.elements['export'].value = export_code;
+			form.elements['plan_id'].value = plan_id?plan_id:0;
+
+			
+			JetAjaxForm.submit( 'action_form' );
+		},
+		
+		schedule: (export_code) => {
+			document.getElementById('<?=$schedule_form->field('export')->getId()?>').value = export_code;
+			$('#schedule_dialog').modal('show');
+		},
+
+		doSchedule: () => {
+			JetAjaxForm.submit('<?=$schedule_form->getId()?>', {
+				onSuccess: () => {
+					$('#schedule_dialog').modal('hide');
+				}
+			});
+		}
+	};
+</script>
+
+<?=$schedule_dialog->start()?>
+<?=$schedule_form->start();?>
+	<?=$schedule_form->field('export_action')?>
+	<?=$schedule_form->field('export')?>
+
+	<?=$schedule_form->field('from_date_time')?>
+	<?=$schedule_form->field('till_date_time')?>
+<?=$schedule_dialog->footer()?>
+	<?=UI::button( Tr::_('Schedule') )->setOnClick("Status.doSchedule();")->setClass(UI_button::CLASS_INFO)->setIcon('clock');?>
+	<?=$schedule_form->end()?>
+<?=$schedule_dialog->end()?>
+
+
+<table class="table table-striped">
+	<thead>
+	<tr>
+		<th></th>
+		<th></th>
+		<th></th>
+	</tr>
+	</thead>
+	<tbody>
+	<?php foreach( $list as $export ):
+		$this->setVar('export', $export);
+		if(!$export->getAllowedBases()) {
+			continue;
+		}
+		?>
+		<tr>
+			<td nowrap="" id="status_area_<?=$export->getCode()?>">
+				<?php require 'admin/status.phtml';?>
+			</td>
+			<td>
+				<b><?=$export->getName()?></b><br>
+				<span style="font-size: 0.8rem"><?=$export->getModule()->getModuleManifest()->getName()?></span><br>
+				
+			</td>
+			<td>
+				<?=$export->getDescription()?>
+			</td>
+			<td>
+				<div style="justify-content:center;display: grid;grid-template-columns: auto 1fr;gap: 10px;align-items: center">
+					<?php foreach( $export->getAllowedBases() as $base ): ?>
+						<div>
+							<?=UI::flag( $base->getLocale() )?>
+							<?=$base->getBase()->getName()?>:
+						</div>
+						<div>
+							
+							<?php
+							echo UI::button( Tr::_('link'))->setUrl($export->getURL($base))->setIcon('link')->setCustomTagAttribute('target', '_blank')
+								->setClass(UI_button::CLASS_LINK);
+							?>
+						</div>
+					<?php endforeach; ?>
+				</div>
+			</td>
+		</tr>
+	<?php endforeach; ?>
+
+	</tbody>
+</table>

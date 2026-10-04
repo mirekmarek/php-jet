@@ -1,0 +1,90 @@
+<?php
+/**
+ *
+ * @copyright Copyright (c) Miroslav Marek <mirek.marek@web-jet.cz>
+ * @license http://www.php-jet.net/license/license.txt
+ * @author Miroslav Marek <mirek.marek@web-jet.cz>
+ */
+namespace JetApplicationModule\SysServices\Manager;
+
+
+use Jet\Locale;
+use Jet\MVC_View;
+use Jet\Tr;
+use Jet\UI;
+use Jet\UI_badge;
+use Jet\UI_button;
+use JetApplication\SysServices_Definition;
+
+/**
+ * @var MVC_View $this
+ * @var SysServices_Definition $service
+ */
+
+$service = $this->getRaw('service');
+
+$schedule = PlannedOutage::getList( $service->getCode() );
+
+foreach($schedule as $i=>$plan) {
+	if(!$plan->getFromDateTime() && !$plan->getTillDateTime()) {
+		unset( $schedule[$i] );
+	}
+}
+
+?>
+<?php if($service->isActive()):?>
+	<?=UI::badge( UI_badge::SUCCESS, Tr::_('Active') )->addCustomCssStyle('padding:10px');?>
+	&nbsp;&nbsp;&nbsp;
+	
+	<?=UI::button( Tr::_('Schedule outage') )
+		->setSize( UI_button::SIZE_EXTRA_SMALL )
+		->setIcon('clock')
+		->setClass(UI_button::CLASS_INFO)
+		->setOnClick("Status.schedule('{$service->getCode()}');")
+	?>
+	
+	<?=UI::button( Tr::_('Shutdown now') )
+		->setSize( UI_button::SIZE_EXTRA_SMALL )
+		->setIcon('hand')
+		->setClass(UI_button::CLASS_DANGER)
+		->setOnClick( "Status.doAction('shutdown', '{$service->getCode()}');" )
+	?>
+
+<?php else: ?>
+	<?=UI::badge( UI_badge::DANGER, Tr::_('Deactivated') )->addCustomCssStyle('padding:10px');?>
+	&nbsp;&nbsp;&nbsp;&nbsp;
+
+	<?=UI::button( Tr::_('Start now') )
+		->setSize( UI_button::SIZE_EXTRA_SMALL )
+		->setIcon('flag-checkered')
+		->setClass(UI_button::CLASS_SUCCESS)
+		->setOnClick( "Status.doAction('start', '{$service->getCode()}');" )
+	?>
+
+<?php endif; ?>
+
+<?php if($schedule): ?>
+<div class="card card-body" style="margin-top: 10px">
+	<b><?=Tr::_('Planned outages:')?></b>
+
+	<?php foreach($schedule as $s): ?>
+		<div style="display:grid;grid-template-columns: 50px 1fr;margin-bottom: 10px; border-bottom: 1px solid #808080;padding: 10px;align-items: center">
+			<div>
+				<?=UI::button_delete( ' ')->setOnClick("Status.doAction('cancel_planned_outage', '{$service->getCode()}', {$s->getId()});")->setSize(UI_button::SIZE_EXTRA_SMALL)?>
+			</div>
+			<div style="display: grid;grid-template-columns: 60px 1fr;">
+				<?php if($s->getFromDateTime()): ?>
+					<div><?=Tr::_('From:')?></div>
+					<div style="font-weight: bolder"><?=Locale::dateAndTime($s->getFromDateTime())?></div>
+				<?php endif; ?>
+				
+				<?php if($s->getTillDateTime()): ?>
+					<div><?=Tr::_('Till:')?></div>
+					<div style="font-weight: bolder"><?=Locale::dateAndTime($s->getTillDateTime())?></div>
+				<?php endif; ?>
+				
+			</div>
+		</div>
+	<?php endforeach; ?>
+</div>
+<?php endif; ?>

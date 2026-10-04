@@ -1,0 +1,58 @@
+<?php
+/**
+ *
+ * @copyright Copyright (c) Miroslav Marek <mirek.marek@web-jet.cz>
+ * @license http://www.php-jet.net/license/license.txt
+ * @author Miroslav Marek <mirek.marek@web-jet.cz>
+ */
+namespace JetApplicationModule\SysServices\Manager;
+
+
+use Jet\Form;
+use Jet\Form_Renderer;
+use Jet\Http_Request;
+use Jet\MVC_View;
+use Jet\Tr;
+use Jet\UI;
+use Jet\UI_button;
+use Jet\UI_messages;
+
+/**
+ * @var MVC_View $this
+ * @var Form $form
+ */
+
+$form = $this->getRaw('form');
+
+$form->renderer()->setDefaultFieldWidth([
+	Form_Renderer::LJ_SIZE_MEDIUM => 10
+]);
+$form->renderer()->setDefaultLabelWidth([
+	Form_Renderer::LJ_SIZE_MEDIUM => 2
+]);
+
+
+foreach( UI_messages::get(context: 'CC') as $message ):
+	echo $message;
+endforeach;
+
+echo $form->getCommonMessage();
+
+echo $form->start();
+
+echo $form->field('key');
+echo $form->field('base_id');
+?>
+	<div class="row">
+		<div class="col-md-2"></div>
+		<div class="col-md-8">
+			<?=UI::button_save()?>
+			&nbsp;&nbsp;&nbsp;&nbsp;
+			<?=UI::button( Tr::_('Generate a new key') )
+				->setUrl( Http_Request::currentURI(['action'=>'generate_key']) )
+				->setClass( UI_button::CLASS_DANGER )
+				->setIcon('key')?>
+		</div>
+	</div>
+	<?php
+echo $form->end();

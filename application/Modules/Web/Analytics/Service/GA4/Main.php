@@ -47,7 +47,7 @@ class Main extends Application_Service_Web_Analytics_Service implements
 		/**
 		 * @var Config_Specific $config
 		 */
-		$config = $this->getSpecificConfig( $this->getSpecificationIdByPage( $page ) );
+		$config = $this->getSpecificConfig( $this->getSpecificationIdByBase( $page->getBase()->getLocalizedData($page->getLocale()) ) );
 		
 		$this->id = $config->getGoogleId();
 		$this->native_mode = $config->getNativeMode();

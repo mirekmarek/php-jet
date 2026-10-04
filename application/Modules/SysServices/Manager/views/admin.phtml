@@ -1,0 +1,143 @@
+<?php
+/**
+ *
+ * @copyright Copyright (c) Miroslav Marek <mirek.marek@web-jet.cz>
+ * @license http://www.php-jet.net/license/license.txt
+ * @author Miroslav Marek <mirek.marek@web-jet.cz>
+ */
+namespace JetApplicationModule\SysServices\Manager;
+
+
+use Jet\Http_Request;
+use Jet\MVC;
+use Jet\MVC_View;
+use Jet\Tr;
+use Jet\UI;
+use Jet\UI_badge;
+use Jet\UI_button;
+use Jet\UI_dialog;
+use JetApplication\SysServices;
+use JetApplication\SysServices_Definition;
+use Jet\Form;
+
+/**
+ * @var MVC_View $this
+ * @var Form $schedule_form
+ */
+
+$list = SysServices::getServiceList();
+$schedule_form = $this->getRaw('schedule_form');
+
+uasort( $list, function( SysServices_Definition $a, SysServices_Definition $b ) : int {
+	return strcmp( $a->getName(), $b->getName() );
+} );
+
+$schedule_dialog = UI::dialog('schedule_dialog', Tr::_('Schedule service outage'), UI_dialog::SIZE_LARGE);
+?>
+<form method="post" id="action_form" action="<?=Http_Request::currentURI()?>">
+	<input type="hidden" name="service_action" value="">
+	<input type="hidden" name="service" value="">
+	<input type="hidden" name="plan_id" value="">
+</form>
+<script>
+	const Status = {
+		doAction: ( action, service, plan_id ) => {
+			const form = document.getElementById('action_form');
+
+			form.elements['service_action'].value = action;
+			form.elements['service'].value = service;
+			form.elements['plan_id'].value = plan_id?plan_id:0;
+
+			
+			JetAjaxForm.submit( 'action_form' );
+		},
+		
+		schedule: (service) => {
+			document.getElementById('<?=$schedule_form->field('service')->getId()?>').value = service;
+			$('#schedule_dialog').modal('show');
+		},
+
+		doSchedule: () => {
+			JetAjaxForm.submit('<?=$schedule_form->getId()?>', {
+				onSuccess: () => {
+					$('#schedule_dialog').modal('hide');
+				}
+			});
+		}
+	};
+</script>
+
+<?=$schedule_dialog->start()?>
+<?=$schedule_form->start();?>
+	<?=$schedule_form->field('service_action')?>
+	<?=$schedule_form->field('service')?>
+
+	<?=$schedule_form->field('from_date_time')?>
+	<?=$schedule_form->field('till_date_time')?>
+<?=$schedule_dialog->footer()?>
+	<?=UI::button( Tr::_('Schedule') )->setOnClick("Status.doSchedule();")->setClass(UI_button::CLASS_INFO)->setIcon('clock');?>
+	<?=$schedule_form->end()?>
+<?=$schedule_dialog->end()?>
+
+
+<table class="table table-striped">
+	<thead>
+	<tr>
+		<th></th>
+		<th></th>
+		<th></th>
+	</tr>
+	</thead>
+	<tbody>
+	<?php foreach( $list as $service ):
+		$this->setVar('service', $service);
+		?>
+		<tr>
+			<td nowrap="" id="status_area_<?=$service->getCode()?>">
+				<?php require 'admin/status.phtml';?>
+			</td>
+			<td>
+				<?php if($service->getIsPeriodicallyTriggeredService()):?>
+					<?=UI::badge(UI_badge::WARNING, UI::icon('clock').' '.Tr::_('Periodic service'))?>
+				<?php else: ?>
+					<?=UI::badge(UI_badge::SECONDARY, Tr::_('Ad-hoc service'))?>
+				<?php endif; ?>
+			</td>
+			<td>
+				<b><?=$service->getName()?></b><br>
+				<span style="font-size: 0.8rem"><?=$service->getModule()->getModuleManifest()->getName()?></span><br>
+				
+			</td>
+			<td>
+				<?=$service->getDescription()?>
+			</td>
+			<td>
+				<?php if( $service->getServiceRequiresBaseDesignation() ): ?>
+				<div style="display: grid;grid-template-columns: 100px 1fr;gap: 10px;align-items: center">
+					<?php foreach( MVC::getBases() as $base ):
+						foreach($base->getLocales() as $locale):
+							$base_l = $base->getLocalizedData( $locale );
+						?>
+						<div>
+							<?=UI::flag( $locale )?>
+							<?=$base->getName()?>:
+						</div>
+						<div>
+							
+							<?php
+							echo UI::button( Tr::_('link'))->setUrl($service->getURL($base_l))->setIcon('link')->setCustomTagAttribute('target', '_blank')->setClass(UI_button::CLASS_PRIMARY);
+							?>
+						</div>
+					<?php
+						endforeach;
+					endforeach; ?>
+				</div>
+				<?php else:
+					echo UI::button( Tr::_('link'))->setUrl($service->getURL())->setIcon('link')->setCustomTagAttribute('target', '_blank')->setClass(UI_button::CLASS_PRIMARY);
+				endif ?>
+			</td>
+		</tr>
+	<?php endforeach; ?>
+
+	</tbody>
+</table>

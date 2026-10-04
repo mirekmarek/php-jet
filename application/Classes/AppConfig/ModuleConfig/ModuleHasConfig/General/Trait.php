@@ -9,7 +9,6 @@
 namespace JetApplication;
 
 
-use Jet\Application_Module;
 /** @phpstan-ignore trait.unused */
 trait AppConfig_ModuleConfig_ModuleHasConfig_General_Trait
 {
@@ -20,12 +19,13 @@ trait AppConfig_ModuleConfig_ModuleHasConfig_General_Trait
 	
 	public function getGeneralConfig() : AppConfig_ModuleConfig_General
 	{
-		/**
-		 * @var Application_Module $this
-		 */
 		if(!$this->general_config ) {
 			$class_name = $this->module_manifest->getNamespace().'Config_General';
-			$this->general_config = new $class_name( $this->module_manifest );
+			/**
+			 * @var AppConfig_ModuleConfig_General $cfg
+			 */
+			$cfg = new $class_name( $this->module_manifest );
+			$this->general_config = $cfg;
 			
 		}
 		

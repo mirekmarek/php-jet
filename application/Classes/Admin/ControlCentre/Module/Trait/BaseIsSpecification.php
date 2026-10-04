@@ -8,6 +8,7 @@
 
 namespace JetApplication;
 
+use Jet\Locale;
 use Jet\MVC;
 use Jet\MVC_Page_Interface;
 use Jet\UI;
@@ -23,6 +24,7 @@ trait Admin_ControlCentre_Module_Trait_BaseIsSpecification
 		
 		foreach(MVC::getBases() as $base) {
 			foreach($base->getLocales() as $locale) {
+				/** @var Locale $locale */
 				$list[$base->getId().'_'.$locale] = $base->getName().' - '.UI::flag( $locale );
 			}
 		}

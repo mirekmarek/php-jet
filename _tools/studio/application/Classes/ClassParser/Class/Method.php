@@ -171,6 +171,9 @@ class ClassParser_Class_Method extends ClassParser_Class_Element
 				switch( $token->id ) {
 					case T_CATCH:
 					case T_STRING:
+					case T_LIST:
+					case T_NEW:
+					case T_SWITCH:
 						if( !$searching_for_param_declaration ) {
 							$method->name = $token->text;
 						} else {

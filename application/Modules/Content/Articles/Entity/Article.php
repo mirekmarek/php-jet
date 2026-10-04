@@ -224,6 +224,22 @@ class Article extends DataModel
 
 		return $list;
 	}
+	
+	/**
+	 * @return array<static>|DataModel_Fetch_Instances
+	 */
+	public static function getListForLocale( Locale $locale ): array|DataModel_Fetch_Instances
+	{
+		$list = static::fetchInstances(
+			[
+				'article_localized.locale' => $locale,
+			]
+		);
+		$list->getQuery()->setOrderBy( '-date_time' );
+		
+		return $list;
+	}
+	
 
 	/**
 	 * @param string $path
