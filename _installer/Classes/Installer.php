@@ -609,6 +609,14 @@ class Installer
 			$admin_ld->setTitle( Tr::_( 'Admin panel', [], null, $locale ) );
 			$admin_ld->setURLs( [$URL . 'admin/'] );
 			
+			$avl_locales = [];
+			foreach( Installer::getSelectedLocales() as $l ) {
+				$avl_locales[] = $l->toString();
+			}
+			$avl_locales = implode(',', $avl_locales);
+			
+			$admin_ld->setParameter('avl_locales', $avl_locales);
+			
 			break;
 		}
 		
