@@ -1,0 +1,68 @@
+<?php
+/**
+ *
+ * @copyright Copyright (c) Miroslav Marek <mirek.marek@web-jet.cz>
+ * @license http://www.php-jet.net/license/license.txt
+ * @author Miroslav Marek <mirek.marek@web-jet.cz>
+ */
+namespace JetApplicationModule\OAuth\Backend\Google;
+
+
+use Jet\Form;
+use Jet\Form_Renderer;
+use Jet\MVC_Base_LocalizedData_Interface;
+use Jet\MVC_View;
+use Jet\Tr;
+use Jet\UI;
+use Jet\UI_messages;
+use JetApplication\Application_Service_General;
+
+
+/**
+ * @var MVC_View $this
+ * @var Form $form
+ * @var Main $module
+ * @var MVC_Base_LocalizedData_Interface $base
+ */
+
+$form = $this->getRaw('form');
+
+$form->renderer()->setDefaultFieldWidth([
+	Form_Renderer::LJ_SIZE_MEDIUM => 10
+]);
+$form->renderer()->setDefaultLabelWidth([
+	Form_Renderer::LJ_SIZE_MEDIUM => 2
+]);
+$module = $this->getRaw('module');
+$base = $this->getRaw('base');
+
+$register_URL = Application_Service_General::OAuthManager()?->generateHandlerURL( $module, $base )??'';
+
+
+
+foreach( UI_messages::get(context: 'CC') as $message ):
+	echo $message;
+endforeach;
+
+echo $form->getCommonMessage();
+
+$message = UI_messages::createInfo( Tr::_('Please register the following URL in OAuth service: <b>%URL%</b>', ['URL'=>$register_URL]) );
+$message->setCloseable( false );
+
+echo '<br>'.$message.'<hr>';
+
+echo $form->start();
+
+echo $form->field('client_id');
+echo $form->field('client_secret');
+echo $form->field('oauth_endpoint_URL');
+echo $form->field('token_endpoint_URL');
+?>
+	<div class="row">
+		<div class="col-md-2"></div>
+		<div class="col-md-8">
+			<?=UI::button_save()?>
+		</div>
+	</div>
+	<?php
+echo $form->end();

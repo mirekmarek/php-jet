@@ -8,6 +8,7 @@
 
 namespace JetApplication;
 
+use Jet\Auth_Controller_Interface;
 use Jet\Logger;
 
 use Jet\MVC;
@@ -55,19 +56,19 @@ class Application_Web
 			return Application_Service_Web::Logger();
 		} );
 		
-		Auth::setControllerProvider( function() : Application_Service_Web_Auth_Controller {
-			/** @phpstan-ignore return.type */
-			return Application_Service_Web::AuthController();
-		} );
+		$auth_controller = Application_Service_Web::AuthController();
+		/** @var Application_Service_Web_Auth_Controller $auth_controller */
+		Auth::setController( $auth_controller );
 
 		SysConf_Jet_UI::setViewsDir( $router->getBase()->getViewsPath() . 'ui/' );
 		SysConf_Jet_Form::setDefaultViewsDir( $router->getBase()->getViewsPath() . 'form/' );
 		SysConf_Jet_ErrorPages::setErrorPagesDir( $router->getBase()->getPagesDataPath( $router->getLocale() ) );
 		
 		if($router->tryDirectFiles()) {
-			/** @noinspection PhpUnnecessaryStopStatementInspection */
 			return;
 		}
+		
+		$auth_controller->handleOAuth();
 		
 	}
 

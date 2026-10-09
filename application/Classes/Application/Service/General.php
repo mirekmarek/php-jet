@@ -43,4 +43,8 @@ class Application_Service_General {
 		return static::list()->get( Application_Service_General_SysServices::class );
 	}
 	
+	public static function OAuthManager() : OAuth_Manager|Application_Module|null
+	{
+		return static::list()->get( Application_Service_General_OAuth_Manager::class );
+	}
 }

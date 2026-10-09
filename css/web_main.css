@@ -1,0 +1,37 @@
+.oauth-button {
+	width: 100%;
+	display: grid;
+	align-items: center;
+	grid-template-columns: 20px 1fr;
+	white-space: nowrap;
+	border: none;
+	gap: 20px;
+
+	padding: 8px;
+
+	text-decoration: none;
+	font-size: 14px;
+	font-weight: bolder;
+	overflow: hidden;
+	cursor: pointer;
+	margin: 10px;
+
+	border-radius: 0px;
+
+}
+
+.oauth-button:active {
+	filter: brightness(0.9);
+}
+
+.oauth-button img {
+	width: 100%;
+	height: auto;
+}
+
+.oauth-button span {
+	text-align: left;
+	font-size: 15px;
+	font-weight: bolder;
+	font-family: 'Roboto',arial,sans-serif;
+}

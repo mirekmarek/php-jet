@@ -8,16 +8,12 @@
 
 namespace JetApplication;
 
-use Jet\Locale;
-use Jet\MVC_Base_Interface;
-use Jet\MVC_Page_Interface;
+use Jet\MVC_Base_LocalizedData_Interface;
 
 interface Admin_ControlCentre_Module_Interface_BaseIsSpecification extends Admin_ControlCentre_Module_Interface {
 	
-	public function getSpecificationIdByPage( MVC_Page_Interface $page ) : string;
+	public function getSpecificationIdByBase( MVC_Base_LocalizedData_Interface $base ) : string;
 	
-	public function getSpecificationIdByBase( MVC_Base_Interface $base, Locale $locale ) : string;
-	
-	public function getHomepageBySpecificationId( string $specification_id ) : ?MVC_Page_Interface;
+	public function getBaseBySpecificationId( string $specification_id ) : ?MVC_Base_LocalizedData_Interface;
 	
 }

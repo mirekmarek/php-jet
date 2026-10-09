@@ -19,4 +19,5 @@ use Jet\Auth_Controller_Interface;
 )]
 interface Application_Service_Web_Auth_Controller extends Auth_Controller_Interface
 {
+	public function handleOAuth() : void;
 }

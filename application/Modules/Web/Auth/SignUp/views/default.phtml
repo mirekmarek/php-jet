@@ -8,6 +8,7 @@ use Jet\Tr;
 use Jet\UI;
 use Jet\UI_button;
 use Jet\UI_icon;
+use JetApplication\Application_Service_General;
 
 /**
  * @var MVC_View $this
@@ -18,8 +19,22 @@ $form = $this->getRaw( 'form' );
 $form->renderer()->setDefaultLabelWidth( [Form_Renderer::LJ_SIZE_MEDIUM => 12] );
 $form->renderer()->setDefaultFieldWidth( [Form_Renderer::LJ_SIZE_MEDIUM => 12] );
 
+$oauth_manager = Application_Service_General::OAuthManager();
+
+$oauth_modules = $oauth_manager?->getOAuthModules( true );
+
 ?>
 <h1><?=UI::icon('user-plus')->setSize(UI_icon::SIZE_EXTRA_LARGE)?> <?=Tr::_('Sign up')?></h1>
+
+	<?php if($oauth_modules): ?>
+	<div style="padding-left: 10%;padding-right: 10%;">
+		<?php foreach($oauth_modules as $module):
+			echo $module->renderLoginButton();
+		endforeach; ?>
+	</div>
+	<hr>
+<?php endif; ?>
+
 
 <?= $form->start() ?>
 <?= $form->message() ?>

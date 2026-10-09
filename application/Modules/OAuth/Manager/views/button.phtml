@@ -1,0 +1,30 @@
+<?php
+/**
+ *
+ * @copyright Copyright (c) Miroslav Marek <mirek.marek@web-jet.cz>
+ * @license http://www.php-jet.net/license/license.txt
+ * @author Miroslav Marek <mirek.marek@web-jet.cz>
+ */
+namespace JetApplicationModule\OAuth\Manager;
+
+use Jet\MVC;
+use Jet\MVC_View;
+use JetApplication\OAuth_BackendModule;
+
+/**
+ * @var MVC_View   $this
+ * @var OAuth_BackendModule $module
+ */
+$module = $this->getRaw('module');
+?>
+
+<form method="post" action="<?=$module->getHandlerUrl()?>">
+	<input type="hidden" name="login" value=""/>
+	<input type="hidden" name="redirect_page_id" value="<?=MVC::getPage()->getId()?>"/>
+	<input type="hidden" name="path_fragments" value="<?=MVC::getRouter()->getUsedUrlPath()?>"/>
+
+	<div id="auth_btn_<?=$module->getOAuthServiceID()?>">
+		<?=$module->_renderLoginButtonUI()?>
+	</div>
+
+</form>

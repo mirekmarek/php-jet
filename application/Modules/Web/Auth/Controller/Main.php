@@ -11,11 +11,14 @@ use Jet\Application_Module;
 use Jet\Auth_User_Interface;
 use Jet\Data_DateTime;
 use Jet\Logger;
+use Jet\MVC;
 use Jet\MVC_Page_Interface;
 use Jet\Session;
+use JetApplication\Application_Service_General;
 use JetApplication\Application_Service_Web;
 use JetApplication\Application_Service_Web_Auth_Controller;
 use JetApplication\Application_Service_Web_Auth_LoginModule;
+use JetApplication\OAuth_Manager;
 use JetApplicationModule\Web\Auth\Entity\Role;
 use JetApplicationModule\Web\Auth\Entity\Visitor;
 
@@ -233,5 +236,21 @@ class Main extends Application_Module implements Application_Service_Web_Auth_Co
 	{
 		return $this->getCurrentUserHasPrivilege( Role::PRIVILEGE_VISIT_PAGE, $page->getKey() );
 	}
-
+	
+	public function handleOAuth(): void
+	{
+		$oauth_manager = Application_Service_General::OAuthManager();
+		if(!$oauth_manager) {
+			return;
+		}
+		
+		/** @var OAuth_Manager $oauth_manager */
+		
+		$oauth_manager->init(
+			MVC::getBase()->getId().':'.MVC::getLocale(),
+			new OAuthUserHandler()
+		);
+		
+		$oauth_manager->handle();
+	}
 }

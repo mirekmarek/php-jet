@@ -225,6 +225,21 @@ class Visitor extends DataModel implements Auth_Visitor
 		type: DataModel::TYPE_STRING,
 	)]
 	protected string $user_activation_key = '';
+	
+	#[DataModel_Definition(
+		type: DataModel::TYPE_STRING,
+		is_key: true,
+		max_len: 100,
+	)]
+	protected string $oauth_service = '';
+	
+	#[DataModel_Definition(
+		type: DataModel::TYPE_STRING,
+		is_key: true,
+		max_len: 100,
+	)]
+	protected string $oauth_key = '';
+	
 
 	/**
 	 * @var Visitor_Roles[]
@@ -415,6 +430,36 @@ class Visitor extends DataModel implements Auth_Visitor
 			]
 		);
 	}
+	
+	public function getOauthService(): string
+	{
+		return $this->oauth_service;
+	}
+	
+	public function setOauthService( string $oauth_service ): void
+	{
+		$this->oauth_service = $oauth_service;
+	}
+	
+	public function getOauthKey(): string
+	{
+		return $this->oauth_key;
+	}
+	
+	public function setOauthKey( string $oauth_key ): void
+	{
+		$this->oauth_key = $oauth_key;
+	}
+	
+	public static function getByOAuth( string $oauth_service, string $oauth_key ): static|null
+	{
+		return static::load( [
+			'oauth_service' => $oauth_service,
+			'AND',
+			'oauth_key' => $oauth_key,
+		] );
+	}
+	
 
 	/**
 	 * @return int

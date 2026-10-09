@@ -4,6 +4,7 @@ use Jet\Tr;
 use Jet\UI;
 use Jet\Form;
 use Jet\MVC_View;
+use JetApplication\Application_Service_General;
 use JetApplication\Application_Web_Pages;
 
 /**
@@ -16,6 +17,10 @@ $form->field( 'username' )->setPlaceholder( 'username' );
 $form->field( 'password' )->setPlaceholder( 'password' );
 
 $password_reset_page = Application_Web_Pages::resetPassword();
+
+$oauth_manager = Application_Service_General::OAuthManager();
+
+$oauth_modules = $oauth_manager?->getOAuthModules( true );
 ?>
 
 <div class="col-md-6 offset-md-3 col-sm-8 offset-sm-2">
@@ -24,6 +29,15 @@ $password_reset_page = Application_Web_Pages::resetPassword();
 			<?= Tr::_( 'Sign In' ) ?>
 			<?php require '_language_select.phtml'; ?>
 		</h5>
+
+		<?php if($oauth_modules): ?>
+			<div style="padding-left: 10%;padding-right: 10%;">
+				<?php foreach($oauth_modules as $module):
+					echo $module->renderLoginButton();
+				endforeach; ?>
+			</div>
+			<hr>
+		<?php endif; ?>
 
 		<?= $form->start() ?>
 		<div class="card-body">

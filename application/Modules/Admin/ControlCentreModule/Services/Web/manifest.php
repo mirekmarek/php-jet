@@ -1,6 +1,6 @@
 <?php
 return [
-	'vendor' => '',
+	'vendor' => 'Miroslav Marek',
 	'version' => '',
 	'label' => 'Admin.ControlCentreModule.Managers.Admin',
 	'description' => '',

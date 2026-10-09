@@ -10,7 +10,7 @@ namespace JetApplication;
 
 use Jet\Locale;
 use Jet\MVC;
-use Jet\MVC_Page_Interface;
+use Jet\MVC_Base_LocalizedData_Interface;
 use Jet\UI;
 
 /** @phpstan-ignore trait.unused */
@@ -18,6 +18,11 @@ trait Admin_ControlCentre_Module_Trait_BaseIsSpecification
 {
 	use Admin_ControlCentre_Module_Trait;
 	
+	use Admin_ControlCentre_Module_Trait;
+	
+	/**
+	 * @return array<string,string>
+	 */
 	public function getControlCentreSpecificationList() : array
 	{
 		$list = [];
@@ -25,16 +30,29 @@ trait Admin_ControlCentre_Module_Trait_BaseIsSpecification
 		foreach(MVC::getBases() as $base) {
 			foreach($base->getLocales() as $locale) {
 				/** @var Locale $locale */
-				$list[$base->getId().'_'.$locale] = $base->getName().' - '.UI::flag( $locale );
+				$spoecification_id = $this->getSpecificationIdByBase( $base->getLocalizedData( $locale ) );
+				
+				$list[$spoecification_id] = $base->getName().' - '.UI::flag( $locale );
 			}
 		}
 		
 		return $list;
 	}
 	
-	public function getSpecificationIdByPage( MVC_Page_Interface $page ) : string
+	public function getSpecificationIdByBase( MVC_Base_LocalizedData_Interface $base ) : string
 	{
-		return $page->getBaseId().'_'.$page->getLocale();
+		return $base->getBase()->getId().':'.$base->getLocale();
+	}
+	
+	public function getBaseBySpecificationId( string $specification_id ) : ?MVC_Base_LocalizedData_Interface
+	{
+		$specification_id = explode(':', $specification_id);
+		[$base_id, $locale] = $specification_id;
+		$locale = new Locale($locale);
+		
+		$base = MVC::getBase( $base_id );
+		
+		return $base?->getLocalizedData($locale)??null;
 	}
 	
 }

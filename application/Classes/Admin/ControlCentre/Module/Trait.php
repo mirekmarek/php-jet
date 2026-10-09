@@ -13,14 +13,15 @@ use Jet\Tr;
 use Jet\Translator;
 
 /**
- * @var string $control_centre_group;
- * @var string $control_centre_title;
- * @var string $control_centre_icon;
- * @var int $control_centre_priority;
- * @var bool $control_cnter_specification_mode;
+ * @property string $control_centre_group;
+ * @property string $control_centre_title;
+ * @property string $control_centre_icon;
+ * @property int $control_centre_priority;
+ * @property bool $control_cnter_specification_mode;
+ *
+ * @method getModuleManifest()
  */
 trait Admin_ControlCentre_Module_Trait {
-	
 	
 	public function getControlCentreGroup() : string
 	{
@@ -55,7 +56,6 @@ trait Admin_ControlCentre_Module_Trait {
 	
 	public function getControlCentreTitleTranslated() : string
 	{
-
 		return Translator::setCurrentDictionaryTemporary( $this->getModuleManifest()->getName(), function() : string {
 			return Tr::_( $this->getControlCentreTitle() );
 		} );
@@ -72,8 +72,9 @@ trait Admin_ControlCentre_Module_Trait {
 			
 			$page_content->dispatch();
 			
-			/** @phpstan-ignore return.type */
-			return $page_content->getOutput();
+			$ouput = $page_content->getOutput();
+			/** @var string $ouput */
+			return $ouput;
 		});
 	}
 	
