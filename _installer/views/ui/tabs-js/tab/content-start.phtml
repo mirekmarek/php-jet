@@ -16,6 +16,9 @@ if($t->getIsSelected()) {
 }
 
 $t->addCustomCssStyle('padding-top: 10px;');
+$t->setCustomTagAttribute('role', 'tabpanel');
+$t->setCustomTagAttribute('aria-labelledby', $t->getId().'_tab');
+$t->setCustomTagAttribute('tabindex', '0');
 ?>
 <div <?=$t->renderTagAttributes()?>>
 

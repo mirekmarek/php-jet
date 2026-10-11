@@ -2,6 +2,7 @@
 
 namespace JetApplication\Installer;
 
+use Jet\Data_Text;
 use Jet\MVC_View;
 use Jet\Tr;
 use Jet\UI;
@@ -12,19 +13,26 @@ use Jet\UI;
 ?>
 
 
+<ul style="list-style: none;margin: 0;padding: 0;">
 <?php foreach( Installer::getAvailableInstallerLocales() as $locale ): ?>
-	<div style="padding: 10px; display: flex;align-items: center;gap: 10px;">
+	<li style="padding: 10px; display: flex;align-items: center;gap: 10px;">
 		<div style="font-size: 1.6rem">
 			<?= UI::flag( $locale ) ?>
 		</div>
 		<div>
 			<b><?= $locale->getLanguageName( $locale ) ?></b>
 			<br/>
-			<a href="?locale=<?= $locale ?>" style="text-decoration: underline"><?= Tr::_(
-					text: 'Please choose your language',
-					dictionary: Installer::getCurrentStepName(),
-					locale: $locale
-				) ?></a>
+			<?php
+			$choose_text = Tr::_(
+				text: 'Please choose your language',
+				dictionary: Installer::getCurrentStepName(),
+				locale: $locale
+			);
+			?>
+			<a href="?locale=<?= $locale ?>" style="text-decoration: underline"
+			   aria-label="<?= Data_Text::htmlSpecialChars( $locale->getLanguageName( $locale ).' - '.$choose_text ) ?>"
+			><?= $choose_text ?></a>
 		</div>
-	</div>
+	</li>
 <?php endforeach; ?>
+</ul>
