@@ -35,4 +35,6 @@ return [
 	'Base:' => '',
 	'Base' => '',
 	'Context object:' => '',
+	'Previous event' => '',
+	'Next event' => '',
 ];

@@ -12,4 +12,5 @@ return [
 	'Add %locale_name% to the installation' => 'Přidat %locale_name% do instalace',
 	'Remove %locale_name% from the installation' => 'Odebrat %locale_name% z instalace',
 	'Choose a language'             => 'Vyberte jazyk',
+	'Close'                         => 'Zavřít',
 ];

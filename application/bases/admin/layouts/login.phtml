@@ -1,10 +1,11 @@
 <?php
+use Jet\Locale;
 use Jet\SysConf_URI;
 
 require_once 'parts/init_libs.php';
 ?>
 <!DOCTYPE html>
-<html>
+<html lang="<?= Locale::getCurrentLocale()->getLanguage() ?>">
 <head>
 	<title><?= $this->getString( 'page_title', 'JetApplication admin' ) ?></title>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
@@ -25,13 +26,13 @@ require_once 'parts/init_libs.php';
 </head>
 <body>
 
-<div class="container h-100">
+<main class="container h-100">
 	<div class="row align-items-center h-100">
 		<div class="col-12 justify-content-center">
 			<jet_layout_main_position/>
 		</div>
 	</div>
-</div>
+</main>
 
 
 </body>

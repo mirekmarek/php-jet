@@ -29,5 +29,6 @@ return [
 	'opens in a new window' => 'otevře se v novém okně',
 	'Sort by %column% ascending' => 'Seřadit podle sloupce %column% vzestupně',
 	'Sort by %column% descending' => 'Seřadit podle sloupce %column% sestupně',
+	'Close' => 'Zavřít',
 
 ];

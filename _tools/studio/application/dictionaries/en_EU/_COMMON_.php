@@ -29,5 +29,6 @@ return [
 	'opens in a new window' => '',
 	'Sort by %column% ascending' => '',
 	'Sort by %column% descending' => '',
+	'Close' => '',
 
 ];

@@ -29,8 +29,15 @@ use Jet\UI;
 				locale: $locale
 			);
 			?>
+			<?php
+			// The visible text alone ("Please choose your language") is identical on every
+			// item in this list, so the accessible name needs the language name too to tell
+			// them apart - but it must still *start* with the same words as the visible text,
+			// or voice-control commands like "click Please choose your language" stop matching
+			// (WCAG 2.5.3 Label in Name).
+			?>
 			<a href="?locale=<?= $locale ?>" style="text-decoration: underline"
-			   aria-label="<?= Data_Text::htmlSpecialChars( $locale->getLanguageName( $locale ).' - '.$choose_text ) ?>"
+			   aria-label="<?= Data_Text::htmlSpecialChars( $choose_text.' - '.$locale->getLanguageName( $locale ) ) ?>"
 			><?= $choose_text ?></a>
 		</div>
 	</li>

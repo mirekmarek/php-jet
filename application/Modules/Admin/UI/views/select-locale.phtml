@@ -10,11 +10,12 @@ use JetApplication\Application_Admin;
 
 
 <li class="nav-item dropdown">
-	<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
-	   aria-haspopup="true" aria-expanded="false">
+	<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown_locale" role="button" data-toggle="dropdown"
+	   aria-haspopup="true" aria-expanded="false"
+	   aria-label="<?= UI::_( 'Switch language, current language: %locale_name%', [ 'locale_name' => Locale::getCurrentLocale()->getName( Locale::getCurrentLocale() ) ] ) ?>">
 		<span><?= UI::flag( Locale::getCurrentLocale() ) ?></span>
 	</a>
-	<div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+	<div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown_locale">
 		<?php foreach( Application_Admin::getAvlLovales() as $locale ): ?>
 			<a class="dropdown-item" href="<?=Http_Request::currentURI(['set_locale'=>$locale->toString()])?>">
 				<?= UI::flag( $locale ) ?>

@@ -18,6 +18,7 @@ $this->requireMainJavascriptFile( 'https://cdnjs.cloudflare.com/ajax/libs/popper
 $this->requireMainJavascriptFile( 'https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js' );
 $this->requireMainJavascriptFile( SysConf_URI::getJs().'JetAjaxForm.js?v=1' );
 $this->requireMainJavascriptFile( SysConf_URI::getJs().'tabs-a11y.js?v=1' );
+$this->requireMainJavascriptFile( SysConf_URI::getJs().'dialog-a11y.js?v=1' );
 
 
 

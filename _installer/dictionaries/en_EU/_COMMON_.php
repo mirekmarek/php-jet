@@ -12,4 +12,5 @@ return [
 	'Add %locale_name% to the installation' => '',
 	'Remove %locale_name% from the installation' => '',
 	'Choose a language' => '',
+	'Close' => '',
 ];

@@ -1,12 +1,13 @@
 <?php
 
 use Jet\Tr;
+use Jet\Locale;
 use Jet\SysConf_URI;
 
 require_once 'parts/init_libs.php';
 ?>
 <!DOCTYPE html>
-<html>
+<html lang="<?= Locale::getCurrentLocale()->getLanguage() ?>">
 <head>
 	<title><?= $this->getString( 'page_title', 'JetApplication admin' ) ?></title>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>

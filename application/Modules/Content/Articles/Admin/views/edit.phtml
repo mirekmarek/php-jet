@@ -61,6 +61,12 @@ $image_manager = Application_Service_Admin::ImageManager();
 			
 			$image_field = $form->field($prefix . 'title_image');
 			?>
+			<?php
+			// <legend> only groups fields for assistive tech when it is the first child of
+			// a <fieldset> - on its own it was just unstyled text and these per-locale
+			// field clusters weren't grouped at all.
+			?>
+			<fieldset>
 			<legend><?= UI::flag( $locale ) ?>&nbsp;<?= $locale->getName() ?></legend>
 		
 			<?php if($image_manager): ?>
@@ -75,7 +81,8 @@ $image_manager = Application_Service_Admin::ImageManager();
 			<?= $form->field( $prefix . 'title' ) ?>
 			<?= $form->field( $prefix . 'annotation' ) ?>
 			<?= $form->field( $prefix . 'text' ) ?>
-		
+			</fieldset>
+
 		<?php endforeach; ?>
 	</div>
 </div>
