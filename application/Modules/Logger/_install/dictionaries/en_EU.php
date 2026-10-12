@@ -37,4 +37,5 @@ return [
 	'Context object:' => '',
 	'Previous event' => '',
 	'Next event' => '',
+	'Date range' => '',
 ];

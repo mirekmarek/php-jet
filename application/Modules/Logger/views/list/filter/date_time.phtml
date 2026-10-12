@@ -2,6 +2,7 @@
 namespace JetApplicationModule\Logger;
 
 use Jet\MVC_View;
+use Jet\Tr;
 
 /**
  * @var MVC_View $this
@@ -10,8 +11,19 @@ use Jet\MVC_View;
 $listing = $this->getRaw( 'listing' );
 $filter_form = $listing->getFilterForm();
 ?>
-<?= $filter_form->field( 'date_time_from' )->label() ?>
-<div><?= $filter_form->field( 'date_time_from' )->input()?></div>
-<div></div>
-<?= $filter_form->field( 'date_time_till' )->label() ?>
-<div><?= $filter_form->field( 'date_time_till' )->input()?></div>
+<?php
+// This fragment is laid out as 5 bare cells directly in the parent filter grid
+// (see list.phtml), so it can't just be wrapped in a <fieldset> without shifting
+// every filter that comes after it. Instead the fieldset itself becomes the one
+// grid cell (spanning the same 5 columns the fragment always took up) and
+// recreates the same column layout inside it - visually and functionally
+// identical, but the from/till pair is now a real accessible group.
+?>
+<fieldset style="grid-column: span 5; display: grid; grid-template-columns: 130px 300px 10px 130px 300px; align-items: center; gap: 10px; border: none; padding: 0; margin: 0;">
+	<legend class="sr-only"><?= Tr::_( 'Date range' ) ?></legend>
+	<?= $filter_form->field( 'date_time_from' )->label() ?>
+	<div><?= $filter_form->field( 'date_time_from' )->input()?></div>
+	<div></div>
+	<?= $filter_form->field( 'date_time_till' )->label() ?>
+	<div><?= $filter_form->field( 'date_time_till' )->input()?></div>
+</fieldset>
