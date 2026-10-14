@@ -80,10 +80,10 @@ abstract class Form_Renderer_Field_Input extends Form_Renderer_Single
 	protected function generateTagAttributes_a11y() : void
 	{
 		if( $this->field->getAriaLabel() ) {
-			$attr['aria-label'] = $this->field->getAriaLabel();
+			$this->_tag_attributes['aria-label'] = $this->field->getAriaLabel();
 		} else{
 			if( $this->field->getAriaLabelledBy() ) {
-				$attr['aria-labelledby'] = $this->field->getAriaLabelledBy();
+				$this->_tag_attributes['aria-labelledby'] = $this->field->getAriaLabelledBy();
 			}
 		}
 		
