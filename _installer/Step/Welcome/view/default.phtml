@@ -2,6 +2,7 @@
 
 namespace JetApplication\Installer;
 
+use Jet\Data_Text;
 use Jet\MVC_View;
 use Jet\Tr;
 use Jet\UI;
@@ -12,19 +13,33 @@ use Jet\UI;
 ?>
 
 
+<ul style="list-style: none;margin: 0;padding: 0;">
 <?php foreach( Installer::getAvailableInstallerLocales() as $locale ): ?>
-	<div style="padding: 10px; display: flex;align-items: center;gap: 10px;">
+	<li style="padding: 10px; display: flex;align-items: center;gap: 10px;">
 		<div style="font-size: 1.6rem">
 			<?= UI::flag( $locale ) ?>
 		</div>
 		<div>
 			<b><?= $locale->getLanguageName( $locale ) ?></b>
 			<br/>
-			<a href="?locale=<?= $locale ?>" style="text-decoration: underline"><?= Tr::_(
-					text: 'Please choose your language',
-					dictionary: Installer::getCurrentStepName(),
-					locale: $locale
-				) ?></a>
+			<?php
+			$choose_text = Tr::_(
+				text: 'Please choose your language',
+				dictionary: Installer::getCurrentStepName(),
+				locale: $locale
+			);
+			?>
+			<?php
+			// The visible text alone ("Please choose your language") is identical on every
+			// item in this list, so the accessible name needs the language name too to tell
+			// them apart - but it must still *start* with the same words as the visible text,
+			// or voice-control commands like "click Please choose your language" stop matching
+			// (WCAG 2.5.3 Label in Name).
+			?>
+			<a href="?locale=<?= $locale ?>" style="text-decoration: underline"
+			   aria-label="<?= Data_Text::htmlSpecialChars( $choose_text.' - '.$locale->getLanguageName( $locale ) ) ?>"
+			><?= $choose_text ?></a>
 		</div>
-	</div>
+	</li>
 <?php endforeach; ?>
+</ul>

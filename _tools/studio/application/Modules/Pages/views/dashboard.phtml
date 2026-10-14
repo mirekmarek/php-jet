@@ -20,7 +20,7 @@ $bases = MVC::getBases();
 				$link = Main::getActionUrl( '', [], MVC::HOMEPAGE_ID, $locale, $base->getId() );
 				?>
 				<tr>
-					<td style="width: 30px"><a href="<?= $link ?>"><?= UI::flag( $locale ) ?></a></td>
+					<td style="width: 30px"><?= UI::flag( $locale ) ?></td>
 					<td style="width: 250px;"><a href="<?= $link ?>"><?= $locale->getName() ?></a></td>
 					<td><a href="<?= $link ?>"><?= $locale->getName( $locale ) ?></a></td>
 					<td></td>

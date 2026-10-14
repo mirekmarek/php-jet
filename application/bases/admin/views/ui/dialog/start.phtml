@@ -1,6 +1,7 @@
 <?php
 
 use Jet\UI_dialog;
+use Jet\UI;
 use Jet\MVC_View;
 
 /**
@@ -16,14 +17,21 @@ $size_class = match ($d->getSize()) {
 	UI_dialog::SIZE_EXTRA_LARGE => 'modal-xl',
 };
 
+$title_id = $d->getId().'_title';
+
 ?>
-<div class="modal fade" id="<?= $d->getId() ?>" role="dialog">
+<div class="modal fade" id="<?= $d->getId() ?>" role="dialog" tabindex="-1" aria-modal="true" aria-labelledby="<?= $title_id ?>">
 	<div class="modal-dialog <?= $size_class ?>">
 
 		<div class="modal-content">
 			<div class="modal-header">
-				<h5 class="modal-title"><?= $d->getTitle() ?></h5>
-				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+				<?php
+				// A dialog is its own "page" for assistive tech, so its first heading
+				// restarts at H1 regardless of the page's own heading level at this point
+				// (the modal-title class, not the tag, controls the visual size).
+				?>
+				<h1 class="modal-title" id="<?= $title_id ?>"><?= $d->getTitle() ?></h1>
+				<button type="button" class="close" data-dismiss="modal" aria-label="<?= UI::_( 'Close' ) ?>">
 					<span aria-hidden="true">&times;</span>
 				</button>
 			</div>

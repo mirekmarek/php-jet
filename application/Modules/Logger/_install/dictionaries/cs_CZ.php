@@ -36,4 +36,7 @@ return [
 	'Invalid value' => 'Naplatná hodnota',
 	'Base:' => 'Báze:',
 	'Event viewer' => 'Prohlížeč událostí',
+	'Previous event' => 'Předchozí událost',
+	'Next event' => 'Další událost',
+	'Date range' => 'Rozsah data',
 ];

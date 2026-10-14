@@ -33,4 +33,7 @@ return [
 	'User is blocked till' => '',
 	'Password is valid' => '',
 	'Password is valid till' => '',
+	'Activation' => '',
+	'Blocking' => '',
+	'Password validity' => '',
 ];

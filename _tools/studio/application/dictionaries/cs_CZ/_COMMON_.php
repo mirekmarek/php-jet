@@ -19,5 +19,16 @@ return [
 	'Ask a question' => 'Ptejte se',
 	'https://www.php-jet.net/doc/' => 'https://www.php-jet.net/cs/doc/',
 	'https://questions.php-jet.net/' => 'https://questions.php-jet.net/',
-	
+	'Skip to main content' => 'Přeskočit na hlavní obsah',
+	'Main navigation' => 'Hlavní navigace',
+	'Toggle navigation' => 'Zobrazit/skrýt navigaci',
+	'View site homepage' => 'Zobrazit úvodní stránku webu',
+	'Switch language, current language: %locale_name%' => 'Přepnout jazyk, aktuální jazyk: %locale_name%',
+	'Open module menu' => 'Otevřít menu modulů',
+	'Close module menu' => 'Zavřít menu modulů',
+	'opens in a new window' => 'otevře se v novém okně',
+	'Sort by %column% ascending' => 'Seřadit podle sloupce %column% vzestupně',
+	'Sort by %column% descending' => 'Seřadit podle sloupce %column% sestupně',
+	'Close' => 'Zavřít',
+
 ];

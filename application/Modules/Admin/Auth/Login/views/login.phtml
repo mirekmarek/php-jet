@@ -11,15 +11,15 @@ use Jet\MVC_View;
  */
 $form = $this->getRaw( 'login_form' );
 
-$form->field( 'username' )->setPlaceholder( 'username' );
-$form->field( 'password' )->setPlaceholder( 'password' );
+$form->field( 'username' )->setPlaceholder( Tr::_( 'username' ) );
+$form->field( 'password' )->setPlaceholder( Tr::_( 'password' ) );
 
 ?>
 <div class="card">
-	<h5 class="card-header">
+	<h1 class="card-header">
 		<?= Tr::_( 'Sign In' ) ?>
-		<?php require '_language_select.phtml'; ?>
-	</h5>
+	</h1>
+	<?php require '_language_select.phtml'; ?>
 
 	<?= $form->start() ?>
 	<div class="card-body">
@@ -33,6 +33,7 @@ $form->field( 'password' )->setPlaceholder( 'password' );
 			<div class="input-group-prepend">
 				<span class="input-group-text"><?= UI::icon( 'user' ) ?></span>
 			</div>
+			<label for="<?= $form->field( 'username' )->getId() ?>" class="sr-only"><?= Tr::_( 'username' ) ?></label>
 			<?= $form->field( 'username' )->input() ?>
 		</div>
 
@@ -40,6 +41,7 @@ $form->field( 'password' )->setPlaceholder( 'password' );
 			<div class="input-group-prepend">
 				<span class="input-group-text"><?= UI::icon( 'lock' )->setTag( 'i' ) ?></span>
 			</div>
+			<label for="<?= $form->field( 'password' )->getId() ?>" class="sr-only"><?= Tr::_( 'password' ) ?></label>
 			<?= $form->field( 'password' )->input() ?>
 		</div>
 

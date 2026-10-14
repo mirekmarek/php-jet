@@ -29,19 +29,24 @@ $icon_size = UI_icon::SIZE_SMALL;
 		$display_callback = $tree->getNodeRenderer( $node );
 
 		$icon = 'file';
+		$aria_expanded = '';
 		if( $node->getHasChildren() ) {
 			if( $tree->nodeOpened( $node ) ) {
 				$icon = 'folder-open';
 			} else {
 				$icon = 'folder';
 			}
+			// The icon alone (now aria-hidden, like every icon) no longer carries this
+			// state to assistive tech, so expose it explicitly here instead.
+			$aria_expanded = $tree->nodeOpened( $node ) ? ' aria-expanded="true"' : ' aria-expanded="false"';
 		}
 
 
 		$padding = ($node->getDepth()) * $icon_width;
 		?>
+		<?php $is_selected = $tree->getSelectedId() == $node->getId(); ?>
 		<div class="tree-row-container">
-			<div class="tree-row<?= $tree->getSelectedId() == $node->getId() ? ' selected' : '' ?>">
+			<div class="tree-row<?= $is_selected ? ' selected' : '' ?>"<?= $is_selected ? ' aria-current="true"' : '' ?><?= $aria_expanded ?>>
 				<div class="tree-row-icon-container" style="padding-left: <?= $padding; ?>px;">
 					<?= UI::icon( $icon )->setSize( $icon_size )?>
 				</div>

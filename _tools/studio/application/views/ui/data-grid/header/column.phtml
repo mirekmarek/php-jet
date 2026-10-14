@@ -4,6 +4,8 @@ use Jet\UI_dataGrid_column;
 use Jet\UI;
 use Jet\UI_icon;
 use Jet\MVC_View;
+use Jet\Tr;
+use Jet\Translator;
 
 /**
  * @var MVC_View $this
@@ -13,25 +15,35 @@ $column = $this->getRaw( 'element' );
 $grid = $column->getGrid();
 
 $column->setCustomTagAttribute('nowrap', 'nowrap');
+
+if( $column->getAllowSort() ) {
+	if( $column->isSortByAsc() ) {
+		$column->setCustomTagAttribute( 'aria-sort', 'ascending' );
+	} elseif( $column->isSortByDesc() ) {
+		$column->setCustomTagAttribute( 'aria-sort', 'descending' );
+	}
+}
 ?>
 <th <?=$column->renderTagAttributes()?>>
 	<?php if( $column->getAllowSort() ):
 		if( $column->isSortByAsc() ):
+			// Decorative: current direction is already conveyed by aria-sort on the <th>.
 			echo UI::icon( 'sort-amount-down-alt' )->setSize( UI_icon::SIZE_EXTRA_SMALL );
 		else: ?>
-			<a href="<?= $grid->getSortURL( $column->getName() ); ?>">
+			<a href="<?= $grid->getSortURL( $column->getName() ); ?>" aria-label="<?= Tr::_( 'Sort by %column% ascending', [ 'column' => $column->getTitle() ], Translator::COMMON_DICTIONARY ); ?>">
 				<?= UI::icon( 'sort-amount-down-alt' )->setSize( UI_icon::SIZE_EXTRA_SMALL ) ?>
 			</a>
 		<?php endif;
 	endif;
-	
+
 	echo $column->getTitle();
-	
+
 	if( $column->getAllowSort() ):
 		if( $column->isSortByDesc() ):
+			// Decorative: current direction is already conveyed by aria-sort on the <th>.
 			echo UI::icon( 'sort-amount-down' )->setSize( UI_icon::SIZE_EXTRA_SMALL );
 		else: ?>
-			<a href="<?= $grid->getSortURL( $column->getName(), true ); ?>">
+			<a href="<?= $grid->getSortURL( $column->getName(), true ); ?>" aria-label="<?= Tr::_( 'Sort by %column% descending', [ 'column' => $column->getTitle() ], Translator::COMMON_DICTIONARY ); ?>">
 				<?= UI::icon( 'sort-amount-down' )->setSize( UI_icon::SIZE_EXTRA_SMALL ) ?>
 			</a>
 		<?php endif;

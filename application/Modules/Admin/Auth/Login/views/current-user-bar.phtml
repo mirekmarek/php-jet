@@ -7,12 +7,12 @@ use Jet\MVC;
 ?>
 
 <li class="nav-item dropdown">
-	<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+	<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown_user" role="button" data-toggle="dropdown"
 	   aria-haspopup="true" aria-expanded="false">
 		<?= UI::icon( 'user' ) ?>
 		<?= Auth::getCurrentUser()->getUsername() ?>
 	</a>
-	<div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+	<div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown_user">
 		
 		<?php if(
 			($change_password_page = MVC::getPage('change-password')) &&

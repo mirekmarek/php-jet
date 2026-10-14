@@ -11,6 +11,10 @@ $t = $this->getRaw( 'element' );
 
 if($t->getIsSelected()) {
 	$t->setBaseCssClass('nav-link active');
+	// These tabs are plain navigation links (each points at its own URL), not a
+	// same-page tab-panel widget, so the "current" state is conveyed the same way
+	// as any other current-page link - aria-current - not with role="tab".
+	$t->setCustomTagAttribute('aria-current', 'page');
 } else {
 	$t->setBaseCssClass('nav-link');
 }

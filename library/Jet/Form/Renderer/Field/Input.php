@@ -58,7 +58,7 @@ abstract class Form_Renderer_Field_Input extends Form_Renderer_Single
 		if(!$this->view_dir) {
 			return $this->field->renderer()->getViewDir();
 		}
-		
+
 		return $this->view_dir;
 	}
 	

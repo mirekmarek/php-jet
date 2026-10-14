@@ -2,12 +2,14 @@
 
 use Jet\MVC;
 use Jet\Tr;
+use Jet\UI;
+use Jet\Locale;
 use Jet\SysConf_URI;
 
 require_once 'parts/init_libs.php';
 ?>
 <!DOCTYPE html>
-<html>
+<html lang="<?= Locale::getCurrentLocale()->getLanguage() ?>">
 <head>
 	<title><?= $this->getString( 'page_title', 'JetApplication admin' ) ?></title>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
@@ -44,12 +46,14 @@ require_once 'parts/init_libs.php';
 
 
 
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-	<a href="<?= MVC::getHomePage()->getURLPath() ?>"><img src="https://php-jet.net/images/logo-st.svg" style="width: 140px;height: auto"></a>
+<a class="sr-only sr-only-focusable" href="#main-content"><?= UI::_( 'Skip to main content' ) ?></a>
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark" aria-label="<?= UI::_( 'Main navigation' ) ?>">
+	<a href="<?= MVC::getHomePage()->getURLPath() ?>"><img src="https://php-jet.net/images/logo-st.svg" style="width: 140px;height: auto" alt=""></a>
 	<a class="navbar-brand" href="<?= MVC::getHomePage()->getURLPath() ?>">Example Admin</a>
 
 	<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#mainNavBar"
-	        aria-controls="mainNavBar" aria-expanded="false" aria-label="">
+	        aria-controls="mainNavBar" aria-expanded="false" aria-label="<?= UI::_( 'Toggle navigation' ) ?>">
 		<span class="navbar-toggler-icon"></span>
 	</button>
 
@@ -75,7 +79,9 @@ require_once 'parts/init_libs.php';
 		</div>
 	</div>
 
+	<main id="main-content">
 	<jet_layout_main_position/>
+	</main>
 </div>
 
 

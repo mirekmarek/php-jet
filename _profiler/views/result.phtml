@@ -178,9 +178,10 @@ $renderer = new class($run) {
 };
 
 ?>
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-
+	<title>Profiler result</title>
 </head>
 <body>
 
@@ -213,13 +214,13 @@ $renderer = new class($run) {
 		</div>
 	</div>
 
-	<div id="nav-tabs">
-		<button id="run-blocks-tab" type="button" class="nav-tab nav-tab-selected" onclick="ProfilerResult.selectTab('run-blocks')">Run blocks</button>
-		<button id="sql-queries-tab" type="button" class="nav-tab" onclick="ProfilerResult.selectTab('sql-queries')">SQL queries (<?=count( $run->getSqlQueries() )?>)</button>
+	<div id="nav-tabs" role="tablist">
+		<button id="run-blocks-tab" type="button" role="tab" aria-selected="true" aria-controls="run-blocks-content" tabindex="0" class="nav-tab nav-tab-selected" onclick="ProfilerResult.selectTab('run-blocks')">Run blocks</button>
+		<button id="sql-queries-tab" type="button" role="tab" aria-selected="false" aria-controls="sql-queries-content" tabindex="-1" class="nav-tab" onclick="ProfilerResult.selectTab('sql-queries')">SQL queries (<?=count( $run->getSqlQueries() )?>)</button>
 	</div>
 
 	<div id="nab-tabs-content">
-		<div id="run-blocks-content" class="nab-tab-content nab-tab-content-selected">
+		<div id="run-blocks-content" class="nab-tab-content nab-tab-content-selected" role="tabpanel" aria-labelledby="run-blocks-tab" tabindex="0">
 			<div class="run-blocks">
 				<div class="run-blocks-tree" id="run-blocks-tree">
 					<?php $renderer->showRunBlockTree($blocks[0]); ?>
@@ -232,7 +233,7 @@ $renderer = new class($run) {
 			</div>
 		</div>
 
-		<div id="sql-queries-content" class="nab-tab-content">
+		<div id="sql-queries-content" class="nab-tab-content" role="tabpanel" aria-labelledby="sql-queries-tab" tabindex="0">
 			<div class="sql-queries-summary">
 				<div>Number of executed SQL queries:</div>
 				<div><?=$renderer->number_of_queries?></div>
@@ -266,14 +267,14 @@ $renderer = new class($run) {
 	</div>
 
 
-	<div id="backtraces-dialog" style="display:none;">
+	<div id="backtraces-dialog" style="display:none;" role="dialog" aria-modal="true" aria-label="Backtrace" tabindex="-1">
 		<div class="backtraces-dialog-title">
-			<b>🛈</b>
-			<button type="button" onclick="document.getElementById('backtraces-dialog').style.display='none';">&#x2715;</button>
+			<b aria-hidden="true">🛈</b>
+			<button type="button" aria-label="Close" onclick="ProfilerResult.closeBackTrace();">&#x2715;</button>
 		</div>
-		
+
 		<div id="backtraces">
-		
+
 		</div>
 	</div>
 

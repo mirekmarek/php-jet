@@ -1,6 +1,7 @@
 <?php
 namespace JetApplication\Installer;
 
+use Jet\Locale;
 use Jet\MVC_Layout;
 use Jet\Tr;
 use Jet\UI_icon;
@@ -17,7 +18,7 @@ $this->requireCssFile( 'https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bo
 $this->requireCssFile( 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css' );
 
 ?>
-<html>
+<html lang="<?= Locale::getCurrentLocale()->getLanguage() ?>">
 <head>
 	<title><?= Tr::_( 'Example Project Installer' ); ?></title>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
@@ -95,49 +96,102 @@ $this->requireCssFile( 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.
 			padding: 30px;
 		}
 
+		/* Current step: state is also carried by text ("(current step)") and aria-current,
+		   not by this background/weight alone - but the visual cue stays for sighted users. */
+		.steps {
+			list-style: none;
+			margin: 0;
+			padding: 0;
+		}
+
+		/*
+		 * Bootstrap already defines .sr-only, but it is loaded from a CDN here - if that
+		 * request ever fails (offline, blocked, slow), text meant only for screen readers
+		 * (the skip link, "(current step)") would stay fully visible instead. Defining it
+		 * again here, inline, makes it work regardless of whether the CDN stylesheet loaded.
+		 */
+		.sr-only {
+			position: absolute;
+			width: 1px;
+			height: 1px;
+			padding: 0;
+			margin: -1px;
+			overflow: hidden;
+			clip: rect(0, 0, 0, 0);
+			white-space: nowrap;
+			border: 0;
+		}
+
+		.skip-link.sr-only-focusable:focus {
+			position: fixed;
+			top: 0.5rem;
+			left: 0.5rem;
+			z-index: 1000;
+			width: auto;
+			height: auto;
+			overflow: visible;
+			clip: auto;
+			white-space: normal;
+			padding: 0.5rem 1rem;
+			margin: 0;
+			background-color: #ffffff;
+			color: #000000;
+			border-radius: 4px;
+		}
+
 	</style>
 
 </head>
 <body>
 
+<a class="skip-link sr-only sr-only-focusable" href="#main-content"><?= Tr::_( 'Skip to main content' ); ?></a>
 
 <div class="main-container">
 	<div class="header">
-		<img src="https://php-jet.net/images/logo-st.svg" style="width: 140px;height: auto">
+		<img src="https://php-jet.net/images/logo-st.svg" style="width: 140px;height: auto" alt="">
 		<?= Tr::_( 'Example Project Installer' ); ?>
 	</div>
-	<div class="step-title">
+	<h1 class="step-title">
 		<?= Installer::getCurrentStepController()->getIcon( UI_icon::SIZE_EXTRA_LARGE ) ?> <?= Installer::getCurrentStepController()->getLabel() ?>
-	</div>
-	
+	</h1>
+
 	<div class="progress-area">
-		<div class="steps">
-			<?php foreach( $steps as $step ):
-				$class = '';
-				if( $step->getIsSubStep() ) {
-					$class = ' step-sub';
-				}
-				?>
-				<?php if( $step->getIsPast() ): ?>
-				<div class="step step-prev<?= $class; ?>">
-					<?php if( $step->getIsAvailable() ): ?>
-						<a href="<?= $step->getURL(); ?>"><?=$step->getIcon()?> <?= $step->getLabel(); ?></a>
-					<?php else: ?>
+		<nav aria-label="<?= Tr::_( 'Installation steps' ); ?>">
+			<ol class="steps">
+				<?php foreach( $steps as $step ):
+					$class = '';
+					if( $step->getIsSubStep() ) {
+						$class = ' step-sub';
+					}
+					?>
+					<?php if( $step->getIsPast() ): ?>
+					<li class="step step-prev<?= $class; ?>">
+						<?php if( $step->getIsAvailable() ): ?>
+							<a href="<?= $step->getURL(); ?>"><?=$step->getIcon()?> <?= $step->getLabel(); ?></a>
+						<?php else: ?>
+							<?=$step->getIcon()?> <?= $step->getLabel(); ?>
+						<?php endif; ?>
+					</li>
+				<?php endif; ?>
+					<?php if( $step->getIsCurrent() ): ?>
+					<?php
+					// aria-current="step" already tells assistive tech this is the current
+					// step (most screen readers announce it on their own, e.g. as "current
+					// step"); a literal "(current step)" text here would just repeat that
+					// right after it, so the state is carried by aria-current alone.
+					?>
+					<li class="step step-current<?= $class; ?>" aria-current="step">
 						<?=$step->getIcon()?> <?= $step->getLabel(); ?>
-					<?php endif; ?>
-				</div>
-			<?php endif; ?>
-				<?php if( $step->getIsCurrent() ): ?>
-				<div class="step step-current<?= $class; ?>"><?=$step->getIcon()?> <?= $step->getLabel(); ?></div>
-			<?php endif; ?>
-				<?php if( $step->getIsFuture() ): ?>
-				<div class="step step-next<?= $class; ?>"><?=$step->getIcon()?> <?= $step->getLabel(); ?></div>
-			<?php endif; ?>
-			<?php endforeach; ?>
-			
-		</div>
+					</li>
+				<?php endif; ?>
+					<?php if( $step->getIsFuture() ): ?>
+					<li class="step step-next<?= $class; ?>"><?=$step->getIcon()?> <?= $step->getLabel(); ?></li>
+				<?php endif; ?>
+				<?php endforeach; ?>
+			</ol>
+		</nav>
 	</div>
-	<div class="main">
+	<main class="main" id="main-content">
 		<div id="system-messages-area">
 			<?php
 			foreach( UI_messages::get() as $msg ):
@@ -145,11 +199,83 @@ $this->requireCssFile( 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.
 			endforeach;
 			?>
 		</div>
-		
+
 		<jet_layout_main_position/>
-		
-	</div>
+
+	</main>
 </div>
+
+<script>
+	/*
+	 * Arrow-key navigation for [role="tablist"] widgets (WAI-ARIA APG tabs pattern:
+	 * https://www.w3.org/WAI/ARIA/apg/patterns/tabs/).
+	 *
+	 * Bootstrap 4's own tab.js handles click activation and toggling aria-selected,
+	 * but it does not move focus or roving tabindex on arrow keys, so that part is
+	 * done here instead.
+	 */
+	(function () {
+		'use strict';
+
+		function getTabs( tablist ) {
+			return Array.prototype.slice.call( tablist.querySelectorAll( '[role="tab"]' ) );
+		}
+
+		function activate( tab ) {
+			if( window.jQuery ) {
+				window.jQuery( tab ).tab( 'show' );
+			} else {
+				tab.click();
+			}
+		}
+
+		document.addEventListener( 'keydown', function ( e ) {
+			var tab = e.target.closest && e.target.closest( '[role="tab"]' );
+			if( !tab ) {
+				return;
+			}
+
+			var tablist = tab.closest( '[role="tablist"]' );
+			if( !tablist ) {
+				return;
+			}
+
+			var tabs = getTabs( tablist );
+			var index = tabs.indexOf( tab );
+			var new_index = null;
+
+			switch( e.key ) {
+				case 'ArrowRight':
+				case 'ArrowDown':
+					new_index = ( index + 1 ) % tabs.length;
+					break;
+				case 'ArrowLeft':
+				case 'ArrowUp':
+					new_index = ( index - 1 + tabs.length ) % tabs.length;
+					break;
+				case 'Home':
+					new_index = 0;
+					break;
+				case 'End':
+					new_index = tabs.length - 1;
+					break;
+				default:
+					return;
+			}
+
+			e.preventDefault();
+
+			tabs.forEach( function ( t ) {
+				t.setAttribute( 'tabindex', '-1' );
+			} );
+
+			var new_tab = tabs[new_index];
+			new_tab.setAttribute( 'tabindex', '0' );
+			new_tab.focus();
+			activate( new_tab );
+		} );
+	})();
+</script>
 
 </body>
 </html>

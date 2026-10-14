@@ -19,5 +19,8 @@ if( !$help_text ) {
 if( !$r->getBaseCssClasses() ) {
 	$r->setBaseCssClass( 'form-text text-muted' );
 }
+
+// Id referenced by the input's aria-describedby (see Form_Renderer_Field_Input::addAccessibilityAttributes()).
+$r->setCustomTagAttribute( 'id', $field->getId().'-help' );
 ?>
 <small <?=$r->renderTagAttributes()?>><?=$help_text?></small>

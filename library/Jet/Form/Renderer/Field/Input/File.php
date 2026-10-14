@@ -44,6 +44,8 @@ class Form_Renderer_Field_Input_File extends Form_Renderer_Field_Input
 		if( $field->getAllowedMimeTypes() ) {
 			$this->_tag_attributes['accept'] = implode( '|', $field->getAllowedMimeTypes() );
 		}
+
+		$this->addAccessibilityAttributes();
 	}
 	
 }
