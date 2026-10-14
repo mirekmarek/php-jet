@@ -187,6 +187,16 @@ class FormClass_Property
 		$help_text_field->setDefaultValue($def->getHelpText());
 		$fields[] = $help_text_field;
 		
+		
+		$aria_label_field = new Form_Field_Input('/main/aria_label', 'a11y - Aria label:');
+		$aria_label_field->setDefaultValue($def->getAriaLabel());
+		$fields[] = $aria_label_field;
+		
+		$aria_label_labelled_by = new Form_Field_Input('/main/aria_labelledby', 'a11y - Aria labelled by:');
+		$aria_label_labelled_by->setDefaultValue($def->getAriaLabelledBy());
+		$fields[] = $aria_label_labelled_by;
+		
+		
 		$default_value_getter_name_field = new Form_Field_Input('/main/default_value_getter_name', 'Default value getter method name:');
 		$default_value_getter_name_field->setDefaultValue( $def->getDefaultValueGetterName() );
 		$fields[] = $default_value_getter_name_field;

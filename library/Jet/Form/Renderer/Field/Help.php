@@ -29,6 +29,11 @@ class Form_Renderer_Field_Help extends Form_Renderer_Single
 		$this->view_script = SysConf_Jet_Form_DefaultViews::get($field->getType(), 'help');
 	}
 	
+	public function getId() : string
+	{
+		return $this->field->getId().'-help';
+	}
+	
 	/**
 	 * @return Form_Field
 	 */
@@ -47,6 +52,15 @@ class Form_Renderer_Field_Help extends Form_Renderer_Single
 		}
 		
 		return $this->view_dir;
+	}
+	
+	
+	/**
+	 * @return void
+	 */
+	protected function generateTagAttributes_Standard() : void
+	{
+		$this->_tag_attributes['id'] = $this->getId();
 	}
 	
 }

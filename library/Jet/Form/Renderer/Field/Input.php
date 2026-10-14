@@ -61,4 +61,42 @@ abstract class Form_Renderer_Field_Input extends Form_Renderer_Single
 		
 		return $this->view_dir;
 	}
+	
+	public function getAriaDescribedBy_a11y(): ?string
+	{
+		$ids = [];
+		if ($this->getField()->getLastErrorCode()) {
+			$ids[] = $this->field->error()->getId();
+		}
+		if ($this->getField()->getHelpText()) {
+			$ids[] = $this->field->help()->getId();
+		}
+		return $ids ? implode(' ', $ids) : null;
+	}
+	
+	/**
+	 *
+	 */
+	protected function generateTagAttributes_a11y() : void
+	{
+		if( $this->field->getAriaLabel() ) {
+			$attr['aria-label'] = $this->field->getAriaLabel();
+		} else{
+			if( $this->field->getAriaLabelledBy() ) {
+				$attr['aria-labelledby'] = $this->field->getAriaLabelledBy();
+			}
+		}
+		
+		$this->_tag_attributes['aria-required'] = $this->field->getIsRequired() ? 'true' : 'false';
+		
+		if( $this->field->getLastErrorCode() ) {
+			$this->_tag_attributes['aria-invalid'] = 'true';
+		}
+		
+		$described_by = $this->getAriaDescribedBy_a11y();
+		if( $described_by ) {
+			$this->_tag_attributes['aria-describedby'] = $described_by;
+		}
+	}
+	
 }

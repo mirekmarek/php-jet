@@ -16,17 +16,23 @@ if( $field->getLastErrorCode() ) {
 }
 
 $container_class = ($field->getIsReadonly()) ? 'radio disabled' : 'radio';
+?>
+<fieldset>
+	<legend>
+		<?php if($field->getIsRequired()): ?>
+			<em class="form-required" aria-hidden="true">*</em>
+		<?php endif; ?>
+	</legend>
+	<?php foreach( $field->getSelectOptions() as $key => $option ):
+		$r->setCurrentOption( $key, $option );
 
-
-foreach( $field->getSelectOptions() as $key => $option ):
-	$r->setCurrentOption( $key, $option );
-	
-	if(!$option->getSelectOptionCssClass()) {
-		$option->setSelectOptionCssClass('form-check-label');
-	}
-	?>
-	<div class="<?= $container_class ?>">
-		<input <?=$r->renderTagAttributes()?>/>
-		<label for="<?= $r->getFieldId() ?>" <?=$option->getSelectOptionCss()?>><?= $option ?></label>
-	</div>
-<?php endforeach; ?>
+		if(!$option->getSelectOptionCssClass()) {
+			$option->setSelectOptionCssClass('form-check-label');
+		}
+		?>
+		<div class="<?= $container_class ?>">
+			<input <?=$r->renderTagAttributes()?>/>
+			<label for="<?= $r->getFieldId() ?>" <?=$option->getSelectOptionCss()?>><?= $option ?></label>
+		</div>
+	<?php endforeach; ?>
+</fieldset>
