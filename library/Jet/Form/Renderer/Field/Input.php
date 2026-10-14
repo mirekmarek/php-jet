@@ -61,37 +61,42 @@ abstract class Form_Renderer_Field_Input extends Form_Renderer_Single
 
 		return $this->view_dir;
 	}
-
-	/**
-	 * Adds the accessibility tag attributes shared by every input type:
-	 *
-	 * - aria-describedby, pointing at the field's help text and/or last error message
-	 *   (when present), so a screen reader announces them together with the field
-	 * - aria-invalid="true", when the field currently has a validation error
-	 *
-	 * Must be called at the end of generateTagAttributes_Standard() by every subclass.
-	 *
-	 * The ids referenced here ('{field_id}-help', '{field_id}-error') are created in
-	 * views/form/field/help.phtml and views/form/field/error.phtml - both must agree
-	 * on this naming scheme.
-	 */
-	protected function addAccessibilityAttributes() : void
+	
+	public function getAriaDescribedBy_a11y(): ?string
 	{
-		$field = $this->getField();
-
-		$described_by = [];
-
-		if( $field->getHelpText() ) {
-			$described_by[] = $field->getId().'-help';
+		$ids = [];
+		if ($this->getField()->getLastErrorCode()) {
+			$ids[] = $this->field->error()->getId();
 		}
-
-		if( $field->getLastErrorMessage() ) {
-			$described_by[] = $field->getId().'-error';
+		if ($this->getField()->getHelpText()) {
+			$ids[] = $this->field->help()->getId();
+		}
+		return $ids ? implode(' ', $ids) : null;
+	}
+	
+	/**
+	 *
+	 */
+	protected function generateTagAttributes_a11y() : void
+	{
+		if( $this->field->getAriaLabel() ) {
+			$this->_tag_attributes['aria-label'] = $this->field->getAriaLabel();
+		} else{
+			if( $this->field->getAriaLabelledBy() ) {
+				$this->_tag_attributes['aria-labelledby'] = $this->field->getAriaLabelledBy();
+			}
+		}
+		
+		$this->_tag_attributes['aria-required'] = $this->field->getIsRequired() ? 'true' : 'false';
+		
+		if( $this->field->getLastErrorCode() ) {
 			$this->_tag_attributes['aria-invalid'] = 'true';
 		}
-
+		
+		$described_by = $this->getAriaDescribedBy_a11y();
 		if( $described_by ) {
-			$this->_tag_attributes['aria-describedby'] = implode( ' ', $described_by );
+			$this->_tag_attributes['aria-describedby'] = $described_by;
 		}
 	}
+	
 }

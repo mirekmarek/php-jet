@@ -25,9 +25,6 @@ $r->setCustomTagAttribute( 'for', $r->getField()->getId() );
 <label <?=$r->renderTagAttributes()?>><?php
 	
 	if( $r->getField()->getIsRequired() ):
-		// Decorative: the native "required" attribute already tells assistive tech
-		// the field is required, so the asterisk glyph would otherwise be read out
-		// as a redundant, confusing "star".
 		?><em class="form-required" aria-hidden="true">*</em><?php
 	endif;
 

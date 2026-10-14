@@ -49,5 +49,8 @@ return [
 	'ORM definition' => 'Definice ORM',
 	'Form field definition' => 'Definice formulářového pole',
 	'Validator definition' => 'Definice validátoru',
-	
+	'Not defined' => 'Není definováno',
+	'Out of range' => 'Hodnota je mimo rozsah',
+	'a11y - Aria label:' => 'a11y - Aria label:',
+	'a11y - Aria labelled by:' => 'a11y - Aria labelled by:',
 ];

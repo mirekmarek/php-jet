@@ -32,6 +32,17 @@ class Form_Definition_Field extends Form_Definition
 	protected string $help_text = '';
 	
 	/**
+	 * @var string
+	 */
+	protected string $aria_label = '';
+	
+	/**
+	 * @var string
+	 */
+	protected string $aria_labelledby = '';
+
+	
+	/**
 	 *
 	 * @var array<string,mixed>
 	 */
@@ -107,6 +118,28 @@ class Form_Definition_Field extends Form_Definition
 		$this->label = $label;
 	}
 	
+	public function getAriaLabel(): string
+	{
+		return $this->aria_label;
+	}
+	
+	public function setAriaLabel( string $aria_label ): void
+	{
+		$this->aria_label = $aria_label;
+	}
+	
+	public function getAriaLabelledBy(): string
+	{
+		return $this->aria_labelledby;
+	}
+	
+	public function setAriaLabelledBy( string $aria_labelledby ): void
+	{
+		$this->aria_labelledby = $aria_labelledby;
+	}
+	
+	
+	
 	/**
 	 * @return string
 	 */
@@ -172,6 +205,8 @@ class Form_Definition_Field extends Form_Definition
 		);
 		
 		$field->setErrorMessages( $this->getErrorMessages() );
+		$field->setAriaLabel( $this->getAriaLabel() );
+		$field->setAriaLabelledBy( $this->getAriaLabelledBy() );
 
 
 		foreach($this->other_options as $option=>$value) {

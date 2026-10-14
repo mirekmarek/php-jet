@@ -410,6 +410,13 @@ abstract class Form_Renderer extends BaseObject
 		}
 	}
 	
+	/**
+	 *
+	 */
+	protected function generateTagAttributes_a11y() : void
+	{
+	}
+	
 	
 	
 	/**
@@ -423,6 +430,7 @@ abstract class Form_Renderer extends BaseObject
 		$this->generateTagAttributes_CssClasses();
 		$this->generateTagAttributes_CssStyles();
 		$this->generateTagAttributes_JsActions();
+		$this->generateTagAttributes_a11y();
 		$this->generateTagAttributes_CustomDataAttributes();
 		
 		foreach($this->custom_tag_attributes as $key=>$val) {

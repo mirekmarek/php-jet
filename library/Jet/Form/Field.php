@@ -138,6 +138,15 @@ abstract class Form_Field extends BaseObject implements JsonSerializable
 	 */
 	protected $field_value_catcher;
 	
+	/**
+	 * @var string
+	 */
+	protected string $aria_label = '';
+	
+	/**
+	 * @var string
+	 */
+	protected string $aria_labelledby = '';
 	
 	/**
 	 * @var Form_Definition_FieldOption[][]
@@ -362,6 +371,28 @@ abstract class Form_Field extends BaseObject implements JsonSerializable
 	{
 		$this->placeholder = $placeholder;
 	}
+	
+	public function getAriaLabel(): string
+	{
+		return $this->_( $this->aria_label );
+	}
+	
+	public function setAriaLabel( string $aria_label ): void
+	{
+		$this->aria_label = $aria_label;
+	}
+	
+	public function getAriaLabelledBy(): string
+	{
+		return $this->aria_labelledby;
+	}
+	
+	public function setAriaLabelledBy( string $aria_labelledby ): void
+	{
+		$this->aria_labelledby = $aria_labelledby;
+	}
+	
+	
 
 	/**
 	 *
