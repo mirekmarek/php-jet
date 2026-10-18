@@ -26,10 +26,17 @@ use Jet\Debug_Profiler_Run;
 		},
 		
 		selectTab: ( target_id ) => {
-			document.getElementById('nav-tabs').querySelector('.nav-tab-selected').classList.remove('nav-tab-selected');
+			document.querySelectorAll('#nav-tabs .nav-tab').forEach( ( tab ) => {
+				tab.classList.remove('nav-tab-selected');
+				tab.setAttribute('aria-selected', 'false');
+				tab.setAttribute('tabindex', '-1');
+			} );
 			document.getElementById('nab-tabs-content').querySelector('.nab-tab-content-selected').classList.remove('nab-tab-content-selected');
 
-			document.getElementById( target_id+'-tab' ).classList.add( 'nav-tab-selected' );
+			const tab = document.getElementById( target_id+'-tab' );
+			tab.classList.add( 'nav-tab-selected' );
+			tab.setAttribute('aria-selected', 'true');
+			tab.setAttribute('tabindex', '0');
 			document.getElementById( target_id+'-content' ).classList.add('nab-tab-content-selected');
 		},
 
@@ -54,14 +61,29 @@ use Jet\Debug_Profiler_Run;
 		},
 		
 		
+		_backtrace_trigger: null,
+
 		_showBackTrace: async ( type, id ) => {
 
 			const response = await fetch("?JPR=<?=$run->getId()?>&show_bt="+type+'&id='+id);
-			
+
 			document.getElementById('backtraces').innerHTML = await response.text();
-			
-			document.getElementById('backtraces-dialog').style.display='block';
-			
+
+			ProfilerResult._backtrace_trigger = document.activeElement;
+
+			const dialog = document.getElementById('backtraces-dialog');
+			dialog.style.display='block';
+			dialog.focus();
+
+		},
+
+		closeBackTrace: () => {
+			document.getElementById('backtraces-dialog').style.display='none';
+
+			if( ProfilerResult._backtrace_trigger && document.contains( ProfilerResult._backtrace_trigger ) ) {
+				ProfilerResult._backtrace_trigger.focus();
+			}
+			ProfilerResult._backtrace_trigger = null;
 		},
 
 		showBt: ( line ) => {
@@ -73,7 +95,36 @@ use Jet\Debug_Profiler_Run;
 			document.getElementById('dbg_bt_c_'+line_id).classList.add('dbg-bt-code-selected');
 			document.getElementById('dbg_bt_l_'+line_id).classList.add('dbg-bt-line-selected');
 		}
-		
+
 	};
 
+	// WAI-ARIA APG tabs pattern (https://www.w3.org/WAI/ARIA/apg/patterns/tabs/): arrow-key
+	// navigation between the two tabs above, and Escape to close the backtraces dialog
+	// (https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/).
+	document.addEventListener( 'keydown', ( e ) => {
+		const tab = e.target.closest && e.target.closest( '#nav-tabs .nav-tab' );
+		if( tab ) {
+			const tabs = Array.prototype.slice.call( document.querySelectorAll( '#nav-tabs .nav-tab' ) );
+			const index = tabs.indexOf( tab );
+			let new_index = null;
+
+			if( e.key === 'ArrowRight' || e.key === 'ArrowDown' ) {
+				new_index = ( index + 1 ) % tabs.length;
+			} else if( e.key === 'ArrowLeft' || e.key === 'ArrowUp' ) {
+				new_index = ( index - 1 + tabs.length ) % tabs.length;
+			}
+
+			if( new_index !== null ) {
+				e.preventDefault();
+				const new_tab = tabs[new_index];
+				new_tab.focus();
+				new_tab.click();
+			}
+			return;
+		}
+
+		if( e.key === 'Escape' && document.getElementById('backtraces-dialog').style.display !== 'none' ) {
+			ProfilerResult.closeBackTrace();
+		}
+	} );
 </script>

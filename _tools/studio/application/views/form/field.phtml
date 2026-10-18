@@ -2,6 +2,7 @@
 
 use Jet\MVC_View;
 use Jet\Form_Renderer_Field;
+use Jet\Form_Field_RadioButton;
 
 /**
  * @var MVC_View $this
@@ -9,12 +10,33 @@ use Jet\Form_Renderer_Field;
  */
 $r = $this->getRaw( 'renderer' );
 
-echo
-	$r->row()->start() .
-		$r->label() .
-		$r->container()->start() .
-			$r->input() .
-			$r->help() .
-			$r->error() .
-		$r->container()->end() .
-	$r->row()->end();
+if( $r->getField() instanceof Form_Field_RadioButton ) {
+	// A radio-button group is several inputs sharing one label, so a single
+	// <label for="..."> (which can only point at one of them) does not fit.
+	// <fieldset>/<legend> is the correct grouping semantics here instead.
+	$required_marker = $r->getField()->getIsRequired()
+		? '<em class="form-required" aria-hidden="true">*</em>'
+		: '';
+
+	echo
+		$r->row()->start() .
+		'<fieldset>' .
+			'<legend>'.$r->getField()->getLabel().$required_marker.'</legend>' .
+			$r->container()->start() .
+				$r->input() .
+				$r->help() .
+				$r->error() .
+			$r->container()->end() .
+		'</fieldset>' .
+		$r->row()->end();
+} else {
+	echo
+		$r->row()->start() .
+			$r->label() .
+			$r->container()->start() .
+				$r->input() .
+				$r->help() .
+				$r->error() .
+			$r->container()->end() .
+		$r->row()->end();
+}

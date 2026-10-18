@@ -82,7 +82,8 @@ class Form_Renderer_Field_Input_Number extends Form_Renderer_Field_Input
 		) {
 			$this->_tag_attributes['places'] = $field->getPlaces();
 		}
-		
+
+		$this->addAccessibilityAttributes();
 	}
 	
 }

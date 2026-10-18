@@ -38,6 +38,8 @@ class Form_Renderer_Field_Input_Checkbox extends Form_Renderer_Field_Input
 		if( $field->getIsRequired() ) {
 			$this->_tag_attributes['required'] = 'required';
 		}
+
+		$this->addAccessibilityAttributes();
 	}
 	
 }

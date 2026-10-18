@@ -59,4 +59,7 @@ return [
 	'Admin / User management / Visitors' => 'Administrace / Správa uživatelů / Návštěvníci',
 	'Please enter a value' => 'Prosím zadejte hodnotu',
 	'Invalid value' => 'Neplatná hodnota',
+	'Activation' => 'Aktivace',
+	'Blocking' => 'Blokování',
+	'Password validity' => 'Platnost hesla',
 ];

@@ -9,7 +9,7 @@ use Jet\Http_Request;
 		<?php if( $locale->toString() == Locale::getCurrentLocale()->toString() ): ?>
 			<?= UI::flag( $locale ) ?>
 		<?php else: ?>
-			<a href="<?=Http_Request::currentURI(['set_locale'=>$locale->toString()])?>"><?= UI::flag( $locale ) ?></a>
+			<a href="<?=Http_Request::currentURI(['set_locale'=>$locale->toString()])?>" aria-label="<?= UI::_( 'Switch to %locale_name%', [ 'locale_name' => $locale->getName( $locale ) ] ) ?>"><?= UI::flag( $locale ) ?></a>
 		<?php endif; ?>
 	<?php endforeach; ?>
 </div>

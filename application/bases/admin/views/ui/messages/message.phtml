@@ -24,6 +24,17 @@ if( !$icon ) {
 	$icon = $icons_map[$m->getClass()];
 }
 
+// The icon is now decorative (aria-hidden, like every icon), so the message's category
+// (info/success/warning/danger) would otherwise be conveyed by the alert-* colour alone.
+// Give it back a text equivalent for assistive tech.
+$severity_labels_map = [
+	UI_messages::C_INFO    => UI::_( 'Information' ),
+	UI_messages::C_SUCCESS => UI::_( 'Success' ),
+	UI_messages::C_WARNING => UI::_( 'Warning' ),
+	UI_messages::C_DANGER  => UI::_( 'Error' ),
+];
+$severity_label = $severity_labels_map[$m->getClass()] ?? '';
+
 $id = '__message__' . md5( $m->getMessage() . microtime( true ) );
 
 ?>
@@ -33,10 +44,11 @@ $id = '__message__' . md5( $m->getMessage() . microtime( true ) );
 
 		if( $m->getIsCloseable() ):
 			?>
-			<button type="button" class="close" data-dismiss="alert" aria-label=""><span aria-hidden="true"
+			<button type="button" class="close" data-dismiss="alert" aria-label="<?= UI::_( 'Close' ) ?>"><span aria-hidden="true"
 			                                                                             onclick="$('#<?= $id ?>').fadeOut({duration:250});">&times;</span>
 			</button><?php
 		endif; ?>
+		<?php if( $severity_label ): ?><span class="sr-only"><?= $severity_label ?>: </span><?php endif; ?>
 		<?= $m->getMessage() ?>
 	</div>
 <?php if( $m->getIsCloseable() && $m->getClass() == UI_messages::C_SUCCESS ): ?>

@@ -2,6 +2,7 @@
 use Jet\UI;
 use Jet\Navigation_Breadcrumb;
 use Jet\Navigation_Breadcrumb_Item;
+use Jet\Tr;
 
 
 Navigation_Breadcrumb::shift(1);
@@ -26,11 +27,11 @@ $showItem = function( Navigation_Breadcrumb_Item $item ) use ($title) : void {
 	<?php endif;
 };
 ?>
-<nav aria-label="breadcrumb">
+<nav aria-label="<?= Tr::_( 'Breadcrumb' ) ?>">
 	<ol class="breadcrumb" style="margin-bottom: 0;">
 		<?php foreach( $items as $item ):
 			if( $item->getIsActive() ): ?>
-				<li class="breadcrumb-item active"><?php $showItem($item) ?></li>
+				<li class="breadcrumb-item active" aria-current="page"><?php $showItem($item) ?></li>
 			<?php else: ?>
 				<li class="breadcrumb-item"><?php $showItem($item) ?></li>
 			<?php endif;

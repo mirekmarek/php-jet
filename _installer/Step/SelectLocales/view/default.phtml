@@ -79,20 +79,21 @@ $selected_locales = $this->getRaw('selected_locales');
 </script>
 
 <div style="display: grid;grid-template-columns: 1fr 1fr;gap: 20px;">
-	<div class="card card-body">
-		<h2><?=Tr::_('Available locales')?></h2>
+	<section class="card card-body" aria-labelledby="avl_locales_heading">
+		<h2 id="avl_locales_heading"><?=Tr::_('Available locales')?></h2>
 
 		<div style="display: grid;grid-template-columns: auto 1fr;gap: 10px;align-items: center;margin: 20px;">
 			<div><?=UI::icon('search')?></div>
-			<input type="search" placeholder="<?=Tr::_('Search for locale')?>" class="form-control" onkeydown="Locale.search(this.value)">
+			<label for="locale_search" class="sr-only"><?=Tr::_('Search for locale')?></label>
+			<input type="search" id="locale_search" placeholder="<?=Tr::_('Search for locale')?>" class="form-control" onkeydown="Locale.search(this.value)">
 		</div>
-		
-		
-		<div id="avl_locales">
+
+
+		<ul id="avl_locales" style="list-style: none;margin: 0;padding: 0;">
 			<?php foreach( Installer::getAvailableLocales() as $locale_code=> $locale_name ):
 				$locale = new Locale( $locale_code );
 				?>
-				<div
+				<li
 						class="locale"
 						style="display: <?=!in_array($locale_code, $selected_locales)?'block':'none'?>"
 						id="avl_locale_<?=$locale_code?>"
@@ -100,25 +101,29 @@ $selected_locales = $this->getRaw('selected_locales');
 						data-name="<?=mb_strtolower( $locale_name.' '.$locale->getName($locale) )?>"
 				>
 					<div class="locale-row">
-						<div><?=UI::button()->setOnClick("Locale.add('$locale_code');")->setIcon('plus')->setClass(UI_button::CLASS_SUCCESS);?></div>
+						<div><?=UI::button()
+							->setOnClick("Locale.add('$locale_code');")
+							->setIcon('plus')
+							->setClass(UI_button::CLASS_SUCCESS)
+							->setCustomTagAttribute('aria-label', Tr::_('Add %locale_name% to the installation', ['locale_name' => $locale_name]));?></div>
 						<div><?=UI::flag( $locale )?></div>
 						<div><?=$locale_code?></div>
 						<div><?=$locale_name?></div>
 					</div>
-				</div>
+				</li>
 			<?php endforeach; ?>
-		</div>
-	</div>
+		</ul>
+	</section>
 
 
-	<div class="card card-body">
-		<h2><?=Tr::_('Selected locales')?></h2>
-		
-		<div id="selected_locales">
+	<section class="card card-body" aria-labelledby="selected_locales_heading">
+		<h2 id="selected_locales_heading"><?=Tr::_('Selected locales')?></h2>
+
+		<ul id="selected_locales" style="list-style: none;margin: 0;padding: 0;">
 			<?php foreach( Installer::getAvailableLocales() as $locale_code=> $locale_name ):
 				$locale = new Locale( $locale_code );
 				?>
-				<div
+				<li
 						class="locale"
 						style="display: <?=in_array($locale_code, $selected_locales)?'block':'none'?>"
 						id="selected_locale_<?=$locale_code?>"
@@ -127,14 +132,18 @@ $selected_locales = $this->getRaw('selected_locales');
 						data-selected="<?=in_array($locale_code, $selected_locales)?'1':'0'?>"
 				>
 					<div class="locale-row">
-						<div><?=UI::button()->setOnClick("Locale.remove('$locale_code');")->setIcon('minus')->setClass(UI_button::CLASS_INFO);?></div>
+						<div><?=UI::button()
+							->setOnClick("Locale.remove('$locale_code');")
+							->setIcon('minus')
+							->setClass(UI_button::CLASS_INFO)
+							->setCustomTagAttribute('aria-label', Tr::_('Remove %locale_name% from the installation', ['locale_name' => $locale_name]));?></div>
 						<div><?=UI::flag( $locale )?></div>
 						<div><?=$locale_code?></div>
 						<div><?=$locale_name?></div>
 					</div>
-				</div>
+				</li>
 			<?php endforeach; ?>
-		</div>
+		</ul>
 		
 		<div
 			id="continue"
@@ -148,9 +157,9 @@ $selected_locales = $this->getRaw('selected_locales');
 			</div>
 			
 			<?= $form->end() ?>
-			
+
 		</div>
-		
-	</div>
-	
+
+	</section>
+
 </div>

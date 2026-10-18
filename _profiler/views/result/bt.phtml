@@ -45,14 +45,16 @@ function showCode( string $file, string|int $line ) : void {
 
 <div class="backtrace">
 	<div class="dbg-bt">
-		<div class="dbg-bt-lines" id="dbg-lines">
+		<ul class="dbg-bt-lines" id="dbg-lines" style="list-style: none;margin: 0;padding: 0;">
 			<?php foreach( $bt as $i => $d ):?>
-				<div id="dbg_bt_l_<?=$i?>" class="dbg-bt-line<?=$i==0? ' dbg-bt-line-selected':''?>" data-line="<?=$i?>" onclick="ProfilerResult.showBt(this);">
+				<li>
+				<button type="button" id="dbg_bt_l_<?=$i?>" class="dbg-bt-line<?=$i==0? ' dbg-bt-line-selected':''?>" data-line="<?=$i?>" onclick="ProfilerResult.showBt(this);">
 					<?= $d->getFileDisplayable() ?> : <?= $d->getLine() ?><br>
 					<div class="dbg-bt-line-call"><?=$d->getCall()?></div>
-				</div>
+				</button>
+				</li>
 			<?php endforeach; ?>
-		</div>
+		</ul>
 		<div class="dbg-bt-codes" id="dbg-codes">
 			<?php foreach( $bt as $i => $d ):?>
 				<div id="dbg_bt_c_<?=$i?>" class="dbg-bt-code<?=$i==0? ' dbg-bt-code-selected':''?>">

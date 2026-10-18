@@ -15,6 +15,8 @@ $region = strtolower( $f->getLocale()->getRegion() );
 
 $f->setBaseCssClass('flag flag-'.$region);
 $f->setCustomTagAttribute('title', $title);
+// Decorative: the language name right after it already says the same thing.
+$f->setCustomTagAttribute('aria-hidden', 'true');
 
 ?>
 <span <?=$f->renderTagAttributes()?> ></span> <?= $f->getLocale()->getLanguageName() ?>

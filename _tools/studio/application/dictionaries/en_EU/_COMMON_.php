@@ -19,5 +19,16 @@ return [
 	'Ask a question' => '',
 	'https://www.php-jet.net/doc/' => '',
 	'https://questions.php-jet.net/' => '',
-	
+	'Skip to main content' => '',
+	'Main navigation' => '',
+	'Toggle navigation' => '',
+	'View site homepage' => '',
+	'Switch language, current language: %locale_name%' => '',
+	'Open module menu' => '',
+	'Close module menu' => '',
+	'opens in a new window' => '',
+	'Sort by %column% ascending' => '',
+	'Sort by %column% descending' => '',
+	'Close' => '',
+
 ];

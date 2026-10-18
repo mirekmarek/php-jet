@@ -132,23 +132,23 @@ endforeach;
 	
 	<div class="search"></div>
 
-	<div class="specification-select">
+	<ul class="specification-select" style="list-style: none;margin: 0;padding: 0;">
 		<?php if($selected_module->getControlCentreSpecificationMode() ):
 			foreach( $selected_module->getControlCentreSpecificationList() as $s_id=>$s_title):
 				if($s_id==$selected_specification_id): ?>
-					<div class="specification-select-item-selected">
+					<li class="specification-select-item-selected" aria-current="page">
 						<?=$s_title?>
-					</div>
+					</li>
 				<?php else: ?>
-					<div class="specification-select-item">
+					<li class="specification-select-item">
 						<a href="<?=Http_Request::currentURI(['specification'=>$s_id])?>">
 							<?=$s_title?>
 						</a>
-					</div>
+					</li>
 				<?php endif;
 			endforeach;
 		endif; ?>
-	</div>
+	</ul>
 	
 	
 	<div class="module-list">
@@ -156,19 +156,20 @@ endforeach;
 			<h4><?=$groups[$selected_module->getControlCentreGroup()]?></h4>
 			<hr>
 		</div>
+		<ul style="list-style: none;margin: 0;padding: 0;">
 		<?php foreach($modules[$selected_module->getControlCentreGroup()] as $module_name=>$module): ?>
 		<?php if($selected_module_name==$module_name): ?>
-				<div class="module-list-item-selected">
+				<li class="module-list-item-selected" aria-current="page">
 					<?=UI::icon( $module->getControlCentreIcon()) ?>
 					<b><?=$module->getControlCentreTitleTranslated()?></b>
-				</div>
+				</li>
 		<?php else: ?>
-				<div class="module-list-item">
-					<a href="<?=Http_Request::currentURI(['id'=>$module_name])?>"><?=UI::icon( $module->getControlCentreIcon()) ?></a>
-					<a href="<?=Http_Request::currentURI(['id'=>$module_name])?>"><?=$module->getControlCentreTitleTranslated()?></a>
-				</div>
+				<li class="module-list-item">
+					<a href="<?=Http_Request::currentURI(['id'=>$module_name])?>"><?=UI::icon( $module->getControlCentreIcon()) ?> <?=$module->getControlCentreTitleTranslated()?></a>
+				</li>
 		<?php endif; ?>
 		<?php endforeach; ?>
+		</ul>
 	</div>
 
 	
@@ -189,15 +190,17 @@ endforeach;
 		<h4><?=$group_title?></h4>
 		<hr>
 		</div>
-		<div class="signpost">
+		<ul class="signpost" style="list-style: none;margin: 0;padding: 0;">
 			<?php foreach($modules[$group] as $module_name=>$module): ?>
-				<div class="signpost-item">
-					<a href="<?=Http_Request::currentURI(['id'=>$module_name])?>"><?=UI::icon( $module->getControlCentreIcon())->setSize(UI_icon::SIZE_LARGE) ?></a>
-					<br>
-					<a href="<?=Http_Request::currentURI(['id'=>$module_name])?>"><?=$module->getControlCentreTitleTranslated()?></a>
-				</div>
+				<li class="signpost-item">
+					<a href="<?=Http_Request::currentURI(['id'=>$module_name])?>">
+						<?=UI::icon( $module->getControlCentreIcon())->setSize(UI_icon::SIZE_LARGE) ?>
+						<br>
+						<?=$module->getControlCentreTitleTranslated()?>
+					</a>
+				</li>
 			<?php endforeach; ?>
-		</div>
+		</ul>
 		<br><br>
 <?php endforeach; ?>
 

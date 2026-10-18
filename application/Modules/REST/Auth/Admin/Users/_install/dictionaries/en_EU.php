@@ -28,4 +28,5 @@ return [
 	'User is blocked' => '',
 	'User is blocked till' => '',
 	'User <b>%USERNAME%</b> has been updated' => '',
+	'Blocking' => '',
 ];

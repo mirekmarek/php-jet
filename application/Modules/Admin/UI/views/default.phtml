@@ -64,24 +64,26 @@ foreach($_menus as $menu) {
 	<div style="display: grid;grid-template-columns: 20% repeat(<?=count($menus)?>, 1fr) 20%">
 		<div></div>
 		<?php foreach( $menus as $menu ): ?>
-			<div style="padding: 5px">
+			<ul style="padding: 5px;list-style: none;margin: 0;">
 				<?php $showMenu(
 					menu: $menu,
 					separator_renderer: function() {
-						?><div class="dropdown-divider"></div><?php
+						?><li><div class="dropdown-divider"></div></li><?php
 					},
 					item_renderer: function( Navigation_Menu_Item $item) {
 						?>
+						<li>
 						<a href="<?=$item->getUrl()?>">
 							<div style="display: grid;grid-template-columns: 40px 1fr;align-items: center;margin: 10px;">
 								<div><?=UI::icon( $item->getIcon() )->setSize( UI_icon::SIZE_LARGE )?></div>
 								<div><?=$item->getLabel()?></div>
 							</div>
 						</a>
+						</li>
 						<?php
 					}
 				); ?>
-			</div>
+			</ul>
 		<?php endforeach; ?>
 		<div></div>
 	</div>
