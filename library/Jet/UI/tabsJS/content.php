@@ -29,4 +29,17 @@ class UI_tabsJS_content extends UI_Renderer_Pair
 	{
 		return $this->tab->getIsSelected();
 	}
+	
+	/**
+	 *
+	 */
+	protected function generateTagAttributes_Standard() : void
+	{
+		$this->role = 'tabpanel';
+		parent::generateTagAttributes_Standard();
+		
+		$this->_tag_attributes['aria-labelledby'] = $this->getId().'_tab';
+		$this->_tag_attributes['tabindex'] = '0';
+	}
+	
 }

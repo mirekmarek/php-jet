@@ -21,6 +21,8 @@ class UI_icon extends UI_Renderer_Single
 	public const SIZE_EXTRA_LARGE = 'xl';
 	public const SIZE_ULTRA_LARGE = 'ul';
 	
+	protected bool $aria_hidden = true;
+	
 	/**
 	 * @var string
 	 */
@@ -35,12 +37,7 @@ class UI_icon extends UI_Renderer_Single
 	 * @var string
 	 */
 	protected string $size = self::SIZE_NORMAL;
-
-	/**
-	 * @var string
-	 */
-	protected string $title = '';
-
+	
 
 	/**
 	 * @param string $icon
@@ -100,26 +97,6 @@ class UI_icon extends UI_Renderer_Single
 	public function getTag(): string
 	{
 		return $this->tag;
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getTitle(): string
-	{
-		return $this->title;
-	}
-
-	/**
-	 * @param string $title
-	 *
-	 * @return static
-	 */
-	public function setTitle( string $title ): static
-	{
-		$this->title = $title;
-
-		return $this;
 	}
 
 

@@ -81,12 +81,15 @@ class Main extends Application_Service_Admin_Auth_LoginModule
 				Form_Field::ERROR_CODE_EMPTY => 'Please enter username',
 			]
 		);
+		$username_field->setPlaceholder('username');
+		
 		$password_field = new Form_Field_Password( 'password', 'Password:' );
 		$password_field->setErrorMessages(
 			[
 				Form_Field::ERROR_CODE_EMPTY => 'Please enter password',
 			]
 		);
+		$password_field->setPlaceholder('password');
 
 		$form = new Form(
 			'login', [

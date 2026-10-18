@@ -14,18 +14,10 @@ $grid = $column->getGrid();
 
 $column->setCustomTagAttribute('nowrap', 'nowrap');
 
-if( $column->getAllowSort() ) {
-	if( $column->isSortByAsc() ) {
-		$column->setCustomTagAttribute( 'aria-sort', 'ascending' );
-	} elseif( $column->isSortByDesc() ) {
-		$column->setCustomTagAttribute( 'aria-sort', 'descending' );
-	}
-}
 ?>
 <th <?=$column->renderTagAttributes()?>>
 	<?php if( $column->getAllowSort() ):
 		if( $column->isSortByAsc() ):
-			// Decorative: current direction is already conveyed by aria-sort on the <th>.
 			echo UI::icon( 'sort-amount-down-alt' )->setSize( UI_icon::SIZE_EXTRA_SMALL );
 		else: ?>
 			<a href="<?= $grid->getSortURL( $column->getName() ); ?>" aria-label="<?= UI::_( 'Sort by %column% ascending', [ 'column' => $column->getTitle() ] ); ?>">

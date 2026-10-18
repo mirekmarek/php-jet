@@ -146,5 +146,23 @@ class UI_dataGrid_column extends UI_Renderer_Single
 	{
 		return $this->getGrid()->getSortBy() == '-' . $this->name;
 	}
+	
+	
+	/**
+	 *
+	 */
+	protected function generateTagAttributes_Standard() : void
+	{
+		parent::generateTagAttributes_Standard();
+		
+		if( $this->getAllowSort() ) {
+			if( $this->isSortByAsc() ) {
+				$this->_tag_attributes['aria-sort'] = 'ascending';
+			} elseif( $this->isSortByDesc() ) {
+				$this->_tag_attributes['aria-sort'] = 'descending';
+			}
+		}
+		
+	}
 
 }

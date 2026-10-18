@@ -57,8 +57,7 @@ class Form_Renderer_Field_Input_Common extends Form_Renderer_Field_Input
 		) {
 			$this->_tag_attributes['pattern'] = $field->getValidationRegexp();
 		}
-
-		$this->addAccessibilityAttributes();
+		
 	}
 	
 }

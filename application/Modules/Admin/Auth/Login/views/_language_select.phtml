@@ -4,7 +4,7 @@ use Jet\Locale;
 use JetApplication\Application_Admin;
 use Jet\Http_Request;
 ?>
-<div style="position: absolute;top:15px; right: 15px;">
+<div style="position: absolute;top:10px; right: 15px;">
 	<?php foreach( Application_Admin::getAvlLovales() as $locale ): ?>
 		<?php if( $locale->toString() == Locale::getCurrentLocale()->toString() ): ?>
 			<?= UI::flag( $locale ) ?>

@@ -25,12 +25,6 @@ $font_size = match($i->getSize()) {
 
 $i->addCustomCssStyle( 'font-size:' . $font_size . 'rem;' );
 $i->setBaseCssClass('fa fa-'. $i->getIcon() );
-$i->setCustomTagAttribute('title', $i->getTitle());
-// Icons here are always decorative (a visual echo of text that sits right next to them,
-// or of an action already named by the control they sit in). Hide them from assistive
-// tech; any control whose *only* content is an icon must set its own accessible name
-// (e.g. aria-label) at the call site instead of relying on the icon.
-$i->setCustomTagAttribute('aria-hidden', 'true');
 
 $tag = $i->getTag();
 ?><<?=$tag.$i->renderTagAttributes()?>></<?= $tag ?>>

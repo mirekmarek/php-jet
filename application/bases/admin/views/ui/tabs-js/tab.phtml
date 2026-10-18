@@ -17,13 +17,5 @@ if($t->getIsSelected()) {
 }
 
 $t->setDataAttribute('toggle', 'tab');
-$t->setCustomTagAttribute('href', '#'.$t->content()->getId());
-$t->setCustomTagAttribute('role', 'tab');
-$t->setCustomTagAttribute('aria-selected', $t->getIsSelected() ? 'true' : 'false');
-$t->setCustomTagAttribute('aria-controls', $t->content()->getId());
-// Roving tabindex per the APG tabs pattern: only the selected tab sits in the Tab
-// order; arrow keys move among the others (see js/tabs-a11y.js).
-$t->setCustomTagAttribute('tabindex', $t->getIsSelected() ? '0' : '-1');
-
 ?>
 <li class="nav-item" role="presentation"><a <?=$t->renderTagAttributes()?>><?= $t->getTitle() ?></a></li>

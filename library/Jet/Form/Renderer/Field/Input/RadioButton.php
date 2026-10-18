@@ -54,8 +54,6 @@ class Form_Renderer_Field_Input_RadioButton extends Form_Renderer_Field_Input
 			$this->_tag_attributes['required'] = 'required';
 		}
 
-		// Every option in the group shares the same group-level help/error text.
-		$this->addAccessibilityAttributes();
 	}
 	
 	/**

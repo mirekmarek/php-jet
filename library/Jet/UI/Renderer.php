@@ -8,6 +8,7 @@
 
 namespace Jet;
 
+
 /**
  *
  */
@@ -20,9 +21,31 @@ abstract class UI_Renderer extends BaseObject
 	protected string $id = '';
 	
 	/**
+	 * @var string
+	 */
+	protected string $aria_label = '';
+	
+	/**
+	 * @var bool
+	 */
+	protected bool $aria_hidden = false;
+	
+	/**
+	 * @var string
+	 */
+	protected string $role = '';
+	
+	/**
+	 * @var string
+	 */
+	protected string $title = '';
+	
+	
+	/**
 	 * @var array<string,string>
 	 */
 	protected array $js_actions = [];
+	
 	
 	/**
 	 * @var string
@@ -126,6 +149,81 @@ abstract class UI_Renderer extends BaseObject
 		
 		return $this->view;
 	}
+	
+	/**
+	 * @return string
+	 */
+	public function getAriaLabel(): string
+	{
+		return $this->aria_label;
+	}
+	
+	/**
+	 * @param string $aria_label
+	 * @return $this
+	 */
+	public function setAriaLabel( string $aria_label ): static
+	{
+		$this->aria_label = $aria_label;
+		return $this;
+	}
+	
+	/**
+	 * @return bool
+	 */
+	public function getAriaHidden(): bool
+	{
+		return $this->aria_hidden;
+	}
+	
+	/**
+	 * @param bool $aria_hidden
+	 * @return $this
+	 */
+	public function setAriaHidden( bool $aria_hidden ): static
+	{
+		$this->aria_hidden = $aria_hidden;
+		
+		return $this;
+	}
+	
+	/**
+	 * @return string
+	 */
+	public function getRole(): string
+	{
+		return $this->role;
+	}
+	
+	/**
+	 * @param string $role
+	 * @return $this
+	 */
+	public function setRole( string $role ): static
+	{
+		$this->role = $role;
+		return $this;
+	}
+	
+	/**
+	 * @return string
+	 */
+	public function getTitle(): string
+	{
+		return $this->title;
+	}
+	
+	/**
+	 * @param string $title
+	 * @return $this
+	 */
+	public function setTitle( string $title ): static
+	{
+		$this->title = $title;
+		return $this;
+	}
+	
+	
 	
 	
 	/**
@@ -319,6 +417,23 @@ abstract class UI_Renderer extends BaseObject
 		if($this->id) {
 			$this->_tag_attributes['id'] = $this->id;
 		}
+		
+		if($this->aria_label) {
+			$this->_tag_attributes['aria-label'] = $this->aria_label;
+		}
+		
+		if($this->aria_hidden) {
+			$this->_tag_attributes['aria-hidden'] = true;
+		}
+		
+		if($this->title) {
+			$this->_tag_attributes['title'] = $this->title;
+		}
+		
+		if($this->role) {
+			$this->_tag_attributes['role'] = $this->role;
+		}
+		
 	}
 	
 	

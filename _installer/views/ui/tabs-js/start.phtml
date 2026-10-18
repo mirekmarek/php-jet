@@ -10,7 +10,7 @@ use Jet\MVC_View;
 $t = $this->getRaw( 'element' );
 
 $t->setBaseCssClass('nav nav-tabs');
-$t->setCustomTagAttribute('role', 'tablist');
+$t->setRole( 'tablist' );
 ?>
 <div class="tab-content">
 	<ul <?=$t->renderTagAttributes()?>>

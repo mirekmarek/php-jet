@@ -28,13 +28,13 @@ $next_item_url = $this->getRaw('next_item_url');
 		
 		<div style="width: 80px;display: inline-block;text-align: right">
 		<?php if($prev_item_url): ?>
-			<?=UI::button('')->setIcon('chevron-left')->setUrl($prev_item_url)->setClass(UI_button::CLASS_INFO)->setCustomTagAttribute('aria-label', Tr::_('Previous event'))?>
+			<?=UI::button('')->setIcon('chevron-left')->setUrl($prev_item_url)->setClass(UI_button::CLASS_INFO)->setAriaLabel( Tr::_('Previous event'))?>
 		<?php endif; ?>
 		</div>
 		
 
 		<?php if($next_item_url): ?>
-			<?=UI::button('')->setIcon('chevron-right')->setUrl($next_item_url)->setClass(UI_button::CLASS_INFO)->setCustomTagAttribute('aria-label', Tr::_('Next event'))?>
+			<?=UI::button('')->setIcon('chevron-right')->setUrl($next_item_url)->setClass(UI_button::CLASS_INFO)->setAriaLabel( Tr::_('Next event'))?>
 		<?php endif; ?>
 	</div>
 </div>

@@ -136,7 +136,7 @@ use Jet\UI_icon;
 	<?php if(JetStudio::getCurrentModule()?->getManifest()->getUrlPathPart()): ?>
 	<div>
 		<div class="bg-dark text-white" id="main-menu" style="padding: 5px;font-size: 1.2rem;opacity: 0.9;display: flex;align-items: center;gap: 10px;">
-			<?=UI::button('')->setIcon('bars')->setOnClick("$('#main-menu').toggle(600);$('#main-menu-items').toggle(600);")->setClass(UI_button::CLASS_DARK)->setCustomTagAttribute('aria-label', Tr::_( 'Open module menu', [], Translator::COMMON_DICTIONARY ))?>
+			<?=UI::button('')->setIcon('bars')->setOnClick("$('#main-menu').toggle(600);$('#main-menu-items').toggle(600);")->setClass(UI_button::CLASS_DARK)->setAriaLabel( Tr::_( 'Open module menu', [], Translator::COMMON_DICTIONARY ))?>
 			
 			
 			<?=UI::icon( JetStudio::getCurrentModule()?->getManifest()->getIcon() )?>
@@ -144,7 +144,7 @@ use Jet\UI_icon;
 		</div>
 		<div id="main-menu-items" style="display: none">
 			<div style="padding: 10px;">
-				<?=UI::button('')->setIcon('xmark')->setOnClick("$('#main-menu').toggle(600);$('#main-menu-items').toggle(600);")->setClass(UI_button::CLASS_LIGHT)->setCustomTagAttribute('aria-label', Tr::_( 'Close module menu', [], Translator::COMMON_DICTIONARY ))?>
+				<?=UI::button('')->setIcon('xmark')->setOnClick("$('#main-menu').toggle(600);$('#main-menu-items').toggle(600);")->setClass(UI_button::CLASS_LIGHT)->setAriaLabel(Tr::_( 'Close module menu', [], Translator::COMMON_DICTIONARY ))?>
 			</div>
 
 			<div style="display: grid;justify-content: center;grid-template-columns: repeat(auto-fit, 200px);gap: 20px;">

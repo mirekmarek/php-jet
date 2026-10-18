@@ -16,9 +16,6 @@ if( !$r->getBaseCssClasses() ) {
 $r->setWidthCssClassesCreator(function( $size, $width ) {
 	return 'col-' . $size . '-' . $width;
 });
-
-$r->setCustomTagAttribute( 'for', $r->getField()->getId() );
-
 ?>
 <label <?=$r->renderTagAttributes()?>><?php
 	

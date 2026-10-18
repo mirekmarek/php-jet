@@ -62,22 +62,6 @@ class UI_tabs_tab extends UI_Renderer_Single
 	/**
 	 * @return string
 	 */
-	public function getTitle(): string
-	{
-		return $this->title;
-	}
-
-	/**
-	 * @param string $title
-	 */
-	public function setTitle( string $title ): void
-	{
-		$this->title = $title;
-	}
-
-	/**
-	 * @return string
-	 */
 	public function getUrl(): string
 	{
 		$creator = $this->tab_url_creator;
@@ -90,6 +74,11 @@ class UI_tabs_tab extends UI_Renderer_Single
 		parent::generateTagAttributes_Standard();
 		
 		$this->_tag_attributes['href'] = $this->getUrl();
+		
+		if($this->getIsSelected()) {
+			$this->_tag_attributes['aria-current'] = 'page';
+		}
+		
 	}
 	
 	

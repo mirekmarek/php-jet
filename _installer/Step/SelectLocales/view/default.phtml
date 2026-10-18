@@ -105,7 +105,7 @@ $selected_locales = $this->getRaw('selected_locales');
 							->setOnClick("Locale.add('$locale_code');")
 							->setIcon('plus')
 							->setClass(UI_button::CLASS_SUCCESS)
-							->setCustomTagAttribute('aria-label', Tr::_('Add %locale_name% to the installation', ['locale_name' => $locale_name]));?></div>
+							->setAriaLabel( Tr::_('Add %locale_name% to the installation', ['locale_name' => $locale_name]) );?></div>
 						<div><?=UI::flag( $locale )?></div>
 						<div><?=$locale_code?></div>
 						<div><?=$locale_name?></div>
@@ -136,7 +136,7 @@ $selected_locales = $this->getRaw('selected_locales');
 							->setOnClick("Locale.remove('$locale_code');")
 							->setIcon('minus')
 							->setClass(UI_button::CLASS_INFO)
-							->setCustomTagAttribute('aria-label', Tr::_('Remove %locale_name% from the installation', ['locale_name' => $locale_name]));?></div>
+							->setAriaLabel( Tr::_('Remove %locale_name% from the installation', ['locale_name' => $locale_name]) );?></div>
 						<div><?=UI::flag( $locale )?></div>
 						<div><?=$locale_code?></div>
 						<div><?=$locale_name?></div>

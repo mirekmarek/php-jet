@@ -13,6 +13,10 @@ namespace Jet;
  */
 class UI_flag extends UI_Renderer_Single
 {
+	/**
+	 * @var bool
+	 */
+	protected bool $aria_hidden = true;
 
 	/**
 	 * @var ?Locale

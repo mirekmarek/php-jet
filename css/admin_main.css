@@ -177,3 +177,20 @@ html, body {
 	bottom: 5px;
 	right: 5px;
 }
+
+h1.card-header {
+	font-size: 1rem;
+}
+
+fieldset {
+	border: none;
+	padding: 0;
+	margin-top: 20px;
+}
+
+fieldset legend {
+	border-bottom: 1px solid #dee2e6;
+	width: 100%;
+	padding-bottom: 5px;
+	font-weight: bolder;
+}

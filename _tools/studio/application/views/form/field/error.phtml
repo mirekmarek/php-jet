@@ -19,8 +19,6 @@ if( !$r->getBaseCssClasses() ) {
 	$r->setBaseCssClass( 'error' );
 }
 
-// Id referenced by the input's aria-describedby (see Form_Renderer_Field_Input::addAccessibilityAttributes()).
-$r->setCustomTagAttribute( 'id', $field->getId().'-error' );
 ?>
 <div <?=$r->renderTagAttributes()?>>
 	<?= $field->getLastErrorMessage(); ?>

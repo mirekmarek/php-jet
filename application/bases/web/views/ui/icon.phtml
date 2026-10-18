@@ -25,7 +25,6 @@ $font_size = match($i->getSize()) {
 
 $i->addCustomCssStyle( 'font-size:' . $font_size . 'rem;' );
 $i->setBaseCssClass('fa fa-'. $i->getIcon() );
-$i->setCustomTagAttribute('title', $i->getTitle());
 
 $tag = $i->getTag();
 ?><<?=$tag.$i->renderTagAttributes()?>></<?= $tag ?>>

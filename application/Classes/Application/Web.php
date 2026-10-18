@@ -8,7 +8,6 @@
 
 namespace JetApplication;
 
-use Jet\Auth_Controller_Interface;
 use Jet\Logger;
 
 use Jet\MVC;

@@ -1,11 +1,11 @@
 <?php
 
-use Jet\UI_tabsJS_tab;
+use Jet\UI_tabsJS_content;
 use Jet\MVC_View;
 
 /**
  * @var MVC_View $this
- * @var UI_tabsJS_tab $t
+ * @var UI_tabsJS_content $t
  */
 $t = $this->getRaw( 'element' );
 
@@ -16,9 +16,6 @@ if($t->getIsSelected()) {
 }
 
 $t->addCustomCssStyle('padding-top: 10px;');
-$t->setCustomTagAttribute('role', 'tabpanel');
-$t->setCustomTagAttribute('aria-labelledby', $t->getId().'_tab');
-$t->setCustomTagAttribute('tabindex', '0');
 ?>
 <div <?=$t->renderTagAttributes()?>>
 

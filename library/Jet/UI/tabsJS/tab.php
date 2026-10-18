@@ -14,10 +14,7 @@ namespace Jet;
 class UI_tabsJS_tab extends UI_Renderer_Single
 {
 	
-	/**
-	 * @var string
-	 */
-	protected string $title = '';
+	protected string $role = 'tab';
 
 	/**
 	 * @var bool
@@ -59,23 +56,6 @@ class UI_tabsJS_tab extends UI_Renderer_Single
 	{
 		$this->is_selected = $is_selected;
 	}
-
-
-	/**
-	 * @return string
-	 */
-	public function getTitle(): string
-	{
-		return $this->title;
-	}
-
-	/**
-	 * @param string $title
-	 */
-	public function setTitle( string $title ): void
-	{
-		$this->title = $title;
-	}
 	
 	/**
 	 * @return UI_tabsJS_content
@@ -83,6 +63,21 @@ class UI_tabsJS_tab extends UI_Renderer_Single
 	public function content(): UI_tabsJS_content
 	{
 		return $this->content;
+	}
+	
+	/**
+	 *
+	 */
+	protected function generateTagAttributes_Standard() : void
+	{
+		$this->role = 'tab';
+		parent::generateTagAttributes_Standard();
+		
+		$this->_tag_attributes['href'] = '#'.$this->content()->getId();
+		$this->_tag_attributes['aria-selected'] = $this->getIsSelected() ? 'true' : 'false';
+		$this->_tag_attributes['aria-controls'] = $this->content()->getId();
+		$this->_tag_attributes['tabindex'] = $this->getIsSelected() ? '0' : '-1';
+
 	}
 	
 	

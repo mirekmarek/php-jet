@@ -17,7 +17,6 @@ if($t->getIsSelected()) {
 }
 
 $t->setDataAttribute('toggle', 'tab');
-$t->setCustomTagAttribute('href', '#'.$t->content()->getId());
 
 ?>
 <li class="nav-item"><a <?=$t->renderTagAttributes()?>><?= $t->getTitle() ?></a></li>

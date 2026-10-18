@@ -275,9 +275,6 @@ $flag_map = [
 ];
 
 
-$f->setCustomTagAttribute('title', $title);
-// Decorative everywhere it's used: always placed right next to text that already
-// names the language/locale, so a screen reader doesn't need to read the flag too.
-$f->setCustomTagAttribute('aria-hidden', 'true');
+$f->setTitle( $title );
 ?>
 <span <?=$f->renderTagAttributes()?>><?=$flag_map[$region]??''?></span>

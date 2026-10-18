@@ -14,7 +14,7 @@ $title = $f->getLocale()->getRegionName() . ' - ' . $f->getLocale()->getLanguage
 $region = strtolower( $f->getLocale()->getRegion() );
 
 $f->setBaseCssClass('flag flag-'.$region);
-$f->setCustomTagAttribute('title', $title);
+$f->setTitle( $title );
 
 ?>
 <span <?=$f->renderTagAttributes()?> ></span> <?= $f->getLocale()->getLanguageName() ?>

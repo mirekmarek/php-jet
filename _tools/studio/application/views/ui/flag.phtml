@@ -275,10 +275,6 @@ $flag_map = [
 ];
 
 
-$f->setCustomTagAttribute('title', $title);
-// Decorative: almost always placed right next to text naming the same language/locale.
-// The handful of call sites where the flag is a link's *only* content set their own
-// aria-label at the call site instead of relying on it.
-$f->setCustomTagAttribute('aria-hidden', 'true');
+$f->setTitle( $title );
 ?>
 <span <?=$f->renderTagAttributes()?>><?=$flag_map[$region]??''?></span>
