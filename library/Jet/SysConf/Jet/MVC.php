@@ -23,6 +23,14 @@ class SysConf_Jet_MVC
 	protected static bool $force_slash_on_URL_end = false;
 	protected static bool $cache_enabled = false;
 
+	protected static int $unused_url_path_redirect_http_code = Http_Headers::CODE_301_MOVED_PERMANENTLY;
+	/**
+	 * @var array<string,string>
+	 */
+	protected static array $unused_url_path_redirect_http_headers = [
+								'Cache-Control' => 'no-store, max-age=0'
+							];
+
 	/**
 	 * @return bool
 	 */
@@ -163,6 +171,41 @@ class SysConf_Jet_MVC
 	{
 		self::$cache_enabled = $cache_enabled;
 	}
+	
+	/**
+	 * @return int
+	 */
+	public static function getUnusedUrlPathRedirectHttpCode(): int
+	{
+		return self::$unused_url_path_redirect_http_code;
+	}
+	
+	/**
+	 * @param int $unused_url_path_redirect_http_code
+	 * @return void
+	 */
+	public static function setUnusedUrlPathRedirectHttpCode( int $unused_url_path_redirect_http_code ): void
+	{
+		self::$unused_url_path_redirect_http_code = $unused_url_path_redirect_http_code;
+	}
+	
+	/**
+	 * @return array<string,string>
+	 */
+	public static function getUnusedUrlPathRedirectHttpHeaders(): array
+	{
+		return self::$unused_url_path_redirect_http_headers;
+	}
+	
+	/**
+	 * @param array<string,string> $unused_url_path_redirect_http_headers
+	 * @return void
+	 */
+	public static function setUnusedUrlPathRedirectHttpHeaders( array $unused_url_path_redirect_http_headers ): void
+	{
+		self::$unused_url_path_redirect_http_headers = $unused_url_path_redirect_http_headers;
+	}
 
+	
 
 }

@@ -54,13 +54,17 @@ class Application extends BaseObject
 
 		if( $router->getIsRedirect() ) {
 			Http_Headers::redirect(
-				$router->getRedirectType(),
-				$router->getRedirectTargetURL()
+				http_code: $router->getRedirectType(),
+				target_URL: $router->getRedirectTargetURL()
 			);
 		}
 
 		if( $router->getHasUnusedUrlPath() ) {
-			Http_Headers::movedPermanently( $router->getValidUrl() );
+			Http_Headers::redirect(
+				http_code: SysConf_Jet_MVC::getUnusedUrlPathRedirectHttpCode(),
+				target_URL: $router->getValidUrl(),
+				headers: SysConf_Jet_MVC::getUnusedUrlPathRedirectHttpHeaders()
+			);
 		}
 
 
