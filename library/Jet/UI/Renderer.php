@@ -423,7 +423,7 @@ abstract class UI_Renderer extends BaseObject
 		}
 		
 		if($this->aria_hidden) {
-			$this->_tag_attributes['aria-hidden'] = true;
+			$this->_tag_attributes['aria-hidden'] = 'true';
 		}
 		
 		if($this->title) {
