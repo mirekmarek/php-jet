@@ -23,7 +23,7 @@ class SysConf_Jet_MVC
 	protected static bool $force_slash_on_URL_end = false;
 	protected static bool $cache_enabled = false;
 
-	protected static int $unused_url_path_redirect_http_code = Http_Headers::CODE_301_MOVED_PERMANENTLY;
+	protected static int $unused_url_path_redirect_http_code = 301;
 	/**
 	 * @var array<string,string>
 	 */
