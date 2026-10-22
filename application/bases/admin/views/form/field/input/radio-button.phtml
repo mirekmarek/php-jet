@@ -19,6 +19,8 @@ $container_class = ($field->getIsReadonly()) ? 'radio disabled' : 'radio';
 ?>
 <fieldset>
 	<legend>
+		<legend class="sr-only"><?=$field->getLabel()?></legend>
+
 		<?php if($field->getIsRequired()): ?>
 			<em class="form-required" aria-hidden="true">*</em>
 		<?php endif; ?>
