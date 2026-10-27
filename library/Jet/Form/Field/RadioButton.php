@@ -54,4 +54,12 @@ class Form_Field_RadioButton extends Form_Field implements Form_Field_Part_Selec
 		return parent::validate();
 	}
 	
+	public function renderer() : Form_Renderer_Field
+	{
+		$renderer = parent::renderer();
+		$renderer->label()->setDisableAttributeFor( true );
+		
+		return $renderer;
+	}
+	
 }

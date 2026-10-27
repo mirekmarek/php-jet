@@ -20,6 +20,11 @@ class Form_Renderer_Field_Label extends Form_Renderer_Single
 	protected Form_Field $field;
 	
 	/**
+	 * @var bool
+	 */
+	protected bool $disable_attribute_for = false;
+	
+	/**
 	 * @param Form_Field $field
 	 */
 	public function __construct( Form_Field $field )
@@ -59,13 +64,26 @@ class Form_Renderer_Field_Label extends Form_Renderer_Single
 		return $this->view_dir;
 	}
 	
+	public function getDisableAttributeFor(): bool
+	{
+		return $this->disable_attribute_for;
+	}
+	
+	public function setDisableAttributeFor( bool $disable_attribute_for ): void
+	{
+		$this->disable_attribute_for = $disable_attribute_for;
+	}
+	
+	
 	
 	/**
 	 *
 	 */
 	protected function generateTagAttributes_Standard() : void
 	{
-		$this->_tag_attributes['for'] = $this->field->getId();
+		if(!$this->disable_attribute_for) {
+			$this->_tag_attributes['for'] = $this->field->getId();
+		}
 	}
 	
 }
