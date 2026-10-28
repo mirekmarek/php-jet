@@ -86,6 +86,7 @@ class Form_Renderer_Field_Label extends Form_Renderer_Single
 		} else {
 			$this->_tag_attributes['aria-hidden'] = 'true';
 		}
+		
 	}
 	
 }
