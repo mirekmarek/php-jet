@@ -83,6 +83,8 @@ class Form_Renderer_Field_Label extends Form_Renderer_Single
 	{
 		if(!$this->disable_attribute_for) {
 			$this->_tag_attributes['for'] = $this->field->getId();
+		} else {
+			$this->_tag_attributes['aria-hidden'] = 'true';
 		}
 	}
 	
