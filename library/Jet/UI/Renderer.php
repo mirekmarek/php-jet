@@ -427,7 +427,7 @@ abstract class UI_Renderer extends BaseObject
 		}
 		
 		if($this->title) {
-			$this->_tag_attributes['title'] = $this->title;
+			$this->_tag_attributes['title'] = strip_tags($this->title);
 		}
 		
 		if($this->role) {
