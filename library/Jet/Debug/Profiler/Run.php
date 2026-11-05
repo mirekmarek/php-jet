@@ -326,16 +326,24 @@ class Debug_Profiler_Run
 	 *
 	 * @return array
 	 */
-	public function __sleep(): array
+	public function __serialize(): array
 	{
 		$vars = get_object_vars( $this );
+		
 		foreach( $vars as $k => $v ) {
 			if( str_starts_with( $k, '__' ) ) {
 				unset( $vars[$k] );
 			}
 		}
-
-		return array_keys( $vars );
+		
+		return $vars;
+	}
+	
+	public function __unserialize( array $data ): void
+	{
+		foreach( $data as $k => $v ) {
+			$this->{$k} = $v;
+		}
 	}
 
 	/**

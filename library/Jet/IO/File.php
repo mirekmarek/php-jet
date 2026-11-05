@@ -250,23 +250,29 @@ class IO_File
 
 		static::$http_response_header = null;
 		$data = file_get_contents( $file_path );
-
-		/** @phpstan-ignore-next-line */
-		if( isset( $http_response_header ) ) {
-			static::$http_response_header = $http_response_header;
-
-			foreach( $http_response_header as $header ) {
+		
+		
+		/** @noinspection PhpDeprecatedSincePhp85Inspection */
+		$headers = function_exists( 'http_get_last_response_headers' )
+			? http_get_last_response_headers()
+			/** @phpstan-ignore-next-line */
+			: ( $http_response_header ?? null );
+		
+		if( is_array( $headers ) ) {
+			static::$http_response_header = $headers;
+			
+			foreach( $headers as $header ) {
 				if(
 					stristr( $header, 'content-encoding' ) &&
 					stristr( $header, 'gzip' )
 				) {
 					/** @phpstan-ignore argument.type */
 					$data = gzdecode( $data );
+					break;
 				}
 			}
-
 		}
-
+		
 		if( $data === false ) {
 			$error = static::_getLastError();
 			throw new IO_File_Exception(

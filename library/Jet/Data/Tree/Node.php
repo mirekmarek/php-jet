@@ -410,21 +410,31 @@ class Data_Tree_Node extends BaseObject implements BaseObject_Interface_Iterator
 
 		return $output;
 	}
-
+	
 	/**
-	 *
-	 * @return array<string>
+	 * @return array<string, mixed>
 	 */
-	public function __sleep(): array
+	public function __serialize(): array
 	{
 		return [
-			'id',
-			'data',
-			'parent',
-			'children',
-			'depth',
-			'is_root',
+			'id'       => $this->id,
+			'data'     => $this->data,
+			'parent'   => $this->parent_id,
+			'depth'    => $this->depth,
+			'is_root'  => $this->is_root,
 		];
+	}
+	
+	/**
+	 * @param array<string, mixed> $data
+	 */
+	public function __unserialize( array $data ): void
+	{
+		$this->id        = $data['id'] ?? '';
+		$this->data      = $data['data'] ?? null;
+		$this->parent_id = $data['parent_id'] ?? null;
+		$this->depth     = $data['depth'] ?? 0;
+		$this->is_root   = $data['is_root'] ?? false;
 	}
 
 	/**

@@ -96,6 +96,7 @@ class Entity_InputCatcher_PropertyInputCatcher extends BaseObject
 				$p->setRawValue( $this->object, $value );
 			} else {
 				if(PHP_VERSION_ID<80100) {
+					/** @noinspection PhpDeprecationInspection */
 					$p->setAccessible(true);
 				}
 				$p->setValue( $this->object, $value );

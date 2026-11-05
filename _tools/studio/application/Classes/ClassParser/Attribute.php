@@ -98,7 +98,7 @@ class ClassParser_Attribute extends ClassParser_Element
 					$searching_for_argument_name = true;
 					continue 2;
 
-				case ')';
+				case ')':
 					if( $got_argument_value ) {
 						$searching_for_arguments = false;
 						$searching_for_argument_name = false;

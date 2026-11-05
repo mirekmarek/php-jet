@@ -347,19 +347,29 @@ class Debug_Profiler_Run_Block
 
 
 	/**
-	 *
-	 * @return array
+	 * @return array<string, mixed>
 	 */
-	public function __sleep(): array
+	public function __serialize(): array
 	{
 		$vars = get_object_vars( $this );
+		
 		foreach( $vars as $k => $v ) {
 			if( str_starts_with( $k, '__' ) ) {
 				unset( $vars[$k] );
 			}
 		}
-
-		return array_keys( $vars );
+		
+		return $vars;
+	}
+	
+	/**
+	 * @param array<string, mixed> $data
+	 */
+	public function __unserialize( array $data ): void
+	{
+		foreach( $data as $property => $value ) {
+			$this->{$property} = $value;
+		}
 	}
 
 }

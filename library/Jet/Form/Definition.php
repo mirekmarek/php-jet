@@ -293,6 +293,7 @@ class Form_Definition extends BaseObject
 			return $property->getRawValue( $this->context_object );
 		} else {
 			if(PHP_VERSION_ID<80100) {
+				/** @noinspection PhpDeprecationInspection */
 				$property->setAccessible(true);
 			}
 			

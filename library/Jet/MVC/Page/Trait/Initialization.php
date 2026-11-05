@@ -343,18 +343,24 @@ trait MVC_Page_Trait_Initialization
 
 	}
 
+	
 	/**
-	 *
+	 * @param array<string, mixed> $data
 	 */
-	public function __wakeup()
+	public function __unserialize( array $data ): void
 	{
+		foreach( $data as $property => $value ) {
+			$this->{$property} = $value;
+		}
+		
 		foreach( $this->content as $cnt ) {
 			$cnt->setPage( $this );
 		}
-
+		
 		foreach( $this->meta_tags as $mt ) {
 			$mt->setPage( $this );
 		}
 	}
+	
 
 }

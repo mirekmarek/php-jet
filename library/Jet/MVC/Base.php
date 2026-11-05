@@ -779,10 +779,14 @@ class MVC_Base extends BaseObject implements MVC_Base_Interface
 	}
 
 	/**
-	 *
+	 * @param array<string, mixed> $data
 	 */
-	public function __wakeup()
+	public function __unserialize( array $data ): void
 	{
+		foreach( $data as $property => $value ) {
+			$this->{$property} = $value;
+		}
+		
 		foreach( $this->localized_data as $locale_str => $ld ) {
 			$locale = new Locale( $locale_str );
 			$ld->setBase( $this );

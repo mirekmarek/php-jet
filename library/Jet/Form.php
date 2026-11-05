@@ -757,14 +757,19 @@ class Form extends BaseObject
 	}
 
 	/**
-	 *
+	 * @param array<string, mixed> $data
 	 */
-	public function __wakeup(): void
+	public function __unserialize( array $data ): void
 	{
+		foreach( $data as $property => $value ) {
+			$this->{$property} = $value;
+		}
+		
 		foreach( $this->fields as $field ) {
 			$field->setForm( $this );
 		}
 	}
+	
 
 	/**
 	 * @return Form_Renderer_Form

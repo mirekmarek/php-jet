@@ -103,6 +103,7 @@ class Entity_Validator_PropertyValidator extends BaseObject
 			$value = $p->getRawValue( $this->object );
 		} else {
 			if(PHP_VERSION_ID<80100) {
+				/** @noinspection PhpDeprecationInspection */
 				$p->setAccessible(true);
 			}
 			$value = $p->getValue( $this->object );

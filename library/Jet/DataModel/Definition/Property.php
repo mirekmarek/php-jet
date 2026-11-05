@@ -288,6 +288,7 @@ abstract class DataModel_Definition_Property extends BaseObject
 			return $p->getRawValue( $i );
 		} else {
 			if(PHP_VERSION_ID<80100) {
+				/** @noinspection PhpDeprecationInspection */
 				$p->setAccessible(true);
 			}
 			return $p->getValue( $i );
@@ -346,6 +347,7 @@ abstract class DataModel_Definition_Property extends BaseObject
 			$p->setRawValue( $obj, $value );
 		} else {
 			if(PHP_VERSION_ID<80100) {
+				/** @noinspection PhpDeprecationInspection */
 				$p->setAccessible(true);
 				$p->setValue( $obj, $value );
 			} else {

@@ -15,10 +15,13 @@ trait DataModel_Trait_MagicMethods
 {
 
 	/**
-	 *
+	 * @param array<string, mixed> $data
 	 */
-	public function __wakeup(): void
+	public function __unserialize( array $data ): void
 	{
+		foreach( $data as $property => $value ) {
+			$this->{$property} = $value;
+		}
 		$this->setIsSaved();
 	}
 

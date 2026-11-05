@@ -344,14 +344,19 @@ class MVC_Base_LocalizedData extends BaseObject implements MVC_Base_LocalizedDat
 
 		return $data;
 	}
-
+	
 	/**
-	 *
+	 * @param array<string, mixed> $data
 	 */
-	public function __wakeup()
+	public function __unserialize( array $data ): void
 	{
+		foreach( $data as $property => $value ) {
+			$this->{$property} = $value;
+		}
+		
 		foreach( $this->default_meta_tags as $mt ) {
 			$mt->setLocalizedData( $this );
 		}
 	}
+	
 }

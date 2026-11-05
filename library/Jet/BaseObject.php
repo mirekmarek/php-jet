@@ -53,20 +53,31 @@ abstract class BaseObject
 
 
 	/**
-	 * Default serialize rules (don't serialize __* properties)
-	 *
 	 * @return string[]
 	 */
-	public function __sleep(): array
+	/**
+	 * @return array<string, mixed>
+	 */
+	public function __serialize(): array
 	{
 		$vars = [];
-		foreach(get_object_vars($this) as $k=>$v) {
-			if($k[0]!='_') {
-				$vars[] = $k;
+		foreach( get_object_vars( $this ) as $k => $v ) {
+			if( !str_starts_with($k, '_') ) {
+				$vars[$k] = $v;
 			}
 		}
-
+		
 		return $vars;
+	}
+	
+	/**
+	 * @param array<string, mixed> $data
+	 */
+	public function __unserialize( array $data ): void
+	{
+		foreach( $data as $property => $value ) {
+			$this->{$property} = $value;
+		}
 	}
 
 	/**
