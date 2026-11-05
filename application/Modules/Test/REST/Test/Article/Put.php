@@ -23,7 +23,7 @@ class Test_Article_Put extends Test_Abstract
 	 */
 	public function isEnabled(): bool
 	{
-		return count( $this->data['articles'] ) > 0;
+		return is_array($this->data['articles']) && count( $this->data['articles'] ) > 0;
 	}
 
 	/**

@@ -21,7 +21,7 @@ class Test_Gallery_GetOne extends Test_Abstract
 	 */
 	public function isEnabled(): bool
 	{
-		return count( $this->data['galleries'] ) > 0;
+		return is_array($this->data['galleries']) && count( $this->data['galleries'] ) > 0;
 	}
 
 	/**
