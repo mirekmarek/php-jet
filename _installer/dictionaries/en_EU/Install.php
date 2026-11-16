@@ -7,4 +7,5 @@ return [
 	'Saving configuration' => '',
 	'Creating default template' => '',
 	'OK' => '',
+	'Installing ...' => '',
 ];

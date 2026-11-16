@@ -17,4 +17,6 @@ return [
 	'Sorry, but username %USERNAME% is registered.' => '',
 	'Please enter e-mail address' => '',
 	'Invalid value' => '',
+	'Week password' => '',
+	'Password verification does not match' => '',
 ];

@@ -324,7 +324,7 @@ class Debug_Profiler_Run
 	/**
 	 * Default serialize rules (don't serialize __* properties)
 	 *
-	 * @return array
+	 * @return array<string,mixed>
 	 */
 	public function __serialize(): array
 	{
@@ -339,6 +339,10 @@ class Debug_Profiler_Run
 		return $vars;
 	}
 	
+	/**
+	 * @param array<string,mixed> $data
+	 * @return void
+	 */
 	public function __unserialize( array $data ): void
 	{
 		foreach( $data as $k => $v ) {
